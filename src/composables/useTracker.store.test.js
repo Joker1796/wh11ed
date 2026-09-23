@@ -783,3 +783,60 @@ describe('applyRemote (multi-device sync)', () => {
     expect(tracker.current.value).toBeNull()
   })
 })
+
+// ── The lobby: a game that exists before it is played ──────────────────────────────────────
+describe('lobby', () => {
+  it('startLobby turns the wizard state into a game in phase setup', () => {
+    const setup = setupGame()
+    tracker.startLobby(setup)
+    const g = tracker.current.value
+    expect(g.phase).toBe('setup')
+    expect(g.lobby.stage).toBe('invite') // the host hands out the code before the wizard
+    // The very objects the wizard edits, not copies of them: a slice arriving from another
+    // phone has to land in the fields on screen, and what the wizard types has to reach the
+    // game with no bridge in between. (Identity is checked through a mutation: `current` is a
+    // ref, so reading it back hands out reactive proxies of the same objects.)
+    setup.players[0].name = 'Typed after sharing'
+    setup.settings.battleSize = 'incursion'
+    expect(g.players[0].name).toBe('Typed after sharing')
+    expect(g.settings.battleSize).toBe('incursion')
+  })
+
+  it('starting the game keeps the lobby id and party handle, and wipes the lobby bookkeeping', () => {
+    const setup = setupGame()
+    tracker.startLobby(setup)
+    const g0 = tracker.current.value
+    g0.party = { id: 'p1', token: 't', host: true, side: 0, versions: {} }
+    g0.players[1].lobby = { editor: { id: 'm2' }, ready: true }
+    const { swapped } = tracker.newGame(setup)
+
+    const g = tracker.current.value
+    expect(g.id).toBe(g0.id)
+    expect(g.party.id).toBe('p1')
+    expect(g.phase).toBe('playing')
+    expect(g.lobby).toBeUndefined()
+    expect(g.players.some(p => p.lobby)).toBe(false)
+    expect(swapped).toBe(false)
+  })
+
+  it('reports the swap when the opponent goes first — the seats have to follow', () => {
+    const setup = setupGame({ settings: { firstTurn: 2 } })
+    tracker.startLobby(setup)
+    const { swapped } = tracker.newGame(setup)
+    expect(swapped).toBe(true)
+    expect(tracker.current.value.players[0].isYou).toBe(false)
+  })
+
+  it('putAwayCurrent drops a lobby and archives a played game', () => {
+    tracker.startLobby(setupGame())
+    tracker.putAwayCurrent()
+    expect(tracker.current.value).toBe(null)
+    expect(tracker.history.value).toHaveLength(0) // a game that never happened is not a record
+
+    tracker.newGame(setupGame())
+    tracker.putAwayCurrent()
+    expect(tracker.current.value).toBe(null)
+    expect(tracker.history.value).toHaveLength(1)
+    expect(tracker.history.value[0].phase).toBe('finished')
+  })
+})

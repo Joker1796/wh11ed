@@ -10,7 +10,7 @@ const entries = [
   { uid: 'u1', id: 'squad', size: 0 },
   { uid: 'u2', id: 'lord', size: 0, leaderOf: 'u1' },
 ]
-const groups = [{ id: 'attached', entries }]
+const groups = [{ id: 'battleline', entries }]
 
 const mountList = (props = {}) => mount(RosterUnitList, {
   props: {
@@ -23,35 +23,94 @@ const mountList = (props = {}) => mount(RosterUnitList, {
   slots: { fields: '<p class="probe">fields</p>' },
 })
 
-afterEach(() => { document.body.innerHTML = '' })
+afterEach(() => {
+  document.body.innerHTML = ''
+  delete entries[0].blockName // the fixture is shared; a name written by one test is not another's
+})
 
 describe('RosterUnitList', () => {
-  it('prints the attached block total once, under the last row of the block', () => {
+  // The block has a header of its own, carrying its name, its points and the fold. There is no
+  // footnote line under it any more (the read-only list still has one — nothing folds there).
+  it('heads the block, and folds its characters away', async () => {
     const w = mountList()
-    const sums = w.findAll('.roster-sum')
-    expect(sums).toHaveLength(1)
-    expect(sums[0].text()).toContain('190')
+    expect(w.findAll('.roster-sum')).toHaveLength(0)
+    expect(w.findAll('.rul-unit')).toHaveLength(2)
+    expect(w.findAll('.rul-bhead')).toHaveLength(1)
+    expect(w.find('.rul-btotal').text()).toContain('190') // 90 + 100, the whole attached unit
+
+    await w.find('.rul-bhead .rul-fold').trigger('click')
+    expect(w.findAll('.rul-unit')).toHaveLength(1) // the host stays, its characters go
+    expect(w.find('.rul-btotal').text()).toContain('190')
+
+    await w.find('.rul-bhead .rul-fold').trigger('click')
+    expect(w.findAll('.rul-unit')).toHaveLength(2)
+  })
+
+  // Everything starts open, and folding is a gesture rather than a setting: nothing is stored.
+  it('starts unfolded, under a numbered default name', () => {
+    const w = mountList()
+    expect(w.find('.rul-fold').attributes('aria-expanded')).toBe('true')
+    expect(w.find('.rul-bname').text()).toBe('Unit 1')
   })
 
   it('reports the row that was tapped, copied or deleted', async () => {
     const w = mountList()
     await w.findAll('.rul-row')[1].trigger('click')
     expect(w.emitted('toggle')[0]).toEqual(['u2'])
-    await w.findAll('.rul-dup')[0].trigger('click')
+    await w.findAll('.rul-more')[0].trigger('click')
+    const body = new DOMWrapper(document.body)
+    const act = (text) => body.findAll('.act-btn').find((b) => b.text() === text)
+    await act('Duplicate').trigger('click')
     expect(w.emitted('duplicate')[0][0].uid).toBe('u1')
-    await w.findAll('.rul-del')[0].trigger('click')
+    await w.findAll('.rul-more')[0].trigger('click')
+    await body.find('.act-btn.act-danger').trigger('click')
     expect(w.emitted('remove')[0][0].uid).toBe('u1')
+  })
+
+  // The sheet is talking about a row that is about to go; leaving it standing over the gap reads
+  // as a bug even when nothing is wrong.
+  it('closes the actions sheet on the way out', async () => {
+    const w = mountList()
+    await w.findAll('.rul-more')[0].trigger('click')
+    const body = new DOMWrapper(document.body)
+    expect(body.find('.act-list').exists()).toBe(true)
+    await body.find('.act-btn.act-danger').trigger('click')
+    expect(body.find('.act-list').exists()).toBe(false)
   })
 
   // Not greyed: the catalogue pane beside this list already shows that unit's cap, on its own
   // greyed "+" and its N/limit badge.
-  it('drops the copy button for a row the caller says is at its cap', () => {
+  it('drops the copy action for a row the caller says is at its cap', async () => {
     const w = mountList({ dupBlocked: (e) => e.uid === 'u1' })
-    expect(w.findAll('.rul-dup')).toHaveLength(1)
-    expect(w.findAll('.rul-del')).toHaveLength(2) // deleting one is always on offer
-    // …and the name stops reserving room for a button that isn't there.
-    expect(w.findAll('.rul-headrow')[0].classes()).toContain('rul-one-act')
-    expect(w.findAll('.rul-headrow')[1].classes()).not.toContain('rul-one-act')
+    await w.findAll('.rul-more')[0].trigger('click')
+    const body = new DOMWrapper(document.body)
+    const texts = body.findAll('.act-btn').map((b) => b.text())
+    expect(texts).not.toContain('Duplicate')
+    expect(texts).toContain('Remove') // removing is always on offer
+  })
+
+  // A player's own name for a block — "home objective", "centre push" — is the one thing about a
+  // list the app cannot know. Offered on a HOST only: a lone unit has its own note field.
+  it('names a block from the host\'s sheet, and heads it with the name', async () => {
+    const w = mountList()
+    const body = new DOMWrapper(document.body)
+    expect(w.find('.rul-bname').text()).toBe('Unit 1')
+
+    await w.findAll('.rul-more')[0].trigger('click')
+    await body.findAll('.act-btn').find((b) => b.text() === 'Name this unit').trigger('click')
+    await body.find('.rul-name-lab input').setValue('Home objective')
+    await body.find('.rul-name-acts .btn-primary').trigger('click')
+
+    expect(entries[0].blockName).toBe('Home objective')
+    expect(w.find('.rul-bhead .rul-bname').text()).toBe('Home objective')
+    expect(w.find('.rul-bhead .rul-btotal').text()).toContain('190') // 90 + 100, the whole block
+  })
+
+  it('offers no name for a unit with nothing attached to it', async () => {
+    const w = mountList()
+    await w.findAll('.rul-more')[1].trigger('click') // the character, not the squad
+    const texts = new DOMWrapper(document.body).findAll('.act-btn').map((b) => b.text())
+    expect(texts).not.toContain('Name this unit')
   })
 
   // A wide screen has room for the fields under the row they belong to.

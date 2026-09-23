@@ -1,76 +1,102 @@
 <template>
   <div class="tracker-home">
+    <!-- The page's heading row: the title on the left, and on the right the two things that are
+         ABOUT this page rather than part of it — the way to its help, and where the games are
+         kept. They used to be a centred title with a full-width line of their own underneath,
+         which spent two bands of a phone's first screen on a name and a status. Signed out, the
+         status is short and carries the long sentence in its tooltip: a reader who is not signed
+         in is not reading a paragraph about why they should be.
+
+         The help link is the RIGHTMOST of the two because it is the one that is always there in
+         the same shape; the account line beside it changes with who is reading (an address, or
+         three words about this device). The fixed thing holds the corner, the variable one grows
+         and shrinks to its left. -->
     <div class="hero">
       <h1>{{ labels.trackerIntroHeading }}</h1>
-    </div>
-
-    <!-- One row above the actions: the way to this section's help on the left, the account on the
-         right. The help link used to sit under the title beside a paragraph describing what a
-         tracker is — which the heading and the buttons already say. On a phone the row wraps and
-         the link lands back under the title, which is where it was. -->
-    <div class="cloud-bar">
-      <RouterLink
-        class="hero-help"
-        to="/help/tracker"
-        :title="labels.helpSection"
-        :aria-label="labels.helpSection"
-      >
-        <i class="bi bi-question-circle" />
-      </RouterLink>
-      <template v-if="status === 'authed'">
-        <span class="cloud-account">
-          <i class="bi bi-cloud-check-fill" />
-          {{ user?.email || user?.displayName || labels.cloudSignedIn }}
-        </span>
+      <div class="hero-side">
+        <!-- Where the games are kept, not who is reading: signing in lives in the navbar's
+             account menu (the ⚙ menu on a phone), so an address here was a label with nothing to
+             do — the reader already knows who they are. The roster list says the same kind of
+             thing in the same place, through RosterCloudBar's compact mode. -->
         <span
-          v-if="lastError"
-          class="cloud-err"
-        >{{ labels.cloudError }}</span>
-      </template>
-      <span
-        v-else
-        class="cloud-hint"
-      >{{ labels.cloudSignInHint }}</span>
+          class="cloud-account"
+          :class="{ err: cloud.err }"
+          :title="cloud.title"
+        >
+          <i
+            class="bi"
+            :class="cloud.icon"
+          />
+          <span class="ca-text">{{ cloud.text }}</span>
+        </span>
+        <RouterLink
+          class="hero-help"
+          to="/help/tracker"
+          :title="labels.helpSection"
+          :aria-label="labels.helpSection"
+        >
+          <i class="bi bi-question-circle" />
+        </RouterLink>
+      </div>
     </div>
 
+    <!-- ONE thing to press, and a quiet row of the others.
+         Four buttons of equal weight wrapped into a staircase and left nothing reading as "the
+         way forward" (the screen the owner sent on 2026-09-23). What is primary depends entirely
+         on what this phone is holding — a game, a setup left half-done, or nothing at all — so
+         it is computed, and the row underneath carries whatever the primary is not. "New game"
+         sits there on purpose once something IS in progress: it is the button that throws that
+         away, and it has no business next to the one that continues it. -->
     <div class="cta">
       <RouterLink
-        v-if="current"
-        to="/tracker/game"
-        class="btn-primary btn-lg"
+        v-if="primary.to"
+        :to="primary.to"
+        class="btn-primary btn-lg cta-main"
       >
-        {{ labels.trackerResume }}
+        {{ primary.label }}
       </RouterLink>
-      <RouterLink
-        v-if="setupDraft && !current"
-        to="/tracker/game"
-        class="btn-primary btn-lg"
-      >
-        {{ labels.trackerContinueSetup }}
-      </RouterLink>
-      <!-- Starting a new game is the quiet option once one is already running: it is the way to
-           throw away what is on screen, not the way forward. -->
       <button
-        class="btn-lg"
-        :class="current || setupDraft ? 'btn-ghost' : 'btn-primary'"
+        v-else
+        class="btn-primary btn-lg cta-main"
         @click="startNew"
       >
-        {{ labels.trackerNewGame }}
+        {{ primary.label }}
       </button>
-      <!-- Someone else's game on this phone (useParty.js): always the quiet button, whatever the
-           state of your own — the usual visitor is here for their own game. -->
-      <RouterLink
-        to="/tracker/join"
-        class="btn-ghost btn-lg"
-      >
-        <i class="bi bi-people-fill" /> {{ labels.partyHomeJoin }}
-      </RouterLink>
+
+      <div class="cta-quiet">
+        <!-- Only when it is not the primary already. -->
+        <button
+          v-if="primary.to"
+          type="button"
+          class="cta-q"
+          @click="startNew"
+        >
+          {{ labels.trackerNewGame }}
+        </button>
+        <!-- ONE entry for the shared game, both directions behind it. Starting one and joining
+             someone else's are one subject, they differ in a single fact (an account is needed
+             for one and not the other), and side by side they made the row three equal links
+             under the primary button. The dialog asks which; it never needs an account itself. -->
+        <button
+          type="button"
+          class="cta-q"
+          @click="sharedOpen = true"
+        >
+          <i class="bi bi-people" /> {{ labels.lobbyNewGameShort }}
+        </button>
+      </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
            sign-in button: the account is app-wide (the roster builder syncs through the same one),
            so the way in and out is the navbar's account menu — the line above only reports where
            the games stand. -->
     </div>
+
+    <SharedGameModal
+      v-if="sharedOpen"
+      @create="onSharedCreate"
+      @close="sharedOpen = false"
+    />
 
     <!-- The one number people came back for. It sits above the list because a record is a
          summary of that list, and it is a link because everything behind it is on /tracker/stats. -->
@@ -95,13 +121,9 @@
           v-if="status === 'authed' && inSync"
           class="in-sync"
         >
-          <i
-            class="bi"
-            :class="cloudEmpty ? 'bi-cloud' : 'bi-cloud-check-fill'"
-          />
-          {{ cloudEmpty ? labels.cloudEmpty : labels.cloudInSync }}
-          <!-- Force a full push+pull now (auto-sync already runs on entry) — for pulling changes
-               from another device without leaving the page. -->
+          <!-- The state itself is said once, in the page heading. What belongs HERE is the way to
+               ask again: a full push+pull now (auto-sync already runs on entry), for pulling in a
+               game finished on another phone without leaving the page. -->
           <button
             class="sync-icon"
             :class="{ spinning: syncing }"
@@ -219,6 +241,7 @@ import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
 import { useParty } from '../../composables/useParty.js'
+import SharedGameModal from '../../components/tracker/SharedGameModal.vue'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 import { buildStats } from '../../composables/gameStats.js'
 
@@ -226,8 +249,10 @@ const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
-const { current, history, setupDraft, finishGame, archiveGame, resumeFromHistory, deleteHistory } = useTracker()
-const { status, user, ensureSession } = useAuth()
+const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory } = useTracker()
+// Only the host of a shared game needs an account, and this is the button that makes one.
+const { canShare, init: initParty } = useParty()
+const { status, ensureSession } = useAuth()
 const {
   init: initCloudSync,
   syncNow,
@@ -278,7 +303,7 @@ onMounted(async () => {
   initCloudSync()
   // A shared game archived from here ("New game", resuming another) has to say goodbye to the
   // other phones; the watcher that does so is armed once, and this is the earliest screen.
-  useParty().init()
+  initParty()
   // The session is restored app-wide (App.vue) now that the account lives in the navbar; this
   // await just joins that in-flight restore — refresh() de-dupes, so it costs no extra request.
   await ensureSession()
@@ -297,7 +322,13 @@ const confirmState = ref(null) // { title, message, confirmLabel, action } | nul
 
 function startNew() {
   if (current.value) {
-    confirmState.value = { title: labels.value.trackerNewGame, message: labels.value.trackerOverwriteConfirm, confirmLabel: labels.value.trackerNewGame, action: doStartNew }
+    const lobby = current.value.phase === 'setup'
+    confirmState.value = {
+      title: labels.value.trackerNewGame,
+      message: lobby ? labels.value.lobbyDiscardConfirm : labels.value.trackerOverwriteConfirm,
+      confirmLabel: labels.value.trackerNewGame,
+      action: doStartNew,
+    }
     return
   }
   doStartNew()
@@ -306,6 +337,64 @@ function doStartNew() {
   archiveCurrent()          // save the in-progress game to history (instead of losing it)
   setupDraft.value = null   // start the wizard fresh (a stale draft would otherwise restore)
   router.push('/tracker/game')
+}
+
+// One line about the CLOUD, the counterpart of RosterCloudBar's compact mode on the roster list:
+// where these games are kept, and nothing about the account itself. Signed out it is three words
+// with the long sentence in its tooltip; signed in it answers the only question worth answering
+// on entry — is what is on this phone also somewhere else.
+const cloud = computed(() => {
+  const l = labels.value
+  if (status.value !== 'authed') return { icon: 'bi-cloud', text: l.cloudLocalOnly, title: l.cloudSignInHint }
+  if (lastError.value) return { icon: 'bi-cloud-slash', text: l.cloudNotSynced, title: l.cloudError, err: true }
+  if (syncing.value) return { icon: 'bi-arrow-repeat', text: l.cloudSyncing, title: '' }
+  if (inSync.value) {
+    return cloudEmpty.value
+      ? { icon: 'bi-cloud', text: l.cloudEmpty, title: '' }
+      : { icon: 'bi-cloud-check-fill', text: l.cloudInSync, title: '' }
+  }
+  return { icon: 'bi-cloud', text: l.cloudSyncing, title: '' }
+})
+
+// What the one big button does, and what it says. A game in progress (or a lobby, or a setup
+// left half-done) is always the thing to continue; with nothing held, starting one is.
+const primary = computed(() => {
+  if (current.value) {
+    return {
+      to: '/tracker/game',
+      label: current.value.phase === 'setup' ? labels.value.trackerContinueSetup : labels.value.trackerResume,
+    }
+  }
+  if (setupDraft.value) return { to: '/tracker/game', label: labels.value.trackerContinueSetup }
+  return { to: null, label: labels.value.trackerNewGame }
+})
+
+// The same start, with the lobby opened on arrival: `?share=1` is the wizard's instruction to
+// share as soon as it is on screen, so the host lands on the armies step with the code already
+// in hand instead of finding a button there.
+function startShared() {
+  if (!canShare.value) return
+  if (current.value) {
+    const lobby = current.value.phase === 'setup'
+    confirmState.value = {
+      title: labels.value.lobbyNewGame,
+      message: lobby ? labels.value.lobbyDiscardConfirm : labels.value.trackerOverwriteConfirm,
+      confirmLabel: labels.value.lobbyNewGame,
+      action: doStartShared,
+    }
+    return
+  }
+  doStartShared()
+}
+const sharedOpen = ref(false)
+function onSharedCreate() {
+  sharedOpen.value = false
+  startShared()
+}
+function doStartShared() {
+  archiveCurrent()
+  setupDraft.value = null
+  router.push('/tracker/game?share=1')
 }
 // Resume any finished game from the summary modal — pull it back into active play.
 function onResumeGame(id) {
@@ -324,9 +413,7 @@ function doResume(id) {
 // Freeze the in-progress game at its current score and move it to history (resumable),
 // reusing the normal end-of-game flow. No-op when there's no live game.
 function archiveCurrent() {
-  if (!current.value) return
-  finishGame('early')
-  archiveGame()
+  putAwayCurrent()
 }
 function onConfirmAction() {
   const action = confirmState.value?.action
@@ -428,59 +515,105 @@ function footLine(g) {
 .rb-rate { color: var(--accent); font-weight: 600; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero {
-  text-align: center;
-  padding: 1rem 0 0.8rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.75rem;
+  padding: 0.2rem 0 0.45rem;
   border-bottom: 2px solid var(--accent);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 .hero h1 {
   font-family: var(--font-display);
-  font-size: 2.64rem;
+  font-size: 2.1rem;
   font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 0.3rem;
+  margin: 0;
+  line-height: 1.1;
 }
-/* Help on the left, account on the right — `margin-left: auto` on the account rather than
-   space-between, so a wrapped row on a phone still puts the two on their own lines instead of
-   stretching one of them across the width. */
-.cloud-bar {
+/* The pair on the right rides the heading's baseline and shrinks before the title does — a long
+   address ellipsizes rather than pushing the row onto a second line. */
+.hero-side {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
-  color: var(--text-dim);
+  gap: 0.5rem;
+  min-width: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
-.cloud-bar > .hero-help + * { margin-left: auto; }
-.cloud-account { display: inline-flex; align-items: center; gap: 0.4rem; }
-.cloud-account .bi { color: var(--accent); }
-.cloud-hint { color: var(--text-muted); }
-.cloud-err { color: var(--danger); }
+.cloud-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.cloud-account .ca-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cloud-account.err { color: var(--danger); }
+
 .cta {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.6rem;
 }
+/* Sized by its own label and nothing else. A minimum width was tried first (18rem) and it was
+   wrong twice over: at desktop width the button read as a banner, and `.btn-primary` is an
+   inline-flex with no `justify-content`, so the label sat against the left edge of all that
+   width instead of in the middle of it. A button the width of its text has neither problem —
+   and it stops the button and the row under it from being two bars of the same length. */
+.cta-main { max-width: 100%; }
 
-/* Phones: these are three ordinary buttons (resume / new game / join), not three panels. They
-   stay the size of their own label — stretching them to share the row only turns the longest one
-   into a two-line block, which is how they got big in the first place — and the label is kept on
-   one line, which at this size fits even a 320px screen. */
+.cta-quiet {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0 1.25rem;
+}
+/* Text, not buttons with a frame — the frame is what made four equals out of one action and
+   three alternatives. The vertical padding is the tap target: 0.6rem either side of a 0.9rem
+   line clears the 44px a finger needs, which a bare text link would not. */
+.cta-q {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.6rem 0.2rem;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .cta-q:hover { color: var(--accent); }
+}
+.cta-q:disabled { opacity: 0.5; cursor: default; }
+/* No separator glyph between them, and that is the second attempt: a '·' on every item after
+   the first lands at the START of the next line the moment the row wraps — which it does at
+   390px as soon as there are three of them — and reads as debris. Space is the separator. */
+
 @media (max-width: 480px) {
-  /* Same trim as the roster list's heading: display type at 2.64rem eats a phone's first screen,
-     and the heading is the least useful thing on it. */
-  .hero h1 { font-size: 2.2rem; }
-  .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
-  .cta .btn-primary,
-  .cta .btn-ghost {
-    flex: 0 0 auto;
-    padding: 0.45rem 0.8rem;
-    font-size: 0.8rem;
-    white-space: nowrap;
-  }
+  /* Same trim as the roster list's heading: display type eats a phone's first screen, and the
+     heading is the least useful thing on it. */
+  .hero h1 { font-size: 1.75rem; }
+  .hero-side { font-size: 0.75rem; }
+  .cta { gap: 0.4rem; margin-bottom: 1.2rem; }
+  /* The same button the roster list draws at this width — it is the same kind of call to
+     action, and two screens of one app should not disagree about how big that is. */
+  .cta-main { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
+  /* Three of them (a game in progress + both shared-game entries) against ~390px: a notch
+     smaller and a tighter gap keeps the row on ONE line instead of wrapping one item alone. */
+  .cta-quiet { gap: 0 0.9rem; }
+  .cta-q { font-size: 0.82rem; padding-inline: 0; }
 }
 .history-head {
   display: flex;

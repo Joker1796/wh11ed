@@ -5,6 +5,18 @@
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
 import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf } from './rosterEngine.js'
 
+// Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
+// the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
+// about, and the DP those detachments spend are all chosen on that tab and nowhere else. Anything
+// answered by adding, dropping or re-arming a unit belongs to the Units tab and is deliberately
+// NOT here — including `overPoints`, which names the battle size but is almost always fixed by
+// the list, not by the limit.
+export const SETUP_CODES = new Set(['noFaction', 'noDetachment', 'dispositionUndeclared', 'detachmentTagClash', 'overDp'])
+
+export function setupIssueCount(issues) {
+  return (issues || []).filter((i) => SETUP_CODES.has(i.code)).length
+}
+
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
 // `granted` — the keywords this unit has from the ARMY rather than from its datasheet

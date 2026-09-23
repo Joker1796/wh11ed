@@ -115,3 +115,136 @@ describe('GameSetup — doubles', () => {
     expect(w.findAll('.faction-btn')).toHaveLength(2)
   })
 })
+
+// ── The lobby: the same component, cut down to one side ────────────────────────────────────
+// A guest's screen is this wizard in `guest` mode: its own side's card, no mission/battlefield/
+// option steps, and "Done" instead of "Next". The party is mocked to the two facts the screen
+// reads — that the setup is shared, and which seat this phone holds.
+describe('GameSetup in a lobby', () => {
+  async function guestScreen() {
+    vi.resetModules()
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const tracker = useTracker()
+    tracker.startLobby({
+      settings: { gameType: 'singles', combatPatrol: false, battleSize: 'strikeForce', firstTurn: 1, layout: 'A' },
+      players: [
+        { name: 'Host', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, members: [{ name: '', factionSlug: null, detachments: [] }, { name: '', factionSlug: null, detachments: [] }] },
+        { name: 'Guest', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, members: [{ name: '', factionSlug: null, detachments: [] }, { name: '', factionSlug: null, detachments: [] }] },
+      ],
+    })
+    tracker.current.value.party = { id: 'p1', memberId: 'm-guest', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
+    const Screen = (await import('./GameSetup.vue')).default
+    return { w: mount(Screen, { props: { mode: 'guest' } }), tracker }
+  }
+
+  it('draws only this phone’s own side, and calls it "You"', async () => {
+    const { w } = await guestScreen()
+    const cards = w.findAll('.player-card')
+    // One card per visible panel (armies + mission), both of them side 1.
+    expect(cards.length).toBe(2)
+    expect(w.text()).not.toContain('Opponent')
+    expect(w.find('.game-type').exists()).toBe(false) // the game type is the host's
+  })
+
+  it('offers Done instead of the wizard’s steps, disabled until the army is chosen', async () => {
+    const { w } = await guestScreen()
+    expect(w.find('.setup-head').exists()).toBe(false)
+    const primary = w.findAll('.actions .btn-primary')
+    expect(primary.length).toBe(1)
+    expect(primary[0].text()).toBe('Done')
+    expect(primary[0].attributes('disabled')).toBeDefined()
+  })
+})
+
+// The wizard's own gates in a lobby: what needs the other side, and what does not.
+describe('GameSetup gates in a lobby', () => {
+  async function hostScreen({ oppEditor = 'm-guest' } = {}) {
+    vi.resetModules()
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const tracker = useTracker()
+    const side = (over = {}) => ({
+      name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker',
+      secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false,
+      members: [{ name: '', factionSlug: null, detachments: [] }, { name: '', factionSlug: null, detachments: [] }],
+      ...over,
+    })
+    tracker.startLobby({
+      settings: { gameType: 'singles', combatPatrol: false, battleSize: 'strikeForce', firstTurn: 1, layout: 'A' },
+      players: [
+        // the host's own side, complete
+        side({ name: 'Host', factionSlug: 'orks', detachments: ['Bully Boyz'], role: 'attacker' }),
+        // the other side: claimed by another phone and still empty
+        side({ role: 'defender', lobby: { editor: { id: oppEditor, mi: null, name: 'Гость' }, ready: false } }),
+      ],
+    })
+    tracker.current.value.party = { id: 'p1', memberId: 'm-host', token: 't', side: 0, mi: null, host: true, seq: 1, versions: {} }
+    const Screen = (await import('./GameSetup.vue')).default
+    return mount(Screen)
+  }
+
+  // Assembling your own side depends on nobody: a Force Disposition follows from THIS side's
+  // detachment, and it is chosen on the next step — so waiting here kept the host from its own.
+  it('lets the host leave the armies step while the other side is still empty', async () => {
+    const w = await hostScreen()
+    await flushPromises()
+    const next = w.findAll('.step-panel')[0].findAll('.actions .btn-primary')
+    expect(next).toHaveLength(1)
+    expect(next[0].attributes('disabled')).toBeUndefined()
+  })
+
+  // A side that has said "done" can ask to reopen, and the host can also be joined by a guest
+  // while it was filling that side itself. Either way the later steps were built on answers that
+  // are being changed: the primary is the pair of dispositions, the layout is that matchup. So
+  // the host comes back to the mission step and waits there (owner, 2026-09-24).
+  it('pulls the host back to the mission step when the other side reopens, and blocks Next', async () => {
+    const w = await hostScreen()
+    // AFTER hostScreen: it calls vi.resetModules(), so an earlier import would hand back a
+    // different module registry — and a different, empty store.
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const g = useTracker().current.value
+    // Both sides in and confirmed: the host can reach the battlefield step.
+    g.players[0].disposition = 'take-and-hold'
+    Object.assign(g.players[1], { factionSlug: 'orks', detachments: ['Bully Boyz'], disposition: 'take-and-hold' })
+    g.players[1].lobby.ready = true
+    await flushPromises()
+    const mission = w.findAll('.step-panel')[1]
+    expect(mission.findAll('.actions .btn-primary')[0].attributes('disabled')).toBeUndefined()
+    await mission.findAll('.actions .btn-primary')[0].trigger('click')
+    expect(w.findAll('.step-panel')[2].isVisible()).toBe(true)
+
+    // …then they ask for their side back.
+    g.players[1].lobby.ready = false
+    await flushPromises()
+    expect(w.findAll('.step-panel')[1].isVisible()).toBe(true)
+    expect(w.findAll('.step-panel')[1].findAll('.actions .btn-primary')[0].attributes('disabled')).toBeDefined()
+    // And the primary previews, which are that pair, say they are waiting rather than showing a
+    // mission that is about to change.
+    expect(w.findAll('.step-panel')[1].findAll('.primary-block')).toHaveLength(0)
+    expect(w.findAll('.step-panel')[1].find('.primary-pending').exists()).toBe(true)
+  })
+
+  // …but the primary mission IS the pair of dispositions, so THAT step waits.
+  it('holds the mission step until both sides have a disposition', async () => {
+    const w = await hostScreen()
+    await flushPromises()
+    const next = w.findAll('.step-panel')[1].findAll('.actions .btn-primary')
+    expect(next[0].attributes('disabled')).toBeDefined()
+  })
+
+  it('draws the other side as a report on both steps, never as a form', async () => {
+    const w = await hostScreen()
+    await flushPromises()
+    expect(w.findAll('.side-mirror')).toHaveLength(2) // armies + mission
+    expect(w.findAll('.side-mirror .sm-waiting')).toHaveLength(2)
+
+    // …and "a report" means the whole card. The secondaries switch used to sit outside the
+    // mirror/form split and only go inert, so the mission step offered the host a live
+    // "Tactical / Fixed" toggle for a side another phone fills in (owner, 2026-09-24).
+    const cards = w.findAll('.step-panel')[1].findAll('.player-card')
+    const theirs = cards.find((c) => c.find('.side-mirror').exists())
+    expect(theirs).toBeTruthy()
+    expect(theirs.findAll('.seg')).toHaveLength(0)
+    // The host's own card still asks, or the step would have nothing to fill in.
+    expect(cards.find((c) => !c.find('.side-mirror').exists()).findAll('.seg').length).toBeGreaterThan(0)
+  })
+})

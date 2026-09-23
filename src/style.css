@@ -30,6 +30,13 @@
   /* The one "something is wrong" red: points over budget, validation errors, losses,
      destructive hover. Every red that means danger goes through this — not a literal. */
   --danger: #c0392b;
+  /* The amber one step short of it: "legal, but you still owe an answer" — the roster's worth-
+     checking bar, the mark on an editor tab that hides an unmade choice. It had no token until
+     2026-09-24 and lived as `var(--warning, #b8860b)` in one file; that literal was 2.5:1 on the
+     light page, so the value here is the darker amber that reads as the same colour and clears AA
+     as TEXT on its own 10% tint (4.9:1), not just as an icon. The dark theme carries its shade in
+     the token, the way --danger does. */
+  --warning: #7d5400;
   --bg-definition: #cfd0c3;
   --bg-definition-border: #b8b9ac;
   --sub-rule-bg: #eef0e5;
@@ -211,6 +218,7 @@
   --ability-weapon: #e0b850;
   --ability-unit: #5fb2dc;
   --danger: #ef6e60;
+  --warning: #e3b341;
   --bg-definition: #2a2d2c;
   --bg-definition-border: #3a3d3c;
   --sub-rule-bg: #292b21;
@@ -703,19 +711,22 @@ strong {
 .tab.active { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
 
 /* ── Attached-unit block (roster lists) ────────────────────────────────────
-   A Leader and the unit it joined are ONE unit (core rules 19.01), and all three roster lists —
-   the editor, the wizard's step 3 and the tracker's read-only view — now draw them as one block:
-   the bodyguard's tile, each character indented under it on an accent rail, then what the whole
-   thing costs. `sectionsOf`'s joinAttached is what puts them side by side; this is what makes the
-   adjacency look meant. Global because all three drew it identically — the tile classes around it
-   stay per-screen, and one of them overrides `width` on top of this. */
-.roster-attached {
-  margin-left: 1.25rem;
-  margin-bottom: 0;
-  border-left: 2px solid var(--accent);
-}
-/* The block's own points, once, under its last row. The per-row numbers above stay as they are,
-   so the column still reads down to the roster total. */
+   A Leader and the unit it joined are ONE unit (core rules 19.01), and the roster lists draw them
+   as one block: the tiles touching, with the army's colour down their left edge. `sectionsOf`'s
+   joinAttached is what puts them side by side; the edge is what makes the adjacency look meant.
+
+   THE EDGE IS NOT HERE, and cannot be: every list draws its tiles with a scoped
+   `border: 1px solid var(--border)`, and a scoped selector carries its component's attribute on
+   top of the class — so a global `.roster-attached { border-left }` loses to it and simply never
+   painted. It sat here unpainted from 2026-08-28 until it was measured on 2026-09-23, and what
+   actually said "these belong together" the whole time was the INDENT beside it (1.25rem, 0.4rem
+   in a pane) — the staircase the owner asked to take out. Each screen now draws the edge in its
+   own scoped block, on its own tile class, and this file keeps only what a global rule can win. */
+
+/* The block's own points, once, under its last row — still how the READ-ONLY list prints it
+   (RosterViewView): nothing there folds, so the total has nowhere else to go. The two BUILDING
+   screens dropped this line on 2026-09-23: the bodyguard's tile became the block's header, and
+   the total comes up onto its own row while the block is folded. */
 .roster-sum {
   margin: 0 0 0.5rem 1.25rem;
   padding: 0.25rem 0.75rem;
@@ -723,10 +734,7 @@ strong {
   font-size: 0.74rem;
   color: var(--text-muted);
 }
-/* In a build pane the indent is 1.25rem out of ~180: the rail still says "these belong together"
-   at a third of the width, and the three rows it eats into are the ones carrying the wargear. */
 @container (max-width: 300px) {
-  .roster-attached { margin-left: 0.4rem; }
   .roster-sum { margin-left: 0.4rem; padding: 0.2rem 0.4rem; font-size: 0.66rem; }
 }
 
@@ -850,6 +858,8 @@ strong {
 }
 
 .issues-badge.has-err { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); }
+/* Between the two: the list is legal, and something in it is still worth a look. */
+.issues-badge.warn { color: var(--warning); border-color: color-mix(in srgb, var(--warning) 45%, var(--border)); }
 .issues-badge.ok { color: #3c9a5f; }
 
 /* Legends mark — says a datasheet sits on the Legends shelf rather than the matched-play one.

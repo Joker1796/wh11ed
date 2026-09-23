@@ -52,6 +52,6 @@ const enhOptions = computed(() => (def.value
   ? enhOptionsFor(def.value, props.detachments, props.units, props.entry.uid, props.armySlug)
   : []))
 const leaderTargets = computed(() => (def.value
-  ? leaderTargetsFor(def.value, props.units, props.entry.uid, props.defOf, props.detachments)
+  ? leaderTargetsFor(def.value, props.units, props.entry.uid, props.defOf, props.detachments, props.items)
   : []))
 </script>

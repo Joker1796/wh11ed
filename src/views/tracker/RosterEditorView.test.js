@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount, flushPromises, DOMWrapper } from '@vue/test-utils'
 
 // Mock the router: the editor reads route.params.id and calls router.replace when a roster
 // is missing. RouterLink is stubbed to a plain anchor so the template renders.
@@ -17,6 +17,9 @@ let RosterEditorView, useRosters
 
 beforeEach(async () => {
   localStorage.clear()
+  // Modals teleport to body; a sheet left over from the previous test would be the first
+  // `.act-btn` the next one finds.
+  document.body.innerHTML = ''
   vi.resetModules()
   replace.mockClear()
   push.mockClear()
@@ -79,6 +82,28 @@ describe('RosterEditorView', () => {
     expect(store.rosterById(r.id).disposition).toBe('Purge the Foe')
   })
 
+  // A warning belongs to the tab that can answer it. Without the mark the Units tab looks
+  // finished — the footer badge counts errors, and an undeclared Force Disposition is not one —
+  // and the player finds out at Save (owner, 2026-09-24).
+  it('marks the Setup tab while a choice that lives there is still unmade', async () => {
+    const fac = (await import('../../data/roster/space-marines.js')).default
+    const byFd = (fd) => fac.detachments.filter((d) => d.fd === fd).sort((a, b) => a.dp - b.dp)[0].name
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.detachments = [byFd('Take and Hold'), byFd('Purge the Foe')]
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Take and Hold')
+    const setupTab = () => w.findAll('.page-tab')[0]
+    expect(setupTab().find('.page-tab-warn').exists()).toBe(true)
+    // …and it goes as soon as the answer is given, from whichever tab the player is on.
+    store.updateRoster(r.id, { disposition: 'Purge the Foe' })
+    await flushPromises()
+    expect(setupTab().find('.page-tab-warn').exists()).toBe(false)
+  })
+
   // The header's hand-off to the tracker is gone (2026-08-28, on request): a list is attached to
   // a game from the tracker's own side, where somebody starting a game already is.
   it('offers no tracker hand-off from the editor header', async () => {
@@ -119,7 +144,8 @@ describe('RosterEditorView', () => {
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
 
-    await w.findAll('.rul-dup')[0].trigger('click')
+    await w.findAll('.rul-more')[0].trigger('click')
+    await new DOMWrapper(document.body).findAll('.act-btn')[0].trigger('click')
     expect(r.units).toHaveLength(2)
     expect(r.units[1]).toMatchObject({ id: 'intercessor-squad', size: 1, count: 8 })
     expect(r.units[1].warlord).toBeUndefined()
@@ -127,7 +153,7 @@ describe('RosterEditorView', () => {
 
   // Adding a unit through the catalogue stops at the duplicate cap; this is the one control that
   // could add one without going through it.
-  it('offers no copy button at the duplicate cap', async () => {
+  it('offers no copy action at the duplicate cap', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
@@ -137,12 +163,16 @@ describe('RosterEditorView', () => {
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Adrax Agatone')
 
-    expect(w.find('.rul-dup').exists()).toBe(false)
+    const body = new DOMWrapper(document.body)
+    await w.find('.rul-more').trigger('click')
+    expect(body.findAll('.act-btn')).toHaveLength(1)
+    expect(body.find('.act-btn').classes()).toContain('act-danger')
+    await body.find('.modal-backdrop, .act-btn').trigger('keydown.esc')
     // Through the store's own reactive handle: createRoster returns the RAW object, and a
     // mutation on that is invisible to the render.
     store.rosterById(r.id).checkLegality = false // the cap is only enforced while checking is on
     await flushPromises()
-    expect(w.find('.rul-dup').exists()).toBe(true)
+    expect(body.findAll('.act-btn')).toHaveLength(2)
   })
 
   it('taxes a duplicate datasheet by copy index in the total', async () => {
@@ -206,7 +236,9 @@ describe('RosterEditorView', () => {
     expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
   })
 
-  it('the footer Cancel button links back to the roster list', async () => {
+  // The editor writes into the stored roster as you go, so Cancel has to put it back — it used
+  // to be a link to the list, i.e. "close, keeping everything" (owner, 2026-09-24).
+  it('the footer Cancel leaves straight away when nothing was touched', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
@@ -215,7 +247,55 @@ describe('RosterEditorView', () => {
 
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    expect(w.find('.rc-sticky .btn-ghost').attributes('href')).toBe('/roster')
+    await w.find('.rc-sticky .btn-ghost').trigger('click')
+    expect(new DOMWrapper(document.body).find('.modal').exists()).toBe(false)
+    expect(push).toHaveBeenCalledWith('/roster')
+  })
+
+  it('the footer Cancel asks first, then puts the list back the way it opened', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    // …edit: a second unit and a new name, after the screen took its baseline.
+    store.rosterById(r.id).units.push({ uid: 'u2', id: 'intercessor-squad', size: 0 })
+    store.rosterById(r.id).name = 'Renamed'
+    await flushPromises()
+    await w.find('.rc-sticky .btn-ghost').trigger('click')
+
+    const body = new DOMWrapper(document.body)
+    expect(body.find('.modal').exists()).toBe(true)
+    expect(push).not.toHaveBeenCalledWith('/roster') // nothing happens until the question is answered
+    // Both halves of what changed are named, so the reader knows what they are giving up.
+    expect(body.find('.cm-message').text()).toContain('1')
+    await body.find('.modal-foot .btn-primary').trigger('click')
+
+    expect(store.rosterById(r.id).units).toHaveLength(1)
+    expect(store.rosterById(r.id).name).toBe('Test list')
+    expect(push).toHaveBeenCalledWith('/roster')
+  })
+
+  it('the footer Cancel keeps the edits when the question is answered with Keep editing', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    store.rosterById(r.id).name = 'Renamed'
+    await flushPromises()
+    await w.find('.rc-sticky .btn-ghost').trigger('click')
+    await new DOMWrapper(document.body).find('.modal-foot .btn-ghost').trigger('click')
+
+    expect(store.rosterById(r.id).name).toBe('Renamed')
+    expect(push).not.toHaveBeenCalledWith('/roster')
   })
 
   // The catalogue used to be a page of its own (/roster/:id/add) and the Units tab a link to it;
@@ -278,11 +358,40 @@ describe('RosterEditorView', () => {
     // "attached to" tag.
     const rows = w.findAll('.rul-unit')
     const squad = rows.find((row) => row.find('.rur-name').text().trim() === 'Intercessor Squad')
-    await squad.find('.rul-del').trigger('click')
+    await squad.find('.rul-more').trigger('click')
+    const body = new DOMWrapper(document.body)
+    await body.find('.act-btn.act-danger').trigger('click')
 
     expect(r.units.map((u) => u.uid)).toEqual(['u2'])
     // …and the Captain that was attached to it isn't left pointing at a unit that has gone.
     expect(r.units[0].leaderOf).toBeUndefined()
+  })
+
+  // A mis-tap on delete used to cost the session: Cancel was the only way back, and it throws away
+  // every pick since the last save (a player's ask, 2026-09-23).
+  it('puts a removed unit back where it stood, with its Leader', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 1, count: 8 })
+    r.units.push({ uid: 'u2', id: 'captain', size: 0, leaderOf: 'u1' })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    const rows = w.findAll('.rul-unit')
+    const squad = rows.find((row) => row.find('.rur-name').text().trim() === 'Intercessor Squad')
+    await squad.find('.rul-more').trigger('click')
+    await new DOMWrapper(document.body).find('.act-btn.act-danger').trigger('click')
+    expect(r.units.map((u) => u.uid)).toEqual(['u2'])
+
+    expect(w.find('.ru-bar').text()).toContain('Intercessor Squad')
+    await w.find('.ru-undo').trigger('click')
+    expect(r.units.map((u) => u.uid)).toEqual(['u1', 'u2'])
+    expect(r.units[0]).toMatchObject({ size: 1, count: 8 })
+    expect(r.units[1].leaderOf).toBe('u1')
+    expect(w.find('.ru-bar').exists()).toBe(false)
   })
 })
 

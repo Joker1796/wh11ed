@@ -243,7 +243,6 @@
               :remaining="limit - points"
               :check-legality="roster.checkLegality !== false"
               @add="addUnit"
-              @remove="removeUnit"
             />
           </template>
           <template #list>
@@ -291,6 +290,12 @@
       </template>
     </div>
 
+    <RosterUndoBar
+      :undoable="undoable"
+      @undo="undoRemove"
+      @dismiss="dismissUndo"
+    />
+
     <!-- Fixed footer bar — same shape as the creation wizard's own .rc-sticky
          (RosterCreateView.vue), Cancel/Save standing in for that one's Back/Next. -->
     <div class="rc-sticky">
@@ -313,12 +318,20 @@
             v-if="roster.faction"
             type="button"
             class="issues-badge"
-            :class="validation.errorCount ? 'has-err' : 'ok'"
+            :class="validation.errorCount ? 'has-err' : (validation.issues.length ? 'warn' : 'ok')"
             @click="issuesOpen = true"
           >
             <template v-if="validation.errorCount">
               <i class="bi bi-exclamation-triangle-fill" /> {{ validation.errorCount }}
             </template>
+            <!-- A tick means "nothing left to look at", and it was showing over a list that still
+                 owed a Force Disposition: the badge counts ERRORS, and an unmade choice is a
+                 warning. Amber and no number — the count belongs to the errors, and what this
+                 says is "open me", which is one tap from here. -->
+            <i
+              v-else-if="validation.issues.length"
+              class="bi bi-exclamation-triangle-fill"
+            />
             <i
               v-else
               class="bi bi-check-circle-fill"
@@ -326,12 +339,17 @@
           </button>
         </div>
         <div class="rc-sticky-actions">
-          <RouterLink
-            to="/roster"
+          <!-- Cancel means it. The editor writes straight into the stored roster (useRosters
+               auto-saves it), so this used to be a link to the list — it closed the screen with
+               every change kept. It now puts the list back the way the screen found it, and asks
+               first, because that is as irreversible as the editing it undoes. -->
+          <button
+            type="button"
             class="btn-ghost"
+            @click="leaveEditor"
           >
             {{ labels.rosterCancel }}
-          </RouterLink>
+          </button>
           <button
             class="btn-primary"
             @click="save"
@@ -341,6 +359,16 @@
         </div>
       </div>
     </div>
+
+    <ConfirmModal
+      v-if="discardOpen"
+      :title="labels.rosterDiscardTitle"
+      :message="discardMessage"
+      :confirm-label="labels.rosterDiscardYes"
+      :cancel-label="labels.rosterDiscardNo"
+      @confirm="discardEdits"
+      @close="discardOpen = false"
+    />
 
     <FactionPickerModal
       v-if="factionPickerOpen"
@@ -378,10 +406,12 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import ConfirmModal from '../../components/ConfirmModal.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
+import RosterUndoBar from '../../components/roster/RosterUndoBar.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
 import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
@@ -392,11 +422,13 @@ import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterEditing } from '../../composables/useRosterEditing.js'
+import { useRosterUndo } from '../../composables/useRosterUndo.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { ROSTER_NOTES_MAX, dispositionCandidates, pointsLeftLabel } from '../../composables/rosterEngine.js'
+import { setupIssueCount } from '../../composables/rosterValidation.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
@@ -430,12 +462,37 @@ function save() {
   router.push(`/roster/${roster.value.id}/view`)
 }
 
+// Cancel: nothing to take back → just leave, same as the link this used to be. Something to take
+// back → say what it is and ask. The list of parts is built in useRosterEditing; the words are
+// here, where the locale is.
+const discardOpen = ref(false)
+const PART_LABEL = {
+  added: 'rosterDiscardAdded',
+  removed: 'rosterDiscardRemoved',
+  changed: 'rosterDiscardChanged',
+  name: 'rosterDiscardName',
+  setup: 'rosterDiscardSetup',
+}
+const discardMessage = computed(() => {
+  const what = changedParts.value.map((p) => labels.value[PART_LABEL[p.k]].replace('{n}', String(p.n))).join(', ')
+  return what ? labels.value.rosterDiscardBody.replace('{what}', what) : labels.value.rosterDiscardBodyPlain
+})
+function leaveEditor() {
+  if (!dirty.value) { router.push('/roster'); return }
+  discardOpen.value = true
+}
+function discardEdits() {
+  revertEdits()
+  discardOpen.value = false
+  router.push('/roster')
+}
+
 // Roster, faction data, live points, validation and the add/duplicate/remove semantics all come
 // from useRosterEditing.js — everything from `defOf` down is what it reads off the roster through
 // useRosterDerived.js, the same answers the wizard and the read-only view get.
 const {
   roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
-  addUnit, duplicateUnit, removeUnit,
+  addUnit, duplicateUnit, dirty, changedParts, revertEdits,
   slugFor, entryMeta, groupedUnits, attachRole, dupBlocked, fieldProps,
 } = useRosterEditing(() => route.params.id)
 
@@ -452,7 +509,17 @@ const { factionName, accentStyle } = useFactionAccent(computed(() => roster.valu
 // layout as the tracker: DP cost + Force Disposition).
 // PageTabs only draws; which panel is open is this screen's own state, same as RosterViewView.
 const editorTabs = computed(() => [
-  { key: 'settings', label: labels.value.rosterCreateStep1, active: tab.value === 'settings' },
+  {
+    key: 'settings',
+    label: labels.value.rosterCreateStep1,
+    active: tab.value === 'settings',
+    // A list can be perfectly legal and still owe an answer that lives on this tab — an undeclared
+    // Force Disposition, a detachment never picked. Nothing said so from the Units tab, where the
+    // whole build happens: the footer badge showed a green tick (it counts errors, and these are
+    // warnings), so the player found out at Save and had to come back. The mark is the tab's job
+    // rather than the badge's because it also answers WHERE to go.
+    warn: setupIssueCount(validation.value.issues) ? labels.value.rosterTabNeedsSetup : '',
+  },
   { key: 'units', label: labels.value.rosterViewTabUnits, active: tab.value === 'units' },
 ])
 
@@ -526,12 +593,13 @@ function toggleOpen(entryUid) {
 // "the unit being worked on", whichever arrangement is showing it.
 const openEntry = computed(() => roster.value?.units.find((u) => u.uid === openUid.value) || null)
 
-// Delete ONE line, not "a copy of this datasheet": two of the same unit are configured
-// separately, so the row's own uid is what goes. removeUnit() detaches any Leader that pointed
-// at it (rosterEngine's removeUnitEntry) — the reason both screens share that one implementation.
+// Delete ONE line, not "a copy of this datasheet": two of the same unit are configured separately,
+// so the row's own uid is what goes. It goes through useRosterUndo, which keeps the ticket that
+// puts it back — including the Leader that had to let go of it (rosterEngine's takeUnitEntry).
+const { undoable, removeWithUndo, undoRemove, dismissUndo } = useRosterUndo(() => roster.value?.units || [], touch)
 function removeEntry(entry) {
   if (openUid.value === entry.uid) openUid.value = null
-  removeUnit(entry.id, entry.uid)
+  removeWithUndo(entry.id, entry.uid, defOf(entry.id)?.name || '')
 }
 
 // A configured copy, right under its original (rosterEngine's duplicateUnitEntry). Its accordion

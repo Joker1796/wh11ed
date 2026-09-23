@@ -239,7 +239,10 @@
             >
               <div
                 class="rvunit"
-                :class="{ 'rvunit-attached roster-attached': e.leaderOf }"
+                :class="{
+                  'rvunit-attached': e.leaderOf,
+                  'rvunit-host': hasAttached(g.entries, e),
+                }"
               >
                 <button
                   type="button"
@@ -1379,6 +1382,9 @@ function summaryLine(e) {
 // useRosterDerived — the two halves already share every state this screen writes (see
 // attachedEntries), and since 2026-08-27 a place on the list too (rosterEngine's joinAttached).
 const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => entryMeta.value.get(x.uid)?.points)
+// Whether this tile is a block's host — the accent edge starts on IT, so the stripe runs the whole
+// attached unit rather than beginning under its first row (.rvunit-host in this file).
+const hasAttached = (entries, host) => !host.leaderOf && (entries || []).some((e) => e.leaderOf === host.uid)
 
 // ── Rules + Stratagems tabs: army rule / each selected detachment's rule / its stratagems.
 // Loaded only when one of those tabs is open — the faction bundle is heavy and is never imported
@@ -1634,9 +1640,9 @@ function stratKey(strat) {
   width: 100%;
   margin: 0 0 0.8rem;
   padding: 0.5rem 0.7rem;
-  border: 1px solid color-mix(in srgb, var(--warning, #b8860b) 45%, transparent);
-  background: color-mix(in srgb, var(--warning, #b8860b) 10%, transparent);
-  color: var(--warning, #b8860b);
+  border: 1px solid color-mix(in srgb, var(--warning) 45%, transparent);
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  color: var(--warning);
   font-size: 0.82rem;
   font-weight: 600;
   text-align: left;
@@ -1716,12 +1722,15 @@ function stratKey(strat) {
 .rvunit-rest { border-top: 0; padding-top: 0; }
 .rvunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
 .rvunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
-/* Closes the gap to the character indented below it — the block's own look is the shared
-   .roster-attached / .roster-sum pair in style.css. */
+/* The slot an attached character fills, after its name. */
 .rvunit-role { margin-left: 0.35rem; font-weight: 400; font-size: 0.74rem; color: var(--accent); }
+/* The attached block: the tiles touch, and the army's colour runs down the left of all of them —
+   the host's tile included, so the edge starts where the block does. Drawn HERE rather than from
+   the shared primitive in style.css, which cannot win against this view's own scoped `border` on
+   .rvunit (see the note there). */
 .rvunit:has(+ .rvunit-attached) { margin-bottom: 0; }
-/* The card is width:100% here; the rail's indent has to come off that. */
-.rvunit-attached { width: auto; }
+.rvunit.rvunit-attached,
+.rvunit.rvunit-host { border-left: 2px solid var(--accent); }
 /* Mini stat plates — same chamfered-box look as DatasheetCard.vue's .ds-stat-box (10th-ed
    style: no rounding, top-left/bottom-right corners cut), scaled down to fit a compact list
    row. Copied, not shared — scoped styles don't cross component boundaries. */
@@ -1771,8 +1780,16 @@ function stratKey(strat) {
    RuleBody without reaching into their scoped styles at all; the rest is :deep() on the two
    things that set the rhythm — body type and paragraph gaps. */
 .rv-rules {
-  --fs-rule-title: 1.15rem;
-  --fs-subheading: 1rem;
+  /* A step smaller than the rules page, not two. Sofia Sans Extra Condensed is narrow enough
+     that a nominal size reads about a size below a sans of the same value — at 1.15rem the rule's
+     own name ended up looking no larger than the body underneath it, and the section label above
+     it smaller still (owner, 2026-09-24). Raised so the three levels are told apart at arm's
+     length: label 1.35 → name 1.45 → sub-rule 1.3 → body 0.85rem of Inter, the same pair of sizes
+     the builder's own rules panel uses so one rule reads alike on both screens. The sub-rule heading
+     needed the same correction as the name for the same reason — a rule that names two abilities
+     was printing their headings smaller than the sentences under them. */
+  --fs-rule-title: 1.45rem;
+  --fs-subheading: 1.3rem;
 }
 /* Every override goes through the .rv-rule-block wrapper on purpose: a bare `.rv-rules
    :deep(.rule-body)` ties RuleBlock's own `.rule-body` on specificity (both 0,2,0) and would be
@@ -1788,7 +1805,10 @@ function stratKey(strat) {
 .rv-rules .rv-rule-block :deep(.rule-list li),
 .rv-rules .rv-rule-block :deep(.rule-ol li) { margin-bottom: 0.15rem; line-height: 1.35; }
 .rv-rules .rv-rule-block :deep(.rule-subheading) { margin: 0.5rem 0 0.15rem; }
-.rv-rules .rvg-head { margin: 0.8rem 0 0.35rem; }
+/* The section label above a rule — "Army rule", or the detachment's name. Display face like the
+   rule's own name, so it needs the same treatment: it sits one step under the name it introduces
+   (1.35 to 1.45) and clear of the body, instead of the 1.05rem it shared with the Units tab. */
+.rv-rules .rvg-head { margin: 0.8rem 0 0.35rem; font-size: 1.35rem; }
 .rv-rules .rv-rule-block:first-child .rvg-head { margin-top: 0; }
 .rv-rule-block { margin-bottom: 0.9rem; }
 

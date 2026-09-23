@@ -106,16 +106,38 @@ describe('syncNow', () => {
 })
 
 describe('refreshCloudList', () => {
-  it('merges the server list with optimistically-synced versions (no icon flap on replica lag)', async () => {
+  // A read-replica can answer without a game that was PUT seconds ago, and the icon must not
+  // flap to "pending" in the meantime — so a RECENT upload outranks the listing, reload or no
+  // reload.
+  it('keeps a recent upload backed up when the server list lags', async () => {
     const g1 = game('g1')
-    // Pre-seed an optimistic synced version signature before the module initialises.
-    localStorage.setItem('wh11ed-tracker-synced', JSON.stringify([`g1:${g1.finishedAt}`]))
+    localStorage.setItem('wh11ed-tracker-fresh', JSON.stringify({ [`g1:${g1.finishedAt}`]: Date.now() }))
     await load()
     h.history.value = []
-    // Server list lags and does NOT include g1 yet.
     h.fetchImpl = () => Promise.resolve({ ok: true, json: async () => ({ games: [] }) })
     await cloud.refreshCloudList()
-    expect(cloud.isBackedUp(g1)).toBe(true) // still backed up, not flipped to pending
+    expect(cloud.isBackedUp(g1)).toBe(true)
+  })
+
+  // …but what the phone merely REMEMBERS uploading, long ago, does not outrank a successful
+  // listing. It used to, forever — which is how a signed-in reader saw every row wearing a cloud
+  // icon while the heading said the cloud was empty (a different account, or copies deleted from
+  // another device). The memory is rewritten to match, so the next cold start opens with the
+  // truth too.
+  it('lets a successful listing overrule an old memory of an upload', async () => {
+    const g1 = game('g1')
+    const sig = `g1:${g1.finishedAt}`
+    localStorage.setItem('wh11ed-tracker-synced', JSON.stringify([sig]))
+    localStorage.setItem('wh11ed-tracker-fresh', JSON.stringify({ [sig]: Date.now() - 60 * 60 * 1000 }))
+    await load()
+    h.history.value = []
+    expect(cloud.isBackedUp(g1)).toBe(true) // before any check, the last listing is all there is
+
+    h.fetchImpl = () => Promise.resolve({ ok: true, json: async () => ({ games: [] }) })
+    await cloud.refreshCloudList()
+    expect(cloud.isBackedUp(g1)).toBe(false)
+    expect(cloud.cloudEmpty.value).toBe(true) // and the heading agrees with the icons
+    expect(JSON.parse(localStorage.getItem('wh11ed-tracker-synced'))).toEqual([])
   })
 
   it('is a no-op when not authed', async () => {
@@ -125,5 +147,24 @@ describe('refreshCloudList', () => {
     h.fetchImpl = () => { called = true; return Promise.resolve({ ok: true, json: async () => ({ games: [] }) }) }
     await cloud.refreshCloudList()
     expect(called).toBe(false)
+  })
+})
+
+// Deleting a game locally also deletes its cloud copy. The note that said "uploaded a moment
+// ago" has to go with it, or the next listing — which correctly no longer carries the game —
+// would be overruled by that note and the icon would come back on a game that is gone.
+describe('deleteGame', () => {
+  it('forgets the recent-upload note along with the backup', async () => {
+    const g1 = game('g1')
+    await load()
+    h.history.value = [g1]
+    h.fetchImpl = () => Promise.resolve({ ok: true, json: async () => ({}) })
+    await cloud.uploadGame(g1)
+    expect(cloud.isBackedUp(g1)).toBe(true)
+
+    await cloud.deleteGame('g1')
+    h.fetchImpl = () => Promise.resolve({ ok: true, json: async () => ({ games: [] }) })
+    await cloud.refreshCloudList()
+    expect(cloud.isBackedUp(g1)).toBe(false)
   })
 })

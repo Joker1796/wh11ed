@@ -5,7 +5,12 @@ import { mount } from '@vue/test-utils'
 import { useBackToClose } from './useBackToClose.js'
 
 // jsdom runs history traversal (back/forward/go) asynchronously and fires popstate on landing.
+// `settle` is the plain "let that happen" wait; `settleOn` waits for a landing to actually BE
+// the one expected, with a deadline. A flat 20ms was a bet on how busy the machine is: with the
+// whole suite running beside this file the traversal sometimes had not landed yet, and the
+// assertion read the state of the page it was still leaving.
 const settle = () => new Promise((r) => setTimeout(r, 20))
+const settleOn = (assert) => vi.waitFor(assert, { timeout: 2000, interval: 10 })
 
 const Dialog = defineComponent({
   props: { onClose: Function },
@@ -97,15 +102,18 @@ describe('useBackToClose', () => {
     expect(location.pathname).toBe('/b')
 
     history.back() // lands on the dead copy of /a …
-    await settle()
-    // … and is carried on to /a itself: one Back, one page.
-    expect(location.pathname).toBe('/a')
-    expect(history.state).toEqual({ position: 1 })
+    // … and is carried on to /a itself: one Back, one page. Two hops, so the wait is on the
+    // destination rather than on a duration.
+    await settleOn(() => {
+      expect(location.pathname).toBe('/a')
+      expect(history.state).toEqual({ position: 1 })
+    })
 
     history.forward() // Forward bounces the other way: over the copy, onto /b
-    await settle()
-    expect(location.pathname).toBe('/b')
-    expect(history.state).toEqual({ position: 2 })
+    await settleOn(() => {
+      expect(location.pathname).toBe('/b')
+      expect(history.state).toEqual({ position: 2 })
+    })
   })
 })
 

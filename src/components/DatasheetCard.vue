@@ -1558,6 +1558,13 @@ function abilityStateLabel(st) {
   white-space: nowrap;
 }
 .ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
+/* The FIRST header cell is not a column label — it is the block's name ("Ranged Weapons"), the
+   twin of the band over the abilities block, and it is read from across the table rather than
+   scanned like RANGE / A / BS. So it holds `.ds-group-title`'s size and tracking at every width,
+   including the narrow ones below where the six stat labels shrink to fit (owner, 2026-09-24).
+   Sizing it apart from them is what makes that possible: the stat labels set the width of six
+   columns, this one sits in the name's column and costs the row nothing. */
+.ds-weapons th.wname { font-size: 0.68rem; letter-spacing: 1px; }
 .wtags { margin-left: 0.35rem; }
 .wtag { font-size: 0.72rem; }
 /* How many of this weapon the ROSTER ENTRY fields — a count the printed datasheet keeps in its
@@ -1679,6 +1686,8 @@ function abilityStateLabel(st) {
     font-size: 0.55rem;
     letter-spacing: 0.3px;
   }
+  /* …the six stat labels, not the block's name: that one keeps the full size (see the base rule). */
+  .ds-weapons th.wname { font-size: 0.68rem; letter-spacing: 1px; }
   .ds-weapons td { padding: 0.3rem 0.15rem; }
   /* The name takes a SHARE of the row, not everything that is left. `width: 99%` (what this
      was until 2026-08-27) squeezes the six stat columns to their content minimum and parks them
@@ -1753,7 +1762,7 @@ function abilityStateLabel(st) {
     padding: 0 0.1rem 0.3rem;
     background: none;
     color: var(--accent);
-    font-size: 0.64rem;
+    font-size: 0.68rem;
   }
 
   /* Each weapon (or each group of profiles) is its own card. */
@@ -1963,7 +1972,16 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
 }
 /* Accordion header variant (collapsible/modal mode only) — same `.ds-group-title` look, reset to
    a full-width clickable row with the chevron at the end. Non-collapsible callers never render
-   this class (see the h5 fallback in the template), so the plain page is untouched. */
+   this class (see the h5 fallback in the template), so the plain page is untouched.
+
+   `font-family`, NOT the `font` shorthand: the shorthand resets every longhand it covers, so
+   `font: inherit` here quietly undid the size and weight `.ds-group-title` had just set one rule
+   earlier (equal specificity, later wins) and handed the band the ability text's own 0.85rem/400
+   instead — 13.6px light where the weapon table's identical band is 9.9px bold. The two bands are
+   the same idiom and only ever looked alike on the plain datasheet page, where this header is an
+   h5 and no reset applies (owner spotted it on a unit card, 2026-09-24). Measured, not guessed:
+   a button's UA `font` is an element-level rule, so the class above wins once the shorthand is
+   gone. */
 .ds-group-btn {
   display: flex;
   align-items: center;
@@ -1972,7 +1990,8 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
   width: 100%;
   border: none;
   background: none;
-  font: inherit;
+  font-family: inherit;
+  line-height: inherit;
   cursor: pointer;
   text-align: left;
 }

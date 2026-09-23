@@ -182,6 +182,20 @@ function setMockAuthed() {
   status.value = 'authed'
 }
 
+// The stand's token, fetched rather than pasted. A shared game is the one thing the dev mock
+// cannot fake — it needs a real server — so the test sign-in asks the local backend for the
+// same token `npm run dev:jwt` prints and keeps it where the /party forwarder looks. The route
+// exists only on the stand (DEV_JWT=1 in its compose file); anywhere else this is one failed
+// request that changes nothing, and the sign-in itself does not wait for it.
+async function fetchDevJwt() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/dev/jwt`)
+    if (!res.ok) return
+    const { token } = await res.json()
+    if (token) localStorage.setItem(DEV_JWT_KEY, token)
+  } catch { /* no stand running — the dialogs say what is missing */ }
+}
+
 function mockSignIn() {
   if (!DEV) return
   setMockAuthed()
@@ -190,9 +204,11 @@ function mockSignIn() {
   } catch {
     /* ignore */
   }
+  fetchDevJwt()
 }
 
 function mockSignOut() {
+  try { localStorage.removeItem(DEV_JWT_KEY) } catch { /* ignore */ }
   mockActive = false
   mockCloud.clear()
   mockBcWrite(null)

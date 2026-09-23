@@ -601,6 +601,15 @@ directory; still part of this feature:
   telling three identical messages apart, and `RosterIssuesModal` renders the row as a link only
   when there is a unit to jump to. `rosterValidation.test.js` guards both halves: every issue with a
   `uid` has a `unit`, and no message asks for a placeholder the validator does not send.
+  **An issue also knows which TAB can answer it** — `SETUP_CODES` / `setupIssueCount()` in the same
+  module: faction, detachments, the Force Disposition they disagree about and the DP they spend are
+  chosen on the editor's Setup tab and nowhere else, so that tab carries an amber ⚠ while any of
+  them is outstanding (`PageTabs`' `warn`). Everything answered by adding, dropping or re-arming a
+  unit is deliberately NOT in that set — `overPoints` included, which names the battle size but is
+  almost always fixed by the list. The mark exists because the footer badge counts ERRORS: a list
+  owing only a Force Disposition showed a green tick, and the player found out at Save (owner,
+  2026-09-24). That badge now has a third state of its own — amber, no number, when the list is
+  legal and something in it is still worth a look.
   Per-unit duplicate cap: the battle size's limit,
   doubled for Battleline/Dedicated Transport, hard-capped at 1 for every Epic Hero regardless
   of battle size (rule 25).
@@ -1162,12 +1171,14 @@ show yet, or not; not ours to guess.
   answer. It only happened to — one appdata bump away from a one-sided gate. `gatedLeads()` applies
   them and dedupes by target+type afterwards, since a collapsed pair must leave exactly one entry
   (callers read the list both with `.find()` and through `new Map()`).
-- **`addUnitEntry` / `removeUnitEntry`** (`rosterEngine.js`) — the two operations every screen that
-  edits a roster's `units` performs, kept in one place because the removal has a second half that is
-  easy to forget: a Leader attached to the departing unit has to let go of it. The creation wizard's
-  own copy did forget it. `useRosterEditing` and `RosterCreateView` both call these; a screen that
-  writes to `roster.units` any other way is a bug waiting to be reported as "my leader is attached
-  to nothing".
+- **`addUnitEntry` / `takeUnitEntry` / `restoreUnitEntry`** (`rosterEngine.js`) — the operations
+  every screen that edits a roster's `units` performs, kept in one place because the removal has a
+  second half that is easy to forget: a Leader attached to the departing unit has to let go of it.
+  The creation wizard's own copy did forget it. `takeUnitEntry` hands back a plain-data TICKET (the
+  entry, the index it stood at, the attachments it broke) and `restoreUnitEntry` spends it — which
+  is what `useRosterUndo` holds while its bar is up. `useRosterEditing` and `RosterCreateView` both
+  go through these; a screen that writes to `roster.units` any other way is a bug waiting to be
+  reported as "my leader is attached to nothing".
 - **`capKeyOf(def)`** (`rosterEngine.js`) — the identity a unit's duplicate cap
   (`duplicateLimit`) is grouped by. Defaults to the datasheet's own `id`; an optional `charId`
   field is the extension point for the real (currently unrepresented in any faction's
@@ -1286,14 +1297,18 @@ for — 390 is not below 380 — which is how a squeezed pane shipped with full-
 
 What the narrow arrangement changes, in the order it matters:
 
-- **The copy and delete buttons only get smaller.** They left the row's flow at EVERY width on
-  2026-08-28 (`.rul-acts`, absolute over the tile's top-right corner) — in flow they were a column
-  as tall as the tile, so a three-line entry showed two icons floating alone in a dead band and the
-  wargear paid ~4rem of every line for them. Only the tile's FIRST line reserves the strip
-  (`--rul-acts-w`, read by `RosterUnitRow`); here that is the name's line (`padding-right`, plus a
-  `min-height` for a one-line name), on a wide screen the points'. What the narrow pane still does
-  is shrink them, and drop the chevron entirely — at this width its 1.2rem is worth more to the
-  wargear line than the affordance is.
+- **The tile's actions are one `⋮` button.** It left the row's flow at EVERY width on 2026-08-28
+  (`.rul-acts`, absolute over the tile's top-right corner) — in flow it was a column as tall as the
+  tile, so a three-line entry showed icons floating alone in a dead band and the wargear paid ~4rem
+  of every line for them. Only the tile's FIRST line reserves the strip (`--rul-acts-w`, read by
+  `RosterUnitRow`); here that is the name's line (`padding-right`, plus a `min-height` for a
+  one-line name), on a wide screen the points'. What the narrow pane still does is shrink it, and
+  drop the chevron entirely — at this width its 1.2rem is worth more to the wargear line than the
+  affordance is. It was a PAIR (copy, trash) until 2026-09-23: a trash can a finger's width from
+  the row that opens the unit's options is the mis-tap a player reported, and a menu costs the
+  deliberate action one tap while taking the accidental one off the table. The strip halved with
+  it (4rem/2rem → 2rem, 3.4/1.7 → 1.7 narrow), which is what stopped "Masters of the Maelstrom"
+  wrapping. Duplicate is still ABSENT, not greyed, at the duplicate cap.
 - **The points move down beside the chips** (`RosterUnitRow` is a grid, and the two arrangements
   are two placements of the same four parts). A points column costs the text ~3rem of every row,
   which is what turned one Chosen squad's four picks into a twelve-line column. On a wide screen
@@ -1301,11 +1316,18 @@ What the narrow arrangement changes, in the order it matters:
   chips and the wargear span BOTH grid columns, so the only line paying for the buttons is that
   first one.
 - **The catalogue's rows stack their name over their price** (`RosterUnitBrowser`) — three or four
-  words and a number do not share 180px — and its whole scale steps down. `.rub-name` also carries
+  words and a number do not share 180px — and its whole scale steps down, but **not below the list
+  beside it**: the name and the price read at the same 0.85rem the list's rows do (2026-09-23; they
+  were 0.74/0.66rem, i.e. 12 and 10.6px inside a row already ~59px tall, which is size the
+  arrangement had and was not spending). The role headers went 0.62 → 0.75rem with them, and their
+  box 23 → 27px, because a 23px tap target is under the 24 WCAG asks and these headers are what the
+  whole column is navigated by. The category list paid ~20px of pane height for all of that, and
+  got it back from the filters header (below). `.rub-name` also carries
   `min-width: 0`, without which a long name refuses to shrink past its min-content and runs *under*
   the price instead of wrapping.
-- **The attached-unit rail indents by 0.4rem instead of 1.25rem** (`style.css`). The rail still
-  says "these belong together" at a third of the width. The catalogue pane **sticks and scrolls inside itself** — under the app's
+- **The attached block does not indent at all** (it did, 0.4rem here against 1.25rem elsewhere,
+  until 2026-09-23). The army-coloured left edge says "these belong together" without taking a
+  step out of the column. The catalogue pane **sticks and scrolls inside itself** — under the app's
 sticky navbar, clear of the fixed points/save bar (`--roster-sticky-h`) and of the mobile bottom
 nav — while the list flows with the page beside it. Giving both panes their own fixed height
 instead needs a height calculation that every one of those bars is free to invalidate.
@@ -1314,11 +1336,24 @@ instead needs a height calculation that every one of those bars is free to inval
 had a screen to itself; as a pane it would pop the keyboard over the list the reader came to see.
 
 `src/composables/useRosterEditing.js` still holds the editor's state — the roster, its faction
-data and add/duplicate/remove. It was written to keep the editor and the add-units page from each
-having their own idea of what adding a unit means; with the catalogue folded in it has one
-consumer, and is kept because the wizard performs the same operations on a roster it does not own.
-The implementations underneath (`rosterEngine`'s `addUnitEntry` / `duplicateUnitEntry` /
-`removeUnitEntry`) are what actually keep the two screens agreeing.
+data, add and duplicate. It was written to keep the editor and the add-units page from each having
+their own idea of what adding a unit means; with the catalogue folded in it has one consumer, and is
+kept because the wizard performs the same operations on a roster it does not own. The
+implementations underneath (`rosterEngine`'s `addUnitEntry` / `duplicateUnitEntry`) are what
+actually keep the two screens agreeing. **Removal is not here**: both screens take a unit out
+through `useRosterUndo` (below), so the one path that destroys work is also the one that can put it
+back.
+
+**`useRosterUndo.js` is the one step back the builder has** (2026-09-23). Building a list is a long
+session of small picks and the trash icon sat on the same tile as the row that opens them; the only
+way back from a mis-tap was Cancel, which throws away the session rather than the tap. It holds the
+last removal for 8 seconds (`UNDO_MS`) and `RosterUndoBar.vue` offers it back — a REPORT with one
+action, `role="status"`, taking no focus, ignoring it being the ordinary outcome. ONE slot on
+purpose: a stack invites "undo until it looks right", which is a different feature and one that
+would have to survive a save, a reload and both screens. The ticket lives in a closure, not in the
+ref, so a removed entry is not made deeply reactive for the seconds it spends off the list, and the
+offer dies on unmount. The bar stacks above everything else fixed to that corner —
+bottom-nav, `--roster-sticky-h`, `--mobile-bar-h`, then it.
 
 **What it merely READS off the roster is `useRosterDerived.js`** (see Shared derivations above):
 it is a thin wrapper adding the load-by-id and the mutations on top.
@@ -1352,11 +1387,11 @@ component state until `finish()`, so leaving the way every other screen expects 
 behind a roster that had been created on step 2 but was empty. `updateRoster` assigns the SAME array,
 so its identity is shared with the store from then on and the per-entry edits ride the store's own
 deep-watch autosave; that is why `pickFaction` empties it with `splice(0)` rather than assigning a
-new one. Its add/remove go through `rosterEngine`'s `addUnitEntry`/`removeUnitEntry` — the same
-implementation `useRosterEditing` uses, not a second copy.
+new one. Its add goes through `rosterEngine`'s `addUnitEntry` and its removal through
+`useRosterUndo` — the same implementations the editor uses, not a second copy.
 
 **`RosterUnitList.vue` draws the list on both screens** — sections, attached-unit blocks, the
-per-entry copy and delete buttons, and which entry is open. The configuration itself stays with the
+per-entry `⋮` and the sheet behind it, and which entry is open. The configuration itself stays with the
 caller, through a `fields` scoped slot: `UnitEditorFields` needs the roster's detachments, its other
 entries, the enhancement options and the leader targets, all of which the views already compute.
 What the component decides is only WHERE those fields go — inline under the row on a wide screen,
@@ -1434,15 +1469,63 @@ belongs to an ally group**: an ally heading carries that group's own accounting 
 leave it, so there the block is gathered in place instead, host first. (Six ally units can lead and
 four can be led, all Aeldari — Harlequins and Ynnari.)
 
-The three list screens then draw it the same way, from one pair of primitives in `style.css`
-(`.roster-attached`, `.roster-sum`): the bodyguard's tile, each character indented under it on an
-accent rail, then the block's own points. Those points are printed **once, under the last row**
-(`attachedBlockTotal`) rather than as a combined figure on the bodyguard — the per-row numbers
-above it still read down the column and still add up to the roster total, which a combined figure
-would have quietly broken. What each row keeps is a **role tag** ("Leader" / "Support"): the
-nesting says which unit a character joined, but not which slot it fills. The old reciprocal
-tags — "Attached to X" on the character, "X (Leader)" on the squad — are gone with the distance
-that made them necessary.
+Gathering every block in place — under its host's own role, so a led squad kept it — was tried for
+a few hours on 2026-09-23 and the owner asked for the section back. The trade is real either way:
+in place, "Immortals with an Overlord on them" are findable under Battleline; in a section, the
+army's whole units are all in one place to read. With each block now carrying a header of its own
+(below), the second is worth more.
+
+The block's tiles touch and carry the army's colour down their left edge — the host's included, so
+the edge starts where the block does. It is drawn in each list's OWN scoped styles, not by a shared
+primitive: every list gives its tiles a scoped `border: 1px solid var(--border)`, and a scoped
+selector carries the component's attribute on top of the class, so the global
+`.roster-attached { border-left }` in `style.css` lost to it and never painted at all (2026-08-28
+to 2026-09-23). What said "these belong together" in the meantime was the INDENT beside it — the
+staircase the owner asked to take out, which is how the dead rule was found. Each character keeps
+its **role tag** ("Leader" / "Support"): the adjacency says which unit it joined, not which slot
+it fills. The old reciprocal tags — "Attached to X" on the character, "X
+(Leader)" on the squad — are gone with the distance that made them necessary.
+
+**On the two BUILDING screens the block has a header of its own** (`RosterUnitList`, 2026-09-23):
+an accent-tinted bar above its tiles carrying the three things that belong to the block rather than
+to any one row in it — its name, the fold, and what the whole thing costs (`hostBlockTotal`). The
+bar wears the block's left edge like the tiles under it, so the army's colour runs the whole thing
+from the header down to the last character, and the tint is the same fifth-of-the-accent mix the
+catalogue's role headers use: a tinted bar means "a heading" on both sides of the screen.
+
+The header is the only place a combined figure may stand — every ROW shows its own number, and the
+column still adds up to the roster total, which a combined figure among them would quietly break.
+Folding hides the characters and leaves the host, so the block stays identifiable while folded; it
+is component state, not a setting — everything starts open, nothing is persisted, a reload forgets
+it.
+
+**A block can carry the player's own name for it** — "домашка", "ближняя точка", the way a list is
+actually talked about while planning, which is the one thing about it the app cannot know. The name
+is written on the HOST entry (`blockName`, capped at `BLOCK_NAME_MAX`, through the same `setNote`
+that trims and REMOVES an emptied field), so it travels with the roster everywhere `units` does — a
+share link, a game snapshot — with no schema bump, exactly like a per-unit note. It is offered in
+the host's own actions sheet, and only there: a lone unit already has a note field in its
+configuration.
+
+Until a name is written the header shows a numbered default — "Отряд 2" — numbered in READING
+order across the whole list rather than per section, because "the second block" has to mean the
+second one on the screen. The first design gave a header only to a named block, to spend no height
+on a name nobody wrote; the owner asked for it on every block, and it is the header that makes the
+naming discoverable at all. The footnote line the block used to end with (`attachedBlockTotal` +
+`.roster-sum`) went with the change; the READ-ONLY list (`RosterViewView`) still prints it, because
+nothing folds there and the total has nowhere else to go.
+
+**The attachment picker says WHICH squad**, where a datasheet is in the list twice —
+"Necron Warriors" offered three times over is a guess, not a choice (a player's report,
+2026-09-23). `leaderTargetsFor` returns the facts that can tell two copies apart — the block's own
+name, the model count, the wargear its player CHOSE (`wargearNames`, never the default loadout,
+which is the same on every copy and would separate nothing — pass `items` to get it), the
+enhancement, the mark, the note, the warlord flag and who is already attached to it (that last one
+it was computing anyway, for `hostSlotTaken`, and throwing away) — and `UnitEditorFields` builds
+the sentence, because the engine knows no locale. The line is drawn
+ONLY under a name that is offered more than once: a list of units that are all different needs no
+explaining. Two entries alike in every one of those facts fall back to the order they stand in the
+roster ("копия 2"), which is the only thing left that differs.
 
 `pairAttached` is off by default, which is what keeps `RosterUnitBrowser` out of it: the catalogue
 lists datasheets, and nothing is attached to a datasheet.
@@ -1533,10 +1616,12 @@ help either: it is on the finished list's view screen.
 
 ## What the catalogue hides, and the shelf it reads (added 2026-08-28)
 
-`RosterUnitBrowser` carries two checkboxes under its search box, folded away under a "Filters"
-header — the same accordion its groups use, so the pane reads as one list of collapsible things
-rather than as a toolbar bolted onto a list. The boxes are the app's shared `.check` rows
-(`style.css`), not a private pill.
+`RosterUnitBrowser` carries two checkboxes under its search box, opened by a **funnel icon beside
+the search** (`.rub-filter-btn`, 2026-09-23). They hung off a full-width "Filters" header of their
+own until then — the same accordion shape the groups below use, which was the point and also the
+problem: stacked in a column it read as one more battlefield role, and it cost a row of a pane that
+is 479px tall on a phone. The fold itself did not move; it still opens under the search. The boxes
+are the app's shared `.check` rows (`style.css`), not a private pill.
 
 Both **hide** rather than dim, and that is not a preference: this list already spends opacity on
 "not in the roster yet" (`.rub-item`), so there is no dim left to mean "you cannot afford it". The
@@ -1545,12 +1630,11 @@ away is counted on screen.
 
 **Two things never go inside the fold**, because a closed accordion must not hide why the
 catalogue is short: the "N hidden" line under it (inside the block, above its rule — that note is
-the filters talking, not the list) and a count of the active filters on the header itself. The
-fold always starts closed — until 2026-09-19 it opened whenever a remembered filter was on, which
-on a phone spent three rows of the catalogue on switches already summed up by that count. A
-`border-bottom` closes the
-block off from the groups below: stacked in a column, its header would otherwise read as one more
-battlefield role.
+the filters talking, not the list) and a count of the active filters, now on the icon. The fold
+always starts closed — until 2026-09-19 it opened whenever a remembered filter was on, which on a
+phone spent three rows of the catalogue on switches already summed up by that count. With nothing
+open and nothing hidden the block drops its own padding and rule (`.rub-filters.folded`): a closed
+filter must not cost a visible band of pane height.
 
 - **"Fits the points left"** compares `minPoints(u)` — the cheapest bracket plus any mandatory
   enhancement, exactly the figure the row prints — against the `remaining` prop, which both views
@@ -1562,9 +1646,9 @@ battlefield role.
 
 Two things follow from the pane being a list you are BUILDING, not a picker:
 
-- **A unit already in the list is never filtered away**, by either toggle. Its row carries the "−"
-  button, and a catalogue that drops what you just added — the budget ran out, or you are proxying
-  something you do not own — reads as a bug. It is also why the copy tax (`def.step`) never enters
+- **A unit already in the list is never filtered away**, by either toggle. A catalogue that drops
+  what you just added — the budget ran out, or you are proxying something you do not own — reads as
+  a bug; its row keeps its count badge instead. It is also why the copy tax (`def.step`) never enters
   the budget test: the surcharge lands on the Nth copy, and every unit the test prices is on its
   first.
 - **The "N hidden" count is taken after `sectionsOf`, not before it.** A group whose ally
@@ -1626,8 +1710,12 @@ same way it already takes the model and upgrade nouns, and prints the word.
 
 `UNIT_GROUPS` / `bucketOf` now carve a faction the way the datasheet page does
 (`FactionDatasheetsView`'s `TYPE_GROUPS`), in its order: Epic Heroes → Characters → Battleline →
-Dedicated Transports → Fortifications → **Vehicles** → **Infantry** → Other, with `attached` in
-front, which is the one group that page has no use for. The three new buckets were already a
+Transports → Fortifications → **Vehicles** → **Infantry** → Other, with `attached` in front, which
+is the one group that page has no use for. The transports header reads "Transports" rather than the
+role's full name (2026-09-23): "Dedicated Transports" was the one header that took two lines in a
+182px pane. It stays English in Russian, like every other role header here — these are keywords,
+and the one Russian label among them (Other Units) is the one that is not. The KEYWORD the group
+is built from is untouched. The three new buckets were already a
 faction page's answer; the roster screens were still filing everything below a transport as
 "Прочее", which for Necrons is 27 datasheets and says nothing about an army.
 
@@ -1639,7 +1727,8 @@ Two things that follow, and one of them nearly shipped broken:
   bucket id has to be checked when this set grows; that file is the one place that does.
 - **The headings are the datasheet page's labels too.** `GROUP_LABEL_KEYS` points at
   `dsGroup*`, and the five `rosterGroup*` copies (identical strings, except "Прочее" against
-  "Прочие юниты") are gone. `rosterGroupAttached` stays — it is the group with no counterpart.
+  "Прочие юниты") are gone. `rosterGroupAttached` went with the `attached` section itself
+  (2026-09-23) — every group here is now a battlefield role the datasheet page also knows.
 
 ## Russian for the wargear instructions
 
@@ -2057,9 +2146,18 @@ roster screens use, since 2026-08-28; fixed footer bar — `.rc-sticky`, same cl
 `RosterCreateView.vue`'s own wizard bar, copied not shared — with the points readout + issues
 badge on the left and Cancel/Save on the right, always visible across both tabs, not just
 one step. "Save" is a pure navigation shortcut to that same read-only view (`save()` →
-`/roster/:id/view`) — every edit already autosaves to `useRosters.js`'s reactive store, there's
-nothing left to actually persist; "Cancel" is a plain `RouterLink` back to `/roster`, same
-non-destructive idea. Reusing the literal `.rc-sticky` class name is load-bearing, not
+`/roster/:id/view`) plus the deliberate cloud upload — every edit already autosaves to
+`useRosters.js`'s reactive store, there's nothing left to actually persist locally.
+**"Cancel" cancels** (2026-09-24, owner): it was a `RouterLink` back to `/roster`, i.e. "close,
+keeping everything", which is the opposite of the word. `useRosterEditing` now takes a JSON
+baseline of the roster when the screen opens, `dirty` compares against it (ignoring `summary`,
+which is derived, and `updatedAt`, which is a clock), and `revertEdits()` writes the baseline back
+**into the same object** the store holds — replacing it in the array would leave every screen's
+computed pointing at the old one — then `saveNow()`, because the navigation is in the same tick as
+the debounced write. Nothing goes to the cloud on a cancel and nothing has to: uploads follow the
+Save click, so the cloud copy is already the pre-session one. A dirty list gets a `ConfirmModal`
+first, and it names what is about to go (`changedParts` counts added / removed / reconfigured
+units, the name, the setup — the module has no locale, so the view turns the parts into words). Reusing the literal `.rc-sticky` class name is load-bearing, not
 cosmetic: `App.vue`'s `.app-layout:has(.rc-sticky)` selector — which reserves
 `--roster-sticky-h` so `MobileUtilityBar`'s floating buttons rise above this bar instead of
 overlapping it — matches by class name alone, regardless of which view rendered it. Those chips

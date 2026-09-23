@@ -9,9 +9,13 @@ import conditionalKeywords from '../data/conditionalKeywords.json'
 // 'attached' is not a battlefield role and `bucketOf` never returns it — `sectionsOf` fills it by
 // moving a bodyguard and its Leader there together (core rules 19.01: they are ONE unit while
 // attached). First, because that is the part of the list a player reads as whole units.
-// The breakdown is the faction datasheet page's (FactionDatasheetsView's TYPE_GROUPS), in its
+// The rest is the faction datasheet page's breakdown (FactionDatasheetsView's TYPE_GROUPS), in its
 // order — one army, one way of carving it up, whichever screen you are on. 'attached' is the only
 // group that page has no use for: a Leader joined to its unit is a roster fact, not a datasheet's.
+// It was tried the other way for a few hours on 2026-09-23 — blocks gathered in place, under the
+// host's own role, so a led squad kept it — and the owner asked for the section back: with every
+// block now carrying a header of its own (RosterUnitList), one place to read the army's whole
+// units in is worth more than the role of the squad underneath each one.
 export const UNIT_GROUPS = ['attached', 'epic', 'characters', 'battleline', 'transports', 'fortifications', 'vehicles', 'infantry', 'other']
 
 // The i18n key for each group's heading — shared by every screen that lists units grouped by
@@ -639,7 +643,10 @@ const occupies = (def, other) => (def?.flags?.alongside || other?.flags?.alongsi
   ? def?.id != null && def.id === other?.id
   : true)
 
-export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []) {
+// `items` is optional and only feeds the disambiguating facts below: the wargear a target's own
+// player CHOSE, which is often the only thing separating two squads of one datasheet. A caller
+// that has no item dictionary to hand (the print sheet, the read-only view) simply gets none.
+export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = [], items = null) {
   const entry = (units || []).find((u) => u.uid === excludeUid)
   const leads = leadsFor(def, entry, detachments)
   if (!leads.length && !def?.leadKw?.length) return []
@@ -658,7 +665,30 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
         .filter((o) => o.uid !== excludeUid && o.uid !== u.uid && o.leaderOf === u.uid)
         .map((o) => ({ entry: o, def: defOf(o.id) }))
       const used = hostSlotTaken(def, entry, u, defOf(u.id), attached, detachments)
-      return { uid: u.uid, name: defOf(u.id)?.name || u.id, used, type }
+      const tDef = defOf(u.id)
+      const size = tDef?.sizes?.[u.size ?? 0] || tDef?.sizes?.[0]
+      // Everything that can tell two copies of one datasheet apart, as FACTS — the caller builds
+      // the sentence, because this module knows no locale. A list holds "Necron Warriors" twice
+      // far more often than not, and a picker that offers the same three words twice makes the
+      // player guess (a player's report, 2026-09-23).
+      return {
+        uid: u.uid,
+        name: tDef?.name || u.id,
+        used,
+        type,
+        blockName: u.blockName || '',
+        // Only where the bracket can hold more than one: "1 model" distinguishes nothing.
+        models: size && size.per[1] > 1 ? (u.count ?? size.per[0]) : null,
+        enh: u.enh || mandatoryEnhancementFor(tDef, detachments)?.name || '',
+        alleg: u.alleg || '',
+        note: u.note || '',
+        warlord: !!u.warlord,
+        // What its own player picked — never the default loadout, which is identical on every
+        // copy of a datasheet and would separate nothing.
+        picks: items ? wargearNames(tDef, u, items) : [],
+        // Who is on it already — the one fact that is about the BLOCK rather than the squad.
+        with: attached.map((a) => a.def?.name).filter(Boolean),
+      }
     })
 }
 
@@ -743,22 +773,42 @@ export function addUnitEntry(units, def, unitId, newUid) {
   return entry
 }
 
-// Removes the most recently added copy — pairs with the browser's "−" button, which only shows once
-// at least one copy is in the list. Returns the removed entry's uid so a caller holding per-entry UI
-// state (an open accordion) can drop it too.
-export function removeUnitEntry(units, unitId, entryUid = null) {
+// Removes one entry and hands back everything putting it BACK would need: the entry itself, the
+// place it stood in, and the attachments that broke because it left. A list is twenty minutes of
+// picking options and one mis-tap on a trash icon, and the editor's only way back was Cancel —
+// which throws away the whole session, not the tap (a player's ask, 2026-09-23). A ticket is
+// plain data, so the screen holding one across a snackbar's lifetime holds no live references
+// into the roster; `ticket.uid` is also what a caller holding per-entry UI state (an open
+// accordion) drops.
+export function takeUnitEntry(units, unitId, entryUid = null) {
   if (!units) return null
   for (let i = units.length - 1; i >= 0; i--) {
-    // The browser removes "a copy of this datasheet" (the last one added); the editor removes ONE
-    // named line, which is a different thing as soon as the roster holds two of the same unit
-    // configured differently. `entryUid` is what tells the two apart.
+    // The editor removes ONE named line, which is a different thing from "a copy of this
+    // datasheet" as soon as the roster holds two of the same unit configured differently.
+    // `entryUid` is what tells the two apart.
     if (entryUid ? units[i].uid !== entryUid : units[i].id !== unitId) continue
     const [removed] = units.splice(i, 1)
     // A leader attached to the unit that just left would otherwise point at nothing.
-    for (const u of units) if (u.leaderOf === removed.uid) delete u.leaderOf
-    return removed.uid
+    const detached = []
+    for (const u of units) if (u.leaderOf === removed.uid) { detached.push(u.uid); delete u.leaderOf }
+    return { uid: removed.uid, entry: removed, at: i, detached }
   }
   return null
+}
+
+// Undo of the above. The entry goes back where it stood — an army list is read in its own order,
+// and a restored unit landing at the end is a different list from the one that was there a second
+// ago — and every leader that had to let go of it takes hold again. A uid that is somehow back in
+// the list already (two undos of one removal) restores nothing rather than duplicating it.
+export function restoreUnitEntry(units, ticket) {
+  if (!units || !ticket?.entry) return null
+  if (units.some((u) => u.uid === ticket.uid)) return null
+  units.splice(Math.min(ticket.at ?? units.length, units.length), 0, ticket.entry)
+  for (const uid of ticket.detached || []) {
+    const u = units.find((x) => x.uid === uid)
+    if (u) u.leaderOf = ticket.uid
+  }
+  return ticket.uid
 }
 
 // A second copy of an entry the player has already configured. Adding the same datasheet again
@@ -1143,7 +1193,9 @@ function joinAttached(items, where, attached) {
     if (at >= 0) list.splice(at, 1)
   }
   // Hosts in the order they were handed over — by name, since sectionsOf sorts before filing —
-  // so the Attached section reads the way every other section does.
+  // so the Attached section reads the way every other section does. A block touching an ALLY group
+  // is gathered in place instead: an ally heading carries that group's own accounting and a unit
+  // must not leave it.
   for (const host of items || []) {
     const children = kids.get(host?.uid)
     if (!children || !where.has(host)) continue
@@ -1181,6 +1233,11 @@ function joinAttached(items, where, attached) {
 // inside a 64 KB budget shared with the game (see `rosterGameLink.js`), so a note is a line, not a
 // page.
 export const ENTRY_NOTE_MAX = 60
+// A block's own name, written on its HOST entry. Shorter than a note because it is a heading on a
+// 182px pane, not a sentence: "домашка", "ближняя точка", "скрин экшн право" — what the player
+// calls that part of the army while planning, which is the one thing about a list the app cannot
+// know. Travels with the roster like every other entry field (rosterShare's `units` goes whole).
+export const BLOCK_NAME_MAX = 28
 export const ROSTER_NOTES_MAX = 2000
 
 // Write a note, or remove it. Absent rather than empty: an empty string is not a note, and every
@@ -1203,6 +1260,16 @@ export function attachedBlockTotal(entries, i, pointsOf) {
   if (entries[i + 1]?.leaderOf === e.leaderOf) return null // not the last of the block yet
   const parts = entries.filter((x) => x.uid === e.leaderOf || x.leaderOf === e.leaderOf)
   if (parts.length < 2) return null // the host is elsewhere — nothing here to total
+  return parts.reduce((a, x) => a + (pointsOf(x) || 0), 0)
+}
+
+// The same sum, asked of the HOST instead — what the building screens print on the bodyguard's own
+// row, where the reader is already looking, rather than as a footnote under the block. Null unless
+// this entry actually has something attached to it, so a lone squad prints one number as before.
+export function hostBlockTotal(entries, host, pointsOf) {
+  if (!host || host.leaderOf) return null
+  const parts = (entries || []).filter((x) => x.uid === host.uid || x.leaderOf === host.uid)
+  if (parts.length < 2) return null
   return parts.reduce((a, x) => a + (pointsOf(x) || 0), 0)
 }
 

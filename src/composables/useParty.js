@@ -33,6 +33,7 @@ import { API_BASE_URL } from '../config.js'
 // key, because it is bookkeeping about the game and not the game.
 
 const TICK_MS = 3000 // the cadence, and the server's micro-cache window — the two are one number
+const LOBBY_TICK_MS = 5000 // a game still being set up: the same handshake, far less to say
 const FINISHED_TICK_MS = 15000
 const BACKGROUND_TICK_MS = 10000 // the host feeding a broadcast from another screen
 const SEND_DELAY_MS = 800 // a burst of taps goes out as one write
@@ -60,6 +61,12 @@ let attached = 0 // how many live screens are mounted
 let engineArmed = false
 let leaving = false
 let lastHandle = null // the party as last seen on the game, for the farewell when the game goes
+// The lobby holds this phone's own side back until its player presses "Done": what is typed into
+// a half-filled form is nobody else's business, and a side that arrives once cannot half-arrive.
+// It holds the SEND only — the tick still runs, so the standing, the other side and the lobby's
+// own bookkeeping keep coming in (see takeRemote: a held side takes only its `lobby` part, never
+// the fields being typed into).
+const holdSend = ref(false) // named for what it holds: the SEND, not the seat (`held` is seats)
 
 function api(path) {
   return `${API_BASE_URL}${path}`
@@ -109,6 +116,18 @@ export function useParty() {
     const p = current.value?.party
     if (p && p.host) p.scoreAll = !!on
   }
+  // The slices this phone is holding back: its own side's, and only while the hold is on.
+  function heldSlice(name) {
+    if (!holdSend.value) return false
+    const side = sideOfSlice(name)
+    return side != null && side === party.value?.side
+  }
+  function setHold(on) {
+    const was = holdSend.value
+    holdSend.value = !!on
+    if (was && !on) { dirty = true; scheduleSend() } // the form is done — it goes out now
+  }
+
   function canWriteSlice(name) {
     const p = party.value
     if (p.host) return true
@@ -143,6 +162,20 @@ export function useParty() {
   // the deep watcher's next look finds nothing of ours to send.
   function takeRemote(name, slice) {
     if (!slice) return
+    if (heldSlice(name)) {
+      // A side whose form is still open takes only the lobby's bookkeeping out of the incoming
+      // copy — who edits it, whether it is confirmed — never the fields being typed into. The
+      // base still becomes what the server holds, so the release sends this phone's whole form
+      // against it.
+      const side = sideOfSlice(name)
+      const pl = current.value?.players?.[side]
+      if (pl && name.startsWith('side')) {
+        if (slice.data?.lobby) pl.lobby = JSON.parse(JSON.stringify(slice.data.lobby))
+        else delete pl.lobby
+      }
+      setBase(name, stableJson(slice.data ?? null), slice.version)
+      return
+    }
     applyRemote(name, slice.data)
     setBase(name, stableJson(sliceGame(current.value)[name]), slice.version)
   }
@@ -185,6 +218,8 @@ export function useParty() {
         if (base[name]) applyRemote(name, JSON.parse(base[name]))
         continue
       }
+      // Held back, not refused: the difference stays here and goes out whole on release.
+      if (heldSlice(name)) continue
       slices[name] = { version: p.versions[name] ?? 0, data: cut[name], json }
     }
     const sending = Object.keys(slices)
@@ -298,7 +333,9 @@ export function useParty() {
   }
   function cadence() {
     if (attached === 0) return BACKGROUND_TICK_MS
-    return current.value?.phase === 'finished' ? FINISHED_TICK_MS : TICK_MS
+    const phase = current.value?.phase
+    if (phase === 'finished') return FINISHED_TICK_MS
+    return phase === 'setup' ? LOBBY_TICK_MS : TICK_MS
   }
 
   function stopTimers() {
@@ -336,6 +373,15 @@ export function useParty() {
     status.value = status.value === 'paused' ? 'busy' : status.value // the one moment a spinner is wanted at once
     await sync({ poll: true })
     schedulePoll()
+  }
+
+  // Send what is pending and be SURE it went. `sync()` alone is not that: with a request already
+  // in flight it returns that one and this phone's change waits for the next tick — which, for a
+  // change made a moment before the hold goes on (useLobby's openForm), means it never leaves at
+  // all. Wait the flight out, then send.
+  async function pushNow() {
+    if (inFlight) { try { await inFlight } catch { /* its own settle reported it */ } }
+    return sync()
   }
 
   // The farewell send: leaving the live screen, the phone going dark, the tab closing.
@@ -505,6 +551,7 @@ export function useParty() {
     const game = assembleGame(slices, { you: side })
     game.party = {
       ...handle,
+      name, // what this phone called itself when it sat down — the lobby shows it as the editor
       side,
       mi,
       host: false,
@@ -566,6 +613,30 @@ export function useParty() {
     } catch { /* ignore */ }
     await refreshMembers()
     return null
+  }
+
+  // The host settled who goes first and the two sides changed places in the game. The seats have
+  // to follow in ONE step (the endpoint swaps them all in a single statement), or a guest keeps a
+  // seat that now names the other army — and the slices go out immediately after, so the window
+  // where a phone holds the right seat with the old contents is milliseconds, not a tick.
+  async function reseat() {
+    if (!active.value || !isHost.value) return false
+    try {
+      const res = await memberFetch('/reseat', {})
+      if (!res.ok) {
+        lastError.value = `reseat ${res.status}`
+        return false
+      }
+      const data = await res.json().catch(() => null)
+      if (data?.seq != null && current.value?.party) current.value.party.seq = data.seq
+      takeStanding(data?.you, data?.held)
+      // `base` still holds the pre-swap cut, so this sends both sides and both rosters at once.
+      await sync()
+      return true
+    } catch (e) {
+      lastError.value = e instanceof Error ? e.message : String(e)
+      return false
+    }
   }
 
   async function transferHost(memberId) {
@@ -638,7 +709,7 @@ export function useParty() {
   return {
     party, active, isHost, canShare, canEdit, canResume, setScoreAll,
     status, lastError, lastSyncAt, members, invite,
-    init, attach, detach, wake, flush, sync,
-    share, join, peekMembers, takeSeat, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave, forget,
+    init, attach, detach, wake, flush, sync, pushNow,
+    setHold, reseat, share, join, peekMembers, takeSeat, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave, forget,
   }
 }

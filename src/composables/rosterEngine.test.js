@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -465,7 +465,7 @@ describe('leaderTargetsFor', () => {
       { uid: 'a', id: 'captain' },
       { uid: 'b', id: 'intercessor-squad' },
     ]
-    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'b', name: 'Intercessor Squad', used: false, type: 'leader' }])
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toMatchObject([{ uid: 'b', name: 'Intercessor Squad', used: false, type: 'leader' }])
   })
 
   it('flags a target already claimed by a different entry of the SAME type as used', () => {
@@ -474,7 +474,7 @@ describe('leaderTargetsFor', () => {
       { uid: 'b', id: 'captain', leaderOf: 'c' }, // another leader already attached to the squad
       { uid: 'c', id: 'intercessor-squad' },
     ]
-    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: true, type: 'leader' }])
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toMatchObject([{ uid: 'c', name: 'Intercessor Squad', used: true, type: 'leader' }])
   })
 
   it('does not flag a target as used against the entry\'s own current attachment', () => {
@@ -482,7 +482,7 @@ describe('leaderTargetsFor', () => {
       { uid: 'a', id: 'captain', leaderOf: 'c' },
       { uid: 'c', id: 'intercessor-squad' },
     ]
-    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toMatchObject([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
   })
 
   it('a Leader and a Support can both target the same unit without colliding', () => {
@@ -492,7 +492,7 @@ describe('leaderTargetsFor', () => {
       { uid: 'c', id: 'intercessor-squad' },
     ]
     // The leader-type slot is still free — a support occupying the unit doesn't block a leader.
-    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toMatchObject([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
   })
 })
 
@@ -603,7 +603,7 @@ describe('leads restricted to a detachment', () => {
   })
 })
 
-describe('addUnitEntry / removeUnitEntry', () => {
+describe('addUnitEntry / takeUnitEntry', () => {
   // One implementation for both screens that can do this: the editor (via useRosterEditing) and
   // the creation wizard, whose own copy of the removal used to leave a Leader attached to a unit
   // that had already left the roster.
@@ -623,14 +623,14 @@ describe('addUnitEntry / removeUnitEntry', () => {
 
   it('removes the most recently added copy and returns its uid', () => {
     const units = [{ uid: 'u1', id: 'a' }, { uid: 'u2', id: 'b' }, { uid: 'u3', id: 'a' }]
-    expect(removeUnitEntry(units, 'a')).toBe('u3')
+    expect(takeUnitEntry(units, 'a').uid).toBe('u3')
     expect(units.map((u) => u.uid)).toEqual(['u1', 'u2'])
-    expect(removeUnitEntry(units, 'nobody')).toBeNull()
+    expect(takeUnitEntry(units, 'nobody')).toBeNull()
   })
 
   it('lets go of a Leader attached to the unit that left', () => {
     const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
-    removeUnitEntry(units, 'squad')
+    takeUnitEntry(units, 'squad')
     expect(units[0].leaderOf).toBeUndefined()
   })
 
@@ -638,15 +638,48 @@ describe('addUnitEntry / removeUnitEntry', () => {
   // "remove a copy" (what the browser's − means) would take the wrong one half the time.
   it('removes the exact entry when given its uid', () => {
     const units = [{ uid: 'u1', id: 'a', wg: [[0, 1, 1]] }, { uid: 'u2', id: 'a' }, { uid: 'u3', id: 'a' }]
-    expect(removeUnitEntry(units, 'a', 'u1')).toBe('u1')
+    expect(takeUnitEntry(units, 'a', 'u1').uid).toBe('u1')
     expect(units.map((u) => u.uid)).toEqual(['u2', 'u3'])
-    expect(removeUnitEntry(units, 'a', 'gone')).toBeNull()
+    expect(takeUnitEntry(units, 'a', 'gone')).toBeNull()
   })
 
   it('still detaches a Leader when removing by uid', () => {
     const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
-    removeUnitEntry(units, 'squad', 'u1')
+    takeUnitEntry(units, 'squad', 'u1')
     expect(units[0].leaderOf).toBeUndefined()
+  })
+})
+
+// A mis-tap on a trash icon used to cost the whole editing session (Cancel was the only way back).
+describe('takeUnitEntry / restoreUnitEntry', () => {
+  it('puts the entry back where it stood, with its configuration', () => {
+    const units = [{ uid: 'u1', id: 'a' }, { uid: 'u2', id: 'chosen', wg: [[0, 2, 3]] }, { uid: 'u3', id: 'c' }]
+    const ticket = takeUnitEntry(units, 'chosen', 'u2')
+    expect(units.map((u) => u.uid)).toEqual(['u1', 'u3'])
+    expect(restoreUnitEntry(units, ticket)).toBe('u2')
+    expect(units.map((u) => u.uid)).toEqual(['u1', 'u2', 'u3'])
+    expect(units[1].wg).toEqual([[0, 2, 3]])
+  })
+
+  it('gives every Leader that let go its unit back', () => {
+    const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
+    const ticket = takeUnitEntry(units, 'squad', 'u1')
+    expect(units[0].leaderOf).toBeUndefined()
+    restoreUnitEntry(units, ticket)
+    expect(units.find((u) => u.uid === 'u2').leaderOf).toBe('u1')
+  })
+
+  it('restores nothing when the uid is already back in the list', () => {
+    const units = [{ uid: 'u1', id: 'a' }]
+    const ticket = takeUnitEntry(units, 'a', 'u1')
+    restoreUnitEntry(units, ticket)
+    expect(restoreUnitEntry(units, ticket)).toBeNull()
+    expect(units).toHaveLength(1)
+  })
+
+  it('has nothing to say about a unit that is not there', () => {
+    expect(takeUnitEntry([{ uid: 'u1', id: 'a' }], 'b')).toBeNull()
+    expect(restoreUnitEntry([], null)).toBeNull()
   })
 })
 
@@ -1275,6 +1308,8 @@ describe('attached units read as one block', () => {
   const defOf = (id) => faction.units.find((u) => u.id === id)
   const ids = (secs, id) => (secs.find((s) => s.id === id)?.items || []).map((i) => i.uid)
 
+  // One place to read the army's whole units in. Gathering the blocks in place instead — each
+  // under its host's own role — was tried on 2026-09-23 and the owner asked for the section back.
   it('moves a bodyguard and its leaders into one section, host first', () => {
     const items = [
       { uid: 'lord', id: 'lord', leaderOf: 'legio' },
@@ -1355,6 +1390,16 @@ describe('attached units read as one block', () => {
     // A leader whose bodyguard is in another section (an allied host, say): there is no block
     // here to total, and printing one number of two would be worse than printing none.
     expect(attachedBlockTotal([{ uid: 'lord', leaderOf: 'elsewhere' }], 0, () => 95)).toBeNull()
+  })
+
+  // The building screens ask the HOST instead — the number goes on the bodyguard's own row.
+  it('totals the block from its host, and only when there is a block', () => {
+    const entries = [{ uid: 'legio' }, { uid: 'lord', leaderOf: 'legio' }, { uid: 'abn', leaderOf: 'legio' }]
+    const pts = { legio: 180, lord: 95, abn: 265 }
+    const of = (x) => pts[x.uid]
+    expect(hostBlockTotal(entries, entries[0], of)).toBe(540)
+    expect(hostBlockTotal(entries, entries[1], of)).toBeNull() // a character is not a host
+    expect(hostBlockTotal([{ uid: 'alone' }], { uid: 'alone' }, () => 80)).toBeNull() // nothing joined it
   })
 })
 

@@ -6,6 +6,7 @@ import { useTracker, isValidGame } from './useTracker.js'
 // primary store; the cloud is a best-effort backup — failures never disrupt the tracker.
 
 const SYNCED_KEY = 'wh11ed-tracker-synced'
+const FRESH_KEY = 'wh11ed-tracker-fresh'
 const DELETED_KEY = 'wh11ed-tracker-deleted'
 
 // A game's cloud "version" = id + finishedAt. Tracking versions (not just ids) means a game
@@ -21,6 +22,43 @@ const lastError = ref(null)
 // — drop them on load; the next cloud check re-seeds from real cloud versions.
 const syncedSigs = ref(new Set([...loadSet(SYNCED_KEY)].filter((s) => s.includes(':'))))
 const cloudSigs = ref(new Set(syncedSigs.value)) // authoritative after a GET /games (seeded for instant icons)
+// RECENT uploads, with the moment each happened — the one reason a cloud listing may legitimately
+// be incomplete: a just-PUT game can be missing from a lagging read-replica's answer for a few
+// seconds, and the icon must not flap to "pending" in the meantime. They survive a reload (the
+// lag can outlive one) but not the day: after FRESH_MS an upload is either in the listing or it
+// never landed.
+//
+// Everything else the phone remembers about past uploads is `syncedSigs` — the last listing it
+// saw, kept so the icons are right before the first check of a session. It stops being
+// authoritative the moment a check succeeds. It used to win forever, which is how a cloud that no
+// longer holds those games (a different account, or copies deleted from another device) still
+// showed every row backed up while the heading said the cloud was empty.
+const FRESH_MS = 10 * 60 * 1000
+const freshUploads = ref(loadFresh())
+
+function loadFresh() {
+  const out = new Map()
+  try {
+    const raw = JSON.parse(localStorage.getItem(FRESH_KEY) || '{}')
+    const cutoff = Date.now() - FRESH_MS
+    for (const [sig, at] of Object.entries(raw)) if (typeof at === 'number' && at > cutoff) out.set(sig, at)
+  } catch { /* ignore */ }
+  return out
+}
+function saveFresh() {
+  try {
+    localStorage.setItem(FRESH_KEY, JSON.stringify(Object.fromEntries(freshUploads.value)))
+  } catch { /* quota / private mode */ }
+}
+// Only the ones still inside the window — read at the moment of the question, so nothing has to
+// expire them on a timer.
+function freshSigs() {
+  const cutoff = Date.now() - FRESH_MS
+  return [...freshUploads.value].filter(([, at]) => at > cutoff).map(([sig]) => sig)
+}
+// Before this session has checked anything: the last listing seen, plus whatever was uploaded
+// recently enough that a listing might not carry it yet.
+for (const sig of freshSigs()) cloudSigs.value.add(sig)
 const cloudMetas = ref([]) // last GET /games result, for "missing locally" math
 // Tombstones: games deleted locally whose cloud copy must NOT be restored by syncNow — and
 // whose cloud DELETE is retried until it lands (covers deleting while offline / signed out).
@@ -47,9 +85,22 @@ function persist(key, set) {
 
 function markSynced(game) {
   const sig = gameSig(game)
+  freshUploads.value = new Map(freshUploads.value).set(sig, Date.now())
+  saveFresh()
   syncedSigs.value = new Set(syncedSigs.value).add(sig)
   cloudSigs.value = new Set(cloudSigs.value).add(sig)
   persist(SYNCED_KEY, syncedSigs.value)
+}
+
+// A successful listing IS the cloud. What this phone uploaded moments ago rides along (the
+// replica lag above); what it merely remembers uploading does not, and the memory is rewritten
+// to match so the next cold start opens with the truth rather than with the old optimism.
+function takeCloudListing(games) {
+  cloudMetas.value = games
+  cloudSigs.value = new Set([...games.map(metaSig), ...freshSigs()])
+  syncedSigs.value = new Set(cloudSigs.value)
+  persist(SYNCED_KEY, syncedSigs.value)
+  checked.value = true
 }
 
 // Forget every version of a game we no longer keep in the cloud (after a successful DELETE / 404).
@@ -58,6 +109,12 @@ function unmarkSyncedId(id) {
   syncedSigs.value = drop(syncedSigs.value)
   cloudSigs.value = drop(cloudSigs.value)
   cloudMetas.value = cloudMetas.value.filter((m) => m.gameId !== id)
+  // The recent-upload note goes too, or a game deleted minutes after it was uploaded would
+  // outrank the listing that no longer carries it and light its icon again.
+  const fresh = new Map(freshUploads.value)
+  for (const sig of fresh.keys()) if (sig.startsWith(`${id}:`)) fresh.delete(sig)
+  freshUploads.value = fresh
+  saveFresh()
   persist(SYNCED_KEY, syncedSigs.value)
 }
 
@@ -128,11 +185,7 @@ export function useCloudSync() {
       const res = await authedFetch('/games')
       if (!res.ok) throw new Error(`list failed: ${res.status}`)
       const { games = [] } = await res.json()
-      cloudMetas.value = games
-      // Merge (don't replace) with our optimistic synced set: a just-PUT game may not yet
-      // appear in a lagging read-replica's list, and replacing would flap its icon to pending.
-      cloudSigs.value = new Set([...syncedSigs.value, ...games.map(metaSig)])
-      checked.value = true
+      takeCloudListing(games)
     } catch (e) {
       lastError.value = e instanceof Error ? e.message : String(e)
     }
@@ -157,11 +210,7 @@ export function useCloudSync() {
       const res = await authedFetch('/games')
       if (!res.ok) throw new Error(`list failed: ${res.status}`)
       const { games = [] } = await res.json()
-      cloudMetas.value = games
-      // Merge (don't replace) with our optimistic synced set: a just-PUT game may not yet
-      // appear in a lagging read-replica's list, and replacing would flap its icon to pending.
-      cloudSigs.value = new Set([...syncedSigs.value, ...games.map(metaSig)])
-      checked.value = true
+      takeCloudListing(games)
 
       const localIds = new Set(history.value.map((g) => g.id))
       const restored = []

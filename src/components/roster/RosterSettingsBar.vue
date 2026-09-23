@@ -313,10 +313,15 @@ const moreOpen = ref(false)
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
+/* The controls take the same recessed field surface the wizard's own fields use
+   (--bg-secondary + --text-primary). NOT --bg-insert: that token is a deliberately dark surface
+   in BOTH themes — the navbar, the bottom bar, the sidebar's section head — and light text goes
+   on it. Here it was paired with --text-primary, which in the light theme is the very same
+   #2a2828: what you typed into the name field was invisible (report 8aabcef5). */
 .rw-name { flex: 1 1 12rem; max-width: 22rem; }
 .rw-name input {
   width: 100%;
-  background: var(--bg-insert);
+  background: var(--bg-secondary);
   border: 1px solid var(--border);
   color: var(--text-primary);
   padding: 0.35rem 0.5rem;
@@ -331,7 +336,7 @@ const moreOpen = ref(false)
   gap: 0.5rem;
   min-width: 11rem;
   max-width: 20rem;
-  background: var(--bg-insert);
+  background: var(--bg-secondary);
   border: 1px solid var(--border);
   color: var(--text-primary);
   padding: 0.35rem 0.5rem;
@@ -346,13 +351,16 @@ const moreOpen = ref(false)
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.rw-choose .placeholder { color: var(--text-dim); }
+/* "Choose…" is this button's LABEL, not a hint inside a field, so it owes the 4.5:1 real text
+   owes — --text-dim measured 2.63:1 on the form surface. Muted, mixed toward the primary ink
+   until it clears AA in both themes, and still a step quieter than a real answer. */
+.rw-choose .placeholder { color: color-mix(in srgb, var(--text-muted) 55%, var(--text-primary)); }
 .rw-choose .bi { flex-shrink: 0; color: var(--text-muted); }
 
 .rw-row { display: flex; align-items: center; gap: 0.4rem; }
 .rw-num {
   width: 5.5rem;
-  background: var(--bg-insert);
+  background: var(--bg-secondary);
   border: 1px solid var(--border);
   color: var(--text-primary);
   padding: 0.3rem 0.4rem;
@@ -391,7 +399,7 @@ const moreOpen = ref(false)
 .rw-more-body { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; }
 .rw-more-body textarea {
   width: 100%;
-  background: var(--bg-insert);
+  background: var(--bg-secondary);
   border: 1px solid var(--border);
   color: var(--text-primary);
   padding: 0.5rem;

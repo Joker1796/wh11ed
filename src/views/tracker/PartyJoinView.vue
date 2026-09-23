@@ -50,7 +50,7 @@
          shown disabled with who holds it, never hidden — the reader should see the whole table. -->
     <template v-else>
       <h2 class="pj-sub">
-        {{ labels.partyJoinPickSeat }}
+        {{ isLobby ? labels.partyJoinPickSeatLobby : labels.partyJoinPickSeat }}
       </h2>
       <ul class="pj-seats">
         <li
@@ -111,7 +111,7 @@ const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { join, takeSeat, peekMembers } = useParty()
-const { current, finishGame, archiveGame } = useTracker()
+const { current, putAwayCurrent } = useTracker()
 
 const code = ref('')
 const digits = computed(() => code.value.replace(/\D/g, ''))
@@ -138,7 +138,15 @@ async function doJoin(credential) {
     return
   }
   joined.value = res
+  // A game still being set up usually has exactly one free seat — the side this phone came to
+  // fill. Asking "who are you?" when there is only one answer is a screen for its own sake; the
+  // seat list stays for doubles, and for a game already in progress.
+  const free = seats.value.filter((s) => !s.takenBy)
+  if (isLobby.value && free.length === 1 && !current.value) sit(free[0])
 }
+
+// The shared slice says which of the two this is: a lobby, or a game already being played.
+const isLobby = computed(() => joined.value?.slices?.shared?.data?.phase === 'setup')
 
 function onCode() {
   if (digits.value.length !== 6) return
@@ -190,8 +198,7 @@ function onPick(seat) {
 function onReplaceConfirmed() {
   const seat = pendingSeat.value
   pendingSeat.value = null
-  finishGame('early')
-  archiveGame()
+  putAwayCurrent()
   sit(seat)
 }
 async function sit(seat) {
