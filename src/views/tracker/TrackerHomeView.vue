@@ -39,7 +39,7 @@
         to="/tracker/game"
         class="btn-primary btn-lg"
       >
-        {{ labels.trackerResume }}
+        {{ current.phase === 'setup' ? labels.trackerContinueSetup : labels.trackerResume }}
       </RouterLink>
       <RouterLink
         v-if="setupDraft && !current"
@@ -226,7 +226,7 @@ const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
-const { current, history, setupDraft, finishGame, archiveGame, resumeFromHistory, deleteHistory } = useTracker()
+const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory } = useTracker()
 const { status, user, ensureSession } = useAuth()
 const {
   init: initCloudSync,
@@ -297,7 +297,13 @@ const confirmState = ref(null) // { title, message, confirmLabel, action } | nul
 
 function startNew() {
   if (current.value) {
-    confirmState.value = { title: labels.value.trackerNewGame, message: labels.value.trackerOverwriteConfirm, confirmLabel: labels.value.trackerNewGame, action: doStartNew }
+    const lobby = current.value.phase === 'setup'
+    confirmState.value = {
+      title: labels.value.trackerNewGame,
+      message: lobby ? labels.value.lobbyDiscardConfirm : labels.value.trackerOverwriteConfirm,
+      confirmLabel: labels.value.trackerNewGame,
+      action: doStartNew,
+    }
     return
   }
   doStartNew()
@@ -324,9 +330,7 @@ function doResume(id) {
 // Freeze the in-progress game at its current score and move it to history (resumable),
 // reusing the normal end-of-game flow. No-op when there's no live game.
 function archiveCurrent() {
-  if (!current.value) return
-  finishGame('early')
-  archiveGame()
+  putAwayCurrent()
 }
 function onConfirmAction() {
   const action = confirmState.value?.action

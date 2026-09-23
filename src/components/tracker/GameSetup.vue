@@ -1,6 +1,9 @@
 <template>
   <div class="setup">
-    <div class="setup-head">
+    <div
+      v-if="!guest"
+      class="setup-head"
+    >
       <h2 class="setup-title">
         {{ labels.trackerSetupTitle }}
       </h2>
@@ -34,28 +37,42 @@
     </div>
 
     <!-- ───────── Step 1 — Armies ───────── -->
+    <!-- A guest sees this panel and the mission panel's own side block, one under the other:
+         everything about ITS army, nothing about the game around it. -->
     <div
-      v-show="step === 1"
+      v-show="guest || step === 1"
       :ref="el => (panelEls[0] = el)"
       class="step-panel"
     >
-      <div class="field game-type seg-thirds">
+      <div
+        v-if="!guest"
+        class="field game-type seg-thirds"
+      >
         <span>{{ labels.trackerGameType }}</span>
-        <div class="seg">
+        <!-- Locked once the setup is shared: a seat means "a side" in singles and "one member of
+             a team" in doubles, so moving between them would unseat everyone who joined. -->
+        <div
+          class="seg"
+          :class="{ locked: modeLocked }"
+          :title="modeLocked ? labels.lobbyGameTypeLocked : ''"
+        >
           <button
             :class="{ on: !settings.combatPatrol && !isDoubles }"
+            :disabled="modeLocked"
             @click="setGameMode('singles')"
           >
             {{ labels.trackerGameTypeSingles }}
           </button>
           <button
             :class="{ on: isDoubles }"
+            :disabled="modeLocked"
             @click="setGameMode('doubles')"
           >
             {{ labels.trackerGameTypeDoubles }}
           </button>
           <button
             :class="{ on: settings.combatPatrol }"
+            :disabled="modeLocked"
             @click="setGameMode('combatPatrol')"
           >
             {{ labels.trackerGameTypeCombatPatrol }}
@@ -64,7 +81,7 @@
       </div>
 
       <div
-        v-if="!settings.combatPatrol"
+        v-if="!guest && !settings.combatPatrol"
         class="field battle-size seg-thirds"
       >
         <span>{{ labels.trackerBattleSize }}</span>
@@ -91,7 +108,7 @@
            buttons don't need the row, and the phone's vertical space does (CLAUDE.md's
            vertical-density rule — spend sideways before spending down). -->
       <div
-        v-if="isDoubles"
+        v-if="isDoubles && !guest"
         class="field field-inline"
       >
         <span>{{ labels.trackerDpPerPlayer }}</span>
@@ -109,239 +126,264 @@
 
       <div class="players">
         <div
-          v-for="(p, i) in players"
+          v-for="{ p, i } in shownPlayers"
           :key="i"
           class="player-card"
         >
           <h3 class="player-head">
             {{ playerLabel(i) }}
           </h3>
-
-          <label
-            v-if="isDoubles"
-            class="field"
+          <!-- Whose side this is, and what it is waiting for. The card is INERT when another
+               phone holds it — its fields are still there to read (an opponent's army is
+               exactly what you want to look at), they just cannot be typed into. -->
+          <p
+            v-if="sharedSetup && sideNote(i)"
+            class="side-note"
+            :class="{ ok: isReady(i) }"
           >
-            <span>{{ labels.trackerTeamName }}</span>
-            <input
-              v-model="p.teamName"
-              type="text"
-              :placeholder="labels.trackerTeamName"
-            >
-          </label>
+            {{ sideNote(i) }}
+          </p>
 
-          <!-- The army-identity block below (name / faction·roster / detachments) is written once
-               and looped: armiesOf(p) is the side itself in singles, its two members in doubles —
-               the two shapes are identical, so `m` stands for either. -->
-          <div
-            v-for="(m, mi) in armiesOf(p)"
-            :key="mi"
-            :class="{ 'member-block': isDoubles }"
-          >
-            <h4
+          <div :inert="editable(i) ? undefined : true">
+            <label
               v-if="isDoubles"
-              class="member-head"
+              class="field"
             >
-              {{ mi === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2 }}
-            </h4>
-
-            <label class="field">
+              <span>{{ labels.trackerTeamName }}</span>
               <input
-                v-model="m.name"
+                v-model="p.teamName"
                 type="text"
-                :placeholder="isDoubles ? labels.trackerMemberName : namePlaceholder(i)"
+                :placeholder="labels.trackerTeamName"
               >
             </label>
 
-            <!-- An attached list IS the army: it decides the faction, so it stands in the faction
+            <!-- The army-identity block below (name / faction·roster / detachments) is written once
+               and looped: armiesOf(p) is the side itself in singles, its two members in doubles —
+               the two shapes are identical, so `m` stands for either. -->
+            <div
+              v-for="(m, mi) in armiesOf(p)"
+              :key="mi"
+              :class="{ 'member-block': isDoubles }"
+            >
+              <h4
+                v-if="isDoubles"
+                class="member-head"
+              >
+                {{ mi === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2 }}
+              </h4>
+
+              <label class="field">
+                <input
+                  v-model="m.name"
+                  type="text"
+                  :placeholder="isDoubles ? labels.trackerMemberName : namePlaceholder(i)"
+                >
+              </label>
+
+              <!-- An attached list IS the army: it decides the faction, so it stands in the faction
                  picker's place rather than beside one that could contradict it, and the button that
                  attaches one sits in the same row — the two answer the same question. Detaching with
                  the ✕ leaves the faction the list chose selected, and hands the picker back. -->
-            <div class="field">
-              <span>{{ m.roster ? labels.trackerRoster : labels.trackerFaction }}</span>
-              <div class="faction-row">
-                <div
-                  v-if="m.roster"
-                  class="ro roster-line"
-                >
-                  <span class="rl-text">
-                    <template v-if="m.roster.faction">{{ factionName(m.roster.faction) }} · </template>{{ m.roster.name || labels.rosterUntitled }}
-                  </span>
+              <div class="field">
+                <span>{{ m.roster ? labels.trackerRoster : labels.trackerFaction }}</span>
+                <div class="faction-row">
+                  <div
+                    v-if="m.roster"
+                    class="ro roster-line"
+                  >
+                    <span class="rl-text">
+                      <template v-if="m.roster.faction">{{ factionName(m.roster.faction) }} · </template>{{ m.roster.name || labels.rosterUntitled }}
+                    </span>
+                    <button
+                      type="button"
+                      class="rl-clear"
+                      :aria-label="labels.trackerRosterDetach"
+                      :title="labels.trackerRosterDetach"
+                      @click="clearRoster(m)"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <button
+                    v-else
+                    class="btn-choose-twist faction-btn"
+                    @click="factionPickerKey = ak(i, mi)"
+                  >
+                    <span
+                      class="ct-name"
+                      :class="{ placeholder: !m.factionSlug }"
+                    >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
+                    <i class="bi bi-chevron-right ct-chev" />
+                  </button>
                   <button
                     type="button"
-                    class="rl-clear"
-                    :aria-label="labels.trackerRosterDetach"
-                    :title="labels.trackerRosterDetach"
-                    @click="clearRoster(m)"
+                    class="rp-open"
+                    :class="{ on: !!m.roster }"
+                    :aria-label="labels.trackerRosterAttach"
+                    :title="labels.trackerRosterAttach"
+                    @click="rosterPickerKey = ak(i, mi)"
                   >
-                    ✕
+                    <i class="bi bi-card-list" />
                   </button>
                 </div>
+                <FactionPickerModal
+                  v-if="factionPickerKey === ak(i, mi)"
+                  :selected="m.factionSlug"
+                  :combat-patrol-only="settings.combatPatrol"
+                  @pick="slug => selectFaction(m, slug)"
+                  @close="factionPickerKey = ''"
+                />
+                <RosterPickerModal
+                  v-if="rosterPickerKey === ak(i, mi)"
+                  :selected="m.roster ? (m.rosterId || '') : null"
+                  @pick="r => pickRoster(m, r)"
+                  @clear="clearRoster(m)"
+                  @close="rosterPickerKey = ''"
+                />
+              </div>
+
+              <div
+                v-if="!settings.combatPatrol"
+                class="field"
+              >
+                <span>
+                  {{ labels.trackerDpBudget }} <em
+                    class="dp-count"
+                    :class="{ over: dpSpent(m) > memberMaxDp && m.detachments.length !== 1 }"
+                  >{{ dpSpent(m) }} / {{ memberMaxDp }} DP</em>
+                  <button
+                    v-if="m.detachments.length === 1 && dpSpent(m) > memberMaxDp"
+                    type="button"
+                    class="help-btn"
+                    :aria-label="labels.trackerDpOverHelp"
+                    @click="dpHelpOpen = true"
+                  >
+                    <i class="bi bi-question-circle" />
+                  </button>
+                </span>
                 <button
-                  v-else
-                  class="btn-choose-twist faction-btn"
-                  @click="factionPickerKey = ak(i, mi)"
+                  v-if="m.factionSlug && detachmentsFor(m.factionSlug).length"
+                  class="btn-choose-twist"
+                  @click="detPickerKey = ak(i, mi)"
                 >
                   <span
                     class="ct-name"
-                    :class="{ placeholder: !m.factionSlug }"
-                  >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
+                    :class="{ placeholder: !m.detachments.length }"
+                  >{{ detSummary(m) }}</span>
                   <i class="bi bi-chevron-right ct-chev" />
                 </button>
-                <button
-                  type="button"
-                  class="rp-open"
-                  :class="{ on: !!m.roster }"
-                  :aria-label="labels.trackerRosterAttach"
-                  :title="labels.trackerRosterAttach"
-                  @click="rosterPickerKey = ak(i, mi)"
+                <p
+                  v-else
+                  class="det-empty"
                 >
-                  <i class="bi bi-card-list" />
-                </button>
+                  {{ m.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}
+                </p>
+                <DetachmentPickerModal
+                  v-if="detPickerKey === ak(i, mi)"
+                  :detachments="detachmentsFor(m.factionSlug)"
+                  :selected="m.detachments"
+                  :max-dp="memberMaxDp"
+                  :dp-spent="dpSpent(m)"
+                  @toggle="d => toggleDetachment(m, d)"
+                  @clear="m.detachments.splice(0)"
+                  @close="detPickerKey = ''"
+                />
               </div>
-              <FactionPickerModal
-                v-if="factionPickerKey === ak(i, mi)"
-                :selected="m.factionSlug"
-                :combat-patrol-only="settings.combatPatrol"
-                @pick="slug => selectFaction(m, slug)"
-                @close="factionPickerKey = ''"
-              />
-              <RosterPickerModal
-                v-if="rosterPickerKey === ak(i, mi)"
-                :selected="m.roster ? (m.rosterId || '') : null"
-                @pick="r => pickRoster(m, r)"
-                @clear="clearRoster(m)"
-                @close="rosterPickerKey = ''"
-              />
+              <div
+                v-else
+                class="field"
+              >
+                <span>{{ labels.trackerCpBox }}</span>
+                <p
+                  v-if="!m.factionSlug"
+                  class="det-empty"
+                >
+                  {{ labels.trackerSelectFaction }}
+                </p>
+                <p
+                  v-else-if="cpFactionFor(m)"
+                  class="ro cp-box-line"
+                >
+                  {{ cpFactionFor(m).boxName }} · {{ cpFactionFor(m).dp }} DP
+                </p>
+                <p
+                  v-else
+                  class="det-empty"
+                >
+                  {{ labels.trackerNoDetachments }}
+                </p>
+              </div>
             </div>
 
+            <!-- Force type (Doubles Companion terminology). Auto derives from the two factions
+               (same faction / two SM Chapters → Unified); the player can override — allies on a
+               list can flip the real answer, and the app doesn't read lists at that depth.
+               A div, not a label: it wraps only buttons, and a label would forward clicks. -->
             <div
-              v-if="!settings.combatPatrol"
+              v-if="isDoubles"
               class="field"
             >
               <span>
-                {{ labels.trackerDpBudget }} <em
-                  class="dp-count"
-                  :class="{ over: dpSpent(m) > memberMaxDp && m.detachments.length !== 1 }"
-                >{{ dpSpent(m) }} / {{ memberMaxDp }} DP</em>
+                {{ labels.trackerForceType }}
                 <button
-                  v-if="m.detachments.length === 1 && dpSpent(m) > memberMaxDp"
                   type="button"
                   class="help-btn"
-                  :aria-label="labels.trackerDpOverHelp"
-                  @click="dpHelpOpen = true"
+                  :aria-label="labels.trackerForceTypeHelpAria"
+                  @click="forceTypeHelpOpen = true"
                 >
                   <i class="bi bi-question-circle" />
                 </button>
               </span>
-              <button
-                v-if="m.factionSlug && detachmentsFor(m.factionSlug).length"
-                class="btn-choose-twist"
-                @click="detPickerKey = ak(i, mi)"
-              >
-                <span
-                  class="ct-name"
-                  :class="{ placeholder: !m.detachments.length }"
-                >{{ detSummary(m) }}</span>
-                <i class="bi bi-chevron-right ct-chev" />
-              </button>
-              <p
-                v-else
-                class="det-empty"
-              >
-                {{ m.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}
-              </p>
-              <DetachmentPickerModal
-                v-if="detPickerKey === ak(i, mi)"
-                :detachments="detachmentsFor(m.factionSlug)"
-                :selected="m.detachments"
-                :max-dp="memberMaxDp"
-                :dp-spent="dpSpent(m)"
-                @toggle="d => toggleDetachment(m, d)"
-                @clear="m.detachments.splice(0)"
-                @close="detPickerKey = ''"
-              />
+              <div class="seg seg-fill">
+                <button
+                  :class="{ on: !p.forceType }"
+                  @click="p.forceType = null"
+                >
+                  {{ labels.trackerForceTypeAuto }}{{ derivedForceLabel(p) }}
+                </button>
+                <button
+                  :class="{ on: p.forceType === 'unified' }"
+                  @click="p.forceType = 'unified'"
+                >
+                  Unified
+                </button>
+                <button
+                  :class="{ on: p.forceType === 'convenience' }"
+                  @click="p.forceType = 'convenience'"
+                >
+                  Convenience
+                </button>
+              </div>
             </div>
-            <div
-              v-else
-              class="field"
-            >
-              <span>{{ labels.trackerCpBox }}</span>
-              <p
-                v-if="!m.factionSlug"
-                class="det-empty"
-              >
-                {{ labels.trackerSelectFaction }}
-              </p>
-              <p
-                v-else-if="cpFactionFor(m)"
-                class="ro cp-box-line"
-              >
-                {{ cpFactionFor(m).boxName }} · {{ cpFactionFor(m).dp }} DP
-              </p>
-              <p
-                v-else
-                class="det-empty"
-              >
-                {{ labels.trackerNoDetachments }}
-              </p>
-            </div>
-          </div>
 
-          <!-- Force type (Doubles Companion terminology). Auto derives from the two factions
-               (same faction / two SM Chapters → Unified); the player can override — allies on a
-               list can flip the real answer, and the app doesn't read lists at that depth.
-               A div, not a label: it wraps only buttons, and a label would forward clicks. -->
-          <div
-            v-if="isDoubles"
-            class="field"
-          >
-            <span>
-              {{ labels.trackerForceType }}
-              <button
-                type="button"
-                class="help-btn"
-                :aria-label="labels.trackerForceTypeHelpAria"
-                @click="forceTypeHelpOpen = true"
-              >
-                <i class="bi bi-question-circle" />
-              </button>
-            </span>
-            <div class="seg seg-fill">
-              <button
-                :class="{ on: !p.forceType }"
-                @click="p.forceType = null"
-              >
-                {{ labels.trackerForceTypeAuto }}{{ derivedForceLabel(p) }}
-              </button>
-              <button
-                :class="{ on: p.forceType === 'unified' }"
-                @click="p.forceType = 'unified'"
-              >
-                Unified
-              </button>
-              <button
-                :class="{ on: p.forceType === 'convenience' }"
-                @click="p.forceType = 'convenience'"
-              >
-                Convenience
-              </button>
-            </div>
-          </div>
-
-          <label
-            class="check br-check"
-            :class="{ on: p.battleReady }"
-          >
-            <input
-              v-model="p.battleReady"
-              type="checkbox"
+            <label
+              class="check br-check"
+              :class="{ on: p.battleReady }"
             >
-            <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
-          </label>
+              <input
+                v-model="p.battleReady"
+                type="checkbox"
+              >
+              <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
+            </label>
+          </div>
+          <!-- The partner's phone put its side down, or never picked it up: taking the right
+               over is always offered (with a confirm), rather than guessed at from liveness. -->
+          <button
+            v-if="sharedSetup && !editable(i)"
+            type="button"
+            class="btn-ghost side-takeover"
+            @click="takeOverConfirmOpen = i"
+          >
+            {{ labels.lobbyTakeOver }}
+          </button>
         </div>
       </div>
 
-      <div class="actions">
+      <div
+        v-if="!guest"
+        class="actions"
+      >
         <button
           class="btn-ghost"
           @click="cancel"
@@ -349,9 +391,34 @@
           {{ labels.trackerCancel }}
         </button>
         <button
+          v-if="!sharedSetup"
+          class="btn-ghost"
+          :disabled="!canShare || sharing"
+          :title="canShare ? '' : labels.partySignIn"
+          @click="shareConfirmOpen = true"
+        >
+          <i class="bi bi-people" /> {{ labels.lobbyStart }}
+        </button>
+        <template v-else>
+          <SyncIndicator />
+          <button
+            class="btn-ghost"
+            @click="partyOpen = true"
+          >
+            <i class="bi bi-qr-code" /> {{ labels.lobbyInvite }}
+          </button>
+          <button
+            class="btn-ghost"
+            @click="cancelConfirmOpen = true"
+          >
+            {{ labels.lobbyCancel }}
+          </button>
+        </template>
+        <button
           class="btn-primary"
-          :disabled="!canArmies"
-          @click="step = 2"
+          :disabled="!canArmies || !othersReady"
+          :title="othersReady ? '' : labels.lobbyWaitingGuest"
+          @click="leaveArmiesStep"
         >
           {{ labels.trackerNextStep }} →
         </button>
@@ -360,7 +427,7 @@
 
     <!-- ───────── Step 2 — Mission ───────── -->
     <div
-      v-show="step === 2"
+      v-show="guest || step === 2"
       :ref="el => (panelEls[1] = el)"
       class="step-panel"
     >
@@ -372,7 +439,7 @@
            and moved on from. Not offered for Combat Patrol (the box's own rules don't mention it
            either way; keeping this simple, matching how basic-box play works). -->
       <div
-        v-if="!settings.combatPatrol"
+        v-if="!guest && !settings.combatPatrol"
         class="settings twist-block"
       >
         <h3 class="block-head">
@@ -417,7 +484,7 @@
 
       <div class="players">
         <div
-          v-for="(p, i) in players"
+          v-for="{ p, i } in shownPlayers"
           :key="i"
           class="player-card"
         >
@@ -434,7 +501,10 @@
             {{ armySummary(p, i) }}
           </p>
 
-          <label class="field">
+          <label
+            class="field"
+            :inert="editable(i) ? undefined : true"
+          >
             <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
             <!-- faction has no detachments at all → manual choice (only way to set it) -->
             <select
@@ -493,7 +563,10 @@
             </div>
           </div>
 
-          <label class="field">
+          <label
+            class="field"
+            :inert="editable(i) ? undefined : true"
+          >
             <span>{{ labels.trackerSecondaryMode }}</span>
             <div class="seg">
               <button
@@ -526,10 +599,13 @@
         </div>
       </div>
 
-      <div class="actions">
+      <div
+        v-if="!guest"
+        class="actions"
+      >
         <button
           class="btn-ghost"
-          @click="step = 1"
+          @click="backToArmiesStep"
         >
           ← {{ labels.trackerBack }}
         </button>
@@ -541,10 +617,32 @@
           {{ labels.trackerNextStep }} →
         </button>
       </div>
+
+      <!-- The guest's only two buttons. "Done" is what sends this side — until it is pressed
+           nothing typed here has left the phone. -->
+      <div
+        v-if="guest"
+        class="actions"
+      >
+        <button
+          class="btn-ghost"
+          @click="guestLeave"
+        >
+          {{ labels.lobbyLeave }}
+        </button>
+        <button
+          class="btn-primary"
+          :disabled="!canConfirmSide"
+          @click="guestDone"
+        >
+          {{ labels.lobbyDone }}
+        </button>
+      </div>
     </div>
 
     <!-- ───────── Step 3 — Field & deployment (attacker, layout, first turn) ───────── -->
     <div
+      v-if="!guest"
       v-show="step === 3"
       :ref="el => (panelEls[2] = el)"
       class="step-panel"
@@ -673,6 +771,7 @@
 
     <!-- ───────── Step 4 — Settings (how the app runs this game) ───────── -->
     <div
+      v-if="!guest"
       v-show="step === 4"
       :ref="el => (panelEls[3] = el)"
       class="step-panel"
@@ -768,6 +867,50 @@
       @close="mirrorPickerOpen = false"
     />
 
+    <!-- ── The lobby's own dialogs ──────────────────────────────────────────────────────── -->
+    <ConfirmModal
+      v-if="shareConfirmOpen"
+      :title="labels.lobbyStart"
+      :message="labels.lobbyStartConfirm"
+      :confirm-label="labels.lobbyStartConfirmYes"
+      :cancel-label="labels.trackerCancel"
+      @confirm="createLobby"
+      @cancel="shareConfirmOpen = false"
+    />
+    <ConfirmModal
+      v-if="cancelConfirmOpen"
+      :title="labels.lobbyCancel"
+      :message="labels.lobbyCancelConfirm"
+      :confirm-label="labels.lobbyCancelConfirmYes"
+      :cancel-label="labels.trackerBack"
+      @confirm="cancelLobby"
+      @cancel="cancelConfirmOpen = false"
+    />
+    <ConfirmModal
+      v-if="takeOverConfirmOpen !== null"
+      :title="labels.lobbyTakeOver"
+      :message="labels.lobbyTakeOverConfirm"
+      :confirm-label="labels.lobbyTakeOver"
+      :cancel-label="labels.trackerCancel"
+      @confirm="doTakeOver"
+      @cancel="takeOverConfirmOpen = null"
+    />
+    <!-- A guest asking to reopen its side after the host has moved on. The host answers here,
+         and the answer is what the guest's waiting screen shows. -->
+    <ConfirmModal
+      v-if="pendingRequest"
+      :title="labels.lobbyRequestTitle"
+      :message="requestMessage"
+      :confirm-label="labels.lobbyRequestAllow"
+      :cancel-label="labels.lobbyRequestDeny"
+      @confirm="grantReopen(pendingRequest.side)"
+      @cancel="denyReopen(pendingRequest.side)"
+    />
+    <PartyModal
+      v-if="partyOpen"
+      @close="partyOpen = false"
+    />
+
     <ScoreHelpModal
       v-if="scoreHelpOpen"
       @close="scoreHelpOpen = false"
@@ -813,7 +956,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch, nextTick } from 'vue'
+import { reactive, ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import LayoutTabs from './LayoutTabs.vue'
@@ -826,12 +969,17 @@ import FactionPickerModal from './FactionPickerModal.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
+import ConfirmModal from '../ConfirmModal.vue'
+import PartyModal from './PartyModal.vue'
+import SyncIndicator from './SyncIndicator.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
+import { useLobby } from '../../composables/useLobby.js'
+import { useParty } from '../../composables/useParty.js'
 import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
@@ -844,10 +992,19 @@ import { defaultTrackSettings, normalizeTrackSettings } from '../../data/tracker
 // the /ru prefix; the setup draft is persisted, so leaving the wizard for it is safe.
 const DOUBLES_CHAPTER = { path: '/event-companion', hash: '#ec-chapter-doubles' }
 
-const emit = defineEmits(['start', 'cancel'])
+// Two screens, one file. `wizard` is the host's four-step setup, as it always was; `guest` is
+// what a phone that joined a LOBBY sees — the same army card and the same pickers, cut down to
+// this phone's own side, with "Done" instead of "Next". A copy of this markup for the guest
+// would have been a second place to fix every roster/faction/detachment bug found in the first.
+const props = defineProps({
+  mode: { type: String, default: 'wizard' },
+})
+const guest = computed(() => props.mode === 'guest')
+
+const emit = defineEmits(['start', 'cancel', 'done', 'leave'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { history, setupDraft } = useTracker()
+const { current, history, setupDraft, startLobby, closeLobby } = useTracker()
 
 // Pre-fill "Your" name from the most recent finished game. New games mark the "You" player with
 // isYou:true (possibly at index 1 if Opponent went first); fall back to index 0 for old games.
@@ -861,11 +1018,13 @@ const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'v
 // choice where the option remembers one. The table (trackerOptions.js) owns both, so a new option
 // is added there and nothing here changes.
 const lastS = history.value[0]?.settings ?? {}
+// "You" is the side THIS phone plays — 0 in a setup of one and for the host, the seat for a
+// guest. Keyed by side, never by index (the same rule the option table follows).
 function playerLabel(i) {
-  return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
+  return i === youIdx.value ? labels.value.trackerYou : labels.value.trackerOpponent
 }
 function namePlaceholder(i) {
-  return i === 0 ? labels.value.trackerYourName : labels.value.trackerOpponentName
+  return i === youIdx.value ? labels.value.trackerYourName : labels.value.trackerOpponentName
 }
 
 const dispositions = DISPOSITIONS
@@ -886,16 +1045,136 @@ function defaultPlayer(role, name = '') {
 }
 const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode }
 
-// Restore an in-progress draft if present, else start fresh (with the pre-filled name).
+// WHERE THE FORM'S STATE LIVES. Normally in this component: a draft, persisted so it survives a
+// reload. Once the setup is SHARED it lives in the game itself (`current`, phase 'setup') — and
+// not as a copy: the wizard edits the very objects the game holds, so a slice arriving from the
+// other phone lands in the fields on screen, with no bridge to keep in step. Everything below
+// this line is unchanged by that: `players` and `settings` are the same two names either way.
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
 // doesn't trip the faction-change reset.
-const draft = setupDraft.value
+const lobbyGame = current.value?.phase === 'setup' ? current.value : null
+const draft = lobbyGame ? null : setupDraft.value
 const step = ref(draft?.step ?? 1)
-const players = reactive([
-  { ...defaultPlayer('attacker', lastYouName), ...(draft?.players?.[0]) },
-  { ...defaultPlayer('defender'), ...(draft?.players?.[1]) },
-])
-const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
+const players = lobbyGame
+  ? lobbyGame.players
+  : reactive([
+    { ...defaultPlayer('attacker', lastYouName), ...(draft?.players?.[0]) },
+    { ...defaultPlayer('defender'), ...(draft?.players?.[1]) },
+  ])
+const settings = lobbyGame ? lobbyGame.settings : reactive({ ...defaultSettings, ...(draft?.settings) })
+const inLobby = computed(() => current.value?.phase === 'setup')
+
+// ── The shared setup (useLobby.js / useParty.js) ───────────────────────────────────────────
+// The wizard is also the host's lobby screen, and this same component in `guest` mode is what a
+// joined phone fills in. Nothing below changes when the setup is played alone: `sharedSetup` is
+// false, every gate answers "yours", and the buttons that share it are the only new things on
+// screen.
+const {
+  shared: sharedSetup, mySide, isReady, editorName, canFill, claim,
+  openForm, confirmSide, takeOver,
+  pendingRequest, grantReopen, denyReopen,
+  setStage, othersReady,
+} = useLobby()
+const { canShare, share, end: endParty, setHold } = useParty()
+
+// Which side this phone plays: the host (and a solo setup) sits on 0, a guest on its seat.
+const youIdx = computed(() => (sharedSetup.value ? mySide.value : 0))
+const sides = computed(() => (guest.value ? [youIdx.value] : [0, 1]))
+// `i` is the SIDE, not the position in the loop — a guest draws one card and it is side 1.
+const shownPlayers = computed(() => sides.value.map((i) => ({ p: players[i], i })))
+
+// The lobby is created from what the wizard already holds — the draft becomes the game, the
+// same objects, so nothing is re-entered and nothing is copied.
+const shareConfirmOpen = ref(false)
+const partyOpen = ref(false)
+const cancelConfirmOpen = ref(false)
+const takeOverConfirmOpen = ref(null) // the side whose editing is being taken over
+const sharing = ref(false)
+async function createLobby() {
+  shareConfirmOpen.value = false
+  if (!canShare.value) return
+  sharing.value = true
+  clearDraft()
+  startLobby({ settings, players })
+  players[0].isYou = true
+  players[1].isYou = false
+  const ok = await share()
+  sharing.value = false
+  if (!ok) { closeLobby(); return }
+  claimHostSide() // the guest's phone sees who is filling what from the first tick
+  partyOpen.value = true
+}
+
+// The host's way out of a lobby nobody joins: the party ends, the game goes back to being this
+// phone's own setup, and every field stays where it was.
+async function cancelLobby() {
+  cancelConfirmOpen.value = false
+  await endParty()
+  closeLobby()
+}
+
+// Leaving the armies step confirms the host's own side and tells the other phones that
+// reopening is now a request rather than a free edit.
+function leaveArmiesStep() {
+  if (sharedSetup.value) {
+    confirmSide(youIdx.value)
+    setStage('host')
+  }
+  step.value = 2
+}
+function backToArmiesStep() {
+  if (sharedSetup.value) setStage('armies')
+  step.value = 1
+}
+
+// The guest's screen: the form is open (its side is held back) until "Done".
+function guestDone() {
+  confirmSide(youIdx.value)
+  emit('done')
+}
+function guestLeave() {
+  emit('leave')
+}
+// A guest's form is open from the moment the screen appears: it claims the side (the slice
+// version settles a tie) and holds this phone's own side back until "Done". The host claims its
+// own side the same way, so the guest's phone can see who is filling what.
+onMounted(() => {
+  if (!sharedSetup.value) return
+  if (guest.value) openForm(youIdx.value, players[youIdx.value]?.name || '')
+  else claimHostSide()
+})
+onUnmounted(() => { if (guest.value) setHold(false) })
+function claimHostSide() {
+  claim(youIdx.value, players[youIdx.value]?.name || '')
+}
+function doTakeOver() {
+  const i = takeOverConfirmOpen.value
+  takeOverConfirmOpen.value = null
+  if (i == null) return
+  takeOver(i, players[youIdx.value]?.name || '')
+}
+const requestMessage = computed(() => {
+  const r = pendingRequest.value
+  if (!r) return ''
+  const who = r.name || labels.value.trackerOpponent
+  return labels.value.lobbyRequestBody.replace('{name}', who)
+})
+
+// One line per side, in the host's cards and on the guest's own: who holds it, and whether it
+// is in. A side this phone edits says nothing — the fields under it are the answer.
+function sideNote(i) {
+  if (!sharedSetup.value) return ''
+  if (isReady(i)) return labels.value.lobbySideReady
+  if (editable(i)) return i === youIdx.value ? '' : labels.value.lobbySideYours
+  const who = editorName(i)
+  return who ? labels.value.lobbySideFilling.replace('{name}', who) : labels.value.lobbySideWaiting
+}
+
+// The side this phone may type into: its own, or — for the host — any side no one else holds.
+function editable(i) {
+  return !sharedSetup.value || canFill(i)
+}
+
 
 // ── Doubles ────────────────────────────────────────────────────────────────────────────────
 const isDoubles = computed(() => settings.gameType === 'doubles')
@@ -1077,7 +1356,11 @@ async function resolveArmyChoice(p) {
 // The three mutually exclusive game modes of the seg above: standard singles, doubles
 // (Warhammer Doubles Event Companion), Combat Patrol. Doubles is competitive-only —
 // the companion modifies the standard mission sequence, and a CP box has one fixed army.
+const modeLocked = computed(() => sharedSetup.value)
 function setGameMode(mode) {
+  // Singles ↔ doubles moves what a SEAT means (a side, or one member of a team), so it is
+  // settled before anyone is invited. The buttons are disabled with that as their reason.
+  if (modeLocked.value) return
   const wasDoubles = isDoubles.value
   const toCp = mode === 'combatPatrol'
   settings.gameType = mode === 'doubles' ? 'doubles' : 'singles'
@@ -1196,7 +1479,7 @@ players.forEach(p => {
 // chosen detachments' DP, so clear every army's detachments (and the side dispositions) for a
 // fresh pick.
 watch(memberMaxDp, (next, prev) => {
-  if (next >= prev) return
+  if (next >= prev || guest.value) return
   players.forEach(p => {
     armiesOf(p).forEach(m => { m.detachments = [] })
     p.disposition = null
@@ -1259,7 +1542,9 @@ const layouts = computed(() => matchup.value?.layouts ?? [])
 // Resolves the recommended A/B/C OR a chosen custom layout (any of the 45).
 const currentLayout = computed(() => resolveLayout(settings, players[0].disposition, players[1].disposition))
 // Changing dispositions changes the recommended matchup → reset to A and drop any custom pick.
-watch(matchup, () => { settings.layout = 'A'; settings.customLayout = null })
+// The layout is the host's (the shared slice): a guest whose disposition changes must not
+// reset it from the other phone.
+watch(matchup, () => { if (guest.value) return; settings.layout = 'A'; settings.customLayout = null })
 
 // Custom layout picker (any of the 45 across all matchups).
 const layoutPickerOpen = ref(false)
@@ -1268,24 +1553,32 @@ function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l
 
 // Step 1 (Armies): every army (each side in singles, all four members in doubles) has a
 // faction + a detachment where the faction has them.
-const canArmies = computed(() =>
-  players.every(p =>
-    armiesOf(p).every(m =>
-      m.factionSlug &&
-      (settings.combatPatrol
-        ? m.detachments.length > 0
-        : (detachmentsFor(m.factionSlug).length === 0 || m.detachments.length > 0))
-    )
+function armiesOkFor(p) {
+  return armiesOf(p).every(m =>
+    m.factionSlug &&
+    (settings.combatPatrol
+      ? m.detachments.length > 0
+      : (detachmentsFor(m.factionSlug).length === 0 || m.detachments.length > 0))
   )
-)
+}
+const canArmies = computed(() => players.every(armiesOkFor))
 
 // Step 2 (Mission): dispositions resolved (→ a primary for each) + fixed picks chosen
 // where in fixed mode.
+function missionOkFor(p) {
+  return !!p.disposition && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)
+}
 const canMission = computed(() =>
   canArmies.value &&
-  players.every(p => p.disposition && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)) &&
+  players.every(missionOkFor) &&
   !!primaryName(0) && !!primaryName(1)
 )
+// What a guest's "Done" waits for: ITS side only. The primary preview needs both dispositions
+// and the other one may not be in yet — that is the host's gate, never this phone's.
+const canConfirmSide = computed(() => {
+  const p = players[youIdx.value]
+  return !!p && armiesOkFor(p) && missionOkFor(p)
+})
 
 // Step 3 (Field & deployment): layout and first turn both always have a default → gate only
 // on the earlier steps.
@@ -1309,12 +1602,16 @@ function canGoTo(n) {
 
 // Step 4 (Settings): every row has a default — gate on the earlier steps too.
 const canStart = computed(() =>
-  canMission.value && players.every(p => p.role)
+  canMission.value && players.every(p => p.role) && othersReady.value
 )
 
 // Persist the in-progress setup so it survives reloads / navigating away. Serialized
 // snapshot (deep, post-flush) — no loop since this watch doesn't read setupDraft.
 watch([step, () => players, () => settings], () => {
+  // A shared setup IS the game and is persisted as one — writing a draft beside it would
+  // resurrect a stale copy the next time the tracker opens. Computed, not the `lobbyGame`
+  // constant: the lobby can be created from this very screen, mid-session.
+  if (inLobby.value) return
   setupDraft.value = JSON.parse(JSON.stringify({ step: step.value, players, settings }))
 }, { deep: true, flush: 'post' })
 
@@ -1725,6 +2022,18 @@ function cancel() {
 .seg-fill:has(> button:nth-child(5):last-child) > button:nth-child(n + 4) { flex-basis: 36%; }
 /* Checkbox rows styled like the mission scoring conditions (ScoringModal .m-cond). */
 .br-check { margin-top: 0.2rem; }
+/* The lobby's one line per card: whose side this is and whether it is in. Reads as an
+   annotation under the heading, never as a control. */
+.side-note {
+  margin: -0.15rem 0 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.side-note.ok { color: var(--accent); }
+.side-takeover { margin-top: 0.6rem; width: 100%; }
+/* A seg whose answer is settled (the game type, once phones have joined): dimmed as a whole
+   rather than each button carrying its own disabled look. */
+.seg.locked { opacity: 0.55; }
 /* Primary mission: an inset label (matching the field labels, like the secondary section) over a
    full-bleed accordion. The accordion spans the player-card's whole content width; its tinted
    header bar runs edge to edge, and a bottom separator closes the section before the secondaries. */

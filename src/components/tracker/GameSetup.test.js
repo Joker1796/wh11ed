@@ -115,3 +115,43 @@ describe('GameSetup — doubles', () => {
     expect(w.findAll('.faction-btn')).toHaveLength(2)
   })
 })
+
+// ── The lobby: the same component, cut down to one side ────────────────────────────────────
+// A guest's screen is this wizard in `guest` mode: its own side's card, no mission/battlefield/
+// option steps, and "Done" instead of "Next". The party is mocked to the two facts the screen
+// reads — that the setup is shared, and which seat this phone holds.
+describe('GameSetup in a lobby', () => {
+  async function guestScreen() {
+    vi.resetModules()
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const tracker = useTracker()
+    tracker.startLobby({
+      settings: { gameType: 'singles', combatPatrol: false, battleSize: 'strikeForce', firstTurn: 1, layout: 'A' },
+      players: [
+        { name: 'Host', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, members: [{ name: '', factionSlug: null, detachments: [] }, { name: '', factionSlug: null, detachments: [] }] },
+        { name: 'Guest', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, members: [{ name: '', factionSlug: null, detachments: [] }, { name: '', factionSlug: null, detachments: [] }] },
+      ],
+    })
+    tracker.current.value.party = { id: 'p1', memberId: 'm-guest', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
+    const Screen = (await import('./GameSetup.vue')).default
+    return { w: mount(Screen, { props: { mode: 'guest' } }), tracker }
+  }
+
+  it('draws only this phone’s own side, and calls it "You"', async () => {
+    const { w } = await guestScreen()
+    const cards = w.findAll('.player-card')
+    // One card per visible panel (armies + mission), both of them side 1.
+    expect(cards.length).toBe(2)
+    expect(w.text()).not.toContain('Opponent')
+    expect(w.find('.game-type').exists()).toBe(false) // the game type is the host's
+  })
+
+  it('offers Done instead of the wizard’s steps, disabled until the army is chosen', async () => {
+    const { w } = await guestScreen()
+    expect(w.find('.setup-head').exists()).toBe(false)
+    const primary = w.findAll('.actions .btn-primary')
+    expect(primary.length).toBe(1)
+    expect(primary[0].text()).toBe('Done')
+    expect(primary[0].attributes('disabled')).toBeDefined()
+  })
+})

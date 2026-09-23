@@ -399,6 +399,49 @@ function makePlayer(p, opponent, settings, isYou = false) {
 // ---- public API ----
 export function useTracker() {
 
+  // ── The lobby: a game that exists before it is played ──────────────────────────────────────
+  //
+  // A shared SETUP needs something to share, and the only thing multi-device sync knows how to
+  // move is a game (gameSlices.js cuts one into five slices). So the wizard's draft becomes a
+  // game in `phase: 'setup'` the moment the host shares it: the same objects the wizard is
+  // already editing, handed to `current` rather than copied into it, so a slice arriving from
+  // the guest's phone lands in the very fields the host is looking at. The heavy half of a game
+  // (rounds, the secondary deck, the army-rule state) is NOT built here — it is derived from
+  // settings that are still being chosen, so `newGame` builds it at the start, as it always did.
+  //
+  // The lobby's own bookkeeping (who edits a side, who confirmed, an open request to re-edit)
+  // lives in `shared.lobby` and `players[i].lobby` — inside the slices, so it travels for free
+  // and the server never has to know about any of it. `stripLobby` wipes it when the game
+  // starts: none of it belongs in history, in the cloud backup or in a broadcast.
+  function startLobby({ settings, players }) {
+    current.value = {
+      id: 'g' + Date.now(),
+      createdAt: new Date().toISOString(),
+      phase: 'setup',
+      settings,
+      players,
+      lobby: { stage: 'armies' },
+    }
+    setupDraft.value = null
+    saveNow()
+    return current.value
+  }
+
+  // The lobby without its handle — what the host keeps when it cancels sharing and goes back to
+  // setting the game up alone. The party itself is ended by useParty's farewell watcher.
+  function closeLobby() {
+    const g = current.value
+    if (!g || g.phase !== 'setup') return
+    delete g.party
+    delete g.lobby
+    g.players.forEach((pl) => { delete pl.lobby })
+  }
+
+  function stripLobby(g) {
+    delete g.lobby
+    g.players.forEach((pl) => { delete pl.lobby })
+  }
+
   function newGame(setup) {
     // setup = { settings, players: [p1=You, p2=Opponent] }
     // p = { name, factionSlug, detachments, disposition, role, secondaryMode }
@@ -413,9 +456,14 @@ export function useTracker() {
     // players[0] can be identified as first-turn player regardless of original selection.
     const youFirst = settings.firstTurn !== 2
     settings.firstTurn = 1
+    // Promoting a lobby: the game keeps its identity and its party handle, so every phone that
+    // joined the lobby stays in the same party when the first round begins. `lobby` itself does
+    // not survive the promotion (stripLobby below).
+    const lobby = current.value?.phase === 'setup' ? current.value : null
     current.value = {
-      id: 'g' + Date.now(),
-      createdAt: new Date().toISOString(),
+      id: lobby?.id || 'g' + Date.now(),
+      createdAt: lobby?.createdAt || new Date().toISOString(),
+      ...(lobby?.party ? { party: lobby.party } : {}),
       phase: 'playing',
       currentRound: 1,
       // The clock. `phase` above is the GAME's state (playing/finished), so the battle phase had
@@ -430,6 +478,8 @@ export function useTracker() {
         ? [makePlayer(a, b, settings, true),  makePlayer(b, a, settings, false)]
         : [makePlayer(b, a, settings, false), makePlayer(a, b, settings, true)],
     }
+    stripLobby(current.value)
+    return { swapped: !youFirst && !!lobby }
   }
 
   // Fallback (no primary card): set the round primary directly, clamped to the round cap.
@@ -1017,6 +1067,19 @@ export function useTracker() {
     saveNow()
   }
 
+  // Putting the current game away to make room for another one — a new game, a seat at someone
+  // else's table, a game pulled back out of history. A game that was PLAYED is frozen at its
+  // score and kept; a LOBBY is dropped. A lobby has no rounds, no result and nothing anyone did
+  // in it, and archiving one would put a game that never happened into the record (and into the
+  // statistics, which read those rounds back).
+  function putAwayCurrent() {
+    const g = current.value
+    if (!g) return
+    if (g.phase === 'setup') { discardGame(); return }
+    finishGame('early')
+    archiveGame()
+  }
+
   function deleteHistory(id) {
     history.value = history.value.filter(g => g.id !== id)
     // Synchronous write, like archiveGame/discardGame: the caller deletes the cloud copy
@@ -1039,7 +1102,7 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
+    startLobby, closeLobby, newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
     setArmyCondition, setUnitCondition, setUnitStratagem, setUnitAura, setUnitPick,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
@@ -1047,7 +1110,7 @@ export function useTracker() {
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-    goToRound, stepPhase, goToPhase, canStepPhase, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
+    goToRound, stepPhase, goToPhase, canStepPhase, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }

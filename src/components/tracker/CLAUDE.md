@@ -173,6 +173,74 @@ that watcher; the tracker home, the game screen and the game roster all call it.
 `broadcast` (see Slices). In doubles the host's seat is the TEAM (`mi: null`); partners joining
 pick a member seat. The server contract is `wh11ed-api/README.md` "A shared live game".
 
+## The lobby — setting the game up together (`useLobby.js`)
+
+Since 2026-09-23 the setup itself can be shared, not just the game in progress. The host presses
+**"Play together"** on step 1, and the wizard's draft becomes a **game in `phase: 'setup'`**
+(`useTracker`'s `startLobby`) which `share()` then puts on the server like any other. Guests join
+by link, QR or code and fill in THEIR side from their own phone; the host keeps the mission, the
+battlefield, the turn order and the option table, and presses Start.
+
+**The lobby game holds the wizard's own objects, not copies.** `GameSetup` reads `players` and
+`settings` out of `current` when the game is in `setup`, so an incoming slice lands in the very
+fields on screen and there is no bridge to keep in step. The heavy half of a game (rounds, the
+secondary deck, the army-rule state) is NOT built until Start — it is derived from settings that
+are still being chosen. `gameSlices.js` never cared about the shape of a player, so the whole
+five-slice machinery works on a lobby unchanged.
+
+**One component, two screens.** `GameSetup` takes `mode`: `wizard` (the host's four steps) and
+`guest` — the same army card, the same pickers, cut to this phone's side, with "Done" in place of
+"Next". A second component for the guest would have been a second place to fix every
+roster/faction/detachment bug found in the first. `TrackerGameView` picks between them and the
+third screen, `LobbyWait.vue` (what a guest sees after Done).
+
+**ONE EDITOR PER SIDE, and this is the rule the whole design hangs on.** A side is ONE slice
+carrying both members in doubles, so two phones typing into it collide on versions and one of
+them loses what it typed **silently** — the class of bug a player finds, not a gate. So a side has
+exactly one editor: the first phone to claim it, whoever it hands the right to (`takeOver`), or
+the host while no one else holds it. The partner's phone waits, and can take the right over —
+always offered, with a confirm, rather than gated on a liveness guess, because the honest answer
+to "is the other phone still alive" is not available. **The arbiter is the slice version, not the
+claimant**: two phones claiming in the same second both write `lobby.editor`, the server accepts
+one and answers the other `409` with the winner's copy. No endpoint, no lock.
+
+**Nothing is sent until "Done".** While the form is open the phone holds its own side back
+(`useParty`'s `setHold`) — a half-typed army is nobody else's business, and the side arrives at
+the host's phone whole, once. A held side still TAKES the lobby's bookkeeping out of incoming
+copies (`takeRemote`) so the phone learns it was taken over; it never takes the fields being
+typed into.
+
+**Reopening is free, then it is a request.** While the host is still on the armies step
+(`lobby.stage === 'armies'`) a guest reopens its side at will. Once the host has moved on
+(`'host'`), "Change" becomes a request the host answers in a dialog — the mission and the layout
+ahead of it were built on what this side said it was fielding. Granting it reopens that side and
+takes everyone back to the armies step; a denial says so on the waiting screen, where "Leave" is
+always available. The host's own way out is "Cancel the shared setup": the party ends and the
+game becomes this phone's own setup again, every field where it was.
+
+**The protocol rides in the slices** — `game.lobby = { stage, grant, deny }` in `shared`,
+`player.lobby = { editor, ready, request }` in each side — and `stripLobby` wipes all of it when
+the game starts. The server knows nothing about any of it, and neither does the history, the
+cloud backup or a broadcast.
+
+**Two gates the lobby adds to the wizard.** The game TYPE is locked once the setup is shared (a
+seat means "a side" in singles and "one member of a team" in doubles, so switching would unseat
+everyone), and Next on step 1 waits for every side someone else holds to be confirmed.
+
+**A lobby is dropped, never archived.** `putAwayCurrent()` in the store is what "New game" and
+joining someone else's table call: a played game is frozen at its score and kept, a lobby is
+discarded. Archiving one would put a game that never happened into the record — and into the
+statistics, which read its rounds back.
+
+**Starting the game can exchange the two sides** (`newGame` puts the first-turn player at index
+0 and returns `{ swapped }`), and then the SEATS have to travel with the slices or every phone
+but the host's is sitting on the other army. `useParty`'s `reseat()` calls `POST /party/{id}/reseat`,
+which swaps the side of every live seat in one statement (the member index inside a doubles team
+stays put), and sends the swapped slices immediately after. Doing it with the existing seat
+endpoint would take three calls — free a seat, move, move back — and a failure in the middle
+leaves a guest with no seat and a `403` on everything it writes. The same endpoint is the fix for
+changing who goes first mid-game from `EditSetupModal`, which reorders the players the same way.
+
 ## The phase reminder (`PhaseRules.vue`)
 
 Under the clock, one accordion: **what has something to say in the phase the game is standing on**,
