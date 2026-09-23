@@ -7,12 +7,14 @@ import { ref, computed } from 'vue'
 
 const party = ref(null)
 const holdCalls = []
+const syncCalls = []
 vi.mock('./useParty.js', () => ({
   useParty: () => ({
     party: computed(() => party.value),
     active: computed(() => !!party.value),
     isHost: computed(() => !!party.value?.host),
     setHold: (on) => holdCalls.push(on),
+    sync: async () => { syncCalls.push(holdCalls.at(-1)) },
   }),
 }))
 
@@ -36,6 +38,7 @@ beforeEach(async () => {
   localStorage.clear()
   vi.resetModules()
   holdCalls.length = 0
+  syncCalls.length = 0
   party.value = null
   const t = await import('./useTracker.js')
   tracker = t.useTracker()
@@ -80,9 +83,9 @@ describe('one editor per side', () => {
 })
 
 describe('done, and asking to change it', () => {
-  it('the form holds the side back and "Done" releases it', () => {
+  it('the form holds the side back and "Done" releases it', async () => {
     const guest = as(GUEST)
-    guest.openForm(1, 'Guest')
+    await guest.openForm(1, 'Guest')
     expect(holdCalls.at(-1)).toBe(true)
     expect(guest.isReady(1)).toBe(false)
 
@@ -91,12 +94,12 @@ describe('done, and asking to change it', () => {
     expect(guest.isReady(1)).toBe(true)
   })
 
-  it('while the host is on the armies step a change is simply taken', () => {
+  it('while the host is on the armies step a change is simply taken', async () => {
     const guest = as(GUEST)
-    guest.openForm(1, 'Guest')
+    await guest.openForm(1, 'Guest')
     guest.confirmSide(1)
     expect(guest.canReopenFreely.value).toBe(true)
-    guest.reopen(1, 'Guest')
+    await guest.reopen(1, 'Guest')
     expect(guest.isReady(1)).toBe(false)
   })
 
@@ -121,6 +124,17 @@ describe('done, and asking to change it', () => {
     as(HOST).grantReopen(1)
     expect(as(GUEST).isReady(1)).toBe(false)
     expect(as(HOST).stage.value).toBe('armies')
+  })
+})
+
+describe('claiming is announced, typing is not', () => {
+  it('the claim is sent before the hold goes on — otherwise the side looks free while it is being filled in', async () => {
+    const guest = as(GUEST)
+    await guest.openForm(1, 'Guest')
+    // The one send during openForm happened with the hold OFF, and the hold is on afterwards.
+    expect(syncCalls).toEqual([false])
+    expect(holdCalls.at(-1)).toBe(true)
+    expect(guest.editorName(1)).toBe('Guest')
   })
 })
 

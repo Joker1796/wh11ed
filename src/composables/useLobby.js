@@ -21,9 +21,10 @@ import { useParty } from './useParty.js'
 // with `409` and the winner's copy, which is exactly the "first one in" this needs. No endpoint,
 // no lock, no extra round trip.
 //
-// NOTHING IS SENT UNTIL "DONE". While the form is open the phone holds its own side back
-// (useParty's `setHold`), so a half-typed army is nobody else's business — and the side arrives
-// at the host's phone whole, once. After that the guest waits: while the host is still on the
+// NOTHING IS SENT UNTIL "DONE" — except the claim itself, which is announced the moment the form
+// opens (see openForm). While the form is open the phone holds its own side back (useParty's
+// `setHold`), so a half-typed army is nobody else's business — and the side arrives at the host's
+// phone whole, once. After that the guest waits: while the host is still on the
 // armies step it may reopen the form at will; once the host has moved on, reopening becomes a
 // REQUEST the host answers (the setup ahead of it — the mission, the layout — was built on what
 // this side said it was fielding).
@@ -34,7 +35,7 @@ import { useParty } from './useParty.js'
 
 export function useLobby() {
   const { current } = useTracker()
-  const { party, active, isHost, setHold } = useParty()
+  const { party, active, isHost, setHold, sync } = useParty()
 
   const game = computed(() => current.value || null)
   const isLobby = computed(() => game.value?.phase === 'setup')
@@ -93,11 +94,19 @@ export function useLobby() {
     if (lb && lb.editor?.id === myId.value) delete lb.editor
   }
 
-  // The form is open: hold this phone's side back until it is confirmed.
-  function openForm(pi, name = '') {
+  // The form is open: claim the side OUT LOUD, then hold it back until it is confirmed.
+  //
+  // The order matters and it cost a rewrite to see. The claim lives in the side's own slice, so
+  // turning the hold on first would keep the claim on this phone too — and the other phones would
+  // go on believing the side is free for as long as the form stays open, which is exactly the
+  // window where two of them can start filling it in. So: claim, send that at once (the army
+  // fields are still whatever arrived, so sending them back changes nothing), and only then hold.
+  async function openForm(pi, name = '') {
+    setHold(false)
     claim(pi, name)
     const lb = ensureLobby(pi)
     if (lb) { lb.ready = false; delete lb.deny }
+    if (shared.value) await sync()
     setHold(true)
   }
 
@@ -114,7 +123,7 @@ export function useLobby() {
   // Reopening. Free while the host is still on the armies step; a request once it has moved on.
   const canReopenFreely = computed(() => stage.value === 'armies')
   function reopen(pi, name = '') {
-    openForm(pi, name)
+    return openForm(pi, name)
   }
   function requestReopen(pi) {
     const lb = ensureLobby(pi)
