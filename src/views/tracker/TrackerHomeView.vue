@@ -14,22 +14,20 @@
     <div class="hero">
       <h1>{{ labels.trackerIntroHeading }}</h1>
       <div class="hero-side">
+        <!-- Where the games are kept, not who is reading: signing in lives in the navbar's
+             account menu (the ⚙ menu on a phone), so an address here was a label with nothing to
+             do — the reader already knows who they are. The roster list says the same kind of
+             thing in the same place, through RosterCloudBar's compact mode. -->
         <span
-          v-if="status === 'authed'"
           class="cloud-account"
-          :class="{ err: lastError }"
-          :title="lastError ? labels.cloudError : ''"
+          :class="{ err: cloud.err }"
+          :title="cloud.title"
         >
-          <i class="bi bi-cloud-check-fill" />
-          <span class="ca-text">{{ user?.email || user?.displayName || labels.cloudSignedIn }}</span>
-        </span>
-        <span
-          v-else
-          class="cloud-account"
-          :title="labels.cloudSignInHint"
-        >
-          <i class="bi bi-cloud" />
-          <span class="ca-text">{{ labels.cloudLocalOnly }}</span>
+          <i
+            class="bi"
+            :class="cloud.icon"
+          />
+          <span class="ca-text">{{ cloud.text }}</span>
         </span>
         <RouterLink
           class="hero-help"
@@ -123,13 +121,9 @@
           v-if="status === 'authed' && inSync"
           class="in-sync"
         >
-          <i
-            class="bi"
-            :class="cloudEmpty ? 'bi-cloud' : 'bi-cloud-check-fill'"
-          />
-          {{ cloudEmpty ? labels.cloudEmpty : labels.cloudInSync }}
-          <!-- Force a full push+pull now (auto-sync already runs on entry) — for pulling changes
-               from another device without leaving the page. -->
+          <!-- The state itself is said once, in the page heading. What belongs HERE is the way to
+               ask again: a full push+pull now (auto-sync already runs on entry), for pulling in a
+               game finished on another phone without leaving the page. -->
           <button
             class="sync-icon"
             :class="{ spinning: syncing }"
@@ -258,7 +252,7 @@ const { formatDate } = useFormatDate()
 const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory } = useTracker()
 // Only the host of a shared game needs an account, and this is the button that makes one.
 const { canShare, init: initParty } = useParty()
-const { status, user, ensureSession } = useAuth()
+const { status, ensureSession } = useAuth()
 const {
   init: initCloudSync,
   syncNow,
@@ -344,6 +338,23 @@ function doStartNew() {
   setupDraft.value = null   // start the wizard fresh (a stale draft would otherwise restore)
   router.push('/tracker/game')
 }
+
+// One line about the CLOUD, the counterpart of RosterCloudBar's compact mode on the roster list:
+// where these games are kept, and nothing about the account itself. Signed out it is three words
+// with the long sentence in its tooltip; signed in it answers the only question worth answering
+// on entry — is what is on this phone also somewhere else.
+const cloud = computed(() => {
+  const l = labels.value
+  if (status.value !== 'authed') return { icon: 'bi-cloud', text: l.cloudLocalOnly, title: l.cloudSignInHint }
+  if (lastError.value) return { icon: 'bi-cloud-slash', text: l.cloudNotSynced, title: l.cloudError, err: true }
+  if (syncing.value) return { icon: 'bi-arrow-repeat', text: l.cloudSyncing, title: '' }
+  if (inSync.value) {
+    return cloudEmpty.value
+      ? { icon: 'bi-cloud', text: l.cloudEmpty, title: '' }
+      : { icon: 'bi-cloud-check-fill', text: l.cloudInSync, title: '' }
+  }
+  return { icon: 'bi-cloud', text: l.cloudSyncing, title: '' }
+})
 
 // What the one big button does, and what it says. A game in progress (or a lobby, or a setup
 // left half-done) is always the thing to continue; with nothing held, starting one is.

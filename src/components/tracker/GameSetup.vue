@@ -185,10 +185,10 @@
                  attaches one sits in the same row — the two answer the same question. Detaching with
                  the ✕ leaves the faction the list chose selected, and hands the picker back. -->
               <div class="field">
-                <span>{{ m.roster ? labels.trackerRoster : labels.trackerFaction }}</span>
+                <span>{{ attached(m) ? labels.trackerRoster : labels.trackerFaction }}</span>
                 <div class="faction-row">
                   <div
-                    v-if="m.roster"
+                    v-if="attached(m)"
                     class="ro roster-line"
                   >
                     <span class="rl-text">
@@ -215,7 +215,11 @@
                     >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
                     <i class="bi bi-chevron-right ct-chev" />
                   </button>
+                  <!-- No list in Combat Patrol: the box IS the army (one fixed detachment, a
+                       fixed Force Disposition, a fixed set of models), so a 2000-point list
+                       attached here would describe a different game. -->
                   <button
+                    v-if="!settings.combatPatrol"
                     type="button"
                     class="rp-open"
                     :class="{ on: !!m.roster }"
@@ -1335,6 +1339,10 @@ async function resolveArmyChoice(p) {
   p.disposition = null
   if (!p.factionSlug) return
   if (settings.combatPatrol) {
+    // The box decides the army here, so a list attached before the switch describes a different
+    // game — it goes rather than lingering as a label the screen no longer offers.
+    p.roster = null
+    p.rosterId = null
     const list = await loadCombatPatrolData()
     const cp = list.find(f => f.slug === p.factionSlug)
     if (!cp) return
@@ -1407,6 +1415,13 @@ function pickRoster(p, roster) {
 
 // Detaching leaves the faction and detachments alone — they are legitimate choices in their own
 // right, and clearing them would undo a step the player may have made by hand.
+// Combat Patrol has no list to show: the box IS the army, and `resolveArmyChoice` detaches
+// whatever was attached on the way in. This is what keeps the label, the line and the button
+// agreeing about that in one place rather than three.
+function attached(m) {
+  return !!m.roster && !settings.combatPatrol
+}
+
 function clearRoster(p) {
   p.rosterId = null
   p.roster = null
