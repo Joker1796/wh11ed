@@ -1784,7 +1784,7 @@ function stratKey(strat) {
      that a nominal size reads about a size below a sans of the same value — at 1.15rem the rule's
      own name ended up looking no larger than the body underneath it, and the section label above
      it smaller still (owner, 2026-09-24). Raised so the three levels are told apart at arm's
-     length: label 1.2 → name 1.45 → sub-rule 1.3 → body 0.85rem of Inter, the same pair of sizes
+     length: label 1.35 → name 1.45 → sub-rule 1.3 → body 0.85rem of Inter, the same pair of sizes
      the builder's own rules panel uses so one rule reads alike on both screens. The sub-rule heading
      needed the same correction as the name for the same reason — a rule that names two abilities
      was printing their headings smaller than the sentences under them. */
@@ -1805,7 +1805,10 @@ function stratKey(strat) {
 .rv-rules .rv-rule-block :deep(.rule-list li),
 .rv-rules .rv-rule-block :deep(.rule-ol li) { margin-bottom: 0.15rem; line-height: 1.35; }
 .rv-rules .rv-rule-block :deep(.rule-subheading) { margin: 0.5rem 0 0.15rem; }
-.rv-rules .rvg-head { margin: 0.8rem 0 0.35rem; font-size: 1.2rem; }
+/* The section label above a rule — "Army rule", or the detachment's name. Display face like the
+   rule's own name, so it needs the same treatment: it sits one step under the name it introduces
+   (1.35 to 1.45) and clear of the body, instead of the 1.05rem it shared with the Units tab. */
+.rv-rules .rvg-head { margin: 0.8rem 0 0.35rem; font-size: 1.35rem; }
 .rv-rules .rv-rule-block:first-child .rvg-head { margin-top: 0; }
 .rv-rule-block { margin-bottom: 0.9rem; }
 
