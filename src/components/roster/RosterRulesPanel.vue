@@ -265,7 +265,7 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
 @media (hover: hover) { .rrp-head:hover { background: color-mix(in srgb, var(--accent) 32%, var(--bg-secondary)); } }
 .rrp-chev { flex: none; font-size: 0.72rem; color: var(--text-muted); }
 .rrp-title {
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -300,7 +300,7 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
 }
 /* The fold's own row, so it grows less than the rule inside it: it shares one line with the
    rule's name beside it, and that name ellipsizes rather than wrapping. */
-.rrp-sec-title { font-weight: 600; font-size: 0.92rem; }
+.rrp-sec-title { font-weight: 600; font-size: 1rem; }
 .rrp-sec-note {
   flex: 1;
   min-width: 0;
@@ -321,12 +321,17 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
 
 /* The rule texts run a step smaller here than on a rules page, same as the list view's Rules tab:
    this is a reminder beside the work, not the page you go to to read a rule for the first time.
-   A step, not two: the display face is condensed, so at 1.05rem the rule's name read no larger
-   than the 0.82rem body under it (owner, 2026-09-24 — the same correction the view's Rules tab
-   got, scaled to this panel's tighter body). */
+   How far below is set by the FACE, not by the number: Sofia Sans Extra Condensed is both narrow
+   and short in the x-height, so a heading has to stand roughly a third above the sans body before
+   it reads as one. 1.05rem read smaller than the 0.82rem body under it; 1.25 was still not enough
+   (owner had to say so twice, 2026-09-24). Every heading in this panel moved up together — the
+   panel's own bar, the fold rows, the rule name, its sub-rules, an enhancement's name — so the
+   ladder stays in order instead of one level overtaking another. The muted captions beside them
+   (the detachment list, the rule's name on a closed fold, an RU translation line) are NOT
+   headings and stayed where they were. */
 .rrp-sec-body {
-  --fs-rule-title: 1.25rem;
-  --fs-subheading: 1.1rem;
+  --fs-rule-title: 1.45rem;
+  --fs-subheading: 1.3rem;
 }
 .rrp-sec-body :deep(.rule-block) { padding: 0.2rem 0 0.4rem; border-bottom: none; }
 .rrp-sec-body :deep(.rule-header) { margin-bottom: 0.35rem; }
@@ -337,7 +342,7 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
 .rrp-enh { padding: 0.35rem 0; border-top: 1px dashed var(--border); }
 .rrp-enh:first-child { border-top: none; padding-top: 0; }
 .rrp-enh-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.35rem; }
-.rrp-enh-name { font-weight: 700; font-size: 0.82rem; color: var(--text-primary); }
+.rrp-enh-name { font-weight: 700; font-size: 0.95rem; color: var(--text-primary); }
 .rrp-enh-ru { font-size: 0.72rem; color: var(--text-muted); }
 .rrp-enh-pts { margin-left: auto; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
 .rrp-enh-body { font-size: 0.8rem; line-height: 1.4; color: var(--text-primary); }
