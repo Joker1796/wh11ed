@@ -44,7 +44,11 @@
           <div
             v-if="!isHidden(e)"
             class="rul-unit"
-            :class="{ 'rul-attached roster-attached': e.leaderOf, 'rul-picked': inPane && openUid === e.uid }"
+            :class="{
+              'rul-attached': e.leaderOf,
+              'rul-host': blockOf(g.entries, e).length,
+              'rul-picked': inPane && openUid === e.uid,
+            }"
           >
             <!-- The row is itself a button (it opens the configuration), so the actions sit
                  OUTSIDE it rather than inside — a button inside a button is invalid and doesn't
@@ -281,9 +285,13 @@ function act(what) {
   overflow: hidden;
 }
 @media (hover: hover) { .rul-unit:hover { border-color: var(--accent); } }
-/* Closes the gap to the character indented below it — the block's own look is the shared
-   .roster-attached / .roster-sum pair in style.css. */
+/* The attached block: the tiles touch, and the army's colour runs down the left of all of them —
+   the host's tile included, so the edge starts where the block does. Drawn HERE rather than from
+   the shared primitive in style.css, which cannot win against this component's own scoped
+   `border` on .rul-unit (see the note there). */
 .rul-unit:has(+ .rul-attached) { margin-bottom: 0; }
+.rul-unit.rul-attached,
+.rul-unit.rul-host { border-left: 2px solid var(--accent); }
 
 /* The action button is OUT of the row's flow, over the tile's top-right corner, and the row itself
    spans the full width underneath it. In flow it was a column as tall as the tile: ~4rem taken

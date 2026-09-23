@@ -1316,8 +1316,9 @@ What the narrow arrangement changes, in the order it matters:
   got it back from the filters header (below). `.rub-name` also carries
   `min-width: 0`, without which a long name refuses to shrink past its min-content and runs *under*
   the price instead of wrapping.
-- **The attached-unit rail indents by 0.4rem instead of 1.25rem** (`style.css`). The rail still
-  says "these belong together" at a third of the width. The catalogue pane **sticks and scrolls inside itself** — under the app's
+- **The attached block does not indent at all** (it did, 0.4rem here against 1.25rem elsewhere,
+  until 2026-09-23). The army-coloured left edge says "these belong together" without taking a
+  step out of the column. The catalogue pane **sticks and scrolls inside itself** — under the app's
 sticky navbar, clear of the fixed points/save bar (`--roster-sticky-h`) and of the mobile bottom
 nav — while the list flows with the page beside it. Giving both panes their own fixed height
 instead needs a height calculation that every one of those bars is free to invalidate.
@@ -1462,9 +1463,15 @@ did — an ally heading carries that group's own accounting and a unit must not 
 is that one rule, applied everywhere. (Six ally units can lead and four can be led, all Aeldari —
 Harlequins and Ynnari.)
 
-Each character is indented under its host on an accent rail (`.roster-attached` in `style.css`),
-and keeps a **role tag** ("Leader" / "Support"): the nesting says which unit a character joined,
-but not which slot it fills. The old reciprocal tags — "Attached to X" on the character, "X
+The block's tiles touch and carry the army's colour down their left edge — the host's included, so
+the edge starts where the block does. It is drawn in each list's OWN scoped styles, not by a shared
+primitive: every list gives its tiles a scoped `border: 1px solid var(--border)`, and a scoped
+selector carries the component's attribute on top of the class, so the global
+`.roster-attached { border-left }` in `style.css` lost to it and never painted at all (2026-08-28
+to 2026-09-23). What said "these belong together" in the meantime was the INDENT beside it — the
+staircase the owner asked to take out, which is how the dead rule was found. Each character keeps
+its **role tag** ("Leader" / "Support"): the adjacency says which unit it joined, not which slot
+it fills. The old reciprocal tags — "Attached to X" on the character, "X
 (Leader)" on the squad — are gone with the distance that made them necessary.
 
 **On the two BUILDING screens the bodyguard's tile IS the block's header** (`RosterUnitList`,

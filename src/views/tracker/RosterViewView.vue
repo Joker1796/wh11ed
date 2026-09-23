@@ -239,7 +239,10 @@
             >
               <div
                 class="rvunit"
-                :class="{ 'rvunit-attached roster-attached': e.leaderOf }"
+                :class="{
+                  'rvunit-attached': e.leaderOf,
+                  'rvunit-host': hasAttached(g.entries, e),
+                }"
               >
                 <button
                   type="button"
@@ -1379,6 +1382,9 @@ function summaryLine(e) {
 // useRosterDerived — the two halves already share every state this screen writes (see
 // attachedEntries), and since 2026-08-27 a place on the list too (rosterEngine's joinAttached).
 const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => entryMeta.value.get(x.uid)?.points)
+// Whether this tile is a block's host — the accent edge starts on IT, so the stripe runs the whole
+// attached unit rather than beginning under its first row (.rvunit-host in this file).
+const hasAttached = (entries, host) => !host.leaderOf && (entries || []).some((e) => e.leaderOf === host.uid)
 
 // ── Rules + Stratagems tabs: army rule / each selected detachment's rule / its stratagems.
 // Loaded only when one of those tabs is open — the faction bundle is heavy and is never imported
@@ -1716,12 +1722,15 @@ function stratKey(strat) {
 .rvunit-rest { border-top: 0; padding-top: 0; }
 .rvunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
 .rvunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
-/* Closes the gap to the character indented below it — the block's own look is the shared
-   .roster-attached / .roster-sum pair in style.css. */
+/* The slot an attached character fills, after its name. */
 .rvunit-role { margin-left: 0.35rem; font-weight: 400; font-size: 0.74rem; color: var(--accent); }
+/* The attached block: the tiles touch, and the army's colour runs down the left of all of them —
+   the host's tile included, so the edge starts where the block does. Drawn HERE rather than from
+   the shared primitive in style.css, which cannot win against this view's own scoped `border` on
+   .rvunit (see the note there). */
 .rvunit:has(+ .rvunit-attached) { margin-bottom: 0; }
-/* The card is width:100% here; the rail's indent has to come off that. */
-.rvunit-attached { width: auto; }
+.rvunit.rvunit-attached,
+.rvunit.rvunit-host { border-left: 2px solid var(--accent); }
 /* Mini stat plates — same chamfered-box look as DatasheetCard.vue's .ds-stat-box (10th-ed
    style: no rounding, top-left/bottom-right corners cut), scaled down to fit a compact list
    row. Copied, not shared — scoped styles don't cross component boundaries. */
