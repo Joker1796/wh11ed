@@ -432,26 +432,6 @@
         </div>
       </div>
 
-      <div
-        v-if="!guest"
-        class="actions"
-      >
-        <button
-          class="btn-ghost"
-          @click="cancel"
-        >
-          {{ labels.trackerCancel }}
-        </button>
-        <button
-          class="btn-primary"
-          :disabled="!canArmies || !othersReady"
-          :title="othersReady ? '' : labels.lobbyWaitingGuest"
-          @click="leaveArmiesStep"
-        >
-          {{ labels.trackerNextStep }} →
-        </button>
-      </div>
-
       <!-- Everything about the LOBBY, under the step's own navigation and quieter than it: the
            code to read out, the way to the link and QR, and the way to close it. They used to
            stand in that row as equals, which made five buttons of five different meanings — and
@@ -477,6 +457,25 @@
           @click="cancelConfirmOpen = true"
         >
           {{ labels.lobbyCancelShort }}
+        </button>
+      </div>
+      <div
+        v-if="!guest"
+        class="actions"
+      >
+        <button
+          class="btn-ghost"
+          @click="cancel"
+        >
+          {{ labels.trackerCancel }}
+        </button>
+        <button
+          class="btn-primary"
+          :disabled="!canArmies || !othersReady"
+          :title="othersReady ? '' : labels.lobbyWaitingGuest"
+          @click="leaveArmiesStep"
+        >
+          {{ labels.trackerNextStep }} →
         </button>
       </div>
     </div>
@@ -1277,8 +1276,10 @@ function sideNote(i) {
   if (!sharedSetup.value) return ''
   if (isReady(i)) return labels.value.lobbySideReady
   if (editable(i)) return i === youIdx.value ? '' : labels.value.lobbySideYours
+  // Held by someone whose name we have — worth saying. Held by someone we cannot name yet: the
+  // card under this line already says, at length, that it is waiting.
   const who = editorName(i)
-  return who ? labels.value.lobbySideFilling.replace('{name}', who) : labels.value.lobbySideWaiting
+  return who ? labels.value.lobbySideFilling.replace('{name}', who) : ''
 }
 
 // The side this phone may type into: its own, or — for the host — any side no one else holds.
@@ -2176,7 +2177,7 @@ function cancel() {
   color: var(--text-muted);
 }
 .side-note.ok { color: var(--accent); }
-.side-takeover { margin-top: 0.6rem; width: 100%; }
+.side-takeover { margin-top: 0.7rem; }
 /* The lobby's own row, under the step navigation: text, not buttons with frames, so it reads as
    an annotation to the party rather than a third and fourth way forward. Same recipe as the
    tracker home's quiet row. */
@@ -2186,7 +2187,8 @@ function cancel() {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0 1.1rem;
-  margin-top: 0.4rem;
+  margin-top: 0.9rem;
+  margin-bottom: -0.3rem; /* the navigation below brings its own top margin */
 }
 .lobby-q {
   display: inline-flex;
