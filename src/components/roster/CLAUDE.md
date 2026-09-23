@@ -1652,8 +1652,12 @@ same way it already takes the model and upgrade nouns, and prints the word.
 
 `UNIT_GROUPS` / `bucketOf` now carve a faction the way the datasheet page does
 (`FactionDatasheetsView`'s `TYPE_GROUPS`), in its order: Epic Heroes → Characters → Battleline →
-Dedicated Transports → Fortifications → **Vehicles** → **Infantry** → Other, with `attached` in
-front, which is the one group that page has no use for. The three new buckets were already a
+Transports → Fortifications → **Vehicles** → **Infantry** → Other, with `attached` in front, which
+is the one group that page has no use for. The transports header reads "Transports" rather than the
+role's full name (2026-09-23): "Dedicated Transports" was the one header that took two lines in a
+182px pane. It stays English in Russian, like every other role header here — these are keywords,
+and the one Russian label among them (Other Units) is the one that is not. The KEYWORD the group
+is built from is untouched. The three new buckets were already a
 faction page's answer; the roster screens were still filing everything below a transport as
 "Прочее", which for Necrons is 27 datasheets and says nothing about an army.
 
