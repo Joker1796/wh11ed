@@ -236,6 +236,19 @@ game becomes this phone's own setup again, every field where it was.
 the game starts. The server knows nothing about any of it, and neither does the history, the
 cloud backup or a broadcast.
 
+**A side another phone holds is a REPORT, not a greyed-out form** (`mirrored()` in
+`GameSetup.vue`). Before it is confirmed the card says it is waiting, with "fill it in myself"
+under that (the take-over); after, it lists what arrived — army, detachments, list, disposition.
+An empty form under a "waiting" line is a longer way of saying nothing, and what the host wants
+from a confirmed side is what it SAYS.
+
+**A phone reacts to what it types, never to what it is told.** The faction/disposition/DP
+watchers re-derive a side when its faction changes — and on the other side a faction does not
+change, it ARRIVES in a slice. Re-deriving from it wiped the detachment and the disposition that
+came with it, leaving the host holding a side its owner never described (and free to send that
+back, since the host may write any slice). Every one of those watchers is now gated on
+`editable(i)`.
+
 **Two gates the lobby adds to the wizard.** The game TYPE is locked once the setup is shared (a
 seat means "a side" in singles and "one member of a team" in doubles, so switching would unseat
 everyone), and Next on step 1 waits for every side someone else holds to be confirmed.

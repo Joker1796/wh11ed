@@ -14,7 +14,7 @@ vi.mock('./useParty.js', () => ({
     active: computed(() => !!party.value),
     isHost: computed(() => !!party.value?.host),
     setHold: (on) => holdCalls.push(on),
-    sync: async () => { syncCalls.push(holdCalls.at(-1)) },
+    pushNow: async () => { syncCalls.push(holdCalls.at(-1)) },
   }),
 }))
 

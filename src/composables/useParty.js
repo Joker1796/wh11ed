@@ -375,6 +375,15 @@ export function useParty() {
     schedulePoll()
   }
 
+  // Send what is pending and be SURE it went. `sync()` alone is not that: with a request already
+  // in flight it returns that one and this phone's change waits for the next tick — which, for a
+  // change made a moment before the hold goes on (useLobby's openForm), means it never leaves at
+  // all. Wait the flight out, then send.
+  async function pushNow() {
+    if (inFlight) { try { await inFlight } catch { /* its own settle reported it */ } }
+    return sync()
+  }
+
   // The farewell send: leaving the live screen, the phone going dark, the tab closing.
   function flush() {
     if (!active.value || !online()) return
@@ -542,6 +551,7 @@ export function useParty() {
     const game = assembleGame(slices, { you: side })
     game.party = {
       ...handle,
+      name, // what this phone called itself when it sat down — the lobby shows it as the editor
       side,
       mi,
       host: false,
@@ -699,7 +709,7 @@ export function useParty() {
   return {
     party, active, isHost, canShare, canEdit, canResume, setScoreAll,
     status, lastError, lastSyncAt, members, invite,
-    init, attach, detach, wake, flush, sync,
+    init, attach, detach, wake, flush, sync, pushNow,
     setHold, reseat, share, join, peekMembers, takeSeat, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave, forget,
   }
 }

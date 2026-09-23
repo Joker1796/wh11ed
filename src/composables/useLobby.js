@@ -35,7 +35,7 @@ import { useParty } from './useParty.js'
 
 export function useLobby() {
   const { current } = useTracker()
-  const { party, active, isHost, setHold, sync } = useParty()
+  const { party, active, isHost, setHold, pushNow } = useParty()
 
   const game = computed(() => current.value || null)
   const isLobby = computed(() => game.value?.phase === 'setup')
@@ -76,18 +76,24 @@ export function useLobby() {
 
   // Claim the side for this phone. Called when its form opens; a phone that lost the race finds
   // the winner's `editor` in the next tick and its own write refused — which is the answer.
+  // The name on a claim is what the other phones call this editor. The side's own name is
+  // usually empty at this point (the host typed nothing into it), so the seat's name — what this
+  // phone called itself when it sat down — stands in.
+  function editorName_(name) {
+    return name || party.value?.name || ''
+  }
   function claim(pi, name = '') {
     const lb = ensureLobby(pi)
     if (!lb) return false
     if (lb.editor && lb.editor.id !== myId.value) return false
-    lb.editor = { id: myId.value, mi: party.value?.mi ?? null, name }
+    lb.editor = { id: myId.value, mi: party.value?.mi ?? null, name: editorName_(name) }
     return true
   }
   // Hand the right over, or take it back — the same write, and the only way to move it.
   function takeOver(pi, name = '') {
     const lb = ensureLobby(pi)
     if (!lb) return false
-    lb.editor = { id: myId.value, mi: party.value?.mi ?? null, name }
+    lb.editor = { id: myId.value, mi: party.value?.mi ?? null, name: editorName_(name) }
     return true
   }
   function release(pi) {
@@ -107,7 +113,7 @@ export function useLobby() {
     claim(pi, name)
     const lb = ensureLobby(pi)
     if (lb) { lb.ready = false; delete lb.deny }
-    if (shared.value) await sync()
+    if (shared.value) await pushNow()
     setHold(true)
   }
 

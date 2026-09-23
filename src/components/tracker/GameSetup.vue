@@ -160,7 +160,49 @@
             {{ sideNote(i) }}
           </p>
 
-          <div :inert="editable(i) ? undefined : true">
+          <!-- A side someone else is filling in is not a form with every field greyed out — it
+               is a REPORT. Empty until they press Done, because an empty form under a "waiting"
+               line is just a longer way of saying nothing; a few lines once they have, because
+               what the host wants from it is what it says, not what it could be typed into. -->
+          <div
+            v-if="mirrored(i)"
+            class="side-mirror"
+          >
+            <p
+              v-if="!isReady(i)"
+              class="sm-waiting"
+            >
+              <span
+                class="sm-dot"
+                aria-hidden="true"
+              />
+              {{ labels.lobbySideWaitingLong }}
+            </p>
+            <ul
+              v-else
+              class="sm-lines"
+            >
+              <li
+                v-for="(line, n) in sideSummary(i)"
+                :key="n"
+              >
+                {{ line }}
+              </li>
+            </ul>
+            <button
+              v-if="!isReady(i)"
+              type="button"
+              class="btn-ghost side-takeover"
+              @click="takeOverConfirmOpen = i"
+            >
+              {{ labels.lobbyFillMyself }}
+            </button>
+          </div>
+
+          <div
+            v-else
+            :inert="editable(i) ? undefined : true"
+          >
             <label
               v-if="isDoubles"
               class="field"
@@ -387,16 +429,6 @@
               <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
             </label>
           </div>
-          <!-- The partner's phone put its side down, or never picked it up: taking the right
-               over is always offered (with a confirm), rather than guessed at from liveness. -->
-          <button
-            v-if="sharedSetup && !editable(i)"
-            type="button"
-            class="btn-ghost side-takeover"
-            @click="takeOverConfirmOpen = i"
-          >
-            {{ labels.lobbyTakeOver }}
-          </button>
         </div>
       </div>
 
@@ -410,26 +442,6 @@
         >
           {{ labels.trackerCancel }}
         </button>
-        <!-- No "share this setup" button here. Playing together is decided on the tracker home,
-             before the wizard opens ("Shared game" → start a new one), because by the time the
-             armies are being entered the two players have long since settled that question — and
-             a second door into the same room only made this row longer. What stays is what a
-             lobby ALREADY OPEN needs: its code, and the way out of it. -->
-        <template v-if="sharedSetup">
-          <SyncIndicator />
-          <button
-            class="btn-ghost"
-            @click="partyOpen = true"
-          >
-            <i class="bi bi-qr-code" /> {{ labels.lobbyInvite }}
-          </button>
-          <button
-            class="btn-ghost"
-            @click="cancelConfirmOpen = true"
-          >
-            {{ labels.lobbyCancel }}
-          </button>
-        </template>
         <button
           class="btn-primary"
           :disabled="!canArmies || !othersReady"
@@ -437,6 +449,34 @@
           @click="leaveArmiesStep"
         >
           {{ labels.trackerNextStep }} →
+        </button>
+      </div>
+
+      <!-- Everything about the LOBBY, under the step's own navigation and quieter than it: the
+           code to read out, the way to the link and QR, and the way to close it. They used to
+           stand in that row as equals, which made five buttons of five different meanings — and
+           the two that move between wizard steps were the smallest of them. -->
+      <div
+        v-if="sharedSetup && !guest"
+        class="lobby-bar"
+      >
+        <SyncIndicator />
+        <button
+          type="button"
+          class="lobby-q"
+          :title="labels.lobbyInvite"
+          @click="partyOpen = true"
+        >
+          <i class="bi bi-qr-code" />
+          <span v-if="inviteCode">{{ labels.partyCode }} {{ inviteCode }}</span>
+          <span v-else>{{ labels.lobbyInvite }}</span>
+        </button>
+        <button
+          type="button"
+          class="lobby-q"
+          @click="cancelConfirmOpen = true"
+        >
+          {{ labels.lobbyCancelShort }}
         </button>
       </div>
     </div>
@@ -1085,7 +1125,7 @@ const {
   pendingRequest, grantReopen, denyReopen,
   setStage, othersReady,
 } = useLobby()
-const { canShare, share, end: endParty, setHold, lastError } = useParty()
+const { canShare, share, end: endParty, setHold, lastError, invite, refreshInvite } = useParty()
 
 // Which side this phone plays: the host (and a solo setup) sits on 0, a guest on its seat.
 const youIdx = computed(() => (sharedSetup.value ? mySide.value : 0))
@@ -1104,6 +1144,14 @@ const takeOverConfirmOpen = ref(null) // the side whose editing is being taken o
 // wizard, with no way to tell that the button they pressed had not worked. The server carries
 // the link between the phones, so there is no offline version of this — what there is instead
 // is a line saying so, and a way to try again.
+// The code on the lobby row. `invite` is module state in useParty, so it survives moving between
+// steps; after a RELOAD it is empty until asked for, and the row would otherwise read "Link and
+// code" forever on a lobby that has both.
+const inviteCode = computed(() => {
+  const c = invite.value?.code
+  return c ? `${c.slice(0, 3)} ${c.slice(3)}` : ''
+})
+
 const shareError = ref('')
 async function createLobby() {
   shareError.value = ''
@@ -1171,7 +1219,10 @@ onMounted(async () => {
   }
   if (!sharedSetup.value) return
   if (guest.value) openForm(youIdx.value, players[youIdx.value]?.name || '')
-  else claimHostSide()
+  else {
+    claimHostSide()
+    if (!invite.value) refreshInvite()
+  }
 })
 onUnmounted(() => { if (guest.value) setHold(false) })
 function claimHostSide() {
@@ -1189,6 +1240,36 @@ const requestMessage = computed(() => {
   const who = r.name || labels.value.trackerOpponent
   return labels.value.lobbyRequestBody.replace('{name}', who)
 })
+
+// A side this phone is not filling in, in a SHARED setup: someone else holds it, so the card
+// reports instead of asking. (A side nobody sits on is still the host's to fill, and stays a
+// form — `editable` is what tells the two apart.)
+function mirrored(i) {
+  return sharedSetup.value && !editable(i)
+}
+
+// What that card says once the side is confirmed: the army, the list and the disposition, in the
+// order the wizard asks for them. Built in script, never out of adjacent template fragments —
+// whitespace between them is load-bearing (see the lint note in CLAUDE.md).
+function sideSummary(i) {
+  const p = players[i]
+  if (!p) return []
+  const out = []
+  const armies = armiesOf(p)
+  if (isDoubles.value && p.teamName) out.push(p.teamName)
+  for (const m of armies) {
+    const army = [m.name, factionName(m.factionSlug)].filter(Boolean).join(' · ')
+    if (army) out.push(army)
+    if (m.detachments?.length) out.push(m.detachments.join(', '))
+    if (m.roster) out.push(`${labels.value.trackerRoster}: ${m.roster.name || labels.value.rosterUntitled}`)
+  }
+  // Only when it resolves to a name: a disposition id this build does not know (an older game,
+  // a newer sender) would otherwise print a label with nothing after the colon.
+  const disp = p.disposition ? dispositionName(p.disposition) : ''
+  if (disp) out.push(`${labels.value.trackerDisposition}: ${disp}`)
+  if (p.battleReady) out.push(labels.value.trackerBattleReady)
+  return out
+}
 
 // One line per side, in the host's cards and on the guest's own: who holds it, and whether it
 // is in. A side this phone edits says nothing — the fields under it are the answer.
@@ -1511,9 +1592,15 @@ function toggleDetachment(p, d) {
 // Changing faction resets its detachment/disposition choices (or, in Combat Patrol mode,
 // re-resolves them from the newly picked box — see resolveArmyChoice). Members get the same
 // watcher: their army-identity fields behave exactly like the side's own (inert in singles).
-players.forEach(p => {
-  watch(() => p.factionSlug, () => resolveArmyChoice(p))
-  p.members.forEach(m => watch(() => m.factionSlug, () => resolveArmyChoice(m)))
+//
+// ONLY for a side this phone is filling in. On the other side the faction does not "change" —
+// it ARRIVES, in a slice the other player just confirmed, and re-deriving from it wiped the
+// detachment and the disposition that came with it. The host then held a side its owner never
+// described, and would have sent that back (it may write any slice). A phone reacts to what it
+// types, never to what it is told.
+players.forEach((p, i) => {
+  watch(() => p.factionSlug, () => { if (editable(i)) resolveArmyChoice(p) })
+  p.members.forEach(m => watch(() => m.factionSlug, () => { if (editable(i)) resolveArmyChoice(m) }))
 })
 
 // Shrinking the DP budget (battle size, or doubles' per-player override) can invalidate the
@@ -1521,7 +1608,8 @@ players.forEach(p => {
 // fresh pick.
 watch(memberMaxDp, (next, prev) => {
   if (next >= prev || guest.value) return
-  players.forEach(p => {
+  players.forEach((p, i) => {
+    if (!editable(i)) return // a side another phone described is not this one's to empty
     armiesOf(p).forEach(m => { m.detachments = [] })
     p.disposition = null
   })
@@ -1531,8 +1619,10 @@ function factionHasDetachments(p) {
   return !!p.factionSlug && detachmentsFor(p.factionSlug).length > 0
 }
 
-// Disposition is derived from the chosen detachment(s); it's gated until one is picked.
-players.forEach(p => watch(() => candidateDispositions(p), (ids) => {
+// Disposition is derived from the chosen detachment(s); it's gated until one is picked. Same
+// rule as the faction watcher above: the other side's disposition is reported, not derived.
+players.forEach((p, i) => watch(() => candidateDispositions(p), (ids) => {
+  if (!editable(i)) return
   if (ids.length === 0) {
     if (factionHasDetachments(p)) p.disposition = null   // no detachment chosen → no disposition yet
     return                                               // detachment-less faction keeps its manual value
@@ -1570,7 +1660,9 @@ const primaryCards = computed(() => players.map((p, i) => {
 }))
 
 // Switching back to tactical drops any chosen fixed missions.
-players.forEach(p => watch(() => p.secondaryMode, (m) => { if (m !== 'fixed') p.fixedSecondaries = [] }))
+players.forEach((p, i) => watch(() => p.secondaryMode, (m) => {
+  if (editable(i) && m !== 'fixed') p.fixedSecondaries = []
+}))
 
 // The recommended layouts for the current Force Disposition matchup (15 matchups
 // cover all pairs, including mirrors). Reset the choice to A whenever it changes.
@@ -2085,6 +2177,69 @@ function cancel() {
 }
 .side-note.ok { color: var(--accent); }
 .side-takeover { margin-top: 0.6rem; width: 100%; }
+/* The lobby's own row, under the step navigation: text, not buttons with frames, so it reads as
+   an annotation to the party rather than a third and fourth way forward. Same recipe as the
+   tracker home's quiet row. */
+.lobby-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 1.1rem;
+  margin-top: 0.4rem;
+}
+.lobby-q {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.6rem 0.2rem;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .lobby-q:hover { color: var(--accent); }
+}
+
+/* The other side's card while another phone holds it: a waiting line, then what it sent. */
+.side-mirror { padding: 0.2rem 0 0.1rem; }
+.sm-waiting {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+.sm-dot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  animation: sm-pulse 2s ease-in-out infinite;
+}
+@keyframes sm-pulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sm-dot { animation: none; opacity: 0.8; }
+}
+.sm-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+.sm-lines li:first-child { font-weight: 600; }
 /* A seg whose answer is settled (the game type, once phones have joined): dimmed as a whole
    rather than each button carrying its own disabled look. */
 .seg.locked { opacity: 0.55; }
