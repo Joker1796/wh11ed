@@ -236,7 +236,9 @@ describe('RosterEditorView', () => {
     expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
   })
 
-  it('the footer Cancel button links back to the roster list', async () => {
+  // The editor writes into the stored roster as you go, so Cancel has to put it back — it used
+  // to be a link to the list, i.e. "close, keeping everything" (owner, 2026-09-24).
+  it('the footer Cancel leaves straight away when nothing was touched', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
@@ -245,7 +247,55 @@ describe('RosterEditorView', () => {
 
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    expect(w.find('.rc-sticky .btn-ghost').attributes('href')).toBe('/roster')
+    await w.find('.rc-sticky .btn-ghost').trigger('click')
+    expect(new DOMWrapper(document.body).find('.modal').exists()).toBe(false)
+    expect(push).toHaveBeenCalledWith('/roster')
+  })
+
+  it('the footer Cancel asks first, then puts the list back the way it opened', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    // …edit: a second unit and a new name, after the screen took its baseline.
+    store.rosterById(r.id).units.push({ uid: 'u2', id: 'intercessor-squad', size: 0 })
+    store.rosterById(r.id).name = 'Renamed'
+    await flushPromises()
+    await w.find('.rc-sticky .btn-ghost').trigger('click')
+
+    const body = new DOMWrapper(document.body)
+    expect(body.find('.modal').exists()).toBe(true)
+    expect(push).not.toHaveBeenCalledWith('/roster') // nothing happens until the question is answered
+    // Both halves of what changed are named, so the reader knows what they are giving up.
+    expect(body.find('.cm-message').text()).toContain('1')
+    await body.find('.modal-foot .btn-primary').trigger('click')
+
+    expect(store.rosterById(r.id).units).toHaveLength(1)
+    expect(store.rosterById(r.id).name).toBe('Test list')
+    expect(push).toHaveBeenCalledWith('/roster')
+  })
+
+  it('the footer Cancel keeps the edits when the question is answered with Keep editing', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    store.rosterById(r.id).name = 'Renamed'
+    await flushPromises()
+    await w.find('.rc-sticky .btn-ghost').trigger('click')
+    await new DOMWrapper(document.body).find('.modal-foot .btn-ghost').trigger('click')
+
+    expect(store.rosterById(r.id).name).toBe('Renamed')
+    expect(push).not.toHaveBeenCalledWith('/roster')
   })
 
   // The catalogue used to be a page of its own (/roster/:id/add) and the Units tab a link to it;

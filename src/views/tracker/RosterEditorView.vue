@@ -339,12 +339,17 @@
           </button>
         </div>
         <div class="rc-sticky-actions">
-          <RouterLink
-            to="/roster"
+          <!-- Cancel means it. The editor writes straight into the stored roster (useRosters
+               auto-saves it), so this used to be a link to the list — it closed the screen with
+               every change kept. It now puts the list back the way the screen found it, and asks
+               first, because that is as irreversible as the editing it undoes. -->
+          <button
+            type="button"
             class="btn-ghost"
+            @click="leaveEditor"
           >
             {{ labels.rosterCancel }}
-          </RouterLink>
+          </button>
           <button
             class="btn-primary"
             @click="save"
@@ -354,6 +359,16 @@
         </div>
       </div>
     </div>
+
+    <ConfirmModal
+      v-if="discardOpen"
+      :title="labels.rosterDiscardTitle"
+      :message="discardMessage"
+      :confirm-label="labels.rosterDiscardYes"
+      :cancel-label="labels.rosterDiscardNo"
+      @confirm="discardEdits"
+      @close="discardOpen = false"
+    />
 
     <FactionPickerModal
       v-if="factionPickerOpen"
@@ -391,6 +406,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import ConfirmModal from '../../components/ConfirmModal.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
@@ -446,12 +462,37 @@ function save() {
   router.push(`/roster/${roster.value.id}/view`)
 }
 
+// Cancel: nothing to take back → just leave, same as the link this used to be. Something to take
+// back → say what it is and ask. The list of parts is built in useRosterEditing; the words are
+// here, where the locale is.
+const discardOpen = ref(false)
+const PART_LABEL = {
+  added: 'rosterDiscardAdded',
+  removed: 'rosterDiscardRemoved',
+  changed: 'rosterDiscardChanged',
+  name: 'rosterDiscardName',
+  setup: 'rosterDiscardSetup',
+}
+const discardMessage = computed(() => {
+  const what = changedParts.value.map((p) => labels.value[PART_LABEL[p.k]].replace('{n}', String(p.n))).join(', ')
+  return what ? labels.value.rosterDiscardBody.replace('{what}', what) : labels.value.rosterDiscardBodyPlain
+})
+function leaveEditor() {
+  if (!dirty.value) { router.push('/roster'); return }
+  discardOpen.value = true
+}
+function discardEdits() {
+  revertEdits()
+  discardOpen.value = false
+  router.push('/roster')
+}
+
 // Roster, faction data, live points, validation and the add/duplicate/remove semantics all come
 // from useRosterEditing.js — everything from `defOf` down is what it reads off the roster through
 // useRosterDerived.js, the same answers the wizard and the read-only view get.
 const {
   roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
-  addUnit, duplicateUnit,
+  addUnit, duplicateUnit, dirty, changedParts, revertEdits,
   slugFor, entryMeta, groupedUnits, attachRole, dupBlocked, fieldProps,
 } = useRosterEditing(() => route.params.id)
 

@@ -2146,9 +2146,18 @@ roster screens use, since 2026-08-28; fixed footer bar — `.rc-sticky`, same cl
 `RosterCreateView.vue`'s own wizard bar, copied not shared — with the points readout + issues
 badge on the left and Cancel/Save on the right, always visible across both tabs, not just
 one step. "Save" is a pure navigation shortcut to that same read-only view (`save()` →
-`/roster/:id/view`) — every edit already autosaves to `useRosters.js`'s reactive store, there's
-nothing left to actually persist; "Cancel" is a plain `RouterLink` back to `/roster`, same
-non-destructive idea. Reusing the literal `.rc-sticky` class name is load-bearing, not
+`/roster/:id/view`) plus the deliberate cloud upload — every edit already autosaves to
+`useRosters.js`'s reactive store, there's nothing left to actually persist locally.
+**"Cancel" cancels** (2026-09-24, owner): it was a `RouterLink` back to `/roster`, i.e. "close,
+keeping everything", which is the opposite of the word. `useRosterEditing` now takes a JSON
+baseline of the roster when the screen opens, `dirty` compares against it (ignoring `summary`,
+which is derived, and `updatedAt`, which is a clock), and `revertEdits()` writes the baseline back
+**into the same object** the store holds — replacing it in the array would leave every screen's
+computed pointing at the old one — then `saveNow()`, because the navigation is in the same tick as
+the debounced write. Nothing goes to the cloud on a cancel and nothing has to: uploads follow the
+Save click, so the cloud copy is already the pre-session one. A dirty list gets a `ConfirmModal`
+first, and it names what is about to go (`changedParts` counts added / removed / reconfigured
+units, the name, the setup — the module has no locale, so the view turns the parts into words). Reusing the literal `.rc-sticky` class name is load-bearing, not
 cosmetic: `App.vue`'s `.app-layout:has(.rc-sticky)` selector — which reserves
 `--roster-sticky-h` so `MobileUtilityBar`'s floating buttons rise above this bar instead of
 overlapping it — matches by class name alone, regardless of which view rendered it. Those chips
