@@ -533,6 +533,11 @@ function keyword(kws, name) {
   return (kws || []).some((k) => k.toLowerCase() === n)
 }
 
+// Any instruction that describes a swap, in either voice appdata uses. The rep parser below
+// resolves them; `--check` fails on one it could not, because a group that gives nothing up is
+// a model carrying both weapons and a limit with no stock behind it. Written once, read twice.
+const SWAP_SHAPED = /replaced with|\bcan\s+(?:each\s+)?replace\s+(?:its|their|his|her|the)\b/i
+
 // A handful of wargear groups depend on ANOTHER group on the same datasheet+miniature — e.g.
 // Necron Overlord's Resurrection Orb is only on offer after giving up the default tachyon arrow,
 // and several Chaos Daemon units offer a daemonic-icon/instrument-of-Chaos pair that are
@@ -725,6 +730,12 @@ function linkWargearConditions(datasheetId, drafts) {
   // …and once, corpus-wide, with no possessive at all: "Each model can have each shuriken cannon
   // it is equipped with replaced with one of the following".
   const HAVE_RE = /\bhave\s+(?:each|its|their|the|1|one)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s+(?:it is|they are|this model is|that model is)\s+equipped with\s+replaced with/i
+  // …and the ACTIVE voice, which appdata writes just as readily: "1 Raptor can replace their
+  // Astartes chainsword with 1 mutations". Nothing read that shape until 2026-09-23, so 29 groups
+  // across 11 factions declared no `rep`: the weapon stayed on the model beside the one that
+  // replaced it, and the stock rule — a model cannot give the same item up twice — had nothing to
+  // count, so a ten-Raptor squad offered two mutations with one chainsword left to trade.
+  const ACTIVE_RE = /\bcan\s+(?:each\s+)?replace\s+(?:its|their|his|her|the)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s+with\b/i
   for (const d of drafts) {
     // A sentence can carry more than one possessive before the swap — "The Celestian Insidiant's
     // Superior's condemnor bolt pistol" — and the first one starts a phrase that names no item.
@@ -737,14 +748,15 @@ function linkWargearConditions(datasheetId, drafts) {
       if (uuids) { d.rep = uuids; repStats.resolved++; break }
       from += d.text.slice(from).indexOf(m[0]) + 2
     }
-    if (!d.rep && (m = d.text.match(HAVE_RE))) {
+    for (const RE of [HAVE_RE, ACTIVE_RE]) {
+      if (d.rep || !(m = d.text.match(RE))) continue
       last = m
       const uuids = resolvePhrase(m[1], d.miniId)
       if (uuids) { d.rep = uuids; repStats.resolved++ }
     }
     if (d.rep) continue
     if (last) repStats.unresolved.push(`${enOf(dsById.get(datasheetId)).name}: ${last[1].trim()}`)
-    else if (/replaced with/i.test(d.text)) repStats.noMatch.push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
+    else if (SWAP_SHAPED.test(d.text)) repStats.noMatch.push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
   }
 
   // What each draft is CONDITIONED on, from "[if …] not equipped with X" / "equipped with X".
@@ -2632,6 +2644,16 @@ if (CHECK) {
   // the way the datasheet says — the Lieutenant's shield loadout sat in this list, printed and
   // unread, until a player reported it (2026-09-18). Zero today; a new one is a gate, not a note.
   // (`unbacked` stays a note: those are one-of lists appdata's enumeration simply does not cover.)
+  // A swap-shaped instruction the rep parser could not read AT ALL is the shape that hid the
+  // Raptors mutation swap: no `rep`, so the model kept the weapon it had traded away and the
+  // stock rule had no stock to count against — the squad offered two mutations with one
+  // chainsword left (reported 2026-09-23). `unresolved` stays a note below: those name an item
+  // the profile cannot be pinned to ("this model's X or Y"), and they fail open by design.
+  if (rp.noMatch.length) {
+    console.log(`\n  --check: ${rp.noMatch.length} swap instruction(s) in a shape the rep parser does not know — teach it the form (REP_RE / HAVE_RE / ACTIVE_RE):`)
+    for (const l of rp.noMatch) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
+    return 1
+  }
   if (b.unclaimed.length) {
     console.log(`\n  --check: ${b.unclaimed.length} wargear group(s) whose prose the bundle parser could not account for — read them above; a misspelling in appdata's instruction is the usual cause (flatText).`)
     return 1

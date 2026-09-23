@@ -268,6 +268,19 @@ September even though `sync-core` printed it on every run — one finding among 
   Dominatus is tracked here as deliberately unimplemented — it only adapts the separate Dominatus
   deck, whose contents GW ships nowhere (appdata's `mission_pack_location*` tables are empty).
 
+- **`npm run roster:data:check`** (`scripts/gen-roster-data.mjs`) — besides reporting that the
+  generated faction files are stale, it fails on a wargear instruction whose SHAPE the replacement
+  parser does not know: the group then declares no `rep`, which means the model keeps the weapon it
+  traded away AND the stock rule ("a model cannot give the same item up twice") has no stock to
+  count. appdata writes a swap in two voices — passive ("…their chainsword can be replaced with…")
+  and active ("1 Raptor can replace their Astartes chainsword with 1 mutations") — and only the
+  passive one was read until 2026-09-23, so 29 groups in 17 units across 10 factions (every
+  Deathwatch kill team, Cadian Recon Squad, Raptors, Guardian Defenders, Noise Marines…) silently
+  gave nothing up. The old report was keyed on the words "replaced with", so the active voice did
+  not even appear in it as a miss: `SWAP_SHAPED` is now the one definition of "this sentence is a
+  swap", shared by the parser and the gate. A phrase that is read but names no single item ("this
+  model's X or Y") stays a printed NOTE, not a failure — those fail open by design.
+
 The first two share `scripts/lib/core-corpus.mjs` with `sync-core` — one normalization recipe, so the gate
 and the report can never disagree about what a rule says. A caveat that cost a day: appdata files
 several rules under ONE number (09.07.01 is both "Desperate Escape Test" and "Desperate Escape"),

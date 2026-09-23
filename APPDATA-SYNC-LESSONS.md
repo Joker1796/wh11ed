@@ -1021,3 +1021,15 @@ and appdata state fresh; a data model can change between now and when this is ne
     footers are paraphrased, so the text never matches), add a check that names what the class can
     actually hide — `sync-leader-units` now compares footnote PRESENCE against appdata's rule text,
     which flags exactly those four and nothing else.
+
+63. **A parser that reads one grammatical voice is blind, and the blindness does not show up as a
+    miss.** appdata states a wargear swap two ways — passive ("…their Astartes chainsword can be
+    replaced with…") and active ("1 Raptor can replace their Astartes chainsword with 1 mutations").
+    `gen-roster-data` read only the passive form, so 29 groups in 17 units across 10 factions
+    carried no `rep`: the model kept the weapon it had traded, and the stock rule had no stock to
+    count, so a ten-model Raptors squad offered two mutations with one chainsword left to trade. A
+    player found it (2026-09-23), not a check — because the report's own "didn't parse" list was
+    keyed on the words *"replaced with"*, the exact phrase the missed sentences do not contain. A
+    detector written from one shape counts everything it can see and nothing it cannot. Name the
+    CONCEPT once (`SWAP_SHAPED`) and have the parser and the report read the same definition; when
+    one is widened, the other cannot stay narrow.
