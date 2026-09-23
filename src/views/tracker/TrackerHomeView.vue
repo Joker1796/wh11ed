@@ -66,27 +66,17 @@
         >
           {{ labels.trackerNewGame }}
         </button>
-        <!-- Disabled rather than hidden without an account, with that as its reason: only the
-             host of a shared game needs one, and a reader who cannot see the button cannot
-             learn that. -->
+        <!-- ONE entry for the shared game, both directions behind it. Starting one and joining
+             someone else's are one subject, they differ in a single fact (an account is needed
+             for one and not the other), and side by side they made the row three equal links
+             under the primary button. The dialog asks which; it never needs an account itself. -->
         <button
           type="button"
           class="cta-q"
-          :disabled="!canShare"
-          :title="canShare ? '' : labels.partySignIn"
-          @click="startShared"
+          @click="sharedOpen = true"
         >
           <i class="bi bi-people" /> {{ labels.lobbyNewGameShort }}
         </button>
-        <!-- Someone else's game on this phone (useParty.js) — always offered, whatever the state
-             of your own: the usual visitor is here for their own game, but this is the only way
-             in for the one who is not. -->
-        <RouterLink
-          to="/tracker/join"
-          class="cta-q"
-        >
-          <i class="bi bi-people" /> {{ labels.partyHomeJoinShort }}
-        </RouterLink>
       </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
@@ -94,6 +84,12 @@
            so the way in and out is the navbar's account menu — the line above only reports where
            the games stand. -->
     </div>
+
+    <SharedGameModal
+      v-if="sharedOpen"
+      @create="onSharedCreate"
+      @close="sharedOpen = false"
+    />
 
     <!-- The one number people came back for. It sits above the list because a record is a
          summary of that list, and it is a link because everything behind it is on /tracker/stats. -->
@@ -242,6 +238,7 @@ import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
 import { useParty } from '../../composables/useParty.js'
+import SharedGameModal from '../../components/tracker/SharedGameModal.vue'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 import { buildStats } from '../../composables/gameStats.js'
 
@@ -368,6 +365,11 @@ function startShared() {
     return
   }
   doStartShared()
+}
+const sharedOpen = ref(false)
+function onSharedCreate() {
+  sharedOpen.value = false
+  startShared()
 }
 function doStartShared() {
   archiveCurrent()
@@ -529,9 +531,12 @@ function footLine(g) {
   gap: 0.6rem;
   margin-bottom: 1.6rem;
 }
-/* The one button, sized to the text it carries rather than to the screen: full width on a phone
-   reads as a banner, and at desktop width a single stretched button looks like an error. */
-.cta-main { min-width: min(18rem, 100%); text-align: center; }
+/* Sized by its own label and nothing else. A minimum width was tried first (18rem) and it was
+   wrong twice over: at desktop width the button read as a banner, and `.btn-primary` is an
+   inline-flex with no `justify-content`, so the label sat against the left edge of all that
+   width instead of in the middle of it. A button the width of its text has neither problem —
+   and it stops the button and the row under it from being two bars of the same length. */
+.cta-main { max-width: 100%; }
 
 .cta-quiet {
   display: flex;
