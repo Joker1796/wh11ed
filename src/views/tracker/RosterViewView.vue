@@ -1780,7 +1780,12 @@ function stratKey(strat) {
    RuleBody without reaching into their scoped styles at all; the rest is :deep() on the two
    things that set the rhythm — body type and paragraph gaps. */
 .rv-rules {
-  --fs-rule-title: 1.15rem;
+  /* A step smaller than the rules page, not two. Sofia Sans Extra Condensed is narrow enough
+     that a nominal size reads about a size below a sans of the same value — at 1.15rem the rule's
+     own name ended up looking no larger than the body underneath it, and the section label above
+     it smaller still (owner, 2026-09-24). Raised so the three levels are told apart at arm's
+     length: label 1.2 → name 1.35 → body 0.85rem of Inter. */
+  --fs-rule-title: 1.35rem;
   --fs-subheading: 1rem;
 }
 /* Every override goes through the .rv-rule-block wrapper on purpose: a bare `.rv-rules
@@ -1797,7 +1802,7 @@ function stratKey(strat) {
 .rv-rules .rv-rule-block :deep(.rule-list li),
 .rv-rules .rv-rule-block :deep(.rule-ol li) { margin-bottom: 0.15rem; line-height: 1.35; }
 .rv-rules .rv-rule-block :deep(.rule-subheading) { margin: 0.5rem 0 0.15rem; }
-.rv-rules .rvg-head { margin: 0.8rem 0 0.35rem; }
+.rv-rules .rvg-head { margin: 0.8rem 0 0.35rem; font-size: 1.2rem; }
 .rv-rules .rv-rule-block:first-child .rvg-head { margin-top: 0; }
 .rv-rule-block { margin-bottom: 0.9rem; }
 
