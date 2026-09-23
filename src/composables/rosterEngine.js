@@ -1195,6 +1195,11 @@ function joinAttached(items, where) {
 // inside a 64 KB budget shared with the game (see `rosterGameLink.js`), so a note is a line, not a
 // page.
 export const ENTRY_NOTE_MAX = 60
+// A block's own name, written on its HOST entry. Shorter than a note because it is a heading on a
+// 182px pane, not a sentence: "домашка", "ближняя точка", "скрин экшн право" — what the player
+// calls that part of the army while planning, which is the one thing about a list the app cannot
+// know. Travels with the roster like every other entry field (rosterShare's `units` goes whole).
+export const BLOCK_NAME_MAX = 28
 export const ROSTER_NOTES_MAX = 2000
 
 // Write a note, or remove it. Absent rather than empty: an empty string is not a note, and every

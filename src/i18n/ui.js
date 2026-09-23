@@ -497,6 +497,8 @@ export const ui = {
     // The undo bar. "Removed: <name>" rather than "<name> removed" so the Russian line needs no
     // gender for a unit name it cannot decline.
     rosterAttachedFold: 'Fold the attached unit',
+    rosterBlockName: 'Name this unit',
+    rosterBlockNameHint: 'What you call it while planning — “home objective”, “centre push”',
     rosterRemoved: 'Removed: {name}',
     rosterUndo: 'Undo',
     rosterEdit: 'Edit',
@@ -1474,6 +1476,8 @@ export const ui = {
     rosterUseInTracker: 'В трекер',
     rosterMoreActions: 'Другие действия',
     rosterAttachedFold: 'Свернуть отряд',
+    rosterBlockName: 'Назвать отряд',
+    rosterBlockNameHint: 'Как вы зовёте его, когда планируете: «домашка», «ближняя точка»',
     rosterRemoved: 'Удалено: {name}',
     rosterUndo: 'Вернуть',
     rosterEdit: 'Редактировать',

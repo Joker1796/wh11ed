@@ -10,7 +10,7 @@ const entries = [
   { uid: 'u1', id: 'squad', size: 0 },
   { uid: 'u2', id: 'lord', size: 0, leaderOf: 'u1' },
 ]
-const groups = [{ id: 'attached', entries }]
+const groups = [{ id: 'battleline', entries }]
 
 const mountList = (props = {}) => mount(RosterUnitList, {
   props: {
@@ -23,7 +23,10 @@ const mountList = (props = {}) => mount(RosterUnitList, {
   slots: { fields: '<p class="probe">fields</p>' },
 })
 
-afterEach(() => { document.body.innerHTML = '' })
+afterEach(() => {
+  document.body.innerHTML = ''
+  delete entries[0].blockName // the fixture is shared; a name written by one test is not another's
+})
 
 describe('RosterUnitList', () => {
   // The bodyguard's tile is the block's header: it folds the characters joined to it away, and
@@ -57,7 +60,8 @@ describe('RosterUnitList', () => {
     expect(w.emitted('toggle')[0]).toEqual(['u2'])
     await w.findAll('.rul-more')[0].trigger('click')
     const body = new DOMWrapper(document.body)
-    await body.findAll('.act-btn')[0].trigger('click')
+    const act = (text) => body.findAll('.act-btn').find((b) => b.text() === text)
+    await act('Duplicate').trigger('click')
     expect(w.emitted('duplicate')[0][0].uid).toBe('u1')
     await w.findAll('.rul-more')[0].trigger('click')
     await body.find('.act-btn.act-danger').trigger('click')
@@ -81,8 +85,34 @@ describe('RosterUnitList', () => {
     const w = mountList({ dupBlocked: (e) => e.uid === 'u1' })
     await w.findAll('.rul-more')[0].trigger('click')
     const body = new DOMWrapper(document.body)
-    expect(body.findAll('.act-btn')).toHaveLength(1) // removing is always on offer
-    expect(body.find('.act-btn').classes()).toContain('act-danger')
+    const texts = body.findAll('.act-btn').map((b) => b.text())
+    expect(texts).not.toContain('Duplicate')
+    expect(texts).toContain('Remove') // removing is always on offer
+  })
+
+  // A player's own name for a block — "home objective", "centre push" — is the one thing about a
+  // list the app cannot know. Offered on a HOST only: a lone unit has its own note field.
+  it('names a block from the host\'s sheet, and heads it with the name', async () => {
+    const w = mountList()
+    const body = new DOMWrapper(document.body)
+    expect(w.find('.rul-bhead').exists()).toBe(false)
+
+    await w.findAll('.rul-more')[0].trigger('click')
+    await body.findAll('.act-btn').find((b) => b.text() === 'Name this unit').trigger('click')
+    await body.find('.rul-name-lab input').setValue('Home objective')
+    await body.find('.rul-name-acts .btn-primary').trigger('click')
+
+    expect(entries[0].blockName).toBe('Home objective')
+    expect(w.find('.rul-bhead .rul-bname').text()).toBe('Home objective')
+    expect(w.find('.rul-bhead .rul-btotal').text()).toContain('190') // 90 + 100, the whole block
+    expect(w.findAll('.rul-unit .rul-fold')).toHaveLength(0) // the fold moved up to the header
+  })
+
+  it('offers no name for a unit with nothing attached to it', async () => {
+    const w = mountList()
+    await w.findAll('.rul-more')[1].trigger('click') // the character, not the squad
+    const texts = new DOMWrapper(document.body).findAll('.act-btn').map((b) => b.text())
+    expect(texts).not.toContain('Name this unit')
   })
 
   // A wide screen has room for the fields under the row they belong to.

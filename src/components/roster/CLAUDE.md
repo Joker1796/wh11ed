@@ -1480,7 +1480,22 @@ carries the block's whole points (`hostBlockTotal`) and a `+N` chip for what is 
 only state in which a combined figure is safe — unfolded, every row shows its own number and the
 column still adds up to the roster total, which a combined figure beside them would quietly break.
 Folding is component state, not a setting: everything starts open, nothing is persisted, and a
-reload forgets it. The footnote line the block used to end with (`attachedBlockTotal` +
+reload forgets it.
+
+**A block can carry the player's own name for it** — "домашка", "ближняя точка", the way a list is
+actually talked about while planning, which is the one thing about it the app cannot know. The name
+is written on the HOST entry (`blockName`, capped at `BLOCK_NAME_MAX`, through the same `setNote`
+that trims and REMOVES an emptied field), so it travels with the roster everywhere `units` does — a
+share link, a game snapshot — with no schema bump, exactly like a per-unit note. It is offered in
+the host's own actions sheet, and only there: a lone unit already has a note field in its
+configuration.
+
+A NAMED block draws a line of its own above its tiles, carrying the three things that belong to the
+block rather than to any row in it — the name, the fold, and the block's points. An unnamed one
+draws no such line, and its host's tile stays the header: a row on every block for a name nobody
+wrote is what a 182px pane cannot afford (the standing rule — an extra line in a dense place is
+opt-in). The total follows the fold with it: on the header where there is one, on the host's row
+while folded where there is not, never in two places at once. The footnote line the block used to end with (`attachedBlockTotal` +
 `.roster-sum`) went with the change; the READ-ONLY list (`RosterViewView`) still prints it, because
 nothing folds there and the total has nowhere else to go.
 
