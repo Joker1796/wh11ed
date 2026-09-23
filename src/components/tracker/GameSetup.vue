@@ -36,6 +36,22 @@
       </div>
     </div>
 
+    <!-- Opening the lobby failed (no connection, or a session that went stale). Said out loud
+         here rather than dropping the reader into an ordinary setup wondering what happened. -->
+    <p
+      v-if="shareError"
+      class="share-error"
+    >
+      <span>{{ shareError }}</span>
+      <button
+        type="button"
+        class="btn-ghost se-retry"
+        @click="createLobby"
+      >
+        {{ labels.lobbyShareRetry }}
+      </button>
+    </p>
+
     <!-- ───────── Step 1 — Armies ───────── -->
     <!-- A guest sees this panel and the mission panel's own side block, one under the other:
          everything about ITS army, nothing about the game around it. -->
@@ -1069,7 +1085,7 @@ const {
   pendingRequest, grantReopen, denyReopen,
   setStage, othersReady,
 } = useLobby()
-const { canShare, share, end: endParty, setHold } = useParty()
+const { canShare, share, end: endParty, setHold, lastError } = useParty()
 
 // Which side this phone plays: the host (and a solo setup) sits on 0, a guest on its seat.
 const youIdx = computed(() => (sharedSetup.value ? mySide.value : 0))
@@ -1083,14 +1099,29 @@ const partyOpen = ref(false)
 const cancelConfirmOpen = ref(false)
 const takeOverConfirmOpen = ref(null) // the side whose editing is being taken over
 // Called on arrival when the tracker home asked for a shared game (`?share=1`).
+//
+// A failure here used to be silent: the lobby closed and the reader was left in the ordinary
+// wizard, with no way to tell that the button they pressed had not worked. The server carries
+// the link between the phones, so there is no offline version of this — what there is instead
+// is a line saying so, and a way to try again.
+const shareError = ref('')
 async function createLobby() {
-  if (!canShare.value) return
+  shareError.value = ''
+  if (!canShare.value) { shareError.value = labels.value.partySignIn; return }
   clearDraft()
   startLobby({ settings, players })
   players[0].isYou = true
   players[1].isYou = false
   const ok = await share()
-  if (!ok) { closeLobby(); return }
+  if (!ok) {
+    closeLobby()
+    // A 401 is the one failure with an instruction attached: the session behind the account
+    // went stale, so signing in again is the fix rather than "try again".
+    shareError.value = String(lastError.value || '').includes('401')
+      ? labels.value.partySignIn
+      : labels.value.lobbyShareFailed
+    return
+  }
   claimHostSide() // the guest's phone sees who is filling what from the first tick
   partyOpen.value = true
 }
@@ -2034,6 +2065,19 @@ function cancel() {
 .br-check { margin-top: 0.2rem; }
 /* The lobby's one line per card: whose side this is and whether it is in. Reads as an
    annotation under the heading, never as a control. */
+.share-error {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0 0 0.9rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--danger);
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+.se-retry { margin-left: auto; }
 .side-note {
   margin: -0.15rem 0 0.6rem;
   font-size: 0.78rem;
