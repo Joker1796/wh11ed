@@ -66,6 +66,12 @@ const labels = computed(() => ui[locale.value])
 @media (min-width: 901px) {
   .ru-bar { bottom: calc(var(--roster-sticky-h, 0px) + 1rem); }
 }
+/* The bar is an always-dark surface, so its accent is the faction's DARK one — `--fa-dark`, the
+   half of the pair the screens fold into `--accent` only in the dark theme (useFactionAccent).
+   Reading `--accent` here would hand it the light theme's faction colour on a near-black bar, and
+   `--accent-on-dark` would hand every army the same red: the border followed the faction and the
+   button did not, which is what the owner saw on a Necron list. The fallback is for a roster with
+   no faction picked yet. */
 .ru-inner {
   pointer-events: auto;
   display: flex;
@@ -75,11 +81,12 @@ const labels = computed(() => ui[locale.value])
   margin: 0 auto;
   padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   background: var(--bg-insert);
-  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--bg-insert));
+  border: 1px solid color-mix(in srgb, var(--ru-accent) 45%, var(--bg-insert));
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
   color: var(--text-on-dark);
+  --ru-accent: var(--fa-dark, var(--accent-on-dark));
 }
-.ru-icon { flex-shrink: 0; color: var(--accent-on-dark); }
+.ru-icon { flex-shrink: 0; color: var(--ru-accent); }
 .ru-text {
   flex: 1;
   min-width: 0;
@@ -88,14 +95,14 @@ const labels = computed(() => ui[locale.value])
   overflow-wrap: anywhere;
 }
 /* The one action, loud enough to be the reason the bar is there. The accent carries it as an
-   OUTLINE, not as the letters: --accent-on-dark on this surface measures 3.0:1, which is fine for
+   OUTLINE, not as the letters: a faction accent on this surface runs around 3:1, which is fine for
    a border (1.4.11) and short of the 4.5 text owes — so the word itself takes the bar's own
    high-contrast ink and the box does the shouting. */
 .ru-undo {
   flex-shrink: 0;
   min-height: 32px;
   padding: 0 0.7rem;
-  border: 1px solid var(--accent-on-dark);
+  border: 1px solid var(--ru-accent);
   background: none;
   color: var(--text-on-dark);
   font: inherit;
@@ -105,7 +112,7 @@ const labels = computed(() => ui[locale.value])
   letter-spacing: 0.03em;
   cursor: pointer;
 }
-@media (hover: hover) { .ru-undo:hover { background: color-mix(in srgb, var(--accent-on-dark) 22%, transparent); } }
+@media (hover: hover) { .ru-undo:hover { background: color-mix(in srgb, var(--ru-accent) 22%, transparent); } }
 .ru-close {
   flex-shrink: 0;
   min-width: 32px;
