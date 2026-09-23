@@ -1784,9 +1784,11 @@ function stratKey(strat) {
      that a nominal size reads about a size below a sans of the same value — at 1.15rem the rule's
      own name ended up looking no larger than the body underneath it, and the section label above
      it smaller still (owner, 2026-09-24). Raised so the three levels are told apart at arm's
-     length: label 1.2 → name 1.35 → body 0.85rem of Inter. */
+     length: label 1.2 → name 1.35 → sub-rule 1.15 → body 0.85rem of Inter. The sub-rule heading
+     needed the same correction as the name for the same reason — a rule that names two abilities
+     was printing their headings smaller than the sentences under them. */
   --fs-rule-title: 1.35rem;
-  --fs-subheading: 1rem;
+  --fs-subheading: 1.15rem;
 }
 /* Every override goes through the .rv-rule-block wrapper on purpose: a bare `.rv-rules
    :deep(.rule-body)` ties RuleBlock's own `.rule-body` on specificity (both 0,2,0) and would be

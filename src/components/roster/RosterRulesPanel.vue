@@ -326,7 +326,7 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
    got, scaled to this panel's tighter body). */
 .rrp-sec-body {
   --fs-rule-title: 1.25rem;
-  --fs-subheading: 1rem;
+  --fs-subheading: 1.1rem;
 }
 .rrp-sec-body :deep(.rule-block) { padding: 0.2rem 0 0.4rem; border-bottom: none; }
 .rrp-sec-body :deep(.rule-header) { margin-bottom: 0.35rem; }
