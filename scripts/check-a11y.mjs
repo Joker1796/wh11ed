@@ -13,8 +13,9 @@
 // The three checks, and what they deliberately leave alone:
 //   contrast — WCAG 2.2 AA (1.4.3): 4.5:1 for text, 3:1 for large text (≥24px, or ≥18.66px bold).
 //              Text on a background-image or gradient is skipped (the ratio is not computable),
-//              so are disabled controls and placeholders (exempt by the standard). Resting state
-//              only — hover/focus colours are not measured yet.
+//              so are disabled controls and placeholders (exempt by the standard) — but a field's
+//              OWN text colour is measured even when it is empty, since nothing else would.
+//              Resting state only — hover/focus colours are not measured yet.
 //   target   — WCAG 2.2 AA (2.5.8): every pointer target is at least 24×24 CSS px, unless no
 //              other target's centre lies within 24px of its own (the spacing exception) or the
 //              target is inline in running text (the inline exception).
@@ -206,6 +207,41 @@ function measure({ checks }) {
       out.contrast.push({
         sig: sig(el),
         text: text.slice(0, 40),
+        fg: hex(fg),
+        bg: hex(bg),
+        ratio: Math.round(r * 100) / 100,
+        need,
+        size: Math.round(size * 10) / 10,
+      })
+    }
+
+    // A field's own text has no text node to find: `input.value` is not a child, and an empty
+    // field shows only its placeholder, which the standard exempts — so the colour a reader
+    // actually types in was measured by nothing. In the light theme the roster bar's name field
+    // drew #2a2828 on #2a2828 and what you typed was invisible (report 8aabcef5, an iPad). The
+    // pass below reads the colour the field WOULD draw, filled or empty.
+    const FIELDS =
+      'input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]):not([type=image]):not([type=hidden]), textarea, select'
+    for (const el of document.body.querySelectorAll(FIELDS)) {
+      if (el.disabled || el.closest('[disabled], [aria-disabled="true"], .disabled')) continue
+      if (!visible(el)) continue
+      const cs = getComputedStyle(el)
+      const fg0 = parse(cs.color)
+      if (!fg0 || fg0.a === 0) continue
+      const bg = background(el)
+      if (!bg) continue
+      const fg = fg0.a < 1 ? over(fg0, bg) : fg0
+      const size = parseFloat(cs.fontSize)
+      const bold = parseInt(cs.fontWeight, 10) >= 700
+      const need = size >= 24 || (size >= 18.66 && bold) ? 3 : 4.5
+      const r = ratio(fg, bg)
+      if (r >= need) continue
+      const key = sig(el) + hex(fg) + hex(bg)
+      if (seen.has(key)) continue
+      seen.add(key)
+      out.contrast.push({
+        sig: sig(el),
+        text: (el.value || el.placeholder || '(field)').slice(0, 40),
         fg: hex(fg),
         bg: hex(bg),
         ratio: Math.round(r * 100) / 100,
