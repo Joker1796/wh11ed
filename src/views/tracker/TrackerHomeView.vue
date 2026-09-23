@@ -33,49 +33,61 @@
       >{{ labels.cloudSignInHint }}</span>
     </div>
 
+    <!-- ONE thing to press, and a quiet row of the others.
+         Four buttons of equal weight wrapped into a staircase and left nothing reading as "the
+         way forward" (the screen the owner sent on 2026-09-23). What is primary depends entirely
+         on what this phone is holding — a game, a setup left half-done, or nothing at all — so
+         it is computed, and the row underneath carries whatever the primary is not. "New game"
+         sits there on purpose once something IS in progress: it is the button that throws that
+         away, and it has no business next to the one that continues it. -->
     <div class="cta">
       <RouterLink
-        v-if="current"
-        to="/tracker/game"
-        class="btn-primary btn-lg"
+        v-if="primary.to"
+        :to="primary.to"
+        class="btn-primary btn-lg cta-main"
       >
-        {{ current.phase === 'setup' ? labels.trackerContinueSetup : labels.trackerResume }}
+        {{ primary.label }}
       </RouterLink>
-      <RouterLink
-        v-if="setupDraft && !current"
-        to="/tracker/game"
-        class="btn-primary btn-lg"
-      >
-        {{ labels.trackerContinueSetup }}
-      </RouterLink>
-      <!-- Starting a new game is the quiet option once one is already running: it is the way to
-           throw away what is on screen, not the way forward. -->
       <button
-        class="btn-lg"
-        :class="current || setupDraft ? 'btn-ghost' : 'btn-primary'"
+        v-else
+        class="btn-primary btn-lg cta-main"
         @click="startNew"
       >
-        {{ labels.trackerNewGame }}
+        {{ primary.label }}
       </button>
-      <!-- Setting the game up together starts HERE, not inside a game already begun: by the time
-           the wizard is open the question "are we doing this together" has an answer, and it is
-           the first one the two players settle at the table. -->
-      <button
-        class="btn-lg btn-ghost"
-        :disabled="!canShare"
-        :title="canShare ? '' : labels.partySignIn"
-        @click="startShared"
-      >
-        <i class="bi bi-people" /> {{ labels.lobbyNewGame }}
-      </button>
-      <!-- Someone else's game on this phone (useParty.js): always the quiet button, whatever the
-           state of your own — the usual visitor is here for their own game. -->
-      <RouterLink
-        to="/tracker/join"
-        class="btn-ghost btn-lg"
-      >
-        <i class="bi bi-people-fill" /> {{ labels.partyHomeJoin }}
-      </RouterLink>
+
+      <div class="cta-quiet">
+        <!-- Only when it is not the primary already. -->
+        <button
+          v-if="primary.to"
+          type="button"
+          class="cta-q"
+          @click="startNew"
+        >
+          {{ labels.trackerNewGame }}
+        </button>
+        <!-- Disabled rather than hidden without an account, with that as its reason: only the
+             host of a shared game needs one, and a reader who cannot see the button cannot
+             learn that. -->
+        <button
+          type="button"
+          class="cta-q"
+          :disabled="!canShare"
+          :title="canShare ? '' : labels.partySignIn"
+          @click="startShared"
+        >
+          <i class="bi bi-people" /> {{ labels.lobbyNewGameShort }}
+        </button>
+        <!-- Someone else's game on this phone (useParty.js) — always offered, whatever the state
+             of your own: the usual visitor is here for their own game, but this is the only way
+             in for the one who is not. -->
+        <RouterLink
+          to="/tracker/join"
+          class="cta-q"
+        >
+          <i class="bi bi-people" /> {{ labels.partyHomeJoinShort }}
+        </RouterLink>
+      </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
            sign-in button: the account is app-wide (the roster builder syncs through the same one),
@@ -327,6 +339,19 @@ function doStartNew() {
   router.push('/tracker/game')
 }
 
+// What the one big button does, and what it says. A game in progress (or a lobby, or a setup
+// left half-done) is always the thing to continue; with nothing held, starting one is.
+const primary = computed(() => {
+  if (current.value) {
+    return {
+      to: '/tracker/game',
+      label: current.value.phase === 'setup' ? labels.value.trackerContinueSetup : labels.value.trackerResume,
+    }
+  }
+  if (setupDraft.value) return { to: '/tracker/game', label: labels.value.trackerContinueSetup }
+  return { to: null, label: labels.value.trackerNewGame }
+})
+
 // The same start, with the lobby opened on arrival: `?share=1` is the wizard's instruction to
 // share as soon as it is on screen, so the host lands on the armies step with the code already
 // in hand instead of finding a button there.
@@ -499,28 +524,56 @@ function footLine(g) {
 .cloud-err { color: var(--danger); }
 .cta {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.6rem;
 }
+/* The one button, sized to the text it carries rather than to the screen: full width on a phone
+   reads as a banner, and at desktop width a single stretched button looks like an error. */
+.cta-main { min-width: min(18rem, 100%); text-align: center; }
 
-/* Phones: these are three ordinary buttons (resume / new game / join), not three panels. They
-   stay the size of their own label — stretching them to share the row only turns the longest one
-   into a two-line block, which is how they got big in the first place — and the label is kept on
-   one line, which at this size fits even a 320px screen. */
+.cta-quiet {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0 1.25rem;
+}
+/* Text, not buttons with a frame — the frame is what made four equals out of one action and
+   three alternatives. The vertical padding is the tap target: 0.6rem either side of a 0.9rem
+   line clears the 44px a finger needs, which a bare text link would not. */
+.cta-q {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.6rem 0.2rem;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .cta-q:hover { color: var(--accent); }
+}
+.cta-q:disabled { opacity: 0.5; cursor: default; }
+/* No separator glyph between them, and that is the second attempt: a '·' on every item after
+   the first lands at the START of the next line the moment the row wraps — which it does at
+   390px as soon as there are three of them — and reads as debris. Space is the separator. */
+
 @media (max-width: 480px) {
   /* Same trim as the roster list's heading: display type at 2.64rem eats a phone's first screen,
      and the heading is the least useful thing on it. */
   .hero h1 { font-size: 2.2rem; }
-  .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
-  .cta .btn-primary,
-  .cta .btn-ghost {
-    flex: 0 0 auto;
-    padding: 0.45rem 0.8rem;
-    font-size: 0.8rem;
-    white-space: nowrap;
-  }
+  .cta { gap: 0.4rem; margin-bottom: 1.2rem; }
+  /* Three of them (a game in progress + both shared-game entries) against ~390px: a notch
+     smaller and a tighter gap keeps the row on ONE line instead of wrapping one item alone. */
+  .cta-quiet { gap: 0 0.9rem; }
+  .cta-q { font-size: 0.82rem; padding-inline: 0; }
 }
 .history-head {
   display: flex;
