@@ -298,7 +298,9 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
   cursor: pointer;
   text-align: left;
 }
-.rrp-sec-title { font-weight: 600; font-size: 0.85rem; }
+/* The fold's own row, so it grows less than the rule inside it: it shares one line with the
+   rule's name beside it, and that name ellipsizes rather than wrapping. */
+.rrp-sec-title { font-weight: 600; font-size: 0.92rem; }
 .rrp-sec-note {
   flex: 1;
   min-width: 0;
@@ -318,10 +320,13 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
 .rrp-sec-body { padding-bottom: 0.4rem; }
 
 /* The rule texts run a step smaller here than on a rules page, same as the list view's Rules tab:
-   this is a reminder beside the work, not the page you go to to read a rule for the first time. */
+   this is a reminder beside the work, not the page you go to to read a rule for the first time.
+   A step, not two: the display face is condensed, so at 1.05rem the rule's name read no larger
+   than the 0.82rem body under it (owner, 2026-09-24 — the same correction the view's Rules tab
+   got, scaled to this panel's tighter body). */
 .rrp-sec-body {
-  --fs-rule-title: 1.05rem;
-  --fs-subheading: 0.95rem;
+  --fs-rule-title: 1.25rem;
+  --fs-subheading: 1rem;
 }
 .rrp-sec-body :deep(.rule-block) { padding: 0.2rem 0 0.4rem; border-bottom: none; }
 .rrp-sec-body :deep(.rule-header) { margin-bottom: 0.35rem; }
