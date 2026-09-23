@@ -37,21 +37,34 @@ describe('RosterUnitList', () => {
     const w = mountList()
     await w.findAll('.rul-row')[1].trigger('click')
     expect(w.emitted('toggle')[0]).toEqual(['u2'])
-    await w.findAll('.rul-dup')[0].trigger('click')
+    await w.findAll('.rul-more')[0].trigger('click')
+    const body = new DOMWrapper(document.body)
+    await body.findAll('.act-btn')[0].trigger('click')
     expect(w.emitted('duplicate')[0][0].uid).toBe('u1')
-    await w.findAll('.rul-del')[0].trigger('click')
+    await w.findAll('.rul-more')[0].trigger('click')
+    await body.find('.act-btn.act-danger').trigger('click')
     expect(w.emitted('remove')[0][0].uid).toBe('u1')
+  })
+
+  // The sheet is talking about a row that is about to go; leaving it standing over the gap reads
+  // as a bug even when nothing is wrong.
+  it('closes the actions sheet on the way out', async () => {
+    const w = mountList()
+    await w.findAll('.rul-more')[0].trigger('click')
+    const body = new DOMWrapper(document.body)
+    expect(body.find('.act-list').exists()).toBe(true)
+    await body.find('.act-btn.act-danger').trigger('click')
+    expect(body.find('.act-list').exists()).toBe(false)
   })
 
   // Not greyed: the catalogue pane beside this list already shows that unit's cap, on its own
   // greyed "+" and its N/limit badge.
-  it('drops the copy button for a row the caller says is at its cap', () => {
+  it('drops the copy action for a row the caller says is at its cap', async () => {
     const w = mountList({ dupBlocked: (e) => e.uid === 'u1' })
-    expect(w.findAll('.rul-dup')).toHaveLength(1)
-    expect(w.findAll('.rul-del')).toHaveLength(2) // deleting one is always on offer
-    // …and the name stops reserving room for a button that isn't there.
-    expect(w.findAll('.rul-headrow')[0].classes()).toContain('rul-one-act')
-    expect(w.findAll('.rul-headrow')[1].classes()).not.toContain('rul-one-act')
+    await w.findAll('.rul-more')[0].trigger('click')
+    const body = new DOMWrapper(document.body)
+    expect(body.findAll('.act-btn')).toHaveLength(1) // removing is always on offer
+    expect(body.find('.act-btn').classes()).toContain('act-danger')
   })
 
   // A wide screen has room for the fields under the row they belong to.

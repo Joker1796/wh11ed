@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -603,7 +603,7 @@ describe('leads restricted to a detachment', () => {
   })
 })
 
-describe('addUnitEntry / removeUnitEntry', () => {
+describe('addUnitEntry / takeUnitEntry', () => {
   // One implementation for both screens that can do this: the editor (via useRosterEditing) and
   // the creation wizard, whose own copy of the removal used to leave a Leader attached to a unit
   // that had already left the roster.
@@ -623,14 +623,14 @@ describe('addUnitEntry / removeUnitEntry', () => {
 
   it('removes the most recently added copy and returns its uid', () => {
     const units = [{ uid: 'u1', id: 'a' }, { uid: 'u2', id: 'b' }, { uid: 'u3', id: 'a' }]
-    expect(removeUnitEntry(units, 'a')).toBe('u3')
+    expect(takeUnitEntry(units, 'a').uid).toBe('u3')
     expect(units.map((u) => u.uid)).toEqual(['u1', 'u2'])
-    expect(removeUnitEntry(units, 'nobody')).toBeNull()
+    expect(takeUnitEntry(units, 'nobody')).toBeNull()
   })
 
   it('lets go of a Leader attached to the unit that left', () => {
     const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
-    removeUnitEntry(units, 'squad')
+    takeUnitEntry(units, 'squad')
     expect(units[0].leaderOf).toBeUndefined()
   })
 
@@ -638,15 +638,48 @@ describe('addUnitEntry / removeUnitEntry', () => {
   // "remove a copy" (what the browser's − means) would take the wrong one half the time.
   it('removes the exact entry when given its uid', () => {
     const units = [{ uid: 'u1', id: 'a', wg: [[0, 1, 1]] }, { uid: 'u2', id: 'a' }, { uid: 'u3', id: 'a' }]
-    expect(removeUnitEntry(units, 'a', 'u1')).toBe('u1')
+    expect(takeUnitEntry(units, 'a', 'u1').uid).toBe('u1')
     expect(units.map((u) => u.uid)).toEqual(['u2', 'u3'])
-    expect(removeUnitEntry(units, 'a', 'gone')).toBeNull()
+    expect(takeUnitEntry(units, 'a', 'gone')).toBeNull()
   })
 
   it('still detaches a Leader when removing by uid', () => {
     const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
-    removeUnitEntry(units, 'squad', 'u1')
+    takeUnitEntry(units, 'squad', 'u1')
     expect(units[0].leaderOf).toBeUndefined()
+  })
+})
+
+// A mis-tap on a trash icon used to cost the whole editing session (Cancel was the only way back).
+describe('takeUnitEntry / restoreUnitEntry', () => {
+  it('puts the entry back where it stood, with its configuration', () => {
+    const units = [{ uid: 'u1', id: 'a' }, { uid: 'u2', id: 'chosen', wg: [[0, 2, 3]] }, { uid: 'u3', id: 'c' }]
+    const ticket = takeUnitEntry(units, 'chosen', 'u2')
+    expect(units.map((u) => u.uid)).toEqual(['u1', 'u3'])
+    expect(restoreUnitEntry(units, ticket)).toBe('u2')
+    expect(units.map((u) => u.uid)).toEqual(['u1', 'u2', 'u3'])
+    expect(units[1].wg).toEqual([[0, 2, 3]])
+  })
+
+  it('gives every Leader that let go its unit back', () => {
+    const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
+    const ticket = takeUnitEntry(units, 'squad', 'u1')
+    expect(units[0].leaderOf).toBeUndefined()
+    restoreUnitEntry(units, ticket)
+    expect(units.find((u) => u.uid === 'u2').leaderOf).toBe('u1')
+  })
+
+  it('restores nothing when the uid is already back in the list', () => {
+    const units = [{ uid: 'u1', id: 'a' }]
+    const ticket = takeUnitEntry(units, 'a', 'u1')
+    restoreUnitEntry(units, ticket)
+    expect(restoreUnitEntry(units, ticket)).toBeNull()
+    expect(units).toHaveLength(1)
+  })
+
+  it('has nothing to say about a unit that is not there', () => {
+    expect(takeUnitEntry([{ uid: 'u1', id: 'a' }], 'b')).toBeNull()
+    expect(restoreUnitEntry([], null)).toBeNull()
   })
 })
 

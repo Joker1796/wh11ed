@@ -15,6 +15,9 @@ let RosterCreateView, useRosters, draftResume
 
 beforeEach(async () => {
   localStorage.clear()
+  // Modals teleport to body; a sheet left over from the previous test would be the first
+  // `.act-btn` the next one finds.
+  document.body.innerHTML = 
   vi.resetModules()
   push.mockClear()
   replace.mockClear()
@@ -88,16 +91,13 @@ describe('RosterCreateView', () => {
     await detBtn.trigger('click')
     expect(w.text()).toContain('1st Company Task Force')
 
-    // Step 2: add a unit, remove it via the "-" button that appears once added, then re-add
-    // and finish.
+    // Step 2: add a unit and finish. The catalogue only adds — removing is the list pane's own
+    // business, beside the unit it is removing.
     await w.find('.rc-sticky-actions .btn-primary').trigger('click')
     await waitFor(w, 'Intercessor Squad')
     const row = w.findAll('.rub-item').find((r) => r.text().includes('Intercessor Squad'))
     await row.find('.rub-add').trigger('click')
-    expect(row.find('.rub-remove').exists()).toBe(true)
-    await row.find('.rub-remove').trigger('click')
     expect(row.find('.rub-remove').exists()).toBe(false)
-    await row.find('.rub-add').trigger('click')
 
     // Both panes are the same step now — the unit that was just added is in the list beside the
     // catalogue, and its tile expands into its config fields (size/wargear/etc.) on click.
@@ -244,8 +244,6 @@ describe('RosterCreateView', () => {
 
     await row.find('.rub-add').trigger('click')
     expect(store.rosters.value[0].units).toHaveLength(2)
-    await row.find('.rub-remove').trigger('click')
-    expect(store.rosters.value[0].units).toHaveLength(1)
 
     // …and a per-unit edit made on step 3 rides the same array (the store's own deep-watch save).
     const panels = w.findAll('.rc-panel')
@@ -274,8 +272,14 @@ describe('RosterCreateView', () => {
     const target = units.find((u) => u.id === 'intercessor-squad')
     units.find((u) => u.id === 'captain').leaderOf = target.uid
 
-    await squad.find('.rub-remove').trigger('click')
+    const tile = w.findAll('.rul-unit').find((row) => row.find('.rur-name').text().trim() === 'Intercessor Squad')
+    await tile.find('.rul-more').trigger('click')
+    await w.find('.act-btn.act-danger').trigger('click')
     expect(units.find((u) => u.id === 'captain').leaderOf).toBeUndefined()
+
+    // …and one tap puts both back the way they were.
+    await w.find('.ru-undo').trigger('click')
+    expect(store.rosters.value[0].units.find((u) => u.id === 'captain').leaderOf).toBe(target.uid)
   })
 
   it('supports a custom battle size, using the matching bracket to show the points limit', async () => {

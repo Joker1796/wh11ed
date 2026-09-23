@@ -243,7 +243,6 @@
               :remaining="limit - points"
               :check-legality="roster.checkLegality !== false"
               @add="addUnit"
-              @remove="removeUnit"
             />
           </template>
           <template #list>
@@ -290,6 +289,12 @@
         </RosterWorkbench>
       </template>
     </div>
+
+    <RosterUndoBar
+      :undoable="undoable"
+      @undo="undoRemove"
+      @dismiss="dismissUndo"
+    />
 
     <!-- Fixed footer bar — same shape as the creation wizard's own .rc-sticky
          (RosterCreateView.vue), Cancel/Save standing in for that one's Back/Next. -->
@@ -382,6 +387,7 @@ import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
+import RosterUndoBar from '../../components/roster/RosterUndoBar.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
 import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
@@ -392,6 +398,7 @@ import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterEditing } from '../../composables/useRosterEditing.js'
+import { useRosterUndo } from '../../composables/useRosterUndo.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
@@ -435,7 +442,7 @@ function save() {
 // useRosterDerived.js, the same answers the wizard and the read-only view get.
 const {
   roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
-  addUnit, duplicateUnit, removeUnit,
+  addUnit, duplicateUnit,
   slugFor, entryMeta, groupedUnits, attachRole, dupBlocked, fieldProps,
 } = useRosterEditing(() => route.params.id)
 
@@ -526,12 +533,13 @@ function toggleOpen(entryUid) {
 // "the unit being worked on", whichever arrangement is showing it.
 const openEntry = computed(() => roster.value?.units.find((u) => u.uid === openUid.value) || null)
 
-// Delete ONE line, not "a copy of this datasheet": two of the same unit are configured
-// separately, so the row's own uid is what goes. removeUnit() detaches any Leader that pointed
-// at it (rosterEngine's removeUnitEntry) — the reason both screens share that one implementation.
+// Delete ONE line, not "a copy of this datasheet": two of the same unit are configured separately,
+// so the row's own uid is what goes. It goes through useRosterUndo, which keeps the ticket that
+// puts it back — including the Leader that had to let go of it (rosterEngine's takeUnitEntry).
+const { undoable, removeWithUndo, undoRemove, dismissUndo } = useRosterUndo(() => roster.value?.units || [], touch)
 function removeEntry(entry) {
   if (openUid.value === entry.uid) openUid.value = null
-  removeUnit(entry.id, entry.uid)
+  removeWithUndo(entry.id, entry.uid, defOf(entry.id)?.name || '')
 }
 
 // A configured copy, right under its original (rosterEngine's duplicateUnitEntry). Its accordion

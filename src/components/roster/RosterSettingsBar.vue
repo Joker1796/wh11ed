@@ -351,7 +351,10 @@ const moreOpen = ref(false)
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.rw-choose .placeholder { color: var(--text-dim); }
+/* "Choose…" is this button's LABEL, not a hint inside a field, so it owes the 4.5:1 real text
+   owes — --text-dim measured 2.63:1 on the form surface. Muted, mixed toward the primary ink
+   until it clears AA in both themes, and still a step quieter than a real answer. */
+.rw-choose .placeholder { color: color-mix(in srgb, var(--text-muted) 55%, var(--text-primary)); }
 .rw-choose .bi { flex-shrink: 0; color: var(--text-muted); }
 
 .rw-row { display: flex; align-items: center; gap: 0.4rem; }

@@ -49,10 +49,7 @@
                  OUTSIDE it rather than inside — a button inside a button is invalid and doesn't
                  get its own click on every browser. They are positioned over the tile's top-right
                  corner at every width (see .rul-acts below). -->
-            <div
-              class="rul-headrow"
-              :class="{ 'rul-one-act': dupBlocked(e) }"
-            >
+            <div class="rul-headrow">
               <button
                 type="button"
                 class="rul-row"
@@ -73,29 +70,20 @@
                   :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"
                 />
               </button>
+              <!-- ONE button, and both actions behind it. Two icons on the tile put a trash can
+                   a finger's width from the row that opens the unit's options — the mis-tap a
+                   player reported, and the reason the undo bar exists at all. A menu costs the
+                   deliberate action one tap and takes the accidental one off the table; it also
+                   halves the strip the name's line has to leave free. -->
               <span class="rul-acts">
-                <!-- Absent, not greyed, at the duplicate cap. A dead control earns its place by
-                     saying why it is dead, and this one no longer has to: the same unit is in the
-                     catalogue pane beside this list with its own "+" greyed and its `N/limit`
-                     badge showing. That was two screens apart before the panes. -->
-                <button
-                  v-if="!dupBlocked(e)"
-                  type="button"
-                  class="rul-dup"
-                  :aria-label="labels.rosterDuplicate"
-                  :title="labels.rosterDuplicate"
-                  @click="$emit('duplicate', e)"
-                >
-                  <i class="bi bi-copy" />
-                </button>
                 <button
                   type="button"
-                  class="rul-del"
-                  :aria-label="labels.rosterRemove"
-                  :title="labels.rosterRemove"
-                  @click="$emit('remove', e)"
+                  class="rul-more"
+                  :aria-label="labels.rosterMoreActions"
+                  :title="labels.rosterMoreActions"
+                  @click="menuFor = e"
                 >
-                  <i class="bi bi-trash3" />
+                  <i class="bi bi-three-dots-vertical" />
                 </button>
               </span>
             </div>
@@ -145,11 +133,38 @@
         </FactionAccentScope>
       </div>
     </BaseModal>
+
+    <!-- The tile's own two actions, in the app's per-card actions sheet (the roster list's, the
+         tracker's). Duplicate is ABSENT, not greyed, at the duplicate cap: a dead control earns
+         its place by saying why it is dead, and this one no longer has to — the same unit is in
+         the catalogue pane beside this list with its "+" greyed and its `N/limit` badge showing. -->
+    <BaseModal
+      v-if="menuFor"
+      :title="defOf(menuFor.id)?.name || menuFor.id"
+      max-width="340px"
+      @close="menuFor = null"
+    >
+      <div class="modal-body act-list">
+        <button
+          v-if="!dupBlocked(menuFor)"
+          class="act-btn"
+          @click="act('duplicate')"
+        >
+          {{ labels.rosterDuplicate }}
+        </button>
+        <button
+          class="act-btn act-danger"
+          @click="act('remove')"
+        >
+          {{ labels.rosterRemove }}
+        </button>
+      </div>
+    </BaseModal>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
@@ -177,7 +192,7 @@ const props = defineProps({
   // fields itself, in a column beside this list.
   placement: { type: String, default: 'auto' },
 })
-defineEmits(['toggle', 'duplicate', 'remove'])
+const emit = defineEmits(['toggle', 'duplicate', 'remove'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -196,6 +211,16 @@ const openEntry = computed(() => {
 
 // Same 900px the editor's own panel padding uses.
 const narrow = useMediaQuery('(max-width: 899px)')
+
+// The entry whose actions sheet is open. Closing first, then emitting: the sheet is talking about
+// a row that is about to be removed, and a modal left standing over a gap is the kind of thing
+// that reads as a bug even when nothing is wrong.
+const menuFor = ref(null)
+function act(what) {
+  const entry = menuFor.value
+  menuFor.value = null
+  if (entry) emit(what, entry)
+}
 </script>
 
 <style scoped>
@@ -238,19 +263,18 @@ const narrow = useMediaQuery('(max-width: 899px)')
    .roster-attached / .roster-sum pair in style.css. */
 .rul-unit:has(+ .rul-attached) { margin-bottom: 0; }
 
-/* The two actions are OUT of the row's flow, over the tile's top-right corner, and the row
-   itself spans the full width underneath them. In flow they were a column as tall as the tile:
-   ~4rem taken from every line of a unit's wargear, and — on a three-line entry — a pair of icons
-   floating alone in the middle of a dead band, which is what made a perfectly ordinary tile look
-   broken. Only the FIRST line pays for them now (RosterUnitRow's .rur-pts reserves the strip),
-   the chips and the wargear run the full width beneath. */
+/* The action button is OUT of the row's flow, over the tile's top-right corner, and the row itself
+   spans the full width underneath it. In flow it was a column as tall as the tile: ~4rem taken
+   from every line of a unit's wargear, and — on a three-line entry — icons floating alone in the
+   middle of a dead band, which is what made a perfectly ordinary tile look broken. Only the FIRST
+   line pays for it now (RosterUnitRow's .rur-pts reserves the strip), the chips and the wargear
+   run the full width beneath. */
 .rul-headrow { position: relative; display: flex; }
 .rul-acts { position: absolute; top: 0; right: 0; display: flex; }
 /* How much room the row's first line has to leave for the buttons sitting over it — a custom
    property because that line is inside RosterUnitRow, and custom properties are the one thing
    that crosses a scoped-style boundary without :deep(). */
-.rul-headrow { --rul-acts-w: 4rem; }
-.rul-headrow.rul-one-act { --rul-acts-w: 2rem; }
+.rul-headrow { --rul-acts-w: 2rem; }
 .rul-row {
   flex: 1;
   min-width: 0;
@@ -269,17 +293,14 @@ const narrow = useMediaQuery('(max-width: 899px)')
    so it reads as the twisty of the accordion it opens. */
 .rul-chev { order: -1; align-self: flex-start; margin-top: 0.2rem; color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
 
-/* As tall as the row's first line is (0.6rem of padding + a 1.2rem line), so the pair sits ON
-   that line rather than above or below it — and a one-line entry's tile is exactly this tall. */
-.rul-dup,
-.rul-del {
+/* As tall as the row's first line is (0.6rem of padding + a 1.2rem line), so it sits ON that line
+   rather than above or below it — and a one-line entry's tile is exactly this tall. */
+.rul-more {
   flex: none; display: flex; align-items: center; justify-content: center;
   width: 2rem; height: 2.4rem; padding: 0; border: none; background: none;
   color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
 }
-@media (hover: hover) { .rul-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); } }
-.rul-dup:disabled { opacity: 0.35; cursor: not-allowed; }
-@media (hover: hover) { .rul-del:hover { color: var(--danger); background: color-mix(in srgb, var(--danger) 8%, transparent); } }
+@media (hover: hover) { .rul-more:hover { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); } }
 
 /* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
    header/points bands). In LIGHT theme this reads fine against a selected checkbox tile
@@ -291,8 +312,8 @@ const narrow = useMediaQuery('(max-width: 899px)')
   .rul-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
 }
 
-/* A narrow pane. Everything steps down together — including the action buttons, which the row
-   above already lifted out of the flow; here they only get smaller, and the chevron goes
+/* A narrow pane. Everything steps down together — including the action button, which the row
+   above already lifted out of the flow; here it only gets smaller, and the chevron goes
    entirely (at this width its own 1.2rem is worth more to the wargear line than the affordance).
 
    Keyed off the pane, not the viewport: a 390px phone and a 780px tablet give this list the
@@ -302,10 +323,8 @@ const narrow = useMediaQuery('(max-width: 899px)')
   .rul-ally { font-size: 0.62rem; }
   .rul-row { padding: 0.45rem 0.5rem; gap: 0; }
   .rul-chev { display: none; }
-  .rul-headrow { --rul-acts-w: 3.4rem; }
-  .rul-headrow.rul-one-act { --rul-acts-w: 1.7rem; }
-  .rul-dup,
-  .rul-del { width: 1.7rem; height: 1.8rem; font-size: 0.8rem; }
+  .rul-headrow { --rul-acts-w: 1.7rem; }
+  .rul-more { width: 1.7rem; height: 1.8rem; font-size: 0.8rem; }
 }
 </style>
 

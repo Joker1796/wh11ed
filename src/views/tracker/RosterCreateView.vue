@@ -283,7 +283,6 @@
             :remaining="limit - points"
             :check-legality="checkLegality"
             @add="addUnit"
-            @remove="removeUnit"
           />
         </template>
         <template #list>
@@ -327,6 +326,12 @@
         </template>
       </RosterWorkbench>
     </div>
+
+    <RosterUndoBar
+      :undoable="undoable"
+      @undo="undoRemove"
+      @dismiss="dismissUndo"
+    />
 
     <!-- One bar for both steps. Step 1's Next used to sit in the page's flow, which on a phone put
          it exactly under MobileUtilityBar's floating "To game" button — that bar lifts itself by
@@ -445,6 +450,7 @@ import BaseModal from '../../components/BaseModal.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
+import RosterUndoBar from '../../components/roster/RosterUndoBar.vue'
 import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
@@ -455,6 +461,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
+import { useRosterUndo } from '../../composables/useRosterUndo.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { summaryOf } from '../../composables/rosterSummary.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
@@ -463,7 +470,7 @@ import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import {
-  ROSTER_NOTES_MAX, addUnitEntry, duplicateUnitEntry, removeUnitEntry, dispositionCandidates, pointsLeftLabel,
+  ROSTER_NOTES_MAX, addUnitEntry, duplicateUnitEntry, dispositionCandidates, pointsLeftLabel,
 } from '../../composables/rosterEngine.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 
@@ -566,15 +573,13 @@ const battleSizes = rosterCore.battleSizes
 function addUnit(unitId) {
   if (addUnitEntry(units.value, defOf(unitId), unitId, uid())) syncUnits()
 }
-function removeUnit(unitId) {
-  if (removeUnitEntry(units.value, unitId)) syncUnits()
-}
-// The list pane's own two per-entry actions. `removeEntry` names the exact line, which is a
-// different thing from the catalogue's "−" (that one takes the last copy of the datasheet) as soon
-// as the list holds two of a unit configured differently.
+// The list pane's own two per-entry actions. `removeEntry` names the exact line — two copies of a
+// unit are configured separately — and goes through useRosterUndo, so a mis-tap on the trash icon
+// costs one tap on "Undo" instead of the picks made since the last save.
+const { undoable, removeWithUndo, undoRemove, dismissUndo } = useRosterUndo(() => units.value, syncUnits)
 function removeEntry(entry) {
   if (openUid.value === entry.uid) openUid.value = null
-  if (removeUnitEntry(units.value, entry.id, entry.uid)) syncUnits()
+  removeWithUndo(entry.id, entry.uid, defOf(entry.id)?.name || '')
 }
 function duplicateEntry(entry) {
   if (duplicateUnitEntry(units.value, entry.uid, uid())) syncUnits()

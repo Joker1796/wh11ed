@@ -743,22 +743,42 @@ export function addUnitEntry(units, def, unitId, newUid) {
   return entry
 }
 
-// Removes the most recently added copy — pairs with the browser's "−" button, which only shows once
-// at least one copy is in the list. Returns the removed entry's uid so a caller holding per-entry UI
-// state (an open accordion) can drop it too.
-export function removeUnitEntry(units, unitId, entryUid = null) {
+// Removes one entry and hands back everything putting it BACK would need: the entry itself, the
+// place it stood in, and the attachments that broke because it left. A list is twenty minutes of
+// picking options and one mis-tap on a trash icon, and the editor's only way back was Cancel —
+// which throws away the whole session, not the tap (a player's ask, 2026-09-23). A ticket is
+// plain data, so the screen holding one across a snackbar's lifetime holds no live references
+// into the roster; `ticket.uid` is also what a caller holding per-entry UI state (an open
+// accordion) drops.
+export function takeUnitEntry(units, unitId, entryUid = null) {
   if (!units) return null
   for (let i = units.length - 1; i >= 0; i--) {
-    // The browser removes "a copy of this datasheet" (the last one added); the editor removes ONE
-    // named line, which is a different thing as soon as the roster holds two of the same unit
-    // configured differently. `entryUid` is what tells the two apart.
+    // The editor removes ONE named line, which is a different thing from "a copy of this
+    // datasheet" as soon as the roster holds two of the same unit configured differently.
+    // `entryUid` is what tells the two apart.
     if (entryUid ? units[i].uid !== entryUid : units[i].id !== unitId) continue
     const [removed] = units.splice(i, 1)
     // A leader attached to the unit that just left would otherwise point at nothing.
-    for (const u of units) if (u.leaderOf === removed.uid) delete u.leaderOf
-    return removed.uid
+    const detached = []
+    for (const u of units) if (u.leaderOf === removed.uid) { detached.push(u.uid); delete u.leaderOf }
+    return { uid: removed.uid, entry: removed, at: i, detached }
   }
   return null
+}
+
+// Undo of the above. The entry goes back where it stood — an army list is read in its own order,
+// and a restored unit landing at the end is a different list from the one that was there a second
+// ago — and every leader that had to let go of it takes hold again. A uid that is somehow back in
+// the list already (two undos of one removal) restores nothing rather than duplicating it.
+export function restoreUnitEntry(units, ticket) {
+  if (!units || !ticket?.entry) return null
+  if (units.some((u) => u.uid === ticket.uid)) return null
+  units.splice(Math.min(ticket.at ?? units.length, units.length), 0, ticket.entry)
+  for (const uid of ticket.detached || []) {
+    const u = units.find((x) => x.uid === uid)
+    if (u) u.leaderOf = ticket.uid
+  }
+  return ticket.uid
 }
 
 // A second copy of an entry the player has already configured. Adding the same datasheet again

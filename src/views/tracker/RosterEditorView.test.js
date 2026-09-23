@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount, flushPromises, DOMWrapper } from '@vue/test-utils'
 
 // Mock the router: the editor reads route.params.id and calls router.replace when a roster
 // is missing. RouterLink is stubbed to a plain anchor so the template renders.
@@ -17,6 +17,9 @@ let RosterEditorView, useRosters
 
 beforeEach(async () => {
   localStorage.clear()
+  // Modals teleport to body; a sheet left over from the previous test would be the first
+  // `.act-btn` the next one finds.
+  document.body.innerHTML = ''
   vi.resetModules()
   replace.mockClear()
   push.mockClear()
@@ -119,7 +122,8 @@ describe('RosterEditorView', () => {
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
 
-    await w.findAll('.rul-dup')[0].trigger('click')
+    await w.findAll('.rul-more')[0].trigger('click')
+    await new DOMWrapper(document.body).findAll('.act-btn')[0].trigger('click')
     expect(r.units).toHaveLength(2)
     expect(r.units[1]).toMatchObject({ id: 'intercessor-squad', size: 1, count: 8 })
     expect(r.units[1].warlord).toBeUndefined()
@@ -127,7 +131,7 @@ describe('RosterEditorView', () => {
 
   // Adding a unit through the catalogue stops at the duplicate cap; this is the one control that
   // could add one without going through it.
-  it('offers no copy button at the duplicate cap', async () => {
+  it('offers no copy action at the duplicate cap', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
@@ -137,12 +141,16 @@ describe('RosterEditorView', () => {
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Adrax Agatone')
 
-    expect(w.find('.rul-dup').exists()).toBe(false)
+    const body = new DOMWrapper(document.body)
+    await w.find('.rul-more').trigger('click')
+    expect(body.findAll('.act-btn')).toHaveLength(1)
+    expect(body.find('.act-btn').classes()).toContain('act-danger')
+    await body.find('.modal-backdrop, .act-btn').trigger('keydown.esc')
     // Through the store's own reactive handle: createRoster returns the RAW object, and a
     // mutation on that is invisible to the render.
     store.rosterById(r.id).checkLegality = false // the cap is only enforced while checking is on
     await flushPromises()
-    expect(w.find('.rul-dup').exists()).toBe(true)
+    expect(body.findAll('.act-btn')).toHaveLength(2)
   })
 
   it('taxes a duplicate datasheet by copy index in the total', async () => {
@@ -278,11 +286,40 @@ describe('RosterEditorView', () => {
     // "attached to" tag.
     const rows = w.findAll('.rul-unit')
     const squad = rows.find((row) => row.find('.rur-name').text().trim() === 'Intercessor Squad')
-    await squad.find('.rul-del').trigger('click')
+    await squad.find('.rul-more').trigger('click')
+    const body = new DOMWrapper(document.body)
+    await body.find('.act-btn.act-danger').trigger('click')
 
     expect(r.units.map((u) => u.uid)).toEqual(['u2'])
     // …and the Captain that was attached to it isn't left pointing at a unit that has gone.
     expect(r.units[0].leaderOf).toBeUndefined()
+  })
+
+  // A mis-tap on delete used to cost the session: Cancel was the only way back, and it throws away
+  // every pick since the last save (a player's ask, 2026-09-23).
+  it('puts a removed unit back where it stood, with its Leader', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 1, count: 8 })
+    r.units.push({ uid: 'u2', id: 'captain', size: 0, leaderOf: 'u1' })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    const rows = w.findAll('.rul-unit')
+    const squad = rows.find((row) => row.find('.rur-name').text().trim() === 'Intercessor Squad')
+    await squad.find('.rul-more').trigger('click')
+    await new DOMWrapper(document.body).find('.act-btn.act-danger').trigger('click')
+    expect(r.units.map((u) => u.uid)).toEqual(['u2'])
+
+    expect(w.find('.ru-bar').text()).toContain('Intercessor Squad')
+    await w.find('.ru-undo').trigger('click')
+    expect(r.units.map((u) => u.uid)).toEqual(['u1', 'u2'])
+    expect(r.units[0]).toMatchObject({ size: 1, count: 8 })
+    expect(r.units[1].leaderOf).toBe('u1')
+    expect(w.find('.ru-bar').exists()).toBe(false)
   })
 })
 

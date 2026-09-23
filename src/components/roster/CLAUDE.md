@@ -1162,12 +1162,14 @@ show yet, or not; not ours to guess.
   answer. It only happened to — one appdata bump away from a one-sided gate. `gatedLeads()` applies
   them and dedupes by target+type afterwards, since a collapsed pair must leave exactly one entry
   (callers read the list both with `.find()` and through `new Map()`).
-- **`addUnitEntry` / `removeUnitEntry`** (`rosterEngine.js`) — the two operations every screen that
-  edits a roster's `units` performs, kept in one place because the removal has a second half that is
-  easy to forget: a Leader attached to the departing unit has to let go of it. The creation wizard's
-  own copy did forget it. `useRosterEditing` and `RosterCreateView` both call these; a screen that
-  writes to `roster.units` any other way is a bug waiting to be reported as "my leader is attached
-  to nothing".
+- **`addUnitEntry` / `takeUnitEntry` / `restoreUnitEntry`** (`rosterEngine.js`) — the operations
+  every screen that edits a roster's `units` performs, kept in one place because the removal has a
+  second half that is easy to forget: a Leader attached to the departing unit has to let go of it.
+  The creation wizard's own copy did forget it. `takeUnitEntry` hands back a plain-data TICKET (the
+  entry, the index it stood at, the attachments it broke) and `restoreUnitEntry` spends it — which
+  is what `useRosterUndo` holds while its bar is up. `useRosterEditing` and `RosterCreateView` both
+  go through these; a screen that writes to `roster.units` any other way is a bug waiting to be
+  reported as "my leader is attached to nothing".
 - **`capKeyOf(def)`** (`rosterEngine.js`) — the identity a unit's duplicate cap
   (`duplicateLimit`) is grouped by. Defaults to the datasheet's own `id`; an optional `charId`
   field is the extension point for the real (currently unrepresented in any faction's
@@ -1286,14 +1288,18 @@ for — 390 is not below 380 — which is how a squeezed pane shipped with full-
 
 What the narrow arrangement changes, in the order it matters:
 
-- **The copy and delete buttons only get smaller.** They left the row's flow at EVERY width on
-  2026-08-28 (`.rul-acts`, absolute over the tile's top-right corner) — in flow they were a column
-  as tall as the tile, so a three-line entry showed two icons floating alone in a dead band and the
-  wargear paid ~4rem of every line for them. Only the tile's FIRST line reserves the strip
-  (`--rul-acts-w`, read by `RosterUnitRow`); here that is the name's line (`padding-right`, plus a
-  `min-height` for a one-line name), on a wide screen the points'. What the narrow pane still does
-  is shrink them, and drop the chevron entirely — at this width its 1.2rem is worth more to the
-  wargear line than the affordance is.
+- **The tile's actions are one `⋮` button.** It left the row's flow at EVERY width on 2026-08-28
+  (`.rul-acts`, absolute over the tile's top-right corner) — in flow it was a column as tall as the
+  tile, so a three-line entry showed icons floating alone in a dead band and the wargear paid ~4rem
+  of every line for them. Only the tile's FIRST line reserves the strip (`--rul-acts-w`, read by
+  `RosterUnitRow`); here that is the name's line (`padding-right`, plus a `min-height` for a
+  one-line name), on a wide screen the points'. What the narrow pane still does is shrink it, and
+  drop the chevron entirely — at this width its 1.2rem is worth more to the wargear line than the
+  affordance is. It was a PAIR (copy, trash) until 2026-09-23: a trash can a finger's width from
+  the row that opens the unit's options is the mis-tap a player reported, and a menu costs the
+  deliberate action one tap while taking the accidental one off the table. The strip halved with
+  it (4rem/2rem → 2rem, 3.4/1.7 → 1.7 narrow), which is what stopped "Masters of the Maelstrom"
+  wrapping. Duplicate is still ABSENT, not greyed, at the duplicate cap.
 - **The points move down beside the chips** (`RosterUnitRow` is a grid, and the two arrangements
   are two placements of the same four parts). A points column costs the text ~3rem of every row,
   which is what turned one Chosen squad's four picks into a twelve-line column. On a wide screen
@@ -1301,7 +1307,13 @@ What the narrow arrangement changes, in the order it matters:
   chips and the wargear span BOTH grid columns, so the only line paying for the buttons is that
   first one.
 - **The catalogue's rows stack their name over their price** (`RosterUnitBrowser`) — three or four
-  words and a number do not share 180px — and its whole scale steps down. `.rub-name` also carries
+  words and a number do not share 180px — and its whole scale steps down, but **not below the list
+  beside it**: the name and the price read at the same 0.85rem the list's rows do (2026-09-23; they
+  were 0.74/0.66rem, i.e. 12 and 10.6px inside a row already ~59px tall, which is size the
+  arrangement had and was not spending). The role headers went 0.62 → 0.75rem with them, and their
+  box 23 → 27px, because a 23px tap target is under the 24 WCAG asks and these headers are what the
+  whole column is navigated by. The category list paid ~20px of pane height for all of that, and
+  got it back from the filters header (below). `.rub-name` also carries
   `min-width: 0`, without which a long name refuses to shrink past its min-content and runs *under*
   the price instead of wrapping.
 - **The attached-unit rail indents by 0.4rem instead of 1.25rem** (`style.css`). The rail still
@@ -1314,11 +1326,24 @@ instead needs a height calculation that every one of those bars is free to inval
 had a screen to itself; as a pane it would pop the keyboard over the list the reader came to see.
 
 `src/composables/useRosterEditing.js` still holds the editor's state — the roster, its faction
-data and add/duplicate/remove. It was written to keep the editor and the add-units page from each
-having their own idea of what adding a unit means; with the catalogue folded in it has one
-consumer, and is kept because the wizard performs the same operations on a roster it does not own.
-The implementations underneath (`rosterEngine`'s `addUnitEntry` / `duplicateUnitEntry` /
-`removeUnitEntry`) are what actually keep the two screens agreeing.
+data, add and duplicate. It was written to keep the editor and the add-units page from each having
+their own idea of what adding a unit means; with the catalogue folded in it has one consumer, and is
+kept because the wizard performs the same operations on a roster it does not own. The
+implementations underneath (`rosterEngine`'s `addUnitEntry` / `duplicateUnitEntry`) are what
+actually keep the two screens agreeing. **Removal is not here**: both screens take a unit out
+through `useRosterUndo` (below), so the one path that destroys work is also the one that can put it
+back.
+
+**`useRosterUndo.js` is the one step back the builder has** (2026-09-23). Building a list is a long
+session of small picks and the trash icon sat on the same tile as the row that opens them; the only
+way back from a mis-tap was Cancel, which throws away the session rather than the tap. It holds the
+last removal for 8 seconds (`UNDO_MS`) and `RosterUndoBar.vue` offers it back — a REPORT with one
+action, `role="status"`, taking no focus, ignoring it being the ordinary outcome. ONE slot on
+purpose: a stack invites "undo until it looks right", which is a different feature and one that
+would have to survive a save, a reload and both screens. The ticket lives in a closure, not in the
+ref, so a removed entry is not made deeply reactive for the seconds it spends off the list, and the
+offer dies on unmount. The bar stacks above everything else fixed to that corner —
+bottom-nav, `--roster-sticky-h`, `--mobile-bar-h`, then it.
 
 **What it merely READS off the roster is `useRosterDerived.js`** (see Shared derivations above):
 it is a thin wrapper adding the load-by-id and the mutations on top.
@@ -1352,11 +1377,11 @@ component state until `finish()`, so leaving the way every other screen expects 
 behind a roster that had been created on step 2 but was empty. `updateRoster` assigns the SAME array,
 so its identity is shared with the store from then on and the per-entry edits ride the store's own
 deep-watch autosave; that is why `pickFaction` empties it with `splice(0)` rather than assigning a
-new one. Its add/remove go through `rosterEngine`'s `addUnitEntry`/`removeUnitEntry` — the same
-implementation `useRosterEditing` uses, not a second copy.
+new one. Its add goes through `rosterEngine`'s `addUnitEntry` and its removal through
+`useRosterUndo` — the same implementations the editor uses, not a second copy.
 
 **`RosterUnitList.vue` draws the list on both screens** — sections, attached-unit blocks, the
-per-entry copy and delete buttons, and which entry is open. The configuration itself stays with the
+per-entry `⋮` and the sheet behind it, and which entry is open. The configuration itself stays with the
 caller, through a `fields` scoped slot: `UnitEditorFields` needs the roster's detachments, its other
 entries, the enhancement options and the leader targets, all of which the views already compute.
 What the component decides is only WHERE those fields go — inline under the row on a wide screen,
@@ -1533,10 +1558,12 @@ help either: it is on the finished list's view screen.
 
 ## What the catalogue hides, and the shelf it reads (added 2026-08-28)
 
-`RosterUnitBrowser` carries two checkboxes under its search box, folded away under a "Filters"
-header — the same accordion its groups use, so the pane reads as one list of collapsible things
-rather than as a toolbar bolted onto a list. The boxes are the app's shared `.check` rows
-(`style.css`), not a private pill.
+`RosterUnitBrowser` carries two checkboxes under its search box, opened by a **funnel icon beside
+the search** (`.rub-filter-btn`, 2026-09-23). They hung off a full-width "Filters" header of their
+own until then — the same accordion shape the groups below use, which was the point and also the
+problem: stacked in a column it read as one more battlefield role, and it cost a row of a pane that
+is 479px tall on a phone. The fold itself did not move; it still opens under the search. The boxes
+are the app's shared `.check` rows (`style.css`), not a private pill.
 
 Both **hide** rather than dim, and that is not a preference: this list already spends opacity on
 "not in the roster yet" (`.rub-item`), so there is no dim left to mean "you cannot afford it". The
@@ -1545,12 +1572,11 @@ away is counted on screen.
 
 **Two things never go inside the fold**, because a closed accordion must not hide why the
 catalogue is short: the "N hidden" line under it (inside the block, above its rule — that note is
-the filters talking, not the list) and a count of the active filters on the header itself. The
-fold always starts closed — until 2026-09-19 it opened whenever a remembered filter was on, which
-on a phone spent three rows of the catalogue on switches already summed up by that count. A
-`border-bottom` closes the
-block off from the groups below: stacked in a column, its header would otherwise read as one more
-battlefield role.
+the filters talking, not the list) and a count of the active filters, now on the icon. The fold
+always starts closed — until 2026-09-19 it opened whenever a remembered filter was on, which on a
+phone spent three rows of the catalogue on switches already summed up by that count. With nothing
+open and nothing hidden the block drops its own padding and rule (`.rub-filters.folded`): a closed
+filter must not cost a visible band of pane height.
 
 - **"Fits the points left"** compares `minPoints(u)` — the cheapest bracket plus any mandatory
   enhancement, exactly the figure the row prints — against the `remaining` prop, which both views
@@ -1562,9 +1588,9 @@ battlefield role.
 
 Two things follow from the pane being a list you are BUILDING, not a picker:
 
-- **A unit already in the list is never filtered away**, by either toggle. Its row carries the "−"
-  button, and a catalogue that drops what you just added — the budget ran out, or you are proxying
-  something you do not own — reads as a bug. It is also why the copy tax (`def.step`) never enters
+- **A unit already in the list is never filtered away**, by either toggle. A catalogue that drops
+  what you just added — the budget ran out, or you are proxying something you do not own — reads as
+  a bug; its row keeps its count badge instead. It is also why the copy tax (`def.step`) never enters
   the budget test: the surcharge lands on the Nth copy, and every unit the test prices is on its
   first.
 - **The "N hidden" count is taken after `sectionsOf`, not before it.** A group whose ally

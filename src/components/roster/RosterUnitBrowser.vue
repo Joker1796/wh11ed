@@ -1,39 +1,42 @@
 <template>
   <div class="rub">
-    <input
-      v-model="query"
-      type="search"
-      class="rub-search"
-      :placeholder="labels.rosterSearchUnits"
-      autocomplete="off"
-    >
-
-    <!-- Two narrowing checkboxes, folded away under their own header — the same accordion the
-         groups below use, so the pane reads as one list of collapsible things rather than as a
-         toolbar plus a list. They HIDE rather than dim, which this list forces: opacity here
-         already means "not in the roster yet" (`.rub-item`), so there is no dim left to spend on
-         "you cannot afford it".
-
-         Two things stay OUTSIDE the fold, because a closed accordion must not hide why the
-         catalogue is short: the count of what the filters took (same note the detachment picker
-         prints) and, on the header itself, how many of them are on. -->
-    <div class="rub-filters">
+    <!-- Search, and the filters as an icon beside it rather than a row of its own. The fold still
+         opens UNDER the search, where it always did; what went away is a full-width header that
+         looked like one more battlefield role while being a control over the list, and the line of
+         pane height it cost. The count of what is switched on rides on the icon. -->
+    <div class="rub-top">
+      <input
+        v-model="query"
+        type="search"
+        class="rub-search"
+        :placeholder="labels.rosterSearchUnits"
+        autocomplete="off"
+      >
       <button
         type="button"
-        class="rub-head"
+        class="rub-filter-btn"
+        :class="{ open: filtersOpen, on: activeFilters }"
         :aria-expanded="filtersOpen"
+        :aria-label="labels.rosterFilters"
+        :title="labels.rosterFilters"
         @click="filtersOpen = !filtersOpen"
       >
-        <i
-          class="bi rub-chev"
-          :class="filtersOpen ? 'bi-chevron-down' : 'bi-chevron-right'"
-        />
-        <span class="rub-group-name">{{ labels.rosterFilters }}</span>
+        <i :class="activeFilters ? 'bi bi-funnel-fill' : 'bi bi-funnel'" />
         <span
           v-if="activeFilters"
-          class="rub-group-count on"
+          class="rub-filter-count"
         >{{ activeFilters }}</span>
       </button>
+    </div>
+
+    <!-- Two narrowing checkboxes. They HIDE rather than dim, which this list forces: opacity here
+         already means "not in the roster yet" (`.rub-item`), so there is no dim left to spend on
+         "you cannot afford it". The count of what the filters took stays OUTSIDE the fold, because
+         a closed accordion must not hide why the catalogue is short. -->
+    <div
+      class="rub-filters"
+      :class="{ folded: !filtersOpen && !hiddenCount }"
+    >
       <CollapseTransition :show="filtersOpen">
         <div class="rub-filter-list">
           <label
@@ -144,9 +147,10 @@
                   > {{ countLabel(u) }}</span></span>
                   <span class="rub-pts">{{ minPoints(u) }}{{ labels.rosterPointsLabel }}</span>
                 </span>
-                <!-- The +/− rail. Side by side where the row has the width; in a narrow pane
-                     (half a phone) the two stack, + over −, so a row with a copy in the list is
-                     not two columns narrower than its neighbours. -->
+                <!-- Add only. The "−" that used to sit under it took the last copy of the
+                     datasheet — a second, hidden way to delete, one tap below the button that
+                     adds, and on a phone that is where the mis-tap lands. Removing a unit is the
+                     list's own business, beside the unit being removed (2026-09-23). -->
                 <span class="rub-rail">
                   <button
                     type="button"
@@ -157,15 +161,6 @@
                     @click.stop="$emit('add', u.id)"
                   >
                     <i class="bi bi-plus-lg" />
-                  </button>
-                  <button
-                    v-if="countOf(u.id)"
-                    type="button"
-                    class="rub-remove"
-                    :aria-label="labels.rosterRemove"
-                    @click.stop="$emit('remove', u.id)"
-                  >
-                    <i class="bi bi-dash-lg" />
                   </button>
                 </span>
               </div>
@@ -228,7 +223,7 @@ const props = defineProps({
   // Null — no battle size resolvable — takes that filter off the screen rather than guessing.
   remaining: { type: Number, default: null },
 })
-defineEmits(['add', 'remove'])
+defineEmits(['add'])
 
 // Groups start collapsed (same pattern as StratagemsView's per-phase accordions) — the list
 // runs to 90+ units, so a fully-open browser is a wall of rows to scroll past. While the
@@ -405,8 +400,10 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 
 <style scoped>
 .rub { display: flex; flex-direction: column; min-height: 0; }
+.rub-top { display: flex; align-items: stretch; gap: 0.35rem; margin-bottom: 0.5rem; }
 .rub-search {
-  margin: 0 0 0.5rem;
+  flex: 1;
+  min-width: 0;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
@@ -414,6 +411,33 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   font-size: 0.9rem;
 }
 .rub-search:focus { outline: none; border-color: var(--accent); }
+/* Square, the search box's own height, so the two read as one control strip. It carries its
+   count rather than a dot: "two filters are on" is what a reader coming back to a short
+   catalogue needs, and the number is no wider than the dot would be. */
+.rub-filter-btn {
+  flex-shrink: 0;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2rem;
+  padding: 0 0.45rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.rub-filter-btn.on,
+.rub-filter-btn.open { color: var(--accent); border-color: var(--accent); }
+@media (hover: hover) { .rub-filter-btn:hover { color: var(--text-primary); } }
+.rub-filter-count {
+  margin-left: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+}
 
 /* The fold and the line that says what its switches took away. The rows themselves are the app's
    shared `.check` (style.css) — the same box the wizard's settings use. */
@@ -426,6 +450,9 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border);
 }
+/* Nothing to show and nothing taken away: the block keeps neither its padding nor its rule, or a
+   closed filter would cost a visible band of pane height for no content. */
+.rub-filters.folded { padding-bottom: 0; border-bottom: none; }
 .rub-filter-list { display: flex; flex-direction: column; gap: 0.35rem; padding-top: 0.35rem; }
 .rub-group-count.on { color: var(--accent); }
 .rub-hidden { font-style: normal; font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem; }
@@ -525,9 +552,6 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 @media (hover: hover) { .rub-star:hover { opacity: 1; } }
 
 .rub-rail { flex-shrink: 0; display: flex; align-items: stretch; }
-/* Wide: − then +, reading order in the row (the − is the rarer action, the + stays outermost). */
-.rub-rail .rub-remove { order: -1; }
-.rub-remove,
 .rub-add {
   flex-shrink: 0;
   display: inline-flex;
@@ -540,8 +564,6 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   font-size: 1.1rem;
   cursor: pointer;
 }
-.rub-remove { color: var(--text-muted); }
-@media (hover: hover) { .rub-remove:hover { background: color-mix(in srgb, var(--text-muted) 12%, transparent); } }
 .rub-add { color: var(--accent); }
 @media (hover: hover) { .rub-add:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); } }
 .rub-add:disabled { opacity: 0.35; cursor: not-allowed; }
@@ -555,22 +577,25 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
    same ~180px, so a viewport breakpoint answers the wrong question (the first attempt used
    `@media (max-width: 380px)` and never fired on the phone it was written for). */
 @container (max-width: 300px) {
-  .rub-search { font-size: 0.78rem; padding: 0.35rem 0.45rem; margin-bottom: 0.4rem; }
-  .rub-head { font-size: 0.62rem; padding: 0.35rem 0.3rem; gap: 0.25rem; }
+  .rub-top { gap: 0.3rem; margin-bottom: 0.4rem; }
+  .rub-search { font-size: 0.78rem; padding: 0.35rem 0.45rem; }
+  .rub-filter-btn { min-width: 1.9rem; padding: 0 0.3rem; font-size: 0.85rem; }
+  .rub-filter-count { font-size: 0.66rem; }
+  /* The type here stopped at 10px, which is the pane's fault and not the reader's: a role header
+     is what the whole column is navigated by. 12px, and the box grows with it to clear the 24px
+     minimum a tap target owes (it was 23) — the four pixels a row costs buy both (2026-09-23). */
+  .rub-head { font-size: 0.75rem; padding: 0.4rem 0.35rem; gap: 0.25rem; }
   .rub-ally-cap { display: block; margin-left: 0; }
   .rub-list { gap: 0.25rem; }
   .rub-text { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.05rem; padding: 0.4rem 0.45rem; }
-  .rub-name { font-size: 0.74rem; line-height: 1.25; }
-  .rub-pts { font-size: 0.66rem; }
+  /* One scale for both panes. The row is ~59px tall either way — the name sat at 12px inside it
+     while the list beside it read at 14 — so this is size the arrangement already had. */
+  .rub-name { font-size: 0.85rem; line-height: 1.25; }
+  .rub-pts { font-size: 0.85rem; }
   .rub-filter-list .check { padding: 0.35rem 0.4rem; gap: 0.35rem; font-size: 0.7rem; }
   .rub-filter-list .check input[type="checkbox"] { width: 16px; height: 16px; }
   .rub-hidden { font-size: 0.62rem; }
   .rub-star { width: 1.5rem; font-size: 0.75rem; }
-  /* The rail turns into a column: + on top, − under it, one border between them. */
-  .rub-rail { flex-direction: column; border-left: 1px solid var(--border); }
-  .rub-rail .rub-remove { order: 0; border-left: none; border-top: 1px solid var(--border); }
-  .rub-rail .rub-add { border-left: none; }
-  .rub-remove,
-  .rub-add { width: 1.7rem; min-height: 1.7rem; flex: 1; font-size: 0.85rem; }
+  .rub-add { width: 1.7rem; min-height: 1.7rem; font-size: 0.85rem; }
 }
 </style>

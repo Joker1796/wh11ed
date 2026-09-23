@@ -89,20 +89,14 @@ describe('RosterUnitBrowser', () => {
     expect(head.attributes('aria-expanded')).toBe('true')
   })
 
-  it('only shows the remove button once a unit has at least one copy added', () => {
+  // The catalogue adds and does not take away. Its "−" appeared under the "+" for any unit already
+  // in the list — one tap below the button that adds, which on a phone is exactly where a mis-tap
+  // lands, and it removed a unit the reader could not see from there (2026-09-23).
+  it('offers no way to remove a unit, even one already in the list', () => {
     const w = mountBrowser({ addedIds: ['a'] })
     const alpha = w.findAll('.rub-item').find((r) => r.text().includes('Alpha Battleline'))
-    const bravo = w.findAll('.rub-item').find((r) => r.text().includes('Bravo Character'))
-    expect(alpha.find('.rub-remove').exists()).toBe(true)
-    expect(bravo.find('.rub-remove').exists()).toBe(false)
-  })
-
-  it('emits remove from the "-" button without opening the preview', async () => {
-    const w = mountBrowser({ addedIds: ['a'] })
-    const alpha = w.findAll('.rub-item').find((r) => r.text().includes('Alpha Battleline'))
-    await alpha.find('.rub-remove').trigger('click')
-    expect(w.emitted('remove')).toEqual([['a']])
-    expect(w.find('roster-unit-rules-modal-stub').exists()).toBe(false)
+    expect(alpha.find('.rub-remove').exists()).toBe(false)
+    expect(w.find('.rub-remove').exists()).toBe(false)
   })
 
   it('marks added units so they render bright, and unadded ones dim', () => {
@@ -177,15 +171,6 @@ describe('RosterUnitBrowser', () => {
     const w = mountBrowser({ addedIds: ['c', 'c', 'c'], battle, checkLegality: false })
     const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
     expect(charlie.find('.rub-add').attributes('disabled')).toBeUndefined()
-  })
-
-  it('keeps the remove button enabled even when the add button is capped', async () => {
-    const battle = { dupLimit: 2 }
-    const w = mountBrowser({ addedIds: ['c'], battle, checkLegality: true })
-    const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
-    expect(charlie.find('.rub-add').attributes('disabled')).toBeDefined()
-    await charlie.find('.rub-remove').trigger('click')
-    expect(w.emitted('remove')).toEqual([['c']])
   })
 
   it('bakes a mandatory enhancement into the browse price, for the unit it applies to only', () => {
@@ -291,12 +276,24 @@ describe('RosterUnitBrowser — the catalogue filters', () => {
     const again = mountBrowser({ remaining: 500 })
     expect(filters(again)[0].element.checked).toBe(true)
     expect(filters(again).at(-1).element.checked).toBe(false)
-    expect(again.find('.rub-filters .rub-head').attributes('aria-expanded')).toBe('false')
-    expect(again.find('.rub-filters .rub-group-count').text()).toBe('1')
+    expect(again.find('.rub-filter-btn').attributes('aria-expanded')).toBe('false')
+    expect(again.find('.rub-filter-count').text()).toBe('1')
   })
 
   it('starts folded away while nothing is filtering', () => {
-    expect(mountBrowser({ remaining: 500 }).find('.rub-filters .rub-head').attributes('aria-expanded')).toBe('false')
+    const w = mountBrowser({ remaining: 500 })
+    expect(w.find('.rub-filter-btn').attributes('aria-expanded')).toBe('false')
+    expect(w.find('.rub-filter-count').exists()).toBe(false)
+  })
+
+  // The switches used to hang off a full-width header of their own, which read as one more
+  // battlefield role and cost a line of a pane that is 479px tall on a phone.
+  it('opens the same fold from the icon beside the search', async () => {
+    const w = mountBrowser({ remaining: 500 })
+    expect(w.find('.rub-filters .rub-head').exists()).toBe(false)
+    await w.find('.rub-filter-btn').trigger('click')
+    expect(w.find('.rub-filter-btn').attributes('aria-expanded')).toBe('true')
+    expect(filters(w).length).toBeGreaterThan(0)
   })
 })
 

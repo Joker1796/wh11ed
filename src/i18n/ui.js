@@ -495,6 +495,10 @@ export const ui = {
     rosterSharedInvalid: 'This share link is invalid or corrupted.',
     rosterUseInTracker: 'Use in tracker',
     rosterMoreActions: 'More actions',
+    // The undo bar. "Removed: <name>" rather than "<name> removed" so the Russian line needs no
+    // gender for a unit name it cannot decline.
+    rosterRemoved: 'Removed: {name}',
+    rosterUndo: 'Undo',
     rosterEdit: 'Edit',
     rosterSave: 'Save',
     rosterCancel: 'Cancel',
@@ -1470,6 +1474,8 @@ export const ui = {
     rosterSharedInvalid: 'Ссылка недействительна или повреждена.',
     rosterUseInTracker: 'В трекер',
     rosterMoreActions: 'Другие действия',
+    rosterRemoved: 'Удалено: {name}',
+    rosterUndo: 'Вернуть',
     rosterEdit: 'Редактировать',
     rosterSave: 'Сохранить',
     rosterCancel: 'Отмена',
