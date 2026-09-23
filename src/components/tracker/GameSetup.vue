@@ -472,10 +472,14 @@
         >
           {{ labels.trackerCancel }}
         </button>
+        <!-- No waiting here. A Force Disposition follows from THIS side's detachment and a
+             side is mustered by its own player, so holding the host on this step until the guest
+             confirms only kept the host away from its own disposition (which lives on the next
+             one). What genuinely needs both sides is the primary mission — the step-2 gate — and
+             the start of the game itself. -->
         <button
           class="btn-primary"
-          :disabled="!canArmies || !othersReady"
-          :title="othersReady ? '' : labels.lobbyWaitingGuest"
+          :disabled="!canArmies"
           @click="leaveArmiesStep"
         >
           {{ labels.trackerNextStep }} →
@@ -569,53 +573,95 @@
             {{ armySummary(p, i) }}
           </p>
 
-          <label
-            class="field"
-            :inert="editable(i) ? undefined : true"
+          <!-- Held by another phone: the same report the armies step draws, for the same
+               reason — a disposition picker and a secondary switch that belong to someone else
+               are controls, not information. What IS information sits under it: the primary,
+               which is the pair's, not this side's. -->
+          <div
+            v-if="mirrored(i)"
+            class="side-mirror"
           >
-            <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
-            <!-- faction has no detachments at all → manual choice (only way to set it) -->
-            <select
-              v-if="p.factionSlug && !detachmentsFor(p.factionSlug).length"
-              v-model="p.disposition"
-            >
-              <option
-                :value="null"
-                disabled
-              >{{ labels.trackerDispositionManual }}</option>
-              <option
-                v-for="d in dispositions"
-                :key="d.id"
-                :value="d.id"
-              >{{ d.name }}</option>
-            </select>
-            <!-- ≥2 distinct dispositions from chosen detachments → pick the active one -->
-            <div
-              v-else-if="candidateDispositions(p).length > 1"
-              class="seg seg-fill"
-            >
-              <button
-                v-for="id in candidateDispositions(p)"
-                :key="id"
-                :class="{ on: p.disposition === id }"
-                @click="p.disposition = id"
-              >{{ dispositionName(id) }}</button>
-            </div>
-            <!-- exactly 1 → auto, read-only -->
-            <input
-              v-else-if="candidateDispositions(p).length === 1"
-              type="text"
-              :value="dispositionName(p.disposition)"
-              readonly
-              class="ro"
-            >
-            <!-- nothing chosen yet → gated behind picking a detachment -->
             <p
+              v-if="!isReady(i)"
+              class="sm-waiting"
+            >
+              <span
+                class="sm-dot"
+                aria-hidden="true"
+              />
+              {{ labels.lobbySideWaitingLong }}
+            </p>
+            <ul
               v-else
-              class="det-empty"
-            >{{ labels.trackerPickDetachmentFirst }}</p>
-          </label>
+              class="sm-lines"
+            >
+              <li
+                v-for="(line, n) in sideSummary(i)"
+                :key="n"
+              >
+                {{ line }}
+              </li>
+            </ul>
+          </div>
 
+          <template v-else>
+            <label
+              class="field"
+              :inert="editable(i) ? undefined : true"
+            >
+              <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
+              <!-- faction has no detachments at all → manual choice (only way to set it) -->
+              <select
+                v-if="p.factionSlug && !detachmentsFor(p.factionSlug).length"
+                v-model="p.disposition"
+              >
+                <option
+                  :value="null"
+                  disabled
+                >{{ labels.trackerDispositionManual }}</option>
+                <option
+                  v-for="d in dispositions"
+                  :key="d.id"
+                  :value="d.id"
+                >{{ d.name }}</option>
+              </select>
+              <!-- ≥2 distinct dispositions from chosen detachments → pick the active one -->
+              <div
+                v-else-if="candidateDispositions(p).length > 1"
+                class="seg seg-fill"
+              >
+                <button
+                  v-for="id in candidateDispositions(p)"
+                  :key="id"
+                  :class="{ on: p.disposition === id }"
+                  @click="p.disposition = id"
+                >{{ dispositionName(id) }}</button>
+              </div>
+              <!-- exactly 1 → auto, read-only -->
+              <input
+                v-else-if="candidateDispositions(p).length === 1"
+                type="text"
+                :value="dispositionName(p.disposition)"
+                readonly
+                class="ro"
+              >
+              <!-- nothing chosen yet → gated behind picking a detachment -->
+              <p
+                v-else
+                class="det-empty"
+              >{{ labels.trackerPickDetachmentFirst }}</p>
+            </label>
+          </template>
+
+          <!-- The primary is derived from BOTH dispositions, so in a lobby it is missing until
+               the other side has chosen one — said out loud, because a block that simply is not
+               there reads as a screen that forgot something. -->
+          <p
+            v-if="!primaryCards[i] && sharedSetup && !dispositionOf(oppOf(i))"
+            class="primary-pending"
+          >
+            {{ labels.lobbyPrimaryPending }}
+          </p>
           <div
             v-if="primaryCards[i]"
             class="primary-block"
@@ -680,6 +726,7 @@
         <button
           class="btn-primary"
           :disabled="!canMission"
+          :title="canMission || othersReady ? '' : labels.lobbyWaitingGuest"
           @click="step = 3"
         >
           {{ labels.trackerNextStep }} →
@@ -1280,8 +1327,15 @@ function sideSummary(i) {
   const disp = p.disposition ? dispositionName(p.disposition) : ''
   if (disp) out.push(`${labels.value.trackerDisposition}: ${disp}`)
   if (p.battleReady) out.push(labels.value.trackerBattleReady)
+  // The step-2 card shows this report too, so the secondaries belong in it: which deck this side
+  // plays is a fact about the game, not a control the host may touch.
+  out.push(`${labels.value.trackerSecondaryMode}: ${p.secondaryMode === 'fixed' ? labels.value.trackerFixed : labels.value.trackerTactical}`)
+  if (p.secondaryMode === 'fixed' && p.fixedSecondaries?.length) out.push(fixedSummary(p))
   return out
 }
+
+const oppOf = (i) => (i === 0 ? 1 : 0)
+const dispositionOf = (i) => players[i]?.disposition || null
 
 // One line per side, in the host's cards and on the guest's own: who holds it, and whether it
 // is in. A side this phone edits says nothing — the fields under it are the answer.
@@ -1708,13 +1762,23 @@ function armiesOkFor(p) {
       : (detachmentsFor(m.factionSlug).length === 0 || m.detachments.length > 0))
   )
 }
-const canArmies = computed(() => players.every(armiesOkFor))
+// Only the sides THIS phone fills in. In a lobby the other one is somebody else's job and may
+// be empty for another ten minutes — gating the step on it is the same mistake as gating it on
+// their "Done": it kept the host away from its own disposition, which is on the next step.
+// Nothing is lost by walking on, because what needs both sides (the primary, the layout, the
+// start) has gates of its own further down.
+const canArmies = computed(() =>
+  players.every((p, i) => (sharedSetup.value && !editable(i)) || armiesOkFor(p)),
+)
 
 // Step 2 (Mission): dispositions resolved (→ a primary for each) + fixed picks chosen
 // where in fixed mode.
 function missionOkFor(p) {
   return !!p.disposition && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)
 }
+// Both sides, deliberately: the primary mission IS the pair of dispositions, and the layouts on
+// the next step are the pair's matchup. This is the point where the other side genuinely has to
+// be in, and the button says so.
 const canMission = computed(() =>
   canArmies.value &&
   players.every(missionOkFor) &&
@@ -2265,6 +2329,14 @@ function cancel() {
   color: var(--text-primary);
 }
 .sm-lines li:first-child { font-weight: 600; }
+/* Why the primary is not here yet. Same weight as the other muted explanations on this screen. */
+.primary-pending {
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text-dim);
+  font-style: italic;
+}
 /* A seg whose answer is settled (the game type, once phones have joined): dimmed as a whole
    rather than each button carrying its own disabled look. */
 .seg.locked { opacity: 0.55; }

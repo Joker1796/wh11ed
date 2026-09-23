@@ -253,9 +253,17 @@ came with it, leaving the host holding a side its owner never described (and fre
 back, since the host may write any slice). Every one of those watchers is now gated on
 `editable(i)`.
 
-**Two gates the lobby adds to the wizard.** The game TYPE is locked once the setup is shared (a
-seat means "a side" in singles and "one member of a team" in doubles, so switching would unseat
-everyone), and Next on step 1 waits for every side someone else holds to be confirmed.
+**What waits for the other side, and what does not.** A Force Disposition follows from THIS
+side's detachment (`candidateDispositions` reads `detachmentInfo(...).forceDisposition`), and a
+side is mustered by its own player — so the armies step gates only on the sides this phone fills
+in (`canArmies`), and the host walks on to its own disposition while the guest is still typing.
+What genuinely needs both is the PRIMARY, which is the pair of dispositions (`primaryFor(mine,
+theirs)`), and the layouts of that matchup: the mission step's Next holds for it and says so, and
+so does Start. Holding step 1 instead — which is what the first version did — kept the host away
+from its own disposition, since that control lives one step further on.
+
+**One gate the lobby adds:** the game TYPE is locked once the setup is shared (a seat means "a
+side" in singles and "one member of a team" in doubles, so switching would unseat everyone).
 
 **A lobby is dropped, never archived.** `putAwayCurrent()` in the store is what "New game" and
 joining someone else's table call: a played game is frozen at its score and kept, a lobby is

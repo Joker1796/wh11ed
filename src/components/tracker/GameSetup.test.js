@@ -155,3 +155,55 @@ describe('GameSetup in a lobby', () => {
     expect(primary[0].attributes('disabled')).toBeDefined()
   })
 })
+
+// The wizard's own gates in a lobby: what needs the other side, and what does not.
+describe('GameSetup gates in a lobby', () => {
+  async function hostScreen({ oppEditor = 'm-guest' } = {}) {
+    vi.resetModules()
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const tracker = useTracker()
+    const side = (over = {}) => ({
+      name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker',
+      secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false,
+      members: [{ name: '', factionSlug: null, detachments: [] }, { name: '', factionSlug: null, detachments: [] }],
+      ...over,
+    })
+    tracker.startLobby({
+      settings: { gameType: 'singles', combatPatrol: false, battleSize: 'strikeForce', firstTurn: 1, layout: 'A' },
+      players: [
+        // the host's own side, complete
+        side({ name: 'Host', factionSlug: 'orks', detachments: ['Bully Boyz'], role: 'attacker' }),
+        // the other side: claimed by another phone and still empty
+        side({ role: 'defender', lobby: { editor: { id: oppEditor, mi: null, name: 'Гость' }, ready: false } }),
+      ],
+    })
+    tracker.current.value.party = { id: 'p1', memberId: 'm-host', token: 't', side: 0, mi: null, host: true, seq: 1, versions: {} }
+    const Screen = (await import('./GameSetup.vue')).default
+    return mount(Screen)
+  }
+
+  // Assembling your own side depends on nobody: a Force Disposition follows from THIS side's
+  // detachment, and it is chosen on the next step — so waiting here kept the host from its own.
+  it('lets the host leave the armies step while the other side is still empty', async () => {
+    const w = await hostScreen()
+    await flushPromises()
+    const next = w.findAll('.step-panel')[0].findAll('.actions .btn-primary')
+    expect(next).toHaveLength(1)
+    expect(next[0].attributes('disabled')).toBeUndefined()
+  })
+
+  // …but the primary mission IS the pair of dispositions, so THAT step waits.
+  it('holds the mission step until both sides have a disposition', async () => {
+    const w = await hostScreen()
+    await flushPromises()
+    const next = w.findAll('.step-panel')[1].findAll('.actions .btn-primary')
+    expect(next[0].attributes('disabled')).toBeDefined()
+  })
+
+  it('draws the other side as a report on both steps, never as a form', async () => {
+    const w = await hostScreen()
+    await flushPromises()
+    expect(w.findAll('.side-mirror')).toHaveLength(2) // armies + mission
+    expect(w.findAll('.side-mirror .sm-waiting')).toHaveLength(2)
+  })
+})
