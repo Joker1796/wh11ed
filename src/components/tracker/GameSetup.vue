@@ -1,5 +1,8 @@
 <template>
-  <div class="setup">
+  <div
+    class="setup"
+    :class="{ 'setup-guest': guest }"
+  >
     <div
       v-if="!guest"
       class="setup-head"
@@ -542,17 +545,27 @@
           v-for="{ p, i } in shownPlayers"
           :key="i"
           class="player-card"
+          :class="{ 'pc-joined': guest }"
         >
           <!-- The team name rides in the heading, muted, so "You"/"Opponent" stays the anchor
                and the name reads as an annotation. Written adjacent (no line break before the
-               span): a break here would condense into a stray space ahead of the separator. -->
-          <h3 class="player-head">
+               span): a break here would condense into a stray space ahead of the separator.
+               A GUEST has this panel directly under the armies one, for the same single side:
+               a second "You" and a recap of the army two fingers above it read as the screen
+               saying everything twice, so both are the wizard's alone. -->
+          <h3
+            v-if="!guest"
+            class="player-head"
+          >
             {{ playerLabel(i) }}<span
               v-if="isDoubles && p.teamName"
               class="ph-team"
             >&nbsp;· {{ p.teamName }}</span>
           </h3>
-          <p class="army-summary">
+          <p
+            v-if="!guest"
+            class="army-summary"
+          >
             {{ armySummary(p, i) }}
           </p>
 
@@ -1839,6 +1852,14 @@ function cancel() {
    them — the space under it too. One custom property so the two can't drift apart: without it the
    twist card sat flush against "You" and read as part of it. */
 .setup { --stack-gap: 1rem; }
+/* A guest fills in ONE side, so its cards are one column at every width — and the second panel's
+   card is the bottom half of the first: the border between them goes, and so does the gap. */
+.setup-guest .players { grid-template-columns: minmax(0, 1fr); }
+.player-card.pc-joined {
+  border-top: 0;
+  margin-top: calc(-1 * var(--stack-gap));
+  padding-top: 0;
+}
 .players {
   display: grid;
   /* minmax(0, …), not 1fr: a grid item's automatic minimum is its MIN-CONTENT width, and the
