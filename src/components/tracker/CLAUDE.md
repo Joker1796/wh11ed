@@ -158,7 +158,11 @@ same flag `gameSlices` keeps out of the sync) and disables the rest with "host o
 writes only those. The finished screen's Resume is disabled for a guest and its primary button
 reads "Save to my history". `RosterViewView`'s `canSwitch` includes `canEdit(pi)`. `SyncIndicator.vue` sits on the round bar: a quiet dot (tap: how long ago), a
 spinner only for a request older than 400 ms — except on resume, when it is wanted at once — and a
-warning glyph with its reason. `PartyModal.vue` (the people icon beside the broadcast one) is the
+warning glyph with its reason. **The tap opens a bubble ABOVE it, not text inside it** (2026-09-23):
+expanding the button reflowed the row it lives in, and on the lobby row that moved the two
+buttons beside it out from under the thumb that had just tapped the dot. The bubble hangs from
+whichever edge keeps it on screen (decided when it opens, from the button's own rectangle), and
+a full-screen backdrop closes it. `PartyModal.vue` (the people icon beside the broadcast one) is the
 host's invite (link, QR via the lazily imported `qrcode`, code with its ten minutes, a fresh code or
 link), the member list with last-seen, seat moves, kick, hand-over and "stop sharing"; a guest sees
 its standing and "leave".

@@ -1,33 +1,51 @@
 <template>
-  <button
+  <div
     v-if="party"
-    class="sync-ind"
-    :class="[`is-${kind}`, { open }]"
-    type="button"
-    :aria-label="text"
-    :title="text"
-    @click="open = !open"
+    class="si-wrap"
   >
-    <span
-      v-if="kind === 'busy'"
-      class="si-spin"
-      aria-hidden="true"
-    />
-    <i
-      v-else-if="kind === 'problem'"
-      class="bi bi-exclamation-triangle-fill"
-      aria-hidden="true"
-    />
-    <span
-      v-else
-      class="si-dot"
-      aria-hidden="true"
-    />
-    <span
+    <button
+      ref="btn"
+      class="sync-ind"
+      :class="[`is-${kind}`, { open }]"
+      type="button"
+      :aria-label="text"
+      :aria-expanded="open"
+      @click="toggle"
+    >
+      <span
+        v-if="kind === 'busy'"
+        class="si-spin"
+        aria-hidden="true"
+      />
+      <i
+        v-else-if="kind === 'problem'"
+        class="bi bi-exclamation-triangle-fill"
+        aria-hidden="true"
+      />
+      <span
+        v-else
+        class="si-dot"
+        aria-hidden="true"
+      />
+    </button>
+
+    <!-- The state in full, ABOVE the row rather than inside it. It used to expand the button,
+         which reflowed the line it sits in — on the lobby row that moved "Link and code" and
+         "Close the lobby" out from under the thumb that had just tapped the dot. -->
+    <Transition name="fade-pop">
+      <span
+        v-if="open"
+        class="si-pop"
+        :class="align"
+        role="status"
+      >{{ text }}</span>
+    </Transition>
+    <div
       v-if="open"
-      class="si-text"
-    >{{ text }}</span>
-  </button>
+      class="si-backdrop"
+      @click="open = false"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -47,6 +65,19 @@ const labels = computed(() => ui[locale.value])
 const { party, status, lastSyncAt } = useParty()
 
 const open = ref(false)
+// Which edge the bubble hangs from, decided when it opens: an indicator in the left half of the
+// screen opens to the right and one in the right half to the left, so the text never leaves the
+// viewport and the page never scrolls sideways because of it.
+const align = ref('start')
+const btn = ref(null)
+function toggle() {
+  if (!open.value && btn.value && typeof window !== 'undefined') {
+    const r = btn.value.getBoundingClientRect()
+    align.value = r.left + r.width / 2 > window.innerWidth / 2 ? 'end' : 'start'
+  }
+  open.value = !open.value
+}
+
 const now = ref(Date.now())
 let timer = null
 onMounted(() => { timer = setInterval(() => { now.value = Date.now() }, 1000) })
@@ -81,6 +112,8 @@ const text = computed(() => {
 </script>
 
 <style scoped>
+/* The anchor: zero-size in the layout, so the bubble it carries changes nothing around it. */
+.si-wrap { position: relative; display: inline-flex; }
 .sync-ind {
   display: inline-flex;
   align-items: center;
@@ -113,6 +146,30 @@ const text = computed(() => {
 @keyframes si-rot { to { transform: rotate(360deg); } }
 .is-problem { color: var(--accent); }
 .is-problem .bi { font-size: 0.9rem; }
-.si-text { white-space: nowrap; }
+/* The bubble. Above the button, because below it lands on the next row's controls — and on a
+   phone that row is what the thumb is already over. */
+.si-pop {
+  position: absolute;
+  bottom: calc(100% + 0.3rem);
+  z-index: 5;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  max-width: min(18rem, 80vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.si-pop.start { left: 0; }
+.si-pop.end { right: 0; }
+/* Tapping anywhere else closes it — the same recipe the account menu uses. */
+.si-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+}
 @media (prefers-reduced-motion: reduce) { .si-spin { animation: none; } }
 </style>
