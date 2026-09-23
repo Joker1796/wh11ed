@@ -1858,7 +1858,9 @@ function cancel() {
 .player-card.pc-joined {
   border-top: 0;
   margin-top: calc(-1 * var(--stack-gap));
-  padding-top: 0;
+  /* Not zero: the seam is invisible, but the first heading of this half still needs the air a
+     heading gets anywhere else — without it "Force Disposition" sits on the Battle Ready box. */
+  padding-top: 0.55rem;
 }
 .players {
   display: grid;
