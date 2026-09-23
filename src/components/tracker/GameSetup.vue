@@ -390,16 +390,12 @@
         >
           {{ labels.trackerCancel }}
         </button>
-        <button
-          v-if="!sharedSetup"
-          class="btn-ghost"
-          :disabled="!canShare || sharing"
-          :title="canShare ? '' : labels.partySignIn"
-          @click="shareConfirmOpen = true"
-        >
-          <i class="bi bi-people" /> {{ labels.lobbyStart }}
-        </button>
-        <template v-else>
+        <!-- No "share this setup" button here. Playing together is decided on the tracker home,
+             before the wizard opens ("Shared game" → start a new one), because by the time the
+             armies are being entered the two players have long since settled that question — and
+             a second door into the same room only made this row longer. What stays is what a
+             lobby ALREADY OPEN needs: its code, and the way out of it. -->
+        <template v-if="sharedSetup">
           <SyncIndicator />
           <button
             class="btn-ghost"
@@ -869,15 +865,6 @@
 
     <!-- ── The lobby's own dialogs ──────────────────────────────────────────────────────── -->
     <ConfirmModal
-      v-if="shareConfirmOpen"
-      :title="labels.lobbyStart"
-      :message="labels.lobbyStartConfirm"
-      :confirm-label="labels.lobbyStartConfirmYes"
-      :cancel-label="labels.trackerCancel"
-      @confirm="createLobby"
-      @cancel="shareConfirmOpen = false"
-    />
-    <ConfirmModal
       v-if="cancelConfirmOpen"
       :title="labels.lobbyCancel"
       :message="labels.lobbyCancelConfirm"
@@ -1088,21 +1075,17 @@ const shownPlayers = computed(() => sides.value.map((i) => ({ p: players[i], i }
 
 // The lobby is created from what the wizard already holds — the draft becomes the game, the
 // same objects, so nothing is re-entered and nothing is copied.
-const shareConfirmOpen = ref(false)
 const partyOpen = ref(false)
 const cancelConfirmOpen = ref(false)
 const takeOverConfirmOpen = ref(null) // the side whose editing is being taken over
-const sharing = ref(false)
+// Called on arrival when the tracker home asked for a shared game (`?share=1`).
 async function createLobby() {
-  shareConfirmOpen.value = false
   if (!canShare.value) return
-  sharing.value = true
   clearDraft()
   startLobby({ settings, players })
   players[0].isYou = true
   players[1].isYou = false
   const ok = await share()
-  sharing.value = false
   if (!ok) { closeLobby(); return }
   claimHostSide() // the guest's phone sees who is filling what from the first tick
   partyOpen.value = true
