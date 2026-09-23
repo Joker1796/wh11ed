@@ -1,36 +1,40 @@
 <template>
   <div class="tracker-home">
+    <!-- The page's heading row: the title on the left, and on the right the two things that are
+         ABOUT this page rather than part of it — the way to its help, and where the games are
+         kept. They used to be a centred title with a full-width line of their own underneath,
+         which spent two bands of a phone's first screen on a name and a status. Signed out, the
+         status is short and carries the long sentence in its tooltip: a reader who is not signed
+         in is not reading a paragraph about why they should be. -->
     <div class="hero">
       <h1>{{ labels.trackerIntroHeading }}</h1>
-    </div>
-
-    <!-- One row above the actions: the way to this section's help on the left, the account on the
-         right. The help link used to sit under the title beside a paragraph describing what a
-         tracker is — which the heading and the buttons already say. On a phone the row wraps and
-         the link lands back under the title, which is where it was. -->
-    <div class="cloud-bar">
-      <RouterLink
-        class="hero-help"
-        to="/help/tracker"
-        :title="labels.helpSection"
-        :aria-label="labels.helpSection"
-      >
-        <i class="bi bi-question-circle" />
-      </RouterLink>
-      <template v-if="status === 'authed'">
-        <span class="cloud-account">
+      <div class="hero-side">
+        <RouterLink
+          class="hero-help"
+          to="/help/tracker"
+          :title="labels.helpSection"
+          :aria-label="labels.helpSection"
+        >
+          <i class="bi bi-question-circle" />
+        </RouterLink>
+        <span
+          v-if="status === 'authed'"
+          class="cloud-account"
+          :class="{ err: lastError }"
+          :title="lastError ? labels.cloudError : ''"
+        >
           <i class="bi bi-cloud-check-fill" />
-          {{ user?.email || user?.displayName || labels.cloudSignedIn }}
+          <span class="ca-text">{{ user?.email || user?.displayName || labels.cloudSignedIn }}</span>
         </span>
         <span
-          v-if="lastError"
-          class="cloud-err"
-        >{{ labels.cloudError }}</span>
-      </template>
-      <span
-        v-else
-        class="cloud-hint"
-      >{{ labels.cloudSignInHint }}</span>
+          v-else
+          class="cloud-account"
+          :title="labels.cloudSignInHint"
+        >
+          <i class="bi bi-cloud" />
+          <span class="ca-text">{{ labels.cloudLocalOnly }}</span>
+        </span>
+      </div>
     </div>
 
     <!-- ONE thing to press, and a quiet row of the others.
@@ -495,35 +499,46 @@ function footLine(g) {
 .rb-rate { color: var(--accent); font-weight: 600; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero {
-  text-align: center;
-  padding: 1rem 0 0.8rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.75rem;
+  padding: 0.2rem 0 0.45rem;
   border-bottom: 2px solid var(--accent);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 .hero h1 {
   font-family: var(--font-display);
-  font-size: 2.64rem;
+  font-size: 2.1rem;
   font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 0.3rem;
+  margin: 0;
+  line-height: 1.1;
 }
-/* Help on the left, account on the right — `margin-left: auto` on the account rather than
-   space-between, so a wrapped row on a phone still puts the two on their own lines instead of
-   stretching one of them across the width. */
-.cloud-bar {
+/* The pair on the right rides the heading's baseline and shrinks before the title does — a long
+   address ellipsizes rather than pushing the row onto a second line. */
+.hero-side {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
-  color: var(--text-dim);
+  gap: 0.5rem;
+  min-width: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
-.cloud-bar > .hero-help + * { margin-left: auto; }
-.cloud-account { display: inline-flex; align-items: center; gap: 0.4rem; }
-.cloud-account .bi { color: var(--accent); }
-.cloud-hint { color: var(--text-muted); }
-.cloud-err { color: var(--danger); }
+.cloud-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.cloud-account .ca-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cloud-account.err { color: var(--danger); }
+
 .cta {
   display: flex;
   flex-direction: column;
@@ -571,10 +586,14 @@ function footLine(g) {
    390px as soon as there are three of them — and reads as debris. Space is the separator. */
 
 @media (max-width: 480px) {
-  /* Same trim as the roster list's heading: display type at 2.64rem eats a phone's first screen,
-     and the heading is the least useful thing on it. */
-  .hero h1 { font-size: 2.2rem; }
+  /* Same trim as the roster list's heading: display type eats a phone's first screen, and the
+     heading is the least useful thing on it. */
+  .hero h1 { font-size: 1.75rem; }
+  .hero-side { font-size: 0.75rem; }
   .cta { gap: 0.4rem; margin-bottom: 1.2rem; }
+  /* The same button the roster list draws at this width — it is the same kind of call to
+     action, and two screens of one app should not disagree about how big that is. */
+  .cta-main { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
   /* Three of them (a game in progress + both shared-game entries) against ~390px: a notch
      smaller and a tighter gap keeps the row on ONE line instead of wrapping one item alone. */
   .cta-quiet { gap: 0 0.9rem; }

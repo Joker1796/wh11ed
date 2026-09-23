@@ -67,7 +67,8 @@ const t = computed(() => rulesLanding[locale.value])
 }
 
 
-/* Under the title in a centred hero, unlike the two cloud-bars where it shares a row. */
+/* Under the title in a centred hero, unlike the tracker and roster headings where the same
+   link shares the title's row. */
 .hero-help { margin-top: 0.3rem; }
 
 .section-grid {

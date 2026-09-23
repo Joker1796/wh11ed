@@ -1,26 +1,26 @@
 <template>
   <div class="roster-list">
+    <!-- The heading row, the same shape the tracker home uses: the title on the left, and on the
+         right the two things that are ABOUT this page — its page of the guide (the builder does
+         more than the screen shows: import, share, hand-off to the tracker) and where the lists
+         are kept. Everything the cloud line can say is produced by the single sync pass on
+         entry; there is no manual "Sync" button, on purpose. -->
     <div class="hero">
       <h1>{{ labels.rostersHeading }}</h1>
-    </div>
-
-    <!-- Same row the tracker home carries above its buttons: this section's page of the guide on
-         the left (the builder does more than the screen shows — import, share, hand-off to the
-         tracker), the cloud on the right. Everything that line can say is produced by the single
-         sync pass on entry; there is no manual "Sync" button, on purpose. -->
-    <div class="cloud-bar">
-      <RouterLink
-        class="hero-help"
-        to="/help/rosters"
-        :title="labels.helpSection"
-        :aria-label="labels.helpSection"
-      >
-        <i class="bi bi-question-circle" />
-      </RouterLink>
-      <RosterCloudBar
-        hint
-        class="rl-cloud"
-      />
+      <div class="hero-side">
+        <RouterLink
+          class="hero-help"
+          to="/help/rosters"
+          :title="labels.helpSection"
+          :aria-label="labels.helpSection"
+        >
+          <i class="bi bi-question-circle" />
+        </RouterLink>
+        <RosterCloudBar
+          hint
+          compact
+        />
+      </div>
     </div>
 
     <div class="cta">
@@ -398,36 +398,40 @@ function confirmDelete() {
 <style scoped>
 .roster-list { padding-top: 0.5rem; }
 .hero {
-  text-align: center;
-  padding: 1rem 0 0.8rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.75rem;
+  padding: 0.2rem 0 0.45rem;
   border-bottom: 2px solid var(--accent);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 .hero h1 {
   font-family: var(--font-display);
-  font-size: 2.64rem;
+  font-size: 2.1rem;
   font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 0.3rem;
+  margin: 0;
+  line-height: 1.1;
 }
-/* Help on the left, cloud on the right — `margin-left: auto` rather than space-between, so a row
-   that wraps on a phone puts the two on their own lines instead of stretching one of them. */
-.cloud-bar {
+/* The pair on the right rides the heading's baseline and shrinks before the title does. */
+.hero-side {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
+  gap: 0.5rem;
+  min-width: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
-.cloud-bar .rl-cloud { margin: 0 0 0 auto; }
 .cta { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
 /* Same treatment as the tracker's CTA row on phones: button-sized buttons on one line, not two
    stretched panels. */
 @media (max-width: 480px) {
-  /* Display type at 2.64rem is a lot of height on a 360px screen, and the heading is the least
-     useful thing on it — the list under it is what the reader came for. */
-  .hero h1 { font-size: 2.2rem; }
+  /* Display type is a lot of height on a 360px screen, and the heading is the least useful
+     thing on it — the list under it is what the reader came for. */
+  .hero h1 { font-size: 1.75rem; }
+  .hero-side { font-size: 0.75rem; }
   .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
   .cta .btn-primary,
   .cta .btn-ghost {

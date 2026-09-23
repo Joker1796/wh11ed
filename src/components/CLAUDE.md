@@ -248,6 +248,14 @@ So, when adding or restyling anything that stacks:
   not a row plus a caption.
 - **Don't repeat the label that is already above you.** A tab named "Units" over a heading named
   "Units" is a free row; if a heading only restates the tab or the hero, question it.
+- **A page heading is a ROW, not a band** (2026-09-23, the tracker home and the roster list).
+  Both spent three bands of a phone's first screen on a centred title, a full-width accent rule
+  and a line of status under it. They now put the title on the left and, on the same baseline to
+  its right, the two things that are *about* the page rather than part of it — the link to its
+  page of the guide and where the data is kept — over one accent rule. Signed out, the cloud
+  status is three words (`cloudLocalOnly`) with the full sentence in its `title`: a reader who is
+  not signed in is not reading a paragraph about why they should be. That saved ~90px above the
+  fold on each screen, and a long address ellipsizes rather than widening the page.
 - **A tab strip and its content are joined, not neighbours.** `PageTabs` erases the strip's accent
   line under the open tab so the panel reads as hanging from it; a band of empty page between the
   two breaks that join as well as costing the row. `0.6rem` under the faction hero is the canon.
