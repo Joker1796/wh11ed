@@ -2095,11 +2095,14 @@ function cancel() {
   color: var(--text-muted);
   margin: 0 0 0.5rem;
 }
+/* 0.55rem between stacked fields — the step the faction pages settled on for a control and the
+   thing under it. At 0.7 the setup card spent a row of the phone's first screen on gaps alone,
+   and this is the screen a player fills in at the table with the opponent waiting. */
 .field {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.55rem;
 }
 .field input[type="text"],
 .field select {
@@ -2301,21 +2304,25 @@ function cancel() {
 /* The lobby's own row, under the step navigation: text, not buttons with frames, so it reads as
    an annotation to the party rather than a third and fourth way forward. Same recipe as the
    tracker home's quiet row. */
+/* Tight against the cards above it and against the navigation below: the strip is a footnote —
+   the code to read out and the way to close the lobby — and on a phone the band it used to sit in
+   cost about 40px of the first screen (owner, 2026-09-24). What shrank is the air around it; the
+   two buttons keep their 44px, which is the one thing a finger needs. */
 .lobby-bar {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   gap: 0 1.1rem;
-  margin-top: 0.9rem;
-  margin-bottom: -0.3rem; /* the navigation below brings its own top margin */
+  margin-top: 0.35rem;
+  margin-bottom: -0.35rem; /* the navigation below brings its own top margin */
 }
 .lobby-q {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
   min-height: 44px;
-  padding: 0.6rem 0.2rem;
+  padding: 0.35rem 0.2rem;
   background: none;
   border: none;
   font: inherit;
@@ -2405,7 +2412,7 @@ function cancel() {
   display: flex;
   justify-content: flex-end;
   gap: 0.6rem;
-  margin-top: 1.25rem;
+  margin-top: 0.6rem;
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }
