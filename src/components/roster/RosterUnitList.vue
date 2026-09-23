@@ -41,12 +41,12 @@
           v-for="e in g.entries"
           :key="e.uid"
         >
-          <!-- A block the player has NAMED gets a line of its own: the name they gave it, what the
-               whole thing costs, and the fold. Unnamed, there is no line — the host's tile is the
-               header (below), and a row on every block for a name nobody wrote is the kind of
-               thing a 182px pane cannot afford. -->
+          <!-- Every block has a line of its own: the name (the player's own, or a numbered default
+               until they write one), what the whole thing costs, and the fold. It is part of the
+               block — the army-coloured edge runs through it — and tinted with the accent, the same
+               way the catalogue tints a role header. -->
           <div
-            v-if="named(g.entries, e)"
+            v-if="blockOf(g.entries, e).length"
             class="rul-bhead"
           >
             <button
@@ -66,7 +66,7 @@
               class="rul-bname"
               @click="openName(e)"
             >
-              {{ e.blockName }}
+              {{ e.blockName || labels.rosterBlockDefault.replace('{n}', blockNo.get(e.uid)) }}
             </button>
             <span class="rul-btotal">{{ hostBlockTotal(g.entries, e, (x) => pointsOf(x) || 0) }}{{ labels.rosterPointsLabel }}</span>
           </div>
@@ -84,22 +84,6 @@
                  get its own click on every browser. They are positioned over the tile's top-right
                  corner at every width (see .rul-acts below). -->
             <div class="rul-headrow">
-              <!-- A bodyguard's tile IS the block's header: the twisty folds the characters
-                   joined to it away, and the block's own points come up onto this row while they
-                   are folded. Only a host with something attached has one. -->
-              <button
-                v-if="blockOf(g.entries, e).length && !named(g.entries, e)"
-                type="button"
-                class="rul-fold"
-                :aria-expanded="!folded.has(e.uid)"
-                :aria-label="labels.rosterAttachedFold"
-                @click="toggleFold(e.uid)"
-              >
-                <i
-                  class="bi"
-                  :class="folded.has(e.uid) ? 'bi-chevron-right' : 'bi-chevron-down'"
-                />
-              </button>
               <button
                 type="button"
                 class="rul-row"
@@ -111,8 +95,6 @@
                   :def="defOf(e.id)"
                   :items="items"
                   :points="pointsOf(e) || 0"
-                  :block-total="folded.has(e.uid) && !named(g.entries, e) ? hostBlockTotal(g.entries, e, (x) => pointsOf(x) || 0) : null"
-                  :hidden-count="folded.has(e.uid) && !named(g.entries, e) ? blockOf(g.entries, e).length : 0"
                   :detachments="detachments"
                   :role="roleOf(e)"
                 />
@@ -330,8 +312,19 @@ function act(what) {
 // Whether that entry is a block's host, asked without the section it lives in — the sheet knows
 // only the entry it was opened from.
 const hasBlock = (e) => !!e && !e.leaderOf && props.groups.some((g) => (g.entries || []).some((x) => x.leaderOf === e.uid))
-// A block with a name of its own draws a header line; without one its host's tile is the header.
-const named = (entries, e) => !!e.blockName && blockOf(entries, e).length > 0
+// Every block is numbered in reading order, across the whole list rather than per section: the
+// default name is what the player sees until they write their own, and "Unit 2" has to mean the
+// second block on the screen, not the second one in Battleline.
+const blockNo = computed(() => {
+  const m = new Map()
+  let n = 0
+  for (const g of props.groups || []) {
+    for (const e of g.entries || []) {
+      if (!e.leaderOf && (g.entries || []).some((x) => x.leaderOf === e.uid)) m.set(e.uid, ++n)
+    }
+  }
+  return m
+})
 
 // The name is written straight onto the host entry, like every other field the editor touches —
 // the store's deep watch is what saves it. `setNote` is the shared write: it trims, caps, and
@@ -394,18 +387,25 @@ watch(naming, (on) => {
   overflow: hidden;
 }
 @media (hover: hover) { .rul-unit:hover { border-color: var(--accent); } }
-/* A named block's own line, directly above the tiles it names. It carries the three things that
-   belong to the BLOCK rather than to any one row: the name the player gave it, the fold, and what
-   the whole thing costs. Nothing here is a tile — no border, no card — so the block still reads as
-   one object with a label on it rather than as four stacked boxes. */
+/* The block's own line, directly above the tiles it names. It carries the three things that belong
+   to the BLOCK rather than to any one row: its name, the fold, and what the whole thing costs.
+   Tinted with a fifth of the army's accent — the same mix the catalogue's role headers use, so a
+   tinted bar means "a heading" everywhere — and carrying the block's left edge, so the edge runs
+   the whole thing from the header down to the last character. */
 .rul-bhead {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-top: 0.15rem;
-  padding-bottom: 0.15rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.4rem;
+  background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-bottom: none;
 }
-.rul-bhead .rul-fold { align-items: center; padding: 0; }
+.rul-head + .rul-bhead,
+.rul-bhead:first-child { margin-top: 0; }
+.rul-bhead .rul-fold { align-items: center; padding: 0; color: var(--text-primary); }
 .rul-bname {
   flex: 1;
   min-width: 0;
@@ -426,7 +426,7 @@ watch(naming, (on) => {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--text-primary);
 }
 
 /* Renaming, in the sheet the block's other actions already live in. */
@@ -449,6 +449,9 @@ watch(naming, (on) => {
    the shared primitive in style.css, which cannot win against this component's own scoped
    `border` on .rul-unit (see the note there). */
 .rul-unit:has(+ .rul-attached) { margin-bottom: 0; }
+/* The header sits ON its block: no gap between the two, and the tile under it drops the border
+   the header already drew. */
+.rul-bhead + .rul-unit { border-top: none; }
 .rul-unit.rul-attached,
 .rul-unit.rul-host { border-left: 2px solid var(--accent); }
 

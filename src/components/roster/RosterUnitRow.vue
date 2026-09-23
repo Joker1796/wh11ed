@@ -32,10 +32,7 @@
         class="rur-note"
       >({{ entry.note }})</span>
     </span>
-    <!-- The block's points while it is folded away: the characters' own numbers are off screen,
-         so this is the only figure in the block and the column still adds up to the roster total.
-         Unfolded, every row carries its own again and there is nothing here to sum. -->
-    <span class="rur-pts">{{ blockTotal ?? points }}</span>
+    <span class="rur-pts">{{ points }}</span>
     <span
       v-if="chips.length"
       class="rur-chips"
@@ -71,9 +68,6 @@ const props = defineProps({
   // "Leader" / "Support" when this entry is a character attached to the unit above it. Passed in
   // rather than derived: the caller already knows the host, this component only knows the entry.
   role: { type: String, default: '' },
-  // A folded block: what the whole thing costs, and how many rows are hidden under this one.
-  blockTotal: { type: Number, default: null },
-  hiddenCount: { type: Number, default: 0 },
 })
 
 const { locale } = useLocale()
@@ -84,8 +78,6 @@ const chips = computed(() => {
   const def = props.def
   if (!def) return out
   if (props.role) out.push({ key: 'role', text: props.role, role: true })
-  // What folding took off the screen, so a one-row block still says it is a block.
-  if (props.hiddenCount) out.push({ key: 'folded', text: `+${props.hiddenCount}`, role: true })
   const size = def.sizes?.[props.entry.size ?? 0] || def.sizes?.[0]
   // A one-model datasheet says nothing by saying "1 model"; a bracket that can hold more does.
   if (size && size.per[1] > 1) {

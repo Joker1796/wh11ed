@@ -498,6 +498,7 @@ export const ui = {
     // gender for a unit name it cannot decline.
     rosterAttachedFold: 'Fold the attached unit',
     rosterBlockName: 'Name this unit',
+    rosterBlockDefault: 'Unit {n}',
     rosterBlockNameHint: 'What you call it while planning — “home objective”, “centre push”',
     rosterRemoved: 'Removed: {name}',
     rosterUndo: 'Undo',
@@ -1477,6 +1478,7 @@ export const ui = {
     rosterMoreActions: 'Другие действия',
     rosterAttachedFold: 'Свернуть отряд',
     rosterBlockName: 'Назвать отряд',
+    rosterBlockDefault: 'Отряд {n}',
     rosterBlockNameHint: 'Как вы зовёте его, когда планируете: «домашка», «ближняя точка»',
     rosterRemoved: 'Удалено: {name}',
     rosterUndo: 'Вернуть',

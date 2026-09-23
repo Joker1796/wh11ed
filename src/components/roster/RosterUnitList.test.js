@@ -29,29 +29,28 @@ afterEach(() => {
 })
 
 describe('RosterUnitList', () => {
-  // The bodyguard's tile is the block's header: it folds the characters joined to it away, and
-  // the block's points come up onto its own row while they are hidden. There is no footnote line
-  // under the block any more (the read-only list still has one — nothing folds there).
-  it('folds the block from its host, and totals it while folded', async () => {
+  // The block has a header of its own, carrying its name, its points and the fold. There is no
+  // footnote line under it any more (the read-only list still has one — nothing folds there).
+  it('heads the block, and folds its characters away', async () => {
     const w = mountList()
     expect(w.findAll('.roster-sum')).toHaveLength(0)
     expect(w.findAll('.rul-unit')).toHaveLength(2)
-    expect(w.findAll('.rul-fold')).toHaveLength(1) // only the host has one
+    expect(w.findAll('.rul-bhead')).toHaveLength(1)
+    expect(w.find('.rul-btotal').text()).toContain('190') // 90 + 100, the whole attached unit
 
-    await w.find('.rul-fold').trigger('click')
-    expect(w.findAll('.rul-unit')).toHaveLength(1)
-    expect(w.find('.rur-pts').text()).toBe('190') // 90 + 100, the whole attached unit
-    expect(w.find('.rur-chip.role').text()).toBe('+1')
+    await w.find('.rul-bhead .rul-fold').trigger('click')
+    expect(w.findAll('.rul-unit')).toHaveLength(1) // the host stays, its characters go
+    expect(w.find('.rul-btotal').text()).toContain('190')
 
-    await w.find('.rul-fold').trigger('click')
+    await w.find('.rul-bhead .rul-fold').trigger('click')
     expect(w.findAll('.rul-unit')).toHaveLength(2)
-    expect(w.find('.rur-pts').text()).toBe('90') // its own again
   })
 
   // Everything starts open, and folding is a gesture rather than a setting: nothing is stored.
-  it('starts unfolded', () => {
+  it('starts unfolded, under a numbered default name', () => {
     const w = mountList()
     expect(w.find('.rul-fold').attributes('aria-expanded')).toBe('true')
+    expect(w.find('.rul-bname').text()).toBe('Unit 1')
   })
 
   it('reports the row that was tapped, copied or deleted', async () => {
@@ -95,7 +94,7 @@ describe('RosterUnitList', () => {
   it('names a block from the host\'s sheet, and heads it with the name', async () => {
     const w = mountList()
     const body = new DOMWrapper(document.body)
-    expect(w.find('.rul-bhead').exists()).toBe(false)
+    expect(w.find('.rul-bname').text()).toBe('Unit 1')
 
     await w.findAll('.rul-more')[0].trigger('click')
     await body.findAll('.act-btn').find((b) => b.text() === 'Name this unit').trigger('click')
@@ -105,7 +104,6 @@ describe('RosterUnitList', () => {
     expect(entries[0].blockName).toBe('Home objective')
     expect(w.find('.rul-bhead .rul-bname').text()).toBe('Home objective')
     expect(w.find('.rul-bhead .rul-btotal').text()).toContain('190') // 90 + 100, the whole block
-    expect(w.findAll('.rul-unit .rul-fold')).toHaveLength(0) // the fold moved up to the header
   })
 
   it('offers no name for a unit with nothing attached to it', async () => {
