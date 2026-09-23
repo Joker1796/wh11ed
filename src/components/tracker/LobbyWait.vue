@@ -249,11 +249,19 @@ async function doLeave() {
   display: flex;
   justify-content: center;
 }
+/* One row, always: two short buttons on a 390px screen have no business stacking, and the
+   waiting screen is the last place that needs to look busy. */
 .lw-actions {
   margin-top: 1.25rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 0.6rem;
+}
+.lw-actions > * {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 </style>
