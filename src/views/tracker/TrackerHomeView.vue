@@ -5,18 +5,15 @@
          kept. They used to be a centred title with a full-width line of their own underneath,
          which spent two bands of a phone's first screen on a name and a status. Signed out, the
          status is short and carries the long sentence in its tooltip: a reader who is not signed
-         in is not reading a paragraph about why they should be. -->
+         in is not reading a paragraph about why they should be.
+
+         The help link is the RIGHTMOST of the two because it is the one that is always there in
+         the same shape; the account line beside it changes with who is reading (an address, or
+         three words about this device). The fixed thing holds the corner, the variable one grows
+         and shrinks to its left. -->
     <div class="hero">
       <h1>{{ labels.trackerIntroHeading }}</h1>
       <div class="hero-side">
-        <RouterLink
-          class="hero-help"
-          to="/help/tracker"
-          :title="labels.helpSection"
-          :aria-label="labels.helpSection"
-        >
-          <i class="bi bi-question-circle" />
-        </RouterLink>
         <span
           v-if="status === 'authed'"
           class="cloud-account"
@@ -34,6 +31,14 @@
           <i class="bi bi-cloud" />
           <span class="ca-text">{{ labels.cloudLocalOnly }}</span>
         </span>
+        <RouterLink
+          class="hero-help"
+          to="/help/tracker"
+          :title="labels.helpSection"
+          :aria-label="labels.helpSection"
+        >
+          <i class="bi bi-question-circle" />
+        </RouterLink>
       </div>
     </div>
 

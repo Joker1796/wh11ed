@@ -255,7 +255,10 @@ So, when adding or restyling anything that stacks:
   page of the guide and where the data is kept — over one accent rule. Signed out, the cloud
   status is three words (`cloudLocalOnly`) with the full sentence in its `title`: a reader who is
   not signed in is not reading a paragraph about why they should be. That saved ~90px above the
-  fold on each screen, and a long address ellipsizes rather than widening the page.
+  fold on each screen, and a long address ellipsizes rather than widening the page. **The help
+  link is the rightmost of the pair**: it is the one that is always there in the same shape, so
+  it holds the corner while the line beside it — an address, or three words about this device —
+  grows and shrinks to its left.
 - **A tab strip and its content are joined, not neighbours.** `PageTabs` erases the strip's accent
   line under the open tab so the panel reads as hanging from it; a band of empty page between the
   two breaks that join as well as costing the row. `0.6rem` under the faction hero is the canon.

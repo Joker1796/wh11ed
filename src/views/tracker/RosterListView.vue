@@ -8,6 +8,12 @@
     <div class="hero">
       <h1>{{ labels.rostersHeading }}</h1>
       <div class="hero-side">
+        <!-- Cloud first, help last: the help link is always there in the same shape and holds the
+             corner, while the line beside it changes with who is reading. -->
+        <RosterCloudBar
+          hint
+          compact
+        />
         <RouterLink
           class="hero-help"
           to="/help/rosters"
@@ -16,10 +22,6 @@
         >
           <i class="bi bi-question-circle" />
         </RouterLink>
-        <RosterCloudBar
-          hint
-          compact
-        />
       </div>
     </div>
 
