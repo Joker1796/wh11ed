@@ -2,7 +2,7 @@
   <button
     type="button"
     class="det"
-    :class="{ on, 'tone tone-bar': !!tone }"
+    :class="{ on, tone: !!tone }"
     :style="tone"
   >
     <span class="det-main">
@@ -49,10 +49,11 @@
 // Disposition colour the roster one wore (a player's report). The modals around it stay apart
 // (one pick vs. several under a DP budget); only the row is shared.
 //
-// Each row wears its disposition's colour — the bar on its edge and the chip under the price —
-// because the disposition is what a detachment is FOR, and five of them down a list are told
-// apart faster by hue than by reading (dispositionColors.js). The DP cost sits on the right,
-// where a cost is looked for, with the disposition under it. Every field but `name` is optional: the faction bar reuses its
+// Each row wears its disposition's colour on the chip under the price, because the disposition is
+// what a detachment is FOR, and five of them down a list are told apart faster by hue than by
+// reading (dispositionColors.js). The DP cost sits on the right, where a cost is looked for, with
+// the disposition under it. (A coloured stripe on the row's edge went, at the owner's word,
+// 2026-09-25: the chip already says it.) Every field but `name` is optional: the faction bar reuses its
 // picker for the Chapter list, which is plain names.
 // (Said here, not above the <button>: a comment before the root makes the component a Fragment.)
 import { computed } from 'vue'
@@ -93,10 +94,6 @@ const tone = computed(() => {
   cursor: pointer;
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }
-
-/* The row's own `border` above outranks the global `.tone-bar` (scoped 0,2,0 against 0,1,0), so the
-   disposition's edge is restated here — without it the bar never showed in either picker. */
-.det.tone-bar { border-left: 4px solid var(--tone, var(--border)); }
 
 @media (hover: hover) {
   .det:hover { border-color: var(--accent); }
@@ -164,11 +161,6 @@ const tone = computed(() => {
   color: var(--text-primary);
   white-space: nowrap;
 }
-
-/* The accent frame of a picked or hovered row is the three other sides: `border-color` repaints all
-   four, and the picked detachment lost the disposition colour it is picked by. */
-.det.tone-bar.on,
-.det.tone-bar:hover { border-left-color: var(--tone); }
 
 .det.on .det-dp {
   border-color: var(--accent);

@@ -93,9 +93,9 @@ it actually changes). `npm run dupes` fails when one rule body appears verbatim 
   `components/tracker/PickerRow.vue`, and they differ only in what they slot into it.
   The same went for the detachment row (2026-09-24): the faction pages' picker and the roster
   builder's each drew their own, and only one of them ever got the Force Disposition colour. Both
-  draw `components/DetachmentOption.vue` now; the modals around it stay separate. It also learned
-  the lesson `.tone-bar` teaches: a scoped `border` outranks the global bar, so the row restates
-  its left edge.
+  draw `components/DetachmentOption.vue` now; the modals around it stay separate. The disposition
+  is its chip under the price; the row wore a `.tone-bar` stripe too until the owner dropped it
+  (2026-09-25). Its rows must not shrink (`flex-shrink: 0`): the lists are flex columns.
 
 
 ## Modals
