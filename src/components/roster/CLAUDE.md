@@ -1642,6 +1642,11 @@ What moved, and why each was safe to move:
 
 The panes gained ~145px on a 390×740 phone (checked on screenshots, both builds side by side).
 
+Same day, same reasoning, two small ones: the saved list's view drops its "Back to lists" line on a
+phone (`.rv-back-list` — the bottom nav's Rosters is the same place; from a game or its history the
+link goes elsewhere and stays), and the editor's Cancel lands on the list's own view, where Save
+lands too, instead of the list of lists.
+
 ## Faction rules beside the build (added 2026-08-28)
 
 `RosterRulesPanel.vue` on **both** building screens — the wizard's Units step and the editor's

@@ -8,9 +8,13 @@
          The status used to sit mid-page under the issues bar, which put a transient line in the
          middle of the reading column; up here it is out of the way and still in view. -->
     <div class="rv-top">
+      <!-- On a phone the way back to the list of lists is the bottom nav's Rosters, one thumb away,
+           so this line is dropped there (owner, 2026-09-24). From a game or its history it goes
+           somewhere the nav does not, and stays. -->
       <RouterLink
         :to="backTo"
         class="back"
+        :class="{ 'rv-back-list': !inGame }"
       >
         <i class="bi bi-chevron-left" /> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
       </RouterLink>
@@ -1632,6 +1636,9 @@ function stratKey(strat) {
   flex-wrap: wrap;
 }
 .rv-top .rv-cloud { margin: 0 0 0 auto; }
+@media (max-width: 900px) {
+  .rv-back-list { display: none; }
+}
 
 .rv-issues {
   display: flex;

@@ -238,6 +238,8 @@ describe('RosterEditorView', () => {
 
   // The editor writes into the stored roster as you go, so Cancel has to put it back — it used
   // to be a link to the list, i.e. "close, keeping everything" (owner, 2026-09-24).
+  // …and back to the list's own view, where Save lands too, not the list of lists (owner,
+  // 2026-09-24).
   it('the footer Cancel leaves straight away when nothing was touched', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
@@ -249,7 +251,7 @@ describe('RosterEditorView', () => {
     await waitFor(w, 'Intercessor Squad')
     await w.find('.rc-sticky .btn-ghost').trigger('click')
     expect(new DOMWrapper(document.body).find('.modal').exists()).toBe(false)
-    expect(push).toHaveBeenCalledWith('/roster')
+    expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
   })
 
   it('the footer Cancel asks first, then puts the list back the way it opened', async () => {
@@ -270,14 +272,14 @@ describe('RosterEditorView', () => {
 
     const body = new DOMWrapper(document.body)
     expect(body.find('.modal').exists()).toBe(true)
-    expect(push).not.toHaveBeenCalledWith('/roster') // nothing happens until the question is answered
+    expect(push).not.toHaveBeenCalled() // nothing happens until the question is answered
     // Both halves of what changed are named, so the reader knows what they are giving up.
     expect(body.find('.cm-message').text()).toContain('1')
     await body.find('.modal-foot .btn-primary').trigger('click')
 
     expect(store.rosterById(r.id).units).toHaveLength(1)
     expect(store.rosterById(r.id).name).toBe('Test list')
-    expect(push).toHaveBeenCalledWith('/roster')
+    expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
   })
 
   it('the footer Cancel keeps the edits when the question is answered with Keep editing', async () => {
@@ -295,7 +297,7 @@ describe('RosterEditorView', () => {
     await new DOMWrapper(document.body).find('.modal-foot .btn-ghost').trigger('click')
 
     expect(store.rosterById(r.id).name).toBe('Renamed')
-    expect(push).not.toHaveBeenCalledWith('/roster')
+    expect(push).not.toHaveBeenCalled()
   })
 
   // The catalogue used to be a page of its own (/roster/:id/add) and the Units tab a link to it;

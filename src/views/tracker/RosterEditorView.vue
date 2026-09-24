@@ -515,14 +515,17 @@ const discardMessage = computed(() => {
   const what = changedParts.value.map((p) => labels.value[PART_LABEL[p.k]].replace('{n}', String(p.n))).join(', ')
   return what ? labels.value.rosterDiscardBody.replace('{what}', what) : labels.value.rosterDiscardBodyPlain
 })
+// Both ways out land on the list's own view (owner, 2026-09-24), where the editor was entered
+// from and where Save lands too — not on the list of lists, one screen further than the player
+// meant to go.
 function leaveEditor() {
-  if (!dirty.value) { router.push('/roster'); return }
+  if (!dirty.value) { router.push(`/roster/${roster.value.id}/view`); return }
   discardOpen.value = true
 }
 function discardEdits() {
   revertEdits()
   discardOpen.value = false
-  router.push('/roster')
+  router.push(`/roster/${roster.value.id}/view`)
 }
 
 // Roster, faction data, live points, validation and the add/duplicate/remove semantics all come
