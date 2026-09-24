@@ -343,9 +343,11 @@ watch(naming, (on) => {
    the only thing saying which unit that column belongs to is this. */
 .rul-picked { outline: 1px solid var(--accent); outline-offset: -1px; }
 
+/* Section headings, a size up from the rows (owner, 2026-09-24): at 0.92rem on a phone pane
+   "Прикреплённые юниты" read smaller than the unit names under it. */
 .rul-head {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   font-weight: 500;
   color: var(--text-primary);
   margin: 1.1rem 0 0.5rem;
@@ -514,7 +516,7 @@ watch(naming, (on) => {
    Keyed off the pane, not the viewport: a 390px phone and a 780px tablet give this list the
    same ~180px, and only a container query can tell either of them apart from a wide screen. */
 @container (max-width: 300px) {
-  .rul-head { font-size: 0.92rem; }
+  .rul-head { font-size: 1.2rem; }
   .rul-ally { font-size: 0.62rem; }
   .rul-row { padding: 0.45rem 0.5rem; gap: 0; }
   /* 24px wide even here: it is a tap target, and the 6px it takes from the name is the row's

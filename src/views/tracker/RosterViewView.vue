@@ -1665,7 +1665,7 @@ function stratKey(strat) {
 
 .rvg-head {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.3rem; /* the builder's section headings' size — one list, two screens */
   font-weight: 500;
   color: var(--text-primary);
   margin: 1.1rem 0 0.5rem;
