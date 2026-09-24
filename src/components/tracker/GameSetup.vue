@@ -1004,7 +1004,7 @@
       :confirm-label="labels.lobbyCancelConfirmYes"
       :cancel-label="labels.trackerBack"
       @confirm="cancelLobby"
-      @cancel="cancelConfirmOpen = false"
+      @close="cancelConfirmOpen = false"
     />
     <ConfirmModal
       v-if="takeOverConfirmOpen !== null"
@@ -1013,7 +1013,7 @@
       :confirm-label="labels.lobbyTakeOver"
       :cancel-label="labels.trackerCancel"
       @confirm="doTakeOver"
-      @cancel="takeOverConfirmOpen = null"
+      @close="takeOverConfirmOpen = null"
     />
     <!-- A guest asking to reopen its side after the host has moved on. The host answers here,
          and the answer is what the guest's waiting screen shows. -->
@@ -1024,7 +1024,7 @@
       :confirm-label="labels.lobbyRequestAllow"
       :cancel-label="labels.lobbyRequestDeny"
       @confirm="grantReopen(pendingRequest.side)"
-      @cancel="denyReopen(pendingRequest.side)"
+      @close="denyReopen(pendingRequest.side)"
     />
     <PartyModal
       v-if="partyOpen"

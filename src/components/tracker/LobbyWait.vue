@@ -72,7 +72,7 @@
       :confirm-label="labels.lobbyTakeOver"
       :cancel-label="labels.trackerCancel"
       @confirm="doTakeOver"
-      @cancel="takeOverOpen = false"
+      @close="takeOverOpen = false"
     />
     <ConfirmModal
       v-if="leaveOpen"
@@ -81,7 +81,7 @@
       :confirm-label="labels.lobbyLeave"
       :cancel-label="labels.trackerCancel"
       @confirm="doLeave"
-      @cancel="leaveOpen = false"
+      @close="leaveOpen = false"
     />
   </div>
 </template>

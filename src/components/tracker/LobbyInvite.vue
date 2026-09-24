@@ -70,7 +70,7 @@
       :confirm-label="labels.lobbyCancelConfirmYes"
       :cancel-label="labels.trackerBack"
       @confirm="$emit('cancel')"
-      @cancel="cancelOpen = false"
+      @close="cancelOpen = false"
     />
   </div>
 </template>

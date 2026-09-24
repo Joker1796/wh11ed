@@ -146,6 +146,24 @@ describe('GameSetup in a lobby', () => {
     expect(w.find('.game-type').exists()).toBe(false) // the game type is the host's
   })
 
+  // Every lobby confirmation listened for `cancel` on a ConfirmModal that emits `close`, so its ×,
+  // its Back and the phone's back gesture did nothing (a player's report, 2026-09-24).
+  it('closes the cancel-the-lobby confirmation from its × and its Back', async () => {
+    const { tracker } = await guestScreen()
+    tracker.current.value.party = { ...tracker.current.value.party, side: 0, memberId: 'm-host', host: true }
+    const w = mount((await import('./GameSetup.vue')).default)
+    const body = new DOMWrapper(document.body)
+    const cancelLobby = w.findAll('.lobby-q').find((b) => b.text() === 'Close the lobby')
+    for (const close of ['.mh-close', '.modal-foot .btn-ghost']) {
+      await cancelLobby.trigger('click')
+      await flushPromises()
+      expect(body.find('.cm-message').exists()).toBe(true)
+      await body.find(close).trigger('click')
+      await flushPromises()
+      expect(body.find('.cm-message').exists(), close).toBe(false)
+    }
+  })
+
   it('offers Done instead of the wizard’s steps, disabled until the army is chosen', async () => {
     const { w } = await guestScreen()
     expect(w.find('.setup-head').exists()).toBe(false)
