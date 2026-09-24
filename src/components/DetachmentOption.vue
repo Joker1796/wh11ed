@@ -69,8 +69,12 @@ const tone = computed(() => {
 </script>
 
 <style scoped>
+/* flex-shrink 0: the lists this sits in are flex columns (`.modal-list`), and with an explicit
+   min-height a row may shrink to it once the list is taller than the dialog — the faction picker's
+   three-line rows (name, RU name, disposition) then drew over each other (owner, 2026-09-25). */
 .det {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 0.6rem;
   width: 100%;
@@ -144,6 +148,11 @@ const tone = computed(() => {
   color: var(--text-primary);
   white-space: nowrap;
 }
+
+/* The accent frame of a picked or hovered row is the three other sides: `border-color` repaints all
+   four, and the picked detachment lost the disposition colour it is picked by. */
+.det.tone-bar.on,
+.det.tone-bar:hover { border-left-color: var(--tone); }
 
 .det.on .det-dp {
   border-color: var(--accent);
