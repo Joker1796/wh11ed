@@ -733,7 +733,11 @@ function rename(name) {
    PageTabs put on a tab that still owes an answer, moved onto the gear with it. */
 /* The switch never shrinks: squeezed, `.seg`'s overflow clipped the gear and Cancel sat on top of
    it (a player's report, 2026-09-24, a Russian phone ≤375px). Room is made on the buttons instead. */
-.red-mode { flex-shrink: 0; }
+/* …and it stands in the middle of the room between the points and the buttons (owner,
+   2026-09-24): equal auto margins, with the actions' own `margin-left: auto` (style.css) handed to
+   the switch here, or the free space would split three ways and the gap would stay lopsided. */
+.red-mode { flex-shrink: 0; margin: 0 auto; }
+.red-mode + .rc-sticky-actions { margin-left: 0; }
 .red-mode button { position: relative; padding: 0.45rem 0.7rem; font-size: 1rem; line-height: 1; }
 .red-cancel-icon { display: none; }
 @media (max-width: 400px) {
