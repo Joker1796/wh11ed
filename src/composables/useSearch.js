@@ -411,7 +411,7 @@ function indexEventCompanion(items, locale) {
     add('twist-' + b.id, b.title, [b.body, b.note, b.example], L.missionsTwistsHeading, b.titleRu || '')
   }
 
-  // Errata & FAQs (no per-item DOM ids → synthetic)
+  // Errata & FAQs — ChapterFaq.vue gives each card this same `ec-faq-<i>` id.
   ;(ec.faq.items || []).forEach((item, i) => {
     add('ec-faq-' + i, item.q, [item.a], L.eventFaqHeading)
   })
@@ -721,6 +721,10 @@ function getIndex(locale) {
   const key = locale === 'ru' ? 'ru' : 'en'
   return (indexCache[key] ??= buildIndex(key))
 }
+
+// The static index as built — for the gate that checks every hit's anchor exists on its page
+// (searchAnchors.test.js). Not used by the app.
+export const staticIndexFor = (locale) => getIndex(locale)
 
 // id → item lookup per locale, built lazily off getIndex() and cached the same way.
 // `id` is always taken from the EN source object regardless of locale (see buildIndex),

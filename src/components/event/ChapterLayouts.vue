@@ -13,7 +13,9 @@
     v-html="renderInline(para)"
   />
 
+  <!-- `ec-footprints` is the search hit's anchor (useSearch). -->
   <DataTable
+    id="ec-footprints"
     :title="ec.terrain.footprints.title"
     :headers="ec.terrain.footprints.headers"
     :rows="ec.terrain.footprints.rows"

@@ -90,6 +90,7 @@
 
     <div
       v-if="strat.subRule"
+      :id="strat.subRule.id"
       class="strat-sub-rule"
     >
       <div class="strat-sub-rule-header">

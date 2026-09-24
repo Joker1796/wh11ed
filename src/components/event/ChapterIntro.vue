@@ -13,7 +13,13 @@
     </div>
   </aside>
 
-  <div class="rule-body-wrap">
+  <!-- The block's anchor lives here: RuleBody renders several roots, so an `id` passed to it is
+       a prop for its subheadings and never reaches the page (search's Introduction hit stopped
+       at the top of the page until 2026-09-24). -->
+  <div
+    :id="intro.id"
+    class="rule-body-wrap"
+  >
     <SeeAlsoBlock
       v-if="intro.seeAlso && intro.seeAlso.length"
       :refs="intro.seeAlso"

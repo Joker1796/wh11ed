@@ -15,8 +15,11 @@
   />
 
   <div class="faq-list">
+    <!-- The id is the search hit's anchor (useSearch: `ec-faq-<i>`). Without it every Errata &
+         FAQs result opened the page and stopped at the top (a player's report, 2026-09-24). -->
     <FaqItem
       v-for="(item, i) in faq.items"
+      :id="'ec-faq-' + i"
       :key="i"
       :q="item.q"
       :a="item.a"

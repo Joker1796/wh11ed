@@ -432,6 +432,9 @@ Each time you use a **stratagem**, resolve the following sequence:
           restrictions: '',
           extraCost: [],
           subRule: {
+            // The anchor for 15.09 (search, and every "(15.09)" cross-ref): Snap Shooting is drawn
+            // inside this card, and the section-15-09 subsection is `inline` — never rendered.
+            id: 'section-15-09',
             sectionNum: '15.09',
             title: 'Snap Shooting',
             fields: [
@@ -913,6 +916,9 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
           restrictions: '',
           extraCost: [],
           subRule: {
+            // The anchor for 15.09 (search, and every "(15.09)" cross-ref): Snap Shooting is drawn
+            // inside this card, and the section-15-09 subsection is `inline` — never rendered.
+            id: 'section-15-09',
             sectionNum: '15.09',
             title: 'Snap Shooting',
             titleRu: 'Стрельба на вскидку',
