@@ -91,6 +91,11 @@ it actually changes). `npm run dupes` fails when one rule body appears verbatim 
 - **Repeated markup is a component, not a rule to copy.** The three tracker pickers
   (mission / secondary / twist) drew the same expanding row three times; it is now
   `components/tracker/PickerRow.vue`, and they differ only in what they slot into it.
+  The same went for the detachment row (2026-09-24): the faction pages' picker and the roster
+  builder's each drew their own, and only one of them ever got the Force Disposition colour. Both
+  draw `components/DetachmentOption.vue` now; the modals around it stay separate. It also learned
+  the lesson `.tone-bar` teaches: a scoped `border` outranks the global bar, so the row restates
+  its left edge.
 
 
 ## Modals

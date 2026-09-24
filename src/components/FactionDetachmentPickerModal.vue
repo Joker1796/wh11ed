@@ -8,41 +8,18 @@
          (style.css) that keeps a scroll at the list's end from chaining to the page behind.
          There is deliberately no body scroll-lock, so this class is what contains it. -->
     <div class="modal-body modal-list">
-      <button
+      <DetachmentOption
         v-for="d in detachments"
         :key="d.id"
-        type="button"
-        class="fdp-item"
-        :class="{ on: d.id === activeId }"
+        :name="d.name"
+        :name-ru="d.nameRu || ''"
+        :force-disposition="d.forceDisposition || ''"
+        :unique="d.unique || ''"
+        :tag="d.tag || ''"
+        :dp="d.dp || 0"
+        :on="d.id === activeId"
         @click="$emit('pick', d.id)"
-      >
-        <span class="fdp-top">
-          <span class="fdp-heading">
-            <span class="fdp-name">{{ d.name }}</span>
-            <span
-              v-if="d.nameRu"
-              class="fdp-name-ru"
-            >{{ d.nameRu }}</span>
-          </span>
-          <span
-            v-if="d.dp || d.unique || d.tag"
-            class="fdp-side"
-          >
-            <span
-              v-if="d.dp"
-              class="fdp-dp"
-            >{{ d.dp }} DP</span>
-            <span
-              v-if="d.unique"
-              class="fdp-unique"
-            >{{ d.unique }}</span>
-            <span
-              v-if="d.tag"
-              class="fdp-unique"
-            >{{ d.tag }}</span>
-          </span>
-        </span>
-      </button>
+      />
     </div>
   </BaseModal>
 </template>
@@ -50,12 +27,13 @@
 <script setup>
 import { computed } from 'vue'
 import BaseModal from './BaseModal.vue'
+import DetachmentOption from './DetachmentOption.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 
 // Also reused as a generic option picker (e.g. the Chapter picker in
 // FactionPickerBar) — pass plain { id, name } items and a `title`; the
-// detachment-only fields (nameRu / dp / unique) simply don't render. An optional
+// detachment-only fields (nameRu / dp / unique / forceDisposition) simply don't render. An optional
 // `tag` renders as a quiet corner keyword (the chapter lock on SM detachments).
 defineProps({
   detachments: { type: Array, required: true },
@@ -69,7 +47,6 @@ const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
-
 /* Narrow phones: BaseModal itself goes edge-to-edge (bottom sheet) at this breakpoint,
    so shrink the body's own gutter too — cards get closer to the full screen width
    instead of being inset by a fixed 0.75rem regardless of how little room there is. */
@@ -77,84 +54,5 @@ const labels = computed(() => ui[locale.value])
   .modal-body {
     padding: 0.5rem 0.4rem;
   }
-}
-
-.fdp-item {
-  display: flex;
-  width: 100%;
-  min-height: 44px;
-  padding: 0.5rem 0.65rem;
-  text-align: left;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  cursor: pointer;
-  transition: border-color var(--motion-fast), background var(--motion-fast);
-}
-
-.fdp-item:hover {
-  border-color: var(--accent);
-}
-
-.fdp-item.on {
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  border-color: var(--accent);
-}
-
-/* Name on the left, price + disposition + keyword stacked in the top-right corner. */
-.fdp-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.6rem;
-  width: 100%;
-}
-
-.fdp-heading {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.fdp-name {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  color: var(--text-primary);
-}
-
-/* RU translation of the detachment name — small muted line under the English name */
-.fdp-name-ru {
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  opacity: 0.8;
-}
-
-.fdp-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-shrink: 0;
-  gap: 0.25rem;
-}
-
-.fdp-dp {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--accent);
-  white-space: nowrap;
-}
-
-/* Bare keyword only (no "Unique:" prefix) — kept quiet: small and muted so it never
-   competes with the DP price above it or breaks the row on narrow screens. */
-.fdp-unique {
-  font-size: 0.56rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-dim);
-  white-space: nowrap;
 }
 </style>
