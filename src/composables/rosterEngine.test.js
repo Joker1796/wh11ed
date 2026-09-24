@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -448,6 +448,55 @@ describe('rosterPoints', () => {
   it('is empty-safe', () => {
     expect(rosterPoints([], defOf)).toBe(0)
     expect(rosterPoints(null, defOf)).toBe(0)
+  })
+})
+
+describe('leaderSourcesFor', () => {
+  const squad = { id: 'intercessor-squad', name: 'Intercessor Squad' }
+  const leader = { id: 'captain', name: 'Captain', leads: [{ to: 'intercessor-squad', type: 'leader' }] }
+  const supporter = { id: 'chronomancer', name: 'Chronomancer', leads: [{ to: 'intercessor-squad', type: 'support' }] }
+  const defs = { 'intercessor-squad': squad, captain: leader, chronomancer: supporter }
+  const defOf = (id) => defs[id]
+
+  // The squad's end of the attachment: who could join it, asked through leaderTargetsFor so the
+  // two pickers cannot disagree (a player's request, 2026-09-24).
+  it('lists the entries that could be attached to this unit, and only those', () => {
+    const units = [
+      { uid: 'a', id: 'captain' },
+      { uid: 'b', id: 'chronomancer' },
+      { uid: 'c', id: 'intercessor-squad' },
+      { uid: 'd', id: 'intercessor-squad' },
+    ]
+    expect(leaderSourcesFor('c', units, defOf)).toMatchObject([
+      { uid: 'a', name: 'Captain', type: 'leader', used: false, elsewhere: null },
+      { uid: 'b', name: 'Chronomancer', type: 'support', used: false, elsewhere: null },
+    ])
+    expect(leaderSourcesFor('a', units, defOf)).toEqual([])
+  })
+
+  // Against real data: a Necron Warriors squad takes a Technomancer (Support) and an Overlord
+  // (Leader); a Character takes no one.
+  it('reads the real Necrons attachments from the squad end', async () => {
+    const { default: necrons } = await import('../data/roster/necrons.js')
+    const byId = (id) => necrons.units.find((u) => u.id === id)
+    const units = [{ uid: 'sq', id: 'necron-warriors' }, { uid: 'tm', id: 'technomancer' }, { uid: 'ov', id: 'overlord' }, { uid: 'im', id: 'immortals' }]
+    const names = (uid) => leaderSourcesFor(uid, units, byId).map((x) => `${x.name}:${x.type}`)
+    expect(names('sq')).toEqual(expect.arrayContaining(['Technomancer:support', 'Overlord:leader']))
+    expect(names('sq')).toHaveLength(2)
+    expect(names('tm')).toEqual([])
+  })
+
+  it('marks a full Leader slot, and a candidate attached to another squad', () => {
+    const units = [
+      { uid: 'a', id: 'captain', leaderOf: 'c' },
+      { uid: 'b', id: 'captain', leaderOf: 'd' },
+      { uid: 'c', id: 'intercessor-squad' },
+      { uid: 'd', id: 'intercessor-squad' },
+    ]
+    const onC = leaderSourcesFor('c', units, defOf)
+    expect(onC.find((x) => x.uid === 'a')).toMatchObject({ used: false, elsewhere: null })
+    // b could move here, but c's Leader slot is taken by a.
+    expect(onC.find((x) => x.uid === 'b')).toMatchObject({ used: true, elsewhere: 'd' })
   })
 })
 

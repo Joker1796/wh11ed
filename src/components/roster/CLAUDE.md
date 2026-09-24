@@ -1555,6 +1555,13 @@ ONLY under a name that is offered more than once: a list of units that are all d
 explaining. Two entries alike in every one of those facts fall back to the order they stand in the
 roster ("копия 2"), which is the only thing left that differs.
 
+**…and from the squad's end** ("Attach to this unit", a player's request, 2026-09-24). A bodyguard
+entry lists the Leaders and Supports in the list that could join it — `leaderSourcesFor`, which
+asks each candidate's own `leaderTargetsFor` rather than restating any rule, so the two pickers
+cannot disagree about slots, marks or enhancement-granted targets. Both write the one field there
+is, the LEADER's `leaderOf`. Ticking a candidate attached elsewhere MOVES it; its row says "now
+with …" first, so the move is not a surprise.
+
 `pairAttached` is off by default, which is what keeps `RosterUnitBrowser` out of it: the catalogue
 lists datasheets, and nothing is attached to a datasheet.
 

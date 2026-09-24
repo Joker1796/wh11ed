@@ -365,6 +365,8 @@ export const ui = {
     rosterEnhUsed: 'in use',
     rosterEnhMandatory: 'mandatory',
     rosterAttachTo: 'Attach to unit',
+    rosterAttachHere: 'Attach to this unit',
+    rosterAttachNow: 'now with {unit}',
     // The player's own notes — a list's plan, a unit's reminder, a name for an attached block.
     rosterNotes: 'Notes',
     rosterMoreSettings: 'More settings',
@@ -1370,6 +1372,8 @@ export const ui = {
     rosterEnhUsed: 'занято',
     rosterEnhMandatory: 'обязательно',
     rosterAttachTo: 'Прикрепить к отряду',
+    rosterAttachHere: 'Прикрепить к этому отряду',
+    rosterAttachNow: 'сейчас с {unit}',
     rosterNotes: 'Заметки',
     rosterMoreSettings: 'Ещё настройки',
     rosterPickUnitHint: 'Выберите юнит, чтобы настроить модели, вооружение и энхансы.',

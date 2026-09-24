@@ -19,6 +19,7 @@
     :is-warlord="entry.warlord === true"
     :enh-options="enhOptions"
     :leader-targets="leaderTargets"
+    :leader-sources="leaderSources"
     @toggle-warlord="$emit('toggle-warlord', entry.uid)"
   />
 </template>
@@ -27,7 +28,7 @@
 import { computed } from 'vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import {
-  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor,
+  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leaderSourcesFor,
 } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
@@ -54,4 +55,6 @@ const enhOptions = computed(() => (def.value
 const leaderTargets = computed(() => (def.value
   ? leaderTargetsFor(def.value, props.units, props.entry.uid, props.defOf, props.detachments, props.items)
   : []))
+// …and the other way round: who in the list could be attached to this one.
+const leaderSources = computed(() => leaderSourcesFor(props.entry.uid, props.units, props.defOf, props.detachments))
 </script>

@@ -480,6 +480,50 @@
         </div>
       </div>
     </section>
+
+    <!-- The same attachment from the squad's end (a player's request): the Leaders and Supports in
+         the list that could join THIS unit. Ticking one attached elsewhere moves it here, and its
+         row says where it is now so that is not a surprise. -->
+    <section
+      v-if="leaderSources.length"
+      class="ues-sec"
+    >
+      <h4 class="ues-h">
+        {{ labels.rosterAttachHere }}
+      </h4>
+      <div class="opt-col">
+        <div
+          v-for="s in leaderSources"
+          :key="s.uid"
+          class="opt-tile"
+          :class="{ on: isAttachedHere(s.uid), disabled: s.used }"
+        >
+          <label class="opt-select">
+            <input
+              type="checkbox"
+              :checked="isAttachedHere(s.uid)"
+              :disabled="s.used"
+              @change="toggleSource(s.uid)"
+            >
+            <span class="opt-name">
+              {{ s.name }}
+              <span
+                v-if="s.type === 'support'"
+                class="opt-tag"
+              >{{ labels.rosterSupportTag }}</span>
+              <span
+                v-if="s.used"
+                class="opt-tag"
+              >{{ labels.rosterEnhUsed }}</span>
+              <em
+                v-if="sourceHints.get(s.uid)"
+                class="opt-which"
+              >{{ sourceHints.get(s.uid) }}</em>
+            </span>
+          </label>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -518,6 +562,8 @@ const props = defineProps({
   isWarlord: { type: Boolean, default: false },
   enhOptions: { type: Array, default: () => [] },
   leaderTargets: { type: Array, default: () => [] },
+  // rosterEngine's leaderSourcesFor: the entries that could be attached to this one.
+  leaderSources: { type: Array, default: () => [] },
 })
 defineEmits(['toggle-warlord'])
 
@@ -878,6 +924,32 @@ function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props
 // Same mutual-exclusivity toggle as enhancements: unticking the currently-attached target IS
 // "not attached", so there's no separate pseudo-option for it.
 function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid) }
+
+// The squad's end of the same link: the field written is still the LEADER's `leaderOf`, so the two
+// pickers edit one fact and cannot disagree.
+const unitByUid = (uid) => props.units.find((u) => u.uid === uid)
+function isAttachedHere(uid) { return unitByUid(uid)?.leaderOf === props.entry.uid }
+function toggleSource(uid) {
+  const other = unitByUid(uid)
+  if (!other) return
+  if (other.leaderOf === props.entry.uid) delete other.leaderOf
+  else other.leaderOf = props.entry.uid
+}
+// Where a candidate is now, if not here; and, where one datasheet is offered twice, what tells the
+// copies apart — the same facts the forward picker leans on, fewer of them: a Leader is one model.
+const sourceHints = computed(() => {
+  const l = labels.value
+  const seen = new Map()
+  for (const s of props.leaderSources) seen.set(s.name, (seen.get(s.name) || 0) + 1)
+  const out = new Map()
+  for (const s of props.leaderSources) {
+    const which = seen.get(s.name) > 1 ? [s.blockName, s.enh, s.warlord ? l.rosterWarlord : '', s.note] : []
+    const at = s.elsewhere && props.defOf?.(unitByUid(s.elsewhere)?.id)?.name
+    const now = at ? l.rosterAttachNow.replace('{unit}', at) : ''
+    out.set(s.uid, [...which, now].filter(Boolean).join(' · '))
+  }
+  return out
+})
 
 // The note. Written straight onto the entry like every other field here — the store's deep watch
 // is what saves it.

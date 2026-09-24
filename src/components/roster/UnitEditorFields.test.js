@@ -385,3 +385,42 @@ describe('UnitEditorFields — shrinking the unit', () => {
     expect(w.findAll('.ues-over')).toHaveLength(2)
   })
 })
+
+// The squad's end of an attachment (a player's request, 2026-09-24): the Leaders that could join it,
+// ticked here, written to the LEADER's `leaderOf` — the one field the forward picker edits too.
+describe('UnitEditorFields — attach to this unit', () => {
+  const warriors = necrons.units.find((u) => u.id === 'necron-warriors')
+  const defOf = (id) => necrons.units.find((u) => u.id === id)
+  const mountSquad = (units, leaderSources) => mount(UnitEditorFields, {
+    props: {
+      entry: units.find((u) => u.uid === 'sq'),
+      def: warriors,
+      items: rosterItems.items,
+      texts: rosterItems.texts,
+      units,
+      defOf,
+      leaderSources,
+    },
+    global: { stubs: { Teleport: true } },
+  })
+
+  it('attaches, detaches and moves a Leader from the squad', async () => {
+    const units = [
+      { uid: 'sq', id: 'necron-warriors', size: 0 },
+      { uid: 'other', id: 'necron-warriors', size: 0 },
+      { uid: 'tm', id: 'technomancer', size: 0, leaderOf: 'other' },
+    ]
+    const w = mountSquad(units, [{ uid: 'tm', name: 'Technomancer', type: 'support', used: false, elsewhere: 'other' }])
+    const tile = w.findAll('.opt-tile').at(-1)
+    expect(tile.text()).toContain('now with Necron Warriors')
+    await tile.find('input').setValue(true)
+    expect(units[2].leaderOf).toBe('sq')
+    await tile.find('input').setValue(false)
+    expect(units[2].leaderOf).toBeUndefined()
+  })
+
+  it('draws nothing when no one in the list could join', () => {
+    const w = mountSquad([{ uid: 'sq', id: 'necron-warriors', size: 0 }], [])
+    expect(w.text()).not.toContain('Attach to this unit')
+  })
+})

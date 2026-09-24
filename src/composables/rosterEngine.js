@@ -692,6 +692,36 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
     })
 }
 
+// The same attachment seen from the other end: which entries of the list could be attached to
+// THIS one (a player's request, 2026-09-24 — "attach heroes to squads, and squads to heroes").
+// Asked of each candidate through leaderTargetsFor itself, so the two directions cannot disagree
+// about who may join whom, a full Leader slot, a Mark of Chaos or an enhancement-granted target.
+// `used` — the slot this candidate would take is held by someone else; `elsewhere` — the uid it is
+// attached to now, if not here (ticking it here moves it, which the caller says).
+export function leaderSourcesFor(targetUid, units, defOf, detachments = []) {
+  const out = []
+  for (const u of units || []) {
+    if (u.uid === targetUid) continue
+    const def = defOf(u.id)
+    if (!def) continue
+    const t = leaderTargetsFor(def, units, u.uid, defOf, detachments).find((x) => x.uid === targetUid)
+    if (!t) continue
+    const here = u.leaderOf === targetUid
+    out.push({
+      uid: u.uid,
+      name: def.name,
+      type: t.type,
+      used: t.used && !here,
+      elsewhere: !here && u.leaderOf ? u.leaderOf : null,
+      warlord: !!u.warlord,
+      enh: u.enh || '',
+      blockName: u.blockName || '',
+      note: u.note || '',
+    })
+  }
+  return out
+}
+
 // Attach targets an ENHANCEMENT grants its bearer — a Cryptek with Murdermind gains DESTROYER
 // CULT and with it the Destroyer squads, a Commissar with Abhuman Detail can join Ogryns. From
 // appdata's enhancement_bodyguard_group, emitted by gen-roster-data.mjs as `attach` in the same
