@@ -164,8 +164,10 @@ export function validateRoster(roster, { faction, core, items } = {}) {
 
   // Wargear pick limits. The editor caps the steppers as you click, so this can only fire on a
   // list that was legal when it was built and stopped being one — almost always by SHRINKING the
-  // unit ("up to 4 at 10 models" → 2 when it drops to 5). Reported, never auto-trimmed: which
-  // weapon to give up is the player's call, not ours.
+  // unit ("up to 4 at 10 models" → 2 when it drops to 5). Since 2026-09-24 the editor trims a
+  // shrink itself (rosterEngine's fitWargear, with a way back), so what still lands here is a list
+  // that arrived over — an import, or one saved before a rule. Those are reported, never trimmed:
+  // nothing the player did produced them, and which weapon to give up is theirs to say.
   for (const u of units) {
     const def = defOf(u.id)
     for (const [gi] of (def?.gear || []).entries()) {

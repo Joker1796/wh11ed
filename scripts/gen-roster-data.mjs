@@ -329,7 +329,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -757,6 +757,26 @@ function linkWargearConditions(datasheetId, drafts) {
     if (d.rep) continue
     if (last) repStats.unresolved.push(`${enOf(dsById.get(datasheetId)).name}: ${last[1].trim()}`)
     else if (SWAP_SHAPED.test(d.text)) repStats.noMatch.push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
+  }
+
+  // What each draft KEEPS LOCKED: "(that model's boltgun cannot be replaced)" — 36 instructions
+  // across 18 factions, in three shapes: an addition ("1 Battle Sister equipped with 1 boltgun can
+  // be equipped with 1 simulacrum imperialis"), a footnote on an option that hands the item back
+  // ("1 cyclone missile launcher and 1 storm bolter*"), and a swap that locks a SECOND item (the
+  // Raptors' plasma pistol, after which "these models' Astartes chainswords cannot be replaced").
+  // All three mean one thing to the stock rule: the model still carries the item, and no other
+  // group may take it. Nothing read the clause until 2026-09-24, so four Raptors with two plasma
+  // pistols could still trade all four chainswords. "This weapon cannot be replaced" (the Chimera's
+  // new heavy bolter) names no item the model started with and is left alone.
+  const KEEP_RE = /\b(?:that|this|these)\s+models?(?:'s|’s|s'|s’|'|’)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s+cannot be replaced/gi
+  for (const d of drafts) {
+    const keep = []
+    for (const m of d.text.matchAll(KEEP_RE)) {
+      const uuids = resolvePhrase(m[1], d.miniId)
+      if (uuids) keep.push(...uuids)
+      else report.keep.unresolved.push(`${enOf(dsById.get(datasheetId)).name}: ${m[1].trim()}`)
+    }
+    if (keep.length) { d.keep = [...new Set(keep)]; report.keep.resolved++ }
   }
 
   // What each draft is CONDITIONED on, from "[if …] not equipped with X" / "equipped with X".
@@ -1997,6 +2017,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     if (d.lim) grp.lim = d.lim
     if (d.cp) grp.cp = d.cp
     if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
+    if (d.keep?.length) grp.keep = d.keep.map((uuid) => fx.item(uuid))
     // A model that trades a paid default away stops paying for it: `dr` is what one pick in this
     // group gives back — per COPY where the group is per-copy, since that is how `n` is counted.
     if (paidPerMini.size && d.rep?.length) {
@@ -2589,6 +2610,7 @@ if (report.defaultsMerged.length) {
 }
 console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} left the phrase unreadable (an unlisted item, or two the profile both holds)`)
 for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
+console.log(`  kept-item locks: ${report.keep.resolved} groups keep an item locked ("cannot be replaced"); ${report.keep.unresolved.length} unreadable`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
 console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity, ${lm.bundled} matched through a bundled option), ${lm.fromProse} more from their own instruction where appdata records no set (+${lm.fromProseScaled} from its "for every N models, up to M" step form), ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 if (lm.conflict.length) {
@@ -2652,6 +2674,13 @@ if (CHECK) {
   if (rp.noMatch.length) {
     console.log(`\n  --check: ${rp.noMatch.length} swap instruction(s) in a shape the rep parser does not know — teach it the form (REP_RE / HAVE_RE / ACTIVE_RE):`)
     for (const l of rp.noMatch) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
+    return 1
+  }
+  // A "cannot be replaced" footnote whose item did not resolve is a lock the stock rule never
+  // sees — the model's weapon can be traded away again, which is exactly what the footnote forbids.
+  if (report.keep.unresolved.length) {
+    console.log(`\n  --check: ${report.keep.unresolved.length} "cannot be replaced" footnote(s) naming an item the parser could not resolve (KEEP_RE):`)
+    for (const l of report.keep.unresolved) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
     return 1
   }
   if (b.unclaimed.length) {

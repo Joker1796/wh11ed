@@ -267,6 +267,34 @@ Known residue: the importer breaks a tie between two same-named options (the two
 by order, so one corpus list in 658 arrives with a Sergeant who swapped his power weapon twice and
 is told so — the fix is one tap in the editor; a stock-aware tie-break is the importer's to grow.
 
+**Kept items — `keep` (added 2026-09-24).** "(that model's boltgun cannot be replaced)" is read by
+the generator (`KEEP_RE`, 38 groups, `--check` fails on one whose item does not resolve) into
+`g.keep`. The model still carries the item — the loadout line keeps it — but no other group may
+take it: the ledger's third half, `held`, counts it into stock without counting it as removed, and
+a kept item the option hands back is never `back`. Three shapes, one meaning: an addition (the
+Battle Sister's simulacrum), an option that returns the item locked (the Terminators' "cyclone
+missile launcher and 1 storm bolter*"), and a swap that locks a second item (the Raptors' plasma
+pistol locks that model's chainsword — found when a player asked about War Organ's reading, which
+has the pistol replacing both; appdata and the GW app replace the pistol only).
+
+**Shrinking under the picks (added 2026-09-24).** The steppers keep a list legal as you click, but a
+smaller bracket or a "−" on the model count used to leave the old picks standing — five CSM
+Terminators kept a ten-model squad's swaps, and the issues list was the only trace. Now:
+
+- **`fitWargear`** trims on a shrink in the editor — every group down to its own ceiling first,
+  then the latest pick that spends an overdrawn item, one model at a time — and the editor shows a
+  "taken off / Put back" line under the composition, which restores size, count and picks. Only a
+  shrink trims; an import or a list saved before a rule is reported and left to the player.
+- **`overdrawnGroups`** marks the rows still over, in place (`.ues-over`). Every group spending the
+  overdrawn item is marked: any of them is a way down.
+- **A unit-wide swap is counted as asked, not clipped at the unit** (`swapLedger`) — the clip hid
+  eight combi-weapons on five models from both the editor and the validator. It is NOT a group
+  ceiling in `wargearGroupFallbackCap`: that was tried and made 13 T'au lists illegal, because a
+  Crisis suit "can be equipped with up to 3 of the following" — a per-model budget, not one pick
+  per model. Only a swap has stock to overdraw, so the stock rule is where this belongs.
+- The unit-wide overdraft is **one line per item**, summed across groups (it was one line per
+  group, each undercounting).
+
 ### Attachments named by keyword
 
 A datasheet can say who it joins with a keyword instead of a list — "this model can be attached to
