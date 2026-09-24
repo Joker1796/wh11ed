@@ -553,9 +553,9 @@ const { factionName, accentStyle } = useFactionAccent(computed(() => roster.valu
 
 // Detachment options for the tracker's DP-budget-aware multi-select picker (same shape and
 // layout as the tracker: DP cost + Force Disposition).
-// The phone's two modes, switched from the footer (Units first: it is where the screen opens).
+// The phone's two modes, switched from the footer — Settings first, as the list is set up before
+// it is filled (owner, 2026-09-24); the screen still opens on Units.
 const editorModes = computed(() => [
-  { key: 'units', label: labels.value.rosterViewTabUnits, icon: 'bi bi-hammer', warn: '' },
   {
     key: 'settings',
     label: labels.value.rosterCreateStep1,
@@ -567,6 +567,7 @@ const editorModes = computed(() => [
     // rather than the badge's because it also answers WHERE to go.
     warn: setupIssueCount(validation.value.issues) ? labels.value.rosterTabNeedsSetup : '',
   },
+  { key: 'units', label: labels.value.rosterViewTabUnits, icon: 'bi bi-people-fill', warn: '' },
 ])
 
 const detachmentOptions = computed(() =>

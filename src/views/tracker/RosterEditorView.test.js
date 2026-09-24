@@ -66,7 +66,7 @@ describe('RosterEditorView', () => {
 
     const w = mount(RosterEditorView, { global: { stubs } })
     await flushPromises()
-    await w.findAll('.red-mode button')[1].trigger('click') // the editor opens on Units; the gear is Settings
+    await w.findAll('.red-mode button')[0].trigger('click') // the editor opens on Units; the gear (first) is Settings
     // Wait for the DISPOSITION, not for the detachment's name: the name is on the roster and
     // renders immediately, while the Force Disposition it implies comes out of the faction data
     // this view imports dynamically.
@@ -96,7 +96,7 @@ describe('RosterEditorView', () => {
 
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Take and Hold')
-    const setupTab = () => w.findAll('.red-mode button')[1]
+    const setupTab = () => w.findAll('.red-mode button')[0]
     expect(setupTab().find('.red-mode-warn').exists()).toBe(true)
     // …and it goes as soon as the answer is given, from whichever tab the player is on.
     store.updateRoster(r.id, { disposition: 'Purge the Foe' })
