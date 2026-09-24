@@ -113,6 +113,22 @@
     >
       {{ compLine }}
     </p>
+    <!-- What shrinking the unit took off it, with the way back. Transient: it lives until the
+         next change to this unit, and it is the only trace of picks the editor removed itself. -->
+    <p
+      v-if="trimmed"
+      class="ues-trimmed"
+      role="status"
+    >
+      {{ labels.rosterWargearTrimmed }}
+      <button
+        type="button"
+        class="btn-ghost"
+        @click="undoTrim"
+      >
+        {{ labels.rosterWargearTrimUndo }}
+      </button>
+    </p>
 
     <!-- Allegiance: a mark the unit must pick (Mark of Chaos, Daemonic Allegiance) or a capped
          detachment upgrade that hands it a keyword. Same widget for both — what differs is
@@ -239,7 +255,13 @@
           * {{ groupLines[gi].note }}
         </p>
         <p
-          v-if="blockers[gi]"
+          v-if="overdrawn.has(gi)"
+          class="ues-blocked ues-over"
+        >
+          {{ labels.rosterWargearOverdrawn }}
+        </p>
+        <p
+          v-else-if="blockers[gi]"
           class="ues-blocked"
         >
           {{ blockerText(gi) }}
@@ -474,7 +496,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { ENTRY_NOTE_MAX, allySourceOf, allegFor, allegSpent, defaultLoadoutLines, defaultWargearPoints, modelsPerMini, optionItems, optionLabel, setNote, splitInstruction, swapRoom, wargearGroupBlocker, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { ENTRY_NOTE_MAX, allySourceOf, allegFor, allegSpent, defaultLoadoutLines, defaultWargearPoints, fitWargear, modelsPerMini, overdrawnGroups, optionItems, optionLabel, setNote, splitInstruction, swapRoom, wargearGroupBlocker, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -636,13 +658,52 @@ function sizeLabel(s) { return s.per[0] === s.per[1] ? String(s.per[0]) : `${s.p
 // filling up costs them a little more; the running total and the "Default wargear" heading both
 // show it as it happens.)
 function setSize(i) {
+  const before = snapshot()
   props.entry.size = i
   const s = props.def.sizes[i]
   // A fixed-size bracket keeps `count` absent — the entry says nothing it doesn't have to.
   if (s && s.per[0] !== s.per[1]) props.entry.count = s.per[1]
   else delete props.entry.count
+  fitAfterShrink(before)
 }
-function setCount(n) { props.entry.count = n }
+function setCount(n) {
+  const before = snapshot()
+  props.entry.count = n
+  fitAfterShrink(before)
+}
+
+// Shrinking the unit can leave more picks than the smaller unit allows — "up to 2 per 5 models"
+// at ten is one at five, and five combi-weapons plus a heavy weapon no longer fit five
+// combi-bolters (a player's report, 2026-09-24). The editor takes the excess off itself, latest
+// picks first (rosterEngine's fitWargear), and says so with a way back: the player asked for a
+// smaller unit, not for a list they now have to repair row by row. Only a SHRINK trims; a list
+// that arrives over (an import, a list saved before a rule) is reported by validateRoster and left
+// to the player, since nothing they did here produced it.
+const trimmed = ref(null) // { size, count, wg } before the trim, while the offer stands
+function snapshot() {
+  return { size: props.entry.size, count: props.entry.count, wg: (props.entry.wg || []).map((p) => [...p]), models: models.value }
+}
+function fitAfterShrink(before) {
+  trimmed.value = null
+  if (models.value >= before.models) return
+  const next = fitWargear(props.def, props.entry)
+  if (!next) return
+  props.entry.wg = next
+  trimmed.value = before
+}
+function undoTrim() {
+  const b = trimmed.value
+  if (!b) return
+  props.entry.size = b.size
+  if (b.count == null) delete props.entry.count
+  else props.entry.count = b.count
+  props.entry.wg = b.wg
+  trimmed.value = null
+}
+// Groups holding more than the unit allows now — marked in place, so the player can see which
+// row to take down (rosterEngine's overdrawnGroups). After a trim there are none; what is left
+// here came from an import or from before a rule.
+const overdrawn = computed(() => overdrawnGroups(props.def, props.entry))
 
 function miniName(m) { return props.def.minis?.[m]?.n || '' }
 
@@ -707,7 +768,10 @@ const defaultPts = computed(() => defaultWargearPoints(props.def, props.entry))
 
 // ── Wargear selection: entry.wg = [[groupIdx, optIdx, count], …] (deviations only) ──
 function wg() { return props.entry.wg || [] }
-function setWg(next) { props.entry.wg = next.filter((s) => s[2] > 0) }
+function setWg(next) {
+  trimmed.value = null
+  props.entry.wg = next.filter((s) => s[2] > 0)
+}
 
 // Three shapes, and the CAP is what decides between them — not appdata's own inputType alone.
 // A group that lets several models each take something is a set of steppers sharing one budget
@@ -901,6 +965,16 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
 }
 .ues-count { display: flex; align-items: center; justify-content: space-between; }
 .ues-comp { margin: -0.35rem 0 0; font-size: 0.82rem; color: var(--muted); }
+.ues-over { color: var(--danger); font-style: normal; }
+.ues-trimmed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
 .ues-req { font-style: normal; font-size: 0.78rem; color: var(--muted); margin-left: 0.4rem; }
 .pill-tell { opacity: 0.75; }
 .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }

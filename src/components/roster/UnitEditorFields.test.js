@@ -358,3 +358,30 @@ describe('UnitEditorFields — which of the two squads', () => {
     expect(first).not.toBe(second)
   })
 })
+
+// A player's report, 2026-09-24: CSM Terminators dropped from ten to five kept picks for ten.
+describe('UnitEditorFields — shrinking the unit', () => {
+  const terms = chaosSpaceMarines.units.find((u) => u.id === 'chaos-terminator-squad')
+  const combi = terms.gear.findIndex((g) => g.o.some((o) => o[0] === 7))
+  const paired = terms.gear.findIndex((g) => g.o.some((o) => o[0] === 958))
+  const pill = (w, i) => w.findAll('.pill').filter((p) => /pts/.test(p.text()))[i]
+
+  it('takes off what the smaller unit cannot carry, and offers it back', async () => {
+    const w = mountFor(terms, { size: 1, count: 10, wg: [[combi, 0, 8], [paired, 0, 2]] })
+    const entry = w.props('entry')
+    await pill(w, 0).trigger('click')
+    // Each group down to its own ceiling first (five combi-weapons, one pair), then stock: five
+    // combi-bolters are all spent, so the latest pick — the paired weapons — goes.
+    expect(entry.wg).toEqual([[combi, 0, 5]])
+    expect(w.find('.ues-trimmed').exists()).toBe(true)
+    await w.find('.ues-trimmed button').trigger('click')
+    expect(entry).toMatchObject({ size: 1, count: 10, wg: [[combi, 0, 8], [paired, 0, 2]] })
+    expect(w.find('.ues-trimmed').exists()).toBe(false)
+  })
+
+  it('leaves a list that arrived over alone, and marks the rows instead', () => {
+    const w = mountFor(terms, { wg: [[combi, 0, 5], [paired, 0, 1]] })
+    expect(w.props('entry').wg).toEqual([[combi, 0, 5], [paired, 0, 1]])
+    expect(w.findAll('.ues-over')).toHaveLength(2)
+  })
+})

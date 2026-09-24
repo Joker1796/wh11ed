@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1000,6 +1000,84 @@ describe('the stock rule — a model cannot give the same item up twice', () => 
     expect(swapOverdraft(chosen, { wg: [[0, 0, 3], [1, 0, 3]] })).toEqual([{ id: 5, used: 6, cap: 5 }])
   })
 
+  it('reports one unit-wide overdraft per item, however many groups overdrew it', () => {
+    // CSM Terminators shrunk from ten to five with their picks still on: a heavy weapon, five
+    // combi-weapons and paired accursed weapons all spend the combi-bolter. That is seven of five —
+    // one line, not two lines that each said six.
+    const csm = {
+      minis: [{ n: 'Champion' }, { n: 'Terminator' }],
+      sizes: [{ pts: 175, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] }],
+      defaults: [[0, [[943, 1], [942, 1]]], [1, [[942, 1], [943, 1]]]], // combi-bolter, accursed weapon
+      gear: [
+        { m: 1, t: 1, in: 'stepper', o: [[495], [957]], lim: [[0, 1], [10, 2]], rep: [942] },
+        { all: 1, t: 2, in: 'stepper', o: [[7]], rep: [942] },
+        { all: 1, t: 3, in: 'stepper', o: [[958]], lim: [[0, 1], [10, 2]], rep: [942, 943] },
+      ],
+    }
+    expect(swapOverdraft(csm, { size: 0, wg: [[0, 1, 1], [1, 0, 5], [2, 0, 1]] }))
+      .toEqual([{ id: 942, used: 7, cap: 5 }])
+  })
+
+  describe('an item the group keeps locked ("cannot be replaced")', () => {
+    // Raptors, four and a Champion: "up to 2 Raptors can each have their bolt pistol replaced with
+    // 1 plasma pistol (these models' Astartes chainswords cannot be replaced)".
+    const raptors = {
+      minis: [{ n: 'Raptor Champion' }, { n: 'Raptor' }],
+      sizes: [{ pts: 110, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] }],
+      defaults: [[0, [[756, 1], [1, 1]]], [1, [[756, 1], [1, 1]]]], // chainsword, bolt pistol
+      gear: [
+        { m: 1, t: 1, in: 'stepper', o: [[11]], lim: [[5, 2]], rep: [1], keep: [756] }, // plasma pistol
+        { m: 1, t: 2, in: 'stepper', o: [[1017]], lim: [[5, 2]], rep: [756] }, // heavy melee weapon
+      ],
+    }
+
+    it('takes the kept item out of the stock without taking it off the model', () => {
+      expect(swapRoom(raptors, { wg: [[0, 0, 2]] }, 1)).toBe(2)
+      expect(swapRoom(raptors, { wg: [[0, 0, 2], [1, 0, 2]] }, 1)).toBe(2)
+      const items = { 756: 'Astartes chainsword', 1: 'Bolt pistol' }
+      const lines = defaultLoadoutLines(raptors, items, { wg: [[0, 0, 2]] })
+      expect(lines[1]).toEqual({ mini: 'Raptor', items: 'Astartes chainsword, Bolt pistol ×2' }) // all four keep it
+    })
+
+    it('closes a lock whose item another group already took', () => {
+      // Three heavy melee weapons leave one chainsword: one plasma pistol, not two.
+      expect(swapRoom(raptors, { wg: [[1, 0, 3]] }, 0)).toBe(1)
+      expect(wargearGroupBlocker(raptors, { wg: [[1, 0, 4]] }, 0)).toEqual({ need: 'stock', ids: [756] })
+      expect(swapOverdraft(raptors, { wg: [[0, 0, 2], [1, 0, 3]] })).toEqual([{ id: 756, used: 5, cap: 4 }])
+    })
+
+    it('locks an item the option hands back', () => {
+      // SM Terminators: "1 cyclone missile launcher and 1 storm bolter*" — "*This model's storm
+      // bolter cannot be replaced", so it is not back in stock the way a Deathwatch power weapon is.
+      const terms = {
+        sizes: [{ pts: 170, per: [5, 5], default: 1 }],
+        defaults: [[0, [[7, 1], [8, 1]]]], // storm bolter, power fist
+        gear: [
+          { m: 0, t: 1, in: 'stepper', o: [[20], [[[21, 1], [7, 1]]]], lim: [[0, 1, 1]], rep: [7], keep: [7] },
+          { m: 0, t: 2, in: 'stepper', o: [[22]], rep: [7] },
+        ],
+      }
+      expect(swapRoom(terms, { wg: [[0, 1, 1]] }, 1)).toBe(4)
+      expect(swapRoom(terms, { wg: [[1, 0, 5]] }, 0, 1)).toBe(0)
+    })
+
+    it('locks an item a group adds beside', () => {
+      // Battle Sisters: "1 Battle Sister equipped with 1 boltgun can be equipped with 1 simulacrum
+      // imperialis (that model's boltgun cannot be replaced)" — no rep at all, only the lock.
+      const sisters = {
+        sizes: [{ pts: 100, per: [5, 5], default: 1 }],
+        defaults: [[0, [[1, 1]]]],
+        gear: [
+          { m: 0, t: 1, in: 'checkbox', o: [[30]], keep: [1] }, // simulacrum
+          { m: 0, t: 2, in: 'stepper', o: [[31]], rep: [1] }, // boltgun → flamer
+        ],
+      }
+      expect(swapRoom(sisters, { wg: [[0, 0, 1]] }, 1)).toBe(4)
+      expect(wargearGroupBlocker(sisters, { wg: [[1, 0, 5]] }, 0)).toEqual({ need: 'stock', ids: [1] })
+      expect(swapsByMini(sisters, { wg: [[0, 0, 1]] }, modelsPerMini(sisters, {})).get('0:1')).toBeUndefined()
+    })
+  })
+
   it('does not count an item the chosen option hands back', () => {
     // Deathwatch Veterans: "boltgun and power weapon" → "power weapon and Astartes shield" keeps
     // the power weapon, so the Watch Sergeant can still trade it for a xenophase blade — the way
@@ -1038,6 +1116,50 @@ describe('the stock rule — a model cannot give the same item up twice', () => 
     }
     expect(swapRoom(chained, { wg: [[0, 0, 1]] }, 1)).toBeNull()
     expect(wargearGroupBlocker(chained, { wg: [[0, 0, 1]] }, 1)).toBeNull()
+  })
+})
+
+// A player's report, 2026-09-24: CSM Terminators built at ten and dropped to five kept a heavy
+// weapon, five combi-weapons and paired accursed weapons — seven combi-bolters given up on five.
+describe('the real CSM Terminators, shrunk under their picks', () => {
+  it('trims the excess, latest picks first, and marks what is over until then', async () => {
+    const rf = await import('../data/roster/chaos-space-marines.js')
+    const terms = rf.default.units.find((u) => u.id === 'chaos-terminator-squad')
+    const gi = (t) => terms.gear.findIndex((g) => g.o.some((o) => o[0] === t))
+    const heavy = terms.gear.findIndex((g) => g.m === 1 && g.o.length === 2)
+    const combi = gi(7)
+    const paired = gi(958)
+    // As the player left it: ten models, then the 5-model bracket.
+    const e = { id: terms.id, size: 0, wg: [[heavy, 1, 1], [combi, 0, 5], [paired, 0, 1]] }
+    expect(swapOverdraft(terms, e)).toEqual([{ id: 942, used: 7, cap: 5 }])
+    // All three spend the same combi-bolters, so all three are marked: any of them is a way down.
+    expect([...overdrawnGroups(terms, e)].sort()).toEqual([heavy, combi, paired].sort())
+    // Latest first: the paired weapons go, then one combi-weapon — five combi-bolters, five swaps.
+    const wg = fitWargear(terms, e)
+    expect(wg).toEqual([[heavy, 1, 1], [combi, 0, 4]])
+    expect(swapOverdraft(terms, { ...e, wg })).toEqual([])
+    expect(overdrawnGroups(terms, { ...e, wg }).size).toBe(0)
+    expect(fitWargear(terms, { ...e, wg })).toBeNull()
+  })
+
+  it('brings a group back under its own ceiling', async () => {
+    const rf = await import('../data/roster/chaos-space-marines.js')
+    const terms = rf.default.units.find((u) => u.id === 'chaos-terminator-squad')
+    const heavy = terms.gear.findIndex((g) => g.m === 1 && g.o.length === 2)
+    // Two heavy weapons are allowed at ten, one at five.
+    expect(fitWargear(terms, { size: 0, wg: [[heavy, 0, 1], [heavy, 1, 1]] })).toEqual([[heavy, 0, 1]])
+  })
+})
+
+// The Raptors' plasma pistols lock the chainsword of the model that took them — a player asked
+// whether four Raptors could take two pistols and still trade all four chainswords (they cannot).
+describe('the real Raptors lock', () => {
+  it('leaves two chainswords to trade after two plasma pistols', async () => {
+    const rf = await import('../data/roster/chaos-space-marines.js')
+    const raptors = rf.default.units.find((u) => u.id === 'raptors')
+    const plasma = raptors.gear.findIndex((g) => g.m === 1 && g.keep)
+    const heavyMelee = raptors.gear.findIndex((g) => g.m === 1 && g.o[0][0] === 1017)
+    expect(swapRoom(raptors, { size: 0, wg: [[plasma, 0, 2]] }, heavyMelee)).toBe(2)
   })
 })
 
