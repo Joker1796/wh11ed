@@ -375,8 +375,10 @@
                auto-saves it), so this used to be a link to the list — it closed the screen with
                every change kept. It now puts the list back the way the screen found it, and asks
                first, because that is as irreversible as the editing it undoes. -->
-          <!-- On the narrowest phones the word gives way to a cross: the footer carries the mode
-               switch too, and "Отмена" beside "Сохранить" was pushing the gear under it. -->
+          <!-- On the narrowest phones the word gives way to an icon: the footer carries the mode
+               switch too, and "Отмена" beside "Сохранить" was pushing the gear under it. A revert
+               arrow, not a cross (owner, 2026-09-25): this button puts the list back the way it
+               was, and a cross reads as "close this" on a screen full of dialogs that close. -->
           <button
             type="button"
             class="btn-ghost red-cancel"
@@ -384,7 +386,7 @@
             :title="labels.rosterCancel"
             @click="leaveEditor"
           >
-            <i class="bi bi-x-lg red-cancel-icon" />
+            <i class="bi bi-arrow-counterclockwise red-cancel-icon" />
             <span class="red-cancel-text">{{ labels.rosterCancel }}</span>
           </button>
           <button

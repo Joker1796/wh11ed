@@ -12,7 +12,7 @@ export const BTN_ICONS = {
   gear: { icon: 'bi-gear', en: 'Settings', ru: 'Настройки' },           // the roster builder's Settings mode
   panes: { icon: 'bi-layout-split', en: 'Units', ru: 'Юниты' },         // …its Units mode
   book: { icon: 'bi-book', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search
-  cross: { icon: 'bi-x-lg', en: 'Cancel', ru: 'Отмена' },               // Cancel on a narrow phone
+  revert: { icon: 'bi-arrow-counterclockwise', en: 'Cancel', ru: 'Отмена' }, // Cancel on a narrow phone
 }
 
 export const MARK_RE = /\{btn:([a-z-]+)\}|\{key:([^}]+)\}/g
