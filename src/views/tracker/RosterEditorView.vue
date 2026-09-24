@@ -375,12 +375,17 @@
                auto-saves it), so this used to be a link to the list — it closed the screen with
                every change kept. It now puts the list back the way the screen found it, and asks
                first, because that is as irreversible as the editing it undoes. -->
+          <!-- On the narrowest phones the word gives way to a cross: the footer carries the mode
+               switch too, and "Отмена" beside "Сохранить" was pushing the gear under it. -->
           <button
             type="button"
-            class="btn-ghost"
+            class="btn-ghost red-cancel"
+            :aria-label="labels.rosterCancel"
+            :title="labels.rosterCancel"
             @click="leaveEditor"
           >
-            {{ labels.rosterCancel }}
+            <i class="bi bi-x-lg red-cancel-icon" />
+            <span class="red-cancel-text">{{ labels.rosterCancel }}</span>
           </button>
           <button
             class="btn-primary"
@@ -725,7 +730,33 @@ function rename(name) {
 
 /* The phone's mode switch in the footer: two icons, the global .seg. The amber dot is the mark
    PageTabs put on a tab that still owes an answer, moved onto the gear with it. */
+/* The switch never shrinks: squeezed, `.seg`'s overflow clipped the gear and Cancel sat on top of
+   it (a player's report, 2026-09-24, a Russian phone ≤375px). Room is made on the buttons instead. */
+.red-mode { flex-shrink: 0; }
 .red-mode button { position: relative; padding: 0.45rem 0.7rem; font-size: 1rem; line-height: 1; }
+.red-cancel-icon { display: none; }
+@media (max-width: 400px) {
+  .red-cancel-icon { display: inline; }
+  .red-cancel-text { display: none; }
+  .red-mode button { padding: 0.45rem 0.55rem; }
+  .rc-sticky-actions .btn-primary,
+  .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.55rem; }
+}
+
+/* The narrowest phones, measured with the web fonts in (2026-09-24): everything a notch smaller
+   rather than anything gone — Save keeps its word, the points their limit. */
+@media (max-width: 360px) {
+  .rc-sticky-inner { gap: 0.3rem; }
+  .rc-sticky-info,
+  .rc-sticky-actions { gap: 0.25rem; }
+  .rc-points { font-size: 0.74rem; }
+  .red-mode button { padding: 0.4rem 0.4rem; font-size: 0.9rem; }
+  .rc-sticky-actions .btn-primary,
+  .rc-sticky-actions .btn-ghost { padding: 0.4rem 0.4rem; font-size: 0.76rem; }
+}
+@media (max-width: 340px) {
+  .rc-sticky-inner { padding-left: calc(0.35rem + var(--safe-left)); padding-right: calc(0.35rem + var(--safe-right)); }
+}
 .red-mode-warn {
   position: absolute;
   top: 0.2rem;

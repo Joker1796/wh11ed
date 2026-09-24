@@ -1635,7 +1635,11 @@ What moved, and why each was safe to move:
 
 - **The name heads Settings only.** It is renamed once; over the panes it was a row spent forever.
 - **The tabs became the footer's hammer / gear** (`.seg`, `editorModes`). The footer was already
-  there on both modes, so the switch costs no height; the amber mark rides on the gear.
+  there on both modes, so the switch costs no height; the amber mark rides on the gear. The switch
+  never shrinks (squeezed, `.seg`'s overflow clipped the gear under Cancel on a Russian 375px
+  phone); room is made on the buttons instead — Cancel becomes a cross at ≤400px, and ≤360px
+  everything steps a notch smaller. Checked 320–414px in both locales with the web fonts loaded:
+  a measurement taken before them said everything fit when it did not.
 - **The rules bar became the catalogue's book** (above) — still one tap from Units, where rules are
   read while building, which is why they did not move to Settings as the player first suggested.
 - **The "back to game" chip is off the builder's routes** (`showResumeGame` in App.vue): it floated
