@@ -723,21 +723,6 @@ strong {
    in a pane) — the staircase the owner asked to take out. Each screen now draws the edge in its
    own scoped block, on its own tile class, and this file keeps only what a global rule can win. */
 
-/* The block's own points, once, under its last row — still how the READ-ONLY list prints it
-   (RosterViewView): nothing there folds, so the total has nowhere else to go. The two BUILDING
-   screens dropped this line on 2026-09-23: the bodyguard's tile became the block's header, and
-   the total comes up onto its own row while the block is folded. */
-.roster-sum {
-  margin: 0 0 0.5rem 1.25rem;
-  padding: 0.25rem 0.75rem;
-  text-align: right;
-  font-size: 0.74rem;
-  color: var(--text-muted);
-}
-@container (max-width: 300px) {
-  .roster-sum { margin-left: 0.4rem; padding: 0.2rem 0.4rem; font-size: 0.66rem; }
-}
-
 /* ── Roster build panes (the catalogue beside the list) ────────────────────
    Both building screens — the editor's Units tab and the creation wizard's units step — put the
    faction catalogue and the roster's own list side by side, at every width. They used to be two

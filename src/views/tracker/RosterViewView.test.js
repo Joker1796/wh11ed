@@ -56,6 +56,26 @@ describe('RosterViewView', () => {
     expect(replace).toHaveBeenCalledWith('/roster')
   })
 
+  // The view names an attached block as the editor does, and totals it on that line (owner,
+  // 2026-09-24): it used to print only an anonymous total under the last row.
+  it('heads each attached block with its name and its points', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Blocks')
+    r.faction = 'space-marines'
+    r.units.push(
+      { uid: 'u1', id: 'intercessor-squad', size: 0, blockName: 'Home guard' },
+      { uid: 'u2', id: 'captain', size: 0, leaderOf: 'u1' },
+      { uid: 'u3', id: 'intercessor-squad', size: 0 },
+      { uid: 'u4', id: 'lieutenant', size: 0, leaderOf: 'u3' },
+    )
+    ROSTER_ID = r.id
+    const w = mount(RosterViewView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    const heads = w.findAll('.rvblock-head')
+    expect(heads.map((h) => h.find('.rvblock-name').text())).toEqual(['Home guard', 'Unit 2'])
+    for (const h of heads) expect(h.find('.rvblock-total').text()).toMatch(/^\d+pts$/)
+  })
+
   it('shows a setup hint for a roster with no faction yet', async () => {
     const store = useRosters()
     const r = store.createRoster('Blank')

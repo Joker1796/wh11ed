@@ -29,11 +29,10 @@ afterEach(() => {
 })
 
 describe('RosterUnitList', () => {
-  // The block has a header of its own, carrying its name, its points and the fold. There is no
-  // footnote line under it any more (the read-only list still has one — nothing folds there).
+  // The block has a header of its own, carrying its name, its points and the fold — the same
+  // line the read-only view draws since 2026-09-24.
   it('heads the block, and folds its characters away', async () => {
     const w = mountList()
-    expect(w.findAll('.roster-sum')).toHaveLength(0)
     expect(w.findAll('.rul-unit')).toHaveLength(2)
     expect(w.findAll('.rul-bhead')).toHaveLength(1)
     expect(w.find('.rul-btotal').text()).toContain('190') // 90 + 100, the whole attached unit

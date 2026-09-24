@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1548,22 +1548,17 @@ describe('attached units read as one block', () => {
     expect(ids(secs, 'battleline')).toEqual(['legio'])
   })
 
-  it('totals the block once, under its last row', () => {
-    const entries = [{ uid: 'legio' }, { uid: 'lord', leaderOf: 'legio' }, { uid: 'abn', leaderOf: 'legio' }]
-    const pts = { legio: 180, lord: 95, abn: 265 }
-    const total = (i) => attachedBlockTotal(entries, i, (x) => pts[x.uid])
-    expect(total(0)).toBeNull() // the host row keeps its own number
-    expect(total(1)).toBeNull() // …and so does every row but the last
-    expect(total(2)).toBe(540)
+  // Blocks are numbered in reading order across the sections, for the default name both the
+  // editor's list and the view print over them.
+  it('numbers the attached blocks across the whole list', () => {
+    const groups = [
+      { entries: [{ uid: 'a' }, { uid: 'l1', leaderOf: 'a' }, { uid: 'solo' }] },
+      { entries: [{ uid: 'b' }, { uid: 'l2', leaderOf: 'b' }] },
+    ]
+    expect([...blockNumbers(groups)]).toEqual([['a', 1], ['b', 2]])
   })
 
-  it('says nothing for a row whose host is not beside it', () => {
-    // A leader whose bodyguard is in another section (an allied host, say): there is no block
-    // here to total, and printing one number of two would be worse than printing none.
-    expect(attachedBlockTotal([{ uid: 'lord', leaderOf: 'elsewhere' }], 0, () => 95)).toBeNull()
-  })
-
-  // The building screens ask the HOST instead — the number goes on the bodyguard's own row.
+  // Asked of the HOST — the number goes on the block's head line.
   it('totals the block from its host, and only when there is a block', () => {
     const entries = [{ uid: 'legio' }, { uid: 'lord', leaderOf: 'legio' }, { uid: 'abn', leaderOf: 'legio' }]
     const pts = { legio: 180, lord: 95, abn: 265 }

@@ -1381,27 +1381,29 @@ export function setNote(obj, key, value, max = ENTRY_NOTE_MAX) {
   else delete obj[key]
 }
 
-// The points of a whole ATTACHED unit, to be shown once under the last row of its block — and
-// only there, so the per-row numbers above it still read down the column and still add up to the
-// roster total. Returns null for any other row. `pointsOf(entry)` is the caller's own per-entry
-// figure (each screen already has one, wargear and enhancement included).
-export function attachedBlockTotal(entries, i, pointsOf) {
-  const e = entries?.[i]
-  if (!e?.leaderOf) return null
-  if (entries[i + 1]?.leaderOf === e.leaderOf) return null // not the last of the block yet
-  const parts = entries.filter((x) => x.uid === e.leaderOf || x.leaderOf === e.leaderOf)
-  if (parts.length < 2) return null // the host is elsewhere — nothing here to total
-  return parts.reduce((a, x) => a + (pointsOf(x) || 0), 0)
-}
-
-// The same sum, asked of the HOST instead — what the building screens print on the bodyguard's own
-// row, where the reader is already looking, rather than as a footnote under the block. Null unless
+// What a whole attached block costs, asked of its HOST — printed on the block's own head line in
+// the editor's list and on the list's view, where the reader is already looking. Null unless
 // this entry actually has something attached to it, so a lone squad prints one number as before.
 export function hostBlockTotal(entries, host, pointsOf) {
   if (!host || host.leaderOf) return null
   const parts = (entries || []).filter((x) => x.uid === host.uid || x.leaderOf === host.uid)
   if (parts.length < 2) return null
   return parts.reduce((a, x) => a + (pointsOf(x) || 0), 0)
+}
+
+// Every attached block numbered in reading order, across the whole list rather than per section:
+// the default name ("Unit 2") is what a player sees until they write their own, and it has to mean
+// the second block on the screen, not the second one in Battleline. `groups` is the sectioned list
+// both the editor's list and the view draw (`[{ entries }]`); host uid → number.
+export function blockNumbers(groups) {
+  const m = new Map()
+  let n = 0
+  for (const g of groups || []) {
+    for (const e of g.entries || []) {
+      if (!e.leaderOf && (g.entries || []).some((x) => x.leaderOf === e.uid)) m.set(e.uid, ++n)
+    }
+  }
+  return m
 }
 
 // The one comparator every list of units is read in — the catalogue, the sections of a list, the

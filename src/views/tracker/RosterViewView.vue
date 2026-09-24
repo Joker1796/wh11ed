@@ -4,9 +4,8 @@
     class="roster-view themed"
     :style="accentStyle"
   >
-    <!-- The way back on the left, and — opposite it — the answer to the Save that landed here.
-         The status used to sit mid-page under the issues bar, which put a transient line in the
-         middle of the reading column; up here it is out of the way and still in view. -->
+    <!-- The way back. The answer to the Save that landed here stood opposite it until 2026-09-24;
+         it is a toast now (below), so on a phone this row is usually empty and takes no height. -->
     <div class="rv-top">
       <!-- On a phone the way back to the list of lists is the bottom nav's Rosters, one thumb away,
            so this line is dropped there (owner, 2026-09-24). From a game or its history it goes
@@ -18,12 +17,10 @@
       >
         <i class="bi bi-chevron-left" /> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
       </RouterLink>
-      <!-- Not inside a game — there this page is a read of a snapshot, with nothing to save. -->
-      <RosterCloudBar
-        v-if="!inGame"
-        class="rv-cloud"
-      />
     </div>
+    <!-- The answer to the Save that landed here — a toast, not a line of the page (2026-09-24).
+         Not inside a game: there this page is a read of a snapshot, with nothing to save. -->
+    <RosterCloudToast v-if="!inGame" />
 
     <!-- One line when the name and the numbers both fit on it, two when they don't — a wrapping
          flex row rather than a column that stacks unconditionally. It stacked before, which put
@@ -238,9 +235,20 @@
                  own state switches under the stats, and a button cannot hold buttons. Opening the
                  card stays a button of its own, covering everything but the switches. -->
             <template
-              v-for="(e, idx) in g.entries"
+              v-for="e in g.entries"
               :key="e.uid"
             >
+              <!-- The block's own line, as the editor's list draws it: the player's name for it (or
+                   the numbered default) and what the whole attached unit costs, above its rows. It
+                   was a total under the last row, with no name — the block the player named in the
+                   editor read here as three unrelated units (owner, 2026-09-24). -->
+              <div
+                v-if="hasAttached(g.entries, e)"
+                class="rvblock-head"
+              >
+                <span class="rvblock-name">{{ e.blockName || labels.rosterBlockDefault.replace('{n}', blockNo.get(e.uid)) }}</span>
+                <span class="rvblock-total">{{ hostBlockTotal(g.entries, e, (x) => entryMeta.get(x.uid)?.points || 0) }}{{ labels.rosterPointsLabel }}</span>
+              </div>
               <div
                 class="rvunit"
                 :class="{
@@ -335,14 +343,6 @@
                   />
                 </CollapseTransition>
               </div>
-              <!-- What the whole attached unit costs, under the last row of its block. The rows
-                 keep their own numbers, so the column still reads down to the roster total. -->
-              <p
-                v-if="blockTotal(g.entries, idx) != null"
-                class="roster-sum"
-              >
-                {{ labels.rosterAttachedTotal }} · {{ blockTotal(g.entries, idx) }}{{ labels.rosterPointsLabel }}
-              </p>
             </template>
           </template>
         </template>
@@ -581,7 +581,7 @@ import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
-import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
+import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import BaseModal from '../../components/BaseModal.vue'
@@ -598,7 +598,7 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
-import { GROUP_LABEL_KEYS, allySourceOf, attachedBlockTotal, entrySummary, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, allySourceOf, blockNumbers, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
@@ -1385,7 +1385,7 @@ function summaryLine(e) {
 // What a whole attached unit costs. Which SLOT the character fills is `attachRole` from
 // useRosterDerived — the two halves already share every state this screen writes (see
 // attachedEntries), and since 2026-08-27 a place on the list too (rosterEngine's joinAttached).
-const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => entryMeta.value.get(x.uid)?.points)
+const blockNo = computed(() => blockNumbers(groupedUnits.value))
 // Whether this tile is a block's host — the accent edge starts on IT, so the stripe runs the whole
 // attached unit rather than beginning under its first row (.rvunit-host in this file).
 const hasAttached = (entries, host) => !host.leaderOf && (entries || []).some((e) => e.leaderOf === host.uid)
@@ -1635,7 +1635,6 @@ function stratKey(strat) {
   gap: 0.75rem;
   flex-wrap: wrap;
 }
-.rv-top .rv-cloud { margin: 0 0 0 auto; }
 @media (max-width: 900px) {
   .rv-back-list { display: none; }
 }
@@ -1738,6 +1737,20 @@ function stratKey(strat) {
 .rvunit:has(+ .rvunit-attached) { margin-bottom: 0; }
 .rvunit.rvunit-attached,
 .rvunit.rvunit-host { border-left: 2px solid var(--accent); }
+/* The block's head: the editor list's `.rul-bhead`, in this view's own card chrome — tinted with
+   the accent, joined to the host's tile under it, the same coloured edge running down. */
+.rvblock-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-bottom: none;
+}
+.rvblock-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
+.rvblock-total { flex: none; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
 /* Mini stat plates — same chamfered-box look as DatasheetCard.vue's .ds-stat-box (10th-ed
    style: no rounding, top-left/bottom-right corners cut), scaled down to fit a compact list
    row. Copied, not shared — scoped styles don't cross component boundaries. */

@@ -1541,8 +1541,11 @@ order across the whole list rather than per section, because "the second block" 
 second one on the screen. The first design gave a header only to a named block, to spend no height
 on a name nobody wrote; the owner asked for it on every block, and it is the header that makes the
 naming discoverable at all. The footnote line the block used to end with (`attachedBlockTotal` +
-`.roster-sum`) went with the change; the READ-ONLY list (`RosterViewView`) still prints it, because
-nothing folds there and the total has nowhere else to go.
+`.roster-sum`) went with the change. The READ-ONLY list (`RosterViewView`) kept it until 2026-09-24,
+when the owner noticed the view never showed the name the editor had given the block: it now draws
+the same head line (`.rvblock-head`: the name or the numbered default, and `hostBlockTotal`), and
+the footnote, its helper and its style are gone. The numbering is `blockNumbers` in rosterEngine,
+shared by both, so "Отряд 2" is the same block on either screen.
 
 **The attachment picker says WHICH squad**, where a datasheet is in the list twice —
 "Necron Warriors" offered three times over is a guess, not a choice (a player's report,
@@ -1645,7 +1648,11 @@ The panes gained ~145px on a 390×740 phone (checked on screenshots, both builds
 Same day, same reasoning, two small ones: the saved list's view drops its "Back to lists" line on a
 phone (`.rv-back-list` — the bottom nav's Rosters is the same place; from a game or its history the
 link goes elsewhere and stays), and the editor's Cancel lands on the list's own view, where Save
-lands too, instead of the list of lists.
+lands too, instead of the list of lists. And the answer to that Save — "Saved to the cloud" — is a toast now
+(`RosterCloudToast` on `AppToast`, the shell the offline warm-up toast shares): saving and saved
+come and go by themselves, a failure stays until closed, and a save older than the page is not
+announced. The words are `useRosterCloudStatus`, the same reading the list page's heading line
+(`RosterCloudBar`) uses.
 
 ## Faction rules beside the build (added 2026-08-28)
 

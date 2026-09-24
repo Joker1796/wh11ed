@@ -1,7 +1,7 @@
 <!-- The collapsed line of one roster entry, as the two BUILDING screens draw it: the editor's
      Units tab and the creation wizard's config step. One component rather than a third copy of the
      same spans — the two used to hold identical markup under different class prefixes, which is
-     how they drifted apart before (see .roster-sum in style.css for the same lesson).
+     how they drifted apart before.
 
      Renders the CONTENT of the row, not the tile around it: both callers put this inside their own
      <button>, which is also why nothing here is focusable.

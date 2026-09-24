@@ -244,7 +244,7 @@ import RosterUnitRow from './RosterUnitRow.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
-import { BLOCK_NAME_MAX, GROUP_LABEL_KEYS, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
+import { BLOCK_NAME_MAX, GROUP_LABEL_KEYS, blockNumbers, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   // rosterEngine's sectionsOf output, with `items` renamed `entries` by the caller.
@@ -309,19 +309,9 @@ function act(what) {
 // Whether that entry is a block's host, asked without the section it lives in — the sheet knows
 // only the entry it was opened from.
 const hasBlock = (e) => !!e && !e.leaderOf && props.groups.some((g) => (g.entries || []).some((x) => x.leaderOf === e.uid))
-// Every block is numbered in reading order, across the whole list rather than per section: the
-// default name is what the player sees until they write their own, and "Unit 2" has to mean the
-// second block on the screen, not the second one in Battleline.
-const blockNo = computed(() => {
-  const m = new Map()
-  let n = 0
-  for (const g of props.groups || []) {
-    for (const e of g.entries || []) {
-      if (!e.leaderOf && (g.entries || []).some((x) => x.leaderOf === e.uid)) m.set(e.uid, ++n)
-    }
-  }
-  return m
-})
+// Numbered in reading order across the whole list (rosterEngine's blockNumbers — the view reads
+// the same numbers).
+const blockNo = computed(() => blockNumbers(props.groups))
 
 // The name is written straight onto the host entry, like every other field the editor touches —
 // the store's deep watch is what saves it. `setNote` is the shared write: it trims, caps, and
