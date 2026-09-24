@@ -118,7 +118,8 @@ const tone = computed(() => {
 
 .det-name {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 1.2rem; /* the row's headline — 0.95rem read smaller than its own price (owner) */
+  line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--text-primary);
@@ -126,7 +127,7 @@ const tone = computed(() => {
 
 /* RU translation of the name — a small muted line under the English one. */
 .det-name-ru {
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-muted);
 }
