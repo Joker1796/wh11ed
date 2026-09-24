@@ -1634,8 +1634,9 @@ Settings/Units tabs and the faction-rules bar — ~150px of a ~640px viewport be
 What moved, and why each was safe to move:
 
 - **The name heads Settings only.** It is renamed once; over the panes it was a row spent forever.
-- **The tabs became the footer's gear / people** (`.seg`, `editorModes`; Settings first, and the
-  hammer the Units mode wore on day one became `bi-people-fill` at the owner's pick). The footer was already
+- **The tabs became the footer's gear / split panes** (`.seg`, `editorModes`; Settings first, and
+  Units wears `bi-layout-split` — the catalogue and the list side by side — at the owner's pick,
+  after a hammer and then people). The footer was already
   there on both modes, so the switch costs no height; the amber mark rides on the gear. The switch
   never shrinks (squeezed, `.seg`'s overflow clipped the gear under Cancel on a Russian 375px
   phone); room is made on the buttons instead — Cancel becomes a cross at ≤400px, and ≤360px
@@ -2216,7 +2217,7 @@ detour resume THIS draft on the step it was left on instead of starting a second
 fields and the step index are written through by a watcher, and the units by `syncUnits()` — after
 which the wizard and the draft share one array, so per-unit edits ride the store's own autosave. On resume a `?draft=` id pointing at a SAVED roster is ignored: that one belongs to the
 editor, and this screen ends in "Save"),
-`RosterEditorView` (two modes on a phone, Units and Settings, switched by the gear / people `.seg`
+`RosterEditorView` (two modes on a phone, Units and Settings, switched by the gear / split-panes `.seg`
 in the footer — they were `PageTabs` from 2026-08-28 until 2026-09-24; fixed footer bar — `.rc-sticky`, same class and CSS as
 `RosterCreateView.vue`'s own wizard bar, copied not shared — with the points readout + issues
 badge on the left and Cancel/Save on the right, always visible across both tabs, not just

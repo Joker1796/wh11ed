@@ -567,7 +567,7 @@ const editorModes = computed(() => [
     // rather than the badge's because it also answers WHERE to go.
     warn: setupIssueCount(validation.value.issues) ? labels.value.rosterTabNeedsSetup : '',
   },
-  { key: 'units', label: labels.value.rosterViewTabUnits, icon: 'bi bi-people-fill', warn: '' },
+  { key: 'units', label: labels.value.rosterViewTabUnits, icon: 'bi bi-layout-split', warn: '' },
 ])
 
 const detachmentOptions = computed(() =>
