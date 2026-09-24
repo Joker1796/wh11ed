@@ -15,8 +15,12 @@
      (loadRosterFactionRules) and the components that render it (RuleBlock, StratCard) are pulled
      on that first tap and never before. -->
 <template>
-  <section class="rrp">
+  <section
+    class="rrp"
+    :class="{ bare }"
+  >
     <button
+      v-if="!bare"
       type="button"
       class="rrp-head"
       :aria-expanded="open"
@@ -202,13 +206,16 @@ const props = defineProps({
   factionSlug: { type: String, default: '' },
   // The detachment NAMES the list has picked, as the roster stores them.
   detachments: { type: Array, default: () => [] },
+  // Inside RosterRulesModal: no head of its own (the dialog's title says what this is) and open
+  // from the start — opening the dialog IS the first tap the lazy load waits for.
+  bare: { type: Boolean, default: false },
 })
 
 const { locale } = useLocale()
 const { renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
-const open = ref(false)
+const open = ref(props.bare)
 const openSecs = ref(new Set())
 const isOpen = (k) => openSecs.value.has(k)
 function toggle(k) {
@@ -245,6 +252,11 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
   border: 1px solid var(--border);
   background: var(--bg-card);
   margin-bottom: 0.6rem;
+}
+.rrp.bare {
+  border: none;
+  background: none;
+  margin: 0;
 }
 /* The head wears the same accent-tinted bar as the catalogue's role headings below it
    (RosterUnitBrowser's `.rub-group > .rub-head`, a fifth of the accent over the secondary

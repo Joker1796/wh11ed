@@ -631,8 +631,9 @@ directory; still part of this feature:
   `uid` has a `unit`, and no message asks for a placeholder the validator does not send.
   **An issue also knows which TAB can answer it** — `SETUP_CODES` / `setupIssueCount()` in the same
   module: faction, detachments, the Force Disposition they disagree about and the DP they spend are
-  chosen on the editor's Setup tab and nowhere else, so that tab carries an amber ⚠ while any of
-  them is outstanding (`PageTabs`' `warn`). Everything answered by adding, dropping or re-arming a
+  chosen on the editor's Setup mode and nowhere else, so that mode's gear in the phone's footer
+  carries an amber dot while any of them is outstanding (it was `PageTabs`' `warn` until the tabs
+  left, 2026-09-24). Everything answered by adding, dropping or re-arming a
   unit is deliberately NOT in that set — `overPoints` included, which names the battle size but is
   almost always fixed by the list. The mark exists because the footer badge counts ERRORS: a list
   owing only a Force Disposition showed a green tick, and the player found out at Save (owner,
@@ -1622,10 +1623,32 @@ parenthesis"), so a note in a GW-app or War Organ list survives as far as the ma
 away one line later — capturing it into `entry.note` is most of the round-trip. A note in the WTC
 export is a separate decision: tournament organisers parse that grammar.
 
+## Height for the panes (2026-09-24)
+
+A player measured it: the building area was about half the screen on a phone and on the desk, the
+rest "static settings". On a phone the stack above the panes was the navbar, the list's name, the
+Settings/Units tabs and the faction-rules bar — ~150px of a ~640px viewport before the first unit.
+What moved, and why each was safe to move:
+
+- **The name heads Settings only.** It is renamed once; over the panes it was a row spent forever.
+- **The tabs became the footer's hammer / gear** (`.seg`, `editorModes`). The footer was already
+  there on both modes, so the switch costs no height; the amber mark rides on the gear.
+- **The rules bar became the catalogue's book** (above) — still one tap from Units, where rules are
+  read while building, which is why they did not move to Settings as the player first suggested.
+- **The "back to game" chip is off the builder's routes** (`showResumeGame` in App.vue): it floated
+  on the list's corner over a unit, and the Tracker tab reaches the game anyway.
+- **The desk loses its footer**: Cancel / Save end the settings line (`RosterSettingsBar`'s default
+  slot), the name is that line's first field, and the columns run to the window's bottom.
+
+The panes gained ~145px on a 390×740 phone (checked on screenshots, both builds side by side).
+
 ## Faction rules beside the build (added 2026-08-28)
 
-`RosterRulesPanel.vue`, above the two panes on **both** building screens — the wizard's Units step
-and the editor's Units tab. The question a half-built list raises is "what does my detachment
+`RosterRulesPanel.vue` on **both** building screens — the wizard's Units step and the editor's
+Units mode. **Since 2026-09-24 it is a sheet, not a bar**: the book beside the catalogue's search
+(`RosterUnitBrowser`'s `rules-button` → `open-rules`) opens `RosterRulesModal`, which hosts the
+panel `bare` (no head of its own, open from the start). The folded bar over both panes cost a row
+of every phone's screen for something opened now and then — see "Height for the panes" below. The question a half-built list raises is "what does my detachment
 actually do?", and the answer used to live on the faction pages, one navigation out of the builder
 and back (the resume chip in "Views" exists because of that trip). The list's own Rules tab is no
 help either: it is on the finished list's view screen.
@@ -2176,8 +2199,8 @@ detour resume THIS draft on the step it was left on instead of starting a second
 fields and the step index are written through by a watcher, and the units by `syncUnits()` — after
 which the wizard and the draft share one array, so per-unit edits ride the store's own autosave. On resume a `?draft=` id pointing at a SAVED roster is ignored: that one belongs to the
 editor, and this screen ends in "Save"),
-`RosterEditorView` (tabbed — `PageTabs`, the same folder tabs the faction pages and the other two
-roster screens use, since 2026-08-28; fixed footer bar — `.rc-sticky`, same class and CSS as
+`RosterEditorView` (two modes on a phone, Units and Settings, switched by the hammer / gear `.seg`
+in the footer — they were `PageTabs` from 2026-08-28 until 2026-09-24; fixed footer bar — `.rc-sticky`, same class and CSS as
 `RosterCreateView.vue`'s own wizard bar, copied not shared — with the points readout + issues
 badge on the left and Cancel/Save on the right, always visible across both tabs, not just
 one step. "Save" is a pure navigation shortcut to that same read-only view (`save()` →
@@ -2305,8 +2328,8 @@ overlay, see below),
 `RosterPrintSheet` + `RosterPrintFragment` + `RosterPrintUnitCard` + `RosterPrintCard` (the
 printable document, a slice of one of its blocks, one unit's tier choice, and paper's own card
 typography — see "Printing a list"),
-`RosterRulesPanel` (the folded rules panel above the build panes — see "Faction rules beside the
-build"),
+`RosterRulesPanel` + `RosterRulesModal` (the list's rules, as a sheet opened from the catalogue's
+book — see "Faction rules beside the build"),
 `FactionAccentScope` (per-faction accent-color CSS custom-property scope for the editor
 chrome, keyed off the roster's faction slug),
 `ConditionChips` (the one way a condition switch is drawn — see "Live rules" below; purely

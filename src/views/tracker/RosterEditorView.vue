@@ -17,7 +17,13 @@
       <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
     </RouterLink>
 
-    <header class="red-head">
+    <!-- The name is a Settings answer: on a phone it heads that mode only, and on the desk it is
+         the settings bar's first field. Over the Units panes it was a row of every phone's screen
+         spent on something renamed once (2026-09-24, the builder's height pass). -->
+    <header
+      v-if="!desk && tab === 'settings'"
+      class="red-head"
+    >
       <input
         class="rname-input"
         :class="nameFit"
@@ -41,7 +47,7 @@
          the catalogue. Narrower, the tabs stay — a phone has no line to give away. -->
     <RosterSettingsBar
       v-if="desk"
-      :show-name="false"
+      :show-name="true"
       :name="roster.name"
       :faction-slug="roster.faction"
       :faction-name="factionName"
@@ -70,19 +76,24 @@
       @toggle-detachment="toggleDetachment"
       @clear-detachments="clearDetachments"
       @open-issues="issuesOpen = true"
-    />
+    >
+      <!-- On the desk the close-out actions end the line the points already end, and the fixed
+           footer is gone: its row went back to the three columns. -->
+      <button
+        type="button"
+        class="btn-ghost"
+        @click="leaveEditor"
+      >
+        {{ labels.rosterCancel }}
+      </button>
+      <button
+        class="btn-primary"
+        @click="save"
+      >
+        {{ labels.rosterSave }}
+      </button>
+    </RosterSettingsBar>
 
-    <!-- Two switchable panels (not a sequential flow like the creation wizard — either can be
-         reopened at any time while editing), drawn by the same PageTabs the faction pages, the
-         roster list and the read-only list use. This screen kept its own underline tabs until
-         2026-08-28, which made the editor the one roster screen whose tabs looked like something
-         else. -->
-    <PageTabs
-      v-if="!desk"
-      class="red-tabs"
-      :tabs="editorTabs"
-      @select="tab = $event"
-    />
 
     <!-- Settings: faction, detachment(s), battle size -->
     <div
@@ -221,12 +232,6 @@
         {{ labels.rosterPickFaction }}
       </div>
       <template v-else>
-        <!-- Same folded rules panel the creation wizard's Units step carries: editing a list is the
-             same work as building one, and the rules are wanted in the same place. -->
-        <RosterRulesPanel
-          :faction-slug="roster.faction"
-          :detachments="roster.detachments || []"
-        />
         <RosterWorkbench
           :desk="desk"
           :selected="!!openEntry"
@@ -242,7 +247,9 @@
               :battle="effBattle"
               :remaining="limit - points"
               :check-legality="roster.checkLegality !== false"
+              rules-button
               @add="addUnit"
+              @open-rules="rulesOpen = true"
             />
           </template>
           <template #list>
@@ -297,15 +304,16 @@
     />
 
     <!-- Fixed footer bar — same shape as the creation wizard's own .rc-sticky
-         (RosterCreateView.vue), Cancel/Save standing in for that one's Back/Next. -->
-    <div class="rc-sticky">
+         (RosterCreateView.vue), Cancel/Save standing in for that one's Back/Next. Phone only: on
+         the desk its contents are the settings bar's last word. -->
+    <div
+      v-if="!desk"
+      class="rc-sticky"
+    >
       <div class="rc-sticky-inner">
         <!-- On the desk the points and the issue badge are in the settings bar at the top, beside
              the choices that move them; repeating them here would be the same number twice. -->
-        <div
-          v-if="!desk"
-          class="rc-sticky-info"
-        >
+        <div class="rc-sticky-info">
           <span
             class="rc-points"
             :class="{ over: points > limit, 'with-left': showPointsLeft }"
@@ -335,6 +343,30 @@
             <i
               v-else
               class="bi bi-check-circle-fill"
+            />
+          </button>
+        </div>
+        <!-- Units or Settings: the two modes of the phone's editor. They were a row of tabs over
+             the panes; here they cost no height at all, and the amber mark a tab wore when the
+             settings still owe an answer rides on the gear. -->
+        <div
+          class="seg red-mode"
+          role="group"
+        >
+          <button
+            v-for="m in editorModes"
+            :key="m.key"
+            type="button"
+            :class="{ on: tab === m.key }"
+            :aria-pressed="tab === m.key"
+            :aria-label="m.warn ? `${m.label} — ${m.warn}` : m.label"
+            :title="m.warn || m.label"
+            @click="tab = m.key"
+          >
+            <i :class="m.icon" />
+            <span
+              v-if="m.warn"
+              class="red-mode-warn"
             />
           </button>
         </div>
@@ -386,6 +418,12 @@
       @clear="clearDetachments"
       @close="detachmentPickerOpen = false"
     />
+    <RosterRulesModal
+      v-if="rulesOpen && roster.faction"
+      :faction-slug="roster.faction"
+      :detachments="roster.detachments || []"
+      @close="rulesOpen = false"
+    />
     <RosterIssuesModal
       v-if="issuesOpen"
       :issues="validation.issues"
@@ -413,12 +451,11 @@ import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import RosterUndoBar from '../../components/roster/RosterUndoBar.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
-import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
+import RosterRulesModal from '../../components/roster/RosterRulesModal.vue'
 import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
 import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
-import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterEditing } from '../../composables/useRosterEditing.js'
@@ -441,6 +478,7 @@ const { showPointsLeft } = useRosterPrefs()
 const { saveToCloud } = useRosterSync()
 
 const tab = ref('units')
+const rulesOpen = ref(false)
 
 // The one media query this screen asks: three columns with the settings on a line above them, or
 // the tabs and two panes it has always had. 1200px is where a third column stops squeezing the
@@ -507,12 +545,13 @@ const { factionName, accentStyle } = useFactionAccent(computed(() => roster.valu
 
 // Detachment options for the tracker's DP-budget-aware multi-select picker (same shape and
 // layout as the tracker: DP cost + Force Disposition).
-// PageTabs only draws; which panel is open is this screen's own state, same as RosterViewView.
-const editorTabs = computed(() => [
+// The phone's two modes, switched from the footer (Units first: it is where the screen opens).
+const editorModes = computed(() => [
+  { key: 'units', label: labels.value.rosterViewTabUnits, icon: 'bi bi-hammer', warn: '' },
   {
     key: 'settings',
     label: labels.value.rosterCreateStep1,
-    active: tab.value === 'settings',
+    icon: 'bi bi-gear',
     // A list can be perfectly legal and still owe an answer that lives on this tab — an undeclared
     // Force Disposition, a detachment never picked. Nothing said so from the Units tab, where the
     // whole build happens: the footer badge showed a green tick (it counts errors, and these are
@@ -520,7 +559,6 @@ const editorTabs = computed(() => [
     // rather than the badge's because it also answers WHERE to go.
     warn: setupIssueCount(validation.value.issues) ? labels.value.rosterTabNeedsSetup : '',
   },
-  { key: 'units', label: labels.value.rosterViewTabUnits, active: tab.value === 'units' },
 ])
 
 const detachmentOptions = computed(() =>
@@ -682,14 +720,23 @@ function rename(name) {
 }
 .hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
 
-/* The tabs are PageTabs' own; only where they sit is this screen's business. */
-.red-tabs { margin-bottom: 1rem; }
+/* The phone's mode switch in the footer: two icons, the global .seg. The amber dot is the mark
+   PageTabs put on a tab that still owes an answer, moved onto the gear with it. */
+.red-mode button { position: relative; padding: 0.45rem 0.7rem; font-size: 1rem; line-height: 1; }
+.red-mode-warn {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--warning);
+}
 /* Height is the phone's scarce axis, and the panes below are sized to what is left of it. */
 @media (max-width: 900px) {
   .red-back { display: none; }
   .red-head { margin: 0 0 0.6rem; padding-bottom: 0.4rem; }
   .rname-input { font-size: 1.35rem; }
-  .red-tabs { margin-bottom: 0.6rem; }
   .red-panel { gap: 0.6rem; }
 }
 

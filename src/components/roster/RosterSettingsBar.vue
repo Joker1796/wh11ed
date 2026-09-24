@@ -160,6 +160,8 @@
       >
         <i class="bi bi-three-dots" />
       </button>
+      <!-- The caller's own close-out (the editor's Cancel / Save), last on the line. -->
+      <slot />
     </div>
 
     <FactionPickerModal

@@ -189,9 +189,13 @@ const isRosterDeskRoute = computed(() => isRosterEditRoute.value && !appPath.val
 // a long read (a roster opened out of the live game). Hidden while a full-screen modal/drawer is
 // open so it never overlaps them.
 const { current: currentGame } = useTracker()
+// Not over the roster builder: the chip floated on the list pane's corner and covered a unit
+// (a player's report, 2026-09-19), and the builder's footer has no room left for it. The game is
+// one tap away on the bottom nav's Tracker.
 const showResumeGame = computed(() =>
   currentGame.value?.phase === 'playing' &&
   (!isTrackerRoute.value || isGameRosterRoute.value) &&
+  !isRosterEditRoute.value &&
   !isLanding.value &&
   !searchOpen.value &&
   !installHintOpen.value &&

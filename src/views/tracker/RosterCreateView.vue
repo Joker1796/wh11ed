@@ -250,13 +250,6 @@
       v-show="desk || step === 2"
       class="rc-panel rw-fill"
     >
-      <!-- What this list plays with, above the list being built: army rule, each picked
-           detachment's rule, their enhancements and stratagems. Folded — see the component. -->
-      <RosterRulesPanel
-        v-if="factionSlug"
-        :faction-slug="factionSlug"
-        :detachments="detachments"
-      />
       <!-- On the desk this screen has no faction yet to build against until one is picked in the
            bar above, and the columns would be three empty boxes; the hint says which choice
            unlocks them, the way the reference layout does. -->
@@ -282,7 +275,9 @@
             :battle="effBattle"
             :remaining="limit - points"
             :check-legality="checkLegality"
+            rules-button
             @add="addUnit"
+            @open-rules="rulesOpen = true"
           />
         </template>
         <template #list>
@@ -442,6 +437,12 @@
         </p>
       </div>
     </BaseModal>
+    <RosterRulesModal
+      v-if="rulesOpen && factionSlug"
+      :faction-slug="factionSlug"
+      :detachments="detachments"
+      @close="rulesOpen = false"
+    />
     <RosterIssuesModal
       v-if="issuesOpen"
       :issues="validation.issues"
@@ -461,7 +462,7 @@ import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import RosterUndoBar from '../../components/roster/RosterUndoBar.vue'
 import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
-import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
+import RosterRulesModal from '../../components/roster/RosterRulesModal.vue'
 import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
 import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
@@ -495,6 +496,7 @@ const { saveToCloud } = useRosterSync()
 const desk = useMediaQuery('(min-width: 1200px)')
 
 const step = ref(1)
+const rulesOpen = ref(false)
 const name = ref('')
 const factionSlug = ref(null)
 const detachments = ref([])

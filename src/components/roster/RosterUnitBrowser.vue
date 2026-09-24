@@ -27,6 +27,18 @@
           class="rub-filter-count"
         >{{ activeFilters }}</span>
       </button>
+      <!-- The list's rules (RosterRulesModal), where the builder's eye already is — the same row as
+           the search and the filters, instead of a bar of its own over both panes. -->
+      <button
+        v-if="rulesButton"
+        type="button"
+        class="rub-filter-btn"
+        :aria-label="labels.rosterFactionRules"
+        :title="labels.rosterFactionRules"
+        @click="$emit('open-rules')"
+      >
+        <i class="bi bi-book" />
+      </button>
     </div>
 
     <!-- Two narrowing checkboxes. They HIDE rather than dim, which this list forces: opacity here
@@ -222,8 +234,10 @@ const props = defineProps({
   // Points still unspent (the views' `limit - points`), which is all the budget filter needs.
   // Null — no battle size resolvable — takes that filter off the screen rather than guessing.
   remaining: { type: Number, default: null },
+  // Show the book that opens the list's rules (the caller owns the dialog: `open-rules`).
+  rulesButton: { type: Boolean, default: false },
 })
-defineEmits(['add'])
+defineEmits(['add', 'open-rules'])
 
 // Groups start collapsed (same pattern as StratagemsView's per-phase accordions) — the list
 // runs to 90+ units, so a fully-open browser is a wall of rows to scroll past. While the

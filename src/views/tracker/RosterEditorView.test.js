@@ -66,7 +66,7 @@ describe('RosterEditorView', () => {
 
     const w = mount(RosterEditorView, { global: { stubs } })
     await flushPromises()
-    await w.findAll('.page-tab')[0].trigger('click') // the editor opens on Units
+    await w.findAll('.red-mode button')[1].trigger('click') // the editor opens on Units; the gear is Settings
     // Wait for the DISPOSITION, not for the detachment's name: the name is on the roster and
     // renders immediately, while the Force Disposition it implies comes out of the faction data
     // this view imports dynamically.
@@ -82,7 +82,7 @@ describe('RosterEditorView', () => {
     expect(store.rosterById(r.id).disposition).toBe('Purge the Foe')
   })
 
-  // A warning belongs to the tab that can answer it. Without the mark the Units tab looks
+  // A warning belongs to the mode that can answer it (the gear in the footer since 2026-09-24). Without the mark the Units tab looks
   // finished — the footer badge counts errors, and an undeclared Force Disposition is not one —
   // and the player finds out at Save (owner, 2026-09-24).
   it('marks the Setup tab while a choice that lives there is still unmade', async () => {
@@ -96,12 +96,12 @@ describe('RosterEditorView', () => {
 
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Take and Hold')
-    const setupTab = () => w.findAll('.page-tab')[0]
-    expect(setupTab().find('.page-tab-warn').exists()).toBe(true)
+    const setupTab = () => w.findAll('.red-mode button')[1]
+    expect(setupTab().find('.red-mode-warn').exists()).toBe(true)
     // …and it goes as soon as the answer is given, from whichever tab the player is on.
     store.updateRoster(r.id, { disposition: 'Purge the Foe' })
     await flushPromises()
-    expect(setupTab().find('.page-tab-warn').exists()).toBe(false)
+    expect(setupTab().find('.red-mode-warn').exists()).toBe(false)
   })
 
   // The header's hand-off to the tracker is gone (2026-08-28, on request): a list is attached to
