@@ -33,7 +33,7 @@
             v-for="(note, i) in (e[locale] || e.en)"
             :key="i"
             :class="{ 'cl-h': note.h }"
-            v-html="renderInline(note.h || note)"
+            v-html="renderMarks(renderInline(note.h || note), locale)"
           />
         </ul>
       </section>
@@ -53,6 +53,7 @@
 // Reachable from the footer version and the update-notice banner. Opening it clears the banner.
 import { ref, computed } from 'vue'
 import { changelog } from '../data/changelog.js'
+import { renderMarks } from '../data/changelogMarks.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { useFormatDate } from '../composables/useFormatDate.js'
@@ -128,6 +129,25 @@ useUpdateNotice().markSeen()
   font-size: 0.82rem;
   color: var(--text-dim);
 }
+
+/* The marks a note draws instead of describing (data/changelogMarks.js): a small copy of the
+   control — the frame and the surface of the builder's own `.seg` buttons, sized to the line. Out
+   of v-html, so reached with :deep. */
+.cl-list :deep(.cl-btn),
+.cl-list :deep(.cl-key) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -0.2em;
+  height: 1.45em;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  line-height: 1;
+}
+.cl-list :deep(.cl-btn) { min-width: 1.6em; font-size: 0.95em; }
+.cl-list :deep(.cl-nw) { white-space: nowrap; }
+.cl-list :deep(.cl-key) { padding: 0 0.45em; font-size: 0.85em; font-weight: 600; }
 
 .cl-list {
   margin: 0;
