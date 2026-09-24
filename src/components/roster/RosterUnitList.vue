@@ -349,7 +349,8 @@ watch(naming, (on) => {
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 500;
-  color: var(--text-primary);
+  /* Muted: a heading over the units, not one of them — the names stay the brightest thing here. */
+  color: var(--text-muted);
   /* The card above already leaves 0.5rem; with the bigger type the heading carries its own
      tight line, or the gap over it doubles (owner, 2026-09-24). */
   line-height: 1.1;
