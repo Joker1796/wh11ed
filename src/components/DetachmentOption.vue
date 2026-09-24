@@ -12,13 +12,9 @@
         class="det-name-ru"
       >{{ nameRu }}</span>
       <span
-        v-if="forceDisposition || unique || tag"
+        v-if="unique || tag"
         class="det-tags"
       >
-        <span
-          v-if="forceDisposition"
-          class="tone-chip"
-        >{{ forceDisposition }}</span>
         <span
           v-if="unique"
           class="det-unique"
@@ -29,10 +25,21 @@
         >{{ tag }}</span>
       </span>
     </span>
+    <!-- The cost and, under it, the disposition — the two facts a detachment is chosen by, in one
+         column on the right (owner, 2026-09-25); the names keep the left to themselves. -->
     <span
-      v-if="dp"
-      class="det-dp"
-    >{{ dp }} DP</span>
+      v-if="dp || forceDisposition"
+      class="det-side"
+    >
+      <span
+        v-if="dp"
+        class="det-dp"
+      >{{ dp }} DP</span>
+      <span
+        v-if="forceDisposition"
+        class="tone-chip"
+      >{{ forceDisposition }}</span>
+    </span>
   </button>
 </template>
 
@@ -42,10 +49,10 @@
 // Disposition colour the roster one wore (a player's report). The modals around it stay apart
 // (one pick vs. several under a DP budget); only the row is shared.
 //
-// Each row wears its disposition's colour — the bar on its edge and the chip under the name —
+// Each row wears its disposition's colour — the bar on its edge and the chip under the price —
 // because the disposition is what a detachment is FOR, and five of them down a list are told
 // apart faster by hue than by reading (dispositionColors.js). The DP cost sits on the right,
-// where a cost is looked for. Every field but `name` is optional: the faction bar reuses its
+// where a cost is looked for, with the disposition under it. Every field but `name` is optional: the faction bar reuses its
 // picker for the Chapter list, which is plain names.
 // (Said here, not above the <button>: a comment before the root makes the component a Fragment.)
 import { computed } from 'vue'
@@ -136,6 +143,14 @@ const tone = computed(() => {
   color: var(--text-dim);
   font-family: var(--font-mono);
   text-transform: uppercase;
+}
+
+.det-side {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
 }
 
 .det-dp {
