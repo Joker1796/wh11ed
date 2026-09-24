@@ -909,7 +909,12 @@ directory; still part of this feature:
     neither copy may simply go: each block states an attachment. The repeat is folded ONTO the copy
     that stays (`also`, a second `{group, attachedAs}` the entry joins in `matchRoster`), which
     imports the chain the two blocks state together — Huron leads the Masters, the Masters support
-    the Chosen. Same arithmetic gate as above, plus the roles: one bodyguard and one attaching role
+    the Chosen. The builder and the view draw such a chain as ONE block under its root (`joinAttached` keys
+    by the root; `blockRootUid` / `hostBlockTotal` take in the whole chain): keyed by the direct
+    host, the Masters were drawn twice (a player's report, 2026-09-24). A chain is legal — the
+    pickers allow it and the validator says nothing; an attempt to forbid it was undone the same
+    day when the listhammer corpus showed it in tournament lists (Huron → Masters, Ogryn Bodyguard
+    → Command Squad, Eldrad → Warlock Conclave). Same arithmetic gate as above, plus the roles: one bodyguard and one attaching role
     is all a single unit can play, so two blocks naming it in the SAME part are two units however
     alike, and blocks that label nothing say nothing either way.
   - **A Support attachment is exported as `Support`, not as `Leader (Character)`.** Both fill a

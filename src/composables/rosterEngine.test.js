@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1499,6 +1499,25 @@ describe('attached units read as one block', () => {
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
     expect(ids(secs, 'attached')).toEqual(['legio', 'abn'])
     expect(ids(secs, 'epic')).toEqual([])
+  })
+
+  // A chain — Huron leading the Masters of the Maelstrom that Support the Chosen, which is legal —
+  // drew the middle unit twice (a player's report, 2026-09-24). One block under the root, every
+  // unit once.
+  it('draws a chain of attachments as one block, each unit once', () => {
+    const items = [
+      { uid: 'legio', id: 'legionaries' },
+      { uid: 'lord', id: 'lord', leaderOf: 'legio' },
+      { uid: 'abn', id: 'abaddon', leaderOf: 'lord' },
+    ]
+    const got = ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')
+    expect(got).toHaveLength(3)
+    expect(new Set(got).size).toBe(3)
+    expect(got[0]).toBe('legio')
+    // …and the block's total and root take in the whole chain.
+    const pts = { legio: 180, lord: 95, abn: 265 }
+    expect(hostBlockTotal(items, items[0], (x) => pts[x.uid])).toBe(540)
+    expect(blockRootUid(items, items[2])).toBe('legio')
   })
 
   it('keeps several characters on one host together, by name like everything else', () => {

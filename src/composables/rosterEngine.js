@@ -1313,10 +1313,23 @@ function joinAttached(items, where, attached) {
   if (!attached) return
   const byUid = new Map((items || []).map((it) => [it?.uid, it]))
   const kids = new Map()
+  // Keyed by the block's ROOT. Attachments can chain, legally: Huron leads the Masters of the
+  // Maelstrom while the Masters Support a Chosen squad (the GW app exports exactly that), an Ogryn
+  // Bodyguard joins a Command Squad that leads its own squad. That is ONE block under the root.
+  // Keyed by the direct host, the middle unit was filed as the root's child and then again as the
+  // head of its own block, and the list drew it twice (a player's report, 2026-09-24).
+  const rootOf = (it) => {
+    let at = it
+    const seen = new Set()
+    while (at?.leaderOf && byUid.has(at.leaderOf) && !seen.has(at.uid)) { seen.add(at.uid); at = byUid.get(at.leaderOf) }
+    return at
+  }
   for (const it of items || []) {
     if (!it?.leaderOf || !byUid.has(it.leaderOf) || !where.has(it)) continue
-    if (!kids.has(it.leaderOf)) kids.set(it.leaderOf, [])
-    kids.get(it.leaderOf).push(it)
+    const root = rootOf(it)
+    if (!root || root === it) continue
+    if (!kids.has(root.uid)) kids.set(root.uid, [])
+    kids.get(root.uid).push(it)
   }
   const drop = (p) => {
     const { list } = where.get(p)
@@ -1381,12 +1394,25 @@ export function setNote(obj, key, value, max = ENTRY_NOTE_MAX) {
   else delete obj[key]
 }
 
+// The block an entry belongs to, by its ROOT — the bodyguard at the bottom of the chain. Usually
+// that is simply `leaderOf`, but attachments can chain legally (Huron leads the Masters of the
+// Maelstrom, which Support a Chosen squad): the Chosen is the root of all three. Walks `entries`
+// only, and stops on a loop. An entry attached to nothing is its own root.
+export function blockRootUid(entries, e) {
+  const byUid = new Map((entries || []).map((x) => [x.uid, x]))
+  let at = e
+  const seen = new Set()
+  while (at?.leaderOf && byUid.has(at.leaderOf) && !seen.has(at.uid)) { seen.add(at.uid); at = byUid.get(at.leaderOf) }
+  return at?.uid ?? e?.uid
+}
+
 // What a whole attached block costs, asked of its HOST — printed on the block's own head line in
 // the editor's list and on the list's view, where the reader is already looking. Null unless
 // this entry actually has something attached to it, so a lone squad prints one number as before.
 export function hostBlockTotal(entries, host, pointsOf) {
   if (!host || host.leaderOf) return null
-  const parts = (entries || []).filter((x) => x.uid === host.uid || x.leaderOf === host.uid)
+  // The whole chain, not just the units on the host itself (see blockRootUid).
+  const parts = (entries || []).filter((x) => x.uid === host.uid || (x.leaderOf && blockRootUid(entries, x) === host.uid))
   if (parts.length < 2) return null
   return parts.reduce((a, x) => a + (pointsOf(x) || 0), 0)
 }

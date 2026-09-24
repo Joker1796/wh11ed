@@ -244,7 +244,7 @@ import RosterUnitRow from './RosterUnitRow.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
-import { BLOCK_NAME_MAX, GROUP_LABEL_KEYS, blockNumbers, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
+import { BLOCK_NAME_MAX, GROUP_LABEL_KEYS, blockNumbers, blockRootUid, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   // rosterEngine's sectionsOf output, with `items` renamed `entries` by the caller.
@@ -272,7 +272,9 @@ const labels = computed(() => ui[locale.value])
 const inPane = computed(() => props.placement === 'pane')
 
 // The characters joined to this entry, in the order the section already put them.
-const blockOf = (entries, host) => (host.leaderOf ? [] : (entries || []).filter((e) => e.leaderOf === host.uid))
+// Everything in the block under this host — the whole chain, where attachments chain (see
+// rosterEngine's blockRootUid), so folding the block folds all of it.
+const blockOf = (entries, host) => (host.leaderOf ? [] : (entries || []).filter((e) => e.leaderOf && blockRootUid(entries, e) === host.uid))
 
 // Which blocks are folded, by host uid. Component state on purpose: folding is a gesture for
 // getting one finished squad out of the way while you work on the next, not a setting — it does
@@ -283,7 +285,8 @@ function toggleFold(uid) {
   next.has(uid) ? next.delete(uid) : next.add(uid)
   folded.value = next
 }
-const isHidden = (e) => !!e.leaderOf && folded.value.has(e.leaderOf)
+const allEntries = computed(() => (props.groups || []).flatMap((g) => g.entries || []))
+const isHidden = (e) => !!e.leaderOf && folded.value.has(blockRootUid(allEntries.value, e))
 
 const openEntry = computed(() => {
   for (const g of props.groups) {
