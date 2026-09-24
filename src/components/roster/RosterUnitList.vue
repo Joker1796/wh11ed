@@ -350,7 +350,10 @@ watch(naming, (on) => {
   font-size: 1.3rem;
   font-weight: 500;
   color: var(--text-primary);
-  margin: 1.1rem 0 0.5rem;
+  /* The card above already leaves 0.5rem; with the bigger type the heading carries its own
+     tight line, or the gap over it doubles (owner, 2026-09-24). */
+  line-height: 1.1;
+  margin: 0.6rem 0 0.45rem;
   padding-bottom: 0.2rem;
   border-bottom: 1px solid var(--border);
 }
