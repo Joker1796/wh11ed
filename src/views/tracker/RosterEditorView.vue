@@ -56,6 +56,7 @@
       :detachment-options="detachmentOptions"
       :dp-spent="dpSpent"
       :max-dp="effBattle.dp"
+      :dp-over-allowed="dpOverAllowed"
       :battle-size="roster.battleSize"
       :battle-sizes="battleSizes"
       :custom-points="roster.customPoints"
@@ -96,125 +97,33 @@
     </RosterSettingsBar>
 
 
-    <!-- Settings: faction, detachment(s), battle size -->
+    <!-- Settings: the list's own answers, the same form as the wizard's step 1 -->
     <div
       v-if="!desk && tab === 'settings'"
       class="red-panel"
     >
-      <div class="red-choices">
-        <button
-          class="choice"
-          @click="factionPickerOpen = true"
-        >
-          <span class="ch-label">{{ labels.rosterFactionLabel }}</span>
-          <span class="ch-value">{{ factionName || labels.rosterChoose }}</span>
-          <i class="bi bi-chevron-down" />
-        </button>
-        <button
-          class="choice"
-          :disabled="!roster.faction"
-          @click="detachmentPickerOpen = true"
-        >
-          <span class="ch-label">{{ labels.rosterDetachmentLabel }}</span>
-          <span class="ch-value">{{ detachmentSummary || labels.rosterChoose }}</span>
-          <i class="bi bi-chevron-down" />
-        </button>
-        <!-- An army has ONE Force Disposition — the card selected after mustering, on which the
-             opponent's symbol names your Primary Mission. One detachment settles it; several are a
-             choice, and the LIST is where it is declared. Not a picker: there are never more than
-             a handful of candidates, so they fit in the tile that shows the answer. -->
-        <div
-          v-if="dispositionCands.length"
-          class="choice bsize"
-        >
-          <span class="ch-label">{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
-          <span
-            v-if="dispositionCands.length === 1"
-            class="ch-value"
-          >{{ dispositionCands[0] }}</span>
-          <div
-            v-else
-            class="seg disp-opts"
-          >
-            <button
-              v-for="d in dispositionCands"
-              :key="d"
-              :class="{ on: roster.disposition === d }"
-              @click="setDisposition(d)"
-            >
-              {{ d }}
-            </button>
-          </div>
-        </div>
-        <!-- The player's plan for this list, in their own words: read at the table (the view screen
-             shows it above its tabs, in a game as well as out of one), never read by a rule. Last
-             of the settings because it is the only one that decides nothing. -->
-        <div class="choice notes">
-          <span class="ch-label">{{ labels.rosterNotes }}</span>
-          <textarea
-            class="notes-input"
-            rows="3"
-            :maxlength="ROSTER_NOTES_MAX"
-            :value="roster.notes || ''"
-            @input="setNotes($event.target.value)"
-          />
-        </div>
-        <div class="choice bsize">
-          <span class="ch-label">{{ labels.rosterBattleSizeLabel }}</span>
-          <div class="bsize-opts">
-            <button
-              v-for="b in battleSizes"
-              :key="b.id"
-              class="bsize-btn"
-              :class="{ on: roster.battleSize === b.id }"
-              @click="setBattleSize(b.id)"
-            >
-              {{ b.points }}
-            </button>
-            <button
-              class="bsize-btn"
-              :class="{ on: roster.battleSize === 'custom' }"
-              @click="setBattleSize('custom')"
-            >
-              {{ labels.rosterCustom }}
-            </button>
-            <input
-              v-if="roster.battleSize === 'custom'"
-              class="bsize-input"
-              type="number"
-              min="0"
-              step="5"
-              :value="roster.customPoints"
-              @input="setCustomPoints($event.target.value)"
-            >
-          </div>
-        </div>
-      </div>
-
-      <label
-        class="check"
-        :class="{ on: roster.checkLegality !== false }"
-      >
-        <input
-          type="checkbox"
-          :checked="roster.checkLegality !== false"
-          @change="setCheckLegality($event.target.checked)"
-        >
-        <span>
-          {{ labels.rosterCheckLegality }}
-          <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
-        </span>
-      </label>
-      <label
-        class="check"
-        :class="{ on: showPointsLeft }"
-      >
-        <input
-          v-model="showPointsLeft"
-          type="checkbox"
-        >
-        <span>{{ labels.rosterShowPointsLeft }}</span>
-      </label>
+      <RosterSetupFields
+        :battle-size="roster.battleSize"
+        :custom-points="roster.customPoints ?? 2000"
+        :has-faction="!!roster.faction"
+        :faction-name="factionName"
+        :detachment-summary="detachmentSummary"
+        :dp-spent="dpSpent"
+        :dp-limit="effBattle.dp"
+        :dp-over-allowed="dpOverAllowed"
+        :disposition-cands="dispositionCands"
+        :disposition="roster.disposition || ''"
+        show-notes
+        :notes="roster.notes || ''"
+        :check-legality="roster.checkLegality !== false"
+        @update:battle-size="setBattleSize"
+        @update:custom-points="setCustomPoints"
+        @update:disposition="setDisposition"
+        @update:notes="setNotes"
+        @update:check-legality="setCheckLegality"
+        @pick-faction="factionPickerOpen = true"
+        @pick-detachments="detachmentPickerOpen = true"
+      />
     </div>
 
     <!-- Units: the catalogue and the roster's own list, side by side (`.roster-panes` in
@@ -437,6 +346,7 @@ import RosterUndoBar from '../../components/roster/RosterUndoBar.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesModal from '../../components/roster/RosterRulesModal.vue'
 import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
+import RosterSetupFields from '../../components/roster/RosterSetupFields.vue'
 import RosterPointsTally from '../../components/roster/RosterPointsTally.vue'
 import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
@@ -451,7 +361,6 @@ import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
 import { setupIssueCount } from '../../composables/rosterValidation.js'
-import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 
@@ -459,7 +368,6 @@ const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { showPointsLeft } = useRosterPrefs()
 const { saveToCloud } = useRosterSync()
 
 const tab = ref('units')
@@ -553,13 +461,14 @@ const editorModes = computed(() => [
 // ── What building a list does (useRosterBuildActions.js — the wizard runs the same code) ──
 const {
   factionPickerOpen, detachmentPickerOpen, pickFaction,
-  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, toggleDetachment, clearDetachments,
+  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpOverAllowed, toggleDetachment, clearDetachments,
   openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
   undoable, undoRemove, dismissUndo, battleSizes,
 } = useRosterBuildActions({
   roster: () => roster.value,
   factionData,
   curDetachments,
+  effBattle,
   defOf,
   commit: touch,
   setFaction: (slug) => { roster.value.faction = slug },
@@ -680,90 +589,7 @@ function rename(name) {
    the page has to scroll by, and the page is meant to stand still. */
 .red-panel { display: flex; flex-direction: column; gap: 1.1rem; }
 
-/* ONE card of settings, not five tiles. Each setting used to be its own bordered box that sized
-   itself to its own words — a faction name, two detachment names, an empty notes field — so the
-   column read as a ragged pile of backgrounds with a different right edge on every row. They are
-   rows of one card now: one frame, one background, hairlines between them, every row the full
-   width. Square corners and a frame doing the separating is the house style (CLAUDE.md, "Corners
-   & surfaces"); this is the same recipe as `.opt-tile` lists elsewhere in the builder. */
-.red-choices {
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-}
-.choice {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  /* A button centres its text, which nobody noticed while every value was one or two words: a
-     list of two detachment names wraps, and the wrapped lines sat centred under a left-aligned
-     label. */
-  text-align: left;
-  gap: 0.15rem;
-  padding: 0.5rem 0.75rem;
-  background: none;
-  border: none;
-  border-top: 1px solid var(--border);
-  cursor: pointer;
-  position: relative;
-}
-.choice:first-child { border-top: none; }
-/* The row lights by its BACKGROUND now that the border belongs to the card around it — and behind
-   `hover: hover`, because iOS leaves a tap's hover state on until something else is tapped (that
-   is why the detachment row sat permanently outlined on a phone). */
-@media (hover: hover) {
-  .choice:not(.bsize):hover { background: var(--bg-secondary); }
-}
-.choice:disabled { opacity: 0.5; cursor: not-allowed; }
-.choice .bi { position: absolute; right: 0.6rem; top: 0.6rem; color: var(--text-dim); font-size: 0.7rem; }
-.ch-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
-.ch-value { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); padding-right: 0.9rem; }
-.bsize-opts { display: inline-flex; gap: 0.25rem; margin-top: 0.1rem; }
-/* The disposition tile holds the global segmented control instead of a value, so it sizes to its
-   own words rather than stretching the row. */
-.disp-opts { margin-top: 0.15rem; align-self: flex-start; }
-.disp-opts button { font-size: 0.78rem; padding: 0.2rem 0.5rem; }
-.bsize-btn {
-  padding: 0.2rem 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  cursor: pointer;
-}
-.bsize-btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-.bsize-input {
-  width: 5rem;
-  padding: 0.2rem 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  border: 1px solid var(--accent);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-}
-.bsize-input:focus { outline: none; }
-
-/* The notes tile is not a picker: it holds a field rather than a value, so it drops the button
-   affordances (`.choice:not(.bsize)` hover, the chevron) and stretches its input to the tile. */
-.choice.notes { cursor: default; }
-.choice.notes:hover { background: none; }
-.notes-input {
-  width: 100%;
-  margin-top: 0.1rem;
-  padding: 0.3rem 0.45rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  font-family: inherit;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  resize: vertical;
-}
-.notes-input:focus { outline: none; border-color: var(--accent); }
+/* The Settings tab's form is RosterSetupFields.vue, shared with the creation wizard's step 1. */
 
 .red-hint, .red-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 

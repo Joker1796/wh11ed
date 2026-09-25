@@ -563,7 +563,9 @@ moment the modal closed.
 - **The screens ask it the way the tracker's own setup does** — the label switches to «Заявленная»
   when there is a choice, the candidates are a `.seg`, a single one is stated read-only, and with
   no detachment the field says what to pick first. The wizard's step 1 and the editor's Setup tab
-  each carry it beside the detachment they follow from.
+  carry it beside the detachment they follow from — one form, `RosterSetupFields.vue` (2026-09-25:
+  the two copies had drifted — only the wizard counted Detachment Points, only the editor kept the
+  notes; the shared form is the editor's one-card rows, the denser of the two, with the count).
 - **`validateRoster` warns** (`dispositionUndeclared`, naming the candidates) rather than choosing
   for the player — the same never-block rule as everything else here.
 - Downstream, everyone reads the one answer: the GW export's own line and the WTC header's
@@ -1238,8 +1240,8 @@ show yet, or not; not ours to guess.
   cap group is full; off, unlimited adding (today's pre-toggle behaviour). This is layered on
   top of, not a replacement for, `validateRoster()`'s own always-on `overDuplicate` issue — the
   two share the same `capKeyOf` grouping so they never disagree. Toggled on the creation
-  wizard's step 1 (`RosterCreateView.vue`, last field) and the editor's Settings tab
-  (`RosterEditorView.vue`) — both write straight to the roster object. A count strictly OVER
+  wizard's step 1 and the editor's Settings tab (both `RosterSetupFields.vue`) — both write
+  straight to the roster object. A count strictly OVER
   its cap (not just at it — unreachable through the "+" button itself, but reachable by lowering
   the battle size on step 1 *after* units were added under a bigger one) turns
   `RosterUnitBrowser`'s `N/limit` badge red (`.rub-count.over`). `RosterCreateView.vue` now also

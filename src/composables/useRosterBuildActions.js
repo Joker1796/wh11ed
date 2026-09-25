@@ -21,7 +21,7 @@ import { addUnitEntry, dispositionCandidates, duplicateUnitEntry } from './roste
 import { useRosterUndo } from './useRosterUndo.js'
 import rosterCore from '../data/roster/core.js'
 
-export function useRosterBuildActions({ roster, factionData, curDetachments, defOf, commit, setFaction }) {
+export function useRosterBuildActions({ roster, factionData, curDetachments, effBattle, defOf, commit, setFaction }) {
   const list = () => roster() || null
 
   const factionPickerOpen = ref(false)
@@ -46,6 +46,10 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, def
   const detachmentSummary = computed(() => (list()?.detachments || []).join(', '))
   const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
   const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
+  // A single Detachment is always allowed even over budget (DetachmentPickerModal never disables
+  // the first pick) — not official yet, but GW has said it's fine as long as it's the only one
+  // taken. The screens show that as a "?" explainer instead of an error.
+  const dpOverAllowed = computed(() => (list()?.detachments.length === 1) && dpSpent.value > (effBattle?.value.dp ?? Infinity))
 
   // Enhancements belong to a detachment — an entry carrying one the list no longer fields keeps a
   // name nothing resolves, so it is dropped whenever the selection changes. Checked against the
@@ -121,7 +125,7 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, def
 
   return {
     factionPickerOpen, detachmentPickerOpen, pickFaction,
-    detachmentOptions, detachmentSummary, dispositionCands, dpSpent,
+    detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpOverAllowed,
     toggleDetachment, clearDetachments, dropOrphanEnhancements,
     openUid, toggleOpen, openEntry,
     addUnit, duplicateEntry, removeEntry, toggleWarlord,

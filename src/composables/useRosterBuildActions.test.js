@@ -32,10 +32,10 @@ function setup(shape) {
     units: [{ uid: 'c1', id: 'captain', enh, warlord: true }, { uid: 'i1', id: 'intercessor-squad' }],
   })
   const factionData = ref(sm)
-  const { curDetachments, defOf } = useRosterDerived(list.derivedOver, factionData)
+  const { curDetachments, effBattle, defOf } = useRosterDerived(list.derivedOver, factionData)
   const commit = vi.fn()
   const actions = useRosterBuildActions({
-    roster: list.get, factionData, curDetachments, defOf, commit, setFaction: list.setFaction,
+    roster: list.get, factionData, curDetachments, effBattle, defOf, commit, setFaction: list.setFaction,
   })
   return { list, actions, commit, enh }
 }

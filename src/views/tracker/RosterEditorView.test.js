@@ -69,8 +69,12 @@ describe('RosterEditorView', () => {
     await w.findAll('.red-mode button')[0].trigger('click') // the editor opens on Units; the gear (first) is Settings
     // Wait for the DISPOSITION, not for the detachment's name: the name is on the roster and
     // renders immediately, while the Force Disposition it implies comes out of the faction data
-    // this view imports dynamically.
-    await waitFor(w, 'Take and Hold')
+    // this view imports dynamically. One candidate is a fact, shown as the row's value.
+    for (let i = 0; i < 60 && !w.find('.disp-one').exists(); i++) {
+      await flushPromises()
+      await new Promise((res) => setTimeout(res, 25))
+    }
+    expect(w.find('.disp-one').text()).toBe('Take and Hold')
     expect(w.find('.disp-opts').exists()).toBe(false)
 
     store.updateRoster(r.id, { detachments: [byFd('Take and Hold'), byFd('Purge the Foe')] })

@@ -92,155 +92,23 @@
       v-show="!desk && step === 1"
       class="rc-panel"
     >
-      <div class="rc-card">
-        <label class="field">
-          <span>{{ labels.rosterNameLabel }}</span>
-          <input
-            v-model="name"
-            type="text"
-            :placeholder="labels.rosterNewName"
-          >
-        </label>
-
-        <div class="field">
-          <span>{{ labels.rosterBattleSizeLabel }}</span>
-          <div class="seg seg-pts">
-            <button
-              v-for="b in battleSizes"
-              :key="b.id"
-              :class="{ on: battleSize === b.id }"
-              @click="battleSize = b.id"
-            >
-              {{ b.points }}
-            </button>
-            <button
-              :class="{ on: battleSize === 'custom' }"
-              @click="battleSize = 'custom'"
-            >
-              {{ labels.rosterCustom }}
-            </button>
-          </div>
-          <input
-            v-if="battleSize === 'custom'"
-            v-model.number="customPoints"
-            class="bsize-input"
-            type="number"
-            min="0"
-            step="5"
-          >
-        </div>
-
-        <div class="field">
-          <span>{{ labels.rosterFactionLabel }}</span>
-          <button
-            class="btn-choose"
-            @click="factionPickerOpen = true"
-          >
-            <span
-              class="ct-name"
-              :class="{ placeholder: !factionSlug }"
-            >{{ factionName || labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-right ct-chev" />
-          </button>
-        </div>
-
-        <div class="field">
-          <span>
-            {{ labels.rosterDetachmentLabel }}
-            <em
-              v-if="factionSlug"
-              class="dp-count"
-              :class="{ over: dpSpent > effBattle.dp && !dpOverAllowed }"
-            >{{ dpSpent }} / {{ effBattle.dp }} DP</em>
-            <button
-              v-if="dpOverAllowed"
-              type="button"
-              class="help-btn"
-              :aria-label="labels.trackerDpOverHelp"
-              @click="dpHelpOpen = true"
-            >
-              <i class="bi bi-question-circle" />
-            </button>
-          </span>
-          <button
-            v-if="factionSlug"
-            class="btn-choose"
-            @click="detachmentPickerOpen = true"
-          >
-            <span
-              class="ct-name"
-              :class="{ placeholder: !detachments.length }"
-            >{{ detachmentSummary || labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-right ct-chev" />
-          </button>
-          <p
-            v-else
-            class="det-empty"
-          >
-            {{ labels.rosterPickFaction }}
-          </p>
-        </div>
-
-        <!-- An army has ONE Force Disposition — the card selected after mustering, on which the
-             opponent's symbol names your Primary Mission. One detachment settles it; several are
-             a choice, and the LIST is where it is declared (the tracker's own setup asks the same
-             question the same way). -->
-        <div
-          v-if="factionSlug"
-          class="field"
-        >
-          <span>{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
-          <div
-            v-if="dispositionCands.length > 1"
-            class="seg"
-          >
-            <button
-              v-for="d in dispositionCands"
-              :key="d"
-              :class="{ on: disposition === d }"
-              @click="disposition = d"
-            >
-              {{ d }}
-            </button>
-          </div>
-          <input
-            v-else-if="dispositionCands.length === 1"
-            type="text"
-            :value="dispositionCands[0]"
-            readonly
-          >
-          <p
-            v-else
-            class="det-empty"
-          >
-            {{ labels.trackerPickDetachmentFirst }}
-          </p>
-        </div>
-
-        <label
-          class="check"
-          :class="{ on: checkLegality }"
-        >
-          <input
-            v-model="checkLegality"
-            type="checkbox"
-          >
-          <span>
-            {{ labels.rosterCheckLegality }}
-            <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
-          </span>
-        </label>
-        <label
-          class="check"
-          :class="{ on: showPointsLeft }"
-        >
-          <input
-            v-model="showPointsLeft"
-            type="checkbox"
-          >
-          <span>{{ labels.rosterShowPointsLeft }}</span>
-        </label>
-      </div>
+      <RosterSetupFields
+        v-model:name="name"
+        v-model:battle-size="battleSize"
+        v-model:custom-points="customPoints"
+        v-model:disposition="disposition"
+        v-model:check-legality="checkLegality"
+        show-name
+        :has-faction="!!factionSlug"
+        :faction-name="factionName"
+        :detachment-summary="detachmentSummary"
+        :dp-spent="dpSpent"
+        :dp-limit="effBattle.dp"
+        :dp-over-allowed="dpOverAllowed"
+        :disposition-cands="dispositionCands"
+        @pick-faction="factionPickerOpen = true"
+        @pick-detachments="detachmentPickerOpen = true"
+      />
     </div>
 
     <!-- Step 2: the catalogue and the list side by side (`.roster-panes` in style.css, shared
@@ -400,18 +268,6 @@
       @clear="clearDetachments"
       @close="detachmentPickerOpen = false"
     />
-    <BaseModal
-      v-if="dpHelpOpen"
-      :title="labels.trackerDpOverTitle"
-      max-width="380px"
-      @close="dpHelpOpen = false"
-    >
-      <div class="modal-body">
-        <p class="dp-help-text">
-          {{ labels.trackerDpOverText }}
-        </p>
-      </div>
-    </BaseModal>
     <RosterRulesModal
       v-if="rulesOpen && factionSlug"
       :faction-slug="factionSlug"
@@ -430,7 +286,6 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import BaseModal from '../../components/BaseModal.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
@@ -439,6 +294,7 @@ import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesModal from '../../components/roster/RosterRulesModal.vue'
 import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
+import RosterSetupFields from '../../components/roster/RosterSetupFields.vue'
 import RosterPointsTally from '../../components/roster/RosterPointsTally.vue'
 import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
@@ -451,7 +307,6 @@ import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { summaryOf } from '../../composables/rosterSummary.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { forgetDraft, rememberDraft } from '../../composables/useRosterDraftResume.js'
-import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { useRosterFactionData } from '../../composables/useRosterFactionData.js'
 import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
@@ -478,7 +333,6 @@ const disposition = ref(null)
 const battleSize = ref('strike-force')
 const customPoints = ref(2000)
 const checkLegality = ref(true)
-const { showPointsLeft } = useRosterPrefs()
 const notes = ref('')
 const units = ref([])
 
@@ -513,23 +367,18 @@ const {
 // into.
 const {
   factionPickerOpen, detachmentPickerOpen, pickFaction,
-  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, toggleDetachment, clearDetachments,
+  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpOverAllowed, toggleDetachment, clearDetachments,
   openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
   undoable, undoRemove, dismissUndo, battleSizes,
 } = useRosterBuildActions({
   roster: () => draftRoster.value,
   factionData,
   curDetachments,
+  effBattle,
   defOf,
   commit: () => syncUnits(),
   setFaction: (slug) => { factionSlug.value = slug; ensureDraft() },
 })
-
-// A single Detachment is always allowed even over budget (DetachmentPickerModal never
-// disables the first pick) — not official yet, but GW has said it's fine as long as it's
-// the only one taken. Show that as a "?" explainer instead of an error.
-const dpOverAllowed = computed(() => detachments.value.length === 1 && dpSpent.value > effBattle.value.dp)
-const dpHelpOpen = ref(false)
 
 // Write the units through to the saved roster as soon as there IS one (step 2 onwards). The wizard
 // used to hold them in component state until "Done", so leaving the way every other screen expects
@@ -709,77 +558,7 @@ watchEffect(() => {
 /* No reserve for the fixed bar here: App.vue's `.main-content--desk` padding is that reserve at
    every width, and RosterWorkbench sizes the panes to end exactly above it — any padding on top
    of that is height the page has to scroll by, and the page is meant to stand still. */
-/* Card + field language copied from the tracker's GameSetup (.player-card/.settings,
-   .field, .btn-choose-twist, .seg, .dp-count) so the two setup flows read as one pattern. */
-.rc-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  padding: 1rem;
-}
-.field { display: flex; flex-direction: column; gap: 0.3rem; }
-.field input[type="text"],
-.field input[type="number"] {
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  font-size: 0.9rem;
-}
-.field input:focus { outline: none; border-color: var(--accent); }
-
-.btn-choose {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem;
-  width: 100%;
-  min-height: 44px;
-  padding: 0.6rem 0.85rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: border-color 0.15s;
-}
-.btn-choose:hover { border-color: var(--accent); }
-.btn-choose:disabled { opacity: 0.5; cursor: not-allowed; }
-.ct-name.placeholder { color: var(--text-muted); font-weight: 500; }
-.ct-chev { color: var(--text-dim); }
-
-.dp-count {
-  font-style: normal;
-  font-family: var(--font-mono);
-  color: var(--accent);
-  font-weight: 700;
-  margin-left: 0.3rem;
-}
-.dp-count.over { color: var(--danger); }
-.det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
-.dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
-
-/* The battle-size one picks a points level, so its labels are numbers — mono, like every other
-   number in the builder. The rest is the global segmented control (style.css), and the Force
-   Disposition seg beside it is words, so the class is what tells them apart. */
-.seg-pts button { font-family: var(--font-mono); font-weight: 700; font-size: 0.78rem; }
-/* A single candidate is a fact, not a choice: shown in the field's own input shape, unwritable. */
-.field input[readonly] { color: var(--text-muted); cursor: default; }
-
-.bsize-input {
-  margin-top: 0.4rem;
-  width: 8rem;
-  padding: 0.4rem 0.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  border: 1px solid var(--accent);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-}
-.bsize-input:focus { outline: none; }
+/* Step 1's form is RosterSetupFields.vue. */
 
 /* The list pane's empty state. */
 .rc-cfg-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
