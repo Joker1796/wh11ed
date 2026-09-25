@@ -18,7 +18,7 @@
 export const changelog = [
   {
     version: '2.7.2',
-    date: '2026-09-25',
+    date: '2026-09-26',
     en: [
       { h: 'Roster builder: removing a detachment' },
       'When you remove a detachment while creating a list, units drop the enhancements that came with it. This already worked in the editor. Before, the new list showed an error instead, and the enhancement had to be removed by hand.',
