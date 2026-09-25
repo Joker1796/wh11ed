@@ -5,7 +5,7 @@
 // a capped set. The app doesn't roll or read the dice (the player does that on the table); it just
 // tracks which up-to-two Blessings are active this round and surfaces their rules. Each Blessing's
 // dice requirement rides along in `req` as a reminder ("Double 3+" = a double/triple of that value or
-// higher). The choice resets every battle round (stored in army.multiByRound[round]).
+// higher; the top three also take a triple of their own, lower value — "Double 5+ / Triple 2+"). The choice resets every battle round (stored in army.multiByRound[round]).
 //
 // The option `body` texts condense each Blessing's rules (specs never import faction data); ability
 // keywords stay English, rules text translated. No detachment changes the Blessing set → empty
@@ -46,7 +46,7 @@ export default {
     {
       id: 'martial-excellence',
       name: 'Martial Excellence',
-      req: 'Double 4+',
+      req: 'Double 4+ / any Triple',
       body: {
         en: 'Melee weapons equipped by models in this unit have the [SUSTAINED HITS 1] ability.',
         ru: 'Melee-оружие моделей отряда получает [SUSTAINED HITS 1].',
@@ -55,7 +55,7 @@ export default {
     {
       id: 'warp-blades',
       name: 'Warp Blades',
-      req: 'Double 5+',
+      req: 'Double 5+ / Triple 2+',
       body: {
         en: 'Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.',
         ru: 'Melee-оружие моделей отряда получает [LETHAL HITS].',
@@ -64,7 +64,7 @@ export default {
     {
       id: 'decapitating-strikes',
       name: 'Decapitating Strikes',
-      req: 'Double 6',
+      req: 'Double 6 / Triple 3+',
       body: {
         en: 'Each time a model in this unit makes a melee attack that targets an INFANTRY unit, that attack has the [DEVASTATING WOUNDS] ability.',
         ru: 'Каждый раз, когда модель отряда делает melee-атаку по отряду INFANTRY, атака получает [DEVASTATING WOUNDS].',

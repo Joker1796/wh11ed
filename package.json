@@ -31,6 +31,7 @@
     "detmeta": "node scripts/check-detachment-meta.mjs",
     "wtags": "node scripts/check-weapon-abilities.mjs",
     "dsrules": "node scripts/check-datasheet-rules.mjs",
+    "imgrules": "node scripts/check-image-rules.mjs",
     "coregrants": "node scripts/check-core-grants.mjs",
     "dsids": "node scripts/check-datasheet-ids.mjs",
     "dsids:write": "node scripts/check-datasheet-ids.mjs --write",

@@ -302,7 +302,7 @@
     "wg:zephyrim-squad:power weapon": "22749a34-cb04-47a6-8cf0-8018dea2fce0"
   },
   "adeptus-custodes": {
-    "armyrule:martial ka'tah": "cde884b9-4635-4974-a931-f33162d53c3c",
+    "armyrule:martial ka'tah": "6b8c2838-343c-4cd7-b270-d2a184e6746f",
     "cparmyrule:martial ka'tah": "cde884b9-4635-4974-a931-f33162d53c3c",
     "cpdet:fearless and unrelenting": "9c579f51-d8f2-461a-8a99-ec7deace8303",
     "cpds:gilded-blades-allarus-custodians": "6b79f067-c2ba-4e3e-bd59-d2e056ef2383",
@@ -524,7 +524,7 @@
     "wg:witchseekers:witchseeker flamer": "c4d87d1f-410a-4f5b-888b-664fa1184303"
   },
   "adeptus-mechanicus": {
-    "armyrule:doctrina imperatives": "94eb8c9d-a20e-4851-903e-459df9d80a22",
+    "armyrule:doctrina imperatives": "53a34500-653b-4767-ac3b-c23a2c84c383",
     "cparmyrule:doctrina imperatives": "94eb8c9d-a20e-4851-903e-459df9d80a22",
     "cpdet:imperative overload": "13aa8e3b-3095-4a81-9597-c186a14a2318",
     "cpds:manipulus-skand": "955658b5-7c00-4211-9ad0-6e72b6a11e22",
@@ -804,7 +804,7 @@
     "wg:thulia-ghuld:rod of the war forge - sweep": "f1e53364-9ddd-414a-9656-0325b1f15add"
   },
   "aeldari": {
-    "armyrule:battle focus": "6727344a-cbbc-4ce3-972b-221a4daeb484",
+    "armyrule:battle focus": "9b1c52a7-b92c-4d1c-86bc-e0031899d63c",
     "cparmyrule:battle focus": "6727344a-cbbc-4ce3-972b-221a4daeb484",
     "cpdet:graceful warriors": "e2abadaf-e69a-46af-aa29-a58999f1626e",
     "cpds:kygharils-protectors-dire-avengers": "a73e601d-1ccf-42b5-bb19-a1435979f5f6",
@@ -1392,7 +1392,7 @@
     "wg:yvraine:storm of whispers": "e31be57f-f076-4e41-9533-ca18ae8b99d3"
   },
   "astra-militarum": {
-    "armyrule:voice of command": "5d548374-a6a2-4f5c-bbbe-fdd85a0ac383",
+    "armyrule:voice of command": "1a356af1-830d-41dc-98c2-e3da02b19021",
     "cparmyrule:voice of command": "5d548374-a6a2-4f5c-bbbe-fdd85a0ac383",
     "cpdet:experienced veterans": "1c9a0b9b-a1c2-449f-a79f-c054fd9b6908",
     "cpds:draydens-lance-attilan-rough-riders": "326290d1-089a-4bb4-bf43-3a71872d1357",
@@ -2115,7 +2115,7 @@
     "wg:wyvern:wyvern quad stormshard mortar": "7f49d27d-e4f7-45b7-9041-ef79e0bda49f"
   },
   "black-templars": {
-    "armyrule:templar vows": "8e6d6b91-009d-47d1-81d7-390c60556cb3",
+    "armyrule:templar vows": "f4c13fe5-b2c6-49d9-a532-d4cdc71e2094",
     "cparmyrule:templar vows": "369dfb5d-73fa-4385-ae1a-b5b355c66b57",
     "cpdet:close-range destruction": "e7953cf2-eb05-483d-a194-62a4abb73764",
     "cpds:emperors-champion-vedrenn": "60d581a1-5162-42c1-9e12-447d031331b6",
@@ -2305,7 +2305,7 @@
     "wg:terminator-squad:storm bolter": "15cb7b56-d9d4-42c7-b6d0-d1864bb1539a"
   },
   "blood-angels": {
-    "armyrule:oath of moment & the sons of sanguinius": "381c95ee-f4d3-45ea-9676-91624b204f35",
+    "armyrule:oath of moment & the sons of sanguinius": "7f0d44f6-4306-40ec-b833-3cd80a3a001b",
     "cparmyrule:oath of moment & the sons of sanguinius": "381c95ee-f4d3-45ea-9676-91624b204f35",
     "cpdet:rapid manoeuvres": "3aa71320-ed3a-4168-ad83-22f520718198",
     "cpds:captain-raldeo": "553fb477-1c74-4f86-a96f-f630a56fcdad",
@@ -2976,7 +2976,7 @@
     "wg:war-dog-stalker:slaughterclaw": "d19fdcdb-2861-4c54-8218-6e7ef6952bc1"
   },
   "chaos-space-marines": {
-    "armyrule:dark pacts": "2a48b48d-4c98-479f-be11-754b83d5a47d",
+    "armyrule:dark pacts": "dad17732-a8a4-4d6c-8184-f6750803cd6a",
     "cparmyrule:dark pacts & cults of the dark gods": "52f083ef-a4de-4494-8f30-c27acfe538c6",
     "cpdet:abject fear": "dac96ed0-397c-4309-86fc-250a71b82842",
     "cpds:aranis-zarkan": "48a7aeb4-9e52-46c1-a82e-bbf28ec96312",
@@ -3569,7 +3569,7 @@
     "wg:chaos-warlord-titan:warlord feet": "b7419726-c004-405f-9e6f-e1b88466e6ef"
   },
   "dark-angels": {
-    "armyrule:oath of moment & the unforgiven": "b8a4f3f2-b846-4014-a51a-3f99bc5675a2",
+    "armyrule:oath of moment & the unforgiven": "6d92c543-274d-4d4e-8fda-30c645324bdc",
     "cparmyrule:oath of moment & the unforgiven": "b8a4f3f2-b846-4014-a51a-3f99bc5675a2",
     "cpdet:honoured knights": "4514bd9f-e01e-464e-b861-2341b7b493e4",
     "cpds:master-zacharial": "3a2bcb02-ddcd-49cf-b308-85e74a481eec",
@@ -3739,7 +3739,7 @@
     "wg:sammael:twin storm bolter": "99c1831f-ee00-497e-8fce-d7f529a87651"
   },
   "death-guard": {
-    "armyrule:nurgle's gift": "13ae6c92-101f-4e20-bcd7-1ea786034eeb",
+    "armyrule:nurgle's gift": "59635a2a-6196-4c29-8aef-2477563b0a7c",
     "cparmyrule:nurgle's gift (aura) & pact of decay": "13ae6c92-101f-4e20-bcd7-1ea786034eeb",
     "cpdet:creeping rot": "23c14859-d404-4a9e-88cb-ae67386a4551",
     "cpds:maggot-lords-chaos-rhino": "039e5e50-ab01-4e20-b8ec-32fc3c30986c",
@@ -4148,7 +4148,7 @@
     "wg:watch-master:vigil spear": "03e55197-ee10-45db-91ef-b4cf0b94cc75"
   },
   "drukhari": {
-    "armyrule:power from pain": "2be20b4e-78f6-41c5-b6e9-d4b3e91ff607",
+    "armyrule:power from pain": "a524d217-0fe8-4840-9011-f4720413213f",
     "cparmyrule:power from pain": "4e3676ea-791d-4b86-844d-c87af3eccd15",
     "cpdet:pain enlivens": "36b5f175-31ab-4b69-bc7f-af93606adbbe",
     "cpds:coven-of-agonies-cronos": "9f12eccf-4877-44a9-bffa-e87d2cfe831f",
@@ -4383,7 +4383,7 @@
     "wg:wyches:splinter pistol": "de2495b9-1715-406f-85aa-cc68cc4207f9"
   },
   "emperors-children": {
-    "armyrule:thrill seekers": "124ba177-6541-48e5-a2e7-5f8aff51f4c6",
+    "armyrule:thrill seekers": "52f7fbd2-9c88-4fd6-9157-e5cab522e256",
     "cparmyrule:thrill seekers": "0ac8a574-e840-4d44-965e-b245728e0895",
     "cpdet:nimble strikes": "3228b035-5ffb-4238-9a53-ae82e643e2fe",
     "cpds:callous-blades-flawless-blades": "4afabec4-3f10-4544-8e8c-692dc62811be",
@@ -4618,7 +4618,7 @@
     "wg:tormentors:rapture lash": "82e642b1-8fea-4881-8c61-976055d7f281"
   },
   "genestealer-cults": {
-    "armyrule:cult ambush": "b215da49-9530-4c1f-967b-6c4cb3435518",
+    "armyrule:cult ambush": "9bacf5d4-bc83-4211-86ad-35433875eedf",
     "cparmyrule:cult ambush": "b215da49-9530-4c1f-967b-6c4cb3435518",
     "cpdet:xenos resilience": "cb4afa4e-8fe8-454b-b168-9255b69cebf6",
     "cpds:claw-of-ascension-achilles-ridgerunner": "489511ea-4f58-4986-955a-d9754ae4912f",
@@ -4823,7 +4823,7 @@
     "wg:sanctus:sanctus bio-dagger": "655a4160-ef1a-4761-a531-73f3bc66c337"
   },
   "grey-knights": {
-    "armyrule:gate of infinity": "1ca687d3-9012-4468-ae84-59870209dc37",
+    "armyrule:gate of infinity": "bb4413ae-5272-45f1-9fdf-93f8a9570ca6",
     "cparmyrule:gate of infinity": "1ca687d3-9012-4468-ae84-59870209dc37",
     "cpdet:strike from the warp": "d29cc3d4-6517-455e-a577-4dffc1e50004",
     "cpds:crowes-sanctifiers-brotherhood-terminator-squad": "d8229de5-bd8a-4f51-9e53-840621bbb090",
@@ -5093,7 +5093,7 @@
     "wg:venerable-dreadnought:twin lascannon": "5a97b1c7-565a-4d6c-be51-5e8fe08d6c34"
   },
   "imperial-agents": {
-    "armyrule:assigned agents": "82ad414b-e19f-4a6a-be1a-5ce96e420d21",
+    "armyrule:assigned agents": "d7b4a194-4fa5-427c-9015-e2423dda2d80",
     "cparmyrule:assigned agents": "82ad414b-e19f-4a6a-be1a-5ce96e420d21",
     "cpdet:marked for death": "b43cf4e2-b7be-491a-809a-5c2e9ae36723",
     "cpds:inquisitors-hand-eversor-assassin": "032a8316-2dcb-47af-854c-649afa4d76a8",
@@ -5619,7 +5619,7 @@
     "wg:sir-hekhtur:hekhtur's pistol": "0d172a32-3006-44a3-863f-6a260d613725"
   },
   "leagues-of-votann": {
-    "armyrule:prioritised efficiency": "f9aa12c0-37ad-4cbd-ad9f-d93f664dffa5",
+    "armyrule:prioritised efficiency": "a23f8bdf-5c65-4c96-90b6-1b93696cc5f3",
     "cparmyrule:prioritised efficiency": "f9aa12c0-37ad-4cbd-ad9f-d93f664dffa5",
     "cpdet:secure resources": "f76d8bcd-47a6-4d62-98c5-8afb522864e2",
     "cpds:bane-slayers-bulwark-brokhyr-thunderkyn": "a9dcd736-3282-4f25-9299-9c58600bccb7",
@@ -5855,7 +5855,7 @@
     "wg:thar-the-destined:volkanite disintegrator": "0d6d8ffa-4b59-4e9d-be48-79edc35f841d"
   },
   "necrons": {
-    "armyrule:reanimation protocols": "79f3929d-4489-4a4d-b948-f11513b3c5de",
+    "armyrule:reanimation protocols": "53e958bd-5fb3-4297-9dfc-5369ebb7ef55",
     "cparmyrule:reanimation protocols": "79f3929d-4489-4a4d-b948-f11513b3c5de",
     "cpdet:territorial imperatives": "4077647f-9af3-4900-a123-2b7fabb66454",
     "cpds:amonhotekhs-guard-canoptek-doomstalker": "f941e3b8-cc03-4db7-bd99-c83c68cd528f",
@@ -6172,7 +6172,7 @@
     "wg:triarch-stalker:stalker's forelimbs": "e3ace0ff-c288-432a-8015-5a5f2ec3bb1a"
   },
   "orks": {
-    "armyrule:waaagh!": "72023bfc-ddd1-44b3-8d14-0d601f5a43b4",
+    "armyrule:waaagh!": "4b9740d7-8c4b-43d4-8863-18fe9170314e",
     "cparmyrule:waaagh!": "72023bfc-ddd1-44b3-8d14-0d601f5a43b4",
     "cpdet:'ard as nails": "c369b4d5-3836-464e-8aed-385307ae369f",
     "cpds:ardmob-boyz": "63cdcf67-14f9-4233-94eb-e9fc83540fc4",
@@ -7562,7 +7562,7 @@
     "wg:whirlwind:whirlwind vengeance launcher": "857b8613-9c09-43b4-8131-a88340ad8a97"
   },
   "space-wolves": {
-    "armyrule:oath of moment & curse of the wulfen": "1710499e-3656-4246-9978-65bf43c4c140",
+    "armyrule:oath of moment & curse of the wulfen": "08495da5-1b4e-4e91-85bc-421781c6d697",
     "cparmyrule:oath of moment & curse of the wulfen": "1710499e-3656-4246-9978-65bf43c4c140",
     "cpdet:hidden hunters": "a10b4bf6-495d-4dd1-969c-d3a27709ea27",
     "cpds:askars-wolfpack-blood-claws": "a3304419-ee30-4968-82f4-a0ab449ec6b7",
@@ -7751,7 +7751,7 @@
     "wg:wulfen:wulfen weapons": "2de611f0-3bee-45c8-9847-403ac6cafc96"
   },
   "tau-empire": {
-    "armyrule:for the greater good": "bb8da155-0303-4f4a-a3a2-167a82ad3f97",
+    "armyrule:for the greater good": "36cc4fa4-cc15-41f2-9d47-14e2550579ea",
     "cparmyrule:drones": "f601afd5-17dd-4110-bd95-ad2a8da3959e",
     "cpdet:co-ordinated eradication": "2663b47b-9e46-4b63-8258-7c21f66ac03d",
     "cpds:commander-cloudspear": "3efc2692-f642-4d8c-894b-e6f804ac5c0c",
@@ -8096,7 +8096,7 @@
     "wg:vespid-stingwings:t'au flamer": "f08aa7f1-5150-4ec5-965b-c13d82498245"
   },
   "thousand-sons": {
-    "armyrule:cabal of sorcerers": "166fb00a-fa76-4b86-913c-7a0c6a8be9d4",
+    "armyrule:cabal of sorcerers": "c7c41366-2625-4d4b-87a9-9b53d67572d0",
     "cparmyrule:cabal of sorcerers & pact of sorcery": "166fb00a-fa76-4b86-913c-7a0c6a8be9d4",
     "cpdet:committed to the ritual": "7f2a8706-db85-4fe3-837b-f8e95980f4a7",
     "cpds:kaaskrek": "b47da58a-6720-499d-921f-53e0013c280c",
@@ -8428,7 +8428,7 @@
     "wg:warlord-titan:warlord feet": "b7419726-c004-405f-9e6f-e1b88466e6ef"
   },
   "tyranids": {
-    "armyrule:synapse & shadow in the warp": "d4bfc810-d54c-4627-a148-c9d90d72424b",
+    "armyrule:synapse & shadow in the warp": "96fc8e70-8686-4e12-be1e-2eec1632888f",
     "cparmyrule:synapse & shadow in the warp": "d4bfc810-d54c-4627-a148-c9d90d72424b",
     "cpdet:skittering hordes": "f8ac8c58-dd54-4a01-93a2-afee8fd1b55a",
     "cpds:terror-of-vardenghast": "c56659e2-3b41-4d80-90d2-1ef97f8c542d",
@@ -8721,7 +8721,7 @@
     "wg:zoanthropes:warp blast - witchfire": "c8fa22bf-606e-4d43-8489-6db88be6e6e7"
   },
   "world-eaters": {
-    "armyrule:blessings of khorne": "1cd5e4a2-6e59-4213-bca8-d2bc680bd681",
+    "armyrule:blessings of khorne": "1e87eaec-e83c-4dab-849d-e191dacd3988",
     "cparmyrule:blessings of khorne": "1cd5e4a2-6e59-4213-bca8-d2bc680bd681",
     "cpdet:berzerker charge": "b05a886f-004a-4c1d-87a5-30d92a81a35d",
     "cpds:frenzied-reavers-jakhals": "23c25ac0-a399-48f5-8d99-ce63494ca4c5",

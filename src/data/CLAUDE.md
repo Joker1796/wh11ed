@@ -228,6 +228,16 @@ September even though `sync-core` printed it on every run — one finding among 
   the Daemon Primarchs, whose SUPREME COMMANDER sits in `specialAbilities`, and "fixing" those
   duplicated the plate on all four sheets.
 
+- **`npm run imgrules`** (`scripts/check-image-rules.mjs`) — some army and detachment rules draw
+  their figures as PICTURES (Death Guard's three Contagion Range steps, the World Eaters Blessings'
+  dice, battle-size tables, T'au drone weapon profiles), and the only text is the image's `altText`.
+  Every prose diff reads `text` components and skips images, so on 2026-09-25 a player — not a check
+  — found Contagion Range stopping at 6" instead of going to 9" from round 3. The gate reads every
+  image altText of a non-Combat-Patrol rule and requires its numbers, `double/triple N` and
+  `any double/triple` in our text of that rule (number words and ordinals read as digits). A
+  tracker spec that repeats such a figure (`armyTrackers/*`) is held to the rule text by
+  `armyTrackers.test.js`.
+
 - **`npm run coregrants`** (`scripts/check-core-grants.mjs`) — a rule whose prose hands a unit one
   of the twelve grantable CORE abilities ("this unit has Stealth", "models in that unit have the
   Feel No Pain 6+ ability") must carry a `stat: 'core'` grant in `src/data/rosterModifiers/`, so the

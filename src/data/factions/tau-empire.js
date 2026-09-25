@@ -37,7 +37,8 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
 ▪ **Guardian Drone:** Each time a model makes a ranged attack that targets the bearer’s unit, subtract 1 from the Wound roll.
 ▪ **Marker Drone:** The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn.
 ▪ **Shield Drone:** Add 1 to the bearer’s Wounds characteristic.
-▪ **Gun Drone / Missile Drone:** The bearer is equipped with the drone’s ranged weapon (see that model’s own wargear).`,
+▪ **Gun Drone:** The bearer is equipped with the following ranged weapon: **Twin pulse carbine** [ASSAULT, TWIN-LINKED] — Range 20", A 2, BS 5+, S 5, AP 0, D 1.
+▪ **Missile Drone:** The bearer is equipped with the following ranged weapon: **Missile pod** — Range 30", A 2, BS 5+, S 7, AP -1, D 2.`,
   },
 
   detachments: [

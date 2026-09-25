@@ -106,6 +106,7 @@ npm run parity       # GATE: EN↔RU parity — factions, rulebook, datasheets, 
 npm run detmeta      # GATE: a faction page's detachment dp / Force Disposition vs the MFM (see Data gates)
 npm run wtags        # GATE: every weapon tag printed on a datasheet must have text somewhere (see Data gates)
 npm run dsrules      # GATE: a named rule appdata files on a datasheet must be on ours too (see Data gates)
+npm run imgrules     # GATE: a figure appdata draws as a picture inside an army/detachment rule must be in our text (see Data gates)
 npm run coregrants   # GATE: a rule that hands a unit a core ability must say so in the modifier layer (see Data gates)
 npm run dsids        # GATE: a datasheet id that left the build must be recorded as renamed or retired — a player's marks hang off it (see src/data/CLAUDE.md)
 npm run emphasis     # GATE: emphasis the canon carries that our prose dropped (see Data gates)

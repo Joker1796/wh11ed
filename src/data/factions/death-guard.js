@@ -33,7 +33,8 @@ const en = {
 ### Contagion Range
 Contagion Range changes over the course of the battle:
 ▪ **During the first battle round:** Contagion Range 3".
-▪ **Second battle round onwards:** Contagion Range 6".
+▪ **During the second battle round:** Contagion Range 6".
+▪ **Third battle round onwards:** Contagion Range 9".
 ▪ Contagion Range cannot be greater than 12" after modifiers.
 
 ### Afflicted

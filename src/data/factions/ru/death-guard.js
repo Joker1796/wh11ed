@@ -125,7 +125,8 @@ export default {
 ### Contagion Range | Дистанция заразы
 Contagion Range меняется по ходу битвы:
 ▪ **В течение первого раунда боя:** Contagion Range 3".
-▪ **Со второго раунда боя:** Contagion Range 6".
+▪ **В течение второго раунда боя:** Contagion Range 6".
+▪ **С третьего раунда боя:** Contagion Range 9".
 ▪ Contagion Range не может быть больше 12" после модификаторов.
 
 ### Afflicted | Поражённые

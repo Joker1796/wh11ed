@@ -3,7 +3,8 @@
 // A `selection` primitive with `once: true` (reusing the Black Templars battle-long pick): during
 // Declare Battle Formations you choose one Plague, active for the whole game — stored once
 // (army.choice), not per round. On top of that, this rule has a value that ESCALATES by battle round
-// (Contagion Range: 3" in round 1, 6" from round 2), which no other primitive tracks — so the spec
+// (Contagion Range: 3" in round 1, 6" in round 2, 9" from round 3 — the codex's three steps; the
+// Combat Patrol box prints only the first two), which no other primitive tracks — so the spec
 // carries a `roundReadout` (round → display value) the card surfaces above the choice.
 //
 // Contagion Range / Afflicted / Plague and the Plague names stay English (matching the RU faction
@@ -21,8 +22,8 @@ export default {
   // any other round uses `fallback`. Values are language-agnostic strings; label/note localize.
   roundReadout: {
     label: 'Contagion Range',
-    byRound: { 1: '3"' },
-    fallback: '6"',
+    byRound: { 1: '3"', 2: '6"' },
+    fallback: '9"',
     note: { en: 'max 12" after modifiers', ru: 'максимум 12" после модификаторов' },
   },
 

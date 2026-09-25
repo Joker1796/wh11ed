@@ -36,7 +36,7 @@ npm test && npm run lint && npm run build
 ```
 
 Если трогались данные правил — дополнительно то, что относится к правке: `npm run parity`,
-`npm run sync`, `npm run detmeta`, `npm run wtags`, `npm run dsrules`, `npm run imghash`.
+`npm run sync`, `npm run detmeta`, `npm run wtags`, `npm run dsrules`, `npm run imgrules`, `npm run imghash`.
 Подробности в `src/data/CLAUDE.md` → Data gates.
 
 ## 4. Деплой

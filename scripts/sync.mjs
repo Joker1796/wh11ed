@@ -30,6 +30,8 @@
 //     [PLASMA WARHEAD], …) must have text either in reference.js or on that datasheet. Non-zero exit
 //   - check-datasheet-rules — GATE: a named rule appdata files on a datasheet (SUPREME COMMANDER,
 //     "Using Sir Hekhtur", …) must be carried somewhere on wh11ed's sheet. Non-zero exit
+//   - check-image-rules — GATE: a figure appdata draws as a PICTURE inside an army/detachment rule
+//     (its altText — Contagion Range 9", a Blessing's triple) must be in our text. Non-zero exit
 //   - check-core-grants — GATE: a rule whose prose hands a unit a CORE ability must say so in the
 //     modifier layer, so the roster card prints it on its Core line. Non-zero exit
 //   - check-datasheet-ids — GATE: a datasheet id that left the build must be recorded as renamed
@@ -152,6 +154,7 @@ const omissionsFailed = await run('check-rule-omissions (GATE)', './check-rule-o
 const detMetaFailed = await run('check-detachment-meta (GATE)', './check-detachment-meta.mjs')
 const wTagsFailed = await run('check-weapon-abilities (GATE)', './check-weapon-abilities.mjs')
 const dsRulesFailed = await run('check-datasheet-rules (GATE)', './check-datasheet-rules.mjs')
+const imgRulesFailed = await run('check-image-rules (GATE)', './check-image-rules.mjs')
 const coreGrantsFailed = await run('check-core-grants (GATE)', './check-core-grants.mjs')
 const dsIdsFailed = await run('check-datasheet-ids (GATE)', './check-datasheet-ids.mjs')
 const emphasisFailed = await run('check-emphasis (GATE)', './check-emphasis.mjs')
@@ -186,6 +189,7 @@ if (omissionsFailed) console.log('✗ core rules are MISSING appdata text — se
 if (detMetaFailed) console.log('✗ a faction rules page disagrees with the MFM on dp / Force Disposition (`npm run detmeta`).')
 if (wTagsFailed) console.log('✗ a weapon tag on a datasheet has no text anywhere (`npm run wtags`).')
 if (dsRulesFailed) console.log('✗ a datasheet rule appdata prints is missing from ours (`npm run dsrules`).')
+if (imgRulesFailed) console.log('✗ a figure appdata prints as a picture is missing from our rule text (`npm run imgrules`).')
 if (coreGrantsFailed) console.log('✗ a rule grants a core ability the modifier layer does not carry (`npm run coregrants`).')
 if (dsIdsFailed) console.log('✗ a datasheet id moved with nothing said about it — a player\'s marks hang off it (`npm run dsids`).')
 if (emphasisFailed) console.log('✗ prose dropped emphasis the canon carries (`npm run emphasis`).')

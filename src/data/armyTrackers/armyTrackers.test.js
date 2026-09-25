@@ -125,11 +125,12 @@ describe('resolveArmyTracker', () => {
     expect(spec.options).toHaveLength(3)
     const en = localizeArmyTracker(spec, 'en')
     const ru = localizeArmyTracker(spec, 'ru')
-    // The readout label is an English game term; its note is translated. Round 1 = 3", later = 6".
+    // The readout label is an English game term; its note is translated. Round 1 = 3", round 2 = 6", later = 9" (the codex's three steps).
     expect(en.roundReadout.label).toBe('Contagion Range')
     expect(ru.roundReadout.label).toBe('Contagion Range')
     expect(en.roundReadout.byRound[1]).toBe('3"')
-    expect(en.roundReadout.fallback).toBe('6"')
+    expect(en.roundReadout.byRound[2]).toBe('6"')
+    expect(en.roundReadout.fallback).toBe('9"')
     expect(en.roundReadout.note).not.toEqual(ru.roundReadout.note)
     // Plague names stay English in both locales; the effect text is translated.
     expect(ru.options[0].name).toBe('Skullsquirm Blight')
@@ -147,7 +148,7 @@ describe('resolveArmyTracker', () => {
     expect(en.options[0].name).toBe('Unbridled Bloodlust')
     expect(ru.options[0].name).toBe('Unbridled Bloodlust')
     expect(en.options[0].req).toBe('Double 1+')
-    expect(en.options[5].req).toBe('Double 6')
+    expect(en.options[5].req).toBe('Double 6 / Triple 3+')
     // Rules text is translated; the eight-dice/two-blessing note carries the mechanic.
     expect(en.options[0].body).not.toEqual(ru.options[0].body)
     expect(en.note).toMatch(/eight D6/)
@@ -223,5 +224,33 @@ describe('localizeArmyTracker', () => {
     expect(typeof en.threshold.below.body).toBe('string')
     expect(en.threshold.below.body).not.toEqual(ru.threshold.below.body)
     expect(en.threshold.atOrAbove.body).toMatch(/Hit roll/)
+  })
+})
+
+// A spec repeats figures from its faction's army rule (it never imports faction data — see the spec
+// headers), so nothing kept the two together: on 2026-09-25 a player found the Death Guard card
+// saying 6" from round 2 on, when the codex goes to 9" from round 3. Every figure a spec shows must
+// be in the army rule it condenses.
+describe('tracker figures agree with the army rule', () => {
+  const armyRuleBody = async (slug) => {
+    const mod = await import(`../factions/${slug}.js`)
+    return Object.values(mod)[0].en.armyRule.body.toLowerCase().replace(/\*\*/g, '')
+  }
+
+  // The same SET both ways — "every value shown is in the rule" alone let a card that stopped at 6"
+  // pass, because 6" is in the rule too.
+  it('Death Guard: the card shows exactly the Contagion Range steps of Nurgle’s Gift', async () => {
+    const body = await armyRuleBody('death-guard')
+    const steps = [...body.matchAll(/contagion range (\d+")/g)].map((m) => m[1])
+    const { byRound, fallback } = resolveArmyTracker('death-guard').roundReadout
+    expect([...Object.values(byRound), fallback]).toEqual(steps)
+  })
+
+  it('World Eaters: every dice requirement the picker shows is in Blessings of Khorne', async () => {
+    const body = await armyRuleBody('world-eaters')
+    for (const o of resolveArmyTracker('world-eaters').options) {
+      const printed = body.match(new RegExp(`${o.name.toLowerCase()} \\(([^)]*)\\)`))?.[1]
+      expect(printed, o.name).toBe(o.req.toLowerCase().replace(' / ', ' or '))
+    }
   })
 })

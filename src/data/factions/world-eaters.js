@@ -33,9 +33,9 @@ const en = {
 ▪ **Unbridled Bloodlust (Double 1+):** This unit has +1 to Charge rolls.
 ▪ **Rage-Fuelled Invigoration (Double 2+):** Each time a model in this unit makes a Pile-in or Consolidation move, it can move up to 6" instead of up to 3".
 ▪ **Total Carnage (Double 3+):** Each time a model in this unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.
-▪ **Martial Excellence (Double 4+):** Melee weapons equipped by models in this unit have the [SUSTAINED HITS 1] ability.
-▪ **Warp Blades (Double 5+):** Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.
-▪ **Decapitating Strikes (Double 6):** Each time a model in this unit makes a melee attack that targets an INFANTRY unit, that attack has the [DEVASTATING WOUNDS] ability.`,
+▪ **Martial Excellence (Double 4+ or any Triple):** Melee weapons equipped by models in this unit have the [SUSTAINED HITS 1] ability.
+▪ **Warp Blades (Double 5+ or Triple 2+):** Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.
+▪ **Decapitating Strikes (Double 6 or Triple 3+):** Each time a model in this unit makes a melee attack that targets an INFANTRY unit, that attack has the [DEVASTATING WOUNDS] ability.`,
   },
 
   detachments: [

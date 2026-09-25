@@ -62,7 +62,13 @@ async function mapFaction(slug, cp, stats) {
   // Army rule (wh11ed keeps one combined rule; take the closest-named appdata army rule).
   if (en.armyRule) {
     const want = (en.armyRule.name || '').toLowerCase()
-    const hit = (bundle.armyRules || []).find((a) => want.includes(norm(a.name)) || norm(a.name).includes(want))
+    // Never a Combat Patrol box's copy of the rule: those are bound separately (`cparmyrule:`
+    // below), and a box can print a shorter version — Death Guard's Maggot Lords carries the
+    // Contagion Range without its codex's 9" step, and binding the faction to it let the text
+    // sync compare against the wrong rule (a player found it, 2026-09-25).
+    const hit = (bundle.armyRules || [])
+      .filter((a) => !cp.armyRuleIds.has(a.id))
+      .find((a) => want.includes(norm(a.name)) || norm(a.name).includes(want))
     record(`armyrule:${norm(en.armyRule.name)}`, hit?.id)
   }
 
