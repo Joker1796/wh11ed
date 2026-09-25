@@ -460,6 +460,9 @@ async function copyName() {
 /* Single-model base size (⌀50mm) to the right of the unit name on the header plate. */
 
 .ds-title-name { font-size: 2rem; }
+/* Tight lines on both: the name's own rows sit close (display caps have no descenders to make
+   room for), and a wrapped base size hugs the row above it. */
+.ds-title, .ds-title-name { line-height: 1.05; }
 .ds-title-base {
   margin-left: 0.45rem;
   font-family: var(--font-sans);
