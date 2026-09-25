@@ -466,12 +466,12 @@ import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterEditing } from '../../composables/useRosterEditing.js'
-import { useRosterUndo } from '../../composables/useRosterUndo.js'
+import { useRosterBuildActions } from '../../composables/useRosterBuildActions.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
-import { ROSTER_NOTES_MAX, dispositionCandidates, pointsLeftLabel } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX, pointsLeftLabel } from '../../composables/rosterEngine.js'
 import { setupIssueCount } from '../../composables/rosterValidation.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
@@ -540,7 +540,7 @@ function discardEdits() {
 // useRosterDerived.js, the same answers the wizard and the read-only view get.
 const {
   roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
-  addUnit, duplicateUnit, dirty, changedParts, revertEdits,
+  dirty, changedParts, revertEdits,
   slugFor, entryMeta, groupedUnits, attachRole, dupBlocked, fieldProps,
 } = useRosterEditing(() => route.params.id)
 
@@ -572,50 +572,21 @@ const editorModes = computed(() => [
   { key: 'units', label: labels.value.rosterViewTabUnits, icon: 'bi bi-layout-split', warn: '' },
 ])
 
-const detachmentOptions = computed(() =>
-  (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: d.fd || '' })))
-const detachmentSummary = computed(() => (roster.value?.detachments || []).join(', '))
-const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
-const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
+// ── What building a list does (useRosterBuildActions.js — the wizard runs the same code) ──
+const {
+  factionPickerOpen, detachmentPickerOpen, pickFaction,
+  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, toggleDetachment, clearDetachments,
+  openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
+  undoable, undoRemove, dismissUndo, battleSizes,
+} = useRosterBuildActions({
+  roster: () => roster.value,
+  factionData,
+  curDetachments,
+  defOf,
+  commit: touch,
+  setFaction: (slug) => { roster.value.faction = slug },
+})
 
-const battleSizes = rosterCore.battleSizes
-
-function pickFaction(slug) {
-  factionPickerOpen.value = false
-  if (roster.value.faction === slug) return
-  roster.value.faction = slug
-  roster.value.detachments = []
-  roster.value.units = [] // units belong to a faction — changing it invalidates them
-  openUid.value = null
-  touch()
-}
-// Multi-select: toggle a detachment name in/out (what the budget allows is decided by the
-// picker, which offers nothing a tap could not do).
-function toggleDetachment(d) {
-  const list = roster.value.detachments
-  const at = list.indexOf(d.name)
-  if (at >= 0) list.splice(at, 1)
-  else list.push(d.name)
-  dropOrphanEnhancements()
-  touch()
-}
-
-// Enhancements belong to a detachment — an entry carrying one the list no longer fields keeps a
-// name nothing resolves, so it is dropped whenever the selection changes.
-function dropOrphanEnhancements() {
-  const names = new Set(roster.value.detachments)
-  for (const u of roster.value.units) {
-    if (u.enh && !curDetachments.value.some((det) => names.has(det.name) && det.enhancements.some((e) => e.name === u.enh))) delete u.enh
-  }
-}
-
-// Starting over: the picker offers only what can be taken, so with a spent budget this is the way
-// back to the whole list.
-function clearDetachments() {
-  roster.value.detachments.splice(0)
-  dropOrphanEnhancements()
-  touch()
-}
 // A note is the one field here that keeps its own line breaks, so it is written straight rather
 // than through rosterEngine's single-line `setNote` — only the length cap is shared.
 function setNotes(v) {
@@ -629,33 +600,6 @@ function setCustomPoints(v) { roster.value.customPoints = Math.max(0, Number(v) 
 function setCheckLegality(v) { roster.value.checkLegality = v; touch() }
 function setDisposition(fd) { roster.value.disposition = fd; touch() }
 
-// ── Units (added/removed on the Units tab) ──
-const factionPickerOpen = ref(false)
-const detachmentPickerOpen = ref(false)
-
-// ── Loadout tab: only one tile's fields open at a time (classic accordion) ──
-const openUid = ref(null)
-function toggleOpen(entryUid) {
-  openUid.value = openUid.value === entryUid ? null : entryUid
-}
-// The entry the desk's third column belongs to. Same `openUid` the accordion uses — one idea of
-// "the unit being worked on", whichever arrangement is showing it.
-const openEntry = computed(() => roster.value?.units.find((u) => u.uid === openUid.value) || null)
-
-// Delete ONE line, not "a copy of this datasheet": two of the same unit are configured separately,
-// so the row's own uid is what goes. It goes through useRosterUndo, which keeps the ticket that
-// puts it back — including the Leader that had to let go of it (rosterEngine's takeUnitEntry).
-const { undoable, removeWithUndo, undoRemove, dismissUndo } = useRosterUndo(() => roster.value?.units || [], touch)
-function removeEntry(entry) {
-  if (openUid.value === entry.uid) openUid.value = null
-  removeWithUndo(entry.id, entry.uid, defOf(entry.id)?.name || '')
-}
-
-// A configured copy, right under its original (rosterEngine's duplicateUnitEntry). Its accordion
-// stays shut: a copy is wanted AS the original far more often than not, and opening it would push
-// the row that was just tapped off the screen.
-function duplicateEntry(entry) { duplicateUnit(entry.uid) }
-
 // An issue that concerns one specific entry sends the reader here
 // (`?unit=<uid>`) — open that unit's accordion and drop the query so a reload doesn't reopen it.
 // Declared AFTER `openUid`: an immediate watcher runs during setup, and referencing a `const`
@@ -666,14 +610,6 @@ watch(() => route.query?.unit, (uid) => {
   openUid.value = String(uid)
   if (route.path) router.replace({ path: route.path })
 }, { immediate: true })
-function toggleWarlord(entryUid) {
-  const e = roster.value.units.find((u) => u.uid === entryUid)
-  if (!e) return
-  const on = e.warlord === true
-  for (const u of roster.value.units) delete u.warlord // exactly one warlord per army
-  if (!on) e.warlord = true
-  touch()
-}
 const issuesOpen = ref(false)
 const exportOpen = ref(false)
 

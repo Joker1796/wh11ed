@@ -603,6 +603,20 @@ Its consumers and what each takes: `RosterEditorView` (through `useRosterEditing
 snapshot), `RosterPrintSheet` (its props, renaming `curDetachments` to `dataDetachments` because
 that component also takes a `detachments` PROP carrying the PROSE ones).
 
+**What a player DOES while building is `useRosterBuildActions.js`** (2026-09-25), the write-side
+twin of this module for the two building screens: pick the faction and the detachments (dropping
+enhancements whose detachment left the list), add/copy/remove a line through `useRosterUndo`, the
+Warlord, the open entry. Same getter-over-a-shape idea, plus two hooks — `commit()` (the editor
+bumps `updatedAt`, the wizard writes units through to its draft) and `setFaction()` (a stored
+property vs the wizard's ref). The arrays are mutated in place, never replaced: both screens hold
+them by identity. It exists because the copies drifted — the wizard never dropped an orphaned
+enhancement and then reported it as an error for the player to clear.
+
+**Loading the faction is `useRosterFactionData.js`** — `useRosterFactionData(slug, { allies })`
+for the compact roster data, `useRosterFactionRules(slug, locale, { when })` for the rules bundle
+(the view's Rules/Stratagems tabs, the print sheet, the rules panel). Both keep a response only if
+no newer request started after it; before, only the print sheet had that guard.
+
 The faction ACCENT went the same way — `useFactionAccent.js`, a slug in and `--fa-light`/`--fa-dark`
 out, shared by the three roster screens and `FactionAccentScope`. What `--accent` means inside each
 screen stays that screen's scoped CSS; only the lookup is shared.
@@ -1210,8 +1224,8 @@ show yet, or not; not ours to guess.
   second half that is easy to forget: a Leader attached to the departing unit has to let go of it.
   The creation wizard's own copy did forget it. `takeUnitEntry` hands back a plain-data TICKET (the
   entry, the index it stood at, the attachments it broke) and `restoreUnitEntry` spends it — which
-  is what `useRosterUndo` holds while its bar is up. `useRosterEditing` and `RosterCreateView` both
-  go through these; a screen that writes to `roster.units` any other way is a bug waiting to be
+  is what `useRosterUndo` holds while its bar is up. `useRosterBuildActions` (both building
+  screens) goes through these; a screen that writes to `roster.units` any other way is a bug waiting to be
   reported as "my leader is attached to nothing".
 - **`capKeyOf(def)`** (`rosterEngine.js`) — the identity a unit's duplicate cap
   (`duplicateLimit`) is grouped by. Defaults to the datasheet's own `id`; an optional `charId`
@@ -1369,12 +1383,9 @@ instead needs a height calculation that every one of those bars is free to inval
 **The catalogue no longer takes focus on mount.** Autofocusing its search box was right while it
 had a screen to itself; as a pane it would pop the keyboard over the list the reader came to see.
 
-`src/composables/useRosterEditing.js` still holds the editor's state — the roster, its faction
-data, add and duplicate. It was written to keep the editor and the add-units page from each having
-their own idea of what adding a unit means; with the catalogue folded in it has one consumer, and is
-kept because the wizard performs the same operations on a roster it does not own. The
-implementations underneath (`rosterEngine`'s `addUnitEntry` / `duplicateUnitEntry`) are what
-actually keep the two screens agreeing. **Removal is not here**: both screens take a unit out
+`src/composables/useRosterEditing.js` holds the editor's state — the roster by id, its faction
+data, and Cancel's baseline. The operations (add, copy, remove, detachments) are
+`useRosterBuildActions.js`, which the wizard calls too (see Shared derivations). Removal goes
 through `useRosterUndo` (below), so the one path that destroys work is also the one that can put it
 back.
 
@@ -1390,7 +1401,7 @@ offer dies on unmount. The bar stacks above everything else fixed to that corner
 bottom-nav, `--roster-sticky-h`, `--mobile-bar-h`, then it.
 
 **What it merely READS off the roster is `useRosterDerived.js`** (see Shared derivations above):
-it is a thin wrapper adding the load-by-id and the mutations on top.
+it is a thin wrapper adding the load-by-id and Cancel on top.
 
 An issue raised from the catalogue concerns one entry, which is now in the pane beside it — the
 issues modal just opens that entry's configuration. The editor still accepts `?unit=<uid>` and

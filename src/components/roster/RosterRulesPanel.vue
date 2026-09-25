@@ -190,12 +190,13 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, ref, shallowRef, watch } from 'vue'
+import { computed, defineAsyncComponent, ref } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
-import { loadRosterFactionRules, normName } from '../../composables/rosterFactionRules.js'
+import { normName } from '../../composables/rosterFactionRules.js'
+import { useRosterFactionRules } from '../../composables/useRosterFactionData.js'
 
 // Rendered only once the data is in, i.e. only after the panel has been opened — so these two
 // travel with the faction bundle rather than with the builder's own chunk.
@@ -229,14 +230,7 @@ const detNames = computed(() => props.detachments.filter(Boolean))
 // Same loader the list's Rules tab and the print sheet use — a detachment carries its rule, its
 // stratagems and its enhancements together. Re-runs on a faction or locale change, but only while
 // the panel has been opened at least once: a closed panel shows nothing to re-load.
-const faction = shallowRef(null)
-const lookup = shallowRef(new Map())
-watch([open, () => props.factionSlug, locale], async ([isOpenNow, slug, loc]) => {
-  if (!isOpenNow || !slug) return
-  const res = await loadRosterFactionRules(slug, loc)
-  faction.value = res.faction
-  lookup.value = res.lookup
-}, { immediate: true })
+const { rulesFaction: faction, detachmentLookup: lookup } = useRosterFactionRules(() => props.factionSlug, locale, { when: () => open.value })
 
 // A list may name a detachment that lives in another file (a Chapter's, see the loader), which is
 // what the lookup is for; a name it cannot resolve simply has no fold.

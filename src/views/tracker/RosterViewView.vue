@@ -594,7 +594,7 @@ import { useRosters } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import rosterCore from '../../data/roster/core.js'
-import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
+import { rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
@@ -608,7 +608,8 @@ import { tracks } from '../../data/trackerOptions.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { memberAt } from '../../composables/rosterGameLink.js'
 import { phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
-import { loadRosterFactionRules, normName } from '../../composables/rosterFactionRules.js'
+import { normName } from '../../composables/rosterFactionRules.js'
+import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { loadHistory, rosterRecords } from '../../composables/gameStats.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
@@ -739,10 +740,7 @@ const viewTabs = computed(() => {
 const { accentStyle } = useFactionAccent(computed(() => roster.value?.faction))
 
 // ── Compact roster data (unit names/sizes/points), same lazy source the editor uses ──
-const factionData = ref(null)
-watch(() => roster.value?.faction, async (slug) => {
-  factionData.value = slug ? await loadRosterFaction(slug, { allies: usesAllies(roster.value) }) : null
-}, { immediate: true })
+const { factionData } = useRosterFactionData(() => roster.value?.faction, { allies: () => usesAllies(roster.value) })
 
 // Everything this screen reads off the pair — the unit lookup, the detachments in play, the battle
 // size, the pricing, the sectioning and the legality verdict — is useRosterDerived.js, so the list
@@ -1395,15 +1393,9 @@ const hasAttached = (entries, host) => !host.leaderOf && (entries || []).some((e
 // statically (rosterFactionRules.js holds the load, the Chapter fallback and the RU names; the
 // print sheet reads the same one). Both tabs share this: a detachment object carries its
 // `.stratagems` alongside its `.rule`, the same shape FactionRuleView.vue reads.
-const rulesFaction = ref(null)
-const detachmentLookup = ref(new Map())
-
-watch([() => roster.value?.faction, tab, locale], async ([slug, t, loc]) => {
-  if ((t !== 'rules' && t !== 'stratagems') || !slug) return
-  const { faction, lookup } = await loadRosterFactionRules(slug, loc)
-  rulesFaction.value = faction
-  detachmentLookup.value = lookup
-}, { immediate: true })
+const { rulesFaction, detachmentLookup } = useRosterFactionRules(() => roster.value?.faction, locale, {
+  when: () => tab.value === 'rules' || tab.value === 'stratagems',
+})
 
 const selectedDetachmentRules = computed(() =>
   (roster.value?.detachments || [])

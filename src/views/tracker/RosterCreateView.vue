@@ -468,19 +468,17 @@ import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useRosters, uid } from '../../composables/useRosters.js'
+import { useRosters } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
-import { useRosterUndo } from '../../composables/useRosterUndo.js'
+import { useRosterBuildActions } from '../../composables/useRosterBuildActions.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { summaryOf } from '../../composables/rosterSummary.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { forgetDraft, rememberDraft } from '../../composables/useRosterDraftResume.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
-import rosterCore from '../../data/roster/core.js'
-import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
-import {
-  ROSTER_NOTES_MAX, addUnitEntry, duplicateUnitEntry, dispositionCandidates, pointsLeftLabel,
-} from '../../composables/rosterEngine.js'
+import { rosterItems } from '../../data/roster/index.js'
+import { useRosterFactionData } from '../../composables/useRosterFactionData.js'
+import { ROSTER_NOTES_MAX, pointsLeftLabel } from '../../composables/rosterEngine.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 
 const router = useRouter()
@@ -512,18 +510,8 @@ const units = ref([])
 const { factionName, accentStyle } = useFactionAccent(factionSlug)
 
 // ── Faction data (dynamic-imported, same lazy source the editor uses) ──
-const factionData = ref(null)
-const loadingFaction = ref(false)
-watch(factionSlug, async (slug) => {
-  if (!slug) { factionData.value = null; return }
-  loadingFaction.value = true
-  try {
-    // Allies too — the wizard's catalogue pane is the same browser the editor's is.
-    factionData.value = await loadRosterFaction(slug, { allies: true })
-  } finally {
-    loadingFaction.value = false
-  }
-}, { immediate: true })
+// Allies too — the wizard's catalogue pane is the same browser the editor's is.
+const { factionData } = useRosterFactionData(() => factionSlug.value)
 
 // The wizard's fields ARE a roster, they just aren't a stored one until a faction is picked — so
 // they are assembled into the shape everything downstream reads and handed to useRosterDerived.js,
@@ -543,57 +531,30 @@ const {
   entryMeta, groupedUnits, attachRole, dupBlocked, validation, fieldProps,
 } = useRosterDerived(draftRoster, factionData)
 
-// ── Faction / detachment / battle size choices ──
-const factionPickerOpen = ref(false)
-const detachmentPickerOpen = ref(false)
-function pickFaction(slug) {
-  factionPickerOpen.value = false
-  if (factionSlug.value === slug) return
-  factionSlug.value = slug
-  detachments.value = []
-  units.value.splice(0) // units belong to a faction — changing it invalidates them
-  // The first choice worth remembering: from here the wizard has a draft to write into.
-  ensureDraft()
-  syncUnits()
-}
-const detachmentOptions = computed(() =>
-  (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: d.fd || '' })))
-const detachmentSummary = computed(() => detachments.value.join(', '))
-const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
-const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
-function toggleDetachment(d) {
-  const at = detachments.value.indexOf(d.name)
-  if (at >= 0) detachments.value.splice(at, 1)
-  else detachments.value.push(d.name)
-}
-// The picker offers only what can still be taken, so clearing is the way back to the whole list.
-function clearDetachments() { detachments.value.splice(0) }
+// ── What building a list does (useRosterBuildActions.js — the editor runs the same code) ──
+// Units are written through to the draft (`syncUnits`); the faction is this screen's own ref, and
+// picking one is the first choice worth remembering — from there the wizard has a draft to write
+// into.
+const {
+  factionPickerOpen, detachmentPickerOpen, pickFaction,
+  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, toggleDetachment, clearDetachments,
+  openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
+  undoable, undoRemove, dismissUndo, battleSizes,
+} = useRosterBuildActions({
+  roster: () => draftRoster.value,
+  factionData,
+  curDetachments,
+  defOf,
+  commit: () => syncUnits(),
+  setFaction: (slug) => { factionSlug.value = slug; ensureDraft() },
+})
+
 // A single Detachment is always allowed even over budget (DetachmentPickerModal never
 // disables the first pick) — not official yet, but GW has said it's fine as long as it's
 // the only one taken. Show that as a "?" explainer instead of an error.
 const dpOverAllowed = computed(() => detachments.value.length === 1 && dpSpent.value > effBattle.value.dp)
 const dpHelpOpen = ref(false)
 
-const battleSizes = rosterCore.battleSizes
-
-// ── Unit selection (step 2) ──
-// Same two operations the editor performs, from rosterEngine — not a second implementation. The
-// wizard's own copy of the removal used to forget that a Leader attached to the departing unit has
-// to let go of it, which is the divergence useRosterEditing exists to prevent everywhere else.
-function addUnit(unitId) {
-  if (addUnitEntry(units.value, defOf(unitId), unitId, uid())) syncUnits()
-}
-// The list pane's own two per-entry actions. `removeEntry` names the exact line — two copies of a
-// unit are configured separately — and goes through useRosterUndo, so a mis-tap on the trash icon
-// costs one tap on "Undo" instead of the picks made since the last save.
-const { undoable, removeWithUndo, undoRemove, dismissUndo } = useRosterUndo(() => units.value, syncUnits)
-function removeEntry(entry) {
-  if (openUid.value === entry.uid) openUid.value = null
-  removeWithUndo(entry.id, entry.uid, defOf(entry.id)?.name || '')
-}
-function duplicateEntry(entry) {
-  if (duplicateUnitEntry(units.value, entry.uid, uid())) syncUnits()
-}
 // Write the units through to the saved roster as soon as there IS one (step 2 onwards). The wizard
 // used to hold them in component state until "Done", so leaving the way every other screen expects
 // to be left — the "Back to list" link, the phone's back gesture, a reload — threw away everything
@@ -610,24 +571,6 @@ function syncUnits() {
 // same overDuplicate check, army-wide).
 const issuesOpen = ref(false)
 
-// ── Per-unit configuration (the list pane of step 2) ──
-// Only one entry's fields open at a time — opening another closes whichever was open, same as a
-// classic accordion (not the independently-toggled group accordions in the catalogue).
-const openUid = ref(null)
-function toggleOpen(entryUid) {
-  openUid.value = openUid.value === entryUid ? null : entryUid
-}
-// The entry the desk's third column belongs to — the same `openUid` the accordion uses in the
-// narrow arrangement, so there is one idea of "the unit being worked on".
-const openEntry = computed(() => units.value.find((u) => u.uid === openUid.value) || null)
-
-function toggleWarlord(entryUid) {
-  const e = units.value.find((u) => u.uid === entryUid)
-  if (!e) return
-  const on = e.warlord === true
-  for (const u of units.value) delete u.warlord // exactly one warlord per army
-  if (!on) e.warlord = true
-}
 // ── The draft: this wizard's persistence ──────────────────────────────────────────────────────
 // Everything collected here lives in a stored roster from the moment a FACTION is picked — the
 // first choice that means anything, and the one every later step depends on. Until then, opening

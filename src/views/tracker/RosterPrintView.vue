@@ -157,8 +157,8 @@ import RosterPrintSheet from '../../components/roster/RosterPrintSheet.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
-import { loadRosterFaction } from '../../data/roster/index.js'
-import { loadRosterFactionRules, normName } from '../../composables/rosterFactionRules.js'
+import { normName } from '../../composables/rosterFactionRules.js'
+import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
 import { usesAllies } from '../../composables/rosterEngine.js'
 import { isStandaloneDisplay } from '../../composables/standalone.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -206,20 +206,9 @@ const effectiveOpts = computed(() => {
 })
 
 // ── The data the sheet prints ───────────────────────────────────────────────────────────────
-const factionData = ref(null)
-watch(() => roster.value?.faction, async (slug) => {
-  factionData.value = slug ? await loadRosterFaction(slug, { allies: usesAllies(roster.value) }) : null
-}, { immediate: true })
-
-const rulesFaction = ref(null)
-const detachmentLookup = ref(new Map())
-watch([() => roster.value?.faction, locale], async ([slug, loc]) => {
-  if (!slug) return
-  const { faction, lookup } = await loadRosterFactionRules(slug, loc)
-  if (roster.value?.faction !== slug) return
-  rulesFaction.value = faction
-  detachmentLookup.value = lookup
-}, { immediate: true })
+const rosterFaction = () => roster.value?.faction
+const { factionData } = useRosterFactionData(rosterFaction, { allies: () => usesAllies(roster.value) })
+const { rulesFaction, detachmentLookup } = useRosterFactionRules(rosterFaction, locale)
 
 const detachments = computed(() => (roster.value?.detachments || [])
   .map((name) => detachmentLookup.value.get(normName(name)))
