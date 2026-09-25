@@ -64,6 +64,14 @@ export {
 // already importing the store (the mutators below use memberAt themselves).
 export { membersOf, memberAt }
 
+// Which side is this device's owner. `isYou` is absent on games saved before it existed, and the
+// first player was always the owner then — which is why every read goes through here (the
+// history's roster links once read the flag bare and called an old game's owner "Opponent").
+export function isYouSide(pl, i) { return pl?.isYou ?? i === 0 }
+// "You" / "Opponent", and a side's name falling back to it — nine screens spelled these out.
+export function sideLabel(pl, i, labels) { return isYouSide(pl, i) ? labels.trackerYou : labels.trackerOpponent }
+export function sideName(pl, i, labels) { return pl?.name || sideLabel(pl, i, labels) }
+
 // Unified Force = both armies share all faction keywords (same faction, or — the companion's
 // explicit carve-out — any two ADEPTUS ASTARTES Chapters); anything else is a Force of
 // Convenience. This is the setup wizard's DEFAULT; the player can override it there (allies

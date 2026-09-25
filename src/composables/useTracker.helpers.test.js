@@ -3,7 +3,7 @@ import {
   BATTLE_SIZES, DISPOSITIONS, MIRROR_MISSIONS,
   dispositionName,
   primaryFor, derivePrimary, missionBySlug, scorableBlocks,
-  secondaryPool, fixedPool, numericVp,
+  secondaryPool, fixedPool, numericVp, sideName,
 } from './useTracker.js'
 import { FACTIONS, FACTION_GROUPS, detachmentsFor, detachmentInfo } from './trackerFactions.js'
 
@@ -113,5 +113,21 @@ describe('detachments lookup', () => {
     const det = detachmentsFor(withDet.slug)[0]
     expect(detachmentInfo(withDet.slug, det.name)).toMatchObject({ name: det.name })
     expect(typeof det.dp).toBe('number')
+  })
+})
+
+describe('sideName', () => {
+  const labels = { trackerYou: 'You', trackerOpponent: 'Opponent' }
+  it("uses the side's own name first", () => {
+    expect(sideName({ name: 'Anna', isYou: false }, 0, labels)).toBe('Anna')
+  })
+  it('falls back to You / Opponent by the isYou flag', () => {
+    expect(sideName({ isYou: false }, 0, labels)).toBe('Opponent')
+    expect(sideName({ isYou: true }, 1, labels)).toBe('You')
+  })
+  // Games saved before `isYou` existed: the first player was the device's owner.
+  it('reads an old game without the flag by position', () => {
+    expect(sideName({}, 0, labels)).toBe('You')
+    expect(sideName({}, 1, labels)).toBe('Opponent')
   })
 })

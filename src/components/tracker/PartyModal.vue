@@ -189,7 +189,7 @@ import PartyInvite from './PartyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
-import { useTracker, membersOf } from '../../composables/useTracker.js'
+import { useTracker, membersOf, sideName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['close'])
 const { locale } = useLocale()
@@ -228,7 +228,7 @@ const seats = computed(() => {
     if (g.settings?.gameType === 'doubles') {
       ms.forEach((m, mi) => out.push({ key: seatKey(side, mi), side, mi, label: `${pl.name || pl.teamName || ''} · ${m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)}` }))
     } else {
-      out.push({ key: seatKey(side, null), side, mi: null, label: pl.name || ((pl.isYou ?? side === 0) ? labels.value.trackerYou : labels.value.trackerOpponent) })
+      out.push({ key: seatKey(side, null), side, mi: null, label: sideName(pl, side, labels.value) })
     }
   })
   return out

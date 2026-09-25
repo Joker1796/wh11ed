@@ -7,7 +7,7 @@
       :class="{ lead: leaderIdx === i }"
     >
       <div class="col-head">
-        <span class="pname">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</span>
+        <span class="pname">{{ sideName(pl, i, labels) }}</span>
         <span
           v-if="leaderIdx === i && !finished"
           class="lead-tag"
@@ -53,7 +53,7 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
-import { useTracker } from '../../composables/useTracker.js'
+import { useTracker, sideName } from '../../composables/useTracker.js'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../composables/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
 

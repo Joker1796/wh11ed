@@ -78,7 +78,7 @@ import { ref, computed, watch } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf } from '../../composables/useTracker.js'
+import { useTracker, membersOf, sideName } from '../../composables/useTracker.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
@@ -110,7 +110,7 @@ function hasArmyData(pl) {
 }
 
 function playerName(g, pl, pi) {
-  return pl.name || ((pl.isYou ?? pi === 0) ? labels.value.trackerYou : labels.value.trackerOpponent)
+  return sideName(pl, pi, labels.value)
 }
 
 // Map an option id to its localized name (Doctrina Imperatives, Templar Vows, Blessings, Rituals…).

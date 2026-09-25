@@ -254,7 +254,7 @@ import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '.
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion } from '../../data/eventCompanion.js'
-import { useTracker, membersOf } from '../../composables/useTracker.js'
+import { useTracker, membersOf, isYouSide, sideLabel } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
@@ -318,8 +318,8 @@ const settings = reactive({
 
 const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m.roster)))
 
-function isYou(i) { return game.players[i].isYou ?? i === 0 }
-function playerLabel(i) { return isYou(i) ? labels.value.trackerYou : labels.value.trackerOpponent }
+function isYou(i) { return isYouSide(game.players[i], i) }
+function playerLabel(i) { return sideLabel(game.players[i], i, labels.value) }
 function namePlaceholder(i) { return isYou(i) ? labels.value.trackerYourName : labels.value.trackerOpponentName }
 
 // Dispositions are fixed for the rest of the game, so the recommended-layout matchup

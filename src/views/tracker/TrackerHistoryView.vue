@@ -59,7 +59,7 @@ import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import LayoutCard from '../../components/event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf } from '../../composables/useTracker.js'
+import { useTracker, membersOf, sideName } from '../../composables/useTracker.js'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 
@@ -76,7 +76,7 @@ const game = computed(() => history.value.find((g) => g.id === route.params.id) 
 // linking to its own member's snapshot (`mi` in the path; null/absent in singles).
 const rosterLinks = computed(() => (game.value?.players || [])
   .flatMap((p, pi) => {
-    const sideWho = p.name || (p.isYou ? labels.value.trackerYou : labels.value.trackerOpponent)
+    const sideWho = sideName(p, pi, labels.value)
     return membersOf(p).map((m, rawMi) => ({
       pi,
       mi: m === p ? null : rawMi,

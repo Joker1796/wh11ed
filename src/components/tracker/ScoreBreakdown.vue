@@ -23,7 +23,7 @@
             class="bd-name"
             :class="{ win: leaderIdx === i }"
           >
-            {{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}
+            {{ sideName(pl, i, labels) }}
           </div>
 
           <div class="grid">
@@ -129,6 +129,7 @@
 import { ref, computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { sideName } from '../../composables/useTracker.js'
 import CollapseTransition from '../CollapseTransition.vue'
 import {
   useTracker, ROUND_COUNT, PRIMARY_GAME_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,

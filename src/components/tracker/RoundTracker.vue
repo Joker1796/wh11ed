@@ -345,7 +345,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { useTracker, membersOf, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useTracker, membersOf, sideLabel, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
@@ -383,8 +383,7 @@ const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 // The clock prints this and nothing else: it is read at a glance in the middle of a turn, and a
 // nickname does not answer the question it is there to answer. "You" does, in one word.
 function playerSide(i) {
-  const pl = current.value.players[i]
-  return (pl.isYou ?? i === 0) ? labels.value.trackerYou : labels.value.trackerOpponent
+  return sideLabel(current.value.players[i], i, labels.value)
 }
 
 // Their own name if they gave one, otherwise the side. For the places with room for a name and a

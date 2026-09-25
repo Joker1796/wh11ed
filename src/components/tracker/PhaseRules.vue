@@ -93,7 +93,7 @@ import { useRouter } from 'vue-router'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf } from '../../composables/useTracker.js'
+import { useTracker, membersOf, sideName } from '../../composables/useTracker.js'
 import { usableInSlot, BATTLE_PHASES } from '../../composables/stratagemPhases.js'
 import { allySourceOf } from '../../composables/rosterEngine.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -238,8 +238,7 @@ async function go(r) {
 }
 
 function playerName(pi) {
-  const pl = current.value?.players?.[pi]
-  return pl?.name || ((pl?.isYou ?? pi === 0) ? labels.value.trackerYou : labels.value.trackerOpponent)
+  return sideName(current.value?.players?.[pi], pi, labels.value)
 }
 
 // The side whose turn it is first, so the block reads in the order the phase is played.
