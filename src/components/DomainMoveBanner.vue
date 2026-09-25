@@ -1,17 +1,10 @@
 <template>
-  <div
+  <TopBanner
     v-if="visible"
-    class="domain-banner"
-    role="status"
+    icon="bi-signpost-2"
+    :close-label="labels.updateDismiss"
+    @close="dismiss"
   >
-    <i class="bi bi-signpost-2 db-icon" />
-    <button
-      class="db-close"
-      :aria-label="labels.updateDismiss"
-      @click="dismiss"
-    >
-      <i class="bi bi-x" />
-    </button>
     <template v-if="mode === 'pre'">
       <p class="db-title">
         {{ labels.domainMovePreTitle }}
@@ -45,11 +38,12 @@
         {{ labels.domainMoveNote }}
       </p>
     </template>
-  </div>
+  </TopBanner>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
+import TopBanner from './TopBanner.vue'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
 import { MOVED_TO_ORIGIN, ANNOUNCE_MOVE } from '../config.js'
@@ -83,47 +77,7 @@ function dismiss() {
 </script>
 
 <style scoped>
-/* Icon/close float so the text lines wrap around them instead of each reserving
-   a full-height column (which left an awkward gap next to the short icon glyph). */
-.domain-banner {
-  /* Sits before the sticky navbar, which pads itself by --safe-top to clear the iOS
-     status bar/notch (viewport-fit=cover). Do the same here, or on an installed PWA this
-     content renders under the status bar icons instead of below them. */
-  padding: calc(0.6rem + var(--safe-top)) 1rem 0.6rem;
-  background: color-mix(in srgb, var(--accent) 12%, var(--bg-insert));
-  border-bottom: 1px solid var(--accent);
-  color: var(--text-on-dark);
-  font-size: 0.82rem;
-  line-height: 1.4;
-  overflow: hidden; /* clearfix: enclose the floats */
-}
-
-.db-icon {
-  float: left;
-  margin: 0.15rem 0.6rem 0.2rem 0;
-  color: var(--accent);
-  font-size: 1rem;
-}
-
-.db-close {
-  float: right;
-  margin: 0 0 0.2rem 0.6rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0.1rem;
-}
-
-.db-close:hover {
-  color: var(--text-on-dark);
-}
-
+/* The bar itself is TopBanner.vue. */
 .db-title {
   margin: 0;
   font-weight: 600;

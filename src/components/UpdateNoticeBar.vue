@@ -1,19 +1,11 @@
 <template>
-  <!-- Top-of-screen notice that a new version shipped; links to the /changelog page. Mirrors
-       DomainMoveBanner's placement (first child of .app-layout) and look. -->
-  <div
+  <!-- Top-of-screen notice that a new version shipped; links to the /changelog page. -->
+  <TopBanner
     v-if="visible"
-    class="update-banner"
-    role="status"
+    icon="bi-stars"
+    :close-label="labels.updateDismiss"
+    @close="markSeen"
   >
-    <i class="bi bi-stars ub-icon" />
-    <button
-      class="ub-close"
-      :aria-label="labels.updateDismiss"
-      @click="markSeen"
-    >
-      <i class="bi bi-x" />
-    </button>
     <p class="ub-text">
       {{ labels.updateNoticeTitle }} <strong class="ub-ver">v{{ entry.version }}</strong>
       <RouterLink
@@ -24,11 +16,12 @@
         {{ labels.updateNoticeAction + ' →' }}
       </RouterLink>
     </p>
-  </div>
+  </TopBanner>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import TopBanner from './TopBanner.vue'
 import { useLocale } from '../composables/useLocale.js'
 import { useUpdateNotice } from '../composables/useUpdateNotice.js'
 import { ui } from '../i18n/ui.js'
@@ -40,46 +33,7 @@ const { entry, visible, markSeen } = useUpdateNotice()
 </script>
 
 <style scoped>
-/* Same tinted-accent bar as DomainMoveBanner; icon/close float so the text wraps around them. */
-.update-banner {
-  /* Sits before the sticky navbar, which pads itself by --safe-top to clear the iOS
-     status bar/notch (viewport-fit=cover). Do the same here, or on an installed PWA this
-     content renders under the status bar icons instead of below them. */
-  padding: calc(0.6rem + var(--safe-top)) 1rem 0.6rem;
-  background: color-mix(in srgb, var(--accent) 12%, var(--bg-insert));
-  border-bottom: 1px solid var(--accent);
-  color: var(--text-on-dark);
-  font-size: 0.82rem;
-  line-height: 1.4;
-  overflow: hidden; /* clearfix: enclose the floats */
-}
-
-.ub-icon {
-  float: left;
-  margin: 0.15rem 0.6rem 0.2rem 0;
-  color: var(--accent);
-  font-size: 1rem;
-}
-
-.ub-close {
-  float: right;
-  margin: 0 0 0.2rem 0.6rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0.1rem;
-}
-
-.ub-close:hover {
-  color: var(--text-on-dark);
-}
-
+/* The bar itself is TopBanner.vue. */
 .ub-text {
   margin: 0;
   font-weight: 600;
