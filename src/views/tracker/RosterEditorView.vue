@@ -625,25 +625,6 @@ function rename(name) {
 .rname-input.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); }
 .rname-input:hover { border-bottom-color: var(--border); }
 .rname-input:focus { outline: none; border-bottom-color: var(--accent); }
-/* Same square box as the view header's own icons (RosterViewView) — a header icon is a header
-   icon whichever screen it is on, and there a link and a button sit side by side. */
-.hdr-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  padding: 0;
-  flex: none;
-  font: inherit;
-  font-size: 1rem;
-  line-height: 1;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-muted);
-  cursor: pointer;
-}
-.hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
 
 /* The phone's mode switch in the footer: two icons, the global .seg. The amber dot is the mark
    PageTabs put on a tab that still owes an answer, moved onto the gear with it. */

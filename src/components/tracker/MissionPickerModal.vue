@@ -6,7 +6,7 @@
     <div class="modal-body">
       <div
         v-if="randomLabel"
-        class="tp-actions"
+        class="picker-actions"
       >
         <button
           class="btn-ghost tp-act"
@@ -55,7 +55,6 @@ function toggleOpen(slug) { openId.value = openId.value === slug ? null : slug }
 
 <style scoped>
 
-.tp-actions { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; }
 /* Sized for a thumb and filling the row; the rest is the global button (style.css, "Buttons"). */
 .tp-act { flex: 1; min-height: 44px; justify-content: center; }
 

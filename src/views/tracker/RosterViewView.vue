@@ -289,7 +289,7 @@
                         :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }"
                       >
                         <span class="rvst-label">{{ s.label }}</span>
-                        <span class="rvst-box">{{ s.value }}</span>
+                        <span class="stat-plate rvst-box">{{ s.value }}</span>
                       </span>
                     </span>
                     <span class="rvunit-sub">{{ summaryLine(e) }}</span>
@@ -1534,27 +1534,6 @@ function stratKey(strat) {
 .rp-used { color: var(--text-primary); }
 .rv-points.over .rp-used { color: var(--danger); }
 .rp-sep, .rp-cap { color: var(--text-dim); }
-/* One of these is a link and the other is a button, and they must not look it: a <button> starts
-   from the browser's own 13px system font, so the same padding drew two different boxes. Fixed
-   square, centred glyph, font inherited — the element the action happens to need is not a style. */
-.hdr-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  padding: 0;
-  flex: none;
-  font: inherit;
-  font-size: 1rem;
-  line-height: 1;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-muted);
-  text-decoration: none;
-  cursor: pointer;
-}
-.hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
 /* A phone spends the width on the name: the meta is what stands between it and the corner. */
 @media (max-width: 480px) {
   .rv-head { gap: 0.5rem; }
@@ -1710,9 +1689,8 @@ function stratKey(strat) {
 }
 .rvblock-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
 .rvblock-total { flex: none; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
-/* Mini stat plates — same chamfered-box look as DatasheetCard.vue's .ds-stat-box (10th-ed
-   style: no rounding, top-left/bottom-right corners cut), scaled down to fit a compact list
-   row. Copied, not shared — scoped styles don't cross component boundaries. */
+/* Mini stat plates — the global `.stat-plate` (style.css, DatasheetCard's plate), scaled down to
+   fit a compact list row. */
 .rvunit-stats { display: inline-flex; gap: 0.3rem; margin: 0.15rem 0; }
 .rvst { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
 /* A plate the modifier layer rewrote — the same accent treatment DatasheetCard gives a modified
@@ -1720,27 +1698,10 @@ function stratKey(strat) {
 .rvst-mod .rvst-box { color: var(--accent); }
 .rvst-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-muted); }
 .rvst-box {
-  position: relative;
-  isolation: isolate;
-  display: block;
+  --cut: 4px;
   min-width: 1.85rem;
-  text-align: center;
-  background: var(--border);
-  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
   padding: 0.16rem 0.22rem;
-  font-family: var(--font-display);
-  font-weight: 700;
   font-size: 0.84rem;
-  line-height: 1.1;
-  color: var(--text-primary);
-}
-.rvst-box::before {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  z-index: -1;
-  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
-  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
 }
 /* Invulnerable save — its own plate right after SV, colour-called-out the way DatasheetCard's
    accent-coloured "Invulnerable Save" label calls it out (a distinct accent fill, not just

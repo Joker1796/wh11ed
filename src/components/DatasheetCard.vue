@@ -39,7 +39,7 @@
                 class="ds-stat-label"
               >{{ s.label }}</span>
               <span
-                class="ds-stat-box"
+                class="stat-plate ds-stat-box"
                 :class="{ 'ds-stat-mod': isMarked('profile', s.key, i) }"
               >{{ s.value }}<sup
                 v-if="isMarked('profile', s.key, i)"
@@ -57,7 +57,7 @@
             <template v-if="p.inv">
               <div class="ds-stat ds-inv-box">
                 <span
-                  class="ds-stat-box"
+                  class="stat-plate ds-stat-box"
                   :class="{ 'ds-stat-mod': isMarked('profile', 'inv', i) }"
                 >{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup
                   v-if="isMarked('profile', 'inv', i)"
@@ -1353,31 +1353,11 @@ function abilityStateLabel(st) {
   letter-spacing: 1px;
   color: var(--text-muted);
 }
-/* Stat boxes: 10th-ed look — no rounding, top-left + bottom-right corners chamfered.
-   clip-path can't carry a border, so the fill is an inset ::before over a border-colour
-   base (isolation keeps the z-index:-1 fill inside this box). Numbers are big + heavy. */
+/* Stat boxes: the global `.stat-plate` (style.css), at the card's size. Numbers are big + heavy. */
 .ds-stat-box {
-  position: relative;
-  isolation: isolate;
-  display: block;
   min-width: 3.1rem;
-  text-align: center;
-  background: var(--border);
-  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
   padding: 0.28rem 0.3rem;
-  font-family: var(--font-display);
-  font-weight: 700;
   font-size: 1.65rem;
-  line-height: 1.1;
-  color: var(--text-primary);
-}
-.ds-stat-box::before {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  z-index: -1;
-  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
-  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
 }
 /* Multi-profile model name: right of the stat row, vertically centred on it. */
 .ds-prof-name {

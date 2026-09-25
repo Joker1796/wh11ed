@@ -2275,7 +2275,7 @@ learned twice), phase accordions via `stratagemPhases.js`'s `phasesOf`/`phaseLab
 `PHASE_ORDER`, and the same masonry `.strat-grid` — just pre-filtered to the roster's own
 detachments (flattened, no filter row) instead of that page's core/you/opp filter.
 
-Its **Units tab** shows the base statline as small chamfered plates (`.rvst`/`.rvst-box`,
+Its **Units tab** shows the base statline as small chamfered plates (`.rvst`/`.rvst-box` — the global `.stat-plate`,
 scaled-down copies of `DatasheetCard.vue`'s own `.ds-stat`/`.ds-stat-box`), invulnerable save
 as its own trailing accent-coloured plate (`.rvst-inv`, last — not DatasheetCard's own
 shield-under-SV layout, no room for that in a one-line row). Clicking a row opens

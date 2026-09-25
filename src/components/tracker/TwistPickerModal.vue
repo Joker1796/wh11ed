@@ -4,7 +4,7 @@
     @close="$emit('close')"
   >
     <div class="modal-body">
-      <div class="tp-actions">
+      <div class="picker-actions">
         <button
           class="btn-ghost tp-act"
           @click="$emit('random')"
@@ -72,7 +72,6 @@ function toggle(id) { openId.value = openId.value === id ? null : id }
 
 <style scoped>
 
-.tp-actions { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; }
 /* The two shortcuts share the row evenly and are sized for a thumb; the rest is the global
    button (style.css, "Buttons"). "No twist" is the lit one while nothing is chosen. */
 .tp-act { flex: 1; min-height: 44px; justify-content: center; }

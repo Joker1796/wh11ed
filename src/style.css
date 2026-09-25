@@ -723,6 +723,9 @@ strong {
    in a pane) — the staircase the owner asked to take out. Each screen now draws the edge in its
    own scoped block, on its own tile class, and this file keeps only what a global rule can win. */
 
+/* The row of buttons over a tracker picker's list (a random draw, clear) — Mission and Twist. */
+.picker-actions { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; }
+
 /* ── Faction list group heading ─────────────────────────────────────────────
    "Pinned", "Imperium", "Chaos"… over the rows of a faction list (FactionsNavModal,
    FactionPickerModal — the rows are FactionOption.vue). */
@@ -735,6 +738,58 @@ strong {
   margin: 0.6rem 0 0.1rem;
 }
 .fp-group:first-child { margin-top: 0; }
+
+/* ── Roster screen header icon ─────────────────────────────────────────────
+   The square icon buttons by a roster's name (editor and view: edit, share, the "…" menu). One of
+   them is a link and another a button, and they must not look it: a <button> starts from the
+   browser's own 13px system font, so the same padding drew two different boxes. Fixed square,
+   centred glyph, font inherited — the element the action happens to need is not a style. */
+.hdr-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  flex: none;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: pointer;
+}
+.hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Stat plate ────────────────────────────────────────────────────────────
+   A characteristic in the 10th-ed look: no rounding, top-left + bottom-right corners chamfered
+   by `--cut`. clip-path can't carry a border, so the fill is an inset ::before over a
+   border-colour base (isolation keeps the z-index:-1 fill inside the box). Size is the caller's:
+   DatasheetCard's `.ds-stat-box`, the roster view's mini `.rvst-box` (`--cut: 4px`). The print
+   card draws its own, in monochrome. */
+.stat-plate {
+  --cut: 7px;
+  position: relative;
+  isolation: isolate;
+  display: block;
+  text-align: center;
+  background: var(--border);
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+.stat-plate::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+}
 
 /* ── Roster group heading ──────────────────────────────────────────────────
    The heading over each role group of a roster's units ("Characters", an ally's name) — the
