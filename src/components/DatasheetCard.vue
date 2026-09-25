@@ -1019,12 +1019,9 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
-import { withGroupPos } from '../utils/weaponGroups.js'
-import { groupModNotes, modDelta, possibleModNotes } from '../composables/rosterModNotes.js'
-import {
-  corePartsOf, extraCoreOf, factionPartsOf, factionKwMarker,
-  keywordGroupsOf, extraKeywordsOf, keywordNotesOf, invNoteText, statCells,
-} from '../composables/datasheetParts.js'
+import { modDelta } from '../composables/rosterModNotes.js'
+import { factionPartsOf, factionKwMarker, invNoteText, statCells } from '../composables/datasheetParts.js'
+import { useDatasheetParts } from '../composables/useDatasheetParts.js'
 import DsAccordion from './DsAccordion.vue'
 import ConditionChips from './ConditionChips.vue'
 
@@ -1115,10 +1112,14 @@ const { renderInline, renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
-// Splitting, granted-vs-printed dedupe and footnote grouping live in datasheetParts.js, shared
-// with RosterPrintCard — paper and screen must never disagree about what a sheet says.
-const coreParts = computed(() => corePartsOf(props.sheet))
-const extraCore = computed(() => extraCoreOf(props.sheet, props.grantedCore))
+// Splitting, granted-vs-printed dedupe, footnote grouping, the modifier marks (a stat the roster's
+// modifier layer rewrote wears the same `*` a granted keyword does) — useDatasheetParts.js, shared
+// with RosterPrintCard: paper and screen must never disagree about what a sheet says.
+const {
+  coreParts, extraCore, keywordGroups, extraKeywords, keywordNotes: extraKeywordNotes,
+  rangedRows, meleeRows, isMarked, noteSections,
+} = useDatasheetParts(props, labels, { showPossible: () => !props.hidePossible })
+
 // Only the faction-line part the caller can actually open should look clickable.
 const factionParts = computed(() => factionPartsOf(props.sheet))
 const fkey = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
@@ -1142,24 +1143,6 @@ const visibleLeaderUnits = computed(() => {
   return (props.sheet.leader?.units || []).filter((u) => !hidden.has(u))
 })
 
-// Per-model keyword split (e.g. The Silent King: keywords shared by every model in the
-// unit vs ones that only apply to a specific named model) — sheet.keywordsByModel is
-// [{ model, list }]; falls back to a single unlabelled group for the common flat-array case.
-const keywordGroups = computed(() => keywordGroupsOf(props.sheet))
-
-// Rule-granted keywords (grantedKeywords prop) appended after the printed ones, minus any the
-// sheet already prints in any model group — so a grant never doubles a printed keyword.
-const extraKeywords = computed(() => extraKeywordsOf(props.sheet, props.grantedKeywords))
-
-// One footnote line per distinct source (usually just one — either "this faction's own rules"
-// for every roster-wide grant, or the single currently-active detachment for every gated one —
-// but a unit could carry both kinds at once), grouping every keyword that shares it so e.g.
-// Deathwing/Ravenwing (both roster-wide, no detachment) collapse into a single line instead of
-// repeating the same source sentence twice.
-const extraKeywordNotes = computed(() => keywordNotesOf(extraKeywords.value, labels.value))
-
-const rangedRows = computed(() => withGroupPos(props.sheet.ranged))
-const meleeRows = computed(() => withGroupPos(props.sheet.melee))
 
 // MFM points notes are either a bare copy tier ('1st-2nd', '3rd+', '2nd+', '1st-3rd'…),
 // a composition label with the tier in parens ('3 Wolf Guard Headtakers (1st-2nd)'),
@@ -1220,34 +1203,6 @@ function dsText(text) {
 function dsRichText(text) {
   return renderRichText(text, { pre: markFactionKw.value, listClass: 'ds-list' })
 }
-
-// A cell whose printed number was rewritten by the roster's modifier layer (Tier C). The mark is
-// the same `*` the granted-keyword treatment uses, and for the same reason: the value on screen
-// is no longer what the card prints, and the reader is owed both that signal and the footnote
-// naming the rule responsible.
-const markSet = computed(() => new Set(props.statMarks))
-const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
-
-const noteSections = computed(() => {
-  const out = []
-  const live = props.statNotes.filter((n) => n.live !== false)
-  const possible = props.hidePossible ? [] : possibleModNotes(props.statNotes)
-  const l = labels.value
-  if (live.length) out.push({ key: 'live', label: l.dsModifiers, collapsible: false, groups: groupModNotes(live, l) })
-  if (possible.length) {
-    // …and a line saying what the list IS. "Possible modifiers" alone reads as a second helping of
-    // the block above it — the reader has no way to tell that none of it is running, or that it
-    // comes from rules printed elsewhere (the army rule, a detachment, an attached Leader).
-    out.push({
-      key: 'possible',
-      label: l.dsModifiersPossible,
-      hint: l.dsModifiersPossibleHint,
-      collapsible: true,
-      groups: groupModNotes(possible, l),
-    })
-  }
-  return out
-})
 
 // An ability's precondition, keyed by the English name — which is what `nameEn` carries once the
 // RU overlay has renamed the header (see src/data/datasheets/ru/index.js).

@@ -276,12 +276,9 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
-import { withGroupPos } from '../../utils/weaponGroups.js'
-import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
-import {
-  corePartsOf, extraCoreOf, factionKwMarker,
-  keywordGroupsOf, extraKeywordsOf, keywordNotesOf, invNoteText, statCells,
-} from '../../composables/datasheetParts.js'
+import { modDelta } from '../../composables/rosterModNotes.js'
+import { factionKwMarker, invNoteText, statCells } from '../../composables/datasheetParts.js'
+import { useDatasheetParts } from '../../composables/useDatasheetParts.js'
 
 const props = defineProps({
   // The resolved sheet — whichever tier the caller chose (printed / trimmed / modified).
@@ -310,20 +307,14 @@ const markFactionKw = computed(() => factionKwMarker(props.sheet))
 const richText = (t) => renderRichText(t, { pre: markFactionKw.value, listClass: 'rpc-ul' })
 const inlineText = (t) => renderInline(markFactionKw.value(t))
 
-const rangedRows = computed(() => withGroupPos(props.sheet.ranged))
-const meleeRows = computed(() => withGroupPos(props.sheet.melee))
-
-const markSet = computed(() => new Set(props.statMarks))
-const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
+const {
+  coreParts, extraCore, keywordGroups, extraKeywords, keywordNotes,
+  rangedRows, meleeRows, isMarked, noteSections,
+} = useDatasheetParts(props, labels, { showPossible: () => props.showPossible })
 
 const invNotes = computed(() =>
   [...new Set((props.sheet.profiles || []).filter((p) => p.invNote).map((p) => invNoteText(p.invNote)))])
 
-const coreParts = computed(() => corePartsOf(props.sheet))
-const extraCore = computed(() => extraCoreOf(props.sheet, props.grantedCore))
-const keywordGroups = computed(() => keywordGroupsOf(props.sheet))
-const extraKeywords = computed(() => extraKeywordsOf(props.sheet, props.grantedKeywords))
-const keywordNotes = computed(() => keywordNotesOf(extraKeywords.value, labels.value))
 
 // Both lines are assembled here rather than in the template. They used to be one long line of
 // nested `<template v-if>`s whose every space was part of the printed output — ", " between
@@ -339,18 +330,6 @@ const keywordLine = computed(() => {
     .map((g) => (g.model ? `${g.model} - ` : '') + g.list.join(', '))
     .join(' | ')
   return groups + extraKeywords.value.map((g) => `, ${g.kw}*`).join('')
-})
-
-const noteSections = computed(() => {
-  const l = labels.value
-  const out = []
-  const live = props.statNotes.filter((n) => n.live !== false)
-  const possible = props.showPossible ? possibleModNotes(props.statNotes) : []
-  if (live.length) out.push({ key: 'live', label: l.dsModifiers, groups: groupModNotes(live, l) })
-  if (possible.length) {
-    out.push({ key: 'possible', label: l.dsModifiersPossible, hint: l.dsModifiersPossibleHint, groups: groupModNotes(possible, l) })
-  }
-  return out
 })
 
 // The column stream: every ability-like thing on the sheet, flattened to unbreakable items.
