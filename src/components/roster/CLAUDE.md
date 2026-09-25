@@ -1243,8 +1243,9 @@ show yet, or not; not ours to guess.
   its cap (not just at it — unreachable through the "+" button itself, but reachable by lowering
   the battle size on step 1 *after* units were added under a bigger one) turns
   `RosterUnitBrowser`'s `N/limit` badge red (`.rub-count.over`). `RosterCreateView.vue` now also
-  runs `validateRoster()` live (previously editor-only) and shows the same `issues-badge` +
-  `RosterIssuesModal` the editor's header has, next to the points readout in step 2's
+  runs `validateRoster()` live (previously editor-only) and shows the same points readout and
+  issue badge (`RosterPointsTally.vue` — one component for the wizard's and editor's footers and
+  the desk's settings bar, whose own copy never learned the amber warning state) in step 2's
   `.rc-sticky` — so `overDuplicate` (and everything else `validateRoster` catches) is
   visible during the wizard, not just after `finish()` lands on the read-only view.
 

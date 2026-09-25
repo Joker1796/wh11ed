@@ -812,40 +812,7 @@ strong {
 /* margin-left, not just the inner's space-between: the creation wizard's step 1 puts nothing on
    the bar but its Next button, and a lone child under space-between sits at the LEFT edge. */
 .rc-sticky-actions { display: flex; gap: 0.5rem; margin-left: auto; }
-.rc-points { display: flex; flex-direction: column; justify-content: center; font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.rc-points.over { color: var(--danger); }
-/* With the remainder on, the total steps down a size so the two lines together are no taller
-   than the buttons beside them; the badge beside it grows to the height of both lines (1.9rem
-   is what 0.9rem + 0.68rem of text come to) — and grows in proportion, a square with a mark a
-   quarter bigger, not a tall sliver around a small one. */
-.rc-points.with-left { font-size: 0.9rem; line-height: 1.15; }
-.rc-points.with-left + .issues-badge { height: 1.9rem; min-width: 1.9rem; justify-content: center; padding: 0 0.4rem; font-size: 1.05rem; }
-/* What is left of the budget, beside the "used / limit" readout while a list is being BUILT (the
-   settings bar and the two sticky bars) — the number a player subtracts in their head at every
-   add, so it is printed (player request, 2026-09-21). Not on the read-only view: a finished list
-   is read for what it fields, not for what it could still take (owner, same day). A second line
-   under the total, in words ("125 left"): a bare number after "1995 / 2000" read as part of it.
-   The deficit is red like the total it belongs to. */
-.pts-left { display: block; margin-top: 0.1rem; font-family: var(--font-sans); font-size: 0.68rem; font-weight: 500; line-height: 1.1; color: var(--text-muted); white-space: nowrap; }
-.pts-left.over { color: var(--danger); }
-
-.issues-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-.issues-badge.has-err { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); }
-/* Between the two: the list is legal, and something in it is still worth a look. */
-.issues-badge.warn { color: var(--warning); border-color: color-mix(in srgb, var(--warning) 45%, var(--border)); }
-.issues-badge.ok { color: #3c9a5f; }
+/* The points readout and issue badge inside it are RosterPointsTally.vue. */
 
 /* Legends mark — says a datasheet sits on the Legends shelf rather than the matched-play one.
    Shared by the datasheet grid, the roster unit browser and the datasheet page, so all three
@@ -876,19 +843,16 @@ strong {
   .rc-sticky-inner { padding: 0.6rem calc(1rem + var(--safe-right)) 0.6rem calc(1rem + var(--safe-left)); }
 }
 
-/* The bar never wraps: "1350 / 2000" split over two lines and "← Back" under itself is what a
+/* The bar never wraps (the points readout's own half is in RosterPointsTally.vue): "1350 / 2000" split over two lines and "← Back" under itself is what a
    414px phone showed at the 400px threshold this used to be (2026-09-19). The compact measure
    starts at 480px, and the points and the buttons are one line whatever the width. */
-.rc-points, .rc-sticky-actions > * { white-space: nowrap; }
+.rc-sticky-actions > * { white-space: nowrap; }
 @media (max-width: 480px) {
   .rc-sticky-inner {
     padding: 0.5rem calc(0.6rem + var(--safe-right)) 0.5rem calc(0.6rem + var(--safe-left));
     gap: 0.5rem;
   }
-  .rc-sticky-info { gap: 0.35rem; }
   .rc-sticky-actions { gap: 0.35rem; }
-  .rc-points { font-size: 0.85rem; }
-  .issues-badge { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
 }

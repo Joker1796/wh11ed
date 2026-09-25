@@ -66,6 +66,7 @@
       :points="points"
       :limit="limit"
       :error-count="validation.errorCount"
+      :issue-count="validation.issues.length"
       @update:name="rename"
       @update:battle-size="setBattleSize"
       @update:custom-points="setCustomPoints"
@@ -313,39 +314,15 @@
       <div class="rc-sticky-inner">
         <!-- On the desk the points and the issue badge are in the settings bar at the top, beside
              the choices that move them; repeating them here would be the same number twice. -->
-        <div class="rc-sticky-info">
-          <span
-            class="rc-points"
-            :class="{ over: points > limit, 'with-left': showPointsLeft }"
-          >{{ points }} / {{ limit }}<span
-            v-if="showPointsLeft"
-            class="pts-left"
-            :class="{ over: points > limit }"
-          >{{ pointsLeftLabel(points, limit, labels) }}</span></span>
-          <button
-            v-if="roster.faction"
-            type="button"
-            class="issues-badge"
-            :class="validation.errorCount ? 'has-err' : (validation.issues.length ? 'warn' : 'ok')"
-            @click="issuesOpen = true"
-          >
-            <template v-if="validation.errorCount">
-              <i class="bi bi-exclamation-triangle-fill" /> {{ validation.errorCount }}
-            </template>
-            <!-- A tick means "nothing left to look at", and it was showing over a list that still
-                 owed a Force Disposition: the badge counts ERRORS, and an unmade choice is a
-                 warning. Amber and no number — the count belongs to the errors, and what this
-                 says is "open me", which is one tap from here. -->
-            <i
-              v-else-if="validation.issues.length"
-              class="bi bi-exclamation-triangle-fill"
-            />
-            <i
-              v-else
-              class="bi bi-check-circle-fill"
-            />
-          </button>
-        </div>
+        <RosterPointsTally
+          class="rc-sticky-info"
+          :points="points"
+          :limit="limit"
+          :error-count="validation.errorCount"
+          :issue-count="validation.issues.length"
+          :badge="!!roster.faction"
+          @open-issues="issuesOpen = true"
+        />
         <!-- Units or Settings: the two modes of the phone's editor. They were a row of tabs over
              the panes; here they cost no height at all, and the amber mark a tab wore when the
              settings still owe an answer rides on the gear. -->
@@ -460,6 +437,7 @@ import RosterUndoBar from '../../components/roster/RosterUndoBar.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesModal from '../../components/roster/RosterRulesModal.vue'
 import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
+import RosterPointsTally from '../../components/roster/RosterPointsTally.vue'
 import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
@@ -471,7 +449,7 @@ import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
-import { ROSTER_NOTES_MAX, pointsLeftLabel } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
 import { setupIssueCount } from '../../composables/rosterValidation.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
@@ -690,9 +668,7 @@ function rename(name) {
    rather than anything gone — Save keeps its word, the points their limit. */
 @media (max-width: 360px) {
   .rc-sticky-inner { gap: 0.3rem; }
-  .rc-sticky-info,
   .rc-sticky-actions { gap: 0.25rem; }
-  .rc-points { font-size: 0.74rem; }
   .red-mode button { padding: 0.4rem 0.4rem; font-size: 0.9rem; }
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.4rem 0.4rem; font-size: 0.76rem; }

@@ -126,29 +126,15 @@
     <!-- The points end the line, as they do in the corner of the sticky bar below: the number that
          is consulted constantly belongs where the eye already is, not two feet down the screen. -->
     <div class="rw-tally">
-      <span
-        class="rw-points"
-        :class="{ over: points > limit, 'with-left': showPointsLeft }"
-      >{{ points }} / {{ limit }}<span
-        v-if="showPointsLeft"
-        class="pts-left"
-        :class="{ over: points > limit }"
-      >{{ leftLabel }}</span></span>
-      <button
-        v-if="factionSlug"
-        type="button"
-        class="issues-badge"
-        :class="errorCount ? 'has-err' : 'ok'"
-        @click="$emit('open-issues')"
-      >
-        <template v-if="errorCount">
-          <i class="bi bi-exclamation-triangle-fill" /> {{ errorCount }}
-        </template>
-        <i
-          v-else
-          class="bi bi-check-circle-fill"
-        />
-      </button>
+      <RosterPointsTally
+        :points="points"
+        :limit="limit"
+        :error-count="errorCount"
+        :issue-count="issueCount"
+        :badge="!!factionSlug"
+        large
+        @open-issues="$emit('open-issues')"
+      />
       <!-- The notes and the legality switch are decided once and then left alone; giving each a
            permanent slot would spend the line on the two things nobody looks at twice. -->
       <button
@@ -242,12 +228,13 @@ import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import FactionPickerModal from '../tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../tracker/DetachmentPickerModal.vue'
+import RosterPointsTally from './RosterPointsTally.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { ROSTER_NOTES_MAX, pointsLeftLabel } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 
-const props = defineProps({
+defineProps({
   showName: { type: Boolean, default: true },
   name: { type: String, default: '' },
   factionSlug: { type: String, default: '' },
@@ -270,6 +257,7 @@ const props = defineProps({
   points: { type: Number, default: 0 },
   limit: { type: Number, default: 0 },
   errorCount: { type: Number, default: 0 },
+  issueCount: { type: Number, default: 0 },
 })
 defineEmits([
   'update:name', 'update:battleSize', 'update:customPoints', 'update:disposition',
@@ -280,7 +268,6 @@ defineEmits([
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { showPointsLeft } = useRosterPrefs()
-const leftLabel = computed(() => pointsLeftLabel(props.points, props.limit, labels.value))
 
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)
@@ -378,14 +365,6 @@ const moreOpen = ref(false)
   margin-left: auto;
   padding-bottom: 0.2rem;
 }
-.rw-points {
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  font-variant-numeric: tabular-nums;
-}
-.rw-points.over { color: var(--danger); }
 
 .rw-more {
   background: none;

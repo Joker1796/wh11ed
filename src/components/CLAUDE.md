@@ -67,7 +67,7 @@ it actually changes). `npm run dupes` fails when one rule body appears verbatim 
   `.btn-ghost` / `.btn-lg`, the modal chrome (see Modals), `.modal-body` + `.modal-list`,
   `.seg` (a joined either/or inside a form), `.tabs`/`.tab` (a row of separate boxes, one lit),
   `.back`, `.check` + `.check-note`, `.field > span`, `.help-btn`, `.fsection` /
-  `.fsection-title`, `.rc-sticky*` + `.issues-badge` (the roster wizard's footer bar), `.lead`,
+  `.fsection-title`, `.rc-sticky*` (the roster builder's footer bar — its points and issue badge are `roster/RosterPointsTally.vue`), `.lead`,
   `.split-block`, `.strat-grid`, `.act-list` + `.act-btn` + `.act-danger` (the "…" actions sheet
   a card or a header opens — one full-width button per thing you can do; global since 2026-08-28,
   when the third copy was about to be written and `npm run dupes` would have failed),
