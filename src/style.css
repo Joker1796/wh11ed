@@ -723,6 +723,19 @@ strong {
    in a pane) — the staircase the owner asked to take out. Each screen now draws the edge in its
    own scoped block, on its own tile class, and this file keeps only what a global rule can win. */
 
+/* ── Faction list group heading ─────────────────────────────────────────────
+   "Pinned", "Imperium", "Chaos"… over the rows of a faction list (FactionsNavModal,
+   FactionPickerModal — the rows are FactionOption.vue). */
+.fp-group {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  margin: 0.6rem 0 0.1rem;
+}
+.fp-group:first-child { margin-top: 0; }
+
 /* ── Roster group heading ──────────────────────────────────────────────────
    The heading over each role group of a roster's units ("Characters", an ally's name) — the
    builder's list pane and the read-only view draw the same list, and wrote the same CSS twice.
