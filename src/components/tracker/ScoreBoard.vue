@@ -43,8 +43,10 @@
         </div>
       </dl>
     </div>
+    <!-- "Tied" is a result, so it is the result screen's. During play level scores are the
+         normal state of a fresh game, and the badge sat on the turn chip's edge. -->
     <div
-      v-if="leaderIdx === -1"
+      v-if="finished && leaderIdx === -1"
       class="tie"
     >
       {{ labels.trackerTie }}
