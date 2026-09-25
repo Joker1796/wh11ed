@@ -67,4 +67,9 @@ describe('ScoreBoard — Battle Points while the game is on', () => {
     const w = mount(ScoreBoard, { props: { game: live('vp') } })
     expect(w.findAll('.grand-bp')).toHaveLength(0)
   })
+
+  it('says nothing about a tie until the game is over', () => {
+    const w = mount(ScoreBoard, { props: { game: { ...finishedGame(10, 10, 'vp'), phase: 'playing' } } })
+    expect(w.find('.tie').exists()).toBe(false)
+  })
 })
