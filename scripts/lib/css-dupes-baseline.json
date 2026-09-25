@@ -1,0 +1,186 @@
+{
+  ".block-head { font-family: var(--font-display); font-size: 1.21rem; font-weight: 500; color: var(--accent); margin: 0 0 0.6rem; }": [
+    "src/components/tracker/EditSetupModal.vue",
+    "src/components/tracker/TrackOptions.vue"
+  ],
+  ".card-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }": [
+    "src/components/tracker/RoundTracker.vue",
+    "src/components/tracker/SecondaryDeck.vue"
+  ],
+  ".card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; color: var(--accent); flex-shrink: 0; }": [
+    "src/components/tracker/RoundTracker.vue",
+    "src/components/tracker/SecondaryDeck.vue"
+  ],
+  ".det-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.9rem; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".det-meta-item { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); background: color-mix(in srgb, var(--accent) 8%, transparent); border: 1px solid var(--border); padding: 2px 7px; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }": [
+    "src/components/roster/RosterSetupFields.vue",
+    "src/components/tracker/GameSetup.vue"
+  ],
+  ".enh-body :deep(ol) { margin: 0.35rem 0 0; padding-left: 1.2rem; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".enh-body { font-size: 0.9rem; line-height: 1.5; color: var(--text-primary); }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".enh-card { background: var(--bg-card); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 0.9rem 1.1rem 1rem; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".enh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; align-items: start; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".enh-heading { display: flex; flex-direction: column; min-width: 0; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".enh-name { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-primary); }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".enh-name-ru { font-size: 0.75rem; font-weight: 500; color: var(--text-muted); opacity: 0.8; line-height: 1.15; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".faction-flavor { font-style: italic; color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.75rem; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".help-view { padding-top: 0.5rem; padding-bottom: 2rem; }": [
+    "src/views/HelpTopicView.vue",
+    "src/views/HelpView.vue"
+  ],
+  ".hero h1 { font-family: var(--font-display); font-size: 2.1rem; font-weight: 500; color: var(--text-primary); margin: 0; line-height: 1.1; }": [
+    "src/views/tracker/RosterListView.vue",
+    "src/views/tracker/TrackerHomeView.vue"
+  ],
+  ".hero-side { display: flex; align-items: center; gap: 0.5rem; min-width: 0; font-size: 0.8rem; color: var(--text-muted); }": [
+    "src/views/tracker/RosterListView.vue",
+    "src/views/tracker/TrackerHomeView.vue"
+  ],
+  ".kind { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 5px; }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".kind.fixed { background: #b3401b; color: #fff; }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".kind.tactical { background: #1f3a5f; color: #fff; }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".m-bhead { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-bottom: 0.35rem; }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".m-heading { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".m-text strong { color: var(--text-primary); white-space: nowrap; }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".m-text { font-size: 0.84rem; color: var(--text-muted); line-height: 1.45; }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".m-when { font-size: 0.72rem; color: var(--text-dim); }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".measurements-toggle { display: inline-flex; align-items: center; gap: 0.4rem; flex-shrink: 0; padding: 0.35rem 0.8rem; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.82rem; transition: color 0.15s, border-color 0.15s; }": [
+    "src/components/event/ChapterLayouts.vue",
+    "src/components/event/LayoutCard.vue"
+  ],
+  ".measurements-toggle:hover { color: var(--text-primary); border-color: var(--accent); }": [
+    "src/components/event/ChapterLayouts.vue",
+    "src/components/event/LayoutCard.vue"
+  ],
+  ".measurements-toggle[aria-pressed=\"true\"] { color: var(--accent); border-color: var(--accent); }": [
+    "src/components/event/ChapterLayouts.vue",
+    "src/components/event/LayoutCard.vue"
+  ],
+  ".member-block { border: 1px solid var(--border); padding: 0.6rem; margin-bottom: 0.7rem; }": [
+    "src/components/tracker/EditSetupModal.vue",
+    "src/components/tracker/GameSetup.vue"
+  ],
+  ".member-head { font-family: var(--font-display); font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin: 0 0 0.5rem; }": [
+    "src/components/tracker/EditSetupModal.vue",
+    "src/components/tracker/GameSetup.vue"
+  ],
+  ".modal-foot { padding: 0.7rem 0.9rem; border-top: 1px solid var(--border); }": [
+    "src/components/tracker/GameEndModal.vue",
+    "src/components/tracker/GameSummaryModal.vue"
+  ],
+  ".nd-link { display: flex; align-items: baseline; gap: 0.4rem; padding: 0.16rem 0; font-size: 0.85rem; color: var(--text-primary); text-decoration: none; white-space: nowrap; transition: color var(--motion-fast); }": [
+    "src/components/AppNavbar.vue",
+    "src/components/AppSubnav.vue"
+  ],
+  ".or { font-style: normal; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-right: 0.2rem; }": [
+    "src/components/event/MissionCard.vue",
+    "src/components/tracker/ScoringModal.vue"
+  ],
+  ".phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }": [
+    "src/views/StratagemsView.vue",
+    "src/views/tracker/RosterViewView.vue"
+  ],
+  ".phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }": [
+    "src/views/StratagemsView.vue",
+    "src/views/tracker/RosterViewView.vue"
+  ],
+  ".phase-head { display: flex; align-items: center; gap: 0.5rem; width: 100%; padding: 0.5rem 0.7rem; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; transition: border-color var(--motion-fast); }": [
+    "src/views/StratagemsView.vue",
+    "src/views/tracker/RosterViewView.vue"
+  ],
+  ".phase-name { flex: 1; text-align: left; }": [
+    "src/views/StratagemsView.vue",
+    "src/views/tracker/RosterViewView.vue"
+  ],
+  ".player-head { font-family: var(--font-display); font-size: 1.21rem; font-weight: 500; color: var(--accent); margin-bottom: 0.75rem; }": [
+    "src/components/tracker/EditSetupModal.vue",
+    "src/components/tracker/GameSetup.vue"
+  ],
+  ".rp-open:hover { border-color: var(--accent); color: var(--text-primary); }": [
+    "src/components/tracker/EditSetupModal.vue",
+    "src/components/tracker/GameSetup.vue"
+  ],
+  ".rule-body { font-size: 0.95rem; line-height: 1.5; color: var(--text-primary); }": [
+    "src/components/RuleBlock.vue",
+    "src/components/event/ChapterIntro.vue"
+  ],
+  ".show-more:hover { border-color: var(--accent); color: var(--accent); }": [
+    "src/views/ChangelogView.vue",
+    "src/views/tracker/TrackerHomeView.vue"
+  ],
+  ".strat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; align-items: start; }": [
+    "src/views/combat-patrol/CombatPatrolFactionView.vue",
+    "src/views/faction/FactionRuleView.vue"
+  ],
+  ".strat-toggle.active { background: var(--accent); border-color: var(--accent); color: #fff; }": [
+    "src/views/StratagemsView.vue",
+    "src/views/tracker/RosterViewView.vue"
+  ],
+  ".strat-toggle:hover { color: var(--text-primary); border-color: var(--accent); }": [
+    "src/views/StratagemsView.vue",
+    "src/views/tracker/RosterViewView.vue"
+  ],
+  ".tp-act { flex: 1; min-height: 44px; justify-content: center; }": [
+    "src/components/tracker/MissionPickerModal.vue",
+    "src/components/tracker/TwistPickerModal.vue"
+  ],
+  ".wprofile-arrow { display: inline-block; width: 13px; height: 9px; margin-right: 0.4rem; background: var(--accent); clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%); vertical-align: middle; }": [
+    "src/components/DatasheetCard.vue",
+    "src/components/roster/WeaponProfileModal.vue"
+  ]
+}

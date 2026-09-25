@@ -61,7 +61,10 @@ Scoped styles do not cross a component boundary, so "these two screens need the 
 kept getting answered with a paste. **What is genuinely one control lives in `style.css`;** what
 is genuinely per-screen stays scoped and overrides it (a scoped selector is `0,2,0` with its
 `data-v` attribute and outranks the `0,1,0` global, so an override needs only the declarations
-it actually changes). `npm run dupes` fails when one rule body appears verbatim in 3+ components.
+it actually changes). `npm run dupes` fails when one rule body appears verbatim in 2+ components
+— a PAIR since 2026-09-25, because nearly every copy the component audit found that day was two
+screens that had copied each other and drifted. The pairs that existed then are recorded in
+`scripts/lib/css-dupes-baseline.json`; a new pair fails, and so does a third copy of a recorded one.
 
 - **What is global** (each with a `── Name ──` banner in `style.css`): `.btn-primary` /
   `.btn-ghost` / `.btn-lg`, the modal chrome (see Modals), `.modal-body` + `.modal-list`,
