@@ -154,6 +154,6 @@ describe('the narrow sheet', () => {
     const body = new DOMWrapper(document.body)
     expect(body.find('.modal > .modal-body').exists()).toBe(true)
     // …and the faction accent still reaches the fields inside it.
-    expect(body.find('.modal-body .fas-themed .probe').exists()).toBe(true)
+    expect(body.find('.modal-body .fa-themed .probe').exists()).toBe(true)
   })
 })

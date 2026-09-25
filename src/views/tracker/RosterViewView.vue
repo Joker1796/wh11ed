@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="roster"
-    class="roster-view themed"
+    class="roster-view fa-themed"
     :style="accentStyle"
   >
     <!-- The way back. The answer to the Save that landed here stood opposite it until 2026-09-24;
@@ -1807,19 +1807,4 @@ function stratKey(strat) {
 @media (max-width: 480px) {
   .strat-toggle-label { display: none; }
 }
-
-/* Per-faction accent — mirrors RosterEditorView / FactionLayout's three-step theme resolution. */
-.roster-view.themed {
-  --accent: var(--fa-light, var(--accent));
-  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-}
-@media (prefers-color-scheme: dark) {
-  .roster-view.themed { --accent: var(--fa-dark, var(--accent)); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
-}
-</style>
-
-<!-- Explicit data-theme must win over prefers-color-scheme in both directions (see FactionLayout). -->
-<style>
-:root[data-theme='light'] .roster-view.themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
-:root[data-theme='dark'] .roster-view.themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
 </style>

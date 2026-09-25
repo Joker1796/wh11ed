@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="roster"
-    class="roster-editor themed"
+    class="roster-editor fa-themed"
     :class="{ 'rw-host': desk || tab !== 'settings' }"
     :style="accentStyle"
   >
@@ -778,19 +778,4 @@ function rename(name) {
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
 }
-
-/* Per-faction accent — mirrors FactionLayout.vue's three-step theme resolution. */
-.roster-editor.themed {
-  --accent: var(--fa-light, var(--accent));
-  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-}
-@media (prefers-color-scheme: dark) {
-  .roster-editor.themed { --accent: var(--fa-dark, var(--accent)); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
-}
-</style>
-
-<!-- Explicit data-theme must win over prefers-color-scheme in both directions (see FactionLayout). -->
-<style>
-:root[data-theme='light'] .roster-editor.themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
-:root[data-theme='dark'] .roster-editor.themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
 </style>

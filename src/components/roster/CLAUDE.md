@@ -618,8 +618,8 @@ for the compact roster data, `useRosterFactionRules(slug, locale, { when })` for
 no newer request started after it; before, only the print sheet had that guard.
 
 The faction ACCENT went the same way — `useFactionAccent.js`, a slug in and `--fa-light`/`--fa-dark`
-out, shared by the three roster screens and `FactionAccentScope`. What `--accent` means inside each
-screen stays that screen's scoped CSS; only the lookup is shared.
+out, shared by the three roster screens and `FactionAccentScope`, and the CSS that folds it into
+`--accent` is the global `.fa-themed` (style.css) — four identical scoped copies until 2026-09-25.
 
 ## Pure logic (`src/composables/roster*.js`)
 

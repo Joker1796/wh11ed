@@ -1,6 +1,6 @@
 <template>
   <div
-    class="roster-create themed"
+    class="roster-create fa-themed"
     :class="{ 'rw-host': desk || step === 2 }"
     :style="accentStyle"
   >
@@ -801,19 +801,4 @@ watchEffect(() => {
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
 }
-
-/* Per-faction accent — mirrors RosterEditorView / FactionLayout's three-step theme resolution. */
-.roster-create.themed {
-  --accent: var(--fa-light, var(--accent));
-  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-}
-@media (prefers-color-scheme: dark) {
-  .roster-create.themed { --accent: var(--fa-dark, var(--accent)); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
-}
-</style>
-
-<!-- Explicit data-theme must win over prefers-color-scheme in both directions (see FactionLayout). -->
-<style>
-:root[data-theme='light'] .roster-create.themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
-:root[data-theme='dark'] .roster-create.themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
 </style>

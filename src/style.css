@@ -739,6 +739,21 @@ strong {
 }
 .fp-group:first-child { margin-top: 0; }
 
+/* ── Faction accent ────────────────────────────────────────────────────────
+   A screen that wears one faction's colour — the three roster screens, and FactionAccentScope for
+   what they teleport out of themselves — sets `--fa-light`/`--fa-dark` inline (useFactionAccent.js)
+   and folds them into `--accent` with this class. Four scoped copies until 2026-09-25. The
+   explicit data-theme wins over prefers-color-scheme in both directions (as in FactionLayout). */
+.fa-themed {
+  --accent: var(--fa-light, var(--accent));
+  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
+}
+@media (prefers-color-scheme: dark) {
+  .fa-themed { --accent: var(--fa-dark, var(--accent)); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
+}
+:root[data-theme='light'] .fa-themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
+:root[data-theme='dark'] .fa-themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
+
 /* ── Roster screen header icon ─────────────────────────────────────────────
    The square icon buttons by a roster's name (editor and view: edit, share, the "…" menu). One of
    them is a link and another a button, and they must not look it: a <button> starts from the
