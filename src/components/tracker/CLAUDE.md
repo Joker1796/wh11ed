@@ -92,7 +92,11 @@ The turn lives in `currentTurn` (the `shared` slice), which existed for the phas
 format did not change. **Phases stay optional** (`trackPhases`); the turn does not depend on them.
 In a shared game the turn is ended by the side playing it and taken back by the side that ended
 it; the other phone sees the button greyed with the reason on the line under it. The round bar
-stays for corrections after the fact and is not gated. (Mikhail's prototype, 2026-09-25.)
+stays for corrections after the fact and is not gated. (Mikhail's prototype, 2026-09-25. The score cards
+follow the same prototype: each side in its colour (you `--accent`, the opponent `--side-opponent`)
+as a stripe and on the name, name · faction on one line, VP and BP side by side at one size, the
+breakdown under a rule; the side on turn gets a wash of its colour and the "turn" mark. "Leading"
+is gone from the live board — the gold edge and "Tied" belong to the result screen.
 
 ## Slices — the game as multi-device sync moves it
 

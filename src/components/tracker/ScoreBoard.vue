@@ -1,28 +1,26 @@
 <template>
   <div class="board">
+    <!-- Each side wears its colour — you in the accent, the opponent in blue — as a stripe down
+         the card and on the name; the side on turn adds a wash of it and the "turn" mark. -->
     <div
       v-for="(pl, i) in game.players"
       :key="i"
       class="col"
-      :class="{ lead: leaderIdx === i, turn: turnIdx === i }"
+      :class="{ lead: finished && leaderIdx === i, turn: turnIdx === i, opp: !isYouSide(pl, i) }"
     >
+      <!-- Flex with a gap, so the template's line breaks between the spans add nothing; the
+           faction's "·" is drawn by CSS. -->
       <div class="col-head">
         <span class="pname">{{ sideName(pl, i, labels) }}</span>
         <span
-          v-if="turnIdx === i"
-          class="turn-tag"
-        >{{ labels.trackerTurnTag }}</span>
-        <span
-          v-if="leaderIdx === i && !finished"
-          class="lead-tag"
-        >{{ labels.trackerLeader }}</span>
+          v-if="factionLine(pl)"
+          class="pfaction"
+        >{{ factionLine(pl) }}</span>
       </div>
-      <p
-        v-if="factionLine(pl)"
-        class="pfaction"
-      >
-        {{ factionLine(pl) }}
-      </p>
+      <span
+        v-if="turnIdx === i"
+        class="turn-tag"
+      >{{ labels.trackerTurnTag }}</span>
       <div
         :ref="el => (grandEls[i] = el)"
         class="grand"
@@ -65,7 +63,7 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
-import { useTracker, sideName, membersOf } from '../../composables/useTracker.js'
+import { useTracker, sideName, isYouSide, membersOf } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../composables/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
@@ -114,63 +112,49 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 .board {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0, …): a plain 1fr grows to its content, and the breakdown's three labels pushed the
+     second card off a 320px screen. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
 }
 .col {
+  --side: var(--accent);
+  position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-top: 3px solid var(--border);
-  padding: 0.8rem;
-  text-align: center;
+  border-left: 4px solid var(--side);
+  padding: 0.75rem 0.9rem 0.8rem;
 }
-.col.lead {
-  border-top-color: #e3b341;
-}
+.col.opp { --side: var(--side-opponent); }
+.col.turn { background: color-mix(in srgb, var(--side) 8%, var(--bg-card)); }
+/* The result screen: the winner keeps its gold edge. */
+.col.lead { border-top: 3px solid #e3b341; }
 .col-head {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  margin-bottom: 0.3rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.35rem;
+  margin-bottom: 0.35rem;
 }
-.pname { font-weight: 700; color: var(--text-primary); font-size: 1.2rem; }
-/* The side whose turn it is: an accent stripe down the left and a faint accent wash. */
-.col.turn {
-  border-left: 3px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 7%, var(--bg-card));
+/* Room for the turn mark in the corner, so a long name wraps before it reaches it. */
+.col.turn .col-head { padding-right: 2.4rem; }
+.pname {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--side);
+  word-break: break-word;
 }
-/* Out of the flow, straddling the card's top edge the way the tie badge straddles the board's: a
-   tag in the head pushed this card's figures a line below the other's on a phone (the head
-   stacks there), and one in the corner sat across a long name at 320px. The board makes room
-   for it the same way it does for the tie. */
-.col { position: relative; }
-.board:has(.turn-tag) { margin-top: 0.6rem; }
+.pfaction { font-size: 0.95rem; color: var(--text-muted); }
+.pfaction::before { content: '· '; }
 .turn-tag {
   position: absolute;
-  top: -0.55rem;
-  right: 0.5rem;
-  padding: 1px 8px;
-  font-size: 0.66rem;
+  top: 0.6rem;
+  right: 0.8rem;
+  font-size: 1rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #fff;
-  background: var(--accent);
-}
-.pfaction {
-  margin: -0.15rem 0 0.3rem;
-  font-size: 0.78rem;
-  color: var(--text-dim);
-}
-.lead-tag {
-  font-size: 0.62rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #1a1a1a;
-  background: #e3b341;
-  padding: 1px 6px;
+  color: var(--side);
 }
 .grand {
   font-family: var(--font-display);
@@ -181,30 +165,20 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 }
 .grand-unit { font-size: 0.8rem; color: var(--text-dim); margin-left: 0.2rem; font-family: var(--font-mono); }
 .grand-vp { font-size: 0.85rem; opacity: 0.5; margin-left: 0.4rem; font-family: var(--font-mono); font-weight: 600; }
-/* The running Battle Points, on the total's own line: small and muted, so the eye still lands
-   on the VP first. */
-/* The running Battle Points share the total's typography — same display face, same unit
-   styling — one size down and a shade quieter, so the VP figure still leads the line. */
-.grand-bp {
-  font-family: var(--font-display);
-  font-size: 1.7rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin-left: 0.7rem;
-}
+/* The running Battle Points stand beside the VP as its equal, the same face and size. */
+.grand-bp { margin-left: 1.1rem; }
 .breakdown {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 0.5rem 0 0;
+  gap: 1.2rem;
+  margin: 0.7rem 0 0;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--border);
 }
-.breakdown div { display: flex; flex-direction: column; gap: 1px; }
-.breakdown dt { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); }
-.breakdown dd { margin: 0; font-family: var(--font-mono); font-weight: 700; color: var(--text-muted); }
-/* The badge straddles the board's top edge, and this screen puts the board directly under the
-   sticky header — so on a phone the two touched. The board makes room for it instead of the badge
-   moving onto the score columns (there it would sit across the player names): the extra strip is
-   paid for ONLY by a tied game, which is why it hangs off `:has()` rather than off the board. */
+.breakdown div { display: flex; flex-direction: column; gap: 2px; }
+.breakdown dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+.breakdown dd { margin: 0; font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); }
+/* The badge straddles the board's top edge (the result screen only). The board makes room for it
+   rather than the badge moving onto the score columns. */
 .board:has(.tie) { margin-top: 0.6rem; }
 .tie {
   position: absolute;
@@ -219,20 +193,19 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   color: var(--text-dim);
 }
 
-/* Keep the two score boxes side-by-side on phones, but shrink so they fit. */
+/* Phones: two cards side by side still, everything one step down. */
 @media (max-width: 560px) {
   .board { gap: 0.4rem; }
-  .col { padding: 0.55rem 0.35rem; }
-  .col-head { flex-direction: column; gap: 0.15rem; }
-  /* Hide the "Leading" tag on phones so both score columns stay aligned; the accent top-border
-     already marks the leader. Desktop keeps it. (On a finished game no tag shows at all — the
-     gold top-border marks the winner.) */
-  .lead-tag { display: none; }
-  .pname { font-size: 1.05rem; word-break: break-word; }
+  .col { padding: 0.55rem 0.5rem 0.6rem; border-left-width: 3px; }
+  .col.turn .col-head { padding-right: 1.9rem; }
+  .pname { font-size: 1.05rem; }
+  .pfaction { font-size: 0.78rem; }
+  .turn-tag { top: 0.45rem; right: 0.5rem; font-size: 0.85rem; }
   .grand { font-size: 1.7rem; }
   .grand-unit { font-size: 0.7rem; }
-  .breakdown { gap: 0.5rem; }
-  .breakdown dt { font-size: 0.58rem; }
-  .breakdown dd { font-size: 0.82rem; }
+  .grand-bp { margin-left: 0.6rem; }
+  .breakdown { justify-content: space-between; gap: 0.3rem; margin-top: 0.5rem; padding-top: 0.4rem; }
+  .breakdown dt { font-size: 0.58rem; letter-spacing: 0; }
+  .breakdown dd { font-size: 0.95rem; }
 }
 </style>

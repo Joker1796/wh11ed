@@ -27,6 +27,9 @@
   --bg-row-hover: rgba(139, 42, 51, 0.05);
   --ability-weapon: #7a5a00;
   --ability-unit: #004a6e;
+  /* The opponent's colour on the tracker's score cards (yours is --accent). Follows the unit-ability
+     blue in both themes, which already passes contrast on the card. */
+  --side-opponent: var(--ability-unit);
   /* The one "something is wrong" red: points over budget, validation errors, losses,
      destructive hover. Every red that means danger goes through this — not a literal. */
   --danger: #c0392b;

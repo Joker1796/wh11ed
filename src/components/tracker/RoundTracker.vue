@@ -3,7 +3,11 @@
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
          kept always — the phase clock under the rounds is the optional part. -->
     <p class="turn-now">
-      {{ turnHeadline }}
+      <span
+        v-for="(part, k) in turnHeadline"
+        :key="k"
+        :class="{ 'tn-strong': part.strong }"
+      >{{ part.text }}</span>
     </p>
     <ScoreBoard />
 
@@ -377,7 +381,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { useTracker, membersOf, sideLabel, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useTracker, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
@@ -424,11 +428,27 @@ function playerName(i) {
   return current.value.players[i].name || playerSide(i)
 }
 
+// A phrase about a player, with their name in it. A side with no name of its own is printed as
+// "You" / "Opponent" (sideLabel), and "ход выполняет Вы" is not Russian — so your own unnamed side
+// takes the `…You` variant of the phrase instead.
+function aboutPlayer(key, i) {
+  const l = labels.value
+  const pl = current.value.players[i]
+  return !pl.name && isYouSide(pl, i) ? l[`${key}You`] : l[key].replace('{name}', playerName(i))
+}
+
+// "Round 3 · Andronovmy is playing", the round number and the name in bold. Returned as parts
+// rather than a string so the bold can be markup without building text out of template fragments.
 const turnHeadline = computed(() => {
   const l = labels.value
-  return `${l.trackerRoundShort} ${current.value.currentRound} \u00b7 ${l.trackerTurnNow.replace('{name}', playerName(turnIndex.value))}`
+  const t = turnIndex.value
+  const pl = current.value.players[t]
+  const parts = [{ text: `${l.trackerRoundShort} ` }, { text: String(current.value.currentRound), strong: true }, { text: ' \u00b7 ' }]
+  if (!pl.name && isYouSide(pl, t)) return [...parts, { text: l.trackerTurnNowYou }]
+  const [before, after] = l.trackerTurnNow.split('{name}')
+  return [...parts, { text: before }, { text: playerName(t), strong: true }, { text: after }].filter(p => p.text)
 })
-const endTurnLabel = computed(() => labels.value.trackerEndTurn.replace('{name}', playerName(turnIndex.value)))
+const endTurnLabel = computed(() => aboutPlayer('trackerEndTurn', turnIndex.value))
 
 // The line under the button: who plays next — or, on the phone that may not end this turn, why
 // the button is grey.
@@ -438,7 +458,7 @@ const nextLine = computed(() => {
   if (!canEdit(t)) return l.trackerTurnLocked.replace('{name}', playerName(t))
   if (!canEndTurn()) return l.trackerLastTurn
   const round = current.value.currentRound + (t === 1 ? 1 : 0)
-  return l.trackerNextUp.replace('{name}', playerName(1 - t)).replace('{round}', round)
+  return aboutPlayer('trackerNextUp', 1 - t).replace('{round}', round)
 })
 // The turn before this one is always the other player's, and theirs to take back.
 const undoTitle = computed(() => {
@@ -737,24 +757,26 @@ function onEndBattle(reason) {
 }
 
 /* The headline over the score: round and turn, read at a glance from across the table. */
+/* Inline, not flex: the headline's spans carry their own spaces ("Andronovmy’s turn" has none
+   between the name and the rest), and flex items would trim them and space by the gap instead. */
 .turn-now {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
   margin: 0 0 0.5rem;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
 }
 .turn-now::before {
   content: '';
-  flex: none;
+  display: inline-block;
   width: 8px;
   height: 8px;
+  margin-right: 0.5rem;
+  vertical-align: 0.15em;
   border-radius: 50%;
   background: var(--accent);
 }
+.tn-strong { font-weight: 700; color: var(--text-primary); }
 .turn-flow { margin: 0.6rem 0 0; }
-.tf-end { width: 100%; padding: 0.7rem 1rem; font-size: 1rem; }
+.tf-end { width: 100%; justify-content: center; padding: 0.8rem 1rem; font-size: 1.05rem; font-weight: 700; }
 .tf-line {
   display: flex;
   flex-wrap: wrap;
