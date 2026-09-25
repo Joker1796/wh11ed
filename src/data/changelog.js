@@ -32,6 +32,10 @@ export const changelog = [
       'When the base size does not fit next to a unit’s name, it now sits right under the name. Before, it took a whole line as tall as the name.',
       { h: 'Event Companion: menu on a computer' },
       'The top menu now has a Doubles item, and FAQ opens the FAQ. Before, the FAQ item led to Doubles, and the FAQ had no item at all.',
+      { h: 'Death Guard: Contagion Range' },
+      'From the third battle round, Contagion Range is now 9". Before, both the faction page and the game tracker stopped at 6".',
+      { h: 'Army rules: figures drawn as pictures' },
+      'I checked every army and detachment rule where the GW app draws its figures as a picture. The World Eaters Blessings Martial Excellence, Warp Blades and Decapitating Strikes now list the triples they also accept. The T’au Drones section now has the Gun Drone and Missile Drone weapon profiles.',
     ],
     ru: [
       { h: 'Конструктор: снятие детачмента' },
@@ -46,6 +50,10 @@ export const changelog = [
       'Если размер базы не помещается рядом с названием юнита, он стоит вплотную под названием. Раньше он занимал целую строку высотой с само название.',
       { h: 'Event Companion: меню на компьютере' },
       'В верхнем меню появился пункт Doubles, а пункт FAQ открывает FAQ. Раньше FAQ вёл на Doubles, а своего пункта у FAQ не было.',
+      { h: 'Death Guard: Contagion Range' },
+      'С третьего раунда боя Contagion Range теперь 9". Раньше и страница фракции, и трекер партии останавливались на 6".',
+      { h: 'Правила армий: цифры с картинок' },
+      'Я сверил все правила армий и детачментов, где приложение GW рисует цифры картинкой. У World Eaters в благословениях Martial Excellence, Warp Blades и Decapitating Strikes теперь указаны триплеты, на которые они тоже срабатывают. У T’au в разделе Drones появились профили оружия Gun Drone и Missile Drone.',
     ],
   },
   {
