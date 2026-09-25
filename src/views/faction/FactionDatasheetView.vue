@@ -14,7 +14,7 @@
                anything beside the name either wrapped the name or took a row. The badge sits in
                the statline's spare space instead (DatasheetCard). -->
           <h2 class="ds-title">
-            {{ sheet.name }} <span
+            <span class="ds-title-name">{{ sheet.name }}</span> <span
               v-if="sheet.baseSize"
               class="ds-title-base"
             >({{ fmtBase(sheet.baseSize) }})</span>
@@ -445,8 +445,12 @@ async function copyName() {
   flex: 1 1 auto;
   min-width: 0;
   overflow-wrap: break-word;
+  /* The title size is the NAME's (.ds-title-name and its steps below), not the heading's: the heading's own size is the base size's, so a
+     line holding only a wrapped "(⌀90mm)" is as tall as that text and sits right under the name.
+     With the heading at the title's size, that line kept a whole title-row of air (owner,
+     2026-09-25); the name's own lines are unchanged. */
+  font-size: 0.85rem;
   font-family: var(--font-display);
-  font-size: 2rem;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.3px;
@@ -455,8 +459,8 @@ async function copyName() {
 }
 /* Single-model base size (⌀50mm) to the right of the unit name on the header plate. */
 
+.ds-title-name { font-size: 2rem; }
 .ds-title-base {
-  display: inline;
   margin-left: 0.45rem;
   font-family: var(--font-sans);
   font-size: 0.85rem;
@@ -553,7 +557,7 @@ async function copyName() {
 }
 
 @media (max-width: 640px) {
-  .ds-title { font-size: 1.5rem; }
+  .ds-title-name { font-size: 1.5rem; }
 }
 
 .ds-page { container: dspage / inline-size; }
@@ -586,10 +590,10 @@ async function copyName() {
      wraps them to the same two lines 1.5rem did, ten pixels taller; a 25-char name ("Chaos Lord
      with Jump Pack", the 90th percentile) stays on one line. Only a 320px screen needs a step
      down to keep the longest at two lines. */
-  .ds-title { font-size: 1.75rem; }
+  .ds-title-name { font-size: 1.75rem; }
 }
 @container dspage (max-width: 340px) {
-  .ds-title { font-size: 1.6rem; }
+  .ds-title-name { font-size: 1.6rem; }
 }
 /* The sheet's rows carry the same icon the toolbar button did, so the two read as one thing. */
 .ds-act { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }

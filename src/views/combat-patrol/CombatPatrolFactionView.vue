@@ -155,7 +155,7 @@
         >
           <div class="ds-head">
             <h3 class="ds-title">
-              {{ ds.name }}<span
+              <span class="ds-title-name">{{ ds.name }}</span><span
                 v-if="ds.baseSize"
                 class="ds-title-base"
               >({{ fmtBase(ds.baseSize) }})</span>
@@ -375,14 +375,19 @@ const faction = computed(() =>
   background: var(--accent);
 }
 .ds-title {
+  /* The title size is the NAME's, not the heading's: the heading's own size is the base size's, so a
+     line holding only a wrapped "(⌀90mm)" is as tall as that text and sits right under the name.
+     With the heading at the title's size, that line kept a whole title-row of air (owner,
+     2026-09-25); the name's own lines are unchanged. */
+  font-size: 0.85rem;
   font-family: var(--font-display);
-  font-size: 1.7rem;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: #fff;
   margin: 0;
 }
+.ds-title-name { font-size: 1.7rem; }
 .ds-title-base {
   margin-left: 0.45rem;
   font-family: var(--font-sans);
