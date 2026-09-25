@@ -1,32 +1,13 @@
 <template>
   <BaseModal
+    :title="title"
+    :subtitle="subtitle"
+    dense
     max-width="480px"
     @close="$emit('close')"
   >
-    <template #header>
-      <header class="modal-head">
-        <div class="mh-text">
-          <h3 class="mh-title">
-            {{ title }}
-          </h3>
-          <p
-            v-if="subtitle"
-            class="mh-sub"
-          >
-            {{ subtitle }}
-          </p>
-        </div>
-        <div class="mh-right">
-          <span class="mh-vp">{{ vp }} VP</span>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="$emit('close')"
-          >
-            ✕
-          </button>
-        </div>
-      </header>
+    <template #aside>
+      <span class="mh-count value">{{ vp }} VP</span>
     </template>
 
     <div class="modal-body">
@@ -165,10 +146,6 @@ function toggleBriefing() {
 <style scoped>
 /* The heading here is two lines deep, so the close button rides at the top of it rather than
    centred against the whole block. */
-.modal-head { align-items: flex-start; }
-.mh-vp { font-family: var(--font-mono); font-weight: 700; color: var(--accent); font-size: 0.95rem; }
-/* Denser header than the default. */
-.mh-close { min-width: 32px; min-height: 32px; }
 .brief-toggle {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
   width: 100%; margin-top: 0.35rem; padding: 0.45rem 0.7rem;

@@ -24,34 +24,22 @@
 
   <BaseModal
     v-if="showFull"
+    :title="`${labels.eventLayout} ${layout.id}`"
+    dense
     max-width="min(96vw, 900px)"
     max-height="94dvh"
     :z-index="410"
     @close="showFull = false"
   >
-    <template #header>
-      <header class="modal-head">
-        <h3 class="mh-title">
-          {{ labels.eventLayout }} {{ layout.id }}
-        </h3>
-        <div class="mh-right">
-          <button
-            class="measurements-toggle"
-            :aria-pressed="modalMeasurements"
-            @click="modalMeasurements = !modalMeasurements"
-          >
-            <i class="bi bi-rulers" />
-            <span>{{ modalMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
-          </button>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="showFull = false"
-          >
-            ✕
-          </button>
-        </div>
-      </header>
+    <template #aside>
+      <button
+        class="measurements-toggle"
+        :aria-pressed="modalMeasurements"
+        @click="modalMeasurements = !modalMeasurements"
+      >
+        <i class="bi bi-rulers" />
+        <span>{{ modalMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
+      </button>
     </template>
     <div class="modal-body layout-modal-body">
       <AppImage
@@ -169,8 +157,6 @@ const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.ima
   height: auto;
 }
 
-/* Denser header than the default. */
-.mh-close { min-width: 32px; min-height: 32px; }
 
 .measurements-toggle {
   display: inline-flex;
@@ -194,7 +180,6 @@ const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.ima
   border-color: var(--accent);
 }
 @media (max-width: 420px) {
-  .mh-title { font-size: 1.2rem; }
   .measurements-toggle { padding: 0.35rem 0.55rem; }
   .measurements-toggle span { display: none; }
 }

@@ -1,24 +1,13 @@
 <template>
-  <BaseModal @close="$emit('close')">
-    <template #header>
-      <header class="modal-head">
-        <h3 class="mh-title">
-          {{ title }}
-        </h3>
-        <div class="mh-right">
-          <em
-            class="pool"
-            :title="labels.trackerArmyRemaining"
-          >{{ remaining }}</em>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="$emit('close')"
-          >
-            ✕
-          </button>
-        </div>
-      </header>
+  <BaseModal
+    :title="title"
+    @close="$emit('close')"
+  >
+    <template #aside>
+      <span
+        class="mh-count value"
+        :title="labels.trackerArmyRemaining"
+      >{{ remaining }}</span>
     </template>
 
     <div class="modal-body modal-list">
@@ -60,9 +49,7 @@ const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
-/* Header mirrors the other tracker picker modals (ArmyMultiPickerModal / DetachmentPickerModal). */
 /* Remaining-pool badge (the resource being spent). */
-.pool { font-size: 1rem; font-family: var(--font-mono); font-weight: 700; color: var(--accent); font-style: normal; }
 
 /* Roomier than the default list — these rows are cards, not one-liners. */
 .modal-list { gap: 0.4rem; }

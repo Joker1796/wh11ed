@@ -490,23 +490,11 @@
          in the format the GW app writes. -->
     <BaseModal
       v-if="menuOpen"
+      :title="roster.name || labels.rosterUntitled"
+      dense
       max-width="340px"
       @close="menuOpen = false"
     >
-      <template #header>
-        <header class="modal-head">
-          <h3 class="mh-title">
-            {{ roster.name || labels.rosterUntitled }}
-          </h3>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="menuOpen = false"
-          >
-            ✕
-          </button>
-        </header>
-      </template>
       <div class="modal-body act-list">
         <!-- Both of these WRITE the list out, so both wait for the faction data that names its
              units — a copy taken a beat too early would be a list with no army in it. -->

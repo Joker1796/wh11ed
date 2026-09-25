@@ -1,24 +1,13 @@
 <template>
-  <BaseModal @close="$emit('close')">
-    <template #header>
-      <header class="modal-head">
-        <h3 class="mh-title">
-          {{ labels.trackerDpBudget }}
-        </h3>
-        <div class="mh-right">
-          <em
-            class="dp-modal-count"
-            :class="{ over: dpSpent > maxDp && !overAllowed }"
-          >{{ dpSpent }} / {{ maxDp }} DP</em>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="$emit('close')"
-          >
-            ✕
-          </button>
-        </div>
-      </header>
+  <BaseModal
+    :title="labels.trackerDpBudget"
+    @close="$emit('close')"
+  >
+    <template #aside>
+      <span
+        class="mh-count"
+        :class="{ over: dpSpent > maxDp && !overAllowed }"
+      >{{ dpSpent }} / {{ maxDp }} DP</span>
     </template>
 
     <div class="modal-body modal-list">
@@ -99,13 +88,6 @@ const hidden = computed(() => props.detachments.length - offered.value.length)
 </script>
 
 <style scoped>
-.dp-modal-count {
-  font-size: 0.82rem;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  font-style: normal;
-}
-.dp-modal-count.over { color: var(--danger); }
 
 /* The row above the list: what to press to start over, and what the list is not showing. */
 .det-tools { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }

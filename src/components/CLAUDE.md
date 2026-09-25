@@ -111,16 +111,19 @@ Every dialog is a `BaseModal` (teleported to `<body>`, `useModalA11y` for focus/
   menu) or the keyword popover is not a page and does not get this.
 
 - **The header chrome is global, in `style.css` ("Modal chrome"): `.modal-head`, `.mh-title`,
-  `.mh-sub`, `.mh-right`, `.mh-close`.** Not scoped to `BaseModal`, and this is the whole point:
+  `.mh-sub`, `.mh-right`, `.mh-close`, `.mh-count`.** Not scoped to `BaseModal`, and this is the whole point:
   a consumer's own `<template #header>` renders in **its** scope, which BaseModal's scoped rules
   can never reach. That is why twelve dialogs each carried a private copy of the same four rules
   — and why the thirteenth (`PhasePickerModal`) shipped a header in raw browser defaults until
-  2026-08-25. Don't re-add a local copy; a dialog that must differ overrides only the
-  declarations it cares about (its scoped `.modal-head` is `0,2,0` and outranks the global
-  `0,1,0`) — four do, for a two-line heading or a denser close button.
-- **Prefer the `title` prop over the `#header` slot.** BaseModal's own header is exactly heading
-  + close, already wired to `aria-labelledby`. Use the slot only for a header carrying more than
-  that (a subtitle, a VP counter, extra buttons).
+  2026-08-25. Don't re-add a local copy; the two variants a dialog needs are BaseModal props.
+- **Use the props, not the `#header` slot.** `title`, `subtitle` (a second line; the header then
+  aligns to the top), `dense` (a 32px close, top-aligned — for a title that may wrap) and the
+  `#aside` slot (whatever sits beside the close button: a `.mh-count` counter — `.full`, `.over`,
+  `.value` — or a toggle) cover every dialog the app has. Twelve dialogs drew their header by hand
+  until 2026-09-25, and none of them had an accessible name: `aria-labelledby` only reached a
+  `title` BaseModal rendered itself. A consumer's scoped `.modal-head`/`.mh-close` override does
+  NOT reach the header BaseModal renders — that is what `dense` and `subtitle` are for. The slot
+  still exists (it passes `titleId` for the heading's `id`), but nothing uses it.
 - **`.modal-body` must be the direct child of the slot.** `.modal` is a capped flex column with
   `overflow: hidden`, so only a flex item that is itself a scroll container may shrink below its
   content. Wrapping the body in anything (`FactionAccentScope` did this until 2026-08-27) leaves a

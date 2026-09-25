@@ -1,28 +1,15 @@
 <template>
   <BaseModal
+    :title="enh?.name || name"
     max-width="640px"
     max-height="85dvh"
     @close="$emit('close')"
   >
-    <template #header="{ close }">
-      <header class="modal-head">
-        <h3 class="mh-title">
-          {{ enh?.name || name }}
-        </h3>
-        <div class="mh-right">
-          <span
-            v-if="enh?.points != null"
-            class="erm-head-pts"
-          >+{{ enh.points }}</span>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="close"
-          >
-            ✕
-          </button>
-        </div>
-      </header>
+    <template #aside>
+      <span
+        v-if="enh?.points != null"
+        class="mh-count value"
+      >+{{ enh.points }}</span>
     </template>
     <div class="modal-body">
       <template v-if="enh">
@@ -127,10 +114,6 @@ watch(
 </script>
 
 <style scoped>
-/* Custom header (BaseModal's default #header slot only takes a plain title string — this needs
-   the points badge alongside it), duplicating BaseModal's own header look, same as every other
-   custom-header modal in the app (e.g. DetachmentPickerModal.vue). */
-.erm-head-pts { font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; color: var(--accent); }
 
 .modal-body { padding: 0.9rem; overflow-y: auto; font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
 .erm-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }

@@ -1,24 +1,13 @@
 <template>
-  <BaseModal @close="$emit('close')">
-    <template #header>
-      <header class="modal-head">
-        <h3 class="mh-title">
-          {{ title }}
-        </h3>
-        <div class="mh-right">
-          <em
-            class="pick-count"
-            :class="{ full: selected.length >= max }"
-          >{{ selected.length }} / {{ max }}</em>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="$emit('close')"
-          >
-            ✕
-          </button>
-        </div>
-      </header>
+  <BaseModal
+    :title="title"
+    @close="$emit('close')"
+  >
+    <template #aside>
+      <span
+        class="mh-count"
+        :class="{ full: selected.length >= max }"
+      >{{ selected.length }} / {{ max }}</span>
     </template>
 
     <div class="modal-body modal-list">
@@ -55,11 +44,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import RuleBody from '../RuleBody.vue'
-import { ui } from '../../i18n/ui.js'
-import { useLocale } from '../../composables/useLocale.js'
 
 defineProps({
   title:    { type: String, required: true },
@@ -69,14 +55,9 @@ defineProps({
 })
 defineEmits(['toggle', 'close'])
 
-const { locale } = useLocale()
-const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
-/* Header mirrors the other tracker picker modals (DetachmentPickerModal). */
-.pick-count { font-size: 0.85rem; font-family: var(--font-mono); color: var(--text-muted); font-style: normal; }
-.pick-count.full { color: var(--accent); }
 
 /* Roomier than the default list — these rows are cards, not one-liners. */
 .modal-list { gap: 0.4rem; }

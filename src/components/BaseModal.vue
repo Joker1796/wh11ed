@@ -22,31 +22,63 @@
           class="modal"
           role="dialog"
           aria-modal="true"
-          :aria-labelledby="title ? titleId : undefined"
+          :aria-labelledby="title || $slots.header ? titleId : undefined"
           tabindex="-1"
           :style="{ '--modal-max-w': maxWidth, '--modal-max-h': maxHeight }"
         >
           <!-- Custom header: the consumer supplies its own <header class="modal-head">, and gets the
            shared look for free — the chrome classes are global (style.css), not scoped here.
-           Prefer `title` when the header is only a heading and a close button; this slot is for
-           the ones that carry more (a subtitle, a VP counter). -->
+           Almost never needed: `title` + `subtitle` + the `#aside` slot cover every dialog the
+           app has, and a custom header has to wire its own accessible name (`titleId`). -->
           <slot
             v-if="$slots.header"
             name="header"
             :close="() => $emit('close')"
+            :title-id="titleId"
           />
-          <!-- Default header: title + close -->
+          <!-- Default header: title (and a subtitle under it), whatever the dialog shows beside
+               the close button (`#aside` — a counter, a VP total, a toggle), then close. -->
           <header
             v-else-if="title"
             class="modal-head"
+            :class="{ 'two-line': subtitle || dense, dense }"
           >
+            <div
+              v-if="subtitle"
+              class="mh-text"
+            >
+              <h3
+                :id="titleId"
+                class="mh-title"
+              >
+                {{ title }}
+              </h3>
+              <p class="mh-sub">
+                {{ subtitle }}
+              </p>
+            </div>
             <h3
+              v-else
               :id="titleId"
               class="mh-title"
             >
               {{ title }}
             </h3>
+            <div
+              v-if="$slots.aside"
+              class="mh-right"
+            >
+              <slot name="aside" />
+              <button
+                class="mh-close"
+                :aria-label="labels.modalClose"
+                @click="$emit('close')"
+              >
+                ✕
+              </button>
+            </div>
             <button
+              v-else
               class="mh-close"
               :aria-label="labels.modalClose"
               @click="$emit('close')"
@@ -70,6 +102,11 @@ import { useModalA11y } from '../composables/useModalA11y.js'
 
 defineProps({
   title: { type: String, default: '' },
+  // A second line under the title — a date, what the dialog is about. Two lines align to the top.
+  subtitle: { type: String, default: '' },
+  // The denser header: a 32px close button, aligned to the top so a title that wraps (a player's
+  // own roster name) keeps the button beside its first line.
+  dense: { type: Boolean, default: false },
   maxWidth: { type: String, default: '520px' },
   maxHeight: { type: String, default: '85dvh' },
   zIndex: { type: Number, default: 400 },

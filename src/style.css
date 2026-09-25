@@ -1165,9 +1165,8 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
    reach it, so 12 dialogs each carried a private copy of these four rules and the thirteenth
    (PhasePickerModal) forgot, shipping a header in bare browser defaults.
 
-   A dialog that needs to differ still can: its scoped `.modal-head` (0,2,0 with the data-v
-   attribute) outranks these, so it overrides just the declarations it cares about. Four of
-   them do exactly that — see the `align-items: flex-start` and 32px-button overrides.
+   Every dialog now gets its header from BaseModal's props (title, subtitle, dense, #aside), so a
+   consumer's scoped override would not reach it: the variants are the classes below.
 
    `.modal-body` is deliberately NOT here: its padding is genuinely per-dialog (twelve
    different values, none of them a majority), and only its scroll behaviour is shared. */
@@ -1205,6 +1204,7 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 }
 
 .mh-close {
+  flex-shrink: 0; /* a long title must not squeeze the button out of shape */
   background: none;
   border: none;
   color: var(--text-muted);
@@ -1213,6 +1213,27 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   min-width: 36px;
   min-height: 36px;
 }
+/* BaseModal's `subtitle` / `dense`: two lines (or a title that may wrap) keep the controls beside
+   the FIRST line, and the dense header's close is a notch smaller. These were five dialogs' own
+   scoped overrides while each drew its header by hand. */
+.modal-head.two-line { align-items: flex-start; }
+.modal-head.dense .mh-close { min-width: 32px; min-height: 32px; }
+
+/* A number in the header beside the close button: how many are picked of how many ("2 / 3"),
+   turning the accent colour once the picks are all made and red when over; `.value` is the number
+   the dialog is ABOUT (VP scored, points an enhancement costs, what is left in a pool). Three
+   dialogs had three near-identical counters before this. */
+.mh-count {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.mh-count.full { color: var(--accent); }
+.mh-count.over { color: var(--danger); }
+.mh-count.value { font-size: 0.95rem; color: var(--accent); }
 
 @media (hover: hover) {
   .mh-close:hover {

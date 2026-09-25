@@ -28,8 +28,9 @@ beforeEach(async () => {
 })
 
 const BaseModalStub = {
-  props: ['title', 'maxWidth', 'maxHeight', 'zIndex'],
-  template: '<div class="modal-stub"><slot name="header" /><slot /></div>',
+  props: ['title', 'subtitle', 'dense', 'maxWidth', 'maxHeight', 'zIndex'],
+  emits: ['close'],
+  template: '<div class="modal-stub"><button class="mh-close" @click="$emit(\'close\')" /><slot name="aside" /><slot /></div>',
 }
 const stubs = { BaseModal: BaseModalStub, RouterLink: { props: ['to'], template: '<a><slot /></a>' } }
 

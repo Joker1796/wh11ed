@@ -124,28 +124,12 @@
     <!-- Per-card actions: set aside (keep VP) or return to deck (full undo) -->
     <BaseModal
       v-if="actionMission"
+      :title="actionMission.name"
+      :subtitle="labels.trackerCardActions"
+      dense
       max-width="340px"
       @close="actionSlug = null"
     >
-      <template #header>
-        <header class="modal-head">
-          <div class="mh-text">
-            <h3 class="mh-title">
-              {{ actionMission.name }}
-            </h3>
-            <p class="mh-sub">
-              {{ labels.trackerCardActions }}
-            </p>
-          </div>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="actionSlug = null"
-          >
-            ✕
-          </button>
-        </header>
-      </template>
       <div class="modal-body act-list">
         <button
           class="act-btn"
@@ -312,12 +296,6 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   white-space: nowrap;
 }
 
-/* Custom header for the per-card actions modal (others use BaseModal's default header). */
-/* The heading here is two lines deep, so the close button rides at the top of it rather than
-   centred against the whole block. */
-.modal-head { align-items: flex-start; }
-/* Denser header, and a long title must not squeeze the button out of shape. */
-.mh-close { min-width: 32px; min-height: 32px; flex-shrink: 0; }
 
 .pick-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
 .pick-item {

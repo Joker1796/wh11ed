@@ -1,24 +1,13 @@
 <template>
-  <BaseModal @close="$emit('close')">
-    <template #header>
-      <header class="modal-head">
-        <h3 class="mh-title">
-          {{ labels.trackerChooseFixed }}
-        </h3>
-        <div class="mh-right">
-          <span
-            class="mh-count"
-            :class="{ full: selected.length >= max }"
-          >{{ selected.length }} / {{ max }}</span>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="$emit('close')"
-          >
-            ✕
-          </button>
-        </div>
-      </header>
+  <BaseModal
+    :title="labels.trackerChooseFixed"
+    @close="$emit('close')"
+  >
+    <template #aside>
+      <span
+        class="mh-count"
+        :class="{ full: selected.length >= max }"
+      >{{ selected.length }} / {{ max }}</span>
     </template>
 
     <div class="modal-body">
@@ -65,7 +54,5 @@ function toggleOpen(slug) { openId.value = openId.value === slug ? null : slug }
 </script>
 
 <style scoped>
-.mh-count { font-family: var(--font-mono); font-weight: 700; color: var(--text-muted); font-size: 0.9rem; }
-.mh-count.full { color: var(--accent); }
 
 </style>

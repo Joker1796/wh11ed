@@ -128,3 +128,24 @@ describe('SecondaryPickerModal — the shared PickerRow', () => {
     expect(picks[2].attributes('disabled')).toBeDefined()
   })
 })
+
+// Eight dialogs drew their header by hand through BaseModal's #header slot, and none of them was
+// named: aria-labelledby was only set for the `title` prop. They use title/subtitle/#aside now.
+describe('dialog headers', () => {
+  const dialog = () => body().find('[role="dialog"]')
+  const nameOf = () => document.getElementById(dialog().attributes('aria-labelledby'))?.textContent.trim()
+
+  it('ScoringModal is named by its title, with the subtitle and VP beside it', () => {
+    mount(ScoringModal, { props: { title: 'Cleanse', subtitle: 'Fixed', vp: 4, blocks: [], count: () => 0 } })
+    expect(nameOf()).toBe('Cleanse')
+    expect(body().find('.mh-sub').text()).toBe('Fixed')
+    expect(body().find('.mh-right .mh-count').text()).toBe('4 VP')
+    expect(body().find('.modal-head').classes()).toEqual(expect.arrayContaining(['two-line', 'dense']))
+  })
+
+  it('SecondaryPickerModal is named, and its counter lights when full', () => {
+    mount(SecondaryPickerModal, { props: { missions: [], selected: ['a', 'b'], max: 2 } })
+    expect(nameOf()).toBeTruthy()
+    expect(body().find('.mh-count').classes()).toContain('full')
+  })
+})

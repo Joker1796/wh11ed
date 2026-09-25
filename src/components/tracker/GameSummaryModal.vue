@@ -1,28 +1,10 @@
 <template>
   <BaseModal
+    :title="labels.trackerViewGame"
+    :subtitle="formatDate(game.finishedAt || game.createdAt)"
     max-height="88dvh"
     @close="$emit('close')"
   >
-    <template #header>
-      <header class="modal-head">
-        <div class="mh-text">
-          <h3 class="mh-title">
-            {{ labels.trackerViewGame }}
-          </h3>
-          <p class="mh-sub">
-            {{ formatDate(game.finishedAt || game.createdAt) }}
-          </p>
-        </div>
-        <button
-          class="mh-close"
-          :aria-label="labels.modalClose"
-          @click="$emit('close')"
-        >
-          ✕
-        </button>
-      </header>
-    </template>
-
     <div class="modal-body">
       <p
         v-if="endReasonLabel"
@@ -80,7 +62,6 @@ const endReasonLabel = computed(() => {
 <style scoped>
 /* The heading here is two lines deep, so the close button rides at the top of it rather than
    centred against the whole block. */
-.modal-head { align-items: flex-start; }
 .gs-reason { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin: 0 0 0.75rem; }
 
 .modal-foot { padding: 0.7rem 0.9rem; border-top: 1px solid var(--border); }

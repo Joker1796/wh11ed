@@ -1,20 +1,8 @@
 <template>
-  <BaseModal @close="$emit('close')">
-    <template #header>
-      <header class="modal-head">
-        <h3 class="mh-title">
-          {{ labels.trackerRoster }}
-        </h3>
-        <button
-          class="mh-close"
-          :aria-label="labels.modalClose"
-          @click="$emit('close')"
-        >
-          ✕
-        </button>
-      </header>
-    </template>
-
+  <BaseModal
+    :title="labels.trackerRoster"
+    @close="$emit('close')"
+  >
     <div class="modal-body modal-list">
       <p
         v-if="faction"
@@ -158,10 +146,6 @@ async function useLink() {
 </script>
 
 <style scoped>
-/* Same head/body recipe as the other tracker dialogs (DetachmentPickerModal, FactionPickerModal
-   …). It has to be repeated here: BaseModal's own `.modal-head` rules are scoped to BaseModal and
-   styles a SLOTTED header in the consumer's scope instead, so a custom header inherits nothing —
-   which is what left this one with no padding, no rule under it and a half-size title. */
 /* Roomier than the default list — these rows are cards, not one-liners. */
 .modal-list { gap: 0.5rem; }
 .rp-empty { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 0.25rem; }

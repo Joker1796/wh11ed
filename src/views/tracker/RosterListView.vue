@@ -156,23 +156,11 @@
     <!-- Per-card actions: edit / duplicate / delete (mirrors the tracker's per-card actions sheet). -->
     <BaseModal
       v-if="menuFor"
+      :title="menuRosterName"
+      dense
       max-width="340px"
       @close="menuFor = null"
     >
-      <template #header>
-        <header class="modal-head">
-          <h3 class="mh-title">
-            {{ menuRosterName }}
-          </h3>
-          <button
-            class="mh-close"
-            :aria-label="labels.modalClose"
-            @click="menuFor = null"
-          >
-            ✕
-          </button>
-        </header>
-      </template>
       <!-- Saved lists only — a draft deletes from its own card and never opens this. -->
       <div class="modal-body act-list">
         <button
@@ -532,12 +520,6 @@ function confirmDelete() {
 .meta-left { display: inline-flex; align-items: center; gap: 0.6rem; }
 .issues { color: #d98a2b; display: inline-flex; align-items: center; gap: 0.25rem; }
 
-/* Per-card actions modal (mirrors SecondaryDeck's custom-header actions sheet). */
-/* The heading here is two lines deep, so the close button rides at the top of it rather than
-   centred against the whole block. */
-.modal-head { align-items: flex-start; }
-/* Denser header, and a long title must not squeeze the button out of shape. */
-.mh-close { min-width: 32px; min-height: 32px; flex-shrink: 0; }
 </style>
 
 <!-- Explicit data-theme must win over prefers-color-scheme in both directions (see FactionLayout). -->
