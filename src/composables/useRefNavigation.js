@@ -120,7 +120,7 @@ export function scrollToAnchor(anchor, offset = 100) {
     const el = findEl()
     if (!el) return false
     // `el.getBoundingClientRect().top + window.scrollY` looks right but isn't: on a fresh
-    // navigation every `.core-chapter` (content-visibility: auto) is still collapsed to its
+    // navigation every `.book-chapter` (content-visibility: auto) is still collapsed to its
     // contain-intrinsic-size placeholder, including chapters that come BEFORE the target —
     // they're the target's siblings, not its ancestors, so resolving the target's own layout
     // does nothing for them, and their placeholder height (not their real one) throws the

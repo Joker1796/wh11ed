@@ -1,7 +1,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
 // Scroll-spy for the single Core Rules page: which of the anchors the TOC lists is
-// currently at the top of the reading area. Drives the highlight in CoreRulesToc (inside
+// currently at the top of the reading area. Drives the highlight in ChapterToc (inside
 // the view) AND in App.vue's subnav (outside it) — hence the module-level ref, the same
 // shared-singleton pattern as useLocale/useAbilityFilter. Only one page uses it, so there
 // is never more than one writer.

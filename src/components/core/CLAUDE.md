@@ -1,7 +1,8 @@
 # CLAUDE.md — Core Rules
 
 Directory-scoped doc for the Core Rules chapters. Also read this when touching
-`src/views/CoreRulesView.vue` (the page shell, lives in `src/views/` not this directory) or
+`src/views/CoreRulesView.vue` (the page, lives in `src/views/` not this directory — the shell it
+hands its chapters to is `src/components/OnePageChapters.vue`, shared with the Event Companion) or
 the core-specific data files under `src/data/` listed below. For the general
 data→view→`RuleBlock` rendering pipeline, `body` markup syntax, search, and keyword popover —
 shared by Core Rules, Event Companion, faction pages and Combat Patrol alike — see root
@@ -12,6 +13,7 @@ shared by Core Rules, Event Companion, faction pages and Combat Patrol alike —
 **The Core Rules are one page.** `/core-rules` (`src/views/CoreRulesView.vue`) renders all seven chapters at once, each as its own component in `src/components/core/` (`ChapterIntro`, `ChapterBasicRules`, …) — the chapter components are what own the data import, the EN/RU merge and their own special blocks (`ChapterBattlefields` renders the stratagem card grid; `ChapterBasicRules` the wound table, illustrations and definitions). Notes:
 
 - The seven **former** routes (`/introduction`, `/basic-rules`, …) still resolve — they redirect to their chapter's anchor. `CORE_CHAPTER_ANCHORS` in `router/index.js` is the single registry for that mapping and for the `hash` on each `navGroups` entry; every core group now shares `path: '/core-rules'` and differs only by `hash`, so anything keying off a group must use path+hash (see `groupKey` in `NavSidebar.vue`).
+- **The page mechanics are `OnePageChapters.vue`** (hero, contents, the contents button, the scroll-spy, in-page jumps) and the contents are `ChapterToc.vue` — both shared with the Event Companion, which was a copy of them until 2026-09-25. What Core passes that Event does not: the NN.MM third level of the contents modal (`subsectionsFor`, hence `modal-width="58rem"`) and the Reference sections' ability `filter`.
 - Each chapter's wrapper `<section>` carries `content-visibility: auto` so offscreen chapters cost no layout. Consequence: a chapter that hasn't been revealed yet has collapsed geometry, so **in-page jumps must go through `scrollToAnchor()`** (it polls for the element and re-scrolls after 400 ms) — a one-shot `getBoundingClientRect()` will land in the wrong place.
 - The chapter components render **fragments** (no wrapper element), so scoped CSS in them can't rely on DOM nesting — use a modifier class instead (e.g. `.section-img--lead`).
 - On desktop (≥1024px) rules are laid out in **two columns**: `.rule-columns` (`style.css`) is the same multicol masonry as `.strat-grid`, and `composables/columnChunks.js` decides what goes into a group. Wide blocks (anything with an `illustration`/`image`/`sideImage` or an `[img:` line in its body, plus tables and the stratagem grid) are lifted **out** of the group there — `column-span: all` only works on a direct child, and an image inside a rule body can't escape its column at all. The column CSS is inside a `min-width: 1024px` query, so below it the page is laid out exactly as it was when the chapters were seven pages. `/core-rules` is also the only page widened past 860px (`.main-content--wide`, 1280px).

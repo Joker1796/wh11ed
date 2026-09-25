@@ -74,8 +74,7 @@ const ALLOWED = [
   // Vertical density wins over 24px in the two dense tables of contents: ~80 and ~40 links in a
   // column at 18px each, and the extra 6px a row would cost the Core Rules TOC a whole swipe on
   // every open. A missed tap there is one more tap; links in a column read as text (2026-09-21).
-  { check: 'target', sig: 'a.core-toc-link', why: 'dense TOC — density over 24px' },
-  { check: 'target', sig: 'a.event-toc-link', why: 'dense TOC — density over 24px' },
+  { check: 'target', sig: 'a.chapter-toc-link', why: 'dense TOC — density over 24px' },
   // The pin and the star stack in a datasheet chip's corner; at 24px each the stack outgrows a
   // one-line chip and every short name would cost the grid another ~5px a row. Kept at 22px.
   { check: 'target', sig: /^button\.ds-fav/, why: 'stacked chip marks — chip height over 24px' },

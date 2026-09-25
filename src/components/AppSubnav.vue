@@ -75,7 +75,8 @@ import { useLocale } from '../composables/useLocale.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { activeSectionId } from '../composables/useActiveSection.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
-import { navGroups, navGroupsRu, CORE_PATH, eventGroups, eventGroupsRu, EVENT_PATH } from '../router/index.js'
+import { CORE_PATH, EVENT_PATH } from '../router/index.js'
+import { useNavGroups } from '../composables/useNavGroups.js'
 import { ui } from '../i18n/ui.js'
 
 const route = useRoute()
@@ -95,40 +96,37 @@ const {
 
 const labels = computed(() => ui[locale.value])
 
-// The Core Rules chapters are anchors on one page, so the subnav carries hashes, not paths.
-// Built off navGroups (which owns the anchors) with the subnav's own shorter labels, in the
-// same order.
-const CORE_SUBNAV_LABELS = [
-  'subNavIntro', 'subNavBasicRules', 'subNavBattleRound', 'subNavBattlefields',
-  'subNavAdvanced', 'subNavReference', 'subNavMuster',
-]
-
-const coreSubNavItems = computed(() => {
-  const groups = locale.value === 'ru' ? navGroupsRu : navGroups
-  return groups.map((g, i) => ({
-    hash: g.hash,
-    label: labels.value[CORE_SUBNAV_LABELS[i]],
-    sectionIds: g.sections.map((s) => s.id),
-  }))
-})
-
-// Event Companion's chapters are anchors on the one /event-companion page too — built off
-// eventGroups the same way, with the subnav's own shorter labels, in the same order
-// (Teams included: since everything's one page now, hiding one of the seven chapters from
-// the subnav would be an arbitrary exception).
-const EVENT_SUBNAV_LABELS = [
-  'subNavEventIntro', 'subNavEventSequence', 'subNavEventMissions', 'subNavEventLayouts',
-  'subNavEventPairings', 'subNavEventTeams', 'subNavEventFaq',
-]
-
-const eventSubNavItems = computed(() => {
-  const groups = locale.value === 'ru' ? eventGroupsRu : eventGroups
-  return groups.map((g, i) => ({
-    hash: g.hash,
-    label: labels.value[EVENT_SUBNAV_LABELS[i]],
-    sectionIds: g.sections.map((s) => s.id),
-  }))
-})
+// Core Rules and the Event Companion are each one page, so their subnav carries hashes, not paths —
+// built off the book's own navGroups (which own the anchors), with the subnav's shorter labels.
+// Keyed by the chapter's anchor, not by position: a positional list went one short when Doubles
+// joined the Event Companion, and every tab after it wore its neighbour's name (the "FAQ" tab
+// opened Doubles, the FAQ's own tab had no label at all). A chapter with no short label here
+// shows its full one.
+const SUBNAV_LABELS = {
+  '#chapter-intro': 'subNavIntro',
+  '#section-01': 'subNavBasicRules',
+  '#section-07': 'subNavBattleRound',
+  '#section-13': 'subNavBattlefields',
+  '#section-17': 'subNavAdvanced',
+  '#section-24': 'subNavReference',
+  '#section-25': 'subNavMuster',
+  '#ec-chapter-intro': 'subNavEventIntro',
+  '#ec-chapter-sequence': 'subNavEventSequence',
+  '#ec-chapter-missions': 'subNavEventMissions',
+  '#ec-chapter-layouts': 'subNavEventLayouts',
+  '#ec-chapter-pairings': 'subNavEventPairings',
+  '#ec-chapter-teams': 'subNavEventTeams',
+  '#ec-chapter-faq': 'subNavEventFaq',
+}
+const chapterItems = (groups) => groups.value.map((g) => ({
+  hash: g.hash,
+  label: labels.value[SUBNAV_LABELS[g.hash]] || g.label,
+  sectionIds: g.sections.map((s) => s.id),
+}))
+const coreGroups = useNavGroups('core')
+const eventGroups = useNavGroups('event')
+const coreSubNavItems = computed(() => chapterItems(coreGroups))
+const eventSubNavItems = computed(() => chapterItems(eventGroups))
 
 // A chapter tab stays lit for any of its sections, so the highlight tracks reading position
 // rather than the last click. Shared by Core Rules and Event Companion — both write the same

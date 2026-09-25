@@ -1,60 +1,29 @@
 <template>
-  <div class="view">
-    <div class="view-hero">
-      <h1>{{ labels.coreRulesHeading }}</h1>
-      <p class="view-hero-desc">
-        {{ labels.coreRulesDesc }}
-      </p>
-    </div>
-
-    <CoreRulesToc
-      :active-id="activeId"
-      @select="goToAnchor"
-    />
-
-    <section
-      v-for="chapter in chapters"
-      :id="chapter.id"
-      :key="chapter.id"
-      class="core-chapter"
-    >
-      <component :is="chapter.component" />
-    </section>
-
-    <!-- Desktop FAB, stacked above the slot App.vue's BackToTopButton occupies, and shown
-         only alongside it (same scroll threshold) — at the top of the page there's nothing
-         to jump back up to yet. Mobile gets the same action through MobileUtilityBar
-         (contributed below) — no third floating element fighting for the corner. A plain
-         reactive class (not v-if + Transition) — this view is itself the child of App.vue's
-         routed <Transition mode="out-in">, and a second Transition nested inside it never
-         completed its own leave, so the button got stuck visible instead of unmounting. -->
-    <button
-      type="button"
-      class="fab-btn core-toc-fab"
-      :class="{ 'core-toc-fab--hidden': !backToTopVisible }"
-      :aria-hidden="!backToTopVisible"
-      :tabindex="backToTopVisible ? 0 : -1"
-      :title="labels.openContents"
-      :aria-label="labels.openContents"
-      @click="tocOpen = true"
-    >
-      <i class="bi bi-list-ul" />
-    </button>
-
-    <CoreRulesTocModal
-      v-if="tocOpen"
-      :active-id="activeId"
-      @close="tocOpen = false"
-      @select="onModalSelect"
-    />
-  </div>
+  <OnePageChapters
+    :heading="labels.coreRulesHeading"
+    :desc="labels.coreRulesDesc"
+    :chapters="chapters"
+    :groups="groups"
+    intro-hash="#chapter-intro"
+    :path="CORE_PATH"
+    action-key="core-toc"
+    :subsections-for="subsectionsFor"
+    modal-width="58rem"
+    @filter="(f) => { activeFilter = f }"
+  />
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import CoreRulesToc from '../components/core/CoreRulesToc.vue'
-import CoreRulesTocModal from '../components/core/CoreRulesTocModal.vue'
+// The Core Rules, all seven chapters on one page (OnePageChapters.vue has the mechanics, shared
+// with the Event Companion). Every chapter is imported statically and rendered at once — the data
+// files were already all in the precache (useSearch.js imports them), and offscreen chapters cost
+// nothing to lay out thanks to `content-visibility`.
+//
+// What is Core's own: its contents go a level deeper in the modal — the "NN.MM" rule subsections
+// (useCoreRulesSubsections.js), hence the wider dialog — and a Reference section can narrow the
+// ability list it jumps to (`filter`, useAbilityFilter.js).
+import { computed } from 'vue'
+import OnePageChapters from '../components/OnePageChapters.vue'
 import ChapterIntro from '../components/core/ChapterIntro.vue'
 import ChapterBasicRules from '../components/core/ChapterBasicRules.vue'
 import ChapterBattleRound from '../components/core/ChapterBattleRound.vue'
@@ -65,21 +34,15 @@ import ChapterMuster from '../components/core/ChapterMuster.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
-import { useActiveSection } from '../composables/useActiveSection.js'
-import { useContributeMobileActions } from '../composables/useMobileActionBar.js'
-import { scrollToAnchor } from '../composables/useRefNavigation.js'
-import { useBackToTop } from '../composables/useBackToTop.js'
-import { navGroups, navGroupsRu, CORE_PATH } from '../router/index.js'
+import { useCoreRulesSubsections } from '../composables/useCoreRulesSubsections.js'
+import { useNavGroups } from '../composables/useNavGroups.js'
+import { CORE_PATH } from '../router/index.js'
 
 const { locale } = useLocale()
-const route = useRoute()
-const router = useRouter()
 const labels = computed(() => ui[locale.value])
+const groups = useNavGroups('core')
+const { activeFilter } = useAbilityFilter()
 
-// Every chapter is imported statically and rendered at once — the data files were already
-// all in the precache (useSearch.js imports them), and offscreen chapters cost nothing to
-// lay out thanks to `content-visibility` below. The wrapper <section> lives here, not in
-// the chapter components, so that rule sits in exactly one place.
 const chapters = [
   { id: 'chapter-intro', component: ChapterIntro },
   { id: 'chapter-basic-rules', component: ChapterBasicRules },
@@ -90,93 +53,8 @@ const chapters = [
   { id: 'chapter-muster', component: ChapterMuster },
 ]
 
-const tocOpen = ref(false)
-const { activeFilter } = useAbilityFilter()
-const { visible: backToTopVisible } = useBackToTop()
-
-// The anchors the TOC lists, in document order — the scroll-spy walks exactly these.
-const spyIds = computed(() => {
-  const groups = locale.value === 'ru' ? navGroupsRu : navGroups
-  const ids = []
-  for (const g of groups) {
-    ids.push(g.hash.slice(1))
-    for (const s of g.sections) if (!ids.includes(s.id)) ids.push(s.id)
-  }
-  return ids
-})
-const { activeId, measure } = useActiveSection(spyIds)
-
-// One entry point for every in-page jump (TOC, modal, subnav). The hash goes into the URL
-// so the position is shareable and useViewRestore can remember it; scrollToAnchor does the
-// actual work — it polls for the element, which is what makes a jump into a chapter that
-// `content-visibility` has not laid out yet land in the right place.
-async function goToAnchor(id, filter) {
-  if (filter) activeFilter.value = filter
-  if (route.hash !== '#' + id) await router.push({ path: CORE_PATH, hash: '#' + id })
-  scrollToAnchor(id)
-}
-
-function onModalSelect(id, filter) {
-  tocOpen.value = false
-  goToAnchor(id, filter)
-}
-
-// Mobile: the TOC button joins the shared utility strip instead of adding another fixed
-// element above the bottom nav — shown only once scrolled down, same as the desktop FAB and
-// the bar's own back-to-top icon right next to it (both read backToTopVisible/useBackToTop).
-useContributeMobileActions('core-toc', () => !backToTopVisible.value ? [] : [
-  {
-    key: 'core-toc',
-    icon: 'bi bi-list-ul',
-    label: labels.value.openContents,
-    onClick: () => { tocOpen.value = true },
-  },
-])
-
-onMounted(() => {
-  if (route.hash) scrollToAnchor(route.hash.slice(1))
-  measure()
-})
-
-// A chapter/section jump only changes the hash, so the view is never re-created (the
-// RouterView key is the path) — re-run the scroll ourselves.
-watch(() => route.hash, (hash) => {
-  if (hash) scrollToAnchor(hash.slice(1))
-})
+// Only Basic Rules / Battle Round / Battlefields / Advanced Rules / Muster have any; Reference's
+// entries look them up and get an empty list.
+const subsectionsByChapter = useCoreRulesSubsections()
+const subsectionsFor = (id) => subsectionsByChapter.value[id] || []
 </script>
-
-<style scoped>
-/* Skip layout/paint for chapters that are off screen. `auto` in contain-intrinsic-size
-   makes the browser remember each chapter's real height after it has been rendered once,
-   so the scrollbar doesn't jump around as the reader moves through the page. Where it's
-   unsupported the page just renders in full — the behaviour it had as seven pages. */
-.core-chapter {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 3000px;
-  scroll-margin-top: var(--header-total);
-}
-
-.core-toc-fab {
-  display: none;
-  position: fixed;
-  right: 1.5rem;
-  /* One FAB slot above BackToTopButton (60px tall, bottom 1.5rem) so the two never overlap
-     — both now share the same scroll threshold (backToTopVisible), so this slot is only
-     ever "active" while BackToTopButton itself is showing. */
-  bottom: calc(1.5rem + 60px + 0.75rem);
-  z-index: 195;
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity var(--motion-fast) ease, transform var(--motion-fast) ease;
-}
-
-.core-toc-fab--hidden {
-  opacity: 0;
-  transform: scale(0.6);
-  pointer-events: none;
-}
-
-@media (min-width: 901px) {
-  .core-toc-fab { display: flex; }
-}
-</style>

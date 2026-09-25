@@ -37,7 +37,7 @@ function extract(data, isRu) {
 // The "NN.MM" rule subsections (e.g. "03.02 Moving Models"), one level deeper than the
 // chapter/section list navGroups drives — keyed by the top-level section id ("section-03")
 // so a caller can look up what belongs under one of navGroups[].sections entries. Used by
-// the Contents modal (CoreRulesToc's `modal` variant only — the compact page TOC stays at
+// the Contents modal (ChapterToc's `modal` variant, via CoreRulesView — the compact page TOC stays at
 // the section level).
 export function useCoreRulesSubsections() {
   const { locale } = useLocale()

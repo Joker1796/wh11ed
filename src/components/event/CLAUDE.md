@@ -1,7 +1,7 @@
 # CLAUDE.md — Event Companion
 
 Directory-scoped doc for the Event Companion chapters. Also read this when touching
-`src/views/EventCompanionView.vue` (the page shell, lives in `src/views/`) or
+`src/views/EventCompanionView.vue` (the page, lives in `src/views/`; the shell is `src/components/OnePageChapters.vue`) or
 `src/data/eventCompanion.js`/`src/data/missions.js`. For the general data→view→`RuleBlock`
 rendering pipeline and `body` markup syntax — shared with Core Rules — see root `CLAUDE.md`'s
 Architecture section and `src/components/core/CLAUDE.md`; this doc only covers what's
@@ -9,7 +9,7 @@ Event-Companion-specific.
 
 ## One page, eight chapters — same recipe as Core Rules, different pieces
 
-**The Event Companion is one page too.** `/event-companion` (`src/views/EventCompanionView.vue`) renders all eight chapters at once, each as its own component in `src/components/event/` (`ChapterIntro`, `ChapterSequence`, `ChapterMissions`, `ChapterLayouts`, `ChapterPairings`, `ChapterTeams`, `ChapterDoubles`, `ChapterFaq`). Same recipe as Core Rules — `content-visibility: auto` per chapter `<section>`, `scrollToAnchor()` for in-page jumps, a two-variant `EventCompanionToc.vue` (`page`/`modal`, calqued on `CoreRulesToc.vue`) — but the underlying data has no `sectionNum` to key off, so it needed its own pieces:
+**The Event Companion is one page too.** `/event-companion` (`src/views/EventCompanionView.vue`) renders all eight chapters at once, each as its own component in `src/components/event/` (`ChapterIntro`, `ChapterSequence`, `ChapterMissions`, `ChapterLayouts`, `ChapterPairings`, `ChapterTeams`, `ChapterDoubles`, `ChapterFaq`). Same page as Core Rules, literally: `EventCompanionView` hands its chapters to `OnePageChapters.vue` (`content-visibility: auto` per chapter `<section>`, `scrollToAnchor()` for in-page jumps) and its contents are the shared `ChapterToc.vue` — but the underlying data has no `sectionNum` to key off, so it needed its own pieces:
 
 - The six **former** routes (`/event-companion/sequence`, `/event-companion/missions`, …) still resolve — they redirect to their chapter's anchor. `EVENT_CHAPTER_ANCHORS` in `router/index.js` is the registry for that mapping and for the `hash` on each `eventGroups` entry; `/event-companion` itself was already the shortest of the seven paths, so it's reused as the merged page's own path rather than minting a new one the way `/core-rules` was. Every event group shares `path: EVENT_PATH` and differs only by `hash`, same convention as `navGroups`.
 - Event Companion blocks (`sequence.blocks`, `pairings.blocks`, `teams.blocks`, …) carry no `sectionNum` at all, so `composables/columnChunks.js` (Core Rules' balancer) can't be reused — reusing it as-is would read every block as "always full" and silently disable columning. `composables/blockColumnChunks.js` is the analogous chunker, keyed on whether a block carries its own `table` instead. Two-column layout applies only to the five prose chapters (Introduction, Sequence, Pairings, Teams, Doubles); Missions/Layouts/FAQ are self-made widgets (filter bar + masonry cards, the interactive matrix, an FAQ list) that stay full width.

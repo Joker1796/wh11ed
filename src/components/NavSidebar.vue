@@ -225,7 +225,8 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { stripLocale } from '../router/locale.js'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, rosterGroups, rosterGroupsRu, factionGroups, factionGroupsRu, combatPatrolGroups, combatPatrolGroupsRu, CORE_PATH, EVENT_PATH } from '../router/index.js'
+import { CORE_PATH, EVENT_PATH } from '../router/index.js'
+import { useNavGroups } from '../composables/useNavGroups.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
@@ -240,11 +241,12 @@ const router = useRouter()
 const { locale } = useLocale()
 const { activeFilter } = useAbilityFilter()
 const labels = computed(() => ui[locale.value])
-const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
-const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
-const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
-const localizedRosterGroups = computed(() => locale.value === 'ru' ? rosterGroupsRu : rosterGroups)
-const localizedCombatPatrolGroups = computed(() => locale.value === 'ru' ? combatPatrolGroupsRu : combatPatrolGroups)
+const localizedGroups = useNavGroups('core')
+const localizedEventGroups = useNavGroups('event')
+const localizedTrackerGroups = useNavGroups('tracker')
+const localizedRosterGroups = useNavGroups('roster')
+const localizedCombatPatrolGroups = useNavGroups('combatPatrol')
+const factionGroupsBase = useNavGroups('faction')
 const COMBAT_PATROL_PATH = '/combat-patrol'
 
 // "Rules" is Core Rules + Event Companion + Combat Patrol, each its own collapsible
@@ -262,7 +264,7 @@ const localizedRulesGroups = computed(() => {
 // pages (rules — army rule + detachments merged — / datasheets) — the desktop subnav is
 // hidden on mobile.
 const localizedFactionGroups = computed(() => {
-  const base = locale.value === 'ru' ? factionGroupsRu : factionGroups
+  const base = factionGroupsBase.value
   const slug = stripLocale(route.path).startsWith('/factions/') ? route.params.slug : null
   if (!slug) return base
   const l = labels.value
