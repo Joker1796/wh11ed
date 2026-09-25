@@ -1033,3 +1033,14 @@ and appdata state fresh; a data model can change between now and when this is ne
     detector written from one shape counts everything it can see and nothing it cannot. Name the
     CONCEPT once (`SWAP_SHAPED`) and have the parser and the report read the same definition; when
     one is widened, the other cannot stay narrow.
+
+64. **appdata draws some figures as pictures, and a picture is text only in its `altText`.** Death
+    Guard's three Contagion Range steps, the World Eaters Blessings' dice, battle-size tables and
+    the T'au drone weapon profiles are `image` components in `rule_container_component`; the only
+    words they carry are the alt text ("From the third battle round, the Contagion Range is nine
+    inches."). Every prose diff reads `text` components, so the missing 9" was invisible to all of
+    them and a player found it (2026-09-25). `npm run imgrules` now reads the alt text. Two things
+    followed: a tracker spec that repeats a rule's figure (`armyTrackers/*`) needs its own test
+    against the rule — the card was what the player actually saw — and a check of "every value
+    shown is in the rule" is too weak: it passed a card that stopped at 6", because 6" is in the
+    rule too. Compare the SET both ways.
