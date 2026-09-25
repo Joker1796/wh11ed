@@ -17,6 +17,38 @@
 
 export const changelog = [
   {
+    version: '2.7.2',
+    date: '2026-09-25',
+    en: [
+      { h: 'Roster builder: removing a detachment' },
+      'When you remove a detachment while creating a list, units drop the enhancements that came with it. This already worked in the editor. Before, the new list showed an error instead, and the enhancement had to be removed by hand.',
+      { h: 'Roster builder: warnings on a computer' },
+      'On a wide screen the check mark next to the points turns yellow when the list is legal but still owes an answer, for example an undeclared Force Disposition. Before, it stayed green there.',
+      { h: 'Roster builder: list settings' },
+      'The first step of a new list and the Settings tab of the editor are now the same compact card. The detachment row shows the Detachment Points used in both places. On a phone the whole first step fits the screen.',
+      { h: 'Roster builder: a worse invulnerable save no longer replaces a better one' },
+      'If a rule gave a model a worse invulnerable save than it already had, the worse one was shown. For example, a Neurotyrant with Zoanthropes got 6+ from their Warp Field instead of its own 4+. Now the better one stays.',
+      { h: 'Unit pages: base size' },
+      'When the base size does not fit next to a unit’s name, it now sits right under the name. Before, it took a whole line as tall as the name.',
+      { h: 'Event Companion: menu on a computer' },
+      'The top menu now has a Doubles item, and FAQ opens the FAQ. Before, the FAQ item led to Doubles, and the FAQ had no item at all.',
+    ],
+    ru: [
+      { h: 'Конструктор: снятие детачмента' },
+      'Если снять детачмент при создании ростера, юниты теряют улучшения из этого детачмента. В редакторе так было и раньше. Раньше новый ростер вместо этого показывал ошибку, и улучшение приходилось снимать вручную.',
+      { h: 'Конструктор: предупреждения на компьютере' },
+      'На широком экране значок рядом с очками становится жёлтым, если список корректен, но в нём остался вопрос, например не заявлена Force Disposition. Раньше там оставалась зелёная галочка.',
+      { h: 'Конструктор: настройки ростера' },
+      'Первый шаг создания ростера и вкладка «Настройки» в редакторе теперь одна и та же компактная карточка. В строке детачмента в обоих местах видно, сколько Detachment Points потрачено. На телефоне первый шаг целиком помещается на экран.',
+      { h: 'Конструктор: инвуль не ухудшается от чужих правил' },
+      'Если правило даёт инвуль хуже того, что у модели уже есть, раньше показывался худший. Например, у Нейротирана с Зоантропами Warp Field ставил 6+ вместо его 4+. Теперь остаётся лучший.',
+      { h: 'Страницы юнитов: размер базы' },
+      'Если размер базы не помещается рядом с названием юнита, он стоит вплотную под названием. Раньше он занимал целую строку высотой с само название.',
+      { h: 'Event Companion: меню на компьютере' },
+      'В верхнем меню появился пункт Doubles, а пункт FAQ открывает FAQ. Раньше FAQ вёл на Doubles, а своего пункта у FAQ не было.',
+    ],
+  },
+  {
     version: '2.7.1',
     date: '2026-09-25',
     en: [
