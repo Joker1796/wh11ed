@@ -46,6 +46,15 @@ describe('applyValue', () => {
     expect(applyValue('—', 'set', '5+')).toBe('5+')
   })
 
+  it('never takes a better invulnerable save away', () => {
+    // Zoanthropes' Warp Field (6+) reaching an attached Neurotyrant (printed 4+).
+    expect(applyValue('4+', 'set', '6+', 'inv')).toBe('4+')
+    expect(applyValue('4+', 'set', '4+', 'inv')).toBe('4+')
+    expect(applyValue('5+', 'set', '4+', 'inv')).toBe('4+')
+    expect(applyValue(undefined, 'set', '6+', 'inv')).toBe('6+')
+    expect(applyValue('4+', 'set', '6+', 'sv')).toBe('6+') // only the invulnerable is best-of
+  })
+
   it('grants a characteristic the sheet never printed', () => {
     // "The bearer has a 5+ invulnerable save" on a unit with no printed invulnerable.
     expect(applyValue(undefined, 'set', '5+')).toBe('5+')

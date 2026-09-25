@@ -84,8 +84,16 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
 // Arithmetic on a printed characteristic, or null when it can't be done honestly.
 // Characteristics come in four printed shapes: a plain number ("5"), a distance ('6"'), a
 // skill/save roll ("3+") and a dice expression ("D6+2"). Only the first three are computable.
-export function applyValue(current, op, value) {
+export function applyValue(current, op, value, stat = null) {
   const raw = String(current ?? '').trim()
+  // A model has one invulnerable save and uses the best it has been given: an aura's "6+
+  // invulnerable save" does not take a Neurotyrant's printed 4+ away (a player's report,
+  // 2026-09-25). Every other `set` is the rule's own number, whatever was there before.
+  if (op === 'set' && stat === 'inv') {
+    const had = raw.match(/^(\d+)\+$/)
+    const given = String(value).match(/^(\d+)\+$/)
+    if (had && given && Number(had[1]) <= Number(given[1])) return raw
+  }
   // `set` before the empty check: "the bearer has a 5+ invulnerable save" GRANTS a characteristic
   // the datasheet doesn't print at all, which is the commonest set there is.
   if (op === 'set') return String(value)
@@ -371,7 +379,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           // `only` never applies to a model profile — it names weapons.
           if (table !== 'profiles' && !rowMatchesOnly(asFound[table][i], effect.only)) continue
           const before = current()[table][i][effect.stat]
-          const next = applyValue(before, effect.op, effect.value)
+          const next = applyValue(before, effect.op, effect.value, effect.stat)
           if (next == null || next === String(before)) continue
           target()[table][i][effect.stat] = next
           marks.add(`${markPrefix(table)}:${effect.stat}:${i}`)
