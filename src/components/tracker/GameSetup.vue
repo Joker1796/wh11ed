@@ -1094,10 +1094,10 @@ import PartyModal from './PartyModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
-import { resolveLayout } from '../../composables/trackerLayout.js'
+import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
+import { getEventContent } from '../../data/eventCompanion.js'
 import { useRoute, useRouter } from 'vue-router'
 import { useLobby } from '../../composables/useLobby.js'
 import { useParty } from '../../composables/useParty.js'
@@ -1151,7 +1151,6 @@ function namePlaceholder(i) {
 }
 
 const dispositions = DISPOSITIONS
-const matchups = eventCompanion.en.matchups   // layout image paths are language-agnostic
 const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 
 // Defaults (also the shape merged over a restored draft so older drafts gain new fields).
@@ -1748,23 +1747,12 @@ players.forEach((p, i) => watch(() => p.secondaryMode, (m) => {
 
 // The recommended layouts for the current Force Disposition matchup (15 matchups
 // cover all pairs, including mirrors). Reset the choice to A whenever it changes.
-const matchup = computed(() => {
-  const you = players[0].disposition, opp = players[1].disposition
-  if (!you || !opp) return null
-  return matchups.find(m => (m.a === you && m.b === opp) || (m.a === opp && m.b === you)) || null
-})
-const layouts = computed(() => matchup.value?.layouts ?? [])
-// Resolves the recommended A/B/C OR a chosen custom layout (any of the 45).
-const currentLayout = computed(() => resolveLayout(settings, players[0].disposition, players[1].disposition))
+const { matchup, layouts, currentLayout, layoutPickerOpen, selectLayout, onPickLayout } =
+  useSetupLayout(settings, () => [players[0].disposition, players[1].disposition])
 // Changing dispositions changes the recommended matchup → reset to A and drop any custom pick.
 // The layout is the host's (the shared slice): a guest whose disposition changes must not
 // reset it from the other phone.
 watch(matchup, () => { if (guest.value) return; settings.layout = 'A'; settings.customLayout = null })
-
-// Custom layout picker (any of the 45 across all matchups).
-const layoutPickerOpen = ref(false)
-function selectLayout(id) { settings.layout = id; settings.customLayout = null }
-function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l; layoutPickerOpen.value = false }
 
 // Step 1 (Armies): every army (each side in singles, all four members in doubles) has a
 // faction + a detachment where the faction has them.

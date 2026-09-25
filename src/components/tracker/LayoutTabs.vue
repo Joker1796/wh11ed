@@ -20,9 +20,10 @@
 </template>
 
 <script setup>
-// The layout tabs of the setup's step 3 (A / B / C / custom). Their own component only because
-// GameSetup draws them in two places — beside the picture on a phone, in the side column on a
-// desktop — and the markup must not be written twice.
+// The layout tabs of a game's setup (A / B / C / custom): the wizard's step 3 draws them in two
+// places — beside the picture on a phone, in the side column on a desktop — and the edit dialog
+// of a game under way draws them once more. The choice behind them is trackerLayout.js's
+// useSetupLayout.
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

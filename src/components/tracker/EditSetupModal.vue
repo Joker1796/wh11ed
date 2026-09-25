@@ -188,24 +188,12 @@
         <h3 class="block-head">
           {{ labels.trackerLayoutHeading }}
         </h3>
-        <div class="tabs">
-          <button
-            v-for="l in layouts"
-            :key="l.id"
-            class="tab"
-            :class="{ active: settings.layout === l.id }"
-            @click="selectLayout(l.id)"
-          >
-            <span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}
-          </button>
-          <button
-            class="tab"
-            :class="{ active: settings.layout === 'custom' }"
-            @click="layoutPickerOpen = true"
-          >
-            {{ labels.trackerLayoutCustom }}
-          </button>
-        </div>
+        <LayoutTabs
+          :layouts="layouts"
+          :selected="settings.layout"
+          @select="selectLayout"
+          @custom="layoutPickerOpen = true"
+        />
         <LayoutCard
           v-if="currentLayout"
           :layout="currentLayout"
@@ -248,15 +236,15 @@ import BaseModal from '../BaseModal.vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
+import LayoutTabs from './LayoutTabs.vue'
 import RosterPickerModal from './RosterPickerModal.vue'
 import TrackOptions from './TrackOptions.vue'
 import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { eventCompanion } from '../../data/eventCompanion.js'
 import { useTracker, membersOf, isYouSide, sideLabel } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
-import { resolveLayout } from '../../composables/trackerLayout.js'
+import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 
 const emit = defineEmits(['close'])
@@ -322,19 +310,10 @@ function isYou(i) { return isYouSide(game.players[i], i) }
 function playerLabel(i) { return sideLabel(game.players[i], i, labels.value) }
 function namePlaceholder(i) { return isYou(i) ? labels.value.trackerYourName : labels.value.trackerOpponentName }
 
-// Dispositions are fixed for the rest of the game, so the recommended-layout matchup
-// (same lookup as GameSetup step 3) can't change here — only the A/B/C/custom pick can.
-const matchups = eventCompanion.en.matchups
-const matchup = computed(() => {
-  const you = game.players[0].disposition, opp = game.players[1].disposition
-  if (!you || !opp) return null
-  return matchups.find(m => (m.a === you && m.b === opp) || (m.a === opp && m.b === you)) || null
-})
-const layouts = computed(() => matchup.value?.layouts ?? [])
-const currentLayout = computed(() => resolveLayout(settings, game.players[0].disposition, game.players[1].disposition))
-const layoutPickerOpen = ref(false)
-function selectLayout(id) { settings.layout = id; settings.customLayout = null }
-function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l; layoutPickerOpen.value = false }
+// Dispositions are fixed for the rest of the game, so the recommended-layout matchup (the same
+// lookup as GameSetup's step 3, useSetupLayout) can't change here — only the A/B/C/custom pick can.
+const { layouts, currentLayout, layoutPickerOpen, selectLayout, onPickLayout } =
+  useSetupLayout(settings, () => [game.players[0].disposition, game.players[1].disposition])
 
 const scoreHelpOpen = ref(false)
 
@@ -455,8 +434,9 @@ function save() {
   align-items: stretch;
   gap: 0.9rem;
 }
-/* The list row, built to the same recipe as the wizard's (GameSetup's .roster-line/.rp-open) —
-   it is the same action in the other place you can take it. */
+/* The list row. Not the wizard's (GameSetup's .roster-line/.rp-open sit in the faction's row and
+   name the faction too); here the faction is already being played, so the list gets a line of its
+   own and a full-width "attach" button. */
 .es-roster { margin-top: 0.75rem; }
 .roster-line {
   display: flex; align-items: center; gap: 0.35rem;
@@ -536,7 +516,5 @@ function save() {
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }
-  .tab-word { display: none; }
-  .tab { min-width: 44px; min-height: 44px; }
 }
 </style>
