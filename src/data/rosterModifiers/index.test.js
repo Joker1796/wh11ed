@@ -83,6 +83,11 @@ describe('rosterModifiers data', () => {
         if (eff.op === 'improve') {
           expect(['sv', 'bs', 'ws', 'ld', 'inv'], `${where}: improve on ${eff.stat}`).toContain(eff.stat)
         }
+        // A roll is set as a roll: a bare `4` prints "Inv 4" on the card and is not comparable
+        // with the printed "4+" (two records, 2026-09-25).
+        if (eff.op === 'set' && ['sv', 'bs', 'ws', 'ld', 'inv'].includes(eff.stat) && eff.on !== 'unit') {
+          expect(String(eff.value), `${where}: set ${eff.stat}`).toMatch(/^[2-6]\+$|^N\/A$/)
+        }
         // A grant names a keyword or a weapon ability, so its value is always a non-empty string,
         // and only `grant` may carry those two stats.
         if (eff.op === 'grant') {

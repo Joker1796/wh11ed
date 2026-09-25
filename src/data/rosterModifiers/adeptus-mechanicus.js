@@ -305,7 +305,7 @@ export default {
           "on": "profile",
           "stat": "inv",
           "op": "set",
-          "value": 4,
+          "value": "4+",
           "target": "aura",
           "when": {
             "en": "against ranged attacks",
