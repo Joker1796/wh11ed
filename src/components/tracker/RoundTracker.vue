@@ -1,6 +1,57 @@
 <template>
   <div class="round-tracker">
+    <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
+         kept always — the phase clock under the rounds is the optional part. -->
+    <p class="turn-now">
+      {{ turnHeadline }}
+    </p>
     <ScoreBoard />
+
+    <!-- Moving the game on is one button: the turn, not the round — a round is two turns, and
+         ending the second one opens the next round. In a shared game the turn is ended by the
+         side playing it (and taken back by the side that ended it): the button stays on screen
+         for the other phone, greyed, with the reason on the line under it. The last turn of the
+         game has nowhere to go, so there the button finishes the game instead. -->
+    <div class="turn-flow">
+      <button
+        v-if="canEndTurn()"
+        class="btn-primary tf-end"
+        :disabled="!canEdit(turnIndex)"
+        @click="endTurn"
+      >
+        {{ endTurnLabel }}
+      </button>
+      <button
+        v-else
+        class="btn-primary tf-end"
+        @click="endModalOpen = true"
+      >
+        {{ labels.trackerFinish }}
+      </button>
+      <div class="tf-line">
+        <span class="tf-next">{{ nextLine }}</span>
+        <button
+          v-if="canUndoTurn()"
+          class="tf-link"
+          :disabled="!canEdit(1 - turnIndex)"
+          :title="undoTitle"
+          @click="undoTurn"
+        >
+          <i
+            class="bi bi-arrow-counterclockwise"
+            aria-hidden="true"
+          />
+          {{ labels.trackerUndoTurn }}
+        </button>
+        <button
+          v-if="canEndTurn()"
+          class="tf-link"
+          @click="endModalOpen = true"
+        >
+          {{ labels.trackerFinish }}
+        </button>
+      </div>
+    </div>
 
     <div class="round-bar">
       <button
@@ -283,26 +334,7 @@
         >
           <i class="bi bi-broadcast" />
         </button>
-        <button
-          class="btn-ghost"
-          @click="endModalOpen = true"
-        >
-          {{ labels.trackerFinish }}
-        </button>
       </div>
-      <button
-        v-if="current.currentRound < ROUND_COUNT"
-        class="btn-primary btn-next"
-        :aria-label="labels.trackerNext"
-        :title="labels.trackerNext"
-        @click="goToRound(current.currentRound + 1)"
-      >
-        <span class="next-full">{{ labels.trackerNext }}</span>
-        <i
-          class="bi bi-chevron-right next-icon"
-          aria-hidden="true"
-        />
-      </button>
     </div>
 
     <GameEndModal
@@ -352,7 +384,7 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, stepPhase, goToPhase, canStepPhase, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
 
 // Read through `tracks` so a game saved before the option existed arrives with its default
 // rather than undefined.
@@ -391,6 +423,28 @@ function playerSide(i) {
 function playerName(i) {
   return current.value.players[i].name || playerSide(i)
 }
+
+const turnHeadline = computed(() => {
+  const l = labels.value
+  return `${l.trackerRoundShort} ${current.value.currentRound} \u00b7 ${l.trackerTurnNow.replace('{name}', playerName(turnIndex.value))}`
+})
+const endTurnLabel = computed(() => labels.value.trackerEndTurn.replace('{name}', playerName(turnIndex.value)))
+
+// The line under the button: who plays next — or, on the phone that may not end this turn, why
+// the button is grey.
+const nextLine = computed(() => {
+  const l = labels.value
+  const t = turnIndex.value
+  if (!canEdit(t)) return l.trackerTurnLocked.replace('{name}', playerName(t))
+  if (!canEndTurn()) return l.trackerLastTurn
+  const round = current.value.currentRound + (t === 1 ? 1 : 0)
+  return l.trackerNextUp.replace('{name}', playerName(1 - t)).replace('{round}', round)
+})
+// The turn before this one is always the other player's, and theirs to take back.
+const undoTitle = computed(() => {
+  const other = 1 - turnIndex.value
+  return canEdit(other) ? labels.value.trackerUndoTurn : labels.value.trackerUndoLocked.replace('{name}', playerName(other))
+})
 
 function onPickPhase(turn, phase) {
   goToPhase(turn, phase)
@@ -676,30 +730,56 @@ function onEndBattle(reason) {
 @media (max-width: 700px) {
   .players { grid-template-columns: 1fr; }
 }
-/* The row is five controls now (setup, shared game, broadcast when on, finish, next), and on
-   a phone the two worded ones cannot both keep their words: "Следующий раунд" beside
-   "Завершить игру" wrapped the primary onto a line of its own (seen 2026-09-17). Below the
-   threshold the NEXT button is a chevron — the one action here that is the same every round and
-   needs no reading — and the row stays one line; the label lives on in aria-label/title. The
-   finish button keeps its words: it is the destructive one. Above the threshold nothing changes. */
-.btn-next .next-icon { display: none; }
-@media (max-width: 560px) {
-  .btn-next .next-full { display: none; }
-  .btn-next .next-icon { display: inline; }
-  .btn-next { padding-left: 0.9rem; padding-right: 0.9rem; font-size: 1rem; line-height: 1; }
-}
-/* Small phones: shrink the remaining buttons so five still fit one line (~360px). */
+/* Small phones: the icon row stays one line (~320px). */
 @media (max-width: 430px) {
-  .actions .btn-primary:not(.btn-next), .actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
-  .actions .btn-next { padding: 0.45rem 0.7rem; }
   .actions .btn-icon { padding: 0.45rem 0.55rem; font-size: 0.9rem; }
   .actions-left { gap: 0.4rem; }
-  .actions { gap: 0.4rem; }
 }
-/* If a long finish label still does not fit, the row wraps rather than overflows. */
-@media (max-width: 360px) {
-  .actions { flex-wrap: wrap; }
+
+/* The headline over the score: round and turn, read at a glance from across the table. */
+.turn-now {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--text-muted);
 }
+.turn-now::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.turn-flow { margin: 0.6rem 0 0; }
+.tf-end { width: 100%; padding: 0.7rem 1rem; font-size: 1rem; }
+.tf-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.2rem 0.9rem;
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+/* Who is next gets a line of its own; the two links share the one under it. */
+.tf-next { flex-basis: 100%; text-align: center; }
+.tf-link {
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.tf-link:disabled { color: var(--text-dim); text-decoration: none; cursor: default; }
 
 /* The broadcast button is a STATE: lit while the game is streaming to an overlay. */
 .bc-on {

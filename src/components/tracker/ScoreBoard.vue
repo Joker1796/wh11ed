@@ -4,15 +4,25 @@
       v-for="(pl, i) in game.players"
       :key="i"
       class="col"
-      :class="{ lead: leaderIdx === i }"
+      :class="{ lead: leaderIdx === i, turn: turnIdx === i }"
     >
       <div class="col-head">
         <span class="pname">{{ sideName(pl, i, labels) }}</span>
+        <span
+          v-if="turnIdx === i"
+          class="turn-tag"
+        >{{ labels.trackerTurnTag }}</span>
         <span
           v-if="leaderIdx === i && !finished"
           class="lead-tag"
         >{{ labels.trackerLeader }}</span>
       </div>
+      <p
+        v-if="factionLine(pl)"
+        class="pfaction"
+      >
+        {{ factionLine(pl) }}
+      </p>
       <div
         :ref="el => (grandEls[i] = el)"
         class="grand"
@@ -53,7 +63,8 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
-import { useTracker, sideName } from '../../composables/useTracker.js'
+import { useTracker, sideName, membersOf } from '../../composables/useTracker.js'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../composables/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
 
@@ -79,6 +90,17 @@ const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 const bpMode = computed(() => props.finished && game.value?.settings?.scoreMode === 'bp')
 const liveBp = computed(() => !props.finished && game.value?.settings?.scoreMode === 'bp')
 const bp = computed(() => battlePointsOf(game.value))
+
+// Whose turn it is — a live game only; a result has no "now". players[0] is the first-turn
+// player, so the turn is a player index.
+const turnIdx = computed(() => (props.finished ? -1 : game.value?.currentTurn === 1 ? 1 : 0))
+
+// The army under the name: one faction, or a doubles side's two. The light factionsIndex, never
+// the heavy tracker dataset.
+function factionLine(pl) {
+  const names = membersOf(pl).map(m => factionIndexBySlug(m.factionSlug)?.name).filter(Boolean)
+  return [...new Set(names)].join(' / ')
+}
 
 // Pulse a column's grand total when it changes (scoring feedback).
 const grandEls = []
@@ -111,6 +133,34 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   margin-bottom: 0.3rem;
 }
 .pname { font-weight: 700; color: var(--text-primary); font-size: 1.2rem; }
+/* The side whose turn it is: an accent stripe down the left and a faint accent wash. */
+.col.turn {
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, var(--bg-card));
+}
+/* Out of the flow, straddling the card's top edge the way the tie badge straddles the board's: a
+   tag in the head pushed this card's figures a line below the other's on a phone (the head
+   stacks there), and one in the corner sat across a long name at 320px. The board makes room
+   for it the same way it does for the tie. */
+.col { position: relative; }
+.board:has(.turn-tag) { margin-top: 0.6rem; }
+.turn-tag {
+  position: absolute;
+  top: -0.55rem;
+  right: 0.5rem;
+  padding: 1px 8px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: var(--accent);
+}
+.pfaction {
+  margin: -0.15rem 0 0.3rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
 .lead-tag {
   font-size: 0.62rem;
   font-weight: 700;

@@ -460,6 +460,39 @@ describe('the phase clock', () => {
     expect(g.currentPhase).toBe('fight')
   })
 
+  it('"End turn" hands the game over, then opens the next round', () => {
+    tracker.newGame(setupGame())
+    tracker.goToPhase(0, 'shooting')
+    tracker.endTurn()
+    let g = tracker.current.value
+    expect([g.currentRound, g.currentTurn, g.currentPhase]).toEqual([1, 1, 'command'])
+    tracker.endTurn()
+    g = tracker.current.value
+    expect([g.currentRound, g.currentTurn, g.currentPhase]).toEqual([2, 0, 'command'])
+  })
+
+  it('"Undo turn" goes back into the turn that ended, at its last phase', () => {
+    tracker.newGame(setupGame())
+    tracker.goToRound(2)
+    tracker.undoTurn()
+    let g = tracker.current.value
+    expect([g.currentRound, g.currentTurn, g.currentPhase]).toEqual([1, 1, 'fight'])
+    tracker.undoTurn()
+    g = tracker.current.value
+    expect([g.currentRound, g.currentTurn, g.currentPhase]).toEqual([1, 0, 'fight'])
+    expect(tracker.canUndoTurn()).toBe(false)
+  })
+
+  it('the last turn of the game cannot be ended — only the game can', () => {
+    tracker.newGame(setupGame())
+    tracker.goToRound(mod.ROUND_COUNT)
+    tracker.endTurn()
+    expect(tracker.canEndTurn()).toBe(false)
+    tracker.endTurn()
+    const g = tracker.current.value
+    expect([g.currentRound, g.currentTurn]).toEqual([mod.ROUND_COUNT, 1])
+  })
+
   it('never steps off either end of the battle', () => {
     tracker.newGame(setupGame())
     expect(tracker.canStepPhase(-1)).toBe(false)

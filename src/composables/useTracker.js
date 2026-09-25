@@ -963,6 +963,44 @@ export function useTracker() {
     g.currentPhase = BATTLE_PHASES[next % BATTLE_PHASES.length]
   }
 
+  // The turn is always kept, phases or not: "End turn" hands the game to the other player's
+  // Command phase, and the second turn of a round opens the next round (through goToRound, for
+  // the secondary housekeeping). The last turn of the game has nowhere to go — the screen offers
+  // "Finish game" there instead.
+  function canEndTurn() {
+    const g = current.value
+    return !!g && (g.currentTurn !== 1 || g.currentRound < ROUND_COUNT)
+  }
+
+  function endTurn() {
+    const g = current.value
+    if (!g || !canEndTurn()) return
+    if (g.currentTurn === 1) {
+      goToRound(g.currentRound + 1)
+    } else {
+      g.currentTurn = 1
+      g.currentPhase = BATTLE_PHASES[0]
+    }
+  }
+
+  // "Undo turn": back into the turn that just ended, at its last phase — the moment it was ended
+  // from. An action of its own rather than a snapshot of the game: in a shared game the other
+  // phones already have the new turn, and whatever was scored since must survive the undo.
+  function canUndoTurn() {
+    const g = current.value
+    return !!g && (g.currentTurn === 1 || g.currentRound > 1)
+  }
+
+  function undoTurn() {
+    const g = current.value
+    if (!g || !canUndoTurn()) return
+    // goToRound resets the clock to the round's first turn, so the target is decided up front.
+    const wasFirst = g.currentTurn !== 1
+    if (wasFirst) goToRound(g.currentRound - 1)
+    g.currentTurn = wasFirst ? 1 : 0
+    g.currentPhase = BATTLE_PHASES[BATTLE_PHASES.length - 1]
+  }
+
   // Jump straight to one phase of one player's turn (the phase picker).
   function goToPhase(turn, phaseKey) {
     const g = current.value
@@ -1120,7 +1158,7 @@ export function useTracker() {
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-    goToRound, stepPhase, goToPhase, canStepPhase, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
+    goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }

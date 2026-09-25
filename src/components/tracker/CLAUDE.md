@@ -80,6 +80,20 @@ of them (prose, blank line = new paragraph); a setting whose answer is a *table*
 (`ScoreHelpModal`). `src/data/trackerOptions.test.js` gates that every row's label and help exist in
 **both** locales — `ui.js` has no parity check of its own.
 
+## The turn — always kept (`endTurn` / `undoTurn`)
+
+The game screen moves on by the **turn**, not the round: a headline over the score ("Round 3 · Turn:
+X"), a "Turn" chip on that side's card, and one primary button, **End turn — X**, under the
+board. Ending the second turn of a round opens the next round (through `goToRound`, so the
+secondary housekeeping still runs); the last turn of the game offers **Finish game** in its place.
+**Undo turn** steps back into the turn that ended, at its last phase — an action, not a snapshot:
+in a shared game the other phones already have the new turn, and what was scored since stays.
+The turn lives in `currentTurn` (the `shared` slice), which existed for the phase clock — so the
+format did not change. **Phases stay optional** (`trackPhases`); the turn does not depend on them.
+In a shared game the turn is ended by the side playing it and taken back by the side that ended
+it; the other phone sees the button greyed with the reason on the line under it. The round bar
+stays for corrections after the fact and is not gated. (Mikhail's prototype, 2026-09-25.)
+
 ## Slices — the game as multi-device sync moves it
 
 `src/composables/gameSlices.js` (pure, light) cuts a game into five independently versioned
