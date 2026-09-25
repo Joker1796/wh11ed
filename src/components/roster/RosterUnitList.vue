@@ -28,13 +28,13 @@
     >
       <template v-if="g.entries.length">
         <h3
-          class="rul-head"
+          class="roster-group-head"
           :class="{ locked: g.locked }"
         >
-          {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
+          {{ groupLabel(g, labels) }}
           <em
             v-if="g.ally"
-            class="rul-ally"
+            class="roster-group-tag"
           >{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
         </h3>
         <template
@@ -244,7 +244,7 @@ import RosterUnitRow from './RosterUnitRow.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
-import { BLOCK_NAME_MAX, GROUP_LABEL_KEYS, blockNumbers, blockRootUid, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
+import { BLOCK_NAME_MAX, blockNumbers, groupLabel, blockRootUid, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   // rosterEngine's sectionsOf output, with `items` renamed `entries` by the caller.
@@ -346,35 +346,8 @@ watch(naming, (on) => {
    the only thing saying which unit that column belongs to is this. */
 .rul-picked { outline: 1px solid var(--accent); outline-offset: -1px; }
 
-/* Section headings, a size up from the rows (owner, 2026-09-24): at 0.92rem on a phone pane
-   "Прикреплённые юниты" read smaller than the unit names under it. */
-.rul-head {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 500;
-  /* Muted: a heading over the units, not one of them — the names stay the brightest thing here. */
-  color: var(--text-muted);
-  /* The card above already leaves 0.5rem; with the bigger type the heading carries its own
-     tight line, or the gap over it doubles (owner, 2026-09-24). */
-  line-height: 1.1;
-  margin: 0.6rem 0 0.45rem;
-  padding-bottom: 0.2rem;
-  border-bottom: 1px solid var(--border);
-}
-.rul-head:first-child { margin-top: 0; }
-/* An ally heading names the group; the tag after it says what the group IS, so the reader isn't
-   left guessing why "Agents of the Imperium" is a heading inside a Custodes list. */
-.rul-ally {
-  margin-left: 0.5em;
-  font-family: var(--font-body, inherit);
-  font-size: 0.72rem;
-  font-style: normal;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-}
-.rul-head.locked .rul-ally { color: var(--danger); }
+/* The group heading itself is global (`.roster-group-head`, style.css); only its place is here. */
+.roster-group-head:first-child { margin-top: 0; }
 
 .rul-unit {
   background: var(--bg-card);
@@ -399,7 +372,7 @@ watch(naming, (on) => {
   border-left: 2px solid var(--accent);
   border-bottom: none;
 }
-.rul-head + .rul-bhead,
+.roster-group-head + .rul-bhead,
 .rul-bhead:first-child { margin-top: 0; }
 .rul-bhead .rul-fold { align-items: center; padding: 0; color: var(--text-primary); }
 .rul-bname {
@@ -523,8 +496,8 @@ watch(naming, (on) => {
    Keyed off the pane, not the viewport: a 390px phone and a 780px tablet give this list the
    same ~180px, and only a container query can tell either of them apart from a wide screen. */
 @container (max-width: 300px) {
-  .rul-head { font-size: 1.2rem; }
-  .rul-ally { font-size: 0.62rem; }
+  .roster-group-head { font-size: 1.2rem; }
+  .roster-group-tag { font-size: 0.62rem; }
   .rul-row { padding: 0.45rem 0.5rem; gap: 0; }
   /* 24px wide even here: it is a tap target, and the 6px it takes from the name is the row's
      cheapest 6px — the name of a block header wraps one word later, the thumb hits every time. */

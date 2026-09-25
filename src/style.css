@@ -723,6 +723,37 @@ strong {
    in a pane) — the staircase the owner asked to take out. Each screen now draws the edge in its
    own scoped block, on its own tile class, and this file keeps only what a global rule can win. */
 
+/* ── Roster group heading ──────────────────────────────────────────────────
+   The heading over each role group of a roster's units ("Characters", an ally's name) — the
+   builder's list pane and the read-only view draw the same list, and wrote the same CSS twice.
+   A size up from the rows (owner, 2026-09-24): at 0.92rem on a phone pane "Прикреплённые юниты"
+   read smaller than the unit names under it. Muted: a heading over the units, not one of them.
+   The card above already leaves 0.5rem, so with the bigger type the heading carries its own tight
+   line, or the gap over it doubles (owner, same day). Where it sits is each screen's own. */
+.roster-group-head {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.1;
+  margin: 0.6rem 0 0.45rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--border);
+}
+/* An ally heading names the group; the tag after it says what the group IS, so the reader isn't
+   left guessing why "Agents of the Imperium" is a heading inside a Custodes list. */
+.roster-group-tag {
+  margin-left: 0.5em;
+  font-family: var(--font-body, inherit);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.roster-group-head.locked .roster-group-tag { color: var(--danger); }
+
 /* ── Roster build panes (the catalogue beside the list) ────────────────────
    Both building screens — the editor's Units tab and the creation wizard's units step — put the
    faction catalogue and the roster's own list side by side, at every width. They used to be two

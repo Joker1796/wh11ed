@@ -119,7 +119,7 @@
               :class="isOpen(g.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
             />
             <span class="rub-group-name">
-              {{ groupLabel(g) }}
+              {{ groupLabel(g, labels) }}
               <em
                 v-if="g.ally"
                 class="rub-ally-cap"
@@ -203,7 +203,7 @@ import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { GROUP_LABEL_KEYS, allySourceOf, mandatoryEnhancementFor, capKeyOf, sectionsOf, grantedKeywordsFor, unitBasePoints } from '../../composables/rosterEngine.js'
+import { allySourceOf, groupLabel, mandatoryEnhancementFor, capKeyOf, sectionsOf, grantedKeywordsFor, unitBasePoints } from '../../composables/rosterEngine.js'
 import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -315,7 +315,6 @@ function passesFilters(u) {
   return true
 }
 
-function groupLabel(g) { return g.ally ? g.ally.name : (labels.value[GROUP_LABEL_KEYS[g.id]] || '') }
 
 // What the group allows at this battle size, in the header: "up to 500 pts", "1× Titanic / 3×
 // Armiger" (mutex groups print the either/or with a slash, everyone else with a dot).

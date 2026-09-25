@@ -27,6 +27,11 @@ export const GROUP_LABEL_KEYS = {
   vehicles: 'dsGroupVehicles', infantry: 'dsGroupInfantry', other: 'dsGroupOther',
 }
 
+// A group's heading: an ally group is named for its source, everything else by its role.
+export function groupLabel(g, labels) {
+  return g.ally ? g.ally.name : (labels[GROUP_LABEL_KEYS[g.id]] || '')
+}
+
 export function hasKeyword(unit, name) {
   const n = name.toLowerCase()
   return (unit.kws || []).some((k) => k.toLowerCase() === n)

@@ -222,13 +222,13 @@
         >
           <template v-if="g.entries.length">
             <h3
-              class="rvg-head"
+              class="roster-group-head"
               :class="{ locked: g.locked }"
             >
-              {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
+              {{ groupLabel(g, labels) }}
               <em
                 v-if="g.ally"
-                class="rvg-ally"
+                class="roster-group-tag"
               >{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
             </h3>
             <!-- The row is a CONTAINER, not one big button: in a live game it carries this unit's
@@ -355,7 +355,7 @@
       >
         <template v-if="rulesFaction">
           <section class="rv-rule-block">
-            <h3 class="rvg-head">
+            <h3 class="roster-group-head">
               {{ labels.factionArmyRule }}
             </h3>
             <RuleBlock
@@ -371,7 +371,7 @@
             :key="det.name"
             class="rv-rule-block"
           >
-            <h3 class="rvg-head">
+            <h3 class="roster-group-head">
               {{ det.name }}
             </h3>
             <RuleBlock
@@ -598,7 +598,7 @@ import { rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
-import { GROUP_LABEL_KEYS, allySourceOf, blockNumbers, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
+import { allySourceOf, blockNumbers, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
@@ -1655,31 +1655,6 @@ function stratKey(strat) {
 .rvi-more { color: var(--text-muted); font-weight: 500; }
 .rvi-go { flex: none; opacity: 0.7; }
 
-.rvg-head {
-  font-family: var(--font-display);
-  font-size: 1.3rem; /* the builder's section headings' size — one list, two screens */
-  font-weight: 500;
-  /* Muted: a heading over the units, not one of them — the names stay the brightest thing here. */
-  color: var(--text-muted);
-  /* The card above already leaves 0.5rem; with the bigger type the heading carries its own
-     tight line, or the gap over it doubles (owner, 2026-09-24). */
-  line-height: 1.1;
-  margin: 0.6rem 0 0.45rem;
-  padding-bottom: 0.2rem;
-  border-bottom: 1px solid var(--border);
-}
-/* Same ally tag as the editor's heading — the group's name plus what kind of heading it is. */
-.rvg-ally {
-  margin-left: 0.5em;
-  font-family: var(--font-body, inherit);
-  font-size: 0.72rem;
-  font-style: normal;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-}
-.rvg-head.locked .rvg-ally { color: var(--danger); }
 .rvunit {
   width: 100%;
   background: var(--bg-card);
@@ -1824,8 +1799,8 @@ function stratKey(strat) {
 /* The section label above a rule — "Army rule", or the detachment's name. Display face like the
    rule's own name, so it needs the same treatment: it sits one step under the name it introduces
    (1.35 to 1.45) and clear of the body, instead of the 1.05rem it shared with the Units tab. */
-.rv-rules .rvg-head { margin: 0.8rem 0 0.35rem; font-size: 1.35rem; }
-.rv-rules .rv-rule-block:first-child .rvg-head { margin-top: 0; }
+.rv-rules .roster-group-head { margin: 0.8rem 0 0.35rem; font-size: 1.35rem; }
+.rv-rules .rv-rule-block:first-child .roster-group-head { margin-top: 0; }
 .rv-rule-block { margin-bottom: 0.9rem; }
 
 /* Stratagems tab — same toolbar/toggle/phase-accordion/grid language as the standalone

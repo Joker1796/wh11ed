@@ -68,7 +68,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { rosterItems } from '../../data/roster/index.js'
 import {
-  GROUP_LABEL_KEYS, allySourceOf, dispositionOf, mandatoryEnhancementFor, wargearNames,
+  allySourceOf, dispositionOf, groupLabel, mandatoryEnhancementFor, wargearNames,
   leaderTargetsFor,
 } from '../../composables/rosterEngine.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
@@ -228,7 +228,7 @@ const blocks = computed(() => {
     const units = []
     for (const g of groups.value) {
       if (!g.entries.length) continue
-      units.push({ t: 'g', label: g.ally ? g.ally.name : l[GROUP_LABEL_KEYS[g.id]], keepWithNext: true })
+      units.push({ t: 'g', label: groupLabel(g, l), keepWithNext: true })
       for (const e of g.entries) {
         units.push({
           t: 'r',
