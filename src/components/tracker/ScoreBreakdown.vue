@@ -120,6 +120,24 @@
               </div>
             </template>
           </div>
+          <!-- Where the CP went, from the ledger (cpLedger.js): a game started before it has none. -->
+          <div
+            v-if="showCp && spends(pl).length"
+            class="bd-spent"
+          >
+            <div class="bs-head">
+              <span>{{ labels.trackerCpSpent }}</span>
+              <b>{{ spentTotal(pl) }} CP</b>
+            </div>
+            <div
+              v-for="(e, k) in spends(pl)"
+              :key="k"
+              class="bs-row"
+            >
+              <span>{{ labels.trackerRoundShort }} {{ e.round }} · {{ spendName(pl, e) }}</span>
+              <b>{{ -e.amount }} CP</b>
+            </div>
+          </div>
         </div>
       </div>
     </CollapseTransition>
@@ -131,6 +149,7 @@ import { ref, computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { sideName } from '../../composables/useTracker.js'
+import { spends } from '../../composables/cpLedger.js'
 import CollapseTransition from '../CollapseTransition.vue'
 import {
   useTracker, ROUND_COUNT, PRIMARY_GAME_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
@@ -182,6 +201,14 @@ const bpRounds = computed(() => {
   return out
 })
 
+const spentTotal = (pl) => spends(pl).reduce((s, e) => s - e.amount, 0)
+// A stratagem spend carries its name; the 1CP replacement names the card it replaced.
+function spendName(pl, e) {
+  if (e.source === 'redraw') {
+    return `${labels.value.trackerCpRedraw} · ${missionBySlug(e.ref, pl.role, locale.value)?.name || e.ref}`
+  }
+  return e.name || ''
+}
 const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
 const open = ref(false)
@@ -274,4 +301,10 @@ function secondaries(pi) {
   .g-label { font-size: 0.76rem; }
   .g-total { padding-left: 0.4rem; font-size: 0.76rem; }
 }
+/* Where the CP went: a list under the table, a rule above it. */
+.bd-spent { margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px solid var(--border); font-size: 0.82rem; }
+.bs-head, .bs-row { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.15rem 0; }
+.bs-head { font-weight: 700; color: var(--text-primary); }
+.bs-row { color: var(--text-muted); }
+.bs-row b { color: var(--text-primary); white-space: nowrap; }
 </style>

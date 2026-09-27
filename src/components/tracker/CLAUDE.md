@@ -103,7 +103,7 @@ live board — the gold edge and "Tied" belong to the result screen.
 
 Top to bottom: headline, score cards, the turn pair, the rounds row (steps 1–5 with **Finish game**
 at its end and the sync indicator), the optional phase clock and its reminder, then the **tabs**.
-Two rows of tabs in one look, split by a heavy rule: the reference views **Stats / Armies** above,
+Two rows of tabs in one look, split by a heavy rule: the reference views **Log / Stats / Armies** above,
 the two places the game is played — **Missions / CP** — below. One panel at a time; **every new
 turn opens on Missions** (a watch on round + turn), because a turn starts by drawing and scoring.
 The CP tab exists only while the game tracks CP (`trackCP`); switched off mid-game it falls back to
@@ -112,7 +112,15 @@ Missions. What lives where:
 - **Missions** — the twist reminder and one card per side: primary, secondaries, the army-rule
   tracker. The card carries its side's colour down its edge. See "The missions panel" below.
 - **CP** — one bank per side, side by side. See "Command points" below.
-- **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content).
+- **Log** — `GameLog.vue`: the game told back, newest first, by round; filters (all / scoring /
+  CP / stratagems / cards; Core CP only under CP) and a plain-text copy. **Derived, not recorded**
+  (`gameLog.js`): read from the CP ledger, the secondaries drawn / scored / set aside and the
+  primary per round — so it costs the game nothing to carry, is the same on every phone of a
+  shared game and cannot disagree with the score (undo a scoring, it leaves the log). The price:
+  no time of day, an entry is placed by round (and turn where known). Mikhail's prototype keeps a
+  separate timed event list; that was deliberately not copied.
+- **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content), with
+  the CP spent under each side's table (the ledger's spends; also shown in history).
 - **Armies** — per side the disposition, detachments (members in doubles) and the way to the units:
   the attached list, or the faction's datasheets without one. The folded "Army details" block and
   the army button that used to share the CP row moved here.

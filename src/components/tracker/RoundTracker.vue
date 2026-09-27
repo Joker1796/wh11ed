@@ -390,6 +390,14 @@
     </section>
 
     <section
+      v-else-if="tab === 'log'"
+      class="panel"
+      role="tabpanel"
+    >
+      <GameLog :names="current.players.map((_, i) => playerName(i))" />
+    </section>
+
+    <section
       v-else-if="tab === 'stats'"
       class="panel"
       role="tabpanel"
@@ -552,6 +560,7 @@ import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import ScoreRows from './ScoreRows.vue'
 import CpStratagems from './CpStratagems.vue'
+import GameLog from './GameLog.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import TurnEndCheckModal from './TurnEndCheckModal.vue'
@@ -587,6 +596,7 @@ const phasesOn = computed(() => tracks(current.value.settings, 'trackPhases'))
 // game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
 const tab = ref('missions')
 const utilTabs = computed(() => [
+  { id: 'log', label: labels.value.trackerTabLog },
   { id: 'stats', label: labels.value.trackerTabStats },
   { id: 'armies', label: labels.value.trackerTabArmies },
 ])
