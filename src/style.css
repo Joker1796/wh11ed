@@ -783,6 +783,8 @@ strong {
   --accent: var(--side-opponent);
   --accent-hover: color-mix(in srgb, var(--side-opponent) 80%, #000);
 }
+/* A dialog of the game says whose turn it is in its title too. */
+.modal-overlay.turn-colored .mh-title { color: var(--accent); }
 
 /* ── Roster screen header icon ─────────────────────────────────────────────
    The square icon buttons by a roster's name (editor and view: edit, share, the "…" menu). One of

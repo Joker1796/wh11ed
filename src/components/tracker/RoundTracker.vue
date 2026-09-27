@@ -25,9 +25,8 @@
          back by the side that ended it: the button stays on screen for the other phone, greyed,
          with the reason on the line under the pair. The last turn of the game has nowhere to
          go, so there the forward button finishes the game instead. -->
-    <!-- The rounds and, at the end of the same row, finishing the game early: one row of
-         navigation rather than a big button of its own, right under the score and above the turn
-         buttons (owner's call, 2026-09-27). A shared game's sync state rides here
+    <!-- The rounds, right under the score (owner's call, 2026-09-27). Finishing the game early is
+         at the foot of the screen with the other tools. A shared game's sync state rides here
          too — a row of its own would cost vertical space the phone does not have (it renders
          nothing for a game that is not shared). -->
     <div class="round-bar">
@@ -48,12 +47,6 @@
           {{ n }}
         </button>
       </div>
-      <button
-        class="rb-finish"
-        @click="endModalOpen = true"
-      >
-        {{ labels.trackerFinish }}
-      </button>
       <SyncIndicator />
     </div>
 
@@ -525,6 +518,15 @@
           <i class="bi bi-broadcast" />
         </button>
       </div>
+      <!-- Finishing the game early: at the foot of the screen, beside the game's other tools —
+           a thing done once, not every turn (owner's call, 2026-09-27). The last turn's own
+           Finish is the turn bar's. -->
+      <button
+        class="rb-finish"
+        @click="endModalOpen = true"
+      >
+        {{ labels.trackerFinish }}
+      </button>
     </div>
 
     <TurnEndCheckModal
@@ -625,7 +627,7 @@ const tabs = computed(() => [
   ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, icon: 'bi-hourglass-split', count: phaseRuleCount.value }] : []),
 ])
 // The open tab takes what the closed icons leave.
-const tabColumns = computed(() => tabs.value.map((t) => (t.id === tab.value ? 'minmax(0, 1fr)' : '48px')).join(' '))
+const tabColumns = computed(() => tabs.value.map((t) => (t.id === tab.value ? 'minmax(0, 1fr)' : 'var(--gt-closed)')).join(' '))
 watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
 // The round on screen: the live one, or a past one opened for correction from the round steps
@@ -855,10 +857,10 @@ function onEndBattle(reason) {
 .rb-round.live:not(.on) { border-color: var(--accent); color: var(--accent); }
 .rb-round:disabled { opacity: 0.45; cursor: default; }
 .rb-finish {
-  flex: 0 1 auto;
-  min-width: 0;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  padding: 0 0.6rem;
+  flex: 0 0 auto;
+  min-height: 40px;
+  white-space: nowrap;
+  padding: 0 0.8rem;
   border: 1px solid var(--accent);
   background: var(--bg-card);
   color: var(--accent);
@@ -1071,6 +1073,7 @@ function onEndBattle(reason) {
 /* The working area's tabs: one strip, joined, on a line in the accent — the active tab is filled
    with it and so reads as part of the line it stands on, attached to the panel under it. */
 .game-tabs {
+  --gt-closed: 48px; /* a closed (icon) tab's width; the open one takes the rest */
   display: grid;
   margin: 0.7rem 0;
   border-bottom: 2px solid var(--accent);
@@ -1096,6 +1099,8 @@ function onEndBattle(reason) {
 .gt-tab:first-child { margin-left: 0; }
 .gt-tab .bi { font-size: 1.1rem; }
 .gt-word { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Six tabs on a 320px phone: narrower icons, or the open tab's word is cut to its first letter. */
+@media (max-width: 360px) { .game-tabs { --gt-closed: 38px; } }
 .gt-tab.on { z-index: 1; background: var(--accent); border-color: var(--accent); color: #fff; }
 @media (hover: hover) { .gt-tab:not(.on):hover { color: var(--text-primary); } }
 /* The phase tab's count, in its corner. */
