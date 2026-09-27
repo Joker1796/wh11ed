@@ -104,7 +104,7 @@ import CollapseTransition from '../components/CollapseTransition.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useTracker } from '../composables/useTracker.js'
-import { useCoreStratagems, loadSideStratagems, sideSignature } from '../composables/gameStratagems.js'
+import { loadCoreStratagems, loadSideStratagems, sideSignature } from '../composables/gameStratagems.js'
 import { phaseLabel, PHASE_ORDER } from '../composables/stratagemPhases.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
 
@@ -119,7 +119,11 @@ const opp = computed(() => current.value?.players?.find((p) => !p.isYou) || null
 
 // Core stratagems and each side's detachment deck (gameStratagems.js — shared with the game
 // screen's CP tab). The faction data is imported dynamically, per side, only while a game is on.
-const coreStrats = useCoreStratagems()
+const coreStrats = ref([])
+watch(locale, async (loc) => {
+  const core = await loadCoreStratagems(loc)
+  if (loc === locale.value) coreStrats.value = core
+}, { immediate: true })
 const youStrats = ref([])
 const oppStrats = ref([])
 

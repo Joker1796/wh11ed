@@ -143,7 +143,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
-import { useCoreStratagems, loadSideStratagems, sideSignature } from '../../composables/gameStratagems.js'
+import { loadCoreStratagems, loadSideStratagems, sideSignature } from '../../composables/gameStratagems.js'
 import { PHASE_ORDER, phaseLabel, usableInSlot } from '../../composables/stratagemPhases.js'
 
 // The stratagems in the CP tab: spend a side's CP on one, and take it back. Mounted only while
@@ -162,7 +162,7 @@ const side = ref(props.defaultSide)
 watch(() => props.defaultSide, (v) => { side.value = v })
 
 // ── The decks ──
-const core = useCoreStratagems()
+const core = ref([])
 const decks = ref([[], []])
 const loading = ref(false)
 let token = 0
@@ -171,8 +171,12 @@ async function load() {
   loading.value = true
   const g = current.value
   const combatPatrol = !!g?.settings?.combatPatrol
-  const out = await Promise.all(g.players.map((pl) => loadSideStratagems(pl, locale.value, { combatPatrol })))
+  const [c, ...out] = await Promise.all([
+    loadCoreStratagems(locale.value),
+    ...g.players.map((pl) => loadSideStratagems(pl, locale.value, { combatPatrol })),
+  ])
   if (t !== token) return
+  core.value = c
   decks.value = out
   loading.value = false
 }

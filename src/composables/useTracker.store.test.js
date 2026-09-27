@@ -1103,3 +1103,22 @@ describe('finishing with a concede', () => {
     expect(g.concededBy).toBeUndefined()
   })
 })
+
+describe('the clock settles when another phone moves it', () => {
+  it('a turn ended on the other phone gives this phone its Core CP and sets aside its achieved cards', async () => {
+    const { sliceGame } = await import('./gameSlices.js')
+    tracker.newGame(setupGame())
+    const pl0 = () => tracker.current.value.players[0]
+    tracker.takeRandomSecondaries(0)
+    const [a] = pl0().secondary.hand
+    const blocks = mod.scorableBlocks(a, pl0().role, 1)
+    const b = blocks.find((x) => x.kind === 'tactical' && x.rows.some((r) => mod.numericVp(r.vp) > 0))
+    tracker.scoreSecondaryRow(0, a, b.bi, b.rows.findIndex((r) => mod.numericVp(r.vp) > 0), 1)
+    // The other phone ends the turn: only the shared slice (the clock) arrives here.
+    const remote = sliceGame({ ...JSON.parse(JSON.stringify(tracker.current.value)), currentTurn: 1 }).shared
+    tracker.applyRemote('shared', remote)
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(pl0().cp).toBe(2)
+    expect(pl0().secondary.hand).not.toContain(a)
+  })
+})

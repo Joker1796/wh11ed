@@ -224,8 +224,9 @@ on a TARGET are left to the players), and, only when phases are kept, the Core R
 phase. Short of CP greys the button without a line — every row would say it at once.
 
 `gameStratagems.js` is also what the Stratagems page reads (moved out of `StratagemsView.vue`):
-the core deck merged EN/RU, and each side's detachment deck **imported dynamically** — the CP tab
-mounts it only while open, so no faction data rides with the game screen itself.
+the core deck merged EN/RU (`loadCoreStratagems`) and each side's detachment deck, **both imported
+dynamically** — the CP tab mounts them only while open. A static import of `battlefields.js` here
+once put ~22 KB gzip on every opening of a game (2026-09-27); keep it dynamic.
 
 ## Slices — the game as multi-device sync moves it
 

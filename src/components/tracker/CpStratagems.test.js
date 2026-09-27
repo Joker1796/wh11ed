@@ -25,7 +25,8 @@ afterEach(() => { document.body.innerHTML = '' })
 
 async function mountTab(side = 0) {
   const w = mount(CpStratagems, { props: { names: ['Me', 'Opp'], defaultSide: side } })
-  await flushPromises()
+  // The decks are dynamic imports: wait for the core rows, not for one tick.
+  await vi.waitFor(async () => { await flushPromises(); expect(w.findAll('.sr').length).toBeGreaterThan(0) }, { timeout: 5000 })
   return w
 }
 const row = (w, name) => w.findAll('.sr').find((r) => r.find('.sr-name').text().toUpperCase() === name.toUpperCase())

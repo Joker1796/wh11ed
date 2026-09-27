@@ -11,9 +11,7 @@
 //   _cost    — the printed cost as a number (every cost in the data is "1CP" or "2CP")
 //   _limits  — usageLimits(restrictions)
 //   _key     — a stable id within the game: the core number, or detachment|name
-import { computed } from 'vue'
-import { battlefields } from '../data/battlefields.js'
-import { useBilingualSections } from './useBilingualMerge.js'
+import { mergeSections } from './useBilingualMerge.js'
 import { membersOf } from './rosterGameLink.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 
@@ -49,18 +47,19 @@ function derive(localized, en, key) {
   }
 }
 
-// Core stratagems — same EN/RU merge as BattlefieldsView, section 15 cards only. Matched to the
-// English card by index.
-const coreEn = battlefields.en.find((s) => s.id === '15')?.stratagems || []
-export function useCoreStratagems() {
-  const sections = useBilingualSections(battlefields, (section, ruSection) =>
-    section.stratagems && ruSection.stratagems
-      ? { stratagems: section.stratagems.map((strat, k) => ({ ...strat, ...ruSection.stratagems[k] })) }
-      : {},
-  )
-  return computed(() =>
-    (sections.value.find((s) => s.id === '15')?.stratagems || []).map((s, i) => derive(s, coreEn[i], `core:${coreEn[i]?.num || i}`)),
-  )
+// Core stratagems — same EN/RU merge as BattlefieldsView, section 15 cards only, matched to the
+// English card by index. Imported dynamically too: the Core Rules battlefield section is ~22 KB
+// gzipped, and the game screen must not pay for it until its CP tab is opened.
+export async function loadCoreStratagems(loc) {
+  const { battlefields } = await import('../data/battlefields.js')
+  const coreEn = battlefields.en.find((s) => s.id === '15')?.stratagems || []
+  const sections = loc === 'en'
+    ? battlefields.en
+    : mergeSections(battlefields.en, battlefields.ru, (section, ruSection) =>
+      section.stratagems && ruSection.stratagems
+        ? { stratagems: section.stratagems.map((strat, k) => ({ ...strat, ...ruSection.stratagems[k] })) }
+        : {})
+  return (sections.find((s) => s.id === '15')?.stratagems || []).map((s, i) => derive(s, coreEn[i], `core:${coreEn[i]?.num || i}`))
 }
 
 // These chapters share the Codex Space Marines detachments (Gladius Task Force, etc.), which
