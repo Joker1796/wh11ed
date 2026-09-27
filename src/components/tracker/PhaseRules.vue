@@ -28,6 +28,7 @@
           v-for="side in sides"
           :key="side.pi"
           class="pr-side"
+          :class="{ opp: !side.you }"
         >
           <h4 class="pr-who">
             {{ side.name }}
@@ -143,13 +144,17 @@ function toggle() {
 }
 .pr-body { padding: 0 0.6rem 0.6rem; }
 .pr-side + .pr-side { margin-top: 0.6rem; }
+/* Each side's heading in its colour — the same you / opponent colours as the score cards. */
+.pr-side { --side: var(--accent); }
+.pr-side.opp { --side: var(--side-opponent); }
 .pr-who {
-  margin: 0 0 0.25rem;
-  font-size: 0.68rem;
+  margin: 0 0 0.2rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  color: var(--side);
 }
 .pr-list { list-style: none; margin: 0; padding: 0; }
 .pr-rule { border-top: 1px solid var(--border); }
@@ -171,12 +176,12 @@ function toggle() {
 .pr-src {
   flex: 0 0 auto;
   max-width: 40%;
-  color: var(--text-dim);
-  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-size: 0.84rem;
   line-height: 1.5;
 }
 .pr-name { flex: 1; min-width: 0; color: var(--text-primary); }
-.pr-sub { display: block; color: var(--text-muted); font-size: 0.72rem; }
+.pr-sub { display: block; color: var(--text-muted); font-size: 0.82rem; }
 .pr-strats {
   display: flex;
   align-items: center;

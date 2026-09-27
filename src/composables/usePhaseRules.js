@@ -15,7 +15,7 @@ import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
-import { useTracker, membersOf, sideName } from './useTracker.js'
+import { useTracker, membersOf, sideName, isYouSide } from './useTracker.js'
 import { usableInSlot, BATTLE_PHASES } from './stratagemPhases.js'
 import { allySourceOf } from './rosterEngine.js'
 import { useFactionChoice } from './useFactionChoice.js'
@@ -160,7 +160,7 @@ export function usePhaseRules() {
   const sides = computed(() => {
     const order = turn.value === 0 ? [0, 1] : [1, 0]
     return order
-      .map((pi) => ({ pi, name: playerName(pi), rules: rulesFor(pi) }))
+      .map((pi) => ({ pi, you: isYouSide(current.value?.players?.[pi], pi), name: playerName(pi), rules: rulesFor(pi) }))
       .filter((s) => s.rules.length)
   })
   const total = computed(() => sides.value.reduce((n, s) => n + s.rules.length, 0))
