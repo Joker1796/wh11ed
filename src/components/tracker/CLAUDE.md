@@ -121,9 +121,13 @@ Missions. What lives where:
   separate timed event list; that was deliberately not copied.
 - **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content), with
   the CP spent under each side's table (the ledger's spends; also shown in history).
-- **Armies** — per side the disposition, detachments (members in doubles) and the way to the units:
-  the attached list, or the faction's datasheets without one. The folded "Army details" block and
-  the army button that used to share the CP row moved here.
+- **Armies** — `ArmiesPanel.vue`: one entry per army (a side; each member in doubles — up to four),
+  its disposition and detachments, and three sub-tabs. **Units** is the way to them, not a copy:
+  the attached list (the game's roster screen, with the game's live modifiers) or, without one,
+  the faction's datasheets — both screens already exist (owner's call, 2026-09-27). **Rules** — the
+  army rule and each fielded detachment's rule; **Stratagems** — the army's deck as a reference
+  (spending is the CP tab's). Both read `gameStratagems.js` (`loadArmyRules`, `loadArmyStrats`),
+  the faction file imported only when the sub-tab opens.
 
 The top is NOT pinned (owner's call, 2026-09-27): the prototype fixes it and scrolls the panel
 inside, which on a 640px phone leaves about half the screen for the game.

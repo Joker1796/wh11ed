@@ -49,7 +49,6 @@ function mountTracker() {
     },
   })
 }
-const armyLinks = (w) => w.findAll('.proster').map(a => a.attributes('href'))
 const tabLabels = (w) => w.findAll('.gt-tab').map(t => t.text())
 async function openTab(w, label) {
   await w.findAll('.gt-tab').find(t => t.text() === label).trigger('click')
@@ -150,31 +149,11 @@ describe('RoundTracker — ending a turn', () => {
   })
 })
 
-describe('RoundTracker — the army links in the Armies tab', () => {
-  // The point of the fallback: it belongs to the player it's rendered on, so the opponent's
-  // datasheets are reachable too. That's what let the bottom nav drop its «Units» item.
-  it('links each player to their own faction datasheets when no list is attached', async () => {
+describe('RoundTracker — the Armies tab', () => {
+  it('opens the armies panel (its own spec: ArmiesPanel.test.js)', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
-    expect(armyLinks(await openArmies(mountTracker()))).toEqual([
-      '/factions/orks/datasheets',
-      '/factions/necrons/datasheets',
-    ])
-  })
-
-  it('prefers the attached list — that player only, the other keeps the datasheets', async () => {
-    const roster = { id: 'r1', name: 'Da List', faction: 'orks', detachments: [], units: [] }
-    startGame({ factionSlug: 'orks', rosterId: 'r1', roster }, { factionSlug: 'necrons' })
-    expect(armyLinks(await openArmies(mountTracker()))).toEqual([
-      '/tracker/game/roster/0',
-      '/factions/necrons/datasheets',
-    ])
-  })
-
-  it('shows no army link for a legacy game whose player has no faction', async () => {
-    startGame({ factionSlug: null }, { factionSlug: null })
     const w = await openArmies(mountTracker())
-    expect(armyLinks(w)).toEqual([])
-    expect(w.findAll('.army-links')).toHaveLength(0)
+    expect(w.findComponent({ name: 'ArmiesPanel' }).exists()).toBe(true)
   })
 })
 
@@ -257,33 +236,7 @@ describe('RoundTracker — doubles', () => {
   }
   const M = (name, factionSlug, detachments = []) => ({ name, factionSlug, detachments })
 
-  it('labels each army button with its member and routes to that member\'s slice', async () => {
-    startDoubles(
-      [M('Ann', 'orks'), M('Bob', 'aeldari')],
-      [M('Cat', 'drukhari'), M('Dan', null)],
-    )
-    // Attach a roster to side 0's member 1 so both link kinds appear.
-    tracker.current.value.players[0].members[1].roster = { units: [{ uid: 'a', id: 'x', size: 0 }] }
-    const links = armyLinks(await openArmies(mountTracker()))
-    expect(links).toContain('/factions/orks/datasheets')       // Ann, no list
-    expect(links).toContain('/tracker/game/roster/0/1')        // Bob's list
-    expect(links).toContain('/factions/drukhari/datasheets')   // Cat
-    expect(links).toHaveLength(3)                              // Dan has nothing to link
-  })
 
-  it('gives a long member name something to ellipsize and the full name on hover', async () => {
-    // The button label is typed by the player, so it has no width it can promise: without the
-    // inner span (nothing for text-overflow to clip) the CP row's minimum width overflowed the
-    // card on a phone and scrolled the whole document sideways.
-    startDoubles(
-      [M('Фёдор Михайлович', 'orks'), M('Михаил Юрьевич', 'aeldari')],
-      [M('Cat', 'drukhari'), M('Dan', 'drukhari')],
-    )
-    const w = await openArmies(mountTracker())
-    const btn = w.findAll('a.proster').find((a) => a.text().includes('Фёдор'))
-    expect(btn.find('.proster-label').exists()).toBe(true)
-    expect(btn.attributes('title')).toBe('Фёдор Михайлович')
-  })
 
   it('renders ONE shared army card for a unified same-faction team, two for convenience', async () => {
     startDoubles(
@@ -301,15 +254,6 @@ describe('RoundTracker — doubles', () => {
     expect(side1.map((c) => c.props('mi')).sort()).toEqual([0, 1])
   })
 
-  it('shows the team name and one identity line per member', async () => {
-    startDoubles(
-      [M('Ann', 'orks', ['War Horde']), M('Bob', 'aeldari')],
-      [M('Cat', 'drukhari'), M('Dan', 'drukhari')],
-    )
-    const w = await openArmies(mountTracker())
-    expect(w.text()).toContain('Alpha')
-    expect(w.text()).toContain('Ann — Orks · War Horde')
-  })
 })
 
 // A shared game (useParty.js): the side another phone plays is on screen, readable, and its

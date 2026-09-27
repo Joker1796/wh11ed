@@ -405,63 +405,16 @@
       <ScoreBreakdown expanded />
     </section>
 
-    <!-- The armies: what each side fields, and the way to its units. With a list attached the
-         list is strictly the better answer (only this army's units, with the game's live
-         modifiers); without one the faction's datasheets are the next best thing. -->
+    <!-- The armies: each army's facts, the way to its units, its rules and stratagems. -->
     <section
       v-else-if="tab === 'armies'"
       class="panel"
       role="tabpanel"
     >
-      <div class="armies">
-        <div
-          v-for="(pl, i) in current.players"
-          :key="i"
-          class="army"
-          :class="{ opp: !isYouSide(pl, i) }"
-        >
-          <h3 class="ptitle">
-            {{ playerName(i) }}
-          </h3>
-          <p
-            v-if="dispositionName(pl.disposition)"
-            class="pmeta"
-          >
-            {{ labels.trackerDisposition }}: {{ dispositionName(pl.disposition) }}
-          </p>
-          <p
-            v-if="!isDoubles && pl.detachments && pl.detachments.length"
-            class="pdet"
-          >
-            {{ pl.detachments.join(' · ') }}
-          </p>
-          <!-- Doubles: the army identity lives on the members — one line each. -->
-          <template v-if="isDoubles">
-            <p
-              v-for="(m, mi) in pl.members"
-              :key="mi"
-              class="pdet"
-            >
-              {{ memberLine(m, mi) }}
-            </p>
-          </template>
-          <div
-            v-if="armyLinks(pl, i).length"
-            class="army-links"
-          >
-            <RouterLink
-              v-for="l in armyLinks(pl, i)"
-              :key="l.to"
-              class="proster"
-              :to="l.to"
-              :title="l.label"
-            >
-              <i :class="`bi ${l.icon}`" />
-              <span class="proster-label">{{ l.label }}</span>
-            </RouterLink>
-          </div>
-        </div>
-      </div>
+      <ArmiesPanel
+        :names="current.players.map((_, i) => playerName(i))"
+        :default-side="focusSide"
+      />
     </section>
 
     <ScoringModal
@@ -561,6 +514,7 @@ import ScoreBreakdown from './ScoreBreakdown.vue'
 import ScoreRows from './ScoreRows.vue'
 import CpStratagems from './CpStratagems.vue'
 import GameLog from './GameLog.vue'
+import ArmiesPanel from './ArmiesPanel.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import TurnEndCheckModal from './TurnEndCheckModal.vue'
@@ -578,8 +532,7 @@ import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { blockLocked, turnEndChecks } from '../../composables/missionTiming.js'
 import { bonusIn } from '../../composables/cpLedger.js'
-import { useTracker, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
-import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { useTracker, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
 
@@ -750,39 +703,6 @@ function armyRuleOn(pl) {
 
 const isDoubles = computed(() => current.value?.settings?.gameType === 'doubles')
 
-function memberName(m, mi) {
-  return m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
-}
-
-// One line per doubles member under the side heading: who fields what. The light factionsIndex
-// supplies the name — never the heavy trackerFactions dataset (kept off in-game screens).
-function memberLine(m, mi) {
-  const parts = [factionIndexBySlug(m.factionSlug)?.name, m.detachments?.join(' · ')].filter(Boolean)
-  return `${memberName(m, mi)} — ${parts.join(' · ')}`
-}
-
-// The army buttons of the CP row: one per army. Singles keeps its single list-or-datasheets
-// button with the usual labels; doubles labels each button with the member it belongs to.
-function armyLinks(pl, i) {
-  const out = []
-  membersOf(pl).forEach((m, mi) => {
-    if (m.roster) {
-      out.push({
-        to: isDoubles.value ? `/tracker/game/roster/${i}/${mi}` : `/tracker/game/roster/${i}`,
-        icon: 'bi-card-list',
-        label: isDoubles.value ? memberName(m, mi) : labels.value.trackerRosterOpen,
-      })
-    } else if (m.factionSlug) {
-      out.push({
-        to: `/factions/${m.factionSlug}/datasheets`,
-        icon: 'bi-people-fill',
-        label: isDoubles.value ? memberName(m, mi) : labels.value.factionDatasheets,
-      })
-    }
-  })
-  return out
-}
-
 // Which army-rule tracker cards the side gets. Singles: the one side-level card. Doubles: a
 // unified force of ONE faction shares one pool (side-level state, mi null); otherwise each
 // member with a faction tracks their own army's rule.
@@ -922,27 +842,6 @@ function onEndBattle(reason) {
   line-height: 1.5;
   color: var(--text-muted);
 }
-/* Built to NumberStepper's `.step-btn` recipe — it shares a row with one, and anything else
-   next to those buttons read as a different kind of thing. One class for both of the row's army
-   links (the attached list, or the faction's datasheets) so the slot looks the same either way.
-   It says just "Roster": the list's own name is on the page it opens, and a long one used to
-   squeeze the row. */
-.proster {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
-  height: 40px; padding: 0 0.75rem;
-  border: 1px solid var(--border); background: var(--bg-card);
-  color: var(--text-primary); text-decoration: none; font-size: 0.85rem;
-  transition: background 0.15s, border-color 0.15s;
-}
-/* In doubles the label is a name the PLAYER typed, so the button has no width it can promise.
-   A flex item never shrinks below its min-content — the longest word of that name — so without
-   this the pair of army buttons set a floor under the whole CP row: on a 393px phone the row's
-   minimum came to ~367px against ~349px of card, the row overflowed its card and the DOCUMENT
-   scrolled sideways (on iOS that also drags the fixed navbar off the visual viewport, which is
-   what it looks like from the outside). Ellipsis instead of a floor, with the full name on
-   `title` — the same lesson as the setup cards' `minmax(0, 1fr)`. */
-.proster-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.proster:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .players { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; }
 .player {
   --side: var(--accent);
@@ -1141,19 +1040,6 @@ function onEndBattle(reason) {
 .cb-btn:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
 .cb-adjust { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap; font-size: 0.74rem; color: var(--text-dim); }
 
-/* The armies: one card per side, the side's colour down its edge. */
-.armies { display: grid; gap: 0.75rem; }
-.army {
-  --side: var(--accent);
-  padding: 0.8rem;
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--side);
-  background: var(--bg-card);
-}
-.army.opp { --side: var(--side-opponent); }
-.army .ptitle { color: var(--side); }
-.army-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
-.army-links .proster { flex: 1 1 auto; min-width: 0; }
 
 /* The broadcast button is a STATE: lit while the game is streaming to an overlay. */
 .bc-on {

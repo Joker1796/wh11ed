@@ -1,6 +1,7 @@
-// The stratagems of a game in progress: the core ones (Core Rules §15) and each side's detachment
-// stratagems, read from the faction rules data. Shared by the Stratagems page (a game on, it adds
-// both sides' decks) and the game screen's CP tab (spend CP on them).
+// The armies of a game in progress, read from the faction rules data: the core stratagems (Core
+// Rules §15), each side's detachment stratagems, and each army's rules (the army rule, its
+// detachments' rules). Shared by the Stratagems page (a game on, it adds both sides' decks) and
+// the game screen's CP and Armies tabs.
 //
 // The faction files are heavy and are imported dynamically, per side, only when a caller asks —
 // the game screen must never carry a faction bundle in its own chunk (root CLAUDE.md: the game
@@ -105,7 +106,7 @@ async function loadFactionSource(slug, loc) {
 }
 
 // One ARMY's detachment stratagems (the side itself in singles, one doubles member otherwise).
-async function loadArmyStrats(m, loc, combatPatrol) {
+export async function loadArmyStrats(m, loc, combatPatrol = false) {
   if (!m?.factionSlug || !m.detachments?.length) return []
   if (combatPatrol) {
     const f = await loadCombatPatrolFaction(m.factionSlug, loc)
@@ -163,3 +164,33 @@ export const sideSignature = (pl) =>
   membersOf(pl || {})
     .map((m) => `${m?.factionSlug || ''}:${(m?.detachments || []).join(',')}`)
     .join('|')
+
+// One ARMY's rules — the army rule and the rule of each detachment it fields, localized — for the
+// Armies tab. `{ armyRule: { name, body } | null, detachments: [{ name, rule }] }`, or null for
+// an army with no faction. Same sources and the same loose detachment match as the stratagems.
+export async function loadArmyRules(m, loc, combatPatrol = false) {
+  if (!m?.factionSlug) return null
+  if (combatPatrol) {
+    const f = await loadCombatPatrolFaction(m.factionSlug, loc)
+    if (!f) return null
+    return { armyRule: f.armyRule || null, detachments: f.rule ? [{ name: f.rule.name, rule: f.rule }] : [] }
+  }
+  const sources = [m.factionSlug]
+  if (SM_CHAPTERS.has(m.factionSlug)) sources.push('space-marines')
+  let armyRule = null
+  const dets = new Map()
+  for (const slug of sources) {
+    const src = await loadFactionSource(slug, loc)
+    if (!src) continue
+    if (!armyRule && slug === m.factionSlug) armyRule = src.faction.armyRule || null
+    for (const det of src.faction.detachments || []) {
+      const key = normName(det.name)
+      if (!dets.has(key)) dets.set(key, det)
+    }
+  }
+  const detachments = (m.detachments || [])
+    .map((name) => dets.get(normName(name)))
+    .filter((d) => d?.rule)
+    .map((d) => ({ name: d.name, rule: d.rule }))
+  return { armyRule, detachments }
+}
