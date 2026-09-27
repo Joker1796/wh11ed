@@ -160,7 +160,9 @@ describe('RoundTracker — the Armies tab', () => {
 describe('RoundTracker — the phase row', () => {
   it('is absent unless the game asked for phases', () => {
     startGame({}, {})
-    expect(mountTracker().find('.phase-bar').exists()).toBe(false)
+    const w = mountTracker()
+    expect(w.find('.turn-row.phased').exists()).toBe(false)
+    expect(w.findAll('.gt-tab').map((t) => t.text())).not.toContain('Phase')
   })
 
   // The nickname is deliberately NOT here: the clock is read at a glance mid-turn, and "Me" (or
@@ -168,8 +170,8 @@ describe('RoundTracker — the phase row', () => {
   it('names the side whose turn it is and which phase, never the nickname', () => {
     startGame({}, {}, { trackPhases: true })
     const w = mountTracker()
-    expect(w.find('.pb-who').text()).toBe('You')
-    expect(w.find('.pb-phase').text()).toBe('Command phase')
+    expect(w.find('.tp-who').text()).toBe('You')
+    expect(w.find('.tp-name').text()).toBe('Command phase')
   })
 
   it('follows the clock into the opponent\'s turn', async () => {
@@ -177,23 +179,29 @@ describe('RoundTracker — the phase row', () => {
     const w = mountTracker()
     tracker.goToPhase(1, 'shooting')
     await w.vm.$nextTick()
-    expect(w.find('.pb-who').text()).toBe('Opponent')
-    expect(w.find('.pb-phase').text()).toBe('Shooting phase')
+    expect(w.find('.tp-who').text()).toBe('Opponent')
+    expect(w.find('.tp-name').text()).toBe('Shooting phase')
   })
 
-  it('walks the clock with its own arrows, and refuses to walk off the start', async () => {
+  // The arrows stay inside the turn: the turn changes by End / Undo turn (through the end-of-turn
+  // check), never by a stray tap past the Fight phase.
+  it('walks the clock with its own arrows, inside the turn only', async () => {
     startGame({}, {}, { trackPhases: true })
     const w = mountTracker()
-    const [prev, next] = w.findAll('.pb-nav')
+    const [prev, next] = w.findAll('.tr-step')
     expect(prev.attributes('disabled')).toBeDefined()
     await next.trigger('click')
     expect(tracker.current.value.currentPhase).toBe('movement')
+    tracker.goToPhase(0, 'fight')
+    await w.vm.$nextTick()
+    expect(w.findAll('.tr-step')[1].attributes('disabled')).toBeDefined()
+    expect(tracker.current.value.currentTurn).toBe(0)
   })
 
   it('opens the picker and jumps where it says', async () => {
     startGame({}, {}, { trackPhases: true })
     const w = mountTracker()
-    await w.find('.pb-now').trigger('click')
+    await w.find('.tr-phase').trigger('click')
     // The picker teleports to <body> (BaseModal), so look for its rows there.
     const rows = document.body.querySelectorAll('.pp-phase')
     expect(rows).toHaveLength(10) // five phases per player
@@ -207,6 +215,16 @@ describe('RoundTracker — the phase row', () => {
     expect(tracker.current.value.currentTurn).toBe(1)
     expect(tracker.current.value.currentPhase).toBe('charge')
     expect(document.body.querySelectorAll('.pp-phase')).toHaveLength(0) // and it closes
+  })
+})
+
+describe('RoundTracker — the Phase tab', () => {
+  it('is a tab only while the clock and its reminder are on', () => {
+    startGame({}, {}, { trackPhases: true, trackPhaseRules: true })
+    const hasPhase = (w) => tabLabels(w).some((t) => t.startsWith('Phase')) // the label carries its count
+    expect(hasPhase(mountTracker())).toBe(true)
+    startGame({}, {}, { trackPhases: true, trackPhaseRules: false })
+    expect(hasPhase(mountTracker())).toBe(false)
   })
 })
 

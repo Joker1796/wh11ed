@@ -17,7 +17,64 @@
          back by the side that ended it: the button stays on screen for the other phone, greyed,
          with the reason on the line under the pair. The last turn of the game has nowhere to
          go, so there the forward button finishes the game instead. -->
-    <div class="turn-row">
+    <!-- With the phase clock on, the phase joins this row (owner's call, 2026-09-27): undo turn as
+         an icon, the phase arrows, the phase itself (tap → any phase of either turn), and End turn.
+         The arrows stay INSIDE the turn — they stop at Command and at Fight — so a turn changes only
+         through End / Undo turn, never past the end-of-turn check by a stray tap. -->
+    <div
+      v-if="phasesOn"
+      class="turn-row phased"
+    >
+      <button
+        class="tr-btn tr-prev tr-icon"
+        :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
+        :title="undoTitle"
+        :aria-label="labels.trackerUndoTurn"
+        @click="undoTurn"
+      >
+        <i
+          class="bi bi-arrow-counterclockwise"
+          aria-hidden="true"
+        />
+      </button>
+      <button
+        class="tr-step"
+        :disabled="!canStepInTurn(-1)"
+        :aria-label="labels.ariaPrevPhase"
+        @click="stepPhase(-1)"
+      >
+        ‹
+      </button>
+      <button
+        class="tr-phase"
+        :title="labels.trackerPhasePick"
+        @click="phasePickerOpen = true"
+      >
+        <span class="tp-who">{{ playerSide(turnIndex) }}</span>
+        <span class="tp-name">{{ phaseLabel(current.currentPhase || 'command', labels) }}</span>
+      </button>
+      <button
+        class="tr-step"
+        :disabled="!canStepInTurn(1)"
+        :aria-label="labels.ariaNextPhase"
+        @click="stepPhase(1)"
+      >
+        ›
+      </button>
+      <button
+        class="tr-btn tr-end"
+        :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
+        :disabled="canEndTurn() && !canEdit(turnIndex)"
+        :title="canEndTurn() ? endTurnLabel : labels.trackerFinish"
+        @click="requestEndTurn()"
+      >
+        <span class="tr-label">{{ canEndTurn() ? labels.trackerEndTurnShort : labels.trackerFinish }}</span>
+      </button>
+    </div>
+    <div
+      v-else
+      class="turn-row"
+    >
       <button
         class="tr-btn tr-prev"
         :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
@@ -83,40 +140,6 @@
       <SyncIndicator />
     </div>
 
-    <!-- The clock, one row under the rounds: whose turn and which phase. Only for a game that
-         asked for it; a game without it looks exactly as it did. -->
-    <div
-      v-if="phasesOn"
-      class="phase-bar"
-    >
-      <button
-        class="pb-nav"
-        :disabled="!canStepPhase(-1)"
-        :aria-label="labels.ariaPrevPhase"
-        @click="stepPhase(-1)"
-      >
-        ‹
-      </button>
-      <button
-        class="pb-now"
-        @click="phasePickerOpen = true"
-      >
-        <span class="pb-who">{{ playerSide(turnIndex) }}</span>
-        <span class="pb-phase">{{ phaseLabel(current.currentPhase || 'command', labels) }}</span>
-      </button>
-      <button
-        class="pb-nav"
-        :disabled="!canStepPhase(1)"
-        :aria-label="labels.ariaNextPhase"
-        @click="stepPhase(1)"
-      >
-        ›
-      </button>
-    </div>
-
-    <!-- …and, under it, what has something to say in the slot the clock is standing on. -->
-    <PhaseRules v-if="phasesOn && tracks(current.settings, 'trackPhaseRules')" />
-
     <PhasePickerModal
       v-if="phasePickerOpen"
       :names="current.players.map((_, i) => playerName(i))"
@@ -150,6 +173,10 @@
           @click="tab = t.id"
         >
           {{ t.label }}
+          <span
+            v-if="t.count != null"
+            class="gt-count"
+          >{{ t.count }}</span>
         </button>
       </div>
       <div
@@ -389,6 +416,24 @@
       />
     </section>
 
+    <!-- What speaks in the phase the clock stands on, for both players (usePhaseRules.js). -->
+    <section
+      v-else-if="tab === 'phase'"
+      class="panel"
+      role="tabpanel"
+    >
+      <PhaseRules
+        embedded
+        @stratagems="tab = 'cp'"
+      />
+      <p
+        v-if="!phaseRuleCount"
+        class="panel-empty"
+      >
+        {{ labels.trackerPhaseNone }}
+      </p>
+    </section>
+
     <section
       v-else-if="tab === 'log'"
       class="panel"
@@ -528,7 +573,8 @@ import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
-import { phaseLabel } from '../../composables/stratagemPhases.js'
+import { phaseLabel, BATTLE_PHASES } from '../../composables/stratagemPhases.js'
+import { usePhaseRules } from '../../composables/usePhaseRules.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { blockLocked, turnEndChecks } from '../../composables/missionTiming.js'
 import { bonusIn } from '../../composables/cpLedger.js'
@@ -548,11 +594,17 @@ const phasesOn = computed(() => tracks(current.value.settings, 'trackPhases'))
 // The working area's tabs (see the template). CP is offered only to a game that tracks it; a
 // game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
 const tab = ref('missions')
+// The Phase tab exists only while the game keeps the clock AND asked for the reminder; its count
+// is the reminder itself, readable without opening it.
+const phaseTabOn = computed(() => phasesOn.value && tracks(current.value.settings, 'trackPhaseRules'))
+const { total: phaseRuleCount } = usePhaseRules()
 const utilTabs = computed(() => [
   { id: 'log', label: labels.value.trackerTabLog },
   { id: 'stats', label: labels.value.trackerTabStats },
   { id: 'armies', label: labels.value.trackerTabArmies },
+  ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, count: phaseRuleCount.value }] : []),
 ])
+watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
 const mainTabs = computed(() => [
   { id: 'missions', label: labels.value.trackerTabMissions },
   ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp }] : []),
@@ -689,6 +741,12 @@ function finishTurn({ final, discard }) {
 }
 provide('requestEndTurn', requestEndTurn)
 
+// The phase arrows stay inside the turn (see the template): a turn is changed by End / Undo turn.
+function canStepInTurn(delta) {
+  const i = BATTLE_PHASES.indexOf(current.value.currentPhase || 'command')
+  return canStepPhase(delta) && i + delta >= 0 && i + delta < BATTLE_PHASES.length
+}
+
 function onPickPhase(turn, phase) {
   goToPhase(turn, phase)
   phasePickerOpen.value = false
@@ -755,7 +813,7 @@ function onEndBattle(reason) {
 .rb-round {
   flex: 1 1 0;
   min-width: 26px;
-  height: 38px;
+  height: 34px;
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-muted);
@@ -782,39 +840,6 @@ function onEndBattle(reason) {
   cursor: pointer;
 }
 @media (hover: hover) { .rb-finish:hover { background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); } }
-/* The phase row sits under the rounds and reads as secondary to them: the round is the game's
-   spine, the phase is where inside it you are. */
-.phase-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  margin: -0.4rem 0 0.9rem;
-}
-.pb-nav {
-  min-width: 32px;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-dim);
-  font-size: 1rem;
-  cursor: pointer;
-}
-.pb-nav:disabled { opacity: 0.35; cursor: default; }
-.pb-now {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  padding: 0.35rem 0.9rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  font-family: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-.pb-now:hover { border-color: var(--accent); }
-.pb-who { color: var(--text-muted); }
-.pb-phase { color: var(--text-primary); font-weight: 600; }
 .twist-card {
   max-width: 640px;
   margin: -0.4rem auto 1rem;
@@ -957,21 +982,37 @@ function onEndBattle(reason) {
 .tn-strong { font-weight: 700; color: var(--text-primary); }
 /* Back and forward by a turn: two equal halves. Forward wears the colour of the side on turn. */
 .turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin: 0.6rem 0 0; }
+/* With phases: undo · ‹ · the phase · › · end. */
+.turn-row.phased { grid-template-columns: 42px 34px minmax(0, 1fr) 34px auto; gap: 0.3rem; }
 .tr-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
   min-width: 0;
-  min-height: 48px;
-  padding: 0.55rem 0.6rem;
+  min-height: 42px;
+  padding: 0.35rem 0.6rem;
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-primary);
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   cursor: pointer;
 }
+.tr-icon { padding: 0; font-size: 1.1rem; }
+.tr-step {
+  min-height: 42px; padding: 0;
+  border: 1px solid var(--border); background: var(--bg-card);
+  font-size: 1.2rem; color: var(--text-primary); cursor: pointer;
+}
+.tr-step:disabled { opacity: 0.35; cursor: default; }
+.tr-phase {
+  display: grid; align-content: center; min-width: 0; min-height: 42px; padding: 0.15rem 0.4rem;
+  border: 1px solid var(--border); background: var(--bg-card); font: inherit; cursor: pointer; text-align: center;
+}
+.tp-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.7rem; color: var(--text-dim); line-height: 1.2; }
+.tp-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; text-transform: uppercase; line-height: 1.1; color: var(--text-primary); }
+@media (hover: hover) { .tr-phase:hover, .tr-step:not(:disabled):hover { border-color: var(--accent); } }
 .tr-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tr-end { --side: var(--accent); background: var(--side); border-color: var(--side); color: #fff; }
 .tr-end.opp { --side: var(--side-opponent); }
@@ -984,23 +1025,32 @@ function onEndBattle(reason) {
 
 /* The working area's tabs. Both rows share one look; the divider between the rows is what says
    the working tabs below are a different kind of thing from the navigation above. */
-.game-tabs { display: grid; gap: 0.6rem; margin-bottom: 0.75rem; }
-.gt-util { padding-bottom: 0.6rem; border-bottom: 3px solid var(--text-primary); }
+.game-tabs { display: grid; gap: 0.45rem; margin-bottom: 0.7rem; }
+.gt-util { padding-bottom: 0.45rem; border-bottom: 3px solid var(--text-primary); }
 .gt-row { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0.35rem; }
 .gt-tab {
-  min-height: 44px;
-  padding: 0.4rem 0.5rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+  min-width: 0;
+  min-height: 36px;
+  padding: 0.2rem 0.4rem;
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-primary);
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   cursor: pointer;
 }
-.gt-main .gt-tab { min-height: 48px; font-size: 1.4rem; }
+.gt-main .gt-tab { min-height: 40px; font-size: 1.2rem; }
+.gt-count {
+  min-width: 1.3rem; padding: 0 0.25rem;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.4;
+}
+.gt-tab.on .gt-count { background: #fff; color: var(--accent); }
+.panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
 .gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 @media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
 
