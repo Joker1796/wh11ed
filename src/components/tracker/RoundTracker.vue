@@ -69,7 +69,7 @@
             :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
             :title="undoTitle"
             :aria-label="labels.trackerUndoTurn"
-            @click="undoTurn"
+            @click="undoConfirm = true"
           >
             <i
               class="bi bi-arrow-counterclockwise"
@@ -118,7 +118,7 @@
             class="tr-btn tr-prev"
             :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
             :title="undoTitle"
-            @click="undoTurn"
+            @click="undoConfirm = true"
           >
             <i
               class="bi bi-arrow-left"
@@ -529,6 +529,17 @@
       </button>
     </div>
 
+    <!-- Undo turn asks first: it sits beside End turn on the pinned bar, and a stray tap would
+         step the whole game back (owner's call, 2026-09-27). -->
+    <ConfirmModal
+      v-if="undoConfirm"
+      :title="labels.trackerUndoConfirmTitle"
+      :message="undoMessage"
+      :confirm-label="labels.trackerUndoTurn"
+      :cancel-label="labels.trackerCancel"
+      @confirm="undoConfirm = false; undoTurn()"
+      @close="undoConfirm = false"
+    />
     <TurnEndCheckModal
       v-if="pendingEnd"
       :checks="turnChecks"
@@ -572,6 +583,7 @@ import ArmiesPanel from './ArmiesPanel.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import TurnEndCheckModal from './TurnEndCheckModal.vue'
+import ConfirmModal from '../ConfirmModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
 import BroadcastModal from './BroadcastModal.vue'
 import PartyModal from './PartyModal.vue'
@@ -719,6 +731,14 @@ const turnHeadline = computed(() => {
   return [...parts, { text: before }, { text: playerName(t), strong: true }, { text: after }].filter(p => p.text)
 })
 const endTurnLabel = computed(() => aboutPlayer('trackerEndTurn', turnIndex.value))
+
+// Undo turn, confirmed: where the game goes back to, and what comes back with it.
+const undoConfirm = ref(false)
+const undoMessage = computed(() => {
+  const back = turnIndex.value === 1 ? 0 : 1
+  const round = current.value.currentRound - (turnIndex.value === 1 ? 0 : 1)
+  return aboutPlayer('trackerUndoConfirm', back).replace('{round}', round)
+})
 
 // The End button's tooltip: the whole phrase with the name — or, on the phone that may not end
 // this turn (a shared game), why the button is grey. There is no line for it under the bar any

@@ -375,3 +375,20 @@ describe('RoundTracker — dialogs wear the turn colour', () => {
     expect(overlay.getAttribute('style')).toContain('--so-light')
   })
 })
+
+describe('RoundTracker — Undo turn asks first', () => {
+  it('does nothing on the tap itself, and steps back only when confirmed', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    tracker.endTurn()
+    const w = mountTracker()
+    await w.find('.tr-prev').trigger('click')
+    expect(tracker.current.value.currentTurn).toBe(1) // not yet
+    const dialog = document.body.querySelector('[role="dialog"]')
+    expect(dialog.textContent).toContain("Me’s turn, round 1")
+    const buttons = [...dialog.querySelectorAll('button')]
+    expect(buttons.map((b) => b.textContent.trim())).toContain('Cancel') // the way out is labelled
+    buttons.find((b) => b.textContent.trim() === 'Undo turn').click()
+    await w.vm.$nextTick()
+    expect(tracker.current.value.currentTurn).toBe(0)
+  })
+})

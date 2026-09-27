@@ -200,6 +200,7 @@
       :title="labels.trackerEotConfirmTitle"
       :message="labels.trackerEotConfirm.replace('{card}', missionName(confirmSlug))"
       :confirm-label="labels.trackerEotConfirmGo"
+      :cancel-label="labels.trackerCancel"
       @confirm="onEndTurnDiscard"
       @close="confirmSlug = null"
     />
