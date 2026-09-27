@@ -73,7 +73,11 @@
           <span
             v-if="source(m.slug)"
             class="cm-src"
-          >{{ source(m.slug) === 'random' ? `🎲 ${labels.trackerSourceRandom}` : `✋ ${labels.trackerSourceChosen}` }}</span>
+          ><i
+            class="bi"
+            :class="source(m.slug) === 'random' ? 'bi-dice-5' : 'bi-hand-index-thumb'"
+            aria-hidden="true"
+          /> {{ source(m.slug) === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen }}</span>
           <span
             v-if="readonlyCard(m.slug)"
             class="badge"

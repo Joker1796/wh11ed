@@ -16,7 +16,11 @@
         class="btn-primary rc-random"
         @click="$emit('pick', null)"
       >
-        🎲 {{ labels.trackerReplaceRandom }}
+        <i
+          class="bi bi-dice-5"
+          aria-hidden="true"
+        />
+        {{ labels.trackerReplaceRandom }}
       </button>
       <template v-if="choosable">
         <div class="or-sep">
@@ -75,15 +79,17 @@ const deckMissions = computed(() =>
 </script>
 
 <style scoped>
-.rc-note { margin: 0 0 0.7rem; font-size: 0.84rem; color: var(--text-muted); line-height: 1.45; }
-.rc-random { width: 100%; justify-content: center; min-height: 46px; font-weight: 700; }
-.rc-list { padding: 0; list-style: none; margin: 0; }
+.rc-note { margin: 0 0 0.5rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+.rc-random { width: 100%; justify-content: center; gap: 0.45rem; min-height: 42px; padding: 0.4rem 0.8rem; font-weight: 700; }
+.or-sep { margin: 0.6rem 0 0.4rem; }
+.rc-list { padding: 0; list-style: none; margin: 0; display: grid; gap: 0.25rem; }
+/* One line a card: the name and its kind on the right. */
 .rc-item {
-  width: 100%; display: grid; gap: 0.1rem;
-  padding: 0.5rem 0.65rem; border: 1px solid var(--border); background: var(--bg-card);
+  width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.6rem;
+  min-height: 42px; padding: 0.35rem 0.6rem; border: 1px solid var(--border); background: var(--bg-card);
   text-align: left; font: inherit; cursor: pointer;
 }
 @media (hover: hover) { .rc-item:hover { border-color: var(--accent); } }
-.rc-name { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
-.rc-cat { font-size: 0.74rem; color: var(--text-dim); }
+.rc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+.rc-cat { white-space: nowrap; font-size: 0.72rem; color: var(--text-dim); }
 </style>

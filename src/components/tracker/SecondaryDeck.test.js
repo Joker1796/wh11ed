@@ -57,7 +57,8 @@ describe('SecondaryDeck — the turn\'s two cards', () => {
     const w = deck(0)
     await w.vm.$nextTick()
     expect(w.find('.take-btn').exists()).toBe(false)
-    expect(w.findAll('.cm-src').map(e => e.text())).toEqual(['🎲 random', '🎲 random'])
+    expect(w.findAll('.cm-src').map(e => e.text())).toEqual(['random', 'random'])
+    expect(w.findAll('.cm-src .bi-dice-5')).toHaveLength(2) // an icon, not an emoji
     expect(w.find('.untake-btn').exists()).toBe(true)
   })
 })

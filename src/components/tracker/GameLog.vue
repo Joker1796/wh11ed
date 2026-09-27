@@ -50,7 +50,12 @@
           :class="{ opp: !isYouSide(current.players[e.pi], e.pi) }"
         >
           <span class="gl-who">{{ names[e.pi] }}</span>
-          <span class="gl-what">{{ line(e) }}</span>
+          <span class="gl-what">{{ line(e) }}<i
+            v-if="e.type === 'drawn' && e.source"
+            class="bi gl-src"
+            :class="e.source === 'random' ? 'bi-dice-5' : 'bi-hand-index-thumb'"
+            :aria-label="e.source === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen"
+          /></span>
         </li>
       </ul>
     </section>
@@ -125,7 +130,7 @@ function line(e) {
   switch (e.type) {
     case 'primary': return l.trackerLogPrimary.replace('{name}', missionBySlug(e.slug, null, locale.value)?.name || '').replace('{vp}', e.vp)
     case 'scored': return l.trackerLogScored.replace('{card}', cardName(e.pi, e.slug)).replace('{vp}', e.vp)
-    case 'drawn': return l.trackerLogDrawn.replace('{card}', cardName(e.pi, e.slug)) + (e.source === 'random' ? ' 🎲' : e.source === 'chosen' ? ' ✋' : '')
+    case 'drawn': return l.trackerLogDrawn.replace('{card}', cardName(e.pi, e.slug))
     case 'achieved': return l.trackerLogAchieved.replace('{card}', cardName(e.pi, e.slug))
     case 'discard': return l.trackerLogDiscard.replace('{card}', cardName(e.pi, e.slug))
     case 'setAside': return l.trackerLogSetAside.replace('{card}', cardName(e.pi, e.slug))
@@ -147,7 +152,9 @@ const plainText = computed(() => {
     out.push(`${props.names[pi]}: ${grandTotal(g, pi)} VP (${l.trackerPrimary} ${primaryTotal(g, pi)}, ${l.trackerSecondary} ${secondaryTotal(g, pi)}) · CP ${pl.cp}`)
   })
   out.push('')
-  for (const e of [...events.value].reverse()) out.push(`${l.trackerRoundShort} ${e.round} · ${props.names[e.pi]} — ${line(e)}`)
+  // The card's source is an icon on screen; in text it is a word.
+  const src = (e) => (e.type === 'drawn' && e.source ? ` (${e.source === 'random' ? l.trackerSourceRandom : l.trackerSourceChosen})` : '')
+  for (const e of [...events.value].reverse()) out.push(`${l.trackerRoundShort} ${e.round} · ${props.names[e.pi]} — ${line(e)}${src(e)}`)
   return out.join('\n')
 })
 
@@ -199,6 +206,7 @@ async function copy() {
 .gl-item.opp { --side: var(--side-opponent); }
 .gl-who { font-weight: 700; color: var(--side); }
 .gl-what { color: var(--text-muted); }
+.gl-src { margin-left: 0.35rem; }
 .gl-area {
   width: 100%; min-height: 50vh; padding: 0.6rem;
   border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary);

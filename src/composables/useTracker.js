@@ -324,7 +324,7 @@ if (typeof window !== 'undefined') {
 }
 
 // How a secondary came into the hand — 'random' (off the deck) or 'chosen' (picked by hand); the
-// card shows it (🎲 / ✋). Kept per slug in `secondary.source`; absent on older games, where a
+// card shows it (a die / a hand icon). Kept per slug in `secondary.source`; absent on older games, where a
 // card simply shows no mark.
 function markSource(s, slug, how) {
   if (!s.source) s.source = {}

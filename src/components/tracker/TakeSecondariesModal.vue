@@ -15,7 +15,11 @@
             class="took-item"
           >
             <span class="ti-name">{{ m.name }}</span>
-            <span class="src-badge">{{ taken === 'random' ? '🎲' : '✋' }}</span>
+            <i
+              class="bi ti-src"
+              :class="taken === 'random' ? 'bi-dice-5' : 'bi-hand-index-thumb'"
+              :aria-label="taken === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen"
+            />
           </li>
         </ul>
         <button
@@ -35,7 +39,11 @@
           :disabled="picked.length > 0"
           @click="onRandom"
         >
-          🎲 {{ labels.trackerTakeRandom }}
+          <i
+            class="bi bi-dice-5"
+            aria-hidden="true"
+          />
+          {{ labels.trackerTakeRandom }}
         </button>
         <div class="or-sep">
           <span>{{ labels.trackerTakeOrChoose }}</span>
@@ -73,7 +81,11 @@
         :disabled="picked.length !== need"
         @click="onChosen"
       >
-        ✋ {{ labels.trackerTakeChosen.replace('{n}', picked.length).replace('{of}', need) }}
+        <i
+          class="bi bi-hand-index-thumb"
+          aria-hidden="true"
+        />
+        {{ labels.trackerTakeChosen.replace('{n}', picked.length).replace('{of}', need) }}
       </button>
     </footer>
   </BaseModal>
@@ -121,34 +133,38 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 </script>
 
 <style scoped>
-.tk-note { margin: 0 0 0.7rem; font-size: 0.84rem; color: var(--text-muted); }
-.tk-main { width: 100%; justify-content: center; min-height: 46px; font-weight: 700; }
-.pick-list, .took-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+.tk-note { margin: 0 0 0.5rem; font-size: 0.8rem; line-height: 1.4; color: var(--text-muted); }
+.tk-main { width: 100%; justify-content: center; gap: 0.45rem; min-height: 42px; padding: 0.4rem 0.8rem; font-weight: 700; }
+/* The divider sits closer here than its shared default: this dialog is a list to scan. */
+.or-sep { margin: 0.6rem 0 0.4rem; }
+.pick-list, .took-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
+/* One line a card: the name, its kind on the right, the box. */
 .pick-item {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   column-gap: 0.6rem;
   align-items: center;
-  padding: 0.5rem 0.65rem;
+  min-height: 42px;
+  padding: 0.35rem 0.6rem;
   border: 1px solid var(--border);
   background: var(--bg-card);
   text-align: left;
   font: inherit;
   cursor: pointer;
 }
-.pick-item .bi { grid-column: 2; grid-row: 1 / span 2; font-size: 1.15rem; color: var(--text-dim); }
+.pick-item .bi { font-size: 1.1rem; color: var(--text-dim); }
 .pick-item.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); }
 .pick-item.on .bi { color: var(--accent); }
 .pick-item:disabled { opacity: 0.45; cursor: default; }
-.pick-name { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
-.pick-cat { font-size: 0.74rem; color: var(--text-dim); }
+.pick-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+.pick-cat { white-space: nowrap; font-size: 0.72rem; color: var(--text-dim); }
+.ti-src { font-size: 1.1rem; color: var(--text-muted); }
 .took-item {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-  padding: 0.6rem 0.7rem; border: 1px solid var(--border); background: var(--bg-card);
+  min-height: 42px; padding: 0.35rem 0.6rem; border: 1px solid var(--border); background: var(--bg-card);
 }
 .ti-name { font-weight: 700; color: var(--text-primary); }
-.took-list { margin-bottom: 0.8rem; }
-.tk-foot { padding: 0.6rem 0.9rem; border-top: 1px solid var(--border); }
+.took-list { margin-bottom: 0.6rem; }
+.tk-foot { padding: 0.5rem 0.9rem; border-top: 1px solid var(--border); }
 </style>
