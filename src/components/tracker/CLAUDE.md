@@ -83,20 +83,42 @@ of them (prose, blank line = new paragraph); a setting whose answer is a *table*
 ## The turn — always kept (`endTurn` / `undoTurn`)
 
 The game screen moves on by the **turn**, not the round: a headline over the score ("Round 3 · Turn:
-X"), a "Turn" chip on that side's card, and one primary button, **End turn — X**, under the
-board. Ending the second turn of a round opens the next round (through `goToRound`, so the
-secondary housekeeping still runs); the last turn of the game offers **Finish game** in its place.
-**Undo turn** steps back into the turn that ended, at its last phase — an action, not a snapshot:
-in a shared game the other phones already have the new turn, and what was scored since stays.
-The turn lives in `currentTurn` (the `shared` slice), which existed for the phase clock — so the
-format did not change. **Phases stay optional** (`trackPhases`); the turn does not depend on them.
-In a shared game the turn is ended by the side playing it and taken back by the side that ended
-it; the other phone sees the button greyed with the reason on the line under it. The round bar
-stays for corrections after the fact and is not gated. (Mikhail's prototype, 2026-09-25. The score cards
-follow the same prototype: each side in its colour (you `--accent`, the opponent `--side-opponent`)
-as a stripe and on the name, name · faction on one line, VP and BP side by side at one size, the
-breakdown under a rule; the side on turn gets a wash of its colour and the "turn" mark. "Leading"
-is gone from the live board — the gold edge and "Tied" belong to the result screen.
+X"), a "Turn" chip on that side's card, and under the board two equal buttons — **← Undo turn** and
+**End turn — X**, the latter in the colour of the side on turn. Ending the second turn of a round
+opens the next round (through `goToRound`, so the secondary housekeeping still runs); the last turn
+of the game offers **Finish game** in its place. **Undo turn** steps back into the turn that ended,
+at its last phase — an action, not a snapshot: in a shared game the other phones already have the
+new turn, and what was scored since stays. (Mikhail's prototype restores a full snapshot of the
+previous turn; that was deliberately not copied, for exactly this reason.) The turn lives in
+`currentTurn` (the `shared` slice), which existed for the phase clock — so the format did not
+change. **Phases stay optional** (`trackPhases`); the turn does not depend on them. In a shared game
+the turn is ended by the side playing it and taken back by the side that ended it; the other phone
+sees the button greyed with the reason on the line under the pair. The score cards follow the same
+prototype: each side in its colour (you `--accent`, the opponent `--side-opponent`) as a stripe and
+on the name, name · faction on one line, VP and BP side by side at one size, the breakdown under a
+rule; the side on turn gets a wash of its colour and the "turn" mark. "Leading" is gone from the
+live board — the gold edge and "Tied" belong to the result screen.
+
+## The game screen's layout (`RoundTracker.vue`)
+
+Top to bottom: headline, score cards, the turn pair, the rounds row (steps 1–5 with **Finish game**
+at its end and the sync indicator), the optional phase clock and its reminder, then the **tabs**.
+Two rows of tabs in one look, split by a heavy rule: the reference views **Stats / Armies** above,
+the two places the game is played — **Missions / CP** — below. One panel at a time; **every new
+turn opens on Missions** (a watch on round + turn), because a turn starts by drawing and scoring.
+The CP tab exists only while the game tracks CP (`trackCP`); switched off mid-game it falls back to
+Missions. What lives where:
+
+- **Missions** — the twist reminder and one card per side: primary, secondaries, the army-rule
+  tracker. The card carries its side's colour down its edge.
+- **CP** — one bank per side, side by side.
+- **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content).
+- **Armies** — per side the disposition, detachments (members in doubles) and the way to the units:
+  the attached list, or the faction's datasheets without one. The folded "Army details" block and
+  the army button that used to share the CP row moved here.
+
+The top is NOT pinned (owner's call, 2026-09-27): the prototype fixes it and scrolls the panel
+inside, which on a 640px phone leaves about half the screen for the game.
 
 ## Slices — the game as multi-device sync moves it
 

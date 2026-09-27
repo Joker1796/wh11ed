@@ -1,6 +1,7 @@
 <template>
   <div class="breakdown">
     <button
+      v-if="!expanded"
       class="bd-toggle"
       :aria-expanded="open"
       @click="open = !open"
@@ -12,7 +13,7 @@
       {{ labels.trackerDetails }}
     </button>
 
-    <CollapseTransition :show="open">
+    <CollapseTransition :show="expanded || open">
       <div class="bd-body">
         <div
           v-for="(pl, i) in game.players"
@@ -147,7 +148,11 @@ import {
 import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.
-const props = defineProps({ game: { type: Object, default: null } })
+// `expanded`: the game screen's Stats tab, where the table IS the content — no toggle over it.
+const props = defineProps({
+  game: { type: Object, default: null },
+  expanded: { type: Boolean, default: false },
+})
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()

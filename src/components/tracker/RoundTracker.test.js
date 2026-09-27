@@ -36,7 +36,8 @@ function startGame(p0, p1, settings = {}) {
 // The phase picker teleports to <body> (BaseModal), so clear it between cases.
 afterEach(() => { document.body.innerHTML = '' })
 
-// The heavy children have their own specs; this one is about the army link in the CP row.
+// The heavy children have their own specs; this one is about the screen around them: the tabs,
+// the army links in the Armies tab, the shared-game locks.
 const RouterLinkStub = { props: ['to'], template: '<a :href="to"><slot /></a>' }
 function mountTracker() {
   return mount(RoundTracker, {
@@ -49,36 +50,60 @@ function mountTracker() {
   })
 }
 const armyLinks = (w) => w.findAll('.proster').map(a => a.attributes('href'))
+const tabLabels = (w) => w.findAll('.gt-tab').map(t => t.text())
+async function openTab(w, label) {
+  await w.findAll('.gt-tab').find(t => t.text() === label).trigger('click')
+  return w
+}
+const openArmies = (w) => openTab(w, 'Armies')
 
-describe('RoundTracker — the army link on a player card', () => {
+describe('RoundTracker — the tabs', () => {
+  it('opens on the missions and offers CP only to a game that counts it', () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    const w = mountTracker()
+    expect(tabLabels(w)).toEqual(['Stats', 'Armies', 'Missions', 'CP'])
+    expect(w.find('.gt-tab.on').text()).toBe('Missions')
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false })
+    expect(tabLabels(mountTracker())).toEqual(['Stats', 'Armies', 'Missions'])
+  })
+
+  // A turn starts with drawing and scoring, so a new turn brings the player back to them.
+  it('goes back to the missions when the turn changes', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    const w = await openTab(mountTracker(), 'CP')
+    expect(w.find('.cp-banks').exists()).toBe(true)
+    tracker.endTurn()
+    await w.vm.$nextTick()
+    expect(w.find('.gt-tab.on').text()).toBe('Missions')
+    expect(w.find('.cp-banks').exists()).toBe(false)
+  })
+})
+
+describe('RoundTracker — the army links in the Armies tab', () => {
   // The point of the fallback: it belongs to the player it's rendered on, so the opponent's
   // datasheets are reachable too. That's what let the bottom nav drop its «Units» item.
-  it('links each player to their own faction datasheets when no list is attached', () => {
+  it('links each player to their own faction datasheets when no list is attached', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
-    expect(armyLinks(mountTracker())).toEqual([
+    expect(armyLinks(await openArmies(mountTracker()))).toEqual([
       '/factions/orks/datasheets',
       '/factions/necrons/datasheets',
     ])
   })
 
-  it('prefers the attached list — that player only, the other keeps the datasheets', () => {
+  it('prefers the attached list — that player only, the other keeps the datasheets', async () => {
     const roster = { id: 'r1', name: 'Da List', faction: 'orks', detachments: [], units: [] }
     startGame({ factionSlug: 'orks', rosterId: 'r1', roster }, { factionSlug: 'necrons' })
-    expect(armyLinks(mountTracker())).toEqual([
+    expect(armyLinks(await openArmies(mountTracker()))).toEqual([
       '/tracker/game/roster/0',
       '/factions/necrons/datasheets',
     ])
   })
 
-  it('shows no army link for a legacy game whose player has no faction', () => {
+  it('shows no army link for a legacy game whose player has no faction', async () => {
     startGame({ factionSlug: null }, { factionSlug: null })
-    expect(armyLinks(mountTracker())).toEqual([])
-  })
-
-  // With CP off and no faction there is nothing left to put in the row at all.
-  it('drops the CP row entirely when neither half has anything to show', () => {
-    startGame({ factionSlug: null }, { factionSlug: null }, { trackCP: false })
-    expect(mountTracker().findAll('.cp-row')).toHaveLength(0)
+    const w = await openArmies(mountTracker())
+    expect(armyLinks(w)).toEqual([])
+    expect(w.findAll('.army-links')).toHaveLength(0)
   })
 })
 
@@ -138,9 +163,9 @@ describe('RoundTracker — the phase row', () => {
 describe('RoundTracker — what the game keeps track of', () => {
   // The option HIDES a block; it never clears what the block recorded, so it is reversible
   // mid-game. The missions are deliberately not switchable — see src/data/trackerOptions.js.
-  it('drops the CP stepper when the game is not counting CP', () => {
+  it('drops the CP tab when the game is not counting CP', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false })
-    expect(mountTracker().find('.sr-label').exists()).toBe(false)
+    expect(tabLabels(mountTracker())).not.toContain('CP')
   })
 
   it('keeps the mission blocks whatever the settings say', () => {
@@ -161,22 +186,21 @@ describe('RoundTracker — doubles', () => {
   }
   const M = (name, factionSlug, detachments = []) => ({ name, factionSlug, detachments })
 
-  it('labels each army button with its member and routes to that member\'s slice', () => {
+  it('labels each army button with its member and routes to that member\'s slice', async () => {
     startDoubles(
       [M('Ann', 'orks'), M('Bob', 'aeldari')],
       [M('Cat', 'drukhari'), M('Dan', null)],
     )
     // Attach a roster to side 0's member 1 so both link kinds appear.
     tracker.current.value.players[0].members[1].roster = { units: [{ uid: 'a', id: 'x', size: 0 }] }
-    const w = mountTracker()
-    const links = armyLinks(w)
+    const links = armyLinks(await openArmies(mountTracker()))
     expect(links).toContain('/factions/orks/datasheets')       // Ann, no list
     expect(links).toContain('/tracker/game/roster/0/1')        // Bob's list
     expect(links).toContain('/factions/drukhari/datasheets')   // Cat
     expect(links).toHaveLength(3)                              // Dan has nothing to link
   })
 
-  it('gives a long member name something to ellipsize and the full name on hover', () => {
+  it('gives a long member name something to ellipsize and the full name on hover', async () => {
     // The button label is typed by the player, so it has no width it can promise: without the
     // inner span (nothing for text-overflow to clip) the CP row's minimum width overflowed the
     // card on a phone and scrolled the whole document sideways.
@@ -184,7 +208,7 @@ describe('RoundTracker — doubles', () => {
       [M('Фёдор Михайлович', 'orks'), M('Михаил Юрьевич', 'aeldari')],
       [M('Cat', 'drukhari'), M('Dan', 'drukhari')],
     )
-    const w = mountTracker()
+    const w = await openArmies(mountTracker())
     const btn = w.findAll('a.proster').find((a) => a.text().includes('Фёдор'))
     expect(btn.find('.proster-label').exists()).toBe(true)
     expect(btn.attributes('title')).toBe('Фёдор Михайлович')
@@ -206,12 +230,12 @@ describe('RoundTracker — doubles', () => {
     expect(side1.map((c) => c.props('mi')).sort()).toEqual([0, 1])
   })
 
-  it('shows the team name and one identity line per member', () => {
+  it('shows the team name and one identity line per member', async () => {
     startDoubles(
       [M('Ann', 'orks', ['War Horde']), M('Bob', 'aeldari')],
       [M('Cat', 'drukhari'), M('Dan', 'drukhari')],
     )
-    const w = mountTracker()
+    const w = await openArmies(mountTracker())
     expect(w.text()).toContain('Alpha')
     expect(w.text()).toContain('Ann — Orks · War Horde')
   })
@@ -227,7 +251,7 @@ describe('RoundTracker — a shared game', () => {
   }
   const cards = (w) => w.findAll('.player')
   // The lock is on the scoring controls, never on the card: a locked card still opens its army
-  // facts, its list and its army rule's text.
+  // rule's text (and the Armies tab, which locks nothing, its list).
   function locked(card) {
     const primary = card.find('.card-open, .score-row')
     const deck = card.findComponent({ name: 'SecondaryDeck' })
@@ -254,7 +278,6 @@ describe('RoundTracker — a shared game', () => {
     withParty({ host: false, side: 1 })
     const w = mountTracker()
     expect(cards(w).map(locked)).toEqual([LOCKED, OPEN])
-    expect(cards(w)[0].find('.pinfo').attributes('inert')).toBeUndefined()
     expect(cards(w)[0].text()).toContain('Scored on another phone')
     expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
   })

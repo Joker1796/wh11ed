@@ -11,61 +11,52 @@
     </p>
     <ScoreBoard />
 
-    <!-- Moving the game on is one button: the turn, not the round — a round is two turns, and
-         ending the second one opens the next round. In a shared game the turn is ended by the
-         side playing it (and taken back by the side that ended it): the button stays on screen
-         for the other phone, greyed, with the reason on the line under it. The last turn of the
-         game has nowhere to go, so there the button finishes the game instead. -->
-    <div class="turn-flow">
+    <!-- Moving the game on: two equal buttons, back and forward by a TURN — a round is two turns,
+         and ending the second one opens the next round. The forward one wears the colour of the
+         side whose turn it is. In a shared game a turn is ended by the side playing it and taken
+         back by the side that ended it: the button stays on screen for the other phone, greyed,
+         with the reason on the line under the pair. The last turn of the game has nowhere to
+         go, so there the forward button finishes the game instead. -->
+    <div class="turn-row">
+      <button
+        class="tr-btn tr-prev"
+        :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
+        :title="undoTitle"
+        @click="undoTurn"
+      >
+        <i
+          class="bi bi-arrow-left"
+          aria-hidden="true"
+        />
+        <span class="tr-label">{{ labels.trackerUndoTurn }}</span>
+      </button>
       <button
         v-if="canEndTurn()"
-        class="btn-primary tf-end"
+        class="tr-btn tr-end"
+        :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
         :disabled="!canEdit(turnIndex)"
+        :title="endTurnLabel"
         @click="endTurn"
       >
-        {{ endTurnLabel }}
+        <span class="tr-label">{{ endTurnLabel }}</span>
       </button>
       <button
         v-else
-        class="btn-primary tf-end"
+        class="tr-btn tr-end"
         @click="endModalOpen = true"
       >
-        {{ labels.trackerFinish }}
+        <span class="tr-label">{{ labels.trackerFinish }}</span>
       </button>
-      <div class="tf-line">
-        <span class="tf-next">{{ nextLine }}</span>
-        <button
-          v-if="canUndoTurn()"
-          class="tf-link"
-          :disabled="!canEdit(1 - turnIndex)"
-          :title="undoTitle"
-          @click="undoTurn"
-        >
-          <i
-            class="bi bi-arrow-counterclockwise"
-            aria-hidden="true"
-          />
-          {{ labels.trackerUndoTurn }}
-        </button>
-        <button
-          v-if="canEndTurn()"
-          class="tf-link"
-          @click="endModalOpen = true"
-        >
-          {{ labels.trackerFinish }}
-        </button>
-      </div>
     </div>
+    <p class="tf-next">
+      {{ nextLine }}
+    </p>
 
+    <!-- The rounds and, at the end of the same row, finishing the game early: one row of
+         navigation rather than a big button of its own. A shared game's sync state rides here
+         too — a row of its own would cost vertical space the phone does not have (it renders
+         nothing for a game that is not shared). -->
     <div class="round-bar">
-      <button
-        class="rb-nav"
-        :disabled="current.currentRound <= 1"
-        :aria-label="labels.ariaPrevRound"
-        @click="goToRound(current.currentRound - 1)"
-      >
-        ‹
-      </button>
       <div class="rb-rounds">
         <button
           v-for="n in ROUND_COUNT"
@@ -80,15 +71,11 @@
         </button>
       </div>
       <button
-        class="rb-nav"
-        :disabled="current.currentRound >= ROUND_COUNT"
-        :aria-label="labels.ariaNextRound"
-        @click="goToRound(current.currentRound + 1)"
+        class="rb-finish"
+        @click="endModalOpen = true"
       >
-        ›
+        {{ labels.trackerFinish }}
       </button>
-      <!-- A shared game's sync state rides on the round bar — a row of its own would cost the
-           vertical space the phone does not have. Renders nothing for a game that is not shared. -->
       <SyncIndicator />
     </div>
 
@@ -135,51 +122,193 @@
       @close="phasePickerOpen = false"
     />
 
-    <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
-    <details
-      v-if="activeTwist"
-      class="twist-card"
+    <!-- The game's working area. Two rows of tabs in one visual language: the reference views
+         (stats, the armies) above, the two places the game is PLAYED in — the missions and the
+         command points — below them, under a divider. One panel shows at a time: both players'
+         cards one under the other ran to several screens on a phone, and the thing a player
+         wants mid-turn is one of these five, not all of them. Every new turn opens on the
+         missions (watch below) — that is where a turn starts. -->
+    <nav
+      class="game-tabs"
+      :aria-label="labels.trackerTabsAria"
     >
-      <summary><span class="tc-label">{{ labels.trackerTwist }}</span> {{ activeTwist.title }}</summary>
-      <div class="twist-card-body">
-        <RuleBody :body="activeTwist.body" />
-      </div>
-    </details>
-
-    <div class="players">
-      <!-- In a shared game a side another phone plays is shown as it is, greyed, with the reason
-           under its title — never hidden: what the opponent has scored is exactly what a player
-           wants to see. The lock is on what SCORES — the primary, the deck, the CP stepper, the
-           army tracker's controls (`inert`, see lock()) — and not on the card, because the card
-           is also where the opponent's army is READ: the setup facts, the way to their list, the
-           army rule's text and state. A guest who could not open the other side's Waaagh! rule
-           was the first complaint about the shared game. The sync layer snaps back anything
-           that gets past the lock. `inert` is a presence attribute — a rendered "false" would
-           still be inert — hence `undefined` rather than false. -->
       <div
-        v-for="(pl, i) in current.players"
-        :key="i"
-        class="player"
-        :class="{ 'player-locked': !canEdit(i) }"
+        class="gt-row gt-util"
+        role="tablist"
       >
-        <h3 class="ptitle">
-          {{ playerName(i) }}
-        </h3>
-        <!-- The host's line also says how to take the side back: the seat is the lock. -->
-        <p
-          v-if="!canEdit(i)"
-          class="plocked"
+        <button
+          v-for="t in utilTabs"
+          :key="t.id"
+          role="tab"
+          class="gt-tab"
+          :class="{ on: tab === t.id }"
+          :aria-selected="tab === t.id"
+          @click="tab = t.id"
         >
-          {{ isHost ? labels.partyOtherSideHost : labels.partyOtherSide }}
-        </p>
-        <!-- Disposition and detachments are setup facts, consulted rarely mid-game — folded by
-             default so the card opens on what IS the game: the missions and the score. Native
-             <details>, the same accordion the twist reminder above uses. -->
-        <details
-          v-if="hasArmyInfo(pl)"
-          class="pinfo"
+          {{ t.label }}
+        </button>
+      </div>
+      <div
+        class="gt-row gt-main"
+        role="tablist"
+      >
+        <button
+          v-for="t in mainTabs"
+          :key="t.id"
+          role="tab"
+          class="gt-tab"
+          :class="{ on: tab === t.id }"
+          :aria-selected="tab === t.id"
+          @click="tab = t.id"
         >
-          <summary>{{ labels.trackerArmyDetails }}</summary>
+          {{ t.label }}
+        </button>
+      </div>
+    </nav>
+
+    <section
+      v-if="tab === 'missions'"
+      class="panel"
+      role="tabpanel"
+    >
+      <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
+      <details
+        v-if="activeTwist"
+        class="twist-card"
+      >
+        <summary><span class="tc-label">{{ labels.trackerTwist }}</span> {{ activeTwist.title }}</summary>
+        <div class="twist-card-body">
+          <RuleBody :body="activeTwist.body" />
+        </div>
+      </details>
+
+      <div class="players">
+        <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
+             reason under its title — never hidden: what the opponent has scored is exactly what a
+             player wants to see. The lock is on what SCORES — the primary, the deck, the army
+             tracker's controls (`inert`, see lock()) — not on the card, because the card is also
+             where the opponent's army rule is READ. A guest who could not open the other side's
+             Waaagh! rule was the first complaint about the shared game. The sync layer snaps
+             back anything that gets past the lock. `inert` is a presence attribute — a rendered
+             "false" would still be inert — hence `undefined` rather than false. -->
+        <div
+          v-for="(pl, i) in current.players"
+          :key="i"
+          class="player"
+          :class="{ 'player-locked': !canEdit(i), opp: !isYouSide(pl, i) }"
+        >
+          <h3 class="ptitle">
+            {{ playerName(i) }}
+          </h3>
+          <!-- The host's line also says how to take the side back: the seat is the lock. -->
+          <p
+            v-if="!canEdit(i)"
+            class="plocked"
+          >
+            {{ isHost ? labels.partyOtherSideHost : labels.partyOtherSide }}
+          </p>
+          <!-- Primary mission — tap to open the scoring modal -->
+          <div class="sec-title-row">
+            {{ labels.trackerPrimary }}
+          </div>
+          <button
+            v-if="primaryMission(i)"
+            class="card-open"
+            :inert="lock(i)"
+            @click="openPrimary = i"
+          >
+            <span class="card-name">{{ primaryName(i) }}</span>
+            <span class="card-vp">{{ pl.rounds[current.currentRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
+          </button>
+          <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
+               card to tick. The missions themselves are not optional — see trackerOptions.js. -->
+          <div
+            v-else
+            class="score-row"
+            :inert="lock(i)"
+          >
+            <NumberStepper
+              :model-value="pl.rounds[current.currentRound - 1].primary"
+              :min="0"
+              :max="PRIMARY_ROUND_CAP"
+              @update:model-value="v => setRoundPrimary(i, current.currentRound - 1, v)"
+            />
+            <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
+          </div>
+
+          <SecondaryDeck
+            :pi="i"
+            :inert="lock(i)"
+          />
+
+          <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
+               secondaries: it is played alongside the missions, turn by turn. Opt-in per player
+               (settings.trackArmyYou / trackArmyOpp, default on) and renders only for factions
+               with a spec. Doubles: one SHARED card for a unified force of one faction (the
+               companion: one pool per force), else one card per member — see armyCards(). -->
+          <ArmyTrackerCard
+            v-for="c in armyCards(pl)"
+            :key="c.mi ?? 'side'"
+            :pi="i"
+            :mi="c.mi"
+            :readonly="!canEdit(i)"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Command points: one bank per side, side by side, in the side's colour. -->
+    <section
+      v-else-if="tab === 'cp'"
+      class="panel"
+      role="tabpanel"
+    >
+      <div class="cp-banks">
+        <div
+          v-for="(pl, i) in current.players"
+          :key="i"
+          class="cp-bank"
+          :class="{ opp: !isYouSide(pl, i), 'player-locked': !canEdit(i) }"
+        >
+          <div class="cb-name">
+            {{ playerName(i) }}
+          </div>
+          <NumberStepper
+            :model-value="pl.cp"
+            :min="0"
+            :inert="lock(i)"
+            @update:model-value="v => setCp(i, v)"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section
+      v-else-if="tab === 'stats'"
+      class="panel"
+      role="tabpanel"
+    >
+      <ScoreBreakdown expanded />
+    </section>
+
+    <!-- The armies: what each side fields, and the way to its units. With a list attached the
+         list is strictly the better answer (only this army's units, with the game's live
+         modifiers); without one the faction's datasheets are the next best thing. -->
+    <section
+      v-else-if="tab === 'armies'"
+      class="panel"
+      role="tabpanel"
+    >
+      <div class="armies">
+        <div
+          v-for="(pl, i) in current.players"
+          :key="i"
+          class="army"
+          :class="{ opp: !isYouSide(pl, i) }"
+        >
+          <h3 class="ptitle">
+            {{ playerName(i) }}
+          </h3>
           <p
             v-if="dispositionName(pl.disposition)"
             class="pmeta"
@@ -202,88 +331,24 @@
               {{ memberLine(m, mi) }}
             </p>
           </template>
-        </details>
-        <!-- Primary mission — tap to open the scoring modal -->
-        <div class="sec-title-row">
-          {{ labels.trackerPrimary }}
-        </div>
-        <button
-          v-if="primaryMission(i)"
-          class="card-open"
-          :inert="lock(i)"
-          @click="openPrimary = i"
-        >
-          <span class="card-name">{{ primaryName(i) }}</span>
-          <span class="card-vp">{{ pl.rounds[current.currentRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
-        </button>
-        <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no card
-             to tick. The missions themselves are not optional — see trackerOptions.js. -->
-        <div
-          v-else
-          class="score-row"
-          :inert="lock(i)"
-        >
-          <NumberStepper
-            :model-value="pl.rounds[current.currentRound - 1].primary"
-            :min="0"
-            :max="PRIMARY_ROUND_CAP"
-            @update:model-value="v => setRoundPrimary(i, current.currentRound - 1, v)"
-          />
-          <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
-        </div>
-
-        <SecondaryDeck
-          :pi="i"
-          :inert="lock(i)"
-        />
-
-        <!-- CP and this player's army sit UNDER the secondaries: both are consulted between
-             scoring passes, not during one, and above they pushed the round's actual scoring
-             down. The row survives either half on its own — CP is a setting, and the army slot
-             needs a faction the oldest saved games may not carry.
-             One army button per player, never both: with a list attached the list is strictly
-             the better answer (only this army's units, with the game's live modifiers), and
-             without one the faction's datasheets are the next best thing. It reads the player
-             it belongs to, so the opponent's army is one tap away from their own card. -->
-        <div
-          v-if="cpOn || armyLinks(pl, i).length"
-          class="score-row cp-row"
-        >
-          <template v-if="cpOn">
-            <span class="sr-label">{{ labels.trackerCp }}</span>
-            <NumberStepper
-              :model-value="pl.cp"
-              :min="0"
-              :inert="lock(i)"
-              @update:model-value="v => setCp(i, v)"
-            />
-          </template>
-          <RouterLink
-            v-for="l in armyLinks(pl, i)"
-            :key="l.to"
-            class="proster"
-            :to="l.to"
-            :title="l.label"
+          <div
+            v-if="armyLinks(pl, i).length"
+            class="army-links"
           >
-            <i :class="`bi ${l.icon}`" />
-            <span class="proster-label">{{ l.label }}</span>
-          </RouterLink>
+            <RouterLink
+              v-for="l in armyLinks(pl, i)"
+              :key="l.to"
+              class="proster"
+              :to="l.to"
+              :title="l.label"
+            >
+              <i :class="`bi ${l.icon}`" />
+              <span class="proster-label">{{ l.label }}</span>
+            </RouterLink>
+          </div>
         </div>
-
-        <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
-             secondaries and the CP row. Opt-in per player (settings.trackArmyYou /
-             trackArmyOpp, default on) and renders only for factions with a spec. Doubles:
-             one SHARED card for a unified force of one faction (the companion: one pool per
-             force), else one card per member — see armyCards(). -->
-        <ArmyTrackerCard
-          v-for="c in armyCards(pl)"
-          :key="c.mi ?? 'side'"
-          :pi="i"
-          :mi="c.mi"
-          :readonly="!canEdit(i)"
-        />
       </div>
-    </div>
+    </section>
 
     <ScoringModal
       v-if="openPrimary >= 0 && primaryMission(openPrimary)"
@@ -362,11 +427,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import ScoreBoard from './ScoreBoard.vue'
+import ScoreBreakdown from './ScoreBreakdown.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
@@ -394,6 +460,21 @@ const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRou
 // rather than undefined.
 const cpOn = computed(() => tracks(current.value.settings, 'trackCP'))
 const phasesOn = computed(() => tracks(current.value.settings, 'trackPhases'))
+
+// The working area's tabs (see the template). CP is offered only to a game that tracks it; a
+// game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
+const tab = ref('missions')
+const utilTabs = computed(() => [
+  { id: 'stats', label: labels.value.trackerTabStats },
+  { id: 'armies', label: labels.value.trackerTabArmies },
+])
+const mainTabs = computed(() => [
+  { id: 'missions', label: labels.value.trackerTabMissions },
+  ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp }] : []),
+])
+watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
+// A new turn starts on the missions: the first thing a turn does is draw and score.
+watch(() => [current.value.currentRound, current.value.currentTurn], () => { tab.value = 'missions' })
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
@@ -480,12 +561,6 @@ function armyRuleOn(pl) {
 
 const isDoubles = computed(() => current.value?.settings?.gameType === 'doubles')
 
-// The folded army-details block has to have something inside — the oldest saved games carry
-// neither a disposition nor detachments, and an empty accordion is a broken-looking row.
-function hasArmyInfo(pl) {
-  return !!dispositionName(pl.disposition) || !!pl.detachments?.length || isDoubles.value
-}
-
 function memberName(m, mi) {
   return m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
 }
@@ -556,26 +631,41 @@ function onEndBattle(reason) {
 </script>
 
 <style scoped>
+/* The rounds: square steps in one row, "Finish game" at the end of it. */
 .round-bar {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin: 1rem 0 1.2rem;
+  align-items: stretch;
+  gap: 0.3rem;
+  margin: 0.6rem 0 0.75rem;
 }
-.rb-rounds { display: flex; gap: 0.3rem; }
+.rb-rounds { display: flex; gap: 0.3rem; flex: 1 1 auto; min-width: 0; }
 .rb-round {
-  width: 38px; height: 38px;
+  flex: 1 1 0;
+  min-width: 26px;
+  height: 38px;
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-muted);
-  border-radius: 50%;
   font-weight: 700;
   font-family: var(--font-mono);
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .rb-round.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.rb-finish {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  padding: 0 0.6rem;
+  border: 1px solid var(--accent);
+  background: var(--bg-card);
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+@media (hover: hover) { .rb-finish:hover { background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); } }
 /* The phase row sits under the rounds and reads as secondary to them: the round is the game's
    spine, the phase is where inside it you are. */
 .phase-bar {
@@ -609,15 +699,6 @@ function onEndBattle(reason) {
 .pb-now:hover { border-color: var(--accent); }
 .pb-who { color: var(--text-muted); }
 .pb-phase { color: var(--text-primary); font-weight: 600; }
-.rb-nav {
-  width: 34px; height: 34px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-.rb-nav:disabled { opacity: 0.35; cursor: not-allowed; }
 .twist-card {
   max-width: 640px;
   margin: -0.4rem auto 1rem;
@@ -668,24 +749,15 @@ function onEndBattle(reason) {
 .proster:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .players { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .player {
+  --side: var(--accent);
   background: var(--bg-card);
   border: 1px solid var(--border);
+  border-left: 4px solid var(--side);
   padding: 0.8rem;
 }
+.player.opp { --side: var(--side-opponent); }
+.player .ptitle { color: var(--side); }
 .ptitle { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-/* The folded setup facts under the side title. Summary styled as a quiet one-line control —
-   the card's first loud thing must stay the primary mission, not this. */
-.pinfo { margin: 0.1rem 0 0.5rem; }
-.pinfo > summary {
-  cursor: pointer;
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-dim);
-  padding: 0.15rem 0;
-}
-@media (hover: hover) { .pinfo > summary:hover { color: var(--text-muted); } }
 .pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.2rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.3rem; font-family: var(--font-mono); }
 .sec-title-row {
@@ -713,18 +785,6 @@ function onEndBattle(reason) {
 .card-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }
 .card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; color: var(--accent); flex-shrink: 0; }
 .score-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
-/* Same gap SecondaryDeck opens above itself (.sec), so the row reads as its own band under it.
-   The CP label drops `.sr-label`'s column width here — it labels the stepper right next to it,
-   not a column of rows — and the roster button sits at the far end, opposite the pair. With CP
-   tracking off that button is the row's only child and stays left, like everything else. */
-.cp-row { margin-top: 0.6rem; flex-wrap: wrap; }
-.cp-row .sr-label { min-width: 0; }
-/* Only the FIRST army button takes the auto margin: with two of them (doubles) an auto margin
-   each split the free space between the pair instead of keeping it together at the far end.
-   `flex: 1 1 auto` + the ellipsis above is what lets the pair drop to a second line and share
-   it evenly when the row can't fit — a row is spent only when the width is genuinely gone. */
-.cp-row .sr-label ~ .proster:first-of-type { margin-left: auto; }
-.cp-row .proster { flex: 1 1 auto; min-width: 0; }
 .sr-label {
   min-width: 4.5rem;
   font-size: 0.75rem;
@@ -775,33 +835,88 @@ function onEndBattle(reason) {
   background: var(--accent);
 }
 .tn-strong { font-weight: 700; color: var(--text-primary); }
-.turn-flow { margin: 0.6rem 0 0; }
-.tf-end { width: 100%; justify-content: center; padding: 0.8rem 1rem; font-size: 1.05rem; font-weight: 700; }
-.tf-line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: center;
-  gap: 0.2rem 0.9rem;
-  margin-top: 0.35rem;
-  font-size: 0.82rem;
-  color: var(--text-dim);
-}
-/* Who is next gets a line of its own; the two links share the one under it. */
-.tf-next { flex-basis: 100%; text-align: center; }
-.tf-link {
-  min-height: 24px;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-weight: 600;
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+/* Back and forward by a turn: two equal halves. Forward wears the colour of the side on turn. */
+.turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin: 0.6rem 0 0; }
+.tr-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   cursor: pointer;
 }
-.tf-link:disabled { color: var(--text-dim); text-decoration: none; cursor: default; }
+.tr-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tr-end { --side: var(--accent); background: var(--side); border-color: var(--side); color: #fff; }
+.tr-end.opp { --side: var(--side-opponent); }
+.tr-btn:disabled { opacity: 0.45; cursor: default; }
+@media (hover: hover) {
+  .tr-prev:not(:disabled):hover { border-color: var(--accent); }
+  .tr-end:not(:disabled):hover { background: color-mix(in srgb, var(--side) 85%, #000); }
+}
+.tf-next { margin: 0.35rem 0 0; text-align: center; font-size: 0.82rem; color: var(--text-dim); }
+
+/* The working area's tabs. Both rows share one look; the divider between the rows is what says
+   the working tabs below are a different kind of thing from the navigation above. */
+.game-tabs { display: grid; gap: 0.6rem; margin-bottom: 0.75rem; }
+.gt-util { padding-bottom: 0.6rem; border-bottom: 3px solid var(--text-primary); }
+.gt-row { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0.35rem; }
+.gt-tab {
+  min-height: 44px;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+.gt-main .gt-tab { min-height: 48px; font-size: 1.4rem; }
+.gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+@media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
+
+/* Command points: the two banks side by side, each in its side's colour. */
+.cp-banks { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.cp-bank {
+  --side: var(--accent);
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+  padding: 0.7rem;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--side);
+  background: var(--bg-card);
+}
+.cp-bank.opp { --side: var(--side-opponent); }
+.cb-name {
+  max-width: 100%;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 700;
+  text-transform: uppercase; color: var(--side);
+}
+
+/* The armies: one card per side, the side's colour down its edge. */
+.armies { display: grid; gap: 0.75rem; }
+.army {
+  --side: var(--accent);
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--side);
+  background: var(--bg-card);
+}
+.army.opp { --side: var(--side-opponent); }
+.army .ptitle { color: var(--side); }
+.army-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+.army-links .proster { flex: 1 1 auto; min-width: 0; }
 
 /* The broadcast button is a STATE: lit while the game is streaming to an overlay. */
 .bc-on {
