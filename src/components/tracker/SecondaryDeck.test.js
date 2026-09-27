@@ -95,3 +95,38 @@ describe('SecondaryDeck — scoring on the card', () => {
     expect(tracker.secondaryCardVp(0, slug, 2)).toBe(0)
   })
 })
+
+describe('SecondaryDeck — the take dialog', () => {
+  const open = async () => { const w = deck(0); await w.vm.$nextTick(); return w }
+
+  it('shows a card in full from the pick list without choosing it', async () => {
+    startGame()
+    await open()
+    document.body.querySelector('.pick-li .tk-info').click()
+    await new Promise((r) => setTimeout(r))
+    expect(document.body.querySelectorAll('[role="dialog"]').length).toBe(2)
+    expect(document.body.textContent).not.toContain('view only')
+    expect(tracker.current.value.players[0].secondary.hand).toEqual([]) // nothing chosen
+  })
+
+  // Behind Enemy Lines: "during the first battle round, you may shuffle this card back and draw".
+  it('offers a card\'s WHEN DRAWN right after it came in, and replaces it', async () => {
+    startGame()
+    const s = tracker.current.value.players[0].secondary
+    const bel = s.deck.find((x) => x.startsWith('behind-enemy-lines'))
+    const other = s.deck.find((x) => x !== bel)
+    tracker.takeChosenSecondaries(0, [bel, other])
+    const w = deck(0)
+    w.vm.$.setupState.takeOpen = true
+    await w.vm.$nextTick()
+    const btn = document.body.querySelector('.ti-wd-btn')
+    expect(btn.textContent).toContain('Shuffle back')
+    btn.click() // a chosen card: the replacement picker opens
+    await new Promise((r) => setTimeout(r))
+    document.body.querySelector('.rc-random').click()
+    await new Promise((r) => setTimeout(r))
+    expect(s.hand).not.toContain(bel)
+    expect(s.hand).toHaveLength(2)
+    expect(s.deck).toContain(bel) // shuffled back, not discarded
+  })
+})

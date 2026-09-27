@@ -12,10 +12,10 @@
 
     <div class="modal-body">
       <p
-        v-if="readonly"
+        v-if="readonly && viewOnlyNote !== ''"
         class="view-only"
       >
-        <i class="bi bi-eye" /> {{ labels.trackerViewOnly }}
+        <i class="bi bi-eye" /> {{ viewOnlyNote ?? labels.trackerViewOnly }}
       </p>
 
       <template v-if="briefing && briefing.length">
@@ -83,6 +83,7 @@ defineProps({
   briefing: { type: Array, default: null },   // mission.briefing — shown above the blocks
   whenDrawn: { type: Object, default: null }, // { mode:'discard'|'shuffle' } — WHEN DRAWN redraw button, or null
   readonly: { type: Boolean, default: false }, // view-only (e.g. a set-aside secondary): no scoring inputs
+  viewOnlyNote: { type: String, default: null }, // the view-only line; null → "Discarded — view only", '' → none
   locked: { type: Function, default: null },  // (block) => true when its moment cannot have come (ScoreRows)
   lockedNote: { type: String, default: '' },
 })

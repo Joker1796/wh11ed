@@ -226,6 +226,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { blockLocked } from '../../composables/missionTiming.js'
+import { whenDrawnAction } from '../../composables/whenDrawn.js'
 
 // `round` — the round on screen: the live one, or a past one being corrected (the game
 // screen's round steps). `editable` — this phone may score this side (a shared game locks the
@@ -292,18 +293,9 @@ function rowLocked(m, b) {
   return blockLocked(current.value, props.pi, props.round, missionBySlug(m.slug, player.value.role)?.blocks[b.bi])
 }
 
-// The WHEN DRAWN redraw action for a card, or null. Tactical only; auto-gated where the
-// condition is computable (first battle round, or holding the paired card). Board-state
-// conditions (no SS 13+/W 10+) have no gate — always offered, the briefing is the reminder.
+// The WHEN DRAWN redraw action for a card, or null (whenDrawn.js — shared with the take dialog).
 function whenDrawnFor(m) {
-  if (mode.value !== 'tactical') return null
-  const w = m && m.whenDrawn
-  if (!w) return null
-  // No replacement to draw — redrawSecondary would no-op, so don't offer the action.
-  if (!player.value.secondary.deck.length) return null
-  if (w.gate === 'first-round' && current.value.currentRound !== 1) return null
-  if (w.gate && w.gate.pairedActive && !player.value.secondary.hand.includes(w.gate.pairedActive)) return null
-  return { mode: w.mode }
+  return m ? whenDrawnAction(current.value, props.pi, m.slug) : null
 }
 
 // The turn's two cards: offered on the live round to the side on turn, and opened by itself

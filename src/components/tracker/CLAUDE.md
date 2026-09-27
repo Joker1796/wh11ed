@@ -193,7 +193,10 @@ achieved then leaves the hand.
 
 **The turn's two secondaries (tactical).** "At the start of your Command phase, draw two" — so the
 deck offers **Take 2 secondaries** to the side on turn, once per own turn: both at random or both
-by hand (`TakeSecondariesModal`), recorded in `secondary.took[round]`. The dialog opens by itself
+by hand (`TakeSecondariesModal`), recorded in `secondary.took[round]`. Every card in the dialog has an "i" for its full text (briefing and conditions, read-only), so
+a card can be read before it is chosen. Right after the take, a card with a WHEN DRAWN rule shows
+the rule's words and its action (discard / shuffle back and draw) — that is the moment the rule is
+written for; `whenDrawn.js` decides when it is on offer (shared with the card sheet). The dialog opens by itself
 once per turn on the phone that plays that side (a module-level memory, so a tab switch does not
 reopen it). A random pair is written at once, so reopening cannot re-roll it; "Put them back"
 undoes the take while neither card has scored. After that the hand changes only through a card's
