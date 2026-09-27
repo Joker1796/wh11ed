@@ -70,9 +70,10 @@ describe('TrackOptions', () => {
     })
     const rows = w.findAll('.opt-row')
     const live = rows.filter((r) => !r.find('input').element.disabled).map((r) => r.text())
-    expect(live).toHaveLength(2)
+    expect(live).toHaveLength(3)
     expect(live[0]).toContain('your army rule')
     expect(live[1]).toContain("opponent's army rule")
+    expect(live[2]).toContain('Faction colours') // a way of looking at the game: this phone's
     const cp = rows.find((r) => r.text().includes('Track CP'))
     expect(cp.find('input').element.disabled).toBe(true)
     expect(cp.text()).toContain('Host only')

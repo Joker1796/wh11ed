@@ -43,6 +43,14 @@
       >
         <i class="bi bi-question-circle" />
       </button>
+      <!-- What the choice looks like, under its row: both sides' cards in the colours it gives. -->
+      <SideColorPreview
+        v-if="o.preview === 'sideColors'"
+        class="opt-preview"
+        :you="ctx.you.faction"
+        :opp="ctx.opp.faction"
+        :faction-colors="enabledOf(o) && !!settings[o.setting]"
+      />
     </div>
 
     <div
@@ -79,6 +87,7 @@
 // intermediate copy that could fall out of step.
 import { computed, ref } from 'vue'
 import OptionHelpModal from './OptionHelpModal.vue'
+import SideColorPreview from './SideColorPreview.vue'
 import { optionsIn, optionEnabled } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -124,7 +133,8 @@ function reasonOf(o) {
   color: var(--accent);
   margin: 0 0 0.6rem;
 }
-.opt-row { display: flex; align-items: stretch; }
+.opt-row { display: flex; flex-wrap: wrap; align-items: stretch; }
+.opt-preview { flex: 1 1 100%; margin-top: 0.4rem; }
 .opt-row + .opt-row { margin-top: 0.5rem; }
 .opt-row .check { flex: 1; min-width: 0; }
 /* A row that hangs off the one above it is indented under it, so the block reads as the tree it

@@ -30,7 +30,8 @@
 
     <div
       v-else-if="current.phase === 'finished'"
-      class="finished"
+      class="finished side-colored"
+      :style="gameSideColorStyle(current)"
     >
       <h2 class="finished-title">
         {{ labels.trackerGameOver }}
@@ -90,6 +91,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { endReasonFor } from '../../composables/gameScoring.js'
+import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { useParty } from '../../composables/useParty.js'
 import { useLobby } from '../../composables/useLobby.js'
 

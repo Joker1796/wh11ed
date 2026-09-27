@@ -24,6 +24,7 @@
 //   enabled      (ctx) => boolean — whether the row can be flipped in THIS game
 //   unavailable  (ctx) => ui.js key | null — why not, printed under a disabled caption
 //   note         (ctx) => ui.js key | null — a caveat printed under an enabled caption
+//   preview      what TrackOptions draws under the row to show the choice ('sideColors')
 //
 // **Every row is always listed.** A row that cannot apply yet is drawn disabled with the reason,
 // never hidden: hiding made the list a different length in every game, and it meant "Track phases"
@@ -127,6 +128,22 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpBroadcast',
     default: false,
     remember: true,
+  },
+  {
+    // The sides' colours on the game screen: the standard red / blue, or each side's faction
+    // accent (composables/sideColors.js — two sides too close in colour are still told apart).
+    // A way of LOOKING at the game, so it is this phone's own, like the army-rule cards. The row
+    // draws a preview of both sides under it (TrackOptions, `preview`).
+    id: 'faction-colors',
+    setting: 'factionColors',
+    group: 'game',
+    label: 'trackerTrackFactionColors',
+    help: 'trackerHelpFactionColors',
+    default: false,
+    remember: true,
+    local: true,
+    preview: 'sideColors',
+    unavailable: (ctx) => (ctx.you.faction || ctx.opp.faction ? null : 'trackerOptNeedsFaction'),
   },
 
   // ── The roster screen ──────────────────────────────────────────────────────────────────────

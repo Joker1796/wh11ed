@@ -157,6 +157,14 @@ every "your side" colour in the tracker reads `--side-you` (style.css), never `-
 `--accent` read there turned your own card blue on the opponent's turn. Dialogs teleport to
 `<body>`, outside the screen, and keep the site accent.
 
+**Which two colours** is `composables/sideColors.js`: the standard pair (you red, opponent blue),
+or with the phone's **Faction colours** option (`factionColors`, a `local` row with a live
+two-card preview under it — `SideColorPreview.vue`, drawn by TrackOptions from the row's
+`preview`) each side's accent from factionsIndex.js. Two sides too close in colour are told apart:
+the opponent falls back to the standard blue (or red, when your faction is a blue). The screen
+applies it through the global `.side-colored` class + `gameSideColorStyle(game)`, which set
+`--side-you` / `--side-opponent` per theme; the finished screen wears the same pair.
+
 ## The missions panel
 
 **One side first, the other folded.** First comes whose turn it is — or, in a shared game, this

@@ -760,6 +760,19 @@ strong {
 :root[data-theme='light'] .fa-themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
 :root[data-theme='dark'] .fa-themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
 
+/* A game's two side colours (composables/sideColors.js — the standard pair or the factions'),
+   folded per theme the same way .fa-themed folds a faction into --accent. The literal fallbacks
+   are the standard pair: never var(--accent), which the game screen itself points at a side. */
+.side-colored {
+  --side-you: var(--sy-light, #8b2a33);
+  --side-opponent: var(--so-light, #004a6e);
+}
+@media (prefers-color-scheme: dark) {
+  .side-colored { --side-you: var(--sy-dark, #c8585e); --side-opponent: var(--so-dark, #5fb2dc); }
+}
+:root[data-theme='light'] .side-colored { --side-you: var(--sy-light, #8b2a33); --side-opponent: var(--so-light, #004a6e); }
+:root[data-theme='dark'] .side-colored { --side-you: var(--sy-dark, #c8585e); --side-opponent: var(--so-dark, #5fb2dc); }
+
 /* ── Roster screen header icon ─────────────────────────────────────────────
    The square icon buttons by a roster's name (editor and view: edit, share, the "…" menu). One of
    them is a link and another a button, and they must not look it: a <button> starts from the

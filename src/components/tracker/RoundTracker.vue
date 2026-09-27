@@ -4,8 +4,9 @@
        so every accented control — the tabs, the rounds, the buttons, the ticks — says whose turn
        it is. The sides themselves keep their own colours (--side-you / --side-opponent). -->
   <div
-    class="round-tracker"
+    class="round-tracker side-colored"
     :class="{ 'turn-opp': !isYouSide(current.players[turnIndex], turnIndex) }"
+    :style="sideColors"
   >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
          kept always — the phase clock under the rounds is the optional part. -->
@@ -585,6 +586,7 @@ import { getItem, setItem } from '../../composables/safeStorage.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { blockLocked, turnEndChecks } from '../../composables/missionTiming.js'
 import { bonusIn } from '../../composables/cpLedger.js'
+import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { useTracker, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
@@ -597,6 +599,8 @@ const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, primaryTotal, 
 // rather than undefined.
 const cpOn = computed(() => tracks(current.value.settings, 'trackCP'))
 const phasesOn = computed(() => tracks(current.value.settings, 'trackPhases'))
+// The sides' colours: standard, or each side's faction accent (the phone's `factionColors`).
+const sideColors = computed(() => gameSideColorStyle(current.value))
 
 // The working area's tabs (see the template). CP is offered only to a game that tracks it; a
 // game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
@@ -978,8 +982,13 @@ function onEndBattle(reason) {
   .actions-left { gap: 0.4rem; }
 }
 
-/* The opponent's turn: the accent is theirs for the whole screen (see the template). The hover
-   shade follows the same way the theme derives it. */
+/* The accent is the side on turn's for the whole screen (see the template) — the standard pair,
+   or the factions' when the phone asked for them (.side-colored sets both side colours). The hover
+   shade follows the way the theme derives it. */
+.round-tracker {
+  --accent: var(--side-you);
+  --accent-hover: color-mix(in srgb, var(--side-you) 80%, #000);
+}
 .round-tracker.turn-opp {
   --accent: var(--side-opponent);
   --accent-hover: color-mix(in srgb, var(--side-opponent) 80%, #000);
