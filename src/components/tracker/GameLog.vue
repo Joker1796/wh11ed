@@ -50,11 +50,13 @@
           :class="{ opp: !isYouSide(current.players[e.pi], e.pi) }"
         >
           <span class="gl-who">{{ names[e.pi] }}</span>
-          <span class="gl-what">{{ line(e) }}<i
-            v-if="e.type === 'drawn' && e.source"
-            class="bi gl-src"
-            :class="e.source === 'random' ? 'bi-dice-5' : 'bi-hand-index-thumb'"
-            :aria-label="e.source === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen"
+          <span class="gl-what">{{ line(e) }}<DieIcon
+            v-if="e.type === 'drawn' && e.source === 'random'"
+            class="gl-src"
+          /><i
+            v-else-if="e.type === 'drawn' && e.source === 'chosen'"
+            class="bi bi-hand-index-thumb gl-src"
+            aria-hidden="true"
           /></span>
         </li>
       </ul>
@@ -87,6 +89,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import DieIcon from '../DieIcon.vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

@@ -15,10 +15,14 @@
             class="took-item"
           >
             <span class="ti-name">{{ m.name }}</span>
+            <DieIcon
+              v-if="taken === 'random'"
+              class="ti-src"
+            />
             <i
-              class="bi ti-src"
-              :class="taken === 'random' ? 'bi-dice-5' : 'bi-hand-index-thumb'"
-              :aria-label="taken === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen"
+              v-else
+              class="bi bi-hand-index-thumb ti-src"
+              aria-hidden="true"
             />
           </li>
         </ul>
@@ -39,10 +43,7 @@
           :disabled="picked.length > 0"
           @click="onRandom"
         >
-          <i
-            class="bi bi-dice-5"
-            aria-hidden="true"
-          />
+          <DieIcon />
           {{ labels.trackerTakeRandom }}
         </button>
         <div class="or-sep">
@@ -81,10 +82,6 @@
         :disabled="picked.length !== need"
         @click="onChosen"
       >
-        <i
-          class="bi bi-hand-index-thumb"
-          aria-hidden="true"
-        />
         {{ labels.trackerTakeChosen.replace('{n}', picked.length).replace('{of}', need) }}
       </button>
     </footer>
@@ -93,6 +90,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import DieIcon from '../DieIcon.vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -167,4 +165,6 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 .ti-name { font-weight: 700; color: var(--text-primary); }
 .took-list { margin-bottom: 0.6rem; }
 .tk-foot { padding: 0.5rem 0.9rem; border-top: 1px solid var(--border); }
+/* The die sits beside bold button text: a size up, or it reads as a speck. */
+.tk-main .die-icon { font-size: 1.25em; }
 </style>

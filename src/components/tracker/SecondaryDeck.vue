@@ -73,9 +73,9 @@
           <span
             v-if="source(m.slug)"
             class="cm-src"
-          ><i
-            class="bi"
-            :class="source(m.slug) === 'random' ? 'bi-dice-5' : 'bi-hand-index-thumb'"
+          ><DieIcon v-if="source(m.slug) === 'random'" /><i
+            v-else
+            class="bi bi-hand-index-thumb"
             aria-hidden="true"
           /> {{ source(m.slug) === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen }}</span>
           <span
@@ -215,6 +215,7 @@ const prompted = new Set()
 
 <script setup>
 import { ref, computed, watch, inject } from 'vue'
+import DieIcon from '../DieIcon.vue'
 import ScoringModal from './ScoringModal.vue'
 import ScoreRows from './ScoreRows.vue'
 import TakeSecondariesModal from './TakeSecondariesModal.vue'

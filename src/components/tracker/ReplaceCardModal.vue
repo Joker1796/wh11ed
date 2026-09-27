@@ -16,10 +16,7 @@
         class="btn-primary rc-random"
         @click="$emit('pick', null)"
       >
-        <i
-          class="bi bi-dice-5"
-          aria-hidden="true"
-        />
+        <DieIcon />
         {{ labels.trackerReplaceRandom }}
       </button>
       <template v-if="choosable">
@@ -47,6 +44,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import DieIcon from '../DieIcon.vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -92,4 +90,6 @@ const deckMissions = computed(() =>
 @media (hover: hover) { .rc-item:hover { border-color: var(--accent); } }
 .rc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
 .rc-cat { white-space: nowrap; font-size: 0.72rem; color: var(--text-dim); }
+/* The die sits beside bold button text: a size up, or it reads as a speck. */
+.rc-random .die-icon { font-size: 1.25em; }
 </style>
