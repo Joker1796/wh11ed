@@ -4,42 +4,13 @@
       <h1>{{ labels.stratagemsHeading }}</h1>
     </div>
 
-    <div class="strat-toolbar">
-      <!-- Detachment filters — only while a game is in progress. Without a game this page
-           stays the plain core-stratagem quick reference (no filter bar). -->
-      <div
-        v-if="hasGame"
-        class="strat-filters"
-        role="tablist"
-      >
-        <button
-          v-for="f in filters"
-          :key="f.key"
-          class="strat-filter"
-          :class="{ active: filter === f.key }"
-          role="tab"
-          :aria-selected="filter === f.key"
-          @click="filter = f.key"
-        >
-          {{ f.label }}
-        </button>
-      </div>
-      <!-- Toggle: flat list ↔ grouped-by-phase accordions -->
-      <button
-        type="button"
-        class="strat-toggle"
-        :class="{ active: byPhase }"
-        :aria-pressed="byPhase"
-        :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"
-        @click="byPhase = !byPhase"
-      >
-        <i
-          class="bi"
-          :class="byPhase ? 'bi-list-ul' : 'bi-collection'"
-        />
-        <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
-      </button>
-    </div>
+    <!-- Detachment filters only while a game is in progress: without one this page stays the
+         plain core-stratagem quick reference. Shared with the tracker's CP tab. -->
+    <StratFilterBar
+      v-model:filter="filter"
+      v-model:by-phase="byPhase"
+      :filters="hasGame ? filters : []"
+    />
 
     <p
       v-if="!visibleStratagems.length"
@@ -49,37 +20,22 @@
     </p>
 
     <!-- Phase view: one accordion per phase, stratagems for that phase inside. -->
-    <template v-else-if="byPhase">
-      <div
-        v-for="g in phaseGroups"
-        :key="g.key"
-        class="phase-group"
-      >
-        <button
-          type="button"
-          class="phase-head"
-          :aria-expanded="openPhases.has(g.key)"
-          @click="togglePhase(g.key)"
-        >
-          <i
-            class="bi phase-chev"
-            :class="openPhases.has(g.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+    <StratPhaseGroups
+      v-else-if="byPhase"
+      v-model:open="openPhases"
+      :groups="phaseGroups"
+    >
+      <template #default="{ group }">
+        <div class="strat-grid">
+          <StratCard
+            v-for="strat in group.strats"
+            :key="stratKey(strat)"
+            :strat="strat"
+            :sublabel="sublabelOf(strat)"
           />
-          <span class="phase-name">{{ phaseLabel(g.key, labels) }}</span>
-          <span class="phase-count">{{ g.strats.length }}</span>
-        </button>
-        <CollapseTransition :show="openPhases.has(g.key)">
-          <div class="strat-grid phase-grid">
-            <StratCard
-              v-for="strat in g.strats"
-              :key="stratKey(strat)"
-              :strat="strat"
-              :sublabel="sublabelOf(strat)"
-            />
-          </div>
-        </CollapseTransition>
-      </div>
-    </template>
+        </div>
+      </template>
+    </StratPhaseGroups>
 
     <!-- Flat list -->
     <div
@@ -100,12 +56,13 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import StratCard from '../components/StratCard.vue'
-import CollapseTransition from '../components/CollapseTransition.vue'
+import StratFilterBar from '../components/StratFilterBar.vue'
+import StratPhaseGroups from '../components/StratPhaseGroups.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useTracker } from '../composables/useTracker.js'
 import { loadCoreStratagems, loadSideStratagems, sideSignature } from '../composables/gameStratagems.js'
-import { phaseLabel, PHASE_ORDER } from '../composables/stratagemPhases.js'
+import { PHASE_ORDER, groupByPhase } from '../composables/stratagemPhases.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
 
 const route = useRoute()
@@ -220,168 +177,14 @@ const byPhase = ref(wantedPhase ? true : getItem(VIEW_KEY) === '1')
 watch(byPhase, (on) => setItem(VIEW_KEY, on ? '1' : '0'))
 const openPhases = ref(new Set(wantedPhase ? [wantedPhase] : []))
 
-const phaseGroups = computed(() => {
-  // A stratagem can span several phases (its `_phases` array), so it appears under each.
-  const by = new Map()
-  for (const s of visibleStratagems.value) {
-    for (const k of s._phases?.length ? s._phases : ['any']) {
-      if (!by.has(k)) by.set(k, [])
-      by.get(k).push(s)
-    }
-  }
-  return PHASE_ORDER.filter((k) => by.has(k)).map((k) => ({ key: k, strats: by.get(k) }))
-})
-
-function togglePhase(key) {
-  const next = new Set(openPhases.value)
-  next.has(key) ? next.delete(key) : next.add(key)
-  openPhases.value = next
-}
+const phaseGroups = computed(() => groupByPhase(visibleStratagems.value))
 </script>
 
 <style scoped>
-.strat-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-}
-
-.strat-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-/* Push the by-phase toggle to the right even when there's no filter row (no game). */
-.strat-toggle {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
-}
-
-.strat-toggle:hover {
-  color: var(--text-primary);
-  border-color: var(--accent);
-}
-
-.strat-toggle.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-/* Phase accordions */
-.phase-group {
-  margin-bottom: 0.75rem;
-}
-
-.phase-head {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.5rem 0.7rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  transition: border-color var(--motion-fast);
-}
-
-.phase-head:hover {
-  border-color: var(--accent);
-}
-
-.phase-chev {
-  flex-shrink: 0;
-  font-size: 0.8rem;
-  color: var(--text-dim);
-}
-
-.phase-name {
-  flex: 1;
-  text-align: left;
-}
-
-.phase-count {
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.phase-grid {
-  padding-top: 0.75rem;
-}
-
-.strat-filter {
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
-}
-
-.strat-filter:hover {
-  color: var(--text-primary);
-  border-color: var(--accent);
-}
-
-.strat-filter.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
 .strat-empty {
   color: var(--text-muted);
   font-style: italic;
   padding: 1.5rem 0;
   text-align: center;
-}
-
-/* Narrow phones: with a game on there are 4 toolbar buttons (3 filters + the toggle),
-   which wrap to a second row. Compact them so they fit one line — tighter filter pills
-   and an icon-only toggle (its text label is the widest of the lot). */
-@media (max-width: 480px) {
-  .strat-toolbar {
-    gap: 0.4rem;
-  }
-  .strat-filters {
-    gap: 0.3rem;
-  }
-  .strat-filter {
-    padding: 0.35rem 0.6rem;
-    font-size: 0.75rem;
-  }
-  .strat-toggle {
-    padding: 0.35rem 0.55rem;
-  }
-  .strat-toggle-label {
-    display: none;
-  }
 }
 </style>

@@ -7,7 +7,10 @@
       class="sr-main"
       @click="$emit('open')"
     >
-      <span class="sr-name">{{ strat.name }}</span>
+      <span class="sr-name">{{ strat.name }}<small
+        v-if="tag"
+        class="sr-tag"
+      >{{ tag }}</small></span>
       <span
         v-if="strat.when"
         class="sr-when"
@@ -81,6 +84,7 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 // and the cost button. Pure presentation — CpStratagems decides every number and the reason.
 defineProps({
   strat: { type: Object, required: true },
+  tag: { type: String, default: '' },          // a word after the name — "core" in a mixed list
   cost: { type: Number, required: true },
   mod: { type: Number, default: 0 },
   used: { type: Number, default: 0 },
@@ -111,6 +115,11 @@ const { renderInline } = useRenderInline()
   text-transform: uppercase; color: var(--text-primary);
 }
 /* The timing: two lines at most — the full text is one tap away. */
+.sr-tag {
+  margin-left: 0.4rem; padding: 0 0.3rem; border: 1px solid var(--border);
+  font-family: var(--font-sans); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.03em;
+  color: var(--text-dim); vertical-align: 0.2em;
+}
 .sr-when {
   display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   margin-top: 0.2rem; font-size: 0.8rem; line-height: 1.35; color: var(--text-muted);

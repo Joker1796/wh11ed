@@ -399,35 +399,13 @@
             {{ labels.rosterViewNoDetachment }}
           </p>
           <template v-else>
-            <div class="strat-toolbar">
-              <!-- Only in a live game that keeps a clock: narrow the list to what this player can
-                   actually use in the slot the game is standing on. -->
-              <button
-                v-if="nowSlot"
-                type="button"
-                class="strat-toggle now-toggle"
-                :class="{ active: nowOnly }"
-                :aria-pressed="nowOnly"
-                @click="nowOnly = !nowOnly"
-              >
-                <i class="bi bi-hourglass-split" />
-                <span class="strat-toggle-label">{{ labels.stratNowOnly }}</span>
-              </button>
-              <button
-                type="button"
-                class="strat-toggle"
-                :class="{ active: byPhase }"
-                :aria-pressed="byPhase"
-                :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"
-                @click="byPhase = !byPhase"
-              >
-                <i
-                  class="bi"
-                  :class="byPhase ? 'bi-list-ul' : 'bi-collection'"
-                />
-                <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
-              </button>
-            </div>
+            <!-- The Stratagems page's toolbar; "now only" only in a live game that keeps a clock:
+                 narrow the list to what this player can use in the slot the game stands on. -->
+            <StratFilterBar
+              v-model:by-phase="byPhase"
+              v-model:now-only="nowOnly"
+              :now-available="!!nowSlot"
+            />
 
             <p
               v-if="nowOnly && !visibleStratagems.length"
@@ -436,37 +414,22 @@
               {{ labels.stratNowEmpty }}
             </p>
 
-            <template v-if="byPhase && !nowOnly">
-              <div
-                v-for="g in phaseGroups"
-                :key="g.key"
-                class="phase-group"
-              >
-                <button
-                  type="button"
-                  class="phase-head"
-                  :aria-expanded="openPhases.has(g.key)"
-                  @click="togglePhase(g.key)"
-                >
-                  <i
-                    class="bi phase-chev"
-                    :class="openPhases.has(g.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+            <StratPhaseGroups
+              v-if="byPhase && !nowOnly"
+              v-model:open="openPhases"
+              :groups="phaseGroups"
+            >
+              <template #default="{ group }">
+                <div class="strat-grid">
+                  <StratCard
+                    v-for="st in group.strats"
+                    :key="stratKey(st)"
+                    :strat="st"
+                    :sublabel="st.sublabel"
                   />
-                  <span class="phase-name">{{ phaseLabel(g.key, labels) }}</span>
-                  <span class="phase-count">{{ g.strats.length }}</span>
-                </button>
-                <CollapseTransition :show="openPhases.has(g.key)">
-                  <div class="strat-grid phase-grid">
-                    <StratCard
-                      v-for="s in g.strats"
-                      :key="stratKey(s)"
-                      :strat="s"
-                      :sublabel="s.sublabel"
-                    />
-                  </div>
-                </CollapseTransition>
-              </div>
-            </template>
+                </div>
+              </template>
+            </StratPhaseGroups>
 
             <div
               v-else-if="visibleStratagems.length"
@@ -568,6 +531,8 @@ import { useRoute, useRouter } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
+import StratFilterBar from '../../components/StratFilterBar.vue'
+import StratPhaseGroups from '../../components/StratPhaseGroups.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
@@ -595,7 +560,7 @@ import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { memberAt } from '../../composables/rosterGameLink.js'
-import { phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
+import { usableInSlot, groupByPhase } from '../../composables/stratagemPhases.js'
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -1428,22 +1393,7 @@ const openPhases = ref(new Set())
 
 // Grouping by phase while filtering TO one phase would be one accordion with everything in it,
 // so the filter renders the flat list (see the template's `byPhase && !nowOnly`).
-const phaseGroups = computed(() => {
-  const by = new Map()
-  for (const s of visibleStratagems.value) {
-    for (const k of s._phases?.length ? s._phases : ['any']) {
-      if (!by.has(k)) by.set(k, [])
-      by.get(k).push(s)
-    }
-  }
-  return PHASE_ORDER.filter((k) => by.has(k)).map((k) => ({ key: k, strats: by.get(k) }))
-})
-
-function togglePhase(key) {
-  const next = new Set(openPhases.value)
-  next.has(key) ? next.delete(key) : next.add(key)
-  openPhases.value = next
-}
+const phaseGroups = computed(() => groupByPhase(visibleStratagems.value))
 
 function stratKey(strat) {
   return strat.num || `${strat.sublabel || ''}|${strat.name}`
@@ -1757,55 +1707,5 @@ function stratKey(strat) {
    StratagemsView.vue page — copied, not shared (scoped styles don't cross component
    boundaries). No .strat-filters here (StratagemsView's core/you/opp row) — this tab has
    nothing to filter, it's always just this roster's own detachments. */
-.strat-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-.strat-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
-}
-.strat-toggle:hover { color: var(--text-primary); border-color: var(--accent); }
-.strat-toggle.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-.phase-group { margin-bottom: 0.75rem; }
-.phase-head {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.5rem 0.7rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  transition: border-color var(--motion-fast);
-}
-.phase-head:hover { border-color: var(--accent); }
-.phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
-.phase-name { flex: 1; text-align: left; }
-.phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
-.phase-grid { padding-top: 0.75rem; }
-
-@media (max-width: 480px) {
-  .strat-toggle-label { display: none; }
-}
 </style>

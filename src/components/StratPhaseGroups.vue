@@ -1,0 +1,86 @@
+<template>
+  <!-- One accordion per phase, the count on its head; what a group holds is the caller's (the slot
+       gets the group) — full cards on the Stratagems page, spendable rows in the tracker. -->
+  <div>
+    <div
+      v-for="g in groups"
+      :key="g.key"
+      class="phase-group"
+    >
+      <button
+        type="button"
+        class="phase-head"
+        :class="{ now: g.key === now }"
+        :aria-expanded="open.has(g.key)"
+        @click="toggle(g.key)"
+      >
+        <i
+          class="bi phase-chev"
+          :class="open.has(g.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+        />
+        <span class="phase-name">{{ phaseLabel(g.key, labels) }}<small
+          v-if="g.key === now"
+          class="phase-now"
+        > · {{ labels.trackerStratNow }}</small></span>
+        <span class="phase-count">{{ g.strats.length }}</span>
+      </button>
+      <CollapseTransition :show="open.has(g.key)">
+        <div class="phase-body">
+          <slot :group="g" />
+        </div>
+      </CollapseTransition>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import CollapseTransition from './CollapseTransition.vue'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
+import { phaseLabel } from '../composables/stratagemPhases.js'
+
+// `groups` — groupByPhase(); `open` — the open phases (a Set, v-model); `now` — the phase the
+// tracker's clock stands on, marked on its head (null anywhere else).
+const props = defineProps({
+  groups: { type: Array, required: true },
+  open: { type: Object, required: true },
+  now: { type: String, default: null },
+})
+const emit = defineEmits(['update:open'])
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
+function toggle(key) {
+  const next = new Set(props.open)
+  next.has(key) ? next.delete(key) : next.add(key)
+  emit('update:open', next)
+}
+</script>
+
+<style scoped>
+.phase-group { margin-bottom: 0.75rem; }
+.phase-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transition: border-color var(--motion-fast);
+}
+.phase-head:hover { border-color: var(--accent); }
+.phase-head.now { border-color: var(--accent); }
+.phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
+.phase-name { flex: 1; text-align: left; }
+.phase-now { font-size: 0.85em; color: var(--accent); }
+.phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+.phase-body { padding-top: 0.6rem; }
+</style>

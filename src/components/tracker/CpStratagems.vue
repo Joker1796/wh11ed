@@ -27,70 +27,93 @@
       {{ labels.trackerStratOtherPhone }}
     </p>
 
-    <!-- The phase filter: "Now" leads when the game keeps phases (what this side can play in
-         the phase the clock stands on); the phases after it; "All" first otherwise. -->
-    <div class="cps-filter">
-      <button
-        v-for="f in filters"
-        :key="f.key"
-        class="cps-chip"
-        :class="{ on: filter === f.key }"
-        :aria-pressed="filter === f.key"
-        @click="filter = f.key"
-      >
-        {{ f.label }}
-      </button>
-    </div>
+    <!-- The same toolbar as the Stratagems page: which deck, and the list flat or grouped by
+         phase. Grouped, the phase the clock stands on (when the game keeps one) comes first,
+         open and marked "now". -->
+    <StratFilterBar
+      v-model:filter="deck"
+      v-model:by-phase="byPhase"
+      :filters="deckFilters"
+    />
 
-    <h4 class="cps-title">
-      {{ labels.trackerStratArmy }} · {{ names[side] }}
-    </h4>
     <p
-      v-if="loading"
+      v-if="loading && deck !== 'core'"
       class="cps-empty"
     >
       {{ labels.trackerStratLoading }}
     </p>
-    <p
-      v-else-if="!armyShown.length"
-      class="cps-empty"
-    >
-      {{ armyAll.length ? labels.trackerStratNoneInFilter : labels.trackerStratNoArmy }}
-    </p>
-    <ul
-      v-else
-      class="cps-list"
-    >
-      <StratRow
-        v-for="s in armyShown"
-        :key="s._key"
-        :strat="s"
-        v-bind="rowProps(s)"
-        @open="openStrat = s"
-        @modify="modFor = s"
-        @use="use(s)"
-        @undo="undoStratagem(side, s._key)"
-      />
-    </ul>
 
-    <h4 class="cps-title">
-      {{ labels.trackerStratCore }}
-    </h4>
-    <p class="cps-hint">
-      {{ labels.trackerStratCoreNote }}
-    </p>
-    <ul class="cps-list">
-      <StratRow
-        v-for="s in coreShown"
-        :key="s._key"
-        :strat="s"
-        v-bind="rowProps(s)"
-        @open="openStrat = s"
-        @modify="modFor = s"
-        @use="use(s)"
-        @undo="undoStratagem(side, s._key)"
-      />
-    </ul>
+    <StratPhaseGroups
+      v-if="byPhase"
+      v-model:open="openPhases"
+      :groups="groups"
+      :now="phasesOn ? livePhase : null"
+    >
+      <template #default="{ group }">
+        <ul class="cps-list">
+          <StratRow
+            v-for="s in group.strats"
+            :key="s._key"
+            :strat="s"
+            :tag="deck === 'all' && isCore(s) ? labels.trackerStratCoreTag : ''"
+            v-bind="rowProps(s)"
+            @open="openStrat = s"
+            @modify="modFor = s"
+            @use="use(s)"
+            @undo="undoStratagem(side, s._key)"
+          />
+        </ul>
+      </template>
+    </StratPhaseGroups>
+
+    <template v-else>
+      <template v-if="deck !== 'core'">
+        <h4 class="cps-title">
+          {{ labels.trackerStratArmy }} · {{ names[side] }}
+        </h4>
+        <p
+          v-if="!loading && !armyAll.length"
+          class="cps-empty"
+        >
+          {{ labels.trackerStratNoArmy }}
+        </p>
+        <ul
+          v-else
+          class="cps-list"
+        >
+          <StratRow
+            v-for="s in armyAll"
+            :key="s._key"
+            :strat="s"
+            v-bind="rowProps(s)"
+            @open="openStrat = s"
+            @modify="modFor = s"
+            @use="use(s)"
+            @undo="undoStratagem(side, s._key)"
+          />
+        </ul>
+      </template>
+      <template v-if="deck !== 'army'">
+        <h4 class="cps-title">
+          {{ labels.trackerStratCore }}
+        </h4>
+        <p class="cps-hint">
+          {{ labels.trackerStratCoreNote }}
+        </p>
+        <ul class="cps-list">
+          <StratRow
+            v-for="s in core"
+            :key="s._key"
+            :strat="s"
+            v-bind="rowProps(s)"
+            @open="openStrat = s"
+            @modify="modFor = s"
+            @use="use(s)"
+            @undo="undoStratagem(side, s._key)"
+          />
+        </ul>
+      </template>
+    </template>
 
     <!-- The full card. -->
     <BaseModal
@@ -139,12 +162,15 @@ import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import StratCard from '../StratCard.vue'
 import StratRow from './StratRow.vue'
+import StratFilterBar from '../StratFilterBar.vue'
+import StratPhaseGroups from '../StratPhaseGroups.vue'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 import { loadCoreStratagems, loadSideStratagems, sideSignature } from '../../composables/gameStratagems.js'
-import { PHASE_ORDER, phaseLabel, usableInSlot } from '../../composables/stratagemPhases.js'
+import { PHASE_ORDER, groupByPhase } from '../../composables/stratagemPhases.js'
 
 // The stratagems in the CP tab: spend a side's CP on one, and take it back. Mounted only while
 // the CP tab is open, so the faction data (dynamically imported by gameStratagems.js) is fetched
@@ -186,28 +212,38 @@ watch(
   { immediate: true },
 )
 
-// ── The filter ──
+// ── The filter: the Stratagems page's toolbar (StratFilterBar) ──
 const phasesOn = computed(() => !!current.value?.settings?.trackPhases)
-const filter = ref(phasesOn.value ? 'now' : 'all')
-const filters = computed(() => [
-  ...(phasesOn.value ? [{ key: 'now', label: labels.value.trackerStratNow }] : []),
+const livePhase = computed(() => current.value?.currentPhase || 'command')
+const deck = ref('all')
+const deckFilters = computed(() => [
   { key: 'all', label: labels.value.stratFilterAll },
-  ...PHASE_ORDER.map((k) => ({ key: k, label: phaseLabel(k, labels.value) })),
+  { key: 'core', label: labels.value.stratFilterCore },
+  { key: 'army', label: labels.value.trackerStratArmyFilter },
 ])
-function passes(s) {
-  const f = filter.value
-  if (f === 'all') return true
-  if (f === 'now') {
-    const g = current.value
-    const mine = (g.currentTurn === 1 ? 1 : 0) === side.value
-    return usableInSlot(s._phases, s._sides, g.currentPhase || 'command', mine)
-  }
-  return (s._phases || ['any']).includes(f)
+// Grouped by phase is the tracker's default — a stratagem is looked for by WHEN — and the choice
+// is remembered on this device, apart from the Stratagems page's own.
+const BY_PHASE_KEY = 'wh11ed-tracker-strats-by-phase'
+const byPhase = ref(getItem(BY_PHASE_KEY) !== '0')
+watch(byPhase, (on) => setItem(BY_PHASE_KEY, on ? '1' : '0'))
+
+const byName = (a, b) => a.name.localeCompare(b.name)
+const armyAll = computed(() => [...(decks.value[side.value] || [])].sort(byName))
+const isCore = (s) => String(s._key).startsWith('core:')
+const shown = computed(() => [
+  ...(deck.value !== 'core' ? armyAll.value : []),
+  ...(deck.value !== 'army' ? core.value : []),
+])
+const groups = computed(() => groupByPhase(shown.value, phasesOn.value ? livePhase.value : null))
+
+// Which phase groups are open: with the clock, the phase it stands on (and it follows the clock);
+// without one, every group — in a game a folded list is one tap too many.
+const openPhases = ref(new Set())
+function resetOpen() {
+  openPhases.value = new Set(phasesOn.value ? [livePhase.value] : PHASE_ORDER)
 }
-const byPhase = (a, b) => PHASE_ORDER.indexOf(a._phases?.[0]) - PHASE_ORDER.indexOf(b._phases?.[0]) || a.name.localeCompare(b.name)
-const armyAll = computed(() => decks.value[side.value] || [])
-const armyShown = computed(() => armyAll.value.filter(passes).sort(byPhase))
-const coreShown = computed(() => core.value.filter(passes).sort(byPhase))
+resetOpen()
+watch([livePhase, phasesOn], resetOpen)
 
 // ── The cost this use is asked at ──
 const mods = ref({})
@@ -262,14 +298,6 @@ function use(s) {
 .cps-side-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
 .cps-side-cp { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; }
 .cps-note { margin: 0.4rem 0 0; font-size: 0.78rem; color: var(--text-dim); }
-/* The filter wraps into rows on a phone rather than scrolling off the screen. */
-.cps-filter { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.7rem 0 0.2rem; }
-.cps-chip {
-  min-height: 36px; padding: 0.3rem 0.65rem;
-  border: 1px solid var(--border); background: var(--bg-card);
-  font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); cursor: pointer;
-}
-.cps-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .cps-title {
   margin: 1rem 0 0.4rem;
   font-family: var(--font-display); font-size: 1.35rem; font-weight: 600;

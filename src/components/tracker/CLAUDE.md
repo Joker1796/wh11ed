@@ -223,8 +223,12 @@ return to deck. A card that came in by hand may be replaced by hand (`ReplaceCar
 
 Under the banks: whose CP (a switch — both sides may spend at any moment, half the core
 stratagems are played in the other player's turn; default is the side on turn, or this phone's
-own side), a phase filter (with **Now** first when the game keeps phases — `usableInSlot` for this
-side in the current phase), the side's detachment stratagems, then the core ones. A row: name and
+own side), then **the Stratagems page's own toolbar and phase accordions** (`StratFilterBar.vue`,
+`StratPhaseGroups.vue`, `groupByPhase` — one set of parts for the page, the roster screen and this
+tab, owner's call 2026-09-27): All / Core / Army, and flat ↔ by phase. By phase is the tracker's
+default (remembered on the device, apart from the page's choice); with the clock, the phase it
+stands on comes first, open and marked "now", and follows the clock; without one every group is
+open. In the mixed list a core stratagem carries a "core" tag. Flat: the army's, then the core. A row: name and
 two lines of timing (tap → the full `StratCard`), a gear for a cost changed by a rule (−1 / as
 printed / +1, never below 0, not saved, forgotten at a new round) and the cost button, which spends.
 A use is a `spend` entry in the ledger (`source: 'strat'`, `ref` = the stratagem's `_key`, the

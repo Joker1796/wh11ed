@@ -29,7 +29,8 @@ async function mountTab(side = 0) {
   await vi.waitFor(async () => { await flushPromises(); expect(w.findAll('.sr').length).toBeGreaterThan(0) }, { timeout: 5000 })
   return w
 }
-const row = (w, name) => w.findAll('.sr').find((r) => r.find('.sr-name').text().toUpperCase() === name.toUpperCase())
+// By its name — a mixed list adds a "core" tag after it, so the name is where the text starts.
+const row = (w, name) => w.findAll('.sr').find((r) => r.find('.sr-name').text().toUpperCase().startsWith(name.toUpperCase()))
 
 describe('CpStratagems', () => {
   it('spends the chosen side\'s CP on a core stratagem and takes it back', async () => {
@@ -61,5 +62,23 @@ describe('CpStratagems', () => {
     await w.findAll('.cps-side')[1].trigger('click')
     expect(w.find('.cps-note').exists()).toBe(true)
     expect(row(w, 'Command Re-roll').find('.sr-use').attributes('disabled')).toBeDefined()
+  })
+})
+
+describe('CpStratagems — the Stratagems page\'s filter', () => {
+  it('groups by phase with the live phase first, open and marked; the deck filter narrows it', async () => {
+    tracker.current.value.settings.trackPhases = true
+    tracker.goToPhase(0, 'shooting')
+    localStorage.removeItem('wh11ed-tracker-strats-by-phase') // grouped is the default
+    const w = await mountTab(0)
+    const heads = w.findAll('.phase-head')
+    expect(heads[0].text()).toContain('Shooting phase')
+    expect(heads[0].classes()).toContain('now')
+    expect(heads[0].attributes('aria-expanded')).toBe('true')
+    expect(heads[1].attributes('aria-expanded')).toBe('false')
+    // The flat list, and only the core deck in it.
+    await w.find('.strat-toggle').trigger('click')
+    await w.findAll('.strat-filter').find((b) => b.text() === 'Core').trigger('click')
+    expect(w.findAll('.cps-title').map((t) => t.text())).toEqual(['Core stratagems'])
   })
 })

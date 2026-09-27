@@ -91,3 +91,18 @@ export function usableInSlot(phases, sides, phase, mine) {
   return side === 'both' || (side === 'own') === mine
 }
 
+
+// Stratagems grouped by phase, in PHASE_ORDER; a stratagem spanning several phases (its `_phases`)
+// appears under each. `first` puts that phase's group at the top (the tracker's live phase).
+// Shared by the Stratagems page and the tracker's CP tab (StratPhaseGroups.vue draws the groups).
+export function groupByPhase(strats, first = null) {
+  const by = new Map()
+  for (const s of strats) {
+    for (const k of s._phases?.length ? s._phases : ['any']) {
+      if (!by.has(k)) by.set(k, [])
+      by.get(k).push(s)
+    }
+  }
+  const order = first && by.has(first) ? [first, ...PHASE_ORDER.filter((k) => k !== first)] : PHASE_ORDER
+  return order.filter((k) => by.has(k)).map((k) => ({ key: k, strats: by.get(k) }))
+}
