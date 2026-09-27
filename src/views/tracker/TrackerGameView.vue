@@ -89,6 +89,7 @@ import LobbyInvite from '../../components/tracker/LobbyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { endReasonFor } from '../../composables/gameScoring.js'
 import { useParty } from '../../composables/useParty.js'
 import { useLobby } from '../../composables/useLobby.js'
 
@@ -134,7 +135,7 @@ const END_REASON_LABELS = {
   'opponent-concede': 'trackerEndOpponentConcede',
 }
 const endReasonLabel = computed(() => {
-  const key = END_REASON_LABELS[current.value?.endReason]
+  const key = END_REASON_LABELS[endReasonFor(current.value)]
   return key ? labels.value[key] : ''
 })
 

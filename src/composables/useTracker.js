@@ -10,6 +10,7 @@ import {
   secondaryTotal as secondaryTotalOf,
   grandTotal as grandTotalOf,
   leader as leaderOf,
+  youIndex,
 } from './gameScoring.js'
 import { BATTLE_PHASES } from './stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
@@ -1293,6 +1294,11 @@ export function useTracker() {
     g.phase = 'finished'
     g.finishedAt = new Date().toISOString()
     g.endReason = reason || null
+    // Who conceded, as a SIDE: the reason says "you" from this phone's view (gameScoring.concededSide).
+    const you = youIndex(g)
+    if (reason === 'friendly-concede') g.concededBy = you
+    else if (reason === 'opponent-concede') g.concededBy = 1 - you
+    else delete g.concededBy
     g.result = { totals: g.players.map((_, i) => grandTotal(i)) }
   }
 

@@ -98,19 +98,47 @@ export function battlePointsFromVp(vpA, vpB) {
   const b = BP_TABLE.find(x => d <= x.max)
   return vpA >= vpB ? [b.win, b.lose] : [b.lose, b.win]
 }
+// This device's own side. `isYou` is absent on the oldest games, whose owner was always the first
+// player — hence the fallback to 0.
+export function youIndex(game) {
+  const i = (game?.players || []).findIndex((p) => p?.isYou)
+  return i >= 0 ? i : 0
+}
+
+// Which side conceded (0 | 1), or -1. A game finished since 2026-09-27 records the SIDE
+// (`concededBy`), because `endReason` says "you" / "the opponent" from the view of the phone that
+// finished it — and players[0] is the first-turn player, not necessarily "you", and in a shared
+// game the other phone reads the same game with the opposite "you". An older game has only the
+// reason, recorded on this very phone, so it is read against this phone's side.
+export function concededSide(game) {
+  if (!game) return -1
+  if (game.concededBy === 0 || game.concededBy === 1) return game.concededBy
+  const you = youIndex(game)
+  if (game.endReason === 'friendly-concede') return you
+  if (game.endReason === 'opponent-concede') return 1 - you
+  return -1
+}
+
+// How the game ended, said from THIS phone's side — the key the result screens label.
+export function endReasonFor(game) {
+  const c = concededSide(game)
+  if (c < 0) return game?.endReason || null
+  return c === youIndex(game) ? 'friendly-concede' : 'opponent-concede'
+}
+
 // A conceded game gives the win — and a full 20–0 BP swing — to the other player.
 export function battlePoints(game) {
   if (!game) return [0, 0]
-  if (game.endReason === 'friendly-concede') return [0, 20]
-  if (game.endReason === 'opponent-concede') return [20, 0]
+  const c = concededSide(game)
+  if (c >= 0) return c === 0 ? [0, 20] : [20, 0]
   return battlePointsFromVp(grandTotal(game, 0), grandTotal(game, 1))
 }
 
 export function leader(game) {
   if (!game) return -1
   // A conceded game is won by the other player regardless of points.
-  if (game.endReason === 'friendly-concede') return 1   // "You" (player 0) conceded
-  if (game.endReason === 'opponent-concede') return 0   // opponent (player 1) conceded
+  const c = concededSide(game)
+  if (c >= 0) return 1 - c
   // In BP mode the winner is decided by Battle Points (so a ≤5 VP gap is a 10–10 draw).
   const [a, b] = game.settings?.scoreMode === 'bp'
     ? battlePoints(game)

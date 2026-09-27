@@ -1090,3 +1090,16 @@ describe('spending CP on stratagems', () => {
     expect(tracker.stratBlock(0, strat(), 0)).toBe('finished')
   })
 })
+
+describe('finishing with a concede', () => {
+  it('records the conceding SIDE, whoever went first', () => {
+    tracker.newGame(setupGame({ settings: { firstTurn: 2 } })) // the opponent goes first: you are players[1]
+    tracker.finishGame('friendly-concede')
+    const g = tracker.current.value
+    expect(g.concededBy).toBe(1)
+    expect(tracker.leader()).toBe(0)
+    tracker.resumeGame()
+    tracker.finishGame('played')
+    expect(g.concededBy).toBeUndefined()
+  })
+})

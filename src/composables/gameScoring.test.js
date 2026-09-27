@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   PRIMARY_GAME_CAP, FIXED_SECONDARY_CAP, TACTICAL_SECONDARY_CAP, SECONDARY_GAME_CAP, SECONDARY_ROUND_CAP, BATTLE_READY_VP,
   primaryTotal, secondaryTotal, secondaryRounds, secondaryInRound, grandTotal, leader,
-  battlePointsFromVp, battlePoints, BP_TABLE,
+  battlePointsFromVp, battlePoints, BP_TABLE, concededSide, endReasonFor,
 } from './gameScoring.js'
 
 // ---- minimal game-object builders ----------------------------------------------------
@@ -148,5 +148,33 @@ describe('backward compatibility with partial/old game data', () => {
     expect(secondaryTotal({ players: [{ secondaryMode: 'fixed' }] }, 0)).toBe(0)
     expect(leader(null)).toBe(-1)
     expect(leader({ players: [{}, {}] })).toBe(-1)   // no settings, no rounds → 0 vs 0 → draw
+  })
+})
+
+// A concede is a SIDE. players[0] is the first-turn player, not "you" — and a shared game is read
+// by two phones with opposite "you" (2026-09-27: the result screen crowned the player who conceded
+// when they had gone second).
+describe('concededSide', () => {
+  const g = (over) => ({ players: [player({ isYou: false }), player({ isYou: true })], ...over })
+
+  it('reads an older game\'s reason against this phone\'s side', () => {
+    const youWentSecond = g({ endReason: 'friendly-concede' })
+    expect(concededSide(youWentSecond)).toBe(1)
+    expect(leader(youWentSecond)).toBe(0)
+    expect(battlePoints(youWentSecond)).toEqual([20, 0])
+    expect(endReasonFor(youWentSecond)).toBe('friendly-concede')
+  })
+
+  it('trusts the recorded side over the reason — the other phone of a shared game', () => {
+    // Side 0 conceded on its own phone ("friendly"); this phone plays side 1.
+    const read = g({ endReason: 'friendly-concede', concededBy: 0 })
+    expect(concededSide(read)).toBe(0)
+    expect(leader(read)).toBe(1)
+    expect(endReasonFor(read)).toBe('opponent-concede')
+  })
+
+  it('is -1 for a game that was played out', () => {
+    expect(concededSide(g({ endReason: 'played' }))).toBe(-1)
+    expect(endReasonFor(g({ endReason: 'played' }))).toBe('played')
   })
 })

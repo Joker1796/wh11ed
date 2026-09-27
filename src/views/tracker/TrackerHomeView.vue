@@ -233,7 +233,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
-import { battlePointsFromVp } from '../../composables/gameScoring.js'
+import { battlePointsFromVp, concededSide, youIndex as youIdx } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, membersOf, BATTLE_SIZES } from '../../composables/useTracker.js'
@@ -423,7 +423,6 @@ function onConfirmAction() {
 // The card is laid out "You"-first (left), regardless of stored order: opponent-first games are
 // saved with You at players[1] (newGame reorders so index 0 is the first-turn player). `side` is
 // 0 = You / left, 1 = opponent / right; map it to the real array index via the isYou flag.
-function youIdx(g) { const i = g.players.findIndex(p => p.isYou); return i >= 0 ? i : 0 }
 function idxOf(g, side) { const y = youIdx(g); return side === 0 ? y : (y === 0 ? 1 : 0) }
 
 function pname(g, side) {
@@ -441,9 +440,8 @@ function factionName(g, side) {
 // Battle Points per stored array index; concede sweeps 20–0 to the non-conceding player. Uses the
 // stored result.totals (VP at finish) — no recompute, so old saved games never break the list.
 function bp(g) {
-  const y = youIdx(g), o = y === 0 ? 1 : 0
-  if (g.endReason === 'friendly-concede') { const r = [0, 0]; r[o] = 20; return r } // You conceded
-  if (g.endReason === 'opponent-concede') { const r = [0, 0]; r[y] = 20; return r } // Opponent conceded
+  const c = concededSide(g)
+  if (c >= 0) { const r = [0, 0]; r[1 - c] = 20; return r } // the side that did not concede
   const [a, b] = g.result?.totals || [0, 0]
   return battlePointsFromVp(a, b)
 }
@@ -455,8 +453,8 @@ function score(g) {
 // Result from "You"'s perspective. Winner is decided by BP in BP mode (≤5 VP gap → 10–10 draw),
 // by VP otherwise; concede overrides. VICTORY/DEFEAT/DRAW kept English, like the tracker's terms.
 function winnerSide(g) {
-  if (g.endReason === 'friendly-concede') return 'loss'
-  if (g.endReason === 'opponent-concede') return 'win'
+  const c = concededSide(g)
+  if (c >= 0) return c === youIdx(g) ? 'loss' : 'win'
   const [you, opp] = score(g)
   if (you === opp) return 'draw'
   return you > opp ? 'win' : 'loss'
