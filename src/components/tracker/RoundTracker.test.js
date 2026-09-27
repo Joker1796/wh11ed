@@ -360,3 +360,18 @@ describe('RoundTracker — the open tab is remembered', () => {
     expect(mountTracker().find('.gt-tab.on').attributes('aria-label')).toBe('Missions')
   })
 })
+
+describe('RoundTracker — dialogs wear the turn colour', () => {
+  // Dialogs teleport to <body>, out of the screen; the screen hands its colours down to them.
+  it('puts the side colours and the turn on every dialog opened from the game screen', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    tracker.endTurn() // the opponent's turn
+    const w = mount(RoundTracker, {
+      global: { stubs: { ScoreBoard: true, ArmyTrackerCard: true, NumberStepper: true, RouterLink: RouterLinkStub } },
+    })
+    await w.find('.rb-finish').trigger('click') // "Finish game" opens a dialog
+    const overlay = document.body.querySelector('.modal-overlay')
+    expect([...overlay.classList]).toEqual(expect.arrayContaining(['side-colored', 'turn-colored', 'turn-opp']))
+    expect(overlay.getAttribute('style')).toContain('--so-light')
+  })
+})

@@ -12,9 +12,12 @@
       name="modal"
       appear
     >
+      <!-- The opening screen's scope (modalScope.js) rides on the overlay: the game screen's turn
+           colour, for one. -->
       <div
         class="modal-overlay"
-        :style="{ zIndex }"
+        :class="scope?.class"
+        :style="[{ zIndex }, scope?.style]"
         @click.self="$emit('close')"
       >
         <div
@@ -96,6 +99,7 @@
 
 <script setup>
 import { ref, computed, useId } from 'vue'
+import { useModalScope } from '../composables/modalScope.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useModalA11y } from '../composables/useModalA11y.js'
@@ -111,6 +115,7 @@ defineProps({
   maxHeight: { type: String, default: '85dvh' },
   zIndex: { type: Number, default: 400 },
 })
+const scope = useModalScope()
 const emit = defineEmits(['close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])

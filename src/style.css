@@ -772,6 +772,17 @@ strong {
 }
 :root[data-theme='light'] .side-colored { --side-you: var(--sy-light, #8b2a33); --side-opponent: var(--so-light, #004a6e); }
 :root[data-theme='dark'] .side-colored { --side-you: var(--sy-dark, #c8585e); --side-opponent: var(--so-dark, #5fb2dc); }
+/* The game screen — and every dialog opened from it (modalScope.js) — wears the colour of the
+   side on turn: the accent is re-pointed at that side's colour, so every accented control says
+   whose turn it is. `.turn-opp` is the opponent's turn. Goes with `.side-colored`. */
+.turn-colored {
+  --accent: var(--side-you);
+  --accent-hover: color-mix(in srgb, var(--side-you) 80%, #000);
+}
+.turn-colored.turn-opp {
+  --accent: var(--side-opponent);
+  --accent-hover: color-mix(in srgb, var(--side-opponent) 80%, #000);
+}
 
 /* ── Roster screen header icon ─────────────────────────────────────────────
    The square icon buttons by a roster's name (editor and view: edit, share, the "…" menu). One of

@@ -154,8 +154,11 @@ The whole game screen wears the colour of the side on turn: `RoundTracker`'s roo
 during the opponent's turn, which re-points `--accent` (and `--accent-hover`) at `--side-opponent`,
 so every accented control follows. The SIDES keep their own colours through it — which is why
 every "your side" colour in the tracker reads `--side-you` (style.css), never `--accent`: an
-`--accent` read there turned your own card blue on the opponent's turn. Dialogs teleport to
-`<body>`, outside the screen, and keep the site accent.
+`--accent` read there turned your own card blue on the opponent's turn. The recipe is the global
+`.side-colored` + `.turn-colored` (+ `.turn-opp`) in style.css. **Dialogs wear it too:** they
+teleport to `<body>`, out of the screen, so RoundTracker hands `{ class, style }` down with
+`provideModalScope` (composables/modalScope.js) and BaseModal puts it on its overlay — every dialog
+opened under the game screen, nested ones included, and nothing outside it.
 
 **Which two colours** is `composables/sideColors.js`: the standard pair (you red, opponent blue),
 or with the phone's **Faction colours** option (`factionColors`, a `local` row with a live

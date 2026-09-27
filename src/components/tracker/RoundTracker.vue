@@ -4,8 +4,8 @@
        so every accented control — the tabs, the rounds, the buttons, the ticks — says whose turn
        it is. The sides themselves keep their own colours (--side-you / --side-opponent). -->
   <div
-    class="round-tracker side-colored"
-    :class="{ 'turn-opp': !isYouSide(current.players[turnIndex], turnIndex) }"
+    class="round-tracker side-colored turn-colored"
+    :class="{ 'turn-opp': turnOpp }"
     :style="sideColors"
   >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
@@ -587,6 +587,7 @@ import { tracks } from '../../data/trackerOptions.js'
 import { blockLocked, turnEndChecks } from '../../composables/missionTiming.js'
 import { bonusIn } from '../../composables/cpLedger.js'
 import { gameSideColorStyle } from '../../composables/sideColors.js'
+import { provideModalScope } from '../../composables/modalScope.js'
 import { useTracker, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
@@ -601,6 +602,12 @@ const cpOn = computed(() => tracks(current.value.settings, 'trackCP'))
 const phasesOn = computed(() => tracks(current.value.settings, 'trackPhases'))
 // The sides' colours: standard, or each side's faction accent (the phone's `factionColors`).
 const sideColors = computed(() => gameSideColorStyle(current.value))
+const turnOpp = computed(() => !isYouSide(current.value.players[turnIndex.value], turnIndex.value))
+// …and the same colours for every dialog opened from this screen (they teleport out of it).
+provideModalScope(computed(() => ({
+  class: ['side-colored', 'turn-colored', { 'turn-opp': turnOpp.value }],
+  style: sideColors.value,
+})))
 
 // The working area's tabs (see the template). CP is offered only to a game that tracks it; a
 // game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
@@ -980,18 +987,6 @@ function onEndBattle(reason) {
 @media (max-width: 430px) {
   .actions .btn-icon { padding: 0.45rem 0.55rem; font-size: 0.9rem; }
   .actions-left { gap: 0.4rem; }
-}
-
-/* The accent is the side on turn's for the whole screen (see the template) — the standard pair,
-   or the factions' when the phone asked for them (.side-colored sets both side colours). The hover
-   shade follows the way the theme derives it. */
-.round-tracker {
-  --accent: var(--side-you);
-  --accent-hover: color-mix(in srgb, var(--side-you) 80%, #000);
-}
-.round-tracker.turn-opp {
-  --accent: var(--side-opponent);
-  --accent-hover: color-mix(in srgb, var(--side-opponent) 80%, #000);
 }
 
 /* The headline over the score: round and turn, read at a glance from across the table. */
