@@ -3,14 +3,6 @@
     "src/components/tracker/EditSetupModal.vue",
     "src/components/tracker/TrackOptions.vue"
   ],
-  ".card-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }": [
-    "src/components/tracker/RoundTracker.vue",
-    "src/components/tracker/SecondaryDeck.vue"
-  ],
-  ".card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; color: var(--accent); flex-shrink: 0; }": [
-    "src/components/tracker/RoundTracker.vue",
-    "src/components/tracker/SecondaryDeck.vue"
-  ],
   ".det-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.9rem; }": [
     "src/views/combat-patrol/CombatPatrolFactionView.vue",
     "src/views/faction/FactionRuleView.vue"
@@ -69,35 +61,19 @@
   ],
   ".kind { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 5px; }": [
     "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
+    "src/components/tracker/ScoreRows.vue"
   ],
   ".kind.fixed { background: #b3401b; color: #fff; }": [
     "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
+    "src/components/tracker/ScoreRows.vue"
   ],
   ".kind.tactical { background: #1f3a5f; color: #fff; }": [
     "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
-  ],
-  ".m-bhead { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-bottom: 0.35rem; }": [
-    "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
+    "src/components/tracker/ScoreRows.vue"
   ],
   ".m-heading { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); }": [
     "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
-  ],
-  ".m-text strong { color: var(--text-primary); white-space: nowrap; }": [
-    "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
-  ],
-  ".m-text { font-size: 0.84rem; color: var(--text-muted); line-height: 1.45; }": [
-    "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
-  ],
-  ".m-when { font-size: 0.72rem; color: var(--text-dim); }": [
-    "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
+    "src/components/tracker/ScoreRows.vue"
   ],
   ".measurements-toggle { display: inline-flex; align-items: center; gap: 0.4rem; flex-shrink: 0; padding: 0.35rem 0.8rem; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.82rem; transition: color 0.15s, border-color 0.15s; }": [
     "src/components/event/ChapterLayouts.vue",
@@ -129,7 +105,7 @@
   ],
   ".or { font-style: normal; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-right: 0.2rem; }": [
     "src/components/event/MissionCard.vue",
-    "src/components/tracker/ScoringModal.vue"
+    "src/components/tracker/ScoreRows.vue"
   ],
   ".phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }": [
     "src/views/StratagemsView.vue",

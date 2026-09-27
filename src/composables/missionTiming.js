@@ -52,3 +52,13 @@ export function lockedNow(moment, ctx) {
   // "… or the end of the fifth battle round": the owner's own turn that closes round 5 is it.
   return !(moment.fallback === 'r5' && ctx.lastTurn)
 }
+
+// lockedNow for one block of a card in a game — what the scoring rows ask. `enBlock` is the
+// ENGLISH block (the localized one's `when` is Russian); `round` is the round on screen.
+export function blockLocked(game, pi, round, enBlock) {
+  const turn = game.currentTurn === 1 ? 1 : 0
+  return lockedNow(scoringMoment(enBlock), {
+    pi, turn, round, liveRound: game.currentRound,
+    lastTurn: game.currentRound === 5 && turn === 1,
+  })
+}

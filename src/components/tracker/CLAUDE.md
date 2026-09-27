@@ -110,7 +110,7 @@ The CP tab exists only while the game tracks CP (`trackCP`); switched off mid-ga
 Missions. What lives where:
 
 - **Missions** — the twist reminder and one card per side: primary, secondaries, the army-rule
-  tracker. The card carries its side's colour down its edge.
+  tracker. The card carries its side's colour down its edge. See "The missions panel" below.
 - **CP** — one bank per side, side by side.
 - **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content).
 - **Armies** — per side the disposition, detachments (members in doubles) and the way to the units:
@@ -119,6 +119,42 @@ Missions. What lives where:
 
 The top is NOT pinned (owner's call, 2026-09-27): the prototype fixes it and scrolls the panel
 inside, which on a 640px phone leaves about half the screen for the game.
+
+## The missions panel
+
+**One side first, the other folded.** First comes whose turn it is — or, in a shared game, this
+phone's own side (a guest does not want the other phone's cards on top); the other side waits under
+"Show X's missions". A new turn folds it again.
+
+**Scored on the card.** The primary and every secondary show their conditions right on the card
+(`ScoreRows.vue` — the same rows the full-text dialog `ScoringModal` draws, headings off), each
+under the moment it is scored at; the card's name opens the full text. **The moment comes from the
+data, never from a guess:** `missionTiming.js` maps every English `when` of a scoring block (and
+the End of Battle heading) to one of six moments, and its test fails on a phrasing it does not
+know. One thing is locked: an "end of your opponent's turn" condition during its owner's own turn
+(except the turn that closes round 5, for the "… or the end of the fifth battle round" cards).
+Everything else stays tickable — a condition of "the end of your turn" is often ticked a moment
+after the turn passed — and a past round is never locked.
+
+**The round steps are a view, not a move.** A past round opens for correction (a banner says so,
+"Back to the game" ends it); the live round is marked; a round not yet started is disabled. Only
+End/Undo turn move the game. The view is this phone's own (`viewRound` in `RoundTracker`), and a
+new turn drops it. Scoring a past round writes into THAT round (`scoreSecondaryRow(…, round)`,
+`setPrimaryRow(pi, roundIdx, …)`), and a tactical card still in hand that turns out to have been
+achieved then leaves the hand.
+
+**The turn's two secondaries (tactical).** "At the start of your Command phase, draw two" — so the
+deck offers **Take 2 secondaries** to the side on turn, once per own turn: both at random or both
+by hand (`TakeSecondariesModal`), recorded in `secondary.took[round]`. The dialog opens by itself
+once per turn on the phone that plays that side (a module-level memory, so a tab switch does not
+reopen it). A random pair is written at once, so reopening cannot re-roll it; "Put them back"
+undoes the take while neither card has scored. After that the hand changes only through a card's
+own rule — WHEN DRAWN, set aside, return to deck, in the card's "⋯" sheet. The free "Draw" /
+"Choose" buttons are gone. Each card shows how it came in (`secondary.source`: 🎲 / ✋).
+
+**Achieved cards leave at the end of EACH turn** (`setAsideAchieved`, the Event Companion's
+"Achieving Secondary Missions"), not only when the round changes. The entry remembers the turn
+(`discarded[].auto`), and **Undo turn puts exactly those cards back** — never one set aside by hand.
 
 ## Slices — the game as multi-device sync moves it
 

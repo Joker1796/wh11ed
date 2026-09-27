@@ -56,6 +56,11 @@ async function openTab(w, label) {
   return w
 }
 const openArmies = (w) => openTab(w, 'Armies')
+// The other side's missions are folded under a button (the side on turn comes first).
+async function unfold(w) {
+  await w.find('.other-toggle').trigger('click')
+  return w
+}
 
 describe('RoundTracker — the tabs', () => {
   it('opens on the missions and offers CP only to a game that counts it', () => {
@@ -76,6 +81,45 @@ describe('RoundTracker — the tabs', () => {
     await w.vm.$nextTick()
     expect(w.find('.gt-tab.on').text()).toBe('Missions')
     expect(w.find('.cp-banks').exists()).toBe(false)
+  })
+})
+
+describe('RoundTracker — the missions panel', () => {
+  const firstName = (w) => w.find('.player .pt-name').text()
+
+  it('puts the side on turn first and folds the other', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    const w = mountTracker()
+    expect(w.findAll('.player')).toHaveLength(1)
+    expect(firstName(w)).toBe('Me')
+    expect(w.find('.other-toggle').text()).toContain('Opp')
+    tracker.endTurn()
+    await w.vm.$nextTick()
+    expect(firstName(w)).toBe('Opp')
+    expect(w.findAll('.player')).toHaveLength(1) // a new turn folds the other side again
+  })
+
+  it('in a shared game puts this phone\'s own side first, whoever is on turn', () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
+    expect(firstName(mountTracker())).toBe('Opp')
+  })
+
+  // The round steps are a view: a past round opens for correction, the game does not move.
+  it('opens a past round for correction and comes back, and refuses one not yet played', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    tracker.endTurn()
+    tracker.endTurn() // round 2
+    const w = mountTracker()
+    const steps = w.findAll('.rb-round')
+    expect(steps[2].attributes('disabled')).toBeDefined()
+    await steps[0].trigger('click')
+    expect(tracker.current.value.currentRound).toBe(2)
+    expect(w.find('.round-edit').text()).toContain('round 1')
+    expect(w.find('.mc-foot').text()).toContain('Round 1')
+    await w.find('.re-back').trigger('click')
+    expect(w.find('.round-edit').exists()).toBe(false)
+    expect(w.find('.mc-foot').text()).toContain('Round 2')
   })
 })
 
@@ -168,11 +212,11 @@ describe('RoundTracker — what the game keeps track of', () => {
     expect(tabLabels(mountTracker())).not.toContain('CP')
   })
 
-  it('keeps the mission blocks whatever the settings say', () => {
+  it('keeps the mission blocks whatever the settings say', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false })
-    const w = mountTracker()
+    const w = await unfold(mountTracker())
     expect(w.findAll('secondary-deck-stub')).toHaveLength(2)
-    expect(w.findAll('.card-open').length + w.findAll('.score-row').length).toBeGreaterThan(0)
+    expect(w.findAll('.mission-card').length + w.findAll('.score-row').length).toBeGreaterThan(0)
   })
 })
 
@@ -214,12 +258,12 @@ describe('RoundTracker — doubles', () => {
     expect(btn.attributes('title')).toBe('Фёдор Михайлович')
   })
 
-  it('renders ONE shared army card for a unified same-faction team, two for convenience', () => {
+  it('renders ONE shared army card for a unified same-faction team, two for convenience', async () => {
     startDoubles(
       [M('Ann', 'drukhari'), M('Bob', 'drukhari')],
       [M('Cat', 'orks'), M('Dan', 'aeldari')],
     )
-    const w = mountTracker()
+    const w = await unfold(mountTracker())
     const cards = w.findAllComponents({ name: 'ArmyTrackerCard' })
     // Side 0 (unified, same faction): one card, side-level state (mi null).
     const side0 = cards.filter((c) => c.props('pi') === 0)
@@ -249,11 +293,13 @@ describe('RoundTracker — a shared game', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     tracker.current.value.party = { id: 'p', token: 't', side: 0, mi: null, host: false, seq: 1, versions: {}, ...over }
   }
-  const cards = (w) => w.findAll('.player')
+  // Both sides on screen, in game order (the side on turn comes first, the other unfolded).
+  const cards = (w) => [...w.findAll('.player')].sort((a, b) => a.attributes('data-side') - b.attributes('data-side'))
+  const mountBoth = () => unfold(mountTracker())
   // The lock is on the scoring controls, never on the card: a locked card still opens its army
   // rule's text (and the Armies tab, which locks nothing, its list).
   function locked(card) {
-    const primary = card.find('.card-open, .score-row')
+    const primary = card.find('.mission-card, .score-row')
     const deck = card.findComponent({ name: 'SecondaryDeck' })
     const army = card.findComponent({ name: 'ArmyTrackerCard' })
     return {
@@ -267,31 +313,31 @@ describe('RoundTracker — a shared game', () => {
   const OPEN = { card: undefined, primary: undefined, deck: undefined, army: false, caption: false }
   const LOCKED = { card: undefined, primary: 'true', deck: 'true', army: true, caption: true }
 
-  it('leaves both cards live and the setup button enabled with no party', () => {
+  it('leaves both cards live and the setup button enabled with no party', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
-    const w = mountTracker()
+    const w = await mountBoth()
     expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
     expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
   })
 
-  it('a guest gets the other side locked but readable, and keeps the setup button', () => {
+  it('a guest gets the other side locked but readable, and keeps the setup button', async () => {
     withParty({ host: false, side: 1 })
-    const w = mountTracker()
+    const w = await mountBoth()
     expect(cards(w).map(locked)).toEqual([LOCKED, OPEN])
     expect(cards(w)[0].text()).toContain('Scored on another phone')
     expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
   })
 
-  it('the host edits a side nobody sits on, and not one another phone holds', () => {
+  it('the host edits a side nobody sits on, and not one another phone holds', async () => {
     withParty({ host: true, side: 0 })
-    const w = mountTracker()
+    const w = await mountBoth()
     expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
     expect(w.find('.sync-ind').exists()).toBe(true)
   })
 
   it('a side a guest sits on is locked on the host\'s screen too, with the way back', async () => {
     withParty({ host: true, side: 0, held: [1] })
-    const w = mountTracker()
+    const w = await mountBoth()
     expect(cards(w).map(locked)).toEqual([OPEN, LOCKED])
     expect(cards(w)[1].text()).toContain('free its seat')
     // …unless the host chose to score both sides from its phone.
@@ -307,9 +353,9 @@ describe('RoundTracker — a shared game', () => {
     expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
   })
 
-  it('a phone the host removed edits its own game again', () => {
+  it('a phone the host removed edits its own game again', async () => {
     withParty({ host: false, side: 1, revoked: true })
-    const w = mountTracker()
+    const w = await mountBoth()
     expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
   })
 })

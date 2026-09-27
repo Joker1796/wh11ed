@@ -58,14 +58,18 @@
          nothing for a game that is not shared). -->
     <div class="round-bar">
       <div class="rb-rounds">
+        <!-- A step is a VIEW, not a move: a past round opens for correction (the game stays
+             where it is — only End/Undo turn move it), the live one comes back, a round not yet
+             started is not there to open. -->
         <button
           v-for="n in ROUND_COUNT"
           :key="n"
           class="rb-round"
-          :class="{ on: current.currentRound === n }"
+          :class="{ on: shownRound === n, live: current.currentRound === n }"
+          :disabled="n > current.currentRound"
           :aria-label="`${labels.trackerRound} ${n}`"
           :aria-current="current.currentRound === n ? 'step' : undefined"
-          @click="goToRound(n)"
+          @click="viewRound = n === current.currentRound ? null : n"
         >
           {{ n }}
         </button>
@@ -182,6 +186,23 @@
         </div>
       </details>
 
+      <!-- Correcting a past round: a banner says so, and the way back is on it. -->
+      <div
+        v-if="viewRound"
+        class="round-edit"
+      >
+        <span>{{ labels.trackerEditingRound.replace('{n}', viewRound).replace('{live}', current.currentRound) }}</span>
+        <button
+          class="re-back"
+          @click="viewRound = null"
+        >
+          {{ labels.trackerBackToLive }}
+        </button>
+      </div>
+
+      <!-- One side's missions on top — whose turn it is on a shared phone, this phone's own side
+           in a shared game (a guest does not want the other phone's cards first) — and the other
+           folded under a button. Both open, one under the other, ran to several screens. -->
       <div class="players">
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
@@ -191,69 +212,113 @@
              Waaagh! rule was the first complaint about the shared game. The sync layer snaps
              back anything that gets past the lock. `inert` is a presence attribute — a rendered
              "false" would still be inert — hence `undefined` rather than false. -->
-        <div
-          v-for="(pl, i) in current.players"
+        <template
+          v-for="(i, k) in sideOrder"
           :key="i"
-          class="player"
-          :class="{ 'player-locked': !canEdit(i), opp: !isYouSide(pl, i) }"
         >
-          <h3 class="ptitle">
-            {{ playerName(i) }}
-          </h3>
-          <!-- The host's line also says how to take the side back: the seat is the lock. -->
-          <p
-            v-if="!canEdit(i)"
-            class="plocked"
-          >
-            {{ isHost ? labels.partyOtherSideHost : labels.partyOtherSide }}
-          </p>
-          <!-- Primary mission — tap to open the scoring modal -->
-          <div class="sec-title-row">
-            {{ labels.trackerPrimary }}
-          </div>
           <button
-            v-if="primaryMission(i)"
-            class="card-open"
-            :inert="lock(i)"
-            @click="openPrimary = i"
+            v-if="k === 1"
+            class="other-toggle"
+            :class="{ open: showOther }"
+            :aria-expanded="showOther"
+            @click="showOther = !showOther"
           >
-            <span class="card-name">{{ primaryName(i) }}</span>
-            <span class="card-vp">{{ pl.rounds[current.currentRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
-          </button>
-          <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
-               card to tick. The missions themselves are not optional — see trackerOptions.js. -->
-          <div
-            v-else
-            class="score-row"
-            :inert="lock(i)"
-          >
-            <NumberStepper
-              :model-value="pl.rounds[current.currentRound - 1].primary"
-              :min="0"
-              :max="PRIMARY_ROUND_CAP"
-              @update:model-value="v => setRoundPrimary(i, current.currentRound - 1, v)"
+            <i
+              class="bi"
+              :class="showOther ? 'bi-chevron-up' : 'bi-chevron-down'"
+              aria-hidden="true"
             />
-            <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
+            {{ (showOther ? labels.trackerHideMissions : labels.trackerShowMissions).replace('{name}', playerName(i)) }}
+          </button>
+          <div
+            v-if="k === 0 || showOther"
+            class="player"
+            :data-side="i"
+            :class="{ 'player-locked': !canEdit(i), opp: !isYouSide(current.players[i], i) }"
+          >
+            <h3 class="ptitle">
+              <span class="pt-name">{{ playerName(i) }}</span>
+              <span
+                v-if="i === turnIndex && !viewRound"
+                class="pt-turn"
+              >{{ labels.trackerTurnTag }}</span>
+            </h3>
+            <!-- The host's line also says how to take the side back: the seat is the lock. -->
+            <p
+              v-if="!canEdit(i)"
+              class="plocked"
+            >
+              {{ isHost ? labels.partyOtherSideHost : labels.partyOtherSide }}
+            </p>
+
+            <!-- The primary: its conditions right on the card, ticked in place, each under the
+                 moment it is scored at; the name opens the full text. -->
+            <div
+              v-if="primaryMission(i)"
+              class="mission-card"
+              :inert="lock(i)"
+            >
+              <div class="mc-head">
+                <button
+                  class="mc-name"
+                  @click="openPrimary = i"
+                >
+                  {{ primaryName(i) }}
+                </button>
+                <span class="mc-tag">{{ labels.trackerPrimary }}</span>
+              </div>
+              <ScoreRows
+                :blocks="primaryBlocks(i)"
+                :count="(bi, ri) => primaryRowCount(i, shownRound - 1, bi, ri)"
+                :show-headings="false"
+                :locked="b => primaryLocked(i, b)"
+                :locked-note="labels.trackerOppTurnOnly"
+                @set="(bi, ri, c) => setPrimaryRow(i, shownRound - 1, bi, ri, c)"
+              />
+              <div class="mc-foot">
+                <span>{{ labels.trackerRoundShort }} {{ shownRound }} · <b>{{ current.players[i].rounds[shownRound - 1].primary }}</b> / {{ PRIMARY_ROUND_CAP }} VP</span>
+                <span>{{ labels.trackerPrimary }} <b>{{ primaryTotal(i) }}</b></span>
+              </div>
+            </div>
+            <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
+                 card to tick. The missions themselves are not optional — see trackerOptions.js. -->
+            <div
+              v-else
+              class="score-row"
+              :inert="lock(i)"
+            >
+              <span class="sr-label">{{ labels.trackerPrimary }}</span>
+              <NumberStepper
+                :model-value="current.players[i].rounds[shownRound - 1].primary"
+                :min="0"
+                :max="PRIMARY_ROUND_CAP"
+                @update:model-value="v => setRoundPrimary(i, shownRound - 1, v)"
+              />
+              <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
+            </div>
+
+            <SecondaryDeck
+              :pi="i"
+              :round="shownRound"
+              :editable="canEdit(i)"
+              :name="playerName(i)"
+              :inert="lock(i)"
+            />
+
+            <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
+                 secondaries: it is played alongside the missions, turn by turn. Opt-in per player
+                 (settings.trackArmyYou / trackArmyOpp, default on) and renders only for factions
+                 with a spec. Doubles: one SHARED card for a unified force of one faction (the
+                 companion: one pool per force), else one card per member — see armyCards(). -->
+            <ArmyTrackerCard
+              v-for="c in armyCards(current.players[i])"
+              :key="c.mi ?? 'side'"
+              :pi="i"
+              :mi="c.mi"
+              :readonly="!canEdit(i)"
+            />
           </div>
-
-          <SecondaryDeck
-            :pi="i"
-            :inert="lock(i)"
-          />
-
-          <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
-               secondaries: it is played alongside the missions, turn by turn. Opt-in per player
-               (settings.trackArmyYou / trackArmyOpp, default on) and renders only for factions
-               with a spec. Doubles: one SHARED card for a unified force of one faction (the
-               companion: one pool per force), else one card per member — see armyCards(). -->
-          <ArmyTrackerCard
-            v-for="c in armyCards(pl)"
-            :key="c.mi ?? 'side'"
-            :pi="i"
-            :mi="c.mi"
-            :readonly="!canEdit(i)"
-          />
-        </div>
+        </template>
       </div>
     </section>
 
@@ -354,12 +419,14 @@
       v-if="openPrimary >= 0 && primaryMission(openPrimary)"
       :title="primaryName(openPrimary)"
       :subtitle="`${labels.trackerPrimary} · ${dispositionName(current.players[openPrimary].disposition)}`"
-      :vp="current.players[openPrimary].rounds[current.currentRound - 1].primary"
+      :vp="current.players[openPrimary].rounds[shownRound - 1].primary"
       :blocks="primaryBlocks(openPrimary)"
       :briefing="primaryMission(openPrimary).briefing"
-      :count="(bi, ri) => primaryRowCount(openPrimary, current.currentRound - 1, bi, ri)"
+      :count="(bi, ri) => primaryRowCount(openPrimary, shownRound - 1, bi, ri)"
+      :locked="b => primaryLocked(openPrimary, b)"
+      :locked-note="labels.trackerOppTurnOnly"
       :note="`${labels.trackerPrimary}: ${labels.trackerThisRound} ≤ ${PRIMARY_ROUND_CAP} · ${PRIMARY_GAME_CAP}/${labels.trackerTotal}`"
-      @set="(bi, ri, c) => setPrimaryRow(openPrimary, current.currentRound - 1, bi, ri, c)"
+      @set="(bi, ri, c) => setPrimaryRow(openPrimary, shownRound - 1, bi, ri, c)"
       @close="openPrimary = -1"
     />
 
@@ -433,6 +500,7 @@ import SecondaryDeck from './SecondaryDeck.vue'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
+import ScoreRows from './ScoreRows.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
@@ -447,6 +515,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
+import { blockLocked } from '../../composables/missionTiming.js'
 import { useTracker, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
@@ -454,7 +523,7 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, primaryTotal, setCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
 
 // Read through `tracks` so a game saved before the option existed arrives with its default
 // rather than undefined.
@@ -473,8 +542,27 @@ const mainTabs = computed(() => [
   ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp }] : []),
 ])
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
-// A new turn starts on the missions: the first thing a turn does is draw and score.
-watch(() => [current.value.currentRound, current.value.currentTurn], () => { tab.value = 'missions' })
+// The round on screen: the live one, or a past one opened for correction from the round steps
+// (`viewRound`). Local to this phone — what one player is correcting is not where the game is.
+const viewRound = ref(null)
+const shownRound = computed(() => viewRound.value || current.value.currentRound)
+
+// Whose missions come first: this phone's own side in a shared game, otherwise the side on
+// turn. The other is folded until asked for.
+const focusSide = computed(() => {
+  const p = current.value.party
+  return p && !p.revoked && !p.ended && (p.side === 0 || p.side === 1) ? p.side : turnIndex.value
+})
+const sideOrder = computed(() => [focusSide.value, 1 - focusSide.value])
+const showOther = ref(false)
+
+// A new turn starts on the missions, on the live round, with the other side folded: the first
+// thing a turn does is draw and score.
+watch(() => [current.value.currentRound, current.value.currentTurn], () => {
+  tab.value = 'missions'
+  viewRound.value = null
+  showOther.value = false
+})
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
@@ -620,9 +708,13 @@ function primaryName(i) {
   const m = primaryMission(i)
   return m ? m.name : ''
 }
-// Scorable primary blocks for the current round (round-gated by block heading).
+// Scorable primary blocks for the round on screen (round-gated by block heading).
 function primaryBlocks(i) {
-  return scorableBlocks(current.value.players[i].primarySlug, null, current.value.currentRound, locale.value)
+  return scorableBlocks(current.value.players[i].primarySlug, null, shownRound.value, locale.value)
+}
+// A primary condition whose moment cannot have come yet (missionTiming.js), by the EN block.
+function primaryLocked(i, b) {
+  return blockLocked(current.value, i, shownRound.value, missionBySlug(current.value.players[i].primarySlug)?.blocks[b.bi])
 }
 function onEndBattle(reason) {
   endModalOpen.value = false
@@ -652,6 +744,9 @@ function onEndBattle(reason) {
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .rb-round.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* The live round, while a past one is on screen: outlined, so the way back reads at a glance. */
+.rb-round.live:not(.on) { border-color: var(--accent); color: var(--accent); }
+.rb-round:disabled { opacity: 0.45; cursor: default; }
 .rb-finish {
   flex: 0 1 auto;
   min-width: 0;
@@ -747,7 +842,7 @@ function onEndBattle(reason) {
    `title` — the same lesson as the setup cards' `minmax(0, 1fr)`. */
 .proster-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .proster:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
-.players { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.players { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; }
 .player {
   --side: var(--accent);
   background: var(--bg-card);
@@ -756,7 +851,51 @@ function onEndBattle(reason) {
   padding: 0.8rem;
 }
 .player.opp { --side: var(--side-opponent); }
-.player .ptitle { color: var(--side); }
+.player .ptitle { color: var(--side); display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+.pt-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pt-turn {
+  flex-shrink: 0;
+  font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--side);
+}
+/* The folded other side: one full-width row, the side's name in it. */
+.other-toggle {
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  width: 100%; min-height: 44px; padding: 0.5rem 0.75rem;
+  border: 1px dashed var(--border); background: var(--bg-card);
+  font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--text-muted); cursor: pointer;
+}
+@media (hover: hover) { .other-toggle:hover { border-color: var(--accent); color: var(--text-primary); } }
+/* The primary card: name (opens the full text), the conditions, the round and game tally. */
+.mission-card {
+  padding: 0.55rem 0.6rem 0.5rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--side);
+  background: color-mix(in srgb, var(--side) 4%, var(--bg-card));
+}
+.mc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.45rem; }
+.mc-name {
+  min-width: 0; padding: 0; border: 0; background: none; text-align: left; cursor: pointer;
+  font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; line-height: 1.1; color: var(--side);
+}
+@media (hover: hover) { .mc-name:hover { text-decoration: underline; text-underline-offset: 3px; } }
+.mc-tag {
+  flex-shrink: 0; padding: 0.1rem 0.45rem; border: 1px solid var(--border);
+  font-size: 0.72rem; color: var(--text-dim);
+}
+.mc-foot { display: flex; justify-content: space-between; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-dim); }
+.mc-foot b { color: var(--text-primary); }
+/* Correcting a past round. */
+.round-edit {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.4rem 0.75rem;
+  margin-bottom: 0.6rem; padding: 0.55rem 0.7rem;
+  border: 1px solid var(--warning); background: color-mix(in srgb, var(--warning) 10%, var(--bg-card));
+  font-size: 0.85rem; font-weight: 600; color: var(--text-primary);
+}
+.re-back {
+  min-height: 36px; padding: 0 0.7rem; border: 1px solid var(--warning); background: var(--bg-card);
+  font: inherit; font-size: 0.82rem; font-weight: 700; color: var(--warning); cursor: pointer;
+}
 .ptitle { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin: 0; }
 .pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.2rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.3rem; font-family: var(--font-mono); }
@@ -768,22 +907,6 @@ function onEndBattle(reason) {
   color: var(--text-dim);
   margin-bottom: 0.3rem;
 }
-.card-open {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.55rem 0.65rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  cursor: pointer;
-  text-align: left;
-  margin-bottom: 0.55rem;
-}
-.card-open:hover { border-color: var(--accent); }
-.card-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }
-.card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; color: var(--accent); flex-shrink: 0; }
 .score-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
 .sr-label {
   min-width: 4.5rem;
@@ -806,9 +929,6 @@ function onEndBattle(reason) {
   margin: 0.1rem 0 0.4rem;
   font-size: 0.72rem;
   color: var(--text-muted);
-}
-@media (max-width: 700px) {
-  .players { grid-template-columns: 1fr; }
 }
 /* Small phones: the icon row stays one line (~320px). */
 @media (max-width: 430px) {
