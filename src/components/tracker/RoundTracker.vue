@@ -49,93 +49,101 @@
       <SyncIndicator />
     </div>
 
-    <!-- With the phase clock on, the phase joins this row (owner's call, 2026-09-27): undo turn as
-         an icon, the phase arrows, the phase itself (tap → any phase of either turn), and End turn.
-         The arrows stay INSIDE the turn — they stop at Command and at Fight — so a turn changes only
-         through End / Undo turn, never past the end-of-turn check by a stray tap. -->
-    <div
-      v-if="phasesOn"
-      class="turn-row phased"
-    >
-      <button
-        class="tr-btn tr-prev tr-icon"
-        :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
-        :title="undoTitle"
-        :aria-label="labels.trackerUndoTurn"
-        @click="undoTurn"
-      >
-        <i
-          class="bi bi-arrow-counterclockwise"
-          aria-hidden="true"
-        />
-      </button>
-      <button
-        class="tr-step"
-        :disabled="!canStepInTurn(-1)"
-        :aria-label="labels.ariaPrevPhase"
-        @click="stepPhase(-1)"
-      >
-        ‹
-      </button>
-      <button
-        class="tr-phase"
-        :title="labels.trackerPhasePick"
-        @click="phasePickerOpen = true"
-      >
-        <span class="tp-who">{{ playerSide(turnIndex) }}</span>
-        <span class="tp-name">{{ phaseLabel(current.currentPhase || 'command', labels) }}</span>
-      </button>
-      <button
-        class="tr-step"
-        :disabled="!canStepInTurn(1)"
-        :aria-label="labels.ariaNextPhase"
-        @click="stepPhase(1)"
-      >
-        ›
-      </button>
-      <button
-        class="tr-btn tr-end"
-        :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
-        :disabled="canEndTurn() && !canEdit(turnIndex)"
-        :title="canEndTurn() ? endTurnLabel : labels.trackerFinish"
-        @click="requestEndTurn()"
-      >
-        <span class="tr-label">{{ canEndTurn() ? labels.trackerEndTurnShort : labels.trackerFinish }}</span>
-      </button>
-    </div>
-    <div
-      v-else
-      class="turn-row"
-    >
-      <button
-        class="tr-btn tr-prev"
-        :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
-        :title="undoTitle"
-        @click="undoTurn"
-      >
-        <i
-          class="bi bi-arrow-left"
-          aria-hidden="true"
-        />
-        <span class="tr-label">{{ labels.trackerUndoTurn }}</span>
-      </button>
-      <button
-        v-if="canEndTurn()"
-        class="tr-btn tr-end"
-        :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
-        :disabled="!canEdit(turnIndex)"
-        :title="endTurnLabel"
-        @click="requestEndTurn()"
-      >
-        <span class="tr-label">{{ labels.trackerEndTurnPlain }}</span>
-      </button>
-      <button
-        v-else
-        class="tr-btn tr-end"
-        @click="requestEndTurn()"
-      >
-        <span class="tr-label">{{ labels.trackerFinish }}</span>
-      </button>
+    <!-- The turn buttons are pinned above the bottom nav (the window's bottom edge on a desk): the
+         one control used every turn stays under the thumb however far the panel below is scrolled
+         (owner's call, 2026-09-27). Its height is reserved in App.vue (.tf-sticky) — change the
+         padding or the button height and change that number with them. -->
+    <div class="tf-sticky">
+      <div class="tf-sticky-inner">
+        <!-- With the phase clock on, the phase joins this row (owner's call, 2026-09-27): undo turn as
+             an icon, the phase arrows, the phase itself (tap → any phase of either turn), and End turn.
+             The arrows stay INSIDE the turn — they stop at Command and at Fight — so a turn changes only
+             through End / Undo turn, never past the end-of-turn check by a stray tap. -->
+        <div
+          v-if="phasesOn"
+          class="turn-row phased"
+        >
+          <button
+            class="tr-btn tr-prev tr-icon"
+            :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
+            :title="undoTitle"
+            :aria-label="labels.trackerUndoTurn"
+            @click="undoTurn"
+          >
+            <i
+              class="bi bi-arrow-counterclockwise"
+              aria-hidden="true"
+            />
+          </button>
+          <button
+            class="tr-step"
+            :disabled="!canStepInTurn(-1)"
+            :aria-label="labels.ariaPrevPhase"
+            @click="stepPhase(-1)"
+          >
+            ‹
+          </button>
+          <button
+            class="tr-phase"
+            :title="labels.trackerPhasePick"
+            @click="phasePickerOpen = true"
+          >
+            <span class="tp-who">{{ playerSide(turnIndex) }}</span>
+            <span class="tp-name">{{ phaseLabel(current.currentPhase || 'command', labels) }}</span>
+          </button>
+          <button
+            class="tr-step"
+            :disabled="!canStepInTurn(1)"
+            :aria-label="labels.ariaNextPhase"
+            @click="stepPhase(1)"
+          >
+            ›
+          </button>
+          <button
+            class="tr-btn tr-end"
+            :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
+            :disabled="canEndTurn() && !canEdit(turnIndex)"
+            :title="canEndTurn() ? endTurnLabel : labels.trackerFinish"
+            @click="requestEndTurn()"
+          >
+            <span class="tr-label">{{ canEndTurn() ? labels.trackerEndTurnShort : labels.trackerFinish }}</span>
+          </button>
+        </div>
+        <div
+          v-else
+          class="turn-row"
+        >
+          <button
+            class="tr-btn tr-prev"
+            :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
+            :title="undoTitle"
+            @click="undoTurn"
+          >
+            <i
+              class="bi bi-arrow-left"
+              aria-hidden="true"
+            />
+            <span class="tr-label">{{ labels.trackerUndoTurn }}</span>
+          </button>
+          <button
+            v-if="canEndTurn()"
+            class="tr-btn tr-end"
+            :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
+            :disabled="!canEdit(turnIndex)"
+            :title="endTurnLabel"
+            @click="requestEndTurn()"
+          >
+            <span class="tr-label">{{ labels.trackerEndTurnPlain }}</span>
+          </button>
+          <button
+            v-else
+            class="tr-btn tr-end"
+            @click="requestEndTurn()"
+          >
+            <span class="tr-label">{{ labels.trackerFinish }}</span>
+          </button>
+        </div>
+      </div>
     </div>
     <p class="tf-next">
       {{ nextLine }}
@@ -989,7 +997,25 @@ function onEndBattle(reason) {
 }
 .tn-strong { font-weight: 700; color: var(--text-primary); }
 /* Back and forward by a turn: two equal halves. Forward wears the colour of the side on turn. */
-.turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin: 0.45rem 0 0; }
+.turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+/* The pinned bar: full-bleed (it is the window's bottom edge), what stands on it at the page's
+   860px measure — the roster builder's .rc-sticky idiom. */
+.tf-sticky {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 150;
+  padding-bottom: var(--safe-bottom, 0px);
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+}
+.tf-sticky-inner { max-width: 860px; margin: 0 auto; padding: 0.4rem 2rem; }
+@media (max-width: 900px) {
+  .tf-sticky { bottom: calc(52px + var(--safe-bottom, 0px)); padding-bottom: 0; }
+  .tf-sticky-inner { padding: 0.4rem calc(1rem + var(--safe-right)) 0.4rem calc(1rem + var(--safe-left)); }
+}
+@media (max-width: 480px) {
+  .tf-sticky-inner { padding: 0.4rem calc(0.5rem + var(--safe-right)) 0.4rem calc(0.5rem + var(--safe-left)); }
+}
 /* With phases: undo · ‹ · the phase · › · end. */
 .turn-row.phased { grid-template-columns: 42px 34px minmax(0, 1fr) 34px auto; gap: 0.3rem; }
 .tr-btn {
@@ -1029,7 +1055,7 @@ function onEndBattle(reason) {
   .tr-prev:not(:disabled):hover { border-color: var(--accent); }
   .tr-end:not(:disabled):hover { background: color-mix(in srgb, var(--side) 85%, #000); }
 }
-.tf-next { margin: 0.35rem 0 0.7rem; text-align: center; font-size: 0.82rem; color: var(--text-dim); }
+.tf-next { margin: 0.45rem 0 0.7rem; text-align: center; font-size: 0.82rem; color: var(--text-dim); }
 
 /* The working area's tabs: one strip, joined, on a line in the accent — the active tab is filled
    with it and so reads as part of the line it stands on, attached to the panel under it. */
