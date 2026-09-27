@@ -268,7 +268,7 @@ const openStrat = ref(null)
 <style scoped>
 .ap-pick { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.35rem; }
 .ap-army {
-  --side: var(--accent);
+  --side: var(--side-you);
   display: grid; gap: 0.05rem; min-width: 0; min-height: 48px;
   padding: 0.4rem 0.6rem; text-align: left;
   border: 1px solid var(--border); border-left: 4px solid var(--border);
@@ -279,7 +279,7 @@ const openStrat = ref(null)
 .ap-army-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; color: var(--side); }
 .ap-army-fac { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.76rem; color: var(--text-dim); }
 .ap-card {
-  --side: var(--accent);
+  --side: var(--side-you);
   margin-top: 0.6rem; padding: 0.7rem;
   border: 1px solid var(--border); border-left: 4px solid var(--side); background: var(--bg-card);
 }

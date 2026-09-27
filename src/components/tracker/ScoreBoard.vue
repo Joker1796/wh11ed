@@ -118,7 +118,7 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   gap: 0.75rem;
 }
 .col {
-  --side: var(--accent);
+  --side: var(--side-you);
   position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border);

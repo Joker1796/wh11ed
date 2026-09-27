@@ -301,7 +301,7 @@ function use(s) {
 .cps { margin-top: 1rem; }
 .cps-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-bottom: 0.7rem; }
 .cps-side {
-  --side: var(--accent);
+  --side: var(--side-you);
   display: flex; align-items: baseline; justify-content: space-between; gap: 0.4rem;
   min-width: 0; min-height: 44px; padding: 0.4rem 0.6rem;
   border: 1px solid var(--border); border-bottom: 3px solid var(--border);

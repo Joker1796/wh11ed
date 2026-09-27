@@ -78,7 +78,7 @@ function set(c, bi, ri, n) {
 
 <style scoped>
 .ck {
-  --side: var(--accent);
+  --side: var(--side-you);
   margin-bottom: 0.7rem;
   padding: 0.55rem 0.6rem;
   border: 1px solid var(--border);

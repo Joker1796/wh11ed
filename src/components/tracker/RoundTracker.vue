@@ -1,5 +1,12 @@
 <template>
-  <div class="round-tracker">
+  <!-- The whole game screen wears the colour of the side whose turn it is (owner's call,
+       2026-09-27): --accent is re-pointed at the opponent's blue during their turn (.turn-opp),
+       so every accented control — the tabs, the rounds, the buttons, the ticks — says whose turn
+       it is. The sides themselves keep their own colours (--side-you / --side-opponent). -->
+  <div
+    class="round-tracker"
+    :class="{ 'turn-opp': !isYouSide(current.players[turnIndex], turnIndex) }"
+  >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
          kept always — the phase clock under the rounds is the optional part. -->
     <p class="turn-now">
@@ -879,7 +886,7 @@ function onEndBattle(reason) {
 }
 .players { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; }
 .player {
-  --side: var(--accent);
+  --side: var(--side-you);
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-left: 4px solid var(--side);
@@ -971,6 +978,13 @@ function onEndBattle(reason) {
   .actions-left { gap: 0.4rem; }
 }
 
+/* The opponent's turn: the accent is theirs for the whole screen (see the template). The hover
+   shade follows the same way the theme derives it. */
+.round-tracker.turn-opp {
+  --accent: var(--side-opponent);
+  --accent-hover: color-mix(in srgb, var(--side-opponent) 80%, #000);
+}
+
 /* The headline over the score: round and turn, read at a glance from across the table. */
 /* Inline, not flex: the headline's spans carry their own spaces ("Andronovmy’s turn" has none
    between the name and the rest), and flex items would trim them and space by the gap instead. */
@@ -1042,7 +1056,7 @@ function onEndBattle(reason) {
 .tp-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; text-transform: uppercase; line-height: 1.1; color: var(--text-primary); }
 @media (hover: hover) { .tr-phase:hover, .tr-step:not(:disabled):hover { border-color: var(--accent); } }
 .tr-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tr-end { --side: var(--accent); background: var(--side); border-color: var(--side); color: #fff; }
+.tr-end { --side: var(--side-you); background: var(--side); border-color: var(--side); color: #fff; }
 .tr-end.opp { --side: var(--side-opponent); }
 .tr-btn:disabled { opacity: 0.45; cursor: default; }
 @media (hover: hover) {
@@ -1095,7 +1109,7 @@ function onEndBattle(reason) {
 /* Command points: the two banks side by side, each in its side's colour, one height. */
 .cp-banks { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 .cp-bank {
-  --side: var(--accent);
+  --side: var(--side-you);
   display: flex;
   flex-direction: column;
   gap: 0.45rem;

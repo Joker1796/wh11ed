@@ -390,8 +390,8 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .card {
   padding: 0.55rem 0.6rem 0.6rem;
   border: 1px solid var(--border);
-  border-left: 3px solid var(--side, var(--accent));
-  background: color-mix(in srgb, var(--side, var(--accent)) 4%, var(--bg-card));
+  border-left: 3px solid var(--side, var(--side-you));
+  background: color-mix(in srgb, var(--side, var(--side-you)) 4%, var(--bg-card));
 }
 /* Hand transitions: draws fade/slide in, removed cards fade out in place (absolute, so
    the remaining cards FLIP-slide up via .card-move). */
@@ -404,7 +404,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   flex: 1 1 auto; min-width: 0;
   padding: 0; border: 0; background: none; text-align: left; cursor: pointer;
   font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.1;
-  color: var(--side, var(--accent));
+  color: var(--side, var(--side-you));
 }
 @media (hover: hover) { .card-name:hover { text-decoration: underline; text-underline-offset: 3px; } }
 .card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); flex-shrink: 0; }

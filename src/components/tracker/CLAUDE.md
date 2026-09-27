@@ -148,6 +148,15 @@ back to Missions. What lives where:
 The top is NOT pinned (owner's call, 2026-09-27): the prototype fixes it and scrolls the panel
 inside, which on a 640px phone leaves about half the screen for the game.
 
+## The turn's colour
+
+The whole game screen wears the colour of the side on turn: `RoundTracker`'s root takes `.turn-opp`
+during the opponent's turn, which re-points `--accent` (and `--accent-hover`) at `--side-opponent`,
+so every accented control follows. The SIDES keep their own colours through it — which is why
+every "your side" colour in the tracker reads `--side-you` (style.css), never `--accent`: an
+`--accent` read there turned your own card blue on the opponent's turn. Dialogs teleport to
+`<body>`, outside the screen, and keep the site accent.
+
 ## The missions panel
 
 **One side first, the other folded.** First comes whose turn it is — or, in a shared game, this

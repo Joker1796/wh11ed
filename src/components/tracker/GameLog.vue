@@ -200,7 +200,7 @@ async function copy() {
 }
 .gl-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); background: var(--bg-card); }
 .gl-item {
-  --side: var(--accent);
+  --side: var(--side-you);
   display: flex; flex-wrap: wrap; gap: 0 0.4rem;
   padding: 0.45rem 0.65rem; border-top: 1px solid var(--border-light);
   font-size: 0.86rem; line-height: 1.4;

@@ -145,7 +145,7 @@ function toggle() {
 .pr-body { padding: 0 0.6rem 0.6rem; }
 .pr-side + .pr-side { margin-top: 0.6rem; }
 /* Each side's heading in its colour — the same you / opponent colours as the score cards. */
-.pr-side { --side: var(--accent); }
+.pr-side { --side: var(--side-you); }
 .pr-side.opp { --side: var(--side-opponent); }
 .pr-who {
   margin: 0 0 0.2rem;
