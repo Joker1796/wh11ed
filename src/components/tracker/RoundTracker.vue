@@ -17,6 +17,38 @@
          back by the side that ended it: the button stays on screen for the other phone, greyed,
          with the reason on the line under the pair. The last turn of the game has nowhere to
          go, so there the forward button finishes the game instead. -->
+    <!-- The rounds and, at the end of the same row, finishing the game early: one row of
+         navigation rather than a big button of its own, right under the score and above the turn
+         buttons (owner's call, 2026-09-27). A shared game's sync state rides here
+         too — a row of its own would cost vertical space the phone does not have (it renders
+         nothing for a game that is not shared). -->
+    <div class="round-bar">
+      <div class="rb-rounds">
+        <!-- A step is a VIEW, not a move: a past round opens for correction (the game stays
+             where it is — only End/Undo turn move it), the live one comes back, a round not yet
+             started is not there to open. -->
+        <button
+          v-for="n in ROUND_COUNT"
+          :key="n"
+          class="rb-round"
+          :class="{ on: shownRound === n, live: current.currentRound === n }"
+          :disabled="n > current.currentRound"
+          :aria-label="`${labels.trackerRound} ${n}`"
+          :aria-current="current.currentRound === n ? 'step' : undefined"
+          @click="viewRound = n === current.currentRound ? null : n"
+        >
+          {{ n }}
+        </button>
+      </div>
+      <button
+        class="rb-finish"
+        @click="endModalOpen = true"
+      >
+        {{ labels.trackerFinish }}
+      </button>
+      <SyncIndicator />
+    </div>
+
     <!-- With the phase clock on, the phase joins this row (owner's call, 2026-09-27): undo turn as
          an icon, the phase arrows, the phase itself (tap → any phase of either turn), and End turn.
          The arrows stay INSIDE the turn — they stop at Command and at Fight — so a turn changes only
@@ -95,7 +127,7 @@
         :title="endTurnLabel"
         @click="requestEndTurn()"
       >
-        <span class="tr-label">{{ endTurnLabel }}</span>
+        <span class="tr-label">{{ labels.trackerEndTurnPlain }}</span>
       </button>
       <button
         v-else
@@ -109,36 +141,6 @@
       {{ nextLine }}
     </p>
 
-    <!-- The rounds and, at the end of the same row, finishing the game early: one row of
-         navigation rather than a big button of its own. A shared game's sync state rides here
-         too — a row of its own would cost vertical space the phone does not have (it renders
-         nothing for a game that is not shared). -->
-    <div class="round-bar">
-      <div class="rb-rounds">
-        <!-- A step is a VIEW, not a move: a past round opens for correction (the game stays
-             where it is — only End/Undo turn move it), the live one comes back, a round not yet
-             started is not there to open. -->
-        <button
-          v-for="n in ROUND_COUNT"
-          :key="n"
-          class="rb-round"
-          :class="{ on: shownRound === n, live: current.currentRound === n }"
-          :disabled="n > current.currentRound"
-          :aria-label="`${labels.trackerRound} ${n}`"
-          :aria-current="current.currentRound === n ? 'step' : undefined"
-          @click="viewRound = n === current.currentRound ? null : n"
-        >
-          {{ n }}
-        </button>
-      </div>
-      <button
-        class="rb-finish"
-        @click="endModalOpen = true"
-      >
-        {{ labels.trackerFinish }}
-      </button>
-      <SyncIndicator />
-    </div>
 
     <PhasePickerModal
       v-if="phasePickerOpen"
@@ -813,7 +815,7 @@ function onEndBattle(reason) {
   display: flex;
   align-items: stretch;
   gap: 0.3rem;
-  margin: 0.6rem 0 0.75rem;
+  margin: 0.6rem 0 0;
 }
 .rb-rounds { display: flex; gap: 0.3rem; flex: 1 1 auto; min-width: 0; }
 .rb-round {
@@ -987,7 +989,7 @@ function onEndBattle(reason) {
 }
 .tn-strong { font-weight: 700; color: var(--text-primary); }
 /* Back and forward by a turn: two equal halves. Forward wears the colour of the side on turn. */
-.turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin: 0.6rem 0 0; }
+.turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin: 0.45rem 0 0; }
 /* With phases: undo · ‹ · the phase · › · end. */
 .turn-row.phased { grid-template-columns: 42px 34px minmax(0, 1fr) 34px auto; gap: 0.3rem; }
 .tr-btn {
@@ -1027,7 +1029,7 @@ function onEndBattle(reason) {
   .tr-prev:not(:disabled):hover { border-color: var(--accent); }
   .tr-end:not(:disabled):hover { background: color-mix(in srgb, var(--side) 85%, #000); }
 }
-.tf-next { margin: 0.35rem 0 0; text-align: center; font-size: 0.82rem; color: var(--text-dim); }
+.tf-next { margin: 0.35rem 0 0.7rem; text-align: center; font-size: 0.82rem; color: var(--text-dim); }
 
 /* The working area's tabs: one strip, joined, on a line in the accent — the active tab is filled
    with it and so reads as part of the line it stands on, attached to the panel under it. */

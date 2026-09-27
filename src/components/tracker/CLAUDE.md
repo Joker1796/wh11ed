@@ -101,8 +101,9 @@ live board — the gold edge and "Tied" belong to the result screen.
 
 ## The game screen's layout (`RoundTracker.vue`)
 
-Top to bottom: headline, score cards, the turn row, the rounds row (steps 1–5 with **Finish game**
-at its end and the sync indicator), then the **tabs**. **With the phase clock on** (`trackPhases`)
+Top to bottom: headline, score cards, the rounds row (steps 1–5 with **Finish game** at its end and
+the sync indicator), the turn row (**End turn** says just that — the name is in the headline and
+its tooltip), who plays next, then the **tabs**. **With the phase clock on** (`trackPhases`)
 the phase lives in the turn row itself (owner's call, 2026-09-27): undo turn as an icon, ‹, the
 phase (tap → the phase picker), ›, End turn. The arrows stop at Command and at Fight — a turn
 changes only by End / Undo turn, so never past the end-of-turn check. The reminder ("in this
