@@ -1,0 +1,54 @@
+// When a mission's condition is scored — read from the mission itself, never guessed.
+//
+// Every scoring block of a primary or secondary card carries its moment in English in `when`
+// ("End of your turn", "End of your opponent's turn or the end of the fifth battle round …");
+// the End of Battle blocks carry it in the heading instead. There are only a handful of such
+// phrasings, so they are listed here one by one, and `missionTiming.test.js` fails the day the
+// data holds one this table does not know — an unknown moment must be a failing test, not a
+// row that silently stays unlocked (or locked) in the wrong turn. Mikhail's prototype matched
+// the English text with regexes and kept a hand list of four "opponent's turn" cards; that is
+// exactly what this replaces.
+//
+// Moments:
+//   'your-command' — the end of the owner's Command phase
+//   'your-turn'    — the end of the owner's turn
+//   'opp-turn'     — the end of the owner's OPPONENT's turn
+//   'any-turn'     — the end of either player's turn
+//   'active'       — any time while the card is active
+//   'end-battle'   — the end of the battle (fifth round only, by its heading)
+// `fallback: 'r5'` — "… or the end of the fifth battle round (whichever comes first)" /
+// "(or the end of your turn in the fifth battle round)": in round 5 the moment can also come at
+// the end of the round itself, whoever's turn closes it.
+
+const WHEN = {
+  'End of your turn': { at: 'your-turn' },
+  'End of your Command phase': { at: 'your-command' },
+  'End of your Command phase (or the end of your turn in the fifth battle round)': { at: 'your-command', fallback: 'r5' },
+  "End of your opponent's turn": { at: 'opp-turn' },
+  "End of your opponent's turn or the end of the fifth battle round (whichever comes first)": { at: 'opp-turn', fallback: 'r5' },
+  'End of a turn': { at: 'any-turn' },
+  "End of either player's turn": { at: 'any-turn' },
+  'While this card is active': { at: 'active' },
+}
+
+// The moment of one ENGLISH block ({ heading, when }), or null for a phrasing not in the table.
+export function scoringMoment(block) {
+  if (!block) return null
+  if (block.heading === 'End of Battle' && !block.when) return { at: 'end-battle' }
+  return WHEN[block.when] || null
+}
+
+// Can a condition with this moment be ticked right now? Only one thing is refused, and it is
+// the one mistake the timing makes likely: scoring an "end of your opponent's turn" condition
+// during your OWN turn, when that moment cannot have come. Everything else stays open — a
+// condition scored at the end of your turn may well be ticked a moment after the turn passed —
+// and so does any round other than the live one: a past round is being corrected after the
+// fact, and correction is never refused.
+//   ctx = { pi, turn, round, liveRound, lastTurn } — the owner, whose turn it is, the round
+//   being scored and the live one, and whether this turn is the last of the battle.
+export function lockedNow(moment, ctx) {
+  if (!moment || ctx.round !== ctx.liveRound) return false
+  if (moment.at !== 'opp-turn' || ctx.turn !== ctx.pi) return false
+  // "… or the end of the fifth battle round": the owner's own turn that closes round 5 is it.
+  return !(moment.fallback === 'r5' && ctx.lastTurn)
+}

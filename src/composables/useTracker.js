@@ -321,6 +321,14 @@ if (typeof window !== 'undefined') {
   })
 }
 
+// How a secondary came into the hand — 'random' (off the deck) or 'chosen' (picked by hand); the
+// card shows it (🎲 / ✋). Kept per slug in `secondary.source`; absent on older games, where a
+// card simply shows no mark.
+function markSource(s, slug, how) {
+  if (!s.source) s.source = {}
+  s.source[slug] = how
+}
+
 function shuffle(arr) {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -784,6 +792,7 @@ export function useTracker() {
     s.hand.push(slug)
     if (!s.drawn) s.drawn = {}
     s.drawn[slug] = current.value.currentRound
+    markSource(s, slug, 'random')
   }
 
   // Pick a specific card from the deck instead of drawing at random.
@@ -795,6 +804,7 @@ export function useTracker() {
     s.hand.push(slug)
     if (!s.drawn) s.drawn = {}
     s.drawn[slug] = current.value.currentRound
+    markSource(s, slug, 'chosen')
   }
 
   // Return a card to the deck — a full undo: drop it from hand/discarded, wipe any VP
@@ -805,6 +815,7 @@ export function useTracker() {
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
     s.scored = s.scored.filter(e => e.slug !== slug)
     if (s.drawn) delete s.drawn[slug]
+    if (s.source) delete s.source[slug]
     if (!s.deck.includes(slug)) s.deck.push(slug)
   }
 
@@ -841,6 +852,7 @@ export function useTracker() {
     s.scored = s.scored.filter(e => e.slug !== slug)
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
     if (s.drawn) delete s.drawn[slug]
+    if (s.source) delete s.source[slug]
     if (mode === 'shuffle' && !s.deck.includes(slug)) s.deck.push(slug)
     drawSecondary(pi)
   }
@@ -863,9 +875,12 @@ export function useTracker() {
   }
 
   // Record how many times a given scoring row was achieved this round.
-  function scoreSecondaryRow(pi, slug, blockIdx, rowIdx, count) {
+  // `round` defaults to the live one; a past round is scored when the player corrects it after
+  // the fact (the round steps on the game screen). A tactical card still in hand that turns out
+  // to have been achieved in a past round is achieved — it leaves the hand, as it would have at
+  // the end of that turn (setAsideAchieved).
+  function scoreSecondaryRow(pi, slug, blockIdx, rowIdx, count, round = current.value.currentRound) {
     const s = current.value.players[pi].secondary
-    const round = current.value.currentRound
     let entry = s.scored.find(e => e.slug === slug && e.round === round)
     if (!entry) { entry = { slug, round, picks: {}, vp: 0 }; s.scored.push(entry) }
     if (!entry.picks) entry.picks = {}
@@ -876,10 +891,10 @@ export function useTracker() {
       for (const k of orSiblingKeys(m, blockIdx, rowIdx)) delete entry.picks[k]
     }
     entry.vp = entryVp(pi, entry)
+    if (round < current.value.currentRound && entry.vp > 0) setAsideAchieved(round, [pi])
   }
 
-  function secondaryRowCount(pi, slug, blockIdx, rowIdx) {
-    const round = current.value.currentRound
+  function secondaryRowCount(pi, slug, blockIdx, rowIdx, round = current.value.currentRound) {
     const entry = current.value.players[pi].secondary.scored.find(e => e.slug === slug && e.round === round)
     return entry && entry.picks ? (entry.picks[`${blockIdx}:${rowIdx}`] || 0) : 0
   }
@@ -890,6 +905,85 @@ export function useTracker() {
     return entry ? entry.vp || 0 : 0
   }
 
+  // "Achieving Secondary Missions" (Event Companion): at the end of EACH player's turn, a
+  // tactical card whose conditions were met is discarded — it is achieved. So a card that has
+  // scored in `upTo` or earlier leaves the hand, keeping its VP, recorded against the round it
+  // was last active in (`upTo`), so that round still shows it and the next does not. Runs at the
+  // end of every turn (endTurn) and when a past round is corrected into an achievement.
+  // At a turn's end the entry remembers that turn (`auto`: 0 | 1), so undoTurn can put exactly
+  // those cards back in hand — and not a card the player set aside by hand.
+  function setAsideAchieved(upTo, sides = [0, 1], atTurn = null) {
+    for (const pi of sides) {
+      const pl = current.value.players[pi]
+      if (!pl || pl.secondaryMode !== 'tactical') continue
+      const s = pl.secondary
+      const achieved = new Set(s.scored.filter(e => (e.vp || 0) > 0 && e.round <= upTo).map(e => e.slug))
+      for (const slug of [...s.hand]) {
+        if (!achieved.has(slug)) continue
+        s.hand = s.hand.filter(x => x !== slug)
+        if (s.discarded.some(d => (d.slug ?? d) === slug)) continue
+        s.discarded.push(atTurn == null ? { slug, round: upTo } : { slug, round: upTo, auto: atTurn })
+      }
+    }
+  }
+
+  // ── Taking the turn's two secondaries (tactical) ──────────────────────────────────────────
+  // "At the start of your Command phase, draw two Secondary Missions" — once per own turn, so
+  // once per round per side. `secondary.took[round]` records that it was done and how: 'random'
+  // (two off the shuffled deck) or 'chosen' (two picked by hand). One way for both cards, as in
+  // Mikhail's prototype. After that the hand changes only through a card's own rule (WHEN
+  // DRAWN), the once-per-battle 1CP replacement or the end-of-turn discard. A random draw is
+  // written at once, so reopening the dialog cannot re-roll it.
+  const TAKE_COUNT = 2
+  function tookSecondaries(pi, round = current.value.currentRound) {
+    const s = current.value.players[pi]?.secondary
+    if (!s) return null
+    if (s.took?.[round]) return s.took[round]
+    // A game from before `took` existed: two cards that came in this round are the same fact.
+    const drawn = s.drawn || {}
+    return Object.values(drawn).filter(r => r === round).length >= TAKE_COUNT ? 'legacy' : null
+  }
+  function canTakeSecondaries(pi) {
+    const g = current.value
+    const pl = g?.players?.[pi]
+    return !!pl && g.phase === 'playing' && pl.secondaryMode === 'tactical'
+      && (g.currentTurn === 1 ? 1 : 0) === pi && !tookSecondaries(pi) && pl.secondary.deck.length > 0
+  }
+  function markTook(pi, how) {
+    const s = current.value.players[pi].secondary
+    if (!s.took) s.took = {}
+    s.took[current.value.currentRound] = how
+  }
+  function takeRandomSecondaries(pi) {
+    if (!canTakeSecondaries(pi)) return
+    for (let k = 0; k < TAKE_COUNT; k++) drawSecondary(pi)
+    markTook(pi, 'random')
+  }
+  function takeChosenSecondaries(pi, slugs) {
+    if (!canTakeSecondaries(pi)) return
+    const deck = current.value.players[pi].secondary.deck
+    const pick = [...new Set(slugs)].filter(x => deck.includes(x))
+    if (pick.length !== Math.min(TAKE_COUNT, deck.length)) return
+    for (const slug of pick) drawSpecificSecondary(pi, slug)
+    markTook(pi, 'chosen')
+  }
+  // Take the turn's two back (a mis-tap): only while neither has scored or been replaced.
+  function canUntakeSecondaries(pi) {
+    const g = current.value
+    const s = g?.players?.[pi]?.secondary
+    const how = s?.took?.[g.currentRound]
+    if (!how) return false
+    const mine = Object.entries(s.drawn || {}).filter(([, r]) => r === g.currentRound).map(([slug]) => slug)
+    return mine.length > 0 && mine.every(slug => s.hand.includes(slug) && !s.scored.some(e => e.slug === slug && (e.vp || 0) > 0))
+  }
+  function untakeSecondaries(pi) {
+    if (!canUntakeSecondaries(pi)) return
+    const g = current.value
+    const s = g.players[pi].secondary
+    for (const [slug, r] of Object.entries(s.drawn || {})) if (r === g.currentRound) returnSecondaryToDeck(pi, slug)
+    delete s.took[g.currentRound]
+  }
+
   function goToRound(n) {
     const target = Math.max(1, Math.min(ROUND_COUNT, n))
     const leaving = current.value.currentRound
@@ -897,21 +991,7 @@ export function useTracker() {
     // automatically (keeps its VP, won't be redrawn) — the player draws a fresh one.
     // It is recorded against the round being LEFT (its last active round), so it shows
     // there but not in the new round.
-    if (target > leaving) {
-      for (const pl of current.value.players) {
-        if (pl.secondaryMode !== 'tactical') continue
-        const s = pl.secondary
-        const scoredEarlier = new Set(
-          s.scored.filter(e => (e.vp || 0) > 0 && e.round < target).map(e => e.slug)
-        )
-        for (const slug of [...s.hand]) {
-          if (scoredEarlier.has(slug)) {
-            s.hand = s.hand.filter(x => x !== slug)
-            if (!s.discarded.some(d => (d.slug ?? d) === slug)) s.discarded.push({ slug, round: leaving })
-          }
-        }
-      }
-    }
+    if (target > leaving) setAsideAchieved(leaving, [0, 1], current.value.currentTurn === 1 ? 1 : 0)
     current.value.currentRound = target
     // A new round starts at the first-turn player's Command phase. A phase left over from the
     // round you just left would read as "now", and it isn't. stepPhase() writes the clock AFTER
@@ -978,6 +1058,7 @@ export function useTracker() {
     if (g.currentTurn === 1) {
       goToRound(g.currentRound + 1)
     } else {
+      setAsideAchieved(g.currentRound, [0, 1], 0)
       g.currentTurn = 1
       g.currentPhase = BATTLE_PHASES[0]
     }
@@ -998,6 +1079,14 @@ export function useTracker() {
     const wasFirst = g.currentTurn !== 1
     if (wasFirst) goToRound(g.currentRound - 1)
     g.currentTurn = wasFirst ? 1 : 0
+    // The cards that turn's end set aside as achieved go back in hand: the turn is not over.
+    for (const pl of g.players) {
+      const s = pl.secondary
+      const back = (s.discarded || []).filter(d => d.auto === g.currentTurn && d.round === g.currentRound)
+      if (!back.length) continue
+      s.discarded = s.discarded.filter(d => !back.includes(d))
+      for (const d of back) if (!s.hand.includes(d.slug)) s.hand.push(d.slug)
+    }
     g.currentPhase = BATTLE_PHASES[BATTLE_PHASES.length - 1]
   }
 
@@ -1156,6 +1245,7 @@ export function useTracker() {
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
+    tookSecondaries, canTakeSecondaries, takeRandomSecondaries, takeChosenSecondaries, canUntakeSecondaries, untakeSecondaries,
     restoreSecondaryToHand, redrawSecondary,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,

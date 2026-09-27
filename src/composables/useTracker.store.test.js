@@ -873,3 +873,92 @@ describe('lobby', () => {
     expect(tracker.history.value[0].phase).toBe('finished')
   })
 })
+
+describe('taking the turn\'s two secondaries', () => {
+  const sec = (pi) => tracker.current.value.players[pi].secondary
+
+  it('draws two at random once per own turn, marks them 🎲, and refuses the other side', () => {
+    tracker.newGame(setupGame())
+    expect(tracker.canTakeSecondaries(1)).toBe(false) // not their turn
+    tracker.takeRandomSecondaries(0)
+    expect(sec(0).hand).toHaveLength(2)
+    expect(sec(0).hand.map(slug => sec(0).source[slug])).toEqual(['random', 'random'])
+    expect(tracker.tookSecondaries(0)).toBe('random')
+    tracker.takeRandomSecondaries(0) // a second time in the same turn does nothing
+    expect(sec(0).hand).toHaveLength(2)
+  })
+
+  it('takes exactly two chosen ones, marks them ✋, and can put them back while unscored', () => {
+    tracker.newGame(setupGame())
+    const [a, b] = sec(0).deck
+    tracker.takeChosenSecondaries(0, [a]) // one is not two
+    expect(sec(0).hand).toHaveLength(0)
+    tracker.takeChosenSecondaries(0, [a, b])
+    expect(sec(0).hand).toEqual([a, b])
+    expect(sec(0).source[a]).toBe('chosen')
+    expect(tracker.canUntakeSecondaries(0)).toBe(true)
+    tracker.scoreSecondaryRow(0, a, 0, 0, 1)
+    expect(tracker.canUntakeSecondaries(0)).toBe(false)
+    tracker.scoreSecondaryRow(0, a, 0, 0, 0)
+    tracker.untakeSecondaries(0)
+    expect(sec(0).hand).toEqual([])
+    expect(sec(0).deck).toContain(a)
+    expect(tracker.canTakeSecondaries(0)).toBe(true)
+  })
+
+  it('reads an older game with two cards drawn this round as already taken', () => {
+    tracker.newGame(setupGame())
+    tracker.drawSecondary(0)
+    tracker.drawSecondary(0)
+    delete sec(0).took
+    expect(tracker.tookSecondaries(0)).toBe('legacy')
+    expect(tracker.canTakeSecondaries(0)).toBe(false)
+  })
+})
+
+describe('achieved secondaries leave the hand at the end of each turn', () => {
+  const sec = (pi) => tracker.current.value.players[pi].secondary
+  // A row whose VP is a plain number, so a tick scores it.
+  function scorableRow(pi, slug) {
+    const blocks = mod.scorableBlocks(slug, tracker.current.value.players[pi].role, tracker.current.value.currentRound)
+    const b = blocks.find(x => x.kind === 'tactical' && x.rows.some(r => mod.numericVp(r.vp) > 0))
+    return [b.bi, b.rows.findIndex(r => mod.numericVp(r.vp) > 0)]
+  }
+
+  it('sets an achieved card aside when its turn ends, and Undo turn puts it back', () => {
+    tracker.newGame(setupGame())
+    tracker.takeRandomSecondaries(0)
+    const [a, b] = sec(0).hand
+    const [bi, ri] = scorableRow(0, a)
+    tracker.scoreSecondaryRow(0, a, bi, ri, 1)
+    tracker.endTurn()
+    expect(sec(0).hand).toEqual([b])
+    expect(sec(0).discarded).toEqual([{ slug: a, round: 1, auto: 0 }])
+    tracker.undoTurn()
+    expect(sec(0).hand).toEqual([b, a])
+    expect(sec(0).discarded).toEqual([])
+  })
+
+  it('a card set aside by hand stays set aside through Undo turn', () => {
+    tracker.newGame(setupGame())
+    tracker.takeRandomSecondaries(0)
+    const [a] = sec(0).hand
+    tracker.discardFromHand(0, a)
+    tracker.endTurn()
+    tracker.undoTurn()
+    expect(sec(0).hand).not.toContain(a)
+  })
+
+  it('a past round corrected into an achievement takes the card out of the hand', () => {
+    tracker.newGame(setupGame())
+    tracker.takeRandomSecondaries(0)
+    const [a] = sec(0).hand
+    tracker.endTurn()
+    tracker.endTurn() // round 2
+    const [bi, ri] = scorableRow(0, a)
+    tracker.scoreSecondaryRow(0, a, bi, ri, 1, 1)
+    expect(sec(0).hand).not.toContain(a)
+    expect(tracker.secondaryCardVp(0, a, 1)).toBeGreaterThan(0)
+    expect(sec(0).discarded.find(d => d.slug === a).round).toBe(1)
+  })
+})
