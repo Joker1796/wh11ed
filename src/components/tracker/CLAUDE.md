@@ -116,7 +116,9 @@ width, and the word on screen is always where you are. Missions `bi-bullseye`, C
 Phase `bi-hourglass-split` (with its count in the corner). The strip stands on a 2px accent line;
 the open tab is filled with the accent, so it reads as attached to the panel. One panel at a time;
 **every new turn opens on Missions** (a watch on round + turn), because a turn starts by drawing and
-scoring. The CP tab exists only while the game tracks CP (`trackCP`); switched off mid-game it falls
+scoring. The open tab is **remembered on the device** (`wh11ed-tracker-tab`, with the game id, round and
+turn): leave for a datasheet and come back in the same turn — the same tab; the turn moved meanwhile
+— Missions. The CP tab exists only while the game tracks CP (`trackCP`); switched off mid-game it falls
 back to Missions. What lives where:
 
 - **Missions** — the twist reminder and one card per side: primary, secondaries, the army-rule

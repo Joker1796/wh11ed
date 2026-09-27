@@ -567,6 +567,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel, BATTLE_PHASES } from '../../composables/stratagemPhases.js'
 import { usePhaseRules } from '../../composables/usePhaseRules.js'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { blockLocked, turnEndChecks } from '../../composables/missionTiming.js'
 import { bonusIn } from '../../composables/cpLedger.js'
@@ -623,6 +624,19 @@ watch(() => [current.value.currentRound, current.value.currentTurn], () => {
   viewRound.value = null
   showOther.value = false
 })
+
+// The open tab survives leaving the game screen — a look at a datasheet, the rules, the roster —
+// and coming back (owner's call, 2026-09-27). Kept on this device with the game and the turn it
+// was open in: back in the same turn, the same tab; the turn moved meanwhile (another phone ended
+// it), the missions, as at the start of any turn. A tab this game no longer offers (CP or the
+// phase reminder switched off) falls back to the missions too.
+const TAB_KEY = 'wh11ed-tracker-tab'
+const clockKey = () => `${current.value.id}|${current.value.currentRound}|${current.value.currentTurn === 1 ? 1 : 0}`
+try {
+  const saved = JSON.parse(getItem(TAB_KEY) || 'null')
+  if (saved?.at === clockKey() && tabs.value.some((t) => t.id === saved.tab)) tab.value = saved.tab
+} catch { /* an unreadable entry is just no memory */ }
+watch([tab, clockKey], () => setItem(TAB_KEY, JSON.stringify({ at: clockKey(), tab: tab.value })))
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)

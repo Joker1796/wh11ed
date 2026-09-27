@@ -349,3 +349,14 @@ describe('RoundTracker — a shared game', () => {
     expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
   })
 })
+
+describe('RoundTracker — the open tab is remembered', () => {
+  it('comes back to the same tab in the same turn, and to the missions after the turn moved', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    const w = await openTab(mountTracker(), 'CP')
+    w.unmount() // off to another screen…
+    expect(mountTracker().find('.gt-tab.on').attributes('aria-label')).toBe('CP') // …and back
+    tracker.endTurn() // the turn moved while away
+    expect(mountTracker().find('.gt-tab.on').attributes('aria-label')).toBe('Missions')
+  })
+})
