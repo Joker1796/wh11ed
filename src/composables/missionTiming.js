@@ -62,3 +62,42 @@ export function blockLocked(game, pi, round, enBlock) {
     lastTurn: game.currentRound === 5 && turn === 1,
   })
 }
+
+// What is scored at the moment a turn ends, beyond the side on turn's own cards — the check the
+// game screen shows before End turn (Mikhail's prototype: "Check Secondary Missions"). The cards
+// scored at "the end of your opponent's turn" belong to the OTHER side, whose own screen is not
+// in front of anyone right then, so they are the ones forgotten. On the turn that closes the
+// battle it adds every End of Battle condition, both sides' primaries included, and the "… or
+// the end of the fifth battle round" cards of the side on turn.
+//   game — the live game; `scorable(slug, role, round)` — useTracker's scorableBlocks, bound to
+//   the locale by the caller (this module stays free of the heavy mission data).
+// Returns [{ pi, slug | null (the primary), blocks }], each with only the blocks that score now.
+export function turnEndChecks(game, scorable, missionEn) {
+  if (!game || game.phase !== 'playing') return []
+  const R = game.currentRound
+  const T = game.currentTurn === 1 ? 1 : 0
+  const last = R === 5 && T === 1
+  const out = []
+  const pick = (pi, slug, role, keep) => {
+    const pl = game.players[pi]
+    const en = missionEn(slug, role)
+    const blocks = scorable(slug, role, R).filter((b) => {
+      if (role && pl.secondaryMode && b.kind && b.kind !== pl.secondaryMode) return false
+      return keep(scoringMoment(en?.blocks[b.bi]))
+    })
+    if (blocks.length) out.push({ pi, slug: role ? slug : null, blocks })
+  }
+  game.players.forEach((pl, pi) => {
+    const opp = pi !== T
+    for (const slug of pl.secondary?.hand || []) {
+      pick(pi, slug, pl.role, (m) => {
+        if (!m) return false
+        if (m.at === 'end-battle') return last
+        if (m.at === 'opp-turn') return opp || (last && m.fallback === 'r5')
+        return false
+      })
+    }
+    if (last && pl.primarySlug) pick(pi, pl.primarySlug, null, (m) => m?.at === 'end-battle')
+  })
+  return out
+}

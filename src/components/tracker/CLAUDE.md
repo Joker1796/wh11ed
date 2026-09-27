@@ -156,6 +156,18 @@ own rule — WHEN DRAWN, set aside, return to deck, in the card's "⋯" sheet. T
 "Achieving Secondary Missions"), not only when the round changes. The entry remembers the turn
 (`discarded[].auto`), and **Undo turn puts exactly those cards back** — never one set aside by hand.
 
+## Ending a turn — the check first (`TurnEndCheckModal`, `missionTiming.turnEndChecks`)
+
+End turn (and the last turn's Finish, and the end-of-turn discard from a card's sheet, which
+`SecondaryDeck` sends up through `inject('requestEndTurn')`) first asks
+`turnEndChecks`: what scores at this very moment on cards nobody is looking at — the OTHER side's
+"end of your opponent's turn" secondaries, and on the battle's last turn every End of Battle
+condition (both primaries) plus the side on turn's "… or the end of the fifth battle round" cards.
+Nothing to check → the turn passes at once. Otherwise the dialog shows those rows to tick (a side
+another phone plays is shown, not scored) and "Checked · end turn" passes it; on the last turn it
+goes on to `GameEndModal`. Mikhail's prototype had the same step, with the four "opponent's turn"
+cards listed by hand; here the data's own timing decides.
+
 ## Command points — a ledger (`cpLedger.js`)
 
 `player.cp` is still the balance every reader uses (score cards, broadcast, history), but a game

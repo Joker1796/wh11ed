@@ -36,14 +36,14 @@
         :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
         :disabled="!canEdit(turnIndex)"
         :title="endTurnLabel"
-        @click="endTurn"
+        @click="requestEndTurn()"
       >
         <span class="tr-label">{{ endTurnLabel }}</span>
       </button>
       <button
         v-else
         class="tr-btn tr-end"
-        @click="endModalOpen = true"
+        @click="requestEndTurn()"
       >
         <span class="tr-label">{{ labels.trackerFinish }}</span>
       </button>
@@ -514,6 +514,15 @@
       </div>
     </div>
 
+    <TurnEndCheckModal
+      v-if="pendingEnd"
+      :checks="turnChecks"
+      :names="current.players.map((_, i) => playerName(i))"
+      :final="pendingEnd.final"
+      :confirm-label="pendingEnd.final ? labels.trackerCheckGoFinal : labels.trackerCheckGo"
+      @confirm="confirmEnd"
+      @close="pendingEnd = null"
+    />
     <GameEndModal
       v-if="endModalOpen"
       @confirm="onEndBattle"
@@ -535,7 +544,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, provide } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
@@ -545,6 +554,7 @@ import ScoreRows from './ScoreRows.vue'
 import CpStratagems from './CpStratagems.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
+import TurnEndCheckModal from './TurnEndCheckModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
 import BroadcastModal from './BroadcastModal.vue'
 import PartyModal from './PartyModal.vue'
@@ -557,7 +567,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { blockLocked } from '../../composables/missionTiming.js'
+import { blockLocked, turnEndChecks } from '../../composables/missionTiming.js'
 import { bonusIn } from '../../composables/cpLedger.js'
 import { useTracker, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
@@ -566,7 +576,7 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, primaryTotal, setCp, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, primaryTotal, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
 
 // Read through `tracks` so a game saved before the option existed arrives with its default
 // rather than undefined.
@@ -687,6 +697,34 @@ function bonusSource(i) {
   if (!b) return labels.value.trackerBonusFree
   return b.source === 'discard' ? labels.value.trackerBonusFromDiscard : labels.value.trackerBonusFromManual
 }
+
+// Ending a turn goes through a check: what scores at this moment on cards nobody is looking at
+// (the other side's "end of your opponent's turn" secondaries; on the battle's last turn every End
+// of Battle condition — missionTiming.turnEndChecks). Nothing to check, nothing shown. The end-of-
+// turn discard from a card's sheet comes through here too (provided to SecondaryDeck), so its
+// turn ends the same way. The last turn goes on to how the game ended (GameEndModal).
+const turnChecks = computed(() => turnEndChecks(
+  current.value,
+  (slug, role, round) => scorableBlocks(slug, role, round, locale.value),
+  (slug, role) => missionBySlug(slug, role),
+))
+const pendingEnd = ref(null) // { final, discard?: { pi, slug } }
+function requestEndTurn(opts = {}) {
+  const end = { final: !canEndTurn(), ...opts }
+  if (turnChecks.value.length) pendingEnd.value = end
+  else finishTurn(end)
+}
+function confirmEnd() {
+  const end = pendingEnd.value
+  pendingEnd.value = null
+  finishTurn(end)
+}
+function finishTurn({ final, discard }) {
+  if (discard) endTurnDiscard(discard.pi, discard.slug)
+  else if (!final) endTurn()
+  if (final) endModalOpen.value = true
+}
+provide('requestEndTurn', requestEndTurn)
 
 function onPickPhase(turn, phase) {
   goToPhase(turn, phase)

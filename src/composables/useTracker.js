@@ -1161,7 +1161,8 @@ export function useTracker() {
 
   // ── The end-of-turn discard: "if it is your turn … you can discard one or more active
   // Secondary Mission cards. If you do, you gain 1CP" — the round's bonus point, if it is still
-  // free. It happens at the END of the turn, so it ends the turn. The card remembers the turn and
+  // free. It happens at the END of the turn, so it ends the turn (the game screen first shows the
+  // turn-end check, missionTiming.turnEndChecks, as for End turn). The card remembers the turn and
   // that it gained CP (`auto`, `cp`), so Undo turn gives both back (settleSide).
   function canEndTurnDiscard(pi) {
     const g = current.value
@@ -1176,8 +1177,8 @@ export function useTracker() {
     const gained = gainBonusCp(pi, 'discard', slug)
     s.hand = s.hand.filter(x => x !== slug)
     s.discarded.push({ slug, round: g.currentRound, auto: g.currentTurn === 1 ? 1 : 0, ...(gained ? { cp: true } : {}) })
+    // The last turn of the battle has no next turn: the game screen goes on to finishing it.
     if (canEndTurn()) endTurn()
-    else finishGame('played')
   }
 
   function goToRound(n) {

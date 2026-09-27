@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { missions } from '../data/missions.js'
-import { scoringMoment, lockedNow } from './missionTiming.js'
+import { scoringMoment, lockedNow, turnEndChecks } from './missionTiming.js'
 
 // The gate: every scoring block of every card has a known moment. A new phrasing in the data
 // (an erratum, a new mission pack) fails here instead of scoring in the wrong turn.
@@ -46,5 +46,33 @@ describe('missionTiming — lockedNow', () => {
 
   it('never refuses a correction to a past round', () => {
     expect(lockedNow(opp, { round: 1, liveRound: 2, lastTurn: false, pi: 0, turn: 0 })).toBe(false)
+  })
+})
+
+describe('turnEndChecks', () => {
+  // A tiny stand-in for the mission data: slug → EN blocks; scorable returns them with bi.
+  const MISSIONS = {
+    beacon: [{ heading: 'Any Battle Round', when: "End of your opponent's turn or the end of the fifth battle round (whichever comes first)", kind: 'tactical' }],
+    mine: [{ heading: 'Any Battle Round', when: 'End of your turn', kind: 'tactical' }],
+    prim: [{ heading: 'Any Battle Round', when: 'End of your turn' }, { heading: 'End of Battle', when: '' }],
+  }
+  const missionEn = (slug) => ({ blocks: MISSIONS[slug] })
+  const scorable = (slug) => MISSIONS[slug].map((b, bi) => ({ ...b, bi, rows: [] }))
+  const game = (round, turn) => ({
+    phase: 'playing', currentRound: round, currentTurn: turn,
+    players: [
+      { role: 'attacker', secondaryMode: 'tactical', primarySlug: 'prim', secondary: { hand: ['beacon', 'mine'] } },
+      { role: 'defender', secondaryMode: 'tactical', primarySlug: 'prim', secondary: { hand: ['beacon'] } },
+    ],
+  })
+  const brief = (checks) => checks.map((c) => `${c.pi}:${c.slug || 'primary'}:${c.blocks.map((b) => b.bi).join(',')}`)
+
+  it('shows the other side\'s end-of-opponent\'s-turn cards, not the side on turn\'s own', () => {
+    expect(brief(turnEndChecks(game(2, 0), scorable, missionEn))).toEqual(['1:beacon:0'])
+    expect(brief(turnEndChecks(game(2, 1), scorable, missionEn))).toEqual(['0:beacon:0'])
+  })
+
+  it('adds the End of Battle and the fifth-round fallback on the turn that closes the battle', () => {
+    expect(brief(turnEndChecks(game(5, 1), scorable, missionEn))).toEqual(['0:beacon:0', '0:primary:1', '1:beacon:0', '1:primary:1'])
   })
 })

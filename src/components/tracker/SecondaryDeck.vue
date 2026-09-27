@@ -210,7 +210,7 @@ const prompted = new Set()
 </script>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, inject } from 'vue'
 import ScoringModal from './ScoringModal.vue'
 import ScoreRows from './ScoreRows.vue'
 import TakeSecondariesModal from './TakeSecondariesModal.vue'
@@ -348,10 +348,15 @@ function onReplacePick(pick) {
   else redrawSecondary(props.pi, slug, kind, pick)
 }
 
+// The discard ends the turn, so it goes the way End turn goes (RoundTracker's check first);
+// mounted on its own (a test) the deck does it directly.
+const requestEndTurn = inject('requestEndTurn', null)
 const confirmSlug = ref(null)
 function onEndTurnDiscard() {
-  endTurnDiscard(props.pi, confirmSlug.value)
+  const slug = confirmSlug.value
   confirmSlug.value = null
+  if (requestEndTurn) requestEndTurn({ discard: { pi: props.pi, slug } })
+  else endTurnDiscard(props.pi, slug)
 }
 
 function onSetAside(slug) { discardFromHand(props.pi, slug); actionSlug.value = null }
