@@ -76,7 +76,8 @@ function toggle(key) {
   letter-spacing: 0.3px;
   transition: border-color var(--motion-fast);
 }
-.phase-head:hover { border-color: var(--accent); }
+/* Hover only where there is one: on a phone a tapped head kept the hover and looked "live". */
+@media (hover: hover) { .phase-head:hover { border-color: var(--accent); } }
 .phase-head.now { border-color: var(--accent); }
 .phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
 .phase-name { flex: 1; text-align: left; }

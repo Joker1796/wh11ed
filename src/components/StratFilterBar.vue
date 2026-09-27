@@ -102,10 +102,12 @@ const labels = computed(() => ui[locale.value])
   align-items: center;
   gap: 0.4rem;
 }
-.strat-filter:hover,
-.strat-toggle:hover {
-  color: var(--text-primary);
-  border-color: var(--accent);
+@media (hover: hover) {
+  .strat-filter:hover,
+  .strat-toggle:hover {
+    color: var(--text-primary);
+    border-color: var(--accent);
+  }
 }
 .strat-filter.active,
 .strat-toggle.active {
