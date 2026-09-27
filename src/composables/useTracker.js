@@ -1089,6 +1089,53 @@ export function useTracker() {
     drawSecondary(pi)
   }
 
+  // ── Stratagems: spending CP on one (the CP tab) ──
+  // A use is a 'spend' entry in the ledger, source 'strat', ref = the stratagem's `_key`
+  // (gameStratagems.js), with the clock it was used at — the phase too when the game keeps one.
+  // Either side may spend at any moment: half the core stratagems are played in the OTHER
+  // player's turn (Fire Overwatch, Rapid Ingress, Smokescreen, Heroic Intervention). What is
+  // refused, and why (the reason is a ui.js key suffix):
+  //   'finished' — the game is over;  'cp' — not enough CP for the cost asked;
+  //   'minRound' / 'perBattle' / 'perRound' / 'perTurn' — the stratagem's own restrictions
+  //   (`_limits`); 'perPhase' — the Core Rules' "the same Stratagem cannot be used more than once
+  //   in the same phase", checked only when the game keeps phases (it has no phase otherwise).
+  function stratUses(pi, key) {
+    return (current.value?.players?.[pi]?.cpLog || []).filter(e => e.kind === 'spend' && e.source === 'strat' && e.ref === key)
+  }
+  function stratBlock(pi, strat, cost) {
+    const g = current.value
+    if (!g || g.phase !== 'playing') return 'finished'
+    const R = g.currentRound
+    const T = g.currentTurn === 1 ? 1 : 0
+    const lim = strat._limits || {}
+    const uses = stratUses(pi, strat._key)
+    if (lim.minRound && R < lim.minRound) return 'minRound'
+    if (lim.perBattle && uses.length) return 'perBattle'
+    if (lim.perRound && uses.some(e => e.round === R)) return 'perRound'
+    if (lim.perTurn && uses.some(e => e.round === R && e.turn === T)) return 'perTurn'
+    if (g.settings?.trackPhases && uses.some(e => e.round === R && e.turn === T && e.phase === (g.currentPhase || 'command'))) return 'perPhase'
+    if ((g.players[pi].cp || 0) < cost) return 'cp'
+    return null
+  }
+  function useStratagem(pi, strat, cost) {
+    const g = current.value
+    if (stratBlock(pi, strat, cost)) return null
+    const entry = spendCp(pi, cost, 'strat', strat._key, strat.name)
+    if (g.settings?.trackPhases) entry.phase = g.currentPhase || 'command'
+    return entry
+  }
+  // Take back the latest use of a stratagem made this battle round — a mis-tap, or a use the
+  // players agreed to rewind.
+  function lastStratUse(pi, key) {
+    const R = current.value?.currentRound
+    return stratUses(pi, key).filter(e => e.round === R).at(-1) || null
+  }
+  function undoStratagem(pi, key) {
+    const last = lastStratUse(pi, key)
+    if (!last) return
+    removeEntries(current.value.players[pi], e => e === last)
+  }
+
   // ── The once-per-battle 1CP replacement (Event Companion, Tactical Missions) ──
   // "Once per battle, at the end of your Command phase, you can spend 1CP to discard one of your
   // active Secondary Mission cards and draw one new card." The side on turn, the live round, the
@@ -1386,6 +1433,7 @@ export function useTracker() {
     tookSecondaries, canTakeSecondaries, takeRandomSecondaries, takeChosenSecondaries, canUntakeSecondaries, untakeSecondaries,
     restoreSecondaryToHand, redrawSecondary, canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard,
     canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, spendCp,
+    stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,

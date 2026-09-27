@@ -1054,3 +1054,39 @@ describe('the CP ledger', () => {
     expect(tracker.canCpRedraw(0)).toBe(false) // once per battle
   })
 })
+
+describe('spending CP on stratagems', () => {
+  const pl = (pi) => tracker.current.value.players[pi]
+  const strat = (over = {}) => ({ _key: 'core:15.02', name: 'Command Re-roll', _limits: {}, ...over })
+
+  it('lets either side spend at any moment, and takes the latest use back', () => {
+    tracker.newGame(setupGame())
+    tracker.gainBonusCp(1)
+    expect(tracker.useStratagem(1, strat(), 1)).toBeTruthy() // the opponent, in my turn
+    expect(pl(1).cp).toBe(1)
+    expect(tracker.useStratagem(1, strat(), 1)).toBeTruthy() // without phases, twice is fine
+    expect(tracker.stratBlock(1, strat(), 1)).toBe('cp')
+    tracker.undoStratagem(1, 'core:15.02')
+    expect(pl(1).cp).toBe(1)
+    expect(tracker.stratUses(1, 'core:15.02')).toHaveLength(1)
+  })
+
+  it('keeps a stratagem\'s own limits and, with the phase clock on, once per phase', () => {
+    tracker.newGame(setupGame({ settings: { trackPhases: true } }))
+    tracker.setCp(0, 9)
+    expect(tracker.stratBlock(0, strat({ _limits: { minRound: 2 } }), 1)).toBe('minRound')
+    tracker.useStratagem(0, strat({ _key: 'b', _limits: { perBattle: true } }), 1)
+    expect(tracker.stratBlock(0, strat({ _key: 'b', _limits: { perBattle: true } }), 1)).toBe('perBattle')
+    tracker.useStratagem(0, strat(), 1)
+    expect(tracker.stratBlock(0, strat(), 1)).toBe('perPhase')
+    tracker.stepPhase(1)
+    expect(tracker.stratBlock(0, strat(), 1)).toBe(null)
+    expect(pl(0).cpLog.at(-1)).toMatchObject({ kind: 'spend', source: 'strat', phase: 'command' })
+  })
+
+  it('refuses a finished game', () => {
+    tracker.newGame(setupGame())
+    tracker.finishGame('played')
+    expect(tracker.stratBlock(0, strat(), 0)).toBe('finished')
+  })
+})

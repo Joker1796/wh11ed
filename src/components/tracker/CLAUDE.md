@@ -183,6 +183,26 @@ WHEN DRAWN, **Replace for 1CP** (`cpRedraw` — side on turn, once per battle, `
 confirms, then ends the turn; the card carries `auto` + `cp` so Undo turn returns both), set aside,
 return to deck. A card that came in by hand may be replaced by hand (`ReplaceCardModal`).
 
+## Stratagems in the CP tab (`CpStratagems.vue`, `gameStratagems.js`)
+
+Under the banks: whose CP (a switch — both sides may spend at any moment, half the core
+stratagems are played in the other player's turn; default is the side on turn, or this phone's
+own side), a phase filter (with **Now** first when the game keeps phases — `usableInSlot` for this
+side in the current phase), the side's detachment stratagems, then the core ones. A row: name and
+two lines of timing (tap → the full `StratCard`), a gear for a cost changed by a rule (−1 / as
+printed / +1, never below 0, not saved, forgotten at a new round) and the cost button, which spends.
+A use is a `spend` entry in the ledger (`source: 'strat'`, `ref` = the stratagem's `_key`, the
+phase too when kept); "Undo" removes the round's latest use. **Refused, with the reason on the
+row** (`stratBlock`): the stratagem's own limits, read from its ENGLISH restrictions by
+`usageLimits` (once per battle / round / turn, not before round 2 or 3 — the gate in
+`gameStratagems.test.js` fails on a "use this Stratagem …" phrasing it does not understand; limits
+on a TARGET are left to the players), and, only when phases are kept, the Core Rules' once per
+phase. Short of CP greys the button without a line — every row would say it at once.
+
+`gameStratagems.js` is also what the Stratagems page reads (moved out of `StratagemsView.vue`):
+the core deck merged EN/RU, and each side's detachment deck **imported dynamically** — the CP tab
+mounts it only while open, so no faction data rides with the game screen itself.
+
 ## Slices — the game as multi-device sync moves it
 
 `src/composables/gameSlices.js` (pure, light) cuts a game into five independently versioned

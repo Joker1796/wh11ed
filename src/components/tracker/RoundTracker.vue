@@ -383,6 +383,10 @@
           </div>
         </div>
       </div>
+      <CpStratagems
+        :names="current.players.map((_, i) => playerName(i))"
+        :default-side="focusSide"
+      />
     </section>
 
     <section
@@ -538,6 +542,7 @@ import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import ScoreRows from './ScoreRows.vue'
+import CpStratagems from './CpStratagems.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
