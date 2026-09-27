@@ -24,6 +24,18 @@ function setupGame(over = {}) {
   return { ...base, ...over, settings: { ...base.settings, ...(over.settings || {}) } }
 }
 
+// The turn's two cards, picked rather than drawn: the first one able to score in round 1 (a
+// tactical row with a plain VP value). A random draw sometimes brings a card whose conditions only
+// open in round 2, and a test that scores it would then fail by chance.
+function takeScorablePair(pi) {
+  const pl = tracker.current.value.players[pi]
+  const scorable = (slug) => mod.scorableBlocks(slug, pl.role, 1).some((b) => b.kind === 'tactical' && b.rows.some((r) => mod.numericVp(r.vp) > 0))
+  const a = pl.secondary.deck.find(scorable)
+  const b = pl.secondary.deck.find((x) => x !== a)
+  tracker.takeChosenSecondaries(pi, [a, b])
+  return [a, b]
+}
+
 describe('newGame', () => {
   it('creates a playing game with two players and resolved primaries', () => {
     tracker.newGame(setupGame())
@@ -927,8 +939,7 @@ describe('achieved secondaries leave the hand at the end of each turn', () => {
 
   it('sets an achieved card aside when its turn ends, and Undo turn puts it back', () => {
     tracker.newGame(setupGame())
-    tracker.takeRandomSecondaries(0)
-    const [a, b] = sec(0).hand
+    const [a, b] = takeScorablePair(0)
     const [bi, ri] = scorableRow(0, a)
     tracker.scoreSecondaryRow(0, a, bi, ri, 1)
     tracker.endTurn()
@@ -951,8 +962,7 @@ describe('achieved secondaries leave the hand at the end of each turn', () => {
 
   it('a past round corrected into an achievement takes the card out of the hand', () => {
     tracker.newGame(setupGame())
-    tracker.takeRandomSecondaries(0)
-    const [a] = sec(0).hand
+    const [a] = takeScorablePair(0)
     tracker.endTurn()
     tracker.endTurn() // round 2
     const [bi, ri] = scorableRow(0, a)
@@ -1109,8 +1119,7 @@ describe('the clock settles when another phone moves it', () => {
     const { sliceGame } = await import('./gameSlices.js')
     tracker.newGame(setupGame())
     const pl0 = () => tracker.current.value.players[0]
-    tracker.takeRandomSecondaries(0)
-    const [a] = pl0().secondary.hand
+    const [a] = takeScorablePair(0)
     const blocks = mod.scorableBlocks(a, pl0().role, 1)
     const b = blocks.find((x) => x.kind === 'tactical' && x.rows.some((r) => mod.numericVp(r.vp) > 0))
     tracker.scoreSecondaryRow(0, a, b.bi, b.rows.findIndex((r) => mod.numericVp(r.vp) > 0), 1)
