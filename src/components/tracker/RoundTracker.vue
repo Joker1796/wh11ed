@@ -103,7 +103,7 @@
             class="tr-btn tr-end"
             :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
             :disabled="canEndTurn() && !canEdit(turnIndex)"
-            :title="canEndTurn() ? endTurnLabel : labels.trackerFinish"
+            :title="canEndTurn() ? endTitle : labels.trackerFinish"
             @click="requestEndTurn()"
           >
             <span class="tr-label">{{ canEndTurn() ? labels.trackerEndTurnShort : labels.trackerFinish }}</span>
@@ -130,7 +130,7 @@
             class="tr-btn tr-end"
             :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
             :disabled="!canEdit(turnIndex)"
-            :title="endTurnLabel"
+            :title="endTitle"
             @click="requestEndTurn()"
           >
             <span class="tr-label">{{ labels.trackerEndTurnPlain }}</span>
@@ -145,9 +145,6 @@
         </div>
       </div>
     </div>
-    <p class="tf-next">
-      {{ nextLine }}
-    </p>
 
 
     <PhasePickerModal
@@ -703,15 +700,12 @@ const turnHeadline = computed(() => {
 })
 const endTurnLabel = computed(() => aboutPlayer('trackerEndTurn', turnIndex.value))
 
-// The line under the button: who plays next — or, on the phone that may not end this turn, why
-// the button is grey.
-const nextLine = computed(() => {
-  const l = labels.value
+// The End button's tooltip: the whole phrase with the name — or, on the phone that may not end
+// this turn (a shared game), why the button is grey. There is no line for it under the bar any
+// more (owner's call, 2026-09-27); the headline says whose turn it is.
+const endTitle = computed(() => {
   const t = turnIndex.value
-  if (!canEdit(t)) return l.trackerTurnLocked.replace('{name}', playerName(t))
-  if (!canEndTurn()) return l.trackerLastTurn
-  const round = current.value.currentRound + (t === 1 ? 1 : 0)
-  return aboutPlayer('trackerNextUp', 1 - t).replace('{round}', round)
+  return canEdit(t) ? endTurnLabel.value : labels.value.trackerTurnLocked.replace('{name}', playerName(t))
 })
 // The turn before this one is always the other player's, and theirs to take back.
 const undoTitle = computed(() => {
@@ -1055,13 +1049,12 @@ function onEndBattle(reason) {
   .tr-prev:not(:disabled):hover { border-color: var(--accent); }
   .tr-end:not(:disabled):hover { background: color-mix(in srgb, var(--side) 85%, #000); }
 }
-.tf-next { margin: 0.45rem 0 0.7rem; text-align: center; font-size: 0.82rem; color: var(--text-dim); }
 
 /* The working area's tabs: one strip, joined, on a line in the accent — the active tab is filled
    with it and so reads as part of the line it stands on, attached to the panel under it. */
 .game-tabs {
   display: grid;
-  margin-bottom: 0.7rem;
+  margin: 0.7rem 0;
   border-bottom: 2px solid var(--accent);
 }
 .gt-tab {
