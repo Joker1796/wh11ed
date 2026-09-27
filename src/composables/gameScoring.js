@@ -15,35 +15,50 @@ export function primaryTotal(game, pi) {
   return Math.min((pl.rounds || []).reduce((s, r) => s + (r.primary || 0), 0), PRIMARY_GAME_CAP)
 }
 
+export const SECONDARY_ROUND_CAP = 15 // across all secondaries, per battle round
+
+// What a player's secondaries scored in each of the five rounds, every cap applied in the order
+// the Event Companion states them (its VP table: "Secondary Missions 45VP (up to 15VP per battle
+// round)*", "* In addition, you can gain a maximum of 20VP per Fixed Secondary Mission card"):
+// a tactical card scores at most 5VP a time ("up to 5VP" on the cards), a fixed card at most
+// 20VP over the game — spent round by round, so a card that hit 20 in round 3 adds nothing
+// after — and all of it at most 15VP in a round. The 45VP game cap is secondaryTotal's.
+export function secondaryRounds(player) {
+  const scored = player?.secondary?.scored || []
+  const fixed = player?.secondaryMode === 'fixed'
+  const fixedLeft = {}
+  const out = []
+  for (let r = 1; r <= ROUND_COUNT; r++) {
+    let vp = 0
+    for (const e of scored) {
+      if (e?.round !== r) continue
+      let v = e.vp || 0
+      if (fixed) {
+        const left = fixedLeft[e.slug] ?? FIXED_SECONDARY_CAP
+        v = Math.min(v, left)
+        fixedLeft[e.slug] = left - v
+      } else {
+        v = Math.min(v, TACTICAL_SECONDARY_CAP)
+      }
+      vp += v
+    }
+    out.push(Math.min(vp, SECONDARY_ROUND_CAP))
+  }
+  return out
+}
+
 export function secondaryTotal(game, pi) {
   const pl = game.players?.[pi]
   if (!pl) return 0
-  const scored = pl.secondary?.scored || []
-  let total
-  if (pl.secondaryMode === 'fixed') {
-    const bySlug = {}
-    for (const e of scored) bySlug[e.slug] = (bySlug[e.slug] || 0) + e.vp
-    total = Object.values(bySlug).reduce((s, v) => s + Math.min(v, FIXED_SECONDARY_CAP), 0)
-  } else {
-    // Tactical secondaries score "up to 5VP" per scoring (e.g. "For each … 3VP (up to 5VP)").
-    total = scored.reduce((s, e) => s + Math.min(e.vp, TACTICAL_SECONDARY_CAP), 0)
-  }
-  return Math.min(total, SECONDARY_GAME_CAP)
+  return Math.min(secondaryRounds(pl).reduce((s, v) => s + v, 0), SECONDARY_GAME_CAP)
 }
 
-// Secondary VP scored in ONE battle round. The per-card caps live above (5 per scoring for a
-// tactical card, 20 across the game for a fixed one), so the game-long cap cannot be applied
-// per round — a fixed-secondary curve can read a little high mid-game. This is the SHAPE of the
-// scoring, never a second opinion on the total: that is secondaryTotal's, and it is capped.
+// Secondary VP scored in ONE battle round, with the per-card and per-round caps applied. The
+// game-long 45VP cap is not — it belongs to no round — so the rounds of a game that hit it add
+// up to a little more than the total. This is the SHAPE of the scoring, never a second opinion
+// on the total: that is secondaryTotal's, and it is capped.
 export function secondaryInRound(player, round) {
-  const scored = player?.secondary?.scored || []
-  const tactical = player?.secondaryMode !== 'fixed'
-  let vp = 0
-  for (const e of scored) {
-    if (e?.round !== round) continue
-    vp += tactical ? Math.min(e.vp || 0, TACTICAL_SECONDARY_CAP) : (e.vp || 0)
-  }
-  return vp
+  return secondaryRounds(player)[round - 1] || 0
 }
 
 // One player's five rounds: what each scored, and the running VP through it. The Battle-Ready
