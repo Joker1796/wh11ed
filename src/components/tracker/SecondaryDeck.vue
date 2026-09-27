@@ -111,7 +111,7 @@
       :locked="b => rowLocked(openMission, b)"
       :locked-note="labels.trackerOppTurnOnly"
       @set="(bi, ri, c) => scoreSecondaryRow(pi, openMission.slug, bi, ri, c, round)"
-      @redraw="mode => { redrawSecondary(pi, openMission.slug, mode); openSlug = null }"
+      @redraw="mode => startRedraw(openMission.slug, mode)"
       @close="openSlug = null"
     />
 
@@ -122,8 +122,11 @@
       @close="takeOpen = false"
     />
 
-    <!-- Per-card actions: the card's own WHEN DRAWN rule, set aside (keep VP), return to deck
-         (full undo). -->
+    <!-- Per-card actions, each the exact rule it is (Mikhail's prototype: "choose the rule you
+         are using"): the card's own WHEN DRAWN, the once-per-battle 1CP replacement, the
+         end-of-turn discard for 1CP (which ends the turn), and the two plain ones — set aside
+         (keeps VP) and return to deck (full undo). A rule not available now is shown greyed
+         with why, never hidden. -->
     <BaseModal
       v-if="actionMission"
       :title="actionMission.name"
@@ -136,10 +139,26 @@
         <button
           v-if="whenDrawnFor(actionMission)"
           class="act-btn"
-          @click="onRedraw(actionMission.slug, whenDrawnFor(actionMission).mode)"
+          @click="startRedraw(actionMission.slug, whenDrawnFor(actionMission).mode)"
         >
           <strong>{{ labels.trackerWhenDrawn }}</strong>
           <span>{{ whenDrawnFor(actionMission).mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}</span>
+        </button>
+        <button
+          class="act-btn"
+          :disabled="!canCpRedraw(pi)"
+          @click="startCpRedraw(actionMission.slug)"
+        >
+          <strong>{{ labels.trackerCpRedraw }}</strong>
+          <span>{{ cpRedrawNote }}</span>
+        </button>
+        <button
+          v-if="canEndTurnDiscard(pi)"
+          class="act-btn"
+          @click="confirmSlug = actionMission.slug; actionSlug = null"
+        >
+          <strong>{{ labels.trackerEotDiscard }}</strong>
+          <span>{{ canGainBonus(pi) ? labels.trackerEotDiscardNote : labels.trackerEotDiscardNoCp }}</span>
         </button>
         <button
           class="act-btn"
@@ -157,6 +176,29 @@
         </button>
       </div>
     </BaseModal>
+
+    <!-- The replacement: at random, or by hand for a card that came in by hand. -->
+    <ReplaceCardModal
+      v-if="replace"
+      :pi="pi"
+      :slug="replace.slug"
+      :title="replace.kind === 'cp' ? labels.trackerCpRedraw : labels.trackerWhenDrawn"
+      :subtitle="missionName(replace.slug)"
+      :note="replace.kind === 'cp' ? labels.trackerCpRedrawConfirm : ''"
+      :choosable="source(replace.slug) === 'chosen'"
+      @pick="onReplacePick"
+      @close="replace = null"
+    />
+
+    <!-- The end-of-turn discard ends the turn: say so before doing it. -->
+    <ConfirmModal
+      v-if="confirmSlug"
+      :title="labels.trackerEotConfirmTitle"
+      :message="labels.trackerEotConfirm.replace('{card}', missionName(confirmSlug))"
+      :confirm-label="labels.trackerEotConfirmGo"
+      @confirm="onEndTurnDiscard"
+      @close="confirmSlug = null"
+    />
   </div>
 </template>
 
@@ -173,6 +215,8 @@ import ScoringModal from './ScoringModal.vue'
 import ScoreRows from './ScoreRows.vue'
 import TakeSecondariesModal from './TakeSecondariesModal.vue'
 import BaseModal from '../BaseModal.vue'
+import ConfirmModal from '../ConfirmModal.vue'
+import ReplaceCardModal from './ReplaceCardModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
@@ -195,6 +239,7 @@ const {
   current, returnSecondaryToDeck, discardFromHand, restoreSecondaryToHand, redrawSecondary,
   scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
   canTakeSecondaries, canUntakeSecondaries, untakeSecondaries,
+  canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard, canGainBonus,
 } = useTracker()
 
 const player = computed(() => current.value.players[props.pi])
@@ -272,10 +317,46 @@ watch(
   { immediate: true },
 )
 
+function missionName(slug) { return missionBySlug(slug, player.value.role, locale.value)?.name || slug }
+
+// Why the 1CP replacement is or is not on offer, in its own line on the button.
+const cpRedrawNote = computed(() => {
+  const l = labels.value
+  const s = player.value.secondary
+  if (s.cpRedrawUsed) return l.trackerCpRedrawUsed
+  if ((current.value.currentTurn === 1 ? 1 : 0) !== props.pi) return l.trackerCpRedrawNotTurn
+  if ((player.value.cp || 0) < 1) return l.trackerCpRedrawNoCp
+  return l.trackerCpRedrawNote
+})
+
+// A replacement in progress: { slug, kind: 'cp' | 'shuffle' | 'discard' }.
+const replace = ref(null)
+function startRedraw(slug, how) {
+  actionSlug.value = null
+  openSlug.value = null
+  if (source(slug) === 'chosen') replace.value = { slug, kind: how }
+  else redrawSecondary(props.pi, slug, how)
+}
+function startCpRedraw(slug) {
+  actionSlug.value = null
+  replace.value = { slug, kind: 'cp' }
+}
+function onReplacePick(pick) {
+  const { slug, kind } = replace.value
+  replace.value = null
+  if (kind === 'cp') cpRedraw(props.pi, slug, pick)
+  else redrawSecondary(props.pi, slug, kind, pick)
+}
+
+const confirmSlug = ref(null)
+function onEndTurnDiscard() {
+  endTurnDiscard(props.pi, confirmSlug.value)
+  confirmSlug.value = null
+}
+
 function onSetAside(slug) { discardFromHand(props.pi, slug); actionSlug.value = null }
 function onReturn(slug) { returnSecondaryToDeck(props.pi, slug); actionSlug.value = null }
 function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
-function onRedraw(slug, how) { redrawSecondary(props.pi, slug, how); actionSlug.value = null }
 </script>
 
 <style scoped>

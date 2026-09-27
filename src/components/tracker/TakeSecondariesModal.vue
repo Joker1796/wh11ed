@@ -37,7 +37,7 @@
         >
           🎲 {{ labels.trackerTakeRandom }}
         </button>
-        <div class="tk-sep">
+        <div class="or-sep">
           <span>{{ labels.trackerTakeOrChoose }}</span>
         </div>
         <ul class="pick-list">
@@ -123,13 +123,6 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 <style scoped>
 .tk-note { margin: 0 0 0.7rem; font-size: 0.84rem; color: var(--text-muted); }
 .tk-main { width: 100%; justify-content: center; min-height: 46px; font-weight: 700; }
-.tk-sep {
-  display: flex; align-items: center; gap: 0.6rem;
-  margin: 0.9rem 0 0.5rem;
-  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  color: var(--text-dim);
-}
-.tk-sep::before, .tk-sep::after { content: ''; flex: 1; border-top: 1px solid var(--border); }
 .pick-list, .took-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
 .pick-item {
   width: 100%;

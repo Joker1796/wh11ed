@@ -195,7 +195,7 @@ describe('a tick', () => {
     tracker.setCp(0, 5) // the other side's CP — a control the screen has disabled
     await vi.advanceTimersByTimeAsync(900)
     expect(fetchMock).not.toHaveBeenCalled()
-    expect(tracker.current.value.players[0].cp).toBe(0)
+    expect(tracker.current.value.players[0].cp).toBe(1) // round 1's Core CP, and nothing more
     expect(party.canEdit(0)).toBe(false)
     expect(party.canEdit(1)).toBe(true)
   })
@@ -203,13 +203,13 @@ describe('a tick', () => {
   it('a revoked token stops the engine and marks the phone out', async () => {
     await shareAsHost()
     fetchMock.mockResolvedValueOnce(answer(401, { error: 'revoked' }))
-    tracker.setCp(0, 1)
+    tracker.setCp(0, 3)
     await vi.advanceTimersByTimeAsync(900)
     expect(party.status.value).toBe('revoked')
     expect(party.active.value).toBe(false)
     expect(party.canEdit(1)).toBe(true) // the game is this phone's own again
     fetchMock.mockClear()
-    tracker.setCp(0, 2)
+    tracker.setCp(0, 4)
     await vi.advanceTimersByTimeAsync(5000)
     expect(fetchMock).not.toHaveBeenCalled()
   })

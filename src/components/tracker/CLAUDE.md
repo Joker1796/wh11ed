@@ -111,7 +111,7 @@ Missions. What lives where:
 
 - **Missions** — the twist reminder and one card per side: primary, secondaries, the army-rule
   tracker. The card carries its side's colour down its edge. See "The missions panel" below.
-- **CP** — one bank per side, side by side.
+- **CP** — one bank per side, side by side. See "Command points" below.
 - **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content).
 - **Armies** — per side the disposition, detachments (members in doubles) and the way to the units:
   the attached list, or the faction's datasheets without one. The folded "Army details" block and
@@ -155,6 +155,33 @@ own rule — WHEN DRAWN, set aside, return to deck, in the card's "⋯" sheet. T
 **Achieved cards leave at the end of EACH turn** (`setAsideAchieved`, the Event Companion's
 "Achieving Secondary Missions"), not only when the round changes. The entry remembers the turn
 (`discarded[].auto`), and **Undo turn puts exactly those cards back** — never one set aside by hand.
+
+## Command points — a ledger (`cpLedger.js`)
+
+`player.cp` is still the balance every reader uses (score cards, broadcast, history), but a game
+started since 2026-09-27 (`cpAuto: true`) keeps **where each point came from** in `player.cpLog`:
+`core` (+1 to both at every Command phase), `bonus` (**at most one a battle round** — the Event
+Companion's "Generating Command Points" cap, applied to every game because the tracker plays the
+Event Companion's missions; source `manual` or `discard`), `spend` (source `redraw` — the
+once-per-battle 1CP secondary replacement — or, next, stratagems) and `adjust` (the stepper, a
+correction). `cp = cpBase + Σ amounts`, never below 0; `cpBase` is an older game's stepper value
+when its ledger started. A game without `cpAuto` gets no Core CP by itself and keeps its number.
+
+**The turn's side effects are settled, not performed** (`settleSide` in `useTracker.js`). Core CP
+for both players and the achieved cards of both hands are effects of the CLOCK, and in a shared
+game a phone writes only its own side (the sync snaps the other back). So nothing is done "at
+end of turn": a module-level watch on the clock (round, turn, phase, game id — fired by this
+phone's taps and by another phone's shared slice alike) calls `settleSide` for every side, which
+brings that side in line with where the clock stands — one `core` entry per turn reached, none for
+a turn not reached; cards set aside at the end of a turn the clock is back inside come back (with
+the end-of-turn discard's CP); cards achieved by the last turn that ended leave the hand. It is
+idempotent, so Undo turn is the same call and a phone that missed a tick catches up on the next.
+
+**The card sheet ("⋯") offers each rule by name**, greyed with the reason when not available:
+WHEN DRAWN, **Replace for 1CP** (`cpRedraw` — side on turn, once per battle, `cpRedrawUsed`),
+**Discard at the end of the turn, +1CP** (`endTurnDiscard` — takes the round's bonus if free,
+confirms, then ends the turn; the card carries `auto` + `cp` so Undo turn returns both), set aside,
+return to deck. A card that came in by hand may be replaced by hand (`ReplaceCardModal`).
 
 ## Slices — the game as multi-device sync moves it
 

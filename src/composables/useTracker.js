@@ -16,6 +16,7 @@ import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 import { membersOf, memberAt } from './rosterGameLink.js'
 import { applySlice } from './gameSlices.js'
+import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from './cpLedger.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -391,6 +392,8 @@ function makePlayer(p, opponent, settings, isYou = false) {
       : {}),
     primarySlug: primary ? primary.slug : null,
     cp: 0,
+    cpBase: 0,
+    cpLog: [],                                 // the CP ledger — cpLedger.js
     // Army-rule tracker state (Pain tokens, Battle Focus, etc.) — a free-form per-faction blob
     // interpreted by src/data/armyTrackers. Empty until a widget writes to it; absent on games
     // saved before this existed, so readers/mutations must default it (see setArmyCounter).
@@ -411,6 +414,79 @@ function makePlayer(p, opponent, settings, isYou = false) {
     },
   }
 }
+
+// ── Settling the clock: what the start and end of a turn do by themselves ─────────────────
+//
+// Moving the clock (End turn, Undo turn, the phase clock, a round) changes the game in two
+// places besides the clock: every Command phase gives both players their Core CP, and at the end
+// of every turn an achieved tactical card leaves its hand ("Achieving Secondary Missions",
+// Event Companion). Both touch BOTH sides — and in a shared game a phone writes only its own
+// (useParty snaps the other side back). So these are not steps of endTurn: `settleSide(pi)`
+// brings one side in line with wherever the clock stands, idempotently, and every phone runs it
+// for the sides it plays whenever the clock moves — its own tap or another phone's (the watch
+// right below). Undo turn is the same call: a turn the clock is back inside is
+// not over, so what its end did comes back.
+//   - Core CP (games started with the ledger, `cpAuto`): one 'core' entry per turn the clock has
+//     reached, none for a turn it has not (cpLedger.js).
+//   - A turn not over any more: cards set aside at its end (`discarded[].auto` = that turn) go
+//     back in hand, and the CP an end-of-turn discard gained with them is taken back.
+//   - The last turn that ended: tactical cards achieved by then leave the hand, recorded
+//     against that turn, so the round still shows them and the next does not. A card set
+//     aside by hand (no `auto`) is never touched.
+function settleSide(pi) {
+  const g = current.value
+  if (!g || g.phase !== 'playing') return
+  const pl = g.players[pi]
+  if (!pl) return
+  const R = g.currentRound
+  const T = g.currentTurn === 1 ? 1 : 0
+  if (g.cpAuto) {
+    ledger(pl)
+    removeEntries(pl, e => e.kind === 'core' && clockBefore(R, T, e.round, e.turn))
+    for (let r = 1; r <= R; r++) {
+      for (let t = 0; t <= 1; t++) {
+        if (clockBefore(R, T, r, t)) continue
+        if (!pl.cpLog.some(e => e.kind === 'core' && e.round === r && e.turn === t)) {
+          addEntry(pl, { kind: 'core', amount: 1, round: r, turn: t })
+        }
+      }
+    }
+  }
+  const s = pl.secondary
+  if (!s) return
+  const back = (s.discarded || []).filter(d => d.auto != null && !clockBefore(d.round, d.auto, R, T))
+  if (back.length) {
+    s.discarded = s.discarded.filter(d => !back.includes(d))
+    for (const d of back) {
+      if (!s.hand.includes(d.slug)) s.hand.push(d.slug)
+      if (d.cp) removeEntries(pl, e => e.kind === 'bonus' && e.source === 'discard' && e.ref === d.slug && e.round === d.round)
+    }
+  }
+  if (pl.secondaryMode !== 'tactical' || (R === 1 && T === 0)) return
+  const last = T === 1 ? { round: R, turn: 0 } : { round: R - 1, turn: 1 }
+  const achieved = new Set(s.scored.filter(e => (e.vp || 0) > 0 && e.round <= last.round).map(e => e.slug))
+  for (const slug of [...s.hand]) {
+    if (!achieved.has(slug) || s.discarded.some(d => (d.slug ?? d) === slug)) continue
+    s.hand = s.hand.filter(x => x !== slug)
+    s.discarded.push({ slug, round: last.round, auto: last.turn })
+  }
+}
+function settleAll() {
+  current.value?.players?.forEach((_, pi) => settleSide(pi))
+}
+
+// The clock moved — here, or on another phone (applyRemote writes the shared slice in place, so
+// this fires for it too) — or a game was loaded or started: settle every side. The writes to a
+// side this phone does not play are snapped back by the sync layer; that side's own phone makes
+// them. Sync flush, so the settled state is what the next render and the next save see.
+watch(
+  () => {
+    const g = current.value
+    return g ? `${g.id}|${g.phase}|${g.currentRound}|${g.currentTurn === 1 ? 1 : 0}` : ''
+  },
+  () => settleAll(),
+  { flush: 'sync', immediate: true },
+)
 
 // ---- public API ----
 export function useTracker() {
@@ -491,6 +567,9 @@ export function useTracker() {
       // so turning the setting on mid-game finds a sane clock rather than an empty one.
       currentTurn: 0,
       currentPhase: BATTLE_PHASES[0],
+      // Command points are a ledger in this game (cpLedger.js): Core CP arrive by themselves at
+      // every Command phase. A game started before the ledger has no flag and keeps its stepper.
+      cpAuto: true,
       settings,
       players: youFirst
         ? [makePlayer(a, b, settings, true),  makePlayer(b, a, settings, false)]
@@ -531,8 +610,45 @@ export function useTracker() {
     return picks ? (picks[`${blockIdx}:${rowIdx}`] || 0) : 0
   }
 
+  // The stepper: a hand correction, kept in the ledger as an 'adjust' entry for what the ledger
+  // does not explain (cpLedger.js).
   function setCp(pi, value) {
-    current.value.players[pi].cp = Math.max(0, value)
+    const g = current.value
+    adjustTo(g.players[pi], value, g.currentRound, g.currentTurn === 1 ? 1 : 0)
+  }
+
+  // ── Bonus CP: at most one a battle round, besides Core CP (cpLedger.js) ──
+  function canGainBonus(pi) {
+    const g = current.value
+    return !!g && g.phase === 'playing' && !bonusIn(g.players[pi], g.currentRound)
+  }
+  function gainBonusCp(pi, source = 'manual', ref = null) {
+    const g = current.value
+    if (!canGainBonus(pi)) return false
+    addEntry(g.players[pi], {
+      kind: 'bonus', amount: 1, round: g.currentRound, turn: g.currentTurn === 1 ? 1 : 0, source,
+      ...(ref ? { ref } : {}),
+    })
+    return true
+  }
+  // Only a bonus the player added by hand is taken back by hand: the discard's is the card's,
+  // and goes with Undo turn (settleSide).
+  function canUndoBonus(pi) {
+    const g = current.value
+    return !!g && g.phase === 'playing' && bonusIn(g.players[pi], g.currentRound)?.source === 'manual'
+  }
+  function undoBonusCp(pi) {
+    const g = current.value
+    if (!canUndoBonus(pi)) return
+    removeEntries(g.players[pi], e => e.kind === 'bonus' && e.round === g.currentRound && e.source === 'manual')
+  }
+  // Spend / refund: the stratagems' and the replacement's way through the ledger.
+  function spendCp(pi, amount, source, ref, name) {
+    const g = current.value
+    return addEntry(g.players[pi], {
+      kind: 'spend', amount: -Math.max(0, amount), round: g.currentRound, turn: g.currentTurn === 1 ? 1 : 0,
+      source, ...(ref ? { ref } : {}), ...(name ? { name } : {}),
+    })
   }
 
   // Army-rule counter primitive (Pain tokens, Yield Points, …). `army` may be absent on games
@@ -844,17 +960,20 @@ export function useTracker() {
   // come back), mode 'discard' removes it from play entirely. No-op if not in hand, or if
   // the deck is empty — no replacement exists, so 'shuffle' would just draw the same card
   // back and 'discard' would leave the hand a card short.
-  function redrawSecondary(pi, slug, mode) {
+  // `pick` — the replacement chosen by hand (a card that came in chosen may be replaced the same
+  // way, as in Mikhail's prototype); none draws at random.
+  function redrawSecondary(pi, slug, mode, pick = null) {
     const s = current.value.players[pi].secondary
     if (!s.hand.includes(slug)) return
     if (!s.deck.length) return
+    if (pick && (pick === slug || !s.deck.includes(pick))) return
     s.hand = s.hand.filter(x => x !== slug)
     s.scored = s.scored.filter(e => e.slug !== slug)
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
     if (s.drawn) delete s.drawn[slug]
     if (s.source) delete s.source[slug]
     if (mode === 'shuffle' && !s.deck.includes(slug)) s.deck.push(slug)
-    drawSecondary(pi)
+    replaceInto(pi, pick)
   }
 
   function entryVp(pi, entry) {
@@ -891,7 +1010,7 @@ export function useTracker() {
       for (const k of orSiblingKeys(m, blockIdx, rowIdx)) delete entry.picks[k]
     }
     entry.vp = entryVp(pi, entry)
-    if (round < current.value.currentRound && entry.vp > 0) setAsideAchieved(round, [pi])
+    if (round < current.value.currentRound && entry.vp > 0) settleSide(pi)
   }
 
   function secondaryRowCount(pi, slug, blockIdx, rowIdx, round = current.value.currentRound) {
@@ -903,28 +1022,6 @@ export function useTracker() {
   function secondaryCardVp(pi, slug, round = current.value.currentRound) {
     const entry = current.value.players[pi].secondary.scored.find(e => e.slug === slug && e.round === round)
     return entry ? entry.vp || 0 : 0
-  }
-
-  // "Achieving Secondary Missions" (Event Companion): at the end of EACH player's turn, a
-  // tactical card whose conditions were met is discarded — it is achieved. So a card that has
-  // scored in `upTo` or earlier leaves the hand, keeping its VP, recorded against the round it
-  // was last active in (`upTo`), so that round still shows it and the next does not. Runs at the
-  // end of every turn (endTurn) and when a past round is corrected into an achievement.
-  // At a turn's end the entry remembers that turn (`auto`: 0 | 1), so undoTurn can put exactly
-  // those cards back in hand — and not a card the player set aside by hand.
-  function setAsideAchieved(upTo, sides = [0, 1], atTurn = null) {
-    for (const pi of sides) {
-      const pl = current.value.players[pi]
-      if (!pl || pl.secondaryMode !== 'tactical') continue
-      const s = pl.secondary
-      const achieved = new Set(s.scored.filter(e => (e.vp || 0) > 0 && e.round <= upTo).map(e => e.slug))
-      for (const slug of [...s.hand]) {
-        if (!achieved.has(slug)) continue
-        s.hand = s.hand.filter(x => x !== slug)
-        if (s.discarded.some(d => (d.slug ?? d) === slug)) continue
-        s.discarded.push(atTurn == null ? { slug, round: upTo } : { slug, round: upTo, auto: atTurn })
-      }
-    }
   }
 
   // ── Taking the turn's two secondaries (tactical) ──────────────────────────────────────────
@@ -984,14 +1081,64 @@ export function useTracker() {
     delete s.took[g.currentRound]
   }
 
+  // Draw the replacement for a card that just left: the picked one, or one at random that is not
+  // the card itself (a shuffled-back card sits in the deck again, and an immediate replacement
+  // must not be the same card).
+  function replaceInto(pi, pick) {
+    if (pick) return drawSpecificSecondary(pi, pick)
+    drawSecondary(pi)
+  }
+
+  // ── The once-per-battle 1CP replacement (Event Companion, Tactical Missions) ──
+  // "Once per battle, at the end of your Command phase, you can spend 1CP to discard one of your
+  // active Secondary Mission cards and draw one new card." The side on turn, the live round, the
+  // CP in the bank. The card is discarded for good (it keeps any VP); the CP goes in the ledger.
+  function canCpRedraw(pi) {
+    const g = current.value
+    const pl = g?.players?.[pi]
+    return !!pl && g.phase === 'playing' && pl.secondaryMode === 'tactical'
+      && (g.currentTurn === 1 ? 1 : 0) === pi && !pl.secondary.cpRedrawUsed
+      && (pl.cp || 0) >= 1 && pl.secondary.deck.length > 0
+  }
+  function cpRedraw(pi, slug, pick = null) {
+    const g = current.value
+    const s = g.players[pi].secondary
+    if (!canCpRedraw(pi) || !s.hand.includes(slug)) return
+    if (pick && !s.deck.includes(pick)) return
+    s.hand = s.hand.filter(x => x !== slug)
+    s.discarded.push({ slug, round: g.currentRound })
+    s.cpRedrawUsed = true
+    spendCp(pi, 1, 'redraw', slug)
+    replaceInto(pi, pick)
+  }
+
+  // ── The end-of-turn discard: "if it is your turn … you can discard one or more active
+  // Secondary Mission cards. If you do, you gain 1CP" — the round's bonus point, if it is still
+  // free. It happens at the END of the turn, so it ends the turn. The card remembers the turn and
+  // that it gained CP (`auto`, `cp`), so Undo turn gives both back (settleSide).
+  function canEndTurnDiscard(pi) {
+    const g = current.value
+    const pl = g?.players?.[pi]
+    return !!pl && g.phase === 'playing' && pl.secondaryMode === 'tactical'
+      && (g.currentTurn === 1 ? 1 : 0) === pi
+  }
+  function endTurnDiscard(pi, slug) {
+    const g = current.value
+    const s = g.players[pi].secondary
+    if (!canEndTurnDiscard(pi) || !s.hand.includes(slug)) return
+    const gained = gainBonusCp(pi, 'discard', slug)
+    s.hand = s.hand.filter(x => x !== slug)
+    s.discarded.push({ slug, round: g.currentRound, auto: g.currentTurn === 1 ? 1 : 0, ...(gained ? { cp: true } : {}) })
+    if (canEndTurn()) endTurn()
+    else finishGame('played')
+  }
+
   function goToRound(n) {
     const target = Math.max(1, Math.min(ROUND_COUNT, n))
-    const leaving = current.value.currentRound
     // Advancing: a tactical secondary that scored in an earlier round is set aside
     // automatically (keeps its VP, won't be redrawn) — the player draws a fresh one.
     // It is recorded against the round being LEFT (its last active round), so it shows
     // there but not in the new round.
-    if (target > leaving) setAsideAchieved(leaving, [0, 1], current.value.currentTurn === 1 ? 1 : 0)
     current.value.currentRound = target
     // A new round starts at the first-turn player's Command phase. A phase left over from the
     // round you just left would read as "now", and it isn't. stepPhase() writes the clock AFTER
@@ -1058,7 +1205,6 @@ export function useTracker() {
     if (g.currentTurn === 1) {
       goToRound(g.currentRound + 1)
     } else {
-      setAsideAchieved(g.currentRound, [0, 1], 0)
       g.currentTurn = 1
       g.currentPhase = BATTLE_PHASES[0]
     }
@@ -1079,14 +1225,6 @@ export function useTracker() {
     const wasFirst = g.currentTurn !== 1
     if (wasFirst) goToRound(g.currentRound - 1)
     g.currentTurn = wasFirst ? 1 : 0
-    // The cards that turn's end set aside as achieved go back in hand: the turn is not over.
-    for (const pl of g.players) {
-      const s = pl.secondary
-      const back = (s.discarded || []).filter(d => d.auto === g.currentTurn && d.round === g.currentRound)
-      if (!back.length) continue
-      s.discarded = s.discarded.filter(d => !back.includes(d))
-      for (const d of back) if (!s.hand.includes(d.slug)) s.hand.push(d.slug)
-    }
     g.currentPhase = BATTLE_PHASES[BATTLE_PHASES.length - 1]
   }
 
@@ -1246,7 +1384,8 @@ export function useTracker() {
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     tookSecondaries, canTakeSecondaries, takeRandomSecondaries, takeChosenSecondaries, canUntakeSecondaries, untakeSecondaries,
-    restoreSecondaryToHand, redrawSecondary,
+    restoreSecondaryToHand, redrawSecondary, canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard,
+    canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, spendCp,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,

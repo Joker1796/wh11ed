@@ -681,8 +681,8 @@ describe('doubles', () => {
     expect(side.members).toHaveLength(2)
     expect(side.members[0]).toMatchObject({ name: 'Ann', factionSlug: 'orks' })
     expect(mod.membersOf(side)).toBe(side.members)
-    // Scoring state stays side-level.
-    expect(side.cp).toBe(0)
+    // Scoring state stays side-level (round 1's Core CP already in).
+    expect(side.cp).toBe(1)
     expect(side.rounds).toHaveLength(mod.ROUND_COUNT)
     expect(side.primarySlug).toBeTruthy()
   })
@@ -960,5 +960,97 @@ describe('achieved secondaries leave the hand at the end of each turn', () => {
     expect(sec(0).hand).not.toContain(a)
     expect(tracker.secondaryCardVp(0, a, 1)).toBeGreaterThan(0)
     expect(sec(0).discarded.find(d => d.slug === a).round).toBe(1)
+  })
+})
+
+describe('the CP ledger', () => {
+  const pl = (pi) => tracker.current.value.players[pi]
+  const kinds = (pi) => pl(pi).cpLog.map(e => `${e.kind}${e.amount > 0 ? '+' : ''}${e.amount}@${e.round}.${e.turn}`)
+
+  it('gives both players 1 Core CP at every Command phase, and takes it back with Undo turn', () => {
+    tracker.newGame(setupGame())
+    expect([pl(0).cp, pl(1).cp]).toEqual([1, 1])
+    tracker.endTurn()
+    expect([pl(0).cp, pl(1).cp]).toEqual([2, 2])
+    tracker.endTurn()
+    expect(kinds(0)).toEqual(['core+1@1.0', 'core+1@1.1', 'core+1@2.0'])
+    tracker.undoTurn()
+    tracker.undoTurn()
+    expect([pl(0).cp, pl(1).cp]).toEqual([1, 1])
+    // settling twice changes nothing
+    tracker.endTurn()
+    tracker.undoTurn()
+    tracker.endTurn()
+    expect(pl(0).cpLog.filter(e => e.kind === 'core')).toHaveLength(2)
+  })
+
+  it('lets a player gain one bonus CP a round, undo it by hand, and have it again next round', () => {
+    tracker.newGame(setupGame())
+    expect(tracker.gainBonusCp(0)).toBe(true)
+    expect(tracker.gainBonusCp(0)).toBe(false) // the Event Companion's cap
+    expect(pl(0).cp).toBe(2)
+    expect(tracker.canUndoBonus(0)).toBe(true)
+    tracker.undoBonusCp(0)
+    expect(pl(0).cp).toBe(1)
+    tracker.gainBonusCp(0)
+    tracker.endTurn()
+    tracker.endTurn()
+    expect(tracker.canGainBonus(0)).toBe(true)
+  })
+
+  it('keeps a stepper correction as an adjust entry', () => {
+    tracker.newGame(setupGame())
+    tracker.setCp(1, 4)
+    expect(pl(1).cp).toBe(4)
+    expect(pl(1).cpLog.at(-1)).toMatchObject({ kind: 'adjust', amount: 3 })
+  })
+
+  it('an older game without the ledger keeps its number and gets no Core CP by itself', () => {
+    tracker.newGame(setupGame())
+    const g = tracker.current.value
+    delete g.cpAuto
+    for (const p of g.players) { delete p.cpLog; delete p.cpBase; p.cp = 5 }
+    tracker.endTurn()
+    expect(pl(0).cp).toBe(5)
+    tracker.setCp(0, 3)
+    expect(pl(0).cp).toBe(3)
+    expect(pl(0).cpBase).toBe(5)
+  })
+
+  it('the end-of-turn discard gains the round\'s bonus CP and ends the turn; Undo turn returns both', () => {
+    tracker.newGame(setupGame())
+    tracker.takeRandomSecondaries(0)
+    const [a] = pl(0).secondary.hand
+    tracker.endTurnDiscard(0, a)
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(pl(0).secondary.hand).not.toContain(a)
+    expect(pl(0).cp).toBe(3) // Core ×2 + the discard's bonus
+    tracker.undoTurn()
+    expect(pl(0).secondary.hand).toContain(a)
+    expect(pl(0).cp).toBe(1)
+  })
+
+  it('an end-of-turn discard with the bonus already used gains nothing', () => {
+    tracker.newGame(setupGame())
+    tracker.takeRandomSecondaries(0)
+    tracker.gainBonusCp(0)
+    tracker.endTurnDiscard(0, pl(0).secondary.hand[0])
+    expect(pl(0).cpLog.filter(e => e.kind === 'bonus')).toHaveLength(1)
+  })
+
+  it('replaces a card for 1CP once per battle, on the side\'s own turn', () => {
+    tracker.newGame(setupGame())
+    tracker.takeRandomSecondaries(0)
+    const [a] = pl(0).secondary.hand
+    expect(tracker.canCpRedraw(1)).toBe(false)
+    const pick = pl(0).secondary.deck[3]
+    tracker.cpRedraw(0, a, pick)
+    expect(pl(0).secondary.hand).toContain(pick)
+    expect(pl(0).secondary.source[pick]).toBe('chosen')
+    expect(pl(0).secondary.discarded.map(d => d.slug)).toContain(a)
+    expect(pl(0).cp).toBe(0)
+    expect(pl(0).cpLog.at(-1)).toMatchObject({ kind: 'spend', amount: -1, source: 'redraw', ref: a })
+    tracker.gainBonusCp(0)
+    expect(tracker.canCpRedraw(0)).toBe(false) // once per battle
   })
 })

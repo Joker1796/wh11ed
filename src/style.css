@@ -1391,6 +1391,16 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   .act-danger:hover { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 8%, transparent); }
 }
 
+/* "— or choose by hand —": a label across a rule, between two ways of doing one thing (the
+   tracker's take-two and replacement dialogs). */
+.or-sep {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin: 0.9rem 0 0.5rem;
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+.or-sep::before, .or-sep::after { content: ''; flex: 1; border-top: 1px solid var(--border); }
+
 /* A body that is a LIST of choices rather than prose — the faction/detachment/keyword pickers. */
 .modal-list {
   display: flex;

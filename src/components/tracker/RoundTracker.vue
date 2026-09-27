@@ -322,7 +322,10 @@
       </div>
     </section>
 
-    <!-- Command points: one bank per side, side by side, in the side's colour. -->
+    <!-- Command points: one bank per side, side by side, in the side's colour, the same height
+         whatever their lines say. The balance, where it comes from (Core CP each turn, the one
+         bonus point a round and its source) and the bonus button — which turns into "Undo" for a
+         point added by hand. The stepper under it is a correction, kept in the ledger as one. -->
     <section
       v-else-if="tab === 'cp'"
       class="panel"
@@ -334,16 +337,50 @@
           :key="i"
           class="cp-bank"
           :class="{ opp: !isYouSide(pl, i), 'player-locked': !canEdit(i) }"
+          :inert="lock(i)"
         >
           <div class="cb-name">
             {{ playerName(i) }}
           </div>
-          <NumberStepper
-            :model-value="pl.cp"
-            :min="0"
-            :inert="lock(i)"
-            @update:model-value="v => setCp(i, v)"
-          />
+          <div class="cb-num">
+            {{ pl.cp }}
+          </div>
+          <dl class="cb-lines">
+            <div v-if="current.cpAuto">
+              <dt>{{ labels.trackerCoreCp }}</dt>
+              <dd>{{ labels.trackerCoreCpRate }}</dd>
+            </div>
+            <div>
+              <dt>{{ labels.trackerBonusCp }}</dt>
+              <dd>{{ bonusOf(i) ? 1 : 0 }} / 1</dd>
+            </div>
+            <div class="cb-src">
+              {{ bonusSource(i) }}
+            </div>
+          </dl>
+          <button
+            v-if="canUndoBonus(i)"
+            class="cb-btn undo"
+            @click="undoBonusCp(i)"
+          >
+            {{ labels.trackerBonusUndo }}
+          </button>
+          <button
+            v-else
+            class="cb-btn"
+            :disabled="!canGainBonus(i)"
+            @click="gainBonusCp(i)"
+          >
+            {{ bonusOf(i) ? labels.trackerBonusTaken : labels.trackerBonusGain }}
+          </button>
+          <div class="cb-adjust">
+            <span>{{ labels.trackerCpAdjust }}</span>
+            <NumberStepper
+              :model-value="pl.cp"
+              :min="0"
+              @update:model-value="v => setCp(i, v)"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -516,6 +553,7 @@ import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { blockLocked } from '../../composables/missionTiming.js'
+import { bonusIn } from '../../composables/cpLedger.js'
 import { useTracker, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
@@ -523,7 +561,7 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, primaryTotal, setCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, primaryTotal, setCp, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
 
 // Read through `tracks` so a game saved before the option existed arrives with its default
 // rather than undefined.
@@ -634,6 +672,16 @@ const undoTitle = computed(() => {
   const other = 1 - turnIndex.value
   return canEdit(other) ? labels.value.trackerUndoTurn : labels.value.trackerUndoLocked.replace('{name}', playerName(other))
 })
+
+// The round's bonus CP entry, if one was gained, and where it came from.
+function bonusOf(i) {
+  return bonusIn(current.value.players[i], current.value.currentRound)
+}
+function bonusSource(i) {
+  const b = bonusOf(i)
+  if (!b) return labels.value.trackerBonusFree
+  return b.source === 'discard' ? labels.value.trackerBonusFromDiscard : labels.value.trackerBonusFromManual
+}
 
 function onPickPhase(turn, phase) {
   goToPhase(turn, phase)
@@ -1004,13 +1052,14 @@ function onEndBattle(reason) {
 .gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 @media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
 
-/* Command points: the two banks side by side, each in its side's colour. */
+/* Command points: the two banks side by side, each in its side's colour, one height. */
 .cp-banks { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 .cp-bank {
   --side: var(--accent);
-  display: grid;
-  gap: 0.5rem;
-  justify-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
   padding: 0.7rem;
   border: 1px solid var(--border);
   border-top: 3px solid var(--side);
@@ -1018,11 +1067,26 @@ function onEndBattle(reason) {
 }
 .cp-bank.opp { --side: var(--side-opponent); }
 .cb-name {
-  max-width: 100%;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-family: var(--font-display); font-size: 1.3rem; font-weight: 700;
   text-transform: uppercase; color: var(--side);
 }
+.cb-num { font-family: var(--font-display); font-size: 3.2rem; font-weight: 700; line-height: 0.9; color: var(--side); }
+.cb-lines { margin: 0; display: grid; gap: 0.15rem; font-size: 0.82rem; }
+.cb-lines > div:not(.cb-src) { display: flex; justify-content: space-between; gap: 0.4rem; }
+.cb-lines dt { color: var(--text-muted); }
+.cb-lines dd { margin: 0; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+/* The source line keeps its height when empty, so the button under it never jumps. */
+.cb-src { min-height: 1.2em; font-size: 0.74rem; color: var(--text-dim); }
+.cb-btn {
+  margin-top: auto;
+  min-height: 44px; padding: 0.4rem 0.5rem;
+  border: 1px solid var(--side); background: color-mix(in srgb, var(--side) 8%, var(--bg-card));
+  font: inherit; font-size: 0.9rem; font-weight: 700; color: var(--side); cursor: pointer;
+}
+.cb-btn.undo { background: var(--side); color: #fff; }
+.cb-btn:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
+.cb-adjust { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap; font-size: 0.74rem; color: var(--text-dim); }
 
 /* The armies: one card per side, the side's colour down its edge. */
 .armies { display: grid; gap: 0.75rem; }
