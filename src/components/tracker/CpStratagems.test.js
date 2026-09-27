@@ -66,17 +66,32 @@ describe('CpStratagems', () => {
 })
 
 describe('CpStratagems — the Stratagems page\'s filter', () => {
-  it('groups by phase with the live phase first, open and marked; the deck filter narrows it', async () => {
+  it('with the phase clock, puts first what THIS side can play now — its phase, and whose it is', async () => {
     tracker.current.value.settings.trackPhases = true
-    tracker.goToPhase(0, 'shooting')
-    localStorage.removeItem('wh11ed-tracker-strats-by-phase') // grouped is the default
+    tracker.goToPhase(0, 'shooting') // side 0's own Shooting phase
     const w = await mountTab(0)
     const heads = w.findAll('.phase-head')
-    expect(heads[0].text()).toContain('Shooting phase')
+    expect(heads[0].text()).toContain('Now · Shooting phase')
     expect(heads[0].classes()).toContain('now')
-    expect(heads[0].attributes('aria-expanded')).toBe('true')
-    expect(heads[1].attributes('aria-expanded')).toBe('false')
-    // The flat list, and only the core deck in it.
+    // Closed at first…
+    expect(heads.every((h) => h.attributes('aria-expanded') === 'false')).toBe(true)
+    await heads[0].trigger('click')
+    const now = w.findAll('.phase-group')[0].findAll('.sr-name').map((n) => n.text())
+    expect(now.some((t) => t.startsWith('Explosives'))).toBe(true) // "your Shooting phase"
+    expect(now.some((t) => t.startsWith('Smokescreen'))).toBe(false) // the opponent's Shooting phase
+    // …and remembered as the player left them.
+    w.unmount()
+    const again = await mountTab(0)
+    expect(again.findAll('.phase-head')[0].attributes('aria-expanded')).toBe('true')
+    // The opponent, in the same phase, gets Smokescreen and not Explosives.
+    await again.findAll('.cps-side')[1].trigger('click')
+    const opp = again.findAll('.phase-group')[0].findAll('.sr-name').map((n) => n.text())
+    expect(opp.some((t) => t.startsWith('Smokescreen'))).toBe(true)
+    expect(opp.some((t) => t.startsWith('Explosives'))).toBe(false)
+  })
+
+  it('narrows to one deck, and shows the flat list', async () => {
+    const w = await mountTab(0)
     await w.find('.strat-toggle').trigger('click')
     await w.findAll('.strat-filter').find((b) => b.text() === 'Core').trigger('click')
     expect(w.findAll('.cps-title').map((t) => t.text())).toEqual(['Core stratagems'])

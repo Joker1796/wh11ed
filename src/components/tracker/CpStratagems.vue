@@ -47,7 +47,7 @@
       v-if="byPhase"
       v-model:open="openPhases"
       :groups="groups"
-      :now="phasesOn ? livePhase : null"
+      :now="phasesOn ? 'now' : null"
     >
       <template #default="{ group }">
         <ul class="cps-list">
@@ -170,7 +170,8 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 import { loadCoreStratagems, loadSideStratagems, sideSignature } from '../../composables/gameStratagems.js'
-import { PHASE_ORDER, groupByPhase } from '../../composables/stratagemPhases.js'
+import { groupByPhase, usableInSlot, phaseLabel } from '../../composables/stratagemPhases.js'
+import { tracks } from '../../data/trackerOptions.js'
 
 // The stratagems in the CP tab: spend a side's CP on one, and take it back. Mounted only while
 // the CP tab is open, so the faction data (dynamically imported by gameStratagems.js) is fetched
@@ -213,7 +214,7 @@ watch(
 )
 
 // ── The filter: the Stratagems page's toolbar (StratFilterBar) ──
-const phasesOn = computed(() => !!current.value?.settings?.trackPhases)
+const phasesOn = computed(() => tracks(current.value?.settings, 'trackPhases'))
 const livePhase = computed(() => current.value?.currentPhase || 'command')
 const deck = ref('all')
 const deckFilters = computed(() => [
@@ -234,16 +235,29 @@ const shown = computed(() => [
   ...(deck.value !== 'core' ? armyAll.value : []),
   ...(deck.value !== 'army' ? core.value : []),
 ])
-const groups = computed(() => groupByPhase(shown.value, phasesOn.value ? livePhase.value : null))
+// With the clock, a group of its own on top: what THIS side can play right now — the phase, and
+// whose phase it is ("your opponent's Movement phase" is Fire Overwatch's, not the mover's), by
+// the same usableInSlot the phase reminder and the roster screen use. The phase groups follow.
+const nowStrats = computed(() => {
+  if (!phasesOn.value) return []
+  const mine = (current.value.currentTurn === 1 ? 1 : 0) === side.value
+  return shown.value.filter((s) => usableInSlot(s._phases, s._sides, livePhase.value, mine))
+})
+const groups = computed(() => [
+  ...(phasesOn.value
+    ? [{ key: 'now', label: `${labels.value.trackerStratNow} · ${phaseLabel(livePhase.value, labels.value)}`, strats: nowStrats.value }]
+    : []),
+  ...groupByPhase(shown.value),
+])
 
-// Which phase groups are open: with the clock, the phase it stands on (and it follows the clock);
-// without one, every group — in a game a folded list is one tap too many.
-const openPhases = ref(new Set())
-function resetOpen() {
-  openPhases.value = new Set(phasesOn.value ? [livePhase.value] : PHASE_ORDER)
+// Which groups are open: all closed at first, then as the player left them — remembered on the
+// device (owner's call, 2026-09-27).
+const OPEN_KEY = 'wh11ed-tracker-strats-open'
+const openPhases = ref(new Set(readOpen()))
+function readOpen() {
+  try { return JSON.parse(getItem(OPEN_KEY) || '[]') } catch { return [] }
 }
-resetOpen()
-watch([livePhase, phasesOn], resetOpen)
+watch(openPhases, (set) => setItem(OPEN_KEY, JSON.stringify([...set])))
 
 // ── The cost this use is asked at ──
 const mods = ref({})
@@ -285,7 +299,7 @@ function use(s) {
 
 <style scoped>
 .cps { margin-top: 1rem; }
-.cps-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
+.cps-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-bottom: 0.7rem; }
 .cps-side {
   --side: var(--accent);
   display: flex; align-items: baseline; justify-content: space-between; gap: 0.4rem;
@@ -305,7 +319,7 @@ function use(s) {
 }
 .cps-hint { margin: -0.2rem 0 0.4rem; font-size: 0.78rem; color: var(--text-dim); }
 .cps-empty { margin: 0; font-size: 0.84rem; color: var(--text-dim); }
-.cps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.cps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
 .cps-mod { display: flex; justify-content: space-between; align-items: center; }
 .cps-mod.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--bg-secondary)); }
 </style>

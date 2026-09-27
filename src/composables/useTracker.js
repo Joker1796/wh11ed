@@ -17,6 +17,7 @@ import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 import { membersOf, memberAt } from './rosterGameLink.js'
 import { applySlice } from './gameSlices.js'
+import { tracks } from '../data/trackerOptions.js'
 import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from './cpLedger.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
@@ -1114,7 +1115,7 @@ export function useTracker() {
     if (lim.perBattle && uses.length) return 'perBattle'
     if (lim.perRound && uses.some(e => e.round === R)) return 'perRound'
     if (lim.perTurn && uses.some(e => e.round === R && e.turn === T)) return 'perTurn'
-    if (g.settings?.trackPhases && uses.some(e => e.round === R && e.turn === T && e.phase === (g.currentPhase || 'command'))) return 'perPhase'
+    if (tracks(g.settings, 'trackPhases') && uses.some(e => e.round === R && e.turn === T && e.phase === (g.currentPhase || 'command'))) return 'perPhase'
     if ((g.players[pi].cp || 0) < cost) return 'cp'
     return null
   }
@@ -1122,7 +1123,7 @@ export function useTracker() {
     const g = current.value
     if (stratBlock(pi, strat, cost)) return null
     const entry = spendCp(pi, cost, 'strat', strat._key, strat.name)
-    if (g.settings?.trackPhases) entry.phase = g.currentPhase || 'command'
+    if (tracks(g.settings, 'trackPhases')) entry.phase = g.currentPhase || 'command'
     return entry
   }
   // Take back the latest use of a stratagem made this battle round — a mis-tap, or a use the

@@ -38,15 +38,15 @@
         type="button"
         class="strat-toggle"
         :class="{ active: byPhase }"
-      :aria-pressed="byPhase"
-      :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"
-      @click="$emit('update:byPhase', !byPhase)"
-    >
-      <i
-        class="bi"
-        :class="byPhase ? 'bi-list-ul' : 'bi-collection'"
-      />
-      <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
+        :aria-pressed="byPhase"
+        :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"
+        @click="$emit('update:byPhase', !byPhase)"
+      >
+        <i
+          class="bi"
+          :class="byPhase ? 'bi-list-ul' : 'bi-collection'"
+        />
+        <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
       </button>
     </div>
   </div>

@@ -104,14 +104,14 @@ const { renderInline } = useRenderInline()
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: 0.5rem;
-  padding: 0.55rem 0.6rem;
+  padding: 0.4rem 0.5rem;
   border: 1px solid var(--border);
   background: var(--bg-card);
 }
 .sr-main { min-width: 0; padding: 0; border: 0; background: none; text-align: left; font: inherit; cursor: pointer; }
 .sr-name {
   display: block;
-  font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; line-height: 1.1;
+  font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; line-height: 1.1;
   text-transform: uppercase; color: var(--text-primary);
 }
 /* The timing: two lines at most — the full text is one tap away. */
@@ -122,14 +122,14 @@ const { renderInline } = useRenderInline()
 }
 .sr-when {
   display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  margin-top: 0.2rem; font-size: 0.8rem; line-height: 1.35; color: var(--text-muted);
+  margin-top: 0.1rem; font-size: 0.76rem; line-height: 1.3; color: var(--text-muted);
 }
-.sr-ctrl { display: flex; align-items: flex-start; gap: 0.3rem; }
+.sr-ctrl { display: flex; align-items: center; gap: 0.25rem; }
 .sr-gear {
   position: relative;
-  width: 44px; height: 44px;
+  width: 36px; height: 36px;
   border: 1px solid var(--border); background: var(--bg-secondary);
-  color: var(--text-muted); font-size: 1.05rem; cursor: pointer;
+  color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
 }
 .sr-gear.modified { border-color: var(--accent); color: var(--accent); }
 .sr-mod {
@@ -138,15 +138,15 @@ const { renderInline } = useRenderInline()
   font-size: 0.66rem; font-weight: 700; line-height: 1.3;
 }
 .sr-use {
-  min-width: 60px; height: 44px; padding: 0 0.5rem;
+  min-width: 50px; height: 36px; padding: 0 0.4rem;
   border: 1px solid var(--accent); background: var(--accent); color: #fff;
-  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; cursor: pointer;
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; cursor: pointer;
 }
 .sr-use:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
 .sr-foot {
   grid-column: 1 / -1;
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.75rem;
-  margin-top: 0.35rem; font-size: 0.78rem;
+  margin-top: 0.25rem; font-size: 0.76rem;
 }
 .sr-used { font-weight: 700; color: var(--accent); }
 .sr-undo {

@@ -18,8 +18,8 @@
           class="bi phase-chev"
           :class="open.has(g.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
         />
-        <span class="phase-name">{{ phaseLabel(g.key, labels) }}<small
-          v-if="g.key === now"
+        <span class="phase-name">{{ g.label || phaseLabel(g.key, labels) }}<small
+          v-if="g.key === now && !g.label"
           class="phase-now"
         > · {{ labels.trackerStratNow }}</small></span>
         <span class="phase-count">{{ g.strats.length }}</span>
@@ -40,8 +40,8 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { phaseLabel } from '../composables/stratagemPhases.js'
 
-// `groups` — groupByPhase(); `open` — the open phases (a Set, v-model); `now` — the phase the
-// tracker's clock stands on, marked on its head (null anywhere else).
+// `groups` — groupByPhase() (a group may bring its own `label`); `open` — the open phases (a Set,
+// v-model); `now` — the group to mark as the live one (the tracker's; null anywhere else).
 const props = defineProps({
   groups: { type: Array, required: true },
   open: { type: Object, required: true },
