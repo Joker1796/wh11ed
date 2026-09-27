@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
-  PRIMARY_GAME_CAP, FIXED_SECONDARY_CAP, TACTICAL_SECONDARY_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
-  primaryTotal, secondaryTotal, grandTotal, leader,
+  PRIMARY_GAME_CAP, FIXED_SECONDARY_CAP, TACTICAL_SECONDARY_CAP, SECONDARY_GAME_CAP, SECONDARY_ROUND_CAP, BATTLE_READY_VP,
+  primaryTotal, secondaryTotal, secondaryRounds, secondaryInRound, grandTotal, leader,
   battlePointsFromVp, battlePoints, BP_TABLE,
 } from './gameScoring.js'
 
@@ -37,26 +37,42 @@ describe('primaryTotal', () => {
 
 describe('secondaryTotal', () => {
   it('tactical: caps each scoring at 5VP ("up to 5VP"), then sums', () => {
-    const g = game({ secondary: { scored: [{ vp: 5 }, { vp: 3 }] } })
+    const g = game({ secondary: { scored: [{ round: 1, vp: 5 }, { round: 1, vp: 3 }] } })
     expect(secondaryTotal(g, 0)).toBe(8)
     // "For each … 3VP" scoring 4 units → 12, but a tactical secondary is capped at 5 each.
-    const over = game({ secondary: { scored: [{ vp: 12 }, { vp: 10 }] } })
+    const over = game({ secondary: { scored: [{ round: 1, vp: 12 }, { round: 2, vp: 10 }] } })
     expect(secondaryTotal(over, 0)).toBe(10)
     expect(TACTICAL_SECONDARY_CAP).toBe(5)
   })
   it('tactical: also caps the game total at 45', () => {
-    const many = game({ secondary: { scored: Array.from({ length: 10 }, () => ({ vp: 5 })) } })
+    const many = game({ secondary: { scored: Array.from({ length: 10 }, (_, i) => ({ round: 1 + (i % 5), vp: 5 })) } })
     expect(secondaryTotal(many, 0)).toBe(SECONDARY_GAME_CAP)
     expect(SECONDARY_GAME_CAP).toBe(45)
   })
   it('fixed: caps each mission at 20 before the 45 game cap', () => {
     const g = game({
       secondaryMode: 'fixed',
-      secondary: { scored: [{ slug: 'a', vp: 15 }, { slug: 'a', vp: 15 }, { slug: 'b', vp: 8 }] },
+      secondary: { scored: [{ slug: 'a', round: 1, vp: 15 }, { slug: 'a', round: 2, vp: 15 }, { slug: 'b', round: 3, vp: 8 }] },
     })
     // 'a' capped 30→20, 'b' 8 → 28
     expect(secondaryTotal(g, 0)).toBe(28)
     expect(FIXED_SECONDARY_CAP).toBe(20)
+  })
+  // Event Companion VP table: "45VP (up to 15VP per battle round)" — for both modes.
+  it('caps a battle round at 15VP across all cards, and the curve says the same', () => {
+    const tac = player({ secondary: { scored: [
+      { slug: 'a', round: 2, vp: 5 }, { slug: 'b', round: 2, vp: 5 }, { slug: 'c', round: 2, vp: 5 }, { slug: 'd', round: 2, vp: 4 },
+    ] } })
+    expect(secondaryTotal({ players: [tac] }, 0)).toBe(SECONDARY_ROUND_CAP)
+    expect(secondaryRounds(tac)).toEqual([0, 15, 0, 0, 0])
+    expect(secondaryInRound(tac, 2)).toBe(15)
+    // A fixed card's 20 is spent round by round, by what the card scored (a: 12 in round 1,
+    // so only 8 left for round 2); the round's 15 is applied after, over all the cards.
+    const fix = player({ secondaryMode: 'fixed', secondary: { scored: [
+      { slug: 'a', round: 1, vp: 12 }, { slug: 'b', round: 1, vp: 8 }, { slug: 'a', round: 2, vp: 12 },
+    ] } })
+    expect(secondaryRounds(fix)).toEqual([15, 8, 0, 0, 0])
+    expect(SECONDARY_ROUND_CAP).toBe(15)
   })
 })
 
@@ -64,7 +80,7 @@ describe('grandTotal', () => {
   it('adds primary + secondary + battle-ready bonus', () => {
     const g = {
       players: [
-        player({ rounds: [{ primary: 10 }, { primary: 5 }, {}, {}, {}], secondary: { scored: [{ vp: 5 }] }, battleReady: true }),
+        player({ rounds: [{ primary: 10 }, { primary: 5 }, {}, {}, {}], secondary: { scored: [{ round: 1, vp: 5 }] }, battleReady: true }),
         player(),
       ],
     }
