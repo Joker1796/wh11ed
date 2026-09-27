@@ -49,9 +49,10 @@ function mountTracker() {
     },
   })
 }
-const tabLabels = (w) => w.findAll('.gt-tab').map(t => t.text())
+// Closed tabs are icons: a tab is named by its aria-label.
+const tabLabels = (w) => w.findAll('.gt-tab').map(t => t.attributes('aria-label'))
 async function openTab(w, label) {
-  await w.findAll('.gt-tab').find(t => t.text() === label).trigger('click')
+  await w.findAll('.gt-tab').find(t => t.attributes('aria-label') === label).trigger('click')
   return w
 }
 const openArmies = (w) => openTab(w, 'Armies')
@@ -65,10 +66,10 @@ describe('RoundTracker — the tabs', () => {
   it('opens on the missions and offers CP only to a game that counts it', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = mountTracker()
-    expect(tabLabels(w)).toEqual(['Log', 'Stats', 'Armies', 'Missions', 'CP'])
-    expect(w.find('.gt-tab.on').text()).toBe('Missions')
+    expect(tabLabels(w)).toEqual(['Missions', 'CP', 'Log', 'Stats', 'Armies'])
+    expect(w.find('.gt-tab.on').text()).toBe('Missions') // the open tab says its word
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false })
-    expect(tabLabels(mountTracker())).toEqual(['Log', 'Stats', 'Armies', 'Missions'])
+    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Log', 'Stats', 'Armies'])
   })
 
   // A turn starts with drawing and scoring, so a new turn brings the player back to them.
@@ -78,7 +79,7 @@ describe('RoundTracker — the tabs', () => {
     expect(w.find('.cp-banks').exists()).toBe(true)
     tracker.endTurn()
     await w.vm.$nextTick()
-    expect(w.find('.gt-tab.on').text()).toBe('Missions')
+    expect(w.find('.gt-tab.on').text()).toBe('Missions') // the open tab says its word
     expect(w.find('.cp-banks').exists()).toBe(false)
   })
 })
@@ -221,7 +222,7 @@ describe('RoundTracker — the phase row', () => {
 describe('RoundTracker — the Phase tab', () => {
   it('is a tab only while the clock and its reminder are on', () => {
     startGame({}, {}, { trackPhases: true, trackPhaseRules: true })
-    const hasPhase = (w) => tabLabels(w).some((t) => t.startsWith('Phase')) // the label carries its count
+    const hasPhase = (w) => tabLabels(w).includes('Phase')
     expect(hasPhase(mountTracker())).toBe(true)
     startGame({}, {}, { trackPhases: true, trackPhaseRules: false })
     expect(hasPhase(mountTracker())).toBe(false)

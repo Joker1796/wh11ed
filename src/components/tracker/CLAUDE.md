@@ -108,12 +108,16 @@ phase (tap → the phase picker), ›, End turn. The arrows stop at Command and 
 changes only by End / Undo turn, so never past the end-of-turn check. The reminder ("in this
 phase", `trackPhaseRules`) is the **Phase** tab of the upper row, its count on the tab
 (`usePhaseRules.js` counts; `PhaseRules.vue embedded` draws; its stratagems line opens the CP tab).
-Two rows of tabs in one look, split by a heavy rule: the reference views **Log / Stats / Armies** (and
-**Phase** with the clock) above,
-the two places the game is played — **Missions / CP** — below. One panel at a time; **every new
-turn opens on Missions** (a watch on round + turn), because a turn starts by drawing and scoring.
-The CP tab exists only while the game tracks CP (`trackCP`); switched off mid-game it falls back to
-Missions. What lives where:
+**One strip of tabs** over one panel (owner's calls, 2026-09-27: two rows split by a heavy rule
+read as two menus, and they were one menu). Every CLOSED tab is an icon (`aria-label` + `title`
+name it); the OPEN tab takes the rest of the width and shows its icon and its word — one row at any
+width, and the word on screen is always where you are. Missions `bi-bullseye`, CP
+`bi-lightning-charge`, Log `bi-journal-text`, Stats `bi-bar-chart-line`, Armies `bi-shield-shaded`,
+Phase `bi-hourglass-split` (with its count in the corner). The strip stands on a 2px accent line;
+the open tab is filled with the accent, so it reads as attached to the panel. One panel at a time;
+**every new turn opens on Missions** (a watch on round + turn), because a turn starts by drawing and
+scoring. The CP tab exists only while the game tracks CP (`trackCP`); switched off mid-game it falls
+back to Missions. What lives where:
 
 - **Missions** — the twist reminder and one card per side: primary, secondaries, the army-rule
   tracker. The card carries its side's colour down its edge. See "The missions panel" below.

@@ -149,52 +149,44 @@
       @close="phasePickerOpen = false"
     />
 
-    <!-- The game's working area. Two rows of tabs in one visual language: the reference views
-         (stats, the armies) above, the two places the game is PLAYED in — the missions and the
-         command points — below them, under a divider. One panel shows at a time: both players'
-         cards one under the other ran to several screens on a phone, and the thing a player
-         wants mid-turn is one of these five, not all of them. Every new turn opens on the
-         missions (watch below) — that is where a turn starts. -->
+    <!-- The game's working area: ONE strip of tabs over one panel (owner's calls, 2026-09-27 —
+         two rows split by a rule read as two menus, and they were one). Every closed tab is an
+         icon, named on hover and to a screen reader; the open one takes the rest of the width
+         and says its word beside its icon — so the strip is one row at any width, and the
+         word on screen is always where you are. The phase tab carries its count. The open tab
+         sits on the strip's line in the accent, attached to what it shows. Every new turn opens
+         on the missions (watch below) — that is where a turn starts. -->
     <nav
       class="game-tabs"
+      role="tablist"
       :aria-label="labels.trackerTabsAria"
+      :style="{ gridTemplateColumns: tabColumns }"
     >
-      <div
-        class="gt-row gt-util"
-        role="tablist"
+      <button
+        v-for="t in tabs"
+        :key="t.id"
+        role="tab"
+        class="gt-tab"
+        :class="{ on: tab === t.id }"
+        :aria-selected="tab === t.id"
+        :aria-label="t.label"
+        :title="tab === t.id ? undefined : t.label"
+        @click="tab = t.id"
       >
-        <button
-          v-for="t in utilTabs"
-          :key="t.id"
-          role="tab"
-          class="gt-tab"
-          :class="{ on: tab === t.id }"
-          :aria-selected="tab === t.id"
-          @click="tab = t.id"
-        >
-          {{ t.label }}
-          <span
-            v-if="t.count != null"
-            class="gt-count"
-          >{{ t.count }}</span>
-        </button>
-      </div>
-      <div
-        class="gt-row gt-main"
-        role="tablist"
-      >
-        <button
-          v-for="t in mainTabs"
-          :key="t.id"
-          role="tab"
-          class="gt-tab"
-          :class="{ on: tab === t.id }"
-          :aria-selected="tab === t.id"
-          @click="tab = t.id"
-        >
-          {{ t.label }}
-        </button>
-      </div>
+        <i
+          class="bi"
+          :class="t.icon"
+          aria-hidden="true"
+        />
+        <span
+          v-if="tab === t.id"
+          class="gt-word"
+        >{{ t.label }}</span>
+        <span
+          v-if="t.count"
+          class="gt-count"
+        >{{ t.count }}</span>
+      </button>
     </nav>
 
     <section
@@ -598,17 +590,17 @@ const tab = ref('missions')
 // is the reminder itself, readable without opening it.
 const phaseTabOn = computed(() => phasesOn.value && tracks(current.value.settings, 'trackPhaseRules'))
 const { total: phaseRuleCount } = usePhaseRules()
-const utilTabs = computed(() => [
-  { id: 'log', label: labels.value.trackerTabLog },
-  { id: 'stats', label: labels.value.trackerTabStats },
-  { id: 'armies', label: labels.value.trackerTabArmies },
-  ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, count: phaseRuleCount.value }] : []),
+const tabs = computed(() => [
+  { id: 'missions', label: labels.value.trackerTabMissions, icon: 'bi-bullseye' },
+  ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp, icon: 'bi-lightning-charge' }] : []),
+  { id: 'log', label: labels.value.trackerTabLog, icon: 'bi-journal-text' },
+  { id: 'stats', label: labels.value.trackerTabStats, icon: 'bi-bar-chart-line' },
+  { id: 'armies', label: labels.value.trackerTabArmies, icon: 'bi-shield-shaded' },
+  ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, icon: 'bi-hourglass-split', count: phaseRuleCount.value }] : []),
 ])
+// The open tab takes what the closed icons leave.
+const tabColumns = computed(() => tabs.value.map((t) => (t.id === tab.value ? 'minmax(0, 1fr)' : '48px')).join(' '))
 watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
-const mainTabs = computed(() => [
-  { id: 'missions', label: labels.value.trackerTabMissions },
-  ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp }] : []),
-])
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
 // The round on screen: the live one, or a past one opened for correction from the round steps
 // (`viewRound`). Local to this phone — what one player is correcting is not where the game is.
@@ -1023,31 +1015,42 @@ function onEndBattle(reason) {
 }
 .tf-next { margin: 0.35rem 0 0; text-align: center; font-size: 0.82rem; color: var(--text-dim); }
 
-/* The working area's tabs. Both rows share one look; the divider between the rows is what says
-   the working tabs below are a different kind of thing from the navigation above. */
-.game-tabs { display: grid; gap: 0.45rem; margin-bottom: 0.7rem; }
-.gt-util { padding-bottom: 0.45rem; border-bottom: 3px solid var(--text-primary); }
-.gt-row { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0.35rem; }
+/* The working area's tabs: one strip, joined, on a line in the accent — the active tab is filled
+   with it and so reads as part of the line it stands on, attached to the panel under it. */
+.game-tabs {
+  display: grid;
+  margin-bottom: 0.7rem;
+  border-bottom: 2px solid var(--accent);
+}
 .gt-tab {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
   min-width: 0;
-  min-height: 36px;
+  min-height: 40px;
   padding: 0.2rem 0.4rem;
+  margin-left: -1px;
   border: 1px solid var(--border);
+  border-bottom: 0;
   background: var(--bg-card);
-  color: var(--text-primary);
+  color: var(--text-muted);
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   cursor: pointer;
 }
-.gt-main .gt-tab { min-height: 40px; font-size: 1.2rem; }
+.gt-tab:first-child { margin-left: 0; }
+.gt-tab .bi { font-size: 1.1rem; }
+.gt-word { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gt-tab.on { z-index: 1; background: var(--accent); border-color: var(--accent); color: #fff; }
+@media (hover: hover) { .gt-tab:not(.on):hover { color: var(--text-primary); } }
+/* The phase tab's count, in its corner. */
 .gt-count {
-  min-width: 1.3rem; padding: 0 0.25rem;
+  position: absolute; top: 2px; right: 2px;
+  min-width: 1.05rem; padding: 0 0.2rem;
   background: var(--accent); color: #fff;
-  font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.4;
+  font-family: var(--font-mono); font-size: 0.62rem; line-height: 1.35; letter-spacing: 0;
 }
 .gt-tab.on .gt-count { background: #fff; color: var(--accent); }
 .panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
