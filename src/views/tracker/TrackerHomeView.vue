@@ -84,6 +84,15 @@
         >
           <i class="bi bi-people" /> {{ labels.lobbyNewGameShort }}
         </button>
+        <!-- The way to the statistics that is always there (owner, 2026-09-29), as on the roster
+             list's heading: the record bar below shows only once a game counts, so a phone with
+             no finished game had no way in at all. Above 900px the subnav's tab is that way. -->
+        <RouterLink
+          to="/tracker/stats"
+          class="cta-q cta-stats"
+        >
+          <i class="bi bi-bar-chart" /> {{ labels.statsLink }}
+        </RouterLink>
       </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
@@ -613,6 +622,10 @@ function footLine(g) {
   .cta-q:hover { color: var(--accent); }
 }
 .cta-q:disabled { opacity: 0.5; cursor: default; }
+/* Above the subnav's breakpoint its Statistics tab is on screen — the same rule as the record bar. */
+@media (min-width: 901px) {
+  .cta-stats { display: none; }
+}
 /* No separator glyph between them, and that is the second attempt: a '·' on every item after
    the first lands at the START of the next line the moment the row wraps — which it does at
    390px as soon as there are three of them — and reads as debris. Space is the separator. */
