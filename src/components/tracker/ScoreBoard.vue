@@ -193,16 +193,17 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 .grand-vp { font-size: 0.85rem; opacity: 0.5; margin-left: 0.4rem; font-family: var(--font-mono); font-weight: 600; }
 /* The running Battle Points stand beside the VP as its equal, the same face and size. */
 .grand-bp { margin-left: 1.1rem; }
+/* Grouped at the left under the score, not spread across the card (owner, 2026-09-29). */
 .breakdown {
   display: flex;
-  gap: 1.2rem;
+  gap: 1.1rem;
   margin: 0.7rem 0 0;
   padding-top: 0.55rem;
   border-top: 1px solid var(--border);
 }
 .breakdown div { display: flex; flex-direction: column; gap: 2px; }
 .breakdown dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
-.breakdown dd { margin: 0; font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); }
+.breakdown dd { margin: 0; font-family: var(--font-mono); font-size: 1.45rem; line-height: 1.1; font-weight: 700; color: var(--text-primary); }
 /* The badge straddles the board's top edge (the result screen only). The board makes room for it
    rather than the badge moving onto the score columns. */
 .board:has(.tie) { margin-top: 0.6rem; }
@@ -230,8 +231,16 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   .grand { font-size: 1.7rem; }
   .grand-unit { font-size: 0.7rem; }
   .grand-bp { margin-left: 0.6rem; }
-  .breakdown { justify-content: space-between; gap: 0.3rem; margin-top: 0.5rem; padding-top: 0.4rem; }
+  .breakdown { gap: 0.8rem; margin-top: 0.5rem; padding-top: 0.4rem; }
   .breakdown dt { font-size: 0.58rem; letter-spacing: 0; }
-  .breakdown dd { font-size: 0.95rem; }
+  .breakdown dd { font-size: 1.2rem; }
+}
+/* The narrowest phones: the three labels fill the card, so the gap is what gives. */
+@media (max-width: 380px) {
+  .breakdown { gap: 0.4rem; }
+}
+@media (max-width: 340px) {
+  .breakdown { gap: 0.3rem; }
+  .breakdown dt { font-size: 0.52rem; }
 }
 </style>
