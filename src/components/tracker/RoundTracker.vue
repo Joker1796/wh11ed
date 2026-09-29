@@ -612,9 +612,11 @@ const { total: phaseRuleCount } = usePhaseRules()
 const tabs = computed(() => [
   { id: 'missions', label: labels.value.trackerTabMissions, icon: 'bi-bullseye' },
   ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp, icon: 'bi-lightning-charge' }] : []),
+  // The armies right after CP (owner, 2026-09-29): both are looked at during a turn, the log and
+  // the stats after it.
+  { id: 'armies', label: labels.value.trackerTabArmies, icon: 'bi-shield-shaded' },
   { id: 'log', label: labels.value.trackerTabLog, icon: 'bi-journal-text' },
   { id: 'stats', label: labels.value.trackerTabStats, icon: 'bi-bar-chart-line' },
-  { id: 'armies', label: labels.value.trackerTabArmies, icon: 'bi-shield-shaded' },
   ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, icon: 'bi-hourglass-split', count: phaseRuleCount.value }] : []),
 ])
 // The open tab takes what the closed icons leave.

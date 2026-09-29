@@ -66,10 +66,10 @@ describe('RoundTracker — the tabs', () => {
   it('opens on the missions and offers CP only to a game that counts it', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = mountTracker()
-    expect(tabLabels(w)).toEqual(['Missions', 'CP', 'Log', 'Stats', 'Armies'])
+    expect(tabLabels(w)).toEqual(['Missions', 'CP', 'Armies', 'Log', 'Stats'])
     expect(w.find('.gt-tab.on').text()).toBe('Missions') // the open tab says its word
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false })
-    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Log', 'Stats', 'Armies'])
+    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Armies', 'Log', 'Stats'])
   })
 
   // A turn starts with drawing and scoring, so a new turn brings the player back to them.
