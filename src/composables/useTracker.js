@@ -12,7 +12,7 @@ import {
   leader as leaderOf,
   youIndex,
 } from './gameScoring.js'
-import { BATTLE_PHASES } from './stratagemPhases.js'
+import { BATTLE_PHASES, usableThisTurn } from './stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 import { membersOf, memberAt } from './rosterGameLink.js'
@@ -1105,6 +1105,7 @@ export function useTracker() {
   // player's turn (Fire Overwatch, Rapid Ingress, Smokescreen, Heroic Intervention). What is
   // refused, and why (the reason is a ui.js key suffix):
   //   'finished' — the game is over;  'cp' — not enough CP for the cost asked;
+  //   'ownTurnOnly' / 'oppTurnOnly' — the stratagem is played only in its side's own / the other's turn;
   //   'minRound' / 'perBattle' / 'perRound' / 'perTurn' — the stratagem's own restrictions
   //   (`_limits`); 'perPhase' — the Core Rules' "the same Stratagem cannot be used more than once
   //   in the same phase", checked only when the game keeps phases (it has no phase otherwise).
@@ -1116,6 +1117,10 @@ export function useTracker() {
     if (!g || g.phase !== 'playing') return 'finished'
     const R = g.currentRound
     const T = g.currentTurn === 1 ? 1 : 0
+    // Whose turn it is decides half of it (owner, 2026-09-29): Fire Overwatch is the other side's
+    // move, a Command-phase stratagem never is.
+    const mine = T === pi
+    if (!usableThisTurn(strat._phases, strat._sides, mine)) return mine ? 'oppTurnOnly' : 'ownTurnOnly'
     const lim = strat._limits || {}
     const uses = stratUses(pi, strat._key)
     if (lim.minRound && R < lim.minRound) return 'minRound'

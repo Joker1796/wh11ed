@@ -91,6 +91,14 @@ export function usableInSlot(phases, sides, phase, mine) {
   return side === 'both' || (side === 'own') === mine
 }
 
+// Whether a stratagem can be played at all in this TURN by a side that is (`mine`) or is not on
+// turn — in any of its phases, the phase aside. "Your opponent's Shooting phase" is never the
+// mover's; "your Command phase" never the other side's. No phase known: any turn.
+export function usableThisTurn(phases, sides, mine) {
+  if (!phases?.length || phases.includes('any')) return true
+  return phases.some((p) => { const side = sides?.[p] || 'both'; return side === 'both' || (side === 'own') === mine })
+}
+
 
 // Stratagems grouped by phase, in PHASE_ORDER; a stratagem spanning several phases (its `_phases`)
 // appears under each. `first` puts that phase's group at the top (the tracker's live phase).

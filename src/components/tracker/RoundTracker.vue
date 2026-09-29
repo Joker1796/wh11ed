@@ -334,27 +334,15 @@
     </section>
 
     <!-- Command points (owner, 2026-09-29: two tall banks spent a phone's screen on three copies of
-         one number and a line of constant text). One line a side, in CpStratagems: the name, the
-         round's bonus point — its button turns into an undo for a point added by hand — and the
-         balance itself as the stepper (a correction is kept in the ledger as one). Where Core CP
-         come from lives behind the heading's "?". -->
+         one number and a line of constant text). The sides are CpStratagems' tabs, each with its
+         balance; under the chosen one, one line: the round's bonus point — its button turns into
+         an undo for a point added by hand — the stepper (a correction is kept in the ledger as
+         one) and a "?" for where Core CP come from. -->
     <section
       v-else-if="tab === 'cp'"
       class="panel"
       role="tabpanel"
     >
-      <div class="cp-head">
-        <span class="sec-title-row">{{ labels.trackerCpHelpTitle }}</span>
-        <button
-          type="button"
-          class="cr-help"
-          :aria-label="labels.trackerCpHelpTitle"
-          :title="labels.trackerCpHelpTitle"
-          @click="cpHelpOpen = true"
-        >
-          <i class="bi bi-question-circle" />
-        </button>
-      </div>
       <CpStratagems
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
@@ -365,6 +353,7 @@
             :class="{ 'player-locked': !canEdit(side) }"
             :inert="lock(side)"
           >
+            <span class="cr-bonus">{{ labels.trackerBonusLabel }} <b>{{ bonusOf(side) ? 1 : 0 }}/1</b></span>
             <button
               v-if="canUndoBonus(side)"
               class="cr-btn undo"
@@ -380,19 +369,24 @@
               :title="bonusSource(side)"
               @click="gainBonusCp(side)"
             >
-              <template v-if="bonusOf(side)">
-                <i class="bi bi-check2" /> {{ labels.trackerBonusShort }}
-              </template>
-              <template v-else>
-                {{ labels.trackerBonusGainShort }}
-              </template>
+              {{ labels.trackerBonusGainShort }}
             </button>
             <NumberStepper
+              class="cr-adjust"
               :model-value="current.players[side].cp"
               :min="0"
               :aria-label="`${playerName(side)} — CP`"
               @update:model-value="v => setCp(side, v)"
             />
+            <button
+              type="button"
+              class="cr-help"
+              :aria-label="labels.trackerCpHelpTitle"
+              :title="labels.trackerCpHelpTitle"
+              @click="cpHelpOpen = true"
+            >
+              <i class="bi bi-question-circle" />
+            </button>
           </div>
         </template>
       </CpStratagems>
@@ -1124,11 +1118,14 @@ function onEndBattle(reason) {
 .gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 @media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
 
-/* Command points: the heading with its "?", and each side's bank at the end of its line
-   (CpStratagems' #bank slot). */
-.cp-head { display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.35rem; }
-.cp-head .sec-title-row { margin: 0; }
-.cp-bank { flex-shrink: 0; display: flex; align-items: center; gap: 0.4rem; }
+/* Command points: the chosen side's bank, one line under the side tabs (CpStratagems' #bank). */
+.cp-bank {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.6rem; padding: 0.4rem 0 0.1rem;
+}
+.cr-bonus { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+.cr-bonus b { color: var(--text-primary); }
+.cr-adjust { margin-left: auto; }
 .cr-btn {
   display: inline-flex; align-items: center; gap: 0.25rem;
   min-height: 36px; padding: 0.25rem 0.55rem;

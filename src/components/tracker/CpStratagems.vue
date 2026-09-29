@@ -1,36 +1,34 @@
 <template>
-  <section class="cps">
-    <!-- One line per side (owner, 2026-09-29): its name, then its CP bank (RoundTracker's #bank
-         slot — the bonus point and the balance's stepper). The line is also whose CP the
-         stratagems below spend: both sides may play one at any moment — half the core stratagems
-         are played in the other player's turn — so it is a choice, set by default to whose turn it
-         is (this phone's own side in a shared game). Tapping anywhere on a line picks it. -->
-    <div
-      class="cps-banks"
-      role="radiogroup"
+  <section
+    class="cps"
+    :class="{ opp: !isYouSide(current.players[side], side) }"
+  >
+    <!-- Whose CP the stratagems spend: the app's own page tabs (owner, 2026-09-29), a side and its
+         balance each. Both sides may play one at any moment — half the core stratagems are played
+         in the other player's turn — so this is a choice, set by default to whose turn it is (this
+         phone's own side in a shared game). The whole block wears the chosen side's colour, so
+         the list below says whose it is; the chosen side's bank is one line under the tabs
+         (RoundTracker's #bank slot). -->
+    <PageTabs
+      class="cps-tabs"
+      :tabs="sideTabs"
+      @select="(i) => (side = i)"
+    />
+    <slot
+      name="bank"
+      :side="side"
+    />
+    <!-- Not this side's turn: what is on offer is what it can play in the other's (the rest is
+         greyed with why — stratBlock). -->
+    <p
+      v-if="!sideOnTurn"
+      class="cps-oppturn"
     >
-      <div
-        v-for="i in [0, 1]"
-        :key="i"
-        class="cps-bank"
-        :class="{ on: side === i, opp: !isYouSide(current.players[i], i) }"
-        @click="side = i"
-      >
-        <button
-          type="button"
-          role="radio"
-          class="cps-bank-name"
-          :aria-checked="side === i"
-          @click.stop="side = i"
-        >
-          {{ names[i] }}
-        </button>
-        <slot
-          name="bank"
-          :side="i"
-        />
-      </div>
-    </div>
+      <i
+        class="bi bi-hourglass-split"
+        aria-hidden="true"
+      /> {{ labels.trackerStratOppTurn.replace('{name}', names[turnIdx]) }}
+    </p>
     <p
       v-if="!canEdit(side)"
       class="cps-note"
@@ -173,6 +171,7 @@ import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import StratCard from '../StratCard.vue'
 import StratRow from './StratRow.vue'
+import PageTabs from '../PageTabs.vue'
 import StratFilterBar from '../StratFilterBar.vue'
 import StratPhaseGroups from '../StratPhaseGroups.vue'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -198,6 +197,11 @@ const { canEdit } = useParty()
 
 const side = ref(props.defaultSide)
 watch(() => props.defaultSide, (v) => { side.value = v })
+const turnIdx = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
+const sideOnTurn = computed(() => side.value === turnIdx.value)
+const sideTabs = computed(() => [0, 1].map((i) => ({
+  key: i, label: props.names[i], count: `${current.value.players[i].cp} CP`, active: side.value === i,
+})))
 
 // ── The decks ──
 const core = ref([])
@@ -310,23 +314,16 @@ function use(s) {
 
 <style scoped>
 .cps { margin-top: 0; }
-.cps-banks { display: grid; gap: 0.3rem; margin-bottom: 0.7rem; }
-.cps-bank {
-  --side: var(--side-you);
-  display: flex; align-items: center; gap: 0.5rem;
-  min-width: 0; padding: 0.3rem 0.4rem 0.3rem 0.6rem;
-  border: 1px solid var(--border); border-left: 3px solid var(--border);
-  background: var(--bg-card); cursor: pointer;
+/* The block in the chosen side's colour: the tabs' lit edge, the filters, the rows' buttons. */
+.cps { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
+.cps.opp { --side: var(--side-opponent); }
+.cps-tabs { margin-bottom: 0; }
+.cps-oppturn {
+  display: flex; align-items: center; gap: 0.4rem;
+  margin: 0 0 0.6rem; padding: 0.35rem 0.6rem;
+  border-left: 3px solid var(--side); background: color-mix(in srgb, var(--side) 8%, var(--bg-card));
+  font-size: 0.8rem; font-weight: 600; color: var(--text-primary);
 }
-.cps-bank.opp { --side: var(--side-opponent); }
-/* The chosen line: whose CP the stratagems below spend. */
-.cps-bank.on { border-left-color: var(--side); background: color-mix(in srgb, var(--side) 6%, var(--bg-card)); }
-.cps-bank-name {
-  flex: 1 1 auto; min-width: 0; padding: 0; border: 0; background: none; text-align: left; cursor: pointer;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; color: var(--text-muted);
-}
-.cps-bank.on .cps-bank-name { color: var(--side); }
 .cps-note { margin: 0.4rem 0 0; font-size: 0.78rem; color: var(--text-dim); }
 .cps-title {
   margin: 1rem 0 0.4rem;
