@@ -51,6 +51,7 @@
         <button
           type="button"
           class="cond-chip"
+          data-press="pop"
           :class="{ on: sw.on, auto: sw.auto || sw.blocked, stacked: subLine(sw) }"
           :aria-pressed="sw.on"
           :disabled="sw.auto || sw.blocked"

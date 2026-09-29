@@ -37,7 +37,7 @@
         <!-- The empty box types out example queries (useTypingPlaceholder) instead of a static
              placeholder: a ghost layer under the input, since a native placeholder can't carry
              a blinking caret. Under prefers-reduced-motion the plain placeholder stays. -->
-        <div class="search-field">
+        <div class="typing-field search-field">
           <input
             v-model="query"
             type="text"
@@ -49,11 +49,10 @@
             @keydown.up.prevent="moveSelection(-1)"
             @keydown.enter.prevent="goToSelected"
           >
-          <span
+          <TypingGhost
             v-if="typing && !query"
-            class="search-ghost"
-            aria-hidden="true"
-          >{{ ghostText }}</span>
+            :text="ghostText"
+          />
         </div>
         <button
           class="search-close"
@@ -163,6 +162,7 @@
 </template>
 
 <script setup>
+import TypingGhost from './TypingGhost.vue'
 import { ref, computed, watch } from 'vue'
 import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex, preloadFactionFaqIndex } from '../composables/useSearch.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
@@ -298,40 +298,8 @@ function navigate(item) {
 }
 
 .search-field {
-  position: relative;
   flex: 1;
-  min-width: 0;
-  display: flex;
-}
-
-/* Sits exactly where the placeholder would: same font and size as the input, laid over it
-   and inert to the pointer, so a tap still lands in the input. */
-.search-ghost {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 1rem;
-  font-family: var(--font-sans);
-  color: var(--text-dim);
-}
-
-.search-ghost::after {
-  content: '';
-  display: inline-block;
-  width: 1px;
-  height: 1.15em;
-  margin-left: 1px;
-  background: currentColor;
-  animation: search-caret 1s steps(2, jump-none) infinite;
-}
-
-@keyframes search-caret {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  --typing-size: 1rem;
 }
 
 .search-close {

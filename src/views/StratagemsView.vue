@@ -12,16 +12,19 @@
       :filters="hasGame ? filters : []"
     />
 
-    <p
-      v-if="!visibleStratagems.length"
-      class="strat-empty"
-    >
-      {{ labels.stratNoneForFilter }}
-    </p>
+    <Transition name="fade">
+      <p
+        v-if="!visibleStratagems.length"
+        class="strat-empty"
+      >
+        {{ labels.stratNoneForFilter }}
+      </p>
+    </Transition>
 
-    <!-- Phase view: one accordion per phase, stratagems for that phase inside. -->
+    <!-- Phase view: one accordion per phase, stratagems for that phase inside. The empty note
+         above is its own condition (not the head of this chain) so it can fade on its own. -->
     <StratPhaseGroups
-      v-else-if="byPhase"
+      v-if="visibleStratagems.length && byPhase"
       v-model:open="openPhases"
       :groups="phaseGroups"
     >
@@ -39,7 +42,7 @@
 
     <!-- Flat list -->
     <div
-      v-else
+      v-else-if="visibleStratagems.length"
       class="strat-grid"
     >
       <StratCard

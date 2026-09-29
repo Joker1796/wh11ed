@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import { installErrorLog } from './composables/useErrorLog.js'
 import { installStaleChunkRecovery } from './composables/staleChunks.js'
+import { installPressFeedback } from './composables/pressFeedback.js'
+import { installSegSlider } from './composables/segSlider.js'
 import { router } from './router/index.js'
 import App from './App.vue'
 import './fonts.js'
@@ -22,6 +24,11 @@ app.use(router)
 
 // A tab from before a deploy asking for a chunk that is gone: find the new build and reload.
 installStaleChunkRecovery(router)
+
+// How every button answers the finger — one document listener, see pressFeedback.js.
+installPressFeedback()
+// …and every segmented control slides its lit half to the new pick (segSlider.js).
+installSegSlider()
 
 // Mount only after the router's initial navigation has settled. The PWA "resume last
 // view" restore is a `router.beforeEach` redirect (router/index.js) — an async navigation.

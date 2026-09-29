@@ -2396,11 +2396,26 @@ function cancel() {
   padding: 0 0.35rem;
 }
 
+/* A step's Back / Next stay at the bottom of the screen while the step scrolls (owner,
+   2026-09-29: the long steps put them a screen away), and are one size down from the page's
+   buttons. Sticky, not fixed: at the step's end they settle in place, and the step owns them. */
 .actions {
+  position: sticky;
+  bottom: var(--safe-bottom, 0px);
+  z-index: 5;
   display: flex;
   justify-content: flex-end;
-  gap: 0.6rem;
+  gap: 0.5rem;
   margin-top: 0.6rem;
+  padding: 0.5rem 0;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+}
+.actions .btn-primary,
+.actions .btn-ghost { padding: 0.45rem 0.95rem; font-size: 0.85rem; }
+/* Clear of the mobile bottom nav (52px, as .rc-sticky). */
+@media (max-width: 900px) {
+  .actions { bottom: calc(52px + var(--safe-bottom, 0px)); }
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }

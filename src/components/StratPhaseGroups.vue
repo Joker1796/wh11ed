@@ -14,9 +14,11 @@
         :aria-expanded="open.has(g.key)"
         @click="toggle(g.key)"
       >
-        <i
-          class="bi phase-chev"
-          :class="open.has(g.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+        <ChevronIcon
+          class="phase-chev"
+          :turned="open.has(g.key)"
+          from="right"
+          to="down"
         />
         <span class="phase-name">{{ g.label || phaseLabel(g.key, labels) }}<small
           v-if="g.key === now && !g.label"
@@ -35,6 +37,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import ChevronIcon from './ChevronIcon.vue'
 import CollapseTransition from './CollapseTransition.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'

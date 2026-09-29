@@ -404,12 +404,17 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 2,
+          "only": {
+            "notName": [
+              "Close combat weapon"
+            ]
+          },
           "when": {
             "en": "the two melee weapons taken in addition to the close combat weapon",
             "ru": "два оружия ближнего боя, взятые вдобавок к close combat weapon"
           },
           "cond": [
-            "blocked-weapon"
+            "wargear-two-melee-besides-ccw"
           ]
         }
       ]
@@ -470,7 +475,6 @@ export default {
               "HERETIC ASTARTES INFANTRY"
             ],
             "excludes": [
-              "Battle-shocked",
               "DAMNED"
             ]
           }

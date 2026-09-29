@@ -1,46 +1,11 @@
 <template>
-  <div class="roster-list">
-    <!-- The heading row, the same shape the tracker home uses: the title on the left, and on the
-         right the two things that are ABOUT this page — its page of the guide (the builder does
-         more than the screen shows: import, share, hand-off to the tracker) and where the lists
-         are kept. Everything the cloud line can say is produced by the single sync pass on
-         entry; there is no manual "Sync" button, on purpose. -->
-    <div class="hero">
-      <h1>{{ labels.rostersHeading }}</h1>
-      <div class="hero-side">
-        <!-- Cloud first, help last: the help link is always there in the same shape and holds the
-             corner, while the line beside it changes with who is reading. -->
-        <RosterCloudBar
-          hint
-          compact
-        />
-        <RouterLink
-          class="hero-help"
-          to="/help/rosters"
-          :title="labels.helpSection"
-          :aria-label="labels.helpSection"
-        >
-          <i class="bi bi-question-circle" />
-        </RouterLink>
-      </div>
-    </div>
-
-    <div class="cta">
-      <button
-        class="btn-primary btn-lg"
-        @click="onNew"
-      >
-        <i class="bi bi-plus-lg" /> {{ labels.rosterNew }}
-      </button>
-      <!-- Most players already have their list somewhere else — in the GW app, in New Recruit.
-           Pasting it beats rebuilding it, so the second way in sits beside the first. -->
-      <button
-        class="btn-ghost"
-        @click="importOpen = true"
-      >
-        <i class="bi bi-clipboard-plus" /> {{ labels.rosterImport }}
-      </button>
-    </div>
+  <div
+    class="roster-list"
+    :class="{ 'rl-in-desk': inDesk }"
+  >
+    <!-- The heading and the ways in (RosterListHead). On the desk the desk draws it once, across
+         all its columns, and this column starts at the tabs. -->
+    <RosterListHead v-if="!inDesk" />
 
     <!-- Saved lists and unfinished ones are the same kind of card but not the same kind of thing:
          a draft is a wizard run that hasn't been saved yet, so it lives behind its own tab and
@@ -53,105 +18,158 @@
 
     <!-- An empty screen is where somebody stands who has not decided this is worth their evening,
          so it is also where the explanation belongs — not three taps away in a help menu. -->
-    <p
-      v-if="!shown.length"
-      class="empty"
+    <!-- Saved | Drafts fade over each other (a sideways slide until 2026-09-29 — jerky). -->
+    <Transition
+      name="fade"
+      mode="out-in"
+      @enter="bringTabsIntoView"
     >
-      {{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}
-    </p>
-    <TransitionGroup
-      v-else
-      tag="ul"
-      name="list"
-      class="rosters"
-    >
-      <li
-        v-for="r in shown"
-        :key="r.id"
-        class="roster"
-        :class="{ themed: !!factionOf(r) }"
-        :style="cardStyle(r)"
-        role="button"
-        tabindex="0"
-        @click="openRoster(r)"
-        @keydown.enter="openRoster(r)"
-      >
-        <div class="roster-main">
-          <span class="rname">{{ r.name || labels.rosterUntitled }}</span>
-          <!-- A draft's actions sheet only ever held one item, so it is spared the extra tap:
+      <div :key="tab">
+        <!-- A player with lists for several armies narrows the tab to one of them (player request,
+             2026-09-29) — a dropdown since the same day (owner: a row of chips grew as long as
+             the lists it filtered). Only when the tab holds two factions or more: with one, "All"
+             and the one faction would be the same list. -->
+        <label
+          v-if="factionFilters.length > 1"
+          class="rl-factions"
+        >
+          <span class="rl-factions-label">{{ labels.rosterFilterFaction }}</span>
+          <select
+            :value="onlyFaction || ''"
+            @change="pickedFaction = $event.target.value || null"
+          >
+            <option value="">{{ labels.filterAll }} ({{ shown.length }})</option>
+            <option
+              v-for="f in factionFilters"
+              :key="f.slug"
+              :value="f.slug"
+            >
+              {{ f.name }} ({{ f.n }})
+            </option>
+          </select>
+        </label>
+        <p
+          v-if="!shown.length"
+          class="empty"
+        >
+          {{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}
+        </p>
+        <TransitionGroup
+          v-else
+          tag="ul"
+          name="list"
+          class="rosters"
+        >
+          <li
+            v-for="r in paged"
+            :key="r.id"
+            class="roster"
+            :class="{ themed: !!factionOf(r), on: inDesk && r.id === activeId }"
+            :style="cardStyle(r)"
+            role="button"
+            tabindex="0"
+            @click="openRoster(r)"
+            @keydown.enter="openRoster(r)"
+          >
+            <FactionEmblem
+              class="tone"
+              :style="toneVars(factionOf(r)?.color)"
+              :faction="factionOf(r)"
+              stamp
+            />
+            <div class="roster-main">
+              <span class="rname">{{ r.name || labels.rosterUntitled }}</span>
+              <!-- Pinned (useRosterPins): the mark stands beside the "…" that sets it, in the
+                   army's colour like the faction line under the name. -->
+              <i
+                v-if="isRosterPinned(r.id)"
+                class="bi bi-pin-angle-fill rpin"
+                :title="labels.favPinnedGroup"
+              />
+              <!-- A draft's actions sheet only ever held one item, so it is spared the extra tap:
                the card carries Delete itself. Everything a SAVED list can do still needs the
                sheet, so that one keeps the kebab. -->
-          <button
-            v-if="r.draft"
-            class="kebab danger"
-            :aria-label="labels.trackerDelete"
-            @click.stop="pendingDelete = r.id"
-          >
-            <i class="bi bi-trash" />
-          </button>
-          <button
-            v-else
-            class="kebab"
-            :aria-label="labels.rosterMoreActions"
-            @click.stop="menuFor = r.id"
-          >
-            <i class="bi bi-three-dots-vertical" />
-          </button>
-        </div>
-        <!-- The army's Force Disposition rides on the faction line as the same coloured chip the
+              <button
+                v-if="r.draft"
+                class="kebab danger"
+                :aria-label="labels.trackerDelete"
+                @click.stop="pendingDelete = r.id"
+              >
+                <i class="bi bi-trash" />
+              </button>
+              <button
+                v-else
+                class="kebab"
+                :aria-label="labels.rosterMoreActions"
+                @click.stop="menuFor = r.id"
+              >
+                <i class="bi bi-three-dots-vertical" />
+              </button>
+            </div>
+            <!-- The army's Force Disposition rides on the faction line as the same coloured chip the
              tracker's detachment picker uses, and the detachment(s) sit under it in quiet grey —
              so a list can be told from its neighbours by what it fields, and the name is free to
              be a joke (player request, 2026-09-21). The chip needs the MFM to know a detachment's
              disposition; until that lazy load lands the line simply has no chip. -->
-        <div
-          v-if="factionOf(r)"
-          class="rline"
-        >
-          <span class="rfaction">{{ factionOf(r).name }}</span>
-          <span
-            v-if="fdOf(r)"
-            class="tone tone-chip rfd"
-            :style="toneOf(r)"
-          >{{ fdOf(r) }}</span>
-        </div>
-        <span
-          v-if="r.detachments?.length"
-          class="rdets"
-        >{{ r.detachments.join(', ') }}</span>
-        <div class="roster-meta">
-          <span class="meta-left">
-            <span
-              class="rpoints"
-              :class="{ over: (r.summary?.points || 0) > limitOf(r) }"
+            <div
+              v-if="factionOf(r)"
+              class="rline"
             >
-              {{ r.summary?.points || 0 }}<span class="unit">/{{ limitOf(r) }} {{ labels.rosterPointsLabel }}</span>
-            </span>
-            <!-- What this list did on the table. Only ever present on a saved list — a draft
+              <span class="rfaction">{{ factionOf(r).name }}</span>
+              <span
+                v-if="fdOf(r)"
+                class="tone tone-chip rfd"
+                :style="toneOf(r)"
+              >{{ fdOf(r) }}</span>
+            </div>
+            <span
+              v-if="r.detachments?.length"
+              class="rdets"
+            >{{ r.detachments.join(', ') }}</span>
+            <div class="roster-meta">
+              <span class="meta-left">
+                <span
+                  class="rpoints"
+                  :class="{ over: (r.summary?.points || 0) > limitOf(r) }"
+                >
+                  {{ r.summary?.points || 0 }}<span class="unit">/{{ limitOf(r) }} {{ labels.rosterPointsLabel }}</span>
+                </span>
+                <!-- What this list did on the table. Only ever present on a saved list — a draft
                  can't be attached to a game — and it links nowhere: the full record is on
                  /tracker/stats, which the tracker page carries a way into. -->
-            <span
-              v-if="recordOf(r)"
-              class="rrec"
-              :title="labels.statsTitle"
-            >
-              <i class="bi bi-trophy" /> {{ recordOf(r) }}
-            </span>
-            <span
-              v-if="r.draft"
-              class="rstep"
-            >{{ draftStepLabel(r) }}</span>
-            <span
-              v-else-if="r.summary?.issues"
-              class="issues"
-              :title="String(r.summary.issues)"
-            >
-              <i class="bi bi-exclamation-triangle-fill" /> {{ r.summary.issues }}
-            </span>
-          </span>
-          <span class="date">{{ formatDate(r.updatedAt) }}</span>
-        </div>
-      </li>
-    </TransitionGroup>
+                <span
+                  v-if="recordOf(r)"
+                  class="rrec"
+                  :title="labels.statsTitle"
+                >
+                  <i class="bi bi-trophy" /> {{ recordOf(r) }}
+                </span>
+                <span
+                  v-if="r.draft"
+                  class="rstep"
+                >{{ draftStepLabel(r) }}</span>
+                <span
+                  v-else-if="r.summary?.issues"
+                  class="issues"
+                  :title="String(r.summary.issues)"
+                >
+                  <i class="bi bi-exclamation-triangle-fill" /> {{ r.summary.issues }}
+                </span>
+              </span>
+              <span class="date">{{ formatDate(r.updatedAt) }}</span>
+            </div>
+          </li>
+        </TransitionGroup>
+        <button
+          v-if="listed.length > visibleCount"
+          type="button"
+          class="show-more"
+          @click="visibleCount += PAGE"
+        >
+          {{ labels.trackerShowMore }} ({{ listed.length - visibleCount }})
+        </button>
+      </div>
+    </Transition>
 
     <!-- Per-card actions: edit / duplicate / delete (mirrors the tracker's per-card actions sheet). -->
     <BaseModal
@@ -185,6 +203,12 @@
           {{ labels.rosterDuplicate }}
         </button>
         <button
+          class="act-btn"
+          @click="toggleRosterPin(menuFor); menuFor = null"
+        >
+          {{ isRosterPinned(menuFor) ? labels.favUnpin : labels.favPin }}
+        </button>
+        <button
           class="act-btn act-danger"
           @click="onDelete(menuFor)"
         >
@@ -203,11 +227,6 @@
       @close="pendingDelete = null"
     />
 
-    <RosterImportModal
-      v-if="importOpen"
-      @imported="onImported"
-      @close="importOpen = false"
-    />
 
     <RosterExportModal
       v-if="exportRoster"
@@ -224,13 +243,14 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
-import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
-import RosterImportModal from '../../components/roster/RosterImportModal.vue'
+import RosterListHead from '../../components/roster/RosterListHead.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import PageTabs from '../../components/PageTabs.vue'
+import FactionEmblem from '../../components/FactionEmblem.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { useAuth } from '../../composables/useAuth.js'
@@ -241,7 +261,17 @@ import { refreshSummaries } from '../../composables/rosterSummary.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
+import { toneVars } from '../../utils/tone.js'
+import { isRosterPinned, toggleRosterPin, pinnedFirst } from '../../composables/useRosterPins.js'
 import { loadHistory, rosterRecords } from '../../composables/gameStats.js'
+
+const props = defineProps({
+  // The left column of the rosters desk (RosterDeskView, wide screens): one column of cards, the
+  // open one marked, and the statistics one tap away.
+  inDesk: { type: Boolean, default: false },
+  // The roster the desk has open beside the list.
+  activeId: { type: String, default: '' },
+})
 
 const router = useRouter()
 const { locale } = useLocale()
@@ -256,7 +286,6 @@ const tabs = computed(() => [
   { key: 'saved', label: labels.value.rosterTabSaved, count: savedRosters.value.length, active: tab.value === 'saved' },
   { key: 'drafts', label: labels.value.rosterTabDrafts, count: draftRosters.value.length, active: tab.value === 'drafts' },
 ])
-const importOpen = ref(false)
 
 // Exporting needs the faction's generated bundle (unit names, wargear, points), which this screen
 // otherwise never loads — so it is fetched on demand, the same lazy load the editor does, and the
@@ -279,8 +308,30 @@ async function onExport(id) {
 }
 // An imported list lands in the editor, not in the read-only view: whatever the report could not
 // place is the reader's to finish, and that is where they can.
-function onImported(id) { router.push(`/roster/${id}`) }
 const shown = computed(() => (tab.value === 'drafts' ? draftRosters : savedRosters).value)
+// The factions this tab's lists belong to, with how many each, by name. A list with no faction
+// yet (a draft picked none) has no chip and shows under "All" only.
+const factionFilters = computed(() => {
+  const by = new Map()
+  for (const r of shown.value) {
+    const f = factionOf(r)
+    if (!f) continue
+    const had = by.get(f.slug)
+    if (had) had.n++
+    else by.set(f.slug, { ...f, n: 1 })
+  }
+  return [...by.values()].sort((a, b) => a.name.localeCompare(b.name))
+})
+// One choice for both tabs. It holds only while the tab still has lists of that faction — the
+// last one deleted, or a tab without it, shows everything again rather than an empty page.
+const pickedFaction = ref(null)
+const onlyFaction = computed(() => (
+  factionFilters.value.length > 1 && factionFilters.value.some((f) => f.slug === pickedFaction.value)
+    ? pickedFaction.value : null
+))
+const listed = computed(() => pinnedFirst(
+  onlyFaction.value ? shown.value.filter((r) => r.faction === onlyFaction.value) : shown.value,
+))
 function draftStepLabel(r) {
   return labels.value.rosterDraftStep.replace('{n}', String(r.draftStep || 1))
 }
@@ -321,6 +372,19 @@ watch(status, (s) => { if (s === 'authed') syncAndReprice() })
 
 const allFactions = factionGroups.flatMap((g) => g.factions)
 function factionOf(r) { return allFactions.find((f) => f.slug === r.faction) || null }
+
+// Twenty at a time, and "Show more" adds the next twenty (owner, 2026-09-29) — the pattern the
+// tracker's game history uses. Back to one page whenever the list itself changes (another tab,
+// another faction). The list open on the desk is always among the shown: a card that is open
+// beside the list must be findable in it.
+const PAGE = 20
+const visibleCount = ref(PAGE)
+watch([tab, onlyFaction], () => { visibleCount.value = PAGE })
+watch([() => props.activeId, listed], ([id]) => {
+  const at = id ? listed.value.findIndex((r) => r.id === id) : -1
+  if (at >= visibleCount.value) visibleCount.value = Math.ceil((at + 1) / PAGE) * PAGE
+}, { immediate: true })
+const paged = computed(() => listed.value.slice(0, visibleCount.value))
 function cardStyle(r) {
   const c = factionOf(r)?.color
   return c ? { '--fa-light': c.light, '--fa-dark': c.dark } : {}
@@ -339,18 +403,13 @@ function fdOf(r) {
   return dispositionOf(r, dets.map((d) => ({ fd: d.forceDisposition })))
 }
 function toneOf(r) {
-  const c = dispositionColor(fdOf(r))
-  return c ? { '--tone-light': c.light, '--tone-dark': c.dark } : undefined
+  return toneVars(dispositionColor(fdOf(r)))
 }
 
 // A saved list opens read-only; a draft goes back to the wizard, which resumes it from the id in
 // this query and lands on the step it was left on (RosterCreateView.vue).
 function openRoster(r) {
   router.push(r.draft ? { path: '/roster/new', query: { draft: r.id } } : `/roster/${r.id}/view`)
-}
-
-function onNew() {
-  router.push('/roster/new')
 }
 
 const menuFor = ref(null)
@@ -387,54 +446,30 @@ function confirmDelete() {
 
 <style scoped>
 .roster-list { padding-top: 0.5rem; }
-.hero {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.2rem 0.75rem;
-  padding: 0.2rem 0 0.45rem;
-  border-bottom: 2px solid var(--accent);
-  margin-bottom: 1rem;
-}
-.hero h1 {
-  font-family: var(--font-display);
-  font-size: 2.1rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin: 0;
-  line-height: 1.1;
-}
-/* The pair on the right rides the heading's baseline and shrinks before the title does. */
-.hero-side {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 0;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-.cta { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
-/* Same treatment as the tracker's CTA row on phones: button-sized buttons on one line, not two
-   stretched panels. */
-@media (max-width: 480px) {
-  /* Display type is a lot of height on a 360px screen, and the heading is the least useful
-     thing on it — the list under it is what the reader came for. */
-  .hero h1 { font-size: 1.75rem; }
-  .hero-side { font-size: 0.75rem; }
-  .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
-  .cta .btn-primary,
-  .cta .btn-ghost {
-    flex: 0 0 auto;
-    padding: 0.45rem 0.8rem;
-    font-size: 0.8rem;
-    white-space: nowrap;
-  }
-}
-
 /* The same folder tabs the faction pages use (PageTabs) — the list below them is the tab's
    content, so it reads as one panel rather than a filter sitting above a list. */
 .rl-tabs { margin-bottom: 1rem; }
+.rl-factions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.rl-factions-label { flex-shrink: 0; }
+.rl-factions select {
+  flex: 1;
+  min-width: 0;
+  max-width: 18rem;
+  padding: 0.4rem 0.5rem;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
 .empty { color: var(--text-muted); font-style: italic; text-align: center; }
 /* Sits where a saved list shows its issue count — for a draft, how far it got is the useful fact. */
 .rstep {
@@ -451,7 +486,37 @@ function confirmDelete() {
   font-variant-numeric: tabular-nums;
 }
 .rosters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; position: relative; }
+/* ── The left column of the rosters desk (RosterDeskView) ──
+   Narrow and its own scroller, starting at the tabs (the desk draws the heading across all its
+   columns): the cards in one column, the one open beside the list marked. */
+.rl-in-desk {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem 1rem 2rem 0;
+}
+/* Tighter than the list page (owner, 2026-09-29): the column is a picker to scan down, so every
+   card spends less height — the card's padding and its line gaps, the tabs' and the filter's
+   margins, and the "…" button, which keeps its tap area but no longer props the name row open. */
+.rl-in-desk .rl-tabs { margin-bottom: 0.6rem; }
+.rl-in-desk .rl-factions { margin-bottom: 0.5rem; }
+.rl-in-desk .rl-factions select { padding: 0.25rem 0.4rem; }
+.rl-in-desk .rosters { gap: 0.4rem; }
+.rl-in-desk .roster { padding: 0.45rem 0.7rem 0.5rem; }
+.rl-in-desk .rname { font-size: 0.9rem; line-height: 1.25; }
+.rl-in-desk .kebab { margin: -0.35rem -0.4rem -0.35rem 0; }
+.rl-in-desk .rline { margin-top: 0; }
+.rl-in-desk .roster-meta { margin-top: 0.2rem; }
+/* The faction's bar on the left stays; the other three edges and a wash say "open". */
+.roster.on {
+  border-top-color: var(--accent);
+  border-right-color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+}
 .roster {
+  contain: paint; /* the emblem's stamp (FactionEmblem): clipped to the card, under its text */
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-left: 3px solid var(--border);
@@ -459,6 +524,8 @@ function confirmDelete() {
   cursor: pointer;
   transition: border-color 0.15s;
 }
+/* On a roster card the emblem's stamp sits in the middle, not at the right edge. */
+.roster .stamp { right: auto; left: 50%; transform: translate(-50%, -50%); }
 .roster.themed { border-left-color: var(--fa-light, var(--accent)); }
 @media (prefers-color-scheme: dark) {
   .roster.themed { border-left-color: var(--fa-dark, var(--accent)); }
@@ -504,8 +571,9 @@ function confirmDelete() {
 .rfd { flex-shrink: 0; margin-top: 0.1rem; }
 .rdets { display: block; font-size: 0.72rem; color: var(--text-muted); opacity: 0.8; }
 @media (prefers-color-scheme: dark) {
-  .rfaction { color: var(--fa-dark, var(--accent)); }
+  .rfaction, .rpin { color: var(--fa-dark, var(--accent)); }
 }
+.rpin { flex-shrink: 0; margin-left: auto; font-size: 0.85rem; color: var(--fa-light, var(--accent)); }
 .rpoints { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); white-space: nowrap; }
 .rpoints.over { color: var(--danger); }
 .rpoints .unit { font-size: 0.62rem; color: var(--text-dim); margin-left: 0.15rem; }
@@ -530,6 +598,8 @@ function confirmDelete() {
   :root[data-theme='light'] .roster.themed:hover { border-color: var(--fa-light, #8b2a33); }
   :root[data-theme='dark'] .roster.themed:hover { border-color: var(--fa-dark, #c8585e); }
 }
-:root[data-theme='light'] .rfaction { color: var(--fa-light, #8b2a33); }
-:root[data-theme='dark'] .rfaction { color: var(--fa-dark, #c8585e); }
+:root[data-theme='light'] .rfaction,
+:root[data-theme='light'] .rpin { color: var(--fa-light, #8b2a33); }
+:root[data-theme='dark'] .rfaction,
+:root[data-theme='dark'] .rpin { color: var(--fa-dark, #c8585e); }
 </style>

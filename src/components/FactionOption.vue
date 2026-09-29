@@ -18,7 +18,7 @@
       v-bind="to ? { to } : { type: 'button' }"
       @click="$emit('pick', slug)"
     >
-      <span class="tone-badge">{{ entry?.abbr || '' }}</span>
+      <FactionBadge :faction="entry" />
       <span class="fac-name">{{ name }}</span>
       <span
         v-if="on"
@@ -42,10 +42,12 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import FavoriteStar from './FavoriteStar.vue'
+import FactionBadge from './FactionBadge.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useFavorites } from '../composables/useFavorites.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
+import { toneVars } from '../utils/tone.js'
 
 const props = defineProps({
   slug: { type: String, required: true },
@@ -65,10 +67,7 @@ const { isFactionPinned, toggleFaction } = useFavorites()
 // The colour and the monogram live in factionsIndex.js; the picker's rows come from the MFM list,
 // which has neither.
 const entry = computed(() => factionIndexBySlug(props.slug))
-const tone = computed(() => {
-  const c = entry.value?.color
-  return c ? { '--tone-light': c.light, '--tone-dark': c.dark } : undefined
-})
+const tone = computed(() => toneVars(entry.value?.color))
 </script>
 
 <style scoped>
@@ -97,7 +96,10 @@ const tone = computed(() => {
   cursor: pointer;
 }
 .fac-link:hover { text-decoration: none; }
-.fac-name { flex: 1; min-width: 0; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+/* Every badge in a faction row is one larger box, most of the card's height (it eats part of the
+   vertical padding, so the row keeps its height): room for the faction's emblem (FactionBadge). */
+.fac-link .tone-badge { height: 1.8rem; width: 2.55rem; margin: -0.05rem 0 -0.05rem -0.1rem; }
+.fac-name { flex: 1; min-width: 0; font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; line-height: 1.1; color: var(--text-primary); }
 .fac-check { color: var(--accent); font-weight: 700; flex-shrink: 0; }
 .fac.disabled { justify-content: space-between; cursor: default; opacity: 0.6; }
 .fac.disabled .fac-name { flex: none; color: var(--text-dim); }

@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { router } from './index.js'
+import { pageArrived } from '../composables/usePageMotion.js'
 
 // Three rules, and the one that was missing cost a reader their place on the page. A dialog
 // pushes a copy of the current history entry so that Back closes it (useBackToClose.js);
@@ -20,15 +21,34 @@ describe('scrollBehavior', () => {
     expect(scroll(ru, en, null)).toBe(false)
   })
 
-  it('restores the remembered position when Back leaves a page', () => {
-    const to = { path: '/rules', fullPath: '/rules' }
-    const from = { path: '/factions', fullPath: '/factions' }
-    expect(scroll(to, from, { top: 420 })).toEqual({ top: 420 })
+  // A page swap animates: the scroll is set once the new page is in but not yet shown
+  // (usePageMotion's pageArrived, fired by App.vue's route transition), not at the click.
+  const page = (path) => ({ path, fullPath: path, matched: [{}] })
+  async function settled(result) {
+    const to = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    expect(result).toBeInstanceOf(Promise)
+    expect(to).not.toHaveBeenCalled() // nothing moves while the old page is still leaving
+    pageArrived()
+    const r = await result
+    const call = to.mock.calls.at(-1)
+    to.mockRestore()
+    return { r, call }
+  }
+
+  it('restores the remembered position when Back leaves a page — once the old page is gone', async () => {
+    const { r, call } = await settled(scroll(page('/rules'), page('/factions'), { top: 420 }))
+    expect(r).toBe(false)
+    expect(call).toEqual([0, 420])
   })
 
-  it('opens a page the reader has not been to at the top', () => {
-    const to = { path: '/factions/orks', fullPath: '/factions/orks' }
-    const from = { path: '/factions', fullPath: '/factions' }
-    expect(scroll(to, from, null)).toEqual({ top: 0 })
+  it('opens a page the reader has not been to at the top — once the old page is gone', async () => {
+    const { r, call } = await settled(scroll(page('/factions/orks'), page('/factions'), null))
+    expect(r).toBe(false)
+    expect(call).toEqual([0, 0])
+  })
+
+  it('answers at once on the first load, where there is no page to wait for', () => {
+    const first = { path: '/factions', fullPath: '/factions', matched: [] }
+    expect(scroll(page('/factions/orks'), first, null)).toEqual({ top: 0 })
   })
 })

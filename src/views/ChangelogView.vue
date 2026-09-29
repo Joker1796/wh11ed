@@ -10,33 +10,39 @@
     </div>
 
     <div class="changelog-body">
-      <section
-        v-for="e in visibleEntries"
-        :id="`v${e.version}`"
-        :key="e.version"
-        class="cl-entry"
+      <!-- "Show more" and the archive fade their releases in rather than dropping them in. -->
+      <TransitionGroup
+        name="sift"
+        tag="div"
       >
-        <header class="cl-head">
-          <span class="cl-ver">v{{ e.version }}</span>
-          <time
-            class="cl-date"
-            :datetime="e.date"
-          >{{ formatDate(e.date) }}</time>
-        </header>
-        <ul class="cl-list">
-          <!-- Rendered, not printed: entries have always been written in the app's own body markup
-               (`**bold**`, a `[KEYWORD]`, a `(NN.NN)` cross-ref) and this list used to show it
-               raw — "**riled up**" with the asterisks in it. renderInline is the same transform
-               every rule text goes through, and App.vue's document-level handler makes the
-               keywords and cross-refs it produces behave here as they do inside a rule. -->
-          <li
-            v-for="(note, i) in (e[locale] || e.en)"
-            :key="i"
-            :class="{ 'cl-h': note.h }"
-            v-html="renderMarks(renderInline(note.h || note), locale)"
-          />
-        </ul>
-      </section>
+        <section
+          v-for="e in visibleEntries"
+          :id="`v${e.version}`"
+          :key="e.version"
+          class="cl-entry"
+        >
+          <header class="cl-head">
+            <span class="cl-ver">v{{ e.version }}</span>
+            <time
+              class="cl-date"
+              :datetime="e.date"
+            >{{ formatDate(e.date) }}</time>
+          </header>
+          <ul class="cl-list">
+            <!-- Rendered, not printed: entries have always been written in the app's own body markup
+                 (`**bold**`, a `[KEYWORD]`, a `(NN.NN)` cross-ref) and this list used to show it
+                 raw — "**riled up**" with the asterisks in it. renderInline is the same transform
+                 every rule text goes through, and App.vue's document-level handler makes the
+                 keywords and cross-refs it produces behave here as they do inside a rule. -->
+            <li
+              v-for="(note, i) in (e[locale] || e.en)"
+              :key="i"
+              :class="{ 'cl-h': note.h }"
+              v-html="renderMarks(renderInline(note.h || note), locale)"
+            />
+          </ul>
+        </section>
+      </TransitionGroup>
       <button
         v-if="changelog.length > visibleCount"
         class="show-more"

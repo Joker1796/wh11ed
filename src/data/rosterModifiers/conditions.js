@@ -39,8 +39,7 @@ export const SENTINELS = {
   // whose restriction was an EXCLUSION ("excluding [ONE SHOT] weapons", "excluding Devastating
   // Wounds weapons") that had been left here although `only.notTag` could always say it.
   // What is left needs a choice the data does not record — "one melee weapon, selected at the
-  // start of the battle", the Helbrute's two weapons "in addition to its close combat weapon" —
-  // or a name matched anywhere but the start ("weapon profiles with 'Plasma' in their name"),
+  // start of the battle" — or a name matched anywhere but the start ("weapon profiles with 'Plasma' in their name"),
   // which `only.name` cannot express: it is a prefix.
   'blocked-weapon': { en: 'applies to certain weapons only', ru: 'действует только на часть оружия' },
 }
@@ -301,6 +300,23 @@ export const conditions = {
   // ── Answered by the list itself ─────────────────────────────────────────────────────────
   // The roster records the attachment, so there is nothing to ask the player.
   'unit-leading': { scope: 'roster', duration: 'battle', label: { en: 'Leading a unit', ru: 'Ведёт отряд' } },
+  // The wargear the entry took (2026-09-28). A handful of datasheets reward a PAIR of weapons —
+  // two macro-scalpels make them [TWIN-LINKED], a Helbrute's two melee weapons besides its close
+  // combat weapon get +2 Attacks — and the list knows exactly what was taken. These were `never`
+  // (or `blocked-weapon`) while the card summed copies into one row and could not say which model
+  // held what; now the copies are counted per model (rosterModifiers' loadoutItemCopies), and
+  // wargearConditions answers from them. `gear` is what has to be true on EVERY model of the
+  // profile — a pair on one Talos of two is a note, not a rewritten card:
+  //   copies: n, name  — n copies of the one melee weapon whose row starts with `name`
+  //   melee: n, besides — n melee weapons (copies count), leaving out the rows named in `besides`
+  //   all: [names]     — each of these melee weapons
+  // src/data/rosterModifiers/index.test.js holds every datasheet ability that makes a bonus
+  // depend on a set of weapons to one of these.
+  'wargear-two-macro-scalpels': { scope: 'roster', duration: 'battle', gear: { copies: 2, name: 'Macro-scalpel' }, label: { en: 'Two macro-scalpels', ru: 'Два macro-scalpel' } },
+  'wargear-two-telemon-caestus': { scope: 'roster', duration: 'battle', gear: { copies: 2, name: 'Telemon caestus' }, label: { en: 'Two Telemon caestus', ru: 'Два Telemon caestus' } },
+  'wargear-two-melee-besides-ccw': { scope: 'roster', duration: 'battle', gear: { melee: 2, besides: ['Close combat weapon'] }, label: { en: 'Two melee weapons besides the close combat weapon', ru: 'Два оружия ближнего боя кроме close combat weapon' } },
+  'wargear-two-melee': { scope: 'roster', duration: 'battle', gear: { melee: 2 }, label: { en: 'Two melee weapons', ru: 'Два оружия ближнего боя' } },
+  'wargear-spear-and-chainsword': { scope: 'roster', duration: 'battle', gear: { all: ['Thundershock spear', 'Bellatus reaper chainsword'] }, label: { en: 'Thundershock spear and bellatus reaper chainsword', ru: 'Thundershock spear и bellatus reaper chainsword' } },
 
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase

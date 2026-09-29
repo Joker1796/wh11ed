@@ -327,7 +327,7 @@ export default {
             "ru": "если взяты thundershock spear и bellatus reaper chainsword"
           },
           "cond": [
-            "never"
+            "wargear-spear-and-chainsword"
           ]
         }
       ]

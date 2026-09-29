@@ -1,13 +1,16 @@
 <template>
   <div class="points-tally">
     <span
+      ref="pointsEl"
       class="rc-points"
       :class="{ over, 'with-left': showPointsLeft, large }"
-    >{{ points }} / {{ limit }}<span
-      v-if="showPointsLeft"
-      class="pts-left"
-      :class="{ over }"
-    >{{ leftLabel }}</span></span>
+    >{{ shownPoints }} / {{ limit }}<ExpandTransition>
+      <span
+        v-if="showPointsLeft"
+        class="pts-left"
+        :class="{ over }"
+      >{{ leftLabel }}</span>
+    </ExpandTransition></span>
     <button
       v-if="badge"
       type="button"
@@ -41,11 +44,14 @@
 // but something is still worth a look (an unmade choice is a warning, and a tick means "nothing
 // left to look at"); a green tick otherwise. The count belongs to the errors — what amber says is
 // "open me", which is one tap from here.
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { pointsLeftLabel } from '../../composables/rosterEngine.js'
+import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
+import { useCountUp } from '../../composables/useCountUp.js'
+import ExpandTransition from '../ExpandTransition.vue'
 
 const props = defineProps({
   points: { type: Number, default: 0 },
@@ -64,7 +70,13 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { showPointsLeft } = useRosterPrefs()
 const over = computed(() => props.points > props.limit)
-const leftLabel = computed(() => pointsLeftLabel(props.points, props.limit, labels.value))
+// The total runs to its new value rather than jumping, and pulses while it does — an add or a
+// removal made in the other pane is seen landing in the readout (owner, 2026-09-28). What is left
+// counts with it; the red of an over-budget list follows the real total, not the running one.
+const shownPoints = useCountUp(() => props.points)
+const leftLabel = computed(() => pointsLeftLabel(shownPoints.value, props.limit, labels.value))
+const pointsEl = ref(null)
+useFlashOnChange(() => props.points, pointsEl)
 </script>
 
 <style scoped>

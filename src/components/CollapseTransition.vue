@@ -34,7 +34,12 @@ defineProps({
 .collapse {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows var(--motion-med) ease;
+  /* `--motion-fold` on a curve that STARTS slowly (2026-09-28). A tall body — a detachment's
+     nine stratagems, a few thousand px — shows only its first few hundred px while it opens (a
+     sheet grows to its cap on those), and a decelerating curve spent that part in a few
+     hundredths of a second: at --motion-med, and still at a front-loaded curve, it read as a
+     jump to the full height. */
+  transition: grid-template-rows var(--motion-fold) cubic-bezier(0.4, 0, 0.2, 1);
 }
 .collapse.is-open {
   grid-template-rows: 1fr;
@@ -51,11 +56,12 @@ defineProps({
      after the collapse finishes, and back to visible immediately on open. */
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--motion-med) ease, visibility 0s linear var(--motion-med);
+  transition: opacity var(--motion-fast) ease, visibility 0s linear var(--motion-fold);
 }
 .collapse.is-open .collapse-clip {
   opacity: 1;
   visibility: visible;
-  transition: opacity var(--motion-med) ease, visibility 0s;
+  /* Opening, the content fades in a beat after the room starts to open, not ahead of it. */
+  transition: opacity var(--motion-fold) ease calc(var(--motion-fold) / 4), visibility 0s;
 }
 </style>

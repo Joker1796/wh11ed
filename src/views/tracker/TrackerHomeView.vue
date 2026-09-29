@@ -158,6 +158,15 @@
           @click="openGame(g.id)"
           @keydown.enter="openGame(g.id)"
         >
+          <FactionEmblem
+            v-for="side in [0, 1]"
+            :key="side"
+            class="tone"
+            :class="side ? 'gc-stamp--right' : 'gc-stamp--left'"
+            :style="toneVars(sideFaction(g, side)?.color)"
+            :faction="sideFaction(g, side)"
+            stamp
+          />
           <div class="gc-top">
             <span class="gc-date">
               <i
@@ -238,10 +247,12 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, membersOf, BATTLE_SIZES } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { toneVars } from '../../utils/tone.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
 import { useParty } from '../../composables/useParty.js'
 import SharedGameModal from '../../components/tracker/SharedGameModal.vue'
+import FactionEmblem from '../../components/FactionEmblem.vue'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 import { buildStats } from '../../composables/gameStats.js'
 
@@ -429,6 +440,10 @@ function pname(g, side) {
   const pl = g.players[idxOf(g, side)]
   return pl?.name || (side === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)
 }
+// The side's army, for its emblem on the card: the first of a doubles side's two.
+function sideFaction(g, side) {
+  return factionIndexBySlug(membersOf(g.players[idxOf(g, side)] || {})[0]?.factionSlug) || null
+}
 function factionName(g, side) {
   // A doubles side fields two armies (side-level factionSlug is empty by design) — name both.
   const names = membersOf(g.players[idxOf(g, side)] || {})
@@ -487,7 +502,7 @@ function footLine(g) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin: 1.2rem 0 0.4rem;
+  margin: 0 0 0.4rem;
   padding: 0.5rem 0.75rem;
   background: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -558,8 +573,11 @@ function footLine(g) {
   flex-direction: column;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 1.6rem;
 }
+/* The record bar hangs right under the quiet row: that row's own 0.6rem tap padding is the air
+   between them (owner, 2026-09-29 — the 1.6rem gap here read as a hole). With no games yet the
+   history heading follows instead and wants a real gap. */
+.cta + .history { margin-top: 1rem; }
 /* Sized by its own label and nothing else. A minimum width was tried first (18rem) and it was
    wrong twice over: at desktop width the button read as a banner, and `.btn-primary` is an
    inline-flex with no `justify-content`, so the label sat against the left edge of all that
@@ -604,7 +622,7 @@ function footLine(g) {
      heading is the least useful thing on it. */
   .hero h1 { font-size: 1.75rem; }
   .hero-side { font-size: 0.75rem; }
-  .cta { gap: 0.4rem; margin-bottom: 1.2rem; }
+  .cta { gap: 0.4rem; }
   /* The same button the roster list draws at this width — it is the same kind of call to
      action, and two screens of one app should not disagree about how big that is. */
   .cta-main { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
@@ -660,6 +678,7 @@ function footLine(g) {
 .game {
   position: relative;
   overflow: hidden;
+  isolation: isolate; /* each side's emblem stamp (FactionEmblem) sits under the card's text */
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 0.6rem 0.5rem 0.65rem;
@@ -667,6 +686,14 @@ function footLine(g) {
   transition: border-color 0.15s;
 }
 .game:hover { border-color: var(--accent); }
+/* Each side's emblem pressed into its own half, by the same rule as every card's stamp
+   (FactionEmblem): its size from its ink, its centre on one spot — here a card's height in from
+   its own edge, the first player's from the left, the second's from the right. This card is about
+   twice a Combat Patrol card's height and its own height varies (a long name wraps), so the stamp is
+   sized on a fixed 6rem rather than on the card — which keeps the two apart under the score on a
+   320px phone whatever the names do. */
+.game .stamp { height: calc(var(--stamp-k) * 6rem); }
+.game .gc-stamp--left { right: auto; left: 3.8rem; transform: translate(-50%, -50%); }
 
 .gc-top {
   display: flex;
@@ -714,7 +741,9 @@ function footLine(g) {
 .gc-score {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.9rem;
+  /* Large, the one thing a history row is read for (owner, 2026-09-29) — but by the width: at
+     320px a 2.6rem "100 – 95" squeezed both names into mid-word breaks. */
+  font-size: clamp(1.9rem, 9.5vw, 2.6rem);
   line-height: 1;
   color: var(--text-primary);
   white-space: nowrap;
@@ -735,16 +764,4 @@ function footLine(g) {
   .gc-faction { font-size: 0.74rem; }
 }
 
-.show-more {
-  display: block;
-  margin: 0.8rem auto 0;
-  padding: 0.5rem 1.2rem;
-  background: none;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-.show-more:hover { border-color: var(--accent); color: var(--accent); }
 </style>

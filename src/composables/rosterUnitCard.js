@@ -22,7 +22,7 @@
 import { computed, ref, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
-import { overlaySheet, enhKey, detKey, loadoutItemNames } from './rosterModifiers.js'
+import { overlaySheet, enhKey, detKey, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
 import { ruleAppliesTo } from './ruleTargets.js'
 import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
@@ -291,7 +291,18 @@ export function useRosterUnitCard(props) {
   // What is true for this unit right now. In a game the tracker answers (gameCtx.active); off the
   // table the LIST still answers for itself — an enhancement gated on "while the bearer is leading a
   // unit" is proven by the roster, with no game needed — and nothing else can be true.
-  const activeConds = computed(() => props.gameCtx?.active || rosterConditions(props.ctx?.entry))
+  // What is true for this entry: the game's answer when there is one, the list's own otherwise —
+  // and in both cases what the entry's wargear proves (a pair of macro-scalpels, a Helbrute's two
+  // melee weapons), which neither the tracker nor the switches know about: it is read off the
+  // loadout the card itself prints (rosterModifiers' wargearConditions).
+  const gearConds = computed(() => {
+    const printed = datasheets.value.find((d) => d.id === props.unitId)
+    return wargearConditions(props.ctx?.def, props.ctx?.entry, props.ctx?.items, printed)
+  })
+  const activeConds = computed(() => {
+    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry)
+    return gearConds.value.size ? new Set([...base, ...gearConds.value]) : base
+  })
 
   // Core Rules 19.03: an attached unit has every keyword of every unit in it, so a stratagem that
   // names one of them can be spent on the whole attached unit — this card included. Only the printed

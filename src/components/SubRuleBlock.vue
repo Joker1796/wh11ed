@@ -16,9 +16,11 @@
         v-if="fromApp"
         class="from-app"
       >from app</span>
-      <i
-        class="bi sub-rule-chevron"
-        :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"
+      <ChevronIcon
+        class="sub-rule-chevron"
+        :turned="open"
+        from="down"
+        to="up"
       />
     </button>
 
@@ -64,6 +66,7 @@
 </template>
 
 <script setup>
+import ChevronIcon from './ChevronIcon.vue'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'

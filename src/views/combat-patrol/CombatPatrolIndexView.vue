@@ -1,5 +1,8 @@
 <template>
-  <div class="cp-index-view">
+  <div
+    ref="rootEl"
+    class="cp-index-view"
+  >
     <div class="hero">
       <h1 class="hero-title">
         {{ labels.cpHeading }}
@@ -9,23 +12,33 @@
       </div>
     </div>
 
+    <!-- A pinned faction leaves its group for this one, and slides there (useFlipMove). -->
     <section
       v-if="pinned.length"
       class="cp-group"
     >
-      <h2 class="cp-group-title">
+      <h2
+        class="cp-group-title"
+        data-flip="h:pinned"
+      >
         {{ labels.favPinnedGroup }}
       </h2>
       <div class="cp-grid">
         <div
           v-for="f in pinned"
           :key="'pin-' + f.slug"
+          :data-flip="f.slug"
           class="cp-card-row"
         >
           <RouterLink
             :to="`/combat-patrol/${f.slug}`"
-            class="cp-card"
+            class="cp-card tone"
+            :style="toneVars(factionIndexBySlug(f.slug)?.color)"
           >
+            <FactionEmblem
+              :faction="factionIndexBySlug(f.slug)"
+              stamp
+            />
             <span class="cp-card-name">{{ f.name }}</span>
             <span class="cp-card-box">{{ f.boxName }}</span>
           </RouterLink>
@@ -38,28 +51,37 @@
     </section>
 
     <section
-      v-for="group in groups"
+      v-for="group in unpinned"
       :key="group.id"
       class="cp-group"
     >
-      <h2 class="cp-group-title">
+      <h2
+        class="cp-group-title"
+        :data-flip="'h:' + group.id"
+      >
         {{ labels[factionGroupLabelKey(group.id)] }}
       </h2>
       <div class="cp-grid">
         <div
           v-for="f in group.factions"
           :key="f.slug"
+          :data-flip="f.slug"
           class="cp-card-row"
         >
           <RouterLink
             :to="`/combat-patrol/${f.slug}`"
-            class="cp-card"
+            class="cp-card tone"
+            :style="toneVars(factionIndexBySlug(f.slug)?.color)"
           >
+            <FactionEmblem
+              :faction="factionIndexBySlug(f.slug)"
+              stamp
+            />
             <span class="cp-card-name">{{ f.name }}</span>
             <span class="cp-card-box">{{ f.boxName }}</span>
           </RouterLink>
           <FavoriteStar
-            :pinned="isFactionPinned(f.slug)"
+            :pinned="false"
             @toggle="toggleFaction(f.slug)"
           />
         </div>
@@ -69,13 +91,16 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { combatPatrolIndex } from '../../data/combatPatrolIndex.js'
-import { factionGroups, factionGroupLabelKey } from '../../data/factionsIndex.js'
+import { factionGroups, factionGroupLabelKey, factionIndexBySlug } from '../../data/factionsIndex.js'
+import { toneVars } from '../../utils/tone.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
+import { useFlipMove } from '../../composables/useFlipMove.js'
 import FavoriteStar from '../../components/FavoriteStar.vue'
+import FactionEmblem from '../../components/FactionEmblem.vue'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -95,10 +120,13 @@ const groups = computed(() => {
     .filter((g) => g.factions.length)
 })
 
-// Pin a faction to the top, same mechanism as /factions and the tracker's faction picker
+// Pin a faction to the top — it leaves its own group — same mechanism as /factions and the tracker's faction picker
 // (shared localStorage-backed favorites — pinning here also pins it everywhere else).
-const { isFactionPinned, toggleFaction, pinnedFactionsFrom } = useFavorites()
+const { toggleFaction, pinnedFactionsFrom, unpinnedGroupsFrom } = useFavorites()
 const pinned = computed(() => pinnedFactionsFrom(groups.value))
+const unpinned = computed(() => unpinnedGroupsFrom(groups.value))
+const rootEl = ref(null)
+useFlipMove(() => pinned.value.map((f) => f.slug), rootEl)
 
 </script>
 
@@ -163,19 +191,22 @@ const pinned = computed(() => pinnedFactionsFrom(groups.value))
 }
 
 .cp-card {
+  contain: paint; /* the emblem's stamp (FactionEmblem) is clipped to the card and under its text */
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
   padding: 0.5rem 1.6rem 0.55rem 0.7rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-top: 2px solid var(--accent);
+  /* The faction's own colour (the `.tone` pair, as the faction pickers wear it), the site accent
+     where a faction has none (2026-09-28). */
+  border-top: 2px solid var(--tone, var(--accent));
   text-decoration: none;
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 
 .cp-card:hover {
-  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  background: color-mix(in srgb, var(--tone, var(--accent)) 8%, var(--bg-card));
   text-decoration: none;
 }
 

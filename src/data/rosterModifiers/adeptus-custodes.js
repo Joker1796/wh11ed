@@ -447,7 +447,7 @@ export default {
             "ru": "если взяты два Telemon caestus вдобавок к armoured feet"
           },
           "cond": [
-            "never"
+            "wargear-two-telemon-caestus"
           ]
         }
       ]

@@ -21,6 +21,7 @@
           </h2>
           <div class="ds-actions">
             <button
+              data-press="pop"
               type="button"
               class="ds-btn"
               :class="{ 'ds-btn-pin-on': fav }"
@@ -34,6 +35,7 @@
             <!-- "I own this one" — the mark the roster catalogue shows on its rows and can filter
                  by. Same treatment as the pin: state is the outline→filled swap, no highlight. -->
             <button
+              data-press="pop"
               type="button"
               class="ds-btn"
               :class="{ 'ds-btn-pin-on': owned }"
@@ -50,6 +52,7 @@
               :class="{ copied }"
               :title="copied ? labels.dsCopied : labels.dsCopyName"
               :aria-label="copied ? labels.dsCopied : labels.dsCopyName"
+              data-press="pop"
               @click="copyName"
             >
               <i :class="copied ? 'bi bi-check2' : 'bi bi-clipboard'" />
@@ -63,6 +66,7 @@
               :title="loreOpen ? labels.loreHide : labels.loreShow"
               :aria-label="loreOpen ? labels.loreHide : labels.loreShow"
               :aria-pressed="loreOpen"
+              data-press="pop"
               @click="toggleLorePopover"
             >
               <i :class="loreOpen ? 'bi bi-book-fill' : 'bi bi-book'" />

@@ -9,8 +9,8 @@
     <div class="modal-body modal-list">
       <RouterLink
         v-for="u in units"
-        :key="u.id"
-        :to="`/factions/${factionSlug}/datasheets/${u.id}`"
+        :key="(u.slug || factionSlug) + '/' + u.id"
+        :to="`/factions/${u.slug || factionSlug}/datasheets/${u.id}`"
         class="kum-item"
         @click="$emit('close')"
       >
@@ -18,6 +18,14 @@
           v-if="u.baseSize"
           class="kum-base"
         > ({{ fmtBase(u.baseSize) }})</span></span>
+        <span
+          v-if="u.faction"
+          class="kum-faction"
+        >{{ factionName(u.faction) }}</span>
+        <span
+          v-if="u.own"
+          class="tone-chip kum-own"
+        >{{ labels.kwUnitInList }}</span>
       </RouterLink>
     </div>
   </BaseModal>
@@ -29,13 +37,17 @@ import BaseModal from './BaseModal.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { formatBaseSize } from '../utils/baseSize.js'
+import { factionIndexBySlug } from '../data/factionsIndex.js'
 
 // Opened from DatasheetCard's Keywords line (see its `keyword-click` emit) — lists every
 // other unit in the SAME faction's roster that also carries the clicked keyword, so a reader
 // can jump straight to e.g. every other INFANTRY unit without leaving the datasheet page.
+// Also from a faction keyword named in rule prose (useFactionKeywordUnits.js): there a row may
+// belong to another faction (`slug`, and `faction` to say so aloud) and may be one of the units
+// of the list on screen (`own`, marked and sorted first by the caller).
 const props = defineProps({
   keyword: { type: String, required: true },
-  units: { type: Array, required: true }, // [{ id, name, baseSize? }]
+  units: { type: Array, required: true }, // [{ id, name, baseSize?, slug?, faction?, own? }]
   factionSlug: { type: String, required: true },
 })
 defineEmits(['close'])
@@ -43,6 +55,7 @@ defineEmits(['close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
+const factionName = (slug) => factionIndexBySlug(slug)?.name || slug
 const title = computed(() => labels.value.dsUnitsWithKeyword.replace('{kw}', props.keyword))
 </script>
 
@@ -56,6 +69,7 @@ const title = computed(() => labels.value.dsUnitsWithKeyword.replace('{kw}', pro
 
 .kum-item {
   display: flex;
+  gap: 0.5rem;
   width: 100%;
   min-height: 44px;
   align-items: center;
@@ -78,6 +92,20 @@ const title = computed(() => labels.value.dsUnitsWithKeyword.replace('{kw}', pro
   letter-spacing: 0.3px;
   color: var(--text-primary);
 }
+
+.kum-faction {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* The accent's pair, so the mark reads as "this list" in the faction-themed roster screens. */
+.kum-own {
+  --tone: var(--accent);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.kum-faction + .kum-own { margin-left: 0.5rem; }
 
 .kum-base {
   font-family: var(--font-sans);

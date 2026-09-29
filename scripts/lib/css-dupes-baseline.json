@@ -51,14 +51,6 @@
     "src/views/HelpTopicView.vue",
     "src/views/HelpView.vue"
   ],
-  ".hero h1 { font-family: var(--font-display); font-size: 2.1rem; font-weight: 500; color: var(--text-primary); margin: 0; line-height: 1.1; }": [
-    "src/views/tracker/RosterListView.vue",
-    "src/views/tracker/TrackerHomeView.vue"
-  ],
-  ".hero-side { display: flex; align-items: center; gap: 0.5rem; min-width: 0; font-size: 0.8rem; color: var(--text-muted); }": [
-    "src/views/tracker/RosterListView.vue",
-    "src/views/tracker/TrackerHomeView.vue"
-  ],
   ".kind { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 5px; }": [
     "src/components/event/MissionCard.vue",
     "src/components/tracker/ScoreRows.vue"
@@ -118,10 +110,6 @@
   ".rule-body { font-size: 0.95rem; line-height: 1.5; color: var(--text-primary); }": [
     "src/components/RuleBlock.vue",
     "src/components/event/ChapterIntro.vue"
-  ],
-  ".show-more:hover { border-color: var(--accent); color: var(--accent); }": [
-    "src/views/ChangelogView.vue",
-    "src/views/tracker/TrackerHomeView.vue"
   ],
   ".strat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; align-items: start; }": [
     "src/views/combat-patrol/CombatPatrolFactionView.vue",

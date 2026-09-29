@@ -50,6 +50,7 @@
 <script setup>
 import { computed, ref, watch, nextTick, onUnmounted } from 'vue'
 import { useKeywordPopover } from '../composables/useKeywordPopover.js'
+import { openFactionKeyword } from '../composables/useFactionKeywordUnits.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { resolveRef, useRefNavigation } from '../composables/useRefNavigation.js'
 import { ui } from '../i18n/ui.js'
@@ -103,6 +104,12 @@ function handleBodyClick(e) {
   const glossEl = e.target.closest('.gloss')
   if (glossEl) {
     openGloss(glossEl.dataset.gloss, glossEl.getBoundingClientRect())
+    return
+  }
+  const fkwEl = e.target.closest('.fkw')
+  if (fkwEl) {
+    close()
+    openFactionKeyword(fkwEl.dataset.fkw)
     return
   }
   const kwEl = e.target.closest('.keyword, .core-ability')

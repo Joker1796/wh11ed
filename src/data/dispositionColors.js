@@ -15,3 +15,7 @@ export const DISPOSITION_COLORS = {
 export function dispositionColor(name) {
   return DISPOSITION_COLORS[name] || null
 }
+
+// The five dispositions by name, in the spelling a detachment record carries — also what an import
+// recognises when a list states its disposition on a bare line (rosterImport.js).
+export const DISPOSITION_NAMES = Object.keys(DISPOSITION_COLORS)

@@ -1,13 +1,13 @@
 <template>
   <!-- Top-of-screen notice that a new version shipped; links to the /changelog page. -->
   <TopBanner
-    v-if="visible"
+    :show="visible"
     icon="bi-stars"
     :close-label="labels.updateDismiss"
     @close="markSeen"
   >
     <p class="ub-text">
-      {{ labels.updateNoticeTitle }} <strong class="ub-ver">v{{ entry.version }}</strong>
+      {{ labels.updateNoticeTitle }} <strong class="ub-ver">v{{ entry?.version }}</strong>
       <RouterLink
         to="/changelog"
         class="ub-link"

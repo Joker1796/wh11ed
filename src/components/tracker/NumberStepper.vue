@@ -2,18 +2,28 @@
   <div class="stepper">
     <button
       class="step-btn"
+      data-press
       :disabled="disabled || modelValue <= min"
       :aria-label="labels.ariaDecrease"
       @click="bump(-step)"
     >
       −
     </button>
+    <!-- The number rolls like a counter wheel: up for more, down for less (2026-09-28). -->
     <span
       ref="valEl"
       class="step-val"
-    >{{ modelValue }}</span>
+    >
+      <Transition :name="roll">
+        <span
+          :key="modelValue"
+          class="step-num"
+        >{{ modelValue }}</span>
+      </Transition>
+    </span>
     <button
       class="step-btn"
+      data-press
       :disabled="disabled || (max != null && modelValue >= max)"
       :aria-label="labels.ariaIncrease"
       @click="bump(step)"
@@ -24,7 +34,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
@@ -45,6 +55,10 @@ const labels = computed(() => ui[locale.value])
 
 const valEl = ref(null)
 useFlashOnChange(() => props.modelValue, valEl)
+
+// Which way the wheel turns, decided before the new number renders (a `pre` watcher).
+const roll = ref('roll-up')
+watch(() => props.modelValue, (to, from) => { roll.value = to < from ? 'roll-down' : 'roll-up' })
 
 function bump(delta) {
   let v = props.modelValue + delta
@@ -79,7 +93,11 @@ function bump(delta) {
   opacity: 0.4;
   cursor: not-allowed;
 }
+/* The old and the new number share one cell (grid stacking) while they pass each other, and the
+   cell clips them, so the roll never pushes the buttons apart. */
 .step-val {
+  display: inline-grid;
+  overflow: hidden;
   min-width: 2.2ch;
   text-align: center;
   font-family: var(--font-mono);
@@ -87,4 +105,11 @@ function bump(delta) {
   font-size: 1rem;
   color: var(--text-primary);
 }
+.step-num { grid-area: 1 / 1; }
+.roll-up-enter-active, .roll-up-leave-active,
+.roll-down-enter-active, .roll-down-leave-active {
+  transition: transform var(--motion-fast) ease-out, opacity var(--motion-fast) ease-out;
+}
+.roll-up-enter-from, .roll-down-leave-to { transform: translateY(100%); opacity: 0; }
+.roll-up-leave-to, .roll-down-enter-from { transform: translateY(-100%); opacity: 0; }
 </style>

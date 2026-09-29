@@ -1,6 +1,6 @@
 <template>
   <TopBanner
-    v-if="visible"
+    :show="visible"
     icon="bi-signpost-2"
     :close-label="labels.updateDismiss"
     @close="dismiss"

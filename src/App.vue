@@ -34,20 +34,22 @@
 
     <main
       class="main-content"
-      :class="{ 'main-content--wide': isCoreRoute || isEventRoute, 'main-content--desk': isRosterDeskRoute }"
+      :class="{ 'main-content--wide': isCoreRoute || isEventRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk, 'main-content--browse': isRosterBrowseDesk }"
     >
       <RouterView v-slot="{ Component }">
         <Transition
           name="fade"
           mode="out-in"
+          @before-leave="pageLeaving"
+          @enter="pageArrived"
         >
           <component
             :is="Component"
-            :key="appPath"
+            :key="pageKey"
           />
         </Transition>
       </RouterView>
-      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute && !isBare" />
+      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute && !isRosterBrowseDesk && !isBare" />
     </main>
 
     <AppBottomNav
@@ -78,6 +80,14 @@
       @close="showRules = false"
     />
     <KeywordPopover />
+    <!-- A faction's unit keyword tapped in rule prose → the units carrying it (useFactionKeywordUnits). -->
+    <KeywordUnitsModal
+      v-if="fkwShown"
+      :keyword="fkwShown.keyword"
+      :units="fkwShown.units"
+      :faction-slug="fkwShown.factionSlug"
+      @close="closeFactionKeyword"
+    />
     <MobileUtilityBar
       v-if="!isBare"
       ref="mobileBarRef"
@@ -92,6 +102,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
+import { pageLeaving, pageArrived } from './composables/usePageMotion.js'
 import { useRoute, useRouter } from 'vue-router'
 import { shouldWelcome } from './composables/useWelcome.js'
 import { useFeedbackModal } from './composables/useFeedbackModal.js'
@@ -105,6 +116,8 @@ const FeedbackModal = defineAsyncComponent(() => import('./components/FeedbackMo
 const FactionsNavModal = defineAsyncComponent(() => import('./components/FactionsNavModal.vue'))
 const RulesNavModal = defineAsyncComponent(() => import('./components/RulesNavModal.vue'))
 import KeywordPopover from './components/KeywordPopover.vue'
+import KeywordUnitsModal from './components/KeywordUnitsModal.vue'
+import { useFactionKeywordUnits } from './composables/useFactionKeywordUnits.js'
 import NavSidebar from './components/NavSidebar.vue'
 import AppNavbar from './components/AppNavbar.vue'
 import AppSubnav from './components/AppSubnav.vue'
@@ -124,6 +137,7 @@ import { useKeywordPopover, opensPopover } from './composables/useKeywordPopover
 import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useRouteSection } from './composables/useRouteSection.js'
+import { useMediaQuery } from './composables/useMediaQuery.js'
 import { useRosters } from './composables/useRosters.js'
 import { useRosterDraftResume } from './composables/useRosterDraftResume.js'
 import { useViewRestore } from './composables/useViewRestore.js'
@@ -152,6 +166,16 @@ const { locale } = useLocale()
 // The address carries the language (`/ru/…`); everything that asks "which page is this?" must ask
 // without it, or every predicate written against a bare path quietly stops matching in Russian.
 const appPath = computed(() => stripLocale(route.path))
+// What counts as "another page" for the swap above. A route with children (a faction's pages)
+// is one page per faction: moving between its tabs changes the child, drawn by the parent's own
+// RouterView (FactionPagesView), and must not re-create the parent — that is what kept the hero
+// and the tabs sliding out and in with every tab (2026-09-28).
+const pageKey = computed(() => {
+  // The rosters desk: the list and every roster's page are ONE screen on a wide window
+  // (RosterDeskView) — opening another roster changes its right-hand side, not the page.
+  if (isRosterBrowseDesk.value) return 'roster-desk'
+  return route.matched.length > 1 ? `${route.matched[0].path}|${route.params.slug ?? ''}` : appPath.value
+})
 // A bare route (the broadcast overlay OBS captures) renders with NO app chrome at all —
 // navbar, drawer, subnav, bottom nav, utility bar and toasts stay out of the frame.
 const isBare = computed(() => !!route.meta.bare)
@@ -160,6 +184,9 @@ const isBare = computed(() => !!route.meta.bare)
 watch([() => route.path, locale], ([path, loc]) => applyRouteMeta(path, loc), { immediate: true })
 
 const { open: openKeyword, openGloss, close: closeKeyword } = useKeywordPopover()
+const { shown: fkwShown, openFactionKeyword, closeFactionKeyword } = useFactionKeywordUnits()
+// The faction whose page this is, for a keyword several factions share.
+const pageFaction = computed(() => (appPath.value.startsWith('/factions/') ? route.params.slug || null : null))
 const { navigateTo } = useRefNavigation()
 
 const {
@@ -183,6 +210,14 @@ const isRosterEditRoute = computed(() =>
 // components/roster/RosterWorkbench.vue), which the 860px reading measure cannot hold. Printing
 // is excluded: it is a roster route by path, but its width is the paper's.
 const isRosterDeskRoute = computed(() => isRosterEditRoute.value && !appPath.value.endsWith('/print'))
+// The factions index lays its four groups out as four columns, which the 860px measure cannot fit.
+const isFactionsIndexRoute = computed(() => appPath.value === '/factions')
+// The list of rosters and a saved roster's page, which a window wider than the bottom nav's
+// 900px shows as one screen of columns (RosterDeskView): as wide as the builder's desk, filling the
+// window with no footer under it, and one page for the swap (pageKey).
+const rosterBrowseWide = useMediaQuery('(min-width: 901px)')
+const isRosterBrowseDesk = computed(() => rosterBrowseWide.value &&
+  (appPath.value === '/roster' || /^\/roster\/[^/]+\/view$/.test(appPath.value)))
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
 // that isn't the game — anywhere outside the tracker, plus the one tracker screen that is itself
@@ -262,6 +297,12 @@ function onGlobalClick(e) {
     openGloss(glossEl.dataset.gloss, glossEl.getBoundingClientRect())
     return
   }
+  const fkwEl = e.target.closest('.fkw')
+  if (fkwEl) {
+    closeKeyword()
+    openFactionKeyword(fkwEl.dataset.fkw, pageFaction.value)
+    return
+  }
   // `.core-ability` is the same popover from a quieter span — a core ability named in rule prose,
   // printed bold and in Title Case rather than as a bracketed pill (see useRenderInline).
   const kwEl = e.target.closest('.keyword, .core-ability')
@@ -330,12 +371,23 @@ onUnmounted(() => {
   max-width: 1120px;
   background: var(--bg-content);
 }
+/* The same width without the panel: the factions index (four columns of faction rows). */
+.main-content--broad { max-width: 1120px; }
 
 /* The roster builder's desk layout: catalogue, list and the chosen unit's fields side by side.
    Only above the threshold that layout itself uses — below it the screen is back to two panes at
    the ordinary measure, and this class must not widen them. */
 @media (min-width: 1200px) {
   .main-content--desk {
+    max-width: 1600px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* The rosters desk (list + a roster, RosterDeskView) — from where the bottom nav goes. */
+@media (min-width: 901px) {
+  .main-content--browse {
     max-width: 1600px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -376,12 +428,16 @@ onUnmounted(() => {
    back-to-top) want, so THEY yield instead: this reserves the bar's real height in a variable
    MobileUtilityBar's own bottom offset adds (see its .mobile-bar rule) — always the fixed
    .rc-sticky height, not RosterEditorView's unrelated .red-sticky (a sticky totals readout,
-   no buttons, nothing to block). */
-.app-layout:has(.rc-sticky) { --roster-sticky-h: 3.75rem; }
+   no buttons, nothing to block).
+   A bar on a page that is on its way OUT (`.page-leaving`, set by the route transition above for
+   whichever animation it runs) reserves
+   nothing: the room is being freed, and a "to game" chip coming in for the next page aimed above
+   the leaving bar and then dropped onto its place (owner, 2026-09-28). */
+.app-layout:has(.rc-sticky:not(.page-leaving .rc-sticky)) { --roster-sticky-h: 3.75rem; }
 /* The bar's compact tier (style.css, ≤480px) is ~49px, not ~59px: the full 3.75rem left a ~10px
    empty strip between the roster panes and the bar, and floated the undo/utility bars as high. */
 @media (max-width: 480px) {
-  .app-layout:has(.rc-sticky) { --roster-sticky-h: 3.1rem; }
+  .app-layout:has(.rc-sticky:not(.page-leaving .rc-sticky)) { --roster-sticky-h: 3.1rem; }
 }
 /* The tracker's pinned turn buttons (RoundTracker's .tf-sticky): 42px buttons + 2 × 0.4rem +
    the border — the same reserve the roster bar makes, so the floating buttons yield to it and the

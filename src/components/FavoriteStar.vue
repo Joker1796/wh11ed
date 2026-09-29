@@ -1,5 +1,6 @@
 <template>
   <button
+    data-press="pop"
     type="button"
     class="fav-star"
     :class="{ on: pinned }"

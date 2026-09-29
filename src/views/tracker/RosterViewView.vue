@@ -2,302 +2,305 @@
   <div
     v-if="roster"
     class="roster-view fa-themed"
+    :class="{ 'rv-in-desk': inDesk, 'rv-split': unitPane }"
     :style="accentStyle"
   >
-    <!-- The way back. The answer to the Save that landed here stood opposite it until 2026-09-24;
+    <!-- On the rosters desk (RosterDeskView, wide screens) the page is a column that scrolls on its
+         own, and — from 1200px — a unit opens in a column beside it instead of a dialog. -->
+    <div class="rv-main">
+      <!-- The way back. The answer to the Save that landed here stood opposite it until 2026-09-24;
          it is a toast now (below), so on a phone this row is usually empty and takes no height. -->
-    <div class="rv-top">
-      <!-- On a phone the way back to the list of lists is the bottom nav's Rosters, one thumb away,
+      <div class="rv-top">
+        <!-- On a phone the way back to the list of lists is the bottom nav's Rosters, one thumb away,
            so this line is dropped there (owner, 2026-09-24). From a game or its history it goes
            somewhere the nav does not, and stays. -->
-      <RouterLink
-        :to="backTo"
-        class="back"
-        :class="{ 'rv-back-list': !inGame }"
-      >
-        <i class="bi bi-chevron-left" /> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
-      </RouterLink>
-    </div>
-    <!-- The answer to the Save that landed here — a toast, not a line of the page (2026-09-24).
+        <RouterLink
+          :to="backTo"
+          class="back"
+          :class="{ 'rv-back-list': !inGame }"
+        >
+          <i class="bi bi-chevron-left" /> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
+        </RouterLink>
+      </div>
+      <!-- The answer to the Save that landed here — a toast, not a line of the page (2026-09-24).
          Not inside a game: there this page is a read of a snapshot, with nothing to save. -->
-    <RosterCloudToast v-if="!inGame" />
+      <RosterCloudToast v-if="!inGame" />
 
-    <!-- One line when the name and the numbers both fit on it, two when they don't — a wrapping
+      <!-- One line when the name and the numbers both fit on it, two when they don't — a wrapping
          flex row rather than a column that stacks unconditionally. It stacked before, which put
          "2000/2000" on its own line under a name eight characters long; the name asks for 12rem
          and yields the rest, so only a name that really needs the width pushes the meta down. -->
-    <header class="rv-head">
-      <h1
-        class="rv-name"
-        :class="nameFit"
-      >
-        {{ roster.name || labels.rosterUntitled }}
-      </h1>
-      <div class="rv-meta">
-        <div
-          v-if="roster.faction"
-          class="rv-points"
-          :class="{ over: points > limit }"
+      <header class="rv-head">
+        <h1
+          class="rv-name"
+          :class="nameFit"
         >
-          <span class="rp-used">{{ points }}</span>
-          <span class="rp-sep">/</span>
-          <span class="rp-cap">{{ limit }}</span>
-        </div>
-        <RouterLink
-          v-if="!inGame"
-          :to="`/roster/${roster.id}`"
-          class="hdr-icon"
-          :aria-label="labels.rosterEdit"
-        >
-          <i class="bi bi-pencil" />
-        </RouterLink>
-        <!-- Everything else this list can become — a printed sheet, a text export, a clipboard
+          {{ roster.name || labels.rosterUntitled }}
+        </h1>
+        <div class="rv-meta">
+          <div
+            v-if="roster.faction"
+            class="rv-points"
+            :class="{ over: points > limit }"
+          >
+            <span class="rp-used">{{ points }}</span>
+            <span class="rp-sep">/</span>
+            <span class="rp-cap">{{ limit }}</span>
+          </div>
+          <RouterLink
+            v-if="!inGame"
+            :to="`/roster/${roster.id}`"
+            class="hdr-icon"
+            :aria-label="labels.rosterEdit"
+          >
+            <i class="bi bi-pencil" />
+          </RouterLink>
+          <!-- Everything else this list can become — a printed sheet, a text export, a clipboard
              full of it — behind one "…" instead of an icon each. The printer stood here alone
              until export and copy joined it, and three icons beside the pencil is a toolbar, not
              a header. Same kebab-into-a-sheet the list page's own cards use. -->
-        <button
-          v-if="!inGame"
-          type="button"
-          class="hdr-icon"
-          :aria-label="labels.rosterMoreActions"
-          @click="menuOpen = true"
-        >
-          <i class="bi bi-three-dots-vertical" />
-        </button>
-      </div>
-    </header>
+          <button
+            v-if="!inGame"
+            type="button"
+            class="hdr-icon"
+            :aria-label="labels.rosterMoreActions"
+            @click="menuOpen = true"
+          >
+            <i class="bi bi-three-dots-vertical" />
+          </button>
+        </div>
+      </header>
 
-    <!-- What the list breaks, said HERE. The editor has always had this behind its footer badge,
+      <!-- What the list breaks, said HERE. The editor has always had this behind its footer badge,
          but a list is read far more often than it is edited, and "why is this illegal" was two
          screens away — the list page shows a warning count and this page said nothing at all. -->
-    <button
-      v-if="issues.length"
-      type="button"
-      class="rv-issues"
-      :class="{ err: errorCount }"
-      @click="issuesOpen = true"
-    >
-      <i
-        class="bi"
-        :class="errorCount ? 'bi-x-octagon-fill' : 'bi-exclamation-triangle-fill'"
-      />
-      <span class="rvi-txt">
-        {{ (errorCount ? labels.rosterViewIssues : labels.rosterViewWarns).replace('{n}', String(errorCount || issues.length)) }}
-      </span>
-      <span
-        v-if="errorCount && warnCount"
-        class="rvi-more"
-      >{{ labels.rosterViewWarns.replace('{n}', String(warnCount)) }}</span>
-      <i class="bi bi-chevron-right rvi-go" />
-    </button>
+      <button
+        v-if="issues.length"
+        type="button"
+        class="rv-issues"
+        :class="{ err: errorCount }"
+        @click="issuesOpen = true"
+      >
+        <i
+          class="bi"
+          :class="errorCount ? 'bi-x-octagon-fill' : 'bi-exclamation-triangle-fill'"
+        />
+        <span class="rvi-txt">
+          {{ (errorCount ? labels.rosterViewIssues : labels.rosterViewWarns).replace('{n}', String(errorCount || issues.length)) }}
+        </span>
+        <span
+          v-if="errorCount && warnCount"
+          class="rvi-more"
+        >{{ labels.rosterViewWarns.replace('{n}', String(warnCount)) }}</span>
+        <i class="bi bi-chevron-right rvi-go" />
+      </button>
 
-    <!-- How this list has done on the table. Saved lists only: in a game the answer is the game.
-         The full record — matchups, missions, cards — is behind the link. -->
-    <RouterLink
-      v-if="record"
-      to="/tracker/stats"
-      class="rv-record"
-    >
-      <i class="bi bi-trophy" />
-      <span class="rvr-rec">{{ record }}</span>
-      <span class="rvr-lab">{{ labels.statsTitle }}</span>
-      <i class="bi bi-chevron-right rvr-go" />
-    </RouterLink>
-
-    <p
-      v-if="!roster.faction"
-      class="rv-hint"
-    >
-      {{ labels.rosterViewNoFaction }}
-    </p>
-    <template v-else>
-      <!-- What is true in the battle right now. Only the states this list's own rules actually
+      <p
+        v-if="!roster.faction"
+        class="rv-hint"
+      >
+        {{ labels.rosterViewNoFaction }}
+      </p>
+      <template v-else>
+        <!-- What is true in the battle right now. Only the states this list's own rules actually
            name, and only ones the app can honestly answer — see conditions.js. A switch the
            tracker already knows the answer to (a called Waaagh!) shows as a fact, not a control. -->
-      <ConditionChips
-        class="rv-conds"
-        :switches="armySwitches"
-        @toggle="toggleArmyCond"
-        @info="openChipInfo"
-      />
+        <ConditionChips
+          class="rv-conds"
+          :switches="armySwitches"
+          @toggle="toggleArmyCond"
+          @info="openChipInfo"
+        />
 
-      <!-- Off the table there is nothing to switch, so this is what stands in that place instead:
+        <!-- Off the table there is nothing to switch, so this is what stands in that place instead:
            everything the army rule, the detachment(s) and the core rules WOULD do to this list once
            the battle proves their condition. What one unit's own ability or wargear would do is on
            that unit's card — repeating it here would be the whole modifier layer printed twice.
            Closed by default: it is preparation, not the list. -->
-      <section
-        v-if="possibleGroups.length"
-        class="rv-possible"
-      >
-        <button
-          type="button"
-          class="rvp-head"
-          :aria-expanded="possibleOpen"
-          @click="possibleOpen = !possibleOpen"
+        <section
+          v-if="possibleGroups.length"
+          class="rv-possible"
         >
-          <i
-            class="bi rvp-chev"
-            :class="possibleOpen ? 'bi-chevron-down' : 'bi-chevron-right'"
-          />
-          <span class="rvp-title">{{ labels.dsModifiersPossible }}</span>
-          <span class="rvp-count">{{ possibleCount }}</span>
-        </button>
-        <CollapseTransition :show="possibleOpen">
-          <ul class="rvp-list">
-            <template
-              v-for="g in possibleGroups"
-              :key="g.key"
-            >
-              <li class="rvp-src">
-                {{ g.label }}
-              </li>
-              <li
-                v-for="(n, i) in g.notes"
-                :key="i"
-                class="rvp-mod"
+          <button
+            type="button"
+            class="rvp-head"
+            :aria-expanded="possibleOpen"
+            @click="possibleOpen = !possibleOpen"
+          >
+            <ChevronIcon
+              class="rvp-chev"
+              :turned="possibleOpen"
+              from="right"
+              to="down"
+            />
+            <span class="rvp-title">{{ labels.dsModifiersPossible }}</span>
+            <span class="rvp-count">{{ possibleCount }}</span>
+          </button>
+          <CollapseTransition :show="possibleOpen">
+            <ul class="rvp-list">
+              <template
+                v-for="g in possibleGroups"
+                :key="g.key"
               >
-                <span class="rvp-delta">{{ modDelta(n) }}</span>
-                <span class="rvp-name">{{ n.source }}</span>
-                <span
-                  v-if="n.when"
-                  class="rvp-cond"
-                >{{ n.when[locale] || n.when.en }}</span>
-              </li>
-            </template>
-          </ul>
-        </CollapseTransition>
-      </section>
+                <li class="rvp-src">
+                  {{ g.label }}
+                </li>
+                <li
+                  v-for="(n, i) in g.notes"
+                  :key="i"
+                  class="rvp-mod"
+                >
+                  <span class="rvp-delta">{{ modDelta(n) }}</span>
+                  <span class="rvp-name">{{ n.source }}</span>
+                  <span
+                    v-if="n.when"
+                    class="rvp-cond"
+                  >{{ n.when[locale] || n.when.en }}</span>
+                </li>
+              </template>
+            </ul>
+          </CollapseTransition>
+        </section>
 
-      <!-- The list's own notes, above the tabs because they are about the whole list and not about
+        <!-- The list's own notes, above the tabs because they are about the whole list and not about
            any one of them. Folded: a plan is written once and read at a couple of moments, and an
            open paragraph would stand between the header and the army on every visit (CLAUDE.md,
            "Vertical density" — secondary things start folded). -->
-      <div
-        v-if="roster.notes"
-        class="rv-notes"
-      >
-        <button
-          type="button"
-          class="rvn-head"
-          :aria-expanded="notesOpen"
-          @click="notesOpen = !notesOpen"
+        <div
+          v-if="roster.notes"
+          class="rv-notes"
         >
-          <i
-            class="bi rvn-chev"
-            :class="notesOpen ? 'bi-chevron-down' : 'bi-chevron-right'"
-          />
-          <span>{{ labels.rosterNotes }}</span>
-        </button>
-        <CollapseTransition :show="notesOpen">
-          <p class="rvn-text">
-            {{ roster.notes }}
-          </p>
-        </CollapseTransition>
-      </div>
+          <button
+            type="button"
+            class="rvn-head"
+            :aria-expanded="notesOpen"
+            @click="notesOpen = !notesOpen"
+          >
+            <ChevronIcon
+              class="rvn-chev"
+              :turned="notesOpen"
+              from="right"
+              to="down"
+            />
+            <span>{{ labels.rosterNotes }}</span>
+          </button>
+          <CollapseTransition :show="notesOpen">
+            <p class="rvn-text">
+              {{ roster.notes }}
+            </p>
+          </CollapseTransition>
+        </div>
 
-      <PageTabs
-        class="rv-tabs"
-        :tabs="viewTabs"
-        @select="tab = $event"
-      />
+        <PageTabs
+          class="rv-tabs"
+          :tabs="viewTabs"
+          @select="tab = $event"
+        />
 
-      <!-- Compact read-only unit list, grouped like the editor. Clicking a row opens the full
+        <!-- Compact read-only unit list, grouped like the editor. Clicking a row opens the full
            rules card in RosterUnitRulesModal — not an inline accordion, that read badly nested
            and had overflow issues (see git history if this is ever revisited). -->
-      <div
-        v-if="tab === 'units'"
-        class="rv-units"
-      >
-        <p
-          v-if="!roster.units.length"
-          class="rv-hint"
+        <!-- The three tabs' panels fade over each other (a sideways slide until 2026-09-29 — jerky). -->
+        <Transition
+          name="fade"
+          mode="out-in"
+          @enter="bringTabsIntoView"
         >
-          {{ labels.rosterUnitsEmptyView }}
-        </p>
-
-        <template
-          v-for="g in groupedUnits"
-          :key="g.id"
-        >
-          <template v-if="g.entries.length">
-            <h3
-              class="roster-group-head"
-              :class="{ locked: g.locked }"
+          <div
+            v-if="tab === 'units'"
+            key="units"
+            class="rv-units"
+          >
+            <p
+              v-if="!roster.units.length"
+              class="rv-hint"
             >
-              {{ groupLabel(g, labels) }}
-              <em
-                v-if="g.ally"
-                class="roster-group-tag"
-              >{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
-            </h3>
-            <!-- The row is a CONTAINER, not one big button: in a live game it carries this unit's
+              {{ labels.rosterUnitsEmptyView }}
+            </p>
+
+            <template
+              v-for="g in groupedUnits"
+              :key="g.id"
+            >
+              <template v-if="g.entries.length">
+                <h3
+                  class="roster-group-head"
+                  :class="{ locked: g.locked }"
+                >
+                  {{ groupLabel(g, labels) }}
+                  <em
+                    v-if="g.ally"
+                    class="roster-group-tag"
+                  >{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
+                </h3>
+                <!-- The row is a CONTAINER, not one big button: in a live game it carries this unit's
                  own state switches under the stats, and a button cannot hold buttons. Opening the
                  card stays a button of its own, covering everything but the switches. -->
-            <template
-              v-for="e in g.entries"
-              :key="e.uid"
-            >
-              <!-- The block's own line, as the editor's list draws it: the player's name for it (or
+                <template
+                  v-for="e in g.entries"
+                  :key="e.uid"
+                >
+                  <!-- The block's own line, as the editor's list draws it: the player's name for it (or
                    the numbered default) and what the whole attached unit costs, above its rows. It
                    was a total under the last row, with no name — the block the player named in the
                    editor read here as three unrelated units (owner, 2026-09-24). -->
-              <div
-                v-if="hasAttached(g.entries, e)"
-                class="rvblock-head"
-              >
-                <span class="rvblock-name">{{ e.blockName || labels.rosterBlockDefault.replace('{n}', blockNo.get(e.uid)) }}</span>
-                <span class="rvblock-total">{{ hostBlockTotal(g.entries, e, (x) => entryMeta.get(x.uid)?.points || 0) }}{{ labels.rosterPointsLabel }}</span>
-              </div>
-              <div
-                class="rvunit"
-                :class="{
-                  'rvunit-attached': e.leaderOf,
-                  'rvunit-host': hasAttached(g.entries, e),
-                }"
-              >
-                <button
-                  type="button"
-                  class="rvunit-main"
-                  @click="viewingUid = e.uid"
-                >
-                  <span class="rvunit-text">
-                    <span class="rvunit-name">
-                      {{ defOf(e.id)?.name || e.id }}
-                      <!-- The player's own note (rosterEngine's note helpers) — what they wrote to
+                  <div
+                    v-if="hasAttached(g.entries, e)"
+                    class="rvblock-head"
+                  >
+                    <span class="rvblock-name">{{ e.blockName || labels.rosterBlockDefault.replace('{n}', blockNo.get(e.uid)) }}</span>
+                    <span class="rvblock-total">{{ hostBlockTotal(g.entries, e, (x) => entryMeta.get(x.uid)?.points || 0) }}{{ labels.rosterPointsLabel }}</span>
+                  </div>
+                  <div
+                    class="rvunit"
+                    :class="{
+                      'rvunit-attached': e.leaderOf,
+                      'rvunit-host': hasAttached(g.entries, e),
+                      'rvunit-on': unitPane && viewingUid === e.uid,
+                    }"
+                  >
+                    <button
+                      type="button"
+                      class="rvunit-main"
+                      @click="viewingUid = e.uid"
+                    >
+                      <span class="rvunit-text">
+                        <span class="rvunit-name">
+                          {{ defOf(e.id)?.name || e.id }}
+                          <!-- The player's own note (rosterEngine's note helpers) — what they wrote to
                          read HERE, at the table, which is why it is on the row rather than behind
                          the card this row opens. -->
-                      <span
-                        v-if="e.note"
-                        class="rvunit-note"
-                      >({{ e.note }})</span>
-                      <!-- Attached characters sit under their bodyguard (rosterEngine's
+                          <span
+                            v-if="e.note"
+                            class="rvunit-note"
+                          >({{ e.note }})</span>
+                          <!-- Attached characters sit under their bodyguard (rosterEngine's
                          joinAttached); the tag says which slot, which nesting alone can't. -->
-                      <span
-                        v-if="rowMeta.get(e.uid)?.role"
-                        class="rvunit-role"
-                      >{{ rowMeta.get(e.uid).role }}</span>
-                    </span>
-                    <span
-                      v-if="rowMeta.get(e.uid)?.stats.length"
-                      class="rvunit-stats"
-                    >
-                      <span
-                        v-for="s in rowMeta.get(e.uid).stats"
-                        :key="s.label"
-                        class="rvst"
-                        :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }"
-                      >
-                        <span class="rvst-label">{{ s.label }}</span>
-                        <span class="stat-plate rvst-box">{{ s.value }}</span>
+                          <span
+                            v-if="rowMeta.get(e.uid)?.role"
+                            class="rvunit-role"
+                          >{{ rowMeta.get(e.uid).role }}</span>
+                        </span>
+                        <span
+                          v-if="rowMeta.get(e.uid)?.stats.length"
+                          class="rvunit-stats"
+                        >
+                          <span
+                            v-for="s in rowMeta.get(e.uid).stats"
+                            :key="s.label"
+                            class="rvst"
+                            :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }"
+                          >
+                            <span class="rvst-label">{{ s.label }}</span>
+                            <span class="stat-plate rvst-box">{{ s.value }}</span>
+                          </span>
+                        </span>
+                        <span class="rvunit-sub">{{ summaryLine(e) }}</span>
                       </span>
-                    </span>
-                    <span class="rvunit-sub">{{ summaryLine(e) }}</span>
-                  </span>
-                  <span class="rvunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
-                  <i class="bi bi-chevron-right rvunit-chev" />
-                </button>
-                <!-- What THIS unit has done, right where its numbers are. Army-wide states stay above
+                      <span class="rvunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
+                      <i class="bi bi-chevron-right rvunit-chev" />
+                    </button>
+                    <!-- What THIS unit has done, right where its numbers are. Army-wide states stay above
                    the list — those are facts about the battle, not about a unit — and these are the
                    ones a player flips every turn, which is not worth opening a card for.
 
@@ -307,226 +310,239 @@
                    chevron beside it, because a Sororitas list gave every row three stacked chips
                    and the numbers they belong to got lost between them. The chevron appears only
                    when there is something behind it. -->
-                <div
-                  v-if="pinnedChipOf(e)"
-                  class="rvunit-conds"
-                >
-                  <ConditionChips
-                    :switches="[pinnedChipOf(e)]"
-                    @toggle="toggleUnitChip(e, $event)"
-                    @info="openChipInfo"
-                  />
-                  <button
-                    v-if="restChipsOf(e).length"
-                    type="button"
-                    class="rvunit-more"
-                    :aria-expanded="openChips.has(e.uid)"
-                    :aria-label="labels.rosterMoreStates"
-                    @click="toggleChips(e.uid)"
-                  >
-                    <span class="rvunit-more-n">{{ restChipsOf(e).length }}</span>
-                    <i
-                      class="bi"
-                      :class="openChips.has(e.uid) ? 'bi-chevron-up' : 'bi-chevron-down'"
-                    />
-                  </button>
-                </div>
-                <CollapseTransition
-                  v-if="restChipsOf(e).length"
-                  :show="openChips.has(e.uid)"
-                >
-                  <ConditionChips
-                    class="rvunit-conds rvunit-rest"
-                    :switches="restChipsOf(e)"
-                    @toggle="toggleUnitChip(e, $event)"
-                    @info="openChipInfo"
-                  />
-                </CollapseTransition>
-              </div>
+                    <div
+                      v-if="pinnedChipOf(e)"
+                      class="rvunit-conds"
+                    >
+                      <ConditionChips
+                        :switches="[pinnedChipOf(e)]"
+                        @toggle="toggleUnitChip(e, $event)"
+                        @info="openChipInfo"
+                      />
+                      <button
+                        v-if="restChipsOf(e).length"
+                        type="button"
+                        class="rvunit-more"
+                        :aria-expanded="openChips.has(e.uid)"
+                        :aria-label="labels.rosterMoreStates"
+                        @click="toggleChips(e.uid)"
+                      >
+                        <span class="rvunit-more-n">{{ restChipsOf(e).length }}</span>
+                        <ChevronIcon
+                          :turned="openChips.has(e.uid)"
+                          from="down"
+                          to="up"
+                        />
+                      </button>
+                    </div>
+                    <CollapseTransition
+                      v-if="restChipsOf(e).length"
+                      :show="openChips.has(e.uid)"
+                    >
+                      <ConditionChips
+                        class="rvunit-conds rvunit-rest"
+                        :switches="restChipsOf(e)"
+                        @toggle="toggleUnitChip(e, $event)"
+                        @info="openChipInfo"
+                      />
+                    </CollapseTransition>
+                  </div>
+                </template>
+              </template>
             </template>
-          </template>
-        </template>
-      </div>
+          </div>
 
-      <!-- Army rule + selected detachment(s) rule, lazily loaded (heavy faction rules bundle) -->
-      <div
-        v-else-if="tab === 'rules'"
-        class="rv-rules"
-      >
-        <template v-if="rulesFaction">
-          <section class="rv-rule-block">
-            <h3 class="roster-group-head">
-              {{ labels.factionArmyRule }}
-            </h3>
-            <RuleBlock
-              :id="rulesFaction.armyRule.id"
-              :title="rulesFaction.armyRule.name"
-              :subtitle="rulesFaction.armyRule.nameRu"
-              :body="rulesFaction.armyRule.body"
-              :example="rulesFaction.armyRule.example"
-            />
-          </section>
-          <section
-            v-for="det in selectedDetachmentRules"
-            :key="det.name"
-            class="rv-rule-block"
+          <!-- Army rule + selected detachment(s) rule, lazily loaded (heavy faction rules bundle) -->
+          <div
+            v-else-if="tab === 'rules'"
+            key="rules"
+            class="rv-rules"
           >
-            <h3 class="roster-group-head">
-              {{ det.name }}
-            </h3>
-            <RuleBlock
-              :title="det.rule.name"
-              :subtitle="det.rule.nameRu"
-              :body="det.rule.body"
-            />
-          </section>
-        </template>
-      </div>
+            <template v-if="rulesFaction">
+              <section class="rv-rule-block">
+                <h3 class="roster-group-head">
+                  {{ labels.factionArmyRule }}
+                </h3>
+                <RuleBlock
+                  :id="rulesFaction.armyRule.id"
+                  :title="rulesFaction.armyRule.name"
+                  :subtitle="rulesFaction.armyRule.nameRu"
+                  :body="rulesFaction.armyRule.body"
+                  :example="rulesFaction.armyRule.example"
+                />
+              </section>
+              <section
+                v-for="det in selectedDetachmentRules"
+                :key="det.name"
+                class="rv-rule-block"
+              >
+                <h3 class="roster-group-head">
+                  {{ det.name }}
+                </h3>
+                <RuleBlock
+                  :title="det.rule.name"
+                  :subtitle="det.rule.nameRu"
+                  :body="det.rule.body"
+                />
+              </section>
+            </template>
+          </div>
 
-      <!-- Stratagems — same setup as the standalone StratagemsView.vue page (toolbar toggle +
+          <!-- Stratagems — same setup as the standalone StratagemsView.vue page (toolbar toggle +
            phase accordions / flat grid), just pre-filtered to this roster's own detachments
            instead of a core/you/opp filter (each card's sublabel already says which
            detachment it's from, same as that page's detachment cards). -->
-      <div
-        v-else
-        class="rv-strats"
-      >
-        <template v-if="rulesFaction">
-          <p
-            v-if="!selectedDetachmentRules.length"
-            class="rv-hint"
+          <div
+            v-else
+            key="stratagems"
+            class="rv-strats"
           >
-            {{ labels.rosterViewNoDetachment }}
-          </p>
-          <template v-else>
-            <!-- The Stratagems page's toolbar; "now only" only in a live game that keeps a clock:
-                 narrow the list to what this player can use in the slot the game stands on. -->
-            <StratFilterBar
-              v-model:by-phase="byPhase"
-              v-model:now-only="nowOnly"
-              :now-available="!!nowSlot"
-            />
+            <template v-if="rulesFaction">
+              <p
+                v-if="!selectedDetachmentRules.length"
+                class="rv-hint"
+              >
+                {{ labels.rosterViewNoDetachment }}
+              </p>
+              <template v-else>
+                <!-- The Stratagems page's toolbar; "now only" only in a live game that keeps a clock:
+                     narrow the list to what this player can use in the slot the game stands on. -->
+                <StratFilterBar
+                  v-model:by-phase="byPhase"
+                  v-model:now-only="nowOnly"
+                  :now-available="!!nowSlot"
+                />
 
-            <p
-              v-if="nowOnly && !visibleStratagems.length"
-              class="rv-hint"
-            >
-              {{ labels.stratNowEmpty }}
-            </p>
+                <Transition name="fade">
+                  <p
+                    v-if="nowOnly && !visibleStratagems.length"
+                    class="rv-hint"
+                  >
+                    {{ labels.stratNowEmpty }}
+                  </p>
+                </Transition>
 
-            <StratPhaseGroups
-              v-if="byPhase && !nowOnly"
-              v-model:open="openPhases"
-              :groups="phaseGroups"
-            >
-              <template #default="{ group }">
-                <div class="strat-grid">
+                <StratPhaseGroups
+                  v-if="byPhase && !nowOnly"
+                  v-model:open="openPhases"
+                  :groups="phaseGroups"
+                >
+                  <template #default="{ group }">
+                    <div class="strat-grid">
+                      <StratCard
+                        v-for="st in group.strats"
+                        :key="stratKey(st)"
+                        :strat="st"
+                        :sublabel="st.sublabel"
+                      />
+                    </div>
+                  </template>
+                </StratPhaseGroups>
+
+                <div
+                  v-else-if="visibleStratagems.length"
+                  class="strat-grid"
+                >
                   <StratCard
-                    v-for="st in group.strats"
-                    :key="stratKey(st)"
-                    :strat="st"
-                    :sublabel="st.sublabel"
+                    v-for="s in visibleStratagems"
+                    :key="stratKey(s)"
+                    :strat="s"
+                    :sublabel="s.sublabel"
                   />
                 </div>
               </template>
-            </StratPhaseGroups>
+            </template>
+          </div>
+        </Transition>
+      </template>
 
-            <div
-              v-else-if="visibleStratagems.length"
-              class="strat-grid"
-            >
-              <StratCard
-                v-for="s in visibleStratagems"
-                :key="stratKey(s)"
-                :strat="s"
-                :sublabel="s.sublabel"
-              />
-            </div>
-          </template>
-        </template>
-      </div>
-    </template>
-
-    <!-- The "…" sheet: what to DO with this list, as opposed to what is in it. Copy sits beside
+      <!-- The "…" sheet: what to DO with this list, as opposed to what is in it. Copy sits beside
          Export rather than inside it because the export dialog's own Copy is a choice of dialect
          first — this one is the answer for the player who just wants the list in their clipboard,
          in the format the GW app writes. -->
-    <BaseModal
-      v-if="menuOpen"
-      :title="roster.name || labels.rosterUntitled"
-      dense
-      max-width="340px"
-      @close="menuOpen = false"
-    >
-      <div class="modal-body act-list">
-        <!-- Both of these WRITE the list out, so both wait for the faction data that names its
+      <BaseModal
+        v-if="menuOpen"
+        :title="roster.name || labels.rosterUntitled"
+        dense
+        max-width="340px"
+        @close="menuOpen = false"
+      >
+        <div class="modal-body act-list">
+          <!-- Both of these WRITE the list out, so both wait for the faction data that names its
              units — a copy taken a beat too early would be a list with no army in it. -->
-        <button
-          type="button"
-          class="act-btn"
-          :disabled="!ready"
-          @click="openExport"
-        >
-          {{ labels.rosterExportTitle }}
-        </button>
-        <button
-          type="button"
-          class="act-btn"
-          @click="goPrint"
-        >
-          {{ labels.printAction }}
-        </button>
-        <button
-          type="button"
-          class="act-btn"
-          :disabled="!ready"
-          @click="copyWholeList"
-        >
-          {{ copiedList ? labels.rosterCopied : labels.rosterCopyList }}
-        </button>
-      </div>
-    </BaseModal>
+          <button
+            type="button"
+            class="act-btn"
+            :disabled="!ready"
+            @click="openExport"
+          >
+            {{ labels.rosterExportTitle }}
+          </button>
+          <button
+            type="button"
+            class="act-btn"
+            @click="goPrint"
+          >
+            {{ labels.printAction }}
+          </button>
+          <button
+            type="button"
+            class="act-btn"
+            :disabled="!ready"
+            @click="copyWholeList"
+          >
+            {{ copiedList ? labels.rosterCopied : labels.rosterCopyList }}
+          </button>
+        </div>
+      </BaseModal>
 
-    <RosterExportModal
-      v-if="exportOpen"
-      :roster="roster"
-      :faction="factionData"
-      :core="rosterCore"
-      :items="rosterItems.items"
-      @close="exportOpen = false"
-    />
+      <RosterExportModal
+        v-if="exportOpen"
+        :roster="roster"
+        :faction="factionData"
+        :core="rosterCore"
+        :items="rosterItems.items"
+        @close="exportOpen = false"
+      />
 
-    <RosterIssuesModal
-      v-if="issuesOpen"
-      :issues="validation.issues"
-      @goto="(uid) => { issuesOpen = false; tab = 'units'; viewingUid = uid }"
-      @close="issuesOpen = false"
-    />
+      <RosterIssuesModal
+        v-if="issuesOpen"
+        :issues="validation.issues"
+        @goto="(uid) => { issuesOpen = false; tab = 'units'; viewingUid = uid }"
+        @close="issuesOpen = false"
+      />
 
-    <RosterUnitRulesModal
-      v-if="viewingUid && viewingDef"
-      :unit-id="viewingSrc?.[1] || viewingDef.id"
-      :faction-slug="viewingSrc?.[0] || roster.faction"
-      :ctx="{
-        def: viewingDef,
-        entry: viewingEntry,
-        items: rosterItems.items,
-        detachments: curDetachments,
-        leaderTargets: viewingLeaderTargets,
-        units: roster.units,
-      }"
-      :game-ctx="viewingGameCtx"
-      @toggle-aura="toggleViewingAura"
-      @toggle-pick="toggleViewingPick"
-      @toggle-cond="toggleUnitCond"
-      @toggle-strat="toggleUnitStrat"
-      @close="viewingUid = null"
-    />
+      <RosterUnitRulesModal
+        v-if="viewingUid && viewingDef && !unitPane"
+        v-bind="viewingCard"
+        v-on="viewingHandlers"
+        @close="viewingUid = null"
+      />
+    </div>
+    <aside
+      v-if="unitPane"
+      class="rv-unit"
+    >
+      <RosterUnitRulesCard
+        v-if="viewingUid && viewingDef"
+        :key="viewingUid"
+        v-bind="viewingCard"
+        inline
+        v-on="viewingHandlers"
+      />
+      <p
+        v-else
+        class="rv-unit-empty"
+      >
+        {{ labels.rosterPickUnit }}
+      </p>
+    </aside>
   </div>
 </template>
 
 <script setup>
-import { computed, onUnmounted, ref, shallowRef, watch } from 'vue'
+import ChevronIcon from '../../components/ChevronIcon.vue'
+import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
@@ -534,6 +550,7 @@ import CollapseTransition from '../../components/CollapseTransition.vue'
 import StratFilterBar from '../../components/StratFilterBar.vue'
 import StratPhaseGroups from '../../components/StratPhaseGroups.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
+import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
@@ -542,7 +559,9 @@ import ConditionChips from '../../components/ConditionChips.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
+import { useKeywordContext } from '../../composables/useFactionKeywordUnits.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
@@ -564,9 +583,18 @@ import { usableInSlot, groupByPhase } from '../../composables/stratagemPhases.js
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
-import { loadHistory, rosterRecords } from '../../composables/gameStats.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
+
+const props = defineProps({
+  // The rosters desk (RosterDeskView) shows a saved roster beside the list, by id; the routes
+  // give it through the address.
+  rosterId: { type: String, default: '' },
+  // On the desk: the list of lists stands beside the page, so the way back to it is not drawn.
+  inDesk: { type: Boolean, default: false },
+  // On the desk from 1200px: a unit's card opens in a column beside the page, not in a dialog.
+  unitPane: { type: Boolean, default: false },
+})
 
 const route = useRoute()
 const router = useRouter()
@@ -649,15 +677,6 @@ watch([gamePi, gameMi, historyId], async ([pi, , gid]) => {
 }, { immediate: true })
 onUnmounted(() => { if (liveParty) liveParty.detach() })
 
-// This list's own record, read once from storage (gameStats.js) — the read-only side of the game
-// history, so this route keeps working without the tracker store it dynamic-imports above. Off the
-// table only: inside a game the score on screen is the record that matters.
-const record = computed(() => {
-  if (inGame.value || !roster.value?.id) return null
-  const rec = rosterRecords(loadHistory()).get(roster.value.id)
-  return rec ? `${rec.w}–${rec.l}–${rec.d}` : null
-})
-
 // What is true for one entry: the game answers when there is one, and off the table the LIST still
 // answers for itself (an enhancement gated on "while the bearer is leading a unit" is proven by the
 // roster) — the same call RosterUnitRulesModal makes, so a row and the card behind it agree.
@@ -668,7 +687,7 @@ const activeFor = (entry) => (inGame.value
     })
   : rosterConditions(entry))
 
-const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(route.params.id)))
+const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
 // `roster` is legitimately null, and redirecting then would bounce straight back out of the view.
 watch([roster, gameRoster], () => {
@@ -703,6 +722,8 @@ const { factionData } = useRosterFactionData(() => roster.value?.faction, { alli
 const {
   defOf, curDetachments, limit, points, entryMeta, groupedUnits, attachRole, validation,
 } = useRosterDerived(roster, factionData)
+// A faction keyword tapped in a rule on this screen lists this list's own units first.
+useKeywordContext(() => ({ faction: roster.value?.faction, unitIds: roster.value?.units?.map((u) => u.id) }))
 
 // ── Base statline (M/T/SV/W/LD/OC + invuln) for the compact unit rows — not in the compact
 // roster data layer, so pull it from the full datasheet file (already needed by the unit rules
@@ -843,6 +864,29 @@ const viewingDef = computed(() => (viewingEntry.value ? defOf(viewingEntry.value
 const viewingLeaderTargets = computed(() => (viewingEntry.value
   ? leaderTargetsFor(viewingDef.value, roster.value?.units, viewingEntry.value.uid, defOf, curDetachments.value)
   : []))
+// What the unit's card is drawn from and answers to — the same whether it opens in a dialog or in
+// the desk's unit column.
+const viewingCard = computed(() => (viewingDef.value
+  ? {
+      unitId: viewingSrc.value?.[1] || viewingDef.value.id,
+      factionSlug: viewingSrc.value?.[0] || roster.value.faction,
+      ctx: {
+        def: viewingDef.value,
+        entry: viewingEntry.value,
+        items: rosterItems.items,
+        detachments: curDetachments.value,
+        leaderTargets: viewingLeaderTargets.value,
+        units: roster.value.units,
+      },
+      gameCtx: viewingGameCtx.value,
+    }
+  : null))
+const viewingHandlers = {
+  'toggle-aura': (...a) => toggleViewingAura(...a),
+  'toggle-pick': (...a) => toggleViewingPick(...a),
+  'toggle-cond': (...a) => toggleUnitCond(...a),
+  'toggle-strat': (...a) => toggleUnitStrat(...a),
+}
 
 // Same chamfered stat-box plates as DatasheetCard.vue's statline (its statCells()), scaled
 // down for a compact list row — invuln is its own trailing plate (see below) rather than
@@ -1343,12 +1387,19 @@ const blockNo = computed(() => blockNumbers(groupedUnits.value))
 const hasAttached = (entries, host) => !host.leaderOf && (entries || []).some((e) => e.leaderOf === host.uid)
 
 // ── Rules + Stratagems tabs: army rule / each selected detachment's rule / its stratagems.
-// Loaded only when one of those tabs is open — the faction bundle is heavy and is never imported
-// statically (rosterFactionRules.js holds the load, the Chapter fallback and the RU names; the
-// print sheet reads the same one). Both tabs share this: a detachment object carries its
-// `.stratagems` alongside its `.rule`, the same shape FactionRuleView.vue reads.
+// The faction bundle is heavy and is never imported statically (rosterFactionRules.js holds the
+// load, the Chapter fallback and the RU names; the print sheet reads the same one). It is fetched
+// once the Units tab has painted — in idle time, not on the first tap of Rules or Stratagems, so
+// those tabs arrive with their content instead of sliding in empty (2026-09-28). Both tabs share
+// it: a detachment object carries its `.stratagems` alongside its `.rule`, the same shape
+// FactionRuleView.vue reads.
+const rulesWanted = ref(false)
+onMounted(() => {
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 250))
+  idle(() => { rulesWanted.value = true })
+})
 const { rulesFaction, detachmentLookup } = useRosterFactionRules(() => roster.value?.faction, locale, {
-  when: () => tab.value === 'rules' || tab.value === 'stratagems',
+  when: () => rulesWanted.value || tab.value === 'rules' || tab.value === 'stratagems',
 })
 
 const selectedDetachmentRules = computed(() =>
@@ -1401,22 +1452,6 @@ function stratKey(strat) {
 </script>
 
 <style scoped>
-.rv-record {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin: 0.5rem 0 0.2rem;
-  padding: 0.4rem 0.6rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.8rem;
-}
-.rv-record:hover { border-color: var(--accent); color: var(--text-primary); }
-.rvr-rec { color: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
-.rvr-lab { flex: 1; }
-
 /* The strip is a boxed, titled set now, not a loose row of chips, so it needs a little air under
    it on a phone too — hugging the tab row was what made the chips read as part of the tabs. */
 .rv-conds { margin: 0.6rem 0 0.75rem; }
@@ -1580,6 +1615,8 @@ function stratKey(strat) {
   margin-bottom: 0.5rem;
 }
 .rvunit:hover { border-color: var(--accent); }
+/* The unit whose card stands in the desk's unit column. */
+.rvunit.rvunit-on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); }
 .rvunit-main {
   display: flex;
   width: 100%;
@@ -1703,9 +1740,33 @@ function stratKey(strat) {
 .rv-rules .rv-rule-block:first-child .roster-group-head { margin-top: 0; }
 .rv-rule-block { margin-bottom: 0.9rem; }
 
-/* Stratagems tab — same toolbar/toggle/phase-accordion/grid language as the standalone
-   StratagemsView.vue page — copied, not shared (scoped styles don't cross component
-   boundaries). No .strat-filters here (StratagemsView's core/you/opp row) — this tab has
-   nothing to filter, it's always just this roster's own detachments. */
-
+/* ── On the rosters desk (RosterDeskView) ──
+   The page is a column of the desk and scrolls inside it; the way back is not drawn, the list of
+   lists stands beside it. From 1200px a second column holds the card of the unit last opened. */
+.rv-in-desk { height: 100%; padding: 0; }
+.rv-in-desk .rv-top { display: none; }
+.rv-in-desk .rv-main {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem 0.5rem 2rem 0;
+}
+.rv-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 1rem;
+}
+.rv-unit {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem 0.5rem 2rem 1rem;
+  border-left: 1px solid var(--border);
+}
+.rv-unit-empty {
+  margin: 4rem 0 0;
+  text-align: center;
+  color: var(--text-dim);
+}
 </style>

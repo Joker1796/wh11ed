@@ -1,4 +1,6 @@
 import { useRouter } from 'vue-router'
+import { motionMs } from './motionToken.js'
+import { stripLocale } from '../router/locale.js'
 
 // Chapters 01–25 all live on the one Core Rules page now, so a numeric ref only ever
 // resolves to an anchor on it. Kept as a lookup (rather than dropped) because `resolveRef`
@@ -84,11 +86,28 @@ let scrollGeneration = 0
 // the two scrolls below became an animation, and the second interrupted the first halfway. That is
 // what an iPhone reader sees as "search sometimes lands in the wrong place". Neutralising the CSS
 // for the duration works on every engine, including the ones that do support the option.
-function instantly(fn) {
+//
+// Two more things, both measured on a page swap (2026-09-28): a scroll asked for while the layout
+// is stale — a page just inserted — is not always done on the spot; Chrome can carry it to the
+// next frame and run it then, under whatever `scroll-behavior` is in force by that time. So the
+// layout is settled first, and `auto` is held for two frames (counted, so overlapping calls — the
+// glide runs one a frame — release it once, at the end) instead of restored at once.
+let holds = 0
+let heldStyle = ''
+export function instantly(fn) {
   const root = document.documentElement
-  const prev = root.style.scrollBehavior
-  root.style.scrollBehavior = 'auto'
-  try { fn() } finally { root.style.scrollBehavior = prev }
+  if (holds++ === 0) {
+    heldStyle = root.style.scrollBehavior
+    root.style.scrollBehavior = 'auto'
+  }
+  try {
+    void root.offsetHeight
+    fn()
+  } finally {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (--holds === 0) root.style.scrollBehavior = heldStyle
+    }))
+  }
 }
 
 // Is the viewport done moving? On iOS the search palette has the on-screen keyboard up, and
@@ -104,11 +123,55 @@ function viewportSettled(elapsed) {
   return steadyFrames >= 2 || elapsed > 500
 }
 
+// The reader's own in-page jumps — the contents, the chapter subnav, the drawer — GLIDE to their
+// target instead of teleporting (owner, 2026-09-28). Not with `behavior: 'smooth'`: that one
+// resolves the target once, and on these pages the target moves while you travel — every chapter
+// is `content-visibility: auto`, a placeholder height until it is drawn — so the browser's
+// animation landed short or long and the correcting second scroll then cut it off halfway (the
+// iPhone bug above). This one re-measures the target on every frame, so a chapter that draws
+// itself mid-way only bends the path. A long jump goes most of the way at once — straight to a
+// screen short of the target, through the same `scrollIntoView` that resolves collapsed chapters
+// correctly — and glides the last screen: gliding the whole way would draw every chapter in
+// between on a phone. `--motion-move`, so reduced motion teleports as before.
+function glide(findEl, offset, cancelled, done) {
+  const ms = motionMs('--motion-move')
+  const el = findEl()
+  if (!el || !ms) return false
+  const vh = window.innerHeight
+  const dist = el.getBoundingClientRect().top - offset
+  if (Math.abs(dist) > 1.5 * vh) {
+    instantly(() => {
+      el.scrollIntoView({ block: 'start' })
+      window.scrollBy(0, -offset - Math.sign(dist) * vh)
+    })
+  }
+  let y0 = window.scrollY
+  const t0 = performance.now()
+  const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2)
+  const frame = (now) => {
+    if (cancelled()) return done()
+    const t = Math.min(1, (now - t0) / ms)
+    const to = window.scrollY + (findEl()?.getBoundingClientRect().top ?? offset) - offset
+    // Chapters drawn on the way can push the target a long way off (thousands of px on the Core
+    // Rules page); gliding that would be a blur. Hop again to a screen short of where it is now.
+    if (Math.abs(to - window.scrollY) > 2 * vh) {
+      instantly(() => window.scrollTo(0, to - Math.sign(to - window.scrollY) * vh))
+      y0 = window.scrollY - (to - window.scrollY) * ease(t) / (1 - ease(t) || 1)
+    }
+    instantly(() => window.scrollTo(0, y0 + (to - y0) * ease(t)))
+    if (t < 1) requestAnimationFrame(frame)
+    else done()
+  }
+  requestAnimationFrame(frame)
+  return true
+}
+
 // Robustly scroll the given element id into view below the sticky header. The target
 // view (and its async illustrations) may not be laid out yet right after a route change,
 // so poll up to ~1.5s for the element, then — once it exists — re-check after 400ms to
-// correct for late-loading images shifting it.
-export function scrollToAnchor(anchor, offset = 100) {
+// correct for late-loading images shifting it. `glide` is for a jump within the page already
+// on screen (see glide() above); anything arriving from another page or the search stays instant.
+export function scrollToAnchor(anchor, offset = 100, { glide: gliding = false } = {}) {
   const token = ++scrollGeneration
   // Stratagems render as StratCards with `strat-15-XX` ids, but numeric refs like (15.08)
   // resolve to `section-15-08`; fall back to the strat- id when there's no matching
@@ -167,11 +230,15 @@ export function scrollToAnchor(anchor, offset = 100) {
     const elapsed = performance.now() - start
     // Wait for the viewport before aligning, then for the element. Both can stall; the 1.5s cap
     // is the same one this loop has always had.
-    if (viewportSettled(elapsed) && align()) {
-      setTimeout(() => {
-        if (token === scrollGeneration) nudge()
-        listen(false)
-      }, 400)
+    const settle = () => setTimeout(() => {
+      if (token === scrollGeneration) nudge()
+      listen(false)
+    }, 400)
+    const ready = viewportSettled(elapsed)
+    if (ready && gliding && glide(findEl, offset, () => tookOver || token !== scrollGeneration, settle)) {
+      // gliding; settle() runs the usual follow-up once it lands
+    } else if (ready && align()) {
+      settle()
     } else if (elapsed < 1500) {
       requestAnimationFrame(tick)
     } else {
@@ -184,9 +251,12 @@ export function scrollToAnchor(anchor, offset = 100) {
 export function useRefNavigation() {
   const router = useRouter()
 
+  // A jump within the page already on screen glides (a cross-ref, a chapter in the subnav);
+  // one that lands on another page arrives where it should at once.
   async function navigateTo({ route, anchor }) {
+    const samePage = stripLocale(router.currentRoute.value.path) === route
     await router.push(anchor ? { path: route, hash: '#' + anchor } : { path: route })
-    if (anchor) scrollToAnchor(anchor)
+    if (anchor) scrollToAnchor(anchor, 100, { glide: samePage })
   }
 
   return { resolveRef, navigateTo }

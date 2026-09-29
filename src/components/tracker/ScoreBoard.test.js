@@ -33,13 +33,13 @@ describe('ScoreBoard', () => {
   it('marks the winner', () => {
     const w = mount(ScoreBoard, { props: { game: finishedGame(30, 10, 'vp'), finished: true } })
     const cols = w.findAll('.col')
-    expect(cols[0].classes()).toContain('lead')
-    expect(cols[1].classes()).not.toContain('lead')
+    expect(cols[0].classes()).toContain('leading')
+    expect(cols[1].classes()).not.toContain('leading')
   })
 
   it('BP mode: a ≤5 VP gap is a draw (no leader column)', () => {
     const w = mount(ScoreBoard, { props: { game: finishedGame(12, 10, 'bp'), finished: true } })
-    expect(w.findAll('.col.lead')).toHaveLength(0)
+    expect(w.findAll('.col.leading')).toHaveLength(0)
     expect(w.find('.tie').exists()).toBe(true)
   })
 })

@@ -11,7 +11,13 @@
         class="mh-count value"
       >+{{ enh.points }}</span>
     </template>
-    <div class="modal-body">
+    <!-- Themed HERE, on the body: BaseModal teleports itself to <body>, so a FactionAccentScope a
+         caller wraps round this component never contains the dialog and the accent fell back to
+         the site's red (the weapon table's header band, 2026-09-28). -->
+    <div
+      class="modal-body fa-themed"
+      :style="accentStyle"
+    >
       <template v-if="enh">
         <div
           v-if="enh.aura || enh.upgrade"
@@ -59,8 +65,9 @@
 // within a faction, so this searches every detachment rather than needing the roster's exact
 // selected-detachment name to match the faction file's (avoids repeating the apostrophe/case
 // matching headache from the mandatory-enhancement bug — see rosterEngine.js's history).
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, toRef } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
@@ -70,6 +77,7 @@ const props = defineProps({
   name: { type: String, required: true },
   factionSlug: { type: String, required: true },
 })
+const { accentStyle } = useFactionAccent(toRef(props, 'factionSlug'))
 defineEmits(['close'])
 
 const { locale } = useLocale()

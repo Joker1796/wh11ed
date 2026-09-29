@@ -73,3 +73,15 @@ appdata faction bundle for an `isCombatPatrol` detachment not yet authored in
 `sync-appdata.mjs`/`sync-faction-text.mjs`/etc. must never flag a CP-only datasheet/detachment
 as "missing from wh11ed". `sync-combat-patrol.mjs` above is the one exception that actually
 checks this content, on purpose.
+
+## The box page is four tabs (2026-09-28)
+
+`CombatPatrolFactionView` shows one part of the box at a time — **Rules** (the detachment rule and
+the army rule), **Stratagems**, **Enhancements**, **Units** — on the shared `PageTabs`, only the tabs
+the box has, fading over each other (`fade`; a sideways slide until 2026-09-29). One long page was
+the owner's complaint. A panel not on screen is not in the DOM, so anything that links INTO the
+page must open the right tab first: `tabForAnchor` maps the anchor ids above (`cp-strat-…`,
+`cp-enh-…`, `cp-<slug>-rule…`, and the old section ids `#stratagems` / `#enhancements` /
+`#datasheets` / `#rule` / `#army-rule`) to a tab on every hash change, then `scrollToAnchor`s to it.
+A new anchor scheme has to be added there as well as to the generator, or search hits into it
+land on the Rules tab with nothing to scroll to.

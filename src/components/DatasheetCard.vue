@@ -279,9 +279,11 @@
               @click="toggle"
             >
               <span>{{ sec.label }}</span>
-              <i
-                class="bi ds-chev"
-                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="ds-chev"
+                :turned="open"
+                from="right"
+                to="down"
               />
             </button>
             <p
@@ -431,9 +433,11 @@
                 @click="toggle"
               >
                 <span>{{ labels.dsAbilities }}</span>
-                <i
-                  class="bi ds-chev"
-                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                <ChevronIcon
+                  class="ds-chev"
+                  :turned="open"
+                  from="right"
+                  to="down"
                 />
               </button>
               <h5
@@ -492,9 +496,11 @@
                 @click="toggle"
               >
                 <span>{{ labels.dsWargearAbilities }}</span>
-                <i
-                  class="bi ds-chev"
-                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                <ChevronIcon
+                  class="ds-chev"
+                  :turned="open"
+                  from="right"
+                  to="down"
                 />
               </button>
               <h5
@@ -550,9 +556,11 @@
                 @click="toggle"
               >
                 <span>{{ labels.dsSpecialAbilities }}</span>
-                <i
-                  class="bi ds-chev"
-                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                <ChevronIcon
+                  class="ds-chev"
+                  :turned="open"
+                  from="right"
+                  to="down"
                 />
               </button>
               <h5
@@ -614,9 +622,11 @@
                   v-if="set.nameEn"
                   class="ds-name-en"
                 > ({{ set.nameEn }})</span></span>
-                <i
-                  class="bi ds-chev"
-                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                <ChevronIcon
+                  class="ds-chev"
+                  :turned="open"
+                  from="right"
+                  to="down"
                 />
               </button>
               <h5
@@ -679,9 +689,11 @@
                   v-if="r.nameEn"
                   class="ds-name-en"
                 > ({{ r.nameEn }})</span></span>
-                <i
-                  class="bi ds-chev"
-                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                <ChevronIcon
+                  class="ds-chev"
+                  :turned="open"
+                  from="right"
+                  to="down"
                 />
               </button>
               <h5
@@ -713,9 +725,11 @@
                 @click="toggle"
               >
                 <span>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</span>
-                <i
-                  class="bi ds-chev"
-                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                <ChevronIcon
+                  class="ds-chev"
+                  :turned="open"
+                  from="right"
+                  to="down"
                 />
               </button>
               <strong v-else>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
@@ -740,9 +754,11 @@
               @click="toggle"
             >
               <span>{{ labels.dsTransport }}</span>
-              <i
-                class="bi ds-chev"
-                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="ds-chev"
+                :turned="open"
+                from="right"
+                to="down"
               />
             </button>
             <h5
@@ -772,9 +788,11 @@
               @click="toggle"
             >
               <span>{{ leaderGroupLabel }}</span>
-              <i
-                class="bi ds-chev"
-                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="ds-chev"
+                :turned="open"
+                from="right"
+                to="down"
               />
             </button>
             <h5
@@ -830,9 +848,11 @@
               @click="toggle"
             >
               <span>{{ labels.dsComposition }}</span>
-              <i
-                class="bi ds-chev"
-                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="ds-chev"
+                :turned="open"
+                from="right"
+                to="down"
               />
             </button>
             <h5
@@ -875,9 +895,11 @@
               @click="toggle"
             >
               <span>{{ labels.dsOptions }}</span>
-              <i
-                class="bi ds-chev"
-                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="ds-chev"
+                :turned="open"
+                from="right"
+                to="down"
               />
             </button>
             <h5
@@ -1014,6 +1036,7 @@
 </template>
 
 <script setup>
+import ChevronIcon from './ChevronIcon.vue'
 import { computed } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'

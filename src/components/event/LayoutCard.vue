@@ -34,6 +34,7 @@
     <template #aside>
       <button
         class="measurements-toggle"
+        data-press="pop"
         :aria-pressed="modalMeasurements"
         @click="modalMeasurements = !modalMeasurements"
       >

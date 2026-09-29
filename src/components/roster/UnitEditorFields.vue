@@ -45,26 +45,22 @@
       v-if="weaponInfoNames"
       to="body"
     >
-      <FactionAccentScope :faction-slug="factionSlug">
-        <WeaponProfileModal
-          :unit-id="sheetId"
-          :faction-slug="factionSlug"
-          :names="weaponInfoNames"
-          @close="weaponInfoNames = null"
-        />
-      </FactionAccentScope>
+      <WeaponProfileModal
+        :unit-id="sheetId"
+        :faction-slug="factionSlug"
+        :names="weaponInfoNames"
+        @close="weaponInfoNames = null"
+      />
     </Teleport>
     <Teleport
       v-if="enhInfoName"
       to="body"
     >
-      <FactionAccentScope :faction-slug="factionSlug">
-        <EnhancementRuleModal
-          :name="enhInfoName"
-          :faction-slug="factionSlug"
-          @close="enhInfoName = null"
-        />
-      </FactionAccentScope>
+      <EnhancementRuleModal
+        :name="enhInfoName"
+        :faction-slug="factionSlug"
+        @close="enhInfoName = null"
+      />
     </Teleport>
 
     <!-- Unit size -->
@@ -80,6 +76,7 @@
           v-for="(s, i) in def.sizes"
           :key="i"
           class="pill"
+          data-press
           :class="{ on: (entry.size ?? 0) === i }"
           @click="setSize(i)"
         >
@@ -92,21 +89,26 @@
     </section>
     <!-- Model count. Picking a bracket fills it to the top (see setSize), so the chip states the
          other end: this many models is allowed too, and the − is right there. -->
-    <section
-      v-if="curRange"
-      class="ues-sec ues-count"
-    >
-      <h4 class="ues-h">
-        {{ labels.rosterModelsLabel }}
-        <span class="ues-cap">{{ labels.rosterModelsMin.replace('{n}', curSize.per[0]) }}</span>
-      </h4>
-      <NumberStepper
-        :model-value="models"
-        :min="curSize.per[0]"
-        :max="curSize.per[1]"
-        @update:model-value="setCount"
-      />
-    </section>
+    <!-- Opens and closes with the bracket (a fixed-size one has no count to choose), so what is
+         below slides down to make room instead of jumping (2026-09-28). While closing it keeps the
+         last ranged bracket's numbers, not the fixed one's. -->
+    <CollapseTransition :show="curRange">
+      <section
+        v-if="rangeSize"
+        class="ues-sec ues-count"
+      >
+        <h4 class="ues-h">
+          {{ labels.rosterModelsLabel }}
+          <span class="ues-cap">{{ labels.rosterModelsMin.replace('{n}', rangeSize.per[0]) }}</span>
+        </h4>
+        <NumberStepper
+          :model-value="models"
+          :min="rangeSize.per[0]"
+          :max="rangeSize.per[1]"
+          @update:model-value="setCount"
+        />
+      </section>
+    </CollapseTransition>
     <p
       v-if="compLine"
       class="ues-comp"
@@ -115,20 +117,22 @@
     </p>
     <!-- What shrinking the unit took off it, with the way back. Transient: it lives until the
          next change to this unit, and it is the only trace of picks the editor removed itself. -->
-    <p
-      v-if="trimmed"
-      class="ues-trimmed"
-      role="status"
-    >
-      {{ labels.rosterWargearTrimmed }}
-      <button
-        type="button"
-        class="btn-ghost"
-        @click="undoTrim"
+    <ExpandTransition>
+      <p
+        v-if="trimmed"
+        class="ues-trimmed"
+        role="status"
       >
-        {{ labels.rosterWargearTrimUndo }}
-      </button>
-    </p>
+        {{ labels.rosterWargearTrimmed }}
+        <button
+          type="button"
+          class="btn-ghost"
+          @click="undoTrim"
+        >
+          {{ labels.rosterWargearTrimUndo }}
+        </button>
+      </p>
+    </ExpandTransition>
 
     <!-- Allegiance: a mark the unit must pick (Mark of Chaos, Daemonic Allegiance) or a capped
          detachment upgrade that hands it a keyword. Same widget for both — what differs is
@@ -191,24 +195,26 @@
     </section>
 
     <!-- Warlord -->
-    <section
-      v-if="canWarlord"
-      class="ues-sec"
-    >
-      <div
-        class="opt-tile"
-        :class="{ on: isWarlord }"
+    <ExpandTransition>
+      <section
+        v-if="canWarlord"
+        class="ues-sec"
       >
-        <label class="opt-select">
-          <input
-            type="checkbox"
-            :checked="isWarlord"
-            @change="$emit('toggle-warlord')"
-          >
-          <span class="opt-name"><i class="bi bi-flag-fill wl-flag" /> {{ labels.rosterWarlord }}</span>
-        </label>
-      </div>
-    </section>
+        <div
+          class="opt-tile"
+          :class="{ on: isWarlord }"
+        >
+          <label class="opt-select">
+            <input
+              type="checkbox"
+              :checked="isWarlord"
+              @change="$emit('toggle-warlord')"
+            >
+            <span class="opt-name"><i class="bi bi-flag-fill wl-flag" /> {{ labels.rosterWarlord }}</span>
+          </label>
+        </div>
+      </section>
+    </ExpandTransition>
 
     <!-- Wargear choices — a group with `cond` (see rosterEngine.js wargearGroupLive) depends on a
          sibling group, e.g. Necron Overlord's Resurrection Orb needs the tachyon arrow given up
@@ -232,10 +238,12 @@
             class="ues-mini"
           >{{ miniName(g.m) }}</span>
           {{ groupLines[gi].head }}
-          <span
-            v-if="capChip(gi)"
-            class="ues-cap"
-          >{{ capChip(gi) }}</span>
+          <Transition name="fade">
+            <span
+              v-if="capChip(gi)"
+              class="ues-cap"
+            >{{ capChip(gi) }}</span>
+          </Transition>
         </h4>
         <ul
           v-if="groupLines[gi].bullets.length"
@@ -254,24 +262,30 @@
         >
           * {{ groupLines[gi].note }}
         </p>
-        <p
-          v-if="overdrawn.has(gi)"
-          class="ues-blocked ues-over"
-        >
-          {{ labels.rosterWargearOverdrawn }}
-        </p>
-        <p
-          v-else-if="blockers[gi]"
-          class="ues-blocked"
-        >
-          {{ blockerText(gi) }}
-        </p>
-        <p
-          v-else-if="caps[gi] && !caps[gi].limit"
-          class="ues-bnote"
-        >
-          {{ labels.rosterPickUnavailable }}
-        </p>
+        <!-- Each of these comes and goes with picks made in OTHER groups, so it slides in. -->
+        <ExpandTransition mode="out-in">
+          <p
+            v-if="overdrawn.has(gi)"
+            key="over"
+            class="ues-blocked ues-over"
+          >
+            {{ labels.rosterWargearOverdrawn }}
+          </p>
+          <p
+            v-else-if="blockers[gi]"
+            key="blocked"
+            class="ues-blocked"
+          >
+            {{ blockerText(gi) }}
+          </p>
+          <p
+            v-else-if="caps[gi] && !caps[gi].limit"
+            key="none"
+            class="ues-bnote"
+          >
+            {{ labels.rosterPickUnavailable }}
+          </p>
+        </ExpandTransition>
 
         <!-- radio: replace with one of… — the default loadout is itself a real option (its own
            name, from the group's `rep`), not a separate pseudo "keep default" pill. Each row is
@@ -303,6 +317,7 @@
             <button
               type="button"
               class="opt-info"
+              data-press
               :aria-label="labels.rosterViewInfo"
               @click="openWeaponInfo(opt.names)"
             >
@@ -336,6 +351,7 @@
             <button
               type="button"
               class="opt-info"
+              data-press
               :aria-label="labels.rosterViewInfo"
               @click="openWeaponInfo(optNames(g.o[0]))"
             >
@@ -371,6 +387,7 @@
             <button
               type="button"
               class="opt-info"
+              data-press
               :aria-label="labels.rosterViewInfo"
               @click="openWeaponInfo(optNames(o))"
             >
@@ -427,6 +444,7 @@
           <button
             type="button"
             class="opt-info"
+            data-press
             :aria-label="labels.rosterViewInfo"
             @click="openEnhInfo(e.name)"
           >
@@ -533,6 +551,8 @@
 // inline inside a per-unit accordion. This component owns no chrome of its own.
 import { computed, ref, watch } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
+import CollapseTransition from '../CollapseTransition.vue'
+import ExpandTransition from '../ExpandTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import WeaponProfileModal from './WeaponProfileModal.vue'
 import EnhancementRuleModal from './EnhancementRuleModal.vue'
@@ -695,6 +715,10 @@ const visibleEnhOptions = computed(() =>
 const curSize = computed(() => props.def.sizes[props.entry.size ?? 0] || props.def.sizes[0])
 const curRange = computed(() => curSize.value.per[0] !== curSize.value.per[1])
 const models = computed(() => props.entry.count ?? curSize.value.per[0])
+// The last bracket that had a range — what the model-count block draws, so it can fold away
+// showing its own numbers after a fixed-size bracket is picked.
+const rangeSize = ref(curRange.value ? curSize.value : null)
+watch(curSize, (s) => { if (s.per[0] !== s.per[1]) rangeSize.value = s })
 function sizeLabel(s) { return s.per[0] === s.per[1] ? String(s.per[0]) : `${s.per[0]}–${s.per[1]}` }
 // Picking a bracket FILLS IT. The Munitorum prints one price for the whole bracket, so a 6-model
 // unit in a 6-10 bracket pays the 10-model price — almost nobody means to buy that, and the editor
@@ -1069,6 +1093,7 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   background: var(--bg-secondary);
   color: var(--text-muted);
   cursor: pointer;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
 }
 .pill.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); color: var(--text-primary); }
 .opt-name { color: var(--text-primary); }

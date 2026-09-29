@@ -104,7 +104,7 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useModalA11y } from '../composables/useModalA11y.js'
 
-defineProps({
+const props = defineProps({
   title: { type: String, default: '' },
   // A second line under the title — a date, what the dialog is about. Two lines align to the top.
   subtitle: { type: String, default: '' },
@@ -114,6 +114,9 @@ defineProps({
   maxWidth: { type: String, default: '520px' },
   maxHeight: { type: String, default: '85dvh' },
   zIndex: { type: Number, default: 400 },
+  // A CSS selector inside the dialog to focus on open, for a dialog that exists to take input
+  // (the roster import's paste box). Otherwise the dialog itself takes focus.
+  initialFocus: { type: String, default: '' },
 })
 const scope = useModalScope()
 const emit = defineEmits(['close'])
@@ -122,7 +125,7 @@ const labels = computed(() => ui[locale.value])
 const titleId = useId()
 
 const root = ref(null)
-useModalA11y(root, () => emit('close'))
+useModalA11y(root, () => emit('close'), { initialFocus: props.initialFocus })
 </script>
 
 <style scoped>
@@ -168,12 +171,15 @@ useModalA11y(root, () => emit('close'))
    dialog's opacity: useModalA11y focuses the dialog in a rAF right after mount, and iOS
    VoiceOver mishandles focus moved into a not-yet-visible element. Durations come from
    the motion tokens, so prefers-reduced-motion zeroes them and the modal appears instantly. */
-.modal-enter-active { transition: background-color var(--motion-med) ease; }
-.modal-enter-active .modal { transition: transform var(--motion-med) ease; }
+/* `--motion-slow` and a decelerating curve (2026-09-28): at `--motion-med` with a 28px lift the
+   sheet read as simply appearing. On a phone it now rises from below the screen edge, whole, as
+   the system sheets do; wider, it grows in from 0.94. */
+.modal-enter-active { transition: background-color var(--motion-slow) ease; }
+.modal-enter-active .modal { transition: transform var(--motion-slow) cubic-bezier(0.2, 0.8, 0.2, 1); }
 .modal-enter-from { background-color: transparent; }
-.modal-enter-from .modal { transform: scale(0.96); }
+.modal-enter-from .modal { transform: scale(0.94); }
 
 @media (max-width: 560px) {
-  .modal-enter-from .modal { transform: translateY(28px); }
+  .modal-enter-from .modal { transform: translateY(100%); }
 }
 </style>

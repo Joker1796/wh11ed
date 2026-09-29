@@ -15,6 +15,7 @@
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
 import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor } from './rosterEngine.js'
+import { conditions } from '../data/rosterModifiers/conditions.js'
 // Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
 // carry an enhancement; re-exported here because this is where every caller already imports them.
 export { grantedKeywordsFor, detKey } from './rosterEngine.js'
@@ -85,6 +86,29 @@ export function loadoutItemIds(def, entry) {
 // rows, so "per model" there is a sum of two ones. The unit total is defined for every shape, it
 // is what the weapon table's reader is about to roll, and it moves with the unit's size.
 export function loadoutItemCounts(def, entry) {
+  const copies = loadoutItemCopies(def, entry)
+  if (!copies) return null
+  const counts = new Map()
+  for (const [id, slots] of copies) {
+    counts.set(id, slots.reduce((a, s) => (a == null || s.n == null ? null : a + s.n), 0))
+  }
+  return counts
+}
+
+// The same walk, one level finer: every COPY of an item the entry fields, as a slot — which
+// profile holds it (`m`, or null for a unit-wide group), and on how many of that profile's models
+// (`n`, null when unknown). A copy is one line of a model's loadout: the default loadout's "2
+// macro-scalpels" is two slots on every Talos, and a Carnifex that takes crushing claws in BOTH of
+// its option lines holds two slots of them, one per line. Summed, the slots are loadoutItemCounts.
+//
+// Why the finer answer exists (2026-09-28): a model fights with ONE melee weapon (04.01), so two
+// copies of the same melee weapon on one model are not twice the attacks — and the unit total
+// "×2" on a lone Carnifex's claws read exactly that way to a player. filterWeapons asks for the
+// slots and prints one row per copy a model can hold (meleeRowsFor).
+//
+// Order is the loadout's own: defaults first, then the option groups in the order the entry
+// picked them. Only the slot's position within its profile matters downstream.
+export function loadoutItemCopies(def, entry) {
   if (!def || !entry || !def.defaults?.length) return null
 
   const perMini = modelsPerMini(def, entry)
@@ -92,12 +116,11 @@ export function loadoutItemCounts(def, entry) {
 
   // Two sources can hand the entry the same item — a Defiler whose baleflamer AND missile launcher
   // are both traded for a heavy reaper autocannon fields two of them, one from each group — so
-  // quantities ADD, and an unknown on either side makes the total unknown.
-  const counts = new Map()
-  const add = (id, n) => {
-    if (!counts.has(id)) { counts.set(id, n); return }
-    const prev = counts.get(id)
-    counts.set(id, prev == null || n == null ? null : prev + n)
+  // each source is a slot of its own, and the total adds them.
+  const copies = new Map()
+  const slot = (id, m, n) => {
+    if (!copies.has(id)) copies.set(id, [])
+    copies.get(id).push({ m, n })
   }
 
   for (const [m, list] of def.defaults) {
@@ -109,8 +132,13 @@ export function loadoutItemCounts(def, entry) {
       if (!take || models == null || c * Math.max(0, models - take) > 0) {
         // `total` marks a quantity that belongs to the PROFILE rather than to each of its models —
         // the single heavy bolter among two Gun Servitors — so it stands as written and is never
-        // multiplied, the same reading rosterEngine's defaultLoadoutLines() gives it.
-        add(id, total ? c : (models == null ? null : c * Math.max(0, models - take)))
+        // multiplied, the same reading rosterEngine's defaultLoadoutLines() gives it. It is one
+        // slot held by that many models, never two on one.
+        if (total) slot(id, m, c)
+        else {
+          const holders = models == null ? null : Math.max(0, models - take)
+          for (let k = 0; k < c; k++) slot(id, m, holders)
+        }
       }
     }
   }
@@ -128,14 +156,17 @@ export function loadoutItemCounts(def, entry) {
     let picks = 1
     if (g.in === 'stepper') picks = models == null ? (n || 1) : Math.min(n || 1, models)
     else if (g.repall && !g.all) picks = models == null ? null : models
-    // An option can grant more than one item (a bundle) — see rosterEngine's optionItems.
-    for (const [id, c] of optionItems(opt)) add(id, picks == null ? null : picks * c)
+    // An option can grant more than one item (a bundle) — see rosterEngine's optionItems — and
+    // "2 X" in one option is two slots on each model that took it.
+    for (const [id, c] of optionItems(opt)) {
+      for (let k = 0; k < c; k++) slot(id, g.all ? null : (g.m ?? 0), picks)
+    }
   }
   // The Soul Grinder's mark arms it: "this model is additionally equipped with: phlegm
   // bombardment". Detachments aren't in scope here — Daemonic Allegiance is ungated, and a gated
   // group with a weapon doesn't exist — so the choice alone decides.
-  for (const id of allegItems(def, entry, [])) add(id, 1)
-  return counts
+  for (const id of allegItems(def, entry, [])) slot(id, 0, 1)
+  return copies
 }
 
 // The NAMES of the wargear this entry fields, normalised — the key a wargear modifier record is
@@ -180,7 +211,94 @@ export function weaponRowClaimer(def, items) {
   }
 }
 
+// How a melee row prints, given the copies of it the entry fields: one row per copy a model can
+// hold, each counting the models that hold THAT copy. A model fights with one melee weapon (04.01),
+// so a second copy on the same model adds no attacks — but summed into one "×2" it read as double
+// the attacks (a lone Carnifex with crushing claws from both of its option lines, player report
+// 2026-09-28). Two identical rows say what is true: the model has two, and strikes with one.
+//
+// A copy's rank is its position among the copies ITS profile holds: the Boyz' choppas and their
+// Nob's are both first copies, so they stay one row (×10); only a second copy on the same
+// profile opens a second row. Unit-wide groups belong to no profile and count as first copies —
+// the conservative reading, which never invents a second weapon on one model.
+//
+// [EXTRA ATTACKS] weapons are not split: the model attacks with ALL of them (24.11), so two Extra
+// Klaws on a Deff Dread really are twice the attacks and "×2" says so. Neither is a row whose
+// count is unknown anywhere — an unknown says nothing, as everywhere in this file.
+function meleeRowsFor(w, slots) {
+  if ((w.tags || []).some((t) => /^extra attacks$/i.test(t))) return null
+  if (slots.some((s) => s.n == null)) return null
+  const byProfile = new Map()
+  for (const s of slots) {
+    if (!s.n) continue
+    const k = s.m == null ? 'all' : s.m
+    if (!byProfile.has(k)) byProfile.set(k, [])
+    byProfile.get(k).push(s.n)
+  }
+  const ranks = []
+  for (const list of byProfile.values()) list.forEach((n, r) => { ranks[r] = (ranks[r] || 0) + n })
+  if (ranks.length < 2) return null
+  return ranks.map((n) => (n > 1 ? { ...w, qty: n } : { ...w }))
+}
+
+// The wargear conditions (conditions.js, `gear`) this entry's loadout proves — "if this model is
+// equipped with two macro-scalpels", "two melee weapons in addition to its close combat weapon".
+// Answered from the copies each model holds, the same count the weapon table prints, and only
+// where it holds for EVERY model of a profile: one Talos of two with the pair leaves the note up,
+// because the rule is about that model and the card is about the unit. A profile whose model count
+// is unknown proves nothing, and neither does a unit-wide group (no profile to pin it to) — the
+// asymmetry of this whole file: a rule is applied on proof, never on a guess.
+//
+// `sheet` is the PRINTED datasheet: its melee rows say which items are melee weapons, and a row
+// name is what `gear` names.
+export function wargearConditions(def, entry, items, sheet) {
+  const out = new Set()
+  const copies = loadoutItemCopies(def, entry)
+  const perMini = modelsPerMini(def, entry)
+  const claim = weaponRowClaimer(def, items)
+  if (!copies || !perMini || !claim || !sheet?.melee?.length) return out
+
+  // The melee items, by the row that names them (a weapon with two firing modes is one weapon:
+  // "Fenrisian great axe – strike" and "– sweep" are both the axe).
+  const nameOf = new Map()
+  for (const w of sheet.melee) {
+    for (const id of claim(w.name) || []) if (!nameOf.has(id)) nameOf.set(id, norm(w.name).split(' - ')[0])
+  }
+  // Per profile: how many copies of each melee item every one of its models holds.
+  const held = new Map()
+  for (const [id, slots] of copies) {
+    const name = nameOf.get(id)
+    if (!name) continue
+    for (const sl of slots) {
+      const models = sl.m == null ? null : perMini.get(sl.m)
+      if (!models || sl.n !== models) continue
+      if (!held.has(sl.m)) held.set(sl.m, new Map())
+      const per = held.get(sl.m)
+      per.set(id, { name, n: (per.get(id)?.n || 0) + 1 })
+    }
+  }
+
+  const starts = (name, n) => name.startsWith(norm(n))
+  for (const [cid, c] of Object.entries(conditions)) {
+    const g = c.gear
+    if (!g) continue
+    const holds = [...held.values()].some((byName) => {
+      const list = [...byName.values()]
+      if (g.copies) return list.some((r) => starts(r.name, g.name) && r.n >= g.copies)
+      if (g.melee) {
+        const n = list.filter((r) => !(g.besides || []).some((b) => starts(r.name, b))).reduce((a, r) => a + r.n, 0)
+        return n >= g.melee
+      }
+      if (g.all) return g.all.every((want) => list.some((r) => starts(r.name, want) && r.n >= 1))
+      return false
+    })
+    if (holds) out.add(cid)
+  }
+  return out
+}
+
 function filterWeapons(sheet, def, entry, items) {
+  const copies = loadoutItemCopies(def, entry)
   const counts = loadoutItemCounts(def, entry)
   if (!counts) return sheet
   const claim = weaponRowClaimer(def, items)
@@ -190,7 +308,7 @@ function filterWeapons(sheet, def, entry, items) {
   // Trim the table to what the entry fields, and stamp the quantity on what stays. One pass
   // because it is one question — which item is this row, and how many of it does the unit hold —
   // and two passes could answer it differently.
-  const take = (rows) => {
+  const take = (rows, melee) => {
     if (!rows) return { rows, changed: false }
     const out = []
     let changed = false
@@ -199,6 +317,8 @@ function filterWeapons(sheet, def, entry, items) {
       if (!ids) { out.push(w); continue } // unclaimed → always shown, never counted, see above
       const fielded = ids.filter((id) => counts.has(id))
       if (!fielded.length) { changed = true; continue } // claimed, and no id behind it survived
+      const split = melee ? meleeRowsFor(w, fielded.flatMap((id) => copies.get(id) || [])) : null
+      if (split) { out.push(...split); changed = true; continue }
       // A weapon name interns to exactly one item id in every unit def in the data, and no
       // datasheet lists a name twice (both asserted in src/data/roster/index.test.js), so this
       // sum is one weapon's quantity rather than two different weapons conflated by their name.
@@ -210,8 +330,8 @@ function filterWeapons(sheet, def, entry, items) {
     return { rows: out, changed }
   }
 
-  const ranged = take(sheet.ranged)
-  const melee = take(sheet.melee)
+  const ranged = take(sheet.ranged, false)
+  const melee = take(sheet.melee, true)
   if (!ranged.changed && !melee.changed) return sheet // identity preserved when nothing changed
 
   const out = { ...sheet }

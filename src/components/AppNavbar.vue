@@ -152,6 +152,7 @@
         </button>
         <button
           class="lore-btn"
+          data-press
           :class="{ active: hideLore }"
           :title="hideLore ? labels.loreShow : labels.loreHide"
           :aria-label="hideLore ? labels.loreShow : labels.loreHide"
@@ -162,6 +163,7 @@
         </button>
         <button
           class="theme-btn"
+          data-press
           :title="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
           :aria-label="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
           @click="toggleTheme"
@@ -172,6 +174,7 @@
         <div class="settings-wrap">
           <button
             class="settings-btn"
+            data-press
             :class="{ active: settingsOpen }"
             :aria-expanded="settingsOpen"
             :aria-label="labels.ariaSettings"

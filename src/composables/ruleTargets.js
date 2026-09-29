@@ -37,12 +37,31 @@
 // "unengaged" did (Purestrain Broodswarm). Stratagem TARGET lines are a different corpus with
 // its own reader (rosterStatMods' stratagemTargetScopes): 1323 of 1329 read.
 //
+// Re-measured 2026-09-28 (a lowercase joining word inside a keyword — KW_JOIN — and the plural
+// target against a singular keyword): 270 rules, 244 gated, 44.2% of pairs hidden, 6 rules
+// changed. Three narrower, each a rule that named its target with a joiner and so had been shown
+// to the whole faction: Warrior Bioform Onslaught 57→4 units (the player's report), Aspect Host
+// 99→16, Kabalite Cartel 30→12. Three wider, each a unit the rule names: Cult of the Arkifane
+// gains Vashtorr and the Lord Discordant, two T'au cadres gain the Stealth Battlesuits.
+// The measurement itself is ad hoc — a script that, for every faction, runs ruleAppliesTo over
+// every (detachment rule, datasheet) pair and prints the visible ids per rule; diff that against
+// the same output from the previous version of this file.
+//
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
 
 // A keyword phrase: one or more capitalised words. Matches both the ALL-CAPS spelling and the
 // Title Case one — the faction files use whichever the source PDF used.
-const KW = "[A-Z][A-Za-z’'\\-]*(?:\\s+[A-Z][A-Za-z’'\\-]*)*"
+// A lowercase joining word may sit inside the phrase when another capitalised word follows it —
+// "Tyranid Warriors with Ranged Bio-weapons", "Chaos Lord in Terminator Armour", "Agents of the
+// Imperium" are single keywords, and the Title Case run used to break at the "with", so a rule
+// naming them fell through escape 2 and was shown to the whole army (Tyranids' Leader-beasts,
+// player report 2026-09-28). "and"/"or" are NOT joiners: those are the list form of an
+// alternation (KW_SEP), and reading "WRAITHGUARD and WRAITHLORD" as one phrase would turn two
+// targets into a conjunction nobody matches.
+const KW_WORD = "[A-Z][A-Za-z’'\\-]*"
+const KW_JOIN = "(?:\\s+(?:of|with|on|in|for)(?:\\s+the)?|\\s+the)?"
+const KW = `${KW_WORD}(?:${KW_JOIN}\\s+${KW_WORD})*`
 // …optionally written as an alternation: "Friendly Immortals/Necron Warriors units", and equally
 // often as an English list — "a WRAITHBLADES, WRAITHGUARD or WRAITHLORD unit", "friendly JAKHALS or
 // GOREMONGERS units". Reading only the slash form cost the whole gate on the list form: the run
@@ -200,13 +219,15 @@ const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\
 // the unit's own keywords, longest first (a shorter keyword must not claim a run a longer one
 // also starts).
 export function keywordsMatchTarget(keywords, target) {
-  // Both spellings of every keyword: rules name a unit in the singular ("Vyper units from your
-  // army", "War Walker units") while the datasheet's keyword is the plural the box is sold under
-  // (VYPERS, WAR WALKERS). Adding the singular form can only ever match MORE units, which is the
-  // safe direction for a target — and for an exclusion it just mirrors the same wording gap.
+  // Both sides in the singular: rules name a unit in the singular ("Vyper units from your army",
+  // "War Walker units") while the datasheet's keyword is the plural the box is sold under (VYPERS,
+  // WAR WALKERS) — and the other way round too: Aspect Host says "Aspect Warriors units", the
+  // Phoenix Lords carry ASPECT WARRIOR (appdata has both keywords, 2026-09-28). Comparing singular
+  // to singular can only ever match MORE units, which is the safe direction for a target — and for
+  // an exclusion it just mirrors the same wording gap.
   const raw = [...new Set((keywords || []).map(norm))].filter(Boolean)
   const kws = [...new Set([...raw, ...raw.map(depluralise)])].sort((a, b) => b.length - a.length)
-  let rest = norm(target)
+  let rest = depluralise(norm(target))
   if (!rest) return false
   while (rest) {
     const hit = kws.find((k) => rest === k || rest.startsWith(`${k} `))

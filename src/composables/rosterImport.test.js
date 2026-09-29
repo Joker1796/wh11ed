@@ -311,6 +311,11 @@ Exported from listhammer.info: https://listhammer.info/list/5d540378ffc45bcff8`
 describe('parseList — listhammer.info, detailed mode', () => {
   const p = parseList(LH_FULL)
 
+  it('reads the bare disposition line as the declaration, not as a title line', () => {
+    expect(p.disposition).toBe('Take and Hold')
+    expect(p.faction).toBe('Orks')
+  })
+
   it('is the app’s grammar, so it is read by the same parser', () => {
     expect(detectFormat(LH_FULL)).toBe('gw')
   })
@@ -559,6 +564,8 @@ Magnus the Red (455 Points)
     expect(p.faction).toBe('Thousand Sons')
     expect(p.limit).toBe(2000)
     expect(p.detachments).toEqual(['Grand Coven'])
+    // …and the bare "Priority Assets" under it is the list's declared disposition.
+    expect(p.disposition).toBe('Priority Assets')
   })
 
   // …but a list pasted from its faction line down still has to work, so an exact faction name is

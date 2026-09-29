@@ -28,10 +28,10 @@
         v-if="collapsible && !open"
         class="mcard-hint"
       >{{ labels.missionExpand }}</span>
-      <i
+      <ChevronIcon
         v-if="collapsible"
-        class="bi mcard-chev"
-        :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+        class="mcard-chev"
+        :turned="open"
       />
     </component>
 
@@ -85,6 +85,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import ChevronIcon from '../ChevronIcon.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import MissionBriefing from '../MissionBriefing.vue'

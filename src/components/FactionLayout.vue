@@ -8,13 +8,11 @@
       v-if="hero"
       class="hero"
     >
-      <RouterLink
-        to="/factions"
-        class="back-link"
-      >
-        {{ '← ' + labels.factionsBack }}
-      </RouterLink>
       <h1 class="hero-title">
+        <FactionEmblem
+          :faction="indexEntry"
+          in-title
+        />
         {{ faction ? faction.name : labels.factionsHeading }}
       </h1>
       <!-- Page tabs (also the only way to switch between the three faction pages ≤900px,
@@ -65,6 +63,7 @@
           v-if="!tabsInView"
           type="button"
           class="fab-btn"
+          data-press="pop"
           :title="labels.backToTop"
           :aria-label="labels.backToTop"
           @click="scrollToTop"
@@ -83,6 +82,7 @@ import { stripLocale } from '../router/locale.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
 import PageTabs from './PageTabs.vue'
+import FactionEmblem from './FactionEmblem.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { scrollToTop } from '../composables/useBackToTop.js'
@@ -100,7 +100,8 @@ const labels = computed(() => ui[locale.value])
 
 // Wahapedia-style faction theming: the palette in factionsIndex.js is exposed as two
 // private custom props; the scoped CSS below folds them into --accent per theme.
-const color = computed(() => factionIndexBySlug(slug.value)?.color || null)
+const indexEntry = computed(() => factionIndexBySlug(slug.value))
+const color = computed(() => indexEntry.value?.color || null)
 const colorVars = computed(() =>
   color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark } : undefined,
 )
@@ -214,26 +215,18 @@ function backToUnits() {
    first heading — now 0.6rem. Nothing here wants more: the open tab erases the strip's accent line
    under itself so the content reads as hanging FROM the tab (see PageTabs), and a band of empty
    page between them is what breaks that join. */
+/* No "← All factions" link above the title (removed 2026-09-28, owner): the navbar's Factions
+   and the bottom nav's Factions button both reach every faction from anywhere. The padding the
+   link used to give the title is kept here. */
 .hero {
-  padding: 0.25rem 0 0;
+  padding: 1rem 0 0;
   margin-bottom: 0.6rem;
 }
 
-.back-link {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-decoration: none;
-  margin-bottom: 0.35rem;
-}
-
-.back-link:hover {
-  color: var(--accent);
-  text-decoration: none;
-}
-
 .hero-title {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
   font-family: var(--font-display);
   font-size: 3rem;
   font-weight: 400;

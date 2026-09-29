@@ -1330,7 +1330,8 @@ steps, and the phone its modal.
   them on a phone (≤900px): the editor hides its back link (the bar's Back goes to the same place)
   and shrinks the name row and tab margins; the wizard puts the back link and the step markers on
   one line. The Settings tab and the wizard's step 1 are ordinary pages: `.rw-host` is bound to
-  the columns being up.
+  the columns being up. The editor keeps both modes built (`v-show`) so a switch never rebuilds
+  the catalogue and the list — their search, open groups and scroll survive a visit to Settings.
 - **`RosterSettingsBar.vue`** is the top line — name, faction, detachments (with the DP count),
   battle size, Force Disposition, then its "…". **No points and no buttons** (owner, 2026-09-26):
   the points, the issue badge and the way out are the fixed bar's at the bottom at every width, the
@@ -1723,6 +1724,41 @@ lands too, instead of the list of lists. And the answer to that Save — "Saved 
 come and go by themselves, a failure stays until closed, and a save older than the page is not
 announced. The words are `useRosterCloudStatus`, the same reading the list page's heading line
 (`RosterCloudBar`) uses.
+
+## The rosters desk — list, roster and unit side by side (added 2026-09-29)
+
+On a window wider than the bottom nav (≥901px) `/roster` and `/roster/:id/view` are ONE screen,
+`views/tracker/RosterDeskView.vue` (owner, 2026-09-29): the list of lists in a narrow left column
+(`RosterListView` with `in-desk`), and beside it the open roster (`RosterViewView` with
+`roster-id` + `in-desk`) or — at `/roster`, with none open — the game statistics
+(`TrackerStatsView` `in-desk`, loaded only then: it reads the tracker store, which carries the
+mission datasets). The list's "Statistics" button is just a link to `/roster`.
+
+- **One heading across the top** (owner, same day: "the header must be one"): `RosterListHead.vue`
+  — the title, New / Import (+ Statistics on the desk), the cloud line and the help link. The list
+  page draws it as before on a phone; on the desk `RosterDeskView` draws it once as a row over all
+  the columns, and the list column (`in-desk`) starts at its tabs. It owns the import dialog.
+
+- **Three columns from 1200px:** the roster's page splits again (`unit-pane`) and a unit's card
+  opens in a column beside it instead of the dialog — the same card, `RosterUnitRulesCard.vue`,
+  which the dialog `RosterUnitRulesModal.vue` wraps (with `RosterOwnedStar.vue` in its header).
+  Nothing picked shows `rosterPickUnit`. 901–1199px (a tablet) stays two columns with the dialog.
+- **Below 901px** nothing changed: the list page and the roster's own page, as before.
+- **One page for the swap:** App.vue keys both addresses as `roster-desk` on a wide window
+  (`isRosterBrowseDesk`), so opening another roster keeps the list (and its scroll) standing and
+  only the right-hand side fades; the width is `main-content--browse`, the footer is not drawn.
+- **Height:** the desk fills the window and every column scrolls on its own — the same
+  `.rw-host` + `useViewportFill` the builder's workbench stands on (see "Height for the panes").
+- A tracker game's roster (`/tracker/game/roster/…`, `/tracker/history/…/roster/…`) is still
+  `RosterViewView` on its own: the desk is the saved rosters' screen.
+- **The last list comes back** (owner, same day): the desk remembers the saved list opened last
+  (`lastRoster.js`, per device, written on a phone too) and a bare `/roster` on a wide screen
+  reopens it. The statistics are asked for by name — `/roster?stats`, the heading's button — and a
+  remembered id that is gone or a draft leaves them showing. Phones keep `/roster` as the list:
+  there the list page IS the way to the other lists.
+- **Pinned lists stand first** in the list, both layouts (`useRosterPins.js`, per device, set from
+  a card's "…" sheet, marked with a pin before the name). Not written onto the roster: a pin is
+  how this screen is arranged, and a roster change would bump its date and ask for an upload.
 
 ## Faction rules beside the build (added 2026-08-28)
 
@@ -2503,7 +2539,27 @@ Tier A does four things:
    interns a wargear name to two item ids) and `src/data/datasheets/index.test.js` (no datasheet
    lists a weapon name twice). appdata does publish 316 names with more than one profile set (an
    Ork Boy's Choppa against a Nob's), but never twice on the same datasheet; those tests are the
-   tripwire for the release where that stops being true. An unknown count says nothing at all —
+   tripwire for the release where that stops being true.
+   **Melee rows count copies, not a sum (2026-09-28).** A model fights with ONE melee weapon
+   (04.01), so two copies of the same one on a model are not twice the attacks — yet a lone
+   Carnifex with crushing claws from both of its option lines read "×2", and a player took it for
+   8 attacks. `loadoutItemCopies` counts each copy as a slot (its profile, how many models hold
+   it) and `meleeRowsFor` prints one row per copy a model can hold: the lone Carnifex gets two
+   identical rows, two Carnifexes with both pairs two rows of "×2". A copy's RANK within its own
+   profile decides the row, so the Boyz' choppas and their Nob's stay one row "×10"; a unit-wide
+   group counts as a first copy (never invents a second weapon on one model). Ranged rows still
+   add up (a model fires them all), and so do [EXTRA ATTACKS] melee rows (24.11: it attacks with
+   all of them — two Extra Klaws on a Deff Dread are two extra attacks). Gate:
+   `src/data/roster/index.test.js` → "a second copy of a melee weapon is a second row" takes
+   every melee weapon in every group offering it, as far as the editor allows, and fails on a row
+   counted on more models than the unit has.
+   **A default count above one per model must be printed on the datasheet** ("2 phosphor
+   pistols"). A profile the loadout rows skip used to take its "Default Wargear" group's PROFILE
+   totals as per-model and got multiplied twice — five Flash Gitz read "Choppa ×17", ten Aquilons
+   "Close combat weapon ×66" — and a profile split over several default groups kept only the
+   first group's count. Both fixed in `gen-roster-data.mjs` the same day; the "default loadouts"
+   block of the same test file holds the count to the prose.
+   An unknown count says nothing at all —
    `null` rather than a guess, the same asymmetry the trim itself uses.
 2. **Resolves rule-granted keywords** — the existing `conditionalKeywords.json` sidecar, gated on
    the ROSTER's detachments instead of `useFactionChoice`, handed to `DatasheetCard`'s existing
@@ -2585,12 +2641,19 @@ which silently ungated whole rules before it was covered: a sentence-opening `Fr
 `[Ff]riendly`, NOT the /i flag, which would also make the keyword pattern's capitalisation
 case-insensitive and destroy the one signal that marks a keyword), a slash alternation
 ("Immortals/Necron Warriors units"), a parenthetical between the noun and "from your army", and
-singular/plural drift both ways (rules say "Vyper units", the datasheet keyword is VYPERS).
+singular/plural drift both ways (rules say "Vyper units", the datasheet keyword is VYPERS — and
+Aspect Host says "Aspect Warriors units" while a Phoenix Lord carries ASPECT WARRIOR, since
+appdata has both keywords; both sides are compared in the singular), and a lowercase joining
+word inside a keyword ("Tyranid Warriors with Ranged Bio-weapons", "Chaos Lord in Terminator
+Armour", "Agents of the Imperium"; "and"/"or" stay a list of targets). The last one was a
+player's report (2026-09-28): Leader-beasts broke at "with", named no keyword end to end, and
+was shown on every Tyranids card as "in effect".
 
-Measured across all 30 factions: 225 of 268 detachment rules are gated, 30 of them carry an
-exclusion, 41% of (unit, rule) pairs are hidden, and no unit is left seeing none of its faction's
-rules. **Re-run that measurement after touching the patterns** — the numbers are the only way to
-tell a sharper gate from a wrongly-hiding one.
+Measured across all 30 factions (2026-09-28): 244 of 270 detachment rules are gated, 44% of
+(unit, rule) pairs are hidden, and no unit is left seeing none of its faction's rules. **Re-run
+that measurement after touching the patterns** — the numbers are the only way to tell a sharper
+gate from a wrongly-hiding one, and diff the per-rule visible unit SETS, not the totals (the
+header of `ruleTargets.js` says how).
 
 An earlier attempt to gate the army rule on the datasheet's own `faction` ability line was
 measured and rejected — 712 of 1039 sheets match, 22 distinct mismatch classes, 128 sheets with
@@ -3194,6 +3257,18 @@ proves the 18 enhancement effects worded "while the bearer is leading a unit". B
 they agree. Deliberately NOT `activeConditions` with an empty player: that also answers the
 clock-scoped ids, and a null clock reads as round 1 — "during battle rounds 1-3" would switch itself
 on in a list nobody is playing yet.
+
+**…and so does the wargear it took (2026-09-28).** The `wargear-*` conditions carry a `gear` spec
+(two copies of one weapon, N melee weapons besides a named one, a named set) and are answered by
+`wargearConditions(def, entry, items, printedSheet)` in rosterModifiers.js, from the same per-model
+copies the weapon table prints — true only when EVERY model of a profile holds the set, so a pair
+on one Talos of two stays a note. `rosterUnitCard` unions them into `activeConds` on and off the
+table; the row in `RosterViewView` does not need them (none of these effects gates a switch). Eight
+records use them — Talos, Telemon, the four Helbrutes (whose +2 A now also carries
+`only.notName: ['Close combat weapon']`, the two weapons the rule means), Wulfen Dreadnought,
+Knight Destrier — and all eight were `never`/`blocked-weapon` before. `src/data/rosterModifiers/
+index.test.js` → "a rule that rewards a set of weapons" finds every datasheet ability worded "is
+equipped with two …" / "with a X and a Y" and fails until its record is answered from the loadout.
 
 **A modifier note opens its own rule.** A note the caller could resolve to prose carries
 `hasSource`, and then the rule's name in the footnote under the stats opens it in the same popover a

@@ -21,6 +21,9 @@
 // Astra Militarum are both "AM") and the community's own shorthands (CSM, GSC, AdM) read better
 // than a rule would produce.
 //
+// A faction's emblem, where it has one, is not here: it is a file under
+// /images/faction-icons/, and src/data/factionIcons.js (generated) says which and its shape.
+//
 // Shape: { id: group key (label in ui.js factionGroup*), factions: [{ slug, name, ready, abbr, color }] }.
 export const factionGroups = [
   {

@@ -69,29 +69,39 @@
            opponent's symbol names your Primary Mission. One detachment settles it; several are a
            choice, and the LIST is where it is declared. Not a picker: there are never more than a
            handful of candidates, so they fit in the tile that shows the answer. -->
-      <div
-        v-if="dispositionCands.length"
-        class="choice"
-      >
-        <span class="ch-label">{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
-        <span
-          v-if="dispositionCands.length === 1"
-          class="ch-value disp-one"
-        >{{ dispositionCands[0] }}</span>
+      <ExpandTransition>
         <div
-          v-else
-          class="seg disp-opts"
+          v-if="dispositionCands.length"
+          class="choice"
         >
-          <button
-            v-for="d in dispositionCands"
-            :key="d"
-            :class="{ on: disposition === d }"
-            @click="$emit('update:disposition', d)"
+          <span class="ch-label">{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
+          <!-- One candidate is stated; a second detachment turns it into a choice — the change fades. -->
+          <Transition
+            name="fade"
+            mode="out-in"
           >
-            {{ d }}
-          </button>
+            <span
+              v-if="dispositionCands.length === 1"
+              key="one"
+              class="ch-value disp-one"
+            >{{ dispositionCands[0] }}</span>
+            <div
+              v-else
+              key="many"
+              class="seg disp-opts"
+            >
+              <button
+                v-for="d in dispositionCands"
+                :key="d"
+                :class="{ on: disposition === d }"
+                @click="$emit('update:disposition', d)"
+              >
+                {{ d }}
+              </button>
+            </div>
+          </Transition>
         </div>
-      </div>
+      </ExpandTransition>
 
       <!-- The player's plan for this list, in their own words: read at the table (the view screen
            shows it above its tabs, in a game as well as out of one), never read by a rule. Where the
@@ -129,15 +139,17 @@
           >
             {{ labels.rosterCustom }}
           </button>
-          <input
-            v-if="battleSize === 'custom'"
-            class="bsize-input"
-            type="number"
-            min="0"
-            step="5"
-            :value="customPoints"
-            @input="$emit('update:customPoints', Math.max(0, Number($event.target.value) || 0))"
-          >
+          <Transition name="fade">
+            <input
+              v-if="battleSize === 'custom'"
+              class="bsize-input"
+              type="number"
+              min="0"
+              step="5"
+              :value="customPoints"
+              @input="$emit('update:customPoints', Math.max(0, Number($event.target.value) || 0))"
+            >
+          </Transition>
         </div>
       </div>
     </div>
@@ -192,6 +204,7 @@
 // The desk has its own one-line version of the same answers (RosterSettingsBar).
 import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
@@ -293,6 +306,7 @@ const dpHelpOpen = ref(false)
   font-weight: 700;
   margin-left: 0.3rem;
   letter-spacing: 0;
+  transition: color var(--motion-fast);
 }
 .dp-count.over { color: var(--danger); }
 .dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }

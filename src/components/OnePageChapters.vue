@@ -129,7 +129,8 @@ const { activeId, measure } = useActiveSection(spyIds)
 async function goToAnchor(id, filter) {
   if (filter) emit('filter', filter)
   if (route.hash !== '#' + id) await router.push({ path: props.path, hash: '#' + id })
-  scrollToAnchor(id)
+  // The reader's own jump on the page they are reading: glide, don't teleport (useRefNavigation).
+  scrollToAnchor(id, 100, { glide: true })
 }
 
 function onModalSelect(id, filter) {

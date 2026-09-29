@@ -381,12 +381,14 @@ async function handleAnchorClick(group, id, filter) {
   // Groups that anchor within a page (Core Rules chapters) put the anchor in the URL so the
   // position is shareable; the others navigate to the page and scroll inside it.
   const target = group.hash ? { path: group.path, hash: '#' + id } : group.path
-  if (stripLocale(route.path) !== group.path || (group.hash && route.hash !== '#' + id)) {
+  const samePage = stripLocale(route.path) === group.path
+  if (!samePage || (group.hash && route.hash !== '#' + id)) {
     await router.push(target)
   }
   // scrollToAnchor polls for the element rather than guessing a delay — needed on the Core
-  // Rules page, where a chapter that `content-visibility` has skipped isn't laid out yet.
-  scrollToAnchor(id, 96)
+  // Rules page, where a chapter that `content-visibility` has skipped isn't laid out yet. On the
+  // page already open the jump glides; arriving from another page it lands at once.
+  scrollToAnchor(id, 96, { glide: samePage })
 }
 </script>
 

@@ -220,4 +220,40 @@ describe('ruleScopes — exclusions and the wordings that hide targets', () => {
     expect(keywordsMatchTarget(vyper, 'Vyper')).toBe(true)
     expect(ruleAppliesTo('Vyper units from your army have the Scouts 12" ability.', vyper, [vyper])).toBe(true)
   })
+
+  it('matches a plural target against the singular keyword the datasheet carries', () => {
+    // Aspect Host says "Aspect Warriors … unit"; a Phoenix Lord carries ASPECT WARRIOR (appdata
+    // has both keywords). The squads' plural spelling still matches too.
+    const body = 'Each time an **Aspect Warriors** or **Avatar of Khaine** unit from your army is selected to shoot or fight, re-roll a Hit roll of 1.'
+    const lord = ['Aspect Warrior', 'Phoenix Lord', 'Aeldari']
+    const squad = ['Aspect Warriors', 'Infantry', 'Aeldari']
+    const guardians = ['Guardian Defenders', 'Infantry', 'Aeldari']
+    expect(ruleTargets(body)).toEqual(['Aspect Warriors', 'Avatar of Khaine'])
+    expect(ruleAppliesTo(body, lord, [lord, squad, guardians])).toBe(true)
+    expect(ruleAppliesTo(body, squad, [lord, squad, guardians])).toBe(true)
+    expect(ruleAppliesTo(body, guardians, [lord, squad, guardians])).toBe(false)
+  })
+
+  it('reads a keyword with a lowercase joining word inside it', () => {
+    // Tyranids' Leader-beasts (player report 2026-09-28): the Title Case run broke at "with", the
+    // bullet named no keyword end to end, and the rule was shown to every Tyranids unit.
+    const body = `▪ Friendly TYRANID WARRIORS with Ranged Bio-weapons/Tyranid Warriors with Melee Bio-weapons units have:
+   ▪ Battleline.
+▪ TYRANID WARRIORS/TYRANID PRIME WITH LASH WHIP/WINGED TYRANID PRIME models from your army have 5+ InSv.`
+    expect(ruleTargets(body)).toEqual([
+      'TYRANID WARRIORS with Ranged Bio-weapons', 'Tyranid Warriors with Melee Bio-weapons',
+      'TYRANID WARRIORS', 'TYRANID PRIME WITH LASH WHIP', 'WINGED TYRANID PRIME',
+    ])
+    const warriors = ['Tyranid Warriors with Melee Bio-weapons', 'Infantry', 'Synapse', 'Tyranids']
+    const prime = ['Tyranid Prime with Lash Whip', 'Character', 'Tyranids']
+    const carnifex = ['Carnifexes', 'Monster', 'Tyranids']
+    const all = [warriors, prime, carnifex]
+    expect(ruleAppliesTo(body, warriors, all)).toBe(true)
+    expect(ruleAppliesTo(body, prime, all)).toBe(true)
+    expect(ruleAppliesTo(body, carnifex, all)).toBe(false)
+    // "and"/"or" are a list of targets, not a joiner: two keywords, not one phrase.
+    expect(ruleTargets('Friendly WRAITHGUARD and WRAITHLORD units from your army.')).toEqual(['WRAITHGUARD', 'WRAITHLORD'])
+    // A keyword of the "X of the Y" shape reads as one.
+    expect(ruleTargets('Agents of the Imperium units from your army.')).toEqual(['Agents of the Imperium'])
+  })
 })

@@ -26,6 +26,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { scrollToAnchor } from '../composables/useRefNavigation.js'
 
 const props = defineProps({
   items: { type: Array, required: true },
@@ -35,14 +36,14 @@ const props = defineProps({
 
 const router = useRouter()
 
+
+// The same glide every in-page jump takes (useRefNavigation's scrollToAnchor). This used the
+// browser's own `behavior: 'smooth'` against a position computed once — which is what the rest
+// of the app moved away from: the chapters are `content-visibility: auto`, so that position is
+// a guess until they are drawn.
 async function go(item) {
   await router.push({ path: props.route, hash: '#' + item.id })
-  await new Promise(r => setTimeout(r, 80))
-  const el = document.getElementById(item.id)
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 100
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
+  scrollToAnchor(item.id, 100, { glide: true })
 }
 </script>
 

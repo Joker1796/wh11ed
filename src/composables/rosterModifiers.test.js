@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { overlaySheet, loadoutItemIds, loadoutItemCounts, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey } from './rosterModifiers.js'
+import { overlaySheet, loadoutItemIds, loadoutItemCounts, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey, wargearConditions } from './rosterModifiers.js'
 
 // Interned wargear names, same shape as src/data/roster/items.js's `items` map.
 const items = { 1: 'Boltgun', 2: 'Bolt pistol', 3: 'Meltagun', 4: 'Chainsword', 5: 'Power weapon', 6: 'Plasma pistol' }
@@ -122,6 +122,108 @@ describe('loadoutItemCounts', () => {
     const counts = loadoutItemCounts(multi, { size: 0 })
     expect(counts.has(1)).toBe(true)
     expect(counts.get(1)).toBeNull()
+  })
+})
+
+describe('overlaySheet — a second copy of a melee weapon', () => {
+  // A model fights with ONE melee weapon (04.01): two copies on one model are two rows, never
+  // "×2", which a player read as twice the attacks (lone Carnifex, crushing claws from both of its
+  // option lines, 2026-09-28). Ranged weapons and [EXTRA ATTACKS] melee still add up.
+  const it9 = { 1: 'Scything talons', 2: 'Extra talons', 3: 'Crushing claws', 4: 'Venom cannon', 5: 'Choppa' }
+  const beast = {
+    id: 'beast', sizes: [{ pts: 90, per: [1, 1], default: 1 }, { pts: 180, per: [2, 2] }],
+    defaults: [[0, [[1, 1], [2, 1]]]],
+    gear: [
+      { m: 0, t: 1, in: 'stepper', o: [[3], [4]], rep: [2] },
+      { m: 0, t: 2, in: 'stepper', o: [[3], [4]], rep: [1] },
+    ],
+  }
+  const beastSheet = {
+    name: 'Beast',
+    ranged: [{ name: 'Venom cannon' }],
+    melee: [{ name: 'Crushing claws' }, { name: 'Extra talons', tags: ['EXTRA ATTACKS'] }, { name: 'Scything talons' }],
+  }
+  const go = (entry) => overlaySheet(beastSheet, { def: beast, entry, items: it9 }).sheet
+  const rows = (out, name) => out[name === 'Venom cannon' ? 'ranged' : 'melee'].filter((w) => w.name === name)
+
+  it('prints one row per copy a lone model holds, with no count', () => {
+    const out = go({ size: 0, wg: [[0, 0, 1], [1, 0, 1]] })
+    expect(rows(out, 'Crushing claws').map((w) => w.qty)).toEqual([undefined, undefined])
+  })
+
+  it('counts each copy by the models holding it', () => {
+    const out = go({ size: 1, wg: [[0, 0, 2], [1, 0, 2]] })
+    expect(rows(out, 'Crushing claws').map((w) => w.qty)).toEqual([2, 2])
+  })
+
+  it('keeps one row for one copy per model, as before', () => {
+    const out = go({ size: 1, wg: [[0, 0, 2]] })
+    expect(rows(out, 'Crushing claws').map((w) => w.qty)).toEqual([2])
+  })
+
+  it('still adds up ranged copies — a model fires them all', () => {
+    const out = go({ size: 0, wg: [[0, 1, 1], [1, 1, 1]] })
+    expect(rows(out, 'Venom cannon').map((w) => w.qty)).toEqual([2])
+  })
+
+  it('still adds up [EXTRA ATTACKS] copies — a model attacks with all of them (24.11)', () => {
+    const extra = { ...beast, defaults: [[0, [[2, 2]]]], gear: [] }
+    const out = overlaySheet(beastSheet, { def: extra, entry: { size: 0 }, items: it9 }).sheet
+    expect(rows(out, 'Extra talons').map((w) => w.qty)).toEqual([2])
+  })
+
+  it('does not split the same weapon held once by each of two profiles', () => {
+    // Boyz and their Nob both carry a choppa: two profiles, one copy each — one row, ×10.
+    const boyz = {
+      id: 'boyz', minis: [{ n: 'Nob' }, { n: 'Boy' }],
+      sizes: [{ pts: 80, per: [10, 10], default: 1, comp: [[0, 1], [1, 9]] }],
+      defaults: [[0, [[5, 1]]], [1, [[5, 1]]]], gear: [],
+    }
+    const out = overlaySheet({ name: 'Boyz', melee: [{ name: 'Choppa' }] }, { def: boyz, entry: { size: 0 }, items: it9 }).sheet
+    expect(out.melee.map((w) => w.qty)).toEqual([10])
+  })
+
+  it('splits a default loadout that prints two of one melee weapon', () => {
+    // Talos: "2 macro-scalpels" on every model.
+    const talos = { id: 'talos', sizes: [{ pts: 90, per: [1, 1], default: 1 }], defaults: [[0, [[3, 2]]]], gear: [] }
+    const out = overlaySheet({ name: 'Talos', melee: [{ name: 'Crushing claws' }] }, { def: talos, entry: { size: 0 }, items: it9 }).sheet
+    expect(out.melee.map((w) => w.qty)).toEqual([undefined, undefined])
+  })
+})
+
+describe('wargearConditions — a rule that rewards a set of weapons', () => {
+  // Answered from the copies every model of a profile holds (conditions.js, `gear`).
+  const it9 = { 1: 'Macro-scalpel', 2: 'Chain flails', 3: 'Close combat weapon', 4: 'Helbrute fist' }
+  const talos = {
+    id: 'talos', sizes: [{ pts: 90, per: [1, 1], default: 1 }, { pts: 180, per: [2, 2] }],
+    defaults: [[0, [[1, 2]]]],
+    gear: [{ m: 0, t: 1, in: 'stepper', o: [[2]], rep: [1] }],
+  }
+  const talosSheet = { name: 'Talos', melee: [{ name: 'Chain flails' }, { name: 'Macro-scalpel' }] }
+
+  it('proves a pair every model holds', () => {
+    expect(wargearConditions(talos, { size: 0 }, it9, talosSheet).has('wargear-two-macro-scalpels')).toBe(true)
+    expect(wargearConditions(talos, { size: 1 }, it9, talosSheet).has('wargear-two-macro-scalpels')).toBe(true)
+  })
+
+  it('leaves the note up when only one model of two holds the pair', () => {
+    // One of two Talos trades a scalpel away: the rule is true of one model, not of the unit.
+    expect(wargearConditions(talos, { size: 1, wg: [[0, 0, 1]] }, it9, talosSheet).has('wargear-two-macro-scalpels')).toBe(false)
+  })
+
+  it('counts melee weapons besides the one a rule leaves out', () => {
+    const brute = {
+      id: 'brute', sizes: [{ pts: 130, per: [1, 1], default: 1 }],
+      defaults: [[0, [[3, 1]]]],
+      gear: [{ m: 0, t: 1, in: 'checkbox', o: [[4]], rep: [] }, { m: 0, t: 2, in: 'checkbox', o: [[4]], rep: [] }],
+    }
+    const bruteSheet = { name: 'Brute', melee: [{ name: 'Close combat weapon' }, { name: 'Helbrute fist' }] }
+    expect(wargearConditions(brute, { size: 0, wg: [[0, 0, 1]] }, it9, bruteSheet).has('wargear-two-melee-besides-ccw')).toBe(false)
+    expect(wargearConditions(brute, { size: 0, wg: [[0, 0, 1], [1, 0, 1]] }, it9, bruteSheet).has('wargear-two-melee-besides-ccw')).toBe(true)
+  })
+
+  it('proves nothing without a loadout to read', () => {
+    expect(wargearConditions(talos, null, it9, talosSheet).size).toBe(0)
   })
 })
 

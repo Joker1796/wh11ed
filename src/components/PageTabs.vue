@@ -79,6 +79,7 @@ const emit = defineEmits(['select'])
 // Links are navigation, not a tablist; buttons switching one panel are. A mixed set is not a
 // thing we do, so the whole nav follows whichever it is.
 const asTablist = computed(() => props.tabs.every((t) => !t.to))
+
 </script>
 
 <style scoped>

@@ -73,6 +73,7 @@
         v-if="scrolledDown"
         type="button"
         class="mb-icon mb-totop"
+        data-press="pop"
         :title="labels.backToTop"
         :aria-label="labels.backToTop"
         @click="scrollToTop"
@@ -135,6 +136,27 @@ defineExpose({ visible })
      the empty left part swallowed taps on whatever lay under it (a roster pane's last row). */
   pointer-events: none;
 }
+
+/* When the roster's bar below comes or goes, the strip moves to its new height rather than
+   jumping there. Written out for the slide-up phases too: this scoped rule outranks the global
+   `.slide-up-*-active`, and a bare `transition: bottom` here would take their slide away. */
+.mobile-bar { transition: bottom var(--motion-med) ease; }
+.mobile-bar.slide-up-leave-active {
+  transition: bottom var(--motion-med) ease, opacity var(--motion-med) ease, transform var(--motion-med) ease;
+}
+/* Coming in, the strip rises from below the bottom nav rather than fading up by its own height —
+   which read as the "to game" chip simply appearing (owner, 2026-09-28). */
+.mobile-bar.slide-up-enter-active {
+  transition: bottom var(--motion-med) ease, opacity var(--motion-move) ease-out, transform var(--motion-move) ease-out;
+}
+.mobile-bar.slide-up-enter-from { transform: translateY(150%); }
+
+/* The text chips ("To game", "To roster") arriving in a strip that is already up rise from below
+   the same way, instead of the icon buttons' pop from the corner. */
+.mb-text.fab-enter-active {
+  transition: opacity var(--motion-move) ease-out, transform var(--motion-move) ease-out;
+}
+.mb-text.fab-enter-from { transform: translateY(150%); }
 
 @media (min-width: 901px) {
   .mobile-bar { display: none; }

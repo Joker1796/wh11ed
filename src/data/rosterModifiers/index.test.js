@@ -399,3 +399,35 @@ describe('the hints behind a game-state chip', () => {
     }
   })
 })
+
+describe('a rule that rewards a set of weapons', () => {
+  // A few datasheets make a bonus depend on WHAT the model took — "if this model is equipped with
+  // two macro-scalpels", "two melee weapons in addition to its close combat weapon", "a
+  // thundershock spear and a bellatus reaper chainsword". The list knows what was taken, so such
+  // an effect must be answered from the loadout (a `gear` condition, rosterModifiers'
+  // wargearConditions) — not left as `never`, which is what all eight were until 2026-09-28, when
+  // the card could not yet say which model held which copy. A new ability of this shape in an
+  // appdata bump fails here until it is wired the same way.
+  const sheets = import.meta.glob(['../datasheets/*.js', '!../datasheets/index.js', '!../datasheets/*.test.js'], { eager: true, import: 'default' })
+  const SET = /equipped with (?:two|2) (?!or more)|equipped with (?:an?|1) [^.;,]+? and (?:an?|1) [^.;,]+/i
+
+  it('answers every one of them from the wargear the entry took', () => {
+    const found = []
+    for (const [path, list] of Object.entries(sheets)) {
+      const slug = path.split('/').pop().replace(/\.js$/, '')
+      for (const s of list || []) {
+        for (const a of s.abilities || []) {
+          if (!SET.test(a.text || '')) continue
+          found.push(`${slug}/${s.id}`)
+          const rec = allEntries.find(({ file, e }) => file.endsWith(`/${slug}.js`) && e.kind === 'ability'
+            && e.ref?.unit === s.id && e.name.endsWith(`: ${a.name}`))
+          expect(rec, `${slug}/${s.id} "${a.name}" has no modifier record`).toBeTruthy()
+          const gear = (rec.e.effects || []).some((eff) => (eff.cond || []).some((id) => conditions[id]?.gear))
+          expect(gear, `${slug}/${s.id} "${a.name}" is not answered from the loadout`).toBe(true)
+        }
+      }
+    }
+    // Talos, Telemon, four Helbrutes, Wulfen Dreadnought, Knight Destrier.
+    expect(found.length).toBeGreaterThanOrEqual(8)
+  })
+})

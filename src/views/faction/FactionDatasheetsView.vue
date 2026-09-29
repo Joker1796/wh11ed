@@ -1,5 +1,8 @@
 <template>
-  <FactionLayout>
+  <div
+    ref="gridRoot"
+    class="faction-units-page"
+  >
     <!-- Datasheets (lazy-loaded per faction from src/data/datasheets/<slug>.js) -->
     <section
       id="datasheets"
@@ -9,13 +12,23 @@
         {{ labels.factionDatasheets }}
       </h2>
       <template v-if="datasheets.length">
-        <input
-          v-model="dsQuery"
-          type="search"
-          class="ds-search"
-          :placeholder="labels.dsSearch"
-          :aria-label="labels.dsSearch"
+        <!-- Types the faction's own example queries while empty (useUnitSearchGhost). -->
+        <div
+          ref="dsSearchEl"
+          class="typing-field ds-search-field"
         >
+          <input
+            v-model="dsQuery"
+            type="search"
+            class="ds-search"
+            :placeholder="typing ? '' : labels.dsSearch"
+            :aria-label="labels.dsSearch"
+          >
+          <TypingGhost
+            v-if="typing && !dsQuery"
+            :text="ghostText"
+          />
+        </div>
         <!-- Global army choice (chapter + detachment), shared with the rule page.
              Chapter-less factions keep their datasheet list bar-free — a detachment
              picker filters nothing here. -->
@@ -54,18 +67,27 @@
           v-for="g in groupedDatasheets"
           :key="g.key"
         >
-          <h3 class="ds-group-head">
+          <h3
+            class="ds-group-head"
+            :data-flip="'h:' + g.key"
+          >
             {{ g.label }}
           </h3>
-          <div class="ds-grid">
+          <TransitionGroup
+            name="sift"
+            tag="div"
+            class="ds-grid"
+          >
             <RouterLink
               v-for="s in g.sheets"
               :key="s.id"
+              :data-flip="s.id"
               :to="`/factions/${slug}/datasheets/${s.id}`"
               class="ds-chip"
             >
               <span class="ds-marks">
                 <button
+                  data-press="pop"
                   type="button"
                   class="ds-fav"
                   :class="{ on: isUnitFavorite(slug, s.id) }"
@@ -80,6 +102,7 @@
                      This grid is where a collection actually gets entered: the datasheet page
                      carries the same button, but one unit per visit is no way to fill a shelf. -->
                 <button
+                  data-press="pop"
                   type="button"
                   class="ds-fav ds-own"
                   :class="{ on: isOwned(slug, s.id) }"
@@ -106,7 +129,7 @@
                 class="ds-chip-pts"
               >{{ ptsSummary(s.points) }}</span>
             </RouterLink>
-          </div>
+          </TransitionGroup>
         </template>
         <!-- The prose half of a "Legends: <Faction>" publication (src/data/factionLegends.json).
              Sits under the list, not above it: a player who opened this page came for the units,
@@ -116,65 +139,68 @@
              question a player sent us was exactly that, and this table already answered it in
              appdata. A search query narrows the proxies by the retired names, so typing the old
              unit's name finds its row even though no chip carries it. -->
-        <section
-          v-if="legends && (!dsQuery.trim() || visibleProxies.length)"
-          class="ds-legends"
-        >
-          <h3 class="ds-group-head">
-            {{ labels.dsLegendsTitle }}
-          </h3>
-          <template v-if="!dsQuery.trim() && legends.intro">
-            <button
-              type="button"
-              class="ds-legends-about"
-              :aria-expanded="introOpen"
-              @click="introOpen = !introOpen"
-            >
-              <i
-                class="bi"
-                :class="introOpen ? 'bi-chevron-down' : 'bi-chevron-right'"
-              />
-              <span>{{ labels.dsLegendsAbout }}</span>
-            </button>
-            <CollapseTransition :show="introOpen">
-              <div class="ds-legends-intro rule-body">
-                <RuleBody :body="legends.intro" />
-              </div>
-            </CollapseTransition>
-          </template>
-          <template v-if="visibleProxies.length">
-            <h4
-              id="legendary-proxies"
-              class="ds-legends-sub"
-            >
-              {{ labels.dsLegendsProxies }}
-            </h4>
-            <p class="ds-legends-hint">
-              {{ labels.dsLegendsProxiesHint }}
-            </p>
-            <ul class="ds-proxies">
-              <li
-                v-for="(p, i) in visibleProxies"
-                :key="i"
+        <ExpandTransition>
+          <section
+            v-if="legends && (!dsQuery.trim() || visibleProxies.length)"
+            class="ds-legends"
+          >
+            <h3 class="ds-group-head">
+              {{ labels.dsLegendsTitle }}
+            </h3>
+            <template v-if="!dsQuery.trim() && legends.intro">
+              <button
+                type="button"
+                class="ds-legends-about"
+                :aria-expanded="introOpen"
+                @click="introOpen = !introOpen"
               >
-                <span class="ds-proxy-legacy">{{ p.legacy.join(', ') }}</span>
-                <i class="bi bi-arrow-right ds-proxy-arrow" />
-                <!-- Both are flex items, so the line breaks around the text cost no space. -->
-                <RouterLink
-                  v-if="p.id"
-                  :to="`/factions/${slug}/datasheets/${p.id}`"
-                  class="ds-proxy-use"
+                <ChevronIcon
+                  :turned="introOpen"
+                  from="right"
+                  to="down"
+                />
+                <span>{{ labels.dsLegendsAbout }}</span>
+              </button>
+              <CollapseTransition :show="introOpen">
+                <div class="ds-legends-intro rule-body">
+                  <RuleBody :body="legends.intro" />
+                </div>
+              </CollapseTransition>
+            </template>
+            <template v-if="visibleProxies.length">
+              <h4
+                id="legendary-proxies"
+                class="ds-legends-sub"
+              >
+                {{ labels.dsLegendsProxies }}
+              </h4>
+              <p class="ds-legends-hint">
+                {{ labels.dsLegendsProxiesHint }}
+              </p>
+              <ul class="ds-proxies">
+                <li
+                  v-for="(p, i) in visibleProxies"
+                  :key="i"
                 >
-                  {{ p.use }}
-                </RouterLink>
-                <span
-                  v-else
-                  class="ds-proxy-use"
-                >{{ p.use }}</span>
-              </li>
-            </ul>
-          </template>
-        </section>
+                  <span class="ds-proxy-legacy">{{ p.legacy.join(', ') }}</span>
+                  <i class="bi bi-arrow-right ds-proxy-arrow" />
+                  <!-- Both are flex items, so the line breaks around the text cost no space. -->
+                  <RouterLink
+                    v-if="p.id"
+                    :to="`/factions/${slug}/datasheets/${p.id}`"
+                    class="ds-proxy-use"
+                  >
+                    {{ p.use }}
+                  </RouterLink>
+                  <span
+                    v-else
+                    class="ds-proxy-use"
+                  >{{ p.use }}</span>
+                </li>
+              </ul>
+            </template>
+          </section>
+        </ExpandTransition>
       </template>
       <p
         v-else-if="loaded"
@@ -183,13 +209,15 @@
         {{ labels.factionsSoon }}
       </p>
     </section>
-  </FactionLayout>
+  </div>
 </template>
 
 <script setup>
+import ChevronIcon from '../../components/ChevronIcon.vue'
+import TypingGhost from '../../components/TypingGhost.vue'
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import FactionLayout from '../../components/FactionLayout.vue'
+import ExpandTransition from '../../components/ExpandTransition.vue'
 import FactionPickerBar from '../../components/FactionPickerBar.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import RuleBody from '../../components/RuleBody.vue'
@@ -200,10 +228,12 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
 import { useFavorites } from '../../composables/useFavorites.js'
 import { useCollection } from '../../composables/useCollection.js'
+import { useFlipMove } from '../../composables/useFlipMove.js'
 import { reconcileFactionMarks } from '../../composables/useUserPrefs.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 import { foldName, preloadDatasheetTags, TAG_MIN, unitTagHit } from '../../composables/datasheetTags.js'
+import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -293,7 +323,7 @@ const detachments = computed(() => {
 const { activeChapter } = useFactionChoice()
 const chapter = computed(() => activeChapter(slug.value, chapters.value))
 
-const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
+const { isUnitFavorite, toggleUnitFavorite, favoriteUnitIds, pinnedUnitsFrom, unpinnedUnitGroupsFrom } = useFavorites()
 const { isOwned, toggleOwned } = useCollection()
 
 // A unit's Chapter = the second Faction keyword on its datasheet. Order in
@@ -313,6 +343,8 @@ const hasLegends = computed(() => datasheets.value.some((s) => s.legends))
 // global search and the roster catalogue match (datasheetTags.js), loaded with the first query
 // long enough to use them.
 watch(dsQuery, (q) => { if (q.trim().length >= TAG_MIN) preloadDatasheetTags() })
+const dsSearchEl = ref(null)
+const { ghostText, typing } = useUnitSearchGhost({ slug, locale, query: dsQuery, el: dsSearchEl })
 const filteredDatasheets = computed(() => {
   const q = dsQuery.value.trim().toLowerCase()
   const qf = foldName(q)
@@ -352,28 +384,37 @@ const groupedDatasheets = computed(() => {
   for (const s of filteredDatasheets.value) {
     buckets.find((b) => !b.kw || (s.keywords || []).includes(b.kw)).sheets.push(s)
   }
-  const groups = buckets.filter((b) => b.sheets.length)
-  // "Favorites" — a quick-access group pinned to the top; the units also stay in their
-  // real type group below. Built from the filtered list so search / chapter still apply,
-  // and only shown when at least one favourite survives the filter.
-  const favs = filteredDatasheets.value.filter((s) => isUnitFavorite(slug.value, s.id))
+  // "Pinned" on top, and a pinned unit LEAVES its type group (owner, 2026-09-28 — as the faction
+  // lists do; useFavorites holds the split for both). Built from the filtered list, so search and
+  // the chapter still apply, and only shown while a pinned unit survives the filter.
+  const groups = unpinnedUnitGroupsFrom(slug.value, buckets)
+  const favs = pinnedUnitsFrom(slug.value, filteredDatasheets.value)
   if (favs.length) groups.unshift({ key: 'favorites', label: l.favPinnedGroup, sheets: favs })
   return groups
 })
+// A pin slides the card from its group to the top as one card (useFlipMove, the faction lists'
+// recipe); the chips and the headings carry `data-flip`.
+const gridRoot = ref(null)
+useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 
 </script>
 
 <style scoped>
 
+.ds-search-field {
+  max-width: 24rem;
+  margin-bottom: 0.55rem;
+  --typing-pad: calc(0.5rem + 1px) calc(0.7rem + 1px);
+  --typing-size: 0.9rem;
+}
+
 .ds-search {
   width: 100%;
-  max-width: 24rem;
   padding: 0.5rem 0.7rem;
   font-size: 0.9rem;
   color: var(--text-primary);
   background: var(--bg-card);
   border: 1px solid var(--border);
-  margin-bottom: 0.55rem;
 }
 
 .ds-search:focus {

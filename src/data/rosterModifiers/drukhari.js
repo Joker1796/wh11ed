@@ -643,7 +643,7 @@ export default {
             "ru": "если модель взяла два macro-scalpel"
           },
           "cond": [
-            "never"
+            "wargear-two-macro-scalpels"
           ]
         }
       ]

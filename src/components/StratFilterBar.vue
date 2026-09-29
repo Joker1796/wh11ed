@@ -27,6 +27,7 @@
         v-if="nowAvailable"
         type="button"
         class="strat-toggle now-toggle"
+        data-press="pop"
         :class="{ active: nowOnly }"
         :aria-pressed="nowOnly"
         @click="$emit('update:nowOnly', !nowOnly)"
@@ -37,6 +38,7 @@
       <button
         type="button"
         class="strat-toggle"
+        data-press="pop"
         :class="{ active: byPhase }"
         :aria-pressed="byPhase"
         :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"

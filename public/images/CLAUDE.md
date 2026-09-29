@@ -36,7 +36,7 @@ then a line in the PR a reviewer can see, rather than a silent decision.
 
 ## Folders
 
-One folder per rules chapter: `intro`, `moving`, `coherency`, `visibility`, `command`, `turn`, `attack`, `charge`, `fight`, `terrain`, `monsters`, `attached`, `surge`, `fire` — plus `event/` for Event Companion assets (layout diagrams, edge markers, legend icons, disposition emblems — see `src/components/event/CLAUDE.md`, documented separately since that pipeline extracts from a different source PDF via pymupdf, not the WebP recipe below). Image markup references them as `[img:/images/<folder>/<name>.png|alt]`.
+One folder per rules chapter: `intro`, `moving`, `coherency`, `visibility`, `command`, `turn`, `attack`, `charge`, `fight`, `terrain`, `monsters`, `attached`, `surge`, `fire` — plus `faction-icons/` (one-colour faction emblems drawn as CSS masks — `FactionEmblem.vue`; after adding or renaming one run `npm run faction-icons`) and `event/` for Event Companion assets (layout diagrams, edge markers, legend icons, disposition emblems — see `src/components/event/CLAUDE.md`, documented separately since that pipeline extracts from a different source PDF via pymupdf, not the WebP recipe below). Image markup references them as `[img:/images/<folder>/<name>.png|alt]`.
 
 ## Illustrations are stored as WebP
 

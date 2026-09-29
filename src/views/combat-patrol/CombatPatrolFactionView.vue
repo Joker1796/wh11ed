@@ -5,7 +5,15 @@
     :class="{ themed: !!color }"
     :style="colorVars"
   >
-    <div class="hero">
+    <div
+      class="hero"
+      :class="{ 'with-emblem': factionIcons[route.params.slug] }"
+    >
+      <FactionEmblem
+        class="hero-emblem"
+        :faction="indexEntry"
+        in-title
+      />
       <h1 class="hero-title">
         {{ faction.name }}
       </h1>
@@ -14,157 +22,188 @@
       </div>
     </div>
 
-    <!-- Detachment rule -->
-    <section
-      id="rule"
-      class="fsection"
+    <!-- A box is read a part at a time — the rules, then its stratagems, its upgrades, its units —
+         so the page is four tabs rather than one long scroll (owner, 2026-09-28). A search hit
+         deep inside one picks that tab from the link's anchor first (tabForAnchor). -->
+    <PageTabs
+      class="cp-tabs"
+      :tabs="tabs"
+      @select="tab = $event"
+    />
+    <Transition
+      name="fade"
+      mode="out-in"
+      @enter="bringTabsIntoView"
     >
       <div
-        v-if="faction.dp || faction.forceDisposition"
-        class="det-meta"
+        v-if="tab === 'rules'"
+        key="rules"
       >
-        <span
-          v-if="faction.dp"
-          class="det-meta-item"
-        >{{ faction.dp }} DP</span>
-        <span
-          v-if="faction.forceDisposition"
-          class="det-meta-item"
-        >{{ faction.forceDisposition }}</span>
-      </div>
-      <p
-        v-if="faction.rule.flavor"
-        class="faction-flavor"
-      >
-        {{ faction.rule.flavor }}
-      </p>
-      <RuleBlock
-        :id="`cp-${route.params.slug}-rule`"
-        :title="faction.rule.name"
-        :subtitle="faction.rule.nameRu"
-        :body="faction.rule.body"
-      />
-    </section>
-
-    <!-- Army rule -->
-    <section
-      id="army-rule"
-      class="fsection"
-    >
-      <h2 class="fsection-title">
-        {{ labels.factionArmyRule }}
-      </h2>
-      <p
-        v-if="faction.armyRule.flavor"
-        class="faction-flavor"
-      >
-        {{ faction.armyRule.flavor }}
-      </p>
-      <RuleBlock
-        :id="`cp-${route.params.slug}-army-rule`"
-        :title="faction.armyRule.name"
-        :subtitle="faction.armyRule.nameRu"
-        :body="faction.armyRule.body"
-        :example="faction.armyRule.example"
-      />
-    </section>
-
-    <!-- Stratagems -->
-    <section
-      v-if="faction.stratagems?.length"
-      id="stratagems"
-      class="fsection"
-    >
-      <h2 class="fsection-title">
-        {{ labels.factionStratagems }}
-      </h2>
-      <div class="strat-grid">
-        <StratCard
-          v-for="s in faction.stratagems"
-          :id="`cp-strat-${route.params.slug}-${slugify(s.name)}`"
-          :key="s.name"
-          :strat="s"
-          :sublabel="s.sublabel"
-        />
-      </div>
-    </section>
-
-    <!-- Enhancements -->
-    <section
-      v-if="faction.enhancements?.length"
-      id="enhancements"
-      class="fsection"
-    >
-      <h2 class="fsection-title">
-        {{ labels.factionEnhancements }}
-      </h2>
-      <div class="enh-grid">
-        <article
-          v-for="e in faction.enhancements"
-          :id="`cp-enh-${route.params.slug}-${slugify(e.name)}`"
-          :key="e.name"
-          class="enh-card"
+        <!-- Detachment rule -->
+        <section
+          id="rule"
+          class="fsection"
         >
-          <div class="enh-head">
-            <div class="enh-heading">
-              <span class="enh-name">{{ e.name }}</span>
-              <span
-                v-if="e.nameRu"
-                class="enh-name-ru"
-              >{{ e.nameRu }}</span>
-            </div>
-            <div class="enh-tags">
-              <span
-                v-if="e.upgrade"
-                class="enh-tag"
-              >Upgrade</span>
-              <span
-                v-if="e.isDefault"
-                class="enh-tag enh-tag-default"
-              >{{ labels.cpDefaultEnh }}</span>
-            </div>
+          <div
+            v-if="faction.dp || faction.forceDisposition"
+            class="det-meta"
+          >
+            <span
+              v-if="faction.dp"
+              class="det-meta-item"
+            >{{ faction.dp }} DP</span>
+            <span
+              v-if="faction.forceDisposition"
+              class="det-meta-item"
+            >{{ faction.forceDisposition }}</span>
           </div>
           <p
-            v-if="e.flavor"
+            v-if="faction.rule.flavor"
             class="faction-flavor"
           >
-            {{ e.flavor }}
+            {{ faction.rule.flavor }}
           </p>
-          <div
-            class="enh-body"
-            v-html="renderRichText(e.body)"
+          <RuleBlock
+            :id="`cp-${route.params.slug}-rule`"
+            :title="faction.rule.name"
+            :subtitle="faction.rule.nameRu"
+            :body="faction.rule.body"
           />
-        </article>
-      </div>
-    </section>
+        </section>
 
-    <!-- Datasheets -->
-    <section
-      v-if="faction.datasheets?.length"
-      id="datasheets"
-      class="fsection"
-    >
-      <h2 class="fsection-title">
-        {{ labels.factionDatasheets }}
-      </h2>
-      <div class="ds-list">
-        <div
-          v-for="ds in faction.datasheets"
-          :key="ds.id"
-          class="ds-unit"
+        <!-- Army rule -->
+        <section
+          id="army-rule"
+          class="fsection"
         >
-          <div class="ds-head">
-            <h3 class="ds-title">
-              <span class="ds-title-name">{{ ds.name }}</span><span
-                v-if="ds.baseSize"
-                class="ds-title-base"
-              >({{ fmtBase(ds.baseSize) }})</span>
-            </h3>
-          </div>
-          <DatasheetCard :sheet="ds" />
-        </div>
+          <h2 class="fsection-title">
+            {{ labels.factionArmyRule }}
+          </h2>
+          <p
+            v-if="faction.armyRule.flavor"
+            class="faction-flavor"
+          >
+            {{ faction.armyRule.flavor }}
+          </p>
+          <RuleBlock
+            :id="`cp-${route.params.slug}-army-rule`"
+            :title="faction.armyRule.name"
+            :subtitle="faction.armyRule.nameRu"
+            :body="faction.armyRule.body"
+            :example="faction.armyRule.example"
+          />
+        </section>
       </div>
-    </section>
+      <div
+        v-else-if="tab === 'stratagems'"
+        key="stratagems"
+      >
+        <!-- Stratagems -->
+        <section
+          v-if="faction.stratagems?.length"
+          id="stratagems"
+          class="fsection"
+        >
+          <h2 class="fsection-title">
+            {{ labels.factionStratagems }}
+          </h2>
+          <div class="strat-grid">
+            <StratCard
+              v-for="s in faction.stratagems"
+              :id="`cp-strat-${route.params.slug}-${slugify(s.name)}`"
+              :key="s.name"
+              :strat="s"
+              :sublabel="s.sublabel"
+            />
+          </div>
+        </section>
+      </div>
+      <div
+        v-else-if="tab === 'enhancements'"
+        key="enhancements"
+      >
+        <!-- Enhancements -->
+        <section
+          v-if="faction.enhancements?.length"
+          id="enhancements"
+          class="fsection"
+        >
+          <h2 class="fsection-title">
+            {{ labels.factionEnhancements }}
+          </h2>
+          <div class="enh-grid">
+            <article
+              v-for="e in faction.enhancements"
+              :id="`cp-enh-${route.params.slug}-${slugify(e.name)}`"
+              :key="e.name"
+              class="enh-card"
+            >
+              <div class="enh-head">
+                <div class="enh-heading">
+                  <span class="enh-name">{{ e.name }}</span>
+                  <span
+                    v-if="e.nameRu"
+                    class="enh-name-ru"
+                  >{{ e.nameRu }}</span>
+                </div>
+                <div class="enh-tags">
+                  <span
+                    v-if="e.upgrade"
+                    class="enh-tag"
+                  >Upgrade</span>
+                  <span
+                    v-if="e.isDefault"
+                    class="enh-tag enh-tag-default"
+                  >{{ labels.cpDefaultEnh }}</span>
+                </div>
+              </div>
+              <p
+                v-if="e.flavor"
+                class="faction-flavor"
+              >
+                {{ e.flavor }}
+              </p>
+              <div
+                class="enh-body"
+                v-html="renderRichText(e.body)"
+              />
+            </article>
+          </div>
+        </section>
+      </div>
+      <div
+        v-else
+        key="units"
+      >
+        <!-- Datasheets -->
+        <section
+          v-if="faction.datasheets?.length"
+          id="datasheets"
+          class="fsection"
+        >
+          <h2 class="fsection-title">
+            {{ labels.factionDatasheets }}
+          </h2>
+          <div class="ds-list">
+            <div
+              v-for="ds in faction.datasheets"
+              :key="ds.id"
+              class="ds-unit"
+            >
+              <div class="ds-head">
+                <h3 class="ds-title">
+                  <span class="ds-title-name">{{ ds.name }}</span><span
+                    v-if="ds.baseSize"
+                    class="ds-title-base"
+                  >({{ fmtBase(ds.baseSize) }})</span>
+                </h3>
+              </div>
+              <DatasheetCard :sheet="ds" />
+            </div>
+          </div>
+        </section>
+      </div>
+    </Transition>
   </div>
   <div
     v-else
@@ -179,11 +218,16 @@
 </template>
 
 <script setup>
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
 import DatasheetCard from '../../components/DatasheetCard.vue'
+import FactionEmblem from '../../components/FactionEmblem.vue'
+import { factionIcons } from '../../data/factionIcons.js'
+import PageTabs from '../../components/PageTabs.vue'
+import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
+import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
@@ -200,7 +244,8 @@ const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 // Same Wahapedia-style per-faction accent as the normal faction pages (FactionLayout.vue) —
 // factionsIndex.js's palette exposed as two private custom props, folded into --accent per
 // theme by the .cp-faction-view.themed rules below.
-const color = computed(() => factionIndexBySlug(route.params.slug)?.color || null)
+const indexEntry = computed(() => factionIndexBySlug(route.params.slug))
+const color = computed(() => indexEntry.value?.color || null)
 const colorVars = computed(() =>
   color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark } : undefined,
 )
@@ -216,30 +261,89 @@ watchEffect(async () => {
 const faction = computed(() =>
   combatPatrol.value?.[locale.value].factions.find((f) => f.slug === route.params.slug) || null,
 )
+
+// The four parts of a box, as tabs — only the ones this box has. Rules (the detachment's and the
+// army's) are always there.
+const tab = ref('rules')
+const tabs = computed(() => {
+  const f = faction.value
+  const l = labels.value
+  const all = [
+    { key: 'rules', label: l.rosterViewTabRules, has: true },
+    { key: 'stratagems', label: l.factionStratagems, has: !!f?.stratagems?.length },
+    { key: 'enhancements', label: l.factionEnhancements, has: !!f?.enhancements?.length },
+    { key: 'units', label: l.rosterViewTabUnits, has: !!f?.datasheets?.length },
+  ]
+  return all.filter((t) => t.has).map((t) => ({ key: t.key, label: t.label, active: tab.value === t.key }))
+})
+
+// A link into the page names what it wants by anchor (the search index's `cp-strat-…`,
+// `cp-enh-…`, `cp-<slug>-rule…` ids, and the old section ids): open the tab that holds it before
+// scrollToAnchor goes looking — a hidden tab has nothing in the page to scroll to.
+function tabForAnchor(id) {
+  if (!id) return null
+  if (id.startsWith('cp-strat-') || id === 'stratagems') return 'stratagems'
+  if (id.startsWith('cp-enh-') || id === 'enhancements') return 'enhancements'
+  if (id === 'datasheets' || id.startsWith('ds-')) return 'units'
+  if (id.startsWith('cp-') || id === 'rule' || id === 'army-rule') return 'rules'
+  return null
+}
+watch(() => route.hash, (hash) => {
+  const id = decodeURIComponent(hash.slice(1))
+  const t = tabForAnchor(id)
+  if (!t) return
+  tab.value = t
+  // …and go to it: a link opened straight (not from the search, which scrolls itself) used to
+  // stop at the top of the page. scrollToAnchor polls, so the box's data loading late is fine.
+  scrollToAnchor(id)
+}, { immediate: true })
 </script>
 
 <style scoped>
 .cp-faction-view {
-  padding-top: 0.5rem;
+  padding-top: 0.25rem; /* the faction page's (FactionLayout) */
 }
 
 .hero {
-  text-align: center;
-  padding: 1rem 0 0.6rem;
-  border-bottom: 2px solid var(--accent);
-  margin-bottom: 1.4rem;
+  --title-fs: 2.6rem;
+  --emblem-fs: 3rem; /* the faction page's title size: the same emblem as there */
+  padding: 1rem 0 0;
+}
+/* The emblem beside the name, and the box's name under the faction's, not under the emblem: the
+   emblem spans both lines and is centred on the pair, so it needs none of the lift and spill it
+   takes beside a lone title (FactionEmblem's in-title). */
+.hero.with-emblem {
+  /* The emblem's top where the faction page's is: there it rises 0.3em above the title's line
+     into this padding (FactionEmblem's in-title lift and margin); here it heads the block. */
+  padding-top: calc(1rem - 0.3 * var(--emblem-fs));
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: calc(var(--title-fs) * 0.25);
+  align-items: center;
+}
+.with-emblem .hero-title,
+.with-emblem .hero-subtitle { grid-column: 2; }
+.with-emblem .hero-emblem { grid-row: 1 / 3; top: 0; margin: 0; font-size: var(--emblem-fs); }
+
+/* The faction page's spacing (FactionLayout): the tabs sit just under the name, and the open tab's
+   content hangs from it 0.6rem down. The hero's own accent rule went with the tabs — their strip is
+   that line now, and two of them read as a frame around nothing (2026-09-28). */
+.cp-tabs {
+  margin-top: 0.7rem;
+  margin-bottom: 0.6rem;
 }
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: 2.6rem;
+  font-size: var(--title-fs);
   font-weight: 400;
   color: var(--text-primary);
-  margin-bottom: 0.3rem;
+  line-height: 1;
 }
 
 .hero-subtitle {
   font-size: 0.95rem;
+  line-height: 1.2;
   color: var(--accent);
   font-style: italic;
 }
@@ -410,7 +514,7 @@ const faction = computed(() =>
 }
 
 @media (max-width: 640px) {
-  .hero-title { font-size: 2rem; }
+  .hero { --title-fs: 2rem; --emblem-fs: 2.2rem; }
 }
 
 /* Very narrow phones (≤480px): bleed the unit name plate to the true viewport edge and

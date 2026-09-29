@@ -1,5 +1,5 @@
 <template>
-  <FactionLayout>
+  <div class="faction-faq-page">
     <section
       id="faq"
       class="fsection"
@@ -94,13 +94,12 @@
         </p>
       </template>
     </section>
-  </FactionLayout>
+  </div>
 </template>
 
 <script setup>
 import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import FactionLayout from '../../components/FactionLayout.vue'
 import FaqItem from '../../components/FaqItem.vue'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'

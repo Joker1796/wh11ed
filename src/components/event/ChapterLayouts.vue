@@ -201,6 +201,7 @@
       </div>
       <button
         class="measurements-toggle"
+        data-press="pop"
         :aria-pressed="showMeasurements"
         @click="toggleMeasurements"
       >

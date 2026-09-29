@@ -320,6 +320,27 @@ describe('RosterEditorView', () => {
     expect(w.findAll('a').some((a) => a.attributes('href') === `/roster/${r.id}/add`)).toBe(false)
   })
 
+  // The two phone modes were a v-if/v-else pair: every visit to Settings rebuilt the catalogue
+  // and the list, which made the switch jerk and dropped the search the player had typed.
+  it('keeps the catalogue built, search and all, through a visit to Settings', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    const search = w.find('.rub-search')
+    await search.setValue('Ast')
+    const [gear, units] = w.findAll('.red-mode button')
+    await gear.trigger('click')
+    await units.trigger('click')
+
+    expect(w.find('.rub-search').element).toBe(search.element)
+    expect(w.find('.rub-search').element.value).toBe('Ast')
+  })
+
   it('adds a unit from the catalogue without leaving the tab', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')

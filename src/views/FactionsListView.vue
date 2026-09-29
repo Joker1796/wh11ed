@@ -1,5 +1,8 @@
 <template>
-  <div class="factions-view">
+  <div
+    ref="rootEl"
+    class="factions-view"
+  >
     <div class="hero">
       <h1 class="hero-title">
         {{ labels.factionsHeading }}
@@ -9,87 +12,74 @@
       </div>
     </div>
 
+    <!-- A pinned faction leaves its group for the top one, and slides there (useFlipMove). -->
     <div class="groups">
       <section
         v-if="pinned.length"
         class="group pinned-group"
       >
-        <h2 class="group-title">
+        <h2
+          class="group-title"
+          data-flip="h:pinned"
+        >
           {{ labels.favPinnedGroup }}
         </h2>
-        <ul class="faction-list">
-          <li
+        <div class="faction-list">
+          <FactionOption
             v-for="f in pinned"
             :key="'pin-' + f.slug"
-            class="fac-row"
-          >
-            <RouterLink
-              :to="`/factions/${f.slug}`"
-              class="faction-link"
-            >
-              {{ f.name }}
-            </RouterLink>
-            <FavoriteStar
-              :pinned="true"
-              @toggle="toggleFaction(f.slug)"
-            />
-          </li>
-        </ul>
+            :data-flip="f.slug"
+            :slug="f.slug"
+            :name="f.name"
+            :to="`/factions/${f.slug}`"
+          />
+        </div>
       </section>
 
       <section
-        v-for="group in factionGroups"
+        v-for="group in unpinned"
         :key="group.id"
         class="group"
       >
-        <h2 class="group-title">
+        <h2
+          class="group-title"
+          :data-flip="'h:' + group.id"
+        >
           {{ labels[factionGroupLabelKey(group.id)] }}
         </h2>
-        <ul class="faction-list">
-          <li
+        <div class="faction-list">
+          <FactionOption
             v-for="f in group.factions"
             :key="f.slug"
-            class="fac-row"
-          >
-            <template v-if="f.ready">
-              <RouterLink
-                :to="`/factions/${f.slug}`"
-                class="faction-link"
-              >
-                {{ f.name }}
-              </RouterLink>
-              <FavoriteStar
-                :pinned="isFactionPinned(f.slug)"
-                @toggle="toggleFaction(f.slug)"
-              />
-            </template>
-            <span
-              v-else
-              class="faction-link disabled"
-            >
-              {{ f.name }}
-              <span class="soon">{{ labels.factionsSoon }}</span>
-            </span>
-          </li>
-        </ul>
+            :data-flip="f.slug"
+            :slug="f.slug"
+            :name="f.name"
+            :to="`/factions/${f.slug}`"
+            :disabled="!f.ready"
+          />
+        </div>
       </section>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import FavoriteStar from '../components/FavoriteStar.vue'
+import { computed, ref } from 'vue'
+import FactionOption from '../components/FactionOption.vue'
 import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useFavorites } from '../composables/useFavorites.js'
+import { useFlipMove } from '../composables/useFlipMove.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const { isFactionPinned, toggleFaction, pinnedFactionsFrom } = useFavorites()
+const { pinnedFactionsFrom, unpinnedGroupsFrom } = useFavorites()
 const pinned = computed(() => pinnedFactionsFrom(factionGroups))
+const unpinned = computed(() => unpinnedGroupsFrom(factionGroups))
+const rootEl = ref(null)
+useFlipMove(() => pinned.value.map((f) => f.slug), rootEl)
 
 </script>
 
@@ -122,10 +112,20 @@ const pinned = computed(() => pinnedFactionsFrom(factionGroups))
   font-family: var(--font-sans);
 }
 
+/* Four groups, four columns where the page is wide enough; two in between, one on a phone. The
+   pinned group spans them all and lays its own rows out on the same columns. */
 .groups {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.4rem 2.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem 1.2rem;
+}
+.pinned-group .faction-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.3rem 1.2rem;
+}
+@media (max-width: 1000px) {
+  .groups, .pinned-group .faction-list { grid-template-columns: repeat(2, 1fr); }
 }
 
 .pinned-group {
@@ -144,59 +144,18 @@ const pinned = computed(() => pinnedFactionsFrom(factionGroups))
   border-bottom: 1px solid var(--border);
 }
 
+/* The rows are FactionOption, the same row the Factions sheet and the faction pickers draw — the
+   faction's colour bar and monogram, the name, the pin (2026-09-28; this page drew plain text
+   rows of its own until then). */
 .faction-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.fac-row {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.3rem;
-}
-
-.faction-link {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  padding: 0.04rem 0;
-  line-height: 1.3;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: var(--text-primary);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-
-a.faction-link:hover {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.faction-link.disabled {
-  color: var(--text-dim);
-  cursor: default;
-}
-
-.soon {
-  font-family: var(--font-sans);
-  font-size: 0.6rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-  border: 1px solid var(--border);
-  padding: 1px 5px;
-  align-self: center;
 }
 
 @media (max-width: 640px) {
   .hero-title { font-size: 2.3rem; }
-  .groups { grid-template-columns: 1fr; gap: 1.1rem; }
-  .faction-link { font-size: 1.15rem; }
+  .groups, .pinned-group .faction-list { grid-template-columns: 1fr; }
+  .groups { gap: 1.1rem; }
 }
 </style>

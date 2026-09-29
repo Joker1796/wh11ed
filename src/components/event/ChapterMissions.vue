@@ -42,10 +42,10 @@
     <Transition name="fade">
       <div
         v-if="showPrimary"
-        class="dispo-chips"
+        class="filter-chips"
       >
         <button
-          class="chip"
+          class="filter-chip"
           :class="{ on: dispoFilter === 'all' }"
           @click="dispoFilter = 'all'"
         >
@@ -54,7 +54,7 @@
         <button
           v-for="d in dispositions"
           :key="d.id"
-          class="chip"
+          class="filter-chip"
           :class="{ on: dispoFilter === d.id }"
           @click="dispoFilter = d.id"
         >
@@ -232,22 +232,7 @@ const filteredPrimaryGroups = computed(() =>
   margin-bottom: 1.75rem;
 }
 
-.dispo-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.32rem 0.7rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 0.78rem;
-  font-weight: 600;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-.chip:hover { color: var(--text-primary); border-color: var(--accent); }
-.chip.on { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
+/* The row itself is the global `.filter-chips` / `.filter-chip` (style.css). */
 .chip-icon { width: 18px; height: 18px; object-fit: contain; flex: none; }
 
 .m-section { margin-top: 2rem; }

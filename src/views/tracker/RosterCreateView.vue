@@ -222,7 +222,7 @@
             <button
               class="btn-primary"
               :disabled="!canLeaveStep1"
-              @click="finish"
+              @click="guardFd(finish)"
             >
               {{ labels.rosterSave }}
             </button>
@@ -245,7 +245,7 @@
             </button>
             <button
               class="btn-primary"
-              @click="finish"
+              @click="guardFd(finish)"
             >
               {{ labels.rosterSave }}
             </button>
@@ -276,6 +276,16 @@
       :detachments="detachments"
       @close="rulesOpen = false"
     />
+    <!-- Saving with no Force Disposition declared asks once (useDispositionGate). -->
+    <ConfirmModal
+      v-if="fdAskOpen"
+      :title="labels.rosterFdAskTitle"
+      :message="fdAskMessage"
+      :confirm-label="labels.rosterFdAskSave"
+      :cancel-label="labels.rosterFdAskPick"
+      @confirm="confirmFd"
+      @close="closeFd(); step = 1"
+    />
     <RosterIssuesModal
       v-if="issuesOpen"
       :issues="validation.issues"
@@ -300,8 +310,11 @@ import RosterSetupFields from '../../components/roster/RosterSetupFields.vue'
 import RosterPointsTally from '../../components/roster/RosterPointsTally.vue'
 import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
+import ConfirmModal from '../../components/ConfirmModal.vue'
+import { useDispositionGate } from '../../composables/useDispositionGate.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useKeywordContext } from '../../composables/useFactionKeywordUnits.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { useRosterBuildActions } from '../../composables/useRosterBuildActions.js'
@@ -337,6 +350,8 @@ const customPoints = ref(2000)
 const checkLegality = ref(true)
 const notes = ref('')
 const units = ref([])
+// A faction keyword tapped in a rule on this screen lists the units picked so far first.
+useKeywordContext(() => ({ faction: factionSlug.value, unitIds: units.value.map((u) => u.id) }))
 
 // ── Faction accent (useFactionAccent.js — the same recipe every faction-coloured screen uses) ──
 const { factionName, accentStyle } = useFactionAccent(factionSlug)
@@ -362,6 +377,9 @@ const {
   defOf, curDetachments, effBattle, limit, points, slugFor,
   entryMeta, groupedUnits, attachRole, dupBlocked, validation, fieldProps,
 } = useRosterDerived(draftRoster, factionData)
+const {
+  open: fdAskOpen, message: fdAskMessage, guard: guardFd, confirm: confirmFd, close: closeFd,
+} = useDispositionGate(validation, labels)
 
 // ── What building a list does (useRosterBuildActions.js — the editor runs the same code) ──
 // Units are written through to the draft (`syncUnits`); the faction is this screen's own ref, and

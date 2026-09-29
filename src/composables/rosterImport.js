@@ -28,6 +28,7 @@
 // figure rides along only so the difference can be shown. A list exported against last month's
 // points is not a bug in the import.
 import { factionGroups } from '../data/factionsIndex.js'
+import { DISPOSITION_NAMES } from '../data/dispositionColors.js'
 import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
 
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
@@ -118,6 +119,13 @@ function repairMojibake(text) {
 const isFactionName = (t) => factionGroups.some((g) => g.factions.some((f) => norm(f.name) === norm(t)))
 
 // ── format detection ─────────────────────────────────────────────────────────────────────────
+
+
+// A Force Disposition by its own name, case aside — the canonical spelling, or null.
+function dispositionNamed(t) {
+  const low = t.toLowerCase()
+  return DISPOSITION_NAMES.find((n) => n.toLowerCase() === low) || null
+}
 
 export function detectFormat(text) {
   const t = repairMojibake(text)
@@ -384,6 +392,13 @@ function parseGw(text) {
     // failed with "unknown faction: Bootcamp 11th die Zweite". A first line that IS one of our
     // faction names is the faction, though, so a paste that starts at that line still works.
     if (!seenHeader && !isFactionName(t)) { out.name = t; titles.push(t); seenHeader = true; continue }
+    // The disposition written as a bare line of its own — the app's export and listhammer's
+    // detailed mode both do this ("Take and Hold" under the detachment line), with no label to say
+    // what it is. A line that IS a disposition's name is not a title and not a faction. The first
+    // one wins, and a labelled line above has already answered (it lists candidates when there is
+    // more than one, and then says nothing).
+    const fd = dispositionNamed(t)
+    if (seenHeader && fd) { if (!out.disposition) out.disposition = fd; continue }
     if (isFactionName(t)) inHeader = false          // the title is over once the army is named
     plains.push(t)
   }

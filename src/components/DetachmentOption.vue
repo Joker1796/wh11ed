@@ -57,6 +57,7 @@
 // picker for the Chapter list, which is plain names.
 // (Said here, not above the <button>: a comment before the root makes the component a Fragment.)
 import { computed } from 'vue'
+import { toneVars } from '../utils/tone.js'
 import { dispositionColor } from '../data/dispositionColors.js'
 
 const props = defineProps({
@@ -70,10 +71,7 @@ const props = defineProps({
   on: { type: Boolean, default: false },
 })
 
-const tone = computed(() => {
-  const c = props.forceDisposition && dispositionColor(props.forceDisposition)
-  return c ? { '--tone-light': c.light, '--tone-dark': c.dark } : null
-})
+const tone = computed(() => toneVars(props.forceDisposition && dispositionColor(props.forceDisposition)))
 </script>
 
 <style scoped>

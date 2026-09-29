@@ -150,6 +150,10 @@ const renderField = text => (text ? renderRichText(text) : '')
 .turn-opponent { --turn-color: #8b1a1a; --turn-text: var(--turn-color); }
 
 .strat-card {
+  /* The card is its own query container: whether the labels stack is a question of how wide the
+     CARD is, not the window — a card in a narrow column of a wide screen (the rosters desk's
+     roster page, two cards across) is as narrow as one on a phone. */
+  container-type: inline-size;
   background: var(--bg-card);
   border: 1px solid var(--border);
   overflow: hidden;
@@ -387,20 +391,20 @@ const renderField = text => (text ? renderRichText(text) : '')
   margin-top: 0.1rem;
 }
 
-/* Narrow phones: stack the label above the content instead of a fixed-width column —
-   same pattern as RuleBody.vue's .info-row / MissionBriefing.vue's .m-action-row. The
-   64px min-width column wasted a lot of a narrow card's width, worse on RU labels
-   (e.g. «ОГРАНИЧЕНИЯ» is wider than the EN "RESTRICTIONS"). Covers every .strat-row use
-   (When/Target/Effect/Restrictions and subRule.fields) in one place. */
+/* Narrow: stack the label above the content instead of a fixed-width column — same pattern as
+   RuleBody.vue's .info-row / MissionBriefing.vue's .m-action-row. The 64px min-width column
+   wasted a lot of a narrow card's width, worse on RU labels (e.g. «ОГРАНИЧЕНИЯ» is wider than the
+   EN "RESTRICTIONS"). Covers every .strat-row use (When/Target/Effect/Restrictions and
+   subRule.fields) in one place. Two ways to be narrow: a phone, and a card squeezed into a column
+   of a wide screen (the rosters desk's roster page, two cards across ~220px each) — asked of the
+   card itself, below the ~390px a card has on the desktop stratagems page, which keeps its columns. */
 @media (max-width: 600px) {
-  .strat-row {
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-  .strat-label {
-    min-width: 0;
-    padding-top: 0;
-  }
+  .strat-row { flex-direction: column; gap: 0.15rem; }
+  .strat-label { min-width: 0; padding-top: 0; }
+}
+@container (max-width: 340px) {
+  .strat-row { flex-direction: column; gap: 0.15rem; }
+  .strat-label { min-width: 0; padding-top: 0; }
 }
 </style>
 

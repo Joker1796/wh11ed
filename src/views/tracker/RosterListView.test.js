@@ -37,6 +37,54 @@ describe('RosterListView', () => {
     expect(push).toHaveBeenCalledWith('/roster/new')
   })
 
+  // Player request 2026-09-29: several armies' lists, narrowed to one by a row of faction chips.
+  describe('faction filter', () => {
+    const make = (store, name, faction) => { const r = store.createRoster(name); r.faction = faction; return r }
+    const names = (w) => w.findAll('.rname').map((n) => n.text())
+
+    it('is not offered while every list is of one faction', async () => {
+      const store = useRosters()
+      make(store, 'A', 'orks'); make(store, 'B', 'orks')
+      const w = mount(RosterListView, { global: { stubs } })
+      expect(w.find('.rl-factions').exists()).toBe(false)
+    })
+
+    it('narrows the lists to one faction, and "All" lets go', async () => {
+      const store = useRosters()
+      make(store, 'Waaagh', 'orks'); make(store, 'Bugs', 'tyranids'); make(store, 'More bugs', 'tyranids')
+      const w = mount(RosterListView, { global: { stubs } })
+      const select = w.find('.rl-factions select')
+      expect(select.findAll('option').map((o) => o.text())).toEqual(['All (3)', 'Orks (1)', 'Tyranids (2)'])
+      await select.setValue('tyranids')
+      expect(names(w).sort()).toEqual(['Bugs', 'More bugs'])
+      await select.setValue('')
+      expect(names(w)).toHaveLength(3)
+    })
+
+    it('shows everything again once the picked faction has no list left', async () => {
+      const store = useRosters()
+      make(store, 'Waaagh', 'orks'); const b = make(store, 'Bugs', 'tyranids'); make(store, 'Mechs', 'necrons')
+      const w = mount(RosterListView, { global: { stubs } })
+      await w.find('.rl-factions select').setValue('tyranids')
+      expect(names(w)).toEqual(['Bugs'])
+      store.deleteRoster(b.id)
+      await flushPromises()
+      expect(names(w)).toHaveLength(2)
+    })
+  })
+
+  it('shows twenty lists, and "Show more" the next twenty', async () => {
+    const store = useRosters()
+    for (let i = 0; i < 45; i++) store.createRoster(`L${i}`)
+    const w = mount(RosterListView, { global: { stubs } })
+    expect(w.findAll('.roster')).toHaveLength(20)
+    await w.find('.show-more').trigger('click')
+    expect(w.findAll('.roster')).toHaveLength(40)
+    await w.find('.show-more').trigger('click')
+    expect(w.findAll('.roster')).toHaveLength(45)
+    expect(w.find('.show-more').exists()).toBe(false)
+  })
+
   it('clicking a card opens the read-only view, not the editor', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
@@ -125,9 +173,9 @@ describe('RosterListView', () => {
     store.createRoster('A list')
     const w = mount(RosterListView, { global: { stubs } })
     await w.find('.kebab').trigger('click')
-    // Edit / Export / Duplicate / Delete — picked by label everywhere else in this file, so the
+    // Edit / Export / Duplicate / Pin / Delete — picked by label everywhere else in this file, so the
     // sheet can grow without a positional index quietly pointing at the wrong action.
-    expect(w.findAll('.act-btn').map((b) => b.text())).toEqual(['Edit', 'Export roster', 'Duplicate', 'Delete'])
+    expect(w.findAll('.act-btn').map((b) => b.text())).toEqual(['Edit', 'Export roster', 'Duplicate', 'Pin to top', 'Delete'])
   })
 
   // A finished list is passed on more often than it is edited, so it exports from here too — which

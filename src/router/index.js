@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory, START_LOCATION } from 'vue-router'
+import { pageSwapGap } from '../composables/usePageMotion.js'
+import { instantly } from '../composables/useRefNavigation.js'
+import { prefetchFor } from './prefetch.js'
 import LandingView from '../views/LandingView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
 import { LOCALE_SEGMENT, localePath, stripLocale } from './locale.js'
@@ -20,7 +23,9 @@ const PartyJoinView     = () => import('../views/tracker/PartyJoinView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
-const RosterListView    = () => import('../views/tracker/RosterListView.vue')
+// The list and a saved roster's page are one screen on a wide window (RosterDeskView), and the
+// same two pages as before on a phone.
+const RosterDeskView    = () => import('../views/tracker/RosterDeskView.vue')
 const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
 const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
 const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
@@ -35,6 +40,7 @@ const HelpTopicView     = () => import('../views/HelpTopicView.vue')
 const ChangelogView     = () => import('../views/ChangelogView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
+const FactionPagesView  = () => import('../views/faction/FactionPagesView.vue')
 const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
 const FactionDatasheetsView  = () => import('../views/faction/FactionDatasheetsView.vue')
 const FactionDatasheetView   = () => import('../views/faction/FactionDatasheetView.vue')
@@ -104,10 +110,10 @@ const localeRoutes = [
     // (/roster, indexable) + private creation wizard, read-only view and editor (/roster/new,
     // /roster/:id/view, /roster/:id — none in STATIC_ROUTES, like /tracker/game). Static
     // /roster/new and /roster/shared must precede the :id route so neither is captured as an id.
-    { path: '/roster',        component: RosterListView, meta: { section: 'roster' } },
+    { path: '/roster',        component: RosterDeskView, meta: { section: 'roster' } },
     { path: '/roster/new',    component: RosterCreateView, meta: { section: 'roster' } },
     { path: '/roster/shared', component: RosterSharedView, meta: { section: 'roster' } },
-    { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'roster' } },
+    { path: '/roster/:id/view', component: RosterDeskView, meta: { section: 'roster' } },
     // The same list as a document, with the panel that decides what goes on the paper.
     // Private like the rest of them: a print of somebody's army list has no business in
     // STATIC_ROUTES or in the sitemap.
@@ -146,12 +152,24 @@ const localeRoutes = [
     { path: '/help/:topic', component: HelpTopicView },
     { path: '/changelog', component: ChangelogView },
     { path: '/factions',       component: FactionsListView, meta: { section: 'faction' } },
-    { path: '/factions/:slug',             component: FactionRuleView, meta: { section: 'faction' } },
+    // A faction's three pages are CHILDREN of one route: the hero and its tabs (FactionPagesView →
+    // FactionLayout) stay mounted while the page under them changes, so a tab switch moves only
+    // the content. App.vue keys its page swap by the parent record + slug for that (`pageKey`).
+    // `meta.prefetch` names what router/prefetch.js loads before the page is shown.
+    {
+      path: '/factions/:slug',
+      component: FactionPagesView,
+      meta: { section: 'faction' },
+      children: [
+        { path: '', component: FactionRuleView, meta: { prefetch: 'faction' } },
+        { path: 'datasheets', component: FactionDatasheetsView, meta: { prefetch: 'factionDatasheets' } },
+        { path: 'faq', component: FactionFaqView, meta: { prefetch: 'factionFaq' } },
+      ],
+    },
     // Merged into /factions/:slug — redirect old bookmarks/links to the combined page.
     { path: '/factions/:slug/detachments', redirect: (to) => `/factions/${to.params.slug}` },
-    { path: '/factions/:slug/datasheets',  component: FactionDatasheetsView, meta: { section: 'faction' } },
-    { path: '/factions/:slug/datasheets/:unit', component: FactionDatasheetView, meta: { section: 'faction' } },
-    { path: '/factions/:slug/faq',         component: FactionFaqView, meta: { section: 'faction' } },
+    // One unit's sheet is a page of its own (hero-less), a level deeper than the list.
+    { path: '/factions/:slug/datasheets/:unit', component: FactionDatasheetView, meta: { section: 'faction', prefetch: 'factionUnit' } },
     // "Rules" umbrella landing (Core Rules / Event Companion / Combat Patrol summary cards).
     { path: '/rules', component: RulesLandingView, meta: { section: 'rules-landing' } },
     // Combat Patrol.
@@ -190,10 +208,23 @@ export const router = createRouter({
     // `savedPosition` is null and the page would jump to the top, which is what a reader
     // scrolled halfway down the tracker sees when they close a picker (report 1173ea18).
     if (to.fullPath === from.fullPath) return false
-    if (savedPosition) return savedPosition
-    return { top: 0 }
+    const pos = savedPosition || { top: 0 }
+    // A swap that animates (another page, not the first load) keeps the reader where they are
+    // until the old page has gone, then jumps — instantly, while nothing is on screen. Reset at
+    // the click, with <html>'s smooth scrolling, the old page scrolled up for half a second while
+    // it slid away (2026-09-28). `instantly` and not `behavior: 'instant'`: Safari before 17.4
+    // ignores the option and animates anyway (useRefNavigation.js).
+    if (!from.matched?.length || stripLocale(to.path) === stripLocale(from.path)) return pos
+    return pageSwapGap().then(() => {
+      instantly(() => window.scrollTo(pos.left || 0, pos.top || 0))
+      return false
+    })
   },
 })
+
+// A page's data is fetched while the old page is still up, so the new one arrives drawn
+// (router/prefetch.js; best effort, capped, never a reason not to navigate).
+router.beforeResolve((to) => prefetchFor(to))
 
 // Remember the last open page+section and reopen it on the next launch — only for the
 // installed PWA (display-mode standalone); a normal browser tab is left untouched.

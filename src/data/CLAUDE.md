@@ -333,7 +333,7 @@ rendered by `HelpTopicView.vue` from `src/data/help.js`.
 
 ## RU search aliases
 
-Search (Ctrl+K) matches unit names in English only, which is no help to a Russian reader who does
+Search (Ctrl+K — and, through the tag index, the faction datasheet grid and the roster catalogue) matches unit names in English only, which is no help to a Russian reader who does
 not know the English spelling of a deliberately mangled xenos name — or who looks a unit up by the
 community's nickname (Ghazghkull → «Газя»). `aliasesRu` is a hidden field that affects **search
 only**: a unit's name on screen is always the English one, per the bilingual convention above.
@@ -365,3 +365,27 @@ src/data/datasheets/*.js`) — GW names surprise you (Nobz, not Nobs).
 Kor'sarro Khan); a naive transliteration of those produces noise. Preference order for a spelling:
 the RU `flavor` in the same file → the community glossary → an uncontroversial transliteration.
 Nothing fits — leave it out.
+
+## Faction keywords in rule prose
+
+A faction's own unit keyword named in rule text — "one Endless Multitude unit", «юнит Synapse» — is
+a tap that lists the units carrying it (player request, 2026-09-29). The data writes these as plain
+Title Case words, and **nothing is marked by hand**: `useRenderInline.js` finds them with
+`src/utils/factionKeywordMarkup.js` and wraps each in a `.fkw` span; `App.vue` opens
+`KeywordUnitsModal` through `useFactionKeywordUnits.js`.
+
+- **What counts** is the word's neighbour: before "unit/model/keyword" in English, after
+  «юнит…/модел…/слов…» in Russian, alone or in a list. "Synapse Range" and "Terminator armour" are
+  prose; "Khorne Berzerkers unit" is a name, and a keyword inside a unit or model name written out
+  in full is left alone.
+- **Which keywords** is generated, with the datasheet index (`npm run datasheets:index` →
+  `src/data/factionUnitKeywords.js`, ~4.6 KB — the renderer needs it synchronously, so it rides in
+  the app chunk; keep it small): keywords carried by fewer than a third of the factions, not a unit's
+  own name anywhere (Aeldari «юнит Rangers» is their Rangers, not AdMech's RANGERS), not in
+  `NOT_A_KEYWORD` (BODYGUARD — "Bodyguard unit" is a core-rules term), and only those the text
+  actually names that way. The generator and the renderer share the one matcher, so they cannot
+  disagree. **Re-run it after a text or datasheet change** like the rest of that index.
+- A keyword several factions carry (KHORNE, GRAVIS) is narrowed to the faction on screen: the list
+  a roster screen registers with `useKeywordContext` (whose units also come first, marked «В
+  списке»), else the faction page's slug, else all of them.
+

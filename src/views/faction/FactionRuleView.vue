@@ -1,5 +1,5 @@
 <template>
-  <FactionLayout>
+  <div class="faction-rules-page">
     <!-- `faction` resolves asynchronously (its EN chunk is lazy-loaded per slug), so
          everything below must wait for it rather than dereference a null. -->
     <template v-if="faction">
@@ -155,12 +155,11 @@
         </div>
       </section>
     </template>
-  </FactionLayout>
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import FactionLayout from '../../components/FactionLayout.vue'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
 import FactionPickerBar from '../../components/FactionPickerBar.vue'

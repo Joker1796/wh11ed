@@ -575,16 +575,23 @@ function isDefaultGroup(g) {
 function staticLoadout(datasheetId, miniIdx) {
   const idx = miniIdx || new Map((minisByDs.get(datasheetId) || []).slice()
     .sort((a, b) => a.displayOrder - b.displayOrder).map((m, i) => [m.id, i]))
-  const out = []
+  // One entry per miniature, the counts of all its default groups ADDED: a profile can be split
+  // over several groups — the Breachers' Navis Armsmen are three (the las-volley one, the heavy
+  // shotgun one, "every other model"), each naming a close combat weapon, 1 + 1 + 7. Returned
+  // one entry per group until 2026-09-28, the caller kept the first group's count and dropped the
+  // other two as "already there": nine armsmen, one close combat weapon.
+  const byMini = new Map()
   for (const g of wogByDs.get(datasheetId) || []) {
     if (!isDefaultGroup(g)) continue
-    const items = (woByGroup.get(g.id) || [])
-      .sort((a, b) => a.displayOrder - b.displayOrder)
-      .map((o) => [o.wargearItemId, o.defaultValue > 0 ? o.defaultValue : 1])
-      .filter(([uuid]) => uuid)
-    if (items.length) out.push([idx.get(g.miniatureId) ?? 0, items])
+    const m = idx.get(g.miniatureId) ?? 0
+    const acc = byMini.get(m) || new Map()
+    for (const o of (woByGroup.get(g.id) || []).sort((a, b) => a.displayOrder - b.displayOrder)) {
+      if (!o.wargearItemId) continue
+      acc.set(o.wargearItemId, (acc.get(o.wargearItemId) || 0) + (o.defaultValue > 0 ? o.defaultValue : 1))
+    }
+    if (acc.size) byMini.set(m, acc)
   }
-  return out
+  return [...byMini].map(([m, acc]) => [m, [...acc]])
 }
 
 function linkWargearConditions(datasheetId, drafts) {
@@ -1764,7 +1771,20 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     for (const [m, items] of staticLoadout(bd.id, miniIdx)) {
       const at = defaults.find(([mi]) => mi === m)
-      if (!at) { defaults.push([m, items.map(([uuid, c]) => [fx.item(fixItem(uuid)), c])]); continue }
+      // A profile the loadout rows skip altogether (Flash Gitz' Flash Git, Tempestus Aquilons'
+      // troopers, Company Heroes' Veterans — their Kaptin/Tempestor/Ancient have a row, they do
+      // not) takes the group's counts, which are PROFILE totals: divided like the no-row case
+      // above. Taken raw until 2026-09-28, they were multiplied by the models a second time and
+      // five Flash Gitz read "Choppa ×17".
+      if (!at) {
+        const models = profileModels(m)
+        defaults.push([m, items.map(([uuid, c]) => {
+          const id = fx.item(fixItem(uuid))
+          if (models < 2) return [id, c]
+          return c % models === 0 ? [id, c / models] : [id, c, 1]
+        })])
+        continue
+      }
       const have = new Set(at[1].map(([id]) => id))
       for (const [uuid, c] of items) {
         const id = fx.item(fixItem(uuid))

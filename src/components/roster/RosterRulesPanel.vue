@@ -26,9 +26,11 @@
       :aria-expanded="open"
       @click="open = !open"
     >
-      <i
-        class="bi rrp-chev"
-        :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+      <ChevronIcon
+        class="rrp-chev"
+        :turned="open"
+        from="right"
+        to="down"
       />
       <span class="rrp-title">{{ labels.rosterFactionRules }}</span>
       <span
@@ -51,9 +53,11 @@
               :aria-expanded="isOpen('army')"
               @click="toggle('army')"
             >
-              <i
-                class="bi rrp-chev"
-                :class="isOpen('army') ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="rrp-chev"
+                :turned="isOpen('army')"
+                from="right"
+                to="down"
               />
               <span class="rrp-sec-title">{{ labels.factionArmyRule }}</span>
               <span class="rrp-sec-note">{{ faction.armyRule.name }}</span>
@@ -83,9 +87,11 @@
               :aria-expanded="isOpen(det.name)"
               @click="toggle(det.name)"
             >
-              <i
-                class="bi rrp-chev"
-                :class="isOpen(det.name) ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="rrp-chev"
+                :turned="isOpen(det.name)"
+                from="right"
+                to="down"
               />
               <span class="rrp-sec-title">{{ det.name }}</span>
               <span
@@ -117,9 +123,11 @@
               :aria-expanded="isOpen('enh')"
               @click="toggle('enh')"
             >
-              <i
-                class="bi rrp-chev"
-                :class="isOpen('enh') ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="rrp-chev"
+                :turned="isOpen('enh')"
+                from="right"
+                to="down"
               />
               <span class="rrp-sec-title">{{ labels.factionEnhancements }}</span>
               <span class="rrp-sec-count">{{ enhancements.length }}</span>
@@ -163,9 +171,11 @@
               :aria-expanded="isOpen('strat')"
               @click="toggle('strat')"
             >
-              <i
-                class="bi rrp-chev"
-                :class="isOpen('strat') ? 'bi-chevron-down' : 'bi-chevron-right'"
+              <ChevronIcon
+                class="rrp-chev"
+                :turned="isOpen('strat')"
+                from="right"
+                to="down"
               />
               <span class="rrp-sec-title">{{ labels.factionStratagems }}</span>
               <span class="rrp-sec-count">{{ stratagems.length }}</span>
@@ -190,6 +200,7 @@
 </template>
 
 <script setup>
+import ChevronIcon from '../ChevronIcon.vue'
 import { computed, defineAsyncComponent, ref } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'

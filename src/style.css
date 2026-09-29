@@ -82,6 +82,16 @@
   --motion-fast: 0.15s;
   --motion-med: 0.22s;
   --motion-flash: 0.45s;
+  /* A number running to its new value (useCountUp.js reads it; not a CSS transition). */
+  --motion-count: 0.6s;
+  /* An element travelling between sections of a list (useFlipMove) — often a screen or more, which
+     --motion-med turns into a blur. */
+  --motion-move: 0.4s;
+  /* Opening a sheet or a fold — slower than a state change, since the eye follows the surface. */
+  --motion-slow: 0.32s;
+  /* A fold opening (CollapseTransition). Longer still: a fold's body can be a few screens tall,
+     and only its first few hundred px are ever on screen while it opens. */
+  --motion-fold: 0.45s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -89,7 +99,23 @@
     --motion-fast: 0s;
     --motion-med: 0s;
     --motion-flash: 0s;
+    --motion-count: 0s;
+    --motion-move: 0s;
+    --motion-slow: 0s;
+    --motion-fold: 0s;
   }
+}
+
+/* A search box that types example queries into itself while empty: the wrapper around the input
+   and its TypingGhost (which carries the rest of the story). */
+.typing-field {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+.typing-field > input {
+  flex: 1;
+  min-width: 0;
 }
 
 /* Brief color pulse on a value that just changed (useFlashOnChange re-triggers it). */
@@ -124,6 +150,29 @@
 }
 .list-move {
   transition: transform var(--motion-med) ease;
+}
+
+/* Filtered grids/lists (TransitionGroup) — a search box or a filter narrowing chips in place.
+   Leavers go at once (display:none takes them out of flow before Vue measures, so survivors
+   glide into the gaps with no leaver dropping to a grid corner the way `list`'s position:absolute
+   does); survivors slide; newcomers fade in. Several hundred chips per keystroke stay cheap:
+   one layout read, transforms only.
+   `!important` on purpose, and only on what these phase classes set: the items are chips with
+   their own scoped hover `transition` and `display` (`.ds-chip[data-v-…]`, 0,2,0 — and 0,3,0 once
+   `.on`), which win over a global class of any sane specificity; with no transform transition left
+   Vue silently skips the move. The classes live on an element only for the length of a phase. */
+.sift-enter-active {
+  transition: opacity var(--motion-fast) ease !important;
+}
+.sift-enter-from {
+  opacity: 0;
+}
+.sift-leave-active {
+  display: none !important;
+  transition: none !important; /* or Vue waits out the chip's own hover transition before removing it */
+}
+.sift-move {
+  transition: transform var(--motion-med) ease !important;
 }
 
 /* Small pop for dropdowns / anchored menus (opacity + slight drop). */
@@ -201,6 +250,12 @@
     --fs-section-title: 1.95rem;
   }
 }
+
+/* The browser draws a number field's up/down arrows itself, from the page's `color-scheme` — which
+   nothing declares, so in the dark theme they came out as a white block on a dark field (owner,
+   2026-09-28). Told for number fields only: declaring it page-wide would repaint every native
+   control at once (empty checkboxes, scrollbars, selects) — a separate decision. */
+:root[data-theme='dark'] input[type='number'] { color-scheme: dark; }
 
 :root[data-theme='dark'] {
   --bg-primary: #242428;
@@ -362,6 +417,20 @@ a {
     color: var(--link-accent-hover);
     text-decoration-color: var(--link-accent-hover);
   }
+}
+
+/* A faction's unit keyword named in rule prose ("one Endless Multitude unit") — a tap lists the
+   units that carry it (useFactionKeywordUnits.js). The gloss's dotted line, since it too is a word
+   that explains itself on a tap, in the link colour, since what it opens is a list of links. */
+.fkw {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--link-accent);
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .fkw:hover { color: var(--link-accent-hover); }
 }
 
 .cross-ref {
@@ -1098,7 +1167,9 @@ strong {
   padding: 0 0.3rem;
   border: 1px solid color-mix(in srgb, var(--tone) 55%, transparent);
   background: color-mix(in srgb, var(--tone) 16%, transparent);
-  color: var(--tone);
+  /* The hue, pulled toward the body text: the pure tone on its own 16% tint fell to 3–4.4:1 in both
+     themes on 11px text (npm run a11y, 2026-09-28, once the /factions page drew these rows). */
+  color: color-mix(in srgb, var(--tone) 55%, var(--text-primary));
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
@@ -1117,6 +1188,45 @@ strong {
   text-transform: uppercase;
   line-height: 1.5;
 }
+
+/* ── Show more ──────────────────────────────────────────────────────────────
+   The quiet button under a long list that reveals the next page of it: the tracker's game history
+   (10 at a time) and the roster list (20). */
+.show-more {
+  display: block;
+  margin: 0.8rem auto 0;
+  padding: 0.5rem 1.2rem;
+  background: none;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+@media (hover: hover) { .show-more:hover { border-color: var(--accent); color: var(--accent); } }
+
+/* ── Filter chips ──────────────────────────────────────────────────────────
+   A wrapping row of buttons that narrow a list to one kind — "All" first, the one picked `.on`.
+   The missions' Force Disposition row. (The roster list's faction row wore them for a day,
+   2026-09-29, and became a dropdown — the chips grew as long as the lists they filtered.) */
+.filter-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.7rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
+}
+.filter-chip:hover { color: var(--text-primary); border-color: var(--accent); }
+.filter-chip.on { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
 
 /* ── Section help ──────────────────────────────────────────────────────────
    The door from a section (Rules / Tracker / Rosters) to its page of the guide. An icon, not the
@@ -1170,6 +1280,30 @@ strong {
 .seg button + button { border-left: 1px solid var(--border); }
 @media (hover: hover) { .seg button:not(.on):hover { color: var(--text-primary); } }
 .seg button.on { background: var(--accent); color: var(--text-on-accent); }
+
+/* Once a .seg has been switched, its accent is one plate that slides between the buttons
+   (segSlider.js measures and sets the four vars); the buttons go transparent over it. Before the
+   first switch the plate is there but unseen and the `.on` button paints its own accent, as above.
+   The plate exists on EVERY .seg from the start on purpose: a pseudo-element generated by the
+   switch itself has no earlier style to transition from, and the first slide would be a jump. */
+.seg { position: relative; }
+.seg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--seg-w, 0px);
+  height: var(--seg-h, 100%);
+  transform: translate(var(--seg-x, 0px), var(--seg-y, 0px));
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--motion-med) ease, width var(--motion-med) ease, height var(--motion-med) ease;
+}
+.seg.seg-ready { background: var(--bg-secondary); }
+.seg.seg-ready::before { opacity: 1; }
+.seg.seg-still::before { transition: none; }
+.seg.seg-ready button { position: relative; z-index: 1; background: transparent; }
 
 /* ── Back link ─────────────────────────────────────────────────────────────
    The quiet "← somewhere" above a screen's content. Seven tracker/roster views drew it, six of

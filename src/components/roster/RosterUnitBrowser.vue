@@ -5,16 +5,28 @@
          looked like one more battlefield role while being a control over the list, and the line of
          pane height it cost. The count of what is switched on rides on the icon. -->
     <div class="rub-top">
-      <input
-        v-model="query"
-        type="search"
-        class="rub-search"
-        :placeholder="labels.rosterSearchUnits"
-        autocomplete="off"
+      <!-- Types the faction's own example queries while empty (useUnitSearchGhost). -->
+      <div
+        ref="searchEl"
+        class="typing-field rub-search-field"
       >
+        <input
+          v-model="query"
+          type="search"
+          class="rub-search"
+          :placeholder="typing ? '' : labels.rosterSearchUnits"
+          :aria-label="labels.rosterSearchUnits"
+          autocomplete="off"
+        >
+        <TypingGhost
+          v-if="typing && !query"
+          :text="ghostText"
+        />
+      </div>
       <button
         type="button"
         class="rub-filter-btn"
+        data-press="pop"
         :class="{ open: filtersOpen, on: activeFilters }"
         :aria-expanded="filtersOpen"
         :aria-label="labels.rosterFilters"
@@ -114,9 +126,11 @@
             :aria-expanded="isOpen(g.id)"
             @click="toggleGroup(g.id)"
           >
-            <i
-              class="bi rub-chev"
-              :class="isOpen(g.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
+            <ChevronIcon
+              class="rub-chev"
+              :turned="isOpen(g.id)"
+              from="right"
+              to="down"
             />
             <span class="rub-group-name">
               {{ groupLabel(g, labels) }}
@@ -128,7 +142,12 @@
             <span class="rub-group-count">{{ g.units.length }}</span>
           </button>
           <CollapseTransition :show="isOpen(g.id)">
-            <div class="rub-list">
+            <!-- Search and filters narrow the rows in place (the global `sift` motion). -->
+            <TransitionGroup
+              name="sift"
+              tag="div"
+              class="rub-list"
+            >
               <div
                 v-for="u in g.units"
                 :key="u.id"
@@ -161,6 +180,7 @@
                   <button
                     type="button"
                     class="rub-add"
+                    data-press
                     :disabled="atCap(u)"
                     :aria-label="labels.rosterAddUnit"
                     :title="atCap(u) ? labels.rosterAtDuplicateCap : undefined"
@@ -170,7 +190,7 @@
                   </button>
                 </span>
               </div>
-            </div>
+            </TransitionGroup>
           </CollapseTransition>
         </div>
       </template>
@@ -192,6 +212,8 @@
 </template>
 
 <script setup>
+import ChevronIcon from '../ChevronIcon.vue'
+import TypingGhost from '../TypingGhost.vue'
 import { computed, ref, watch } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
@@ -202,6 +224,7 @@ import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { foldName, preloadDatasheetTags, TAG_MIN, unitTagHit } from '../../composables/datasheetTags.js'
+import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
 
 const props = defineProps({
   units: { type: Array, required: true },
@@ -263,6 +286,8 @@ const query = ref('')
 // and the datasheet grid match (datasheetTags.js), loaded with the first query long enough to use
 // them. An allied unit's tags are its own faction's (srcOf).
 watch(query, (q) => { if (q.trim().length >= TAG_MIN) preloadDatasheetTags() })
+const searchEl = ref(null)
+const { ghostText, typing } = useUnitSearchGhost({ slug: computed(() => props.factionSlug), locale, query, el: searchEl })
 const searched = computed(() => {
   const q = query.value.trim().toLowerCase()
   if (!q) return props.units
@@ -417,9 +442,12 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 <style scoped>
 .rub { display: flex; flex-direction: column; min-height: 0; }
 .rub-top { display: flex; align-items: stretch; gap: 0.35rem; margin-bottom: 0.5rem; }
-.rub-search {
+.rub-search-field {
   flex: 1;
-  min-width: 0;
+  --typing-pad: calc(0.55rem + 1px) calc(0.7rem + 1px);
+  --typing-size: 0.9rem;
+}
+.rub-search {
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);

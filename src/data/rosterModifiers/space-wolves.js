@@ -363,7 +363,7 @@ export default {
             "ru": "если модель взяла два оружия ближнего боя"
           },
           "cond": [
-            "never"
+            "wargear-two-melee"
           ]
         }
       ]

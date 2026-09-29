@@ -85,15 +85,17 @@
             {{ labels.rosterCustom }}
           </button>
         </div>
-        <input
-          v-if="battleSize === 'custom'"
-          class="rw-num"
-          type="number"
-          min="0"
-          step="5"
-          :value="customPoints"
-          @input="$emit('update:customPoints', $event.target.value)"
-        >
+        <Transition name="fade">
+          <input
+            v-if="battleSize === 'custom'"
+            class="rw-num"
+            type="number"
+            min="0"
+            step="5"
+            :value="customPoints"
+            @input="$emit('update:customPoints', $event.target.value)"
+          >
+        </Transition>
       </div>
     </div>
 

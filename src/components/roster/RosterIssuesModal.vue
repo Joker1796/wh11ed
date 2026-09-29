@@ -41,6 +41,7 @@ import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { issueText } from '../../composables/rosterValidation.js'
 
 const props = defineProps({
   issues: { type: Array, default: () => [] },
@@ -54,11 +55,7 @@ const labels = computed(() => ui[locale.value])
 const sorted = computed(() =>
   [...props.issues].sort((a, b) => (a.level === b.level ? 0 : a.level === 'error' ? -1 : 1)))
 
-function message(iss) {
-  const tpl = labels.value[`issue_${iss.code}`] || iss.code
-  const p = iss.params || {}
-  return tpl.replace(/\{(\w+)\}/g, (_, k) => (p[k] ?? ''))
-}
+const message = (iss) => issueText(iss, labels.value)
 </script>
 
 <style scoped>

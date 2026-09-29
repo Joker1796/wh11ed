@@ -1,21 +1,23 @@
 <template>
-  <div
-    class="top-banner"
-    role="status"
-  >
-    <i
-      class="bi top-banner-icon"
-      :class="icon"
-    />
-    <button
-      class="top-banner-close"
-      :aria-label="closeLabel"
-      @click="$emit('close')"
+  <CollapseTransition :show="show">
+    <div
+      class="top-banner"
+      role="status"
     >
-      <i class="bi bi-x" />
-    </button>
-    <slot />
-  </div>
+      <i
+        class="bi top-banner-icon"
+        :class="icon"
+      />
+      <button
+        class="top-banner-close"
+        :aria-label="closeLabel"
+        @click="$emit('close')"
+      >
+        <i class="bi bi-x" />
+      </button>
+      <slot />
+    </div>
+  </CollapseTransition>
 </template>
 
 <script setup>
@@ -23,7 +25,15 @@
 // version" notice (UpdateNoticeBar) and the old domain's "we've moved" (DomainMoveBanner). The
 // two drew the same bar with the same CSS under two prefixes; when to show one, what it says and
 // what closing it remembers stay with each of them.
+//
+// It collapses rather than vanishing (`show`, not a caller's v-if): the bar sits above the navbar,
+// so a v-if dropped the whole page by its height in one frame when it was closed. (Said here, not
+// in the template: a comment before the root makes the root a Fragment in dev.)
+import CollapseTransition from './CollapseTransition.vue'
+
 defineProps({
+  // Driven by state, not v-if, so closing can animate (CollapseTransition).
+  show: { type: Boolean, default: true },
   // A Bootstrap Icons class: 'bi-stars', 'bi-signpost-2'.
   icon: { type: String, required: true },
   closeLabel: { type: String, required: true },

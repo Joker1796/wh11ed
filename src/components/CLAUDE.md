@@ -13,14 +13,58 @@ All motion is hand-rolled Vue `<Transition>`/`<TransitionGroup>` + native CSS �
 libraries** (don't add GSAP/@vueuse/motion/animate.css).
 
 - **Motion tokens** live in `src/style.css` (`--motion-fast .15s`, `--motion-med .22s`,
-  `--motion-flash .45s`). **Every animation must derive its duration from a token** — the single
-  `@media (prefers-reduced-motion: reduce)` override there zeroes all three, disabling motion
+  `--motion-flash .45s`, `--motion-count .6s`, `--motion-move .4s`, `--motion-slow .32s` — a sheet rising, `--motion-fold .45s` — a fold opening). **Every animation must derive its duration from a
+  token** — the single `@media (prefers-reduced-motion: reduce)` override there zeroes all of them, disabling motion
   app-wide in one place. Don't hard-code seconds (older hover micro-transitions still do; new work shouldn't).
 - **Reusable global transition classes** (also in `style.css`, use by `name=`): `fade` (opacity,
   single toggled elements), `list` (opacity + `position:absolute` leave + `list-move` FLIP, for
   `TransitionGroup` lists — the list container needs `position: relative` to contain leavers),
-  `fade-pop` (dropdowns/anchored menus), `slide-up` (fixed bottom bars). `.vp-flash` is the
-  value-change color pulse re-triggered by `useFlashOnChange.js`.
+  `fade-pop` (dropdowns/anchored menus), `slide-up` (fixed bottom bars), `sift` (a list or grid a
+  search/filter narrows in place — leavers vanish at once via `display:none`, survivors slide,
+  newcomers fade; the datasheet grid, the roster catalogue, the changelog).
+  `sift` carries **`!important` on purpose**: a scoped item rule (`.ds-chip[data-v]`, 0,2,0; 0,3,0
+  once `.on`) with its own hover `transition`/`display` beats any global class — doubling the
+  class only ties it, and the scoped sheet comes later — and with no transform transition left
+  Vue silently skips the move. The phase classes are transient, so nothing else is overridden. `.vp-flash` is the value-change color pulse
+  re-triggered by `useFlashOnChange.js`. A number that should be SEEN changing runs to its new
+  value instead of jumping — `useCountUp.js` (rAF, ease-out, reads `--motion-count` at each change
+  so reduced motion jumps straight there); the roster's points total uses both. How a button answers
+  the finger is **`pressFeedback.js`**, one document listener installed in `main.js` — not a
+  directive per button. The shared primitives (`.btn-primary`, `.btn-ghost`, `.tab`, `.bn-item`)
+  sink a little while held by class alone — not `.seg`, whose answer is its sliding plate (a button
+  shrinking inside a plate that does not shows the plate round its edges); a one-off opts in with `data-press`; an icon
+  button whose result stays on screen (a mark, a toggle, back-to-top) takes `data-press="pop"` —
+  its icon sinks and springs back with a wobble on release. Every checkbox row (a `<label>`
+  holding a checkbox) pops its box the same way, found by shape, not marked. A press sinks a button
+  by ~4px of its width (3–10%), so a 40px square and a wide button both read. Don't give a pop to a button that
+  navigates, opens a modal or deletes: nobody sees it. Web Animations, **never a class or
+  `:active`**: the tap flips the button's own `:class`, and Vue rewrites the whole attribute when a
+  class binding changes, so an added class is gone before it can play (the first version never
+  animated anywhere); `:active` is unreliable on iOS and loses to every scoped `transition`.
+- **`.seg` slides its lit half** (`segSlider.js`, installed in `main.js` beside `pressFeedback`).
+  One MutationObserver on class changes of buttons inside a `.seg` — no `.seg` in the app had to
+  change. Before its first switch a `.seg` draws as it always did; on the first switch it becomes
+  `seg-ready`, and from then on the accent is a `::before` plate the observer positions with
+  `--seg-x/y/w/h` (the buttons go transparent over it), sliding at `--motion-med`. A `.seg` that
+  wants a different lit colour must now style `.seg-ready::before` too, not only `button.on`.
+- **`NumberStepper` rolls its number** like a counter wheel — the new value in from below when it
+  grew, from above when it shrank, both sharing one clipped grid cell so the control never changes
+  width; its − / + take the press. It is shared by the roster editor and the tracker.
+- **`useFlipMove.js` — an element travelling between sections.** `TransitionGroup` moves children
+  of ONE group; a pinned faction leaves its group for the "Pinned" one (it no longer stands in
+  both — `unpinnedGroupsFrom`, 2026-09-28), so every faction list (`/factions`, the bottom nav's
+  `FactionsNavModal`, the tracker/roster `FactionPickerModal`, Combat Patrol) marks its cards and
+  headings `data-flip="<key>"` and the composable slides each key from where it stood to where it
+  stands now (Web Animations, `--motion-move`); a new key fades in. A faction's unit grid does the
+  same for a pinned unit (`pinnedUnitsFrom`/`unpinnedUnitGroupsFrom` — both pairs are thin wrappers
+  over one split in `useFavorites.js`). Its chips live inside `sift` TransitionGroups (the search),
+  so a node in `*-leave-active` is skipped: it still carries its key while its replacement arrives. Watchers, not update hooks: in
+  a modal the list is slot content and the CHILD re-renders, so the owner's `onBeforeUpdate` never
+  fires. Script-driven motion reads its token through `motionToken.js`'s `motionMs`, which is how
+  reduced motion reaches it.
+  The roster's own list (`RosterUnitList`) uses it too: adding, removing, attaching and folding
+  slide the tiles, and `onAppear` outlines a unit that just arrived and scrolls ITS PANE (never the
+  page) to it when it landed out of view — sections sort by name, so it can land anywhere.
 - **`CollapseTransition.vue`** — shared height-collapse wrapper for accordions/disclosures of
   **unknown/variable height** (rule bodies, briefings, legends). **State-driven: pass the open state
   as `:show`** (not a `v-if`/`v-show` inside the slot — the wrapper hides the collapsed content
@@ -28,22 +72,70 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
   min-height:0`), so padding/margins collapse for free with no per-frame padding/box-sizing churn and
   no synchronous `scrollHeight` read — this is what fixed the mobile jank of the old Web-Animations
   version. `contain: layout paint` scopes the reflow to the subtree; collapsed content leaves the
-  a11y tree via delayed `visibility`. Duration is `--motion-med`, so reduced-motion (token → 0)
-  collapses instantly. Slot may have any number of root nodes. Used by `SubRuleBlock`, the tracker
+  a11y tree via delayed `visibility`. Duration is `--motion-fold` on a slow-start curve, the
+  content fading in a beat behind the height (a tall body shows only its first few hundred px
+  while opening, and a fast start spent those in what read as one frame, 2026-09-28), so reduced-motion (token → 0) collapses instantly. **Its header's
+  arrow is `ChevronIcon.vue`** (`:turned`, `from`, `to`) — one glyph rotated, not two swapped;
+  every fold outside the tracker uses it, the tracker's own still swap (its redesign branch). Slot may have any number of root nodes. Used by `SubRuleBlock`, the tracker
   picker modals (`Twist/Mission/SecondaryPickerModal`), `ScoringModal` (briefing), `ScoreBreakdown`,
   `EventLayoutsView` (LAYOUTS KEY), and `NavSidebar` (both the section- and group-level drawer
   accordions). Prefer it over per-component `max-height` caps — don't reintroduce them.
-- **`BaseModal` animates open only** (`<Transition name="modal" appear>`); **close is intentionally
+- **`ExpandTransition.vue`** — `CollapseTransition`'s sibling for a block that APPEARS: a `v-if`
+  answer to a choice made elsewhere (the "taken off / put back" line, a wargear group's blocked
+  note, the Warlord box, the Force Disposition field, the import report, the Legends proxies
+  under a search). `<ExpandTransition><p v-if="x">…</p></ExpandTransition>`; a `v-if`/`v-else`
+  chain inside needs a `key` per branch and usually `mode="out-in"`. Web Animations on the
+  element's own height, vertical padding and margins, one measurement per enter — for small
+  blocks; content that always exists and folds (an accordion) stays `CollapseTransition`. An
+  inline bit in a row (a custom-points input, a cap chip, an empty-state line) takes `fade`
+  instead: there is no height to give. Wrapping the HEAD of a `v-if`/`v-else-if` chain splits
+  the chain — give the wrapped element its own condition (see `StratagemsView`'s empty note).
+- **Switches inside a page fade** (`fade`, `mode="out-in"`): the `PageTabs` panels, the faction
+  pages' tabs and the roster editor's Settings | Units. They slid sideways by the control's order
+  (an `axis-*` pair) until 2026-09-29, and the owner found every one of them jerky; the pair is
+  gone. A view that sizes itself to the window must keep that layout until it has faded out, and
+  a view that is expensive to build is not remounted per switch: both stay built behind `v-show`,
+  one `<Transition>` each, and the leaving one's `after-leave` lets the other in — the editor does
+  both (`paneTab`). A tab switch hands its `@enter` to `bringTabsIntoView`.
+- **`BaseModal` animates open only** — on a phone the sheet rises from below the screen edge, wider
+  it grows in from 0.94, at `--motion-slow`; never the dialog's opacity (VoiceOver focus, see its CSS) (`<Transition name="modal" appear>`); **close is intentionally
   instant** — a leave phase races the focus-restore in `useModalA11y.js`. Don't "fix" it.
 - **Page transitions**: `App.vue` wraps `<RouterView>` in `<Transition name="fade" mode="out-in">`
-  keyed on `$route.path`. Kept at `--motion-fast`; scroll-to-anchor (`scrollToAnchor` in
+  keyed on `pageKey`. **Every page swap fades** (owner, 2026-09-29): from 2026-09-28 pages slid
+  sideways down and up a chain (`meta.trail`/`meta.level`), the help's prev/next did too, and the
+  bottom chips' target rose from below — all read as jerky and are gone, with the route meta that
+  drove them. Should a moving swap ever come back, move it with `position: relative` +
+  `left`/`top`, **never `transform`**: a transformed page is the containing block of every
+  `position: fixed` inside it (the builder's Cancel/Save bar, a faction's side buttons), which
+  would ride with it. **A page's data is fetched before it is shown** (`router/prefetch.js`, named
+  by `meta.prefetch`, awaited in `beforeResolve`, capped at 4s): the faction pages render only once
+  their chunk is in, and without this they came in empty and the content popped a beat later.
+  **A faction's tabs are nested routes** (`FactionPagesView` → `FactionLayout` → its own
+  `RouterView`), and `App.vue` keys the swap by `pageKey` — the parent record + slug where a route
+  has children — so a tab switch fades only the content under the hero. The leaving page gets
+  `.page-leaving` — App.vue's `--roster-sticky-h` reserve keys off it (`usePageMotion.js`).
+  **The scroll is set in the swap, not at the click** (`scrollBehavior` in `router/index.js` waits
+  for `pageArrived`, the transition's `@enter`: the new page is in, still invisible) and instantly —
+  set at the click, `<html>`'s smooth scrolling slid the leaving page up for half a second. Between
+  the pages the container keeps the old page's height (`pageLeaving` → `min-height`, released once
+  the new page grows into it or stops growing): collapsed, the scroll was clamped to 0, a reset to
+  the top became a no-op, and the browser put the old offset back when the page's data arrived.
+  `instantly()` (useRefNavigation) settles the layout first and holds `scroll-behavior: auto` for two
+  frames — Chrome can carry a scroll asked for on a stale layout into the next frame. In-page tab
+  panels do the same in their own `@enter` (`bringTabsIntoView`): a tab switched deep in a long tab
+  brings the strip back under the header instead of the browser clamping the scroll. Kept at `--motion-fast`; scroll-to-anchor (`scrollToAnchor` in
   `useRefNavigation.js`) polls the DOM for ~1.5s so the short mount delay doesn't break it.
   **A view must have exactly one root node, comments included**: `out-in` waits for the leaving
   root's transition to report back, and a Fragment root (which a comment before the root element
   makes it in dev — comments survive there, not in prod) never does, so the next page never mounts
   and the screen under the navbar stays blank. Enforced by `vue/no-multiple-template-root` with
   `disallowComments` for `src/views/**` (2026-09-19, the roster wizard and editor).
-- **Programmatic scrolling never animates** (`instantly()` in `useRefNavigation.js`). `html` carries
+- **Programmatic scrolling never animates through CSS** (`instantly()` in `useRefNavigation.js`) — the
+  one animated kind is `scrollToAnchor(id, offset, { glide: true })`, the reader's own jump within
+  the page on screen (contents, chapter subnav, drawer, a section's TOC, a cross-ref): its own rAF
+  loop re-measures the target every frame, and a long jump goes to a screen short of it at once
+  and glides the rest (2026-09-28). Search and any arrival from another page stay instant — the
+  paragraph below is why. `html` carries
   `scroll-behavior: smooth` for the reader's own anchor clicks, and `behavior: 'instant'` is NOT
   enough to opt out of it: Safari only understood that value from **17.4**, so before this each of
   `scrollToAnchor`'s two scrolls became an animation and the second interrupted the first — the
@@ -79,7 +171,13 @@ screens that had copied each other and drifted. The pairs that existed then are 
   `--tone-dark` gets `--tone` resolved for the reader's theme — the faction colour pair from
   `factionsIndex.js`, or a disposition's from `data/dispositionColors.js` — and wears it as a
   left bar, a monogram badge or a small chip; the faction and detachment pickers use it, kept
-  apart from `--accent` so a row's own colour never hijacks the screen's selection highlight).
+  apart from `--accent` so a row's own colour never hijacks the screen's selection highlight); a faction's badge goes through `FactionBadge.vue`, which draws its emblem instead of the
+  monogram when the faction has one; the emblem itself is `FactionEmblem.vue` — before the name in
+  the faction and Combat Patrol page heroes, and as a faint `stamp` on the cards with room for it
+  (Combat Patrol, roster list, finished games; never in a dense list row, where it read as a
+  second stray icon). Emblems are files in `public/images/faction-icons/<slug>.svg`;
+  `npm run faction-icons` measures their shape and ink into `src/data/factionIcons.js`, and a
+  stamp's size comes from the ink, so every emblem puts the same colour on a card).
 - **Three ways to switch, and they are not interchangeable:** `PageTabs.vue` changes what the
   PAGE shows (faction pages, roster lists); `.seg` is one joined control inside a form; `.tab`
   is a row of separate boxes. Reach for the one that matches the job, don't add a fourth.

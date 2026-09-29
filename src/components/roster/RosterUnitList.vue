@@ -21,7 +21,14 @@
      The modal is teleported to <body> and therefore leaves the view's faction-accent scope behind,
      which is what FactionAccentScope is for (see RosterUnitRulesModal.vue for the same trap). -->
 <template>
-  <div class="rul">
+  <div
+    ref="listEl"
+    class="rul"
+  >
+    <!-- Adding, removing, attaching and folding all MOVE the tiles rather than re-drawing them in
+         place (useFlipMove: every tile, section heading and block head carries `data-flip`); a
+         unit just added is outlined for a moment and, when it landed out of view, scrolled to.
+         (Inside the root: a comment before it makes the root a Fragment in dev.) -->
     <template
       v-for="g in groups"
       :key="g.id"
@@ -30,6 +37,7 @@
         <h3
           class="roster-group-head"
           :class="{ locked: g.locked }"
+          :data-flip="'h:' + g.id"
         >
           {{ groupLabel(g, labels) }}
           <em
@@ -48,6 +56,7 @@
           <div
             v-if="blockOf(g.entries, e).length"
             class="rul-bhead"
+            :data-flip="'b:' + e.uid"
           >
             <button
               type="button"
@@ -56,9 +65,10 @@
               :aria-label="labels.rosterAttachedFold"
               @click="toggleFold(e.uid)"
             >
-              <i
-                class="bi"
-                :class="folded.has(e.uid) ? 'bi-chevron-right' : 'bi-chevron-down'"
+              <ChevronIcon
+                :turned="folded.has(e.uid)"
+                from="down"
+                to="right"
               />
             </button>
             <button
@@ -73,6 +83,7 @@
           <div
             v-if="!isHidden(e)"
             class="rul-unit"
+            :data-flip="e.uid"
             :class="{
               'rul-attached': e.leaderOf,
               'rul-host': blockOf(g.entries, e).length,
@@ -98,10 +109,10 @@
                   :detachments="detachments"
                   :role="roleOf(e)"
                 />
-                <i
+                <ChevronIcon
                   v-if="!inPane"
-                  class="bi rul-chev"
-                  :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"
+                  class="rul-chev"
+                  :turned="openUid === e.uid"
                 />
               </button>
               <!-- ONE button, and both actions behind it. Two icons on the tile put a trash can
@@ -236,6 +247,7 @@
 </template>
 
 <script setup>
+import ChevronIcon from '../ChevronIcon.vue'
 import { computed, nextTick, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import CollapseTransition from '../CollapseTransition.vue'
@@ -244,6 +256,8 @@ import RosterUnitRow from './RosterUnitRow.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
+import { useFlipMove } from '../../composables/useFlipMove.js'
+import { motionMs } from '../../composables/motionToken.js'
 import { BLOCK_NAME_MAX, blockNumbers, groupLabel, blockRootUid, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
@@ -287,6 +301,45 @@ function toggleFold(uid) {
 }
 const allEntries = computed(() => (props.groups || []).flatMap((g) => g.entries || []))
 const isHidden = (e) => !!e.leaderOf && folded.value.has(blockRootUid(allEntries.value, e))
+
+// What the list's shape is made of — which tiles, in which sections, in which order, what is
+// folded. Any change to it slides the tiles (useFlipMove) instead of redrawing them in place.
+const listEl = ref(null)
+const shape = () => [
+  ...(props.groups || []).map((g) => `${g.id}:${(g.entries || []).map((e) => e.uid).join(',')}`),
+  [...folded.value].join(','),
+]
+useFlipMove(shape, listEl, { onAppear: pointAtNew })
+
+// A unit that just arrived: sections sort by name, so it can land anywhere — often below the
+// pane's fold. Outline it for a moment, and bring it into view if it is not. One new tile only:
+// several at once is a list being loaded or rebuilt, not a unit being added.
+function pointAtNew(nodes) {
+  const tiles = nodes.filter((n) => n.classList.contains('rul-unit'))
+  if (tiles.length !== 1) return
+  const tile = tiles[0]
+  const ms = motionMs('--motion-flash')
+  if (ms && tile.animate) {
+    const accent = getComputedStyle(tile).getPropertyValue('--accent').trim() || 'currentColor'
+    tile.animate(
+      [{ boxShadow: `inset 0 0 0 2px ${accent}` }, { boxShadow: `inset 0 0 0 2px ${accent}`, offset: 0.4 }, { boxShadow: 'inset 0 0 0 2px transparent' }],
+      { duration: ms * 3, easing: 'ease-out' },
+    )
+  }
+  revealInPane(tile)
+}
+
+// Scroll the tile's own pane — never the page (programmatic PAGE scrolling stays instant, see
+// src/components/CLAUDE.md) — and only when the tile is not already on screen.
+function revealInPane(tile) {
+  let pane = tile.parentElement
+  while (pane && !/(auto|scroll)/.test(getComputedStyle(pane).overflowY)) pane = pane.parentElement
+  if (!pane || pane === document.scrollingElement || pane === document.body) return
+  const box = pane.getBoundingClientRect()
+  const r = tile.getBoundingClientRect()
+  const delta = r.top < box.top ? r.top - box.top - 8 : r.bottom > box.bottom ? r.bottom - box.bottom + 8 : 0
+  if (delta) pane.scrollTo({ top: pane.scrollTop + delta, behavior: motionMs('--motion-med') ? 'smooth' : 'auto' })
+}
 
 const openEntry = computed(() => {
   for (const g of props.groups) {

@@ -6,7 +6,7 @@
       v-for="(pl, i) in game.players"
       :key="i"
       class="col"
-      :class="{ lead: finished && leaderIdx === i, turn: turnIdx === i, opp: !isYouSide(pl, i) }"
+      :class="{ leading: finished && leaderIdx === i, turn: turnIdx === i, opp: !isYouSide(pl, i) }"
     >
       <!-- Flex with a gap, so the template's line breaks between the spans add nothing; the
            faction's "·" is drawn by CSS. -->
@@ -127,8 +127,10 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 }
 .col.opp { --side: var(--side-opponent); }
 .col.turn { background: color-mix(in srgb, var(--side) 8%, var(--bg-card)); }
-/* The result screen: the winner keeps its gold edge. */
-.col.lead { border-top: 3px solid #e3b341; }
+/* The result screen: the winner keeps its gold edge. `leading`, not `lead`: `.lead` is the global
+   intro-paragraph primitive (style.css), and its bottom margin shrank the winner's column short of
+   the loser's (2026-09-29). */
+.col.leading { border-top: 3px solid #e3b341; }
 .col-head {
   display: flex;
   flex-wrap: wrap;

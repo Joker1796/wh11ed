@@ -5,7 +5,13 @@
     max-height="85dvh"
     @close="$emit('close')"
   >
-    <div class="modal-body">
+    <!-- Themed HERE, on the body: BaseModal teleports itself to <body>, so a FactionAccentScope a
+         caller wraps round this component never contains the dialog and the accent fell back to
+         the site's red (the weapon table's header band, 2026-09-28). -->
+    <div
+      class="modal-body fa-themed"
+      :style="accentStyle"
+    >
       <div
         v-if="rangedRows.length"
         class="wpm-weapons"
@@ -141,8 +147,9 @@
 // from the RU overlay. Deliberately NOT the same component as RosterUnitRulesModal/DatasheetCard:
 // a wargear pick's info button should show just that item's own profile/rule, not the whole unit
 // sheet.
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, toRef } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
@@ -155,6 +162,7 @@ const props = defineProps({
   factionSlug: { type: String, required: true },
   names: { type: Array, required: true },
 })
+const { accentStyle } = useFactionAccent(toRef(props, 'factionSlug'))
 defineEmits(['close'])
 
 const { locale } = useLocale()
@@ -295,13 +303,16 @@ const abilityRows = computed(() => [
    screen most of the time, so the two showing the same weapon two different ways would be the
    obvious inconsistency. */
 @media (max-width: 560px) {
-  .wpm-weapons table { font-size: 0.74rem; }
+  /* A step less squeezed than the datasheet card's: that table carries a unit's whole arsenal in
+     a narrow column, this one a weapon or two in a sheet with room to spare — at the card's
+     0.74rem / 0.55rem it read as fine print (owner, 2026-09-28). */
+  .wpm-weapons table { font-size: 0.9rem; }
   .wpm-weapons th {
-    padding: 0.25rem 0.15rem;
-    font-size: 0.55rem;
+    padding: 0.3rem 0.2rem;
+    font-size: 0.66rem;
     letter-spacing: 0.3px;
   }
-  .wpm-weapons td { padding: 0.3rem 0.15rem; }
+  .wpm-weapons td { padding: 0.4rem 0.2rem; }
   .wpm-weapons .wname {
     width: 99%;
     min-width: 0;
@@ -309,14 +320,14 @@ const abilityRows = computed(() => [
   }
   .wpm-weapons .wname-text { display: block; }
   .wtags { display: block; margin: 0.15rem 0 0; }
-  .wtag { font-size: 0.6rem; }
-  .wtag :deep(.keyword) { font-size: 0.62rem; letter-spacing: 0; padding: 0 3px; }
+  .wtag { font-size: 0.7rem; }
+  .wtag :deep(.keyword) { font-size: 0.72rem; letter-spacing: 0; padding: 0 3px; }
   .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
 }
 
 @media (max-width: 380px) {
   /* Undo the squeeze — a card has room to be read, and only the table needed it. */
-  .wpm-weapons table { font-size: 0.82rem; }
+  .wpm-weapons table { font-size: 0.9rem; }
   .wtag { font-size: 0.72rem; }
   .wtag :deep(.keyword) { font-size: 0.74rem; letter-spacing: 0.2px; padding: 0 5px; }
 

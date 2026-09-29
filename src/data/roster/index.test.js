@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor } from '../../composables/rosterEngine.js'
+import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
 import { duplicateLimit } from '../../composables/rosterValidation.js'
 import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
@@ -397,6 +397,45 @@ describe('default loadouts', () => {
     expect(without.length, without.join(', ')).toBeLessThanOrEqual(10)
   })
 
+  // A per-model count above one must be one the datasheet PRINTS ("2 phosphor pistols", "2
+  // macro-scalpels"). A profile total read as a per-model count gets multiplied by the models a
+  // second time, and nothing else notices: five Flash Gitz read "Choppa ×17", ten Tempestus
+  // Aquilons "Close combat weapon ×66" (fixed 2026-09-28 — a profile the loadout rows skip took
+  // its "Default Wargear" group's totals raw). A `total` entry (third element) is the profile's
+  // and is not checked here.
+  it('only counts more than one of an item per model where the datasheet prints that number', async () => {
+    const norm = (s) => (s || '').toLowerCase().replace(/\*\*/g, '').replace(/\([^)]*\)/g, '')
+      .replace(/[’‘]/g, "'").replace(/[‐-―]/g, '-').replace(/\s+/g, ' ').trim()
+    const WORDS = { 2: 'two', 3: 'three', 4: 'four' }
+    const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const bad = []
+    let checked = 0
+    for (const { slug, data } of factions) {
+      let sheets
+      try { sheets = (await import(`../datasheets/${slug}.js`)).default } catch { continue }
+      const byId = new Map((sheets || []).map((s) => [s.id, s]))
+      for (const u of data.units) {
+        const sheet = byId.get(u.id)
+        if (!sheet?.loadout) continue
+        const prose = norm(sheet.loadout)
+        for (const [, list] of u.defaults || []) {
+          for (const [id, c, total] of list) {
+            if (total || c < 2) continue
+            checked++
+            // The stem, so the prose's plural reads too ("anvillus defence batteries").
+            const name = norm(rosterItems.items[id])
+            const stem = name.length > 6 ? name.slice(0, -2) : name
+            if (!new RegExp(`(?:${c}|${WORDS[c] || c}) ${esc(stem)}`).test(prose)) {
+              bad.push(`${slug}/${u.id}: ${rosterItems.items[id]} ×${c} per model`)
+            }
+          }
+        }
+      }
+    }
+    expect(checked).toBeGreaterThan(200)
+    expect(bad, bad.join('; ')).toEqual([])
+  })
+
   // appdata's base_miniature_loadout arms the Death Company Dreadnought with the BRUTALIS
   // Dreadnought's weapons; its own printed loadout and its own swap instruction both say blood
   // fists. Pinned because the substitution is a named one (LOADOUT_ITEM_FIXES) that has to be
@@ -653,6 +692,73 @@ describe('wargear names are unambiguous within a unit', () => {
       }
     }
     expect(rows).toBeGreaterThan(9000) // the whole corpus really was walked
+  })
+})
+
+describe('a second copy of a melee weapon is a second row', () => {
+  // A model fights with ONE melee weapon (core rules 04.01), so two copies of the same one on a
+  // model are not twice the attacks. The card used to sum them into "×2", which a player read as
+  // exactly that — a lone Carnifex with crushing claws from both option lines, "8 attacks"
+  // (2026-09-28). Each copy is its own row now (rosterModifiers' meleeRowsFor), so a row's count
+  // is the models holding that copy and can never exceed the models in the unit.
+  //
+  // Walked for every unit and every melee weapon it can hold: that weapon is taken in every group
+  // offering it, on every model the group allows. [EXTRA ATTACKS] rows are exempt — the model
+  // attacks with all of them (24.11), and "×2" there is the truth.
+  // Named one by one, never by pattern. Cultist Mob with Firearms: appdata prints the loadout
+  // as "autopistol; brutal assault weapon" and the option as "autogun and close combat weapon
+  // replaced with 1 autopistol and 1 brutal assault weapon" — the other Cultist Mob's wording.
+  // The swap gives up nothing the model holds, so taking it adds a second brutal assault weapon;
+  // what the option means is the datasheet's problem, not this row's (2026-09-28).
+  const APPDATA_CONTRADICTS = new Set(['chaos-space-marines/cultist-mob-with-firearms'])
+
+  it('never counts a melee row on more models than the unit has', async () => {
+    const { overlaySheet } = await import('../../composables/rosterModifiers.js')
+    const { loadDatasheets } = await import('../datasheets/index.js')
+    const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\p{Pd}/gu, '-').trim()
+    const bad = []
+    const split = new Set()
+    for (const { slug } of factions) {
+      const [fac, sheets] = await Promise.all([loadRosterFaction(slug), loadDatasheets(slug)])
+      for (const u of fac?.units || []) {
+        const sheet = sheets?.find((d) => d.id === u.id)
+        if (!sheet?.melee?.length || !u.defaults?.length) continue
+        const size = Math.max(0, u.sizes.findIndex((s) => s.default))
+        const models = u.sizes[size].per[0]
+        const meleeNames = new Set(sheet.melee.map((w) => norm(w.name)))
+        const ids = new Set()
+        for (const g of u.gear || []) for (const o of g.o || []) for (const [id] of optionItems(o)) {
+          if (meleeNames.has(norm(rosterItems.items[id]))) ids.add(id)
+        }
+        for (const id of ids) {
+          // As many as the editor would allow, group by group: the group's own cap, and the
+          // stock rule — a weapon given up in one group is not there to give up in the next
+          // (swapRoom; null where the data cannot say, which the editor reads as open too).
+          const entry = { id: u.id, size, count: models, wg: [] }
+          ;(u.gear || []).forEach((g, gi) => {
+            const oi = (g.o || []).findIndex((o) => optionItems(o).some(([x]) => x === id))
+            if (oi < 0) return
+            const cap = wargearGroupCap(u, entry, gi)
+            const room = swapRoom(u, entry, gi, oi)
+            const n = Math.min(models, cap?.dup || cap?.limit || models, room ?? models)
+            if (n > 0) entry.wg = [...entry.wg, [gi, oi, n]]
+          })
+          const { sheet: out } = overlaySheet(sheet, { def: u, entry, items: rosterItems.items })
+          const rows = (out.melee || []).filter((w) => norm(w.name) === norm(rosterItems.items[id]))
+          if (rows.length > 1) split.add(`${slug}/${u.id}`)
+          for (const w of rows) {
+            if ((w.tags || []).some((t) => /^extra attacks$/i.test(t))) continue
+            if (APPDATA_CONTRADICTS.has(`${slug}/${u.id}`)) continue
+            if ((w.qty || 1) > models) bad.push(`${slug}/${u.id} "${w.name}" ×${w.qty} on ${models} model(s)`)
+          }
+        }
+      }
+    }
+    expect(bad, bad.join('; ')).toEqual([])
+    // The two the report and the pair rules are about, and a floor for the rest.
+    expect(split.has('tyranids/carnifexes')).toBe(true)
+    expect(split.has('space-marines/lieutenant')).toBe(true)
+    expect(split.size).toBeGreaterThan(20)
   })
 })
 
