@@ -113,6 +113,25 @@ describe('SecondaryDeck — scoring a card', () => {
 describe('SecondaryDeck — the take dialog', () => {
   const open = async () => { const w = deck(0); await w.vm.$nextTick(); return w }
 
+  // Owner, 2026-09-29: a taken card folds open in place, and one with a WHEN DRAWN rule says so.
+  it('marks a taken card that has a WHEN DRAWN rule, and opens a card in place', async () => {
+    startGame()
+    const w = await open()
+    const { whenDrawnText } = await import('../../composables/whenDrawn.js')
+    const pl = tracker.current.value.players[0]
+    const wd = pl.secondary.deck.find((x) => whenDrawnText(x, pl.role, 'en'))
+    const plain = pl.secondary.deck.find((x) => x !== wd && !whenDrawnText(x, pl.role, 'en'))
+    tracker.takeChosenSecondaries(0, [wd, plain])
+    await w.vm.$nextTick()
+    expect(document.body.querySelectorAll('.ti-badge')).toHaveLength(1)
+    const row = document.body.querySelector('.ti-row')
+    expect(row.getAttribute('aria-expanded')).toBe('false')
+    row.click()
+    await w.vm.$nextTick()
+    expect(row.getAttribute('aria-expanded')).toBe('true')
+    expect(document.body.querySelector('.ti-body .m-cond')).not.toBe(null)
+  })
+
   it('shows a card in full from the pick list without choosing it', async () => {
     startGame()
     await open()

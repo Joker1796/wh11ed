@@ -16,8 +16,26 @@
             :key="m.slug"
             class="took-item"
           >
-            <div class="ti-row">
+            <!-- The card folds open in place (owner, 2026-09-29) — its briefing and conditions,
+                 read-only — rather than behind an "i". A card with a WHEN DRAWN rule says so on
+                 its line: that rule is for this very moment. -->
+            <button
+              type="button"
+              class="ti-row"
+              :aria-expanded="openSlugs.includes(m.slug)"
+              @click="toggleOpen(m.slug)"
+            >
+              <ChevronIcon
+                class="ti-chev"
+                :turned="openSlugs.includes(m.slug)"
+                from="right"
+                to="down"
+              />
               <span class="ti-name">{{ m.name }}</span>
+              <span
+                v-if="whenDrawnText(m.slug, player.role, locale)"
+                class="ti-badge"
+              >{{ labels.trackerWhenDrawnBadge }}</span>
               <DieIcon
                 v-if="sourceOf(m.slug) === 'random'"
                 class="ti-src"
@@ -27,23 +45,26 @@
                 class="bi bi-hand-index-thumb ti-src"
                 aria-hidden="true"
               />
-              <button
-                class="tk-info"
-                :aria-label="`${m.name} — ${labels.trackerCardDetails}`"
-                :title="labels.trackerCardDetails"
-                @click="detailSlug = m.slug"
-              >
-                <i
-                  class="bi bi-info-circle"
-                  aria-hidden="true"
+            </button>
+            <CollapseTransition :show="openSlugs.includes(m.slug)">
+              <div class="ti-body">
+                <MissionBriefing :briefing="m.briefing" />
+                <ScoreRows
+                  :blocks="blocksOf(m.slug)"
+                  :count="() => 0"
+                  readonly
                 />
-              </button>
-            </div>
+              </div>
+            </CollapseTransition>
             <div
               v-if="whenDrawnAction(current, pi, m.slug)"
               class="ti-wd"
             >
-              <p class="ti-wd-text">
+              <!-- Its words are already in the briefing while the card is open. -->
+              <p
+                v-if="!openSlugs.includes(m.slug)"
+                class="ti-wd-text"
+              >
                 <strong>{{ labels.trackerWhenDrawn }}:</strong> {{ whenDrawnText(m.slug, player.role, locale) }}
               </p>
               <button
@@ -160,6 +181,10 @@ import { computed, ref } from 'vue'
 import DieIcon from '../DieIcon.vue'
 import BaseModal from '../BaseModal.vue'
 import ScoringModal from './ScoringModal.vue'
+import ScoreRows from './ScoreRows.vue'
+import MissionBriefing from '../MissionBriefing.vue'
+import CollapseTransition from '../CollapseTransition.vue'
+import ChevronIcon from '../ChevronIcon.vue'
 import ReplaceCardModal from './ReplaceCardModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -201,11 +226,18 @@ function onRandom() { takeRandomSecondaries(props.pi) }
 const sourceOf = (slug) => player.value.secondary.source?.[slug] || taken.value
 const missionName = (slug) => mission(slug)?.name || slug
 
-// A card's full text (the "i" on a row).
+// A card's scoring conditions this round, as its dialog shows them.
+const blocksOf = (slug) => scorableBlocks(slug, player.value.role, current.value.currentRound, locale.value)
+  .filter((b) => b.kind === player.value.secondaryMode)
+// A card's full text from the pick list (its "i").
 const detailSlug = ref(null)
 const detailMission = computed(() => (detailSlug.value ? mission(detailSlug.value) : null))
-const detailBlocks = computed(() => scorableBlocks(detailSlug.value, player.value.role, current.value.currentRound, locale.value)
-  .filter((b) => b.kind === player.value.secondaryMode))
+const detailBlocks = computed(() => blocksOf(detailSlug.value))
+// The taken cards open in place, each on its own.
+const openSlugs = ref([])
+function toggleOpen(slug) {
+  openSlugs.value = openSlugs.value.includes(slug) ? openSlugs.value.filter((x) => x !== slug) : [...openSlugs.value, slug]
+}
 
 // WHEN DRAWN, right after the draw: a random card is replaced at random at once; a chosen one
 // opens the replacement picker.
@@ -251,8 +283,18 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 .pick-cat { white-space: nowrap; font-size: 0.72rem; color: var(--text-dim); }
 .ti-src { font-size: 1.1rem; color: var(--text-muted); }
 .took-item { padding: 0.35rem 0.6rem; border: 1px solid var(--border); background: var(--bg-card); }
-.ti-row { display: flex; align-items: center; gap: 0.5rem; min-height: 32px; }
+.ti-row {
+  display: flex; align-items: center; gap: 0.5rem; width: 100%; min-height: 36px;
+  padding: 0; border: 0; background: none; font: inherit; text-align: left; cursor: pointer;
+}
 .ti-row .ti-name { flex: 1 1 auto; min-width: 0; }
+.ti-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
+.ti-badge {
+  flex-shrink: 0; padding: 0.1rem 0.4rem;
+  border: 1px solid var(--accent); font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.03em; color: var(--accent);
+}
+.ti-body { padding: 0.2rem 0 0.35rem; }
 /* The WHEN DRAWN rule under a card that has one: its words, and the action. */
 .ti-wd { margin-top: 0.35rem; padding-top: 0.35rem; border-top: 1px solid var(--border-light); }
 .ti-wd-text { margin: 0 0 0.35rem; font-size: 0.78rem; line-height: 1.4; color: var(--text-muted); }
@@ -270,7 +312,6 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
   color: var(--text-muted); font-size: 1rem; cursor: pointer;
 }
 @media (hover: hover) { .tk-info:hover { color: var(--accent); border-color: var(--accent); } }
-.ti-row .tk-info { width: 32px; min-height: 32px; }
 .ti-name { font-weight: 700; color: var(--text-primary); }
 .took-list { margin-bottom: 0.6rem; }
 .tk-foot { padding: 0.5rem 0.9rem; border-top: 1px solid var(--border); }
