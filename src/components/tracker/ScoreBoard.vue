@@ -138,7 +138,7 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-left: 4px solid var(--side);
-  padding: 0.75rem 0.9rem 0.8rem;
+  padding: 0.55rem 0.9rem 0.55rem;
 }
 /* The emblem stamp (FactionEmblem) sits under the column's text, clipped to it. Sized on a fixed
    length, not the column: the live board's breakdown makes it taller than the result's, and one
@@ -160,7 +160,7 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   flex-wrap: wrap;
   align-items: baseline;
   column-gap: 0.35rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.2rem;
 }
 /* Room for the turn mark in the corner, so a long name wraps before it reaches it. */
 .col.turn .col-head { padding-right: 2.4rem; }
@@ -197,11 +197,11 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 .breakdown {
   display: flex;
   gap: 1.1rem;
-  margin: 0.7rem 0 0;
-  padding-top: 0.55rem;
+  margin: 0.45rem 0 0;
+  padding-top: 0.35rem;
   border-top: 1px solid var(--border);
 }
-.breakdown div { display: flex; flex-direction: column; gap: 2px; }
+.breakdown div { display: flex; flex-direction: column; gap: 0; }
 .breakdown dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
 /* The main score's face (owner, 2026-09-29), a size under it. */
 .breakdown dd { margin: 0; font-family: var(--font-display); font-size: 1.75rem; line-height: 1; font-weight: 500; color: var(--text-primary); }
@@ -224,7 +224,7 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 /* Phones: two cards side by side still, everything one step down. */
 @media (max-width: 560px) {
   .board { gap: 0.4rem; }
-  .col { padding: 0.55rem 0.5rem 0.6rem; border-left-width: 3px; }
+  .col { padding: 0.4rem 0.5rem 0.4rem; border-left-width: 3px; }
   .col.turn .col-head { padding-right: 1.9rem; }
   .pname { font-size: 1.05rem; }
   .pfaction { font-size: 0.78rem; }
@@ -232,7 +232,7 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   .grand { font-size: 2rem; }
   .grand-unit { font-size: 0.7rem; }
   .grand-bp { margin-left: 0.6rem; }
-  .breakdown { gap: 0.8rem; margin-top: 0.5rem; padding-top: 0.4rem; }
+  .breakdown { gap: 0.8rem; margin-top: 0.35rem; padding-top: 0.3rem; }
   .breakdown dt { font-size: 0.58rem; letter-spacing: 0; }
   .breakdown dd { font-size: 1.4rem; }
 }
