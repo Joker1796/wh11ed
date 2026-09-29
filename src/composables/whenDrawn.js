@@ -21,7 +21,8 @@ export function whenDrawnAction(game, pi, slug) {
 // its ENGLISH label and read at the same place in the localized briefing.
 export function whenDrawnText(slug, role, locale) {
   const en = missionBySlug(slug, role)?.briefing || []
-  const i = en.findIndex((b) => b.label === 'When Drawn')
+  // Also "When Drawn / Start of Your Turn" (Burden of Trust and its pair): a rule of the draw too.
+  const i = en.findIndex((b) => b.label?.startsWith('When Drawn'))
   if (i < 0) return ''
   return (missionBySlug(slug, role, locale)?.briefing || en)[i]?.text || en[i].text
 }
