@@ -227,10 +227,21 @@
         </button>
       </div>
 
-      <!-- One side's missions on top — whose turn it is on a shared phone, this phone's own side
-           in a shared game (a guest does not want the other phone's cards first) — and the other
-           folded under a button. Both open, one under the other, ran to several screens. -->
-      <div class="players">
+      <!-- One side's missions at a time, picked on the app's page tabs (owner, 2026-09-29) — the
+           same tabs as the CP tab's, in the same order. A new turn opens the side on turn (this
+           phone's own side in a shared game: a guest does not want the other phone's cards first);
+           the tab of the side on turn carries the hourglass. The block wears the chosen side's
+           colour. Both sides open, one under the other, ran to several screens. -->
+      <div
+        class="mside"
+        :class="{ opp: !isYouSide(current.players[missionSide], missionSide) }"
+      >
+        <PageTabs
+          class="mside-tabs"
+          fill
+          :tabs="missionTabs"
+          @select="(i) => (missionSide = i)"
+        />
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
              player wants to see. The lock is on what SCORES — the primary, the deck, the army
@@ -240,36 +251,14 @@
              back anything that gets past the lock. `inert` is a presence attribute — a rendered
              "false" would still be inert — hence `undefined` rather than false. -->
         <template
-          v-for="(i, k) in sideOrder"
+          v-for="i in [missionSide]"
           :key="i"
         >
-          <button
-            v-if="k === 1"
-            class="other-toggle"
-            :class="{ open: showOther }"
-            :aria-expanded="showOther"
-            @click="showOther = !showOther"
-          >
-            <i
-              class="bi"
-              :class="showOther ? 'bi-chevron-up' : 'bi-chevron-down'"
-              aria-hidden="true"
-            />
-            {{ (showOther ? labels.trackerHideMissions : labels.trackerShowMissions).replace('{name}', playerName(i)) }}
-          </button>
           <div
-            v-if="k === 0 || showOther"
             class="player"
             :data-side="i"
             :class="{ 'player-locked': !canEdit(i), opp: !isYouSide(current.players[i], i) }"
           >
-            <h3 class="ptitle">
-              <span class="pt-name">{{ playerName(i) }}</span>
-              <span
-                v-if="i === turnIndex && !viewRound"
-                class="pt-turn"
-              >{{ labels.trackerTurnTag }}</span>
-            </h3>
             <!-- The host's line also says how to take the side back: the seat is the lock. -->
             <p
               v-if="!canEdit(i)"
@@ -560,6 +549,7 @@ import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import CpStratagems from './CpStratagems.vue'
+import PageTabs from '../PageTabs.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
 import GameLog from './GameLog.vue'
 import ArmiesPanel from './ArmiesPanel.vue'
@@ -636,15 +626,13 @@ const focusSide = computed(() => {
   const p = current.value.party
   return p && !p.revoked && !p.ended && (p.side === 0 || p.side === 1) ? p.side : turnIndex.value
 })
-const sideOrder = computed(() => [focusSide.value, 1 - focusSide.value])
-const showOther = ref(false)
 
-// A new turn starts on the missions, on the live round, with the other side folded: the first
+// A new turn starts on the missions, on the live round, on the focus side's tab: the first
 // thing a turn does is draw and score.
 watch(() => [current.value.currentRound, current.value.currentTurn], () => {
   tab.value = 'missions'
   viewRound.value = null
-  showOther.value = false
+  missionSide.value = focusSide.value
 })
 
 // The open tab survives leaving the game screen — a look at a datasheet, the rules, the roster —
@@ -680,6 +668,16 @@ initBroadcast()
 
 // players[0] is always the first-turn player, so the turn IS a player index (useTracker).
 const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
+
+// Whose missions are open: the focus side, until a tab says otherwise; a new turn goes back to it.
+const missionSide = ref(focusSide.value)
+watch(focusSide, (v) => { missionSide.value = v })
+const missionTabs = computed(() => [0, 1].map((i) => ({
+  key: i,
+  label: playerName(i),
+  icon: i === turnIndex.value && !viewRound.value ? 'bi bi-hourglass-split' : null,
+  active: missionSide.value === i,
+})))
 
 // Which side a player is — by who they are, never by position, since first turn reorders them.
 // The clock prints this and nothing else: it is read at a glance in the middle of a turn, and a
@@ -901,7 +899,10 @@ function onEndBattle(reason) {
   line-height: 1.5;
   color: var(--text-muted);
 }
-.players { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; }
+/* The missions block in the chosen side's colour: its tabs' lit edge, the cards' accent. */
+.mside { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
+.mside.opp { --side: var(--side-opponent); }
+.mside-tabs { margin-bottom: 0.6rem; }
 .player {
   --side: var(--side-you);
   background: var(--bg-card);
@@ -918,13 +919,6 @@ function onEndBattle(reason) {
   text-transform: uppercase; letter-spacing: 0.06em; color: var(--side);
 }
 /* The folded other side: one full-width row, the side's name in it. */
-.other-toggle {
-  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-  width: 100%; min-height: 44px; padding: 0.5rem 0.75rem;
-  border: 1px dashed var(--border); background: var(--bg-card);
-  font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--text-muted); cursor: pointer;
-}
-@media (hover: hover) { .other-toggle:hover { border-color: var(--accent); color: var(--text-primary); } }
 /* The primary card: one line — its name, the tag, this round's VP; the whole line opens it. */
 .mission-card {
   display: flex; align-items: center; gap: 0.5rem; width: 100%;
@@ -997,10 +991,14 @@ function onEndBattle(reason) {
 /* The headline over the score: round and turn, read at a glance from across the table. */
 /* Inline, not flex: the headline's spans carry their own spaces ("Andronovmy’s turn" has none
    between the name and the rest), and flex items would trim them and space by the gap instead. */
+/* One line: a long name is cut with "…" (owner, 2026-09-29) instead of pushing the board down. */
 .turn-now {
   margin: 0 0 0.5rem;
   font-size: 1.05rem;
   color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .turn-now::before {
   content: '';

@@ -170,7 +170,12 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   font-weight: 500;
   line-height: 1.15;
   color: var(--side);
-  word-break: break-word;
+  /* One line whatever its length: a long name is cut with "…" (owner, 2026-09-29) rather than
+     wrapping the column taller than its neighbour. */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .pfaction { font-size: 0.95rem; color: var(--text-muted); }
 .pfaction::before { content: '· '; }

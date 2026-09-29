@@ -11,6 +11,7 @@
          (RoundTracker's #bank slot). -->
     <PageTabs
       class="cps-tabs"
+      fill
       :tabs="sideTabs"
       @select="(i) => (side = i)"
     />

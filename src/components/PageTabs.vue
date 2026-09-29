@@ -3,6 +3,7 @@
        for pages that are separate routes, a plain button (`key`) for an in-page switch. -->
   <nav
     class="page-tabs"
+    :class="{ 'page-tabs--fill': fill }"
     :aria-label="ariaLabel"
     :role="asTablist ? 'tablist' : undefined"
   >
@@ -20,7 +21,7 @@
           v-if="t.icon"
           class="page-tab-icon"
           :class="t.icon"
-        />{{ t.label }}
+        /><span class="page-tab-label">{{ t.label }}</span>
         <i
           v-if="t.warn"
           class="bi bi-exclamation-triangle-fill page-tab-warn"
@@ -46,7 +47,7 @@
           v-if="t.icon"
           class="page-tab-icon"
           :class="t.icon"
-        />{{ t.label }}
+        /><span class="page-tab-label">{{ t.label }}</span>
         <i
           v-if="t.warn"
           class="bi bi-exclamation-triangle-fill page-tab-warn"
@@ -73,6 +74,9 @@ const props = defineProps({
   // stands for (it is both the tooltip and the accessible name), so an empty string draws nothing.
   tabs: { type: Array, required: true },
   ariaLabel: { type: String, default: '' },
+  // The tabs share the row equally, and a label longer than its share is cut with "…" — a
+  // player's name can be any length (the tracker's side tabs).
+  fill: { type: Boolean, default: false },
 })
 const emit = defineEmits(['select'])
 
@@ -125,6 +129,10 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
   border-color: var(--accent);
   border-bottom-color: var(--bg-primary); /* erase the accent line under the open tab → merge with content */
 }
+
+.page-tab-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.page-tab-n, .page-tab-icon, .page-tab-warn { flex-shrink: 0; }
+.page-tabs--fill .page-tab { flex: 1 1 0; min-width: 0; justify-content: center; padding-inline: 0.6rem; }
 
 /* Slightly smaller than the tab text so the display-font label stays the anchor. */
 .page-tab-icon {
