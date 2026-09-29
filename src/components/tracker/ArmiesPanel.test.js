@@ -31,7 +31,7 @@ function mountPanel(names = ['Me', 'Opp']) {
 // The units link of every army, picking each in turn.
 async function unitLinks(w) {
   const out = []
-  for (const b of w.findAll('.ap-army')) {
+  for (const b of w.findAll('.ap-tabs .page-tab')) {
     await b.trigger('click')
     const sub = w.findAll('.ap-subtab')[0]
     await sub.trigger('click')
@@ -67,8 +67,8 @@ describe('ArmiesPanel', () => {
     )
     tracker.current.value.players[0].members[1].roster = { units: [{ uid: 'a', id: 'x', size: 0 }] }
     const w = mountPanel(['Alpha', 'Beta'])
-    expect(w.findAll('.ap-army-name').map((e) => e.text())).toEqual(['Alpha · Ann', 'Alpha · Bob', 'Beta · Cat', 'Beta · Dan'])
-    expect(w.find('.ap-army-fac').text()).toBe('Orks')
+    expect(w.findAll('.ap-tabs .page-tab').map((e) => e.text())).toEqual(['Alpha · Ann', 'Alpha · Bob', 'Beta · Cat', 'Beta · Dan'])
+    expect(w.find('.ap-fac').text()).toBe('Orks')
     expect(await unitLinks(w)).toEqual(['/factions/orks/datasheets', '/tracker/game/roster/0/1', '/factions/drukhari/datasheets', null])
   })
 

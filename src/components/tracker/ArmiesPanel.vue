@@ -1,33 +1,28 @@
 <template>
-  <div class="ap">
-    <!-- Which army: one per side, one per member in doubles (up to four). -->
-    <div
-      class="ap-pick"
-      role="tablist"
-    >
-      <button
-        v-for="(a, k) in armies"
-        :key="k"
-        role="tab"
-        class="ap-army"
-        :class="{ on: sel === k, opp: !isYouSide(current.players[a.pi], a.pi) }"
-        :aria-selected="sel === k"
-        @click="sel = k"
-      >
-        <span class="ap-army-name">{{ a.label }}</span>
-        <span
-          v-if="a.faction"
-          class="ap-army-fac"
-        >{{ a.faction }}</span>
-      </button>
-    </div>
+  <div
+    class="ap"
+    :class="{ opp: army && !isYouSide(current.players[army.pi], army.pi) }"
+  >
+    <!-- Which army: one per side, one per member in doubles (up to four) — on the same page tabs as
+         the Missions and CP panels (owner, 2026-09-29), the block in that army's side colour. -->
+    <PageTabs
+      class="ap-tabs"
+      fill
+      :tabs="armyTabs"
+      @select="(k) => (sel = k)"
+    />
 
     <div
       v-if="army"
       class="ap-card"
-      :class="{ opp: !isYouSide(current.players[army.pi], army.pi) }"
     >
       <div class="ap-facts">
+        <p
+          v-if="army.faction"
+          class="ap-fac"
+        >
+          {{ army.faction }}
+        </p>
         <p
           v-if="dispositionName(current.players[army.pi].disposition)"
           class="pmeta"
@@ -186,6 +181,7 @@
 import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import StratCard from '../StratCard.vue'
+import PageTabs from '../PageTabs.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -230,6 +226,7 @@ const armies = computed(() => {
 })
 const sel = ref(Math.max(0, armies.value.findIndex((a) => a.pi === props.defaultSide)))
 const army = computed(() => armies.value[sel.value] || null)
+const armyTabs = computed(() => armies.value.map((a, k) => ({ key: k, label: a.label, active: sel.value === k })))
 const sub = ref(army.value?.member.roster || !army.value?.member.factionSlug ? 'units' : 'rules')
 
 // The units: the attached list (the game's roster screen), else the faction's datasheets.
@@ -266,24 +263,12 @@ const openStrat = ref(null)
 </script>
 
 <style scoped>
-.ap-pick { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.35rem; }
-.ap-army {
-  --side: var(--side-you);
-  display: grid; gap: 0.05rem; min-width: 0; min-height: 48px;
-  padding: 0.4rem 0.6rem; text-align: left;
-  border: 1px solid var(--border); border-left: 4px solid var(--border);
-  background: var(--bg-card); font: inherit; cursor: pointer;
-}
-.ap-army.opp { --side: var(--side-opponent); }
-.ap-army.on { border-left-color: var(--side); background: color-mix(in srgb, var(--side) 6%, var(--bg-card)); }
-.ap-army-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; color: var(--side); }
-.ap-army-fac { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.76rem; color: var(--text-dim); }
-.ap-card {
-  --side: var(--side-you);
-  margin-top: 0.6rem; padding: 0.7rem;
-  border: 1px solid var(--border); border-left: 4px solid var(--side); background: var(--bg-card);
-}
-.ap-card.opp { --side: var(--side-opponent); }
+/* The block in the chosen army's side colour — its tabs' lit edge, the sub-tabs, the rule names —
+   on the page's own background, like the Missions and CP panels. */
+.ap { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
+.ap.opp { --side: var(--side-opponent); }
+.ap-card { margin-top: 0.6rem; }
+.ap-fac { margin: 0 0 0.2rem; font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; line-height: 1.1; color: var(--side); }
 .ap-facts .pmeta { margin: 0 0 0.2rem; font-size: 0.82rem; color: var(--text-muted); }
 .ap-facts .pdet { margin: 0; font-size: 0.78rem; color: var(--text-dim); font-family: var(--font-mono); }
 .ap-sub { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; margin: 0.7rem 0 0.6rem; border: 1px solid var(--border); }
