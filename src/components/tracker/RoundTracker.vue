@@ -334,32 +334,44 @@
     </section>
 
     <!-- Command points (owner, 2026-09-29: two tall banks spent a phone's screen on three copies of
-         one number and a line of constant text). The sides are the stratagem list's own tabs, each
-         with its balance; under the chosen side, ONE line: the round's bonus point and its button
-         — which turns into "Undo" for a point added by hand — and the stepper, a correction kept in
-         the ledger as one. Where Core CP come from lives behind the "?". -->
+         one number and a line of constant text). One line a side, in CpStratagems: the name, the
+         round's bonus point — its button turns into an undo for a point added by hand — and the
+         balance itself as the stepper (a correction is kept in the ledger as one). Where Core CP
+         come from lives behind the heading's "?". -->
     <section
       v-else-if="tab === 'cp'"
       class="panel"
       role="tabpanel"
     >
+      <div class="cp-head">
+        <span class="sec-title-row">{{ labels.trackerCpHelpTitle }}</span>
+        <button
+          type="button"
+          class="cr-help"
+          :aria-label="labels.trackerCpHelpTitle"
+          :title="labels.trackerCpHelpTitle"
+          @click="cpHelpOpen = true"
+        >
+          <i class="bi bi-question-circle" />
+        </button>
+      </div>
       <CpStratagems
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
       >
         <template #bank="{ side }">
           <div
-            class="cp-row"
-            :class="{ opp: !isYouSide(current.players[side], side), 'player-locked': !canEdit(side) }"
+            class="cp-bank"
+            :class="{ 'player-locked': !canEdit(side) }"
             :inert="lock(side)"
           >
-            <span class="cr-bonus">{{ labels.trackerBonusShort }} <b>{{ bonusOf(side) ? 1 : 0 }}/1</b></span>
             <button
               v-if="canUndoBonus(side)"
               class="cr-btn undo"
+              :title="labels.trackerBonusUndo"
               @click="undoBonusCp(side)"
             >
-              {{ labels.trackerBonusUndo }}
+              <i class="bi bi-arrow-counterclockwise" /> {{ labels.trackerBonusGainShort }}
             </button>
             <button
               v-else
@@ -368,24 +380,19 @@
               :title="bonusSource(side)"
               @click="gainBonusCp(side)"
             >
-              {{ bonusOf(side) ? labels.trackerBonusTaken : labels.trackerBonusGainShort }}
+              <template v-if="bonusOf(side)">
+                <i class="bi bi-check2" /> {{ labels.trackerBonusShort }}
+              </template>
+              <template v-else>
+                {{ labels.trackerBonusGainShort }}
+              </template>
             </button>
             <NumberStepper
-              class="cr-adjust"
               :model-value="current.players[side].cp"
               :min="0"
-              :aria-label="labels.trackerCpAdjust"
+              :aria-label="`${playerName(side)} — CP`"
               @update:model-value="v => setCp(side, v)"
             />
-            <button
-              type="button"
-              class="cr-help"
-              :aria-label="labels.trackerCpHelpTitle"
-              :title="labels.trackerCpHelpTitle"
-              @click="cpHelpOpen = true"
-            >
-              <i class="bi bi-question-circle" />
-            </button>
           </div>
         </template>
       </CpStratagems>
@@ -1117,26 +1124,20 @@ function onEndBattle(reason) {
 .gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 @media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
 
-/* Command points: one line under the chosen side's tab (CpStratagems' #bank slot). */
-.cp-row {
-  --side: var(--side-you);
-  display: flex; align-items: center; gap: 0.5rem;
-  margin-bottom: 0.6rem; padding: 0.35rem 0.5rem;
-  border: 1px solid var(--border); border-top: 0;
-  background: var(--bg-card);
-}
-.cp-row.opp { --side: var(--side-opponent); }
-.cr-bonus { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
-.cr-bonus b { color: var(--text-primary); }
+/* Command points: the heading with its "?", and each side's bank at the end of its line
+   (CpStratagems' #bank slot). */
+.cp-head { display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.35rem; }
+.cp-head .sec-title-row { margin: 0; }
+.cp-bank { flex-shrink: 0; display: flex; align-items: center; gap: 0.4rem; }
 .cr-btn {
-  min-height: 36px; padding: 0.25rem 0.6rem;
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  min-height: 36px; padding: 0.25rem 0.55rem;
   border: 1px solid var(--side); background: color-mix(in srgb, var(--side) 8%, var(--bg-card));
-  font: inherit; font-size: 0.82rem; font-weight: 700; color: var(--side); cursor: pointer; white-space: nowrap;
+  font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--side); cursor: pointer; white-space: nowrap;
 }
 .cr-btn.undo { background: var(--side); color: #fff; }
 .cr-btn:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
-.cr-adjust { margin-left: auto; }
-.cr-help { flex-shrink: 0; padding: 0 0.2rem; border: 0; background: none; font-size: 1rem; color: var(--text-dim); cursor: pointer; }
+.cr-help { flex-shrink: 0; padding: 0 0.2rem; border: 0; background: none; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
 @media (hover: hover) { .cr-help:hover { color: var(--accent); } }
 
 

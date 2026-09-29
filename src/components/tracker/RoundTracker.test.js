@@ -76,11 +76,11 @@ describe('RoundTracker — the tabs', () => {
   it('goes back to the missions when the turn changes', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = await openTab(mountTracker(), 'CP')
-    expect(w.find('.cp-row').exists()).toBe(true)
+    expect(w.find('.cp-bank').exists()).toBe(true)
     tracker.endTurn()
     await w.vm.$nextTick()
     expect(w.find('.gt-tab.on').text()).toBe('Missions') // the open tab says its word
-    expect(w.find('.cp-row').exists()).toBe(false)
+    expect(w.find('.cp-bank').exists()).toBe(false)
   })
 })
 

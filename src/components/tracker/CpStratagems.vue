@@ -1,30 +1,36 @@
 <template>
   <section class="cps">
-    <!-- Whose CP the stratagems spend. Both sides may play one at any moment — half the core
-         stratagems are played in the other player's turn — so this is a choice, set by default to
-         whose turn it is (this phone's own side in a shared game). -->
+    <!-- One line per side (owner, 2026-09-29): its name, then its CP bank (RoundTracker's #bank
+         slot — the bonus point and the balance's stepper). The line is also whose CP the
+         stratagems below spend: both sides may play one at any moment — half the core stratagems
+         are played in the other player's turn — so it is a choice, set by default to whose turn it
+         is (this phone's own side in a shared game). Tapping anywhere on a line picks it. -->
     <div
-      class="cps-sides"
-      role="tablist"
+      class="cps-banks"
+      role="radiogroup"
     >
-      <button
+      <div
         v-for="i in [0, 1]"
         :key="i"
-        role="tab"
-        class="cps-side"
+        class="cps-bank"
         :class="{ on: side === i, opp: !isYouSide(current.players[i], i) }"
-        :aria-selected="side === i"
         @click="side = i"
       >
-        <span class="cps-side-name">{{ names[i] }}</span>
-        <span class="cps-side-cp">{{ current.players[i].cp }}<small> CP</small></span>
-      </button>
+        <button
+          type="button"
+          role="radio"
+          class="cps-bank-name"
+          :aria-checked="side === i"
+          @click.stop="side = i"
+        >
+          {{ names[i] }}
+        </button>
+        <slot
+          name="bank"
+          :side="i"
+        />
+      </div>
     </div>
-    <!-- The chosen side's CP bank, one line under its tab (RoundTracker). -->
-    <slot
-      name="bank"
-      :side="side"
-    />
     <p
       v-if="!canEdit(side)"
       class="cps-note"
@@ -304,19 +310,23 @@ function use(s) {
 
 <style scoped>
 .cps { margin-top: 0; }
-.cps-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
-.cps-side {
+.cps-banks { display: grid; gap: 0.3rem; margin-bottom: 0.7rem; }
+.cps-bank {
   --side: var(--side-you);
-  display: flex; align-items: baseline; justify-content: space-between; gap: 0.4rem;
-  min-width: 0; min-height: 44px; padding: 0.4rem 0.6rem;
-  border: 1px solid var(--border); border-bottom: 3px solid var(--border);
-  background: var(--bg-card); font: inherit; cursor: pointer; color: var(--text-muted);
+  display: flex; align-items: center; gap: 0.5rem;
+  min-width: 0; padding: 0.3rem 0.4rem 0.3rem 0.6rem;
+  border: 1px solid var(--border); border-left: 3px solid var(--border);
+  background: var(--bg-card); cursor: pointer;
 }
-.cps-side.opp { --side: var(--side-opponent); }
-.cps-side.on { border-bottom-color: var(--side); color: var(--side); }
-.cps-side-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
-.cps-side-cp { flex-shrink: 0; font-family: var(--font-display); font-size: 1.5rem; font-weight: 500; line-height: 1; }
-.cps-side-cp small { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; }
+.cps-bank.opp { --side: var(--side-opponent); }
+/* The chosen line: whose CP the stratagems below spend. */
+.cps-bank.on { border-left-color: var(--side); background: color-mix(in srgb, var(--side) 6%, var(--bg-card)); }
+.cps-bank-name {
+  flex: 1 1 auto; min-width: 0; padding: 0; border: 0; background: none; text-align: left; cursor: pointer;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; color: var(--text-muted);
+}
+.cps-bank.on .cps-bank-name { color: var(--side); }
 .cps-note { margin: 0.4rem 0 0; font-size: 0.78rem; color: var(--text-dim); }
 .cps-title {
   margin: 1rem 0 0.4rem;

@@ -35,7 +35,7 @@ const row = (w, name) => w.findAll('.sr').find((r) => r.find('.sr-name').text().
 describe('CpStratagems', () => {
   it('spends the chosen side\'s CP on a core stratagem and takes it back', async () => {
     const w = await mountTab(0)
-    await w.findAll('.cps-side')[1].trigger('click') // the opponent plays Fire Overwatch in my turn
+    await w.findAll('.cps-bank-name')[1].trigger('click') // the opponent plays Fire Overwatch in my turn
     await row(w, 'Fire Overwatch').find('.sr-use').trigger('click')
     expect(tracker.current.value.players[1].cp).toBe(0)
     expect(row(w, 'Fire Overwatch').text()).toContain('used ×1')
@@ -59,7 +59,7 @@ describe('CpStratagems', () => {
   it('never spends on a side another phone plays', async () => {
     tracker.current.value.party = { id: 'p', token: 't', side: 0, mi: null, host: false, seq: 1, versions: {} }
     const w = await mountTab(0)
-    await w.findAll('.cps-side')[1].trigger('click')
+    await w.findAll('.cps-bank-name')[1].trigger('click')
     expect(w.find('.cps-note').exists()).toBe(true)
     expect(row(w, 'Command Re-roll').find('.sr-use').attributes('disabled')).toBeDefined()
   })
@@ -84,7 +84,7 @@ describe('CpStratagems — the Stratagems page\'s filter', () => {
     const again = await mountTab(0)
     expect(again.findAll('.phase-head')[0].attributes('aria-expanded')).toBe('true')
     // The opponent, in the same phase, gets Smokescreen and not Explosives.
-    await again.findAll('.cps-side')[1].trigger('click')
+    await again.findAll('.cps-bank-name')[1].trigger('click')
     const opp = again.findAll('.phase-group')[0].findAll('.sr-name').map((n) => n.text())
     expect(opp.some((t) => t.startsWith('Smokescreen'))).toBe(true)
     expect(opp.some((t) => t.startsWith('Explosives'))).toBe(false)
