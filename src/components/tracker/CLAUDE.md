@@ -347,7 +347,8 @@ yours", one rule instead of a permission matrix — and the host takes it back b
 sides, so a server-side lock would break the host's own dialog. `RoundTracker` greys the locked
 side with the reason under its title (the host's line names the way back) and puts `inert` (a
 presence attribute — `undefined`, not `false`) on what SCORES — the primary, the deck, the CP
-stepper — and passes `readonly` to `ArmyTrackerCard`, which inerts its own controls and leaves the
+stepper; `ArmiesPanel`, where the army rule's tracker lives since 2026-09-29 (owner: everything
+about an army in one place, not under the missions), passes `readonly` to `ArmyTrackerCard`, which inerts its own controls and leaves the
 rule text, the active rule and the spent log live; the card itself is never inert, because the
 opponent's setup facts, list and army rule are things to READ mid-game (the first complaint about
 the shared game was a guest who could not open the other side's rule). The setup gear opens for a

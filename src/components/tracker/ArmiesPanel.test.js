@@ -83,3 +83,42 @@ describe('ArmiesPanel', () => {
     expect(kinds.length).toBe(2)
   })
 })
+
+// The army rule's tracker lives here (owner, 2026-09-29), not under the missions.
+describe('ArmiesPanel — the army rule tracker', () => {
+  const cardsOf = async (w) => {
+    const out = []
+    for (const t of w.findAll('.ap-tabs .page-tab')) {
+      await t.trigger('click')
+      out.push(w.findAllComponents({ name: 'ArmyTrackerCard' }).map((c) => ({ pi: c.props('pi'), mi: c.props('mi'), readonly: c.props('readonly') })))
+    }
+    return out
+  }
+
+  it('shows each side\'s tracker under its tab, and none when the side switched it off', async () => {
+    start({ factionSlug: 'orks' }, { factionSlug: 'aeldari' }, { trackArmyOpp: false })
+    expect(await cardsOf(mountPanel())).toEqual([[{ pi: 0, mi: null, readonly: false }], []])
+  })
+
+  it('gives a unified same-faction doubles team one shared card, a convenience team one each', async () => {
+    start(
+      { teamName: 'Alpha', forceType: 'unified', members: [{ name: 'Ann', factionSlug: 'drukhari' }, { name: 'Bob', factionSlug: 'drukhari' }] },
+      { teamName: 'Beta', members: [{ name: 'Cat', factionSlug: 'orks' }, { name: 'Dan', factionSlug: 'aeldari' }] },
+      { gameType: 'doubles' },
+    )
+    const cards = await cardsOf(mountPanel(['Alpha', 'Beta']))
+    expect(cards[0]).toEqual([{ pi: 0, mi: null, readonly: false }])
+    expect(cards[1]).toEqual([{ pi: 0, mi: null, readonly: false }])
+    expect(cards[2]).toEqual([{ pi: 1, mi: 0, readonly: false }])
+    expect(cards[3]).toEqual([{ pi: 1, mi: 1, readonly: false }])
+  })
+
+  it('keeps a side another phone plays readable, its controls inert', async () => {
+    start({ factionSlug: 'orks' }, { factionSlug: 'aeldari' })
+    tracker.current.value.party = { id: 'p', token: 't', side: 0, mi: null, host: false, seq: 1, versions: {} }
+    const cards = await cardsOf(mountPanel())
+    expect(cards[0][0].readonly).toBe(false)
+    expect(cards[1][0].readonly).toBe(true)
+  })
+})
+

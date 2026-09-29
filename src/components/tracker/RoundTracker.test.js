@@ -247,39 +247,6 @@ describe('RoundTracker — what the game keeps track of', () => {
   })
 })
 
-describe('RoundTracker — doubles', () => {
-  function startDoubles(membersA, membersB, over = {}) {
-    startGame(
-      { teamName: 'Alpha', members: membersA, ...over.p0 },
-      { teamName: 'Beta', members: membersB, ...over.p1 },
-      { gameType: 'doubles', ...over.settings },
-    )
-  }
-  const M = (name, factionSlug, detachments = []) => ({ name, factionSlug, detachments })
-
-
-
-  it('renders ONE shared army card for a unified same-faction team, two for convenience', async () => {
-    startDoubles(
-      [M('Ann', 'drukhari'), M('Bob', 'drukhari')],
-      [M('Cat', 'orks'), M('Dan', 'aeldari')],
-    )
-    const w = mountTracker()
-    // One side a tab: collect both.
-    const cards = [...w.findAllComponents({ name: 'ArmyTrackerCard' })]
-    await unfold(w)
-    cards.push(...w.findAllComponents({ name: 'ArmyTrackerCard' }))
-    // Side 0 (unified, same faction): one card, side-level state (mi null).
-    const side0 = cards.filter((c) => c.props('pi') === 0)
-    expect(side0).toHaveLength(1)
-    expect(side0[0].props('mi')).toBeNull()
-    // Side 1 (convenience): one card per member.
-    const side1 = cards.filter((c) => c.props('pi') === 1)
-    expect(side1.map((c) => c.props('mi')).sort()).toEqual([0, 1])
-  })
-
-})
-
 // A shared game (useParty.js): the side another phone plays is on screen, readable, and its
 // scoring controls are not touchable; the setup dialog opens for everyone (a guest gets its
 // phone-local options there). Nothing changes for a game that is not shared.
@@ -295,22 +262,20 @@ describe('RoundTracker — a shared game', () => {
   }
   const lockedBoth = async (w) => [locked(await sideCard(w, 0)), locked(await sideCard(w, 1))]
   const mountBoth = async () => mountTracker()
-  // The lock is on the scoring controls, never on the card: a locked card still opens its army
-  // rule's text (and the Armies tab, which locks nothing, its list).
+  // The lock is on the scoring controls, never on the card (the army rule's tracker, readable but
+  // inert on a side another phone plays, is the Armies tab's: ArmiesPanel.test.js).
   function locked(card) {
     const primary = card.find('.mission-card, .score-row')
     const deck = card.findComponent({ name: 'SecondaryDeck' })
-    const army = card.findComponent({ name: 'ArmyTrackerCard' })
     return {
       card: card.attributes('inert'),
       primary: primary.attributes('inert'),
       deck: deck.attributes('inert'),
-      army: army.props('readonly'),
       caption: card.find('.plocked').exists(),
     }
   }
-  const OPEN = { card: undefined, primary: undefined, deck: undefined, army: false, caption: false }
-  const LOCKED = { card: undefined, primary: 'true', deck: 'true', army: true, caption: true }
+  const OPEN = { card: undefined, primary: undefined, deck: undefined, caption: false }
+  const LOCKED = { card: undefined, primary: 'true', deck: 'true', caption: true }
 
   it('leaves both cards live and the setup button enabled with no party', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })

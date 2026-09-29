@@ -304,19 +304,6 @@
               :name="playerName(i)"
               :inert="lock(i)"
             />
-
-            <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
-                 secondaries: it is played alongside the missions, turn by turn. Opt-in per player
-                 (settings.trackArmyYou / trackArmyOpp, default on) and renders only for factions
-                 with a spec. Doubles: one SHARED card for a unified force of one faction (the
-                 companion: one pool per force), else one card per member — see armyCards(). -->
-            <ArmyTrackerCard
-              v-for="c in armyCards(current.players[i])"
-              :key="c.mi ?? 'side'"
-              :pi="i"
-              :mi="c.mi"
-              :readonly="!canEdit(i)"
-            />
           </div>
         </template>
       </div>
@@ -549,7 +536,6 @@
 import { ref, computed, watch, provide } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
-import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import CpStratagems from './CpStratagems.vue'
@@ -792,25 +778,6 @@ function onPickPhase(turn, phase) {
   phasePickerOpen.value = false
 }
 
-// Show a player's army-rule card per the split you/opponent toggles (mapped by isYou, not index,
-// since players are reordered by first turn). `tracks` supplies the back-compat — the old single
-// `trackArmyRule` flag, and any flag a saved game predates.
-function armyRuleOn(pl) {
-  return tracks(current.value.settings, (pl.isYou ?? false) ? 'trackArmyYou' : 'trackArmyOpp')
-}
-
-const isDoubles = computed(() => current.value?.settings?.gameType === 'doubles')
-
-// Which army-rule tracker cards the side gets. Singles: the one side-level card. Doubles: a
-// unified force of ONE faction shares one pool (side-level state, mi null); otherwise each
-// member with a faction tracks their own army's rule.
-function armyCards(pl) {
-  if (!armyRuleOn(pl)) return []
-  if (!isDoubles.value) return [{ mi: null }]
-  const [a, b] = pl.members
-  if (pl.forceType === 'unified' && a.factionSlug && a.factionSlug === b.factionSlug) return [{ mi: null }]
-  return pl.members.map((m, mi) => ({ mi })).filter(({ mi }) => !!pl.members[mi].factionSlug)
-}
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
 // World / Scrambled Communications) is already baked into each player's primarySlug.

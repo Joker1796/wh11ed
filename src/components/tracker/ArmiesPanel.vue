@@ -37,6 +37,19 @@
         </p>
       </div>
 
+      <!-- The army rule's tracker (Pain tokens, Waaagh!, Battle Focus…) — here, with everything else
+           about the army, rather than under the missions (owner, 2026-09-29). Opt-in per side
+           (settings.trackArmyYou / trackArmyOpp, default on), only for factions with a spec. A
+           side another phone plays: readable, its controls inert. -->
+      <ArmyTrackerCard
+        v-for="c in trackerCards"
+        :key="c.mi ?? 'side'"
+        class="ap-tracker"
+        :pi="army.pi"
+        :mi="c.mi"
+        :readonly="!canEdit(army.pi)"
+      />
+
       <div
         class="ap-sub"
         role="tablist"
@@ -182,6 +195,9 @@ import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import StratCard from '../StratCard.vue'
 import PageTabs from '../PageTabs.vue'
+import ArmyTrackerCard from './ArmyTrackerCard.vue'
+import { useParty } from '../../composables/useParty.js'
+import { tracks } from '../../data/trackerOptions.js'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -226,6 +242,23 @@ const armies = computed(() => {
 })
 const sel = ref(Math.max(0, armies.value.findIndex((a) => a.pi === props.defaultSide)))
 const army = computed(() => armies.value[sel.value] || null)
+const { canEdit } = useParty()
+
+// The army-rule tracker cards of the army on screen. Per side by the you/opponent switches (mapped
+// by isYou — the players are reordered by first turn; \`tracks\` supplies the back-compat of the
+// old single \`trackArmyRule\`). Doubles: a unified force of ONE faction shares one pool (side-level
+// state, mi null — the same card under either member's tab); otherwise each member with a faction
+// tracks their own army's rule.
+const trackerCards = computed(() => {
+  const a = army.value
+  if (!a) return []
+  const pl = current.value.players[a.pi]
+  if (!tracks(current.value.settings, (pl.isYou ?? false) ? 'trackArmyYou' : 'trackArmyOpp')) return []
+  if (!isDoubles.value) return [{ mi: null }]
+  const [m0, m1] = pl.members
+  if (pl.forceType === 'unified' && m0.factionSlug && m0.factionSlug === m1.factionSlug) return [{ mi: null }]
+  return a.member.factionSlug ? [{ mi: a.mi }] : []
+})
 const armyTabs = computed(() => armies.value.map((a, k) => ({ key: k, label: a.label, active: sel.value === k })))
 const sub = ref(army.value?.member.roster || !army.value?.member.factionSlug ? 'units' : 'rules')
 
@@ -268,6 +301,7 @@ const openStrat = ref(null)
 .ap { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
 .ap.opp { --side: var(--side-opponent); }
 .ap-card { margin-top: 0.6rem; }
+.ap-tracker { margin-top: 0.6rem; }
 .ap-fac { margin: 0 0 0.2rem; font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; line-height: 1.1; color: var(--side); }
 .ap-facts .pmeta { margin: 0 0 0.2rem; font-size: 0.82rem; color: var(--text-muted); }
 .ap-facts .pdet { margin: 0; font-size: 0.78rem; color: var(--text-dim); font-family: var(--font-mono); }
