@@ -932,9 +932,14 @@ export function useTracker() {
     s.hand = s.hand.filter(x => x !== slug)
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
     s.scored = s.scored.filter(e => e.slug !== slug)
+    const R = current.value.currentRound
+    const thisTurns = s.drawn?.[slug] === R
     if (s.drawn) delete s.drawn[slug]
     if (s.source) delete s.source[slug]
     if (!s.deck.includes(slug)) s.deck.push(slug)
+    // The last of this turn's cards put back undoes the take itself: the turn may take again.
+    // Otherwise the dialog said "taken" with nothing to show (2026-09-29).
+    if (thisTurns && s.took?.[R] && !Object.values(s.drawn || {}).includes(R)) delete s.took[R]
   }
 
   function discardFromHand(pi, slug) {
@@ -1037,9 +1042,11 @@ export function useTracker() {
   function tookSecondaries(pi, round = current.value.currentRound) {
     const s = current.value.players[pi]?.secondary
     if (!s) return null
-    if (s.took?.[round]) return s.took[round]
-    // A game from before `took` existed: two cards that came in this round are the same fact.
     const drawn = s.drawn || {}
+    // A take whose cards were all put back since is no take (a game from before
+    // returnSecondaryToDeck undid it — see there).
+    if (s.took?.[round]) return Object.values(drawn).includes(round) ? s.took[round] : null
+    // A game from before `took` existed: two cards that came in this round are the same fact.
     return Object.values(drawn).filter(r => r === round).length >= TAKE_COUNT ? 'legacy' : null
   }
   function canTakeSecondaries(pi) {

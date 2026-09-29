@@ -33,7 +33,11 @@
               />
               <span class="ti-name">{{ m.name }}</span>
               <span
-                v-if="whenDrawnText(m.slug, player.role, locale)"
+                v-if="m.gone"
+                class="ti-gone"
+              >{{ labels.trackerDiscardedBadge }}</span>
+              <span
+                v-else-if="whenDrawnText(m.slug, player.role, locale)"
                 class="ti-badge"
               >{{ labels.trackerWhenDrawnBadge }}</span>
               <DieIcon
@@ -57,7 +61,7 @@
               </div>
             </CollapseTransition>
             <div
-              v-if="whenDrawnAction(current, pi, m.slug)"
+              v-if="!m.gone && whenDrawnAction(current, pi, m.slug)"
               class="ti-wd"
             >
               <!-- Its words are already in the briefing while the card is open. -->
@@ -226,10 +230,19 @@ const mission = (slug) => missionBySlug(slug, player.value.role, locale.value)
 const deckMissions = computed(() =>
   player.value.secondary.deck.map(mission).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name)),
 )
-// What this turn brought in — the cards drawn in the live round.
+// What this turn brought in — every card drawn in the live round, in hand or already set aside
+// again (marked so). A card put back in the deck is no longer this turn's (returnSecondaryToDeck
+// forgets its round, and the last one put back undoes the take).
 const takenMissions = computed(() => {
-  const drawn = player.value.secondary.drawn || {}
-  return player.value.secondary.hand.filter(slug => drawn[slug] === current.value.currentRound).map(mission).filter(Boolean)
+  const s = player.value.secondary
+  const drawn = s.drawn || {}
+  return Object.keys(drawn).filter(slug => drawn[slug] === current.value.currentRound)
+    .map((slug) => {
+      const m = mission(slug)
+      if (!m) return null
+      return { ...m, gone: s.hand.includes(slug) ? null : 'discarded' }
+    })
+    .filter(Boolean)
 })
 
 const picked = ref([])
@@ -310,6 +323,10 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
   letter-spacing: 0.03em; color: var(--accent);
 }
 .ti-body { padding: 0.2rem 0 0.35rem; }
+.ti-gone {
+  flex-shrink: 0; padding: 0.1rem 0.4rem; border: 1px solid var(--border);
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim);
+}
 /* The WHEN DRAWN rule under a card that has one: its words, and the action. */
 .ti-wd { margin-top: 0.35rem; padding-top: 0.35rem; border-top: 1px solid var(--border-light); }
 .ti-wd-text { margin: 0 0 0.35rem; font-size: 0.78rem; line-height: 1.4; color: var(--text-muted); }

@@ -135,6 +135,27 @@ describe('SecondaryDeck — the take dialog', () => {
     expect(document.body.querySelector('.ti-body .m-cond')).not.toBe(null)
   })
 
+  // 2026-09-29: both cards put back one by one left the turn "taken" with nothing to show.
+  it('lets the turn take again once both its cards are back in the deck', () => {
+    startGame()
+    tracker.takeRandomSecondaries(0)
+    const [a, b] = tracker.current.value.players[0].secondary.hand
+    tracker.returnSecondaryToDeck(0, a)
+    expect(tracker.canTakeSecondaries(0)).toBe(false) // one of the pair still in hand
+    tracker.returnSecondaryToDeck(0, b)
+    expect(tracker.canTakeSecondaries(0)).toBe(true)
+  })
+
+  it('shows a card of this turn that was set aside, marked so', async () => {
+    startGame()
+    const w = await open()
+    tracker.takeRandomSecondaries(0)
+    tracker.discardFromHand(0, tracker.current.value.players[0].secondary.hand[0])
+    await w.vm.$nextTick()
+    expect(document.body.querySelectorAll('.took-item')).toHaveLength(2)
+    expect(document.body.querySelectorAll('.ti-gone')).toHaveLength(1)
+  })
+
   it('shows a card in full from the pick list without choosing it', async () => {
     startGame()
     await open()
