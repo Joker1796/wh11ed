@@ -84,9 +84,9 @@
         >
           <i class="bi bi-people" /> {{ labels.lobbyNewGameShort }}
         </button>
-        <!-- The way to the statistics that is always there (owner, 2026-09-29), as on the roster
-             list's heading: the record bar below shows only once a game counts, so a phone with
-             no finished game had no way in at all. Above 900px the subnav's tab is that way. -->
+        <!-- The way to the statistics (owner, 2026-09-29), as on the roster list's heading. It
+             replaced a record bar over the history, which showed only once a game counted and
+             was a second door beside this one. Above 900px the subnav's tab is that way. -->
         <RouterLink
           to="/tracker/stats"
           class="cta-q cta-stats"
@@ -106,22 +106,6 @@
       @create="onSharedCreate"
       @close="sharedOpen = false"
     />
-
-    <!-- The one number people came back for. It sits above the list because a record is a
-         summary of that list, and it is a link because everything behind it is on /tracker/stats. -->
-    <RouterLink
-      v-if="stats.games"
-      to="/tracker/stats"
-      class="record-bar"
-    >
-      <span class="rb-rec">{{ recordText }}</span>
-      <span class="rb-lab">{{ labels.statsLink }}</span>
-      <span
-        v-if="stats.enough"
-        class="rb-rate"
-      >{{ winrateText }}</span>
-      <i class="bi bi-chevron-right" />
-    </RouterLink>
 
     <section class="history">
       <div class="history-head">
@@ -263,7 +247,6 @@ import { useParty } from '../../composables/useParty.js'
 import SharedGameModal from '../../components/tracker/SharedGameModal.vue'
 import FactionEmblem from '../../components/FactionEmblem.vue'
 import { useFormatDate } from '../../composables/useFormatDate.js'
-import { buildStats } from '../../composables/gameStats.js'
 
 const router = useRouter()
 const { locale } = useLocale()
@@ -289,12 +272,6 @@ const {
 // onMounted covers it; this catches an in-place sign-in, e.g. the DEV mock.)
 watch(status, (s) => { if (s === 'authed') syncNow() })
 
-// Battle record, from this device's history (gameStats.js does the reading — this is one line of
-// it plus a way in). Recomputed when a game is archived or deleted; the history is short enough
-// that a full pass costs nothing.
-const stats = computed(() => buildStats(history.value))
-const recordText = computed(() => `${stats.value.record.w}–${stats.value.record.l}–${stats.value.record.d}`)
-const winrateText = computed(() => `${Math.round(stats.value.winrate * 100)}%`)
 
 // Deleting a game removes it locally AND from the cloud backup (so it doesn't resurface on
 // another device or get re-downloaded by a later sync) — destructive, so confirm first.
@@ -507,34 +484,6 @@ function footLine(g) {
 <style scoped>
 .tracker-home { padding-top: 0.5rem; }
 
-.record-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 0.4rem;
-  padding: 0.5rem 0.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 0.85rem;
-}
-.record-bar:hover { border-color: var(--accent); color: var(--text-primary); }
-/* Above the subnav's breakpoint the Statistics tab is on screen already, so this bar would be a
-   second door to the same page a centimetre below the first. Below it there is no subnav, and
-   this is the only way through. */
-@media (min-width: 901px) {
-  .record-bar { display: none; }
-}
-.rb-rec {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  line-height: 1;
-  color: var(--text-primary);
-  font-variant-numeric: tabular-nums;
-}
-.rb-lab { flex: 1; }
-.rb-rate { color: var(--accent); font-weight: 600; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero {
   display: flex;
@@ -583,9 +532,7 @@ function footLine(g) {
   align-items: center;
   gap: 0.6rem;
 }
-/* The record bar hangs right under the quiet row: that row's own 0.6rem tap padding is the air
-   between them (owner, 2026-09-29 — the 1.6rem gap here read as a hole). With no games yet the
-   history heading follows instead and wants a real gap. */
+/* The quiet row's own 0.6rem tap padding plus this is the air above the history heading. */
 .cta + .history { margin-top: 1rem; }
 /* Sized by its own label and nothing else. A minimum width was tried first (18rem) and it was
    wrong twice over: at desktop width the button read as a banner, and `.btn-primary` is an
@@ -622,7 +569,7 @@ function footLine(g) {
   .cta-q:hover { color: var(--accent); }
 }
 .cta-q:disabled { opacity: 0.5; cursor: default; }
-/* Above the subnav's breakpoint its Statistics tab is on screen — the same rule as the record bar. */
+/* Above the subnav's breakpoint its Statistics tab is on screen — no second door beside it. */
 @media (min-width: 901px) {
   .cta-stats { display: none; }
 }
