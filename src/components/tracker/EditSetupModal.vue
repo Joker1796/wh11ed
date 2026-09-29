@@ -451,6 +451,10 @@ function save() {
   align-items: stretch;
   gap: 0.9rem;
 }
+/* First turn and the score mode: two short choices, side by side on one row (owner, 2026-09-29);
+   they wrap under each other only where the dialog is too narrow for both. */
+.settings.deploy-opts { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 0.7rem 1.25rem; }
+.deploy-opts .field { margin-bottom: 0; }
 /* The list row. Not the wizard's (GameSetup's .roster-line/.rp-open sit in the faction's row and
    name the faction too); here the faction is already being played, so the list gets a line of its
    own and a full-width "attach" button. */
