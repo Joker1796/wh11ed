@@ -150,11 +150,11 @@ describe('EditSetupModal — the roster settings', () => {
   })
 })
 
-// Faction colours are the default, and two greens come out one colour: Save asks once
+// Faction colours are the default, and two reds come out one colour: Save asks once
 // (useColorClashGate) — "Customise" stays in the dialog with the pickers open, "Keep them" saves.
 describe('EditSetupModal — two sides of one colour', () => {
   it('asks before saving, and customising keeps the dialog open with the option on', async () => {
-    startGame({}, { factionSlug: 'necrons' })
+    startGame({ factionSlug: 'blood-angels' }, { factionSlug: 'world-eaters' })
     mount(EditSetupModal)
     await save()
     expect(body().text()).toContain('The sides look alike')
@@ -168,7 +168,7 @@ describe('EditSetupModal — two sides of one colour', () => {
   })
 
   it('"Keep them" saves as it was', async () => {
-    startGame({}, { factionSlug: 'necrons' })
+    startGame({ factionSlug: 'blood-angels' }, { factionSlug: 'world-eaters' })
     mount(EditSetupModal)
     await save()
     await body().findAll('.modal-foot button').find((b) => b.text() === 'Keep them').trigger('click')

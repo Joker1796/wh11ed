@@ -50,8 +50,11 @@ export function colorDistance(a, b) {
   const db = b1 - b2
   return Math.sqrt((2 + rm / 256) * dr * dr + 4 * dg * dg + (2 + (255 - rm) / 256) * db * db)
 }
-// Below this, two sides read as one colour — in either theme.
-const TOO_CLOSE = 120
+// Below this, two sides read as one colour — in either theme. Measured on real pairs: Blood Angels
+// and World Eaters 18, Chaos Space Marines and Sororitas 31, Space Marines and Thousand Sons 64;
+// steel against Dark Angels' green, plainly two colours, 101 — which the first line (120) flagged
+// (2026-09-29).
+const TOO_CLOSE = 80
 const close = (a, b) => colorDistance(a.light, b.light) < TOO_CLOSE || colorDistance(a.dark, b.dark) < TOO_CLOSE
 
 // `you` / `opp` — the sides' faction slugs (null for none); `picks` — the phone's own choice

@@ -27,10 +27,13 @@ describe('resolveSideColors', () => {
     expect(sidesClash(resolveSideColors('blood-angels', 'world-eaters'))).toBe(true) // two reds
     expect(sidesClash(resolveSideColors('orks', 'orks'))).toBe(true)                 // a mirror
     expect(sidesClash(resolveSideColors('orks', 'aeldari'))).toBe(false)
+    expect(sidesClash(resolveSideColors('space-marines', 'thousand-sons'))).toBe(true) // two blues
+    // A pick that is plainly another colour does not ask (grey against Dark Angels' green).
+    expect(sidesClash(resolveSideColors('necrons', 'dark-angels', { you: 'steel' }))).toBe(false)
   })
 
-  // Muted colours sit closer than the clash line (120) allows seven of them to; what the palette must
-  // not hold is two of one hue — teal against blue measured 45, orange against gold 44.
+  // What the palette must not hold is two of one hue — teal against blue measured 45, orange
+  // against gold 44.
   it('has no two picks of one hue', () => {
     for (const a of PALETTE) for (const b of PALETTE) {
       if (a === b) continue
