@@ -1,12 +1,14 @@
 <template>
   <div class="board">
-    <!-- Each side wears its colour — you in the accent, the opponent in blue — as a stripe down
-         the card and on the name; the side on turn adds a wash of it and the "turn" mark. -->
+    <!-- Each side wears its colour — you in the accent, the opponent in blue, and on a result its
+         army's — as a stripe down the card and on the name; the side on turn adds a wash of it and
+         the "turn" mark. -->
     <div
       v-for="(pl, i) in game.players"
       :key="i"
-      class="col"
-      :class="{ leading: finished && leaderIdx === i, turn: turnIdx === i, opp: !isYouSide(pl, i) }"
+      class="col tone"
+      :class="{ leading: finished && leaderIdx === i, turn: turnIdx === i, opp: !isYouSide(pl, i), themed: finished && !!sideFaction(pl) }"
+      :style="finished ? toneVars(sideFaction(pl)?.color) : undefined"
     >
       <!-- The side's army pressed into its card, as on the history's game cards (owner,
            2026-09-29): the first of a doubles side's two. -->
@@ -145,6 +147,10 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 .col { contain: paint; }
 .col .stamp { height: calc(var(--stamp-k) * 4.5rem); }
 .col.opp { --side: var(--side-opponent); }
+/* A result wears each side's army colour instead (owner, 2026-09-29): the game is over, and "who was
+   whom" reads from the armies. During play the you/opponent pair stays — it tells the two phones'
+   sides apart, even in a mirror match. */
+.col.themed { --side: var(--tone); }
 .col.turn { background: color-mix(in srgb, var(--side) 8%, var(--bg-card)); }
 /* The result screen: the winner keeps its gold edge. `leading`, not `lead`: `.lead` is the global
    intro-paragraph primitive (style.css), and its bottom margin shrank the winner's column short of
