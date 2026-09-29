@@ -114,10 +114,13 @@ const isLocked = (b) => !props.readonly && !!props.locked?.(b)
   cursor: pointer;
   background: var(--bg-secondary);
 }
-.m-cond.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+/* Ticks in the colour of the side the rows score for (`--side`, set by the card or block around
+   them), not the screen's accent — that is the side ON TURN, and the end-of-turn check scores the
+   other side's cards (2026-09-29). Where no side is set (a scoring dialog), the accent. */
+.m-cond.on { border-color: var(--side, var(--accent)); background: color-mix(in srgb, var(--side, var(--accent)) 10%, transparent); }
 .m-cond.readonly { cursor: default; }
 .m-cond.locked { opacity: 0.55; }
-.m-check { width: 22px; height: 22px; margin-top: 1px; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+.m-check { width: 22px; height: 22px; margin-top: 1px; flex-shrink: 0; accent-color: var(--side, var(--accent)); cursor: pointer; }
 /* Static value shown in place of the stepper/checkbox for a read-only row. */
 .m-static {
   flex-shrink: 0;
@@ -128,7 +131,7 @@ const isLocked = (b) => !props.readonly && !!props.locked?.(b)
   font-size: 0.9rem;
   color: var(--text-dim);
 }
-.m-static.hit { color: var(--accent); }
+.m-static.hit { color: var(--side, var(--accent)); }
 .m-text { flex: 1 1 auto; min-width: 0; font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; }
 .m-vp { flex-shrink: 0; font-size: 0.86rem; color: var(--text-primary); white-space: nowrap; }
 .or { font-style: normal; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-right: 0.2rem; }
