@@ -2,7 +2,6 @@
   <div
     v-if="view"
     class="army-card"
-    :style="accentVars"
   >
     <div class="army-head">
       <div class="army-heading">
@@ -490,9 +489,7 @@ import ConfirmModal from '../ConfirmModal.vue'
 import RuleBody from '../RuleBody.vue'
 import { useTracker, memberAt, membersOf } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTheme } from '../../composables/useTheme.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
-import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { ui } from '../../i18n/ui.js'
 
 const props = defineProps({
@@ -515,7 +512,6 @@ const {
   resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
 } = useTracker()
 const { locale } = useLocale()
-const { theme } = useTheme()
 const labels = computed(() => ui[locale.value])
 
 const side = computed(() => current.value?.players?.[props.pi] || null)
@@ -549,20 +545,6 @@ const cardLabel = computed(() =>
 const battleSize = computed(() =>
   current.value?.settings?.combatPatrol ? 'combatPatrol' : (current.value?.settings?.battleSize || 'strikeForce')
 )
-// Tint the whole card in the faction's own colour (the same palette FactionLayout applies to the
-// faction pages): resolve light/dark against the active theme and override --accent for the subtree,
-// so every accent-coloured element (dice, chips, spend badges, readout, rule name, stepper) follows.
-const factionColor = computed(() => factionIndexBySlug(specFaction.value)?.color || null)
-const accentVars = computed(() => {
-  const c = factionColor.value
-  if (!c) return undefined
-  const dark = theme.value === 'dark'
-  const base = dark ? c.dark : c.light
-  return {
-    '--accent': base,
-    '--accent-hover': `color-mix(in srgb, ${base} 80%, ${dark ? 'white' : 'black'})`,
-  }
-})
 // A counter may declare a battle-size `start` (GSC Resurgence points begin full and are spent down);
 // an untouched counter defaults to that, else to its min (Drukhari/Votann start at 0).
 const counterStart = computed(() => {
@@ -788,8 +770,9 @@ useFlashOnChange(counter, counterEl)
 .army-card {
   margin-top: 0.75rem;
   padding: 0.6rem 0.75rem;
-  /* --accent is overridden inline per faction (accentVars), so the tint + border carry the
-     faction's own colour; a left stripe makes the coloured block read at a glance. */
+  /* In its side's colour (owner, 2026-09-29): --accent comes from the Armies panel, set to the
+     chosen army's side colour — its faction's by default, or this phone's pick (sideColors.js).
+     A left stripe makes the coloured block read at a glance. */
   background: color-mix(in srgb, var(--accent) 7%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
   border-left: 3px solid var(--accent);
