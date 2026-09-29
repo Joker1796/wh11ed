@@ -26,7 +26,7 @@ function startGame(p0 = {}, p1 = {}) {
     },
     players: [
       { name: 'Me', factionSlug: 'orks', detachments: [], disposition: DISPOSITIONS[0].id, role: 'attacker', secondaryMode: 'fixed', fixedSecondaries: [], ...p0 },
-      { name: 'Opp', factionSlug: 'necrons', detachments: [], disposition: DISPOSITIONS[1].id, role: 'defender', secondaryMode: 'fixed', fixedSecondaries: [], ...p1 },
+      { name: 'Opp', factionSlug: 'aeldari', detachments: [], disposition: DISPOSITIONS[1].id, role: 'defender', secondaryMode: 'fixed', fixedSecondaries: [], ...p1 },
     ],
   })
 }
@@ -147,6 +147,32 @@ describe('EditSetupModal — the roster settings', () => {
     w.findComponent(RosterPickerModal).vm.$emit('pick', list())
     await flushPromises()
     expect(rowOf('Live modifiers').find('input').element.disabled).toBe(false)
+  })
+})
+
+// Faction colours are the default, and two greens come out one colour: Save asks once
+// (useColorClashGate) — "Customise" stays in the dialog with the pickers open, "Keep them" saves.
+describe('EditSetupModal — two sides of one colour', () => {
+  it('asks before saving, and customising keeps the dialog open with the option on', async () => {
+    startGame({}, { factionSlug: 'necrons' })
+    mount(EditSetupModal)
+    await save()
+    expect(body().text()).toContain('The sides look alike')
+    const btn = (label) => body().findAll('.modal-foot button').find((b) => b.text() === label)
+    await btn('Customise').trigger('click')
+    expect(body().findAll('.scp-pick select')).toHaveLength(2)
+    await body().findAll('.scp-pick select')[1].setValue('blue')
+    await save()
+    expect(tracker.current.value.settings.customColors).toBe(true)
+    expect(tracker.current.value.settings.sideColors).toEqual({ opp: 'blue' })
+  })
+
+  it('"Keep them" saves as it was', async () => {
+    startGame({}, { factionSlug: 'necrons' })
+    mount(EditSetupModal)
+    await save()
+    await body().findAll('.modal-foot button').find((b) => b.text() === 'Keep them').trigger('click')
+    expect(tracker.current.value.settings.customColors).toBe(false)
   })
 })
 

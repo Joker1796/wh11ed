@@ -614,7 +614,7 @@ const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, primaryTotal, 
 // rather than undefined.
 const cpOn = computed(() => tracks(current.value.settings, 'trackCP'))
 const phasesOn = computed(() => tracks(current.value.settings, 'trackPhases'))
-// The sides' colours: standard, or each side's faction accent (the phone's `factionColors`).
+// The sides' colours: each side's faction accent, or the phone's own picks (`customColors`).
 const sideColors = computed(() => gameSideColorStyle(current.value))
 const turnOpp = computed(() => !isYouSide(current.value.players[turnIndex.value], turnIndex.value))
 // …and the same colours for every dialog opened from this screen (they teleport out of it).

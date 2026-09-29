@@ -210,7 +210,7 @@
       </button>
       <button
         class="btn-primary"
-        @click="save"
+        @click="guardColors(save)"
       >
         {{ labels.trackerSave }}
       </button>
@@ -227,6 +227,16 @@
       @pick="onPickLayout"
       @close="layoutPickerOpen = false"
     />
+    <!-- Two sides of one colour ask once before Save (useColorClashGate). -->
+    <ConfirmModal
+      v-if="colorsAskOpen"
+      :title="labels.sideColorsClashTitle"
+      :message="labels.sideColorsClashBody"
+      :confirm-label="labels.sideColorsClashKeep"
+      :cancel-label="labels.sideColorsClashTune"
+      @confirm="keepColors"
+      @close="customiseColors"
+    />
   </BaseModal>
 </template>
 
@@ -239,6 +249,8 @@ import LayoutPickerModal from './LayoutPickerModal.vue'
 import LayoutTabs from './LayoutTabs.vue'
 import RosterPickerModal from './RosterPickerModal.vue'
 import TrackOptions from './TrackOptions.vue'
+import ConfirmModal from '../ConfirmModal.vue'
+import { useColorClashGate } from '../../composables/useColorClashGate.js'
 import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -296,6 +308,8 @@ const settings = reactive({
   // Every "what to track" flag, filled in for a game saved before it existed — the table owns the
   // back-compat (retired field names, per-option defaults), so this dialog carries none of it.
   ...trackSettingsOf(game.settings),
+  // The phone's side-colour picks under "Customise colours" — not a flag, so not in the table's.
+  sideColors: game.settings.sideColors || null,
   // game.settings.firstTurn is always normalized to 1 post-creation (see newGame) — the
   // actual "who's first" lives in player order, so derive the toggle from that instead.
   firstTurn: (game.players[0].isYou ?? true) ? 1 : 2,
@@ -374,6 +388,9 @@ const trackCtx = computed(() => ({
   opp: { faction: sideFaction(opp), trackable: armyOppTrackable.value },
   anyRoster: anyRoster.value,
 }))
+const {
+  open: colorsAskOpen, guard: guardColors, confirm: keepColors, customise: customiseColors,
+} = useColorClashGate(trackCtx, settings)
 
 function save() {
   // Same rule as the wizard's Start: a row this game cannot offer is stored off, not at the value

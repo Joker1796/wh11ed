@@ -73,7 +73,7 @@ describe('TrackOptions', () => {
     expect(live).toHaveLength(3)
     expect(live[0]).toContain('your army rule')
     expect(live[1]).toContain("opponent's army rule")
-    expect(live[2]).toContain('Faction colours') // a way of looking at the game: this phone's
+    expect(live[2]).toContain('Customise colours') // a way of looking at the game: this phone's
     const cp = rows.find((r) => r.text().includes('Track CP'))
     expect(cp.find('input').element.disabled).toBe(true)
     expect(cp.text()).toContain('Host only')

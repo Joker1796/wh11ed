@@ -959,7 +959,7 @@
         <button
           class="btn-primary"
           :disabled="!canStart"
-          @click="start"
+          @click="guardColors(start)"
         >
           {{ labels.trackerStart }}
         </button>
@@ -994,6 +994,17 @@
       @pick="onPickMirror"
       @random="onRandomMirror"
       @close="mirrorPickerOpen = false"
+    />
+
+    <!-- Two sides of one colour ask once before the game starts (useColorClashGate). -->
+    <ConfirmModal
+      v-if="colorsAskOpen"
+      :title="labels.sideColorsClashTitle"
+      :message="labels.sideColorsClashBody"
+      :confirm-label="labels.sideColorsClashKeep"
+      :cancel-label="labels.sideColorsClashTune"
+      @confirm="keepColors"
+      @close="customiseColors"
     />
 
     <!-- ── The lobby's own dialogs ──────────────────────────────────────────────────────── -->
@@ -1090,6 +1101,7 @@ import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import ConfirmModal from '../ConfirmModal.vue'
+import { useColorClashGate } from '../../composables/useColorClashGate.js'
 import PartyModal from './PartyModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
@@ -1413,6 +1425,9 @@ const trackCtx = computed(() => ({
   opp: { faction: sideFaction(players[1]), trackable: armyOppTrackable.value },
   anyRoster: anyRoster.value,
 }))
+const {
+  open: colorsAskOpen, guard: guardColors, confirm: keepColors, customise: customiseColors,
+} = useColorClashGate(trackCtx, settings)
 watch(
   () => players.map(p => armiesOf(p).map(m => m.factionSlug).join(',')).join('|'),
   async () => {

@@ -12,7 +12,7 @@
     >
       <!-- The side's army pressed into its card, as on the history's game cards (owner,
            2026-09-29): the first of a doubles side's two. In the board's colour for the side, not
-           its own: the standard pair, or the armies' with the "Faction colours" option. -->
+           its own: the armies' by default, or the phone's picks ("Customise colours"). -->
       <FactionEmblem
         :faction="sideFaction(pl)"
         stamp

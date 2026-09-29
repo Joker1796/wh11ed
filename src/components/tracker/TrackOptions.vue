@@ -43,13 +43,16 @@
       >
         <i class="bi bi-question-circle" />
       </button>
-      <!-- What the choice looks like, under its row: both sides' cards in the colours it gives. -->
+      <!-- What the choice looks like, under its row: both sides' cards in the colours it gives,
+           and while the row is on, a colour picker over each (the picks are settings.sideColors). -->
       <SideColorPreview
         v-if="o.preview === 'sideColors'"
         class="opt-preview"
         :you="ctx.you.faction"
         :opp="ctx.opp.faction"
-        :faction-colors="enabledOf(o) && !!settings[o.setting]"
+        :editable="enabledOf(o) && !!settings[o.setting]"
+        :picks="enabledOf(o) && settings[o.setting] ? settings.sideColors || {} : null"
+        @update:picks="(v) => (settings.sideColors = v)"
       />
     </div>
 

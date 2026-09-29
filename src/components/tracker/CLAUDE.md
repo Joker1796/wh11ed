@@ -160,13 +160,17 @@ teleport to `<body>`, out of the screen, so RoundTracker hands `{ class, style }
 `provideModalScope` (composables/modalScope.js) and BaseModal puts it on its overlay — every dialog
 opened under the game screen, nested ones included, and nothing outside it.
 
-**Which two colours** is `composables/sideColors.js`: the standard pair (you red, opponent blue),
-or with the phone's **Faction colours** option (`factionColors`, a `local` row with a live
-two-card preview under it — `SideColorPreview.vue`, drawn by TrackOptions from the row's
-`preview`) each side's accent from factionsIndex.js. Two sides too close in colour are told apart:
-the opponent falls back to the standard blue (or red, when your faction is a blue). The screen
-applies it through the global `.side-colored` class + `gameSideColorStyle(game)`, which set
-`--side-you` / `--side-opponent` per theme; the finished screen wears the same pair.
+**Which two colours** is `composables/sideColors.js`: each side's faction accent from
+factionsIndex.js by default (owner, 2026-09-29; a side with no faction takes the standard red /
+blue). The phone's **Customise colours** option (`customColors`, a `local` row) opens a picker per
+side over its live two-card preview (`SideColorPreview.vue`, drawn by TrackOptions from the row's
+`preview`, with each army's emblem): a short `PALETTE` of the site's own pairs, or "faction colour".
+The picks are `settings.sideColors` ({ you, opp }), local like the row. Nothing is swapped
+automatically any more: when the two sides come out alike, the wizard's Start and the edit
+dialog's Save ask once and offer to customise (`useColorClashGate.js`). The screen applies the
+pair through the global `.side-colored` class + `gameSideColorStyle(game)`, which set
+`--side-you` / `--side-opponent` per theme; the score board's emblems take the same colours, and
+a result's columns (ScoreBoard `finished`) wear each army's own colour.
 
 ## The missions panel
 

@@ -130,20 +130,21 @@ export const TRACK_OPTIONS = [
     remember: true,
   },
   {
-    // The sides' colours on the game screen: the standard red / blue, or each side's faction
-    // accent (composables/sideColors.js — two sides too close in colour are still told apart).
-    // A way of LOOKING at the game, so it is this phone's own, like the army-rule cards. The row
-    // draws a preview of both sides under it (TrackOptions, `preview`).
-    id: 'faction-colors',
-    setting: 'factionColors',
+    // The sides' colours on the game screen: each side's faction accent by default; on, this
+    // phone picks either side's colour from a short palette (composables/sideColors.js — the picks
+    // are `settings.sideColors`, drawn under the row by TrackOptions). A way of LOOKING at the
+    // game, so it is this phone's own, like the army-rule cards. The row draws a preview of both
+    // sides under it (`preview`). Replaced the "Faction colours" switch (owner, 2026-09-29):
+    // faction colours became the default and the old `factionColors` field means nothing now.
+    id: 'custom-colors',
+    setting: 'customColors',
     group: 'game',
-    label: 'trackerTrackFactionColors',
-    help: 'trackerHelpFactionColors',
+    label: 'trackerTrackCustomColors',
+    help: 'trackerHelpCustomColors',
     default: false,
-    remember: true,
+    remember: false,
     local: true,
     preview: 'sideColors',
-    unavailable: (ctx) => (ctx.you.faction || ctx.opp.faction ? null : 'trackerOptNeedsFaction'),
   },
 
   // ── The roster screen ──────────────────────────────────────────────────────────────────────
@@ -221,8 +222,12 @@ const BY_SETTING = new Map(TRACK_OPTIONS.map((o) => [o.setting, o]))
 
 // The settings that stay on the phone in a shared game — the `local` rows and their retired names
 // (a saved game may still carry the old field, and it must not travel either).
-export const LOCAL_TRACK_SETTINGS = TRACK_OPTIONS.filter((o) => o.local).flatMap((o) => [o.setting, ...(o.legacy ? [o.legacy] : [])])
-  .filter((k, i, a) => a.indexOf(k) === i)
+// Plus two fields that are not rows: the colour picks under "Customise colours", and the retired
+// "Faction colours" switch still sitting in older games.
+export const LOCAL_TRACK_SETTINGS = [
+  ...TRACK_OPTIONS.filter((o) => o.local).flatMap((o) => [o.setting, ...(o.legacy ? [o.legacy] : [])]),
+  'sideColors', 'factionColors',
+].filter((k, i, a) => a.indexOf(k) === i)
 
 // Whether a row can be flipped in this game. `unavailable` says WHY not in one ui key; a row with
 // neither is always available.

@@ -94,10 +94,10 @@ describe('availability', () => {
   })
 
   it('leaves the tracker\'s own rows alone', () => {
-    // The two army rows and the faction colours want a faction; the clock and its reminder are
-    // always offered.
-    expect(enabled(CTX_BARE)).toEqual(['cp', 'phases', 'phase-rules', 'broadcast'])
-    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'phases', 'phase-rules', 'broadcast', 'faction-colors'])
+    // The two army rows want a faction; the clock, its reminder and the colours are always offered
+    // (a side with no faction still has a colour to customise).
+    expect(enabled(CTX_BARE)).toEqual(['cp', 'phases', 'phase-rules', 'broadcast', 'custom-colors'])
+    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'phases', 'phase-rules', 'broadcast', 'custom-colors'])
   })
 })
 
