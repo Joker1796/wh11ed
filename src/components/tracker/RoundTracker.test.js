@@ -116,10 +116,8 @@ describe('RoundTracker — the missions panel', () => {
     await steps[0].trigger('click')
     expect(tracker.current.value.currentRound).toBe(2)
     expect(w.find('.round-edit').text()).toContain('round 1')
-    expect(w.find('.mc-foot').text()).toContain('Round 1')
     await w.find('.re-back').trigger('click')
     expect(w.find('.round-edit').exists()).toBe(false)
-    expect(w.find('.mc-foot').text()).toContain('Round 2')
   })
 })
 

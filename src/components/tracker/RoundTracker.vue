@@ -278,35 +278,19 @@
               {{ isHost ? labels.partyOtherSideHost : labels.partyOtherSide }}
             </p>
 
-            <!-- The primary: its conditions right on the card, ticked in place, each under the
-                 moment it is scored at; the name opens the full text. -->
-            <div
+            <!-- The primary, folded to one line as in the first tracker (owner, 2026-09-29): its name and
+                 this round's VP; a tap opens it with its conditions to tick (ScoringModal). -->
+            <button
               v-if="primaryMission(i)"
+              type="button"
               class="mission-card"
               :inert="lock(i)"
+              @click="openPrimary = i"
             >
-              <div class="mc-head">
-                <button
-                  class="mc-name"
-                  @click="openPrimary = i"
-                >
-                  {{ primaryName(i) }}
-                </button>
-                <span class="mc-tag">{{ labels.trackerPrimary }}</span>
-              </div>
-              <ScoreRows
-                :blocks="primaryBlocks(i)"
-                :count="(bi, ri) => primaryRowCount(i, shownRound - 1, bi, ri)"
-                :show-headings="false"
-                :locked="b => primaryLocked(i, b)"
-                :locked-note="labels.trackerOppTurnOnly"
-                @set="(bi, ri, c) => setPrimaryRow(i, shownRound - 1, bi, ri, c)"
-              />
-              <div class="mc-foot">
-                <span>{{ labels.trackerRoundShort }} {{ shownRound }} · <b>{{ current.players[i].rounds[shownRound - 1].primary }}</b> / {{ PRIMARY_ROUND_CAP }} VP</span>
-                <span>{{ labels.trackerPrimary }} <b>{{ primaryTotal(i) }}</b></span>
-              </div>
-            </div>
+              <span class="mc-name">{{ primaryName(i) }}</span>
+              <span class="mc-tag">{{ labels.trackerPrimary }}</span>
+              <span class="mc-vp">{{ current.players[i].rounds[shownRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
+            </button>
             <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
                  card to tick. The missions themselves are not optional — see trackerOptions.js. -->
             <div
@@ -472,6 +456,7 @@
       :count="(bi, ri) => primaryRowCount(openPrimary, shownRound - 1, bi, ri)"
       :locked="b => primaryLocked(openPrimary, b)"
       :locked-note="labels.trackerOppTurnOnly"
+      :opp="!isYouSide(current.players[openPrimary], openPrimary)"
       :note="`${labels.trackerPrimary}: ${labels.trackerThisRound} ≤ ${PRIMARY_ROUND_CAP} · ${PRIMARY_GAME_CAP}/${labels.trackerTotal}`"
       @set="(bi, ri, c) => setPrimaryRow(openPrimary, shownRound - 1, bi, ri, c)"
       @close="openPrimary = -1"
@@ -576,7 +561,6 @@ import SecondaryDeck from './SecondaryDeck.vue'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
-import ScoreRows from './ScoreRows.vue'
 import CpStratagems from './CpStratagems.vue'
 import GameLog from './GameLog.vue'
 import ArmiesPanel from './ArmiesPanel.vue'
@@ -608,7 +592,7 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, primaryTotal, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
 
 // Read through `tracks` so a game saved before the option existed arrives with its default
 // rather than undefined.
@@ -941,25 +925,25 @@ function onEndBattle(reason) {
   font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--text-muted); cursor: pointer;
 }
 @media (hover: hover) { .other-toggle:hover { border-color: var(--accent); color: var(--text-primary); } }
-/* The primary card: name (opens the full text), the conditions, the round and game tally. */
+/* The primary card: one line — its name, the tag, this round's VP; the whole line opens it. */
 .mission-card {
-  padding: 0.55rem 0.6rem 0.5rem;
+  display: flex; align-items: center; gap: 0.5rem; width: 100%;
+  padding: 0.55rem 0.6rem;
   border: 1px solid var(--border);
   border-left: 3px solid var(--side);
   background: color-mix(in srgb, var(--side) 4%, var(--bg-card));
+  font: inherit; text-align: left; cursor: pointer;
 }
-.mc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.45rem; }
+@media (hover: hover) { .mission-card:hover { border-color: var(--side); } }
 .mc-name {
-  min-width: 0; padding: 0; border: 0; background: none; text-align: left; cursor: pointer;
-  font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; line-height: 1.1; color: var(--side);
+  flex: 1 1 auto; min-width: 0;
+  font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.1; color: var(--side);
 }
-@media (hover: hover) { .mc-name:hover { text-decoration: underline; text-underline-offset: 3px; } }
 .mc-tag {
   flex-shrink: 0; padding: 0.1rem 0.45rem; border: 1px solid var(--border);
   font-size: 0.72rem; color: var(--text-dim);
 }
-.mc-foot { display: flex; justify-content: space-between; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-dim); }
-.mc-foot b { color: var(--text-primary); }
+.mc-vp { flex-shrink: 0; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); }
 /* Correcting a past round. */
 .round-edit {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.4rem 0.75rem;

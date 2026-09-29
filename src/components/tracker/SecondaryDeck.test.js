@@ -57,13 +57,13 @@ describe('SecondaryDeck — the turn\'s two cards', () => {
     const w = deck(0)
     await w.vm.$nextTick()
     expect(w.find('.take-btn').exists()).toBe(false)
-    expect(w.findAll('.cm-src').map(e => e.text())).toEqual(['random', 'random'])
+    expect(w.findAll('.cm-src').map(e => e.attributes('title'))).toEqual(['random', 'random'])
     expect(w.findAll('.cm-src .die-icon')).toHaveLength(2) // an icon, not an emoji
     expect(w.find('.untake-btn').exists()).toBe(true)
   })
 })
 
-describe('SecondaryDeck — scoring on the card', () => {
+describe('SecondaryDeck — scoring a card', () => {
   // Display of Might: one condition at the end of your turn, one at the end of the opponent's.
   function holdDisplayOfMight() {
     startGame()
@@ -71,16 +71,28 @@ describe('SecondaryDeck — scoring on the card', () => {
     tracker.takeChosenSecondaries(0, [slug, tracker.current.value.players[0].secondary.deck.find(s => s !== slug)])
     return slug
   }
+  // The card is one line (owner, 2026-09-29); its conditions are ticked in the dialog it opens.
+  const openCard = async (w, name) => {
+    await w.findAll('.card').find(c => c.text().includes(name)).find('.card-open').trigger('click')
+    await w.vm.$nextTick()
+  }
+  const rows = (sel) => document.body.querySelectorAll(`[role="dialog"] ${sel}`)
+
+  it('keeps the card to one line: no conditions on it', () => {
+    holdDisplayOfMight()
+    const w = deck(0)
+    expect(w.findAll('.card .m-cond')).toHaveLength(0)
+  })
 
   it('locks the "end of your opponent\'s turn" condition during the owner\'s own turn only', async () => {
     const slug = holdDisplayOfMight()
     const w = deck(0)
-    const card = () => w.findAll('.card').find(c => c.text().includes('Display of Might'))
-    expect(card().findAll('.m-cond.locked')).toHaveLength(1)
-    expect(card().findAll('.m-cond input')).toHaveLength(1)
+    await openCard(w, 'Display of Might')
+    expect(rows('.m-cond.locked')).toHaveLength(1)
+    expect(rows('.m-cond input')).toHaveLength(1)
     tracker.endTurn()
     await w.vm.$nextTick()
-    expect(card().findAll('.m-cond.locked')).toHaveLength(0)
+    expect(rows('.m-cond.locked')).toHaveLength(0)
     expect(slug).toBeTruthy()
   })
 
@@ -89,8 +101,10 @@ describe('SecondaryDeck — scoring on the card', () => {
     tracker.endTurn()
     tracker.endTurn() // round 2
     const w = deck(0, { round: 1 })
-    const card = w.findAll('.card').find(c => c.text().includes('Display of Might'))
-    await card.find('.m-cond input').setValue(true)
+    await openCard(w, 'Display of Might')
+    const input = rows('.m-cond input')[0]
+    input.checked = true
+    input.dispatchEvent(new Event('change'))
     expect(tracker.secondaryCardVp(0, slug, 1)).toBeGreaterThan(0)
     expect(tracker.secondaryCardVp(0, slug, 2)).toBe(0)
   })

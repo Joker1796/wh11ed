@@ -24,11 +24,12 @@
       </button>
     </div>
 
-    <!-- Compact mission cards: the name (tap for the full text), how the card came in, the VP it
-         holds this round, and its scoring rows right on the card. TransitionGroup animates draws
-         in and set-asides out (remaining cards slide up via .card-move). before-leave pins the
-         card's offset: an abs-positioned flex child's static position is the container's start,
-         so without it the ghost jumps to the top. -->
+    <!-- Compact mission cards, folded to one line as in the first tracker (owner, 2026-09-29): the
+         name, how the card came in, the VP it holds this round; a tap opens it with its conditions
+         to tick (ScoringModal). TransitionGroup animates draws in and set-asides out (remaining
+         cards slide up via .card-move). before-leave pins the card's offset: an abs-positioned
+         flex child's static position is the container's start, so without it the ghost jumps to
+         the top. -->
     <TransitionGroup
       tag="ul"
       name="card"
@@ -43,12 +44,26 @@
       >
         <div class="card-head">
           <button
-            class="card-name"
+            type="button"
+            class="card-open"
             @click="openSlug = m.slug"
           >
-            {{ m.name }}
+            <span class="card-name">{{ m.name }}</span>
+            <span
+              v-if="source(m.slug)"
+              class="cm-src"
+              :title="source(m.slug) === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen"
+            ><DieIcon v-if="source(m.slug) === 'random'" /><i
+              v-else
+              class="bi bi-hand-index-thumb"
+              aria-hidden="true"
+            /></span>
+            <span
+              v-if="readonlyCard(m.slug)"
+              class="badge"
+            >{{ labels.trackerDiscardedBadge }}</span>
+            <span class="card-vp">{{ secondaryCardVp(pi, m.slug, round) }} VP</span>
           </button>
-          <span class="card-vp">{{ secondaryCardVp(pi, m.slug, round) }} VP</span>
           <button
             v-if="live && mode === 'tactical' && inHand(m.slug)"
             class="manage"
@@ -68,31 +83,6 @@
             <i class="bi bi-arrow-counterclockwise" />
           </button>
         </div>
-        <div class="card-meta">
-          <span class="cm-cat">{{ m.category }}</span>
-          <span
-            v-if="source(m.slug)"
-            class="cm-src"
-          ><DieIcon v-if="source(m.slug) === 'random'" /><i
-            v-else
-            class="bi bi-hand-index-thumb"
-            aria-hidden="true"
-          /> {{ source(m.slug) === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen }}</span>
-          <span
-            v-if="readonlyCard(m.slug)"
-            class="badge"
-          >{{ labels.trackerDiscardedBadge }}</span>
-        </div>
-        <ScoreRows
-          v-if="!readonlyCard(m.slug)"
-          class="card-rows"
-          :blocks="relevantBlocks(m)"
-          :count="(bi, ri) => secondaryRowCount(pi, m.slug, bi, ri, round)"
-          :show-headings="false"
-          :locked="b => rowLocked(m, b)"
-          :locked-note="labels.trackerOppTurnOnly"
-          @set="(bi, ri, c) => scoreSecondaryRow(pi, m.slug, bi, ri, c, round)"
-        />
       </li>
     </TransitionGroup>
     <p
@@ -114,6 +104,7 @@
       :count="(bi, ri) => secondaryRowCount(pi, openMission.slug, bi, ri, round)"
       :locked="b => rowLocked(openMission, b)"
       :locked-note="labels.trackerOppTurnOnly"
+      :opp="!isYouSide(player, pi)"
       @set="(bi, ri, c) => scoreSecondaryRow(pi, openMission.slug, bi, ri, c, round)"
       @redraw="mode => startRedraw(openMission.slug, mode)"
       @close="openSlug = null"
@@ -218,14 +209,13 @@ const prompted = new Set()
 import { ref, computed, watch, inject } from 'vue'
 import DieIcon from '../DieIcon.vue'
 import ScoringModal from './ScoringModal.vue'
-import ScoreRows from './ScoreRows.vue'
 import TakeSecondariesModal from './TakeSecondariesModal.vue'
 import BaseModal from '../BaseModal.vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import ReplaceCardModal from './ReplaceCardModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useTracker, missionBySlug, scorableBlocks, isYouSide } from '../../composables/useTracker.js'
 import { blockLocked } from '../../composables/missionTiming.js'
 import { whenDrawnAction } from '../../composables/whenDrawn.js'
 
@@ -381,7 +371,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .sec-empty { margin: 0.2rem 0 0; font-size: 0.82rem; color: var(--text-dim); }
 .cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; position: relative; }
 .card {
-  padding: 0.55rem 0.6rem 0.6rem;
+  display: flex;
   border: 1px solid var(--border);
   border-left: 3px solid var(--side, var(--side-you));
   background: color-mix(in srgb, var(--side, var(--side-you)) 4%, var(--bg-card));
@@ -392,17 +382,20 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .card-enter-from { opacity: 0; transform: translateY(-6px); }
 .card-leave-active { position: absolute; width: 100%; transition: opacity var(--motion-fast) ease; }
 .card-leave-to { opacity: 0; }
-.card-head { display: flex; align-items: center; gap: 0.5rem; }
+.card-head { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem; }
+/* The whole line but the "⋯" opens the card. */
+.card-open {
+  flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 0.45rem;
+  padding: 0; border: 0; background: none; font: inherit; text-align: left; cursor: pointer;
+}
 .card-name {
   flex: 1 1 auto; min-width: 0;
-  padding: 0; border: 0; background: none; text-align: left; cursor: pointer;
   font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.1;
   color: var(--side, var(--side-you));
 }
-@media (hover: hover) { .card-name:hover { text-decoration: underline; text-underline-offset: 3px; } }
+@media (hover: hover) { .card-open:hover .card-name { text-decoration: underline; text-underline-offset: 3px; } }
 .card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); flex-shrink: 0; }
-.card-meta { display: flex; flex-wrap: wrap; gap: 0.3rem 0.6rem; margin: 0.2rem 0 0.45rem; font-size: 0.74rem; color: var(--text-dim); }
-.cm-src { font-weight: 600; color: var(--text-muted); }
+.cm-src { flex-shrink: 0; font-size: 0.8rem; color: var(--text-muted); }
 .manage {
   min-width: 36px; min-height: 36px;
   background: none; border: 1px solid var(--border); color: var(--text-dim);
@@ -416,7 +409,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
    face is muted — the Return button stays fully legible so undoing an accidental set-aside
    is easy. */
 .card.set-aside { border-style: dashed; }
-.card.set-aside .card-name, .card.set-aside .card-meta { opacity: 0.6; }
+.card.set-aside .card-name, .card.set-aside .cm-src { opacity: 0.6; }
 .badge {
   font-size: 0.6rem;
   font-weight: 700;

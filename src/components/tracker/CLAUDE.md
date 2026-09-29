@@ -178,9 +178,11 @@ a result's columns (ScoreBoard `finished`) wear each army's own colour.
 phone's own side (a guest does not want the other phone's cards on top); the other side waits under
 "Show X's missions". A new turn folds it again.
 
-**Scored on the card.** The primary and every secondary show their conditions right on the card
-(`ScoreRows.vue` — the same rows the full-text dialog `ScoringModal` draws, headings off), each
-under the moment it is scored at; the card's name opens the full text. **The moment comes from the
+**Scored in the card's dialog.** The primary and every secondary are one line on the screen — name,
+this round's VP (and the "⋯" of a tactical card) — as in the first tracker (owner, 2026-09-29: the
+conditions laid out on every card ran the tab to several screens). A tap opens `ScoringModal` with
+the briefing and the conditions (`ScoreRows.vue`), each under the moment it is scored at; the rows
+tick in the card's side colour (`opp` prop — the dialog teleports out of the card). **The moment comes from the
 data, never from a guess:** `missionTiming.js` maps every English `when` of a scoring block (and
 the End of Battle heading) to one of six moments, and its test fails on a phrasing it does not
 know. One thing is locked: an "end of your opponent's turn" condition during its owner's own turn

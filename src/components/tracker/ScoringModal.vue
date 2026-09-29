@@ -10,7 +10,12 @@
       <span class="mh-count value">{{ vp }} VP</span>
     </template>
 
-    <div class="modal-body">
+    <!-- The rows tick in the colour of the side they score for (ScoreRows reads --side); the dialog
+         teleports out of that side's card, so it is told which. -->
+    <div
+      class="modal-body"
+      :style="opp === null ? null : { '--side': opp ? 'var(--side-opponent)' : 'var(--side-you)' }"
+    >
       <p
         v-if="readonly && viewOnlyNote !== ''"
         class="view-only"
@@ -86,6 +91,7 @@ defineProps({
   viewOnlyNote: { type: String, default: null }, // the view-only line; null → "Discarded — view only", '' → none
   locked: { type: Function, default: null },  // (block) => true when its moment cannot have come (ScoreRows)
   lockedNote: { type: String, default: '' },
+  opp: { type: Boolean, default: null },       // whose card: the opponent's (true), yours (false), unknown (null)
 })
 defineEmits(['set', 'close', 'redraw'])
 const { locale } = useLocale()
