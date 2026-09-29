@@ -407,8 +407,12 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   color: var(--side, var(--side-you));
 }
 /* Hover as on the primary's card (RoundTracker .mission-card): the card's frame takes its side's
-   colour. Not the "⋯", which lights on its own. */
-@media (hover: hover) { .card:has(.card-open:hover) { border-color: var(--side, var(--side-you)); } }
+   colour — over the "⋯" too, whose divider joins it, so the button reads framed on all four
+   sides rather than by one line (2026-09-29). */
+@media (hover: hover) {
+  .card:hover { border-color: var(--side, var(--side-you)); }
+  .card:hover .card-head .manage { border-left-color: var(--side, var(--side-you)); }
+}
 .card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); flex-shrink: 0; }
 .cm-src { flex-shrink: 0; font-size: 0.8rem; color: var(--text-muted); }
 .manage {
