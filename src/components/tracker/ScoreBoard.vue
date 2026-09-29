@@ -184,7 +184,7 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 }
 .grand {
   font-family: var(--font-display);
-  font-size: 2.42rem;
+  font-size: 2.8rem;
   font-weight: 500;
   color: var(--text-primary);
   line-height: 1;
@@ -203,7 +203,8 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 }
 .breakdown div { display: flex; flex-direction: column; gap: 2px; }
 .breakdown dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
-.breakdown dd { margin: 0; font-family: var(--font-mono); font-size: 1.45rem; line-height: 1.1; font-weight: 700; color: var(--text-primary); }
+/* The main score's face (owner, 2026-09-29), a size under it. */
+.breakdown dd { margin: 0; font-family: var(--font-display); font-size: 1.75rem; line-height: 1; font-weight: 500; color: var(--text-primary); }
 /* The badge straddles the board's top edge (the result screen only). The board makes room for it
    rather than the badge moving onto the score columns. */
 .board:has(.tie) { margin-top: 0.6rem; }
@@ -228,12 +229,12 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   .pname { font-size: 1.05rem; }
   .pfaction { font-size: 0.78rem; }
   .turn-tag { top: 0.45rem; right: 0.5rem; font-size: 0.85rem; }
-  .grand { font-size: 1.7rem; }
+  .grand { font-size: 2rem; }
   .grand-unit { font-size: 0.7rem; }
   .grand-bp { margin-left: 0.6rem; }
   .breakdown { gap: 0.8rem; margin-top: 0.5rem; padding-top: 0.4rem; }
   .breakdown dt { font-size: 0.58rem; letter-spacing: 0; }
-  .breakdown dd { font-size: 1.2rem; }
+  .breakdown dd { font-size: 1.4rem; }
 }
 /* The narrowest phones: the three labels fill the card, so the gap is what gives. */
 @media (max-width: 380px) {
