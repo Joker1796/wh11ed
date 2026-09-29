@@ -393,7 +393,9 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.1;
   color: var(--side, var(--side-you));
 }
-@media (hover: hover) { .card-open:hover .card-name { text-decoration: underline; text-underline-offset: 3px; } }
+/* Hover as on the primary's card (RoundTracker .mission-card): the card's frame takes its side's
+   colour. Not the "⋯", which lights on its own. */
+@media (hover: hover) { .card:has(.card-open:hover) { border-color: var(--side, var(--side-you)); } }
 .card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); flex-shrink: 0; }
 .cm-src { flex-shrink: 0; font-size: 0.8rem; color: var(--text-muted); }
 .manage {
