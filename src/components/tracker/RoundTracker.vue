@@ -165,6 +165,7 @@
          sits on the strip's line in the accent, attached to what it shows. Every new turn opens
          on the missions (watch below) — that is where a turn starts. -->
     <nav
+      ref="tabsEl"
       class="game-tabs"
       role="tablist"
       :aria-label="labels.trackerTabsAria"
@@ -610,6 +611,17 @@ const tabColumns = computed(() => tabs.value.map((t) => (t.id === tab.value ? 'm
 watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
 watch(tab, (t) => { if (t === 'cp') cpSeen.value = true }, { immediate: true })
+// Switching panels from further down the page: the new panel starts right under the tab strip,
+// the strip at the top of the screen — not wherever a shorter panel lets the browser clamp the
+// scroll (2026-09-29: first a jump, then a screen-tall blank to stop it). From above, nothing moves.
+const tabsEl = ref(null)
+watch(tab, () => {
+  const el = tabsEl.value
+  if (!el) return
+  const top = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height')) || 56
+  const y = el.getBoundingClientRect().top
+  if (y < top) window.scrollTo({ top: window.scrollY + y - top - 8, behavior: 'instant' })
+}, { flush: 'post' })
 // The round on screen: the live one, or a past one opened for correction from the round steps
 // (`viewRound`). Local to this phone — what one player is correcting is not where the game is.
 const viewRound = ref(null)
@@ -1073,10 +1085,6 @@ function onEndBattle(reason) {
   font-family: var(--font-mono); font-size: 0.62rem; line-height: 1.35; letter-spacing: 0;
 }
 .gt-tab.on .gt-count { background: #fff; color: var(--accent); }
-/* Every panel at least a screen tall: switching to a shorter one left the page shorter than where it
-   was scrolled, the browser pulled the scroll up and everything jumped (owner, 2026-09-29). With
-   the room, the tab strip stays where the finger left it. */
-.panel { min-height: 100dvh; }
 .panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
 .gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 @media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
