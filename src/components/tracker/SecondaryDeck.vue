@@ -382,7 +382,10 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .card-enter-from { opacity: 0; transform: translateY(-6px); }
 .card-leave-active { position: absolute; width: 100%; transition: opacity var(--motion-fast) ease; }
 .card-leave-to { opacity: 0; }
-.card-head { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem; }
+/* The primary's card height (RoundTracker .mission-card): its padding, and the "⋯" keeps its 36px
+   tap target but takes no height of its own (negative margins). */
+.card-head { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.6rem; }
+.card-head .manage { margin: -0.4rem 0; }
 /* The whole line but the "⋯" opens the card. */
 .card-open {
   flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 0.45rem;
