@@ -909,22 +909,10 @@ function onEndBattle(reason) {
 .mside { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
 .mside.opp { --side: var(--side-opponent); }
 .mside-tabs { margin-bottom: 0.6rem; }
-.player {
-  --side: var(--side-you);
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--side);
-  padding: 0.8rem;
-}
+/* On the page's own background, like the CP panel (owner, 2026-09-29): the side tabs above already
+   say whose it is, and a framed card inside the tab's frame was a box in a box. */
+.player { --side: var(--side-you); }
 .player.opp { --side: var(--side-opponent); }
-.player .ptitle { color: var(--side); display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
-.pt-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pt-turn {
-  flex-shrink: 0;
-  font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em; color: var(--side);
-}
-/* The folded other side: one full-width row, the side's name in it. */
 /* The primary card: one line — its name, the tag, this round's VP; the whole line opens it. */
 .mission-card {
   display: flex; align-items: center; gap: 0.5rem; width: 100%;
@@ -954,8 +942,6 @@ function onEndBattle(reason) {
   min-height: 36px; padding: 0 0.7rem; border: 1px solid var(--warning); background: var(--bg-card);
   font: inherit; font-size: 0.82rem; font-weight: 700; color: var(--warning); cursor: pointer;
 }
-.ptitle { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.2rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.3rem; font-family: var(--font-mono); }
 .sec-title-row {
   font-size: 0.75rem;
