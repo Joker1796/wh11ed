@@ -344,6 +344,32 @@
       </div>
     </template>
 
+    <!-- The rules that go with the army's (owner, 2026-09-29): its full text where the card above is a
+         tracker (a reference card already IS the text), and each chosen detachment's rule — one
+         fold each, closed at first. Handed in by the Armies panel (`texts`). -->
+    <div
+      v-for="t in shownTexts"
+      :key="t.key"
+      class="army-acc"
+    >
+      <button
+        class="army-acc-head"
+        :aria-expanded="openTexts.includes(t.key)"
+        @click="toggleText(t.key)"
+      >
+        <i
+          class="bi army-acc-chev"
+          :class="openTexts.includes(t.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+        />
+        <span class="army-acc-title">{{ t.title }}</span>
+      </button>
+      <CollapseTransition :show="openTexts.includes(t.key)">
+        <div class="army-acc-body">
+          <RuleBody :body="t.body" />
+        </div>
+      </CollapseTransition>
+    </div>
+
     <!-- Resurrected units (GSC): a running log of what the spend picker bought, so the Resurgence
          pool's history is visible instead of just a number going down. Each entry is undoable (refunds
          the cost, removes the entry) — e.g. a mis-tap in the picker. -->
@@ -502,6 +528,9 @@ const props = defineProps({
   // it stays live: the "How it works" text, the active rule, the spent log. The other side's army
   // rule is a thing to look up mid-game, whoever is keeping its count.
   readonly: { type: Boolean, default: false },
+  // Rules to read under the tracker: [{ key, title, body, army? }] — `army` marks the army rule's
+  // own text, dropped where the card already shows it (a reference card, no tracker spec).
+  texts: { type: Array, default: () => [] },
 })
 // `inert` is a presence attribute: undefined, never false.
 const lock = computed(() => (props.readonly ? true : undefined))
@@ -650,6 +679,11 @@ const toggleUsedText = computed(() => {
 // Accordions — both collapsed by default.
 const showActive = ref(false)
 const showHowto = ref(false)
+const shownTexts = computed(() => props.texts.filter((t) => !(t.army && view.value?.kind === 'reference')))
+const openTexts = ref([])
+function toggleText(key) {
+  openTexts.value = openTexts.value.includes(key) ? openTexts.value.filter((k) => k !== key) : [...openTexts.value, key]
+}
 
 // The rule active right now ({ name, body }): a counter threshold's state or the picked option.
 // (The toggle effect is handled separately — it's only "active" the round it was called.)

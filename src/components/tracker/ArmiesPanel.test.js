@@ -33,8 +33,6 @@ async function unitLinks(w) {
   const out = []
   for (const b of w.findAll('.ap-tabs .page-tab')) {
     await b.trigger('click')
-    const sub = w.findAll('.ap-subtab')[0]
-    await sub.trigger('click')
     out.push(w.find('a.proster').exists() ? w.find('a.proster').attributes('href') : null)
   }
   return out
@@ -72,15 +70,24 @@ describe('ArmiesPanel', () => {
     expect(await unitLinks(w)).toEqual(['/factions/orks/datasheets', '/tracker/game/roster/0/1', '/factions/drukhari/datasheets', null])
   })
 
-  it('reads the army rule and the detachment rule from the faction data', async () => {
+  // Owner, 2026-09-29: the detachment rules read under the army rule, in its card.
+  it('hands the army rule\'s text and each detachment\'s rule to the army rule card', async () => {
     start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons' })
     const w = mountPanel()
-    await w.findAll('.ap-subtab')[1].trigger('click')
+    const card = () => w.findComponent({ name: 'ArmyTrackerCard' })
     // The faction file is a dynamic import: wait for it rather than for one tick.
-    await vi.waitFor(async () => { await flushPromises(); expect(w.find('.ap-rule-name').exists()).toBe(true) }, { timeout: 5000 })
-    const kinds = w.findAll('.ap-rule-name').map((e) => e.text())
-    expect(kinds[0]).toBe('Waaagh!')
-    expect(kinds.length).toBe(2)
+    await vi.waitFor(async () => { await flushPromises(); expect(card().props('texts').length).toBe(2) }, { timeout: 5000 })
+    const [army, det] = card().props('texts')
+    expect(army.army).toBe(true)
+    expect(army.title).toContain('Waaagh!')
+    expect(det.title).toContain('War Horde')
+  })
+
+  it('reads the rules plainly for a side that switched its tracker off', async () => {
+    start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons' }, { trackArmyYou: false })
+    const w = mountPanel()
+    await vi.waitFor(async () => { await flushPromises(); expect(w.findAll('.ap-rule')).toHaveLength(2) }, { timeout: 5000 })
+    expect(w.findComponent({ name: 'ArmyTrackerCard' }).exists()).toBe(false)
   })
 })
 
