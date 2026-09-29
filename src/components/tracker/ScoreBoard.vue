@@ -11,10 +11,9 @@
       :style="finished ? toneVars(sideFaction(pl)?.color) : undefined"
     >
       <!-- The side's army pressed into its card, as on the history's game cards (owner,
-           2026-09-29): the first of a doubles side's two. -->
+           2026-09-29): the first of a doubles side's two. In the board's colour for the side, not
+           its own: the standard pair, or the armies' with the "Faction colours" option. -->
       <FactionEmblem
-        class="tone"
-        :style="toneVars(sideFaction(pl)?.color)"
         :faction="sideFaction(pl)"
         stamp
       />
@@ -145,7 +144,7 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
    length, not the column: the live board's breakdown makes it taller than the result's, and one
    army's emblem should not change size between the two. */
 .col { contain: paint; }
-.col .stamp { height: calc(var(--stamp-k) * 4.5rem); }
+.col .stamp { height: calc(var(--stamp-k) * 4.5rem); color: var(--side); }
 .col.opp { --side: var(--side-opponent); }
 /* A result wears each side's army colour instead (owner, 2026-09-29): the game is over, and "who was
    whom" reads from the armies. During play the you/opponent pair stays — it tells the two phones'
