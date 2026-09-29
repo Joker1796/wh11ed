@@ -333,70 +333,67 @@
       </div>
     </section>
 
-    <!-- Command points: one bank per side, side by side, in the side's colour, the same height
-         whatever their lines say. The balance, where it comes from (Core CP each turn, the one
-         bonus point a round and its source) and the bonus button — which turns into "Undo" for a
-         point added by hand. The stepper under it is a correction, kept in the ledger as one. -->
+    <!-- Command points (owner, 2026-09-29: two tall banks spent a phone's screen on three copies of
+         one number and a line of constant text). The sides are the stratagem list's own tabs, each
+         with its balance; under the chosen side, ONE line: the round's bonus point and its button
+         — which turns into "Undo" for a point added by hand — and the stepper, a correction kept in
+         the ledger as one. Where Core CP come from lives behind the "?". -->
     <section
       v-else-if="tab === 'cp'"
       class="panel"
       role="tabpanel"
     >
-      <div class="cp-banks">
-        <div
-          v-for="(pl, i) in current.players"
-          :key="i"
-          class="cp-bank"
-          :class="{ opp: !isYouSide(pl, i), 'player-locked': !canEdit(i) }"
-          :inert="lock(i)"
-        >
-          <div class="cb-name">
-            {{ playerName(i) }}
-          </div>
-          <div class="cb-num">
-            {{ pl.cp }}
-          </div>
-          <dl class="cb-lines">
-            <div v-if="current.cpAuto">
-              <dt>{{ labels.trackerCoreCp }}</dt>
-              <dd>{{ labels.trackerCoreCpRate }}</dd>
-            </div>
-            <div>
-              <dt>{{ labels.trackerBonusCp }}</dt>
-              <dd>{{ bonusOf(i) ? 1 : 0 }} / 1</dd>
-            </div>
-            <div class="cb-src">
-              {{ bonusSource(i) }}
-            </div>
-          </dl>
-          <button
-            v-if="canUndoBonus(i)"
-            class="cb-btn undo"
-            @click="undoBonusCp(i)"
-          >
-            {{ labels.trackerBonusUndo }}
-          </button>
-          <button
-            v-else
-            class="cb-btn"
-            :disabled="!canGainBonus(i)"
-            @click="gainBonusCp(i)"
-          >
-            {{ bonusOf(i) ? labels.trackerBonusTaken : labels.trackerBonusGain }}
-          </button>
-          <div class="cb-adjust">
-            <span>{{ labels.trackerCpAdjust }}</span>
-            <NumberStepper
-              :model-value="pl.cp"
-              :min="0"
-              @update:model-value="v => setCp(i, v)"
-            />
-          </div>
-        </div>
-      </div>
       <CpStratagems
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
+      >
+        <template #bank="{ side }">
+          <div
+            class="cp-row"
+            :class="{ opp: !isYouSide(current.players[side], side), 'player-locked': !canEdit(side) }"
+            :inert="lock(side)"
+          >
+            <span class="cr-bonus">{{ labels.trackerBonusShort }} <b>{{ bonusOf(side) ? 1 : 0 }}/1</b></span>
+            <button
+              v-if="canUndoBonus(side)"
+              class="cr-btn undo"
+              @click="undoBonusCp(side)"
+            >
+              {{ labels.trackerBonusUndo }}
+            </button>
+            <button
+              v-else
+              class="cr-btn"
+              :disabled="!canGainBonus(side)"
+              :title="bonusSource(side)"
+              @click="gainBonusCp(side)"
+            >
+              {{ bonusOf(side) ? labels.trackerBonusTaken : labels.trackerBonusGainShort }}
+            </button>
+            <NumberStepper
+              class="cr-adjust"
+              :model-value="current.players[side].cp"
+              :min="0"
+              :aria-label="labels.trackerCpAdjust"
+              @update:model-value="v => setCp(side, v)"
+            />
+            <button
+              type="button"
+              class="cr-help"
+              :aria-label="labels.trackerCpHelpTitle"
+              :title="labels.trackerCpHelpTitle"
+              @click="cpHelpOpen = true"
+            >
+              <i class="bi bi-question-circle" />
+            </button>
+          </div>
+        </template>
+      </CpStratagems>
+      <OptionHelpModal
+        v-if="cpHelpOpen"
+        :title="labels.trackerCpHelpTitle"
+        :text="current.cpAuto ? labels.trackerCpHelp : labels.trackerCpHelpManual"
+        @close="cpHelpOpen = false"
       />
     </section>
 
@@ -562,6 +559,7 @@ import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import CpStratagems from './CpStratagems.vue'
+import OptionHelpModal from './OptionHelpModal.vue'
 import GameLog from './GameLog.vue'
 import ArmiesPanel from './ArmiesPanel.vue'
 import ScoringModal from './ScoringModal.vue'
@@ -661,6 +659,7 @@ try {
 } catch { /* an unreadable entry is just no memory */ }
 watch([tab, clockKey], () => setItem(TAB_KEY, JSON.stringify({ at: clockKey(), tab: tab.value })))
 
+const cpHelpOpen = ref(false) // the CP tab's "?"
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
 const editSetupOpen = ref(false)
@@ -1118,41 +1117,27 @@ function onEndBattle(reason) {
 .gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 @media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
 
-/* Command points: the two banks side by side, each in its side's colour, one height. */
-.cp-banks { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-.cp-bank {
+/* Command points: one line under the chosen side's tab (CpStratagems' #bank slot). */
+.cp-row {
   --side: var(--side-you);
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  min-width: 0;
-  padding: 0.7rem;
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--side);
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.6rem; padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border); border-top: 0;
   background: var(--bg-card);
 }
-.cp-bank.opp { --side: var(--side-opponent); }
-.cb-name {
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-family: var(--font-display); font-size: 1.3rem; font-weight: 700;
-  text-transform: uppercase; color: var(--side);
-}
-.cb-num { font-family: var(--font-display); font-size: 3.2rem; font-weight: 700; line-height: 0.9; color: var(--side); }
-.cb-lines { margin: 0; display: grid; gap: 0.15rem; font-size: 0.82rem; }
-.cb-lines > div:not(.cb-src) { display: flex; justify-content: space-between; gap: 0.4rem; }
-.cb-lines dt { color: var(--text-muted); }
-.cb-lines dd { margin: 0; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
-/* The source line keeps its height when empty, so the button under it never jumps. */
-.cb-src { min-height: 1.2em; font-size: 0.74rem; color: var(--text-dim); }
-.cb-btn {
-  margin-top: auto;
-  min-height: 44px; padding: 0.4rem 0.5rem;
+.cp-row.opp { --side: var(--side-opponent); }
+.cr-bonus { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+.cr-bonus b { color: var(--text-primary); }
+.cr-btn {
+  min-height: 36px; padding: 0.25rem 0.6rem;
   border: 1px solid var(--side); background: color-mix(in srgb, var(--side) 8%, var(--bg-card));
-  font: inherit; font-size: 0.9rem; font-weight: 700; color: var(--side); cursor: pointer;
+  font: inherit; font-size: 0.82rem; font-weight: 700; color: var(--side); cursor: pointer; white-space: nowrap;
 }
-.cb-btn.undo { background: var(--side); color: #fff; }
-.cb-btn:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
-.cb-adjust { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap; font-size: 0.74rem; color: var(--text-dim); }
+.cr-btn.undo { background: var(--side); color: #fff; }
+.cr-btn:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
+.cr-adjust { margin-left: auto; }
+.cr-help { flex-shrink: 0; padding: 0 0.2rem; border: 0; background: none; font-size: 1rem; color: var(--text-dim); cursor: pointer; }
+@media (hover: hover) { .cr-help:hover { color: var(--accent); } }
 
 
 /* The broadcast button is a STATE: lit while the game is streaming to an overlay. */

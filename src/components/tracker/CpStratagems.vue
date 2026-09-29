@@ -17,9 +17,14 @@
         @click="side = i"
       >
         <span class="cps-side-name">{{ names[i] }}</span>
-        <span class="cps-side-cp">{{ current.players[i].cp }} CP</span>
+        <span class="cps-side-cp">{{ current.players[i].cp }}<small> CP</small></span>
       </button>
     </div>
+    <!-- The chosen side's CP bank, one line under its tab (RoundTracker). -->
+    <slot
+      name="bank"
+      :side="side"
+    />
     <p
       v-if="!canEdit(side)"
       class="cps-note"
@@ -298,8 +303,8 @@ function use(s) {
 </script>
 
 <style scoped>
-.cps { margin-top: 1rem; }
-.cps-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-bottom: 0.7rem; }
+.cps { margin-top: 0; }
+.cps-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
 .cps-side {
   --side: var(--side-you);
   display: flex; align-items: baseline; justify-content: space-between; gap: 0.4rem;
@@ -310,7 +315,8 @@ function use(s) {
 .cps-side.opp { --side: var(--side-opponent); }
 .cps-side.on { border-bottom-color: var(--side); color: var(--side); }
 .cps-side-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
-.cps-side-cp { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; }
+.cps-side-cp { flex-shrink: 0; font-family: var(--font-display); font-size: 1.5rem; font-weight: 500; line-height: 1; }
+.cps-side-cp small { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; }
 .cps-note { margin: 0.4rem 0 0; font-size: 0.78rem; color: var(--text-dim); }
 .cps-title {
   margin: 1rem 0 0.4rem;
