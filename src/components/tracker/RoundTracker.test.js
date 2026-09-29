@@ -80,7 +80,7 @@ describe('RoundTracker — the tabs', () => {
     tracker.endTurn()
     await w.vm.$nextTick()
     expect(w.find('.gt-tab.on').text()).toBe('Missions') // the open tab says its word
-    expect(w.find('.cp-bank').exists()).toBe(false)
+    expect(w.find('.cp-bank').isVisible()).toBe(false) // kept once opened, hidden
   })
 })
 

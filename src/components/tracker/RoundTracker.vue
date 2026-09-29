@@ -327,8 +327,12 @@
          balance; under the chosen one, one line: the round's bonus point — its button turns into
          an undo for a point added by hand — the stepper (a correction is kept in the ledger as
          one) and a "?" for where Core CP come from. -->
+    <!-- Kept once opened (v-show, not v-if): rebuilt on every visit it came up empty for a frame
+         while its decks loaded, the page grew shorter than where it was scrolled and jumped
+         (owner, 2026-09-29: "it jerks going to it"). -->
     <section
-      v-else-if="tab === 'cp'"
+      v-if="cpSeen"
+      v-show="tab === 'cp'"
       class="panel"
       role="tabpanel"
     >
@@ -389,7 +393,7 @@
 
     <!-- What speaks in the phase the clock stands on, for both players (usePhaseRules.js). -->
     <section
-      v-else-if="tab === 'phase'"
+      v-if="tab === 'phase'"
       class="panel"
       role="tabpanel"
     >
@@ -599,6 +603,8 @@ provideModalScope(computed(() => ({
 // The working area's tabs (see the template). CP is offered only to a game that tracks it; a
 // game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
 const tab = ref('missions')
+// The CP panel is built on its first visit and kept (see its template).
+const cpSeen = ref(false)
 // The Phase tab exists only while the game keeps the clock AND asked for the reminder; its count
 // is the reminder itself, readable without opening it.
 const phaseTabOn = computed(() => phasesOn.value && tracks(current.value.settings, 'trackPhaseRules'))
@@ -615,6 +621,7 @@ const tabs = computed(() => [
 const tabColumns = computed(() => tabs.value.map((t) => (t.id === tab.value ? 'minmax(0, 1fr)' : 'var(--gt-closed)')).join(' '))
 watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
+watch(tab, (t) => { if (t === 'cp') cpSeen.value = true }, { immediate: true })
 // The round on screen: the live one, or a past one opened for correction from the round steps
 // (`viewRound`). Local to this phone — what one player is correcting is not where the game is.
 const viewRound = ref(null)
@@ -1111,6 +1118,10 @@ function onEndBattle(reason) {
   font-family: var(--font-mono); font-size: 0.62rem; line-height: 1.35; letter-spacing: 0;
 }
 .gt-tab.on .gt-count { background: #fff; color: var(--accent); }
+/* Every panel at least a screen tall: switching to a shorter one left the page shorter than where it
+   was scrolled, the browser pulled the scroll up and everything jumped (owner, 2026-09-29). With
+   the room, the tab strip stays where the finger left it. */
+.panel { min-height: 100dvh; }
 .panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
 .gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 @media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
