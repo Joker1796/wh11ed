@@ -3,8 +3,9 @@
     class="cps"
     :class="{ opp: !isYouSide(current.players[side], side) }"
   >
-    <!-- Whose CP the stratagems spend: the app's own page tabs (owner, 2026-09-29), a side and its
-         balance each. Both sides may play one at any moment — half the core stratagems are played
+    <!-- Whose CP the stratagems spend: the app's own page tabs (owner, 2026-09-29), the same two
+         tabs as the missions panel's — names alone, so switching between the panels moves nothing;
+         the balance is on the bank line under them. Both sides may play one at any moment — half the core stratagems are played
          in the other player's turn — so this is a choice, set by default to whose turn it is (this
          phone's own side in a shared game). The whole block wears the chosen side's colour, so
          the list below says whose it is; the chosen side's bank is one line under the tabs
@@ -201,7 +202,7 @@ watch(() => props.defaultSide, (v) => { side.value = v })
 const turnIdx = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 const sideOnTurn = computed(() => side.value === turnIdx.value)
 const sideTabs = computed(() => [0, 1].map((i) => ({
-  key: i, label: props.names[i], count: `${current.value.players[i].cp} CP`, active: side.value === i,
+  key: i, label: props.names[i], active: side.value === i,
 })))
 
 // ── The decks ──

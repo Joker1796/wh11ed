@@ -229,8 +229,8 @@
 
       <!-- One side's missions at a time, picked on the app's page tabs (owner, 2026-09-29) — the
            same tabs as the CP tab's, in the same order. A new turn opens the side on turn (this
-           phone's own side in a shared game: a guest does not want the other phone's cards first);
-           the tab of the side on turn carries the hourglass. The block wears the chosen side's
+           phone's own side in a shared game: a guest does not want the other phone's cards first).
+           Names alone on the tabs, the same two as the CP tab's. The block wears the chosen side's
            colour. Both sides open, one under the other, ran to several screens. -->
       <div
         class="mside"
@@ -675,7 +675,6 @@ watch(focusSide, (v) => { missionSide.value = v })
 const missionTabs = computed(() => [0, 1].map((i) => ({
   key: i,
   label: playerName(i),
-  icon: i === turnIndex.value && !viewRound.value ? 'bi bi-hourglass-split' : null,
   active: missionSide.value === i,
 })))
 
