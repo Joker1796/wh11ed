@@ -928,16 +928,15 @@ function onEndBattle(reason) {
 /* The primary card: one line — its name, the tag, this round's VP; the whole line opens it. */
 .mission-card {
   display: flex; align-items: center; gap: 0.5rem; width: 100%;
-  padding: 0.55rem 0.6rem;
+  padding: 0.4rem 0.6rem;
   border: 1px solid var(--border);
-  border-left: 3px solid var(--side);
   background: color-mix(in srgb, var(--side) 4%, var(--bg-card));
   font: inherit; text-align: left; cursor: pointer;
 }
 @media (hover: hover) { .mission-card:hover { border-color: var(--side); } }
 .mc-name {
   flex: 1 1 auto; min-width: 0;
-  font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.1; color: var(--side);
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; line-height: 1.1; color: var(--side);
 }
 .mc-tag {
   flex-shrink: 0; padding: 0.1rem 0.45rem; border: 1px solid var(--border);

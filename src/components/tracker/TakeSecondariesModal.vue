@@ -76,12 +76,27 @@
             </div>
           </li>
         </ul>
-        <button
-          class="btn-primary tk-main"
-          @click="$emit('close')"
-        >
-          {{ labels.trackerTakeDone }}
-        </button>
+        <div class="tk-done">
+          <!-- Put the pair back — the take undone, while nothing on either card was scored
+               (canUntakeSecondaries); the dialog then offers the take again. -->
+          <button
+            v-if="canUntakeSecondaries(pi)"
+            class="btn-ghost tk-undo"
+            @click="untakeSecondaries(pi)"
+          >
+            <i
+              class="bi bi-arrow-counterclockwise"
+              aria-hidden="true"
+            />
+            {{ labels.trackerTakeUndo }}
+          </button>
+          <button
+            class="btn-primary tk-main"
+            @click="$emit('close')"
+          >
+            {{ labels.trackerTakeDone }}
+          </button>
+        </div>
       </template>
 
       <template v-else>
@@ -201,7 +216,7 @@ const props = defineProps({
 defineEmits(['close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, tookSecondaries, takeRandomSecondaries, takeChosenSecondaries, redrawSecondary } = useTracker()
+const { current, tookSecondaries, takeRandomSecondaries, takeChosenSecondaries, redrawSecondary, canUntakeSecondaries, untakeSecondaries } = useTracker()
 
 const player = computed(() => current.value.players[props.pi])
 const taken = computed(() => tookSecondaries(props.pi))
@@ -314,6 +329,9 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 @media (hover: hover) { .tk-info:hover { color: var(--accent); border-color: var(--accent); } }
 .ti-name { font-weight: 700; color: var(--text-primary); }
 .took-list { margin-bottom: 0.6rem; }
+.tk-done { display: flex; gap: 0.5rem; }
+.tk-done .tk-main { flex: 1 1 auto; }
+.tk-undo { flex-shrink: 0; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 42px; }
 .tk-foot { padding: 0.5rem 0.9rem; border-top: 1px solid var(--border); }
 /* The die sits beside bold button text: a size up, or it reads as a speck. */
 .tk-main .die-icon { font-size: 1.25em; }

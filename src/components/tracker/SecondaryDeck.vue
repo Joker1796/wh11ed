@@ -3,7 +3,9 @@
     <div class="sec-head">
       <span class="sec-title">{{ labels.trackerSecondary }} · {{ labels.trackerRoundShort }} {{ round }}</span>
       <!-- The turn's two cards (tactical, the side on turn, live round only): the one way new
-           cards come in. Once taken, the hand changes only through a card's own rule. -->
+           cards come in. Once taken, the hand changes only through a card's own rule. The same
+           dialog stays a tap away after the draw (owner, 2026-09-29) — what came in, the WHEN
+           DRAWN rules on offer, and the way to put the pair back. -->
       <button
         v-if="canTake"
         class="take-btn"
@@ -12,15 +14,12 @@
         {{ labels.trackerTakeTwo }}
       </button>
       <button
-        v-else-if="live && canUntakeSecondaries(pi)"
+        v-if="takenNow"
         class="untake-btn"
-        @click="untakeSecondaries(pi)"
+        @click="takeOpen = true"
       >
-        <i
-          class="bi bi-arrow-counterclockwise"
-          aria-hidden="true"
-        />
-        {{ labels.trackerTakeUndo }}
+        <DieIcon />
+        {{ labels.trackerTakenTwo }}
       </button>
     </div>
 
@@ -235,7 +234,7 @@ const labels = computed(() => ui[locale.value])
 const {
   current, returnSecondaryToDeck, discardFromHand, restoreSecondaryToHand, redrawSecondary,
   scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-  canTakeSecondaries, canUntakeSecondaries, untakeSecondaries,
+  canTakeSecondaries, tookSecondaries,
   canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard, canGainBonus,
 } = useTracker()
 
@@ -293,6 +292,9 @@ function whenDrawnFor(m) {
 // once per turn on the phone that plays that side.
 const takeOpen = ref(false)
 const canTake = computed(() => live.value && canTakeSecondaries(props.pi))
+// Taken this turn by the side on turn: the dialog reopens on what came in.
+const takenNow = computed(() => live.value && mode.value === 'tactical'
+  && (current.value.currentTurn === 1 ? 1 : 0) === props.pi && !!tookSecondaries(props.pi))
 watch(
   () => [canTake.value, props.editable, current.value.currentRound, current.value.currentTurn],
   () => {
@@ -354,7 +356,8 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 
 <style scoped>
 .sec { margin-top: 0.7rem; }
-.sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; gap: 0.5rem; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 0.4rem; gap: 0 0.75rem; }
+.sec-title { margin-right: auto; }
 .sec-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
 .take-btn {
   flex-shrink: 0; white-space: nowrap;
@@ -369,11 +372,12 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 }
 @media (hover: hover) { .untake-btn:hover { color: var(--accent); } }
 .sec-empty { margin: 0.2rem 0 0; font-size: 0.82rem; color: var(--text-dim); }
-.cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; position: relative; }
+.cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; position: relative; }
+/* No side stripe (owner, 2026-09-29): the player's own card already wears one, and three more
+   inside it read as noise. The name keeps the side's colour. */
 .card {
   display: flex;
   border: 1px solid var(--border);
-  border-left: 3px solid var(--side, var(--side-you));
   background: color-mix(in srgb, var(--side, var(--side-you)) 4%, var(--bg-card));
 }
 /* Hand transitions: draws fade/slide in, removed cards fade out in place (absolute, so
@@ -384,8 +388,8 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .card-leave-to { opacity: 0; }
 /* The primary's card height (RoundTracker .mission-card): its padding, and the "⋯" keeps its 36px
    tap target but takes no height of its own (negative margins). */
-.card-head { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.6rem; }
-.card-head .manage { margin: -0.4rem 0; }
+.card-head { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.6rem; }
+.card-head .manage { margin: -0.5rem 0; }
 /* The whole line but the "⋯" opens the card. */
 .card-open {
   flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 0.45rem;
@@ -393,7 +397,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 }
 .card-name {
   flex: 1 1 auto; min-width: 0;
-  font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.1;
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; line-height: 1.1;
   color: var(--side, var(--side-you));
 }
 /* Hover as on the primary's card (RoundTracker .mission-card): the card's frame takes its side's

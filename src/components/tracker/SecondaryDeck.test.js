@@ -59,7 +59,10 @@ describe('SecondaryDeck — the turn\'s two cards', () => {
     expect(w.find('.take-btn').exists()).toBe(false)
     expect(w.findAll('.cm-src').map(e => e.attributes('title'))).toEqual(['random', 'random'])
     expect(w.findAll('.cm-src .die-icon')).toHaveLength(2) // an icon, not an emoji
-    expect(w.find('.untake-btn').exists()).toBe(true)
+    // Put back from the dialog, which the header's "This turn's secondaries" reopens.
+    await w.findAll('.untake-btn').find((b) => b.text().includes("This turn")).trigger('click')
+    await w.vm.$nextTick()
+    expect(document.body.querySelector('.tk-undo')).not.toBe(null)
   })
 })
 
