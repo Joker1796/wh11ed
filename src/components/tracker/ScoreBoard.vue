@@ -8,6 +8,14 @@
       class="col"
       :class="{ leading: finished && leaderIdx === i, turn: turnIdx === i, opp: !isYouSide(pl, i) }"
     >
+      <!-- The side's army pressed into its card, as on the history's game cards (owner,
+           2026-09-29): the first of a doubles side's two. -->
+      <FactionEmblem
+        class="tone"
+        :style="toneVars(sideFaction(pl)?.color)"
+        :faction="sideFaction(pl)"
+        stamp
+      />
       <!-- Flex with a gap, so the template's line breaks between the spans add nothing; the
            faction's "·" is drawn by CSS. -->
       <div class="col-head">
@@ -65,6 +73,8 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { useTracker, sideName, isYouSide, membersOf } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { toneVars } from '../../utils/tone.js'
+import FactionEmblem from '../FactionEmblem.vue'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../composables/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
 
@@ -102,6 +112,10 @@ function factionLine(pl) {
   return [...new Set(names)].join(' / ')
 }
 
+function sideFaction(pl) {
+  return factionIndexBySlug(membersOf(pl)[0]?.factionSlug) || null
+}
+
 // Pulse a column's grand total when it changes (scoring feedback).
 const grandEls = []
 useFlashOnChange(() => grandTotal(0), () => grandEls[0])
@@ -125,6 +139,11 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   border-left: 4px solid var(--side);
   padding: 0.75rem 0.9rem 0.8rem;
 }
+/* The emblem stamp (FactionEmblem) sits under the column's text, clipped to it. Sized on a fixed
+   length, not the column: the live board's breakdown makes it taller than the result's, and one
+   army's emblem should not change size between the two. */
+.col { contain: paint; }
+.col .stamp { height: calc(var(--stamp-k) * 4.5rem); }
 .col.opp { --side: var(--side-opponent); }
 .col.turn { background: color-mix(in srgb, var(--side) 8%, var(--bg-card)); }
 /* The result screen: the winner keeps its gold edge. `leading`, not `lead`: `.lead` is the global
