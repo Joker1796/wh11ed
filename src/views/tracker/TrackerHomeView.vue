@@ -532,8 +532,8 @@ function footLine(g) {
   align-items: center;
   gap: 0.6rem;
 }
-/* The quiet row's own 0.6rem tap padding plus this is the air above the history heading. */
-.cta + .history { margin-top: 1rem; }
+/* No margin above the history: the quiet row's own 0.6rem tap padding is the air (owner,
+   2026-09-29 — with 1rem more it read as a hole). */
 /* Sized by its own label and nothing else. A minimum width was tried first (18rem) and it was
    wrong twice over: at desktop width the button read as a banner, and `.btn-primary` is an
    inline-flex with no `justify-content`, so the label sat against the left edge of all that
