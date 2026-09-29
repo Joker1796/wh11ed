@@ -16,25 +16,46 @@
       v-if="army"
       class="ap-card"
     >
+      <!-- The army's setup facts (disposition, detachments) are looked at rarely mid-game: folded
+         under the faction's name (owner, 2026-09-29), closed at first. -->
       <div class="ap-facts">
+        <button
+          v-if="hasFacts"
+          type="button"
+          class="ap-fac ap-fac-toggle"
+          :aria-expanded="factsOpen"
+          @click="factsOpen = !factsOpen"
+        >
+          <ChevronIcon
+            class="ap-fac-chev"
+            :turned="factsOpen"
+            from="right"
+            to="down"
+          />
+          <span class="ap-fac-name">{{ army.faction || labels.trackerDisposition }}</span>
+        </button>
         <p
-          v-if="army.faction"
+          v-else-if="army.faction"
           class="ap-fac"
         >
           {{ army.faction }}
         </p>
-        <p
-          v-if="dispositionName(current.players[army.pi].disposition)"
-          class="pmeta"
-        >
-          {{ labels.trackerDisposition }}: {{ dispositionName(current.players[army.pi].disposition) }}
-        </p>
-        <p
-          v-if="army.member.detachments?.length"
-          class="pdet"
-        >
-          {{ army.member.detachments.join(' · ') }}
-        </p>
+        <CollapseTransition :show="hasFacts && factsOpen">
+          <div class="ap-facts-body">
+            <p
+              v-if="dispositionName(current.players[army.pi].disposition)"
+              class="pmeta"
+            >
+              {{ labels.trackerDisposition }}: {{ dispositionName(current.players[army.pi].disposition) }}
+            </p>
+            <p
+              v-if="army.member.detachments?.length"
+              class="pdet"
+            >
+              {{ army.member.detachments.join(' · ') }}
+            </p>
+          </div>
+        </CollapseTransition>
       </div>
 
       <!-- The army rule's tracker (Pain tokens, Waaagh!, Battle Focus…) — here, with everything else
@@ -195,6 +216,8 @@ import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import StratCard from '../StratCard.vue'
 import PageTabs from '../PageTabs.vue'
+import ChevronIcon from '../ChevronIcon.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import { useParty } from '../../composables/useParty.js'
 import { tracks } from '../../data/trackerOptions.js'
@@ -243,6 +266,10 @@ const armies = computed(() => {
 const sel = ref(Math.max(0, armies.value.findIndex((a) => a.pi === props.defaultSide)))
 const army = computed(() => armies.value[sel.value] || null)
 const { canEdit } = useParty()
+
+const factsOpen = ref(false)
+const hasFacts = computed(() => !!army.value && (
+  !!dispositionName(current.value.players[army.value.pi].disposition) || !!army.value.member.detachments?.length))
 
 // The army-rule tracker cards of the army on screen. Per side by the you/opponent switches (mapped
 // by isYou — the players are reordered by first turn; \`tracks\` supplies the back-compat of the
@@ -302,6 +329,10 @@ const openStrat = ref(null)
 .ap.opp { --side: var(--side-opponent); }
 .ap-card { margin-top: 0.6rem; }
 .ap-tracker { margin-top: 0.6rem; }
+.ap-fac-toggle { display: flex; align-items: center; gap: 0.4rem; width: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; }
+.ap-fac-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ap-fac-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
+.ap-facts-body { padding-top: 0.2rem; }
 .ap-fac { margin: 0 0 0.2rem; font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; line-height: 1.1; color: var(--side); }
 .ap-facts .pmeta { margin: 0 0 0.2rem; font-size: 0.82rem; color: var(--text-muted); }
 .ap-facts .pdet { margin: 0; font-size: 0.78rem; color: var(--text-dim); font-family: var(--font-mono); }
