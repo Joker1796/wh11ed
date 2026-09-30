@@ -1,20 +1,20 @@
 <template>
   <div class="glog">
+    <!-- What to read: the app's own page tabs, like the sides' in the other panels (owner,
+         2026-09-30 — chips read as toggles, and there is one choice here). -->
+    <div class="gl-tabs">
+      <PageTabs
+        fill
+        :tabs="filterTabs"
+        @select="(f) => (filter = f)"
+      />
+    </div>
     <div class="gl-top">
-      <div class="gl-filter">
-        <button
-          v-for="f in FILTERS"
-          :key="f"
-          class="gl-chip"
-          :class="{ on: filter === f }"
-          :aria-pressed="filter === f"
-          @click="filter = f"
-        >
-          {{ labels[`trackerLogFilter_${f}`] }}
-        </button>
-      </div>
+      <p class="gl-hint">
+        {{ labels.trackerLogHint }}
+      </p>
       <button
-        class="gl-text"
+        class="btn-ghost gl-text"
         @click="textOpen = true"
       >
         <i
@@ -24,43 +24,42 @@
         {{ labels.trackerLogText }}
       </button>
     </div>
-    <p class="gl-hint">
-      {{ labels.trackerLogHint }}
-    </p>
 
-    <p
-      v-if="!rounds.length"
-      class="gl-empty"
-    >
-      {{ labels.trackerLogEmpty }}
-    </p>
-    <section
-      v-for="r in rounds"
-      :key="r.round"
-      class="gl-round"
-    >
-      <h4 class="gl-rh">
-        {{ labels.trackerRoundShort }} {{ r.round }}
-      </h4>
-      <ul class="gl-list">
-        <li
-          v-for="(e, k) in r.events"
-          :key="k"
-          class="gl-item"
-          :class="{ opp: !isYouSide(current.players[e.pi], e.pi) }"
-        >
-          <span class="gl-who">{{ names[e.pi] }}</span>
-          <span class="gl-what">{{ line(e) }}<DieIcon
-            v-if="e.type === 'drawn' && e.source === 'random'"
-            class="gl-src"
-          /><i
-            v-else-if="e.type === 'drawn' && e.source === 'chosen'"
-            class="bi bi-hand-index-thumb gl-src"
-            aria-hidden="true"
-          /></span>
-        </li>
-      </ul>
-    </section>
+    <div ref="listEl">
+      <p
+        v-if="!rounds.length"
+        class="gl-empty"
+      >
+        {{ labels.trackerLogEmpty }}
+      </p>
+      <section
+        v-for="r in rounds"
+        :key="r.round"
+        class="gl-round"
+      >
+        <h4 class="gl-rh">
+          {{ labels.trackerRoundShort }} {{ r.round }}
+        </h4>
+        <ul class="gl-list">
+          <li
+            v-for="(e, k) in r.events"
+            :key="k"
+            class="gl-item"
+            :class="{ opp: !isYouSide(current.players[e.pi], e.pi) }"
+          >
+            <span class="gl-who">{{ names[e.pi] }}</span>
+            <span class="gl-what">{{ line(e) }}<DieIcon
+              v-if="e.type === 'drawn' && e.source === 'random'"
+              class="gl-src"
+            /><i
+              v-else-if="e.type === 'drawn' && e.source === 'chosen'"
+              class="bi bi-hand-index-thumb gl-src"
+              aria-hidden="true"
+            /></span>
+          </li>
+        </ul>
+      </section>
+    </div>
 
     <BaseModal
       v-if="textOpen"
@@ -89,6 +88,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import PageTabs from '../PageTabs.vue'
 import DieIcon from '../DieIcon.vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
@@ -96,6 +96,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide, missionBySlug } from '../../composables/useTracker.js'
 import { buildGameLog } from '../../composables/gameLog.js'
 import { grandTotal, primaryTotal, secondaryTotal } from '../../composables/gameScoring.js'
+import { useSwapFade } from '../../composables/useSwapFade.js'
 
 // The Log tab: the game told back, newest first, grouped by round — read from the game itself
 // (gameLog.js), so it costs nothing to carry and cannot disagree with the score. Filters, and a
@@ -106,7 +107,11 @@ const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 
 const FILTERS = ['all', 'points', 'cp', 'strat', 'cards']
+const filterTabs = computed(() => FILTERS.map((f) => ({ key: f, label: labels.value[`trackerLogFilter_${f}`], active: filter.value === f })))
 const filter = ref('all')
+// Another filter's entries fade in under the standing tabs (useSwapFade).
+const listEl = ref(null)
+useSwapFade(filter, () => listEl.value)
 const events = computed(() => buildGameLog(current.value))
 const rounds = computed(() => {
   const by = new Map()
@@ -138,10 +143,11 @@ function line(e) {
     case 'discard': return l.trackerLogDiscard.replace('{card}', cardName(e.pi, e.slug))
     case 'setAside': return l.trackerLogSetAside.replace('{card}', cardName(e.pi, e.slug))
     case 'redraw': return l.trackerLogRedraw.replace('{card}', cardName(e.pi, e.slug))
+    case 'whenDrawn': return (e.mode === 'shuffle' ? l.trackerLogWhenDrawnShuffle : l.trackerLogWhenDrawnDiscard).replace('{card}', cardName(e.pi, e.slug))
     case 'core': return l.trackerLogCore
     case 'bonus': return l.trackerLogBonus
     case 'adjust': return l.trackerLogAdjust.replace('{n}', signed(e.amount))
-    case 'strat': return l.trackerLogStrat.replace('{name}', e.name || '').replace('{cp}', -e.amount)
+    case 'strat': return (e.target ? l.trackerLogStratOn.replace('{unit}', e.target.name || '') : l.trackerLogStrat).replace('{name}', e.name || '').replace('{cp}', -e.amount)
     default: return ''
   }
 }
@@ -176,21 +182,12 @@ async function copy() {
 </script>
 
 <style scoped>
-.gl-top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
-.gl-filter { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-.gl-chip {
-  min-height: 36px; padding: 0.3rem 0.65rem;
-  border: 1px solid var(--border); background: var(--bg-card);
-  font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); cursor: pointer;
-}
-.gl-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
-.gl-text {
-  display: inline-flex; align-items: center; gap: 0.35rem;
-  min-height: 36px; padding: 0.3rem 0.65rem;
-  border: 1px solid var(--border); background: var(--bg-card);
-  font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text-primary); cursor: pointer;
-}
-.gl-hint { margin: 0.4rem 0 0; font-size: 0.76rem; color: var(--text-dim); }
+/* Five tabs share the row by their words, not equally: "Stratagems" is twice "CP". */
+.gl-tabs :deep(.page-tab) { flex: 1 1 auto; padding-inline: 0.4rem; }
+/* The hint and the plain-text copy on one line under the tabs. */
+.gl-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 0.5rem; }
+.gl-text { flex-shrink: 0; padding: 0.4rem 0.7rem; font-size: 0.8rem; }
+.gl-hint { margin: 0; font-size: 0.76rem; color: var(--text-dim); }
 .gl-empty { margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-dim); }
 .gl-round { margin-top: 0.9rem; }
 .gl-rh {

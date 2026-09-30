@@ -251,6 +251,20 @@ describe('redrawSecondary (WHEN DRAWN actions)', () => {
     tracker.redrawSecondary(0, 'behind-enemy-lines', 'shuffle')
     expect(s.hand).toEqual(before)
   })
+
+  // The card leaves no trace elsewhere, so the action is noted for the game log.
+  it('notes the action, and an undone take drops a shuffle but keeps a discard', () => {
+    tracker.newGame(setupGame())
+    const s = tracker.current.value.players[0].secondary
+    tracker.takeRandomSecondaries(0)
+    const [a, b] = s.hand
+    tracker.redrawSecondary(0, a, 'shuffle')
+    tracker.redrawSecondary(0, b, 'discard')
+    expect(s.whenDrawn).toMatchObject([{ slug: a, round: 1, mode: 'shuffle' }, { slug: b, round: 1, mode: 'discard' }])
+    tracker.untakeSecondaries(0)
+    expect(s.whenDrawn).toMatchObject([{ slug: b, round: 1, mode: 'discard' }]) // b is still out of the game
+    expect(s.whenDrawn).toHaveLength(1)
+  })
 })
 
 describe('set aside & restore secondaries', () => {
@@ -944,7 +958,7 @@ describe('achieved secondaries leave the hand at the end of each turn', () => {
     tracker.scoreSecondaryRow(0, a, bi, ri, 1)
     tracker.endTurn()
     expect(sec(0).hand).toEqual([b])
-    expect(sec(0).discarded).toEqual([{ slug: a, round: 1, auto: 0 }])
+    expect(sec(0).discarded).toEqual([{ slug: a, round: 1, auto: 0, t: expect.any(Number) }])
     tracker.undoTurn()
     expect(sec(0).hand).toEqual([b, a])
     expect(sec(0).discarded).toEqual([])

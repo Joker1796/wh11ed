@@ -471,7 +471,7 @@ function settleSide(pi) {
   for (const slug of [...s.hand]) {
     if (!achieved.has(slug) || s.discarded.some(d => (d.slug ?? d) === slug)) continue
     s.hand = s.hand.filter(x => x !== slug)
-    s.discarded.push({ slug, round: last.round, auto: last.turn })
+    s.discarded.push({ slug, round: last.round, auto: last.turn, t: Date.now() })
   }
 }
 function settleAll() {
@@ -584,7 +584,9 @@ export function useTracker() {
 
   // Fallback (no primary card): set the round primary directly, clamped to the round cap.
   function setRoundPrimary(pi, roundIdx, value) {
-    current.value.players[pi].rounds[roundIdx].primary = Math.max(0, Math.min(value, PRIMARY_ROUND_CAP))
+    const round = current.value.players[pi].rounds[roundIdx]
+    round.primary = Math.max(0, Math.min(value, PRIMARY_ROUND_CAP))
+    round.t = Date.now() // when, for the game log
   }
 
   // Record how many times a primary scoring row was achieved this round; the round's
@@ -606,6 +608,7 @@ export function useTracker() {
       }
     }
     round.primary = Math.min(raw, PRIMARY_ROUND_CAP)
+    round.t = Date.now() // when, for the game log
   }
 
   function primaryRowCount(pi, roundIdx, blockIdx, rowIdx) {
@@ -904,13 +907,19 @@ export function useTracker() {
     delete pl.army.bonusApplied
   }
 
+  // A card came into the hand: the round it did (`drawn`) and when (`drawnAt`, ms — the game log
+  // orders one turn's acts by it).
+  function markDrawn(s, slug) {
+    ;(s.drawn ||= {})[slug] = current.value.currentRound
+    ;(s.drawnAt ||= {})[slug] = Date.now()
+  }
+
   function drawSecondary(pi) {
     const s = current.value.players[pi].secondary
     if (!s.deck.length) return
     const slug = s.deck.shift()
     s.hand.push(slug)
-    if (!s.drawn) s.drawn = {}
-    s.drawn[slug] = current.value.currentRound
+    markDrawn(s, slug)
     markSource(s, slug, 'random')
   }
 
@@ -921,8 +930,7 @@ export function useTracker() {
     if (i < 0) return
     s.deck.splice(i, 1)
     s.hand.push(slug)
-    if (!s.drawn) s.drawn = {}
-    s.drawn[slug] = current.value.currentRound
+    markDrawn(s, slug)
     markSource(s, slug, 'chosen')
   }
 
@@ -936,6 +944,7 @@ export function useTracker() {
     const R = current.value.currentRound
     const thisTurns = s.drawn?.[slug] === R
     if (s.drawn) delete s.drawn[slug]
+    if (s.drawnAt) delete s.drawnAt[slug]
     if (s.source) delete s.source[slug]
     if (!s.deck.includes(slug)) s.deck.push(slug)
     // The last of this turn's cards put back undoes the take itself: the turn may take again.
@@ -950,7 +959,7 @@ export function useTracker() {
     s.hand = s.hand.filter(x => x !== slug)
     // Dedup tolerant of legacy string-form entries (read paths use `d.slug ?? d`).
     if (!s.discarded.some(d => (d.slug ?? d) === slug)) {
-      s.discarded.push({ slug, round: current.value.currentRound })
+      s.discarded.push({ slug, round: current.value.currentRound, t: Date.now() })
     }
   }
 
@@ -970,6 +979,8 @@ export function useTracker() {
   // back and 'discard' would leave the hand a card short.
   // `pick` — the replacement chosen by hand (a card that came in chosen may be replaced the same
   // way, as in Mikhail's prototype); none draws at random.
+  // The card leaves no trace in the hand, the deck or the discards, so the action is noted in
+  // `whenDrawn` ([{ slug, round, mode }]) for the game log (owner, 2026-09-30).
   function redrawSecondary(pi, slug, mode, pick = null) {
     const s = current.value.players[pi].secondary
     if (!s.hand.includes(slug)) return
@@ -979,8 +990,10 @@ export function useTracker() {
     s.scored = s.scored.filter(e => e.slug !== slug)
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
     if (s.drawn) delete s.drawn[slug]
+    if (s.drawnAt) delete s.drawnAt[slug]
     if (s.source) delete s.source[slug]
     if (mode === 'shuffle' && !s.deck.includes(slug)) s.deck.push(slug)
+    ;(s.whenDrawn ||= []).push({ slug, round: current.value.currentRound, mode, t: Date.now() })
     replaceInto(pi, pick)
   }
 
@@ -1018,6 +1031,7 @@ export function useTracker() {
       for (const k of orSiblingKeys(m, blockIdx, rowIdx)) delete entry.picks[k]
     }
     entry.vp = entryVp(pi, entry)
+    entry.t = Date.now() // the latest change, for the game log
     if (round < current.value.currentRound && entry.vp > 0) settleSide(pi)
   }
 
@@ -1089,6 +1103,9 @@ export function useTracker() {
     const s = g.players[pi].secondary
     for (const [slug, r] of Object.entries(s.drawn || {})) if (r === g.currentRound) returnSecondaryToDeck(pi, slug)
     delete s.took[g.currentRound]
+    // A card shuffled back when drawn is in the deck again, as if the take never was; one
+    // discarded when drawn stays out of the game, and so stays in the log.
+    if (s.whenDrawn) s.whenDrawn = s.whenDrawn.filter((e) => e.round !== g.currentRound || e.mode === 'discard')
   }
 
   // Draw the replacement for a card that just left: the picked one, or one at random that is not
@@ -1204,7 +1221,7 @@ export function useTracker() {
     if (!canCpRedraw(pi) || !s.hand.includes(slug)) return
     if (pick && !s.deck.includes(pick)) return
     s.hand = s.hand.filter(x => x !== slug)
-    s.discarded.push({ slug, round: g.currentRound })
+    s.discarded.push({ slug, round: g.currentRound, t: Date.now() })
     s.cpRedrawUsed = true
     spendCp(pi, 1, 'redraw', slug)
     replaceInto(pi, pick)
@@ -1227,7 +1244,7 @@ export function useTracker() {
     if (!canEndTurnDiscard(pi) || !s.hand.includes(slug)) return
     const gained = gainBonusCp(pi, 'discard', slug)
     s.hand = s.hand.filter(x => x !== slug)
-    s.discarded.push({ slug, round: g.currentRound, auto: g.currentTurn === 1 ? 1 : 0, ...(gained ? { cp: true } : {}) })
+    s.discarded.push({ slug, round: g.currentRound, auto: g.currentTurn === 1 ? 1 : 0, ...(gained ? { cp: true } : {}), t: Date.now() })
     // The last turn of the battle has no next turn: the game screen goes on to finishing it.
     if (canEndTurn()) endTurn()
   }
