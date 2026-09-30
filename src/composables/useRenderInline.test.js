@@ -109,3 +109,23 @@ describe('renderInline — plural keywords', () => {
     expect(renderInline('INFANTRYMAN')).toBe('INFANTRYMAN')
   })
 })
+
+// Every weapon ability the datasheets carry must come out as the pill it is on the card (the row
+// wraps each tag in brackets and hands it here). "[LETHAL HITS: NON-MONSTER/VEHICLE]" did not —
+// the slash was not in the tag's alphabet — and read as loose bold words (2026-09-30).
+describe('weapon ability tags', () => {
+  it('renders every tag of every datasheet as a keyword pill', () => {
+    const sheets = import.meta.glob('../data/datasheets/*.js', { eager: true })
+    const bad = new Set()
+    for (const mod of Object.values(sheets)) {
+      for (const u of mod.default || []) {
+        for (const w of [...(u.ranged || []), ...(u.melee || [])]) {
+          for (const t of w.tags || []) {
+            if (!renderInline(`[${t}]`).startsWith('<span class="keyword">')) bad.add(t)
+          }
+        }
+      }
+    }
+    expect([...bad]).toEqual([])
+  })
+})

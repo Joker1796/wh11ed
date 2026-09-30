@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { useLocale } from './useLocale.js'
+import { parseWeaponTag, weaponTagNote } from './weaponTagQualifier.js'
 
 const visible = ref(false)
 const activeKeyword = ref(null)
@@ -73,7 +74,13 @@ export function useKeywordPopover() {
     const data = await loadData()
     const found = lookup(rawText, data)
     if (!found) return
-    activeKeyword.value = { ...found, kind: 'keyword' }
+    // A weapon ability written with its targets ("LETHAL HITS: NON-MONSTER/VEHICLE", "ANTI-
+    // MONSTER/VEHICLE 3+") is this tag, not the bare ability: its own name, and first what it
+    // does here (weaponTagQualifier.js), then the ability's text.
+    const q = found.type === 'weapon' ? parseWeaponTag(rawText) : null
+    activeKeyword.value = q
+      ? { ...found, name: `[${rawText.trim().toUpperCase()}]`, fullText: `${weaponTagNote(q, locale.value)}\n\n${found.fullText}`, kind: 'keyword' }
+      : { ...found, kind: 'keyword' }
     anchor.value = rect
     visible.value = true
   }

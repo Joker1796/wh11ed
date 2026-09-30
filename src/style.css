@@ -620,6 +620,10 @@ tr:nth-child(even) td {
   white-space: nowrap;
   cursor: pointer;
 }
+/* A unit keyword inside a pill ("[ANTI-VEHICLE 4+]", "[LETHAL HITS: NON-MONSTER/VEHICLE]") is part
+   of the tag's text: the renderer's auto-bold would light it white in the middle of the pill. */
+/* (…and past the dark theme's own `strong` colour, which is as specific and comes later.) */
+.keyword strong, [data-theme] .keyword strong { color: inherit; font-weight: inherit; }
 
 /* A CORE ability named inside rule prose ([core:Stealth]) — the rulebook prints these bold and in
    Title Case, so they are EMPHASIS, not a tag: the pill above is the weapon-row treatment and 75 of

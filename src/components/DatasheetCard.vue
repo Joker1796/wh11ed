@@ -1531,6 +1531,10 @@ function abilityStateLabel(st) {
    Sizing it apart from them is what makes that possible: the stat labels set the width of six
    columns, this one sits in the name's column and costs the row nothing. */
 .ds-weapons th.wname { font-size: 0.68rem; letter-spacing: 1px; }
+/* A weapon's name and numbers in the stat plates' face (owner, 2026-09-30): the condensed display
+   font — the name in the body font read a size larger than numbers of the same size. 600, a step
+   lighter than the plates' 700: a row of them at 1.25rem read heavy (owner, the same day). */
+.ds-weapons td:not(.wname), .ds-weapons .wname-text { font-family: var(--font-display); font-weight: 600; }
 .wtags { margin-left: 0.35rem; }
 .wtag { font-size: 0.72rem; }
 /* How many of this weapon the ROSTER ENTRY fields — a count the printed datasheet keeps in its
@@ -1655,6 +1659,12 @@ function abilityStateLabel(st) {
   /* …the six stat labels, not the block's name: that one keeps the full size (see the base rule). */
   .ds-weapons th.wname { font-size: 0.68rem; letter-spacing: 1px; }
   .ds-weapons td { padding: 0.3rem 0.15rem; }
+  /* The numbers a size up from the squeezed table's (owner, 2026-09-30: "the numbers are tiny
+     though there is room") — the stat columns spread over half the row, so they have it; the
+     weapon's name reads at the same size (owner, the same day), wrapping in its half if it must.
+     A size up again on a tighter line (owner, the same day: "the rows are tall, a larger font fits
+     without making them taller") — 1.25rem × 1.2 is the line 1.02rem × 1.5 used to take. */
+  .ds-weapons td:not(.wname), .ds-weapons .wname-text { font-size: 1.25rem; line-height: 1.2; }
   /* The name takes a SHARE of the row, not everything that is left. `width: 99%` (what this
      was until 2026-08-27) squeezes the six stat columns to their content minimum and parks them
      against the right edge, so a row reading "Bolt pistol ×9" spent about 40% of its width on
@@ -1675,12 +1685,14 @@ function abilityStateLabel(st) {
   .ds-weapons .wname-text { display: block; }
   /* Tags under the name rather than beside it: on the same line they are what pushes the six
      stat columns off the screen. */
-  .wtags { display: block; margin: 0.15rem 0 0; }
+  /* The tags run under the whole row, not just the name's half: the stat cells are one line tall,
+     so the space under the numbers is free. In the name's half a long tag broke inside its pill —
+     "[LETHAL HITS: NON-" over "MONSTER/VEHICLE]" in one tall frame (2026-09-30). Inline-size
+     containment keeps the tags out of the column's own minimum, so the stat columns keep their
+     share and the table its width. */
+  .wtags { display: block; contain: inline-size; width: calc(200% - 0.35rem); margin: 0.15rem 0 0; }
   .wtag { font-size: 0.6rem; }
-  /* A keyword is `white-space: nowrap` everywhere else, and that is right in prose. Here it made
-     `[DEVASTATING WOUNDS]` a ~130px word no column could go under — which is what set the floor
-     where the table gives up and stacks (see the block below). Inside a tag it may break. */
-  .wtag :deep(.keyword) { font-size: 0.62rem; letter-spacing: 0; padding: 0 3px; white-space: normal; }
+  .wtag :deep(.keyword) { font-size: 0.62rem; letter-spacing: 0; padding: 0 3px; }
   .wqty { font-size: 0.7rem; margin-left: 0.2rem; }
   .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
 }
@@ -1724,6 +1736,7 @@ function abilityStateLabel(st) {
   .ds-weapons th { display: none; }
   .ds-weapons th.wname {
     display: block;
+    width: auto; /* not the table's 50% name share: the label above a stack of cards spans it */
     min-width: 0;
     padding: 0 0.1rem 0.3rem;
     background: none;
@@ -1763,6 +1776,10 @@ function abilityStateLabel(st) {
     order: 1;
     display: flex;
     flex-wrap: wrap;
+    /* Undo the table's run under the whole row (above): the grid cell is the row already, and a
+       200% width ran the tags off a 320px screen (2026-09-30). */
+    width: auto;
+    contain: none;
     gap: 0.25rem;
     margin: 0.2rem 0 0;
   }
