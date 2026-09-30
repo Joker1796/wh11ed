@@ -17,7 +17,16 @@
         class="page-tab"
         :class="{ active: t.active }"
       >
-        <i
+        <span
+          class="pt-bg"
+          aria-hidden="true"
+        /><span
+          class="pt-frame"
+          aria-hidden="true"
+        /><span
+          class="pt-line"
+          aria-hidden="true"
+        /><i
           v-if="t.icon"
           class="page-tab-icon"
           :class="t.icon"
@@ -43,7 +52,16 @@
         :aria-selected="!!t.active"
         @click="emit('select', t.key)"
       >
-        <i
+        <span
+          class="pt-bg"
+          aria-hidden="true"
+        /><span
+          class="pt-frame"
+          aria-hidden="true"
+        /><span
+          class="pt-line"
+          aria-hidden="true"
+        /><i
           v-if="t.icon"
           class="page-tab-icon"
           :class="t.icon"
@@ -101,6 +119,8 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
 }
 
 .page-tab {
+  position: relative;
+  overflow: hidden; /* hides the frame while it waits below the tab */
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -109,26 +129,66 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--text-muted);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-bottom: 1px solid var(--accent);
+  /* The content's colour under every tab: it covers the container's line, so where the open
+     tab's own line has parted the tab opens into the content. The closed look is a layer on top. */
+  background: var(--bg-primary);
+  border: 0;
   padding: 0.55rem 1.3rem;
   margin-bottom: -1px; /* overlap the container's accent line */
   text-decoration: none;
   cursor: pointer;
-  transition: color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
+  transition: color calc(var(--motion-page-tab) * 0.6) ease;
+}
+.page-tab.active { color: var(--accent); }
+@media (hover: hover) {
+  .page-tab:not(.active):hover { color: var(--text-primary); }
 }
 
-.page-tab:hover {
-  color: var(--text-primary);
+/* Switching (owner's mock "frame from the line", 2026-09-30): the new tab's line parts from its
+   centre and its frame rises out of it; the old tab's frame drops away, then its line closes
+   again. Each part is a layer moved by transform/opacity only; a layer's timing for entering and
+   for leaving is the one its TARGET state carries (.active or not). */
+.pt-bg, .pt-frame, .pt-line { position: absolute; pointer-events: none; }
+/* The closed tab: recessed, with its own hairline edge. */
+.pt-bg {
+  inset: 0;
+  background: var(--bg-secondary);
+  box-shadow: inset 0 0 0 1px var(--border);
+  transition: opacity calc(var(--motion-page-tab) * 0.5) ease;
 }
-
-.page-tab.active {
-  color: var(--accent);
-  background: var(--bg-primary);
-  border-color: var(--accent);
-  border-bottom-color: var(--bg-primary); /* erase the accent line under the open tab → merge with content */
+.page-tab.active .pt-bg {
+  opacity: 0;
+  transition-delay: calc(var(--motion-page-tab) * 0.1);
 }
+/* The open tab's frame: top and sides, open at the bottom into the content. */
+.pt-frame {
+  inset: 0;
+  z-index: 1;
+  border: 1px solid var(--accent);
+  border-bottom: 0;
+  transform: translateY(100%);
+  transition: transform calc(var(--motion-page-tab) * 0.4) cubic-bezier(0.6, 0, 0.8, 0.4);
+}
+.page-tab.active .pt-frame {
+  transform: none;
+  transition: transform calc(var(--motion-page-tab) * 0.6) cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--motion-page-tab) * 0.18);
+}
+/* The accent line under a closed tab. */
+.pt-line {
+  left: 0; right: 0; bottom: 0;
+  z-index: 1;
+  height: 1px;
+  background: var(--accent);
+  transition: transform calc(var(--motion-page-tab) * 0.3) cubic-bezier(0.65, 0, 0.35, 1) calc(var(--motion-page-tab) * 0.3);
+}
+.page-tab.active .pt-line {
+  transform: scaleX(0);
+  transition-delay: 0s;
+}
+/* What the tab says, over the layers, on one line in every tab. The mock sat a closed tab's word
+   3px lower and lifted it on opening; at rest that read as the words not lining up (owner,
+   2026-09-30), so the word stays put and only the frame, line and fill move. */
+.page-tab > :not(.pt-bg, .pt-frame, .pt-line) { position: relative; z-index: 2; }
 
 .page-tab-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .page-tab-n, .page-tab-icon, .page-tab-warn { flex-shrink: 0; }

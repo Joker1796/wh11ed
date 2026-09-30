@@ -92,6 +92,13 @@
   /* A fold opening (CollapseTransition). Longer still: a fold's body can be a few screens tall,
      and only its first few hundred px are ever on screen while it opens. */
   --motion-fold: 0.45s;
+  /* The tracker's tabs switching (RoundTracker.vue): the base its fill, word and panel time from. */
+  --motion-tab: 0.45s;
+  /* What side tabs show fading in, in place (useSwapFade.js). Slower than a fold: at 0.32s the
+     old content gone at once and the new one up read as a blink (owner, 2026-09-30). */
+  --motion-swap: 0.6s;
+  /* The folder tabs switching (PageTabs.vue): the frame rising out of the line. */
+  --motion-page-tab: 0.52s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -103,6 +110,9 @@
     --motion-move: 0s;
     --motion-slow: 0s;
     --motion-fold: 0s;
+    --motion-tab: 0s;
+    --motion-page-tab: 0s;
+    --motion-swap: 0s;
   }
 }
 
