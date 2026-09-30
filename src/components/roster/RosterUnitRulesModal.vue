@@ -6,8 +6,17 @@
     @close="$emit('close')"
   >
     <template #aside>
+      <!-- In a game (a game context is handed in) the owned star has no business at the table;
+           its place goes to the Warlord badge, the one roster fact read at a glance there
+           (owner, 2026-09-30). -->
+      <span
+        v-if="gameCtx && ctx?.entry?.warlord"
+        class="rum-wl"
+      >
+        <i class="bi bi-flag-fill" /> {{ labels.rosterWarlord }}
+      </span>
       <RosterOwnedStar
-        v-if="card?.name"
+        v-else-if="card?.name && !gameCtx"
         :faction-slug="factionSlug"
         :unit-id="unitId"
         :name="card.name"
@@ -20,6 +29,7 @@
         :faction-slug="factionSlug"
         :ctx="ctx"
         :game-ctx="gameCtx"
+        :warlord-in-title="!!gameCtx"
         @toggle-cond="(...a) => $emit('toggle-cond', ...a)"
         @toggle-strat="(...a) => $emit('toggle-strat', ...a)"
         @toggle-aura="(...a) => $emit('toggle-aura', ...a)"
@@ -33,10 +43,12 @@
 // A unit's card in a dialog — the builder, the roster view and a game open it. The card itself
 // (and everything it loads) is RosterUnitRulesCard; this is the dialog around it, titled with the
 // unit's name and the owned star beside the close button.
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import RosterUnitRulesCard from './RosterUnitRulesCard.vue'
 import RosterOwnedStar from './RosterOwnedStar.vue'
+import { ui } from '../../i18n/ui.js'
+import { useLocale } from '../../composables/useLocale.js'
 
 defineProps({
   unitId: { type: String, required: true },
@@ -47,9 +59,18 @@ defineProps({
 defineEmits(['close', 'toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
 
 const card = ref(null)
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
+/* The Warlord badge in the header, where the star stands outside a game — the card's own chip. */
+.rum-wl {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  background: color-mix(in srgb, var(--text-primary) 7%, transparent);
+  color: var(--text-primary); font-size: 0.82rem; white-space: nowrap;
+}
 /* Small phones: the modal is already full-width (BaseModal's ≤560px bottom-sheet), so its own
    padding is the last thing standing between DatasheetCard's tables and the screen edge —
    DatasheetCard already bleeds its weapon table/ability groups to ITS OWN edges at ≤480px, so a

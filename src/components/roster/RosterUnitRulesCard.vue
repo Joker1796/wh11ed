@@ -20,11 +20,11 @@
          it's attached to. Only rendered when there's something to say, so a plain unit's
          card opens exactly as before. -->
     <div
-      v-if="view.context"
+      v-if="ctxChips"
       class="rum-ctx"
     >
       <span
-        v-if="view.context.warlord"
+        v-if="view.context.warlord && !warlordInTitle"
         class="rum-chip rum-chip-wl"
       >
         <i class="bi bi-flag-fill" /> {{ labels.rosterWarlord }}
@@ -159,9 +159,7 @@
       v-if="gameCtx?.switches?.length"
       class="rum-strats"
     >
-      <h4 class="rum-strats-h">
-        {{ labels.rosterUnitStates }}
-      </h4>
+      <!-- No "This unit" heading (owner, 2026-09-30): in a unit's own dialog it says nothing. -->
       <ConditionChips
         :switches="gameCtx.switches"
         @toggle="$emit('toggle-cond', $event)"
@@ -322,6 +320,8 @@ const props = defineProps({
   gameCtx: { type: Object, default: null },
   // Standing in a page, not a dialog: the card draws its own title row (with the owned star).
   inline: { type: Boolean, default: false },
+  // The dialog shows the Warlord badge in its header (a game's dialog), so not again here.
+  warlordInTitle: { type: Boolean, default: false },
 })
 defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
 
@@ -337,6 +337,11 @@ const {
   abilityModifiers,
   ruleBlocks, modSource,
 } = useRosterUnitCard(props)
+// The roster facts row: only when there is a chip left to show in it.
+const ctxChips = computed(() => {
+  const c = view.value.context
+  return !!c && ((c.warlord && !props.warlordInTitle) || !!c.enhancement || !!c.attachedTo)
+})
 
 function openArmyRule(name, rect) {
   openRule(name, rulesFaction.value?.armyRule?.body, rect)
@@ -474,6 +479,12 @@ defineExpose({ name: computed(() => view.value.sheet?.name || '') })
 .rum-chip-tag { text-transform: lowercase; opacity: 0.8; }
 .rum-rule-conds { margin-bottom: 0.5rem; }
 .rum-strats { margin-bottom: 0.6rem; }
+/* The card's switches a size down from the list's (owner, 2026-09-30): here they are one strip
+   above the datasheet, and at the list's size three states took two rows on a phone. */
+.rum-strats :deep(.cond-chips) { gap: 0.3rem; }
+.rum-strats :deep(.cond-chip) { gap: 0.3rem; padding: 0.2rem 0.5rem; font-size: 0.72rem; }
+.rum-strats :deep(.cond-chip.stacked) { padding-top: 0.2rem; padding-bottom: 0.2rem; }
+.rum-strats :deep(.cond-info) { padding: 0 0.35rem; }
 /* The stratagems are the one block here that SPENDS something — the others are states you are in
    — so they get a frame of their own instead of being the first of four look-alike rows. */
 .rum-boxed {

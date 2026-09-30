@@ -487,6 +487,38 @@ describe('RosterViewView', () => {
       expect(w.find('.rvst-mod').exists()).toBe(true)  // a plate the War Cry rewrote
     })
 
+    // Kept off screen in the game's Roster tab, the page reads the game as it left it — the whole
+    // modifier layer is not redone on every tap — and catches up the moment it is on screen again,
+    // or a unit's card is opened over another tab.
+    async function frozenOrks() {
+      const orks = {
+        id: 'r2f', name: 'Da List', faction: 'orks', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      }
+      const t = await startGame(orks, 'orks')
+      const w = mount(RosterViewView, { props: { inTracker: true, pi: 0, frozen: true }, global: { stubs } })
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
+      t.fireArmyToggle(0, t.current.value.currentRound)
+      await flushPromises()
+      expect(w.find('.rvst-mod').exists()).toBe(false) // off screen: as it was
+      return w
+    }
+    it('holds still while frozen and catches up when shown', async () => {
+      const w = await frozenOrks()
+      expect(w.find('.back').exists()).toBe(false) // the game screen is around it
+      expect(w.find('.rv-tabs').exists()).toBe(false) // rules and stratagems have the game's own tabs
+      expect(w.find('.rv-issues').exists()).toBe(false) // mid-battle the list is what it is
+      await w.setProps({ frozen: false })
+      await waitForSelector(w, '.rvst-mod')
+      expect(w.find('.rvst-mod').exists()).toBe(true)
+    })
+    it('catches up when a unit\'s card is opened over another tab', async () => {
+      const w = await frozenOrks()
+      w.vm.openUnit('u1')
+      await waitForSelector(w, '.rvst-mod')
+      expect(w.find('.rvst-mod').exists()).toBe(true) // a card on screen reads the live game
+    })
+
     // Per-unit states live on the unit's own row: they are what a player flips every turn, and
     // opening a card for that is a step too many. Army-wide states stay above the list.
     it('puts a unit\'s own switches in its row, under the stats', async () => {

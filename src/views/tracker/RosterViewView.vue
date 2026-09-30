@@ -2,7 +2,7 @@
   <div
     v-if="roster"
     class="roster-view fa-themed"
-    :class="{ 'rv-in-desk': inDesk, 'rv-split': unitPane }"
+    :class="{ 'rv-in-desk': inDesk, 'rv-split': unitPane, 'rv-in-game': inTracker }"
     :style="accentStyle"
   >
     <!-- On the rosters desk (RosterDeskView, wide screens) the page is a column that scrolls on its
@@ -10,7 +10,10 @@
     <div class="rv-main">
       <!-- The way back. The answer to the Save that landed here stood opposite it until 2026-09-24;
          it is a toast now (below), so on a phone this row is usually empty and takes no height. -->
-      <div class="rv-top">
+      <div
+        v-if="!inTracker"
+        class="rv-top"
+      >
         <!-- On a phone the way back to the list of lists is the bottom nav's Rosters, one thumb away,
            so this line is dropped there (owner, 2026-09-24). From a game or its history it goes
            somewhere the nav does not, and stays. -->
@@ -74,8 +77,9 @@
       <!-- What the list breaks, said HERE. The editor has always had this behind its footer badge,
          but a list is read far more often than it is edited, and "why is this illegal" was two
          screens away — the list page shows a warning count and this page said nothing at all. -->
+      <!-- Not in the game's Roster tab: mid-battle the list is what it is (owner, 2026-09-30). -->
       <button
-        v-if="issues.length"
+        v-if="issues.length && !inTracker"
         type="button"
         class="rv-issues"
         :class="{ err: errorCount }"
@@ -191,7 +195,10 @@
           </CollapseTransition>
         </div>
 
+        <!-- In the game's Roster tab the army's rules and stratagems have tabs of their own (Armies,
+             CP), so the list is all this page shows there (owner, 2026-09-30). -->
         <PageTabs
+          v-if="!inTracker"
           class="rv-tabs"
           :tabs="viewTabs"
           @select="tab = $event"
@@ -265,21 +272,30 @@
                       @click="viewingUid = e.uid"
                     >
                       <span class="rvunit-text">
-                        <span class="rvunit-name">
-                          {{ defOf(e.id)?.name || e.id }}
-                          <!-- The player's own note (rosterEngine's note helpers) — what they wrote to
+                        <!-- In the game the summary (warlord, models, upgrades, enhancement) stands at the
+                       right end of the name's line — a line less per card (owner, 2026-09-30); a
+                       summary that does not fit beside the name wraps under it rather than being cut. -->
+                        <span class="rvunit-head">
+                          <span class="rvunit-name">
+                            {{ defOf(e.id)?.name || e.id }}
+                            <!-- The player's own note (rosterEngine's note helpers) — what they wrote to
                          read HERE, at the table, which is why it is on the row rather than behind
                          the card this row opens. -->
-                          <span
-                            v-if="e.note"
-                            class="rvunit-note"
-                          >({{ e.note }})</span>
-                          <!-- Attached characters sit under their bodyguard (rosterEngine's
+                            <span
+                              v-if="e.note"
+                              class="rvunit-note"
+                            >({{ e.note }})</span>
+                            <!-- Attached characters sit under their bodyguard (rosterEngine's
                          joinAttached); the tag says which slot, which nesting alone can't. -->
+                            <span
+                              v-if="rowMeta.get(e.uid)?.role"
+                              class="rvunit-role"
+                            >{{ rowMeta.get(e.uid).role }}</span>
+                          </span>
                           <span
-                            v-if="rowMeta.get(e.uid)?.role"
-                            class="rvunit-role"
-                          >{{ rowMeta.get(e.uid).role }}</span>
+                            v-if="inTracker && summaryLine(e)"
+                            class="rvunit-sub"
+                          >{{ summaryLine(e) }}</span>
                         </span>
                         <span
                           v-if="rowMeta.get(e.uid)?.stats.length"
@@ -295,10 +311,14 @@
                             <span class="stat-plate rvst-box">{{ s.value }}</span>
                           </span>
                         </span>
-                        <span class="rvunit-sub">{{ summaryLine(e) }}</span>
+                        <span
+                          v-if="!inTracker"
+                          class="rvunit-sub"
+                        >{{ summaryLine(e) }}</span>
                       </span>
+                      <!-- No chevron (owner, 2026-09-30): the row opens a dialog, not a fold, and a
+                           chevron beside it read as one. -->
                       <span class="rvunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
-                      <i class="bi bi-chevron-right rvunit-chev" />
                     </button>
                     <!-- What THIS unit has done, right where its numbers are. Army-wide states stay above
                    the list — those are facts about the battle, not about a unit — and these are the
@@ -518,6 +538,16 @@
         v-on="viewingHandlers"
         @close="viewingUid = null"
       />
+      <!-- A card's stratagem box ticked in a game counting CP: played like one from the CP tab — on
+           this unit, the cost asked, the CP spent (StratPlayModal, stratagemPlay.js). -->
+      <StratPlayModal
+        v-if="playingOnCard"
+        :strat="playingOnCard.strat"
+        :pi="gamePi"
+        :fixed-target="playingOnCard.target"
+        :z-index="420"
+        @close="playingOnCard = null"
+      />
     </div>
     <aside
       v-if="unitPane"
@@ -542,7 +572,7 @@
 
 <script setup>
 import ChevronIcon from '../../components/ChevronIcon.vue'
-import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { computed, markRaw, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
@@ -565,6 +595,10 @@ import { useKeywordContext } from '../../composables/useFactionKeywordUnits.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
+import { provideModalScope } from '../../composables/modalScope.js'
+import { loadArmyStrats } from '../../composables/gameStratagems.js'
+import { deckStratFor } from '../../composables/stratagemPlay.js'
+import StratPlayModal from '../../components/tracker/StratPlayModal.vue'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
@@ -594,6 +628,13 @@ const props = defineProps({
   inDesk: { type: Boolean, default: false },
   // On the desk from 1200px: a unit's card opens in a column beside the page, not in a dialog.
   unitPane: { type: Boolean, default: false },
+  // The game screen's Roster tab (RoundTracker) holds this page itself, built on its first visit
+  // and kept (owner, 2026-09-30): which army by `pi`/`mi` instead of the address, no way back to
+  // draw, and `frozen` while it is not on screen — see `game` below.
+  inTracker: { type: Boolean, default: false },
+  pi: { type: Number, default: null },
+  mi: { type: Number, default: null },
+  frozen: { type: Boolean, default: false },
 })
 
 const route = useRoute()
@@ -610,9 +651,9 @@ const { rosterById } = useRosters()
 //
 // useTracker is imported dynamically on purpose: it statically pulls the mission/event datasets,
 // and the ordinary roster route must not carry them.
-const gamePi = computed(() => (route.params.pi != null ? Number(route.params.pi) : null))
+const gamePi = computed(() => (props.inTracker ? props.pi : route.params.pi != null ? Number(route.params.pi) : null))
 // Doubles: which member of the side this list belongs to (absent in singles → the side itself).
-const gameMi = computed(() => (route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
+const gameMi = computed(() => (props.inTracker ? props.mi : route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
 const inGame = computed(() => gamePi.value != null)
 // A finished game reached from the history list (/tracker/history/:gid/roster/:pi) shows the same
 // screen as a live one, but as a RECORD: the rule switches are what they were when it ended, and
@@ -628,12 +669,27 @@ const gameRoster = ref(undefined) // undefined = not resolved yet, null = no suc
 const tracker = shallowRef(null)
 
 // The game this route is about — the one in progress, or one out of history.
-const game = computed(() => {
+const liveGame = computed(() => {
   if (!tracker.value || !inGame.value) return null
   return historyId.value
     ? tracker.value.history.value.find((g) => g.id === historyId.value) || null
     : tracker.value.current.value
 })
+// The unit whose card is open (see "Unit rules modal" below).
+const viewingUid = ref(!props.inTracker && route.query?.unit ? String(route.query.unit) : null)
+// The game screen opens a unit's card straight from another tab (RoundTracker).
+defineExpose({ openUnit: (uid) => { viewingUid.value = uid } })
+// Kept off screen in the game's Roster tab, the page must not redo its whole modifier layer on
+// every tap of the game (a VP, a CP, a phase step): while `frozen` it reads a plain copy of the
+// game taken as it went out of sight — nothing reactive in it, so nothing below recomputes — and
+// back on screen it reads the live game again, one recount. A unit's card opened over another
+// tab (the Phase tab's line to it) is on screen, so it thaws the page too.
+const stillFrozen = computed(() => props.frozen && !viewingUid.value)
+const frozenGame = shallowRef(null)
+watch([stillFrozen, () => !!liveGame.value], ([f]) => {
+  frozenGame.value = f && liveGame.value ? markRaw(JSON.parse(JSON.stringify(toRaw(liveGame.value)))) : null
+}, { immediate: true })
+const game = computed(() => frozenGame.value || liveGame.value)
 // The roster is frozen in the snapshot, but what is TRUE about the battle is not, and that is
 // what decides whether a conditional modifier applies. In doubles the member is the holder of
 // the roster and of every rule switch, so it stands in for the side everywhere below; the clock
@@ -692,6 +748,7 @@ const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterB
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
 // `roster` is legitimately null, and redirecting then would bounce straight back out of the view.
 watch([roster, gameRoster], () => {
+  if (props.inTracker) return // the tab offers only armies that carry a list
   if (inGame.value && gameRoster.value === undefined) return
   if (!roster.value) router.replace(backTo.value)
 }, { immediate: true })
@@ -712,6 +769,11 @@ const viewTabs = computed(() => {
 
 // ── Faction accent (useFactionAccent.js — the same recipe every faction-coloured screen uses) ──
 const { accentStyle } = useFactionAccent(computed(() => roster.value?.faction))
+// In the game screen the dialogs opened from here would wear the game's turn colour (its modal
+// scope); a unit's card is its army's, so this page hands down its own faction colour instead.
+if (props.inTracker) {
+  provideModalScope(computed(() => ({ class: ['fa-themed', 'army-colored'], style: accentStyle.value })))
+}
 
 // ── Compact roster data (unit names/sizes/points), same lazy source the editor uses ──
 const { factionData } = useRosterFactionData(() => roster.value?.faction, { allies: () => usesAllies(roster.value) })
@@ -854,7 +916,7 @@ function openChipInfo(sw, rect) {
 // reader from "Brides of Death (Pain), Lelith Hesperax" to the card that says what it does. The
 // query is read once, on arrival; closing the card leaves it in the URL, which is harmless (it
 // only ever seeds the initial value) and keeps a reload on the same card.
-const viewingUid = ref(route.query?.unit ? String(route.query.unit) : null)
+// (`viewingUid` is declared with the game above: an open card keeps the page thawed.)
 const viewingEntry = computed(() => roster.value?.units.find((u) => u.uid === viewingUid.value) || null)
 // The entry, not just its datasheet: the modal's overlay (rosterModifiers.js) needs this unit's
 // own wargear picks to show the loadout it actually fields rather than every option on the sheet.
@@ -1286,10 +1348,31 @@ const viewingGameCtx = computed(() => {
       : [],
   }
 })
-// One handler for both scopes — the switch says which store it belongs to.
-function toggleUnitStrat(st) {
-  if (!viewingEntry.value) return
-  tracker.value?.setUnitStratagem(gamePi.value, viewingEntry.value.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value)
+// A stratagem box on the card. In a game counting CP it is PLAYING the stratagem on this unit — the
+// CP spent, the cost asked (StratPlayModal) — and unticking it takes the play back with its CP
+// (useTracker's playStratagem / unplayOnUnit). Without CP, or for a record with no stratagem in the
+// deck to spend on, it is the plain mark it always was.
+const playingOnCard = ref(null)
+async function toggleUnitStrat(st) {
+  const entry = viewingEntry.value
+  const t = tracker.value
+  if (!entry || !t) return
+  if (!keeps('trackCP')) {
+    t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value)
+    return
+  }
+  if (st.on) {
+    t.unplayOnUnit(gamePi.value, entry.uid, st.id, gameMi.value)
+    return
+  }
+  const rec = resolvedFor(entry).find((r) => r.sid === st.id)
+  const deck = await loadArmyStrats(gamePlayer.value, locale.value, !!game.value?.settings?.combatPatrol)
+  const strat = deckStratFor(rec, deck)
+  if (!strat) {
+    t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), true, gameMi.value)
+    return
+  }
+  playingOnCard.value = { strat, target: { uid: entry.uid, mi: gameMi.value, name: defOf(entry.id)?.name || entry.id, sid: st.id } }
 }
 
 function toggleViewingAura(sw) {
@@ -1700,7 +1783,6 @@ function stratKey(strat) {
 .rvst-inv .rvst-box::before { background: var(--accent); }
 .rvunit-sub { font-size: 0.74rem; color: var(--text-dim); }
 .rvunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.rvunit-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
 
 /* The Rules tab is a REREAD of rules the player already knows, on the screen they hold at the
    table — not the rules page, where a rule is being read for the first time. So it runs a step
@@ -1744,6 +1826,33 @@ function stratKey(strat) {
 /* ── On the rosters desk (RosterDeskView) ──
    The page is a column of the desk and scrolls inside it; the way back is not drawn, the list of
    lists stands beside it. From 1200px a second column holds the card of the unit last opened. */
+.rv-in-game { padding: 0; }
+/* In the game every line of height is the game's: the name and the points on one small line. */
+.rv-in-game .rv-head { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom-width: 1px; }
+.rv-in-game .rv-name, .rv-in-game .rv-name.long, .rv-in-game .rv-name.xlong { font-size: 1.2rem; line-height: 1.2; }
+.rv-in-game .rv-points { font-size: 0.9rem; }
+/* …and the unit cards tighter by their padding and gaps alone — every name, plate and switch keeps
+   its size (owner, 2026-09-30). */
+.rv-in-game .rvunit { margin-bottom: 0.35rem; }
+.rv-in-game .rvunit-main { padding-block: 0.35rem; }
+.rv-in-game .rvunit-conds { padding-block: 0.3rem; }
+.rv-in-game .roster-group-head { margin: 0.45rem 0 0.3rem; }
+.rvunit-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.5rem; }
+.rv-in-game .rvunit-head .rvunit-sub { margin-left: auto; text-align: right; }
+/* The name's line runs the card's full width, to its right edge; the points sit on the plates'
+   line instead of a column down the whole card, which ended the name's line short. */
+.rv-in-game .rvunit-main { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 0.6rem; row-gap: 0.1rem; }
+.rv-in-game .rvunit-text { display: contents; }
+.rv-in-game .rvunit-head { grid-column: 1 / -1; }
+.rv-in-game .rvunit-stats { grid-area: 2 / 1; }
+.rv-in-game .rvunit-pts { grid-area: 2 / 2; align-self: center; justify-self: end; }
+/* The plates larger in the game (owner, 2026-09-30): they share the row left of the points, each
+   up to 2.7rem wide, so a wide phone gets big ones and a 320px one still fits all seven. */
+.rv-in-game .rvunit-stats { display: flex; gap: 0.3rem; }
+.rv-in-game .rvst { flex: 0 1 2.7rem; min-width: 0; }
+.rv-in-game .rvst-box { width: 100%; min-width: 0; padding: 0.22rem 0.1rem; font-size: 1.02rem; --cut: 5px; }
+.rv-in-game .rvst-label { font-size: 0.64rem; }
+@media (max-width: 360px) { .rv-in-game .rvunit-main { column-gap: 0.4rem; } }
 .rv-in-desk { height: 100%; padding: 0; }
 .rv-in-desk .rv-top { display: none; }
 .rv-in-desk .rv-main {
