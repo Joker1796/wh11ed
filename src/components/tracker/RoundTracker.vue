@@ -5,7 +5,7 @@
        it is. The sides themselves keep their own colours (--side-you / --side-opponent). -->
   <div
     class="round-tracker side-colored turn-colored"
-    :class="{ 'turn-opp': turnOpp }"
+    :class="{ 'turn-opp': turnOpp, 'tab-moved': panelFrom, 'tab-back': panelFrom < 0 }"
     :style="sideColors"
   >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
@@ -30,23 +30,15 @@
          too — a row of its own would cost vertical space the phone does not have (it renders
          nothing for a game that is not shared). -->
     <div class="round-bar">
-      <div class="rb-rounds">
-        <!-- A step is a VIEW, not a move: a past round opens for correction (the game stays
-             where it is — only End/Undo turn move it), the live one comes back, a round not yet
-             started is not there to open. -->
-        <button
-          v-for="n in ROUND_COUNT"
-          :key="n"
-          class="rb-round"
-          :class="{ on: shownRound === n, live: current.currentRound === n }"
-          :disabled="n > current.currentRound"
-          :aria-label="`${labels.trackerRound} ${n}`"
-          :aria-current="current.currentRound === n ? 'step' : undefined"
-          @click="viewRound = n === current.currentRound ? null : n"
-        >
-          {{ n }}
-        </button>
-      </div>
+      <!-- A step is a VIEW, not a move: a past round opens for correction (the game stays where it
+           is — only End/Undo turn move it), the live one comes back (RoundStrip.vue). -->
+      <RoundStrip
+        :count="ROUND_COUNT"
+        :live="current.currentRound"
+        :shown="shownRound"
+        :phase="stripPhase"
+        @pick="(n) => (viewRound = n === current.currentRound ? null : n)"
+      />
       <SyncIndicator />
     </div>
 
@@ -163,13 +155,15 @@
          and says its word beside its icon — so the strip is one row at any width, and the
          word on screen is always where you are. The phase tab carries its count. The open tab
          sits on the strip's line in the accent, attached to what it shows. Every new turn opens
-         on the missions (watch below) — that is where a turn starts. -->
+         on the missions (watch below) — that is where a turn starts.
+         Switching (owner's mock, 2026-09-30): the old tab's fill drains down while the strip
+         re-divides, then the new one fills from the bottom and its word rises into it; the panel
+         slides in from the side the tab is on. -->
     <nav
       ref="tabsEl"
       class="game-tabs"
       role="tablist"
       :aria-label="labels.trackerTabsAria"
-      :style="{ gridTemplateColumns: tabColumns }"
     >
       <button
         v-for="t in tabs"
@@ -182,15 +176,21 @@
         :title="tab === t.id ? undefined : t.label"
         @click="tab = t.id"
       >
+        <span
+          class="gt-fill"
+          aria-hidden="true"
+        />
         <i
           class="bi"
           :class="t.icon"
           aria-hidden="true"
         />
-        <span
-          v-if="tab === t.id"
-          class="gt-word"
-        >{{ t.label }}</span>
+        <Transition name="gt-word">
+          <span
+            v-if="tab === t.id"
+            class="gt-word"
+          >{{ t.label }}</span>
+        </Transition>
         <span
           v-if="t.count"
           class="gt-count"
@@ -198,8 +198,12 @@
       </button>
     </nav>
 
+    <!-- Every panel is built once and kept (v-show): the missions at once, the rest while the
+         browser is idle right after, so a switch only shows what is already there — nothing is
+         built in the frame the panel slides in (owner, 2026-09-30). The CP panel first came up
+         empty for a frame while its decks loaded and the page jumped (2026-09-29). -->
     <section
-      v-if="tab === 'missions'"
+      v-show="tab === 'missions'"
       class="panel"
       role="tabpanel"
     >
@@ -234,6 +238,7 @@
            Names alone on the tabs, the same two as the CP tab's. The block wears the chosen side's
            colour. Both sides open, one under the other, ran to several screens. -->
       <div
+        ref="msideEl"
         class="mside"
         :class="{ opp: !isYouSide(current.players[missionSide], missionSide) }"
       >
@@ -315,16 +320,14 @@
          balance; under the chosen one, one line: the round's bonus point — its button turns into
          an undo for a point added by hand — the stepper (a correction is kept in the ledger as
          one) and a "?" for where Core CP come from. -->
-    <!-- Kept once opened (v-show, not v-if): rebuilt on every visit it came up empty for a frame
-         while its decks loaded, the page grew shorter than where it was scrolled and jumped
-         (owner, 2026-09-29: "it jerks going to it"). -->
     <section
-      v-if="cpSeen"
+      v-if="cpOn && built.has('cp')"
       v-show="tab === 'cp'"
       class="panel"
       role="tabpanel"
     >
       <CpStratagems
+        ref="cpEl"
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
       >
@@ -381,13 +384,16 @@
 
     <!-- What speaks in the phase the clock stands on, for both players (usePhaseRules.js). -->
     <section
-      v-if="tab === 'phase'"
+      v-if="phaseTabOn && built.has('phase')"
+      v-show="tab === 'phase'"
       class="panel"
       role="tabpanel"
     >
       <PhaseRules
         embedded
-        @stratagems="tab = 'cp'"
+        @stratagems="openCpNow"
+        @army="openArmyRule"
+        @roster="openRoster"
       />
       <p
         v-if="!phaseRuleCount"
@@ -398,7 +404,8 @@
     </section>
 
     <section
-      v-else-if="tab === 'log'"
+      v-if="built.has('log')"
+      v-show="tab === 'log'"
       class="panel"
       role="tabpanel"
     >
@@ -406,7 +413,8 @@
     </section>
 
     <section
-      v-else-if="tab === 'stats'"
+      v-if="built.has('stats')"
+      v-show="tab === 'stats'"
       class="panel"
       role="tabpanel"
     >
@@ -415,13 +423,31 @@
 
     <!-- The armies: each army's facts, the way to its units, its rules and stratagems. -->
     <section
-      v-else-if="tab === 'armies'"
+      v-if="built.has('armies')"
+      v-show="tab === 'armies'"
       class="panel"
       role="tabpanel"
     >
       <ArmiesPanel
+        ref="armiesEl"
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
+        @roster="openRoster"
+      />
+    </section>
+
+    <!-- The attached lists (RosterTab.vue): each built on its first visit and kept. -->
+    <section
+      v-if="hasLists && built.has('roster')"
+      v-show="tab === 'roster'"
+      class="panel"
+      role="tabpanel"
+    >
+      <RosterTab
+        ref="rosterEl"
+        :names="current.players.map((_, i) => playerName(i))"
+        :default-side="focusSide"
+        :active="tab === 'roster'"
       />
     </section>
 
@@ -534,7 +560,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, provide } from 'vue'
+import { ref, computed, watch, provide, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
@@ -544,6 +570,8 @@ import PageTabs from '../PageTabs.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
 import GameLog from './GameLog.vue'
 import ArmiesPanel from './ArmiesPanel.vue'
+import RosterTab from './RosterTab.vue'
+import RoundStrip from './RoundStrip.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import TurnEndCheckModal from './TurnEndCheckModal.vue'
@@ -566,7 +594,8 @@ import { blockLocked, turnEndChecks } from '../../composables/missionTiming.js'
 import { bonusIn } from '../../composables/cpLedger.js'
 import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { provideModalScope } from '../../composables/modalScope.js'
-import { useTracker, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useSwapFade } from '../../composables/useSwapFade.js'
+import { useTracker, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
 
@@ -590,27 +619,83 @@ provideModalScope(computed(() => ({
 // The working area's tabs (see the template). CP is offered only to a game that tracks it; a
 // game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
 const tab = ref('missions')
-// The CP panel is built on its first visit and kept (see its template).
-const cpSeen = ref(false)
+// The panels built so far (see the template): the open one, then the rest one per idle moment.
+const built = ref(new Set([tab.value]))
 // The Phase tab exists only while the game keeps the clock AND asked for the reminder; its count
 // is the reminder itself, readable without opening it.
 const phaseTabOn = computed(() => phasesOn.value && tracks(current.value.settings, 'trackPhaseRules'))
 const { total: phaseRuleCount } = usePhaseRules()
 const tabs = computed(() => [
   { id: 'missions', label: labels.value.trackerTabMissions, icon: 'bi-bullseye' },
+  // The phase right after the missions (owner, 2026-09-30): what speaks now is read during the turn.
+  ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, icon: 'bi-hourglass-split', count: phaseRuleCount.value }] : []),
   ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp, icon: 'bi-lightning-charge' }] : []),
   // The armies right after CP (owner, 2026-09-29): both are looked at during a turn, the log and
   // the stats after it.
   { id: 'armies', label: labels.value.trackerTabArmies, icon: 'bi-shield-shaded' },
+  // The attached lists, read in the game (owner, 2026-09-30) — only when there is one.
+  ...(hasLists.value ? [{ id: 'roster', label: labels.value.trackerRosterOpen, icon: 'bi-card-list' }] : []),
   { id: 'log', label: labels.value.trackerTabLog, icon: 'bi-journal-text' },
   { id: 'stats', label: labels.value.trackerTabStats, icon: 'bi-bar-chart-line' },
-  ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, icon: 'bi-hourglass-split', count: phaseRuleCount.value }] : []),
 ])
-// The open tab takes what the closed icons leave.
-const tabColumns = computed(() => tabs.value.map((t) => (t.id === tab.value ? 'minmax(0, 1fr)' : 'var(--gt-closed)')).join(' '))
 watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
-watch(tab, (t) => { if (t === 'cp') cpSeen.value = true }, { immediate: true })
+const hasLists = computed(() => (current.value?.players || []).some((pl) => membersOf(pl).some((m) => m.roster)))
+watch(hasLists, (on) => { if (!on && tab.value === 'roster') tab.value = 'missions' })
+// The round line's phases (RoundStrip), with the clock on: both turns' phases, the live one.
+const stripPhase = computed(() => {
+  if (!phasesOn.value) return null
+  const g = current.value
+  const turn = g.currentTurn === 1 ? 1 : 0
+  const at = turn * BATTLE_PHASES.length + Math.max(0, BATTLE_PHASES.indexOf(g.currentPhase || 'command'))
+  // Each turn's phases in its side's colour: the first turn is players[0]'s (the players stand in
+  // turn order), the second players[1]'s.
+  const colors = g.players.map((pl, i) => (isYouSide(pl, i) ? 'var(--side-you)' : 'var(--side-opponent)'))
+  return { steps: BATTLE_PHASES.length * 2, at, colors, label: `${phaseLabel(g.currentPhase || 'command', labels.value)} · ${playerName(turnIndex.value)}` }
+})
+// The Phase tab's lines into the other tabs: its stratagems line opens the CP tab on the phase's
+// group, a rule opens the Armies tab on that army with the rule unfolded.
+const cpEl = ref(null)
+const armiesEl = ref(null)
+async function openCpNow() {
+  tab.value = 'cp'
+  await nextTick()
+  cpEl.value?.showNow()
+}
+async function openArmyRule(at) {
+  tab.value = 'armies'
+  await nextTick()
+  armiesEl.value?.reveal(at)
+}
+// A list: the Roster tab on that army. One unit of it: its card over the tab on screen.
+const rosterEl = ref(null)
+async function openRoster({ pi, mi, uid }) {
+  if (uid == null) tab.value = 'roster'
+  built.value.add('roster')
+  await nextTick()
+  if (uid == null) rosterEl.value?.show({ pi, mi })
+  else rosterEl.value?.openUnit({ pi, mi, uid })
+}
+// Where the new panel slides in from: the side the tab stands on, relative to the old one
+// (1 from the right, -1 from the left; 0 until the first switch).
+const panelFrom = ref(0)
+watch(tab, (t, old) => {
+  built.value.add(t)
+  const ids = tabs.value.map((x) => x.id)
+  panelFrom.value = ids.indexOf(t) < ids.indexOf(old) ? -1 : 1
+})
+let gone = false
+onBeforeUnmount(() => { gone = true })
+onMounted(() => {
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 250))
+  const next = () => {
+    const id = !gone && tabs.value.map((t) => t.id).find((t) => !built.value.has(t))
+    if (!id) return
+    built.value.add(id)
+    idle(next)
+  }
+  idle(next)
+})
 // Switching panels from further down the page: the new panel starts right under the tab strip,
 // the strip at the top of the screen — not wherever a shorter panel lets the browser clamp the
 // scroll (2026-09-29: first a jump, then a screen-tall blank to stop it). From above, nothing moves.
@@ -678,6 +763,9 @@ const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 
 // Whose missions are open: the focus side, until a tab says otherwise; a new turn goes back to it.
 const missionSide = ref(focusSide.value)
+// Another side's missions fade in under the standing tabs (useSwapFade).
+const msideEl = ref(null)
+useSwapFade(missionSide, () => msideEl.value?.querySelector(':scope > .player'))
 watch(focusSide, (v) => { missionSide.value = v })
 const missionTabs = computed(() => [0, 1].map((i) => ({
   key: i,
@@ -821,30 +909,13 @@ function onEndBattle(reason) {
 </script>
 
 <style scoped>
-/* The rounds: square steps in one row, "Finish game" at the end of it. */
+/* The rounds: a thin line of points (RoundStrip), the sync state at its end. */
 .round-bar {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   gap: 0.3rem;
-  margin: 0.6rem 0 0;
+  margin: 0.4rem 0 0;
 }
-.rb-rounds { display: flex; gap: 0.3rem; flex: 1 1 auto; min-width: 0; }
-.rb-round {
-  flex: 1 1 0;
-  min-width: 26px;
-  height: 34px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-muted);
-  font-weight: 700;
-  font-family: var(--font-mono);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-.rb-round.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-/* The live round, while a past one is on screen: outlined, so the way back reads at a glance. */
-.rb-round.live:not(.on) { border-color: var(--accent); color: var(--accent); }
-.rb-round:disabled { opacity: 0.45; cursor: default; }
 .rb-finish {
   flex: 0 0 auto;
   min-height: 40px;
@@ -1048,13 +1119,18 @@ function onEndBattle(reason) {
    with it and so reads as part of the line it stands on, attached to the panel under it. */
 .game-tabs {
   --gt-closed: 48px; /* a closed (icon) tab's width; the open one takes the rest */
-  display: grid;
+  --gt-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  display: flex;
   margin: 0.7rem 0;
   border-bottom: 2px solid var(--accent);
 }
+/* The open tab grows into what the closed ones leave: flex-grow, not grid columns (1fr to 48px does
+   not animate), and the two grows always sum to one, so the strip re-divides without a wobble. */
 .gt-tab {
   position: relative;
+  overflow: hidden;
   display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+  flex: 0 0 var(--gt-closed);
   min-width: 0;
   min-height: 40px;
   padding: 0.2rem 0.4rem;
@@ -1069,14 +1145,47 @@ function onEndBattle(reason) {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   cursor: pointer;
+  transition:
+    flex-grow var(--motion-tab) var(--gt-ease),
+    color var(--motion-tab) ease,
+    border-color var(--motion-tab) ease;
 }
 .gt-tab:first-child { margin-left: 0; }
+.gt-tab.on { flex-grow: 1; z-index: 1; border-color: var(--accent); color: #fff; }
+/* The accent is a layer, so only its transform moves: the old one drains down at once, the new one
+   fills from the bottom a quarter later — "drained, then filled". */
+.gt-fill {
+  position: absolute; inset: 0;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform calc(var(--motion-tab) * 0.75) var(--gt-ease);
+}
+.gt-tab.on .gt-fill {
+  transform: scaleY(1);
+  transition-delay: calc(var(--motion-tab) * 0.25);
+}
+.gt-tab > .bi, .gt-tab > .gt-word { position: relative; } /* over the fill */
 .gt-tab .bi { font-size: 1.1rem; }
 .gt-word { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* Six tabs on a 320px phone: narrower icons, or the open tab's word is cut to its first letter. */
-@media (max-width: 360px) { .game-tabs { --gt-closed: 38px; } }
-.gt-tab.on { z-index: 1; background: var(--accent); border-color: var(--accent); color: #fff; }
-@media (hover: hover) { .gt-tab:not(.on):hover { color: var(--text-primary); } }
+/* The new word rises into the filled tab; the old one goes at once. */
+.gt-word-enter-active {
+  transition:
+    transform calc(var(--motion-tab) * 0.8) cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--motion-tab) * 0.35),
+    opacity calc(var(--motion-tab) * 0.8) cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--motion-tab) * 0.35);
+}
+.gt-word-enter-from { opacity: 0; transform: translateY(22px); }
+/* Seven tabs on a phone: narrower icons, or the open tab's word is cut to its first letters
+   ("МИСС…" at 390px); on a 320px one the open tab also says only its word, a size down. */
+@media (max-width: 480px) { .game-tabs { --gt-closed: 40px; } }
+@media (max-width: 360px) {
+  .game-tabs { --gt-closed: 34px; }
+  .gt-tab.on > .bi { display: none; }
+  .gt-tab.on { font-size: 1rem; }
+}
+/* Hover: the tab's own edge in the accent — lifted over its neighbours, which overlap it by a pixel
+   (margin-left: -1px), or they cut its frame. */
+@media (hover: hover) { .gt-tab:not(.on):hover { z-index: 1; border-color: var(--accent); color: var(--text-primary); } }
 /* The phase tab's count, in its corner. */
 .gt-count {
   position: absolute; top: 2px; right: 2px;
@@ -1086,8 +1195,20 @@ function onEndBattle(reason) {
 }
 .gt-tab.on .gt-count { background: #fff; color: var(--accent); }
 .panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
-.gt-tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
-@media (hover: hover) { .gt-tab:not(.on):hover { border-color: var(--accent); } }
+/* After the first switch, a panel coming into view slides in from the side its tab stands on
+   (.tab-back: from the left); the one it replaces is already hidden. v-show restarts the animation each time
+   display comes back, so no Transition is needed. */
+/* It waits for the tab's fill to start, then fades and glides slower than the tab itself, on a soft
+   ease-out (owner, 2026-09-30: at the tab's own pace it "appeared and moved too fast"). */
+.tab-moved > .panel {
+  animation:
+    panel-fade calc(var(--motion-tab) * 1.4) ease-out calc(var(--motion-tab) * 0.25) backwards,
+    panel-slide calc(var(--motion-tab) * 1.8) cubic-bezier(0.33, 1, 0.68, 1) calc(var(--motion-tab) * 0.25) backwards;
+}
+.tab-moved { --panel-from: 32px; }
+.tab-back { --panel-from: -32px; }
+@keyframes panel-fade { from { opacity: 0; } }
+@keyframes panel-slide { from { transform: translateX(var(--panel-from)); } }
 
 /* Command points: the chosen side's bank, one line under the side tabs (CpStratagems' #bank). */
 .cp-bank {

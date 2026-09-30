@@ -28,12 +28,22 @@ function start(p0, p1, settings = {}) {
 function mountPanel(names = ['Me', 'Opp']) {
   return mount(ArmiesPanel, { props: { names }, global: { stubs: { RouterLink: RouterLinkStub } } })
 }
-// The units link of every army, picking each in turn.
+// Every army's card is built and kept; the one on screen is the one v-show left displayed.
+const onScreen = (el) => !String(el.attributes('style') || '').includes('display: none')
+const shown = (w) => w.findAll('.ap-card').find(onScreen)
+// The units link of every army, picking each in turn: the faction's datasheets by address, the
+// attached list by the Roster tab it asks the game screen for ("roster pi/mi").
 async function unitLinks(w) {
   const out = []
   for (const b of w.findAll('.ap-tabs .page-tab')) {
     await b.trigger('click')
-    out.push(w.find('a.proster').exists() ? w.find('a.proster').attributes('href') : null)
+    const card = shown(w)
+    const list = card.find('button.proster')
+    if (list.exists()) {
+      await list.trigger('click')
+      const { pi, mi } = w.emitted('roster').at(-1)[0]
+      out.push(`roster ${pi}/${mi ?? ''}`)
+    } else out.push(card.find('a.proster').exists() ? card.find('a.proster').attributes('href') : null)
   }
   return out
 }
@@ -47,7 +57,7 @@ describe('ArmiesPanel', () => {
   it('prefers the attached list — that army only', async () => {
     const roster = { id: 'r1', name: 'Da List', faction: 'orks', detachments: [], units: [] }
     start({ factionSlug: 'orks', rosterId: 'r1', roster }, { factionSlug: 'necrons' })
-    expect(await unitLinks(mountPanel())).toEqual(['/tracker/game/roster/0', '/factions/necrons/datasheets'])
+    expect(await unitLinks(mountPanel())).toEqual(['roster 0/', '/factions/necrons/datasheets'])
   })
 
   it('has no link for a legacy army without a faction, and says why', async () => {
@@ -67,7 +77,7 @@ describe('ArmiesPanel', () => {
     const w = mountPanel(['Alpha', 'Beta'])
     expect(w.findAll('.ap-tabs .page-tab').map((e) => e.text())).toEqual(['Alpha · Ann', 'Alpha · Bob', 'Beta · Cat', 'Beta · Dan'])
     expect(w.find('.ap-fac').text()).toBe('Orks')
-    expect(await unitLinks(w)).toEqual(['/factions/orks/datasheets', '/tracker/game/roster/0/1', '/factions/drukhari/datasheets', null])
+    expect(await unitLinks(w)).toEqual(['/factions/orks/datasheets', 'roster 0/1', '/factions/drukhari/datasheets', null])
   })
 
   // Owner, 2026-09-29: the detachment rules read under the army rule, in its card.
@@ -83,11 +93,43 @@ describe('ArmiesPanel', () => {
     expect(det.title).toContain('War Horde')
   })
 
+  // The Phase tab's line to a rule lands here: that army's tab, that rule unfolded.
+  it('opens an army on a rule asked for from outside', async () => {
+    start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons' })
+    const w = mountPanel()
+    const pi = tracker.current.value.players.findIndex((p) => p.factionSlug === 'orks')
+    const head = (text) => w.findAll('.army-acc-head').find((b) => b.text().includes(text))
+    await w.findAll('.ap-tabs .page-tab')[1 - pi].trigger('click') // on the other army first
+    await w.vm.reveal({ pi, mi: null, rule: 'War Horde' })
+    await vi.waitFor(async () => { await flushPromises(); expect(head('War Horde')?.attributes('aria-expanded')).toBe('true') }, { timeout: 5000 })
+    expect(w.find('.ap-fac').text()).toBe('Orks')
+    // The army rule: its own fold, or "How it works" where the card holds its text.
+    const armyOpen = () => w.findAll('.army-acc-head').filter((b) => !b.text().includes('War Horde')).some((b) => b.attributes('aria-expanded') === 'true')
+    expect(armyOpen()).toBe(false) // only the rule asked for
+    await w.vm.reveal({ pi, mi: null, rule: 'army' })
+    await flushPromises()
+    expect(armyOpen()).toBe(true)
+  })
+
+  // Owner, 2026-09-30: switching sides rebuilt the card, which came up without its rules and
+  // jumped the page. Every army's card is built once and kept.
+  it('keeps each army\'s card when switching away and back', async () => {
+    start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons' })
+    const w = mountPanel()
+    await vi.waitFor(async () => { await flushPromises(); expect(shown(w).findComponent({ name: 'ArmyTrackerCard' }).props('texts').length).toBe(2) }, { timeout: 5000 })
+    const first = shown(w).element
+    const tabs = w.findAll('.ap-tabs .page-tab')
+    await tabs[1].trigger('click')
+    await tabs[0].trigger('click')
+    expect(shown(w).element).toBe(first) // the same card, not a new one
+    expect(shown(w).findComponent({ name: 'ArmyTrackerCard' }).props('texts').length).toBe(2) // its rules at once
+  })
+
   it('reads the rules plainly for a side that switched its tracker off', async () => {
     start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons' }, { trackArmyYou: false })
     const w = mountPanel()
-    await vi.waitFor(async () => { await flushPromises(); expect(w.findAll('.ap-rule')).toHaveLength(2) }, { timeout: 5000 })
-    expect(w.findComponent({ name: 'ArmyTrackerCard' }).exists()).toBe(false)
+    await vi.waitFor(async () => { await flushPromises(); expect(shown(w).findAll('.ap-rule')).toHaveLength(2) }, { timeout: 5000 })
+    expect(shown(w).findComponent({ name: 'ArmyTrackerCard' }).exists()).toBe(false)
   })
 })
 
@@ -97,7 +139,7 @@ describe('ArmiesPanel — the army rule tracker', () => {
     const out = []
     for (const t of w.findAll('.ap-tabs .page-tab')) {
       await t.trigger('click')
-      out.push(w.findAllComponents({ name: 'ArmyTrackerCard' }).map((c) => ({ pi: c.props('pi'), mi: c.props('mi'), readonly: c.props('readonly') })))
+      out.push(shown(w).findAllComponents({ name: 'ArmyTrackerCard' }).map((c) => ({ pi: c.props('pi'), mi: c.props('mi'), readonly: c.props('readonly') })))
     }
     return out
   }

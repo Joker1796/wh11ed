@@ -40,11 +40,12 @@
               class="pr-rule"
             >
               <!-- A name the reader cannot get to is half a reminder, so every line is a way in:
-                   a unit to its card, a rule to its place on the faction page. -->
+                   a unit to its card, a rule to its place on the faction page — or, in the Phase
+                   tab, to the game's own Armies tab, where it reads with its tracker. -->
               <button
                 type="button"
                 class="pr-go-btn"
-                @click="go(r)"
+                @click="lead(r)"
               >
                 <span class="pr-src">{{ r.src }}</span>
                 <span class="pr-name">
@@ -102,8 +103,16 @@ import { getItem, setItem } from '../../composables/safeStorage.js'
 import { usePhaseRules } from '../../composables/usePhaseRules.js'
 
 const props = defineProps({ embedded: { type: Boolean, default: false } })
-defineEmits(['stratagems'])
+const emit = defineEmits(['stratagems', 'army', 'roster'])
 const { sides, total, phase, go, labels } = usePhaseRules()
+
+// In the Phase tab a line stays on the game screen where it can: a rule to the Armies tab, a unit
+// of the attached list to its card over this tab (or the list, for several), via RoundTracker.
+function lead(r) {
+  if (props.embedded && r.army) emit('army', r.army)
+  else if (props.embedded && r.roster) emit('roster', r.roster)
+  else go(r)
+}
 
 const OPEN_KEY = 'wh11ed-phase-rules-open'
 const openPref = ref(getItem(OPEN_KEY) === '1')
@@ -144,8 +153,9 @@ function toggle() {
 }
 .pr-body { padding: 0 0.6rem 0.6rem; }
 .pr-side + .pr-side { margin-top: 0.6rem; }
-/* Each side's heading in its colour — the same you / opponent colours as the score cards. */
-.pr-side { --side: var(--side-you); }
+/* Each side in its colour — the same you / opponent colours as the score cards: its heading, and
+   its lines' hover (not the turn's colour: the opponent's line lit in mine read as mine). */
+.pr-side { --side: var(--side-you); --accent: var(--side); }
 .pr-side.opp { --side: var(--side-opponent); }
 .pr-who {
   margin: 0 0 0.2rem;

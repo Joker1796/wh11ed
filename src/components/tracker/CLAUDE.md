@@ -111,13 +111,20 @@ the phase lives in the turn row itself (owner's call, 2026-09-27): undo turn as 
 phase (tap → the phase picker), ›, End turn. The arrows stop at Command and at Fight — a turn
 changes only by End / Undo turn, so never past the end-of-turn check. The reminder ("in this
 phase", `trackPhaseRules`) is the **Phase** tab of the upper row, its count on the tab
-(`usePhaseRules.js` counts; `PhaseRules.vue embedded` draws; its stratagems line opens the CP tab).
+(`usePhaseRules.js` counts; `PhaseRules.vue embedded` draws). Its lines stay on the game screen
+(2026-09-30): the stratagems line opens the CP tab on the "now" group (`CpStratagems.showNow`), a
+rule opens the Armies tab on that army with the rule unfolded (`ArmiesPanel.reveal`), a unit of an
+attached list opens its card over the Phase tab (`RosterTab.openUnit`), several units — the list.
 **One strip of tabs** over one panel (owner's calls, 2026-09-27: two rows split by a heavy rule
 read as two menus, and they were one menu). Every CLOSED tab is an icon (`aria-label` + `title`
 name it); the OPEN tab takes the rest of the width and shows its icon and its word — one row at any
-width, and the word on screen is always where you are. Missions `bi-bullseye`, CP
-`bi-lightning-charge`, Log `bi-journal-text`, Stats `bi-bar-chart-line`, Armies `bi-shield-shaded`,
-Phase `bi-hourglass-split` (with its count in the corner). The strip stands on a 2px accent line;
+width, and the word on screen is always where you are. In order: Missions `bi-bullseye`, Phase
+`bi-hourglass-split` (with its count in the corner), CP `bi-lightning-charge`, Armies
+`bi-shield-shaded`, Roster `bi-card-list` (only when an army carries a list), Log
+`bi-journal-text`, Stats `bi-bar-chart-line`. Switching is animated (owner's mock, 2026-09-30:
+the old fill drains, the new one fills from the bottom, the word rises, the panel slides in from
+the tab's side; timed off `--motion-tab`). **Every panel is built once and kept** (`v-show`): the
+open one at once, the rest one per idle moment — a switch shows, it never builds. The strip stands on a 2px accent line;
 the open tab is filled with the accent, so it reads as attached to the panel. One panel at a time;
 **every new turn opens on Missions** (a watch on round + turn), because a turn starts by drawing and
 scoring. The open tab is **remembered on the device** (`wh11ed-tracker-tab`, with the game id, round and
@@ -132,18 +139,27 @@ back to Missions. What lives where:
   CP / stratagems / cards; Core CP only under CP) and a plain-text copy. **Derived, not recorded**
   (`gameLog.js`): read from the CP ledger, the secondaries drawn / scored / set aside and the
   primary per round — so it costs the game nothing to carry, is the same on every phone of a
-  shared game and cannot disagree with the score (undo a scoring, it leaves the log). The price:
-  no time of day, an entry is placed by round (and turn where known). Mikhail's prototype keeps a
+  shared game and cannot disagree with the score (undo a scoring, it leaves the log). Each act the
+  game records carries when it was made (`t` on ledger entries, discards, scorings, when-drawn
+  notes, a round's primary; `secondary.drawnAt` for draws — since 2026-09-30), and within a round
+  the log is newest first by it; acts of one moment, and older games, fall back to turn then side. Mikhail's prototype keeps a
   separate timed event list; that was deliberately not copied.
 - **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content), with
   the CP spent under each side's table (the ledger's spends; also shown in history).
-- **Armies** — `ArmiesPanel.vue`: one entry per army (a side; each member in doubles — up to four),
-  its disposition and detachments, and three sub-tabs. **Units** is the way to them, not a copy:
-  the attached list (the game's roster screen, with the game's live modifiers) or, without one,
-  the faction's datasheets — both screens already exist (owner's call, 2026-09-27). **Rules** — the
-  army rule and each fielded detachment's rule; **Stratagems** — the army's deck as a reference
-  (spending is the CP tab's). Both read `gameStratagems.js` (`loadArmyRules`, `loadArmyStrats`),
-  the faction file imported only when the sub-tab opens.
+- **Side tabs inside a panel** (Missions, CP, Armies, Roster) switch in place and **fade** the new
+  content in (`useSwapFade.js`, Web Animations off `--motion-swap`, 0.6s; the tabs stand). Content that
+  loads (an army's rules, a list) is built once and kept — rebuilt on each switch it came up empty
+  and jumped the page (2026-09-30).
+- **Armies** — `ArmiesPanel.vue` + `ArmyCard.vue` (one per army, all built with the panel): one card per army (a side; each member in doubles — up to four;
+  `useGameArmies.js`), its emblem stamped under it (2026-09-30): the faction and the way to its
+  units — the Roster tab for an attached list, the faction's datasheets without one — then the
+  army rule's tracker with the detachment rules as folds (`ArmyTrackerCard bare`). No disposition
+  or detachment line: nobody looked them up mid-game.
+- **Roster** — `RosterTab.vue`: the attached lists, each the roster screen itself
+  (`RosterViewView in-tracker`, loaded async so the game chunk never carries it), built on its
+  first visit and kept (owner, 2026-09-30). Off screen a list is `frozen`: it reads a plain copy of
+  the game taken as it left, so a tap elsewhere does not redo its modifier layer; on screen — or
+  with a unit's card open over another tab — it reads the live game again, one recount.
 
 The top is NOT pinned (owner's call, 2026-09-27): the prototype fixes it and scrolls the panel
 inside, which on a 640px phone leaves about half the screen for the game.
@@ -264,10 +280,24 @@ group comes first holding only what the chosen side can play right now** — the
 is, by `usableInSlot` (in your Movement phase Fire Overwatch is the opponent's, not yours), the same
 predicate as the phase reminder and the roster screen; the plain phase groups follow. Groups start
 closed and stay as the player left them (`wh11ed-tracker-strats-open`, on the device). In the mixed list a core stratagem carries a "core" tag. Flat: the army's, then the core. A row: name and
-two lines of timing (tap → the full `StratCard`), a gear for a cost changed by a rule (−1 / as
-printed / +1, never below 0, not saved, forgotten at a new round) and the cost button, which spends.
+two lines of timing (tap → the full `StratCard`) and the printed cost, which **plays** it.
 A use is a `spend` entry in the ledger (`source: 'strat'`, `ref` = the stratagem's `_key`, the
-phase too when kept); "Undo" removes the round's latest use. **Refused, with the reason on the
+phase too when kept); "Undo" removes the round's latest use.
+
+**Playing a stratagem is one act, from the CP tab or a unit's card** (owner, 2026-09-30;
+`StratPlayModal.vue`, `stratagemPlay.js`, useTracker's `playStratagem` / `unplayOnUnit`). The
+dialog asks **whether a rule changed the cost this time** — every time; reduced / as printed /
+increased, the answer plays it, for this use only — and under the price offers, **optionally**, to
+name **the unit it is played on** (owner, 2026-09-30: a Command Re-roll must not stop at a list),
+whenever the English TARGET line names a unit and a list is attached (the own army's, or the
+opponent's for "One enemy unit"); Battle-shocked units and units already targeted this phase are
+greyed with why. A card's box names its own unit. The ledger entry carries `target: { uid, mi?, name, sid?, opp? }`
+and the log says "used X on Y". When the unit's card has a modifier record for it (`sid`, paired
+by `deckStratFor` / `recordFor` — detachment id + name, loosely; the pairing gate in
+`stratagemPlay.test.js` fails on a record with no deck twin), the card's box goes on at the same
+moment. Taking back either — Undo here, or unticking the card's box — takes back both, CP included.
+The card's box alone (no ledger) only where CP is not counted. A row is locked only when not even a
+reduced cost could pay for it. **Refused, with the reason on the
 row** (`stratBlock`): the stratagem's own limits, read from its ENGLISH restrictions by
 `usageLimits` (once per battle / round / turn, not before round 2 or 3 — the gate in
 `gameStratagems.test.js` fails on a "use this Stratagem …" phrasing it does not understand; limits

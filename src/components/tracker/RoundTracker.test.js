@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises, enableAutoUnmount } from '@vue/test-utils'
 
 // The tracker store is a module singleton — reset it (and the component that binds to it)
 // between cases so each test mounts against its own game.
@@ -33,6 +33,8 @@ function startGame(p0, p1, settings = {}) {
   })
 }
 
+// Unmounted after each case: a screen left mounted keeps building its idle panels into the next.
+enableAutoUnmount(afterEach)
 // The phase picker teleports to <body> (BaseModal), so clear it between cases.
 afterEach(() => { document.body.innerHTML = '' })
 
@@ -82,6 +84,38 @@ describe('RoundTracker — the tabs', () => {
     expect(w.find('.gt-tab.on').text()).toBe('Missions') // the open tab says its word
     expect(w.find('.cp-bank').isVisible()).toBe(false) // kept once opened, hidden
   })
+
+  // Nothing is built in the frame a panel slides in: the rest are built while idle, then shown.
+  it('builds the other panels while idle and keeps each one it switches away from', async () => {
+    vi.useFakeTimers()
+    try {
+      startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+      const w = mountTracker()
+      expect(w.findAll('[role="tabpanel"]')).toHaveLength(1) // the missions, at once
+      await vi.advanceTimersByTimeAsync(2000)
+      const panels = w.findAll('[role="tabpanel"]')
+      expect(panels).toHaveLength(5) // one per tab, all but the open one hidden
+      expect(panels.filter((p) => p.isVisible())).toHaveLength(1)
+      const missions = panels[0].element
+      await openTab(w, 'Log')
+      await openTab(w, 'Missions')
+      expect(w.findAll('[role="tabpanel"]')[0].element).toBe(missions) // shown again, not rebuilt
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  // The new panel slides in from the side its tab stands on.
+  it('slides the panel in from the side of the tab opened', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    const w = mountTracker()
+    expect(w.find('.round-tracker').classes()).not.toContain('tab-moved') // opening the game is not a switch
+    await openTab(w, 'Log')
+    expect(w.find('.round-tracker').classes()).not.toContain('tab-back') // to the right: from the right
+    await openTab(w, 'CP')
+    expect(w.find('.round-tracker').classes()).toContain('tab-back') // to the left: from the left
+    expect(w.find('.round-tracker').classes()).toContain('tab-moved')
+  })
 })
 
 describe('RoundTracker — the missions panel', () => {
@@ -107,19 +141,49 @@ describe('RoundTracker — the missions panel', () => {
     expect(firstName(mountTracker())).toBe('Opp')
   })
 
-  // The round steps are a view: a past round opens for correction, the game does not move.
+  // The round line is a view: it opens a dialog that says what it is, and a past round from there
+  // opens for correction — the game does not move.
   it('opens a past round for correction and comes back, and refuses one not yet played', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     tracker.endTurn()
     tracker.endTurn() // round 2
     const w = mountTracker()
-    const steps = w.findAll('.rb-round')
-    expect(steps[2].attributes('disabled')).toBeDefined()
-    await steps[0].trigger('click')
+    expect(w.findAll('.rs-pt').map((p) => p.classes().filter((c) => c !== 'rs-pt').join())).toEqual(['done', 'live', '', '', ''])
+    await w.find('button.rs').trigger('click')
+    const steps = [...document.body.querySelectorAll('.rs-item')]
+    expect(document.body.querySelector('.rs-text').textContent).toContain('End turn') // says what moves the game
+    expect(steps[2].disabled).toBe(true)
+    steps[0].click()
+    await w.vm.$nextTick()
     expect(tracker.current.value.currentRound).toBe(2)
     expect(w.find('.round-edit').text()).toContain('round 1')
     await w.find('.re-back').trigger('click')
     expect(w.find('.round-edit').exists()).toBe(false)
+  })
+})
+
+// With the phase clock, the live round of the line widens into its phases, up to the one it stands on.
+describe('RoundTracker — the round line with phases', () => {
+  it('shows both turns\' phases of the live round, filled up to the clock', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackPhases: true })
+    tracker.endTurn() // the second turn of round 1
+    tracker.current.value.currentPhase = 'shooting'
+    const w = mountTracker()
+    await w.vm.$nextTick()
+    const ticks = w.findAll('.rs-tick')
+    expect(ticks).toHaveLength(10)
+    expect(ticks.findIndex((t) => t.classes('live'))).toBe(5 + 2) // second turn, third phase
+    expect(ticks.filter((t) => t.classes('done'))).toHaveLength(7)
+    expect(w.find('.rs-pt.live').exists()).toBe(false) // the phase pulses, not the point
+    // Each turn's phases in its side's colour.
+    const tick = (i) => ticks[i].attributes('style')
+    expect(tick(0)).toContain('--side-you')
+    expect(tick(5)).toContain('--side-opponent')
+  })
+
+  it('stays points only without the clock', () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    expect(mountTracker().find('.rs-tick').exists()).toBe(false)
   })
 })
 
@@ -226,6 +290,30 @@ describe('RoundTracker — the Phase tab', () => {
     expect(hasPhase(mountTracker())).toBe(true)
     startGame({}, {}, { trackPhases: true, trackPhaseRules: false })
     expect(hasPhase(mountTracker())).toBe(false)
+  })
+
+  // Owner, 2026-09-30: what speaks now is read during the turn, next to the missions.
+  it('stands right after the missions', () => {
+    startGame({}, {}, { trackPhases: true, trackPhaseRules: true })
+    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Phase', 'CP', 'Armies', 'Log', 'Stats'])
+  })
+
+  // Its lines lead into the game's own tabs, not off the game screen.
+  it('opens the CP tab on the phase\'s group, and the Armies tab on a rule', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackPhases: true, trackPhaseRules: true })
+    const w = await openTab(mountTracker(), 'Phase')
+    await vi.waitFor(async () => { await flushPromises(); expect(w.find('.pr-strats').exists()).toBe(true) }, { timeout: 5000 })
+    await w.find('.pr-strats').trigger('click')
+    await flushPromises()
+    expect(w.find('.gt-tab.on').attributes('aria-label')).toBe('CP')
+    expect(JSON.parse(localStorage.getItem('wh11ed-tracker-strats-open'))).toContain('now')
+
+    await openTab(w, 'Phase')
+    const rule = w.findAll('.pr-go-btn').find((b) => b.text().includes('Waaagh!'))
+    await rule.trigger('click')
+    await flushPromises()
+    expect(w.find('.gt-tab.on').attributes('aria-label')).toBe('Armies')
+    expect(w.find('.ap-fac').text()).toBe('Orks')
   })
 })
 

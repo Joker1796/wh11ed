@@ -58,21 +58,23 @@ export function usePhaseRules() {
     membersOf(pl).forEach((m, rawMi) => {
       const mi = m === pl ? null : rawMi
       const fac = idx[m.factionSlug]
-      const take = (e, src, sub = null) => {
+      // `army` — where the rule reads in the game's own Armies tab: the army (pi, mi) and which of
+      // its rules ('army', or the detachment's name).
+      const take = (e, src, rule) => {
         if (!e || !usableInSlot(e.p, e.s, phase.value, mine)) return
         const k = `${src}|${e.n}|${m.factionSlug}`
         if (seen.has(k)) return
         seen.add(k)
-        out.push({ key: k, src, name: nameOf(e), sub, slug: m.factionSlug, at: e.at, det: e.id })
+        out.push({ key: k, src, name: nameOf(e), sub: null, slug: m.factionSlug, at: e.at, det: e.id, army: { pi, mi, rule } })
       }
 
       if (fac) {
-        take(fac.army, labels.value.trackerArmyRule)
+        take(fac.army, labels.value.trackerArmyRule, 'army')
         // The detachment's own rule, under the detachment's name — which is what the game stores.
         for (const name of m.detachments || []) {
           const byName = fac.dets || {}
           const key = Object.keys(byName).find((k) => norm(k) === norm(name))
-          if (key) take(byName[key], name)
+          if (key) take(byName[key], name, key)
         }
       }
 
@@ -104,11 +106,16 @@ export function usePhaseRules() {
               // so the line lets the reader pick. Counted by entry, not by name — three squads of
               // the same datasheet are three cards, even though the line names "Boyz" once.
               to: cardOf(m, pi, mi, u, ally),
+              // The same, inside the game screen (its Roster tab): the unit, or just the list.
+              roster: m.roster ? { pi, mi, uid: u.uid } : null,
               entries: 0,
             })
           }
           const r = byRule.get(key)
-          if (++r.entries > 1) r.to = listOf(m, pi, mi)
+          if (++r.entries > 1) {
+            r.to = listOf(m, pi, mi)
+            if (r.roster) r.roster = { pi, mi }
+          }
           r.units.add(rec.n)
         }
       }

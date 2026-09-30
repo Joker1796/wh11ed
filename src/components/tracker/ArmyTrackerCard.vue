@@ -2,6 +2,7 @@
   <div
     v-if="view"
     class="army-card"
+    :class="{ bare }"
   >
     <div class="army-head">
       <div class="army-heading">
@@ -531,6 +532,8 @@ const props = defineProps({
   // Rules to read under the tracker: [{ key, title, body, army? }] — `army` marks the army rule's
   // own text, dropped where the card already shows it (a reference card, no tracker spec).
   texts: { type: Array, default: () => [] },
+  // Inside a card of its own (the Armies panel's army card): no frame, the host draws it.
+  bare: { type: Boolean, default: false },
 })
 // `inert` is a presence attribute: undefined, never false.
 const lock = computed(() => (props.readonly ? true : undefined))
@@ -681,6 +684,15 @@ const showActive = ref(false)
 const showHowto = ref(false)
 const shownTexts = computed(() => props.texts.filter((t) => !(t.army && view.value?.kind === 'reference')))
 const openTexts = ref([])
+// Open one of the card's rules (the Phase tab's line to it, via ArmiesPanel): a text by its key,
+// or the army rule — its own fold where the card is a tracker, "How it works" where the card is
+// the rule itself.
+function reveal(key) {
+  if (shownTexts.value.some((t) => t.key === key)) {
+    if (!openTexts.value.includes(key)) openTexts.value = [...openTexts.value, key]
+  } else if (key === 'army') showHowto.value = true
+}
+defineExpose({ reveal })
 function toggleText(key) {
   openTexts.value = openTexts.value.includes(key) ? openTexts.value.filter((k) => k !== key) : [...openTexts.value, key]
 }
@@ -811,6 +823,7 @@ useFlashOnChange(counter, counterEl)
   border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
   border-left: 3px solid var(--accent);
 }
+.army-card.bare { margin-top: 0; padding: 0; background: none; border: 0; }
 
 .army-head {
   display: flex;
