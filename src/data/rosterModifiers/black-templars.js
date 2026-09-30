@@ -198,7 +198,21 @@ export default {
       "hash": "89111ddd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "twin las-talon, against the closest eligible MONSTER or VEHICLE unit",
+            "ru": "twin las-talon, по ближайшему доступному отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a8425c53-a82f-402a-a08c-863cdf87916d:high-marshal-helbrecht",
@@ -286,7 +300,21 @@ export default {
       "hash": "335409cc",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the Accept any Challenge Vow is active, if the attack’s Strength is not greater than the target’s Toughness",
+            "ru": "при обете Accept any Challenge, если S атаки не больше T цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -299,7 +327,21 @@ export default {
       "hash": "fa300e3c",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if the unit disembarked from a TRANSPORT this turn",
+            "ru": "если отряд высадился из TRANSPORT в этот ход"
+          },
+          "cond": [
+            "unit-disembarked"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "godhammer-assault-force"

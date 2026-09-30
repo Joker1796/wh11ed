@@ -127,6 +127,7 @@ export const conditions = {
   'doctrine-assault': { scope: 'army', duration: 'round', label: { en: 'Assault Doctrine', ru: 'Assault Doctrine' } },
   'manifestation-imbued': { scope: 'army', duration: 'round', label: { en: 'Imbued Manifestation selected', ru: 'Выбран Imbued Manifestation' } },
   'manifestation-wrath': { scope: 'army', duration: 'round', label: { en: 'Wrath of the Immaterium selected', ru: 'Выбран Wrath of the Immaterium' } },
+  'manifestation-maelstrom': { scope: 'army', duration: 'round', label: { en: 'Psychic Maelstrom selected', ru: 'Выбран Psychic Maelstrom' } },
   // Chaos Space Marines, Creations of Bile: "at the start of the battle, select which augmentations
   // are active … until the end of the battle" — chosen once, so battle-long. One group with a
   // limit of two, because the rule offers "either select one from the list below, or randomly
@@ -300,6 +301,11 @@ export const conditions = {
   // ── Answered by the list itself ─────────────────────────────────────────────────────────
   // The roster records the attachment, so there is nothing to ask the player.
   'unit-leading': { scope: 'roster', duration: 'battle', label: { en: 'Leading a unit', ru: 'Ведёт отряд' } },
+  // The other side of the same attachment: "while a NECRONS CHARACTER model is leading this unit"
+  // (Command Protocols). True for every entry of an attached unit that has a Leader in it — the
+  // bodyguard it joined AND the Leader himself, since "this unit" is then the attached unit
+  // (Core Rules 19.04). Answered from the roster's `leaderOf` links, so the caller passes the units.
+  'unit-led': { scope: 'roster', duration: 'battle', label: { en: 'Led by a Character', ru: 'Отряд ведёт персонаж' } },
   // The wargear the entry took (2026-09-28). A handful of datasheets reward a PAIR of weapons —
   // two macro-scalpels make them [TWIN-LINKED], a Helbrute's two melee weapons besides its close
   // combat weapon get +2 Attacks — and the list knows exactly what was taken. These were `never`

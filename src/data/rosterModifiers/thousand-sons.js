@@ -528,7 +528,21 @@ export default {
       "hash": "29426a15",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, against the enemy unit selected at its start",
+            "ru": "в вашей Shooting phase, по вражескому отряду, выбранному в её начале"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f243edb4-c65b-4510-a30f-ad0b4b2d18b0:sorcerer",
@@ -612,7 +626,16 @@ export default {
       "hash": "b981890e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "6fcd2ecb-d54a-4fae-820f-6613f2fd39c8:zadophon-the-soul-eater",
@@ -715,6 +738,22 @@ export default {
           "cond": [
             "manifestation-wrath"
           ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "Psychic weapons only, while Psychic Maelstrom is selected",
+            "ru": "только психическое оружие, пока выбрана способность Psychic Maelstrom"
+          },
+          "cond": [
+            "manifestation-maelstrom"
+          ]
         }
       ],
       "ref": {
@@ -730,7 +769,24 @@ export default {
       "hash": "4ea3c811",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "Psychic Attacks, while the model is wholly within your Flow of Magic",
+            "ru": "психические атаки, пока модель целиком во Flow of Magic"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "hexwarp-thrallband"
@@ -822,7 +878,21 @@ export default {
       "hash": "1fd641c4",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for the phase, after a Warpmeld Sacrifice",
+            "ru": "на фазу, после Warpmeld Sacrifice"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "warpmeld-pact"
@@ -1079,7 +1149,22 @@ export default {
       "hash": "993f1c1f",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading a unit, RUBRICAE models only",
+            "ru": "пока носитель ведёт отряд, только модели RUBRICAE"
+          },
+          "cond": [
+            "blocked-subset"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "rubricae-phalanx"
@@ -1650,6 +1735,13 @@ export default {
           "cond": [
             "blocked-subset"
           ]
+        },
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null
         }
       ],
       "dur": "phase"

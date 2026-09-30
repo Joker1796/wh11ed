@@ -181,7 +181,34 @@ export default {
       "hash": "3c09b472",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "75bc40c3-7ddf-487f-994a-812cebbd1ed8:d-cannon-platform",
@@ -506,6 +533,14 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "unit"
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
           "when": null,
           "target": "unit"
         }
@@ -835,7 +870,15 @@ export default {
       "hash": "3cee30cf",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "6ee70ac1-5d7f-4eed-a4fc-fe6047cdb895:troupe",
@@ -849,7 +892,21 @@ export default {
       "hash": "678b01b6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Villain’s Doom is selected, until the end of the Fight phase",
+            "ru": "при выбранной Villain’s Doom, до конца Fight phase"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "35260774-9854-428f-af0c-83b533726bed:vibro-cannon-platform",
@@ -1196,6 +1253,19 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while within 12\" of a friendly AELDARI PSYKER model",
+            "ru": "пока в 12\" от дружественной модели AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -1220,6 +1290,19 @@ export default {
           "when": {
             "en": "within 12\" of a friendly AELDARI PSYKER",
             "ru": "в 12\" от дружественного AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while within 12\" of a friendly AELDARI PSYKER model",
+            "ru": "пока в 12\" от дружественной модели AELDARI PSYKER"
           },
           "cond": [
             "never"
@@ -1473,7 +1556,21 @@ export default {
       "hash": "92103900",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit and/or the target is within range of an objective marker",
+            "ru": "если отряд и/или цель в радиусе маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "guardian-battlehost"
@@ -2590,7 +2687,22 @@ export default {
       "hash": "6ccbd7b0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if the attack’s Strength is less than the target’s highest Toughness",
+            "ru": "если S атаки меньше наибольшей T в отряде цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "12ded315-0be2-463a-ab26-808bb701d1c8",

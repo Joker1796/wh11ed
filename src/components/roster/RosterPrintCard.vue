@@ -192,7 +192,7 @@
             :key="i"
             class="rpc-mod"
           >
-            {{ modDelta(n) }} — {{ n.source }}<span
+            {{ modDelta(n, labels) }} — {{ n.source }}<span
               v-if="n.when"
               class="rpc-mod-when"
             > ({{ n.when[locale] || n.when.en }})</span>

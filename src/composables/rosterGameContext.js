@@ -137,10 +137,12 @@ function stampHolds(at, duration, clock) {
   return roundOfStamp(at) === roundOfStamp(now)
 }
 
-// Answered by the list itself. `unit-leading` is the only one so far: a Leader entry records the
-// unit it is attached to, so asking the player would be asking them to repeat themselves.
-function rosterAnswers(id, entry) {
+// Answered by the list itself: a Leader entry records the unit it is attached to, so asking the
+// player would be asking them to repeat themselves. `units` is the roster's entries — `unit-led`
+// has to look the other way along the link, for a Leader pointing at THIS entry.
+function rosterAnswers(id, entry, units) {
   if (id === 'unit-leading') return !!entry?.leaderOf
+  if (id === 'unit-led') return !!entry?.leaderOf || (!!entry?.uid && (units || []).some((u) => u.leaderOf === entry.uid))
   return false
 }
 
@@ -159,7 +161,8 @@ function clockHolds(c, clock) {
 // `clock` what the game is standing on (clockOf(); a bare round number still works), `entry` the
 // roster line the card is being drawn for.
 //
-// `opts` says which families of hand-flipped switch this game is keeping (settings.trackArmyStates
+// `opts.units` is the roster's entries, for the conditions the list answers across an attachment.
+// `opts` also says which families of hand-flipped switch this game is keeping (settings.trackArmyStates
 // / trackUnitStates — see src/data/trackerOptions.js). A family switched off stops being CONSULTED;
 // what the player flipped stays in the game untouched, and the effects that hung on it fall back to
 // being listed with their condition, which is the same honest degradation a game without phases
@@ -175,7 +178,7 @@ export function activeConditions(player, clock, entry, opts = {}) {
     let on = false
     if (c.scope === 'clock') on = clockHolds(c, clock)
     else if (isAuto(id)) on = AUTO[id](player, round)
-    else if (c.scope === 'roster') on = rosterAnswers(id, entry)
+    else if (c.scope === 'roster') on = rosterAnswers(id, entry, opts.units)
     else if (c.scope === 'army') on = army && switchOn(player?.ctx?.army, id, clock)
     else if (entry?.uid) on = unit && switchOn(player?.ctx?.units?.[entry.uid], id, clock)
     // …and a soft-auto condition is also on while the tracker — or the entry's own datasheet —
@@ -193,8 +196,8 @@ export function activeConditions(player, clock, entry, opts = {}) {
   return out
 }
 
-// The conditions a ROSTER can answer on its own, with no game anywhere: today that is only
-// `unit-leading`, because the list itself records which entry is attached to which. Used off the
+// The conditions a ROSTER can answer on its own, with no game anywhere: `unit-leading` and
+// `unit-led`, because the list itself records which entry is attached to which. Used off the
 // table (the roster builder, a list being read before the game), where an enhancement that reads
 // "while the bearer is leading a unit" is as true as any printed number and should be applied,
 // not footnoted. Deliberately NOT activeConditions() with an empty player: that would also answer
@@ -203,10 +206,10 @@ export function activeConditions(player, clock, entry, opts = {}) {
 //
 // An ordinary state (`negates`) is answered here too: nothing has happened to a list nobody is
 // playing, so "while not Battle-shocked" is as true as the printed number.
-export function rosterConditions(entry) {
+export function rosterConditions(entry, units = null) {
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
-    if (c.scope === 'roster' && rosterAnswers(id, entry)) out.add(id)
+    if (c.scope === 'roster' && rosterAnswers(id, entry, units)) out.add(id)
     else if (c.negates) out.add(id)
   }
   return out

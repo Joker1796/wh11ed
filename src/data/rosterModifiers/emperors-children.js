@@ -98,7 +98,21 @@ export default {
       "hash": "189046ad",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that is not Below Half-strength",
+            "ru": "по вражескому отряду, который не Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "8f5e1acd-04e7-4af5-9a10-260a57c23807:fulgrim",
@@ -333,7 +347,34 @@ export default {
       "hash": "5df84566",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this model is below its Starting Strength",
+            "ru": "пока модель ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this model is Below Half-strength",
+            "ru": "пока модель Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "cd27788a-28c9-430c-8ccd-5916684fe11e",
@@ -820,7 +861,36 @@ export default {
       "hash": "9e1c1938",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target below its Starting Strength",
+            "ru": "по цели ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target that is Below Half-strength",
+            "ru": "по цели Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "mercurial-host"

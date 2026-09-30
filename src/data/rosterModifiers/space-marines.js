@@ -84,7 +84,36 @@ export default {
       "hash": "f34e2507",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is Below Half-strength",
+            "ru": "пока отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "e0524eb7-29b2-4f3e-9055-362584aabb20:ancient",
@@ -457,7 +486,16 @@ export default {
       "hash": "ff1c3e96",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "5774196c-a733-4084-b5cd-26ba4d072fd3:chaplain-in-terminator-armour",
@@ -522,7 +560,16 @@ export default {
       "hash": "ff1c3e96",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:chaplain-with-jump-pack",
@@ -536,7 +583,16 @@ export default {
       "hash": "ff1c3e96",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:chaplain",
@@ -550,7 +606,16 @@ export default {
       "hash": "ff1c3e96",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "6ddc2dab-c8c7-4f6f-a2e1-1ef1fdc5cabe:chief-librarian-tigurius",
@@ -822,7 +887,21 @@ export default {
       "hash": "89111ddd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "twin las-talon, against the closest eligible MONSTER or VEHICLE unit",
+            "ru": "twin las-talon, по ближайшему доступному отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "0e85b310-463d-4bb8-bea6-78b9c0075ef3:heavy-intercessor-squad",
@@ -959,7 +1038,22 @@ export default {
       "hash": "feb3f1ff",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the VEHICLE model selected in your Command phase, until your next one",
+            "ru": "модель VEHICLE, выбранная в вашу Command phase, до следующей"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "a4b89adc-f530-44c8-9536-bf32b69ed4fb:iron-father-feirros",
@@ -1399,7 +1493,36 @@ export default {
       "hash": "f34e2507",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is Below Half-strength",
+            "ru": "пока отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "81871a97-24e7-46f9-98f5-bcff26730609:predator-destructor",
@@ -1469,7 +1592,21 @@ export default {
       "hash": "bf931761",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is Below Half-strength",
+            "ru": "по отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "fa32fb8b-9b66-4c9b-82df-06d5273bcebc:roboute-guilliman",
@@ -1615,7 +1752,21 @@ export default {
       "hash": "205860ae",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "9c3665db-de45-42c3-acb0-b46b5bb04467:stormraven-gunship",
@@ -1643,7 +1794,21 @@ export default {
       "hash": "1c8c1f3a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that cannot FLY",
+            "ru": "по отряду без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b3665ebe-e8c2-4a0c-a65a-17976a709bf4:suboden-khan",
@@ -1679,7 +1844,22 @@ export default {
       "hash": "97259642",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the VEHICLE model selected in your Command phase, until your next one",
+            "ru": "модель VEHICLE, выбранная в вашу Command phase, до следующей"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "4c443932-cf71-4ef2-b9ee-c967caac6aa0:techmarine",
@@ -1760,7 +1940,21 @@ export default {
       "hash": "bddfa7b3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against your Oath of Moment target",
+            "ru": "по цели Oath of Moment"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "fb7bc95a-4db3-4cfd-9d3c-4b35396d4b46:tor-garadon",
@@ -2014,7 +2208,21 @@ export default {
       "hash": "87451b53",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against your Oath of Moment target, in a Codex: Space Marines detachment with no other Chapter’s units",
+            "ru": "по цели Oath of Moment, в детачменте Codex: Space Marines без юнитов других орденов"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -2041,7 +2249,24 @@ export default {
       "hash": "1a020a37",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "HEAVY"
+          },
+          "when": {
+            "en": "weapons already [HEAVY] on the datasheet, if the unit Remained Stationary",
+            "ru": "оружие, уже [HEAVY] по датащиту, если отряд стоял на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "anvil-siege-force"
@@ -3604,7 +3829,29 @@ export default {
       "hash": "b9fdac06",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if your unit is Below Half-strength",
+            "ru": "если отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "6525f05c-d6ef-435d-b59b-83c9b1ee4c0c",
@@ -3706,7 +3953,29 @@ export default {
       "hash": "54dcc828",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if your unit disembarked from a HEAVY TRANSPORT this turn",
+            "ru": "если отряд высадился из HEAVY TRANSPORT в этот ход"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "2daf77ae-8d3b-4e72-9817-c162bb862d97",
@@ -4034,7 +4303,29 @@ export default {
       "hash": "473d9c6f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if your unit is below its Starting Strength",
+            "ru": "если отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a5a527ed-ee07-4c6a-9cbd-fdf8a4d3d5ec",
@@ -4064,7 +4355,22 @@ export default {
       "hash": "edc265e0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the closest eligible target within 6\"",
+            "ru": "по ближайшей доступной цели в 6\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a3195f2f-f195-4286-bc99-09ae17814e5e",
@@ -4109,7 +4415,22 @@ export default {
       "hash": "6c625793",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the closest eligible target within 12\"",
+            "ru": "по ближайшей доступной цели в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "2501f65c-cfe2-4b19-9b73-4773a4fe501a",
@@ -4139,7 +4460,22 @@ export default {
       "hash": "edc265e0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the closest eligible target within 6\"",
+            "ru": "по ближайшей доступной цели в 6\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e9492f79-6110-4884-bf1e-16c37bb8d830",
@@ -4309,7 +4645,29 @@ export default {
       "hash": "eebbe6d7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if your unit is below its Starting Strength",
+            "ru": "если отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "9a419058-a65d-4035-ae9b-4cb5d03836c9",
@@ -4409,6 +4767,13 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
         }
       ],
       "dur": "round"
@@ -4505,6 +4870,19 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "по отряду CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"

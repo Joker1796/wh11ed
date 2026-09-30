@@ -145,7 +145,22 @@ export default {
       "hash": "9c09f092",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit within 9\"",
+            "ru": "по вражескому отряду в пределах 9\""
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "41b6ddfb-60a1-404c-bf5f-4b4411c5c90f:commander-in-coldstar-battlesuit",
@@ -232,7 +247,16 @@ export default {
       "hash": "07b755b8",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "3a57eda6-acfc-40b9-9c84-3187094862aa:ethereal",
@@ -283,7 +307,21 @@ export default {
       "hash": "a89f23e7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "bdf68a61-1dd3-452b-bfb9-98d2770b8789:kroot-farstalkers",
@@ -453,7 +491,21 @@ export default {
       "hash": "e2179b98",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that cannot FLY",
+            "ru": "по отряду без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e555e882-7cc5-4580-b9ec-c417e5ba4861:riptide-battlesuit",
@@ -693,7 +745,34 @@ export default {
       "hash": "6b5488c9",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target below its Starting Strength",
+            "ru": "по цели ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target that is Below Half-strength",
+            "ru": "по цели Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "kroot-hunting-pack"
@@ -1075,7 +1154,28 @@ export default {
       "hash": "d907baa7",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "from the third battle round onwards",
+            "ru": "с третьего раунда"
+          },
+          "cond": [
+            "rounds-3-5"
+          ]
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "kauyon"
@@ -1447,7 +1547,22 @@ export default {
       "hash": "bb917519",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit within range of your Trap objective marker",
+            "ru": "по вражескому отряду в радиусе вашего Trap objective marker"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "1d4a3379-8785-4d9d-b18e-4ddd744e8390",

@@ -163,7 +163,34 @@ export default {
       "hash": "3bd42904",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a TITANIC or TOWERING unit",
+            "ru": "по отряду TITANIC или TOWERING"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f39640a0-0be0-4669-9625-e900e652b5cd:cerastus-knight-castigator",
@@ -218,7 +245,21 @@ export default {
       "hash": "6f8e1f0b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the model is affected by Crusader’s Duty",
+            "ru": "пока модель под действием Crusader’s Duty"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4b660a3d-ca9c-4fd9-9b15-c33038a405e9:knight-crusader",
@@ -344,7 +385,21 @@ export default {
       "hash": "0720840a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "по ближайшей доступной цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "200c9140-fdf9-47f1-a316-0aba3c73a7e1:knight-errant",
@@ -800,6 +855,13 @@ export default {
           "op": "add",
           "value": 2,
           "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
         }
       ],
       "ref": {
@@ -1236,7 +1298,35 @@ export default {
       "hash": "f011ffa7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER, TITANIC or WALKER unit",
+            "ru": "по отряду MONSTER, TITANIC или WALKER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER, TITANIC or WALKER unit",
+            "ru": "по отряду MONSTER, TITANIC или WALKER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "8d4a096d-8753-4149-833d-339072d21ac9",
@@ -1311,7 +1401,22 @@ export default {
       "hash": "bbe60db7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the selected enemy unit",
+            "ru": "по выбранному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "3f80ee20-b7bc-446b-be65-f81e6acd1385",

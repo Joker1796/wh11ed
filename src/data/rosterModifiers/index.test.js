@@ -8,7 +8,7 @@ const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!.
 
 const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit'])
 const OP = new Set(['add', 'set', 'improve', 'grant'])
-const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd', 'range', 'keyword', 'core', 'ability'])
+const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd', 'range', 'keyword', 'core', 'ability', 'hit', 'wound'])
 
 const allEntries = Object.entries(files).flatMap(([file, data]) =>
   (data?.entries || []).map((e) => ({ file, e })))
@@ -82,6 +82,13 @@ describe('rosterModifiers data', () => {
         // writes `add: -1`, for Attacks `add: 1`.
         if (eff.op === 'improve') {
           expect(['sv', 'bs', 'ws', 'ld', 'inv'], `${where}: improve on ${eff.stat}`).toContain(eff.stat)
+        }
+        // A dice modifier ("add 1 to the Hit roll") is never applied to the table, only listed, so
+        // the one shape it can take is a signed number added to the attacks of a weapon table.
+        if (eff.stat === 'hit' || eff.stat === 'wound') {
+          expect(eff.op, `${where}: ${eff.stat} op`).toBe('add')
+          expect(typeof eff.value, `${where}: ${eff.stat} value`).toBe('number')
+          expect(['weapon', 'ranged', 'melee'], `${where}: ${eff.stat} on`).toContain(eff.on)
         }
         // A roll is set as a roll: a bare `4` prints "Inv 4" on the card and is not comparable
         // with the printed "4+" (two records, 2026-09-25).

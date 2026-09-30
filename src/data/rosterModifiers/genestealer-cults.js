@@ -276,7 +276,16 @@ export default {
       "hash": "10806b5a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "bb51fe29-292d-4c77-a593-ea15daa0d3e3",
@@ -742,7 +751,22 @@ export default {
       "hash": "80b09c5b",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "по отряду CHARACTER"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "host-of-ascension"
@@ -820,7 +844,36 @@ export default {
       "hash": "5c9be627",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "по отряду CHARACTER"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "по отряду CHARACTER"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "xenocreed-congregation"
@@ -839,7 +892,22 @@ export default {
       "hash": "29fc7b5f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e361c74a-b210-419e-8896-e612c5b2eb1a",
@@ -899,7 +967,22 @@ export default {
       "hash": "ac39cd86",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the selected enemy unit",
+            "ru": "по выбранному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "2cde0724-fb92-4638-b2b9-ac61fc0bc08c",
@@ -1165,7 +1248,22 @@ export default {
       "hash": "8a6ddd66",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, for the phase, against an INFANTRY unit",
+            "ru": "раз за битву, на фазу, по отряду INFANTRY"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     }
   ]
 }

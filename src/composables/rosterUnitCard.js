@@ -300,7 +300,7 @@ export function useRosterUnitCard(props) {
     return wargearConditions(props.ctx?.def, props.ctx?.entry, props.ctx?.items, printed)
   })
   const activeConds = computed(() => {
-    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry)
+    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry, props.ctx?.units)
     return gearConds.value.size ? new Set([...base, ...gearConds.value]) : base
   })
 

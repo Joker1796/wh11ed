@@ -37,7 +37,10 @@ export function useDatasheetParts(props, labels, { showPossible = () => true } =
     const l = labels.value
     const live = (props.statNotes || []).filter((n) => n.live !== false)
     const possible = showPossible() ? possibleModNotes(props.statNotes || []) : []
-    if (live.length) out.push({ key: 'live', label: l.dsModifiers, collapsible: false, groups: groupModNotes(live, l) })
+    // A dice modifier is listed but leaves the table alone, and a reader who sees "+1 to Hit"
+    // beside an unchanged BS will take it for a bug unless the list says why — once, under it.
+    const rollHint = (notes) => (notes.some((n) => n.roll) ? l.dsModifiersRollHint : null)
+    if (live.length) out.push({ key: 'live', label: l.dsModifiers, collapsible: false, groups: groupModNotes(live, l), rollHint: rollHint(live) })
     if (possible.length) {
       out.push({
         key: 'possible',
@@ -45,6 +48,7 @@ export function useDatasheetParts(props, labels, { showPossible = () => true } =
         hint: l.dsModifiersPossibleHint,
         collapsible: true,
         groups: groupModNotes(possible, l),
+        rollHint: rollHint(possible),
       })
     }
     return out

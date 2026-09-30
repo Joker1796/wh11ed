@@ -92,7 +92,36 @@ export default {
       "hash": "f34e2507",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is Below Half-strength",
+            "ru": "пока отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "366838d7-9714-40ac-a557-1c766d1401b1:anathema-psykana-rhino",
@@ -314,7 +343,21 @@ export default {
       "hash": "b3fbfa0b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, against a unit that is Below Half-strength",
+            "ru": "в вашей Shooting phase, по отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "42b81257-a32d-49c3-b38e-65aa9c78980d:prosecutors",
@@ -660,7 +703,21 @@ export default {
       "hash": "62ac7a27",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the enemy unit selected in your Command phase",
+            "ru": "по вражескому отряду, выбранному в вашу Command phase"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "auric-champions"
@@ -674,7 +731,34 @@ export default {
       "hash": "dc516e59",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if no other friendly units are within 6\" of this unit",
+            "ru": "если в 6\" от отряда нет других дружественных отрядов"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if no other friendly units are within 6\" of this unit",
+            "ru": "если в 6\" от отряда нет других дружественных отрядов"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "lions-of-the-emperor"
@@ -974,7 +1058,36 @@ export default {
       "hash": "75d6c16a",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading a unit, against an enemy PSYKER unit",
+            "ru": "пока носитель ведёт отряд, по вражескому отряду PSYKER"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "null-maiden-vigil"
@@ -1190,7 +1303,15 @@ export default {
       "hash": "3ecc3cbb",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "talons-of-the-emperor"
@@ -1660,7 +1781,22 @@ export default {
       "hash": "465f0820",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target below its Starting Strength",
+            "ru": "по цели ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "17071980-b9bf-4a01-afe9-c31c1eefc773",

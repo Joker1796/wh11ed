@@ -84,7 +84,21 @@ export default {
       "hash": "537c6109",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against your Oath of Moment target",
+            "ru": "по цели Oath of Moment"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c82f018e-0e17-4c00-9ef3-5d025e1fc846:ezekiel",
@@ -143,7 +157,21 @@ export default {
       "hash": "e5053d72",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "по отряду CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "df10d338-55e1-441e-87bb-0424cce8a22f:lazarus",
@@ -538,7 +566,21 @@ export default {
       "hash": "468dd3bf",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit within range of a Vowed objective",
+            "ru": "по отряду в радиусе Vowed objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "inner-circle-task-force"
@@ -806,7 +848,36 @@ export default {
       "hash": "f6d2a572",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading a unit that is below its Starting Strength",
+            "ru": "пока носитель ведёт отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is also Battle-shocked",
+            "ru": "если отряд ещё и Battle-shocked"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "unforgiven-task-force"
@@ -1259,6 +1330,19 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "until the end of the turn, if your unit is not DEATHWING, RAVENWING or VEHICLE",
+            "ru": "до конца хода, если отряд не DEATHWING, RAVENWING и не VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "round"

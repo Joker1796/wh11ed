@@ -316,9 +316,9 @@
                 v-for="(n, i) in g.notes"
                 :key="i"
                 class="ds-mod"
-                :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }"
+                :class="{ 'ds-mod-when': !n.applied && !(n.roll && n.live), 'ds-mod-live': (n.applied || n.roll) && n.via }"
               >
-                <span class="ds-mod-delta">{{ modDelta(n) }}</span>
+                <span class="ds-mod-delta">{{ modDelta(n, labels) }}</span>
                 <!-- The rule behind the number. A note whose caller could resolve the prose carries
                  `hasSource`, and then the name itself opens it in the same popover a core ability
                  or the faction line uses — otherwise the reader has to go find "Experimental
@@ -348,6 +348,14 @@
                 /> {{ n.when[locale] || n.when.en }}</span>
               </li>
             </template>
+            <!-- Inside the list, above its closing rule: it explains the lines it follows, and
+               under the rule it read as a caption for the next block. -->
+            <li
+              v-if="sec.rollHint"
+              class="ds-mods-hint ds-mods-roll"
+            >
+              {{ sec.rollHint }}
+            </li>
           </ul>
         </DsAccordion>
       </template>
@@ -1807,6 +1815,8 @@ function abilityStateLabel(st) {
   line-height: 1.4;
   color: var(--text-dim);
 }
+/* The dice-modifier note closes the list it explains, above its rule — not above it like the section hint. */
+.ds-mods-roll { margin: 0.3rem 0 0; }
 .ds-mods-h {
   font-size: 0.62rem;
   font-weight: 700;

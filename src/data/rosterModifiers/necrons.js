@@ -726,7 +726,21 @@ export default {
       "hash": "da8aa7b0",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while a NECRONS CHARACTER is leading this unit",
+            "ru": "пока отряд ведёт персонаж NECRONS"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "awakened-dynasty"
@@ -836,7 +850,21 @@ export default {
       "hash": "f43f3287",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the enemy unit selected in your Command phase",
+            "ru": "по вражескому отряду, выбранному в вашу Command phase"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "obeisance-phalanx"
@@ -886,7 +914,21 @@ export default {
       "hash": "66a38795",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в радиусе маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "starshatter-arsenal"
@@ -1046,7 +1088,16 @@ export default {
       "hash": "b51daed7",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "aura"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "awakened-dynasty",
@@ -1195,7 +1246,16 @@ export default {
       "hash": "d0cc07b6",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "cursed-legion"
@@ -1438,7 +1498,35 @@ export default {
       "hash": "2fc82dc8",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target below its Starting Strength",
+            "ru": "по цели ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target that is Below Half-strength",
+            "ru": "по цели Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "189e9a56-08ba-4f1d-91fe-86a29a58fc97",
@@ -1878,7 +1966,22 @@ export default {
       "hash": "42c640c7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target within range of an objective marker",
+            "ru": "по цели в радиусе маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "699ac868-919e-490d-8e00-c86730312e2f",

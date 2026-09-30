@@ -377,7 +377,16 @@ export default {
       "hash": "ff1c3e96",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "3814e980-da68-4a95-b974-1ae6ff5c7542:ministorum-priest",
@@ -502,7 +511,34 @@ export default {
       "hash": "d8db284c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "d27d6336-58c1-4947-94d0-9a1eac927945:retributor-squad",
@@ -516,7 +552,34 @@ export default {
       "hash": "0836610c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that has destroyed an ADEPTA SORORITAS unit of yours",
+            "ru": "по вражескому отряду, уничтожившему ваш отряд ADEPTA SORORITAS"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that has destroyed an ADEPTA SORORITAS unit of yours",
+            "ru": "по вражескому отряду, уничтожившему ваш отряд ADEPTA SORORITAS"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b2877b4d-767e-4f70-a84f-9621f80b2335:saint-celestine",
@@ -962,7 +1025,34 @@ export default {
       "hash": "7f2e37a7",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that model’s unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that model’s unit is Below Half-strength",
+            "ru": "пока отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "hallowed-martyrs"
@@ -1702,7 +1792,22 @@ export default {
       "hash": "9b09a897",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit within 6\" that is within range of an objective marker",
+            "ru": "по вражескому отряду в 6\", который в радиусе маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "4fe78d2e-a1d9-417b-8ff4-2e50ba6065bb",

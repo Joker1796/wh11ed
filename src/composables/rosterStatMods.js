@@ -20,6 +20,7 @@
 import { ruleScopes, keywordsMatchTarget } from './ruleTargets.js'
 import { enhKey, detKey } from './rosterModifiers.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
+import { conditions } from '../data/rosterModifiers/conditions.js'
 
 // Which model profiles / weapon rows an effect addresses.
 const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged', 'melee'] }
@@ -156,6 +157,10 @@ function snapshotRows(sheet) {
 // second system so `when`, `scope` and the whole applicability machinery are shared.
 const isGrant = (effect) => effect.op === 'grant'
 
+// The dice a modifier can be added to rather than a printed number: `stat: 'hit'` / `'wound'` with
+// `op: 'add'`. Always annotated, never applied — see the apply pass.
+export const ROLL_STATS = new Set(['hit', 'wound'])
+
 // Records whose prose addresses exactly one unit — the one the caller resolved them FOR — so
 // ruleScopes() has nothing to gate on. Everything else is army- or detachment-wide prose that
 // names who it bears on, and is gated by keyword.
@@ -186,12 +191,18 @@ function noteOf(entry, effect, applied, via = null, live = true) {
     stat: effect.stat,
     op: effect.op,
     value: effect.value,
-    when: effect.when || null,
+    // A condition the LIST proved — a Leader attached, a pair of weapons taken — is a fact about the
+    // roster, not a state the game can leave, so its wording is dropped once proven: "while a
+    // CHARACTER is leading this unit" under a line on the unit that Character leads says nothing.
+    // Anything the game or a switch proved keeps it (see the template's `via` treatment).
+    when: via?.length && via.every((id) => conditions[id]?.scope === 'roster') ? null : (effect.when || null),
     // The conditions that let a conditional modifier through, or null for an unconditional one.
     // Its presence is what distinguishes "always true" from "true right now".
     via,
     applied,
     live,
+    // A dice modifier: never rewrites the table, and the card says so beside it.
+    roll: ROLL_STATS.has(effect.stat),
   }
 }
 
@@ -366,6 +377,15 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           }
         }
         notes.push(noteOf(entry, effect, bumped, via))
+        continue
+      }
+
+      // A modifier to a ROLL — "each time a model in that unit makes an attack, add 1 to the Hit
+      // roll". Not a characteristic: +1 to the Hit roll is not BS 3+ → 2+ (roll modifiers cap at
+      // ±1 and an unmodified 1 still fails), so no cell is ever rewritten. It is still in force, so
+      // it is a LIVE note, and `roll` tells the card to explain why the table above did not move.
+      if (ROLL_STATS.has(effect.stat)) {
+        notes.push(noteOf(entry, effect, false, via))
         continue
       }
 

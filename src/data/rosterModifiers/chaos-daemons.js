@@ -84,7 +84,16 @@ export default {
       "hash": "aa7eb7dd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "ee4d1638-9a02-4280-b02a-153c84034d21:bloodthirster",
@@ -106,7 +115,16 @@ export default {
       "hash": "99d56dec",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "ad0bab17-6be0-4962-8503-f1769cb70f6f:blue-horrors",
@@ -1359,7 +1377,16 @@ export default {
       "hash": "cb5eae27",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "aura"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "legion-of-excess",
@@ -1384,7 +1411,16 @@ export default {
       "hash": "e47184fd",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "aura"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "legion-of-excess",
@@ -1513,6 +1549,13 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
           "when": null
         }
       ],
@@ -1647,7 +1690,16 @@ export default {
       "hash": "994267d5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f2338ba8-00d6-45fc-8d14-fb29b2c437fe",
@@ -1740,7 +1792,16 @@ export default {
       "hash": "5dc5e5dd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b3c2324d-a2fd-4bc4-aa88-48b0aedad96e",

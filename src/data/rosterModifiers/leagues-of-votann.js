@@ -219,7 +219,34 @@ export default {
       "hash": "1ba9c15b",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "with Hostile Acquisition, against a target within range of an objective marker",
+            "ru": "при Hostile Acquisition, по цели в радиусе маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "with Fortify Takeover, while this unit is within range of an objective marker you control",
+            "ru": "при Fortify Takeover, пока отряд в радиусе вашего маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -587,7 +614,22 @@ export default {
       "hash": "641b2548",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for the phase, after spending 3YP when the unit is selected to shoot or fight",
+            "ru": "на фазу, если потратить 3YP, когда отряд выбран для стрельбы или боя"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "needgaard-oathband"
@@ -601,7 +643,22 @@ export default {
       "hash": "091ebe34",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an assailed unit",
+            "ru": "по assailed отряду"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "persecution-prospect"

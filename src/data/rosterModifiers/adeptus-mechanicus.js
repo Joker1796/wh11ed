@@ -19,7 +19,21 @@ export default {
       "hash": "1c8c1f3a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that cannot FLY",
+            "ru": "по отряду без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b5752ed7-9b3d-4820-a0f3-c70ff1c925f0:belisarius-cawl",
@@ -398,7 +412,21 @@ export default {
       "hash": "7da6aee4",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "belleros energy cannon against INFANTRY, ferrumite cannon against a MONSTER or VEHICLE",
+            "ru": "belleros energy cannon по INFANTRY, ferrumite cannon по MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "2b590878-2876-48cf-acfd-eae26ed398ef:tech-priest-dominus",
@@ -1256,7 +1284,22 @@ export default {
       "hash": "5d6c4484",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading a unit, against a unit within range of your Acquisition objective marker",
+            "ru": "пока носитель ведёт отряд, по отряду в радиусе вашего Acquisition objective marker"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "explorator-maniple"
@@ -1631,7 +1674,16 @@ export default {
       "hash": "47ce045f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "87035c38-ee30-42d3-8590-098f1cdd797b",
@@ -1748,7 +1800,22 @@ export default {
       "hash": "e29b5af5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit within range of your Acquisition objective marker",
+            "ru": "по вражескому отряду в радиусе вашего Acquisition objective marker"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e4005739-ca42-4298-9462-752d4d07cea1",
@@ -1940,7 +2007,22 @@ export default {
       "hash": "bf79f996",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if no other enemy units are within 6\" of the target",
+            "ru": "если в 6\" от цели нет других отрядов противника"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "8356be94-9f5e-422d-ae18-98ce1bd89810:archaeopter-fusilave",

@@ -70,7 +70,21 @@ export default {
       "hash": "6f28d8bd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for the phase, after using Frenzied Metabolism",
+            "ru": "на фазу, после Frenzied Metabolism"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "062d7126-5b04-4fa6-842a-76c2e8342ad4:hierophant",
@@ -84,7 +98,21 @@ export default {
       "hash": "7e324fcd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a Battle-shocked unit",
+            "ru": "по Battle-shocked отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "82f6447f-7c85-4d0f-bcb7-d2a7b50b3ae2:hive-crone",
@@ -98,7 +126,21 @@ export default {
       "hash": "205860ae",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6f643de5-2411-4317-b8a8-ae21dc77a54f:hive-tyrant",
@@ -223,7 +265,30 @@ export default {
       "hash": "c383be03",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if the target is Battle-shocked",
+            "ru": "если цель Battle-shocked"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "88a02083-c150-45cc-8e5b-71bd828c6c55:norn-assimilator",
@@ -329,7 +394,34 @@ export default {
       "hash": "7a3f82bb",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target below its Starting Strength",
+            "ru": "по цели ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target that is Below Half-strength",
+            "ru": "по цели Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4d049409-1d04-4922-a1f0-de31624c4ca1:ripper-swarms",
@@ -702,6 +794,32 @@ export default {
             "unit-not-battle-shocked"
           ],
           "scope": 1
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that model’s unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that model’s unit is Below Half-strength",
+            "ru": "пока отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -780,6 +898,19 @@ export default {
           "when": {
             "en": "while the Synaptic Augmentation Imperative is active and the unit is within Synapse Range",
             "ru": "пока активен императив Synaptic Augmentation и отряд в радиусе синапса"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the Goaded to Slaughter Imperative is active and the unit is within Synapse Range",
+            "ru": "пока активен императив Goaded to Slaughter и отряд в радиусе синапса"
           },
           "cond": [
             "never"
@@ -865,7 +996,21 @@ export default {
       "hash": "774614c0",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "crusher-stampede"
@@ -1171,7 +1316,34 @@ export default {
       "hash": "aab0e8d9",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the enemy unit selected at the start of the battle",
+            "ru": "по вражескому отряду, выбранному в начале битвы"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the enemy unit selected at the start of the battle",
+            "ru": "по вражескому отряду, выбранному в начале битвы"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "vanguard-onslaught"
@@ -1592,7 +1764,35 @@ export default {
       "hash": "cac1695a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the selected enemy unit",
+            "ru": "по выбранному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the selected unit, if it failed the Battle-shock test",
+            "ru": "по выбранному отряду, если он провалил Battle-shock"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "01ac5989-ef6d-4d4b-a3ff-c9b389972480",

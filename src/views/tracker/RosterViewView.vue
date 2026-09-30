@@ -150,7 +150,7 @@
                   :key="i"
                   class="rvp-mod"
                 >
-                  <span class="rvp-delta">{{ modDelta(n) }}</span>
+                  <span class="rvp-delta">{{ modDelta(n, labels) }}</span>
                   <span class="rvp-name">{{ n.source }}</span>
                   <span
                     v-if="n.when"
@@ -684,8 +684,9 @@ const activeFor = (entry) => (inGame.value
   ? activeConditions(gamePlayer.value, gameClock.value, entry, {
       army: keeps('trackArmyStates'),
       unit: keeps('trackUnitStates'),
+      units: roster.value?.units,
     })
-  : rosterConditions(entry))
+  : rosterConditions(entry, roster.value?.units))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving

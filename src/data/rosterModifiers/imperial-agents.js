@@ -259,7 +259,22 @@ export default {
       "hash": "22b18374",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that has neither the IMPERIUM nor the CHAOS keyword",
+            "ru": "по вражескому отряду без ключевых слов IMPERIUM и CHAOS"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "5ad5311f-39c0-48d2-b0aa-45afbe912f33:inquisitor-greyfax",
@@ -273,7 +288,22 @@ export default {
       "hash": "a2c8eed2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is Below Half-strength",
+            "ru": "по отряду, который Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "8aed8c98-1577-4b0e-ad6f-42b69a9097d5:inquisitor-greyfax",
@@ -533,7 +563,21 @@ export default {
       "hash": "657ab3df",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit contains a MINISTORUM PRIEST",
+            "ru": "пока в отряде есть MINISTORUM PRIEST"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "29dd94a6-896b-4c38-98f1-abea90c30860:vigilant-squad",
@@ -547,7 +591,21 @@ export default {
       "hash": "fc5b3a68",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is Below Half-strength",
+            "ru": "по отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "3e661faf-c623-45b8-b474-70050fa69514:vindicare-assassin",
@@ -575,7 +633,21 @@ export default {
       "hash": "3c91cf55",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, exitus rifle with a shieldbreaker round, for the phase",
+            "ru": "раз за битву, exitus rifle с shieldbreaker round, на фазу"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "5571bc03-10a6-402c-94c9-a15e83b30d1a:voidsmen-at-arms",
@@ -685,6 +757,19 @@ export default {
           "when": {
             "en": "with the Acquire objective chosen, while within range of that objective marker",
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "with Eliminate At All Costs, against the selected enemy unit",
+            "ru": "при Eliminate At All Costs, по выбранному вражескому отряду"
           },
           "cond": [
             "never"
@@ -1526,7 +1611,22 @@ export default {
       "hash": "f1ef0cb5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "a CALLIDUS ASSASSIN that made a Charge move through this Stratagem, until the end of the turn",
+            "ru": "CALLIDUS ASSASSIN, совершивший Charge по этой стратагеме, до конца хода"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "turn"
     },
     {
       "sid": "ba362a01-cce9-4344-b5d2-259651658189",

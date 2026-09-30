@@ -112,7 +112,21 @@ export default {
       "hash": "7784b290",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a Charge move or was charged this turn",
+            "ru": "если отряд совершил Charge или был атакован Charge в этот ход"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4b4cda10-99d6-4df7-b8d2-4e087557d379:centaur-rsv",
@@ -218,7 +232,34 @@ export default {
       "hash": "496e063b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is Below Half-strength",
+            "ru": "пока отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "0223b4f3-5ba1-4534-ba8b-c6c7eca3c016:drayden-s-lance-command-squad",
@@ -343,7 +384,21 @@ export default {
       "hash": "0abc0d99",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "executioner plasma cannon, against a unit that is Below Half-strength",
+            "ru": "executioner plasma cannon, по отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "fab2bea2-2e0e-46c5-9542-a5a7c5f3ee94:leman-russ-exterminator",
@@ -985,7 +1040,21 @@ export default {
       "hash": "80bd5ae3",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in a turn in which the unit disembarked from a TRANSPORT",
+            "ru": "в ход, когда отряд высадился из TRANSPORT"
+          },
+          "cond": [
+            "unit-disembarked"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "mechanised-assault"
@@ -1342,7 +1411,16 @@ export default {
       "hash": "78ce0ea9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "47d1a118-137e-4364-a40a-a37ae92455ee",

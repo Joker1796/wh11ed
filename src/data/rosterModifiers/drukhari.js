@@ -44,7 +44,21 @@ export default {
       "hash": "4e523734",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the unit is Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
     },
     {
       "sid": "6ebe6990-ffa4-4fa2-a063-0fff0fd61e60:haemonculus",
@@ -237,7 +251,21 @@ export default {
       "hash": "4e631f35",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a Battle-shocked unit",
+            "ru": "по Battle-shocked отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "79f38f0b-a72b-4c58-846c-cbc390ffedb2:lady-malys",
@@ -535,7 +563,21 @@ export default {
       "hash": "95aac45c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that cannot FLY",
+            "ru": "по отряду без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7a4be46a-3e2f-4421-ad8e-6551106c770f:razorwing-jetfighter",
@@ -1592,7 +1634,16 @@ export default {
       "hash": "058e6483",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "42e7b548-fb86-4ce0-a13f-90dbe4291cdf",
@@ -1679,7 +1730,35 @@ export default {
       "hash": "93799d3e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that is Below Half-strength",
+            "ru": "по вражескому отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "as above, if you spent 1 Pain token",
+            "ru": "то же, если потрачен 1 Pain token"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "6496bede-f056-48dc-b698-04caeaa6ae7e",

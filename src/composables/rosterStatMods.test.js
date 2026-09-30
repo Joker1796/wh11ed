@@ -104,6 +104,34 @@ describe('applyStatMods', () => {
     expect(note.when.ru).toBe('после убийства')
   })
 
+  it('lists a dice modifier as in force but never writes it into the table', () => {
+    // Node Lash: "…each time a model in that unit makes an attack, add 1 to the Hit roll. If the
+    // target is Battle-shocked, add 1 to the Wound roll as well." +1 to Hit is not BS 3+ → 2+.
+    const nodeLash = {
+      name: 'Neurotyrant: Node Lash', kind: 'ability', owner: 'Neurotyrant', from: 'led',
+      effects: [
+        { on: 'weapon', stat: 'hit', op: 'add', value: 1, when: null, target: 'unit' },
+        { on: 'weapon', stat: 'wound', op: 'add', value: 1, when: { en: 'if the target is Battle-shocked', ru: 'если цель Battle-shocked' }, cond: ['never'], target: 'unit' },
+      ],
+    }
+    const before = sheet()
+    const out = applyStatMods(before, [nodeLash], destroyer)
+    expect(out.sheet).toBe(before)
+    expect(out.marks).toEqual([])
+    const [hit, wound] = out.notes
+    expect(hit).toMatchObject({ stat: 'hit', roll: true, live: true, applied: false })
+    expect(wound).toMatchObject({ stat: 'wound', roll: true, live: false })
+  })
+
+  it('drops the wording of a condition the list itself proved', () => {
+    const protocols = { name: 'Command Protocols', det: 'Awakened Dynasty', kind: 'detachmentRule', body: '',
+      effects: [{ on: 'weapon', stat: 'hit', op: 'add', value: 1, when: { en: 'while a NECRONS CHARACTER is leading this unit', ru: 'пока отряд ведёт персонаж NECRONS' }, cond: ['unit-led'] }] }
+    const [led] = applyStatMods(sheet(), [protocols], destroyer, null, new Set(['unit-led'])).notes
+    expect(led).toMatchObject({ live: true, when: null, via: ['unit-led'] })
+    const [alone] = applyStatMods(sheet(), [protocols], destroyer).notes
+    expect(alone).toMatchObject({ live: false, when: { ru: 'пока отряд ведёт персонаж NECRONS' } })
+  })
+
   it('binds an effect to its own statement of the rule', () => {
     // Bullet 0 names DESTROYER CULT; a Necron Warrior must not get its unconditional +2.
     const out = applyStatMods(sheet(), [coldFervour], warrior)

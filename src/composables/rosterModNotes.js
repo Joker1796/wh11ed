@@ -57,7 +57,14 @@ const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 
 
 // "+2 S", "SV −1", "INV = 5+" — deliberately symbolic rather than a sentence, so the note needs
 // no translating of its own beyond the condition text the record already carries bilingually.
-export function modDelta(n) {
+// The one exception is a dice modifier ("+1 to Hit"): there is no printed column to name, and a
+// made-up "HIT" abbreviation would read as one, so it is worded through the labels.
+export function modDelta(n, l = null) {
+  if (n.roll) {
+    const word = n.stat === 'wound' ? l?.modToWound : l?.modToHit
+    const signed = Number(n.value) < 0 ? `−${Math.abs(Number(n.value))}` : `+${n.value}`
+    return word ? `${signed} ${word}` : `${signed} ${String(n.stat).toUpperCase()}`
+  }
   const stat = STAT_LABEL[n.stat] || String(n.stat).toUpperCase()
   // A granted name is the whole thing — "+RAPID FIRE 1", "+FEEL NO PAIN 5+", "+FLY". There is no
   // characteristic to name after it, and appending the word ABILITY told the reader nothing.

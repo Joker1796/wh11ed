@@ -261,7 +261,16 @@ export default {
       "hash": "64108c35",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "5e80071d-8c49-4d9d-a6dc-e04e944145a9:dark-commune",
@@ -275,7 +284,34 @@ export default {
       "hash": "6943a0ee",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, until the end of the turn, after Dark Ritual",
+            "ru": "раз за битву, до конца хода, после Dark Ritual"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, until the end of the turn, after Dark Ritual",
+            "ru": "раз за битву, до конца хода, после Dark Ritual"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "3026a72c-5b06-4a83-b56b-36fb78ad9b55:dark-commune",
@@ -431,7 +467,21 @@ export default {
       "hash": "34bdf1df",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "16e941e3-a6e6-44d1-9759-29dcca29a912:heretic-astartes-daemon-prince",
@@ -548,7 +598,40 @@ export default {
       "hash": "5302db8d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "Psychic Attacks, for the phase, after Sacrificial Dagger",
+            "ru": "психические атаки, на фазу, после Sacrificial Dagger"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "Psychic Attacks, for the phase, after Sacrificial Dagger",
+            "ru": "психические атаки, на фазу, после Sacrificial Dagger"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "73fd690a-fa45-4f1e-b838-f8e762cb0bce:nemesis-claw",
@@ -562,7 +645,34 @@ export default {
       "hash": "fc58474b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target below its Starting Strength",
+            "ru": "по цели ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target that is Below Half-strength",
+            "ru": "по цели Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "99cceacb-030a-4660-8ec3-af728f5e0d8c:noctilith-crown",
@@ -891,7 +1001,22 @@ export default {
       "hash": "4fb849da",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the VEHICLE model selected in your Command phase, until your next one",
+            "ru": "модель VEHICLE, выбранная в вашу Command phase, до следующей"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "0dbcd892-d932-499e-af4a-80fc6004bc52:warpsmith",
@@ -1475,7 +1600,21 @@ export default {
       "hash": "816d7350",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Huron’s Elite is selected, or the unit is visible to Huron Blackheart",
+            "ru": "пока выбрана Huron’s Elite или отряд видит Huron Blackheart"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "hurons-marauders"
@@ -1489,7 +1628,34 @@ export default {
       "hash": "bcd56076",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is Below Half-strength",
+            "ru": "по отряду, который Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a Battle-shocked unit",
+            "ru": "по Battle-shocked отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "nightmare-hunt"
@@ -1574,6 +1740,20 @@ export default {
             "unit-dark-pact-invoked"
           ],
           "scope": 0
+        },
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "scope": 0,
+          "when": {
+            "en": "DAEMON VEHICLE units, for the phase, after invoking the contract with a Dark Pact",
+            "ru": "отряды DAEMON VEHICLE, на фазу, после призыва контракта при Dark Pact"
+          },
+          "cond": [
+            "unit-dark-pact-invoked"
+          ]
         }
       ],
       "ref": {
@@ -1988,7 +2168,21 @@ export default {
       "hash": "067736ce",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is within range of an objective marker",
+            "ru": "пока носитель в радиусе маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "fellhammer-siege-host"
@@ -2305,7 +2499,22 @@ export default {
       "hash": "6bb482b1",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against your focus of hatred, if the bearer’s unit Fell Back this turn",
+            "ru": "по focus of hatred, если отряд носителя отступил в этот ход"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "veterans-of-the-long-war"
@@ -3071,7 +3280,22 @@ export default {
       "hash": "b85cebe7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against your Vendetta target",
+            "ru": "по цели Vendetta"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "d3143f1b-4e27-49b1-91d8-968dba1e0561",

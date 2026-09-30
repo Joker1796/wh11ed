@@ -250,7 +250,21 @@ export default {
       "hash": "d5f5b774",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an Afflicted unit",
+            "ru": "по Afflicted отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e21df5c1-bbd7-441d-930f-2d8a279efe8c:helbrute",
@@ -490,7 +504,34 @@ export default {
       "hash": "2a1700b3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, against a MONSTER or VEHICLE unit",
+            "ru": "в вашей Shooting phase, по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, against a MONSTER or VEHICLE unit",
+            "ru": "в вашей Shooting phase, по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b6278fdf-663b-47dd-865f-3f2b78217481:noxious-blightbringer",

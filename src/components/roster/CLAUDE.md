@@ -3105,6 +3105,32 @@ survive regeneration. The shape, fixed since the layer was built:
 - `on` — `profile` | `ranged` | `melee` | `weapon` (both weapon tables) | `unit` (keyword grants)
 - `stat` — datasheet keys `m/t/sv/w/ld/oc/inv`, weapon `a/bs/ws/s/ap/d/range`, plus `ability` and
   `keyword` for grants (`op: 'grant'`, `value` the name — `SUSTAINED HITS 1`, unbracketed)
+- **`stat: 'hit'` / `'wound'` — a modifier to the ROLL, not to a characteristic** (added
+  2026-09-30, from a player's report: a Neurotyrant's Node Lash was nowhere on the Zoanthropes it
+  leads). Always `op: 'add'`, a signed number, `on` a weapon table. It is never written into the
+  table — "+1 to the Hit roll" is not BS 3+ → 2+: roll modifiers cap at ±1 and an unmodified 1
+  still fails — so the note is `applied: false` but `live`, carries `roll: true`, reads
+  "+1 к попаданию" through the labels (`modDelta(n, l)`), and the list it sits in ends with one
+  line saying the table does not show dice modifiers (`dsModifiersRollHint`). 166 records across
+  27 factions carry one: every rule that adds 1 to the reader's OWN Hit or Wound roll — Leader
+  abilities, detachment and army rules, enhancements, datasheet abilities, stratagems. Six Legends
+  Leaders have no record at all (the generator reads appdata, which does not carry them).
+  **`npm run modifiers:check` enforces it**: a rule whose prose says "add 1 to the Hit/Wound roll"
+  and whose reviewed record has no such effect fails the check, unless it is named in the
+  generator's `ROLL_EXEMPT` — 21 rules the card cannot place, because the bonus reaches OTHER
+  units than the record's own (a stratagem spent on one unit that buffs the army, a Farseer's
+  Guide on everyone shooting the selected target) or the rule's keyword gate is one merged
+  statement over units that do and do not get it. "Subtract 1 from the Hit roll" is not checked:
+  it modifies an attack AGAINST the unit, which this layer cannot express.
+  "While a CHARACTER is leading this unit" (Necrons' Command Protocols) is answered by the list:
+  `unit-led` in conditions.js, true for both ends of an attachment, which is why
+  `rosterConditions(entry, units)` and `activeConditions(…, { units })` now take the roster's
+  entries.
+  **A condition the list proved prints no wording** (2026-09-30, the owner's call on the first
+  screenshot): once every `via` id is `scope: 'roster'` — a Leader attached, a pair of weapons
+  taken — `noteOf` drops `when`, and the line reads like an unconditional one, still green. "While
+  a CHARACTER is leading this unit" under a line on the very unit that Character leads says
+  nothing; a state the GAME proved (a phase, a switch) keeps its wording and its ⚡.
 - `op` — `add` | `set` | `improve` | `grant`. `improve` is only for roll-shaped characteristics
   (saves, Ld, BS/WS), where better means lower. For a plain number the reviewer writes `add` with
   the sign the rule implies: AP is printed negative, so "+1 AP" is `add: -1`.

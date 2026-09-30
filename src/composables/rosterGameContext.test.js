@@ -461,10 +461,20 @@ describe('rosterConditions', () => {
     expect(rosterConditions({ uid: 'u1' }).has('unit-leading')).toBe(false)
     // …plus the ordinary states: a list nobody is playing has had nothing happen to it.
     expect(rosterConditions({ uid: 'u1' }).has('unit-not-battle-shocked')).toBe(true)
-    expect([...led].filter((id) => id !== 'unit-leading' && !conditions[id].negates)).toEqual([])
+    // A Leader is also part of a led unit — the attachment answers both ends.
+    expect([...led].filter((id) => id !== 'unit-leading' && id !== 'unit-led' && !conditions[id].negates)).toEqual([])
     // Not activeConditions with an empty player: a null clock reads as round 1, and "during
     // battle rounds 1-3" would switch itself on in a list nobody is playing yet.
     expect(rosterConditions({ uid: 'u1', leaderOf: 'u2' }).has('rounds-1-3')).toBe(false)
+  })
+  // Command Protocols: "while a NECRONS CHARACTER model is leading this unit" — the list knows.
+  const units = [{ uid: 'b', id: 'immortals' }, { uid: 'l', id: 'technomancer', leaderOf: 'b' }, { uid: 'x', id: 'lokhust-destroyers' }]
+  it('answers unit-led for the bodyguard and the Leader, and for nobody else', async () => {
+    const { rosterConditions } = await import('./rosterGameContext.js')
+    expect(rosterConditions(units[0], units).has('unit-led')).toBe(true)
+    expect(rosterConditions(units[1], units).has('unit-led')).toBe(true)
+    expect(rosterConditions(units[2], units).has('unit-led')).toBe(false)
+    expect(rosterConditions(units[0]).has('unit-led')).toBe(false)
   })
 })
 
@@ -605,3 +615,4 @@ describe('stratagems', () => {
     expect(activeStratagems(player({}), 1, entry, [rec('krump', 'phase')]).size).toBe(0)
   })
 })
+

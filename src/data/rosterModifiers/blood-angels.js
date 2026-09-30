@@ -102,7 +102,16 @@ export default {
       "hash": "54c9b976",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "1a3197fa-adeb-4ecc-874a-1581437a938b:death-company-captain-with-jump-pack",

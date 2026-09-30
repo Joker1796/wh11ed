@@ -116,7 +116,34 @@ export default {
       "hash": "3bd42904",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a TITANIC or TOWERING unit",
+            "ru": "по отряду TITANIC или TOWERING"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "86129fd1-2639-453b-a311-4342e7a63f3e:chaos-cerastus-knight-castigator",
@@ -400,7 +427,21 @@ export default {
       "hash": "3895adc6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is Below Half-strength",
+            "ru": "по отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "5d62d846-d7a1-4e2a-9431-4f38967a434a:war-dog-stalker",
@@ -414,7 +455,21 @@ export default {
       "hash": "434dab6f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if no other enemy units are within 6\" of the target",
+            "ru": "если в 6\" от цели нет других отрядов противника"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f7e05863-87be-4f5a-bc7c-f053cf453bd2",
@@ -463,6 +518,19 @@ export default {
           "when": {
             "en": "while the Darkness Dread ability is active for your army",
             "ru": "пока для армии активна Dread-способность Darkness"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "with that Dread ability active, if the target is Battle-shocked",
+            "ru": "при этой способности Dread, если цель Battle-shocked"
           },
           "cond": [
             "never"

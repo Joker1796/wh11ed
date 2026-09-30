@@ -104,7 +104,22 @@ export default {
       "hash": "f41f3275",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the VEHICLE model selected in your Command phase, until your next one",
+            "ru": "модель VEHICLE, выбранная в вашу Command phase, до следующей"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "30b2f72e-938f-48de-b689-450af79897b3:brotherhood-techmarine",
@@ -375,7 +390,21 @@ export default {
       "hash": "205860ae",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "9c3665db-de45-42c3-acb0-b46b5bb04467:stormraven-gunship",
@@ -403,7 +432,21 @@ export default {
       "hash": "1c8c1f3a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that cannot FLY",
+            "ru": "по отряду без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b45355c5-7cfa-4792-b7ee-826e06fe07f4:venerable-dreadnought",
@@ -1179,7 +1222,22 @@ export default {
       "hash": "9754786c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ff093638-de55-4e06-be1c-74f65ba523e7",

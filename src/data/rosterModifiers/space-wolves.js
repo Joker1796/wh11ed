@@ -196,7 +196,30 @@ export default {
       "hash": "1db00418",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that has this model’s Slayer’s Oath keyword",
+            "ru": "по отряду с ключевым словом Slayer’s Oath этой модели"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "605fa95b-842d-4edc-8451-831c87db9f3b:venerable-dreadnought",
@@ -310,7 +333,16 @@ export default {
       "hash": "ff1c3e96",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "b9ca957a-30df-4c4e-975f-ef014c23fba3:wolf-scouts",
@@ -324,7 +356,21 @@ export default {
       "hash": "570a574f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if no other enemy units are within 6\" of the target",
+            "ru": "если в 6\" от цели нет других отрядов противника"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "aa17b3c5-1b61-4725-9044-405366b91850:wolf-scouts",
@@ -430,7 +476,21 @@ export default {
       "hash": "c9e2983a",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the Hunter’s Eye Hunting Pack is active",
+            "ru": "пока активна Hunting Pack Hunter’s Eye"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "saga-of-the-great-wolf"
@@ -444,7 +504,34 @@ export default {
       "hash": "9c7b941e",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if the target is engaged with another of your ADEPTUS ASTARTES units, or your unit has more models",
+            "ru": "если цель в Engagement Range другого вашего отряда ADEPTUS ASTARTES или в вашем отряде больше моделей"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "as above, once your Saga is completed",
+            "ru": "то же, когда Saga завершена"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "saga-of-the-hunter"
@@ -981,7 +1068,16 @@ export default {
       "hash": "78ce0ea9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a4722680-da41-426d-9c44-0444928b4945",
@@ -1065,7 +1161,16 @@ export default {
       "hash": "076f75ba",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f0bfbe43-83ab-4fe0-8c52-f0f389a7f1f5",

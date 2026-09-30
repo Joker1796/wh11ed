@@ -83,7 +83,16 @@ export default {
       "hash": "d122b2c2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "33a3fdd4-beec-4f75-8779-cf16bbdadf0f:daemon-prince-of-khorne",
@@ -169,7 +178,36 @@ export default {
       "hash": "fb1c6326",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit other than a MONSTER or VEHICLE",
+            "ru": "по отряду, кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against such a unit that is Below Half-strength",
+            "ru": "по такому отряду, если он Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "3763072d-ee53-4a22-94c0-8c762a088c72:exalted-eightbound",
@@ -244,7 +282,21 @@ export default {
       "hash": "34bdf1df",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "5dcb3c9e-f998-4600-8c30-b7d16011e9dc:lord-invocatus",
@@ -304,7 +356,34 @@ export default {
       "hash": "fb3f99dc",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target below its Starting Strength",
+            "ru": "по цели ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a target that is Below Half-strength",
+            "ru": "по цели Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "787f9581-a51d-4d80-af61-d5fa8acfb5c0:skarbrand",

@@ -522,6 +522,42 @@ function serialise(slug, existing, sources, result) {
     + `export default ${body}\n`
 }
 
+// "Add 1 to the Hit roll" / "…Wound roll" is a dice modifier (`stat: 'hit'`/`'wound'`), listed
+// on the card and never written into the table. Every rule that says it for the reader's OWN
+// attacks carries one — this gate is what keeps that true after an appdata bump, since a reviewed
+// empty reads exactly like a finished answer. The exceptions are rules the card cannot place: the
+// bonus goes to OTHER units than the one the record is resolved for (a stratagem spent on one unit
+// that buffs the army, a model whose ability helps everyone attacking a selected target), or the
+// rule's keyword gate is one merged statement that would hand the line to units it does not reach.
+// "Subtract 1 from the Hit roll" is not checked: it is a modifier on an attack AGAINST the unit.
+const ROLL_BONUS = /add 1 to the (?:Hit|Wound) roll/i
+const ROLL_EXEMPT = new Set([
+  // the bonus reaches other units than the record's own
+  'adeptus-custodes · Slayer of Champions', 'aeldari · Eldrad Ulthran: Doom', 'aeldari · Farseer: Guide',
+  'black-templars · Reclaim Our Honour!', 'blood-angels · Vengeful Onslaught',
+  'chaos-daemons · The Masque of Slaanesh: The Eternal Dance', 'dark-angels · Illuminating Fire',
+  'genestealer-cults · Avenge the Star Children', 'grey-knights · Venerable Dreadnought: Guidance of the Ancients',
+  'leagues-of-votann · Quake Supervisor', 'necrons · Curse of the Cryptek',
+  'space-marines · Incursor Squad: Multi-spectrum Array', 'space-marines · Storm Speeder Thunderstrike: Thunderstrike',
+  'thousand-sons · Chaos Rhino: Sorcerous Support', 'tyranids · Broodguard Impulse',
+  'tyranids · Neurolictor: Psychological Saboteur',
+  // one merged keyword gate over units that do and do not get the bonus
+  'adeptus-custodes · Revered Companions', 'aeldari · Shepherds of the Dead',
+  'genestealer-cults · Integrated Tactics', 'genestealer-cults · Psionic Parasitism',
+  'world-eaters · Idols of Khorne',
+])
+function rollGaps(slug, sources, existing) {
+  const bySid = new Map((existing?.entries || []).map((e) => [e.sid, e]))
+  const out = []
+  for (const s of sources) {
+    if (!ROLL_BONUS.test(s.prose || '')) continue
+    const rec = bySid.get(s.sid)
+    if (!rec?.reviewed || (rec.effects || []).some((e) => e.stat === 'hit' || e.stat === 'wound')) continue
+    if (!ROLL_EXEMPT.has(`${slug} · ${s.name}`)) out.push(s)
+  }
+  return out
+}
+
 export async function run(argv = process.argv.slice(2)) {
   const check = argv.includes('--check')
   const queue = argv.includes('--queue')
@@ -532,7 +568,7 @@ export async function run(argv = process.argv.slice(2)) {
   }
 
   const ctx = sourceContext()
-  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0 }
+  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
@@ -552,6 +588,10 @@ export async function run(argv = process.argv.slice(2)) {
     for (const m of await namedWeaponMismatches(slug, existing?.entries || [])) {
       totals.mismatch++
       console.log(`  ✗ weapon  ${slug} · ${m}`)
+    }
+    for (const g of rollGaps(slug, sources, existing)) {
+      totals.roll++
+      console.log(`  ✗ roll    ${slug} · ${g.kind} · ${g.name} — says "add 1 to the Hit/Wound roll" but carries no hit/wound effect`)
     }
     for (const { entry, src, hash } of result.stale) {
       console.log(`  ⟲ stale   ${slug} · ${entry.kind} · ${entry.name}${entry.det ? ` (${entry.det})` : ''}`)
@@ -594,6 +634,10 @@ export async function run(argv = process.argv.slice(2)) {
     if (dirty) {
       console.log('  --check: run `npm run modifiers` to refresh the skeletons, then review them'
         + ' (`npm run modifiers:queue` writes the working list).')
+      return 1
+    }
+    if (totals.roll) {
+      console.log('  --check: a rule adds to the Hit or Wound roll with no `stat: \'hit\'`/`\'wound\'` effect — add one, or name it in ROLL_EXEMPT with the reason.')
       return 1
     }
     if (totals.mismatch) {
