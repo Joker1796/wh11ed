@@ -19,6 +19,7 @@ import { membersOf, memberAt } from './rosterGameLink.js'
 import { applySlice } from './gameSlices.js'
 import { tracks } from '../data/trackerOptions.js'
 import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from './cpLedger.js'
+import { clockOf, stampOf } from './rosterGameContext.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -1148,6 +1149,42 @@ export function useTracker() {
     const last = lastStratUse(pi, key)
     if (!last) return
     removeEntries(current.value.players[pi], e => e === last)
+    unsetTarget(pi, last)
+  }
+
+  // ── A stratagem PLAYED on a unit (stratagemPlay.js) ──
+  // One act: the CP spent (useStratagem, at the cost asked for THIS use), the unit it was played on
+  // written onto that ledger entry — `target: { uid, mi?, name, sid?, opp? }` — and, when the unit's
+  // card has a record for the stratagem (`sid`), that record switched on at the same moment. Taking
+  // either back takes both: undoStratagem above, unplayOnUnit below. A target of the other side
+  // (`opp`) is named only: the effect records are the player's own army's.
+  function playStratagem(pi, strat, cost, target = null) {
+    const entry = useStratagem(pi, strat, cost)
+    if (!entry || !target) return entry
+    entry.target = {
+      uid: target.uid, name: target.name,
+      ...(target.mi != null ? { mi: target.mi } : {}),
+      ...(target.sid ? { sid: target.sid } : {}),
+      ...(target.opp ? { opp: true } : {}),
+    }
+    if (target.sid && !target.opp) {
+      setUnitStratagem(pi, target.uid, target.sid, stampOf(clockOf(current.value, pi)), true, target.mi ?? null)
+    }
+    return entry
+  }
+  function unsetTarget(pi, entry) {
+    const t = entry?.target
+    if (t?.sid && !t.opp) setUnitStratagem(pi, t.uid, t.sid, 0, false, t.mi ?? null)
+  }
+  // The card's box unticked: the latest play of that stratagem on that unit this battle round goes,
+  // its CP with it; a mark with no play behind it (set before plays were linked, or in a game not
+  // counting CP) just comes off.
+  function unplayOnUnit(pi, uid, sid, mi = null) {
+    const R = current.value?.currentRound
+    const pl = current.value.players[pi]
+    const last = (pl.cpLog || []).filter(e => e.kind === 'spend' && e.round === R && e.target?.uid === uid && e.target?.sid === sid).at(-1)
+    if (last) removeEntries(pl, e => e === last)
+    setUnitStratagem(pi, uid, sid, 0, false, mi)
   }
 
   // ── The once-per-battle 1CP replacement (Event Companion, Tactical Missions) ──
@@ -1453,7 +1490,7 @@ export function useTracker() {
     tookSecondaries, canTakeSecondaries, takeRandomSecondaries, takeChosenSecondaries, canUntakeSecondaries, untakeSecondaries,
     restoreSecondaryToHand, redrawSecondary, canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard,
     canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, spendCp,
-    stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem,
+    stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem, playStratagem, unplayOnUnit,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,

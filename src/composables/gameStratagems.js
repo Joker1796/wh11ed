@@ -11,6 +11,9 @@
 //   _cost    — the printed cost as a number (every cost in the data is "1CP" or "2CP")
 //   _limits  — usageLimits(restrictions)
 //   _key     — a stable id within the game: the core number, or detachment|name
+//   _enName  — the English name (the card's modifier records name it so)
+//   _target  — the English TARGET line: whether the stratagem is aimed at a unit, and whose
+//   _detId   — the detachment's id (detachment stratagems), what the modifier records point at
 import { mergeSections } from './useBilingualMerge.js'
 import { membersOf } from './rosterGameLink.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
@@ -44,6 +47,8 @@ function derive(localized, en, key) {
     _cost: costOf(en?.cp ?? localized.cp),
     _limits: usageLimits(en?.restrictions),
     _key: key,
+    _enName: en?.name || localized.name,
+    _target: en?.target ?? localized.target ?? '',
   }
 }
 
@@ -131,7 +136,7 @@ export async function loadArmyStrats(m, loc, combatPatrol = false) {
     const entry = lookup.get(normName(name))
     if (!entry) continue
     for (const s of entry.det.stratagems || []) {
-      const strat = { ...s, _det: normName(name) }
+      const strat = { ...s, _det: normName(name), _detId: entry.det.id || null }
       const ru = entry.stratNamesRu && entry.stratNamesRu[s.name]
       if (ru) strat.nameRu = ru
       out.push(strat)

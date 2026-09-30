@@ -1131,3 +1131,43 @@ describe('the clock settles when another phone moves it', () => {
     expect(pl0().secondary.hand).not.toContain(a)
   })
 })
+
+// Owner, 2026-09-30: a stratagem played on a unit is ONE act — the CP spent, the unit named on the
+// ledger entry, and its card's effect switched on — and taking it back from either side takes both.
+describe('playStratagem', () => {
+  const strat = { _key: 'det|Hold Fast', name: 'Hold Fast', _cost: 1, _limits: {}, _phases: ['any'], _sides: [] }
+  const target = { uid: 'u1', name: 'Chosen', sid: 'rec-1' }
+
+  it('spends the CP, names the unit and switches its card record on', () => {
+    tracker.newGame(setupGame())
+    const pl = tracker.current.value.players[0]
+    const cp = pl.cp
+    const e = tracker.playStratagem(0, strat, 1, target)
+    expect(pl.cp).toBe(cp - 1)
+    expect(e.target).toEqual({ uid: 'u1', name: 'Chosen', sid: 'rec-1' })
+    expect(pl.ctx.strats.u1['rec-1']).toBeGreaterThanOrEqual(100)
+  })
+
+  it('takes both back from the CP tab, and from the card', () => {
+    tracker.newGame(setupGame())
+    const pl = tracker.current.value.players[0]
+    const cp = pl.cp
+    tracker.playStratagem(0, strat, 1, target)
+    tracker.undoStratagem(0, strat._key)
+    expect(pl.cp).toBe(cp)
+    expect(pl.ctx?.strats?.u1).toBeUndefined()
+
+    tracker.playStratagem(0, strat, 0, target) // a cost a rule reduced
+    expect(pl.cp).toBe(cp)
+    tracker.unplayOnUnit(0, 'u1', 'rec-1')
+    expect(pl.ctx?.strats?.u1).toBeUndefined()
+    expect((pl.cpLog || []).filter((x) => x.kind === 'spend')).toHaveLength(0)
+  })
+
+  it('names an enemy target without touching any card', () => {
+    tracker.newGame(setupGame())
+    const e = tracker.playStratagem(0, strat, 1, { uid: 'x9', name: 'Boyz', opp: true })
+    expect(e.target).toEqual({ uid: 'x9', name: 'Boyz', opp: true })
+    expect(tracker.current.value.players[0].ctx?.strats).toBeFalsy()
+  })
+})

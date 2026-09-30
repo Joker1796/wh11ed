@@ -29,6 +29,14 @@ async function mountTab(side = 0) {
   await vi.waitFor(async () => { await flushPromises(); expect(w.findAll('.sr').length).toBeGreaterThan(0) }, { timeout: 5000 })
   return w
 }
+// Playing one opens the dialog (StratPlayModal) — no list attached here, so it asks only whether a
+// rule changed the cost: [reduced, as printed, increased].
+async function play(w, name, pick = 1) {
+  await row(w, name).find('.sr-use').trigger('click')
+  await vi.waitFor(() => expect(document.body.querySelectorAll('.spm-cost').length).toBe(3))
+  document.body.querySelectorAll('.spm-cost')[pick].click()
+  await flushPromises()
+}
 // By its name — a mixed list adds a "core" tag after it, so the name is where the text starts.
 const row = (w, name) => w.findAll('.sr').find((r) => r.find('.sr-name').text().toUpperCase().startsWith(name.toUpperCase()))
 
@@ -36,14 +44,14 @@ describe('CpStratagems', () => {
   it('spends the chosen side\'s CP on a core stratagem and takes it back', async () => {
     const w = await mountTab(0)
     await w.findAll('.cps-tabs .page-tab')[1].trigger('click') // the opponent plays Fire Overwatch in my turn
-    await row(w, 'Fire Overwatch').find('.sr-use').trigger('click')
+    await play(w, 'Fire Overwatch')
     expect(tracker.current.value.players[1].cp).toBe(0)
     expect(row(w, 'Fire Overwatch').text()).toContain('used ×1')
     await row(w, 'Fire Overwatch').find('.sr-undo').trigger('click')
     expect(tracker.current.value.players[1].cp).toBe(1)
   })
 
-  it('prices a use at a changed cost, and says why a limited one is off', async () => {
+  it('asks each time whether a rule changed the cost, and says why a limited one is off', async () => {
     const w = await mountTab(0)
     // Whose turn first (owner, 2026-09-29): Rapid Ingress is the other side's move…
     expect(row(w, 'Rapid Ingress').find('.sr-use').attributes('disabled')).toBeDefined()
@@ -51,14 +59,17 @@ describe('CpStratagems', () => {
     // …and for the side not on turn, the round's own limit.
     await w.findAll('.cps-tabs .page-tab')[1].trigger('click')
     expect(row(w, 'Rapid Ingress').find('.sr-why').text()).toBe('Not available in this battle round')
-    // Counteroffensive is the opponent's Fight phase: priced and played by the side not on turn.
-    await row(w, 'Counteroffensive').find('.sr-gear').trigger('click')
-    const opts = document.body.querySelectorAll('.cps-mod')
-    opts[0].click() // reduced: 2CP → 1CP
-    await flushPromises()
-    expect(row(w, 'Counteroffensive').find('.sr-use').text()).toBe('1CP')
+    // Counteroffensive (2CP) is the opponent's Fight phase: with 1CP in the bank only a cost a rule
+    // reduced can pay for it — the row stays open, the dialog greys what the bank cannot cover.
+    expect(row(w, 'Counteroffensive').find('.sr-use').text()).toBe('2CP')
     await row(w, 'Counteroffensive').find('.sr-use').trigger('click')
+    await vi.waitFor(() => expect(document.body.querySelectorAll('.spm-cost').length).toBe(3))
+    const [reduced, printed] = document.body.querySelectorAll('.spm-cost')
+    expect(printed.disabled).toBe(true)
+    reduced.click() // 2CP → 1CP, this use only
+    await flushPromises()
     expect(tracker.current.value.players[1].cp).toBe(0)
+    expect(row(w, 'Counteroffensive').find('.sr-use').text()).toBe('2CP') // the next use is priced afresh
   })
 
   // Owner, 2026-09-29: only what can be played in THIS turn is on offer, and the other turn is said.

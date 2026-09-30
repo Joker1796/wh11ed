@@ -1,5 +1,6 @@
 <template>
   <section
+    ref="cpsEl"
     class="cps"
     :class="{ opp: !isYouSide(current.players[side], side) }"
   >
@@ -69,7 +70,6 @@
             :tag="deck === 'all' && isCore(s) ? labels.trackerStratCoreTag : ''"
             v-bind="rowProps(s)"
             @open="openStrat = s"
-            @modify="modFor = s"
             @use="use(s)"
             @undo="undoStratagem(side, s._key)"
           />
@@ -98,7 +98,6 @@
             :strat="s"
             v-bind="rowProps(s)"
             @open="openStrat = s"
-            @modify="modFor = s"
             @use="use(s)"
             @undo="undoStratagem(side, s._key)"
           />
@@ -118,7 +117,6 @@
             :strat="s"
             v-bind="rowProps(s)"
             @open="openStrat = s"
-            @modify="modFor = s"
             @use="use(s)"
             @undo="undoStratagem(side, s._key)"
           />
@@ -130,7 +128,7 @@
     <BaseModal
       v-if="openStrat"
       :title="openStrat.name"
-      :subtitle="`${costNow(openStrat)}CP · ${labels.trackerStratBase} ${openStrat._cost}CP`"
+      :subtitle="`${openStrat._cost}CP`"
       max-width="520px"
       @close="openStrat = null"
     >
@@ -142,29 +140,16 @@
       </div>
     </BaseModal>
 
-    <!-- A cost changed by a rule (−1 / +1): the Core Rules cap a change at one either way and
-         never below 0. Not saved — it is how THIS use is priced, and a new round forgets it. -->
-    <BaseModal
-      v-if="modFor"
-      :title="labels.trackerStratModify"
-      :subtitle="`${modFor.name} · ${labels.trackerStratBase} ${modFor._cost}CP`"
-      dense
-      max-width="340px"
-      @close="modFor = null"
-    >
-      <div class="modal-body act-list">
-        <button
-          v-for="m in [-1, 0, 1]"
-          :key="m"
-          class="act-btn cps-mod"
-          :class="{ on: modOf(modFor) === m }"
-          @click="setMod(modFor, m)"
-        >
-          <strong>{{ m < 0 ? labels.trackerStratReduced : m > 0 ? labels.trackerStratIncreased : labels.trackerStratNormal }}</strong>
-          <span>{{ Math.max(0, modFor._cost + m) }}CP</span>
-        </button>
-      </div>
-    </BaseModal>
+    <!-- Playing one (StratPlayModal): the unit it is played on, when it is aimed at one and a
+         list is attached, then whether a rule changed its cost this time — asked every time, for
+         this use only (owner, 2026-09-30). -->
+    <StratPlayModal
+      v-if="playing"
+      :strat="playing.strat"
+      :pi="playing.pi"
+      :targets="playing.targets"
+      @close="playing = null"
+    />
   </section>
 </template>
 
@@ -172,6 +157,7 @@
 import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import StratCard from '../StratCard.vue'
+import StratPlayModal from './StratPlayModal.vue'
 import StratRow from './StratRow.vue'
 import PageTabs from '../PageTabs.vue'
 import StratFilterBar from '../StratFilterBar.vue'
@@ -184,6 +170,8 @@ import { useParty } from '../../composables/useParty.js'
 import { loadCoreStratagems, loadSideStratagems, sideSignature } from '../../composables/gameStratagems.js'
 import { groupByPhase, usableInSlot, phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
+import { useSwapFade } from '../../composables/useSwapFade.js'
+import { loadStratTargets } from '../../composables/stratagemPlay.js'
 
 // The stratagems in the CP tab: spend a side's CP on one, and take it back. Mounted only while
 // the CP tab is open, so the faction data (dynamically imported by gameStratagems.js) is fetched
@@ -194,10 +182,13 @@ const props = defineProps({
 })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem } = useTracker()
+const { current, stratUses, stratBlock, lastStratUse, undoStratagem } = useTracker()
 const { canEdit } = useParty()
 
 const side = ref(props.defaultSide)
+// Another side's stratagems fade in under the standing tabs (useSwapFade).
+const cpsEl = ref(null)
+useSwapFade(side, () => [...(cpsEl.value?.children || [])].filter((el) => !el.matches('.page-tabs')))
 watch(() => props.defaultSide, (v) => { side.value = v })
 const turnIdx = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 const sideOnTurn = computed(() => side.value === turnIdx.value)
@@ -275,30 +266,25 @@ function readOpen() {
   try { return JSON.parse(getItem(OPEN_KEY) || '[]') } catch { return [] }
 }
 watch(openPhases, (set) => setItem(OPEN_KEY, JSON.stringify([...set])))
-
-// ── The cost this use is asked at ──
-const mods = ref({})
-const modKey = (s) => `${side.value}|${s._key}`
-const modOf = (s) => mods.value[modKey(s)] || 0
-function setMod(s, m) {
-  mods.value = { ...mods.value, [modKey(s)]: m }
-  modFor.value = null
+// Come from the Phase tab's "Stratagems of this phase" (RoundTracker): grouped, with the "now"
+// group open — the list the line promised, not the phases folded as they were left.
+function showNow() {
+  byPhase.value = true
+  if (!openPhases.value.has('now')) openPhases.value = new Set([...openPhases.value, 'now'])
 }
-const costNow = (s) => Math.max(0, s._cost + modOf(s))
-// A new round forgets every changed cost (Mikhail's prototype: a change is for this round only).
-watch(() => current.value?.currentRound, () => { mods.value = {} })
+defineExpose({ showNow })
 
 const openStrat = ref(null)
-const modFor = ref(null)
 
 // What one row shows: the cost, whether a changed cost is on, how many times it was used this
 // round and whether that can be taken back, and — when it cannot be used — why.
 function rowProps(s) {
   const R = current.value.currentRound
-  const block = canEdit(side.value) ? stratBlock(side.value, s, costNow(s)) : 'phone'
+  // Locked only when not even a cost reduced by a rule could pay for it — the price is asked on
+  // playing (StratPlayModal).
+  const block = canEdit(side.value) ? stratBlock(side.value, s, Math.max(0, s._cost - 1)) : 'phone'
   return {
-    cost: costNow(s),
-    mod: modOf(s),
+    cost: s._cost,
     used: stratUses(side.value, s._key).filter((e) => e.round === R).length,
     undoable: canEdit(side.value) && !!lastStratUse(side.value, s._key),
     // Short of CP is the one reason every row would repeat at once: the grey button (and its
@@ -308,9 +294,14 @@ function rowProps(s) {
     locked: !!block,
   }
 }
-function use(s) {
+// Playing one: the units it may be played on are gathered first (stratagemPlay.js), then the
+// dialog asks.
+const playing = ref(null)
+async function use(s) {
   if (!canEdit(side.value)) return
-  if (useStratagem(side.value, s, costNow(s))) mods.value = { ...mods.value, [modKey(s)]: 0 }
+  const pi = side.value
+  const targets = await loadStratTargets(current.value, pi, s)
+  playing.value = { strat: s, pi, targets }
 }
 </script>
 
@@ -335,6 +326,4 @@ function use(s) {
 .cps-hint { margin: -0.2rem 0 0.4rem; font-size: 0.78rem; color: var(--text-dim); }
 .cps-empty { margin: 0; font-size: 0.84rem; color: var(--text-dim); }
 .cps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
-.cps-mod { display: flex; justify-content: space-between; align-items: center; }
-.cps-mod.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--bg-secondary)); }
 </style>

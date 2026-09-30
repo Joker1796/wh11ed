@@ -18,24 +18,7 @@
       />
     </button>
     <div class="sr-ctrl">
-      <!-- A flat gear: the cost changed by a rule, −1 / +1, marked on the gear when on. -->
-      <button
-        class="sr-gear"
-        :class="{ modified: mod !== 0 }"
-        :aria-label="labels.trackerStratModify"
-        :title="labels.trackerStratModify"
-        @click="$emit('modify')"
-      >
-        <i
-          class="bi bi-gear-fill"
-          aria-hidden="true"
-        />
-        <span
-          v-if="mod !== 0"
-          class="sr-mod"
-        >{{ mod < 0 ? '−1' : '+1' }}</span>
-      </button>
-      <!-- The cost it would be spent at, in one tap. -->
+      <!-- The printed cost; playing asks whether a rule changed it this time (StratPlayModal). -->
       <button
         class="sr-use"
         :disabled="locked"
@@ -80,20 +63,19 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 
-// One stratagem in the CP tab: name and timing (tap for the full card), the cost-change gear
-// and the cost button. Pure presentation — CpStratagems decides every number and the reason.
+// One stratagem in the CP tab: name and timing (tap for the full card) and the cost button, which
+// plays it (the cost a rule changed is asked then, StratPlayModal). Pure presentation — CpStratagems decides every number and the reason.
 defineProps({
   strat: { type: Object, required: true },
   tag: { type: String, default: '' },          // a word after the name — "core" in a mixed list
   cost: { type: Number, required: true },
-  mod: { type: Number, default: 0 },
   used: { type: Number, default: 0 },
   undoable: { type: Boolean, default: false },
   reason: { type: String, default: '' },
   title: { type: String, default: '' },
   locked: { type: Boolean, default: false },
 })
-defineEmits(['open', 'modify', 'use', 'undo'])
+defineEmits(['open', 'use', 'undo'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { renderInline } = useRenderInline()
@@ -125,18 +107,6 @@ const { renderInline } = useRenderInline()
   margin-top: 0.1rem; font-size: 0.76rem; line-height: 1.3; color: var(--text-muted);
 }
 .sr-ctrl { display: flex; align-items: center; gap: 0.25rem; }
-.sr-gear {
-  position: relative;
-  width: 36px; height: 36px;
-  border: 1px solid var(--border); background: var(--bg-secondary);
-  color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
-}
-.sr-gear.modified { border-color: var(--accent); color: var(--accent); }
-.sr-mod {
-  position: absolute; right: -1px; bottom: -1px;
-  padding: 0 0.2rem; background: var(--accent); color: #fff;
-  font-size: 0.66rem; font-weight: 700; line-height: 1.3;
-}
 .sr-use {
   min-width: 50px; height: 36px; padding: 0 0.4rem;
   border: 1px solid var(--accent); background: var(--accent); color: #fff;
