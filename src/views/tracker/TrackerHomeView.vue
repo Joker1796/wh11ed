@@ -48,41 +48,27 @@
          sits there on purpose once something IS in progress: it is the button that throws that
          away, and it has no business next to the one that continues it. -->
     <div class="cta">
-      <div class="cta-top">
-        <RouterLink
-          v-if="primary.to"
-          :to="primary.to"
-          class="btn-primary btn-lg cta-main"
-        >
-          {{ primary.label }}
-        </RouterLink>
-        <button
-          v-else
-          class="btn-primary btn-lg cta-main"
-          @click="startNew"
-        >
-          {{ primary.label }}
-        </button>
-        <!-- The way to the statistics (owner, 2026-09-29), the same button the roster list's
-             heading carries, beside the primary as there (owner, 2026-09-30). It replaced a record
-             bar over the history, which showed only once a game counted and was a second door
-             beside this one. Above 900px the subnav's tab is that way. -->
-        <RouterLink
-          to="/tracker/stats"
-          class="btn-ghost cta-stats"
-          :title="labels.statsLink"
-          :aria-label="labels.statsLink"
-        >
-          <i class="bi bi-bar-chart" /> <span class="cta-stats-text">{{ labels.statsLink }}</span>
-        </RouterLink>
-      </div>
+      <RouterLink
+        v-if="primary.to"
+        :to="primary.to"
+        class="btn-primary btn-lg cta-main"
+      >
+        {{ primary.label }}
+      </RouterLink>
+      <button
+        v-else
+        class="btn-primary btn-lg cta-main"
+        @click="startNew"
+      >
+        {{ primary.label }}
+      </button>
 
       <div class="cta-quiet">
         <!-- Only when it is not the primary already. -->
         <button
           v-if="primary.to"
           type="button"
-          class="btn-ghost cta-q"
+          class="btn-ghost"
           @click="startNew"
         >
           {{ labels.trackerNewGame }}
@@ -93,11 +79,22 @@
              under the primary button. The dialog asks which; it never needs an account itself. -->
         <button
           type="button"
-          class="btn-ghost cta-q"
+          class="btn-ghost"
           @click="sharedOpen = true"
         >
           <i class="bi bi-people" /> {{ labels.lobbyNewGameShort }}
         </button>
+        <!-- The way to the statistics (owner, 2026-09-29), the roster list heading's button,
+             kept in the quiet row (owner, 2026-09-30). It replaced a record bar over the history, which showed only once a game counted and was
+             a second door beside this one. Above 900px the subnav's tab is that way. -->
+        <RouterLink
+          to="/tracker/stats"
+          class="btn-ghost cta-stats"
+          :title="labels.statsLink"
+          :aria-label="labels.statsLink"
+        >
+          <i class="bi bi-bar-chart" /> <span class="cta-stats-text">{{ labels.statsLink }}</span>
+        </RouterLink>
       </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
@@ -538,16 +535,6 @@ function footLine(g) {
   gap: 0.6rem;
   margin-bottom: 1rem;
 }
-/* The primary and Statistics side by side — the roster list's row of ways in (RosterListHead),
-   drawn the same way (owner, 2026-09-30). */
-.cta-top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.6rem;
-  max-width: 100%;
-}
 /* Sized by its own label and nothing else. A minimum width was tried first (18rem) and it was
    wrong twice over: at desktop width the button read as a banner, and `.btn-primary` is an
    inline-flex with no `justify-content`, so the label sat against the left edge of all that
@@ -569,7 +556,7 @@ function footLine(g) {
   .cta-stats { display: none; }
 }
 
-/* Two buttons on one line down to the narrowest phone: below 400px Statistics keeps its icon
+/* The quiet row on one line down to the narrowest phone: below 400px Statistics keeps its icon
    only, as on the roster list (its name stays in the title and the accessible name). */
 @media (max-width: 400px) {
   .cta-stats-text { display: none; }
@@ -580,11 +567,9 @@ function footLine(g) {
   .hero h1 { font-size: 1.75rem; }
   .hero-side { font-size: 0.75rem; }
   .cta { gap: 0.5rem; margin-bottom: 0.8rem; }
-  .cta-top { gap: 0.5rem; }
   /* The same buttons the roster list draws at this width — the same kind of call to action,
      and two screens of one app should not disagree about how big that is. */
   .cta-main,
-  .cta-top .btn-ghost,
   .cta-quiet .btn-ghost {
     padding: 0.45rem 0.8rem;
     font-size: 0.8rem;
