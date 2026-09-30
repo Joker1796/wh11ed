@@ -1212,6 +1212,19 @@ describe('the real Raptors lock', () => {
   })
 })
 
+describe('defaultLoadoutLines on a partial swap of copies', () => {
+  it('keeps the copies a pick did not take (Wraithlord: one flamer for one of two catapults)', () => {
+    const lord = {
+      id: 'lord', sizes: [{ pts: 10, per: [1, 1] }],
+      defaults: [[0, [[1, 2]]]],
+      gear: [{ m: 0, t: 1, in: 'stepper', o: [[3]], cp: 2, rep: [1] }],
+    }
+    const items = { 1: 'Shuriken catapult', 3: 'Flamer' }
+    expect(defaultLoadoutLines(lord, items, { size: 0, wg: [[0, 0, 1]] })[0].items).toBe('Shuriken catapult ×1')
+    expect(defaultLoadoutLines(lord, items, { size: 0, wg: [[0, 0, 2]] })).toEqual([])
+  })
+})
+
 describe('defaultLoadoutLines on a multi-profile squad', () => {
   // Until the composition data landed, a multi-miniature datasheet subtracted nothing at all —
   // the swapped-away weapon stayed on the line next to the one that replaced it.

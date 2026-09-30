@@ -75,6 +75,48 @@ describe('loadoutItemCounts', () => {
     expect(loadoutItemCounts(squad, { size: 0, wg: [[0, 0, 2]] }).get(3)).toBe(2) // …for meltaguns
   })
 
+  it('counts two of the same weapon on one model when the group allows it (Wraithknight, Wraithlord)', () => {
+    // A player's report, 2026-09-30: the stepper was clamped to the model count, so a single
+    // model's "2 × scatter laser" (the group's cap) or "2 flamers" (`cp`, its two shuriken
+    // catapults) printed one row with no ×2.
+    const knight = {
+      id: 'knight', sizes: [{ pts: 10, per: [1, 1] }],
+      defaults: [[0, [[4, 1]]]],
+      gear: [{ m: 0, t: 1, in: 'stepper', o: [[3], [6]], lim: [[0, 2]] }],
+    }
+    expect(loadoutItemCounts(knight, { size: 0, wg: [[0, 0, 2]] }).get(3)).toBe(2)
+    const lord = {
+      id: 'lord', sizes: [{ pts: 10, per: [1, 1] }],
+      defaults: [[0, [[1, 2]]]],
+      gear: [{ m: 0, t: 1, in: 'stepper', o: [[3]], cp: 2, rep: [1] }],
+    }
+    expect(loadoutItemCounts(lord, { size: 0, wg: [[0, 0, 2]] }).get(3)).toBe(2)
+    // …and a stale pick on a shrunk squad is still clamped to what the models can hold.
+    expect(loadoutItemCounts(squad, { size: 0, count: 5, wg: [[0, 0, 9]] }).get(3)).toBe(5)
+  })
+
+  it('takes one copy per pick off a model that carries several (cp), and N copies for "N of" (rc)', () => {
+    // 2026-09-30: every pick took the whole model, so one flamer on a Wraithlord took BOTH
+    // shuriken catapults off, and "2 of this model's heavy bolters" took all seven.
+    const lord = {
+      id: 'lord', sizes: [{ pts: 10, per: [1, 1] }],
+      defaults: [[0, [[1, 2]]]],
+      gear: [{ m: 0, t: 1, in: 'stepper', o: [[3]], cp: 2, rep: [1] }],
+    }
+    const one = loadoutItemCounts(lord, { size: 0, wg: [[0, 0, 1]] })
+    expect([one.get(1), one.get(3)]).toEqual([1, 1])
+    expect(loadoutItemCounts(lord, { size: 0, wg: [[0, 0, 2]] }).has(1)).toBe(false)
+    const walkers = { ...lord, sizes: [{ pts: 10, per: [1, 3] }] }
+    expect(loadoutItemCounts(walkers, { size: 0, count: 3, wg: [[0, 0, 1]] }).get(1)).toBe(5)
+    const malcador = {
+      id: 'malcador', sizes: [{ pts: 10, per: [1, 1] }],
+      defaults: [[0, [[1, 7]]]],
+      gear: [{ m: 0, t: 1, in: 'checkbox', o: [[[[5, 2]]]], rc: 2, rep: [1] }],
+    }
+    const swapped = loadoutItemCounts(malcador, { size: 0, wg: [[0, 0, 1]] })
+    expect([swapped.get(1), swapped.get(5)]).toEqual([5, 2])
+  })
+
   it('adds up an item two sources hand the same entry', () => {
     // The Defiler shape: two independent hardpoint groups offering the same weapon, both taken.
     const twin = {

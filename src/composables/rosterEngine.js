@@ -171,8 +171,8 @@ export function wargearGroupLive(def, entry, gi) {
   if (scope == null) return true // scope unknown → assume a model still qualifies, never hide on a guess
   // The same reading of a pick as swapsByMini's `consumed`: a stepper carries the model count, a
   // checkbox is one model unless its instruction hands the swap to the whole profile.
-  const consumed = g.in === 'stepper' ? Math.min(pick[2] || 1, scope) : Math.min(g.repall ? scope : 1, scope)
-  return consumed < scope
+  const consumed = g.in === 'stepper' ? Math.min(pick[2] || 1, scope * (g.cp || 1)) : Math.min(g.repall ? scope : 1, scope)
+  return consumed < scope * (g.cp || 1)
 }
 
 // WHY a gated group is closed right now, or null while it is open — so the editor can grey it out
@@ -1092,6 +1092,28 @@ function swapCarriers(def, perMini, id) {
   return out.sort((a, b) => b[1] - a[1])
 }
 
+// How much of a MODEL one pick in group `g` takes of item `id` — 1 for an ordinary swap, where the
+// model gives the item up outright. A model can carry several copies of a weapon and give up only
+// some of them: "Each of this model's shuriken catapults can be replaced with 1 flamer" (`cp`: a
+// pick is one copy of the two) and "2 of this model's heavy bolters can be replaced with 2
+// lascannons" (`rc`: a pick is two copies of the Malcador's seven). Until 2026-09-30 every pick
+// took the whole model, so one flamer on a Wraithlord took BOTH catapults off its card and list.
+// Charged as a share of a model, so the ledger stays in models and its readers turn it back into
+// copies as `c × (models − take)`; `null` count or a `total` row → 1, never a guess.
+function pickShare(def, g, id) {
+  if (!g?.cp && !g?.rc) return 1
+  const row = def?.defaults?.find(([m]) => m === (g.m ?? 0))?.[1] || []
+  const c = row.find(([i, , total]) => i === id && !total)?.[1]
+  if (!(c > 1)) return 1
+  return Math.min(1, (g.cp ? 1 : g.rc) / c)
+}
+
+// The copies of a per-model item `c` that `models` models still hold after `take` (a share of a
+// model, see pickShare) went — rounded, since a share of 1/3 summed three times is not always 1.
+export function copiesLeft(c, models, take) {
+  return Math.max(0, Math.round(c * (models - take) * 1e6) / 1e6)
+}
+
 // Models that gave an item up, keyed `${miniIndex}:${itemId}` — the shared half of
 // defaultLoadoutLines() and rosterModifiers' loadoutItemIds(), which used to carry a copy each.
 //
@@ -1163,7 +1185,8 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
     const byItem = asked.get(gi)
     for (const id of g.rep || []) {
       const cur = byItem.get(id) || [0, 0, false]
-      byItem.set(id, [cur[0] + models, cur[1] + (grants.has(id) && !keep.has(id) ? models : 0), false])
+      const share = models * pickShare(def, g, id)
+      byItem.set(id, [cur[0] + share, cur[1] + (grants.has(id) && !keep.has(id) ? share : 0), false])
     }
     for (const id of keep) {
       if (g.rep?.includes(id)) continue
@@ -1191,7 +1214,7 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
   for (const key of new Set([...removed.keys(), ...held.keys()])) {
     const [m, id] = key.split(':').map(Number)
     const carrier = swapCarriers(def, perMini, id).find(([cm]) => cm === m)
-    if (carrier && net(key) > carrier[1]) over.push({ id, used: net(key), cap: carrier[1] })
+    if (carrier && net(key) > carrier[1] + 1e-9) over.push({ id, used: net(key), cap: carrier[1] })
   }
   if (!unitWide.length) return { removed, back, held, over }
   const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
@@ -1394,7 +1417,7 @@ export function defaultLoadoutLines(def, items, entry) {
       if (!take || models == null) { parts.push(`${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
       // take is a MODEL count (how many models of THIS profile swapped the item away); c is the
       // item's per-model quantity, so the surviving total scales by both.
-      const remaining = c * Math.max(0, models - take)
+      const remaining = copiesLeft(c, models, take)
       if (remaining > 0) parts.push(`${items[id]} ×${remaining}`)
     }
     if (!parts.length) return []
@@ -1652,6 +1675,15 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
     ...active.map(groupSection),
     ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && byKey.get(g.key).length).map(groupSection) : []),
   ]
+}
+
+// The one exception to the Detachment-Points budget (core rules 25.04, the note at its foot): "If
+// you are playing an Incursion battle, you can select a 3DP detachment as your only detachment."
+// No detachment costs more than 3 DP and only Incursion has a smaller budget, so this is exactly
+// "a single detachment over budget". `dets` are the selected detachments' records (with `dp`).
+export function dpOverAllowed(dets, battle) {
+  const spent = dets.reduce((s, d) => s + (d.dp || 0), 0)
+  return dets.length === 1 && spent > (battle?.dp ?? Infinity) && spent <= 3
 }
 
 // The effective battle-size limits for a roster. A 'custom' size carries its own points total

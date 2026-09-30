@@ -22,6 +22,34 @@
 
 export const changelog = [
   {
+    version: '2.7.7',
+    date: '2026-09-30',
+    en: [
+      { h: 'Roster unit cards: +1 to Hit and to Wound' },
+      'When a rule gives a unit +1 to Hit or +1 to Wound, the unit’s card now shows it under “Modifiers in play”. I marked Leader abilities, detachment and army rules, enhancements, unit abilities and stratagems: 166 rules in 27 factions.',
+      'For example, a Neurotyrant with Node Lash leading Zoanthropes, or Necrons’ Command Protocols while a Character leads the unit. The line is on the unit and on the Leader.',
+      'The weapons table keeps its numbers: a modifier to the roll is not a better BS. A line at the end of the block says so.',
+      'If the bonus has a condition, for example a Battle-shocked target, the line is under “Possible modifiers”. A stratagem moves to the modifiers in play once you spend it in a game.',
+      'If your list already meets the condition, for example the Leader is attached to the unit, the line no longer repeats it underneath.',
+      { h: 'Roster fixes' },
+      'In an Incursion battle you can take a 3 DP detachment as your only detachment (core rules 25.04). Before, the list called it an error. Now it does not, and the “?” next to the DP count points to that rule.',
+      'Several of the same weapon on one model used to show as one row, with no ×2 — on a Wraithknight, Wraithlord, Ravager, Battlewagon, Hammerhead or Riptide, for example. Now the card shows as many as you chose.',
+      'Swapping only some copies of a weapon used to remove all of them. One flamer on a Wraithlord took both shuriken catapults off the card and the list. Now the rest stay. The same goes for the Ravager, War Walkers, Malcador Defender, Kratos and Vendetta.',
+    ],
+    ru: [
+      { h: 'Карточка юнита в ростере: +1 к попаданию и к ранению' },
+      'Если правило даёт отряду +1 к попаданию или к ранению, это теперь видно в карточке юнита, в блоке «Действующие модификаторы». Я разметил способности лидеров, правила детачментов и армии, улучшения, способности юнитов и стратагемы: 166 правил в 27 фракциях.',
+      'Например, Neurotyrant с Node Lash во главе Zoanthropes или Command Protocols у Necrons, когда отряд ведёт персонаж. Строка есть и у отряда, и у лидера.',
+      'Цифры в таблице оружия при этом не меняются: модификатор броска — не то же, что лучший BS. Об этом напоминает строка в конце блока.',
+      'Если для прибавки нужно условие, например цель в Battle-shock, строка стоит в «Возможных модификаторах». Стратагема переходит в действующие, когда вы тратите её в партии.',
+      'Если ваш список уже выполняет условие, например лидер прикреплён к отряду, строка больше не повторяет его подписью.',
+      { h: 'Исправления в конструкторе' },
+      'В бою Incursion можно взять детачмент за 3 DP, если он единственный в списке (основные правила, 25.04). Раньше список называл это ошибкой. Теперь не называет, а «?» у счётчика DP ссылается на это правило.',
+      'Раньше несколько одинаковых оружий на одной модели показывались одной строкой без ×2 — например, у Wraithknight, Wraithlord, Ravager, Battlewagon, Hammerhead и Riptide. Теперь в карточке столько, сколько вы выбрали.',
+      'Раньше замена части одинаковых оружий убирала их все. Один flamer у Wraithlord снимал с карточки и из списка оба shuriken catapult. Теперь остальные остаются. То же у Ravager, War Walkers, Malcador Defender, Kratos и Vendetta.',
+    ],
+  },
+  {
     version: '2.7.6',
     date: '2026-09-30',
     en: [

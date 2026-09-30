@@ -8254,7 +8254,7 @@ export default {
         {
           "m": 0,
           "t": 1004,
-          "in": "stepper",
+          "in": "checkbox",
           "o": [
             [
               [
@@ -8276,7 +8276,7 @@ export default {
           "rep": [
             2079
           ],
-          "cp": 2
+          "rc": 2
         },
         {
           "m": 0,
@@ -12681,7 +12681,7 @@ export default {
         {
           "m": 0,
           "t": 1020,
-          "in": "stepper",
+          "in": "checkbox",
           "o": [
             [
               2665
@@ -12690,7 +12690,7 @@ export default {
           "rep": [
             2664
           ],
-          "cp": 2
+          "rc": 2
         },
         {
           "m": 0,

@@ -8770,7 +8770,7 @@ export default {
         {
           "m": 0,
           "t": 1158,
-          "in": "stepper",
+          "in": "checkbox",
           "o": [
             [
               [
@@ -8800,12 +8800,12 @@ export default {
           "rep": [
             2079
           ],
-          "cp": 2
+          "rc": 2
         },
         {
           "m": 0,
           "t": 1159,
-          "in": "stepper",
+          "in": "checkbox",
           "o": [
             [
               [
@@ -8835,7 +8835,7 @@ export default {
           "rep": [
             2079
           ],
-          "cp": 2
+          "rc": 2
         },
         {
           "m": 0,

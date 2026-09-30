@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf } from './rosterEngine.js'
+import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpOverAllowed } from './rosterEngine.js'
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -112,9 +112,11 @@ export function validateRoster(roster, { faction, core, items } = {}) {
     add('overPoints', 'error', { params: { over: points - battle.points, limit: battle.points } })
   }
 
-  // Detachment-Points budget: the selected detachments' costs must fit the battle size's DP.
+  // Detachment-Points budget: the selected detachments' costs must fit the battle size's DP —
+  // bar a lone 3 DP detachment at Incursion, which 25.04 allows (a player's report, 2026-09-30:
+  // the editor let it through and the list then called it an error).
   const dpSpent = detachments.reduce((s, d) => s + (d.dp || 0), 0)
-  if (dpSpent > battle.dp) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
+  if (dpSpent > battle.dp && !dpOverAllowed(detachments, battle)) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
 
   // Detachment tags: "This detachment has the DYNASTY tag and cannot be taken with another DYNASTY
   // detachment" (core rules 25.04). 26 tags across 17 factions, and 19 of those pairs fit inside a

@@ -189,6 +189,14 @@ describe('validateRoster — custom battle size + DP budget', () => {
     r.detachments = ['Gladius', 'Pricey']
     expect(validateRoster(r, { faction: f, core }).issues.map((i) => i.code)).toContain('overDp')
   })
+  it('allows a lone 3 DP detachment at Incursion (25.04), but not a second one beside it', () => {
+    const big = { sid: 'det-3', name: 'Big', dp: 3, enhancements: [] }
+    const f = { ...faction, detachments: [detachment, big] }
+    const r = { ...roster({ units: [U('captain', { warlord: true })] }), battleSize: 'incursion', detachments: ['Big'] }
+    expect(validateRoster(r, { faction: f, core }).issues.map((i) => i.code)).not.toContain('overDp')
+    r.detachments = ['Big', 'Gladius']
+    expect(validateRoster(r, { faction: f, core }).issues.map((i) => i.code)).toContain('overDp')
+  })
 })
 
 describe('validateRoster — points limit', () => {

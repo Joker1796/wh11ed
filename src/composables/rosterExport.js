@@ -25,7 +25,7 @@
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
 import {
   allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
-  optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
+  copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
 } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
 
@@ -85,7 +85,7 @@ function loadoutGroups(def, entry, items) {
         // the heavy bolter), so it is printed as recorded rather than multiplied out.
         if (total) { add(m, items[id], c); continue }
         const take = removed.get(`${m}:${id}`) || 0
-        add(m, items[id], models == null ? c : c * Math.max(0, models - take))
+        add(m, items[id], models == null ? c : copiesLeft(c, models, take))
       }
     }
   }

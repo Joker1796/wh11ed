@@ -499,11 +499,17 @@ export function packRosterUnit(sheet, ctx) {
     const grp = { ...(opt.all ? { all: 1 } : { m: opt.m }), t: text(String(raw)), in: opt.in, o: opt.options.map((set) => [set.length === 1 && set[0][1] === 1 ? resolve(set[0][0]) : set.map(([n, c]) => [resolve(n), c])]) }
     if (opt.lim) grp.lim = opt.lim
     if (rep) grp.rep = rep
-    // "Each of this model's 2 X" / "Both of" — one swap per copy: the loadout count is the cap.
+    // "Each of this model's X" — one swap per copy, the loadout count its cap (`cp`). "2 of this
+    // model's heavy bolters can be replaced with 2 lascannons" is ONE swap that takes two copies of
+    // the Malcador's seven (`rc`, rosterEngine's pickShare), and "Both of" is one swap of them all
+    // — an ordinary swap. Until 2026-09-30 all three were read as per-copy steppers, so a Kratos
+    // could take four lascannons for one pair of heavy bolters.
     if (opt.copies && rep?.length) {
       const row = defaults.find(([mi]) => mi === opt.m)?.[1] || []
-      const copies = /^\d+$/.test(opt.copies) ? Number(opt.copies) : Math.max(1, ...rep.map((id) => row.find(([i]) => i === id)?.[1] || 1))
-      if (copies > 1) { grp.cp = copies; grp.in = 'stepper' }
+      const printed = Math.max(1, ...rep.map((id) => row.find(([i]) => i === id)?.[1] || 1))
+      if (/^each$/i.test(opt.copies)) {
+        if (printed > 1) { grp.cp = printed; grp.in = 'stepper' }
+      } else if (/^\d+$/.test(opt.copies) && Number(opt.copies) < printed) grp.rc = Number(opt.copies)
     }
     if (rep?.length && grp.in !== 'stepper' && /^\s*(?:all models|any number of)\b/i.test(String(raw))) grp.repall = 1
     if (head && !exclusive) firstOfDo = grp

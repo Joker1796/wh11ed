@@ -17,7 +17,7 @@
 //                     of the wizard's
 import { computed, ref } from 'vue'
 import { uid } from './useRosters.js'
-import { addUnitEntry, dispositionCandidates, duplicateUnitEntry, settleSupremeWarlord } from './rosterEngine.js'
+import { addUnitEntry, dispositionCandidates, dpOverAllowed as dpOverAllowedFor, duplicateUnitEntry, settleSupremeWarlord } from './rosterEngine.js'
 import { useRosterUndo } from './useRosterUndo.js'
 import rosterCore from '../data/roster/core.js'
 
@@ -46,10 +46,9 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
   const detachmentSummary = computed(() => (list()?.detachments || []).join(', '))
   const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
   const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
-  // A single Detachment is always allowed even over budget (DetachmentPickerModal never disables
-  // the first pick) — not official yet, but GW has said it's fine as long as it's the only one
-  // taken. The screens show that as a "?" explainer instead of an error.
-  const dpOverAllowed = computed(() => (list()?.detachments.length === 1) && dpSpent.value > (effBattle?.value.dp ?? Infinity))
+  // A lone 3 DP detachment at Incursion (25.04; DetachmentPickerModal never disables the first
+  // pick). The screens show it as a "?" explainer instead of an error.
+  const dpOverAllowed = computed(() => dpOverAllowedFor(curDetachments.value, effBattle?.value))
 
   // Enhancements belong to a detachment — an entry carrying one the list no longer fields keeps a
   // name nothing resolves, so it is dropped whenever the selection changes. Checked against the

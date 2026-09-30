@@ -438,7 +438,8 @@ which ones each Chapter is denied and why).
   (`rep`, resolved against the profile's printed loadout — chained swaps and the pack's own
   misprints stay without one, fail-open) and the VALUE (a bullet list, "up to two of the
   following[, and can take duplicates]", "two different weapons from the following list" → limit 2
-  / dup 1, an inline set "1 X and 2 Y" → a bundle). "Each of this model's X" → `cp`. "[not] equipped
+  / dup 1, an inline set "1 X and 2 Y" → a bundle). "Each of this model's X" → `cp`; "2 of this
+  model's X" (fewer than it carries) → `rc: 2`, one pick; "Both of" → an ordinary swap. "[not] equipped
   with X" → `cond` on the sibling that grants or gives X up (a bundle counts as granting). A
   generic "models" allowance that only one profile can make ("Up to 3 models can each have their
   storm bolter replaced…" where only the Terminators carry one) belongs to that profile. "The Assault
@@ -2187,6 +2188,14 @@ granting two items (44 such groups). The guards are the word "each" in the instr
 option granting exactly one item, and — where the loadout row is the profile's TOTAL rather than
 one model's — dividing by the models that profile fields, which is what keeps a Crisis Starscythe's
 "2 burst cannons" (one each for its two Shas'ui) from reading as two per model.
+
+**A pick takes only the copies it names** (`pickShare` in the engine, 2026-09-30). A `cp` pick
+takes ONE copy, an `rc: N` pick ("2 of this model's heavy bolters…", Malcador, Kratos, Vendetta)
+takes N; an ordinary swap takes the model's all. The swap ledger stays in MODELS and charges such a
+pick as a share of one (1/c), and its readers turn that back into copies with `copiesLeft` — the
+loadout line, the export, and `loadoutItemCopies`, which lays the copies left over the models so
+the one model that gave some up drops out of the top slots. Before, every pick took the whole
+model: one flamer on a Wraithlord took both catapults off its card, list and export.
 
 `validateRoster` reports `overWargearLimit` / `overWargearDup` rather than trimming: the editor
 caps as you click, so a violation means the list was legal and then the unit shrank, and which

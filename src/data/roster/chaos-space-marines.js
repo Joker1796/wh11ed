@@ -3577,7 +3577,7 @@ export default {
         {
           "m": 0,
           "t": 1047,
-          "in": "stepper",
+          "in": "checkbox",
           "o": [
             [
               [
@@ -3594,8 +3594,7 @@ export default {
           ],
           "rep": [
             2698
-          ],
-          "cp": 2
+          ]
         }
       ],
       "alleg": {
