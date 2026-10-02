@@ -49,6 +49,26 @@ describe('StratPlayModal', () => {
     w.unmount()
   })
 
+  // By role, as the roster's lists group them: a heading over each group's first row, and the
+  // group stays out of what the ledger keeps.
+  it('groups the units under their role headings', async () => {
+    const grouped = [
+      { uid: 'c1', name: 'Warboss', group: { key: 'dsGroupCharacters' } },
+      { uid: 'b1', name: 'Boyz', group: { key: 'dsGroupBattleline' } },
+      { uid: 'b2', name: 'Gretchin', group: { key: 'dsGroupBattleline' } },
+    ]
+    mount(StratPlayModal, { props: { strat, pi: 0, targets: grouped } })
+    await flushPromises()
+    q('.spm-pick')[0].click()
+    await flushPromises()
+    expect(q('.spm-group').map((h) => h.textContent.trim())).toEqual(['Characters', 'Battleline'])
+    q('.spm-unit')[1].click()
+    await flushPromises()
+    q('.spm-cost')[1].click()
+    await flushPromises()
+    expect(tracker.current.value.players[0].cpLog.find((e) => e.kind === 'spend').target).toEqual({ uid: 'b1', name: 'Boyz' })
+  })
+
   it('names the unit behind the button, a Battle-shocked one greyed', async () => {
     mount(StratPlayModal, { props: { strat, pi: 0, targets } })
     await flushPromises()

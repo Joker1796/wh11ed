@@ -67,7 +67,7 @@ export async function loadStratTargets(game, pi, strat) {
   if (!kind || !game?.players) return []
   const at = kind === 'enemy' ? 1 - pi : pi
   const side = game.players[at]
-  const [{ membersOf, rosterFromPlayer }, { loadRosterFaction }, { loadRosterModifiers, usableEntries }, { usesAllies }, { clockOf }] = await Promise.all([
+  const [{ membersOf, rosterFromPlayer }, { loadRosterFaction }, { loadRosterModifiers, usableEntries }, { usesAllies, sectionsOf, GROUP_LABEL_KEYS }, { clockOf }] = await Promise.all([
     import('./rosterGameLink.js'),
     import('../data/roster/index.js'),
     import('../data/rosterModifiers/index.js'),
@@ -81,18 +81,31 @@ export async function loadStratTargets(game, pi, strat) {
     const roster = rosterFromPlayer(m)
     if (!roster?.units?.length) continue
     const data = await loadRosterFaction(roster.faction || m.factionSlug, { allies: usesAllies(roster) })
-    const names = new Map((data?.units || []).map((u) => [u.id, u.name]))
+    const defs = new Map((data?.units || []).map((u) => [u.id, u]))
     const rec = kind === 'own' ? recordFor(strat, usableEntries(await loadRosterModifiers(m.factionSlug))) : null
     const member = m === side ? side : m
-    for (const u of roster.units) {
+    // By role, as the roster's own unit lists group them (owner, 2026-10-02): `group` is the
+    // heading — an i18n key for a role, the source's name for an ally group.
+    const detachments = (roster.detachments || []).map((n) => (data?.detachments || []).find((d) => d.name === n)).filter(Boolean)
+    const sections = data ? sectionsOf(roster.units, { faction: data, detachments, defOf: (id) => defs.get(id), keepLocked: true }) : []
+    const filed = new Set()
+    const push = (u, group) => {
+      filed.add(u)
       out.push({
         uid: u.uid,
         ...(doubles ? { mi, sub: m.name || '' } : {}),
-        name: names.get(u.id) || u.id,
+        name: defs.get(u.id)?.name || u.id,
+        group,
         ...(rec ? { sid: rec.sid } : {}),
         ...(kind === 'enemy' ? { opp: true } : { block: targetBlock(side, member, clock, u) }),
       })
     }
+    for (const sec of sections) {
+      const group = sec.ally ? { name: sec.ally.name } : { key: GROUP_LABEL_KEYS[sec.id] }
+      for (const u of sec.items) push(u, group)
+    }
+    // A unit no section took (its datasheet gone from the data) is still offered, last.
+    for (const u of roster.units) if (!filed.has(u)) push(u, null)
   }
   return out
 }

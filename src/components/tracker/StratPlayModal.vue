@@ -82,26 +82,34 @@
             autocomplete="off"
           >
           <ul class="spm-units">
-            <li
+            <template
               v-for="t in shownTargets"
               :key="`${t.mi ?? ''}:${t.uid}`"
             >
-              <button
-                class="spm-unit"
-                :disabled="!!t.block"
-                @click="choose(t)"
+              <li
+                v-if="t.head"
+                class="spm-group"
               >
-                <span class="spm-unit-name">{{ t.name }}</span>
-                <span
-                  v-if="t.block"
-                  class="spm-unit-note"
-                >{{ labels[t.block === 'shock' ? 'stratBlockedShock' : 'stratBlockedUnit'] }}</span>
-                <span
-                  v-else-if="t.sub"
-                  class="spm-unit-note"
-                >{{ t.sub }}</span>
-              </button>
-            </li>
+                {{ t.head }}
+              </li>
+              <li>
+                <button
+                  class="spm-unit"
+                  :disabled="!!t.block"
+                  @click="choose(t)"
+                >
+                  <span class="spm-unit-name">{{ t.name }}</span>
+                  <span
+                    v-if="t.block"
+                    class="spm-unit-note"
+                  >{{ labels[t.block === 'shock' ? 'stratBlockedShock' : 'stratBlockedUnit'] }}</span>
+                  <span
+                    v-else-if="t.sub"
+                    class="spm-unit-note"
+                  >{{ t.sub }}</span>
+                </button>
+              </li>
+            </template>
             <li
               v-if="!shownTargets.length"
               class="spm-empty"
@@ -142,10 +150,17 @@ const target = ref(props.fixedTarget || null)
 const picking = ref(false)
 const query = ref('')
 const searchEl = ref(null)
-// Every unit of the list, the ones the query names first-letter-insensitively; a list keeps its order.
+// Every unit of the list, the ones the query names first-letter-insensitively; a list keeps its
+// order, which is by role (stratagemPlay.loadStratTargets). A row that starts a new group carries
+// that group's heading (`head`), drawn above it.
+const groupName = (g) => (g ? g.name || labels.value[g.key] || '' : '')
 const shownTargets = computed(() => {
   const q = query.value.trim().toLowerCase()
-  return q ? (props.targets || []).filter((t) => t.name.toLowerCase().includes(q)) : props.targets || []
+  const list = q ? (props.targets || []).filter((t) => t.name.toLowerCase().includes(q)) : props.targets || []
+  return list.map((t, i) => {
+    const name = groupName(t.group)
+    return name && (i === 0 || groupName(list[i - 1].group) !== name) ? { ...t, head: name } : t
+  })
 })
 async function openPicker() {
   picking.value = true
@@ -153,7 +168,9 @@ async function openPicker() {
   searchEl.value?.focus()
 }
 function choose(t) {
-  target.value = t
+  // The heading and the group are the list's, not the unit's: the ledger keeps only the unit.
+  const { head, group, ...picked } = t
+  target.value = picked
   picking.value = false
   query.value = ''
 }
@@ -194,13 +211,21 @@ function play(cost) {
   color: var(--text-primary); font: inherit; font-size: 0.9rem;
 }
 .spm-search:focus { outline: none; border-color: var(--accent); }
-/* A plain list, a few rows tall, scrolling inside the dialog. */
-.spm-units { list-style: none; margin: 0.4rem 0 0; padding: 0; max-height: 40dvh; overflow-y: auto; border: 1px solid var(--border); }
+/* A compact list, grouped by role under tinted headings — the catalogue's own (RosterUnitBrowser's
+   .rub-head), so a tinted bar reads as "a heading" here too — scrolling inside the dialog. */
+.spm-units { list-style: none; margin: 0.4rem 0 0; padding: 0; max-height: 50dvh; overflow-y: auto; border: 1px solid var(--border); }
 .spm-units li + li { border-top: 1px solid var(--border-light); }
+.spm-group {
+  position: sticky; top: 0; z-index: 1;
+  padding: 0.3rem 0.7rem;
+  background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
+  color: var(--text-primary);
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+}
 .spm-unit {
   display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
-  width: 100%; min-height: 40px; padding: 0.5rem 0.7rem;
-  border: 0; background: none; color: var(--text-primary); font: inherit; font-size: 0.9rem; text-align: left; cursor: pointer;
+  width: 100%; min-height: 34px; padding: 0.35rem 0.7rem;
+  border: 0; background: none; color: var(--text-primary); font: inherit; font-size: 0.85rem; text-align: left; cursor: pointer;
 }
 @media (hover: hover) { .spm-unit:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 10%, transparent); } }
 .spm-unit:disabled { color: var(--text-dim); cursor: default; }
