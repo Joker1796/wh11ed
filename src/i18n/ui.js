@@ -758,7 +758,7 @@ export const ui = {
     trackerTrackCp: 'Track CP',
     trackerTrackArmyYou: 'Track your army rule',
     trackerTrackArmyOpp: "Track opponent's army rule",
-    trackerArmyReferenceOnly: 'Reference only — no counter',
+    trackerArmyReferenceOnly: "In this game the card is reference only: this faction's rule has no counter.",
     // The "What to track" block (TrackOptions.vue). Captions double as the help modal's title,
     // so each label has to read as a heading on its own; the help texts are one paragraph per
     // blank line and answer "what do I lose by turning this off?".
@@ -1990,7 +1990,7 @@ export const ui = {
     trackerTrackCp: 'Считать CP',
     trackerTrackArmyYou: 'Следить за своим правилом армии',
     trackerTrackArmyOpp: 'Следить за правилом оппонента',
-    trackerArmyReferenceOnly: 'Только справка, без счётчика',
+    trackerArmyReferenceOnly: 'В этой партии карточка будет только справкой: у правила этой фракции нет счётчика.',
     trackerTrackHeading: 'Что отслеживать',
     trackerOptionHelp: 'что это',
     trackerTrackGuide: 'Справка по трекеру →',

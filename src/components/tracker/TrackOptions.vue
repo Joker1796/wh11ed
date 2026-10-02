@@ -36,8 +36,9 @@
         >
         <span>
           {{ labels[o.label] }}
-          <!-- Why a row cannot be flipped, or a caveat about what flipping it will get you. The
-               first replaces the second: a row nobody can touch has nothing to caveat. -->
+          <!-- Why a row cannot be flipped. A caveat about what flipping it will get you (`note`)
+               goes into the row's help instead: under the caption it made that one row taller
+               than the rest (owner, 2026-10-02). -->
           <em
             v-if="reasonOf(o)"
             class="check-note"
@@ -70,7 +71,7 @@
     <OptionHelpModal
       v-if="helpFor"
       :title="labels[helpFor.label]"
-      :text="labels[helpFor.help]"
+      :text="helpText(helpFor)"
       @close="helpFor = null"
     />
   </div>
@@ -122,7 +123,13 @@ function enabledOf(o) {
 }
 function reasonOf(o) {
   if (hostsRow(o)) return 'partyHostOnly'
-  return o.unavailable?.(props.ctx) || (enabledOf(o) ? o.note?.(props.ctx) : null) || null
+  return o.unavailable?.(props.ctx) || null
+}
+// The help, with the row's caveat for THIS game as its last paragraph — a row nobody can touch
+// has nothing to caveat.
+function helpText(o) {
+  const note = enabledOf(o) ? o.note?.(props.ctx) : null
+  return note ? `${labels.value[o.help]}\n\n${labels.value[note]}` : labels.value[o.help]
 }
 </script>
 

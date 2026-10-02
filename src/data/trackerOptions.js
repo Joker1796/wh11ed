@@ -23,7 +23,7 @@
 //                hosts. Everything else on the setup dialog is the host's, because it is the game.
 //   enabled      (ctx) => boolean — whether the row can be flipped in THIS game
 //   unavailable  (ctx) => ui.js key | null — why not, printed under a disabled caption
-//   note         (ctx) => ui.js key | null — a caveat printed under an enabled caption
+//   note         (ctx) => ui.js key | null — a caveat for an enabled row, appended to its help
 //   preview      what TrackOptions draws under the row to show the choice ('sideColors')
 //
 // **Every row is always listed.** A row that cannot apply yet is drawn disabled with the reason,

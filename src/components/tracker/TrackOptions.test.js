@@ -41,10 +41,13 @@ describe('TrackOptions', () => {
     expect(body().text()).toContain('Track CP')
   })
 
-  it('prints the reference-only note for a faction with no counter', () => {
+  // The caveat lives in the help, not under the caption: no row is taller than the rest.
+  it('puts the reference-only note into the help for a faction with no counter', async () => {
     const { w } = build()
-    const notes = w.findAll('.check-note')
-    expect(notes).toHaveLength(1)   // the opponent's row only
+    expect(w.findAll('.check-note')).toHaveLength(0)
+    const opp = w.findAll('.opt-row').find((r) => r.text().includes("opponent's army rule"))
+    await opp.find('.opt-info').trigger('click')
+    expect(body().text()).toContain('reference only')
   })
 
   // Nothing is hidden: a row the game cannot offer is drawn disabled, with the reason.
