@@ -764,7 +764,7 @@ export const ui = {
     // blank line and answer "what do I lose by turning this off?".
     trackerTrackHeading: 'What to track',
     trackerOptionHelp: 'what this does',
-    trackerTrackGuide: 'More in the tracker guide →',
+    trackerTrackGuide: 'Tracker guide →',
     trackerRosterHeading: 'Roster and modifiers',
     trackerLookHeading: 'Side colours',
     trackerTrackPhaseRules: 'Rules for this phase',
@@ -1993,7 +1993,7 @@ export const ui = {
     trackerArmyReferenceOnly: 'Только справка, без счётчика',
     trackerTrackHeading: 'Что отслеживать',
     trackerOptionHelp: 'что это',
-    trackerTrackGuide: 'Подробнее — справка по трекеру →',
+    trackerTrackGuide: 'Справка по трекеру →',
     trackerRosterHeading: 'Ростер и модификаторы',
     trackerLookHeading: 'Цвета сторон',
     trackerTrackPhaseRules: 'Правила этой фазы',

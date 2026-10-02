@@ -1,8 +1,19 @@
 <template>
   <div class="track-opts">
-    <h3 class="block-head">
-      {{ labels[heading] }}
-    </h3>
+    <!-- The link out to the guide sits opposite the heading (2026-10-02, owner): under the last
+         row it read as one more line of the list. -->
+    <div class="opt-head">
+      <h3 class="block-head">
+        {{ labels[heading] }}
+      </h3>
+      <RouterLink
+        v-if="guide"
+        class="opt-guide"
+        to="/help/tracker"
+      >
+        {{ labels.trackerTrackGuide }}
+      </RouterLink>
+    </div>
 
     <!-- A checkbox and the "i" beside it. A <label> forwards any click inside it to its control,
          so the help button cannot live in there — it would silently flip the setting it explains.
@@ -56,18 +67,6 @@
       />
     </div>
 
-    <div
-      v-if="guide"
-      class="opt-guide-row"
-    >
-      <RouterLink
-        class="opt-guide"
-        to="/help/tracker"
-      >
-        {{ labels.trackerTrackGuide }}
-      </RouterLink>
-    </div>
-
     <OptionHelpModal
       v-if="helpFor"
       :title="labels[helpFor.label]"
@@ -101,7 +100,7 @@ const props = defineProps({
   ctx: { type: Object, required: true },
   group: { type: String, default: 'game' },
   heading: { type: String, default: 'trackerTrackHeading' },
-  // The link out to the guide belongs to the last block on the screen, not to each of them.
+  // The link out to the guide belongs to one block on the screen (beside its heading), not to each.
   guide: { type: Boolean, default: false },
   // A guest in a shared game: only the rows marked `local` in the table are this phone's to flip;
   // the rest are the host's, drawn disabled with that as the reason.
@@ -129,12 +128,20 @@ function reasonOf(o) {
 
 <style scoped>
 .track-opts { flex: 1 1 100%; }
+.opt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: 0.75rem;
+  margin: 0 0 0.6rem;
+}
 .block-head {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
   color: var(--accent);
-  margin: 0 0 0.6rem;
+  margin: 0;
 }
 .opt-row { display: flex; flex-wrap: wrap; align-items: stretch; }
 .opt-preview { flex: 1 1 100%; margin-top: 0.4rem; }
@@ -164,7 +171,6 @@ function reasonOf(o) {
 .check:hover,
 .opt-info:hover { position: relative; z-index: 1; }
 .opt-info:hover { color: var(--accent); border-color: var(--accent); }
-.opt-guide-row { margin-top: 0.6rem; }
 .opt-guide {
   font-size: 0.78rem;
   color: var(--text-dim);
