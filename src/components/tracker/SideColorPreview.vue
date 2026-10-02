@@ -1,7 +1,6 @@
 <template>
   <!-- Two placeholder cards in the colours the game screen will wear: each side's stripe, name and
-       emblem in its colour, a score, and a "turn" button filled with it — what the accent turns
-       into on that side's turn. With "Customise colours" on, each card has its side's picker over
+       emblem in its colour, and a score. No "turn" badge since 2026-10-02 (owner). With "Customise colours" on, each card has its side's picker over
        it. -->
   <div
     class="scp side-colored"
@@ -47,7 +46,6 @@
         </div>
         <div class="scp-foot">
           <span class="scp-vp">10 <small>VP</small></span>
-          <span class="scp-btn">{{ labels.trackerTurnTag }}</span>
         </div>
       </div>
     </div>
@@ -115,11 +113,7 @@ function pick(side, key) {
   font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; line-height: 1.1; color: var(--side);
 }
 .scp-fac { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.74rem; color: var(--text-muted); }
-.scp-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; margin-top: 0.3rem; }
+.scp-foot { margin-top: 0.3rem; }
 .scp-vp { font-family: var(--font-display); font-size: 1.3rem; line-height: 1; color: var(--text-primary); }
 .scp-vp small { font-size: 0.7rem; color: var(--text-dim); }
-.scp-btn {
-  padding: 0.15rem 0.5rem; background: var(--side); color: #fff;
-  font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; text-transform: uppercase;
-}
 </style>

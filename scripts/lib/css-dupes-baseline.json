@@ -1,8 +1,4 @@
 {
-  ".block-head { font-family: var(--font-display); font-size: 1.21rem; font-weight: 500; color: var(--accent); margin: 0 0 0.6rem; }": [
-    "src/components/tracker/EditSetupModal.vue",
-    "src/components/tracker/TrackOptions.vue"
-  ],
   ".det-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.9rem; }": [
     "src/views/combat-patrol/CombatPatrolFactionView.vue",
     "src/views/faction/FactionRuleView.vue"
