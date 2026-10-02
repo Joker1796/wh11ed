@@ -188,7 +188,7 @@
         :class="{ on: tab === t.id }"
         :aria-selected="tab === t.id"
         :aria-label="t.label"
-        :title="tab === t.id ? undefined : t.label"
+        :title="tab === t.id || wideTabs ? undefined : t.label"
         @click="tab = t.id"
       >
         <span
@@ -202,7 +202,7 @@
         />
         <Transition name="gt-word">
           <span
-            v-if="tab === t.id"
+            v-if="tab === t.id || wideTabs"
             class="gt-word"
           >{{ t.label }}</span>
         </Transition>
@@ -576,6 +576,7 @@
 
 <script setup>
 import { ref, computed, watch, provide, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
@@ -618,6 +619,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame } = useTracker()
 const begun = computed(() => gameBegun(current.value))
+// Every tab carries its word on a wide screen (see .game-tabs in the styles).
+const wideTabs = useMediaQuery('(min-width: 901px)')
 
 // Read through `tracks` so a game saved before the option existed arrives with its default
 // rather than undefined.
@@ -1202,6 +1205,12 @@ function onEndBattle(reason) {
 }
 /* Hover: the tab's own edge in the accent — lifted over its neighbours, which overlap it by a pixel
    (margin-left: -1px), or they cut its frame. */
+/* A wide screen (>900px, the desktop threshold of the dropdowns) has room for every word
+   (owner, 2026-10-02): the tabs are equal and all say what they are; the open one is the filled
+   one. Nothing grows, so of the switch only the fill and the panel's slide are left. */
+@media (min-width: 901px) {
+  .gt-tab { flex: 1 1 0; }
+}
 @media (hover: hover) { .gt-tab:not(.on):hover { z-index: 1; border-color: var(--accent); color: var(--text-primary); } }
 /* The phase tab's count, in its corner. */
 .gt-count {

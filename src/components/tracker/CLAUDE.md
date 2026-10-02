@@ -118,7 +118,9 @@ attached list opens its card over the Phase tab (`RosterTab.openUnit`), several 
 **One strip of tabs** over one panel (owner's calls, 2026-09-27: two rows split by a heavy rule
 read as two menus, and they were one menu). Every CLOSED tab is an icon (`aria-label` + `title`
 name it); the OPEN tab takes the rest of the width and shows its icon and its word — one row at any
-width, and the word on screen is always where you are. In order: Missions `bi-bullseye`, Phase
+width, and the word on screen is always where you are. **Wider than 900px every tab carries its
+word** (owner, 2026-10-02): the tabs are equal, the open one is the filled one, and of the switch
+only the fill and the panel's slide are left. In order: Missions `bi-bullseye`, Phase
 `bi-hourglass-split` (with its count in the corner), CP `bi-lightning-charge`, Armies
 `bi-shield-shaded`, Roster `bi-card-list` (only when an army carries a list), Log
 `bi-journal-text`, Stats `bi-bar-chart-line`. Switching is animated (owner's mock, 2026-09-30:
