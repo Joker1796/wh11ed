@@ -1,0 +1,164 @@
+{
+ "appstore": {
+  "date": "2026-10-02T08:14:53Z",
+  "notes": "For the Emperor! Codex: Space Marines is now available in the Warhammer 40,000 App!",
+  "version": "2.7.2"
+ },
+ "mfm": {
+  "hash": "3ac7c81153bd37b0013fe4381f87f94a56fdb69a37d38acc6b7bf58c445599ed",
+  "version": "1.5"
+ },
+ "play": {
+  "version": "2.7.1"
+ },
+ "warcom": {
+  "40k_battlefields_armageddon_instructions-bdqnniovbo-lcipd3xcyb.pdf": {
+   "title": "Battlefields: Armageddon instructions",
+   "updated": "19/08/2026"
+  },
+  "eng_01-06_warhammer40k_new40k_core_rules-was6fbu1ix-hfewhmxyiy.pdf": {
+   "title": "Core Rules",
+   "updated": "01/06/2026"
+  },
+  "eng_12-06_warhammer40000_terrainareafootprints-biavo5zf9f-gxdahkydbj.pdf": {
+   "title": "Armageddon",
+   "updated": "12/06/2026"
+  },
+  "eng_22-07_warhammer_40,000_faction_pack_adeptus_titanicus-pkhrobh6xn-nmtoszeaxw.pdf": {
+   "title": "Faction Pack: Adeptus Titanicus",
+   "updated": "22/07/2026"
+  },
+  "eng_22-07_warhammer_40,000_faction_pack_genestealer_cults-vmkwgeydbr-sh7picbeqo.pdf": {
+   "title": "Faction Pack: Genestealer Cults",
+   "updated": "22/07/2026"
+  },
+  "eng_22-07_warhammer_40,000_faction_pack_leagues-of-votann-kpfosalfyb-sbqk309w4w.pdf": {
+   "title": "Faction Pack: Leagues of Votann",
+   "updated": "22/07/2026"
+  },
+  "eng_22-07_warhammer_40,000_teams_event_companion-7ow8c92xdm-dyf3i4qpst.pdf": {
+   "title": "Warhammer Teams - Event Companion",
+   "updated": "22/07/2026"
+  },
+  "eng_22-07_warhammer_40,000_warhammer_dominatus_event_companion-qltehqtely-atbn2qffac.pdf": {
+   "title": "Warhammer Dominatus - Event Companion",
+   "updated": "22/07/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_adepta_sororitas-zdvzxpr2rq-aljwir7fcg.pdf": {
+   "title": "Faction Pack: Adepta Sororitas",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_adeptus_custodes-xlscee8b1b-b1evo9u920.pdf": {
+   "title": "Faction Pack: Adeptus Custodes",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_adeptus_mechanicus-7p0fj05rj2-fvax3wckco.pdf": {
+   "title": "Faction Pack: Adeptus Mechanicus",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_astra_militarum-1hevkhdpmv-stfkch2tsz.pdf": {
+   "title": "Faction Pack: Astra Militarum",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_blood_angels-klcdcz9zip-wgf7iqk1vd.pdf": {
+   "title": "Blood Angels legends",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_chaos_daemons-e67vyzvv3x-mownb49uc3.pdf": {
+   "title": "Faction Pack: Chaos Daemons",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_chaos_space_marines-xlmrglqa2b-zd2fzntrqu.pdf": {
+   "title": "Faction Pack: Chaos Space Marines",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_dark_angels-grkkeaxdr3-zkavqgpgvq.pdf": {
+   "title": "Dark Angels legends",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_death_guard-bp5c8lcjq6-i4ew7urwyk.pdf": {
+   "title": "Faction Pack: Death Guard",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_emperors_children-xp2mhzppxs-1cvykicdxu.pdf": {
+   "title": "Faction Pack: Emperor's Children",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_grey_knights-jnrahwb1qf-ubjtmdlivm.pdf": {
+   "title": "Faction Pack: Grey Knights",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_imperial_agents-130cvumlo4-kczf5knry6.pdf": {
+   "title": "Faction Pack: Imperial Agents",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_necrons-1urphgbmpy-wbhocjbaba.pdf": {
+   "title": "Faction Pack: Necrons",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_space_wolves-zb02n7jqrg-4gggpsmndk.pdf": {
+   "title": "Space Wolves legends",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_thousand_sons-4lioijwxdj-otjrinzt8c.pdf": {
+   "title": "Faction Pack: Thousand Sons",
+   "updated": "30/09/2026"
+  },
+  "eng_30-09_wh40k_faction_pack_world_eaters-rxxj1fzeoh-kfx1cectxb.pdf": {
+   "title": "Faction Pack: World Eaters",
+   "updated": "30/09/2026"
+  },
+  "eng_wh40k_core&key_universal_rules_updates-lu3grocned-rphh78bl6k.pdf": {
+   "title": "Universal Rules Updates",
+   "updated": "26/08/2026"
+  },
+  "eng_wh40k_doubles_event_companion-x8bakj0hba-chdctfbcoc.pdf": {
+   "title": "Warhammer Doubles - Event Companion",
+   "updated": "26/08/2026"
+  },
+  "eng_wh40k_event_companion-pl87i44rzn-a7ieny8i9x.pdf": {
+   "title": "Warhammer Event Companion",
+   "updated": "26/08/2026"
+  },
+  "eng_wh40k_faction_pack_aeldari-r7ubocxyoz-nhd972kesl.pdf": {
+   "title": "Faction Pack: Aeldari",
+   "updated": "26/08/2026"
+  },
+  "eng_wh40k_faction_pack_chaos_knights-87ywk2jovh-xk68yzyb18.pdf": {
+   "title": "Faction Pack: Chaos Knights",
+   "updated": "26/08/2026"
+  },
+  "eng_wh40k_faction_pack_drukhari-p7mpvgnmnn-clii96hzh6.pdf": {
+   "title": "Faction Pack: Drukhari",
+   "updated": "26/08/2026"
+  },
+  "eng_wh40k_faction_pack_imperial_knights-n1irjnjygs-w8jfnk8kdn.pdf": {
+   "title": "Faction Pack: Imperial Knights",
+   "updated": "26/08/2026"
+  },
+  "eng_wh40k_faction_pack_tau_empire-sxhzmfrlud-mpzjzuhupn.pdf": {
+   "title": "Faction Pack: T'au Empire",
+   "updated": "26/08/2026"
+  },
+  "eng_wh40k_faction_pack_tyranids-kbkk66qiwc-nh0khbkupv.pdf": {
+   "title": "Faction Pack: Tyranids",
+   "updated": "26/08/2026"
+  },
+  "warhammer40k_terrain_area_footprint_death_world_jungle-ou67vrxeys-0hosfodoj0.pdf": {
+   "title": "Death World Jungle",
+   "updated": "04/08/2026"
+  },
+  "warhammer40k_terrain_area_footprint_death_world_snow-t3zsylosfg-hflqpgfj0n.pdf": {
+   "title": "Death World Snow",
+   "updated": "04/08/2026"
+  },
+  "warhammer40k_terrain_area_footprint_imperial_world-5bnnj0urvl-pxdwtehxgw.pdf": {
+   "title": "Imperial World",
+   "updated": "04/08/2026"
+  },
+  "warhammer40k_terrain_area_footprint_maelstrom_world-vnjfcxwebe-cv1l9fhzap.pdf": {
+   "title": "Maelstrom World",
+   "updated": "04/08/2026"
+  }
+ }
+}
