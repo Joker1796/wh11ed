@@ -211,17 +211,17 @@ function play(cost) {
   color: var(--text-primary); font: inherit; font-size: 0.9rem;
 }
 .spm-search:focus { outline: none; border-color: var(--accent); }
-/* A compact list, grouped by role under tinted headings — the catalogue's own (RosterUnitBrowser's
-   .rub-head), so a tinted bar reads as "a heading" here too — scrolling inside the dialog. */
+/* A compact list, grouped by role under quiet headings — small dim captions, not bars, and they
+   scroll with the list (owner, 2026-10-02) — scrolling inside the dialog. */
 .spm-units { list-style: none; margin: 0.4rem 0 0; padding: 0; max-height: 50dvh; overflow-y: auto; border: 1px solid var(--border); }
 .spm-units li + li { border-top: 1px solid var(--border-light); }
 .spm-group {
-  position: sticky; top: 0; z-index: 1;
-  padding: 0.3rem 0.7rem;
-  background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
-  color: var(--text-primary);
-  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 0.45rem 0.7rem 0.15rem;
+  color: var(--text-dim);
+  font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
 }
+/* No rule between a caption and its first unit: they read as one. */
+.spm-units li.spm-group + li { border-top: 0; }
 .spm-unit {
   display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
   width: 100%; min-height: 34px; padding: 0.35rem 0.7rem;
