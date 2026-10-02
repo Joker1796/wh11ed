@@ -814,6 +814,29 @@
            before it. On a phone the same DOM stacks: questions, then the layout. -->
       <div class="two-col deploy-grid">
         <div class="settings deploy-opts deploy-card">
+          <!-- The score mode leads the step's questions since 2026-10-02 (owner): it is a rule of
+               this game agreed at the table, like the roles below, not a tracker preference. -->
+          <label class="field">
+            <span>
+              {{ labels.trackerScoreMode }}
+              <button
+                type="button"
+                class="help-btn"
+                :aria-label="labels.trackerScoreHelp"
+                @click="scoreHelpOpen = true"
+              ><i class="bi bi-question-circle" /></button>
+            </span>
+            <div class="seg">
+              <button
+                :class="{ on: settings.scoreMode === 'vp' }"
+                @click="settings.scoreMode = 'vp'"
+              >{{ labels.trackerScoreVp }}</button>
+              <button
+                :class="{ on: settings.scoreMode === 'bp' }"
+                @click="settings.scoreMode = 'bp'"
+              >{{ labels.trackerScoreBp }}</button>
+            </div>
+          </label>
           <div class="field">
             <span>
               {{ labels.trackerAttacker }}
@@ -930,33 +953,12 @@
       :ref="el => (panelEls[3] = el)"
       class="step-panel"
     >
-      <!-- Two cards, side by side on desktop: what is about the GAME (the score mode and the
-           `game` option group) and what is about the attached LIST (the `roster` group) — the
+      <!-- Two cards, side by side on desktop: what is about the GAME (the `game` option group;
+           the score mode moved to step 3 on 2026-10-02) and what is about the attached LIST (the `roster` group) — the
            split trackerOptions.js already makes. Thirteen rows in one column ran past a screen;
            two columns of six or seven fit one, like the steps before. -->
       <div class="two-col">
         <div class="settings deploy-opts">
-          <label class="field">
-            <span>
-              {{ labels.trackerScoreMode }}
-              <button
-                type="button"
-                class="help-btn"
-                :aria-label="labels.trackerScoreHelp"
-                @click="scoreHelpOpen = true"
-              ><i class="bi bi-question-circle" /></button>
-            </span>
-            <div class="seg">
-              <button
-                :class="{ on: settings.scoreMode === 'vp' }"
-                @click="settings.scoreMode = 'vp'"
-              >{{ labels.trackerScoreVp }}</button>
-              <button
-                :class="{ on: settings.scoreMode === 'bp' }"
-                @click="settings.scoreMode = 'bp'"
-              >{{ labels.trackerScoreBp }}</button>
-            </div>
-          </label>
           <TrackOptions
             :settings="settings"
             :ctx="trackCtx"
