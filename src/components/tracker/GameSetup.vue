@@ -529,19 +529,22 @@
         v-if="!guest && !settings.combatPatrol"
         class="settings twist-block"
       >
-        <h3 class="block-head">
-          {{ labels.trackerTwistHeading }}
-        </h3>
-        <button
-          class="btn-choose-twist"
-          @click="twistPickerOpen = true"
-        >
-          <span
-            class="ct-name"
-            :class="{ placeholder: !chosenTwist }"
-          >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
-          <i class="bi bi-chevron-right ct-chev" />
-        </button>
+        <!-- Heading and picker share a line: the block is one choice, not a titled section. -->
+        <div class="twist-row">
+          <h3 class="block-head">
+            {{ labels.trackerTwistHeading }}
+          </h3>
+          <button
+            class="btn-choose-twist"
+            @click="twistPickerOpen = true"
+          >
+            <span
+              class="ct-name"
+              :class="{ placeholder: !chosenTwist }"
+            >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
+            <i class="bi bi-chevron-right ct-chev" />
+          </button>
+        </div>
         <details
           v-if="chosenTwist"
           class="twist-chosen"
@@ -1989,6 +1992,9 @@ function cancel() {
   gap: var(--stack-gap);
 }
 .twist-block { margin-bottom: var(--stack-gap); }
+.twist-row { display: flex; align-items: center; gap: 0.85rem; }
+.twist-row > .block-head { margin: 0; flex: none; }
+.twist-row > .btn-choose-twist { flex: 1; min-width: 0; }
 .player-card,
 .settings {
   /* --pc-pad drives the padding AND the negative margin the mission preview uses to bleed
