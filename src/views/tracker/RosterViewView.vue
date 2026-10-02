@@ -1884,6 +1884,8 @@ function stratKey(strat) {
 /* …and the unit cards tighter by their padding and gaps alone — every name, plate and switch keeps
    its size (owner, 2026-09-30). */
 .rv-in-game .rvunit { margin-bottom: 0.35rem; }
+/* …but the tiles of an attached block still touch: the rule above outranked the block's own. */
+.rv-in-game .rvunit:has(+ .rvunit-attached) { margin-bottom: 0; }
 .rv-in-game .rvunit-main { padding-block: 0.35rem; }
 .rv-in-game .rvunit-conds { padding-block: 0.3rem; }
 /* …and the group headings carry no line under them: one under the list's name is enough (owner,
