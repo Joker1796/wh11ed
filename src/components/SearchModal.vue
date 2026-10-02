@@ -1,11 +1,14 @@
 <template>
   <div
     class="search-overlay"
+    :class="{ docked: !!dock }"
+    :style="dockClip"
     @click.self="$emit('close')"
   >
     <div
       ref="boxEl"
       class="search-box"
+      :style="dockStyle"
       role="dialog"
       aria-modal="true"
       :aria-label="labels.ariaSearchDialog"
@@ -163,7 +166,7 @@
 
 <script setup>
 import TypingGhost from './TypingGhost.vue'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex, preloadFactionFaqIndex } from '../composables/useSearch.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -171,8 +174,13 @@ import { useModalA11y } from '../composables/useModalA11y.js'
 import { useFactionChoice } from '../composables/useFactionChoice.js'
 import { useSearchHistory } from '../composables/useSearchHistory.js'
 import { useTypingPlaceholder } from '../composables/useTypingPlaceholder.js'
+import { useMediaQuery } from '../composables/useMediaQuery.js'
 import { ui } from '../i18n/ui.js'
 
+const props = defineProps({
+  // Returns the navbar search button's rect (App.vue), or null where there is no navbar.
+  anchor: { type: Function, default: null },
+})
 const emit = defineEmits(['close'])
 const { navigateTo } = useRefNavigation()
 const { locale } = useLocale()
@@ -201,6 +209,35 @@ const { text: ghostText, animated: typing } = useTypingPlaceholder(
   computed(() => labels.value.searchExamples),
   computed(() => query.value === ''),
 )
+
+// Two shapes (owner, 2026-10-01). A wide screen DOCKS the field in the navbar: the search button
+// stretches left into it, the results drop under it, the page is not dimmed — the desktop's
+// dropdowns-not-modals rule. A phone keeps the full-screen sheet, and only fades it in. The
+// enter/leave classes are App.vue's <Transition name="search">, styled below.
+const wide = useMediaQuery('(min-width: 901px)')
+const rect = ref(props.anchor?.() ?? null)
+const remeasure = () => { rect.value = props.anchor?.() ?? null }
+onMounted(() => window.addEventListener('resize', remeasure))
+onUnmounted(() => window.removeEventListener('resize', remeasure))
+const dock = computed(() => (wide.value && rect.value?.width ? rect.value : null))
+const dockStyle = computed(() => {
+  const r = dock.value
+  if (!r) return null
+  const right = window.innerWidth - r.right
+  return { top: `${r.top}px`, right: `${right}px`, width: `${Math.min(600, r.right - 16)}px`, '--btn-h': `${r.height}px` }
+})
+// The unfold is clipped on the overlay (the transition's root — Vue times enter/leave by the
+// root's own animation), in viewport px: the button, then the full-width row, then everything.
+const dockClip = computed(() => {
+  const r = dock.value
+  if (!r) return null
+  const right = window.innerWidth - r.right
+  const below = `calc(100% - ${r.bottom}px)`
+  return {
+    '--clip-btn': `inset(${r.top}px ${right}px ${below} ${r.left}px)`,
+    '--clip-row': `inset(${r.top}px ${right}px ${below} ${r.right - Math.min(600, r.right - 16)}px)`,
+  }
+})
 
 // Focus-trap + restore-focus-to-trigger, with initial focus on the search input. (The
 // command-palette shell stays bespoke — BaseModal's centered/bottom-sheet layout doesn't fit.)
@@ -268,6 +305,46 @@ function navigate(item) {
   max-width: 600px;
   overflow: hidden;
   border: 1px solid var(--border);
+}
+
+/* Phone (and anywhere without a navbar to dock in): the sheet fades in unhurried, out quickly. */
+.search-enter-active { transition: opacity var(--motion-slow) ease; }
+.search-leave-active { transition: opacity var(--motion-fast) ease; }
+.search-enter-from,
+.search-leave-to { opacity: 0; }
+
+/* Wide: the field sits exactly over the navbar's search button, one row its height, and the
+   overlay only takes the click outside — no dimming. */
+.search-overlay.docked {
+  display: block;
+  padding: 0;
+  background: none;
+}
+.docked .search-box {
+  position: fixed;
+  max-width: none;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+.docked .search-input-wrap {
+  height: var(--btn-h);
+  padding: 0 0.6rem 0 0.85rem;
+  gap: 0.6rem;
+}
+.docked .search-results,
+.docked .search-history {
+  max-height: min(420px, calc(100dvh - var(--btn-h) - 5rem));
+}
+/* It unfolds out of the button: the field first stretches left to its full width, then drops
+   open down to the results — and folds back the same way. A clip, so nothing inside reflows as it
+   grows; no fade, the overlay draws nothing of its own. */
+.search-enter-active.docked,
+.search-leave-active.docked { transition: none; opacity: 1; }
+.search-enter-active.docked { animation: search-unfold var(--motion-move) ease-out both; }
+.search-leave-active.docked { animation: search-unfold var(--motion-med) ease-in reverse both; }
+@keyframes search-unfold {
+  0% { clip-path: var(--clip-btn); }
+  55% { clip-path: var(--clip-row); }
+  100% { clip-path: inset(0); }
 }
 
 .search-input-wrap {

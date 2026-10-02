@@ -9,7 +9,7 @@
 //     Auxiliary Cadre and Experimental Prototype Cadre) and the remaining Rules Updates
 //     (folded in below — see inline notes).
 //   MFM (src/data/mfm/tau-empire.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the AUXILIARY / BATTLESUIT `unique` tags.
+//     forceDispositions, and the AUXILIARY / BATTLESUIT `unique` tags.
 //
 // 7 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for now.
 // Markup follows useRenderInline / RuleBlock / StratCard conventions: **bold**, [BRACKET]
@@ -48,11 +48,11 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Kauyon",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Patient Hunter",
         flavor: "The tactical philosophy known as the Kauyon allows for T’au commanders to draw the enemy into a deadly trap, springing it at the perfect moment to deliver a storm of fatal strikes against which none can escape.",
-        body: "During the third, fourth and fifth [gloss:battle-round:battle rounds], [gloss:ranged-weapons:ranged weapons] equipped by T’au Empire models from your army have the [SUSTAINED HITS 1] ability. During the third, fourth and fifth battle rounds, while a unit is a [gloss:tau-guided:Guided] unit (see For the Greater Good), each time a [gloss:ranged-attacks:ranged attack] is made by a model in that unit that targets a [gloss:tau-spotted:Spotted] unit, you can ignore any or all [gloss:modifier:modifiers] to that attack’s [gloss:ballistic-skill:Ballistic skill] characteristics and/or all modifiers to the [gloss:hit-roll:Hit roll].",
+        body: "During the third, fourth and fifth [gloss:battle-round:battle rounds], [gloss:ranged-weapons:ranged weapons] equipped by T’AU EMPIRE models from your army have the [SUSTAINED HITS 1] ability. During the third, fourth and fifth battle rounds, while a unit is a [gloss:tau-guided:Guided] unit (see For the Greater Good), each time a [gloss:ranged-attacks:ranged attack] is made by a model in that unit that targets a [gloss:tau-spotted:Spotted] unit, you can ignore any or all [gloss:modifier:modifiers] to that attack’s [gloss:ballistic-skill:Ballistic skill] characteristics and/or all modifiers to the [gloss:hit-roll:Hit roll].",
       },
       stratagems: [
         {
@@ -107,7 +107,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           flavor: "Hurling a volley of photon grenades, the T’au leave their enemies dazzled and disorientated, unable to close the distance into combat at a crucial moment.",
           // Faction-Pack Rules Update reworded the When section.
           when: "Your opponent’s Charge phase, just after an enemy unit has selected its [gloss:charge-target:charge target].",
-          target: "One T’au Empire Grenades unit from your army that was selected as one of the targets of that charge.",
+          target: "One T’AU EMPIRE GRENADES unit from your army that was selected as one of the targets of that charge.",
           effect: "That enemy unit must immediately take a [gloss:battle-shock-test:Battle-shock test], and until the end of the phase, subtract 2 from [gloss:charge-roll:Charge rolls] made for that enemy unit.",
           restrictions: "You cannot target a unit that is within Engagement Range of one or more enemy units.",
         },
@@ -118,7 +118,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           turn: "opponent",
           flavor: "Those who act as the lure in the Kauyon must be ready to make a hasty withdrawal once the enemy closes into killing range, lest they be trapped.",
           when: "Your opponent’s Charge phase, just after an enemy unit has [gloss:declare-charge:declared a charge].",
-          target: "One T’au Empire Infantry unit from your army that was selected as one of the targets of that charge, and one [gloss:friendly:friendly] TRANSPORT.",
+          target: "One T’AU EMPIRE INFANTRY unit from your army that was selected as one of the targets of that charge, and one [gloss:friendly:friendly] TRANSPORT.",
           effect: "Your unit [gloss:embark:embarks] within that TRANSPORT.",
           restrictions: "Every model in your INFANTRY unit must be within 3\" of that TRANSPORT and there must be sufficient [gloss:transport-capacity:transport capacity] to embark the entire unit.",
         },
@@ -156,7 +156,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Kroot Hunting Pack",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       unique: "AUXILIARY",
       rule: {
         name: "Hunter’s Instincts & Skirmish Fighters",
@@ -264,7 +264,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Mont’ka",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Take and Hold", "Priority Assets"],
       rule: {
         name: "Killing Blow",
         flavor: "Mont’ka is the most aggressive style of T’au warfare. Its singular focus is the art of identifying a target of opportunity and attacking it swiftly with an overwhelming application of force.",
@@ -311,7 +311,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           turn: "your",
           flavor: "The most aggressive Fire caste warriors sometimes spring from moving transports, roll with the impact of landing, and come up with weapons already blazing.",
           when: "Your Shooting phase.",
-          target: "One T’au Empire Infantry unit from your army that [gloss:disembark:disembarked] from a TRANSPORT this turn.",
+          target: "One T’AU EMPIRE INFANTRY unit from your army that [gloss:disembark:disembarked] from a TRANSPORT this turn.",
           effect: "Until the end of the phase, each time a model in your unit makes an attack that targets the closest enemy unit, you can [gloss:re-roll:re-roll] the [gloss:wound-roll:Wound roll].",
           restrictions: "",
         },
@@ -322,7 +322,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           turn: "your",
           flavor: "Rather than charge into hand-to-hand combat, T’au soldiery instead intensify their fire patterns, pinning their advancing foes and staving off their onslaught.",
           when: "Your Shooting phase.",
-          target: "One T’au Empire Infantry unit (excluding Kroot units) from your army that has just shot, and one enemy unit (excluding MONSTERS and VEHICLES) hit by one or more of those attacks.",
+          target: "One T’AU EMPIRE INFANTRY unit (excluding Kroot units) from your army that has just shot, and one enemy unit (excluding MONSTERS and VEHICLES) hit by one or more of those attacks.",
           effect: "Until the end of your opponent’s next turn, that enemy unit is shaken. While a unit is shaken, subtract 2 from its [gloss:move-characteristic:Move characteristic] and subtract 2 from [gloss:advance-roll:Advance] and [gloss:charge-roll:Charge rolls] made for it.",
           restrictions: "",
         },
@@ -371,13 +371,13 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Retaliation Cadre",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe", "Reconnaissance"],
       unique: "BATTLESUIT",
       rule: {
         // Faction-Pack Rules Update: the Armour Penetration threshold became 8" (was 9").
         name: "Bonded Heroes",
         flavor: "Cadres of T’au Battlesuit pilots fight in a manner inspired by the dynamism and determination of famous and beloved war leaders. Indeed, some of the specialist piloting manoeuvres they employ are named after such icons, in a few rare - and sometimes unofficial - cases even after those who have since fallen far from favour with the Ethereal Council. Either way, these bonded veterans are experts in the deadly art of engaging the enemy in close confines. They plunge into the heart of the enemy army where the fighting is fiercest, and prevail in the name of the Greater Good.",
-        body: "Each time a T’au Empire Battlesuit model from your army makes a [gloss:ranged-attacks:ranged attack] that targets a unit [gloss:within:within] 12\", improve the [gloss:strength:Strength] characteristic of that attack by 1. If that attack targets a unit within 8\", improve the [gloss:armour-penetration:Armour Penetration] characteristic of that attack by 1 as well.",
+        body: "Each time a T’AU EMPIRE BATTLESUIT model from your army makes a [gloss:ranged-attacks:ranged attack] that targets a unit [gloss:within:within] 12\", improve the [gloss:strength:Strength] characteristic of that attack by 1. If that attack targets a unit within 8\", improve the [gloss:armour-penetration:Armour Penetration] characteristic of that attack by 1 as well.",
       },
       stratagems: [
         {
@@ -387,7 +387,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           turn: "your",
           flavor: "Commander Arro’kon’s teachings are considered pre-eminent in the art of engaging and eliminating numerically overwhelming enemy formations.",
           when: "Your Shooting phase.",
-          target: "One T’au Empire Battlesuit unit from your army that has not been selected to shoot this phase.",
+          target: "One T’AU EMPIRE BATTLESUIT unit from your army that has not been selected to shoot this phase.",
           effect: "Until the end of the phase, each time a model in your unit makes an attack that targets an enemy unit that contains 6 or more models, that attack has the [SUSTAINED HITS 1] ability. If that attack targets an enemy unit that contains 11 or more models, it has the [SUSTAINED HITS 2] ability instead.",
           restrictions: "",
         },
@@ -397,7 +397,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           cp: "2CP",
           turn: "either",
           flavor: "Devices are incorporated into some battlesuits either to prevent high-ranking pilots being taken alive for interrogation or to prevent just such fatal explosions.",
-          when: "Any phase, just after a T’au Empire Battlesuit model from your army is [gloss:destroyed:destroyed].",
+          when: "Any phase, just after a T’AU EMPIRE BATTLESUIT model from your army is [gloss:destroyed:destroyed].",
           target: "That destroyed model’s unit. You can use this Stratagem on that unit even if that unit was just destroyed.",
           effect: "Before removing your model from play, if it has the Deadly Demise ability, do not roll for that ability; instead, you can choose whether the result of that roll is a 1 or a 6. If your model does not have the Deadly Demise ability, roll one D6 for each unit [gloss:within:within] 6\" of it: on a 4+, that unit suffers D3 [gloss:mortal-wound:mortal wounds].",
           restrictions: "",
@@ -409,7 +409,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           turn: "your",
           flavor: "Made famous by Commander Farsight and his protege Brightsword, this philosophy encourages pilots to drop into the very teeth of the enemy army and apply their firepower at point-blank range.",
           when: "Your Movement phase.",
-          target: "One T’au Empire Battlesuit unit from your army that is arriving using the Deep Strike ability this phase.",
+          target: "One T’AU EMPIRE BATTLESUIT unit from your army that is arriving using the Deep Strike ability this phase.",
           effect: "Your unit can be set up anywhere on the battlefield that is more than 6\" horizontally away from all enemy models.",
           restrictions: "A unit targeted with this Stratagem is not [gloss:eligible-to-charge:eligible to declare a charge] in the same turn.",
         },
@@ -420,7 +420,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           turn: "your",
           flavor: "Though now disgraced by association with O'Shovah, Sub-Commander Torchstar’s strike-and-fade tactics are still taught - albeit officially under other names - in many Fire caste academies.",
           when: "Your Shooting phase.",
-          target: "One T’au Empire Battlesuit unit from your army that can FLY whose attacks have been resolved this phase.",
+          target: "One T’AU EMPIRE BATTLESUIT unit from your army that can FLY whose attacks have been resolved this phase.",
           effect: "If your unit is not within [gloss:engagement-range:Engagement Range] of one or more enemy units, it can make a [gloss:normal-move:Normal move]. If it does, your unit cannot [gloss:declare-charge:declare a charge] this turn.",
           restrictions: "",
         },
@@ -431,7 +431,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           turn: "opponent",
           flavor: "First used by O’Jir during the battle for Laguna Shard, these battlesuit-mounted emitters batter advancing foes backwards with gravitic pulse waves.",
           when: "Your opponent’s Charge phase, just after an enemy unit has [gloss:declare-charge:declared a charge].",
-          target: "One T’au Empire Battlesuit unit from your army that was selected as a target of that charge.",
+          target: "One T’AU EMPIRE BATTLESUIT unit from your army that was selected as a target of that charge.",
           effect: "That enemy unit must immediately take a [gloss:battle-shock-test:Battle-shock test] and you must roll one D6 for each model in that enemy unit: for each 6, that enemy unit suffers 1 [gloss:mortal-wound:mortal wound].",
           restrictions: "",
         },
@@ -442,7 +442,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           turn: "either",
           flavor: "On-board hypodermics shunt pain-blockers and chemical stimulants into the pilot's system.",
           when: "Your opponent’s Shooting phase or the Fight phase, just after an enemy unit has [gloss:select-targets:selected its targets].",
-          target: "One T’au Empire Battlesuit unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
+          target: "One T’AU EMPIRE BATTLESUIT unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
           effect: "Until the end of the phase, models in your unit have the Feel No Pain 6+ ability.",
           restrictions: "",
         },
@@ -452,25 +452,25 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           name: "Internal Grenade Racks",
           points: 20,
           flavor: "These thigh plates house deployment rails of high-explosive bomblets. As the pilot jets over the foe, the racks can be triggered to dispense a rain of death.",
-          body: "T’au Empire Battlesuit model only. The [gloss:bearer:bearer] has the GRENADES [gloss:keywords:keyword], and each time the bearer ends a [gloss:normal-move:Normal move], you can select one enemy unit that it moved over during that move. If you do, roll six D6: for each 4+, that enemy unit suffers 1 [gloss:mortal-wound:mortal wound].",
+          body: "T’AU EMPIRE BATTLESUIT model only. The [gloss:bearer:bearer] has the GRENADES [gloss:keywords:keyword], and each time the bearer ends a [gloss:normal-move:Normal move], you can select one enemy unit that it moved over during that move. If you do, roll six D6: for each 4+, that enemy unit suffers 1 [gloss:mortal-wound:mortal wound].",
         },
         {
           name: "Prototype Weapon System",
           points: 15,
           flavor: "Famed battlesuit pilots are often more than willing to assist Earth caste scientists infield-testing the latest in experimental weapons technology.",
-          body: "T’au Empire Battlesuit model only. Each time the [gloss:bearer:bearer] is [gloss:selected-to-shoot:selected to shoot], select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until those attacks are resolved, [gloss:ranged-weapons:ranged weapons] equipped by the bearer have the selected ability.",
+          body: "T’AU EMPIRE BATTLESUIT model only. Each time the [gloss:bearer:bearer] is [gloss:selected-to-shoot:selected to shoot], select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until those attacks are resolved, [gloss:ranged-weapons:ranged weapons] equipped by the bearer have the selected ability.",
         },
         {
           name: "Puretide Engram Neurochip",
           points: 15,
           flavor: "Commander Puretide was the most gifted T’au war leader of all time. Upon his death, his memories were stored in a neurochip. When implanted into the brain, the bearer can access much of this wisdom.",
-          body: "T’au Empire Battlesuit model only. Each time you target the [gloss:bearer:bearer]’s unit with a [gloss:stratagem:Stratagem], roll one D6: on a 4+, you gain 1CP.",
+          body: "T’AU EMPIRE BATTLESUIT model only. Each time you target the [gloss:bearer:bearer]’s unit with a [gloss:stratagem:Stratagem], roll one D6: on a 4+, you gain 1CP.",
         },
         {
           name: "Starflare Ignition System",
           points: 20,
           flavor: "The ignition thrusters on selected battlesuits are augmented with optional feed-selectors, allowing the pilot to release a jet of enriched accelerant upon take-off and sending the pilots streaking skywards.",
-          body: "T’au Empire Battlesuit model only. At the end of your opponent’s turn, if the [gloss:bearer:bearer]’s unit is not within [gloss:engagement-range:Engagement Range] of one or more enemy units, you can remove that unit from the battlefield and place it into [gloss:strategic-reserves:Strategic Reserves].",
+          body: "T’AU EMPIRE BATTLESUIT model only. At the end of your opponent’s turn, if the [gloss:bearer:bearer]’s unit is not within [gloss:engagement-range:Engagement Range] of one or more enemy units, you can remove that unit from the battlefield and place it into [gloss:strategic-reserves:Strategic Reserves].",
         },
       ],
     },
@@ -481,7 +481,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Advanced Acquisition Cadre",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Expert Fieldcraft",
         flavor: "Extensive additional training – including tuition by Trail Shapers – enables these warriors to fire and relocate seamlessly while remaining concealed.",
@@ -507,7 +507,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
           flavor: "Deployed from overflights of heavier stealth-capable carrier drones, these tiny machines provide versatile battlefield support for T’au stealth specialists, even in the midst of vicious firefights.",
           when: "Your Shooting phase, when a [gloss:friendly:friendly] PATHFINDER TEAM/STEALTH BATTLESUITS unit starts an [gloss:action:Action].",
           target: "That PATHFINDER TEAM/STEALTH BATTLESUITS unit.",
-          effect: "That Action does not prevent your unit from being [gloss:eligible-to-shoot:eligible to shoot].",
+          effect: "That **[gloss:action:Action]** does not prevent your unit from being [gloss:eligible-to-shoot:eligible to shoot].",
           restrictions: "",
         },
         {
@@ -547,12 +547,12 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Auxiliary Cadre",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       unique: "AUXILIARY",
       rule: {
         name: "Integrated Command Structure",
         flavor: "T’au officers given charge of auxiliary cadres receive additional training in optimised doctrinal and strategic alien amalgamation; this – coupled with specialised translation drones and endless integrated combat drills – allows them to get the best out of their alien subordinates.",
-        body: "[gloss:friendly:Friendly] KROOT/VESPID STINGWINGS units have the following ability:\n▪ **Harnessed Alien Instincts:** In your Shooting phase, this unit can select one [gloss:visible:visible] enemy unit [gloss:within:within] 12\". That enemy unit is prey-marked: while a unit is prey-marked, that unit has +3\" [gloss:detection-range:detection range].\n\nFriendly GHOSTKEEL BATTLESUIT/STEALTH BATTLESUITS units have the following ability:\n▪ **Localised Stealth Projectors ([gloss:aura:Aura]):** When a friendly KROOT/VESPID STINGWINGS unit within 6\" of this unit has shot, those attacks do not prevent that unit from being [gloss:hidden:hidden].\n\nThis detachment has the **AUXILIARIES** tag and cannot be taken with another **AUXILIARIES** detachment.",
+        body: "[gloss:friendly:Friendly] KROOT/VESPID STINGWINGS units have the following ability:\n▪ **Harnessed Alien Instincts:** In your Shooting phase, this unit can select one [gloss:visible:visible] enemy unit [gloss:within:within] 12\". That enemy unit is prey-marked: while a unit is prey-marked, that unit has +3\" [gloss:detection-range:detection range].\n\nFriendly GHOSTKEEL BATTLESUIT/STEALTH BATTLESUITS units have the following ability:\n▪ **Localised Stealth Projectors ([gloss:aura:Aura]):** When a friendly KROOT/VESPID STINGWINGS unit within 6\" of this unit has shot, those attacks do not prevent that unit from being [gloss:hidden:hidden].\n\nThis **[gloss:detachments:detachment]** has the **AUXILIARIES** tag and cannot be taken with another **AUXILIARIES** **detachment**.",
       },
       stratagems: [
         {
@@ -612,12 +612,12 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Experimental Prototype Cadre",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       unique: "BATTLESUIT",
       rule: {
         name: "Superior Craftsmanship",
         flavor: "The applied science divisions of the Earth caste labour endlessly to provide frontline units with superior weapons systems with which to destroy the foe from afar.",
-        body: "[gloss:friendly:Friendly] BATTLESUIT CHARACTER units’ [gloss:ranged-attacks:ranged attacks] have +6\" [gloss:range:R].\n\nThis detachment has the **RETALIATION** tag and cannot be taken with another **RETALIATION** detachment.",
+        body: "[gloss:friendly:Friendly] BATTLESUIT CHARACTER units’ [gloss:ranged-attacks:ranged attacks] have +6\" [gloss:range:R].\n\nThis **[gloss:detachments:detachment]** has the **RETALIATION** tag and cannot be taken with another **RETALIATION** **detachment**.",
       },
       stratagems: [
         {

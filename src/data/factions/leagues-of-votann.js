@@ -10,7 +10,7 @@
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/xenos/LoV.pdf) → 3 pack detachments
 //     (Armoured Trailblazers, Farseekers, Hearthguard Covenant) and Rules Updates.
 //   MFM (src/data/mfm/leagues-of-votann.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the HEARTHBAND `unique` tag.
+//     forceDispositions, and the HEARTHBAND `unique` tag.
 //
 // 10 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -54,7 +54,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Brandfast Oathband",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Mobile Sensor Relays",
         flavor: "The massed armoured transports of a brandfast oathband connect to an encrypted data network shared by squads of Kin. Their robust sensor webs broadcast various targeting information and extrapolated judgements on enemy movements. Nearby warriors can tap into this wealth of data, enabling them to unleash salvoes of lethal efficiency.",
@@ -161,7 +161,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Dêlve Assault Shift",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Fury From The Dêlve",
         flavor: "Efficiency and practicality are ingrained in all Kin. Thus, the most meagre of Cthonian dêlves are well-equipped networks of passages, accessways and teleport nodes that enable a guild's bionically altered elites to appear where the foe least expects them. They emerge saturated with cyberstimulants and full of fury, ready to smash asunder those who dare trespass amongst their guild’s operations.",
@@ -268,7 +268,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Hearthband",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets", "Reconnaissance"],
       unique: "HEARTHBAND",
       rule: {
         name: "Methodical Annihilation",
@@ -376,7 +376,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Hearthfyre Arsenal",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Optimal Application",
         flavor: "With advanced engineering knowledge and cogitational expertise, a hearthfyre arsenal’s specialists can apply the resources and information seized by the Kin to eradicate their foes efficiently. Such assets are used to coordinate the devastating fire patterns of the force’s support infantry, empowering already heavily armed Kin to the extent that little can escape their murderous fusillades.",
@@ -483,7 +483,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Mercenary Oathband",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Ruthless Reinvestment",
         flavor: "Kin mercenaries are notoriously frugal and ungenerous in the spending of resources to fulfil their employers’ needs. They are nonetheless acquisitively motivated. Where it benefits them, they will not hesitate to spend ammunition, energy, information or any other resource secured in advance from their paymasters if doing so will reap prizes of greater value.",
@@ -590,7 +590,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Needgaârd Oathband",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Martial Leverage",
         flavor: "The weighing of costs in Kin lives and materiel expended against prospective material benefits is an instinct amongst kinhost commanders. Those who lead needgaârd oathbands leverage the deaths of their foes into these equations at every opportunity. Crushing the enemy’s soldiery and war engines can shift the balance of martial power, enabling a canny commander to spend the advantage it provides elsewhere.",
@@ -697,7 +697,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Persecution Prospect",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Assailed From Every Angle",
         flavor: "The Kin of persecution prospects are skilled in escalating their attacks with unrelenting volleys of fire. They pressure the kindred’s foes repeatedly from infiltration positions, unleash enfilading fire from the flanks and surge forward to blaze away at point-blank range before manoeuvring swiftly to other attack angles. Besides the death and destruction they cause, the prospect’s forces leave foes disarrayed, with little chance to rally any ravaged survivors before other Kin capitalise on their plight.",
@@ -805,7 +805,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Armoured Trailblazers",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Sagitaur Spearhead",
         flavor: "Scouting out the foe\u2019s positions and performing reconnaissance in force, speeding Sagitaurs lead the armoured charge of the Kin.",
@@ -830,8 +830,8 @@ In your turn, YP gained in this way are always gained before checking which abil
           turn: "opponent",
           flavor: "With the foes\u2019 weaknesses identified, outflanking Sagitaurs streak in to exploit the gaps and punch deep into their lines.",
           when: "End of your opponent\u2019s Movement phase, from the second battle round onwards.",
-          target: "Up to two friendly SAGITAUR units in Strategic Reserves.",
-          effect: "Your units each make an ingress move.",
+          target: "Up to two friendly SAGITAUR units in **[gloss:strategic-reserves:Strategic Reserves]**.",
+          effect: "Your units each make an **[gloss:ingress-move:ingress move]**.",
           restrictions: "",
         },
         {
@@ -869,7 +869,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Farseekers",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Eye of the Hunt",
         flavor: "Combining scanning and targeting functions for maximum efficiency, the Hernkyn guide fire unerringly down on their targets.",
@@ -884,7 +884,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           flavor: "Casting a jaundiced eye over the so-called fortifications of their foes, the Hernkyn quickly identify weak spots in the enemy defences and spread the word to their comrades.",
           when: "Start of your Shooting phase.",
           target: "One friendly HERNKYN unit.",
-          effect: "Select one visible enemy unit within 12\" of your unit. Friendly LEAGUES OF VOTANN units\u2019 attacks that target that enemy unit have [IGNORES COVER].",
+          effect: "Select one **[gloss:visible:visible]** enemy unit within 12\" of your unit. Friendly LEAGUES OF VOTANN units’ attacks that target that enemy unit have [IGNORES COVER].",
           restrictions: "",
         },
         {
@@ -893,7 +893,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           cp: "1CP",
           turn: "your",
           flavor: "Knowing the burden of responsibility placed upon them by Kindred and Ancestors, Hernkyn focus on their marksmanship with a stern determination that makes every shot count.",
-          when: "Your Shooting phase, when a friendly HERNKYN unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly HERNKYN unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That HERNKYN unit.",
           effect: "Your unit\u2019s ranged attacks have [LETHAL HITS].",
           restrictions: "",
@@ -904,9 +904,9 @@ In your turn, YP gained in this way are always gained before checking which abil
           cp: "1CP",
           turn: "opponent",
           flavor: "Pioneers operate in great peril behind hostile lines so often that it becomes second nature to respond with alacrity and cunning to the slightest scraps of intelligence on enemy movements.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged PIONEERS unit.",
+          when: "Your opponent’s Movement phase, when an enemy unit ends a move within 8\" of a friendly **[gloss:unengaged:unengaged]** PIONEERS unit.",
           target: "That PIONEERS unit.",
-          effect: "Your unit can make a Normal move of up to D3+3\".",
+          effect: "Your unit can make a **[gloss:normal-move:Normal move]** of up to D3+3\".",
           restrictions: "",
         },
       ],
@@ -916,14 +916,14 @@ In your turn, YP gained in this way are always gained before checking which abil
           points: 10,
           upgrade: true,
           flavor: "Employing their pan-spectral scanners and frontier-scouting instincts, the Pioneers rapidly locate enemy forces and mark their positions for their comrades.",
-          body: "PIONEERS unit only. In your Shooting phase, you can select one visible enemy unit within 12\" of this unit. That enemy unit is spotted: while a unit is spotted, that unit has +3\" detection range.",
+          body: "PIONEERS unit only. In your Shooting phase, you can select one **[gloss:visible:visible]** enemy unit within 12\" of this unit. That enemy unit is spotted: while a unit is spotted, that unit has +3\" **[gloss:detection-range:detection range]**.",
         },
         {
           name: "Shroudwërke Talismans",
           points: 15,
           upgrade: true,
           flavor: "These small, rugged devices project a modified weavewërke field that, instead of shielding the bearer physically, deadens their signature on enemy scanners and confounds predatory senses.",
-          body: "YAEGIRS unit only. This unit has -3\" detection range.",
+          body: "YAEGIRS unit only. This unit has -3\" **[gloss:detection-range:detection range]**.",
         },
       ],
     },
@@ -933,12 +933,12 @@ In your turn, YP gained in this way are always gained before checking which abil
       name: "Hearthguard Covenant",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       unique: "HEARTHBAND",
       rule: {
         name: "Avatars of the Ancestors",
         flavor: "Shouldering the greatest responsibility for achieving victory, the elites of the Hearthband fight hardest of all to defeat and destroy their foes.",
-        body: "Friendly KÂHL/EINHYR CHAMPION/EINHYR HEARTHGUARD/ÛTHAR THE DESTINED units\u2019 ranged attacks that target a unit within 9\" can re-roll Wound rolls of 1.\n\nThis detachment has the **HEARTHGUARD** tag and cannot be taken with another **HEARTHGUARD** detachment.",
+        body: "Friendly KÂHL/EINHYR CHAMPION/EINHYR HEARTHGUARD/ÛTHAR THE DESTINED units’ ranged attacks that target a unit within 9\" can re-roll Wound rolls of 1.\n\nThis **[gloss:detachments:detachment]** has the **HEARTHGUARD** tag and cannot be taken with another **HEARTHGUARD** **detachment**.",
       },
       stratagems: [
         {
@@ -958,7 +958,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           cp: "1CP",
           turn: "your",
           flavor: "As though they unleash the raging flames of their kindred\u2019s hearth upon the enemy, the Einhyr all but drown their enemies in fire.",
-          when: "Your Shooting phase, when a friendly EINHYR HEARTHGUARD unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly EINHYR HEARTHGUARD unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That EINHYR HEARTHGUARD unit.",
           effect: "Your unit\u2019s ranged attacks have:\n▪ +1 S.\n▪ If you spend 1 YP, [SUSTAINED HITS 1].",
           restrictions: "",
@@ -969,7 +969,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           cp: "1CP",
           turn: "your",
           flavor: "Built to a superior standard using secrets imparted by the Votann, the teleporters employed by this Hearthband can stabilise rematerialisation fields remarkably close to the foe.",
-          when: "Your Movement phase, when a friendly EINHYR HEARTHGUARD unit with [core:Deep Strike] is selected to make an ingress move.",
+          when: "Your Movement phase, when a friendly EINHYR HEARTHGUARD unit with [core:Deep Strike] is selected to make an **[gloss:ingress-move:ingress move]**.",
           target: "That EINHYR HEARTHGUARD unit.",
           effect: "▪ Your unit can be set up anywhere on the battlefield that is more than 6\" horizontally from all enemy units, even if that is within your opponent\u2019s deployment zone.\n▪ Your unit is not eligible to declare a charge until the end of the turn.",
           restrictions: "",
@@ -980,7 +980,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           name: "High Kâhl",
           points: 30,
           flavor: "Not easily do the greatest Kâhls of the Kin let go their grasp on life, not while they might yet benefit the Votann further.",
-          body: "KÂHL model only. In the Fight phase, when a model in this unit is destroyed, if this unit has not been selected to fight this phase, roll one D6: on a 4+, do not remove that model from the battlefield; after this unit has fought, or at the end of the phase (whichever comes first), that model is removed from the battlefield.",
+          body: "KÂHL model only. In the Fight phase, when a model in this unit is **[gloss:destroyed:destroyed]**, if this unit has not been **[gloss:selected-to-fight:selected to fight]** this phase, roll one D6: on a 4+, do not remove that model from the battlefield; after this unit has fought, or at the end of the phase (whichever comes first), that model is removed from the battlefield.",
         },
         {
           name: "Ironskein",

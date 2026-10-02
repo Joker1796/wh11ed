@@ -14,6 +14,10 @@ export const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', '
 // Single source of truth — imported by the reconciliation scripts (gen-source-ids, sync-appdata,
 // sync-tracker, gen-faction-faq, gen-roster-data). Invert it (appdata slug → wh11ed slug) when
 // going the other way.
+// The six Codex Supplements that ship one detachment each (app data 963). The bundle builder emits
+// each as a "faction" of its own; here they are Space Marines detachments locked to that Chapter.
+export const SM_SUPPLEMENT_BUNDLES = ['ultramarines', 'imperial-fists', 'iron-hands', 'raven-guard', 'salamanders', 'white-scars']
+
 export const SLUG_MAP = {
   'space-marines': 'adeptus-astartes',
   'chaos-space-marines': 'heretic-astartes',
@@ -86,6 +90,37 @@ export function appdataToMarkup(text) {
     .reduce((acc, l) => (!acc ? normalizeBullet(l) : BULLET_LEAD.test(l) ? `${acc}\n${normalizeBullet(l)}` : `${acc} ${l}`), '')
     .replace(/[ \t]{2,}/g, ' ')
   return s.trim()
+}
+
+// appdataToMarkup folds line breaks into flowing prose, which is right for a diff and wrong for a
+// transcription: a line break outside a list is a paragraph in the app ("Place a Grot Oiler token…"
+// under an ability). This converts paragraph by paragraph and hangs a list off the paragraph before
+// it. Older sheets write a nested list with `◦`/`•` instead of <ul>; those become `▫` lines.
+// Used by the generators that transcribe a codex (gen-datasheets, gen-faction-rules).
+// appdata sometimes closes a bold run after its trailing space ("<b>suppressed </b>"), which
+// renders as "**suppressed **" — a closing marker the renderer does not see as closing. Walks the
+// markers in pairs and moves such a space outside the run.
+export function tidyBoldSpaces(md) {
+  let open = false
+  return md.replace(/([ \t]*)\*\*([ \t]*)(?=([\s\S]?))/g, (m, before, after, next) => {
+    open = !open
+    if (open || !before) return m
+    return after || /[\p{L}\p{N}([«"]/u.test(next) ? `** ` : '**'
+  })
+}
+
+export function appdataToParagraphs(text) {
+  const parts = (text || '').replace(/\r\n?/g, '\n').replace(/[◦•]\s*/g, '\n▫ ').split(/(<ul[\s\S]*?<\/ul>)/i)
+  let out = ''
+  for (const part of parts) {
+    const lines = /^<ul/i.test(part) ? [part] : part.split('\n')
+    for (const line of lines) {
+      const md = appdataToMarkup(line)
+      if (!md) continue
+      out += !out ? md : /^[▪▫]/.test(md) ? `\n${md}` : `\n\n${md}`
+    }
+  }
+  return tidyBoldSpaces(out)
 }
 
 // A detachment/army rule's `body` is appdata's array of typed text blocks — flatten to one
@@ -319,4 +354,20 @@ export function diffByName(label, wh11edList, appdataList, nameOf11, nameOfApp, 
     }
   }
   return lines
+}
+
+// The units Codex: Space Marines moved into Legends (Predators, Razorback, Stormraven…) came through
+// 963 with their wargear instructions TWICE: the new ones, which name the sheet's own Title Case
+// items ("…Twin Heavy Bolter can be replaced with 1 Twin Lascannon."), and the old codex ones, led
+// by "■" and in the old lower case ("■ …twin heavy bolter can be replaced with 1 twin lascannon.").
+// On a sheet that mixes the two, a "■" line is dropped when an unmarked line says nearly the same
+// thing (word overlap ≥ 0.5); one without such a twin is a real instruction and stays.
+const WG_STOP = new Set(['the', 'can', 'with', 'this', 'and', 'model', 'models', 'replaced', 'following', 'one', 'each', 'their'])
+const wgWords = (s) => new Set(s.toLowerCase().replace(/^■\s*/, '').replace(/’/g, "'").replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter((w) => w.length > 2 && !WG_STOP.has(w)))
+const wgOverlap = (a, b) => [...a].filter((x) => b.has(x)).length / new Set([...a, ...b]).size
+export function currentWargearRules(rules) {
+  const marked = (r) => /^■/.test(r.rules.trim())
+  const plain = rules.filter((r) => !marked(r))
+  if (!plain.length || plain.length === rules.length) return rules
+  return rules.filter((r) => !marked(r) || !plain.some((p) => wgOverlap(wgWords(r.rules), wgWords(p.rules)) >= 0.5))
 }

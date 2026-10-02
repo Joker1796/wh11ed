@@ -13,28 +13,38 @@
 // `refreshSummaries` is the safety net under those writers, for rosters no writer ever touched:
 // one built before this module existed, one imported from a share link (a share payload carries
 // no summary on purpose — it would be the sender's arithmetic). It prices only a roster whose
-// cache is missing or contradicted by the roster's own unit count, and loads one faction chunk
-// per faction that needs it, so a healthy collection loads nothing at all.
+// cache is missing, contradicted by the roster's own unit count, or written by another release,
+// and loads one faction chunk per faction that needs it, so a healthy collection loads nothing.
+//
+// The release stamp (`v`) is what makes a points update reach the cards. A list's own page always
+// prices it from the running build, but its card kept the total from the day it was last edited,
+// so after an MFM update the card and the page disagreed and a player read that as the app
+// freezing prices at build time (2026-09-30). Remembering a list's price for a fixed tournament
+// ruleset is a separate, deliberate feature — not this cache (hub journal, paused).
 
 import { rosterPoints, usesAllies } from './rosterEngine.js'
 import { validateRoster } from './rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
+import { APP_VERSION } from '../buildInfo.js'
 
 // The shape, in one place. Callers on an editing screen pass the points and error count they
 // already compute live, rather than paying for a second pass over the same units.
-export function summaryOf(roster, points, errorCount = 0) {
-  return { points, unitCount: roster?.units?.length || 0, issues: errorCount }
+export function summaryOf(roster, points, errorCount = 0, version = APP_VERSION) {
+  return { points, unitCount: roster?.units?.length || 0, issues: errorCount, v: version }
 }
 
 // A cache that cannot be believed. An empty roster is never stale — 0 points is the right answer
 // for it whether or not anything was ever written. For the rest, a `unitCount` that disagrees
 // with the units present means the cache predates them; a missing summary means no writer has
-// ever seen this roster. Neither test catches a change that keeps the count (swapping wargear),
-// which is why this is a safety net and not the mechanism.
-export function summaryStale(roster) {
+// ever seen this roster; a stamp from another release means the prices may have moved under it
+// (a summary from before the stamp existed has none, and is repriced once). None of these catches
+// a change that keeps the count (swapping wargear), which is why this is a safety net and not the
+// mechanism.
+export function summaryStale(roster, version = APP_VERSION) {
   if (!roster?.units?.length) return false
-  return !roster.summary || roster.summary.unitCount !== roster.units.length
+  const s = roster.summary
+  return !s || s.unitCount !== roster.units.length || s.v !== version
 }
 
 // The whole summary computed from scratch — the repair path, which has no live computeds to reuse.

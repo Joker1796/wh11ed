@@ -49,6 +49,7 @@
         :unit-id="sheetId"
         :faction-slug="factionSlug"
         :names="weaponInfoNames"
+        :heading="weaponInfoHeading"
         @close="weaponInfoNames = null"
       />
     </Teleport>
@@ -59,6 +60,7 @@
       <EnhancementRuleModal
         :name="enhInfoName"
         :faction-slug="factionSlug"
+        :detachments="detachments"
         @close="enhInfoName = null"
       />
     </Teleport>
@@ -182,16 +184,29 @@
           class="ues-req"
         >+{{ defaultPts }}{{ labels.rosterPointsLabel }}</em>
       </h4>
-      <p
-        v-for="(l, i) in defaultLines"
-        :key="i"
-        class="ues-default"
-      >
-        <span
-          v-if="l.mini"
-          class="ues-mini"
-        >{{ l.mini }}:</span> {{ l.items }}
-      </p>
+      <div class="opt-tile ues-default-row">
+        <div class="ues-default-list">
+          <p
+            v-for="(l, i) in defaultLines"
+            :key="i"
+            class="ues-default"
+          >
+            <span
+              v-if="l.mini"
+              class="ues-mini"
+            >{{ l.mini }}:</span> {{ l.items }}
+          </p>
+        </div>
+        <button
+          v-if="defaultNames.length"
+          type="button"
+          class="opt-info"
+          :aria-label="labels.rosterViewInfo"
+          @click="openWeaponInfo(defaultNames, labels.rosterDefaultWargear)"
+        >
+          <i class="bi bi-info-circle" />
+        </button>
+      </div>
     </section>
 
     <!-- Warlord -->
@@ -696,9 +711,12 @@ const optNames = (o) => optionItems(o).map(([id]) => props.items[id]).filter(Boo
 // which is what "Show datasheet" (RosterUnitRulesModal, with its accordions) is for.
 const rulesOpen = ref(false)
 const weaponInfoNames = ref(null)
-function openWeaponInfo(names) {
+const weaponInfoHeading = ref('')
+function openWeaponInfo(names, heading = '') {
   const list = (names || []).filter(Boolean)
-  if (list.length) weaponInfoNames.value = list
+  if (!list.length) return
+  weaponInfoHeading.value = heading
+  weaponInfoNames.value = list
 }
 const enhInfoName = ref(null)
 function openEnhInfo(name) { enhInfoName.value = name }
@@ -834,6 +852,10 @@ const sizeTells = computed(() => {
 
 // ── Default loadout summary ──
 const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items, props.entry))
+// Every item the lines name, once — a Sergeant and his squad both carrying a bolt pistol is one
+// profile to read. The info button beside them opens all of it, the way an option's button opens
+// the option: the default loadout was the one wargear on this screen with no way to read it.
+const defaultNames = computed(() => [...new Set(defaultLines.value.flatMap((l) => l.names))])
 const defaultPts = computed(() => defaultWargearPoints(props.def, props.entry))
 
 // ── Wargear selection: entry.wg = [[groupIdx, optIdx, count], …] (deviations only) ──
@@ -1037,7 +1059,13 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   line-height: 1.5;
 }
 .ues-mini { color: var(--text-dim); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.03em; margin-right: 0.3rem; }
-.ues-default { font-size: 0.82rem; color: var(--text-muted); margin: 0.15rem 0; }
+.ues-default { font-size: 0.85rem; margin: 0.15rem 0; }
+/* The default loadout is a tile like the options under it (owner, 2026-10-01): the same frame and
+   ground, its info button in the same right-hand column. Inside a tile the names read at full
+   strength — muted text in a frame reads as a disabled pick. The button keeps a floor so a one-line
+   loadout still gives the finger a target. */
+.ues-default-list { flex: 1; min-width: 0; align-self: center; padding: 0.5rem 0.6rem; }
+.ues-default-row .opt-info { min-height: 2.4rem; }
 /* The option list under a group's instruction — indented under the heading it belongs to, and
    muted so the heading still reads as the heading. */
 .ues-blist { margin: -0.25rem 0 0.5rem; padding-left: 1.1rem; list-style: none; }
@@ -1159,7 +1187,7 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
    else shrinks a step so the checkbox tiles/info button/pill row don't force horizontal
    crowding or wrap awkwardly at this width. */
 @media (max-width: 360px) {
-  .ues-default { font-size: 0.76rem; }
+  .ues-default { font-size: 0.78rem; }
   .ues-blist li { font-size: 0.78rem; }
   .pill { padding: 0.22rem 0.45rem; font-size: 0.72rem; }
   .opt-select { padding: 0.4rem 0.45rem; gap: 0.4rem; font-size: 0.78rem; }

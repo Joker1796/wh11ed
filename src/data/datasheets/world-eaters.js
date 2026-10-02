@@ -103,7 +103,7 @@ export default [
           },
           {
             "name": "Driven by Ultimate Rage (Aura)",
-            "text": "While a friendly World Eaters unit is within 6\" of this model, you can ignore any or all modifiers to that unit’s Move characteristic and to Advance and Charge rolls made for it, and each time a model in that unit makes a melee attack, you can ignore any or all modifiers to that attack’s Weapon Skill characteristic and/or any or all modifiers to the Hit roll."
+            "text": "While a friendly **WORLD EATERS** unit is within 6\" of this unit, that unit’s melee attacks can:\n▪ Re-roll **[gloss:hit-roll:hit rolls]** of 1.\n▪ Re-roll **[gloss:wound-roll:wound rolls]** of 1."
           }
         ]
       }
@@ -431,12 +431,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 220,
+        "points": 200,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 240,
+        "points": 220,
         "note": "3rd+"
       }
     ],
@@ -461,8 +461,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -475,8 +475,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -600,8 +600,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -614,8 +614,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -748,8 +748,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -762,8 +762,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -895,8 +895,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -909,8 +909,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -1030,22 +1030,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 165,
+        "points": 175,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 330,
+        "points": 350,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 175,
+        "points": 185,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 340,
+        "points": 360,
         "note": "3rd+"
       }
     ],
@@ -1054,7 +1054,7 @@ export default [
       {
         "name": "Chaos Terminators",
         "m": "7\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "3",
         "ld": "6+",
@@ -1071,8 +1071,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -1085,8 +1085,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -1164,7 +1164,7 @@ export default [
     "abilities": [
       {
         "name": "Bloody Fury",
-        "text": "This unit’s ranged attacks that target the closest eligible target can re-roll Hit rolls. When this unit declares a charge, you can use this part of this ability. If you do: this unit can re-roll that charge roll; this unit must end that charge move engaged with the closest charge target."
+        "text": "This unit’s ranged attacks that target the closest eligible target can re-roll Hit rolls. When this unit **[gloss:declare-charge:declares a charge]**, you can use this part of this ability. If you do: this unit can re-roll that **[gloss:charge-roll:charge roll]**; this unit must end that charge move engaged with the closest **[gloss:charge-target:charge target]**."
       }
     ],
     "composition": [
@@ -1593,7 +1593,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 255,
+        "points": 250,
         "note": "1st-2nd"
       },
       {
@@ -1603,7 +1603,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 270,
+        "points": 265,
         "note": "3rd+"
       }
     ],
@@ -1668,7 +1668,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 265,
+        "points": 260,
         "note": "1st-2nd"
       },
       {
@@ -1678,7 +1678,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 280,
+        "points": 275,
         "note": "3rd+"
       }
     ],
@@ -1936,7 +1936,7 @@ export default [
     "points": [
       {
         "models": 8,
-        "points": 75
+        "points": 70
       }
     ],
     "flavor": "Goremongers are mortal cultists obsessed with mechanically augmenting their physical forms into macabre approximations of Khome’s Bloodletter daemons. Their augmetic limbs propel them across the battlefield at terrifying speed, allowing them to bring their brutal chain weapons to bear before the foe can respond.",
@@ -2059,8 +2059,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2345,7 +2345,7 @@ export default [
       },
       {
         "models": 20,
-        "points": 130
+        "points": 120
       }
     ],
     "flavor": "Jakhals are amongst the strongest and most bloodthirsty of all the mortal followers of the World Eaters, and seek to emulate their gore-crazed masters in every way they can. When sent into battle, they enter the fray with wild abandon, hacking and slashing with their chain weapons in the hope of earning the favour of their lords.",
@@ -2462,7 +2462,7 @@ export default [
       {
         "name": "Khârn the Betrayer",
         "m": "8\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -2517,7 +2517,7 @@ export default [
       },
       {
         "name": "The Betrayer",
-        "text": "At the end of your Charge phase, if this unit is on the battlefield, is unengaged, and contains a Bodyguard model, this unit makes a Leadership roll:\n\u25aa If that Leadership roll is failed, one Bodyguard model in this unit is destroyed."
+        "text": "At the end of your Charge phase, if this unit is on the battlefield, is unengaged, and contains a Bodyguard model, this unit makes a Leadership roll:\n▪ If that Leadership roll is failed, one Bodyguard model in this unit is destroyed."
       },
       {
         "name": "Berzerker Frenzy",
@@ -2554,11 +2554,11 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 160
+        "points": 170
       },
       {
         "models": 20,
-        "points": 320
+        "points": 330
       }
     ],
     "flavor": "Berzerkers of Khorne relish their role as the Blood God’s sacred destroyers, and are fanatical in the extreme. The warp-fuelled anger of these psychopathic warriors drives them into an endless frenzy of action. Those who face them in battle disappear under a rain of heavy blows, each potent enough to shear limbs and shatter shields.",
@@ -2566,7 +2566,7 @@ export default [
       {
         "name": "Khorne Berzerkers",
         "m": "8\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
@@ -2582,8 +2582,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2618,7 +2618,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -2636,7 +2636,11 @@ export default [
     "abilities": [
       {
         "name": "Blood Surge",
-        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed as a result of those attacks, this unit can make a surge move of up to D6+2\"."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was **[gloss:destroyed:destroyed]** as a result of those attacks, this unit can make a **[gloss:surge-move:surge move]** of up to D6+2\"."
+      },
+      {
+        "name": "Murderous Charge",
+        "text": "If this unit made a **[gloss:charge-move:charge move]** this turn, this unit’s melee attacks have +1 **[gloss:strength:S]**."
       }
     ],
     "wargearAbilities": [
@@ -2852,9 +2856,9 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -3042,7 +3046,7 @@ export default [
       {
         "name": "Master of Executions",
         "m": "8\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -3057,9 +3061,9 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -3181,7 +3185,7 @@ export default [
     "abilities": [
       {
         "name": "The Scent of Blood",
-        "text": "In the Charge phase, when this unit declares a charge:\n▪ If an enemy unit below starting strength is within 9\" of this unit, this unit has +1 to Charge rolls.\n▪ __Or__: If an enemy unit below half strength is within 9\" of this unit, this unit has +2 to Charge rolls."
+        "text": "In the Charge phase, when this unit **[gloss:declare-charge:declares a charge]**:\n▪ If an enemy unit below starting strength is within 9\" of this unit, this unit has +1 to **[gloss:charge-roll:Charge rolls]**.\n▪ __Or__: If an enemy unit below half strength is within 9\" of this unit, this unit has +2 to **Charge rolls**."
       },
       {
         "name": "Savage Exaltation",
@@ -3310,7 +3314,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "Some World Eaters will go to terrible lengths to increase their lethality. The Slaughterbound share their forms with the possessing spirit of a Bloodthirster. Such an infernal fusion lends the host colossal strength and insatiable rage, driving them to reckless butchery. Containing such power requires great force of will, however, and the demise of such a warrior is often explosive.",

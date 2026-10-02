@@ -8,7 +8,6 @@
       type="button"
       class="fab-btn back-to-top"
       data-press="pop"
-      :title="labels.backToTop"
       :aria-label="labels.backToTop"
       @click="scrollToTop"
     >

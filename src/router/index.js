@@ -38,6 +38,7 @@ const DisclaimerView    = () => import('../views/DisclaimerView.vue')
 const HelpView          = () => import('../views/HelpView.vue')
 const HelpTopicView     = () => import('../views/HelpTopicView.vue')
 const ChangelogView     = () => import('../views/ChangelogView.vue')
+const PatchesView       = () => import('../views/PatchesView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
 const FactionPagesView  = () => import('../views/faction/FactionPagesView.vue')
@@ -151,6 +152,8 @@ const localeRoutes = [
     },
     { path: '/help/:topic', component: HelpTopicView },
     { path: '/changelog', component: ChangelogView },
+    // GW's updates — rules, points, FAQ — "was → now" (scripts/gen-patch-notes.mjs).
+    { path: '/patches', component: PatchesView },
     { path: '/factions',       component: FactionsListView, meta: { section: 'faction' } },
     // A faction's three pages are CHILDREN of one route: the hero and its tabs (FactionPagesView →
     // FactionLayout) stay mounted while the page under them changes, so a tab switch moves only

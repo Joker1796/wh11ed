@@ -15,9 +15,6 @@ export function useRouteSection() {
   const isFactionRoute = computed(() => route.meta.section === 'faction')
   // A specific faction's pages (/factions/:slug...) get their own subnav; the /factions list doesn't.
   const isFactionDetailRoute = computed(() => isFactionRoute.value && !!route.params.slug)
-  // A single unit's datasheet page is chrome-free (FactionLayout hero=false → no in-hero tabs),
-  // so it keeps the top subnav for the Rules/Units switch; the faction hero pages use in-hero tabs.
-  const isFactionUnitPage = computed(() => isFactionRoute.value && !!route.params.unit)
   const isEventRoute = computed(() => route.meta.section === 'event')
   const isCombatPatrolRoute = computed(() => route.meta.section === 'combat-patrol')
   // The one combined per-faction page (/combat-patrol/:slug) is a long scroll (rule + army rule +
@@ -50,7 +47,6 @@ export function useRouteSection() {
     isLinksRoute,
     isFactionRoute,
     isFactionDetailRoute,
-    isFactionUnitPage,
     isEventRoute,
     isCombatPatrolRoute,
     isCombatPatrolFactionRoute,

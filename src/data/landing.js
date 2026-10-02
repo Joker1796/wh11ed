@@ -1,5 +1,8 @@
 // Project landing page ("/") — bilingual { en, ru } single objects.
 // Minimalist: title + one-line description + three section cards.
+// The project's VK group — the footer and the support page both link to it.
+export const VK_URL = 'https://vk.ru/whrules'
+
 export const landing = {
   en: {
     tagline: 'Unofficial 11th Edition app — rules, rosters, and the game itself',
@@ -46,7 +49,6 @@ export const landing = {
       contactLabel: 'Contact the author:',
       thanksLabel: 'Acknowledgements:',
       thanks: [
-        { label: 'Translation help:', who: 'Yuri Avakumov' },
         { label: 'Testing help:', who: 'members of the «Кочующий стол» and «Z4VOD» clubs' },
       ],
       openSourceLabel: 'Open source:',
@@ -60,10 +62,15 @@ export const landing = {
         title: 'Support the project',
         intro: 'The app is free and has no ads. I make it on my own, in my spare time, and pay for the hosting myself.',
         what: 'A donation unlocks nothing: there is no paid version. It helps the project keep going and shows me the work is needed.',
-        how: 'The button opens the payment page. You can pay from any Russian bank, with no fee. On a computer, scan the code with your phone.',
-        button: 'Support via SBP',
+        how: 'This opens an Ozon Bank page. It takes payments from Russian banks only, through SBP, the Russian fast payment system, with no fee.',
+        qrNote: 'The code is for a computer: point your phone’s camera at it.',
+        button: 'Donate (Russian banks)',
         qrAlt: 'QR code of the donation link',
-        thanks: 'Thank you! And thank you for the bug reports too: they make the app better.',
+        // {vk} and {bug} become links (SupportView).
+        free: 'You can help without money too: tell your club about the site, join the {vk}, or {bug} when you spot one.',
+        freeVk: 'VK group',
+        freeBug: 'report a bug',
+        thanks: 'Thank you to everyone who has already helped, with money, a kind word or a bug found.',
       },
       dataVersionLabel: 'Data version',
       detailsShow: 'More',
@@ -118,7 +125,6 @@ export const landing = {
       contactLabel: 'Связь с автором:',
       thanksLabel: 'Благодарности:',
       thanks: [
-        { label: 'За помощь в переводе:', who: 'Юрию Авакумову' },
         { label: 'За помощь в тестировании:', who: 'участникам клубов «Кочующий стол» и «Z4VOD»' },
       ],
       openSourceLabel: 'Открытый код:',
@@ -132,10 +138,14 @@ export const landing = {
         title: 'Поддержать проект',
         intro: 'Приложение бесплатное и без рекламы. Я делаю его один, в свободное время, и сам плачу за хостинг.',
         what: 'Донат ничего не открывает: платной версии нет. Он помогает проекту жить и показывает, что работа нужна.',
-        how: 'Кнопка открывает страницу оплаты. Платить можно из любого российского банка, без комиссии. С компьютера отсканируйте код телефоном.',
+        how: 'Откроется страница Ozon Банка. Оплатить можно из любого российского банка по СБП, без комиссии.',
+        qrNote: 'Код — для компьютера: наведите на него камеру телефона.',
         button: 'Поддержать через СБП',
         qrAlt: 'QR-код ссылки для доната',
-        thanks: 'Спасибо! И спасибо за сообщения об ошибках: они делают приложение лучше.',
+        free: 'Помочь можно и без денег: расскажите о сайте в своём клубе, вступите в {vk} или {bug}, если что-то заметили.',
+        freeVk: 'группу ВКонтакте',
+        freeBug: 'сообщите об ошибке',
+        thanks: 'Спасибо всем, кто уже помог: деньгами, добрым словом или найденной ошибкой.',
       },
       dataVersionLabel: 'Версия данных',
       detailsShow: 'Ещё',

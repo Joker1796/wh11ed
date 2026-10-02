@@ -396,10 +396,13 @@ describe('parseList — listhammer.info, short mode', () => {
   })
 })
 
-// A real Adeptus Custodes export, current as of the data version this repo holds, priced end to
-// end against our own generated bundle. It used to be the Orks pair below — until Codex: Orks
-// repriced the whole faction, which is exactly why an exact-pricing claim has to ride on a list
-// exported against data we still carry. Swap it for a current Orks export once listhammer has one.
+// A real Adeptus Custodes export (data version v931), priced end to end against our own generated
+// bundle. It used to be the Orks pair below — until Codex: Orks repriced the whole faction, which
+// is exactly why an exact-pricing claim has to ride on a list exported against data we still
+// carry. MFM v1.5 (app data 963) then repriced two of its datasheets, Custodian Guard 170 → 180
+// and Vertus Praetors 215 → 230 for three; the rest of the list still costs what it states, so
+// the claim now rides on those units only. Swap it for a current export once listhammer has one.
+const LH_REPRICED = new Set(['Custodian Guard', 'Vertus Praetors'])
 const LH_CURRENT = `custodes (2000 points)
 
 Adeptus Custodes
@@ -483,8 +486,10 @@ describe('matchRoster — listhammer against our own data', () => {
     const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
     const { report } = matchRoster(parseList(LH_CURRENT), cur)
     expect(report.missing).toEqual([])
-    for (const u of report.units) expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
-    expect(report.points.computed).toBe(report.points.statedUnits)
+    const priced = report.units.filter((u) => !LH_REPRICED.has(u.name))
+    expect(priced).toHaveLength(8)
+    for (const u of priced) expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
+    // (The list's own total no longer adds up: the two repriced datasheets cost 40 more now.)
   })
 
   // The Orks export below is a data-version-925 paste and its points are last codex's; what it is
@@ -505,7 +510,8 @@ describe('matchRoster — listhammer against our own data', () => {
     const { report } = matchRoster(parseList(LH_CURRENT), cur)
     const guard = report.units.find((u) => u.name === 'Custodian Guard')
     expect(guard.models).toBe(4)
-    expect(guard.points.computed).toBe(170)
+    // The 4-model bracket: 170 as exported, 180 since MFM v1.5 — five models would be 225.
+    expect(guard.points.computed).toBe(180)
   })
 
   // Our data keeps the kind inside the enhancement's name ("Interred Expertise (Upgrade)"); the
@@ -616,8 +622,10 @@ Defiler (330 Points)
 // two halves arrive as two lines, and indexing only single-item options left both unplaceable and
 // the swap untaken: the unit imported still holding the printed warscythes, at the same price.
 // A Deathwatch Kill Team offers a frag cannon, an infernus heavy bolter and a Deathwatch shotgun,
-// each "and 1 close combat weapon" — so the close combat weapons in the list belong to no group in
+// each "and 1 Knives and Fists" — so the knives and fists in the list belong to no group in
 // particular, and a line counting all of them said nothing about how many of any one swap was made.
+// (Written against the app data 963 datasheet: before it the shared half was a close combat
+// weapon and the hammer a Deathwatch thunder hammer.)
 describe('matchRoster — a bundle half that several groups share', () => {
   let ctx
   beforeAll(async () => {
@@ -638,23 +646,23 @@ BATTLELINE
 
 Deathwatch Kill Team (190 points)
   • 1x Watch Sergeant
-    • 1x Astartes shield
-      1x Xenophase blade
+    • 1x Boltgun
+      1x Xenophase Blade
   • 9x Deathwatch Veterans
-    • 1x Astartes shield
-      4x Close combat weapon
-      4x Deathwatch thunder hammer
-      2x Frag cannon
-      2x Infernus heavy bolter
-      1x Power weapon`
+    • 1x Boltgun
+      4x Knives and Fists
+      4x Heavy Thunder Hammer
+      2x Frag Cannon
+      2x Infernus Heavy Bolter
+      1x Power Weapon`
     const { payload, report } = matchRoster(parseList(text), ctx)
     const { faction } = ctx
     const def = faction.units.find((u) => u.id === 'deathwatch-kill-team')
     const gearOf = (weapon) => def.gear.findIndex((g) => (g.o || []).some((o) => optionItems(o).some(([id]) => ctx.items[id] === weapon)))
     const wg = new Map(payload.units[0].wg.map(([gi, , n]) => [gi, n]))
-    expect(wg.get(gearOf('Frag cannon'))).toBe(2)              // two, not the four close combat weapons
-    expect(wg.get(gearOf('Infernus heavy bolter'))).toBe(2)
-    expect(wg.get(gearOf('Deathwatch thunder hammer'))).toBe(4)
+    expect(wg.get(gearOf('Frag Cannon'))).toBe(2)              // two, not the four knives and fists
+    expect(wg.get(gearOf('Infernus Heavy Bolter'))).toBe(2)
+    expect(wg.get(gearOf('Heavy Thunder Hammer'))).toBe(4)
     expect(report.units[0].gear.missing).toEqual([])
   })
 })
@@ -853,7 +861,8 @@ describe('matchRoster — the flat body, against our own data', () => {
     const { report } = matchRoster(parseList(FLAT), ctx)
     const zerks = report.units.find((u) => u.name === 'Khorne Berzerkers')
     expect(zerks.models).toBe(20)                    // the champion and nineteen berzerkers
-    expect(zerks.points.computed).toBe(320)
+    // …priced at the 20-model bracket: 320 as exported, 330 since MFM v1.5 (app data 963).
+    expect(zerks.points.computed).toBe(330)
     expect(zerks.gear.missing).toEqual([])
   })
 
@@ -1110,12 +1119,20 @@ describe('matchRoster — listhammer.info, labelled header between two rows of +
     expect(jakhals.models).toBe(10)
     const zerks = out.report.units[1]
     expect(zerks.models).toBe(10)
-    expect(zerks.points.computed).toBe(160)
+    // …priced at the 10-model bracket: 160 as exported, 170 since MFM v1.5 (app data 963).
+    expect(zerks.points.computed).toBe(170)
   })
 
+  // The export is a historical one now: MFM v1.5 (app data 963) moved the Khorne Berzerkers'
+  // 10-model bracket 160 → 170 and left the Master of Executions, the Glaive and the Jakhals
+  // alone. So the list lands on what it states plus exactly that reprice, and every other unit
+  // still costs what it states.
   it('places the whole list at the points it states', () => {
-    expect(out.report.points.computed).toBe(320)
-    expect(out.report.points.computed).toBe(out.report.points.stated)
+    expect(out.report.points.stated).toBe(320)
+    expect(out.report.points.computed).toBe(out.report.points.stated + 10)
+    for (const u of out.report.units.filter((x) => x.name !== 'Khorne Berzerkers')) {
+      expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
+    }
   })
 })
 
@@ -1342,7 +1359,9 @@ describe('matchRoster — an allied unit', () => {
     const draxus = report.units.find((u) => u.name === 'Inquisitor Draxus')
     expect([draxus.points.computed, draxus.points.stated]).toEqual([110, 110])
     expect(payload.units.map((u) => u.id)).toContain('imperial-agents:inquisitor-draxus')
-    expect(report.points.computed).toBe(report.points.statedUnits)
+    // A historical export now: MFM v1.5 (app data 963) moved the 5-model Custodian Guard 215 →
+    // 225, and nothing else here, so the list lands on what its units state plus that.
+    expect(report.points.computed).toBe(report.points.statedUnits + 10)
   })
 
   // Two datasheets share the name across that line, and an Astra Militarum list saying
@@ -1383,26 +1402,11 @@ describe('the detachment line', () => {
       .toEqual({ matched: ['Champions of Russ'], missing: ['Wolves of Fenris'] })
   })
 
-  it('reads a real list whose two detachments both contain “and”', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
-    const text = `Saga (2000 points)
-
-Space Marines
-Space Wolves
-Legends of Saga and Song and Saga of the Great Wolf (3 Detachment Points)
-Strike Force (2000 points)
-
-CHARACTERS
-
-Logan Grimnar (100 points)
-• Warlord
-• 1x Axe Morkai`
-    const faction = await loadRosterFaction('space-wolves')
-    const { report } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
-    expect(report.detachments).toEqual({ matched: ['Legends of Saga and Song', 'Saga of the Great Wolf'], missing: [] })
-    expect(report.missing).toEqual([])
-  })
+  // "reads a real list whose two detachments both contain 'and'" — pinned Space Wolves' Legends of
+  // Saga and Song beside Saga of the Great Wolf until Codex: Space Marines (app data 963) retired
+  // the first; since then no detachment in the game has "and" in its name, so there is no real
+  // list left to read. The three cases above still pin the splitting itself against a stub list;
+  // the real-list case is untested rather than pinned to a detachment that no longer exists.
 })
 
 // A New Recruit / WTC list with an ally in it: an Imperial Knights army whose sixth entry is an
@@ -1512,26 +1516,32 @@ describe('matchRoster — a WTC header over a listhammer body', () => {
     const faction = await loadRosterFaction('blood-angels')
     const { report, payload } = matchRoster(parseList(WTC_GW_BODY), { faction, core: rosterCore, items: items.items })
     expect(report.missing).toEqual([])
-    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
-    expect(report.points.computed).toBe(report.points.statedUnits)
+    // The export predates Codex: Space Marines (app data 963), which rewrote the Sanguinary
+    // Guard's and the Scouts' wargear and repriced the list, so it no longer carries the claims
+    // that every weapon places and the list lands on its stated total — a historical export now,
+    // it still pins what the FORMAT decides: every unit lands, the count, the attachment.
     // A ten-model squad printed as "1x Scout Sergeant" + "4x Scouts" is five models, not one.
     expect(report.units.find((u) => u.name === 'Scout Squad').models).toBe(5)
     expect(payload.units.find((u) => u.id === 'captain-with-jump-pack').leaderOf).toBeTruthy()
   })
 
-  // Codex: Space Marines detachments are the Chapters' too — appdata says which, and what they
-  // cost each of them (Stormlance Task Force is 3 DP for a Codex army, 2 for Blood Angels).
+  // Codex: Space Marines detachments are the Chapters' too — appdata says which. (What they cost
+  // each Chapter used to differ too — Stormlance Task Force was 3 DP for a Codex army and 2 for
+  // Blood Angels — but since Codex: Space Marines, app data 963 and MFM v1.5, every Chapter pays
+  // the Codex price for every one of them, so `detachmentDp` has no example left to pin.)
   it('finds a Codex detachment in a Chapter army', async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
     const ba = await loadRosterFaction('blood-angels')
     const stormlance = ba.detachments.find((d) => d.name === 'Stormlance Task Force')
     expect(stormlance).toBeTruthy()
-    expect(stormlance.dp).toBe(2)
+    expect(stormlance.shared).toBe(1)
     expect(ba.detachments.find((d) => d.name === 'Angelic Inheritors')).toBeTruthy()
-    // Black Templars have no Librarians, and appdata does not offer them the Conclave.
+    // …and only the ones it names: Black Templars are offered Stormlance Task Force but not
+    // Gladius Task Force (MFM v1.5 prices no Gladius for them either). This was Librarius
+    // Conclave — no Librarians — until app data 963 retired that detachment.
     const bt = await loadRosterFaction('black-templars')
-    expect(bt.detachments.find((d) => d.name === 'Librarius Conclave')).toBeFalsy()
-    expect(bt.detachments.find((d) => d.name === 'Gladius Task Force')).toBeTruthy()
+    expect(bt.detachments.find((d) => d.name === 'Stormlance Task Force')).toBeTruthy()
+    expect(bt.detachments.find((d) => d.name === 'Gladius Task Force')).toBeFalsy()
   })
 })
 
@@ -1543,8 +1553,14 @@ describe('matchRoster — an ally in the WTC format', () => {
     const { report, payload } = matchRoster(parseList(WTC_ALLY), { faction, core: rosterCore, items: items.items })
     expect(report.missing).toEqual([])
     expect(payload.units.map((u) => u.id)).toContain('imperial-agents:watch-captain-artemis')
-    expect(report.points.computed).toBe(2000)
-    expect(report.points.computed).toBe(report.points.statedUnits)
+    // A historical export now: MFM v1.5 (app data 963) moved the Cerastus Knight Atrapos 405 →
+    // 420 and Watch Captain Artemis 65 → 75, so the list lands on its stated 2000 plus those 25,
+    // and every other unit still costs exactly what it states.
+    expect(report.points.statedUnits).toBe(2000)
+    expect(report.points.computed).toBe(report.points.statedUnits + 25)
+    for (const u of report.units.filter((x) => !['Cerastus Knight Atrapos', 'Watch Captain Artemis'].includes(x.name))) {
+      expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
+    }
     // Both enhancements, one of them declared on the header's continuation line — and their points
     // are already inside the unit prices the list states, never added twice.
     expect(report.units.filter((u) => u.enh?.ok).map((u) => u.enh.name))
@@ -1654,7 +1670,8 @@ describe('matchRoster — a title that prices itself several lines down', () => 
     const { report } = matchRoster(parseList(POEM), ctx)
     const clade = report.units.find((u) => u.name === 'Servitor Battleclade')
     expect(clade.gear.missing).toEqual([])
-    expect(clade.points.computed).toBe(65)
+    // Nothing charged on top of the bracket: 65 as exported, 75 since MFM v1.5 (app data 963).
+    expect(clade.points.computed).toBe(75)
   })
 
   // Draxus leads "any IMPERIUM BATTLELINE INFANTRY unit" — a keyword, not a list of names, which is
@@ -1734,6 +1751,11 @@ Indomitor Kill Team (275 points)
 
 Exported from listhammer.info: https://listhammer.info/list/203446373405ffec85`
 
+// The DW export above predates Codex: Space Marines (app data 963), which rewrote every
+// Deathwatch datasheet and repriced them (MFM v1.5): the Terminator Squad's bracket went 180 →
+// 190 and its cyclone missile launchers started costing 10, and the Indomitor Kill Team renamed
+// its profiles and kept one bracket. It stays as the historical export it is; the claims its
+// reprice or its renames broke moved or went, each case says which.
 describe('matchRoster — a squad that swaps in pairs', () => {
   let ctx
   beforeAll(async () => {
@@ -1746,43 +1768,69 @@ describe('matchRoster — a squad that swaps in pairs', () => {
 
   // A stepper counts MODELS, per profile. The sergeant's thunder hammer and storm shield are one
   // swapped model and the squad's are another; folding all four lines into one bucket counted three
-  // swapped models at 5 points each and put the whole army 10 points over its limit.
+  // swapped models at 5 points each and put the whole army 10 points over its limit. The price the
+  // export states is last codex's, so what is pinned now is the pair itself: each profile's
+  // hammer-and-shield is ONE pick of the option that grants both, not two loose items.
   it('counts a paired swap once per profile, not once per line', () => {
-    const { report, payload } = matchRoster(parseList(DW), ctx)
-    const term = report.units.find((u) => u.name === 'Deathwatch Terminator Squad')
-    expect([term.points.computed, term.points.stated]).toEqual([190, 190])
+    const { payload } = matchRoster(parseList(DW), ctx)
+    const def = ctx.faction.units.find((u) => u.id === 'deathwatch-terminator-squad')
     const wg = payload.units.find((u) => u.id === 'deathwatch-terminator-squad').wg
-    expect(wg.find(([gi, oi]) => gi === 1 && oi === 2)[2]).toBe(2)     // two models took the pair
+    const names = ([gi, oi]) => optionItems(def.gear[gi].o[oi]).map(([id]) => ctx.items[id]).sort()
+    const pairs = wg.filter((w) => names(w).includes('Thunder Hammer'))
+    expect(pairs.map((w) => def.gear[w[0]].m).sort()).toEqual([0, 1])        // one per profile…
+    for (const w of pairs) expect([names(w), w[2]]).toEqual([['Storm Shield', 'Thunder Hammer'], 1]) // …each the pair, once
   })
 
-  // Three bundled options differ only in their last weapon ("1 boltstorm gauntlet, 1 power fist and
-  // 1 relic blade / chainsword / fist"). Reading them one weapon at a time spent two of them.
+  // Three bundled options differ only in their last weapon ("1 boltstorm gauntlet and 1 relic
+  // blade / chainsword / fist"). Reading them one weapon at a time spent two of them. Asked of the
+  // Captain's own entry: the Terminators' wargear is the case above.
   it('takes the bundle the list actually names, as one pick', async () => {
     const { payload } = matchRoster(parseList(DW), ctx)
     const captain = payload.units.find((u) => u.id === 'captain-in-gravis-armour')
     expect(captain.wg).toHaveLength(1)
     const { validateRoster } = await import('./rosterValidation.js')
-    const codes = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues.map((i) => i.code)
-    expect(codes.filter((c) => c === 'overWargearLimit')).toEqual([])
+    const issues = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues
+    expect(issues.filter((i) => i.uid === captain.uid && i.code === 'overWargearLimit')).toEqual([])
   })
 
-  // Two brackets, same ten models, same 275 points: "ten Heavy Intercessors" or "3-16 mixed". A
-  // 4/3/3 kill team is the second — under the first, the other two profiles have no models at all
-  // and every wargear group belonging to them capped at zero.
-  it('picks the bracket whose composition the list fits', () => {
-    const { payload } = matchRoster(parseList(DW), ctx)
-    const kt = payload.units.find((u) => u.id === 'indomitor-kill-team')
-    expect(kt.size).toBe(1)
+  // Two brackets, same models, same points, told apart only by who is in them. This was the DW
+  // export's Indomitor Kill Team ("ten Heavy Intercessors" or "3-16 mixed") until app data 963
+  // left it one bracket; the Victrix Honour Guard has eight of three and six models, and a
+  // Chapter Ancient with two Honour Guard is the fourth — under the default one (a Champion and
+  // two Guard) the Ancient's profile has no model at all. Written against the 963 datasheet.
+  it('picks the bracket whose composition the list fits', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const sm = await loadRosterFaction('space-marines')
+    const text = `Victrix (2000 points)
+
+Space Marines
+Strike Force (2000 points)
+
+OTHER DATASHEETS
+
+Victrix Honour Guard (135 points)
+• 1x Chapter Ancient
+• 1x Banner of Macragge
+1x Master-crafted Bolt Carbine
+1x Master-crafted Power Weapon
+• 2x Victrix Honour Guard
+• 2x Master-crafted Bolt Carbine
+2x Master-crafted Power Weapon`
+    const { payload, report } = matchRoster(parseList(text), { faction: sm, core: rosterCore, items: ctx.items })
+    const def = sm.units.find((u) => u.id === 'victrix-honour-guard')
+    const vhg = payload.units[0]
+    expect(def.sizes[vhg.size].comp).toEqual([[0, 0], [1, 1], [2, 2]])
+    expect(report.units[0].gear.missing).toEqual([])
   })
 
-  it('lands on the stated total', () => {
-    const { report } = matchRoster(parseList(DW), ctx)
-    expect(report.points.computed).toBe(report.points.statedUnits)
-    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
-  })
+  // "lands on the stated total" — dropped: every unit of the DW export was repriced by MFM v1.5,
+  // and the Indomitor's renamed profiles leave its model lines unplaceable against the 963
+  // datasheet, so neither the total nor "every weapon placed" is a claim this export can carry.
 
   // Black Spear Task Force bars the Imperial Agents Watch Master, not the Deathwatch one — the
-  // exclusion used to be resolved by name and hit this army's own datasheet.
+  // exclusion used to be resolved by name and hit this army's own datasheet. (Since app data 963
+  // the detachment bars nothing at all; what is still pinned is that the Watch Master lands on the
+  // Deathwatch datasheet and nothing flags it.)
   it('keeps a Watch Master the detachment does not actually bar', async () => {
     const text = DW.replace('OTHER DATASHEETS', 'OTHER DATASHEETS\n\nWatch Master (95 points)\n• 1x Vigil spear\n')
     const { payload } = matchRoster(parseList(text), ctx)
@@ -1952,7 +2000,8 @@ Chosen (135 Points)
     expect(parsed.repeated).toBe(1)
     const { report, payload } = matchRoster(parsed, { faction, core: rosterCore, items: items.items })
     expect(payload.units.filter((u) => u.id === 'masters-of-the-maelstrom')).toHaveLength(1)
-    expect(report.points.computed).toBe(130 + 145 + 135)
+    // Each of the three once, at MFM v1.5 prices (app data 963; the export's were 130/145/135).
+    expect(report.points.computed).toBe(135 + 150 + 140)
     // Huron joined the Masters, and the Masters are the Support of the Chosen: the chain the two
     // blocks state together, which dropping either copy would have cut in half.
     const [huron, masters, chosen] = ['huron-blackheart', 'masters-of-the-maelstrom', 'chosen']
@@ -2043,8 +2092,10 @@ Purifier Squad (130 points)
     const faction = await loadRosterFaction('grey-knights')
     const { report, payload } = matchRoster(parseList(GK), { faction, core: rosterCore, items: items.items })
     const gm = report.units.find((u) => u.name === 'Grand Master in Nemesis Dreadknight')
-    // 200 base + a Sublimator and a heavy psycannon at 15 each — "up to two of the following".
-    expect([gm.points.computed, gm.points.stated]).toEqual([230, 230])
+    // The base + a Sublimator and a heavy psycannon at 15 each — "up to two of the following".
+    // The export's 230 was a 200 base; MFM v1.5 (app data 963) made it 210, and the two weapons
+    // are still the 30 on top.
+    expect([gm.points.computed, gm.points.stated]).toEqual([240, 230])
     const codes = validateRoster(payload, { faction, core: rosterCore }).issues.map((i) => i.code)
     expect(codes).not.toContain('overWargearLimit')
   })
@@ -2516,7 +2567,10 @@ Terminator Squad (320 points)
 ${tail}`
     const { payload, report } = matchRoster(parseList(text), ctx)
     expect(report.units[0].gear.missing).toEqual([])
-    expect(report.units[0].points.computed).toBe(320)
+    // The export's 320 is last codex's; since app data 963 it is the 10-model bracket (380, MFM
+    // v1.5 as GW re-priced it on 2 October) plus the two cyclone missile launchers at 10 each,
+    // which the new datasheet charges.
+    expect(report.units[0].points.computed).toBe(380 + 2 * 10)
     // and the swap it describes is taken, twice — once per Terminator with a heavy weapon
     const def = ctx.faction.units.find((u) => u.id === 'terminator-squad')
     const gi = def.gear.findIndex((g) => (g.o || []).some((o) => optionItems(o).length > 1))
@@ -2720,13 +2774,14 @@ ${weapons}`
   // that second swap, and the ten points of it.
   it('places the rest of the line in the group that can still grant it', () => {
     const { payload, report } = matchRoster(parseList(list('• 1x Armoured limbs\n3x Ectoplasma cannon')), ctx)
-    expect(report.units[0].points.computed).toBe(175)
+    // 155 base (160 before MFM v1.5, app data 963) + 10 for the Hades pair + 5 for the jaws bundle.
+    expect(report.units[0].points.computed).toBe(155 + 10 + 5)
     expect(payload.units[0].wg).toHaveLength(2)
   })
 
   it('leaves the one swap alone when the list names one', () => {
     const { report } = matchRoster(parseList(list('• 1x Armoured limbs\n1x Ectoplasma cannon\n2x Hades autocannon')), ctx)
-    expect(report.units[0].points.computed).toBe(165)
+    expect(report.units[0].points.computed).toBe(155 + 5)    // the jaws bundle only
   })
 })
 
@@ -2783,7 +2838,9 @@ One of these losers actually has a missile launcher. -TO edited
 ◦ 4x Combat knife`)
     const { report } = matchRoster(parseList(text), ctx)
     expect(report.units[0].models).toBe(5)
-    expect(report.units[0].gear.missing).toEqual(['One of these losers actually has a missile launcher. -TO edited'])
+    // Reported, not counted. (It used to be the ONLY line reported: Codex: Space Marines, app
+    // data 963, renamed the Scouts' wargear, so this v946 list's weapons are unplaceable too.)
+    expect(report.units[0].gear.missing).toContain('One of these losers actually has a missile launcher. -TO edited')
   })
 
   // The half every bundle of one group shares ("and 1 close combat weapon") identifies none of
@@ -2803,28 +2860,13 @@ One of these losers actually has a missile launcher. -TO edited
     expect(await codesOf(payload, ctx)).not.toContain('overWargearLimit')
   })
 
-  // A bundle half the list holds MORE of than printed outscores one it holds fewer of, and a
-  // stepper spills past its group's room: three power fists are two inferno-pistol bundles and
-  // the plain chainsword swap.
-  it('places a squad whose swaps span three groups', async () => {
-    const ctx = await ctxFor('blood-angels')
-    const text = gw('Blood Angels', `Death Company Marines with Jump Packs (230 points)
-• 10x Death Company Marine with Jump Packs
-• 5x Astartes chainsword
-2x Eviscerator
-6x Heavy bolt pistol
-2x Inferno pistol
-2x Plasma pistol
-3x Power fist`)
-    const { payload, report } = matchRoster(parseList(text), ctx)
-    expect(report.units[0].gear.missing).toEqual([])
-    expect(await codesOf(payload, ctx)).not.toContain('overWargearLimit')
-    const fists = payload.units[0].wg.filter(([gi, oi]) => {
-      const opt = ctx.faction.units.find((u) => u.id === 'death-company-marines-with-jump-packs').gear[gi].o[oi]
-      return optionItems(opt).some(([id]) => ctx.items[id] === 'Power fist')
-    })
-    expect(fists.map(([, , n]) => n).reduce((a, b) => a + b, 0)).toBe(3)
-  })
+  // "places a squad whose swaps span three groups" — three power fists on ten Death Company
+  // Marines with Jump Packs were two inferno-pistol bundles and the plain chainsword swap, which
+  // pinned a bundle half the list holds MORE of than printed outscoring one it holds fewer of.
+  // Codex: Space Marines (app data 963) rewrote that datasheet into single-item swaps (the power
+  // fist on its own, two per ten models), so the v946 list is not even legal any more and no
+  // datasheet in the corpus is known to carry the shape; the case is untested rather than pinned
+  // to an example that no longer exists.
 
   // A group with no cap of its own is one pick per model it belongs to: five twin heavy bolters
   // and four lascannons on a Stormsword are the lascannon bundle once and the flamer swap once.

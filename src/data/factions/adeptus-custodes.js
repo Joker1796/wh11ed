@@ -9,7 +9,7 @@
 //     detachments (Might of the Moritoi, Silent Hunters, Tharanatoi Hammerblow, Lions of
 //     the Emperor, Solar Spearhead) + Rules Updates.
 //   MFM (src/data/mfm/adeptus-custodes.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the LIONS / ARMOURY `unique` tags.
+//     forceDispositions, and the LIONS / ARMOURY `unique` tags.
 //
 // 9 detachments total, matching the MFM list. Faction-Pack "Rules Updates" have been folded
 // into the codex detachment rules / stratagems / enhancements (they are the authoritative
@@ -47,7 +47,7 @@ Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.`,
       name: 'Talons of the Emperor',
       source: 'codex',
       dp: 3,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold", "Priority Assets"],
       rule: {
         name: 'Revered Companions',
         flavor:
@@ -161,7 +161,7 @@ All other Adeptus Custodes units from your army gain the following ability:
       name: 'Shield Host',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: 'Martial Mastery',
         flavor:
@@ -275,7 +275,7 @@ All other Adeptus Custodes units from your army gain the following ability:
       name: 'Null Maiden Vigil',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: 'Creeping Dread',
         flavor:
@@ -383,7 +383,7 @@ All other Adeptus Custodes units from your army gain the following ability:
       name: 'Auric Champions',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: 'Assemblage of Might',
         flavor:
@@ -497,7 +497,7 @@ All other Adeptus Custodes units from your army gain the following ability:
       name: 'Might of the Moritoi',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold"],
       unique: 'ARMOURY',
       rule: {
         name: 'March of the Honoured Dead',
@@ -505,9 +505,9 @@ All other Adeptus Custodes units from your army gain the following ability:
           'The fallen warriors interred in ancient Dreadnought sarcophagi are ever eager for battle, and their hulking forms propel them towards the foe at a deadly pace.',
         body: `Friendly ADEPTUS CUSTODES WALKER units:
 ▪ Have +2" M.
-▪ Have +1 to advance rolls and charge rolls.
+▪ Have +1 to **[gloss:advance-roll:advance rolls]** and **[gloss:charge-roll:charge rolls]**.
 
-This detachment has the ARMOURY tag and cannot be taken with another ARMOURY detachment.`,
+This **[gloss:detachments:detachment]** has the ARMOURY tag and cannot be taken with another ARMOURY **detachment**.`,
       },
       stratagems: [
         {
@@ -527,7 +527,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           cp: '1CP',
           turn: 'your',
           flavor: 'Even the most formidable obstacles give way to the ancient warriors of the Moritoi, ruptured and trampled underfoot or barged aside with howl of empowered servos.',
-          when: 'Your Movement phase, when a friendly ADEPTUS CUSTODES WALKER unit is selected to move.',
+          when: 'Your Movement phase, when a friendly ADEPTUS CUSTODES WALKER unit is **[gloss:selected-to-move:selected to move]**.',
           target: 'That ADEPTUS CUSTODES WALKER unit.',
           effect: 'Your unit has MOBILE.',
           restrictions: '',
@@ -538,7 +538,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           cp: '1CP',
           turn: 'your',
           flavor: 'When lauded Telemon pilots turn their pitiless optics upon a proximal threat, the storm of accelerated firepower that ensues leaves naught but smoking ruin.',
-          when: 'Your Shooting phase, when a friendly Telemon Heavy Dreadnought unit is selected to shoot.',
+          when: 'Your Shooting phase, when a friendly Telemon Heavy Dreadnought unit is **[gloss:selected-to-shoot:selected to shoot]**.',
           target: 'That Telemon Heavy Dreadnought unit.',
           effect: "Your unit's:\n▪ Arachnus Storm Cannon weapons have [RAPID FIRE 6].\n▪ Iliastus Accelerator Culverin weapons have [RAPID FIRE 2].",
           restrictions: '',
@@ -569,14 +569,14 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
       name: 'Silent Hunters',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: 'Skin-Crawling Disorientation',
         flavor:
           "The mere presence of the Silent Sisterhood's Blanks triggers a sense of agitated revulsion in their enemies. The foe's discipline breaks down, and watchful focus becomes elusive, allowing positions to be given away and granting the Sisters opportunities to conduct vital strategic operations.",
-        body: `▪ When a friendly Anathema Psykana unit is selected to make an advance move, that advance move does not prevent that unit from being eligible to start an action.
+        body: `▪ When a friendly Anathema Psykana unit is selected to make an **[gloss:advance-move:advance move]**, that **advance move** does not prevent that unit from being **[gloss:eligible-to-act:eligible to start an action]**.
 ▪ Friendly Anathema Psykana units have the following ability:
-▪ **Ceaseless Vigilance:** In your Shooting phase, this unit can select one visible enemy unit within 12". That enemy unit is nulled. While a unit is nulled, that unit has +3" detection range.`,
+▪ **Ceaseless Vigilance:** In your Shooting phase, this unit can select one **[gloss:visible:visible]** enemy unit within 12". That enemy unit is nulled. While a unit is nulled, that unit has +3" **[gloss:detection-range:detection range]**.`,
       },
       stratagems: [
         {
@@ -585,7 +585,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           cp: '1CP',
           turn: 'either',
           flavor: 'After stalking their sorcerous prey in silence, the charge of the Vigilators is accompanied by a keening song of death emitted by their scything greatblades as they are swept in eviscerating arcs.',
-          when: 'Fight phase, when a friendly Vigilators unit is selected to fight.',
+          when: 'Fight phase, when a friendly Vigilators unit is **[gloss:selected-to-fight:selected to fight]**.',
           target: 'That Vigilators unit.',
           effect: "▪ Your unit's melee attacks have [LANCE].\n▪ Your unit's melee attacks that target a PSYKER unit have +1 A.",
           restrictions: '',
@@ -596,7 +596,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           cp: '1CP',
           turn: 'your',
           flavor: 'When they have cornered their quarry at close range, Prosecutors fire their Umbra-pattern bolters in rapid bursts that sow strings of armour-shredding shots amongst the enemy.',
-          when: 'Your Shooting phase, when a friendly Prosecutors unit is selected to shoot.',
+          when: 'Your Shooting phase, when a friendly Prosecutors unit is **[gloss:selected-to-shoot:selected to shoot]**.',
           target: 'That Prosecutors unit.',
           effect: "Your unit's Boltgun weapons have:\n▪ [RAPID FIRE 2].\n▪ +1 AP.",
           restrictions: '',
@@ -607,7 +607,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           cp: '1CP',
           turn: 'your',
           flavor: 'Coordinating through a rapid exchange of Thoughtmark, Witchseekers unleash a flesh-melting inferno of all-consuming promethium from their flamers.',
-          when: 'Your Shooting phase, when a friendly Witchseekers unit is selected to shoot.',
+          when: 'Your Shooting phase, when a friendly Witchseekers unit is **[gloss:selected-to-shoot:selected to shoot]**.',
           target: 'That Witchseekers unit.',
           effect: "Your unit's [TORRENT] ranged attacks have [BLAST 1].",
           restrictions: '',
@@ -618,7 +618,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           name: 'Encircling Hunter',
           points: 15,
           flavor: "Possessed of years' experience hunting duplicitous and evasive witches, this Knight-Centura is skilled in ensuring every escape route is covered and their unknowing target reeling in horror and confusion.",
-          body: `Anathema Psykana model only. When both players have deployed their armies, you can redeploy up to three friendly ANATHEMA PSYKANA INFANTRY units. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves.`,
+          body: `Anathema Psykana model only. When both players have deployed their armies, you can redeploy up to three friendly ANATHEMA PSYKANA INFANTRY units. When doing so, you can set those units up in **[gloss:strategic-reserves:Strategic Reserves]**, regardless of how many units are already in **Strategic Reserves**.`,
         },
         {
           name: 'Psyk-out Grenades',
@@ -627,7 +627,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           flavor: "These small, artificer-wrought explosives are deadly enough to lesser foes. Yet the favoured prey of the Sisters of Silence are excruciated or stunned by the grenades' psi-refractive particles, convulsing in a vortex of despair.",
           body: `Anathema Psykana unit only.
 ▪ This unit has EXPLOSIVES.
-▪ When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re-roll rolls to determine whether that enemy unit suffers a mortal wound.`,
+▪ When you target this unit with the Explosives stratagem, if you select an enemy PSYKER unit, you can re-roll rolls to determine whether that enemy unit suffers a **[gloss:mortal-wound:mortal wound]**.`,
         },
       ],
     },
@@ -637,15 +637,15 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
       name: 'Tharanatoi Hammerblow',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption"],
       unique: 'LIONS',
       rule: {
         name: 'The Hammer Falls',
         flavor:
           'Whether striking from amidst roiling teleport flares or advancing from outflanking positions, the most heavily armoured of the Adeptus Custodes hit their foes in terrifyingly sudden incursions.',
-        body: `If a friendly ADEPTUS CUSTODES TERMINATOR unit made an ingress move this turn, that unit can re-roll charge rolls.
+        body: `If a friendly ADEPTUS CUSTODES TERMINATOR unit made an **[gloss:ingress-move:ingress move]** this turn, that unit can re-roll **[gloss:charge-roll:charge rolls]**.
 
-This detachment has the LIONS tag and cannot be taken with another LIONS detachment.`,
+This **[gloss:detachments:detachment]** has the LIONS tag and cannot be taken with another LIONS **detachment**.`,
       },
       stratagems: [
         {
@@ -667,7 +667,7 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
           flavor: 'Heroic bands of Terminator-armoured Custodians engage entire armies in unrelenting battle.',
           when: 'Your Command phase.',
           target: 'One friendly Allarus Custodians / Aquilon Custodians unit that is on the battlefield.',
-          effect: 'Your unit is split into separate units, each containing one model. These new units each have a starting strength of 1.',
+          effect: 'Your unit is split into separate units, each containing one model. These new units each have a **[gloss:starting-strength:starting strength]** of 1.',
           restrictions: '',
         },
         {
@@ -676,7 +676,7 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
           cp: '1CP',
           turn: 'your',
           flavor: 'A concussive barrage of specialist grenades enables Allarus Custodians to maximise the destructive potential of their arm-mounted launchers against their massed enemies.',
-          when: 'Your Shooting phase, when a friendly ADEPTUS CUSTODES TERMINATOR unit is selected to shoot.',
+          when: 'Your Shooting phase, when a friendly ADEPTUS CUSTODES TERMINATOR unit is **[gloss:selected-to-shoot:selected to shoot]**.',
           target: 'That ADEPTUS CUSTODES TERMINATOR unit.',
           effect: "Your unit's Ballistus Grenade Launcher weapons have D3+3 A.",
           restrictions: '',
@@ -687,13 +687,13 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
           name: 'Mnemo-locked Shrine Cipher',
           points: 25,
           flavor: "This encrypted activation code dates back to before the Emperor's compact with Mars. Committed to the enhanced memory of the bearer, it can be uttered to cut through a teleportarium shrine's layers of ageing protocols to deliver armoured death in the blink of an eye.",
-          body: `ADEPTUS CUSTODES TERMINATOR model only. In your first Movement phase, this unit can make an ingress move.`,
+          body: `ADEPTUS CUSTODES TERMINATOR model only. In your first Movement phase, this unit can make an **[gloss:ingress-move:ingress move]**.`,
         },
         {
           name: 'Efficient Aggression',
           points: 25,
           flavor: "This heavily armoured commander constantly seeks opportunities to exploit the foe's show of force, leading advances into the teeth of the enemy where lesser warriors would quail.",
-          body: `ADEPTUS CUSTODES TERMINATOR model only. (Once per turn, per army) In your opponent's Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a surge move of up to D6+1".`,
+          body: `ADEPTUS CUSTODES TERMINATOR model only. (Once per turn, per army) In your opponent's Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks, this unit can make a **[gloss:surge-move:surge move]** of up to D6+1".`,
         },
       ],
     },
@@ -703,13 +703,13 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
       name: 'Lions of the Emperor',
       source: 'faction-pack',
       dp: 3,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold", "Disruption"],
       unique: 'LIONS',
       rule: {
         name: 'Against All Odds',
         flavor:
           'The Adeptus Custodes are outnumbered on every battlefield upon which they fight, yet no matter the foe, and no matter their number, the Lions of the Emperor will prevail.',
-        body: `Each time a model in an Adeptus Custodes unit from your army (excluding Vehicles) makes an attack, if there are no other friendly units within 6" of that unit, add 1 to the Hit roll and add 1 to the Wound roll.`,
+        body: `Each time a model in an ADEPTUS CUSTODES unit from your army (excluding VEHICLES) makes an attack, if there are no other friendly units within 6" of that unit, add 1 to the Hit roll and add 1 to the Wound roll.`,
       },
       stratagems: [
         {
@@ -812,7 +812,7 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
       name: 'Solar Spearhead',
       source: 'faction-pack',
       dp: 2,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold"],
       unique: 'ARMOURY',
       rule: {
         name: 'Auric Armour',

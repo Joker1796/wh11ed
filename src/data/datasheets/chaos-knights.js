@@ -1020,7 +1020,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 355,
+        "points": 350,
         "note": "1st-2nd"
       },
       {
@@ -1136,7 +1136,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 355,
+        "points": 350,
         "note": "1st-2nd"
       },
       {
@@ -1228,7 +1228,7 @@ export default [
     "abilities": [
       {
         "name": "Obsessive Ruthlessness",
-        "text": "This unit’s ranged attacks that target a **MONSTER/VEHICLE** unit can ignore modifiers to this unit’s:\n▪ **BS**.\n▪ **Hit rolls** and **wound rolls**."
+        "text": "This unit’s ranged attacks that target a **MONSTER/VEHICLE** unit can ignore modifiers to this unit’s:\n▪ **[gloss:ballistic-skill:BS]**.\n▪ **[gloss:hit-roll:Hit rolls]** and **[gloss:wound-roll:wound rolls]**."
       },
       {
         "name": "Taskmaster (Aura)",
@@ -1470,8 +1470,8 @@ export default [
     "loadout": "**This model is equipped with:** daemonbreath meltagun; reaper chainsword; titanic feet; warpstrike claw.",
     "options": [
       "This model’s daemonbreath meltagun can be replaced with 1 diabolus heavy stubber.",
-      "This model’s reaper chainsword can be replaced with one of the following:\n▪ 1 daemonbreath thermal cannon\n▪ 1 despoiler gatling cannon and 1 heavy darkflamer\n▪ 1 despoiler battle cannon and 1 diabolus heavy stubber",
-      "This model’s warpstrike claw can be replaced with one of the following:\n▪ 1 daemonbreath thermal cannon\n▪ 1 despoiler gatling cannon and 1 heavy darkflamer\n▪ 1 despoiler battle cannon and 1 diabolus heavy stubber",
+      "This model’s reaper chainsword can be replaced with 1 of the following:\n▪ 1 daemonbreath thermal cannon\n▪ 1 despoiler gatling cannon and 1 heavy darkflamer\n▪ 1 despoiler battle cannon and 1 diabolus heavy stubber",
+      "This model’s warpstrike claw can be replaced with 1 of the following:\n▪ 1 daemonbreath thermal cannon\n▪ 1 despoiler gatling cannon and 1 heavy darkflamer\n▪ 1 despoiler battle cannon and 1 diabolus heavy stubber",
       "This model can be equipped with one of the following:\n▪ 1 havoc missile pod\n▪ 1 ruinspear rocket pod\n▪ 1 hellstorm autocannons"
     ],
     "keywords": [
@@ -1495,7 +1495,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 355,
+        "points": 350,
         "note": "1st-2nd"
       },
       {
@@ -1619,12 +1619,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 340,
+        "points": 325,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 355,
+        "points": 345,
         "note": "3rd+"
       }
     ],
@@ -1733,12 +1733,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 400,
+        "points": 390,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 420,
+        "points": 410,
         "note": "2nd+"
       }
     ],
@@ -2461,7 +2461,7 @@ export default [
     "abilities": [
       {
         "name": "Protection Protocols",
-        "text": "You can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
+        "text": "You can target this unit with the **[gloss:heroic-intervention:Heroic Intervention stratagem]**, regardless of any other uses of that **[gloss:stratagem:stratagem]** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
       }
     ],
     "damaged": {

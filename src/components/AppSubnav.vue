@@ -1,53 +1,22 @@
 <template>
-  <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
+  <!-- Subnav: core rules links (hidden on the section-less landing & links pages). Not on a
+       faction page: its per-unit page reaches Rules / Units / FAQ by the corner buttons
+       (FactionLayout, owner 2026-10-01), the other faction pages by their own tabs. -->
   <Transition name="fade">
     <nav
-      v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && !isRosterRoute && (!isFactionRoute || isFactionUnitPage)"
+      v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && !isRosterRoute && !isFactionRoute && !isPatchesRoute"
       class="subnav"
     >
-      <div
-        class="subnav-inner"
-        :class="{ 'subnav-inner--overflow-visible': isFactionUnitPage }"
-      >
+      <div class="subnav-inner">
         <template
           v-for="item in subNavItems"
           :key="item.path || item.hash"
         >
-          <!-- "Units" on a per-unit datasheet page: hover/focus reveals a compact
-               multi-column jump-list of the faction's units (desktop only — .subnav
-               itself is hidden on mobile). -->
-          <div
-            v-if="item.unitsMenu"
-            class="subnav-dropdown"
-            @mouseenter="preloadUnitsMenu"
-            @focusin="preloadUnitsMenu"
-          >
-            <RouterLink
-              :to="item.path"
-              class="subnav-link"
-              :class="{ active: isItemActive(item) }"
-            >
-              {{ item.label }}
-            </RouterLink>
-            <div class="subnav-dropdown-menu">
-              <div class="subnav-dropdown-panel">
-                <RouterLink
-                  v-for="u in unitsMenuList"
-                  :key="u[0]"
-                  :to="`/factions/${route.params.slug}/datasheets/${u[0]}`"
-                  class="nd-link"
-                  :class="{ current: u[0] === route.params.unit }"
-                >
-                  {{ u[1] }}
-                </RouterLink>
-              </div>
-            </div>
-          </div>
           <!-- Core Rules / Event Companion: the chapters are anchors on one page, not
                routes. The highlight follows the scroll-spy, not the URL — scrolling never
                changes it. -->
           <a
-            v-else-if="item.hash"
+            v-if="item.hash"
             :href="item.hash"
             class="subnav-link"
             :class="{ active: isChapterActive(item) }"
@@ -68,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { stripLocale } from '../router/locale.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -80,6 +49,8 @@ import { useNavGroups } from '../composables/useNavGroups.js'
 import { ui } from '../i18n/ui.js'
 
 const route = useRoute()
+// The patch notes are about every part of the game at once — no chapter strip over them.
+const isPatchesRoute = computed(() => stripLocale(route.path) === '/patches')
 
 // Subnav targets are bare paths; the address may carry the `/ru` prefix.
 const isItemActive = (item) => {
@@ -90,7 +61,7 @@ const { locale } = useLocale()
 const { navigateTo } = useRefNavigation()
 const {
   isLanding, isLinksRoute, isRulesLandingRoute, isCombatPatrolRoute,
-  isFactionRoute, isFactionUnitPage, isFactionDetailRoute,
+  isFactionRoute,
   isEventRoute, isTrackerRoute, isStratagemsRoute, isRosterRoute,
 } = useRouteSection()
 
@@ -155,49 +126,11 @@ const trackerSubNavItems = computed(() => {
   ]
 })
 
-const factionSubNavItems = computed(() => {
-  const l = labels.value
-  const base = `/factions/${route.params.slug}`
-  return [
-    // Army rule + detachments are merged onto the base page.
-    { path: base, label: l.factionRules },
-    // prefix: the per-unit pages (/datasheets/:unit) keep this item highlighted.
-    // unitsMenu: this is the only "Units" instance that gets the hover jump-list
-    // (see preloadUnitsMenu/unitsMenuList below) — it only ever renders on a
-    // per-unit page, since the subnav itself is hidden on the other faction pages.
-    { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true, unitsMenu: true },
-    { path: `${base}/faq`, label: l.factionFaq },
-  ]
-})
-
-// "Units" hover dropdown (desktop subnav, per-unit datasheet pages only) — a compact
-// jump-list to another unit without leaving the page. Reuses the same compact name-only
-// index the Ctrl+K search uses (src/data/datasheetIndex.js, ~60 KB for ALL factions) so
-// hovering never fetches a faction's much heavier full datasheet file/chunk.
-let dsIndexCache = null
-let dsIndexPromise = null
-const dsIndexVersion = ref(0)
-function preloadUnitsMenu() {
-  dsIndexPromise ??= import('../data/datasheetIndex.js').then((m) => {
-    dsIndexCache = m.datasheetIndex
-    dsIndexVersion.value++
-  })
-}
-// Unit names stay English in both locales (project convention, same as faction names in
-// factionsIndex.js) — no locale-aware sort needed.
-const unitsMenuList = computed(() => {
-  dsIndexVersion.value
-  const entry = dsIndexCache?.find(([s]) => s === route.params.slug)
-  if (!entry) return []
-  return [...entry[2]].sort((a, b) => a[1].localeCompare(b[1]))
-})
-
 const subNavItems = computed(() => {
   // /stratagems rides with the tracker subnav so reaching it from there keeps the
   // Game Tracker / Current Game tabs in view (desktop has no "Back to game" bar).
   if (isTrackerRoute.value || isStratagemsRoute.value) return trackerSubNavItems.value
   if (isEventRoute.value) return eventSubNavItems.value
-  if (isFactionDetailRoute.value) return factionSubNavItems.value
   return coreSubNavItems.value
 })
 </script>
@@ -230,14 +163,6 @@ const subNavItems = computed(() => {
   display: none;
 }
 
-/* The faction subnav is always exactly 2 short tabs (Rules/Units) — never needs the
-   horizontal scroll above, and overflow-x:auto there would also clip the "Units" hover
-   dropdown's vertical overflow (per spec, overflow-y computes to auto when overflow-x
-   isn't visible — can't have one axis scroll and the other stay visible). */
-.subnav-inner--overflow-visible {
-  overflow: visible;
-}
-
 .subnav-link {
   display: flex;
   align-items: center;
@@ -261,88 +186,6 @@ const subNavItems = computed(() => {
   color: var(--accent);
   border-bottom-color: var(--accent);
   font-weight: 600;
-}
-
-/* ── "Units" hover dropdown (subnav, per-unit datasheet page only) — same recipe as the
-   navbar "Factions" mega-menu above, positioned under a .subnav-link instead of a .nav-link. */
-.subnav-dropdown {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-}
-
-.subnav-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  /* The "Units" tab sits near the horizontal centre of the subnav (it's one of only
-     2 tabs in a centered group), so a menu anchored to its left edge and wide enough
-     for the longest unit names overflows the viewport on anything narrower than a very
-     wide desktop. Center the menu under the trigger instead, and clamp its width to
-     the viewport so it never runs off either edge. */
-  left: 50%;
-  z-index: 210;
-  padding-top: 6px; /* transparent bridge so the gap doesn't dismiss the menu on hover */
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-50%) translateY(4px);
-  pointer-events: none;
-  transition: opacity var(--motion-fast), transform var(--motion-fast), visibility var(--motion-fast);
-}
-
-.subnav-dropdown:hover .subnav-dropdown-menu,
-.subnav-dropdown:focus-within .subnav-dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%);
-  pointer-events: auto;
-}
-
-.subnav-dropdown-panel {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: min(64rem, 96vw);
-  gap: 0.1rem 1.25rem;
-  max-height: min(70vh, 420px);
-  overflow-y: auto;
-  padding: 0.9rem 1rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
-}
-
-/* Base link look — same rule as AppNavbar.vue's Factions/Rules dropdown (scoped styles
-   don't cross component boundaries, so this small shared bit is duplicated there too). */
-.nd-link {
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  padding: 0.16rem 0;
-  font-size: 0.85rem;
-  color: var(--text-primary);
-  text-decoration: none;
-  white-space: nowrap;
-  transition: color var(--motion-fast);
-}
-
-a.nd-link:hover {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.nd-link.current {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-/* Some unit names are very long (40-54 chars, e.g. "Overlord with Translocation Shroud")
-   — clip with an ellipsis instead of letting nowrap text spill into the next column. A
-   slightly smaller size than the base .nd-link buys back some of that room too. */
-.subnav-dropdown-panel .nd-link {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0.06rem 0;
-  font-size: 0.8rem;
 }
 
 /* ── Mobile ── */

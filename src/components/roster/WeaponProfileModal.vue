@@ -161,6 +161,9 @@ const props = defineProps({
   unitId: { type: String, required: true },
   factionSlug: { type: String, required: true },
   names: { type: Array, required: true },
+  // A heading for a set that is not one choice — the default loadout's several items — where the
+  // names joined with "/" would read as alternatives.
+  heading: { type: String, default: '' },
 })
 const { accentStyle } = useFactionAccent(toRef(props, 'factionSlug'))
 defineEmits(['close'])
@@ -169,7 +172,7 @@ const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
-const title = computed(() => props.names.join(' / '))
+const title = computed(() => props.heading || props.names.join(' / '))
 
 const sheet = ref(null)
 const loaded = ref(false)

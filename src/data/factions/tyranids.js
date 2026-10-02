@@ -6,7 +6,7 @@
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/xenos/Tyranids (2).pdf) → 4 extra
 //     detachments (Ambush Predators, Talons of the Norn Queen, Warrior Bioform Onslaught,
 //     Subterranean Assault) + Rules Updates.
-//   MFM → per-enhancement points, per-detachment dp / forceDisposition.
+//   MFM → per-enhancement points, per-detachment dp / forceDispositions.
 //
 // 10 detachments total, matching the Munitorum Field Manual list. Faction-Pack "Rules
 // Updates" have been folded into the codex army rules / detachment text (they are the
@@ -51,7 +51,7 @@ If your Army Faction is Tyranids, once per battle, in either player's Command ph
       name: 'Invasion Fleet',
       source: 'codex',
       dp: 3,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold", "Priority Assets"],
       rule: {
         name: 'Hyper-adaptations',
         flavor:
@@ -172,7 +172,7 @@ If your Army Faction is Tyranids, once per battle, in either player's Command ph
       name: 'Crusher Stampede',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: 'Enraged Behemoths',
         flavor:
@@ -294,13 +294,13 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
       name: 'Unending Swarm',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: 'Insurmountable Odds',
         flavor:
           'When Hormagaunts, Termagants and other such expendable warrior organisms attack en masse they make up for their comparative fragility with sheer numbers. Coupled with the speed and ferocity of their onslaught — which only seems to increase as the prey try to gun the creatures down or drive them back — the gathered broods soon overrun even the most determined defenders.',
         // Faction-Pack Rules Update replaced the codex Surge-move wording with this shorter version.
-        body: `In your opponent's Shooting phase, when an enemy unit has shot, if a model from a friendly Endless Multitude unit was destroyed as a result of those attacks, that friendly unit can make a surge move of up to D6".`,
+        body: `In your opponent's Shooting phase, when an enemy unit has shot, if a model from a friendly Endless Multitude unit was **[gloss:destroyed:destroyed]** as a result of those attacks, that friendly unit can make a **[gloss:surge-move:surge move]** of up to D6".`,
       },
       stratagems: [
         {
@@ -310,7 +310,7 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
           turn: 'either',
           flavor:
             "For a moment, a minuscule sliver of the Hive Mind's ineffable will is focussed through these warrior organisms, driving them to pounce upon either valuable prey or else some vital strategic target.",
-          when: 'Any phase, just before an Endless Multitude unit from your army that is within Synapse Range of your army makes a Surge move.',
+          when: 'Any phase, just before an Endless Multitude unit from your army that is within Synapse Range of your army makes a **[gloss:surge-move:Surge move]**.',
           target: 'That Endless Multitude unit.',
           effect:
             'When making that Surge move, you can re-roll the D6 to determine how far your unit moves, and your unit can end that move as close as possible to the closest objective marker (instead of as close as possible to the closest enemy unit). All other rules for making Surge moves still apply.',
@@ -411,7 +411,7 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
       name: 'Assimilation Swarm',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: 'Feed the Swarm',
         flavor:
@@ -534,7 +534,7 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
       name: 'Vanguard Onslaught',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: 'Questing Tendrils',
         flavor:
@@ -654,7 +654,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
       name: 'Synaptic Nexus',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption"],
       rule: {
         name: 'Synaptic Imperatives',
         flavor:
@@ -775,7 +775,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
       name: 'Ambush Predators',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption"],
       rule: {
         name: 'Mindhunger',
         flavor:
@@ -790,9 +790,9 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           cp: '1CP',
           turn: 'your',
           flavor: 'One should never attempt to lay a trap for perfectly adapted ambush hunters, lest one become the prey in turn.',
-          when: "Fight phase, when a friendly Deathleaper/Lictor/Neurolictor/Von Ryan's Leapers unit is selected to fight.",
+          when: "Fight phase, when a friendly Deathleaper/Lictor/Neurolictor/Von Ryan's Leapers unit is **[gloss:selected-to-fight:selected to fight]**.",
           target: "That Deathleaper/Lictor/Neurolictor/Von Ryan's Leapers unit.",
-          effect: "Your unit's attacks that target a hidden unit have +1 S and AP.",
+          effect: "Your unit's attacks that target a **[gloss:hidden:hidden]** unit have +1 S and AP.",
           restrictions: '',
         },
         {
@@ -804,7 +804,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
             'The organisms that comprise the Tyranid vanguard possess exceptionally keen senses, detecting prey no matter how well hidden it may be and relaying its location to the wider Hive Mind.',
           when: 'Start of your Shooting phase.',
           target: "One friendly Deathleaper/Lictor/Neurolictor/Von Ryan's Leapers unit.",
-          effect: 'Select one visible enemy unit within 12" of your unit. That enemy unit has +6" detection range.',
+          effect: 'Select one **[gloss:visible:visible]** enemy unit within 12" of your unit. That enemy unit has +6" **[gloss:detection-range:detection range]**.',
           restrictions: '',
         },
         {
@@ -814,8 +814,8 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           turn: 'opponent',
           flavor: 'What seemed a certain and identified Tyranid contact vanishes suddenly from sight and sensors both, seemingly nothing but a ghost all along.',
           when: "End of your opponent's Fight phase.",
-          target: 'One friendly unengaged Deathleaper/Lictor/Neurolictor unit.',
-          effect: 'Place your unit in strategic reserves.',
+          target: 'One friendly **[gloss:unengaged:unengaged]** Deathleaper/Lictor/Neurolictor unit.',
+          effect: 'Place your unit in **[gloss:strategic-reserves:strategic reserves]**.',
           restrictions: '',
         },
       ],
@@ -826,7 +826,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           upgrade: true,
           flavor:
             "By the time the prey realise that they are being hunted, the Hive Mind's vanguard organisms have already enfolded them in a murderous embrace. There is no hiding from what comes next.",
-          body: `Neurolictor/Lictor/Von Ryan's Leapers unit only. In your opponent's Movement phase, when an enemy unit ends a move within 8" of this unit, this unit can make a normal move of up to D3+3".`,
+          body: `Neurolictor/Lictor/Von Ryan's Leapers unit only. In your opponent's Movement phase, when an enemy unit ends a move within 8" of this unit, this unit can make a **[gloss:normal-move:normal move]** of up to D3+3".`,
         },
         {
           name: 'Cryptophotaic Camouflage',
@@ -834,7 +834,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           upgrade: true,
           flavor:
             'The dermis of these biohunters has been adapted to subtly alter hue according to what the ocular receptors of the prey expect to see, thus hiding the creatures even in plain sight.',
-          body: `Von Ryan's Leapers unit only. This unit has -3" detection range.`,
+          body: `Von Ryan's Leapers unit only. This unit has -3" **[gloss:detection-range:detection range]**.`,
         },
       ],
     },
@@ -844,7 +844,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
       name: 'Talons of the Norn Queen',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: 'Higher Imperatives',
         flavor:
@@ -863,7 +863,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
             "Impacts and surface damage trigger explosive inflammation within this organism's exoskeleton, spawning hardened outer layers that stave off even the most grievous hurts.",
           when: 'Any phase, when a friendly Norn Assimilator unit suffers a mortal wound.',
           target: 'That Norn Assimilator unit.',
-          effect: 'Your unit has [core:Feel No Pain 4+] against mortal wounds.',
+          effect: 'Your unit has [core:Feel No Pain 4+] against **[gloss:mortal-wound:mortal wounds]**.',
           restrictions: '',
         },
         {
@@ -872,7 +872,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           cp: '1CP',
           turn: 'your',
           flavor: 'Focused on achieving its assigned imperative, this towering bioform smashes prey from its path with glad-driven surges of additional might.',
-          when: 'Fight phase, when a friendly Norn Assimilator/Norn Emissary unit is selected to fight.',
+          when: 'Fight phase, when a friendly Norn Assimilator/Norn Emissary unit is **[gloss:selected-to-fight:selected to fight]**.',
           target: 'That Norn Assimilator/Norn Emissary unit.',
           effect: "Your unit's melee attacks have +2 S.",
           restrictions: '',
@@ -915,7 +915,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
       name: 'Warrior Bioform Onslaught',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: 'Leader-beasts',
         flavor:
@@ -955,7 +955,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           turn: 'your',
           flavor:
             'The projectiles fired by this weapon are infected with parasites that burrow into the central nervous systems of their targets, causing them to shriek and convulse, giving away their position to the oncoming swarms.',
-          when: 'Your Shooting phase, when a friendly TYRANID WARRIORS unit is selected to shoot.',
+          when: 'Your Shooting phase, when a friendly TYRANID WARRIORS unit is **[gloss:selected-to-shoot:selected to shoot]**.',
           target: 'That TYRANID WARRIORS unit.',
           effect: "Your unit's ranged attacks have [IGNORES COVER].",
           restrictions: '',
@@ -985,7 +985,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
       name: 'Subterranean Assault',
       source: 'faction-pack',
       dp: 3,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption", "Reconnaissance"],
       rule: {
         name: 'Surprise Assault',
         flavor:

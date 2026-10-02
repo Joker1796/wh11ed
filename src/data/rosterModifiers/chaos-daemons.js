@@ -486,6 +486,14 @@ export default {
           "op": "grant",
           "value": "Stealth",
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1755,12 +1763,12 @@ export default {
     {
       "sid": "f88709cb-ae58-4672-8582-698049889c24",
       "kind": "stratagem",
-      "name": "skirling magicks",
+      "name": "Skirling Magicks",
       "det": "Lords of the Warp",
       "ref": {
         "kind": "stratagem",
         "det": "lords-of-the-warp",
-        "name": "skirling magicks"
+        "name": "Skirling Magicks"
       },
       "hash": "b50f6f98",
       "ver": 925,

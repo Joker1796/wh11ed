@@ -8,6 +8,7 @@
 
     <AppNavbar
       v-if="!isBare"
+      ref="navbarRef"
       :mobile-nav-open="mobileNavOpen"
       @toggle-mobile-nav="toggleMobileNav"
       @open-search="searchOpen = true"
@@ -62,10 +63,13 @@
       v-if="welcomeOpen"
       @close="welcomeOpen = false"
     />
-    <SearchModal
-      v-if="searchOpen"
-      @close="searchOpen = false"
-    />
+    <Transition name="search">
+      <SearchModal
+        v-if="searchOpen"
+        :anchor="searchAnchor"
+        @close="searchOpen = false"
+      />
+    </Transition>
     <InstallHintModal
       v-if="installHintOpen"
       @close="installHintOpen = false"
@@ -86,6 +90,7 @@
       :keyword="fkwShown.keyword"
       :units="fkwShown.units"
       :faction-slug="fkwShown.factionSlug"
+      :anchor="fkwShown.anchor"
       @close="closeFactionKeyword"
     />
     <MobileUtilityBar
@@ -255,6 +260,9 @@ const resumeDraftId = computed(() => {
 // combination); this just mirrors that via the template ref so --mobile-bar-h stays in sync
 // without duplicating the logic.
 const mobileBarRef = ref(null)
+// The navbar's search button: on a wide screen the search field unfolds out of it.
+const navbarRef = ref(null)
+const searchAnchor = () => navbarRef.value?.searchRect() ?? null
 const mobileBarVisible = computed(() => !!mobileBarRef.value?.visible)
 
 function onKeydown(e) {
@@ -300,7 +308,7 @@ function onGlobalClick(e) {
   const fkwEl = e.target.closest('.fkw')
   if (fkwEl) {
     closeKeyword()
-    openFactionKeyword(fkwEl.dataset.fkw, pageFaction.value)
+    openFactionKeyword(fkwEl.dataset.fkw, pageFaction.value, { anchor: fkwEl.getBoundingClientRect() })
     return
   }
   // `.core-ability` is the same popover from a quieter span — a core ability named in rule prose,

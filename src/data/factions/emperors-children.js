@@ -8,7 +8,7 @@
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/chaos/EC.pdf) → 3 pack detachments
 //     (Elegant Brutes, Frenzied Host, Spectacle of Slaughter) and Rules Updates.
 //   MFM (src/data/mfm/emperors-children.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition.
+//     forceDispositions.
 //
 // 10 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -35,8 +35,8 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       id: "carnival-of-excess",
       name: "Carnival of Excess",
       source: 'codex',
-      dp: 2,
-      forceDisposition: "Disruption",
+      dp: 3,
+      forceDispositions: ["Disruption", "Priority Assets"],
       rule: {
         name: "Daemonic Empowerment",
         flavor: "Where the Emperor’s Children indulge their obsession, the power ofSlaanesh empowers those in his thrall.",
@@ -115,7 +115,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Empyric Suffusion",
           points: 15,
           flavor: "Swirling clouds of perfumed empyric energy suffuse this leader s followers, granting them daemonic vigour.",
-          body: "EMPEROR\u2019S CHILDREN model only. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP.",
+          body: "EMPEROR’S CHILDREN model only. When you target this unit with the **[gloss:heroic-intervention:Heroic Intervention Stratagem]**, that use is -1 CP.",
         },
         {
           name: "Dark Blessings",
@@ -143,11 +143,11 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Coterie of the Conceited",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets", "Purge the Foe"],
       rule: {
         name: "Pledges to the Dark Prince",
         flavor: "Few appear as favoured by the Dark Prince as these warriors, their boons of power a reward for committing ever viler deeds in honour of their patron.",
-        body: "At the start of the battle round, if your WARLORD is on the battlefield, you must pledge a number to Slaanesh representing how many enemy units will be destroyed this battle round. At the end of the battle round, if the number of enemy units destroyed this battle round is greater than or equal to your pledge, you gain a number of Pact points equal to your pledge. Otherwise, you do not gain any Pact points this battle round and your WARLORD model suffers D3 mortal wounds.\n\nEmperor’s Children units from your army gain a bonus depending on how many Pact points you have gained during the battle, as shown below (these are all cumulative).\n▪ **1+:** Each time a model in this unit makes an attack, re-roll a Hit roll of 1.\n▪ **3+:** Each time a model in this unit makes an attack, re-roll a Wound roll of 1.\n▪ **5+:** Melee weapons equipped by models in this unit have the [LETHAL HITS] and [SUSTAINED HITS 1] abilities.\n▪ **7+:** Each time a model in this unit makes an attack, a Critical Hit is scored on an unmodified Hit roll of 5+.",
+        body: "At the start of the battle round, if your WARLORD is on the battlefield, you must pledge a number to Slaanesh representing how many enemy units will be destroyed this battle round. At the end of the battle round, if the number of enemy units destroyed this battle round is greater than or equal to your pledge, you gain a number of Pact points equal to your pledge. Otherwise, you do not gain any Pact points this battle round and your WARLORD model suffers D3 mortal wounds.\n\nEMPEROR’S CHILDREN units from your army gain a bonus depending on how many Pact points you have gained during the battle, as shown below (these are all cumulative).\n▪ **1+:** Each time a model in this unit makes an attack, re-roll a Hit roll of 1.\n▪ **3+:** Each time a model in this unit makes an attack, re-roll a Wound roll of 1.\n▪ **5+:** Melee weapons equipped by models in this unit have the [LETHAL HITS] and [SUSTAINED HITS 1] abilities.\n▪ **7+:** Each time a model in this unit makes an attack, a Critical Hit is scored on an unmodified Hit roll of 5+.",
       },
       stratagems: [
         {
@@ -250,11 +250,11 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Court of the Phoenician",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Sensational Performance & Master of the Pageant",
         flavor: "The craving for fresh experience and the obsession with enacting ever more excessive destruction drives these warriors to displays of sudden and obscene violence.",
-        body: "### Sensational Performance\nEmperor’s Children units from your army have the following ability:\n\n**Sensational Performance:** Each time this unit is selected to fight, if this unit made a Charge move this turn, it can use this ability. If it does, until the end of the phase:\n▪ This unit cannot target a unit it was within Engagement Range of at the start of the turn.\n▪ This unit cannot target a unit that was the target of another unit’s attack this phase.\n▪ Improve the Strength and Armour Penetration characteristics of this unit’s melee weapons by 1.\n\n### Master of the Pageant\nOnce per battle round, when you target a Fulgrim unit from your army with the Sinuous Breach or Prideful Superiority Stratagem, you can reduce the CP cost of that use of that Stratagem by 1CP.",
+        body: "### Sensational Performance\nEMPEROR’S CHILDREN units from your army have the following ability:\n\n**Sensational Performance:** Each time this unit is selected to fight, if this unit made a Charge move this turn, it can use this ability. If it does, until the end of the phase:\n▪ This unit cannot target a unit it was within Engagement Range of at the start of the turn.\n▪ This unit cannot target a unit that was the target of another unit’s attack this phase.\n▪ Improve the Strength and Armour Penetration characteristics of this unit’s melee weapons by 1.\n\n### Master of the Pageant\nOnce per battle round, when you target a Fulgrim unit from your army with the Sinuous Breach or Prideful Superiority Stratagem, you can reduce the CP cost of that use of that Stratagem by 1CP.",
       },
       stratagems: [
         {
@@ -358,7 +358,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Mercurial Host",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Quicksilver Grace",
         flavor: "The Emperor’s Children are consummate raiders, eager to satiate their lust for sensation amid battle and falling upon their foes with impossible swiftness and inhuman grace.",
@@ -465,7 +465,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Peerless Bladesmen",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Exquisite Swordsmanship",
         flavor: "These warriors are peerless swordsmen, each demonstrating exquisite fighting form. Those who lock swords with these obsessive warriors do so at their peril.",
@@ -544,7 +544,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Faultless Opportunist",
           points: 15,
           flavor: "This swordsman forever seeks opportunities to flaunt their dazzling and deadly bladework.",
-          body: "EMPEROR\u2019S CHILDREN model only. You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n\u25aa That use is -1 CP.\n\u25aa That use does not prevent any uses of that Stratagem on other units this phase.",
+          body: "EMPEROR’S CHILDREN model only. You can target this unit with the Heroic Intervention **[gloss:stratagem:Stratagem]**, regardless of any other uses of that **Stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **Stratagem** on other units this phase.",
         },
         {
           name: "Blinding Speed",
@@ -572,11 +572,11 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Rapid Evisceration",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Mechanised Murder",
         flavor: "The Emperor’s Children are masters of the mechanised assault, leaping from their growling, daemonically tainted vehicles to fall upon the foe with blade and bolter.",
-        body: "Each time an Emperor’s Children model from your army makes an attack, if it is a Transport model or disembarked from a TRANSPORT this turn, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.",
+        body: "Each time an EMPEROR’S CHILDREN model from your army makes an attack, if it is a TRANSPORT model or disembarked from a TRANSPORT this turn, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.",
       },
       stratagems: [
         {
@@ -619,7 +619,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           turn: "either",
           flavor: "The fleeting obsessions of the Emperor's Children cause them always to seek fresh targets.",
           when: "End of the Fight phase.",
-          target: "One Emperor’s Children unit from your army that destroyed an enemy unit this phase, and one friendly Transport it is able to embark within.",
+          target: "One EMPEROR’S CHILDREN unit from your army that destroyed an enemy unit this phase, and one friendly TRANSPORT it is able to embark within.",
           effect: "If your EMPEROR’S CHILDREN unit is wholly within 6\" of that TRANSPORT, it can embark within it. Your unit can embark within that TRANSPORT in a turn it disembarked from a TRANSPORT.",
           restrictions: "",
         },
@@ -678,8 +678,8 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       id: "slaaneshs-chosen",
       name: "Slaanesh’s Chosen",
       source: 'codex',
-      dp: 2,
-      forceDisposition: "Purge the Foe",
+      dp: 1,
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Internal Rivalries",
         flavor: "The boldest and most debased champions of Slaanesh may gain the benefit of the Dark Princes boons. Yet none hold Slaanesh’s favour for long, for always another seeks to wrest his favour from their rivals.",
@@ -714,9 +714,9 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "your",
           flavor: "Rivals for the Dark Prince's favour will stop at nothing to outdo their foes and claim a greater tally of souls.",
-          when: "Your Charge phase, when a friendly EMPEROR\u2019S CHILDREN CHARACTER unit within 12\" of an engaged enemy unit declares a charge.",
+          when: "Your Charge phase, when a friendly EMPEROR’S CHILDREN CHARACTER unit within 12\" of an engaged enemy unit **[gloss:declare-charge:declares a charge]**.",
           target: "That EMPEROR\u2019S CHILDREN CHARACTER unit.",
-          effect: "▪ Your unit can re-roll Charge rolls.\n▪ Your unit must end that charge move engaged with one or more of those enemy units.",
+          effect: "▪ Your unit can re-roll **[gloss:charge-roll:Charge rolls]**.\n▪ Your unit must end that charge move engaged with one or more of those enemy units.",
           restrictions: "",
         },
         {
@@ -747,9 +747,9 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "opponent",
           flavor: "Consumed by their obsessive desire for revenge, the Emperor's Children surge into oncoming fusillades.",
-          when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
-          target: "One EMPEROR’S CHILDREN CHARACTER unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Your unit can make a surge move of up to D6\". If your unit is not your army\u2019s Favoured Champions, you can re-roll the dice to determine the distance of that surge move.",
+          when: "Your opponent’s Shooting phase, when an enemy unit that targeted a friendly **[gloss:unengaged:unengaged]** EMPEROR’S CHILDREN CHARACTER unit this phase has shot.",
+          target: "That EMPEROR’S CHILDREN CHARACTER unit.",
+          effect: "Your unit can make a **[gloss:surge-move:surge move]** of up to D6\". If your unit is not your army’s Favoured Champions, you can re-roll the dice to determine the distance of that **surge move**.",
           restrictions: "",
         },
       ],
@@ -787,11 +787,11 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Elegant Brutes",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Eager to Kill",
         flavor: "Infused with a ferocious need to exert their superiority before any rival has the chance to outshine them, Chaos Terminators enter their chosen arena with a horrific dynamism.",
-        body: "When a friendly EMPEROR\u2019S CHILDREN TERMINATOR unit is set up, that unit has +1 to Charge rolls until the end of the turn.",
+        body: "When a friendly EMPEROR’S CHILDREN TERMINATOR unit is set up, that unit has +1 to **[gloss:charge-roll:Charge rolls]** until the end of the turn.",
       },
       stratagems: [
         {
@@ -811,7 +811,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "either",
           flavor: "The Terminators\u2019 fervid need to annihilate ever more enemies manifests as a lurid empyric firestorm which wreathes their blows and the projectiles spat from their guns.",
-          when: "Your Shooting phase or the Fight phase, when a friendly EMPEROR\u2019S CHILDREN TERMINATOR unit is selected to attack.",
+          when: "Your Shooting phase or the Fight phase, when a friendly EMPEROR’S CHILDREN TERMINATOR unit is **[gloss:selected-to-attack:selected to attack]**.",
           target: "That EMPEROR\u2019S CHILDREN TERMINATOR unit.",
           effect: "Your unit\u2019s attacks have +2 S.",
           restrictions: "",
@@ -823,8 +823,8 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           turn: "opponent",
           flavor: "Addicted to the supreme danger of teleportation, these Terminators employ twisted warp sorcery to plunge into the immaterium time and again.",
           when: "End of your opponent\u2019s Fight phase.",
-          target: "One friendly unengaged EMPEROR\u2019S CHILDREN TERMINATOR unit.",
-          effect: "Place your unit in Strategic Reserves.",
+          target: "One friendly **[gloss:unengaged:unengaged]** EMPEROR’S CHILDREN TERMINATOR unit.",
+          effect: "Place your unit in **[gloss:strategic-reserves:Strategic Reserves]**.",
           restrictions: "",
         },
       ],
@@ -850,11 +850,11 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Frenzied Host",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Frantic Focus",
         flavor: "Seeming to be everywhere at once, bands of Infractors and Tormentors seek to embrace all the sensations the battlefield can offer, never relenting for a moment.",
-        body: "When a friendly EMPEROR\u2019S CHILDREN BATTLELINE unit is selected to make an advance/fall-back move, that unit\u2019s attacks have +1 S until the end of the turn.\n\nThis detachment has the **HOST** tag and cannot be taken with another **HOST** detachment.",
+        body: "When a friendly EMPEROR’S CHILDREN BATTLELINE unit is selected to make an **[gloss:advance:advance]/[gloss:fall-back-move:fall-back move]**, that unit’s BATTLELINE models’ attacks have [SUSTAINED HITS 1] until the end of the turn.",
       },
       stratagems: [
         {
@@ -863,7 +863,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "either",
           flavor: "Having seized some vital location or enthralling prize, these Slaaneshi warriors experience a frenzied need to claim it that renders them inured to the most grievous hurts.",
-          when: "Your opponent\u2019s Shooting phase or the Fight phase, when an enemy unit targets a friendly EMPEROR\u2019S CHILDREN BATTLELINE unit within range of an objective.",
+          when: "Your opponent’s Shooting phase or the Fight phase, when an enemy unit targets a friendly EMPEROR’S CHILDREN BATTLELINE unit within range of an **[gloss:objective:objective]**.",
           target: "That EMPEROR\u2019S CHILDREN BATTLELINE unit.",
           effect: "Attacks that target your unit have -1 AP until that enemy unit has attacked.",
           restrictions: "",
@@ -876,7 +876,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           flavor: "Hurling vile semi-organic screamer grenades into the midst of the foe, these warriors mark their presence not only by the wails of their ordnance, but also by the agonised screams of their victims.",
           when: "Start of your Shooting phase.",
           target: "One friendly EMPEROR\u2019S CHILDREN BATTLELINE unit.",
-          effect: "Select one visible enemy unit within 12\" of your unit. That enemy unit has +6\" detection range.",
+          effect: "Select one **[gloss:visible:visible]** enemy unit within 12\" of your unit. That enemy unit has +6\" **[gloss:detection-range:detection range]**.",
           restrictions: "",
         },
         {
@@ -885,9 +885,9 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "your",
           flavor: "Far from hiding from the foe, these warriors unleash such an unbearable barrage of blinding light and deafening sound that those who try to take aim at them are temporarily deafened and blinded.",
-          when: "Your Shooting phase, when a friendly EMPEROR\u2019S CHILDREN BATTLELINE unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly EMPEROR’S CHILDREN BATTLELINE unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That EMPEROR\u2019S CHILDREN BATTLELINE unit.",
-          effect: "Those ranged attacks do not prevent your unit from being hidden.",
+          effect: "Those ranged attacks do not prevent your unit from being **[gloss:hidden:hidden]**.",
           restrictions: "",
         },
       ],
@@ -912,7 +912,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Spectacle of Slaughter",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Entitled to Victory",
         flavor: "So certain are the Flawless Blades in their arrogant pre-eminence, so sure they have already won before the first blow is struck, that they are filled with swift assurance that no foe can match.",
@@ -925,7 +925,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "either",
           flavor: "Far from facing enemy champions in fair duels one-on-one, the Flawless Blades fall upon them like a pack of jackals competing viciously to claim the glory of the kill.",
-          when: "Fight phase, when a friendly FLAWLESS BLADES unit is selected to fight.",
+          when: "Fight phase, when a friendly FLAWLESS BLADES unit is **[gloss:selected-to-fight:selected to fight]**.",
           target: "That FLAWLESS BLADES unit.",
           effect: "Your unit\u2019s melee attacks have [PRECISION].",
           restrictions: "",
@@ -936,7 +936,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "your",
           flavor: "Scornfully dismissing the chaff that blocks their path, the Flawless Blades swat them aside and sweep regally on toward their true quarry.",
-          when: "Your Charge phase, when a friendly FLAWLESS BLADES unit starts a Charge move.",
+          when: "Your Charge phase, when a friendly FLAWLESS BLADES unit starts a **[gloss:charge-move:Charge move]**.",
           target: "That FLAWLESS BLADES unit.",
           effect: "Your unit can move through models (excluding MONSTER/VEHICLE models).",
           restrictions: "",
@@ -947,9 +947,9 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "opponent",
           flavor: "Seeing their foes fleeing in terror before them only fires the chem-laced blood of the Flawless Blades, urging them on toward their next challenge all the quicker.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit that was engaged with a friendly FLAWLESS BLADES unit ends a fall-back move, if that FLAWLESS BLADES unit is unengaged.",
+          when: "Your opponent’s Movement phase, when an enemy unit that was engaged with a friendly FLAWLESS BLADES unit ends a fall-back move, if that FLAWLESS BLADES unit is **[gloss:unengaged:unengaged]**.",
           target: "That FLAWLESS BLADES unit.",
-          effect: "Your unit can make a normal move of up to D3+3\".",
+          effect: "Your unit can make a **[gloss:normal-move:normal move]** of up to D3+3\".",
           restrictions: "",
         },
       ],
@@ -966,7 +966,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           points: 15,
           upgrade: true,
           flavor: "Unable to tear their gaze from the hypnotically hideous features of the Flawless Blades, foes stare slack-jawed in horrified fascination as their death stalks elegantly toward them.",
-          body: "FLAWLESS BLADES unit only. Enemy units cannot target this unit with snap shooting attacks.",
+          body: "FLAWLESS BLADES unit only. Enemy units cannot target this unit with **[gloss:snap-shooting:snap shooting]** attacks.",
         },
       ],
     },

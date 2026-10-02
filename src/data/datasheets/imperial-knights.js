@@ -942,12 +942,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 405,
+        "points": 420,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 425,
+        "points": 440,
         "note": "2nd+"
       }
     ],
@@ -1635,12 +1635,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 400,
+        "points": 385,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 420,
+        "points": 405,
         "note": "2nd+"
       }
     ],
@@ -2690,12 +2690,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 400,
+        "points": 390,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 415,
+        "points": 405,
         "note": "3rd+"
       }
     ],
@@ -2835,12 +2835,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 375,
+        "points": 365,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 390,
+        "points": 380,
         "note": "3rd+"
       }
     ],

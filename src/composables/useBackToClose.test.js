@@ -48,8 +48,7 @@ describe('useBackToClose', () => {
     expect(history.state.whDialog).toBeTruthy()
 
     history.back()
-    await settle()
-    expect(close).toHaveBeenCalledTimes(1)
+    await settleOn(() => expect(close).toHaveBeenCalledTimes(1))
     expect(show.value).toBe(false)
     expect(history.state?.whDialog).toBeFalsy()
   })
@@ -64,8 +63,7 @@ describe('useBackToClose', () => {
 
     show.value = false // the X
     await nextTick()
-    await settle()
-    expect(history.state).toEqual({ position: 7 })
+    await settleOn(() => expect(history.state).toEqual({ position: 7 }))
   })
 
   it('nested dialogs: one Back closes only the top one', async () => {
@@ -78,13 +76,11 @@ describe('useBackToClose', () => {
     await nextTick()
 
     history.back()
-    await settle()
-    expect(b.close).toHaveBeenCalledTimes(1)
+    await settleOn(() => expect(b.close).toHaveBeenCalledTimes(1))
     expect(a.close).not.toHaveBeenCalled()
 
     history.back()
-    await settle()
-    expect(a.close).toHaveBeenCalledTimes(1)
+    await settleOn(() => expect(a.close).toHaveBeenCalledTimes(1))
   })
 
   it('a dead copy left behind by close-and-navigate is stepped over on the way back', async () => {
@@ -132,13 +128,12 @@ describe('useBackToCloseWhile', () => {
     isOpen.value = true
     expect(history.state.whDialog).toBeTruthy()
     history.back()
-    await settle()
-    expect(isOpen.value).toBe(false)
+    await settleOn(() => expect(isOpen.value).toBe(false))
     expect(history.state).toEqual({ position: 3 })
 
     isOpen.value = true
     isOpen.value = false
-    await settle()
-    expect(history.state).toEqual({ position: 3 })
+    // Pushed and popped again: wait for the copy to be gone, not for a duration.
+    await settleOn(() => expect(history.state).toEqual({ position: 3 }))
   })
 })

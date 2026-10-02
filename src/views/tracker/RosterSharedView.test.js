@@ -44,12 +44,14 @@ describe('RosterSharedView', () => {
   it('names the wargear the shared list picked', async () => {
     const shared = {
       id: 'orig', name: 'Shared Beta', faction: 'space-marines', detachments: [], battleSize: 'strike-force',
-      units: [{ uid: 'u1', id: 'intercessor-squad', size: 0, wg: [[1, 3, 1]] }], // Sergeant's thunder hammer
+      // Sergeant's thunder hammer — group 0 option 3 since Codex: Space Marines (app data 963)
+      // reordered his swaps (it was group 1) and Title-Cased the item names.
+      units: [{ uid: 'u1', id: 'intercessor-squad', size: 0, wg: [[0, 3, 1]] }],
     }
     HASH = `#r=${await encodeRoster(shared)}`
     const w = mount(RosterSharedView, { global: { stubs } })
-    await waitFor(w, 'Thunder hammer')
-    expect(w.text()).toContain('Thunder hammer')
+    await waitFor(w, 'Thunder Hammer')
+    expect(w.text()).toContain('Thunder Hammer')
   })
 
   it('decodes a shared roster, previews it, and saves a copy', async () => {

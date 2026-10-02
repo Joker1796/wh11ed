@@ -25,6 +25,7 @@
 // way: a switch that has gone stale would silently rewrite a number.
 
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
+import { SM_FAMILY } from '../data/smChapters.js'
 import { tracks } from '../data/trackerOptions.js'
 import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 
@@ -103,6 +104,12 @@ export const isAuto = (id) => Object.hasOwn(AUTO, id)
 const SOFT_AUTO = {
   'riled-up': (player, round) => player?.factionSlug === 'orks'
     && (player?.army?.toggleRounds || []).includes(round),
+  // Combat Doctrines — the army's pick of the round turns the doctrine on for every unit; a unit made
+  // subject to a different one keeps its own switch (see conditions.js). Codex: Space Marines and
+  // all five Codex Supplements share the army rule (app data 963), so every one of them reads it.
+  ...Object.fromEntries(['assault', 'devastator', 'tactical'].filter((d) => conditions[`doctrine-${d}`])
+    .map((d) => [`doctrine-${d}`,
+      (player, round) => SM_FAMILY.has(player?.factionSlug) && player?.army?.selectionByRound?.[round] === d])),
 }
 
 // …and two datasheets answer it outright, with no trigger and no window: the Stompa's Waaagh!

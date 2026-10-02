@@ -8,7 +8,7 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "6e39159c-9a5e-4672-9f80-dc40e4cc4353:azrael",
+      "sid": "28d5df5f-fe89-4267-8999-6bd1c329a15d:azrael",
       "kind": "ability",
       "name": "Azrael: Supreme Grand Master",
       "det": null,
@@ -16,8 +16,8 @@ export default {
         "kind": "ability",
         "unit": "azrael"
       },
-      "hash": "3154cfe3",
-      "ver": 925,
+      "hash": "38355f6d",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -25,83 +25,108 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "SUSTAINED HITS 1",
-          "when": null,
-          "target": "unit"
-        }
-      ]
-    },
-    {
-      "sid": "b7762dcd-fc0e-4d41-a767-19b5b183f3ef:belial",
-      "kind": "ability",
-      "name": "Belial: Grand Master of the Deathwing",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "belial"
-      },
-      "hash": "06108a12",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
+          "when": null
+        },
         {
           "on": "weapon",
           "stat": "ability",
           "op": "grant",
-          "value": "PRECISION",
-          "when": {
-            "en": "on a Critical Hit",
-            "ru": "на Critical Hit"
-          },
-          "cond": [
-            "never"
-          ]
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "d021d325-2787-41ad-a5c1-347fc0262dfd:deathwing-knights",
+      "sid": "267b9be3-1636-41a5-a872-4156f88a93c1:azrael",
       "kind": "ability",
-      "name": "Deathwing Knights: Inner Circle",
+      "name": "Azrael: Watcher in the Dark (Once per battle, per unit)",
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "deathwing-knights"
+        "unit": "azrael"
       },
-      "hash": "6903aaca",
-      "ver": 925,
+      "hash": "3d30bc64",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": {
+            "en": "once per battle, after this unit summons a Watcher in the Dark when it suffers a mortal wound",
+            "ru": "раз за битву, после того как отряд призвал Watcher in the Dark, получив mortal wound"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": {
+            "en": "once per battle, after this unit summons a Watcher in the Dark when it suffers a mortal wound",
+            "ru": "раз за битву, после того как отряд призвал Watcher in the Dark, получив mortal wound"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "993f1855-67a5-4e6c-ac8a-754b84b99c63:ezekiel",
+      "kind": "ability",
+      "name": "Ezekiel: Book of Salvation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ezekiel"
+      },
+      "hash": "d8dd3f8b",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "9191e3cb-145e-4038-ba2e-0d51f8da4b1f:ezekiel",
+      "kind": "ability",
+      "name": "Ezekiel: Engulfing Fear (psychic level 1)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ezekiel",
+        "set": "Chief Librarian (psyker level 3)",
+        "pickLimit": 1
+      },
+      "hash": "85609fb6",
+      "ver": 963,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "e5141592-d906-445c-939f-081212f2666f:deathwing-terminator-squad",
-      "kind": "ability",
-      "name": "Deathwing Terminator Squad: Deathwing",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "deathwing-terminator-squad"
-      },
-      "hash": "537c6109",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "against your Oath of Moment target",
-            "ru": "по цели Oath of Moment"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "c82f018e-0e17-4c00-9ef3-5d025e1fc846:ezekiel",
+      "sid": "adb6c29d-7baf-4491-9d21-45b9508b7a93:ezekiel",
       "kind": "ability",
       "name": "Ezekiel: Psychic Hood",
       "det": null,
@@ -109,22 +134,45 @@ export default {
         "kind": "ability",
         "unit": "ezekiel"
       },
-      "hash": "d4f151a2",
-      "ver": 925,
+      "hash": "f4b48831",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "unit",
           "stat": "core",
           "op": "grant",
-          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
-          "target": "unit",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
+          "when": null,
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "b6530fa5-3538-484c-b54e-d632bd973644:inner-circle-companions",
+      "sid": "1666673a-d14c-4e7a-8c88-e0a7f6decb24:ezekiel",
+      "kind": "ability",
+      "name": "Ezekiel: Whispers of the Shadow Forest (psychic level 1)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ezekiel",
+        "set": "Chief Librarian (psyker level 3)",
+        "pickLimit": 1
+      },
+      "hash": "a866e3ed",
+      "ver": 963,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e6df992c-abd5-41e0-8351-7ffbd0f86a80:inner-circle-companions",
       "kind": "ability",
       "name": "Inner Circle Companions: Braziers of Judgement",
       "det": null,
@@ -132,8 +180,8 @@ export default {
         "kind": "ability",
         "unit": "inner-circle-companions"
       },
-      "hash": "87a55d7c",
-      "ver": 925,
+      "hash": "7c5bdb7f",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -146,35 +194,7 @@ export default {
       ]
     },
     {
-      "sid": "cb502504-f1d5-4294-be79-d5eeb88be41f:inner-circle-companions",
-      "kind": "ability",
-      "name": "Inner Circle Companions: Enmity for the Unworthy",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "inner-circle-companions"
-      },
-      "hash": "e5053d72",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "against a CHARACTER unit",
-            "ru": "по отряду CHARACTER"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "df10d338-55e1-441e-87bb-0424cce8a22f:lazarus",
+      "sid": "a7a5c8e2-f0d6-4a7d-86d7-ff9050a28f7f:lazarus",
       "kind": "ability",
       "name": "Lazarus: The Spiritshield Helm",
       "det": null,
@@ -182,8 +202,8 @@ export default {
         "kind": "ability",
         "unit": "lazarus"
       },
-      "hash": "e48360cd",
-      "ver": 925,
+      "hash": "2a8ede30",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -192,20 +212,28 @@ export default {
           "op": "grant",
           "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null,
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "d35ece66-fa50-4d0a-8503-97eafc049ffc:lion-eljonson",
+      "sid": "0eef8fdb-e66a-41bc-b5ba-d16b3b8312ec:lion-eljonson",
       "kind": "ability",
-      "name": "Lion El’Jonson: Dark Angels Bodyguard",
+      "name": "Lion El'Jonson: Dark Angels Bodyguard",
       "det": null,
       "ref": {
         "kind": "ability",
         "unit": "lion-eljonson"
       },
-      "hash": "36943dfb",
-      "ver": 925,
+      "hash": "24f8dc94",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -214,8 +242,8 @@ export default {
           "op": "grant",
           "value": "Lone Operative",
           "when": {
-            "en": "while within 3\" of a friendly ADEPTUS ASTARTES INFANTRY unit",
-            "ru": "пока в пределах 3\" от дружественного отряда ADEPTUS ASTARTES INFANTRY"
+            "en": "while within 3\" of a friendly DARK ANGELS INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда DARK ANGELS INFANTRY"
           },
           "cond": [
             "never"
@@ -224,9 +252,9 @@ export default {
       ]
     },
     {
-      "sid": "e0cefd1e-fc89-484e-98dc-2f41f7322b40:lion-eljonson",
+      "sid": "532eaa3f-0c27-4625-a4e1-3ac7f62aa02e:lion-eljonson",
       "kind": "ability",
-      "name": "Lion El’Jonson: Martial Exemplar (Aura)",
+      "name": "Lion El'Jonson: Martial Exemplar",
       "det": null,
       "ref": {
         "kind": "ability",
@@ -234,7 +262,7 @@ export default {
         "scopes": [
           {
             "targets": [
-              "ADEPTUS ASTARTES"
+              "DARK ANGELS"
             ],
             "excludes": []
           }
@@ -242,15 +270,15 @@ export default {
         "set": "Primarch of the First Legion",
         "pickLimit": 2
       },
-      "hash": "4eac361e",
-      "ver": 925,
+      "hash": "fc83be98",
+      "ver": 963,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "cda4bdcf-38e9-442a-b524-d68b04f345b7:lion-eljonson",
+      "sid": "ae57ec5e-25c7-45e5-a82f-42a1a8bfa2ff:lion-eljonson",
       "kind": "ability",
-      "name": "Lion El’Jonson: Mist-wreathed Shadow Realms",
+      "name": "Lion El'Jonson: Mist-wreathed Shadow Realms",
       "det": null,
       "ref": {
         "kind": "ability",
@@ -258,15 +286,15 @@ export default {
         "set": "Primarch of the First Legion",
         "pickLimit": 2
       },
-      "hash": "ed23722a",
-      "ver": 931,
+      "hash": "fe3a9e7e",
+      "ver": 963,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "0c2901c8-7603-488d-ab58-2badb2eecbb4:lion-eljonson",
+      "sid": "04bdc1b5-5436-4c81-9501-3e940b945eed:lion-eljonson",
       "kind": "ability",
-      "name": "Lion El’Jonson: No Hiding From the Watchers (Aura)",
+      "name": "Lion El'Jonson: No Hiding from the Watchers",
       "det": null,
       "ref": {
         "kind": "ability",
@@ -274,7 +302,7 @@ export default {
         "scopes": [
           {
             "targets": [
-              "ADEPTUS ASTARTES"
+              "DARK ANGELS"
             ],
             "excludes": []
           }
@@ -282,16 +310,41 @@ export default {
         "set": "Primarch of the First Legion",
         "pickLimit": 2
       },
-      "hash": "abacefa0",
-      "ver": 925,
+      "hash": "fe63c365",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "unit",
           "stat": "core",
           "op": "grant",
-          "value": "Feel No Pain 4+ (vs mortal wounds)",
-          "target": "aura",
+          "value": "Feel No Pain 5+ (vs Psychic Attacks and mortal wounds)",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "target": "aura"
+        }
+      ]
+    },
+    {
+      "sid": "7a5578e7-bd91-45d4-b94e-8cb69b09ebef:lion-eljonson",
+      "kind": "ability",
+      "name": "Lion El'Jonson: The Watchers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lion-eljonson"
+      },
+      "hash": "f4b48831",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
           "when": null
         }
       ]
@@ -308,7 +361,7 @@ export default {
       "effects": []
     },
     {
-      "sid": "16ca7bcc-81e1-4696-ba4e-a56e91be601a:ravenwing-black-knights",
+      "sid": "e0d5e9d3-8a2c-4563-afd8-87ad85431a73:ravenwing-black-knights",
       "kind": "ability",
       "name": "Ravenwing Black Knights: Knights of Caliban",
       "det": null,
@@ -316,31 +369,18 @@ export default {
         "kind": "ability",
         "unit": "ravenwing-black-knights"
       },
-      "hash": "3adfce24",
-      "ver": 925,
+      "hash": "55a8befd",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "melee",
           "stat": "ability",
           "op": "grant",
-          "value": "ANTI-MONSTER 4+",
+          "value": "ANTI-MONSTER/VEHICLE 4+",
           "when": {
-            "en": "in a phase it fights having made a Charge move this turn",
-            "ru": "в фазе боя, если отряд совершил Charge в этом ходу"
-          },
-          "cond": [
-            "unit-charged"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "ANTI-VEHICLE 4+",
-          "when": {
-            "en": "in a phase it fights having made a Charge move this turn",
-            "ru": "в фазе боя, если отряд совершил Charge в этом ходу"
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
           },
           "cond": [
             "unit-charged"
@@ -349,7 +389,7 @@ export default {
       ]
     },
     {
-      "sid": "b0bc4600-4287-48c3-9a42-9f4456812883:ravenwing-command-squad",
+      "sid": "3b80ebc9-b186-4716-87c2-40964330bb67:ravenwing-command-squad",
       "kind": "ability",
       "name": "Ravenwing Command Squad: Astartes Banner",
       "det": null,
@@ -357,8 +397,8 @@ export default {
         "kind": "ability",
         "unit": "ravenwing-command-squad"
       },
-      "hash": "671a747f",
-      "ver": 925,
+      "hash": "17ae5fc1",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -367,45 +407,31 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "while this unit contains a Ravenwing Ancient",
-            "ru": "пока в отряде есть Ravenwing Ancient"
+            "en": "while this unit contains a RAVENWING ANCIENT",
+            "ru": "пока в отряде есть RAVENWING ANCIENT"
           },
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit contains a RAVENWING ANCIENT",
+            "ru": "пока в отряде есть RAVENWING ANCIENT"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "7e1dd147-ead5-4bed-a886-b9757df51888:ravenwing-command-squad",
-      "kind": "ability",
-      "name": "Ravenwing Command Squad: Honour or Death",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "ravenwing-command-squad"
-      },
-      "hash": "a17e2211",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "4c4629f2-1f02-458e-99f6-2dd66ad13c4c:ravenwing-dark-talon",
-      "kind": "ability",
-      "name": "Ravenwing Dark Talon: Stasis Bomb",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "ravenwing-dark-talon"
-      },
-      "hash": "c38ed31f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "837e822e-e367-499f-a51b-540581de8241:ravenwing-darkshroud",
+      "sid": "5f2dc925-aaff-4ef6-86ca-2407c7e62c5b:ravenwing-darkshroud",
       "kind": "ability",
       "name": "Ravenwing Darkshroud: Icon of Old Caliban",
       "det": null,
@@ -415,14 +441,14 @@ export default {
         "scopes": [
           {
             "targets": [
-              "ADEPTUS ASTARTES"
+              "DARK ANGELS"
             ],
             "excludes": []
           }
         ]
       },
-      "hash": "0f321044",
-      "ver": 925,
+      "hash": "f9d4d004",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -436,16 +462,15 @@ export default {
       ]
     },
     {
-      "sid": "7fcd5eab-c360-44c6-8f5e-c02f512ee488:sammael",
-      "kind": "ability",
-      "name": "Sammael: Grand Master of the Ravenwing",
+      "sid": "95dbd786-5940-4348-85b1-074ba54c817f",
+      "kind": "armyRule",
+      "name": "Combat Doctrines",
       "det": null,
       "ref": {
-        "kind": "ability",
-        "unit": "sammael"
+        "kind": "armyRule"
       },
-      "hash": "efadef7d",
-      "ver": 925,
+      "hash": "4b1af9f6",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -453,7 +478,13 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ASSAULT",
-          "when": null
+          "when": {
+            "en": "while the Devastator Doctrine is active for this unit",
+            "ru": "пока для отряда активна Devastator Doctrine"
+          },
+          "cond": [
+            "doctrine-devastator"
+          ]
         }
       ]
     },
@@ -472,7 +503,7 @@ export default {
       "note": "the DEATHWING keyword it grants is already carried by src/data/conditionalKeywords.json (gen-conditional-keywords.mjs reads the same grant structurally); recording it here would show it twice"
     },
     {
-      "sid": "02e193b8-9f13-405d-968e-7c3b455bcc24",
+      "sid": "0339c85c-6792-4c1d-a69f-93d1b915cd7e",
       "kind": "armyRule",
       "name": "The Ravenwing",
       "det": null,
@@ -480,63 +511,12 @@ export default {
         "kind": "armyRule"
       },
       "hash": "5465d0bf",
-      "ver": 925,
+      "ver": 963,
       "reviewed": true,
-      "effects": [],
-      "note": "duplicate publication of the same rule"
+      "effects": []
     },
     {
-      "sid": "ac3ce055-781a-47a7-ae00-a1c5afe69b4a",
-      "kind": "detachmentRule",
-      "name": "Masters of Manoeuvre",
-      "det": "Company of Hunters",
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "company-of-hunters"
-      },
-      "hash": "2aa7c5e0",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "ASSAULT",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "5da17b88-adf4-4521-bf36-a230dcf243e2",
-      "kind": "detachmentRule",
-      "name": "Invocations of Ancient Fury",
-      "det": "Dark Age Arsenal",
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "dark-age-arsenal"
-      },
-      "hash": "419dcd7c",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "weapon profiles with 'Plasma' in their name only",
-            "ru": "только профили оружия со словом Plasma в названии"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "75d3a75e-54a9-4db3-8aeb-0aff7d9b285c",
+      "sid": "9f7ad3ea-f3fd-48bc-b27c-3b1fdcdb618e",
       "kind": "detachmentRule",
       "name": "Black-winged Vigilance",
       "det": "Darkflight Pursuit",
@@ -544,8 +524,8 @@ export default {
         "kind": "detachmentRule",
         "det": "darkflight-pursuit"
       },
-      "hash": "154305f6",
-      "ver": 925,
+      "hash": "045587fe",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -559,149 +539,7 @@ export default {
       ]
     },
     {
-      "sid": "83ea8eb4-3e6c-40e4-bbeb-4c6b84f193ef",
-      "kind": "detachmentRule",
-      "name": "Vowed Target",
-      "det": "Inner Circle Task Force",
-      "hash": "468dd3bf",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "against a unit within range of a Vowed objective",
-            "ru": "по отряду в радиусе Vowed objective"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "inner-circle-task-force"
-      }
-    },
-    {
-      "sid": "2464ddee-5a32-4ba2-8666-c37d4f608056",
-      "kind": "detachmentRule",
-      "name": "Dread Catechism",
-      "det": "Interrogation Conclave",
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "interrogation-conclave"
-      },
-      "hash": "0a84b04f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "9e501c18-163d-42e5-9a25-3ef8f6208ca5",
-      "kind": "detachmentRule",
-      "name": "In The Lion’s Claws",
-      "det": "Lion’s Blade Task Force",
-      "hash": "2caac2fd",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "lions-blade-task-force"
-      }
-    },
-    {
-      "sid": "d0e2e352-eb05-4b39-a1f1-8717125f9896",
-      "kind": "detachmentRule",
-      "name": "Grim Resolve",
-      "det": "Unforgiven Task Force",
-      "hash": "4a1c5a4d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "oc",
-          "op": "set",
-          "value": "1",
-          "when": {
-            "en": "while the unit is Battle-shocked, its Objective Control becomes 1 instead of 0",
-            "ru": "пока отряд Battle-shocked, его Objective Control становится 1 вместо 0"
-          },
-          "cond": [
-            "unit-battle-shocked"
-          ]
-        },
-        {
-          "on": "profile",
-          "stat": "oc",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "for one unit you select each Command phase",
-            "ru": "для одного отряда, выбираемого в каждой вашей фазе командования"
-          },
-          "cond": [
-            "unit-selected-command-phase"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "unforgiven-task-force"
-      }
-    },
-    {
-      "sid": "931a0683-a764-44a2-8f87-a1f6a1d70cc4",
-      "kind": "enhancement",
-      "name": "Master-crafted Weapon",
-      "det": "Company of Hunters",
-      "ref": {
-        "kind": "enhancement",
-        "det": "company-of-hunters"
-      },
-      "hash": "9ecbedb9",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "PRECISION",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "98482be9-4f60-4c8e-847d-b0760af85084",
-      "kind": "enhancement",
-      "name": "Recon Hunter",
-      "det": "Company of Hunters",
-      "ref": {
-        "kind": "enhancement",
-        "det": "company-of-hunters"
-      },
-      "hash": "36589190",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Scouts 9\"",
-          "when": null,
-          "target": "led"
-        }
-      ]
-    },
-    {
-      "sid": "28e99366-170a-49c2-a572-6740ee178f95",
+      "sid": "5799077c-00bf-4a5d-aa88-b17cdf4c4b78",
       "kind": "enhancement",
       "name": "Champion of the Deathwing",
       "det": "Inner Circle Task Force",
@@ -709,265 +547,37 @@ export default {
         "kind": "enhancement",
         "det": "inner-circle-task-force"
       },
-      "hash": "a0d472d2",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "LETHAL HITS",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "a0af2727-f3c3-47c4-850f-727a3f10748d",
-      "kind": "enhancement",
-      "name": "Inescapable Interrogation",
-      "det": "Interrogation Conclave",
-      "ref": {
-        "kind": "enhancement",
-        "det": "interrogation-conclave"
-      },
-      "hash": "86b86280",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "IGNORES COVER",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "e1d0fc18-e30e-464d-a00b-6a7d603ef76d",
-      "kind": "enhancement",
-      "name": "Calibanite Armaments",
-      "det": "Lion’s Blade Task Force",
-      "hash": "d04ca612",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "d",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "lions-blade-task-force"
-      }
-    },
-    {
-      "sid": "34a55249-41f7-4844-a9bc-dd8fa2a3f779",
-      "kind": "enhancement",
-      "name": "Stalwart Champion",
-      "det": "Lion’s Blade Task Force",
-      "hash": "1ec258b6",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "oc",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while the bearer's unit is not Battle-shocked",
-            "ru": "пока отряд носителя не Battle-shocked"
-          },
-          "cond": [
-            "unit-not-battle-shocked"
-          ],
-          "target": "led"
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "lions-blade-task-force"
-      }
-    },
-    {
-      "sid": "8b6de18b-cb40-49eb-9eb3-3ece326ec681",
-      "kind": "enhancement",
-      "name": "Pennant of Remembrance",
-      "det": "Unforgiven Task Force",
-      "ref": {
-        "kind": "enhancement",
-        "det": "unforgiven-task-force"
-      },
-      "hash": "28d64d38",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 6+",
-          "when": {
-            "en": "while the bearer is leading a unit",
-            "ru": "пока носитель ведёт отряд"
-          },
-          "cond": [
-            "unit-leading"
-          ],
-          "target": "led"
-        },
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 4+",
-          "when": {
-            "en": "while the bearer is leading a unit that is Battle-shocked, instead of Feel No Pain 6+",
-            "ru": "пока носитель ведёт отряд, который Battle-shocked, вместо Feel No Pain 6+"
-          },
-          "cond": [
-            "unit-leading",
-            "unit-battle-shocked"
-          ],
-          "target": "led",
-          "alt": 0
-        }
-      ]
-    },
-    {
-      "sid": "7018776e-8c69-4371-b038-0d6dd2fe8537",
-      "kind": "enhancement",
-      "name": "Stubborn Tenacity",
-      "det": "Unforgiven Task Force",
-      "hash": "f6d2a572",
-      "ver": 925,
+      "hash": "d24eb97a",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "weapon",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "while the bearer is leading a unit that is below its Starting Strength",
-            "ru": "пока носитель ведёт отряд ниже Starting Strength"
-          },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
-        },
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while that unit is also Battle-shocked",
-            "ru": "если отряд ещё и Battle-shocked"
+            "en": "against targets within range of your vowed objective",
+            "ru": "по целям в зоне вашего vowed objective"
           },
           "cond": [
             "never"
           ],
           "target": "led"
         }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "unforgiven-task-force"
-      }
+      ]
     },
     {
-      "sid": "3d01d429-55f8-49ab-ae1a-8999e67393e1",
-      "kind": "enhancement",
-      "name": "Weapons of the First Legion",
-      "det": "Unforgiven Task Force",
-      "hash": "697aa7f8",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "d",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 2,
-          "when": {
-            "en": "Attacks, Strength and Damage +2 instead, while the bearer is Battle-shocked",
-            "ru": "атаки, сила и урон +2 вместо +1, пока носитель Battle-shocked"
-          },
-          "cond": [
-            "unit-battle-shocked"
-          ],
-          "alt": 0
-        },
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 2,
-          "cond": [
-            "unit-battle-shocked"
-          ],
-          "alt": 1,
-          "when": {
-            "en": "Attacks, Strength and Damage +2 instead, while the bearer is Battle-shocked",
-            "ru": "атаки, сила и урон +2 вместо +1, пока носитель Battle-shocked"
-          }
-        },
-        {
-          "on": "melee",
-          "stat": "d",
-          "op": "add",
-          "value": 2,
-          "cond": [
-            "unit-battle-shocked"
-          ],
-          "alt": 2,
-          "when": {
-            "en": "Attacks, Strength and Damage +2 instead, while the bearer is Battle-shocked",
-            "ru": "атаки, сила и урон +2 вместо +1, пока носитель Battle-shocked"
-          }
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "unforgiven-task-force"
-      }
-    },
-    {
-      "sid": "7a78a4d3-88ce-42df-886e-11cebcceef73",
+      "sid": "a6eb0354-f367-4b37-beb3-712e90d3339c",
       "kind": "enhancement",
       "name": "Ancient Weapons",
       "det": "Wrath of the Rock",
-      "hash": "c8299e61",
-      "ver": 925,
+      "ref": {
+        "kind": "enhancement",
+        "det": "wrath-of-the-rock"
+      },
+      "hash": "6e95bd2d",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -983,94 +593,11 @@ export default {
           "op": "add",
           "value": -1,
           "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "d",
-          "op": "add",
-          "value": 1,
-          "when": null
         }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "wrath-of-the-rock"
-      }
+      ]
     },
     {
-      "sid": "418829b4-ff4b-4cdf-9530-cbf9f67f9ea1",
-      "kind": "stratagem",
-      "name": "Armour of Contempt",
-      "det": "Company of Hunters",
-      "ref": {
-        "kind": "stratagem",
-        "det": "company-of-hunters",
-        "name": "Armour of Contempt"
-      },
-      "hash": "068f028a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "150d44d6-66a3-470d-abc8-f7a9dede80e0",
-      "kind": "stratagem",
-      "name": "Talon Strike",
-      "det": "Company of Hunters",
-      "ref": {
-        "kind": "stratagem",
-        "det": "company-of-hunters",
-        "name": "Talon Strike"
-      },
-      "hash": "5757518f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "LANCE",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "9af5293a-2c33-44f8-9104-d14301621129",
-      "kind": "stratagem",
-      "name": "No Sacrifice Too Great",
-      "det": "Dark Age Arsenal",
-      "ref": {
-        "kind": "stratagem",
-        "det": "dark-age-arsenal",
-        "name": "No Sacrifice Too Great"
-      },
-      "hash": "72f7c02a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "only": {
-            "tag": "HAZARDOUS"
-          },
-          "when": {
-            "en": "plasma weapons, while this stratagem is in force",
-            "ru": "плазменное оружие, пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "15da7f78-d0fe-4dec-8ed6-94ac5fc8430e",
+      "sid": "7cca0096-a682-4173-9fe5-48243b81b023",
       "kind": "stratagem",
       "name": "Wings of Shadow",
       "det": "Darkflight Pursuit",
@@ -1080,7 +607,7 @@ export default {
         "name": "Wings of Shadow"
       },
       "hash": "38b9e784",
-      "ver": 925,
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -1088,45 +615,6 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "709d9f90-1f57-493c-bdf3-279310da4339",
-      "kind": "stratagem",
-      "name": "Armour of Contempt",
-      "det": "Inner Circle Task Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "inner-circle-task-force",
-        "name": "Armour of Contempt"
-      },
-      "hash": "068f028a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "38100d27-b255-437d-8d7d-f7c1a177cec3",
-      "kind": "stratagem",
-      "name": "Exacting Punishment",
-      "det": "Interrogation Conclave",
-      "ref": {
-        "kind": "stratagem",
-        "det": "interrogation-conclave",
-        "name": "Exacting Punishment"
-      },
-      "hash": "72d06e1d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "ability",
-          "op": "grant",
-          "value": "PRECISION",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
@@ -1134,51 +622,6 @@ export default {
         }
       ],
       "dur": "phase"
-    },
-    {
-      "sid": "5bd61afc-3e7a-48d3-9080-e4ea6a01ae76",
-      "kind": "stratagem",
-      "name": "Armour of Contempt",
-      "det": "Lion’s Blade Task Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "lions-blade-task-force",
-        "name": "Armour of Contempt"
-      },
-      "hash": "068f028a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "52f5dd3c-9c83-41d3-811c-2323554aa7ca",
-      "kind": "stratagem",
-      "name": "Illuminating Fire",
-      "det": "Lion’s Blade Task Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "lions-blade-task-force",
-        "name": "Illuminating Fire"
-      },
-      "hash": "1014cf89",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "dbc9a4a9-b047-4171-96dd-b5432502c579",
-      "kind": "stratagem",
-      "name": "Overpowering Exaction",
-      "det": "Lion’s Blade Task Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "lions-blade-task-force",
-        "name": "Overpowering Exaction"
-      },
-      "hash": "7c6de389",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
     },
     {
       "sid": "1ead1a56-e4a7-4e0f-8a46-65b9e8f0452a",
@@ -1204,59 +647,24 @@ export default {
       "dur": "turn"
     },
     {
-      "sid": "12237ea6-06fd-4cb6-b7e3-282850a71f16",
+      "sid": "31721131-d7b4-4266-9f41-879d32f1ea75",
       "kind": "stratagem",
-      "name": "Armour of Contempt",
-      "det": "Unforgiven Task Force",
+      "name": "Inescapable Justice",
+      "det": "Wrath of the Rock",
       "ref": {
         "kind": "stratagem",
-        "det": "unforgiven-task-force",
-        "name": "Armour of Contempt"
+        "det": "wrath-of-the-rock",
+        "name": "Inescapable Justice"
       },
-      "hash": "068f028a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "50d24785-ed31-4425-a0ba-c7a8965f54cf",
-      "kind": "stratagem",
-      "name": "Fire Discipline",
-      "det": "Unforgiven Task Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "unforgiven-task-force",
-        "name": "Fire Discipline"
-      },
-      "hash": "7bb022c1",
-      "ver": 925,
+      "hash": "bf79a709",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
-          "on": "ranged",
+          "on": "melee",
           "stat": "ability",
           "op": "grant",
-          "value": "ASSAULT",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        },
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "HEAVY",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        },
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "IGNORES COVER",
+          "value": "PRECISION",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
@@ -1266,59 +674,17 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "4e190f01-9671-4565-9d2a-6f7f73e9a93a",
+      "sid": "26c6919b-599b-4a9e-a700-fe87f2ea8096",
       "kind": "stratagem",
-      "name": "Unforgiven Fury",
-      "det": "Unforgiven Task Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "unforgiven-task-force",
-        "name": "Unforgiven Fury"
-      },
-      "hash": "2eb2a217",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "ability",
-          "op": "grant",
-          "value": "LETHAL HITS",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "9ee78dbf-8891-4a6c-98df-4b1a29ce0dd5",
-      "kind": "stratagem",
-      "name": "Armour of Contempt",
+      "name": "Lion's Will",
       "det": "Wrath of the Rock",
       "ref": {
         "kind": "stratagem",
         "det": "wrath-of-the-rock",
-        "name": "Armour of Contempt"
+        "name": "Lion's Will"
       },
-      "hash": "068f028a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "fb1bcf88-543d-4b37-b503-8097298378d3",
-      "kind": "stratagem",
-      "name": "Lion’s Will",
-      "det": "Wrath of the Rock",
-      "ref": {
-        "kind": "stratagem",
-        "det": "wrath-of-the-rock",
-        "name": "Lion’s Will"
-      },
-      "hash": "40a9eacd",
-      "ver": 925,
+      "hash": "076afe4b",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -1330,25 +696,12 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
-        },
-        {
-          "on": "weapon",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "until the end of the turn, if your unit is not DEATHWING, RAVENWING or VEHICLE",
-            "ru": "до конца хода, если отряд не DEATHWING, RAVENWING и не VEHICLE"
-          },
-          "cond": [
-            "never"
-          ]
         }
       ],
-      "dur": "round"
+      "dur": "turn"
     },
     {
-      "sid": "777a5d6f-2b9c-401b-9488-89f8c97f03ca",
+      "sid": "c5c18f25-d4ed-4039-bb19-47b62b66a37c",
       "kind": "stratagem",
       "name": "Relics of the Dark Age",
       "det": "Wrath of the Rock",
@@ -1357,8 +710,8 @@ export default {
         "det": "wrath-of-the-rock",
         "name": "Relics of the Dark Age"
       },
-      "hash": "ef8d6f39",
-      "ver": 925,
+      "hash": "770a63f9",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -1373,65 +726,6 @@ export default {
         }
       ],
       "dur": "phase"
-    },
-    {
-      "sid": "2f72cc59-edd2-4633-ba40-0f0e7cdd0a10",
-      "kind": "stratagem",
-      "name": "Tactical Mastery",
-      "det": "Wrath of the Rock",
-      "ref": {
-        "kind": "stratagem",
-        "det": "wrath-of-the-rock",
-        "name": "Tactical Mastery"
-      },
-      "hash": "4331c5bc",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "940380dd-af82-403b-ba52-1583f553b446:azrael",
-      "kind": "wargear",
-      "name": "Azrael: The Lion Helm",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "azrael",
-        "item": "the lion helm"
-      },
-      "hash": "ec2e799d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": null
-        },
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": null,
-          "target": "led"
-        },
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 4+ (vs mortal wounds)",
-          "when": {
-            "en": "for the phase, when the bearer uses this wargear",
-            "ru": "на фазу, когда носитель применил снаряжение"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
     },
     {
       "sid": "b2bf043f-39ca-4ae5-83e4-dd5dab3a3bb1:deathwing-knights",
@@ -1488,38 +782,6 @@ export default {
           "cond": [
             "never"
           ]
-        }
-      ]
-    },
-    {
-      "sid": "a298ee2e-4181-43e7-81a7-158bdc457d53:ezekiel",
-      "kind": "wargear",
-      "name": "Ezekiel: Book of Salvation",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "ezekiel",
-        "item": "book of salvation",
-        "scopes": [
-          {
-            "targets": [
-              "ADEPTUS ASTARTES"
-            ],
-            "excludes": []
-          }
-        ]
-      },
-      "hash": "923d989b",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "when": null,
-          "target": "unit"
         }
       ]
     }

@@ -61,16 +61,51 @@
           <!-- Everything else this list can become — a printed sheet, a text export, a clipboard
              full of it — behind one "…" instead of an icon each. The printer stood here alone
              until export and copy joined it, and three icons beside the pencil is a toolbar, not
-             a header. Same kebab-into-a-sheet the list page's own cards use. -->
-          <button
+             a header. Same kebab-into-a-sheet the list page's own cards use. Copy sits beside Export
+             rather than inside it because the export dialog's own Copy is a choice of dialect
+             first — this one is the answer for the player who just wants the list in their
+             clipboard, in the format the GW app writes. -->
+          <ActionMenu
             v-if="!inGame"
-            type="button"
-            class="hdr-icon"
-            :aria-label="labels.rosterMoreActions"
-            @click="menuOpen = true"
+            v-model:open="menuOpen"
+            :title="roster.name || labels.rosterUntitled"
           >
-            <i class="bi bi-three-dots-vertical" />
-          </button>
+            <template #trigger="{ toggle }">
+              <button
+                type="button"
+                class="hdr-icon"
+                :aria-label="labels.rosterMoreActions"
+                @click="toggle"
+              >
+                <i class="bi bi-three-dots-vertical" />
+              </button>
+            </template>
+            <!-- Both of these WRITE the list out, so both wait for the faction data that names its
+                 units — a copy taken a beat too early would be a list with no army in it. -->
+            <button
+              type="button"
+              class="act-btn"
+              :disabled="!ready"
+              @click="openExport"
+            >
+              {{ labels.rosterExportTitle }}
+            </button>
+            <button
+              type="button"
+              class="act-btn"
+              @click="goPrint"
+            >
+              {{ labels.printAction }}
+            </button>
+            <button
+              type="button"
+              class="act-btn"
+              :disabled="!ready"
+              @click="copyWholeList"
+            >
+              {{ copiedList ? labels.rosterCopied : labels.rosterCopyList }}
+            </button>
+          </ActionMenu>
         </div>
       </header>
 
@@ -413,7 +448,7 @@
            instead of a core/you/opp filter (each card's sublabel already says which
            detachment it's from, same as that page's detachment cards). -->
           <div
-            v-else
+            v-else-if="tab === 'stratagems'"
             key="stratagems"
             class="rv-strats"
           >
@@ -473,48 +508,24 @@
               </template>
             </template>
           </div>
+
+          <!-- Preparing for an opponent: the five matchups this list's disposition can be dealt.
+               Off the table only — in a game the matchup is already decided. -->
+          <div
+            v-else
+            key="missions"
+            class="rv-missions"
+          >
+            <RosterMissionsTab
+              v-if="ready"
+              :candidates="dispCands"
+              :declared="dispNow"
+              :editable="!inGame"
+              @change="dispModalFrom = $event; dispModalOpen = true"
+            />
+          </div>
         </Transition>
       </template>
-
-      <!-- The "…" sheet: what to DO with this list, as opposed to what is in it. Copy sits beside
-         Export rather than inside it because the export dialog's own Copy is a choice of dialect
-         first — this one is the answer for the player who just wants the list in their clipboard,
-         in the format the GW app writes. -->
-      <BaseModal
-        v-if="menuOpen"
-        :title="roster.name || labels.rosterUntitled"
-        dense
-        max-width="340px"
-        @close="menuOpen = false"
-      >
-        <div class="modal-body act-list">
-          <!-- Both of these WRITE the list out, so both wait for the faction data that names its
-             units — a copy taken a beat too early would be a list with no army in it. -->
-          <button
-            type="button"
-            class="act-btn"
-            :disabled="!ready"
-            @click="openExport"
-          >
-            {{ labels.rosterExportTitle }}
-          </button>
-          <button
-            type="button"
-            class="act-btn"
-            @click="goPrint"
-          >
-            {{ labels.printAction }}
-          </button>
-          <button
-            type="button"
-            class="act-btn"
-            :disabled="!ready"
-            @click="copyWholeList"
-          >
-            {{ copiedList ? labels.rosterCopied : labels.rosterCopyList }}
-          </button>
-        </div>
-      </BaseModal>
 
       <RosterExportModal
         v-if="exportOpen"
@@ -523,6 +534,16 @@
         :core="rosterCore"
         :items="rosterItems.items"
         @close="exportOpen = false"
+      />
+
+      <RosterDispositionModal
+        v-if="dispModalOpen"
+        :candidates="dispCands"
+        :declared="dispNow"
+        :sources="dispSources"
+        :initial="dispModalFrom"
+        @save="saveDisposition"
+        @close="dispModalOpen = false"
       />
 
       <RosterIssuesModal
@@ -584,9 +605,12 @@ import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
-import BaseModal from '../../components/BaseModal.vue'
+import ActionMenu from '../../components/ActionMenu.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
 import PageTabs from '../../components/PageTabs.vue'
+import RosterMissionsTab from '../../components/roster/RosterMissionsTab.vue'
+import RosterDispositionModal from '../../components/roster/RosterDispositionModal.vue'
+import { useRosterSync } from '../../composables/useRosterSync.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
@@ -604,8 +628,8 @@ import { rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
-import { allySourceOf, blockNumbers, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
-import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
+import { allySourceOf, blockNumbers, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
+import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
@@ -643,7 +667,8 @@ const { locale } = useLocale()
 // The same popover a core ability or a modifier note opens — a chip's "i" is one more way in.
 const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
-const { rosterById } = useRosters()
+const { rosterById, updateRoster } = useRosters()
+const { saveToCloud } = useRosterSync()
 
 // Two ways in: /roster/:id/view reads the saved roster, /tracker/game/roster/:pi reads the
 // SNAPSHOT the current game carries for that player (rosterGameLink.js). Same screen either way —
@@ -764,8 +789,27 @@ const viewTabs = computed(() => {
     { key: 'units', label: l.rosterViewTabUnits, active: tab.value === 'units' },
     { key: 'rules', label: l.rosterViewTabRules, active: tab.value === 'rules' },
     { key: 'stratagems', label: l.rosterViewTabStratagems, active: tab.value === 'stratagems' },
+    // Preparing for an opponent — a saved list's question, not a game's (its matchup is fixed).
+    ...(inGame.value ? [] : [{ key: 'missions', label: l.rosterViewTabMissions, active: tab.value === 'missions' }]),
   ]
 })
+
+// ── Missions tab: the list's Force Disposition and the matchups it can be dealt ──
+// dispositionOf is the answer every other screen reads, so the tab and the export agree.
+const dispCands = computed(() => dispositionCandidates(curDetachments.value))
+const dispNow = computed(() => dispositionOf(roster.value, curDetachments.value))
+const dispSources = computed(() => Object.fromEntries(dispCands.value.map((d) => [
+  d, curDetachments.value.filter((det) => det?.fds?.includes(d)).map((det) => det.name),
+])))
+const dispModalOpen = ref(false)
+const dispModalFrom = ref(null)
+// A deliberate Save in the dialog — so, like the editor's Save, the moment the cloud copy is
+// written (uploads follow a Save, never the autosave; useRosterSync.js).
+function saveDisposition(name) {
+  updateRoster(roster.value.id, { disposition: name })
+  saveToCloud(roster.value.id)
+  dispModalOpen.value = false
+}
 
 // ── Faction accent (useFactionAccent.js — the same recipe every faction-coloured screen uses) ──
 const { accentStyle } = useFactionAccent(computed(() => roster.value?.faction))
@@ -995,15 +1039,16 @@ watch(() => roster.value?.faction, async (slug) => {
   pickRecords.value = []
   factionEn.value = null
   if (!slug) return
-  const [{ loadRosterModifiers, usableEntries, pickEntries }, { loadFaction }] = await Promise.all([
+  // A Chapter's list reads the Codex: Space Marines records and detachments too (2026-10-01).
+  const [{ loadRosterModifiersFor, usableEntries, pickEntries }, { loadFactionWithCodex }] = await Promise.all([
     import('../../data/rosterModifiers/index.js'),
-    import('../../data/factions/index.js'),
+    import('../../composables/rosterFactionRules.js'),
   ])
-  const [mods, fac] = await Promise.all([loadRosterModifiers(slug), loadFaction(slug)])
+  const [mods, fac] = await Promise.all([loadRosterModifiersFor(slug), loadFactionWithCodex(slug, 'en')])
   if (roster.value?.faction !== slug) return
   modifierRecords.value = usableEntries(mods)
   pickRecords.value = pickEntries(mods)
-  factionEn.value = fac?.en || null
+  factionEn.value = fac.en
 }, { immediate: true })
 
 const factionKeywordSets = computed(() =>
@@ -1035,6 +1080,7 @@ function attachmentCtxOf(entry) {
     unitId: entry.id,
     leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
     ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
+    coLeaderUnitIds: entry.leaderOf ? units.filter((u) => u.leaderOf === entry.leaderOf && u.uid !== entry.uid).map((u) => u.id) : [],
     itemNames: loadoutItemNames(defOf(entry.id), entry, rosterItems.items),
     // The auras the player has marked as reaching this unit. The bearer's own unit and the unit it
     // is attached to are not in here — 22.01 answers those from the list itself.
@@ -1139,7 +1185,9 @@ function statModsFor(entry, sheet) {
   if (!modsOn.value) return { sheet, marks: [] }
   const ctx = ctxOf(entry)
   if (!ctx) return { sheet, marks: [] }
-  return applyStatMods(sheet, ctx.resolved, ctx.kws, factionKeywordSets.value, ctx.active, ctx.chosen)
+  // The same placement the card makes, so a Sergeant with a Storm Shield reads W 4* on both.
+  const placed = splitBearers(sheet, ctx.resolved, defOf(entry.id), entry, rosterItems.items)
+  return applyStatMods(placed.sheet, placed.entries, ctx.kws, factionKeywordSets.value, ctx.active, ctx.chosen)
 }
 
 // ── What WOULD apply (out of game only) ─────────────────────────────────────────────────────

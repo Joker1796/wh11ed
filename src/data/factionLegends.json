@@ -1,7 +1,1397 @@
 {
+  "black-templars": {
+    "pub": "Legends: Space Marines",
+    "of": "space-marines",
+    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legend points in the Munitorum Field Manual. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above. Some Legends datasheets represent more than one unit – where this is the case, those will be listed below.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as Legendary Proxies units. While these units may differ in significant ways from those described by these datasheets, these rules are the best way to represent these units in your battles. Legends units that use a datasheet shared by more than one unit also use these rules. To use Legendary Proxies units in your army, simply use the relevant datasheet indicated below, complete with its points value(s) in the Munitorum Field Manual, and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your Legendary Proxies units represent. Bear in mind that Legendary Proxies units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a Legendary Proxies unit is visible when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
+    "proxies": [
+      {
+        "legacy": [
+          "Devastator Squad"
+        ],
+        "use": "Desolation Squad",
+        "id": "desolation-squad"
+      },
+      {
+        "legacy": [
+          "Lieutenant in Reiver Armour",
+          "Sergeant Telion"
+        ],
+        "use": "Lieutenant in Phobos Armour",
+        "id": "lieutenant-in-phobos-armour"
+      },
+      {
+        "legacy": [
+          "Suppressor Squad"
+        ],
+        "use": "Inceptor Squad",
+        "id": "inceptor-squad"
+      },
+      {
+        "legacy": [
+          "Tactical Squad"
+        ],
+        "use": "Intercessor Squad",
+        "id": "intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Ferren Aerios",
+          "Pedro Kantor",
+          "Uriel Ventris",
+          "Primaris Company Champion"
+        ],
+        "use": "Captain",
+        "id": "captain"
+      },
+      {
+        "legacy": [
+          "Land Raider Helios",
+          "Land Raider Prometheus",
+          "Land Raider Terminus Ultra",
+          "Land Raider Proteus",
+          "Land Raider Achilles",
+          "Spartan Assault Tank"
+        ],
+        "use": "Land Raider",
+        "id": "land-raider"
+      },
+      {
+        "legacy": [
+          "Deimos Predator"
+        ],
+        "use": "Predator Destructor",
+        "id": "predator-destructor"
+      },
+      {
+        "legacy": [
+          "Chaplain Venerable Dreadnought",
+          "Ironclad Dreadnought"
+        ],
+        "use": "Venerable Dreadnought",
+        "id": "venerable-dreadnought"
+      },
+      {
+        "legacy": [
+          "Land Speeder Tempest",
+          "Land Speeder Tornado",
+          "Land Speeder Typhoon",
+          "Land Speeder Storm"
+        ],
+        "use": "Land Speeder",
+        "id": "land-speeder"
+      },
+      {
+        "legacy": [
+          "Carab Culln the Risen",
+          "Relic Contemptor Dreadnought",
+          "Leviathan Dreadnought"
+        ],
+        "use": "Redemptor Dreadnought",
+        "id": "redemptor-dreadnought"
+      },
+      {
+        "legacy": [
+          "Caestus Assault Ram",
+          "Xiphon Interceptor",
+          "Storm Eagle Gunship",
+          "Fire Raptor Gunship"
+        ],
+        "use": "Stormraven Gunship",
+        "id": "stormraven-gunship"
+      },
+      {
+        "legacy": [
+          "Sergeant Chronus"
+        ],
+        "use": "Lieutenant",
+        "id": "lieutenant"
+      },
+      {
+        "legacy": [
+          "Company Veterans on Bikes",
+          "Bike Squad"
+        ],
+        "use": "Outrider Squad",
+        "id": "outrider-squad"
+      },
+      {
+        "legacy": [
+          "Thunderhawk Transporter",
+          "Sokar-pattern Stormbird"
+        ],
+        "use": "Thunderhawk Gunship",
+        "id": "thunderhawk-gunship"
+      },
+      {
+        "legacy": [
+          "Thunderfire Cannon"
+        ],
+        "use": "Firestrike Servo-turrets",
+        "id": "firestrike-servo-turrets"
+      },
+      {
+        "legacy": [
+          "Chaplain Cassius"
+        ],
+        "use": "Chaplain",
+        "id": "chaplain"
+      },
+      {
+        "legacy": [
+          "Assault Squad"
+        ],
+        "use": "Assault Intercessor Squad",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Assault Squad with Jump Packs"
+        ],
+        "use": "Assault Intercessor Squad with Jump Packs",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Command Squad"
+        ],
+        "use": "Company Heroes",
+        "id": "company-heroes"
+      },
+      {
+        "legacy": [
+          "Relic Terminator Squad"
+        ],
+        "use": "Terminator Assault Squad",
+        "id": "terminator-assault-squad"
+      },
+      {
+        "legacy": [
+          "Scout Sniper Squad"
+        ],
+        "use": "Scout Squad",
+        "id": "scout-squad"
+      },
+      {
+        "legacy": [
+          "Tyrannic War Veterans"
+        ],
+        "use": "Sternguard Veteran Squad",
+        "id": "sternguard-veteran-squad"
+      },
+      {
+        "legacy": [
+          "Attack Bike Squad"
+        ],
+        "use": "Invader ATVs",
+        "id": "invader-atvs"
+      },
+      {
+        "legacy": [
+          "Hunter",
+          "Stalker",
+          "Whirlwind Scorpius"
+        ],
+        "use": "Whirlwind",
+        "id": "whirlwind"
+      },
+      {
+        "legacy": [
+          "Deredeo Dreadnought"
+        ],
+        "use": "Ballistus Dreadnought",
+        "id": "ballistus-dreadnought"
+      },
+      {
+        "legacy": [
+          "Javelin Attack Speeder"
+        ],
+        "use": "Storm Speeder Hailstrike",
+        "id": "storm-speeder-hailstrike"
+      },
+      {
+        "legacy": [
+          "Death Storm Drop Pod",
+          "Dreadnought Drop Pod"
+        ],
+        "use": "Drop Pod",
+        "id": "drop-pod"
+      },
+      {
+        "legacy": [
+          "Vindicator Laser Destroyer"
+        ],
+        "use": "Vindicator",
+        "id": "vindicator"
+      },
+      {
+        "legacy": [
+          "Fellblade Super-heavy Battle Tank"
+        ],
+        "use": "Astraeus",
+        "id": "astraeus"
+      }
+    ]
+  },
+  "blood-angels": {
+    "pub": "Legends: Space Marines",
+    "of": "space-marines",
+    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legend points in the Munitorum Field Manual. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above. Some Legends datasheets represent more than one unit – where this is the case, those will be listed below.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as Legendary Proxies units. While these units may differ in significant ways from those described by these datasheets, these rules are the best way to represent these units in your battles. Legends units that use a datasheet shared by more than one unit also use these rules. To use Legendary Proxies units in your army, simply use the relevant datasheet indicated below, complete with its points value(s) in the Munitorum Field Manual, and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your Legendary Proxies units represent. Bear in mind that Legendary Proxies units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a Legendary Proxies unit is visible when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
+    "proxies": [
+      {
+        "legacy": [
+          "Devastator Squad"
+        ],
+        "use": "Desolation Squad",
+        "id": "desolation-squad"
+      },
+      {
+        "legacy": [
+          "Lieutenant in Reiver Armour",
+          "Sergeant Telion"
+        ],
+        "use": "Lieutenant in Phobos Armour",
+        "id": "lieutenant-in-phobos-armour"
+      },
+      {
+        "legacy": [
+          "Suppressor Squad"
+        ],
+        "use": "Inceptor Squad",
+        "id": "inceptor-squad"
+      },
+      {
+        "legacy": [
+          "Tactical Squad"
+        ],
+        "use": "Intercessor Squad",
+        "id": "intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Ferren Aerios",
+          "Pedro Kantor",
+          "Uriel Ventris",
+          "Primaris Company Champion"
+        ],
+        "use": "Captain",
+        "id": "captain"
+      },
+      {
+        "legacy": [
+          "Land Raider Helios",
+          "Land Raider Prometheus",
+          "Land Raider Terminus Ultra",
+          "Land Raider Proteus",
+          "Land Raider Achilles",
+          "Spartan Assault Tank"
+        ],
+        "use": "Land Raider",
+        "id": "land-raider"
+      },
+      {
+        "legacy": [
+          "Deimos Predator"
+        ],
+        "use": "Predator Destructor",
+        "id": "predator-destructor"
+      },
+      {
+        "legacy": [
+          "Chaplain Venerable Dreadnought",
+          "Ironclad Dreadnought"
+        ],
+        "use": "Venerable Dreadnought",
+        "id": "venerable-dreadnought"
+      },
+      {
+        "legacy": [
+          "Land Speeder Tempest",
+          "Land Speeder Tornado",
+          "Land Speeder Typhoon",
+          "Land Speeder Storm"
+        ],
+        "use": "Land Speeder",
+        "id": "land-speeder"
+      },
+      {
+        "legacy": [
+          "Carab Culln the Risen",
+          "Relic Contemptor Dreadnought",
+          "Leviathan Dreadnought"
+        ],
+        "use": "Redemptor Dreadnought",
+        "id": "redemptor-dreadnought"
+      },
+      {
+        "legacy": [
+          "Caestus Assault Ram",
+          "Xiphon Interceptor",
+          "Storm Eagle Gunship",
+          "Fire Raptor Gunship"
+        ],
+        "use": "Stormraven Gunship",
+        "id": "stormraven-gunship"
+      },
+      {
+        "legacy": [
+          "Sergeant Chronus"
+        ],
+        "use": "Lieutenant",
+        "id": "lieutenant"
+      },
+      {
+        "legacy": [
+          "Company Veterans on Bikes",
+          "Bike Squad"
+        ],
+        "use": "Outrider Squad",
+        "id": "outrider-squad"
+      },
+      {
+        "legacy": [
+          "Thunderhawk Transporter",
+          "Sokar-pattern Stormbird"
+        ],
+        "use": "Thunderhawk Gunship",
+        "id": "thunderhawk-gunship"
+      },
+      {
+        "legacy": [
+          "Thunderfire Cannon"
+        ],
+        "use": "Firestrike Servo-turrets",
+        "id": "firestrike-servo-turrets"
+      },
+      {
+        "legacy": [
+          "Chaplain Cassius"
+        ],
+        "use": "Chaplain",
+        "id": "chaplain"
+      },
+      {
+        "legacy": [
+          "Assault Squad"
+        ],
+        "use": "Assault Intercessor Squad",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Assault Squad with Jump Packs"
+        ],
+        "use": "Assault Intercessor Squad with Jump Packs",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Command Squad"
+        ],
+        "use": "Company Heroes",
+        "id": "company-heroes"
+      },
+      {
+        "legacy": [
+          "Relic Terminator Squad"
+        ],
+        "use": "Terminator Assault Squad",
+        "id": "terminator-assault-squad"
+      },
+      {
+        "legacy": [
+          "Scout Sniper Squad"
+        ],
+        "use": "Scout Squad",
+        "id": "scout-squad"
+      },
+      {
+        "legacy": [
+          "Tyrannic War Veterans"
+        ],
+        "use": "Sternguard Veteran Squad",
+        "id": "sternguard-veteran-squad"
+      },
+      {
+        "legacy": [
+          "Attack Bike Squad"
+        ],
+        "use": "Invader ATVs",
+        "id": "invader-atvs"
+      },
+      {
+        "legacy": [
+          "Hunter",
+          "Stalker",
+          "Whirlwind Scorpius"
+        ],
+        "use": "Whirlwind",
+        "id": "whirlwind"
+      },
+      {
+        "legacy": [
+          "Deredeo Dreadnought"
+        ],
+        "use": "Ballistus Dreadnought",
+        "id": "ballistus-dreadnought"
+      },
+      {
+        "legacy": [
+          "Javelin Attack Speeder"
+        ],
+        "use": "Storm Speeder Hailstrike",
+        "id": "storm-speeder-hailstrike"
+      },
+      {
+        "legacy": [
+          "Death Storm Drop Pod",
+          "Dreadnought Drop Pod"
+        ],
+        "use": "Drop Pod",
+        "id": "drop-pod"
+      },
+      {
+        "legacy": [
+          "Vindicator Laser Destroyer"
+        ],
+        "use": "Vindicator",
+        "id": "vindicator"
+      },
+      {
+        "legacy": [
+          "Fellblade Super-heavy Battle Tank"
+        ],
+        "use": "Astraeus",
+        "id": "astraeus"
+      }
+    ]
+  },
+  "dark-angels": {
+    "pub": "Legends: Space Marines",
+    "of": "space-marines",
+    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legend points in the Munitorum Field Manual. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above. Some Legends datasheets represent more than one unit – where this is the case, those will be listed below.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as Legendary Proxies units. While these units may differ in significant ways from those described by these datasheets, these rules are the best way to represent these units in your battles. Legends units that use a datasheet shared by more than one unit also use these rules. To use Legendary Proxies units in your army, simply use the relevant datasheet indicated below, complete with its points value(s) in the Munitorum Field Manual, and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your Legendary Proxies units represent. Bear in mind that Legendary Proxies units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a Legendary Proxies unit is visible when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
+    "proxies": [
+      {
+        "legacy": [
+          "Devastator Squad"
+        ],
+        "use": "Desolation Squad",
+        "id": "desolation-squad"
+      },
+      {
+        "legacy": [
+          "Lieutenant in Reiver Armour",
+          "Sergeant Telion"
+        ],
+        "use": "Lieutenant in Phobos Armour",
+        "id": "lieutenant-in-phobos-armour"
+      },
+      {
+        "legacy": [
+          "Suppressor Squad"
+        ],
+        "use": "Inceptor Squad",
+        "id": "inceptor-squad"
+      },
+      {
+        "legacy": [
+          "Tactical Squad"
+        ],
+        "use": "Intercessor Squad",
+        "id": "intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Ferren Aerios",
+          "Pedro Kantor",
+          "Uriel Ventris",
+          "Primaris Company Champion"
+        ],
+        "use": "Captain",
+        "id": "captain"
+      },
+      {
+        "legacy": [
+          "Land Raider Helios",
+          "Land Raider Prometheus",
+          "Land Raider Terminus Ultra",
+          "Land Raider Proteus",
+          "Land Raider Achilles",
+          "Spartan Assault Tank"
+        ],
+        "use": "Land Raider",
+        "id": "land-raider"
+      },
+      {
+        "legacy": [
+          "Deimos Predator"
+        ],
+        "use": "Predator Destructor",
+        "id": "predator-destructor"
+      },
+      {
+        "legacy": [
+          "Chaplain Venerable Dreadnought",
+          "Ironclad Dreadnought"
+        ],
+        "use": "Venerable Dreadnought",
+        "id": "venerable-dreadnought"
+      },
+      {
+        "legacy": [
+          "Land Speeder Tempest",
+          "Land Speeder Tornado",
+          "Land Speeder Typhoon",
+          "Land Speeder Storm"
+        ],
+        "use": "Land Speeder",
+        "id": "land-speeder"
+      },
+      {
+        "legacy": [
+          "Carab Culln the Risen",
+          "Relic Contemptor Dreadnought",
+          "Leviathan Dreadnought"
+        ],
+        "use": "Redemptor Dreadnought",
+        "id": "redemptor-dreadnought"
+      },
+      {
+        "legacy": [
+          "Caestus Assault Ram",
+          "Xiphon Interceptor",
+          "Storm Eagle Gunship",
+          "Fire Raptor Gunship"
+        ],
+        "use": "Stormraven Gunship",
+        "id": "stormraven-gunship"
+      },
+      {
+        "legacy": [
+          "Sergeant Chronus"
+        ],
+        "use": "Lieutenant",
+        "id": "lieutenant"
+      },
+      {
+        "legacy": [
+          "Company Veterans on Bikes",
+          "Bike Squad"
+        ],
+        "use": "Outrider Squad",
+        "id": "outrider-squad"
+      },
+      {
+        "legacy": [
+          "Thunderhawk Transporter",
+          "Sokar-pattern Stormbird"
+        ],
+        "use": "Thunderhawk Gunship",
+        "id": "thunderhawk-gunship"
+      },
+      {
+        "legacy": [
+          "Thunderfire Cannon"
+        ],
+        "use": "Firestrike Servo-turrets",
+        "id": "firestrike-servo-turrets"
+      },
+      {
+        "legacy": [
+          "Chaplain Cassius"
+        ],
+        "use": "Chaplain",
+        "id": "chaplain"
+      },
+      {
+        "legacy": [
+          "Assault Squad"
+        ],
+        "use": "Assault Intercessor Squad",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Assault Squad with Jump Packs"
+        ],
+        "use": "Assault Intercessor Squad with Jump Packs",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Command Squad"
+        ],
+        "use": "Company Heroes",
+        "id": "company-heroes"
+      },
+      {
+        "legacy": [
+          "Relic Terminator Squad"
+        ],
+        "use": "Terminator Assault Squad",
+        "id": "terminator-assault-squad"
+      },
+      {
+        "legacy": [
+          "Scout Sniper Squad"
+        ],
+        "use": "Scout Squad",
+        "id": "scout-squad"
+      },
+      {
+        "legacy": [
+          "Tyrannic War Veterans"
+        ],
+        "use": "Sternguard Veteran Squad",
+        "id": "sternguard-veteran-squad"
+      },
+      {
+        "legacy": [
+          "Attack Bike Squad"
+        ],
+        "use": "Invader ATVs",
+        "id": "invader-atvs"
+      },
+      {
+        "legacy": [
+          "Hunter",
+          "Stalker",
+          "Whirlwind Scorpius"
+        ],
+        "use": "Whirlwind",
+        "id": "whirlwind"
+      },
+      {
+        "legacy": [
+          "Deredeo Dreadnought"
+        ],
+        "use": "Ballistus Dreadnought",
+        "id": "ballistus-dreadnought"
+      },
+      {
+        "legacy": [
+          "Javelin Attack Speeder"
+        ],
+        "use": "Storm Speeder Hailstrike",
+        "id": "storm-speeder-hailstrike"
+      },
+      {
+        "legacy": [
+          "Death Storm Drop Pod",
+          "Dreadnought Drop Pod"
+        ],
+        "use": "Drop Pod",
+        "id": "drop-pod"
+      },
+      {
+        "legacy": [
+          "Vindicator Laser Destroyer"
+        ],
+        "use": "Vindicator",
+        "id": "vindicator"
+      },
+      {
+        "legacy": [
+          "Fellblade Super-heavy Battle Tank"
+        ],
+        "use": "Astraeus",
+        "id": "astraeus"
+      }
+    ]
+  },
+  "deathwatch": {
+    "pub": "Legends: Space Marines",
+    "of": "space-marines",
+    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legend points in the Munitorum Field Manual. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above. Some Legends datasheets represent more than one unit – where this is the case, those will be listed below.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as Legendary Proxies units. While these units may differ in significant ways from those described by these datasheets, these rules are the best way to represent these units in your battles. Legends units that use a datasheet shared by more than one unit also use these rules. To use Legendary Proxies units in your army, simply use the relevant datasheet indicated below, complete with its points value(s) in the Munitorum Field Manual, and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your Legendary Proxies units represent. Bear in mind that Legendary Proxies units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a Legendary Proxies unit is visible when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
+    "proxies": [
+      {
+        "legacy": [
+          "Devastator Squad"
+        ],
+        "use": "Desolation Squad",
+        "id": "desolation-squad"
+      },
+      {
+        "legacy": [
+          "Lieutenant in Reiver Armour",
+          "Sergeant Telion"
+        ],
+        "use": "Lieutenant in Phobos Armour",
+        "id": "lieutenant-in-phobos-armour"
+      },
+      {
+        "legacy": [
+          "Suppressor Squad"
+        ],
+        "use": "Inceptor Squad",
+        "id": "inceptor-squad"
+      },
+      {
+        "legacy": [
+          "Tactical Squad"
+        ],
+        "use": "Intercessor Squad",
+        "id": "intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Ferren Aerios",
+          "Pedro Kantor",
+          "Uriel Ventris",
+          "Primaris Company Champion"
+        ],
+        "use": "Captain",
+        "id": "captain"
+      },
+      {
+        "legacy": [
+          "Land Raider Helios",
+          "Land Raider Prometheus",
+          "Land Raider Terminus Ultra",
+          "Land Raider Proteus",
+          "Land Raider Achilles",
+          "Spartan Assault Tank"
+        ],
+        "use": "Land Raider",
+        "id": "land-raider"
+      },
+      {
+        "legacy": [
+          "Deimos Predator"
+        ],
+        "use": "Predator Destructor",
+        "id": "predator-destructor"
+      },
+      {
+        "legacy": [
+          "Chaplain Venerable Dreadnought",
+          "Ironclad Dreadnought"
+        ],
+        "use": "Venerable Dreadnought",
+        "id": "venerable-dreadnought"
+      },
+      {
+        "legacy": [
+          "Land Speeder Tempest",
+          "Land Speeder Tornado",
+          "Land Speeder Typhoon",
+          "Land Speeder Storm"
+        ],
+        "use": "Land Speeder",
+        "id": "land-speeder"
+      },
+      {
+        "legacy": [
+          "Carab Culln the Risen",
+          "Relic Contemptor Dreadnought",
+          "Leviathan Dreadnought"
+        ],
+        "use": "Redemptor Dreadnought",
+        "id": "redemptor-dreadnought"
+      },
+      {
+        "legacy": [
+          "Caestus Assault Ram",
+          "Xiphon Interceptor",
+          "Storm Eagle Gunship",
+          "Fire Raptor Gunship"
+        ],
+        "use": "Stormraven Gunship",
+        "id": "stormraven-gunship"
+      },
+      {
+        "legacy": [
+          "Sergeant Chronus"
+        ],
+        "use": "Lieutenant",
+        "id": "lieutenant"
+      },
+      {
+        "legacy": [
+          "Company Veterans on Bikes",
+          "Bike Squad"
+        ],
+        "use": "Outrider Squad",
+        "id": "outrider-squad"
+      },
+      {
+        "legacy": [
+          "Thunderhawk Transporter",
+          "Sokar-pattern Stormbird"
+        ],
+        "use": "Thunderhawk Gunship",
+        "id": "thunderhawk-gunship"
+      },
+      {
+        "legacy": [
+          "Thunderfire Cannon"
+        ],
+        "use": "Firestrike Servo-turrets",
+        "id": "firestrike-servo-turrets"
+      },
+      {
+        "legacy": [
+          "Chaplain Cassius"
+        ],
+        "use": "Chaplain",
+        "id": "chaplain"
+      },
+      {
+        "legacy": [
+          "Assault Squad"
+        ],
+        "use": "Assault Intercessor Squad",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Assault Squad with Jump Packs"
+        ],
+        "use": "Assault Intercessor Squad with Jump Packs",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Command Squad"
+        ],
+        "use": "Company Heroes",
+        "id": "company-heroes"
+      },
+      {
+        "legacy": [
+          "Tyrannic War Veterans"
+        ],
+        "use": "Sternguard Veteran Squad",
+        "id": "sternguard-veteran-squad"
+      },
+      {
+        "legacy": [
+          "Attack Bike Squad"
+        ],
+        "use": "Invader ATVs",
+        "id": "invader-atvs"
+      },
+      {
+        "legacy": [
+          "Hunter",
+          "Stalker",
+          "Whirlwind Scorpius"
+        ],
+        "use": "Whirlwind",
+        "id": "whirlwind"
+      },
+      {
+        "legacy": [
+          "Deredeo Dreadnought"
+        ],
+        "use": "Ballistus Dreadnought",
+        "id": "ballistus-dreadnought"
+      },
+      {
+        "legacy": [
+          "Javelin Attack Speeder"
+        ],
+        "use": "Storm Speeder Hailstrike",
+        "id": "storm-speeder-hailstrike"
+      },
+      {
+        "legacy": [
+          "Death Storm Drop Pod",
+          "Dreadnought Drop Pod"
+        ],
+        "use": "Drop Pod",
+        "id": "drop-pod"
+      },
+      {
+        "legacy": [
+          "Vindicator Laser Destroyer"
+        ],
+        "use": "Vindicator",
+        "id": "vindicator"
+      },
+      {
+        "legacy": [
+          "Fellblade Super-heavy Battle Tank"
+        ],
+        "use": "Astraeus",
+        "id": "astraeus"
+      }
+    ]
+  },
+  "space-marines": {
+    "pub": "Legends: Space Marines",
+    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legend points in the Munitorum Field Manual. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above. Some Legends datasheets represent more than one unit – where this is the case, those will be listed below.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as Legendary Proxies units. While these units may differ in significant ways from those described by these datasheets, these rules are the best way to represent these units in your battles. Legends units that use a datasheet shared by more than one unit also use these rules. To use Legendary Proxies units in your army, simply use the relevant datasheet indicated below, complete with its points value(s) in the Munitorum Field Manual, and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your Legendary Proxies units represent. Bear in mind that Legendary Proxies units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a Legendary Proxies unit is visible when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
+    "proxies": [
+      {
+        "legacy": [
+          "Devastator Squad"
+        ],
+        "use": "Desolation Squad",
+        "id": "desolation-squad"
+      },
+      {
+        "legacy": [
+          "Lieutenant in Reiver Armour",
+          "Sergeant Telion"
+        ],
+        "use": "Lieutenant in Phobos Armour",
+        "id": "lieutenant-in-phobos-armour"
+      },
+      {
+        "legacy": [
+          "Marneus Calgar in Armour of Antilochus"
+        ],
+        "use": "Marneus Calgar",
+        "id": "marneus-calgar"
+      },
+      {
+        "legacy": [
+          "Suppressor Squad"
+        ],
+        "use": "Inceptor Squad",
+        "id": "inceptor-squad"
+      },
+      {
+        "legacy": [
+          "Tactical Squad"
+        ],
+        "use": "Intercessor Squad",
+        "id": "intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Ferren Aerios",
+          "Pedro Kantor",
+          "Uriel Ventris",
+          "Primaris Company Champion"
+        ],
+        "use": "Captain",
+        "id": "captain"
+      },
+      {
+        "legacy": [
+          "Land Raider Helios",
+          "Land Raider Prometheus",
+          "Land Raider Terminus Ultra",
+          "Land Raider Proteus",
+          "Land Raider Achilles",
+          "Spartan Assault Tank"
+        ],
+        "use": "Land Raider",
+        "id": "land-raider"
+      },
+      {
+        "legacy": [
+          "Deimos Predator"
+        ],
+        "use": "Predator Destructor",
+        "id": "predator-destructor"
+      },
+      {
+        "legacy": [
+          "Chaplain Venerable Dreadnought",
+          "Ironclad Dreadnought"
+        ],
+        "use": "Venerable Dreadnought",
+        "id": "venerable-dreadnought"
+      },
+      {
+        "legacy": [
+          "Land Speeder Tempest",
+          "Land Speeder Tornado",
+          "Land Speeder Typhoon",
+          "Land Speeder Storm"
+        ],
+        "use": "Land Speeder",
+        "id": "land-speeder"
+      },
+      {
+        "legacy": [
+          "Carab Culln the Risen",
+          "Relic Contemptor Dreadnought",
+          "Leviathan Dreadnought"
+        ],
+        "use": "Redemptor Dreadnought",
+        "id": "redemptor-dreadnought"
+      },
+      {
+        "legacy": [
+          "Caestus Assault Ram",
+          "Xiphon Interceptor",
+          "Storm Eagle Gunship",
+          "Fire Raptor Gunship"
+        ],
+        "use": "Stormraven Gunship",
+        "id": "stormraven-gunship"
+      },
+      {
+        "legacy": [
+          "Sergeant Chronus"
+        ],
+        "use": "Lieutenant",
+        "id": "lieutenant"
+      },
+      {
+        "legacy": [
+          "Company Veterans on Bikes",
+          "Bike Squad"
+        ],
+        "use": "Outrider Squad",
+        "id": "outrider-squad"
+      },
+      {
+        "legacy": [
+          "Thunderhawk Transporter",
+          "Sokar-pattern Stormbird"
+        ],
+        "use": "Thunderhawk Gunship",
+        "id": "thunderhawk-gunship"
+      },
+      {
+        "legacy": [
+          "Thunderfire Cannon"
+        ],
+        "use": "Firestrike Servo-turrets",
+        "id": "firestrike-servo-turrets"
+      },
+      {
+        "legacy": [
+          "Chaplain Cassius"
+        ],
+        "use": "Chaplain",
+        "id": "chaplain"
+      },
+      {
+        "legacy": [
+          "Assault Squad"
+        ],
+        "use": "Assault Intercessor Squad",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Assault Squad with Jump Packs"
+        ],
+        "use": "Assault Intercessor Squad with Jump Packs",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Command Squad"
+        ],
+        "use": "Company Heroes",
+        "id": "company-heroes"
+      },
+      {
+        "legacy": [
+          "Relic Terminator Squad"
+        ],
+        "use": "Terminator Assault Squad",
+        "id": "terminator-assault-squad"
+      },
+      {
+        "legacy": [
+          "Scout Sniper Squad"
+        ],
+        "use": "Scout Squad",
+        "id": "scout-squad"
+      },
+      {
+        "legacy": [
+          "Tyrannic War Veterans"
+        ],
+        "use": "Sternguard Veteran Squad",
+        "id": "sternguard-veteran-squad"
+      },
+      {
+        "legacy": [
+          "Attack Bike Squad"
+        ],
+        "use": "Invader ATVs",
+        "id": "invader-atvs"
+      },
+      {
+        "legacy": [
+          "Hunter",
+          "Stalker",
+          "Whirlwind Scorpius"
+        ],
+        "use": "Whirlwind",
+        "id": "whirlwind"
+      },
+      {
+        "legacy": [
+          "Deredeo Dreadnought"
+        ],
+        "use": "Ballistus Dreadnought",
+        "id": "ballistus-dreadnought"
+      },
+      {
+        "legacy": [
+          "Javelin Attack Speeder"
+        ],
+        "use": "Storm Speeder Hailstrike",
+        "id": "storm-speeder-hailstrike"
+      },
+      {
+        "legacy": [
+          "Death Storm Drop Pod",
+          "Dreadnought Drop Pod"
+        ],
+        "use": "Drop Pod",
+        "id": "drop-pod"
+      },
+      {
+        "legacy": [
+          "Vindicator Laser Destroyer"
+        ],
+        "use": "Vindicator",
+        "id": "vindicator"
+      },
+      {
+        "legacy": [
+          "Fellblade Super-heavy Battle Tank"
+        ],
+        "use": "Astraeus",
+        "id": "astraeus"
+      }
+    ]
+  },
+  "space-wolves": {
+    "pub": "Legends: Space Marines",
+    "of": "space-marines",
+    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legend points in the Munitorum Field Manual. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above. Some Legends datasheets represent more than one unit – where this is the case, those will be listed below.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as Legendary Proxies units. While these units may differ in significant ways from those described by these datasheets, these rules are the best way to represent these units in your battles. Legends units that use a datasheet shared by more than one unit also use these rules. To use Legendary Proxies units in your army, simply use the relevant datasheet indicated below, complete with its points value(s) in the Munitorum Field Manual, and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your Legendary Proxies units represent. Bear in mind that Legendary Proxies units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a Legendary Proxies unit is visible when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
+    "proxies": [
+      {
+        "legacy": [
+          "Devastator Squad"
+        ],
+        "use": "Desolation Squad",
+        "id": "desolation-squad"
+      },
+      {
+        "legacy": [
+          "Lieutenant in Reiver Armour",
+          "Sergeant Telion"
+        ],
+        "use": "Lieutenant in Phobos Armour",
+        "id": "lieutenant-in-phobos-armour"
+      },
+      {
+        "legacy": [
+          "Suppressor Squad"
+        ],
+        "use": "Inceptor Squad",
+        "id": "inceptor-squad"
+      },
+      {
+        "legacy": [
+          "Tactical Squad"
+        ],
+        "use": "Intercessor Squad",
+        "id": "intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Ferren Aerios",
+          "Pedro Kantor",
+          "Uriel Ventris",
+          "Primaris Company Champion"
+        ],
+        "use": "Captain",
+        "id": "captain"
+      },
+      {
+        "legacy": [
+          "Land Raider Helios",
+          "Land Raider Prometheus",
+          "Land Raider Terminus Ultra",
+          "Land Raider Proteus",
+          "Land Raider Achilles",
+          "Spartan Assault Tank"
+        ],
+        "use": "Land Raider",
+        "id": "land-raider"
+      },
+      {
+        "legacy": [
+          "Deimos Predator"
+        ],
+        "use": "Predator Destructor",
+        "id": "predator-destructor"
+      },
+      {
+        "legacy": [
+          "Chaplain Venerable Dreadnought",
+          "Ironclad Dreadnought"
+        ],
+        "use": "Venerable Dreadnought",
+        "id": "venerable-dreadnought"
+      },
+      {
+        "legacy": [
+          "Land Speeder Tempest",
+          "Land Speeder Tornado",
+          "Land Speeder Typhoon",
+          "Land Speeder Storm"
+        ],
+        "use": "Land Speeder",
+        "id": "land-speeder"
+      },
+      {
+        "legacy": [
+          "Carab Culln the Risen",
+          "Relic Contemptor Dreadnought",
+          "Leviathan Dreadnought"
+        ],
+        "use": "Redemptor Dreadnought",
+        "id": "redemptor-dreadnought"
+      },
+      {
+        "legacy": [
+          "Caestus Assault Ram",
+          "Xiphon Interceptor",
+          "Storm Eagle Gunship",
+          "Fire Raptor Gunship"
+        ],
+        "use": "Stormraven Gunship",
+        "id": "stormraven-gunship"
+      },
+      {
+        "legacy": [
+          "Sergeant Chronus"
+        ],
+        "use": "Lieutenant",
+        "id": "lieutenant"
+      },
+      {
+        "legacy": [
+          "Company Veterans on Bikes",
+          "Bike Squad"
+        ],
+        "use": "Outrider Squad",
+        "id": "outrider-squad"
+      },
+      {
+        "legacy": [
+          "Thunderhawk Transporter",
+          "Sokar-pattern Stormbird"
+        ],
+        "use": "Thunderhawk Gunship",
+        "id": "thunderhawk-gunship"
+      },
+      {
+        "legacy": [
+          "Thunderfire Cannon"
+        ],
+        "use": "Firestrike Servo-turrets",
+        "id": "firestrike-servo-turrets"
+      },
+      {
+        "legacy": [
+          "Chaplain Cassius"
+        ],
+        "use": "Chaplain",
+        "id": "chaplain"
+      },
+      {
+        "legacy": [
+          "Assault Squad"
+        ],
+        "use": "Assault Intercessor Squad",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Assault Squad with Jump Packs"
+        ],
+        "use": "Assault Intercessor Squad with Jump Packs",
+        "id": "assault-intercessor-squad"
+      },
+      {
+        "legacy": [
+          "Command Squad"
+        ],
+        "use": "Company Heroes",
+        "id": "company-heroes"
+      },
+      {
+        "legacy": [
+          "Relic Terminator Squad"
+        ],
+        "use": "Terminator Assault Squad",
+        "id": "terminator-assault-squad"
+      },
+      {
+        "legacy": [
+          "Scout Sniper Squad"
+        ],
+        "use": "Scout Squad",
+        "id": "scout-squad"
+      },
+      {
+        "legacy": [
+          "Tyrannic War Veterans"
+        ],
+        "use": "Sternguard Veteran Squad",
+        "id": "sternguard-veteran-squad"
+      },
+      {
+        "legacy": [
+          "Attack Bike Squad"
+        ],
+        "use": "Invader ATVs",
+        "id": "invader-atvs"
+      },
+      {
+        "legacy": [
+          "Hunter",
+          "Stalker",
+          "Whirlwind Scorpius"
+        ],
+        "use": "Whirlwind",
+        "id": "whirlwind"
+      },
+      {
+        "legacy": [
+          "Deredeo Dreadnought"
+        ],
+        "use": "Ballistus Dreadnought",
+        "id": "ballistus-dreadnought"
+      },
+      {
+        "legacy": [
+          "Javelin Attack Speeder"
+        ],
+        "use": "Storm Speeder Hailstrike",
+        "id": "storm-speeder-hailstrike"
+      },
+      {
+        "legacy": [
+          "Death Storm Drop Pod",
+          "Dreadnought Drop Pod"
+        ],
+        "use": "Drop Pod",
+        "id": "drop-pod"
+      },
+      {
+        "legacy": [
+          "Vindicator Laser Destroyer"
+        ],
+        "use": "Vindicator",
+        "id": "vindicator"
+      },
+      {
+        "legacy": [
+          "Fellblade Super-heavy Battle Tank"
+        ],
+        "use": "Astraeus",
+        "id": "astraeus"
+      }
+    ]
+  },
   "orks": {
     "pub": "Legends: Orks",
-    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legends points. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as **Legendary Proxies** units. To use **Legendary Proxies** units in your army, simply use the relevant datasheet indicated below, complete with its points value(s), and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your **Legendary Proxies** units represent. Bear in mind that **Legendary Proxies** units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a **Legendary Proxies** unit is **visible** when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
+    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legend points in the Munitorum Field Manual. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above. Some Legends datasheets represent more than one unit – where this is the case, those will be listed below.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as Legendary Proxies units. While these units may differ in significant ways from those described by these datasheets, these rules are the best way to represent these units in your battles. Legends units that use a datasheet shared by more than one unit also use these rules. To use Legendary Proxies units in your army, simply use the relevant datasheet indicated below, complete with its points value(s) in the Munitorum Field Manual, and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your Legendary Proxies units represent. Bear in mind that Legendary Proxies units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a Legendary Proxies unit is visible when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
     "proxies": [
       {
         "legacy": [

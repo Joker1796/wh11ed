@@ -80,6 +80,10 @@
       <h3 class="section-heading">
         {{ labels.missionsPrimaryHeading }}
       </h3>
+      <PrimaryMatrix
+        :active="dispoFilter"
+        @open="openMission"
+      />
       <TransitionGroup
         tag="div"
         name="list"
@@ -160,6 +164,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import MissionCard from './MissionCard.vue'
+import PrimaryMatrix from './PrimaryMatrix.vue'
 import TwistCard from './TwistCard.vue'
 import SeeAlsoBlock from '../SeeAlsoBlock.vue'
 import { getMissions } from '../../data/missions.js'
@@ -167,12 +172,14 @@ import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-// How a player's Primary is chosen and how scoring works live on the Sequence chapter;
-// which Primary applies to each matchup is shown on the Terrain & Layouts matrix.
+// How a player's Primary is chosen and how scoring works live on the Sequence chapter; which
+// Primary each matchup deals is the matrix at the top of this chapter's Primaries (and again,
+// with the battlefields, on the Terrain & Layouts one).
 const introRefs = computed(() =>
   locale.value === 'ru'
     ? ['Последовательность миссии EC:sequence', 'Террейн и раскладки EC:layouts']
@@ -214,6 +221,13 @@ watch(dispoFilter, v => setItem('wh11ed-missions-dispo-filter', v))
 const showPrimary = computed(() => ['all', 'primary'].includes(typeFilter.value))
 const showSecondary = computed(() => ['all', 'secondary'].includes(typeFilter.value))
 const showTwists = computed(() => ['all', 'twists'].includes(typeFilter.value))
+// A matrix cell opens its card below. A card the disposition chips are hiding is shown first, by
+// narrowing them to the row the tap came from — never by clearing the reader's choice to "all".
+function openMission({ you, slug }) {
+  if (dispoFilter.value !== 'all' && dispoFilter.value !== you) dispoFilter.value = you
+  scrollToAnchor(`mission-${slug}`, 100, { glide: true })
+}
+
 const filteredPrimaryGroups = computed(() =>
   dispoFilter.value === 'all'
     ? primaryGroups.value

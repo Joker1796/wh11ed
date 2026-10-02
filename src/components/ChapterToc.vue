@@ -1,75 +1,88 @@
 <template>
   <nav
     class="chapter-toc"
-    :class="'chapter-toc--' + variant"
+    :class="['chapter-toc--' + variant, { folded: variant === 'page' && folded }]"
     :aria-label="labels.ariaPageContents"
   >
-    <div
+    <!-- On the page the contents fold, and stay folded on the next visit: a reader who knows the
+         book scrolls past a screenful of links to reach the first chapter every time. -->
+    <button
       v-if="variant === 'page'"
+      type="button"
       class="chapter-toc-header"
+      :aria-expanded="!folded"
+      @click="folded = !folded"
     >
       {{ labels.contentsHeading }}
-    </div>
+      <ChevronIcon
+        class="chapter-toc-chev"
+        from="down"
+        to="up"
+        :turned="!folded"
+      />
+    </button>
 
-    <div class="chapter-toc-grid">
-      <div
-        v-for="group in groups"
-        :key="group.hash"
-        class="chapter-toc-group"
-        :class="{ current: group.hash === activeChapter }"
-      >
-        <a
-          class="chapter-toc-chapter"
-          :href="group.hash"
-          @click.prevent="$emit('select', group.hash.slice(1))"
-        >{{ group.label }}</a>
-
-        <ul
-          v-if="group.sections.length"
-          class="chapter-toc-list"
+    <CollapseTransition :show="variant !== 'page' || !folded">
+      <div class="chapter-toc-grid">
+        <div
+          v-for="group in groups"
+          :key="group.hash"
+          class="chapter-toc-group"
+          :class="{ current: group.hash === activeChapter }"
         >
-          <li
-            v-for="sec in group.sections"
-            :key="sec.id + sec.label"
-          >
-            <a
-              class="chapter-toc-link"
-              :class="{ current: sec.id === activeId && !sec.filter }"
-              :href="'#' + sec.id"
-              @click.prevent="$emit('select', sec.id, sec.filter)"
-            >
-              <span
-                v-if="sectionNum(sec.label)"
-                class="chapter-toc-num"
-              >{{ sectionNum(sec.label) }}</span>
-              {{ sec.label.replace(/^\d+\s+/, '') }}
-            </a>
+          <a
+            class="chapter-toc-chapter"
+            :href="group.hash"
+            @click.prevent="$emit('select', group.hash.slice(1))"
+          >{{ group.label }}</a>
 
-            <!-- One level deeper (e.g. "03.02 Moving Models") — only in the modal, where
-                 there's room for it; the page TOC stays a compact chapter/section jump list. -->
-            <ul
-              v-if="variant === 'modal' && subsectionsFor(sec.id).length"
-              class="chapter-toc-subs"
+          <ul
+            v-if="group.sections.length"
+            class="chapter-toc-list"
+          >
+            <li
+              v-for="sec in group.sections"
+              :key="sec.id + sec.label"
             >
-              <li
-                v-for="item in subsectionsFor(sec.id)"
-                :key="item.id"
+              <a
+                class="chapter-toc-link"
+                :class="{ current: sec.id === activeId && !sec.filter }"
+                :href="'#' + sec.id"
+                @click.prevent="$emit('select', sec.id, sec.filter)"
               >
-                <a
-                  class="chapter-toc-subs-link"
-                  :class="{ current: item.id === activeId }"
-                  :href="'#' + item.id"
-                  @click.prevent="$emit('select', item.id)"
+                <span
+                  v-if="sectionNum(sec.label)"
+                  class="chapter-toc-num"
+                >{{ sectionNum(sec.label) }}</span>
+                {{ sec.label.replace(/^\d+\s+/, '') }}
+              </a>
+
+              <!-- One level deeper (e.g. "03.02 Moving Models") — only in the modal, where
+                 there's room for it; the page TOC stays a compact chapter/section jump list. -->
+              <ul
+                v-if="variant === 'modal' && subsectionsFor(sec.id).length"
+                class="chapter-toc-subs"
+              >
+                <li
+                  v-for="item in subsectionsFor(sec.id)"
+                  :key="item.id"
                 >
-                  <span class="chapter-toc-subs-num">{{ item.sectionNum }}</span>
-                  {{ item.title }}
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+                  <a
+                    class="chapter-toc-subs-link"
+                    :class="{ current: item.id === activeId }"
+                    :href="'#' + item.id"
+                    @click.prevent="$emit('select', item.id)"
+                  >
+                    <span class="chapter-toc-subs-num">{{ item.sectionNum }}</span>
+                    {{ item.title }}
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </CollapseTransition>
   </nav>
 </template>
 
@@ -83,9 +96,12 @@
 // Core's section labels carry a reference number ("03 Moving", split out below), and Core alone
 // has a third level in the modal — its "NN.MM" rule subsections (`subsectionsFor`). A section
 // may also carry a `filter` (Core's Reference abilities), passed along with the jump.
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
+import CollapseTransition from './CollapseTransition.vue'
+import ChevronIcon from './ChevronIcon.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { getItem, setItem } from '../composables/safeStorage.js'
 
 const props = defineProps({
   // navGroups-shaped: [{ hash, label, sections: [{ id, label, filter? }] }]
@@ -93,8 +109,16 @@ const props = defineProps({
   variant: { type: String, default: 'page' },
   activeId: { type: String, default: null },
   subsectionsFor: { type: Function, default: () => [] },
+  // Which book this is — the page variant remembers its fold per book, so folding the Event
+  // Companion's contents does not fold the Core Rules'.
+  storeKey: { type: String, default: '' },
 })
 defineEmits(['select'])
+
+// Read at setup, before the first paint, so a folded contents never flashes open on arrival.
+const FOLD_KEY = `wh11ed-toc-folded-${props.storeKey}`
+const folded = ref(!!props.storeKey && getItem(FOLD_KEY) === '1')
+watch(folded, (v) => { if (props.storeKey) setItem(FOLD_KEY, v ? '1' : '0') })
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -134,6 +158,15 @@ const activeChapter = computed(() => {
 }
 
 .chapter-toc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
   font-family: var(--font-sans);
   font-size: 0.68rem;
   font-weight: 600;
@@ -141,7 +174,15 @@ const activeChapter = computed(() => {
   letter-spacing: 1.2px;
   color: var(--text-muted);
   margin-bottom: 0.5rem;
+  transition: margin-bottom var(--motion-fold), color 0.15s;
 }
+
+.chapter-toc-header:hover { color: var(--accent); }
+.chapter-toc-chev { font-size: 0.75rem; }
+
+/* Folded, the box is just its heading line. */
+.chapter-toc.folded { padding-bottom: 0.55rem; }
+.chapter-toc.folded .chapter-toc-header { margin-bottom: 0; }
 
 /* Multi-column flow, not a grid: the whole thing is one continuous stream that pours into
    the next column wherever it runs out of room, like a newspaper column — not a grid of

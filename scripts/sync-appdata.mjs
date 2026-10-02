@@ -49,7 +49,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, looseName, isWeaponType, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { ROOT, SLUG_MAP, norm, looseName, isWeaponType, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 
 // Scalar field maps for statline/weapon-profile comparisons: [wh11ed key, appdata key].
 const STAT_FIELDS = [['m', 'M'], ['t', 'T'], ['sv', 'Sv'], ['w', 'W'], ['ld', 'Ld'], ['oc', 'OC']]
@@ -60,7 +61,7 @@ const WEAPON_FIELDS = {
 
 async function syncFaction(slug) {
   const appSlug = SLUG_MAP[slug] || slug
-  const bundle = await loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
+  const bundle = loadAppdataBundle(appSlug) // our recorded departures applied — scripts/lib/appdata-exceptions.mjs
   console.log(`\n=== ${slug} (appdata: ${appSlug}) ===`)
   if (!bundle) { console.log('  no appdata bundle found — check SLUG_MAP or spelling'); return }
 
@@ -202,6 +203,22 @@ async function syncFaction(slug) {
       lines.push(`  ~ datasheet "${d.name}" has an invulnerable save (${whInv.join('/')}) not found in appdata`)
     } else if (!whInv.length && appInvList.length === 1 && !appInvList[0].miniatureId && (appInvList[0].save || appInvList[0].rangedSave)) {
       lines.push(`  + datasheet "${d.name}" missing invulnerable save: appdata has ${appInvList[0].save || `${appInvList[0].rangedSave}/${appInvList[0].meleeSave}`}`)
+    }
+    // The condition on it ("against ranged attacks only", "improved to 4+ against melee") — a
+    // `rules` line appdata prints under the save, our per-profile `invNote`. Compared by what it
+    // restricts to (ranged/melee/psychic) and any other save it names, not by wording: the notes
+    // are written three ways across the data. The Astraeus showed an unconditional 5+ until 2026-10.
+    const invGist = (s, save) => {
+      const t = String(s || '').toLowerCase()
+      const saves = (t.match(/\d\+/g) || []).filter((x) => x !== save).sort().join(',')
+      return ['ranged', 'melee', 'psychic'].filter((w) => t.includes(w)).join('+') + (saves ? ` ${saves}` : '')
+    }
+    const whNotes = [...new Set((d.profiles || []).map((p) => p.invNote).filter(Boolean))]
+    for (const iv of appInvList) {
+      if (!iv.rules) continue
+      const want = invGist(iv.rules, iv.save)
+      if (!want || whNotes.some((n) => invGist(n, iv.save) === want)) continue
+      lines.push(`  ~ datasheet "${d.name}" invulnerable save condition differs: wh11ed=${JSON.stringify(whNotes)} appdata=${JSON.stringify(iv.rules)}`)
     }
 
     // Weapons: resolve each wh11ed ranged[]/melee[] row to its appdata wargear item, id-first via

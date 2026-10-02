@@ -5,7 +5,7 @@
 //         > Index (launch rules; superseded, kept only where nothing above covers it).
 //
 // The 12 detachments below match the Munitorum Field Manual list. Each carries `dp`
-// (Detachment/Deployment cost), `forceDisposition` and (where relevant) `unique` from the MFM,
+// (Detachment/Deployment cost), `forceDispositions` and (where relevant) `unique` from the MFM,
 // and per-enhancement `points`. Faction-Pack "Rules Updates" have been folded into the codex
 // detachments' text (they are the authoritative newer wording) — see inline notes.
 //
@@ -29,7 +29,7 @@ const en = {
     // wording survives only in the Combat Patrol box). The example below is kept as-is — appdata
     // itself retains it under the new wording.
     body: `If your Army Faction is NECRONS, at the end of your Command phase, each friendly unit with this ability that is on the battlefield activates its Reanimation Protocols:
-▪ When a unit's Reanimation Protocols activate, that unit heals D3 wounds.`,
+▪ When a unit's Reanimation Protocols activate, that unit **[gloss:heal:heals]** D3 wounds.`,
     example: `A unit of Lokhust Destroyers (which have a Wounds characteristic of 3) activates its Reanimation Protocols. The unit had a Starting Strength of 3, but currently contains 2 models, and one of those models has lost 1 wound. A 3 is rolled to see how many wounds are reanimated. The first of these reanimated wounds restores the wounded Lokhust Destroyer back to 3 wounds. The second of these reanimated wounds returns the destroyed Lokhust Destroyer to the battlefield with 1 wound remaining. The third of these reanimated wounds restores one of the remaining lost wounds to the same Lokhust Destroyer that was just returned. The unit now contains 3 models, two of which have 3 wounds remaining and one of which has 2 wounds remaining.`,
   },
 
@@ -40,7 +40,7 @@ const en = {
       name: 'Awakened Dynasty',
       source: 'codex',
       dp: 3,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold", "Priority Assets"],
       unique: 'DYNASTY',
       rule: {
         name: 'Command Protocols',
@@ -59,7 +59,7 @@ const en = {
           target:
             'One NECRONS INFANTRY CHARACTER model from your army that was just destroyed. You can use this Stratagem on that model even though it was just destroyed.',
           effect:
-            'At the end of the phase, set up the destroyed model on the battlefield, unengaged and as close as possible to where it was destroyed. That model is not part of an attached unit and its unit has a starting strength of 1. That model has half of its starting number of wounds remaining.',
+            'At the end of the phase, set up the **[gloss:destroyed:destroyed]** model on the battlefield, unengaged and as close as possible to where it was **destroyed**. That model is not part of an attached unit and its unit has a **[gloss:starting-strength:starting strength]** of 1. That model has half of its starting number of wounds remaining.',
           restrictions: 'Each model can only be targeted with this Stratagem once per battle.',
         },
         {
@@ -134,7 +134,10 @@ const en = {
           points: 20,
           flavor:
             'With this device the bearer can twist space and time about them, enfolding them in a swirling darkness. When it fades, they have vanished, rematerialising elsewhere through a miracle of arcane science.',
-          body: `Necrons model only. (Once per battle, per army) At the end of your opponent's turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has [core:Deep Strike] until the start of your next Shooting phase.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn).`,
+          body: `Necrons model only. (Once per battle, per army) At the end of your opponent's turn, if this unit is unengaged, you can use this ability. If you do:
+▪ Place this unit in **[gloss:strategic-reserves:strategic reserves]**.
+▪ This unit has [core:Deep Strike] until the start of your next Shooting phase.
+▪ This unit must make an ingress move in your next Movement phase (including in your first turn).`,
         },
         {
           name: 'Nether-realm Casket',
@@ -166,7 +169,7 @@ const en = {
       name: 'Annihilation Legion',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: 'Annihilation Protocol',
         flavor:
@@ -290,8 +293,8 @@ Each time a Destroyer Cult unit from your army makes a ranged attack that target
       id: 'canoptek-court',
       name: 'Canoptek Court',
       source: 'codex',
-      dp: 3,
-      forceDisposition: 'Take and Hold',
+      dp: 2,
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: 'Power Matrix',
         flavor:
@@ -416,7 +419,7 @@ Each time a model in a Cryptek or Canoptek unit from your army makes an attack, 
       name: 'Hypercrypt Legion',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       unique: 'HYPERCRYPT',
       rule: {
         name: 'Hyperphasing',
@@ -476,7 +479,7 @@ Once you have made your selections, remove those units from the battlefield and 
           when: 'Your Movement phase.',
           // Faction-Pack Rules Update: target now excludes MONSTER units.
           target:
-            'One NECRONS unit from your army (excluding MONSTER units) that is arriving using an ingress move this phase.',
+            'One NECRONS unit from your army (excluding MONSTER units) that is arriving using an **[gloss:ingress-move:ingress move]** this phase.',
           effect:
             'Your unit can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy models.',
           restrictions: 'A unit targeted with this Stratagem is not eligible to declare a charge in the same turn.',
@@ -539,7 +542,7 @@ Once you have made your selections, remove those units from the battlefield and 
       name: 'Obeisance Phalanx',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption"],
       rule: {
         name: 'Worthy Foes',
         flavor:
@@ -654,16 +657,16 @@ Once you have made your selections, remove those units from the battlefield and 
       name: 'Hand of the Dynasty',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold"],
       unique: 'DYNASTY',
       rule: {
         name: 'Hypermotility Protocols',
         flavor:
           'Command protocols and neural impulses flood the mechanical bodies of these android warriors, lending them greater speed of thought and movement.',
         body: `▪ Friendly IMMORTALS/NECRON WARRIORS units' ranged attacks have [ASSAULT].
-▪ When a friendly Immortals/Necron Warriors unit is selected to make an advance move, that move does not prevent that unit from being eligible to start an action.
+▪ When a friendly Immortals/Necron Warriors unit is selected to make an **[gloss:advance-move:advance move]**, that move does not prevent that unit from being eligible to start an action.
 
-This detachment has the Dynasty tag and cannot be taken with another Dynasty detachment.`,
+This **[gloss:detachments:detachment]** has the Dynasty tag and cannot be taken with another Dynasty **detachment**.`,
       },
       stratagems: [
         {
@@ -696,7 +699,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           flavor: 'In response to enemy threats, these Necron footsoldiers unseal canoptek urns and unleash a localised nanoscarab plague to saturate the site they are holding.',
           when: "Your opponent's Shooting phase, when an enemy unit that targeted a friendly IMMORTALS/NECRON WARRIORS unit has shot.",
           target: 'That IMMORTALS/NECRON WARRIORS unit.',
-          effect: 'Your unit shoots using snap shooting, but while doing so your unit can only target that enemy unit.',
+          effect: 'Your unit shoots using **[gloss:snap-shooting:snap shooting]**, but while doing so your unit can only target that enemy unit.',
           restrictions: '',
         },
       ],
@@ -723,13 +726,13 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
       name: 'Skyshroud Spearhead',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: 'Transdimensional Deployment',
         flavor:
           'Transported to the battlefield via dimension-shifting technologies, Tomb Blades materialise in crackling fields of energy and strafe unprepared targets, often to devastating effect.',
         body: `▪ Friendly Tomb Blades units have [core:Deep Strike].
-▪ When a friendly Tomb Blades unit is selected to shoot, if that unit made an ingress move this turn, that unit's ranged attacks have +1 to hit rolls.`,
+▪ When a friendly Tomb Blades unit is selected to shoot, if that unit made an **[gloss:ingress-move:ingress move]** this turn, that unit's ranged attacks have +1 to hit rolls.`,
       },
       stratagems: [
         {
@@ -751,7 +754,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           flavor: 'Reacting with android hyperresponsiveness, these skimmer Necrons fire thrusters and surge across the battlefield.',
           when: "Your opponent's Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged NECRONS MOUNTED unit.",
           target: 'That NECRONS MOUNTED unit.',
-          effect: 'Your unit can make a normal move of up to D3+3".',
+          effect: 'Your unit can make a **[gloss:normal-move:normal move]** of up to D3+3".',
           restrictions: '',
         },
         {
@@ -789,7 +792,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
       name: "The Phaeron's Armoury",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Priority Assets"],
       unique: 'HYPERCRYPT',
       rule: {
         name: 'Empowered Engines',
@@ -797,7 +800,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           'When a Necron ruler unleashes the mightiest war engines from amongst their armoury, they may charge their finest Crypteks to enhance them first.',
         body: `Friendly NECRONS TITANIC FLY units have +6" M.
 
-This detachment has the Hypercrypt tag and cannot be taken with another Hypercrypt detachment.`,
+This **[gloss:detachments:detachment]** has the Hypercrypt tag and cannot be taken with another Hypercrypt **detachment**.`,
       },
       stratagems: [
         {
@@ -819,7 +822,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           flavor: "From the war machine's pinnacle rolls an expanding wave of invisible particles that paints the foe in sharp relief upon Necron targeting systems.",
           when: 'Start of your Shooting phase.',
           target: 'One friendly NECRONS TITANIC FLY unit.',
-          effect: 'Select one visible enemy unit within 12" of your unit. That enemy unit has +3" detection range.',
+          effect: 'Select one **[gloss:visible:visible]** enemy unit within 12" of your unit. That enemy unit has +3" **[gloss:detection-range:detection range]**.',
           restrictions: '',
         },
         {
@@ -847,7 +850,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           aura: true,
           upgrade: true,
           flavor: 'Projecting a subtly tailored weave of spiritual entropy fields, antiphotons and infrasonic oppression waves, this war engine projects a sense of ominous dread and impending death like a shadow before it.',
-          body: `Obelisk unit only. In your opponent's Battle-shock step, if an enemy unit within 8" of this unit is below starting strength, that enemy unit makes a battle-shock roll.`,
+          body: `Obelisk unit only. In your opponent's Battle-shock step, if an enemy unit within 8" of this unit is below **[gloss:starting-strength:starting strength]**, that enemy unit makes a battle-shock roll.`,
         },
       ],
     },
@@ -857,7 +860,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
       name: 'Starshatter Arsenal',
       source: 'faction-pack',
       dp: 3,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Priority Assets", "Purge the Foe"],
       rule: {
         name: 'Relentless Onslaught',
         flavor:
@@ -966,7 +969,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
       name: 'Cryptek Conclave',
       source: 'faction-pack',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: 'Techno-sorcerous Augmentations',
         flavor:
@@ -1075,7 +1078,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
       name: 'Cursed Legion',
       source: 'faction-pack',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: 'Cold Fervour',
         flavor:
@@ -1176,7 +1179,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Lokhust D
           name: 'Cursed Circlet',
           points: 25,
           flavor: "This band of living metal sinks into the bearer's brow and floods their neural cortex with a murderous urge.",
-          body: `Destroyer Cult model only. In your opponent's Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed by those attacks, this unit can make a surge move of up to D6".`,
+          body: `Destroyer Cult model only. In your opponent's Shooting phase, when an enemy unit has shot, if a model in this unit was **[gloss:destroyed:destroyed]** by those attacks, this unit can make a **[gloss:surge-move:surge move]** of up to D6".`,
         },
       ],
     },
@@ -1186,7 +1189,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Lokhust D
       name: 'Pantheon of Woe',
       source: 'faction-pack',
       dp: 2,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption"],
       rule: {
         name: 'Cosmic Distortion',
         flavor:
@@ -1285,7 +1288,7 @@ This binding uses atomic resonance magnetism to compel the shard into the midst 
           points: 45,
           binding: true,
           flavor: "This eldritch device fetters and directs the Deceiver's powers within a vortex that devours lesser wits entirely.",
-          body: `C'tan Shard of the Deceiver model only. This model has the following ability: Lord of Deceit (Aura): Once per turn, when your opponent targets a unit from their army within 12" of this model with a Stratagem, you can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP.`,
+          body: `C'tan Shard of the Deceiver model only. This model has the following ability: Lord of Deceit (Aura): Once per turn, when your opponent targets a unit from their army within 12" of this model with a **[gloss:stratagem:Stratagem]**, you can use this ability. If you do, increase the CP cost of that use of that **Stratagem** by 1CP.`,
         },
         {
           name: 'Quantum Goad',

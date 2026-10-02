@@ -9,7 +9,8 @@
 //     Ambush / Resurgence points), 3 pack detachments (Heroes of the Uprising, Purestrain
 //     Broodswarm, Xenocult Masses; Final Day is also printed in the pack) and Rules Updates.
 //   MFM (src/data/mfm/genestealer-cults.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the PURESTRAIN / HOSTS `unique` tags.
+//     forceDispositions, and the HOSTS `unique` tag (PURESTRAIN was removed by MFM 1.5 of
+//     2 October — «UNIQUE TAG REMOVED» — field and rule sentence dropped, app data 972).
 //
 // 9 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for now.
 // Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -43,7 +44,7 @@ If you do:
 Cult Ambush is a type of Strategic Reserves. Units in Cult Ambush cannot be targeted with the Rapid Ingress Stratagem, but can be set up on the battlefield using a Cult Ambush marker as described below, or by following the rules for Strategic Reserves in a subsequent turn. Units in Cult Ambush are not automatically destroyed at the end of the third battle round.
 
 ### Cult Ambush Markers
-Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (excluding AIRCRAFT) ends any kind of move within 8" of a Cult Ambush marker you placed, that Cult Ambush marker is removed from the battlefield. At the end of your opponent's next Movement phase, for each of your Cult Ambush markers still on the battlefield, you can select one unit from your army that is in Cult Ambush to make an ingress move. For that ingress move, set that unit up with at least one model in that unit in base contact with that Cult Ambush marker and all other models placed wholly within 3" of that Cult Ambush marker (that Cult Ambush marker is then removed from the battlefield). Units in Cult Ambush can make an ingress move in the first battle round using this rule.`,
+Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (excluding AIRCRAFT) ends any kind of move within 8" of a Cult Ambush marker you placed, that Cult Ambush marker is removed from the battlefield. At the end of your opponent's next Movement phase, for each of your Cult Ambush markers still on the battlefield, you can select one unit from your army that is in Cult Ambush to make an **[gloss:ingress-move:ingress move]**. For that **ingress move**, set that unit up with at least one model in that unit in base contact with that Cult Ambush marker and all other models placed wholly within 3" of that Cult Ambush marker (that Cult Ambush marker is then removed from the battlefield). Units in Cult Ambush can make an **ingress move** in the first battle round using this rule.`,
   },
 
   detachments: [
@@ -53,8 +54,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Biosanctic Broodsurge",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
-      unique: "PURESTRAIN",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Hypermorphic Fury",
         flavor: "Little can assuage a Genestealer Cults least Human instincts, behaviours made even more ferocious under provocation. Stimulated by psionic pulses of the Broodmind or fuelled by alchemical concoctions delivered from alien grafts, impulses drive the blessed to acts of increased savagery.",
@@ -133,7 +133,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           name: "Predatory Instincts",
           points: 20,
           flavor: "With alien senses and instincts augmented with hyper-adaptive gene-strands, this chosen of the cult leads the way deep into enemy lines, like a toxic barb working its way to the heart.",
-          body: "ABOMINANT, BIOPHAGUS or PATRIARCH model only.\n▪ Models in the bearer's unit have the Infiltrators ability.\n▪ You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.",
+          body: "ABOMINANT, BIOPHAGUS or PATRIARCH model only.\n▪ Models in the bearer's unit have the Infiltrators ability.\n▪ You can target this unit with the Heroic Intervention **[gloss:stratagem:Stratagem]**, regardless of any other uses of that **Stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **Stratagem** on other units this phase.",
         },
         {
           name: "Biomorph Adaptation",
@@ -161,7 +161,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Brood Brothers Auxilia",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Integrated Tactics & BROOD BROTHERS",
         flavor: "Coordinating with their militant allies via stolen vox equipment or signalling with cult icons, the insidious broodkin engulfs the hated foe in overlapping fields of fire.",
@@ -246,7 +246,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           name: "Adaptive Reprisal",
           points: 15,
           flavor: "Whether through intensive cross-training with tainted officers or some symbiotic neuro-mimicry, this insurrectionist is adept in daring tactical manoeuvres.",
-          body: "GENESTEALER CULTS INFANTRY model only. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP.",
+          body: "GENESTEALER CULTS INFANTRY model only. When you target this unit with the **[gloss:heroic-intervention:Heroic Intervention Stratagem]**, that use is -1 CP.",
         },
         {
           name: "The Hero Returned",
@@ -268,7 +268,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Final Day",
       source: 'faction-pack', // printed in the pack (identical to the codex text except Divine Imperative)
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Psionic Parasitism",
         flavor: "With each tug on the synaptic leash, the Hive Mind drains more of its hapless worshippers.",
@@ -281,9 +281,9 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           cp: "1CP",
           turn: "your",
           flavor: "Cultists dash madly into the fighting without a care for their survival, drawn onward to aid the vanguard organisms by a will they cannot resist.",
-          when: "Your Charge phase, when a friendly GENESTEALER CULTS unit within 12\" of a friendly engaged TYRANIDS unit declares a charge.",
+          when: "Your Charge phase, when a friendly GENESTEALER CULTS unit within 12\" of a friendly engaged TYRANIDS unit **[gloss:declare-charge:declares a charge]**.",
           target: "That GENESTEALER CULTS unit.",
-          effect: "▪ Your unit has +1 to Charge rolls.\n▪ You can use this part of this Stratagem. If you do:\n▪ Your unit can re-roll Charge rolls.\n▪ Your unit __must__ end that charge move engaged with an enemy unit engaged with that friendly TYRANIDS unit.",
+          effect: "▪ Your unit has +1 to **[gloss:charge-roll:Charge rolls]**.\n▪ You can use this part of this **[gloss:stratagem:Stratagem]**. If you do:\n▪ Your unit can re-roll **Charge rolls**.\n▪ Your unit __must__ end that **[gloss:charge-move:charge move]** engaged with an enemy unit engaged with that friendly TYRANIDS unit.",
           restrictions: "",
         },
         {
@@ -375,7 +375,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Host of Ascension",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold", "Reconnaissance"],
       unique: "HOSTS",
       rule: {
         name: "A Perfect Ambush",
@@ -483,11 +483,11 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Outlander Claw",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Rapid Takeover",
         flavor: "Whether forming loose clans of wandering nomads or militarised rapid-reaction corps, the cultists of Outlander Claws use their experience to launch assaults on prominent targets. Swiftly exploiting or rigging them with proximity charges, they can deny resources to the enemy without yoking themselves to a static defence.",
-        body: "While a GENESTEALER CULTS MOUNTED/VEHICLE model from your army is not Battle-shocked, add 1 to its Objective Control characteristic. In addition, at the end of your Command phase, if one or more Atalan Jackals units from your army are within range of an objective you control, that objective remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.",
+        body: "While a GENESTEALER CULTS MOUNTED/VEHICLE model from your army is not Battle-shocked, add 1 to its **[gloss:objective:Objective]** Control characteristic. In addition, at the end of your Command phase, if one or more Atalan Jackals units from your army are within range of an **objective** you control, that **objective** remains under your control until your opponent’s Level of Control over that **objective** marker is greater than yours at the end of a phase.",
       },
       stratagems: [
         {
@@ -590,7 +590,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Xenocreed Congregation",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Unquestioning Fanaticism",
         flavor: "Downtrodden by the oppressors for so long, a cult’s lowly broodkin are fanatically devoted to their leaders, for those hallowed individuals serve the Patriarchs will more directly. The masses draw upon energy reserves in their desire to heed their masters’ wishes, surging selflessly into the fray, ready to hurl themselves in harm’s way for the Patriarch’s chosen.",
@@ -649,7 +649,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           flavor: "When the cult's leaders demand devotion, danger and exhaustion are forgotten in the rush to serve.",
           when: "Your Charge phase.",
           target: "One Acolyte Hybrids, Hybrid Metamorphs or Neophyte Hybrids unit from your army that has not declared a charge this phase.",
-          effect: "▪ If your unit made an advance/fall-back move this turn, that advance/fall-back move does not prevent your unit from being eligible to declare a charge.\n▪ When your unit declares a charge, you can use this part of this Stratagem. If you do:\n▪ Your unit can re-roll Charge rolls.\n▪ Your unit __must__ end that charge move engaged with an enemy unit engaged with a friendly CHARACTER unit.",
+          effect: "▪ If your unit made an advance/**[gloss:fall-back-move:fall-back move]** this turn, that advance/**fall-back move** does not prevent your unit from being **[gloss:eligible-to-charge:eligible to declare a charge]**.\n▪ When your unit **[gloss:declare-charge:declares a charge]**, you can use this part of this **[gloss:stratagem:Stratagem]**. If you do:\n▪ Your unit can re-roll **[gloss:charge-roll:Charge rolls]**.\n▪ Your unit __must__ end that charge move engaged with an enemy unit engaged with a friendly CHARACTER unit.",
           restrictions: "",
         },
         {
@@ -698,7 +698,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Heroes of the Uprising",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Killer Reputation",
         flavor: "What passes for folk heroism amongst the deviants of the Genestealer Cults is part broodmind compulsion and unwilling worship, and part these champions’ ability to commit deeds of great and terrible violence against any who stand in the way of the cult.",
@@ -711,9 +711,9 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           cp: "1CP",
           turn: "either",
           flavor: "Few sights are more inspiring to the downtrodden yet fanatical masses of the Genestealer Cult than seeing their folk heroes striking down their oppressors.",
-          when: "Your Shooting phase or the Fight phase, when a friendly KILLER unit has attacked, if those attacks destroyed an enemy unit or an enemy CHARACTER model.",
+          when: "Your Shooting phase or the Fight phase, when a friendly KILLER unit has attacked, if those attacks **[gloss:destroyed:destroyed]** an enemy unit or an enemy CHARACTER model.",
           target: "That KILLER unit.",
-          effect: "Each visible friendly Battle-shocked GENESTEALER CULTS unit within 12\" of your unit is no longer Battle-shocked.",
+          effect: "Each **[gloss:visible:visible]** friendly **[gloss:battle-shocked:Battle-shocked]** GENESTEALER CULTS unit within 12\" of your unit is no longer **Battle-shocked**.",
           restrictions: "",
         },
         {
@@ -722,7 +722,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           cp: "1CP",
           turn: "either",
           flavor: "Feeding back through the unnatural connection of the broodmind, the sheer worshipful belief of the masses in the superhuman abilities of their champions actually manifests to empower those very figureheads.",
-          when: "Your Shooting phase or the Fight phase, when a friendly KILLER unit is selected to attack.",
+          when: "Your Shooting phase or the Fight phase, when a friendly KILLER unit is **[gloss:selected-to-attack:selected to attack]**.",
           target: "That KILLER unit.",
           effect: "Attacks made by KILLER models in your unit have [DEVASTATING WOUNDS].",
           restrictions: "",
@@ -735,7 +735,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           flavor: "Even caught firmly within the jaws of death, still this champion of the cult lives up to their reputation for deadly skill and utter devotion to the cause.",
           when: "Fight phase, when an enemy unit targets a friendly KILLER unit.",
           target: "That KILLER unit.",
-          effect: "When a KILLER model in your unit is destroyed, if your unit has not been selected to fight this phase, roll one D6:\n▪ On a 1, that enemy unit suffers 1 mortal wound.\n▪ On a 2+, do not remove that model from the battlefield. When your unit has fought, or at the end of the phase (whichever comes first), that model is removed from the battlefield.",
+          effect: "When a KILLER model in your unit is **[gloss:destroyed:destroyed]**, if your unit has not been **[gloss:selected-to-fight:selected to fight]** this phase, roll one D6:\n▪ On a 1, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]**.\n▪ On a 2+, do not remove that model from the battlefield. When your unit has fought, or at the end of the phase (whichever comes first), that model is removed from the battlefield.",
           restrictions: "",
         },
       ],
@@ -760,12 +760,11 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Purestrain Broodswarm",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
-      unique: "PURESTRAIN",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Enemy Within",
         flavor: "Genestealers on the hunt combine malevolent cunning and inhuman agility to strike and fade again and again, until their prey are reduced to panicked disarray.",
-        body: "At the end of your opponent’s Fight phase, friendly unengaged PURESTRAIN GENESTEALER units can be placed in Strategic Reserves.\n\nThis detachment has the **PURESTRAIN** tag and cannot be taken with another **PURESTRAIN** detachment.",
+        body: "At the end of your opponent’s Fight phase, friendly **[gloss:unengaged:unengaged]** PURESTRAIN GENESTEALER units can be placed in **[gloss:strategic-reserves:Strategic Reserves]**.",
       },
       stratagems: [
         {
@@ -787,7 +786,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           flavor: "Genestealers can constrict themselves into grotesquely narrow spaces, can crawl across vertical surfaces and hang from ceilings in utter silence, and are rarely seen by their prey before it is altogether too late.",
           when: "Start of your opponent’s Movement phase.",
           target: "One friendly PURESTRAIN GENESTEALERS unit.",
-          effect: "Your unit has -6\" detection range until the end of the turn.",
+          effect: "Your unit has -6\" **[gloss:detection-range:detection range]** until the end of the turn.",
           restrictions: "",
         },
         {
@@ -796,9 +795,9 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           cp: "1CP",
           turn: "opponent",
           flavor: "Purestrain Genestealers think and move with horrifying swiftness, darting through the smoke and shadow of the battlefield, remaining always a few steps ahead of their prey.",
-          when: "Your opponent’s Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged PURESTRAIN GENESTEALERS unit.",
+          when: "Your opponent’s Movement phase, when an enemy unit ends a move within 8\" of a friendly **[gloss:unengaged:unengaged]** PURESTRAIN GENESTEALERS unit.",
           target: "That PURESTRAIN GENESTEALERS unit.",
-          effect: "Your unit can make a Normal move of up to D3+3\".",
+          effect: "Your unit can make a **[gloss:normal-move:Normal move]** of up to D3+3\".",
           restrictions: "",
         },
       ],
@@ -824,12 +823,12 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Xenocult Masses",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       unique: "HOSTS",
       rule: {
         name: "Hordes of the Faithful",
         flavor: "More and yet more Neophytes surge from tunnel mouths, mine entrances and derelict fortifications, drowning the foe in a tide of fanatical killers.",
-        body: "In your Command phase, if a friendly NEOPHYTE HYBRIDS unit is within a terrain area, that unit heals 3 wounds.\n\nThis detachment has the **HOSTS** tag and cannot be taken with another **HOSTS** detachment.",
+        body: "In your Command phase, if a friendly NEOPHYTE HYBRIDS unit is within a **[gloss:terrain-area:terrain area]**, that unit **[gloss:heal:heals]** 3 wounds.\n\nThis **[gloss:detachments:detachment]** has the **HOSTS** tag and cannot be taken with another **HOSTS** **detachment**.",
       },
       stratagems: [
         {
@@ -839,8 +838,8 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           turn: "your",
           flavor: "Equipped with a wealth of local knowledge, it is no great task for these Neophytes to make out the positions of the unbelievers and report their presence to the cult.",
           when: "Start of your Shooting phase.",
-          target: "One friendly NEOPHYTE HYBRIDS unit within a terrain area.",
-          effect: "Enemy units within that terrain area have +6\" detection range.",
+          target: "One friendly NEOPHYTE HYBRIDS unit within a **[gloss:terrain-area:terrain area]**.",
+          effect: "Enemy units within that **[gloss:terrain-area:terrain area]** have +6\" **[gloss:detection-range:detection range]**.",
           restrictions: "",
         },
         {
@@ -849,7 +848,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           cp: "1CP",
           turn: "your",
           flavor: "Driven wild with hate and fervour, the hybrids unleash a veritable storm of criss-crossing fire into their loathed foe.",
-          when: "Your Shooting phase, when a friendly NEOPHYTE HYBRIDS unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly NEOPHYTE HYBRIDS unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That NEOPHYTE HYBRIDS unit.",
           effect: "Select one enemy unit. Your unit’s ranged attacks that target that enemy unit can re-roll Hit rolls.",
           restrictions: "",
@@ -860,7 +859,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           cp: "1CP",
           turn: "opponent",
           flavor: "Used to being downtrodden, to creeping secretively through the shadows and hiding from authority, these Neophyte Hybrids are almost preternaturally skilled at making use of battlefield cover.",
-          when: "Your opponent’s Shooting phase, when an enemy unit targets a friendly NEOPHYTE HYBRIDS unit with every model within a terrain area.",
+          when: "Your opponent’s Shooting phase, when an enemy unit targets a friendly NEOPHYTE HYBRIDS unit with every model within a **[gloss:terrain-area:terrain area]**.",
           target: "That NEOPHYTE HYBRIDS unit.",
           effect: "Ranged attacks that target your unit have -1 AP until that unit has attacked.",
           restrictions: "",
@@ -871,14 +870,14 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           name: "Inspired to Greatness",
           points: 15,
           flavor: "Fighting under the eyes of the very leaders of their cult, the faithful are gripped by an unwavering determination to excel in battle.",
-          body: "MAGUS/PRIMUS model only. This unit’s attacks can re-roll Damage rolls.",
+          body: "MAGUS/PRIMUS model only. This unit’s attacks can re-roll **[gloss:damage-roll:Damage rolls]**.",
         },
         {
           name: "Devious Disguises",
           points: 15,
           upgrade: true,
           flavor: "Whether it be stolen uniforms, ad-hoc camouflage or even some chameleonic xenomutation, these Neophytes are able to blend into their surroundings.",
-          body: "NEOPHYTE HYBRIDS unit only. This unit has -3\" detection range.",
+          body: "NEOPHYTE HYBRIDS unit only. This unit has -3\" **[gloss:detection-range:detection range]**.",
         },
       ],
     },

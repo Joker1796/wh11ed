@@ -1,6 +1,6 @@
 {
   "name": "wh-rules",
-  "version": "2.7.6",
+  "version": "2.7.11",
   "description": "Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition — core rules, the Event Companion, faction rules and unit datasheets, plus an offline game tracker. A fast, searchable Vue 3 SPA hosted at wh-rules.ru.",
   "scripts": {
     "dev": "vite",
@@ -21,6 +21,8 @@
     "sourceids": "node scripts/gen-source-ids.mjs",
     "condkeywords": "node scripts/gen-conditional-keywords.mjs",
     "faq": "node scripts/gen-faction-faq.mjs",
+    "patches": "node scripts/gen-patch-notes.mjs",
+    "points:pdf": "node scripts/gen-points-pdf.mjs points-pdf ru && node scripts/gen-points-pdf.mjs points-pdf en",
     "faq:index": "node scripts/gen-faction-faq-search-index.mjs",
     "legends": "node scripts/gen-faction-legends.mjs",
     "sync": "node scripts/sync.mjs",
@@ -34,6 +36,7 @@
     "imgrules": "node scripts/check-image-rules.mjs",
     "coregrants": "node scripts/check-core-grants.mjs",
     "dsids": "node scripts/check-datasheet-ids.mjs",
+    "exceptions": "node scripts/check-appdata-exceptions.mjs",
     "dsids:write": "node scripts/check-datasheet-ids.mjs --write",
     "emphasis": "node scripts/check-emphasis.mjs",
     "layouts": "node scripts/check-layout-art.mjs",
@@ -53,7 +56,8 @@
     "modifiers": "node scripts/gen-roster-modifiers.mjs",
     "modifiers:check": "node scripts/gen-roster-modifiers.mjs --check",
     "modifiers:queue": "node scripts/gen-roster-modifiers.mjs --queue",
-    "roster:texts-ru": "node scripts/gen-roster-texts-ru.mjs"
+    "roster:texts-ru": "node scripts/gen-roster-texts-ru.mjs",
+    "gloss": "node scripts/gloss-bold-terms.mjs"
   },
   "keywords": [],
   "author": "Joker1796",

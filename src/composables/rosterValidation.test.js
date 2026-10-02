@@ -67,13 +67,23 @@ describe('validateRoster — completeness', () => {
     expect(codes({ ...roster(), detachments: [] })).toContain('noDetachment')
   })
 
+  // A codex retires detachments by name; a list saved before it keeps the name and would otherwise
+  // read as playing nothing while its header still names the old one.
+  it('flags a detachment the faction no longer has', () => {
+    const issues = validateRoster({ ...roster(), detachments: ['Gladius', 'Vanguard Spearhead'] }, { faction, core }).issues
+    const gone = issues.filter((i) => i.code === 'detachmentGone')
+    expect(gone).toHaveLength(1)
+    expect(gone[0]).toMatchObject({ level: 'error', params: { name: 'Vanguard Spearhead' } })
+    expect(codes(roster())).not.toContain('detachmentGone')
+  })
+
   // An army plays ONE Force Disposition. Detachments that disagree leave a choice the player still
   // owes — and everything downstream (the export's own line, the printed header, the game the list
   // is handed to) reads that answer, so the list is where it has to be made.
   it('asks for a declaration when the detachments offer more than one disposition', () => {
     const twoDets = {
       ...faction,
-      detachments: [{ ...detachment, fd: 'Take and Hold' }, { ...detachment, name: 'Anvil', fd: 'Purge the Foe' }],
+      detachments: [{ ...detachment, fds: ['Take and Hold'] }, { ...detachment, name: 'Anvil', fds: ['Purge the Foe'] }],
     }
     const r = { ...roster(), detachments: ['Gladius', 'Anvil'] }
     const codesWith = (over) => validateRoster({ ...r, ...over }, { faction: twoDets, core }).issues
@@ -84,7 +94,7 @@ describe('validateRoster — completeness', () => {
   })
 
   it('says nothing when the chosen detachments agree about it', () => {
-    const oneFd = { ...faction, detachments: [{ ...detachment, fd: 'Take and Hold' }] }
+    const oneFd = { ...faction, detachments: [{ ...detachment, fds: ['Take and Hold'] }] }
     expect(validateRoster(roster(), { faction: oneFd, core }).issues.map((i) => i.code))
       .not.toContain('dispositionUndeclared')
   })
@@ -826,12 +836,25 @@ describe('validateRoster — every issue says which unit it is about', () => {
     expect(r.issues.some((i) => i.level === 'error' && i.code === 'legendsUnit')).toBe(false)
   })
 
+  // Shrike: GW printed him without EPIC HERO, so a second copy is legal — kept, but flagged.
+  it('warns, without an error, on a second copy of a named character GW left without EPIC HERO', () => {
+    const shrike = { id: 'kayvaan-shrike', name: 'Kayvaan Shrike', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 95, per: [1, 1], default: 1 }] }
+    const fac = { ...faction, units: [...faction.units, shrike] }
+    const one = validateRoster({ ...roster(), units: [...roster().units, U('kayvaan-shrike')] }, { faction: fac, core })
+    expect(one.issues.some((i) => i.code === 'namedNotEpic')).toBe(false)
+    const two = validateRoster({ ...roster(), units: [...roster().units, U('kayvaan-shrike'), U('kayvaan-shrike')] }, { faction: fac, core })
+    const issue = two.issues.find((i) => i.code === 'namedNotEpic')
+    expect(issue.level).toBe('warn')
+    expect(issue.params.unit).toBe('Kayvaan Shrike (2)')
+    expect(two.issues.some((i) => i.level === 'error')).toBe(one.issues.some((i) => i.level === 'error'))
+  })
+
   // Every placeholder a message asks for has to be one the validator actually sends, in both
   // locales — a template naming a param nobody fills renders as a blank.
   it('asks for nothing the validator does not send', async () => {
     const { ui } = await import('../i18n/ui.js')
     const known = new Set(['unit', 'target', 'id', 'count', 'limit', 'over', 'spent', 'group',
-      'names', 'tag', 'enh', 'dets', 'points', 'kw', 'kws', 'own', 'theirs', 'options', 'item'])
+      'names', 'name', 'tag', 'enh', 'dets', 'points', 'kw', 'kws', 'own', 'theirs', 'options', 'item'])
     for (const loc of ['en', 'ru']) {
       for (const [key, tpl] of Object.entries(ui[loc])) {
         if (!key.startsWith('issue_')) continue
@@ -843,24 +866,24 @@ describe('validateRoster — every issue says which unit it is about', () => {
   })
 })
 
-// Against the real Orks bundle and the real sidecar: a stub cannot exercise this, because
+// Against a real bundle and the real sidecar: a stub cannot exercise this, because
 // conditionalKeywords.json is keyed by the faction slug and the datasheet's own id.
 describe('an enhancement whose keyword a detachment grants', () => {
-  // Fulguris Task Force makes the Land Speeders SPEEDER, and "Speeder unit only" is what
-  // Bellicose Weapon Spirits asks for. No Space Marines datasheet PRINTS that keyword, so
-  // every upgrade in that detachment was ineligible for every unit in the game and a legal
-  // list came back with an error on each Land Speeder carrying one. (This used to be read on
-  // Orks' Rollin' Deff and WAGON; Codex: Orks retired the detachment and now prints Wagon.)
-  it('accepts the upgrade on the unit that detachment made a Speeder', async () => {
+  // Contagion Engines makes the Helbrute CONTAGION ENGINES, and that keyword is what Parasitic
+  // Woe-reaper asks for; the Helbrute does not PRINT it, so without the grant a legal list comes
+  // back with an error on the Helbrute carrying one. (Read first on Orks' Rollin' Deff and WAGON
+  // — Codex: Orks retired the detachment and now prints Wagon — then on Space Marines' Fulguris
+  // Task Force and SPEEDER, which Codex: Space Marines retired in app data 963.)
+  it('accepts the upgrade on the unit that detachment made a Contagion Engine', async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
-    const sm = await loadRosterFaction('space-marines')
+    const dg = await loadRosterFaction('death-guard')
     const codes = (id) => validateRoster(
-      { faction: 'space-marines', detachments: ['Fulguris Task Force'], battleSize: 'strike-force', units: [{ uid: 'u1', id, size: 0, enh: 'Bellicose Weapon Spirits (Upgrade)' }] },
-      { faction: sm, core },
+      { faction: 'death-guard', detachments: ['Contagion Engines'], battleSize: 'strike-force', units: [{ uid: 'u1', id, size: 0, enh: 'Parasitic Woe\u2011reaper (Upgrade)' }] },
+      { faction: dg, core },
     ).issues.map((i) => i.code)
-    expect(codes('land-speeder')).not.toContain('enhIneligible')
+    expect(codes('helbrute')).not.toContain('enhIneligible')
     // …and refuses it on a unit the same detachment does not name.
-    expect(codes('rhino')).toContain('enhIneligible')
+    expect(codes('plagueburst-crawler')).toContain('enhIneligible')
   })
 })
 

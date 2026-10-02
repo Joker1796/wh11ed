@@ -39,17 +39,8 @@
           <em
             v-if="hasFaction"
             class="dp-count"
-            :class="{ over: dpSpent > dpLimit && !dpOverAllowed }"
+            :class="{ over: dpSpent > dpLimit }"
           >{{ dpSpent }} / {{ dpLimit }} DP</em>
-          <button
-            v-if="dpOverAllowed"
-            type="button"
-            class="help-btn"
-            :aria-label="labels.trackerDpOverHelp"
-            @click="dpHelpOpen = true"
-          >
-            <i class="bi bi-question-circle" />
-          </button>
         </span>
         <button
           type="button"
@@ -178,19 +169,6 @@
       >
       <span>{{ labels.rosterShowPointsLeft }}</span>
     </label>
-
-    <BaseModal
-      v-if="dpHelpOpen"
-      :title="labels.trackerDpOverTitle"
-      max-width="380px"
-      @close="dpHelpOpen = false"
-    >
-      <div class="modal-body">
-        <p class="dp-help-text">
-          {{ labels.trackerDpOverText }}
-        </p>
-      </div>
-    </BaseModal>
   </div>
 </template>
 
@@ -202,8 +180,7 @@
 // the count (2026-09-25). The name row is the wizard's (the editor names the list in its header),
 // the notes row the editor's (a plan is written where the list is edited, not where it starts).
 // The desk has its own one-line version of the same answers (RosterSettingsBar).
-import { computed, ref } from 'vue'
-import BaseModal from '../BaseModal.vue'
+import { computed } from 'vue'
 import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -220,10 +197,8 @@ defineProps({
   factionName: { type: String, default: '' },
   detachmentSummary: { type: String, default: '' },
   dpSpent: { type: Number, default: 0 },
+  // The budget the detachments are held to — 3 for a lone 3 DP one at Incursion (dpLimitFor).
   dpLimit: { type: Number, default: 0 },
-  // A single detachment over budget is allowed (GW has said so, not yet in print): a "?" explains
-  // it instead of the count turning red.
-  dpOverAllowed: { type: Boolean, default: false },
   dispositionCands: { type: Array, default: () => [] },
   disposition: { type: String, default: '' },
   showNotes: { type: Boolean, default: false },
@@ -240,7 +215,6 @@ const labels = computed(() => ui[locale.value])
 // A reader's own preference, kept on the device rather than in the list.
 const { showPointsLeft } = useRosterPrefs()
 const battleSizes = rosterCore.battleSizes
-const dpHelpOpen = ref(false)
 </script>
 
 <style scoped>
@@ -309,7 +283,6 @@ const dpHelpOpen = ref(false)
   transition: color var(--motion-fast);
 }
 .dp-count.over { color: var(--danger); }
-.dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 
 /* The disposition row holds the global segmented control instead of a value, so it sizes to its
    own words rather than stretching the row. */

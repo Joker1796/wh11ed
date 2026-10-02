@@ -14,13 +14,23 @@
         <span class="rule-name">{{ s.label }}</span>
         <span class="rule-desc">{{ s.desc }}</span>
       </RouterLink>
+      <!-- Not a book, so not in rulesLanding.js: the desktop navbar gives the patch notes an
+           item of their own, and adding them to that data would list them twice there. -->
+      <RouterLink
+        to="/patches"
+        class="rule-link"
+        @click="$emit('close')"
+      >
+        <span class="rule-name">{{ labels.patchesTitle }}</span>
+        <span class="rule-desc">{{ labels.patchesSubtitle }}</span>
+      </RouterLink>
     </div>
   </BaseModal>
 </template>
 
 <script setup>
 // Mobile bottom-nav modal for the "Rules" umbrella — Core Rules / Event Companion /
-// Combat Patrol. Same data (rulesLanding.js) as the desktop /rules landing page and the
+// Combat Patrol, then the GW patch notes. Same data (rulesLanding.js) as the desktop /rules landing page and the
 // navbar hover dropdown, so all three surfaces show identical labels/summaries.
 import { computed } from 'vue'
 import BaseModal from './BaseModal.vue'

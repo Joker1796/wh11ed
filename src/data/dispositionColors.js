@@ -1,7 +1,7 @@
 // One colour per Force Disposition, for the places that list detachments: the disposition is
 // what a detachment is FOR, and five of them repeating down a list are told apart faster by hue
 // than by reading. Keyed by the disposition's English name — that is what a detachment record
-// carries (`forceDisposition`, from the MFM), and mission/disposition names stay English in both
+// carries (`forceDispositions`, from the MFM), and mission/disposition names stay English in both
 // locales by convention. Light/dark pairs like the faction colours in factionsIndex.js: `light`
 // is dark enough for text on the light theme, `dark` bright enough on the dark one.
 export const DISPOSITION_COLORS = {

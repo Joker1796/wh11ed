@@ -8,7 +8,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 100
       }
     ],
     "flavor": "As the strong left hands of their Grand Masters, the Brother-Captains are seasoned battlefield commanders and potent warriors. They turn their prodigious psychic gifts to the swift annihilation of their enemies, augmenting their battle-brothers’ strength, sensing the foe’s hidden weaknesses, and setting an uncompromising example to those who follow them.",
@@ -16,7 +16,7 @@ export default [
       {
         "name": "Brother-Captain",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "6",
         "ld": "6+",
@@ -72,8 +72,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -227,7 +227,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 75
       }
     ],
     "flavor": "A Brotherhood Champion acts as an exemplar of martial prowess to which all Grey Knights aspire. He is a warrior of peerless skill who mentors recruits in the ways of the blade. Upon the battlefield, these singular warriors set a merciless example to their brothers, singling out the war leaders of the enemy host and cutting them down in brutal duels where only victory matters.",
@@ -235,7 +235,7 @@ export default [
       {
         "name": "Brotherhood Champion",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "4",
         "ld": "6+",
@@ -251,9 +251,9 @@ export default [
         ],
         "range": "24\"",
         "a": "2",
-        "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -313,7 +313,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 70
       }
     ],
     "flavor": "Chaplains safeguard the spiritual sanctity of their battle-brothers and the Chapter as a whole. They chant liturgies of sacred fortitude and unmerciful zeal, projecting these both in the form of stentorian, vox-amplified oration and through telepathic sorcery directly into the minds of their fellows. In this way, the Chaplains help to bolster the Grey Knights’ already formidable resolve.",
@@ -321,7 +321,7 @@ export default [
       {
         "name": "Brotherhood Chaplain",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "5",
         "ld": "5+",
@@ -337,9 +337,9 @@ export default [
         ],
         "range": "24\"",
         "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "bs": "2+",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -396,12 +396,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90,
+        "points": 95,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 100,
+        "points": 105,
         "note": "2nd+"
       }
     ],
@@ -410,7 +410,7 @@ export default [
       {
         "name": "Brotherhood Librarian",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "5",
         "ld": "6+",
@@ -429,8 +429,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -440,9 +440,9 @@ export default [
         ],
         "range": "24\"",
         "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "bs": "2+",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -517,7 +517,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 75
       }
     ],
     "flavor": "On those occasions when their duties take them to the battlefield, the Grey Knights’ Techmarines turn all their arcane engineering lore to preserving their Chapter’s irreplaceable war machines. Relying more upon the gifts of the Omnissiah than the psychic talents employed so widely by their brothers, the Techmarines wield potent blades and firearms against the foe.",
@@ -525,7 +525,7 @@ export default [
       {
         "name": "Brotherhood Techmarine",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "4",
         "ld": "6+",
@@ -626,19 +626,19 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 140
+        "points": 150
       },
       {
         "models": 5,
-        "points": 175
+        "points": 185
       },
       {
         "models": 8,
-        "points": 300
+        "points": 315
       },
       {
         "models": 10,
-        "points": 360
+        "points": 380
       }
     ],
     "flavor": "Massively armoured, heavily armed and ruthlessly devoted to their sacred duties, Grey Knights Terminators form the indomitable heart of many strike forces. Some squads are accompanied by Apothecaries, whose nartheciums dispense healing salves to staunch grievous wounds, or Ancients who hold aloft finely wrought banners to inspire their battle-brothers in war.",
@@ -646,7 +646,7 @@ export default [
       {
         "name": "Brotherhood Terminator Squad",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "3",
         "ld": "6+",
@@ -702,8 +702,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -769,7 +769,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 105
       }
     ],
     "flavor": "Castellan Crowe charges into battle, wreathed in the blinding psychic fire that is the hallmark of his order. Though he will never be fool enough to unlock the forbidden power of the Black Blade of Antwyr, he still wields the captive blade with tremendous skill and strength, using it, his storm bolter and his potent psychic might to cut a path through his foes.",
@@ -777,7 +777,7 @@ export default [
       {
         "name": "Castellan Crowe",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "5",
         "ld": "6+",
@@ -808,8 +808,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -869,7 +869,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 100
       }
     ],
     "flavor": "The Grand Masters are the leaders of the Grey Knights brotherhoods and stand amongst their greatest warriors. More than this, they are accomplished battle psykers able to augment their martial might with tightly focused empyric power and strategic scholars and savants whose grasp of the strategies required to battle the supernatural and malign is unmatched.",
@@ -877,7 +877,7 @@ export default [
       {
         "name": "Grand Master",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "7",
         "ld": "6+",
@@ -933,8 +933,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -997,12 +997,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 200,
+        "points": 210,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 215,
+        "points": 225,
         "note": "3rd+"
       }
     ],
@@ -1011,7 +1011,7 @@ export default [
       {
         "name": "Grand Master in Nemesis Dreadknight",
         "m": "8\"",
-        "t": "8",
+        "t": "9",
         "sv": "2+",
         "w": "13",
         "ld": "6+",
@@ -1198,7 +1198,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 125
+        "points": 130
       }
     ],
     "flavor": "Grand Master Aldrik Voldus wields the mighty Malleus Argyrum, a daemon hammer whose head dances with sorcerous flame fewfoes can withstand. One of the most potent psykers his Chapter has known in years, he also possesses the power to unleash waves of soulfire against his enemies and to conjure sanctuaries of dancing psychic luminescence that shield his brothers from harm.",
@@ -1206,7 +1206,7 @@ export default [
       {
         "name": "Grand Master Voldus",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "7",
         "ld": "6+",
@@ -1236,8 +1236,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -1807,22 +1807,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 125,
+        "points": 135,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 250,
+        "points": 270,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 135,
+        "points": 145,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 260,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -1831,7 +1831,7 @@ export default [
       {
         "name": "Interceptor Squad",
         "m": "12\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "2",
         "ld": "6+",
@@ -1886,8 +1886,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -1897,7 +1897,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -2021,7 +2021,7 @@ export default [
     "rules": [
       {
         "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
+        "text": "If this model is in your army, it must be your WARLORD."
       }
     ],
     "composition": [
@@ -2125,8 +2125,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2237,8 +2237,8 @@ export default [
         "range": "24\"",
         "a": "6",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2261,8 +2261,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2399,8 +2399,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2470,12 +2470,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 195,
+        "points": 205,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 210,
+        "points": 220,
         "note": "3rd+"
       }
     ],
@@ -2484,7 +2484,7 @@ export default [
       {
         "name": "Nemesis Dreadknight",
         "m": "8\"",
-        "t": "8",
+        "t": "9",
         "sv": "2+",
         "w": "13",
         "ld": "6+",
@@ -2615,42 +2615,42 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 170,
+        "points": 185,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 215,
+        "points": 230,
         "note": "1st-2nd"
       },
       {
         "models": 8,
-        "points": 360,
+        "points": 385,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 460,
+        "points": 490,
         "note": "1st-2nd"
       },
       {
         "models": 4,
-        "points": 210,
+        "points": 225,
         "note": "3rd+"
       },
       {
         "models": 5,
-        "points": 255,
+        "points": 270,
         "note": "3rd+"
       },
       {
         "models": 8,
-        "points": 400,
+        "points": 425,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 500,
+        "points": 530,
         "note": "3rd+"
       }
     ],
@@ -2659,7 +2659,7 @@ export default [
       {
         "name": "Paladin Squad",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "3",
         "ld": "6+",
@@ -2715,8 +2715,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2781,22 +2781,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 105,
+        "points": 115,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 210,
+        "points": 230,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 115,
+        "points": 125,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 220,
+        "points": 240,
         "note": "3rd+"
       }
     ],
@@ -2805,7 +2805,7 @@ export default [
       {
         "name": "Purgation Squad",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "2",
         "ld": "6+",
@@ -2859,9 +2859,9 @@ export default [
         ],
         "range": "24\"",
         "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "bs": "2+",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2871,7 +2871,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -2921,22 +2921,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 130,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 260,
+        "points": 290,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 140,
+        "points": 155,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 270,
+        "points": 300,
         "note": "3rd+"
       }
     ],
@@ -2945,7 +2945,7 @@ export default [
       {
         "name": "Purifier Squad",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "2",
         "ld": "6+",
@@ -3014,8 +3014,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -3117,8 +3117,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3237,8 +3237,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -3596,8 +3596,8 @@ export default [
         "range": "24\"",
         "a": "6",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3893,11 +3893,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 115
+        "points": 125
       },
       {
         "models": 10,
-        "points": 230
+        "points": 250
       }
     ],
     "flavor": "Strike Squads act as vanguard forces, employing teleport technologies and sorcery to manifest deep within the enemy lines. Once in position, they launch devastating shock assaults against unprepared foes, wielding an arsenal of Nemesis force weaponry, heavy firepower and psychic fury to capture and sorcerously ward vital tactical locations.",
@@ -3905,7 +3905,7 @@ export default [
       {
         "name": "Strike Squad",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "2",
         "ld": "6+",
@@ -3960,8 +3960,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -3971,7 +3971,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -4102,8 +4102,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {

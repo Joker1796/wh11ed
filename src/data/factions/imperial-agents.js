@@ -10,7 +10,7 @@
 //     (per-model paid upgrades).
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/imperium/Agents.pdf) → Rules Updates.
 //   MFM (src/data/mfm/imperial-agents.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition.
+//     forceDispositions.
 //
 // 5 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -40,7 +40,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       name: "Imperialis Fleet",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "At all Costs",
         flavor: "While the nature of the missions undertaken by Imperial agents is as varied as they are, the vital importance of these tasks rarely changes. The enemies they face are the most unholy. The prizes they seek are as priceless as they are nightmarishly dangerous. Thus, when such warriors of the Imperium identify a priority target for elimination or acquisition, no effort is too great nor price too high to see their aims achieved.",
@@ -147,7 +147,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       name: "Ordo Hereticus, Purgation Force",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Root out Heresy",
         flavor: "No matter how cunningly their heretical prey hides, they cannot escape the zealous retribution of the Ordo Hereticus.",
@@ -255,7 +255,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       name: "Ordo Malleus, Daemon Hunters",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Destroy the Daemonic",
         flavor: "Knowing the vital nature of their mission, the servants of the Ordo Malleus fight all the harder to lay their enemies low.",
@@ -363,7 +363,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       name: "Ordo Xenos, Alien Hunters",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Deathwatch Mission Tactics",
         flavor: "Thousands of years of collated strategic data and hard-won combat experience have provided the Deathwatch with the ultimate battlefield tactics to combat almost any foe.",
@@ -470,11 +470,11 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       name: "Veiled Blade Elimination Force",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Extremis Sanction",
         flavor: "When pursuing an extremis-level target, the agents of the Officio Assassinorum are expected to push their altered minds and bodies beyond the limits of endurance. Additional equipment, augmentation and ammunition may be provided to complete the task.",
-        body: "Officio Assassinorum units from your army can use the Overkill, Soulless Horror and Shieldbreaker abilities twice per battle, instead of once per battle (but cannot use such an ability more than once in the same battle round).\n\nWhen mustering your army, each OFFICIO ASSASSINORUM unit from your army has the relevant Extremis ability shown below, and you must increase the points cost of each of those units by the amount shown. If this causes your army to exceed the points limit for the battle you are playing, you cannot include that unit in your army.\n\nExtremis Abilities\n\nThe agents of the Callidus Temple are known to utilise vat-grown doubles to confound their foes. CALLIDUS ASSASSIN models only. Twice per battle, in your Movement phase, you can select one other friendly INFANTRY model that is on the battlefield and not within Engagement Range of one or more enemy units. The selected model is destroyed (ignoring any rules that are triggered when a model is destroyed) and this model is removed from the battlefield and set up again as close as possible to where that destroyed model was and not within Engagement Range of one or more enemy units. This ability cannot be used more than once in the same battle round.\n\nThis Culexus operative has been outfitted with various grenades tailored to destroy their assigned targets. CULEXUS ASSASSIN models only. Each time this model is targeted with the Grenades Stratagem, 1 mortal wound is inflicted for each D6 roll of 3+ instead of for each 4+.\n\nThis Eversor agent’s neurons have been surgically spliced to enhance awareness and speed of thought. EVERSOR ASSASSIN model only. You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase.\n\nThese projectiles are tipped with miniaturised melta charges that detonate on impact. VINDICARE ASSASSIN models only. This model’s exitus rifle has the [ANTI-MONSTER 4+] and [ANTI-VEHICLE 4+] abilities.",
+        body: "Officio Assassinorum units from your army can use the Overkill, Soulless Horror and Shieldbreaker abilities twice per battle, instead of once per battle (but cannot use such an ability more than once in the same battle round).\n\nWhen mustering your army, each OFFICIO ASSASSINORUM unit from your army has the relevant Extremis ability shown below, and you must increase the points cost of each of those units by the amount shown. If this causes your army to exceed the points limit for the battle you are playing, you cannot include that unit in your army.\n\nExtremis Abilities\n\nThe agents of the Callidus Temple are known to utilise vat-grown doubles to confound their foes. CALLIDUS ASSASSIN models only. Twice per battle, in your Movement phase, you can select one other friendly INFANTRY model that is on the battlefield and not within Engagement Range of one or more enemy units. The selected model is destroyed (ignoring any rules that are triggered when a model is destroyed) and this model is removed from the battlefield and set up again as close as possible to where that destroyed model was and not within Engagement Range of one or more enemy units. This ability cannot be used more than once in the same battle round.\n\nThis Culexus operative has been outfitted with various grenades tailored to destroy their assigned targets. CULEXUS ASSASSIN models only. Each time this model is targeted with the Grenades **[gloss:stratagem:Stratagem]**, 1 mortal wound is inflicted for each D6 roll of 3+ instead of for each 4+.\n\nThis Eversor agent’s neurons have been surgically spliced to enhance awareness and speed of thought. EVERSOR ASSASSIN model only. You can target this unit with the Heroic Intervention **stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase.\n\nThese projectiles are tipped with miniaturised melta charges that detonate on impact. VINDICARE ASSASSIN models only. This model’s exitus rifle has the [ANTI-MONSTER 4+] and [ANTI-VEHICLE 4+] abilities.",
       },
       stratagems: [
         {
@@ -540,7 +540,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
           flavor: "The eyes of the Officio Assassinorum are everywhere. As the foe turns to flee, the noose tightens, agents already forewarned of enemy movements and moving swiftly to cut off all avenues of retreat.",
           when: "End of your opponent’s Charge phase.",
           target: "One AGENTS OF THE IMPERIUM INFANTRY unit from your army that is within 6\" of one or more enemy units and would be eligible to declare a charge against one or more of those enemy units.",
-          effect: "Your unit can declare a charge. When doing so, you must select one or more of those enemy units as the targets of that charge, and your unit does not receive a Charge bonus this turn. In addition, if it is a Callidus Assassin unit and it makes a Charge move as a result of this Stratagem, until the end of the turn, each time a model in your unit makes a melee attack, add 1 to the Wound roll.",
+          effect: "Your unit can declare a charge. When doing so, you must select one or more of those enemy units as the targets of that charge. In addition, if it is a Callidus Assassin unit and it makes a Charge move as a result of this Stratagem, until the end of the turn, each time a model in your unit makes a melee attack, add 1 to the Wound roll.",
           restrictions: "",
         },
       ],

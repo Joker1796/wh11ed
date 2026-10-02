@@ -1,4 +1,4 @@
-// GATE: fail when a faction rules page's detachment `dp` / `forceDisposition` disagrees with the
+// GATE: fail when a faction rules page's detachment `dp` / `forceDispositions` disagrees with the
 // MFM. Exits non-zero. `npm run detmeta`.
 //
 // WHY THIS EXISTS, WHEN sync-tracker's `detachments` CATEGORY ALREADY COMPARES THE SAME TWO FIELDS.
@@ -34,6 +34,7 @@ import { ROOT, norm, loadModule, byNormName } from './lib/sync-common.mjs'
 // faction bundle (checked by slug mapping too: aeldari→asuryani, space-marines→adeptus-astartes).
 // dp/forceDisposition for these come from the pack PDF and cannot be cross-checked here.
 const PACK_ONLY = []
+const CHAPTERS = ['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves']
 
 const FACTIONS_DIR = path.join(ROOT, 'src/data/factions')
 const MFM_DIR = path.join(ROOT, 'src/data/mfm')
@@ -66,7 +67,10 @@ export async function run(argv = process.argv.slice(2)) {
       findings.push({ slug, name: '—', what: `no src/data/mfm/${slug}.js to check against` })
       continue
     }
-    const mfmByName = byNormName(mfm.detachments || [], (d) => d.name)
+    // A Chapter's own detachment can be printed on the Space Marines page instead of its own
+    // (Deathwatch Support, MFM v1.5) — look there second, never first.
+    const smMfm = mfm.detachments && CHAPTERS.includes(slug) ? (await loadModule(path.join(MFM_DIR, 'space-marines.js')))?.default : null
+    const mfmByName = byNormName([...(mfm.detachments || []), ...(smMfm?.detachments || []).filter((s) => !(mfm.detachments || []).some((o) => norm(o.name) === norm(s.name)))], (d) => d.name)
 
     for (const d of dets) {
       const packOnly = PACK_ONLY.find((p) => p.slug === slug && norm(p.name) === norm(d.name))
@@ -84,8 +88,10 @@ export async function run(argv = process.argv.slice(2)) {
       if (m.dp != null && d.dp !== m.dp) {
         findings.push({ slug, name: d.name, what: `dp: page=${d.dp} mfm=${m.dp}` })
       }
-      if (m.forceDisposition && norm(d.forceDisposition || '') !== norm(m.forceDisposition)) {
-        findings.push({ slug, name: d.name, what: `forceDisposition: page="${d.forceDisposition || ''}" mfm="${m.forceDisposition}"` })
+      // Every disposition the MFM lists, in its order — a detachment can give access to two (2026-10-01).
+      const fdKey = (list) => (list || []).map(norm).join(' | ')
+      if (m.forceDispositions?.length && fdKey(d.forceDispositions) !== fdKey(m.forceDispositions)) {
+        findings.push({ slug, name: d.name, what: `forceDispositions: page=${JSON.stringify(d.forceDispositions || [])} mfm=${JSON.stringify(m.forceDispositions)}` })
       }
     }
   }

@@ -81,11 +81,24 @@ describe('activeConditions', () => {
       // "while…", "until…"), which is what every other grant in the codex does.
       for (const t of texts) {
         for (const line of (t || '').split('\n')) {
-          if (/^(?:▪\s*)?This unit is \*\*riled up\*\*\.$/.test(line.trim())) flat.push(u.id)
+          // The term may carry its glossary popover (2026-10-01) — same sentence either way.
+          if (/^(?:▪\s*)?This unit is \*\*(?:\[gloss:orks-riled-up:)?riled up\]?\*\*\.$/.test(line.trim())) flat.push(u.id)
         }
       }
     }
     expect([...new Set(flat)].sort()).toEqual(['stompa', 'zodgrod-wortsnagga'])
+  })
+
+  // Combat Doctrines: the tracker's pick is on for every unit, and a unit made subject to another
+  // doctrine that round holds only its own — one doctrine per unit.
+  it('reads the Combat Doctrine of the round, and lets a unit hold a different one', () => {
+    const p = player({ units: { u2: { 'doctrine-devastator': 301 } } }, { selectionByRound: { 3: 'assault' } }, 'space-marines')
+    expect(activeConditions(p, 3, { uid: 'u1' }).has('doctrine-assault')).toBe(true)
+    const own = activeConditions(p, 3, { uid: 'u2' })
+    expect(own.has('doctrine-devastator')).toBe(true)
+    expect(own.has('doctrine-assault')).toBe(false)
+    expect(activeConditions(p, 4, { uid: 'u1' }).has('doctrine-assault')).toBe(false)
+    expect(activeConditions({ ...p, factionSlug: 'adeptus-mechanicus' }, 3, { uid: 'u1' }).has('doctrine-assault')).toBe(false)
   })
 
   it("still takes a unit's own riled-up switch with no War Cry called", () => {

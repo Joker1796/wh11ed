@@ -181,7 +181,7 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
 ▪ Did not embark within that TRANSPORT this phase.
 ◈ EFFECT | Your unit is set up as described in Set Up (03.02).
 ◈ WHILE MOVING | Set up each model in your unit wholly within the **[gloss:set-up-distance:set-up distance]** of that TRANSPORT.
-◈ AFTER MOVING | Each model that started this move **[gloss:engaged:engaged]** with an enemy unit must still be **engaged** with that enemy unit. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight**.`,
+◈ AFTER MOVING | Your unit is __not__ **[gloss:eligible-to-charge:eligible to declare a charge]** until the end of the turn.`,
         },
       ],
     },
@@ -685,7 +685,7 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
 ▪ Не грузился в этот TRANSPORT в эту фазу.
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
 ◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте каждую модель вашего отряда целиком в пределах **[gloss:set-up-distance:расстояния расстановки]** от этого TRANSPORT.
-◈ ПОСЛЕ ДВИЖЕНИЯ | Каждая модель, начавшая этот манёвр **[gloss:engaged:в ближнем бою]** с вражеским отрядом, обязана остаться **в ближнем бою** с этим вражеским отрядом. Если один или несколько вражеских отрядов, **находящихся в ближнем бою** с вашим отрядом, не были **выбраны для боя** в эту фазу, ваш оппонент должен выбрать каждый из этих отрядов по одному; когда каждый из них выбирается, он становится **способным сражаться** и **выбирается для боя**.`,
+◈ ПОСЛЕ ДВИЖЕНИЯ | Ваш отряд __не__ может **[gloss:eligible-to-charge:объявить нападение]** до конца хода.`,
         },
       ],
     },

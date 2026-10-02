@@ -1,5 +1,5 @@
 // Report-only diff between the Game Tracker's rule content and wh40k-appdata's
-// factions/_core-content.json + per-faction detachment dp/forceDisposition (see
+// factions/_core-content.json + per-faction detachment dp/forceDispositions (see
 // wh40k-appdata's build-factions.mjs — that file, not any per-faction bundle, is the
 // source for everything compared here: it isn't scoped to a single faction).
 //
@@ -307,12 +307,14 @@ async function checkDetachments() {
       const app = appByName.get(norm(d.name))
       if (!app) { console.log(`  - ${f.slug}: detachment "${d.name}" not found in appdata`); mismatches++; continue }
       const dpMismatch = d.dp != null && app.dp != null && d.dp !== app.dp
-      const fdMismatch = d.forceDisposition && app.forceDisposition && norm(d.forceDisposition) !== norm(app.forceDisposition)
+      // appdata carries ONE disposition per detachment; the MFM lists every one it gives access to
+      // (39 carry two). Only a disposition the MFM does not list at all is a disagreement.
+      const fdMismatch = d.forceDispositions?.length && app.forceDisposition && !d.forceDispositions.some((x) => norm(x) === norm(app.forceDisposition))
       if (dpMismatch || fdMismatch) {
         mismatches++
         const parts = []
         if (dpMismatch) parts.push(`dp: mfm=${d.dp} appdata=${app.dp}`)
-        if (fdMismatch) parts.push(`disposition: mfm=${d.forceDisposition} appdata=${app.forceDisposition}`)
+        if (fdMismatch) parts.push(`disposition: mfm=${d.forceDispositions.join(' / ')} appdata=${app.forceDisposition}`)
         console.log(`  ~ ${f.slug}: detachment "${d.name}" ${parts.join(', ')}`)
       }
     }

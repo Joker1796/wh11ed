@@ -175,14 +175,23 @@
       class="army-options"
       :inert="lock"
     >
+      <!-- A per-battle budget (SM Combat Doctrines) greys a spent option and says where it went,
+           rather than hiding it — the reason is the round it was taken in. -->
       <button
         v-for="o in view.options"
         :key="o.id"
         class="army-opt"
-        :class="{ on: o.id === selectedId }"
+        :class="{ on: o.id === selectedId, spent: spent(o.id) }"
+        :disabled="spent(o.id)"
         @click="pickOption(o.id)"
       >
         {{ o.name }}
+        <span
+          v-if="budget?.[o.id]?.usedIn.length"
+          class="army-opt-used"
+        >
+          {{ labels.trackerArmyUsedIn.replace('{rounds}', budget[o.id].usedIn.join(', ')) }}
+        </span>
       </button>
     </div>
 
@@ -517,6 +526,7 @@ import RuleBody from '../RuleBody.vue'
 import { useTracker, memberAt, membersOf } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
+import { selectionBudget } from '../../data/armyTrackers/selectionBudget.js'
 import { ui } from '../../i18n/ui.js'
 
 const props = defineProps({
@@ -623,7 +633,7 @@ const poolRemaining = computed(
   () => player.value?.army?.poolByRound?.[currentRound.value] ?? roundStart.value,
 )
 // Selection primitive: the picked option. A per-round choice (AdMech Doctrina — resets each round,
-// keyed by round) unless the spec is `once` (Black Templars' Templar Vows — one battle-long pick).
+// keyed by round) unless the spec is `once` (Death Guard's Plague — one battle-long pick).
 const selectedId = computed(() =>
   view.value?.once
     ? player.value?.army?.choice ?? null
@@ -635,13 +645,23 @@ const multiIds = computed(() => player.value?.army?.multiByRound?.[currentRound.
 const multiSelected = computed(() =>
   view.value?.kind === 'multi' ? (view.value.options || []).filter((o) => multiIds.value.includes(o.id)) : [],
 )
+// Per-battle budget (SM Combat Doctrines): which options are spent in other rounds. The pick of the
+// round on screen is never spent — it can always be kept, cleared or swapped.
+const budget = computed(() =>
+  view.value?.kind === 'selection' && !view.value.once
+    ? selectionBudget(view.value, player.value?.army?.selectionByRound, currentRound.value)
+    : null,
+)
+function spent(id) {
+  return !!budget.value && id !== selectedId.value && !budget.value[id]?.open
+}
 // Pick (or clear) the option — battle-long for `once` specs, per-round otherwise.
 function pickOption(id) {
   if (view.value?.once) setArmyChoice(props.pi, id, props.mi)
   else setArmySelection(props.pi, currentRound.value, id, props.mi)
 }
 // A battle-long (`once`) pick is chosen at the start of the first battle round and committed for the
-// rest of the game (Templar Vows, Death Guard's Plague). Once made, from round 2 on the picker is
+// rest of the game (Death Guard's Plague). Once made, from round 2 on the picker is
 // hidden and only the chosen option's rule is shown; round 1 stays editable (scroll back to change).
 const choiceLocked = computed(
   () => !!view.value?.once && currentRound.value !== 1 && selectedId.value != null,
@@ -892,6 +912,22 @@ useFlashOnChange(counter, counterEl)
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+.army-opt.spent {
+  cursor: default;
+  color: var(--text-muted);
+  border-style: dashed;
+}
+
+.army-opt.spent:hover {
+  border-color: var(--border);
+}
+
+.army-opt-used {
+  font-weight: 400;
+  font-size: 0.7rem;
+  margin-left: 0.25rem;
 }
 
 /* ── Multi-select (World Eaters Blessings: activate up to N per round) ──

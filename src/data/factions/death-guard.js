@@ -10,7 +10,7 @@
 //     (replaces the older 6-stratagem version) and Rules Updates (incl. the army-rule
 //     Contagion Range cap and the Skullsquirm Blight rewrite).
 //   MFM (src/data/mfm/death-guard.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition. MFM v1.3 printed "UNIQUE TAG REMOVED" over Flyblown Host, Champions
+//     forceDispositions. MFM v1.3 printed "UNIQUE TAG REMOVED" over Flyblown Host, Champions
 //     of Contagion, Contagion Engines and Mortarion’s Hammer, so the ENGINES / FLYBLOWN
 //     `unique` tags are gone and the sentence that spelled them out went with them — the
 //     codex prose appdata still carries has not caught up, and the MFM is the tag’s home.
@@ -39,7 +39,7 @@ Contagion Range changes over the course of the battle:
 
 ### Afflicted
 During the Declare Battle Formations step, select one of the Plagues below. Until the end of the battle, while an enemy unit is Afflicted, subtract 1 from the Toughness characteristic of models in that unit, and that unit has the effect of your chosen Plague.
-▪ **Skullsquirm Blight:** Each time a model in this unit makes a ranged attack, enemy units have the Benefit of Cover against the attack. Each time a model in this unit makes a melee attack, subtract 1 from the Hit roll.
+▪ **Skullsquirm Blight:** Each time a model in this unit makes a ranged attack, enemy units have the **[gloss:benefit-of-cover:Benefit of Cover]** against the attack. Each time a model in this unit makes a melee attack, subtract 1 from the Hit roll.
 ▪ **Rattlejoint Ague:** Worsen the Save characteristic of models in this unit by 1.
 ▪ **Scabrous Soulrot:** Worsen the Move, Leadership and Objective Control characteristics of models in this unit by 1 (this rule can only worsen a model's Objective Control characteristic to a minimum of 1).
 
@@ -53,7 +53,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Champions of Contagion",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Manifold Maladies",
         flavor: "A spirit of competition infects Nurgle’s champions when they fight alongside one another. With each vying to outdo the others in virulence, the foes are subjected to a riotous string of nightmarish outbreaks amongst their ranks.",
@@ -160,7 +160,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Death Lord’s Chosen",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Deadly Vectors",
         flavor: "The plagues and parasites to which these elite warriors play host are amongst the most lethal in the galaxy. Moment by moment, even the most resilient foes sicken and wither in their presence until all that remains is rotted matter deliquescing sloppily from mouldering bones.",
@@ -267,7 +267,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Mortarion’s Hammer",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Miasmic Bombardment",
         flavor: "In the wake of preparatory bombardment by artillery weapons both forbidden and foul, the surviving foe are left reeling amidst clouds of plague smog. With their flesh running like tallow and their weapons rusting in their hands, they will be hard-pressed to fight back.",
@@ -374,7 +374,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Shamblerot Vectorium",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Numberless Horde",
         flavor: "No matter how many Poxwalkers the enemy gun down or tear limb-from-limb at close quarters, more groaning mutants keep coming from every side.",
@@ -481,7 +481,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Tallyband Summoners",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Reverberant Rancidity",
         flavor: "Reality rings like a struck bell as it rebels against the sheer wrongness of Nurgle’s daemons. Borne upon these jarring waves of metaphysical disease, magnified and redoubled with every dolorous peal, the Plague God’s myriad infections spread and multiply all the faster.",
@@ -588,11 +588,11 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Virulent Vectorium",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold", "Purge the Foe"],
       rule: {
         name: "Worldblight",
         flavor: "As the foul tendrils of the Death Guard quest further across the battlefield, they infest even the most secure, holy and heavily warded sites with supernatural disease. To fight amidst such foulness is a virtual death sentence to the foe, win or lose.",
-        body: "At the end of your Command phase, if a friendly DEATH GUARD unit is controlling an objective, that objective is secured. Until you lose control of that objective, while an enemy unit is within range of that objective, that enemy unit is Afflicted.",
+        body: "At the end of your Command phase, if a friendly DEATH GUARD unit is controlling an **[gloss:objective:objective]**, that **objective** is **[gloss:secured-objective:secured]**. Until you lose control of that **objective**, while an enemy unit is within range of that **objective**, that enemy unit is Afflicted.",
       },
       stratagems: [
         {
@@ -696,7 +696,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Contagion Engines",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Warped and Rusted Animus",
         flavor: "For all their slow degeneration, many of the Death Guard\u2019s war machines are augmented with a fevered and inexorable urgency that brings their corrupted weapons to bear upon the foe all too quickly.",
@@ -709,7 +709,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           cp: "1CP",
           turn: "either",
           flavor: "As if drawn to flesh and matter yet to be blessed by corruption, infected weapons unerringly find their mark.",
-          when: "Your Shooting phase or the Fight phase, when a friendly CONTAGION ENGINE unit is selected to attack.",
+          when: "Your Shooting phase or the Fight phase, when a friendly CONTAGION ENGINE unit is **[gloss:selected-to-attack:selected to attack]**.",
           target: "That CONTAGION ENGINE unit.",
           effect: "Your unit\u2019s attacks can re-roll Wound rolls of 1.",
           restrictions: "",
@@ -720,9 +720,9 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           cp: "1CP",
           turn: "your",
           flavor: "Warp-tainted saturation oozes through this aggressive vehicle, leeching into its weapons, which spit the infection into foes at a distance.",
-          when: "Your Shooting phase, when a friendly CONTAGION ENGINE unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly CONTAGION ENGINE unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That CONTAGION ENGINE unit.",
-          effect: "Select one visible enemy unit. That enemy unit is Afflicted until your unit has attacked.",
+          effect: "Select one **[gloss:visible:visible]** enemy unit. That enemy unit is Afflicted until your unit has attacked.",
           restrictions: "",
         },
         {
@@ -743,7 +743,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           points: 15,
           upgrade: true,
           flavor: "The diseased suffering inflicted by this war machine establishes an empyric barb in its victims through which it feasts, its bloated form pulsing with new growth after every attack.",
-          body: "CONTAGION ENGINE unit only. When this unit has fought, one model in this unit heals D3 wounds.",
+          body: "CONTAGION ENGINE unit only. When this unit has fought, one model in this unit **[gloss:heal:heals]** D3 wounds.",
         },
         {
           name: "Lancet of the Worldsore",
@@ -762,7 +762,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Flyblown Host",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Verminous Haze",
         flavor: "A cloud of winged insects descends over Mortarion\u2019s pathogenic sons, obscuring their malodorous ranks and shielding them from the eyes and augurs of the enemy. Beneath thrumming storms of fat-bodied flies, Plague Marines stride towards their wavering foes until they are close enough to unleash punishing volleys of killing fire.",
@@ -786,7 +786,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           cp: "1CP",
           turn: "your",
           flavor: "Clouds of droning daemon flies sweep across the battlefield to envelop the enemies of the Death Guard. As their victims claw and scratch at the seething swarms, Mortarion\u2019s sons pick off their targets at leisure.",
-          when: "Your Shooting phase, when a friendly PLAGUE MARINES unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly PLAGUE MARINES unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That PLAGUE MARINES unit.",
           effect: "Your unit\u2019s ranged attacks:\n▪ Can re-roll Hit rolls of 1.\n▪ That target a unit within half range, can re-roll Wound rolls of 1.",
           restrictions: "",
@@ -797,7 +797,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           cp: "1CP",
           turn: "your",
           flavor: "The vermin swarms intensify as the Death Guard close in upon the enemy. As their foes clutch and tear their crawling skin, pitiless Plague Marines unleash volleys of point-blank fire into their tormented foes.",
-          when: "Your Shooting phase, when a friendly PLAGUE MARINES unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly PLAGUE MARINES unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That PLAGUE MARINES unit.",
           effect: "Your unit\u2019s ranged attacks have [CLOSE-QUARTERS].",
           restrictions: "",
@@ -816,7 +816,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           points: 15,
           upgrade: true,
           flavor: "Nurgle\u2019s blessings manifest as a buzzing clot of darkness that falls over these diseased pilgrims, enveloping them like an enshrouding fog.",
-          body: "PLAGUE MARINES unit only. This unit has -3\" detection range.",
+          body: "PLAGUE MARINES unit only. This unit has -3\" **[gloss:detection-range:detection range]**.",
         },
       ],
     },
@@ -826,7 +826,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Paragons of Putrescence",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Hypervirulent Strains",
         flavor: "The rancid champions of the Death Guard are blessed with the most virulent contagions of Nurgle, supernatural strains that radiate towards unwilling hosts in floods of foulness.",
@@ -852,7 +852,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           flavor: "There is no hiding from contagion, and particular pathogens can incite neurological paroxysms that force their victims to give away their positions in painful throes.",
           when: "Start of your Shooting phase.",
           target: "One friendly DEATH GUARD CHARACTER unit.",
-          effect: "Select one visible enemy unit within Contagion Range of your unit. That enemy unit has +6\" detection range.",
+          effect: "Select one **[gloss:visible:visible]** enemy unit within Contagion Range of your unit. That enemy unit has +6\" **[gloss:detection-range:detection range]**.",
           restrictions: "",
         },
         {
@@ -861,9 +861,9 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           cp: "1CP",
           turn: "your",
           flavor: "The worst infections spread both visibly and subtly. Thus do the Death Guard\u2019s champions attack, ordering vile operations, the two vectors more deadly than either alone.",
-          when: "Your Shooting phase, when a friendly DEATH GUARD CHARACTER unit starts an Action.",
+          when: "Your Shooting phase, when a friendly DEATH GUARD CHARACTER unit **[gloss:action:starts an Action]**.",
           target: "That DEATH GUARD CHARACTER unit.",
-          effect: "That Action does not prevent your unit from being eligible to shoot.",
+          effect: "That **[gloss:action:Action]** does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]**.",
           restrictions: "",
         },
       ],

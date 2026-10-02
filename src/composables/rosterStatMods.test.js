@@ -658,6 +658,48 @@ describe('datasheetEntriesFor', () => {
   })
 })
 
+describe('datasheetEntriesFor — a second Character in the same unit', () => {
+  // An Ancient (Support) and a Chaplain (Leader) both attached to one Intercessor Squad: 19.04 gives
+  // every model of the Attached unit what affects the unit — the other Character included.
+  const honour = {
+    kind: 'ability',
+    name: 'Ancient: Honour of the Company',
+    ref: { kind: 'ability', unit: 'ancient' },
+    effects: [
+      { on: 'profile', stat: 'oc', op: 'add', value: 1, when: null },
+      { on: 'profile', stat: 'oc', op: 'add', value: 1, when: null, target: 'led' },
+    ],
+  }
+  const bodyguardOnly = {
+    kind: 'ability',
+    name: 'Fabius Bile: Enhanced Warriors',
+    ref: { kind: 'ability', unit: 'fabius-bile' },
+    effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null, target: 'led' }],
+  }
+  const leading = {
+    kind: 'ability',
+    name: 'Captain: Rites of Battle',
+    ref: { kind: 'ability', unit: 'captain' },
+    effects: [{ on: 'melee', stat: 'ability', op: 'grant', value: 'LANCE', when: null, target: 'unit' }],
+  }
+  const records = [honour, bodyguardOnly, leading]
+
+  it('hands a whole-unit rule (self + led) and a `unit` rule to the other Character', () => {
+    const out = datasheetEntriesFor(records, { unitId: 'chaplain', ledUnitId: 'intercessor-squad', coLeaderUnitIds: ['ancient', 'captain'] })
+    expect(out.map((e) => [e.name, e.from, e.effects.length])).toEqual([['Honour of the Company', 'co', 1], ['Rites of Battle', 'co', 1]])
+  })
+
+  it('keeps the "Bodyguard models" wording (led alone) off the other Character', () => {
+    const out = datasheetEntriesFor(records, { unitId: 'chaplain', ledUnitId: 'poxwalkers', coLeaderUnitIds: ['fabius-bile'] })
+    expect(out).toEqual([])
+  })
+
+  it('does not apply a rule twice to its own card when the same datasheet is listed as a co-leader', () => {
+    const out = datasheetEntriesFor([honour], { unitId: 'ancient', ledUnitId: 'intercessor-squad', coLeaderUnitIds: ['ancient'] })
+    expect(out.map((e) => e.from)).toEqual(['self'])
+  })
+})
+
 describe('datasheetEntriesFor — wargear', () => {
   const sarcophagus = {
     kind: 'wargear',

@@ -1044,3 +1044,84 @@ and appdata state fresh; a data model can change between now and when this is ne
     against the rule — the card was what the player actually saw — and a check of "every value
     shown is in the rule" is too weak: it passed a card that stopped at 6", because 6" is in the
     rule too. Compare the SET both ways.
+
+65. **A codex that replaces a faction is a generator run, not a hand port.** 946 transcribed Orks
+    with a one-off script that did not survive the session; 963 (Codex: Space Marines + five Chapter
+    Supplements + six one-detachment Supplements) needed the same thing six times over. Both now live
+    in the repo: `scripts/gen-datasheets.mjs` and `scripts/gen-faction-rules.mjs`, validated by
+    regenerating Orks and diffing against the proof-read 946 file — every difference left was either
+    963 errata or a hand touch. `--only="A|B"` rewrites single sheets of a hand-authored file (the
+    five Deathwatch units in Agents of the Imperium).
+
+66. **The number fixes of a bump are a tool too: `scripts/apply-appdata-scalars.mjs`.** 963 re-statted
+    every Astartes body in the game (T5, bolt weapons S5 AP-1) across eight factions — 412 values.
+    The applier reuses sync-appdata's matching and SKIPS every finding recorded in the sync baseline,
+    because 600-odd of those are decisions (a Tesseract Vault's C'TAN POWER tags), not lag. A
+    collapsed one-row profile is only rewritten when appdata's statlines agree — which a single GW
+    typo breaks (Paladin Ancient's Sv "2"): check the `?` lines by hand, two real ones hid there.
+
+67. **appdata writes its own typos into numbers.** Every CSM-family and Grey Knights Combi-weapon and
+    Storm bolter reads AP "1" in 963 where the same item everywhere else went to "-1"; the applier
+    writes "-1" and says so, and the baseline holds the findings. Names too: "Nightforged Battery
+    (Upgarde)" (MFM), "Unbridled Feroicity", "CHAPLIN/JUDICIAR", "mico-auspex", a broken
+    `<k>Adeptus Astartes infantry>` tag — fixed in EN and RU, each one visible to a player otherwise.
+
+68. **Codex-to-Legends units carry their wargear instructions twice.** The twelve units Codex: Space
+    Marines moved into Legends ship the new Title Case instructions AND the old codex ones, led by "■"
+    in lower case. gen-datasheets drops a "■" line when an unmarked one says nearly the same (word
+    overlap ≥ 0.5); a "■" line without such a twin is a real instruction and stays.
+
+69. **The rule's prose and its structural table can disagree about WHICH unit.** Captain with Jump
+    Pack's Leader text says "VANGUARD VETERAN SQUAD" — literally the Legends squad on foot — where
+    `leaderOf` names "…with Jump Packs". The table stays the base, the prose adds only what the table
+    lacks (Watch Master's Kill Teams), and a prose name that is the start of a table name is the same
+    unit. The three that still differ are in the sync baseline with this reason.
+
+70. **A rebuilt overlay drops what was never translation — again (lesson 52).** Seven SM character
+    aliases went missing in the RU rebuild, and an alias rule stopped matching because appdata now
+    spells "Emperor's Champion" with a straight apostrophe. Compare the alias count before and after
+    (`datasheets:index` prints it) and look for alias rules that match no unit.
+
+71. **A gate that counts uses must count every user.** The condition-vocabulary test read only the
+    faction modifier files, so `unit-battle-shocked` — used by the Core Rules' Battle-shock record —
+    looked dead the day the last faction record naming it retired. It reads `coreModifiers` too now.
+
+72. **Map every field of the bundle to the script that compares it.** Angron's Driven by Ultimate
+    Rage sat pre-errata from 963 until a player reported it: `abilitySets` (appdata's
+    `subAbilities`) were generated from appdata but compared by nothing, and the translation queue —
+    the bump's EN worklist too — skipped the `subAbilities` kind, so the change reported in
+    `changes.json` reached no list. The same walk found `invNote` uncompared (the Astraeus showed an
+    unconditional 5+). After a new field or kind appears, walk the bundle's leaf paths and name the
+    comparing script for each; "the generator reads it" is not "something compares it".
+
+73. **A baseline key must carry the values, wherever they live.** The sync baseline keyed a finding
+    by its head line, and a text finding's head names only the rule — so the 274 accepted prose
+    differences were blind to any later errata on the same rule. The key now adds a hash of the body.
+    When re-keying, check that the set of findings is unchanged (strip the hash, compare) and audit
+    what the old keys were hiding before accepting the new baseline: numbers present on one side
+    only, then words, over the full texts rather than the report's trimmed middles.
+
+74. **A re-record at a bump is where findings get accepted without anyone deciding.** The 963
+    bump's `npm run sync -- --baseline` took nine detachments whose Force Disposition appdata had
+    just changed (MFM v1.5 still says the old one) in with the rest of the codex, and no commit or
+    journal says anyone chose the MFM. A re-record now lists what it accepts for the first time and
+    keeps the reason written against each older entry; read that list, and write a reason for
+    anything kept on purpose (`"appdata typo: …"`), so the next reader does not decide it again.
+
+75. **A departure from appdata needs a home that survives a regeneration.** The 963 app lost the
+    standard profile of one plasma pistol (Vanguard Veteran Squad with Jump Packs; the codex prints
+    both). Fixing it by hand would have lasted until the next `gen-datasheets --write`, after which
+    we match appdata again and nothing reports anything; the two wargear typos we had corrected were
+    in that state already, held only by sync-baseline entries. Every departure now lives in
+    `scripts/lib/appdata-exceptions.mjs` as a patch to appdata's input — applied by the generator and
+    the audits, checked by `npm run exceptions` against RAW appdata in both directions. `gen-datasheets
+    --only` used to rebuild a sheet without its MFM copy tiers and glossary popovers; it keeps the
+    tiers while appdata's base price is unchanged (and names the sheets where it moved) and re-glosses
+    the file, so a clean `--only` run is a no-op.
+
+76. **A "disagreement" between two sources can be one source read half-way.** Seventeen detachments
+    sat in the sync baseline as "MFM ≠ appdata" Force Dispositions, and on 2026-10-01 the owner was
+    asked which source wins. Neither: the MFM page prints two dispositions for 39 detachments, the
+    scraper kept only the first banner, and appdata carries one of the two. A player found it
+    (Warpbane Task Force). Before asking which side is right, look at the raw page for what the
+    parser dropped; a field that is a list in the world must not be scraped into a string.

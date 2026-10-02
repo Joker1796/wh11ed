@@ -18,10 +18,11 @@ import orks from './orks.js'
 import adeptaSororitas from './adepta-sororitas.js'
 import aeldari from './aeldari.js'
 import genestealerCults from './genestealer-cults.js'
-import blackTemplars from './black-templars.js'
 import deathGuard from './death-guard.js'
 import worldEaters from './world-eaters.js'
 import thousandSons from './thousand-sons.js'
+import spaceMarines from './space-marines.js'
+import { SM_CHAPTERS } from '../smChapters.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
@@ -32,10 +33,14 @@ const REGISTRY = {
   'adepta-sororitas': adeptaSororitas,
   aeldari,
   'genestealer-cults': genestealerCults,
-  'black-templars': blackTemplars,
   'death-guard': deathGuard,
   'world-eaters': worldEaters,
   'thousand-sons': thousandSons,
+  'space-marines': spaceMarines,
+  // Every Chapter with a Codex Supplement has Combat Doctrines as its army rule since app data 963
+  // (Black Templars' Templar Vows became the Vow-sworn Crusaders detachment rule, which — like
+  // every detachment rule — the tracker leaves to the rules page).
+  ...Object.fromEntries([...SM_CHAPTERS].map((slug) => [slug, { ...spaceMarines, slug }])),
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
@@ -65,6 +70,13 @@ export function applyOverride(spec, ov) {
   const out = { ...spec, ...ov }
   if (ov.gains) out.gains = [...(spec.gains || []), ...ov.gains]
   if (ov.options) out.options = [...(spec.options || []), ...ov.options]
+  // Extra per-battle picks (see selectionBudget.js) add up across an army's detachments.
+  if (ov.spareUses) out.spareUses = (spec.spareUses || 0) + ov.spareUses
+  if (ov.limitedSpares) out.limitedSpares = [...(spec.limitedSpares || []), ...ov.limitedSpares]
+  if (ov.bonusUses) {
+    out.bonusUses = { ...(spec.bonusUses || {}) }
+    for (const [id, n] of Object.entries(ov.bonusUses)) out.bonusUses[id] = (out.bonusUses[id] || 0) + n
+  }
   return out
 }
 
@@ -99,7 +111,7 @@ export function localizeArmyTracker(spec, locale) {
           atOrAbove: locAbility(spec.threshold.atOrAbove, locale),
         }
       : null,
-    // Selection options (e.g. AdMech's Doctrina Imperatives, Black Templars' Templar Vows): each is
+    // Selection options (e.g. AdMech's Doctrina Imperatives, Space Marines' Combat Doctrines): each is
     // an ability (id + name + text). The `once` flag (battle-long vs per-round pick) rides the spread.
     // `req` (World Eaters Blessings' dice reminder, e.g. "Double 3+") is a language-agnostic term
     // shown on the chip — undefined for other specs.

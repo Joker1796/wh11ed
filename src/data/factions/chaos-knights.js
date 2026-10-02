@@ -11,7 +11,7 @@
 //     Fiefdom (replaces the older 6-stratagem version) and Rules Updates (incl. the
 //     Darkness Dread ability rewrite).
 //   MFM (src/data/mfm/chaos-knights.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition. MFM v1.3 printed "UNIQUE TAG REMOVED" over Houndpack Lance and
+//     forceDispositions. MFM v1.3 printed "UNIQUE TAG REMOVED" over Houndpack Lance and
 //     Hunting Warpack, so the WAR DOGS `unique` tag is gone and the sentence that spelled it
 //     out went with it — the codex prose appdata still carries has not caught up, and the
 //     MFM is the tag’s home.
@@ -57,7 +57,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Helhunt Lance",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Masters of the Pack",
         flavor: "By bending their tyrannical will upon their War Dog underlings, the masters of the hunt goad them to provide a constant stream of sensor data. This influx of supplementary targeting, prey-seeking and omnisensory analysis enhances the scions’ ability to hunt alongside their snarling ironclad hounds.",
@@ -164,7 +164,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Houndpack Lance",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Marked Prey",
         flavor: "Once War Dogs have singled out a victim, they target it relentlessly until it is dragged down and torn apart.",
@@ -199,7 +199,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           cp: "1CP",
           turn: "either",
           flavor: "Many War Dog pilots are bitter and twisted souls whose hearts are filled with animalistic rage, and they will vent that anger with their last dying gasp.",
-          when: "Your opponent’s Shooting phase or the Fight phase, just after a War Dog unit from your army that has not been selected to attack this phase is destroyed.",
+          when: "Your opponent’s Shooting phase or the Fight phase, just after a War Dog unit from your army that has not been **[gloss:selected-to-attack:selected to attack]** this phase is destroyed.",
           target: "That WAR DOG unit. You can use this Stratagem on that unit even though it was just destroyed.",
           effect: "Before resolving your unit’s Deadly Demise ability, it can either shoot or fight. When doing so, it must target only the enemy unit that just destroyed it, and can only do so if that enemy unit is an eligible target. After it has done so and after any Consolidation moves have been made, resolve your unit’s Deadly Demise ability as normal.",
           restrictions: "",
@@ -272,7 +272,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Infernal Lance",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets", "Purge the Foe"],
       rule: {
         name: "Malefic Surge",
         flavor: "Calling upon heretical - often supernatural - powers, these Knights are infused with strange and terrible might.",
@@ -379,7 +379,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Lords of Dread",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Tyrannical Court",
         flavor: "Every one of these egomaniacal warriors seeks to claim all the battlefield glory for themselves, at any cost.",
@@ -482,7 +482,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           name: "Mirror of Fates",
           points: 30,
           flavor: "Hammered into the flesh of a Fallen Noble’s forehead and allowed to take root, this warp crystal allows them to predict their enemy’s plans and exploit them.",
-          body: "CHAOS KNIGHTS model only. Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, you can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP.",
+          body: "CHAOS KNIGHTS model only. Once per turn, when your opponent targets a unit from their army within 12\" of this model with a **[gloss:stratagem:Stratagem]**, you can use this ability. If you do, increase the CP cost of that use of that **Stratagem** by 1CP.",
         },
         {
           name: "Blessing of the Dark Master",
@@ -498,7 +498,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Traitoris Lance",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Paragons of Terror",
         flavor: "Steeped in the dark powers of the warp, bred into bloodlines who make a tradition of cruelty and a virtue of malice, these merciless warriors delight in spreading fear and dismay.",
@@ -606,11 +606,11 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Bastions of Tyranny",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Annihilate the Unworthy",
         flavor: "The withering arsenal of cursed weaponry available to a Knight Tyrant is turned with the cruellest focus upon those its scion despises for their weakness of spirit.",
-        body: "Friendly KNIGHT TYRANT units\u2019 attacks that target a Battle-shocked unit have +1 to the Hit roll.",
+        body: "Friendly KNIGHT TYRANT units’ attacks that target a **[gloss:battle-shocked:Battle-shocked]** unit have +1 to the Hit roll.",
       },
       stratagems: [
         {
@@ -619,9 +619,9 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           cp: "1CP",
           turn: "either",
           flavor: "The mightiest of the Chaos Knights are etched with malign wards capable of shielding them from powerful weapons and throwing back esoteric assaults.",
-          when: "Any phase, when a friendly KNIGHT TYRANT unit suffers a mortal wound.",
+          when: "Any phase, when a friendly KNIGHT TYRANT unit suffers a **[gloss:mortal-wound:mortal wound]**.",
           target: "That KNIGHT TYRANT unit.",
-          effect: "Your unit has [core:Feel No Pain 5+] against mortal wounds.",
+          effect: "Your unit has [core:Feel No Pain 5+] against **[gloss:mortal-wound:mortal wounds]**.",
           restrictions: "",
         },
         {
@@ -630,7 +630,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           cp: "1CP",
           turn: "your",
           flavor: "Eager to unleash the full power at their fingertips, the scion of a Knight Tyrant will allow nothing to impede their devastating arsenal.",
-          when: "Your Movement phase, when a friendly KNIGHT TYRANT unit is selected to make a fall-back move.",
+          when: "Your Movement phase, when a friendly KNIGHT TYRANT unit is selected to make a **[gloss:fall-back-move:fall-back move]**.",
           target: "That KNIGHT TYRANT unit.",
           effect: "That move does not prevent your unit from being eligible to shoot.",
           restrictions: "",
@@ -643,7 +643,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "With a spiteful lash of suppressive firepower, a Knight Tyrant reminds its foes of the deferent fear and awe that are the only acceptable attitudes in the presence of such power.",
           when: "Your Shooting phase, when a friendly KNIGHT TYRANT unit has shot.",
           target: "That KNIGHT TYRANT unit.",
-          effect: "Select one enemy unit hit by those attacks. That enemy unit is suppressed until the start of your next Command phase: while a unit is suppressed, that unit\u2019s attacks have -1 to Hit rolls.",
+          effect: "Select one enemy unit hit by those attacks. That enemy unit is **[gloss:sm-suppressed:suppressed]** until the start of your next Command phase: while a unit is **suppressed**, that unit’s attacks have -1 to Hit rolls.",
           restrictions: "",
         },
       ],
@@ -652,7 +652,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           name: "Pterrorshade Rookery",
           points: 20,
           flavor: "The gothic and mutated extrusions of this Knight Tyrant are the roost of a parasitic flock of pterrorshades. From their Throne, the Fallen Noble within has brokered a fragmented understanding of the maddening chorus they emit, enough to know when their unnatural senses have spotted fresh prey to be annihilated.",
-          body: "KNIGHT TYRANT model only. When this unit is selected to shoot, select one enemy unit within 24\" of this unit. That enemy unit has +6\" detection range until this unit has shot.",
+          body: "KNIGHT TYRANT model only. When this unit is **[gloss:selected-to-shoot:selected to shoot]**, select one enemy unit within 24\" of this unit. That enemy unit has +6\" **[gloss:detection-range:detection range]** until this unit has shot.",
         },
         {
           name: "Hate-filled Dominion",
@@ -668,11 +668,11 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Hunting Warpack",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Scenting Fear",
         flavor: "The corrupted pilots of War Dog suits despise fear and cowardice in the foe almost as much as they revel in hunting such prey and betraying their hiding places.",
-        body: "(Once per battle round, per army) In your Shooting phase, you can select one visible enemy unit within 12\" of a friendly WAR DOG unit. That enemy unit has +6\" detection range.",
+        body: "(Once per battle round, per army) In your Shooting phase, you can select one **[gloss:visible:visible]** enemy unit within 12\" of a friendly WAR DOG unit. That enemy unit has +6\" **[gloss:detection-range:detection range]**.",
       },
       stratagems: [
         {
@@ -694,7 +694,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "Under the painful neural leash of a Helm Mechanicum, a War Dog pilot\u2019s gory instincts can be overridden to undertake vital operations prioritised by their larger masters.",
           when: "Your Shooting phase, when a friendly WAR DOG unit has shot.",
           target: "That WAR DOG unit.",
-          effect: "Those attacks do not prevent your unit from being eligible to start an Action.",
+          effect: "Those attacks do not prevent your unit from being **[gloss:eligible-to-act:eligible to start an Action]**.",
           restrictions: "",
         },
         {
@@ -703,7 +703,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           cp: "1CP",
           turn: "opponent",
           flavor: "With a prize under their talons, War Dogs are adept at evading the prey\u2019s sight by loping low through cover.",
-          when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly WAR DOG unit within range of an objective.",
+          when: "Your opponent’s Shooting phase, when an enemy unit targets a friendly WAR DOG unit within range of an **[gloss:objective:objective]**.",
           target: "That WAR DOG unit.",
           effect: "Ranged attacks that target your unit have -1 AP until that enemy unit has attacked.",
           restrictions: "",
@@ -734,11 +734,11 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Iconoclast Fiefdom",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Wretched Thralls",
         flavor: "Devoted mortal thralls flock to fight in the titanic shadow of their mechanical idols with chanted prayers and brayed challenges.",
-        body: "▪ You can include DAMNED units in your army (see Codex: Chaos Space Marines). The combined points cost of such units cannot exceed 500 points.\n▪ Friendly DAMNED units can re-roll Leadership rolls.",
+        body: "▪ You can include DAMNED units in your army (see Codex: Chaos Space Marines). The combined points cost of such units cannot exceed 500 points.\n▪ Friendly DAMNED units can re-roll **[gloss:leadership-roll:Leadership rolls]**.",
       },
       stratagems: [
         {
@@ -747,7 +747,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           cp: "1CP",
           turn: "either",
           flavor: "As the object of their adulation is consumed by fire, mortal worshippers are roused to a desperate fury, seeking vengeance on behalf of their deceased master.",
-          when: "Any phase, when a friendly CHAOS KNIGHTS unit is destroyed by an enemy unit.",
+          when: "Any phase, when a friendly CHAOS KNIGHTS unit is **[gloss:destroyed:destroyed]** by an enemy unit.",
           target: "That enemy unit.",
           effect: "That enemy unit is marked until the end of the battle. Friendly DAMNED units\u2019 attacks that target a marked unit have [LETHAL HITS].",
           restrictions: "",
@@ -760,7 +760,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "The pilots of corrupted Knight suits demand a ritual offering of their serfs, and their mechanical steed feeds upon the victims\u2019 life forces and raw fear.",
           when: "Your Command phase.",
           target: "One friendly DAMNED unit (excluding ACCURSED CULTISTS units) within 9\" of a friendly CHAOS KNIGHTS model.",
-          effect: "Select one CHAOS KNIGHTS model within 9\" of your unit and roll D3+3:\n▪ Your DAMNED unit suffers that number of mortal wounds.\n▪ That CHAOS KNIGHTS model heals that number of wounds.",
+          effect: "Select one CHAOS KNIGHTS model within 9\" of your unit and roll D3+3:\n▪ Your DAMNED unit suffers that number of **[gloss:mortal-wound:mortal wounds]**.\n▪ That CHAOS KNIGHTS model **[gloss:heal:heals]** that number of wounds.",
           restrictions: "",
         },
         {
@@ -771,7 +771,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "With blaring hunting horns and bellowed calls to their towering masters, mortal thralls signal the location of hiding prey.",
           when: "Start of your Shooting phase.",
           target: "One friendly DAMNED unit.",
-          effect: "Select one visible enemy unit within 12\" of your unit. That enemy unit is hunted: while a unit is hunted, that unit has +6\" detection range.",
+          effect: "Select one **[gloss:visible:visible]** enemy unit within 12\" of your unit. That enemy unit is hunted: while a unit is hunted, that unit has +6\" **[gloss:detection-range:detection range]**.",
           restrictions: "",
         },
       ],
@@ -788,7 +788,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           points: 20,
           aura: true,
           flavor: "Chanting mortal thralls have pledged their lives and souls to this Chaos Knight\u2019s defence, and throw themselves at any who dare threaten the object of their idolatry.",
-          body: "CHAOS KNIGHTS model only. While a friendly DAMNED unit is within 6\" of this model, when you target that unit with the Heroic Intervention Stratagem, that use is -1 CP.",
+          body: "CHAOS KNIGHTS model only. While a friendly DAMNED unit is within 6\" of this model, when you target that unit with the **[gloss:heroic-intervention:Heroic Intervention Stratagem]**, that use is -1 CP.",
         },
       ],
     },

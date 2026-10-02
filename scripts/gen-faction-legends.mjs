@@ -6,7 +6,8 @@
 // ("can you add Ufthak Blackhawk?") was answered by a table we had in appdata and nowhere on the
 // site: Legendary Proxies says which Codex datasheet a retired unit uses.
 //
-// Shape: { "<wh11ed-slug>": { pub, intro, proxies: [{ legacy: [name, …], use, id }] } }
+// Shape: { "<wh11ed-slug>": { pub, of?, intro, proxies: [{ legacy: [name, …], use, id }] } }
+//   of      — on an SM Chapter only: the slug whose publication this is a copy of (see below)
 //   intro   — the "Warhammer Legends" section, as wh11ed inline markup (**bold**, ▪ bullets)
 //   proxies — the "Legendary Proxies" section, parsed: `legacy` are the retired unit names GW
 //             prints in bold, `use` is the datasheet line under them (verbatim, it may carry a
@@ -28,6 +29,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, SLUG_MAP, appdataToMarkup, loadWh11edDatasheets, nameOfEn, norm, table } from './lib/sync-common.mjs'
+import { SM_CHAPTERS } from '../src/data/smChapters.js'
 
 const OUT = path.join(ROOT, 'src/data/factionLegends.json')
 
@@ -41,6 +43,10 @@ const slugify = (s) => (s || '').toLowerCase().replace(/[’'`]/g, '').replace(/
 // Matching only; the page shows the corrected form, since the link text IS the datasheet.
 const USE_TYPOS = {
   'Biltza Bommer': 'Blitza-bommer', // Legends: Orks, data_version 946
+  // Legends: Space Marines, data_version 963 — the proxy table names the unit as its model:
+  Outriders: 'Outrider Squad',
+  'Firestrike Servo-turret': 'Firestrike Servo-turrets',
+  'Invader ATV': 'Invader ATVs',
 }
 
 const INTRO_SECTION = 'warhammer legends'
@@ -54,7 +60,9 @@ function parseProxies(text) {
   for (const raw of (text || '').split('\n')) {
     const line = raw.trim()
     if (!line) continue
-    const head = line.match(/^\*\*(.+?):?\*\*:?$/)
+    // Orks bold the heading ("**Ufthak Blackhawk:**"); Legends: Space Marines (963) writes it plain
+    // ("Tactical Squad:") — a line that is not a bullet and ends in a colon is a heading either way.
+    const head = line.match(/^\*\*(.+?):?\*\*:?$/) || (!/^[•▪■]/.test(line) && line.match(/^(.+):$/))
     if (head) {
       legacy = head[1].split(',').map((s) => s.trim()).filter(Boolean)
       continue
@@ -64,6 +72,18 @@ function parseProxies(text) {
     legacy = null
   }
   return out
+}
+
+// A proxy line → the datasheet it names in `sheets`: exact name first, else the longest datasheet
+// name the line starts with (a qualifier like "… equipped with Kustom Force Field" follows the
+// unit name). null when nothing matches.
+function resolveUse(use, sheets) {
+  const key = norm(use)
+  const exact = sheets.find((s) => norm(s.name) === key)
+  if (exact) return exact
+  return sheets
+    .filter((s) => key.startsWith(norm(s.name) + ' '))
+    .sort((a, b) => b.name.length - a.name.length)[0] || null
 }
 
 // The intro is paragraphs separated by blank lines with `- ` bullets — appdataToMarkup would fold
@@ -106,18 +126,9 @@ export async function run(argv = process.argv.slice(2)) {
     const intro = secs.find((s) => nameOfEn(s).toLowerCase() === INTRO_SECTION)
     const prox = secs.find((s) => nameOfEn(s).toLowerCase() === PROXIES_SECTION)
     const sheets = await loadWh11edDatasheets(slug)
-    const byName = new Map(sheets.map((s) => [norm(s.name), s]))
     const proxies = parseProxies(prox ? sectionText(prox) : '').map((p) => {
       const printed = USE_TYPOS[p.use] || p.use
-      // Exact name first; else the longest datasheet name the line starts with (a qualifier
-      // like "… equipped with Kustom Force Field" follows the unit name).
-      const key = norm(printed)
-      let sheet = byName.get(key)
-      if (!sheet) {
-        sheet = sheets
-          .filter((s) => key.startsWith(norm(s.name) + ' '))
-          .sort((a, b) => b.name.length - a.name.length)[0]
-      }
+      const sheet = resolveUse(printed, sheets)
       if (!sheet) {
         unresolved++
         console.log(`  ✗ ${slug}: proxy target "${p.use}" (for ${p.legacy.join(', ')}) matches no datasheet`)
@@ -125,6 +136,25 @@ export async function run(argv = process.argv.slice(2)) {
       return { legacy: p.legacy, use: printed, id: sheet?.id ?? null }
     })
     bySlug.set(slug, { pub: nameOfEn(pub), intro: intro ? introMarkup(sectionText(intro)) : '', proxies })
+  }
+
+  // The five Chapters field the Codex: Space Marines units through the datasheet fold, so the
+  // retired units Legends: Space Marines proxies are theirs too — and a Chapter player opens the
+  // Chapter's page, not the Codex's. Each gets the Space Marines table resolved against its OWN
+  // folded list: a target the Chapter cannot field drops its row, and so does a retired name the
+  // Chapter still has a datasheet of (a Chapter unit is not retired just because the Codex one
+  // is). `of` names the publication's own slug — the RU intro overlay is keyed by it.
+  const sm = bySlug.get('space-marines')
+  for (const ch of SM_CHAPTERS) {
+    if (!sm || bySlug.has(ch) || !ourSlugs.has(ch)) continue
+    const sheets = await loadWh11edDatasheets(ch)
+    const own = new Set(sheets.map((s) => norm(s.name)))
+    const proxies = sm.proxies.flatMap((p) => {
+      const sheet = p.id && resolveUse(p.use, sheets)
+      const legacy = p.legacy.filter((n) => !own.has(norm(n)))
+      return sheet && legacy.length ? [{ legacy, use: p.use, id: sheet.id }] : []
+    })
+    bySlug.set(ch, { pub: sm.pub, of: 'space-marines', intro: sm.intro, proxies })
   }
 
   // Serialize deterministically: faction slugs in factionsIndex order.

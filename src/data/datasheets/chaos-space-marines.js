@@ -8,7 +8,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 295
+        "points": 300
       }
     ],
     "flavor": "The Warmaster of Chaos is the greatest threat to the Imperium. He rules his Black Legion with an iron-taloned fist and stands as the embodiment of the Long War. Clad in Terminator armour and wielding his howling daemon sword, Drach’nyen, Abaddon slays any weakling champions sent to challenge him.",
@@ -16,7 +16,7 @@ export default [
       {
         "name": "Abaddon the Despoiler",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "9",
         "ld": "5+",
@@ -71,7 +71,7 @@ export default [
       },
       {
         "name": "Dark Destiny",
-        "text": "Each time this model’s unit makes a Dark Pact and does not fail the resulting Leadership roll, if the result of that roll was 7+, you gain 1CP."
+        "text": "Each time this model’s unit makes a Dark Pact and does not fail the resulting **[gloss:leadership-roll:Leadership roll]**, if the result of that roll was 7+, you gain 1CP."
       }
     ],
     "composition": [
@@ -101,7 +101,7 @@ export default [
     "rules": [
       {
         "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
+        "text": "If this model is in your army, it must be your WARLORD."
       }
     ],
     "abilitySets": [
@@ -110,11 +110,11 @@ export default [
         "options": [
           {
             "name": "Paragon of Hatred (Aura)",
-            "text": "While a friendly HERETIC ASTARTES unit is within 6\" (excluding DAMNED units) of this model, each time a model in that unit makes an attack, you can re-roll the Hit roll."
+            "text": "While a friendly HERETIC ASTARTES unit (excluding DAMNED units) is within 6\" of this model, each time a model in that unit makes an attack, you can re-roll the Hit roll."
           },
           {
             "name": "Mark of Chaos Ascendant (Aura)",
-            "text": "While a friendly Heretic Astartes Infantry or Heretic Astartes Mounted unit (excluding DAMNED units) is within 6\" of this model, models in that unit have a 4+ invulnerable save."
+            "text": "While a friendly HERETIC ASTARTES INFANTRY or HERETIC ASTARTES MOUNTED unit (excluding DAMNED units) is within 6\" of this model, models in that unit have a 4+ invulnerable save."
           },
           {
             "name": "Lord of the Traitor Legions (Aura)",
@@ -135,7 +135,7 @@ export default [
       },
       {
         "models": 16,
-        "points": 195,
+        "points": 185,
         "note": "1st-2nd"
       },
       {
@@ -145,7 +145,7 @@ export default [
       },
       {
         "models": 16,
-        "points": 215,
+        "points": 205,
         "note": "3rd+"
       }
     ],
@@ -197,7 +197,7 @@ export default [
     "abilities": [
       {
         "name": "Howling Horde",
-        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model from this unit was destroyed as a result of those attacks, this unit can make a surge move of up to D6\"."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model from this unit was **[gloss:destroyed:destroyed]** as a result of those attacks, this unit can make a **[gloss:surge-move:surge move]** of up to D6\"."
       }
     ],
     "composition": [
@@ -324,11 +324,11 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 70
+        "points": 80
       },
       {
         "models": 6,
-        "points": 130
+        "points": 150
       }
     ],
     "flavor": "Vicious long-range hunters as adept in reconnaissance as they are in bloody chases, Chaos Bikers ride powerful, growling machines whose combi-bolters spew explosive death. In rapid assaults, they smash through enemy defence lines, before circling back like a pack of predators to cut down survivors in bloody melee.",
@@ -336,7 +336,7 @@ export default [
       {
         "name": "Chaos Bikers",
         "m": "12\"",
-        "t": "5",
+        "t": "6",
         "sv": "3+",
         "w": "3",
         "ld": "6+",
@@ -352,8 +352,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -364,8 +364,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -464,7 +464,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -482,7 +482,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -764,8 +764,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -778,8 +778,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -869,7 +869,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 95
       }
     ],
     "flavor": "Chaos Lords have spent countless spans of mortal lives leading their traitorous warriors, demanding nothing but utter ruthlessness from those they command. Each heretic aspires to this chilling mastery, knowing there is no prize beyond their Lord’s grasp and no enemy they cannot slay with pre-eminent skill.",
@@ -877,7 +877,7 @@ export default [
       {
         "name": "Chaos Lord",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -927,7 +927,7 @@ export default [
         "tags": [],
         "a": "7",
         "ws": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -999,7 +999,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 90
       }
     ],
     "flavor": "Chaos Lords’ underlings expect them to fight from the front, and few kinds of armour enable them to do so as effectively as archaic Terminator plate. Formidably resilient, such a suit protects the Lord against all but the most devastating firepower and enables him to deploy by teleportation right into the heart of the foe.",
@@ -1007,7 +1007,7 @@ export default [
       {
         "name": "Chaos Lord in Terminator Armour",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "6",
         "ld": "6+",
@@ -1024,8 +1024,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -1038,8 +1038,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2061,7 +2061,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 85
       }
     ],
     "flavor": "Some Chaos Lords go to war equipped with jump packs, favouring the mobility these devices provide. Leading packs of Raptors, these cruel hunters descend upon their victims with savage hunger before bringing to bear an array of accursed weapons as they relentlessly pursue their quarry across the battlefield.",
@@ -2069,7 +2069,7 @@ export default [
       {
         "name": "Chaos Lord",
         "m": "12\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -2086,8 +2086,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2194,12 +2194,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 145,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 155,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -2224,8 +2224,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2238,8 +2238,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2339,12 +2339,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 160,
+        "points": 155,
         "note": "3rd+"
       }
     ],
@@ -2369,8 +2369,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2383,8 +2383,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2514,8 +2514,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2528,8 +2528,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2650,11 +2650,23 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 175
+        "points": 185,
+        "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 350
+        "points": 370,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 215,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 400,
+        "note": "3rd+"
       }
     ],
     "flavor": "Clad in hulking, corrupted Terminator plate, each of these murderous brutes is akin to a walking tank. Spikes and horns give them a monstrous appearance, and their powerful array of heavy firepower and brutal melee weapons can tear through elite squads and war engines alike.",
@@ -2662,7 +2674,7 @@ export default [
       {
         "name": "Chaos Terminator Squad",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "3",
         "ld": "6+",
@@ -2679,8 +2691,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2693,8 +2705,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2945,12 +2957,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 185,
+        "points": 180,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 195,
+        "points": 190,
         "note": "3rd+"
       }
     ],
@@ -2975,8 +2987,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2989,8 +3001,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3067,22 +3079,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 135,
+        "points": 140,
         "note": "1st-2nd"
-      },
-      {
-        "models": 10,
-        "points": 270,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 5,
-        "points": 145,
-        "note": "3rd+"
       },
       {
         "models": 10,
         "points": 280,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 150,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 290,
         "note": "3rd+"
       }
     ],
@@ -3091,7 +3103,7 @@ export default [
       {
         "name": "Chosen",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "3",
         "ld": "6+",
@@ -3107,8 +3119,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3117,8 +3129,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3131,8 +3143,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3584,7 +3596,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 95
       }
     ],
     "flavor": "Cypher is a mysterious agent of discord and insurrection, always one step ahead of capture, and strife blooms in his wake as violently as the detonations from his masterwork pistols. He is a lord of the hunted Fallen, though his true role as traitor or loyalist is as cryptic as the sword he carries but never wields.",
@@ -3592,7 +3604,7 @@ export default [
       {
         "name": "Cypher",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -3611,7 +3623,7 @@ export default [
         "range": "12\"",
         "a": "6",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -3638,7 +3650,7 @@ export default [
         ],
         "a": "6",
         "ws": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -3689,7 +3701,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 65
+        "points": 70
       }
     ],
     "flavor": "Dark Apostles are the high priests of the Dark Gods. They preach catechisms from blasphemous texts, issuing prayers that call down the Ruinous Powers’ wrath. As they crush skulls with blows from their accursed crozius, they roar profane blessings using their deadliest weapon: their voice.",
@@ -3697,7 +3709,7 @@ export default [
       {
         "name": "DARK APOSTLE",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "5+",
@@ -3708,7 +3720,7 @@ export default [
       {
         "name": "DARK DISCIPLE",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "6+",
         "w": "1",
         "ld": "7+",
@@ -3726,8 +3738,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -4472,7 +4484,7 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 100
+        "points": 110
       }
     ],
     "flavor": "A genius of arcane genetics, Fabius Bile enhances even the augmented biologies of his Heretic Astartes followers. With surgical precision, he wields the pain-inducing Rod of Torment in one hand, while with his other he fires toxic darts from the Xyclos Needler, as the arachnid arms of his Chirurgeon seal his own injuries.",
@@ -4480,7 +4492,7 @@ export default [
       {
         "name": "FABIUS BILE",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -4490,7 +4502,7 @@ export default [
       {
         "name": "SURGEON ACOLYTE",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "6+",
         "w": "1",
         "ld": "7+",
@@ -4748,12 +4760,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 160,
+        "points": 155,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 170,
+        "points": 165,
         "note": "3rd+"
       }
     ],
@@ -5166,7 +5178,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 95
       }
     ],
     "flavor": "Haarken is the Herald of the Apocalypse and the mouthpiece of Abaddon. He declares his master’s dominion by driving his daemon touched Helspear into soon-to-be-conquered worlds, following up with vicious destruction as he leads hosts of Raptors in strikes that sow fear and confusion.",
@@ -5174,7 +5186,7 @@ export default [
       {
         "name": "Haarken Worldclaimer",
         "m": "12\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -5266,12 +5278,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 125,
+        "points": 135,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 135,
+        "points": 145,
         "note": "3rd+"
       }
     ],
@@ -5282,7 +5294,7 @@ export default [
         "m": "5\"",
         "t": "5",
         "sv": "3+",
-        "w": "2",
+        "w": "3",
         "ld": "6+",
         "oc": "1"
       }
@@ -5294,8 +5306,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -5453,7 +5465,7 @@ export default [
         "tags": [],
         "a": "5",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -5462,7 +5474,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -5509,7 +5521,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 125
       }
     ],
     "flavor": "Helbrutes are walking engines of destruction and psychosis, their occupants kept alive in a state of agony and insanity. These infernal sarcophagi are fitted with a variety of powerful armaments to blast enemy armour open from afar, or cruel appendages with which to hack and crush with enormous strength at close range.",
@@ -5533,8 +5545,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -5991,7 +6003,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 165
+        "points": 155
       }
     ],
     "flavor": "Infernal beasts whose Path to Glory has elevated them to daemonhood, Daemon Princes are paragons of evil. Warped and corrupted by Chaos, they lead their warbands in devastating assaults, striding through their mortal enemies’ attacks and unleashing monstrous blows and blasts of sorcery against all before them.",
@@ -6099,7 +6111,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180
+        "points": 170
       }
     ],
     "flavor": "The final form of those who give up their souls to the Dark Gods can be infinite in variety. From some, dark wings burst from their churning flesh, a hideous blessing that enables these monstrous warrior-lords to hunt down those who seek to flee their bestial wrath.",
@@ -6204,7 +6216,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 135
       }
     ],
     "flavor": "Reviled as the Tyrant of Badab, Huron directs the pitiless reaving of his Red Corsairs with the ruthlessness of a pirate king, while accompanied by his esoteric Hamadrya. His Tyrant’s Claw is a bionic relic whose crackling talons tear through armour before the inbuilt incineration unit unleashes gouts of sulphurous fire.",
@@ -6212,7 +6224,7 @@ export default [
       {
         "name": "Huron Blackheart",
         "m": "6\"",
-        "t": "5",
+        "t": "6",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -6541,7 +6553,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 120
+        "points": 130
       }
     ],
     "flavor": "A being of adamant and singular purpose, Warsmith Kravek Morne is a living weapon in service to the Daemon Primarch Perturabo. With a will powerful enough to dominate even the insane Obliterators and Mutilators, Morne leads attacks by hulking elite warriors to break open enemy battle lines and fortress gates alike.",
@@ -6549,7 +6561,7 @@ export default [
       {
         "name": "",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "6",
         "ld": "6+",
@@ -6579,8 +6591,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -6751,11 +6763,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 90
+        "points": 95
       },
       {
         "models": 10,
-        "points": 170
+        "points": 180
       }
     ],
     "flavor": "Against the onslaught of Chaos Legionaries, few can stand for long. Whether millennia-old veterans of the Long War or traitors from renegade warbands, Legionaries are deadly and adaptable warriors, unleashing streams of explosive bolts or venting their vicious hatred with swings of rending chainswords.",
@@ -6763,7 +6775,7 @@ export default [
       {
         "name": "Legionaries",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
@@ -6791,8 +6803,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -6801,8 +6813,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -6968,7 +6980,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -6977,7 +6989,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -7037,7 +7049,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 160
+        "points": 155
       }
     ],
     "flavor": "Technocrats and spirit-thieves, Lords Discordant hunt the foe’s war engines. Atop daemonic Helstalkers, these heretics cut through enemy infantry before lunging at their quarry with saw-toothed polearms. Each mount tears its mechanical prey open as the Lord Discordant siphons off the victim’s spirit to reinvigorate other Daemon Engines.",
@@ -7075,8 +7087,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -7146,7 +7158,7 @@ export default [
       },
       {
         "name": "Spirit Thief",
-        "text": "At the start of your Shooting phase, select one visible enemy **VEHICLE** unit. Until the end of the phase, each time a friendly **HERETIC ASTARTES** model makes an attack that targets that unit, re-roll a Wound roll of 1."
+        "text": "At the start of your Shooting phase, select one visible enemy **[gloss:vehicle:VEHICLE]** unit. Until the end of the phase, each time a friendly **HERETIC ASTARTES** model makes an attack that targets that unit, re-roll a Wound roll of 1."
       }
     ],
     "composition": [
@@ -7175,7 +7187,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 75
       }
     ],
     "flavor": "These corrupted axemen are the executioners of Heretic Astartes warbands. Able to perceive the empyric soul-stuff of the foe’s greatest champions, they single-mindedly seek them out in battle, bellowing a fatal decree before crashing forward and hacking through armour, flesh and bone.",
@@ -7183,7 +7195,7 @@ export default [
       {
         "name": "Master of Executions",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -7199,8 +7211,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -7261,7 +7273,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 65
       }
     ],
     "flavor": "Masters of Possession are psykers who specialise in channelling daemons into living hosts; they bolster their possessed kin with empyric energies that strengthen and reinvigorate such tainted unions. In battle, they unleash daemonic forces into the foe, ripping apart their souls to channel them to greater use.",
@@ -7269,7 +7281,7 @@ export default [
       {
         "name": "Master of Possession",
         "m": "8\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -7286,8 +7298,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -7380,7 +7392,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 145
+        "points": 150
       }
     ],
     "flavor": "These lieutenants of Huron Blackheart stand within the circle of their master’s trust, a position both privileged and dangerous. When they gather to fight in their lord’s shadow, they epitomise the cruelty, cunning and piratical tactics that have made the Red Corsairs such a mighty power in the Maelstrom and beyond.",
@@ -7388,7 +7400,7 @@ export default [
       {
         "name": "GARLON SOULEATER, GARREON THE CORPSEMASTER, KATAR GARRIX",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -7427,7 +7439,7 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -7572,7 +7584,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 125
       }
     ],
     "flavor": "Maulerfiends stalk the battlefield like immense hunting beasts. Once the enemy are in sight, these huge Daemon Engines thunder forward, even scaling defensive walls in their eagerness to get at the prey. Once amongst the foe, they slaughter anything in reach with their huge talons, crushing jaws and stabbing tendrils.",
@@ -7666,7 +7678,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 175,
+        "points": 185,
         "note": "3rd+"
       }
     ],
@@ -7874,11 +7886,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100
+        "points": 105
       },
       {
         "models": 10,
-        "points": 180
+        "points": 190
       }
     ],
     "flavor": "Nemesis Claws are squads of Night Lords consumed by murderlust and sadism that are employed as terror troops by Chaos warlords the galaxy over. These psychopathic killers use an array of dread weaponry and ghoulish equipment to inflict fear, misery and violent death upon their foes.",
@@ -7886,7 +7898,7 @@ export default [
       {
         "name": "Legionaries",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
@@ -7902,8 +7914,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -7912,8 +7924,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -8045,7 +8057,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -8065,7 +8077,7 @@ export default [
         ],
         "a": "5",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -8142,7 +8154,7 @@ export default [
     "rules": [
       {
         "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability (excluding Epic Heroes) can be attached to a Legionaries unit, it can be attached to this unit instead."
+        "text": "If a CHARACTER unit from your army with the Leader ability (excluding Epic Heroes) can be attached to a Legionaries unit, it can be attached to this unit instead."
       }
     ]
   },
@@ -8184,7 +8196,7 @@ export default [
     "abilities": [
       {
         "name": "Malevolent Locus (Aura)",
-        "text": "While a friendly **HERETIC ASTARTES** unit is within 9\" of this **FORTIFICATION**, improve that unit’s Leadership characteristic by 1."
+        "text": "While a friendly **HERETIC ASTARTES** unit is within 9\" of this **[gloss:fortification:FORTIFICATION]**, improve that unit’s Leadership characteristic by 1."
       },
       {
         "name": "Malign Cover",
@@ -8192,7 +8204,7 @@ export default [
       },
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more **FORTIFICATIONS** from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is only within Engagement Range of one or more **[gloss:fortification:FORTIFICATIONS]** from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       }
     ],
     "composition": [
@@ -8316,22 +8328,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 120,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 10,
-        "points": 250,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 5,
         "points": 130,
-        "note": "3rd+"
+        "note": "1st-2nd"
       },
       {
         "models": 10,
         "points": 260,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 150,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -8354,7 +8366,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "3+",
-        "s": "5",
+        "s": "6",
         "ap": "-1",
         "d": "2"
       }
@@ -8397,22 +8409,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 110,
+        "points": 115,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 210,
+        "points": 225,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 120,
+        "points": 125,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 220,
+        "points": 235,
         "note": "3rd+"
       }
     ],
@@ -8421,7 +8433,7 @@ export default [
       {
         "name": "Raptors",
         "m": "12\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
@@ -8437,8 +8449,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -8532,7 +8544,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -8541,7 +8553,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -8609,22 +8621,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 110,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 10,
-        "points": 210,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 5,
         "points": 120,
-        "note": "3rd+"
+        "note": "1st-2nd"
       },
       {
         "models": 10,
         "points": 220,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 130,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 230,
         "note": "3rd+"
       }
     ],
@@ -8633,7 +8645,7 @@ export default [
       {
         "name": "",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "3",
         "ld": "6+",
@@ -8649,8 +8661,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -8659,8 +8671,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -8750,7 +8762,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 65
       }
     ],
     "flavor": "Renegade warlords and lieutenants, the Reave Captains of the Red Corsairs are masters of underhanded warfare. Combining the strategic nous of loyalist Space Marine commanders with the viciousness of the Heretic Astartes, these merciless war leaders exploit their foes’ every weakness and leave none alive.",
@@ -8758,7 +8770,7 @@ export default [
       {
         "name": "",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -8775,8 +8787,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -8836,7 +8848,7 @@ export default [
       },
       {
         "name": "Raider’s Due",
-        "text": "When this unit **declares a charge**, If an enemy unit within range of an **objective** is within 12\" of this unit, you can use this ability. If you do: This unit can re-roll that **charge roll**. This unit must end that **charge move engaged** with one or more of those enemy units."
+        "text": "When this unit **[gloss:declare-charge:declares a charge]**, If an enemy unit within range of an **[gloss:objective:objective]** is within 12\" of this unit, you can use this ability. If you do: This unit can re-roll that **[gloss:charge-roll:charge roll]**. This unit must end that **charge move engaged** with one or more of those enemy units."
       }
     ],
     "composition": [
@@ -9523,7 +9535,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 65
       }
     ],
     "flavor": "Sorcerers are the Heretic Astartes’ battle-psykers and warp-seers. Wielding terrifying empyric energies, with but a thought they can crush a foe’s skull, curse their enemies with abhorrent hexes or hurl coruscating bolts of soul-blasting psychic power that mutate those they touch.",
@@ -9531,7 +9543,7 @@ export default [
       {
         "name": "Sorcerer",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -9547,8 +9559,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -9635,7 +9647,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 85
       }
     ],
     "flavor": "The powers of a warband’s Sorcerers lend a sickening occult advantage to elite infantry spearheads. Girded in warsuits of sigil-etched Terminator armour, they are able to support gruelling boarding actions, assault through daemon-haunted labyrinths or fight on the front line against swarming, ignorant loyalists.",
@@ -9643,7 +9655,7 @@ export default [
       {
         "name": "Sorcerer in Terminator Armour",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "5",
         "ld": "6+",
@@ -9660,8 +9672,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -9674,8 +9686,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -10673,7 +10685,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 70
+        "points": 65
       }
     ],
     "flavor": "Amongst the mortal followers of the Heretic Astartes are warbands of Traitor Guardsmen. These heretics turn mass-produced lasguns and more specialised weapons upon the Imperium they once served, while their military training combines with bitterness and hate to render them a potent threat.",
@@ -10844,7 +10856,7 @@ export default [
     "abilities": [
       {
         "name": "Twisted Defence Force",
-        "text": "While this unit is within range of an objective, this unit has +1 Sv against ranged attacks."
+        "text": "While this unit is within range of an **[gloss:objective:objective]**, this unit has +1 Sv against ranged attacks."
       }
     ],
     "composition": [
@@ -11051,22 +11063,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 125,
+        "points": 130,
         "note": "1st-2nd"
-      },
-      {
-        "models": 10,
-        "points": 280,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 5,
-        "points": 135,
-        "note": "3rd+"
       },
       {
         "models": 10,
         "points": 290,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 140,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 300,
         "note": "3rd+"
       }
     ],
@@ -11075,7 +11087,7 @@ export default [
       {
         "name": "Warp Talons",
         "m": "12\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
@@ -11132,7 +11144,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 65
       }
     ],
     "flavor": "With outlawed knowledge of the deeper mysteries of the machine, Warpsmiths maintain their warband’s arsenal of armoured vehicles, and violate enemy war engines with utterances of corrupted code. Fused with a writhing nest of semi-sentient mechatendrils, they seek not only to employ technology, but to subjugate it.",
@@ -11140,7 +11152,7 @@ export default [
       {
         "name": "Warpsmith",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "4",
         "ld": "6+",

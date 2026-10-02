@@ -10,7 +10,7 @@
 //     (Devotees of Destruction, Murdertalon Raiders), a full rewrite of Cabal of Chaos
 //     (replaces the older 6-stratagem version) and Rules Updates.
 //   MFM (src/data/mfm/chaos-space-marines.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the NIGHTMARE `unique` tag.
+//     forceDispositions, and the NIGHTMARE `unique` tag.
 //
 // 17 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -44,7 +44,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Chaos Cult",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Desperate Devotion",
         flavor: "Utterly dedicated to the worship of the Dark Gods, thronging mortal cultists and regiments of Traitor Guardsmen are more than willing to make bloody sacrifices and take desperate actions in the hope of attaining favour.",
@@ -151,7 +151,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Creations of Bile",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Take and Hold", "Purge the Foe"],
       rule: {
         name: "Experimental Augmentations",
         flavor: "Bile’s creations, the Terata, possess a variety of mutations, all of which increase their transhuman lethality – for now.",
@@ -258,7 +258,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Cult of the Arkifane",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Soul Forge Boons",
         flavor: "The cybersorcerous power of Vashtorr’s boons is much in evidence amongst his worshippers. Nowhere is this more true than in the war engines that his cults take into battle, and which exhibit a nightmarish variety of biomechanoid mutations and daemon-spawned powers. Whether wreathed in balefire, shimmeringly insubstantial or constantly regrowing battle-damaged hull plating, these accursed war machines are incredibly hard to destroy.",
@@ -365,7 +365,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Deceptors",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Masters of Misdirection",
         flavor: "There are those warbands that number amongst their ranks liars, schemers and infiltrators of far more prodigious skill than most heretics. Employing labyrinthine ploys, they unnerve their enemies and force them to chase ghosts and shadows. They embed themselves within combat zones long before showing their hand, seeding Chaos cults, identifying key targets and feeding misinformation to their foes.",
@@ -472,7 +472,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Dread Talons",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Terror Descends (Aura)",
         flavor: "Bedecked in the flayed skins and leering skulls of former victims, their armour flecked with blood and gore, these reavers descend in a howling gale of enraged screams and soul-piercing shrieks. To look upon their ghastly visages is to feel a terrible and paralysing fear.",
@@ -579,7 +579,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Fellhammer Siege-Host",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Iron Fortitude",
         flavor: "The most indefatigable of Heretic Astartes warbands possess a grim determination that matches the resilience of their superhuman physiques and formidable ceramite armour. They go to war amidst formations of daemonic war machines and growling vehicles. Some even embrace the worship of the Dark Gods, trading their souls for supernatural protection.",
@@ -686,7 +686,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Huron’s Marauders",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Disruption", "Purge the Foe"],
       rule: {
         name: "Tyrannical Motivation",
         flavor: "Murderers and renegades all, the Red Corsairs strive to meet their master’s standards, fighting hardest of all when his gaze is upon them.",
@@ -772,7 +772,7 @@ The combined points value of such units you can include in your army depends on 
           name: "Raid Leader",
           points: 20,
           flavor: "Rapid mechanised assaults are a preferred tactic of the Red Corsairs, and this champion excels at them.",
-          body: "HERETIC ASTARTES model only (excluding Damned models). Each time the bearer’s unit is set up after disembarking from a Transport that has made a Normal move this turn, the bearer’s unit is still eligible to declare a charge.",
+          body: "HERETIC ASTARTES model only (excluding Damned models). Each time the bearer’s unit is set up after disembarking from a TRANSPORT that has made a Normal move this turn, the bearer’s unit is still eligible to declare a charge.",
         },
         {
           name: "Dread Reputation",
@@ -794,7 +794,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Nightmare Hunt",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       unique: "NIGHTMARE",
       rule: {
         name: "Terror Made Manifest",
@@ -902,7 +902,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Pactbound Zealots",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Disruption", "Priority Assets"],
       rule: {
         name: "Marks of Chaos",
         flavor: "",
@@ -1009,7 +1009,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Renegade Raiders",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Priority Assets", "Reconnaissance"],
       rule: {
         name: "Raiders and Reavers",
         flavor: "Some Heretic Astartes warbands are piratical by nature, launching swift attacks focused upon destroying their foes in a storm of bloody violence, seizing territory and spoils of war before the enemy can bring reinforcements to bear.",
@@ -1116,7 +1116,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Renegade Warband",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Slaves to None & Vendetta & Twisted Doctrine",
         flavor: "Many Renegades eschew the gifts of Dark Gods, relying only upon their own prowess.",
@@ -1223,7 +1223,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Soulforged Warpack",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Debt to the Soul Forge",
         flavor: "Many are the daemons who have forged pacts with Vashtorr the Arkifane. Once bound into such a contract, a soul debt must be paid, one that the daemon strives endlessly, and with all its desperation, to fulfil.",
@@ -1330,7 +1330,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Veterans of the Long War",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Focus of Hatred",
         flavor: "The eldest of the Chaos Space Marines harbour within their corrupted souls a burning desire for vengeance upon the Imperium and the galaxy as a whole.  They channel this ire against their chosen targets, relentlessly pursuing their victims until every last foe lies dead upon the battlefield.",
@@ -1437,7 +1437,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Warpstrike Champions",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Warp Portals",
         flavor: "Conjured warp portals flicker across the battlefield, tearing through the fabric of reality according to arcane designs. They are a means, however perilous and unnatural, for the warband’s most elite warriors to traverse the battlefield in a matter of strides and strike again at new locations.",
@@ -1548,11 +1548,11 @@ The combined points value of such units you can include in your army depends on 
       name: "Cabal of Chaos",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Empyric Wellspring",
         flavor: "The sorcerous powers wielded by a cabal inevitably draw the attention of the Dark Gods, flooding the battlefield with immaterial energies that empower their dark magicks and their daemonically gifted comrades alike.",
-        body: "▪ In your Shooting phase, when a friendly HERETIC ASTARTES PSYKER unit (excluding DAEMON units) is selected to shoot, if that unit makes a Dark Pact, that unit\u2019s ranged attacks have +1 S.\n▪ In the Fight phase, when a friendly HERETIC ASTARTES DAEMON PRINCE/DAEMON PRINCE WITH WINGS unit (excluding KHORNE units) is selected to fight, if that unit makes a Dark Pact, that unit\u2019s melee attacks have:\n▪ +2 S.\n▪ +1 AP.",
+        body: "▪ In your Shooting phase, when a friendly HERETIC ASTARTES PSYKER unit (excluding DAEMON units) is **[gloss:selected-to-shoot:selected to shoot]**, if that unit makes a **[gloss:csm-dark-pact:Dark Pact]**, that unit’s ranged attacks have +1 S.\n▪ In the Fight phase, when a friendly HERETIC ASTARTES DAEMON PRINCE/DAEMON PRINCE WITH WINGS unit (excluding KHORNE units) is **[gloss:selected-to-fight:selected to fight]**, if that unit makes a **Dark Pact**, that unit’s melee attacks have:\n▪ +2 S.\n▪ +1 AP.",
       },
       stratagems: [
         {
@@ -1563,7 +1563,7 @@ The combined points value of such units you can include in your army depends on 
           flavor: "With the unbound energies of the Warp surging through them, this infernal champion heals of their hurts as quickly as the enemy can inflict them.",
           when: "Your Command phase.",
           target: "One friendly HERETIC ASTARTES PSYKER/DAEMON unit (excluding KHORNE units).",
-          effect: "Your unit heals D3+1 wounds.",
+          effect: "Your unit **[gloss:heal:heals]** D3+1 wounds.",
           restrictions: "",
         },
         {
@@ -1583,7 +1583,7 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "your",
           flavor: "Secondary cantrips blossom out like poisoned flowers from the heart of this sorcerous manifestation, raining mutating flame upon the foe in roiling clouds.",
-          when: "Your Shooting phase, when a friendly HERETIC ASTARTES PSYKER unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly HERETIC ASTARTES PSYKER unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That HERETIC ASTARTES PSYKER unit.",
           effect: "Your unit\u2019s ranged attacks have [IGNORES COVER].",
           restrictions: "",
@@ -1610,7 +1610,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Devotees of Destruction",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Rain of Ruin",
         flavor: "It is not enough for these heretical reavers merely to defeat their foes. Instead, they must pound all before them to smouldering oblivion with overwhelming salvoes of fire.",
@@ -1623,9 +1623,9 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "your",
           flavor: "As the murderous rain of projectiles redoubles and the fires of ruin burn higher, so the favour of the Dark Gods falls upon the architects of this devastation.",
-          when: "Your Shooting phase, when a friendly HAVOCS/OBLITERATORS unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly HAVOCS/OBLITERATORS unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That HAVOCS/OBLITERATORS unit.",
-          effect: "When your unit uses the Dark Pacts ability, your unit\u2019s ranged attacks have:\n▪ [LETHAL HITS].\n▪ [SUSTAINED HITS 1].",
+          effect: "When your unit uses the **[gloss:csm-dark-pact:Dark Pacts]** ability, your unit’s ranged attacks have:\n▪ [LETHAL HITS].\n▪ [SUSTAINED HITS 1].",
           restrictions: "",
         },
         {
@@ -1636,7 +1636,7 @@ The combined points value of such units you can include in your army depends on 
           flavor: "Even as the foe attempts to escape the rain of ruination, or to close with the foes so cruelly winnowing their ranks, so these Havocs move to establish new sight lines and draw their victims into an inescapable crossfire.",
           when: "Your opponent\u2019s Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged HAVOCS unit.",
           target: "That HAVOCS unit.",
-          effect: "Your unit can make a Normal move of up to D3+3\".",
+          effect: "Your unit can make a **[gloss:normal-move:Normal move]** of up to D3+3\".",
           restrictions: "",
         },
         {
@@ -1656,13 +1656,13 @@ The combined points value of such units you can include in your army depends on 
           name: "Pact of Destruction",
           points: 15,
           flavor: "There are those daemonic entities within the Warp that are willing to offer their boons to any who will wreak wholesale devastation in their name, at least for as long as the carnage holds their capricious attention.",
-          body: "WARPSMITH model only.\n▪ When this unit uses its Dark Pacts ability, this unit can re-roll Leadership rolls.\n▪ In your Shooting phase, when this unit has shot, if this unit used its Dark Pacts ability and if those attacks destroyed an enemy model, this unit heals 3 wounds.",
+          body: "WARPSMITH model only.\n▪ When this unit uses its **[gloss:csm-dark-pact:Dark Pacts]** ability, this unit can re-roll Leadership rolls.\n▪ In your Shooting phase, when this unit has shot, if this unit used its **Dark Pacts** ability and if those attacks **[gloss:destroyed:destroyed]** an enemy model, this unit **[gloss:heal:heals]** 3 wounds.",
         },
         {
           name: "Eye of Oblivion",
           points: 20,
           flavor: "This vile techno-daemonic parasite nests within the emptied eye socket of its host, driving filament tendrils deep into their brain and feeding on their animus in exchange for revealing the secrets of its supernatural vision.",
-          body: "WARPSMITH model only. When this unit is selected to shoot, select one enemy unit within 24\" of this unit. That enemy unit has +6\" detection range until this unit has shot.",
+          body: "WARPSMITH model only. When this unit is **[gloss:selected-to-shoot:selected to shoot]**, select one enemy unit within 24\" of this unit. That enemy unit has +6\" **[gloss:detection-range:detection range]** until this unit has shot.",
         },
       ],
     },
@@ -1672,12 +1672,12 @@ The combined points value of such units you can include in your army depends on 
       name: "Murdertalon Raiders",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       unique: "NIGHTMARE",
       rule: {
         name: "Prey on the Weak",
         flavor: "The more bloodied, scattered and thinned are the ranks of the enemy, the more frenzied and brutal the attacks of these sadistic Chaos Space Marines become.",
-        body: "▪ Friendly HERETIC ASTARTES INFANTRY FLY units\u2019 attacks that target a Battle-shocked unit or a unit at or below half-strength can re-roll Hit rolls of 1.\n▪ When an enemy unit\u2019s attacks target a friendly HERETIC ASTARTES INFANTRY FLY unit, if that enemy unit is Battle-shocked or at or below half-strength, those attacks have -1 to Hit rolls.\n\nThis detachment has the **NIGHTMARE** tag and cannot be taken with another **NIGHTMARE** detachment.",
+        body: "▪ Friendly HERETIC ASTARTES INFANTRY FLY units’ attacks that target a Battle-shocked unit or a unit at or below half-strength can re-roll Hit rolls of 1.\n▪ When an enemy unit’s attacks target a friendly HERETIC ASTARTES INFANTRY FLY unit, if that enemy unit is Battle-shocked or at or below half-strength, those attacks have -1 to Hit rolls.\n\nThis **[gloss:detachments:detachment]** has the **NIGHTMARE** tag and cannot be taken with another **NIGHTMARE** **detachment**.",
       },
       stratagems: [
         {
@@ -1686,7 +1686,7 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "either",
           flavor: "With a last-second blast of speed from their jump packs, the Chaos Space Marines slam into their enemies blades-first.",
-          when: "Fight phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit that made a Charge move this turn is selected to fight.",
+          when: "Fight phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit that made a **[gloss:charge-move:Charge move]** this turn is **[gloss:selected-to-fight:selected to fight]**.",
           target: "That HERETIC ASTARTES INFANTRY FLY unit.",
           effect: "Your unit\u2019s melee attacks have [LANCE].",
           restrictions: "",
@@ -1697,7 +1697,7 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "your",
           flavor: "Surging in and out of the enemy lines on wings of dark fire, these predatory killers wreak bloody havoc.",
-          when: "Your Movement phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit is selected to make a fall-back move.",
+          when: "Your Movement phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit is selected to make a **[gloss:fall-back-move:fall-back move]**.",
           target: "That HERETIC ASTARTES INFANTRY FLY unit.",
           effect: "That move does not prevent your unit from being eligible to declare a charge.",
           restrictions: "",
@@ -1710,7 +1710,7 @@ The combined points value of such units you can include in your army depends on 
           flavor: "So hideous and otherworldly have many Warp Talons been rendered by the energies of the Warp, that merely to look upon their approach is enough to scare the enemy out of their minds.",
           when: "Your Movement phase, when a friendly WARP TALONS unit ends a move.",
           target: "That WARP TALONS unit.",
-          effect: "Select one visible enemy unit (excluding MONSTER/VEHICLE units) within 9\" of your unit. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll.",
+          effect: "Select one **[gloss:visible:visible]** enemy unit (excluding MONSTER/VEHICLE units) within 9\" of your unit. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll.",
           restrictions: "",
         },
       ],
@@ -1719,7 +1719,7 @@ The combined points value of such units you can include in your army depends on 
           name: "Shadowcowl Talisman",
           points: 20,
           flavor: "Worked with diabolical incantations of occlusion, wound about with subtle enchantments, this onyx disc draws a penumbral aura about the bearer that hides him from the eyes of his prey.",
-          body: "CHAOS LORD WITH JUMP PACK model only. This unit has 5+ InSv.",
+          body: "CHAOS LORD WITH JUMP PACK model only. This unit has 5+ **[gloss:invulnerable-save:InSv]**.",
         },
         {
           name: "Pact of Cursed Pinions",

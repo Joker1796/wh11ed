@@ -18,7 +18,8 @@
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
 import { ruleScopes, keywordsMatchTarget } from './ruleTargets.js'
-import { enhKey, detKey } from './rosterModifiers.js'
+import { enhKey, detKey, itemKey, loadoutItemCopies } from './rosterModifiers.js'
+import { modelsPerMini } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 
@@ -149,6 +150,11 @@ function snapshotRows(sheet) {
   return out
 }
 
+// `rows` — the rows an effect was PLACED on, per table, by splitBearers: a Storm Shield's +1 W
+// belongs to the row of the models that carry it, not to every profile of the unit. Absent, every
+// row the effect's `on`/`only` select is in.
+const inRows = (effect, table, i) => !effect.rows || !!effect.rows[table]?.includes(i)
+
 // A grant is an effect whose "value" is a name rather than a number: `stat: 'keyword'` gives the
 // unit a keyword (which can then make OTHER rules apply to it — Necrons' Destroyer Ankh grants
 // DESTROYER CULT, and Cold Fervour's first bullet gives every DESTROYER CULT model +2 Strength),
@@ -210,7 +216,7 @@ function noteOf(entry, effect, applied, via = null, live = true) {
 // card `from: 'led'` is here only because a Leader carrying it is attached to this unit, so asking
 // the roster again — against the bodyguard entry, which leads nobody — would answer no and gate off
 // a rule that plainly applies. Everything else is answered by `active` alone.
-const proven = (id, active, entry) => !!active?.has(id) || (id === 'unit-leading' && entry?.from === 'led')
+const proven = (id, active, entry) => !!active?.has(id) || (id === 'unit-leading' && (entry?.from === 'led' || entry?.from === 'co'))
 
 // Does the game say every condition on this effect holds? An effect with no `cond` at all is
 // unreviewed markup, and is treated as unproven — never as unconditional.
@@ -341,7 +347,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         for (const table of WEAPON_TABLES[effect.on] || []) {
           const rows = current()[table] || []
           for (let i = 0; i < rows.length; i++) {
-            if (!rowMatchesOnly(asFound[table][i], effect.only)) continue
+            if (!rowMatchesOnly(asFound[table][i], effect.only) || !inRows(effect, table, i)) continue
             const tags = current()[table][i].tags || []
             if (tags.some((t) => String(t).toUpperCase() === String(effect.value).toUpperCase())) continue
             const dest = target()[table][i]
@@ -366,7 +372,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           for (const table of WEAPON_TABLES[effect.on] || []) {
             const rows = current()[table] || []
             for (let i = 0; i < rows.length; i++) {
-              if (!rowMatchesOnly(asFound[table][i], effect.only)) continue
+              if (!rowMatchesOnly(asFound[table][i], effect.only) || !inRows(effect, table, i)) continue
               const tags = current()[table][i].tags || []
               const next = tags.map((t) => bumpTag(t, at[1], at[2]) ?? t)
               if (next.every((t, k) => t === tags[k])) continue
@@ -398,6 +404,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         for (let i = 0; i < rows.length; i++) {
           // `only` never applies to a model profile — it names weapons.
           if (table !== 'profiles' && !rowMatchesOnly(asFound[table][i], effect.only)) continue
+          if (!inRows(effect, table, i)) continue
           const before = current()[table][i][effect.stat]
           const next = applyValue(before, effect.op, effect.value, effect.stat)
           if (next == null || next === String(before)) continue
@@ -542,8 +549,9 @@ export function attachedUnitKeywords(entry, units, keywordsOf) {
 // model that could have taken one.
 //
 // `ctx.leaderUnitIds` are the datasheet ids attached TO this entry, `ctx.ledUnitId` the datasheet
-// id of the unit this entry leads. Both come from the roster, which records the attachment — there
-// is nothing to infer and nothing to ask the player.
+// id of the unit this entry leads, `ctx.coLeaderUnitIds` the OTHER Characters attached to that same
+// unit (a Leader and a Support share one Attached unit). All three come from the roster, which
+// records the attachment — there is nothing to infer and nothing to ask the player.
 // Our army-rule name against the record's, apostrophes and case aside. Containment either way:
 // a merged name covers the record it was merged from, and a record named for the whole rule still
 // matches when our name is the longer one.
@@ -555,7 +563,7 @@ function armyRuleMatches(recName, ourName) {
   return a === b || a.includes(b) || b.includes(a)
 }
 
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, itemNames = null, leaderItemNames = null, leaderEnhNames = null, auraOn = null, detIds = null } = {}) {
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], itemNames = null, leaderItemNames = null, leaderEnhNames = null, auraOn = null, detIds = null } = {}) {
   const out = []
   for (const rec of records || []) {
     // A DETACHMENT RULE's aura radiates from a keyword, not from an entry ("friendly IMPERIAL
@@ -660,6 +668,17 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       push(of('unit'), 'led')
       // The aura's model is INSIDE this unit, at 0" — same certainty, from the list alone.
       pushAura('led')
+    }
+    // A second Character in the same Attached unit — a Chaplain beside the Ancient whose +1 OC the
+    // squad has. 19.04 hands a rule that affects the unit to EVERY model in it, Characters
+    // included: `unit` ("models in that unit") says so outright, and a record that applies to its
+    // own model AND to the unit it leads (`self` + `led`: "this unit…", "this model's unit…") is a
+    // whole-unit rule by its shape. A `led` with no `self` twin is the narrow "Bodyguard models"
+    // wording, which a Character is not (a player's report, 2026-10-02).
+    if (coLeaderUnitIds.includes(rec.ref.unit) && rec.ref.unit !== unitId) {
+      push(of('unit'), 'co')
+      if (of('self').length) push(of('led'), 'co')
+      pushAura('co')
     }
     if (ledUnitId && rec.ref.unit === ledUnitId) {
       push(of('leader'), 'leader')
@@ -820,3 +839,170 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
   return out
 }
 
+// "The bearer has +1 Wounds" — a wargear modifier that bears on the models that TOOK the item, not
+// on the unit (cond `wargear-bearer`). The card is per profile and the table per weapon, so the
+// list answers it the only way a card can: the models that carry the item get a row of their own,
+// and the modifier is applied to that row alone. Three Storm Shields in a Terminator Assault Squad
+// of ten print "Terminator Sergeant" with W 4*, "Terminator ×6" with W 3 and "Terminator · Storm
+// Shield ×2" with W 4* (player request, 2026-10-01); a shield on every model is no split at all,
+// just the rewritten number.
+//
+// Who carries it comes from the copies the loadout holds (loadoutItemCopies). An item picked from
+// a unit-wide group belongs to no profile, so its copies go to the profiles in the datasheet's own
+// order — the first to the Sergeant/Exarch/Champion, as the owner decided; across the units this
+// covers the profiles a unit-wide group spans have identical statlines, so the order only names the
+// row. A WEAPON row is split only when every model of the unit holds one copy of it (Reavers'
+// bladevanes): an Achilles Ridgerunner's Spotter sharpens "the bearer's ranged weapons", and which
+// of the unit's heavy mortars and missile launchers the bearer fires is something the list does not
+// record. Whatever cannot be placed — an unknown count, a profile the minis do not name, a second
+// item landing on models already given one — stays the conditional note it was, never a guess.
+//
+// Returns the sheet to apply to and the entries to apply: a placed effect loses its condition and
+// carries `rows` instead, the indices it may touch, per table (rosterStatMods' applyStatMods).
+const BEARER = 'wargear-bearer'
+export function splitBearers(sheet, entries, def, entry, items) {
+  const isBearer = (e) => e.kind === 'wargear' && e.ref?.item && (e.effects || []).some((x) => x.cond?.includes(BEARER))
+  if (!sheet || !entries?.some(isBearer)) return { sheet, entries }
+  const copies = loadoutItemCopies(def, entry)
+  const perMini = modelsPerMini(def, entry)
+  if (!copies || !perMini || !items) return { sheet, entries }
+
+  // Which printed profile a mini is: by name, or the only one there is.
+  const profiles = sheet.profiles || []
+  const profileOf = (m) => {
+    if (profiles.length === 1) return 0
+    const want = itemKey(def.minis?.[m]?.n)
+    const i = want ? profiles.findIndex((p) => itemKey(p.name) === want) : -1
+    return i < 0 ? null : i
+  }
+  const minis = [...perMini.keys()].sort((a, b) => a - b)
+  const modelsOf = new Map() // profile index → models
+  for (const m of minis) {
+    const p = profileOf(m)
+    if (p == null) return { sheet, entries }
+    modelsOf.set(p, (modelsOf.get(p) || 0) + perMini.get(m))
+  }
+  const unitModels = [...modelsOf.values()].reduce((a, n) => a + n, 0)
+
+  // Bearers of one item, per profile index — or null when they cannot be placed.
+  const bearersOf = (itemName) => {
+    const ids = [...copies.keys()].filter((id) => itemKey(items[id]) === itemName)
+    const slots = ids.flatMap((id) => copies.get(id))
+    if (!slots.length || slots.some((s) => s.n == null)) return null
+    const out = new Map()
+    let loose = 0
+    for (const s of slots) {
+      if (s.m == null) { loose += s.n; continue }
+      const p = profileOf(s.m)
+      if (p == null) return null
+      out.set(p, (out.get(p) || 0) + s.n)
+    }
+    for (const m of minis) {
+      if (!loose) break
+      const p = profileOf(m)
+      const take = Math.min(loose, perMini.get(m) - (out.get(p) || 0))
+      if (take > 0) { out.set(p, (out.get(p) || 0) + take); loose -= take }
+    }
+    return loose ? null : out
+  }
+
+  // Each row as groups of models that carry the same items; a group with no items is the row as
+  // printed. A second item may only be given to models that carry nothing yet.
+  const groups = { profiles: new Map(), ranged: new Map(), melee: new Map() }
+  const groupsOf = (table, i, models) => {
+    if (!groups[table].has(i)) groups[table].set(i, [{ items: [], n: models }])
+    return groups[table].get(i)
+  }
+  const give = (list, item, n) => {
+    const bare = list.find((g) => !g.items.length)
+    if (!bare || bare.n < n) return null
+    bare.n -= n
+    const g = { items: [item], n, effects: [] }
+    list.push(g)
+    return g
+  }
+
+  // Pass 1: which group each effect lands on. The effects of one record share their groups — the
+  // Shieldvanes' Save and Move are one set of models — so a row is split once per item, not once
+  // per effect. A profile effect is placed whole or not at all.
+  const placed = new Map() // effect object → the groups it lands on
+  const partial = new Set() // weapon effects some of whose rows could not be placed
+  for (const e of entries.filter(isBearer)) {
+    const by = bearersOf(e.ref.item)
+    if (!by) continue
+    const label = items[[...copies.keys()].find((id) => itemKey(items[id]) === e.ref.item)]
+    const total = [...by.values()].reduce((a, n) => a + n, 0)
+    const mine = new Map() // `${table}:${row}` → this record's group there
+    const groupAt = (table, i, models, n) => {
+      const k = `${table}:${i}`
+      if (!mine.has(k)) mine.set(k, give(groupsOf(table, i, models), label, n))
+      return mine.get(k)
+    }
+    for (const effect of e.effects) {
+      if (!effect.cond?.includes(BEARER) || effect.cond.length !== 1) continue
+      const spots = []
+      if (effect.on === 'profile') {
+        const want = [...by].filter(([, n]) => n)
+        const fits = want.every(([p, n]) => mine.has(`profiles:${p}`)
+          || (groupsOf('profiles', p, modelsOf.get(p)).find((g) => !g.items.length)?.n ?? 0) >= n)
+        if (!fits) continue
+        for (const [p, n] of want) spots.push(groupAt('profiles', p, modelsOf.get(p), n))
+      } else {
+        for (const table of WEAPON_TABLES[effect.on] || []) {
+          for (const [i, w] of (sheet[table] || []).entries()) {
+            if (!rowMatchesOnly(w, effect.only)) continue
+            const g = (w.qty || 1) === unitModels ? groupAt(table, i, unitModels, total) : null
+            if (g) spots.push(g)
+            else partial.add(effect)
+          }
+        }
+      }
+      if (spots.length) placed.set(effect, spots)
+    }
+  }
+  if (!placed.size) return { sheet, entries }
+
+  // Pass 2: rebuild the touched tables, a row per group, and remember where each group went.
+  const out = { ...sheet }
+  const where = new Map() // group → { table, index }
+  for (const table of ['profiles', 'ranged', 'melee']) {
+    if (!groups[table].size) continue
+    const rows = []
+    for (const [i, row] of (sheet[table] || []).entries()) {
+      const list = groups[table].get(i)
+      if (!list) { rows.push(row); continue }
+      const live = list.filter((g) => g.n > 0)
+      for (const g of live) {
+        where.set(g, { table, index: rows.length })
+        // A group that is the whole row keeps the row's own name: nothing is split, a number moves.
+        if (live.length === 1) { rows.push(row); continue }
+        const name = g.items.length ? `${row.name} · ${g.items.join(', ')}` : row.name
+        rows.push({ ...row, name, qty: g.n })
+      }
+    }
+    out[table] = rows
+  }
+
+  const placedEntries = entries.map((e) => {
+    if (!isBearer(e) || !e.effects.some((x) => placed.has(x))) return e
+    return {
+      ...e,
+      // A weapon effect placed on some rows and not others (a Spotter: the stubber every model
+      // carries, but not the heavy weapon only some do) is applied where it could be and stays a
+      // note for the rest.
+      effects: e.effects.flatMap((x) => {
+        const spots = placed.get(x)
+        if (!spots) return [x]
+        const rows = {}
+        for (const g of spots) {
+          const at = where.get(g)
+          if (!at) continue
+          ;(rows[at.table] ||= []).push(at.index)
+        }
+        const done = { ...x, cond: null, when: null, rows }
+        return partial.has(x) ? [done, x] : [done]
+      }),
+    }
+  })
+  return { sheet: out, entries: placedEntries }
+}

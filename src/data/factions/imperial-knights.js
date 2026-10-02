@@ -10,7 +10,7 @@
 //     (Dominus Foebreakers, Throne-Bonded Outriders), a full rewrite of Questor Forgepact
 //     (replaces the older 6-stratagem version) and Rules Updates.
 //   MFM (src/data/mfm/imperial-knights.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the ARMIGERS `unique` tag.
+//     forceDispositions, and the ARMIGERS `unique` tag.
 //
 // 8 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -60,7 +60,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Freeblade Company",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets", "Purge the Foe"],
       rule: {
         name: "Knights of Legend",
         flavor: "Warriors such as these are truly indomitable. Driven on by deadly oaths, bolstered by ancient technology or shimmering with supernatural energies, they stride through the most punishing firestorms to emerge victorious on the other side.",
@@ -151,7 +151,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Mysterious Guardian",
           points: 35,
           flavor: "Manifesting as though from nowhere, this Knight is an elemental force of vengeance against the Emperor of Mankind’s foes. At battle’s end, it disappears as mysteriously as it arrived.",
-          body: "IMPERIAL KNIGHTS model only. (Once per battle, per army) At the end of your opponent’s turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has [core:Deep Strike] until the start of your next Shooting phase.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn).",
+          body: "IMPERIAL KNIGHTS model only. (Once per battle, per army) At the end of your opponent’s turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in **[gloss:strategic-reserves:strategic reserves]**.\n▪ This unit has [core:Deep Strike] until the start of your next Shooting phase.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn).",
         },
         {
           name: "Sanctuary",
@@ -167,7 +167,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Gate Warden Lance",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Dauntless Defenders",
         flavor: "With a rigid, strategic intuition born of the unyielding fortifications defended by their ancestors, the Nobles of a Gate Warden Lance hold their ground with an arrogant superiority. While even one defends the marches of their claimed realm, they will fight to the ends of their honour to hurl back the besiegers.",
@@ -274,7 +274,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Questoris Companions",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold", "Reconnaissance"],
       rule: {
         name: "Heroes of Legend & Valour’s Reward",
         flavor: "To those who quest for honour - in service to their liege, to avenge atrocities, to wipe clean the stain of disfavour - there can be no end. The Imperium’s foes are legion, an endless horde from which more arise. As one quest ends, another always begins.",
@@ -381,7 +381,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Spearhead-At-Arms",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       unique: "ARMIGERS",
       rule: {
         name: "Knightly Teachings",
@@ -489,7 +489,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Valourstrike Lance",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Bold Gallantry",
         flavor: "With their companions beside them - kin of their blood, allies in honour - Knightly Nobles are inspired to near-reckless heroism. Their fervour spreads through neural interfaces to reach the machine spirits of their towering Knight suits. The Knights’ power cores flare with motive energy. Target stabilisers sputter into life, glaring balefully at the foe. Servo-motors and fibre bundles thrum, powering the Nobles’ steeds to a thunderous speed, such that the ground trembles.",
@@ -597,11 +597,11 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Dominus Foebreakers",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Rain of Devastation",
         flavor: "Packing together within the confines of cover might work against small arms, but in the face of Dominus-class Knights, it only serves to concentrate and magnify the fury of their firepower.",
-        body: "Friendly IMPERIAL KNIGHTS DOMINUS units\u2019 attacks that target a unit in a terrain area have +1 to Hit rolls.",
+        body: "Friendly IMPERIAL KNIGHTS DOMINUS units’ attacks that target a unit in a **[gloss:terrain-area:terrain area]** have +1 to Hit rolls.",
       },
       stratagems: [
         {
@@ -610,7 +610,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           cp: "1CP",
           turn: "your",
           flavor: "Making the most of their Knightsuit\u2019s twinned reactor cores, the pilot pushes its motivator-units to their limits to gain a burst of speed.",
-          when: "Your Movement phase, when a friendly IMPERIAL KNIGHTS DOMINUS unit is selected to move.",
+          when: "Your Movement phase, when a friendly IMPERIAL KNIGHTS DOMINUS unit is **[gloss:selected-to-move:selected to move]**.",
           target: "That IMPERIAL KNIGHTS DOMINUS unit.",
           effect: "Your unit has +2\" M.",
           restrictions: "",
@@ -621,7 +621,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           cp: "1CP",
           turn: "your",
           flavor: "It takes a skilled noble and a steady machine spirit to unleash such weaponry at point-blank range into closing enemy threats.",
-          when: "Your Shooting phase, when a friendly engaged IMPERIAL KNIGHTS DOMINUS unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly engaged IMPERIAL KNIGHTS DOMINUS unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That IMPERIAL KNIGHTS DOMINUS unit.",
           effect: "Your unit\u2019s [BLAST] ranged attacks:\n▪ Do not have [BLAST].\n▪ Have +1 A.",
           restrictions: "",
@@ -661,11 +661,11 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Questor Forgepact",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Cogbound Alliance",
         flavor: "The Nobles of Questor Mechanicus houses commonly fight alongside the armies of forge worlds. They are bound together by their shared devotion to the Machine Cult.",
-        body: "Friendly IMPERIAL KNIGHTS models have the following ability:\n▪ **Assisted Targeting (Aura):** While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, that ADEPTUS MECHANICUS unit\u2019s ranged attacks have:\n▪ +1 BS.\n▪ [HEAVY].\n\nFriendly TECH-PRIEST models have the following ability:\n▪ **Sacristan Pledge:** In your Command phase, you can select one friendly IMPERIAL KNIGHTS model within 3\" of this model that has not been selected by this ability this phase. If you do, that model heals D3 wounds.\n\n**Mechanicus Allies:** You can include TECH-PRIEST DOMINUS/TECH-PRIEST MANIPULUS/MARSHAL/RANGERS/VANGUARD units in your army (see Codex: Adeptus Mechanicus). The combined points value of such units cannot exceed 500 points.",
+        body: "Friendly IMPERIAL KNIGHTS models have the following ability:\n▪ **Assisted Targeting (Aura):** While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, that ADEPTUS MECHANICUS unit’s ranged attacks have:\n▪ +1 BS.\n▪ [HEAVY].\n\nFriendly TECH-PRIEST models have the following ability:\n▪ **Sacristan Pledge:** In your Command phase, you can select one friendly IMPERIAL KNIGHTS model within 3\" of this model that has not been selected by this ability this phase. If you do, that model **[gloss:heal:heals]** D3 wounds.\n\n**Mechanicus Allies:** You can include TECH-PRIEST DOMINUS/TECH-PRIEST MANIPULUS/MARSHAL/RANGERS/VANGUARD units in your army (see Codex: Adeptus Mechanicus). The combined points value of such units cannot exceed 500 points.",
       },
       stratagems: [
         {
@@ -674,9 +674,9 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           cp: "1CP",
           turn: "either",
           flavor: "So resolute is their faith that the Machine God\u2019s worshippers brave storms of killing fire, trusting in the Omnissiah to shield them from harm.",
-          when: "Any phase, when a friendly IMPERIAL KNIGHTS unit suffers a mortal wound.",
+          when: "Any phase, when a friendly IMPERIAL KNIGHTS unit suffers a **[gloss:mortal-wound:mortal wound]**.",
           target: "That IMPERIAL KNIGHTS unit.",
-          effect: "Your unit has [core:Feel No Pain 5+] against mortal wounds.",
+          effect: "Your unit has [core:Feel No Pain 5+] against **[gloss:mortal-wound:mortal wounds]**.",
           restrictions: "",
         },
         {
@@ -685,7 +685,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           cp: "1CP",
           turn: "either",
           flavor: "Those who dare to fell the Machine God\u2019s creations find themselves subject to the vengeance of the Adeptus Mechanicus.",
-          when: "Any phase, when a friendly IMPERIAL KNIGHTS TITANIC unit is destroyed by an enemy unit.",
+          when: "Any phase, when a friendly IMPERIAL KNIGHTS TITANIC unit is **[gloss:destroyed:destroyed]** by an enemy unit.",
           target: "One friendly ADEPTUS MECHANICUS unit.",
           effect: "That enemy unit is marked until the end of the battle: while a unit is marked, friendly ADEPTUS MECHANICUS units\u2019 attacks that target that unit can re-roll Wound rolls.",
           restrictions: "",
@@ -698,7 +698,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           flavor: "With the enemy distracted by battling the mighty Knights, the servants of the Omnissiah are free to complete crucial missions unimpeded.",
           when: "Your Movement phase, when a friendly ADEPTUS MECHANICUS unit is selected to make an Advance/Fall Back move.",
           target: "That ADEPTUS MECHANICUS unit.",
-          effect: "That move does not prevent your unit from being eligible to start an Action.",
+          effect: "That move does not prevent your unit from being **[gloss:eligible-to-act:eligible to start an Action]**.",
           restrictions: "",
         },
       ],
@@ -707,7 +707,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Magos Questoris",
           points: 20,
           flavor: "An expert in the intricate mechanisms and weapons systems of Imperial Knights, this Tech-Priest taught Sacristans their craft. They now walk in the shadow of these war machines and make field repairs in the midst of battle.",
-          body: "TECH-PRIEST model only. When using this model\u2019s Sacristan Pledge ability, the selected IMPERIAL KNIGHTS model heals 2 additional wounds.",
+          body: "TECH-PRIEST model only. When using this model’s Sacristan Pledge ability, the selected IMPERIAL KNIGHTS model **[gloss:heal:heals]** 2 additional wounds.",
         },
         {
           name: "Knight of the Opus Machina",
@@ -724,12 +724,12 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Throne-Bonded Outriders",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       unique: "ARMIGERS",
       rule: {
         name: "Driven from Their Lairs",
         flavor: "The moment the loyal bondsmen locate and identify the foe, they share targeting data-choristry with their ruling lords and ladies.",
-        body: "While a friendly ARMIGER unit is affected by a Bondsman ability, that unit\u2019s ranged attacks have [IGNORES COVER].\n\nThis detachment has the **ARMIGERS** tag and cannot be taken with another **ARMIGERS** detachment.",
+        body: "While a friendly ARMIGER unit is affected by a **[gloss:ik-bondsman:Bondsman]** ability, that unit’s ranged attacks have [IGNORES COVER].\n\nThis **[gloss:detachments:detachment]** has the **ARMIGERS** tag and cannot be taken with another **ARMIGERS** **detachment**.",
       },
       stratagems: [
         {
@@ -749,9 +749,9 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           cp: "1CP",
           turn: "your",
           flavor: "Some longer-serving bondsmen become so conditioned to efficient obedience by their Helm Mechanicum that they can be issued neural commands from ever-greater distances.",
-          when: "Your Command phase, when a friendly IMPERIAL KNIGHTS unit uses a Bondsman ability.",
+          when: "Your Command phase, when a friendly IMPERIAL KNIGHTS unit uses a **[gloss:ik-bondsman:Bondsman]** ability.",
           target: "That IMPERIAL KNIGHTS unit.",
-          effect: "When selecting an ARMIGER model for that Bondsman ability, you can select one within 18\" of your unit (excluding models already affected by a Bondsman ability).",
+          effect: "When selecting an ARMIGER model for that **[gloss:ik-bondsman:Bondsman]** ability, you can select one within 18\" of your unit (excluding models already affected by a **Bondsman** ability).",
           restrictions: "",
         },
         {
@@ -762,7 +762,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           flavor: "Determined to prove worthy of a place in battle alongside their supposed betters, bondsmen jump to obey every command issued by their rulers.",
           when: "Your Shooting phase, when a friendly ARMIGER unit has shot.",
           target: "That ARMIGER unit.",
-          effect: "Those attacks do not prevent your unit from being eligible to start an Action.",
+          effect: "Those attacks do not prevent your unit from being **[gloss:eligible-to-act:eligible to start an Action]**.",
           restrictions: "",
         },
       ],

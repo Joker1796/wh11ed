@@ -100,7 +100,7 @@ describe('GameSetup — doubles', () => {
   it('the army already picked on the side card becomes member 1\'s on the switch', async () => {
     const w = mount(GameSetup)
     await w.findAll('.faction-btn')[0].trigger('click')
-    w.findComponent({ name: 'FactionPickerModal' }).vm.$emit('pick', 'orks')
+    w.findComponent({ name: 'FactionPickerList' }).vm.$emit('pick', 'orks')
     await flushPromises()
     await modeButtons(w)[1].trigger('click')
     const firstMember = w.findAll('.member-block')[0]

@@ -310,6 +310,34 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, until the end of the turn, after Dark Ritual",
+            "ru": "раз за битву, до конца хода, после Dark Ritual"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, until the end of the turn, after Dark Ritual",
+            "ru": "раз за битву, до конца хода, после Dark Ritual"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
         }
       ]
     },
@@ -569,6 +597,20 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
         }
       ]
     },

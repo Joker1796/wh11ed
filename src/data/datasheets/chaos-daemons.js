@@ -119,7 +119,7 @@ export default [
     "rules": [
       {
         "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
+        "text": "If this model is in your army, it must be your WARLORD."
       }
     ],
     "abilitySets": [
@@ -128,7 +128,7 @@ export default [
         "options": [
           {
             "name": "Wreathed in Shadows (Aura, Psychic)",
-            "text": "While a friendly Legiones Daemonica unit or Shadow Legion unit is within 6\" of this model, that unit can only be targeted by a ranged attack if the attacking model is within 18\"."
+            "text": "While a friendly LEGIONES DAEMONICA unit or Shadow Legion unit is within 6\" of this model, that unit can only be targeted by a ranged attack if the attacking model is within 18\"."
           },
           {
             "name": "Pall of Despair (Aura, Psychic)",
@@ -136,7 +136,7 @@ export default [
           },
           {
             "name": "Shadow Lord (Aura, Psychic)",
-            "text": "While a friendly Legiones Daemonica or Shadow Legion unit is within 6\" of this model, each time a model in that unit makes an attack, re-roll a Hit roll of 1."
+            "text": "While a friendly LEGIONES DAEMONICA or Shadow Legion unit is within 6\" of this model, each time a model in that unit makes an attack, re-roll a Hit roll of 1."
           }
         ]
       }
@@ -219,7 +219,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 200,
+        "points": 210,
         "note": "1st-2nd"
       },
       {
@@ -229,7 +229,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 240,
+        "points": 250,
         "note": "3rd+"
       }
     ],
@@ -1480,7 +1480,7 @@ export default [
     "rules": [
       {
         "name": "MANIFESTATION OF DESTRUCTION",
-        "text": "This model cannot be your Warlord and cannot be given Enhancements."
+        "text": "This model cannot be your WARLORD and cannot be given Enhancements."
       }
     ]
   },
@@ -1635,7 +1635,7 @@ export default [
       },
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more Fortifications from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       }
     ],
     "composition": [
@@ -1674,12 +1674,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 105,
+        "points": 115,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 205,
+        "points": 215,
         "note": "3rd+"
       }
     ],
@@ -1825,7 +1825,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 75
+        "points": 80
       },
       {
         "models": 10,
@@ -2316,7 +2316,7 @@ export default [
     "abilities": [
       {
         "name": "Beast Handler",
-        "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit. In addition, once per battle, you can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
+        "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit. In addition, once per battle, you can target this unit with the Heroic Intervention **[gloss:stratagem:Stratagem]**, regardless of any other uses of that **Stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **Stratagem** on other units this phase."
       },
       {
         "name": "Seed the Garden of Nurgle",
@@ -2528,7 +2528,7 @@ export default [
       },
       {
         "name": "One Head Looks Back (Aura)",
-        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, you can use this ability. If you do, increase the CP cost of the use of that Stratagem by 1CP."
+        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a **[gloss:stratagem:Stratagem]**, you can use this ability. If you do, increase the CP cost of the use of that **Stratagem** by 1CP."
       }
     ],
     "damaged": {
@@ -3899,7 +3899,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 315
+        "points": 330
       }
     ],
     "flavor": "Never pausing, never relenting, Skarbrand storms across realspace hacking apart every luckless foe that stands in its path. Worse, all who find themselves in the daemon’s presence are seized by its feral murderlust, a madness that sees elegant strategies collapse into orgies of primal savagery.",
@@ -4026,7 +4026,7 @@ export default [
       },
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more Fortifications from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       }
     ],
     "composition": [

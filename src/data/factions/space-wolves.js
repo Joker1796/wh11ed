@@ -1,662 +1,261 @@
-// Space Wolves — faction rules (Space Marines Chapter). Same pattern as Dark Angels /
-// Black Templars: only the Chapter-specific detachments live here — Space Wolves armies
-// can ALSO field the Codex: Space Marines detachments (they live in space-marines.js and
-// are not duplicated).
+// Space Wolves — faction rules. Rewritten end to end for Codex Supplement: Space Wolves (11th edition), which landed in
+// app data 963 together with the new Codex: Space Marines and replaced every army rule and
+// detachment the faction had. Transcribed by scripts/gen-faction-rules.mjs (re-run it rather
+// than hand-porting); sources, highest wins: MFM > appdata.
 //
-//   Codex layer: the four Sagas imported from the codex (filed under
-//     the Space Marines faction id there) with remaining pack Rules Updates folded in.
-//     Saga of the Great Wolf is also printed in the Faction Pack (identical text) —
-//     marked source: 'faction-pack'.
-//   Faction Pack v1.0 (sources/Faction pack 11 ed/cm/SpaceWolves.pdf) → 2 pack detachments
-//     (Legends of Saga and Song, Veterans of the Fang), a full rewrite of Champions of
-//     Fenris and Rules Updates.
-//   MFM (src/data/mfm/space-wolves.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition.
+//   wh40k-appdata (Codex Supplement: Space Wolves) → army rules + 3 detachments, prose through
+//     scripts/lib/sync-common.mjs's markup converter.
+//   MFM v1.5 (src/data/mfm/space-wolves.js) → enhancement points, detachment dp /
+//     forceDispositions / unique tag.
 //
-// 7 Chapter-specific detachments. Oath of Moment for a Space Wolves army is the base
-// version (re-roll Hit only) — the Codex-SM "+1 Wound" clause excludes armies containing
-// Space Wolves units. EN-first: `ru` reuses the same object for now. Datasheets later.
+// Oath of Moment is gone from every Space Marines army: the army rule is now Combat Doctrines
+// (tracked per battle round by armyTrackers/space-marines.js), with the rest of the army rules
+// folded in as `### ` subheadings — a faction page renders exactly one `armyRule`.
+// GW ships no stratagem categories for these codices (every row is null), so sublabels read
+// "<Detachment> – Stratagem". EN-first: `ru` reuses the same object; the RU overlay in
+// ./ru/space-wolves.js merges by array index and was rebuilt for this codex in its own pass.
+
 const en = {
   slug: "space-wolves",
   name: "Space Wolves",
-
   armyRule: {
-    id: 'oath-of-moment-curse-of-the-wulfen',
-    name: 'Oath of Moment & Curse of the Wulfen',
-    flavor:
-      'In battle, Space Marines swear mighty oaths to destroy the enemies of the Emperor and uphold the honour of their Chapter, and such vows are sacrosanct. When the Angels of Death strike, they do so with the precision of a surgeon and the force of a thunderbolt. Only while fighting at the side of their battle-brothers can the feral Wulfen control their frenzied aggression.',
-    body: `### Oath of Moment
-If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.
-
-### Curse of the Wulfen
-While this unit is within 6" of one or more friendly SPACE WOLVES CHARACTER models (excluding Wulfen models) or within 12" of one or more friendly Wolf Priest models, if it is not Battle-shocked, add 1 to the Objective Control characteristic of INFANTRY models in it and add 3 to the Objective Control characteristic of VEHICLE models in it.`,
+    "id": "combat-doctrines",
+    "name": "Combat Doctrines",
+    "flavor": "",
+    "body": "At the start of your Command phase, you can select one **[gloss:sm-combat-doctrine:combat doctrine]** listed below. If you do, that **combat doctrine** is active for friendly ADEPTUS ASTARTES units with this ability until the start of your next Command phase.\n\n### Assault Doctrine\nWhen this unit is selected to make an **[gloss:advance-move:advance move]**, that **advance move** does not prevent this unit from being **[gloss:eligible-to-charge:eligible to declare a charge]**.\n\n### Devastator Doctrine\nThis unit’s ranged attacks have [ASSAULT].\n\n### Tactical Doctrine\nWhen this unit is selected to make a **[gloss:fall-back-move:fall-back move]**, that **fall-back move** does not prevent this unit from being **[gloss:eligible-to-shoot:eligible to shoot]** and **[gloss:eligible-to-charge:eligible to declare a charge]**.\n\nUnless otherwise stated:\n▪ You can only select each **[gloss:sm-combat-doctrine:combat doctrine]** once per battle.\n▪ Only one **combat doctrine** can be active for each unit. If a rule makes a **combat doctrine** active for a unit, any **combat doctrine** previously active for that unit is no longer active for that unit.\n\n### Transhuman Strategist\nAt the start of the battle round, if a model with this ability is your WARLORD, gain 1CP.\n\n### Curse of the Wulfen\nWhile this unit is within 6” of a friendly SPACE WOLVES CHARACTER model (excluding WULFEN models) or within 12” of a friendly WOLF PRIEST model, if this unit is not **[gloss:battle-shocked:battle-shocked]**:\n▪ If this unit has INFANTRY, this unit has +1 **[gloss:objective-control:OC]**.\n▪ If this unit has VEHICLE, this unit has +3 **OC**.\n\nBestial Forms: For the purposes of **[gloss:transport-capacity:transport capacity]**, each WULFEN model takes up the space of 2 models.\n\n### Sons of Russ\nYour army cannot include APOTHECARY units."
   },
-
   detachments: [
-    // ─────────────── CODEX DETACHMENTS ───────────────
     {
-      id: "saga-of-the-beastslayer",
-      name: "Saga of the Beastslayer",
-      source: 'codex',
-      dp: 2,
-      forceDisposition: "Purge the Foe",
-      rule: {
-        name: "Legendary Slayers",
-        flavor: "Some Space Wolves seek only to bring down the most monstrous and deadly foes. With hunting packs of Fenrisian wolves, Thunderwolf Cavalry and rampaging bands of Wulfen, they seek to hunt down and slay mighty champions, towering monstrosities and rumbling war machines, demoralising the foe and earning glorious victories.",
-        body: "Each time an ADEPTUS ASTARTES model from your army makes an attack, if that attack targets a CHARACTER, MONSTER or VEHICLE unit or if your Saga is completed (see below), that attack has the [LETHAL HITS] ability.\n\nSaga of the Beastslayer\nAt the start of the first battle round, your Beastslayer tally is 0, and you determine your Beastslayer target by halving the number of units from your opponent’s army (including those embarked within TRANSPORTS) that have one or more of the following keywords (rounding up): CHARACTER, MONSTER, VEHICLE.\n\nEach time an ADEPTUS ASTARTES unit from your army shoots or fights, after all of those attacks have been resolved, add 1 to your Beastslayer tally for each enemy unit with one or more of the following keywords destroyed by those attacks: CHARACTER, MONSTER, VEHICLE.\n\nOnce your Beastslayer tally is equal to or greater than your Beastslayer target, your Saga is completed.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+      "id": "saga-of-the-great-wolf",
+      "name": "Saga of the Great Wolf",
+      "source": "codex",
+      "dp": 2,
+      "forceDispositions": ["Take and Hold"],
+      "rule": {
+        "name": "Master of Wolves",
+        "flavor": "When the Great Wolf Logan Grimnar leads his packs to war, it is certain that mighty deeds will be done and epic verses added to the sagas of many a Space Wolf. There is none amongst the sons of Russ who can command such instinctive authority throughout his Chapter, none who so deftly wields warrior and war engine like a single great pack. In the sight of their lord, every Space Wolf aspires to be a champion of Fenris and strives with ever-greater determination to prove themselves worthy of his regard. Grimnar masterfully directs the hunt from its very heart, orchestrating every element like an apex predator herding its prey to destruction. Where restraint is needed, he sees it exercised. Where focused fury must be unleashed, he is its master and embodiment both. So does the saga of Logan Grimnar grow ever greater for the telling.\n\nHOWLING ONSLAUGHT\n\nWhen the Great Wolf gives the command, his packs descend upon the foe in a coordinated and utterly devastating strike.",
+        "body": "Friendly ADEPTUS ASTARTES units (excluding MONSTER/VEHICLES units) with this ability have the following abilities:\n\n**Encircling Jaws**: If the **[gloss:sm-combat-doctrine:assault doctrine]** is active for your unit, your unit has +1 to **[gloss:advance-roll:advance rolls]** and **[gloss:charge-roll:charge rolls]**.\n\n**Hunter’s Eye**: If the **devastator doctrine** is active for your unit, your unit’s ranged attacks can re-roll **[gloss:hit-roll:hit rolls]** of 1.\n\n**Ferocious Strike**: If the **tactical doctrine** is active for your unit, your unit’s attacks that target an enemy unit with 9” have [SUSTAINED HITS 1].\n\nFriendly LOGAN GRIMNAR units have the following ability:\n\n**Howling Onslaught**: **(Once per battle, per army)** In your command phase, you can use this ability. If you do, friendly ADEPTUS ASTARTES MONSTER/VEHICLE units benefit from the **Master of Wolves** rule until the start of your next command phase.\n\n**Restrictions**: Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter."
       },
-      stratagems: [
+      "stratagems": [
         {
-          name: "Unbridled Ferocity",
-          sublabel: "Saga of the Beastslayer – Battle Tactic Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "The Space Wolves fight with a savage fury that enables them to overcome even the most resilient targets.",
-          when: "Fight phase.",
-          target: "One SPACE WOLVES unit from your army that has not been selected to fight this phase.",
-          effect: "Until the end of the phase, each time a model in your unit makes an attack, add 1 to the Wound roll.",
-          restrictions: "",
+          "name": "Fangs of the Pack",
+          "sublabel": "Saga of the Great Wolf – Stratagem",
+          "cp": "1CP",
+          "turn": "either",
+          "flavor": "Fighting as one, these champions of Fenris fall upon an enemy champion and drag them down with single‑minded savagery.",
+          "when": "Fight phase, when a friendly ADEPTUS ASTARTES INFANTRY/MOUNTED unit is **[gloss:selected-to-fight:selected to fight]**.",
+          "target": "That ADEPTUS ASTARTES INFANTRY/MOUNTED unit.",
+          "effect": "Your unit’s melee attacks have [PRECISION].",
+          "restrictions": ""
         },
         {
-          name: "Pinning Fire",
-          sublabel: "Saga of the Beastslayer – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Unleashing a storm of firepower, the Space Wolves pin their targets down and halt their advance.",
-          when: "Your Shooting phase.",
-          target: "One ADEPTUS ASTARTES unit from your army that has not been selected to shoot this phase.",
-          effect: "Until the end of the phase, after your unit has shot, select one enemy CHARACTER, MONSTER, or VEHICLE unit hit by one or more of those attacks. Until the start of your next Shooting phase, that unit is pinned. While a unit is pinned, subtract 2\" from its Move characteristic and subtract 2 from Charge rolls made for it.",
-          restrictions: "",
+          "name": "Grimnar's Command",
+          "sublabel": "Saga of the Great Wolf – Stratagem",
+          "cp": "1CP",
+          "turn": "your",
+          "flavor": "Pivotal as they are to the Great Wolf’s plans, this pack have their own orders to fulfil in this moment that come directly from Grimnar himself.",
+          "when": "Your Command phase.",
+          "target": "One friendly ADEPTUS ASTARTES unit (excluding MONSTER/VEHICLE units).",
+          "effect": "Select one **[gloss:sm-combat-doctrine:combat doctrine]**. That **combat doctrine** is active for your unit until the start of your next Command phase.",
+          "restrictions": ""
         },
         {
-          name: "Shock Cavalry",
-          sublabel: "Saga of the Beastslayer – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Thunderwolf Cavalry bound through friend and foe, leaping over obstacles in pursuit of their foes.",
-          when: "Your Movement phase or your Charge phase.",
-          target: "One Thunderwolf Cavalry unit from your army that has not been selected to move or declared a charge this phase.",
-          effect: "Until the end of the phase, each time a model in your unit makes a Normal, Advance, Fall Back or Charge move, it can move through models (excluding TITANIC models) and sections of terrain features that are 4\" or less in height. When doing so, it can move within Engagement Range of enemy models, but unless it is making a Charge move, it cannot end that move within Engagement Range of them.",
-          restrictions: "",
+          "name": "Fenrisian Ferocity",
+          "sublabel": "Saga of the Great Wolf – Stratagem",
+          "cp": "1CP",
+          "turn": "your",
+          "flavor": "Even the most challenging terrain or formidable fortifications cannot stop the Great Wolf’s chief hunters once they are in motion.",
+          "when": "Your Movement/Charge phase, when a friendly ADEPTUS ASTARTES MOUNTED/WALKER unit is **[gloss:selected-to-move:selected to move]** or **[gloss:declare-charge:declares a charge]**.",
+          "target": "That ADEPTUS ASTARTES MOUNTED/WALKER unit.",
+          "effect": "Your unit has MOBILE.",
+          "restrictions": ""
         },
         {
-          name: "Coordinated Strike",
-          sublabel: "Saga of the Beastslayer – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "opponent",
-          flavor: "Space Wolves officers rein in their warriors’ impulsive fury, repositioning them to strike exposed flanks.",
-          when: "End of your opponent’s Fight phase.",
-          target: "One SPACE WOLVES unit from your army that is wholly within 9\" of one or more battlefield edges and not within Engagement Range of one or more enemy units.",
-          effect: "Remove your unit from the battlefield and place it into Strategic Reserves.",
-          restrictions: "",
+          "name": "Eye of the Pack",
+          "sublabel": "Saga of the Great Wolf – Stratagem",
+          "cp": "1CP",
+          "turn": "either",
+          "flavor": "Once a pack of Fenrisian warriors has perceived some slight weakness in the defences of a foe, they all strike at once, like encircling predators dragging down their prey.",
+          "when": "Your Shooting phase, or the Fight phase, when a friendly ADEPTUS ASTARTES INFANTRY unit is **[gloss:selected-to-attack:selected to attack]**.",
+          "target": "That ADEPTUS ASTARTES INFANTRY unit.",
+          "effect": "Your unit’s attacks can re-roll **[gloss:wound-roll:wound rolls]** of 1 and 2.",
+          "restrictions": ""
         },
         {
-          name: "Impetuosity",
-          sublabel: "Saga of the Beastslayer – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "opponent",
-          flavor: "Severe losses only drive Blood Claws and Wulfen forward into the midst of the foe.",
-          when: "Your opponent’s Shooting phase, when an enemy unit that targeted a friendly unengaged WULFEN INFANTRY/BLOOD CLAWS unit this phase has shot.",
-          target: "That WULFEN INFANTRY/BLOOD CLAWS unit.",
-          effect: "Your unit can make a surge move of up to D6\".",
-          restrictions: "",
+          "name": "Wolf Totems",
+          "sublabel": "Saga of the Great Wolf – Stratagem",
+          "cp": "1CP",
+          "turn": "either",
+          "flavor": "Be it the power of belief or something a little more eldritch, the Space Wolves’ trust in their various protective amulets and totems is often borne out.",
+          "when": "Any phase, when a friendly ADEPTUS ASTARTES INFANTRY/MOUNTED unit suffers a **[gloss:mortal-wound:mortal wound]**.",
+          "target": "That ADEPTUS ASTARTES INFANTRY/MOUNTED unit.",
+          "effect": "Your unit has [core:Feel No Pain 5+] against **[gloss:mortal-wound:mortal wounds]**.",
+          "restrictions": ""
         },
         {
-          name: "Thunderous Pursuit",
-          sublabel: "Saga of the Beastslayer – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "opponent",
-          flavor: "The relentless endurance of thunderwolf steeds enables the Space Wolves to run down fleeing foes.",
-          when: "Your opponent’s Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
-          target: "One ADEPTUS ASTARTES unit from your army that is within 8\" of that enemy unit and not within Engagement Range of one or more enemy units.",
-          effect: "Your unit can make a Normal move of up to D6\". If your unit has the SPACE WOLVES INFANTRY or Thunderwolf Cavalry keywords, it can make a Normal move of up to 6\" instead.",
-          restrictions: "",
-        },
+          "name": "Battle Instincts",
+          "sublabel": "Saga of the Great Wolf – Stratagem",
+          "cp": "1CP",
+          "turn": "opponent",
+          "flavor": "These champions of Fenris respond to enemy fire with instinctive swiftness, rarely giving their foes a second chance to shoot at them.",
+          "when": "Your opponent’s Shooting phase, when an enemy unit that targeted a friendly **[gloss:unengaged:unengaged]** ADEPTUS ASTARTES INFANTRY/MOUNTED unit has shot.",
+          "target": "That ADEPTUS ASTARTES INFANTRY/MOUNTED unit.",
+          "effect": "Your unit can make a **[gloss:normal-move:normal move]** of up to D3+3”.",
+          "restrictions": ""
+        }
       ],
-      enhancements: [
+      "enhancements": [
         {
-          name: "Wolf-touched",
-          points: 15,
-          flavor: "Whilst the Canis Helix has yet to overcome this champion fully, it is stirred to life by the thrill of battle and the scent of blood.",
-          body: "SPACE WOLVES model only. Add 2\" to the Move characteristic of the bearer.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wulfen or Wulfen with Storm Shields unit.",
+          "name": "Grimnar’s Mark",
+          "points": 15,
+          "flavor": "This moonsilver wolf-talisman is bestowed by the Great Wolf himself before battle, a mark of favour that fills the bearer with an eagerness to slay the foe.",
+          "body": "ADEPTUS ASTARTES TERMINATOR CAPTAIN model only. **(Once per battle round, per army)** You can target this unit with the **Rapid Ingress/Heroic Intervention stratagem**, regardless of any other uses of that **[gloss:stratagem:stratagem]** this phase. If you do:\n▪ That use is -1CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase."
         },
         {
-          name: "Hunter’s Guile",
-          points: 20,
-          flavor: "This warrior embodies the cunning of the wolf, utilising deception and misdirection to confound his foes.",
-          body: "ADEPTUS ASTARTES model only. After both players have deployed their armies, select up to three Thunderwolf Cavalry, Wulfen and/or Blood Claws units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves.",
+          "name": "Howlmaw",
+          "points": 15,
+          "flavor": "An ancient hunting horn with a built-in vox amplification unit, this relic’s stirring howl can be heard even through the wild clangour of battle.",
+          "body": "WOLF PRIEST model only. (Once per turn, per unit) At the start of the fight phase, you can select one enemy unit within 6” of this model. That unit makes a **[gloss:battle-shock-test:battle-shock roll]** with -1 to that **battle-shock roll**."
         },
         {
-          name: "Elder’s Guidance",
-          points: 20,
-          flavor: "Wily and long of fang, this warrior brings centuries of battlefield experience to the fight, lending focus to the reckless fury of his youthful battle-brothers.",
-          body: "SPACE WOLVES model only. Once per battle, at the start of the Fight phase, if the bearer is leading a Blood Claws unit, the bearer can use this Enhancement. If it does, until the end of the phase, improve the Armour Penetration characteristic of melee weapons equipped by models in that unit by 1.",
+          "name": "Skjald’s Foretelling",
+          "points": 20,
+          "flavor": "Great deeds have been prophesied for this champion, such that those who fight alongside him do so all the harder as they play out the self-fulfilling prophecy.",
+          "body": "WOLF GUARD BATTLE LEADER model only. This unit’s melee attacks have [LANCE]."
         },
         {
-          name: "Helm of the Beastslayer",
-          points: 15,
-          flavor: "Wrought from the carapace of a nameless xenos monstrosity, this helm offers unparalleled protection.",
-          body: "ADEPTUS ASTARTES model only. Each time an attack made by a CHARACTER, MONSTER or VEHICLE model targets the bearer’s unit, reduce the Armour Penetration characteristic of that attack by 1.",
-        },
-      ],
+          "name": "Chariots of the Storm",
+          "points": 25,
+          "flavor": "This dedicated flight of gunships attends the Great Wolf and his packs, and can be called in to rapidly reposition his forces in the moments before battle is joined.",
+          "body": "ADEPTUS ASTARTES model only. When both players have deployed their armies, you can redeploy up to three friendly ADEPTUS ASTARTES units. When doing so, you can set those units up in **[gloss:strategic-reserves:strategic reserves]**, regardless of how many units are already in **strategic reserves**."
+        }
+      ]
     },
-
     {
-      id: "saga-of-the-bold",
-      name: "Saga of the Bold",
-      source: 'codex',
-      dp: 2,
-      forceDisposition: "Priority Assets",
-      rule: {
-        name: "Heroes All",
-        flavor: "Every Space Wolves warrior seeks to forge a saga worthy of retelling.",
-        body: "Each time an ADEPTUS ASTARTES unit from your army is selected to shoot or fight, apply one of the following when resolving those attacks:\n▪ If your Saga is completed (see below), you can re-roll one Hit roll, one Wound roll and one Damage roll.\n▪ Otherwise, if that unit is a Space Wolves Character unit, you can re-roll one Hit roll, one Wound roll or one Damage roll.\n\nSaga of the Bold\nEach time a SPACE WOLVES CHARACTER unit from your army does one of the following, that unit achieves that Boast. Once three or more different Boasts have been achieved by units from your army, your Saga is completed.\n▪ **Your Hide as a Trophy:** That unit destroys your Oath of Moment target.\n▪ **Slay Them All:** That unit destroys your Oath of Moment target, and that is the second Oath of Moment target destroyed by that unit in this battle.\n▪ **Overrun Their Position:** At the end of either player’s turn, that unit is wholly within your opponent’s deployment zone.\n▪ **Hold the Line:** From the second battle round onwards, at the end of your Command phase, that unit is within range of an objective marker you control that is not within your deployment zone.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+      "id": "champions-of-fenris",
+      "name": "Champions of Fenris",
+      "source": "codex",
+      "dp": 1,
+      "forceDispositions": ["Priority Assets"],
+      "unique": "TERMINATOR",
+      "rule": {
+        "name": "The Great Wolf Watches",
+        "flavor": "The battle‑brothers of this Great Company know what their lord expects of them and stand ready to pounce the moment the foe are fool enough to stray within range.",
+        "body": "Friendly ADEPTUS ASTARTES CHARACTER units have the following ability:\n\n**Countercharge**: **(Once per battle round, per unit)** When you target this unit with the **[gloss:heroic-intervention:Heroic Intervention stratagem]**, that use is -1CP."
       },
-      stratagems: [
+      "stratagems": [
         {
-          name: "Inspiring Presence",
-          sublabel: "Saga of the Bold – Epic Deed Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "The inspiring presence of a champion lends their pack's strikes lethal impetus.",
-          when: "Fight phase.",
-          target: "One ADEPTUS ASTARTES CHARACTER unit from your army that has not been selected to fight this phase.",
-          effect: "Until the end of the phase, melee weapons equipped by models in your unit have the [LETHAL HITS] ability.",
-          restrictions: "",
+          "name": "Heroic Resolve",
+          "sublabel": "Champions of Fenris – Stratagem",
+          "cp": "2CP",
+          "turn": "either",
+          "flavor": "This warrior’s indomitable fortitude is the stuff of legend, galvanizing his pack to remain standing before an avalanche of incoming attacks.",
+          "when": "Your opponent’s Shooting phase or the Fight phase, when an enemy unit targets a friendly ADEPTUS ASTARTES CHARACTER unit.",
+          "target": "That ADEPTUS ASTARTES CHARACTER unit.",
+          "effect": "Attacks that target your unit have ‑1 **[gloss:damage-roll:D]** until that enemy unit has attacked.",
+          "restrictions": ""
         },
         {
-          name: "Heroic Resolve",
-          sublabel: "Saga of the Bold – Epic Deed Stratagem",
-          cp: "2CP",
-          turn: "opponent",
-          flavor: "This warrior’s indomitable fortitude is the stuff of legend, galvanizing his pack to remain standing before an avalanche of incoming attacks.",
-          when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
-          target: "One SPACE WOLVES CHARACTER unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Until the end of the phase, each time an attack is allocated to a model in your unit, subtract 1 from the Damage characteristic of that attack.",
-          restrictions: "",
+          "name": "Birth of a Saga",
+          "sublabel": "Champions of Fenris – Stratagem",
+          "cp": "1CP",
+          "turn": "your",
+          "flavor": "Heroes are forged in the heat of battle, rising from obscurity to become the warriors of epic sagas.",
+          "when": "Your Command phase.",
+          "target": "One friendly ADEPTUS ASTARTES unit (excluding MONSTER/VEHICLE units).",
+          "effect": "Until the start of your next Command phase, your unit has CHARACTER.",
+          "restrictions": ""
         },
         {
-          name: "Countercharge",
-          sublabel: "Saga of the Bold – Epic Deed Stratagem",
-          cp: "2CP",
-          turn: "opponent",
-          flavor: "Bellowing encouragement, this warrior rallies his pack and leads a furious counterstrike, intercepting the enemy advance before it can fall upon his allies.",
-          when: "End of your opponent’s Charge phase.",
-          target: "One ADEPTUS ASTARTES CHARACTER unit from your army that is within 6\" of one or more enemy units and would be eligible to declare a charge against one or more of those enemy units if it were your Charge phase.",
-          effect: "Your unit now declares a charge that targets only one or more of those enemy units, and you resolve that charge as if it were your Charge phase. Note that even if this charge is successful, your unit does not receive any Charge bonus this turn.",
-          restrictions: "",
-        },
-        {
-          name: "Champion’S Guidance",
-          sublabel: "Saga of the Bold – Epic Deed Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "A paragon of Fenrisian savagery, this champion guides his warriors with confidence and precision.",
-          when: "Your Shooting phase or the Fight phase.",
-          target: "One SPACE WOLVES CHARACTER unit from your army that has not been selected to shoot or fight this phase.",
-          effect: "Until the end of the phase, each time a model in your unit makes an attack, you can re-roll the Hit roll.",
-          restrictions: "",
-        },
-        {
-          name: "Birth of a Saga",
-          sublabel: "Saga of the Bold – Epic Deed Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Heroes are forged in the heat of battle, rising from obscurity to become the warriors of epic sagas.",
-          when: "Your Command phase.",
-          target: "One Wolf Guard Headtaker or Wolf Guard Terminator Pack Leader model from your army.",
-          effect: "Until the start of your next Command phase, your model has the CHARACTER keyword.\n\n**Designer’s Note:** While in effect, your model’s unit is therefore a CHARACTER unit, meaning it can interact with the Heroes All rule (see Detachment Rules section), in addition to other rules that interact with CHARACTER units.",
-          restrictions: "",
-        },
-        {
-          name: "Alpha Strike",
-          sublabel: "Saga of the Bold – Epic Deed Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "A true alpha wolf leads by example, and is always first into the fray.",
-          when: "Your Charge phase.",
-          target: "One ADEPTUS ASTARTES CHARACTER unit from your army.",
-          effect: "Until the end of the phase, your unit is eligible to declare a charge in a turn in which it Advanced.",
-          restrictions: "",
-        },
+          "name": "Champion's Guidance",
+          "sublabel": "Champions of Fenris – Stratagem",
+          "cp": "1CP",
+          "turn": "either",
+          "flavor": "A paragon of Fenrisian savagery, this champion guides his warriors with confidence and precision.",
+          "when": "Fight phase, when a friendly ADEPTUS ASTARTES CHARACTER unit is **[gloss:selected-to-fight:selected to fight]**.",
+          "target": "That ADEPTUS ASTARTES CHARACTER unit.",
+          "effect": "Your unit’s melee attacks can re-roll **[gloss:hit-roll:hit rolls]** of 1 and **[gloss:wound-roll:wound rolls]** of 1.",
+          "restrictions": ""
+        }
       ],
-      enhancements: [
+      "enhancements": [
         {
-          name: "Braggart’s Steel",
-          points: 20,
-          flavor: "This weapon has graced the hand of many a champion and inspires in its bearers a brazen self-confidence.",
-          body: "SPACE WOLVES model only. Add 2 to the Strength characteristic of melee weapons equipped by the bearer. If the bearer’s unit has achieved one or more Boasts, add 1 to the Damage characteristic of those weapons as well.",
+          "name": "A Giant Amongst Giants",
+          "points": 15,
+          "flavor": "Likened to a walking pinnacle of Fenrisian granite come to life, this hulking champion is an echo of Russ himself.",
+          "body": "ADEPTUS ASTARTES INFANTRY model only.\n▪ This model has +2**[gloss:wounds:W]**.\n▪ This model’s melee attacks have +1 **[gloss:strength:S]**."
         },
         {
-          name: "Skjald",
-          points: 15,
-          flavor: "This warrior is well-versed in the Chapters saga, drawing inspiration and invaluable teachings from their retelling.",
-          body: "ADEPTUS ASTARTES model only. Each time a SPACE WOLVES CHARACTER unit from your army achieves a Boast, if the bearer is on the battlefield, you gain 1CP.",
-        },
-        {
-          name: "Hordeslayer",
-          points: 15,
-          flavor: "Seeking to take a terrible tally of lives, this warrior hurls himself into the heart of the fight, heedless of the numbers arrayed against him.",
-          body: "SPACE WOLVES model only. At the start of the Fight phase, if there are more enemy models than friendly models wholly within 6\" of the bearer, until the end of the phase, add 2 to the Attacks characteristic of melee weapons equipped by the bearer. If the bearer’s unit has achieved one or more Boasts, add 3 to the Attacks characteristic instead.",
-        },
-        {
-          name: "Thunderwolf’s Fortitude",
-          points: 25,
-          flavor: "Possessed of indomitable fortitude, this champion of Fenris refuses the call of Morkai, fighting beyond the limits of even a Space Marine’s endurance.",
-          body: "ADEPTUS ASTARTES model only. (Once per battle, per army) When this model is destroyed, at the end of the phase, roll one D6:\n▪ On a 2+, set up this model on the battlefield, unengaged and as close as possible to where it was destroyed. This model is not part of an attached unit and its unit has a starting strength of 1. This model has 3 wounds remaining.",
-        },
-      ],
+          "name": "Preyslayer",
+          "points": 15,
+          "flavor": "Possessed of a ferocious predatory instinct, this warrior leads swift and deadly encirclements and ambushes with peerless skill.",
+          "body": "ADEPTUS ASTARTES INFANTRY model only. This unit can re-roll **[gloss:charge-roll:charge rolls]**."
+        }
+      ]
     },
-
     {
-      id: "saga-of-the-great-wolf",
-      name: "Saga of the Great Wolf",
-      source: 'faction-pack', // printed in the pack (identical to the codex text)
-      dp: 2,
-      forceDisposition: "Take and Hold",
-      rule: {
-        name: "Master of Wolves & Howling Onslaught",
-        flavor: "With Logan Grimnar commanding them, the hunting packs of the Space Wolves fight at peak efficiency.",
-        body: "### Master of Wolves\nAt the start of your Command phase, you can select one of the Hunting Packs listed below. Until the start of your next Command phase, that Hunting Pack is active and its effects apply to all ADEPTUS ASTARTES units from your army. You can only select each Hunting Pack once per battle.\n▪ **Encircling Jaws:** This unit can re-roll Advance rolls and Charge rolls.\n▪ **Hunter’s Eye:** Each time a model in this unit makes a ranged attack, add 1 to the Hit roll.\n▪ **Ferocious Strike:** Each time this unit is selected to fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n\n### Howling Onslaught\nOnce per battle, when selecting a Hunting Pack for the Master of Wolves Detachment rule (see above), if a LOGAN GRIMNAR model from your army is on the battlefield, you can select a Hunting Pack you have already selected this battle.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+      "id": "saga-of-the-beastslayer",
+      "name": "Saga of the Beastslayer",
+      "source": "codex",
+      "dp": 1,
+      "forceDispositions": ["Purge the Foe"],
+      "rule": {
+        "name": "Legendary Slayers",
+        "flavor": "Some Space Wolves seek only to bring down the most monstrous and deadly foes. With hunting packs of Fenrisian wolves, Thunderwolf Cavalry and rampaging bands of Wulfen, they seek to hunt down and slay mighty champions, towering monstrosities and rumbling war machines, demoralising the foe and earning glorious victories.",
+        "body": "Attacks made by friendly BLOOD CLAWS/THUNDERWOLF CAVALRY/WULFEN units have [LETHAL HITS: CHARACTER/MONSTER/VEHICLE]."
       },
-      stratagems: [
+      "stratagems": [
         {
-          name: "Grimnar’S Command",
-          sublabel: "Saga of the Great Wolf – Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Pivotal as they are to the Great Wolf’s plans, this pack have their own orders to fulfil in this moment that come directly from Grimnar himself.",
-          when: "Your Command phase.",
-          target: "One ADEPTUS ASTARTES unit from your army.",
-          effect: "Select one Hunting Pack from the Master of Wolves Detachment rule. Until the start of your next Command phase, that Hunting Pack is active for your unit instead of any other Hunting Pack that is active, even if you have already selected that Hunting Pack this battle.",
-          restrictions: "",
+          "name": "Impetuosity",
+          "sublabel": "Saga of the Beastslayer – Stratagem",
+          "cp": "1CP",
+          "turn": "opponent",
+          "flavor": "Severe losses only drive Blood Claws and Wulfen forward into the midst of the foe.",
+          "when": "Your opponent’s Shooting phase, when an enemy unit that targeted a friendly **[gloss:unengaged:unengaged]** BLOOD CLAWS/THUNDERWOLF CAVALRY/WULFEN unit has shot.",
+          "target": "That BLOOD CLAWS/THUNDERWOLF CAVALRY/WULFEN unit.",
+          "effect": "Your unit can make a **[gloss:surge-move:surge move]** of up to D6”.",
+          "restrictions": ""
         },
         {
-          name: "Eye of the Pack",
-          sublabel: "Saga of the Great Wolf – Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Once one Fenrisian warrior has perceived some slight weakness in the defences of their foes, they all strike at it like encircling predators dragging down prey.",
-          when: "Your Shooting phase.",
-          target: "One ADEPTUS ASTARTES unit from your army that has not been selected to shoot this phase.",
-          effect: "Until the end of the phase, each time a model in your unit makes an attack, you can add 1 to the Wound roll.",
-          restrictions: "",
+          "name": "Co-ordinated Strike",
+          "sublabel": "Saga of the Beastslayer – Stratagem",
+          "cp": "1CP",
+          "turn": "opponent",
+          "flavor": "Space Wolves officers rein in their warriors’ impulsive fury, repositioning them to strike exposed flanks.",
+          "when": "End of your opponent’s Fight phase.",
+          "target": "One **[gloss:unengaged:unengaged]** BLOOD CLAWS/THUNDERWOLF CAVALRY/WULFEN unit that is within 9\" of one or more battlefield edges.",
+          "effect": "Place your unit in **[gloss:strategic-reserves:strategic reserves]**.",
+          "restrictions": ""
         },
         {
-          name: "Battle Instincts",
-          sublabel: "Saga of the Great Wolf – Stratagem",
-          cp: "1CP",
-          turn: "opponent",
-          flavor: "These champions of Fenris respond to enemy fire with instinctive swiftness, rarely giving their foes a second chance to shoot at them.",
-          when: "Your opponent’s Shooting phase, just after an enemy unit has shot.",
-          target: "One SPACE WOLVES unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Your unit can make a Normal move of up to D6\".",
-          restrictions: "",
-        },
-        {
-          name: "The Foe Foreseen",
-          sublabel: "Saga of the Great Wolf – Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "With his great strategic wisdom, Grimnar predicted the peril these warriors would encounter and warned them to be ready for it.",
-          when: "Your opponent’s Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
-          target: "One ADEPTUS ASTARTES unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
-          restrictions: "",
-        },
-        {
-          name: "Fenrisian Ferocity",
-          sublabel: "Saga of the Great Wolf – Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Even the most challenging terrain or formidable fortifications cannot stop the Great Wolf’s chief hunters once they are in motion.",
-          when: "Your Movement phase or your Charge phase.",
-          target: "One ADEPTUS ASTARTES MOUNTED or ADEPTUS ASTARTES WALKER unit from your army that has not been selected to move or charge this phase.",
-          effect: "Until the end of the phase, each time a model in your unit makes a Normal, Advance, Fall Back or Charge move, it can move horizontally through models (excluding TITANIC models) and terrain features. When doing so, it can move within Engagement Range of enemy models, but cannot end a Normal, Advance or Fall Back move within Engagement Range of them.",
-          restrictions: "",
-        },
-        {
-          name: "Unrelenting Hunters",
-          sublabel: "Saga of the Great Wolf – Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Knowing their part in the grand plan and determined to execute it with the magnificence of true champions, these warriors fight with a fluid and inescapable ferocity.",
-          when: "Your Movement phase.",
-          target: "One ADEPTUS ASTARTES unit from your army that has not been selected to move this phase.",
-          effect: "Until the end of the turn, your unit is eligible to declare a charge in a turn in which it Fell Back. If your unit is a SPACE WOLVES unit, until the end of the turn, it is eligible to declare a charge in a turn in which it Advanced or Fell Back.",
-          restrictions: "",
-        },
+          "name": "Unbridled Ferocity",
+          "sublabel": "Saga of the Beastslayer – Stratagem",
+          "cp": "1CP",
+          "turn": "either",
+          "flavor": "The Space Wolves fight with a savage fury that enables them to overcome even the most resilient targets.",
+          "when": "Fight phase, when a friendly BLOOD CLAWS/THUNDERWOLF CAVALRY/WULFEN unit is **[gloss:selected-to-fight:selected to fight]**.",
+          "target": "That BLOOD CLAWS/THUNDERWOLF CAVALRY/WULFEN unit.",
+          "effect": "Your unit’s melee attacks have [LANCE].",
+          "restrictions": ""
+        }
       ],
-      enhancements: [
+      "enhancements": [
         {
-          name: "Grimnar’s Mark",
-          points: 20,
-          flavor: "This moonsilver wolf-talisman is bestowed by the Great Wolf himself before battle, a mark of favour that fills the bearer with an eagerness to slay the foe.",
-          body: "ADEPTUS ASTARTES TERMINATOR CAPTAIN model only. Once per battle round, you can target this unit with the Rapid Ingress/Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wolf Guard Terminators unit.",
+          "name": "Wolf-Touched",
+          "points": 15,
+          "flavor": "Whilst the Canis Helix has yet to overcome this champion fully, it is stirred to life by the thrill of battle and the scent of blood.",
+          "body": "ADEPTUS ASTARTES model only. This unit has:\n▪ WULFEN.\n▪ +2” **[gloss:move-characteristic:M]**.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wulfen or Wulfen with Storm Shields unit."
         },
         {
-          name: "Howlmaw",
-          points: 15,
-          flavor: "An ancient hunting horn with a built-in vox amplification unit, this relic’s stirring howl can be heard even through the wild clangour of battle.",
-          body: "Wolf priest model only. At the start of the Fight phase, you can select one enemy unit within 6\" of the bearer. That unit must take a Battle-shock, subtracting 1 from the result.",
-        },
-        {
-          name: "Chariots of the Storm",
-          points: 25,
-          flavor: "This dedicated flight of gunships attends the Great Wolf and his packs, and can be called in to rapidly reposition his forces in the moments before battle is joined.",
-          body: "ADEPTUS ASTARTES model only. After both players have deployed their armies, select up to three ADEPTUS ASTARTES units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves.",
-        },
-        {
-          name: "Skjald’s Foretelling",
-          points: 25,
-          flavor: "Great deeds have been prophesied for this champion, such that those who fight alongside him do so all the harder as they play out the self-fulfilling prophecy.",
-          body: "Wolf Guard Battle Leader model only. While the bearer is leading a unit, weapons equipped by models in that unit have the [LANCE] ability.",
-        },
-      ],
-    },
-
-    {
-      id: "saga-of-the-hunter",
-      name: "Saga of the Hunter",
-      source: 'codex',
-      dp: 2,
-      forceDisposition: "Disruption",
-      rule: {
-        name: "Pack’s Quarry",
-        flavor: "At their Wolf Lord’s command, the Space Wolves advance upon their prey with lupine hunger, singling out the weak and overwhelming the strong with concentrated force and furious aggression.",
-        body: "Each time a model in a Space Wolves unit from your army makes a melee attack that targets an enemy unit, if that enemy unit is within Engagement Range of one or more other Adeptus Astartes units from your army, or if the attacking unit contains more models than that enemy unit:\n▪ Add 1 to the Hit roll.\n▪ If your Saga is completed (see below), add 1 to the Wound roll as well.\n\nSaga of the Hunter\nAt the start of the first battle round, your Quarry tally is 0. Each time an ADEPTUS ASTARTES unit from your army fights, after all of those attacks have been resolved, add 1 to your Quarry tally for each enemy unit destroyed by those attacks.\n\nOnce your Quarry tally is equal to or greater than the number shown in the table below (depending on the battle size), your Saga is completed.\n\nQUARRY TALLY\n▪ **Incursion:** 2.\n▪ **Strike Force:** 3.\n▪ **Onslaught:** 4.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
-      },
-      stratagems: [
-        {
-          name: "Marked for Destruction",
-          sublabel: "Saga of the Hunter – Battle Tactic Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "At the barked orders of their Pack Leaders, the Space Wolves focus their fury upon a single target, combining their firepower to bring the foe down.",
-          when: "Your Shooting phase.",
-          target: "Two ADEPTUS ASTARTES units from your army (excluding BEASTS) that have not been selected to shoot this phase.",
-          effect: "Select one enemy unit visible to both of your units. Until the end of the phase, models in your units can only target that enemy unit (and only if it is an eligible target) and each time a model in one of your units makes an attack, re-roll a Wound roll of 1.",
-          restrictions: "",
-        },
-        {
-          name: "Overwhelming Onslaught",
-          sublabel: "Saga of the Hunter – Battle Tactic Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "Several packs converge upon a single target, pinning them in place with the weight of their bodies.",
-          when: "Fight phase, just after an enemy unit has selected its targets.",
-          target: "Two ADEPTUS ASTARTES units from your army within Engagement Range of that enemy unit, or one SPACE WOLVES BEASTS unit from your army within Engagement Range of that enemy unit.",
-          effect: "Until the end of the phase, each time a model in that enemy unit makes an attack, subtract 1 from the Hit roll.",
-          restrictions: "",
-        },
-        {
-          name: "Bounding Advance",
-          sublabel: "Saga of the Hunter – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Fenrisian warriors and wolves surge forward, driving through the enemy line to outflank the foe.",
-          when: "Your Movement phase or your Charge phase.",
-          target: "One SPACE WOLVES INFANTRY or SPACE WOLVES BEASTS unit from your army that has not been selected to move or declared a charge this phase.",
-          effect: "Until the end of the phase, each time a model in your unit makes a Normal, Advance, Fall Back or Charge move, it can move through models (excluding TITANIC models). When doing so, it can move within Engagement Range of enemy models, but unless it is making a Charge move, it cannot end that move within Engagement Range of them.",
-          restrictions: "",
-        },
-        {
-          name: "Territorial Advantage",
-          sublabel: "Saga of the Hunter – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "The wolf packs are ever on the move, seizing ground and repelling their foes with savage violence.",
-          when: "Fight phase, just after an enemy unit is destroyed by an ADEPTUS ASTARTES unit from your army.",
-          target: "That ADEPTUS ASTARTES unit.",
-          effect: "Select one objective marker you control that your unit is within range of. That objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.",
-          restrictions: "",
-        },
-        {
-          name: "Envelop and Ensnare",
-          sublabel: "Saga of the Hunter – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "The Space Wolves close in on their foes, some packs hurling themselves upon the enemy whilst others move to cut off retreat routes.",
-          when: "Fight phase.",
-          target: "One SPACE WOLVES unit (excluding MONSTERS and VEHICLES) from your army that has not been selected to fight this phase.",
-          effect: "Until the end of the phase, each time a model in your unit makes a Pile-in or Consolidation move, it can move up to 6\" instead of up to 3\". When doing so, it does not need to end that move closer to the closest enemy model, provided it ends that move as close as possible to the closest enemy unit.",
-          restrictions: "",
-        },
-        {
-          name: "Chosen Prey",
-          sublabel: "Saga of the Hunter – Strategic Ploy Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Having singled out their prey, the pack repeatedly strikes in waves, bleeding the target with each hit.",
-          when: "Your Movement phase, just after a SPACE WOLVES unit from your army Falls Back.",
-          target: "That SPACE WOLVES unit.",
-          effect: "Until the end of the turn, your unit is eligible to shoot and declare a charge in a turn in which it Fell Back.",
-          restrictions: "",
-        },
-      ],
-      enhancements: [
-        {
-          name: "Swift Hunter",
-          points: 20,
-          flavor: "A seasoned hunter, this warrior knows well that speed and decisiveness can turn the tide of any battle.",
-          body: "SPACE WOLVES model only. Models in the bearer’s unit have the Scouts 7\" ability.",
-        },
-        {
-          name: "Fenrisian Grit",
-          points: 15,
-          flavor: "All Fenrisians possess a formidable constitution, yet this warrior demonstrates legendary resolve, shrugging off wounds that would fell lesser men.",
-          body: "ADEPTUS ASTARTES model only. The bearer has the Feel No Pain 4+ ability.",
-        },
-        {
-          name: "Wolf Master",
-          points: 5,
-          flavor: "This warrior possesses an affinity with Fenrisian beasts and can inspire a frothing rage in their lupine companions with but a single barked command.",
-          body: "Space Wolves model only. In your Command phase, select one friendly SPACE WOLVES unit within 9\" of the bearer. Until the start of your next Command phase, teeth and claws and Tyrnak and Fenrir weapons equipped by models in that unit have the [LETHAL HITS] ability.",
-        },
-        {
-          name: "Feral Rage",
-          points: 10,
-          flavor: "There is no substitute for raw aggression. This warrior fights with the berserk rage of a thunderwolf, tearing apart their foes with violent fury.",
-          body: "ADEPTUS ASTARTES model only. Add 1 to the Attacks characteristic of melee weapons equipped by the bearer. Each time the bearer ends a Charge move, until the end of the turn, add an additional 1 to the Attacks characteristic of those weapons.",
-        },
-      ],
-    },
-
-
-    // ───────────────────────── FACTION-PACK DETACHMENTS ─────────────────────────
-    // Faction Pack rewrote this detachment (the older version had 6 stratagems and
-    // 4 enhancements; the pack version below replaces it entirely).
-    {
-      id: "champions-of-fenris",
-      name: "Champions of Fenris",
-      source: 'faction-pack',
-      dp: 1,
-      forceDisposition: "Priority Assets",
-      rule: {
-        name: "The Great Wolf Watches",
-        flavor: "The battle-brothers of this Great Company know what their lord expects of them and stand ready to pounce the moment the foe are fool enough to stray within range.",
-        body: "Friendly ADEPTUS ASTARTES INFANTRY CHARACTER units have the following ability:\n▪ **Countercharge:** (Once per battle round, per unit) You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do, that use does not prevent any uses of that Stratagem on other units this phase.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
-      },
-      stratagems: [
-        {
-          name: "Wolf Totems",
-          sublabel: "Champions of Fenris – Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "Be it the power of belief or something a little more eldritch, the Space Wolves\u2019 trust in their various protective amulets and totems is often borne out.",
-          when: "Any phase, when a friendly ADEPTUS ASTARTES INFANTRY CHARACTER unit suffers a mortal wound.",
-          target: "That ADEPTUS ASTARTES INFANTRY CHARACTER unit.",
-          effect: "Your unit has [core:Feel No Pain 5+] against mortal wounds.",
-          restrictions: "",
-        },
-        {
-          name: "Runes of Claiming",
-          sublabel: "Champions of Fenris – Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "A few quick cuts with a diamond-keen hunting knife or energised claw tip leave Fenrisian runes carved into bedrock, plasteel or flesh, marks of abjuration against the foe and secret messages between Space Wolves alike.",
-          when: "End of your Movement phase.",
-          target: "One friendly ADEPTUS ASTARTES INFANTRY CHARACTER unit.",
-          effect: "Select one objective your unit is controlling. That objective is secured.",
-          restrictions: "",
-        },
-        {
-          name: "Stalk Between Worlds",
-          sublabel: "Champions of Fenris – Stratagem",
-          cp: "1CP",
-          turn: "opponent",
-          flavor: "This champion possesses nigh-preternatural stealth and cunning, stalking their prey like some predatory terror circling the dying campfire of its doomed quarry.",
-          when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly ADEPTUS ASTARTES INFANTRY CHARACTER unit.",
-          target: "That ADEPTUS ASTARTES INFANTRY CHARACTER unit.",
-          effect: "Your unit has [core:Stealth].",
-          restrictions: "",
-        },
-      ],
-      enhancements: [
-        {
-          name: "A Giant Amongst Giants",
-          points: 15,
-          flavor: "Likened to a walking pinnacle of Fenrisian granite come to life, this hulking champion is an echo of Russ himself.",
-          body: "ADEPTUS ASTARTES INFANTRY model only.\n▪ This model has +2 W.\n▪ This model\u2019s melee attacks have +1 S.",
-        },
-        {
-          name: "Preyslayer",
-          points: 15,
-          flavor: "Possessed of a ferocious predatory instinct, this warrior leads swift and deadly encirclements and ambushes with peerless skill.",
-          body: "ADEPTUS ASTARTES INFANTRY model only. This unit can re-roll Advance rolls and Countercharge rolls.",
-        },
-      ],
-    },
-
-    {
-      id: "legends-of-saga-and-song",
-      name: "Legends of Saga and Song",
-      source: 'faction-pack',
-      dp: 1,
-      forceDisposition: "Take and Hold",
-      rule: {
-        name: "Loping Charge",
-        flavor: "Despite the massive bulk of their armour, these elite warriors close with their enemies in a ground-eating lope that catches the enemy unprepared.",
-        body: "Friendly ADEPTUS ASTARTES TERMINATOR units have +1 to Charge rolls.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
-      },
-      stratagems: [
-        {
-          name: "Fangs of the Pack",
-          sublabel: "Legends of Saga and Song – Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "Fighting as one, the Wolf Guard fall upon an enemy champion and drag them down with single-minded savagery.",
-          when: "Fight phase, when a friendly ADEPTUS ASTARTES TERMINATOR unit is selected to fight.",
-          target: "That ADEPTUS ASTARTES TERMINATOR unit.",
-          effect: "Your unit\u2019s melee attacks have [PRECISION].",
-          restrictions: "",
-        },
-        {
-          name: "Chilling Howl",
-          sublabel: "Legends of Saga and Song – Stratagem",
-          cp: "1CP",
-          turn: "opponent",
-          flavor: "Raising their feral voices as one, the elite champions of Fenris give voice to a predatory howl fit to freeze the marrow of the bravest warriors.",
-          when: "Your opponent\u2019s Command phase.",
-          target: "One friendly WOLF GUARD TERMINATORS unit.",
-          effect: "Select one enemy unit within 6\" of your unit. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll if that enemy unit is at or below half-strength.",
-          restrictions: "",
-        },
-        {
-          name: "Wings of the Blizzard",
-          sublabel: "Legends of Saga and Song – Stratagem",
-          cp: "1CP",
-          turn: "opponent",
-          flavor: "A swift extraction by gunship sees the Wolf Guard take to the skies, ready to strike back onto the battlefield wherever the fighting is most fierce.",
-          when: "End of your opponent\u2019s Fight phase.",
-          target: "One friendly unengaged ADEPTUS ASTARTES TERMINATOR unit.",
-          effect: "Place your unit in Strategic Reserves.",
-          restrictions: "",
-        },
-      ],
-      enhancements: [
-        {
-          name: "Thirst for Glory",
-          points: 15,
-          upgrade: true,
-          flavor: "A position amongst the Wolf Guard offers a Space Wolf the chance for immortal glory, leading the onslaught and claiming the most vital prizes amidst the hottest fires of battle.",
-          body: "ADEPTUS ASTARTES TERMINATOR model only. This unit has +1 OC.",
-        },
-        {
-          name: "Fierce Example",
-          points: 25,
-          upgrade: true,
-          flavor: "The Wolf Guard shrug off the worst their foes can hurl at them, sure in the knowledge that their example will inspire their packmates to even greater efforts.",
-          body: "WOLF GUARD TERMINATORS unit only. This unit has +1 T.",
-        },
-      ],
-    },
-
-    {
-      id: "veterans-of-the-fang",
-      name: "Veterans of the Fang",
-      source: 'faction-pack',
-      dp: 1,
-      forceDisposition: "Disruption",
-      rule: {
-        name: "Old Greymanes",
-        flavor: "Even in the midst of a brutal gunfight, Grey Hunters remain cool-headed and determined to discharge their duty to Chapter and Allfather.",
-        body: "▪ When a friendly GREY HUNTER unit starts an action, that action does not prevent this unit from being eligible to shoot.\n▪ In the Declare Battle Formations step, you can split a friendly GREY HUNTERS unit into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units).\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
-      },
-      stratagems: [
-        {
-          name: "Grizzled Killers",
-          sublabel: "Veterans of the Fang – Stratagem",
-          cp: "1CP",
-          turn: "either",
-          flavor: "Be it mighty beasts or hordes of lesser foes, these warriors learned long ago how to best them.",
-          when: "Fight phase, when a friendly GREY HUNTERS unit is selected to fight.",
-          target: "That GREY HUNTERS unit.",
-          effect: "Your unit\u2019s melee attacks have:\n▪ [SUSTAINED HITS 1].\n▪ Or: [LETHAL HITS].",
-          restrictions: "",
-        },
-        {
-          name: "Icy Calm",
-          sublabel: "Veterans of the Fang – Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "No matter what is demanded of them amidst the mayhem of battle, still packs of Grey Hunters are able to complete even the most complex tasks with stern surety.",
-          when: "Your Movement phase, when a friendly GREY HUNTERS unit is selected to make an advance/fall-back move.",
-          target: "That GREY HUNTERS unit.",
-          effect: "That move does not prevent your unit from being eligible to start an action.",
-          restrictions: "",
-        },
-        {
-          name: "Blade-keen Senses",
-          sublabel: "Veterans of the Fang – Stratagem",
-          cp: "1CP",
-          turn: "your",
-          flavor: "Many decades\u2019 experience hunting foes through the worst conditions have honed the senses of these warriors to near-inescapable sharpness.",
-          when: "Start of your Shooting phase.",
-          target: "One friendly unengaged GREY HUNTERS unit.",
-          effect: "Select one visible enemy unit within 24\" of your unit. That enemy unit has +6\" detection range.",
-          restrictions: "",
-        },
-      ],
-      enhancements: [
-        {
-          name: "Eye of the Hunter",
-          points: 20,
-          flavor: "It is said of this warrior\u2019s marksmanship that he could bring down a ghost in the midst of a blizzard from a thousand paces. Better still, he knows how best to guide his packmates with his expertise.",
-          body: "WOLF GUARD BATTLE LEADER model only. This unit\u2019s ranged attacks have:\n▪ [ASSAULT].\n▪ [IGNORES COVER].\n▪ +1 AP.",
-        },
-        {
-          name: "Weaver of Sagas",
-          points: 15,
-          flavor: "Bellowing inspirational sagas of the Space Wolves\u2019 great deeds, this Wolf Priest inspires his fellows to newfound fortitude, none more so than the steel-nerved Grey Hunters.",
-          body: "WOLF PRIEST model only. (Once per battle-round, per army) In your Movement phase, at the start or end of this unit\u2019s move, you can:\n▪ Select one friendly ADEPTUS ASTARTES unit within 6\" of this unit. That unit is no longer Battle-shocked.\n▪ __Or:__ Select one friendly GREY HUNTERS unit within 18\" of this unit. That unit is no longer Battle-shocked.",
-        },
-      ],
-    },
+          "name": "Hunter’s Guile",
+          "points": 20,
+          "flavor": "ADEPTUS ASTARTES model only. When both players have deployed their armies, you can redeploy up to three friendly BLOOD CLAWS/THUNDERWOLF CAVALRY/WULFEN units. When doing so, you can set those units up in **[gloss:strategic-reserves:strategic reserves]**, regardless of how many units are already in **strategic reserves**.",
+          "body": "ADEPTUS ASTARTES model only. When both players have deployed their armies, you can redeploy up to three friendly BLOOD CLAWS/THUNDERWOLF CAVALRY/WULFEN units. When doing so, you can set those units up in **[gloss:strategic-reserves:strategic reserves]**, regardless of how many units are already in **strategic reserves**."
+        }
+      ]
+    }
   ],
-
   datasheets: [],
 }
 
 export const spaceWolves = { en, ru: en }
-

@@ -5,7 +5,7 @@ import DetachmentPickerModal from './DetachmentPickerModal.vue'
 // BaseModal renders through <Teleport to="body">, so the buttons land outside the component's own
 // tree — search the document, as the other modal tests do.
 const body = () => new DOMWrapper(document.body)
-const det = (name, extra = {}) => ({ name, dp: 1, forceDisposition: 'Take and Hold', ...extra })
+const det = (name, extra = {}) => ({ name, dp: 1, forceDispositions: ['Take and Hold'], ...extra })
 
 const mountPicker = (detachments, selected = []) => (wrapper = mount(DetachmentPickerModal, {
   props: { detachments, selected, maxDp: 3, dpSpent: selected.length },
@@ -66,5 +66,37 @@ describe('DetachmentPickerModal — tags', () => {
     expect(clear.attributes('disabled')).toBeUndefined()
     clear.trigger('click')
     expect(wrapper.emitted('clear')).toBeTruthy()
+  })
+})
+
+// Core rules 25.04: "If you are playing an Incursion battle, you can select a 3DP detachment as
+// your only detachment." The budget for that lone detachment IS 3 — the count says so, unflagged.
+describe('DetachmentPickerModal — a lone 3 DP detachment at Incursion', () => {
+  const list = [det('Retaliation Cadre', { dp: 3 }), det('Kauyon', { dp: 1 }), det('Mont\'ka', { dp: 1 })]
+
+  it('offers it at the start and counts it 3 / 3, not over', () => {
+    mountPicker(list)
+    expect(buttonFor('Retaliation Cadre')).toBeDefined()
+    wrapper.unmount()
+    document.body.innerHTML = ''
+    wrapper = mount(DetachmentPickerModal, {
+      props: { detachments: list, selected: ['Retaliation Cadre'], maxDp: 2, dpSpent: 3 },
+      attachTo: document.body,
+    })
+    const count = body().find('.mh-count')
+    expect(count.text()).toBe('3 / 3 DP')
+    expect(count.classes()).not.toContain('over')
+    // Beside it nothing fits: a second detachment ends the exception.
+    expect(body().findAll('button.det')).toHaveLength(1)
+  })
+
+  it('keeps the real budget for a detachment that fits', () => {
+    wrapper = mount(DetachmentPickerModal, {
+      props: { detachments: list, selected: ['Kauyon'], maxDp: 2, dpSpent: 1 },
+      attachTo: document.body,
+    })
+    expect(body().find('.mh-count').text()).toBe('1 / 2 DP')
+    expect(buttonFor('Mont\'ka')).toBeDefined()
+    expect(buttonFor('Retaliation Cadre')).toBeUndefined()
   })
 })

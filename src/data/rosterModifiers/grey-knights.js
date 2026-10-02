@@ -247,6 +247,14 @@ export default {
           "op": "grant",
           "value": "Stealth",
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null,
+          "target": "led"
         }
       ]
     },

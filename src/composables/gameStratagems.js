@@ -17,6 +17,7 @@
 import { mergeSections } from './useBilingualMerge.js'
 import { membersOf } from './rosterGameLink.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
+import { SM_CHAPTERS } from '../data/smChapters.js'
 
 // A stratagem's own usage limits, from its ENGLISH restrictions. Only limits on USING the
 // stratagem — "you cannot select the same model more than once per battle" is about a target
@@ -67,10 +68,9 @@ export async function loadCoreStratagems(loc) {
   return (sections.find((s) => s.id === '15')?.stratagems || []).map((s, i) => derive(s, coreEn[i], `core:${coreEn[i]?.num || i}`))
 }
 
-// These chapters share the Codex Space Marines detachments (Gladius Task Force, etc.), which
-// live only in the space-marines faction data — fall back to it for detachments not defined
-// in the chapter's own file.
-const SM_CHAPTERS = new Set(['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves'])
+// The Chapters share the Codex Space Marines detachments (Gladius Task Force, etc.), which live only
+// in the space-marines faction data — fall back to it for detachments not in the Chapter's file.
+// The set itself is data/smChapters.js, shared with the tracker and the roster.
 
 // Detachment names come from the MFM dataset (tracker) but stratagems from the faction rules
 // data; the two occasionally disagree on apostrophe glyph / letter case, so match loosely.

@@ -10,7 +10,7 @@
 //     (Ritual of Regeneration, Sekhetar Cohort, Servants of Change, Hexwarp Thrallband) +
 //     Rules Updates.
 //   MFM (src/data/mfm/thousand-sons.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the MUTANT `unique` tag.
+//     forceDispositions, and the MUTANT `unique` tag.
 //
 // 9 detachments total, matching the MFM list. Faction-Pack "Rules Updates" have been folded
 // into the army rule / codex detachment rules / stratagems (they are the authoritative
@@ -61,7 +61,7 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
       name: 'Grand Coven',
       source: 'codex',
       dp: 3,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Disruption", "Priority Assets"],
       rule: {
         name: 'Kindred Sorcery',
         flavor:
@@ -159,7 +159,7 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
           points: 30,
           flavor: 'One in command of this powerful relic – coalesced from the cursed gloom of Mangel III – can use its energies to temporarily fold space, creating a gate of sorcerous translocation through which they can step.',
           body: `THOUSAND SONS model only. (Once per battle, per army) In your Command phase, if this unit is unengaged, you can use this ability. If you do:
-▪ Place this unit in strategic reserves.
+▪ Place this unit in **[gloss:strategic-reserves:strategic reserves]**.
 ▪ This unit has [core:Deep Strike] until the start of your next Shooting phase.
 ▪ This unit must make an ingress move in your next Movement phase (including in your first turn).`,
         },
@@ -177,7 +177,7 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
       name: 'Changehost of Deceit',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: 'Infernal Pacts',
         flavor:
@@ -232,8 +232,8 @@ Thousand Sons units from your army have the following ability:
           flavor: "By sacrificing minute slivers of the oncoming foes' lives, time can be bled into the Warp, stretching perceptions and causing sudden exhaustion.",
           // Faction-Pack Rules Update rewrote this Stratagem.
           when: "Start of your opponent's Charge phase.",
-          target: 'One friendly unengaged THOUSAND SONS PSYKER / SCINTILLATING LEGIONS unit.',
-          effect: 'Select one visible enemy unit within 12" of your unit. When that enemy unit declares a charge, that enemy unit has -1 to charge rolls.',
+          target: 'One friendly **[gloss:unengaged:unengaged]** THOUSAND SONS PSYKER / SCINTILLATING LEGIONS unit.',
+          effect: 'Select one **[gloss:visible:visible]** enemy unit within 12" of your unit. When that enemy unit **[gloss:declare-charge:declares a charge]**, that enemy unit has -1 to **[gloss:charge-roll:charge rolls]**.',
           restrictions: '',
         },
         {
@@ -293,7 +293,7 @@ Thousand Sons units from your army have the following ability:
       name: 'Warpmeld Pact',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDispositions: ["Purge the Foe"],
       unique: 'MUTANT',
       rule: {
         name: 'Warpmeld Sacrifice',
@@ -414,7 +414,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Tzaangors
       name: 'Rubricae Phalanx',
       source: 'codex',
       dp: 3,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold", "Priority Assets"],
       rule: {
         name: 'All Is Dust',
         flavor:
@@ -469,12 +469,12 @@ In the Declare Battle Formations step, the bearer can be attached to a Tzaangors
         {
           name: 'Infernal Fusillade',
           sublabel: 'Rubricae Phalanx – Wargear Stratagem',
-          cp: '2CP',
+          cp: '1CP',
           turn: 'your',
           flavor: "Arcane invocations imbue the Thousand Sons' weapons with sorcerous power, rendering them still more lethal to the foe.",
           when: 'Your Shooting phase.',
           target: 'One THOUSAND SONS PSYKER unit from your army that has not been selected to shoot this phase.',
-          effect: 'Until the end of the phase, all inferno bolt pistols, inferno boltguns, inferno combi-bolters and inferno combi-weapons equipped by models in your unit have the [PSYCHIC] ability and a Strength characteristic of 5.',
+          effect: 'Until the end of the phase, all inferno bolt pistols, inferno boltguns, inferno combi-bolters and inferno combi-weapons equipped by models in your unit have the [PSYCHIC] ability.',
           restrictions: '',
         },
         {
@@ -485,7 +485,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Tzaangors
           flavor: 'Massed in an unyielding wall of sorcerous ceramite, the sheer unnatural resilience of the Thousand Sons can withstand the most vicious assault.',
           when: "Your opponent's Charge phase, just after an enemy unit ends a Charge move.",
           target: 'One Rubric Marines unit from your army within Engagement Range of that enemy unit.',
-          effect: 'Until the end of the turn, each time an attack targets your unit, subtract 1 from the Wound roll.',
+          effect: 'Until the end of the turn, attacks that target your unit with a **[gloss:strength:S]** greater than your unit’s **[gloss:toughness:T]** have -1 to **[gloss:wound-roll:wound rolls]**.',
           restrictions: '',
         },
       ],
@@ -523,7 +523,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Tzaangors
       name: 'Warpforged Cabal',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: 'Warpfire Infusion',
         flavor:
@@ -639,12 +639,12 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
       name: 'Ritual of Regeneration',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: 'Sorcerous Invigoration',
         flavor:
           'The sorcerous workings unleashed by this coven draw upon the energies of the Warp to effect relentless change, reknitting damaged flesh, sealing shattered armour and infusing even the most gruesomely mangled bodies with relentless life.',
-        body: `(Once per turn, per unit) When a friendly THOUSAND SONS PSYKER unit (excluding MONSTER units) successfully manifests a Ritual, that unit heals D3 wounds.`,
+        body: `(Once per turn, per unit) When a friendly THOUSAND SONS PSYKER unit (excluding MONSTER units) successfully manifests a Ritual, that unit **[gloss:heal:heals]** D3 wounds.`,
       },
       stratagems: [
         {
@@ -655,7 +655,7 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           flavor: 'As quickly as these warriors are wounded, so their corporeal forms regenerate with supernatural swiftness.',
           when: 'Any phase, when a friendly Infantry / Mounted Thousand Sons Psyker unit suffers a mortal wound.',
           target: 'That Infantry / Mounted Thousand Sons Psyker unit.',
-          effect: 'Your unit has [core:Feel No Pain 5+] against mortal wounds.',
+          effect: 'Your unit has [core:Feel No Pain 5+] against **[gloss:mortal-wound:mortal wounds]**.',
           restrictions: '',
         },
         {
@@ -666,7 +666,7 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           flavor: 'Focusing the unholy energies of their ritual into the bodies of the foe, the champions of Tzeentch cause them to erupt into a riot of gruesome and unstoppable mutation.',
           when: 'Start of the Fight phase.',
           target: 'One friendly engaged THOUSAND SONS PSYKER unit.',
-          effect: 'Select one enemy unit engaged with your unit. Roll six D6: for each 4+, that enemy unit suffers 1 mortal wound.',
+          effect: 'Select one enemy unit engaged with your unit. Roll six D6: for each 4+, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]**.',
           restrictions: '',
         },
         {
@@ -677,7 +677,7 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           flavor: 'So unstoppable is the torrent of life rushing through these warriors that their bodies and even their wargear sprout nests of twitching limbs that move and act with a mind of their own.',
           when: 'Your Movement phase, when a friendly Infantry / Mounted Thousand Sons Psyker unit is selected to make an advance / fall back move.',
           target: 'That Infantry / Mounted Thousand Sons Psyker unit.',
-          effect: 'That move does not prevent your unit from being eligible to start an action.',
+          effect: 'That move does not prevent your unit from being **[gloss:eligible-to-act:eligible to start an action]**.',
           restrictions: '',
         },
       ],
@@ -687,13 +687,13 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           points: 35,
           flavor: 'Their carcass consumed in a sudden pyre of warpflame, this champion of Tzeentch steps from the blaze as a mutant parody of their former self.',
           body: `Infantry / Mounted Thousand Sons Psyker model only. (Once per battle, per army) When this model is destroyed, at the end of the phase, roll one D6:
-▪ On a 2+, set up this model on the battlefield, unengaged and as close as possible to where it was destroyed. This model is not part of an attached unit and its unit has a starting strength of 1. This model has 3 wounds remaining.`,
+▪ On a 2+, set up this model on the battlefield, unengaged and as close as possible to where it was destroyed. This model is not part of an attached unit and its unit has a **[gloss:starting-strength:starting strength]** of 1. This model has 3 wounds remaining.`,
         },
         {
           name: 'Curse of Life',
           points: 20,
           flavor: 'A ghastly torrent of unnatural life force pours through this warrior mystic, which will curse them with animus long after they wish themselves safely dead.',
-          body: `Infantry / Mounted Thousand Sons Psyker model only. When this model heals as a result of the Sorcerous Invigoration detachment rule, you can add 3 to the number of wounds healed.`,
+          body: `Infantry / Mounted Thousand Sons Psyker model only. When this model **[gloss:heal:heals]** as a result of the Sorcerous Invigoration detachment rule, you can add 3 to the number of wounds healed.`,
         },
       ],
     },
@@ -703,7 +703,7 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
       name: 'Sekhetar Cohort',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption"],
       rule: {
         name: 'Ensorcelled Animus',
         flavor:
@@ -730,9 +730,9 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           cp: '1CP',
           turn: 'your',
           flavor: 'Employing a form of limited astral projection, the Sorcerer possesses these robots and then extrudes ectoplasmic limbs from within their bodies to work his will even as they continue to fight.',
-          when: 'Your Shooting phase, when a friendly Sekhetar Robots unit within 12" of a friendly THOUSAND SONS PSYKER unit starts an action.',
+          when: 'Your Shooting phase, when a friendly Sekhetar Robots unit within 12" of a friendly THOUSAND SONS PSYKER unit starts an **[gloss:action:action]**.',
           target: 'That Sekhetar Robots unit.',
-          effect: 'That action does not prevent your unit from being eligible to shoot.',
+          effect: 'That **[gloss:action:action]** does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]**.',
           restrictions: '',
         },
         {
@@ -753,7 +753,7 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           points: 30,
           flavor: 'This Sorcerer callously employs the Sekhetar Robots as a mobile fortification, pouring sorcery into them to repair their battered forms and maintain his ambulatory shield.',
           body: `Sorcerer / Exalted Sorcerer model only. This model has the following abilities:
-▪ **Soul Bound:** In your Movement phase, at the start or end of this unit's move, you can select one friendly Sekhetar Robots unit within 3" of this model. That Sekhetar Robots unit heals D3+1 wounds.
+▪ **Soul Bound:** In your Movement phase, at the start or end of this unit's move, you can select one friendly Sekhetar Robots unit within 3" of this model. That Sekhetar Robots unit **[gloss:heal:heals]** D3+1 wounds.
 ▪ **Kine-shielded Guardians:** While this model is within 3" of a friendly Sekhetar Robots unit, this model has [core:Lone Operative].`,
         },
         {
@@ -770,16 +770,16 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
       name: 'Servants of Change',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       unique: 'MUTANT',
       rule: {
         name: 'All-Seeing Mutant Hordes',
         flavor:
           'Beneath the multitudinous eyes of so many servants of Tzeentch, reality itself shifts and mutates, leaving the foe exposed to the onrushing mutant masses.',
         body: `▪ Friendly Tzaangors units have Battleline.
-▪ In your Shooting phase, while a friendly Mutant unit is shooting, enemy units have +6" detection range.
+▪ In your Shooting phase, while a friendly Mutant unit is shooting, enemy units have +6" **[gloss:detection-range:detection range]**.
 
-This detachment has the MUTANT tag and cannot be taken with another MUTANT detachment.`,
+This **[gloss:detachments:detachment]** has the MUTANT tag and cannot be taken with another MUTANT **detachment**.`,
       },
       stratagems: [
         {
@@ -801,7 +801,7 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
           flavor: 'Time runs differently around these warriors, allowing them ample space to act while their foes appear to lurch sluggishly on around them.',
           when: 'Your Movement phase, when a friendly Infantry / Mounted Mutant unit is selected to make an advance / fall back move.',
           target: 'That Infantry / Mounted Mutant unit.',
-          effect: 'In a turn your unit made an advance / fall-back move, that move does not prevent your unit from being eligible to start an action.',
+          effect: 'In a turn your unit made an advance / fall-back move, that move does not prevent your unit from being **[gloss:eligible-to-act:eligible to start an action]**.',
           restrictions: '',
         },
         {
@@ -810,7 +810,7 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
           cp: '1CP',
           turn: 'your',
           flavor: 'The very fabric of reality runs like melting wax before this monstrous abomination, oozing aside to clear its path.',
-          when: 'Your Movement phase, when a friendly MONSTER MUTANT unit is selected to move.',
+          when: 'Your Movement phase, when a friendly MONSTER MUTANT unit is **[gloss:selected-to-move:selected to move]**.',
           target: 'That MONSTER MUTANT unit.',
           effect: 'Your unit has MOBILE.',
           restrictions: '',
@@ -821,7 +821,7 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
           name: 'Unravelled Fates',
           points: 15,
           flavor: 'How can the foe hope to suppress or drive back the hordes when, with a twist of sorcery, panic turns to courage, and certain doom mutates into burgeoning triumph?',
-          body: `Tzaangor Shaman model only. In your Movement phase, at the start or end of this unit's move, you can select one friendly battle-shocked Mutant unit within 6" of this model. That unit is no longer battle-shocked.`,
+          body: `Tzaangor Shaman model only. In your Movement phase, at the start or end of this unit's move, you can select one friendly **[gloss:battle-shocked:battle-shocked]** Mutant unit within 6" of this model. That unit is no longer **battle-shocked**.`,
         },
         {
           name: 'Thicket of Bladed Bone',
@@ -840,7 +840,7 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
       name: 'Hexwarp Thrallband',
       source: 'faction-pack',
       dp: 3,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold", "Reconnaissance"],
       rule: {
         name: 'Flow of Magic',
         flavor:
@@ -916,7 +916,7 @@ Each time a THOUSAND SONS model from your army makes a Psychic Attack, re-roll a
           flavor: 'As the Thousand Sons solidify their control over sites of magical power, the Immaterium spills into reality in searing torrents, blossoming into a multispectral storm of arcane energy that obscures mortal senses and mechanical augury.',
           when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
           target: "One THOUSAND SONS PSYKER unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: "▪ Your unit has [core:Stealth].\n▪ If your unit is wholly within your army's Flow of Magic, your unit has -3 detection range.",
+          effect: "▪ Your unit has [core:Stealth].\n▪ If your unit is wholly within your army's Flow of Magic, your unit has -3 **[gloss:detection-range:detection range]**.",
           restrictions: '',
         },
       ],

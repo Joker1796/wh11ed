@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import { missions } from '../data/missions.js'
+import { missions, primaryFor } from '../data/missions.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 import {
@@ -20,6 +20,7 @@ import { applySlice } from './gameSlices.js'
 import { tracks } from '../data/trackerOptions.js'
 import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from './cpLedger.js'
 import { clockOf, stampOf } from './rosterGameContext.js'
+import { SM_FAMILY } from '../data/smChapters.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -80,13 +81,10 @@ export function sideName(pl, i, labels) { return pl?.name || sideLabel(pl, i, la
 // explicit carve-out — any two ADEPTUS ASTARTES Chapters); anything else is a Force of
 // Convenience. This is the setup wizard's DEFAULT; the player can override it there (allies
 // on a list can flip the real answer, and the app doesn't read lists at that depth).
-export const SM_CHAPTER_SLUGS = new Set([
-  'space-marines', 'black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves',
-])
 export function deriveForceType(slugA, slugB) {
   if (!slugA || !slugB) return null
   if (slugA === slugB) return 'unified'
-  if (SM_CHAPTER_SLUGS.has(slugA) && SM_CHAPTER_SLUGS.has(slugB)) return 'unified'
+  if (SM_FAMILY.has(slugA) && SM_FAMILY.has(slugB)) return 'unified'
   return 'convenience'
 }
 
@@ -187,11 +185,9 @@ export function fixedPool(role) {
   return secondaryPool(role).filter(m => m.blocks.some(b => b.kind === 'fixed'))
 }
 
-// Primary mission a player scores = the card for (their disposition vs opponent's).
-export function primaryFor(myDisposition, opponentDisposition) {
-  const oppName = dispositionName(opponentDisposition)
-  return missions.en.primary.find(m => m.deck === myDisposition && m.opponent === oppName) || null
-}
+// Primary mission a player scores = the card for (their disposition vs opponent's) — the matrix
+// itself lives with the missions (src/data/missions.js); re-exported for the tracker's callers.
+export { primaryFor }
 
 // The five "mirror" primary missions both players can share under the Mirrored World
 // twist (each is a self-vs-self disposition matchup, tagged `mirror: true`).
@@ -697,7 +693,7 @@ export function useTracker() {
     }
   }
 
-  // Army-rule battle-long selection (Templar Vows, Death Guard Plague) — a single pick made once for
+  // Army-rule battle-long selection (Death Guard Plague) — a single pick made once for
   // the whole battle (unlike setArmySelection's per-round choice, so it's not keyed by round).
   // Clicking the active option again clears it.
   function setArmyChoice(pi, id, mi) {

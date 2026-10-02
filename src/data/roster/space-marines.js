@@ -8,10 +8,10 @@ export default {
       "sid": "9c310043-5651-467f-b623-aa52a974ab9f",
       "name": "Adrax Agatone",
       "kws": [
-        "Adrax Agatone",
         "Captain",
         "Character",
         "Epic Hero",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -22,7 +22,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 90,
           "per": [
             1,
             1
@@ -33,11 +33,19 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
           "to": "assault-intercessor-squad",
           "type": "leader"
         },
         {
-          "to": "bladeguard-veteran-squad",
+          "to": "vanguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -49,27 +57,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "victrix-honour-guard",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "bladeguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -78,11 +66,11 @@ export default {
           0,
           [
             [
-              2011,
+              2294,
               1
             ],
             [
-              2012,
+              2295,
               1
             ]
           ]
@@ -94,14 +82,15 @@ export default {
       "sid": "ca050262-bc18-446d-96c2-827fdbd24173",
       "name": "Aethon Shaan",
       "kws": [
-        "Aethon Shaan",
         "Chapter Master",
         "Character",
         "Epic Hero",
+        "Explosives",
         "Fly",
         "Imperium",
         "Infantry",
         "Jump Pack",
+        "Smoke",
         "Tacticus"
       ],
       "flags": {
@@ -110,7 +99,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 100,
+          "pts": 105,
           "per": [
             1,
             1
@@ -124,11 +113,11 @@ export default {
           0,
           [
             [
-              681,
+              2296,
               1
             ],
             [
-              2013,
+              2297,
               1
             ]
           ]
@@ -140,7 +129,6 @@ export default {
       "sid": "f7219f56-0d7e-46f0-bb56-73fc596ee09e",
       "name": "Aggressor Squad",
       "kws": [
-        "Aggressor Squad",
         "Gravis",
         "Imperium",
         "Infantry"
@@ -148,7 +136,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 90,
           "per": [
             3,
             3
@@ -166,9 +154,9 @@ export default {
           ]
         },
         {
-          "pts": 165,
+          "pts": 180,
           "per": [
-            4,
+            6,
             6
           ],
           "comp": [
@@ -178,17 +166,12 @@ export default {
             ],
             [
               1,
-              3,
               5
             ]
           ]
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "minis": [
         {
           "n": "Aggressor Sergeant"
@@ -199,27 +182,27 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              1222,
+              2298,
               1
             ],
             [
-              1223,
+              2299,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              1223,
+              2299,
               1
             ],
             [
-              1222,
+              2298,
               1
             ]
           ]
@@ -228,24 +211,24 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 765,
+          "t": 789,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1226,
+                  2300,
                   1
                 ],
                 [
-                  699,
+                  2301,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            1223
+            2298
           ]
         }
       ]
@@ -255,9 +238,8 @@ export default {
       "sid": "6d01dddf-c440-4751-93ff-54502221c9f8",
       "name": "Ancient",
       "kws": [
-        "Ancient",
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -278,7 +260,31 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "deathwatch-veterans",
+          "type": "support"
+        },
+        {
           "to": "assault-intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "sword-brethren-squad",
+          "type": "support"
+        },
+        {
+          "to": "decimus-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "crusader-squad",
           "type": "support"
         },
         {
@@ -290,6 +296,10 @@ export default {
           "type": "support"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "support"
+        },
+        {
           "to": "infernus-squad",
           "type": "support"
         },
@@ -298,47 +308,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "devastator-squad",
-          "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "support"
-        },
-        {
-          "to": "sword-brethren-squad",
-          "type": "support"
-        },
-        {
-          "to": "crusader-squad",
-          "type": "support"
-        },
-        {
           "to": "inner-circle-companions",
-          "type": "support"
-        },
-        {
-          "to": "deathwatch-veterans",
-          "type": "support"
-        },
-        {
-          "to": "fortis-kill-team",
-          "type": "support"
-        },
-        {
-          "to": "decimus-kill-team",
-          "type": "support"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
           "type": "support"
         }
       ],
@@ -347,15 +317,15 @@ export default {
           0,
           [
             [
-              2014,
+              2302,
               1
             ],
             [
-              1,
+              2303,
               1
             ],
             [
-              689,
+              2304,
               1
             ]
           ]
@@ -364,16 +334,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 766,
+          "t": 790,
           "in": "checkbox",
           "o": [
             [
-              2015
+              2305
             ]
           ],
           "rep": [
-            689,
-            2014
+            2302
           ]
         }
       ]
@@ -394,7 +363,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 75,
           "per": [
             1,
             1
@@ -413,7 +382,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "deathwing-knights",
+          "to": "deathwatch-terminator-squad",
           "type": "support"
         },
         {
@@ -421,7 +390,11 @@ export default {
           "type": "support"
         },
         {
-          "to": "deathwatch-terminator-squad",
+          "to": "deathwing-knights",
+          "type": "support"
+        },
+        {
+          "to": "wolf-guard-terminators",
           "type": "support"
         }
       ],
@@ -430,161 +403,15 @@ export default {
           0,
           [
             [
-              2016,
+              2306,
               1
             ],
             [
-              38,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 767,
-          "in": "checkbox",
-          "o": [
-            [
-              2017
-            ],
-            [
-              2014
-            ],
-            [
-              2015
-            ],
-            [
-              2018
-            ]
-          ],
-          "rep": [
-            2016
-          ]
-        },
-        {
-          "m": 0,
-          "t": 768,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  954,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  2018,
-                  1
-                ],
-                [
-                  2019,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            38,
-            2016
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ancient-on-bike",
-      "name": "Ancient on Bike",
-      "kws": [
-        "Mounted",
-        "Character",
-        "Grenades",
-        "Imperium",
-        "Ancient"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 90,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              751,
+              2307,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1109,
-          "in": "checkbox",
-          "o": [
-            [
-              1332
-            ],
-            [
-              680
-            ],
-            [
-              1396
-            ],
-            [
-              536
-            ],
-            [
-              38
-            ],
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        }
-      ],
-      "leads": [
-        {
-          "to": "bike-squad",
-          "type": "support"
-        },
-        {
-          "to": "outrider-squad",
-          "type": "support"
-        }
       ]
     },
     {
@@ -592,9 +419,7 @@ export default {
       "sid": "848cfd43-e850-4440-aadb-e26cd4946454",
       "name": "Apothecary",
       "kws": [
-        "Apothecary",
         "Character",
-        "Grenades",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -604,7 +429,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 40,
+          "pts": 45,
           "per": [
             1,
             1
@@ -627,6 +452,18 @@ export default {
           "type": "support"
         },
         {
+          "to": "deathwatch-veterans",
+          "type": "support"
+        },
+        {
+          "to": "company-heroes",
+          "type": "support"
+        },
+        {
+          "to": "sternguard-veteran-squad",
+          "type": "support"
+        },
+        {
           "to": "intercessor-squad",
           "type": "support"
         },
@@ -635,35 +472,11 @@ export default {
           "type": "support"
         },
         {
+          "to": "decimus-kill-team",
+          "type": "support"
+        },
+        {
           "to": "desolation-squad",
-          "type": "support"
-        },
-        {
-          "to": "devastator-squad",
-          "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "support"
-        },
-        {
-          "to": "sword-brethren-squad",
-          "type": "support"
-        },
-        {
-          "to": "crusader-squad",
-          "type": "support"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "support"
-        },
-        {
-          "to": "deathwatch-veterans",
           "type": "support"
         },
         {
@@ -671,15 +484,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "decimus-kill-team",
+          "to": "inner-circle-companions",
           "type": "support"
-        }
-      ],
-      "leadKw": [
+        },
         {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "crusader-squad",
+          "type": "support"
+        },
+        {
+          "to": "sword-brethren-squad",
           "type": "support"
         }
       ],
@@ -688,15 +501,15 @@ export default {
           0,
           [
             [
-              2020,
+              2308,
               1
             ],
             [
-              726,
+              2309,
               1
             ],
             [
-              767,
+              2310,
               1
             ]
           ]
@@ -709,7 +522,6 @@ export default {
       "name": "Apothecary Biologis",
       "kws": [
         "Apothecary",
-        "Biologis",
         "Character",
         "Gravis",
         "Imperium",
@@ -720,7 +532,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 60,
           "per": [
             1,
             1
@@ -731,15 +543,15 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "eradicator-squad-with-melta-rifles",
+          "type": "support"
+        },
+        {
           "to": "heavy-intercessor-squad",
           "type": "support"
         },
         {
-          "to": "aggressor-squad",
-          "type": "support"
-        },
-        {
-          "to": "eradicator-squad",
+          "to": "indomitor-kill-team",
           "type": "support"
         },
         {
@@ -747,15 +559,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "indomitor-kill-team",
-          "type": "support"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Eradicator Squad"
-          ],
+          "to": "aggressor-squad",
           "type": "support"
         }
       ],
@@ -764,70 +568,15 @@ export default {
           0,
           [
             [
-              726,
+              2311,
               1
             ],
             [
-              767,
+              2312,
               1
             ]
           ]
         ]
-      ]
-    },
-    {
-      "id": "apothecary-on-bike",
-      "name": "Apothecary on Bike",
-      "kws": [
-        "Mounted",
-        "Character",
-        "Grenades",
-        "Imperium",
-        "Apothecary"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 65,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              751,
-              1
-            ]
-          ]
-        ]
-      ],
-      "leads": [
-        {
-          "to": "bike-squad",
-          "type": "support"
-        },
-        {
-          "to": "outrider-squad",
-          "type": "support"
-        }
       ]
     },
     {
@@ -835,138 +584,10 @@ export default {
       "sid": "3e9ac9da-6be5-45b0-8a24-98ba99800556",
       "name": "Assault Intercessor Squad",
       "kws": [
-        "Assault Intercessor Squad",
         "Battleline",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Tacticus"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 75,
-          "per": [
-            5,
-            5
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ]
-        },
-        {
-          "pts": 150,
-          "per": [
-            6,
-            10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Assault Intercessor Sergeant"
-        },
-        {
-          "n": "Assault Intercessor"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              756,
-              1
-            ],
-            [
-              685,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              685,
-              1
-            ],
-            [
-              756,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 769,
-          "in": "checkbox",
-          "o": [
-            [
-              614
-            ],
-            [
-              11
-            ]
-          ],
-          "rep": [
-            685
-          ]
-        },
-        {
-          "m": 0,
-          "t": 770,
-          "in": "checkbox",
-          "o": [
-            [
-              691
-            ],
-            [
-              738
-            ],
-            [
-              758
-            ]
-          ],
-          "rep": [
-            756
-          ]
-        }
-      ]
-    },
-    {
-      "id": "assault-intercessors-with-jump-packs",
-      "sid": "d1a72666-0a03-4a30-8ce6-1733ccd0ab29",
-      "name": "Assault Intercessors with Jump Packs",
-      "kws": [
-        "Assault Intercessors with Jump Packs",
-        "Fly",
-        "Grenades",
-        "Imperium",
-        "Infantry",
-        "Jump Pack",
         "Tacticus"
       ],
       "flags": {},
@@ -981,6 +602,131 @@ export default {
           "comp": [
             [
               0,
+              4
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "pts": 170,
+          "per": [
+            10,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              9
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Assault Intercessor"
+        },
+        {
+          "n": "Assault Intercessor Sergeant"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2313,
+              1
+            ],
+            [
+              2314,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2314,
+              1
+            ],
+            [
+              2313,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 791,
+          "in": "checkbox",
+          "o": [
+            [
+              2315
+            ],
+            [
+              2316
+            ]
+          ],
+          "rep": [
+            2314
+          ]
+        },
+        {
+          "m": 1,
+          "t": 792,
+          "in": "checkbox",
+          "o": [
+            [
+              2317
+            ],
+            [
+              2318
+            ],
+            [
+              2319
+            ]
+          ],
+          "rep": [
+            2313
+          ]
+        }
+      ]
+    },
+    {
+      "id": "assault-intercessors-with-jump-packs",
+      "sid": "d1a72666-0a03-4a30-8ce6-1733ccd0ab29",
+      "name": "Assault Intercessors with Jump Packs",
+      "kws": [
+        "Explosives",
+        "Fly",
+        "Imperium",
+        "Infantry",
+        "Jump Pack",
+        "Tacticus"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            5,
+            5
+          ],
+          "default": 1,
+          "comp": [
+            [
+              0,
               1
             ],
             [
@@ -990,9 +736,9 @@ export default {
           ]
         },
         {
-          "pts": 160,
+          "pts": 190,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
@@ -1002,7 +748,6 @@ export default {
             ],
             [
               1,
-              5,
               9
             ]
           ]
@@ -1018,32 +763,32 @@ export default {
           "n": "Assault Intercessor Sergeant with Jump Pack"
         },
         {
-          "n": "Assault Intercessors with Jump Packs"
+          "n": "Assault Intercessor with Jump Pack"
         }
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              756,
+              2320,
               1
             ],
             [
-              685,
+              2321,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              685,
+              2321,
               1
             ],
             [
-              756,
+              2320,
               1
             ]
           ]
@@ -1052,27 +797,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 773,
+          "t": 793,
           "in": "checkbox",
           "o": [
             [
-              738
+              2322
             ],
             [
-              691
+              2323
             ]
           ],
           "rep": [
-            756
+            2321
+          ]
+        },
+        {
+          "m": 0,
+          "t": 794,
+          "in": "checkbox",
+          "o": [
+            [
+              2324
+            ],
+            [
+              2325
+            ]
+          ],
+          "rep": [
+            2320
           ]
         },
         {
           "m": 1,
-          "t": 774,
+          "t": 795,
           "in": "stepper",
           "o": [
             [
-              11
+              2323
             ]
           ],
           "lim": [
@@ -1086,607 +847,7 @@ export default {
             ]
           ],
           "rep": [
-            685
-          ]
-        },
-        {
-          "m": 0,
-          "t": 775,
-          "in": "checkbox",
-          "o": [
-            [
-              614
-            ],
-            [
-              11
-            ]
-          ],
-          "rep": [
-            685
-          ]
-        }
-      ]
-    },
-    {
-      "id": "assault-squad",
-      "name": "Assault Squad",
-      "kws": [
-        "Infantry",
-        "Grenades",
-        "Imperium",
-        "Assault Squad"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 95,
-          "per": [
-            5,
-            5
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ],
-          "default": 1
-        },
-        {
-          "pts": 190,
-          "per": [
-            6,
-            10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Assault Sergeant"
-        },
-        {
-          "n": "Assault Marines"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              751,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              751,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1110,
-          "in": "checkbox",
-          "o": [
-            [
-              1396
-            ],
-            [
-              614
-            ],
-            [
-              9
-            ],
-            [
-              536
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1111,
-          "in": "checkbox",
-          "o": [
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ]
-          ],
-          "rep": [
-            751
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1112,
-          "in": "checkbox",
-          "o": [
-            [
-              2135
-            ]
-          ],
-          "rep": [
-            1167,
-            751
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1112,
-          "in": "checkbox",
-          "o": [
-            [
-              1203
-            ]
-          ],
-          "cond": [
-            2,
-            0
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1113,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  536,
-                  1
-                ],
-                [
-                  751,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  301,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1335,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  607,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              2
-            ]
-          ],
-          "rep": [
-            1167,
-            751
-          ]
-        },
-        {
-          "all": 1,
-          "t": 1114,
-          "in": "stepper",
-          "o": [
-            [
-              757
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              1
-            ],
-            [
-              10,
-              2
-            ]
-          ],
-          "rep": [
-            751
-          ]
-        }
-      ]
-    },
-    {
-      "id": "assault-squad-with-jump-packs",
-      "name": "Assault Squad with Jump Packs",
-      "kws": [
-        "Infantry",
-        "Grenades",
-        "Jump Pack",
-        "Fly",
-        "Imperium",
-        "Assault Squad with Jump Packs"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 115,
-          "per": [
-            5,
-            5
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ],
-          "default": 1
-        },
-        {
-          "pts": 230,
-          "per": [
-            6,
-            10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Assault Sergeant with Jump Pack"
-        },
-        {
-          "n": "Assault Marines with Jump Packs"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              751,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              751,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1115,
-          "in": "checkbox",
-          "o": [
-            [
-              1396
-            ],
-            [
-              614
-            ],
-            [
-              9
-            ],
-            [
-              536
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1116,
-          "in": "checkbox",
-          "o": [
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ]
-          ],
-          "rep": [
-            751
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1117,
-          "in": "checkbox",
-          "o": [
-            [
-              2135
-            ]
-          ],
-          "rep": [
-            1167,
-            751
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1117,
-          "in": "checkbox",
-          "o": [
-            [
-              1203
-            ]
-          ],
-          "cond": [
-            2,
-            0
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1118,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  536,
-                  1
-                ],
-                [
-                  751,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  301,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1335,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  607,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              2
-            ]
-          ],
-          "rep": [
-            1167,
-            751
-          ]
-        },
-        {
-          "all": 1,
-          "t": 1114,
-          "in": "stepper",
-          "o": [
-            [
-              757
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              1
-            ],
-            [
-              10,
-              2
-            ]
-          ],
-          "rep": [
-            751
-          ]
-        }
-      ]
-    },
-    {
-      "id": "astartes-servitors",
-      "name": "Astartes Servitors",
-      "kws": [
-        "Infantry",
-        "Imperium",
-        "Astartes Servitors"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 55,
-          "per": [
-            4,
-            4
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2794,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1119,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  2079,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  169,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1481,
-                  1
-                ],
-                [
-                  357,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              2
-            ]
-          ],
-          "rep": [
-            2794
+            2321
           ]
         }
       ]
@@ -1696,7 +857,6 @@ export default {
       "sid": "291197e5-6b94-4275-bbe2-cb2177e1411f",
       "name": "Astraeus",
       "kws": [
-        "Astraeus",
         "Frame",
         "Imperium",
         "Titanic",
@@ -1705,7 +865,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 525,
+          "pts": 550,
           "per": [
             1,
             1
@@ -1716,45 +876,34 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 50
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
+        "pts": 100
       },
       "defaults": [
         [
           0,
           [
             [
-              700,
+              2326,
               1
             ],
             [
-              714,
+              2327,
               1
             ],
             [
-              2021,
+              2328,
+              1
+            ],
+            [
+              2329,
+              1
+            ],
+            [
+              2330,
               2
             ],
             [
-              138,
-              1
-            ],
-            [
-              2022,
-              1
-            ],
-            [
-              38,
+              2331,
               1
             ]
           ]
@@ -1763,119 +912,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 771,
+          "t": 796,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2023,
+                  2332,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2021
+            2330
           ]
         },
         {
           "m": 0,
-          "t": 302,
+          "t": 797,
           "in": "checkbox",
           "o": [
             [
-              718
+              2326
             ]
-          ],
-          "rep": [
-            714
           ]
         },
         {
           "m": 0,
-          "t": 772,
+          "t": 798,
           "in": "checkbox",
           "o": [
             [
-              700
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "attack-bike-squad",
-      "name": "Attack Bike Squad",
-      "kws": [
-        "Mounted",
-        "Grenades",
-        "Imperium",
-        "Attack Bike Squad"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 55,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        },
-        {
-          "pts": 110,
-          "per": [
-            2,
-            2
-          ]
-        },
-        {
-          "pts": 165,
-          "per": [
-            3,
-            3
-          ]
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2079,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1120,
-          "in": "stepper",
-          "o": [
-            [
-              169
+              2333
             ]
           ],
           "rep": [
-            2079
+            2331
           ]
         }
       ]
@@ -1885,7 +958,6 @@ export default {
       "sid": "6f090a62-3938-4647-a993-94f090b204f2",
       "name": "Ballistus Dreadnought",
       "kws": [
-        "Ballistus Dreadnought",
         "Dreadnought",
         "Imperium",
         "Vehicle",
@@ -1905,245 +977,30 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 20
       },
       "defaults": [
         [
           0,
           [
             [
-              2024,
+              2334,
               1
             ],
             [
-              2025,
+              2335,
               1
             ],
             [
-              2026,
+              2336,
               1
             ],
             [
-              2027,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "bike-squad",
-      "name": "Bike Squad",
-      "kws": [
-        "Mounted",
-        "Grenades",
-        "Imperium",
-        "Bike Squad"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 80,
-          "per": [
-            3,
-            3
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              2
-            ],
-            [
-              2,
-              0
-            ]
-          ],
-          "default": 1
-        },
-        {
-          "pts": 160,
-          "per": [
-            4,
-            6
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Biker Sergeant"
-        },
-        {
-          "n": "Space Marine Bikers"
-        },
-        {
-          "n": "Attack Bike"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ],
-        [
-          2,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2079,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              357,
+              2337,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1121,
-          "in": "checkbox",
-          "o": [
-            [
-              751
-            ],
-            [
-              1332
-            ],
-            [
-              680
-            ],
-            [
-              614
-            ],
-            [
-              1396
-            ],
-            [
-              9
-            ],
-            [
-              536
-            ],
-            [
-              38
-            ],
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1122,
-          "in": "stepper",
-          "o": [
-            [
-              751
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1123,
-          "in": "stepper",
-          "o": [
-            [
-              301
-            ],
-            [
-              2134
-            ],
-            [
-              1335
-            ],
-            [
-              607
-            ],
-            [
-              536
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              2
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 2,
-          "t": 1124,
-          "in": "checkbox",
-          "o": [
-            [
-              169
-            ]
-          ],
-          "rep": [
-            2079
-          ]
-        }
       ]
     },
     {
@@ -2152,9 +1009,8 @@ export default {
       "name": "Bladeguard Ancient",
       "kws": [
         "Ancient",
-        "Bladeguard Ancient",
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -2164,7 +1020,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 40,
+          "pts": 70,
           "per": [
             1,
             1
@@ -2184,11 +1040,11 @@ export default {
           0,
           [
             [
-              685,
+              2338,
               1
             ],
             [
-              2014,
+              2339,
               1
             ]
           ]
@@ -2200,8 +1056,7 @@ export default {
       "sid": "00b5af06-1b59-463a-80c9-1e064372fca0",
       "name": "Bladeguard Veteran Squad",
       "kws": [
-        "Bladeguard Veteran Squad",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -2209,7 +1064,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 90,
           "per": [
             3,
             3
@@ -2227,9 +1082,9 @@ export default {
           ]
         },
         {
-          "pts": 160,
+          "pts": 180,
           "per": [
-            4,
+            6,
             6
           ],
           "comp": [
@@ -2239,7 +1094,6 @@ export default {
             ],
             [
               1,
-              3,
               5
             ]
           ]
@@ -2248,7 +1102,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 20
       },
       "minis": [
         {
@@ -2260,27 +1114,27 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              685,
+              2340,
               1
             ],
             [
-              2028,
+              2341,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2028,
+              2341,
               1
             ],
             [
-              685,
+              2340,
               1
             ]
           ]
@@ -2289,18 +1143,18 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 776,
+          "t": 799,
           "in": "checkbox",
           "o": [
             [
-              2029
+              2342
             ],
             [
-              11
+              2343
             ]
           ],
           "rep": [
-            685
+            2340
           ]
         }
       ]
@@ -2310,7 +1164,6 @@ export default {
       "sid": "601d1b93-87e2-408c-8706-e4e35ac4adf0",
       "name": "Brutalis Dreadnought",
       "kws": [
-        "Brutalis Dreadnought",
         "Dreadnought",
         "Imperium",
         "Vehicle",
@@ -2319,7 +1172,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 150,
+          "pts": 160,
           "per": [
             1,
             1
@@ -2330,26 +1183,26 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 20
       },
       "defaults": [
         [
           0,
           [
             [
-              753,
+              2344,
               1
             ],
             [
-              2030,
+              2345,
               1
             ],
             [
-              2031,
+              2346,
               1
             ],
             [
-              714,
+              2347,
               1
             ]
           ]
@@ -2358,29 +1211,29 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 322,
+          "t": 800,
           "in": "checkbox",
           "o": [
             [
-              61
+              2348
             ]
           ],
           "rep": [
-            714
+            2345,
+            2346
           ]
         },
         {
           "m": 0,
-          "t": 777,
+          "t": 801,
           "in": "checkbox",
           "o": [
             [
-              2032
+              2349
             ]
           ],
           "rep": [
-            2030,
-            2031
+            2344
           ]
         }
       ]
@@ -2390,7 +1243,6 @@ export default {
       "sid": "911a0552-404b-4c2b-a114-726c525230a0",
       "name": "Caanok Var",
       "kws": [
-        "Caanok Var",
         "Captain",
         "Character",
         "Epic Hero",
@@ -2401,6 +1253,57 @@ export default {
       "flags": {
         "char": 1,
         "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 100,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "leads": [
+        {
+          "to": "terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-assault-squad",
+          "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2363,
+              1
+            ],
+            [
+              2364,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "captain",
+      "sid": "5ddc8777-1516-4b72-b5a1-05685ed1cecb",
+      "name": "Captain",
+      "kws": [
+        "Character",
+        "Explosives",
+        "Imperium",
+        "Infantry",
+        "Tacticus"
+      ],
+      "flags": {
+        "char": 1
       },
       "sizes": [
         {
@@ -2415,152 +1318,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "terminator-assault-squad",
-          "type": "leader"
-        },
-        {
-          "to": "terminator-squad",
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              176,
-              1
-            ],
-            [
-              2033,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "caestus-assault-ram",
-      "name": "Caestus Assault Ram",
-      "kws": [
-        "Vehicle",
-        "Aircraft",
-        "Transport",
-        "Fly",
-        "Imperium",
-        "Caestus Assault Ram"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 215,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2795,
-              1
-            ],
-            [
-              2796,
-              1
-            ],
-            [
-              138,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "captain",
-      "sid": "5ddc8777-1516-4b72-b5a1-05685ed1cecb",
-      "name": "Captain",
-      "kws": [
-        "Captain",
-        "Character",
-        "Grenades",
-        "Imperium",
-        "Infantry",
-        "Tacticus"
-      ],
-      "flags": {
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 80,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
-        {
           "to": "assault-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "bladeguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "company-heroes",
-          "type": "leader"
-        },
-        {
-          "to": "hellblaster-squad",
-          "type": "leader"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "victrix-honour-guard",
-          "type": "leader"
-        },
-        {
-          "to": "sword-brethren-squad",
-          "type": "leader"
-        },
-        {
-          "to": "crusader-squad",
-          "type": "leader"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "leader"
-        },
-        {
-          "to": "deathwatch-veterans",
           "type": "leader"
         },
         {
@@ -2568,15 +1326,59 @@ export default {
           "type": "leader"
         },
         {
+          "to": "infernus-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sword-brethren-squad",
+          "type": "leader"
+        },
+        {
+          "to": "company-heroes",
+          "type": "leader"
+        },
+        {
+          "to": "inner-circle-companions",
+          "type": "leader"
+        },
+        {
+          "to": "crusader-squad",
+          "type": "leader"
+        },
+        {
+          "to": "hellblaster-squad",
+          "type": "leader"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-veterans",
+          "type": "leader"
+        },
+        {
+          "to": "victrix-honour-guard",
+          "type": "leader"
+        },
+        {
           "to": "decimus-kill-team",
           "type": "leader"
-        }
-      ],
-      "leadKw": [
+        },
         {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "desolation-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -2585,15 +1387,15 @@ export default {
           0,
           [
             [
-              22,
+              2365,
               1
             ],
             [
-              2034,
+              2366,
               1
             ],
             [
-              1317,
+              2367,
               1
             ]
           ]
@@ -2602,118 +1404,48 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 778,
+          "t": 804,
           "in": "checkbox",
           "o": [
             [
-              [
-                [
-                  681,
-                  1
-                ],
-                [
-                  745,
-                  1
-                ]
-              ]
+              2368
             ],
             [
-              [
-                [
-                  681,
-                  1
-                ],
-                [
-                  1120,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  2035,
-                  1
-                ],
-                [
-                  745,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  2035,
-                  1
-                ],
-                [
-                  1120,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  25,
-                  1
-                ],
-                [
-                  745,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  25,
-                  1
-                ],
-                [
-                  1120,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  681,
-                  1
-                ],
-                [
-                  1120,
-                  1
-                ],
-                [
-                  2036,
-                  1
-                ]
-              ]
+              2369
             ]
           ],
           "rep": [
-            22,
-            2034,
-            1317
+            2366,
+            2365
           ]
         },
         {
           "m": 0,
-          "t": 779,
+          "t": 805,
           "in": "checkbox",
           "o": [
             [
-              1120
-            ],
-            [
-              745
+              781
             ]
           ],
           "rep": [
-            1317
+            2366
+          ],
+          "keep": [
+            2367
+          ]
+        },
+        {
+          "m": 0,
+          "t": 806,
+          "in": "checkbox",
+          "o": [
+            [
+              2370
+            ]
+          ],
+          "rep": [
+            2367
           ]
         }
       ]
@@ -2725,8 +1457,8 @@ export default {
       "kws": [
         "Captain",
         "Character",
+        "Explosives",
         "Gravis",
-        "Grenades",
         "Imperium",
         "Infantry"
       ],
@@ -2735,7 +1467,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 90,
           "per": [
             1,
             1
@@ -2750,7 +1482,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "eradicator-squad",
+          "to": "indomitor-kill-team",
           "type": "leader"
         },
         {
@@ -2762,15 +1494,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "indomitor-kill-team",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Eradicator Squad"
-          ],
+          "to": "eradicator-squad-with-melta-rifles",
           "type": "leader"
         }
       ],
@@ -2779,11 +1503,11 @@ export default {
           0,
           [
             [
-              1120,
+              2371,
               1
             ],
             [
-              2037,
+              2372,
               1
             ]
           ]
@@ -2792,21 +1516,17 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 780,
+          "t": 807,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2038,
+                  2373,
                   1
                 ],
                 [
-                  745,
-                  1
-                ],
-                [
-                  2039,
+                  2374,
                   1
                 ]
               ]
@@ -2814,15 +1534,11 @@ export default {
             [
               [
                 [
-                  2038,
+                  2373,
                   1
                 ],
                 [
-                  745,
-                  1
-                ],
-                [
-                  2040,
+                  2375,
                   1
                 ]
               ]
@@ -2830,23 +1546,19 @@ export default {
             [
               [
                 [
-                  2038,
+                  2373,
                   1
                 ],
                 [
-                  745,
-                  1
-                ],
-                [
-                  2041,
+                  2376,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            2037,
-            1120
+            2372,
+            2371
           ]
         }
       ]
@@ -2858,7 +1570,7 @@ export default {
       "kws": [
         "Captain",
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Phobos"
@@ -2868,7 +1580,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 75,
           "per": [
             1,
             1
@@ -2879,11 +1591,19 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "incursor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
+          "type": "leader"
+        },
+        {
           "to": "eliminator-squad",
           "type": "leader"
         },
         {
-          "to": "incursor-squad",
+          "to": "wolf-scouts",
           "type": "leader"
         },
         {
@@ -2891,15 +1611,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "reiver-squad",
-          "type": "leader"
-        },
-        {
           "to": "scout-squad",
           "type": "leader"
         },
         {
-          "to": "spectrus-kill-team",
+          "to": "reiver-squad",
           "type": "leader"
         }
       ],
@@ -2908,15 +1624,15 @@ export default {
           0,
           [
             [
-              2042,
+              2377,
               1
             ],
             [
-              22,
+              2378,
               1
             ],
             [
-              2043,
+              2379,
               1
             ]
           ]
@@ -2939,7 +1655,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 85,
+          "pts": 90,
           "per": [
             1,
             1
@@ -2950,7 +1666,15 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
           "to": "terminator-assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "wolf-guard-terminators",
           "type": "leader"
         },
         {
@@ -2962,19 +1686,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "deathwatch-terminator-squad",
-          "type": "leader"
-        },
-        {
           "to": "terminator-squad",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Terminator Squad"
-          ],
           "type": "leader"
         }
       ],
@@ -2983,11 +1695,11 @@ export default {
           0,
           [
             [
-              176,
+              2380,
               1
             ],
             [
-              746,
+              2381,
               1
             ]
           ]
@@ -2996,49 +1708,49 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 781,
+          "t": 808,
           "in": "checkbox",
           "o": [
             [
-              680
+              2382
             ]
           ],
           "rep": [
-            176
+            2380
           ]
         },
         {
           "m": 0,
-          "t": 782,
+          "t": 809,
           "in": "checkbox",
           "o": [
             [
-              2044
+              2383
             ]
           ],
           "rep": [
-            746
+            2381
           ]
         }
       ]
     },
     {
       "id": "captain-on-bike",
+      "sid": "1e3c0555-032d-4fb4-9935-ed71bb4df379",
       "name": "Captain on Bike",
       "kws": [
-        "Mounted",
+        "Captain",
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
-        "Captain"
+        "Mounted"
       ],
       "flags": {
-        "legends": 1,
         "char": 1
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 110,
           "per": [
             1,
             1
@@ -3047,20 +1759,30 @@ export default {
         }
       ],
       "linked": 1,
+      "leads": [
+        {
+          "to": "ravenwing-black-knights",
+          "type": "leader"
+        },
+        {
+          "to": "outrider-squad",
+          "type": "leader"
+        }
+      ],
       "defaults": [
         [
           0,
           [
             [
-              1167,
+              2177,
               1
             ],
             [
-              2780,
+              2178,
               1
             ],
             [
-              751,
+              2179,
               1
             ]
           ]
@@ -3069,95 +1791,29 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1125,
+          "t": 767,
           "in": "checkbox",
           "o": [
             [
-              680
-            ],
-            [
-              614
-            ],
-            [
-              9
-            ],
-            [
-              141
-            ],
-            [
-              536
-            ],
-            [
-              38
-            ],
-            [
-              2036
-            ],
-            [
-              1103
-            ],
-            [
-              952
-            ],
-            [
-              2047
+              2180
             ]
           ],
           "rep": [
-            1167
+            2177
           ]
         },
         {
           "m": 0,
-          "t": 1126,
+          "t": 768,
           "in": "checkbox",
           "o": [
             [
-              [
-                [
-                  357,
-                  1
-                ],
-                [
-                  2036,
-                  1
-                ]
-              ]
-            ],
-            [
-              952
-            ],
-            [
-              1103
+              2181
             ]
           ],
           "rep": [
-            751
+            2178
           ]
-        },
-        {
-          "m": 0,
-          "t": 1127,
-          "in": "checkbox",
-          "o": [
-            [
-              2135
-            ]
-          ],
-          "rep": [
-            1167,
-            751
-          ]
-        }
-      ],
-      "leads": [
-        {
-          "to": "bike-squad",
-          "type": "leader"
-        },
-        {
-          "to": "outrider-squad",
-          "type": "leader"
         }
       ]
     },
@@ -3169,11 +1825,10 @@ export default {
         "Captain",
         "Character",
         "Epic Hero",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Tacticus",
-        "Titus"
+        "Tacticus"
       ],
       "flags": {
         "char": 1,
@@ -3181,7 +1836,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 100,
+          "pts": 115,
           "per": [
             1,
             1
@@ -3196,23 +1851,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "bladeguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "company-heroes",
-          "type": "leader"
-        },
-        {
-          "to": "hellblaster-squad",
-          "type": "leader"
-        },
-        {
           "to": "infernus-squad",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
           "type": "leader"
         },
         {
@@ -3220,19 +1859,19 @@ export default {
           "type": "leader"
         },
         {
-          "to": "wardens-of-ultramar",
+          "to": "hellblaster-squad",
           "type": "leader"
         },
         {
-          "to": "victrix-honour-guard",
+          "to": "vanguard-veteran-squad",
           "type": "leader"
-        }
-      ],
-      "leadKw": [
+        },
         {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "bladeguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
           "type": "leader"
         }
       ],
@@ -3241,15 +1880,15 @@ export default {
           0,
           [
             [
-              2045,
+              2384,
               1
             ],
             [
-              22,
+              2385,
               1
             ],
             [
-              2046,
+              2386,
               1
             ]
           ]
@@ -3263,8 +1902,8 @@ export default {
       "kws": [
         "Captain",
         "Character",
+        "Explosives",
         "Fly",
-        "Grenades",
         "Imperium",
         "Infantry",
         "Jump Pack",
@@ -3275,7 +1914,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 75,
+          "pts": 90,
           "per": [
             1,
             1
@@ -3290,11 +1929,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "assault-intercessors-with-jump-packs",
+          "to": "sanguinary-guard",
           "type": "leader"
         },
         {
-          "to": "sanguinary-guard",
+          "to": "assault-intercessors-with-jump-packs",
           "type": "leader"
         },
         {
@@ -3307,11 +1946,11 @@ export default {
           0,
           [
             [
-              681,
+              2387,
               1
             ],
             [
-              751,
+              2388,
               1
             ]
           ]
@@ -3320,130 +1959,71 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 320,
+          "t": 810,
           "in": "checkbox",
           "o": [
             [
-              25
+              2389
             ],
             [
-              614
+              2390
             ]
           ],
           "rep": [
-            681
+            2387
           ]
         },
         {
           "m": 0,
-          "t": 321,
+          "t": 811,
           "in": "checkbox",
           "o": [
             [
-              952
+              2391
             ],
             [
-              746
+              2392
             ]
           ],
           "rep": [
-            751
+            2388
           ]
         },
         {
           "m": 0,
-          "t": 783,
+          "t": 812,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2047,
+                  2393,
                   1
                 ],
                 [
-                  2036,
+                  781,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2388,
+                  1
+                ],
+                [
+                  781,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            681,
-            751
-          ]
-        },
-        {
-          "m": 0,
-          "t": 784,
-          "in": "checkbox",
-          "o": [
-            [
-              2036
-            ]
-          ],
-          "keep": [
-            681,
-            751
+            2387,
+            2388
           ]
         }
-      ]
-    },
-    {
-      "id": "carab-culln-the-risen",
-      "name": "Carab Culln the Risen",
-      "kws": [
-        "Vehicle",
-        "Walker",
-        "Imperium",
-        "Smoke",
-        "Character",
-        "Epic Hero",
-        "Dreadnought",
-        "Carab Culln the Risen"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1,
-        "epic": 1
-      },
-      "sizes": [
-        {
-          "pts": 250,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2079,
-              1
-            ],
-            [
-              743,
-              2
-            ],
-            [
-              500,
-              3
-            ],
-            [
-              711,
-              1
-            ],
-            [
-              2797,
-              1
-            ]
-          ]
-        ]
       ]
     },
     {
@@ -3451,13 +2031,11 @@ export default {
       "sid": "65df5837-39c7-4d85-b9fb-b66459cb7cdc",
       "name": "Cato Sicarius",
       "kws": [
-        "Captain",
-        "Cato",
         "Character",
         "Epic Hero",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Sicarius",
         "Tacticus"
       ],
       "flags": {
@@ -3466,7 +2044,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 105,
+          "pts": 115,
           "per": [
             1,
             1
@@ -3478,6 +2056,10 @@ export default {
       "leads": [
         {
           "to": "victrix-honour-guard",
+          "type": "leader"
+        },
+        {
+          "to": "victrix-honour-guard",
           "type": "support"
         }
       ],
@@ -3486,11 +2068,11 @@ export default {
           0,
           [
             [
-              2048,
+              2394,
               1
             ],
             [
-              2049,
+              2395,
               1
             ]
           ]
@@ -3503,11 +2085,12 @@ export default {
       "name": "Centurion Assault Squad",
       "kws": [
         "Centurion",
-        "Centurion Assault Squad",
         "Imperium",
         "Infantry"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 150,
@@ -3530,7 +2113,7 @@ export default {
         {
           "pts": 300,
           "per": [
-            4,
+            6,
             6
           ],
           "comp": [
@@ -3540,7 +2123,6 @@ export default {
             ],
             [
               1,
-              3,
               5
             ]
           ]
@@ -3557,35 +2139,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2050,
+              2396,
               1
             ],
             [
-              2051,
+              2397,
               1
             ],
             [
-              2052,
+              2398,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2051,
+              2398,
               1
             ],
             [
-              2050,
+              2396,
               1
             ],
             [
-              2052,
+              2397,
               1
             ]
           ]
@@ -3594,28 +2176,28 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 785,
+          "t": 813,
           "in": "stepper",
           "o": [
             [
-              1512
+              2399
             ]
           ],
           "rep": [
-            2052
+            2398
           ]
         },
         {
           "all": 1,
-          "t": 786,
+          "t": 814,
           "in": "stepper",
           "o": [
             [
-              2053
+              2400
             ]
           ],
           "rep": [
-            2051
+            2397
           ]
         }
       ]
@@ -3626,11 +2208,12 @@ export default {
       "name": "Centurion Devastator Squad",
       "kws": [
         "Centurion",
-        "Centurion Devastator Squad",
         "Imperium",
         "Infantry"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 175,
@@ -3651,9 +2234,9 @@ export default {
           ]
         },
         {
-          "pts": 365,
+          "pts": 350,
           "per": [
-            4,
+            6,
             6
           ],
           "comp": [
@@ -3663,7 +2246,6 @@ export default {
             ],
             [
               1,
-              3,
               5
             ]
           ]
@@ -3683,15 +2265,15 @@ export default {
           1,
           [
             [
-              2051,
+              2401,
               1
             ],
             [
-              2054,
+              2402,
               1
             ],
             [
-              2055,
+              2403,
               1
             ]
           ]
@@ -3700,15 +2282,15 @@ export default {
           0,
           [
             [
-              2055,
+              2402,
               1
             ],
             [
-              2051,
+              2403,
               1
             ],
             [
-              2054,
+              2401,
               1
             ]
           ]
@@ -3717,45 +2299,44 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 787,
+          "t": 815,
           "in": "stepper",
           "o": [
             [
-              2056
+              2404
             ]
           ],
           "rep": [
-            2051
+            2401
           ]
         },
         {
           "all": 1,
-          "t": 788,
+          "t": 816,
           "in": "stepper",
           "o": [
             [
-              714
+              2405
             ],
             [
-              718,
-              5
+              2406
             ]
           ],
           "rep": [
-            2054
+            2402
           ]
         }
       ]
     },
     {
       "id": "cerberus",
+      "sid": "6f08a6db-0c4e-4673-8e33-da2823b6c0a6",
       "name": "Cerberus",
       "kws": [
-        "Vehicle",
         "Frame",
         "Imperium",
         "Smoke",
-        "Cerberus"
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -3776,11 +2357,11 @@ export default {
           0,
           [
             [
-              2798,
+              2226,
               1
             ],
             [
-              620,
+              2227,
               1
             ]
           ]
@@ -3789,43 +2370,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1128,
+          "t": 774,
           "in": "checkbox",
           "o": [
             [
-              [
-                [
-                  2079,
-                  2
-                ]
-              ]
+              2228
             ],
             [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
+              2229
+            ],
+            [
+              2230
+            ],
+            [
+              2231
             ]
           ]
         },
         {
           "m": 0,
-          "t": 1129,
-          "in": "checkbox",
+          "t": 778,
+          "in": "stepper",
           "o": [
             [
-              2079
+              [
+                [
+                  2228,
+                  2
+                ]
+              ]
             ],
             [
-              743
-            ],
-            [
-              169
-            ],
-            [
-              38
+              [
+                [
+                  2232,
+                  2
+                ]
+              ]
             ]
           ]
         }
@@ -3836,9 +2417,8 @@ export default {
       "sid": "9bf2422a-3f70-4aa2-9dcc-5d8aa9b71e90",
       "name": "Chaplain",
       "kws": [
-        "Chaplain",
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -3859,7 +2439,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "assault-intercessor-squad",
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -3867,39 +2447,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "hellblaster-squad",
-          "type": "leader"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sword-brethren-squad",
-          "type": "leader"
-        },
-        {
-          "to": "crusader-squad",
-          "type": "leader"
-        },
-        {
-          "to": "death-company-marines-with-bolt-rifles",
-          "type": "leader"
-        },
-        {
-          "to": "death-company-marines",
+          "to": "vanguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -3911,19 +2459,39 @@ export default {
           "type": "leader"
         },
         {
-          "to": "fortis-kill-team",
+          "to": "death-company-marines",
+          "type": "leader"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "leader"
+        },
+        {
+          "to": "crusader-squad",
           "type": "leader"
         },
         {
           "to": "decimus-kill-team",
           "type": "leader"
-        }
-      ],
-      "leadKw": [
+        },
         {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "assault-intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sword-brethren-squad",
+          "type": "leader"
+        },
+        {
+          "to": "hellblaster-squad",
           "type": "leader"
         }
       ],
@@ -3932,83 +2500,15 @@ export default {
           0,
           [
             [
-              696,
+              2407,
               1
             ],
             [
-              767,
+              2408,
               1
             ]
           ]
         ]
-      ]
-    },
-    {
-      "id": "chaplain-cassius",
-      "name": "Chaplain Cassius",
-      "kws": [
-        "Infantry",
-        "Character",
-        "Epic Hero",
-        "Imperium",
-        "Chaplain Cassius"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1,
-        "epic": 1
-      },
-      "sizes": [
-        {
-          "pts": 80,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2799,
-              1
-            ],
-            [
-              683,
-              1
-            ]
-          ]
-        ]
-      ],
-      "leads": [
-        {
-          "to": "assault-squad",
-          "type": "leader"
-        },
-        {
-          "to": "command-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tyrannic-war-veterans",
-          "type": "leader"
-        },
-        {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        }
       ]
     },
     {
@@ -4038,7 +2538,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "terminator-assault-squad",
+          "to": "wolf-guard-terminators",
           "type": "leader"
         },
         {
@@ -4046,23 +2546,19 @@ export default {
           "type": "leader"
         },
         {
-          "to": "deathwing-knights",
-          "type": "leader"
-        },
-        {
           "to": "deathwing-terminator-squad",
           "type": "leader"
         },
         {
-          "to": "terminator-squad",
+          "to": "deathwing-knights",
           "type": "leader"
-        }
-      ],
-      "leadKw": [
+        },
         {
-          "kw": [
-            "Terminator Squad"
-          ],
+          "to": "terminator-assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-squad",
           "type": "leader"
         }
       ],
@@ -4071,11 +2567,11 @@ export default {
           0,
           [
             [
-              38,
+              2409,
               1
             ],
             [
-              696,
+              2410,
               1
             ]
           ]
@@ -4084,15 +2580,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 789,
-          "in": "checkbox",
+          "t": 817,
+          "in": "stepper",
           "o": [
             [
-              2036
+              781
             ]
           ],
           "rep": [
-            38
+            2409
           ]
         }
       ]
@@ -4104,195 +2600,9 @@ export default {
       "kws": [
         "Chaplain",
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Mounted"
-      ],
-      "flags": {
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 70,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
-        {
-          "to": "outrider-squad",
-          "type": "leader"
-        },
-        {
-          "to": "ravenwing-black-knights",
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2057,
-              1
-            ],
-            [
-              767,
-              1
-            ],
-            [
-              696,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "chaplain-venerable-dreadnought",
-      "name": "Chaplain Venerable Dreadnought",
-      "kws": [
-        "Vehicle",
-        "Walker",
-        "Imperium",
-        "Dreadnought",
-        "Chaplain Venerable Dreadnought"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 150,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2156,
-              1
-            ],
-            [
-              38,
-              1
-            ],
-            [
-              1432,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1130,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  743,
-                  1
-                ],
-                [
-                  1432,
-                  1
-                ]
-              ]
-            ],
-            [
-              2156
-            ],
-            [
-              2800
-            ],
-            [
-              1433
-            ],
-            [
-              169
-            ],
-            [
-              718
-            ]
-          ],
-          "rep": [
-            38,
-            1432
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1131,
-          "in": "checkbox",
-          "o": [
-            [
-              2800
-            ],
-            [
-              1433
-            ],
-            [
-              169
-            ],
-            [
-              [
-                [
-                  38,
-                  1
-                ],
-                [
-                  1432,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  743,
-                  1
-                ],
-                [
-                  1432,
-                  1
-                ]
-              ]
-            ],
-            [
-              718
-            ]
-          ],
-          "rep": [
-            2156
-          ]
-        }
-      ]
-    },
-    {
-      "id": "chaplain-with-jump-pack",
-      "sid": "387ec5bd-26a4-459d-8763-a78df521262b",
-      "name": "Chaplain with Jump Pack",
-      "kws": [
-        "Chaplain",
-        "Character",
-        "Fly",
-        "Imperium",
-        "Infantry",
-        "Jump Pack"
       ],
       "flags": {
         "char": 1
@@ -4310,9 +2620,63 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "assault-intercessors-with-jump-packs",
+          "to": "ravenwing-black-knights",
           "type": "leader"
         },
+        {
+          "to": "outrider-squad",
+          "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2411,
+              1
+            ],
+            [
+              2412,
+              1
+            ],
+            [
+              2413,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "chaplain-with-jump-pack",
+      "sid": "387ec5bd-26a4-459d-8763-a78df521262b",
+      "name": "Chaplain with Jump Pack",
+      "kws": [
+        "Chaplain",
+        "Character",
+        "Explosives",
+        "Fly",
+        "Imperium",
+        "Infantry",
+        "Jump Pack",
+        "Tacticus"
+      ],
+      "flags": {
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "leads": [
         {
           "to": "vanguard-veteran-squad-with-jump-packs",
           "type": "leader"
@@ -4324,6 +2688,10 @@ export default {
         {
           "to": "talonstrike-kill-team",
           "type": "leader"
+        },
+        {
+          "to": "assault-intercessors-with-jump-packs",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -4331,54 +2699,15 @@ export default {
           0,
           [
             [
-              1,
+              2414,
               1
             ],
             [
-              696,
+              2415,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 5,
-          "in": "checkbox",
-          "o": [
-            [
-              960
-            ],
-            [
-              7
-            ],
-            [
-              2058
-            ],
-            [
-              614
-            ],
-            [
-              9
-            ],
-            [
-              11
-            ],
-            [
-              38
-            ],
-            [
-              2016
-            ],
-            [
-              2059
-            ]
-          ],
-          "rep": [
-            1
-          ]
-        }
       ]
     },
     {
@@ -4387,9 +2716,8 @@ export default {
       "name": "Chief Librarian Tigurius",
       "kws": [
         "Character",
-        "Chief Librarian Tigurius",
         "Epic Hero",
-        "Imperium",
+        "Explosives",
         "Infantry",
         "Psyker",
         "Tacticus"
@@ -4400,7 +2728,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 85,
+          "pts": 115,
           "per": [
             1,
             1
@@ -4410,6 +2738,22 @@ export default {
       ],
       "linked": 1,
       "leads": [
+        {
+          "to": "desolation-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "leader"
+        },
         {
           "to": "assault-intercessor-squad",
           "type": "leader"
@@ -4419,32 +2763,8 @@ export default {
           "type": "leader"
         },
         {
-          "to": "desolation-squad",
-          "type": "leader"
-        },
-        {
-          "to": "devastator-squad",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
           "to": "sternguard-veteran-squad",
           "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
-          "type": "leader"
         }
       ],
       "defaults": [
@@ -4452,323 +2772,19 @@ export default {
           0,
           [
             [
-              2060,
+              2416,
               1
             ],
             [
-              22,
+              2417,
               1
             ],
             [
-              2061,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "command-squad",
-      "name": "Command Squad",
-      "kws": [
-        "Infantry",
-        "Grenades",
-        "Imperium",
-        "Command Squad"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 165,
-          "per": [
-            5,
-            5
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              2,
-              1
-            ],
-            [
-              3,
-              2
-            ]
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Apothecary"
-        },
-        {
-          "n": "Company Ancient"
-        },
-        {
-          "n": "Company Champion"
-        },
-        {
-          "n": "Company Veterans"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              751,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ],
-        [
-          2,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2801,
-              1
-            ],
-            [
-              1203,
-              1
-            ]
-          ]
-        ],
-        [
-          3,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              1332,
-              1
-            ],
-            [
-              357,
+              2418,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "all": 1,
-          "t": 1132,
-          "in": "stepper",
-          "o": [
-            [
-              614
-            ],
-            [
-              1396
-            ],
-            [
-              9
-            ],
-            [
-              536
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 3,
-          "t": 1133,
-          "in": "stepper",
-          "o": [
-            [
-              1203
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 3,
-          "t": 1134,
-          "in": "stepper",
-          "o": [
-            [
-              2135
-            ]
-          ],
-          "rep": [
-            1167,
-            1332
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1135,
-          "in": "checkbox",
-          "o": [
-            [
-              1332
-            ],
-            [
-              680
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 3,
-          "t": 1136,
-          "in": "stepper",
-          "o": [
-            [
-              751
-            ],
-            [
-              1203
-            ],
-            [
-              680
-            ],
-            [
-              301
-            ],
-            [
-              2079
-            ],
-            [
-              743
-            ],
-            [
-              2068
-            ],
-            [
-              2134
-            ],
-            [
-              545
-            ],
-            [
-              1335
-            ],
-            [
-              999
-            ],
-            [
-              169
-            ],
-            [
-              1481
-            ],
-            [
-              607
-            ],
-            [
-              38
-            ],
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ]
-          ],
-          "rep": [
-            1332
-          ]
-        }
-      ]
-    },
-    {
-      "id": "company-champion-on-bike",
-      "name": "Company Champion on Bike",
-      "kws": [
-        "Mounted",
-        "Character",
-        "Grenades",
-        "Imperium",
-        "Company Champion"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 60,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              2062,
-              1
-            ]
-          ]
-        ]
-      ],
-      "leads": [
-        {
-          "to": "bike-squad",
-          "type": "support"
-        },
-        {
-          "to": "outrider-squad",
-          "type": "support"
-        }
       ]
     },
     {
@@ -4776,9 +2792,7 @@ export default {
       "sid": "fe69f0c0-d8c6-465d-8a88-6d453b5c5af5",
       "name": "Company Heroes",
       "kws": [
-        "Ancient",
-        "Company Heroes",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -4786,7 +2800,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 105,
+          "pts": 125,
           "per": [
             4,
             4
@@ -4803,152 +2817,48 @@ export default {
             ],
             [
               2,
-              2
+              1
+            ],
+            [
+              3,
+              1
             ]
           ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 20
+      },
       "minis": [
-        {
-          "n": "Ancient"
-        },
         {
           "n": "Company Champion"
         },
         {
-          "n": "Company Veteran"
+          "n": "Company veteran with bolt rifle"
+        },
+        {
+          "n": "Ancient"
+        },
+        {
+          "n": "Company Veteran with heavy bolter"
         }
       ],
       "defaults": [
-        [
-          1,
-          [
-            [
-              1,
-              1
-            ],
-            [
-              2062,
-              1
-            ]
-          ]
-        ],
-        [
-          0,
-          [
-            [
-              1,
-              1
-            ],
-            [
-              759,
-              1
-            ],
-            [
-              2063,
-              1
-            ]
-          ]
-        ],
         [
           2,
           [
             [
-              1,
+              2419,
               1
             ],
             [
-              2063,
+              2420,
               1
             ],
             [
-              2064,
-              1,
-              1
-            ],
-            [
-              2065,
-              1,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "company-veterans-on-bikes",
-      "name": "Company Veterans on Bikes",
-      "kws": [
-        "Mounted",
-        "Imperium",
-        "Grenades",
-        "Company Veterans"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 110,
-          "per": [
-            2,
-            2
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              1
-            ]
-          ],
-          "default": 1
-        },
-        {
-          "pts": 275,
-          "per": [
-            3,
-            5
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              2,
-              4
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Veteran Biker Sergeant"
-        },
-        {
-          "n": "Veteran Bikers"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              751,
+              2421,
               1
             ]
           ]
@@ -4957,133 +2867,49 @@ export default {
           1,
           [
             [
-              1167,
+              2421,
               1
             ],
             [
-              2780,
+              2420,
               1
             ],
             [
-              751,
+              2419,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              2420,
+              1
+            ],
+            [
+              2422,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              2419,
+              1
+            ],
+            [
+              2423,
+              1
+            ],
+            [
+              2420,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1137,
-          "in": "checkbox",
-          "o": [
-            [
-              1332
-            ],
-            [
-              680
-            ],
-            [
-              1396
-            ],
-            [
-              536
-            ],
-            [
-              38
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1138,
-          "in": "checkbox",
-          "o": [
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ]
-          ],
-          "rep": [
-            751
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1139,
-          "in": "stepper",
-          "o": [
-            [
-              1396
-            ],
-            [
-              536
-            ],
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ],
-            [
-              2100
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1140,
-          "in": "stepper",
-          "o": [
-            [
-              301
-            ],
-            [
-              2134
-            ],
-            [
-              1396
-            ],
-            [
-              1335
-            ],
-            [
-              607
-            ],
-            [
-              536
-            ],
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ],
-            [
-              2100
-            ]
-          ],
-          "rep": [
-            751
-          ]
-        }
       ]
     },
     {
@@ -5093,7 +2919,6 @@ export default {
       "kws": [
         "Captain",
         "Character",
-        "Darnath Lysander",
         "Epic Hero",
         "Imperium",
         "Infantry",
@@ -5105,7 +2930,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 100,
+          "pts": 160,
           "per": [
             1,
             1
@@ -5129,265 +2954,11 @@ export default {
           0,
           [
             [
-              2066,
+              2424,
               1
             ]
           ]
         ]
-      ]
-    },
-    {
-      "id": "deathstorm-drop-pod",
-      "name": "Deathstorm Drop Pod",
-      "kws": [
-        "Vehicle",
-        "Frame",
-        "Imperium",
-        "Deathstorm Drop Pod"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 95,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2802,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1141,
-          "in": "checkbox",
-          "o": [
-            [
-              2803
-            ]
-          ],
-          "rep": [
-            2802
-          ]
-        }
-      ]
-    },
-    {
-      "id": "deimos-predator",
-      "name": "Deimos Predator",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Frame",
-        "Imperium",
-        "Deimos Predator"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 115,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2694,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1035,
-          "in": "checkbox",
-          "o": [
-            [
-              937
-            ],
-            [
-              2695
-            ],
-            [
-              2696
-            ]
-          ],
-          "rep": [
-            2694
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1142,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2079,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  743,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "deredeo-dreadnought",
-      "name": "Deredeo Dreadnought",
-      "kws": [
-        "Vehicle",
-        "Walker",
-        "Imperium",
-        "Smoke",
-        "Dreadnought",
-        "Deredeo Dreadnought"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 160,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2804,
-              1
-            ],
-            [
-              60,
-              1
-            ],
-            [
-              2026,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1143,
-          "in": "checkbox",
-          "o": [
-            [
-              2805
-            ],
-            [
-              2806
-            ],
-            [
-              2807
-            ]
-          ],
-          "rep": [
-            2804
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1144,
-          "in": "checkbox",
-          "o": [
-            [
-              658
-            ]
-          ],
-          "rep": [
-            60
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1145,
-          "in": "checkbox",
-          "o": [
-            [
-              2808
-            ],
-            [
-              2809
-            ]
-          ]
-        }
       ]
     },
     {
@@ -5395,8 +2966,7 @@ export default {
       "sid": "3ea51431-bb1e-42a8-b25c-0eb01615c79b",
       "name": "Desolation Squad",
       "kws": [
-        "Desolation Squad",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -5404,7 +2974,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 140,
           "per": [
             5,
             5
@@ -5424,8 +2994,8 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
-        "pts": 30
+        "at": 3,
+        "pts": 10
       },
       "minis": [
         {
@@ -5437,43 +3007,43 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              1,
+              2425,
               1
             ],
             [
-              1217,
+              2426,
               1
             ],
             [
-              1218,
+              2427,
               1
             ],
             [
-              688,
+              2428,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              1217,
+              2426,
               1
             ],
             [
-              1218,
+              2427,
               1
             ],
             [
-              688,
+              2425,
               1
             ],
             [
-              1,
+              2428,
               1
             ]
           ]
@@ -5482,198 +3052,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 790,
+          "t": 818,
           "in": "checkbox",
           "o": [
             [
-              1219
+              2429,
+              5
             ]
           ],
           "rep": [
-            1218
+            2428
+          ]
+        },
+        {
+          "m": 0,
+          "t": 819,
+          "in": "checkbox",
+          "o": [
+            [
+              2429,
+              5
+            ]
+          ],
+          "rep": [
+            2430
           ]
         },
         {
           "all": 1,
-          "t": 791,
+          "t": 820,
           "in": "stepper",
           "o": [
             [
-              1220
+              2430
             ]
           ],
           "rep": [
-            1218
-          ]
-        }
-      ]
-    },
-    {
-      "id": "devastator-squad",
-      "sid": "74c044ed-6a53-45a9-ab84-7d1f5a30bada",
-      "name": "Devastator Squad",
-      "kws": [
-        "Devastator Squad",
-        "Grenades",
-        "Imperium",
-        "Infantry"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 120,
-          "per": [
-            5,
-            5
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ]
-        },
-        {
-          "pts": 200,
-          "per": [
-            6,
-            10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Devastator Sergeant"
-        },
-        {
-          "n": "Devastator"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1661,
-              1
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              960,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1661,
-              1
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              960,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 792,
-          "in": "checkbox",
-          "o": [
-            [
-              756
-            ],
-            [
-              7
-            ],
-            [
-              2058
-            ],
-            [
-              11
-            ],
-            [
-              189
-            ],
-            [
-              1208
-            ],
-            [
-              2067
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              2,
-              1
-            ]
-          ],
-          "rep": [
-            1,
-            960
-          ]
-        },
-        {
-          "m": 1,
-          "t": 793,
-          "in": "stepper",
-          "o": [
-            [
-              2068
-            ],
-            [
-              17
-            ],
-            [
-              1020
-            ],
-            [
-              497
-            ],
-            [
-              19
-            ],
-            [
-              2069
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              4
-            ]
-          ],
-          "rep": [
-            960
+            2428
           ]
         }
       ]
@@ -5683,13 +3098,14 @@ export default {
       "sid": "707c3861-353c-462a-9628-281e6048b9aa",
       "name": "Dreadnought",
       "kws": [
-        "Dreadnought",
         "Imperium",
         "Smoke",
         "Vehicle",
         "Walker"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 135,
@@ -5706,15 +3122,15 @@ export default {
           0,
           [
             [
-              38,
+              2431,
               1
             ],
             [
-              735,
+              2432,
               1
             ],
             [
-              1432,
+              2433,
               1
             ]
           ]
@@ -5723,89 +3139,59 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 606,
+          "t": 821,
           "in": "checkbox",
           "o": [
             [
-              1433
+              2434
             ],
             [
-              84
+              2435
             ],
             [
-              718
+              2436
             ]
           ],
           "rep": [
-            735
+            2432
           ]
         },
         {
           "m": 0,
-          "t": 794,
+          "t": 822,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  999,
+                  2437,
                   1
                 ],
                 [
-                  1000,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  495,
-                  1
-                ],
-                [
-                  1432,
+                  2438,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            1432,
-            38
+            2431,
+            2433
+          ]
+        },
+        {
+          "m": 0,
+          "t": 823,
+          "in": "checkbox",
+          "o": [
+            [
+              2439
+            ]
+          ],
+          "rep": [
+            2433
           ]
         }
-      ]
-    },
-    {
-      "id": "dreadnought-drop-pod",
-      "name": "Dreadnought Drop Pod",
-      "kws": [
-        "Vehicle",
-        "Frame",
-        "Imperium",
-        "Transport",
-        "Dreadnought Drop Pod"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 75,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          []
-        ]
       ]
     },
     {
@@ -5814,7 +3200,6 @@ export default {
       "name": "Drop Pod",
       "kws": [
         "Dedicated Transport",
-        "Drop Pod",
         "Frame",
         "Imperium",
         "Transport",
@@ -5842,16 +3227,16 @@ export default {
       "sid": "c30d0b57-6613-4b18-a71b-a082d22a2e4b",
       "name": "Eliminator Squad",
       "kws": [
-        "Eliminator Squad",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Phobos"
+        "Phobos",
+        "Smoke"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 85,
           "per": [
             3,
             3
@@ -5880,35 +3265,35 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              688,
+              2440,
               1
             ],
             [
-              1228,
+              2441,
               1
             ],
             [
-              1,
+              2442,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              688,
+              2440,
               1
             ],
             [
-              1228,
+              2441,
               1
             ],
             [
-              1,
+              2442,
               1
             ]
           ]
@@ -5917,50 +3302,147 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 795,
+          "t": 824,
           "in": "checkbox",
           "o": [
             [
-              2070
+              2443
             ],
             [
-              1234
+              2444
             ]
           ],
           "rep": [
-            1228
+            2440
           ]
         },
         {
           "m": 1,
-          "t": 796,
+          "t": 825,
           "in": "stepper",
           "o": [
             [
-              1234
+              2444
             ]
           ],
           "rep": [
-            1228
+            2440
           ]
         }
       ]
     },
     {
-      "id": "eradicator-squad",
-      "sid": "258c4554-ef84-418a-9125-ca1ccd5e8d03",
-      "name": "Eradicator Squad",
+      "id": "eradicator-squad-with-heavy-bolters",
+      "sid": "9a12ed08-8333-4f62-860e-946b35f3e3f6",
+      "name": "Eradicator Squad with heavy bolters",
       "kws": [
-        "Eradicator Squad",
+        "Explosives",
         "Gravis",
-        "Grenades",
         "Imperium",
         "Infantry"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 100,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1,
+          "comp": [
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "pts": 215,
+          "per": [
+            6,
+            6
+          ],
+          "comp": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 30
+      },
+      "minis": [
+        {
+          "n": "Eradicator"
+        },
+        {
+          "n": "Eradicator Sergeant"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2449,
+              1
+            ],
+            [
+              2450,
+              1
+            ],
+            [
+              2451,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2450,
+              1
+            ],
+            [
+              2449,
+              1
+            ],
+            [
+              2451,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "eradicator-squad-with-melta-rifles",
+      "sid": "258c4554-ef84-418a-9125-ca1ccd5e8d03",
+      "name": "Eradicator Squad with melta rifles",
+      "kws": [
+        "Explosives",
+        "Gravis",
+        "Imperium",
+        "Infantry"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 100,
           "per": [
             3,
             3
@@ -5978,9 +3460,9 @@ export default {
           ]
         },
         {
-          "pts": 180,
+          "pts": 200,
           "per": [
-            4,
+            6,
             6
           ],
           "comp": [
@@ -5990,7 +3472,6 @@ export default {
             ],
             [
               1,
-              3,
               5
             ]
           ]
@@ -5999,7 +3480,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 20
       },
       "minis": [
         {
@@ -6014,15 +3495,15 @@ export default {
           1,
           [
             [
-              688,
+              2445,
               1
             ],
             [
-              1221,
+              2446,
               1
             ],
             [
-              1,
+              2447,
               1
             ]
           ]
@@ -6031,15 +3512,15 @@ export default {
           0,
           [
             [
-              1221,
+              2446,
               1
             ],
             [
-              688,
+              2447,
               1
             ],
             [
-              1,
+              2445,
               1
             ]
           ]
@@ -6048,16 +3529,16 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 797,
+          "t": 826,
           "in": "stepper",
           "o": [
             [
-              19
+              2448
             ]
           ],
           "lim": [
             [
-              0,
+              3,
               1
             ],
             [
@@ -6066,99 +3547,21 @@ export default {
             ]
           ],
           "rep": [
-            1221
+            2446
           ]
         }
-      ]
-    },
-    {
-      "id": "eradicator-squad-with-heavy-bolters",
-      "sid": "9a12ed08-8333-4f62-860e-946b35f3e3f6",
-      "name": "Eradicator Squad with Heavy Bolters",
-      "kws": [
-        "Eradicator Squad",
-        "Eradicator Squad with Heavy Bolters",
-        "Gravis",
-        "Imperium",
-        "Infantry"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 80,
-          "per": [
-            3,
-            3
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              2
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Eradicator Sergeant"
-        },
-        {
-          "n": "Eradicator"
-        }
-      ],
-      "defaults": [
-        [
-          1,
-          [
-            [
-              1,
-              1
-            ],
-            [
-              2071,
-              1
-            ],
-            [
-              2072,
-              1
-            ]
-          ]
-        ],
-        [
-          0,
-          [
-            [
-              1,
-              1
-            ],
-            [
-              2071,
-              1
-            ],
-            [
-              2072,
-              1
-            ]
-          ]
-        ]
       ]
     },
     {
       "id": "falchion",
+      "sid": "5a5bb862-0d0a-4216-9ed8-0bed4126b5a9",
       "name": "Falchion",
       "kws": [
-        "Vehicle",
         "Frame",
-        "Titanic",
         "Imperium",
         "Smoke",
-        "Falchion"
+        "Titanic",
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -6179,19 +3582,19 @@ export default {
           0,
           [
             [
-              2810,
+              2207,
+              1
+            ],
+            [
+              2208,
               2
             ],
             [
-              60,
+              2209,
               1
             ],
             [
-              2811,
-              1
-            ],
-            [
-              620,
+              2210,
               1
             ]
           ]
@@ -6200,343 +3603,52 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1146,
+          "t": 774,
           "in": "checkbox",
+          "o": [
+            [
+              2211
+            ],
+            [
+              2212
+            ],
+            [
+              2213
+            ],
+            [
+              2214
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 775,
+          "in": "stepper",
           "o": [
             [
               [
                 [
-                  2651,
+                  2215,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2810
+            2208
           ]
         },
         {
           "m": 0,
-          "t": 1144,
+          "t": 776,
           "in": "checkbox",
           "o": [
             [
-              658
+              2216
             ]
           ],
           "rep": [
-            60
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1129,
-          "in": "checkbox",
-          "o": [
-            [
-              2079
-            ],
-            [
-              743
-            ],
-            [
-              169
-            ],
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "fellblade",
-      "name": "Fellblade",
-      "kws": [
-        "Vehicle",
-        "Frame",
-        "Titanic",
-        "Imperium",
-        "Smoke",
-        "Fellblade"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 480,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              959,
-              1
-            ],
-            [
-              2812,
-              1
-            ],
-            [
-              2810,
-              2
-            ],
-            [
-              60,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1147,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2651,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  2813,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            2810
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1144,
-          "in": "checkbox",
-          "o": [
-            [
-              658
-            ]
-          ],
-          "rep": [
-            60
-          ]
-        },
-        {
-          "m": 0,
-          "t": 374,
-          "in": "checkbox",
-          "o": [
-            [
-              946
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1148,
-          "in": "checkbox",
-          "o": [
-            [
-              680
-            ],
-            [
-              2079
-            ],
-            [
-              743
-            ],
-            [
-              169
-            ],
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ferren-areios",
-      "name": "Ferren Areios",
-      "kws": [
-        "Infantry",
-        "Imperium",
-        "Character",
-        "Grenades",
-        "Epic Hero",
-        "Tacticus",
-        "Captain",
-        "Ferren Areios"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1,
-        "epic": 1
-      },
-      "sizes": [
-        {
-          "pts": 80,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              681,
-              1
-            ],
-            [
-              2814,
-              1
-            ]
-          ]
-        ]
-      ],
-      "leads": [
-        {
-          "to": "assault-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "bladeguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "company-heroes",
-          "type": "leader"
-        },
-        {
-          "to": "hellblaster-squad",
-          "type": "leader"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        }
-      ]
-    },
-    {
-      "id": "fire-raptor-gunship",
-      "name": "Fire Raptor Gunship",
-      "kws": [
-        "Vehicle",
-        "Fly",
-        "Aircraft",
-        "Imperium",
-        "Fire Raptor Gunship"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 290,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2815,
-              1
-            ],
-            [
-              2355,
-              2
-            ],
-            [
-              2816,
-              2
-            ],
-            [
-              138,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1149,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  718,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            2816
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1150,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2813,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            2355
+            2210
           ]
         }
       ]
@@ -6547,14 +3659,13 @@ export default {
       "name": "Firestrike Servo-turrets",
       "kws": [
         "Artillery",
-        "Firestrike Servo-turrets",
         "Imperium",
         "Vehicle"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 80,
           "per": [
             1,
             1
@@ -6562,7 +3673,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 150,
+          "pts": 160,
           "per": [
             2,
             2
@@ -6570,27 +3681,16 @@ export default {
         }
       ],
       "linked": 1,
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
       "defaults": [
         [
           0,
           [
             [
-              688,
+              2452,
               1
             ],
             [
-              2073,
+              2453,
               1
             ]
           ]
@@ -6599,15 +3699,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 798,
+          "t": 827,
           "in": "stepper",
           "o": [
             [
-              2074
+              2454
             ]
           ],
           "rep": [
-            2073
+            2453
           ]
         }
       ]
@@ -6618,7 +3718,6 @@ export default {
       "name": "Gladiator Lancer",
       "kws": [
         "Frame",
-        "Gladiator Lancer",
         "Imperium",
         "Smoke",
         "Vehicle"
@@ -6637,77 +3736,26 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
+        "pts": 20
       },
       "defaults": [
         [
           0,
           [
             [
-              38,
-              2
-            ],
-            [
-              151,
+              709,
               1
             ],
             [
-              698,
+              710,
+              1
+            ],
+            [
+              708,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 298,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  699,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            38
-          ]
-        },
-        {
-          "m": 0,
-          "t": 772,
-          "in": "checkbox",
-          "o": [
-            [
-              700
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 299,
-          "in": "checkbox",
-          "o": [
-            [
-              701
-            ]
-          ]
-        }
       ]
     },
     {
@@ -6716,7 +3764,6 @@ export default {
       "name": "Gladiator Reaper",
       "kws": [
         "Frame",
-        "Gladiator Reaper",
         "Imperium",
         "Smoke",
         "Vehicle"
@@ -6724,7 +3771,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 160,
+          "pts": 165,
           "per": [
             1,
             1
@@ -6735,59 +3782,26 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
+        "pts": 20
       },
       "defaults": [
         [
           0,
           [
             [
-              151,
+              713,
               1
             ],
             [
-              702,
-              2
+              2455,
+              1
             ],
             [
-              703,
+              712,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 772,
-          "in": "checkbox",
-          "o": [
-            [
-              700
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 299,
-          "in": "checkbox",
-          "o": [
-            [
-              701
-            ]
-          ]
-        }
       ]
     },
     {
@@ -6796,7 +3810,6 @@ export default {
       "name": "Gladiator Valiant",
       "kws": [
         "Frame",
-        "Gladiator Valiant",
         "Imperium",
         "Smoke",
         "Vehicle"
@@ -6804,7 +3817,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 150,
+          "pts": 165,
           "per": [
             1,
             1
@@ -6815,59 +3828,30 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
+        "pts": 20
       },
       "defaults": [
         [
           0,
           [
             [
-              151,
+              2456,
               1
             ],
             [
-              704,
+              716,
               1
             ],
             [
-              84,
+              2457,
+              1
+            ],
+            [
+              2458,
               2
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 772,
-          "in": "checkbox",
-          "o": [
-            [
-              700
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 299,
-          "in": "checkbox",
-          "o": [
-            [
-              701
-            ]
-          ]
-        }
       ]
     },
     {
@@ -6877,11 +3861,12 @@ export default {
       "kws": [
         "Fortification",
         "Frame",
-        "Hammerfall Bunker",
         "Imperium",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 175,
@@ -6898,11 +3883,11 @@ export default {
           0,
           [
             [
-              2075,
+              2459,
               1
             ],
             [
-              2076,
+              2460,
               1
             ]
           ]
@@ -6911,15 +3896,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 799,
+          "t": 828,
           "in": "checkbox",
           "o": [
             [
-              2077
+              2461
             ]
           ],
           "rep": [
-            2076
+            2460
           ]
         }
       ]
@@ -6930,16 +3915,15 @@ export default {
       "name": "Heavy Intercessor Squad",
       "kws": [
         "Battleline",
+        "Explosives",
         "Gravis",
-        "Grenades",
-        "Heavy Intercessor Squad",
         "Imperium",
         "Infantry"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 115,
           "per": [
             5,
             5
@@ -6948,29 +3932,28 @@ export default {
           "comp": [
             [
               0,
-              1
+              4
             ],
             [
               1,
-              4
+              1
             ]
           ]
         },
         {
-          "pts": 200,
+          "pts": 230,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
             [
               0,
-              1
+              9
             ],
             [
               1,
-              5,
-              9
+              1
             ]
           ]
         }
@@ -6978,43 +3961,43 @@ export default {
       "linked": 1,
       "minis": [
         {
-          "n": "Heavy Intercessor Sergeant"
+          "n": "Heavy Intercessor"
         },
         {
-          "n": "Heavy Intercessor"
+          "n": "Heavy Intercessor Sergeant"
         }
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              2078,
+              2462,
               1
             ],
             [
-              1,
+              2463,
               1
             ],
             [
-              688,
+              2464,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              2078,
+              2464,
               1
             ],
             [
-              688,
+              2463,
               1
             ],
             [
-              1,
+              2462,
               1
             ]
           ]
@@ -7022,17 +4005,17 @@ export default {
       ],
       "gear": [
         {
-          "m": 1,
-          "t": 800,
+          "m": 0,
+          "t": 829,
           "in": "stepper",
           "o": [
             [
-              2079
+              2465
             ]
           ],
           "lim": [
             [
-              0,
+              5,
               1
             ],
             [
@@ -7041,7 +4024,7 @@ export default {
             ]
           ],
           "rep": [
-            2078
+            2462
           ]
         }
       ]
@@ -7051,8 +4034,7 @@ export default {
       "sid": "1db34bd3-5f48-4d1b-b222-87decab7dfc2",
       "name": "Hellblaster Squad",
       "kws": [
-        "Grenades",
-        "Hellblaster Squad",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Tacticus"
@@ -7060,7 +4042,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 115,
           "per": [
             5,
             5
@@ -7078,9 +4060,9 @@ export default {
           ]
         },
         {
-          "pts": 220,
+          "pts": 230,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
@@ -7090,13 +4072,16 @@ export default {
             ],
             [
               1,
-              5,
               9
             ]
           ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 15
+      },
       "minis": [
         {
           "n": "Hellblaster Sergeant"
@@ -7110,15 +4095,15 @@ export default {
           0,
           [
             [
-              1204,
+              2466,
               1
             ],
             [
-              1,
+              2467,
               1
             ],
             [
-              688,
+              2468,
               1
             ]
           ]
@@ -7127,15 +4112,15 @@ export default {
           1,
           [
             [
-              1,
+              2466,
               1
             ],
             [
-              1204,
+              2467,
               1
             ],
             [
-              688,
+              2468,
               1
             ]
           ]
@@ -7144,145 +4129,16 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 801,
+          "t": 830,
           "in": "checkbox",
           "o": [
             [
-              11
+              2469
             ]
           ],
           "rep": [
-            1
+            2468
           ]
-        }
-      ]
-    },
-    {
-      "id": "hunter",
-      "name": "Hunter",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Frame",
-        "Imperium",
-        "Hunter"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 100,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2817,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "imperial-space-marine",
-      "name": "Imperial Space Marine",
-      "kws": [
-        "Infantry",
-        "Imperium",
-        "Character",
-        "Grenades",
-        "Imperial Space Marine"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 40,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2818,
-              1
-            ],
-            [
-              2819,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ]
-      ],
-      "leads": [
-        {
-          "to": "assault-squad",
-          "type": "support"
-        },
-        {
-          "to": "command-squad",
-          "type": "support"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "support"
-        },
-        {
-          "to": "vanguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "devastator-squad",
-          "type": "support"
         }
       ]
     },
@@ -7294,7 +4150,6 @@ export default {
         "Dedicated Transport",
         "Frame",
         "Imperium",
-        "Impulsor",
         "Transport",
         "Vehicle"
       ],
@@ -7314,27 +4169,16 @@ export default {
         "at": 4,
         "pts": 10
       },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
       "defaults": [
         [
           0,
           [
             [
-              38,
-              2
+              2470,
+              1
             ],
             [
-              151,
+              722,
               1
             ]
           ]
@@ -7343,48 +4187,44 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 772,
+          "t": 831,
           "in": "checkbox",
           "o": [
             [
-              700
+              2471
+            ],
+            [
+              2472
+            ],
+            [
+              728,
+              10
+            ],
+            [
+              729
             ]
           ]
         },
         {
           "m": 0,
-          "t": 298,
-          "in": "stepper",
+          "t": 832,
+          "in": "checkbox",
           "o": [
             [
-              [
-                [
-                  699,
-                  2
-                ]
-              ]
+              2473
             ]
           ],
           "rep": [
-            38
+            2470
           ]
         },
         {
           "m": 0,
-          "t": 187,
+          "t": 833,
           "in": "checkbox",
           "o": [
             [
-              707
-            ],
-            [
-              708
-            ],
-            [
-              709
-            ],
-            [
-              710
+              2474
             ]
           ]
         }
@@ -7398,14 +4238,13 @@ export default {
         "Fly",
         "Gravis",
         "Imperium",
-        "Inceptor Squad",
         "Infantry",
         "Jump Pack"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 125,
+          "pts": 130,
           "per": [
             3,
             3
@@ -7414,29 +4253,28 @@ export default {
           "comp": [
             [
               0,
-              1
+              2
             ],
             [
               1,
-              2
+              1
             ]
           ]
         },
         {
-          "pts": 250,
+          "pts": 260,
           "per": [
-            4,
+            6,
             6
           ],
           "comp": [
             [
               0,
-              1
+              5
             ],
             [
               1,
-              3,
-              5
+              1
             ]
           ]
         }
@@ -7444,39 +4282,39 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 15
+        "pts": 20
       },
       "minis": [
         {
-          "n": "Inceptor Sergeant"
+          "n": "Inceptor"
         },
         {
-          "n": "Inceptor"
+          "n": "Inceptor Sergeant"
         }
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              1236,
+              2475,
               1
             ],
             [
-              688,
+              2476,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              1236,
+              2475,
               1
             ],
             [
-              688,
+              2476,
               1
             ]
           ]
@@ -7485,15 +4323,15 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 802,
+          "t": 834,
           "in": "stepper",
           "o": [
             [
-              1237
+              2477
             ]
           ],
           "rep": [
-            1236
+            2475
           ]
         }
       ]
@@ -7503,9 +4341,8 @@ export default {
       "sid": "d54c22f1-7947-4013-b6f1-c2e2f824721b",
       "name": "Incursor Squad",
       "kws": [
-        "Grenades",
+        "Explosives",
         "Imperium",
-        "Incursor Squad",
         "Infantry",
         "Phobos",
         "Smoke"
@@ -7513,7 +4350,105 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 90,
+          "per": [
+            5,
+            5
+          ],
+          "default": 1,
+          "comp": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "pts": 170,
+          "per": [
+            10,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              9
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
+      "minis": [
+        {
+          "n": "Incursor"
+        },
+        {
+          "n": "Incursor Sergeant"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2478,
+              1
+            ],
+            [
+              2479,
+              1
+            ],
+            [
+              2480,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2480,
+              1
+            ],
+            [
+              2478,
+              1
+            ],
+            [
+              2479,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "infernus-squad",
+      "sid": "84342745-031a-414d-a3f2-d9b32a8cc52d",
+      "name": "Infernus Squad",
+      "kws": [
+        "Explosives",
+        "Imperium",
+        "Infantry",
+        "Tacticus"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 95,
           "per": [
             5,
             5
@@ -7531,9 +4466,9 @@ export default {
           ]
         },
         {
-          "pts": 150,
+          "pts": 190,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
@@ -7543,7 +4478,6 @@ export default {
             ],
             [
               1,
-              5,
               9
             ]
           ]
@@ -7556,120 +4490,6 @@ export default {
       },
       "minis": [
         {
-          "n": "Incursor Sergeant"
-        },
-        {
-          "n": "Incursor"
-        }
-      ],
-      "defaults": [
-        [
-          1,
-          [
-            [
-              1,
-              1
-            ],
-            [
-              2080,
-              1
-            ],
-            [
-              1230,
-              1
-            ]
-          ]
-        ],
-        [
-          0,
-          [
-            [
-              1230,
-              1
-            ],
-            [
-              2080,
-              1
-            ],
-            [
-              1,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 1,
-          "t": 803,
-          "in": "checkbox",
-          "o": [
-            [
-              2081
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "infernus-squad",
-      "sid": "84342745-031a-414d-a3f2-d9b32a8cc52d",
-      "name": "Infernus Squad",
-      "kws": [
-        "Grenades",
-        "Imperium",
-        "Infantry",
-        "Infernus Squad",
-        "Tacticus"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 85,
-          "per": [
-            5,
-            5
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ]
-        },
-        {
-          "pts": 180,
-          "per": [
-            6,
-            10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
           "n": "Infernus Sergeant"
         },
         {
@@ -7678,35 +4498,35 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              688,
+              2481,
               1
             ],
             [
-              2082,
+              2482,
               1
             ],
             [
-              1,
+              2483,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              2082,
+              2483,
               1
             ],
             [
-              688,
+              2482,
               1
             ],
             [
-              1,
+              2481,
               1
             ]
           ]
@@ -7718,17 +4538,16 @@ export default {
       "sid": "1cbb50bd-dd61-47ed-bad2-1fbe43c96cd2",
       "name": "Infiltrator Squad",
       "kws": [
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Infiltrator Squad",
         "Phobos",
         "Smoke"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 85,
           "per": [
             5,
             5
@@ -7737,44 +4556,39 @@ export default {
           "comp": [
             [
               0,
-              1
+              4
             ],
             [
               1,
-              4
+              1
             ]
           ]
         },
         {
-          "pts": 180,
+          "pts": 150,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
             [
               0,
-              1
+              9
             ],
             [
               1,
-              5,
-              9
+              1
             ]
           ]
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "minis": [
         {
-          "n": "Infiltrator Sergeant"
+          "n": "Infiltrator"
         },
         {
-          "n": "Infiltrator"
+          "n": "Infiltrator Sergeant"
         }
       ],
       "defaults": [
@@ -7782,15 +4596,15 @@ export default {
           1,
           [
             [
-              1,
+              2484,
               1
             ],
             [
-              688,
+              2485,
               1
             ],
             [
-              2083,
+              2486,
               1
             ]
           ]
@@ -7799,15 +4613,15 @@ export default {
           0,
           [
             [
-              2083,
+              2486,
               1
             ],
             [
-              688,
+              2484,
               1
             ],
             [
-              1,
+              2485,
               1
             ]
           ]
@@ -7815,28 +4629,12 @@ export default {
       ],
       "gear": [
         {
-          "m": 1,
-          "t": 804,
+          "all": 1,
+          "t": 835,
           "in": "checkbox",
           "o": [
             [
-              1231
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ]
-        },
-        {
-          "m": 1,
-          "t": 805,
-          "in": "checkbox",
-          "o": [
-            [
-              1232
+              1360
             ]
           ],
           "lim": [
@@ -7854,16 +4652,15 @@ export default {
       "name": "Intercessor Squad",
       "kws": [
         "Battleline",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Intercessor Squad",
         "Tacticus"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 85,
           "per": [
             5,
             5
@@ -7872,29 +4669,28 @@ export default {
           "comp": [
             [
               0,
-              1
+              4
             ],
             [
               1,
-              4
+              1
             ]
           ]
         },
         {
-          "pts": 150,
+          "pts": 170,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
             [
               0,
-              1
+              9
             ],
             [
               1,
-              5,
-              9
+              1
             ]
           ]
         }
@@ -7902,43 +4698,43 @@ export default {
       "linked": 1,
       "minis": [
         {
-          "n": "Intercessor Sergeant"
+          "n": "Intercessor"
         },
         {
-          "n": "Intercessor"
+          "n": "Intercessor Sergeant"
         }
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              689,
+              2487,
               1
             ],
             [
-              1,
+              2488,
               1
             ],
             [
-              688,
+              2489,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              689,
+              2487,
               1
             ],
             [
-              1,
+              2489,
               1
             ],
             [
-              688,
+              2488,
               1
             ]
           ]
@@ -7946,61 +4742,61 @@ export default {
       ],
       "gear": [
         {
-          "m": 0,
-          "t": 806,
+          "m": 1,
+          "t": 836,
           "in": "checkbox",
           "o": [
             [
-              768
+              2490
             ],
             [
-              614
+              2491
             ],
             [
-              11
+              2492
             ],
             [
-              738
+              2493
             ]
           ],
           "rep": [
-            689
+            2489
+          ]
+        },
+        {
+          "m": 1,
+          "t": 837,
+          "in": "checkbox",
+          "o": [
+            [
+              2490
+            ],
+            [
+              2494
+            ],
+            [
+              2495
+            ],
+            [
+              2492
+            ]
+          ],
+          "rep": [
+            2487
           ]
         },
         {
           "m": 0,
-          "t": 807,
-          "in": "checkbox",
-          "o": [
-            [
-              768
-            ],
-            [
-              691
-            ],
-            [
-              738
-            ],
-            [
-              758
-            ]
-          ],
-          "rep": [
-            688
-          ]
-        },
-        {
-          "all": 1,
-          "t": 329,
+          "t": 838,
           "in": "stepper",
           "o": [
             [
-              760
+              2496
             ]
           ],
           "lim": [
             [
-              0,
+              5,
               1
             ],
             [
@@ -8012,46 +4808,56 @@ export default {
       ]
     },
     {
-      "id": "invader-atv",
+      "id": "invader-atvs",
       "sid": "aa6a8aac-523d-4373-ae57-40d2a5673aa6",
-      "name": "Invader ATV",
+      "name": "Invader ATVs",
       "kws": [
         "Frame",
-        "Grenades",
         "Imperium",
-        "Invader ATV",
-        "Mounted"
+        "Mounted",
+        "Vehicle"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 60,
+          "pts": 65,
           "per": [
             1,
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 130,
+          "per": [
+            2,
+            2
+          ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
           [
             [
-              2063,
+              2497,
               1
             ],
             [
-              2057,
+              2498,
               1
             ],
             [
-              2084,
+              2499,
               1
             ],
             [
-              1,
+              2500,
               1
             ]
           ]
@@ -8060,15 +4866,16 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 808,
-          "in": "checkbox",
+          "t": 839,
+          "in": "stepper",
           "o": [
             [
-              84
+              2501,
+              5
             ]
           ],
           "rep": [
-            2084
+            2499
           ]
         }
       ]
@@ -8079,7 +4886,6 @@ export default {
       "name": "Invictor Tactical Warsuit",
       "kws": [
         "Imperium",
-        "Invictor Tactical Warsuit",
         "Phobos",
         "Vehicle",
         "Walker"
@@ -8087,7 +4893,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 125,
+          "pts": 135,
           "per": [
             1,
             1
@@ -8096,28 +4902,32 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 15
+      },
       "defaults": [
         [
           0,
           [
             [
-              2085,
+              2502,
               1
             ],
             [
-              699,
+              2503,
               1
             ],
             [
-              2086,
+              2504,
               1
             ],
             [
-              2087,
+              2505,
               1
             ],
             [
-              35,
+              2506,
               1
             ]
           ]
@@ -8126,15 +4936,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 809,
+          "t": 840,
           "in": "checkbox",
           "o": [
             [
-              2088
+              2507
             ]
           ],
           "rep": [
-            2085
+            2505
           ]
         }
       ]
@@ -8148,8 +4958,7 @@ export default {
         "Epic Hero",
         "Gravis",
         "Imperium",
-        "Infantry",
-        "Iron Father Feirros"
+        "Infantry"
       ],
       "flags": {
         "char": 1,
@@ -8168,11 +4977,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "aggressor-squad",
+          "to": "heavy-intercessor-squad",
           "type": "leader"
         },
         {
-          "to": "eradicator-squad",
+          "to": "aggressor-squad",
           "type": "leader"
         },
         {
@@ -8180,15 +4989,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "heavy-intercessor-squad",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Eradicator Squad"
-          ],
+          "to": "eradicator-squad-with-melta-rifles",
           "type": "leader"
         }
       ],
@@ -8197,247 +4998,23 @@ export default {
           0,
           [
             [
-              2089,
+              2508,
               1
             ],
             [
-              22,
+              2509,
               1
             ],
             [
-              2090,
+              2510,
               1
             ],
             [
-              2091,
+              2511,
               1
             ]
           ]
         ]
-      ]
-    },
-    {
-      "id": "ironclad-dreadnought",
-      "name": "Ironclad Dreadnought",
-      "kws": [
-        "Vehicle",
-        "Walker",
-        "Smoke",
-        "Imperium",
-        "Dreadnought",
-        "Ironclad Dreadnought"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 150,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1335,
-              1
-            ],
-            [
-              38,
-              1
-            ],
-            [
-              1432,
-              1
-            ],
-            [
-              2820,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1151,
-          "in": "checkbox",
-          "o": [
-            [
-              2821
-            ]
-          ],
-          "rep": [
-            2820
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1152,
-          "in": "checkbox",
-          "o": [
-            [
-              712
-            ]
-          ],
-          "rep": [
-            1432,
-            38
-          ]
-        },
-        {
-          "m": 0,
-          "t": 607,
-          "in": "checkbox",
-          "o": [
-            [
-              743
-            ]
-          ],
-          "rep": [
-            38
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1023,
-          "in": "checkbox",
-          "o": [
-            [
-              743
-            ]
-          ],
-          "rep": [
-            1335
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1153,
-          "in": "stepper",
-          "o": [
-            [
-              500
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              2,
-              2
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1154,
-          "in": "checkbox",
-          "o": [
-            [
-              2822
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "javelin-attack-speeder",
-      "name": "Javelin Attack Speeder",
-      "kws": [
-        "Vehicle",
-        "Fly",
-        "Imperium",
-        "Javelin Attack Speeder"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 110,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2079,
-              1
-            ],
-            [
-              2823,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1155,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            2823
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1156,
-          "in": "checkbox",
-          "o": [
-            [
-              169
-            ]
-          ],
-          "rep": [
-            2079
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1153,
-          "in": "stepper",
-          "o": [
-            [
-              500
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              2,
-              2
-            ]
-          ]
-        }
       ]
     },
     {
@@ -8448,7 +5025,6 @@ export default {
         "Character",
         "Imperium",
         "Infantry",
-        "Judiciar",
         "Tacticus"
       ],
       "flags": {
@@ -8456,7 +5032,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 55,
+          "pts": 50,
           "per": [
             1,
             1
@@ -8471,82 +5047,48 @@ export default {
           "type": "support"
         },
         {
-          "to": "bladeguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "support"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "assault-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "bladeguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
           "to": "sword-brethren-squad",
-          "type": "leader"
-        },
-        {
-          "to": "crusader-squad",
-          "type": "leader"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "leader"
+          "type": "support"
         },
         {
           "to": "deathwatch-veterans",
-          "type": "leader"
-        },
-        {
-          "to": "fortis-kill-team",
-          "type": "leader"
-        },
-        {
-          "to": "decimus-kill-team",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
           "type": "support"
         },
         {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
-          "type": "leader"
+          "to": "inner-circle-companions",
+          "type": "support"
+        },
+        {
+          "to": "decimus-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "crusader-squad",
+          "type": "support"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "support"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "sternguard-veteran-squad",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -8554,11 +5096,11 @@ export default {
           0,
           [
             [
-              767,
+              2512,
               1
             ],
             [
-              2092,
+              2513,
               1
             ]
           ]
@@ -8566,19 +5108,15 @@ export default {
       ]
     },
     {
-      "id": "kayvaan-shrike",
-      "sid": "cb262cc7-d6e9-4a4a-a155-65e5a0917eee",
-      "name": "Kayvaan Shrike",
+      "id": "kaius-konorius",
+      "sid": "637b3f46-60e0-4a59-9004-c5a0ea0d4148",
+      "name": "Kaius Konorius",
       "kws": [
-        "Chapter Master",
         "Character",
         "Epic Hero",
-        "Fly",
-        "Imperium",
+        "Explosives",
         "Infantry",
-        "Jump Pack",
-        "Kayvaan Shrike",
-        "Phobos"
+        "Tacticus"
       ],
       "flags": {
         "char": 1,
@@ -8597,11 +5135,74 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "assault-intercessors-with-jump-packs",
+          "to": "victrix-honour-guard",
+          "type": "support"
+        },
+        {
+          "to": "sternguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "assault-intercessor-squad",
+          "type": "support"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2182,
+              1
+            ],
+            [
+              2183,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "kayvaan-shrike",
+      "sid": "cb262cc7-d6e9-4a4a-a155-65e5a0917eee",
+      "name": "Kayvaan Shrike",
+      "kws": [
+        "Captain",
+        "Character",
+        "Explosives",
+        "Fly",
+        "Imperium",
+        "Infantry",
+        "Jump Pack",
+        "Phobos",
+        "Smoke"
+      ],
+      "flags": {
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "leads": [
+        {
+          "to": "vanguard-veteran-squad-with-jump-packs",
           "type": "leader"
         },
         {
-          "to": "vanguard-veteran-squad-with-jump-packs",
+          "to": "assault-intercessors-with-jump-packs",
           "type": "leader"
         }
       ],
@@ -8610,11 +5211,11 @@ export default {
           0,
           [
             [
-              2093,
+              2514,
               1
             ],
             [
-              2094,
+              2515,
               1
             ]
           ]
@@ -8629,9 +5230,9 @@ export default {
         "Captain",
         "Character",
         "Epic Hero",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Kor’sarro Khan",
         "Tacticus"
       ],
       "flags": {
@@ -8640,7 +5241,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 55,
+          "pts": 80,
           "per": [
             1,
             1
@@ -8651,6 +5252,14 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "company-heroes",
+          "type": "leader"
+        },
+        {
           "to": "assault-intercessor-squad",
           "type": "leader"
         },
@@ -8659,31 +5268,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "company-heroes",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
           "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "victrix-honour-guard",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "intercessor-squad",
           "type": "leader"
         }
       ],
@@ -8692,11 +5281,15 @@ export default {
           0,
           [
             [
-              22,
+              2516,
               1
             ],
             [
-              2095,
+              2517,
+              1
+            ],
+            [
+              2518,
               1
             ]
           ]
@@ -8705,13 +5298,13 @@ export default {
     },
     {
       "id": "kratos",
+      "sid": "1d42e77c-000d-4037-b6b9-811d8282b80c",
       "name": "Kratos",
       "kws": [
-        "Vehicle",
         "Frame",
         "Imperium",
         "Smoke",
-        "Kratos"
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -8732,20 +5325,20 @@ export default {
           0,
           [
             [
-              544,
+              2184,
               1
             ],
             [
-              2824,
+              2185,
               1
             ],
             [
-              2079,
+              2186,
+              1
+            ],
+            [
+              2187,
               4
-            ],
-            [
-              620,
-              1
             ]
           ]
         ]
@@ -8753,122 +5346,90 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1157,
-          "in": "checkbox",
+          "t": 769,
+          "in": "stepper",
           "o": [
             [
-              2825
+              2184
             ],
             [
-              2826
+              2188
+            ],
+            [
+              2189
             ]
           ],
           "rep": [
-            2824
+            2187
           ]
         },
         {
           "m": 0,
-          "t": 1158,
+          "t": 770,
           "in": "checkbox",
           "o": [
             [
-              [
-                [
-                  544,
-                  2
-                ]
-              ]
+              2190
             ],
             [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  2614,
-                  2
-                ]
-              ]
+              2191
             ]
           ],
           "rep": [
-            2079
-          ],
-          "rc": 2
+            2186
+          ]
         },
         {
           "m": 0,
-          "t": 1159,
-          "in": "checkbox",
+          "t": 771,
+          "in": "stepper",
           "o": [
             [
-              [
-                [
-                  743,
-                  2
-                ]
-              ]
+              2192
             ],
             [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
+              2188
             ],
             [
-              [
-                [
-                  2612,
-                  2
-                ]
-              ]
+              2193
             ]
           ],
           "rep": [
-            2079
-          ],
-          "rc": 2
+            2187
+          ]
         },
         {
           "m": 0,
-          "t": 1160,
+          "t": 772,
           "in": "checkbox",
           "o": [
             [
-              680
+              2194
             ],
             [
-              946
+              2195
             ],
             [
-              2079
+              2187
             ],
             [
-              743
+              2192
             ],
             [
-              169
+              2196
             ],
             [
-              2780
+              2197
             ]
           ]
         },
         {
           "m": 0,
-          "t": 1161,
+          "t": 314,
           "in": "checkbox",
           "o": [
             [
-              500
+              2198
             ]
           ]
         }
@@ -8881,7 +5442,6 @@ export default {
       "kws": [
         "Frame",
         "Imperium",
-        "Land Raider",
         "Smoke",
         "Transport",
         "Vehicle"
@@ -8889,7 +5449,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 220,
+          "pts": 245,
           "per": [
             1,
             1
@@ -8899,34 +5459,23 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 3,
+        "at": 2,
         "pts": 20
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
       },
       "defaults": [
         [
           0,
           [
             [
-              714,
+              2519,
               1
             ],
             [
-              1419,
-              2
+              2520,
+              1
             ],
             [
-              175,
+              2521,
               1
             ]
           ]
@@ -8935,50 +5484,49 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 11,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              37
+              2522
             ]
           ]
         },
         {
           "m": 0,
-          "t": 300,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
-              84
+              2523
             ]
           ]
         },
         {
           "m": 0,
-          "t": 12,
+          "t": 843,
           "in": "checkbox",
           "o": [
             [
-              38
+              2524
             ]
           ]
         }
       ]
     },
     {
-      "id": "land-raider-achilles",
-      "name": "Land Raider Achilles",
+      "id": "land-raider-crusader",
+      "sid": "fff20f1b-855e-45e3-9a7c-81254a215fc4",
+      "name": "Land Raider Crusader",
       "kws": [
-        "Vehicle",
-        "Transport",
-        "Smoke",
+        "Explosives",
         "Frame",
         "Imperium",
-        "Land Raider Achilles"
+        "Smoke",
+        "Transport",
+        "Vehicle"
       ],
-      "flags": {
-        "legends": 1
-      },
+      "flags": {},
       "sizes": [
         {
           "pts": 230,
@@ -8990,121 +5538,24 @@ export default {
         }
       ],
       "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2827,
-              1
-            ],
-            [
-              2828,
-              2
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1162,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  61,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            2828
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "land-raider-crusader",
-      "sid": "fff20f1b-855e-45e3-9a7c-81254a215fc4",
-      "name": "Land Raider Crusader",
-      "kws": [
-        "Frame",
-        "Grenades",
-        "Imperium",
-        "Land Raider",
-        "Land Raider Crusader",
-        "Smoke",
-        "Transport",
-        "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 220,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
       "step": {
-        "at": 3,
+        "at": 2,
         "pts": 20
       },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
       "defaults": [
         [
           0,
           [
             [
-              712,
+              2525,
               2
             ],
             [
-              175,
+              2526,
               1
             ],
             [
-              711,
+              2527,
               1
             ]
           ]
@@ -9113,31 +5564,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 11,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              37
+              2528
             ]
           ]
         },
         {
           "m": 0,
-          "t": 300,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
-              84
+              2529
             ]
           ]
         },
         {
           "m": 0,
-          "t": 12,
+          "t": 843,
           "in": "checkbox",
           "o": [
             [
-              38
+              2530
             ]
           ]
         }
@@ -9145,14 +5596,14 @@ export default {
     },
     {
       "id": "land-raider-excelsior",
+      "sid": "aaeffce5-0e64-487c-b8e2-b46b62c987d1",
       "name": "Land Raider Excelsior",
       "kws": [
-        "Vehicle",
-        "Smoke",
-        "Transport",
         "Frame",
         "Imperium",
-        "Land Raider Excelsior"
+        "Smoke",
+        "Transport",
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -9173,16 +5624,16 @@ export default {
           0,
           [
             [
-              2068,
+              2254,
               1
             ],
             [
-              2829,
+              2255,
+              1
+            ],
+            [
+              2256,
               2
-            ],
-            [
-              620,
-              1
             ]
           ]
         ]
@@ -9190,273 +5641,41 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 11,
+          "t": 298,
           "in": "checkbox",
           "o": [
             [
-              500
+              2257
             ]
           ]
         },
         {
           "m": 0,
-          "t": 12,
+          "t": 314,
           "in": "checkbox",
           "o": [
             [
-              38
+              2258
             ]
           ]
         },
         {
           "m": 0,
-          "t": 300,
+          "t": 313,
           "in": "checkbox",
           "o": [
             [
-              169
+              2259
             ]
           ]
         },
         {
           "m": 0,
-          "t": 1163,
+          "t": 782,
           "in": "checkbox",
           "o": [
             [
-              680
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "land-raider-helios",
-      "name": "Land Raider Helios",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Transport",
-        "Frame",
-        "Imperium",
-        "Land Raider Helios"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 220,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2829,
-              2
-            ],
-            [
-              2830,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "land-raider-prometheus",
-      "name": "Land Raider Prometheus",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Transport",
-        "Frame",
-        "Imperium",
-        "Land Raider Prometheus"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 250,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2813,
-              2
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 300,
-          "in": "checkbox",
-          "o": [
-            [
-              169
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "land-raider-proteus",
-      "name": "Land Raider Proteus",
-      "kws": [
-        "Vehicle",
-        "Transport",
-        "Smoke",
-        "Frame",
-        "Imperium",
-        "Land Raider Proteus"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 220,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              718,
-              2
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1164,
-          "in": "checkbox",
-          "o": [
-            [
-              2079
-            ],
-            [
-              169
-            ],
-            [
-              60
-            ],
-            [
-              658
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1165,
-          "in": "checkbox",
-          "o": [
-            [
-              2831
+              2260
             ]
           ]
         }
@@ -9467,11 +5686,9 @@ export default {
       "sid": "3fdf331d-4e93-4d52-a78e-5d5f14c3dc32",
       "name": "Land Raider Redeemer",
       "kws": [
+        "Explosives",
         "Frame",
-        "Grenades",
         "Imperium",
-        "Land Raider",
-        "Land Raider Redeemer",
         "Smoke",
         "Transport",
         "Vehicle"
@@ -9479,7 +5696,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 260,
+          "pts": 245,
           "per": [
             1,
             1
@@ -9489,34 +5706,23 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 3,
+        "at": 2,
         "pts": 20
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
       },
       "defaults": [
         [
           0,
           [
             [
-              711,
-              1
-            ],
-            [
-              1420,
+              2531,
               2
             ],
             [
-              175,
+              2532,
+              1
+            ],
+            [
+              2533,
               1
             ]
           ]
@@ -9525,31 +5731,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 11,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              37
+              2534
             ]
           ]
         },
         {
           "m": 0,
-          "t": 300,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
-              84
+              2535
             ]
           ]
         },
         {
           "m": 0,
-          "t": 12,
+          "t": 843,
           "in": "checkbox",
           "o": [
             [
-              38
+              2536
             ]
           ]
         }
@@ -9563,7 +5769,7 @@ export default {
         "Fly",
         "Frame",
         "Imperium",
-        "Land Speeder",
+        "Speeder",
         "Vehicle"
       ],
       "flags": {},
@@ -9583,19 +5789,19 @@ export default {
           0,
           [
             [
-              2084,
+              2537,
               1
             ],
             [
-              84,
+              2538,
               1
             ],
             [
-              2096,
+              2539,
               1
             ],
             [
-              2097,
+              2540,
               1
             ]
           ]
@@ -9604,353 +5810,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 810,
+          "t": 844,
           "in": "checkbox",
           "o": [
             [
-              495
+              2541
             ]
           ],
           "rep": [
-            2084
-          ]
-        }
-      ]
-    },
-    {
-      "id": "land-speeder-storm",
-      "name": "Land Speeder Storm",
-      "kws": [
-        "Vehicle",
-        "Fly",
-        "Transport",
-        "Dedicated Transport",
-        "Imperium",
-        "Land Speeder Storm"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 70,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2832,
-              1
-            ],
-            [
-              2079,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "land-speeder-tempest",
-      "name": "Land Speeder Tempest",
-      "kws": [
-        "Vehicle",
-        "Fly",
-        "Imperium",
-        "Land Speeder Tempest"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 95,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2156,
-              1
-            ],
-            [
-              2833,
-              1
-            ],
-            [
-              138,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "land-speeder-tornado",
-      "name": "Land Speeder Tornado",
-      "kws": [
-        "Vehicle",
-        "Fly",
-        "Imperium",
-        "Land Speeder Tornado"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 95,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2156,
-              1
-            ],
-            [
-              2079,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1156,
-          "in": "checkbox",
-          "o": [
-            [
-              169
-            ]
-          ],
-          "rep": [
-            2079
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1166,
-          "in": "checkbox",
-          "o": [
-            [
-              743
-            ]
-          ],
-          "rep": [
-            2156
-          ]
-        }
-      ]
-    },
-    {
-      "id": "land-speeder-typhoon",
-      "name": "Land Speeder Typhoon",
-      "kws": [
-        "Vehicle",
-        "Fly",
-        "Imperium",
-        "Land Speeder Typhoon"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 100,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2079,
-              1
-            ],
-            [
-              1429,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1156,
-          "in": "checkbox",
-          "o": [
-            [
-              169
-            ]
-          ],
-          "rep": [
-            2079
-          ]
-        }
-      ]
-    },
-    {
-      "id": "leviathan-dreadnought",
-      "name": "Leviathan Dreadnought",
-      "kws": [
-        "Vehicle",
-        "Walker",
-        "Imperium",
-        "Smoke",
-        "Dreadnought",
-        "Leviathan Dreadnought"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 160,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              743,
-              2
-            ],
-            [
-              2834,
-              2
-            ],
-            [
-              2026,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1167,
-          "in": "stepper",
-          "o": [
-            [
-              2835
-            ],
-            [
-              2836
-            ],
-            [
-              [
-                [
-                  1335,
-                  1
-                ],
-                [
-                  2837,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1335,
-                  1
-                ],
-                [
-                  2838,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            2834
-          ],
-          "cp": 2
-        },
-        {
-          "m": 0,
-          "t": 1168,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2839,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            743
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1169,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  500,
-                  3
-                ]
-              ]
-            ]
+            2540
           ]
         }
       ]
@@ -9961,10 +5829,9 @@ export default {
       "name": "Librarian",
       "kws": [
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Librarian",
         "Psyker",
         "Tacticus"
       ],
@@ -9973,7 +5840,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 75,
           "per": [
             1,
             1
@@ -9982,13 +5849,9 @@ export default {
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "leads": [
         {
-          "to": "assault-intercessor-squad",
+          "to": "decimus-kill-team",
           "type": "leader"
         },
         {
@@ -9996,15 +5859,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "devastator-squad",
-          "type": "leader"
-        },
-        {
-          "to": "hellblaster-squad",
-          "type": "leader"
-        },
-        {
-          "to": "infernus-squad",
+          "to": "fortis-kill-team",
           "type": "leader"
         },
         {
@@ -10016,11 +5871,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "tactical-squad",
+          "to": "inner-circle-companions",
           "type": "leader"
         },
         {
-          "to": "inner-circle-companions",
+          "to": "infernus-squad",
           "type": "leader"
         },
         {
@@ -10028,19 +5883,15 @@ export default {
           "type": "leader"
         },
         {
-          "to": "fortis-kill-team",
+          "to": "vanguard-veteran-squad",
           "type": "leader"
         },
         {
-          "to": "decimus-kill-team",
+          "to": "assault-intercessor-squad",
           "type": "leader"
-        }
-      ],
-      "leadKw": [
+        },
         {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "hellblaster-squad",
           "type": "leader"
         }
       ],
@@ -10049,15 +5900,15 @@ export default {
           0,
           [
             [
-              1054,
+              2542,
               1
             ],
             [
-              2098,
+              2543,
               1
             ],
             [
-              1,
+              2544,
               1
             ]
           ]
@@ -10070,10 +5921,9 @@ export default {
       "name": "Librarian in Phobos Armour",
       "kws": [
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Librarian",
         "Phobos",
         "Psyker"
       ],
@@ -10082,7 +5932,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 75,
           "per": [
             1,
             1
@@ -10092,6 +5942,10 @@ export default {
       ],
       "linked": 1,
       "leads": [
+        {
+          "to": "wolf-scouts",
+          "type": "leader"
+        },
         {
           "to": "eliminator-squad",
           "type": "leader"
@@ -10105,11 +5959,15 @@ export default {
           "type": "leader"
         },
         {
-          "to": "reiver-squad",
+          "to": "spectrus-kill-team",
           "type": "leader"
         },
         {
-          "to": "spectrus-kill-team",
+          "to": "scout-squad",
+          "type": "leader"
+        },
+        {
+          "to": "reiver-squad",
           "type": "leader"
         }
       ],
@@ -10118,15 +5976,15 @@ export default {
           0,
           [
             [
-              2098,
+              2545,
               1
             ],
             [
-              1,
+              2542,
               1
             ],
             [
-              1054,
+              2546,
               1
             ]
           ]
@@ -10141,98 +5999,10 @@ export default {
         "Character",
         "Imperium",
         "Infantry",
-        "Librarian",
         "Psyker",
         "Terminator"
       ],
       "flags": {
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 85,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
-        {
-          "to": "terminator-assault-squad",
-          "type": "leader"
-        },
-        {
-          "to": "deathwing-terminator-squad",
-          "type": "leader"
-        },
-        {
-          "to": "deathwing-knights",
-          "type": "leader"
-        },
-        {
-          "to": "deathwatch-terminator-squad",
-          "type": "leader"
-        },
-        {
-          "to": "terminator-squad",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Terminator Squad"
-          ],
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1054,
-              1
-            ],
-            [
-              2098,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 187,
-          "in": "checkbox",
-          "o": [
-            [
-              7
-            ],
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "librarian-on-bike",
-      "name": "Librarian on Bike",
-      "kws": [
-        "Mounted",
-        "Character",
-        "Grenades",
-        "Psyker",
-        "Imperium",
-        "Librarian"
-      ],
-      "flags": {
-        "legends": 1,
         "char": 1
       },
       "sizes": [
@@ -10246,152 +6016,50 @@ export default {
         }
       ],
       "linked": 1,
+      "leads": [
+        {
+          "to": "wolf-guard-terminators",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwing-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwing-knights",
+          "type": "leader"
+        }
+      ],
       "defaults": [
         [
           0,
           [
             [
-              1167,
+              2547,
               1
             ],
             [
-              2780,
+              2548,
               1
             ],
             [
-              643,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1170,
-          "in": "checkbox",
-          "o": [
-            [
-              1332
-            ],
-            [
-              680
-            ],
-            [
-              1396
-            ],
-            [
-              536
-            ],
-            [
-              38
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        }
-      ],
-      "leads": [
-        {
-          "to": "bike-squad",
-          "type": "leader"
-        },
-        {
-          "to": "outrider-squad",
-          "type": "leader"
-        }
-      ]
-    },
-    {
-      "id": "librarian-with-jump-pack",
-      "name": "Librarian with Jump Pack",
-      "kws": [
-        "Infantry",
-        "Character",
-        "Jump Pack",
-        "Fly",
-        "Psyker",
-        "Grenades",
-        "Imperium",
-        "Librarian"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 75,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2098,
-              1
-            ],
-            [
-              643,
+              2542,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1171,
-          "in": "checkbox",
-          "o": [
-            [
-              1332
-            ],
-            [
-              680
-            ],
-            [
-              1396
-            ],
-            [
-              614
-            ],
-            [
-              9
-            ],
-            [
-              536
-            ],
-            [
-              38
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        }
-      ],
-      "leads": [
-        {
-          "to": "assault-squad-with-jump-packs",
-          "type": "leader"
-        },
-        {
-          "to": "vanguard-veteran-squad-with-jump-packs",
-          "type": "leader"
-        }
       ]
     },
     {
@@ -10400,10 +6068,9 @@ export default {
       "name": "Lieutenant",
       "kws": [
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Lieutenant",
         "Tacticus"
       ],
       "flags": {
@@ -10411,7 +6078,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 45,
+          "pts": 50,
           "per": [
             1,
             1
@@ -10422,7 +6089,51 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "crusader-squad",
+          "type": "support"
+        },
+        {
+          "to": "inner-circle-companions",
+          "type": "support"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "support"
+        },
+        {
+          "to": "hellblaster-squad",
+          "type": "support"
+        },
+        {
           "to": "assault-intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "desolation-squad",
+          "type": "support"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "sword-brethren-squad",
+          "type": "support"
+        },
+        {
+          "to": "decimus-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "deathwatch-veterans",
           "type": "support"
         },
         {
@@ -10434,55 +6145,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "hellblaster-squad",
-          "type": "support"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "support"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "support"
-        },
-        {
           "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "support"
-        },
-        {
-          "to": "sword-brethren-squad",
-          "type": "support"
-        },
-        {
-          "to": "crusader-squad",
-          "type": "support"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "support"
-        },
-        {
-          "to": "deathwatch-veterans",
-          "type": "support"
-        },
-        {
-          "to": "fortis-kill-team",
-          "type": "support"
-        },
-        {
-          "to": "decimus-kill-team",
-          "type": "support"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
           "type": "support"
         }
       ],
@@ -10491,15 +6154,15 @@ export default {
           0,
           [
             [
-              2014,
+              2549,
               1
             ],
             [
-              2034,
+              2550,
               1
             ],
             [
-              22,
+              2551,
               1
             ]
           ]
@@ -10508,78 +6171,90 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 811,
-          "in": "checkbox",
-          "o": [
-            [
-              25
-            ],
-            [
-              2099
-            ],
-            [
-              2016
-            ]
-          ],
-          "rep": [
-            2034
-          ]
-        },
-        {
-          "m": 0,
-          "t": 812,
+          "t": 845,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2035,
+                  2552,
                   1
                 ],
                 [
-                  2099,
-                  1
-                ],
-                [
-                  2100,
+                  2553,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            22,
-            2034,
-            2014
+            2549,
+            2551
           ]
         },
         {
           "m": 0,
-          "t": 813,
+          "t": 846,
           "in": "checkbox",
           "o": [
             [
-              681
+              1301
+            ]
+          ],
+          "keep": [
+            2552
+          ],
+          "cond": [
+            0,
+            1
+          ]
+        },
+        {
+          "m": 0,
+          "t": 847,
+          "in": "checkbox",
+          "o": [
+            [
+              2554
             ]
           ],
           "rep": [
-            22
+            2551
           ]
         },
         {
           "m": 0,
-          "t": 779,
+          "t": 848,
           "in": "checkbox",
           "o": [
             [
-              2099
+              2553
             ],
             [
-              2016
+              2555
+            ],
+            [
+              2556
             ]
           ],
           "rep": [
-            2014
+            2549
+          ]
+        },
+        {
+          "m": 0,
+          "t": 849,
+          "in": "checkbox",
+          "o": [
+            [
+              2553
+            ],
+            [
+              2556
+            ]
+          ],
+          "rep": [
+            2550
           ]
         }
       ]
@@ -10590,18 +6265,18 @@ export default {
       "name": "Lieutenant in Phobos Armour",
       "kws": [
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Lieutenant",
-        "Phobos"
+        "Phobos",
+        "Smoke"
       ],
       "flags": {
         "char": 1
       },
       "sizes": [
         {
-          "pts": 45,
+          "pts": 40,
           "per": [
             1,
             1
@@ -10612,11 +6287,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "incursor-squad",
-          "type": "support"
-        },
-        {
-          "to": "infiltrator-squad",
+          "to": "wolf-scouts",
           "type": "support"
         },
         {
@@ -10626,59 +6297,17 @@ export default {
         {
           "to": "spectrus-kill-team",
           "type": "support"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2101,
-              1
-            ],
-            [
-              2102,
-              1
-            ],
-            [
-              22,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "lieutenant-in-reiver-armour",
-      "sid": "bcb796c0-5af9-4605-b30c-53e1035fe946",
-      "name": "Lieutenant in Reiver Armour",
-      "kws": [
-        "Character",
-        "Grenades",
-        "Imperium",
-        "Infantry",
-        "Lieutenant",
-        "Lieutenant in Reiver Armour",
-        "Phobos",
-        "Smoke"
-      ],
-      "flags": {
-        "char": 1
-      },
-      "sizes": [
+        },
         {
-          "pts": 45,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
+          "to": "incursor-squad",
+          "type": "support"
+        },
         {
-          "to": "reiver-squad",
+          "to": "eliminator-squad",
+          "type": "support"
+        },
+        {
+          "to": "infiltrator-squad",
           "type": "support"
         }
       ],
@@ -10687,15 +6316,30 @@ export default {
           0,
           [
             [
-              2103,
+              2557,
               1
             ],
             [
-              2104,
+              2558,
               1
             ]
           ]
         ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 850,
+          "in": "checkbox",
+          "o": [
+            [
+              2559
+            ]
+          ],
+          "rep": [
+            2557
+          ]
+        }
       ]
     },
     {
@@ -10704,12 +6348,11 @@ export default {
       "name": "Lieutenant with Combi-weapon",
       "kws": [
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Lieutenant",
-        "Lieutenant with Combi-weapon",
-        "Phobos"
+        "Phobos",
+        "Smoke"
       ],
       "flags": {
         "char": 1,
@@ -10717,7 +6360,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 85,
           "per": [
             1,
             1
@@ -10731,11 +6374,11 @@ export default {
           0,
           [
             [
-              2105,
+              2560,
               1
             ],
             [
-              680,
+              2561,
               1
             ]
           ]
@@ -10743,16 +6386,15 @@ export default {
       ]
     },
     {
-      "id": "marneus-calgar-in-armour-of-antilochus",
+      "id": "marneus-calgar",
       "sid": "de36bfa7-9cc5-4875-b9d8-d3940027b48c",
-      "name": "Marneus Calgar in Armour of Antilochus",
+      "name": "Marneus Calgar",
       "kws": [
         "Chapter Master",
         "Character",
         "Epic Hero",
         "Imperium",
         "Infantry",
-        "Marneus Calgar",
         "Terminator"
       ],
       "flags": {
@@ -10761,7 +6403,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 155,
+          "pts": 180,
           "per": [
             1,
             1
@@ -10772,31 +6414,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "aggressor-squad",
-          "type": "leader"
-        },
-        {
           "to": "assault-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "bladeguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "company-heroes",
-          "type": "leader"
-        },
-        {
-          "to": "eradicator-squad",
-          "type": "leader"
-        },
-        {
-          "to": "eradicator-squad-with-heavy-bolters",
-          "type": "leader"
-        },
-        {
-          "to": "heavy-intercessor-squad",
           "type": "leader"
         },
         {
@@ -10808,15 +6426,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
+          "to": "aggressor-squad",
           "type": "leader"
         },
         {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "terminator-assault-squad",
+          "to": "eradicator-squad-with-heavy-bolters",
           "type": "leader"
         },
         {
@@ -10824,21 +6438,35 @@ export default {
           "type": "leader"
         },
         {
-          "to": "victrix-honour-guard",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Eradicator Squad"
-          ],
+          "to": "company-heroes",
           "type": "leader"
         },
         {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "eradicator-squad-with-melta-rifles",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "victrix-honour-guard",
+          "type": "leader"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "heavy-intercessor-squad",
           "type": "leader"
         }
       ],
@@ -10847,7 +6475,7 @@ export default {
           0,
           [
             [
-              2106,
+              2562,
               1
             ]
           ]
@@ -10856,15 +6484,15 @@ export default {
     },
     {
       "id": "mastodon",
+      "sid": "a8e2a291-7933-4484-89e0-77fa32b03901",
       "name": "Mastodon",
       "kws": [
-        "Vehicle",
         "Frame",
-        "Titanic",
         "Imperium",
-        "Transport",
         "Smoke",
-        "Mastodon"
+        "Titanic",
+        "Transport",
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -10885,24 +6513,24 @@ export default {
           0,
           [
             [
-              743,
+              2247,
+              1
+            ],
+            [
+              2248,
+              1
+            ],
+            [
+              2249,
+              1
+            ],
+            [
+              2250,
               2
             ],
             [
-              545,
+              2251,
               2
-            ],
-            [
-              2840,
-              1
-            ],
-            [
-              2841,
-              1
-            ],
-            [
-              620,
-              1
             ]
           ]
         ]
@@ -10910,13 +6538,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1172,
-          "in": "checkbox",
+          "t": 780,
+          "in": "stepper",
           "o": [
             [
               [
                 [
-                  2079,
+                  2252,
                   2
                 ]
               ]
@@ -10924,7 +6552,7 @@ export default {
             [
               [
                 [
-                  545,
+                  2251,
                   2
                 ]
               ]
@@ -10932,25 +6560,25 @@ export default {
             [
               [
                 [
-                  2612,
+                  2253,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            743
+            2250
           ]
         },
         {
           "m": 0,
-          "t": 1173,
-          "in": "checkbox",
+          "t": 781,
+          "in": "stepper",
           "o": [
             [
               [
                 [
-                  2079,
+                  2252,
                   2
                 ]
               ]
@@ -10958,7 +6586,7 @@ export default {
             [
               [
                 [
-                  743,
+                  2250,
                   2
                 ]
               ]
@@ -10966,122 +6594,14 @@ export default {
             [
               [
                 [
-                  2612,
+                  2253,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            545
-          ]
-        }
-      ]
-    },
-    {
-      "id": "mortis-dreadnought",
-      "name": "Mortis Dreadnought",
-      "kws": [
-        "Vehicle",
-        "Walker",
-        "Imperium",
-        "Dreadnought",
-        "Mortis Dreadnought"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 130,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              60,
-              2
-            ],
-            [
-              2026,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1174,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2156,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  2800,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1433,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  999,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  169,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  2355,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  718,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            60
+            2251
           ]
         }
       ]
@@ -11091,15 +6611,14 @@ export default {
       "sid": "d5a5b4f6-c63e-421d-9a58-5a0df13bee8b",
       "name": "Outrider Squad",
       "kws": [
-        "Grenades",
+        "Explosives",
         "Imperium",
-        "Mounted",
-        "Outrider Squad"
+        "Mounted"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 80,
           "per": [
             3,
             3
@@ -11108,79 +6627,27 @@ export default {
           "comp": [
             [
               0,
-              1
-            ],
-            [
-              1,
               2
             ],
             [
-              2,
-              0
-            ]
-          ]
-        },
-        {
-          "pts": 130,
-          "per": [
-            4,
-            4
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
               1,
-              2
-            ],
-            [
-              2,
               1
             ]
           ]
         },
         {
-          "pts": 140,
+          "pts": 160,
           "per": [
-            4,
+            6,
             6
           ],
           "comp": [
             [
               0,
-              1
-            ],
-            [
-              1,
-              3,
               5
             ],
             [
-              2,
-              0
-            ]
-          ]
-        },
-        {
-          "pts": 200,
-          "per": [
-            5,
-            7
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
               1,
-              3,
-              5
-            ],
-            [
-              2,
               1
             ]
           ]
@@ -11190,13 +6657,10 @@ export default {
       "condBattleline": 1,
       "minis": [
         {
-          "n": "Outrider Sergeant"
-        },
-        {
           "n": "Outrider"
         },
         {
-          "n": "Invader ATV"
+          "n": "Outrider Sergeant"
         }
       ],
       "defaults": [
@@ -11204,36 +6668,15 @@ export default {
           0,
           [
             [
-              685,
+              2563,
               1
             ],
             [
-              756,
+              2497,
               1
             ],
             [
-              2057,
-              1
-            ]
-          ]
-        ],
-        [
-          2,
-          [
-            [
-              2057,
-              1
-            ],
-            [
-              2084,
-              1
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              2063,
+              2564,
               1
             ]
           ]
@@ -11242,15 +6685,15 @@ export default {
           1,
           [
             [
-              756,
+              2497,
               1
             ],
             [
-              685,
+              2564,
               1
             ],
             [
-              2057,
+              2563,
               1
             ]
           ]
@@ -11258,93 +6701,44 @@ export default {
       ],
       "gear": [
         {
-          "m": 2,
-          "t": 814,
+          "m": 1,
+          "t": 851,
           "in": "checkbox",
           "o": [
             [
-              84
+              2565
+            ],
+            [
+              2566
             ]
           ],
           "rep": [
-            2084
+            2564
           ]
-        }
-      ]
-    },
-    {
-      "id": "pedro-kantor",
-      "sid": "529d2da3-7fbb-408a-baa0-5db2e9f54b9b",
-      "name": "Pedro Kantor",
-      "kws": [
-        "Chapter Master",
-        "Character",
-        "Epic Hero",
-        "Grenades",
-        "Imperium",
-        "Infantry",
-        "Pedro Kantor",
-        "Tacticus"
-      ],
-      "flags": {
-        "char": 1,
-        "epic": 1
-      },
-      "sizes": [
-        {
-          "pts": 80,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
-        {
-          "to": "company-heroes",
-          "type": "leader"
         },
         {
-          "to": "bladeguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "victrix-honour-guard",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
+          "all": 1,
+          "t": 852,
+          "in": "stepper",
+          "o": [
             [
-              2107,
+              2567
+            ]
+          ],
+          "lim": [
+            [
+              3,
               1
             ],
             [
-              2108,
-              1
+              6,
+              2
             ]
+          ],
+          "rep": [
+            2563
           ]
-        ]
+        }
       ]
     },
     {
@@ -11354,11 +6748,12 @@ export default {
       "kws": [
         "Frame",
         "Imperium",
-        "Predator Annihilator",
         "Smoke",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 135,
@@ -11374,27 +6769,20 @@ export default {
         "at": 3,
         "pts": 10
       },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
       "defaults": [
         [
           0,
           [
             [
-              34,
+              2568,
+              2
+            ],
+            [
+              2569,
               1
             ],
             [
-              955,
+              2570,
               1
             ]
           ]
@@ -11403,44 +6791,39 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 815,
+          "t": 853,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  35,
+                  2571,
                   2
                 ]
               ]
-            ],
+            ]
+          ],
+          "rep": [
+            2568
+          ]
+        },
+        {
+          "m": 0,
+          "t": 314,
+          "in": "checkbox",
+          "o": [
             [
-              [
-                [
-                  883,
-                  2
-                ]
-              ]
+              2572
             ]
           ]
         },
         {
           "m": 0,
-          "t": 11,
+          "t": 313,
           "in": "checkbox",
           "o": [
             [
-              37
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
+              2573
             ]
           ]
         }
@@ -11453,11 +6836,12 @@ export default {
       "kws": [
         "Frame",
         "Imperium",
-        "Predator Destructor",
         "Smoke",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 140,
@@ -11473,27 +6857,20 @@ export default {
         "at": 3,
         "pts": 10
       },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
       "defaults": [
         [
           0,
           [
             [
-              34,
+              2574,
+              2
+            ],
+            [
+              2575,
               1
             ],
             [
-              956,
+              2576,
               1
             ]
           ]
@@ -11502,122 +6879,53 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 815,
+          "t": 313,
+          "in": "checkbox",
+          "o": [
+            [
+              2577
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 314,
+          "in": "checkbox",
+          "o": [
+            [
+              2578
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 853,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  35,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  883,
+                  2579,
                   2
                 ]
               ]
             ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              37
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "primaris-company-champion",
-      "name": "Primaris Company Champion",
-      "kws": [
-        "Infantry",
-        "Character",
-        "Grenades",
-        "Imperium",
-        "Tacticus",
-        "Primaris Company Champion"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 55,
-          "per": [
-            1,
-            1
           ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2062,
-              1
-            ]
+          "rep": [
+            2574
           ]
-        ]
-      ],
-      "leads": [
-        {
-          "to": "assault-intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "bladeguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "support"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
         }
       ]
     },
     {
       "id": "rapier-carrier",
+      "sid": "37b4b814-22b6-4fbf-a949-80c0f692b176",
       "name": "Rapier Carrier",
       "kws": [
         "Artillery",
-        "Vehicle",
         "Frame",
         "Imperium",
-        "Rapier Carrier"
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -11638,15 +6946,15 @@ export default {
           0,
           [
             [
-              1332,
+              2201,
               1
             ],
             [
-              2813,
+              2202,
               1
             ],
             [
-              357,
+              2203,
               1
             ]
           ]
@@ -11655,21 +6963,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1175,
+          "t": 773,
           "in": "checkbox",
           "o": [
             [
-              2842
+              2204
             ],
             [
-              2651
+              2205
             ],
             [
-              2827
+              2206
             ]
           ],
           "rep": [
-            2813
+            2201
           ]
         }
       ]
@@ -11682,1021 +6990,9 @@ export default {
         "Dedicated Transport",
         "Frame",
         "Imperium",
-        "Razorback",
         "Smoke",
         "Transport",
         "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 85,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "step": {
-        "at": 4,
-        "pts": 10
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
-      "defaults": [
-        [
-          0,
-          [
-            [
-              34,
-              1
-            ],
-            [
-              714,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 302,
-          "in": "checkbox",
-          "o": [
-            [
-              718
-            ]
-          ],
-          "rep": [
-            714
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              37
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "redemptor-dreadnought",
-      "sid": "2c43e025-56f1-4c11-b17d-ce935bbaca67",
-      "name": "Redemptor Dreadnought",
-      "kws": [
-        "Dreadnought",
-        "Imperium",
-        "Redemptor Dreadnought",
-        "Vehicle",
-        "Walker"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 195,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 15
-      },
-      "defaults": [
-        [
-          0,
-          [
-            [
-              495,
-              1
-            ],
-            [
-              2109,
-              1
-            ],
-            [
-              715,
-              1
-            ],
-            [
-              2110,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 299,
-          "in": "checkbox",
-          "o": [
-            [
-              701
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 816,
-          "in": "checkbox",
-          "o": [
-            [
-              2084
-            ]
-          ],
-          "rep": [
-            495
-          ]
-        },
-        {
-          "m": 0,
-          "t": 817,
-          "in": "checkbox",
-          "o": [
-            [
-              721,
-              10
-            ]
-          ],
-          "rep": [
-            715
-          ]
-        },
-        {
-          "m": 0,
-          "t": 818,
-          "in": "checkbox",
-          "o": [
-            [
-              2024
-            ]
-          ],
-          "rep": [
-            2109
-          ]
-        }
-      ]
-    },
-    {
-      "id": "reiver-squad",
-      "sid": "9b535b98-681a-4812-b574-e95134a681e4",
-      "name": "Reiver Squad",
-      "kws": [
-        "Grenades",
-        "Imperium",
-        "Infantry",
-        "Phobos",
-        "Reiver Squad",
-        "Smoke"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 75,
-          "per": [
-            5,
-            5
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ]
-        },
-        {
-          "pts": 150,
-          "per": [
-            6,
-            10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Reiver Sergeant"
-        },
-        {
-          "n": "Reiver"
-        }
-      ],
-      "defaults": [
-        [
-          1,
-          [
-            [
-              1205,
-              1
-            ],
-            [
-              2111,
-              1
-            ]
-          ]
-        ],
-        [
-          0,
-          [
-            [
-              2111,
-              1
-            ],
-            [
-              1205,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 819,
-          "in": "checkbox",
-          "o": [
-            [
-              2112
-            ],
-            [
-              688
-            ]
-          ],
-          "rep": [
-            1205
-          ],
-          "repall": 1
-        },
-        {
-          "m": 1,
-          "t": 820,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  2112,
-                  1
-                ],
-                [
-                  688,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            1205
-          ]
-        },
-        {
-          "all": 1,
-          "t": 821,
-          "in": "stepper",
-          "o": [
-            [
-              2113
-            ]
-          ]
-        },
-        {
-          "all": 1,
-          "t": 822,
-          "in": "stepper",
-          "o": [
-            [
-              2114
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "relic-contemptor-dreadnought",
-      "name": "Relic Contemptor Dreadnought",
-      "kws": [
-        "Vehicle",
-        "Walker",
-        "Imperium",
-        "Dreadnought",
-        "Relic Contemptor Dreadnought"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 140,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1433,
-              2
-            ],
-            [
-              2026,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1176,
-          "in": "stepper",
-          "o": [
-            [
-              937
-            ],
-            [
-              172
-            ],
-            [
-              169
-            ],
-            [
-              2355
-            ],
-            [
-              60
-            ],
-            [
-              718
-            ],
-            [
-              2828
-            ],
-            [
-              [
-                [
-                  2821,
-                  1
-                ],
-                [
-                  1129,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1432,
-                  1
-                ],
-                [
-                  1129,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            1433
-          ],
-          "cp": 2
-        },
-        {
-          "m": 0,
-          "t": 1177,
-          "in": "checkbox",
-          "o": [
-            [
-              2843
-            ],
-            [
-              743
-            ],
-            [
-              2844
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1178,
-          "in": "checkbox",
-          "o": [
-            [
-              736
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "relic-razorback",
-      "name": "Relic Razorback",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Transport",
-        "Dedicated Transport",
-        "Frame",
-        "Imperium",
-        "Relic Razorback"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 105,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              60,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1179,
-          "in": "checkbox",
-          "o": [
-            [
-              169
-            ],
-            [
-              711
-            ],
-            [
-              718
-            ]
-          ],
-          "rep": [
-            60
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "relic-terminator-squad",
-      "name": "Relic Terminator Squad",
-      "kws": [
-        "Infantry",
-        "Imperium",
-        "Terminator",
-        "Relic Terminator Squad"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 200,
-          "per": [
-            5,
-            5
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ],
-          "default": 1
-        },
-        {
-          "pts": 400,
-          "per": [
-            6,
-            10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Relic Terminator Sergeant"
-        },
-        {
-          "n": "Relic Terminators"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1129,
-              1
-            ],
-            [
-              952,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1129,
-              1
-            ],
-            [
-              952,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1180,
-          "in": "checkbox",
-          "o": [
-            [
-              2844
-            ],
-            [
-              2845
-            ]
-          ],
-          "rep": [
-            1129
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1181,
-          "in": "stepper",
-          "o": [
-            [
-              743
-            ],
-            [
-              2513
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              1
-            ],
-            [
-              10,
-              2
-            ]
-          ],
-          "rep": [
-            1129
-          ]
-        },
-        {
-          "all": 1,
-          "t": 1182,
-          "in": "stepper",
-          "o": [
-            [
-              2846
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              1
-            ],
-            [
-              10,
-              2
-            ]
-          ]
-        },
-        {
-          "all": 1,
-          "t": 1183,
-          "in": "stepper",
-          "o": [
-            [
-              13
-            ]
-          ],
-          "rep": [
-            952
-          ]
-        },
-        {
-          "all": 1,
-          "t": 314,
-          "in": "stepper",
-          "o": [
-            [
-              1457
-            ]
-          ],
-          "rep": [
-            952
-          ]
-        },
-        {
-          "all": 1,
-          "t": 1184,
-          "in": "stepper",
-          "o": [
-            [
-              2135
-            ]
-          ],
-          "rep": [
-            1129,
-            952
-          ]
-        }
-      ]
-    },
-    {
-      "id": "repulsor",
-      "sid": "7102909d-95e0-42d3-99e3-e21364ba2365",
-      "name": "Repulsor",
-      "kws": [
-        "Frame",
-        "Imperium",
-        "Repulsor",
-        "Smoke",
-        "Transport",
-        "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 170,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 20
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
-      "defaults": [
-        [
-          0,
-          [
-            [
-              716,
-              1
-            ],
-            [
-              717,
-              1
-            ],
-            [
-              715,
-              1
-            ],
-            [
-              714,
-              1
-            ],
-            [
-              138,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 302,
-          "in": "checkbox",
-          "o": [
-            [
-              718
-            ]
-          ],
-          "rep": [
-            714
-          ]
-        },
-        {
-          "m": 0,
-          "t": 303,
-          "in": "checkbox",
-          "o": [
-            [
-              2115
-            ]
-          ],
-          "rep": [
-            715
-          ]
-        }
-      ]
-    },
-    {
-      "id": "repulsor-executioner",
-      "sid": "6843a410-d0fa-4b3e-8cd5-a000eb3cf015",
-      "name": "Repulsor Executioner",
-      "kws": [
-        "Frame",
-        "Imperium",
-        "Repulsor Executioner",
-        "Smoke",
-        "Transport",
-        "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 255,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 20
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
-      "defaults": [
-        [
-          0,
-          [
-            [
-              715,
-              1
-            ],
-            [
-              714,
-              1
-            ],
-            [
-              138,
-              1
-            ],
-            [
-              720,
-              1
-            ],
-            [
-              722,
-              1
-            ],
-            [
-              721,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 304,
-          "in": "checkbox",
-          "o": [
-            [
-              723,
-              10
-            ]
-          ],
-          "rep": [
-            721
-          ]
-        },
-        {
-          "m": 0,
-          "t": 772,
-          "in": "checkbox",
-          "o": [
-            [
-              700
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 299,
-          "in": "checkbox",
-          "o": [
-            [
-              701
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "rhino",
-      "sid": "2af79aee-3a97-4283-911b-8558d6cb44e5",
-      "name": "Rhino",
-      "kws": [
-        "Dedicated Transport",
-        "Frame",
-        "Imperium",
-        "Rhino",
-        "Smoke",
-        "Transport",
-        "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 65,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "step": {
-        "at": 4,
-        "pts": 10
-      },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
-      "defaults": [
-        [
-          0,
-          [
-            [
-              38,
-              1
-            ],
-            [
-              34,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              37
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "rhino-primaris",
-      "name": "Rhino Primaris",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Transport",
-        "Frame",
-        "Imperium",
-        "Rhino Primaris"
       ],
       "flags": {
         "legends": 1
@@ -12717,11 +7013,11 @@ export default {
           0,
           [
             [
-              2847,
+              2580,
               1
             ],
             [
-              620,
+              2581,
               1
             ]
           ]
@@ -12730,11 +7026,605 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 11,
+          "t": 798,
           "in": "checkbox",
           "o": [
             [
-              500
+              2582
+            ]
+          ],
+          "rep": [
+            2581
+          ]
+        },
+        {
+          "m": 0,
+          "t": 314,
+          "in": "checkbox",
+          "o": [
+            [
+              2583
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 313,
+          "in": "checkbox",
+          "o": [
+            [
+              2584
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "redemptor-dreadnought",
+      "sid": "2c43e025-56f1-4c11-b17d-ce935bbaca67",
+      "name": "Redemptor Dreadnought",
+      "kws": [
+        "Dreadnought",
+        "Imperium",
+        "Vehicle",
+        "Walker"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 170,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 20
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2585,
+              1
+            ],
+            [
+              2586,
+              1
+            ],
+            [
+              2587,
+              1
+            ],
+            [
+              2588,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 854,
+          "in": "checkbox",
+          "o": [
+            [
+              2589
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 855,
+          "in": "checkbox",
+          "o": [
+            [
+              2590
+            ]
+          ],
+          "rep": [
+            2588
+          ]
+        },
+        {
+          "m": 0,
+          "t": 856,
+          "in": "checkbox",
+          "o": [
+            [
+              2591
+            ]
+          ],
+          "rep": [
+            2587
+          ]
+        },
+        {
+          "m": 0,
+          "t": 857,
+          "in": "checkbox",
+          "o": [
+            [
+              2592,
+              10
+            ]
+          ],
+          "rep": [
+            2585
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reiver-squad",
+      "sid": "9b535b98-681a-4812-b574-e95134a681e4",
+      "name": "Reiver Squad",
+      "kws": [
+        "Explosives",
+        "Imperium",
+        "Infantry",
+        "Phobos",
+        "Smoke"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            5,
+            5
+          ],
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ]
+        },
+        {
+          "pts": 165,
+          "per": [
+            10,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Reiver Sergeant"
+        },
+        {
+          "n": "Reiver"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2593,
+              1
+            ],
+            [
+              2594,
+              1
+            ],
+            [
+              2595,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2595,
+              1
+            ],
+            [
+              2594,
+              1
+            ],
+            [
+              2593,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 858,
+          "in": "checkbox",
+          "o": [
+            [
+              2596
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 859,
+          "in": "checkbox",
+          "o": [
+            [
+              2597
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relic-razorback",
+      "sid": "91b32357-ed86-46f2-bcbe-5d12de1f16d2",
+      "name": "Relic Razorback",
+      "kws": [
+        "Dedicated Transport",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Transport",
+        "Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 105,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2233,
+              1
+            ],
+            [
+              2234,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 779,
+          "in": "checkbox",
+          "o": [
+            [
+              2235
+            ],
+            [
+              2236
+            ],
+            [
+              2237
+            ]
+          ],
+          "rep": [
+            2234
+          ]
+        },
+        {
+          "m": 0,
+          "t": 313,
+          "in": "checkbox",
+          "o": [
+            [
+              2238
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 314,
+          "in": "checkbox",
+          "o": [
+            [
+              2239
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repulsor",
+      "sid": "7102909d-95e0-42d3-99e3-e21364ba2365",
+      "name": "Repulsor",
+      "kws": [
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Transport",
+        "Vehicle"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 190,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 20
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              735,
+              1
+            ],
+            [
+              2598,
+              1
+            ],
+            [
+              737,
+              1
+            ],
+            [
+              733,
+              1
+            ],
+            [
+              736,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 860,
+          "in": "checkbox",
+          "o": [
+            [
+              2599
+            ]
+          ],
+          "rep": [
+            736
+          ]
+        },
+        {
+          "m": 0,
+          "t": 861,
+          "in": "checkbox",
+          "o": [
+            [
+              2600
+            ]
+          ],
+          "rep": [
+            737
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repulsor-executioner",
+      "sid": "6843a410-d0fa-4b3e-8cd5-a000eb3cf015",
+      "name": "Repulsor Executioner",
+      "kws": [
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Transport",
+        "Vehicle"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 260,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 20
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              744,
+              1
+            ],
+            [
+              743,
+              1
+            ],
+            [
+              2601,
+              1
+            ],
+            [
+              2602,
+              1
+            ],
+            [
+              2603,
+              1
+            ]
+          ]
+        ]
+      ],
+      "dw": [
+        [
+          0,
+          10
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 862,
+          "in": "checkbox",
+          "o": [
+            [
+              2604
+            ]
+          ],
+          "rep": [
+            744
+          ],
+          "dr": 10
+        }
+      ]
+    },
+    {
+      "id": "rhino",
+      "sid": "2af79aee-3a97-4283-911b-8558d6cb44e5",
+      "name": "Rhino",
+      "kws": [
+        "Dedicated Transport",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Transport",
+        "Vehicle"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2605,
+              1
+            ],
+            [
+              2606,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 841,
+          "in": "checkbox",
+          "o": [
+            [
+              2607
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rhino-primaris",
+      "sid": "cbd1e3a7-7e9e-40d1-922d-440560a52d39",
+      "name": "Rhino Primaris",
+      "kws": [
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Transport",
+        "Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2277,
+              1
+            ],
+            [
+              2278,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 314,
+          "in": "checkbox",
+          "o": [
+            [
+              2279
             ]
           ]
         }
@@ -12750,8 +7640,7 @@ export default {
         "Imperium",
         "Mobile",
         "Monster",
-        "Primarch",
-        "Roboute Guilliman"
+        "Primarch"
       ],
       "flags": {
         "char": 1,
@@ -12760,7 +7649,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 355,
+          "pts": 415,
           "per": [
             1,
             1
@@ -12774,11 +7663,11 @@ export default {
           0,
           [
             [
-              2116,
+              2608,
               1
             ],
             [
-              2117,
+              2609,
               1
             ]
           ]
@@ -12787,13 +7676,13 @@ export default {
     },
     {
       "id": "scout-bike-squad",
+      "sid": "bfa6ddfd-de2e-416d-b3ff-e2933681a7b4",
       "name": "Scout Bike Squad",
       "kws": [
-        "Mounted",
-        "Grenades",
-        "Smoke",
+        "Explosives",
         "Imperium",
-        "Scout Bike Squad"
+        "Mounted",
+        "Smoke"
       ],
       "flags": {
         "legends": 1
@@ -12805,196 +7694,32 @@ export default {
             3,
             3
           ],
+          "default": 1,
           "comp": [
             [
               0,
-              1
-            ],
-            [
-              1,
               2
-            ]
-          ],
-          "default": 1
-        },
-        {
-          "pts": 150,
-          "per": [
-            4,
-            6
-          ],
-          "comp": [
-            [
-              0,
-              1
             ],
             [
               1,
-              3,
-              5
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Scout Biker Sergeant"
-        },
-        {
-          "n": "Scout Bikers"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2118,
-              1
-            ],
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              1205,
               1
             ]
           ]
-        ],
-        [
-          1,
-          [
-            [
-              2118,
-              1
-            ],
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              1205,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1185,
-          "in": "checkbox",
-          "o": [
-            [
-              751
-            ],
-            [
-              1332
-            ],
-            [
-              680
-            ],
-            [
-              614
-            ],
-            [
-              1396
-            ],
-            [
-              9
-            ],
-            [
-              536
-            ],
-            [
-              38
-            ],
-            [
-              952
-            ],
-            [
-              13
-            ],
-            [
-              2047
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "all": 1,
-          "t": 1186,
-          "in": "stepper",
-          "o": [
-            [
-              760
-            ]
-          ],
-          "rep": [
-            2780
-          ]
-        }
-      ]
-    },
-    {
-      "id": "scout-sniper-squad",
-      "name": "Scout Sniper Squad",
-      "kws": [
-        "Infantry",
-        "Grenades",
-        "Smoke",
-        "Imperium",
-        "Scout Sniper Squad"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 75,
-          "per": [
-            5,
-            5
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ],
-          "default": 1
         },
         {
           "pts": 150,
           "per": [
             6,
-            10
+            6
           ],
           "comp": [
             [
               0,
-              1
+              5
             ],
             [
               1,
-              5,
-              9
+              1
             ]
           ]
         }
@@ -13002,43 +7727,51 @@ export default {
       "linked": 1,
       "minis": [
         {
-          "n": "Scout Sniper Sergeant"
+          "n": "Scout Biker"
         },
         {
-          "n": "Scout Snipers"
+          "n": "Scout Biker Sergeant"
         }
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              1167,
+              2261,
               1
             ],
             [
-              2120,
+              2262,
               1
             ],
             [
-              357,
+              2263,
+              1
+            ],
+            [
+              2264,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              1167,
+              2262,
               1
             ],
             [
-              2120,
+              2264,
               1
             ],
             [
-              357,
+              2263,
+              1
+            ],
+            [
+              2261,
               1
             ]
           ]
@@ -13046,16 +7779,62 @@ export default {
       ],
       "gear": [
         {
-          "m": 1,
-          "t": 1187,
-          "in": "checkbox",
+          "all": 1,
+          "t": 783,
+          "in": "stepper",
           "o": [
             [
-              999
+              2265
             ]
           ],
           "rep": [
-            2120
+            2262
+          ]
+        },
+        {
+          "m": 1,
+          "t": 784,
+          "in": "stepper",
+          "o": [
+            [
+              2263
+            ],
+            [
+              2266
+            ],
+            [
+              2267
+            ],
+            [
+              2268
+            ],
+            [
+              2269
+            ],
+            [
+              2270
+            ],
+            [
+              2271
+            ],
+            [
+              2272
+            ],
+            [
+              2273
+            ],
+            [
+              2274
+            ],
+            [
+              2275
+            ],
+            [
+              2276
+            ]
+          ],
+          "rep": [
+            2263
           ]
         }
       ]
@@ -13065,10 +7844,9 @@ export default {
       "sid": "bd4d9b1a-0394-45e8-a88d-b5c54f69233a",
       "name": "Scout Squad",
       "kws": [
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Scout Squad",
         "Smoke"
       ],
       "flags": {},
@@ -13094,7 +7872,7 @@ export default {
         {
           "pts": 120,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
@@ -13104,17 +7882,12 @@ export default {
             ],
             [
               1,
-              5,
               9
             ]
           ]
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "minis": [
         {
           "n": "Scout Sergeant"
@@ -13125,35 +7898,35 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              960,
+              2610,
               1
             ],
             [
-              1661,
+              2611,
               1
             ],
             [
-              1,
+              2612,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              960,
+              2612,
               1
             ],
             [
-              1661,
+              2610,
               1
             ],
             [
-              1,
+              2611,
               1
             ]
           ]
@@ -13162,40 +7935,50 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 823,
+          "t": 863,
           "in": "checkbox",
           "o": [
             [
-              756
+              2613
             ]
           ],
           "rep": [
-            960
+            2612
           ]
         },
         {
-          "all": 1,
-          "t": 824,
-          "in": "stepper",
+          "m": 0,
+          "t": 864,
+          "in": "checkbox",
           "o": [
             [
-              2118
-            ],
-            [
-              2119
+              2614
             ]
           ],
           "rep": [
-            960
+            2611
           ]
         },
         {
           "m": 1,
-          "t": 825,
+          "t": 865,
           "in": "stepper",
           "o": [
             [
-              2120
+              2613
+            ]
+          ],
+          "rep": [
+            2612
+          ]
+        },
+        {
+          "m": 1,
+          "t": 866,
+          "in": "stepper",
+          "o": [
+            [
+              2615
             ]
           ],
           "lim": [
@@ -13209,19 +7992,19 @@ export default {
             ]
           ],
           "rep": [
-            960
+            2612
           ]
         },
         {
           "m": 1,
-          "t": 826,
+          "t": 867,
           "in": "stepper",
           "o": [
             [
-              17
+              2616
             ],
             [
-              497
+              2617
             ]
           ],
           "lim": [
@@ -13235,296 +8018,20 @@ export default {
             ]
           ],
           "rep": [
-            960
+            2612
           ]
         }
       ]
     },
     {
-      "id": "sergeant-chronus",
-      "name": "Sergeant Chronus",
+      "id": "sicaran",
+      "sid": "6c205902-293e-480a-b098-b7f375e9c819",
+      "name": "Sicaran",
       "kws": [
-        "Infantry",
-        "Character",
-        "Epic Hero",
-        "Imperium",
-        "Sergeant Chronus"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1,
-        "epic": 1
-      },
-      "sizes": [
-        {
-          "pts": 75,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2848,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "sergeant-telion",
-      "name": "Sergeant Telion",
-      "kws": [
-        "Infantry",
-        "Character",
-        "Epic Hero",
-        "Imperium",
-        "Sergeant Telion"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1,
-        "epic": 1
-      },
-      "sizes": [
-        {
-          "pts": 70,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2849,
-              1
-            ],
-            [
-              1205,
-              1
-            ]
-          ]
-        ]
-      ],
-      "leads": [
-        {
-          "to": "scout-squad",
-          "type": "leader"
-        },
-        {
-          "to": "scout-sniper-squad",
-          "type": "leader"
-        }
-      ]
-    },
-    {
-      "id": "sicaran-arcus",
-      "name": "Sicaran Arcus",
-      "kws": [
-        "Vehicle",
         "Frame",
         "Imperium",
         "Smoke",
-        "Sicaran Arcus"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 160,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2850,
-              1
-            ],
-            [
-              2079,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1128,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2079,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "sicaran-battle-tank",
-      "name": "Sicaran Battle Tank",
-      "kws": [
-        "Vehicle",
-        "Frame",
-        "Imperium",
-        "Smoke",
-        "Sicaran Battle Tank"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 160,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2079,
-              1
-            ],
-            [
-              2851,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1128,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2079,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "sicaran-omega",
-      "name": "Sicaran Omega",
-      "kws": [
-        "Vehicle",
-        "Frame",
-        "Imperium",
-        "Smoke",
-        "Sicaran Omega"
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -13545,104 +8052,15 @@ export default {
           0,
           [
             [
-              2079,
+              2217,
               1
             ],
             [
-              2852,
+              2218,
               1
             ],
             [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1128,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2079,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "sicaran-punisher",
-      "name": "Sicaran Punisher",
-      "kws": [
-        "Vehicle",
-        "Frame",
-        "Imperium",
-        "Smoke",
-        "Sicaran Punisher"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 160,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2079,
-              1
-            ],
-            [
-              2853,
-              1
-            ],
-            [
-              620,
+              2185,
               1
             ]
           ]
@@ -13651,342 +8069,66 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1128,
+          "t": 314,
           "in": "checkbox",
           "o": [
             [
-              [
-                [
-                  2079,
-                  2
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
+              2219
             ]
           ]
         },
         {
           "m": 0,
-          "t": 11,
+          "t": 777,
           "in": "checkbox",
           "o": [
             [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "sicaran-venator",
-      "name": "Sicaran Venator",
-      "kws": [
-        "Vehicle",
-        "Frame",
-        "Imperium",
-        "Smoke",
-        "Sicaran Venator"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 180,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2079,
-              1
+              2220
             ],
             [
-              2854,
-              1
+              2221
             ],
             [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1128,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2079,
-                  2
-                ]
-              ]
+              2222
             ],
             [
-              [
-                [
-                  545,
-                  2
-                ]
-              ]
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "sokar-pattern-stormbird",
-      "name": "Sokar-pattern Stormbird",
-      "kws": [
-        "Vehicle",
-        "Titanic",
-        "Fly",
-        "Aircraft",
-        "Transport",
-        "Imperium",
-        "Sokar-pattern Stormbird"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 900,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1425,
-              1
-            ],
-            [
-              60,
-              3
-            ],
-            [
-              718,
-              4
-            ],
-            [
-              138,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "spartan",
-      "name": "Spartan",
-      "kws": [
-        "Vehicle",
-        "Frame",
-        "Imperium",
-        "Transport",
-        "Smoke",
-        "Spartan"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 300,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2810,
-              2
-            ],
-            [
-              60,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1146,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  2651,
-                  2
-                ]
-              ]
+              2223
             ]
           ],
           "rep": [
-            2810
+            2218
           ]
         },
         {
           "m": 0,
-          "t": 1144,
-          "in": "checkbox",
+          "t": 778,
+          "in": "stepper",
           "o": [
             [
-              658
-            ]
-          ],
-          "rep": [
-            60
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1129,
-          "in": "checkbox",
-          "o": [
-            [
-              2079
+              [
+                [
+                  2217,
+                  2
+                ]
+              ]
             ],
             [
-              743
-            ],
-            [
-              169
-            ],
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "stalker",
-      "name": "Stalker",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Frame",
-        "Imperium",
-        "Stalker"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 140,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1428,
-              2
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
+              [
+                [
+                  2224,
+                  2
+                ]
+              ]
             ]
           ]
         },
         {
           "m": 0,
-          "t": 12,
+          "t": 313,
           "in": "checkbox",
           "o": [
             [
-              38
+              2225
             ]
           ]
         }
@@ -13997,16 +8139,15 @@ export default {
       "sid": "f7aff398-85bb-4f56-bd37-bfc91532214c",
       "name": "Sternguard Veteran Squad",
       "kws": [
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Sternguard Veteran Squad",
         "Tacticus"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 105,
           "per": [
             5,
             5
@@ -14015,73 +8156,76 @@ export default {
           "comp": [
             [
               0,
-              1
+              4
             ],
             [
               1,
-              4
+              1
             ]
           ]
         },
         {
-          "pts": 200,
+          "pts": 210,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
             [
               0,
-              1
+              9
             ],
             [
               1,
-              5,
-              9
+              1
             ]
           ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 15
+      },
       "minis": [
         {
-          "n": "Sternguard Veteran Sergeant"
+          "n": "Sternguard Veteran"
         },
         {
-          "n": "Sternguard Veteran"
+          "n": "Sternguard Veteran Sergeant"
         }
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              726,
+              2618,
               1
             ],
             [
-              725,
+              2619,
               1
             ],
             [
-              724,
+              2620,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              726,
+              2619,
               1
             ],
             [
-              725,
+              2621,
               1
             ],
             [
-              724,
+              2620,
               1
             ]
           ]
@@ -14089,53 +8233,31 @@ export default {
       ],
       "gear": [
         {
-          "m": 0,
-          "t": 305,
+          "m": 1,
+          "t": 868,
           "in": "checkbox",
           "o": [
             [
-              727
+              2622
             ],
             [
-              7
-            ],
-            [
-              728
-            ],
-            [
-              729
+              2623
             ]
           ],
           "rep": [
-            725
-          ],
-          "keep": [
-            725
+            2618
           ]
         },
         {
-          "m": 1,
-          "t": 306,
+          "m": 0,
+          "t": 869,
           "in": "stepper",
           "o": [
             [
-              7
-            ]
-          ],
-          "rep": [
-            725
-          ]
-        },
-        {
-          "m": 1,
-          "t": 307,
-          "in": "stepper",
-          "o": [
-            [
-              730
+              2624
             ],
             [
-              731
+              2625
             ]
           ],
           "lim": [
@@ -14149,92 +8271,7 @@ export default {
             ]
           ],
           "rep": [
-            725
-          ]
-        }
-      ]
-    },
-    {
-      "id": "storm-eagle-gunship",
-      "name": "Storm Eagle Gunship",
-      "kws": [
-        "Vehicle",
-        "Fly",
-        "Aircraft",
-        "Transport",
-        "Imperium",
-        "Storm Eagle Gunship"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 250,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              60,
-              1
-            ],
-            [
-              2816,
-              2
-            ],
-            [
-              2855,
-              1
-            ],
-            [
-              138,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1188,
-          "in": "checkbox",
-          "o": [
-            [
-              61
-            ],
-            [
-              1429
-            ]
-          ],
-          "rep": [
-            60
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1149,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  718,
-                  2
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            2816
+            2619
           ]
         }
       ]
@@ -14247,13 +8284,13 @@ export default {
         "Fly",
         "Frame",
         "Imperium",
-        "Storm Speeder Hailstrike",
+        "Speeder",
         "Vehicle"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 105,
+          "pts": 110,
           "per": [
             1,
             1
@@ -14271,19 +8308,19 @@ export default {
           0,
           [
             [
-              2084,
+              2642,
               1
             ],
             [
-              699,
-              2
-            ],
-            [
-              726,
+              2643,
               1
             ],
             [
-              2086,
+              2644,
+              1
+            ],
+            [
+              2645,
               1
             ]
           ]
@@ -14298,7 +8335,7 @@ export default {
         "Fly",
         "Frame",
         "Imperium",
-        "Storm Speeder Hammerstrike",
+        "Speeder",
         "Vehicle"
       ],
       "flags": {},
@@ -14322,19 +8359,19 @@ export default {
           0,
           [
             [
-              2125,
+              2650,
               1
             ],
             [
-              2126,
-              2
-            ],
-            [
-              2127,
+              2651,
               1
             ],
             [
-              726,
+              2652,
+              1
+            ],
+            [
+              2653,
               1
             ]
           ]
@@ -14349,13 +8386,13 @@ export default {
         "Fly",
         "Frame",
         "Imperium",
-        "Storm Speeder Thunderstrike",
+        "Speeder",
         "Vehicle"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 135,
+          "pts": 140,
           "per": [
             1,
             1
@@ -14373,19 +8410,19 @@ export default {
           0,
           [
             [
-              2122,
+              2646,
               1
             ],
             [
-              2123,
+              2647,
               1
             ],
             [
-              726,
+              2648,
               1
             ],
             [
-              2124,
+              2649,
               1
             ]
           ]
@@ -14401,10 +8438,11 @@ export default {
         "Fly",
         "Imperium",
         "Smoke",
-        "Stormhawk Interceptor",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 155,
@@ -14421,19 +8459,19 @@ export default {
           0,
           [
             [
-              151,
+              2626,
               1
             ],
             [
-              711,
+              2627,
               1
             ],
             [
-              1427,
+              2628,
               1
             ],
             [
-              2115,
+              2629,
               1
             ]
           ]
@@ -14442,31 +8480,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 602,
+          "t": 870,
           "in": "checkbox",
           "o": [
             [
-              714
-            ],
-            [
-              1429
+              2630
             ]
           ],
           "rep": [
-            1427
+            2628
           ]
         },
         {
           "m": 0,
-          "t": 827,
+          "t": 871,
           "in": "checkbox",
           "o": [
             [
-              1428
+              2631
+            ],
+            [
+              2632
             ]
           ],
           "rep": [
-            2115
+            2629
           ]
         }
       ]
@@ -14478,11 +8516,12 @@ export default {
       "kws": [
         "Fly",
         "Imperium",
-        "Stormraven Gunship",
         "Transport",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 280,
@@ -14503,20 +8542,20 @@ export default {
           0,
           [
             [
-              1429,
+              2633,
               1
             ],
             [
-              711,
-              1
-            ],
-            [
-              138,
-              1
-            ],
-            [
-              1190,
+              2634,
               2
+            ],
+            [
+              2635,
+              1
+            ],
+            [
+              2636,
+              1
             ]
           ]
         ]
@@ -14524,49 +8563,50 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 604,
-          "in": "checkbox",
-          "o": [
-            [
-              2121
-            ],
-            [
-              718
-            ]
-          ],
-          "rep": [
-            711
-          ]
-        },
-        {
-          "m": 0,
-          "t": 605,
-          "in": "checkbox",
-          "o": [
-            [
-              714
-            ],
-            [
-              61
-            ]
-          ],
-          "rep": [
-            1429
-          ]
-        },
-        {
-          "m": 0,
-          "t": 603,
+          "t": 872,
           "in": "stepper",
           "o": [
             [
-              [
-                [
-                  712,
-                  2
-                ]
-              ]
+              2637
             ]
+          ],
+          "lim": [
+            [
+              0,
+              2
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 873,
+          "in": "checkbox",
+          "o": [
+            [
+              2638
+            ],
+            [
+              2639
+            ]
+          ],
+          "rep": [
+            2636
+          ]
+        },
+        {
+          "m": 0,
+          "t": 874,
+          "in": "checkbox",
+          "o": [
+            [
+              2640
+            ],
+            [
+              2641
+            ]
+          ],
+          "rep": [
+            2635
           ]
         }
       ]
@@ -14579,10 +8619,11 @@ export default {
         "Aircraft",
         "Fly",
         "Imperium",
-        "Stormtalon Gunship",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 165,
@@ -14599,15 +8640,15 @@ export default {
           0,
           [
             [
-              2128,
+              2654,
               1
             ],
             [
-              151,
+              2655,
               1
             ],
             [
-              711,
+              2656,
               1
             ]
           ]
@@ -14616,21 +8657,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 602,
+          "t": 875,
           "in": "checkbox",
           "o": [
             [
-              714
+              2657
             ],
             [
-              718
+              2658
             ],
             [
-              1429
+              2636
             ]
           ],
           "rep": [
-            2128
+            2655
           ]
         }
       ]
@@ -14643,10 +8684,9 @@ export default {
         "Captain",
         "Character",
         "Epic Hero",
-        "Grenades",
+        "Explosives",
         "Imperium",
-        "Mounted",
-        "Suboden Khan"
+        "Mounted"
       ],
       "flags": {
         "char": 1,
@@ -14654,7 +8694,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 90,
+          "pts": 105,
           "per": [
             1,
             1
@@ -14674,342 +8714,33 @@ export default {
           0,
           [
             [
-              681,
+              2659,
               1
             ],
             [
-              2129,
+              2660,
               1
             ],
             [
-              2130,
+              2661,
               1
             ],
             [
-              2131,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "suppressor-squad",
-      "sid": "235ce59a-e559-448a-aaef-a252faff9168",
-      "name": "Suppressor Squad",
-      "kws": [
-        "Fly",
-        "Grenades",
-        "Imperium",
-        "Infantry",
-        "Jump Pack",
-        "Smoke",
-        "Suppressor Squad"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 85,
-          "per": [
-            3,
-            3
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              2
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Suppressor Sergeant"
-        },
-        {
-          "n": "Suppressor"
-        }
-      ],
-      "defaults": [
-        [
-          1,
-          [
-            [
-              1,
-              1
-            ],
-            [
-              2132,
-              1
-            ],
-            [
-              688,
-              1
-            ]
-          ]
-        ],
-        [
-          0,
-          [
-            [
-              688,
-              1
-            ],
-            [
-              2132,
-              1
-            ],
-            [
-              1,
+              2662,
               1
             ]
           ]
         ]
-      ]
-    },
-    {
-      "id": "tactical-squad",
-      "sid": "56a89836-34ad-4a12-8259-050aa1f8c36f",
-      "name": "Tactical Squad",
-      "kws": [
-        "Battleline",
-        "Grenades",
-        "Imperium",
-        "Infantry",
-        "Tactical Squad"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 140,
-          "per": [
-            10,
-            10
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              8
-            ],
-            [
-              2,
-              1
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Tactical Sergeant"
-        },
-        {
-          "n": "Tactical Marine"
-        },
-        {
-          "n": "Tactical Marine"
-        }
-      ],
-      "defaults": [
-        [
-          2,
-          [
-            [
-              1661,
-              1
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              960,
-              1
-            ]
-          ]
-        ],
-        [
-          0,
-          [
-            [
-              1,
-              1
-            ],
-            [
-              1661,
-              1
-            ],
-            [
-              960,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              960,
-              1
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              1661,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 828,
-          "in": "checkbox",
-          "o": [
-            [
-              756
-            ],
-            [
-              1
-            ],
-            [
-              960
-            ],
-            [
-              7
-            ],
-            [
-              2058
-            ],
-            [
-              11
-            ],
-            [
-              38
-            ],
-            [
-              189
-            ],
-            [
-              1208
-            ],
-            [
-              2067
-            ],
-            [
-              2133
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              2,
-              1
-            ]
-          ],
-          "rep": [
-            1,
-            960
-          ]
-        },
-        {
-          "m": 2,
-          "t": 829,
-          "in": "checkbox",
-          "o": [
-            [
-              539
-            ],
-            [
-              17
-            ],
-            [
-              2068
-            ],
-            [
-              2134
-            ],
-            [
-              1020
-            ],
-            [
-              15
-            ],
-            [
-              497
-            ],
-            [
-              19
-            ],
-            [
-              2069
-            ],
-            [
-              607
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ],
-          "rep": [
-            960
-          ]
-        },
-        {
-          "m": 1,
-          "t": 829,
-          "in": "checkbox",
-          "o": [
-            [
-              539
-            ],
-            [
-              2134
-            ],
-            [
-              15
-            ],
-            [
-              607
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ],
-          "rep": [
-            960
-          ]
-        }
       ]
     },
     {
       "id": "tarantula-air-defence-battery",
+      "sid": "355fc1c7-f841-485a-a816-1f6cede725df",
       "name": "Tarantula Air Defence Battery",
       "kws": [
-        "Vehicle",
         "Frame",
         "Imperium",
-        "Tarantula Air Defence Battery"
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -15030,11 +8761,11 @@ export default {
           0,
           [
             [
-              2856,
+              2199,
               1
             ],
             [
-              138,
+              2200,
               1
             ]
           ]
@@ -15043,13 +8774,13 @@ export default {
     },
     {
       "id": "tarantula-sentry-battery",
+      "sid": "e881e3b9-4abe-474b-af19-7fe6bbedd999",
       "name": "Tarantula Sentry Battery",
       "kws": [
-        "Vehicle",
         "Artillery",
         "Frame",
         "Imperium",
-        "Tarantula Sentry Battery"
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -15062,6 +8793,20 @@ export default {
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 60,
+          "per": [
+            2,
+            2
+          ]
+        },
+        {
+          "pts": 90,
+          "per": [
+            3,
+            3
+          ]
         }
       ],
       "linked": 1,
@@ -15070,11 +8815,11 @@ export default {
           0,
           [
             [
-              60,
+              2286,
               1
             ],
             [
-              138,
+              2287,
               1
             ]
           ]
@@ -15083,15 +8828,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 302,
-          "in": "checkbox",
+          "t": 787,
+          "in": "stepper",
           "o": [
             [
-              718
+              2288
             ]
           ],
           "rep": [
-            60
+            2286
           ]
         }
       ]
@@ -15102,11 +8847,10 @@ export default {
       "name": "Techmarine",
       "kws": [
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Tacticus",
-        "Techmarine"
+        "Tacticus"
       ],
       "flags": {
         "char": 1
@@ -15124,15 +8868,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "assault-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "desolation-squad",
-          "type": "leader"
-        },
-        {
-          "to": "devastator-squad",
+          "to": "crusader-squad",
           "type": "leader"
         },
         {
@@ -15140,24 +8876,24 @@ export default {
           "type": "leader"
         },
         {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
           "to": "sword-brethren-squad",
           "type": "leader"
         },
         {
-          "to": "crusader-squad",
-          "type": "leader"
-        },
-        {
-          "to": "fortis-kill-team",
+          "to": "assault-intercessor-squad",
           "type": "leader"
         },
         {
           "to": "decimus-kill-team",
           "type": "leader"
+        },
+        {
+          "to": "desolation-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -15165,153 +8901,19 @@ export default {
           0,
           [
             [
-              1396,
+              2663,
               1
             ],
             [
-              1398,
+              2664,
               1
             ],
             [
-              1395,
-              1
-            ],
-            [
-              1397,
+              2665,
               1
             ]
           ]
         ]
-      ]
-    },
-    {
-      "id": "techmarine-on-bike",
-      "name": "Techmarine on Bike",
-      "kws": [
-        "Mounted",
-        "Character",
-        "Grenades",
-        "Imperium",
-        "Techmarine"
-      ],
-      "flags": {
-        "legends": 1,
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 110,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              2780,
-              1
-            ],
-            [
-              1398,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 1189,
-          "in": "checkbox",
-          "o": [
-            [
-              1332
-            ],
-            [
-              680
-            ],
-            [
-              1396
-            ],
-            [
-              536
-            ],
-            [
-              38
-            ]
-          ],
-          "rep": [
-            1167
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1190,
-          "in": "checkbox",
-          "o": [
-            [
-              751
-            ],
-            [
-              952
-            ],
-            [
-              2047
-            ]
-          ],
-          "rep": [
-            1398
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1191,
-          "in": "checkbox",
-          "o": [
-            [
-              2857
-            ],
-            [
-              2858
-            ],
-            [
-              [
-                [
-                  301,
-                  1
-                ],
-                [
-                  2859,
-                  1
-                ],
-                [
-                  2857,
-                  2
-                ]
-              ]
-            ]
-          ]
-        }
-      ],
-      "leads": [
-        {
-          "to": "bike-squad",
-          "type": "support"
-        },
-        {
-          "to": "outrider-squad",
-          "type": "support"
-        }
       ]
     },
     {
@@ -15321,13 +8923,12 @@ export default {
       "kws": [
         "Imperium",
         "Infantry",
-        "Terminator",
-        "Terminator Assault Squad"
+        "Terminator"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 155,
+          "pts": 170,
           "per": [
             5,
             5
@@ -15345,9 +8946,9 @@ export default {
           ]
         },
         {
-          "pts": 310,
+          "pts": 340,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
@@ -15357,127 +8958,16 @@ export default {
             ],
             [
               1,
-              5,
               9
             ]
           ]
         }
       ],
       "linked": 1,
-      "minis": [
-        {
-          "n": "Assault Terminator Sergeant"
-        },
-        {
-          "n": "Assault Terminator"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1206,
-              1
-            ],
-            [
-              733,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1206,
-              1
-            ],
-            [
-              733,
-              1
-            ]
-          ]
-        ]
-      ],
-      "dw": [
-        [
-          0,
-          5
-        ],
-        [
-          1,
-          5
-        ]
-      ],
-      "gear": [
-        {
-          "all": 1,
-          "t": 830,
-          "in": "stepper",
-          "o": [
-            [
-              2135
-            ]
-          ],
-          "rep": [
-            733,
-            1206
-          ],
-          "dr": 5
-        }
-      ]
-    },
-    {
-      "id": "terminator-squad",
-      "sid": "6ad781cd-6ee5-493b-8114-44363a3ae071",
-      "name": "Terminator Squad",
-      "kws": [
-        "Imperium",
-        "Infantry",
-        "Terminator",
-        "Terminator Squad"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 160,
-          "per": [
-            5,
-            5
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ]
-        },
-        {
-          "pts": 320,
-          "per": [
-            6,
-            10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
-          ]
-        }
-      ],
-      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 40
+      },
       "minis": [
         {
           "n": "Terminator Sergeant"
@@ -15488,27 +8978,133 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              38,
-              1
-            ],
-            [
-              691,
+              2666,
               1
             ]
           ]
         ],
         [
+          1,
+          [
+            [
+              2666,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "all": 1,
+          "t": 876,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1308,
+                  1
+                ],
+                [
+                  2667,
+                  1
+                ]
+              ],
+              5
+            ]
+          ],
+          "rep": [
+            2666
+          ]
+        }
+      ]
+    },
+    {
+      "id": "terminator-squad",
+      "sid": "6ad781cd-6ee5-493b-8114-44363a3ae071",
+      "name": "Terminator Squad",
+      "kws": [
+        "Imperium",
+        "Infantry",
+        "Terminator"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 190,
+          "per": [
+            5,
+            5
+          ],
+          "default": 1,
+          "comp": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "pts": 380,
+          "per": [
+            10,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              9
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 40
+      },
+      "minis": [
+        {
+          "n": "Terminator"
+        },
+        {
+          "n": "Terminator Sergeant"
+        }
+      ],
+      "defaults": [
+        [
           0,
           [
             [
-              38,
+              2668,
               1
             ],
             [
-              691,
+              2669,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2669,
+              1
+            ],
+            [
+              2668,
               1
             ]
           ]
@@ -15517,13 +9113,42 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 313,
+          "t": 877,
+          "in": "checkbox",
+          "o": [
+            [
+              2670
+            ],
+            [
+              2671
+            ]
+          ],
+          "rep": [
+            2668
+          ]
+        },
+        {
+          "m": 0,
+          "t": 878,
+          "in": "stepper",
+          "o": [
+            [
+              2670
+            ]
+          ],
+          "rep": [
+            2668
+          ]
+        },
+        {
+          "m": 0,
+          "t": 879,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  735,
+                  2672,
                   1
                 ]
               ]
@@ -15531,7 +9156,7 @@ export default {
             [
               [
                 [
-                  495,
+                  2673,
                   1
                 ]
               ]
@@ -15539,14 +9164,15 @@ export default {
             [
               [
                 [
-                  736,
+                  2674,
                   1
                 ],
                 [
-                  38,
+                  2669,
                   1
                 ]
-              ]
+              ],
+              10
             ]
           ],
           "lim": [
@@ -15560,127 +9186,24 @@ export default {
             ]
           ],
           "rep": [
-            38
+            2669
           ],
           "keep": [
-            38
-          ]
-        },
-        {
-          "all": 1,
-          "t": 314,
-          "in": "stepper",
-          "o": [
-            [
-              737
-            ]
-          ],
-          "rep": [
-            691
-          ]
-        },
-        {
-          "m": 0,
-          "t": 831,
-          "in": "checkbox",
-          "o": [
-            [
-              738
-            ]
-          ],
-          "rep": [
-            691
-          ]
-        }
-      ]
-    },
-    {
-      "id": "terminus-ultra",
-      "name": "Terminus Ultra",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Transport",
-        "Frame",
-        "Imperium",
-        "Terminus Ultra"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 285,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2860,
-              3
-            ],
-            [
-              545,
-              2
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 300,
-          "in": "checkbox",
-          "o": [
-            [
-              169
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
+            2669
           ]
         }
       ]
     },
     {
       "id": "terrax-pattern-termite",
+      "sid": "f2297498-1188-43b5-8689-f52df3e11ad1",
       "name": "Terrax-pattern Termite",
       "kws": [
-        "Vehicle",
+        "Dedicated Transport",
         "Frame",
         "Imperium",
         "Transport",
-        "Dedicated Transport",
-        "Terrax-pattern Termite"
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -15701,15 +9224,15 @@ export default {
           0,
           [
             [
-              2572,
-              1
-            ],
-            [
-              1129,
+              2289,
               2
             ],
             [
-              2573,
+              2290,
+              1
+            ],
+            [
+              2291,
               1
             ]
           ]
@@ -15718,13 +9241,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 974,
-          "in": "checkbox",
+          "t": 788,
+          "in": "stepper",
           "o": [
             [
               [
                 [
-                  743,
+                  2292,
                   2
                 ]
               ]
@@ -15732,99 +9255,16 @@ export default {
             [
               [
                 [
-                  2574,
+                  2293,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            1129
+            2289
           ]
         }
-      ]
-    },
-    {
-      "id": "thunderfire-cannon",
-      "name": "Thunderfire Cannon",
-      "kws": [
-        "Artillery",
-        "Vehicle",
-        "Frame",
-        "Imperium",
-        "Thunderfire Cannon"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 90,
-          "per": [
-            2,
-            2
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              1
-            ]
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Techmarine Gunner"
-        },
-        {
-          "n": "Thunderfire Cannon"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              301,
-              1
-            ],
-            [
-              2859,
-              1
-            ],
-            [
-              2861,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              2862,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ]
       ]
     },
     {
@@ -15834,7 +9274,6 @@ export default {
       "kws": [
         "Fly",
         "Imperium",
-        "Thunderhawk Gunship",
         "Titanic",
         "Transport",
         "Vehicle"
@@ -15842,7 +9281,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 840,
+          "pts": 850,
           "per": [
             1,
             1
@@ -15851,29 +9290,33 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 2,
+        "pts": 100
+      },
       "defaults": [
         [
           0,
           [
             [
-              1423,
+              2708,
               1
             ],
             [
-              138,
+              2709,
               1
             ],
             [
-              883,
-              2
+              2710,
+              1
             ],
             [
-              714,
+              2711,
               4
             ],
             [
-              1422,
-              1
+              2712,
+              2
             ]
           ]
         ]
@@ -15881,76 +9324,17 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 597,
+          "t": 884,
           "in": "checkbox",
           "o": [
             [
-              1424
+              2713
             ]
           ],
           "rep": [
-            1422
-          ]
-        },
-        {
-          "m": 0,
-          "t": 598,
-          "in": "checkbox",
-          "o": [
-            [
-              1425
-            ]
-          ],
-          "rep": [
-            1423
+            2708
           ]
         }
-      ]
-    },
-    {
-      "id": "thunderhawk-transporter",
-      "name": "Thunderhawk Transporter",
-      "kws": [
-        "Vehicle",
-        "Titanic",
-        "Fly",
-        "Aircraft",
-        "Transport",
-        "Imperium",
-        "Thunderhawk Transporter"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 495,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1425,
-              1
-            ],
-            [
-              60,
-              4
-            ],
-            [
-              138,
-              1
-            ]
-          ]
-        ]
       ]
     },
     {
@@ -15963,8 +9347,7 @@ export default {
         "Epic Hero",
         "Gravis",
         "Imperium",
-        "Infantry",
-        "Tor Garadon"
+        "Infantry"
       ],
       "flags": {
         "char": 1,
@@ -15972,7 +9355,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 90,
           "per": [
             1,
             1
@@ -15987,7 +9370,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "eradicator-squad",
+          "to": "eradicator-squad-with-melta-rifles",
           "type": "leader"
         },
         {
@@ -15999,24 +9382,16 @@ export default {
           "type": "leader"
         }
       ],
-      "leadKw": [
-        {
-          "kw": [
-            "Eradicator Squad"
-          ],
-          "type": "leader"
-        }
-      ],
       "defaults": [
         [
           0,
           [
             [
-              2136,
+              2675,
               1
             ],
             [
-              2137,
+              2676,
               1
             ]
           ]
@@ -16025,13 +9400,13 @@ export default {
     },
     {
       "id": "typhon",
+      "sid": "a7e23f5b-78bb-41e2-993f-857ba5fe2f7e",
       "name": "Typhon",
       "kws": [
-        "Vehicle",
         "Frame",
         "Imperium",
         "Smoke",
-        "Typhon"
+        "Vehicle"
       ],
       "flags": {
         "legends": 1
@@ -16052,11 +9427,11 @@ export default {
           0,
           [
             [
-              2863,
+              2240,
               1
             ],
             [
-              620,
+              2241,
               1
             ]
           ]
@@ -16065,13 +9440,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1128,
-          "in": "checkbox",
+          "t": 778,
+          "in": "stepper",
           "o": [
             [
               [
                 [
-                  2079,
+                  2242,
                   2
                 ]
               ]
@@ -16079,7 +9454,7 @@ export default {
             [
               [
                 [
-                  545,
+                  2243,
                   2
                 ]
               ]
@@ -16088,197 +9463,33 @@ export default {
         },
         {
           "m": 0,
-          "t": 1129,
+          "t": 774,
           "in": "checkbox",
           "o": [
             [
-              2079
+              2242
             ],
             [
-              743
+              2244
             ],
             [
-              169
+              2245
             ],
             [
-              38
+              2246
             ]
           ]
         }
-      ]
-    },
-    {
-      "id": "tyrannic-war-veterans",
-      "name": "Tyrannic War Veterans",
-      "kws": [
-        "Infantry",
-        "Grenades",
-        "Imperium",
-        "Tyrannic War Veterans"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 85,
-          "per": [
-            5,
-            5
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "minis": [
-        {
-          "n": "Veteran Sergeant"
-        },
-        {
-          "n": "Tyrannic War Veterans"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              1332,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1167,
-              1
-            ],
-            [
-              1332,
-              1
-            ],
-            [
-              357,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "uriel-ventris",
-      "sid": "5657fe03-7e74-4e43-b1b5-f5156016b5f8",
-      "name": "Uriel Ventris",
-      "kws": [
-        "Captain",
-        "Character",
-        "Epic Hero",
-        "Imperium",
-        "Infantry",
-        "Tacticus",
-        "Uriel Ventris"
-      ],
-      "flags": {
-        "char": 1,
-        "epic": 1
-      },
-      "sizes": [
-        {
-          "pts": 105,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
-        {
-          "to": "assault-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "bladeguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "company-heroes",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "victrix-honour-guard",
-          "type": "leader"
-        }
-      ],
-      "leadKw": [
-        {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2138,
-              1
-            ],
-            [
-              22,
-              1
-            ],
-            [
-              2139,
-              1
-            ]
-          ]
-        ]
       ]
     },
     {
       "id": "vanguard-veteran-squad",
+      "sid": "dd136149-9233-41df-b942-2bd8bc14abe5",
       "name": "Vanguard Veteran Squad",
       "kws": [
-        "Infantry",
-        "Grenades",
+        "Explosives",
         "Imperium",
-        "Vanguard Veteran Squad"
+        "Infantry"
       ],
       "flags": {
         "legends": 1
@@ -16290,33 +9501,32 @@ export default {
             5,
             5
           ],
+          "default": 1,
           "comp": [
             [
               0,
-              1
+              4
             ],
             [
               1,
-              4
+              1
             ]
-          ],
-          "default": 1
+          ]
         },
         {
           "pts": 240,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
             [
               0,
-              1
+              9
             ],
             [
               1,
-              5,
-              9
+              1
             ]
           ]
         }
@@ -16324,10 +9534,10 @@ export default {
       "linked": 1,
       "minis": [
         {
-          "n": "Vanguard Veteran Sergeant"
+          "n": "Vanguard Veteran"
         },
         {
-          "n": "Vanguard Veterans"
+          "n": "Vanguard Veteran Sergeant"
         }
       ],
       "defaults": [
@@ -16335,11 +9545,11 @@ export default {
           0,
           [
             [
-              1167,
+              2280,
               1
             ],
             [
-              2864,
+              2281,
               1
             ]
           ]
@@ -16348,11 +9558,11 @@ export default {
           1,
           [
             [
-              1167,
+              2281,
               1
             ],
             [
-              2864,
+              2280,
               1
             ]
           ]
@@ -16361,27 +9571,37 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 1192,
+          "t": 785,
           "in": "stepper",
           "o": [
             [
-              2100
-            ],
-            [
-              1396
-            ],
-            [
-              614
-            ],
-            [
-              9
-            ],
-            [
-              536
+              1301
             ]
           ],
           "rep": [
-            1167
+            2280
+          ]
+        },
+        {
+          "all": 1,
+          "t": 786,
+          "in": "stepper",
+          "o": [
+            [
+              2282
+            ],
+            [
+              2283
+            ],
+            [
+              2284
+            ],
+            [
+              2285
+            ]
+          ],
+          "rep": [
+            2280
           ]
         }
       ]
@@ -16391,18 +9611,17 @@ export default {
       "sid": "2151c904-7486-4787-97ee-1fa9208981d4",
       "name": "Vanguard Veteran Squad with Jump Packs",
       "kws": [
+        "Explosives",
         "Fly",
-        "Grenades",
         "Imperium",
         "Infantry",
         "Jump Pack",
-        "Vanguard Veteran Squad",
-        "Vanguard Veteran Squad with Jump Packs"
+        "Tacticus"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 105,
+          "pts": 110,
           "per": [
             5,
             5
@@ -16420,9 +9639,9 @@ export default {
           ]
         },
         {
-          "pts": 210,
+          "pts": 220,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
@@ -16432,7 +9651,6 @@ export default {
             ],
             [
               1,
-              5,
               9
             ]
           ]
@@ -16441,39 +9659,39 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 20
       },
       "minis": [
         {
-          "n": "Vanguard Veteran Sergeant with Jump Pack"
+          "n": "Vanguard Veteran Sergeant"
         },
         {
-          "n": "Vanguard Veteran with Jump Pack"
+          "n": "Vanguard Veteran"
         }
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              1,
+              2677,
               1
             ],
             [
-              2140,
+              2678,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              1,
+              2678,
               1
             ],
             [
-              2140,
+              2679,
               1
             ]
           ]
@@ -16481,85 +9699,82 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 832,
-          "in": "stepper",
+          "m": 0,
+          "t": 880,
+          "in": "checkbox",
           "o": [
             [
-              2100
+              2680
             ],
             [
-              2058
-            ],
-            [
-              614
-            ],
-            [
-              9
-            ],
-            [
-              11
-            ]
-          ]
-        },
-        {
-          "all": 1,
-          "t": 833,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  2141,
-                  1
-                ],
-                [
-                  2142,
-                  1
-                ]
-              ]
+              2681
             ]
           ],
           "rep": [
-            1,
-            2140
+            2677
+          ]
+        },
+        {
+          "m": 0,
+          "t": 881,
+          "in": "checkbox",
+          "o": [
+            [
+              2682
+            ]
+          ],
+          "rep": [
+            2678
           ]
         },
         {
           "all": 1,
-          "t": 834,
+          "t": 882,
           "in": "stepper",
           "o": [
             [
-              11
+              2683
+            ]
+          ],
+          "rep": [
+            2678
+          ]
+        },
+        {
+          "m": 1,
+          "t": 883,
+          "in": "stepper",
+          "o": [
+            [
+              2682
             ]
           ],
           "lim": [
             [
               5,
-              1
+              2
             ],
             [
               10,
-              2
+              4
             ]
           ],
           "rep": [
-            2141
+            2678
           ]
         }
       ]
     },
     {
       "id": "venerable-dreadnought",
+      "sid": "f0cad002-36f8-4d07-82ba-0d49e4ae2104",
       "name": "Venerable Dreadnought",
       "kws": [
-        "Vehicle",
-        "Walker",
-        "Smoke",
+        "Dreadnought",
         "Imperium",
-        "Venerable",
-        "Dreadnought"
+        "Smoke",
+        "Vehicle",
+        "Walker"
       ],
       "flags": {
         "legends": 1
@@ -16580,19 +9795,19 @@ export default {
           0,
           [
             [
-              2156,
+              2350,
               1
             ],
             [
-              38,
+              2351,
               1
             ],
             [
-              2026,
+              2352,
               1
             ],
             [
-              1432,
+              2353,
               1
             ]
           ]
@@ -16601,62 +9816,78 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1193,
-          "in": "checkbox",
-          "o": [
-            [
-              1433
-            ],
-            [
-              169
-            ],
-            [
-              2355
-            ],
-            [
-              60
-            ],
-            [
-              658
-            ],
-            [
-              718
-            ],
-            [
-              2800
-            ]
-          ],
-          "rep": [
-            2156
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1194,
+          "t": 802,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  743,
+                  2354,
                   1
                 ],
                 [
-                  1432,
+                  2353,
                   1
                 ]
               ]
             ],
             [
-              999
+              [
+                [
+                  2355,
+                  1
+                ]
+              ]
             ],
             [
-              2355
+              [
+                [
+                  2356,
+                  1
+                ]
+              ]
             ]
           ],
           "rep": [
-            38,
-            1432
+            2353,
+            2351
+          ]
+        },
+        {
+          "m": 0,
+          "t": 803,
+          "in": "checkbox",
+          "o": [
+            [
+              2350
+            ],
+            [
+              2357
+            ],
+            [
+              2354
+            ],
+            [
+              2358
+            ],
+            [
+              2359
+            ],
+            [
+              2356
+            ],
+            [
+              2360
+            ],
+            [
+              2361
+            ],
+            [
+              2362
+            ]
+          ],
+          "rep": [
+            2350
           ]
         }
       ]
@@ -16666,25 +9897,61 @@ export default {
       "sid": "5ab7a6a5-3db3-4595-b8a4-c031bdc3ef31",
       "name": "Victrix Honour Guard",
       "kws": [
-        "Ancient",
-        "Champion",
-        "Epic Hero",
         "Imperium",
         "Infantry",
-        "Tacticus",
-        "Victrix Honour Guard"
+        "Tacticus"
       ],
-      "flags": {
-        "epic": 1
-      },
+      "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 120,
           "per": [
             3,
             3
           ],
           "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              2
+            ]
+          ]
+        },
+        {
+          "pts": 120,
+          "per": [
+            3,
+            3
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        },
+        {
+          "pts": 120,
+          "per": [
+            3,
+            3
+          ],
           "comp": [
             [
               0,
@@ -16701,7 +9968,7 @@ export default {
           ]
         },
         {
-          "pts": 110,
+          "pts": 120,
           "per": [
             3,
             3
@@ -16722,51 +9989,9 @@ export default {
           ]
         },
         {
-          "pts": 110,
+          "pts": 250,
           "per": [
-            3,
-            3
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              0
-            ],
-            [
-              2,
-              2
-            ]
-          ]
-        },
-        {
-          "pts": 110,
-          "per": [
-            3,
-            3
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              2,
-              1
-            ]
-          ]
-        },
-        {
-          "pts": 230,
-          "per": [
-            4,
+            6,
             6
           ],
           "comp": [
@@ -16780,37 +10005,14 @@ export default {
             ],
             [
               2,
-              4,
               6
             ]
           ]
         },
         {
-          "pts": 230,
+          "pts": 250,
           "per": [
-            4,
-            6
-          ],
-          "comp": [
-            [
-              0,
-              0
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              2,
-              3,
-              5
-            ]
-          ]
-        },
-        {
-          "pts": 230,
-          "per": [
-            4,
+            6,
             6
           ],
           "comp": [
@@ -16824,15 +10026,14 @@ export default {
             ],
             [
               2,
-              3,
               5
             ]
           ]
         },
         {
-          "pts": 230,
+          "pts": 250,
           "per": [
-            4,
+            6,
             6
           ],
           "comp": [
@@ -16845,24 +10046,44 @@ export default {
               1
             ],
             [
-              2,
               2,
               4
+            ]
+          ]
+        },
+        {
+          "pts": 250,
+          "per": [
+            6,
+            6
+          ],
+          "comp": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              5
             ]
           ]
         }
       ],
       "linked": 1,
       "step": {
-        "at": 2,
-        "pts": 20
+        "at": 3,
+        "pts": 30
       },
       "minis": [
         {
-          "n": "Chapter Ancient"
+          "n": "Chapter Champion"
         },
         {
-          "n": "Chapter Champion"
+          "n": "Chapter Ancient"
         },
         {
           "n": "Victrix Honour Guard"
@@ -16873,7 +10094,15 @@ export default {
           1,
           [
             [
-              2143,
+              2684,
+              1
+            ],
+            [
+              2685,
+              1
+            ],
+            [
+              2686,
               1
             ]
           ]
@@ -16882,11 +10111,11 @@ export default {
           2,
           [
             [
-              2099,
+              2684,
               1
             ],
             [
-              2144,
+              2685,
               1
             ]
           ]
@@ -16895,11 +10124,7 @@ export default {
           0,
           [
             [
-              2099,
-              1
-            ],
-            [
-              2145,
+              2687,
               1
             ]
           ]
@@ -16908,10 +10133,6 @@ export default {
       "dw": [
         [
           1,
-          10
-        ],
-        [
-          0,
           15
         ]
       ]
@@ -16924,10 +10145,11 @@ export default {
         "Frame",
         "Imperium",
         "Smoke",
-        "Vehicle",
-        "Vindicator"
+        "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 185,
@@ -16943,27 +10165,16 @@ export default {
         "at": 3,
         "pts": 15
       },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
       "defaults": [
         [
           0,
           [
             [
-              34,
+              2688,
               1
             ],
             [
-              959,
+              2689,
               1
             ]
           ]
@@ -16972,77 +10183,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 11,
+          "t": 314,
           "in": "checkbox",
           "o": [
             [
-              37
+              2690
             ]
           ]
         },
         {
           "m": 0,
-          "t": 12,
+          "t": 313,
           "in": "checkbox",
           "o": [
             [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "vindicator-laser-destroyer",
-      "name": "Vindicator Laser Destroyer",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Frame",
-        "Imperium",
-        "Vindicator Laser Destroyer"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 175,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2865,
-              1
-            ],
-            [
-              38,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
+              2691
             ]
           ]
         }
@@ -17053,14 +10208,12 @@ export default {
       "sid": "19b5427c-58eb-41ae-af6d-611e4f59721c",
       "name": "Vulkan He’stan",
       "kws": [
-        "Captain",
         "Character",
         "Epic Hero",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Tacticus",
-        "Vulkan He’stan"
+        "Tacticus"
       ],
       "flags": {
         "char": 1,
@@ -17068,7 +10221,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 105,
           "per": [
             1,
             1
@@ -17079,7 +10232,19 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "eradicator-squad-with-melta-rifles",
+          "type": "leader"
+        },
+        {
           "to": "assault-intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -17089,14 +10254,6 @@ export default {
         {
           "to": "infernus-squad",
           "type": "leader"
-        },
-        {
-          "to": "tactical-squad",
-          "type": "leader"
-        },
-        {
-          "to": "victrix-honour-guard",
-          "type": "leader"
         }
       ],
       "defaults": [
@@ -17104,15 +10261,15 @@ export default {
           0,
           [
             [
-              22,
+              2692,
               1
             ],
             [
-              2146,
+              2693,
               1
             ],
             [
-              2147,
+              2694,
               1
             ]
           ]
@@ -17125,19 +10282,17 @@ export default {
       "name": "Wardens of Ultramar",
       "kws": [
         "Epic Hero",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Psyker",
-        "Tacticus",
-        "Wardens of Ultramar"
+        "Tacticus"
       ],
       "flags": {
         "epic": 1
       },
       "sizes": [
         {
-          "pts": 120,
+          "pts": 115,
           "per": [
             6,
             6
@@ -17174,11 +10329,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "assault-intercessor-squad",
+          "to": "vanguard-veteran-squad",
           "type": "support"
         },
         {
-          "to": "bladeguard-veteran-squad",
+          "to": "sternguard-veteran-squad",
           "type": "support"
         },
         {
@@ -17186,33 +10341,29 @@ export default {
           "type": "support"
         },
         {
-          "to": "sternguard-veteran-squad",
+          "to": "bladeguard-veteran-squad",
           "type": "support"
-        }
-      ],
-      "leadKw": [
+        },
         {
-          "kw": [
-            "Sternguard Veteran Squad"
-          ],
+          "to": "assault-intercessor-squad",
           "type": "support"
         }
       ],
       "minis": [
         {
-          "n": "Ancient Gadriel"
+          "n": "Veteran Sergeant Metaurus"
         },
         {
-          "n": "Veteran Sergeant Metaurus"
+          "n": "Ancient Gadriel"
         },
         {
           "n": "Gaius Silva"
         },
         {
-          "n": "Aemelia Minervas"
+          "n": "Dainal Komelius"
         },
         {
-          "n": "Dainal Komelius"
+          "n": "Aemelia Minervas"
         },
         {
           "n": "Lucia Vestha"
@@ -17223,15 +10374,11 @@ export default {
           2,
           [
             [
-              2148,
+              2695,
               1
             ],
             [
-              2149,
-              1
-            ],
-            [
-              2150,
+              2696,
               1
             ]
           ]
@@ -17240,37 +10387,11 @@ export default {
           4,
           [
             [
-              2151,
+              2696,
               1
             ],
             [
-              2152,
-              1
-            ]
-          ]
-        ],
-        [
-          5,
-          [
-            [
-              2153,
-              1
-            ],
-            [
-              2149,
-              1
-            ]
-          ]
-        ],
-        [
-          3,
-          [
-            [
-              2149,
-              1
-            ],
-            [
-              2148,
+              2695,
               1
             ]
           ]
@@ -17279,11 +10400,24 @@ export default {
           0,
           [
             [
-              2153,
+              2697,
               1
             ],
             [
-              689,
+              2698,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              2699,
+              1
+            ],
+            [
+              2700,
               1
             ]
           ]
@@ -17292,15 +10426,24 @@ export default {
           1,
           [
             [
-              2100,
+              2701,
               1
             ],
             [
-              685,
+              2702,
+              1
+            ]
+          ]
+        ],
+        [
+          5,
+          [
+            [
+              2695,
               1
             ],
             [
-              2099,
+              2703,
               1
             ]
           ]
@@ -17315,10 +10458,11 @@ export default {
         "Frame",
         "Imperium",
         "Smoke",
-        "Vehicle",
-        "Whirlwind"
+        "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 175,
@@ -17334,27 +10478,16 @@ export default {
         "at": 2,
         "pts": 20
       },
-      "alleg": {
-        "g": "headhunter-task-force-keywords",
-        "t": "Headhunter Task Force Keywords",
-        "o": [
-          {
-            "n": "Character"
-          }
-        ],
-        "det": "Headhunter Task Force",
-        "max": 3
-      },
       "defaults": [
         [
           0,
           [
             [
-              34,
+              2704,
               1
             ],
             [
-              2154,
+              2705,
               1
             ]
           ]
@@ -17363,143 +10496,40 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 11,
+          "t": 313,
           "in": "checkbox",
           "o": [
             [
-              37
+              2706
             ]
           ]
         },
         {
           "m": 0,
-          "t": 12,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              38
+              2707
             ]
           ]
         }
-      ]
-    },
-    {
-      "id": "whirlwind-scorpius",
-      "name": "Whirlwind Scorpius",
-      "kws": [
-        "Vehicle",
-        "Smoke",
-        "Frame",
-        "Imperium",
-        "Whirlwind Scorpius"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 115,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              2866,
-              1
-            ],
-            [
-              620,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              500
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              38
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "xiphon-interceptor",
-      "name": "Xiphon Interceptor",
-      "kws": [
-        "Vehicle",
-        "Fly",
-        "Aircraft",
-        "Imperium",
-        "Xiphon Interceptor"
-      ],
-      "flags": {
-        "legends": 1
-      },
-      "sizes": [
-        {
-          "pts": 115,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              718,
-              2
-            ],
-            [
-              2867,
-              1
-            ],
-            [
-              138,
-              1
-            ]
-          ]
-        ]
       ]
     }
   ],
   "detachments": [
     {
-      "name": "1st Company Task Force",
-      "sid": "01c7258d-72a9-4df9-bea2-b4f7bfdaebb8",
-      "dp": 2,
-      "fd": "Purge the Foe",
+      "name": "Assault Brethren",
+      "sid": "6fead3ce-6ab9-4637-9c53-70af7ee47328",
+      "dp": 1,
+      "fds": [
+        "Take and Hold"
+      ],
+      "unique": "DOCTRINES",
       "enhancements": [
         {
-          "name": "The Imperium’s Sword",
-          "pts": 25,
+          "name": "Imperium’s Sword",
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -17510,43 +10540,18 @@ export default {
           ]
         },
         {
-          "name": "Fear Made Manifest (Aura)",
-          "pts": 30,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Rites of War",
+          "name": "Furious Assault (Upgrade)",
           "pts": 10,
-          "type": "miniature",
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
           "req": [
             {
               "fac": [
                 "Adeptus Astartes"
               ],
               "kw": [
-                "Terminator"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Iron Resolve",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Terminator"
+                "Infantry"
               ]
             }
           ]
@@ -17554,26 +10559,17 @@ export default {
       ]
     },
     {
-      "name": "Anvil Siege Force",
-      "sid": "e544168f-0535-4b58-ac04-c5f3793ea56b",
-      "dp": 2,
-      "fd": "Take and Hold",
+      "name": "Blade of Ultramar",
+      "sid": "02b3f939-2e5a-4952-8f16-861e4de692f9",
+      "dp": 3,
+      "fds": [
+        "Take and Hold",
+        "Priority Assets"
+      ],
       "enhancements": [
         {
-          "name": "Indomitable Fury",
+          "name": "Student of the Codex",
           "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Gravis"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Fleet Commander",
-          "pts": 15,
           "type": "miniature",
           "req": [
             {
@@ -17584,163 +10580,8 @@ export default {
           ]
         },
         {
-          "name": "Stoic Defender",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Architect of War",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Armoured Speartip",
-      "sid": "2816281c-0f5d-4c0c-a63b-9be13599e674",
-      "dp": 3,
-      "fd": "Take and Hold",
-      "enhancements": [
-        {
-          "name": "Liberator",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Tip of the Spear",
-          "pts": 40,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Shock Deployment",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Terminator"
-              ]
-            },
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Gravis"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Armoured Commander",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Bastion Task Force",
-      "sid": "b0cdcaeb-2e58-46e3-83c5-a1ece9ad4e66",
-      "dp": 2,
-      "fd": "Take and Hold",
-      "enhancements": [
-        {
-          "name": "Eye of the Primarch",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Hero of the Chapter",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Blades of Valour",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Bombast Omnivox",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Blade of Ultramar",
-      "sid": "114f009f-63b2-40bc-922a-83363eab24cc",
-      "dp": 3,
-      "fd": "Priority Assets",
-      "enhancements": [
-        {
           "name": "Armour of Antoninus",
-          "pts": 20,
+          "pts": 15,
           "type": "miniature",
           "req": [
             {
@@ -17752,18 +10593,6 @@ export default {
         },
         {
           "name": "Oath of Macragge",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Student of the Codex",
           "pts": 20,
           "type": "miniature",
           "req": [
@@ -17776,7 +10605,7 @@ export default {
         },
         {
           "name": "Veteran of Behemoth",
-          "pts": 25,
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -17786,17 +10615,20 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      "chapter": "Ultramarines"
     },
     {
       "name": "Ceramite Sentinels",
-      "sid": "3f2130dc-e858-45a7-b42c-4cd5953b9b43",
-      "dp": 3,
-      "fd": "Take and Hold",
+      "sid": "15bfed5b-2c63-4ae3-ac45-c109823c18b2",
+      "dp": 2,
+      "fds": [
+        "Take and Hold"
+      ],
       "enhancements": [
         {
           "name": "Honour Indefatigable",
-          "pts": 25,
+          "pts": 10,
           "type": "miniature",
           "req": [
             {
@@ -17808,19 +10640,7 @@ export default {
         },
         {
           "name": "Castellum Omnivox",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Spy-skull Data Link",
-          "pts": 15,
+          "pts": 10,
           "type": "miniature",
           "req": [
             {
@@ -17832,7 +10652,19 @@ export default {
         },
         {
           "name": "Defensive Mastery",
-          "pts": 25,
+          "pts": 10,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Spy-skull Data Link",
+          "pts": 10,
           "type": "miniature",
           "req": [
             {
@@ -17842,94 +10674,21 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      "chapter": "Imperial Fists"
     },
     {
-      "name": "Emperor’s Shield",
-      "sid": "5e6fedf7-bfb7-4042-84ce-7644be942167",
-      "dp": 2,
-      "fd": "Purge the Foe",
+      "name": "Devastator Brethren",
+      "sid": "31cf4080-95f4-44a4-acfc-9ac9e2c93c62",
+      "dp": 1,
+      "fds": [
+        "Purge the Foe"
+      ],
+      "unique": "DOCTRINES",
       "enhancements": [
         {
-          "name": "Champion of the Feast",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Disciple of Rhetoricus",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Terminator"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Indomitable Champion",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Terminator"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Malodraxian Standard",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Ancient"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Firestorm Assault Force",
-      "sid": "fcc5de05-5825-4af5-9484-38af6358ff2b",
-      "dp": 2,
-      "fd": "Priority Assets",
-      "enhancements": [
-        {
-          "name": "Champion of Humanity",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Tacticus"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "War-tempered Artifice",
-          "pts": 25,
+          "name": "Master-forged Firearms",
+          "pts": 15,
           "type": "miniature",
           "req": [
             {
@@ -17939,12 +10698,42 @@ export default {
               "kw": [
                 "Infantry"
               ]
+            },
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Mounted"
+              ]
             }
           ]
         },
         {
+          "name": "Honour of Vigilance",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Forgefather's Seekers",
+      "sid": "450c972e-7e20-4dcd-b3e5-09908b51319a",
+      "dp": 2,
+      "fds": [
+        "Priority Assets"
+      ],
+      "enhancements": [
+        {
           "name": "Forged in Battle",
-          "pts": 15,
+          "pts": 25,
           "type": "miniature",
           "req": [
             {
@@ -17965,18 +10754,22 @@ export default {
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "Forgefather’s Seekers",
-      "sid": "9c26c287-1ec3-4580-9106-82b7b054ce98",
-      "dp": 2,
-      "fd": "Priority Assets",
-      "enhancements": [
+        },
+        {
+          "name": "War Tempered Artifice",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
+            }
+          ]
+        },
         {
           "name": "Immolator",
-          "pts": 10,
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -17985,10 +10778,21 @@ export default {
               ]
             }
           ]
-        },
+        }
+      ],
+      "chapter": "Salamanders"
+    },
+    {
+      "name": "Gauntlet Task Force",
+      "sid": "e27a3395-01d7-4d89-aa99-cc333d833217",
+      "dp": 1,
+      "fds": [
+        "Reconnaissance"
+      ],
+      "enhancements": [
         {
-          "name": "War-tempered Artifice",
-          "pts": 25,
+          "name": "Linebreaker Onslaught",
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -18002,61 +10806,13 @@ export default {
           ]
         },
         {
-          "name": "Forged in Battle",
+          "name": "Damocles-class Uplink",
           "pts": 15,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Adamantine Mantle",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Fulguris Task Force",
-      "sid": "a65dba8d-ae69-4e3e-a72e-afeb748a98ca",
-      "dp": 1,
-      "fd": "Reconnaissance",
-      "enhancements": [
-        {
-          "name": "Bellicose Weapon Spirits (Upgrade)",
-          "pts": 15,
-          "type": "upgrade",
-          "nonCharOk": 1,
-          "limit": 3,
-          "req": [
-            {
               "kw": [
-                "Speeder"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Raptorial Cogitator Core (Upgrade)",
-          "pts": 15,
-          "type": "upgrade",
-          "nonCharOk": 1,
-          "limit": 3,
-          "req": [
-            {
-              "kw": [
-                "Speeder"
+                "Captain"
               ]
             }
           ]
@@ -18065,25 +10821,28 @@ export default {
     },
     {
       "name": "Gladius Task Force",
-      "sid": "047e97fc-2e78-4db6-b401-1f8bb65d9162",
+      "sid": "114dee6f-802a-49f4-a0db-0296eb5434b3",
       "dp": 3,
-      "fd": "Priority Assets",
+      "fds": [
+        "Take and Hold",
+        "Priority Assets"
+      ],
       "enhancements": [
         {
-          "name": "Artificer Armour",
-          "pts": 20,
+          "name": "Standard of the Emperor Ascendant",
+          "pts": 25,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
+              "kw": [
+                "Ancient"
               ]
             }
           ]
         },
         {
-          "name": "The Honour Vehement",
-          "pts": 15,
+          "name": "Laurels of Triumph",
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -18106,72 +10865,13 @@ export default {
           ]
         },
         {
-          "name": "Fire Discipline",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Hammer of Avernii",
-      "sid": "1ca178a4-0e04-4f18-ae3a-ecd0336131a6",
-      "dp": 2,
-      "fd": "Purge the Foe",
-      "enhancements": [
-        {
-          "name": "Spiritus Ferrum",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Medusan Roar (Aura)",
-          "pts": 30,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Iron Laurel",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Steel Font",
+          "name": "Artificer Armour",
           "pts": 15,
           "type": "miniature",
           "req": [
             {
               "fac": [
                 "Adeptus Astartes"
-              ],
-              "kw": [
-                "Terminator"
               ]
             }
           ]
@@ -18179,67 +10879,102 @@ export default {
       ]
     },
     {
-      "name": "Headhunter Task Force",
-      "sid": "a5da316c-604e-4aca-b5ac-53517dcd01b3",
-      "dp": 2,
-      "fd": "Priority Assets",
+      "name": "Gravis Linebreaker Force",
+      "sid": "c36cda66-a994-4354-aa2a-fb4fd2338efa",
+      "dp": 1,
+      "fds": [
+        "Take and Hold"
+      ],
+      "unique": "GRAVIS",
       "enhancements": [
         {
-          "name": "Redoubtable Machine Spirit",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Vehicle"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Gunnery Honours",
+          "name": "Indefatigable Fortitude",
           "pts": 20,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
-              ],
               "kw": [
-                "Vehicle"
+                "Gravis"
               ]
             }
           ]
         },
         {
-          "name": "Firestorm Coordinators",
+          "name": "Relentless Advance",
           "pts": 20,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
-              ],
               "kw": [
-                "Vehicle"
+                "Gravis"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gravis Siege Force",
+      "sid": "2fc4c2ed-d11d-40a5-8b56-2339e226203c",
+      "dp": 1,
+      "fds": [
+        "Take and Hold"
+      ],
+      "unique": "GRAVIS",
+      "enhancements": [
+        {
+          "name": "Immovable Conquerors (Upgrade)",
+          "pts": 15,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "kw": [
+                "Gravis"
               ]
             }
           ]
         },
         {
-          "name": "Astartes Tank Ace (Aura)",
+          "name": "Narthecis Gauntlet",
+          "pts": 20,
+          "type": "miniature"
+        }
+      ]
+    },
+    {
+      "name": "Ironclad Champions",
+      "sid": "1f9b6d20-1a56-4a45-8621-4ee2648e029a",
+      "dp": 1,
+      "fds": [
+        "Priority Assets"
+      ],
+      "enhancements": [
+        {
+          "name": "Artificer Sarcophagus (Upgrade)",
           "pts": 40,
-          "type": "miniature",
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
-              ],
               "kw": [
-                "Vehicle"
+                "Dreadnought"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Venerable Champion (Aura) (Upgrade)",
+          "pts": 30,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "kw": [
+                "Dreadnought"
               ]
             }
           ]
@@ -18248,9 +10983,67 @@ export default {
     },
     {
       "name": "Ironstorm Spearhead",
-      "sid": "fe7ac957-dfdf-4025-bd77-c387cd6c62a5",
+      "sid": "b9473893-6dae-43fd-a3f2-e27a93a56c95",
+      "dp": 1,
+      "fds": [
+        "Purge the Foe"
+      ],
+      "unique": "IRONSTORM",
+      "enhancements": [
+        {
+          "name": "Redoubtable Machine Spirit (Upgrade)",
+          "pts": 25,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Vehicle"
+              ]
+            }
+          ],
+          "exclKw": [
+            "Fly",
+            "Walker",
+            "Dedicated Transport"
+          ]
+        },
+        {
+          "name": "Gunnery Honours (Upgrade)",
+          "pts": 15,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Vehicle"
+              ]
+            }
+          ],
+          "exclKw": [
+            "Fly",
+            "Walker",
+            "Dedicated Transport"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Medusa's Wrath",
+      "sid": "930a1894-6943-499a-afdb-d738d8feecde",
       "dp": 2,
-      "fd": "Take and Hold",
+      "fds": [
+        "Purge the Foe"
+      ],
+      "unique": "IRONSTORM",
       "enhancements": [
         {
           "name": "Target Augury Web",
@@ -18265,20 +11058,8 @@ export default {
           ]
         },
         {
-          "name": "The Flesh Is Weak",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
           "name": "Adept of the Omnissiah",
-          "pts": 35,
+          "pts": 25,
           "type": "miniature",
           "req": [
             {
@@ -18289,8 +11070,20 @@ export default {
           ]
         },
         {
-          "name": "Master of Machine War",
-          "pts": 20,
+          "name": "Master of the Machine War",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "The Flesh is Weak",
+          "pts": 15,
           "type": "miniature",
           "req": [
             {
@@ -18300,85 +11093,38 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      "chapter": "Iron Hands"
     },
     {
-      "name": "Librarius Conclave",
-      "sid": "9492c5aa-1baf-49d0-a587-c332d6119d10",
+      "name": "Phobos Shadow Force",
+      "sid": "ad2c163a-82ee-4279-8dde-b36217f3e5d3",
       "dp": 1,
-      "fd": "Reconnaissance",
+      "fds": [
+        "Disruption"
+      ],
+      "unique": "PHOBOS",
       "enhancements": [
         {
-          "name": "Obfuscation",
+          "name": "Venator Omni-auspex",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Phobos"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Execute and Redeploy",
           "pts": 25,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
-              ],
               "kw": [
-                "Psyker"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Celerity",
-          "pts": 35,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Psyker"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Prescience",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Psyker"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Fusillade",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Psyker"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Temporal Corridor",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Psyker"
+                "Phobos"
               ]
             }
           ]
@@ -18386,114 +11132,34 @@ export default {
       ]
     },
     {
-      "name": "Orbital Assault Force",
-      "sid": "dd0c31ee-65db-4143-b1f9-60aaea303b1c",
-      "dp": 2,
-      "fd": "Take and Hold",
+      "name": "Phobos Shock Force",
+      "sid": "55db5c18-2a63-4cbb-8ed4-542525cf600a",
+      "dp": 1,
+      "fds": [
+        "Disruption"
+      ],
+      "unique": "PHOBOS",
       "enhancements": [
         {
-          "name": "Laurels of Thunder",
+          "name": "Seal of Shrouding",
           "pts": 15,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Veteran of the Vanguard",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Orbital Uplink Reliquary",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Dedicated Gunship",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
               "kw": [
-                "Terminator"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Reclamation Force",
-      "sid": "f6429de4-1567-4ee9-8570-8c3d405e93f9",
-      "dp": 2,
-      "fd": "Take and Hold",
-      "enhancements": [
-        {
-          "name": "Seals of Reconquest",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
+                "Phobos"
               ]
             }
           ]
         },
         {
-          "name": "Avenging Avatar (Aura)",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Scroll of Proclamation",
+          "name": "Venator Omni-auspex",
           "pts": 15,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Liberatum",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
+              "kw": [
+                "Phobos"
               ]
             }
           ]
@@ -18502,9 +11168,12 @@ export default {
     },
     {
       "name": "Shadowmark Talon",
-      "sid": "b91b5421-b1fe-4b75-b088-f2615683410e",
+      "sid": "2abbe473-834a-4d05-85cd-283139a2782f",
       "dp": 2,
-      "fd": "Disruption",
+      "fds": [
+        "Disruption"
+      ],
+      "unique": "PHOBOS",
       "enhancements": [
         {
           "name": "Blackwing Shroud",
@@ -18522,6 +11191,33 @@ export default {
           ]
         },
         {
+          "name": "Umbral Raptor",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Infantry"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Hunter's Instincts",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
+            }
+          ]
+        },
+        {
           "name": "Coronal Susurrant",
           "pts": 30,
           "type": "miniature",
@@ -18532,9 +11228,20 @@ export default {
               ]
             }
           ]
-        },
+        }
+      ],
+      "chapter": "Raven Guard"
+    },
+    {
+      "name": "Spearpoint Task Force",
+      "sid": "6e136474-1510-4fc8-8c68-1324deb430bd",
+      "dp": 2,
+      "fds": [
+        "Reconnaissance"
+      ],
+      "enhancements": [
         {
-          "name": "Umbral Raptor",
+          "name": "Stormseer's Wisdom",
           "pts": 15,
           "type": "miniature",
           "req": [
@@ -18546,7 +11253,32 @@ export default {
           ]
         },
         {
-          "name": "Hunter’s Instincts",
+          "name": "Chogorian Huntmaster (Upgrade)",
+          "pts": 20,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Speeder"
+              ]
+            },
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Mounted"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Hunter's Eye",
           "pts": 25,
           "type": "miniature",
           "req": [
@@ -18556,15 +11288,7 @@ export default {
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "Spearpoint Task Force",
-      "sid": "2975ba73-73c1-4866-bbd9-c9ae1f66de97",
-      "dp": 2,
-      "fd": "Disruption",
-      "enhancements": [
+        },
         {
           "name": "Spearpoint Paragon",
           "pts": 25,
@@ -18576,35 +11300,24 @@ export default {
               ]
             }
           ]
-        },
+        }
+      ],
+      "chapter": "White Scars"
+    },
+    {
+      "name": "Stormlance Task Force",
+      "sid": "0a2a5520-e6cc-4f3f-ac87-b00addae1023",
+      "dp": 1,
+      "fds": [
+        "Reconnaissance"
+      ],
+      "enhancements": [
         {
-          "name": "Stormseers' Wisdom",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Hunter’s Eye",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Chogorian Huntmaster",
-          "pts": 25,
-          "type": "miniature",
+          "name": "Supercharged Engines (Upgrade)",
+          "pts": 10,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
           "req": [
             {
               "fac": [
@@ -18612,6 +11325,23 @@ export default {
               ],
               "kw": [
                 "Mounted"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Auspex Triangulation Shrines (Upgrade)",
+          "pts": 10,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Speeder"
               ]
             }
           ]
@@ -18619,40 +11349,16 @@ export default {
       ]
     },
     {
-      "name": "Stormlance Task Force",
-      "sid": "0854459d-3909-4621-8073-46d54d1a0464",
-      "dp": 3,
-      "fd": "Disruption",
+      "name": "Tactical Brethren",
+      "sid": "2df70179-96ad-4f64-b5fd-a0ee2b7a904d",
+      "dp": 1,
+      "fds": [
+        "Priority Assets"
+      ],
+      "unique": "DOCTRINES",
       "enhancements": [
         {
-          "name": "Fury of the Storm",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Mounted"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Portents of Wisdom",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Feinting Withdrawal",
+          "name": "Laurels of Vigilance",
           "pts": 10,
           "type": "miniature",
           "req": [
@@ -18664,7 +11370,115 @@ export default {
           ]
         },
         {
-          "name": "Hunter’s Instincts",
+          "name": "Tactical Insight",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Captain"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tacticus Attack Force",
+      "sid": "fe1cc3f3-76af-4036-9709-629374090134",
+      "dp": 1,
+      "fds": [
+        "Take and Hold"
+      ],
+      "unique": "TACTICUS",
+      "enhancements": [
+        {
+          "name": "Martial Paragon",
+          "pts": 10,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Tacticus"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Spearpoint War Leader",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Tacticus"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tacticus Firestorm Force",
+      "sid": "40603815-0ddb-4180-bd06-143ab40f0985",
+      "dp": 1,
+      "fds": [
+        "Priority Assets"
+      ],
+      "unique": "TACTICUS",
+      "enhancements": [
+        {
+          "name": "Cyber-familiar",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Tacticus"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Tempered in Battle (Aura)",
+          "pts": 10,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Tacticus"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Terminator Storm Force",
+      "sid": "32355f5d-db41-4589-ad75-e2801b5d8afb",
+      "dp": 1,
+      "fds": [
+        "Priority Assets"
+      ],
+      "unique": "TERMINATOR",
+      "enhancements": [
+        {
+          "name": "Champion of the First Company",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Terminator"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Corporeum Reliquary",
           "pts": 25,
           "type": "miniature",
           "req": [
@@ -18673,141 +11487,7 @@ export default {
                 "Adeptus Astartes"
               ],
               "kw": [
-                "Mounted"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Subversion Assets",
-      "sid": "b87e2dfa-d598-4fbb-a4ac-e08fdba03391",
-      "dp": 1,
-      "fd": "Disruption",
-      "enhancements": [
-        {
-          "name": "Death in the Dark (Upgrade)",
-          "pts": 15,
-          "type": "upgrade",
-          "nonCharOk": 1,
-          "limit": 3,
-          "req": [
-            {
-              "kw": [
-                "Phobos",
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Shroud Field",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Phobos"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Vanguard Spearhead",
-      "sid": "720ee5b2-2412-43f4-b145-bec27a90b6d5",
-      "dp": 2,
-      "fd": "Reconnaissance",
-      "enhancements": [
-        {
-          "name": "The Blade Driven Deep",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Ghostweave Cloak",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Execute and Redeploy",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Phobos"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Shadow War Veteran",
-          "pts": 30,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Phobos"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Vengeful Hosts",
-      "sid": "63c87e85-fd1a-4dc3-8bc9-226db3e966d6",
-      "dp": 1,
-      "fd": "Take and Hold",
-      "enhancements": [
-        {
-          "name": "Avenging Angel",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Fly",
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Orksbane",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Fly",
-                "Infantry"
+                "Terminator"
               ]
             }
           ]
@@ -18889,62 +11569,84 @@ export default {
           "onslaught": 3,
           "strike-force": 2
         },
-        "Requisitioned": {
-          "incursion": 1,
-          "onslaught": 2,
-          "strike-force": 1
-        },
         "Retinue": {
           "incursion": 1,
           "onslaught": 3,
           "strike-force": 2
+        },
+        "Requisitioned": {
+          "incursion": 1,
+          "onslaught": 2,
+          "strike-force": 1
         }
       },
       "up": {
+        "imperial-agents:inquisitor-draxus": {
+          "1": 110
+        },
         "imperial-agents:eversor-assassin": {
           "1": 110
         },
-        "imperial-agents:exaction-squad": {
-          "11": 85
+        "imperial-agents:sisters-of-battle-immolator": {
+          "1": 105
+        },
+        "imperial-agents:voidsmen-at-arms": {
+          "6": 70
         },
         "imperial-agents:grey-knights-terminator-squad": {
           "5": 190
         },
-        "imperial-agents:inquisitor": {
-          "1": 65
+        "imperial-agents:vindicare-assassin": {
+          "1": 125
         },
-        "imperial-agents:inquisitor-coteaz": {
-          "1": 95
+        "imperial-agents:rogue-trader-entourage": {
+          "4": 105
         },
-        "imperial-agents:inquisitor-draxus": {
-          "1": 110
+        "imperial-agents:subductor-squad": {
+          "11": 100
+        },
+        "imperial-agents:sisters-of-battle-squad": {
+          "10": 110
+        },
+        "imperial-agents:navigator": {
+          "1": 75
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
           "12": 120
         },
-        "imperial-agents:navigator": {
-          "1": 75
+        "imperial-agents:inquisitor-coteaz": {
+          "1": 95
         },
-        "imperial-agents:rogue-trader-entourage": {
-          "4": 105
+        "imperial-agents:exaction-squad": {
+          "11": 85
         },
-        "imperial-agents:sisters-of-battle-immolator": {
-          "1": 105
-        },
-        "imperial-agents:sisters-of-battle-squad": {
-          "10": 110
-        },
-        "imperial-agents:subductor-squad": {
-          "11": 100
-        },
-        "imperial-agents:vindicare-assassin": {
-          "1": 125
-        },
-        "imperial-agents:voidsmen-at-arms": {
-          "6": 70
+        "imperial-agents:inquisitor": {
+          "1": 65
         }
       }
+    },
+    {
+      "key": "deathwatch",
+      "name": "Deathwatch",
+      "ids": [
+        "deathwatch:corvus-blackstar",
+        "deathwatch:deathwatch-terminator-squad",
+        "deathwatch:deathwatch-veterans",
+        "deathwatch:decimus-kill-team",
+        "deathwatch:fortis-kill-team",
+        "deathwatch:indomitor-kill-team",
+        "deathwatch:spectrus-kill-team",
+        "deathwatch:talonstrike-kill-team",
+        "deathwatch:watch-captain-artemis",
+        "deathwatch:watch-master"
+      ],
+      "pts": {
+        "incursion": 500,
+        "strike-force": 500,
+        "onslaught": 500
+      },
+      "enh": 1
     },
     {
       "key": "imperial-knights",

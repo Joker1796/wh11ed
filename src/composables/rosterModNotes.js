@@ -13,7 +13,8 @@ export function modSourceLabel(n, l) {
   if (n.kind === 'ability') {
     // Reusing the rule block's own words for the three sources it already names, so the same rule
     // reads the same whether the reader meets it as a footnote or as a block.
-    if (n.from === 'led') return `${l.rosterLeaderTag} · ${n.owner}`
+    // `co` is a second Character attached to the same unit — named the same way as one leading it.
+    if (n.from === 'led' || n.from === 'co') return `${l.rosterLeaderTag} · ${n.owner}`
     if (n.from === 'leader') return `${l.srcLedUnit} · ${n.owner}`
     // An aura reached this card from another model on the table, so the owner is the whole answer
     // to "why is this number different" — without it the reader has no idea which chip to untick.

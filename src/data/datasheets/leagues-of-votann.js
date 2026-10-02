@@ -172,7 +172,7 @@ export default [
       },
       {
         "name": "Relentless Avalanche",
-        "text": "You can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase."
+        "text": "You can target this unit with the **[gloss:heroic-intervention:Heroic Intervention stratagem]**, regardless of any other uses of that **[gloss:stratagem:stratagem]** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase."
       }
     ],
     "composition": [
@@ -544,7 +544,7 @@ export default [
       },
       {
         "name": "Unhinged Vengeance",
-        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if this model lost one or more wounds as a result of those attacks, this unit can make a surge move of up to D6+2\"."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if this model lost one or more wounds as a result of those attacks, this unit can make a **[gloss:surge-move:surge move]** of up to D6+2\"."
       }
     ],
     "composition": [
@@ -568,11 +568,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 95
+        "points": 90
       },
       {
         "models": 10,
-        "points": 190
+        "points": 180
       }
     ],
     "flavor": "Cthonian Beserks are amongst the most heavily augmented and courageous Kin. Brandishing mining-tools-cum-weapons-of-war and unleashing explosives that tunnel through solid rock, the Beserks storm the enemy’s strongpoints and break them open like an asteroid filled with seams of precious ore.",
@@ -1363,7 +1363,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 265,
+        "points": 270,
         "note": "2nd+"
       }
     ],
@@ -1531,22 +1531,22 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 80,
+        "points": 85,
         "note": "1st-2nd"
-      },
-      {
-        "models": 6,
-        "points": 160,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 3,
-        "points": 90,
-        "note": "3rd+"
       },
       {
         "models": 6,
         "points": 170,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 95,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -2240,22 +2240,22 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70,
+        "points": 75,
         "note": "1st-2nd"
-      },
-      {
-        "models": 2,
-        "points": 140,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 1,
-        "points": 80,
-        "note": "3rd+"
       },
       {
         "models": 2,
         "points": 150,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "3rd+"
+      },
+      {
+        "models": 2,
+        "points": 170,
         "note": "3rd+"
       }
     ],
@@ -2410,7 +2410,7 @@ export default [
       },
       {
         "name": "Predictive Guidance",
-        "text": "Once per battle round, when you target this unit with the **Fire Overwatch**/**Heroic Intervention stratagem**, you can use this ability. If you do, that use of that **stratagem** is -1 CP."
+        "text": "Once per battle round, when you target this unit with the **Fire Overwatch**/**[gloss:heroic-intervention:Heroic Intervention stratagem]**, you can use this ability. If you do, that use of that **[gloss:stratagem:stratagem]** is -1 CP."
       }
     ],
     "composition": [
@@ -2576,7 +2576,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 100
       }
     ],
     "flavor": "Already one of the most accomplished heroes of the Kin, Kâhl Ûthar the Destined is marked for a truly vaunted fate. Few can assess the foe as swiftly or mercilessly as Ûthar. Once he has the measure of his enemies, he soon cuts them to pieces with the glowing Blade of the Ancestors.",

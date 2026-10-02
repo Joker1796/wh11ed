@@ -29,7 +29,14 @@ const args = process.argv.slice(2)
 const flag = (n, d = null) => { const i = args.indexOf(n); return i >= 0 && args[i + 1] ? args[i + 1] : d }
 
 // prose-bearing appdata entity kinds (as they appear in changes.json). Everything else is scalar.
+// This queue is also the bump's EN worklist, so a kind missing here is an errata nobody applies:
+// `subAbilities` was, and Angron's Driven by Ultimate Rage sat pre-errata from 963 until a player
+// reported it (2026-09-30). `core` is the Core Rules file itself. A kind whose change touched no
+// prose field is still skipped below (PROSE_FIELDS), so a scalar-only wargear change stays out.
 const PROSE_KINDS = new Set(['datasheets', 'detachments', 'stratagems', 'enhancements', 'armyRules', 'rules', 'abilities', 'faction'])
+// …and these only as ERRATA. An `added` record of them carries no text (a codex bump adds ~900
+// weapons at once), and the datasheet it lands on is queued or diffed by `npm run sync` anyway.
+const ERRATA_KINDS = new Set([...PROSE_KINDS, 'subAbilities', 'damageAbility', 'wargear', 'wargearRules', 'core'])
 const PROSE_FIELDS = new Set(['body', 'rules', 'ruleText', 'lore', 'when', 'target', 'effect', 'restriction', 'unitComposition', 'text', 'trigger'])
 
 // ---- --check / --done act on the existing queue -----------------------------------------------
@@ -80,7 +87,7 @@ const whRef = (appId) => byUuid.get(appId) || null
 
 const entries = []
 const push = (reason, r, extra = {}) => {
-  if (!PROSE_KINDS.has(r.kind)) return
+  if (!(reason === 'errata' ? ERRATA_KINDS : PROSE_KINDS).has(r.kind)) return
   entries.push({
     status: 'pending', reason,
     faction: whSlug(r.trail?.[0] || r.faction || '?'),

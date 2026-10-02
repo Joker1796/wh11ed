@@ -1,4 +1,4 @@
-// Munitorum Field Manual v1.4 — points values for Warhammer 40,000 (11th ed).
+// Munitorum Field Manual v1.5 — points values for Warhammer 40,000 (11th ed).
 // Source: https://mfm.warhammer-community.com/en (English-only). This barrel re-exports
 // the per-faction modules in src/data/mfm/. Regenerate with `python3 scripts/scrape-mfm.py`
 // (see that script for the page's data-reveal quirks).
@@ -7,7 +7,7 @@
 // the same array (swap in a translated array later if needed).
 //
 // Shape per faction: { id, name, slug, sourceUrl, detachments[], units[], subfactions[], legends[] }.
-//   detachment = { name, dp, forceDisposition, unique?, enhancements: [{ name, points }] }
+//   detachment = { name, dp, forceDispositions: [...], unique?, enhancements: [{ name, points }] }
 //   unit       = { name, options: [{ models?, points, note? }] }
 //     `models` omitted for single-model units; `note` carries rank/variant pricing
 //     labels ('1st-2nd', '3rd+', …) or special unit compositions.
@@ -80,5 +80,5 @@ const en = [
   worldEaters,
 ]
 
-export const mfmVersion = '1.4'
+export const mfmVersion = '1.5'
 export const mfmFactions = { en, ru: en }

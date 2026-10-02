@@ -26,8 +26,8 @@ export default {
         "set": "Wrathful Presence",
         "pickLimit": 1
       },
-      "hash": "46c95af7",
-      "ver": 925,
+      "hash": "8fa65f04",
+      "ver": 963,
       "reviewed": true,
       "effects": []
     },
@@ -299,6 +299,34 @@ export default {
       ]
     },
     {
+      "sid": "463598bf-181c-4598-81c9-2fe0d7b18f80:khorne-berzerkers",
+      "kind": "ability",
+      "name": "Khorne Berzerkers: Murderous Charge",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "khorne-berzerkers"
+      },
+      "hash": "458de330",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "5dcb3c9e-f998-4600-8c30-b7d16011e9dc:lord-invocatus",
       "kind": "ability",
       "name": "Lord Invocatus: Fire Riders",
@@ -565,8 +593,8 @@ export default {
       "kind": "detachmentRule",
       "name": "Relentless Rage",
       "det": "Berzerker Warband",
-      "hash": "4d170c56",
-      "ver": 925,
+      "hash": "4d6c61f2",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -574,26 +602,7 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "until the end of the turn, after the unit makes a Charge move",
-            "ru": "до конца хода, после того как отряд совершил чардж"
-          },
-          "cond": [
-            "unit-charged"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 2,
-          "when": {
-            "en": "until the end of the turn, after the unit makes a Charge move",
-            "ru": "до конца хода, после того как отряд совершил чардж"
-          },
-          "cond": [
-            "unit-charged"
-          ]
+          "when": null
         }
       ],
       "ref": {

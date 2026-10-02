@@ -197,6 +197,34 @@ screens that had copied each other and drifted. The pairs that existed then are 
   draw `components/DetachmentOption.vue` now; the modals around it stay separate. The disposition
   is its chip under the price; the row wore a `.tone-bar` stripe too until the owner dropped it
   (2026-09-25). Its rows must not shrink (`flex-shrink: 0`): the lists are flex columns.
+  **A picker's list is a component of its own, so it can live in a modal OR a dropdown**
+  (2026-10-01): `tracker/FactionPickerList.vue` and `tracker/DetachmentPickerList.vue` are the
+  rows; `FactionPickerModal`/`DetachmentPickerModal` wrap them in `BaseModal` (phones, the tracker),
+  and the desk's settings line wraps them in `PickerDropdown.vue` — the account menu's recipe
+  (backdrop for the outside click, Escape, `fade-pop`), the modal's surface, its own scroll. The
+  declared Force Disposition there is a `PickerDropdown` too, its chips in their colours.
+  Everywhere else a picker serves both widths, **`AdaptivePicker.vue`** picks the shape: the
+  dropdown from 901px up, the modal below, the same list in both (its slot hands the list
+  `compact` and `bodyClass`). In use: the faction pages' chapter and detachment pickers
+  (`FactionPickerBar`, rows from `FactionDetachmentList`) and the tracker's game setup (faction,
+  detachments). Not for pickers whose rows unfold rich content (missions, secondaries, twists,
+  layouts) or carry a form (the roster picker's share-link field) — a dropdown is for a short list.
+  **The panel is teleported to `<body>`** and placed from the trigger's rect (`position: fixed`,
+  `width`/`align` props, it follows scroll and resize): a dropdown inside a roster card
+  (`contain: paint`) or the desk's scrolling list column was clipped by it. It copies the faction
+  accent variables from where it was opened, since `useFactionAccent` does not reach `<body>`.
+  **The "…" menus are `ActionMenu.vue`** (2026-10-01): an `AdaptivePicker` holding the `.act-list`,
+  as menu rows (`.act-compact`) under the button on a wide screen, the sheet on a phone. In use:
+  the roster list's cards, the list view's header, a unit row in the editor (its `#body` slot
+  carries the block-name form and the faction accent the modal needs), the datasheet page's
+  folded buttons, the tracker's secondary cards. Delete still asks through `ConfirmModal`. The
+  desk's "More settings" is a plain `PickerDropdown` — that line exists only on a wide screen.
+  A faction keyword tapped in rule prose (`KeywordUnitsModal`) hangs its unit list from the word on
+  a wide screen, placed by the glossary popover's own rule (`utils/anchorPlacement.js`).
+  Search (`SearchModal`) docks in the navbar on a wide screen: the button stretches left into the
+  field and the results drop under it, no dimming; a phone keeps the full-screen sheet, faded in.
+  The unfold is a `clip-path` on the overlay — the root of App's `<Transition name="search">`,
+  because Vue times enter/leave by the root's own animation and would cut a child's short.
 
 
 ## Modals

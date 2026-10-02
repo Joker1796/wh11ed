@@ -200,6 +200,14 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
         }
       ]
     },

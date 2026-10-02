@@ -28,7 +28,7 @@ const rhino = {
   id: 'rhino', name: 'Rhino', kws: ['Dedicated Transport', 'Vehicle'], flags: {},
   sizes: [{ pts: 75, per: [1, 1], default: 1 }], defaults: [[0, [[1, 2]]]],
 }
-const detachment = { sid: 'det-1', name: 'Gladius Task Force', dp: 2, fd: 'Purge the Foe', enhancements: [{ name: 'Artificer Armour', pts: 15, type: 'miniature' }] }
+const detachment = { sid: 'det-1', name: 'Gladius Task Force', dp: 2, fds: ['Purge the Foe'], enhancements: [{ name: 'Artificer Armour', pts: 15, type: 'miniature' }] }
 const faction = { name: 'Space Marines', units: [captain, lt, intercessor, rhino], detachments: [detachment] }
 
 const roster = {
@@ -189,7 +189,7 @@ describe('buildRosterText — the shapes themselves', () => {
 
 // An army states the ONE disposition it plays, not the menu its detachments offer.
 describe('buildRosterText — the army’s Force Disposition', () => {
-  const anvil = { sid: 'det-2', name: 'Anvil Siege Force', dp: 2, fd: 'Take and Hold', enhancements: [] }
+  const anvil = { sid: 'det-2', name: 'Anvil Siege Force', dp: 2, fds: ['Take and Hold'], enhancements: [] }
   const twoDets = { ...faction, detachments: [detachment, anvil] }
   const list = (over) => buildRosterText(
     { ...roster, detachments: ['Gladius Task Force', 'Anvil Siege Force'], ...over },

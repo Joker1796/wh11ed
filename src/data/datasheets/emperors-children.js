@@ -8,12 +8,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 220,
+        "points": 210,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 240,
+        "points": 230,
         "note": "3rd+"
       }
     ],
@@ -37,8 +37,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -51,8 +51,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -173,8 +173,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -187,8 +187,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -220,7 +220,7 @@ export default [
     "abilities": [
       {
         "name": "Assault Vehicle",
-        "text": "Units can disembark from this **TRANSPORT** after it has Advanced. Units that do so count as having made a Normal move, and cannot declare a charge that turn."
+        "text": "Units can disembark from this **[gloss:transport:TRANSPORT]** after it has Advanced. Units that do so count as having made a Normal move, and cannot declare a charge that turn."
       }
     ],
     "composition": [
@@ -309,14 +309,14 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 145
+        "points": 155
       }
     ],
     "profiles": [
       {
         "name": "Terminator Squad",
         "m": "6\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "3",
         "ld": "6+",
@@ -333,8 +333,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -347,8 +347,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -425,7 +425,7 @@ export default [
     "abilities": [
       {
         "name": "Lethal Obsession",
-        "text": "In your Shooting phase, after this unit has shot, you can use this ability. If you do, select one enemy unit hit by those ranged attacks. Until the end of the turn, when this unit **declares a charge**:\n▪ This unit can re-roll that **charge roll**.\n▪ This unit __must__ end that **charge move engaged** with that enemy unit."
+        "text": "In your Shooting phase, after this unit has shot, you can use this ability. If you do, select one enemy unit hit by those ranged attacks. Until the end of the turn, when this unit **[gloss:declare-charge:declares a charge]**:\n▪ This unit can re-roll that **[gloss:charge-roll:charge roll]**.\n▪ This unit __must__ end that **charge move engaged** with that enemy unit."
       }
     ],
     "composition": [
@@ -459,12 +459,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 170,
+        "points": 165,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 185,
+        "points": 180,
         "note": "2nd+"
       }
     ],
@@ -557,7 +557,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 235,
+        "points": 225,
         "note": "2nd+"
       }
     ],
@@ -1021,8 +1021,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -1168,7 +1168,7 @@ export default [
       "Monster",
       "Primarch",
       "Slaanesh"
-        ],
+    ],
     "factionKeywords": [
       "",
       "Emperor’s Children"
@@ -1293,18 +1293,18 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 85
+        "points": 95
       },
       {
         "models": 10,
-        "points": 160
+        "points": 175
       }
     ],
     "profiles": [
       {
         "name": "Infractors",
         "m": "7\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
@@ -1320,8 +1320,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -1358,7 +1358,7 @@ export default [
         ],
         "a": "4",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -1577,12 +1577,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90,
+        "points": 95,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 100,
+        "points": 105,
         "note": "3rd+"
       }
     ],
@@ -1607,8 +1607,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -1656,7 +1656,7 @@ export default [
         "tags": [],
         "a": "6",
         "ws": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -1763,7 +1763,7 @@ export default [
       {
         "name": "Lord Kakophonist",
         "m": "6\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "6",
         "ld": "6+",
@@ -1792,7 +1792,7 @@ export default [
         "tags": [],
         "a": "6",
         "ws": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -1852,14 +1852,14 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 120
+        "points": 130
       }
     ],
     "profiles": [
       {
         "name": "Lucius the Eternal",
         "m": "8\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "6",
         "ld": "6+",
@@ -2030,12 +2030,12 @@ export default [
     "points": [
       {
         "models": 6,
-        "points": 145,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -2046,7 +2046,7 @@ export default [
         "m": "6\"",
         "t": "5",
         "sv": "3+",
-        "w": "2",
+        "w": "3",
         "ld": "6+",
         "oc": "1"
       }
@@ -2108,7 +2108,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -2423,8 +2423,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2486,18 +2486,18 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80
+        "points": 85
       },
       {
         "models": 10,
-        "points": 160
+        "points": 170
       }
     ],
     "profiles": [
       {
         "name": "Tormentors",
         "m": "7\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
@@ -2514,8 +2514,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2526,8 +2526,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2604,7 +2604,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },

@@ -2,8 +2,7 @@
   <button
     type="button"
     class="det"
-    :class="{ on, tone: !!tone }"
-    :style="tone"
+    :class="{ on, compact, stacked: compact && crowded }"
   >
     <span class="det-main">
       <span class="det-name">{{ name }}</span>
@@ -11,34 +10,37 @@
         v-if="nameRu"
         class="det-name-ru"
       >{{ nameRu }}</span>
-      <span
-        v-if="unique || tag"
-        class="det-tags"
-      >
-        <span
-          v-if="unique"
-          class="det-unique"
-        >{{ unique }}</span>
-        <span
-          v-if="tag"
-          class="det-unique"
-        >{{ tag }}</span>
-      </span>
     </span>
-    <!-- The cost and, under it, the disposition — the two facts a detachment is chosen by, in one
-         column on the right (owner, 2026-09-25); the names keep the left to themselves. -->
     <span
-      v-if="dp || forceDisposition"
-      class="det-side"
+      v-if="dp"
+      class="det-dp"
+    >{{ dp }} DP</span>
+    <!-- A line of its own under the name and the cost: the tag on the left, the dispositions on the
+         right (owner, 2026-10-01). Beside the name, two dispositions squeezed it onto two lines on a
+         phone. -->
+    <span
+      v-if="unique || tag || forceDispositions.length"
+      class="det-foot"
     >
       <span
-        v-if="dp"
-        class="det-dp"
-      >{{ dp }} DP</span>
+        v-if="unique"
+        class="det-unique"
+      >{{ unique }}</span>
       <span
-        v-if="forceDisposition"
-        class="tone-chip"
-      >{{ forceDisposition }}</span>
+        v-if="tag"
+        class="det-unique"
+      >{{ tag }}</span>
+      <span
+        v-if="forceDispositions.length"
+        class="det-fds"
+      >
+        <span
+          v-for="fd in forceDispositions"
+          :key="fd"
+          class="tone tone-chip"
+          :style="toneVars(dispositionColor(fd))"
+        >{{ fd }}</span>
+      </span>
     </span>
   </button>
 </template>
@@ -51,8 +53,10 @@
 //
 // Each row wears its disposition's colour on the chip under the price, because the disposition is
 // what a detachment is FOR, and five of them down a list are told apart faster by hue than by
-// reading (dispositionColors.js). The DP cost sits on the right, where a cost is looked for, with
-// the disposition under it. (A coloured stripe on the row's edge went, at the owner's word,
+// reading (dispositionColors.js). A detachment that gives access to two (core rules 25.04 — 39 of
+// them in MFM v1.5) wears two chips, each in its own colour. The DP cost sits on the right of the
+// name, where a cost is looked for; the tag and the dispositions take a line of their own under both
+// (owner, 2026-10-01). (A coloured stripe on the row's edge went, at the owner's word,
 // 2026-09-25: the chip already says it.) Every field but `name` is optional: the faction bar reuses its
 // picker for the Chapter list, which is plain names.
 // (Said here, not above the <button>: a comment before the root makes the component a Fragment.)
@@ -63,15 +67,23 @@ import { dispositionColor } from '../data/dispositionColors.js'
 const props = defineProps({
   name: { type: String, required: true },
   nameRu: { type: String, default: '' },
-  forceDisposition: { type: String, default: '' },
+  forceDispositions: { type: Array, default: () => [] },
   // The detachment's UNIQUE tag, and a second quiet keyword (the Chapter a detachment is locked to).
   unique: { type: String, default: '' },
   tag: { type: String, default: '' },
   dp: { type: Number, default: 0 },
   on: { type: Boolean, default: false },
+  // One line instead of a card: the desk's dropdown, where a list of cards was a screen tall
+  // (owner, 2026-10-01). Name on the left, cost and dispositions in a row on the right.
+  compact: { type: Boolean, default: false },
 })
 
-const tone = computed(() => toneVars(props.forceDisposition && dispositionColor(props.forceDisposition)))
+// A compact row that cannot hold its name, a tag, two dispositions and the cost on one line lays
+// out like the full card instead: name and cost on top, tag left and dispositions right below
+// (owner, 2026-10-01 — Awakened Dynasty). Decided from the data, not measured: the row knows what
+// it carries, and a layout that switched on the width would shift under the reader's pointer.
+const crowded = computed(() => props.forceDispositions.length + (props.unique || props.tag ? 1 : 0) >= 3)
+
 </script>
 
 <style scoped>
@@ -79,10 +91,11 @@ const tone = computed(() => toneVars(props.forceDisposition && dispositionColor(
    min-height a row may shrink to it once the list is taller than the dialog — the faction picker's
    three-line rows (name, RU name, disposition) then drew over each other (owner, 2026-09-25). */
 .det {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   flex-shrink: 0;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.35rem 0.6rem;
   width: 100%;
   min-height: 44px;
   padding: 0.4rem 0.55rem;
@@ -108,7 +121,6 @@ const tone = computed(() => toneVars(props.forceDisposition && dispositionColor(
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.2rem;
 }
 
 .det-name {
@@ -120,19 +132,15 @@ const tone = computed(() => toneVars(props.forceDisposition && dispositionColor(
   color: var(--text-primary);
 }
 
-/* RU translation of the name — a small muted line under the English one. */
+/* RU translation of the name — a small muted line held close under the English one: a caption of
+   the name, not a line of its own (owner, 2026-10-01). */
 .det-name-ru {
+  line-height: 1.2;
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-muted);
 }
 
-.det-tags {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-}
 
 .det-unique {
   font-size: 0.66rem;
@@ -141,12 +149,21 @@ const tone = computed(() => toneVars(props.forceDisposition && dispositionColor(
   text-transform: uppercase;
 }
 
-.det-side {
-  flex-shrink: 0;
+
+/* The second line, across the whole row: tag left, dispositions right. */
+.det-foot {
+  grid-column: 1 / -1;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.4rem;
+}
+.det-fds {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 0.3rem;
+  margin-left: auto;
 }
 
 .det-dp {
@@ -164,4 +181,25 @@ const tone = computed(() => toneVars(props.forceDisposition && dispositionColor(
   border-color: var(--accent);
   color: var(--accent);
 }
+
+/* The dropdown's row: one line — name, then the tag and the dispositions, the cost a plain figure
+   rather than a boxed plate at the end. */
+.det.compact { display: flex; flex-wrap: wrap; align-items: center; min-height: 36px; padding: 0.3rem 0.5rem; gap: 0.3rem 0.5rem; }
+/* The name never breaks; a row that still runs out of width wraps whatever is to its right. */
+.det.compact .det-main { flex: 1 0 auto; white-space: nowrap; }
+.det.compact .det-foot { margin-left: auto; }
+/* …and a row that is sure to (`crowded`) takes the full card's two lines: the cost up by the name,
+   the tag on the left and the dispositions on the right of the line below. */
+.det.compact.stacked { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+.det.compact.stacked .det-dp { order: 0; align-self: start; }
+.det.compact.stacked .det-foot { margin-left: 0; }
+.det.compact .det-name { font-size: 1.15rem; }
+/* The RU caption in the name's own narrow face, so the pair reads as one heading (owner, 2026-10-01). */
+.det.compact .det-name-ru { font-family: var(--font-display); font-size: 1rem; font-weight: 400; line-height: 1; margin-top: -0.1rem; }
+.det.compact .det-foot { flex-wrap: nowrap; }
+.det.compact .det-fds { flex-wrap: nowrap; }
+/* Smaller chips than the card's: two of them beside a long name must still leave it one line. */
+.det.compact .tone-chip { font-size: 0.6rem; padding: 0.05rem 0.3rem; }
+/* The cost's plate the height of a disposition chip beside it. */
+.det.compact .det-dp { order: 1; padding: 0.05rem 0.35rem; font-size: 0.7rem; line-height: 1.3; }
 </style>

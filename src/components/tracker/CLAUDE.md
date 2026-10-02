@@ -491,7 +491,7 @@ back, since the host may write any slice). Every one of those watchers is now ga
 `editable(i)`.
 
 **What waits for the other side, and what does not.** A Force Disposition follows from THIS
-side's detachment (`candidateDispositions` reads `detachmentInfo(...).forceDisposition`), and a
+side's detachment (`candidateDispositions` reads `detachmentInfo(...).forceDispositions` — one detachment can offer two), and a
 side is mustered by its own player — so the armies step gates only on the sides this phone fills
 in (`canArmies`), and the host walks on to its own disposition while the guest is still typing.
 What genuinely needs both is the PRIMARY, which is the pair of dispositions (`primaryFor(mine,

@@ -10,7 +10,7 @@
 //     the older 6-stratagem version) and Rules Updates (incl. the army-rule Unbridled
 //     Bloodlust rewrite).
 //   MFM (src/data/mfm/world-eaters.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition. The ONSLAUGHT `unique` tag is NOT the MFM's — that page has never
+//     forceDispositions. The ONSLAUGHT `unique` tag is NOT the MFM's — that page has never
 //     printed it, in v1.2 or v1.3 — it comes from the detachment rule's own prose, which is
 //     why `npm run roster:data` lists these two as disagreeing with appdata's tag table and
 //     why they were left alone when v1.3 struck the Chaos Knights / Death Guard tags.
@@ -30,7 +30,7 @@ const en = {
     body: `If your Army Faction is WORLD EATERS, at the start of the battle round, you can make a Blessings of Khorne roll. To do so, roll eight D6. You can then use those dice to activate up to two Blessings of Khorne (see below). Each Blessing of Khorne specifies the dice results it requires (where a number is specified, a double or triple of that value or higher is required). You can only activate each Blessing of Khorne once per battle round. Any unused dice from the Blessings of Khorne roll are then discarded. Once activated, each Blessing of Khorne applies to all units from your army with this ability until the end of the battle round.
 
 ### The Blessings
-▪ **Unbridled Bloodlust (Double 1+):** This unit has +1 to Charge rolls.
+▪ **Unbridled Bloodlust (Double 1+):** This unit has +1 to **[gloss:charge-roll:Charge rolls]**.
 ▪ **Rage-Fuelled Invigoration (Double 2+):** Each time a model in this unit makes a Pile-in or Consolidation move, it can move up to 6" instead of up to 3".
 ▪ **Total Carnage (Double 3+):** Each time a model in this unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.
 ▪ **Martial Excellence (Double 4+ or any Triple):** Melee weapons equipped by models in this unit have the [SUSTAINED HITS 1] ability.
@@ -44,12 +44,12 @@ const en = {
       id: "berzerker-warband",
       name: "Berzerker Warband",
       source: 'codex',
-      dp: 3,
-      forceDisposition: "Purge the Foe",
+      dp: 2,
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Relentless Rage",
         flavor: "The World Eaters fight in a perpetual fury, driven ever onward to slaughter all who stand in their path. All of their warriors have been subject to horrific surgery, implanted with crude devices that amplify their aggression. Some even submit to possession by the Blood God’s daemonic servants. These warriors will only stop killing when every foe lies in bloody ruin at their feet - and sometimes not even then.",
-        body: "Each time a WORLD EATERS unit from your army makes a Charge move, until the end of the turn, add 1 to the Attacks characteristic and add 2 to the Strength characteristic of melee weapons equipped by models in that unit.",
+        body: "Friendly WORLD EATERS units’ melee attacks have +1 **[gloss:attack-dice:A]**.",
       },
       stratagems: [
         {
@@ -114,8 +114,8 @@ const en = {
           turn: "opponent",
           flavor: "The incessant pounding of the Butcher's Nails drives the World Eaters forward, desperate to salve their agony with blood and gore.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has shot.",
-          target: "One Khorne Berzerkers unit from your army that can make a surge move as a result of those attacks.",
-          effect: "Do not roll a D6 to determine how far models in your unit can move when they make a surge move. Instead, when making a surge move, those models can move up to 8\".",
+          target: "One Khorne Berzerkers unit from your army that can make a **[gloss:surge-move:surge move]** as a result of those attacks.",
+          effect: "Do not roll a D6 to determine how far models in your unit can move when they make a **[gloss:surge-move:surge move]**. Instead, when making a **surge move**, those models can move up to 8\".",
           restrictions: "",
         },
       ],
@@ -152,7 +152,7 @@ const en = {
       name: "Cult of Blood",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Idols of Khorne",
         flavor: "Titanic Khornate war engines draw teeming masses of cultists to war.",
@@ -259,7 +259,7 @@ const en = {
       name: "Goretrack Onslaught",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       unique: "ONSLAUGHT",
       rule: {
         name: "Rush to the Fray",
@@ -275,7 +275,7 @@ const en = {
           flavor: "Khorne Berzerkers react to incoming fire, disembarking to release their pent-up fury.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has shot.",
           target: "One WORLD EATERS RHINO model from your army that has one or more wounds remaining and was hit by one or more of the attacking unit’s attacks.",
-          effect: "One Khorne Berzerkers unit embarked within your model can make a disembark move and then make a surge move of up to D6+2\".",
+          effect: "One Khorne Berzerkers unit embarked within your model can make a **[gloss:disembark:disembark move]** and then make a **[gloss:surge-move:surge move]** of up to D6+2\".",
           restrictions: "A unit cannot be targeted by this Stratagem and the Unrelenting Advance Stratagem in the same phase.",
         },
         {
@@ -367,7 +367,7 @@ const en = {
       name: "Khorne Daemonkin",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Blood Tithe",
         flavor: "To call forth the blood legions requires the spilling of oceans of crimson gore.",
@@ -474,11 +474,11 @@ const en = {
       name: "Possessed Slaughterband",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Brazen Fury",
         flavor: "Incoming fire serves only to fan the flames of daemonic fury, driving Khorne’s possessed into a malicious rage.",
-        body: "WORLD EATERS POSSESSED units from your army have the following ability:\n\n**Brazen Fury:** In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed as a result of those attacks, this unit can make a surge move of up to D6\". That surge move is a Brazen Fury move.",
+        body: "WORLD EATERS POSSESSED units from your army have the following ability:\n\n**Brazen Fury:** In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was **[gloss:destroyed:destroyed]** as a result of those attacks, this unit can make a **[gloss:surge-move:surge move]** of up to D6\". That **surge move** is a Brazen Fury move.",
       },
       stratagems: [
         {
@@ -583,12 +583,12 @@ const en = {
       name: "Brazen Engines",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       unique: "ONSLAUGHT",
       rule: {
         name: "Rampaging Terrors",
         flavor: "To stand in the path of stampeding Khornate daemon engines is to know the instinctive terror of cornered prey.",
-        body: "Friendly DAEMON VEHICLE units have the following ability:\n▪ **Terror of Khorne:** At the start of the Fight phase, you can select one enemy unit engaged with this unit. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase.\n\nThis detachment has the **ONSLAUGHT** tag and cannot be taken with another **ONSLAUGHT** detachment.",
+        body: "Friendly DAEMON VEHICLE units have the following ability:\n▪ **Terror of Khorne:** At the start of the Fight phase, you can select one enemy unit engaged with this unit. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase.\n\nThis **[gloss:detachments:detachment]** has the **ONSLAUGHT** tag and cannot be taken with another **ONSLAUGHT** **detachment**.",
       },
       stratagems: [
         {
@@ -648,7 +648,7 @@ const en = {
       name: "Butchers of Khorne",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Adamantine Avalanche",
         flavor: "Hurling themselves into battle with savage ferocity, the sheer armoured bulk of the World Eaters\u2019 Terminator elites is enough to shatter armour and crush bone.",
@@ -714,7 +714,7 @@ const en = {
       name: "Vessels of Wrath",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Wrath of Khorne",
         flavor: "Every Khornate champion treads a personal Path to Glory. Through carnage and bloodshed, they earn empowering boons of martial might.",
@@ -727,9 +727,9 @@ const en = {
           cp: "1CP",
           turn: "either",
           flavor: "Those who feel Khorne\u2019s blessings burning through their bodies and minds can shrug off hostile witchery with the force of their hate-fuelled contempt.",
-          when: "Any phase, when a friendly WORLD EATERS CHARACTER unit (excluding EPIC HERO units) suffers a mortal wound.",
+          when: "Any phase, when a friendly WORLD EATERS CHARACTER unit (excluding EPIC HERO units) suffers a **[gloss:mortal-wound:mortal wound]**.",
           target: "That WORLD EATERS CHARACTER unit.",
-          effect: "Your unit has [core:Feel No Pain 4+] against mortal wounds.",
+          effect: "Your unit has [core:Feel No Pain 4+] against **[gloss:mortal-wound:mortal wounds]**.",
           restrictions: "",
         },
         {
@@ -749,9 +749,9 @@ const en = {
           cp: "1CP",
           turn: "opponent",
           flavor: "The Blood God is said to detest cowards. Meting out punishment to such degenerates is believed to be a sure way to win his favour.",
-          when: "Your opponent\u2019s Movement phase, when a unit is selected to make a fall-back move, if that unit is engaged with a friendly WORLD EATERS CHARACTER unit.",
+          when: "Your opponent’s Movement phase, when a unit is selected to make a **[gloss:fall-back-move:fall-back move]**, if that unit is engaged with a friendly WORLD EATERS CHARACTER unit.",
           target: "That WORLD EATERS CHARACTER unit.",
-          effect: "When an enemy unit engaged with your unit is selected to make a fall-back move, that enemy unit must use the Desperate Escape mode. If that enemy unit is Battle-shocked, -1 from those hazard rolls.",
+          effect: "When an enemy unit engaged with your unit is selected to make a **[gloss:fall-back-move:fall-back move]**, that enemy unit must use the Desperate Escape mode. If that enemy unit is **[gloss:battle-shocked:Battle-shocked]**, -1 from those **[gloss:hazard-roll:hazard rolls]**.",
           restrictions: "",
         },
       ],
@@ -766,7 +766,7 @@ const en = {
           name: "Gateways to Glory",
           points: 10,
           flavor: "With but a stroke of its infernal weapons, this favoured entity can hack paths through the meat of realspace itself to reach the foe all the quicker.",
-          body: "WORLD EATERS DAEMON PRINCE model only. This model has:\n▪ MOBILE.\n▪ +1 to Charge rolls.",
+          body: "WORLD EATERS DAEMON PRINCE model only. This model has:\n▪ MOBILE.\n▪ +1 to **[gloss:charge-roll:Charge rolls]**.",
         },
       ],
     },

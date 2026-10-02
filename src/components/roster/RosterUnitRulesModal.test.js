@@ -56,8 +56,9 @@ describe('RosterUnitRulesModal', () => {
   })
 
   it('trims the weapon tables to the entry\'s own loadout when given a roster context', async () => {
-    // Real data on purpose: an Intercessor Squad prints 12 weapon rows, but a squad that took
-    // none of its optional swaps fields only its three default ones.
+    // Real data on purpose: an Intercessor Squad prints its every option's weapon rows, but a squad
+    // that took none of its optional swaps fields only its three default ones. (Title Case since
+    // Codex: Space Marines, app data 963, which also made knives and fists the close-combat one.)
     const [rf, it] = await Promise.all([
       import('../../data/roster/space-marines.js'),
       import('../../data/roster/items.js'),
@@ -72,10 +73,10 @@ describe('RosterUnitRulesModal', () => {
     })
     await waitFor('Intercessor Squad')
     const text = body().text()
-    expect(text).toContain('Bolt rifle')
-    expect(text).toContain('Close combat weapon')
-    expect(text).not.toContain('Thunder hammer')
-    expect(text).not.toContain('Plasma pistol')
+    expect(text).toContain('Bolt Rifle')
+    expect(text).toContain('Knives and Fists')
+    expect(text).not.toContain('Thunder Hammer')
+    expect(text).not.toContain('Plasma Pistol')
   })
 
   it('shows a weapon the entry actually picked', async () => {
@@ -84,16 +85,17 @@ describe('RosterUnitRulesModal', () => {
       import('../../data/roster/items.js'),
     ])
     const def = rf.default.units.find((u) => u.id === 'intercessor-squad')
-    // Group 1 is the Sergeant's close-combat-weapon swap; option 1 is the power fist.
+    // Group 0 is the Sergeant's knives-and-fists swap; option 1 is the power fist. (Group 1 until
+    // Codex: Space Marines, app data 963, reordered the Sergeant's swaps.)
     mount(RosterUnitRulesModal, {
       props: {
         unitId: 'intercessor-squad',
         factionSlug: 'space-marines',
-        ctx: { def, entry: { uid: 'a', id: 'intercessor-squad', size: 0, wg: [[1, 1, 1]] }, items: it.default.items },
+        ctx: { def, entry: { uid: 'a', id: 'intercessor-squad', size: 0, wg: [[0, 1, 1]] }, items: it.default.items },
       },
     })
     await waitFor('Intercessor Squad')
-    expect(body().text()).toContain('Power fist')
+    expect(body().text()).toContain('Power Fist')
   })
 
   it('renders the printed sheet untouched without a context', async () => {
@@ -101,7 +103,7 @@ describe('RosterUnitRulesModal', () => {
       props: { unitId: 'intercessor-squad', factionSlug: 'space-marines' },
     })
     await waitFor('Intercessor Squad')
-    expect(body().text()).toContain('Thunder hammer') // every option still on the card
+    expect(body().text()).toContain('Thunder Hammer') // every option still on the card
   })
 
   it('shows the roster context strip and a detachment-granted keyword', async () => {
@@ -557,17 +559,19 @@ describe('RosterUnitRulesModal', () => {
     }
   })
 
-  // A state is flipped where the thing it changes is READ. Desolation Squad's Targeter Optics
-  // grants [IGNORES COVER] after Remaining Stationary, so that switch belongs on that ability —
-  // not in a strip at the top of the card that says nothing about which rule it feeds.
+  // A state is flipped where the thing it changes is READ. The Field Ordnance Battery's Rearm,
+  // Reload, Fire grants [SUSTAINED HITS 1] after Remaining Stationary, so that switch belongs on
+  // that ability — not in a strip at the top of the card that says nothing about which rule it
+  // feeds. (Desolation Squad's Targeter Optics was the example until Codex: Space Marines, app
+  // data 963, made it unconditional.)
   it('offers an ability\'s own switch at the ability', async () => {
-    const rf = await import('../../data/roster/space-marines.js')
-    const def = rf.default.units.find((u) => u.id === 'desolation-squad')
+    const rf = await import('../../data/roster/astra-militarum.js')
+    const def = rf.default.units.find((u) => u.id === 'field-ordnance-battery')
     const w = mount(RosterUnitRulesModal, {
       props: {
-        unitId: 'desolation-squad',
-        factionSlug: 'space-marines',
-        ctx: { def, entry: { uid: 'a', id: 'desolation-squad' }, units: [] },
+        unitId: 'field-ordnance-battery',
+        factionSlug: 'astra-militarum',
+        ctx: { def, entry: { uid: 'a', id: 'field-ordnance-battery' }, units: [] },
         gameCtx: {
           active: new Set(),
           switches: [{ id: 'unit-stationary', label: { en: 'Remained Stationary', ru: 'Остался на месте' }, on: false, auto: false, scope: 'unit' }],
@@ -575,7 +579,7 @@ describe('RosterUnitRulesModal', () => {
         },
       },
     })
-    await waitFor('Targeter Optics')
+    await waitFor('Rearm, Reload, Fire')
     for (let i = 0; i < 60 && !document.querySelector('.ds-ab-conds'); i++) {
       await flushPromises()
       await new Promise((r) => setTimeout(r, 25))
@@ -723,20 +727,22 @@ describe('RosterUnitRulesModal', () => {
 
   // An ability that opens "While this model is leading a unit" is answered by the LIST, so the card
   // says which way, instead of leaving the reader to remember that a Character standing alone has
-  // half its abilities switched off. Adrax Agatone's "Unto the Anvil" is one of ~110 like it.
+  // half its abilities switched off. The Technomancer's "Rites of Reanimation" is one of ~110 like
+  // it. (Adrax Agatone's "Unto the Anvil" until Codex: Space Marines, app data 963, dropped the
+  // leading clause from it.)
   it('marks a leading-gated ability from the attachment the roster records', async () => {
-    const rf = await import('../../data/roster/space-marines.js')
-    const def = rf.default.units.find((u) => u.id === 'adrax-agatone')
+    const rf = await import('../../data/roster/necrons.js')
+    const def = rf.default.units.find((u) => u.id === 'technomancer')
     const ctx = {
       def,
-      entry: { uid: 'a', id: 'adrax-agatone', leaderOf: 'b' },
-      units: [{ uid: 'b', id: 'intercessor-squad' }],
-      leaderTargets: [{ uid: 'b', name: 'Intercessor Squad' }],
+      entry: { uid: 'a', id: 'technomancer', leaderOf: 'b' },
+      units: [{ uid: 'b', id: 'necron-warriors' }],
+      leaderTargets: [{ uid: 'b', name: 'Necron Warriors' }],
     }
-    mount(RosterUnitRulesModal, { props: { unitId: 'adrax-agatone', factionSlug: 'space-marines', ctx } })
-    await waitFor('Unto the Anvil')
+    mount(RosterUnitRulesModal, { props: { unitId: 'technomancer', factionSlug: 'necrons', ctx } })
+    await waitFor('Rites of Reanimation')
     const state = body().findAll('.ds-ab-state').map((e) => e.text())
-    expect(state.some((t) => t.includes('leading Intercessor Squad'))).toBe(true)
+    expect(state.some((t) => t.includes('leading Necron Warriors'))).toBe(true)
     expect(body().find('.ds-ab-state').classes()).toContain('on')
   })
 
@@ -815,16 +821,16 @@ describe('RosterUnitRulesModal', () => {
   })
 
   it('says so when the same ability has nothing to lead', async () => {
-    const rf = await import('../../data/roster/space-marines.js')
-    const def = rf.default.units.find((u) => u.id === 'adrax-agatone')
+    const rf = await import('../../data/roster/necrons.js')
+    const def = rf.default.units.find((u) => u.id === 'technomancer')
     mount(RosterUnitRulesModal, {
       props: {
-        unitId: 'adrax-agatone',
-        factionSlug: 'space-marines',
-        ctx: { def, entry: { uid: 'a', id: 'adrax-agatone' }, units: [] },
+        unitId: 'technomancer',
+        factionSlug: 'necrons',
+        ctx: { def, entry: { uid: 'a', id: 'technomancer' }, units: [] },
       },
     })
-    await waitFor('Unto the Anvil')
+    await waitFor('Rites of Reanimation')
     const chip = body().find('.ds-ab-state')
     expect(chip.text()).toContain('not attached')
     expect(chip.classes()).not.toContain('on')
@@ -834,35 +840,36 @@ describe('RosterUnitRulesModal', () => {
   // A datasheet being READ has no roster around it, so there is no attachment to report and the
   // card must look exactly as it always did.
   it('marks nothing without roster context', async () => {
-    mount(RosterUnitRulesModal, { props: { unitId: 'adrax-agatone', factionSlug: 'space-marines' } })
-    await waitFor('Unto the Anvil')
+    mount(RosterUnitRulesModal, { props: { unitId: 'technomancer', factionSlug: 'necrons' } })
+    await waitFor('Rites of Reanimation')
     expect(body().find('.ds-ab-state').exists()).toBe(false)
   })
 
-  // A state that decides what a rule does belongs where the rule is READ. Librarius Conclave's
-  // Psychic Disciplines is chosen army-wide, but the place a player meets it is the detachment
-  // rule on a psyker's card — so its switches are offered there, writing to the same store.
+  // A state that decides what a rule does belongs where the rule is READ. Grand Coven's Kindred
+  // Sorcery is chosen army-wide, but the place a player meets it is the detachment rule on a
+  // sorcerer's card — so its switches are offered there, writing to the same store. (Librarius
+  // Conclave's Psychic Disciplines until Codex: Space Marines, app data 963, retired it.)
   it('offers a rule\'s own switches inside the rule, army-wide ones included', async () => {
-    const rf = await import('../../data/roster/space-marines.js')
-    const def = rf.default.units.find((u) => u.id === 'librarian')
-    const det = rf.default.detachments.find((d) => d.name === 'Librarius Conclave')
+    const rf = await import('../../data/roster/thousand-sons.js')
+    const def = rf.default.units.find((u) => u.id === 'sorcerer')
+    const det = rf.default.detachments.find((d) => d.name === 'Grand Coven')
     const armySwitches = [
-      { id: 'discipline-biomancy', label: { en: 'Biomancy Discipline', ru: 'Biomancy' }, on: false, auto: false, scope: 'army', group: 'psychic-discipline', groupLimit: 1 },
-      { id: 'discipline-pyromancy', label: { en: 'Pyromancy Discipline', ru: 'Pyromancy' }, on: false, auto: false, scope: 'army', group: 'psychic-discipline', groupLimit: 1 },
+      { id: 'manifestation-imbued', label: { en: 'Imbued Manifestation selected', ru: 'Выбран Imbued Manifestation' }, on: false, auto: false, scope: 'army' },
+      { id: 'manifestation-wrath', label: { en: 'Wrath of the Immaterium selected', ru: 'Выбран Wrath of the Immaterium' }, on: false, auto: false, scope: 'army' },
     ]
     const w = mount(RosterUnitRulesModal, {
       props: {
-        unitId: 'librarian',
-        factionSlug: 'space-marines',
-        ctx: { def, entry: { uid: 'a', id: 'librarian' }, detachments: [det] },
+        unitId: 'sorcerer',
+        factionSlug: 'thousand-sons',
+        ctx: { def, entry: { uid: 'a', id: 'sorcerer' }, detachments: [det] },
         gameCtx: { active: new Set(), switches: [], armySwitches },
       },
     })
-    await waitFor('Psychic Disciplines')
+    await waitFor('Kindred Sorcery')
     const chips = body().findAll('.rum-rule-conds .cond-chip')
     expect(chips).toHaveLength(2)
     await chips[0].trigger('click')
-    expect(w.emitted('toggle-cond')[0][0].id).toBe('discipline-biomancy')
+    expect(w.emitted('toggle-cond')[0][0].id).toBe('manifestation-imbued')
   })
 
   it('shows no switch row at all outside a game', async () => {

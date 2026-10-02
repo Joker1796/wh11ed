@@ -72,6 +72,13 @@ const ROUTES = {
       ru: 'История обновлений приложения: что менялось в каждой версии справочника правил, конструктора ростеров и трекера партии.',
     },
   },
+  '/patches': {
+    title: { en: 'GW patch notes', ru: 'Изменения правил GW' },
+    description: {
+      en: 'Every Games Workshop update to Warhammer 40,000 11th edition in one place: datasheets, detachments, stratagems, points and FAQ, as they were and as they are now.',
+      ru: 'Все обновления Games Workshop для Warhammer 40,000 (Вархаммер) 11-й редакции в одном месте: датащиты, детачменты, стратагемы, очки и FAQ — как было и как стало.',
+    },
+  },
   '/stratagems': {
     title: { en: 'Stratagems', ru: 'Стратагемы' },
     description: {

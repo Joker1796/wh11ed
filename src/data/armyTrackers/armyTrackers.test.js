@@ -105,17 +105,13 @@ describe('resolveArmyTracker', () => {
     expect(ru.startBonus.label).toBe('Deeds That Speak to the Masses')
   })
 
-  it('resolves the Black Templars selection spec as a battle-long (once) pick', () => {
+  // Codex Supplement: Black Templars (app data 963) swapped Templar Vows for Combat Doctrines as the
+  // army rule; the Vows live on as the Vow-sworn Crusaders detachment rule.
+  it('resolves Black Templars to Combat Doctrines, a per-round pick', () => {
     const spec = resolveArmyTracker('black-templars')
-    expect(spec.kind).toBe('selection')
-    expect(spec.once).toBe(true)
-    expect(spec.options).toHaveLength(4)
-    const en = localizeArmyTracker(spec, 'en')
-    const ru = localizeArmyTracker(spec, 'ru')
-    // Vow names are proper names — English in both locales; the effect text is translated.
-    expect(en.options[0].name).toBe('Abhor the Witch, Destroy the Witch')
-    expect(ru.options[0].name).toBe('Abhor the Witch, Destroy the Witch')
-    expect(en.options[0].body).not.toEqual(ru.options[0].body)
+    expect(spec.ruleName).toBe('Combat Doctrines')
+    expect(spec.once).toBeUndefined()
+    expect(spec.perBattle).toBe(1)
   })
 
   it('resolves the Death Guard once-selection with a round-gated Contagion Range readout', () => {

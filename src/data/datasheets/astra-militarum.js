@@ -1612,12 +1612,12 @@ export default [
       {
         "models": 1,
         "points": 115,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 135,
-        "note": "2nd+"
+        "points": 145,
+        "note": "3rd+"
       }
     ],
     "flavor": "Basilisks are self-propelled artillery tanks, armed with a fearsome earthshaker cannon. Able to keep pace with infantry advances – their barrels levelled for direct fire – or deploy to rear positions from which they unleash relentless shelling, Basilisks are amongst the most numerous of the Imperial Guard’s ordnance tanks.",
@@ -1735,22 +1735,22 @@ export default [
       {
         "models": 3,
         "points": 90,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 6,
         "points": 200,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 105,
-        "note": "2nd+"
+        "points": 120,
+        "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 215,
-        "note": "2nd+"
+        "points": 230,
+        "note": "3rd+"
       }
     ],
     "flavor": "The most obstinate of the Ogryn strain of abhumans, Bullgryns are clad in heavy armour and carry crude assault weaponry built to withstand the thunderous blows Bullgryns strike with them. A line of these heavily muscled humanoids, advancing in shield-lines from which shots bounce harmlessly, is a frightening sight.",
@@ -2216,7 +2216,7 @@ export default [
     "abilities": [
       {
         "name": "Cadia Stands!",
-        "text": "While this unit contains an OFFICER model and this unit is within range of an objective, this unit can re-roll battle-shock rolls."
+        "text": "While this unit contains an OFFICER model and this unit is within range of an **[gloss:objective:objective]**, this unit can re-roll battle-shock rolls."
       }
     ],
     "wargearAbilities": [
@@ -2584,7 +2584,7 @@ export default [
       },
       {
         "name": "Vox-relay Beacon",
-        "text": "At the start of the battle, you can set up one Vox-relay Beacon token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. While a friendly Astra Militarum Regiment unit is within 6\" of that token, Officer units from your army can issue orders to that REGIMENT unit as if the OFFICER unit was within 6\" of it. At the end of every phase, If an enemy unit is within 1\" of a Vox-relay Beacon token you set up, that token is removed from the battlefield."
+        "text": "At the start of the battle, you can set up one Vox-relay Beacon token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. While a friendly ASTRA MILITARUM REGIMENT unit is within 6\" of that token, OFFICER units from your army can issue orders to that REGIMENT unit as if the OFFICER unit was within 6\" of it. At the end of every phase, If an enemy unit is within 1\" of a Vox-relay Beacon token you set up, that token is removed from the battlefield."
       }
     ],
     "composition": [
@@ -3446,7 +3446,7 @@ export default [
     "abilities": [
       {
         "name": "Bring it Down!",
-        "text": "Each time a model in this unit makes a ranged attack that targets a **MONSTER** or **VEHICLE** unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+        "text": "Each time a model in this unit makes a ranged attack that targets a **MONSTER** or **[gloss:vehicle:VEHICLE]** unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
       }
     ],
     "composition": [
@@ -3748,7 +3748,8 @@ export default [
       "Squadron",
       "Transport",
       "Dedicated Transport",
-      "Centaur RSV"
+      "Centaur RSV",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4385,7 +4386,8 @@ export default [
       "Imperium",
       "Officer",
       "Commissar Graves",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4484,7 +4486,8 @@ export default [
       "Character",
       "Epic Hero",
       "Imperium",
-      "Commissar Graves on Foot"
+      "Commissar Graves on Foot",
+      "Officer"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4497,7 +4500,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 120
+        "points": 110
       }
     ],
     "flavor": "Few champions of the Imperium inspire the common soldiery as does Commissar Sebastian Yarrick. He can also tear a swathe through his enemies, delivering thunderous blows with his trophy power klaw, mowing them down with his storm bolter, and delivering laser blasts from his ocular augmetic, the so-called Bale Eye.",
@@ -4625,7 +4628,7 @@ export default [
         "options": [
           {
             "name": "Counterstrategist",
-            "text": "At the end of your opponent’s Movement phase, you can select one enemy unit that was set up or ended a move within 9\" of this model, and one friendly Regiment unit within 6\" of and visible to this model that has not made a Normal move or been targeted with the Fire Overwatch Stratagem this phase. That REGIMENT unit can then either:\n▪ Make a Normal move of up to D6\".\n▪ Shoot at that enemy unit, but only if it is an eligible target. Until the end of the phase, each time a model in that unit makes a ranged attack, an unmodified Hit roll of 6 is required to score a hit, irrespective of the attacking weapon’s Ballistic Skill or any modifiers.\n▪ Make a Surge move. To do so, roll one D6: models in that unit move a number of inches up to the result, but that unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within %000015002Engageme"
+            "text": "At the end of your opponent’s Movement phase, you can select one enemy unit that was set up or ended a move within 8\" of this model, and one friendly REGIMENT unit within 6\" of and visible to this model that has not made a Normal move or been targeted with the Fire Overwatch Stratagem this phase. That REGIMENT unit can then either:\n▪ Make a Normal move of up to D6\".\n▪ Shoot at that enemy unit, but only if it is an eligible target. Until the end of the phase, each time a model in that unit makes a ranged attack, an unmodified Hit roll of 6 is required to score a hit, irrespective of the attacking weapon’s Ballistic Skill or any modifiers.\n▪ Declare a charge. That REGIMENT unit must end that charge move engaged with the enemy unit you selected (note that even if this charge is successful, the charging unit does not receive any Charge bonus this turn)."
           },
           {
             "name": "Decisive Command",
@@ -5275,8 +5278,8 @@ export default [
       "For every 10 models in this unit, up to 2 Death Korps Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same option more than once per unit unless it contains 20 models, in which case you cannot select the same option more than twice per unit.",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced)**.",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).**\n\n** A model can only take one of these options.",
-      "Any number of Death Korps Watchmasters can each have their laspistol and chainsword replaced with 1 boltgun and 1 close combat weapon.",
-      "Any number of Death Korps Watchmasters can each have their chainsword replaced with 1 power weapon.",
+      "Any number of Death Korps Watchmasters can each replace their laspistol and chainsword with 1 boltgun and 1 close combat weapon.",
+      "Any number of Death Korps Watchmasters can each replace their chainsword with 1 power weapon.",
       "Any number of Death Korps Watchmasters can each have their laspistol replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
       "*  You cannot select the same option more than once per unit unless it contains 20 models, in which case you cannot select the same option more than twice per unit.",
       "** A model can only take one of these options."
@@ -5498,12 +5501,12 @@ export default [
       {
         "models": 1,
         "points": 125,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 135,
-        "note": "2nd+"
+        "points": 145,
+        "note": "3rd+"
       }
     ],
     "flavor": "The sanctioned use of a Deathstrike – designated ‘Ordnance Extremis’ – is often an excessive measure to combat the Imperial Guard’s most heinous enemies. Its huge missile, capable of mounting various catastrophic payloads, is able to visit the undimmed wrath of the Emperor on a foe half a world away.",
@@ -5879,7 +5882,7 @@ export default [
     "abilities": [
       {
         "name": "Close-range Titan Killer",
-        "text": "Each time this model’s magma cannon targets an enemy **MONSTER** or **VEHICLE** unit, that target is always considered to be within half range of that weapon."
+        "text": "Each time this model’s magma cannon targets an enemy **MONSTER** or **[gloss:vehicle:VEHICLE]** unit, that target is always considered to be within half range of that weapon."
       }
     ],
     "damaged": {
@@ -6538,7 +6541,7 @@ export default [
       },
       {
         "name": "Covert Stealth Team",
-        "text": "At the end of your opponent’s turn, if this unit is **unengaged**, you can use this ability. If you do:\n▪ Place this unit in **strategic reserves**.\n▪ This unit has **Deep Strike** until the start of your next Shooting phase.\n▪ This unit must make an **ingress move** in your next Movement phase (including in your first turn)."
+        "text": "At the end of your opponent’s turn, if this unit is **[gloss:unengaged:unengaged]**, you can use this ability. If you do:\n▪ Place this unit in **[gloss:strategic-reserves:strategic reserves]**.\n▪ This unit has [core:Deep Strike] until the start of your next Shooting phase.\n▪ This unit must make an **[gloss:ingress-move:ingress move]** in your next Movement phase (including in your first turn)."
       }
     ],
     "composition": [
@@ -7210,12 +7213,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 125,
+        "points": 115,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 135,
+        "points": 125,
         "note": "3rd+"
       }
     ],
@@ -7686,7 +7689,8 @@ export default [
       "Imperium",
       "Smoke",
       "Squadron",
-      "Hippogriff AFV"
+      "Hippogriff AFV",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9334,7 +9338,7 @@ export default [
       },
       {
         "name": "Death Befitting An Officer",
-        "text": "In your opponent’s Shooting phase, when this unit is **destroyed**, before this unit’s **deadly demise** roll, roll one D6:\n▪ On a 2+, do not remove this unit from the battlefield. After the attacking unit has shot, this unit can shoot using **normal shooting**, but while doing so this unit can only target that enemy unit. When this unit has shot, or at the end of the phase (whichever comes first), resolve this unit’s **deadly demise** roll, then this unit is removed from the battlefield."
+        "text": "In your opponent’s Shooting phase, when this unit is **[gloss:destroyed:destroyed]**, before this unit’s [core:Deadly Demise] roll, roll one D6:\n▪ On a 2+, do not remove this unit from the battlefield. After the attacking unit has shot, this unit can shoot using **[gloss:normal-shooting:normal shooting]**, but while doing so this unit can only target that enemy unit. When this unit has shot, or at the end of the phase (whichever comes first), resolve this unit’s [core:Deadly Demise] roll, then this unit is removed from the battlefield."
       }
     ],
     "damaged": {
@@ -10556,7 +10560,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 70
       }
     ],
     "flavor": "As is tradition in the armies of Krieg, Lord Marshal Varnan Dreir leads from the front, despite his lofty rank, often to the horror of his superiors. That he and his loyal Krieg steed have emerged from so many battles alive and victorious speaks to his skill as both commander and cavalry soldier.",
@@ -10658,7 +10662,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 120
       }
     ],
     "flavor": "Arcadian Leontus wields entire armies of the Astra Militarum against apocalyptic invasions and sector-wide insurgencies. A war scholar and master tactician, the Lord Commander Solar bestrides the battlefield on his cybernetic stallion, Konstantin, levelling his blade at the foe as he bellows his orders.",
@@ -10757,7 +10761,7 @@ export default [
       },
       {
         "name": "ORDERS",
-        "text": "This OFFICER can issue up to 3 Orders to:\n▪ Regiment units\n▪ Squadron units\n▪ Titanic units"
+        "text": "This OFFICER can issue up to 3 Orders to:\n▪ REGIMENT units\n▪ SQUADRON units\n▪ TITANIC units"
       }
     ]
   },
@@ -12030,12 +12034,12 @@ export default [
       {
         "models": 1,
         "points": 150,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 170,
-        "note": "2nd+"
+        "points": 180,
+        "note": "3rd+"
       }
     ],
     "flavor": "Capable of firing its limited supply of storm eagle rockets to unleash furious barrages at incredible distances, the Manticore can lay waste to enemy formations. Multiple warheads release a moment before each rocket’s impact, signalling the panicking foe’s doom no matter how far they try to flee at the last moment.",
@@ -14203,7 +14207,7 @@ export default [
       },
       {
         "name": "Demolition Gear",
-        "text": "The bearer’s unit has the Grenades keyword."
+        "text": "The bearer’s unit has the GRENADES keyword."
       }
     ],
     "composition": [
@@ -14598,7 +14602,7 @@ export default [
     ],
     "loadout": "**This model is equipped with:** castigator gatling cannon; heavy stubber; twin battle cannon; armoured tracks.",
     "options": [
-      "This model’s twin battle cannon can be replaced with 1 oppressor cannon and 1 coaxial autocannon.",
+      "This model’s twin battle cannon can be replaced with 1 oppressor cannon and 1 co-axial autocannon.",
       "This model’s castigator gatling cannon can be replaced with 1 pulveriser cannon.",
       "This model can be equipped with one of the following:\n▪ 2 meltaguns\n▪ 2 additional heavy stubbers",
       "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 multi-meltas"
@@ -18431,12 +18435,12 @@ export default [
       {
         "models": 1,
         "points": 95,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 115,
-        "note": "2nd+"
+        "points": 125,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Wyvern excels in claustrophobic urban combat, raining curtains of shells down upon luckless enemy infantry without needing to expose itself to harm. The suppression tank’s stormshard mortars are lethal to tightly packed foes, their shells detonating in blizzards of eviscerating aquila-shaped flechettes.",

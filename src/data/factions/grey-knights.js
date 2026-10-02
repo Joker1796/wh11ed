@@ -10,7 +10,7 @@
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/cm/GreyKnights.pdf) → 3 pack detachments
 //     (Argent Assault, Fires of Purgation, Immaterial Interdiction) and Rules Updates.
 //   MFM (src/data/mfm/grey-knights.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition.
+//     forceDispositions.
 //
 // 9 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -28,8 +28,8 @@ const en = {
 ▪ **Strike Force:** Up to 3 units.
 ▪ **Onslaught:** Up to 4 units.
 
-▪ Place those units in Strategic Reserves.
-▪ Those units can make an ingress move in your next Movement phase (including in your first turn).`,
+▪ Place those units in **[gloss:strategic-reserves:Strategic Reserves]**.
+▪ Those units can make an **[gloss:ingress-move:ingress move]** in your next Movement phase (including in your first turn).`,
   },
 
   detachments: [
@@ -39,7 +39,7 @@ const en = {
       name: "Augurium Task Force",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Prescient Redeployment",
         flavor: "Combining the psychic disciplines of precognition and translocation, the Grey Knights rapidly relocate in response to strategic manoeuvres the foe has yet to make.",
@@ -130,7 +130,7 @@ const en = {
           name: "One Foot in the Future",
           points: 15,
           flavor: "Stratego-prescient telecasts scroll over this warrior’s heads-up display, providing them with tactical battlefield foretellings to which they swiftly react.",
-          body: "GREY KNIGHTS model only. When this unit ends an ingress move, you can use this ability. If you do:\n▪ This unit can make a normal move of up to D6\".\n▪ Until the end of the turn, this unit is not eligible to declare a charge.",
+          body: "GREY KNIGHTS model only. When this unit ends an ingress move, you can use this ability. If you do:\n▪ This unit can make a **[gloss:normal-move:normal move]** of up to D6\".\n▪ Until the end of the turn, this unit is not eligible to declare a charge.",
         },
         {
           name: "Doomseer’s Amulet",
@@ -146,7 +146,7 @@ const en = {
       name: "Banishers",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Channelled Force",
         flavor: "So potent is the interwoven mind-choir of this strike force that each individual can syphon off a portion of its gestalt might to empower their weapons of war without diminishing the whole. The result is Nemesis force weapons that blaze like caged psychic stars, leaving trails of witchfire blazing behind every swing and blasting victims into nothing with a single strike.",
@@ -253,7 +253,7 @@ const en = {
       name: "Brotherhood Strike",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: "Fury of Titan",
         flavor: "Erupting from whirling Warp gates with their Nemesis blades blazing, squads of Grey Knights cut a bloody path through their enemies before the foe even realise their peril.",
@@ -360,7 +360,7 @@ const en = {
       name: "Hallowed Conclave",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: "Duty Before All",
         flavor: "Every Grey Knights Terminator is a tower of strength, a massively armoured living war engine clad in warded truesilver. Seeking to bar the path of such warriors, to entrap them or deny their will, is as futile a course of action as trying to halt an avalanche with bare hands alone.",
@@ -439,7 +439,7 @@ const en = {
           name: "Eye of the Augurium",
           points: 25,
           flavor: "A miniature facsimile of the silver mirrors used by the Prognosticars, this artefact affords its bearer a glimpse of where they will be needed most in the heat of battle.",
-          body: "GREY KNIGHTS model only. You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.",
+          body: "GREY KNIGHTS model only. You can target this unit with the Heroic Intervention **[gloss:stratagem:Stratagem]**, regardless of any other uses of that **Stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **Stratagem** on other units this phase.",
         },
         {
           name: "Inescapable Judgement (Psychic)",
@@ -467,7 +467,7 @@ const en = {
       name: "Sanctic Spearhead",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Mailed Fist",
         flavor: "Such concentrations of the Grey Knights’ armoured power are only unleashed when time is of the essence, and the price of defeat would be utterly disastrous. Knowing all this, these hosts strike with tremendous force and unstoppable momentum, a mailed fist driven straight down the enemy’s throat.",
@@ -574,7 +574,7 @@ const en = {
       name: "Warpbane Task Force",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Take and Hold",
+      forceDispositions: ["Take and Hold", "Purge the Foe"],
       rule: {
         name: "Hallowed Ground",
         flavor: "Purging corrupted nodes of Warp energy, the Grey Knights establish an ever-expanding area of hallowed ground within which their psychic powers and indomitable resolve are greatly enhanced.",
@@ -682,11 +682,11 @@ const en = {
       name: "Argent Assault",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: "Dauntless Champions",
         flavor: "To be a Paladin of the Grey Knights is to do battle with the greatest and most terrible enemies and yet emerge victorious, no matter the odds.",
-        body: "When a friendly PALADIN SQUAD unit is selected to fight, if the S of those attacks is lower than the T of the target, those attacks have +1 to Wound rolls.",
+        body: "When a friendly PALADIN SQUAD unit is **[gloss:selected-to-fight:selected to fight]**, if the S of those attacks is lower than the T of the target, those attacks have +1 to Wound rolls.",
       },
       stratagems: [
         {
@@ -695,9 +695,9 @@ const en = {
           cp: "1CP",
           turn: "either",
           flavor: "Layered into the Paladins\u2019 armour by shriven seers and blessed saints, these potent wards of abjuration turn aside attacks both supernatural and mundane.",
-          when: "Any phase, when a friendly PALADIN SQUAD unit suffers a mortal wound.",
+          when: "Any phase, when a friendly PALADIN SQUAD unit suffers a **[gloss:mortal-wound:mortal wound]**.",
           target: "That PALADIN SQUAD unit.",
-          effect: "Your unit has [core:Feel No Pain 4+] against mortal wounds.",
+          effect: "Your unit has [core:Feel No Pain 4+] against **[gloss:mortal-wound:mortal wounds]**.",
           restrictions: "",
         },
         {
@@ -706,7 +706,7 @@ const en = {
           cp: "1CP",
           turn: "either",
           flavor: "Paladins, more than even their brother Grey Knights, must strive to lay low those heretical champions from whom the taint of damnation spreads to threaten the Imperium.",
-          when: "Fight phase, when a friendly PALADIN SQUAD unit is selected to fight.",
+          when: "Fight phase, when a friendly PALADIN SQUAD unit is **[gloss:selected-to-fight:selected to fight]**.",
           target: "That PALADIN SQUAD unit.",
           effect: "Your unit\u2019s melee attacks have [PRECISION].",
           restrictions: "",
@@ -728,13 +728,13 @@ const en = {
           name: "Psychic Celerity",
           points: 15,
           flavor: "These champions of Titan employ their psychic might to lend themselves supernatural speed and catch their enemies unawares.",
-          body: "TERMINATOR model only. This unit has +1 to Charge rolls.",
+          body: "TERMINATOR model only. This unit has +1 to **[gloss:charge-roll:Charge rolls]**.",
         },
         {
           name: "Vigilance of Titan",
           points: 20,
           flavor: "None who would work the unclean will of the Warp — even unknowingly — can escape the merciless gaze of the Grey Knights.",
-          body: "TERMINATOR model only. At the start of your Shooting phase, you can select one visible enemy unit within 12\" of this unit. That enemy unit has +6\" detection range.",
+          body: "TERMINATOR model only. At the start of your Shooting phase, you can select one **[gloss:visible:visible]** enemy unit within 12\" of this unit. That enemy unit has +6\" **[gloss:detection-range:detection range]**.",
         },
       ],
     },
@@ -744,11 +744,11 @@ const en = {
       name: "Fires of Purgation",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDispositions: ["Disruption"],
       rule: {
         name: "Searing Soulflame",
         flavor: "Through potent psychic focus and the channelling of their vehement wrath, Purgators imbue their salvoes with bursts of soul-burning psyfire.",
-        body: "When you select a unit to be pinned by a friendly PURGATION SQUAD unit\u2019s Righteous Persecution ability, that enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll.",
+        body: "When you select a unit to be **[gloss:pinned:pinned]** by a friendly PURGATION SQUAD unit’s Righteous Persecution ability, that enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll.",
       },
       stratagems: [
         {
@@ -768,7 +768,7 @@ const en = {
           cp: "1CP",
           turn: "your",
           flavor: "Concentrating their fire on a single luckless target and pouring all their psychic might into every shot, the Purgators sear their victims from existence as though cauterising an infested wound in the flesh of realspace.",
-          when: "Your Shooting phase, when a friendly PURGATION SQUAD unit is selected to shoot.",
+          when: "Your Shooting phase, when a friendly PURGATION SQUAD unit is **[gloss:selected-to-shoot:selected to shoot]**.",
           target: "That PURGATION SQUAD unit.",
           effect: "Select one enemy unit. Your unit\u2019s ranged attacks that target that unit have:\n▪ [DEVASTATING WOUNDS].\n▪ [SUSTAINED HITS 1].",
           restrictions: "",
@@ -781,7 +781,7 @@ const en = {
           flavor: "With their spiritual armour shattered along with that of their physical forms, the very souls of the enemy fall prey to the devastating fire of the Purgators.",
           when: "Your Shooting phase, when a friendly PURGATION SQUAD unit has shot.",
           target: "That PURGATION SQUAD unit.",
-          effect: "Select one Battle-shocked enemy unit hit by those attacks. That enemy unit suffers D3+1 mortal wounds.",
+          effect: "Select one Battle-shocked enemy unit hit by those attacks. That enemy unit suffers D3+1 **[gloss:mortal-wound:mortal wounds]**.",
           restrictions: "",
         },
       ],
@@ -791,7 +791,7 @@ const en = {
           points: 10,
           upgrade: true,
           flavor: "These warriors have honed their psychic foretelling powers to provide glimpses of their enemies\u2019 movements and guide their fire in response.",
-          body: "PURGATION SQUAD unit only. This unit\u2019s snap shooting attacks hit on unmodified Hit rolls of 5+.",
+          body: "PURGATION SQUAD unit only. This unit’s **[gloss:snap-shooting:snap shooting]** attacks hit on unmodified Hit rolls of 5+.",
         },
         {
           name: "Boons of Deimos",
@@ -808,11 +808,11 @@ const en = {
       name: "Immaterial Interdiction",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Reconnaissance",
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: "Echojump",
         flavor: "Pushing their esoteric wargear to its limits, Interceptors are able to make secondary, shorter personal teleportation jumps, effectively skimming the very surface of the Immaterium to respond all the more quickly to developing threats.",
-        body: "In your Shooting phase, when a friendly INTERCEPTOR SQUAD unit has shot, you can use this ability. If you do:\n▪ That unit cannot use its Personal Teleporters ability.\n▪ That unit can make a surge move of up to D6+1\".",
+        body: "In your Shooting phase, when a friendly INTERCEPTOR SQUAD unit has shot, you can use this ability. If you do:\n▪ That unit cannot use its Personal Teleporters ability.\n▪ That unit can make a **[gloss:surge-move:surge move]** of up to D6+1\".",
       },
       stratagems: [
         {
@@ -821,7 +821,7 @@ const en = {
           cp: "1CP",
           turn: "either",
           flavor: "With exceptional skill, these Interceptors teleport perilously close to their foes, bursting from the Immaterium into their very midst with lethal force.",
-          when: "Fight phase, when a friendly INTERCEPTOR SQUAD unit that made a Charge move this turn is selected to fight.",
+          when: "Fight phase, when a friendly INTERCEPTOR SQUAD unit that made a **[gloss:charge-move:Charge move]** this turn is **[gloss:selected-to-fight:selected to fight]**.",
           target: "That INTERCEPTOR SQUAD unit.",
           effect: "Your unit\u2019s melee attacks have [LANCE].",
           restrictions: "",
@@ -832,9 +832,9 @@ const en = {
           cp: "1CP",
           turn: "your",
           flavor: "Employing telekinetic sorceries even in the midst of a furious battle, Interceptors are able to complete vital mission objectives while interdicting the foe\u2019s forces.",
-          when: "Your Shooting phase, when a friendly INTERCEPTOR SQUAD unit starts an Action.",
+          when: "Your Shooting phase, when a friendly INTERCEPTOR SQUAD unit **[gloss:action:starts an Action]**.",
           target: "That INTERCEPTOR SQUAD unit.",
-          effect: "That Action does not prevent your unit from being eligible to shoot.",
+          effect: "That **[gloss:action:Action]** does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]**.",
           restrictions: "",
         },
         {
@@ -843,9 +843,9 @@ const en = {
           cp: "1CP",
           turn: "opponent",
           flavor: "Masters of reading the ebb and flow of battle, Interceptors stay ever on the move and exploit any gap in the enemy lines with lightning swiftness.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit that was engaged with a friendly INTERCEPTOR SQUAD unit ends a fall-back move, if that INTERCEPTOR SQUAD unit is unengaged.",
+          when: "Your opponent’s Movement phase, when an enemy unit that was engaged with a friendly INTERCEPTOR SQUAD unit ends a fall-back move, if that INTERCEPTOR SQUAD unit is **[gloss:unengaged:unengaged]**.",
           target: "That INTERCEPTOR SQUAD unit.",
-          effect: "Your unit can make a Normal move of up to D3+3\".",
+          effect: "Your unit can make a **[gloss:normal-move:Normal move]** of up to D3+3\".",
           restrictions: "",
         },
       ],
@@ -855,7 +855,7 @@ const en = {
           points: 10,
           upgrade: true,
           flavor: "This rune-sealed data-scroll is opened at the ordained moment, providing vital strategic insights and empyric jump coordinates foreseen by the Prognosticars themselves.",
-          body: "INTERCEPTOR SQUAD unit only. In your first Movement phase, this unit can make an ingress move.",
+          body: "INTERCEPTOR SQUAD unit only. In your first Movement phase, this unit can make an **[gloss:ingress-move:ingress move]**.",
         },
         {
           name: "Astral Overlap",

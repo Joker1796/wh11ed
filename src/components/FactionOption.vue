@@ -9,7 +9,7 @@
   <div
     v-else
     class="fac tone tone-bar"
-    :class="{ on }"
+    :class="{ on, compact }"
     :style="tone"
   >
     <component
@@ -57,6 +57,8 @@ const props = defineProps({
   on: { type: Boolean, default: false },
   // Not playable yet: no page to go to, and nothing to pin.
   disabled: { type: Boolean, default: false },
+  // A lower row for the desk's dropdown (owner, 2026-10-01: the modal's rows made it a screen tall).
+  compact: { type: Boolean, default: false },
 })
 defineEmits(['pick'])
 
@@ -101,6 +103,11 @@ const tone = computed(() => toneVars(entry.value?.color))
 .fac-link .tone-badge { height: 1.8rem; width: 2.55rem; margin: -0.05rem 0 -0.05rem -0.1rem; }
 .fac-name { flex: 1; min-width: 0; font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; line-height: 1.1; color: var(--text-primary); }
 .fac-check { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+/* The desk's dropdown row: same parts, about half the height. */
+.fac.compact { padding: 0.2rem 0.4rem; gap: 0.35rem; }
+.fac.compact .fac-link { gap: 0.45rem; }
+.fac.compact .fac-link .tone-badge { height: 1.35rem; width: 1.9rem; margin: 0; }
+.fac.compact .fac-name { font-size: 1.02rem; }
 .fac.disabled { justify-content: space-between; cursor: default; opacity: 0.6; }
 .fac.disabled .fac-name { flex: none; color: var(--text-dim); }
 

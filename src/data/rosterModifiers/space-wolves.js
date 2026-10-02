@@ -8,7 +8,7 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "c5876316-6c1b-4365-9fa6-97e070f9ded8:fenrisian-wolves",
+      "sid": "f3066d58-dd3a-4020-9fde-40534ca0ed90:fenrisian-wolves",
       "kind": "ability",
       "name": "Fenrisian Wolves: Hunting Hounds",
       "det": null,
@@ -16,40 +16,18 @@ export default {
         "kind": "ability",
         "unit": "fenrisian-wolves"
       },
-      "hash": "77af4631",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "4d66c56a-808d-4c5d-8468-8e18a844953e:iron-priest",
-      "kind": "ability",
-      "name": "Iron Priest: Gift of the Iron Wolf",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "iron-priest",
-        "scopes": [
-          {
-            "targets": [
-              "ADEPTUS ASTARTES VEHICLE"
-            ],
-            "excludes": []
-          }
-        ]
-      },
-      "hash": "eba7e7da",
-      "ver": 925,
+      "hash": "89e2fd70",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "RAPID FIRE 1",
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
           "when": {
-            "en": "while this ability is used",
-            "ru": "пока способность использована"
+            "en": "while within 6\" of a friendly SPACE WOLVES CHARACTER model (excluding WULFEN) and not battle-shocked",
+            "ru": "пока в пределах 6\" от дружественной модели SPACE WOLVES CHARACTER (кроме WULFEN) и не battle-shocked"
           },
           "cond": [
             "never"
@@ -58,7 +36,48 @@ export default {
       ]
     },
     {
-      "sid": "be12a555-96eb-4190-a230-0a18b61e5a6f:iron-priest",
+      "sid": "e4cf49f1-d410-4af6-aeae-60d1128ca309:grey-hunters",
+      "kind": "ability",
+      "name": "Grey Hunters: Cunning Hunters",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "grey-hunters"
+      },
+      "hash": "e57d6ad5",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in the Fight phase, while this unit is within range of an objective",
+            "ru": "в фазе боя, пока отряд в зоне объекта"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "in the Fight phase, while this unit is within range of an objective",
+            "ru": "в фазе боя, пока отряд в зоне объекта"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "6b0f24dc-2a81-497a-bd6f-33b04d7b2284:iron-priest",
       "kind": "ability",
       "name": "Iron Priest: Iron Priest",
       "det": null,
@@ -66,8 +85,8 @@ export default {
         "kind": "ability",
         "unit": "iron-priest"
       },
-      "hash": "986336f6",
-      "ver": 925,
+      "hash": "06400d69",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -76,8 +95,8 @@ export default {
           "op": "grant",
           "value": "Lone Operative",
           "when": {
-            "en": "while within 3\" of a friendly ADEPTUS ASTARTES VEHICLE unit",
-            "ru": "пока в пределах 3\" от дружественного отряда ADEPTUS ASTARTES VEHICLE"
+            "en": "while within 3\" of a friendly SPACE WOLVES VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда SPACE WOLVES VEHICLE"
           },
           "cond": [
             "never"
@@ -86,7 +105,55 @@ export default {
       ]
     },
     {
-      "sid": "c363373f-a93a-4ca3-87ea-4e5de5d9d00a:njal-stormcaller",
+      "sid": "8950d4a1-67cf-4d2f-a6cd-6620a52ad87c:njal-stormcaller",
+      "kind": "ability",
+      "name": "Njal Stormcaller: Murderous Hurricane (psychic level 1)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "njal-stormcaller",
+        "set": "High Rune Priest (psyker level 3)",
+        "pickLimit": 1
+      },
+      "hash": "a052d3a0",
+      "ver": 963,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "83a24ab7-93c2-4a7b-a9b4-8710e6d42c6d:njal-stormcaller",
+      "kind": "ability",
+      "name": "Njal Stormcaller: Storm Caller (psychic level 1)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "njal-stormcaller",
+        "set": "High Rune Priest (psyker level 3)",
+        "pickLimit": 1
+      },
+      "hash": "a1b35b85",
+      "ver": 963,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ffb8cef7-6272-4327-9ce4-f696268527a7:njal-stormcaller",
+      "kind": "ability",
+      "name": "Njal Stormcaller: Tempest's Wrath (psychic level 1)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "njal-stormcaller",
+        "set": "High Rune Priest (psyker level 3)",
+        "pickLimit": 1
+      },
+      "hash": "5e8fea65",
+      "ver": 963,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0ff439f1-908a-4cd0-950f-3d38730ef9e5:njal-stormcaller",
       "kind": "ability",
       "name": "Njal Stormcaller: Wind Walker",
       "det": null,
@@ -94,8 +161,8 @@ export default {
         "kind": "ability",
         "unit": "njal-stormcaller"
       },
-      "hash": "08b30d76",
-      "ver": 925,
+      "hash": "a1e19eb2",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -103,8 +170,7 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ASSAULT",
-          "when": null,
-          "target": "unit"
+          "when": null
         },
         {
           "on": "profile",
@@ -112,18 +178,39 @@ export default {
           "op": "add",
           "value": 6,
           "when": {
-            "en": "in a phase that unit Advanced (no Advance roll is made)",
-            "ru": "в фазе, когда отряд совершил Advance (бросок не делается)"
+            "en": "in a phase this unit Advanced, with the advance roll changed to a 6",
+            "ru": "в фазе, когда отряд совершил Advance, с advance roll, заменённым на 6"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase this unit Advanced, with the advance roll changed to a 6",
+            "ru": "в фазе, когда отряд совершил Advance, с advance roll, заменённым на 6"
           },
           "cond": [
             "unit-advanced"
           ],
-          "target": "unit"
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "3da4eee3-89af-4037-aefa-12023bbc67b1:ragnar-blackmane",
+      "sid": "1e5af9ae-dd29-4f49-9fc4-0acad16fa4fd:ragnar-blackmane",
       "kind": "ability",
       "name": "Ragnar Blackmane: Battle-lust",
       "det": null,
@@ -131,8 +218,8 @@ export default {
         "kind": "ability",
         "unit": "ragnar-blackmane"
       },
-      "hash": "f38068e0",
-      "ver": 925,
+      "hash": "8bfa6ee9",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -140,12 +227,9 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 2,
-          "only": {
-            "name": "Frostfang"
-          },
           "when": {
-            "en": "until the end of a turn it ended a Charge move",
-            "ru": "до конца хода, в котором завершил Charge"
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
           },
           "cond": [
             "unit-charged"
@@ -154,65 +238,40 @@ export default {
       ]
     },
     {
-      "sid": "a7069d52-c411-40a4-b338-669be44af016:thunderwolf-cavalry",
+      "sid": "1ef9fe5a-fd89-44a4-ba15-b89d5bca73f6:ragnar-blackmane",
       "kind": "ability",
-      "name": "Thunderwolf Cavalry: Thunderous Charge",
+      "name": "Ragnar Blackmane: War Howl",
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "thunderwolf-cavalry"
+        "unit": "ragnar-blackmane"
       },
-      "hash": "bb731a97",
-      "ver": 925,
+      "hash": "d456c10a",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "melee",
-          "stat": "d",
+          "stat": "s",
           "op": "add",
           "value": 1,
-          "only": {
-            "name": "Wolf Guard"
-          },
           "when": {
-            "en": "if this unit made a Charge move this turn",
-            "ru": "если отряд совершил Charge в этом ходу"
+            "en": "while this model is attached to a BLOOD CLAWS unit",
+            "ru": "пока модель присоединена к отряду BLOOD CLAWS"
           },
           "cond": [
-            "unit-charged"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "e529cc68-31ea-4e22-8a19-6ca81aaa91f5:ulrik-the-slayer",
-      "kind": "ability",
-      "name": "Ulrik the Slayer: Oathbound",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "ulrik-the-slayer"
-      },
-      "hash": "1db00418",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
-          "when": null,
+            "never"
+          ],
           "target": "unit"
         },
         {
           "on": "melee",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "against a unit that has this model’s Slayer’s Oath keyword",
-            "ru": "по отряду с ключевым словом Slayer’s Oath этой модели"
+            "en": "while this model is attached to a BLOOD CLAWS unit",
+            "ru": "пока модель присоединена к отряду BLOOD CLAWS"
           },
           "cond": [
             "never"
@@ -222,29 +281,48 @@ export default {
       ]
     },
     {
-      "sid": "605fa95b-842d-4edc-8451-831c87db9f3b:venerable-dreadnought",
+      "sid": "5210eeb0-688a-4877-92ba-7c821b6e79e3:thunderwolf-cavalry",
       "kind": "ability",
-      "name": "Venerable Dreadnought: Fervour of the Ancients",
+      "name": "Thunderwolf Cavalry: Thunderous Charge",
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "venerable-dreadnought",
-        "scopes": [
-          {
-            "targets": [
-              "SPACE WOLVES"
-            ],
-            "excludes": []
-          }
-        ]
+        "unit": "thunderwolf-cavalry"
       },
-      "hash": "df5d46d9",
-      "ver": 925,
+      "hash": "81439197",
+      "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
-      "sid": "8e94dbbe-8d1c-489a-95b0-84124330dce9:wolf-guard-battle-leader",
+      "sid": "034419af-dce0-48aa-925c-551cc62870bf:wolf-guard-battle-leader",
       "kind": "ability",
       "name": "Wolf Guard Battle Leader: Tempered Ferocity",
       "det": null,
@@ -252,8 +330,8 @@ export default {
         "kind": "ability",
         "unit": "wolf-guard-battle-leader"
       },
-      "hash": "8629651a",
-      "ver": 925,
+      "hash": "5a25e1e4",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -261,13 +339,20 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "SUSTAINED HITS 1",
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "unit"
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "04e6754e-fec6-4e6e-bdef-40615b130dbf:wolf-guard-headtakers",
+      "sid": "6a05ab90-3ac5-46fb-b44b-e7e06fc0fdb2:wolf-guard-headtakers",
       "kind": "ability",
       "name": "Wolf Guard Headtakers: Headhunters",
       "det": null,
@@ -275,8 +360,8 @@ export default {
         "kind": "ability",
         "unit": "wolf-guard-headtakers"
       },
-      "hash": "b0fd3454",
-      "ver": 925,
+      "hash": "03fe638d",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -308,7 +393,7 @@ export default {
       ]
     },
     {
-      "sid": "3a1fd791-197d-4de4-ba5d-5c976be0576b:wolf-guard-headtakers",
+      "sid": "dc7e4ecc-4ffd-4d49-9db7-ee10d23f6660:wolf-guard-headtakers",
       "kind": "ability",
       "name": "Wolf Guard Headtakers: Hunting Hounds",
       "det": null,
@@ -316,13 +401,28 @@ export default {
         "kind": "ability",
         "unit": "wolf-guard-headtakers"
       },
-      "hash": "b488bac6",
-      "ver": 925,
+      "hash": "133a3c07",
+      "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Hunting Wolf models only, while within 6\" of a friendly SPACE WOLVES CHARACTER model (excluding WULFEN) and not battle-shocked",
+            "ru": "только модели Hunting Wolf, пока в пределах 6\" от дружественной модели SPACE WOLVES CHARACTER (кроме WULFEN) и не battle-shocked"
+          },
+          "cond": [
+            "blocked-subset",
+            "never"
+          ]
+        }
+      ]
     },
     {
-      "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:wolf-priest",
+      "sid": "c2399b89-2877-4b9b-9ad2-0b22a3dc9a63:wolf-priest",
       "kind": "ability",
       "name": "Wolf Priest: Litany of Hate",
       "det": null,
@@ -330,50 +430,29 @@ export default {
         "kind": "ability",
         "unit": "wolf-priest"
       },
-      "hash": "ff1c3e96",
-      "ver": 925,
+      "hash": "596d0ee2",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "melee",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": null,
-          "target": "unit"
-        }
-      ]
-    },
-    {
-      "sid": "b9ca957a-30df-4c4e-975f-ef014c23fba3:wolf-scouts",
-      "kind": "ability",
-      "name": "Wolf Scouts: Deadly Stalkers",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "wolf-scouts"
-      },
-      "hash": "570a574f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": null
+        },
         {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "if no other enemy units are within 6\" of the target",
-            "ru": "если в 6\" от цели нет других отрядов противника"
-          },
-          "cond": [
-            "never"
-          ]
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": null,
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "aa17b3c5-1b61-4725-9044-405366b91850:wolf-scouts",
+      "sid": "da0e3ebc-2c88-4af7-854c-bb5fc80369ef:wolf-scouts",
       "kind": "ability",
       "name": "Wolf Scouts: Hunting Hounds",
       "det": null,
@@ -381,13 +460,28 @@ export default {
         "kind": "ability",
         "unit": "wolf-scouts"
       },
-      "hash": "056b2a5f",
-      "ver": 925,
+      "hash": "133a3c07",
+      "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Hunting Wolf models only, while within 6\" of a friendly SPACE WOLVES CHARACTER model (excluding WULFEN) and not battle-shocked",
+            "ru": "только модели Hunting Wolf, пока в пределах 6\" от дружественной модели SPACE WOLVES CHARACTER (кроме WULFEN) и не battle-shocked"
+          },
+          "cond": [
+            "blocked-subset",
+            "never"
+          ]
+        }
+      ]
     },
     {
-      "sid": "2941a942-f21f-4911-920c-4c191f83be73:wulfen-dreadnought",
+      "sid": "58308049-cb35-4159-80d1-1cf89d6c9982:wulfen-dreadnought",
       "kind": "ability",
       "name": "Wulfen Dreadnought: Violent Fury",
       "det": null,
@@ -395,8 +489,8 @@ export default {
         "kind": "ability",
         "unit": "wulfen-dreadnought"
       },
-      "hash": "b06c5999",
-      "ver": 925,
+      "hash": "fe5cf788",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -405,11 +499,38 @@ export default {
           "op": "grant",
           "value": "TWIN-LINKED",
           "when": {
-            "en": "if this model took two melee weapons",
-            "ru": "если модель взяла два оружия ближнего боя"
+            "en": "if this model is equipped with two melee weapons",
+            "ru": "если модель оснащена двумя оружиями ближнего боя"
           },
           "cond": [
             "wargear-two-melee"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "de2e0296-b1c3-40f0-8dc4-81afd0e9a5c9",
+      "kind": "armyRule",
+      "name": "Combat Doctrines",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "4b1af9f6",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while the Devastator Doctrine is active for this unit",
+            "ru": "пока для отряда активна Devastator Doctrine"
+          },
+          "cond": [
+            "doctrine-devastator"
           ]
         }
       ]
@@ -455,87 +576,55 @@ export default {
       }
     },
     {
-      "sid": "60d212ba-251a-4824-9d55-364185c514cd",
+      "sid": "1390506b-d445-4234-91ff-7878a2dc9573",
       "kind": "detachmentRule",
       "name": "Legendary Slayers",
       "det": "Saga of the Beastslayer",
-      "hash": "c0480cea",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
       "ref": {
         "kind": "detachmentRule",
         "det": "saga-of-the-beastslayer"
-      }
+      },
+      "hash": "66c3c476",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS: CHARACTER/MONSTER/VEHICLE",
+          "when": null
+        }
+      ]
     },
     {
-      "sid": "38904dca-ee2d-4fc4-90c9-2c8718e22695",
+      "sid": "cc1fe2f2-96cb-458b-b97b-12b9f0e2bc35",
       "kind": "detachmentRule",
       "name": "Master of Wolves",
       "det": "Saga of the Great Wolf",
-      "hash": "c9e2983a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while the Hunter’s Eye Hunting Pack is active",
-            "ru": "пока активна Hunting Pack Hunter’s Eye"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "saga-of-the-great-wolf"
-      }
-    },
-    {
-      "sid": "633d9fbe-c211-4318-bbb0-867702489070",
-      "kind": "detachmentRule",
-      "name": "Pack’s Quarry",
-      "det": "Saga of the Hunter",
-      "hash": "9c7b941e",
-      "ver": 925,
+      },
+      "hash": "a29b954b",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
-          "on": "melee",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "if the target is engaged with another of your ADEPTUS ASTARTES units, or your unit has more models",
-            "ru": "если цель в Engagement Range другого вашего отряда ADEPTUS ASTARTES или в вашем отряде больше моделей"
+            "en": "Ferocious Strike: while the Tactical Doctrine is active for this unit, against targets within 9\"",
+            "ru": "Ferocious Strike: пока для отряда активна Tactical Doctrine, по целям в пределах 9\""
           },
           "cond": [
-            "never"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "as above, once your Saga is completed",
-            "ru": "то же, когда Saga завершена"
-          },
-          "cond": [
+            "doctrine-tactical",
             "never"
           ]
         }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "saga-of-the-hunter"
-      }
+      ]
     },
     {
       "sid": "908a1c13-a1bb-44de-9af2-1f55652d6c0a",
@@ -557,370 +646,25 @@ export default {
       ]
     },
     {
-      "sid": "14e6c085-26e1-4a1d-9b1c-1f784e12c24e",
+      "sid": "af0f6c25-cc30-4454-bf03-6ef1a30c0659",
       "kind": "enhancement",
-      "name": "A Giant Amongst Giants",
-      "det": "Champions of Fenris",
-      "ref": {
-        "kind": "enhancement",
-        "det": "champions-of-fenris"
-      },
-      "hash": "913a23bb",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "w",
-          "op": "add",
-          "value": 2,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "b01a927f-833a-41f0-93b2-517f49d54614",
-      "kind": "enhancement",
-      "name": "Fierce Example (Upgrade)",
-      "det": "Legends of Saga and Song",
-      "ref": {
-        "kind": "enhancement",
-        "det": "legends-of-saga-and-song"
-      },
-      "hash": "25074acf",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "t",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "6bb394ee-ecc3-4447-bead-f3d003753b0b",
-      "kind": "enhancement",
-      "name": "Thirst for Glory (Upgrade)",
-      "det": "Legends of Saga and Song",
-      "ref": {
-        "kind": "enhancement",
-        "det": "legends-of-saga-and-song"
-      },
-      "hash": "13880a28",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "oc",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "02dfd50a-9607-4ee7-894f-801322ead37b",
-      "kind": "enhancement",
-      "name": "Elder’s Guidance",
-      "det": "Saga of the Beastslayer",
-      "hash": "5a259109",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "when": {
-            "en": "once per battle, for the Fight phase, while the bearer leads a Blood Claws unit",
-            "ru": "один раз за битву, на фазу боя, пока носитель ведёт отряд Blood Claws"
-          },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "saga-of-the-beastslayer"
-      }
-    },
-    {
-      "sid": "ad4dadc7-2b9d-4fae-ae4e-9fc6a747fb0d",
-      "kind": "enhancement",
-      "name": "Wolf-touched",
-      "det": "Saga of the Beastslayer",
-      "ref": {
-        "kind": "enhancement",
-        "det": "saga-of-the-beastslayer"
-      },
-      "hash": "6560c900",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "m",
-          "op": "add",
-          "value": 2,
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "be26ea25-635f-4042-a1d0-4a0fbff0c0e5",
-      "kind": "enhancement",
-      "name": "Braggart’s Steel",
-      "det": "Saga of the Bold",
-      "hash": "80daf934",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 2,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "d",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "if the bearer's unit has achieved one or more Boasts",
-            "ru": "если отряд носителя выполнил хотя бы одно Boast"
-          },
-          "cond": [
-            "unit-achieved-boast"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "saga-of-the-bold"
-      }
-    },
-    {
-      "sid": "8f4d4dc6-adf0-44ac-a8fc-efdcbd7d5c2c",
-      "kind": "enhancement",
-      "name": "Hordeslayer",
-      "det": "Saga of the Bold",
-      "hash": "ee805bbd",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 2,
-          "when": {
-            "en": "for the Fight phase, if more enemy than friendly models are wholly within 6\" of the bearer",
-            "ru": "на фазу боя, если в 6\" от носителя целиком больше вражеских моделей, чем дружественных"
-          },
-          "cond": [
-            "never"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 3,
-          "when": {
-            "en": "instead, if the bearer's unit has achieved one or more Boasts",
-            "ru": "вместо этого, если отряд носителя выполнил хотя бы одно Boast"
-          },
-          "cond": [
-            "never"
-          ],
-          "alt": 0
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "saga-of-the-bold"
-      }
-    },
-    {
-      "sid": "aa4fc796-1ecd-49c1-8b30-fd0d09f4292e",
-      "kind": "enhancement",
-      "name": "Skjald’s Foretelling",
+      "name": "Skjald's Foretelling",
       "det": "Saga of the Great Wolf",
       "ref": {
         "kind": "enhancement",
         "det": "saga-of-the-great-wolf"
       },
-      "hash": "b9ccc4ba",
-      "ver": 925,
+      "hash": "1bda95f9",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
-          "on": "weapon",
+          "on": "melee",
           "stat": "ability",
           "op": "grant",
           "value": "LANCE",
-          "when": {
-            "en": "while the bearer is leading a unit",
-            "ru": "пока носитель ведёт отряд"
-          },
-          "cond": [
-            "unit-leading"
-          ],
-          "target": "led"
-        }
-      ]
-    },
-    {
-      "sid": "99e44607-2ea9-4472-91b5-f1a941b220a9",
-      "kind": "enhancement",
-      "name": "Fenrisian Grit",
-      "det": "Saga of the Hunter",
-      "ref": {
-        "kind": "enhancement",
-        "det": "saga-of-the-hunter"
-      },
-      "hash": "02afa46f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 4+",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "5a05c63a-00fc-4359-9a5e-ccac2c95b3d9",
-      "kind": "enhancement",
-      "name": "Feral Rage",
-      "det": "Saga of the Hunter",
-      "hash": "71fe66dd",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "an additional +1 until the end of the turn, after the bearer ends a Charge move",
-            "ru": "дополнительно +1 до конца хода, после того как носитель завершил чардж"
-          },
-          "cond": [
-            "unit-charged"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "saga-of-the-hunter"
-      }
-    },
-    {
-      "sid": "178dc16b-0b05-49e6-8629-527b903d4255",
-      "kind": "enhancement",
-      "name": "Swift Hunter",
-      "det": "Saga of the Hunter",
-      "ref": {
-        "kind": "enhancement",
-        "det": "saga-of-the-hunter"
-      },
-      "hash": "63d46be1",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Scouts 7\"",
           "when": null,
           "target": "led"
-        }
-      ]
-    },
-    {
-      "sid": "c45ceb28-43f5-4c20-814c-96de4a95a201",
-      "kind": "enhancement",
-      "name": "Wolf Master",
-      "det": "Saga of the Hunter",
-      "ref": {
-        "kind": "enhancement",
-        "det": "saga-of-the-hunter",
-        "scopes": [
-          {
-            "targets": [
-              "SPACE WOLVES"
-            ],
-            "excludes": []
-          }
-        ]
-      },
-      "hash": "887e263f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "bea7180e-44b2-43b3-b3b9-584a06e83a19",
-      "kind": "enhancement",
-      "name": "Eye of the Hunter",
-      "det": "Veterans of the Fang",
-      "ref": {
-        "kind": "enhancement",
-        "det": "veterans-of-the-fang"
-      },
-      "hash": "4cd37d89",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "ASSAULT",
-          "when": null
-        },
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "IGNORES COVER",
-          "when": null
-        },
-        {
-          "on": "ranged",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "when": null
         }
       ]
     },
@@ -981,65 +725,44 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "9dc26557-7328-4a29-9938-9849ecf497b2",
+      "sid": "c5dc5810-b281-4544-b445-40bb13249e28",
       "kind": "stratagem",
-      "name": "Stalk Between Worlds",
-      "det": "Champions of Fenris",
+      "name": "Unbridled Feroicity",
+      "det": "Saga of the Beastslayer",
       "ref": {
         "kind": "stratagem",
-        "det": "champions-of-fenris",
-        "name": "Stalk Between Worlds"
+        "det": "saga-of-the-beastslayer",
+        "name": "Unbridled Feroicity"
       },
-      "hash": "38b9e784",
-      "ver": 925,
+      "hash": "127e1a54",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
-          "on": "unit",
-          "stat": "core",
+          "on": "melee",
+          "stat": "ability",
           "op": "grant",
-          "value": "Stealth",
-          "when": null
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
         }
       ],
       "dur": "phase"
     },
     {
-      "sid": "a360ace1-2a1d-4db9-97d7-e304b0224ca1",
-      "kind": "stratagem",
-      "name": "Wolf Totems",
-      "det": "Champions of Fenris",
-      "ref": {
-        "kind": "stratagem",
-        "det": "champions-of-fenris",
-        "name": "Wolf Totems"
-      },
-      "hash": "5967579f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 5+ (vs mortal wounds)",
-          "when": null
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "f64b6cdc-e007-4358-8e50-9358007ac5ac",
+      "sid": "f0bfde93-d8a5-4170-936a-c8208bc2ef43",
       "kind": "stratagem",
       "name": "Fangs of the Pack",
-      "det": "Legends of Saga and Song",
+      "det": "Saga of the Great Wolf",
       "ref": {
         "kind": "stratagem",
-        "det": "legends-of-saga-and-song",
+        "det": "saga-of-the-great-wolf",
         "name": "Fangs of the Pack"
       },
       "hash": "bf79a709",
-      "ver": 925,
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -1056,90 +779,24 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "5816dd17-6d98-4205-89bb-017b833d4877",
+      "sid": "4eb79734-dc04-45a6-8ed5-b8632a7a8a85",
       "kind": "stratagem",
-      "name": "Unbridled Ferocity",
-      "det": "Saga of the Beastslayer",
+      "name": "Wolf Totems",
+      "det": "Saga of the Great Wolf",
       "ref": {
         "kind": "stratagem",
-        "det": "saga-of-the-beastslayer",
-        "name": "Unbridled Ferocity"
+        "det": "saga-of-the-great-wolf",
+        "name": "Wolf Totems"
       },
-      "hash": "78ce0ea9",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "a4722680-da41-426d-9c44-0444928b4945",
-      "kind": "stratagem",
-      "name": "Birth of a Saga",
-      "det": "Saga of the Bold",
-      "ref": {
-        "kind": "stratagem",
-        "det": "saga-of-the-bold",
-        "name": "Birth of a Saga"
-      },
-      "hash": "d0000b50",
-      "ver": 925,
+      "hash": "5967579f",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "unit",
-          "stat": "keyword",
+          "stat": "core",
           "op": "grant",
-          "value": "Character",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "round"
-    },
-    {
-      "sid": "cc1ef85f-06f7-43a5-b7ff-3a3f4785d573",
-      "kind": "stratagem",
-      "name": "Heroic Resolve",
-      "det": "Saga of the Bold",
-      "ref": {
-        "kind": "stratagem",
-        "det": "saga-of-the-bold",
-        "name": "Heroic Resolve"
-      },
-      "hash": "6d37add7",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "5994a824-1ade-4db3-ac74-74012ad8303f",
-      "kind": "stratagem",
-      "name": "Inspiring Presence",
-      "det": "Saga of the Bold",
-      "ref": {
-        "kind": "stratagem",
-        "det": "saga-of-the-bold",
-        "name": "Inspiring Presence"
-      },
-      "hash": "0b5272c7",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "LETHAL HITS",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
@@ -1149,98 +806,7 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "5407c9dd-c9b0-48cf-9614-8dfe641a85bf",
-      "kind": "stratagem",
-      "name": "Eye of the Pack",
-      "det": "Saga of the Great Wolf",
-      "ref": {
-        "kind": "stratagem",
-        "det": "saga-of-the-great-wolf",
-        "name": "Eye of the Pack"
-      },
-      "hash": "076f75ba",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "f0bfbe43-83ab-4fe0-8c52-f0f389a7f1f5",
-      "kind": "stratagem",
-      "name": "The Foe Foreseen",
-      "det": "Saga of the Great Wolf",
-      "ref": {
-        "kind": "stratagem",
-        "det": "saga-of-the-great-wolf",
-        "name": "The Foe Foreseen"
-      },
-      "hash": "068f028a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:thunderwolf-cavalry",
-      "kind": "wargear",
-      "name": "Thunderwolf Cavalry: Storm Shield",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "thunderwolf-cavalry",
-        "item": "storm shield"
-      },
-      "hash": "5e0ca50d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": {
-            "en": "the bearer only",
-            "ru": "только носитель"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "dbc80516-c93e-476a-8b61-f86f5be11ee8:venerable-dreadnought",
-      "kind": "wargear",
-      "name": "Venerable Dreadnought: Blizzard Shield",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "venerable-dreadnought",
-        "item": "blizzard shield"
-      },
-      "hash": "5e0ca50d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "f6eb2ceb-969b-4268-a7c0-4dd6bd428a35:wolf-guard-battle-leader",
+      "sid": "33ffd159-0227-4b14-a504-7452ad364393:wolf-guard-battle-leader",
       "kind": "wargear",
       "name": "Wolf Guard Battle Leader: Storm Shield",
       "det": null,
@@ -1249,50 +815,21 @@ export default {
         "unit": "wolf-guard-battle-leader",
         "item": "storm shield"
       },
-      "hash": "6026918c",
-      "ver": 925,
+      "hash": "24c8e47f",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "profile",
           "stat": "w",
-          "op": "set",
-          "value": "6",
+          "op": "add",
+          "value": 1,
           "when": null
         }
       ]
     },
     {
-      "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:wolf-guard-headtakers",
-      "kind": "wargear",
-      "name": "Wolf Guard Headtakers: Storm Shield",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "wolf-guard-headtakers",
-        "item": "storm shield"
-      },
-      "hash": "5e0ca50d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": {
-            "en": "the bearer only",
-            "ru": "только носитель"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "7b6f34d2-cadf-4b4b-83ca-343026d55249:wolf-guard-terminators",
+      "sid": "33ffd159-0227-4b14-a504-7452ad364393:wolf-guard-terminators",
       "kind": "wargear",
       "name": "Wolf Guard Terminators: Storm Shield",
       "det": null,
@@ -1301,45 +838,22 @@ export default {
         "unit": "wolf-guard-terminators",
         "item": "storm shield"
       },
-      "hash": "38451d6c",
-      "ver": 925,
+      "hash": "24c8e47f",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "profile",
           "stat": "w",
-          "op": "set",
-          "value": "4",
+          "op": "add",
+          "value": 1,
           "when": {
             "en": "the bearer only",
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
-        }
-      ]
-    },
-    {
-      "sid": "dbc80516-c93e-476a-8b61-f86f5be11ee8:wulfen-dreadnought",
-      "kind": "wargear",
-      "name": "Wulfen Dreadnought: Blizzard Shield",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "wulfen-dreadnought",
-        "item": "blizzard shield"
-      },
-      "hash": "5e0ca50d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": null
         }
       ]
     }

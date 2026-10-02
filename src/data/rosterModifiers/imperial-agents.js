@@ -8,21 +8,7 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "95f007e6-3ff6-4664-ab65-a2d04760db65:aquila-kill-team",
-      "kind": "ability",
-      "name": "Aquila Kill Team: Death to the Alien",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "aquila-kill-team"
-      },
-      "hash": "a5dbf863",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "1e689318-8f2f-40dd-b791-ab84d3abc511:aquila-kill-team",
+      "sid": "b7bf8d62-0f75-4e4b-bc0f-662c1a16ef68:aquila-kill-team",
       "kind": "ability",
       "name": "Aquila Kill Team: Kill Team",
       "det": null,
@@ -30,10 +16,32 @@ export default {
         "kind": "ability",
         "unit": "aquila-kill-team"
       },
-      "hash": "18dbc340",
-      "ver": 925,
+      "hash": "da4e1674",
+      "ver": 963,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "cf0e2c9b-6fee-4388-8434-38600335cc8d:corvus-blackstar",
+      "kind": "ability",
+      "name": "Corvus Blackstar: Auspex Array",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "corvus-blackstar"
+      },
+      "hash": "7edac6d1",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f8711d73-0a55-4e7d-a23c-92b9b2ec60b2:culexus-assassin",
@@ -56,20 +64,6 @@ export default {
           "when": null
         }
       ]
-    },
-    {
-      "sid": "95f007e6-3ff6-4664-ab65-a2d04760db65:deathwatch-kill-team",
-      "kind": "ability",
-      "name": "Deathwatch Kill Team: Death to the Alien",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "deathwatch-kill-team"
-      },
-      "hash": "a5dbf863",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
     },
     {
       "sid": "3abf4a41-24a8-4b00-99ff-070da866be07:eversor-assassin",
@@ -678,7 +672,7 @@ export default {
       ]
     },
     {
-      "sid": "9750151c-8ecb-4051-a25b-5d34af7869e8:watch-captain-artemis",
+      "sid": "cdf49818-e7ce-4f10-852a-a41ba42689fa:watch-captain-artemis",
       "kind": "ability",
       "name": "Watch Captain Artemis: Tactical Instinct",
       "det": null,
@@ -686,17 +680,24 @@ export default {
         "kind": "ability",
         "unit": "watch-captain-artemis"
       },
-      "hash": "abe50645",
-      "ver": 925,
+      "hash": "38355f6d",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "weapon",
           "stat": "ability",
           "op": "grant",
-          "value": "LETHAL HITS",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "unit"
+          "target": "led"
         }
       ]
     },
@@ -1608,8 +1609,8 @@ export default {
         "det": "veiled-blade-elimination-force",
         "name": "Ensnaring Trap"
       },
-      "hash": "f1ef0cb5",
-      "ver": 925,
+      "hash": "f82ef638",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -1711,35 +1712,6 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "bd82612d-1cc5-4408-bcdb-43affb04b068:aquila-kill-team",
-      "kind": "wargear",
-      "name": "Aquila Kill Team: Astartes shield",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "aquila-kill-team",
-        "item": "astartes shield"
-      },
-      "hash": "5e0ca50d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": {
-            "en": "the bearer only",
-            "ru": "только носитель"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        }
-      ]
-    },
-    {
       "sid": "f7579dbf-b927-430a-8da6-c82b100cc0ba:corvus-blackstar",
       "kind": "wargear",
       "name": "Corvus Blackstar: Auspex Array",
@@ -1759,58 +1731,6 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": null
-        }
-      ]
-    },
-    {
-      "sid": "d5028f22-7248-4d7e-8550-23ebbf37c0a5:corvus-blackstar",
-      "kind": "wargear",
-      "name": "Corvus Blackstar: Infernum Halo-launcher",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "corvus-blackstar",
-        "item": "infernum halo-launcher"
-      },
-      "hash": "46cafc31",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "keyword",
-          "op": "grant",
-          "value": "Smoke",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "bd82612d-1cc5-4408-bcdb-43affb04b068:deathwatch-kill-team",
-      "kind": "wargear",
-      "name": "Deathwatch Kill Team: Astartes shield",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "deathwatch-kill-team",
-        "item": "astartes shield"
-      },
-      "hash": "5e0ca50d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": {
-            "en": "the bearer only",
-            "ru": "только носитель"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
         }
       ]
     },
@@ -1884,7 +1804,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]

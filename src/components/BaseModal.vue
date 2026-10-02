@@ -44,10 +44,10 @@
           <header
             v-else-if="title"
             class="modal-head"
-            :class="{ 'two-line': subtitle || dense, dense }"
+            :class="{ 'two-line': subtitle || $slots.subtitle || dense, dense }"
           >
             <div
-              v-if="subtitle"
+              v-if="subtitle || $slots.subtitle"
               class="mh-text"
             >
               <h3
@@ -56,8 +56,11 @@
               >
                 {{ title }}
               </h3>
+              <!-- `#subtitle` for a subtitle that needs markup (coloured names); plain text otherwise. -->
               <p class="mh-sub">
-                {{ subtitle }}
+                <slot name="subtitle">
+                  {{ subtitle }}
+                </slot>
               </p>
             </div>
             <h3

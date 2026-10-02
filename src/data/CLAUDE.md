@@ -30,6 +30,22 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
   "detection range", "Hit rolls" — about 2100 places, plus ~1460 keywords outside the renderer's
   auto-bold list. Marking those buys far less than it costs, and `npm run emphasis` prints both
   counts on every run so the decision stays visible instead of rotting into undocumented debt.
+  **Changed for every faction (owner, 2026-09-30; Space Marines in v2.7.8, the rest in v2.7.9):**
+  every bold term the glossary knows is a popover — `**[gloss:<id>:<text>]**` — and a bold core unit ability is
+  `[core:…]`. Not by hand: `npm run gloss` (`scripts/gloss-bold-terms.mjs`) links EN through the
+  glossary terms and every English label already in a gloss token, RU through its own table of
+  inflected forms, and skips what is not a rules term (loadout headers, item names, one-rule states
+  like a unit's "quarry"). The generators re-run it after rewriting one of those files, and
+  `npm run sync` reminds (⚠, never ✗) when a faction has plain bold the glossary could link. The text-drift checks strip gloss tokens before comparing, so none of this is a finding.
+  **One popover per term per section**: the first mention in a string, and again after each `### `
+  subheading; a repeat stays plain bold ("боевая доктрина" four times in one list was too much).
+  A new faction is covered by having a rules file (`GLOSS_SLUGS` reads the directory); a Russian
+  wording the pass does not know goes into `RU_FORMS`. **The bold itself comes from the canon**:
+  hand-typed factions carried almost none, so `scripts/restore-gloss-bold.mjs` put back the bold
+  appdata gives a glossary term (the emphasis gate's class C, narrowed to what the glossary knows),
+  EN and RU together or not at all — the RU twin is the pair `parity` checks, a term is marked only
+  where it occurs as often in RU as in EN, and everything else is reported and left alone. Run it
+  (`--show` first) after hand-transcribing new rules, then `npm run gloss`.
 - **EN↔RU structural parity:** the per-section counts of block markers (`▪ ◈ → ### ◆ [img:]`) must match between `en` and `ru`. After bulk edits, verify: `**` is balanced (even, no `****`), parity holds, and `npm run build` passes. **`npm run parity` now enforces this on the rulebook files too** (it used to cover faction data only): block markers, `[BRACKET]` abilities, measurements (`3"`, `D6`, `4+`, `+1`) and ALL-CAPS keywords must match EN↔RU, and every EN field must have RU text. Rule cross-references (`09.07`) deliberately are not compared — each locale points where its own layout needs. Notes (`**` counts) are summarised; `--notes` lists them.
 - **RU transliteration:** follow the source's apostrophes, using the typographic `’` (U+2019) — `Kauyon` → «кауйон» (none), `Mont’ka` → «монт’ка», `T'au` → «т’ау». Latin forms inside RU text keep their own (`T'au Empire`, the `T'AU EMPIRE` keyword). These match the Russian community's translation guide; that guide covers Black Library prose, so it applies to **flavour text and transliteration only** and never overrides the rule above that unit/detachment/stratagem names and ALL-CAPS keywords stay English. Settled cases are recorded here as they're decided — that's the source of truth for this repo.
   - `Scion` → «**сцион**», never «скион» (decided 2026-09-10). Every inflection follows the same
@@ -149,23 +165,16 @@ pre-errata ability text, outdated points, wrong core-ability labels) that had si
 sync with the shared pool. Each Chapter's `ru/<slug>.js` RU overlay was already ahead of this — its
 own `SHARED` list already assumed the correct fold — so only the EN files needed the catch-up.
 
-The Space Marines pack's **Warhammer Legends** (76 sheets) are in the same lists since 2026-09-20,
-by the Chapter rule itself — "any ADEPTUS ASTARTES unit not drawn from another Chapter" — and the
-one place a pack says so out loud: the Deathwatch pack's restriction list names seven of them by
-name (Assault Squad, Assault Squad with Jump Packs, Attack Bike Squad, Land Speeder Storm, Relic
-Terminator Squad, Scout Bike Squad, Scout Sniper Squad), which only makes sense if the rest are
-takeable. appdata has no row for any of this (it carries no Legends outside the Orks), so the
-exclusions are hand-held, per Chapter: every Chapter drops the four with an ULTRAMARINES keyword
-(Chaplain Cassius, Sergeant Chronus, Sergeant Telion, Tyrannic War Veterans — the same reason
-Calgar and Tigurius are not shared); Deathwatch the seven above; Black Templars the two Librarians
-(Codex: Black Templars — "cannot include any ADEPTUS ASTARTES PSYKER models"); Space Wolves the
-Venerable Dreadnought (their own sheet holds the id) and the Apothecary on Bike (appdata's
-`faction_keyword_excluded_datasheet` keeps both codex Apothecaries out of a Wolves army; the
-Legends one follows by the owner's decision, not by a printed line). Ferren Areios is shared: his
-sheet reads ADEPTUS ASTARTES only, even though the MFM prices him under an Ultramarines heading —
-the datasheet decides the Chapter, the MFM only the points. The RU `SHARED` lists carry the same
-ids because `gen-seo-routes.mjs` reads a Chapter's RU default directly rather than through
-`loadDatasheetsRu`'s fold. Hub journal: `journal/archive/2026/2026-09-19-sm-legends-in-chapters.md`.
+**Since app data 963 (Codex: Space Marines) the fold is derived, not kept by hand**:
+`scripts/gen-datasheets.mjs <chapter> --write` writes `sharedUnitIds` as every Codex sheet with no
+second Faction keyword that the Chapter has no own version of and that neither appdata's
+`faction_keyword_excluded_datasheet` nor the Chapter's army rule forbids (Black Templars: no PSYKER;
+Space Wolves: no APOTHECARY). The 28 sheets of GW's own "Legends: Space Marines" are shared like any
+other; the 60 older Faction Pack Legends the MFM no longer prints were retired (recorded in
+`datasheetRenames.json`). A Chapter's own pack Legends (Blood Angels, Dark Angels, Space Wolves) stay
+for as long as the MFM prices them. The RU `SHARED` lists mirror `sharedUnitIds` because
+`gen-seo-routes.mjs` reads a Chapter's RU default directly rather than through `loadDatasheetsRu`'s
+fold. Hub journal: `journal/archive/2026/2026-09-24-sm-codex-prep.md`.
 
 ## Data gates
 
@@ -203,7 +212,7 @@ September even though `sync-core` printed it on every run — one finding among 
     of which 7 pointed at nothing). `aliasesRu` is deliberately out: it is search input, not rules.
 
 - **`npm run detmeta`** (`scripts/check-detachment-meta.mjs`) — a detachment's `dp` /
-  `forceDisposition` in the hand-authored `src/data/factions/<slug>.js` against `src/data/mfm/`.
+  `forceDispositions` (every one the MFM lists, in its order) in the hand-authored `src/data/factions/<slug>.js` against `src/data/mfm/`.
   `sync-tracker`'s `detachments` category compares MFM ↔ appdata and had been clean for months; the
   page the player actually reads was in neither side of it, and 63 values across 24 factions had
   drifted. The MFM wins — every faction file's own header says so. RU overlays carry neither field,
@@ -277,6 +286,20 @@ September even though `sync-core` printed it on every run — one finding among 
   gate and prints GW's own WHAT'S NEW; `--write` re-records it once the change has landed.
   Dominatus is tracked here as deliberately unimplemented — it only adapts the separate Dominatus
   deck, whose contents GW ships nowhere (appdata's `mission_pack_location*` tables are empty).
+
+- **`npm run exceptions`** (`scripts/check-appdata-exceptions.mjs`) — every place we knowingly
+  print something appdata does not, listed once in `scripts/lib/appdata-exceptions.mjs` with a
+  `why` and a `source` a person can open (a page of the printed codex, not "looks odd"). The
+  registry is a PATCH to appdata's own data: `loadAppdataBundle()` applies it for `gen-datasheets`,
+  `sync-appdata` and `sync-faction-text`, so a regeneration cannot transcribe the correction away and
+  the audits do not report it as drift. The gate reads appdata RAW and fails both ways: the error we
+  patch is gone or different (GW fixed or reworked it — re-read, drop or update the entry), or our
+  data no longer carries the correction (also `scripts/lib/appdata-exceptions.test.js`, which needs
+  no appdata clone, inside `npm test`). Born 2026-10-01: the 963 app lost the standard profile of
+  the Vanguard Veteran Squad with Jump Packs' plasma pistol, and the two wargear typos we had
+  corrected lived only as sync-baseline entries — quiet, but neither regeneration-proof nor able to
+  tell GW's fix from GW's change. Deciding to depart from appdata is the owner's call; the registry
+  is where the decision is written down.
 
 - **`npm run roster:data:check`** (`scripts/gen-roster-data.mjs`) — besides reporting that the
   generated faction files are stale, it fails on a wargear instruction whose SHAPE the replacement

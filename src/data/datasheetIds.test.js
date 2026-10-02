@@ -24,6 +24,9 @@ describe('datasheet ids', () => {
 
   it('covers every faction the index ships', () => {
     expect(res.factions).toBe(current.size)
-    expect(res.pairs).toBeGreaterThan(2000)
+    // A floor against an empty or half-written snapshot, not a count to keep. App data 963 took it
+    // from ~2100 to 1765 legitimately: the MFM dropped 60 Faction Pack Legends of Space Marines,
+    // and each of them was listed under Space Marines and all five Chapters.
+    expect(res.pairs).toBeGreaterThan(1500)
   })
 })

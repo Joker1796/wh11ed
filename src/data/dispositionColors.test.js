@@ -11,7 +11,7 @@ describe('disposition colours', () => {
     for (const d of eventCompanion.en.dispositions) expect(dispositionColor(d.name), d.name).toBeTruthy()
   })
   it('cover every disposition the MFM detachments carry', () => {
-    const names = new Set(mfmFactions.en.flatMap((f) => (f.detachments || []).map((d) => d.forceDisposition)))
+    const names = new Set(mfmFactions.en.flatMap((f) => (f.detachments || []).flatMap((d) => d.forceDispositions || [])))
     for (const n of names) expect(dispositionColor(n), n).toBeTruthy()
     expect(Object.keys(DISPOSITION_COLORS).sort()).toEqual([...names].sort())
   })

@@ -262,8 +262,8 @@ export const glossary = {
   },
   'move-type': {
     term: 'Move Type',
-    en: 'The kind of move being made — Normal, Advance, Fall Back or Charge.',
-    ru: 'Тип совершаемого манёвра — обычный манёвр, продвижение, отход или манёвр нападения.',
+    en: 'The kind of move being made; each has its own distance and restrictions. In your Movement phase: normal, advance or fall-back move. In the Charge phase: charge move. In the Fight phase: pile-in and consolidation moves. From a transport: disembark, emergency disembark, assault disembark and shock disembark moves. From reserves: ingress move. Others: surge move and scout move. A rule can name its own move type, which it then describes.',
+    ru: 'Вид совершаемого манёвра; у каждого своя дистанция и ограничения. В вашей фазе движения: обычный манёвр, продвижение или отступление. В фазе нападения: манёвр нападения. В фазе боя: манёвр сближения и манёвр консолидации. Из транспорта: манёвр высадки, экстренный, штурмовой и ударный манёвры высадки. Из резервов: манёвр прибытия. Другие: стремительный манёвр и разведывательный манёвр. Правило может ввести свой тип манёвра и тогда само его описывает.',
   },
   'normal-move': {
     term: 'Normal Move',
@@ -1297,10 +1297,51 @@ export const glossary = {
 
   'sm-combat-doctrine': {
     term: 'Combat Doctrine',
-    en: 'The Gladius Task Force detachment rule. At the start of your Command phase you may switch on one of three Doctrines — **Devastator** (shoot after Advancing), **Tactical** (shoot and charge after Falling Back) or **Assault** (charge after Advancing) — for the whole army until your next Command phase. Each may be chosen only once per battle.',
-    ru: 'Правило детачмента Gladius Task Force. В начале вашей фазы командования можно включить одну из трёх доктрин — **Devastator** (стрелять после продвижения), **Tactical** (стрелять и нападать после отступления) или **Assault** (нападать после продвижения) — на всю армию до вашей следующей фазы командования. Каждую можно выбрать лишь раз за битву.',
+    en: 'The Space Marines army rule. At the start of your Command phase you can make one of three doctrines active for your Adeptus Astartes units until your next one — **Assault** (charge after an advance move), **Devastator** (ranged attacks have [ASSAULT]) or **Tactical** (shoot and charge after a fall-back move). Each can be selected once per battle, and a unit has one active doctrine at a time: a rule that makes another one active for it replaces the first.',
+    ru: 'Армейское правило Space Marines. В начале вашей фазы командования можно сделать активной одну из трёх доктрин для ваших юнитов Adeptus Astartes до следующей — **Assault** (charge после advance move), **Devastator** (ranged-атаки получают [ASSAULT]) или **Tactical** (стрельба и charge после fall-back move). Каждую можно выбрать раз за бой, и у юнита активна одна доктрина: правило, делающее активной другую, заменяет первую.',
   },
 
+  // Codex: Space Marines (app data 963) — terms several rules of the codex and its Supplements share.
+  'psyker-level': {
+    term: 'Psyker Level / Psychic Level',
+    en: 'A PSYKER unit’s psyker level (in its abilities) is how much it can cast in a battle round; each psychic ability carries a psychic level in its name. In a battle round the unit can use psychic abilities whose psychic levels add up to no more than its psyker level.',
+    ru: 'Псайкерский уровень юнита PSYKER (указан в его способностях) — сколько он может использовать за раунд боя; у каждой псайкерской способности свой псайкерский уровень в названии. За раунд боя юнит может использовать способности, чьи уровни в сумме не превышают его псайкерский уровень.',
+  },
+  'psychic-roll': {
+    term: 'Psychic Roll',
+    en: 'The D6 a PSYKER unit rolls to use a psychic ability, if it is not battle-shocked. On a 1 the unit becomes battle-shocked; the ability’s effect applies either way unless the rule says otherwise.',
+    ru: 'Бросок D6, который юнит PSYKER делает, чтобы применить псайкерскую способность, если он не в боевом шоке. На 1 юнит попадает в боевой шок; эффект способности срабатывает в любом случае, если правило не говорит иначе.',
+  },
+  'shock-disembark-move': {
+    term: 'Shock Disembark Move',
+    en: 'A disembark from a TRANSPORT that made an advance move this turn (18.07): the unit is set up wholly within 3" of the transport, and afterwards cannot declare a charge this turn.',
+    ru: 'Высадка из TRANSPORT, который в этот ход совершил продвижение (18.07): юнит размещается полностью в пределах 3" от транспорта и после этого не может объявить нападение в этот ход.',
+  },
+  'assault-disembark-move': {
+    term: 'Assault Disembark Move',
+    en: 'A disembark that leaves the unit able to declare a charge afterwards (18.06): the unit is set up wholly within 3" of a TRANSPORT that has not advanced or fallen back this phase.',
+    ru: 'Высадка, после которой юнит может объявить нападение (18.06): юнит размещается полностью в пределах 3" от TRANSPORT, который в этой фазе не продвигался и не отступал.',
+  },
+  'sm-suppressed': {
+    term: 'Suppressed',
+    en: 'An enemy unit a Space Marines rule has pinned down. While suppressed, its attacks have -1 to hit rolls; the rule that suppresses it says for how long.',
+    ru: 'Вражеский юнит, прижатый огнём по правилу Space Marines. Пока он подавлен, его атаки имеют -1 к броскам на попадание; сколько это длится, сказано в правиле, которое его подавило.',
+  },
+  'sm-entrenched': {
+    term: 'Entrenched',
+    en: 'Ceramite Sentinels (Imperial Fists): a friendly ADEPTUS ASTARTES unit is entrenched while it is within a terrain area, was not set up this turn and no model in it moved more than 3" this turn. Several of the detachment’s rules only work on entrenched units.',
+    ru: 'Ceramite Sentinels (Imperial Fists): дружественный юнит ADEPTUS ASTARTES окопался, пока он находится на участке укрытия, не был размещён в этот ход и ни одна его модель не переместилась в этот ход больше чем на 3". Часть правил детачмента работает только для окопавшихся юнитов.',
+  },
+  'sm-snared': {
+    term: 'Snared (objective)',
+    en: 'An objective a Phobos unit has mined. When an enemy unit ends a move within range of a snared objective, roll one D6: on a 2+ that unit suffers D6 mortal wounds, and the objective stops being snared.',
+    ru: 'Цель, заминированная юнитом Phobos. Когда вражеский юнит заканчивает манёвр в зоне опутанной цели, бросьте D6: на 2+ этот юнит получает D6 смертельных ран, а цель перестаёт быть опутанной.',
+  },
+  'sm-assailed': {
+    term: 'Assailed',
+    en: 'Gauntlet Task Force: an enemy unit hit by a friendly ADEPTUS ASTARTES TRANSPORT’s shooting. Until the end of the turn, ADEPTUS ASTARTES units that disembarked this turn have [SUSTAINED HITS 1] against it.',
+    ru: 'Gauntlet Task Force: вражеский юнит, по которому попал обстрел дружественного ADEPTUS ASTARTES TRANSPORT. До конца хода юниты ADEPTUS ASTARTES, высадившиеся в этот ход, имеют против него [SUSTAINED HITS 1].',
+  },
   'sm-psychic-discipline': {
     term: 'Psychic Discipline',
     en: 'The Librarius Conclave detachment rule. At the start of each battle round you pick one of five Disciplines — Biomancy, Divination, Pyromancy, Telekinesis or Telepathy — and every friendly Adeptus Astartes Psyker unit gains that ability until the end of the round. Several of the detachment’s Enhancements do more when a specific Discipline is active.',
@@ -1312,6 +1353,38 @@ export const glossary = {
     term: 'Order',
     en: 'A battlefield order an OFFICER model issues to an eligible friendly unit within range, per the Voice of Command ability (or a similar ability): **Move! Move! Move!**, **Fix Bayonets!**, **Take Aim!**, **First Rank, Fire! Second Rank, Fire!**, **Take Cover!** or **Duty and Honour!**. A unit can only be affected by one Order at a time, and Orders cannot be issued to Battle-shocked units.',
     ru: 'Боевой приказ, который модель OFFICER отдаёт подходящему дружественному юниту в пределах дистанции по способности Voice of Command (или похожей способности): **Move! Move! Move!**, **Fix Bayonets!**, **Take Aim!**, **First Rank, Fire! Second Rank, Fire!**, **Take Cover!** или **Duty and Honour!**. Юнит одновременно может быть затронут только одним приказом, а юнитам в боевом шоке приказы отдавать нельзя.',
+  },
+
+  // Faction terms the canon bolds outside Space Marines (owner, 2026-10-01: all six on the list).
+  'orks-riled-up': {
+    term: 'Riled Up',
+    en: 'Orks (Waaagh!): a unit becomes riled up when a rule says so — the War Cry makes every unit with the Waaagh! ability riled up until the end of the next turn. While riled up, the unit has 5+ InSv, its ranged attacks have [ASSAULT], and advancing does not stop it declaring a charge.',
+    ru: 'Orks (Waaagh!): юнит становится riled up, когда это говорит правило, — War Cry делает riled up все юниты со способностью Waaagh! до конца следующего хода. Пока юнит riled up, он имеет 5+ InSv, его атаки дальнего боя имеют [ASSAULT], а продвижение не мешает ему объявить нападение.',
+  },
+  'csm-dark-pact': {
+    term: 'Dark Pact',
+    en: 'Heretic Astartes: each time a unit with this ability is selected to shoot or fight, it can make a Dark Pact. It first takes a Leadership test — if that is failed, it suffers D3 mortal wounds — then its weapons gain [LETHAL HITS] or [SUSTAINED HITS 1], your choice, until the end of the phase.',
+    ru: 'Heretic Astartes: каждый раз, когда юнит с этой способностью выбран для стрельбы или боя, он может заключить Dark Pact. Сначала он проходит проверку лидерства — при провале получает D3 смертельных ран, — затем его оружие получает [LETHAL HITS] или [SUSTAINED HITS 1], на ваш выбор, до конца фазы.',
+  },
+  'nec-resurrect': {
+    term: 'Resurrect',
+    en: 'Necrons: when a unit resurrects, its Reanimation Protocols activate, but it heals D6 wounds instead of D3. You cannot resurrect more than one unit per turn.',
+    ru: 'Necrons: когда юнит воскресает, активируются его Reanimation Protocols, но он исцеляет D6 ран вместо D3. Воскрешать можно не больше одного юнита за ход.',
+  },
+  'ik-bondsman': {
+    term: 'Bondsman',
+    en: 'Imperial Knights: some models have a Bondsman ability. In your Command phase each of them can use it on one friendly ARMIGER model within 12" that no Bondsman ability already affects; that model is affected until the start of your next Command phase.',
+    ru: 'Imperial Knights: у некоторых моделей есть способность Bondsman. В вашей фазе командования каждая из них может применить её к одной дружественной модели ARMIGER в пределах 12", которую ещё не затрагивает способность Bondsman; эффект длится до начала вашей следующей фазы командования.',
+  },
+  'pinned': {
+    term: 'Pinned',
+    en: 'An enemy unit an Aeldari or Grey Knights rule has pinned down: subtract 2 from its Move characteristic and from its Charge rolls. The rule that pins it says for how long.',
+    ru: 'Вражеский юнит, скованный правилом Aeldari или Grey Knights: вычтите 2 из его характеристики движения и из его бросков нападения. Сколько это длится, сказано в правиле, которое его сковало.',
+  },
+  'heroic-intervention': {
+    term: 'Heroic Intervention',
+    en: 'A core Stratagem, Heroic Intervention (15.11): at the end of your opponent’s Charge phase, one friendly unengaged unit within 12" of one or more enemy units resolves a charge.',
+    ru: 'Стратагема основных правил, Heroic Intervention (15.11): в конце фазы нападения оппонента один дружественный юнит вне ближнего боя в пределах 12" от одного или нескольких вражеских юнитов совершает нападение.',
   },
 
   // Translation-only glosses: popover shows just the English original, no definition body.

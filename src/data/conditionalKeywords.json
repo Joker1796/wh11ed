@@ -46,20 +46,6 @@
       }
     ]
   },
-  "blood-angels": {
-    "death-company-marines": [
-      {
-        "kw": "Battleline",
-        "det": "the-lost-brethren"
-      }
-    ],
-    "death-company-marines-with-bolt-rifles": [
-      {
-        "kw": "Battleline",
-        "det": "the-lost-brethren"
-      }
-    ]
-  },
   "chaos-daemons": {
     "belakor": [
       {
@@ -253,6 +239,11 @@
         "kw": "Deathwing"
       }
     ],
+    "captain-on-bike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
     "chaplain-in-terminator-armour": [
       {
         "kw": "Deathwing"
@@ -268,7 +259,7 @@
         "kw": "Deathwing"
       }
     ],
-    "invader-atv": [
+    "invader-atvs": [
       {
         "kw": "Ravenwing"
       }
@@ -301,7 +292,7 @@
     "outrider-squad": [
       {
         "kw": "Battleline",
-        "det": "company-of-hunters"
+        "det": "darkflight-pursuit"
       },
       {
         "kw": "Ravenwing"
@@ -450,32 +441,6 @@
       {
         "kw": "Battleline",
         "det": "kult-of-speed"
-      }
-    ]
-  },
-  "space-marines": {
-    "land-speeder": [
-      {
-        "kw": "Speeder",
-        "det": "fulguris-task-force"
-      }
-    ],
-    "storm-speeder-hailstrike": [
-      {
-        "kw": "Speeder",
-        "det": "fulguris-task-force"
-      }
-    ],
-    "storm-speeder-hammerstrike": [
-      {
-        "kw": "Speeder",
-        "det": "fulguris-task-force"
-      }
-    ],
-    "storm-speeder-thunderstrike": [
-      {
-        "kw": "Speeder",
-        "det": "fulguris-task-force"
       }
     ]
   },

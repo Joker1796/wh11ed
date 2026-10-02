@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -172,7 +172,7 @@ describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
   })
 
   it('drops a fully-replaced default from the loadout summary', () => {
-    expect(defaultLoadoutLines(overlord, items, { wg: [] })).toEqual([{ mini: '', items: 'Tachyon arrow, Overlord’s blade' }])
+    expect(defaultLoadoutLines(overlord, items, { wg: [] })).toEqual([{ mini: '', items: 'Tachyon arrow, Overlord’s blade', names: ['Tachyon arrow', 'Overlord’s blade'] }])
     expect(defaultLoadoutLines(overlord, items, { wg: [[1, 0, 1]] })).toEqual([]) // both defaults swapped away
   })
 
@@ -187,7 +187,7 @@ describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
     }
     const wItems = { 10: 'Close combat weapon', 11: 'Gauss flayer', 12: 'Gauss reaper' }
     expect(defaultLoadoutLines(warriors, wItems, { size: 0, wg: [[0, 0, 3]] }))
-      .toEqual([{ mini: '', items: 'Close combat weapon, Gauss flayer ×7' }])
+      .toEqual([{ mini: '', items: 'Close combat weapon, Gauss flayer ×7', names: ['Close combat weapon', 'Gauss flayer'] }])
   })
 
   it('an inert (condition unmet) deviation counts for nothing', () => {
@@ -196,7 +196,7 @@ describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
     // its condition is unmet.
     const entry = { wg: [[0, 0, 1]] } // orb "on" with no live weapon swap → cond unmet
     expect(unitWargearPoints(overlord, entry)).toBe(0)
-    expect(defaultLoadoutLines(overlord, items, entry)).toEqual([{ mini: '', items: 'Tachyon arrow, Overlord’s blade' }])
+    expect(defaultLoadoutLines(overlord, items, entry)).toEqual([{ mini: '', items: 'Tachyon arrow, Overlord’s blade', names: ['Tachyon arrow', 'Overlord’s blade'] }])
   })
 
   it('counts the same deviation once its condition is met', () => {
@@ -1085,7 +1085,7 @@ describe('the stock rule — a model cannot give the same item up twice', () => 
       expect(swapRoom(raptors, { wg: [[0, 0, 2], [1, 0, 2]] }, 1)).toBe(2)
       const items = { 756: 'Astartes chainsword', 1: 'Bolt pistol' }
       const lines = defaultLoadoutLines(raptors, items, { wg: [[0, 0, 2]] })
-      expect(lines[1]).toEqual({ mini: 'Raptor', items: 'Astartes chainsword, Bolt pistol ×2' }) // all four keep it
+      expect(lines[1]).toEqual({ mini: 'Raptor', items: 'Astartes chainsword, Bolt pistol ×2', names: ['Astartes chainsword', 'Bolt pistol'] }) // all four keep it
     })
 
     it('closes a lock whose item another group already took', () => {
@@ -1168,19 +1168,33 @@ describe('the stock rule — a model cannot give the same item up twice', () => 
   })
 })
 
+// Item ids are interned across every faction and renumber whenever a bump adds weapons anywhere
+// (app data 963 moved every one of these), so the real-data cases below name an item and look its
+// id up among the unit's own items, where a name is unambiguous.
+const unitItemId = (def, items, name) => {
+  const ids = new Set()
+  for (const [, list] of def.defaults || []) for (const [id] of list) ids.add(id)
+  const walk = (x) => (Array.isArray(x) ? x.forEach(walk) : typeof x === 'number' && ids.add(x))
+  for (const g of def.gear) walk(g.o)
+  const hits = [...ids].filter((id) => items[id] === name)
+  if (hits.length !== 1) throw new Error(`${def.id}: ${hits.length} items named ${name}`)
+  return hits[0]
+}
+
 // A player's report, 2026-09-24: CSM Terminators built at ten and dropped to five kept a heavy
 // weapon, five combi-weapons and paired accursed weapons — seven combi-bolters given up on five.
 describe('the real CSM Terminators, shrunk under their picks', () => {
   it('trims the excess, latest picks first, and marks what is over until then', async () => {
     const rf = await import('../data/roster/chaos-space-marines.js')
+    const items = (await import('../data/roster/items.js')).default.items
     const terms = rf.default.units.find((u) => u.id === 'chaos-terminator-squad')
     const gi = (t) => terms.gear.findIndex((g) => g.o.some((o) => o[0] === t))
     const heavy = terms.gear.findIndex((g) => g.m === 1 && g.o.length === 2)
-    const combi = gi(7)
-    const paired = gi(958)
+    const combi = gi(unitItemId(terms, items, 'Combi-weapon'))
+    const paired = gi(unitItemId(terms, items, 'Paired accursed weapons'))
     // As the player left it: ten models, then the 5-model bracket.
     const e = { id: terms.id, size: 0, wg: [[heavy, 1, 1], [combi, 0, 5], [paired, 0, 1]] }
-    expect(swapOverdraft(terms, e)).toEqual([{ id: 942, used: 7, cap: 5 }])
+    expect(swapOverdraft(terms, e)).toEqual([{ id: unitItemId(terms, items, 'Combi-bolter'), used: 7, cap: 5 }])
     // All three spend the same combi-bolters, so all three are marked: any of them is a way down.
     expect([...overdrawnGroups(terms, e)].sort()).toEqual([heavy, combi, paired].sort())
     // Latest first: the paired weapons go, then one combi-weapon — five combi-bolters, five swaps.
@@ -1205,9 +1219,10 @@ describe('the real CSM Terminators, shrunk under their picks', () => {
 describe('the real Raptors lock', () => {
   it('leaves two chainswords to trade after two plasma pistols', async () => {
     const rf = await import('../data/roster/chaos-space-marines.js')
+    const items = (await import('../data/roster/items.js')).default.items
     const raptors = rf.default.units.find((u) => u.id === 'raptors')
     const plasma = raptors.gear.findIndex((g) => g.m === 1 && g.keep)
-    const heavyMelee = raptors.gear.findIndex((g) => g.m === 1 && g.o[0][0] === 1017)
+    const heavyMelee = raptors.gear.findIndex((g) => g.m === 1 && g.o[0][0] === unitItemId(raptors, items, 'Heavy melee weapon'))
     expect(swapRoom(raptors, { size: 0, wg: [[plasma, 0, 2]] }, heavyMelee)).toBe(2)
   })
 })
@@ -1242,14 +1257,14 @@ describe('defaultLoadoutLines on a multi-profile squad', () => {
 
   it('spends a swap against the profile that owns the group', () => {
     const lines = defaultLoadoutLines(sisters, items, { size: 0, count: 10, wg: [[0, 0, 1]] })
-    expect(lines[0]).toEqual({ mini: 'Sister Superior', items: 'Bolt pistol' })
-    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun, Bolt pistol' })
+    expect(lines[0]).toEqual({ mini: 'Sister Superior', items: 'Bolt pistol', names: ['Bolt pistol'] })
+    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun, Bolt pistol', names: ['Boltgun', 'Bolt pistol'] })
   })
 
   it('counts a stepper against that profile, not the whole squad', () => {
     // 3 of the 9 Battle Sisters swap; the Superior's own boltgun is untouched.
     const lines = defaultLoadoutLines(sisters, items, { size: 0, count: 10, wg: [[1, 0, 3]] })
-    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun ×6, Bolt pistol' })
+    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun ×6, Bolt pistol', names: ['Boltgun', 'Bolt pistol'] })
   })
 
   // A unit-wide group (appdata's bullet, recorded once per profile and folded by the generator)
@@ -1259,8 +1274,8 @@ describe('defaultLoadoutLines on a multi-profile squad', () => {
   // profile fields.
   it('spends a unit-wide swap against the biggest profile', () => {
     const lines = defaultLoadoutLines(sisters, items, { size: 0, count: 10, wg: [[2, 0, 4]] })
-    expect(lines[0]).toEqual({ mini: 'Sister Superior', items: 'Boltgun, Bolt pistol' })
-    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun, Bolt pistol ×5' })
+    expect(lines[0]).toEqual({ mini: 'Sister Superior', items: 'Boltgun, Bolt pistol', names: ['Boltgun', 'Bolt pistol'] })
+    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun, Bolt pistol ×5', names: ['Boltgun', 'Bolt pistol'] })
   })
 
   it('spills into the next profile once the biggest is spent, and stops there', () => {
@@ -1286,12 +1301,12 @@ describe('defaultLoadoutLines on a multi-profile squad', () => {
 })
 
 // One army, one Force Disposition: the card selected after mustering, whose symbols name each
-// player's Primary Mission. The detachment carries it (`fd`); an army fielding several that
-// disagree has to declare which one it plays.
+// player's Primary Mission. A detachment gives access to one or more (`fds`); an army offered more
+// than one has to declare which it plays.
 describe('the army’s Force Disposition', () => {
-  const takeAndHold = { name: 'Gladius Task Force', fd: 'Take and Hold' }
-  const purge = { name: 'Anvil Siege Force', fd: 'Purge the Foe' }
-  const alsoPurge = { name: 'Vanguard Spearhead', fd: 'Purge the Foe' }
+  const takeAndHold = { name: 'Gladius Task Force', fds: ['Take and Hold'] }
+  const purge = { name: 'Anvil Siege Force', fds: ['Purge the Foe'] }
+  const alsoPurge = { name: 'Vanguard Spearhead', fds: ['Purge the Foe'] }
 
   it('lists what the chosen detachments offer, once each', () => {
     expect(dispositionCandidates([])).toEqual([])
@@ -1307,6 +1322,16 @@ describe('the army’s Force Disposition', () => {
     const dets = [takeAndHold, purge]
     expect(dispositionOf({}, dets)).toBeNull()
     expect(dispositionOf({ disposition: 'Purge the Foe' }, dets)).toBe('Purge the Foe')
+  })
+
+  // Core rules 25.04: "each one will give you access to different force dispositions". One
+  // detachment with two (Warpbane Task Force — a player's report, 2026-10-01) is a choice on its own.
+  it('asks for a declaration when one detachment gives access to two', () => {
+    const warpbane = { name: 'Warpbane Task Force', fds: ['Take and Hold', 'Purge the Foe'] }
+    expect(dispositionCandidates([warpbane])).toEqual(['Take and Hold', 'Purge the Foe'])
+    expect(dispositionOf({}, [warpbane])).toBeNull()
+    expect(dispositionOf({ disposition: 'Purge the Foe' }, [warpbane])).toBe('Purge the Foe')
+    expect(dispositionCandidates([warpbane, purge])).toEqual(['Take and Hold', 'Purge the Foe'])
   })
 
   // Self-healing: a list must never claim a disposition it no longer fields, and dropping the
@@ -1605,19 +1630,21 @@ describe('attached units read as one block', () => {
 describe('an enhancement whose keyword a detachment grants', () => {
   // Was Rollin' Deff granting WAGON to the Kill Rig until Codex: Orks both retired that
   // detachment and started PRINTING Wagon on the datasheets, which is exactly the case this
-  // guards against. Fulguris Task Force grants SPEEDER the same way, and no Space Marines
-  // datasheet prints it.
-  it("offers Fulguris Task Force's upgrades to the Land Speeder it made a Speeder", async () => {
+  // guards against. Then Fulguris Task Force granting SPEEDER to the Land Speeder, until Codex:
+  // Space Marines (app data 963) retired that detachment too. Death Guard's Contagion Engines
+  // grants CONTAGION ENGINES the same way, and the Helbrute does not print it.
+  it("offers Contagion Engines' upgrades to the Helbrute it made a Contagion Engine", async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
-    const sm = await loadRosterFaction('space-marines')
-    const det = sm.detachments.find((d) => d.name === 'Fulguris Task Force')
-    const speeder = sm.units.find((u) => u.id === 'land-speeder')
-    const rhino = sm.units.find((u) => u.id === 'rhino')
-    const eligible = (def) => enhOptionsFor(def, [det], [], null, 'space-marines').filter((o) => o.eligible).map((o) => o.name)
-    expect(eligible(speeder)).toContain('Bellicose Weapon Spirits (Upgrade)')
-    expect(eligible(rhino)).not.toContain('Bellicose Weapon Spirits (Upgrade)')
+    const dg = await loadRosterFaction('death-guard')
+    const det = dg.detachments.find((d) => d.name === 'Contagion Engines')
+    const helbrute = dg.units.find((u) => u.id === 'helbrute')
+    const crawler = dg.units.find((u) => u.id === 'plagueburst-crawler')
+    const upgrade = 'Parasitic Woe\u2011reaper (Upgrade)'
+    const eligible = (def) => enhOptionsFor(def, [det], [], null, 'death-guard').filter((o) => o.eligible).map((o) => o.name)
+    expect(eligible(helbrute)).toContain(upgrade)
+    expect(eligible(crawler)).not.toContain(upgrade)
     // and without the faction to look the grant up in, the printed sheet is all there is
-    expect(enhOptionsFor(speeder, [det], [], null).filter((o) => o.eligible).map((o) => o.name)).not.toContain('Bellicose Weapon Spirits (Upgrade)')
+    expect(enhOptionsFor(helbrute, [det], [], null).filter((o) => o.eligible).map((o) => o.name)).not.toContain(upgrade)
   })
 })
 
@@ -1658,4 +1685,22 @@ describe('notes', () => {
     expect('note' in e).toBe(false)
   })
 
+})
+
+// Core rules 25.03 and the note at the foot of 25.04: "If you are playing an Incursion battle, you
+// can select a 3DP detachment as your only detachment."
+describe('dpLimitFor', () => {
+  it('is 3 for a lone 3 DP detachment at Incursion', () => {
+    expect(dpLimitFor([{ dp: 3 }], 2)).toBe(3)
+  })
+  it('keeps the real budget for a lone detachment that fits — no room is promised for a second', () => {
+    expect(dpLimitFor([{ dp: 1 }], 2)).toBe(2)
+  })
+  it('keeps the real budget beside a second detachment', () => {
+    expect(dpLimitFor([{ dp: 2 }, { dp: 1 }], 2)).toBe(2)
+  })
+  it('is the battle\'s budget at Strike Force', () => {
+    expect(dpLimitFor([{ dp: 3 }], 3)).toBe(3)
+    expect(dpLimitFor([], 3)).toBe(3)
+  })
 })

@@ -579,13 +579,18 @@ its base statline and no Tier-C chips of its own. Its printed card is unaffected
 ## The army's Force Disposition (added 2026-08-28)
 
 The card a player selects after mustering: the opponent's symbol on it names their Primary Mission
-(`eventCompanion.js` holds the 5×5 matrix). It is a property of the DETACHMENT — `fd` on every one
-of the 268 — and of the ARMY there is exactly one, so a list fielding several detachments that
-disagree has to **declare** which it plays. Until this landed the builder said nothing about it at
+(`eventCompanion.js` holds the 5×5 matrix). It is a property of the DETACHMENT — `fds` on every one
+of the 268, the dispositions it gives access to — and of the ARMY there is exactly one, so a list
+offered more than one has to **declare** which it plays. **One detachment can offer two** (core
+rules 25.04, "each one will give you access to different force dispositions"; 39 do in MFM v1.5).
+Until 2026-10-01 the MFM scrape kept only the first banner, so Warpbane Task Force had lost its
+Purge the Foe (a player's report) and every one of those 39 read as a lone disposition — and the
+"MFM ≠ appdata" dispositions in `sync` were not disagreements at all: appdata carries one of the
+two, the MFM both. Until this landed the builder said nothing about it at
 all: the picker showed each detachment's disposition while choosing and the answer vanished the
 moment the modal closed.
 
-- **`roster.disposition`** holds the declaration, spelled as `fd` spells it. Not the tracker's own
+- **`roster.disposition`** holds the declaration, spelled as `fds` spells it. Not the tracker's own
   id: that vocabulary lives in the Event Companion data, which these screens deliberately never
   load, and `rosterHandoff` — the one place both are in scope — translates. No `SCHEMA_VERSION`
   bump (an absent field is simply undeclared) and no backend change (`domain/roster.ts` passes
@@ -607,6 +612,14 @@ moment the modal closed.
   writes (so "play this list" arrives with the declaration already made instead of the tracker
   silently taking whichever candidate its data lists first). `rosterShare`'s `PICK` carries it, so
   a shared link and a game snapshot keep it.
+- **The saved list's Missions tab** (`RosterMissionsTab`, 2026-10-02, owner — preparing for an
+  opponent): the five matchups the list's disposition can be dealt, each row naming the list's own
+  Primary AND the opponent's; each opens in a dialog of its own, headed by whose mission it is and
+  the matchup ("Take and Hold vs Priority Assets" — the first name is the side that scores it). The declared disposition is marked; the other
+  candidates are a PREVIEW switch that never writes. Only "Change" writes, through
+  `RosterDispositionModal` with its own Save (each candidate names the detachment offering it), and
+  that Save is also a cloud upload, like the editor's. Off the table only — in a game the matchup is
+  decided. Laid out by container query: on the rosters desk it is the ~430px middle column.
 - **The importer reads it back**, from the GW `Force Dispositions:` line, listhammer's labelled
   `Disposition:` field and the WTC detachment line's parenthetical — but only when the text names
   ONE. A list of candidates is not a declaration, and a name none of the matched detachments offers
@@ -2249,7 +2262,7 @@ whole point — but it is not a list: it shows only on the Drafts tab of `/roste
 be fielded. The flags never travel: `rosterShare.js`'s `PICK` is a whitelist, so a share link or
 a game snapshot carries the army and nothing about how it was made.
 
-**`roster.summary` (`{ points, unitCount, issues }`) is a CACHE**, and `rosterSummary.js` owns the
+**`roster.summary` (`{ points, unitCount, issues, v }`) is a CACHE**, and `rosterSummary.js` owns the
 rules around it. It exists precisely because of the line above: points live in the faction chunk,
 and the two screens that show them — `RosterListView` and the tracker's `RosterPickerModal` — must
 not load one. So it can only ever be as good as its last writer, and **every screen that changes a
@@ -2257,10 +2270,15 @@ roster while holding its faction data has to write it**: `useRosterEditing` (the
 `RosterCreateView`. That is what went wrong once already — only the editor
 wrote it, so a list built end-to-end in the wizard showed "0 pts" on both screens while its own
 page priced it correctly. `refreshSummaries()` is the safety net under those writers, called on
-mount by both readers: it prices only a roster whose cache is missing or contradicted by its own
-unit count (a share-link import, anything older than this mechanism), one faction chunk per
+mount by both readers: it prices only a roster whose cache is missing, contradicted by its own
+unit count (a share-link import, anything older than this mechanism) or stamped by another
+release (`v`, the build's `APP_VERSION`), one faction chunk per
 faction involved, and writes straight onto the roster object so the repair doesn't bump
 `updatedAt` — the list screen shows that date, and repairing a number is not the user editing.
+The release stamp exists because a points update never reached the cards: a list's page prices it
+from the running build, its card kept the day-of-last-edit total, and a player concluded the app
+froze prices (2026-09-30). **Prices are always the current ones**; keeping a list at the prices of
+a fixed tournament ruleset is a separate feature, not yet designed (hub journal, paused).
 
 ## Cloud sync (`src/composables/useRosterSync.js`)
 
@@ -2287,8 +2305,7 @@ accident** — each was a decision:
 **Signing in is not on this page, and not on the tracker's either.** Until 2026-09-01 the only
 sign-in button in the app sat on the tracker home, and this screen's hint told a signed-out
 reader to go there — an instruction, not a control, for an account both sections share. The way
-in and out is `AccountMenu.vue` in the navbar (desktop) and the same entries inside the gear menu
-(mobile), on every page; `useAccountActions.js` is the pair they share, and it sends the current
+in and out is the navbar's gear menu, on every page and every width; `useAccountActions.js` is the pair they share, and it sends the current
 path along so the OAuth round trip comes back here. `RosterCloudBar` reports sync and nothing
 else.
 
@@ -2713,6 +2730,24 @@ itemNames — the add-unit preview, which cannot know the loadout — shows noth
 everything: unlike a weapon row there is no printed line being hidden. Five items read "while the
 bearer is leading a unit" and carry `target: 'led'`, answered from `ctx.leaderItemNames`.
 
+**"The bearer only" gets a row of its own (2026-10-01).** An item that changes the model carrying
+it — a Storm Shield's +1 W, a Mistshield's 4+ invulnerable, Shieldvanes' Save and Move, a
+Grav-talon on the bearer's melee weapons — carries `cond: ['wargear-bearer']`, and
+`splitBearers` (rosterStatMods.js) answers it before `applyStatMods` runs: the models that carry
+the item get their own profile row (`Terminator · Storm Shield ×2`, `qty` printed like a weapon
+count), the rest keep the printed one, and the effect is applied to that row alone through the
+effect's `rows`. Every model carrying it is no split at all, just the rewritten number. A pick
+from a unit-wide group belongs to no profile, so its copies go to the profiles in the sheet's
+order — the first to the Sergeant/Exarch/Champion (owner's call); the profiles such a group spans
+have identical statlines in every unit it covers, so the order only names the row. A WEAPON row
+is split only when every model holds one copy of it: which of a Ridgerunner squad's heavy mortars
+the Spotter's bearer fires is not in the list, so that part stays the note it was while the
+stubber every model carries is split. Anything that cannot be placed — an unknown count, a
+profile no mini names, a second item on models already given one — stays a note, never a guess.
+The card, the print card and the tracker's list plates all place the same way. Before this, 24
+such effects were `blocked-subset` notes, and the Mortifiers' Anchorite Sarcophagus carried no
+condition at all — one of two Mortifiers taking it printed M 7" and Sv 3+ for both.
+
 **A lesson from the same day:** the candidate heuristic had no pattern for `has a Move
 characteristic of 7"` — a SET rather than a delta, and the wording nearly every wargear rule uses.
 68 records were invisible for that reason alone, including the one that started the hunt (a
@@ -3034,6 +3069,19 @@ Three things are specific to the ABILITY source:
   A rule that says "this model's unit" with no leading clause is a third shape: it applies with
   nobody attached, so it stays two effects — an unconditional `self` and a `led` (Astorath's Mass of
   Doom, Lelith's Brides of Death — 12 records).
+  So does a plain **"This unit…"** printed on a Leader or Support card (a Chaplain's Litany of Hate,
+  an Ancient's +1 OC, a Librarian's Psychic Hood and his psychic powers): by 19.04, once attached,
+  "this unit" IS the Attached unit. 40 such records sat on the leader's own card alone until a
+  player asked for the squad's [LANCE] and OC (2026-10-02). `npm run modifiers:check` now refuses a
+  Leader's "this unit" rule whose effects are all `self` (`leaderUnitGaps` in the generator); the
+  five whose "this unit" only says where something else is — "Celestine has…", "each WARLOCK
+  model's Destructor", "CHARACTER models in this unit", "if this unit is not an Attached unit" —
+  are named in `LEADER_SELF_EXEMPT` with the reason.
+- **A second Character in the same Attached unit** (a Leader and a Support on one squad) is a model
+  of that unit too, so 19.04 reaches it: `datasheetEntriesFor`'s `coLeaderUnitIds` hands it the other
+  Character's `unit` effects and the `led` half of a `self` + `led` record (`from: 'co'`). A `led`
+  with no `self` twin is the "Bodyguard models" wording and stays off it. Until 2026-10-02 a
+  Chaplain beside an Ancient had OC 1 while the squad he stood in had the Ancient's +1.
 - **No keyword gate.** An ability is printed on the card it addresses, so `SCOPELESS` includes it
   alongside enhancements, allegiance abilities and wargear — there is no prose naming who it bears on.
 - **`sid` is not a bare uuid here.** 56 abilities are published once and printed on several

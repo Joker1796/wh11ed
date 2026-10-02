@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpOverAllowed } from './rosterEngine.js'
+import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor } from './rosterEngine.js'
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -11,7 +11,7 @@ import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTyp
 // answered by adding, dropping or re-arming a unit belongs to the Units tab and is deliberately
 // NOT here — including `overPoints`, which names the battle size but is almost always fixed by
 // the list, not by the limit.
-export const SETUP_CODES = new Set(['noFaction', 'noDetachment', 'dispositionUndeclared', 'detachmentTagClash', 'overDp'])
+export const SETUP_CODES = new Set(['noFaction', 'noDetachment', 'detachmentGone', 'dispositionUndeclared', 'detachmentTagClash', 'overDp'])
 
 export function setupIssueCount(issues) {
   return (issues || []).filter((i) => SETUP_CODES.has(i.code)).length
@@ -43,6 +43,10 @@ export function duplicateCounts(units, defOf) {
   }
   return m
 }
+
+// Named characters whose datasheet lacks EPIC HERO — see the duplicate check in validateRoster.
+// Listed by hand, one by one: a name alone cannot tell a character from a rank.
+const NAMED_NOT_EPIC = new Set(['kayvaan-shrike'])
 
 // `items` (the shared wargear-name dictionary, data/roster/items.js) is optional: only the stock
 // rule's message names an item, and a caller that merely counts errors need not carry it.
@@ -86,6 +90,16 @@ export function validateRoster(roster, { faction, core, items } = {}) {
     issues.push(iss)
   }
 
+  // A detachment the faction no longer has — a new codex retires detachments by name, and a list
+  // saved before it keeps the name. Resolving it to nothing (as every lookup below does) would let
+  // the list read as playing no detachment at all while the header still names one; saying so is
+  // what sends the player to the picker's Clear.
+  if (faction?.detachments) {
+    for (const name of roster?.detachments || []) {
+      if (!faction.detachments.some((d) => d.name === name)) add('detachmentGone', 'error', { params: { name } })
+    }
+  }
+
   // Incompleteness (soft).
   if (!roster?.faction) add('noFaction', 'warn')
   else if (!roster?.detachments?.length) add('noDetachment', 'warn')
@@ -116,7 +130,7 @@ export function validateRoster(roster, { faction, core, items } = {}) {
   // bar a lone 3 DP detachment at Incursion, which 25.04 allows (a player's report, 2026-09-30:
   // the editor let it through and the list then called it an error).
   const dpSpent = detachments.reduce((s, d) => s + (d.dp || 0), 0)
-  if (dpSpent > battle.dp && !dpOverAllowed(detachments, battle)) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
+  if (dpSpent > dpLimitFor(detachments, battle.dp)) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
 
   // Detachment tags: "This detachment has the DYNASTY tag and cannot be taken with another DYNASTY
   // detachment" (core rules 25.04). 26 tags across 17 factions, and 19 of those pairs fit inside a
@@ -160,6 +174,12 @@ export function validateRoster(roster, { faction, core, items } = {}) {
       const limit = duplicateLimit(def, battle.dupLimit, grantedBattleline(def))
       if (list.length > limit) {
         add('overDuplicate', 'error', { uid: list[limit].uid, params: { count: list.length, limit } })
+      }
+      // A named character GW printed without EPIC HERO is legal more than once, and the cap above
+      // follows GW. The owner kept it so after a community poll (2026-10-01), but the second copy
+      // gets a warning: almost certainly an oversight, and an opponent may well object.
+      else if (list.length > 1 && NAMED_NOT_EPIC.has(def.id)) {
+        add('namedNotEpic', 'warn', { uid: list[1].uid })
       }
     }
   }

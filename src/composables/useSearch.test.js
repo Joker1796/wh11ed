@@ -252,13 +252,16 @@ describe('faction rules search', () => {
     expect(hit.id).toBe('enh-gladius-task-force-adept-of-the-codex')
   })
 
-  it('finds an army-rule h4 subheading (a Templar Vow) and anchors to it, with its RU caption', async () => {
+  // Was a Templar Vow ("Uphold the Honour of the Emperor", templar-vows-h4) until Codex: Space
+  // Marines (app data 963) replaced the Vows with Combat Doctrines; the Code Chivalric's fourth
+  // subheading is the same shape.
+  it('finds an army-rule h4 subheading (Super-heavy Walker) and anchors to it, with its RU caption', async () => {
     await preloadFactionRulesIndex()
-    const res = search('Uphold the Honour of the Emperor', 'ru')
-    const hit = res.find((r) => r.route === '/factions/black-templars')
+    const res = search('Super-heavy Walker', 'ru')
+    const hit = res.find((r) => r.route === '/factions/imperial-knights')
     expect(hit).toBeTruthy()
-    expect(hit.id).toBe('templar-vows-h4')
-    expect(hit.titleRu).toBe('Отстоять честь Императора')
+    expect(hit.id).toBe('code-chivalric-h4')
+    expect(hit.titleRu).toBe('Сверхтяжёлый шагоход')
     // No detachment to select first — the army rule is always rendered.
     expect(hit.detSlug).toBeUndefined()
   })
@@ -352,9 +355,11 @@ describe('help topics', () => {
 })
 
 describe('faction FAQ search', () => {
+  // Was the Space Marines' Gladiator Lancer errata until Codex: Space Marines (app data 963)
+  // cleared that FAQ; the Sororitas' Retributor Squad errata is the same kind of block.
   it('finds an errata block by the datasheet it names, routed to the faction FAQ tab', async () => {
     await preloadFactionFaqIndex()
-    const res = search('Gladiator Lancer', 'en').filter((r) => r.route.endsWith('/faq'))
+    const res = search('Retributor Squad', 'en').filter((r) => r.route.endsWith('/faq'))
     expect(res.length).toBeGreaterThan(0)
     const hit = res[0]
     expect(hit.route).toMatch(/^\/factions\/[a-z-]+\/faq$/)
@@ -365,9 +370,9 @@ describe('faction FAQ search', () => {
 
   it('in RU shows the translated heading as the title and keeps the English one as the subline', async () => {
     await preloadFactionFaqIndex()
-    const hit = search('Gladiator Lancer', 'ru').find((r) => r.route.endsWith('/faq'))
+    const hit = search('Retributor Squad', 'ru').find((r) => r.route.endsWith('/faq'))
     expect(hit).toBeTruthy()
-    expect(hit.titleRu).toContain('Gladiator Lancer')
+    expect(hit.titleRu).toContain('Retributor Squad')
     expect(hit.title).not.toBe(hit.titleRu)
   })
 

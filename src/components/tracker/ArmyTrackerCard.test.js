@@ -74,6 +74,20 @@ describe('ArmyTrackerCard', () => {
     expect(orks.find('.army-call').attributes('inert')).toBe('true')
   })
 
+  // Combat Doctrines: a doctrine taken in another round is greyed and says which, not hidden.
+  it('greys a Combat Doctrine spent in another round and names the round', async () => {
+    const tracker = newGame('space-marines')
+    tracker.setArmySelection(0, 1, 'devastator')
+    tracker.current.value.currentRound = 2
+    const wrapper = mount(ArmyTrackerCard, { props: { pi: 0 } })
+    await settle()
+    const chips = wrapper.findAll('.army-opt')
+    const dev = chips.find((c) => c.text().startsWith('Devastator'))
+    expect(dev.attributes('disabled')).toBeDefined()
+    expect(dev.find('.army-opt-used').text()).toBe('· round 1')
+    expect(chips.filter((c) => c.attributes('disabled') === undefined)).toHaveLength(2)
+  })
+
   describe('Genestealer Cults (round-1 start bonus + resurrect spend log)', () => {
     it('applies the round-1 start bonus once, then hides it', async () => {
       newGame('genestealer-cults')

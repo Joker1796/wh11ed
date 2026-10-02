@@ -8,7 +8,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 105
       }
     ],
     "flavor": "Ahriman fights with singularfocus and frightening determination. At range, he unleashes storms of psychic fury that transmogrify, mutate and erase from existence all who stand before him. Swooping low upon his Disc of Tzeentch, the Arch-Sorcerer strikes down anyone who survives with his terrifying Black Staff.",
@@ -16,7 +16,7 @@ export default [
       {
         "name": "Ahriman",
         "m": "10\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "6",
         "ld": "6+",
@@ -33,8 +33,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "1"
       },
       {
@@ -260,7 +260,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -274,7 +274,7 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -396,7 +396,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -410,7 +410,7 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -542,7 +542,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -556,7 +556,7 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -688,7 +688,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -702,7 +702,7 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       }
@@ -867,7 +867,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -881,7 +881,7 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       }
@@ -1325,7 +1325,7 @@ export default [
       },
       {
         "name": "Destroyer of Futures",
-        "text": "You can target this unit with the Counteroffensive Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
+        "text": "You can target this unit with the Counteroffensive **[gloss:stratagem:Stratagem]**, regardless of any other uses of that **Stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **Stratagem** on other units this phase."
       }
     ],
     "damaged": {
@@ -1362,7 +1362,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 100
       }
     ],
     "flavor": "Greatest amongst Magnus’ lieutenants, each Exalted Sorcerer embodies forbidden power and monstrous ambition. From the soul-burning detonations of their pistols’ cursed shells to the unfettered might of their sorcery and the shimmering shields cast by their corrupt sigils of Tzeentch, they are terrifyingly powerful warriors.",
@@ -1370,7 +1370,7 @@ export default [
       {
         "name": "Exalted Sorcerer",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -1401,8 +1401,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "1"
       }
     ],
@@ -1474,7 +1474,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 95
       }
     ],
     "flavor": "Only the greatest wielders of esoteric power are said to be granted one of Tzeentch's daemonic steeds. Exalted Sorcerers ride these daemonic Discs on plumes of arcane flame while they manipulate coruscating energy in twisting firestorms.",
@@ -1482,7 +1482,7 @@ export default [
       {
         "name": "Exalted Sorcerer on Disc of Tzeentch",
         "m": "10\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "6",
         "ld": "6+",
@@ -1513,8 +1513,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "1"
       }
     ],
@@ -1827,7 +1827,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -2073,7 +2073,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 105
       }
     ],
     "flavor": "Infernal Masters forge pacts with daemonic entities, euphemistically called tutelaries. Upon the battlefield, they can unleash the powers of these malign familiars to engulf their foes in swarms of momentarily corporeal terrors, to divine whispers of the future or to master the currents of the Empyrean itself.",
@@ -2081,7 +2081,7 @@ export default [
       {
         "name": "Infernal Master",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -2098,8 +2098,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "1"
       },
       {
@@ -2255,7 +2255,7 @@ export default [
       },
       {
         "name": "One Head Looks Back (Aura)",
-        "text": "Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12\" of this model, increase the cost of that use of that Stratagem by 1CP."
+        "text": "Each time your opponent targets a unit from their army with a **[gloss:stratagem:Stratagem]**, if that unit is within 12\" of this model, increase the cost of that use of that **Stratagem** by 1CP."
       }
     ],
     "damaged": {
@@ -2548,7 +2548,7 @@ export default [
           },
           {
             "name": "Time Flux (Aura, Psychic)",
-            "text": "While a friendly Thousand Sons unit is within 6\" of this PSYKER, add 2\" to the Move characteristic of models in that unit."
+            "text": "While a friendly THOUSAND SONS unit is within 6\" of this PSYKER, add 2\" to the Move characteristic of models in that unit."
           }
         ]
       }
@@ -2622,7 +2622,7 @@ export default [
     "abilities": [
       {
         "name": "Snarling Protector",
-        "text": "▪ You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.\n▪ When this unit declares a charge, if a friendly engaged PSYKER unit is within 12\" of this unit, you can use this part of this ability. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with an enemy unit engaged with that friendly PSYKER unit."
+        "text": "▪ You can target this unit with the Heroic Intervention **[gloss:stratagem:Stratagem]**, regardless of any other uses of that **Stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **Stratagem** on other units this phase.\n▪ When this unit **[gloss:declare-charge:declares a charge]**, if a friendly **[gloss:engaged:engaged]** PSYKER unit is within 12\" of this unit, you can use this part of this ability. If you do:\n▪ This unit can re-roll that **[gloss:charge-roll:charge roll]**.\n▪ This unit __must__ end that charge move **engaged** with an enemy unit **engaged** with that friendly PSYKER unit."
       }
     ],
     "damaged": {
@@ -2928,22 +2928,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100,
+        "points": 115,
         "note": "1st-3rd"
       },
       {
         "models": 10,
-        "points": 190,
+        "points": 210,
         "note": "1st-3rd"
       },
       {
         "models": 5,
-        "points": 110,
+        "points": 125,
         "note": "4th+"
       },
       {
         "models": 10,
-        "points": 200,
+        "points": 220,
         "note": "4th+"
       }
     ],
@@ -2952,7 +2952,7 @@ export default [
       {
         "name": "Rubric Marine",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "7+",
@@ -2963,7 +2963,7 @@ export default [
       {
         "name": "Aspiring Sorcerer",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "3",
         "ld": "6+",
@@ -2981,8 +2981,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "1"
       },
       {
@@ -2991,7 +2991,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -3055,7 +3055,7 @@ export default [
         "tags": [],
         "a": "2",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -3115,22 +3115,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 180,
+        "points": 200,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 385,
+        "points": 425,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 195,
+        "points": 240,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 400,
+        "points": 465,
         "note": "3rd+"
       }
     ],
@@ -3139,7 +3139,7 @@ export default [
       {
         "name": "Scarab Occult Terminator",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "3",
         "ld": "7+",
@@ -3150,7 +3150,7 @@ export default [
       {
         "name": "Scarab Occult Sorcerer",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "4",
         "ld": "6+",
@@ -3191,7 +3191,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -3484,12 +3484,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95,
+        "points": 100,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 105,
+        "points": 110,
         "note": "3rd+"
       }
     ],
@@ -3498,7 +3498,7 @@ export default [
       {
         "name": "Sorcerer",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -3515,8 +3515,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "1"
       },
       {
@@ -3601,12 +3601,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100,
+        "points": 110,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 110,
+        "points": 120,
         "note": "3rd+"
       }
     ],
@@ -3615,7 +3615,7 @@ export default [
       {
         "name": "Sorcerer in Terminator Armour",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "5",
         "ld": "6+",
@@ -3647,7 +3647,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       },
@@ -3661,7 +3661,7 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "1"
       }

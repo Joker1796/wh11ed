@@ -1,177 +1,936 @@
 // Black Templars — datasheets. Unit roster and points from src/data/mfm/black-templars.js.
 // wh40k-appdata is the source of truth — `npm run sync` diffs this file against it.
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
-// 18 chapter-specific/differing datasheets here; 142 units identical
-// to space-marines.js are NOT duplicated — see sharedUnitIds below and
-// src/data/datasheets/index.js (loadDatasheets merges them in by id).
+// Transcribed from app data 963 (Codex: Space Marines and its Supplements) by
+// scripts/gen-datasheets.mjs — re-run it rather than hand-porting a whole codex.
+// 15 sheets of this Chapter's own here (0 of them Legends from the Faction Pack, which
+// the MFM still prices); 88 Codex: Space Marines sheets are folded in by id — see
+// sharedUnitIds below (derived by the generator, not kept by hand) and datasheets/index.js.
 export const sharedUnitIds = [
   "aggressor-squad",
   "ancient",
   "ancient-in-terminator-armour",
-  "ancient-on-bike",
   "apothecary",
   "apothecary-biologis",
-  "apothecary-on-bike",
   "assault-intercessor-squad",
   "assault-intercessors-with-jump-packs",
-  "assault-squad",
-  "assault-squad-with-jump-packs",
-  "astartes-servitors",
   "astraeus",
-  "attack-bike-squad",
   "ballistus-dreadnought",
-  "bike-squad",
   "bladeguard-ancient",
   "bladeguard-veteran-squad",
   "brutalis-dreadnought",
-  "caestus-assault-ram",
   "captain",
   "captain-in-gravis-armour",
   "captain-in-phobos-armour",
   "captain-in-terminator-armour",
   "captain-on-bike",
   "captain-with-jump-pack",
-  "carab-culln-the-risen",
   "centurion-assault-squad",
   "centurion-devastator-squad",
   "cerberus",
   "chaplain",
   "chaplain-in-terminator-armour",
   "chaplain-on-bike",
-  "chaplain-venerable-dreadnought",
   "chaplain-with-jump-pack",
-  "command-squad",
-  "company-champion-on-bike",
   "company-heroes",
-  "company-veterans-on-bikes",
-  "deathstorm-drop-pod",
-  "deimos-predator",
-  "deredeo-dreadnought",
   "desolation-squad",
-  "devastator-squad",
   "dreadnought",
-  "dreadnought-drop-pod",
   "drop-pod",
   "eliminator-squad",
-  "eradicator-squad",
   "eradicator-squad-with-heavy-bolters",
+  "eradicator-squad-with-melta-rifles",
   "falchion",
-  "fellblade",
-  "ferren-areios",
-  "fire-raptor-gunship",
   "firestrike-servo-turrets",
   "hammerfall-bunker",
   "heavy-intercessor-squad",
   "hellblaster-squad",
-  "hunter",
-  "imperial-space-marine",
   "inceptor-squad",
   "incursor-squad",
   "infernus-squad",
   "infiltrator-squad",
   "intercessor-squad",
-  "invader-atv",
+  "invader-atvs",
   "invictor-tactical-warsuit",
-  "ironclad-dreadnought",
-  "javelin-attack-speeder",
   "judiciar",
   "kratos",
   "land-raider",
-  "land-raider-achilles",
+  "land-raider-crusader",
   "land-raider-excelsior",
-  "land-raider-helios",
-  "land-raider-prometheus",
-  "land-raider-proteus",
   "land-raider-redeemer",
   "land-speeder",
-  "land-speeder-storm",
-  "land-speeder-tempest",
-  "land-speeder-tornado",
-  "land-speeder-typhoon",
-  "leviathan-dreadnought",
   "lieutenant",
   "lieutenant-in-phobos-armour",
-  "lieutenant-in-reiver-armour",
   "lieutenant-with-combi-weapon",
   "mastodon",
-  "mortis-dreadnought",
   "outrider-squad",
   "predator-annihilator",
   "predator-destructor",
-  "primaris-company-champion",
   "rapier-carrier",
   "razorback",
   "redemptor-dreadnought",
   "reiver-squad",
-  "relic-contemptor-dreadnought",
   "relic-razorback",
-  "relic-terminator-squad",
   "rhino",
   "rhino-primaris",
   "scout-bike-squad",
-  "scout-sniper-squad",
   "scout-squad",
-  "sicaran-arcus",
-  "sicaran-battle-tank",
-  "sicaran-omega",
-  "sicaran-punisher",
-  "sicaran-venator",
-  "sokar-pattern-stormbird",
-  "spartan",
-  "stalker",
-  "storm-eagle-gunship",
+  "sicaran",
+  "sternguard-veteran-squad",
   "storm-speeder-hailstrike",
   "storm-speeder-hammerstrike",
   "storm-speeder-thunderstrike",
   "stormhawk-interceptor",
   "stormraven-gunship",
   "stormtalon-gunship",
-  "suppressor-squad",
-  "tactical-squad",
   "tarantula-air-defence-battery",
   "tarantula-sentry-battery",
   "techmarine",
-  "techmarine-on-bike",
   "terminator-assault-squad",
-  "terminus-ultra",
+  "terminator-squad",
   "terrax-pattern-termite",
-  "thunderfire-cannon",
   "thunderhawk-gunship",
-  "thunderhawk-transporter",
   "typhon",
   "vanguard-veteran-squad",
   "vanguard-veteran-squad-with-jump-packs",
   "venerable-dreadnought",
   "vindicator",
-  "vindicator-laser-destroyer",
-  "whirlwind",
-  "whirlwind-scorpius",
-  "xiphon-interceptor",
+  "whirlwind"
 ]
 
-// appdata and the MFM price these shared units differently for this Chapter than the
-// space-marines.js base price — src/data/datasheets/index.js's loadDatasheets swaps in this
-// `points` array on the folded-in entry. See blood-angels.js for the full mechanism.
 export const pointsOverrides = {
   "centurion-devastator-squad": [
-    { models: 3, points: 175 },
-    { models: 6, points: 350 },
-  ],
+    {
+      "models": 3,
+      "points": 175
+    },
+    {
+      "models": 6,
+      "points": 350
+    }
+  ]
 }
-
 export default [
+  {
+    "id": "castellan",
+    "name": "Castellan",
+    "points": [
+      {
+        "models": 1,
+        "points": 75
+      }
+    ],
+    "flavor": "A Castellan leads each of a crusade’s fighting companies and acts as a conduit for their Marshal’s will. Charged with the physical and spiritual purity of active Chapter Keeps, they have honed a patient wisdom that they draw upon in battle, alongside their tactical precision and close-quarters ferocity.",
+    "profiles": [
+      {
+        "name": "Castellan",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon – damnatus",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "9",
+        "ap": "-3",
+        "d": "D3+2"
+      },
+      {
+        "name": "Combi-weapon – infernus",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon – purgatus",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Master-crafted Power Weapon",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Support",
+    "faction": "Combat Doctrines",
+    "abilities": [
+      {
+        "name": "Vehement Aggression",
+        "text": "In the Fight phase, when this unit is **[gloss:selected-to-fight:selected to fight]**, you can use this ability. If you do, make a **[gloss:leadership-roll:leadership roll]** for this unit:\n▪ This unit's melee attacks can re-roll **[gloss:hit-roll:hit rolls]** of 1.\n▪ __Or:__ If that roll succeeds: This unit's melee attacks:\n▪ Can re-roll **hit rolls** of 1.\n▪ Can re-roll **[gloss:wound-roll:wound rolls]** of 1."
+      }
+    ],
+    "composition": [
+      "1 Castellan model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Combi-weapon; 1 Master-crafted Power Weapon.",
+    "options": [
+      "This model's Combi-weapon can be replaced with 1 Heavy Bolt Pistol.",
+      "This model's Master-crafted Power Weapon can be replaced with 1 Chainsword."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Intercessor Squad",
+        "Bladeguard Veteran Squad",
+        "Company Heroes",
+        "Crusader Squad",
+        "Infernus Squad",
+        "Intercessor Squad",
+        "Sternguard Veteran Squad",
+        "Sword Brethren Squad"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Explosives",
+      "Imperium",
+      "Infantry",
+      "Lieutenant",
+      "Tacticus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Black Templars"
+    ],
+    "baseSize": "40mm"
+  },
+  {
+    "id": "chaplain-grimaldus",
+    "name": "Chaplain Grimaldus",
+    "points": [
+      {
+        "models": 4,
+        "points": 120
+      }
+    ],
+    "flavor": "High Chaplain Grimaldus is a beacon of Imperial faith. His fortitude is such that many of his brothers believe him invincible. His will is singular, his zeal coldly furious, and his martial skill attested by the trail of broken foes laid at his heels. His Cenobyte Servitors lurch to war at his side, bearing with them holy relics of the faith.",
+    "profiles": [
+      {
+        "name": "Cenobyte Servitor",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "1",
+        "inv": "4+"
+      },
+      {
+        "name": "Chaplain Grimaldus",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "5+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Plasma Pistol – standard",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma Pistol – supercharge",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "HAZARDOUS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Artificer crozius",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Feel No Pain 5+, Leader",
+    "faction": "Combat Doctrines",
+    "abilities": [
+      {
+        "name": "Temple Relics",
+        "text": "At the start of your Command phase, if this unit contains one or more CENOBYTE SERVITOR models, select up to one of the abilities in the Temple Relics section. Until the start of your next Command phase, this model has that ability."
+      },
+      {
+        "name": "Litanies of the Devout",
+        "text": "This unit's melee attacks can re-roll **[gloss:hit-roll:hit rolls]**."
+      },
+      {
+        "name": "Faithful Cenobytes",
+        "text": "▪ If this unit’s Chaplain Grimaldus model is **[gloss:destroyed:destroyed]**, this unit’s remaining Cenobyte Servitor models are also **destroyed**.\n▪ Each Cenobyte Servitor model in this unit takes up 0 **[gloss:transport-capacity:transport capacity]**."
+      }
+    ],
+    "composition": [
+      "1 Chaplain Grimaldus model",
+      "3 Cenobyte Servitor models"
+    ],
+    "loadout": "**The Chaplain Grimaldus is equipped with:** 1 Artificier Crozius; 1 Plasma Pistol.\n**Every Cenobyte Servitor is equipped with:** 1 Servitor Combat Weapon.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Intercessor Squad",
+        "Crusader Squad",
+        "Infernus Squad",
+        "Intercessor Squad",
+        "Sword Brethren Squad"
+      ]
+    },
+    "abilitySets": [
+      {
+        "name": "Temple Relics",
+        "options": [
+          {
+            "name": "Banner of the Emperor Victorious",
+            "text": "This unit has +1 to **[gloss:advance-roll:advance rolls]** and **[gloss:charge-roll:charge rolls]**."
+          },
+          {
+            "name": "Column from the Major Altar",
+            "text": "This unit has +1 **[gloss:toughness:T]**."
+          },
+          {
+            "name": "Water from the Stoup of Elucidation",
+            "text": "This unit's melee attacks have +1 **[gloss:armour-penetration:AP]**."
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      "Character",
+      "Epic Hero",
+      "Imperium",
+      "Infantry",
+      "Tacticus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Black Templars"
+    ],
+    "baseSize": "28.5mm, 40mm"
+  },
+  {
+    "id": "crusade-ancient",
+    "name": "Crusade Ancient",
+    "points": [
+      {
+        "models": 1,
+        "points": 45
+      }
+    ],
+    "flavor": "Carrying their crusade’s icons and sacred standards, these veteran wardens are honoured warriors of exceptional resolve and determination. They raise high the tapestries depicting the crusade’s victories and the God-Emperor’s glory, exhorting their fellow Black Templars to greater heights of weaponised hate.",
+    "profiles": [
+      {
+        "name": "Crusade Ancient",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt Pistol",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Master-crafted Power Weapon",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Support",
+    "faction": "Combat Doctrines",
+    "abilities": [
+      {
+        "name": "Vengeful Exhortation",
+        "text": "In the Fight phase, you can use this ability. If you do, when a model in this unit is **[gloss:destroyed:destroyed]**, if this unit has not been **[gloss:selected-to-fight:selected to fight]** this phase, roll one D6:\n▪ On a 4+, do not remove this model from the battlefield. When your unit has fought, or at the end of the phase (whichever comes first), this model is removed from the battlefield."
+      },
+      {
+        "name": "Martial Honour (Once per battle, per unit)",
+        "text": "If this unit's melee attacks **[gloss:destroyed:destroyed]** an enemy unit this phase, you can use this ability. If you do, until the end of the battle, this model has +5 **[gloss:objective-control:OC]**."
+      }
+    ],
+    "composition": [
+      "1 Crusade Ancient model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Bolt Pistol; 1 Master-crafted Power Weapon.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Crusader Squad",
+        "Sword Brethren Squad"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Explosives",
+      "Imperium",
+      "Infantry",
+      "Tacticus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Black Templars"
+    ],
+    "baseSize": "40mm"
+  },
+  {
+    "id": "crusader-squad",
+    "name": "Crusader Squad",
+    "points": [
+      {
+        "points": 160,
+        "note": "1 Sword Brother, 4 Neophytes, 5 Initiates"
+      },
+      {
+        "points": 305,
+        "note": "1 Sword Brother, 8 Neophytes, 11 Initiates"
+      }
+    ],
+    "flavor": "Crusader Squads storm into battle with bolt rifles blazing and chainswords howling. Initiates aim jets of fire from their pyreblasters or swing crackling power fists into their foes, while hard-eyed Neophytes fight furiously to prove their martial worth under the stem gaze of their mentors.",
+    "profiles": [
+      {
+        "name": "Sword Brother",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      },
+      {
+        "name": "Initiate",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      },
+      {
+        "name": "Neophyte",
+        "m": "6\"",
+        "t": "4",
+        "sv": "4+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Shotgun",
+        "tags": [
+          "ASSAULT",
+          "BLAST 1"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy Bolt Pistol",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Pyreblaster",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bolt Pistol",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bolt Rifle – focused fire",
+        "tags": [
+          "HEAVY",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Bolt Rifle – saturation",
+        "tags": [
+          "ASSAULT",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hand Flamer",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "TORRENT"
+        ],
+        "range": "9\"",
+        "a": "3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Combat Knife",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power Fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Master-crafted Power Weapon",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "3",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Neophyte Chainsword",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Initiate Chainsword",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "faction": "Combat Doctrines",
+    "abilities": [
+      {
+        "name": "Righteous Zeal",
+        "text": "In your opponent's Shooting phase, when an enemy unit has shot, if a model in this unit was **[gloss:destroyed:destroyed]** by those attacks, this unit can make a **[gloss:surge-move:surge move]** of up to D6+1\"."
+      }
+    ],
+    "composition": [
+      "1 Sword Brother model",
+      "4-8 Neophyte models",
+      "5-11 Initiate models"
+    ],
+    "loadout": "**The Sword Brother is equipped with:** 1 Heavy Bolt Pistol; 1 Master-crafted Power Weapon.\n**Every Neophyte is equipped with:** 1 Bolt Pistol; 1 Neophyte Chainsword.\n**Every Initiate is equipped with:** 1 Bolt Pistol; 1 Bolt Rifle; 1 Knives and Fists.",
+    "options": [
+      "Any number of Initiate models can each have their Bolt Rifle replaced with 1 Heavy Bolt Pistol and 1 Initiate Chainsword.",
+      "Any number of Neophyte models can each have their Bolt Pistol and Neophyte Chainsword replaced with 1 Shotgun and 1 Combat Knife.",
+      "The Sword Brother can have their Heavy Bolt Pistol replaced with 1 Hand Flamer.",
+      "For every 10 models in this unit, up to 2 Initiate models can each have their Bolt Rifle replaced with one of the following: 1 Heavy Bolt Pistol and 1 Power Fist, 1 Pyreblaster"
+    ],
+    "keywords": [
+      "Battleline",
+      "Explosives",
+      "Imperium",
+      "Infantry",
+      "Tacticus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Black Templars"
+    ],
+    "baseSize": "28.5mm, 32mm, 40mm"
+  },
+  {
+    "id": "emperors-champion",
+    "name": "Emperor's Champion",
+    "points": [
+      {
+        "models": 1,
+        "points": 100
+      }
+    ],
+    "flavor": "A humble warrior touched by greatness, the Emperor’s Champion strides to battle wreathed in divine light. The furious blows of the enemy ring from his nigh-impenetrable Armour of Faith. In return, the Emperor’s Champion seeks out the leaders of the foe and, with sweeping blows from his Black Sword, strikes them down.",
+    "profiles": [
+      {
+        "name": "Emperor's Champion",
+        "m": "8\"",
+        "t": "5",
+        "sv": "2+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt Pistol",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Black Sword – strike",
+        "tags": [
+          "ANTI-CHARACTER 5+",
+          "DEVASTATING WOUNDS",
+          "PRECISION"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Black Sword – sweep",
+        "tags": [],
+        "a": "10",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Lone Operative, Leader",
+    "faction": "Combat Doctrines",
+    "abilities": [
+      {
+        "name": "Chosen of the Emperor",
+        "text": "You cannot include more than one EMPEROR'S CHAMPION unit in your army."
+      },
+      {
+        "name": "Armour of Faith",
+        "text": "Attacks allocated to this model have ‑1 **[gloss:damage-roll:D]**."
+      },
+      {
+        "name": "Sigismund's Heir",
+        "text": "This unit has +1 to **[gloss:charge-roll:charge rolls]**."
+      }
+    ],
+    "composition": [
+      "1 Emperor's Champion model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Black Sword; 1 Bolt Pistol.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Intercessor Squad",
+        "Crusader Squad",
+        "Intercessor Squad",
+        "Sternguard Veteran Squad",
+        "Sword Brethren Squad"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Explosives",
+      "Imperium",
+      "Infantry",
+      "Tacticus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Black Templars"
+    ],
+    "baseSize": "40mm"
+  },
+  {
+    "id": "execrator",
+    "name": "Execrator",
+    "points": [
+      {
+        "models": 1,
+        "points": 65
+      }
+    ],
+    "flavor": "Execrators are living exemplars of their battle-brothers’ oaths, ferocious warrior priests who lead the Black Templars in lethal rampages. They teach that waris the most worthy chapel for warriors, every bludgeoning blow of their crozius arcanum punctuated with zealous invective and roared sermons.",
+    "profiles": [
+      {
+        "name": "Execrator",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "5+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Absolvor Bolt Pistol",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Hand Flamer",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "TORRENT"
+        ],
+        "range": "9\"",
+        "a": "3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Crozius Arcanum",
+        "tags": [
+          "CLEAVE 1"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Master-crafted Power Weapon",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LETHAL HITS"
+        ],
+        "a": "3",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Combat Doctrines",
+    "abilities": [
+      {
+        "name": "Remorseless Persecution",
+        "text": "In your Movement phase, when this unit is selected to make an **[gloss:advance-move:advance move]**, that **advance move** does not prevent this unit from being **[gloss:eligible-to-charge:eligible to declare a charge]**."
+      },
+      {
+        "name": "Condemnatory Annihilation",
+        "text": "After this unit has fought, if this unit **[gloss:destroyed:destroyed]** an enemy model this phase, each enemy unit **[gloss:engaged:engaged]** with this unit makes a **[gloss:battle-shock-test:battle-shock roll]**, with -1 to that **battle-shock roll**."
+      }
+    ],
+    "composition": [
+      "1 Execrator model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Absolvor Bolt Pistol; 1 Crozius Arcanum.",
+    "options": [
+      "This model's Absolvor Bolt Pistol can be replaced with 1 Hand Flamer.",
+      "If this model is equipped with 1 Absolvor Bolt Pistol, it can be equipped with 1 Master-crafted Power Weapon (this model's 1 Absolvor Bolt Pistol cannot be replaced)."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Crusader Squad",
+        "Sword Brethren Squad"
+      ]
+    },
+    "keywords": [
+      "Chaplain",
+      "Character",
+      "Explosives",
+      "Imperium",
+      "Infantry",
+      "Tacticus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Black Templars"
+    ],
+    "baseSize": "40mm"
+  },
   {
     "id": "gladiator-lancer",
     "name": "Gladiator Lancer",
     "points": [
       {
         "models": 1,
-        "points": 160,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 170,
+        "points": 185,
         "note": "3rd+"
       }
     ],
@@ -189,67 +948,19 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Fragstorm grenade launcher",
+        "name": "Defensive Array",
         "tags": [
-          "BLAST"
-        ],
-        "range": "18\"",
-        "a": "D6",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Icarus rocket pod",
-        "tags": [
-          "ANTI-FLY 2+"
+          "RAPID FIRE 6"
         ],
         "range": "24\"",
-        "a": "D3",
+        "a": "6",
         "bs": "3+",
-        "s": "8",
+        "s": "5",
         "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Ironhail heavy stubber",
-        "tags": [
-          "RAPID FIRE 3"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
         "d": "1"
       },
       {
-        "name": "Multi-melta",
-        "tags": [
-          "MELTA 2"
-        ],
-        "range": "18\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "9",
-        "ap": "-4",
-        "d": "D6"
-      },
-      {
-        "name": "Storm bolter",
-        "tags": [
-          "RAPID FIRE 2"
-        ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Lancer laser destroyer",
+        "name": "Laser Destroyer",
         "tags": [
           "HEAVY"
         ],
@@ -257,13 +968,25 @@ export default [
         "a": "2",
         "bs": "3+",
         "s": "14",
-        "ap": "-4",
+        "ap": "-3",
         "d": "D6+3"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 3"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D3+2"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Hull",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -272,35 +995,31 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
-    "faction": "Templar Vows",
+    "core": "Deadly Demise D3, Damaged 4",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Aquilon Optics",
-        "text": "Each time this model is selected to shoot, you can re-roll one Hit roll, you can re-roll one Wound roll and you can re-roll one Damage roll when resolving its attacks."
+        "text": "This unit’s ranged attacks that target a MONSTER/VEHICLE unit can:\n▪ Re-roll __one__ **[gloss:hit-roll:hit roll]**.\n▪ Re-roll __one__ **[gloss:wound-roll:wound roll]**.\n▪ Re-roll __one__ **[gloss:damage-roll:damage roll]**."
       }
     ],
-    "damaged": {
-      "note": "1-4 wounds remaining",
-      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Gladiator Lancer"
+      "1 Gladiator Lancer model"
     ],
-    "loadout": "**This model is equipped with:** Lancer laser destroyer; 2 storm bolters; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Defensive Array; 1 Laser Destroyer.",
     "options": [
-      "This model’s 2 storm bolters can be replaced with 2 fragstorm grenade launchers.",
-      "This model can be equipped with one of the following:\n▪ 1 ironhail heavy stubber\n▪ 1 multi-melta",
-      "This model can be equipped with 1 Icarus rocket pod."
+      "This model can be equipped with 1 Multi-melta"
     ],
     "keywords": [
       "Frame",
-      "Gladiator Lancer",
       "Imperium",
       "Smoke",
       "Vehicle"
     ],
-    "factionKeywords": [],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Black Templars"
+    ],
     "baseSize": "100mm"
   },
   {
@@ -309,12 +1028,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 160,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 170,
+        "points": 185,
         "note": "3rd+"
       }
     ],
@@ -332,70 +1051,47 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Tempest bolter",
+        "name": "Defensive Array",
         "tags": [
-          "RAPID FIRE 4"
+          "RAPID FIRE 12"
         ],
         "range": "24\"",
-        "a": "4",
+        "a": "12",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Twin heavy onslaught gatling cannon",
+        "name": "Twin Heavy Onslaught Gatling Cannon",
         "tags": [
-          "DEVASTATING WOUNDS",
+          "DEVASTATING WOUNDS: NON-MONSTER/VEHICLE",
+          "SUSTAINED HITS 2: NON-MONSTER/VEHICLE",
           "TWIN-LINKED"
         ],
         "range": "24\"",
         "a": "12",
         "bs": "3+",
         "s": "6",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Icarus rocket pod",
-        "tags": [
-          "ANTI-FLY 2+"
-        ],
-        "range": "24\"",
-        "a": "D3",
-        "bs": "3+",
-        "s": "8",
         "ap": "-1",
-        "d": "2"
+        "d": "1"
       },
       {
         "name": "Multi-melta",
         "tags": [
-          "MELTA 2"
+          "MELTA 3"
         ],
         "range": "18\"",
         "a": "2",
         "bs": "3+",
-        "s": "9",
-        "ap": "-4",
-        "d": "D6"
-      },
-      {
-        "name": "Ironhail heavy stubber",
-        "tags": [
-          "RAPID FIRE 3"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
+        "s": "10",
+        "ap": "-3",
+        "d": "D3+2"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Hull",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -404,34 +1100,31 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
-    "faction": "Templar Vows",
+    "core": "Deadly Demise D3, Damaged 4",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Reaping Tally",
-        "text": "This model’s twin heavy onslaught gatling cannon has the **[SUSTAINED HITS 2]** ability when targeting **INFANTRY** units."
+        "text": "This unit’s ranged attacks that target a unit (excluding MONSTER/VEHICLE units) have +1 **[gloss:armour-penetration:AP]**."
       }
     ],
-    "damaged": {
-      "note": "1-4 wounds remaining",
-      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Gladiator Reaper"
+      "1 Gladiator Reaper model"
     ],
-    "loadout": "**This model is equipped with:** 2 tempest bolters; twin heavy onslaught gatling cannon; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Defensive Array; 1 Twin Heavy Onslaught Gatling Cannon.",
     "options": [
-      "This model can be equipped with one of the following:\n▪ 1 ironhail heavy stubber\n▪ 1 multi-melta",
-      "This model can be equipped with 1 Icarus rocket pod."
+      "This model can be equipped with 1 Multi-melta"
     ],
     "keywords": [
       "Frame",
-      "Gladiator Reaper",
       "Imperium",
       "Smoke",
       "Vehicle"
     ],
-    "factionKeywords": [],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Black Templars"
+    ],
     "baseSize": "100mm"
   },
   {
@@ -440,12 +1133,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 160,
+        "points": 165,
         "note": "3rd+"
       }
     ],
@@ -465,17 +1158,29 @@ export default [
       {
         "name": "Multi-melta",
         "tags": [
-          "MELTA 2"
+          "MELTA 3"
         ],
         "range": "18\"",
         "a": "2",
         "bs": "3+",
-        "s": "9",
-        "ap": "-4",
-        "d": "D6"
+        "s": "10",
+        "ap": "-3",
+        "d": "D3+2"
       },
       {
-        "name": "Twin las-talon",
+        "name": "Defensive Array",
+        "tags": [
+          "RAPID FIRE 6"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Twin Las-talon",
         "tags": [
           "TWIN-LINKED"
         ],
@@ -484,36 +1189,12 @@ export default [
         "bs": "3+",
         "s": "10",
         "ap": "-3",
-        "d": "D6+1"
-      },
-      {
-        "name": "Icarus rocket pod",
-        "tags": [
-          "ANTI-FLY 2+"
-        ],
-        "range": "24\"",
-        "a": "D3",
-        "bs": "3+",
-        "s": "8",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Ironhail heavy stubber",
-        "tags": [
-          "RAPID FIRE 3"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
+        "d": "D3+3"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Hull",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -522,972 +1203,32 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
-    "faction": "Templar Vows",
+    "core": "Damaged 4, Deadly Demise D3",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Priority Target Acquisition",
-        "text": "Each time this model makes an attack with its twin las-talon that targets the closest eligible **MONSTER** or **VEHICLE** unit, add 1 to the Hit roll."
+        "text": "This unit’s ranged attacks that target a unit within 12\" of this unit have +1 **[gloss:strength:S]**."
       }
     ],
-    "damaged": {
-      "note": "1-4 wounds remaining",
-      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Gladiator Valiant"
+      "1 Gladiator Valiant model"
     ],
-    "loadout": "**This model is equipped with:** 2 multi-meltas; twin las-talon; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Defensive Array; 2 Multi-melta; 1 Twin Las-talon.",
     "options": [
-      "This model can be equipped with one of the following:\n▪ 1 ironhail heavy stubber\n▪ 1 multi-melta",
-      "This model can be equipped with 1 Icarus rocket pod."
+      "This model can be equipped with 1 Multi-melta"
     ],
     "keywords": [
       "Frame",
-      "Gladiator Valiant",
       "Imperium",
       "Smoke",
       "Vehicle"
     ],
-    "factionKeywords": [],
-    "baseSize": "100mm"
-  },
-  {
-    "id": "impulsor",
-    "name": "Impulsor",
-    "points": [
-      {
-        "models": 1,
-        "points": 75,
-        "note": "1st-3rd"
-      },
-      {
-        "models": 1,
-        "points": 85,
-        "note": "4th+"
-      }
-    ],
-    "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
-    "profiles": [
-      {
-        "name": "Impulsor",
-        "m": "12\"",
-        "t": "9",
-        "sv": "3+",
-        "w": "11",
-        "ld": "6+",
-        "oc": "2"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Bellicatus missile array – frag",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "48\"",
-        "a": "D6",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Bellicatus missile array – Icarus",
-        "tags": [
-          "ANTI-FLY 2+"
-        ],
-        "range": "48\"",
-        "a": "D3",
-        "bs": "3+",
-        "s": "8",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Bellicatus missile array – krak",
-        "tags": [],
-        "range": "48\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "8",
-        "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Fragstorm grenade launcher",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "18\"",
-        "a": "D6",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Ironhail heavy stubber",
-        "tags": [
-          "RAPID FIRE 3"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Ironhail skytalon array",
-        "tags": [
-          "ANTI-FLY 4+",
-          "SUSTAINED HITS 1"
-        ],
-        "range": "36\"",
-        "a": "8",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Multi-melta",
-        "tags": [
-          "MELTA 2"
-        ],
-        "range": "18\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "9",
-        "ap": "-4",
-        "d": "D6"
-      },
-      {
-        "name": "Storm bolter",
-        "tags": [
-          "RAPID FIRE 2"
-        ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Armoured hull",
-        "tags": [],
-        "a": "3",
-        "ws": "4+",
-        "s": "6",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "core": "Deadly Demise D3, Firing Deck 6",
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Assault Vehicle",
-        "text": "Units can disembark from this TRANSPORT after it has Advanced. Units that do so count as having made a Normal move, and cannot declare a charge that turn."
-      }
-    ],
-    "wargearAbilities": [
-      {
-        "name": "Orbital Comms Array (Aura)",
-        "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of the bearer, each time you target that unit with a Stratagem, roll one D6: on a 5+, you gain 1CP."
-      },
-      {
-        "name": "Shield Dome",
-        "text": "The bearer has a 5+ invulnerable save."
-      }
-    ],
-    "composition": [
-      "1 Impulsor"
-    ],
-    "loadout": "**This model is equipped with:** 2 storm bolters; armoured hull.",
-    "options": [
-      "This model can be equipped with one of the following:\n▪ 1 ironhail heavy stubber\n▪ 1 multi-melta",
-      "This model’s 2 storm bolters can be replaced with 2 fragstorm grenade launchers.",
-      "This model can be equipped with one of the following:\n▪ 1 bellicatus missile array\n▪ 1 ironhail skytalon array\n▪ 1 orbital comms array\n▪ 1 shield dome"
-    ],
-    "transport": "This model has a transport capacity of 7 Tacticus or Phobos Infantry models. It cannot transport Jump Pack models.",
-    "keywords": [
-      "Dedicated Transport",
-      "Imperium",
-      "Vehicle",
-      "Transport",
-      "Impulsor",
-      "Frame"
-    ],
     "factionKeywords": [
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Black Templars"
     ],
     "baseSize": "100mm"
-  },
-  {
-    "id": "castellan",
-    "name": "Castellan",
-    "points": [
-      {
-        "models": 1,
-        "points": 70
-      }
-    ],
-    "flavor": "A Castellan leads each of a crusade’s fighting companies and acts as a conduit for their Marshal’s will. Charged with the physical and spiritual purity of active Chapter Keeps, they have honed a patient wisdom that they draw upon in battle, alongside their tactical precision and close-quarters ferocity.",
-    "profiles": [
-      {
-        "name": "Castellan",
-        "m": "6\"",
-        "t": "4",
-        "sv": "3+",
-        "w": "4",
-        "ld": "6+",
-        "oc": "1"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Combi-weapon",
-        "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 1"
-        ],
-        "range": "24\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Heavy bolt pistol",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "18\"",
-        "a": "1",
-        "bs": "2+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Astartes chainsword",
-        "tags": [
-          "SUSTAINED HITS 1"
-        ],
-        "a": "7",
-        "ws": "2+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Master-crafted power weapon",
-        "tags": [
-          "LETHAL HITS"
-        ],
-        "a": "6",
-        "ws": "2+",
-        "s": "5",
-        "ap": "-2",
-        "d": "2"
-      }
-    ],
-    "core": "Support",
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Vehement Aggression",
-        "text": "While this model is leading a unit, each time that unit is selected to fight, take a Leadership test for that unit: if passed, until the end of the phase, each time a model in that unit makes an attack, you can re-roll the Hit roll; if failed, until the end of the phase, each time a model in that unit makes an attack, re-roll a Hit roll of 1."
-      },
-      {
-        "name": "Prioritised Eradication",
-        "text": "Each time a model in this model’s unit makes a melee attack that destroys one or more enemy units, roll one D6: on a 4+, you gain 1CP."
-      }
-    ],
-    "composition": [
-      "1 Castellan"
-    ],
-    "loadout": "**This model is equipped with:** combi-weapon; master-crafted power weapon.",
-    "options": [
-      "This model’s combi-weapon can be replaced with 1 heavy bolt pistol.",
-      "This model’s master-crafted power weapon can be replaced with 1 Astartes chainsword."
-    ],
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Assault Intercessor Squad",
-        "Crusader Squad",
-        "Infernus Squad",
-        "Intercessor Squad",
-        "Sternguard Veteran Squad",
-        "Sword Brethren Squad"
-      ]
-    },
-    "keywords": [
-      "Grenades",
-      "Character",
-      "Infantry",
-      "Tacticus",
-      "Lieutenant",
-      "Castellan",
-      "Imperium"
-    ],
-    "factionKeywords": [
-      "Black Templars",
-      "Adeptus Astartes"
-    ],
-    "baseSize": "40mm"
-  },
-  {
-    "id": "chaplain-grimaldus",
-    "name": "Chaplain Grimaldus",
-    "points": [
-      {
-        "models": 4,
-        "points": 100
-      }
-    ],
-    "flavor": "High Chaplain Grimaldus is a beacon of Imperial faith. His fortitude is such that many of his brothers believe him invincible. His will is singular, his zeal coldly furious, and his martial skill attested by the trail of broken foes laid at his heels. His Cenobyte Servitors lurch to war at his side, bearing with them holy relics of the faith.",
-    "profiles": [
-      {
-        "name": "CHAPLAIN GRIMALDUS",
-        "m": "6\"",
-        "t": "4",
-        "sv": "3+",
-        "w": "4",
-        "ld": "5+",
-        "oc": "1",
-        "inv": "4+",
-        "baseSize": "40mm"
-      },
-      {
-        "name": "CENOBYTE SERVITOR",
-        "m": "6\"",
-        "t": "4",
-        "sv": "3+",
-        "w": "1",
-        "ld": "8+",
-        "oc": "1",
-        "inv": "4+",
-        "baseSize": "28.5mm"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Plasma pistol – standard",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "2+",
-        "s": "7",
-        "ap": "-2",
-        "d": "1"
-      },
-      {
-        "name": "Plasma pistol – supercharge",
-        "tags": [
-          "HAZARDOUS",
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "2+",
-        "s": "8",
-        "ap": "-3",
-        "d": "2"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Artificer crozius",
-        "tags": [],
-        "a": "6",
-        "ws": "2+",
-        "s": "6",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Close combat weapon",
-        "tags": [],
-        "a": "1",
-        "ws": "4+",
-        "s": "3",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "core": "Feel No Pain 5+, Leader",
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Litanies of the Devout",
-        "text": "While this unit is leading a unit and contains a Chaplain Grimaldus model, each time a model in that unit makes a melee attack, you can re-roll the Hit roll."
-      },
-      {
-        "name": "Temple Relics",
-        "text": "In your Command phase, if this unit contains one or more Cenobyte Servitor models, select one Temple Relics ability (see Temple Relics section). Until the start of your next Command phase, this unit’s Chaplain Grimaldus model has that ability."
-      }
-    ],
-    "composition": [
-      "1 Chaplain Grimaldus – EPIC HERO",
-      "3 Cenobyte Servitors*"
-    ],
-    "loadout": "* If this unit’s Chaplain Grimaldus model is ever destroyed, all of this unit’s remaining Cenobyte Servitor models are also destroyed. While embarking within a Transport and while embarked within a TRANSPORT, each Cenobyte Servitor model in this unit takes up the space of 0 models.\n\n**Chaplain Grimaldus is equipped with:** plasma pistol; artificer crozius.\n\n**Every Cenobyte Servitor is equipped with:** close combat weapon.",
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Assault Intercessor Squad",
-        "Crusader Squad",
-        "Infernus Squad",
-        "Intercessor Squad",
-        "Sword Brethren Squad"
-      ]
-    },
-    "keywords": [
-      "Chaplain",
-      "Character",
-      "Epic Hero",
-      "Grenades",
-      "Grimaldus",
-      "Imperium",
-      "Infantry",
-      "Tacticus"
-        ],
-    "factionKeywords": [
-      "Black Templars",
-      "Adeptus Astartes"
-    ],
-    "abilitySets": [
-      {
-        "name": "Temple Relics",
-        "options": [
-          {
-            "name": "Banner of the Emperor Victorious",
-            "text": "Add 1 to Advance and Charge rolls made for this unit."
-          },
-          {
-            "name": "Column from the Major Altar",
-            "text": "Add 1 to the Toughness characteristic of models in this unit."
-          },
-          {
-            "name": "Water from the Stoup of Elucidation",
-            "text": "Improve the Armour Penetration characteristic of melee weapons equipped by models in this unit by 1."
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "crusade-ancient",
-    "name": "Crusade Ancient",
-    "points": [
-      {
-        "models": 1,
-        "points": 40
-      }
-    ],
-    "flavor": "Carrying their crusade’s icons and sacred standards, these veteran wardens are honoured warriors of exceptional resolve and determination. They raise high the tapestries depicting the crusade’s victories and the God-Emperor’s glory, exhorting their fellow Black Templars to greater heights of weaponised hate.",
-    "profiles": [
-      {
-        "name": "Crusade Ancient",
-        "m": "6\"",
-        "t": "4",
-        "sv": "3+",
-        "w": "4",
-        "ld": "6+",
-        "oc": "1"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Bolt pistol",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Master-crafted power weapon",
-        "tags": [
-          "LETHAL HITS"
-        ],
-        "a": "5",
-        "ws": "2+",
-        "s": "5",
-        "ap": "-2",
-        "d": "2"
-      }
-    ],
-    "core": "Support",
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Vengeful Exhortation",
-        "text": "While this model is leading a unit, each time a model in that unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
-      },
-      {
-        "name": "Martial Honour",
-        "text": "The first time a model in this model’s unit makes a melee attack that destroys one or more enemy units, until the end of the battle, while this model’s unit is not Battle-shocked, add 5 to this model’s Objective Control characteristic."
-      }
-    ],
-    "composition": [
-      "1 Crusade Ancient"
-    ],
-    "loadout": "**This model is equipped with:** bolt pistol; master-crafted power weapon.",
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Crusader Squad",
-        "Sword Brethren Squad"
-      ]
-    },
-    "keywords": [
-      "Infantry",
-      "Character",
-      "Grenades",
-      "Imperium",
-      "Tacticus",
-      "Ancient",
-      "Crusade Ancient"
-    ],
-    "factionKeywords": [
-      "Adeptus Astartes",
-      "Black Templars"
-    ],
-    "baseSize": "40mm"
-  },
-  {
-    "id": "crusader-squad",
-    "name": "Crusader Squad",
-    "points": [
-      {
-        "points": 150,
-        "note": "1 Sword Brother, 4 Neophytes, 5 Initiates"
-      },
-      {
-        "points": 290,
-        "note": "1 Sword Brother, 8 Neophytes, 11 Initiates"
-      }
-    ],
-    "flavor": "Crusader Squads storm into battle with bolt rifles blazing and chainswords howling. Initiates aim jets of fire from their pyreblasters or swing crackling power fists into their foes, while hard-eyed Neophytes fight furiously to prove their martial worth under the stem gaze of their mentors.",
-    "profiles": [
-      {
-        "name": "NEOPHYTES",
-        "m": "6\"",
-        "t": "4",
-        "sv": "4+",
-        "w": "2",
-        "ld": "6+",
-        "oc": "2",
-        "baseSize": "28.5mm"
-      },
-      {
-        "name": "OTHER MODELS",
-        "m": "6\"",
-        "t": "4",
-        "sv": "3+",
-        "w": "2",
-        "ld": "6+",
-        "oc": "2",
-        "baseSize": "32mm / 40mm"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Bolt pistol",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Bolt rifle",
-        "tags": [
-          "ASSAULT",
-          "HEAVY"
-        ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Heavy bolt pistol",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "18\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Neophyte firearm",
-        "tags": [
-          "ASSAULT"
-        ],
-        "range": "18\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Pyre pistol",
-        "tags": [
-          "IGNORES COVER",
-          "PISTOL",
-          "TORRENT"
-        ],
-        "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Pyreblaster",
-        "tags": [
-          "IGNORES COVER",
-          "TORRENT"
-        ],
-        "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Astartes chainsword",
-        "tags": [
-          "SUSTAINED HITS 1"
-        ],
-        "a": "4",
-        "ws": "3+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Close combat weapon",
-        "tags": [],
-        "a": "3",
-        "ws": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Master-crafted power weapon",
-        "tags": [
-          "LETHAL HITS"
-        ],
-        "a": "3",
-        "ws": "2+",
-        "s": "5",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Power fist",
-        "tags": [],
-        "a": "3",
-        "ws": "3+",
-        "s": "8",
-        "ap": "-2",
-        "d": "2"
-      }
-    ],
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Righteous Zeal",
-        "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if any models in this unit were destroyed as a result of those attacks, this unit can make a surge move of up to D6+2\"."
-      }
-    ],
-    "composition": [
-      "1 Primaris Sword Brother",
-      "5-11 Primaris Initiates",
-      "4-8 Primaris Neophytes"
-    ],
-    "loadout": "**The Primaris Sword Brother is equipped with:** heavy bolt pistol; master-crafted power weapon.\n\n**Every Primaris Initiate is equipped with:** bolt pistol; bolt rifle; close combat weapon.\n\n**Every Primaris Neophyte is equipped with:** bolt pistol; Astartes chainsword.",
-    "options": [
-      "The Sword Brother’s heavy bolt pistol can be replaced with 1 pyre pistol.",
-      "Any number of Neophytes can each have their bolt pistol and Astartes chainsword replaced with 1 Neophyte firearm and 1 close combat weapon.",
-      "Any number of Initiates can each have their bolt rifle replaced with 1 heavy bolt pistol and 1 Astartes chainsword.",
-      "For every 10 models in this unit, up to 2 Initiates can each have their bolt rifle replaced with one of the following:\n▪ 1 heavy bolt pistol and 1 power fist\n▪ 1 pyreblaster"
-    ],
-    "keywords": [
-      "Infantry",
-      "Battleline",
-      "Grenades",
-      "Imperium",
-      "Tacticus",
-      "Crusader Squad"
-    ],
-    "factionKeywords": [
-      "Black Templars",
-      "Adeptus Astartes"
-    ],
-    "rules": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
-      }
-    ]
-  },
-  {
-    "id": "emperors-champion",
-    "name": "Emperor’s Champion",
-    "points": [
-      {
-        "models": 1,
-        "points": 90
-      }
-    ],
-    "flavor": "A humble warrior touched by greatness, the Emperor’s Champion strides to battle wreathed in divine light. The furious blows of the enemy ring from his nigh-impenetrable Armour of Faith. In return, the Emperor’s Champion seeks out the leaders of the foe and, with sweeping blows from his Black Sword, strikes them down.",
-    "profiles": [
-      {
-        "name": "Emperor’s Champion",
-        "m": "8\"",
-        "t": "4",
-        "sv": "2+",
-        "w": "5",
-        "ld": "6+",
-        "oc": "1",
-        "inv": "4+"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Bolt pistol",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "2+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Black Sword – strike",
-        "tags": [
-          "ANTI-CHARACTER 5+",
-          "PRECISION"
-        ],
-        "a": "6",
-        "ws": "2+",
-        "s": "8",
-        "ap": "-3",
-        "d": "3"
-      },
-      {
-        "name": "Black Sword – sweep",
-        "tags": [],
-        "a": "10",
-        "ws": "2+",
-        "s": "6",
-        "ap": "-2",
-        "d": "1"
-      }
-    ],
-    "core": "Leader, Lone Operative",
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Armour of Faith",
-        "text": "Once per phase, when an attack is allocated to this model and the saving throw is failed, you can change the Damage characteristic of that attack to 0."
-      },
-      {
-        "name": "Sigismund’s Heir",
-        "text": "▪ When this unit declares a charge, If an enemy **CHARACTER** unit is within 12\" of this unit, you can use this part of this ability. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with one or more of those enemy **CHARACTER** units.\n▪ (Once per battle, per army) In the Fight phase, when this unit is selected to fight, if this unit is engaged with a **CHARACTER** unit, you can use this part of this ability. If you do, this unit's melee attacks have **[DEVASTATING WOUNDS]**."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "CHOSEN OF THE EMPEROR",
-        "text": "You cannot include more than one EMPEROR’S CHAMPION model in your army."
-      }
-    ],
-    "composition": [
-      "1 Emperor’s Champion"
-    ],
-    "loadout": "**This model is equipped with:** bolt pistol; Black Sword.",
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Assault Intercessor Squad",
-        "Crusader Squad",
-        "Intercessor Squad",
-        "Sternguard Veteran Squad",
-        "Sword Brethren Squad"
-      ]
-    },
-    "keywords": [
-      "Character",
-      "Infantry",
-      "Imperium",
-      "Grenades",
-      "Emperor’s Champion",
-      "Tacticus"
-    ],
-    "factionKeywords": [
-      "Adeptus Astartes",
-      "Black Templars"
-    ],
-    "baseSize": "40mm"
-  },
-  {
-    "id": "execrator",
-    "name": "Execrator",
-    "points": [
-      {
-        "models": 1,
-        "points": 50
-      }
-    ],
-    "flavor": "Execrators are living exemplars of their battle-brothers’ oaths, ferocious warrior priests who lead the Black Templars in lethal rampages. They teach that waris the most worthy chapel for warriors, every bludgeoning blow of their crozius arcanum punctuated with zealous invective and roared sermons.",
-    "profiles": [
-      {
-        "name": "Execrator",
-        "m": "6\"",
-        "t": "4",
-        "sv": "3+",
-        "w": "4",
-        "ld": "5+",
-        "oc": "1",
-        "inv": "4+"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Absolvor bolt pistol",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "18\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "5",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Pyre pistol",
-        "tags": [
-          "IGNORES COVER",
-          "PISTOL",
-          "TORRENT"
-        ],
-        "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Crozius arcanum",
-        "tags": [],
-        "a": "5",
-        "ws": "2+",
-        "s": "6",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Master-crafted power weapon",
-        "tags": [
-          "EXTRA ATTACKS",
-          "LETHAL HITS"
-        ],
-        "a": "3",
-        "ws": "2+",
-        "s": "5",
-        "ap": "-2",
-        "d": "2"
-      }
-    ],
-    "core": "Leader",
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Remorseless Persecution",
-        "text": "While this model is leading a unit, that unit is eligible to declare a charge in a turn in which it Advanced."
-      },
-      {
-        "name": "Condemnatory Annihilation",
-        "text": "Each time this model’s unit has fought, if one or more enemy units were destroyed as a result of those attacks, each enemy unit within 6\" of this model must take a Battle-shock test."
-      }
-    ],
-    "composition": [
-      "1 Execrator"
-    ],
-    "loadout": "**This model is equipped with:** absolvor bolt pistol; crozius arcanum.",
-    "options": [
-      "This model’s absolvor bolt pistol can be replaced with 1 pyre pistol.",
-      "If this model is equipped with an absolvor bolt pistol, it can be equipped with 1 master-crafted power weapon (this model’s absolvor bolt pistol cannot be replaced)."
-    ],
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Crusader Squad",
-        "Sword Brethren Squad"
-      ]
-    },
-    "keywords": [
-      "Imperium",
-      "Infantry",
-      "Character",
-      "Grenades",
-      "Tacticus",
-      "Chaplain",
-      "Execrator"
-    ],
-    "factionKeywords": [
-      "Adeptus Astartes",
-      "Black Templars"
-    ],
-    "baseSize": "40mm"
   },
   {
     "id": "high-marshal-helbrecht",
@@ -1495,7 +1236,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110
+        "points": 125
       }
     ],
     "flavor": "Helbrecht is the living embodiment of his Chapter’s warrior spirit. Wielding the Sword of the High Marshals, he storms into the fray, bellowing oaths of vengeance as he leads the unstoppable charge. His battle-brothers follow him without question, for they believe where High Marshal Helbrecht treads, so too walks the Emperor himself.",
@@ -1503,7 +1244,7 @@ export default [
       {
         "name": "High Marshal Helbrecht",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "6",
         "ld": "6+",
@@ -1532,7 +1273,7 @@ export default [
         "tags": [],
         "a": "6",
         "ws": "2+",
-        "s": "8",
+        "s": "9",
         "ap": "-3",
         "d": "3"
       },
@@ -1547,191 +1288,209 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Templar Vows",
+    "faction": "Combat Doctrines, Transhuman Strategist",
     "abilities": [
       {
-        "name": "Crusade of Wrath",
-        "text": "While this model is leading a unit, add 1 to the Attacks and Strength characteristic of melee weapons equipped by models in that unit."
+        "name": "High Marshal",
+        "text": "At the start of the Fight phase, select up to one enemy unit **[gloss:engaged:engaged]** with this unit and roll one D6:\n▪ On a 2-3, that enemy unit suffers D3 **[gloss:mortal-wound:mortal wounds]**.\n▪ On a 4-5, that enemy unit suffers 3 **mortal wounds**.\n▪ On a 6+, that enemy unit suffers D3+3 **mortal wounds**."
       },
       {
-        "name": "High Marshal",
-        "text": "At the start of the Fight phase, select one enemy unit within Engagement Range of this model’s unit and roll one D6, adding 1 to the result for every five models in this model’s unit: on a 2-3, that enemy unit suffers D3 mortal wounds; on a 4-5, that enemy unit suffers 3 mortal wounds; on a 6+, that enemy unit suffers D3+3 mortal wounds."
+        "name": "Crusade of Wrath",
+        "text": "This unit's melee attacks have:\n▪ +1 **[gloss:attack-dice:A]**.\n▪ +1 **[gloss:strength:S]**."
       }
     ],
     "composition": [
-      "1 High Marshal Helbrecht – EPIC HERO"
+      "1 High Marshal Helbrecht model"
     ],
-    "loadout": "**This model is equipped with:** Ferocity; Sword of the High Marshals.",
-    "options": [
-      "None"
-    ],
+    "loadout": "**This model is equipped with:** 1 Ferocity; 1 Sword of the High Marshals.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
         "Assault Intercessor Squad",
+        "Bladeguard Veteran Squad",
+        "Company Heroes",
         "Crusader Squad",
         "Intercessor Squad",
         "Sword Brethren Squad"
       ]
     },
     "keywords": [
-      "Epic Hero",
-      "Imperium",
-      "Tacticus",
       "Chapter Master",
-      "High Marshal Helbrecht",
       "Character",
+      "Epic Hero",
+      "Explosives",
+      "Imperium",
       "Infantry",
-      "Grenades"
+      "Tacticus"
     ],
     "factionKeywords": [
-      "Black Templars",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Black Templars"
     ],
     "baseSize": "60mm"
   },
   {
-    "id": "land-raider-crusader",
-    "name": "Land Raider Crusader",
+    "id": "impulsor",
+    "name": "Impulsor",
     "points": [
       {
         "models": 1,
-        "points": 220,
-        "note": "1st-2nd"
+        "points": 70,
+        "note": "1st-3rd"
       },
       {
         "models": 1,
-        "points": 240,
-        "note": "3rd+"
+        "points": 80,
+        "note": "4th+"
       }
     ],
-    "flavor": "The Land Raider Crusader is a superlative assault tank. Its bulk enables it to crush enemy defences, and its prodigious firepower cuts their defenders to ribbons. With an enhanced transport capacity, once it has stormed enemy defences, Space Marines pour from its hatches to slaughter those foes who remain.",
+    "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
     "profiles": [
       {
-        "name": "Land Raider Crusader",
+        "name": "Impulsor",
         "m": "12\"",
-        "t": "12",
-        "sv": "2+",
-        "w": "16",
+        "t": "9",
+        "sv": "3+",
+        "w": "11",
         "ld": "6+",
-        "oc": "5"
+        "oc": "2"
       }
     ],
     "ranged": [
       {
-        "name": "Hunter-killer missile",
+        "name": "Storm Bolters",
         "tags": [
-          "ONE SHOT"
-        ],
-        "range": "48\"",
-        "a": "1",
-        "bs": "2+",
-        "s": "14",
-        "ap": "-3",
-        "d": "D6"
-      },
-      {
-        "name": "Hurricane bolter",
-        "tags": [
-          "RAPID FIRE 6",
-          "TWIN-LINKED"
+          "RAPID FIRE 4"
         ],
         "range": "24\"",
-        "a": "6",
+        "a": "4",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bellicatus Missile Array – frag",
+        "tags": [
+          "BLAST 1"
+        ],
+        "range": "48\"",
+        "a": "4",
         "bs": "3+",
         "s": "4",
-        "ap": "0",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bellicatus Missile Array – icarus",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "48\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Bellicatus Missile Array – krak",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D3+3"
+      },
+      {
+        "name": "Ironhail Heavy Stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
         "d": "1"
       },
       {
         "name": "Multi-melta",
         "tags": [
-          "MELTA 2"
+          "MELTA 3"
         ],
         "range": "18\"",
         "a": "2",
         "bs": "3+",
-        "s": "9",
-        "ap": "-4",
-        "d": "D6"
+        "s": "10",
+        "ap": "-3",
+        "d": "D3+2"
       },
       {
-        "name": "Storm bolter",
+        "name": "Fragstorm Grenade Launchers",
         "tags": [
-          "RAPID FIRE 2"
+          "BLAST 2"
         ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Twin assault cannon",
-        "tags": [
-          "DEVASTATING WOUNDS",
-          "TWIN-LINKED"
-        ],
-        "range": "24\"",
+        "range": "18\"",
         "a": "6",
         "bs": "3+",
-        "s": "6",
-        "ap": "0",
+        "s": "4",
+        "ap": "-1",
         "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Armoured tracks",
+        "name": "Armoured Hull",
         "tags": [],
-        "a": "6",
+        "a": "3",
         "ws": "4+",
-        "s": "8",
+        "s": "6",
         "ap": "0",
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D6",
-    "faction": "Templar Vows",
+    "core": "Deadly Demise D3, Firing Deck 7",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Assault Ramp",
-        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
-      },
-      {
-        "name": "Legacy of Jerulas",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly model that disembarked from this TRANSPORT this turn makes an attack that targets that enemy unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+        "name": "Rapid Disembarkation",
+        "text": "In your Movement phase, when this unit ends an **[gloss:advance-move:advance move]**, units embarked within this unit can make a **[gloss:shock-disembark-move:shock disembark move]** (pg 157)."
       }
     ],
-    "damaged": {
-      "note": "1-5 wounds remaining",
-      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
+    "wargearAbilities": [
+      {
+        "name": "Orbital Comms Array",
+        "text": "This unit has [core:Scouts 6\"]."
+      },
+      {
+        "name": "Shield Dome",
+        "text": "This unit has 5+ **[gloss:invulnerable-save:InSv]**."
+      }
+    ],
     "composition": [
-      "1 Land Raider Crusader"
+      "1 Impulsor model"
     ],
-    "loadout": "**This model is equipped with:** 2 hurricane bolters; twin assault cannon; armoured tracks.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Storm Bolters.",
     "options": [
-      "This model can be equipped with 1 hunter-killer missile.",
-      "This model can be equipped with 1 multi-melta.",
-      "This model can be equipped with 1 storm bolter."
+      "This model's Storm bolters can be replaced with 1 Fragstorm grenade launchers.",
+      "This model can be equipped with one of the following: 1 Ironhail heavy stubber, 1 Multi-melta",
+      "This model can be equipped with one of the following: 1 Bellicatus missile array, 1 Orbital Comms Array, 1 Shield Dome"
     ],
-    "transport": "This model has a transport capacity of 16 Adeptus Astartes Infantry models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 7 Adeptus Astartes Infantry models. It cannot transport Terminator or Jump Pack models. Each Gravis model takes up the space of 2 models.",
     "keywords": [
-      "Land Raider Crusader",
-      "Land Raider",
+      "Dedicated Transport",
+      "Frame",
       "Imperium",
       "Transport",
-      "Grenades",
-      "Smoke",
-      "Vehicle",
-      "Frame"
+      "Vehicle"
     ],
     "factionKeywords": [
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Black Templars"
     ],
-    "baseSize": "Hull"
+    "baseSize": "100mm"
   },
   {
     "id": "marshal",
@@ -1739,13 +1498,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 1,
-        "points": 90,
-        "note": "3rd+"
+        "points": 80
       }
     ],
     "flavor": "Each Black Templars crusade is led by a Marshal. Similar in rank to the Captains of other Chapters, Marshals are fearsome combatants and paragons of strategic acumen. Ensuring a crusade’s purity and success is a sacred duty, and Marshals fight with sanctified relic weapons while acting as beacons of pious fervour for their warriors.",
@@ -1753,7 +1506,7 @@ export default [
       {
         "name": "Marshal",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -1763,23 +1516,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Combi-weapon",
+        "name": "Plasma Pistol – standard",
         "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 1"
-        ],
-        "range": "24\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Plasma pistol – standard",
-        "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
@@ -1789,10 +1528,10 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma pistol – supercharge",
+        "name": "Plasma Pistol – supercharge",
         "tags": [
-          "HAZARDOUS",
-          "PISTOL"
+          "CLOSE-QUARTERS",
+          "HAZARDOUS"
         ],
         "range": "12\"",
         "a": "1",
@@ -1800,44 +1539,57 @@ export default [
         "s": "8",
         "ap": "-3",
         "d": "2"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "9",
+        "ap": "-3",
+        "d": "D3+2"
       }
     ],
     "melee": [
       {
-        "name": "Master-crafted power weapon",
+        "name": "Master-crafted Power Weapon",
         "tags": [
           "LETHAL HITS"
         ],
         "a": "7",
         "ws": "2+",
-        "s": "5",
+        "s": "6",
         "ap": "-2",
         "d": "2"
       }
     ],
     "core": "Leader",
-    "faction": "Templar Vows",
+    "faction": "Combat Doctrines, Transhuman Strategist",
     "abilities": [
       {
         "name": "Inspirational Exemplar",
-        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, an unmodified Hit roll of 5+ scores a Critical Hit."
+        "text": "This unit's melee attacks have +1 to **[gloss:hit-roll:hit rolls]**."
       },
       {
         "name": "Pious Fervour",
-        "text": "Each time this model’s unit is selected to fight, until the end of the phase, add 1 to the Attacks characteristic of this model’s master-crafted power weapon for each enemy unit within 6\" of this model (to a maximum of +3)."
+        "text": "When this unit is **[gloss:selected-to-fight:selected to fight]**, you can use this ability. If you do, this model's melee attacks have +1 **[gloss:attack-dice:A]** for each enemy unit within 6\" of this model (to a maximum of +3 **A**)."
       }
     ],
     "composition": [
-      "1 Marshal"
+      "1 Marshal model"
     ],
-    "loadout": "**This model is equipped with:** plasma pistol; master-crafted power weapon.",
+    "loadout": "**This model is equipped with:** 1 Master-crafted Power Weapon; 1 Plasma Pistol.",
     "options": [
-      "This model’s plasma pistol can be replaced with one combi-weapon."
+      "This model's Plasma Pistol can be replaced with 1 Combi-weapon."
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
         "Assault Intercessor Squad",
+        "Bladeguard Veteran Squad",
         "Crusader Squad",
         "Infernus Squad",
         "Intercessor Squad",
@@ -1846,17 +1598,16 @@ export default [
       ]
     },
     "keywords": [
-      "Infantry",
-      "Character",
-      "Grenades",
-      "Imperium",
-      "Tacticus",
       "Captain",
-      "Marshal"
+      "Character",
+      "Explosives",
+      "Imperium",
+      "Infantry",
+      "Tacticus"
     ],
     "factionKeywords": [
-      "Black Templars",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Black Templars"
     ],
     "baseSize": "40mm"
   },
@@ -1866,12 +1617,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 170,
+        "points": 190,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 190,
+        "points": 210,
         "note": "3rd+"
       }
     ],
@@ -1889,19 +1640,30 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Heavy onslaught gatling cannon",
+        "name": "Defensive Array",
+        "tags": [],
+        "range": "24\"",
+        "a": "18",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy Onslaught Gatling Cannon",
         "tags": [
-          "DEVASTATING WOUNDS"
+          "DEVASTATING WOUNDS: NON-MONSTER/VEHICLE",
+          "SUSTAINED HITS 2: NON-MONSTER/VEHICLE"
         ],
         "range": "24\"",
         "a": "12",
         "bs": "3+",
         "s": "6",
-        "ap": "0",
+        "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Hunter-slayer missile",
+        "name": "Hunter-slayer Missile",
         "tags": [
           "INDIRECT FIRE",
           "ONE SHOT"
@@ -1911,43 +1673,12 @@ export default [
         "bs": "2+",
         "s": "14",
         "ap": "-3",
-        "d": "D6"
+        "d": "D3+3"
       },
       {
-        "name": "Las-talon",
-        "tags": [],
-        "range": "36\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "10",
-        "ap": "-3",
-        "d": "D6"
-      },
-      {
-        "name": "Multi-melta",
+        "name": "Twin Heavy Bolter",
         "tags": [
-          "MELTA 2"
-        ],
-        "range": "18\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "9",
-        "ap": "-4",
-        "d": "D6"
-      },
-      {
-        "name": "Repulsor defensive array",
-        "tags": [],
-        "range": "24\"",
-        "a": "18",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Twin heavy bolter",
-        "tags": [
+          "RAPID FIRE 2",
           "SUSTAINED HITS 1",
           "TWIN-LINKED"
         ],
@@ -1959,7 +1690,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Twin lascannon",
+        "name": "Twin Lascannon",
         "tags": [
           "TWIN-LINKED"
         ],
@@ -1968,12 +1699,34 @@ export default [
         "bs": "3+",
         "s": "12",
         "ap": "-3",
-        "d": "D6+1"
+        "d": "D3+3"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 3"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D3+2"
+      },
+      {
+        "name": "Las-talon",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D3+3"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Hull",
         "tags": [],
         "a": "6",
         "ws": "4+",
@@ -1982,38 +1735,34 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D6",
-    "faction": "Templar Vows",
+    "core": "Damaged 6, Deadly Demise D6",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Stabilised Disembarkation",
-        "text": "In your opponent’s Shooting phase, each time an enemy unit is selected to shoot, after that unit has shot, if any of those attacks targeted this TRANSPORT, it can use this ability. If it does, any units embarked within it can disembark. When doing so, models in those units can be set up anywhere on the battlefield wholly within 6\" of this TRANSPORT and not within Engagement Range of one or more enemy units."
+        "name": "Combat Embarkation",
+        "text": "In your opponent’s Charge phase, when an enemy unit has selected **[gloss:charge-target:charge targets]**, you can select one friendly **[gloss:unengaged:unengaged]** ADEPTUS ASTARTES unit that was one of those **charge targets** and is eligible to embark within this TRANSPORT. If every model in that unit is within 3\" of this TRANSPORT, that unit can embark within this TRANSPORT. That enemy unit can then select new **charge targets** for that **[gloss:charge-move:charge move]**."
       }
     ],
-    "damaged": {
-      "note": "1-5 wounds remaining",
-      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Repulsor"
+      "1 Repulsor model"
     ],
-    "loadout": "**This model is equipped with:** heavy onslaught gatling cannon; hunter-slayer missile; Repulsor defensive array; twin heavy bolter; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Defensive Array; 1 Heavy Onslaught Gatling Cannon; 1 Hunter-slayer Missile; 1 Twin Heavy Bolter.",
     "options": [
-      "This model’s twin heavy bolter can be replaced with 1 twin lascannon.",
-      "This model’s heavy onslaught gatling cannon can be replaced with 1 las-talon.",
-      "This model can be equipped with 1 multi-melta."
+      "This model's Twin heavy bolter can be replaced with 1 Twin lascannon.",
+      "This model can be equipped with 1 Multi-melta",
+      "This model's Heavy onslaught gatling cannon can be replaced with 1 Las-talon."
     ],
-    "transport": "This model has a transport capacity of 14 Adeptus Astartes Infantry models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 14 Adeptus Astartes Infantry models. Each Terminator, Gravis, Jump Pack, Wulfen model takes up the space of 2 models.",
     "keywords": [
-      "Transport",
-      "Vehicle",
-      "Repulsor",
-      "Smoke",
+      "Frame",
       "Imperium",
-      "Frame"
+      "Smoke",
+      "Transport",
+      "Vehicle"
     ],
     "factionKeywords": [
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Black Templars"
     ],
     "baseSize": "100mm"
   },
@@ -2023,12 +1772,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 255,
+        "points": 265,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 275,
+        "points": 285,
         "note": "3rd+"
       }
     ],
@@ -2046,8 +1795,19 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Heavy laser destroyer",
+        "name": "Defensive Array",
+        "tags": [],
+        "range": "24\"",
+        "a": "18",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy Laser Destroyer",
         "tags": [
+          "DEVASTATING WOUNDS",
           "HEAVY"
         ],
         "range": "72\"",
@@ -2058,91 +1818,22 @@ export default [
         "d": "D6+4"
       },
       {
-        "name": "Heavy onslaught gatling cannon",
+        "name": "Heavy Onslaught Gatling Cannon",
         "tags": [
-          "DEVASTATING WOUNDS"
+          "DEVASTATING WOUNDS: NON-MONSTER/VEHICLE",
+          "SUSTAINED HITS 2: NON-MONSTER/VEHICLE"
         ],
         "range": "24\"",
         "a": "12",
         "bs": "3+",
         "s": "6",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Icarus rocket pod",
-        "tags": [
-          "ANTI-FLY 2+"
-        ],
-        "range": "24\"",
-        "a": "D3",
-        "bs": "3+",
-        "s": "8",
         "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Ironhail heavy stubber",
-        "tags": [
-          "RAPID FIRE 3"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
         "d": "1"
       },
       {
-        "name": "Multi-melta",
+        "name": "Twin Heavy Bolter",
         "tags": [
-          "MELTA 2"
-        ],
-        "range": "18\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "9",
-        "ap": "-4",
-        "d": "D6"
-      },
-      {
-        "name": "Macro plasma incinerator – standard",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "36\"",
-        "a": "D6+1",
-        "bs": "3+",
-        "s": "8",
-        "ap": "-3",
-        "d": "2"
-      },
-      {
-        "name": "Macro plasma incinerator – supercharge",
-        "tags": [
-          "BLAST",
-          "HAZARDOUS"
-        ],
-        "range": "36\"",
-        "a": "D6+1",
-        "bs": "3+",
-        "s": "9",
-        "ap": "-4",
-        "d": "3"
-      },
-      {
-        "name": "Repulsor Executioner defensive array",
-        "tags": [],
-        "range": "24\"",
-        "a": "10",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Twin heavy bolter",
-        "tags": [
+          "RAPID FIRE 2",
           "SUSTAINED HITS 1",
           "TWIN-LINKED"
         ],
@@ -2154,23 +1845,46 @@ export default [
         "d": "2"
       },
       {
-        "name": "Twin Icarus ironhail heavy stubber",
+        "name": "Multi-melta",
         "tags": [
-          "ANTI-FLY 4+",
-          "RAPID FIRE 3",
-          "TWIN-LINKED"
+          "MELTA 3"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D3+2"
+      },
+      {
+        "name": "Macro Plasma Incinerator – standard",
+        "tags": [
+          "BLAST 1"
         ],
         "range": "36\"",
-        "a": "3",
+        "a": "D3+3",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
+        "s": "9",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Macro Plasma Incinerator – supercharge",
+        "tags": [
+          "BLAST 1",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3+3",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-4",
+        "d": "3"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Hull",
         "tags": [],
         "a": "6",
         "ws": "4+",
@@ -2179,204 +1893,35 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D6",
-    "faction": "Templar Vows",
+    "core": "Damaged 6, Deadly Demise D6",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Interception Strike",
-        "text": "Each time this model makes a ranged attack that targets an enemy unit within 12\" of one or more ADEPTUS ASTARTES units from your army, you can re-roll the Hit roll."
+        "name": "Executioner",
+        "text": "This unit’s ranged attacks that target a unit not **[gloss:half-strength:below half-strength]** have +1 to **[gloss:hit-roll:hit rolls]**."
       }
     ],
-    "damaged": {
-      "note": "1-5 wounds remaining",
-      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Repulsor Executioner"
+      "1 Repulsor Executioner model"
     ],
-    "loadout": "**This model is equipped with:** heavy onslaught gatling cannon; macro plasma incinerator; Repulsor Executioner defensive array; twin heavy bolter; twin Icarus ironhail heavy stubber; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Defensive Array; 1 Heavy Laser Destroyer; 1 Heavy Onslaught Gatling Cannon; 1 Twin Heavy Bolter.",
     "options": [
-      "This model’s macro plasma incinerator can be replaced with 1 heavy laser destroyer.",
-      "This model can be equipped with one of the following:\n▪ 1 ironhail heavy stubber\n▪ 1 multi-melta",
-      "This model can be equipped with 1 Icarus rocket pod."
+      "All models in this unit can each have their Heavy laser destroyer replaced with 1 Macro plasma incinerator.",
+      "This model can be equipped with 1 Multi-melta"
     ],
-    "transport": "This model has a transport capacity of 7 Adeptus Astartes Infantry models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 7 Adeptus Astartes Infantry models. Each Terminator, Gravis, Jump Pack, Wulfen model takes up the space of 2 models.",
     "keywords": [
-      "Repulsor Executioner",
+      "Frame",
       "Imperium",
-      "Transport",
       "Smoke",
-      "Vehicle",
-      "Frame"
+      "Transport",
+      "Vehicle"
     ],
     "factionKeywords": [
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Black Templars"
     ],
     "baseSize": "100mm"
-  },
-  {
-    "id": "sternguard-veteran-squad",
-    "name": "Sternguard Veteran Squad",
-    "points": [
-      {
-        "models": 5,
-        "points": 85
-      },
-      {
-        "models": 10,
-        "points": 160
-      }
-    ],
-    "flavor": "Sternguard Veterans are possessed of an unshakeable calm, and are renowned amongst their brothers for their exemplary marksmanship in the fiercest battles. Proficient in all of the Chapter’s ranged weaponry, they can always be found where their pinpoint volleys will best shatter the foe.",
-    "profiles": [
-      {
-        "name": "Sternguard Veteran Squad",
-        "m": "6\"",
-        "t": "4",
-        "sv": "3+",
-        "w": "2",
-        "ld": "6+",
-        "oc": "1"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Combi-weapon",
-        "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 1"
-        ],
-        "range": "24\"",
-        "a": "1",
-        "bs": "4+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Pyrecannon",
-        "tags": [
-          "IGNORES COVER",
-          "TORRENT"
-        ],
-        "range": "12\"",
-        "a": "D6+1",
-        "bs": "N/A",
-        "s": "6",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Sternguard bolt pistol",
-        "tags": [
-          "DEVASTATING WOUNDS",
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Sternguard bolt rifle",
-        "tags": [
-          "ASSAULT",
-          "DEVASTATING WOUNDS",
-          "HEAVY",
-          "RAPID FIRE 1"
-        ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Sternguard heavy bolter",
-        "tags": [
-          "DEVASTATING WOUNDS",
-          "HEAVY",
-          "SUSTAINED HITS 1"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "4+",
-        "s": "5",
-        "ap": "-1",
-        "d": "2"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Astartes chainsword",
-        "tags": [],
-        "a": "6",
-        "ws": "3+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Close combat weapon",
-        "tags": [],
-        "a": "4",
-        "ws": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Power weapon",
-        "tags": [],
-        "a": "5",
-        "ws": "3+",
-        "s": "5",
-        "ap": "-2",
-        "d": "1"
-      },
-      {
-        "name": "Power fist",
-        "tags": [],
-        "a": "4",
-        "ws": "3+",
-        "s": "8",
-        "ap": "-2",
-        "d": "2"
-      }
-    ],
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Virtuous Onslaught",
-        "text": "Each time a model in this unit makes an attack that targets the closest eligible target, re-roll a Wound roll of 1."
-      }
-    ],
-    "composition": [
-      "1 Sternguard Veteran Sergeant",
-      "4-9 Sternguard Veterans"
-    ],
-    "loadout": "**Every model is equipped with:** Sternguard bolt pistol; Sternguard bolt rifle; close combat weapon.",
-    "options": [
-      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*\n* This model’s Sternguard bolt rifle cannot be replaced.",
-      "Any number of Sternguard Veterans can each have their Sternguard bolt rifle replaced with 1 combi-weapon.",
-      "For every 5 models in this unit, 1 Sternguard Veteran’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 pyrecannon\n▪ 1 Sternguard heavy bolter",
-      "* This model's Sternguard bolt rifle cannot be replaced."
-    ],
-    "keywords": [
-      "Infantry",
-      "Grenades",
-      "Sternguard Veteran Squad",
-      "Imperium",
-      "Tacticus"
-    ],
-    "factionKeywords": [
-      "Adeptus Astartes"
-    ],
-    "baseSize": "32mm"
   },
   {
     "id": "sword-brethren-squad",
@@ -2384,51 +1929,51 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 100,
+        "points": 115,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 125,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
         "models": 9,
-        "points": 225,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 10,
         "points": 250,
         "note": "1st-2nd"
       },
       {
+        "models": 10,
+        "points": 275,
+        "note": "1st-2nd"
+      },
+      {
         "models": 4,
-        "points": 120,
+        "points": 135,
         "note": "3rd+"
       },
       {
         "models": 5,
-        "points": 145,
+        "points": 160,
         "note": "3rd+"
       },
       {
         "models": 9,
-        "points": 245,
+        "points": 270,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 270,
+        "points": 295,
         "note": "3rd+"
       }
     ],
     "flavor": "Every Sword Brother has earned their place amongst the Marshal’s household through acts of unswerving faith and spectacular violence. On the battlefield, they are reaping whirlwinds, unstoppable, uncompromising, and armed with a lethal assortment of weapons, and they turn upon the enemy in the Emperor’s name.",
     "profiles": [
       {
-        "name": "Sword Brethren Squad",
+        "name": "Sword Brother",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "3",
         "ld": "6+",
@@ -2437,21 +1982,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Heavy bolt pistol",
+        "name": "Plasma Pistol – standard",
         "tags": [
-          "PISTOL"
-        ],
-        "range": "18\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Plasma pistol – standard",
-        "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
@@ -2461,10 +1994,10 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma pistol – supercharge",
+        "name": "Plasma Pistol – supercharge",
         "tags": [
-          "HAZARDOUS",
-          "PISTOL"
+          "CLOSE-QUARTERS",
+          "HAZARDOUS"
         ],
         "range": "12\"",
         "a": "1",
@@ -2474,15 +2007,26 @@ export default [
         "d": "2"
       },
       {
-        "name": "Pyre pistol",
+        "name": "Heavy Bolt Pistol",
         "tags": [
-          "IGNORES COVER",
-          "PISTOL",
+          "CLOSE-QUARTERS"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hand Flamer",
+        "tags": [
+          "CLOSE-QUARTERS",
           "TORRENT"
         ],
-        "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
+        "range": "9\"",
+        "a": "3",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -2490,40 +2034,18 @@ export default [
     ],
     "melee": [
       {
-        "name": "Astartes chainsword",
+        "name": "Chainsword",
         "tags": [
           "SUSTAINED HITS 1"
         ],
         "a": "6",
         "ws": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Master-crafted power weapon",
-        "tags": [
-          "LETHAL HITS"
-        ],
-        "a": "3",
-        "ws": "2+",
-        "s": "5",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Thunder hammer",
-        "tags": [
-          "DEVASTATING WOUNDS"
-        ],
-        "a": "3",
-        "ws": "3+",
-        "s": "8",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Twin lightning claws",
+        "name": "Twin Lightning Claws",
         "tags": [
           "TWIN-LINKED"
         ],
@@ -2532,194 +2054,57 @@ export default [
         "s": "5",
         "ap": "-2",
         "d": "1"
-      }
-    ],
-    "faction": "Templar Vows",
-    "abilities": [
-      {
-        "name": "Exploit Their Cowardice",
-        "text": "Each time an enemy unit within Engagement Range of this unit is selected to Fall Back, after it ends that Fall Back move, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move."
-      }
-    ],
-    "composition": [
-      "4-10 Sword Brothers"
-    ],
-    "loadout": "**Every model is equipped with:** heavy bolt pistol; Astartes chainsword.",
-    "options": [
-      "Any number of Sword Brothers can each have their Astartes chainsword replaced with 1 master-crafted power weapon.",
-      "For every 5 models in this unit, 1 Sword Brother’s Astartes chainsword can be replaced with 1 thunder hammer.",
-      "For every 5 models in this unit, 1 Sword Brother’s heavy bolt pistol can be replaced with 1 plasma pistol.",
-      "For every 5 models in this unit, up to 2 Sword Brothers can each have their heavy bolt pistol replaced with 1 pyre pistol.",
-      "For every 5 models in this unit, 1 Sword Brother’s heavy bolt pistol and Astartes chainsword can be replaced with 1 twin lightning claws."
-    ],
-    "keywords": [
-      "Infantry",
-      "Grenades",
-      "Imperium",
-      "Tacticus",
-      "Sword Brethren Squad"
-    ],
-    "factionKeywords": [
-      "Black Templars",
-      "Adeptus Astartes"
-    ],
-    "baseSize": "40mm",
-    "rules": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
-      }
-    ]
-  },
-  {
-    "id": "terminator-squad",
-    "name": "Terminator Squad",
-    "points": [
-      {
-        "models": 5,
-        "points": 160
       },
       {
-        "models": 10,
-        "points": 320
-      }
-    ],
-    "flavor": "Terminator armour is a marvel of technology that enables its wearer to survive anything, from the stresses of teleportation to earth-shaking artillery bombardments. So equipped, Terminator Squads can appear in the midst of the foe or stride unstoppably across the field towards them, firing their weapons all the while.",
-    "profiles": [
-      {
-        "name": "Terminator Squad",
-        "m": "5\"",
-        "t": "5",
-        "sv": "2+",
-        "w": "3",
-        "ld": "6+",
-        "oc": "1",
-        "inv": "4+"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Assault cannon",
+        "name": "Thunder Hammer",
         "tags": [
           "DEVASTATING WOUNDS"
         ],
-        "range": "24\"",
-        "a": "6",
-        "bs": "3+",
-        "s": "6",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Cyclone missile launcher – frag",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "36\"",
-        "a": "2D6",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Cyclone missile launcher – krak",
-        "tags": [],
-        "range": "36\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "9",
-        "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Heavy flamer",
-        "tags": [
-          "IGNORES COVER",
-          "TORRENT"
-        ],
-        "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
-        "s": "5",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Storm bolter",
-        "tags": [
-          "RAPID FIRE 2"
-        ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Chainfist",
-        "tags": [
-          "ANTI-VEHICLE 3+"
-        ],
-        "a": "3",
-        "ws": "4+",
-        "s": "8",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Power fist",
-        "tags": [],
         "a": "3",
         "ws": "3+",
         "s": "8",
         "ap": "-2",
-        "d": "2"
+        "d": "3"
       },
       {
-        "name": "Power weapon",
-        "tags": [],
-        "a": "4",
-        "ws": "3+",
+        "name": "Master-crafted Power Weapon",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "3",
+        "ws": "2+",
         "s": "5",
         "ap": "-2",
-        "d": "1"
+        "d": "2"
       }
     ],
-    "core": "Deep Strike",
-    "faction": "Templar Vows",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
-      },
-      {
-        "name": "Judgement of the Weak",
-        "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of this unit Falls Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests."
+        "name": "Exploit their Cowardice",
+        "text": "In your opponent's Movement phase, when an enemy unit that was **[gloss:engaged:engaged]** with this unit ends a **[gloss:fall-back-move:fall-back move]**, if this unit is **[gloss:unengaged:unengaged]** it can make a **[gloss:normal-move:normal move]** of up to 6\"."
       }
     ],
     "composition": [
-      "1 Terminator Squad Leader",
-      "4-9 Terminators"
+      "4-10 Sword Brother models"
     ],
-    "loadout": "**Every model is equipped with:** storm bolter; power fist.",
+    "loadout": "**Every model is equipped with:** 1 Chainsword; 1 Heavy Bolt Pistol.",
     "options": [
-      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*\n* This model’s storm bolter cannot be replaced.",
-      "Any number of models can each have their power fist replaced with 1 chainfist.",
-      "The Terminator Squad Leader’s power fist can be replaced with 1 power weapon.",
-      "* This model’s storm bolter cannot be replaced."
+      "For every 4 models in this unit, up to 2 models can each have their Heavy Bolt Pistol replaced with 1 Hand Flamer.",
+      "Any number of models can each have their Chainsword replaced with 1 Master-crafted Power Weapon.",
+      "For every 4 models in this unit, 1 model can have their Chainsword replaced with 1 Thunder Hammer.",
+      "For every 4 models in this unit, 1 model can have their Heavy Bolt Pistol replaced with 1 Plasma Pistol.",
+      "For every 4 models in this unit, 1 model can have their Heavy Bolt Pistol and Chainsword replaced with 1 Twin Lightning Claws."
     ],
     "keywords": [
+      "Explosives",
       "Imperium",
-      "Terminator Squad",
-      "Terminator",
-      "Infantry"
+      "Infantry",
+      "Tacticus"
     ],
     "factionKeywords": [
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Black Templars"
     ],
     "baseSize": "40mm"
   }

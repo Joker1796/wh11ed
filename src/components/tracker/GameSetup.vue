@@ -265,17 +265,38 @@
                       ✕
                     </button>
                   </div>
-                  <button
+                  <!-- A dropdown under the button on a wide screen, the modal on a phone. -->
+                  <AdaptivePicker
                     v-else
-                    class="btn-choose-twist faction-btn"
-                    @click="factionPickerKey = ak(i, mi)"
+                    class="faction-pick"
+                    panel-width="32rem"
+                    :title="labels.trackerSelectFaction"
+                    :open="factionPickerKey === ak(i, mi)"
+                    @update:open="v => (factionPickerKey = v ? ak(i, mi) : '')"
                   >
-                    <span
-                      class="ct-name"
-                      :class="{ placeholder: !m.factionSlug }"
-                    >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
-                    <i class="bi bi-chevron-right ct-chev" />
-                  </button>
+                    <template #trigger="{ toggle, open }">
+                      <button
+                        class="btn-choose-twist faction-btn"
+                        :aria-expanded="open"
+                        @click="toggle"
+                      >
+                        <span
+                          class="ct-name"
+                          :class="{ placeholder: !m.factionSlug }"
+                        >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
+                        <i class="bi bi-chevron-down ct-chev" />
+                      </button>
+                    </template>
+                    <template #default="{ compact, bodyClass }">
+                      <FactionPickerList
+                        :class="bodyClass"
+                        :compact="compact"
+                        :selected="m.factionSlug"
+                        :combat-patrol-only="settings.combatPatrol"
+                        @pick="slug => selectFaction(m, slug)"
+                      />
+                    </template>
+                  </AdaptivePicker>
                   <!-- No list in Combat Patrol: the box IS the army (one fixed detachment, a
                        fixed Force Disposition, a fixed set of models), so a 2000-point list
                        attached here would describe a different game. -->
@@ -291,13 +312,6 @@
                     <i class="bi bi-card-list" />
                   </button>
                 </div>
-                <FactionPickerModal
-                  v-if="factionPickerKey === ak(i, mi)"
-                  :selected="m.factionSlug"
-                  :combat-patrol-only="settings.combatPatrol"
-                  @pick="slug => selectFaction(m, slug)"
-                  @close="factionPickerKey = ''"
-                />
                 <RosterPickerModal
                   v-if="rosterPickerKey === ak(i, mi)"
                   :selected="m.roster ? (m.rosterId || '') : null"
@@ -314,45 +328,56 @@
                 <span>
                   {{ labels.trackerDpBudget }} <em
                     class="dp-count"
-                    :class="{ over: dpSpent(m) > memberMaxDp && m.detachments.length !== 1 }"
-                  >{{ dpSpent(m) }} / {{ memberMaxDp }} DP</em>
-                  <button
-                    v-if="m.detachments.length === 1 && dpSpent(m) > memberMaxDp"
-                    type="button"
-                    class="help-btn"
-                    :aria-label="labels.trackerDpOverHelp"
-                    @click="dpHelpOpen = true"
-                  >
-                    <i class="bi bi-question-circle" />
-                  </button>
+                    :class="{ over: dpSpent(m) > dpLimit(m) }"
+                  >{{ dpSpent(m) }} / {{ dpLimit(m) }} DP</em>
                 </span>
-                <button
+                <!-- Several can be taken under the DP budget, so a pick leaves it open. -->
+                <AdaptivePicker
                   v-if="m.factionSlug && detachmentsFor(m.factionSlug).length"
-                  class="btn-choose-twist"
-                  @click="detPickerKey = ak(i, mi)"
+                  panel-width="30rem"
+                  modal-width="520px"
+                  :title="labels.trackerDpBudget"
+                  :open="detPickerKey === ak(i, mi)"
+                  @update:open="v => (detPickerKey = v ? ak(i, mi) : '')"
                 >
-                  <span
-                    class="ct-name"
-                    :class="{ placeholder: !m.detachments.length }"
-                  >{{ detSummary(m) }}</span>
-                  <i class="bi bi-chevron-right ct-chev" />
-                </button>
+                  <template #trigger="{ toggle, open }">
+                    <button
+                      class="btn-choose-twist"
+                      :aria-expanded="open"
+                      @click="toggle"
+                    >
+                      <span
+                        class="ct-name"
+                        :class="{ placeholder: !m.detachments.length }"
+                      >{{ detSummary(m) }}</span>
+                      <i class="bi bi-chevron-down ct-chev" />
+                    </button>
+                  </template>
+                  <template #aside>
+                    <span
+                      class="mh-count"
+                      :class="{ over: dpSpent(m) > dpLimit(m) }"
+                    >{{ dpSpent(m) }} / {{ dpLimit(m) }} DP</span>
+                  </template>
+                  <template #default="{ compact, bodyClass }">
+                    <DetachmentPickerList
+                      :class="bodyClass"
+                      :compact="compact"
+                      :detachments="detachmentsFor(m.factionSlug)"
+                      :selected="m.detachments"
+                      :max-dp="memberMaxDp"
+                      :dp-spent="dpSpent(m)"
+                      @toggle="d => toggleDetachment(m, d)"
+                      @clear="m.detachments.splice(0)"
+                    />
+                  </template>
+                </AdaptivePicker>
                 <p
                   v-else
                   class="det-empty"
                 >
                   {{ m.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}
                 </p>
-                <DetachmentPickerModal
-                  v-if="detPickerKey === ak(i, mi)"
-                  :detachments="detachmentsFor(m.factionSlug)"
-                  :selected="m.detachments"
-                  :max-dp="memberMaxDp"
-                  :dp-spent="dpSpent(m)"
-                  @toggle="d => toggleDetachment(m, d)"
-                  @clear="m.detachments.splice(0)"
-                  @close="detPickerKey = ''"
-                />
               </div>
               <div
                 v-else
@@ -1070,33 +1095,21 @@
       :text="labels.trackerRoleHelp"
       @close="roleHelpOpen = false"
     />
-
-    <BaseModal
-      v-if="dpHelpOpen"
-      :title="labels.trackerDpOverTitle"
-      max-width="380px"
-      @close="dpHelpOpen = false"
-    >
-      <div class="modal-body">
-        <p class="dp-help-text">
-          {{ labels.trackerDpOverText }}
-        </p>
-      </div>
-    </BaseModal>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
-import BaseModal from '../BaseModal.vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import LayoutTabs from './LayoutTabs.vue'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import MissionCard from '../event/MissionCard.vue'
 import RuleBody from '../RuleBody.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
-import DetachmentPickerModal from './DetachmentPickerModal.vue'
-import FactionPickerModal from './FactionPickerModal.vue'
+import DetachmentPickerList from './DetachmentPickerList.vue'
+import AdaptivePicker from '../AdaptivePicker.vue'
+import { dpLimitFor } from '../../composables/rosterEngine.js'
+import FactionPickerList from './FactionPickerList.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
@@ -1475,7 +1488,6 @@ function randomTwist() {
 }
 
 const scoreHelpOpen = ref(false)
-const dpHelpOpen = ref(false)
 const forceTypeHelpOpen = ref(false)
 const roleHelpOpen = ref(false)
 // Step 3's two-column desktop layout (`.two-col`, >700px): the layout tabs move into the side
@@ -1518,7 +1530,7 @@ function factionName(slug) {
 // Combat Patrol box content (rule name, fixed Force Disposition, box name/DP) — dynamically
 // imported (heavy, datasheet-bearing file) only once "Тип игры" is set to Combat Patrol, same
 // "heavy data file, dynamic import" rule as everywhere else in this codebase. `name`/`slug`/
-// `forceDisposition`/`boxName` are locale-agnostic structural fields, so the EN list is enough
+// `forceDisposition`/`boxName` (a Combat Patrol box has one) are locale-agnostic structural fields, so the EN list is enough
 // here regardless of the app's current locale.
 const combatPatrolData = ref(null)
 async function loadCombatPatrolData() {
@@ -1659,6 +1671,10 @@ function detSummary(p) {
 function dpSpent(p) {
   return p.detachments.reduce((s, name) => s + (detachmentInfo(p.factionSlug, name)?.dp || 0), 0)
 }
+// The budget this army's detachments are held to — 3 for a lone 3 DP one at Incursion.
+function dpLimit(p) {
+  return dpLimitFor(p.detachments.map((name) => ({ dp: detachmentInfo(p.factionSlug, name)?.dp || 0 })), memberMaxDp.value)
+}
 function candidateDispositions(p) {
   // Combat Patrol: exactly one, fixed disposition — already resolved onto p.disposition by
   // resolveArmyChoice, just echo it back in the shape the step-2 template expects.
@@ -1666,7 +1682,7 @@ function candidateDispositions(p) {
   // Doubles: one disposition per TEAM, "available to either of the armies in that team"
   // (companion, Muster step) — so the candidates are the union over the side's armies.
   const ids = armiesOf(p).flatMap(m => m.detachments
-    .map(name => detachmentInfo(m.factionSlug, name)?.forceDisposition)
+    .flatMap(name => detachmentInfo(m.factionSlug, name)?.forceDispositions || [])
     .filter(Boolean)
     .map(name => DISPOSITIONS.find(d => d.name === name)?.id)
     .filter(Boolean))
@@ -2210,14 +2226,13 @@ function cancel() {
 }
 .twist-chosen-body { padding: 0 0.7rem 0.6rem; font-size: 0.86rem; line-height: 1.5; }
 .twist-mission { margin-top: 0.8rem; }
-.dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
 
 /* The faction control and "attach a list" share a row; the button stretches to whichever of the
    two is beside it (the picker is min-height 44px, the attached line is shorter) instead of
    carrying a height of its own. */
 .faction-row { display: flex; align-items: stretch; gap: 0.4rem; }
-.faction-row > .btn-choose-twist,
+.faction-row > .faction-pick,
 .faction-row > .roster-line { flex: 1; min-width: 0; }
 .rp-open {
   display: inline-flex; align-items: center; justify-content: center;

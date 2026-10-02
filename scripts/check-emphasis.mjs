@@ -206,7 +206,8 @@ export async function collect() {
     .map((f) => f.slice(0, -3))
     .sort()
 
-  const findings = { A: [], B: [], Bother: [], C: 0 }
+  // `Cspans` — class C itself, for a pass that marks the ones the glossary knows (gloss-bold-terms).
+  const findings = { A: [], B: [], Bother: [], C: 0, Cspans: [] }
 
   for (const slug of factionSlugs) {
     await eachFactionTextPair(slug, (label, whText, candidates) => {
@@ -238,6 +239,7 @@ export async function collect() {
           continue
         }
         findings.C++
+        findings.Cspans.push({ slug, label, whText, text })
       }
     })
   }

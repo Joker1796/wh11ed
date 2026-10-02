@@ -342,6 +342,18 @@ const FRAMES = [
     ok: (m) => (!m[2] || plainSlot(m[2])) && !/\bor (?:its|their)\b/i.test(m[3]) && plainValue(m[4]),
     ru: (m) => `${m[1]} модель${suffix(m[2] || '')} может заменить ${slotRu(m[3])} на ${joinRu(m[4])}.`,
   },
+  // "The Kill Team Sergeant can have their Knives and Fists replaced with …" — Codex: Space
+  // Marines (963) names its sergeants this way rather than with a possessive.
+  {
+    re: /^The (.+?) can have (?:its|their) (.+?) replaced with (?:one|1) of the following:?\s*$/i,
+    ok: (m) => plainSlot(m[1]),
+    ru: (m) => `${subjectRu(m[1])} может заменить ${slotRu(m[2])} на одно из:`,
+  },
+  {
+    re: /^The (.+?) can have (?:its|their) (.+?) replaced with (.+?)\.?$/i,
+    ok: (m) => plainSlot(m[1]) && plainValue(m[3]),
+    ru: (m) => `${subjectRu(m[1])} может заменить ${slotRu(m[2])} на ${joinRu(m[3])}.`,
+  },
   // "The Sister Superior's boltgun can be replaced with one of the following:" — the owner may
   // end in an s-final possessive too ("the Princeps’ transonic razor"), stripped back to the name.
   {
@@ -436,6 +448,7 @@ const CONTAINS = /^[Il]f this unit contains (\d+)( or fewer| or more)? models[:,
 // the following, and can take duplicates:", "two different weapons from the following list:*" and
 // a bare "…with:" — any head line that ends in a colon (footnote stars allowed) over a list.
 const LIST_HEAD = /^([^\n]*?:\**)\s*\n([\s\S]+)$/
+const INLINE_LIST = /^([^\n]+? of the following):[ \t]+(\d+ [^,\n]+(?:,[ \t]*\d+ [^,\n]+)+)\.?$/
 
 // The footnotes a sentence or its list can end with ("* The profile for this weapon can be found
 // on the Adeptus Astartes Legends Armoury card."). Split off before the frames see the sentence,
@@ -485,6 +498,16 @@ function translateClause(text) {
   // and the odd no-break space where a frame expects a plain one ("…replaced with 1 twin…").
   let s = text.replace(/[\u00a0\u2007\u202f]/g, ' ').trim().replace(/^■\s*/, '')
   if (!s) return null
+
+  // Codex: Space Marines (963) writes the options on the head's own line — "…replaced with one of
+  // the following: 1 Hand Flamer, 1 Plasma Pistol" — where older sheets break them into ◦ bullets.
+  // The head goes through the frames as usual; the items stay English, only their "and" glue is
+  // Russian. An entry carrying its own clause in brackets is not a plain item: fail open.
+  const inline = s.match(INLINE_LIST)
+  if (inline && !/[()]/.test(inline[2])) {
+    const head = translateClause(`${inline[1]}:`)
+    return head ? `${head} ${inline[2].split(/,\s*/).map(joinRu).join(', ')}` : null
+  }
 
   const list = s.match(LIST_HEAD)
   let tail = ''

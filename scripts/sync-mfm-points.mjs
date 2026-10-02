@@ -107,7 +107,10 @@ for (const file of readdirSync(DS).sort()) {
   // ---- own units --------------------------------------------------------
   let src = readFileSync(path.join(DS, file), 'utf-8')
   let touched = false
-  const have = new Set(mod.default.map((u) => norm(u.name)))
+  // A Chapter fields the Codex: Space Marines Legends through its shared list, and its own MFM page
+  // prices them again under Legends — those are not a missing sheet.
+  const shared = isChapter ? mod.sharedUnitIds.map((id) => smById.get(id)?.name).filter(Boolean) : []
+  const have = new Set([...mod.default, ...shared.map((name) => ({ name }))].map((u) => norm(u.name)))
   for (const k of legendsNames) if (!have.has(k)) missingLegends.push(`${slug}: ${k}`)
   for (const u of mod.default) {
     const want = expected.get(norm(u.name))

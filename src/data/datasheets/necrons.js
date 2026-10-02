@@ -19,7 +19,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 100
       }
     ],
     "flavor": "Slow-moving but deadly, Annihilation Barges serve as anti-infantry fire support platforms. They are often deployed to watch over important strategic locations, gliding serenely into position upon a cushion of repulsion energies before unleashing furious storms of eldritch lightning from their massive cannons.",
@@ -406,7 +406,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140
+        "points": 130
       }
     ],
     "flavor": "Canoptek Doomstalkers stride with eerie grace. Whether prowling their masters’ armouries as tireless sentinels or providing mobile fire support to the Necron legions, the Doomstalkers annihilate all those who dare stand against them with searing salvoes from their doomsday blasters.",
@@ -822,7 +822,7 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 50
+        "points": 60
       }
     ],
     "flavor": "Lumbering weapon platforms and loyal bodyguards, Canoptek Tomb Crawlers are usually seen fighting alongside their Cryptek masters. They select and eliminate their targets with dogged persistence, their aim unwavering as they blast their victims to blackened ruin or pitch them screaming into dimensional oubliettes from which there is no escape.",
@@ -1272,7 +1272,7 @@ export default [
       },
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more Fortifications from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       }
     ],
     "rules": [
@@ -1546,7 +1546,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 210,
+        "points": 200,
         "note": "1st-2nd"
       },
       {
@@ -2036,11 +2036,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 70
+        "points": 65
       },
       {
         "models": 10,
-        "points": 140
+        "points": 130
       }
     ],
     "flavor": "Once the shook troops of the Necrontyr, Immortals still provide their masters with a powerful core of skilled soldiery millennia later. More advanced than Necron Warriors, they can employ a number of strategies even without command, and their firepower makes them deadly in close or midrange engagements.",
@@ -2234,7 +2234,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 175,
+        "points": 190,
         "note": "1st-2nd"
       },
       {
@@ -2254,7 +2254,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 205,
+        "points": 220,
         "note": "3rd+"
       }
     ],
@@ -2504,7 +2504,7 @@ export default [
       },
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit **[gloss:nec-resurrect:resurrects]**: when a unit **resurrects**, that unit’s Reanimation Protocols activate, but that unit **[gloss:heal:heals]** D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -2693,7 +2693,7 @@ export default [
     "abilities": [
       {
         "name": "Eternity Gate",
-        "text": "In your movement phase (excluding the first battle round), you can select one friendly NECRONS INFANTRY unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and while making that ingress move, that unit must be set up wholly within 6\" of this unit and unengaged (instead of more than 8\" horizontally from all enemy units), even if that is within your opponent’s deployment zone. That unit cannot make a charge move this turn."
+        "text": "In your movement phase (excluding the first battle round), you can select one friendly NECRONS INFANTRY unit that is either in **[gloss:strategic-reserves:strategic reserves]** or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into **strategic reserves**). That unit can make an **[gloss:ingress-move:ingress move]**, and while making that **ingress move**, that unit must be set up wholly within 6\" of this unit and unengaged (instead of more than 8\" horizontally from all enemy units), even if that is within your opponent’s deployment zone. That unit cannot make a **[gloss:charge-move:charge move]** this turn."
       }
     ],
     "damaged": {
@@ -2813,7 +2813,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 185
+        "points": 195
       }
     ],
     "flavor": "Death made manifest, Nekrosor Ammentar is a figure of horror even to other Necrons. Destroyer madness radiates from the Nekrosor like religious fervour, driving its legions to murderous ferocity. Yet none kill with the sheer relentless fury of the Nekrosor, whose Unmaker Gauntlet and enmitic disintegrators leave ruin in the monster’s wake.",
@@ -3119,7 +3119,7 @@ export default [
     "abilities": [
       {
         "name": "Tunnelling Horrors",
-        "text": "At the end of your opponent’s turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn)."
+        "text": "At the end of your opponent’s turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in **[gloss:strategic-reserves:strategic reserves]**.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn)."
       }
     ],
     "wargearAbilities": [
@@ -3310,7 +3310,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit **[gloss:nec-resurrect:resurrects]**: when a unit **resurrects**, that unit’s Reanimation Protocols activate, but that unit **[gloss:heal:heals]** D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3390,7 +3390,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit **[gloss:nec-resurrect:resurrects]**: when a unit **resurrects**, that unit’s Reanimation Protocols activate, but that unit **[gloss:heal:heals]** D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3501,7 +3501,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 65
       }
     ],
     "flavor": "Psychomancers study the science of fear. They are expert manipulators, conjuring phantasms and temporary hard-light constructs that trigger primal survival instincts in their victims’ minds, or overload even the most advanced sensoria. No being is safe from the creeping tendrils of the Psychomancer’s art.",
@@ -4040,7 +4040,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 485,
+        "points": 505,
         "note": "2nd+"
       }
     ],
@@ -4312,15 +4312,15 @@ export default [
         "options": [
           {
             "name": "Phaeron of the Stars (Aura)",
-            "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, each time a model in that unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+            "text": "While a friendly NECRONS unit (excluding MONSTER units) is within 6\" of this unit’s Szarekh model, each time a model in that unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
           },
           {
             "name": "Phaeron of the Blades (Aura)",
-            "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, you can re-roll Charge rolls made for that unit and each time a model in that unit makes a melee attack, add 1 to the Strength characteristic of that attack."
+            "text": "While a friendly NECRONS unit (excluding MONSTER units) is within 6\" of this unit’s Szarekh model, you can re-roll Charge rolls made for that unit and each time a model in that unit makes a melee attack, add 1 to the Strength characteristic of that attack."
           },
           {
             "name": "Relentless March (Aura)",
-            "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, add 2\" to the Move characteristic of models in that unit."
+            "text": "While a friendly NECRONS unit (excluding MONSTER units) is within 6\" of this unit’s Szarekh model, add 2\" to the Move characteristic of models in that unit."
           }
         ]
       }
@@ -4518,7 +4518,7 @@ export default [
     "abilities": [
       {
         "name": "Transdimensional Displacement",
-        "text": "In your Movement phase, when this unit is selected to make an Advance move, you can use this ability. If you do:\n▪ That Advance move has no maximum distance.\n▪ This unit can move through all types of model (including enemy models and MONSTER/VEHICLE models).\n▪ After moving, this unit must be more than 8\" horizontally from all enemy units."
+        "text": "In your Movement phase, when this unit is selected to make an **[gloss:advance-move:Advance move]**, you can use this ability. If you do:\n▪ That **Advance move** has no **[gloss:maximum-distance:maximum distance]**.\n▪ This unit can move through all types of model (including enemy models and MONSTER/VEHICLE models).\n▪ After moving, this unit must be more than 8\" horizontally from all enemy units."
       },
       {
         "name": "Necrodermis",
@@ -4556,7 +4556,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "A thief of moments in history, Trazyn takes to the battlefield to acquire that which cunning cannot secure. His Empathic Obliterator triggers psionic shock waves that kill not only his immediate victim, but those of a like mind nearby, while his ability to leap from one surrogate body to the next ensures he is hard to slay indeed.",

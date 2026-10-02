@@ -27,7 +27,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
 
 const T = path.join(APPDATA, 'tables')
@@ -804,7 +804,15 @@ function linkWargearConditions(datasheetId, drafts) {
     // Case (b): a sibling group's own `rep` shows it replaces this exact item — this group is
     // only live once that sibling has actually been picked away from its default.
     const repSibling = drafts.find((s) => s !== d && s.m === d.m && s.rep?.includes(uuid))
-    if (repSibling) d.cond = { sibling: repSibling, active: negated }
+    if (repSibling) { d.cond = { sibling: repSibling, active: negated }; continue }
+
+    // Case (c): the item is not the model's to start with, and exactly one sibling group hands it
+    // out — "If the Helliarch is equipped with 1 splinter pistol, it can be equipped with 1
+    // hellglaive", where only the swap for "1 splinter pistol and 1 power weapon" brings a pistol.
+    // Unread until 2026-09-30, the hellglaive could be taken with no swap at all.
+    if (negated || defaultsByMini.get(d.miniId)?.has(uuid)) continue
+    const givers = drafts.filter((s) => s !== d && s.m === d.m && s.opts.some((o) => o.uuid === uuid))
+    if (givers.length === 1) d.cond = { sibling: givers[0], active: true }
   }
 }
 
@@ -930,9 +938,15 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
     const bullets = lines.filter((l) => BULLET_RE.test(l))
     // With a list the statements ARE its entries: the sentence above them only introduces the
     // list ("…replaced with one of the following:") and names the items being given up.
+    // Codex: Space Marines (963) also writes the list on the sentence's own line, entries split by
+    // commas: "…replaced with one of the following: 1 Boltgun and 1 Storm Shield, 1 Power Weapon and
+    // 1 Storm Shield". Each entry opens with its count, which is what tells a comma between entries
+    // from one inside a name.
+    const inline = lines.length === 1 && lines[0].match(/\bof the following[^:]*:\s*(\d.*)$/i)
     let entries = [d.text]
     if (bullets.length) entries = bullets
     else if (lines.length > 1 && /:$/.test(lines[0])) entries = lines.slice(1).filter((l) => !FOOTNOTE_RE.test(l))
+    else if (inline && /,\s*\d/.test(inline[1])) entries = inline[1].split(/,\s*(?=\d)/)
     const stmts = entries.map((l) => l.replace(BULLET_RE, '').split(VALUE_SPLIT).pop())
 
     const sets = stmts.map((c) => itemsNamedIn(c, vocab))
@@ -969,8 +983,18 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
     }
     // Every option appdata lists must be accounted for by the prose, or the prose is describing
     // something other than this group's option list and can't be trusted to replace it.
+    // The one exception is the item being given up when appdata also lists it among the group's
+    // options ("…have their Power Fist and Storm Bolter replaced with one of the following:
+    // …" — Deathwatch Terminators, 963): that is the "keep it" choice, named in the head of the
+    // sentence, never among the entries. It stays an option of its own, first.
     const claimed = new Set(sets.flat().map(([uuid]) => uuid))
-    if (claimed.size !== new Set(vocab.map((v) => v.uuid)).size) { stats.unclaimed.push(`${unitName}: ${stmts[0].trim()}`); continue }
+    const head = flatText(d.text.split(VALUE_SPLIT)[0])
+    const kept = d.opts.filter((o) => !claimed.has(o.uuid) && head.includes(flatText(wgItemName.get(o.uuid))))
+    if (claimed.size + kept.length !== new Set(vocab.map((v) => v.uuid)).size) {
+      const unnamed = vocab.filter((v) => !claimed.has(v.uuid)).map((v) => v.name)
+      stats.unclaimed.push(`${unitName}: ${stmts[0].trim()}${unnamed.length ? ` (never named: ${unnamed.join(', ')})` : ''}`)
+      continue
+    }
 
     const legal = legalLoadouts.get(`${datasheetId}|${d.miniId || ''}`) || []
     const backed = sets.every((set) => set.length < 2
@@ -978,7 +1002,7 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
     if (!backed) { stats.unbacked.push(`${unitName}: ${stmts[0].trim()}`); continue }
 
     const byUuid = new Map(d.opts.map((o) => [o.uuid, o]))
-    d.opts = sets.map((set) => {
+    d.opts = [...kept, ...sets.map((set) => {
       const members = set.map(([uuid]) => byUuid.get(uuid)).filter(Boolean)
       return {
         uuid: set[0][0],
@@ -986,7 +1010,7 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
         def: members.length && members.every((o) => o.def) ? 1 : 0,
         items: set,
       }
-    })
+    })]
     stats.rewritten++
   }
 }
@@ -2221,7 +2245,8 @@ function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug) { // idM
   // appdata's detachmentPointsCost — those disagree (appdata is 0 for standard detachments).
   const mfm = mfmDet.get(norm(bdet.name))
   const det = { name: bdet.name, sid: bdet.id, dp: mfm?.dp ?? bdet.detachmentPointsCost ?? 0 }
-  if (mfm?.forceDisposition) det.fd = mfm.forceDisposition
+  // Every disposition it gives access to — two for 39 detachments (rosterEngine's dispositionCandidates).
+  if (mfm?.forceDispositions?.length) det.fds = mfm.forceDispositions
   // The tag two detachments cannot share. Taken from mfm, cross-checked against appdata: a
   // disagreement means the scrape lost one (silent, and the roster then allows an illegal pair) or
   // that appdata is behind, which is the standing state of the two ONSLAUGHT detachments.
@@ -2319,7 +2344,7 @@ async function genFaction(slug) {
   if (!bundle) { report.missingBundle.push(slug); return }
   const idMap = unitIdMap(slug)
 
-  // mfm detachment map (name → { dp, forceDisposition }) — the tracker's numbers.
+  // mfm detachment map (name → { dp, forceDispositions }) — the tracker's numbers.
   const mfmMod = await loadModule(path.join(ROOT, 'src/data/mfm', `${slug}.js`))
   const mfmFaction = mfmMod?.default
   const mfmDet = new Map((mfmFaction?.detachments || []).map((d) => [norm(d.name), d]))
@@ -2375,9 +2400,21 @@ async function genFaction(slug) {
   // as `unitPoints` below instead.
   const prices = mfmPrices(ownMfmUnits(mfmFaction))
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex, prices)).sort((a, b) => a.name.localeCompare(b.name))
-  const detachments = (bundle.detachments || [])
+  // Codex: Space Marines also plays the six Codex Supplement detachments (Blade of Ultramar …), which
+  // appdata ships as one-detachment "factions" of their own. Each is its Chapter's only: `chapter`
+  // says whose, the same field the faction page's chapter picker reads.
+  const supplements = slug === 'space-marines'
+    ? SM_SUPPLEMENT_BUNDLES.flatMap((s) => {
+      const b = loadJson(path.join(APPDATA, 'factions', `${s}.json`))
+      return (b?.detachments || []).map((d) => ({ ...d, chapter: enOf(b.faction).name || b.faction?.name }))
+    })
+    : []
+  const detachments = [...(bundle.detachments || []), ...supplements]
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
-    .map((bdet) => buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug))
+    .map((bdet) => {
+      const det = buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug)
+      return bdet.chapter ? { ...det, chapter: bdet.chapter } : det
+    })
     .sort((a, b) => a.name.localeCompare(b.name))
   stripMandatoryPriceBrackets(units, detachments)
 
@@ -2537,7 +2574,11 @@ async function allyUnits(data) {
     for (const u of bundle?.units || []) {
       if (!ids.has(u.id)) continue
       const id = \`\${src}:\${u.id}\`
-      out.push({ ...repriced(u, prices.get(id)), id })
+      // \`leads\` names units of the SAME bundle by their bare ids, which this merge has just
+      // namespaced — left as they are, an allied leader could lead nothing (Watch Captain Artemis
+      // offered no Aquila Kill Team in a Grey Knights list, a player's report of 2026-10-01).
+      const leads = u.leads?.map((l) => ({ ...l, to: \`\${src}:\${l.to}\` }))
+      out.push({ ...repriced(u, prices.get(id)), id, ...(leads && { leads }) })
     }
   }
   return out

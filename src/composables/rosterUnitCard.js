@@ -22,9 +22,9 @@
 import { computed, ref, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
-import { overlaySheet, enhKey, detKey, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
+import { overlaySheet, enhKey, detKey, findEnhancementProse, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
 import { ruleAppliesTo } from './ruleTargets.js'
-import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords } from './rosterStatMods.js'
+import { applyStatMods, splitBearers, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
@@ -99,24 +99,13 @@ export function useRosterUnitCard(props) {
       rulesFactionEn.value = null
       stratNamesRu.value = null
       if (!slug || !hasCtx) return
-      const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
-        import('../data/factions/index.js'),
-        import('../data/factions/ru/index.js'),
-      ])
-      const data = await loadFaction(slug)
-      if (props.factionSlug !== slug) return
-      rulesFactionEn.value = data?.en || null
-      let fac = data?.en
-      if (fac && loc === 'ru') {
-        const mod = await loadFactionRu(slug)
-        if (props.factionSlug !== slug || locale.value !== loc) return
-        if (mod) fac = deepOverlay(fac, mod.default)
-        // A stratagem's NAME is not part of the overlay: it stays English on the card (project
-        // convention — that is what the physical card and the GW app both say), and its translation
-        // travels beside it as a display line. Same map the faction page uses (useFactionPage).
-        stratNamesRu.value = mod?.stratNamesRu || null
-      }
-      rulesFaction.value = fac || null
+      // A Chapter's cards read the Codex: Space Marines detachments too (loadFactionWithCodex).
+      const { loadFactionWithCodex } = await import('./rosterFactionRules.js')
+      const { en, local, stratNamesRu: namesRu } = await loadFactionWithCodex(slug, loc)
+      if (props.factionSlug !== slug || locale.value !== loc) return
+      rulesFactionEn.value = en
+      stratNamesRu.value = namesRu
+      rulesFaction.value = local
     },
     { immediate: true },
   )
@@ -130,8 +119,8 @@ export function useRosterUnitCard(props) {
     async ([slug, hasCtx]) => {
       modifierData.value = null
       if (!slug || !hasCtx) return
-      const { loadRosterModifiers } = await import('../data/rosterModifiers/index.js')
-      const data = await loadRosterModifiers(slug)
+      const { loadRosterModifiersFor } = await import('../data/rosterModifiers/index.js')
+      const data = await loadRosterModifiersFor(slug)
       if (props.factionSlug === slug) modifierData.value = data
     },
     { immediate: true },
@@ -211,9 +200,7 @@ export function useRosterUnitCard(props) {
       return det?.rule?.body ? { name: det.rule.name, body: det.rule.body } : null
     }
     if (n.kind === 'enhancement') {
-      const found = (det ? [det] : fac.detachments || [])
-        .flatMap((d) => d.enhancements || [])
-        .find((e) => enhKey(e.name) === enhKey(n.source))
+      const found = findEnhancementProse(det ? [det] : fac.detachments, n.source, props.ctx?.detachments)
       return found?.body ? { name: found.name, body: found.body } : null
     }
     return null
@@ -262,6 +249,7 @@ export function useRosterUnitCard(props) {
       itemNames: loadoutItemNames(props.ctx?.def, entry, props.ctx?.items),
       leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
       ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
+      coLeaderUnitIds: entry.leaderOf ? units.filter((u) => u.leaderOf === entry.leaderOf && u.uid !== entry.uid).map((u) => u.id) : [],
       // An enhancement aura worn by an attached Leader covers this unit with no distance to judge
       // (22.01 — the model is standing in it), so it arrives here rather than as a chip.
       leaderEnhNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
@@ -328,9 +316,11 @@ export function useRosterUnitCard(props) {
 
   const statMods = computed(() => {
     if (!gatedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
+    // "The bearer only": the models that carry the item get a row of their own first.
+    const placed = splitBearers(view.value.sheet, gatedModifiers.value, props.ctx?.def, props.ctx?.entry, props.ctx?.items)
     return applyStatMods(
-      view.value.sheet,
-      gatedModifiers.value,
+      placed.sheet,
+      placed.entries,
       unitKeywords.value,
       factionKeywordSets.value,
       activeConds.value,
@@ -388,12 +378,7 @@ export function useRosterUnitCard(props) {
     for (const src of view.value.ruleSources) {
       if (src.kind === 'enhancement') {
         if (!fac) continue
-        const target = enhKey(src.name)
-        let found = null
-        for (const d of fac.detachments || []) {
-          found = d.enhancements?.find((e) => enhKey(e.name) === target)
-          if (found) break
-        }
+        const found = findEnhancementProse(fac.detachments, src.name, props.ctx?.detachments)
         if (found?.body) out.push({ key: `enh:${src.name}`, src: labels.value.rosterEnhancement, name: found.name, body: found.body, switches: switchesOfRule('enhancement', found.name, null) })
       } else if (src.kind === 'detachment') {
         if (!fac) continue

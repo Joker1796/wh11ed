@@ -10,13 +10,11 @@
 // NEVER import src/data/factions/* statically from a view. The bundle is 30-60 KB per faction and
 // this is the reason every caller here is dynamic — see wh11ed/CLAUDE.md.
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
+import { SM_CHAPTERS } from '../data/smChapters.js'
 
 // Apostrophes travel badly between datasets: the roster stores the detachment name the MFM prints,
 // the faction file spells it its own way. Compare through this, never raw.
 export const normName = (s) => s.replace(/[\u2019'`]/g, "'").trim().toLowerCase()
-
-const SM_CHAPTERS = new Set(['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves'])
-
 
 async function loadFactionSource(slug, loc) {
   const { loadFaction } = await import('../data/factions/index.js')
@@ -80,4 +78,34 @@ export async function loadRosterFactionRules(slug, loc) {
     }
   }
   return { faction, lookup }
+}
+
+// The faction's prose as a CARD reads it — English (the modifier layer and the rule gates read EN)
+// and the reader's language — with, for a Chapter, the Codex: Space Marines detachments after its
+// own: a Chapter fields those too, and they live in the Space Marines file (a Blood Angels list on
+// Gladius Task Force had no detachment rule, enhancement or stratagem on its cards — a player's
+// report, 2026-10-01). Its own come first, so a name it reprints is read from the Chapter.
+// `stratNamesRu` is the RU name map of every file read (stratagem names stay English on the card).
+export async function loadFactionWithCodex(slug, loc) {
+  const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
+    import('../data/factions/index.js'),
+    import('../data/factions/ru/index.js'),
+  ])
+  let en = null
+  let local = null
+  let stratNamesRu = null
+  for (const src of SM_CHAPTERS.has(slug) ? [slug, 'space-marines'] : [slug]) {
+    const data = await loadFaction(src)
+    if (!data?.en) continue
+    let l = data.en
+    if (loc === 'ru') {
+      const mod = await loadFactionRu(src)
+      if (mod) l = deepOverlay(l, mod.default)
+      if (mod?.stratNamesRu) stratNamesRu = { ...mod.stratNamesRu, ...stratNamesRu }
+    }
+    if (!en) { en = data.en; local = l; continue }
+    en = { ...en, detachments: [...(en.detachments || []), ...(data.en.detachments || [])] }
+    local = { ...local, detachments: [...(local.detachments || []), ...(l.detachments || [])] }
+  }
+  return { en, local, stratNamesRu }
 }

@@ -5,10 +5,7 @@
     :aria-label="labels.ariaNavigation"
   >
     <div class="sidebar-header">
-      <div class="sidebar-brand">
-        <span class="sidebar-logo">WH40K</span>
-        <span class="sidebar-subtitle">Core Rules 11th Ed.</span>
-      </div>
+      <span class="sidebar-logo">WH Rules</span>
       <button
         class="mobile-close"
         :aria-label="labels.ariaCloseMenu"
@@ -23,196 +20,72 @@
         v-for="section in navSections"
         :key="section.key"
         class="nav-section"
-        :class="{ open: openSection === section.key }"
+        :class="{ open: openSection === section.key, current: currentSection === section.key }"
       >
-        <div class="nav-section-header">
-          <button
-            class="nav-section-label"
-            @click="goToSection(section)"
-          >
-            {{ section.label }}
-          </button>
-          <button
+        <!-- One tap target per header: it folds the section, or — for a section that is a
+             single page — goes there. Never both, so the row says what it does. -->
+        <button
+          class="nav-section-header"
+          :aria-expanded="isDirect(section) ? undefined : openSection === section.key"
+          @click="isDirect(section) ? goToGroup(section.groups[0]) : toggleSection(section.key)"
+        >
+          <span class="nav-section-label">{{ section.label }}</span>
+          <ChevronIcon
             v-if="!isDirect(section)"
-            class="nav-section-toggle"
-            :aria-expanded="openSection === section.key"
-            :aria-label="labels.ariaToggleSection"
-            @click="toggleSection(section.key)"
-          >
-            <svg
-              class="chevron"
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-            >
-              <path
-                d="M2 4l4 4 4-4"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
+            class="chevron"
+            from="down"
+            to="up"
+            :turned="openSection === section.key"
+          />
+        </button>
 
         <CollapseTransition :show="openSection === section.key && !isDirect(section)">
           <div class="nav-section-body">
             <div
-              v-for="item in section.groups"
-              :key="item.subsectionKey || groupKey(item) || item.label"
+              v-for="group in section.groups"
+              :key="groupKey(group) || group.label"
               class="nav-group"
-              :class="{ active: item.isSubsection ? isSubsectionActive(item) : isActive(item, section.groups) }"
+              :class="{ active: isActive(group, section.groups) }"
             >
-              <!-- "Rules" section only: a real 3rd accordion level — Core Rules /
-                   Event Companion / Combat Patrol, each collapsing its own group list. -->
-              <template v-if="item.isSubsection">
-                <div class="nav-group-label">
-                  <button
-                    class="nav-group-link"
-                    @click="goToSubsection(item)"
-                  >
-                    {{ item.label }}
-                  </button>
-                  <button
-                    class="nav-group-toggle"
-                    :class="{ expanded: expandedSubsection === item.subsectionKey }"
-                    :aria-expanded="expandedSubsection === item.subsectionKey"
-                    :aria-label="labels.ariaToggleSubsections"
-                    @click="toggleSubsection(item)"
-                  >
-                    <svg
-                      class="chevron"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                    >
-                      <path
-                        d="M2 4l4 4 4-4"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
+              <div class="nav-group-label">
+                <button
+                  class="nav-group-link"
+                  @click="goToGroup(group)"
+                >
+                  {{ group.label }}
+                </button>
+                <button
+                  v-if="group.sections.length"
+                  class="nav-group-toggle"
+                  :aria-expanded="expandedKey === groupKey(group)"
+                  :aria-label="labels.ariaToggleSubsections"
+                  @click="toggleGroupExpand(group)"
+                >
+                  <ChevronIcon
+                    class="chevron"
+                    from="down"
+                    to="up"
+                    :turned="expandedKey === groupKey(group)"
+                  />
+                </button>
+              </div>
 
-                <CollapseTransition :show="expandedSubsection === item.subsectionKey">
-                  <div class="nav-subgroups">
-                    <div
-                      v-for="group in item.groups"
-                      :key="groupKey(group) || group.label"
-                      class="nav-group nav-group--nested"
-                      :class="{ active: isActive(group, item.groups) }"
-                    >
-                      <div class="nav-group-label">
-                        <button
-                          class="nav-group-link"
-                          @click="goToGroup(group)"
-                        >
-                          {{ group.label }}
-                        </button>
-                        <button
-                          v-if="group.sections.length"
-                          class="nav-group-toggle"
-                          :class="{ expanded: expandedKey === groupKey(group) }"
-                          :aria-expanded="expandedKey === groupKey(group)"
-                          :aria-label="labels.ariaToggleSubsections"
-                          @click="toggleGroupExpand(group)"
-                        >
-                          <svg
-                            class="chevron"
-                            width="12"
-                            height="12"
-                            viewBox="0 0 12 12"
-                            fill="none"
-                          >
-                            <path
-                              d="M2 4l4 4 4-4"
-                              stroke="currentColor"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-
-                      <CollapseTransition :show="expandedKey === groupKey(group) && group.sections.length > 0">
-                        <ul class="nav-sub">
-                          <li
-                            v-for="sec in group.sections"
-                            :key="sec.label"
-                          >
-                            <a
-                              href="#"
-                              class="nav-sub-link"
-                              @click.prevent="handleAnchorClick(group, sec.id, sec.filter)"
-                            >
-                              {{ sec.label.replace(/^\d+\s+/, '') }}
-                            </a>
-                          </li>
-                        </ul>
-                      </CollapseTransition>
-                    </div>
-                  </div>
-                </CollapseTransition>
-              </template>
-
-              <template v-else>
-                <div class="nav-group-label">
-                  <button
-                    class="nav-group-link"
-                    @click="goToGroup(item)"
+              <CollapseTransition :show="expandedKey === groupKey(group) && group.sections.length > 0">
+                <ul class="nav-sub">
+                  <li
+                    v-for="sec in group.sections"
+                    :key="sec.label"
                   >
-                    {{ item.label }}
-                  </button>
-                  <button
-                    v-if="item.sections.length"
-                    class="nav-group-toggle"
-                    :class="{ expanded: expandedKey === groupKey(item) }"
-                    :aria-expanded="expandedKey === groupKey(item)"
-                    :aria-label="labels.ariaToggleSubsections"
-                    @click="toggleGroupExpand(item)"
-                  >
-                    <svg
-                      class="chevron"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
+                    <a
+                      href="#"
+                      class="nav-sub-link"
+                      @click.prevent="handleAnchorClick(group, sec.id, sec.filter)"
                     >
-                      <path
-                        d="M2 4l4 4 4-4"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <CollapseTransition :show="expandedKey === groupKey(item) && item.sections.length > 0">
-                  <ul class="nav-sub">
-                    <li
-                      v-for="sec in item.sections"
-                      :key="sec.label"
-                    >
-                      <a
-                        href="#"
-                        class="nav-sub-link"
-                        @click.prevent="handleAnchorClick(item, sec.id, sec.filter)"
-                      >
-                        {{ sec.label.replace(/^\d+\s+/, '') }}
-                      </a>
-                    </li>
-                  </ul>
-                </CollapseTransition>
-              </template>
+                      {{ sec.label.replace(/^\d+\s+/, '') }}
+                    </a>
+                  </li>
+                </ul>
+              </CollapseTransition>
             </div>
           </div>
         </CollapseTransition>
@@ -232,6 +105,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
 import { scrollToAnchor } from '../composables/useRefNavigation.js'
 import CollapseTransition from './CollapseTransition.vue'
+import ChevronIcon from './ChevronIcon.vue'
 
 defineProps({ mobileOpen: Boolean })
 const emit = defineEmits(['close'])
@@ -241,25 +115,23 @@ const router = useRouter()
 const { locale } = useLocale()
 const { activeFilter } = useAbilityFilter()
 const labels = computed(() => ui[locale.value])
+
 const localizedGroups = useNavGroups('core')
 const localizedEventGroups = useNavGroups('event')
 const localizedTrackerGroups = useNavGroups('tracker')
 const localizedRosterGroups = useNavGroups('roster')
 const localizedCombatPatrolGroups = useNavGroups('combatPatrol')
 const factionGroupsBase = useNavGroups('faction')
+
 const COMBAT_PATROL_PATH = '/combat-patrol'
 
-// "Rules" is Core Rules + Event Companion + Combat Patrol, each its own collapsible
-// subsection (a 3rd accordion level — see the template's `item.isSubsection` branch)
-// over that subsection's own group list.
-const localizedRulesGroups = computed(() => {
-  const l = labels.value
-  return [
-    { isSubsection: true, subsectionKey: 'core',          label: l.navCoreRules,      path: CORE_PATH,        groups: localizedGroups.value },
-    { isSubsection: true, subsectionKey: 'event',         label: l.navEventCompanion, path: EVENT_PATH,       groups: localizedEventGroups.value },
-    { isSubsection: true, subsectionKey: 'combat-patrol', label: l.cpHeading,         path: COMBAT_PATROL_PATH, groups: localizedCombatPatrolGroups.value },
-  ]
-})
+// The box list itself heads its own section: with the header only folding, it would otherwise
+// be the one page of the section the drawer cannot reach.
+const localizedCpGroups = computed(() => [
+  { label: labels.value.cpAllBoxes, path: COMBAT_PATROL_PATH, sections: [] },
+  ...localizedCombatPatrolGroups.value,
+])
+
 // When a faction is open, the drawer's Factions section also lists that faction's two
 // pages (rules — army rule + detachments merged — / datasheets) — the desktop subnav is
 // hidden on mobile.
@@ -275,21 +147,37 @@ const localizedFactionGroups = computed(() => {
     { label: l.factionDatasheets, path: `${root}/datasheets`, sections: [] },
   ]
 })
-const navSections = computed(() => [
-  { key: 'rules',    label: labels.value.navRules,         groups: localizedRulesGroups.value },
-  { key: 'factions', label: labels.value.navFactions,      groups: localizedFactionGroups.value },
-  { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
-  { key: 'roster',   label: labels.value.navRoster,        groups: localizedRosterGroups.value },
-])
 
+// The whole site, one level of sections deep. The three books used to sit under one "Rules"
+// section of their own, which made a Core Rules sub-rule four taps deep and the drawer four
+// indents wide (2026-10-02); the bottom nav's order after them, so the two agree.
+const navSections = computed(() => {
+  const l = labels.value
+  return [
+    { key: 'core',          label: l.navCoreRules,      groups: localizedGroups.value },
+    { key: 'event',         label: l.navEventCompanion, groups: localizedEventGroups.value },
+    { key: 'combat-patrol', label: l.cpHeading,         groups: localizedCpGroups.value },
+    { key: 'roster',        label: l.navRoster,         groups: localizedRosterGroups.value },
+    { key: 'factions',      label: l.navFactions,       groups: localizedFactionGroups.value },
+    { key: 'tracker',       label: l.navTracker,        groups: localizedTrackerGroups.value },
+    { key: 'patches',       label: l.navPatches,        groups: [{ label: l.navPatches, path: '/patches', sections: [] }] },
+  ]
+})
+
+const under = (p, base) => p === base || p.startsWith(base + '/')
+
+// The section the reader is in — open on arrival. The landing, /rules and the other loose
+// pages belong to none, and the drawer opens on them folded: the map, not a guess.
 const currentSection = computed(() => {
   const p = stripLocale(route.path)
-  if (p.startsWith('/tracker')) return 'tracker'
-  if (p.startsWith('/roster')) return 'roster'
-  if (p.startsWith('/factions')) return 'factions'
-  // Core Rules, Event Companion, Combat Patrol, /rules itself, and everything else
-  // (landing, links, disclaimer, …) all fall under the merged "rules" section.
-  return 'rules'
+  if (under(p, CORE_PATH)) return 'core'
+  if (under(p, EVENT_PATH)) return 'event'
+  if (under(p, COMBAT_PATROL_PATH)) return 'combat-patrol'
+  if (under(p, '/tracker') || p === '/stratagems') return 'tracker'
+  if (under(p, '/roster')) return 'roster'
+  if (under(p, '/factions')) return 'factions'
+  if (p === '/patches') return 'patches'
+  return null
 })
 
 // The seven Core Rules groups all share one path and differ only by `hash` (they're
@@ -298,36 +186,21 @@ function groupKey(group) {
   return group.path ? group.path + (group.hash || '') : ''
 }
 
-// Which group's subsections are open (one at a time), which "rules" subsection
-// (Core Rules / Event Companion / Combat Patrol) is expanded (also one at a time), and
-// which top-level section accordion is expanded (also one at a time). All follow the route.
+// Which group's subsections are open (one at a time) and which section accordion is expanded
+// (also one at a time). Both follow the route.
 const expandedKey = ref(stripLocale(route.path) + route.hash)
 const openSection = ref(currentSection.value)
-const expandedSubsection = ref(currentRulesSubsectionKey())
 
 watch(() => route.fullPath, () => {
   expandedKey.value = stripLocale(route.path) + route.hash
   openSection.value = currentSection.value
-  expandedSubsection.value = currentRulesSubsectionKey()
 })
-
-function currentRulesSubsectionKey() {
-  const p = stripLocale(route.path)
-  if (p === EVENT_PATH || p.startsWith(EVENT_PATH + '/')) return 'event'
-  if (p === COMBAT_PATROL_PATH || p.startsWith(COMBAT_PATROL_PATH + '/')) return 'combat-patrol'
-  if (p === CORE_PATH || p.startsWith(CORE_PATH + '/')) return 'core'
-  return null
-}
-
-function isSubsectionActive(item) {
-  return currentRulesSubsectionKey() === item.subsectionKey
-}
 
 function isActive(group, groups) {
   if (stripLocale(route.path) !== group.path) return false
   if (!group.hash) return true
   // Landing on a merged page (/core-rules, /event-companion) with no hash means the top of
-  // the page = its first chapter. `groups` is the subsection's own group list — find the
+  // the page = its first chapter. `groups` is the section's own group list — find the
   // first entry that shares THIS group's path, not just groups[0].
   const first = groups.find((g) => g.path === group.path)
   return (route.hash || first?.hash) === group.hash
@@ -337,32 +210,14 @@ function toggleSection(key) {
   openSection.value = openSection.value === key ? null : key
 }
 
-// A section with a single page and no sub-anchors (e.g. Links) needs no accordion —
-// its header just navigates straight to that page.
+// A section with a single page and no sub-anchors (Rosters, the patch notes) needs no
+// accordion — its header just navigates straight to that page.
 function isDirect(section) {
   return section.groups.length === 1 && !section.groups[0].sections.length
 }
 
-// Tap a section label → go to that section's main page (its first group/subsection). Tap a
-// group label → go to that page. The square chevron buttons handle expand/collapse without navigating.
-function goToSection(section) {
-  const path = section.groups.find((g) => g.path)?.path
-  if (!path) return
-  if (stripLocale(route.path) !== path) router.push(path)
-  emit('close')
-}
-
-// Tap a "rules" subsection label (Core Rules / Event Companion / Combat Patrol) → go to
-// its own landing page. The chevron toggles which subsection's group list is expanded.
-function goToSubsection(item) {
-  if (stripLocale(route.path) !== item.path) router.push(item.path)
-  emit('close')
-}
-
-function toggleSubsection(item) {
-  expandedSubsection.value = expandedSubsection.value === item.subsectionKey ? null : item.subsectionKey
-}
-
+// Tap a group label → go to that page. The chevron beside it handles expand/collapse without
+// navigating.
 function goToGroup(group) {
   // A Core Rules chapter is an anchor on the shared page, not a page of its own.
   if (group.hash) return handleAnchorClick(group, group.hash.slice(1))
@@ -425,7 +280,7 @@ async function handleAnchorClick(group, id, filter) {
 }
 
 .sidebar-header {
-  padding: 1rem 1rem 0.9rem;
+  padding: 0.35rem 0.25rem 0.35rem 1rem;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -434,23 +289,10 @@ async function handleAnchorClick(group, id, filter) {
   flex-shrink: 0;
 }
 
-.sidebar-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .sidebar-logo {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: var(--accent);
-  letter-spacing: 2px;
-}
-
-.sidebar-subtitle {
-  font-size: 0.68rem;
-  color: var(--text-dim);
-  text-transform: uppercase;
   letter-spacing: 1px;
 }
 
@@ -481,61 +323,51 @@ async function handleAnchorClick(group, id, filter) {
 
 .nav-section {
   /* The section header is a dark surface (--bg-insert) in both themes, where --border
-     (#3a3a40) is invisible in dark mode. Use the same light-on-dark divider as the other
-     in-header separators (e.g. .nav-section-toggle) so the lines show in both themes. */
+     (#3a3a40) is invisible in dark mode. Use a light-on-dark divider so the lines show in
+     both themes. */
   border-bottom: 1px solid color-mix(in srgb, var(--text-on-dark) 24%, transparent);
 }
 
+/* The hierarchy reads from size and weight alone: section headers are small capitals on the
+   dark band, pages are ordinary text, anchors smaller and dimmer. Deeper is never louder. */
 .nav-section-header {
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
   min-height: 44px;
-  background: var(--bg-insert);
-}
-
-.nav-section-label {
-  flex: 1;
-  min-width: 0;
-  padding: 0.5rem 1rem;
+  padding: 0 1rem;
   font-family: var(--font-sans);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-on-dark);
-  background: none;
+  background: var(--bg-insert);
   border: none;
   cursor: pointer;
   text-align: left;
   transition: background 0.15s;
 }
 
-.nav-section-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  border-left: 1px solid color-mix(in srgb, var(--text-on-dark) 18%, transparent);
-  color: var(--text-on-dark);
-  cursor: pointer;
-  transition: background 0.15s;
+.nav-section-label {
+  min-width: 0;
 }
 
-.nav-section-label:hover,
-.nav-section-toggle:hover,
+/* The section the reader is in keeps an accent mark while folded, so the map says "you are
+   here" before anything is opened. */
+.nav-section.current .nav-section-header {
+  box-shadow: inset 3px 0 0 var(--accent-on-dark);
+}
+
+.nav-section-header:hover,
 .nav-section.open .nav-section-header {
   background: color-mix(in srgb, var(--bg-insert) 85%, #fff);
 }
 
-.nav-section-toggle .chevron {
+.nav-section-header .chevron {
   color: var(--text-on-dark);
-}
-
-.nav-section.open .nav-section-toggle .chevron {
-  transform: rotate(180deg);
 }
 
 .nav-section-body {
@@ -551,29 +383,13 @@ async function handleAnchorClick(group, id, filter) {
   align-items: stretch;
 }
 
-/* The "rules" subsection's own group list (3rd accordion level) — indented one step
-   in from its subsection header. The guide line is drawn per-row (not once on this
-   container) so it isn't at the mercy of CollapseTransition's animated grid-row height
-   — stacked rows have no gap, so the per-row segments still read as one continuous line. */
-.nav-subgroups {
-  margin-left: 1rem;
-}
-
-.nav-group--nested {
-  padding-left: 0.6rem;
-  border-left: 1px solid var(--border);
-}
-
-.nav-group--nested .nav-group-link {
-  font-size: 0.85rem;
-}
-
 .nav-group-link {
   flex: 1;
   min-width: 0;
-  padding: 0.75rem 1rem;
+  min-height: 44px;
+  padding: 0.55rem 1rem;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-muted);
   background: none;
   border: none;
@@ -591,7 +407,6 @@ async function handleAnchorClick(group, id, filter) {
   flex-shrink: 0;
   background: none;
   border: none;
-  border-left: 1px solid var(--border);
   color: var(--text-dim);
   cursor: pointer;
   transition: color 0.15s, background 0.15s;
@@ -603,26 +418,24 @@ async function handleAnchorClick(group, id, filter) {
   background: color-mix(in srgb, var(--accent) 7%, transparent);
 }
 
-.nav-group.active .nav-group-link {
+/* The page you are on — and only it. A descendant selector here used to light every link
+   under an active group, so a whole open book read as "current" (2026-10-02). */
+.nav-group.active > .nav-group-label > .nav-group-link {
   color: var(--text-primary);
   font-weight: 700;
   background: color-mix(in srgb, var(--text-primary) 9%, transparent);
-  box-shadow: inset 3px 0 0 var(--text-muted);
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 
 .chevron {
   flex-shrink: 0;
+  font-size: 0.8rem;
   color: var(--text-dim);
-  transition: transform 0.22s ease;
-}
-
-.nav-group-toggle.expanded .chevron {
-  transform: rotate(180deg);
 }
 
 .nav-sub {
   list-style: none;
-  padding: 0 0 0.5rem 0;
+  padding: 0 0 0.4rem 0;
   margin: 0;
 }
 
@@ -643,5 +456,4 @@ async function handleAnchorClick(group, id, filter) {
   color: var(--text-primary);
   background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
-
 </style>

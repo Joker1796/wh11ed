@@ -126,8 +126,8 @@ export default [
         ],
         "a": "4",
         "ws": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -174,15 +174,33 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 115
+        "points": 115,
+        "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 180
+        "points": 185,
+        "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 360
+        "points": 370,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 145,
+        "note": "3rd+"
+      },
+      {
+        "models": 5,
+        "points": 215,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 400,
+        "note": "3rd+"
       }
     ],
     "flavor": "Blightlord Terminators are incredibly tough, thanks to their Cataphractii armour and Nurgle’s gifts, and they are experts in breach assaults, boarding actions and sudden teleport strikes. Due to long periods spent aboard pox-ridden warships, they are saturated with foulness, which pours off them to rot flesh and corrode metal.",
@@ -221,8 +239,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -235,8 +253,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -284,7 +302,7 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
@@ -371,8 +389,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -385,8 +403,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -479,12 +497,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 135,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       }
     ],
@@ -510,8 +528,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -524,8 +542,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -628,12 +646,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 145,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 155,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -659,8 +677,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -673,8 +691,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -809,8 +827,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -823,8 +841,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -946,7 +964,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 195
+        "points": 185
       }
     ],
     "flavor": "Daemonhood is the ultimate goal for a great many Chaos Space Marines. Those Nurgle worshippers who attain this dark apotheosis are lumbering monstrosities with formidable resilience, corroded armour and bloated flesh. They command sepsis cohorts and vectoriums, having retained all their tactical acumen and martial skill.",
@@ -1040,7 +1058,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 170
+        "points": 160
       }
     ],
     "flavor": "The wings that sprout from the backs of chosen Death Guard may resemble the buzzing appendages of bloated flies or take a pocked and diseased chiropteran form. Regardless of their shape, they bear the Daemon Prince aloft, allowing them to descend upon their luckless foes from above quickly and spread fearsome maladies over the battlefield.",
@@ -1816,7 +1834,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 160,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
@@ -1826,7 +1844,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 170,
+        "points": 160,
         "note": "3rd+"
       },
       {
@@ -2372,7 +2390,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       }
@@ -2567,7 +2585,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110
+        "points": 105
       }
     ],
     "flavor": "The most terribly wounded of Nurgle’s champions are interred within the armoured sarcophagus of a Helbrute. Plague Surgeons take deep pleasure in sealing rivals and superiors inside these madness-inducing and agony-inflicting shells. In battle, they are living, enraged, battering rams, flushed with the blessings of Nurgle.",
@@ -2592,8 +2610,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2802,8 +2820,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2815,8 +2833,8 @@ export default [
         ],
         "a": "4",
         "ws": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2863,7 +2881,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 120
+        "points": 110
       }
     ],
     "flavor": "Lords of Contagion are the most aggressive of Nurgle’s champions. Their tactics are as brutal and blunt as they are effective. Striding unharmed through torrents of enemy fire in their nigh-impregnable Cataphractii plate, they sweep aside foes in violent bursts of gore with their snarl-toothed and corroded blades.",
@@ -3046,7 +3064,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "Lords of Virulence are powerful commanders whose grim oversight and plagueridden gifts bolster the marksmanship of nearby Death Guard forces. Coupled with the foulness that gushes from the barrels of their twin plague spewers and the vicious might of their slime-dripping power fists, they are formidable warriors indeed.",
@@ -3160,8 +3178,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3288,7 +3306,7 @@ export default [
       },
       {
         "name": "Diseased Cover",
-        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this **FORTIFICATION**, that model has the Benefit of Cover against that attack."
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this **[gloss:fortification:FORTIFICATION]**, that model has the Benefit of Cover against that attack."
       },
       {
         "name": "Fortification",
@@ -3446,7 +3464,7 @@ export default [
         "options": [
           {
             "name": "Diseased Influence",
-            "text": "Just after an enemy unit ends a Normal, Advance or Fall Back move within 9\" of a friendly Death Guard unit that is within 6\" of this model, if that DEATH GUARD unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 5\"."
+            "text": "Just after an enemy unit ends a Normal, Advance or Fall Back move within 8\" of a friendly DEATH GUARD unit that is within 6\" of this model, if that DEATH GUARD unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 5\"."
           },
           {
             "name": "Boon of Death",
@@ -3454,7 +3472,7 @@ export default [
           },
           {
             "name": "Inflamed Reprisal",
-            "text": "In your opponent’s Shooting phase, when a friendly DEATH GUARD unit within 6\" of this model is selected as the target of an attack, this model can use this ability. If it does, after the attacking unit has finished making its attacks, that Death Guard unit can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
+            "text": "In your opponent’s Shooting phase, when a friendly DEATH GUARD unit within 6\" of this model is selected as the target of an attack, this model can use this ability. If it does, after the attacking unit has finished making its attacks, that DEATH GUARD unit can shoot as if it were your Shooting phase, but when resolving those attacks, worsen the BS characteristic of that attack by 1 and it can only target that enemy unit (and only if it is an eligible target)."
           }
         ]
       }
@@ -3717,7 +3735,7 @@ export default [
     "abilities": [
       {
         "name": "Mischief Makers",
-        "text": "Each time an enemy unit (excluding **TITANIC** units) within Engagement Range of one or more units with this ability is selected to fight, until the end of the phase, each time a model in that enemy unit makes a melee attack, subtract 1 from the Hit roll."
+        "text": "Each time an enemy unit (excluding **[gloss:titanic:TITANIC]** units) within Engagement Range of one or more units with this ability is selected to fight, until the end of the phase, each time a model in that enemy unit makes a melee attack, subtract 1 from the Hit roll."
       }
     ],
     "composition": [
@@ -3860,7 +3878,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 180
+        "points": 175
       }
     ],
     "flavor": "The mainstay of vectoriums, Plague Marines excel in gruelling firefights and relentless assaults that grind the enemy down. They are tactically astute, deploying plague spewers to drown hordes of enemies in toxic slime and blight launchers to release crippling ironblight into armoured vehicles.",
@@ -3897,8 +3915,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3910,8 +3928,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -4035,8 +4053,8 @@ export default [
         ],
         "a": "3",
         "ws": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -4124,8 +4142,8 @@ export default [
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -4262,12 +4280,12 @@ export default [
       {
         "models": 1,
         "points": 170,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
         "points": 200,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "The brainchild of Mortarion himself, the Plagueburst Crawler is a hulking Daemon Engine with a giant ram-blade and thick armour plating that renders it incredibly resilient. Equipped with a Plagueburst mortar, the engine launches hideously powerful explosive shells that unleash clouds of corrosive spores upon detonation.",
@@ -4438,7 +4456,7 @@ export default [
     "abilities": [
       {
         "name": "Curse of the Walking Pox",
-        "text": "Each time a **POXWALKER** model in this unit makes an attack that destroys an enemy model (excluding **MONSTER** and **VEHICLE** models). after this unit has resolved its attacks, you can return one destroyed **POXWALKER** model to this unit. While **TYPHUS** is leading this unit, enemy models destroyed as a result of **TYPHUS**’ Eater Plague ability count as enemy models destroyed by an attack made by a **POXWALKER** model in this unit for the purposes of this ability."
+        "text": "Each time a **POXWALKER** model in this unit makes an attack that destroys an enemy model (excluding **MONSTER** and **[gloss:vehicle:VEHICLE]** models). after this unit has resolved its attacks, you can return one destroyed **POXWALKER** model to this unit. While **TYPHUS** is leading this unit, enemy models destroyed as a result of **TYPHUS**’ Eater Plague ability count as enemy models destroyed by an attack made by a **POXWALKER** model in this unit for the purposes of this ability."
       }
     ],
     "composition": [
@@ -4612,7 +4630,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       }
@@ -4659,7 +4677,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "Host of the Destroyer Hive, for millennia Typhus has travelled the galaxy, spreading Nurgle’s Rot and killing billions. When he takes to the field, he slices apart countless foes with his filth-encrusted power scythe and unleashes the swarming horror of his Destroyer Hive to engulf them in murderous plague flies.",

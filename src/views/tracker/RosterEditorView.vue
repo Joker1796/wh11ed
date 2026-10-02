@@ -23,7 +23,7 @@
       :detachment-options="detachmentOptions"
       :dp-spent="dpSpent"
       :max-dp="effBattle.dp"
-      :dp-over-allowed="dpOverAllowed"
+      :dp-limit="dpLimit"
       :battle-size="roster.battleSize"
       :battle-sizes="battleSizes"
       :custom-points="roster.customPoints"
@@ -90,8 +90,7 @@
             :faction-name="factionName"
             :detachment-summary="detachmentSummary"
             :dp-spent="dpSpent"
-            :dp-limit="effBattle.dp"
-            :dp-over-allowed="dpOverAllowed"
+            :dp-limit="dpLimit"
             :disposition-cands="dispositionCands"
             :disposition="roster.disposition || ''"
             show-notes
@@ -476,7 +475,7 @@ const editorModes = computed(() => [
 // ── What building a list does (useRosterBuildActions.js — the wizard runs the same code) ──
 const {
   factionPickerOpen, detachmentPickerOpen, pickFaction,
-  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpOverAllowed, toggleDetachment, clearDetachments,
+  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit, toggleDetachment, clearDetachments,
   openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
   undoable, undoRemove, dismissUndo, battleSizes,
 } = useRosterBuildActions({

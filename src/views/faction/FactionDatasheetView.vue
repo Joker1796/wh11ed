@@ -85,16 +85,60 @@
                  swaps them): five 30px squares beside a name like "Kill Team Cassius" left the name
                  two words to a line (a screenshot, 2026-09-19). The sheet it opens is the same
                  .act-list every "…" in the app opens, the actions unchanged. -->
-            <button
-              ref="moreBtn"
-              type="button"
-              class="ds-btn ds-more"
-              :title="labels.rosterMoreActions"
-              :aria-label="labels.rosterMoreActions"
-              @click="moreOpen = true"
+            <ActionMenu
+              v-if="sheet"
+              v-model:open="moreOpen"
+              class="ds-more"
+              :title="sheet.name"
+              width="17rem"
             >
-              <i class="bi bi-three-dots" />
-            </button>
+              <template #trigger="{ toggle }">
+                <button
+                  ref="moreBtn"
+                  type="button"
+                  class="ds-btn"
+                  :title="labels.rosterMoreActions"
+                  :aria-label="labels.rosterMoreActions"
+                  @click="toggle"
+                >
+                  <i class="bi bi-three-dots" />
+                </button>
+              </template>
+              <button
+                class="act-btn ds-act"
+                @click="moreDo(() => toggleUnitFavorite(route.params.slug, sheet.id))"
+              >
+                <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'" />{{ fav ? labels.dsUnpinUnit : labels.dsPinUnit }}
+              </button>
+              <button
+                class="act-btn ds-act"
+                @click="moreDo(() => toggleOwned(route.params.slug, sheet.id, sheet.name))"
+              >
+                <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'" />{{ owned ? labels.dsOwnRemove : labels.dsOwnAdd }}
+              </button>
+              <button
+                class="act-btn ds-act"
+                @click="moreDo(copyName)"
+              >
+                <i class="bi bi-clipboard" />{{ labels.dsCopyName }}
+              </button>
+              <button
+                v-if="sheet.flavor"
+                class="act-btn ds-act"
+                @click="moreDo(openLoreFromSheet)"
+              >
+                <i class="bi bi-book" />{{ labels.loreShow }}
+              </button>
+              <a
+                :href="imageUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="act-btn ds-act"
+                @click="moreOpen = false"
+              >
+                <i class="bi bi-image" />{{ labels.dsSearchImage }}
+              </a>
+            </ActionMenu>
           </div>
         </div>
         <DatasheetCard
@@ -115,49 +159,6 @@
       </p>
     </section>
 
-    <BaseModal
-      v-if="moreOpen && sheet"
-      :title="sheet.name"
-      max-width="340px"
-      @close="moreOpen = false"
-    >
-      <div class="modal-body act-list">
-        <button
-          class="act-btn ds-act"
-          @click="moreDo(() => toggleUnitFavorite(route.params.slug, sheet.id))"
-        >
-          <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'" />{{ fav ? labels.dsUnpinUnit : labels.dsPinUnit }}
-        </button>
-        <button
-          class="act-btn ds-act"
-          @click="moreDo(() => toggleOwned(route.params.slug, sheet.id, sheet.name))"
-        >
-          <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'" />{{ owned ? labels.dsOwnRemove : labels.dsOwnAdd }}
-        </button>
-        <button
-          class="act-btn ds-act"
-          @click="moreDo(copyName)"
-        >
-          <i class="bi bi-clipboard" />{{ labels.dsCopyName }}
-        </button>
-        <button
-          v-if="sheet.flavor"
-          class="act-btn ds-act"
-          @click="moreDo(openLoreFromSheet)"
-        >
-          <i class="bi bi-book" />{{ labels.loreShow }}
-        </button>
-        <a
-          :href="imageUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="act-btn ds-act"
-          @click="moreOpen = false"
-        >
-          <i class="bi bi-image" />{{ labels.dsSearchImage }}
-        </a>
-      </div>
-    </BaseModal>
 
     <KeywordUnitsModal
       v-if="activeKeyword"
@@ -199,7 +200,7 @@
 import { computed, ref, watch, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import DatasheetCard from '../../components/DatasheetCard.vue'
-import BaseModal from '../../components/BaseModal.vue'
+import ActionMenu from '../../components/ActionMenu.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
 import KeywordUnitsModal from '../../components/KeywordUnitsModal.vue'
 import { unitsWithKeyword } from '../../utils/keywordUnits.js'
@@ -577,7 +578,7 @@ async function copyName() {
    unit name more room. */
 /* The "…" exists only where the buttons fold (below); a same-specificity rule inside the container
    block has to come AFTER this one to win. */
-.ds-more { display: none; }
+.ds-actions > .ds-more { display: none; }
 @container dspage (max-width: 480px) {
   .ds-head {
     width: 100vw;
@@ -591,7 +592,8 @@ async function copyName() {
   }
   /* Five buttons become one: the row is the name's, not the toolbar's. */
   .ds-actions > .ds-btn:not(.ds-more) { display: none; }
-  .ds-more { display: flex; min-width: 36px; min-height: 36px; font-size: 1rem; }
+  .ds-actions > .ds-more { display: flex; }
+  .ds-more .ds-btn { min-width: 36px; min-height: 36px; font-size: 1rem; }
   /* …and the name takes the room back. Measured 2026-09-19 against the longest names in the data
      ("Ironkin Steeljacks with Heavy Volkanite Disintegrators", 54 chars): at 360–430px, 1.75rem
      wraps them to the same two lines 1.5rem did, ten pixels taller; a 25-char name ("Chaos Lord

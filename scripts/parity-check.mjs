@@ -46,6 +46,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
+import { localizeSheet } from '../src/data/datasheets/ru/localize.js'
 
 const args = process.argv.slice(2)
 const only = (() => {
@@ -115,7 +116,12 @@ const measures = (s) =>
 // `starsBalance` exists for one field family: a datasheet's `options`/`composition` lines use a
 // trailing `**` as a FOOTNOTE MARKER ("…can be equipped with 1 master vox.**"), not as bold — so
 // an odd count there is the convention, not a defect. Everywhere else an unbalanced `**` is one.
+// PARITY_PAIRS_OUT=<file> also writes every pair this run checked — the EN text and its RU twin —
+// for a data pass that has to edit both in step (scripts/restore-gloss-bold.mjs).
+const pairsOut = process.env.PARITY_PAIRS_OUT ? [] : null
+if (pairsOut) process.on('exit', () => fs.writeFileSync(process.env.PARITY_PAIRS_OUT, JSON.stringify(pairsOut)))
 function checkPair(label, en, rutext, errors, notes, { checkMeasures = false, starsBalance = true } = {}) {
+  if (pairsOut && typeof en === 'string' && typeof rutext === 'string') pairsOut.push([label, en, rutext])
   const e = S(en)
   const r = S(rutext)
   if (e.trim() && !r.trim()) return errors.push(`${label}: RU missing (EN has text)`)
@@ -170,6 +176,9 @@ for (const slug of slugs) {
     const join = (o) => [o.when, o.target, o.effect, o.restrictions].filter(Boolean).join(' ')
     ;(det.stratagems || []).forEach((st, j) => {
       pair(`${det.name} · strat "${st.name}"`, join(st), join((rd.stratagems || [])[j] || {}))
+      // The checks read the fields joined; a pass editing one field needs them one by one.
+      const rs = (rd.stratagems || [])[j] || {}
+      if (pairsOut) for (const k of ['when', 'target', 'effect', 'restrictions']) if (typeof st[k] === 'string' && typeof rs[k] === 'string') pairsOut.push([`${det.name} · strat "${st.name}" · ${k}`, st[k], rs[k]])
     })
     ;(det.enhancements || []).forEach((en, j) => {
       pair(`${det.name} · enh "${en.name}"`, en.body, ((rd.enhancements || [])[j] || {}).body)
@@ -461,6 +470,21 @@ if (!only) {
         errors.push(`datasheets/ru/${slug}.js abilityNamesRu: "${key}" names no ability on any ${slug} datasheet — the header it was written for is gone`)
       }
     }
+
+    // The note under an invulnerable save is translated by one shared map in localizeSheet (not by
+    // the overlay), so a note worded a new way reaches a Russian reader in English and nothing
+    // above would notice — which is how every one of them read until 2026-10. Ask localizeSheet.
+    for (const u of en) {
+      if (!(u.profiles || []).some((p) => p.invNote)) continue
+      const ru = localizeSheet(u, overlay[u.id], ruMod?.abilityNamesRu)
+      u.profiles.forEach((p, i) => {
+        if (!p.invNote) return
+        pairs++
+        if (ru.profiles?.[i]?.invNote === p.invNote) {
+          errors.push(`${slug}/${u.id}.profiles[${i}].invNote: "${p.invNote}" has no RU — add its wording to INV_NOTES_RU in datasheets/ru/localize.js`)
+        }
+      })
+    }
   }
 
   totalErrors += errors.length
@@ -560,7 +584,7 @@ if (!only) {
   const legEn = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'factionLegends.json'), 'utf8'))
   const legRu = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'factionLegendsRu.json'), 'utf8'))
   for (const [slug, entry] of Object.entries(legEn)) {
-    if (!entry.intro) continue
+    if (!entry.intro || entry.of) continue // a Chapter's copy of the Codex publication — checked there
     if (!legRu[slug]?.intro) { notes.push(`faction Legends ${slug}: EN intro, no RU overlay`); continue }
     pairs++
     checkPair(`faction Legends ${slug} · intro`, entry.intro, legRu[slug].intro, errors, notes)

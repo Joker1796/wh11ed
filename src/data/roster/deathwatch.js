@@ -8,10 +8,9 @@ export default {
       "sid": "ea8838d6-c077-479d-9581-8a74c487df99",
       "name": "Corvus Blackstar",
       "kws": [
-        "Corvus Blackstar",
         "Fly",
-        "Frame",
         "Imperium",
+        "Smoke",
         "Transport",
         "Vehicle"
       ],
@@ -32,15 +31,19 @@ export default {
           0,
           [
             [
-              711,
-              1
-            ],
-            [
-              1189,
+              1281,
               2
             ],
             [
-              151,
+              1282,
+              1
+            ],
+            [
+              1283,
+              1
+            ],
+            [
+              1284,
               1
             ]
           ]
@@ -53,11 +56,8 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              718
+              1285
             ]
-          ],
-          "rep": [
-            711
           ]
         },
         {
@@ -68,14 +68,14 @@ export default {
             [
               [
                 [
-                  1190,
+                  1286,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            1189
+            1281
           ]
         },
         {
@@ -84,21 +84,11 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              712
+              1287
             ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 187,
-          "in": "checkbox",
-          "o": [
-            [
-              1191
-            ],
-            [
-              1192
-            ]
+          ],
+          "rep": [
+            1283
           ]
         }
       ]
@@ -108,7 +98,6 @@ export default {
       "sid": "6a9d561e-9504-44a9-9a7b-5c62318db97b",
       "name": "Deathwatch Terminator Squad",
       "kws": [
-        "Deathwatch Terminator Squad",
         "Imperium",
         "Infantry",
         "Kill Team",
@@ -117,7 +106,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 190,
           "per": [
             5,
             5
@@ -135,9 +124,9 @@ export default {
           ]
         },
         {
-          "pts": 330,
+          "pts": 380,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
@@ -147,13 +136,16 @@ export default {
             ],
             [
               1,
-              5,
               9
             ]
           ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 40
+      },
       "minis": [
         {
           "n": "Deathwatch Terminator Sergeant"
@@ -167,11 +159,11 @@ export default {
           1,
           [
             [
-              38,
+              1303,
               1
             ],
             [
-              691,
+              1304,
               1
             ]
           ]
@@ -180,17 +172,74 @@ export default {
           0,
           [
             [
-              691,
+              1304,
               1
             ],
             [
-              38,
+              1303,
               1
             ]
           ]
         ]
       ],
       "gear": [
+        {
+          "m": 0,
+          "t": 489,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  1303,
+                  1
+                ],
+                [
+                  1305,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1303,
+                  1
+                ],
+                [
+                  1306,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1307,
+                  1
+                ],
+                [
+                  1308,
+                  1
+                ]
+              ],
+              5
+            ],
+            [
+              [
+                [
+                  1309,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1304,
+            1303
+          ],
+          "repall": 1
+        },
         {
           "m": 1,
           "t": 490,
@@ -199,7 +248,7 @@ export default {
             [
               [
                 [
-                  735,
+                  1310,
                   1
                 ]
               ]
@@ -207,27 +256,28 @@ export default {
             [
               [
                 [
-                  495,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1105,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  736,
+                  1311,
                   1
                 ],
                 [
-                  38,
+                  1303,
+                  1
+                ]
+              ],
+              10
+            ],
+            [
+              [
+                [
+                  1312,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1313,
                   1
                 ]
               ]
@@ -240,25 +290,25 @@ export default {
             ]
           ],
           "rep": [
-            38
-          ],
-          "keep": [
-            38
+            1303
           ]
         },
         {
-          "all": 1,
-          "t": 491,
+          "m": 1,
+          "t": 489,
           "in": "stepper",
           "o": [
             [
+              1304
+            ],
+            [
               [
                 [
-                  38,
+                  1303,
                   1
                 ],
                 [
-                  738,
+                  1305,
                   1
                 ]
               ]
@@ -266,11 +316,11 @@ export default {
             [
               [
                 [
-                  38,
+                  1303,
                   1
                 ],
                 [
-                  737,
+                  1306,
                   1
                 ]
               ]
@@ -278,11 +328,11 @@ export default {
             [
               [
                 [
-                  758,
+                  1307,
                   1
                 ],
                 [
-                  1206,
+                  1308,
                   1
                 ]
               ],
@@ -291,15 +341,15 @@ export default {
             [
               [
                 [
-                  1207,
+                  1309,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            691,
-            38
+            1304,
+            1303
           ]
         }
       ]
@@ -310,8 +360,7 @@ export default {
       "name": "Deathwatch Veterans",
       "kws": [
         "Battleline",
-        "Deathwatch Veterans",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Kill Team"
@@ -319,7 +368,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 115,
           "per": [
             5,
             5
@@ -337,9 +386,9 @@ export default {
           ]
         },
         {
-          "pts": 190,
+          "pts": 220,
           "per": [
-            6,
+            10,
             10
           ],
           "comp": [
@@ -349,7 +398,6 @@ export default {
             ],
             [
               1,
-              5,
               9
             ]
           ]
@@ -361,7 +409,7 @@ export default {
           "n": "Watch Sergeant"
         },
         {
-          "n": "Deathwatch Veterans"
+          "n": "Deathwatch Veteran"
         }
       ],
       "defaults": [
@@ -369,11 +417,11 @@ export default {
           0,
           [
             [
-              1208,
+              1314,
               1
             ],
             [
-              960,
+              1315,
               1
             ]
           ]
@@ -382,11 +430,11 @@ export default {
           1,
           [
             [
-              960,
+              1314,
               1
             ],
             [
-              1208,
+              1315,
               1
             ]
           ]
@@ -394,12 +442,194 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
+          "m": 0,
+          "t": 491,
+          "in": "checkbox",
+          "o": [
+            [
+              1316
+            ]
+          ],
+          "rep": [
+            1315
+          ]
+        },
+        {
+          "m": 0,
           "t": 492,
           "in": "checkbox",
           "o": [
             [
-              1209
+              1317
+            ]
+          ],
+          "rep": [
+            1314
+          ]
+        },
+        {
+          "m": 1,
+          "t": 493,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1318,
+                  1
+                ],
+                [
+                  1319,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            1315,
+            1314
+          ]
+        },
+        {
+          "m": 1,
+          "t": 494,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1320,
+                  1
+                ],
+                [
+                  1319,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            1315,
+            1314
+          ]
+        },
+        {
+          "m": 1,
+          "t": 495,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1321,
+                  1
+                ],
+                [
+                  1319,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              2
+            ],
+            [
+              10,
+              4
+            ]
+          ],
+          "rep": [
+            1315,
+            1314
+          ]
+        },
+        {
+          "m": 1,
+          "t": 496,
+          "in": "stepper",
+          "o": [
+            [
+              1322
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              2
+            ],
+            [
+              10,
+              4
+            ]
+          ],
+          "rep": [
+            1315,
+            1314
+          ]
+        },
+        {
+          "m": 1,
+          "t": 497,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1323,
+                  1
+                ],
+                [
+                  1319,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            1315,
+            1314
+          ]
+        },
+        {
+          "m": 1,
+          "t": 498,
+          "in": "checkbox",
+          "o": [
+            [
+              1324
             ]
           ],
           "lim": [
@@ -409,217 +639,35 @@ export default {
             ]
           ],
           "rep": [
-            960,
-            1208
+            1315,
+            1314
           ]
         },
         {
-          "m": 0,
-          "t": 493,
-          "in": "checkbox",
-          "o": [
-            [
-              1197
-            ]
-          ],
-          "rep": [
-            1208
-          ]
-        },
-        {
-          "m": 0,
-          "t": 494,
-          "in": "checkbox",
-          "o": [
-            [
-              1210
-            ]
-          ],
-          "rep": [
-            960
-          ]
-        },
-        {
-          "all": 1,
-          "t": 495,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  960,
-                  1
-                ],
-                [
-                  1203,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1208,
-                  1
-                ],
-                [
-                  1203,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              2
-            ],
-            [
-              10,
-              4
-            ]
-          ],
-          "rep": [
-            960,
-            1208
-          ]
-        },
-        {
-          "all": 1,
-          "t": 496,
-          "in": "stepper",
-          "o": [
-            [
-              1211
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              2
-            ],
-            [
-              10,
-              4
-            ]
-          ],
-          "rep": [
-            960,
-            1208
-          ]
-        },
-        {
-          "all": 1,
-          "t": 497,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  1212,
-                  1
-                ],
-                [
-                  688,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              1
-            ],
-            [
-              10,
-              2
-            ]
-          ],
-          "rep": [
-            960,
-            1208
-          ]
-        },
-        {
-          "all": 1,
-          "t": 498,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  1213,
-                  1
-                ],
-                [
-                  688,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              2
-            ],
-            [
-              10,
-              4
-            ]
-          ],
-          "rep": [
-            960,
-            1208
-          ]
-        },
-        {
-          "all": 1,
+          "m": 1,
           "t": 499,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1214,
+                  1315,
                   1
                 ],
                 [
-                  688,
+                  1301,
                   1
                 ]
               ]
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              1
             ],
-            [
-              10,
-              2
-            ]
-          ],
-          "rep": [
-            960,
-            1208
-          ]
-        },
-        {
-          "all": 1,
-          "t": 500,
-          "in": "stepper",
-          "o": [
             [
               [
                 [
-                  1215,
+                  1314,
                   1
                 ],
                 [
-                  688,
+                  1301,
                   1
                 ]
               ]
@@ -628,16 +676,16 @@ export default {
           "lim": [
             [
               5,
-              1
+              2
             ],
             [
               10,
-              2
+              4
             ]
           ],
           "rep": [
-            960,
-            1208
+            1315,
+            1314
           ]
         }
       ]
@@ -648,18 +696,15 @@ export default {
       "name": "Decimus Kill Team",
       "kws": [
         "Battleline",
-        "Decimus Kill Team",
-        "Gravis",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Kill Team",
-        "Tacticus"
+        "Kill Team"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 110,
           "per": [
             5,
             5
@@ -684,16 +729,16 @@ export default {
             ],
             [
               4,
-              0
+              1
             ],
             [
               5,
-              1
+              0
             ]
           ]
         },
         {
-          "pts": 190,
+          "pts": 210,
           "per": [
             10,
             10
@@ -717,11 +762,11 @@ export default {
             ],
             [
               4,
-              1
+              2
             ],
             [
               5,
-              2
+              1
             ]
           ]
         }
@@ -732,48 +777,35 @@ export default {
           "n": "Kill Team Sergeant"
         },
         {
-          "n": "Deathwatch Veteran"
-        },
-        {
-          "n": "Deathwatch Veteran"
-        },
-        {
-          "n": "Deathwatch Veteran"
-        },
-        {
-          "n": "Deathwatch Veteran"
-        },
-        {
           "n": "Gravis Veteran"
+        },
+        {
+          "n": "Deathwatch Veteran with Heavy Thunder Hammer and Bolt Pistol"
+        },
+        {
+          "n": "Deathwatch Veteran with Deathwatch Marksman Bolt Carbine, Special-issue Bolt Pistol and Knives and Fists"
+        },
+        {
+          "n": "Deathwatch Veteran with Stalker Bolt Rifle, Bolt Pistol and Knives and Fists"
+        },
+        {
+          "n": "Deathwatch Veteran with Xenophase Blade and Special-issue Bolt Pistol"
         }
       ],
       "defaults": [
         [
-          0,
-          [
-            [
-              11,
-              1
-            ],
-            [
-              1193,
-              1
-            ]
-          ]
-        ],
-        [
           1,
           [
             [
-              688,
+              1288,
               1
             ],
             [
-              1194,
+              1289,
               1
             ],
             [
-              1195,
+              1290,
               1
             ]
           ]
@@ -782,41 +814,28 @@ export default {
           4,
           [
             [
-              1196,
+              1289,
               1
             ],
             [
-              1197,
+              1291,
+              1
+            ],
+            [
+              1288,
               1
             ]
           ]
         ],
         [
-          2,
+          0,
           [
             [
-              1198,
+              1292,
               1
             ],
             [
-              1195,
-              1
-            ]
-          ]
-        ],
-        [
-          3,
-          [
-            [
-              688,
-              1
-            ],
-            [
-              1199,
-              1
-            ],
-            [
-              1196,
+              1293,
               1
             ]
           ]
@@ -825,15 +844,41 @@ export default {
           5,
           [
             [
-              688,
+              1294,
               1
             ],
             [
-              1200,
+              1295,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              1294,
               1
             ],
             [
-              1195,
+              1296,
+              1
+            ],
+            [
+              1289,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              1288,
+              1
+            ],
+            [
+              1297,
               1
             ]
           ]
@@ -841,14 +886,14 @@ export default {
       ],
       "gear": [
         {
-          "m": 5,
+          "m": 1,
           "t": 486,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1201,
+                  1298,
                   1
                 ]
               ]
@@ -856,11 +901,11 @@ export default {
             [
               [
                 [
-                  1202,
+                  1299,
                   1
                 ],
                 [
-                  760,
+                  1300,
                   1
                 ]
               ]
@@ -877,7 +922,7 @@ export default {
             ]
           ],
           "rep": [
-            1200
+            1290
           ]
         },
         {
@@ -888,11 +933,11 @@ export default {
             [
               [
                 [
-                  1193,
+                  1292,
                   1
                 ],
                 [
-                  1203,
+                  1301,
                   1
                 ]
               ]
@@ -909,16 +954,16 @@ export default {
             ]
           ],
           "rep": [
-            1198
+            1297
           ]
         },
         {
-          "m": 1,
+          "m": 4,
           "t": 488,
           "in": "stepper",
           "o": [
             [
-              1204
+              1302
             ]
           ],
           "lim": [
@@ -932,30 +977,7 @@ export default {
             ]
           ],
           "rep": [
-            1194
-          ]
-        },
-        {
-          "m": 3,
-          "t": 489,
-          "in": "stepper",
-          "o": [
-            [
-              1205
-            ]
-          ],
-          "lim": [
-            [
-              5,
-              1
-            ],
-            [
-              10,
-              2
-            ]
-          ],
-          "rep": [
-            1199
+            1291
           ]
         }
       ]
@@ -965,8 +987,7 @@ export default {
       "sid": "1ccb48ec-c82d-4d27-a4ef-f199e79e8043",
       "name": "Fortis Kill Team",
       "kws": [
-        "Fortis Kill Team",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Kill Team",
@@ -975,7 +996,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 195,
+          "pts": 210,
           "per": [
             10,
             10
@@ -988,61 +1009,23 @@ export default {
             ],
             [
               1,
-              9
-            ],
-            [
-              2,
-              0
-            ],
-            [
-              3,
-              0
-            ],
-            [
-              4,
-              0
-            ],
-            [
-              5,
-              0
-            ]
-          ]
-        },
-        {
-          "pts": 195,
-          "per": [
-            3,
-            24
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              2,
-              9
-            ],
-            [
-              2,
-              0,
-              4
-            ],
-            [
-              3,
-              0,
-              4
-            ],
-            [
-              4,
-              0,
-              4
-            ],
-            [
-              5,
-              0,
               2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              1
             ]
           ]
         }
@@ -1057,90 +1040,35 @@ export default {
           "n": "Kill Team Sergeant"
         },
         {
-          "n": "Kill Team Intercessor"
+          "n": "Kill Team Intercessor with Deathwatch Bolt Rifle, Bolt Pistol and Knives and Fists"
         },
         {
-          "n": "Kill Team Intercessor with plasma incinerator"
+          "n": "Deathwatch Intercessor with Plasma Incinerator, Bolt Pistol and Knives and Fists"
         },
         {
-          "n": "Kill Team Intercessor with heavy bolt pistol"
+          "n": "Kill Team Intercessor with Heavy Bolt Pistol and Chainsword"
         },
         {
-          "n": "Kill Team Intercessor with pyreblaster"
+          "n": "Kill Team Intercessor with Pyreblaster, Bolt Pistol and Knives and Fists"
         },
         {
-          "n": "Kill Team Intercessor with superfrag rocket launcher"
+          "n": "Kill Team Intercessor with Castellan Launcher, Superfrag Rocket Launcher and Knives and Fists"
         }
       ],
       "defaults": [
         [
-          2,
-          [
-            [
-              688,
-              1
-            ],
-            [
-              1204,
-              1
-            ],
-            [
-              1,
-              1
-            ]
-          ]
-        ],
-        [
           0,
           [
             [
-              1,
+              1325,
               1
             ],
             [
-              1216,
+              1326,
               1
             ],
             [
-              688,
-              1
-            ]
-          ]
-        ],
-        [
-          4,
-          [
-            [
-              692,
-              1
-            ],
-            [
-              688,
-              1
-            ],
-            [
-              1,
-              1
-            ]
-          ]
-        ],
-        [
-          5,
-          [
-            [
-              688,
-              1
-            ],
-            [
-              1,
-              1
-            ],
-            [
-              1217,
-              1
-            ],
-            [
-              1218,
+              1327,
               1
             ]
           ]
@@ -1149,15 +1077,49 @@ export default {
           1,
           [
             [
-              1,
+              1325,
               1
             ],
             [
-              1216,
+              1326,
               1
             ],
             [
-              688,
+              1327,
+              1
+            ]
+          ]
+        ],
+        [
+          5,
+          [
+            [
+              1328,
+              1
+            ],
+            [
+              1325,
+              1
+            ],
+            [
+              1329,
+              1
+            ]
+          ]
+        ],
+        [
+          4,
+          [
+            [
+              1330,
+              1
+            ],
+            [
+              1327,
+              1
+            ],
+            [
+              1325,
               1
             ]
           ]
@@ -1166,11 +1128,28 @@ export default {
           3,
           [
             [
-              685,
+              1331,
               1
             ],
             [
-              756,
+              1332,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              1327,
+              1
+            ],
+            [
+              1333,
+              1
+            ],
+            [
+              1325,
               1
             ]
           ]
@@ -1179,55 +1158,55 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 501,
+          "t": 500,
           "in": "checkbox",
           "o": [
             [
-              756
+              1332
             ],
             [
-              614
+              1334
             ],
             [
-              11
+              1335
             ],
             [
-              738
+              1336
             ]
           ],
           "rep": [
-            1216
+            1325
           ]
         },
         {
           "m": 0,
-          "t": 502,
+          "t": 501,
           "in": "checkbox",
           "o": [
             [
-              756
+              1332
             ],
             [
-              691
+              1337
             ],
             [
-              738
+              1338
             ],
             [
-              758
+              1335
             ]
           ],
           "rep": [
-            688
+            1326
           ]
         },
         {
           "all": 1,
-          "t": 503,
+          "t": 502,
           "in": "stepper",
           "o": [
             [
-              760
+              1339
             ]
           ],
           "lim": [
@@ -1243,11 +1222,11 @@ export default {
         },
         {
           "m": 2,
-          "t": 504,
+          "t": 503,
           "in": "checkbox",
           "o": [
             [
-              11
+              1338
             ]
           ],
           "lim": [
@@ -1257,7 +1236,20 @@ export default {
             ]
           ],
           "rep": [
-            1
+            1327
+          ]
+        },
+        {
+          "m": 5,
+          "t": 504,
+          "in": "checkbox",
+          "o": [
+            [
+              1340
+            ]
+          ],
+          "rep": [
+            1328
           ]
         },
         {
@@ -1266,7 +1258,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1219
+              1341
             ]
           ],
           "lim": [
@@ -1276,20 +1268,7 @@ export default {
             ]
           ],
           "rep": [
-            1218
-          ]
-        },
-        {
-          "m": 5,
-          "t": 506,
-          "in": "stepper",
-          "o": [
-            [
-              1220
-            ]
-          ],
-          "rep": [
-            1218
+            1328
           ]
         }
       ]
@@ -1299,17 +1278,16 @@ export default {
       "sid": "702b93e4-6cd8-4bf1-9507-374dc1a7f397",
       "name": "Indomitor Kill Team",
       "kws": [
+        "Explosives",
         "Gravis",
-        "Grenades",
         "Imperium",
-        "Indomitor Kill Team",
         "Infantry",
         "Kill Team"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 275,
+          "pts": 280,
           "per": [
             10,
             10
@@ -1318,38 +1296,14 @@ export default {
           "comp": [
             [
               0,
-              10
+              4
             ],
             [
               1,
-              0
-            ],
-            [
-              2,
-              0
-            ]
-          ]
-        },
-        {
-          "pts": 275,
-          "per": [
-            3,
-            16
-          ],
-          "comp": [
-            [
-              0,
-              3,
-              10
-            ],
-            [
-              1,
-              0,
               3
             ],
             [
               2,
-              0,
               3
             ]
           ]
@@ -1358,33 +1312,29 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 15
+        "pts": 20
       },
       "minis": [
         {
-          "n": "Kill Team Heavy Intercessors"
+          "n": "Kill Team Heavy Intercessor with Deathwatch Heavy Bolt Rifle and Ceramite Fists."
         },
         {
-          "n": "Kill Team Heavy Intercessor with power fists"
+          "n": "Kill Team Heavy Intercessor with Flamestorm Gauntlets and Twin Power Fists"
         },
         {
-          "n": "Kill Team Heavy Intercessor with melta rifle"
+          "n": "Kill Team Heavy Intercessor with Melta Rifle, Bolt Pistol and Ceramite Fists"
         }
       ],
       "defaults": [
         [
-          2,
+          0,
           [
             [
-              1221,
+              1342,
               1
             ],
             [
-              688,
-              1
-            ],
-            [
-              1,
+              1343,
               1
             ]
           ]
@@ -1393,28 +1343,28 @@ export default {
           1,
           [
             [
-              1222,
+              1344,
               1
             ],
             [
-              1223,
+              1345,
               1
             ]
           ]
         ],
         [
-          0,
+          2,
           [
             [
-              688,
+              1342,
               1
             ],
             [
-              1,
+              1346,
               1
             ],
             [
-              1224,
+              1347,
               1
             ]
           ]
@@ -1423,16 +1373,16 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 507,
+          "t": 506,
           "in": "stepper",
           "o": [
             [
-              1225
+              1348
             ]
           ],
           "lim": [
             [
-              0,
+              5,
               1
             ],
             [
@@ -1441,38 +1391,38 @@ export default {
             ]
           ],
           "rep": [
-            1224
+            1343
           ]
         },
         {
           "m": 1,
-          "t": 508,
+          "t": 507,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1226,
+                  1349,
                   1
                 ],
                 [
-                  699,
+                  1350,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            1223
+            1345
           ]
         },
         {
           "m": 2,
-          "t": 509,
+          "t": 508,
           "in": "checkbox",
           "o": [
             [
-              19
+              1351
             ]
           ],
           "lim": [
@@ -1482,7 +1432,7 @@ export default {
             ]
           ],
           "rep": [
-            1221
+            1346
           ]
         }
       ]
@@ -1492,18 +1442,17 @@ export default {
       "sid": "87f83fe4-3976-49cf-b6a7-fd09bfb8675d",
       "name": "Spectrus Kill Team",
       "kws": [
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
         "Kill Team",
         "Phobos",
-        "Smoke",
-        "Spectrus Kill Team"
+        "Smoke"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 170,
+          "pts": 185,
           "per": [
             10,
             10
@@ -1512,48 +1461,19 @@ export default {
           "comp": [
             [
               0,
-              10
-            ],
-            [
-              1,
-              0
-            ],
-            [
-              2,
-              0
-            ],
-            [
-              3,
-              0
-            ]
-          ]
-        },
-        {
-          "pts": 170,
-          "per": [
-            3,
-            21
-          ],
-          "comp": [
-            [
-              0,
-              3,
-              10
-            ],
-            [
-              1,
-              0,
-              3
-            ],
-            [
-              2,
-              0,
               4
             ],
             [
+              1,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
               3,
-              0,
-              4
+              2
             ]
           ]
         }
@@ -1565,45 +1485,32 @@ export default {
       },
       "minis": [
         {
-          "n": "Kill Team Infiltrator"
+          "n": "Kill Team Infiltrator with Deathwatch Marksman Bolt Carbine, Bolt Pistol and Ceramite Fists"
         },
         {
-          "n": "Kill Team Infiltrator with bolt sniper rifle"
+          "n": "Kill Team Infiltrator with Bolt Sniper Rifle, Bolt Pistol and Ceramite Fists"
         },
         {
-          "n": "Kill Team Infiltrator with Deathwatch occulus bolt carbine"
+          "n": "Kill Team Infiltrator with Deathwatch Occulus Bolt Carbine, Bolt Pistol and Paired Combat Blades"
         },
         {
-          "n": "Kill Team Infiltrator with combat knife"
+          "n": "Kill Team Infiltrator with Special-issue Bolt Pistol and Combat Knife"
         }
       ],
       "defaults": [
         [
-          3,
+          2,
           [
             [
-              1227,
+              1352,
               1
             ],
             [
-              1205,
-              1
-            ]
-          ]
-        ],
-        [
-          0,
-          [
-            [
-              1199,
+              1353,
               1
             ],
             [
-              688,
-              1
-            ],
-            [
-              1,
+              1354,
               1
             ]
           ]
@@ -1612,32 +1519,45 @@ export default {
           1,
           [
             [
-              1,
+              1355,
               1
             ],
             [
-              688,
+              1356,
               1
             ],
             [
-              1228,
+              1352,
               1
             ]
           ]
         ],
         [
-          2,
+          0,
           [
             [
-              1229,
+              1352,
               1
             ],
             [
-              1,
+              1357,
               1
             ],
             [
-              1230,
+              1355,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              1358,
+              1
+            ],
+            [
+              1359,
               1
             ]
           ]
@@ -1646,14 +1566,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 510,
+          "t": 509,
           "in": "checkbox",
           "o": [
             [
-              1231
-            ],
-            [
-              1232
+              1360
             ]
           ],
           "lim": [
@@ -1661,60 +1578,57 @@ export default {
               0,
               1
             ]
+          ],
+          "rep": [
+            1357
+          ]
+        },
+        {
+          "m": 1,
+          "t": 510,
+          "in": "stepper",
+          "o": [
+            [
+              1361
+            ]
+          ],
+          "rep": [
+            1356
           ]
         },
         {
           "m": 1,
           "t": 511,
-          "in": "checkbox",
-          "o": [
-            [
-              1233
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ],
-          "rep": [
-            1228
-          ]
-        },
-        {
-          "m": 1,
-          "t": 512,
           "in": "stepper",
           "o": [
             [
-              1234
+              1362
             ]
           ],
           "rep": [
-            1228
+            1356
           ]
         },
         {
           "m": 3,
-          "t": 513,
+          "t": 512,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1235,
+                  1363,
                   1
                 ],
                 [
-                  688,
+                  1355,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            1205
+            1358
           ]
         }
       ]
@@ -1724,18 +1638,17 @@ export default {
       "sid": "e162e0db-3a17-43c7-9f42-a0c0999e4fad",
       "name": "Talonstrike Kill Team",
       "kws": [
+        "Explosives",
         "Fly",
-        "Grenades",
         "Imperium",
         "Infantry",
         "Jump Pack",
-        "Kill Team",
-        "Talonstrike Kill Team"
+        "Kill Team"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 265,
+          "pts": 280,
           "per": [
             10,
             10
@@ -1748,34 +1661,11 @@ export default {
             ],
             [
               1,
-              9
-            ],
-            [
-              2,
-              0
-            ]
-          ]
-        },
-        {
-          "pts": 265,
-          "per": [
-            3,
-            15
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              2,
-              9
-            ],
-            [
-              2,
-              0,
               5
+            ],
+            [
+              2,
+              4
             ]
           ]
         }
@@ -1783,7 +1673,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 15
+        "pts": 20
       },
       "minis": [
         {
@@ -1798,27 +1688,27 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              756,
+              1364,
               1
             ],
             [
-              685,
+              1365,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              756,
+              1365,
               1
             ],
             [
-              685,
+              1364,
               1
             ]
           ]
@@ -1827,11 +1717,11 @@ export default {
           2,
           [
             [
-              688,
+              1366,
               1
             ],
             [
-              1236,
+              1367,
               1
             ]
           ]
@@ -1840,48 +1730,48 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 514,
+          "t": 513,
           "in": "checkbox",
           "o": [
             [
-              614
+              1368
             ],
             [
-              11
+              1369
             ]
           ],
           "rep": [
-            685
+            1364
           ]
         },
         {
           "m": 0,
-          "t": 515,
+          "t": 514,
           "in": "checkbox",
           "o": [
             [
-              691
+              1370
             ],
             [
-              738
+              1371
             ]
           ],
           "rep": [
-            756
+            1365
           ]
         },
         {
           "m": 1,
-          "t": 516,
+          "t": 515,
           "in": "stepper",
           "o": [
             [
-              11
+              1371
             ]
           ],
           "lim": [
             [
-              0,
+              5,
               1
             ],
             [
@@ -1890,20 +1780,20 @@ export default {
             ]
           ],
           "rep": [
-            685
+            1365
           ]
         },
         {
           "m": 2,
-          "t": 517,
+          "t": 516,
           "in": "stepper",
           "o": [
             [
-              1237
+              1372
             ]
           ],
           "rep": [
-            1236
+            1366
           ]
         }
       ]
@@ -1916,10 +1806,10 @@ export default {
         "Captain",
         "Character",
         "Epic Hero",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Watch Captain Artemis"
+        "Kill Team"
       ],
       "flags": {
         "char": 1,
@@ -1927,7 +1817,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 75,
           "per": [
             1,
             1
@@ -1942,11 +1832,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "fortis-kill-team",
+          "to": "decimus-kill-team",
           "type": "leader"
         },
         {
-          "to": "decimus-kill-team",
+          "to": "fortis-kill-team",
           "type": "leader"
         }
       ],
@@ -1955,11 +1845,11 @@ export default {
           0,
           [
             [
-              1238,
+              1373,
               1
             ],
             [
-              1120,
+              1374,
               1
             ]
           ]
@@ -1973,17 +1863,17 @@ export default {
       "kws": [
         "Captain",
         "Character",
-        "Grenades",
+        "Explosives",
         "Imperium",
         "Infantry",
-        "Watch Master"
+        "Kill Team"
       ],
       "flags": {
         "char": 1
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 105,
           "per": [
             1,
             1
@@ -1994,11 +1884,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "deathwatch-veterans",
+          "to": "fortis-kill-team",
           "type": "leader"
         },
         {
-          "to": "fortis-kill-team",
+          "to": "deathwatch-veterans",
           "type": "leader"
         },
         {
@@ -2011,7 +1901,7 @@ export default {
           0,
           [
             [
-              1239,
+              1375,
               1
             ]
           ]
@@ -2022,52 +1912,26 @@ export default {
   "detachments": [
     {
       "name": "Black Spear Task Force",
-      "sid": "cb3cd2ee-9410-46ce-9abd-80b05cdfb4ba",
+      "sid": "c1d55a39-555a-4af4-8401-ec09e1231edf",
       "dp": 3,
-      "fd": "Purge the Foe",
-      "excludedUnits": [
-        "imperial-agents:watch-master",
-        "imperial-agents:corvus-blackstar",
-        "tactical-squad",
-        "terminator-squad",
-        "devastator-squad",
-        "scout-squad",
-        "imperial-agents:watch-captain-artemis",
-        "terminator-assault-squad",
-        "imperial-agents:deathwatch-kill-team"
+      "fds": [
+        "Priority Assets",
+        "Purge the Foe"
       ],
       "enhancements": [
         {
-          "name": "Thief of Secrets",
-          "pts": 25,
+          "name": "The Thief of Secrets",
+          "pts": 10,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Osseus Key",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
               "kw": [
                 "Watch Master"
               ]
             },
             {
-              "fac": [
-                "Adeptus Astartes"
-              ],
               "kw": [
-                "Techmarine"
+                "Captain"
               ]
             }
           ]
@@ -2075,27 +1939,64 @@ export default {
         {
           "name": "Beacon Angelis",
           "pts": 25,
-          "type": "miniature"
-        },
-        {
-          "name": "The Tome of Ectoclades",
-          "pts": 30,
           "type": "miniature",
           "req": [
             {
               "fac": [
                 "Adeptus Astartes"
-              ],
+              ]
+            }
+          ]
+        },
+        {
+          "name": "The Tome of Ectoclades",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
               "kw": [
-                "Watch Master"
+                "Captain"
               ]
             },
             {
+              "kw": [
+                "Watch Master"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Osseus Key (Aura)",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Techmarine"
+              ]
+            },
+            {
+              "kw": [
+                "Watch Master"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Deathwatch Support",
+      "sid": "4fde4216-b0dd-4665-8556-2d394d293ed6",
+      "dp": 0,
+      "enhancements": [
+        {
+          "name": "Beacon Angelis",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
               "fac": [
                 "Adeptus Astartes"
-              ],
-              "kw": [
-                "Captain"
               ]
             }
           ]
@@ -2172,62 +2073,84 @@ export default {
           "incursion": 1,
           "strike-force": 1
         },
-        "Character": {
-          "incursion": 1,
-          "onslaught": 3,
-          "strike-force": 2
-        },
         "Retinue": {
           "incursion": 1,
           "strike-force": 2,
           "onslaught": 3
+        },
+        "Character": {
+          "incursion": 1,
+          "onslaught": 3,
+          "strike-force": 2
         }
       },
       "up": {
+        "imperial-agents:inquisitor-draxus": {
+          "1": 110
+        },
         "imperial-agents:eversor-assassin": {
           "1": 110
         },
-        "imperial-agents:exaction-squad": {
-          "11": 85
+        "imperial-agents:sisters-of-battle-immolator": {
+          "1": 105
+        },
+        "imperial-agents:voidsmen-at-arms": {
+          "6": 70
         },
         "imperial-agents:grey-knights-terminator-squad": {
           "5": 190
         },
-        "imperial-agents:inquisitor": {
-          "1": 65
+        "imperial-agents:vindicare-assassin": {
+          "1": 125
         },
-        "imperial-agents:inquisitor-coteaz": {
-          "1": 95
+        "imperial-agents:rogue-trader-entourage": {
+          "4": 105
         },
-        "imperial-agents:inquisitor-draxus": {
-          "1": 110
+        "imperial-agents:subductor-squad": {
+          "11": 100
+        },
+        "imperial-agents:sisters-of-battle-squad": {
+          "10": 110
+        },
+        "imperial-agents:navigator": {
+          "1": 75
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
           "12": 120
         },
-        "imperial-agents:navigator": {
-          "1": 75
+        "imperial-agents:inquisitor-coteaz": {
+          "1": 95
         },
-        "imperial-agents:rogue-trader-entourage": {
-          "4": 105
+        "imperial-agents:exaction-squad": {
+          "11": 85
         },
-        "imperial-agents:sisters-of-battle-immolator": {
-          "1": 105
-        },
-        "imperial-agents:sisters-of-battle-squad": {
-          "10": 110
-        },
-        "imperial-agents:subductor-squad": {
-          "11": 100
-        },
-        "imperial-agents:vindicare-assassin": {
-          "1": 125
-        },
-        "imperial-agents:voidsmen-at-arms": {
-          "6": 70
+        "imperial-agents:inquisitor": {
+          "1": 65
         }
       }
+    },
+    {
+      "key": "deathwatch",
+      "name": "Deathwatch",
+      "ids": [
+        "corvus-blackstar",
+        "deathwatch-terminator-squad",
+        "deathwatch-veterans",
+        "decimus-kill-team",
+        "fortis-kill-team",
+        "indomitor-kill-team",
+        "spectrus-kill-team",
+        "talonstrike-kill-team",
+        "watch-captain-artemis",
+        "watch-master"
+      ],
+      "pts": {
+        "incursion": 500,
+        "strike-force": 500,
+        "onslaught": 500
+      },
+      "enh": 1
     },
     {
       "key": "imperial-knights",
@@ -2275,53 +2198,36 @@ export default {
     "aggressor-squad",
     "ancient",
     "ancient-in-terminator-armour",
-    "ancient-on-bike",
     "apothecary",
     "apothecary-biologis",
-    "apothecary-on-bike",
     "assault-intercessor-squad",
     "assault-intercessors-with-jump-packs",
-    "astartes-servitors",
     "astraeus",
     "ballistus-dreadnought",
-    "bike-squad",
     "bladeguard-ancient",
     "bladeguard-veteran-squad",
     "brutalis-dreadnought",
-    "caestus-assault-ram",
     "captain",
     "captain-in-gravis-armour",
     "captain-in-phobos-armour",
     "captain-in-terminator-armour",
     "captain-on-bike",
     "captain-with-jump-pack",
-    "carab-culln-the-risen",
     "centurion-assault-squad",
     "centurion-devastator-squad",
     "cerberus",
     "chaplain",
     "chaplain-in-terminator-armour",
     "chaplain-on-bike",
-    "chaplain-venerable-dreadnought",
     "chaplain-with-jump-pack",
-    "command-squad",
-    "company-champion-on-bike",
     "company-heroes",
-    "company-veterans-on-bikes",
-    "deathstorm-drop-pod",
-    "deimos-predator",
-    "deredeo-dreadnought",
     "desolation-squad",
     "dreadnought",
-    "dreadnought-drop-pod",
     "drop-pod",
     "eliminator-squad",
-    "eradicator-squad",
     "eradicator-squad-with-heavy-bolters",
+    "eradicator-squad-with-melta-rifles",
     "falchion",
-    "fellblade",
-    "ferren-areios",
-    "fire-raptor-gunship",
     "firestrike-servo-turrets",
     "gladiator-lancer",
     "gladiator-reaper",
@@ -2329,118 +2235,76 @@ export default {
     "hammerfall-bunker",
     "heavy-intercessor-squad",
     "hellblaster-squad",
-    "hunter",
-    "imperial-space-marine",
     "impulsor",
     "inceptor-squad",
     "incursor-squad",
     "infernus-squad",
     "infiltrator-squad",
     "intercessor-squad",
-    "invader-atv",
+    "invader-atvs",
     "invictor-tactical-warsuit",
-    "ironclad-dreadnought",
-    "javelin-attack-speeder",
     "judiciar",
     "kratos",
     "land-raider",
-    "land-raider-achilles",
     "land-raider-crusader",
     "land-raider-excelsior",
-    "land-raider-helios",
-    "land-raider-prometheus",
-    "land-raider-proteus",
     "land-raider-redeemer",
     "land-speeder",
-    "land-speeder-tempest",
-    "land-speeder-tornado",
-    "land-speeder-typhoon",
-    "leviathan-dreadnought",
     "librarian",
     "librarian-in-phobos-armour",
     "librarian-in-terminator-armour",
-    "librarian-on-bike",
-    "librarian-with-jump-pack",
     "lieutenant",
     "lieutenant-in-phobos-armour",
-    "lieutenant-in-reiver-armour",
     "lieutenant-with-combi-weapon",
     "mastodon",
-    "mortis-dreadnought",
     "outrider-squad",
     "predator-annihilator",
     "predator-destructor",
-    "primaris-company-champion",
     "rapier-carrier",
     "razorback",
     "redemptor-dreadnought",
     "reiver-squad",
-    "relic-contemptor-dreadnought",
     "relic-razorback",
     "repulsor",
     "repulsor-executioner",
     "rhino",
     "rhino-primaris",
-    "sicaran-arcus",
-    "sicaran-battle-tank",
-    "sicaran-omega",
-    "sicaran-punisher",
-    "sicaran-venator",
-    "sokar-pattern-stormbird",
-    "spartan",
-    "stalker",
+    "scout-bike-squad",
+    "sicaran",
     "sternguard-veteran-squad",
-    "storm-eagle-gunship",
     "storm-speeder-hailstrike",
     "storm-speeder-hammerstrike",
     "storm-speeder-thunderstrike",
     "stormhawk-interceptor",
     "stormraven-gunship",
     "stormtalon-gunship",
-    "suppressor-squad",
     "tarantula-air-defence-battery",
     "tarantula-sentry-battery",
     "techmarine",
-    "techmarine-on-bike",
-    "terminus-ultra",
     "terrax-pattern-termite",
-    "thunderfire-cannon",
     "thunderhawk-gunship",
-    "thunderhawk-transporter",
     "typhon",
     "vanguard-veteran-squad",
     "vanguard-veteran-squad-with-jump-packs",
     "venerable-dreadnought",
     "vindicator",
-    "vindicator-laser-destroyer",
-    "whirlwind",
-    "whirlwind-scorpius",
-    "xiphon-interceptor"
+    "whirlwind"
   ],
-  "unitPoints": {
-    "repulsor-executioner": {
-      "1": 230
-    }
-  },
   "sharedDetachments": [
-    "1st Company Task Force",
-    "Anvil Siege Force",
-    "Armoured Speartip",
-    "Bastion Task Force",
-    "Ceramite Sentinels",
-    "Firestorm Assault Force",
-    "Fulguris Task Force",
+    "Assault Brethren",
+    "Devastator Brethren",
+    "Gauntlet Task Force",
     "Gladius Task Force",
-    "Headhunter Task Force",
+    "Gravis Linebreaker Force",
+    "Gravis Siege Force",
+    "Ironclad Champions",
     "Ironstorm Spearhead",
-    "Librarius Conclave",
-    "Orbital Assault Force",
+    "Phobos Shadow Force",
+    "Phobos Shock Force",
     "Stormlance Task Force",
-    "Subversion Assets",
-    "Vanguard Spearhead",
-    "Vengeful Hosts"
-  ],
-  "detachmentDp": {
-    "Stormlance Task Force": 2
-  }
+    "Tactical Brethren",
+    "Tacticus Attack Force",
+    "Tacticus Firestorm Force",
+    "Terminator Storm Force"
+  ]
 }

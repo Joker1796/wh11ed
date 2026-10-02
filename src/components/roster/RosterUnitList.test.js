@@ -1,5 +1,5 @@
 import { afterEach, describe, it, expect, vi } from 'vitest'
-import { mount, DOMWrapper } from '@vue/test-utils'
+import { mount, DOMWrapper, enableAutoUnmount } from '@vue/test-utils'
 import RosterUnitList from './RosterUnitList.vue'
 
 const squad = { id: 'squad', name: 'Legionaries', sizes: [{ pts: 90, per: [5, 5], default: 1 }], minis: ['Legionary'], gear: [] }
@@ -23,6 +23,9 @@ const mountList = (props = {}) => mount(RosterUnitList, {
   slots: { fields: '<p class="probe">fields</p>' },
 })
 
+// Each list is unmounted before the body is wiped: a list left mounted keeps its open menu, and
+// the next test's write to the shared fixture re-renders that menu into a body that is gone.
+enableAutoUnmount(afterEach)
 afterEach(() => {
   document.body.innerHTML = ''
   delete entries[0].blockName // the fixture is shared; a name written by one test is not another's

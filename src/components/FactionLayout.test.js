@@ -23,8 +23,8 @@ beforeEach(async () => {
 const settle = async () => { for (let i = 0; i < 20; i++) { await flushPromises(); await new Promise((r) => setTimeout(r, 5)) } }
 
 describe('FactionLayout — the way back from a unit page', () => {
-  // `.subnav` (where the desktop keeps the same link) is hidden on mobile, and the unit page has
-  // no hero of its own, so without this a phone could only leave through the drawer.
+  // The unit page has no hero of its own, so without this a phone could only leave through the
+  // drawer. (The desktop has its corner buttons — below.)
   it('offers a back-to-units button on a unit page', async () => {
     PARAMS = { slug: 'orks', unit: 'boyz' }
     const w = mount(FactionLayout, { props: { hero: false } })
@@ -62,6 +62,23 @@ describe('FactionLayout — the way back from a unit page', () => {
     history.replaceState({ back: '/tracker' }, '')
     action.onClick()
     expect(push).toHaveBeenCalledWith('/factions/orks/datasheets')
+    w.unmount()
+  })
+
+  // The desktop subnav strip over the sheet gave way to corner buttons (owner, 2026-10-01): the
+  // three faction pages, Units by the same way back as the phone's button.
+  it('puts Rules, Units and FAQ in the corner of a unit page', async () => {
+    PARAMS = { slug: 'orks', unit: 'boyz' }
+    const RouterLink = { props: ['to'], template: '<a :href="to"><slot /></a>' }
+    const w = mount(FactionLayout, { props: { hero: false }, global: { stubs: { RouterLink } } })
+    await settle()
+    const fabs = w.findAll('.faction-fabs .fab-btn')
+    expect(fabs.map((b) => b.find('i').classes().join(' '))).toEqual(['bi bi-shield-shaded', 'bi bi-people-fill', 'bi bi-patch-question'])
+    expect(fabs[0].attributes('href')).toBe('/factions/orks')
+    expect(fabs[2].attributes('href')).toBe('/factions/orks/faq')
+    history.replaceState({ back: '/factions/orks/datasheets' }, '')
+    await fabs[1].trigger('click')
+    expect(back).toHaveBeenCalled()
     w.unmount()
   })
 })

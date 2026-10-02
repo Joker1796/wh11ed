@@ -160,9 +160,13 @@ def parse_detachments(region):
         # tag (`3DP<!-- --> ▲`), so don't require `</span>` to immediately follow the digits.
         dp = re.search(r'<span class="text-sm self-end pl-2(?: text-nowrap)?">(\d+)DP', chunk)
         if dp: det["dp"] = int(dp.group(1))
-        # Force Disposition — the first colored banner div after the name.
-        fd = re.search(r'style="background-color:#[0-9A-Fa-f]+">([^<]+)</div>', chunk)
-        if fd: det["forceDisposition"] = titlecase(fd.group(1))
+        # Force Dispositions — every coloured banner between the name and the enhancements. A
+        # detachment can give access to more than one (core rules 25.04: "each one will give you
+        # access to different force dispositions"); 39 do in v1.5. Until 2026-10-01 only the
+        # first banner was read, so Warpbane Task Force lost its Purge the Foe (a player's report).
+        head_part = chunk.split('ENHANCEMENTS')[0]
+        fds = [titlecase(x) for x in re.findall(r'style="background-color:#[0-9A-Fa-f]+">([^<]+)</div>', head_part)]
+        if fds: det["forceDispositions"] = fds
         # UNIQUE keyword lock (optional), kept uppercase like a game keyword.
         uq = re.search(r'>UNIQUE:\s*([^<]+)</span>', chunk)
         if uq: det["unique"] = H.unescape(uq.group(1)).strip()
@@ -255,7 +259,7 @@ def emit_faction(f):
             eh = ', '.join(f"{{ name: {q(e['name'])}, points: {e['points']} }}" for e in d['enhancements'])
             head = f"name: {q(d['name'])}"
             if 'dp' in d: head += f", dp: {d['dp']}"
-            if 'forceDisposition' in d: head += f", forceDisposition: {q(d['forceDisposition'])}"
+            if 'forceDispositions' in d: head += ", forceDispositions: [" + ", ".join(q(x) for x in d['forceDispositions']) + "]"
             if 'unique' in d: head += f", unique: {q(d['unique'])}"
             L.append(f"    {{ {head}, enhancements: [{eh}] }},")
         L.append("  ],")
@@ -292,7 +296,7 @@ def emit_barrel(factions):
          "// the same array (swap in a translated array later if needed).",
          "//",
          "// Shape per faction: { id, name, slug, sourceUrl, detachments[], units[], subfactions[], legends[] }.",
-         "//   detachment = { name, dp, forceDisposition, unique?, enhancements: [{ name, points }] }",
+         "//   detachment = { name, dp, forceDispositions: [...], unique?, enhancements: [{ name, points }] }",
          "//   unit       = { name, options: [{ models?, points, note? }] }",
          "//     `models` omitted for single-model units; `note` carries rank/variant pricing",
          "//     labels ('1st-2nd', '3rd+', …) or special unit compositions.",

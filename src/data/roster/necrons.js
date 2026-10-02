@@ -16,7 +16,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 95,
+          "pts": 100,
           "per": [
             1,
             1
@@ -30,15 +30,15 @@ export default {
           0,
           [
             [
-              1620,
+              1786,
               1
             ],
             [
-              1621,
+              1787,
               1
             ],
             [
-              1622,
+              1788,
               1
             ]
           ]
@@ -47,15 +47,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 675,
+          "t": 676,
           "in": "checkbox",
           "o": [
             [
-              1623
+              1789
             ]
           ],
           "rep": [
-            1621
+            1787
           ]
         }
       ]
@@ -91,11 +91,11 @@ export default {
           0,
           [
             [
-              1700,
+              1866,
               1
             ],
             [
-              1682,
+              1848,
               1
             ]
           ]
@@ -140,11 +140,11 @@ export default {
           0,
           [
             [
-              1654,
+              1820,
               1
             ],
             [
-              1655,
+              1821,
               1
             ]
           ]
@@ -183,11 +183,11 @@ export default {
           0,
           [
             [
-              1656,
+              1822,
               1
             ],
             [
-              1657,
+              1823,
               1
             ]
           ]
@@ -226,15 +226,15 @@ export default {
           0,
           [
             [
-              1658,
+              1824,
               1
             ],
             [
-              1659,
+              1825,
               1
             ],
             [
-              1660,
+              1826,
               1
             ]
           ]
@@ -276,11 +276,11 @@ export default {
           0,
           [
             [
-              2783,
+              3384,
               1
             ],
             [
-              1734,
+              1900,
               1
             ]
           ]
@@ -300,7 +300,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 140,
+          "pts": 130,
           "per": [
             1,
             1
@@ -314,15 +314,15 @@ export default {
           0,
           [
             [
-              1624,
+              1790,
               1
             ],
             [
-              1625,
+              1791,
               1
             ],
             [
-              1626,
+              1792,
               1
             ]
           ]
@@ -356,11 +356,11 @@ export default {
           0,
           [
             [
-              1627,
+              1793,
               1
             ],
             [
-              1628,
+              1794,
               1
             ]
           ]
@@ -369,30 +369,30 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 676,
+          "t": 677,
           "in": "stepper",
           "o": [
             [
-              1629
+              1795
             ]
           ],
           "rep": [
-            1627
+            1793
           ]
         },
         {
           "m": 0,
-          "t": 677,
+          "t": 678,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  1630,
+                  1796,
                   1
                 ],
                 [
-                  1631,
+                  1797,
                   1
                 ]
               ]
@@ -405,16 +405,16 @@ export default {
             ]
           ],
           "rep": [
-            1627
+            1793
           ]
         },
         {
           "m": 0,
-          "t": 678,
+          "t": 679,
           "in": "checkbox",
           "o": [
             [
-              1632
+              1798
             ]
           ],
           "lim": [
@@ -424,7 +424,7 @@ export default {
             ]
           ],
           "rep": [
-            1627
+            1793
           ]
         }
       ]
@@ -456,11 +456,11 @@ export default {
           0,
           [
             [
-              1633,
+              1799,
               1
             ],
             [
-              1634,
+              1800,
               2
             ]
           ]
@@ -501,7 +501,7 @@ export default {
           0,
           [
             [
-              1635,
+              1801,
               1
             ]
           ]
@@ -542,7 +542,7 @@ export default {
           0,
           [
             [
-              1636,
+              1802,
               1
             ]
           ]
@@ -551,26 +551,16 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 679,
+          "t": 680,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1637,
+                  1803,
                   2
                 ]
               ]
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 680,
-          "in": "stepper",
-          "o": [
-            [
-              1638
             ]
           ]
         },
@@ -580,7 +570,17 @@ export default {
           "in": "stepper",
           "o": [
             [
-              1639
+              1804
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 682,
+          "in": "stepper",
+          "o": [
+            [
+              1805
             ]
           ]
         }
@@ -598,7 +598,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 50,
+          "pts": 60,
           "per": [
             2,
             2
@@ -612,11 +612,11 @@ export default {
           0,
           [
             [
-              1640,
+              1806,
               1
             ],
             [
-              1641,
+              1807,
               1
             ]
           ]
@@ -625,11 +625,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 682,
+          "t": 683,
           "in": "checkbox",
           "o": [
             [
-              1642
+              1808
             ]
           ],
           "lim": [
@@ -639,7 +639,7 @@ export default {
             ]
           ],
           "rep": [
-            1640
+            1806
           ]
         }
       ]
@@ -671,15 +671,15 @@ export default {
           0,
           [
             [
-              2784,
+              3385,
               1
             ],
             [
-              2785,
+              3386,
               1
             ],
             [
-              1639,
+              1805,
               1
             ]
           ]
@@ -713,15 +713,15 @@ export default {
           0,
           [
             [
-              2786,
+              3387,
               1
             ],
             [
-              2787,
+              3388,
               1
             ],
             [
-              1639,
+              1805,
               1
             ]
           ]
@@ -766,7 +766,7 @@ export default {
           0,
           [
             [
-              1643,
+              1809,
               1
             ]
           ]
@@ -775,28 +775,28 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 683,
+          "t": 684,
           "in": "stepper",
           "o": [
             [
-              1644
+              1810
             ],
             [
-              1645
+              1811
             ]
           ]
         },
         {
           "m": 0,
-          "t": 684,
+          "t": 685,
           "in": "stepper",
           "o": [
             [
-              1646
+              1812
             ]
           ],
           "rep": [
-            1643
+            1809
           ]
         }
       ]
@@ -832,11 +832,11 @@ export default {
           0,
           [
             [
-              1621,
+              1787,
               1
             ],
             [
-              1647,
+              1813,
               1
             ]
           ]
@@ -845,28 +845,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 675,
+          "t": 676,
           "in": "checkbox",
           "o": [
             [
-              1623
+              1789
             ]
           ],
           "rep": [
-            1621
-          ]
-        },
-        {
-          "m": 0,
-          "t": 685,
-          "in": "checkbox",
-          "o": [
-            [
-              1648
-            ]
-          ],
-          "rep": [
-            1647
+            1787
           ]
         },
         {
@@ -875,7 +862,20 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1649
+              1814
+            ]
+          ],
+          "rep": [
+            1813
+          ]
+        },
+        {
+          "m": 0,
+          "t": 687,
+          "in": "checkbox",
+          "o": [
+            [
+              1815
             ]
           ]
         }
@@ -911,11 +911,11 @@ export default {
       },
       "leads": [
         {
-          "to": "immortals",
+          "to": "necron-warriors",
           "type": "support"
         },
         {
-          "to": "necron-warriors",
+          "to": "immortals",
           "type": "support"
         }
       ],
@@ -924,7 +924,7 @@ export default {
           0,
           [
             [
-              1650,
+              1816,
               1
             ]
           ]
@@ -972,7 +972,7 @@ export default {
           0,
           [
             [
-              1651,
+              1817,
               1
             ]
           ]
@@ -1004,11 +1004,11 @@ export default {
           0,
           [
             [
-              1652,
+              1818,
               1
             ],
             [
-              1653,
+              1819,
               1
             ]
           ]
@@ -1051,11 +1051,11 @@ export default {
           0,
           [
             [
-              1661,
+              1827,
               1
             ],
             [
-              1662,
+              1828,
               1
             ]
           ]
@@ -1089,15 +1089,15 @@ export default {
           0,
           [
             [
-              1620,
+              1786,
               1
             ],
             [
-              1663,
+              1829,
               1
             ],
             [
-              1622,
+              1788,
               1
             ]
           ]
@@ -1117,7 +1117,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 210,
+          "pts": 200,
           "per": [
             1,
             1
@@ -1128,22 +1128,22 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
           0,
           [
             [
-              1664,
+              1830,
               2
             ],
             [
-              1620,
+              1786,
               1
             ],
             [
-              1665,
+              1831,
               1
             ]
           ]
@@ -1182,7 +1182,7 @@ export default {
           0,
           [
             [
-              1666,
+              1832,
               1
             ]
           ]
@@ -1218,11 +1218,11 @@ export default {
           0,
           [
             [
-              2788,
+              3389,
               1
             ],
             [
-              2789,
+              3390,
               1
             ]
           ]
@@ -1259,11 +1259,11 @@ export default {
           "type": "support"
         },
         {
-          "to": "immortals",
+          "to": "canoptek-macrocytes",
           "type": "support"
         },
         {
-          "to": "canoptek-macrocytes",
+          "to": "immortals",
           "type": "support"
         }
       ],
@@ -1272,7 +1272,7 @@ export default {
           0,
           [
             [
-              1667,
+              1833,
               1
             ]
           ]
@@ -1308,11 +1308,11 @@ export default {
           0,
           [
             [
-              1620,
+              1786,
               1
             ],
             [
-              1664,
+              1830,
               2
             ]
           ]
@@ -1348,11 +1348,11 @@ export default {
           0,
           [
             [
-              1668,
+              1834,
               1
             ],
             [
-              1669,
+              1835,
               1
             ]
           ]
@@ -1390,11 +1390,11 @@ export default {
           0,
           [
             [
-              1670,
+              1836,
               1
             ],
             [
-              1671,
+              1837,
               1
             ]
           ]
@@ -1413,7 +1413,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 65,
           "per": [
             5,
             5
@@ -1421,7 +1421,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 140,
+          "pts": 130,
           "per": [
             6,
             10
@@ -1434,11 +1434,11 @@ export default {
           0,
           [
             [
-              1672,
+              1838,
               1
             ],
             [
-              1661,
+              1827,
               1
             ]
           ]
@@ -1447,15 +1447,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 687,
+          "t": 688,
           "in": "stepper",
           "o": [
             [
-              1673
+              1839
             ]
           ],
           "rep": [
-            1672
+            1838
           ]
         }
       ]
@@ -1488,15 +1488,15 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "immortals",
-          "type": "leader"
-        },
-        {
           "to": "necron-warriors",
           "type": "leader"
         },
         {
           "to": "lychguard",
+          "type": "leader"
+        },
+        {
+          "to": "immortals",
           "type": "leader"
         }
       ],
@@ -1505,11 +1505,11 @@ export default {
           0,
           [
             [
-              1674,
+              1840,
               1
             ],
             [
-              1675,
+              1841,
               1
             ]
           ]
@@ -1551,7 +1551,7 @@ export default {
           ]
         },
         {
-          "pts": 175,
+          "pts": 190,
           "per": [
             4,
             6
@@ -1568,11 +1568,11 @@ export default {
           0,
           [
             [
-              1661,
+              1827,
               1
             ],
             [
-              1621,
+              1787,
               1
             ]
           ]
@@ -1624,11 +1624,11 @@ export default {
           0,
           [
             [
-              1661,
+              1827,
               1
             ],
             [
-              1676,
+              1842,
               1
             ]
           ]
@@ -1637,15 +1637,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 688,
+          "t": 689,
           "in": "stepper",
           "o": [
             [
-              1677
+              1843
             ]
           ],
           "rep": [
-            1676
+            1842
           ]
         }
       ]
@@ -1677,11 +1677,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "lokhust-destroyers",
+          "to": "lokhust-heavy-destroyers",
           "type": "leader"
         },
         {
-          "to": "lokhust-heavy-destroyers",
+          "to": "lokhust-destroyers",
           "type": "leader"
         }
       ],
@@ -1690,7 +1690,7 @@ export default {
           0,
           [
             [
-              1678,
+              1844,
               1
             ]
           ]
@@ -1699,15 +1699,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 689,
+          "t": 690,
           "in": "checkbox",
           "o": [
             [
-              1679
+              1845
             ]
           ],
           "rep": [
-            1678
+            1844
           ]
         },
         {
@@ -1716,10 +1716,10 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1680
+              1846
             ],
             [
-              1681
+              1847
             ]
           ]
         }
@@ -1754,7 +1754,7 @@ export default {
           0,
           [
             [
-              1713,
+              1879,
               1
             ]
           ]
@@ -1763,24 +1763,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 689,
+          "t": 690,
           "in": "checkbox",
           "o": [
             [
-              1679
+              1845
             ]
           ],
           "rep": [
-            1713
+            1879
           ]
         },
         {
           "m": 0,
-          "t": 686,
+          "t": 687,
           "in": "checkbox",
           "o": [
             [
-              1681
+              1847
             ]
           ]
         }
@@ -1832,7 +1832,7 @@ export default {
           0,
           [
             [
-              1682,
+              1848,
               1
             ]
           ]
@@ -1841,24 +1841,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 690,
+          "t": 691,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1683,
+                  1849,
                   1
                 ],
                 [
-                  1684,
+                  1850,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            1682
+            1848
           ]
         }
       ]
@@ -1896,15 +1896,15 @@ export default {
           0,
           [
             [
-              1685,
+              1851,
               4
             ],
             [
-              1686,
+              1852,
               1
             ],
             [
-              1687,
+              1853,
               1
             ]
           ]
@@ -1913,20 +1913,20 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 691,
+          "t": 692,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1688,
+                  1854,
                   4
                 ]
               ]
             ]
           ],
           "rep": [
-            1685
+            1851
           ]
         }
       ]
@@ -1964,11 +1964,11 @@ export default {
           0,
           [
             [
-              195,
+              194,
               1
             ],
             [
-              1689,
+              1855,
               1
             ]
           ]
@@ -1977,15 +1977,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 692,
+          "t": 693,
           "in": "stepper",
           "o": [
             [
-              1690
+              1856
             ]
           ],
           "rep": [
-            1689
+            1855
           ]
         }
       ]
@@ -2007,7 +2007,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 185,
+          "pts": 195,
           "per": [
             1,
             1
@@ -2021,19 +2021,19 @@ export default {
           0,
           [
             [
-              1691,
+              1857,
               1
             ],
             [
-              1692,
+              1858,
               1
             ],
             [
-              1693,
+              1859,
               1
             ],
             [
-              1694,
+              1860,
               1
             ]
           ]
@@ -2071,7 +2071,7 @@ export default {
           0,
           [
             [
-              1713,
+              1879,
               1
             ]
           ]
@@ -2119,11 +2119,11 @@ export default {
           0,
           [
             [
-              1622,
+              1788,
               1
             ],
             [
-              1620,
+              1786,
               1
             ]
           ]
@@ -2158,11 +2158,11 @@ export default {
           0,
           [
             [
-              1622,
+              1788,
               1
             ],
             [
-              1620,
+              1786,
               1
             ]
           ]
@@ -2202,11 +2202,11 @@ export default {
           0,
           [
             [
-              1695,
+              1861,
               1
             ],
             [
-              1696,
+              1862,
               4
             ]
           ]
@@ -2250,7 +2250,7 @@ export default {
           0,
           [
             [
-              1697,
+              1863,
               1
             ]
           ]
@@ -2259,11 +2259,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 693,
+          "t": 694,
           "in": "stepper",
           "o": [
             [
-              1698
+              1864
             ]
           ],
           "lim": [
@@ -2321,7 +2321,7 @@ export default {
           0,
           [
             [
-              1699,
+              1865,
               1
             ]
           ]
@@ -2371,11 +2371,11 @@ export default {
           0,
           [
             [
-              1700,
+              1866,
               1
             ],
             [
-              1648,
+              1814,
               1
             ]
           ]
@@ -2384,28 +2384,28 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 694,
-          "in": "checkbox",
-          "o": [
-            [
-              1678
-            ],
-            [
-              1701
-            ]
-          ],
-          "rep": [
-            1700,
-            1648
-          ]
-        },
-        {
-          "m": 0,
           "t": 695,
           "in": "checkbox",
           "o": [
             [
-              1681
+              1844
+            ],
+            [
+              1867
+            ]
+          ],
+          "rep": [
+            1866,
+            1814
+          ]
+        },
+        {
+          "m": 0,
+          "t": 696,
+          "in": "checkbox",
+          "o": [
+            [
+              1847
             ]
           ],
           "cond": [
@@ -2442,15 +2442,15 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "lychguard",
+          "type": "leader"
+        },
+        {
           "to": "necron-warriors",
           "type": "leader"
         },
         {
           "to": "immortals",
-          "type": "leader"
-        },
-        {
-          "to": "lychguard",
           "type": "leader"
         }
       ],
@@ -2459,11 +2459,11 @@ export default {
           0,
           [
             [
-              1681,
+              1847,
               1
             ],
             [
-              1648,
+              1814,
               1
             ]
           ]
@@ -2509,7 +2509,7 @@ export default {
           0,
           [
             [
-              1702,
+              1868,
               1
             ]
           ]
@@ -2531,7 +2531,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 55,
+          "pts": 65,
           "per": [
             1,
             1
@@ -2555,7 +2555,7 @@ export default {
           0,
           [
             [
-              1703,
+              1869,
               1
             ]
           ]
@@ -2600,11 +2600,11 @@ export default {
           0,
           [
             [
-              1704,
+              1870,
               1
             ],
             [
-              1668,
+              1834,
               1
             ]
           ]
@@ -2639,7 +2639,7 @@ export default {
           0,
           [
             [
-              2790,
+              3391,
               1
             ]
           ]
@@ -2648,18 +2648,18 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1106,
+          "t": 1160,
           "in": "checkbox",
           "o": [
             [
-              2791
+              3392
             ],
             [
-              2792
+              3393
             ]
           ],
           "rep": [
-            2790
+            3391
           ]
         }
       ]
@@ -2697,11 +2697,11 @@ export default {
           0,
           [
             [
-              1709,
+              1875,
               2
             ],
             [
-              1710,
+              1876,
               1
             ]
           ]
@@ -2710,24 +2710,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 696,
+          "t": 697,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1711,
+                  1877,
                   2
                 ],
                 [
-                  1712,
+                  1878,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            1709
+            1875
           ]
         }
       ]
@@ -2769,7 +2769,7 @@ export default {
           0,
           [
             [
-              1705,
+              1871,
               1
             ]
           ]
@@ -2778,11 +2778,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 693,
+          "t": 694,
           "in": "stepper",
           "o": [
             [
-              1698
+              1864
             ]
           ],
           "lim": [
@@ -2837,15 +2837,15 @@ export default {
           0,
           [
             [
-              1706,
+              1872,
               1
             ],
             [
-              1707,
+              1873,
               1
             ],
             [
-              1708,
+              1874,
               1
             ]
           ]
@@ -2883,15 +2883,15 @@ export default {
       },
       "leads": [
         {
+          "to": "canoptek-wraiths",
+          "type": "support"
+        },
+        {
           "to": "necron-warriors",
           "type": "support"
         },
         {
           "to": "immortals",
-          "type": "support"
-        },
-        {
-          "to": "canoptek-wraiths",
           "type": "support"
         }
       ],
@@ -2900,7 +2900,7 @@ export default {
           0,
           [
             [
-              1713,
+              1879,
               1
             ]
           ]
@@ -2934,15 +2934,15 @@ export default {
           0,
           [
             [
-              2793,
+              3394,
               1
             ],
             [
-              1623,
+              1789,
               2
             ],
             [
-              1620,
+              1786,
               1
             ]
           ]
@@ -2951,13 +2951,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1107,
+          "t": 1161,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  1621,
+                  1787,
                   2
                 ]
               ]
@@ -2965,14 +2965,14 @@ export default {
             [
               [
                 [
-                  1724,
+                  1890,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            1623
+            1789
           ]
         }
       ]
@@ -3003,30 +3003,30 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 40
       },
       "defaults": [
         [
           0,
           [
             [
-              1714,
+              1880,
               4
             ],
             [
-              1695,
+              1861,
               1
             ],
             [
-              1715,
+              1881,
               1
             ],
             [
-              1716,
+              1882,
               1
             ],
             [
-              1717,
+              1883,
               1
             ]
           ]
@@ -3083,11 +3083,11 @@ export default {
           1,
           [
             [
-              1718,
+              1884,
               1
             ],
             [
-              1719,
+              1885,
               1
             ]
           ]
@@ -3096,15 +3096,15 @@ export default {
           0,
           [
             [
-              1720,
+              1886,
               1
             ],
             [
-              1721,
+              1887,
               1
             ],
             [
-              1722,
+              1888,
               1
             ]
           ]
@@ -3148,11 +3148,11 @@ export default {
           0,
           [
             [
-              195,
+              194,
               1
             ],
             [
-              1723,
+              1889,
               1
             ]
           ]
@@ -3161,40 +3161,40 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 697,
-          "in": "stepper",
-          "o": [
-            [
-              1724
-            ],
-            [
-              1725
-            ]
-          ],
-          "rep": [
-            1723
-          ]
-        },
-        {
-          "m": 0,
           "t": 698,
           "in": "stepper",
           "o": [
             [
-              1726
+              1890
+            ],
+            [
+              1891
+            ]
+          ],
+          "rep": [
+            1889
+          ]
+        },
+        {
+          "m": 0,
+          "t": 699,
+          "in": "stepper",
+          "o": [
+            [
+              1892
             ]
           ]
         },
         {
           "m": 0,
-          "t": 683,
+          "t": 684,
           "in": "stepper",
           "o": [
             [
-              1727
+              1893
             ],
             [
-              1728
+              1894
             ]
           ]
         }
@@ -3233,17 +3233,17 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1108,
+          "t": 1162,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2790,
+                  3391,
                   1
                 ],
                 [
-                  1622,
+                  1788,
                   1
                 ]
               ]
@@ -3251,7 +3251,7 @@ export default {
             [
               [
                 [
-                  2790,
+                  3391,
                   2
                 ]
               ]
@@ -3259,7 +3259,7 @@ export default {
             [
               [
                 [
-                  1622,
+                  1788,
                   2
                 ]
               ]
@@ -3303,11 +3303,11 @@ export default {
           0,
           [
             [
-              1729,
+              1895,
               1
             ],
             [
-              1730,
+              1896,
               1
             ]
           ]
@@ -3331,7 +3331,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 60,
           "per": [
             1,
             1
@@ -3342,15 +3342,15 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "immortals",
-          "type": "leader"
-        },
-        {
           "to": "necron-warriors",
           "type": "leader"
         },
         {
           "to": "lychguard",
+          "type": "leader"
+        },
+        {
+          "to": "immortals",
           "type": "leader"
         }
       ],
@@ -3359,7 +3359,7 @@ export default {
           0,
           [
             [
-              1731,
+              1897,
               1
             ]
           ]
@@ -3400,7 +3400,7 @@ export default {
           0,
           [
             [
-              1732,
+              1898,
               1
             ]
           ]
@@ -3409,24 +3409,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 699,
+          "t": 700,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1733,
+                  1899,
                   1
                 ],
                 [
-                  1734,
+                  1900,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            1732
+            1898
           ]
         }
       ]
@@ -3463,11 +3463,11 @@ export default {
           0,
           [
             [
-              1735,
+              1901,
               1
             ],
             [
-              1736,
+              1902,
               1
             ]
           ]
@@ -3476,18 +3476,18 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 700,
+          "t": 701,
           "in": "checkbox",
           "o": [
             [
-              1737
+              1903
             ],
             [
-              1738
+              1904
             ]
           ],
           "rep": [
-            1735
+            1901
           ]
         }
       ]
@@ -3523,7 +3523,7 @@ export default {
           0,
           [
             [
-              1682,
+              1848,
               1
             ]
           ]
@@ -3550,7 +3550,9 @@ export default {
       "name": "Annihilation Legion",
       "sid": "4694ac41-4340-4e85-8824-5c47555f8c12",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fds": [
+        "Purge the Foe"
+      ],
       "enhancements": [
         {
           "name": "Eternal Madness",
@@ -3606,7 +3608,10 @@ export default {
       "name": "Awakened Dynasty",
       "sid": "ef55259d-3884-4b3b-b215-08ab337d4a24",
       "dp": 3,
-      "fd": "Take and Hold",
+      "fds": [
+        "Take and Hold",
+        "Priority Assets"
+      ],
       "unique": "DYNASTY",
       "enhancements": [
         {
@@ -3662,8 +3667,10 @@ export default {
     {
       "name": "Canoptek Court",
       "sid": "e40617a8-ec95-44e2-bc46-956a6fac4538",
-      "dp": 3,
-      "fd": "Take and Hold",
+      "dp": 2,
+      "fds": [
+        "Take and Hold"
+      ],
       "enhancements": [
         {
           "name": "Dimensional Sanctum",
@@ -3719,7 +3726,9 @@ export default {
       "name": "Cryptek Conclave",
       "sid": "115f16a7-2641-415c-967c-cb8a370eb229",
       "dp": 2,
-      "fd": "Priority Assets",
+      "fds": [
+        "Priority Assets"
+      ],
       "enhancements": [
         {
           "name": "Quantum Abacus",
@@ -3775,7 +3784,9 @@ export default {
       "name": "Cursed Legion",
       "sid": "412b33ad-7e6f-45a3-8638-ae880be94b9f",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fds": [
+        "Purge the Foe"
+      ],
       "enhancements": [
         {
           "name": "Destroyer Ankh",
@@ -3807,19 +3818,19 @@ export default {
           ],
           "attach": [
             {
-              "to": "lokhust-destroyers",
-              "type": "support"
-            },
-            {
-              "to": "lokhust-heavy-destroyers",
-              "type": "support"
-            },
-            {
               "to": "ophydian-destroyers",
               "type": "support"
             },
             {
               "to": "skorpekh-destroyers",
+              "type": "support"
+            },
+            {
+              "to": "lokhust-destroyers",
+              "type": "support"
+            },
+            {
+              "to": "lokhust-heavy-destroyers",
               "type": "support"
             }
           ]
@@ -3854,7 +3865,9 @@ export default {
       "name": "Hand of the Dynasty",
       "sid": "8e281a27-1d5a-415b-8b92-34cd0ed53b63",
       "dp": 1,
-      "fd": "Take and Hold",
+      "fds": [
+        "Take and Hold"
+      ],
       "unique": "DYNASTY",
       "enhancements": [
         {
@@ -3897,7 +3910,9 @@ export default {
       "name": "Hypercrypt Legion",
       "sid": "489fc222-d9a1-4220-9ef2-9747c2fea283",
       "dp": 2,
-      "fd": "Reconnaissance",
+      "fds": [
+        "Reconnaissance"
+      ],
       "unique": "HYPERCRYPT",
       "enhancements": [
         {
@@ -3954,7 +3969,9 @@ export default {
       "name": "Obeisance Phalanx",
       "sid": "df0e5858-2c4a-486b-b693-8971f837388d",
       "dp": 2,
-      "fd": "Disruption",
+      "fds": [
+        "Disruption"
+      ],
       "enhancements": [
         {
           "name": "Honourable Combatant",
@@ -4010,7 +4027,9 @@ export default {
       "name": "Pantheon of Woe",
       "sid": "a7ec286c-a305-435b-b402-91140c67d809",
       "dp": 2,
-      "fd": "Disruption",
+      "fds": [
+        "Disruption"
+      ],
       "enhancements": [
         {
           "name": "Singularity Matrix",
@@ -4073,7 +4092,9 @@ export default {
       "name": "Skyshroud Spearhead",
       "sid": "cd5f7a63-6d73-4094-9977-e8b7530d1a8f",
       "dp": 1,
-      "fd": "Reconnaissance",
+      "fds": [
+        "Reconnaissance"
+      ],
       "enhancements": [
         {
           "name": "Recursive Reanimation (Upgrade)",
@@ -4113,7 +4134,10 @@ export default {
       "name": "Starshatter Arsenal",
       "sid": "225b9e9c-7ebe-413f-a079-087bc98f380a",
       "dp": 3,
-      "fd": "Priority Assets",
+      "fds": [
+        "Priority Assets",
+        "Purge the Foe"
+      ],
       "enhancements": [
         {
           "name": "Dread Majesty (Aura)",
@@ -4174,7 +4198,9 @@ export default {
       "name": "The Phaeron's Armoury",
       "sid": "3818a5e4-5d1a-410b-a63f-9a850b923635",
       "dp": 1,
-      "fd": "Priority Assets",
+      "fds": [
+        "Priority Assets"
+      ],
       "unique": "HYPERCRYPT",
       "enhancements": [
         {

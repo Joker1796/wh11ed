@@ -52,7 +52,7 @@
         </div>
 
         <div
-          v-if="det.dp || det.forceDisposition || det.unique"
+          v-if="det.dp || det.forceDispositions?.length || det.unique"
           class="det-meta"
         >
           <span
@@ -60,9 +60,10 @@
             class="det-meta-item"
           >{{ det.dp }} DP</span>
           <span
-            v-if="det.forceDisposition"
+            v-for="fd in det.forceDispositions || []"
+            :key="fd"
             class="det-meta-item"
-          >{{ det.forceDisposition }}</span>
+          >{{ fd }}</span>
           <span
             v-if="det.unique"
             class="det-meta-item det-meta-unique"

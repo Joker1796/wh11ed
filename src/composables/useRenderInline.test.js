@@ -128,4 +128,14 @@ describe('weapon ability tags', () => {
     }
     expect([...bad]).toEqual([])
   })
+
+  // The roster's modifier layer writes the qualifier lowercase, rule prose bolds it inside the tag,
+  // and a weapon profile in prose lists its tags with commas (2026-10-02).
+  it('makes a pill of a lowercase "non-", of a bold "non-" inside a tag, and of each tag in a comma list', () => {
+    const { renderInline } = useRenderInline()
+    expect(renderInline('[LETHAL HITS: non-MONSTER/VEHICLE]')).toMatch(/^<span class="keyword">\[LETHAL HITS: non-/)
+    expect(renderInline('[SUSTAINED HITS 1: **non-**MONSTER/VEHICLE]')).toMatch(/^<span class="keyword">\[SUSTAINED HITS 1: non-/)
+    expect(renderInline('[ASSAULT, TWIN-LINKED]')).toBe('<span class="keyword">[ASSAULT]</span><span class="keyword">[TWIN-LINKED]</span>')
+    expect(renderInline('[Twin pulse carbine]')).toBe('[Twin pulse carbine]')
+  })
 })

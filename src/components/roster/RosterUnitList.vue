@@ -120,16 +120,95 @@
                    player reported, and the reason the undo bar exists at all. A menu costs the
                    deliberate action one tap and takes the accidental one off the table; it also
                    halves the strip the name's line has to leave free. -->
+              <!-- The tile's own actions, in the app's per-card "…" (ActionMenu). Duplicate is
+                   ABSENT, not greyed, at the duplicate cap: a dead control earns its place by
+                   saying why it is dead, and this one no longer has to — the same unit is in the
+                   catalogue pane beside this list with its "+" greyed and its `N/limit` badge
+                   showing. Naming is offered where the block's own actions already are, and only
+                   on a host: a lone unit already has a note field of its own in its configuration. -->
               <span class="rul-acts">
-                <button
-                  type="button"
-                  class="rul-more"
-                  :aria-label="labels.rosterMoreActions"
-                  :title="labels.rosterMoreActions"
-                  @click="menuFor = e"
+                <ActionMenu
+                  :open="menuFor === e"
+                  :title="defOf(e.id)?.name || e.id"
+                  width="17rem"
+                  @update:open="(v) => (menuFor = v ? e : null)"
                 >
-                  <i class="bi bi-three-dots-vertical" />
-                </button>
+                  <template #trigger="{ toggle }">
+                    <button
+                      type="button"
+                      class="rul-more"
+                      :aria-label="labels.rosterMoreActions"
+                      :title="labels.rosterMoreActions"
+                      @click="toggle"
+                    >
+                      <i class="bi bi-three-dots-vertical" />
+                    </button>
+                  </template>
+                  <!-- The modal is teleported to <body>, which leaves the view's faction-accent
+                       scope behind — Save came out in the app's red inside a green Necron list
+                       until this was put back (the same trap RosterUnitRulesModal carries). -->
+                  <template #body="{ compact }">
+                    <FactionAccentScope :faction-slug="slugOf(e.id)">
+                      <div
+                        v-if="!naming"
+                        class="act-list"
+                        :class="{ 'act-compact': compact }"
+                      >
+                        <button
+                          v-if="hasBlock(e)"
+                          class="act-btn"
+                          @click="naming = true"
+                        >
+                          {{ labels.rosterBlockName }}
+                        </button>
+                        <button
+                          v-if="!dupBlocked(e)"
+                          class="act-btn"
+                          @click="act('duplicate')"
+                        >
+                          {{ labels.rosterDuplicate }}
+                        </button>
+                        <button
+                          class="act-btn act-danger"
+                          @click="act('remove')"
+                        >
+                          {{ labels.rosterRemove }}
+                        </button>
+                      </div>
+                      <div
+                        v-else
+                        class="rul-name-body"
+                        :class="{ 'rul-name-compact': compact }"
+                      >
+                        <label class="rul-name-lab">
+                          <span>{{ labels.rosterBlockName }}</span>
+                          <input
+                            :ref="setNameInput"
+                            v-model="nameDraft"
+                            type="text"
+                            :maxlength="BLOCK_NAME_MAX"
+                            :placeholder="defOf(e.id)?.name || ''"
+                            @keyup.enter="saveName"
+                          >
+                        </label>
+                        <div class="rul-name-acts">
+                          <button
+                            class="btn-ghost"
+                            @click="menuFor = null"
+                          >
+                            {{ labels.rosterCancel }}
+                          </button>
+                          <button
+                            class="btn-primary"
+                            @click="saveName"
+                          >
+                            {{ labels.rosterSave }}
+                          </button>
+                        </div>
+                      </div>
+                    </FactionAccentScope>
+                  </template>
+                </ActionMenu>
               </span>
             </div>
             <CollapseTransition
@@ -169,80 +248,6 @@
         </FactionAccentScope>
       </div>
     </BaseModal>
-
-    <!-- The tile's own two actions, in the app's per-card actions sheet (the roster list's, the
-         tracker's). Duplicate is ABSENT, not greyed, at the duplicate cap: a dead control earns
-         its place by saying why it is dead, and this one no longer has to — the same unit is in
-         the catalogue pane beside this list with its "+" greyed and its `N/limit` badge showing. -->
-    <BaseModal
-      v-if="menuFor"
-      :title="defOf(menuFor.id)?.name || menuFor.id"
-      max-width="340px"
-      @close="menuFor = null"
-    >
-      <!-- Teleported to <body> like every modal, which leaves the view's faction-accent scope
-           behind — Save came out in the app's red inside a green Necron list until this was put
-           back (the same trap RosterUnitRulesModal and the config sheet above carry). -->
-      <!-- Naming is offered where the block's own actions already are, and only on a host: a lone
-           unit already has a note field of its own in its configuration. -->
-      <FactionAccentScope :faction-slug="slugOf(menuFor.id)">
-        <div
-          v-if="!naming"
-          class="modal-body act-list"
-        >
-          <button
-            v-if="hasBlock(menuFor)"
-            class="act-btn"
-            @click="naming = true"
-          >
-            {{ labels.rosterBlockName }}
-          </button>
-          <button
-            v-if="!dupBlocked(menuFor)"
-            class="act-btn"
-            @click="act('duplicate')"
-          >
-            {{ labels.rosterDuplicate }}
-          </button>
-          <button
-            class="act-btn act-danger"
-            @click="act('remove')"
-          >
-            {{ labels.rosterRemove }}
-          </button>
-        </div>
-        <div
-          v-else
-          class="modal-body rul-name-body"
-        >
-          <label class="rul-name-lab">
-            <span>{{ labels.rosterBlockName }}</span>
-            <input
-              ref="nameInput"
-              v-model="nameDraft"
-              type="text"
-              :maxlength="BLOCK_NAME_MAX"
-              :placeholder="defOf(menuFor.id)?.name || ''"
-              @keyup.enter="saveName"
-            >
-          </label>
-          <div class="rul-name-acts">
-            <button
-              class="btn-ghost"
-              @click="menuFor = null"
-            >
-              {{ labels.rosterCancel }}
-            </button>
-            <button
-              class="btn-primary"
-              @click="saveName"
-            >
-              {{ labels.rosterSave }}
-            </button>
-          </div>
-        </div>
-      </FactionAccentScope>
-    </BaseModal>
   </div>
 </template>
 
@@ -250,6 +255,7 @@
 import ChevronIcon from '../ChevronIcon.vue'
 import { computed, nextTick, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import ActionMenu from '../ActionMenu.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import RosterUnitRow from './RosterUnitRow.vue'
@@ -376,6 +382,9 @@ const blockNo = computed(() => blockNumbers(props.groups))
 const naming = ref(false)
 const nameDraft = ref('')
 const nameInput = ref(null)
+// A function ref: the field now lives inside the list's v-for (each row's own menu), where a
+// string ref would collect an array.
+const setNameInput = (el) => { nameInput.value = el }
 function openName(entry) {
   menuFor.value = entry
   naming.value = true
@@ -453,6 +462,7 @@ watch(naming, (on) => {
 
 /* Renaming, in the sheet the block's other actions already live in. */
 .rul-name-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.rul-name-compact { padding: 0.35rem; }
 .rul-name-lab { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.78rem; color: var(--text-muted); }
 .rul-name-lab input {
   padding: 0.5rem 0.6rem;

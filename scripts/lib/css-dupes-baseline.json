@@ -11,10 +11,6 @@
     "src/views/combat-patrol/CombatPatrolFactionView.vue",
     "src/views/faction/FactionRuleView.vue"
   ],
-  ".dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }": [
-    "src/components/roster/RosterSetupFields.vue",
-    "src/components/tracker/GameSetup.vue"
-  ],
   ".enh-body :deep(ol) { margin: 0.35rem 0 0; padding-left: 1.2rem; }": [
     "src/views/combat-patrol/CombatPatrolFactionView.vue",
     "src/views/faction/FactionRuleView.vue"
@@ -90,10 +86,6 @@
   ".modal-foot { padding: 0.7rem 0.9rem; border-top: 1px solid var(--border); }": [
     "src/components/tracker/GameEndModal.vue",
     "src/components/tracker/GameSummaryModal.vue"
-  ],
-  ".nd-link { display: flex; align-items: baseline; gap: 0.4rem; padding: 0.16rem 0; font-size: 0.85rem; color: var(--text-primary); text-decoration: none; white-space: nowrap; transition: color var(--motion-fast); }": [
-    "src/components/AppNavbar.vue",
-    "src/components/AppSubnav.vue"
   ],
   ".or { font-style: normal; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-right: 0.2rem; }": [
     "src/components/event/MissionCard.vue",

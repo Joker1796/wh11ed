@@ -138,6 +138,14 @@ export default {
           "op": "grant",
           "value": "Stealth",
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2156,7 +2164,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2275,7 +2283,7 @@ export default {
             "ru": "только оружие носителя"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2327,7 +2335,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         },
         {
@@ -2340,7 +2348,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]

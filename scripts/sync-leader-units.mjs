@@ -80,6 +80,11 @@ for (const [slug, entries] of Object.entries(sourceIdsMap() || {})) {
 // and whether any prose is left once the header line and the ■ bullets are gone (a footnote)
 const bulletsByUuid = new Map()
 const footnoteByUuid = new Map()
+// The structural `leaderOf` names, which spell a unit out in full where the prose bullet may not:
+// "■ VANGUARD VETERAN SQUAD" on the jump-pack Captain and Chaplain (and Shrike) is the squad WITH
+// jump packs, which `leaderOf` names exactly, while the bullet alone resolves to the squad on foot.
+// gen-datasheets reads it the same way (its leaderUnits) — two readings of one rule must agree.
+const structuralByUuid = new Map()
 for (const { bundle: d } of allFactionBundles()) {
   if (!d?.datasheets) continue
   for (const ds of d.datasheets) {
@@ -93,6 +98,7 @@ for (const { bundle: d } of allFactionBundles()) {
       [...r.rules.matchAll(/\*+([^*]+)\*+/g)].map((m) => m[1].trim()),
     ))]
     bulletsByUuid.set(ds.id, bullets)
+    structuralByUuid.set(ds.id, (ds.leaderOf || []).flatMap((l) => l.units || []))
     footnoteByUuid.set(ds.id, rules.some((r) => r.rules.split('\n').some((line) => {
       const t = line.trim()
       return t && !t.startsWith('■') && !/can be attached to the following units:?$/i.test(t)
@@ -134,6 +140,7 @@ for (const f of files) {
     const seen = new Set()
     const dups = [...new Set(units.filter((u) => (seen.has(u) ? true : (seen.add(u), false))))]
 
+    const structural = structuralByUuid.get(uuid) || []
     const resolvedNames = []
     const unresolvedBullets = []
     for (const b of bullets) {
@@ -142,7 +149,10 @@ for (const f of files) {
         const bridge = byAppdataId.get(cid)
         if (bridge && idToName.has(bridge.id)) { name = idToName.get(bridge.id); break }
       }
-      if (name) resolvedNames.push(name)
+      // A bullet that is only the start of a name `leaderOf` gives in full is that unit.
+      const fuller = name && !structural.some((s) => norm(s) === norm(name))
+        ? structural.find((s) => norm(s).startsWith(`${norm(name)} `)) : null
+      if (name) resolvedNames.push(fuller || name)
       else unresolvedBullets.push(b)
     }
 

@@ -9,7 +9,7 @@
 //     (Cohort Acquisitus, Lords of the Forge, Luminen Auto-choir, Eradication Cohort,
 //     Haloscreed Battle Clade) + Rules Updates.
 //   MFM (src/data/mfm/adeptus-mechanicus.js) → per-enhancement points, per-detachment
-//     dp / forceDisposition, and the DATA-PSALM `unique` tag.
+//     dp / forceDispositions, and the DATA-PSALM `unique` tag.
 //
 // 10 detachments total, matching the MFM list. Faction-Pack "Rules Updates" have been
 // folded into the codex army rule / detachment rules / enhancements (they are the
@@ -53,7 +53,7 @@ const en = {
       name: 'Rad-Zone Corps',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Take and Hold',
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: 'Rad-bombardment',
         flavor:
@@ -61,7 +61,7 @@ const en = {
         body: `### Bombardment
 At the start of the first battle round, for each enemy unit within your opponent's deployment zone, your opponent must decide whether that unit will take cover or stand firm. You then roll one D6 for each of those enemy units and apply the relevant result below:
 ▪ **Unit Standing Firm:** On a 3+, that unit suffers D3 mortal wounds.
-▪ **Unit Taking Cover:** That unit is Battle-shocked. On a 5+, that unit suffers D3 mortal wounds.
+▪ **Unit Taking Cover:** That unit is **[gloss:battle-shocked:Battle-shocked]**. On a 5+, that unit suffers D3 mortal wounds.
 
 ### Fallout
 At the start of your Command phase during the second, third, fourth and fifth battle rounds, roll one D6 for each enemy unit within your opponent's deployment zone. On a 3+, that unit suffers 1 mortal wound and must take a Battle-shock test.`,
@@ -167,7 +167,7 @@ At the start of your Command phase during the second, third, fourth and fifth ba
       name: 'Skitarii Hunter Cohort',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: 'Stealth Optimisation',
         flavor:
@@ -277,7 +277,7 @@ At the start of your Command phase during the second, third, fourth and fifth ba
       name: 'Data-Psalm Conclave',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption"],
       unique: 'DATA-PSALM',
       rule: {
         name: 'Benedictions of the Omnissiah',
@@ -390,7 +390,7 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
       name: 'Explorator Maniple',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: 'Acquisition at Any Cost',
         flavor:
@@ -497,8 +497,8 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
       id: 'cohort-cybernetica',
       name: 'Cohort Cybernetica',
       source: 'codex',
-      dp: 2,
-      forceDisposition: 'Take and Hold',
+      dp: 1,
+      forceDispositions: ["Take and Hold"],
       rule: {
         name: 'Cyber-psalm Programming',
         flavor:
@@ -609,14 +609,14 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
       name: 'Cohort Acquisitus',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Reconnaissance',
+      forceDispositions: ["Reconnaissance"],
       rule: {
         name: 'Noospheric Recon',
         flavor:
           'Force-loaded with enhanced divinatory augurs, far-ranging Skitarii are the unblinking eyes of their masters and cast their sensors in overlapping noospheric nets to root out the enemies of the Machine God.',
         body: `▪ Friendly Pteraxii / Infiltrators / Rangers / Serberys Raiders / Serberys Sulphurhounds units have Recon Augury.
 ▪ Friendly Recon Augury units have the following ability:
-▪ **Enhanced Augurs:** In your Shooting phase, this unit can select one visible enemy unit within 12". That enemy unit is analysed. While a unit is analysed, that unit has +3" detection range.`,
+▪ **Enhanced Augurs:** In your Shooting phase, this unit can select one **[gloss:visible:visible]** enemy unit within 12". That enemy unit is analysed. While a unit is analysed, that unit has +3" **[gloss:detection-range:detection range]**.`,
       },
       stratagems: [
         {
@@ -625,9 +625,9 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
           cp: '1CP',
           turn: 'your',
           flavor: "By focusing implanted augurs with split-second analysis, the foe's flaws can be exposed and broadcast in a clarion call to the rest of the Omnissiah's faithful.",
-          when: 'Your Shooting phase, when a friendly ADEPTUS MECHANICUS unit is selected to shoot.',
+          when: 'Your Shooting phase, when a friendly ADEPTUS MECHANICUS unit is **[gloss:selected-to-shoot:selected to shoot]**.',
           target: 'That ADEPTUS MECHANICUS unit.',
-          effect: "Select one visible enemy unit within 12\" of a friendly Recon Augury unit. Your unit's ranged attacks that target that enemy unit have [IGNORES COVER].",
+          effect: "Select one **[gloss:visible:visible]** enemy unit within 12\" of a friendly Recon Augury unit. Your unit's ranged attacks that target that enemy unit have [IGNORES COVER].",
           restrictions: '',
         },
         {
@@ -637,8 +637,8 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
           turn: 'opponent',
           flavor: "With a recalibration of divinatory implants, their information absorption can be redirected as a scrambled emission which the enemy's senses cannot easily penetrate.",
           when: "Start of your opponent's Movement phase.",
-          target: 'One friendly unengaged Recon Augury unit.',
-          effect: 'Your unit has -3" detection range until the end of the turn.',
+          target: 'One friendly **[gloss:unengaged:unengaged]** Recon Augury unit.',
+          effect: 'Your unit has -3" **[gloss:detection-range:detection range]** until the end of the turn.',
           restrictions: '',
         },
         {
@@ -648,8 +648,8 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
           turn: 'opponent',
           flavor: 'Under the cover of a multispectral burst of binharic feedback, vectors of redeployment can be opened up that are unanticipated and unseen by the enemy.',
           when: "End of your opponent's Fight phase.",
-          target: 'One friendly unengaged Infiltrators / Pteraxii unit.',
-          effect: 'Place your unit in Strategic Reserves.',
+          target: 'One friendly **[gloss:unengaged:unengaged]** Infiltrators / Pteraxii unit.',
+          effect: 'Place your unit in **[gloss:strategic-reserves:Strategic Reserves]**.',
           restrictions: '',
         },
       ],
@@ -674,20 +674,20 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
       id: 'lords-of-the-forge',
       name: 'Lords of the Forge',
       source: 'faction-pack',
-      dp: 1,
-      forceDisposition: 'Priority Assets',
+      dp: 2,
+      forceDispositions: ["Priority Assets"],
       rule: {
         name: 'War-form Mantles',
         flavor:
           'When battle looms, many Tech-Priests don their war forms, replacing more delicate mechanical appendages with steel-shod bionics that incorporate auto-repair subroutines. Some also outfit themselves with narrow-band screed casters. These project streams of incomprehensible code that overwhelm the cogitator cores of enemy vehicles and baffle augury.',
         body: `Friendly TECH-PRIEST models have:
-▪ 4+ InSv.
+▪ 4+ **[gloss:invulnerable-save:InSv]**.
 ▪ [core:Feel No Pain 5+].
 
 Friendly TECH-PRIEST models have the following ability:
-▪ **Baffling Data Screed:** In your Shooting phase, when this unit is selected to shoot, if this unit is not Battle-shocked, you can use this ability. If you do, roll one D6:
-▪ On a 2+, select one enemy VEHICLE unit within 12" of this unit. That enemy unit makes a battle-shock roll, with -1 to that battle-shock roll. A unit cannot be selected for this ability more than once per turn.
-▪ __Or:__ On 2+, those ranged attacks do not prevent this unit from being hidden.`,
+▪ **Baffling Data Screed:** In your Shooting phase, when this unit is **[gloss:selected-to-shoot:selected to shoot]**, if this unit is not **[gloss:battle-shocked:Battle-shocked]**, you can use this ability. If you do, roll one D6:
+▪ On a 2+, select one enemy VEHICLE unit within 12" of this unit. That enemy unit makes a **[gloss:battle-shock-test:battle-shock roll]**, with -1 to that **battle-shock roll**. A unit cannot be selected for this ability more than once per turn.
+▪ __Or:__ On 2+, those ranged attacks do not prevent this unit from being **[gloss:hidden:hidden]**.`,
       },
       stratagems: [
         {
@@ -696,7 +696,7 @@ Friendly TECH-PRIEST models have the following ability:
           cp: '1CP',
           turn: 'opponent',
           flavor: "Analysing data from thousands of sources at once, a disciple of the Omnissiah is able to rationalise the enemy's capabilities and dispense protocols of endurance to their servants.",
-          when: "In your opponent's Shooting phase or the Fight phase, when an enemy unit targets a friendly Tech-Priest unit that is within range of an objective.",
+          when: "In your opponent's Shooting phase or the Fight phase, when an enemy unit targets a friendly Tech-Priest unit that is within range of an **[gloss:objective:objective]**.",
           target: 'That Tech-Priest unit.',
           effect: 'Attacks that target your unit have -1 AP until that enemy unit has attacked.',
           restrictions: '',
@@ -707,7 +707,7 @@ Friendly TECH-PRIEST models have the following ability:
           cp: '1CP',
           turn: 'your',
           flavor: 'With a cascade of holy screed, implanted aggression protocols and biochemical triggers can be activated by a Tech-Priest to transmute a seeming rout into a predatory counterstrike.',
-          when: 'Your Movement phase, when a friendly Tech-Priest unit is selected to make a fall-back move.',
+          when: 'Your Movement phase, when a friendly Tech-Priest unit is selected to make a **[gloss:fall-back-move:fall-back move]**.',
           target: 'That Tech-Priest unit.',
           effect: 'That move does not prevent your unit from being eligible to shoot/declare a charge.',
           restrictions: '',
@@ -718,9 +718,9 @@ Friendly TECH-PRIEST models have the following ability:
           cp: '1CP',
           turn: 'your',
           flavor: 'When a miracle of technology is identified, a Tech-Priest will go to bloody lengths to retrieve it, simultaneously directing the acquisition of their prize and the dismantling of anyone who threatens it.',
-          when: 'Your Shooting phase, when a friendly Tech-Priest unit starts an action.',
+          when: 'Your Shooting phase, when a friendly Tech-Priest unit **[gloss:action:starts an action]**.',
           target: 'That Tech-Priest unit.',
-          effect: 'That action does not prevent your unit from being eligible to shoot.',
+          effect: 'That **[gloss:action:action]** does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]**.',
           restrictions: '',
         },
       ],
@@ -746,16 +746,16 @@ Friendly TECH-PRIEST models have the following ability:
       name: 'Luminen Auto-choir',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Disruption',
+      forceDispositions: ["Disruption"],
       unique: 'DATA-PSALM',
       rule: {
         name: 'Cyber-static Canticles',
         flavor:
           'With voices or binharic emissions raised in holy verse, the disciples of the Motive Force roar their worship. Thunderheads of potentiality roil above them, and rival sects vie to prove the supremacy of their visionary dogma with coruscating intensity.',
         body: `▪ Friendly Corpuscarii units' ranged attacks have [LETHAL HITS].
-▪ When a friendly Fulgurite unit has fought, that unit heals D3 wounds.
+▪ When a friendly Fulgurite unit has fought, that unit **[gloss:heal:heals]** D3 wounds.
 
-This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSALM detachment.`,
+This **[gloss:detachments:detachment]** has the DATA-PSALM tag and cannot be taken with another DATA-PSALM **detachment**.`,
       },
       stratagems: [
         {
@@ -764,9 +764,9 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
           cp: '1CP',
           turn: 'either',
           flavor: 'Punishing transgressors has a long and ritualised tradition amongst the unforgiving Electro-Priests, and they will eagerly prove their faith in coruscating violence.',
-          when: 'Your Shooting phase or the Fight phase, when a friendly Electro-Priests unit is selected to attack.',
+          when: 'Your Shooting phase or the Fight phase, when a friendly Electro-Priests unit is **[gloss:selected-to-attack:selected to attack]**.',
           target: 'That Electro-Priests unit.',
-          effect: "Your unit's attacks that target a unit within range of an objective can:\n▪ Re-roll Hit rolls of 1.\n▪ Re-roll Wound rolls of 1.",
+          effect: "Your unit's attacks that target a unit within range of an **[gloss:objective:objective]** can:\n▪ Re-roll Hit rolls of 1.\n▪ Re-roll Wound rolls of 1.",
           restrictions: '',
         },
         {
@@ -775,7 +775,7 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
           cp: '1CP',
           turn: 'your',
           flavor: 'With every binharic chant in praise of the Divine Current, Electro-Priests feel the surge of sacred power. The pulsing nimbus demands a holy circuit which can only be closed by making destructive contact with the foe.',
-          when: 'Your Movement phase, when a friendly Electro-Priests Battleclade unit is selected to make an Advance move.',
+          when: 'Your Movement phase, when a friendly Electro-Priests Battleclade unit is selected to make an **[gloss:advance-move:Advance move]**.',
           target: 'That Electro-Priests unit.',
           effect: 'That move does not prevent your unit from being eligible to declare a charge.',
           restrictions: '',
@@ -786,9 +786,9 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
           cp: '1CP',
           turn: 'opponent',
           flavor: "Harnessing the force of the blasphemous enemy's attacks into energy to fuel a holy retaliatory surge is an act of righteous transmutation.",
-          when: "Your opponent's Shooting phase, when an enemy unit that targeted a friendly unengaged Electro-Priests unit has shot.",
+          when: "Your opponent's Shooting phase, when an enemy unit that targeted a friendly **[gloss:unengaged:unengaged]** Electro-Priests unit has shot.",
           target: 'That Electro-Priests unit.',
-          effect: 'Your unit can make a Surge move of up to D6".',
+          effect: 'Your unit can make a **[gloss:surge-move:Surge move]** of up to D6".',
           restrictions: '',
         },
       ],
@@ -797,7 +797,7 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
           name: 'Voltagheist Reliquary',
           points: 15,
           flavor: "The wild voltagheists said to inhabit this holy casket are more aggressive and intrusive than those that guard the Electro-Priests, and surge in interfering pulses that scramble the foe's sensors.",
-          body: `Tech-Priest model only. Enemy units cannot target this unit with snap shooting attacks.`,
+          body: `Tech-Priest model only. Enemy units cannot target this unit with **[gloss:snap-shooting:snap shooting]** attacks.`,
         },
         {
           name: 'Electromiasmic Brazier',
@@ -812,8 +812,8 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
       id: 'eradication-cohort',
       name: 'Eradication Cohort',
       source: 'faction-pack',
-      dp: 3,
-      forceDisposition: 'Purge the Foe',
+      dp: 2,
+      forceDispositions: ["Purge the Foe"],
       rule: {
         name: 'Murderous Imperative',
         flavor:
@@ -923,12 +923,12 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
       name: 'Haloscreed Battle Clade',
       source: 'faction-pack',
       dp: 3,
-      forceDisposition: 'Priority Assets',
+      forceDispositions: ["Priority Assets", "Purge the Foe"],
       rule: {
         name: 'Noospheric Transference',
         flavor:
           'Tech-Priests can override the will of their thralls and project martial data inloads into the minds of their warriors, blessing the soldiery with endless streams of precisely tailored binharic code.',
-        body: `In your Command phase, select one or more Adeptus Mechanicus units from your army (including units that are embarked within Transports). The maximum number of units you can select depends on the battle size, as follows:
+        body: `In your Command phase, select one or more ADEPTUS MECHANICUS units from your army (including units that are embarked within TRANSPORTS). The maximum number of units you can select depends on the battle size, as follows:
 ▪ **Incursion:** 1 unit
 ▪ **Strike Force:** 2 units
 ▪ **Onslaught:** 3 units

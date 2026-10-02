@@ -105,7 +105,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Shadowfield",
-        "text": "While this model has an InSv, this unit cannot re-roll **save rolls**. When this model loses a wound (excluding from **mortal wounds**), this model has no InSv until the end of the battle."
+        "text": "While this model has an **[gloss:invulnerable-save:InSv]**, this unit cannot re-roll **[gloss:save-roll:save rolls]**. When this model loses a wound (excluding from **[gloss:mortal-wound:mortal wounds]**), this model has no **InSv** until the end of the battle."
       },
       {
         "name": "Soul Trap",
@@ -1892,7 +1892,7 @@ export default [
           },
           {
             "name": "Aethersails",
-            "text": "While one or more Drukhari units are embarked within this model, you can re-roll Advance and Charge rolls made for this model."
+            "text": "While one or more DRUKHARI units are embarked within this model, you can re-roll Advance and Charge rolls made for this model."
           }
         ]
       }
@@ -2916,22 +2916,22 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75,
+        "points": 70,
         "note": "1st-2nd"
       },
       {
         "models": 2,
-        "points": 150,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 85,
+        "points": 80,
         "note": "3rd+"
       },
       {
         "models": 2,
-        "points": 160,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -3475,7 +3475,7 @@ export default [
     "loadout": "**This model is equipped with:** 2 void lances; bladed wings.",
     "options": [
       "This model can be equipped with 1 Voidraven missiles.",
-      "This model’s 2 void lances can be replaced with 2 dark scythes."
+      "The model’s 2 void lances can be replaced with 2 dark scythes."
     ],
     "keywords": [
       "Aeldari",
@@ -3495,15 +3495,15 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 60
+        "points": 55
       },
       {
         "models": 8,
-        "points": 100
+        "points": 90
       },
       {
         "models": 10,
-        "points": 120
+        "points": 110
       }
     ],
     "flavor": "The gnarled hide of the Wracks is a leathery mass of old scars, inured to pain. These adepts of fleshcrafting serve the wizened masters of the covens and are as much experiments in stitch and sinew as apprentices to the Haemonculus’ gruesome craft. They are granted a host of cruel tools, butchering blades and arcane bioweapons with which they inflict maximum agony.",

@@ -43,11 +43,19 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "battle-sisters-squad",
+          "type": "leader"
+        },
+        {
+          "to": "dominion-squad",
+          "type": "leader"
+        },
+        {
           "to": "sisters-novitiate-squad",
           "type": "leader"
         },
         {
-          "to": "battle-sisters-squad",
+          "to": "retributor-squad",
           "type": "leader"
         },
         {
@@ -56,14 +64,6 @@ export default {
         },
         {
           "to": "celestian-sacresants",
-          "type": "leader"
-        },
-        {
-          "to": "dominion-squad",
-          "type": "leader"
-        },
-        {
-          "to": "retributor-squad",
           "type": "leader"
         }
       ],
@@ -405,11 +405,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "retributor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sisters-novitiate-squad",
+          "to": "celestian-insidiants",
           "type": "leader"
         },
         {
@@ -417,15 +413,19 @@ export default {
           "type": "leader"
         },
         {
+          "to": "dominion-squad",
+          "type": "leader"
+        },
+        {
           "to": "celestian-sacresants",
           "type": "leader"
         },
         {
-          "to": "celestian-insidiants",
+          "to": "sisters-novitiate-squad",
           "type": "leader"
         },
         {
-          "to": "dominion-squad",
+          "to": "retributor-squad",
           "type": "leader"
         }
       ],
@@ -538,11 +538,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "seraphim-squad",
+          "to": "zephyrim-squad",
           "type": "leader"
         },
         {
-          "to": "zephyrim-squad",
+          "to": "seraphim-squad",
           "type": "leader"
         }
       ],
@@ -615,7 +615,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 20
       },
       "defaults": [
         [
@@ -686,7 +686,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 120,
+          "pts": 115,
           "per": [
             10,
             10
@@ -894,7 +894,7 @@ export default {
               1
             ],
             [
-              2564,
+              3168,
               1
             ]
           ]
@@ -906,6 +906,7 @@ export default {
       "sid": "7f57f601-3fd3-441d-b9f6-dd648cc69bef",
       "name": "Celestian Sacresants",
       "kws": [
+        "Celestian",
         "Celestian Sacresants",
         "Grenades",
         "Imperium",
@@ -1184,7 +1185,7 @@ export default {
           0,
           [
             [
-              2565,
+              3169,
               1
             ]
           ]
@@ -1217,11 +1218,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "battle-sisters-squad",
+          "to": "celestian-insidiants",
           "type": "support"
         },
         {
-          "to": "dominion-squad",
+          "to": "battle-sisters-squad",
           "type": "support"
         },
         {
@@ -1229,15 +1230,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "retributor-squad",
-          "type": "support"
-        },
-        {
           "to": "sisters-novitiate-squad",
           "type": "support"
         },
         {
-          "to": "celestian-insidiants",
+          "to": "dominion-squad",
+          "type": "support"
+        },
+        {
+          "to": "retributor-squad",
           "type": "support"
         }
       ],
@@ -1284,11 +1285,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "battle-sisters-squad",
-          "type": "support"
-        },
-        {
-          "to": "dominion-squad",
+          "to": "retributor-squad",
           "type": "support"
         },
         {
@@ -1296,11 +1293,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "retributor-squad",
+          "to": "dominion-squad",
           "type": "support"
         },
         {
           "to": "celestian-insidiants",
+          "type": "support"
+        },
+        {
+          "to": "battle-sisters-squad",
           "type": "support"
         }
       ],
@@ -1517,7 +1518,7 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
+        "at": 3,
         "pts": 40
       },
       "defaults": [
@@ -1595,7 +1596,15 @@ export default {
       },
       "leads": [
         {
+          "to": "sisters-novitiate-squad",
+          "type": "support"
+        },
+        {
           "to": "battle-sisters-squad",
+          "type": "support"
+        },
+        {
+          "to": "celestian-insidiants",
           "type": "support"
         },
         {
@@ -1608,14 +1617,6 @@ export default {
         },
         {
           "to": "retributor-squad",
-          "type": "support"
-        },
-        {
-          "to": "sisters-novitiate-squad",
-          "type": "support"
-        },
-        {
-          "to": "celestian-insidiants",
           "type": "support"
         }
       ],
@@ -1662,7 +1663,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "celestian-insidiants",
+          "to": "retributor-squad",
+          "type": "support"
+        },
+        {
+          "to": "celestian-sacresants",
           "type": "support"
         },
         {
@@ -1670,15 +1675,11 @@ export default {
           "type": "support"
         },
         {
+          "to": "celestian-insidiants",
+          "type": "support"
+        },
+        {
           "to": "dominion-squad",
-          "type": "support"
-        },
-        {
-          "to": "retributor-squad",
-          "type": "support"
-        },
-        {
-          "to": "celestian-sacresants",
           "type": "support"
         }
       ],
@@ -1817,15 +1818,15 @@ export default {
               1
             ],
             [
+              18,
+              1
+            ],
+            [
               65,
               1
             ],
             [
               66,
-              1
-            ],
-            [
-              18,
               1
             ],
             [
@@ -1865,10 +1866,6 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "battle-sisters-squad",
-          "type": "leader"
-        },
-        {
           "to": "celestian-sacresants",
           "type": "leader"
         },
@@ -1877,7 +1874,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sisters-novitiate-squad",
+          "to": "retributor-squad",
           "type": "leader"
         },
         {
@@ -1885,7 +1882,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "retributor-squad",
+          "to": "sisters-novitiate-squad",
+          "type": "leader"
+        },
+        {
+          "to": "battle-sisters-squad",
           "type": "leader"
         }
       ],
@@ -1932,6 +1933,18 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "dominion-squad",
+          "type": "leader"
+        },
+        {
+          "to": "celestian-insidiants",
+          "type": "leader"
+        },
+        {
+          "to": "arco-flagellants",
+          "type": "leader"
+        },
+        {
           "to": "battle-sisters-squad",
           "type": "leader"
         },
@@ -1941,18 +1954,6 @@ export default {
         },
         {
           "to": "sanctifiers",
-          "type": "leader"
-        },
-        {
-          "to": "dominion-squad",
-          "type": "leader"
-        },
-        {
-          "to": "arco-flagellants",
-          "type": "leader"
-        },
-        {
-          "to": "celestian-insidiants",
           "type": "leader"
         }
       ],
@@ -2135,7 +2136,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 200,
+          "pts": 215,
           "per": [
             1,
             1
@@ -2197,11 +2198,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "battle-sisters-squad",
+          "to": "retributor-squad",
           "type": "leader"
         },
         {
-          "to": "dominion-squad",
+          "to": "battle-sisters-squad",
           "type": "leader"
         },
         {
@@ -2213,11 +2214,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "retributor-squad",
+          "to": "celestian-insidiants",
           "type": "leader"
         },
         {
-          "to": "celestian-insidiants",
+          "to": "dominion-squad",
           "type": "leader"
         }
       ],
@@ -2266,7 +2267,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 165,
           "per": [
             3,
             3
@@ -2579,15 +2580,15 @@ export default {
           0,
           [
             [
-              2566,
+              3170,
               1
             ],
             [
-              38,
+              2789,
               1
             ],
             [
-              2567,
+              3171,
               1
             ]
           ]
@@ -2600,20 +2601,20 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              500
+              502
             ]
           ]
         },
         {
           "m": 0,
-          "t": 967,
+          "t": 1019,
           "in": "checkbox",
           "o": [
             [
-              743
+              2958
             ],
             [
-              38
+              2789
             ]
           ]
         }
@@ -2780,7 +2781,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 150,
+          "pts": 135,
           "per": [
             3,
             3
@@ -3689,7 +3690,9 @@ export default {
       "name": "Army of Faith",
       "sid": "f3dbfd5c-d553-436f-9617-4c8269cb5b09",
       "dp": 2,
-      "fd": "Take and Hold",
+      "fds": [
+        "Take and Hold"
+      ],
       "enhancements": [
         {
           "name": "Litanies of Faith",
@@ -3750,7 +3753,9 @@ export default {
       "name": "Bringers of Flame",
       "sid": "c0a5cd98-3a84-4074-ad62-b4d848d2bcf6",
       "dp": 2,
-      "fd": "Priority Assets",
+      "fds": [
+        "Priority Assets"
+      ],
       "enhancements": [
         {
           "name": "Righteous Rage",
@@ -3811,7 +3816,9 @@ export default {
       "name": "Champions of Faith",
       "sid": "c1eaf854-a425-4cc8-b29e-557b8b89f8c1",
       "dp": 2,
-      "fd": "Disruption",
+      "fds": [
+        "Disruption"
+      ],
       "unique": "REVEREND",
       "enhancements": [
         {
@@ -3868,8 +3875,22 @@ export default {
       "name": "Chorus of Condemnation",
       "sid": "730c8f71-c997-4071-98f0-8aa377e762f3",
       "dp": 1,
-      "fd": "Reconnaissance",
+      "fds": [
+        "Reconnaissance"
+      ],
       "enhancements": [
+        {
+          "name": "Clarion of Urgency",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adepta Sororitas"
+              ]
+            }
+          ]
+        },
         {
           "name": "Symphonic Payload (Upgrade)",
           "pts": 10,
@@ -3886,18 +3907,6 @@ export default {
           "lockDs": [
             "6d5e56ad-ef9f-442d-8c55-88d4f2cf878b"
           ]
-        },
-        {
-          "name": "Clarion of Urgency",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adepta Sororitas"
-              ]
-            }
-          ]
         }
       ]
     },
@@ -3905,7 +3914,10 @@ export default {
       "name": "Hallowed Martyrs",
       "sid": "5e3bb5a9-1e75-455e-a87d-13e59948be68",
       "dp": 3,
-      "fd": "Priority Assets",
+      "fds": [
+        "Take and Hold",
+        "Priority Assets"
+      ],
       "enhancements": [
         {
           "name": "Saintly Example",
@@ -3966,7 +3978,9 @@ export default {
       "name": "Penitent Host",
       "sid": "530ae43e-f733-4100-afdf-19d165fb9983",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fds": [
+        "Purge the Foe"
+      ],
       "enhancements": [
         {
           "name": "Psalm of Righteous Judgement",
@@ -4038,21 +4052,11 @@ export default {
       "name": "Sacred Champions",
       "sid": "d8dfdc5f-4e0b-4233-8f2f-2ee703664afb",
       "dp": 1,
-      "fd": "Take and Hold",
+      "fds": [
+        "Take and Hold"
+      ],
       "unique": "REVEREND",
       "enhancements": [
-        {
-          "name": "Perfervid Haste",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adepta Sororitas"
-              ]
-            }
-          ]
-        },
         {
           "name": "Writ of Compunction (Upgrade)",
           "pts": 20,
@@ -4069,6 +4073,18 @@ export default {
           "lockDs": [
             "7f57f601-3fd3-441d-b9f6-dd648cc69bef"
           ]
+        },
+        {
+          "name": "Perfervid Haste",
+          "pts": 10,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adepta Sororitas"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -4076,7 +4092,9 @@ export default {
       "name": "Sanctified Orators",
       "sid": "7cf2f061-bc54-4c2f-be17-2959cf840fdf",
       "dp": 1,
-      "fd": "Disruption",
+      "fds": [
+        "Disruption"
+      ],
       "enhancements": [
         {
           "name": "Hagiomnifex (Upgrade)",
@@ -4176,60 +4194,60 @@ export default {
           "onslaught": 3,
           "strike-force": 2
         },
-        "Requisitioned": {
-          "incursion": 1,
-          "onslaught": 2,
-          "strike-force": 1
-        },
         "Retinue": {
           "incursion": 1,
           "onslaught": 3,
           "strike-force": 2
+        },
+        "Requisitioned": {
+          "incursion": 1,
+          "onslaught": 2,
+          "strike-force": 1
         }
       },
       "up": {
+        "imperial-agents:inquisitor-draxus": {
+          "1": 110
+        },
         "imperial-agents:eversor-assassin": {
           "1": 110
         },
-        "imperial-agents:exaction-squad": {
-          "11": 85
+        "imperial-agents:sisters-of-battle-immolator": {
+          "1": 105
+        },
+        "imperial-agents:voidsmen-at-arms": {
+          "6": 70
         },
         "imperial-agents:grey-knights-terminator-squad": {
           "5": 190
         },
-        "imperial-agents:inquisitor": {
-          "1": 65
+        "imperial-agents:vindicare-assassin": {
+          "1": 125
         },
-        "imperial-agents:inquisitor-coteaz": {
-          "1": 95
+        "imperial-agents:rogue-trader-entourage": {
+          "4": 105
         },
-        "imperial-agents:inquisitor-draxus": {
-          "1": 110
+        "imperial-agents:subductor-squad": {
+          "11": 100
+        },
+        "imperial-agents:sisters-of-battle-squad": {
+          "10": 110
+        },
+        "imperial-agents:navigator": {
+          "1": 75
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
           "12": 120
         },
-        "imperial-agents:navigator": {
-          "1": 75
+        "imperial-agents:inquisitor-coteaz": {
+          "1": 95
         },
-        "imperial-agents:rogue-trader-entourage": {
-          "4": 105
+        "imperial-agents:exaction-squad": {
+          "11": 85
         },
-        "imperial-agents:sisters-of-battle-immolator": {
-          "1": 105
-        },
-        "imperial-agents:sisters-of-battle-squad": {
-          "10": 110
-        },
-        "imperial-agents:subductor-squad": {
-          "11": 100
-        },
-        "imperial-agents:vindicare-assassin": {
-          "1": 125
-        },
-        "imperial-agents:voidsmen-at-arms": {
-          "6": 70
+        "imperial-agents:inquisitor": {
+          "1": 65
         }
       }
     },

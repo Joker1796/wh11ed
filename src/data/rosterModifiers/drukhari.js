@@ -2163,7 +2163,7 @@ export default {
             "ru": "только оружие носителя"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         },
         {
@@ -2176,7 +2176,7 @@ export default {
             "ru": "только оружие носителя"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]

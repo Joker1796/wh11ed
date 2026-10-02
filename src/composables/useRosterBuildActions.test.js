@@ -4,7 +4,8 @@ import { useRosterBuildActions } from './useRosterBuildActions.js'
 import { useRosterDerived } from './useRosterDerived.js'
 import { loadRosterFaction } from '../data/roster/index.js'
 
-// Real Space Marines data: the enhancement below is one Anvil Siege Force really carries.
+// Real Space Marines data: the enhancement below is one Gladius Task Force really carries.
+// (It was Anvil Siege Force until Codex: Space Marines, app data 963, retired that detachment.)
 let sm
 beforeAll(async () => { sm = await loadRosterFaction('space-marines', { allies: true }) })
 
@@ -23,12 +24,12 @@ function asWizard(start) {
 }
 
 function setup(shape) {
-  const anvil = sm.detachments.find((d) => d.name === 'Anvil Siege Force')
-  const enh = anvil.enhancements[0].name
+  const gladius = sm.detachments.find((d) => d.name === 'Gladius Task Force')
+  const enh = gladius.enhancements[0].name
   const list = shape({
     faction: 'space-marines',
     battleSize: 'strike-force',
-    detachments: ['Anvil Siege Force'],
+    detachments: ['Gladius Task Force'],
     units: [{ uid: 'c1', id: 'captain', enh, warlord: true }, { uid: 'i1', id: 'intercessor-squad' }],
   })
   const factionData = ref(sm)
@@ -45,7 +46,7 @@ for (const [label, shape] of [['a stored roster (editor)', asStored], ["the wiza
     // The wizard kept these and then listed them as errors for the player to clear by hand.
     it('drops an enhancement whose detachment is taken off the list', () => {
       const { list, actions, commit } = setup(shape)
-      actions.toggleDetachment({ name: 'Anvil Siege Force' })
+      actions.toggleDetachment({ name: 'Gladius Task Force' })
       expect(list.get().detachments).toEqual([])
       expect(list.get().units[0].enh).toBeUndefined()
       expect(commit).toHaveBeenCalled()
@@ -53,7 +54,7 @@ for (const [label, shape] of [['a stored roster (editor)', asStored], ["the wiza
 
     it('keeps an enhancement whose detachment stays', () => {
       const { list, actions, enh } = setup(shape)
-      const other = sm.detachments.find((d) => d.name !== 'Anvil Siege Force')
+      const other = sm.detachments.find((d) => d.name !== 'Gladius Task Force')
       actions.toggleDetachment({ name: other.name })
       expect(list.get().units[0].enh).toBe(enh)
       actions.clearDetachments()

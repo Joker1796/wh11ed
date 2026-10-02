@@ -21,7 +21,7 @@ export function stratTargetSide(strat) {
 
 // The app data (and so the records) keep GW's own misspellings where our faction texts correct
 // them; each one named here, so the pairing gate (stratagemPlay.test.js) says when a new one appears.
-const SPELLINGS = { 'martial examplars': 'martial exemplars' }
+const SPELLINGS = { 'martial examplars': 'martial exemplars', 'unbridled feroicity': 'unbridled ferocity' }
 const nameKey = (s) => { const k = normName(String(s || '')); return SPELLINGS[k] || k }
 
 // The card's modifier record for a deck stratagem — the same detachment and the same name, loosely

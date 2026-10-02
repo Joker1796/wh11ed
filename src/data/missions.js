@@ -25,6 +25,7 @@
 //     the primary OBJECTIVE ACTION cards, from the official app (which reveals the card reverse).
 
 import { missionsRu } from './missionsRu.js'
+import { DISPOSITIONS } from './dispositions.js'
 
 const primary = [
   {
@@ -1486,4 +1487,22 @@ export function getMissions(locale) {
     primary: en.primary.map(m => localizeMission(m, null)),
     secondary: en.secondary.map(m => localizeMission(m, m.role)),
   }
+}
+
+// The Primary Mission matrix: a player's Primary is the card for THEIR Force Disposition, read
+// under the OPPONENT's symbol. Pure and id-based, so the tracker and the Event Companion's matrix
+// ask the one question the one way (it used to live in the tracker store).
+export function primaryFor(myDisposition, opponentDisposition) {
+  const oppName = DISPOSITIONS.find(d => d.id === opponentDisposition)?.name
+  return (oppName && en.primary.find(m => m.deck === myDisposition && m.opponent === oppName)) || null
+}
+
+// One row of that matrix — the five Primaries a list with this disposition can be dealt, one per
+// opponent disposition, in the matrix's own order and localized for reading.
+export function primaryRow(myDisposition, locale) {
+  const list = getMissions(locale).primary
+  return DISPOSITIONS.map(opp => {
+    const slug = primaryFor(myDisposition, opp.id)?.slug
+    return { opponent: opp, mission: list.find(m => m.slug === slug) || null }
+  })
 }

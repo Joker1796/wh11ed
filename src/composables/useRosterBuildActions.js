@@ -17,7 +17,7 @@
 //                     of the wizard's
 import { computed, ref } from 'vue'
 import { uid } from './useRosters.js'
-import { addUnitEntry, dispositionCandidates, dpOverAllowed as dpOverAllowedFor, duplicateUnitEntry, settleSupremeWarlord } from './rosterEngine.js'
+import { addUnitEntry, dispositionCandidates, dpLimitFor, duplicateUnitEntry, settleSupremeWarlord } from './rosterEngine.js'
 import { useRosterUndo } from './useRosterUndo.js'
 import rosterCore from '../data/roster/core.js'
 
@@ -42,13 +42,14 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
   // ── Detachments ──
   // Options for the DP-budget-aware multi-select picker (DetachmentPickerModal).
   const detachmentOptions = computed(() =>
-    (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: d.fd || '' })))
+    (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDispositions: d.fds || [] })))
   const detachmentSummary = computed(() => (list()?.detachments || []).join(', '))
   const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
   const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
   // A lone 3 DP detachment at Incursion (25.04; DetachmentPickerModal never disables the first
   // pick). The screens show it as a "?" explainer instead of an error.
-  const dpOverAllowed = computed(() => dpOverAllowedFor(curDetachments.value, effBattle?.value))
+  // The budget these detachments are held to — the battle's, or 3 for a lone 3 DP one at Incursion.
+  const dpLimit = computed(() => dpLimitFor(curDetachments.value, effBattle?.value?.dp))
 
   // Enhancements belong to a detachment — an entry carrying one the list no longer fields keeps a
   // name nothing resolves, so it is dropped whenever the selection changes. Checked against the
@@ -142,7 +143,7 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
 
   return {
     factionPickerOpen, detachmentPickerOpen, pickFaction,
-    detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpOverAllowed,
+    detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit,
     toggleDetachment, clearDetachments, dropOrphanEnhancements,
     openUid, toggleOpen, openEntry,
     addUnit, duplicateEntry, removeEntry, toggleWarlord,

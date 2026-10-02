@@ -173,7 +173,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 70
       }
     ],
     "flavor": "Autarchs are legendary for their strategic brilliance, sublime martial skill and indomitable strength of will. Long have they trodden the Path of the Warrior, never once slipping into the trap of obsession. Instead, they apply all that they have learned and mastered to their command of the Asuryani warhosts.",
@@ -986,7 +986,7 @@ export default [
       },
       {
         "name": "Cornered Prey",
-        "text": "When an enemy unit engaged with this unit is selected to make a fall-back move, that enemy unit must use the desperate escape mode. If that enemy unit is Battle-shocked, -1 from those hazard rolls."
+        "text": "When an enemy unit **[gloss:engaged:engaged]** with this unit is selected to make a **[gloss:fall-back-move:fall-back move]**, that enemy unit must use the desperate escape mode. If that enemy unit is **[gloss:battle-shocked:Battle-shocked]**, -1 from those **[gloss:hazard-roll:hazard rolls]**."
       }
     ],
     "composition": [
@@ -2279,12 +2279,12 @@ export default [
       {
         "models": 1,
         "points": 110,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 125,
-        "note": "2nd+"
+        "points": 130,
+        "note": "3rd+"
       }
     ],
     "flavor": "Whether deployed as grav-platform artillery or attached to formations of Guardians, D-Cannon Platforms provide ferocious mid- to close-range fire support. Their blasts punch through the veil between realspace and the Empyrean, creating localised but spectacularly lethal warp singularities that can swallow victims whole or gouge catastrophic wounds in larger targets.",
@@ -2534,7 +2534,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 65
       }
     ],
     "flavor": "A hissing storm of shrieker cannon fire announces the arrival of a Death Jester upon the battlefield. Enemy infantry are torn apart in sprays of blood and scalded flesh as the weapon’s gene-toxins cause them to combust horrifically from within. Adding insult to injury, the Death Jester ensures every demise is as cruelly ironic as possible.",
@@ -2751,11 +2751,23 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 90
+        "points": 85,
+        "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 180
+        "points": 180,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 95,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 190,
+        "note": "3rd+"
       }
     ],
     "profiles": [
@@ -2832,17 +2844,17 @@ export default [
     "abilities": [
       {
         "name": "On the Hunt",
-        "text": "When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot and eligible to declare a charge."
+        "text": "When this unit is selected to make a **[gloss:fall-back-move:fall-back move]**, that **fall-back move** does not prevent this unit from being eligible to shoot and eligible to declare a charge."
       },
       {
         "name": "Agile Reach",
-        "text": "When this unit is selected to fight, melee weapons equipped by unengaged models in this unit that are within 3\" of an enemy unit that is engaged with this unit can target that enemy unit."
+        "text": "When this unit is **[gloss:selected-to-fight:selected to fight]**, melee weapons equipped by unengaged models in this unit that are within 3\" of an enemy unit that is **[gloss:engaged:engaged]** with this unit can target that enemy unit."
       }
     ],
     "wargearAbilities": [
       {
         "name": "Drakolithe",
-        "text": "When an enemy unit ends a move within 8\" of this unit, if this unit is unengaged or if that enemy unit ended that move engaged with this unit, you can use this ability. If you do, roll one D6:\n▪ On a 3+, that enemy unit suffers 1 mortal wound. Place one Drakolithe token next to the unit for each Drakolithe the unit is equipped with, removing one each time this ability is used."
+        "text": "When an enemy unit ends a move within 8\" of this unit, if this unit is **[gloss:unengaged:unengaged]** or if that enemy unit ended that move **[gloss:engaged:engaged]** with this unit, you can use this ability. If you do, roll one D6:\n▪ On a 3+, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]**. Place one Drakolithe token next to the unit for each Drakolithe the unit is equipped with, removing one each time this ability is used."
       }
     ],
     "composition": [
@@ -3126,7 +3138,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "The Asuryani look to their Farseers for leadership in battle. These psykers can uncover the foe’s intentions and calculate the effects of attacks. Their minds are their true weapons; with a thought, they can obliterate the memories of enemy commanders, hurl battle tanks into the air or summon terrifying storms of coruscating eldritch energy.",
@@ -3393,7 +3405,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 120,
+        "points": 110,
         "note": "1st-2nd"
       },
       {
@@ -3403,7 +3415,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 130,
+        "points": 120,
         "note": "3rd+"
       },
       {
@@ -4771,7 +4783,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 80
       }
     ],
     "flavor": "The most gifted Void Dreamer to have ever lived, Kharseth can sense the minutest fluctuations in the fabric of reality, detecting warp translations and other empyric disturbances and directing the fire of allies with terrifying precision. So too can they wield the energies of the Warp and unleash freezing energies of the void upon their enemies.",
@@ -4865,7 +4877,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 75
       }
     ],
     "profiles": [
@@ -4927,7 +4939,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Drakolithe",
-        "text": "When an enemy unit ends a move within 8\" of this unit, if this unit is unengaged or if that enemy unit ended that move engaged with this unit, you can use this ability. If you do, roll one D6:\n▪ On a 3+, that enemy unit suffers 1 mortal wound. Place one Drakolithe token next to the unit for each Drakolithe the unit is equipped with, removing one each time this ability is used."
+        "text": "When an enemy unit ends a move within 8\" of this unit, if this unit is **[gloss:unengaged:unengaged]** or if that enemy unit ended that move **[gloss:engaged:engaged]** with this unit, you can use this ability. If you do, roll one D6:\n▪ On a 3+, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]**. Place one Drakolithe token next to the unit for each Drakolithe the unit is equipped with, removing one each time this ability is used."
       }
     ],
     "composition": [
@@ -5277,13 +5289,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 170,
-        "note": "1st"
+        "points": 165,
+        "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 190,
-        "note": "2nd+"
+        "points": 195,
+        "note": "3rd+"
       }
     ],
     "flavor": "The doomweaver mounted by the Night Spinner is an esoteric weapon that spins great swathes of monofilament wire into a lethal web that is launched high into the air. So strong is this substance that nothing can stop its descent, and any foe lying beneath it faces a horrible death as the razor-sharp strands fall first upon and then through them.",
@@ -6650,7 +6662,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 175
+        "points": 165
       }
     ],
     "flavor": "Streaking into battle as barely perceived blurs, Shroud Runners effortlessly outmanoeuvre their enemies while harassing them with pinpoint sniper fire. Each jetbike acts as the mount for a pair of skilled Aeldari Rangers, the pillion rider often entering a marksman’s trance so as to aim and fire while travelling at incredible speeds.",
@@ -6897,11 +6909,11 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 95
+        "points": 90
       },
       {
         "models": 4,
-        "points": 190
+        "points": 180
       }
     ],
     "flavor": "Skyweavers shoot through the air in a prismatic storm of hallucinatory colour and light. While the riders known as Skyborne Princes pilot each jetbike and operate its guns, those called Great Falcons ride pillion, poised to cut down the foe with their star bolas or bisect them with their sweeping zephyrglaives.",
@@ -7007,7 +7019,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 115
+        "points": 105
       }
     ],
     "flavor": "Solitaires are the equal of a host of lesser warriors, and can move at speeds the naked eye cannot follow. In combat, their scything kicks and hammer-blow punches come so fast their foes are dead before they know they are in a fight. They sever heads and pierce hearts in a rapid blur of movement, and cause blood to fall like monsoon rain.",
@@ -7338,7 +7350,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 55
       }
     ],
     "profiles": [
@@ -7423,7 +7435,7 @@ export default [
     "abilities": [
       {
         "name": "Elemental Ensnarement",
-        "text": "At the end of your Fight phase, if this unit is not Battle-shocked, you can use this ability. If you do, roll one D6:\n▪ On a 1, this unit is Battle-shocked.\n▪ Select one visible enemy MONSTER/VEHICLE unit (excluding TITANIC units) within 18\" of this unit. That enemy unit is ensnared until the start of your next turn. While a unit is ensnared, that unit has -2\" M and cannot be pinned."
+        "text": "At the end of your Fight phase, if this unit is not **[gloss:battle-shocked:Battle-shocked]**, you can use this ability. If you do, roll one D6:\n▪ On a 1, this unit is **Battle-shocked**.\n▪ Select one **[gloss:visible:visible]** enemy MONSTER/VEHICLE unit (excluding TITANIC units) within 18\" of this unit. That enemy unit is ensnared until the start of your next turn. While a unit is ensnared, that unit has -2\" M and cannot be pinned."
       }
     ],
     "composition": [
@@ -8006,7 +8018,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 245
+        "points": 230
       }
     ],
     "flavor": "Once it has torn into realspace, the Yncarne advances on its enemies amidst a vortex of deathly whispers. It is a roaring psychic hurricane that rips the life from those who earn its ire. Nearby Ynnari are invigorated by its chilling power, while foes are turned to dust by the Yncarne’s gaze, or sliced in two by its sweeping blows.",
@@ -9165,7 +9177,7 @@ export default [
       },
       {
         "models": 4,
-        "points": 120
+        "points": 110
       }
     ],
     "flavor": "When Warlocks gather into battle conclaves, they pool their psychic might to defend their fellow Aeldari better and excoriate the foe with arcing storms ofempyric destruction. Wielding shimmering singing spears and witch blades with the skill of those trained on the Path of the Warrior, they also punish their enemies at close quarters.",
@@ -11325,7 +11337,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Phantasm Grenade Launcher",
-        "text": "The bearer’s unit has the Grenades keyword."
+        "text": "The bearer’s unit has the GRENADES keyword."
       }
     ],
     "composition": [
@@ -11877,7 +11889,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "Yvraine wields the Cronesword Kha-vir, the Sword of Sorrows, which can turn an enemy to ash with the slightest touch. The power of Ynnead manifests in her when she enters battle, to the extent that the Reborn warriors that fight around her are transformed into bloody blurs of violence.",

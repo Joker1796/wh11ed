@@ -454,21 +454,21 @@ export default {
         "kind": "detachmentRule",
         "det": "frenzied-host"
       },
-      "hash": "c74b85fe",
-      "ver": 925,
+      "hash": "f8ee1a07",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "weapon",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "until the end of the turn in which that unit was selected to make an advance or fall-back move",
-            "ru": "до конца хода, в котором отряд выбран для advance/fall-back-перемещения"
+            "en": "BATTLELINE models only, until the end of the turn in which this unit was selected to make an advance or fall-back move",
+            "ru": "только модели BATTLELINE, до конца хода, в котором отряд выбран для advance/fall-back-перемещения"
           },
           "cond": [
-            "never"
+            "unit-advanced"
           ]
         }
       ]

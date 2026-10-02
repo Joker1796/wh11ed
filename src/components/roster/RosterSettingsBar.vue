@@ -27,15 +27,31 @@
       >
     </label>
 
+    <!-- The pickers drop down under their fields rather than covering the screen (owner,
+         2026-10-01), with the modal's own rows inside (PickerDropdown). -->
     <div class="rw-field">
       <span>{{ labels.rosterFactionLabel }}</span>
-      <button
-        class="rw-choose"
-        @click="factionPickerOpen = true"
+      <PickerDropdown
+        v-model:open="factionPickerOpen"
+        width="32rem"
+        :label="labels.trackerSelectFaction"
       >
-        <span :class="{ placeholder: !factionSlug }">{{ factionName || labels.rosterChoose }}</span>
-        <i class="bi bi-chevron-down" />
-      </button>
+        <template #trigger="{ toggle, open }">
+          <button
+            class="rw-choose"
+            :aria-expanded="open"
+            @click="toggle"
+          >
+            <span :class="{ placeholder: !factionSlug }">{{ factionName || labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-down" />
+          </button>
+        </template>
+        <FactionPickerList
+          compact
+          :selected="factionSlug"
+          @pick="(slug) => { factionPickerOpen = false; $emit('pick-faction', slug) }"
+        />
+      </PickerDropdown>
     </div>
 
     <div class="rw-field">
@@ -44,26 +60,37 @@
         <em
           v-if="factionSlug"
           class="dp-count"
-          :class="{ over: dpSpent > maxDp && !dpOverAllowed }"
-        >{{ dpSpent }} / {{ maxDp }} DP</em>
-        <button
-          v-if="dpOverAllowed"
-          type="button"
-          class="help-btn"
-          :aria-label="labels.trackerDpOverHelp"
-          @click="dpHelpOpen = true"
-        >
-          <i class="bi bi-question-circle" />
-        </button>
+          :class="{ over: dpSpent > dpLimit }"
+        >{{ dpSpent }} / {{ dpLimit }} DP</em>
       </span>
-      <button
-        class="rw-choose"
-        :disabled="!factionSlug"
-        @click="detachmentPickerOpen = true"
+      <!-- Several can be taken under the DP budget, so a pick leaves it open; a click outside or
+           Escape closes it. -->
+      <PickerDropdown
+        v-model:open="detachmentPickerOpen"
+        width="30rem"
+        :label="labels.trackerDpBudget"
       >
-        <span :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
-        <i class="bi bi-chevron-down" />
-      </button>
+        <template #trigger="{ toggle, open }">
+          <button
+            class="rw-choose"
+            :disabled="!factionSlug"
+            :aria-expanded="open"
+            @click="toggle"
+          >
+            <span :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-down" />
+          </button>
+        </template>
+        <DetachmentPickerList
+          compact
+          :detachments="detachmentOptions"
+          :selected="detachments"
+          :max-dp="maxDp"
+          :dp-spent="dpSpent"
+          @toggle="(d) => $emit('toggle-detachment', d)"
+          @clear="$emit('clear-detachments')"
+        />
+      </PickerDropdown>
     </div>
 
     <div class="rw-field">
@@ -99,8 +126,10 @@
       </div>
     </div>
 
-    <!-- An army has ONE Force Disposition. One detachment settles it and there is nothing to ask;
-         several make it a declaration, and the list is where it is declared. -->
+    <!-- An army has ONE Force Disposition. One on offer settles it and there is nothing to ask;
+         several make it a declaration, and the list is where it is declared — here a dropdown, in
+         the shape of the faction and detachment fields beside it (owner, 2026-10-01: on one line
+         a row of buttons was the odd one out). The phone's form keeps its segmented control. -->
     <div
       v-if="factionSlug && dispositionCands.length"
       class="rw-field"
@@ -110,70 +139,73 @@
         v-if="dispositionCands.length === 1"
         class="rw-static"
       >{{ dispositionCands[0] }}</span>
-      <div
+      <PickerDropdown
         v-else
-        class="seg"
+        v-model:open="dispositionPickerOpen"
+        class="rw-fd"
+        width="12rem"
+        align="right"
+        :label="labels.rosterDispositionDeclared"
       >
-        <button
-          v-for="d in dispositionCands"
-          :key="d"
-          :class="{ on: disposition === d }"
-          @click="$emit('update:disposition', d)"
-        >
-          {{ d }}
-        </button>
-      </div>
+        <template #trigger="{ toggle, open }">
+          <button
+            class="rw-choose"
+            :aria-expanded="open"
+            @click="toggle"
+          >
+            <span
+              v-if="dispositionCands.includes(disposition)"
+              class="tone tone-chip"
+              :style="toneVars(dispositionColor(disposition))"
+            >{{ disposition }}</span>
+            <span
+              v-else
+              class="placeholder"
+            >{{ labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-down" />
+          </button>
+        </template>
+        <div class="modal-list rw-fd-list">
+          <button
+            v-for="d in dispositionCands"
+            :key="d"
+            type="button"
+            class="rw-fd-opt"
+            :class="{ on: disposition === d }"
+            @click="dispositionPickerOpen = false; $emit('update:disposition', d)"
+          >
+            <span
+              class="tone tone-chip"
+              :style="toneVars(dispositionColor(d))"
+            >{{ d }}</span>
+          </button>
+        </div>
+      </PickerDropdown>
     </div>
 
     <!-- The notes and the legality switch are decided once and then left alone; giving each a
          permanent slot would spend the line on the two things nobody looks at twice. The points
          and the way out are not on this line: they are the fixed bar's at the bottom, where they
          sit at every width (owner, 2026-09-26). -->
-    <button
-      type="button"
-      class="rw-more"
-      :aria-label="labels.rosterMoreSettings"
-      :title="labels.rosterMoreSettings"
-      @click="moreOpen = true"
+    <PickerDropdown
+      v-model:open="moreOpen"
+      width="24rem"
+      align="right"
+      :label="labels.rosterMoreSettings"
     >
-      <i class="bi bi-three-dots" />
-    </button>
-
-    <FactionPickerModal
-      v-if="factionPickerOpen"
-      :selected="factionSlug"
-      @pick="(slug) => { factionPickerOpen = false; $emit('pick-faction', slug) }"
-      @close="factionPickerOpen = false"
-    />
-    <DetachmentPickerModal
-      v-if="detachmentPickerOpen"
-      :detachments="detachmentOptions"
-      :selected="detachments"
-      :max-dp="maxDp"
-      :dp-spent="dpSpent"
-      @toggle="(d) => $emit('toggle-detachment', d)"
-      @clear="$emit('clear-detachments')"
-      @close="detachmentPickerOpen = false"
-    />
-    <BaseModal
-      v-if="dpHelpOpen"
-      :title="labels.trackerDpOverTitle"
-      max-width="380px"
-      @close="dpHelpOpen = false"
-    >
-      <div class="modal-body">
-        <p class="rw-help">
-          {{ labels.trackerDpOverText }}
-        </p>
-      </div>
-    </BaseModal>
-    <BaseModal
-      v-if="moreOpen"
-      :title="labels.rosterMoreSettings"
-      max-width="480px"
-      @close="moreOpen = false"
-    >
-      <div class="modal-body rw-more-body">
+      <template #trigger="{ toggle }">
+        <button
+          type="button"
+          class="rw-more"
+          :aria-label="labels.rosterMoreSettings"
+          :title="labels.rosterMoreSettings"
+          :aria-expanded="moreOpen"
+          @click="toggle"
+        >
+          <i class="bi bi-three-dots" />
+        </button>
+      </template>
+      <div class="rw-more-body">
         <label class="field">
           <span>{{ labels.rosterNotes }}</span>
           <textarea
@@ -208,15 +240,17 @@
           <span>{{ labels.rosterShowPointsLeft }}</span>
         </label>
       </div>
-    </BaseModal>
+    </PickerDropdown>
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
-import BaseModal from '../BaseModal.vue'
-import FactionPickerModal from '../tracker/FactionPickerModal.vue'
-import DetachmentPickerModal from '../tracker/DetachmentPickerModal.vue'
+import PickerDropdown from '../PickerDropdown.vue'
+import FactionPickerList from '../tracker/FactionPickerList.vue'
+import DetachmentPickerList from '../tracker/DetachmentPickerList.vue'
+import { toneVars } from '../../utils/tone.js'
+import { dispositionColor } from '../../data/dispositionColors.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
@@ -231,10 +265,10 @@ defineProps({
   detachmentSummary: { type: String, default: '' },
   detachmentOptions: { type: Array, default: () => [] },
   dpSpent: { type: Number, default: 0 },
+  // The battle size's budget — what the picker spends against — and the budget the count shows,
+  // which is 3 for a lone 3 DP detachment at Incursion (rosterEngine's dpLimitFor).
   maxDp: { type: Number, default: 0 },
-  // The tracker's "one detachment may cost more DP than the battle size grants" case, which only
-  // the wizard computes; absent here it simply isn't offered.
-  dpOverAllowed: { type: Boolean, default: false },
+  dpLimit: { type: Number, default: 0 },
   battleSize: { type: String, default: '' },
   battleSizes: { type: Array, default: () => [] },
   customPoints: { type: [Number, String], default: 0 },
@@ -255,7 +289,7 @@ const { showPointsLeft } = useRosterPrefs()
 
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)
-const dpHelpOpen = ref(false)
+const dispositionPickerOpen = ref(false)
 const moreOpen = ref(false)
 </script>
 
@@ -329,6 +363,21 @@ const moreOpen = ref(false)
    until it clears AA in both themes, and still a step quieter than a real answer. */
 .rw-choose .placeholder { color: color-mix(in srgb, var(--text-muted) 55%, var(--text-primary)); }
 .rw-choose .bi { flex-shrink: 0; color: var(--text-muted); }
+/* The declared Force Disposition: the chip in its colour, on the field and in the list — the colour
+   is how a disposition is told apart everywhere else (dispositionColors.js). */
+.rw-fd .rw-choose { min-width: 11rem; }
+.rw-fd-list { gap: 0.25rem; }
+.rw-fd-opt {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0.2rem 0.4rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+.rw-fd-opt.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
+@media (hover: hover) { .rw-fd-opt:hover { border-color: var(--accent); } }
 
 .rw-row { display: flex; align-items: center; gap: 0.4rem; }
 .rw-num {
@@ -355,7 +404,7 @@ const moreOpen = ref(false)
 }
 @media (hover: hover) { .rw-more:hover { color: var(--accent); border-color: var(--accent); } }
 
-.rw-more-body { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; }
+.rw-more-body { padding: 0.5rem; display: flex; flex-direction: column; gap: 1rem; }
 .rw-more-body textarea {
   width: 100%;
   background: var(--bg-secondary);
@@ -366,7 +415,6 @@ const moreOpen = ref(false)
   font-size: 0.9rem;
   resize: vertical;
 }
-.rw-help { margin: 0; padding: 1rem; font-size: 0.9rem; color: var(--text-muted); }
 
 .dp-count { font-style: normal; color: var(--text-dim); }
 .dp-count.over { color: var(--danger); }

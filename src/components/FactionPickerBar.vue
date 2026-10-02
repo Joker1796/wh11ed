@@ -9,56 +9,80 @@
        tiers so the visible controls line up with the rest of the page. -->
   <div class="fpb">
     <div class="fpb-inner">
-      <button
+      <!-- A dropdown under the trigger on a wide screen, the modal on a phone (AdaptivePicker). -->
+      <AdaptivePicker
         v-if="chapters.length"
-        type="button"
-        class="fpb-trigger"
-        :aria-label="labels.dsChapterFilter"
-        @click="showChapterPicker = true"
+        v-model:open="showChapterPicker"
+        class="fpb-pick"
+        panel-width="18rem"
+        :title="labels.dsChapterFilter"
       >
-        <span class="fpb-trigger-main">
-          <span class="fpb-trigger-label">{{ labels.dsChapterFilter }}</span>
-          <span class="fpb-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
-        </span>
-        <i class="bi bi-chevron-right fpb-trigger-chev" />
-      </button>
+        <template #trigger="{ toggle, open }">
+          <button
+            type="button"
+            class="fpb-trigger"
+            :aria-label="labels.dsChapterFilter"
+            :aria-expanded="open"
+            @click="toggle"
+          >
+            <span class="fpb-trigger-main">
+              <span class="fpb-trigger-label">{{ labels.dsChapterFilter }}</span>
+              <span class="fpb-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
+            </span>
+            <i class="bi bi-chevron-down fpb-trigger-chev" />
+          </button>
+        </template>
+        <template #default="{ compact, bodyClass, close }">
+          <FactionDetachmentList
+            :class="bodyClass"
+            :compact="compact"
+            :detachments="chapterOptions"
+            :active-id="chapter || 'all'"
+            @pick="(id) => { pickChapter(id); close() }"
+          />
+        </template>
+      </AdaptivePicker>
 
-      <button
+      <AdaptivePicker
         v-if="detachments.length > 1"
-        type="button"
-        class="fpb-trigger"
-        :aria-label="labels.factionDetachments"
-        @click="showDetPicker = true"
+        v-model:open="showDetPicker"
+        class="fpb-pick"
+        panel-width="30rem"
+        :title="labels.factionDetachments"
       >
-        <span class="fpb-trigger-main">
-          <span class="fpb-trigger-label">{{ labels.factionDetachments }}</span>
-          <span class="fpb-trigger-name">{{ activeDet?.name }}</span>
-        </span>
-        <i class="bi bi-chevron-right fpb-trigger-chev" />
-      </button>
+        <template #trigger="{ toggle, open }">
+          <button
+            type="button"
+            class="fpb-trigger"
+            :aria-label="labels.factionDetachments"
+            :aria-expanded="open"
+            @click="toggle"
+          >
+            <span class="fpb-trigger-main">
+              <span class="fpb-trigger-label">{{ labels.factionDetachments }}</span>
+              <span class="fpb-trigger-name">{{ activeDet?.name }}</span>
+            </span>
+            <i class="bi bi-chevron-down fpb-trigger-chev" />
+          </button>
+        </template>
+        <template #default="{ compact, bodyClass, close }">
+          <FactionDetachmentList
+            :class="bodyClass"
+            :compact="compact"
+            :detachments="detachmentOptions"
+            :active-id="activeDet?.id"
+            @pick="(id) => { pickDetachment(detachments.find((d) => d.id === id)); close() }"
+          />
+        </template>
+      </AdaptivePicker>
     </div>
-
-    <FactionDetachmentPickerModal
-      v-if="showChapterPicker"
-      :title="labels.dsChapterFilter"
-      :detachments="chapterOptions"
-      :active-id="chapter || 'all'"
-      @pick="(id) => { pickChapter(id); showChapterPicker = false }"
-      @close="showChapterPicker = false"
-    />
-    <FactionDetachmentPickerModal
-      v-if="showDetPicker"
-      :detachments="detachmentOptions"
-      :active-id="activeDet?.id"
-      @pick="(id) => { pickDetachment(detachments.find((d) => d.id === id)); showDetPicker = false }"
-      @close="showDetPicker = false"
-    />
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
-import FactionDetachmentPickerModal from './FactionDetachmentPickerModal.vue'
+import AdaptivePicker from './AdaptivePicker.vue'
+import FactionDetachmentList from './FactionDetachmentList.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useFactionChoice } from '../composables/useFactionChoice.js'
@@ -154,6 +178,9 @@ function pickChapter(id) {
     padding: 0.35rem calc(0.5rem + var(--safe-right)) 0.35rem calc(0.5rem + var(--safe-left));
   }
 }
+
+/* Each picker's wrapper (AdaptivePicker) takes the share the trigger used to: side by side. */
+.fpb-pick { flex: 1; min-width: 0; }
 
 /* Trigger — a compact button that opens the picker modal. The label rides inside it as a
    quiet dim prefix (no eyebrow line above), keeping the whole bar to a single row height. */

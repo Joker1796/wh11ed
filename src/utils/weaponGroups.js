@@ -17,6 +17,10 @@ export function withGroupPos(list) {
     if (prevSame && nextSame) gpos = 'mid'
     else if (nextSame) gpos = 'start'
     else if (prevSame) gpos = 'end'
-    return { ...w, gpos }
+    // A grouped row is printed under a heading row carrying the weapon's name (DatasheetCard), so
+    // it shows only what tells the profiles apart: "standard", "supercharge". A group whose rows
+    // share a name outright (no suffix to show) keeps the full name.
+    const profile = gpos === 'single' ? null : (w.name || '').slice(base.length).replace(/^\s*[-–—]\s*/, '') || w.name
+    return { ...w, gpos, base, profile }
   })
 }

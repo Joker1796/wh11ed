@@ -299,7 +299,11 @@ p {
 
 .rule-subheading {
   font-family: var(--font-display);
-  font-size: var(--fs-subheading);
+  /* A notch above the shared subheading size (1.38 → 1.6rem): in the Extra Condensed face the
+     "### " steps of an army or detachment rule (Assault / Devastator / Tactical Doctrine) read
+     smaller than the body text beside them (owner, 2026-09-30). Scaled rather than fixed so the
+     roster's denser `--fs-subheading` still shrinks it in proportion. */
+  font-size: calc(var(--fs-subheading) * 1.16);
   font-weight: var(--fw-heading);
   color: var(--text-primary);
   margin: 0.75rem 0 0.25rem;
@@ -310,7 +314,7 @@ p {
 .rule-subheading-ru {
   display: block;
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-muted);
   opacity: 0.75;

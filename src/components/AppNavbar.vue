@@ -97,11 +97,20 @@
         >
           {{ labels.navRoster }}
         </RouterLink>
+        <RouterLink
+          to="/patches"
+          class="nav-link"
+          :class="{ active: isPatchesRoute }"
+        >
+          {{ labels.navPatches }}
+        </RouterLink>
       </nav>
 
       <div class="navbar-actions">
         <button
+          ref="searchBtn"
           class="search-btn"
+          data-press
           :title="labels.ariaSearchTitle"
           :aria-label="labels.ariaSearchTitle"
           @click="$emit('open-search')"
@@ -131,6 +140,7 @@
         </button>
         <button
           class="lang-btn"
+          data-press
           role="switch"
           :aria-checked="locale === 'ru'"
           :title="locale === 'en' ? labels.langToRu : labels.langToEn"
@@ -151,17 +161,6 @@
           >RU</span>
         </button>
         <button
-          class="lore-btn"
-          data-press
-          :class="{ active: hideLore }"
-          :title="hideLore ? labels.loreShow : labels.loreHide"
-          :aria-label="hideLore ? labels.loreShow : labels.loreHide"
-          :aria-pressed="hideLore"
-          @click="toggleLore"
-        >
-          <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'" />
-        </button>
-        <button
           class="theme-btn"
           data-press
           :title="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
@@ -170,7 +169,8 @@
         >
           <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'" />
         </button>
-        <AccountMenu />
+        <!-- The gear on every width since 2026-10-01 (owner): the account, the lore toggle, bug
+             reports and support live in it on the desktop too, rather than as a row of buttons. -->
         <div class="settings-wrap">
           <button
             class="settings-btn"
@@ -194,8 +194,9 @@
               v-if="settingsOpen"
               class="settings-menu"
             >
+              <!-- The desktop keeps its own theme button beside the gear. -->
               <button
-                class="settings-item"
+                class="settings-item settings-phone"
                 @click="toggleTheme"
               >
                 <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'" />
@@ -238,8 +239,16 @@
                 <i class="bi bi-bug" />
                 <span>{{ labels.feedbackMenu }}</span>
               </button>
-              <!-- The account, on the phone. The desktop has a button of its own (AccountMenu);
-                   here it joins the theme and lore toggles rather than crowding the navbar. -->
+              <RouterLink
+                to="/support"
+                class="settings-item"
+                @click="settingsOpen = false"
+              >
+                <i class="bi bi-heart" />
+                <span>{{ labels.supportProject }}</span>
+              </RouterLink>
+              <!-- The account: it joins the lore toggle and the rest rather than crowding the
+                   navbar with a button of its own. -->
               <template v-if="accountStatus === 'authed'">
                 <p class="settings-who">
                   <i class="bi bi-cloud-check-fill" />
@@ -294,7 +303,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useLocale } from '../composables/useLocale.js'
-import { localePath } from '../router/locale.js'
+import { localePath, stripLocale } from '../router/locale.js'
 import { useTheme } from '../composables/useTheme.js'
 import { useLoreVisibility } from '../composables/useLoreVisibility.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
@@ -302,7 +311,6 @@ import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../compos
 import { useRouteSection } from '../composables/useRouteSection.js'
 import { useAccountActions } from '../composables/useAccountActions.js'
 import { useFeedbackModal } from '../composables/useFeedbackModal.js'
-import AccountMenu from './AccountMenu.vue'
 import { ui } from '../i18n/ui.js'
 import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
 import { rulesLanding } from '../data/rulesLanding.js'
@@ -329,6 +337,7 @@ const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
 const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
 const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
+const isPatchesRoute = computed(() => stripLocale(route.path) === '/patches')
 const {
   status: accountStatus,
   accountName,
@@ -358,6 +367,22 @@ function onMockToggle() {
 }
 
 const labels = computed(() => ui[locale.value])
+
+// Where the search field unfolds from on a wide screen (SearchModal's docked shape). Its layout
+// box, not getBoundingClientRect: the click that asks is mid-press, the button scaled down round
+// its centre — so the centre is true and the size comes from offsetWidth/Height.
+const searchBtn = ref(null)
+function searchRect() {
+  const el = searchBtn.value
+  if (!el) return null
+  const r = el.getBoundingClientRect()
+  const cx = (r.left + r.right) / 2
+  const cy = (r.top + r.bottom) / 2
+  const w = el.offsetWidth
+  const h = el.offsetHeight
+  return { left: cx - w / 2, right: cx + w / 2, top: cy - h / 2, bottom: cy + h / 2, width: w, height: h }
+}
+defineExpose({ searchRect })
 
 const settingsOpen = ref(false)
 
@@ -613,6 +638,9 @@ a.nd-link:hover {
   align-items: center;
   gap: 0.5rem;
   margin-left: auto;
+  /* A move that runs a little past its stop and settles back — the language thumb and the gear
+     (owner, 2026-10-01). Durations are motion tokens, so reduced motion still turns them off. */
+  --ease-inertia: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .lang-btn {
@@ -634,7 +662,9 @@ a.nd-link:hover {
 }
 
 /* Sliding thumb — sits behind the two labels, ~half the track, and slides to
-   whichever side (EN/RU) is the current locale. */
+   whichever side (EN/RU) is the current locale, with inertia. A transform rather than `left`: the
+   switch re-renders the whole page in the other language, and only a compositor animation keeps
+   moving through that. */
 .lang-thumb {
   position: absolute;
   top: 0;
@@ -643,11 +673,11 @@ a.nd-link:hover {
   width: 50%;
   background: color-mix(in srgb, var(--accent) 55%, transparent);
   border: 1px solid var(--accent);
-  transition: left 0.18s ease;
+  transition: transform var(--motion-move) var(--ease-inertia);
 }
 
 .lang-btn[aria-checked="true"] .lang-thumb {
-  left: 50%;
+  transform: translateX(100%);
 }
 
 .lang-opt {
@@ -689,7 +719,16 @@ a.nd-link:hover {
   color: #fff;
 }
 
-.lore-btn {
+/* ── Settings dropdown (mobile only) ── */
+.settings-wrap {
+  position: relative;
+  display: block;
+}
+/* Theme has its own button on the desktop; the menu's copy is for the phone. */
+.settings-item.settings-phone { display: none; }
+
+/* The theme button's size: the two sit side by side on the desktop (2026-10-01). */
+.settings-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -704,37 +743,6 @@ a.nd-link:hover {
   transition: background 0.15s, color 0.15s;
 }
 
-.lore-btn:hover {
-  background: rgba(255,255,255,0.13);
-  color: #fff;
-}
-
-.lore-btn.active {
-  background: color-mix(in srgb, var(--accent) 30%, transparent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-/* ── Settings dropdown (mobile only) ── */
-.settings-wrap {
-  position: relative;
-  display: none;
-}
-
-.settings-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.65);
-  padding: 0.3rem 0.55rem;
-  cursor: pointer;
-  font-size: 0.9rem;
-  line-height: 1;
-  transition: background 0.15s, color 0.15s;
-}
-
 .settings-btn:hover {
   background: rgba(255,255,255,0.13);
   color: #fff;
@@ -744,6 +752,16 @@ a.nd-link:hover {
   background: color-mix(in srgb, var(--accent) 30%, transparent);
   border-color: var(--accent);
   color: #fff;
+}
+
+/* The gear turns as the menu opens and turns back as it closes, however it closes. The press
+   sinks the button, the turn is the icon's — two elements, so neither overrides the other. */
+.settings-btn i {
+  display: inline-block;
+  transition: transform var(--motion-move) var(--ease-inertia);
+}
+.settings-btn.active i {
+  transform: rotate(180deg);
 }
 
 .settings-backdrop {
@@ -774,6 +792,12 @@ a.nd-link:hover {
 
 .settings-item {
   display: flex;
+  /* The support entry is a link: without these it inherits the page's underline and line height
+     and stands 6px taller than the buttons around it. */
+  text-decoration: none;
+  line-height: normal;
+  /* …and the buttons the app's own face: they were in the browser's default (Arial) beside it. */
+  font-family: inherit;
   align-items: center;
   gap: 0.6rem;
   width: 100%;
@@ -850,6 +874,7 @@ a.nd-link:hover {
   font-size: 0.7rem;
   opacity: 0.55;
   font-family: var(--font-mono);
+  white-space: nowrap; /* a crowded bar at 901px broke it into "Ctrl" over "K" */
 }
 
 .hamburger {
@@ -888,6 +913,13 @@ a.nd-link:hover {
 }
 
 /* ── Mobile ── */
+/* Just above the phone layout the RU links ("Изменения правил GW") need the room the bar's own
+   padding and gaps take at full width. */
+@media (min-width: 901px) and (max-width: 1023px) {
+  .navbar-inner { padding: 0 1rem; gap: 1rem; }
+  .nav-link { padding: 0.4rem 0.6rem; }
+}
+
 @media (max-width: 900px) {
   .navbar-inner {
     /* +side insets so the logo/hamburger clear the landscape notch */
@@ -907,14 +939,13 @@ a.nd-link:hover {
     display: none;
   }
 
-  /* Collapse lore + theme into the settings (gear) menu on mobile */
-  .lore-btn,
+  /* Collapse theme into the settings (gear) menu on mobile */
   .theme-btn {
     display: none;
   }
 
-  .settings-wrap {
-    display: block;
+  .settings-item.settings-phone {
+    display: flex;
   }
 
   /* Increase tap targets for action buttons */

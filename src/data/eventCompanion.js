@@ -5,6 +5,8 @@
 // The Layouts page is data-driven: 5 Force Dispositions form a 5×5 matrix; each
 // unordered pairing is a `matchup` giving each side's Primary Mission + 3 layouts.
 
+import { DISPOSITIONS } from './dispositions.js'
+
 // Layout diagrams — extracted directly from the official app's APK
 // (scripts/extract-layout-images.mjs), keyed by `${a}|${b}` then layout id. The
 // `a|b` key uses the same ordering as the `matchups` array literal below (fixed order).
@@ -404,14 +406,8 @@ const en = {
     ],
   },
 
-  // 5 Force Dispositions — the axes of the matrix.
-  dispositions: [
-    { id: 'take-and-hold', name: 'Take and Hold', icon: '/images/event/dispo-take-and-hold.webp' },
-    { id: 'purge-the-foe', name: 'Purge the Foe', icon: '/images/event/dispo-purge-the-foe.webp' },
-    { id: 'disruption', name: 'Disruption', icon: '/images/event/dispo-disruption.webp' },
-    { id: 'reconnaissance', name: 'Reconnaissance', icon: '/images/event/dispo-reconnaissance.webp' },
-    { id: 'priority-assets', name: 'Priority Assets', icon: '/images/event/dispo-priority-assets.webp' },
-  ],
+  // 5 Force Dispositions — the axes of the matrix (src/data/dispositions.js).
+  dispositions: DISPOSITIONS,
 
   // 15 unordered matchups. missionA/missionB = each side's Primary Mission.
   matchups: [
@@ -1155,7 +1151,7 @@ const ru = {
         '▪ **Chapter Approved Mission Deck Errata & FAQs:** обновления отдельных карт и ' +
         'ответы на частые вопросы.\n' +
         '▪ **Pairings and Rankings:** советы по честному составлению пар и определению ранга.\n' +
-        '▪ **Terrain Layouts:** набор тщательно продуманных расстановок [gloss:terrain:тиррейна] ' +
+        '▪ **Terrain Layouts:** набор тщательно продуманных расстановок [gloss:terrain:террейна] ' +
         'для использования с Chapter Approved Mission Deck.\n' +
         '▪ **Base Size Guide:** самые актуальные размеры подставок для всех моделей ' +
         'Warhammer 40,000, которые можно использовать на мероприятиях.',
@@ -1166,7 +1162,7 @@ const ru = {
         'pick-up-and-play.\n\n' +
         'Этот путеводитель не включает правила и рекомендации для парных, командных или ' +
         'Dominatus-мероприятий Warhammer Events. Их можно найти на warhammer-community.com.',
-      seeAlso: ['Последовательность миссии EC:sequence', 'Расстановки тиррейна EC:layouts'],
+      seeAlso: ['Последовательность миссии EC:sequence', 'Террейн и раскладки EC:layouts'],
     },
     intro:
       'Перед посещением мероприятия каждый игрок собирает свою армию; затем битва на ' +
@@ -1184,7 +1180,7 @@ const ru = {
           'Соберите армии, как описано в приложении Warhammer 40,000, со следующим ' +
           'исключением: собрав армию, игрок выбирает одну доступную ему карту ' +
           '[FORCE DISPOSITION] и записывает её в свой ростер.',
-        seeAlso: ['Расстановки тиррейна EC:layouts'],
+        seeAlso: ['Террейн и раскладки EC:layouts'],
       },
       {
         title: '2 · Определение миссии',
@@ -1205,7 +1201,7 @@ const ru = {
           'столько раз, сколько партий в ивенте.\n\n' +
           '**Примеры:** для ивента из 5 раундов рекомендуем порядок A, B, C, A, B. Для 6 ' +
           'раундов — A, B, C, A, B, C. Для 8 раундов — A, B, C, A, B, C, A, B.',
-        seeAlso: ['Расстановки тиррейна EC:layouts'],
+        seeAlso: ['Террейн и раскладки EC:layouts'],
       },
       {
         title: '4 · Создание поля боя',
@@ -1378,7 +1374,7 @@ const ru = {
       '[LAYOUT] (A, B и C). По указанию организатора игроки либо используют заданную ' +
       'расстановку, либо определяют её случайно.\n\nВыберите свою [FORCE DISPOSITION] и ' +
       'диспозицию соперника ниже, чтобы увидеть основные миссии матчапа и три его ' +
-      'расстановки тиррейна.',
+      'расстановки террейна.',
     footprints: {
       title: 'Рекомендованные размеры участков укрытий',
       headers: ['Размер участка укрытия', 'Количество'],
@@ -1426,7 +1422,7 @@ const ru = {
     { fullText: 'Стандарт покраски. Каждый игрок получает 10VP, если его армия покрашена по стандарту Battle Ready.' },
     { fullText: 'Одна из двух боевых ролей. Выбранная расстановка обозначает края поля боя Атакующего; роли определяются кубовкой при определении Атакующего и Защищающегося.' },
     { fullText: 'Одна из двух боевых ролей. Защищающийся развёртывается первым, и расстановка обозначает край поля боя Защищающегося.' },
-    { fullText: 'Одна из трёх рекомендованных расстановок тиррейна (A, B и C) для конкретного матчапа основных миссий, задающая участки укрытий, элементы и позиции целей.' },
+    { fullText: 'Одна из трёх рекомендованных расстановок террейна (A, B и C) для конкретного матчапа основных миссий, задающая участки укрытий, элементы и позиции целей.' },
   ],
 
   pairings: {

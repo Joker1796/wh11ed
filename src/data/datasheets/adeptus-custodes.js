@@ -101,7 +101,7 @@ export default [
       "Frame",
       "Imperium",
       "Mounted"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -195,42 +195,42 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 110,
+        "points": 120,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 165,
+        "points": 180,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 280,
+        "points": 300,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 340,
+        "points": 360,
         "note": "1st-2nd"
       },
       {
         "models": 2,
-        "points": 140,
+        "points": 160,
         "note": "3rd+"
       },
       {
         "models": 3,
-        "points": 195,
+        "points": 220,
         "note": "3rd+"
       },
       {
         "models": 5,
-        "points": 310,
+        "points": 340,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 370,
+        "points": 400,
         "note": "3rd+"
       }
     ],
@@ -268,7 +268,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       },
@@ -280,7 +280,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       }
@@ -399,8 +399,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -637,7 +637,7 @@ export default [
     "abilities": [
       {
         "name": "Infernus Firebombs",
-        "text": "At the end of your Movement phase, select one **visible** enemy unit (excluding **AIRCRAFT**/**Lone Operative** units) within 24\" of this unit:\n▪ That enemy unit cannot have the **benefit of cover** until the end of your next Shooting phase.\n▪ Roll one D6 for each model in that enemy unit: for each 6, that enemy unit suffers 1 **mortal wound**."
+        "text": "At the end of your Movement phase, select one **[gloss:visible:visible]** enemy unit (excluding **[gloss:aircraft:AIRCRAFT]**/[core:Lone Operative] units) within 24\" of this unit:\n▪ That enemy unit cannot have the **[gloss:benefit-of-cover:benefit of cover]** until the end of your next Shooting phase.\n▪ Roll one D6 for each model in that enemy unit: for each 6, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]**."
       }
     ],
     "damaged": {
@@ -865,7 +865,7 @@ export default [
       "Frame",
       "Imperium",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -1139,7 +1139,7 @@ export default [
     "abilities": [
       {
         "name": "Fire Support",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit that was hit by one or more of those attacks. Until the end of the phase, each time a friendly model that disembarked from this **TRANSPORT** this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit that was hit by one or more of those attacks. Until the end of the phase, each time a friendly model that disembarked from this **[gloss:transport:TRANSPORT]** this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
       }
     ],
     "damaged": {
@@ -1161,7 +1161,7 @@ export default [
       "Imperium",
       "Transport",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -1173,22 +1173,22 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 170,
-        "note": "1st-3rd"
-      },
-      {
-        "models": 5,
-        "points": 215,
-        "note": "1st-3rd"
-      },
-      {
-        "models": 4,
         "points": 180,
-        "note": "4th+"
+        "note": "1st-3rd"
       },
       {
         "models": 5,
         "points": 225,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 4,
+        "points": 190,
+        "note": "4th+"
+      },
+      {
+        "models": 5,
+        "points": 235,
         "note": "4th+"
       }
     ],
@@ -1214,7 +1214,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       },
@@ -1227,7 +1227,7 @@ export default [
         "range": "12\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       }
@@ -1415,22 +1415,22 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 200,
+        "points": 210,
         "note": "1st"
       },
       {
         "models": 5,
-        "points": 250,
+        "points": 260,
         "note": "1st"
       },
       {
         "models": 4,
-        "points": 220,
+        "points": 230,
         "note": "2nd+"
       },
       {
         "models": 5,
-        "points": 270,
+        "points": 280,
         "note": "2nd+"
       }
     ],
@@ -1456,7 +1456,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       },
@@ -1468,7 +1468,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       }
@@ -1498,7 +1498,7 @@ export default [
     "abilities": [
       {
         "name": "Resolute Will",
-        "text": "While a **CHARACTER** model is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of this unit, subtract 1 from the Wound roll."
+        "text": "While a **[gloss:character:CHARACTER]** model is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of this unit, subtract 1 from the Wound roll."
       },
       {
         "name": "Living Fortress",
@@ -1560,8 +1560,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "2"
       },
       {
@@ -1744,7 +1744,7 @@ export default [
       "Orion Assault Dropship",
       "Transport",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -1819,7 +1819,7 @@ export default [
       "Imperium",
       "Pallas Grav-attack",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -1831,19 +1831,19 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 45
-      },
-      {
-        "models": 5,
         "points": 50
       },
       {
+        "models": 5,
+        "points": 55
+      },
+      {
         "models": 9,
-        "points": 75
+        "points": 80
       },
       {
         "models": 10,
-        "points": 85
+        "points": 90
       }
     ],
     "flavor": "Protected from the malevolence of witches by their rare anti-psychic mutation, and shielded from the bullets and blades of the foe by their finely crafted power armour, Prosecutors advance unflinching into the heart of battle. Their bolters thunder ceaselessly, each explosive shell ending another heretic life.",
@@ -1867,8 +1867,8 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2022,7 +2022,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       },
@@ -2034,7 +2034,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       },
@@ -2059,7 +2059,7 @@ export default [
         "range": "12\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       }
@@ -2190,7 +2190,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       },
@@ -2202,7 +2202,7 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       }
@@ -2271,7 +2271,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140
+        "points": 150
       }
     ],
     "flavor": "All Shield-Captains are decisive warriors who suffer no impediment to their mission. Those Shield-Captains swiftest in thought and action soar into battle on Dawneagle jetbikes, plunging into the heart of the foe. Though these warriors appear arrogant, this is far from true – their self-assuredness is matched entirely by their skill.",
@@ -2297,7 +2297,7 @@ export default [
         "range": "18\"",
         "a": "3",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       },
@@ -2360,7 +2360,7 @@ export default [
       "Imperium",
       "Mounted",
       "Shield-Captain"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -2583,7 +2583,7 @@ export default [
     "rules": [
       {
         "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
+        "text": "If this model is in your army, it must be your WARLORD."
       }
     ]
   },
@@ -2593,7 +2593,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110
+        "points": 120
       }
     ],
     "flavor": "A headstrong warrior, Valerian is relatively new to the Custodes, but is already marked for greatness. His urge to bring death to the foes of the Emperor beyond Terra is much valued in these dark times, and countless enemies have fallen to his guardian spear, Gnosis.",
@@ -2618,7 +2618,7 @@ export default [
         "range": "24\"",
         "a": "3",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       }
@@ -2839,8 +2839,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -2963,8 +2963,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -3032,22 +3032,22 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 145,
+        "points": 155,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 215,
+        "points": 230,
         "note": "1st-2nd"
       },
       {
         "models": 2,
-        "points": 170,
+        "points": 180,
         "note": "3rd+"
       },
       {
         "models": 3,
-        "points": 240,
+        "points": 255,
         "note": "3rd+"
       }
     ],
@@ -3086,7 +3086,7 @@ export default [
         "range": "18\"",
         "a": "3",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       }
@@ -3112,7 +3112,7 @@ export default [
       },
       {
         "name": "Quicksilver Execution",
-        "text": "Once per battle, after this unit ends a Normal or Advance move, you can select one enemy unit (excluding **MONSTERS** and **VEHICLES**) that it moved over during that move, then roll one D6 for each model in this unit: for each 2+, that enemy unit suffers 2 mortal wounds."
+        "text": "Once per battle, after this unit ends a Normal or Advance move, you can select one enemy unit (excluding **MONSTERS** and **[gloss:vehicle:VEHICLES]**) that it moved over during that move, then roll one D6 for each model in this unit: for each 2+, that enemy unit suffers 2 mortal wounds."
       }
     ],
     "composition": [
@@ -3127,7 +3127,7 @@ export default [
       "Imperium",
       "Mounted",
       "Vertus Praetors"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],

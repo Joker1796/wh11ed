@@ -113,7 +113,7 @@ function playerName(g, pl, pi) {
   return sideName(pl, pi, labels.value)
 }
 
-// Map an option id to its localized name (Doctrina Imperatives, Templar Vows, Blessings, Rituals…).
+// Map an option id to its localized name (Doctrina Imperatives, Combat Doctrines, Blessings, Rituals…).
 function optName(view, id) {
   return view.options?.find((o) => o.id === id)?.name || id
 }

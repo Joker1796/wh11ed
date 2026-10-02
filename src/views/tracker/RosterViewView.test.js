@@ -235,6 +235,7 @@ describe('RosterViewView', () => {
     const r = store.createRoster('Fine list')
     r.faction = 'space-marines'
     r.detachments = ['Gladius Task Force']
+    r.disposition = 'Take and Hold' // Gladius offers two; a list that breaks nothing has declared one
     r.units.push({ uid: 'u1', id: 'captain-in-terminator-armour', size: 0, warlord: true })
     ROSTER_ID = r.id
 
@@ -254,7 +255,7 @@ describe('RosterViewView', () => {
     await waitFor(w, 'Intercessor Squad')
 
     expect(w.text()).toContain('Intercessor Squad')
-    expect(w.text()).toContain('80')   // default 5-model bracket points
+    expect(w.text()).toContain('85')   // default 5-model bracket points (MFM v1.5 of 2 October; 95 before it, 80 before app data 963)
     expect(w.text()).toContain('2000') // Strike Force limit
     expect(w.find('.hdr-icon').attributes('href')).toBe(`/roster/${r.id}`)
   })
@@ -308,40 +309,44 @@ describe('RosterViewView', () => {
     expect(inv.find('.rvst-label').text()).toBe('INV')
   })
 
+  // The detachment below is Gladius Task Force; it was 1st Company Task Force until Codex: Space
+  // Marines (app data 963) retired that one.
   it('loads the army rule and selected detachment rule under the Rules tab', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
-    r.detachments = ['1st Company Task Force']
+    r.detachments = ['Gladius Task Force']
     r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
     ROSTER_ID = r.id
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
     await w.findAll('.page-tab')[1].trigger('click') // Rules tab
-    await waitFor(w, '1st Company Task Force')
-    expect(w.text()).toContain('1st Company Task Force')
+    await waitFor(w, 'Gladius Task Force')
+    expect(w.text()).toContain('Gladius Task Force')
   })
 
   it('lists the selected detachment\'s stratagems under the Stratagems tab', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
-    r.detachments = ['1st Company Task Force']
+    r.detachments = ['Gladius Task Force']
     r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
     ROSTER_ID = r.id
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
     await w.findAll('.page-tab')[2].trigger('click') // Stratagems tab
-    await waitFor(w, '1st Company Task Force')
-    expect(w.text()).toContain('1st Company Task Force')
+    await waitFor(w, 'Gladius Task Force')
+    expect(w.text()).toContain('Gladius Task Force')
     expect(w.find('.strat-grid').exists()).toBe(true)
   })
 
   // Rule and stratagem NAMES stay English by convention and carry their translation on a line
   // underneath (RuleBlock's subtitle, StratCard's nameRu). Both templates asked for that line from
   // the start; the loader here never attached the RU name maps, so it never appeared.
+  // (Pinned on Space Marines' Oath of Moment and Gladius Task Force until Codex: Space Marines,
+  // app data 963, retired Oath of Moment; Necrons carry the same three kinds of name.)
   it('shows the RU name under the English one on the Rules and Stratagems tabs', async () => {
     const { useLocale } = await import('../../composables/useLocale.js')
     const { locale } = useLocale()
@@ -350,20 +355,20 @@ describe('RosterViewView', () => {
     try {
       const store = useRosters()
       const r = store.createRoster('Test list')
-      r.faction = 'space-marines'
-      r.detachments = ['Gladius Task Force']
-      r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+      r.faction = 'necrons'
+      r.detachments = ['Awakened Dynasty']
+      r.units.push({ uid: 'u1', id: 'necron-warriors', size: 0 })
       ROSTER_ID = r.id
 
       const w = mount(RosterViewView, { global: { stubs } })
-      await waitFor(w, 'Intercessor Squad')
+      await waitFor(w, 'Necron Warriors')
       await w.findAll('.page-tab')[1].trigger('click')   // Rules
-      await waitFor(w, 'Клятва момента')               // the army rule's RU name, under "Oath of Moment"
-      expect(w.text()).toContain('Oath of Moment')
-      expect(w.text()).toContain('Боевые доктрины')    // …and the detachment rule's
+      await waitFor(w, 'Протоколы реанимации')          // the army rule's RU name, under "Reanimation Protocols"
+      expect(w.text()).toContain('Reanimation Protocols')
+      expect(w.text()).toContain('Командные протоколы')  // …and the detachment rule's
       await w.findAll('.page-tab')[2].trigger('click')   // Stratagems
-      await waitFor(w, 'Броня презрения')
-      expect(w.text()).toContain('Armour of Contempt')
+      await waitFor(w, 'Протокол Бессмертных Легионов')
+      expect(w.text()).toContain('Protocol of the Undying Legions')
     } finally {
       locale.value = prev
     }
@@ -373,14 +378,14 @@ describe('RosterViewView', () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
-    r.detachments = ['1st Company Task Force']
+    r.detachments = ['Gladius Task Force']
     r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
     ROSTER_ID = r.id
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
     await w.findAll('.page-tab')[2].trigger('click') // Stratagems tab
-    await waitFor(w, '1st Company Task Force')
+    await waitFor(w, 'Gladius Task Force')
 
     expect(w.find('.phase-group').exists()).toBe(false) // flat list by default
     await w.find('.strat-toggle').trigger('click')
@@ -521,15 +526,18 @@ describe('RosterViewView', () => {
 
     // Per-unit states live on the unit's own row: they are what a player flips every turn, and
     // opening a card for that is a step too many. Army-wide states stay above the list.
+    // (A Desolation Squad until Codex: Space Marines, app data 963, made its Targeter Optics
+    // unconditional; the Field Ordnance Battery's Rearm, Reload, Fire still asks Remained
+    // Stationary.)
     it('puts a unit\'s own switches in its row, under the stats', async () => {
-      const sm = {
-        id: 'r3', name: 'Stationary List', faction: 'space-marines', detachments: [],
-        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'desolation-squad', size: 0 }],
+      const am = {
+        id: 'r3', name: 'Stationary List', faction: 'astra-militarum', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'field-ordnance-battery', size: 0 }],
       }
-      const t = await startGame(sm, 'space-marines')
+      const t = await startGame(am, 'astra-militarum')
       GAME_PI = '0'
       const w = mount(RosterViewView, { global: { stubs } })
-      await waitFor(w, 'Desolation Squad')
+      await waitFor(w, 'Field Ordnance Battery')
       await waitForSelector(w, '.rvunit-conds .cond-chip')
 
       // One chip stays on the row — Battle-shock, the state every unit can be in and the one that
@@ -637,13 +645,18 @@ describe('RosterViewView', () => {
     // Stratagem, so switching Battle-shock on un-spends the ones it is running rather than leaving
     // the player to notice a card that contradicts the rule it just turned on.
     it('un-spends a unit\'s stratagems when it is Battle-shocked', async () => {
-      const t = await startGame({ ...withStrats, id: 'r5' })
+      const necrons = {
+        id: 'r5', name: 'Dynasty List', faction: 'necrons', detachments: ['Awakened Dynasty'],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'necron-warriors', size: 0 }],
+      }
+      const t = await startGame(necrons, 'necrons')
       GAME_PI = '0'
-      // Gladius' "Honour the Chapter", spent on the unit this round (a game with no phase clock
-      // stamps the bare round, which is what an untracked game has always stored).
-      t.setUnitStratagem(0, 'u1', 'c055b116-504d-418e-9e52-0951913d32e5', t.current.value.currentRound, true)
+      // Awakened Dynasty's "Protocol of the Hungry Void", spent on the unit this round (a game with
+      // no phase clock stamps the bare round, which is what an untracked game has always stored).
+      // It was Gladius' "Honour the Chapter" until Codex: Space Marines (app data 963) retired it.
+      t.setUnitStratagem(0, 'u1', '189e9a56-08ba-4f1d-91fe-86a29a58fc97', t.current.value.currentRound, true)
       const w = mount(RosterViewView, { global: { stubs } })
-      await waitFor(w, 'Intercessor Squad')
+      await waitFor(w, 'Necron Warriors')
       await waitForSelector(w, '.rvunit-conds .cond-chip')
       await new Promise((r) => setTimeout(r, 20))   // the faction's modifier bundle is imported lazily
       await flushPromises()

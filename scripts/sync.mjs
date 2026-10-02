@@ -14,6 +14,9 @@
 //     current with src/data/roster/items.js?
 //   - roster data      — are the roster builder's generated faction files (points, brackets,
 //     wargear groups) still what the generator produces from today's appdata + MFM?
+//   - bold-term popovers — in the factions glossed so far (Space Marines + Chapters), is every bold
+//     term the glossary knows a popover? A regenerated EN file comes back plain; a reminder, never
+//     a failure (scripts/gloss-bold-terms.mjs)
 //   - rosterModifiers  — are the roster builder's numeric modifiers still tied to the rule wording
 //     they were read from? Reports stale (the prose moved under a reviewed record), new (prose
 //     that now looks like it changes a number), orphaned and unreviewed — see
@@ -24,7 +27,7 @@
 //   - check-rule-omissions — THE GATE: appdata Core Rules text (a line, or one load-bearing word
 //     inside a line) that wh11ed does not carry. Non-zero exit; everything else here is report-only
 //   - check-detachment-meta — THE OTHER GATE: a faction rules page's detachment dp /
-//     forceDisposition vs the MFM (the surface sync-tracker's MFM↔appdata diff never looked at).
+//     forceDispositions vs the MFM (the surface sync-tracker's MFM↔appdata diff never looked at).
 //     Non-zero exit
 //   - check-weapon-abilities — GATE: every weapon tag printed on a datasheet ([BLAST],
 //     [PLASMA WARHEAD], …) must have text either in reference.js or on that datasheet. Non-zero exit
@@ -78,7 +81,8 @@ import { applyBaseline, findingKey, loadBaseline, writeBaseline, BASELINE_PATH }
 // `--baseline` records every finding this run produced as accepted (scripts/lib/sync-baseline.json)
 // rather than filtering against it. Read that file's own header before reaching for it.
 const RECORD_BASELINE = process.argv.includes('--baseline')
-const baseline = RECORD_BASELINE ? {} : loadBaseline()
+const previousBaseline = loadBaseline() // what was accepted before this run — a re-record keeps its reasons and names what is new
+const baseline = RECORD_BASELINE ? {} : previousBaseline
 const seenKeys = new Set()
 const recorded = {}
 let totalSuppressed = 0
@@ -120,7 +124,7 @@ async function run(label, modulePath, args = [], { filtered = false } = {}) {
   const { kept, suppressed, seen } = applyBaseline(buffered, baseline)
   for (const k of seen) {
     seenKeys.add(k)
-    if (RECORD_BASELINE) recorded[k] = ''
+    if (RECORD_BASELINE) recorded[k] = previousBaseline[k] ?? '' // keep the reason an entry was accepted for
   }
   totalSuppressed += suppressed
   for (const line of kept) console.log(line)
@@ -147,6 +151,7 @@ const legendsStale = await run('factionLegends sidecar (--check)', './gen-factio
 const textsRuStale = await run('rosterTextsRu (--check)', './gen-roster-texts-ru.mjs', ['--check'])
 const modsDirty = await run('rosterModifiers (--check)', './gen-roster-modifiers.mjs', ['--check'])
 const rosterStale = await run('roster data (--check)', './gen-roster-data.mjs', ['--check'])
+const glossStale = await run('bold-term popovers (--check)', './gloss-bold-terms.mjs', ['--check'])
 // The gate goes FIRST: it is the one section of this audit that can fail, and it is three lines
 // long. Everything below it is a long report-only diff, and a verdict printed after 5000 lines of
 // those is a verdict nobody reads.
@@ -157,6 +162,7 @@ const dsRulesFailed = await run('check-datasheet-rules (GATE)', './check-datashe
 const imgRulesFailed = await run('check-image-rules (GATE)', './check-image-rules.mjs')
 const coreGrantsFailed = await run('check-core-grants (GATE)', './check-core-grants.mjs')
 const dsIdsFailed = await run('check-datasheet-ids (GATE)', './check-datasheet-ids.mjs')
+const exceptionsFailed = await run('check-appdata-exceptions (GATE)', './check-appdata-exceptions.mjs')
 const emphasisFailed = await run('check-emphasis (GATE)', './check-emphasis.mjs')
 const layoutArtFailed = await run('check-layout-art (GATE)', './check-layout-art.mjs')
 const companionsFailed = await run('check-companion-pdfs (GATE)', './check-companion-pdfs.mjs')
@@ -185,6 +191,7 @@ if (legendsStale) console.log('⚠ src/data/factionLegends.json is stale or a pr
 if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale — run `npm run roster:texts-ru`.')
 if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
 if (rosterStale) console.log('⚠ src/data/roster/*.js is stale — run `npm run roster:data`.')
+if (glossStale) console.log('⚠ bold terms the glossary knows are not popovers yet (Space Marines family) — run `npm run gloss`.')
 if (omissionsFailed) console.log('✗ core rules are MISSING appdata text — see the check-rule-omissions section (`npm run omissions`).')
 if (detMetaFailed) console.log('✗ a faction rules page disagrees with the MFM on dp / Force Disposition (`npm run detmeta`).')
 if (wTagsFailed) console.log('✗ a weapon tag on a datasheet has no text anywhere (`npm run wtags`).')
@@ -192,12 +199,22 @@ if (dsRulesFailed) console.log('✗ a datasheet rule appdata prints is missing f
 if (imgRulesFailed) console.log('✗ a figure appdata prints as a picture is missing from our rule text (`npm run imgrules`).')
 if (coreGrantsFailed) console.log('✗ a rule grants a core ability the modifier layer does not carry (`npm run coregrants`).')
 if (dsIdsFailed) console.log('✗ a datasheet id moved with nothing said about it — a player\'s marks hang off it (`npm run dsids`).')
+if (exceptionsFailed) console.log('✗ a recorded departure from appdata no longer holds — GW changed it, or our data lost it (`npm run exceptions`).')
 if (emphasisFailed) console.log('✗ prose dropped emphasis the canon carries (`npm run emphasis`).')
 if (layoutArtFailed) console.log('✗ the Event Companion layout diagrams do not match the app\'s artwork (`npm run layouts`).')
 if (companionsFailed) console.log('✗ an Event Companion PDF moved on without us (`npm run companions`).')
 if (RECORD_BASELINE) {
   const n = writeBaseline(recorded)
   console.log(`✓ baseline written: ${n} finding(s) recorded as accepted in ${BASELINE_PATH}.`)
+  // Printed, not left to the diff: the 963 bump's re-record took nine detachments whose Force
+  // Disposition appdata had just changed (MFM ≠ appdata) in with everything else, and nobody
+  // decided anything about them. What is accepted for the first time is the part to read.
+  const fresh = Object.keys(recorded).filter((k) => !Object.hasOwn(previousBaseline, k))
+  if (fresh.length) {
+    console.log(`  ${fresh.length} of them accepted for the FIRST time — each one is a decision:`)
+    for (const k of fresh.slice(0, 60)) console.log(`    ${k.length > 170 ? `${k.slice(0, 170)}…` : k}`)
+    if (fresh.length > 60) console.log(`    …and ${fresh.length - 60} more`)
+  }
   console.log('  Read the diff before committing it — every line in there is a decision.')
 } else {
   if (totalSuppressed) console.log(`· ${totalSuppressed} known finding(s) suppressed by scripts/lib/sync-baseline.json.`)

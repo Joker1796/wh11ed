@@ -15,7 +15,7 @@ import { unitsWithKeyword } from '../utils/keywordUnits.js'
 // "Mine" is the list on screen: its units come first and wear a mark, so a player reading a
 // stratagem from inside their roster sees at once which of their own units it can target.
 
-const shown = ref(null) // { keyword, factionSlug, units } while the modal is open
+const shown = ref(null) // { keyword, factionSlug, units, anchor } while the list is open
 const contexts = ref([]) // the roster screens mounted now, innermost last
 
 // A roster screen says what list is on it: `getter` returns { faction, unitIds } (either may be
@@ -27,7 +27,9 @@ export function useKeywordContext(getter) {
 }
 
 let pending = 0
-export async function openFactionKeyword(keyword, pageFaction = null, { load } = {}) {
+// `anchor` is the tapped word's rect: on a wide screen the list drops from it like the glossary
+// popover does (KeywordUnitsModal).
+export async function openFactionKeyword(keyword, pageFaction = null, { load, anchor = null } = {}) {
   const carriers = factionUnitKeywords[keyword]
   if (!carriers?.length) return
   const ctx = contexts.value.length ? toValue(contexts.value[contexts.value.length - 1].get) : null
@@ -47,7 +49,7 @@ export async function openFactionKeyword(keyword, pageFaction = null, { load } =
     faction: slugs.length > 1 ? slug : null,
   })))
   units.sort((a, b) => (b.own - a.own) || a.name.localeCompare(b.name))
-  shown.value = { keyword, factionSlug: slugs[0], units }
+  shown.value = { keyword, factionSlug: slugs[0], units, anchor }
 }
 
 export function closeFactionKeyword() { shown.value = null }

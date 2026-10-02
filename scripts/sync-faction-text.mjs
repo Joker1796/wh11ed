@@ -31,7 +31,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { ROOT, SLUG_MAP, norm, appdataToMarkup, bodyText, currentWargearRules, loadModule, byNormName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 
 // Strip wh11ed's enrichment layer (and appdata's residual markup) down to bare comparable words.
 // Applied to BOTH sides — appdata text is run through appdataToMarkup first, so both arrive in
@@ -54,6 +55,7 @@ function plainText(s) {
   // that wh11ed adds, and reformats "a, or b" ⇄ "a. Or: b"; keep " (inches) and +/-/% (stat
   // modifiers) and / (keyword unions), which can carry meaning.
   t = t.toLowerCase().replace(/[^a-z0-9"/+%-]+/g, ' ').replace(/\s+/g, ' ').trim()
+  t = t.replace(/\b([a-z]+) \1\b/g, '$1') // appdata stutters ("and it it can only") — wh11ed fixes them
   return t
 }
 
@@ -121,9 +123,9 @@ const nameRelated = (a, b) => {
 // our sentence keep the emphasis appdata's carries? — and a second pairing written beside this one
 // would be free to drift, after which the two audits would disagree about which appdata rule a
 // sentence of ours even corresponds to. Returns a reason string when there is nothing to pair.
-export async function eachFactionTextPair(slug, visit) {
+export async function eachFactionTextPair(slug, visit, report = () => {}) {
   const appSlug = SLUG_MAP[slug] || slug
-  const bundle = await loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
+  const bundle = loadAppdataBundle(appSlug) // our recorded departures applied — scripts/lib/appdata-exceptions.mjs
   const factionMod = await loadModule(path.join(ROOT, 'src/data/factions', `${slug}.js`))
   const en = Object.values(factionMod || {})[0]?.en
   if (!bundle) return 'no appdata bundle found — check SLUG_MAP or spelling'
@@ -182,6 +184,18 @@ export async function eachFactionTextPair(slug, visit) {
       const a = appAbilityByName.get(norm(ab.name))
       if (!a) continue
       visit(`datasheet "${d.name}" · ability "${ab.name}"`, ab.text, [a.rules])
+    }
+
+    // abilitySets — the "pick one" groups on Primarch-grade sheets (Angron's Wrathful Presence):
+    // each option is appdata's subAbilities[] under the set's own datasheet ability. Left out of
+    // this diff until 2026-10, errata to them (Angron, Mortarion, Yarrick) went unnoticed.
+    for (const set of d.abilitySets || []) {
+      const optByName = byNormName(appAbilityByName.get(norm(set.name))?.subAbilities || [], (s) => s.name)
+      for (const opt of set.options || []) {
+        const s = optByName.get(norm(opt.name))
+        if (!s) continue
+        visit(`datasheet "${d.name}" · ability set "${set.name}" · "${opt.name}"`, opt.text, [s.rules])
+      }
     }
 
     // wargearAbilities — a wargear item's own passive rule text (e.g. Storm Shield's invulnerable
@@ -251,6 +265,23 @@ export async function eachFactionTextPair(slug, visit) {
         const ranked = [...wgRulesTexts].sort((a, b) => overlap(plainText(appMarkup(b)), optWords) - overlap(plainText(appMarkup(a)), optWords))
         visit(`datasheet "${d.name}" · wargear option`, opt, ranked)
       }
+      // …and the two gaps that match can't see, as a containment check both ways: a line of ours
+      // appdata's instructions don't contain (stale, or a hand-typo), and a line of appdata's —
+      // an option bullet or a sub-item — that ours don't contain. The superseded "■" copies 963
+      // left beside the current instructions are dropped first, as gen-datasheets drops them.
+      // The line itself is in the finding's head, so an accepted one comes back when it changes.
+      const appPlain = ` ${currentWargearRules(appDs.wargearRules || []).map((r) => plainText(appMarkup(r.rules))).join(' ')} `
+      const whPlain = ` ${(d.options || []).map(plainText).join(' ')} `
+      for (const opt of d.options || []) {
+        const p = plainText(opt)
+        if (p && !appPlain.includes(` ${p} `)) report(`  - datasheet "${d.name}" · wargear option not in appdata: «${opt.replace(/\n/g, ' ')}»`)
+      }
+      for (const r of currentWargearRules(appDs.wargearRules || [])) {
+        for (const piece of appMarkup(r.rules).split(/\n|▪|◦|■|\s(?=\*\s)/)) { // a footnote (" * No model…") can trail the last item
+          const p = plainText(piece)
+          if (p.split(' ').length >= 3 && !whPlain.includes(` ${p} `)) report(`  + datasheet "${d.name}" · appdata wargear option missing: «${piece.trim()}»`)
+        }
+      }
     }
   }
 
@@ -259,7 +290,7 @@ export async function eachFactionTextPair(slug, visit) {
 
 async function syncFaction(slug) {
   const out = []
-  const why = await eachFactionTextPair(slug, (label, whText, cands) => compare(out, label, whText, cands))
+  const why = await eachFactionTextPair(slug, (label, whText, cands) => compare(out, label, whText, cands), (line) => out.push(line))
   console.log(`\n=== ${slug} (appdata: ${SLUG_MAP[slug] || slug}) ===`)
   if (why) console.log(`  ${why}`)
   else if (!out.length) console.log('  no text differences found')

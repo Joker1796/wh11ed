@@ -810,7 +810,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 175,
+        "points": 185,
         "note": "3rd+"
       }
     ],
@@ -941,7 +941,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 120
+        "points": 115
       }
     ],
     "flavor": "Celestian Insidiants are shadowy figures who specialise in hunting down witches and other heretics for capture or assassination. Employing cunning and skill to creep close to their foes, they explode suddenly into action amidst bellowed prayers and imprecations, hammering their prey with condemnor fire and cutting them down with blade and mace.",
@@ -1326,7 +1326,8 @@ export default [
       "Infantry",
       "Grenades",
       "Imperium",
-      "Celestian Sacresants"
+      "Celestian Sacresants",
+      "Celestian"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
@@ -1990,12 +1991,12 @@ export default [
       {
         "models": 1,
         "points": 180,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
         "points": 220,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "Every flurry of notes performed by the Exorcist’s artillerist inloads targeting solutions and impact coordinates, so that volleys of thrice-blessed rockets are fired into the enemy. More than artillery tanks, Exorcists are mobile shrines to the magnificence of the Emperor that project inspirational battle canticles.",
@@ -2601,7 +2602,7 @@ export default [
     "abilities": [
       {
         "name": "The Pulpit of Saint Holline’s Basilica",
-        "text": "This unit has **STEALTH** Melee attacks that target this unit have -1 to **hit rolls**"
+        "text": "This unit has [core:Stealth] Melee attacks that target this unit have -1 to **[gloss:hit-roll:hit rolls]**"
       },
       {
         "name": "Fiery Conviction",
@@ -2896,7 +2897,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 200
+        "points": 215
       }
     ],
     "flavor": "Aggressive, brash and taciturn, Morvenn Vahl leads the Adepta Sororitas from the front. Taking to the field in an ancient Paragon Warsuit, she smites foe after foe with deafening bursts from Fidelis, devastating salvoes of missiles and pinpoint thrusts with the Lance of Illumination.",
@@ -3009,7 +3010,7 @@ export default [
     "rules": [
       {
         "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
+        "text": "If this model is in your army, it must be your WARLORD."
       }
     ]
   },
@@ -3133,12 +3134,12 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 180,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 190,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -3860,7 +3861,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 150
+        "points": 135
       }
     ],
     "flavor": "Saint Celestine is a living embodiment of the Emperor’s might, and she radiates holy light. Beneath her the faithful are filled with courage, while heretics experience overwhelming terror. Flanked by her chosen Geminae champions, her gestures can heal the sick, or strike like the Emperor’s judgement itself to smite the foe with divine strength.",

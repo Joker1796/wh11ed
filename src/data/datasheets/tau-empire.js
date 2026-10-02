@@ -493,7 +493,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 90
+        "points": 80
       }
     ],
     "flavor": "Where enemies must be driven from fortified positions or void ships boarded, there go the Fire Warriors of the Breacher Teams. Their pulse blasters are short ranged but lethal, and when coupled with the team’s tough armour, tactical discipline and specialist support drones, Breacher Teams become lethal at close quarters.",
@@ -792,7 +792,7 @@ export default [
       "Any number of models can each have their heavy rail rifle replaced with 1 high-yield missile pods.",
       "Any number of models can each be equipped with up to two of the following, but cannot take duplicates:\n▪ 1 seeker missile\n▪ 1 twin plasma rifle*\n▪ 1 twin smart missile system*\n▪ 1 weapon support system",
       "Any number of models can each be equipped with up to two of the following, and can take duplicates:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 missile drone\n▪ 1 shield drone",
-      "* No model can be equipped with both a twin plasma rifle and twin smart missile system at the same time."
+      "* No model can be equipped with both a twin plasma rifle and twin smart missile system."
     ],
     "keywords": [
       "Broadside",
@@ -1735,7 +1735,7 @@ export default [
     "rules": [
       {
         "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
+        "text": "If this model is in your army, it must be your WARLORD."
       }
     ]
   },
@@ -2269,7 +2269,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** 2 fusion blasters; battlesuit fists.",
     "options": [
-      "Any number of models can be equipped with up to two of the following, but cannot take duplicates:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone"
+      "Any number of models can each be equipped with up to two of the following, but cannot take duplicates:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone"
     ],
     "keywords": [
       "Walker",
@@ -6659,7 +6659,7 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 230
+        "points": 240
       }
     ],
     "flavor": "Shas’ri Locai and Shas’ri Lantar fight with an aggression rarely seen amongst the Fire caste. There is a focus to their ferocity, however, leaping close to their foes in jet-assisted bounds and unleashing punishing firepower before discharging kinetic shock waves built up by their neocapacitor shields and retreating again amidst the resultant carnage.",
@@ -6872,7 +6872,7 @@ export default [
       },
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more Fortifications from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       },
       {
         "name": "Tidewall Cover",
@@ -6940,7 +6940,7 @@ export default [
     "abilities": [
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more Fortifications from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       },
       {
         "name": "Tidewall Cover",
@@ -6998,7 +6998,7 @@ export default [
     "abilities": [
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more Fortifications from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       },
       {
         "name": "Tidewall Cover",

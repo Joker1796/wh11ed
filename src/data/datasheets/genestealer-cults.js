@@ -286,11 +286,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 70
+        "points": 65
       },
       {
         "models": 10,
-        "points": 130
+        "points": 120
       }
     ],
     "flavor": "Acolyte Hybrids comprise the earliest generations of a cult’s brood cycles, and they are monstrous in body and mind. Some equip themselves with an array of automatic pistols and repurposed heavy tools, applying industrialised might to the battlefield in acts of sabotage or resource acquisition.",
@@ -1051,12 +1051,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 120,
+        "points": 110,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 130,
+        "points": 120,
         "note": "3rd+"
       }
     ],
@@ -1381,7 +1381,7 @@ export default [
     "abilities": [
       {
         "name": "Brood Surge",
-        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed as a result of those attacks, this unit can make a surge move of up to D6\"."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed as a result of those attacks, this unit can make a **[gloss:surge-move:surge move]** of up to D6\"."
       }
     ],
     "wargearAbilities": [
@@ -1954,7 +1954,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 50
       }
     ],
     "flavor": "Engineered to share a portion of the Patriarch’s cerebral might, the Nexos can absorb the entirety of a cultist’s thoughts and experiences through physical contact. They compartmentalise millions of these snapshots, building a formidable mental map, then using it to direct cult forces like a rear-echelon officer of prodigious skill.",
@@ -2104,7 +2104,7 @@ export default [
     "rules": [
       {
         "name": "SUPREME COMMANDER",
-        "text": "▪ You cannot include more than one PATRIARCH model in your army.\n▪ If this model is in your army, it must be your Warlord."
+        "text": "▪ You cannot include more than one PATRIARCH model in your army.\n▪ If this model is in your army, it must be your WARLORD."
       }
     ]
   },
@@ -2114,7 +2114,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 60
       }
     ],
     "flavor": "Occupying a role somewhere between guerrilla general and shadowy symbol of resistance, the Primus is a Genestealer Cult’s ultimate military commander. Besides being deadly combatants in their own right, their mastery of insurgent tactics transforms their followers from a rebellious mob into a lethal military machine.",
@@ -2388,7 +2388,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "A Sanctus is an inescapable assassin who can track by psychic spoor and squirm through the smallest gaps. Its bio-dagger – spawned from the Patriarch’s genesis pools – unleashes the psychic might of the Broodmind with the slightest cut, while the Sanctus’ cult sniper rifle allows it to strike down prey from afar.",
@@ -2451,7 +2451,7 @@ export default [
       },
       {
         "name": "Cloaked Assassin",
-        "text": "Enemy units cannot target this unit with snap shooting attacks."
+        "text": "Enemy units cannot target this unit with **[gloss:snap-shooting:snap shooting]** attacks."
       },
       {
         "name": "Psychic Spoor",

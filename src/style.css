@@ -36,6 +36,13 @@
   /* The one "something is wrong" red: points over budget, validation errors, losses,
      destructive hover. Every red that means danger goes through this — not a literal. */
   --danger: #c0392b;
+  /* A text diff (the patch notes): what a rule lost and gained, each its own ink on its own wash —
+     solid colours, picked per theme: a tint of --danger over a dark card left the struck words
+     unreadable (owner, 2026-10-01). */
+  --diff-del-bg: #f1cfca;
+  --diff-del-ink: #7d2219;
+  --diff-ins-bg: #c9e6c9;
+  --diff-ins-ink: #14421a;
   /* The amber one step short of it: "legal, but you still owe an answer" — the roster's worth-
      checking bar, the mark on an editor tab that hides an unmade choice. It had no token until
      2026-09-24 and lived as `var(--warning, #b8860b)` in one file; that literal was 2.5:1 on the
@@ -252,6 +259,35 @@
 .fab-btn:active {
   transform: scale(0.94);
 }
+/* Its name slides out to the left on hover or keyboard focus (owner, 2026-10-01): the buttons are
+   bare icons, and the native title tooltip took a second to come. The text is the aria-label, so
+   a button cannot carry one name for the screen reader and another for the eye — and a FAB needs
+   no `title` of its own (it would pop up over this one). */
+.fab-btn { position: relative; }
+.fab-btn::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: calc(100% + 0.6rem);
+  top: 50%;
+  padding: 0.3rem 0.6rem;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(0.4rem, -50%);
+  transition: opacity var(--motion-fast) ease, transform var(--motion-fast) ease;
+}
+.fab-btn:focus-visible::after { opacity: 1; transform: translate(0, -50%); }
+@media (hover: hover) {
+  .fab-btn:hover::after { opacity: 1; transform: translate(0, -50%); }
+}
 
 /* Mobile shrink for the two largest heading levels (shared scale). */
 @media (max-width: 900px) {
@@ -289,6 +325,10 @@
   --ability-weapon: #e0b850;
   --ability-unit: #5fb2dc;
   --danger: #ef6e60;
+  --diff-del-bg: #4d2522;
+  --diff-del-ink: #f4b9b1;
+  --diff-ins-bg: #1f4727;
+  --diff-ins-ink: #c4ecc6;
   --warning: #e3b341;
   --bg-definition: #2a2d2c;
   --bg-definition-border: #3a3d3c;
@@ -1566,9 +1606,14 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   font-size: 0.88rem; font-weight: 600; text-align: left;
 }
 .act-danger { color: var(--danger); }
+/* The same list dropped under its "…" on a wide screen (ActionMenu): menu rows, not buttons. */
+.act-compact { gap: 0.1rem; }
+.act-compact .act-btn { padding: 0.45rem 0.6rem; border-color: transparent; background: none; font-size: 0.85rem; }
 @media (hover: hover) {
   .act-btn:hover { border-color: var(--accent); }
+  .act-compact .act-btn:hover { border-color: transparent; background: var(--bg-secondary); }
   .act-danger:hover { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 8%, transparent); }
+  .act-compact .act-danger:hover { background: color-mix(in srgb, var(--danger) 8%, transparent); }
 }
 
 /* "— or choose by hand —": a label across a rule, between two ways of doing one thing (the

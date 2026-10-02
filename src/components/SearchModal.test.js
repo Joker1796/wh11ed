@@ -4,7 +4,7 @@ import SearchModal from './SearchModal.vue'
 import { useSearchHistory } from '../composables/useSearchHistory.js'
 
 // The palette navigates through useRefNavigation → useRouter; nothing here needs a real router.
-vi.mock('vue-router', () => ({ useRouter: () => ({ push: vi.fn().mockResolvedValue(undefined) }) }))
+vi.mock('vue-router', () => ({ useRouter: () => ({ push: vi.fn().mockResolvedValue(undefined), currentRoute: { value: { path: '/' } } }) }))
 
 const { history, remember, clearHistory } = useSearchHistory()
 

@@ -581,15 +581,16 @@ export function isBattlelineNow(unit, granted = null) {
 }
 
 // ── Force Disposition: the one an army declares ───────────────────────────────────────────────
-// Every Detachment carries one of the five (`fd` on the generated detachment), and an ARMY has
-// exactly one: the card a player selects after mustering, on which the opponent's symbol names
-// their Primary Mission. So a list fielding several detachments has to DECLARE which of their
-// dispositions it plays — `roster.disposition` is that declaration, stored as the name `fd`
-// itself spells it. Not the tracker's own id: that vocabulary lives in the Event Companion data,
+// Every Detachment gives access to one or more of the five (`fds` on the generated detachment —
+// core rules 25.04: "each one will give you access to different force dispositions"; 39 carry two
+// in MFM v1.5), and an ARMY has exactly one: the card a player selects after mustering, on which the
+// opponent's symbol names their Primary Mission. So a list whose detachments offer more than one —
+// one detachment with two is enough — has to DECLARE which it plays: `roster.disposition` is that
+// declaration, stored as the name `fds` spells it. Not the tracker's own id: that vocabulary lives in the Event Companion data,
 // which the roster screens deliberately never load, and the one place both are in scope
 // (rosterHandoff) can translate.
 export function dispositionCandidates(detachments) {
-  return [...new Set((detachments || []).map((d) => d?.fd).filter(Boolean))]
+  return [...new Set((detachments || []).flatMap((d) => d?.fds || []).filter(Boolean))]
 }
 
 // What this list's disposition IS — the only candidate when there is one, the declaration while it
@@ -1408,20 +1409,23 @@ export function defaultLoadoutLines(def, items, entry) {
   return (def?.defaults || []).flatMap(([m, list]) => {
     const models = perMini?.get(m)
     const parts = []
+    // The bare names too — what the editor's info button opens the profiles of.
+    const names = []
+    const put = (id, text) => { parts.push(text); names.push(items[id]) }
     for (const [id, c, total] of list) {
       // `total` marks a quantity that belongs to the PROFILE rather than to each of its models —
       // one of the two Gun Servitors in a Servitor Battleclade carries the heavy bolter (see the
       // generator's default-loadout merge) — so it is printed as it stands, never multiplied.
-      if (total) { parts.push(`${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
+      if (total) { put(id, `${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
       const take = removed.get(`${m}:${id}`) || 0
-      if (!take || models == null) { parts.push(`${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
+      if (!take || models == null) { put(id, `${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
       // take is a MODEL count (how many models of THIS profile swapped the item away); c is the
       // item's per-model quantity, so the surviving total scales by both.
       const remaining = copiesLeft(c, models, take)
-      if (remaining > 0) parts.push(`${items[id]} ×${remaining}`)
+      if (remaining > 0) put(id, `${items[id]} ×${remaining}`)
     }
     if (!parts.length) return []
-    return [{ mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '', items: parts.join(', ') }]
+    return [{ mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '', items: parts.join(', '), names }]
   })
 }
 
@@ -1677,13 +1681,18 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
   ]
 }
 
-// The one exception to the Detachment-Points budget (core rules 25.04, the note at its foot): "If
-// you are playing an Incursion battle, you can select a 3DP detachment as your only detachment."
-// No detachment costs more than 3 DP and only Incursion has a smaller budget, so this is exactly
-// "a single detachment over budget". `dets` are the selected detachments' records (with `dp`).
-export function dpOverAllowed(dets, battle) {
+// The Detachment Points a set of detachments is held to: the battle size's budget (core rules
+// 25.03), and the one exception printed at the foot of 25.04 — "If you are playing an Incursion
+// battle, you can select a 3DP detachment as your only detachment." For a lone detachment that
+// would not fit, the budget simply IS 3, and every count and picker says "3 / 3 DP": the exception
+// is a rule now, not something to explain beside a red number (owner, 2026-10-01). A lone
+// detachment that fits keeps the real budget — "1 / 3" at Incursion would promise a second
+// detachment the budget does not have room for. `dets` carry `dp`; `budget` is the battle's.
+export const SOLO_DETACHMENT_DP = 3
+export function dpLimitFor(dets, budget) {
+  const limit = budget ?? Infinity
   const spent = dets.reduce((s, d) => s + (d.dp || 0), 0)
-  return dets.length === 1 && spent > (battle?.dp ?? Infinity) && spent <= 3
+  return dets.length === 1 && spent > limit && spent <= SOLO_DETACHMENT_DP ? SOLO_DETACHMENT_DP : limit
 }
 
 // The effective battle-size limits for a roster. A 'custom' size carries its own points total

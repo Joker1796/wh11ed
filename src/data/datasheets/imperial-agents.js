@@ -8,106 +8,89 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100
+        "points": 110
       },
       {
         "models": 10,
-        "points": 200
+        "points": 210
       }
     ],
     "flavor": "Aquila Kill Teams are equipped to handle varied or unknown horrors with a measured and strategically versatile response.",
     "profiles": [
       {
-        "name": "KILL TEAM SERGEANT, DEATHWATCH VETERAN",
+        "name": "Kill Team Sergeant",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
-        "oc": "2",
-        "baseSize": "32mm"
+        "oc": "2"
       },
       {
-        "name": "GRAVIS VETERAN",
+        "name": "Gravis Veteran",
         "m": "5\"",
         "t": "6",
         "sv": "3+",
         "w": "3",
         "ld": "6+",
-        "oc": "2",
-        "baseSize": "40mm"
+        "oc": "2"
+      },
+      {
+        "name": "Deathwatch Veteran with Heavy Thunder Hammer and Bolt Pistol",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      },
+      {
+        "name": "Deathwatch Veteran with Deathwatch Marksman Bolt Carbine, Special-issue Bolt Pistol and Knives and Fists",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      },
+      {
+        "name": "Deathwatch Veteran with Stalker Bolt Rifle, Bolt Pistol and Knives and Fists",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      },
+      {
+        "name": "Deathwatch Veteran with Xenophase Blade and Special-issue Bolt Pistol",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
       }
     ],
     "ranged": [
       {
-        "name": "Astartes grenade launcher – frag",
+        "name": "Bolt Pistol",
         "tags": [
-          "BLAST"
-        ],
-        "range": "24\"",
-        "a": "D3",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Astartes grenade launcher – krak",
-        "tags": [],
-        "range": "24\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "9",
-        "ap": "-2",
-        "d": "D3"
-      },
-      {
-        "name": "Bolt pistol",
-        "tags": [
-          "PISTOL",
-          "LETHAL HITS"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Deathwatch marksman bolt carbine",
-        "tags": [
-          "HEAVY",
-          "LETHAL HITS"
-        ],
-        "range": "24\"",
-        "a": "2",
         "bs": "3+",
         "s": "5",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Frag cannon",
+        "name": "Stalker Bolt Rifle",
         "tags": [
-          "BLAST",
           "HEAVY",
           "LETHAL HITS",
-          "RAPID FIRE D3"
-        ],
-        "range": "18\"",
-        "a": "D3",
-        "bs": "3+",
-        "s": "7",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Hellstorm bolt rifle",
-        "tags": [
-          "ASSAULT",
-          "HEAVY",
-          "LETHAL HITS"
+          "PRECISION"
         ],
         "range": "30\"",
         "a": "2",
@@ -117,8 +100,24 @@ export default [
         "d": "2"
       },
       {
-        "name": "Infernus heavy bolter – heavy bolter",
+        "name": "Special-issue Bolt Pistol",
         "tags": [
+          "CLOSE-QUARTERS",
+          "LETHAL HITS",
+          "PRECISION"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Infernus Heavy Bolter – bolt",
+        "tags": [
+          "HEAVY",
+          "RAPID FIRE 2",
           "SUSTAINED HITS 1"
         ],
         "range": "36\"",
@@ -129,90 +128,103 @@ export default [
         "d": "2"
       },
       {
-        "name": "Infernus heavy bolter – heavy flamer",
+        "name": "Infernus Heavy Bolter – infernus",
         "tags": [
-          "IGNORES COVER",
+          "BLAST 1",
           "TORRENT"
         ],
         "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
+        "a": "3",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Plasma incinerator – standard",
+        "name": "Deathwatch Marksman Bolt Carbine",
         "tags": [
-          "ASSAULT",
-          "HEAVY"
-        ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "7",
-        "ap": "-2",
-        "d": "1"
-      },
-      {
-        "name": "Plasma incinerator – supercharge",
-        "tags": [
-          "ASSAULT",
-          "HAZARDOUS",
-          "HEAVY"
-        ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "8",
-        "ap": "-3",
-        "d": "2"
-      },
-      {
-        "name": "Plasma pistol – standard",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "7",
-        "ap": "-2",
-        "d": "1"
-      },
-      {
-        "name": "Plasma pistol – supercharge",
-        "tags": [
-          "HAZARDOUS",
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "8",
-        "ap": "-3",
-        "d": "2"
-      },
-      {
-        "name": "Special-issue bolt pistol",
-        "tags": [
-          "PISTOL",
-          "PRECISION",
+          "HEAVY",
           "LETHAL HITS"
         ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Plasma Incinerator – standard",
+        "tags": [
+          "ASSAULT",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Plasma Incinerator – supercharge",
+        "tags": [
+          "ASSAULT",
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Frag Cannon",
+        "tags": [
+          "BLAST 1",
+          "HEAVY",
+          "LETHAL HITS",
+          "RAPID FIRE 1"
+        ],
         "range": "18\"",
-        "a": "1",
+        "a": "2",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Grenade Launcher – frag",
+        "tags": [
+          "BLAST 1"
+        ],
+        "range": "24\"",
+        "a": "4",
         "bs": "3+",
         "s": "4",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Stalker bolt rifle",
+        "name": "Grenade Launcher – krak",
         "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Hellstorm Bolt Rifle",
+        "tags": [
+          "ASSAULT",
           "HEAVY",
-          "LETHAL HITS",
-          "PRECISION"
+          "LETHAL HITS"
         ],
         "range": "30\"",
         "a": "2",
@@ -220,31 +232,67 @@ export default [
         "s": "5",
         "ap": "-2",
         "d": "2"
+      },
+      {
+        "name": "Plasma Pistol – standard",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma Pistol – supercharge",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "HAZARDOUS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
       }
     ],
     "melee": [
       {
-        "name": "Close combat weapon",
+        "name": "Power Weapon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Knives and Fists",
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Combat knife",
+        "name": "Xenophase Blade",
         "tags": [
-          "PRECISION"
+          "DEVASTATING WOUNDS"
         ],
         "a": "4",
         "ws": "3+",
-        "s": "4",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "1"
       },
       {
-        "name": "Heavy thunder hammer",
+        "name": "Heavy Thunder Hammer",
         "tags": [
           "DEVASTATING WOUNDS"
         ],
@@ -253,84 +301,51 @@ export default [
         "s": "10",
         "ap": "-2",
         "d": "3"
-      },
-      {
-        "name": "Power weapon",
-        "tags": [
-          "SUSTAINED HITS 1"
-        ],
-        "a": "4",
-        "ws": "3+",
-        "s": "5",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Xenophase blade",
-        "tags": [
-          "DEVASTATING WOUNDS"
-        ],
-        "a": "4",
-        "ws": "3+",
-        "s": "5",
-        "ap": "-2",
-        "d": "1"
       }
     ],
-    "faction": "Assigned Agents",
     "abilities": [
       {
         "name": "Death to the Alien",
-        "text": "Each time a model in this unit makes an attack, re-roll a Hit roll of 1. If the target of that attack does not have the IMPERIUM or CHAOS keywords, you can re-roll the Hit roll instead."
+        "text": "This unit's attacks can:\n▪ Re-roll **[gloss:hit-roll:hit rolls]** of 1.\n▪ __Or:__ If the target of those attacks does not have IMPERIUM/CHAOS, re-roll **hit rolls**."
       },
       {
         "name": "Kill Team",
-        "text": "Each time an attack targets this unit, if it contains models with different Toughness characteristics, until the attacking unit has finished making its attacks, use the Toughness characteristic of the majority of the models in that unit when determining what roll is required for that attack to successfully wound. If two or more Toughness characteristics are tied for majority, use the highest value.\n\nFor the purposes of determining which models in this unit can embark within a Transport, Gravis Veteran models take up the space of 2 models, but can otherwise embark within any TRANSPORT their unit can embark within, even though similar models in other units have the GRAVIS keyword.\n\n**Designer’s Note:** While the abstractions in the above rule cause some models to behave differently to similar models in other units, they are designed to minimise complicated Transport rules."
+        "text": "Each time an attack targets this unit, if it contains models with different **[gloss:toughness:T]** characteristics, until the attacking models has finished making it's attacks, use the **T** characteristic of the majority of the models in the unit when determining what roll is required for that attack to successfully wound. If two or more **T** characteristics are tied for majority, use the highest value.\n\nFor the purpose of determining which models in this unit can embark within a TRANSPORT, Gravis Veteran models take up the space of 2 models, but can otherwise embark within any TRANSPORT their unit can embark within, even though similar models in other units have the GRAVIS keyword."
       }
     ],
     "wargearAbilities": [
       {
-        "name": "Astartes Shield",
-        "text": "The bearer has a 4+ invulnerable save."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army can be attached to a Deathwatch Kill Team unit, it can be attached to this unit instead."
+        "name": "Storm Shield",
+        "text": "This model has a 4+ **[gloss:invulnerable-save:InSv]**."
       }
     ],
     "composition": [
-      "1 Kill Team Sergeant",
-      "1 Gravis Veteran",
-      "3 Deathwatch Veterans",
-      "OR",
-      "1 Kill Team Sergeant",
-      "2 Gravis Veterans",
-      "7 Deathwatch Veterans"
+      "1 Deathwatch Veteran with Xenophase Blade and Special-issue Bolt Pistol model",
+      "1 Kill Team Sergeant model",
+      "1-2 Deathwatch Veteran with Deathwatch Marksman Bolt Carbine, Special-issue Bolt Pistol and Knives and Fists models",
+      "1-2 Deathwatch Veteran with Heavy Thunder Hammer and Bolt Pistol models",
+      "1-2 Deathwatch Veteran with Stalker Bolt Rifle, Bolt Pistol and Knives and Fists models",
+      "1-2 Gravis Veteran models"
     ],
-    "loadout": "**Each Kill Team Sergeant is equipped with:** plasma pistol; power weapon.\n\n**Each Gravis Veteran is equipped with:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** bolt pistol; heavy thunder hammer.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**If the unit contains 10 models, 1 Deathwatch Veteran is equipped with:** special-issue bolt pistol; xenophase blade.",
+    "loadout": "**The Deathwatch Veteran with Xenophase Blade and Special-issue Bolt Pistol is equipped with:** 1 Special-issue Bolt Pistol; 1 Xenophase Blade.\n**The Kill Team Sergeant is equipped with:** 1 Plasma Pistol; 1 Power Weapon.\n**Every Deathwatch Veteran with Deathwatch Marksman Bolt Carbine, Special-issue Bolt Pistol and Knives and Fists is equipped with:** 1 Deathwatch Marksman Bolt Carbine; 1 Knives and Fists; 1 Special-issue Bolt Pistol.\n**Every Deathwatch Veteran with Heavy Thunder Hammer and Bolt Pistol is equipped with:** 1 Bolt Pistol; 1 Heavy Thunder Hammer.\n**Every Deathwatch Veteran with Stalker Bolt Rifle, Bolt Pistol and Knives and Fists is equipped with:** 1 Bolt Pistol; 1 Knives and Fists; 1 Stalker Bolt Rifle.\n**Every Gravis Veteran is equipped with:** 1 Bolt Pistol; 1 Infernus Heavy Bolter; 1 Knives and Fists.",
     "options": [
-      "For every 5 models in the unit, up to 1 model’s infernus heavy bolter can be replaced with one of the following:\n▪ 1 frag cannon.\n▪ 1 hellstorm bolt rifle and 1 Astartes grenade launcher.",
-      "For every 5 models in the unit, up to 1 model’s heavy thunder hammer can be replaced with 1 power weapon and 1 Astartes shield.",
-      "For every 5 models in the unit, up to 1 model’s stalker bolt rifle can be replaced with 1 plasma incinerator.",
-      "For every 5 models in the unit, up to 1 model’s Deathwatch marksman bolt carbine can be replaced with 1 combat knife."
+      "For every 5 models in this unit, 1 Deathwatch Veteran with Stalker Bolt Rifle, Bolt Pistol and Knives and Fists model can have their Stalker Bolt Rifle replaced with 1 Plasma Incinerator.",
+      "For every 5 models in this unit, 1 Gravis Veteran model can have their Infernus Heavy Bolter replaced with one of the following: 1 Frag Cannon, 1 Hellstorm Bolt Rifle and 1 Grenade Launcher",
+      "For every 5 models in this unit, 1 Deathwatch Veteran with Heavy Thunder Hammer and Bolt Pistol model can have their Heavy Thunder Hammer replaced with 1 Power Weapon and 1 Storm Shield."
     ],
     "keywords": [
-      "Infantry",
       "Battleline",
-      "Ordo Xenos",
-      "Grenades",
+      "Explosives",
       "Imperium",
-      "Gravis",
-      "Tacticus",
-      "Aquila Kill Team",
-      "Deathwatch",
+      "Infantry",
+      "Kill Team",
+      "Ordo Xenos",
       "Retinue"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm, 40mm"
   },
   {
     "id": "callidus-assassin",
@@ -389,11 +404,11 @@ export default [
     "abilities": [
       {
         "name": "Acrobatic Escape",
-        "text": "▪ At the end of the Fight phase, if this unit is engaged, this unit can make a fall-back move of up to D6\".\n▪ At the end of your opponent's turn, if this unit is more than 3\" from all enemy units, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn)."
+        "text": "▪ At the end of the Fight phase, if this unit is engaged, this unit can make a **[gloss:fall-back-move:fall-back move]** of up to D6\".\n▪ At the end of your opponent's turn, if this unit is more than 3\" from all enemy units, you can use this ability. If you do:\n▪ Place this unit in **[gloss:strategic-reserves:strategic reserves]**.\n▪ This unit must make an **[gloss:ingress-move:ingress move]** in your next Movement phase (including in your first turn)."
       },
       {
         "name": "Reign of Confusion",
-        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, this model can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a **[gloss:stratagem:Stratagem]**, this model can use this ability. If you do, increase the CP cost of that use of that **Stratagem** by 1CP."
       }
     ],
     "composition": [
@@ -442,19 +457,32 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Blackstar rocket launcher",
+        "name": "Blackstar Rocket Launcher",
         "tags": [
-          "BLAST"
+          "BLAST 1"
         ],
         "range": "30\"",
-        "a": "D6+1",
+        "a": "4",
         "bs": "3+",
         "s": "5",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Hurricane bolter",
+        "name": "Twin Assault Cannon",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Hurricane Bolter",
         "tags": [
           "RAPID FIRE 6",
           "TWIN-LINKED"
@@ -462,35 +490,12 @@ export default [
         "range": "24\"",
         "a": "6",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Stormstrike missile launcher",
-        "tags": [],
-        "range": "48\"",
-        "a": "1",
-        "bs": "3+",
-        "s": "10",
-        "ap": "-2",
-        "d": "3"
-      },
-      {
-        "name": "Twin assault cannon",
-        "tags": [
-          "DEVASTATING WOUNDS",
-          "TWIN-LINKED"
-        ],
-        "range": "24\"",
-        "a": "6",
-        "bs": "3+",
-        "s": "6",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Twin lascannon",
+        "name": "Twin Lascannon",
         "tags": [
           "TWIN-LINKED"
         ],
@@ -499,12 +504,22 @@ export default [
         "bs": "3+",
         "s": "12",
         "ap": "-3",
-        "d": "D6+1"
+        "d": "D3+3"
+      },
+      {
+        "name": "Stormstrike Missile Launcher",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Hull",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -513,48 +528,41 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D6, Hover, Stealth",
-    "faction": "Assigned Agents",
+    "core": "Deadly Demise D6, Damaged 5, Hover, Stealth",
     "abilities": [
       {
         "name": "Blackstar Cluster Launcher",
-        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved over during that move and roll six D6: for each 5+, that unit suffers 1 mortal wound."
+        "text": "In your Movement phase, when this unit ends a **[gloss:normal-move:normal move]**, select up to one enemy unit this unit moved over during that move and roll six D6:\n▪ For each 4+, that unit suffers 1 **[gloss:mortal-wound:mortal wound]**."
+      },
+      {
+        "name": "Auspex Array",
+        "text": "This unit's ranged attacks have [IGNORES COVER]."
       }
     ],
     "wargearAbilities": [
       {
         "name": "Auspex Array",
-        "text": "Ranged weapons equipped by the bearer have the [IGNORES COVER] ability."
-      },
-      {
-        "name": "Infernum Halo-launcher",
-        "text": "The bearer has the SMOKE keyword."
+        "text": "Ranged weapons equipped by the bearer have the **[IGNORES COVER]** ability."
       }
     ],
-    "damaged": {
-      "note": "1-5 wounds remaining",
-      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Corvus Blackstar"
+      "1 Corvus Blackstar model"
     ],
-    "loadout": "**This model is equipped with:** 2 Blackstar rocket launchers; twin assault cannon; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; Auspex Array; 2 Blackstar Rocket Launcher; 1 Twin Assault Cannon.",
     "options": [
-      "This model’s twin assault cannon can be replaced with 1 twin lascannon.",
-      "This model’s 2 Blackstar rocket launchers can be replaced with 2 stormstrike missile launchers.",
-      "This model can be equipped with 1 hurricane bolter.",
-      "This model can be equipped with one of the following:\n▪ 1 auspex array\n▪ 1 infernum halo-launcher"
+      "This model can be equipped with 1 Hurricane Bolter",
+      "This model's Twin Assault Cannon can be replaced with 1 Twin Lascannon.",
+      "This model's 2 Blackstar Rocket Launchers can be replaced with 2 Stormstrike Missile Launchers."
     ],
-    "transport": "This model has a transport capacity of 12 DEATHWATCH INFANTRY models.",
+    "transport": "This model has a transport capacity of 12 Deathwatch Infantry models.",
     "keywords": [
-      "Vehicle",
-      "Deathwatch",
       "Fly",
-      "Corvus Blackstar",
-      "Transport",
       "Imperium",
       "Ordo Xenos",
-      "Retinue"
+      "Retinue",
+      "Smoke",
+      "Transport",
+      "Vehicle"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
@@ -972,19 +980,28 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100
+        "points": 115
       },
       {
         "models": 10,
-        "points": 190
+        "points": 220
       }
     ],
     "flavor": "Deathwatch Veterans’ skills have been honed in their former Chapter for decades, sometimes centuries. Throughout their long vigil against the manifold xenos threats, each Veteran learns to arm himself so as to best contribute to the mission at hand, and squads carry an array of weapons to fell any foe.",
     "profiles": [
       {
-        "name": "Deathwatch Veterans",
+        "name": "Watch Sergeant",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      },
+      {
+        "name": "Deathwatch Veteran",
+        "m": "6\"",
+        "t": "5",
         "sv": "3+",
         "w": "2",
         "ld": "6+",
@@ -994,70 +1011,18 @@ export default [
     "ranged": [
       {
         "name": "Boltgun",
-        "tags": [],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Frag cannon",
         "tags": [
-          "BLAST",
-          "HEAVY",
-          "RAPID FIRE D3"
-        ],
-        "range": "18\"",
-        "a": "D3",
-        "bs": "4+",
-        "s": "7",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Infernus heavy bolter – heavy bolter",
-        "tags": [
-          "HEAVY",
-          "SUSTAINED HITS 1"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "4+",
-        "s": "5",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Infernus heavy bolter – heavy flamer",
-        "tags": [
-          "IGNORES COVER",
-          "TORRENT"
-        ],
-        "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
-        "s": "5",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Combi-weapon",
-        "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
           "RAPID FIRE 1"
         ],
         "range": "24\"",
         "a": "1",
-        "bs": "4+",
-        "s": "4",
-        "ap": "0",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Stalker-pattern boltgun",
+        "name": "Stalker-pattern Boltgun",
         "tags": [
           "HEAVY",
           "PRECISION"
@@ -1065,12 +1030,62 @@ export default [
         "range": "24\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       },
       {
-        "name": "Deathwatch shotgun",
+        "name": "Frag Cannon",
+        "tags": [
+          "BLAST 1",
+          "HEAVY",
+          "LETHAL HITS",
+          "RAPID FIRE 1"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Combi-weapon – damnatus",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-3",
+        "d": "D3+2"
+      },
+      {
+        "name": "Combi-weapon – infernus",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon – purgatus",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Deathwatch Shotgun",
         "tags": [
           "ASSAULT"
         ],
@@ -1078,15 +1093,60 @@ export default [
         "a": "2",
         "bs": "3+",
         "s": "4",
-        "ap": "0",
+        "ap": "-1",
         "d": "2"
+      },
+      {
+        "name": "Infernus Heavy Bolter – bolt",
+        "tags": [
+          "HEAVY",
+          "RAPID FIRE 2",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Infernus Heavy Bolter – infernus",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Black Shield blades",
+        "name": "Power Weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Knives and Fists",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Xenophase Blade",
         "tags": [
-          "TWIN-LINKED"
+          "DEVASTATING WOUNDS"
         ],
         "a": "4",
         "ws": "3+",
@@ -1095,16 +1155,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Close combat weapon",
-        "tags": [],
-        "a": "3",
-        "ws": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Deathwatch thunder hammer",
+        "name": "Heavy Thunder Hammer",
         "tags": [
           "DEVASTATING WOUNDS"
         ],
@@ -1115,18 +1166,9 @@ export default [
         "d": "3"
       },
       {
-        "name": "Power weapon",
-        "tags": [],
-        "a": "3",
-        "ws": "3+",
-        "s": "5",
-        "ap": "-2",
-        "d": "1"
-      },
-      {
-        "name": "Xenophase blade",
+        "name": "Black Shield Blades",
         "tags": [
-          "DEVASTATING WOUNDS"
+          "TWIN-LINKED"
         ],
         "a": "4",
         "ws": "3+",
@@ -1135,44 +1177,42 @@ export default [
         "d": "1"
       }
     ],
-    "faction": "Assigned Agents",
     "abilities": [
       {
         "name": "Death to the Alien",
-        "text": "Each time a model in this unit makes an attack, re-roll a Hit roll of 1. If the target of that attack does not have the IMPERIUM or CHAOS keywords, you can re-roll the Hit roll instead."
+        "text": "This unit's attacks can:\n▪ Re-roll **[gloss:hit-roll:hit rolls]** of 1.\n▪ __Or:__ If the target of those attacks does not have IMPERIUM/CHAOS, re-roll **hit rolls**."
       }
     ],
     "wargearAbilities": [
       {
-        "name": "Astartes Shield",
-        "text": "The bearer has a 4+ invulnerable save."
+        "name": "Storm Shield",
+        "text": "This model has a 4+ **[gloss:invulnerable-save:InSv]**."
       }
     ],
     "composition": [
-      "1 Watch Sergeant",
-      "4-9 Deathwatch Veterans"
+      "1 Watch Sergeant model",
+      "4-9 Deathwatch Veteran models"
     ],
-    "loadout": "**Every model is equipped with:** boltgun; power weapon.",
+    "loadout": "**Every model is equipped with:** 1 Boltgun; 1 Power Weapon.",
     "options": [
-      "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with one of the following:\n▪ 1 boltgun and 1 Astartes shield\n▪ 1 power weapon and 1 Astartes shield",
-      "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch thunder hammer.",
-      "For every 5 models in this unit, 1 model can have their boltgun and power weapon replaced with 1 stalker-pattern boltgun and 1 close combat weapon.",
-      "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch shotgun and 1 close combat weapon.",
-      "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 frag cannon and 1 close combat weapon.",
-      "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 infernus heavy bolter and 1 close combat weapon.",
-      "One model's boltgun and power weapon can be replaced with 1 Black Shield blades.",
-      "The Watch Sergeant’s power weapon can be replaced with 1 xenophase blade.",
-      "The Watch Sergeant's boltgun can be replaced with 1 combi-weapon."
+      "For every 5 models in this unit, up to 2 Deathwatch Veteran models can each have their Boltgun and Power Weapon replaced with 1 Heavy Thunder Hammer.",
+      "1 Deathwatch Veteran model can have their Boltgun and Power Weapon replaced with 1 Black Shield Blades.",
+      "For every 5 models in this unit, 1 Deathwatch Veteran model can have their Boltgun and Power Weapon replaced with 1 Stalker-pattern Boltgun and 1 Knives and Fists.",
+      "For every 5 models in this unit, up to 2 Deathwatch Veteran models can each have their Boltgun and Power Weapon replaced with 1 Deathwatch Shotgun and 1 Knives and Fists.",
+      "For every 5 models in this unit, up to 2 Deathwatch Veteran models can each have their Boltgun and Power Weapon replaced with one of the following: 1 Boltgun and 1 Storm Shield, 1 Power Weapon and 1 Storm Shield",
+      "The Watch Sergeant can have their Boltgun replaced with 1 Combi-weapon.",
+      "The Watch Sergeant can have their Power Weapon replaced with 1 Xenophase Blade.",
+      "For every 5 models in this unit, 1 Deathwatch Veteran model can have their Boltgun and Power Weapon replaced with 1 Infernus Heavy Bolter and 1 Knives and Fists.",
+      "For every 5 models in this unit, 1 Deathwatch Veteran model can have their Boltgun and Power Weapon replaced with 1 Frag Cannon and 1 Knives and Fists."
     ],
     "keywords": [
+      "Battleline",
+      "Explosives",
+      "Imperium",
       "Infantry",
       "Kill Team",
-      "Deathwatch",
-      "Retinue",
       "Ordo Xenos",
-      "Imperium",
-      "Grenades",
-      "Battleline"
+      "Retinue"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
@@ -1942,7 +1982,7 @@ export default [
       {
         "name": "Grey Knights Terminator Squad",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "3",
         "ld": "6+",
@@ -1998,8 +2038,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2335,8 +2375,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -6759,7 +6799,7 @@ export default [
     "abilities": [
       {
         "name": "Dead-shot",
-        "text": "When this unit is selected to shoot, until this unit has shot: enemy units do not have [core:Lone Operative]; hidden enemy units have +15\" detection range."
+        "text": "When this unit is selected to shoot, until this unit has shot: enemy units do not have [core:Lone Operative]; **[gloss:hidden:hidden]** enemy units have +15\" **[gloss:detection-range:detection range]**."
       },
       {
         "name": "Shieldbreaker",
@@ -6915,7 +6955,7 @@ export default [
     "rules": [
       {
         "name": "NAVY BODYGUARD",
-        "text": "If your Army Faction is not AGENTS OF THE IMPERIUM, then for each Voidfarers Character unit you include in your army, you can include one VOIDSMEN-AT-ARMS unit in your army that does not count towards the number of RETINUE units your army can include (see Assigned Agents)"
+        "text": "If your Army Faction is not AGENTS OF THE IMPERIUM, then for each VOIDFARERS CHARACTER unit you include in your army, you can include one VOIDSMEN-AT-ARMS unit in your army that does not count towards the number of RETINUE units your army can include (see Assigned Agents)"
       }
     ]
   },
@@ -6925,7 +6965,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 75
       }
     ],
     "flavor": "Born survivor of a feral world and formerly of the macabre Mortifactors Chapter, Artemis leads a Watch Company of Talasa Prime. Known for his instinct for xenos trickery, he still relishes the prospect of violence, whether with his blade, the mutagenic acid-fire of Hellfire Extremis or a time-warping stasis grenade.",
@@ -6933,7 +6973,7 @@ export default [
       {
         "name": "Watch Captain Artemis",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -6951,8 +6991,8 @@ export default [
           "TORRENT"
         ],
         "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
+        "a": "3",
+        "bs": "-",
         "s": "4",
         "ap": "-1",
         "d": "1"
@@ -6960,31 +7000,30 @@ export default [
     ],
     "melee": [
       {
-        "name": "Master-crafted power weapon",
+        "name": "Master-crafted Power Weapon",
         "tags": [],
         "a": "6",
         "ws": "2+",
-        "s": "5",
+        "s": "6",
         "ap": "-2",
         "d": "2"
       }
     ],
     "core": "Feel No Pain 6+, Leader",
-    "faction": "Assigned Agents",
     "abilities": [
       {
         "name": "Tactical Instinct",
-        "text": "While this model is leading a unit, weapons equipped by models in that unit have the [LETHAL HITS] ability."
+        "text": "This unit's attacks have [SUSTAINED HITS 1]."
       },
       {
-        "name": "Unstoppable Champion",
-        "text": "The first time this model is destroyed, roll one D6 at the end of the phase. On a 2+, set this model back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with 1 wound remaining."
+        "name": "Unstoppable Champion (Once per battle, per army)",
+        "text": "At the end of a phase in which this model is **[gloss:destroyed:destroyed]**, roll one D6:\n▪ On a 2+, set this model back up on the battlefield as close as possible to where it was **destroyed, unengaged** with 3 wounds remaining."
       }
     ],
     "composition": [
-      "1 Watch Captain Artemis"
+      "1 Watch Captain Artemis model"
     ],
-    "loadout": "**This model is equipped with:** Hellfire Extremis; master-crafted power weapon.",
+    "loadout": "**This model is equipped with:** 1 Hellfire Extremis; 1 Master-crafted Power Weapon.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -6997,14 +7036,13 @@ export default [
       ]
     },
     "keywords": [
-      "Imperium",
-      "Ordo Xenos",
-      "Deathwatch",
-      "Watch Captain Artemis",
+      "Captain",
       "Character",
       "Epic Hero",
-      "Grenades",
-      "Infantry"
+      "Explosives",
+      "Imperium",
+      "Infantry",
+      "Ordo Xenos"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
@@ -7017,7 +7055,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 105
       }
     ],
     "flavor": "The galaxy’s foremost xenos hunters, each Watch Master commands one of the Chapter’s vigilant fortresses. These leaders possess centuries of strategic and esoteric knowledge of the horrors assailing Mankind. In battle, the crackling blades and tailored bolts of their vigil spears destroy any xenos before them.",
@@ -7025,7 +7063,7 @@ export default [
       {
         "name": "Watch Master",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "5",
         "ld": "6+",
@@ -7035,19 +7073,19 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Vigil spear",
+        "name": "Vigil Spear",
         "tags": [],
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
       }
     ],
     "melee": [
       {
-        "name": "Vigil spear",
+        "name": "Vigil Spear",
         "tags": [
           "LANCE"
         ],
@@ -7055,25 +7093,28 @@ export default [
         "ws": "2+",
         "s": "6",
         "ap": "-2",
-        "d": "D3"
+        "d": "2"
       }
     ],
     "core": "Leader",
-    "faction": "Assigned Agents",
     "abilities": [
       {
-        "name": "Strategic Knowledge",
-        "text": "While this model is leading a unit, that unit is eligible to shoot and declare a charge in a turn in which it Advanced or Fell Back."
+        "name": "Watch Master",
+        "text": "This model’s attacks that target a CHARACTER unit can:\n▪ Re-roll **[gloss:hit-roll:hit rolls]** of 1.\n▪ Re-roll **[gloss:wound-roll:wound rolls]** of 1."
       },
       {
-        "name": "Rites of Battle",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "name": "Strategic Acumen",
+        "text": "In your Command phase, you can use this ability. If you do, select one **[gloss:sm-combat-doctrine:combat doctrine]** to be active for this unit until the start of your next Command phase."
+      },
+      {
+        "name": "Watch That (new)",
+        "text": "At the start of the first battle round, select up to one enemy unit to be this unit’s **hunted**:\n▪ This unit’s attacks that target this unit’s **hunted** unit can re-roll **[gloss:wound-roll:wound rolls]** of 1.\n▪ Each time this unit’s **hunted** is **[gloss:destroyed:destroyed]**, select up to one enemy unit to be this unit’s **hunted**."
       }
     ],
     "composition": [
-      "1 Watch Master"
+      "1 Watch Master model"
     ],
-    "loadout": "**This model is equipped with:** vigil spear.",
+    "loadout": "**This model is equipped with:** 1 Vigil Spear.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -7086,12 +7127,10 @@ export default [
       ]
     },
     "keywords": [
-      "Watch Master",
-      "Infantry",
       "Character",
-      "Grenades",
+      "Explosives",
       "Imperium",
-      "Deathwatch",
+      "Infantry",
       "Ordo Xenos"
     ],
     "factionKeywords": [

@@ -208,6 +208,9 @@ function abilitySources(bundle, dsBySid) {
   const out = []
   for (const d of bundle.datasheets || []) {
     const wh = dsBySid.get(d.id)?.id || null
+    // A Leader or Support datasheet — its "this unit" is, once attached, the whole Attached unit
+    // (see leaderUnitGaps).
+    const leads = (d.abilities || []).some((a) => a.type === 'core' && /^(?:Leader|Support)$/.test(a.name))
     // The one place a `sid` is NOT a bare appdata uuid: 56 abilities are published once and
     // attached to several datasheets (Custodes' Turbo-boost sits on both jetbike units), and a
     // record has to exist per datasheet — each one points its `ref` at a different unit. The uuid
@@ -224,6 +227,7 @@ function abilitySources(bundle, dsBySid) {
         prose,
         // A source that gets a record whether or not its prose looks like a modifier — see below.
         always,
+        leads,
       })
     }
     for (const a of d.abilities || []) {
@@ -558,6 +562,41 @@ function rollGaps(slug, sources, existing) {
   return out
 }
 
+// A LEADER'S "THIS UNIT" IS THE ATTACHED UNIT. Core Rules 19.04: rules that affect a unit apply to
+// every model in an Attached unit — so "This unit's melee attacks have [Lance]" on a Chaplain hands
+// [Lance] to the squad he leads, not only to his own crozius. A record whose effects all sit on the
+// leader's own card (`target` absent) left the squad's card without it: a player found it on the
+// Chaplain and the Ancient (2026-10-02), and the same shape was on 34 records across 13 factions.
+// The fix is the "this model's unit" shape — a `self` effect AND a `led` copy. The exceptions are
+// rules whose "this unit" only says where something else is: "while this unit contains…, Celestine
+// has…", "for each WARLOCK model in this unit… that model's Destructor", "if this unit is not an
+// Attached unit". Wordings that already name the leading ("while this model is leading a unit",
+// "Bodyguard models") are the other shapes, reviewed on their own.
+const LEADER_SELF_EXEMPT = new Set([
+  // the effect lands on named models of the unit, which the squad does not have
+  'adepta-sororitas · Saint Celestine: Lifewards',
+  'aeldari · Warlock Conclave: Psychic Communion', 'aeldari · Warlock Skyrunners: Psychic Communion',
+  'chaos-space-marines · Traitor Enforcer: Mutated Bodyguard',
+  // only while NOT attached
+  'leagues-of-votann · Brôkhyr Iron-master: Brôkhyr Guild Support',
+])
+const THIS_UNIT = /\bthis unit\b/i
+const OTHER_LEADER_SHAPE = /\bleading\b|\bthis model\b|\bbodyguard\b/i
+function leaderUnitGaps(slug, sources, existing) {
+  const bySid = new Map((existing?.entries || []).map((e) => [e.sid, e]))
+  const out = []
+  for (const s of sources) {
+    if (s.kind !== 'ability' || !s.leads) continue
+    const text = (s.prose || '').replace(/\*\*|<[^>]+>/g, '')
+    if (!THIS_UNIT.test(text) || OTHER_LEADER_SHAPE.test(text)) continue
+    const rec = bySid.get(s.sid)
+    const effects = rec?.reviewed ? rec.effects || [] : []
+    if (!effects.length || effects.some((e) => (e.target || 'self') !== 'self')) continue
+    if (!LEADER_SELF_EXEMPT.has(`${slug} · ${s.name}`)) out.push(s)
+  }
+  return out
+}
+
 export async function run(argv = process.argv.slice(2)) {
   const check = argv.includes('--check')
   const queue = argv.includes('--queue')
@@ -568,7 +607,7 @@ export async function run(argv = process.argv.slice(2)) {
   }
 
   const ctx = sourceContext()
-  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0 }
+  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0, leader: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
@@ -592,6 +631,10 @@ export async function run(argv = process.argv.slice(2)) {
     for (const g of rollGaps(slug, sources, existing)) {
       totals.roll++
       console.log(`  ✗ roll    ${slug} · ${g.kind} · ${g.name} — says "add 1 to the Hit/Wound roll" but carries no hit/wound effect`)
+    }
+    for (const g of leaderUnitGaps(slug, sources, existing)) {
+      totals.leader++
+      console.log(`  ✗ leader  ${slug} · ${g.name} — a Leader's "this unit" rule with effects on the leader alone`)
     }
     for (const { entry, src, hash } of result.stale) {
       console.log(`  ⟲ stale   ${slug} · ${entry.kind} · ${entry.name}${entry.det ? ` (${entry.det})` : ''}`)
@@ -638,6 +681,10 @@ export async function run(argv = process.argv.slice(2)) {
     }
     if (totals.roll) {
       console.log('  --check: a rule adds to the Hit or Wound roll with no `stat: \'hit\'`/`\'wound\'` effect — add one, or name it in ROLL_EXEMPT with the reason.')
+      return 1
+    }
+    if (totals.leader) {
+      console.log('  --check: a Leader\'s "this unit" rule reaches the unit it leads (19.04) — add a `target: \'led\'` copy of its effects, or name it in LEADER_SELF_EXEMPT with the reason.')
       return 1
     }
     if (totals.mismatch) {

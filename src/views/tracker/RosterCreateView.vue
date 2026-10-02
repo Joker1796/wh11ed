@@ -68,7 +68,7 @@
       :detachment-options="detachmentOptions"
       :dp-spent="dpSpent"
       :max-dp="effBattle.dp"
-      :dp-over-allowed="dpOverAllowed"
+      :dp-limit="dpLimit"
       :battle-size="battleSize"
       :battle-sizes="battleSizes"
       :custom-points="customPoints"
@@ -102,8 +102,7 @@
         :faction-name="factionName"
         :detachment-summary="detachmentSummary"
         :dp-spent="dpSpent"
-        :dp-limit="effBattle.dp"
-        :dp-over-allowed="dpOverAllowed"
+        :dp-limit="dpLimit"
         :disposition-cands="dispositionCands"
         @pick-faction="factionPickerOpen = true"
         @pick-detachments="detachmentPickerOpen = true"
@@ -368,6 +367,7 @@ const { factionData } = useRosterFactionData(() => factionSlug.value)
 const draftRoster = computed(() => ({
   faction: factionSlug.value,
   detachments: detachments.value,
+  disposition: disposition.value,
   battleSize: battleSize.value,
   customPoints: customPoints.value,
   checkLegality: checkLegality.value,
@@ -387,7 +387,7 @@ const {
 // into.
 const {
   factionPickerOpen, detachmentPickerOpen, pickFaction,
-  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpOverAllowed, toggleDetachment, clearDetachments,
+  detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit, toggleDetachment, clearDetachments,
   openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
   undoable, undoRemove, dismissUndo, battleSizes,
 } = useRosterBuildActions({

@@ -97,14 +97,56 @@
               >
                 <i class="bi bi-trash" />
               </button>
-              <button
+              <!-- Saved lists only — a draft deletes from its own card and never opens this. -->
+              <ActionMenu
                 v-else
-                class="kebab"
-                :aria-label="labels.rosterMoreActions"
-                @click.stop="menuFor = r.id"
+                :open="menuFor === r.id"
+                :title="r.name || labels.rosterUntitled"
+                @update:open="(v) => (menuFor = v ? r.id : null)"
               >
-                <i class="bi bi-three-dots-vertical" />
-              </button>
+                <template #trigger="{ toggle }">
+                  <button
+                    class="kebab"
+                    :aria-label="labels.rosterMoreActions"
+                    @click.stop="toggle"
+                  >
+                    <i class="bi bi-three-dots-vertical" />
+                  </button>
+                </template>
+                <button
+                  class="act-btn"
+                  @click="onEdit(r.id)"
+                >
+                  {{ labels.rosterEdit }}
+                </button>
+                <!-- Export from here as well as from the editor: a finished list is passed on far more
+                     often than it is edited, and opening the editor to copy it is a detour. -->
+                <button
+                  class="act-btn"
+                  :disabled="exportBusy"
+                  @click="onExport(r.id)"
+                >
+                  {{ labels.rosterExportTitle }}
+                </button>
+                <button
+                  class="act-btn"
+                  @click="onDuplicate(r.id)"
+                >
+                  {{ labels.rosterDuplicate }}
+                </button>
+                <button
+                  class="act-btn"
+                  @click="toggleRosterPin(r.id); menuFor = null"
+                >
+                  {{ isRosterPinned(r.id) ? labels.favUnpin : labels.favPin }}
+                </button>
+                <button
+                  class="act-btn act-danger"
+                  @click="onDelete(r.id)"
+                >
+                  {{ labels.trackerDelete }}
+                </button>
+              </ActionMenu>
             </div>
             <!-- The army's Force Disposition rides on the faction line as the same coloured chip the
              tracker's detachment picker uses, and the detachment(s) sit under it in quiet grey —
@@ -171,51 +213,6 @@
       </div>
     </Transition>
 
-    <!-- Per-card actions: edit / duplicate / delete (mirrors the tracker's per-card actions sheet). -->
-    <BaseModal
-      v-if="menuFor"
-      :title="menuRosterName"
-      dense
-      max-width="340px"
-      @close="menuFor = null"
-    >
-      <!-- Saved lists only — a draft deletes from its own card and never opens this. -->
-      <div class="modal-body act-list">
-        <button
-          class="act-btn"
-          @click="onEdit(menuFor)"
-        >
-          {{ labels.rosterEdit }}
-        </button>
-        <!-- Export from here as well as from the editor: a finished list is passed on far more
-             often than it is edited, and opening the editor to copy it is a detour. -->
-        <button
-          class="act-btn"
-          :disabled="exportBusy"
-          @click="onExport(menuFor)"
-        >
-          {{ labels.rosterExportTitle }}
-        </button>
-        <button
-          class="act-btn"
-          @click="onDuplicate(menuFor)"
-        >
-          {{ labels.rosterDuplicate }}
-        </button>
-        <button
-          class="act-btn"
-          @click="toggleRosterPin(menuFor); menuFor = null"
-        >
-          {{ isRosterPinned(menuFor) ? labels.favUnpin : labels.favPin }}
-        </button>
-        <button
-          class="act-btn act-danger"
-          @click="onDelete(menuFor)"
-        >
-          {{ labels.trackerDelete }}
-        </button>
-      </div>
-    </BaseModal>
 
     <ConfirmModal
       v-if="pendingDelete"
@@ -242,7 +239,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import BaseModal from '../../components/BaseModal.vue'
+import ActionMenu from '../../components/ActionMenu.vue'
 import RosterListHead from '../../components/roster/RosterListHead.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
@@ -400,7 +397,7 @@ onMounted(() => { import('../../data/mfmFactions.js').then((m) => { mfm.value = 
 function fdOf(r) {
   const known = mfm.value?.find((f) => f.slug === r.faction)?.detachments || []
   const dets = (r.detachments || []).map((n) => known.find((d) => d.name === n)).filter(Boolean)
-  return dispositionOf(r, dets.map((d) => ({ fd: d.forceDisposition })))
+  return dispositionOf(r, dets.map((d) => ({ fds: d.forceDispositions })))
 }
 function toneOf(r) {
   return toneVars(dispositionColor(fdOf(r)))
@@ -413,8 +410,6 @@ function openRoster(r) {
 }
 
 const menuFor = ref(null)
-const menuRoster = computed(() => (menuFor.value ? rosterById(menuFor.value) : null))
-const menuRosterName = computed(() => menuRoster.value?.name || labels.value.rosterUntitled)
 
 function onEdit(id) {
   menuFor.value = null

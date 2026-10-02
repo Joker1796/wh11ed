@@ -101,7 +101,7 @@
 // notice — the READMEs have it too, but crawlers and visitors see the site, not the repo).
 // Content is the bilingual landing.js `footer` object.
 import { ref, computed } from 'vue'
-import { landing } from '../data/landing.js'
+import { landing, VK_URL } from '../data/landing.js'
 import { ui } from '../i18n/ui.js'
 import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { APP_DATA_VERSION } from '../data/appDataVersion.js'
@@ -120,7 +120,7 @@ const contactEmail = 'gorlovevgeni9617@gmail.com'
 // The umbrella repo (not this one): explains how the frontend, API and glossary fit together.
 const repoUrl = 'https://github.com/Joker1796/wh-rules.ru'
 // The project's VK group — news, and the place to talk about a bug report.
-const vkUrl = 'https://vk.ru/whrules'
+const vkUrl = VK_URL
 const version = APP_VERSION
 // The GW app data_version the rules were reconciled against (shown under the app version).
 const dataVersion = APP_DATA_VERSION

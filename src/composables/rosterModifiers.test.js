@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { overlaySheet, loadoutItemIds, loadoutItemCounts, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey, wargearConditions } from './rosterModifiers.js'
+import { overlaySheet, loadoutItemIds, loadoutItemCounts, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey, findEnhancementProse, wargearConditions } from './rosterModifiers.js'
 
 // Interned wargear names, same shape as src/data/roster/items.js's `items` map.
 const items = { 1: 'Boltgun', 2: 'Bolt pistol', 3: 'Meltagun', 4: 'Chainsword', 5: 'Power weapon', 6: 'Plasma pistol' }
@@ -212,6 +212,21 @@ describe('overlaySheet — a second copy of a melee weapon', () => {
     const extra = { ...beast, defaults: [[0, [[2, 2]]]], gear: [] }
     const out = overlaySheet(beastSheet, { def: extra, entry: { size: 0 }, items: it9 }).sheet
     expect(rows(out, 'Extra talons').map((w) => w.qty)).toEqual([2])
+  })
+
+  // Raptors, player report 2026-09-30: each bundle hands one Raptor a close combat weapon, so two
+  // grants from two option lines are two different models out of ten, not a second copy on one.
+  it('keeps one row when the grants fit the models of the profile', () => {
+    const squad = {
+      id: 'raptors', sizes: [{ pts: 100, per: [10, 10], default: 1 }],
+      defaults: [[0, [[1, 1]]]],
+      gear: [
+        { m: 0, t: 1, in: 'stepper', o: [[3]], rep: [1] },
+        { m: 0, t: 2, in: 'stepper', o: [[3]], rep: [1] },
+      ],
+    }
+    const out = overlaySheet(beastSheet, { def: squad, entry: { size: 0, wg: [[0, 0, 1], [1, 0, 1]] }, items: it9 }).sheet
+    expect(rows(out, 'Crushing claws').map((w) => w.qty)).toEqual([2])
   })
 
   it('does not split the same weapon held once by each of two profiles', () => {
@@ -594,5 +609,44 @@ describe('overlaySheet — rule sources', () => {
 
   it('always returns an array, even with no sheet', () => {
     expect(overlaySheet(null, {}).ruleSources).toEqual([])
+  })
+})
+
+// An enhancement name can repeat across one faction's detachments (Grand Strategist in Astra
+// Militarum's Armoured Infantry and Combined Arms — a player's report, 2026-10-01). Over EVERY
+// faction file: each repeated name, asked for with one of its detachments as the list's own,
+// resolves to that detachment's text, never a neighbour's.
+describe('findEnhancementProse', () => {
+  const files = import.meta.glob('../data/factions/*.js', { eager: true })
+  const factions = Object.entries(files).map(([path, mod]) => [path, Object.values(mod).find((v) => v?.en)?.en]).filter(([, f]) => f)
+
+  it('reads every faction file', () => { expect(factions.length).toBeGreaterThan(25) })
+
+  it('gives a repeated name the text of the list’s own detachment', () => {
+    let repeats = 0
+    for (const [path, f] of factions) {
+      const byName = new Map()
+      for (const d of f.detachments || []) {
+        for (const e of d.enhancements || []) {
+          const k = enhKey(e.name)
+          if (!byName.has(k)) byName.set(k, [])
+          byName.get(k).push([d, e])
+        }
+      }
+      for (const [, list] of byName) {
+        if (list.length < 2) continue
+        repeats++
+        for (const [d, e] of list) {
+          expect(findEnhancementProse(f.detachments, e.name, [d.name]), `${path}: ${e.name} in ${d.name}`).toBe(e)
+        }
+      }
+    }
+    expect(repeats).toBeGreaterThan(0)
+  })
+
+  it('falls back to the whole faction when the list’s detachments do not offer it', () => {
+    const dets = [{ name: 'A', enhancements: [{ name: 'X', body: 'a' }] }, { name: 'B', enhancements: [] }]
+    expect(findEnhancementProse(dets, 'X', ['B'])?.body).toBe('a')
+    expect(findEnhancementProse(dets, 'Y', ['A'])).toBe(null)
   })
 })

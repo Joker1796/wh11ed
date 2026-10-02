@@ -58,7 +58,11 @@ async function allyUnits(data) {
     for (const u of bundle?.units || []) {
       if (!ids.has(u.id)) continue
       const id = `${src}:${u.id}`
-      out.push({ ...repriced(u, prices.get(id)), id })
+      // `leads` names units of the SAME bundle by their bare ids, which this merge has just
+      // namespaced — left as they are, an allied leader could lead nothing (Watch Captain Artemis
+      // offered no Aquila Kill Team in a Grey Knights list, a player's report of 2026-10-01).
+      const leads = u.leads?.map((l) => ({ ...l, to: `${src}:${l.to}` }))
+      out.push({ ...repriced(u, prices.get(id)), id, ...(leads && { leads }) })
     }
   }
   return out

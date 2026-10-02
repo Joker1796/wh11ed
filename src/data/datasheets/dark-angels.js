@@ -1,64 +1,45 @@
 // Dark Angels — datasheets. Unit roster and points from src/data/mfm/dark-angels.js.
 // wh40k-appdata is the source of truth — `npm run sync` diffs this file against it.
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
-// 19 chapter-specific/differing datasheets here; 156 units identical
-// to space-marines.js are NOT duplicated — see sharedUnitIds below and
-// src/data/datasheets/index.js (loadDatasheets merges them in by id).
+// Transcribed from app data 963 (Codex: Space Marines and its Supplements) by
+// scripts/gen-datasheets.mjs — re-run it rather than hand-porting a whole codex.
+// 19 sheets of this Chapter's own here (3 of them Legends from the Faction Pack, which
+// the MFM still prices); 97 Codex: Space Marines sheets are folded in by id — see
+// sharedUnitIds below (derived by the generator, not kept by hand) and datasheets/index.js.
 export const sharedUnitIds = [
   "aggressor-squad",
   "ancient",
   "ancient-in-terminator-armour",
-  "ancient-on-bike",
   "apothecary",
   "apothecary-biologis",
-  "apothecary-on-bike",
   "assault-intercessor-squad",
   "assault-intercessors-with-jump-packs",
-  "assault-squad",
-  "assault-squad-with-jump-packs",
-  "astartes-servitors",
   "astraeus",
-  "attack-bike-squad",
   "ballistus-dreadnought",
-  "bike-squad",
   "bladeguard-ancient",
   "bladeguard-veteran-squad",
   "brutalis-dreadnought",
-  "caestus-assault-ram",
   "captain",
   "captain-in-gravis-armour",
   "captain-in-phobos-armour",
   "captain-in-terminator-armour",
   "captain-on-bike",
   "captain-with-jump-pack",
-  "carab-culln-the-risen",
   "centurion-assault-squad",
   "centurion-devastator-squad",
   "cerberus",
   "chaplain",
   "chaplain-in-terminator-armour",
   "chaplain-on-bike",
-  "chaplain-venerable-dreadnought",
   "chaplain-with-jump-pack",
-  "command-squad",
-  "company-champion-on-bike",
   "company-heroes",
-  "company-veterans-on-bikes",
-  "deathstorm-drop-pod",
-  "deimos-predator",
-  "deredeo-dreadnought",
   "desolation-squad",
-  "devastator-squad",
   "dreadnought",
-  "dreadnought-drop-pod",
   "drop-pod",
   "eliminator-squad",
-  "eradicator-squad",
   "eradicator-squad-with-heavy-bolters",
+  "eradicator-squad-with-melta-rifles",
   "falchion",
-  "fellblade",
-  "ferren-areios",
-  "fire-raptor-gunship",
   "firestrike-servo-turrets",
   "gladiator-lancer",
   "gladiator-reaper",
@@ -66,117 +47,77 @@ export const sharedUnitIds = [
   "hammerfall-bunker",
   "heavy-intercessor-squad",
   "hellblaster-squad",
-  "hunter",
-  "imperial-space-marine",
   "impulsor",
   "inceptor-squad",
   "incursor-squad",
   "infernus-squad",
   "infiltrator-squad",
   "intercessor-squad",
-  "invader-atv",
+  "invader-atvs",
   "invictor-tactical-warsuit",
-  "ironclad-dreadnought",
-  "javelin-attack-speeder",
   "judiciar",
   "kratos",
   "land-raider",
-  "land-raider-achilles",
   "land-raider-crusader",
   "land-raider-excelsior",
-  "land-raider-helios",
-  "land-raider-prometheus",
-  "land-raider-proteus",
   "land-raider-redeemer",
   "land-speeder",
-  "land-speeder-storm",
-  "land-speeder-tempest",
-  "land-speeder-tornado",
-  "land-speeder-typhoon",
-  "leviathan-dreadnought",
   "librarian",
   "librarian-in-phobos-armour",
   "librarian-in-terminator-armour",
-  "librarian-on-bike",
-  "librarian-with-jump-pack",
   "lieutenant",
   "lieutenant-in-phobos-armour",
-  "lieutenant-in-reiver-armour",
   "lieutenant-with-combi-weapon",
   "mastodon",
-  "mortis-dreadnought",
   "outrider-squad",
   "predator-annihilator",
   "predator-destructor",
-  "primaris-company-champion",
   "rapier-carrier",
   "razorback",
   "redemptor-dreadnought",
   "reiver-squad",
-  "relic-contemptor-dreadnought",
   "relic-razorback",
-  "relic-terminator-squad",
   "repulsor",
   "repulsor-executioner",
   "rhino",
   "rhino-primaris",
   "scout-bike-squad",
-  "scout-sniper-squad",
   "scout-squad",
-  "sicaran-arcus",
-  "sicaran-battle-tank",
-  "sicaran-omega",
-  "sicaran-punisher",
-  "sicaran-venator",
-  "sokar-pattern-stormbird",
-  "spartan",
-  "stalker",
+  "sicaran",
   "sternguard-veteran-squad",
-  "storm-eagle-gunship",
   "storm-speeder-hailstrike",
   "storm-speeder-hammerstrike",
   "storm-speeder-thunderstrike",
   "stormhawk-interceptor",
   "stormraven-gunship",
   "stormtalon-gunship",
-  "suppressor-squad",
-  "tactical-squad",
   "tarantula-air-defence-battery",
   "tarantula-sentry-battery",
   "techmarine",
-  "techmarine-on-bike",
   "terminator-assault-squad",
   "terminator-squad",
-  "terminus-ultra",
   "terrax-pattern-termite",
-  "thunderfire-cannon",
   "thunderhawk-gunship",
-  "thunderhawk-transporter",
   "typhon",
   "vanguard-veteran-squad",
   "vanguard-veteran-squad-with-jump-packs",
   "venerable-dreadnought",
   "vindicator",
-  "vindicator-laser-destroyer",
-  "whirlwind",
-  "whirlwind-scorpius",
-  "xiphon-interceptor",
+  "whirlwind"
 ]
 
-// appdata prices this shared unit lower for Dark Angels specifically
-// (unit_composition_required_faction_keyword: 'Dark Angels') than the space-marines.js base
-// price — see src/data/datasheets/blood-angels.js's pointsOverrides for the full mechanism.
 export const pointsOverrides = {
   "centurion-devastator-squad": [
-    { models: 3, points: 175 },
-    { models: 6, points: 350 },
-  ],
-  "repulsor-executioner": [
-    { models: 1, points: 230, note: "1st-2nd" },
-    { models: 1, points: 250, note: "3rd+" },
-  ],
+    {
+      "models": 3,
+      "points": 175
+    },
+    {
+      "models": 6,
+      "points": 350
+    }
+  ]
 }
-
 export default [
   {
     "id": "asmodai",
@@ -184,7 +125,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 80
       }
     ],
     "flavor": "Asmodai is the Dark Angels’ most successful Interrogator-Chaplain. Relentless and humourless, in battle he incites his battle-brothers’ fighting spirit to reach new heights, rendering them unstoppable killing machines by chanting his litanies of hate with unshakeable belief.",
@@ -192,7 +133,7 @@ export default [
       {
         "name": "Asmodai",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "5+",
@@ -202,22 +143,24 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Heavy bolt pistol",
+        "name": "Heavy Bolt Pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "18\"",
         "a": "1",
-        "bs": "3+",
-        "s": "4",
+        "bs": "2+",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Crozius arcanum and power weapon - strike",
-        "tags": [],
+        "name": "Crozius Arcanum and Power Weapon – strike",
+        "tags": [
+          "PRECISION"
+        ],
         "a": "5",
         "ws": "2+",
         "s": "6",
@@ -225,8 +168,10 @@ export default [
         "d": "2"
       },
       {
-        "name": "Crozius arcanum and power weapon - sweep",
-        "tags": [],
+        "name": "Crozius Arcanum and Power Weapon – sweep",
+        "tags": [
+          "CLEAVE 1"
+        ],
         "a": "8",
         "ws": "2+",
         "s": "5",
@@ -235,21 +180,21 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines, Transhuman Strategist",
     "abilities": [
       {
-        "name": "Exemplar of Hate",
-        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, you can re-roll the Hit roll."
+        "name": "Feared Interrogator",
+        "text": "At the start of the Fight phase, each enemy CHARACTER unit within 6\" of this model makes a **[gloss:battle-shock-test:battle-shock roll]**, with -1 to that **battle-shock roll**."
       },
       {
-        "name": "Feared Interrogator",
-        "text": "At the start of the Fight phase, each enemy CHARACTER unit within 6\" of this model must take a Battle-shock test, subtracting 1 from that test when they do. In addition, each time this model destroys an enemy CHARACTER model with a melee attack, you gain 1CP."
+        "name": "Exemplar of Hate",
+        "text": "This unit's melee attacks can re-roll **[gloss:hit-roll:hit rolls]**."
       }
     ],
     "composition": [
-      "1 Asmodai – EPIC HERO"
+      "1 Asmodai model"
     ],
-    "loadout": "**This model is equipped with:** heavy bolt pistol; crozius arcanum and power weapon.",
+    "loadout": "**This model is equipped with:** 1 Crozius Arcanum and Power Weapon; 1 Heavy Bolt Pistol.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -259,24 +204,22 @@ export default [
         "Infernus Squad",
         "Inner Circle Companions",
         "Intercessor Squad",
-        "Sternguard Veteran Squad",
-        "Tactical Squad"
+        "Sternguard Veteran Squad"
       ]
     },
     "keywords": [
-      "Epic Hero",
-      "Infantry",
-      "Deathwing",
       "Chaplain",
-      "Tacticus",
-      "Asmodai",
       "Character",
+      "Deathwing",
+      "Epic Hero",
+      "Explosives",
       "Imperium",
-      "Grenades"
+      "Infantry",
+      "Tacticus"
     ],
     "factionKeywords": [
-      "Dark Angels",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Dark Angels"
     ],
     "baseSize": "50mm"
   },
@@ -286,7 +229,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140
+        "points": 150
       }
     ],
     "flavor": "Supreme Grand Master Azrael is a beacon of inspiration to those who follow him, and is paid enormous respect for his ability as a strategist. A masterful commander, he quickly grasps changing battlefield realities and orchestrates his forces to maximum advantage. In the fray, Azrael decapitates foes with every strike of the Sword of Secrets.",
@@ -294,7 +237,7 @@ export default [
       {
         "name": "Azrael",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
         "w": "6",
         "ld": "6+",
@@ -304,7 +247,7 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Lion’s Wrath",
+        "name": "Lion's Wrath",
         "tags": [
           "ANTI-INFANTRY 4+",
           "DEVASTATING WOUNDS",
@@ -332,50 +275,53 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines, Transhuman Strategist",
     "abilities": [
       {
-        "name": "Supreme Grand Master",
-        "text": "While this model is leading a unit, weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability."
+        "name": "Masterful Tactician",
+        "text": "In your Movement phase, select up to one **[gloss:visible:visible]** friendly ADEPTUS ASTARTES unit within 9\" of this model, and select one **[gloss:sm-combat-doctrine:combat doctrine]**. That **combat doctrine** is active for that unit until the start of your next Command phase."
       },
       {
-        "name": "Masterful Tactician",
-        "text": "At the start of your Command phase, if this model is on the battlefield, you gain 1CP."
+        "name": "Watcher in the Dark (Once per battle, per unit)",
+        "text": "In any phase, when this unit suffers a **[gloss:mortal-wound:mortal wound]**, this unit can summon a Watcher in the Dark. If it does, this unit has [core:Feel No Pain 4+] against **mortal wounds**."
+      },
+      {
+        "name": "Supreme Grand Master",
+        "text": "This unit's attacks have [SUSTAINED HITS 1]."
       }
     ],
     "wargearAbilities": [
       {
         "name": "The Lion Helm",
-        "text": "Models in the bearer’s unit have a 4+ invulnerable save. In addition, once per battle, in any phase, the bearer can summon a Watcher in the Dark. When it does, until the end of the phase, models in the bearer’s unit have the Feel No Pain 4+ ability against mortal wounds."
+        "text": "This unit has 4+ **[gloss:invulnerable-save:InSv]**."
       }
     ],
     "composition": [
-      "1 Azrael – EPIC HERO"
+      "1 Azrael model"
     ],
-    "loadout": "**This model is equipped with:** Lion’s Wrath; the Sword of Secrets; the Lion Helm.",
+    "loadout": "**This model is equipped with:** 1 Lion's Wrath; The Lion Helm; 1 The Sword of Secrets.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
         "Assault Intercessor Squad",
         "Bladeguard Veteran Squad",
+        "Company Heroes",
         "Hellblaster Squad",
         "Infernus Squad",
         "Inner Circle Companions",
         "Intercessor Squad",
-        "Sternguard Veteran Squad",
-        "Tactical Squad"
+        "Sternguard Veteran Squad"
       ]
     },
     "keywords": [
-      "Epic Hero",
-      "Grenades",
-      "Infantry",
-      "Imperium",
-      "Character",
-      "Tacticus",
       "Chapter Master",
-      "Azrael",
-      "Deathwing"
+      "Character",
+      "Deathwing",
+      "Epic Hero",
+      "Explosives",
+      "Imperium",
+      "Infantry",
+      "Tacticus"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
@@ -389,7 +335,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 100
       }
     ],
     "flavor": "Belial is a warrior born – a killer whose skill in battle has always stood out, even amongst his post-human brethren. For all his ability he is a staunch perfectionist, chastising himself for every perceived weakness. In battle he wields the Sword of Silence, an obsidian Chapter relic that seems to swallow nearby sound.",
@@ -397,7 +343,7 @@ export default [
       {
         "name": "Belial",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
         "sv": "2+",
         "w": "6",
         "ld": "6+",
@@ -407,71 +353,65 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Master-crafted storm bolter",
+        "name": "Master-crafted Storm Bolter",
         "tags": [
-          "PRECISION",
-          "RAPID FIRE 2"
+          "PRECISION"
         ],
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "2"
       }
     ],
     "melee": [
       {
         "name": "The Sword of Silence",
-        "tags": [
-          "PRECISION"
-        ],
+        "tags": [],
         "a": "6",
         "ws": "2+",
         "s": "6",
-        "ap": "-2",
+        "ap": "-3",
         "d": "2"
       }
     ],
     "core": "Deep Strike, Leader",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines, Transhuman Strategist",
     "abilities": [
       {
         "name": "Grand Master of the Deathwing",
-        "text": "While this model is leading a unit, each time a model in that unit makes an attack, if a Critical Hit is scored, that attack has the [PRECISION] ability."
+        "text": "This unit's attacks that target an enemy CHARACTER unit have +1 to **[gloss:wound-roll:wound rolls]**."
       },
       {
         "name": "Strikes of Retribution",
-        "text": "Each time a melee attack is allocated to this model, after the attacking unit has finished making its attacks, roll one D6 (to a maximum of six D6 per attacking unit): for each 4+, the attacking unit suffers 1 mortal wound."
+        "text": "In the fight phase, when this model is **[gloss:destroyed:destroyed]**, if this unit has not been **[gloss:selected-to-fight:selected to fight]** this phase, roll one D6:\n▪ On a 2+, do not remove this model from the battlefield. When your unit has fought, or at the end of the phase (whichever comes first), this model is removed from the battlefield."
       }
     ],
     "composition": [
-      "1 Belial – EPIC HERO"
+      "1 Belial model"
     ],
-    "loadout": "**This model is equipped with:** master-crafted storm bolter; the Sword of Silence.",
+    "loadout": "**This model is equipped with:** 1 Master-crafted Storm Bolter; 1 The Sword of Silence.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Deathwing Command Squad",
         "Deathwing Knights",
         "Deathwing Terminator Squad",
-        "Terminator Assault Squad",
         "Terminator Squad"
       ]
     },
     "keywords": [
       "Captain",
-      "Terminator",
-      "Infantry",
-      "Epic Hero",
-      "Belial",
-      "Imperium",
+      "Character",
       "Deathwing",
-      "Character"
+      "Epic Hero",
+      "Imperium",
+      "Infantry",
+      "Terminator"
     ],
     "factionKeywords": [
-      "Dark Angels",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Dark Angels"
     ],
     "baseSize": "50mm"
   },
@@ -714,12 +654,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 240,
+        "points": 255,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 260,
+        "points": 275,
         "note": "3rd+"
       }
     ],
@@ -728,7 +668,17 @@ export default [
       {
         "name": "Deathwing Knights",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
+        "sv": "2+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      },
+      {
+        "name": "Knight Master",
+        "m": "5\"",
+        "t": "6",
         "sv": "2+",
         "w": "4",
         "ld": "6+",
@@ -738,7 +688,18 @@ export default [
     ],
     "melee": [
       {
-        "name": "Great weapon of the Unforgiven",
+        "name": "Mace of Absolution",
+        "tags": [
+          "ANTI-MONSTER/VEHICLE 4+"
+        ],
+        "a": "4",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Great Weapon of the Unforgiven",
         "tags": [
           "DEVASTATING WOUNDS",
           "SUSTAINED HITS 1"
@@ -750,19 +711,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Mace of absolution",
-        "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
-        ],
-        "a": "4",
-        "ws": "2+",
-        "s": "6",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Power weapon",
+        "name": "Power Weapon",
         "tags": [],
         "a": "5",
         "ws": "2+",
@@ -771,7 +720,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Relic weapon",
+        "name": "Relic Weapon",
         "tags": [
           "LETHAL HITS"
         ],
@@ -783,51 +732,44 @@ export default [
       }
     ],
     "core": "Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
+        "name": "Inner Circle",
+        "text": "▪ Attacks that target this unit have -1**[gloss:damage-roll:D]**.\n▪ This unit cannot be targeted with the **Tactical Dreadnought Fortitude stratagem**."
       },
       {
-        "name": "Inner Circle",
-        "text": "Each time an attack is allocated to a model in this unit, subtract 1 from the Damage characteristic of that attack."
+        "name": "Teleport Homer (Once per battle, per unit)",
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit on the battlefield. If you do:\n▪ When you target this unit with the **Rapid Ingress stratagem**, you can use that Teleport Homer token. If you do, that use is -1 CP, but when resolving that **[gloss:stratagem:stratagem]**, this unit must be set up within 3\" of that Teleport Homer token and not within 8\" of an enemy unit. That Teleport Homer token is then removed from the battlefield.\n▪ If an enemy unit ends a move within 1\" of that Teleport Homer token, that Teleport Homer token is removed from the battlefield."
       }
     ],
     "wargearAbilities": [
       {
         "name": "Watcher in the Dark",
-        "text": "Once per battle, in any phase, just after a mortal wound is allocated to an ADEPTUS ASTARTES model in this unit, this unit can summon a Watcher in the Dark. When it does, until the end of the phase, models in this unit have the Feel No Pain 4+ ability against mortal wounds.\n\n**Designer’s Note:** Place a Watcher in the Dark token next to the unit, removing it when this ability has been used."
+        "text": "Once per battle, in any phase, just after a mortal wound is allocated to an **ADEPTUS ASTARTES** model in this unit, this unit can summon a Watcher in the Dark. When it does, until the end of the phase, models in this unit have the Feel No Pain 4+ ability against mortal wounds.\n\n***Designer’s Note**: Place a Watcher in the Dark token next to the unit, removing it when this ability has been used.*"
       }
     ],
     "composition": [
-      "1 Knight Master",
-      "4 Deathwing Knights"
+      "1 Knight Master model",
+      "4 Deathwing Knights models"
     ],
-    "loadout": "**The Knight Master is equipped with:** great weapon of the Unforgiven.\n\n**Every Deathwing Knight is equipped with:** mace of absolution.",
+    "loadout": "**The Knight Master is equipped with:** 1 Great Weapon of the Unforgiven.\n**Every Deathwing Knights is equipped with:** 1 Mace of Absolution.",
     "options": [
-      "The Knight Master’s great weapon of the Unforgiven can be replaced with 1 relic weapon.",
-      "All Deathwing Knights in this unit can each have their mace of absolution replaced with 1 power weapon.",
-      "This unit can be equipped with 1 Watcher in the Dark."
+      "This unit can be equipped with 1 Watcher in the Dark",
+      "All Deathwing Knight models in this unit can each have their Mace of Absolution replaced with 1 Power Weapon.",
+      "The Knight Master can have their Great Weapon of the Unforgiven replaced with 1 Relic Weapon."
     ],
     "keywords": [
+      "Deathwing",
       "Imperium",
       "Infantry",
-      "Deathwing Knights",
-      "Terminator",
-      "Deathwing"
+      "Terminator"
     ],
     "factionKeywords": [
-      "Dark Angels",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Dark Angels"
     ],
-    "baseSize": "40mm",
-    "rules": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
-      }
-    ]
+    "baseSize": "40mm"
   },
   {
     "id": "deathwing-strikemaster",
@@ -985,19 +927,41 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 165
+        "points": 190,
+        "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 330
+        "points": 380,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 230,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 420,
+        "note": "3rd+"
       }
     ],
     "flavor": "Deploying rapidly onto the battlefield via blazing teleport strike or within the armoured hull of a large transport, Deathwing Terminator Squads pour heavy fire into their enemies or engage them in brutal melee, smashing them apart with thunder hammers or cutting them to ribbons with lightning claws.",
     "profiles": [
       {
-        "name": "Deathwing Terminator Squad",
+        "name": "Deathwing Sergeant",
         "m": "5\"",
-        "t": "5",
+        "t": "6",
+        "sv": "2+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      },
+      {
+        "name": "Deathwing Terminators",
+        "m": "5\"",
+        "t": "6",
         "sv": "2+",
         "w": "3",
         "ld": "6+",
@@ -1007,104 +971,93 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Assault cannon",
-        "tags": [
-          "DEVASTATING WOUNDS"
-        ],
-        "range": "24\"",
-        "a": "6",
-        "bs": "3+",
-        "s": "6",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Cyclone missile launcher – frag",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "36\"",
-        "a": "2D6",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Cyclone missile launcher – krak",
-        "tags": [],
-        "range": "36\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "9",
-        "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Heavy flamer",
-        "tags": [
-          "IGNORES COVER",
-          "TORRENT"
-        ],
-        "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
-        "s": "5",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Plasma cannon – standard",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "36\"",
-        "a": "D3",
-        "bs": "3+",
-        "s": "7",
-        "ap": "-2",
-        "d": "1"
-      },
-      {
-        "name": "Plasma cannon – supercharge",
-        "tags": [
-          "BLAST",
-          "HAZARDOUS"
-        ],
-        "range": "36\"",
-        "a": "D3",
-        "bs": "3+",
-        "s": "8",
-        "ap": "-3",
-        "d": "2"
-      },
-      {
-        "name": "Storm bolter",
+        "name": "Storm Bolter",
         "tags": [
           "RAPID FIRE 2"
         ],
         "range": "24\"",
         "a": "2",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
-      }
-    ],
-    "melee": [
+      },
       {
-        "name": "Chainfist",
+        "name": "Assault Cannon",
         "tags": [
-          "ANTI-VEHICLE 3+"
+          "SUSTAINED HITS 1"
         ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Heavy Flamer",
+        "tags": [
+          "BLAST 2",
+          "TORRENT"
+        ],
+        "range": "12\"",
         "a": "3",
-        "ws": "4+",
-        "s": "8",
+        "bs": "-",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Plasma Cannon – standard",
+        "tags": [
+          "BLAST 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "7",
         "ap": "-2",
         "d": "2"
       },
       {
-        "name": "Power fist",
+        "name": "Plasma Cannon – supercharge",
+        "tags": [
+          "BLAST 1",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Cyclone Missile Launcher – frag",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "36\"",
+        "a": "8",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Cyclone Missile Launcher – krak",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D3+3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Power Fist",
         "tags": [],
         "a": "3",
         "ws": "3+",
@@ -1113,9 +1066,27 @@ export default [
         "d": "2"
       },
       {
-        "name": "Power weapon",
+        "name": "Chainfist",
         "tags": [],
-        "a": "4",
+        "a": "2",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Chainfist – hunter",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Power Weapon",
+        "tags": [],
+        "a": "5",
         "ws": "3+",
         "s": "5",
         "ap": "-2",
@@ -1123,51 +1094,40 @@ export default [
       }
     ],
     "core": "Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
-      },
-      {
         "name": "Deathwing",
-        "text": "Each time a model in this unit makes an attack, you can ignore any or all modifiers to that attack’s Ballistic Skill or Weapon Skill characteristics and/or to the Hit roll. In addition, each time a model in this unit makes an attack that targets your Oath of Moment target (see Codex: Space Marines), add 1 to the Hit roll."
+        "text": "This unit's attacks can ignore modifiers to:\n▪ **[gloss:ballistic-skill:BS]** and **[gloss:weapon-skill:WS]**.\n▪ **[gloss:hit-roll:Hit rolls]**."
       }
     ],
     "wargearAbilities": [
       {
         "name": "Watcher in the Dark",
-        "text": "Once per battle, in any phase, just after a mortal wound is allocated to an ADEPTUS ASTARTES model in this unit, this unit can summon a Watcher in the Dark. When it does, until the end of the phase, models in this unit have the Feel No Pain 4+ ability against mortal wounds.\n\n**Designer’s Note:** Place a Watcher in the Dark token next to the unit, removing it when this ability has been used."
+        "text": "Once per battle, in any phase, just after a mortal wound is allocated to an **ADEPTUS ASTARTES** model in this unit, this unit can summon a Watcher in the Dark. When it does, until the end of the phase, models in this unit have the Feel No Pain 4+ ability against mortal wounds.\n\n***Designer’s Note**: Place a Watcher in the Dark token next to the unit, removing it when this ability has been used.*"
       }
     ],
     "composition": [
-      "1 Deathwing Sergeant",
-      "4-9 Deathwing Terminators"
+      "1 Deathwing Sergeant model",
+      "4-9 Deathwing Terminators models"
     ],
-    "loadout": "**The Deathwing Sergeant is equipped with:** storm bolter; power weapon.\n\n**Every Deathwing Terminator is equipped with:** storm bolter; power fist.",
+    "loadout": "**Every model is equipped with:** 1 Power Fist; 1 Storm Bolter.",
     "options": [
-      "Any number of Deathwing Terminators can each have their power fist replaced with 1 chainfist.",
-      "For every 5 models in this unit, 1 Deathwing Terminator can replace its storm bolter with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 plasma cannon\n▪ 1 storm bolter and 1 cyclone missile launcher (this model’s storm bolter cannot be replaced)",
-      "This unit can be equipped with 1 Watcher in the Dark."
+      "Any number of Deathwing Terminator models can each have their Power Fist replaced with 1 Chainfist.",
+      "For every 5 models in this unit, 1 Deathwing Terminator model can have their Storm Bolter replaced with one of the following: 1 Assault Cannon, 1 Heavy Flamer, 1 Plasma Cannon, 1 Storm Bolter and 1 Cyclone Missile Launcher (that model’s Storm Bolter cannot be replaced)",
+      "The Deathwing Sergeant can have their Power Fist replaced with one of the following: 1 Chainfist, 1 Power Weapon"
     ],
     "keywords": [
-      "Infantry",
-      "Imperium",
       "Deathwing",
-      "Terminator",
-      "Deathwing Terminator Squad"
+      "Imperium",
+      "Infantry",
+      "Terminator"
     ],
     "factionKeywords": [
-      "Dark Angels",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Dark Angels"
     ],
-    "baseSize": "40mm",
-    "rules": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
-      }
-    ]
+    "baseSize": "40mm"
   },
   {
     "id": "ezekiel",
@@ -1175,7 +1135,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 110
       }
     ],
     "flavor": "Ezekiel is Grand Master of Librarians. /4s a master of Interromancy, his warp-whispers shred the sanity of his enemies. His blade, known as Traitor’s Bane, was forged to slay those who turn against the Emperor. It is a formidable force weapon rumoured to entrap forever the souls of the Fallen.",
@@ -1183,9 +1143,9 @@ export default [
       {
         "name": "Ezekiel",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "2+",
-        "w": "4",
+        "w": "5",
         "ld": "6+",
         "oc": "1",
         "inv": "4+"
@@ -1195,34 +1155,21 @@ export default [
       {
         "name": "The Deliverer",
         "tags": [
-          "PISTOL",
+          "CLOSE-QUARTERS",
           "PRECISION"
         ],
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "2"
-      },
-      {
-        "name": "Mind Wipe – witchfire",
-        "tags": [
-          "DEVASTATING WOUNDS",
-          "PRECISION",
-          "PSYCHIC"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "2+",
-        "s": "6",
-        "ap": "-2",
-        "d": "D6"
       },
       {
         "name": "Mind Wipe – focused witchfire",
         "tags": [
           "ANTI-CHARACTER 4+",
+          "CLOSE-QUARTERS",
           "DEVASTATING WOUNDS",
           "HAZARDOUS",
           "PRECISION",
@@ -1233,45 +1180,58 @@ export default [
         "bs": "2+",
         "s": "6",
         "ap": "-2",
+        "d": "D3+3"
+      },
+      {
+        "name": "Mind Wipe – witchfire",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "DEVASTATING WOUNDS",
+          "PRECISION",
+          "PSYCHIC"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "6",
+        "ap": "-2",
         "d": "D6"
       }
     ],
     "melee": [
       {
-        "name": "Traitor’s Bane",
+        "name": "Traitor's Bane",
         "tags": [
-          "ANTI-CHAOS 2+",
+          "PRECISION",
           "PSYCHIC"
         ],
         "a": "4",
         "ws": "2+",
         "s": "6",
-        "ap": "-2",
-        "d": "D3"
+        "ap": "-3",
+        "d": "2"
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Psychic Hood",
-        "text": "While this model is leading a unit, models in that unit have the Feel No Pain 4+ ability against Psychic Attacks."
+        "text": "This unit has [core:Feel No Pain 4+] against **[gloss:psychic-attack:psychic attacks]** and **[gloss:mortal-wound:mortal wounds]**."
       },
       {
-        "name": "Engulfing Fear (Psychic)",
-        "text": "In your Shooting phase, you can select one enemy unit within 18\" of this model. That enemy unit must take a Battle-shock test."
-      }
-    ],
-    "wargearAbilities": [
-      {
         "name": "Book of Salvation",
-        "text": "While this model is leading a unit, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit. When this model is destroyed, each friendly ADEPTUS ASTARTES unit within 6\" of this model must take a Battle-shock test."
+        "text": "This unit's melee attacks have +1 **[gloss:attack-dice:A]**."
+      },
+      {
+        "name": "Chief Librarian (psyker level 3)",
+        "text": "This model has the **[gloss:psychic-ability:psychic abilities]** listed in the Psychic Abilities section."
       }
     ],
     "composition": [
-      "1 Ezekiel – EPIC HERO"
+      "1 Ezekiel model"
     ],
-    "loadout": "**This model is equipped with:** the Deliverer; Mind Wipe; Traitor’s Bane; Book of Salvation.",
+    "loadout": "**This model is equipped with:** 1 Mind Wipe; 1 The Deliverer; 1 Traitor's Bane.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -1281,20 +1241,34 @@ export default [
         "Infernus Squad",
         "Inner Circle Companions",
         "Intercessor Squad",
-        "Sternguard Veteran Squad",
-        "Tactical Squad"
+        "Sternguard Veteran Squad"
       ]
     },
+    "abilitySets": [
+      {
+        "name": "Chief Librarian (psyker level 3)",
+        "options": [
+          {
+            "name": "Engulfing Fear (psychic level 1)",
+            "text": "In your Shooting phase, if this unit is not **[gloss:battle-shocked:battle-shocked]**, you can make a **[gloss:psychic-roll:psychic roll]** for this unit by rolling one D6. If you do:\n▪ On a 1, this unit is **battle-shocked**.\n▪ Select one enemy unit within 12” of this model. That unit makes a **[gloss:battle-shock-test:battle-shock roll]** with -1 to that **battle-shock roll**."
+          },
+          {
+            "name": "Whispers of the Shadow Forest (psychic level 1)",
+            "text": "When an enemy unit targets this unit, if this unit is not **[gloss:battle-shocked:battle-shocked]**, you can make a **[gloss:psychic-roll:psychic roll]** for this unit by rolling one D6. If you do:\n▪ On a 1, this unit is **battle-shocked**.\n▪ Attacks that target this unit have -1 to **[gloss:hit-roll:hit rolls]** until the end of the phase."
+          }
+        ]
+      }
+    ],
     "keywords": [
-      "Grenades",
-      "Infantry",
       "Character",
-      "Epic Hero",
-      "Psyker",
       "Deathwing",
+      "Epic Hero",
+      "Explosives",
       "Imperium",
-      "Ezekiel",
-      "Librarian"
+      "Infantry",
+      "Librarian",
+      "Psyker",
+      "Tacticus"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
@@ -1308,22 +1282,22 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 80,
+        "points": 90,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 180,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 90,
+        "points": 105,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 195,
         "note": "3rd+"
       }
     ],
@@ -1332,7 +1306,7 @@ export default [
       {
         "name": "Inner Circle Companions",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "3",
         "ld": "6+",
@@ -1341,21 +1315,21 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Heavy bolt pistol",
+        "name": "Heavy Bolt Pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "18\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Calibanite greatsword - strike",
+        "name": "Calibanite Greatsword – strike",
         "tags": [
           "LETHAL HITS"
         ],
@@ -1366,7 +1340,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Calibanite greatsword - sweep",
+        "name": "Calibanite Greatsword – sweep",
         "tags": [
           "SUSTAINED HITS 2"
         ],
@@ -1377,39 +1351,32 @@ export default [
         "d": "1"
       }
     ],
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Braziers of Judgement",
-        "text": "▪ This unit has **Stealth**.\n▪ Melee attacks that target this unit have -1 to **hit rolls**."
+        "text": "▪ This unit has [core:Stealth].\n▪ Melee attacks that target this unit have -1 to **[gloss:hit-roll:hit rolls]**."
       },
       {
-        "name": "Enmity for the Unworthy",
-        "text": "Each time a model in this unit makes an attack that targets a CHARACTER unit, add 1 to the Hit roll."
+        "name": "Emnity for the Unworthy",
+        "text": "This unit's attacks that target a CHARACTER unit have +1 to **[gloss:hit-roll:hit rolls]**."
       }
     ],
     "composition": [
-      "3-6 Inner Circle Companions"
+      "3-6 Inner Circle Companions models"
     ],
-    "loadout": "**Every Inner Circle Companion is equipped with:** heavy bolt pistol; Calibanite greatsword.",
+    "loadout": "**Every model is equipped with:** 1 Calibanite Greatsword; 1 Heavy Bolt Pistol.",
     "keywords": [
-      "Tacticus",
       "Deathwing",
       "Imperium",
-      "Inner Circle Companions",
-      "Infantry"
+      "Infantry",
+      "Tacticus"
     ],
     "factionKeywords": [
-      "Dark Angels",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Dark Angels"
     ],
-    "baseSize": "40mm",
-    "rules": [
-      {
-        "name": "Attached Unit",
-        "text": "If a Character unit from your army with the Leader ability can be attached to a Sternguard Veteran Squad, it can be attached to this unit instead."
-      }
-    ]
+    "baseSize": "40mm"
   },
   {
     "id": "land-speeder-vengeance",
@@ -1417,12 +1384,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -1431,9 +1398,9 @@ export default [
       {
         "name": "Land Speeder Vengeance",
         "m": "14\"",
-        "t": "8",
+        "t": "9",
         "sv": "3+",
-        "w": "10",
+        "w": "11",
         "ld": "6+",
         "oc": "3",
         "inv": "5+"
@@ -1441,20 +1408,21 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Assault cannon",
+        "name": "Assault Cannon",
         "tags": [
-          "DEVASTATING WOUNDS"
+          "SUSTAINED HITS 1"
         ],
         "range": "24\"",
         "a": "6",
         "bs": "3+",
         "s": "6",
-        "ap": "0",
+        "ap": "-2",
         "d": "1"
       },
       {
-        "name": "Heavy bolter",
+        "name": "Heavy Bolter",
         "tags": [
+          "RAPID FIRE 2",
           "SUSTAINED HITS 1"
         ],
         "range": "36\"",
@@ -1465,70 +1433,70 @@ export default [
         "d": "2"
       },
       {
-        "name": "Plasma storm battery – standard",
+        "name": "Plasma Storm Battery – standard",
         "tags": [
-          "BLAST",
+          "BLAST 1",
           "TWIN-LINKED"
         ],
         "range": "36\"",
-        "a": "D6+1",
+        "a": "D3+3",
         "bs": "3+",
-        "s": "8",
+        "s": "9",
         "ap": "-2",
         "d": "2"
       },
       {
-        "name": "Plasma storm battery – supercharge",
+        "name": "Plasma Storm Battery – supercharge",
         "tags": [
-          "BLAST",
+          "BLAST 1",
           "HAZARDOUS",
           "TWIN-LINKED"
         ],
         "range": "36\"",
-        "a": "D6+1",
+        "a": "D3+3",
         "bs": "3+",
-        "s": "9",
+        "s": "10",
         "ap": "-3",
         "d": "3"
       }
     ],
     "melee": [
       {
-        "name": "Close combat weapon",
+        "name": "Armoured Hull",
         "tags": [],
-        "a": "4",
-        "ws": "3+",
-        "s": "4",
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
         "ap": "0",
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "core": "Deadly Demise D3, Deep Strike",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Storm of Vengeance",
-        "text": "Once per turn, in your opponent’s Shooting phase, when another friendly **ADEPTUS ASTARTES** unit within 6\" of this model is destroyed, one model from your army with this ability can use it. If it does, after the attacking unit has finished making its attacks, that model can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
+        "name": "Storm of Vengeance (Once per turn, per unit)",
+        "text": "In your opponent's Shooting phase, when an enemy unit has shot, if those attacks **[gloss:destroyed:destroyed]** a friendly DARK ANGELS unit within 6\" of this unit, you can use this ability. If you do, this unit shoots using **[gloss:normal-shooting:normal shooting]** but while doing so this unit can only target that enemy unit."
       }
     ],
     "composition": [
-      "1 Ravenwing Land Speeder Vengeance"
+      "1 Land Speeder Vengeance model"
     ],
-    "loadout": "**This model is equipped with:** heavy bolter; plasma storm battery; close combat weapon.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Heavy Bolter; 1 Plasma Storm Battery.",
     "options": [
-      "This model’s heavy bolter can be replaced with 1 assault cannon."
+      "This model's Heavy Bolter can be replaced with 1 Assault Cannon."
     ],
     "keywords": [
-      "Imperium",
       "Fly",
+      "Frame",
+      "Imperium",
       "Ravenwing",
-      "Land Speeder Vengeance",
-      "Vehicle",
-      "Frame"
+      "Speeder",
+      "Vehicle"
     ],
     "factionKeywords": [
-      "Dark Angels",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Dark Angels"
     ],
     "baseSize": "Large Flying Base"
   },
@@ -1538,7 +1506,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 80
       }
     ],
     "flavor": "Master Lazarus wields his sword, Enmity’s Edge, with all the martial skill expected of a Dark Angels Company Master. In even the most ferocious fighting he exhibits a calm demeanour, maintaining composure while giving masterful orders that have yielded great victories.",
@@ -1546,7 +1514,7 @@ export default [
       {
         "name": "Lazarus",
         "m": "6\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -1556,21 +1524,21 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Bolt pistol",
+        "name": "Bolt Pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Enmity’s Edge",
+        "name": "Enmity's Edge",
         "tags": [
           "ANTI-PSYKER 2+"
         ],
@@ -1582,67 +1550,66 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines, Transhuman Strategist",
     "abilities": [
       {
-        "name": "Intractable Will",
-        "text": "While this model is leading a unit, each time a model in that unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 4+, do not remove it from play; that destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+        "name": "The Spiritshield Helm",
+        "text": "This unit has [core:Feel No Pain 3+] against **[gloss:psychic-attack:psychic attacks]** and **[gloss:mortal-wound:mortal wounds]**."
       },
       {
-        "name": "The Spiritshield Helm",
-        "text": "This model has the Feel No Pain 3+ ability against Psychic Attacks and mortal wounds."
+        "name": "Intractable Will",
+        "text": "In the Fight phase, when a model in this unit is **[gloss:destroyed:destroyed]**, if this unit has not been **[gloss:selected-to-fight:selected to fight]** this phase, roll one D6:\n▪ On a 4+, do not remove that model from the battlefield. When your unit has fought, or at the end of the phase (whichever comes first), that model is removed from the battlefield."
       }
     ],
     "composition": [
-      "1 Lazarus – EPIC HERO"
+      "1 Lazarus model"
     ],
-    "loadout": "**This model is equipped with:** bolt pistol; Enmity’s Edge.",
+    "loadout": "**This model is equipped with:** 1 Bolt Pistol; 1 Enmity's Edge.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
         "Assault Intercessor Squad",
         "Bladeguard Veteran Squad",
+        "Company Heroes",
         "Infernus Squad",
         "Inner Circle Companions",
         "Intercessor Squad",
-        "Sternguard Veteran Squad",
-        "Tactical Squad"
+        "Sternguard Veteran Squad"
       ]
     },
     "keywords": [
-      "Epic Hero",
       "Captain",
       "Character",
-      "Infantry",
-      "Lazarus",
-      "Tacticus",
       "Deathwing",
+      "Epic Hero",
+      "Explosives",
       "Imperium",
-      "Grenades"
+      "Infantry",
+      "Tacticus"
     ],
     "factionKeywords": [
-      "Dark Angels",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Dark Angels"
     ],
     "baseSize": "40mm"
   },
   {
     "id": "lion-eljonson",
-    "name": "Lion El’Jonson",
+    "name": "Lion El'Jonson",
     "points": [
       {
         "models": 1,
-        "points": 265
+        "points": 415
       }
     ],
     "flavor": "Lion El’Jonson stalks from mist-wreathed shadow realms like an ancient questing knight hunting down the galaxy’s terrors. With the immense blade, Fealty, the Primarch cleaves apart the most heinous of monstrosities, while the Emperor’s Shield erupts in blazes of light and force in response to his foes’ savage blows.",
     "profiles": [
       {
-        "name": "Lion El’Jonson",
+        "name": "Lion El'Jonson",
         "m": "8\"",
-        "t": "9",
+        "t": "10",
         "sv": "2+",
-        "w": "10",
+        "w": "16",
         "ld": "5+",
         "oc": "4",
         "inv": "3+"
@@ -1652,26 +1619,26 @@ export default [
       {
         "name": "Arma Luminis – bolt",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
-        "range": "12\"",
+        "range": "18\"",
         "a": "4",
         "bs": "2+",
-        "s": "4",
-        "ap": "-1",
+        "s": "6",
+        "ap": "-2",
         "d": "2"
       },
       {
         "name": "Arma Luminis – plasma",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
-        "range": "12\"",
+        "range": "18\"",
         "a": "2",
         "bs": "2+",
-        "s": "8",
+        "s": "10",
         "ap": "-3",
-        "d": "2"
+        "d": "3"
       }
     ],
     "melee": [
@@ -1689,9 +1656,10 @@ export default [
       {
         "name": "Fealty – sweep",
         "tags": [
+          "CLEAVE 2",
           "SUSTAINED HITS 1"
         ],
-        "a": "16",
+        "a": "12",
         "ws": "2+",
         "s": "6",
         "ap": "-3",
@@ -1699,47 +1667,62 @@ export default [
       }
     ],
     "core": "Deep Strike, Fights First",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines, Transhuman Strategist",
     "abilities": [
       {
-        "name": "Primarch of the First Legion",
-        "text": "At the start of your Command phase, select two Primarch of the First Legion abilities. Until the start of your next Command phase, this model has those abilities."
-      },
-      {
-        "name": "The Emperor’s Shield",
-        "text": "Each time an attack targets this model, if the Strength characteristic of that attack is greater than the Toughness characteristic of this model, subtract 1 from the Wound roll."
+        "name": "The Emperor's Shield",
+        "text": "Attacks that target this unit with a **[gloss:strength:S]** greater than this unit's **[gloss:toughness:T]** have -1 to **[gloss:wound-roll:wound rolls]**."
       },
       {
         "name": "Dark Angels Bodyguard",
-        "text": "While this model is within 3\" of one or more friendly ADEPTUS ASTARTES INFANTRY units, this model has the Lone Operative ability."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "Mist-wreathed Shadow Realms",
-        "text": "In your Command phase, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in Strategic Reserves.\n▪ This unit can make an ingress move in your next Movement phase (including in your first turn)."
+        "text": "While this unit is within 3\" of a friendly DARK ANGELS INFANTRY unit, this unit has [core:Lone Operative]."
       },
       {
-        "name": "Martial Exemplar (Aura)",
-        "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of this model, each time a model in that unit makes a melee attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+        "name": "Master Strategist",
+        "text": "In your Command phase, you can use this ability. If you do, select one **[gloss:sm-combat-doctrine:combat doctrine]** to be active for this unit until the start of your next Command phase, __in addition__ to any other **combat doctrine**."
       },
       {
-        "name": "No Hiding From the Watchers (Aura)",
-        "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of this model, models in that unit have the Feel No Pain 4+ ability against mortal wounds."
+        "name": "Primarch of the First Legion",
+        "text": "At the start of your Command phase, you can select up to two of the abilities in the Primarch of the First Legion section. Until the start of your next Command phase, this model has those abilities."
+      },
+      {
+        "name": "The Watchers",
+        "text": "This unit has [core:Feel No Pain 4+] against **[gloss:psychic-attack:psychic attacks]** and **[gloss:mortal-wound:mortal wounds]**."
       }
     ],
     "composition": [
-      "1 Lion El’Jonson – EPIC HERO"
+      "1 Lion El'Jonson model"
     ],
-    "loadout": "**This model is equipped with:** Arma Luminis; Fealty.",
-    "options": [
-      "None"
+    "loadout": "**This model is equipped with:** 1 Arma Luminis; 1 Fealty.",
+    "rules": [
+      {
+        "name": "Supreme Commander",
+        "text": "If this model is in your army, it must be your WARLORD."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "Primarch of the First Legion",
+        "options": [
+          {
+            "name": "Mist-wreathed Shadow Realms",
+            "text": "In your Command phase, if this unit is **[gloss:unengaged:unengaged]**, you can use this ability. If you do:\n▫ Place this unit in **[gloss:strategic-reserves:strategic reserves]**.\n▫ This unit can make an **[gloss:ingress-move:ingress move]** in your next Movement phase (including in your first turn)."
+          },
+          {
+            "name": "Martial Exemplar",
+            "text": "While a friendly DARK ANGELS unit is within 6\" of this unit, that unit's melee attacks can:\n▪ Re-roll **[gloss:hit-roll:hit rolls]** of 1.\n▪ Re-roll **[gloss:wound-roll:wound rolls]** of 1."
+          },
+          {
+            "name": "No Hiding from the Watchers",
+            "text": "While a friendly DARK ANGELS unit is within 6\" of this unit, that unit has [core:Feel No Pain 5+] against **[gloss:psychic-attack:psychic attacks]** and **[gloss:mortal-wound:mortal wounds]**."
+          }
+        ]
+      }
     ],
     "keywords": [
       "Character",
       "Epic Hero",
       "Imperium",
-      "Lion El’Jonson",
       "Mobile",
       "Monster",
       "Primarch"
@@ -1748,13 +1731,7 @@ export default [
       "Adeptus Astartes",
       "Dark Angels"
     ],
-    "baseSize": "60mm",
-    "rules": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
-      }
-    ]
+    "baseSize": "60mm"
   },
   {
     "id": "nephilim-jetfighter",
@@ -1762,7 +1739,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180
+        "points": 200
       }
     ],
     "flavor": "Sleek air-to-air interceptors, Nephilim Jetfighters perform lightning-fast manoeuvres in high-speed warfare. These pilots continually push the Techmarines for enhancements and modification to their craft to make them faster and deadlier – the results have proven truly substantial.",
@@ -1780,7 +1757,17 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Avenger mega bolter",
+        "name": "Nephilim Lascannons",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D3+3"
+      },
+      {
+        "name": "Avenger Mega Bolter",
         "tags": [
           "SUSTAINED HITS 1"
         ],
@@ -1792,7 +1779,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Blacksword missiles",
+        "name": "Blacksword Missiles",
         "tags": [
           "ANTI-FLY 2+"
         ],
@@ -1801,21 +1788,12 @@ export default [
         "bs": "3+",
         "s": "8",
         "ap": "-2",
-        "d": "D6"
+        "d": "D3+2"
       },
       {
-        "name": "Nephilim lascannons",
-        "tags": [],
-        "range": "48\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "12",
-        "ap": "-3",
-        "d": "D6+1"
-      },
-      {
-        "name": "Twin heavy bolter",
+        "name": "Twin Heavy Bolter",
         "tags": [
+          "RAPID FIRE 2",
           "SUSTAINED HITS 1",
           "TWIN-LINKED"
         ],
@@ -1829,7 +1807,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Hull",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -1838,31 +1816,26 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "core": "Deadly Demise D3, Damaged 3",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Lightning-fast Manoeuvres",
-        "text": "Ranged attacks that target this unit have -1 to **wound rolls**."
+        "text": "Ranged attacks that target this unit have -1 to **[gloss:wound-roll:wound rolls]**."
       }
     ],
-    "damaged": {
-      "note": "1-3 wounds remaining",
-      "text": "While this model has 1-3 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Nephilim Jetfighter"
+      "1 Nephilim Jetfighter model"
     ],
-    "loadout": "**This model is equipped with:** avenger mega bolter; blacksword missiles; twin heavy bolter; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Avenger Mega Bolter; 1 Blacksword Missiles; 1 Twin Heavy Bolter.",
     "options": [
-      "This model’s avenger mega bolter can be replaced with 1 Nephilim lascannons."
+      "This model's Twin Heavy Bolter can be replaced with 1 Nephilim Lascannons."
     ],
     "keywords": [
-      "Imperium",
-      "Ravenwing",
-      "Nephilim Jetfighter",
       "Aircraft",
       "Fly",
+      "Imperium",
+      "Ravenwing",
       "Vehicle"
     ],
     "factionKeywords": [
@@ -1877,31 +1850,41 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 75,
+        "points": 85,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 150,
+        "points": 170,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 85,
+        "points": 95,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 180,
         "note": "3rd+"
       }
     ],
     "flavor": "The Ravenwing Black Knights are the 2nd Company’s greatest warriors, elite fighters who style themselves after the monster-hunting knights of old Caliban. They speed towards the foe, swinging their corvus hammers with such force that the spiked end punctures even the thickest armour.",
     "profiles": [
       {
-        "name": "Ravenwing Black Knights",
+        "name": "Ravenwing Huntmaster",
         "m": "12\"",
-        "t": "5",
+        "t": "6",
+        "sv": "3+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "5+"
+      },
+      {
+        "name": "Ravenwing Black Knight",
+        "m": "12\"",
+        "t": "6",
         "sv": "3+",
         "w": "3",
         "ld": "6+",
@@ -1911,41 +1894,43 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Astartes grenade launcher – frag",
+        "name": "Grenade Launcher – frag",
         "tags": [
-          "BLAST"
+          "BLAST 1"
         ],
         "range": "24\"",
-        "a": "D3",
+        "a": "4",
         "bs": "3+",
         "s": "4",
-        "ap": "0",
+        "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Astartes grenade launcher – krak",
-        "tags": [],
+        "name": "Grenade Launcher – krak",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
         "range": "24\"",
         "a": "1",
         "bs": "3+",
-        "s": "9",
+        "s": "10",
         "ap": "-2",
-        "d": "D3"
+        "d": "3"
       },
       {
-        "name": "Bolt pistol",
+        "name": "Bolt Pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Plasma talon – standard",
+        "name": "Plasma Talon – standard",
         "tags": [
           "RAPID FIRE 1"
         ],
@@ -1957,7 +1942,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma talon – supercharge",
+        "name": "Plasma Talon – supercharge",
         "tags": [
           "HAZARDOUS",
           "RAPID FIRE 1"
@@ -1972,50 +1957,43 @@ export default [
     ],
     "melee": [
       {
-        "name": "Black Knight combat weapon",
+        "name": "Corvus Hammers",
         "tags": [
           "DEVASTATING WOUNDS"
         ],
-        "a": "3",
+        "a": "4",
         "ws": "3+",
         "s": "5",
         "ap": "-2",
         "d": "1"
       }
     ],
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Knights of Caliban",
-        "text": "Each time this unit is selected to fight, if it made a Charge move this turn, until the end of the phase, melee weapons equipped by models in this unit have the [ANTI-MONSTER 4+] and [ANTI-VEHICLE 4+] abilities."
+        "text": "If this unit made a **[gloss:charge-move:charge move]** this turn, this unit's melee attacks have [ANTI-MONSTER/VEHICLE 4+]."
       }
     ],
     "composition": [
-      "1 Ravenwing Huntmaster",
-      "2-5 Ravenwing Black Knights"
+      "1 Ravenwing Huntmaster model",
+      "2-5 Ravenwing Black Knight models"
     ],
-    "loadout": "**Every model is equipped with:** bolt pistol; plasma talon; Black Knight combat weapon.",
+    "loadout": "**Every model is equipped with:** 1 Bolt Pistol; 1 Corvus Hammers; 1 Plasma Talon.",
     "options": [
-      "For every 3 models in this unit, 1 model can replace its plasma talon with 1 Astartes grenade launcher."
+      "For every 3 models in this unit, 1 model can have their Plasma Talon replaced with 1 Grenade Launcher."
     ],
     "keywords": [
-      "Ravenwing",
+      "Explosives",
       "Imperium",
       "Mounted",
-      "Grenades",
-      "Ravenwing Black Knights"
+      "Ravenwing"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
       "Dark Angels"
     ],
-    "baseSize": "75x42mm Oval Base",
-    "rules": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability can be attached to an Outrider Squad, it can be attached to this unit instead."
-      }
-    ]
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "ravenwing-command-squad",
@@ -2023,21 +2001,41 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 105,
+        "points": 115,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 115,
+        "points": 135,
         "note": "3rd+"
       }
     ],
     "flavor": "Ravenwing Command Squads speed into battle at the very head of the hunt. With their champion ready to duel for the honour of the Company, the Ancient’s banner fluttering in the wind like a knightly pennant, and the Apothecary on hand to heal the most grievous injuries, these formidable warriors aid their comrades in running down even the most dangerous quarry.",
     "profiles": [
       {
-        "name": "Ravenwing Command Squad",
+        "name": "Ravenwing Apothecary",
         "m": "12\"",
-        "t": "5",
+        "t": "6",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "5+"
+      },
+      {
+        "name": "Ravenwing Champion",
+        "m": "12\"",
+        "t": "6",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "5+"
+      },
+      {
+        "name": "Ravenwing Ancient",
+        "m": "12\"",
+        "t": "6",
         "sv": "3+",
         "w": "4",
         "ld": "6+",
@@ -2047,41 +2045,43 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Astartes grenade launcher – frag",
+        "name": "Grenade Launcher – frag",
         "tags": [
-          "BLAST"
+          "BLAST 1"
         ],
         "range": "24\"",
-        "a": "D3",
+        "a": "4",
         "bs": "3+",
         "s": "4",
-        "ap": "0",
+        "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Astartes grenade launcher – krak",
-        "tags": [],
+        "name": "Grenade Launcher – krak",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
         "range": "24\"",
         "a": "1",
         "bs": "3+",
-        "s": "9",
+        "s": "10",
         "ap": "-2",
-        "d": "D3"
+        "d": "3"
       },
       {
-        "name": "Bolt pistol",
+        "name": "Bolt Pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
         "bs": "3+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Plasma talon – standard",
+        "name": "Plasma Talon – standard",
         "tags": [
           "RAPID FIRE 1"
         ],
@@ -2093,7 +2093,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma talon – supercharge",
+        "name": "Plasma Talon – supercharge",
         "tags": [
           "HAZARDOUS",
           "RAPID FIRE 1"
@@ -2108,50 +2108,50 @@ export default [
     ],
     "melee": [
       {
-        "name": "Black Knight combat weapon",
+        "name": "Corvus Hammers",
         "tags": [
           "DEVASTATING WOUNDS"
         ],
-        "a": "3",
+        "a": "4",
         "ws": "3+",
         "s": "5",
         "ap": "-2",
         "d": "1"
       },
       {
-        "name": "Master-crafted power weapon",
+        "name": "Master-crafted Power Weapon",
         "tags": [],
         "a": "6",
         "ws": "2+",
-        "s": "5",
+        "s": "6",
         "ap": "-2",
         "d": "2"
       }
     ],
     "core": "Support",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Narthecium",
-        "text": "While this unit contains a Ravenwing Apothecary, in your Command phase, you can return 1 destroyed model (excluding CHARACTER and Invader ATV models) to this unit."
+        "text": "While this unit contains a RAVENWING APOTHECARY, in your Command phase, this unit **[gloss:heal:heals]** D3+1 wounds."
       },
       {
         "name": "Astartes Banner",
-        "text": "While this unit contains a Ravenwing Ancient, add 1 to the Objective Control characteristic of models in this unit."
+        "text": "While this unit contains a RAVENWING ANCIENT, this unit has +1 **[gloss:objective-control:OC]**."
       },
       {
         "name": "Honour or Death",
-        "text": "While this unit contains a Ravenwing Champion, add 1 to Advance and Charge rolls made for this unit. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP."
+        "text": "While this unit contains a RAVENWING CHAMPION:\n▪ This unit has +1 to **[gloss:advance-roll:advance rolls]** and **[gloss:charge-roll:charge rolls]**.\n▪ When you target this unit with the **[gloss:heroic-intervention:Heroic Intervention stratagem]**, that use is -1CP."
       }
     ],
     "composition": [
-      "1 Ravenwing Champion",
-      "1 Ravenwing Apothecary",
-      "1 Ravenwing Ancient"
+      "1 Ravenwing Ancient model",
+      "1 Ravenwing Apothecary model",
+      "1 Ravenwing Champion model"
     ],
-    "loadout": "**The Ravenwing Champion is equipped with:** bolt pistol; plasma talon; master-crafted power weapon.\n\n**Every other model is equipped with:** bolt pistol; plasma talon; Black Knight combat weapon.",
+    "loadout": "**The Ravenwing Ancient is equipped with:** 1 Bolt Pistol; 1 Corvus Hammers; 1 Plasma Talon.\n**The Ravenwing Apothecary is equipped with:** 1 Bolt Pistol; 1 Corvus Hammers; 1 Plasma Talon.\n**The Ravenwing Champion is equipped with:** 1 Bolt Pistol; 1 Master-crafted Power Weapon; 1 Plasma Talon.",
     "options": [
-      "For every 3 models in this unit, 1 model’s plasma talon can be replaced with 1 Astartes grenade launcher."
+      "For every 3 models in this unit, 1 model can have their Plasma Talon replaced with 1 Grenade Launcher."
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -2161,16 +2161,14 @@ export default [
       ]
     },
     "keywords": [
+      "Explosives",
       "Imperium",
-      "Ravenwing",
-      "Ravenwing Command Squad",
-      "Character",
       "Mounted",
-      "Grenades"
+      "Ravenwing"
     ],
     "factionKeywords": [
-      "Dark Angels",
-      "Adeptus Astartes"
+      "Adeptus Astartes",
+      "Dark Angels"
     ],
     "baseSize": "75x42mm Oval Base"
   },
@@ -2180,7 +2178,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 200
+        "points": 190
       }
     ],
     "flavor": "The Dark Talon is a close-attack aircraft designed to help the Rovenwing snatch up their most tenacious or troublesome prey. It is aided in this role by armaments doting bock to the Dark Age of Technology, such os the empirically charged rift cannon and the sinister stasis bomb, that trammels victims in o rone of slowed time.",
@@ -2198,22 +2196,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Hurricane bolter",
+        "name": "Rift Cannon",
         "tags": [
-          "RAPID FIRE 6",
-          "TWIN-LINKED"
-        ],
-        "range": "24\"",
-        "a": "6",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Rift cannon",
-        "tags": [
-          "BLAST",
+          "BLAST 1",
           "DEVASTATING WOUNDS"
         ],
         "range": "18\"",
@@ -2222,11 +2207,24 @@ export default [
         "s": "16",
         "ap": "-4",
         "d": "3"
+      },
+      {
+        "name": "Hurricane Bolter",
+        "tags": [
+          "RAPID FIRE 6",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Hull",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -2235,29 +2233,24 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "core": "Deadly Demise D3, Damaged 3",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
         "name": "Stasis Bomb",
-        "text": "At the end of your opponent’s Fight phase, select one **visible** enemy unit (excluding **AIRCRAFT**/**Lone Operative** units) within 24\" of this unit. That enemy unit is **slowed** until the end of your opponent’s next Movement phase:\n▪ While a unit is **slowed**, in your opponent’s Movement phase, when that unit is **selected to move**, unless that unit **remains stationary**, roll one D6:\n▪ On a 1-4, that unit suffers D3 **mortal wounds** and that unit has -2\" **M**.\n▪ On a 5-6, that unit suffers 2D3 **mortal wounds** and that unit has -3\" **M**."
+        "text": "At the end of your opponent’s Fight phase, select one visible enemy unit (excluding AIRCRAFT/[core:Lone Operative] units) within 24\" of this unit. That enemy unit is **slowed** until the end of your opponent's next Movement phase:\n▪ While a unit is **slowed**, in your opponent's Movement phase, when that unit is **[gloss:selected-to-move:selected to move]**, unless that unit **[gloss:remain-stationary:remains stationary]**, roll one D6:\n▪ On a 1-4, that unit suffers D3 **[gloss:mortal-wound:mortal wounds]** and that unit has -2” **[gloss:move-characteristic:M]**.\n▪ On a 5-6, that unit suffers 2D3 **mortal wounds** and that unit has -3” **M**."
       }
     ],
-    "damaged": {
-      "note": "1-3 wounds remaining",
-      "text": "While this model has 1-3 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Ravenwing Dark Talon"
+      "1 Ravenwing Dark Talon model"
     ],
-    "loadout": "**This model is equipped with:** rift cannon; 2 hurricane bolters; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 2 Hurricane Bolter; 1 Rift Cannon.",
     "keywords": [
-      "Dark Talon",
-      "Vehicle",
       "Aircraft",
-      "Ravenwing",
       "Fly",
-      "Imperium"
+      "Imperium",
+      "Ravenwing",
+      "Vehicle"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
@@ -2271,7 +2264,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 80
       }
     ],
     "flavor": "Mounted upon each Darkshroud is a mysterious statue that survived Caliban’s destruction and became imbued with the energies released by that cataclysmic event. Through the artifi ce of the Dark Angels, these energies are amplified and used to obscure those battle-brothers near to the Darkshroud from enemy sight.",
@@ -2289,20 +2282,21 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Assault cannon",
+        "name": "Assault Cannon",
         "tags": [
-          "DEVASTATING WOUNDS"
+          "SUSTAINED HITS 1"
         ],
         "range": "24\"",
         "a": "6",
         "bs": "3+",
         "s": "6",
-        "ap": "0",
+        "ap": "-2",
         "d": "1"
       },
       {
-        "name": "Heavy bolter",
+        "name": "Heavy Bolter",
         "tags": [
+          "RAPID FIRE 2",
           "SUSTAINED HITS 1"
         ],
         "range": "36\"",
@@ -2315,36 +2309,36 @@ export default [
     ],
     "melee": [
       {
-        "name": "Close combat weapon",
+        "name": "Armoured Hull",
         "tags": [],
-        "a": "4",
-        "ws": "3+",
-        "s": "4",
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
         "ap": "0",
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "core": "Deadly Demise D3, Deep Strike, Lone Operative 15\"",
+    "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Icon of Old Caliban (Aura)",
-        "text": "Friendly **ADEPTUS ASTARTES** units within 6\" of this unit have **Stealth**."
+        "name": "Icon of Old Caliban",
+        "text": "While a friendly DARK ANGELS unit is within 6\" of this unit, that unit has [core:Stealth]."
       }
     ],
     "composition": [
-      "1 Ravenwing Darkshroud"
+      "1 Ravenwing Darkshroud model"
     ],
-    "loadout": "**This model is equipped with:** heavy bolter; close combat weapon.",
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Heavy Bolter.",
     "options": [
-      "This model’s heavy bolter can be replaced with 1 assault cannon."
+      "This model's Heavy Bolter can be replaced with 1 Assault Cannon."
     ],
     "keywords": [
-      "Darkshroud",
       "Fly",
       "Frame",
       "Imperium",
       "Ravenwing",
+      "Speeder",
       "Vehicle"
     ],
     "factionKeywords": [
@@ -2456,7 +2450,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 105
+        "points": 120
       }
     ],
     "flavor": "Sammael rides to war on the jetbike Corvex, a relic from the Dark Age of Technology. Upon this ancient mount, the Ravenwing’s commander charges into the fray, storm bolters and plasma cannon causing hideous damage before he moves in for the kill with the Raven Sword, an heirloom with a razor edge that can never dull.",
@@ -2464,7 +2458,7 @@ export default [
       {
         "name": "Sammael",
         "m": "12\"",
-        "t": "5",
+        "t": "6",
         "sv": "3+",
         "w": "7",
         "ld": "6+",
@@ -2474,31 +2468,31 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Bolt pistol",
+        "name": "Bolt Pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Master-crafted plasma cannon",
+        "name": "Master-crafted Plasma Cannon",
         "tags": [
-          "BLAST"
+          "BLAST 1"
         ],
         "range": "36\"",
-        "a": "D3",
+        "a": "3",
         "bs": "2+",
         "s": "8",
         "ap": "-3",
-        "d": "2"
+        "d": "3"
       },
       {
-        "name": "Twin storm bolter",
+        "name": "Twin Storm Bolter",
         "tags": [
           "RAPID FIRE 2",
           "TWIN-LINKED"
@@ -2506,8 +2500,8 @@ export default [
         "range": "24\"",
         "a": "2",
         "bs": "2+",
-        "s": "4",
-        "ap": "0",
+        "s": "5",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2525,21 +2519,21 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Combat Doctrines, Transhuman Strategist",
     "abilities": [
       {
-        "name": "Grand Master of the Ravenwing",
-        "text": "▪ This unit’s ranged attacks have **[ASSAULT]**.\n▪ When this unit is selected to make an **advance move**, that **advance** **move** does not prevent this unit from being **eligible to declare a charge**.\n▪ This unit has **MOBILE**."
+        "name": "Cut Off Their Escape",
+        "text": "When an enemy unit **[gloss:engaged:engaged]** with this unit (excluding MONSTER/VEHICLE units) makes a **[gloss:fall-back-move:fall-back move]**, that enemy unit must use the **[gloss:desperate-escape:desperate escape mode]**. If that enemy unit is **[gloss:battle-shocked:battle‑shocked]**, ‑1 from those **[gloss:hazard-roll:hazard rolls]**."
       },
       {
-        "name": "Cut Off Their Escape",
-        "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of this model’s unit is selected to Fall Back, models in that enemy unit must take Desperate Escape tests as if their unit was Battle-shocked. When doing so, if that enemy unit is also Battle-shocked by other means, subtract 1 from each of those Desperate Escape tests."
+        "name": "Grand Master of the Ravenwing",
+        "text": "▪ This unit has MOBILE.\n▪ In your Command phase, you can use this ability. If you do, select one **[gloss:sm-combat-doctrine:combat doctrine]** to be active for this unit until the start of your next Command phase."
       }
     ],
     "composition": [
-      "1 Sammael – EPIC HERO"
+      "1 Sammael model"
     ],
-    "loadout": "**This model is equipped with:** bolt pistol; master-crafted plasma cannon; twin storm bolter; the Raven Sword.",
+    "loadout": "**This model is equipped with:** 1 Bolt Pistol; 1 Master-crafted Plasma Cannon; 1 The Raven Sword; 1 Twin Storm Bolter.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -2548,16 +2542,15 @@ export default [
       ]
     },
     "keywords": [
-      "Sammael",
       "Captain",
-      "Ravenwing",
-      "Imperium",
-      "Grenades",
-      "Fly",
-      "Epic Hero",
       "Character",
+      "Epic Hero",
+      "Explosives",
+      "Fly",
+      "Frame",
+      "Imperium",
       "Mounted",
-      "Frame"
+      "Ravenwing"
     ],
     "factionKeywords": [
       "Adeptus Astartes",

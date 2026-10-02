@@ -71,11 +71,14 @@ import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
-import { enhKey } from '../../composables/rosterModifiers.js'
+import { findEnhancementProse } from '../../composables/rosterModifiers.js'
 
 const props = defineProps({
   name: { type: String, required: true },
   factionSlug: { type: String, required: true },
+  // The list's own detachments (names or objects): an enhancement name can repeat across a
+  // faction's detachments, and these are searched first (findEnhancementProse).
+  detachments: { type: Array, default: () => [] },
 })
 const { accentStyle } = useFactionAccent(toRef(props, 'factionSlug'))
 defineEmits(['close'])
@@ -96,25 +99,13 @@ watch(
     enh.value = null
     loaded.value = false
     if (!slug || !name) return
-    const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
-      import('../../data/factions/index.js'),
-      import('../../data/factions/ru/index.js'),
-    ])
-    const data = await loadFaction(slug)
-    if (props.factionSlug !== slug) return
-    let fac = data?.en
-    if (fac && loc === 'ru') {
-      const mod = await loadFactionRu(slug)
-      if (props.factionSlug !== slug || locale.value !== 'ru') return
-      if (mod) fac = deepOverlay(fac, mod.default)
-    }
-    const target = enhKey(name)
-    let found = null
-    for (const d of fac?.detachments || []) {
-      found = d.enhancements?.find((e) => enhKey(e.name) === target)
-      if (found) break
-    }
-    enh.value = found || null
+    // Every detachment the list can field — a Chapter's include the Codex: Space Marines ones,
+    // which live in that faction's file (a player's report, 2026-10-01: Blood Angels lists showed
+    // no text for Gladius Task Force's enhancements). Same loader as the list's Rules tab.
+    const { loadRosterFactionRules } = await import('../../composables/rosterFactionRules.js')
+    const { lookup } = await loadRosterFactionRules(slug, loc)
+    if (props.factionSlug !== slug || locale.value !== loc) return
+    enh.value = findEnhancementProse(lookup.values(), name, props.detachments)
     loaded.value = true
   },
   { immediate: true },

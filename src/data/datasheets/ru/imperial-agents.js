@@ -9,13 +9,11 @@ const EQUIP_THIS = '**Эта модель вооружена:**'
 const EQUIP_EVERY = '**Каждая модель вооружена:**'
 const INV4 = 'Носитель имеет инвулевый спас-бросок 4+.'
 const DEATH_TO_ALIEN =
-  'Каждый раз, когда модель этого юнита совершает атаку, перебросьте бросок попадания, равный 1. Если цель этой атаки не имеет ключевых слов IMPERIUM или CHAOS, вы можете вместо этого перебросить бросок попадания.'
+  'Атаки этого юнита могут:\n▪ Перебрасывать **[gloss:hit-roll:броски на попадание]**, равные 1.\n▪ __Или:__ если цель этих атак не имеет IMPERIUM/CHAOS — перебрасывать **броски на попадание**.'
 const AUTHORITY =
   'Пока эта модель возглавляет юнит, она может погружаться в любой TRANSPORT, в который может погружаться её юнит телохранителей (Bodyguard).'
 const NUNCIO =
   'Один раз за битву, в начале любой фазы командования, вы можете выбрать один маркер цели в пределах 6" от носителя. Все вражеские юниты (исключая MONSTERS и VEHICLES) в радиусе этого маркера цели обязаны пройти проверку боевого шока. Каждый маркер цели может быть целью этой способности только один раз за ход.\n\n**Примечание разработчика:** положите один жетон Nuncio-aquila рядом с носителем, убрав его, когда он задействует эту способность.'
-const dmgHitMinus = (range) =>
-  `Пока у этой модели осталось ${range} ран, каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.`
 
 export default {
   'aquila-kill-team': {
@@ -24,20 +22,15 @@ export default {
     abilities: {
       'Death to the Alien': DEATH_TO_ALIEN,
       'Kill Team':
-        'Каждый раз, когда атака нацеливается на этот юнит, если он содержит модели с разными характеристиками Стойкости (Toughness), до тех пор пока атакующий юнит не завершит свои атаки, используйте характеристику Стойкости большинства моделей этого юнита при определении того, какой бросок требуется, чтобы эта атака успешно ранила. Если два или более значений Стойкости представлены поровну, используйте наибольшее.\n\nПри определении того, какие модели этого юнита могут погружаться в Transport, модели Gravis Veteran занимают место 2 моделей, но в остальном могут погружаться в любой TRANSPORT, в который может погружаться их юнит, даже несмотря на то, что аналогичные модели в других юнитах имеют ключевое слово GRAVIS.\n\n**Примечание разработчика:** хотя допущения в правиле выше заставляют некоторые модели вести себя иначе, чем аналогичные модели в других юнитах, оно призвано упростить правила транспортов.',
+        'Каждый раз, когда атака нацелена на этот юнит, если он содержит модели с разными характеристиками **[gloss:toughness:T]**, пока атакующие модели не завершат свои атаки, используйте характеристику **T** большинства моделей юнита при определении того, какой бросок требуется, чтобы эта атака успешно ранила. Если два или более значений **T** представлены поровну, используйте наибольшее.\n\nПри определении того, какие модели этого юнита могут погружаться в TRANSPORT, модели Gravis Veteran занимают место 2 моделей, но в остальном могут погружаться в любой TRANSPORT, в который может погружаться их юнит, даже несмотря на то, что аналогичные модели в других юнитах имеют ключевое слово GRAVIS.',
     },
-    wargearAbilities: { 'Astartes Shield': INV4 },
-    specialAbilities: {
-      'ATTACHED UNIT':
-        'Если юнит Character вашей армии можно присоединить к юниту Deathwatch Kill Team, вместо этого его можно присоединить к этому юниту.',
-    },
+    wargearAbilities: { 'Storm Shield': 'Эта модель имеет 4+ **[gloss:invulnerable-save:InSv]**.' },
     loadout:
-      '**Каждый Kill Team Sergeant вооружён:** plasma pistol; power weapon.\n\n**Каждый Gravis Veteran вооружён:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** bolt pistol; heavy thunder hammer.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**Если юнит содержит 10 моделей, 1 Deathwatch Veteran вооружён:** special-issue bolt pistol; xenophase blade.',
+      '**Модель Deathwatch Veteran with Xenophase Blade and Special-issue Bolt Pistol вооружена:** 1 Special-issue Bolt Pistol; 1 Xenophase Blade.\n**Модель Kill Team Sergeant вооружена:** 1 Plasma Pistol; 1 Power Weapon.\n**Каждая модель Deathwatch Veteran with Deathwatch Marksman Bolt Carbine, Special-issue Bolt Pistol and Knives and Fists вооружена:** 1 Deathwatch Marksman Bolt Carbine; 1 Knives and Fists; 1 Special-issue Bolt Pistol.\n**Каждая модель Deathwatch Veteran with Heavy Thunder Hammer and Bolt Pistol вооружена:** 1 Bolt Pistol; 1 Heavy Thunder Hammer.\n**Каждая модель Deathwatch Veteran with Stalker Bolt Rifle, Bolt Pistol and Knives and Fists вооружена:** 1 Bolt Pistol; 1 Knives and Fists; 1 Stalker Bolt Rifle.\n**Каждая модель Gravis Veteran вооружена:** 1 Bolt Pistol; 1 Infernus Heavy Bolter; 1 Knives and Fists.',
     options: [
-      'За каждые 5 моделей в юните у до 1 модели её infernus heavy bolter можно заменить на одно из следующего:\n▪ 1 frag cannon.\n▪ 1 hellstorm bolt rifle и 1 Astartes grenade launcher.',
-      'За каждые 5 моделей в юните у до 1 модели её heavy thunder hammer можно заменить на 1 power weapon и 1 Astartes shield.',
-      'За каждые 5 моделей в юните у до 1 модели её stalker bolt rifle можно заменить на 1 plasma incinerator.',
-      'За каждые 5 моделей в юните у до 1 модели её Deathwatch marksman bolt carbine можно заменить на 1 combat knife.',
+      'За каждые 5 моделей в этом юните 1 модели Deathwatch Veteran with Stalker Bolt Rifle, Bolt Pistol and Knives and Fists можно заменить её Stalker Bolt Rifle на 1 Plasma Incinerator.',
+      'За каждые 5 моделей в этом юните 1 модели Gravis Veteran можно заменить её Infernus Heavy Bolter на одно из следующего: 1 Frag Cannon, 1 Hellstorm Bolt Rifle и 1 Grenade Launcher',
+      'За каждые 5 моделей в этом юните 1 модели Deathwatch Veteran with Heavy Thunder Hammer and Bolt Pistol можно заменить её Heavy Thunder Hammer на 1 Power Weapon и 1 Storm Shield.',
     ],
   },
 
@@ -48,9 +41,9 @@ export default {
       'Там, где действует Callidus Assassin, расцветает анархия. С помощью меняющего облик наркотика полиморфина они втираются в ближайшее окружение цели, саботируя системы и сея дезинформацию, прежде чем сойтись с жертвой — залпами разрушающего разум пистолета и взмахами загадочного клинка.',
     abilities: {
       'Acrobatic Escape':
-        '▪ В конце фазы ближнего боя, если этот юнит связан ближним боем, он может совершить манёвр отступления до D6".\n▪ В конце хода вашего оппонента, если этот юнит находится более чем в 3" от всех вражеских юнитов, вы можете задействовать эту способность. Если вы это делаете:\n▪ Поместите этот юнит в стратегические резервы.\n▪ Этот юнит обязан совершить манёвр прибытия (ingress move) в вашей следующей фазе движения (включая ваш первый ход).',
+        '▪ В конце фазы ближнего боя, если этот юнит связан ближним боем, он может совершить манёвр **[gloss:fall-back-move:отступления]** до D6".\n▪ В конце хода вашего оппонента, если этот юнит находится более чем в 3" от всех вражеских юнитов, вы можете задействовать эту способность. Если вы это делаете:\n▪ Поместите этот юнит в **[gloss:strategic-reserves:стратегические резервы]**.\n▪ Этот юнит обязан совершить **[gloss:ingress-move:манёвр прибытия]** (ingress move) в вашей следующей фазе движения (включая ваш первый ход).',
       'Reign of Confusion':
-        'Один раз за ход, когда ваш оппонент выбирает целью стратагемы юнит своей армии в пределах 12" от этой модели, эта модель может задействовать эту способность. Если она это делает, увеличьте стоимость этого применения этой стратагемы на 1 CP.',
+        'Один раз за ход, когда ваш оппонент выбирает целью **[gloss:stratagem:стратагемы]** юнит своей армии в пределах 12" от этой модели, эта модель может задействовать эту способность. Если она это делает, увеличьте стоимость этого применения этой **стратагемы** на 1 CP.',
     },
     loadout: `${EQUIP_THIS} neural shredder; phase sword and poison blades.`,
   },
@@ -60,21 +53,19 @@ export default {
       'Corvus Blackstar — обтекаемые, скрытные летательные аппараты, что используются для высадки kill team в кишащие врагом зоны или даже в цитадели ксеносов. Залпом ракет Blackstar добывают господство в воздухе и зачищают целевую точку, прежде чем включить парящие двигатели и доставить свой смертоносный груз элитных воинов.',
     abilities: {
       'Blackstar Cluster Launcher':
-        'Каждый раз, когда эта модель завершает обычный манёвр, вы можете выбрать один вражеский юнит, над которым она прошла в этом манёвре, и бросить шесть D6: за каждый 5+ этот юнит получает 1 смертельную рану.',
+        'В вашей фазе движения, когда этот юнит завершает **[gloss:normal-move:обычный манёвр]**, выберите не более одного вражеского юнита, над которым этот юнит прошёл во время этого манёвра, и бросьте шесть D6:\n▪ За каждый 4+ тот юнит получает 1 **[gloss:mortal-wound:смертельную рану]**.',
+      'Auspex Array': 'Дальнобойные атаки этого юнита имеют [IGNORES COVER].',
     },
     wargearAbilities: {
-      'Auspex Array': 'Дальнобойное оружие носителя имеет способность [IGNORES COVER].',
-      'Infernum Halo-launcher': 'Носитель имеет ключевое слово SMOKE.',
+      'Auspex Array': 'Дальнобойное оружие носителя имеет способность **[IGNORES COVER]**.',
     },
-    loadout: `${EQUIP_THIS} 2 Blackstar rocket launchers; twin assault cannon; armoured hull.`,
+    loadout: '**Эта модель вооружена:** 1 Armoured Hull; Auspex Array; 2 Blackstar Rocket Launcher; 1 Twin Assault Cannon.',
     options: [
-      'twin assault cannon этой модели можно заменить на 1 twin lascannon.',
-      '2 Blackstar rocket launchers этой модели можно заменить на 2 stormstrike missile launchers.',
-      'Эту модель можно снабдить 1 hurricane bolter.',
-      'Эту модель можно снабдить одним из следующего:\n▪ 1 auspex array\n▪ 1 infernum halo-launcher',
+      'Эту модель можно снабдить 1 Hurricane Bolter',
+      'Twin Assault Cannon этой модели можно заменить на 1 Twin Lascannon.',
+      '2 Blackstar Rocket Launchers этой модели можно заменить на 2 Stormstrike Missile Launchers.',
     ],
-    damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
-    transport: 'Эта модель имеет транспортную вместимость 12 моделей DEATHWATCH INFANTRY.',
+    transport: 'Эта модель имеет вместимость транспорта 12 моделей Deathwatch Infantry.',
   },
 
   'culexus-assassin': {
@@ -100,18 +91,18 @@ export default {
     flavor:
       'Навыки Deathwatch Veteran оттачивались в их прежнем Ордене десятилетиями, порой веками. За долгую вахту против многоликих угроз ксеносов каждый ветеран учится вооружаться так, чтобы наилучшим образом послужить текущей миссии, и отряды несут набор оружия, способного повергнуть любого врага.',
     abilities: { 'Death to the Alien': DEATH_TO_ALIEN },
-    wargearAbilities: { 'Astartes Shield': INV4 },
-    loadout: '**Каждая модель вооружена:** boltgun; power weapon.',
+    wargearAbilities: { 'Storm Shield': 'Эта модель имеет 4+ **[gloss:invulnerable-save:InSv]**.' },
+    loadout: '**Каждая модель вооружена:** 1 Boltgun; 1 Power Weapon.',
     options: [
-      'За каждые 5 моделей в этом юните у до 2 моделей их boltgun и power weapon можно заменить на одно из следующего:\n▪ 1 boltgun и 1 Astartes shield\n▪ 1 power weapon и 1 Astartes shield',
-      'За каждые 5 моделей в этом юните у до 2 моделей их boltgun и power weapon можно заменить на 1 Deathwatch thunder hammer.',
-      'За каждые 5 моделей в этом юните у 1 модели её boltgun и power weapon можно заменить на 1 stalker-pattern boltgun и 1 close combat weapon.',
-      'За каждые 5 моделей в этом юните у до 2 моделей их boltgun и power weapon можно заменить на 1 Deathwatch shotgun и 1 close combat weapon.',
-      'За каждые 5 моделей в этом юните у 1 модели её boltgun и power weapon можно заменить на 1 frag cannon и 1 close combat weapon.',
-      'За каждые 5 моделей в этом юните у 1 модели её boltgun и power weapon можно заменить на 1 infernus heavy bolter и 1 close combat weapon.',
-      'boltgun и power weapon у 1 модели можно заменить на 1 Black Shield blades.',
-      'power weapon у Watch Sergeant можно заменить на 1 xenophase blade.',
-      'boltgun у Watch Sergeant можно заменить на 1 combi-weapon.',
+      'За каждые 5 моделей в этом юните до 2 моделей Deathwatch Veteran можно заменить их Boltgun и Power Weapon на 1 Heavy Thunder Hammer.',
+      '1 модели Deathwatch Veteran можно заменить её Boltgun и Power Weapon на 1 Black Shield Blades.',
+      'За каждые 5 моделей в этом юните 1 модели Deathwatch Veteran можно заменить её Boltgun и Power Weapon на 1 Stalker-pattern Boltgun и 1 Knives and Fists.',
+      'За каждые 5 моделей в этом юните до 2 моделей Deathwatch Veteran можно заменить их Boltgun и Power Weapon на 1 Deathwatch Shotgun и 1 Knives and Fists.',
+      'За каждые 5 моделей в этом юните до 2 моделей Deathwatch Veteran можно заменить их Boltgun и Power Weapon на одно из следующего: 1 Boltgun и 1 Storm Shield, 1 Power Weapon и 1 Storm Shield',
+      'Модели Watch Sergeant можно заменить её Boltgun на 1 Combi-weapon.',
+      'Модели Watch Sergeant можно заменить её Power Weapon на 1 Xenophase Blade.',
+      'За каждые 5 моделей в этом юните 1 модели Deathwatch Veteran можно заменить её Boltgun и Power Weapon на 1 Infernus Heavy Bolter и 1 Knives and Fists.',
+      'За каждые 5 моделей в этом юните 1 модели Deathwatch Veteran можно заменить её Boltgun и Power Weapon на 1 Frag Cannon и 1 Knives and Fists.',
     ],
   },
 
@@ -484,7 +475,7 @@ export default {
       'Приглушённый треск exitus rifle Vindicare Assassin — всё, что большинство когда-либо узнаёт о его присутствии. Это — и брызги мозга жертвы. Смертоносные стрелки, они находят идеальную огневую позицию, чтобы выцелить добычу, а против более многочисленных врагов быстро множат счёт тел выстрел за мастерским выстрелом.',
     abilities: {
       'Dead-shot':
-        'Когда этот юнит выбирается для стрельбы и пока он не отстреляется: вражеские юниты не имеют способность [core:Lone Operative]; скрытые вражеские юниты получают +15" к радиусу обнаружения.',
+        'Когда этот юнит выбирается для стрельбы и пока он не отстреляется: вражеские юниты не имеют способность [core:Lone Operative]; **[gloss:hidden:скрытые]** вражеские юниты получают +15" к **[gloss:detection-range:радиусу обнаружения]**.',
       Shieldbreaker:
         'Один раз за битву, при выборе целей для exitus rifle этой модели, она может выстрелить зарядом-щитоломом (shieldbreaker round). Если она это делает, до конца фазы каждый раз, когда эта модель совершает атаку этим оружием, прибавьте 1 к броску ранения, и любой успешный бросок ранения приносит критическое ранение.',
     },
@@ -506,12 +497,11 @@ export default {
     flavor:
       'Прирождённый выживальщик с дикого мира и бывший член мрачного Ордена Mortifactors, Артемис ведёт Watch Company Таласа-Прайм. Известный своим чутьём на уловки ксеносов, он всё ещё смакует перспективу насилия — будь то клинком, мутагенным кислотным огнём Hellfire Extremis или искажающей время стазис-гранатой.',
     abilities: {
-      'Tactical Instinct':
-        'Пока эта модель возглавляет юнит, оружие моделей этого юнита имеет способность [LETHAL HITS].',
-      'Unstoppable Champion':
-        'Когда эта модель уничтожается впервые, бросьте один D6 в конце фазы. На 2+ снова поставьте эту модель на поле боя как можно ближе к месту, где она была уничтожена, и не в дистанции ввязывания каких-либо вражеских юнитов, с 1 оставшейся раной.',
+      'Tactical Instinct': 'Атаки этого юнита имеют [SUSTAINED HITS 1].',
+      'Unstoppable Champion (Once per battle, per army)':
+        'В конце фазы, в которой эта модель была **[gloss:destroyed:уничтожена]**, бросьте один D6:\n▪ На 2+ снова выставьте эту модель на поле боя как можно ближе к месту, где она была **уничтожена, не в ближнем бою**, с 3 оставшимися ранами.',
     },
-    loadout: `${EQUIP_THIS} Hellfire Extremis; master-crafted power weapon.`,
+    loadout: '**Эта модель вооружена:** 1 Hellfire Extremis; 1 Master-crafted Power Weapon.',
     leader: { text: LEADER_TEXT },
   },
 
@@ -519,12 +509,14 @@ export default {
     flavor:
       'Первейшие охотники на ксеносов в галактике, каждый Watch Master командует одной из бдительных крепостей Ордена. Эти вожди обладают веками стратегических и эзотерических знаний об ужасах, что осаждают человечество. В бою трещащие клинки и особые болты их vigil spear уничтожают любого ксеноса перед ними.',
     abilities: {
-      'Strategic Knowledge':
-        'Пока эта модель возглавляет юнит, этот юнит может стрелять и объявлять нападение в ход, в который он продвигался или отступал.',
-      'Rites of Battle':
-        'Один раз за раунд боя один юнит вашей армии с этой способностью может задействовать её, когда его юнит выбирается целью стратагемы. Если он это делает, уменьшите стоимость этого применения этой стратагемы на 1 CP.',
+      'Watch Master':
+        'Атаки этой модели, нацеленные на юнит CHARACTER, могут:\n▪ Перебрасывать **[gloss:hit-roll:броски на попадание]**, равные 1.\n▪ Перебрасывать **[gloss:wound-roll:броски на ранение]**, равные 1.',
+      'Strategic Acumen':
+        'В вашей фазе командования вы можете использовать эту способность. Если вы это делаете, выберите одну **[gloss:sm-combat-doctrine:боевую доктрину]**, которая будет активна для этого юнита до начала вашей следующей фазы командования.',
+      'Watch That (new)':
+        'В начале первого раунда боя выберите не более одного вражеского юнита, который станет **целью охоты** этого юнита:\n▪ Атаки этого юнита, нацеленные на **цель охоты** этого юнита, могут перебрасывать **[gloss:wound-roll:броски на ранение]**, равные 1.\n▪ Каждый раз, когда **цель охоты** этого юнита **[gloss:destroyed:уничтожена]**, выберите не более одного вражеского юнита, который станет **целью охоты** этого юнита.',
     },
-    loadout: `${EQUIP_THIS} vigil spear.`,
+    loadout: '**Эта модель вооружена:** 1 Vigil Spear.',
     leader: { text: LEADER_TEXT },
   },
 
@@ -799,7 +791,6 @@ export const abilityNamesRu = {
   'Reign of Confusion': 'Владычество смятения',
   'Blackstar Cluster Launcher': 'Кассетный пусковой «Блэкстар»',
   'Auspex Array': 'Массив ауспексов',
-  'Infernum Halo-launcher': 'Гало-пусковой «Инфернум»',
   'Etheric Emergence': 'Эфирное явление',
   Abomination: 'Мерзость',
   'Soulless Horror': 'Бездушный ужас',
@@ -855,9 +846,9 @@ export const abilityNamesRu = {
   Shieldbreaker: 'Щитолом',
   'Masters of Close Confines': 'Мастера тесных отсеков',
   'Tactical Instinct': 'Тактический инстинкт',
-  'Unstoppable Champion': 'Неудержимый чемпион',
-  'Strategic Knowledge': 'Стратегическое знание',
-  'Rites of Battle': 'Ритуалы битвы',
+  'Unstoppable Champion (Once per battle, per army)': 'Неудержимый чемпион (раз за битву, на армию)',
+  'Watch Master': 'Мастер Стражи',
+  'Strategic Acumen': 'Стратегическая проницательность',
   // Legends (Faction Pack)
   'Malefic Warding': 'Малефическая защита',
   'Bound Daemon': 'Связанный демон',

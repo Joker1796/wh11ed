@@ -8,7 +8,7 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "2278dde1-efbb-4d0d-8775-453560af1bb5:chaplain-grimaldus",
+      "sid": "59d945ec-804c-4102-a605-56a0118a71cf:chaplain-grimaldus",
       "kind": "ability",
       "name": "Chaplain Grimaldus: Banner of the Emperor Victorious",
       "det": null,
@@ -18,13 +18,13 @@ export default {
         "set": "Temple Relics",
         "pickLimit": 1
       },
-      "hash": "e876a611",
-      "ver": 925,
+      "hash": "b0edcf64",
+      "ver": 963,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "7c3124c4-00ad-4946-afd8-7eae9e429024:chaplain-grimaldus",
+      "sid": "d00defdb-5b72-458d-9466-ef66920ccc28:chaplain-grimaldus",
       "kind": "ability",
       "name": "Chaplain Grimaldus: Column from the Major Altar",
       "det": null,
@@ -34,8 +34,8 @@ export default {
         "set": "Temple Relics",
         "pickLimit": 1
       },
-      "hash": "fe4d4952",
-      "ver": 925,
+      "hash": "4b39a6c7",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -47,11 +47,22 @@ export default {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
           }
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "64754e98-cdb5-4582-99da-e4c2f10c5a74:chaplain-grimaldus",
+      "sid": "c92df324-a537-4627-8ce0-047ca504a13f:chaplain-grimaldus",
       "kind": "ability",
       "name": "Chaplain Grimaldus: Water from the Stoup of Elucidation",
       "det": null,
@@ -61,8 +72,8 @@ export default {
         "set": "Temple Relics",
         "pickLimit": 1
       },
-      "hash": "a10216fa",
-      "ver": 925,
+      "hash": "f6935370",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -74,20 +85,31 @@ export default {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
           }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "b4f947ab-4065-4fb1-9ded-cf85a83d3c31:crusade-ancient",
+      "sid": "15934067-ee3a-4a27-be55-e48174fb7c50:crusade-ancient",
       "kind": "ability",
-      "name": "Crusade Ancient: Martial Honour",
+      "name": "Crusade Ancient: Martial Honour (Once per battle, per unit)",
       "det": null,
       "ref": {
         "kind": "ability",
         "unit": "crusade-ancient"
       },
-      "hash": "0d3f6477",
-      "ver": 925,
+      "hash": "921a241c",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -96,8 +118,8 @@ export default {
           "op": "add",
           "value": 5,
           "when": {
-            "en": "for the rest of the battle once its unit destroyed a unit in melee, while not Battle-shocked",
-            "ru": "до конца битвы, если отряд уничтожил врага в ближнем бою, пока не Battle-shocked"
+            "en": "once per battle, for the rest of the battle after this unit's melee attacks destroyed an enemy unit",
+            "ru": "раз за битву, до конца битвы после того, как атаки ближнего боя отряда уничтожили вражеский отряд"
           },
           "cond": [
             "never"
@@ -117,49 +139,7 @@ export default {
       "effects": []
     },
     {
-      "sid": "070f2614-d0af-4b75-92b8-6355cd5e4cff:emperors-champion",
-      "kind": "ability",
-      "name": "Emperor’s Champion: Armour of Faith",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "emperors-champion"
-      },
-      "hash": "46c487f3",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "508d9286-33e3-496a-8825-1bfe5c24b442:emperors-champion",
-      "kind": "ability",
-      "name": "Emperor’s Champion: Sigismund’s Heir",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "emperors-champion"
-      },
-      "hash": "e0d9dbc3",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "DEVASTATING WOUNDS",
-          "when": {
-            "en": "once per battle, while engaged with a CHARACTER and this ability is used",
-            "ru": "раз за битву, в бою с CHARACTER, если способность использована"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "a0cdaf1d-65ae-4128-a869-406b2b8f5999:gladiator-reaper",
+      "sid": "3c0da470-0cea-498b-bd7f-4cfd39096821:gladiator-reaper",
       "kind": "ability",
       "name": "Gladiator Reaper: Reaping Tally",
       "det": null,
@@ -167,18 +147,18 @@ export default {
         "kind": "ability",
         "unit": "gladiator-reaper"
       },
-      "hash": "e55f216a",
-      "ver": 925,
+      "hash": "b78ddc8d",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
-          "on": "weapon",
-          "stat": "ability",
-          "op": "grant",
-          "value": "SUSTAINED HITS 2",
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
           "when": {
-            "en": "against INFANTRY targets",
-            "ru": "по целям INFANTRY"
+            "en": "against targets other than MONSTER and VEHICLE",
+            "ru": "по целям кроме MONSTER и VEHICLE"
           },
           "cond": [
             "never"
@@ -187,7 +167,7 @@ export default {
       ]
     },
     {
-      "sid": "e1a9ec64-4b70-47ba-aa5c-c1ff935a2c08:gladiator-valiant",
+      "sid": "d4c4e50a-1e1d-4600-879f-6796c47a3be9:gladiator-valiant",
       "kind": "ability",
       "name": "Gladiator Valiant: Priority Target Acquisition",
       "det": null,
@@ -195,18 +175,18 @@ export default {
         "kind": "ability",
         "unit": "gladiator-valiant"
       },
-      "hash": "89111ddd",
-      "ver": 925,
+      "hash": "48e040f9",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
-          "on": "weapon",
-          "stat": "hit",
+          "on": "ranged",
+          "stat": "s",
           "op": "add",
           "value": 1,
           "when": {
-            "en": "twin las-talon, against the closest eligible MONSTER or VEHICLE unit",
-            "ru": "twin las-talon, по ближайшему доступному отряду MONSTER или VEHICLE"
+            "en": "against targets within 12\"",
+            "ru": "по целям в пределах 12\""
           },
           "cond": [
             "never"
@@ -215,7 +195,7 @@ export default {
       ]
     },
     {
-      "sid": "a8425c53-a82f-402a-a08c-863cdf87916d:high-marshal-helbrecht",
+      "sid": "3a103fb4-037a-46de-a6e2-19912dd379ab:high-marshal-helbrecht",
       "kind": "ability",
       "name": "High Marshal Helbrecht: Crusade of Wrath",
       "det": null,
@@ -223,8 +203,8 @@ export default {
         "kind": "ability",
         "unit": "high-marshal-helbrecht"
       },
-      "hash": "08b2836b",
-      "ver": 925,
+      "hash": "606ee9a2",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -232,8 +212,22 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
           "when": null,
-          "target": "unit"
+          "target": "led"
         },
         {
           "on": "melee",
@@ -241,12 +235,12 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "unit"
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "fc05efb4-4534-4b7c-8989-6d1c5338a76e:marshal",
+      "sid": "80540ddc-3e20-40cd-9acb-2bddfe628e63:marshal",
       "kind": "ability",
       "name": "Marshal: Pious Fervour",
       "det": null,
@@ -254,8 +248,8 @@ export default {
         "kind": "ability",
         "unit": "marshal"
       },
-      "hash": "3daebaae",
-      "ver": 925,
+      "hash": "9f8c4a8e",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -263,12 +257,9 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 1,
-          "only": {
-            "name": "Master-crafted power weapon"
-          },
           "when": {
-            "en": "per enemy unit within 6\", up to +3",
-            "ru": "за каждый вражеский отряд в 6\", максимум +3"
+            "en": "when this unit is selected to fight, per enemy unit within 6\" of this model, up to +3",
+            "ru": "когда отряд выбран для боя, за каждый вражеский отряд в пределах 6\" от модели, максимум +3"
           },
           "cond": [
             "never"
@@ -277,20 +268,31 @@ export default {
       ]
     },
     {
-      "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",
-      "kind": "allegiance",
-      "name": "Headhunter Task Force Keywords: Character",
+      "sid": "3862d461-661e-4a36-a62f-960ed8c8d1b3",
+      "kind": "armyRule",
+      "name": "Combat Doctrines",
       "det": null,
       "ref": {
-        "kind": "allegiance",
-        "g": "headhunter-task-force-keywords",
-        "opt": "Character"
+        "kind": "armyRule"
       },
-      "hash": "958d34d8",
-      "ver": 925,
+      "hash": "4b1af9f6",
+      "ver": 963,
       "reviewed": true,
-      "effects": [],
-      "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while the Devastator Doctrine is active for this unit",
+            "ru": "пока для отряда активна Devastator Doctrine"
+          },
+          "cond": [
+            "doctrine-devastator"
+          ]
+        }
+      ]
     },
     {
       "sid": "8e6d6b91-009d-47d1-81d7-390c60556cb3",
@@ -320,35 +322,7 @@ export default {
       }
     },
     {
-      "sid": "6c1960c0-fdef-41a7-a017-cda5d322bd74",
-      "kind": "detachmentRule",
-      "name": "Shock and Awe",
-      "det": "Godhammer Assault Force",
-      "hash": "fa300e3c",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "if the unit disembarked from a TRANSPORT this turn",
-            "ru": "если отряд высадился из TRANSPORT в этот ход"
-          },
-          "cond": [
-            "unit-disembarked"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "godhammer-assault-force"
-      }
-    },
-    {
-      "sid": "06e81511-2a0d-49db-8d18-be2c20c5792f",
+      "sid": "098752f4-cb9f-49b0-99b0-b43acb2eaae9",
       "kind": "detachmentRule",
       "name": "Faith-fuelled Resolve",
       "det": "Marshal's Household",
@@ -356,128 +330,81 @@ export default {
         "kind": "detachmentRule",
         "det": "marshals-household"
       },
-      "hash": "eb5de0af",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "oc",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "741a30dc-8a63-45a5-8b27-9ba235c49bda",
-      "kind": "enhancement",
-      "name": "Incendiary Animus",
-      "det": "Companions of Vehemence",
-      "hash": "384b0cf5",
-      "ver": 925,
+      "hash": "6df3f2ce",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "melee",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "when": null
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "companions-of-vehemence"
-      }
-    },
-    {
-      "sid": "44d03a4a-13a9-494e-8769-269187496002",
-      "kind": "enhancement",
-      "name": "Oathbound Exemplar",
-      "det": "Companions of Vehemence",
-      "hash": "d3bb5f33",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "ref": {
-        "kind": "enhancement",
-        "det": "companions-of-vehemence"
-      }
-    },
-    {
-      "sid": "f24a3d55-7872-4a94-8e34-3d53ca2549b9",
-      "kind": "enhancement",
-      "name": "Zealous Vanguard",
-      "det": "Companions of Vehemence",
-      "ref": {
-        "kind": "enhancement",
-        "det": "companions-of-vehemence"
-      },
-      "hash": "719dbd66",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Scouts 6\"",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "0a2f6202-af65-4e33-a67d-12b39c05b312",
-      "kind": "enhancement",
-      "name": "Herald of Sacred Slaughter",
-      "det": "Godhammer Assault Force",
-      "ref": {
-        "kind": "enhancement",
-        "det": "godhammer-assault-force"
-      },
-      "hash": "9bcf3033",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "69ab0beb-af42-4edc-a124-4e2b99fd3a1a",
-      "kind": "enhancement",
-      "name": "Paragon of Fury",
-      "det": "Godhammer Assault Force",
-      "hash": "922fa85d",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 2,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "d",
+          "stat": "a",
           "op": "add",
           "value": 1,
           "when": {
-            "en": "per allocated melee attack, if the bearer disembarked from a Transport this turn",
-            "ru": "за назначенную атаку ближнего боя, если носитель в этом ходу высадился из транспорта"
+            "en": "in the Fight phase, while this unit is within range of an objective",
+            "ru": "в фазе боя, пока отряд в зоне объекта"
           },
           "cond": [
             "never"
           ]
         }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "godhammer-assault-force"
-      }
+      ]
     },
     {
-      "sid": "67e3a042-d1d7-42ea-8fa6-d8c560c9bd90",
+      "sid": "3297f350-ebf3-408d-b23c-bc4dd7a46806",
+      "kind": "detachmentRule",
+      "name": "Templar Vows",
+      "det": "Vow-sworn Crusaders",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "vow-sworn-crusaders"
+      },
+      "hash": "2a40112f",
+      "ver": 963,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while Abhor the Witch, Destroy the Witch is the selected Vow, against PSYKER targets",
+            "ru": "пока выбран обет Abhor the Witch, Destroy the Witch, по целям PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while Abhor the Witch, Destroy the Witch is the selected Vow, against PSYKER targets",
+            "ru": "пока выбран обет Abhor the Witch, Destroy the Witch, по целям PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Accept Any Challenge, No Matter the Odds is the selected Vow, against a target whose T is greater than this unit's S",
+            "ru": "пока выбран обет Accept Any Challenge, No Matter the Odds, по цели с T больше S отряда"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "f5cbc8d3-b4dd-46d6-91cd-1932a8619287",
       "kind": "enhancement",
       "name": "Inheritors of Sigismund (Upgrade)",
       "det": "Marshal's Household",
@@ -486,7 +413,7 @@ export default {
         "det": "marshals-household"
       },
       "hash": "f078ef24",
-      "ver": 925,
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -499,185 +426,96 @@ export default {
       ]
     },
     {
-      "sid": "2deaa998-e999-4cb4-933e-a1840de3d2a0",
+      "sid": "8a090713-6f7b-4c83-955e-9753324d5366",
       "kind": "enhancement",
-      "name": "Guiding Omens",
-      "det": "The Living Miracle",
+      "name": "Incendiary Animus",
+      "det": "Vow-sworn Crusaders",
       "ref": {
         "kind": "enhancement",
-        "det": "the-living-miracle"
+        "det": "vow-sworn-crusaders"
       },
-      "hash": "480d0dcb",
-      "ver": 925,
+      "hash": "1bb95d08",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "melee",
-          "stat": "a",
+          "stat": "s",
           "op": "add",
-          "value": 2,
-          "when": {
-            "en": "if Vision of Momentous Brutality is among the three abilities chosen at the start of the first battle round",
-            "ru": "если Vision of Momentous Brutality — одна из трёх способностей, выбранных в начале первого раунда"
-          },
-          "cond": [
-            "vision-momentous-brutality"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "DEVASTATING WOUNDS",
-          "when": {
-            "en": "Instrument of the God-Emperor, once per battle, while engaged with an enemy Character",
-            "ru": "Instrument of the God-Emperor, раз за битву, пока модель в бою с вражеским Character"
-          },
-          "cond": [
-            "never"
-          ]
+          "value": 1,
+          "when": null,
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "8f0c23c2-bec3-4dce-916e-ae9164dfe77f",
+      "sid": "9fc487e7-0a5d-4d0f-ab51-c4b81cf25fe2",
       "kind": "enhancement",
-      "name": "Consecrating Aura",
-      "det": "Vindication Task Force",
-      "hash": "8875c16b",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "5+",
-          "when": null
-        }
-      ],
+      "name": "Zealous Vanguard",
+      "det": "Vow-sworn Crusaders",
       "ref": {
         "kind": "enhancement",
-        "det": "vindication-task-force"
-      }
-    },
-    {
-      "sid": "29b2e763-dcba-43aa-8bc5-8449a738ed92",
-      "kind": "enhancement",
-      "name": "Orb of the Emperor’s Aegis",
-      "det": "Vindication Task Force",
-      "ref": {
-        "kind": "enhancement",
-        "det": "vindication-task-force"
+        "det": "vow-sworn-crusaders"
       },
-      "hash": "e8b8248b",
-      "ver": 925,
+      "hash": "ab39e72d",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "unit",
           "stat": "core",
           "op": "grant",
-          "value": "Deep Strike",
-          "when": null
+          "value": "Scouts 6\"",
+          "when": null,
+          "target": "led"
         }
       ]
     },
     {
-      "sid": "eef35b1c-9069-43b3-a82d-a795edfef746",
-      "kind": "enhancement",
-      "name": "Warden of Honour",
-      "det": "Vindication Task Force",
-      "hash": "685d2c48",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "ref": {
-        "kind": "enhancement",
-        "det": "vindication-task-force"
-      }
-    },
-    {
-      "sid": "0a728a13-038e-4fa0-aca8-fc3a6b479c12",
-      "kind": "enhancement",
-      "name": "Benediction of Fury",
-      "det": "Wrathful Procession",
-      "ref": {
-        "kind": "enhancement",
-        "det": "wrathful-procession"
-      },
-      "hash": "11e13cab",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "DEVASTATING WOUNDS",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "7902554f-4d97-4939-823f-12d54bc02d4c",
+      "sid": "bc719a21-f0f4-4a42-81cf-74be4ac9d9ed",
       "kind": "stratagem",
-      "name": "For The Emperor’s Honour!",
-      "det": "Companions of Vehemence",
+      "name": "Avowed Destruction",
+      "det": "Fist of the God-Emperor",
       "ref": {
         "kind": "stratagem",
-        "det": "companions-of-vehemence",
-        "name": "For The Emperor’s Honour!"
+        "det": "fist-of-the-god-emperor",
+        "name": "Avowed Destruction"
       },
-      "hash": "10391964",
-      "ver": 925,
+      "hash": "d046e51a",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "melee",
           "stat": "ability",
           "op": "grant",
-          "value": "PRECISION",
+          "value": "LETHAL HITS",
           "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
+            "en": "while this stratagem is in force, if [LETHAL HITS] is the option chosen",
+            "ru": "пока действует стратагема, если выбран вариант [LETHAL HITS]"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force, if [SUSTAINED HITS 1] is the option chosen",
+            "ru": "пока действует стратагема, если выбран вариант [SUSTAINED HITS 1]"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"
     },
     {
-      "sid": "f270d2df-d8b5-4d1e-a01d-e09812358568",
-      "kind": "stratagem",
-      "name": "Blessed Hull",
-      "det": "Godhammer Assault Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "godhammer-assault-force",
-        "name": "Blessed Hull"
-      },
-      "hash": "6d37add7",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "2822b996-2f83-424b-bca4-fc42ece2d2d5",
-      "kind": "stratagem",
-      "name": "Condemnatory Info-Screed",
-      "det": "Godhammer Assault Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "godhammer-assault-force",
-        "name": "Condemnatory Info-Screed"
-      },
-      "hash": "abe09f4a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "24989e27-34b1-4b31-9ab4-296a7eb5c79e",
+      "sid": "18cb537f-f7a5-4b99-b3e6-cc0307132a17",
       "kind": "stratagem",
       "name": "Slayers of Abominations",
       "det": "Marshal's Household",
@@ -687,7 +525,7 @@ export default {
         "name": "Slayers of Abominations"
       },
       "hash": "c1571800",
-      "ver": 925,
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -696,8 +534,8 @@ export default {
           "op": "add",
           "value": 2,
           "when": {
-            "en": "against MONSTER or VEHICLE targets",
-            "ru": "против целей MONSTER или VEHICLE"
+            "en": "while this stratagem is in force, against MONSTER or VEHICLE targets",
+            "ru": "пока действует стратагема, по целям MONSTER или VEHICLE"
           },
           "cond": [
             "never"
@@ -707,69 +545,24 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "ee54adfc-1175-4034-b181-84f617c20421",
+      "sid": "3049dd10-948d-4042-b610-380a95a659d2",
       "kind": "stratagem",
-      "name": "Litanies of Purgation",
-      "det": "Vindication Task Force",
+      "name": "For the Emperor's Honour!",
+      "det": "Vow-sworn Crusaders",
       "ref": {
         "kind": "stratagem",
-        "det": "vindication-task-force",
-        "name": "Litanies of Purgation"
+        "det": "vow-sworn-crusaders",
+        "name": "For the Emperor's Honour!"
       },
-      "hash": "053cd6cc",
-      "ver": 925,
+      "hash": "bf79a709",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
-          "on": "weapon",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "when": {
-            "en": "while either unit is within range of an objective marker",
-            "ru": "пока один из отрядов в зоне objective"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "d4b7ec66-5516-44a7-9511-894b53d7a8b7",
-      "kind": "stratagem",
-      "name": "Reclaim Our Honour!",
-      "det": "Vindication Task Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "vindication-task-force",
-        "name": "Reclaim Our Honour!"
-      },
-      "hash": "fb944b4c",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "680055d9-0ea3-473b-8b1b-2ac08fa0ed40",
-      "kind": "stratagem",
-      "name": "Spoor of the Unholy",
-      "det": "Vindication Task Force",
-      "ref": {
-        "kind": "stratagem",
-        "det": "vindication-task-force",
-        "name": "Spoor of the Unholy"
-      },
-      "hash": "6e1872ca",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
+          "on": "melee",
           "stat": "ability",
           "op": "grant",
-          "value": "IGNORES COVER",
+          "value": "PRECISION",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
@@ -816,102 +609,24 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "6391df5a-5af9-4492-83ae-ab84867a65ed",
-      "kind": "stratagem",
-      "name": "Castigate the Demagogues",
-      "det": "Wrathful Procession",
+      "sid": "64d82cf9-78be-4f8b-a123-c65c5d9d359c:impulsor",
+      "kind": "wargear",
+      "name": "Impulsor: Orbital Comms Array",
+      "det": null,
       "ref": {
-        "kind": "stratagem",
-        "det": "wrathful-procession",
-        "name": "Castigate the Demagogues"
+        "kind": "wargear",
+        "unit": "impulsor",
+        "item": "orbital comms array"
       },
-      "hash": "bf79a709",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "PRECISION",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "ad65ead4-deef-4147-9c79-4fc2b51ac62e",
-      "kind": "stratagem",
-      "name": "Fuelled By Faith",
-      "det": "Wrathful Procession",
-      "ref": {
-        "kind": "stratagem",
-        "det": "wrathful-procession",
-        "name": "Fuelled By Faith"
-      },
-      "hash": "84dbd5f5",
-      "ver": 925,
+      "hash": "a8a48d45",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
           "on": "unit",
           "stat": "core",
           "op": "grant",
-          "value": "Feel No Pain 4+ (vs mortal wounds)",
-          "when": null
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "ba8c0eec-7773-4981-82cf-8f29888b15e5",
-      "kind": "stratagem",
-      "name": "Rite of Perfervid Wrath",
-      "det": "Wrathful Procession",
-      "ref": {
-        "kind": "stratagem",
-        "det": "wrathful-procession",
-        "name": "Rite of Perfervid Wrath"
-      },
-      "hash": "d7306b4c",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "4376131c-0673-4ce5-84e3-6bda75cd6fd6:impulsor",
-      "kind": "wargear",
-      "name": "Impulsor: Shield Dome",
-      "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "impulsor",
-        "item": "shield dome"
-      },
-      "hash": "a490870b",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "5+",
+          "value": "Scouts 6\"",
           "when": null
         }
       ]

@@ -31,13 +31,9 @@ import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName } from 
 
 // Rules wh11ed deliberately does not print. Keep the reason concrete — a future reader has to be
 // able to re-derive whether it still holds.
-const ALLOW = [
-  {
-    id: 'drop-pod',
-    rule: 'Designer’s Note',
-    why: 'The note is about which parts of the model are "highlighted in red" on GW\'s own datasheet artwork ("Models can be set up on any part not highlighted"). wh11ed prints no datasheet artwork, so the text alone points at something the reader cannot see.',
-  },
-]
+// (Empty since app data 963: the Drop Pod's "Designer’s Note" about the red-highlighted parts of
+// GW's artwork left the datasheet with Codex: Space Marines.)
+const ALLOW = []
 
 const DS_DIR = path.join(ROOT, 'src/data/datasheets')
 

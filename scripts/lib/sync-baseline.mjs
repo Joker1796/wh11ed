@@ -15,6 +15,11 @@
 // baseline entry and comes back as new. A baseline that only remembered WHICH field disagreed
 // would hide the day the disagreement became a different one, which is the only day that matters.
 //
+// A finding whose values live in its BODY rather than its head — every "text differs from appdata"
+// block, whose head names only the rule — carries a hash of that body in its key (` ⟨…⟩`). Until
+// 2026-10 it did not, and the 274 prose findings recorded here were blind: an errata to any of
+// those rules left the head line as it was, so the new wording was suppressed with the old.
+//
 // A finding owns the lines indented deeper than it (the diff body, the paste-ready canonical
 // text), so suppressing one suppresses its whole block rather than leaving an orphaned quotation.
 //
@@ -26,6 +31,7 @@
 // Record the current state with `npm run sync -- --baseline`. Read the diff before committing it:
 // what goes in here is a decision that these lines are fine, and it is reviewable precisely
 // because it is a file.
+import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { ROOT } from './sync-common.mjs'
@@ -37,6 +43,13 @@ const FINDING = /^\s{0,4}[~+\-?]\s/
 const indentOf = (line) => line.length - line.trimStart().length
 
 export const findingKey = (line) => line.trim().replace(/\s+/g, ' ')
+
+// The key of a whole finding: its head, plus a digest of the body when there is one.
+export function blockKey(lines) {
+  const head = findingKey(lines[0])
+  const body = lines.slice(1).map(findingKey).filter(Boolean).join('\n')
+  return body ? `${head} ⟨${createHash('sha1').update(body).digest('hex').slice(0, 10)}⟩` : head
+}
 
 export function loadBaseline() {
   try {
@@ -84,7 +97,7 @@ export function applyBaseline(lines, baseline) {
   let suppressed = 0
   for (const part of splitFindings(lines)) {
     if (!part.head) { kept.push(...part.lines); continue }
-    const key = findingKey(part.head)
+    const key = blockKey(part.lines)
     seen.add(key)
     if (Object.hasOwn(baseline, key)) { suppressed++; continue }
     kept.push(...part.lines)

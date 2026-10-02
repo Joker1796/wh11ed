@@ -541,6 +541,20 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, against the enemy unit selected at its start",
+            "ru": "в вашей Shooting phase, по вражескому отряду, выбранному в её начале"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
         }
       ]
     },
@@ -1649,8 +1663,8 @@ export default {
         "det": "rubricae-phalanx",
         "name": "Infernal Fusillade"
       },
-      "hash": "ebc56341",
-      "ver": 925,
+      "hash": "f3e24db9",
+      "ver": 963,
       "reviewed": true,
       "effects": [
         {
@@ -1659,20 +1673,10 @@ export default {
           "op": "grant",
           "value": "PSYCHIC",
           "only": {
-            "name": "Inferno"
-          },
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        },
-        {
-          "on": "ranged",
-          "stat": "s",
-          "op": "set",
-          "value": "5",
-          "only": {
-            "name": "Inferno"
+            "name": "Inferno",
+            "notName": [
+              "Inferno heavy bolter"
+            ]
           },
           "when": {
             "en": "while this stratagem is in force",

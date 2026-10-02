@@ -54,6 +54,7 @@ import { openFactionKeyword } from '../composables/useFactionKeywordUnits.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { resolveRef, useRefNavigation } from '../composables/useRefNavigation.js'
 import { ui } from '../i18n/ui.js'
+import { placeByAnchor } from '../utils/anchorPlacement.js'
 import { useLocale } from '../composables/useLocale.js'
 
 const { locale } = useLocale()
@@ -109,7 +110,7 @@ function handleBodyClick(e) {
   const fkwEl = e.target.closest('.fkw')
   if (fkwEl) {
     close()
-    openFactionKeyword(fkwEl.dataset.fkw)
+    openFactionKeyword(fkwEl.dataset.fkw, null, { anchor: fkwEl.getBoundingClientRect() })
     return
   }
   const kwEl = e.target.closest('.keyword, .core-ability')
@@ -118,24 +119,7 @@ function handleBodyClick(e) {
   }
 }
 
-const positionStyle = computed(() => {
-  if (!anchor.value) return {}
-  const r = anchor.value
-  const vw = window.innerWidth
-  const vh = window.innerHeight
-  const popW = Math.min(360, vw - 16)
-  const spaceBelow = vh - r.bottom
-
-  let left = Math.max(8, Math.min(r.left, vw - popW - 8))
-  let style = { width: popW + 'px', left: left + 'px' }
-
-  if (spaceBelow < 220 && r.top > spaceBelow) {
-    style.bottom = (vh - r.top + 8) + 'px'
-  } else {
-    style.top = (r.bottom + 8) + 'px'
-  }
-  return style
-})
+const positionStyle = computed(() => (anchor.value ? placeByAnchor(anchor.value) : {}))
 </script>
 
 <style scoped>
@@ -174,6 +158,10 @@ const positionStyle = computed(() => {
 
 .kw-name {
   font-size: 0.8rem;
+  /* A tag with its keywords ("[SUSTAINED HITS 2: NON-MONSTER/VEHICLE]") is wider than a 320px
+     phone's header; the pill's own nowrap would push the close button off the edge. */
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .kw-name-ru {

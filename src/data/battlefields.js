@@ -342,7 +342,7 @@ Each time you use a **stratagem**, resolve the following sequence:
 ◈ EFFECT | Your unit shoots as described in Making Attacks (04).
 ◈ WHILE SHOOTING
 ▪ You can only target one **visible** enemy unit within 24" of your unit (and only if it is an eligible target).
-▪ Each attack only hits on an unmodified **[gloss:hit-roll:hit roll]** of 6 (irrespective of the attacking weapon's **BS** characteristic or any modifiers).
+▪ Each attack only hits on an unmodified **[gloss:hit-roll:hit roll]** of 6 (irrespective of the attacking weapon's **BS** characteristic or any modifiers). Those hits are __not__ **critical hits**.
 ▪ You cannot re-roll **hit rolls**.
 ◈ AFTER SHOOTING | Until the end of the phase, your unit is not **[gloss:eligible-to-act:eligible to start an action]**.`,
         },
@@ -440,7 +440,7 @@ Each time you use a **stratagem**, resolve the following sequence:
             fields: [
               { label: 'ELIGIBLE IF', text: 'As stated in the rule allowing this **shooting type**.' },
               { label: 'EFFECT', text: 'Your unit shoots as described in Making Attacks (04).' },
-              { label: 'WHILE SHOOTING', text: '▪ You can only target one **visible** enemy unit within 24" of your unit (and only if it is an eligible target).\n▪ Each attack only hits on an unmodified **hit roll** of 6 (irrespective of the attacking weapon\'s **BS** characteristic or any modifiers).\n▪ You cannot re-roll **hit rolls**.' },
+              { label: 'WHILE SHOOTING', text: '▪ You can only target one **visible** enemy unit within 24" of your unit (and only if it is an eligible target).\n▪ Each attack only hits on an unmodified **hit roll** of 6 (irrespective of the attacking weapon\'s **BS** characteristic or any modifiers). Those hits are __not__ **critical hits**.\n▪ You cannot re-roll **hit rolls**.' },
               { label: 'AFTER SHOOTING', text: 'Until the end of the phase, your unit is not **eligible to start an action**.' },
             ],
           },
@@ -847,7 +847,7 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
 ◈ ЭФФЕКТ | Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).
 ◈ ВО ВРЕМЯ СТРЕЛЬБЫ
 ▪ Вы можете выбирать целью только одного **[gloss:visible:видимого]** вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).
-▪ Каждая атака попадает только на немодифицированном **[gloss:hit-roll:броске на попадание]** 6 (независимо от характеристики **BS** атакующего оружия или любых модификаторов).
+▪ Каждая атака попадает только на немодифицированном **[gloss:hit-roll:броске на попадание]** 6 (независимо от характеристики **BS** атакующего оружия или любых модификаторов). Эти попадания __не__ являются **критическими попаданиями**.
 ▪ Вы не можете перебрасывать броски на попадание.
 ◈ ПОСЛЕ СТРЕЛЬБЫ | До конца фазы ваш юнит не может **[gloss:action:начать действие]**.`,
         },
@@ -925,7 +925,7 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
             fields: [
               { label: 'ДОПУСТИМО ЕСЛИ', text: 'Как указано в правиле, разрешающем этот **тип стрельбы**.' },
               { label: 'ЭФФЕКТ', text: 'Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).' },
-              { label: 'ВО ВРЕМЯ СТРЕЛЬБЫ', text: '▪ Вы можете выбирать целью только одного **[gloss:visible:видимого]** вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).\n▪ Каждая атака попадает только на немодифицированном **[gloss:hit-roll:броске на попадание]** 6 (независимо от характеристики **BS** атакующего оружия или любых модификаторов).\n▪ Вы не можете перебрасывать броски на попадание.' },
+              { label: 'ВО ВРЕМЯ СТРЕЛЬБЫ', text: '▪ Вы можете выбирать целью только одного **[gloss:visible:видимого]** вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).\n▪ Каждая атака попадает только на немодифицированном **[gloss:hit-roll:броске на попадание]** 6 (независимо от характеристики **BS** атакующего оружия или любых модификаторов). Эти попадания __не__ являются **критическими попаданиями**.\n▪ Вы не можете перебрасывать броски на попадание.' },
               { label: 'ПОСЛЕ СТРЕЛЬБЫ', text: 'До конца фазы ваш юнит не может **[gloss:action:начать действие]**.' },
             ],
           },

@@ -362,8 +362,11 @@ describe('UnitEditorFields — which of the two squads', () => {
 // A player's report, 2026-09-24: CSM Terminators dropped from ten to five kept picks for ten.
 describe('UnitEditorFields — shrinking the unit', () => {
   const terms = chaosSpaceMarines.units.find((u) => u.id === 'chaos-terminator-squad')
-  const combi = terms.gear.findIndex((g) => g.o.some((o) => o[0] === 7))
-  const paired = terms.gear.findIndex((g) => g.o.some((o) => o[0] === 958))
+  // By name, not by item id: ids are interned across every faction and renumber whenever a bump
+  // adds weapons anywhere (app data 963 moved these from 7 and 958).
+  const groupNamed = (name) => terms.gear.findIndex((g) => g.o.some((o) => rosterItems.items[o[0]] === name))
+  const combi = groupNamed('Combi-weapon')
+  const paired = groupNamed('Paired accursed weapons')
   const pill = (w, i) => w.findAll('.pill').filter((p) => /pts/.test(p.text()))[i]
 
   it('takes off what the smaller unit cannot carry, and offers it back', async () => {

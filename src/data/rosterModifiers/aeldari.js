@@ -125,6 +125,14 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1142,6 +1150,14 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -3085,7 +3101,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -3152,7 +3168,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -3181,7 +3197,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -3210,7 +3226,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -3262,7 +3278,7 @@ export default {
             "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -3360,7 +3376,7 @@ export default {
             "ru": "только оружие носителя"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]

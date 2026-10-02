@@ -14,6 +14,7 @@ export const BTN_ICONS = {
   book: { icon: 'bi-book', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search
   revert: { icon: 'bi-arrow-counterclockwise', en: 'Cancel', ru: 'Отмена' }, // Cancel on a narrow phone
   star: { icon: 'bi-star', en: 'In my collection', ru: 'Есть в коллекции' }, // the roster unit card's header
+  info: { icon: 'bi-info-circle', en: 'View details', ru: 'Подробнее' }, // a wargear row's profiles in the unit editor
 }
 
 export const MARK_RE = /\{btn:([a-z-]+)\}|\{key:([^}]+)\}/g

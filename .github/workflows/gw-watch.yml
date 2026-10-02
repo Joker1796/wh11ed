@@ -1,0 +1,56 @@
+name: GW update watch
+
+# Mails when Games Workshop ships something new: the app (App Store / Google Play), a re-price on
+# the MFM site, or a document under Downloads on warhammer-community.com. What it saw last lives
+# in state.json on the `watch-state` branch, apart from main, so the bot's commits never meet the
+# deploy's version bumps. See scripts/watch-gw.py.
+
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: gw-watch
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    env:
+      POSTBOX_KEY_ID: ${{ secrets.POSTBOX_KEY_ID }}
+      POSTBOX_SECRET: ${{ secrets.POSTBOX_SECRET }}
+      WATCH_MAIL_FROM: watch@wh-rules.ru
+      WATCH_MAIL_TO: ${{ secrets.WATCH_MAIL_TO }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # The state branch is created on the first run (an orphan holding state.json only).
+      - name: State
+        run: |
+          if git fetch -q origin watch-state; then
+            git worktree add -q .watch-state FETCH_HEAD
+          else
+            git worktree add -q --detach .watch-state
+            git -C .watch-state checkout -q --orphan watch-state
+            git -C .watch-state rm -rfq .
+          fi
+
+      - name: Check
+        run: python3 scripts/watch-gw.py --state .watch-state/state.json
+
+      - name: Save state
+        run: |
+          cd .watch-state
+          git add state.json
+          git diff --cached --quiet && exit 0
+          git -c user.name='gw-watch' -c user.email='watch@wh-rules.ru' commit -qm 'state'
+          git push -q origin HEAD:watch-state
+
+      # A watch that broke says so: otherwise it would just go quiet, which reads as "nothing new".
+      - name: Mail the failure
+        if: failure()
+        run: python3 scripts/watch-gw.py --mail-failure "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

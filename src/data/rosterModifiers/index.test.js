@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { usableEntries } from './index.js'
 import { conditions, SENTINELS, isSentinel, isAnswerable } from './conditions.js'
+import { coreModifiers } from './coreRules.js'
 
 // Every faction file in this directory, read eagerly — this is a test, not the app (the app
 // loads one faction at a time; see index.js).
@@ -219,7 +220,9 @@ describe('rosterModifiers data', () => {
   // switch that turns the effect on.
   it('keeps the condition vocabulary in step with the records that use it', () => {
     const used = new Set()
-    for (const { e } of allEntries) for (const eff of e.effects || []) for (const id of eff.cond || []) used.add(id)
+    // The Core Rules records count too: Battle-shock's OC '-' is the one user `unit-battle-shocked`
+    // has had since Codex: Space Marines (963) retired the faction records that also named it.
+    for (const e of [...allEntries.map((x) => x.e), ...coreModifiers]) for (const eff of e.effects || []) for (const id of eff.cond || []) used.add(id)
     for (const id of Object.keys(conditions)) {
       expect(used.has(id), `condition "${id}" is defined but no effect uses it`).toBe(true)
     }
@@ -436,5 +439,22 @@ describe('a rule that rewards a set of weapons', () => {
     }
     // Talos, Telemon, four Helbrutes, Wulfen Dreadnought, Knight Destrier.
     expect(found.length).toBeGreaterThanOrEqual(8)
+  })
+})
+
+// A Chapter's list reads the Codex: Space Marines records too (2026-10-01) — but not its army rule,
+// which the Chapter's own file already carries.
+describe('loadRosterModifiersFor — a Chapter', () => {
+  it('adds the Space Marines records a Chapter fields, without the army rule twice', async () => {
+    const { loadRosterModifiersFor, loadRosterModifiers } = await import('./index.js')
+    const ba = await loadRosterModifiersFor('blood-angels')
+    const own = await loadRosterModifiers('blood-angels')
+    expect(ba.entries.length).toBeGreaterThan(own.entries.length)
+    expect(ba.entries.some((e) => e.det === 'Gladius Task Force')).toBe(true)
+    expect(ba.entries.some((e) => e.name === 'Terminator Assault Squad: Storm Shield')).toBe(true)
+    expect(ba.entries.filter((e) => e.kind === 'armyRule')).toEqual(own.entries.filter((e) => e.kind === 'armyRule'))
+    expect(new Set(ba.entries.map((e) => e.sid)).size).toBe(ba.entries.length)
+    // A faction that is not a Chapter reads its own file as before.
+    expect(await loadRosterModifiersFor('necrons')).toEqual(await loadRosterModifiers('necrons'))
   })
 })

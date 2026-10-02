@@ -85,10 +85,6 @@ const ALLOW = [
     why: 'the Stealth is carried by an Order the bearer issues to another unit, and only while the attacks '
       + 'that triggered it are being resolved — the layer can name neither the unit the Order went to nor '
       + 'a window inside an attack sequence.' },
-  { sid: '0a2f6202-af65-4e33-a67d-12b39c05b312',
-    name: 'black-templars · Herald of Sacred Slaughter',
-    why: 'the ability goes to the DEDICATED TRANSPORT the bearer begins the battle embarked within; the '
-      + 'layer has no target for the transport an entry is inside, and the bearer itself gains nothing.' },
   { sid: 'b11810ea-a5f1-4a5f-ae70-54c95415b57d',
     name: 'chaos-daemons · First Prince of Chaos',
     why: 'the rule is a five-way split by Chaos god (KHORNE / TZEENTCH / NURGLE / SLAANESH / UNDIVIDED), '
@@ -172,25 +168,24 @@ const ALLOW = [
     name: 'orks · Flyin’ Headbutt',
     why: 'the stratagem takes the unit\'s own Deadly Demise away before removing it; this layer can hand a '
       + 'core ability out, not remove one.' },
-  { sid: 'f99f5ac3-b359-4859-963f-1bc4b3914700:caanok-var',
+  { sid: '3cd7bae1-b669-4e96-ba2e-2a19ea78cfc3:caanok-var',
     name: 'space-marines · Caanok Var: Cerebrex Logic Engine',
     why: 'the rule grants the ability to units selected in a deployment step, from anywhere in the army; a '
       + 'record reaches the card it is printed on, the unit its bearer leads, or a unit inside an aura it '
       + 'carries — none of which can name a unit picked off the roster.' },
-  { sid: 'b14b38af-00df-43ac-aad6-0595e00c441a',
-    name: 'space-marines · Rapid-drop Deployment',
+  { sid: '8e150431-b200-4a25-9496-952de9fee2a0:marneus-calgar',
+    name: 'space-marines · Marneus Calgar: Thunderhawk Insertion',
     why: 'the rule grants the ability to units selected in a deployment step, from anywhere in the army; a '
       + 'record reaches the card it is printed on, the unit its bearer leads, or a unit inside an aura it '
       + 'carries — none of which can name a unit picked off the roster.' },
-  { sid: '11750a06-78b2-4ad9-8e19-24d83bc78038',
-    name: 'space-marines · Tip of the Spear',
-    why: 'the ability goes to the DEDICATED TRANSPORT the bearer begins the battle embarked within; the '
-      + 'layer has no target for the transport an entry is inside, and the bearer itself gains nothing.' },
-  { sid: 'ab224771-6fe8-474c-aa70-89ab5aa442ce:uriel-ventris',
-    name: 'space-marines · Uriel Ventris: Master of the Fleet',
-    why: 'the rule grants the ability to units selected in a deployment step, from anywhere in the army; a '
-      + 'record reaches the card it is printed on, the unit its bearer leads, or a unit inside an aura it '
-      + 'carries — none of which can name a unit picked off the roster.' },
+  { sid: '32747ba5-0369-45d2-9122-8469eebccf82:kaius-konorius',
+    name: 'space-marines · Kaius Konorius: Veteran Bodyguard',
+    why: 'the Feel No Pain goes to the OTHER CHARACTER models of the unit Kaius is attached to, not to the '
+      + 'unit as a whole; neither `leader` nor `led` can reach models of one keyword inside a unit.' },
+  { sid: '582fa48b-4576-4858-9615-89e3d5fe36d7:thunderhawk-gunship',
+    name: 'space-marines · Thunderhawk Gunship: Aerial Assault',
+    why: 'the ability is a PRECONDITION the rule reads ("provided every model in the embarked unit has Deep '
+      + 'Strike"), not something it hands out.' },
   { sid: '95f3d7cd-07f9-4e45-bc44-9726c1bc9843',
     name: 'tau-empire · Fail-safe Detonator',
     why: 'the ability is a PRECONDITION the rule reads ("if your unit has the Deep Strike ability…"), not '

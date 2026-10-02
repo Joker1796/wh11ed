@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyBaseline, findingKey, splitFindings } from './sync-baseline.mjs'
+import { applyBaseline, blockKey, findingKey, splitFindings } from './sync-baseline.mjs'
 
 // The baseline's whole value is that it suppresses a finding and NOTHING ELSE. Both halves of that
 // have already gone wrong once: a blank line inside a quoted rule ended the block early and left
@@ -32,7 +32,7 @@ describe('applyBaseline', () => {
   const lines = [HEAD, FIND, '      wh11ed: …', '  ~ datasheet "Impulsor" points differ: wh11ed=[75] appdata=[70,75]']
 
   it('drops a recorded finding with its body, and keeps the rest', () => {
-    const { kept, suppressed } = applyBaseline(lines, { [findingKey(FIND)]: 'wording is ours on purpose' })
+    const { kept, suppressed } = applyBaseline(lines, { [blockKey(lines.slice(1, 3))]: 'wording is ours on purpose' })
     expect(suppressed).toBe(1)
     expect(kept).toEqual([HEAD, lines[3]])
   })
@@ -46,9 +46,23 @@ describe('applyBaseline', () => {
     expect(kept).toContain(moved[3])
   })
 
+  // A prose finding's head names only the rule; what it says lives in the body. An errata that
+  // rewrites the rule leaves the head as it was — Angron's Driven by Ultimate Rage, 2026-09 — so
+  // the key has to carry the body too, or the new wording is suppressed along with the old.
+  it('lets a text finding through once its body changes under the same head', () => {
+    const recorded = { [blockKey(lines.slice(1, 3))]: '' }
+    const errata = [HEAD, FIND, '      wh11ed: …ignore modifiers…', lines[3]]
+    const { kept } = applyBaseline(errata, recorded)
+    expect(kept).toContain(FIND)
+  })
+
+  it('keys a finding with no body by its head alone', () => {
+    expect(blockKey([lines[3]])).toBe(findingKey(lines[3]))
+  })
+
   it('reports which keys it saw, so an entry that matched nothing can be called stale', () => {
     const { seen } = applyBaseline(lines, {})
-    expect(seen.has(findingKey(FIND))).toBe(true)
+    expect(seen.has(blockKey(lines.slice(1, 3)))).toBe(true)
     expect(seen.size).toBe(2)
   })
 })

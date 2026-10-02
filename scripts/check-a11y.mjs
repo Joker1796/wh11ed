@@ -65,6 +65,7 @@ const ROUTES = [
   '/roster/new',
   '/help',
   '/changelog',
+  '/patches',
   '/links',
 ]
 
