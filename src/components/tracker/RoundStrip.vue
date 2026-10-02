@@ -22,9 +22,11 @@
         class="rs-ln"
         :class="{ done: n <= live }"
       />
+      <!-- A hint on hover names the round under the pointer (owner, 2026-10-02). -->
       <span
         class="rs-pt"
         :class="{ done: n < live || (phase && n === live), live: n === live && !phase, shown: n === shown && n !== live }"
+        :title="`${labels.trackerRound} ${n}`"
       />
       <span
         v-if="phase && n === live"
