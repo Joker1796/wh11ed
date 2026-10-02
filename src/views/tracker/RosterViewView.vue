@@ -1876,7 +1876,9 @@ function stratKey(strat) {
    lists stands beside it. From 1200px a second column holds the card of the unit last opened. */
 .rv-in-game { padding: 0; }
 /* In the game every line of height is the game's: the name and the points on one small line. */
-.rv-in-game .rv-head { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom-width: 1px; }
+/* The line under it is the quiet border, not the accent — the accent was too bright here (owner,
+   2026-10-02). */
+.rv-in-game .rv-head { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
 .rv-in-game .rv-name, .rv-in-game .rv-name.long, .rv-in-game .rv-name.xlong { font-size: 1.2rem; line-height: 1.2; }
 .rv-in-game .rv-points { font-size: 0.9rem; }
 /* …and the unit cards tighter by their padding and gaps alone — every name, plate and switch keeps
