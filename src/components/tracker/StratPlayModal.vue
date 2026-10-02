@@ -1,7 +1,9 @@
 <template>
   <!-- Playing a stratagem (stratagemPlay.js), from the CP tab or a unit's card: whether a rule
-       changed its cost THIS time — asked every time, the answer is the button that plays it — and,
-       optionally, the unit it is played on (a card's own unit is already named). -->
+       changed its cost THIS time — asked every time; a tap selects a price, and Confirm plays the
+       selected one (owner, 2026-10-02: a tap that played at once left no moment to name the unit
+       or take a wrong tap back) — and, optionally, the unit it is played on (a card's own unit is
+       already named). -->
   <BaseModal
     :title="strat.name"
     :subtitle="`${labels.trackerStratBase} ${strat._cost}CP`"
@@ -26,10 +28,11 @@
           v-for="o in costs"
           :key="o.m"
           class="act-btn spm-cost"
-          :class="{ on: o.m === 0 }"
+          :class="{ on: o.m === picked }"
+          :aria-pressed="o.m === picked"
           :disabled="!!o.block"
           :title="o.block ? labels[`trackerStratBlock_${o.block}`] : undefined"
-          @click="play(o.cost)"
+          @click="picked = o.m"
         >
           <strong>{{ o.label }}</strong>
           <span>{{ o.cost }}CP</span>
@@ -119,6 +122,14 @@
           </ul>
         </template>
       </section>
+
+      <button
+        class="btn-primary spm-go"
+        :disabled="!chosenCost"
+        @click="play(chosenCost.cost)"
+      >
+        {{ labels.trackerStratConfirm.replace('{cost}', chosenCost ? chosenCost.cost : '') }}
+      </button>
     </div>
   </BaseModal>
 </template>
@@ -180,6 +191,12 @@ const costs = computed(() => [-1, 0, 1].map((m) => {
   const l = labels.value
   return { m, cost, label: m < 0 ? l.trackerStratReduced : m > 0 ? l.trackerStratIncreased : l.trackerStratNormal, block: stratBlock(props.pi, props.strat, cost) }
 }))
+// The selected price: as printed, unless that one is blocked — then the first one that is not.
+const picked = ref(0)
+const chosenCost = computed(() => {
+  const at = costs.value.find((o) => o.m === picked.value && !o.block)
+  return at || costs.value.find((o) => !o.block) || null
+})
 // One reason under the buttons when even the cheapest cannot be played (the stratagem's own limits).
 const blockNote = computed(() => {
   const b = costs.value[0].block
@@ -200,6 +217,7 @@ function play(cost) {
 .spm-cost { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; text-align: left; }
 .spm-cost.on { border-color: var(--accent); }
 .spm-why { margin: 0.4rem 0 0; font-size: 0.75rem; color: var(--text-dim); }
+.spm-go { width: 100%; justify-content: center; min-height: 46px; margin-top: 0.9rem; font-weight: 700; }
 /* The unit, set apart from the price: its own block under a rule. */
 .spm-target { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--border); }
 .spm-pick { width: 100%; justify-content: center; }

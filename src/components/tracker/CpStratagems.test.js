@@ -37,6 +37,8 @@ async function play(w, name, pick = 1) {
   await vi.waitFor(() => expect(document.body.querySelectorAll('.spm-cost').length).toBe(3))
   document.body.querySelectorAll('.spm-cost')[pick].click()
   await flushPromises()
+  document.body.querySelector('.spm-go').click()
+  await flushPromises()
 }
 // By its name — a mixed list adds a "core" tag after it, so the name is where the text starts.
 const row = (w, name) => w.findAll('.sr').find((r) => r.find('.sr-name').text().toUpperCase().startsWith(name.toUpperCase()))
@@ -68,6 +70,8 @@ describe('CpStratagems', () => {
     const [reduced, printed] = document.body.querySelectorAll('.spm-cost')
     expect(printed.disabled).toBe(true)
     reduced.click() // 2CP → 1CP, this use only
+    await flushPromises()
+    document.body.querySelector('.spm-go').click()
     await flushPromises()
     expect(tracker.current.value.players[1].cp).toBe(0)
     expect(row(w, 'Counteroffensive').find('.sr-use').text()).toBe('2CP') // the next use is priced afresh

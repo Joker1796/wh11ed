@@ -21,11 +21,27 @@ const targets = [{ uid: 'u1', name: 'Boyz', sid: 'r1' }, { uid: 'u2', name: 'Gre
 const q = (sel) => [...document.body.querySelectorAll(sel)]
 
 describe('StratPlayModal', () => {
+  // A tap on a price only selects it; Confirm plays the selected one.
+  it('plays nothing until Confirm, then the selected price', async () => {
+    tracker.setCp(0, 3) // enough for the raised price
+    mount(StratPlayModal, { props: { strat, pi: 0, targets } })
+    await flushPromises()
+    q('.spm-cost')[2].click()
+    await flushPromises()
+    expect(tracker.current.value.players[0].cpLog.find((e) => e.kind === 'spend')).toBeUndefined()
+    expect(q('.spm-go')[0].textContent).toContain('2CP')
+    q('.spm-go')[0].click()
+    await flushPromises()
+    expect(tracker.current.value.players[0].cpLog.find((e) => e.kind === 'spend').amount).toBe(-2)
+  })
+
   it('asks the price at once and plays on no unit when none is named', async () => {
     mount(StratPlayModal, { props: { strat, pi: 0, targets } })
     await flushPromises()
     expect(q('.spm-cost')).toHaveLength(3)
     q('.spm-cost')[1].click()
+    await flushPromises()
+    q('.spm-go')[0].click()
     await flushPromises()
     const spend = tracker.current.value.players[0].cpLog.find((e) => e.kind === 'spend')
     expect(spend).toMatchObject({ amount: -1, name: 'Command Re-roll' })
@@ -66,6 +82,8 @@ describe('StratPlayModal', () => {
     await flushPromises()
     q('.spm-cost')[1].click()
     await flushPromises()
+    q('.spm-go')[0].click()
+    await flushPromises()
     expect(tracker.current.value.players[0].cpLog.find((e) => e.kind === 'spend').target).toEqual({ uid: 'b1', name: 'Boyz' })
   })
 
@@ -80,6 +98,8 @@ describe('StratPlayModal', () => {
     await flushPromises()
     expect(document.body.querySelector('.spm-chosen').textContent).toContain('Boyz')
     q('.spm-cost')[1].click()
+    await flushPromises()
+    q('.spm-go')[0].click()
     await flushPromises()
     expect(tracker.current.value.players[0].cpLog.find((e) => e.kind === 'spend').target).toEqual({ uid: 'u1', name: 'Boyz', sid: 'r1' })
   })
