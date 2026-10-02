@@ -999,7 +999,7 @@
           :disabled="!canStart"
           @click="guardColors(start)"
         >
-          {{ labels.trackerStart }}
+          {{ labels.trackerToGame }}
         </button>
       </div>
     </div>

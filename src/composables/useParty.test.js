@@ -60,6 +60,7 @@ beforeEach(async () => {
       { name: 'Opp', factionSlug: null, detachments: [], disposition: D1, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
     ],
   })
+  tracker.beginGame()
   await vi.advanceTimersByTimeAsync(600)
 })
 afterEach(() => {

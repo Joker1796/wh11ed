@@ -805,6 +805,8 @@ export const ui = {
     trackerScoreHelpWin: 'Winner BP',
     trackerScoreHelpLose: 'Loser BP',
     trackerStart: 'Start Game',
+    // The setup's last button: it opens the game screen, where Start Game begins the first turn.
+    trackerToGame: 'Go to the game',
     trackerCancel: 'Cancel',
     trackerStepArmies: 'Armies',
     trackerStepMission: 'Mission',
@@ -2034,6 +2036,7 @@ export const ui = {
     trackerScoreHelpWin: 'BP победителя',
     trackerScoreHelpLose: 'BP проигравшего',
     trackerStart: 'Начать игру',
+    trackerToGame: 'Перейти к игре',
     trackerCancel: 'Отмена',
     trackerStepArmies: 'Армии',
     trackerStepMission: 'Миссия',

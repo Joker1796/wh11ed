@@ -31,6 +31,7 @@ function startGame(p0, p1, settings = {}) {
       player({ ...p1, name: 'Opp', disposition: DISPOSITIONS[1].id, role: 'defender' }),
     ],
   })
+  tracker.beginGame()
 }
 
 // Unmounted after each case: a screen left mounted keeps building its idle panels into the next.

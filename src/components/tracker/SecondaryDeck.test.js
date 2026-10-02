@@ -24,6 +24,7 @@ function startGame() {
       { name: 'Opp', factionSlug: null, detachments: [], disposition: DISPOSITIONS[1].id, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
     ],
   })
+  tracker.beginGame()
 }
 const deck = (pi, props = {}) => mount(SecondaryDeck, {
   props: { pi, round: tracker.current.value.currentRound, name: pi ? 'Opp' : 'Me', ...props },

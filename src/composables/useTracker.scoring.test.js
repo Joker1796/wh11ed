@@ -64,6 +64,7 @@ const attackerSecondaries = () => getMissions('en').secondary.filter((m) => m.ro
 describe('setRoundPrimary', () => {
   it('clamps to 0 and to the 15 round cap', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setRoundPrimary(0, 0, -4)
     expect(tracker.current.value.players[0].rounds[0].primary).toBe(0)
     tracker.setRoundPrimary(0, 0, 22)
@@ -74,6 +75,7 @@ describe('setRoundPrimary', () => {
 describe('setPrimaryRow / primaryRowCount', () => {
   it('sums row contributions into the round primary and reads counts back', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const pl = tracker.current.value.players[0]
     const m = mod.missionBySlug(pl.primarySlug)
     const bi = 0, ri = 0
@@ -85,6 +87,7 @@ describe('setPrimaryRow / primaryRowCount', () => {
 
   it('caps the round primary at 15 even when raw row VP is higher', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const pl = tracker.current.value.players[0]
     const m = mod.missionBySlug(pl.primarySlug)
     const rowVp = mod.numericVp(m.blocks[0].rows[0].vp)
@@ -95,6 +98,7 @@ describe('setPrimaryRow / primaryRowCount', () => {
 
   it('floors a negative count at 0', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setPrimaryRow(0, 0, 0, 0, -3)
     expect(tracker.primaryRowCount(0, 0, 0, 0)).toBe(0)
     expect(tracker.current.value.players[0].rounds[0].primary).toBe(0)
@@ -102,6 +106,7 @@ describe('setPrimaryRow / primaryRowCount', () => {
 
   it('selecting one "or" bracket clears the competing bracket in the same group', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const found = findOrBracket(getMissions('en').primary)
     expect(found).toBeTruthy()
     const { m, bi, riA, riB } = found
@@ -121,6 +126,7 @@ describe('setPrimaryRow / primaryRowCount', () => {
 describe('setCp', () => {
   it('floors at 0 and accepts increments', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setCp(0, 5)
     expect(tracker.current.value.players[0].cp).toBe(5)
     tracker.setCp(0, -2)
@@ -131,6 +137,7 @@ describe('setCp', () => {
 describe('drawSecondary', () => {
   it('moves the top deck card into the hand and records the drawn round', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const s = tracker.current.value.players[0].secondary
     const top = s.deck[0]
     const deckSize = s.deck.length
@@ -143,6 +150,7 @@ describe('drawSecondary', () => {
 
   it('is a no-op on an empty deck', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const s = tracker.current.value.players[0].secondary
     s.deck = []
     tracker.drawSecondary(0)
@@ -153,6 +161,7 @@ describe('drawSecondary', () => {
 describe('scoreSecondaryRow / secondaryCardVp / secondaryRowCount', () => {
   it('records picks against the current round only', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const found = findPerEachRow(attackerSecondaries())
     expect(found).toBeTruthy()
     const { m, bi, ri, vp } = found
@@ -165,6 +174,7 @@ describe('scoreSecondaryRow / secondaryCardVp / secondaryRowCount', () => {
 
   it('caps a tactical scoring at 5 VP ("up to 5VP" on the cards)', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const found = findPerEachRow(attackerSecondaries())
     const { m, bi, ri, vp } = found
     tracker.drawSpecificSecondary(0, m.slug)
@@ -176,6 +186,7 @@ describe('scoreSecondaryRow / secondaryCardVp / secondaryRowCount', () => {
 
   it('selecting one "or" bracket clears the competing bracket', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const found = findOrBracket(attackerSecondaries())
     expect(found).toBeTruthy()
     const { m, bi, riA, riB } = found
@@ -191,6 +202,7 @@ describe('scoreSecondaryRow / secondaryCardVp / secondaryRowCount', () => {
 
   it('floors a negative count at 0', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const { m, bi, ri } = findPerEachRow(attackerSecondaries())
     tracker.drawSpecificSecondary(0, m.slug)
     tracker.scoreSecondaryRow(0, m.slug, bi, ri, -2)
@@ -202,6 +214,7 @@ describe('scoreSecondaryRow / secondaryCardVp / secondaryRowCount', () => {
 describe('returnSecondaryToDeck', () => {
   it('fully undoes a draw: hand/scored/drawn cleared, card back in the deck', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const { m, bi, ri } = findPerEachRow(attackerSecondaries())
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, m.slug)
@@ -220,6 +233,7 @@ describe('returnSecondaryToDeck', () => {
 describe('discardFromHand (set aside)', () => {
   it('removes the card from hand but keeps its scored VP', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const { m, bi, ri, vp } = findPerEachRow(attackerSecondaries())
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, m.slug)
@@ -234,6 +248,7 @@ describe('discardFromHand (set aside)', () => {
 
   it('does not duplicate an already set-aside card', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const slug = attackerSecondaries()[0].slug
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, slug)
@@ -246,6 +261,7 @@ describe('discardFromHand (set aside)', () => {
 describe('goToRound', () => {
   it('clamps the target round to 1..5', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.goToRound(0)
     expect(tracker.current.value.currentRound).toBe(1)
     tracker.goToRound(99)
@@ -254,6 +270,7 @@ describe('goToRound', () => {
 
   it('advancing sets aside a tactical card that scored in an earlier round, recorded against the round being left', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const { m, bi, ri } = findPerEachRow(attackerSecondaries())
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, m.slug)
@@ -268,6 +285,7 @@ describe('goToRound', () => {
 
   it('does not set aside an unscored card on advance, nor anything when going backward', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const slug = attackerSecondaries()[0].slug
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, slug)
@@ -311,6 +329,7 @@ describe('isValidGame', () => {
 describe('redrawSecondary with an empty or near-empty deck (regressions)', () => {
   it("empty deck + 'shuffle' is a complete no-op (card stays in hand, VP intact)", () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const { m, bi, ri } = findPerEachRow(attackerSecondaries())
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, m.slug)
@@ -325,6 +344,7 @@ describe('redrawSecondary with an empty or near-empty deck (regressions)', () =>
 
   it("empty deck + 'discard' is a no-op (hand does not shrink)", () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const slug = attackerSecondaries()[0].slug
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, slug)
@@ -336,6 +356,7 @@ describe('redrawSecondary with an empty or near-empty deck (regressions)', () =>
 
   it("one-card deck + 'shuffle' draws the other card; the redrawn one returns to the deck", () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const [a, b] = attackerSecondaries().map((m) => m.slug)
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, a)
@@ -348,6 +369,7 @@ describe('redrawSecondary with an empty or near-empty deck (regressions)', () =>
 
   it("one-card deck + 'discard' draws the other card; the redrawn one leaves play", () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const [a, b] = attackerSecondaries().map((m) => m.slug)
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, a)

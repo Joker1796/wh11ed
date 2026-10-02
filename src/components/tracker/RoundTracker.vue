@@ -52,8 +52,23 @@
              an icon, the phase arrows, the phase itself (tap → any phase of either turn), and End turn.
              The arrows stay INSIDE the turn — they stop at Command and at Fight — so a turn changes only
              through End / Undo turn, never past the end-of-turn check by a stray tap. -->
+        <!-- Before the first turn the bar is one button that starts it (2026-10-02, owner): the
+             setup lands here while the armies are still being deployed. -->
         <div
-          v-if="phasesOn"
+          v-if="!begun"
+          class="turn-row begin"
+        >
+          <button
+            class="tr-btn tr-end"
+            :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
+            :disabled="!canEdit(turnIndex)"
+            @click="beginGame()"
+          >
+            <span class="tr-label">{{ labels.trackerStart }}</span>
+          </button>
+        </div>
+        <div
+          v-else-if="phasesOn"
           class="turn-row phased"
         >
           <button
@@ -595,13 +610,14 @@ import { bonusIn } from '../../composables/cpLedger.js'
 import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { provideModalScope } from '../../composables/modalScope.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
-import { useTracker, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useTracker, gameBegun, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame } = useTracker()
+const begun = computed(() => gameBegun(current.value))
 
 // Read through `tracks` so a game saved before the option existed arrives with its default
 // rather than undefined.
@@ -1076,6 +1092,7 @@ function onEndBattle(reason) {
   .tf-sticky-inner { padding: 0.4rem calc(0.5rem + var(--safe-right)) 0.4rem calc(0.5rem + var(--safe-left)); }
 }
 /* With phases: undo · ‹ · the phase · › · end. */
+.turn-row.begin { grid-template-columns: 1fr; }
 .turn-row.phased { grid-template-columns: 42px 34px minmax(0, 1fr) 34px auto; gap: 0.3rem; }
 .tr-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;

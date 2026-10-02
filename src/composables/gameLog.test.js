@@ -21,6 +21,7 @@ beforeEach(async () => {
       { name: 'Opp', factionSlug: null, detachments: [], disposition: mod.DISPOSITIONS[1].id, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
     ],
   })
+  tracker.beginGame()
 })
 
 afterEach(() => { vi.useRealTimers() })

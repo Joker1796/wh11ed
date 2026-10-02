@@ -12,6 +12,7 @@ beforeEach(async () => {
   StratPlayModal = (await import('./StratPlayModal.vue')).default
   const p = (name, d) => ({ name, factionSlug: null, detachments: [], disposition: d, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false })
   tracker.newGame({ settings: { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', scoreMode: 'vp' }, players: [p('Me', mod.DISPOSITIONS[0].id), { ...p('Opp', mod.DISPOSITIONS[1].id), role: 'defender' }] })
+  tracker.beginGame()
 })
 afterEach(() => { document.body.innerHTML = '' })
 

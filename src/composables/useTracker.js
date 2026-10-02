@@ -434,7 +434,7 @@ function makePlayer(p, opponent, settings, isYou = false) {
 //     aside by hand (no `auto`) is never touched.
 function settleSide(pi) {
   const g = current.value
-  if (!g || g.phase !== 'playing') return
+  if (!g || g.phase !== 'playing' || !gameBegun(g)) return
   const pl = g.players[pi]
   if (!pl) return
   const R = g.currentRound
@@ -470,6 +470,9 @@ function settleSide(pi) {
     s.discarded.push({ slug, round: last.round, auto: last.turn, t: Date.now() })
   }
 }
+// The first turn has started (see `begun` in newGame); every game saved before the flag has.
+export function gameBegun(g) { return !!g && g.begun !== false }
+
 function settleAll() {
   current.value?.players?.forEach((_, pi) => settleSide(pi))
 }
@@ -481,7 +484,7 @@ function settleAll() {
 watch(
   () => {
     const g = current.value
-    return g ? `${g.id}|${g.phase}|${g.currentRound}|${g.currentTurn === 1 ? 1 : 0}` : ''
+    return g ? `${g.id}|${g.phase}|${gameBegun(g)}|${g.currentRound}|${g.currentTurn === 1 ? 1 : 0}` : ''
   },
   () => settleAll(),
   { flush: 'sync', immediate: true },
@@ -566,6 +569,11 @@ export function useTracker() {
       // so turning the setting on mid-game finds a sane clock rather than an empty one.
       currentTurn: 0,
       currentPhase: BATTLE_PHASES[0],
+      // Not begun yet (2026-10-02, owner): Start on the setup lands on the game screen, and the
+      // first turn starts with its own button there — so nothing of turn 1 (its Core CP, the
+      // secondaries dialog) happens while the players are still deploying. A game saved without
+      // the flag has begun.
+      begun: false,
       // Command points are a ledger in this game (cpLedger.js): Core CP arrive by themselves at
       // every Command phase. A game started before the ledger has no flag and keeps its stepper.
       cpAuto: true,
@@ -1063,7 +1071,7 @@ export function useTracker() {
   function canTakeSecondaries(pi) {
     const g = current.value
     const pl = g?.players?.[pi]
-    return !!pl && g.phase === 'playing' && pl.secondaryMode === 'tactical'
+    return !!pl && g.phase === 'playing' && gameBegun(g) && pl.secondaryMode === 'tactical'
       && (g.currentTurn === 1 ? 1 : 0) === pi && !tookSecondaries(pi) && pl.secondary.deck.length > 0
   }
   function markTook(pi, how) {
@@ -1311,6 +1319,11 @@ export function useTracker() {
     return !!g && (g.currentTurn !== 1 || g.currentRound < ROUND_COUNT)
   }
 
+  function beginGame() {
+    const g = current.value
+    if (g && g.phase === 'playing') delete g.begun
+  }
+
   function endTurn() {
     const g = current.value
     if (!g || !canEndTurn()) return
@@ -1505,7 +1518,7 @@ export function useTracker() {
     canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, spendCp,
     stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem, playStratagem, unplayOnUnit,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-    goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
+    goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
