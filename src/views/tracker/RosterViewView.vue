@@ -1886,7 +1886,9 @@ function stratKey(strat) {
 .rv-in-game .rvunit { margin-bottom: 0.35rem; }
 .rv-in-game .rvunit-main { padding-block: 0.35rem; }
 .rv-in-game .rvunit-conds { padding-block: 0.3rem; }
-.rv-in-game .roster-group-head { margin: 0.45rem 0 0.3rem; }
+/* …and the group headings carry no line under them: one under the list's name is enough (owner,
+   2026-10-02). */
+.rv-in-game .roster-group-head { margin: 0.45rem 0 0.3rem; padding-bottom: 0; border-bottom: 0; }
 .rvunit-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.5rem; }
 .rv-in-game .rvunit-head .rvunit-sub { margin-left: auto; text-align: right; }
 /* The name's line runs the card's full width, to its right edge; the points sit on the plates'
