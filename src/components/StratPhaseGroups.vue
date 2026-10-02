@@ -61,7 +61,8 @@ function toggle(key) {
 </script>
 
 <style scoped>
-.phase-group { margin-bottom: 0.75rem; }
+/* Closed heads stack tight, like the list rows under them (owner, 2026-10-02). */
+.phase-group { margin-bottom: 0.3rem; }
 .phase-head {
   display: flex;
   align-items: center;
