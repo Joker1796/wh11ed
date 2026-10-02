@@ -191,14 +191,16 @@ describe('RoundTracker — the round line with phases', () => {
 describe('RoundTracker — ending a turn', () => {
   it('passes the turn at once when nothing scores at its end', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, {})
+    // no primary cards: nothing at all falls due
+    for (const pl of tracker.current.value.players) pl.primarySlug = null
     const w = mountTracker()
     await w.find('.tr-end').trigger('click')
     expect(tracker.current.value.currentTurn).toBe(1)
   })
 
-  // The opponent's "end of your opponent's turn" card is scored now — on a card nobody is
-  // looking at — so End turn shows it first.
-  it('shows the other side\'s cards that score now, then passes the turn', async () => {
+  // The side on turn's own "end of your turn" conditions (here its primary) and the opponent's
+  // "end of your opponent's turn" card are all scored now, so End turn shows them first.
+  it('shows the conditions of both sides that score now, then passes the turn', async () => {
     startGame({ factionSlug: 'orks', secondaryMode: 'tactical' }, { factionSlug: 'necrons', secondaryMode: 'tactical' })
     const s = tracker.current.value.players[1].secondary
     const slug = s.deck.find((x) => x.startsWith('display-of-might'))
@@ -207,8 +209,9 @@ describe('RoundTracker — ending a turn', () => {
     const w = mountTracker()
     await w.find('.tr-end').trigger('click')
     expect(tracker.current.value.currentTurn).toBe(0)
-    const check = document.body.querySelector('.ck')
-    expect(check.textContent).toContain('Display of Might')
+    const check = document.body.textContent
+    expect(check).toContain('Display of Might')
+    expect(check).toContain('Immovable Object')
     document.body.querySelector('.ck-go').click()
     await w.vm.$nextTick()
     expect(tracker.current.value.currentTurn).toBe(1)

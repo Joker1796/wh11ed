@@ -67,12 +67,12 @@ describe('turnEndChecks', () => {
   })
   const brief = (checks) => checks.map((c) => `${c.pi}:${c.slug || 'primary'}:${c.blocks.map((b) => b.bi).join(',')}`)
 
-  it('shows the other side\'s end-of-opponent\'s-turn cards, not the side on turn\'s own', () => {
-    expect(brief(turnEndChecks(game(2, 0), scorable, missionEn))).toEqual(['1:beacon:0'])
-    expect(brief(turnEndChecks(game(2, 1), scorable, missionEn))).toEqual(['0:beacon:0'])
+  it('shows the side on turn\'s end-of-your-turn conditions and the other side\'s end-of-opponent\'s-turn ones', () => {
+    expect(brief(turnEndChecks(game(2, 0), scorable, missionEn))).toEqual(['0:mine:0', '0:primary:0', '1:beacon:0'])
+    expect(brief(turnEndChecks(game(2, 1), scorable, missionEn))).toEqual(['0:beacon:0', '1:primary:0'])
   })
 
   it('adds the End of Battle and the fifth-round fallback on the turn that closes the battle', () => {
-    expect(brief(turnEndChecks(game(5, 1), scorable, missionEn))).toEqual(['0:beacon:0', '0:primary:1', '1:beacon:0', '1:primary:1'])
+    expect(brief(turnEndChecks(game(5, 1), scorable, missionEn))).toEqual(['0:beacon:0', '0:primary:1', '1:beacon:0', '1:primary:0,1'])
   })
 })

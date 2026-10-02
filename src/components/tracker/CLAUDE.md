@@ -235,9 +235,11 @@ own rule — WHEN DRAWN, set aside, return to deck, in the card's "⋯" sheet. T
 
 End turn (and the last turn's Finish, and the end-of-turn discard from a card's sheet, which
 `SecondaryDeck` sends up through `inject('requestEndTurn')`) first asks
-`turnEndChecks`: what scores at this very moment on cards nobody is looking at — the OTHER side's
-"end of your opponent's turn" secondaries, and on the battle's last turn every End of Battle
-condition (both primaries) plus the side on turn's "… or the end of the fifth battle round" cards.
+`turnEndChecks`: every condition that scores at this very moment, on both sides' cards in hand and
+both primaries — the side on turn's "end of your turn", the other side's "end of your opponent's
+turn", either side's "end of a turn" (the side on turn's own were left out until 2026-10-02; the
+owner wants the card offered whenever a condition falls due) — and on the battle's last turn every
+End of Battle condition plus the "… or the end of the fifth battle round" fallbacks.
 Nothing to check → the turn passes at once. Otherwise the dialog shows those rows to tick (a side
 another phone plays is shown, not scored) and "Checked · end turn" passes it; on the last turn it
 goes on to `GameEndModal`. Mikhail's prototype had the same step, with the four "opponent's turn"

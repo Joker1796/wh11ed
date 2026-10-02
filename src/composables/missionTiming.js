@@ -63,12 +63,14 @@ export function blockLocked(game, pi, round, enBlock) {
   })
 }
 
-// What is scored at the moment a turn ends, beyond the side on turn's own cards — the check the
-// game screen shows before End turn (Mikhail's prototype: "Check Secondary Missions"). The cards
-// scored at "the end of your opponent's turn" belong to the OTHER side, whose own screen is not
-// in front of anyone right then, so they are the ones forgotten. On the turn that closes the
-// battle it adds every End of Battle condition, both sides' primaries included, and the "… or
-// the end of the fifth battle round" cards of the side on turn.
+// What is scored at the moment a turn ends — the check the game screen shows before End turn
+// (Mikhail's prototype: "Check Secondary Missions"). Every condition whose moment is this one, on
+// both sides' cards in hand and both primaries: the side on turn's "end of your turn", the other
+// side's "end of your opponent's turn", either side's "end of a turn". Until 2026-10-02 it left out
+// the side on turn's own cards, as the ones in front of the player anyway; the owner wants the
+// card offered whenever a condition falls due at the end of the turn. On the turn that closes the
+// battle it adds every End of Battle condition and the "… or the end of the fifth battle round"
+// fallbacks.
 //   game — the live game; `scorable(slug, role, round)` — useTracker's scorableBlocks, bound to
 //   the locale by the caller (this module stays free of the heavy mission data).
 // Returns [{ pi, slug | null (the primary), blocks }], each with only the blocks that score now.
@@ -89,15 +91,18 @@ export function turnEndChecks(game, scorable, missionEn) {
   }
   game.players.forEach((pl, pi) => {
     const opp = pi !== T
-    for (const slug of pl.secondary?.hand || []) {
-      pick(pi, slug, pl.role, (m) => {
-        if (!m) return false
-        if (m.at === 'end-battle') return last
-        if (m.at === 'opp-turn') return opp || (last && m.fallback === 'r5')
-        return false
-      })
+    const due = (m) => {
+      if (!m) return false
+      if (m.at === 'end-battle') return last
+      if (m.at === 'opp-turn') return opp || (last && m.fallback === 'r5')
+      if (m.at === 'your-turn') return !opp
+      if (m.at === 'any-turn') return true
+      // "End of your Command phase (or the end of your turn in the fifth battle round)"
+      if (m.at === 'your-command') return !opp && R === 5 && m.fallback === 'r5'
+      return false
     }
-    if (last && pl.primarySlug) pick(pi, pl.primarySlug, null, (m) => m?.at === 'end-battle')
+    for (const slug of pl.secondary?.hand || []) pick(pi, slug, pl.role, due)
+    if (pl.primarySlug) pick(pi, pl.primarySlug, null, due)
   })
   return out
 }
