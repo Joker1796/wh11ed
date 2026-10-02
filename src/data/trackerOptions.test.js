@@ -73,7 +73,7 @@ describe('availability', () => {
   // Availability is a STATE of a row, never a filter on the list: the whole table is drawn in
   // every game, and a row that cannot be flipped says why instead of vanishing.
   it('lists every row whatever the game looks like', () => {
-    expect(optionsIn('game').length + optionsIn('roster').length).toBe(TRACK_OPTIONS.length)
+    expect(optionsIn('game').length + optionsIn('roster').length + optionsIn('look').length).toBe(TRACK_OPTIONS.length)
     // The clock is a GAME row: PhaseRules reads it with no list in sight.
     expect(optionsIn('game').map((o) => o.id)).toContain('phases')
   })

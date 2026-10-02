@@ -973,6 +973,16 @@
           />
         </div>
       </div>
+      <!-- The side colours: a card of their own, full width under the two columns — the preview
+           is both sides' cards, too wide for a column (2026-10-02). -->
+      <div class="settings deploy-opts look-opts">
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="look"
+          heading="trackerLookHeading"
+        />
+      </div>
 
       <div class="actions">
         <button
@@ -2055,6 +2065,7 @@ function cancel() {
   align-items: start;
 }
 .two-col > .settings { margin-top: 0; }
+.look-opts { margin-top: var(--stack-gap); }
 /* On a phone the two deployment questions share one row — each is a label over a two-word
    switch, and a column of them spent two rows on what fits in one. They still wrap on a screen
    too narrow for the pair (~330px). Desktop keeps them stacked in the side column. */

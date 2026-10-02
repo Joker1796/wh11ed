@@ -70,13 +70,20 @@ describe('TrackOptions', () => {
     })
     const rows = w.findAll('.opt-row')
     const live = rows.filter((r) => !r.find('input').element.disabled).map((r) => r.text())
-    expect(live).toHaveLength(3)
+    expect(live).toHaveLength(2)
     expect(live[0]).toContain('your army rule')
     expect(live[1]).toContain("opponent's army rule")
-    expect(live[2]).toContain('Customise colours') // a way of looking at the game: this phone's
     const cp = rows.find((r) => r.text().includes('Track CP'))
     expect(cp.find('input').element.disabled).toBe(true)
     expect(cp.text()).toContain('Host only')
+    // The colours have a card of their own, and are a way of looking at the game: this phone's.
+    const look = mount(TrackOptions, {
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'look', lockShared: true },
+      global: { stubs: { RouterLink } },
+    })
+    const colours = look.find('.opt-row')
+    expect(colours.text()).toContain('Customise colours')
+    expect(colours.find('input').element.disabled).toBe(false)
   })
 
   // The five families hang off the master; nothing else does.

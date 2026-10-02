@@ -138,7 +138,9 @@ export const TRACK_OPTIONS = [
     // faction colours became the default and the old `factionColors` field means nothing now.
     id: 'custom-colors',
     setting: 'customColors',
-    group: 'game',
+    // Its own card on the setup step since 2026-10-02 (owner): the preview under it is two side
+    // cards wide, and squeezed into the "What to track" column it read as part of that list.
+    group: 'look',
     label: 'trackerTrackCustomColors',
     help: 'trackerHelpCustomColors',
     default: false,

@@ -179,6 +179,13 @@
           heading="trackerRosterHeading"
           :lock-shared="guest"
         />
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="look"
+          heading="trackerLookHeading"
+          :lock-shared="guest"
+        />
       </div>
 
       <div
