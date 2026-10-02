@@ -529,22 +529,19 @@
         v-if="!guest && !settings.combatPatrol"
         class="settings twist-block"
       >
-        <!-- Heading and picker share a line: the block is one choice, not a titled section. -->
-        <div class="twist-row">
-          <h3 class="block-head">
-            {{ labels.trackerTwistHeading }}
-          </h3>
-          <button
-            class="btn-choose-twist"
-            @click="twistPickerOpen = true"
-          >
-            <span
-              class="ct-name"
-              :class="{ placeholder: !chosenTwist }"
-            >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
-            <i class="bi bi-chevron-right ct-chev" />
-          </button>
-        </div>
+        <h3 class="block-head">
+          {{ labels.trackerTwistHeading }}
+        </h3>
+        <button
+          class="btn-choose-twist"
+          @click="twistPickerOpen = true"
+        >
+          <span
+            class="ct-name"
+            :class="{ placeholder: !chosenTwist }"
+          >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
+          <i class="bi bi-chevron-right ct-chev" />
+        </button>
         <details
           v-if="chosenTwist"
           class="twist-chosen"
@@ -1992,9 +1989,6 @@ function cancel() {
   gap: var(--stack-gap);
 }
 .twist-block { margin-bottom: var(--stack-gap); }
-.twist-row { display: flex; align-items: center; gap: 0.85rem; }
-.twist-row > .block-head { margin: 0; flex: none; }
-.twist-row > .btn-choose-twist { flex: 1; min-width: 0; }
 .player-card,
 .settings {
   /* --pc-pad drives the padding AND the negative margin the mission preview uses to bleed
@@ -2014,6 +2008,23 @@ function cancel() {
 /* Drop the field's bottom margin here so the First Turn control and the Track CP
    checkbox card sit on the same baseline (no vertical offset). */
 .settings .field { margin-bottom: 0; }
+/* Twist: the heading on the left, the picker beside it, and the rules and Mirrored World's mission
+   under the picker in the same column (2026-10-02). The phone stacks it all full width. */
+.settings.twist-block {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.85rem;
+  row-gap: 0.6rem;
+  align-items: center;
+}
+.twist-block > .block-head { margin: 0; }
+.twist-block > :not(.block-head) { grid-column: 2; }
+.twist-block > .twist-chosen,
+.twist-block > .twist-mission { margin-top: 0; }
+@media (max-width: 560px) {
+  .settings.twist-block { grid-template-columns: minmax(0, 1fr); row-gap: 0.45rem; }
+  .twist-block > :not(.block-head) { grid-column: 1; }
+}
 /* Narrow screens: the container padding (especially with the nested MissionCard in the Mission
    step) wastes a lot of the limited width — tighten it and the inter-card gap. */
 @media (max-width: 560px) {
