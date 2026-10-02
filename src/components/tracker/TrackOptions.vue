@@ -1,5 +1,8 @@
 <template>
-  <div class="track-opts">
+  <div
+    class="track-opts"
+    :class="{ inline }"
+  >
     <!-- The link out to the guide sits opposite the heading (2026-10-02, owner): under the last
          row it read as one more line of the list. -->
     <div class="opt-head">
@@ -103,6 +106,9 @@ const props = defineProps({
   heading: { type: String, default: 'trackerTrackHeading' },
   // The link out to the guide belongs to one block on the screen (beside its heading), not to each.
   guide: { type: Boolean, default: false },
+  // A one-row block: the heading and the row share a line, the row's preview runs full width
+  // under both (the side colours, 2026-10-02). A phone stacks it as usual.
+  inline: { type: Boolean, default: false },
   // A guest in a shared game: only the rows marked `local` in the table are this phone's to flip;
   // the rest are the host's, drawn disabled with that as the reason.
   lockShared: { type: Boolean, default: false },
@@ -183,4 +189,14 @@ function helpText(o) {
   color: var(--text-dim);
 }
 .opt-guide:hover { color: var(--accent); }
+@media (min-width: 561px) {
+  .track-opts.inline {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  /* The gap is the heading's own margin: a column-gap would split the row from its "?". */
+  .inline .opt-head { margin: 0 0.85rem 0 0; align-self: center; }
+  .inline .opt-row { display: contents; }
+  .inline .opt-preview { grid-column: 1 / -1; }
+}
 </style>

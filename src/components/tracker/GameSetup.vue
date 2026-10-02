@@ -983,6 +983,7 @@
           :ctx="trackCtx"
           group="look"
           heading="trackerLookHeading"
+          inline
         />
       </div>
 
