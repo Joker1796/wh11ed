@@ -160,17 +160,9 @@
             data-lang="ru"
           >RU</span>
         </button>
-        <button
-          class="theme-btn"
-          data-press
-          :title="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
-          :aria-label="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
-          @click="toggleTheme"
-        >
-          <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'" />
-        </button>
-        <!-- The gear on every width since 2026-10-01 (owner): the account, the lore toggle, bug
-             reports and support live in it on the desktop too, rather than as a row of buttons. -->
+        <!-- The gear on every width since 2026-10-01 (owner): the theme, the account, the lore
+             toggle, bug reports and support live in it on the desktop too, rather than as a row of
+             buttons (the theme joined them 2026-10-02). -->
         <div class="settings-wrap">
           <button
             class="settings-btn"
@@ -194,9 +186,8 @@
               v-if="settingsOpen"
               class="settings-menu"
             >
-              <!-- The desktop keeps its own theme button beside the gear. -->
               <button
-                class="settings-item settings-phone"
+                class="settings-item"
                 @click="toggleTheme"
               >
                 <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'" />
@@ -699,35 +690,11 @@ a.nd-link:hover {
   color: #fff;
 }
 
-.theme-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 2.15rem;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.65);
-  padding: 0 0.65rem;
-  cursor: pointer;
-  font-size: 1.05rem;
-  line-height: 1;
-  transition: background 0.15s, color 0.15s;
-}
-
-.theme-btn:hover {
-  background: rgba(255,255,255,0.13);
-  color: #fff;
-}
-
-/* ── Settings dropdown (mobile only) ── */
+/* ── Settings dropdown ── */
 .settings-wrap {
   position: relative;
   display: block;
 }
-/* Theme has its own button on the desktop; the menu's copy is for the phone. */
-.settings-item.settings-phone { display: none; }
-
-/* The theme button's size: the two sit side by side on the desktop (2026-10-01). */
 .settings-btn {
   display: inline-flex;
   align-items: center;
@@ -937,15 +904,6 @@ a.nd-link:hover {
 
   .search-hint {
     display: none;
-  }
-
-  /* Collapse theme into the settings (gear) menu on mobile */
-  .theme-btn {
-    display: none;
-  }
-
-  .settings-item.settings-phone {
-    display: flex;
   }
 
   /* Increase tap targets for action buttons */
