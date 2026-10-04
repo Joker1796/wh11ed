@@ -16,7 +16,9 @@
 //            and detachments come from the list); doubles: two such armies per side;
 //   upTo   — [round, turn (0 first, 1 second), phase?] where the game stops, or null for a game
 //            set up but not begun (the "Start game" button);
-//   fixed  — the first side plays fixed secondaries instead of tactical ones.
+//   fixed  — the first side plays fixed secondaries instead of tactical ones;
+//   oppFirst — the opponent takes the first turn (the game puts them at index 0, you on the right);
+//            about half the set, crossed with the VP/BP half.
 import { TEST_ROSTERS, buildTestRoster } from './test-rosters.mjs'
 import { loadRosterFaction, rosterItems } from '../../src/data/roster/index.js'
 import { rosterSnapshot } from '../../src/composables/rosterGameLink.js'
@@ -29,28 +31,28 @@ const NO_PHASES = { ...ALL_ON, trackPhases: false, trackPhaseRules: false }
 
 export const TEST_GAMES = [
   { key: 'minimal', title: 'Минимум: без ростеров, без фаз, только счёт и CP',
-    track: { ...ALL_OFF, trackCP: true }, sides: [['orks'], ['space-marines']], upTo: [2, 1] },
+    track: { ...ALL_OFF, trackCP: true }, sides: [['orks'], ['space-marines']], upTo: [2, 1], oppFirst: true },
   { key: 'phases', title: 'Без ростеров, с фазами и правилами фазы',
     track: { ...ALL_OFF, trackCP: true, trackPhases: true, trackPhaseRules: true, trackArmyYou: true, trackArmyOpp: true },
-    sides: [['aeldari'], ['necrons']], upTo: [3, 0, 'shooting'], scoreMode: 'bp' },
+    sides: [['aeldari'], ['necrons']], upTo: [3, 0, 'shooting'], scoreMode: 'bp', oppFirst: true },
   { key: 'full', title: 'Ростеры у обоих, всё включено, фазы',
     track: ALL_ON, sides: [[null, 'leaders'], [null, 'havocs']], upTo: [2, 1, 'movement'] },
   { key: 'fixed', title: 'Ростер только у себя, без фаз, фиксированные вторичные',
     track: NO_PHASES, sides: [[null, 'breachers'], ['tyranids']], fixed: true, upTo: [4, 0], scoreMode: 'bp' },
   { key: 'not-begun', title: 'Не начата: ростеры, фазы — кнопка «Начать игру»',
-    track: ALL_ON, sides: [[null, 'allies'], [null, 'legends']], upTo: null },
+    track: ALL_ON, sides: [[null, 'allies'], [null, 'legends']], upTo: null, oppFirst: true },
   { key: 'last-turn', title: 'Последний ход 5-го раунда, без фаз',
-    track: NO_PHASES, sides: [['blood-angels'], ['tau-empire']], upTo: [5, 1], scoreMode: 'bp' },
+    track: NO_PHASES, sides: [['blood-angels'], ['tau-empire']], upTo: [5, 1], scoreMode: 'bp', oppFirst: true },
   { key: 'last-phase', title: 'Последний ход 5-го раунда, с фазами, фаза боя',
     track: ALL_ON, sides: [[null, 'leaders'], ['orks']], upTo: [5, 1, 'fight'] },
   { key: 'doubles', title: 'Doubles 2×2: ростер у одного из четырёх, фазы',
     track: ALL_ON, doubles: true,
     sides: [[[null, 'leaders'], ['adeptus-custodes']], [['chaos-space-marines'], ['death-guard']]], upTo: [2, 0, 'charge'], scoreMode: 'bp' },
   { key: 'own-limits', title: 'Свои лимиты против союзников, без фаз',
-    track: NO_PHASES, sides: [[null, 'own-limits'], [null, 'allies']], upTo: [3, 1] },
+    track: NO_PHASES, sides: [[null, 'own-limits'], [null, 'allies']], upTo: [3, 1], oppFirst: true },
   { key: 'no-factions', title: 'Без фракций, твист, режим BP, фазы',
     track: { ...ALL_OFF, trackCP: true, trackPhases: true, trackPhaseRules: true },
-    sides: [[null], [null]], twist: 'scrambled-communications', scoreMode: 'bp', upTo: [2, 0, 'command'] },
+    sides: [[null], [null]], twist: 'scrambled-communications', scoreMode: 'bp', upTo: [2, 0, 'command'], oppFirst: true },
   { key: 'errors', title: 'Ростер с ошибками против большого ростера, фазы',
     track: ALL_ON, sides: [[null, 'errors'], [null, 'unlimited']], upTo: [1, 1, 'shooting'], scoreMode: 'bp' },
 ]
@@ -111,7 +113,7 @@ export async function playTestGames(mod, tracker, tick, { now = Date.now() } = {
     if (G.fixed) players[0].fixedSecondaries = mod.fixedPool('attacker').slice(0, 2).map((m) => m.slug)
     t.newGame({
       settings: {
-        ...G.track, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false,
+        ...G.track, firstTurn: G.oppFirst ? 2 : 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false,
         gameType: G.doubles ? 'doubles' : 'singles', dpPerPlayer: null, twist: G.twist || null, twistMission: null, scoreMode: G.scoreMode || 'vp',
       },
       players,

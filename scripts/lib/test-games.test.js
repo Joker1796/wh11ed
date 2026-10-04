@@ -26,7 +26,9 @@ describe('test games', () => {
       // Something was scored, or the screen shows nothing worth checking.
       expect(g.players.some((p) => p.rounds.some((r) => r.primary > 0)), G.key).toBe(true)
       const lists = g.players.flatMap((p) => (p.members || [p]).map((m) => !!m.roster))
-      const meant = G.sides.flatMap((s) => (G.doubles ? s : [s]).map((a) => !!a[1]))
+      const sides = G.oppFirst ? [...G.sides].reverse() : G.sides   // the first turn's side is index 0
+      const meant = sides.flatMap((s) => (G.doubles ? s : [s]).map((a) => !!a[1]))
+      expect(g.players[G.oppFirst ? 1 : 0].isYou, G.key).toBe(true)
       expect(lists, G.key).toEqual(meant)
     }
   })
