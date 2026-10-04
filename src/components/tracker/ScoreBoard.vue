@@ -7,7 +7,7 @@
       v-for="(pl, i) in game.players"
       :key="i"
       class="col tone"
-      :class="{ leading: finished && leaderIdx === i, turn: turnIdx === i, opp: !isYouSide(pl, i), themed: finished && !!sideFaction(pl) }"
+      :class="{ lost: finished && leaderIdx !== -1 && leaderIdx !== i, turn: turnIdx === i, opp: !isYouSide(pl, i), themed: finished && !!sideFaction(pl) }"
       :style="finished ? toneVars(sideFaction(pl)?.color) : undefined"
     >
       <!-- The side's army pressed into its card, as on the history's game cards (owner,
@@ -151,10 +151,11 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
    sides apart, even in a mirror match. */
 .col.themed { --side: var(--tone); }
 .col.turn { background: color-mix(in srgb, var(--side) 8%, var(--bg-card)); }
-/* The result screen: the winner keeps its gold edge. `leading`, not `lead`: `.lead` is the global
-   intro-paragraph primitive (style.css), and its bottom margin shrank the winner's column short of
-   the loser's (2026-09-29). */
-.col.leading { border-top: 3px solid #e3b341; }
+/* The result screen: the loser's column goes grey and faint, the winner's stays in its army's
+   colour (owner, 2026-10-04). A gold top edge marked the winner before, and once every column wore
+   its army's colour on the left, two colours met in its corner and read as decoration. A tie
+   dims neither — the "tied" line under the board says it. */
+.col.lost { filter: grayscale(1); opacity: 0.55; }
 .col-head {
   display: flex;
   flex-wrap: wrap;

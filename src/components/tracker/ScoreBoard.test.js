@@ -30,16 +30,16 @@ describe('ScoreBoard', () => {
     expect(w.find('.grand-vp').text()).toContain('30 VP')
   })
 
-  it('marks the winner', () => {
+  it('dims the loser, not the winner', () => {
     const w = mount(ScoreBoard, { props: { game: finishedGame(30, 10, 'vp'), finished: true } })
     const cols = w.findAll('.col')
-    expect(cols[0].classes()).toContain('leading')
-    expect(cols[1].classes()).not.toContain('leading')
+    expect(cols[0].classes()).not.toContain('lost')
+    expect(cols[1].classes()).toContain('lost')
   })
 
-  it('BP mode: a ≤5 VP gap is a draw (no leader column)', () => {
+  it('BP mode: a ≤5 VP gap is a draw (neither side dimmed)', () => {
     const w = mount(ScoreBoard, { props: { game: finishedGame(12, 10, 'bp'), finished: true } })
-    expect(w.findAll('.col.leading')).toHaveLength(0)
+    expect(w.findAll('.col.lost')).toHaveLength(0)
     expect(w.find('.tie').exists()).toBe(true)
   })
 })
