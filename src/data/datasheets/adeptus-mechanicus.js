@@ -15,12 +15,12 @@ export default [
     "profiles": [
       {
         "name": "Archaeopter Fusilave",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "10",
         "ld": "7+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -101,12 +101,12 @@ export default [
     "profiles": [
       {
         "name": "Archaeopter Stratoraptor",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "10",
         "ld": "7+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -207,7 +207,7 @@ export default [
         "points": 145
       }
     ],
-    "flavor": "Ideal aerial insertion transports, Transvectors are used in vast numbers by Explorator fleets for reconnaissance and rapid extraction in the face of hostiles. They are incredibly agile, their implanted pilots able to reshape the wings to suit changing atmospherics, while directing their cognis heavy stubbers to scythe apart oncoming foes.",
+    "flavor": "Ideal aerial insertion transports, Transvectors are used in large numbers by Explorator fleets for reconnaissance and rapid extraction in the face of hostiles. They are incredibly agile, their implanted pilots able to reshape their craft’s wings to suit changing atmospherics, while directing their cognis heavy stubbers to scythe apart oncoming foes.",
     "profiles": [
       {
         "name": "Archaeopter Transvector",
@@ -502,7 +502,7 @@ export default [
         "points": 20
       }
     ],
-    "flavor": "Datasmiths optimise the programming of their robotic charges. These Tech-Priests employ rituals and binharic hymns to bless the doctrina wafers through which they alter the robots’ protocols, all the while laying waste to the enemies of the Omnissiah with blasts of ionising radiation from their archeotech pistols.",
+    "flavor": "Datasmiths optimise the programming of their robotic charges. These Tech-Priests employ rituals and binharic hymns to bless the doctrina wafers through which they alter the robots’ protocols, all the while laying waste to the enemies of the Omnissiah with blasts of ionising radiation from their esoteric pistols.",
     "profiles": [
       {
         "name": "Cybernetica Datasmith",
@@ -589,7 +589,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "Crackling with power stolen from those they slay, Fulgurite Electro- Priests are fanatical cultists of the Machine God. With their heavy, copper-bound staves, they smite blasphemers that waste the Motive Force, leeching it from heretic warriors and harnessing the holy energy in their capacitors where it empowers their voltagheist field.",
+    "flavor": "Crackling with power stolen from those they slay, Fulgurite Electro-Priests are fanatical cultists of the Machine God. With their heavy, copper-bound staves, they smite blasphemers that waste the Motive Force, leeching it from heretic warriors and harnessing the holy energy in their capacitors where it empowers their voltagheist fields.",
     "profiles": [
       {
         "name": "Fulgurite Electro-Priests",
@@ -1008,7 +1008,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Kastelan Robots are giant automata from Mankind’s dark past, shielded with thick armour and advanced force fields. Heeding preprogrammed doctrines without fail, Kastelans are bastions in defence and nigh unstoppable on the attack, unleashing heavy firepower and bludgeoning swipes with their giant fists.",
+    "flavor": "Kastelan Robots are giant automata from Mankind’s dark past, shielded with thick armour and advanced force fields. Heeding preprogrammed doctrines without fail, Kastelans are bastions in defence and almost unstoppable on the attack, unleashing heavy firepower or else bludgeoning swipes with their giant fists.",
     "profiles": [
       {
         "name": "Kastelan Robots",
@@ -1042,7 +1042,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -1274,7 +1274,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1374,7 +1374,7 @@ export default [
         "points": 150
       }
     ],
-    "flavor": "The Onager Dunecrawler’s flexible armaments can blast apart squadrons of aircraft or atomise elite infantry in beams of blinding energy. They are versatile heavy weapons platforms, well-shielded and easily able to advance alongside Skitarii as their multiple limbs propel them over treacherous obstacles.",
+    "flavor": "The Onager Dunecrawler’s flexible armaments can blast apart squadrons of aircraft or atomise elite infantry with beams of blinding energy. They are versatile heavy weapons platforms, well-shielded and easily able to advance alongside Skitarii as their multiple limbs propel them over treacherous obstacles.",
     "profiles": [
       {
         "name": "Onager Dunecrawler",
@@ -1704,7 +1704,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -2027,7 +2027,7 @@ export default [
         "points": 105
       }
     ],
-    "flavor": "Long-range scouts and outriders, Raiders of the Serberys Corps employ advanced suites of sensors within their cybercanid mounts to identify enemy interlopers. They maintain punishing rates of carbine fire while moving at high speed, and when their prey can run no more, Raiders draw their sabres and charge into the fray.",
+    "flavor": "Long-range scouts and outriders, Raiders of the Serberys Corps employ the advanced sensor suites of their cybercanid mounts to identify enemy interlopers. They maintain punishing rates of carbine fire while moving at high speed, and when their prey can run no more, Raiders draw their sabres and charge into the fray.",
     "profiles": [
       {
         "name": "Serberys Raiders",
@@ -2124,7 +2124,7 @@ export default [
         "points": 95
       }
     ],
-    "flavor": "Sulphurhound cavalry squadrons are aggressive shock troops and line-breakers. The loping, mechanical beasts breathe gouts of incinerating phosphor and disembowel the foe with slashing claws, while the elite Skitarii riders unload incandescent pistol fire as they smash through defence lines, before circling back for survivors.",
+    "flavor": "Sulphurhound cavalry squadrons are aggressive shock troops and line breakers. The loping, mechanical beasts breathe gouts of incinerating phosphor and disembowel the foe with slashing claws, while the elite Skitarii riders unload incandescent pistol fire as they smash through defence lines, before circling back for survivors.",
     "profiles": [
       {
         "name": "Serberys Sulphurhounds",
@@ -2186,7 +2186,7 @@ export default [
         ],
         "range": "9\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "-1",
         "d": "1"
@@ -2271,7 +2271,7 @@ export default [
         "baseSize": "32mm"
       },
       {
-        "name": "Combat Servitors and Gun Servitors",
+        "name": "Gun Servitor",
         "m": "6\"",
         "t": "4",
         "sv": "4+",
@@ -2279,7 +2279,18 @@ export default [
         "ld": "8+",
         "oc": "1",
         "inv": "6+",
-        "baseSize": "32mm / 25mm"
+        "baseSize": "32mm"
+      },
+      {
+        "name": "Combat Servitor",
+        "m": "6\"",
+        "t": "4",
+        "sv": "4+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "1",
+        "inv": "6+",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -2317,7 +2328,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "0",
         "d": "1"
@@ -2440,7 +2451,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Sicarian Infiltrators broadcast disruptive frequencies that scramble augurs and painfully disrupt enemy senses. Thus obscured, the Infiltrators perform reconnaissance and outflanking missions, intensifying their sensory barrage to crash enemy comms and attack unseen through the resultant anarchy.",
+    "flavor": "Sicarian Infiltrators broadcast disruptive frequencies that scramble augurs and painfully disturb enemy senses. Thus obscured, the Infiltrators perform reconnaissance and outflanking missions, intensifying their sensory barrage to fry enemy comms and attack unseen through the resultant anarchy.",
     "profiles": [
       {
         "name": "Sicarian Infiltrators",
@@ -2558,7 +2569,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Ruststalkers are unleashed as weapons of fear, to hunt down errant servo units and heretic blasphemers, or to pounce on isolated hostile units and assassinate enemy leaders. Like their fellow Sicarians, Ruststalkers’ stilt-like limbs enable them to run down their prey before carving them apart with micro-vibrating transonic blades.",
+    "flavor": "Ruststalkers are unleashed as weapons of fear, to hunt down errant servo constructs and heretic blasphemers, or to pounce on isolated hostile units and assassinate enemy leaders. Like their fellow Sicarians, Ruststalkers’ stilt-like limbs enable them to run down their prey; once caught, they are carved apart with micro-vibrating transonic weapons.",
     "profiles": [
       {
         "name": "Sicarian Ruststalkers",
@@ -2733,7 +2744,7 @@ export default [
         "points": 85
       }
     ],
-    "flavor": "Rangers relentlessly pursue their quarry over months or even years, tracking their prey unto death. They bear antique, long-barrelled galvanic rifles, whose energised ammunition transfers a coruscating charge when it hits, leaving the prey a smoking husk while the Rangers are already lining up their next target.",
+    "flavor": "Rangers relentlessly pursue their quarry over months or even years, tracking elusive prey unto death. They bear antique, long-barrelled galvanic rifles, whose energised ammunition transfers a coruscating charge when it hits, leaving the prey a smoking husk while the Rangers are already lining up their next target.",
     "profiles": [
       {
         "name": "Skitarii Rangers",
@@ -2892,7 +2903,7 @@ export default [
         "points": 85
       }
     ],
-    "flavor": "The hyper-irradiated shot unleashed by the Skitarii Vanguard’s carbines ensure those that would otherwise survive the injury still sicken and die. Vanguard are infused with this radiation, emitting a debilitating aura they themselves are inured to. This hardens them to fight in the most toxic war zones to defend the Tech-Priests’ interests.",
+    "flavor": "The hyper-irradiated shot unleashed by Skitarii Vanguard sickens and slays even those barely grazed by its impacts. Vanguard are infused with this radiation, emitting a debilitating aura they themselves are inured to. This hardens them to fight in the most toxic war zones to defend the Tech-Priests’ interests.",
     "profiles": [
       {
         "name": "Skitarii Vanguard",
@@ -3052,7 +3063,7 @@ export default [
         "points": 160
       }
     ],
-    "flavor": "Hovering over the ruins of war on a bed of atomised gases, Skorpius Disintegrators are archaic, front-line battle tanks. They surge forward in unstoppable armoured waves and support infantry advances, maintaining blistering salvoes of fire to cripple enemy war engines and sweep aside hordes of lesser foes.",
+    "flavor": "Hovering over the ruins of war on a bed of atomised gases, Skorpius Disintegrators are archaic, front line battle tanks. They surge forward in unstoppable armoured waves and support infantry advances, maintaining blistering salvoes of fire to cripple enemy war engines and sweep aside hordes of lesser foes.",
     "profiles": [
       {
         "name": "Skorpius Disintegrator",
@@ -3264,7 +3275,7 @@ export default [
         "points": 140
       }
     ],
-    "flavor": "Striding through a mist of their own sacred incense, the long-limbed engines ridden by Sydonian Dragoons are forever in motion. Dragoons mark their quarry with shots of glowing phosphor or irradiated slugs, allowing them to detect their prey through the cloying mist and home in on them with a thunderous stampede.",
+    "flavor": "When armed with a long-barrelled radium jezzail, Sydonian Dragoons operate as highly mobile and efficient snipers. Their incense-veiled Ironstrider engine serves as an elevated and stable eyrie from which to draw a bead on designated threats to the Dragoons’ Tech-Priest masters. Even prey that survive with cratered wounds are marked by the irradiated shot and are soon hunted down afresh.",
     "profiles": [
       {
         "name": "Sydonian Dragoons",
@@ -3364,7 +3375,7 @@ export default [
         "points": 170
       }
     ],
-    "flavor": "Striding through a mist of their own sacred incense, the long-limbed engines ridden by Sydonian Dragoons are forever in motion. Dragoons mark their quarry with shots of glowing phosphor or irradiated slugs, allowing them to detect their prey through the cloying mist and home in on them with a thunderous stampede.",
+    "flavor": "Striding through a mist of their own sacred incense, Sydonian Dragoons mark their quarry with shots of glowing phosphor. This allows them to detect their prey through the cloying mist and home in on them in a thunderous stampede, spearheaded by their crackling taser lances that discharge potential energy in scorching and arcing blasts of hyperdynamic energy.",
     "profiles": [
       {
         "name": "Sydonian Dragoons",
@@ -3675,7 +3686,9 @@ export default [
         "Servitor Battleclade",
         "Hastarii Exterminators",
         "Fulgurite Electro-Priests",
-        "Corpuscarii Electro-Priests"
+        "Corpuscarii Electro-Priests",
+        "Secutarii Hoplites",
+        "Secutarii Peltasts"
       ]
     },
     "keywords": [
@@ -3778,7 +3791,9 @@ export default [
         "Kataphron Breachers",
         "Kataphron Destroyers",
         "Skitarii Rangers",
-        "Skitarii Vanguard"
+        "Skitarii Vanguard",
+        "Secutarii Hoplites",
+        "Secutarii Peltasts"
       ]
     },
     "keywords": [
@@ -3837,7 +3852,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "2"
@@ -3884,7 +3899,9 @@ export default [
         "Servitor Battleclade",
         "Hastarii Exterminators",
         "Fulgurite Electro-Priests",
-        "Corpuscarii Electro-Priests"
+        "Corpuscarii Electro-Priests",
+        "Secutarii Hoplites",
+        "Secutarii Peltasts"
       ]
     },
     "keywords": [
@@ -4192,10 +4209,6 @@ export default [
       {
         "name": "Mechanicus Bodyguard",
         "text": "While this model is within 3\" of one or more other friendly ADEPTUS MECHANICUS units, this model has the Lone Operative ability."
-      },
-      {
-        "name": "Cybernetic Augmentation",
-        "text": "This model can move through terrain features, but cannot end a move within a wall, a floor, etc. This model can be set up or end a move on any floor level of RUINS, but if that level is not the ground floor, it can only do so if its base does not overhang the floor at that level."
       },
       {
         "name": "Secutor of Olympus",

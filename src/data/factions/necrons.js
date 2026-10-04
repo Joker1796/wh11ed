@@ -1206,7 +1206,7 @@ When mustering your army, each Necrons Monster unit from your army has the relev
 
 Necrodermal Binding Abilities
 
-This eldritch device fetters and directs the Deceiver's powers within a vortex that devours lesser wits entirely. C'tan Shard of the Deceiver model only. This model has the following ability: Lord of Deceit (Aura): Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12" of this model, increase the cost of that use of that Stratagem by 1CP.
+This eldritch device fetters and directs the Deceiver's powers within a vortex that devours lesser wits entirely. C'tan Shard of the Deceiver model only. This model has the following ability: Lord of Deceit (Aura): Once per turn, when your opponent targets a unit from their army within 12" of this model with a Stratagem, you can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP.
 
 The energies of this binding latch onto enemy targets and shunt the shard into alignment with them. C'tan Shard of the Nightbringer model only. This model is eligible to declare a charge in a turn in which it Advanced.
 

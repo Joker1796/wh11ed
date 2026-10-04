@@ -204,13 +204,15 @@
           </div>
         </li>
       </TransitionGroup>
-      <button
-        v-if="history.length > visibleCount"
-        class="show-more"
-        @click="showMore"
-      >
-        {{ labels.trackerShowMore }}
-      </button>
+      <ExpandTransition>
+        <button
+          v-if="history.length > visibleCount"
+          class="show-more"
+          @click="showMore"
+        >
+          {{ labels.trackerShowMore }}
+        </button>
+      </ExpandTransition>
     </section>
 
     <GameSummaryModal
@@ -233,8 +235,9 @@
 </template>
 
 <script setup>
+import ExpandTransition from '../../components/ExpandTransition.vue'
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import { battlePointsFromVp, concededSide, youIndex as youIdx } from '../../composables/gameScoring.js'
@@ -250,6 +253,7 @@ import SharedGameModal from '../../components/tracker/SharedGameModal.vue'
 import FactionEmblem from '../../components/FactionEmblem.vue'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 
+const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -296,6 +300,12 @@ function showMore() {
 const summaryGame = ref(null)
 function openGame(id) {
   summaryGame.value = history.value.find(g => g.id === id) || null
+}
+// A finished game's roster (opened from this modal) comes back here with `?game=<id>`, and the
+// modal it was opened from opens again. The query is dropped at once so a reload lands on the list.
+if (route.query.game) {
+  openGame(String(route.query.game))
+  router.replace({ query: {} })
 }
 
 onMounted(async () => {

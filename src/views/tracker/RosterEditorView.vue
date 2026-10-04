@@ -24,16 +24,14 @@
       :dp-spent="dpSpent"
       :max-dp="effBattle.dp"
       :dp-limit="dpLimit"
-      :battle-size="roster.battleSize"
-      :battle-sizes="battleSizes"
-      :custom-points="roster.customPoints"
+      :limit="limitOf(roster)"
       :disposition="roster.disposition || ''"
       :disposition-cands="dispositionCands"
       :check-legality="roster.checkLegality !== false"
+      :archived="!!roster.archived"
       :notes="roster.notes || ''"
       @update:name="rename"
-      @update:battle-size="setBattleSize"
-      @update:custom-points="setCustomPoints"
+      @update:limit="setLimit"
       @update:disposition="setDisposition"
       @update:check-legality="setCheckLegality"
       @update:notes="setNotes"
@@ -84,9 +82,9 @@
         <!-- Settings: the list's own answers, the same form as the wizard's step 1 -->
         <div class="red-panel">
           <RosterSetupFields
-            :battle-size="roster.battleSize"
-            :custom-points="roster.customPoints ?? 2000"
+            :limit="limitOf(roster)"
             :has-faction="!!roster.faction"
+            :faction-slug="roster.faction || ''"
             :faction-name="factionName"
             :detachment-summary="detachmentSummary"
             :dp-spent="dpSpent"
@@ -96,8 +94,8 @@
             show-notes
             :notes="roster.notes || ''"
             :check-legality="roster.checkLegality !== false"
-            @update:battle-size="setBattleSize"
-            @update:custom-points="setCustomPoints"
+            :archived="!!roster.archived"
+            @update:limit="setLimit"
             @update:disposition="setDisposition"
             @update:notes="setNotes"
             @update:check-legality="setCheckLegality"
@@ -142,7 +140,7 @@
                 :detachments="curDetachments"
                 :battle="effBattle"
                 :remaining="limit - points"
-                :check-legality="roster.checkLegality !== false"
+                :check-legality="legalityOn(roster)"
                 rules-button
                 @add="addUnit"
                 @open-rules="rulesOpen = true"
@@ -210,9 +208,10 @@
           class="rc-sticky-info"
           :points="points"
           :limit="limit"
+          :limits="roster"
           :error-count="validation.errorCount"
           :issue-count="validation.issues.length"
-          :badge="!!roster.faction"
+          :badge="!!roster.faction && !roster.archived"
           @open-issues="issuesOpen = true"
         />
         <!-- Units or Settings: the two modes of the phone's editor. They were a row of tabs over
@@ -355,7 +354,8 @@ import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
-import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX, legalityOn } from '../../composables/rosterEngine.js'
+import { applyLimit, limitOf } from '../../composables/rosterLimit.js'
 import { setupIssueCount } from '../../composables/rosterValidation.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
@@ -477,7 +477,7 @@ const {
   factionPickerOpen, detachmentPickerOpen, pickFaction,
   detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit, toggleDetachment, clearDetachments,
   openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
-  undoable, undoRemove, dismissUndo, battleSizes,
+  undoable, undoRemove, dismissUndo,
 } = useRosterBuildActions({
   roster: () => roster.value,
   factionData,
@@ -496,8 +496,7 @@ function setNotes(v) {
   else delete roster.value.notes
   touch()
 }
-function setBattleSize(id) { roster.value.battleSize = id; touch() }
-function setCustomPoints(v) { roster.value.customPoints = Math.max(0, Number(v) || 0); touch() }
+function setLimit(v) { applyLimit(roster.value, v); touch() }
 function setCheckLegality(v) { roster.value.checkLegality = v; touch() }
 function setDisposition(fd) { roster.value.disposition = fd; touch() }
 

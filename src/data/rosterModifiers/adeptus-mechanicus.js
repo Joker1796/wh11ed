@@ -1039,6 +1039,7 @@ export default {
       "effects": [
         {
           "on": "unit",
+          "target": "unit",
           "stat": "core",
           "op": "grant",
           "value": "Lone Operative 15\"",

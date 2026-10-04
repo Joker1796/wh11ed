@@ -356,7 +356,7 @@ export default [
         "points": 100
       }
     ],
-    "flavor": "Anarchy flourishes in the wake of a Callidus Assassin’s deployment. They use the shape-shifting drug polymorphine to insinuate themselves close to their target, sabotaging systems and seeding misinformation before closing on their victim with blasts of their mind-destroying sidearm and flicks of their mysterious blade.",
+    "flavor": "Anarchy flourishes in the wake of a Callidus Assassin’s deployment. They use the shape‐shifting drug polymorphine to insinuate themselves close to their target, sabotaging systems and seeding misinformation before closing on their victim with blasts of their mind‐destroying neural shredders and vicious sweeps of their shimmering phase swords.",
     "profiles": [
       {
         "name": "Callidus Assassin",
@@ -379,7 +379,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-2",
         "d": "1"
@@ -578,7 +578,7 @@ export default [
         "points": 85
       }
     ],
-    "flavor": "A Culexus Assassin projects an aura of unsettling fear all around them. Their primary targets are psykers, who are wracked with agony from these soulless assassins’ mere presence, and against the arcane blasts of a Culexus’ animus speculum, no witch long survives.",
+    "flavor": "A Culexus Assassin projects an aura of unsettling fear all around them, the effect heightened by their ability to occlude themselves in enemies’ minds until they wish to be seen. Their primary targets are psykers, who are wracked with agony from these soulless assassins’ mere presence, and against the arcane blasts of a Culexus’ animus speculum, no witch long survives.",
     "profiles": [
       {
         "name": "Culexus Assassin",
@@ -1447,7 +1447,7 @@ export default [
         "note": "Agents of the Imperium (allied)"
       }
     ],
-    "flavor": "Berserk killers fuelled by unstable chemical stimms, Eversor Assassins are hurricanes of bladed and clawed destruction. They are unleashed as weapons of terror and annihilation, set loose to murder not only their intended target but anyone around them as well.",
+    "flavor": "Berserk killers fuelled by unstable chemical stimms, Eversor Assassins are hurricanes of bladed and clawed destruction. They are unleashed as weapons of terror and annihilation, set loose to murder not only their intended target but anyone around them as well. Even in death they still serve, their body chemistry going critical with the explosive fury of a detonating plasma warhead.",
     "profiles": [
       {
         "name": "Eversor Assassin",
@@ -1635,7 +1635,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "2",
         "ap": "0",
         "d": "1"
@@ -1999,7 +1999,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2115,7 +2115,7 @@ export default [
         "points": 90
       }
     ],
-    "flavor": "Experienced in hazardous boarding actions, these elite Armsmen are aggressive and blunt instruments of their warship’s commander. They wear fully enclosed void armour and wield robust weapons optimised for close-confines fighting, while some carry more specialised gear for cracking enemy bulkheads.",
+    "flavor": "Experienced in boarding actions, these elite Armsmen are blunt instruments of their warship’s commander. They wear enclosed void armour and wield weapons optimised for close confines, while some carry more specialised gear for cracking enemy bulkheads. Some squads are also accompanied by explosive, swift‐skimming gheistskulls or CAT units that can scan the battlefield ahead.",
     "profiles": [
       {
         "name": "Imperial Navy Breachers",
@@ -2342,7 +2342,7 @@ export default [
         "note": "4th+"
       }
     ],
-    "flavor": "Amongst the most iconic and ubiquitous of the Imperium’s armoured infantry transports, the Rhino is as redoubtable as it is resilient. Boasting a capacious troop compartment, j .-I self-repairing capabilities and weapon mounts for storm bolters and hunter-killer missiles, it has earned its reputation as the workhorse of Imperial armies.",
+    "flavor": "Amongst the most iconic and ubiquitous of the Imperium’s armoured infantry transports, the Rhino is as redoubtable as it is resilient. Boasting a capacious troop compartment, self‐repairing capabilities and weapon mounts for storm bolters and hunter‐killer missiles, it has earned its reputation as the workhorse of Imperial armies.",
     "profiles": [
       {
         "name": "Imperial Rhino",
@@ -2688,7 +2688,7 @@ export default [
         "note": "Agents of the Imperium (allied)"
       }
     ],
-    "flavor": "It is the Inquisitors’ task to investigate xenos plots, corruption, mutation, heresy, cults, rogue psykers and anything else they deem worthy of scrutiny. Such is their power, nothing is beyond their authority and no one is beyond their justice. If they deem it necessary, they can order the destruction of entire worlds.",
+    "flavor": "It is the Inquisitors’ task to investigate xenos plots, corruption, mutation, heresy, cults, rogue psykers and anything else they deemworthy of scrutiny. Such is their power, nothing is beyond their authority and no one is beyond their justice. If they deem it necessary, they can order the destruction of entire worlds.",
     "profiles": [
       {
         "name": "Inquisitor",
@@ -2737,7 +2737,7 @@ export default [
         ],
         "range": "18\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "-2",
         "d": "1"
@@ -2807,7 +2807,8 @@ export default [
         "Sanctifiers",
         "Sisters of Battle Squad",
         "Subductor Squad",
-        "Vigilant Squad"
+        "Vigilant Squad",
+        "Imperium Battleline Infantry"
       ]
     },
     "keywords": [
@@ -2925,7 +2926,8 @@ export default [
         "Imperial Navy Breachers",
         "Inquisitorial Agents",
         "Subductor Squad",
-        "Vigilant Squad"
+        "Vigilant Squad",
+        "Imperium Battleline Infantry"
       ]
     },
     "keywords": [
@@ -3038,7 +3040,8 @@ export default [
         "Imperial Navy Breachers",
         "Inquisitorial Agents",
         "Subductor Squad",
-        "Vigilant Squad"
+        "Vigilant Squad",
+        "Imperium Battleline Infantry"
       ]
     },
     "keywords": [
@@ -3183,7 +3186,7 @@ export default [
         "points": 65
       }
     ],
-    "flavor": "Inquisitor Greyfax is feared even by many in her own order, the Ordo Hereticus. Devoid of mercy or remorse, she is an iron-willed warrior. She is also a powerful psyker, with telepathic abilities that enable her to detect lies in those she questions. Some brand Greyfax a dangerous radical for this, but her commitment to the Imperium is undeniable.",
+    "flavor": "Inquisitor Greyfax is feared even by many in her own order, the Ordo Hereticus. Devoid of mercy or remorse, she is an iron‐willed warrior. She is also a powerful psyker, with telepathic abilities that enable her to detect lies in those she questions. She also wields an archaic but powerful condemnor‐pattern boltgun, which can shoot blessed stakes into heretics’ poisoned hearts.",
     "profiles": [
       {
         "name": "Inquisitor Greyfax",
@@ -3268,7 +3271,8 @@ export default [
         "Sanctifiers",
         "Sisters of Battle Squad",
         "Subductor Squad",
-        "Vigilant Squad"
+        "Vigilant Squad",
+        "Imperium Battleline Infantry"
       ]
     },
     "keywords": [
@@ -4010,7 +4014,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -4591,7 +4595,7 @@ export default [
         "points": 40
       }
     ],
-    "flavor": "In Mankind’s endless war for survival, faith and zealotry are weapons as potent as any blade or firearm. Ministorum Priests embody this truth, striding into battle bellowing martial canticles to inspire allies and terrify foes. Some crush enemies’ skulls and shatter their bones with blows from crackling power maces, while others immolate their victims with vindictorflame weapons.",
+    "flavor": "In Mankind’s endless war for survival, faith and zealotry are weapons as potent as any blade or firearm. Ministorum Priests embody this truth, striding into battle bellowing martial canticles to inspire allies and terrify foes. Some crush enemies’ skulls and shatter their bones with blows from crackling power maces, while others immolate their victims with vindictor flame weapons.",
     "profiles": [
       {
         "name": "Ministorum Priest",
@@ -4625,7 +4629,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -5247,10 +5251,10 @@ export default [
         "note": "Agents of the Imperium (allied)"
       }
     ],
-    "flavor": "Rogue Traders are daring explorers, ruthless conquerors and cunning merchants, exploring and exploiting the uncharted regions of the galaxy in the name of the Imperium. Their families bear a Warrant of Trade, which helps to identify them as Imperial elites. Some command whole armadas, while others have only a small retinue of followers.",
+    "flavor": "Rogue Traders are daring explorers, ruthless conquerors and cunning merchants, traversing and exploiting the uncharted regions of the galaxy in the name of the Imperium. Some command armadas of voidships, while others have only a small retinue of followers. In either case, they are typically canny commanders and able warriors who wield varied heirloom weapons and are backed up by hand‐picked specialists with an array of unusual abilities ranging from talented Lectro‐Maesters to sinister Death Cult Assassins.",
     "profiles": [
       {
-        "name": "ROGUE TRADER",
+        "name": "Rogue Trader",
         "m": "6\"",
         "t": "3",
         "sv": "4+",
@@ -5261,7 +5265,29 @@ export default [
         "baseSize": "25mm"
       },
       {
-        "name": "OTHER MODELS",
+        "name": "Death Cult Assassin",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "4+",
+        "baseSize": "25mm"
+      },
+      {
+        "name": "Lectro‐Maester",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "4+",
+        "baseSize": "25mm"
+      },
+      {
+        "name": "Rejuvenat Adept",
         "m": "6\"",
         "t": "3",
         "sv": "4+",
@@ -5432,7 +5458,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "2"
@@ -5457,7 +5483,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -5471,7 +5497,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -5669,7 +5695,7 @@ export default [
         ],
         "range": "18\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -5883,7 +5909,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -5897,7 +5923,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -5910,7 +5936,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -6568,7 +6594,7 @@ export default [
         "points": 85
       }
     ],
-    "flavor": "Vigilants brutally sweep the guilty from existence with the signature combat shotgun of the Adeptus Arbites. These grim Arbitrators are ever alert to malfeasance and unwavering in its punishment, unleashing devastating blasts at close range.",
+    "flavor": "Vigilants brutally sweep the guilty from existence with the signature combat shotgun of the Adeptus Arbites. These grim Arbitrators are ever alert to malfeasance and unwavering in its punishment, unleashing devastating firepower while their nuncio‐aquilas berate the foe with accusations of guilt and threats of grim consequence.",
     "profiles": [
       {
         "name": "Vigilant Squad",
@@ -6661,7 +6687,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "2",
         "ap": "0",
         "d": "1"
@@ -6844,7 +6870,7 @@ export default [
         "note": "Agents of the Imperium (allied)"
       }
     ],
-    "flavor": "Voidsmen-at-Arms provide security on the ships of many Rogue Traders. Well drilled and often well equipped, they are highly adept at fighting in vessel corridors and other close-quarters environments.",
+    "flavor": "Voidsmen‐at‐Arms provide security on the ships of Rogue Traders and the Navis Imperialis alike. Well drilled and well equipped, they are highly adept at fighting in vessel corridors and other close‐quarters environments. They bring these skills to the battlefield amidst hails of rotor cannon fire and swift, decisive salvoes.",
     "profiles": [
       {
         "name": "Voidsmen-at-Arms",
@@ -7032,7 +7058,8 @@ export default [
         "Deathwatch Terminator Squad",
         "Fortis Kill Team",
         "Indomitor Kill Team",
-        "Spectrus Kill Team"
+        "Spectrus Kill Team",
+        "Proteus Kill Team"
       ]
     },
     "keywords": [
@@ -7123,7 +7150,8 @@ export default [
         "Deathwatch Terminator Squad",
         "Fortis Kill Team",
         "Indomitor Kill Team",
-        "Spectrus Kill Team"
+        "Spectrus Kill Team",
+        "Proteus Kill Team"
       ]
     },
     "keywords": [

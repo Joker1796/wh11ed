@@ -57,10 +57,12 @@
               class="bi bi-hand-index-thumb"
               aria-hidden="true"
             /></span>
-            <span
-              v-if="readonlyCard(m.slug)"
-              class="badge"
-            >{{ labels.trackerDiscardedBadge }}</span>
+            <ExpandTransition>
+              <span
+                v-if="readonlyCard(m.slug)"
+                class="badge"
+              >{{ labels.trackerDiscardedBadge }}</span>
+            </ExpandTransition>
             <span class="card-vp">{{ secondaryCardVp(pi, m.slug, round) }} VP</span>
           </button>
           <button
@@ -205,6 +207,7 @@ const prompted = new Set()
 </script>
 
 <script setup>
+import ExpandTransition from '../ExpandTransition.vue'
 import { ref, computed, watch, inject } from 'vue'
 import DieIcon from '../DieIcon.vue'
 import ScoringModal from './ScoringModal.vue'

@@ -20,13 +20,13 @@
         class="ds-cardhead"
       >
         <div
-          v-for="(p, i) in sheet.profiles"
+          v-for="({ p, index: i }, row) in profileRows"
           :key="i"
           class="ds-statline"
         >
           <div
             class="ds-stats"
-            :class="{ 'has-name': sheet.profiles.length > 1 }"
+            :class="{ 'has-name': profileRows.length > 1 }"
           >
             <!-- Stat labels only once, above the first profile's row -->
             <div
@@ -35,7 +35,7 @@
               class="ds-stat"
             >
               <span
-                v-if="i === 0"
+                v-if="row === 0"
                 class="ds-stat-label"
               >{{ s.label }}</span>
               <span
@@ -48,7 +48,7 @@
               >*</sup></span>
             </div>
             <span
-              v-if="sheet.profiles.length > 1"
+              v-if="profileRows.length > 1"
               class="ds-prof-name"
             >{{ p.name }}<wbr v-if="p.qty > 1"><span
               v-if="p.qty > 1"
@@ -1194,7 +1194,7 @@ const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 // with RosterPrintCard: paper and screen must never disagree about what a sheet says.
 const {
   coreParts, extraCore, keywordGroups, extraKeywords, keywordNotes: extraKeywordNotes,
-  rangedRows, meleeRows, isMarked, noteSections,
+  rangedRows, meleeRows, isMarked, noteSections, profileRows,
 } = useDatasheetParts(props, labels, { showPossible: () => !props.hidePossible })
 
 // Only the faction-line part the caller can actually open should look clickable.
@@ -1674,10 +1674,16 @@ function abilityStateLabel(st) {
     --ds-kw-pad: var(--ds-tight-kw-pad);
     --ds-mods-bottom: var(--ds-tight-mods-bottom);
     --ds-mods-pad: var(--ds-tight-mods-pad);
-    /* …and the one thing that is about the SCREEN rather than the room: a card this narrow reads
-       as a full-bleed section rather than a card in a gutter. */
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+  }
+  /* …and the one thing that is about the SCREEN rather than the room: on a phone a card this
+     narrow reads as a full-bleed section rather than a card in a gutter. Asked of the screen
+     itself — a narrow column on a wide one (the rosters desk's unit pane) is a gutter, and the
+     escape there made the card the window's width and slid it out of its pane (2026-10-03). */
+  @media (max-width: 480px) {
+    .ds-card {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+    }
   }
   .ds-points { margin: var(--ds-space) calc(-1 * var(--ds-pad-x)) calc(-1 * var(--ds-pad-bottom)); padding: 0.45rem var(--ds-pad-x) 0.6rem; }
 

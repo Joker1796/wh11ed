@@ -25,6 +25,7 @@
 //   condition plus a separate `isCumulative` bonus row (e.g. 3vp base + 1vp if W≥4) — wh11ed
 //   sometimes pre-sums these into mutually-exclusive flat tiers (4vp if W≥4, 3vp otherwise).
 //   Check the arithmetic (base + bonus) before treating this as a mismatch.
+import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
@@ -282,25 +283,23 @@ async function checkDispositionMap() {
 }
 
 // ---- detachment dp / Force Disposition (all factions) --------------------------------------
-// The 5 SM-Chapter factions share most detachments (Gladius Task Force, etc.) with the
-// generic Adeptus Astartes pool — appdata's own per-chapter bundle only lists that
-// Chapter's exclusive detachments, so fold adeptus-astartes.json's in too before reporting
-// "not found" (same fallback StratagemsView.vue uses at runtime).
-const SM_CHAPTERS = new Set(['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves'])
+// The 5 SM-Chapter factions share most detachments (Gladius Task Force, etc.) with the generic
+// Adeptus Astartes pool, which appdata files apart from each Chapter's own — the family view below
+// folds them together before anything is reported "not found".
 async function checkDetachments() {
   console.log('\n=== detachment dp / Force Disposition (all factions) ===')
   const mfmMod = await loadModule(path.join(ROOT, 'src/data/mfmFactions.js'))
   const mfmFactions = mfmMod.mfmFactions.en
-  const smPool = loadJson(path.join(APPDATA, 'factions', 'adeptus-astartes.json'))
   let total = 0
   let mismatches = 0
   for (const f of mfmFactions) {
     const appSlug = SLUG_MAP[f.slug] || f.slug
-    const bundle = loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
+    // The Space Marines family's view (scripts/lib/appdata-exceptions.mjs, addFamily): a Chapter
+    // folds in the shared pool, and every one of them the Chapters' own detachments and Deathwatch
+    // Support, which the app files under other bundles.
+    const bundle = loadAppdataBundle(appSlug, { family: true })
     if (!bundle) { console.log(`  ! no appdata bundle for ${f.slug} (tried ${appSlug}) — skipped`); continue }
-    const detachments = SM_CHAPTERS.has(f.slug)
-      ? [...(bundle.detachments || []), ...(smPool?.detachments || [])]
-      : (bundle.detachments || [])
+    const detachments = bundle.detachments || []
     const appByName = byNormName(detachments, (d) => d.name)
     for (const d of f.detachments || []) {
       total++

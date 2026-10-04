@@ -2176,6 +2176,7 @@ export default {
       "effects": [
         {
           "on": "melee",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
@@ -2429,6 +2430,7 @@ export default {
       "effects": [
         {
           "on": "profile",
+          "target": "unit",
           "stat": "oc",
           "op": "add",
           "value": 1,
@@ -2465,6 +2467,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "HEAVY",

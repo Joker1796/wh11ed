@@ -689,7 +689,7 @@ export default [
         "points": 150
       }
     ],
-    "flavor": "Gargoyles are often the first warrior organisms hurled against a prey world. Their teeming swarms darken the skies. Their opportunistic attacks spread panic and disarray. Worst of all, the creatures can squirm through gaps that appear far too small, bursting through gun slits and vent pipes to assail horrified defenders.",
+    "flavor": "Gargoyles are often the first warrior organisms hurled against a prey world, with teeming swarms darkening the skies. Their opportunistic attacks spread panic and disarray. Worst of all, the creatures can squirm through gaps that appear far too small, bursting through gun slits and vent pipes to assail horrified defenders.",
     "profiles": [
       {
         "name": "Gargoyles",
@@ -1138,7 +1138,7 @@ export default [
         ],
         "range": "12\"",
         "a": "3D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "7",
         "ap": "-2",
         "d": "1"
@@ -1229,7 +1229,7 @@ export default [
     "profiles": [
       {
         "name": "Hive Crone",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "12",
@@ -1245,7 +1245,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -1515,8 +1515,7 @@ export default [
     "loadout": "**This model is equipped with:** monstrous bonesword and lash whip; monstrous scything talons.",
     "options": [
       "This model’s monstrous bonesword and lash whip can be replaced with one of the following:\n▪ 1 heavy venom cannon\n▪ 1 stranglethorn cannon\n▪ 1 monstrous scything talons",
-      "This model’s monstrous scything talons can be replaced with one of the following:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*\n* This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon.",
-      "*This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon."
+      "This model’s monstrous scything talons can be replaced with one of the following:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*\n* This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon."
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -1644,7 +1643,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -1943,7 +1942,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "Vast, burrowing wormforms, Mawlocs hunt by sensing even the smallest vibrations on the surface above them. Once they have located prey, the Mawlocs surge upwards in an eruption of bedrock and soil, yawning maws swallowing everything above them before they plunge back under the surface again.",
+    "flavor": "Vast, burrowing worm-forms, Mawlocs hunt by sensing even the smallest vibrations on the surface above them. Once they have located prey, the Mawlocs surge upwards in an eruption of bedrock and soil, yawning maws swallowing everything above them before they plunge back under the surface again.",
     "profiles": [
       {
         "name": "Mawloc",
@@ -2200,7 +2199,7 @@ export default [
         "points": 120
       }
     ],
-    "flavor": "The Shadow in the Warp radiating from this immensely powerful psyker-analogue creeps in all directions, driving even non-psychic prey organisms to screaming madness. As its foes writhe in agony, the Neurotyrant guides the swarms around it to slaughter with brutal efficiency.",
+    "flavor": "The Shadow in the Warp radiating from this immensely powerful beast creeps in all directions, driving even non-psychic prey organisms to screaming madness. As its foes writhe in agony, the Neurotyrant guides the swarms around it to slaughter with brutal efficiency.",
     "profiles": [
       {
         "name": "Neurotyrant",
@@ -2223,7 +2222,7 @@ export default [
         ],
         "range": "18\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "2"
@@ -2518,7 +2517,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "Known as the Beast of Calth, this unstoppable brute was first seen during the First Tyrannic War. Though many have thought it slain over the centuries, always the scarred monster rises again. Whether it is a Tyranid subgenus or the same unstoppable monster come again is a mystery few in its path live long enough to ponder.",
+    "flavor": "Known as the Beast of Calth, this unstoppable brute was first seen during the First Tyrannic War. Though many have thought it slain over the centuries, always the scarred monster rises again. Whether it is spawned as a new Tyranid organism or the same unstoppable monster come again is a mystery few in its path live long enough to ponder.",
     "profiles": [
       {
         "name": "Old One Eye",
@@ -2667,7 +2666,7 @@ export default [
         "points": 110
       }
     ],
-    "flavor": "These monsters stampede into battle with frightening speed. They devour any prey organism in their paths, but especially favour those victims with psychic abilities. How they metabolise such esoteric powers is unclear, but doing so allows them to project surges of psychocorrosive ash that deflagrate their victims’ minds and souls.",
+    "flavor": "These monsters stampede into battle with frightening speed. They devour any prey organism in their paths, but especially favour those victims with psychic abilities. How they metabolise such esoteric powers is unclear, but doing so allows them to project surges of psychocorrosive ash that deflagrate their victims’ minds and souls",
     "profiles": [
       {
         "name": "Psychophage",
@@ -2688,7 +2687,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2793,7 +2792,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+1",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -3220,7 +3219,7 @@ export default [
         "points": 110
       }
     ],
-    "flavor": "Spore Mines are a form of living bomb, which drift across the battlefield in shoals and detonate when they detect prey organisms nearby. Those caught in the blast are torn apart as surely as if they had caught a brace of live frag grenades. The Hive Mind often uses Spore Mines to deny areas of the battlefield to the prey.",
+    "flavor": "Spore Mines are a form of living bomb, which drift across the battlefield in shoals and detonate when they detect prey organisms nearby. Those caught in the blast are torn apart as surely as if they had caught a brace of live frag grenades. The Hive Mind often uses Spore Mines to deny areas of the battlefield to the prey",
     "profiles": [
       {
         "name": "Spore Mines",
@@ -3402,7 +3401,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "2",
         "ap": "0",
         "d": "1"
@@ -3626,10 +3625,6 @@ export default [
       {
         "name": "Subterranean Hunter",
         "text": "At the end of the Fight phase, if this unit is not within Engagement Range of one or more enemy units, you can remove it from the battlefield and place it into Strategic Reserves."
-      },
-      {
-        "name": "Serpentine Fiend",
-        "text": "This model can move through terrain features, but cannot end a move within a wall, a floor, etc. This model can be set up or end a move on any floor level of RUINS, but if that level is not the ground floor, it can only do so if its base does not overhang the floor at that level."
       }
     ],
     "composition": [
@@ -3663,7 +3658,7 @@ export default [
         "points": 210
       }
     ],
-    "flavor": "The Swarmlord is the herald of the Hive Mind and may be as old as the Tyranid race itself. Upon death, the beast is always absorbed through the synaptic link and spawned anew. It has presided over the annihilation of countless civilisations, and with every incarnation it only becomes more deadly.",
+    "flavor": "The Swarmlord is the herald of the Hive Mind and may be as old as the Tyranids themselves. Upon death, the beast is always absorbed through the synaptic link and spawned anew. It has presided over the annihilation of countless civilisations, and with every incarnation it only becomes more deadly.",
     "profiles": [
       {
         "name": "The Swarmlord",
@@ -3685,7 +3680,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "2"
@@ -4283,7 +4278,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6+6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-2",
         "d": "2"
@@ -4576,7 +4571,7 @@ export default [
         "points": 185
       }
     ],
-    "flavor": "When the Hive Mind deploys airborne swarms, it spawns Winged Hive Tyrants to direct them in battle. Wielding an array of nightmarish organic weapons, their monstrous forms singing with the synaptic might of the Hive Mind, these dread swarm-leaders spread terror and death wherever the dark shadow of their wings falls.",
+    "flavor": "When the Hive Mind deploys airborne swarms, it spawns Winged Hive Tyrants to direct them in battle. Wielding an array of nightmarish organic weapons, their monstrous forms singing with the synaptic might of the Hive Mind, these dread swarm leaders spread terror and death wherever the dark shadow of their wings falls.",
     "profiles": [
       {
         "name": "Winged Hive Tyrant",

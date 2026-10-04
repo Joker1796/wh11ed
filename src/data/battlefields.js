@@ -78,7 +78,7 @@ A mission's deployment map may define which **terrain categories** should be pre
 ▪ **Exposed/Light:** All models can move horizontally and vertically through **exposed** and **light terrain features**.
 ▪ **Dense:**
 ▫ INFANTRY/BEASTS/SWARM/MOBILE models can move horizontally through **dense terrain features**.
-▫ INFANTRY/BEASTS/SWARM models can also move vertically through **dense terrain features**.
+▫ INFANTRY/BEASTS/SWARM models can move vertically through **dense terrain features**.
 ▫ Other models can move horizontally through **dense terrain features** provided that all sections of that **terrain feature** that the moving model's base would move through are 2" or less in height. Otherwise, the moving model must move vertically to ascend or descend such sections. They cannot move through ceilings and floors while doing so, and they cannot end that move on any surface of that **terrain feature** that is not on ground level.
 
 ### Moving Vertically
@@ -90,7 +90,6 @@ Models can move vertically to ascend or descend **terrain features**. While doin
 Models can be set up or end a move on the ground level of **terrain features**. Models can also be set up or end a move on any surface of a **terrain feature** that is not on ground level, if all of the following apply:
 ▪ That model has one or more of the following keywords: INFANTRY/BEASTS/SWARM/FLY/MONSTER.
 ▪ After ending that move, that model is stable and no part of its base overhangs the outer edge of that surface.`,
-          note: 'Solid Terrain: If a **terrain feature** has the [gloss:solid:Solid] rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
           // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
           // 12.03/12.08: split the two worked-example image groups off the prose so the
           // column balancer can place each independently.
@@ -392,7 +391,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           flavor: 'Priming grenades or other explosives, these warriors draw back and hurl death into the enemy\'s midst.',
           when: 'Your Shooting phase',
           target: 'One friendly **[gloss:unengaged:unengaged]** EXPLOSIVES/GRENADES unit that is **[gloss:eligible-to-shoot:eligible to shoot]** and did not make an **[gloss:advance-move:advance move]** this turn',
-          effect: 'Resolve the following sequence:\n1. Select one EXPLOSIVES/GRENADES model in your unit.\n2. Select one **unengaged** enemy unit within 8" of and **visible** to that model.\n3. Roll six D6: for each result of 4+, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]**.',
+          effect: 'Resolve the following sequence:\n1. Select one EXPLOSIVES/GRENADES model in your unit.\n2. Select one **unengaged** enemy unit within 8" of and **visible** to that model.\n3. Roll six D6: for each 4+, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]** (06.02).',
           restrictions: '',
           extraCost: [],
         },
@@ -402,9 +401,9 @@ Each time you use a **stratagem**, resolve the following sequence:
           cp: '1CP',
           turn: 'your',
           flavor: 'In extremis, armoured vehicles and rampaging monsters can use their sheer size as a weapon, ramming and crushing enemies beneath their colossal bulk, though doing so risks sustaining damage in return.',
-          when: 'Your Charge phase, just after a friendly MONSTER or VEHICLE unit ends a **[gloss:charge-move:charge move]**',
-          target: 'That MONSTER or VEHICLE unit',
-          effect: 'Resolve the following sequence:\n1. Select one enemy unit **[gloss:engaged:engaged]** with your unit.\n2. Select one model in your unit that is **engaged** with that enemy unit.\n3. Roll a number of D6 equal to the **T** characteristic of that model: for each result of 1, your unit suffers 1 **mortal wound**; for each result of 5+, that enemy unit suffers 1 **mortal wound** (to a maximum of 6 **mortal wounds** per unit).',
+          when: 'Your Charge phase, just after a friendly MONSTER/VEHICLE unit ends a **[gloss:charge-move:charge move]**',
+          target: 'That MONSTER/VEHICLE unit',
+          effect: 'Resolve the following sequence:\n1. Select one enemy unit **[gloss:engaged:engaged]** with your unit.\n2. Select one model in your unit **engaged** with that enemy unit.\n3. Roll a number of D6 equal to the **T** characteristic of that model: for each 1, your unit suffers 1 **mortal wound**; for each 5+, that enemy unit suffers 1 **mortal wound** (to a maximum of 6 **mortal wounds** per unit).',
           restrictions: '',
           extraCost: [],
         },
@@ -415,9 +414,9 @@ Each time you use a **stratagem**, resolve the following sequence:
           turn: 'opponent',
           flavor: 'Be it cunning strategy, potent technology or supernatural ritual, there are many means by which a commander may hasten their warriors\' onset.',
           when: 'End of your opponent\'s Movement phase',
-          target: 'One friendly unit that is in **[gloss:strategic-reserves:strategic reserves]** (not an AIRCRAFT unit)',
-          effect: 'That unit makes an **[gloss:ingress-move:ingress move]** (20.04).',
-          restrictions: 'You cannot use this stratagem during the first [gloss:battle-round:battle round].',
+          target: 'One friendly unit that is in **[gloss:strategic-reserves:strategic reserves]** (excluding AIRCRAFT)',
+          effect: 'Your unit makes an **[gloss:ingress-move:ingress move]** (20.04).',
+          restrictions: 'You cannot use this **stratagem** during the first [gloss:battle-round:battle round].',
           extraCost: [],
         },
         {
@@ -427,8 +426,8 @@ Each time you use a **stratagem**, resolve the following sequence:
           turn: 'opponent',
           flavor: 'A hail of fire can drive back advancing foes.',
           when: 'End of your opponent\'s Movement phase',
-          target: 'One friendly **unengaged** unit (not a **[gloss:titanic:TITANIC]** unit)',
-          effect: 'That unit shoots using **[gloss:snap-shooting:snap shooting]** (15.09).',
+          target: 'One friendly **unengaged** unit (excluding **[gloss:titanic:TITANIC]** units)',
+          effect: 'Your unit shoots using **[gloss:snap-shooting:snap shooting]** (15.09).',
           restrictions: '',
           extraCost: [],
           subRule: {
@@ -453,7 +452,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           flavor: 'Even the most skilled marksmen struggle to hit targets veiled by billowing screens of smoke.',
           when: 'Start of your opponent\'s Shooting phase',
           target: 'One friendly SMOKE unit',
-          effect: 'Until the end of the phase, each time an attack targets your SMOKE unit, or targets a unit that is **[gloss:not-fully-visible:not fully visible]** to the attacking model because of one or more models in your SMOKE unit, the target has the **benefit of cover** against that attack (13.08).',
+          effect: 'Until the end of the phase, each time an attack targets either your SMOKE unit, or a unit that is __not__ **[gloss:fully-visible:fully visible]** to the attacking model because of one or more models in your SMOKE unit, the target has the **benefit of cover** against that attack (13.08).',
           restrictions: '',
           extraCost: [],
         },
@@ -481,7 +480,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           cp: '2CP',
           turn: 'opponent',
           flavor: 'In close-quarters combat, the slightest hesitation can leave an opening for a swift foe to exploit.',
-          when: 'Fight step of your opponent\'s Fight phase, just after an enemy unit resolves its attacks',
+          when: 'Fight step of your opponent\'s Fight phase, just after an enemy unit has resolved its attacks',
           target: 'One friendly unit that is **[gloss:eligible-to-fight:eligible to fight]**',
           effect: 'Until the end of the phase, your unit has the **[gloss:fights-first:Fights First]** ability and it must be the next unit you **select to fight** (12.04).',
           restrictions: '',
@@ -505,7 +504,8 @@ Each time you use a **stratagem**, resolve the following sequence:
 ▪ **UNITS:** Which friendly units can perform it.
 ▪ **USE LIMIT:** How many times friendly units can start it.
 ▪ **COMPLETES:** When it completes.
-▪ **EFFECT:** What the effects of completing it are.`,
+▪ **EFFECT:** What the effects of completing it are.
+▪ Any additional restrictions that may apply.`,
           note: '**WHERE TO FIND ACTIONS**\n\nThe **actions** players can use can be found in other publications such as mission packs. All players can use **core actions**, while other **actions** may have restrictions such as army faction.',
           // This chapter has only this one subsection — chunkSubsections() collapses a
           // lone item back to full width (columnChunks.js), so without a split it never
@@ -528,7 +528,7 @@ If a unit starts an **action**, until the end of the turn:
 ▪ It is **[gloss:not-eligible-to-shoot:not eligible to shoot]** (excluding TITANIC units).
 ▪ It is not **eligible to declare a charge**.`,
             `### Completing an Action
-If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile-in]** and **[gloss:consolidation:consolidation moves]**) or leaves the battlefield, that unit does not complete that **action**. Otherwise, when an **action** is completed, its Effect is triggered.`,
+If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile-in]** and **[gloss:consolidation:consolidation moves]**) or leaves the battlefield, that unit does not complete that **action**. Otherwise, when an **action** is completed, its 'Effect' section is triggered.`,
           ],
         },
       ],
@@ -611,7 +611,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ▪ **Открытые/Лёгкие (Exposed/Light):** Все модели могут перемещаться горизонтально и вертикально через **открытые** и **лёгкие элементы укрытий**.
 ▪ **Надёжные (Dense):**
 ▫ INFANTRY/BEASTS/SWARM/MOBILE (ПЕХОТА/ЗВЕРИ/РОЙ/МОБИЛЬНЫЙ) могут перемещаться горизонтально через **надёжные элементы укрытий**.
-▫ INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) могут также перемещаться вертикально через **надёжные элементы укрытий**.
+▫ INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) могут перемещаться вертикально через **надёжные элементы укрытий**.
 ▫ Другие модели могут перемещаться горизонтально через **надёжные элементы укрытий** при условии, что все секции этого **элемента укрытия**, через которые бы проходила база перемещающейся модели, имеют высоту 2" или менее. В противном случае модель должна перемещаться вертикально, чтобы подняться или спуститься по таким секциям. Они не могут перемещаться через потолки и полы, делая это, и не могут закончить этот манёвр на какой-либо поверхности этого **элемента укрытия**, которая не находится на уровне земли.
 
 ### Вертикальное движение
@@ -623,7 +623,6 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 Модели могут быть установлены или завершать манёвр на уровне земли **элементов укрытий**. Модели также могут быть установлены или завершать манёвр на любой поверхности **элемента укрытия**, которая не находится на уровне земли, если применяются **все** следующие условия:
 ▪ Эта модель имеет одно или несколько из следующих ключевых слов: INFANTRY/BEASTS/SWARM/FLY/MONSTER (ПЕХОТА/ЗВЕРИ/РОЙ/ЛЕТАЮЩИЙ/MONSTER).
 ▪ После завершения этого манёвра эта модель устойчива, и ни одна часть её базы не свешивается за внешний край этой поверхности.`,
-          note: 'Сплошное укрытие: Если **[gloss:terrain-feature:элемент укрытия]** обладает правилом [gloss:solid:Сплошное] (13.11), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
           splitBodies: [
             `[img:/images/terrain/terrain-and-movement-diagram.jpg|Укрытие и движение — движение моделей через укрытие]
 
@@ -885,7 +884,7 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
           flavor: 'Активируя детонаторы гранат и другой взрывчатки, эти воины заносят руку и швыряют саму смерть в самую гущу неприятеля.',
           when: 'Ваша фаза стрельбы (Shooting phase).',
           target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит EXPLOSIVES/GRENADES (ВЗРЫВЧАТКА/ГРАНАТЫ), который является допустимой целью для стрельбы и не совершал **[gloss:advance-move:продвижение]** в этом ходу.',
-          effect: 'Отыграйте следующую последовательность действий:\n1. Выберите одну модель EXPLOSIVES/GRENADES в вашем юните.\n2. Выберите один **не связанный боем** вражеский юнит в пределах 8" от этой модели и в зоне её [gloss:visible:видимости].\n3. Бросьте шесть D6: за каждый результат 4+ этот вражеский юнит получает 1 **[gloss:mortal-wound:смертельную рану]**.',
+          effect: 'Отыграйте следующую последовательность действий:\n1. Выберите одну модель EXPLOSIVES/GRENADES в вашем юните.\n2. Выберите один **не связанный боем** вражеский юнит в пределах 8" от этой модели и в зоне её [gloss:visible:видимости].\n3. Бросьте шесть D6: за каждый результат 4+ этот вражеский юнит получает 1 **[gloss:mortal-wound:смертельную рану]** (06.02).',
           restrictions: '',
           extraCost: [],
         },
@@ -902,17 +901,17 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
           nameRu: 'Стремительное прибытие',
           flavor: 'Будь то коварная стратегия, могущественные технологии или оккультный ритуал — есть множество путей, коими полководец может ускорить выдвижение своих войск.',
           when: 'Конец фазы движения (Movement phase) вашего противника.',
-          target: 'Один дружественный юнит, находящийся в **[gloss:strategic-reserves:стратегическом резерве]** (не юнит AIRCRAFT).',
-          effect: 'Этот юнит совершает **[gloss:ingress-move:манёвр вторжения]** (20.04).',
-          restrictions: 'Вы не можете использовать эту стратегему во время первого [gloss:battle-round:раунда боя].',
+          target: 'Один дружественный юнит, находящийся в **[gloss:strategic-reserves:стратегическом резерве]** (за исключением AIRCRAFT).',
+          effect: 'Ваш юнит совершает **[gloss:ingress-move:манёвр вторжения]** (20.04).',
+          restrictions: 'Вы не можете использовать эту **стратегему** во время первого [gloss:battle-round:раунда боя].',
           extraCost: [],
         },
         {
           nameRu: 'Упреждающий огонь',
           flavor: 'Шквальный огонь обратит вспять любую атаку.',
           when: 'Конец фазы движения (Movement phase) вашего противника.',
-          target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит (не юнит **[gloss:titanic:TITANIC]**).',
-          effect: 'Этот юнит использует **[gloss:snap-shooting:стрельбу на вскидку]** (15.09).',
+          target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит (за исключением юнитов **[gloss:titanic:TITANIC]**).',
+          effect: 'Ваш юнит стреляет, используя **[gloss:snap-shooting:стрельбу на вскидку]** (15.09).',
           restrictions: '',
           extraCost: [],
           subRule: {
@@ -935,7 +934,7 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
           flavor: 'Даже самым искусным стрелкам трудно попасть в цель, укрытую клубящимися дымовыми завесами.',
           when: 'Начало фазы стрельбы (Shooting phase) вашего противника.',
           target: 'Один дружественный юнит SMOKE (ДЫМОВОЙ ЗАВЕСЫ).',
-          effect: 'До конца фазы, каждый раз, когда атака нацелена на ваш юнит SMOKE или на юнит, который **[gloss:not-fully-visible:не полностью видим]** атакующей модели из-за одной или нескольких моделей в вашем юните SMOKE, цель получает **[gloss:benefit-of-cover:преимущество от укрытия]** от этой атаки (13.08).',
+          effect: 'До конца фазы, каждый раз, когда атака нацелена либо на ваш юнит SMOKE, либо на юнит, который __не__ **[gloss:fully-visible:полностью видим]** атакующей модели из-за одной или нескольких моделей в вашем юните SMOKE, цель получает **[gloss:benefit-of-cover:преимущество от укрытия]** от этой атаки (13.08).',
           restrictions: '',
           extraCost: [],
         },
@@ -982,7 +981,8 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
 ▪ **ЮНИТЫ:** Какие дружественные юниты могут его выполнять.
 ▪ **ЛИМИТ ИСПОЛЬЗОВАНИЯ:** Сколько раз дружественные юниты могут его начать.
 ▪ **ЗАВЕРШЕНИЕ:** Когда оно завершается.
-▪ **ЭФФЕКТ:** Каковы эффекты от его завершения.`,
+▪ **ЭФФЕКТ:** Каковы эффекты от его завершения.
+▪ Любые дополнительные ограничения, которые могут применяться.`,
           note: '**ГДЕ НАЙТИ ДЕЙСТВИЯ**\n\n**[gloss:action:Действия]**, которые могут использовать игроки, можно найти в других публикациях, таких как пакеты миссий. Все игроки могут использовать **[gloss:action:базовые действия]**, тогда как другие **[gloss:action:действия]** могут иметь ограничения, например по фракции армии (army faction).',
           splitBodies: [
             `### Начало действия

@@ -29,27 +29,44 @@
          Not inside a game: there this page is a read of a snapshot, with nothing to save. -->
       <RosterCloudToast v-if="!inGame" />
 
-      <!-- One line when the name and the numbers both fit on it, two when they don't — a wrapping
-         flex row rather than a column that stacks unconditionally. It stacked before, which put
-         "2000/2000" on its own line under a name eight characters long; the name asks for 12rem
-         and yields the rest, so only a name that really needs the width pushes the meta down. -->
-      <header class="rv-head">
-        <h1
-          class="rv-name"
-          :class="nameFit"
-        >
-          {{ roster.name || labels.rosterUntitled }}
-        </h1>
-        <div class="rv-meta">
-          <div
-            v-if="roster.faction"
-            class="rv-points"
-            :class="{ over: points > limit }"
+      <header
+        class="rv-head"
+        :class="{ own: showPoints && ownLimits }"
+      >
+        <!-- The name and its points share a wrapping row (owner, 2026-10-03): the points stand at
+             its right end while both fit, drop under the name first when they don't, and only
+             then does the name itself wrap. A list on its own limits has them on a line of their
+             own across the header, smaller, with the limits said in words beside them. -->
+        <div class="rv-title">
+          <h1
+            class="rv-name"
+            :class="nameFit"
           >
-            <span class="rp-used">{{ points }}</span>
-            <span class="rp-sep">/</span>
-            <span class="rp-cap">{{ limit }}</span>
+            {{ roster.name || labels.rosterUntitled }}
+          </h1>
+          <div
+            v-if="showPoints"
+            class="rv-pts"
+            :class="{ own: ownLimits }"
+          >
+            <div
+              class="rv-points"
+              :class="{ over: overLimit }"
+            >
+              <span class="rp-used">{{ points }}</span>
+              <!-- A list with no limit shows its total alone. -->
+              <template v-if="Number.isFinite(limit)">
+                <span class="rp-sep">/</span>
+                <span class="rp-cap">{{ limit }}</span>
+              </template>
+            </div>
+            <RosterOwnLimitsMark
+              :roster="roster"
+              labelled
+            />
           </div>
+        </div>
+        <div class="rv-meta">
           <RouterLink
             v-if="!inGame"
             :to="`/roster/${roster.id}`"
@@ -104,6 +121,14 @@
               @click="copyWholeList"
             >
               {{ copiedList ? labels.rosterCopied : labels.rosterCopyList }}
+            </button>
+            <!-- The same archive the list page's cards offer (useRosters.js's setArchived). -->
+            <button
+              type="button"
+              class="act-btn"
+              @click="toggleArchived"
+            >
+              {{ roster.archived ? labels.rosterUnarchive : labels.rosterArchive }}
             </button>
           </ActionMenu>
         </div>
@@ -297,7 +322,7 @@
                     class="rvunit"
                     :class="{
                       'rvunit-attached': e.leaderOf,
-                      'rvunit-host': hasAttached(g.entries, e),
+                      'rvunit-host': hasAttached(g.entries, e) || !!defOf(e.id)?.crew,
                       'rvunit-on': unitPane && viewingUid === e.uid,
                     }"
                   >
@@ -402,6 +427,24 @@
                       />
                     </CollapseTransition>
                   </div>
+                  <!-- Who comes WITH the unit and cannot be bought on his own — Sir Hekhtur, who climbs
+                   out of Canis Rex (the data's `crew`). A row of his own under the Knight, so his card
+                   is one tap away at the table (owner, 2026-10-04); no points, no switches. -->
+                  <button
+                    v-for="c in defOf(e.id)?.crew || []"
+                    :key="c.id"
+                    type="button"
+                    class="rvunit rvunit-main rvunit-crew"
+                    :class="{ 'rvunit-on': unitPane && viewingCrew === c.id }"
+                    @click="openCrew(c)"
+                  >
+                    <i class="bi bi-arrow-return-right rvunit-crew-mark" />
+                    <span class="rvunit-text">
+                      <span class="rvunit-name">{{ c.name }}</span>
+                    </span>
+                    <span class="rvunit-pts">0</span>
+                    <i class="bi bi-chevron-right rvunit-chev" />
+                  </button>
                 </template>
               </template>
             </template>
@@ -554,10 +597,10 @@
       />
 
       <RosterUnitRulesModal
-        v-if="viewingUid && viewingDef && !unitPane"
+        v-if="viewingCard && !unitPane"
         v-bind="viewingCard"
         v-on="viewingHandlers"
-        @close="viewingUid = null"
+        @close="viewingUid = null; viewingCrew = null"
       />
       <!-- A card's stratagem box ticked in a game counting CP: played like one from the CP tab — on
            this unit, the cost asked, the CP spent (StratPlayModal, stratagemPlay.js). -->
@@ -575,8 +618,8 @@
       class="rv-unit"
     >
       <RosterUnitRulesCard
-        v-if="viewingUid && viewingDef"
-        :key="viewingUid"
+        v-if="viewingCard"
+        :key="viewingUid || viewingCrew"
         v-bind="viewingCard"
         inline
         v-on="viewingHandlers"
@@ -606,11 +649,13 @@ import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
+import RosterOwnLimitsMark from '../../components/roster/RosterOwnLimitsMark.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import RosterMissionsTab from '../../components/roster/RosterMissionsTab.vue'
 import RosterDispositionModal from '../../components/roster/RosterDispositionModal.vue'
 import { useRosterSync } from '../../composables/useRosterSync.js'
+import { refreshSummaries } from '../../composables/rosterSummary.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
@@ -628,8 +673,9 @@ import { rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
-import { allySourceOf, blockNumbers, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
-import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
+import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
+import { allySourceOf, effectiveBattle, blockNumbers, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
+import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
@@ -667,7 +713,7 @@ const { locale } = useLocale()
 // The same popover a core ability or a modifier note opens — a chip's "i" is one more way in.
 const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
-const { rosterById, updateRoster } = useRosters()
+const { rosterById, updateRoster, setArchived, rosters } = useRosters()
 const { saveToCloud } = useRosterSync()
 
 // Two ways in: /roster/:id/view reads the saved roster, /tracker/game/roster/:pi reads the
@@ -682,10 +728,10 @@ const gameMi = computed(() => (props.inTracker ? props.mi : route.params.mi != n
 const inGame = computed(() => gamePi.value != null)
 // A finished game reached from the history list (/tracker/history/:gid/roster/:pi) shows the same
 // screen as a live one, but as a RECORD: the rule switches are what they were when it ended, and
-// there is nothing left to flip.
+// there is nothing left to flip. "Back" reopens that game's modal on the history list.
 const historyId = computed(() => route.params.gid || null)
 const backTo = computed(() => {
-  if (historyId.value) return `/tracker/history/${historyId.value}`
+  if (historyId.value) return `/tracker?game=${historyId.value}`
   return inGame.value ? '/tracker/game' : '/roster'
 })
 const gameRoster = ref(undefined) // undefined = not resolved yet, null = no such attachment
@@ -829,6 +875,12 @@ const { factionData } = useRosterFactionData(() => roster.value?.faction, { alli
 const {
   defOf, curDetachments, limit, points, entryMeta, groupedUnits, attachRole, validation,
 } = useRosterDerived(roster, factionData)
+// The points beside the name. On the desk the list's card beside this page already carries them,
+// so they stay only when they say more than the card: the player's own limits, or a list over
+// its limit (owner, 2026-10-03). A phone has no card beside it and always shows it.
+const overLimit = computed(() => !roster.value?.archived && points.value > limit.value)
+const ownLimits = computed(() => ownLimitsLines(effectiveBattle(roster.value || {}, rosterCore), labels.value).length > 0)
+const showPoints = computed(() => !!roster.value?.faction && (!props.inDesk || ownLimits.value || overLimit.value))
 // A faction keyword tapped in a rule on this screen lists this list's own units first.
 useKeywordContext(() => ({ faction: roster.value?.faction, unitIds: roster.value?.units?.map((u) => u.id) }))
 
@@ -962,6 +1014,14 @@ function openChipInfo(sw, rect) {
 // only ever seeds the initial value) and keeps a reload on the same card.
 // (`viewingUid` is declared with the game above: an open card keeps the page thawed.)
 const viewingEntry = computed(() => roster.value?.units.find((u) => u.uid === viewingUid.value) || null)
+// A crew row's card (Sir Hekhtur) — a datasheet id, not an entry: he is in no list, so his card is
+// the printed sheet with nothing to overlay. Opening one closes the other.
+const viewingCrew = ref(null)
+watch(viewingUid, (v) => { if (v) viewingCrew.value = null })
+function openCrew(c) {
+  viewingUid.value = null
+  viewingCrew.value = c.id
+}
 // The entry, not just its datasheet: the modal's overlay (rosterModifiers.js) needs this unit's
 // own wargear picks to show the loadout it actually fields rather than every option on the sheet.
 const viewingDef = computed(() => (viewingEntry.value ? defOf(viewingEntry.value.id) : null))
@@ -973,7 +1033,9 @@ const viewingLeaderTargets = computed(() => (viewingEntry.value
   : []))
 // What the unit's card is drawn from and answers to — the same whether it opens in a dialog or in
 // the desk's unit column.
-const viewingCard = computed(() => (viewingDef.value
+const viewingCard = computed(() => (viewingCrew.value
+  ? { unitId: viewingCrew.value, factionSlug: roster.value.faction, ctx: null, gameCtx: null }
+  : viewingDef.value
   ? {
       unitId: viewingSrc.value?.[1] || viewingDef.value.id,
       factionSlug: viewingSrc.value?.[0] || roster.value.faction,
@@ -1101,6 +1163,8 @@ function attachmentCtxOf(entry) {
       if (n) set.add(n)
       return set
     }, new Set()),
+    // …and what every other member of this Attached unit carries, for an Upgrade's "This unit…".
+    attachedEnhKeys: attachedEnhKeys(entry, units, (u) => u.enh || mandatoryEnhancementFor(defOf(u.id), curDetachments.value)?.name || null),
   }
 }
 
@@ -1479,6 +1543,14 @@ function openExport() {
   menuOpen.value = false
   exportOpen.value = true
 }
+// Into the archive and back — a real edit, so it goes to the cloud like a Save, and the cached
+// issue count on the list's card is recounted under the new rule.
+function toggleArchived() {
+  menuOpen.value = false
+  if (!setArchived(roster.value.id, !roster.value.archived)) return
+  saveToCloud(roster.value.id)
+  refreshSummaries(rosters.value)
+}
 function goPrint() {
   menuOpen.value = false
   router.push(`/roster/${roster.value.id}/print`)
@@ -1616,23 +1688,42 @@ function stratKey(strat) {
 
 .roster-view { padding-top: 0.75rem; padding-bottom: 2rem; }
 
-/* One row, always: the numbers and the buttons keep the top-right corner and the name takes
-   whatever is left, wrapping ITS OWN text as many lines as it needs. It stacked before, and then
-   wrapped at a 12rem threshold — which on a phone still dropped "2000/2000" under a two-word name,
-   because the meta alone is over half that width.
-
-   Baseline, not centre: aligned to the name's FIRST line, so a quote-as-a-name doesn't leave the
-   points floating against the middle of a five-line paragraph. */
+/* The name block takes what the two buttons leave; the buttons keep the top-right corner. Inside
+   the block the name and the points wrap as one row: the points' line breaks before the name's
+   text does (each item asks for its whole width first), and space-between parks them at the
+   right end while they share the line and at the left, right under the name, once they don't. */
 .rv-head {
   display: flex;
-  flex-wrap: nowrap;
-  align-items: baseline;
+  align-items: flex-start;
   gap: 0.75rem;
-  margin: 0.75rem 0 1rem;
+  margin: 0 0 1rem;
   padding-bottom: 0.6rem;
   border-bottom: 2px solid var(--accent);
 }
-.rv-head .rv-name { flex: 1 1 auto; }
+.rv-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.15rem 0.75rem;
+  /* the buttons are taller than a line of the name: centre the first line against them */
+  padding-top: 0.2rem;
+}
+.rv-pts { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.75rem; }
+/* Own limits: the name block dissolves into a grid, so the points and the limits' line run
+   under the buttons too, across the whole header (owner, 2026-10-03). */
+.rv-head.own {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  row-gap: 0.3rem;
+}
+.rv-head.own .rv-title { display: contents; }
+.rv-head.own .rv-name { grid-column: 1; grid-row: 1; padding-top: 0.2rem; }
+.rv-head.own .rv-meta { grid-column: 2; grid-row: 1; }
+.rv-head.own .rv-pts { grid-column: 1 / -1; grid-row: 2; }
+.rv-pts.own .rv-points { font-size: 0.9rem; }
 .rv-name {
   min-width: 0;
   font-family: var(--font-display);
@@ -1642,12 +1733,14 @@ function stratKey(strat) {
   margin: 0;
   overflow-wrap: anywhere;
 }
-/* Full size on a desktop, smaller as the viewport narrows — a phone is where a quote-as-a-name
-   turns into a wall, a wide screen fits it in a line or two. A name that merely reaches a second
-   line gets no step at all: two lines of a header are fine. */
-.rv-name.long { font-size: clamp(1.35rem, 5.2vw, 1.7rem); line-height: 1.2; }
-.rv-name.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); line-height: 1.25; }
+/* Full size on a desktop, smaller as the viewport narrows — a phone is where a long name turns
+   into a wall, a wide screen fits it in a line or two. Lines set close: a wrapped name reads as
+   one heading, not as a paragraph (owner, 2026-10-03). */
+.rv-name { line-height: 1.1; }
+.rv-name.long { font-size: clamp(1.35rem, 5.2vw, 1.7rem); }
+.rv-name.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); line-height: 1.15; }
 .rv-meta { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; flex: 0 0 auto; }
+.rv-meta:empty { display: none; }
 .rv-points { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 .rp-used { color: var(--text-primary); }
 .rv-points.over .rp-used { color: var(--danger); }
@@ -1708,12 +1801,15 @@ function stratKey(strat) {
    screens where it wraps to a line of its own. */
 .rv-top {
   display: flex;
+  margin-bottom: 0.6rem;
   align-items: center;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
 @media (max-width: 900px) {
   .rv-back-list { display: none; }
+  /* Its only content dropped, the row must not keep its gap above the name. */
+  .rv-top:has(> .rv-back-list:only-child) { display: none; }
 }
 
 .rv-issues {
@@ -1793,6 +1889,20 @@ function stratKey(strat) {
    the shared primitive in style.css, which cannot win against this view's own scoped `border` on
    .rvunit (see the note there). */
 .rvunit:has(+ .rvunit-attached) { margin-bottom: 0; }
+/* The crew row hangs off the unit above it, slimmer and without the stats it has no list entry for. */
+.rvunit:has(+ .rvunit-crew) { margin-bottom: 0; }
+.rvunit.rvunit-crew {
+  background: var(--bg-card); border: 1px solid var(--border); border-left: 2px solid var(--accent);
+  padding-top: 0.35rem; padding-bottom: 0.35rem;
+  /* Its own top edge, laid over the unit's bottom one: hovered, the row lights all four sides. */
+  position: relative; margin-top: -1px;
+}
+@media (hover: hover) {
+  .rvunit.rvunit-crew:hover { border-color: var(--accent); z-index: 1; }
+  /* …and the unit, hovered, lays its bottom edge back over the crew's top one. */
+  .rvunit:has(+ .rvunit-crew):hover { position: relative; z-index: 1; }
+}
+.rvunit-crew-mark { flex: none; color: var(--text-dim); font-size: 0.8rem; }
 .rvunit.rvunit-attached,
 .rvunit.rvunit-host { border-left: 2px solid var(--accent); }
 /* The block's head: the editor list's `.rul-bhead`, in this view's own card chrome — tinted with

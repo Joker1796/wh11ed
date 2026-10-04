@@ -24,38 +24,47 @@
       <!-- The player's own note, in parentheses after the name — the way every list format that
            has the field prints it, ours included (rosterEngine's note helpers). Not a chip: a chip
            is a fact about the unit the app knows, this is a sentence the player wrote. -->
-      <span
-        v-if="entry.note"
-        class="rur-note"
-      >({{ entry.note }})</span>
+      <ExpandTransition>
+        <span
+          v-if="entry.note"
+          class="rur-note"
+        >({{ entry.note }})</span>
+      </ExpandTransition>
     </span>
     <span class="rur-pts">{{ points }}</span>
-    <span
-      v-if="chips.length || entry.warlord"
-      class="rur-chips"
-    >
-      <!-- The Warlord leads the chip line: the name above stays a name (owner's ask, 2026-09-26). -->
+    <ExpandTransition>
       <span
-        v-if="entry.warlord"
-        class="legends-badge warlord-badge rur-wl"
-        :title="labels.rosterWarlord"
-        :aria-label="labels.rosterWarlord"
-      ><i class="bi bi-flag-fill" /></span>
+        v-if="chips.length || entry.warlord"
+        class="rur-chips"
+      >
+        <!-- The Warlord leads the chip line: the name above stays a name (owner's ask, 2026-09-26). -->
+        <ExpandTransition>
+          <span
+            v-if="entry.warlord"
+            class="legends-badge warlord-badge rur-wl"
+            :title="labels.rosterWarlord"
+            :aria-label="labels.rosterWarlord"
+          ><i class="bi bi-flag-fill" /></span>
+        </ExpandTransition>
+        <span
+          v-for="c in chips"
+          :key="c.key"
+          class="rur-chip"
+          :class="{ role: c.role }"
+        >{{ c.text }}</span>
+      </span>
+    </ExpandTransition>
+    <ExpandTransition>
       <span
-        v-for="c in chips"
-        :key="c.key"
-        class="rur-chip"
-        :class="{ role: c.role }"
-      >{{ c.text }}</span>
-    </span>
-    <span
-      v-if="picks.length"
-      class="rur-picks"
-    >{{ picks.join(' · ') }}</span>
+        v-if="picks.length"
+        class="rur-picks"
+      >{{ picks.join(' · ') }}</span>
+    </ExpandTransition>
   </span>
 </template>
 
 <script setup>
+import ExpandTransition from '../ExpandTransition.vue'
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

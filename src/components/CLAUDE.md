@@ -85,11 +85,25 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
   note, the Warlord box, the Force Disposition field, the import report, the Legends proxies
   under a search). `<ExpandTransition><p v-if="x">…</p></ExpandTransition>`; a `v-if`/`v-else`
   chain inside needs a `key` per branch and usually `mode="out-in"`. Web Animations on the
-  element's own height, vertical padding and margins, one measurement per enter — for small
-  blocks; content that always exists and folds (an accordion) stays `CollapseTransition`. An
-  inline bit in a row (a custom-points input, a cap chip, an empty-state line) takes `fade`
-  instead: there is no height to give. Wrapping the HEAD of a `v-if`/`v-else-if` chain splits
-  the chain — give the wrapped element its own condition (see `StratagemsView`'s empty note).
+  element's own box along the axis it opens on — size, padding, margins, and the container's
+  `gap` beside it (taken back with a negative margin, or the neighbours finish with a jump of
+  exactly the gap) — one measurement per enter, for small blocks; content that always exists and
+  folds (an accordion) stays `CollapseTransition`.
+  **It opens along the layout it lands in** (`axis="auto"`, `utils/revealAxis.js`, read at every
+  enter and leave): sideways in a flex row or among text (an inline chip, a DP count in a label —
+  the neighbours after it slide aside), downwards in a stack, both ways in a row that wraps. So one
+  piece of markup is right at every width: the roster's custom-limit sliders open sideways in the
+  desk's settings line and downwards inside the phone's form. `axis="x" | "y" | "both"` overrides
+  a wrong reading.
+  **Every element that appears in the flow and pushes its neighbours goes through it — the room
+  opens by the neighbours sliding, and closes the same way** (owner, 2026-10-03, "for every field
+  that appears"). This is the second exception to the 2026-09-29 "no movement, only a fade" rule
+  (the tracker's tab strip was the first): what slides is the layout making room, not the content.
+  `fade` stays for what pushes nothing — an overlay, a backdrop, a popover, an empty-state line
+  that replaces a list, an element pinned to the far end of its row — and for a block too large to
+  animate the height of (a whole section of missions). Wrapping the HEAD of a `v-if`/`v-else-if`
+  chain splits the chain — give the wrapped element its own condition (see `StratagemsView`'s empty
+  note).
 - **Switches inside a page fade** (`fade`, `mode="out-in"`): the `PageTabs` panels, the faction
   pages' tabs and the roster editor's Settings | Units. They slid sideways by the control's order
   (an `axis-*` pair) until 2026-09-29, and the owner found every one of them jerky; the pair is

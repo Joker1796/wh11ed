@@ -544,7 +544,7 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
 ### Vanguard Prime
 During the earliest stages of a Tyranid invasion, the rare bioform Imperial observers have named Deathleaper has been seen fulfilling a leadership and coordination role amongst the swarms. Employing pheromone trails and goading imperatives, the creature provides guidance to other warrior organisms that is the localised equivalent of synaptic control.
 
-Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
+Deathleaper loses the Hunter Organism rule and can be your WARLORD.`,
       },
       stratagems: [
         {
@@ -1001,9 +1001,9 @@ If an enemy model (excluding AIRCRAFT) ends any kind of move within 3" of one of
 ### Keywords
 Mawloc and Trygon units from your army have the Burrower keyword.
 
-In the Muster Armies step, you can select up to 2 Trygon models from your army. The selected units gain the Character keyword.
+In the Muster Armies step, you can select up to 2 Trygon models from your army. The selected units gain the CHARACTER keyword.
 
-**Designer's Note:** This means that the selected models can be given Enhancements and one of them can be selected as your Warlord.`,
+**Designer's Note:** This means that the selected models can be given Enhancements and one of them can be selected as your WARLORD.`,
       },
       stratagems: [
         {

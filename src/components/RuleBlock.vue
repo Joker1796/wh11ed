@@ -60,6 +60,20 @@
           v-html="renderParagraphs(note)"
         />
 
+        <!-- A rule whose text comes from GW's errata rather than the rule as the app prints it:
+             said under the rule, with the way to the errata entry (owner, 2026-10-03). -->
+        <p
+          v-if="errataRef"
+          class="rule-errata"
+        >
+          <i class="bi bi-pencil-square" />
+          {{ errataNote }}
+          <a
+            :href="`#${errataRef.anchor}`"
+            @click.prevent="scrollToAnchor(errataRef.anchor)"
+          >{{ labels.ruleErrataLink }}</a>
+        </p>
+
         <div
           v-if="example"
           class="example-block"
@@ -93,6 +107,9 @@ import AppImage from './AppImage.vue'
 import RuleBody from './RuleBody.vue'
 import SubRuleBlock from './SubRuleBlock.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { useLocale } from '../composables/useLocale.js'
+import { scrollToAnchor } from '../composables/useRefNavigation.js'
+import { ui } from '../i18n/ui.js'
 
 const props = defineProps({
   id: String,
@@ -105,9 +122,21 @@ const props = defineProps({
   seeAlso: Array,
   sideImage: Object,
   children: Array,
+  // { anchor, date } — the errata entry (Reference chapter) this rule's text follows.
+  errataRef: { type: Object, default: null },
 })
 
 const { renderInline } = useRenderInline()
+
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
+const errataNote = computed(() => {
+  if (!props.errataRef) return ''
+  const date = new Date(`${props.errataRef.date}T00:00:00Z`)
+    .toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+    .replace(/\s*г\.$/, '')
+  return labels.value.ruleErrataNote.replace('{date}', date)
+})
 
 const bodyIsInfoCard = computed(() => (props.body || '').trimStart().startsWith('◈'))
 
@@ -127,6 +156,13 @@ function handleDefClick(e) {
 </script>
 
 <style scoped>
+.rule-errata {
+  margin: 0.6rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.rule-errata .bi { margin-right: 0.25rem; }
+.rule-errata a { margin-left: 0.25rem; }
 .rule-block {
   border-bottom: 1px solid var(--border-light);
   padding: 0.85rem 0;

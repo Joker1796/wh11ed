@@ -76,6 +76,25 @@ describe('RosterViewView', () => {
     for (const h of heads) expect(h.find('.rvblock-total').text()).toMatch(/^\d+pts$/)
   })
 
+  // Sir Hekhtur comes with Canis Rex and is in no list: a row of his own under the Knight, at 0 pts,
+  // opening his card (owner, 2026-10-04).
+  it('draws Canis Rex’s pilot as a row under him, and opens his card', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Knights')
+    r.faction = 'imperial-knights'
+    r.units.push({ uid: 'k1', id: 'canis-rex', size: 0 })
+    ROSTER_ID = r.id
+    const w = mount(RosterViewView, { global: { stubs } })
+    await waitForSelector(w, '.rvunit-crew')
+    const crew = w.find('.rvunit-crew')
+    expect(crew.text()).toContain('Sir Hekhtur')
+    expect(crew.find('.rvunit-pts').text()).toBe('0')
+    await crew.trigger('click')
+    const card = w.findComponent({ name: 'RosterUnitRulesModal' })
+    expect(card.exists()).toBe(true)
+    expect(card.props('unitId')).toBe('sir-hekhtur')
+  })
+
   it('shows a setup hint for a roster with no faction yet', async () => {
     const store = useRosters()
     const r = store.createRoster('Blank')
@@ -103,21 +122,22 @@ describe('RosterViewView', () => {
   // The points and the pencil live in their own row of the header, whatever the name is: at
   // phone width even a 21-character all-caps name takes two lines, so deciding this from the
   // text would only make the header rearrange itself per list.
-  it('keeps an ordinary name at full size, with the points beside it', async () => {
+  it('keeps an ordinary name at full size, with the points in its row', async () => {
     const store = useRosters()
-    const r = store.createRoster('PORTRAIT OF A MACHINE')
+    const r = store.createRoster('Warpbane Task Force')
     r.faction = 'adeptus-mechanicus'
     ROSTER_ID = r.id
     const w = mount(RosterViewView, { global: { stubs } })
     await flushPromises()
 
     expect(w.find('.rv-name').classes()).toEqual(['rv-name'])
-    expect(w.find('.rv-meta .rv-points').exists()).toBe(true)
+    expect(w.find('.rv-title .rv-pts:not(.own) .rv-points').exists()).toBe(true)
+    expect(w.find('.rv-meta .rv-points').exists()).toBe(false)
   })
 
   // Print used to be an icon of its own beside the pencil; export lived only in the editor and on
   // the list page, and there was no one-tap copy at all. All three are one "…" now.
-  it('puts export, print and copy behind the header\u2019s \u201c\u2026\u201d menu', async () => {
+  it('puts export, print, copy and the archive behind the header\u2019s \u201c\u2026\u201d menu', async () => {
     const store = useRosters()
     const r = store.createRoster('Menu list')
     r.faction = 'necrons'
@@ -140,12 +160,17 @@ describe('RosterViewView', () => {
     // Picked by label, never by index — same rule as the list page's own actions sheet.
     const acts = [...document.querySelectorAll('.act-btn')]
     expect(acts.map((b) => b.textContent.trim()))
-      .toEqual([ui.en.rosterExportTitle, ui.en.printAction, ui.en.rosterCopyList])
+      .toEqual([ui.en.rosterExportTitle, ui.en.printAction, ui.en.rosterCopyList, ui.en.rosterArchive])
 
     acts.find((b) => b.textContent.trim() === ui.en.rosterCopyList).click()
     await flushPromises()
     expect(writeText).toHaveBeenCalledTimes(1)
     expect(writeText.mock.calls[0][0]).toContain('Menu list')
+
+    // The same archive the list page's cards offer.
+    acts.find((b) => b.textContent.trim() === ui.en.rosterArchive).click()
+    await flushPromises()
+    expect(store.rosterById(r.id).archived).toBe(true)
     w.unmount()
     document.body.innerHTML = ''
   })
@@ -811,7 +836,7 @@ describe('RosterViewView', () => {
 
       expect(w.text()).toContain('Da Old List')
       expect(w.find('.cond-chip').exists()).toBe(false)      // a record has no controls
-      expect(w.find('.back').attributes('href')).toBe(`/tracker/history/${gid}`)
+      expect(w.find('.back').attributes('href')).toBe(`/tracker?game=${gid}`)
       // …but what was true in that game still shaped the numbers it shows.
       await waitForSelector(w, '.rvst-mod')
       expect(w.find('.rvst-mod').exists()).toBe(true)

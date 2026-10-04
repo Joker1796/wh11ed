@@ -156,7 +156,7 @@ const en = {
         title: '2 · Determine Mission',
         body:
           "Each player finds their opponent's Force Disposition symbol on their Force " +
-          "Disposition card. The [PRIMARY MISSION] listed below that symbol is that " +
+          "Disposition card. The [PRIMARY MISSION] that is listed below that symbol is that " +
           "player's Primary Mission, which describes how to score VP.",
         seeAlso: ['Missions EC:missions'],
       },
@@ -189,7 +189,7 @@ const en = {
         title: '5 · Determine Attacker and Defender',
         body:
           "Players look at the selected layout and agree which edges of the battlefield " +
-          "correspond with the [ATTACKER]'s and [DEFENDER]'s battlefield edges labelled on " +
+          "the players have set up correspond with the [ATTACKER]'s and [DEFENDER]'s battlefield edges labelled on " +
           "the card.\n\n→ Roll off: the winner decides who will be the [gloss:attacker:Attacker] and who " +
           "will be the [gloss:defender:Defender].",
       },
@@ -197,9 +197,10 @@ const en = {
         id: 'step-6',
         title: '6 · Select Secondary Missions',
         body:
-          '[SECONDARY MISSION] cards detail additional ways to score VP. Players secretly ' +
-          'note whether they will use [TACTICAL MISSION]s or [FIXED MISSION]s. If ' +
-          'using Fixed Missions, they also note which two Fixed Missions they will use. ' +
+          '[SECONDARY MISSION] cards detail additional ways to score VP. Players now secretly ' +
+          'note down whether they will use Tactical or Fixed Secondary Missions. If ' +
+          'using [FIXED MISSION]s, they also note down which two Fixed Missions they will ' +
+          'use (see below). ' +
           'Players then reveal these decisions.',
       },
       {
@@ -218,17 +219,18 @@ const en = {
         body:
           'Players take it in turns to set up their units (excluding those in strategic ' +
           'reserves) one at a time, wholly within their [gloss:deployment-zone:deployment zone], starting with ' +
-          'the **Defender**. If you set up a TITANIC unit when it is your turn, skip ' +
-          'your next turn to set up a unit. Once you have finished, if your opponent has ' +
-          'units not yet set up, they set up those units.',
+          'the **Defender**. If you set up a TITANIC unit when it is your turn to set up a ' +
+          'unit, skip your next turn to set up a unit. Once you have finished setting up ' +
+          'your units, if your opponent has any units that have not been set up, they set ' +
+          'up those units.',
       },
       {
         id: 'step-9',
         title: '9 · Redeploy Units',
         body:
           'Some rules let you redeploy certain units after both armies are deployed. ' +
-          'Unless otherwise stated, resolve those rules in this step. Players alternate, ' +
-          'starting with the Attacker. Units placed in strategic reserves (20) in this step ' +
+          'Unless otherwise stated, you resolve those rules in this step. Players alternate ' +
+          'resolving any such rules, starting with the Attacker. Units placed in strategic reserves (20) in this step ' +
           'do not count towards the combined points value of your strategic reserves units.',
       },
       {
@@ -261,9 +263,10 @@ const en = {
         title: '14 · Determine Victor',
         body:
           'Each player scores **10VP** if their army is painted to a [BATTLE READY] ' +
-          'standard. At the end of the battle, the player with the most VP is the victor; ' +
-          'if tied, the battle is a draw. The maximum VP from each source is listed ' +
-          'below — any VP scored in excess of these maximums are ignored.',
+          'standard. At the end of the battle, the player with the most VP is the victor. ' +
+          'If the players are tied, the battle is a draw. The maximum VP that can be ' +
+          'scored from each source of VP is listed below. Any VP you score in excess of ' +
+          'these maximums are ignored.',
         table: {
           title: 'Maximum VP per Source',
           headers: ['VP Source', 'Maximum VP'],
@@ -290,12 +293,13 @@ const en = {
         id: 'tactical-missions',
         title: 'Tactical Missions',
         body:
-          'If you are using Tactical Missions, shuffle your Secondary Mission deck ' +
+          'If you are using [TACTICAL MISSION]s, shuffle your Secondary Mission deck ' +
           'face-down.\n' +
           '▪ At the start of your Command phase (08), draw two Secondary Missions face-up ' +
-          'from your Secondary Missions deck; these are active for you.\n' +
+          'from your Secondary Missions deck; these Secondary Missions are active for you.\n' +
           '▪ (Once per battle) At the end of your Command phase, you can spend 1CP to ' +
-          'discard one of your active Secondary Mission cards and draw one new card.',
+          'discard one of your active Secondary Mission cards and draw one new Secondary ' +
+          'Mission card.',
         seeAlso: ['Missions EC:missions'],
       },
       {
@@ -305,10 +309,10 @@ const en = {
           "At the end of each player's turn, each player does the following, starting " +
           'with the player whose turn it is:\n' +
           '▪ First, if you met the conditions on one or more Secondary Missions, you can ' +
-          'gain the VP specified. If you do, and you are using Tactical Missions, discard ' +
-          'that Secondary Mission — it is achieved.\n' +
-          '▪ Then, if it is your turn and you are using Tactical Missions, you can discard ' +
-          'one or more active Secondary Missions. If you do, you gain 1CP.',
+          'gain the VP specified on that card. If you do, and if you are using Tactical ' +
+          'Secondary Missions, discard that Secondary Mission — it is achieved.\n' +
+          '▪ Then, if it is your turn and you are using Tactical Secondary Missions, you ' +
+          'can discard one or more of your active Secondary Missions. If you do, you gain 1CP.',
       },
     ],
     designerNotes: [
@@ -316,10 +320,10 @@ const en = {
         id: 'cumulative-or',
         title: "'Cumulative' and 'Or' Conditions",
         body:
-          "Some cards include a condition marked 'cumulative' that follows a normal " +
+          "Some cards include a condition marked as 'cumulative' that follows a normal " +
           'condition. If a player achieves the cumulative condition, they gain the VP for ' +
-          "both that and the normal condition.\n\nSome cards include one or more 'or' " +
-          'conditions following a normal condition. A player can only gain VP for one of ' +
+          "both that and the normal condition.\n\nSome cards include one or more conditions " +
+          "marked 'or' that follow a normal condition. A player can only gain VP for one of " +
           'these conditions or the normal condition.',
       },
       {
@@ -346,8 +350,8 @@ const en = {
         id: 'when-drawn',
         title: 'When Drawn',
         body:
-          "Some Secondary Mission cards begin with a 'When Drawn' section. This section " +
-          'only applies if you are using Tactical Secondary Missions.',
+          "Some Secondary Mission cards begin with a 'When Drawn' section. Note that this " +
+          'section only applies if you are using Tactical Secondary Missions.',
       },
     ],
   },
@@ -610,19 +614,30 @@ const en = {
         seeAlso: ['Mission Sequence EC:sequence', 'Pairings & Rankings EC:pairings'],
       },
       {
+        id: 'teams-generating-cp',
+        title: 'Generating Command Points',
+        body:
+          'Excluding Core CP, each player can gain a maximum of 1CP per battle round ' +
+          '(including the CP gained when a player discards an active Secondary Mission card).',
+        seeAlso: ['Generating Command Points EC:sequence#generating-cp'],
+      },
+      {
         id: 'team-composition',
         title: '1 · Team Composition and Muster Armies',
         body:
-          'Each team has a single **captain**, responsible for ensuring players submit lists ' +
-          'on time and that scores are submitted at the end of each round.\n\n' +
+          'Each team should have a single **captain** who is responsible for ensuring that ' +
+          'players submit lists on time, and that scores are submitted at the end of each ' +
+          'round.\n\n' +
           'Within each team, only one player can use units with a given **[gloss:faction-keyword:faction keyword]**. ' +
-          'This normally means only one player can use units from each Codex, including as ' +
-          'allied forces. It does not apply where the ally rules being used change faction ' +
+          'This will normally mean that only one player can use units from each Codex, ' +
+          'including as allied forces. This does not apply to cases where the ally rules ' +
+          'being used change faction ' +
           'keywords, or where datasheets appear in multiple Codexes with different faction ' +
           'keywords (e.g. Chaos Daemons and Khorne Daemons in Codex: World Eaters).\n\n' +
           'Each player then musters an army as described in the Warhammer 40,000 app, with ' +
-          'one exception: once mustered, a player selects one [FORCE DISPOSITION] card ' +
-          'available to them and records it on their roster.\n\n' +
+          'the following exception: once they have mustered their army, a player selects ' +
+          'one [FORCE DISPOSITION] card available to them and records that on their ' +
+          'roster.\n\n' +
           'Within each team, for every 5 players (rounding up), only one player can select ' +
           'each Force Disposition.',
         note:
@@ -635,14 +650,18 @@ const en = {
         id: 'pairing-system',
         title: '2 · Pairing System',
         body:
-          'In every round, each member of a team plays a game against one member of the ' +
-          'opposing team, and the accumulated scores of all team members decide the winner ' +
-          'of the round. At the start of each round, both teams follow the pairing system ' +
-          'appropriate for the size of their teams; **team captains** coordinate it.\n\n' +
-          'Once pairing is complete, each player pair heads to their table. Each player finds ' +
-          "their opponent's Force Disposition symbol on their own Force Disposition card; the " +
-          "[PRIMARY MISSION] listed below that symbol is that player's Primary Mission.\n\n" +
-          'The system is broken into 3 modules; team size determines which you use:',
+          'In every round, each member of a team will play a game against one member of ' +
+          'the opposing team, and the accumulated scores of all team members will decide ' +
+          'the winner of a round. At the start of each round, both teams must follow the ' +
+          'pairing system appropriate for the size of your teams. This determines which ' +
+          'players from each team will play each other. **Team captains** are responsible ' +
+          'for coordinating the pairing system.\n\n' +
+          'Once the pairing system is complete, each player pair heads to their table to ' +
+          "play. Each player finds their opponent's Force Disposition symbol on their Force " +
+          'Disposition card. The [PRIMARY MISSION] that is listed below that symbol is that ' +
+          "player's Primary Mission, which describes how to score VP.\n\n" +
+          'The pairing system is broken down into 3 modules, with the size of your teams ' +
+          'determining which modules you use, as follows:',
         table: {
           title: 'Modules by Team Size',
           headers: ['Team Size', 'Modules Used'],
@@ -662,17 +681,17 @@ const en = {
         body:
           '1. Each team secretly selects one member to be their **Defender**.\n' +
           "2. Each team's selected Defender is revealed simultaneously.\n" +
-          '3. Each team secretly selects two of their remaining members to be **Attackers** ' +
+          '3. Each team now secretly selects two of their remaining members to be **Attackers** ' +
           'against the opposing Defender.\n' +
           "4. Each team's selected Attackers are revealed simultaneously.\n" +
-          '5. Each team secretly chooses which of the two opposing Attackers they want their ' +
+          '5. Each team now secretly chooses which of the two opposing Attackers they want their ' +
           'Defender to play against.\n' +
           '6. The chosen Attackers are revealed simultaneously. This decides two match-ups.\n' +
           "7. Each team's Defender declares their layout choice.",
         note:
           "**Designer's Note:** Each combination of Primary Missions has three recommended " +
           'layouts, labelled A, B and C. These can be found in the Warhammer 40,000 app and ' +
-          'in the Event Companion.',
+          'in the Warhammer Event Companion.',
       },
       {
         id: 'main-engagement',
@@ -680,24 +699,24 @@ const en = {
         body:
           '1. Each team secretly selects one member to be their **Defender**.\n' +
           "2. Each team's selected Defender is revealed simultaneously.\n" +
-          '3. Each team secretly selects two of their remaining members to be **Attackers** ' +
+          '3. Each team now secretly selects two of their remaining members to be **Attackers** ' +
           'against the opposing Defender.\n' +
           "4. Each team's selected Attackers are revealed simultaneously.\n" +
-          '5. Each team secretly chooses which of the two opposing Attackers they want their ' +
+          '5. Each team now secretly chooses which of the two opposing Attackers they want their ' +
           'Defender to play against.\n' +
           '6. The chosen Attackers are revealed simultaneously. This decides two matchups.\n' +
           "7. Each team's Defender declares their layout choice.\n" +
-          '8. The **[gloss:refused-attacker:refused Attacker]** from each team plays against one another, using a ' +
-          'layout based on the round: round 1 use Layout A, round 2 Layout B, round 3 ' +
-          'Layout C, repeating this cycle in further rounds.',
+          '8. The **[gloss:refused-attacker:refused Attacker]** from each team plays against one another. These ' +
+          'players will use a layout based on the round: in round 1 use Layout A, in round 2 ' +
+          'use Layout B, and in round 3 use Layout C, repeating this cycle in further rounds.',
       },
       {
         id: 'champion-system',
         title: 'Champion System',
         body:
-          'This leaves one player from each team, who becomes the **Champion**. These ' +
-          'players play each other, using a layout based on the round: round 1 use Layout A, ' +
-          'round 2 Layout B, round 3 Layout C, repeating this cycle in further rounds.',
+          'This will leave one player from each team, who becomes the **Champion**. These ' +
+          'players will use a layout based on the round: in round 1 use Layout A, in round 2 ' +
+          'use Layout B, and in round 3 use Layout C, repeating this cycle in further rounds.',
       },
       {
         id: 'teams-sequence-note',
@@ -708,8 +727,8 @@ const en = {
           '▪ **Create the Battlefield** — missions are played on **44" by 60"** ' +
           'battlefields; set up terrain areas and features as shown in the selected layout.\n' +
           '▪ **Determine Attacker and Defender** — agree which battlefield edges match the ' +
-          'card. Who is Attacker and Defender follows the pairing system; for refused ' +
-          'Attackers or Champions playing each other, **roll off** — the winner decides.\n' +
+          'card, then **roll off**: the winner decides who will be the Attacker and who ' +
+          'will be the Defender.\n' +
           '▪ The remaining steps — Select Secondary Missions, Declare Battle Formations, ' +
           'Deploy, Redeploy, Determine First Turn, Resolve Pre-battle Rules, Begin and End ' +
           'the Battle, and Determine Victor — are unchanged from the standard sequence.',
@@ -1088,8 +1107,8 @@ const en = {
   faq: {
     intro:
       'When playing in a Warhammer Event Mission, the following amendments to cards in the ' +
-      'Chapter Approved Mission Deck are used. Questions are reviewed periodically and ' +
-      'answered below.',
+      'Chapter Approved Mission Deck are used. Questions about the Chapter Approved ' +
+      'Mission Deck will be reviewed periodically and answered below.',
     errata: 'Chapter Approved Mission Deck errata: **None.**',
     items: [
       {
@@ -1117,7 +1136,7 @@ const en = {
         a: 'No.',
       },
       {
-        q: "For the Surveil the Foe Primary Mission, can I achieve the objective if I remove an operation marker after surveilling an enemy unit within range of an objective with that marker, as long as it is within the same turn?",
+        q: "For the Surveil the Foe Primary Mission, one objective reads 'One or more enemy units were surveilled this turn, unless each of those units is within range of one or more objectives that have one or more operation markers within range of them.' For an enemy unit within range of an objective with an operation marker, can I achieve this objective if I remove the operation marker after surveilling that unit, as long as it is within the same turn?",
         a: 'Yes.',
       },
       {
@@ -1223,8 +1242,8 @@ const ru = {
         title: '6 · Выбор вторичных миссий',
         body:
           'Карты [SECONDARY MISSION] описывают дополнительные способы набирать VP. Игроки ' +
-          'тайно отмечают, будут ли они использовать [TACTICAL MISSION] или [FIXED MISSION]. ' +
-          'Если используются фиксированные миссии, они также отмечают, какие две фиксированные ' +
+          'тайно отмечают, будут ли они использовать тактические или фиксированные вторичные ' +
+          'миссии. Если используются [FIXED MISSION], они также отмечают, какие две фиксированные ' +
           'миссии возьмут. Затем игроки раскрывают свои решения.',
       },
       {
@@ -1307,7 +1326,7 @@ const ru = {
       {
         title: 'Тактические миссии (Tactical Missions)',
         body:
-          'Если вы используете тактические миссии, перемешайте свою колоду вторичных миссий ' +
+          'Если вы используете [TACTICAL MISSION], перемешайте свою колоду вторичных миссий ' +
           'рубашкой вверх.\n' +
           '▪ В начале вашей фазы командования (Command phase) (08) возьмите две вторичные ' +
           'миссии лицом вверх из колоды вторичных миссий; они активны для вас.\n' +
@@ -1528,6 +1547,13 @@ const ru = {
         seeAlso: ['Последовательность миссии EC:sequence', 'Паринги и ранжирование EC:pairings'],
       },
       {
+        title: 'Начисление командных очков',
+        body:
+          'Не считая базовых CP, каждый игрок может получить не более 1CP за раунд боя ' +
+          '(включая CP, полученное за сброс активной карты Secondary Mission).',
+        seeAlso: ['Начисление командных очков EC:sequence#generating-cp'],
+      },
+      {
         title: '1 · Состав команды и сбор армий',
         body:
           'У каждой команды есть один **капитан**, отвечающий за то, чтобы игроки вовремя ' +
@@ -1555,10 +1581,12 @@ const ru = {
           'В каждом раунде каждый участник команды играет партию против одного участника ' +
           'команды соперника, и суммарные очки всех участников команды определяют ' +
           'победителя раунда. В начале каждого раунда обе команды следуют системе паринга, ' +
-          'подходящей для размера их команд; её координируют **капитаны команд**.\n\n' +
+          'подходящей для размера их команд. Она определяет, какие игроки двух команд ' +
+          'сыграют друг с другом; её координируют **капитаны команд**.\n\n' +
           'Когда паринг завершён, каждая пара игроков идёт к своему столу. Каждый игрок ' +
           'находит символ Force Disposition соперника на своей карте Force Disposition; ' +
-          '[PRIMARY MISSION], указанная под этим символом, и есть его Primary Mission.\n\n' +
+          '[PRIMARY MISSION], указанная под этим символом, и есть его Primary Mission, ' +
+          'которая описывает, как набирать VP.\n\n' +
           'Система делится на 3 модуля; размер команды определяет, какие из них ' +
           'использовать:',
         table: {
@@ -1623,9 +1651,8 @@ const ru = {
           '▪ **Создание поля боя** — миссии играются на поле боя **44" на 60"**; расставьте ' +
           'зоны террейна и сам террейн, как показано на выбранной раскладке.\n' +
           '▪ **Определение Attacker и Defender** — согласуйте, какие края поля боя ' +
-          'соответствуют карте. Кто Attacker, а кто Defender, следует системе паринга; для ' +
-          'отклонённых Attacker или для Champion, играющих друг против друга, сделайте ' +
-          '**кубовка** — победитель решает.\n' +
+          'соответствуют карте, затем сделайте **кубовку**: победитель решает, кто будет ' +
+          'Attacker, а кто — Defender.\n' +
           '▪ Остальные шаги — выбор вторичных миссий, объявление боевых построений, ' +
           'развёртывание, передислокация, определение первого хода, отыгрыш предбоевых ' +
           'правил, начало и конец битвы и определение победителя — не отличаются от обычной ' +
@@ -2008,7 +2035,7 @@ const ru = {
         a: 'Нет.',
       },
       {
-        q: 'Для основной миссии Surveil the Foe могу ли я выполнить цель, если убираю маркер операции после слежения за вражеским юнитом, находящимся в пределах дальности цели с этим маркером, при условии что это происходит в тот же ход?',
+        q: 'Для основной миссии Surveil the Foe одна цель гласит: «Один или несколько вражеских юнитов взяты под наблюдение в этом ходу, если только каждый из этих юнитов не находится в пределах досягаемости одной или нескольких целей, в пределах досягаемости которых есть один или несколько маркеров операций». Если вражеский юнит находится в пределах досягаемости цели с маркером операции, могу ли я выполнить эту цель, убрав маркер операции после слежения за этим юнитом, при условии что это происходит в тот же ход?',
         a: 'Да.',
       },
       {

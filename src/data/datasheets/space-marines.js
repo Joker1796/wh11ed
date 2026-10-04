@@ -2401,7 +2401,9 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Outrider Squad",
-        "Ravenwing Black Knights"
+        "Ravenwing Black Knights",
+        "Bike Squad",
+        "Company Veterans on Bikes"
       ]
     },
     "keywords": [

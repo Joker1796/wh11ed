@@ -563,7 +563,20 @@ function armyRuleMatches(recName, ourName) {
   return a === b || a.includes(b) || b.includes(a)
 }
 
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], itemNames = null, leaderItemNames = null, leaderEnhNames = null, auraOn = null, detIds = null } = {}) {
+// The enhancements worn by the OTHER members of the Attached unit an entry belongs to — its
+// bodyguard and every Character attached to that bodyguard, or, for the bodyguard itself, the
+// Characters attached to it — as `enhKey`s. An Upgrade reads "This unit…", and 19.04 makes a rule
+// that affects a unit affect every model in the Attached unit, so a Furious Assault bought for a
+// Tactical Squad is the Captain's too, and one bought for the Captain is the squad's (a player's
+// report, 2026-10-03). `enhOf(u)` names an entry's enhancement, chosen or mandatory.
+export function attachedEnhKeys(entry, units, enhOf) {
+  if (!entry) return new Set()
+  const host = entry.leaderOf || entry.uid
+  const members = (units || []).filter((u) => u.uid === host || u.leaderOf === host)
+  return new Set(members.filter((u) => u.uid !== entry.uid).map(enhOf).filter(Boolean).map(enhKey))
+}
+
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], itemNames = null, leaderItemNames = null, leaderEnhNames = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
   const out = []
   for (const rec of records || []) {
     // A DETACHMENT RULE's aura radiates from a keyword, not from an entry ("friendly IMPERIAL
@@ -590,6 +603,10 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       // reaches the unit he joined, which is the card the wearer is not on.
       const led = (rec.effects || []).filter((e) => e.target === 'led')
       if (led.length && leaderEnhNames?.has(rec.name)) out.push({ ...rec, body: '', effects: led, from: 'led' })
+      // "This unit…" — an Upgrade's own wording (`target: 'unit'`): every card of the Attached unit
+      // its bearer is part of, whichever end of the attachment the bearer is (attachedEnhKeys).
+      const whole = (rec.effects || []).filter((e) => e.target === 'unit')
+      if (whole.length && attachedEnhKeys?.has(enhKey(rec.name))) out.push({ ...rec, body: '', effects: whole, from: 'unit' })
       const aura = (rec.effects || []).filter((e) => e.target === 'aura')
       if (!aura.length) continue
       const scopes = rec.ref.scopes || null

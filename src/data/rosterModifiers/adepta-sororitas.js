@@ -1570,6 +1570,7 @@ export default {
       "effects": [
         {
           "on": "profile",
+          "target": "unit",
           "stat": "oc",
           "op": "add",
           "value": 1,

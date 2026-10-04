@@ -2,10 +2,24 @@
   <button
     type="button"
     class="det"
-    :class="{ on, compact, stacked: compact && crowded }"
+    :class="{ on, compact }"
   >
     <span class="det-main">
-      <span class="det-name">{{ name }}</span>
+      <!-- On the desk's one-line row the tag stands right after the name (owner, 2026-10-03); the
+           phone's two-line card keeps it on the second line, left of the dispositions. -->
+      <span class="det-title">
+        <span class="det-name">{{ name }}</span>
+        <template v-if="compact">
+          <span
+            v-if="unique"
+            class="det-unique"
+          >{{ unique }}</span>
+          <span
+            v-if="tag"
+            class="det-unique"
+          >{{ tag }}</span>
+        </template>
+      </span>
       <span
         v-if="nameRu"
         class="det-name-ru"
@@ -15,21 +29,23 @@
       v-if="dp"
       class="det-dp"
     >{{ dp }} DP</span>
-    <!-- A line of its own under the name and the cost: the tag on the left, the dispositions on the
-         right (owner, 2026-10-01). Beside the name, two dispositions squeezed it onto two lines on a
-         phone. -->
+    <!-- A line of its own under the name and the cost: on the phone's card the tag on the left, the
+         dispositions on the right (owner, 2026-10-01). Beside the name, two dispositions squeezed
+         it onto two lines on a phone. -->
     <span
-      v-if="unique || tag || forceDispositions.length"
+      v-if="forceDispositions.length || (!compact && (unique || tag))"
       class="det-foot"
     >
-      <span
-        v-if="unique"
-        class="det-unique"
-      >{{ unique }}</span>
-      <span
-        v-if="tag"
-        class="det-unique"
-      >{{ tag }}</span>
+      <template v-if="!compact">
+        <span
+          v-if="unique"
+          class="det-unique"
+        >{{ unique }}</span>
+        <span
+          v-if="tag"
+          class="det-unique"
+        >{{ tag }}</span>
+      </template>
       <span
         v-if="forceDispositions.length"
         class="det-fds"
@@ -60,11 +76,10 @@
 // 2026-09-25: the chip already says it.) Every field but `name` is optional: the faction bar reuses its
 // picker for the Chapter list, which is plain names.
 // (Said here, not above the <button>: a comment before the root makes the component a Fragment.)
-import { computed } from 'vue'
 import { toneVars } from '../utils/tone.js'
 import { dispositionColor } from '../data/dispositionColors.js'
 
-const props = defineProps({
+defineProps({
   name: { type: String, required: true },
   nameRu: { type: String, default: '' },
   forceDispositions: { type: Array, default: () => [] },
@@ -78,11 +93,6 @@ const props = defineProps({
   compact: { type: Boolean, default: false },
 })
 
-// A compact row that cannot hold its name, a tag, two dispositions and the cost on one line lays
-// out like the full card instead: name and cost on top, tag left and dispositions right below
-// (owner, 2026-10-01 — Awakened Dynasty). Decided from the data, not measured: the row knows what
-// it carries, and a layout that switched on the width would shift under the reader's pointer.
-const crowded = computed(() => props.forceDispositions.length + (props.unique || props.tag ? 1 : 0) >= 3)
 
 </script>
 
@@ -142,15 +152,16 @@ const crowded = computed(() => props.forceDispositions.length + (props.unique ||
 }
 
 
+.det-title { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.45rem; }
 .det-unique {
-  font-size: 0.66rem;
+  font-size: 0.74rem; /* 0.66rem until 2026-10-03 — too small to read beside the name (owner) */
   color: var(--text-dim);
   font-family: var(--font-mono);
   text-transform: uppercase;
 }
 
 
-/* The second line, across the whole row: tag left, dispositions right. */
+/* The second line, across the whole row: the phone card's tag left, the dispositions right. */
 .det-foot {
   grid-column: 1 / -1;
   display: flex;
@@ -188,11 +199,11 @@ const crowded = computed(() => props.forceDispositions.length + (props.unique ||
 /* The name never breaks; a row that still runs out of width wraps whatever is to its right. */
 .det.compact .det-main { flex: 1 0 auto; white-space: nowrap; }
 .det.compact .det-foot { margin-left: auto; }
-/* …and a row that is sure to (`crowded`) takes the full card's two lines: the cost up by the name,
-   the tag on the left and the dispositions on the right of the line below. */
-.det.compact.stacked { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
-.det.compact.stacked .det-dp { order: 0; align-self: start; }
-.det.compact.stacked .det-foot { margin-left: 0; }
+/* A tag and two dispositions used to send a row onto two lines by rule (2026-10-01, Awakened
+   Dynasty). Measured on 2026-10-03 across all 30 factions in both locales, every such row fits one
+   line of the roster desk's 32rem dropdown (a 496px row) — the six with a tag and two dispositions
+   need at most 465px with the tag after the name at 0.74rem (T'au's Retaliation Cadre) — so the
+   rule went and the wrap above is only the fallback. */
 .det.compact .det-name { font-size: 1.15rem; }
 /* The RU caption in the name's own narrow face, so the pair reads as one heading (owner, 2026-10-01). */
 .det.compact .det-name-ru { font-family: var(--font-display); font-size: 1rem; font-weight: 400; line-height: 1; margin-top: -0.1rem; }

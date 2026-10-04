@@ -561,7 +561,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
           name: "Intraneural Biotech", // MFM spells this "Introneural Biotech"
           points: 15,
           flavor: "This Eversor agent’s neurons have been surgically spliced to enhance awareness and speed of thought.",
-          body: "Eversor Assassin models only. Once per battle round, you can target this model with the Heroic Intervention or Counter-offensive Stratagem for 0CP, and can do so even if you have already used that Stratagem on a different unit this phase.",
+          body: "Eversor Assassin model only. You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.",
         },
         {
           name: "Micromelta Rounds",

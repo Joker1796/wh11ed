@@ -52,7 +52,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 483,
+          "t": 484,
           "in": "checkbox",
           "o": [
             [
@@ -62,7 +62,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 484,
+          "t": 485,
           "in": "stepper",
           "o": [
             [
@@ -80,7 +80,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 485,
+          "t": 486,
           "in": "checkbox",
           "o": [
             [
@@ -185,7 +185,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 489,
+          "t": 490,
           "in": "checkbox",
           "o": [
             [
@@ -242,7 +242,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 490,
+          "t": 491,
           "in": "stepper",
           "o": [
             [
@@ -295,7 +295,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 489,
+          "t": 490,
           "in": "stepper",
           "o": [
             [
@@ -443,7 +443,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 491,
+          "t": 492,
           "in": "checkbox",
           "o": [
             [
@@ -456,7 +456,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 492,
+          "t": 493,
           "in": "checkbox",
           "o": [
             [
@@ -469,7 +469,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 493,
+          "t": 494,
           "in": "stepper",
           "o": [
             [
@@ -502,7 +502,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 494,
+          "t": 495,
           "in": "stepper",
           "o": [
             [
@@ -535,7 +535,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 495,
+          "t": 496,
           "in": "stepper",
           "o": [
             [
@@ -568,7 +568,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 496,
+          "t": 497,
           "in": "stepper",
           "o": [
             [
@@ -592,7 +592,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 497,
+          "t": 498,
           "in": "stepper",
           "o": [
             [
@@ -625,7 +625,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 498,
+          "t": 499,
           "in": "checkbox",
           "o": [
             [
@@ -645,7 +645,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 499,
+          "t": 500,
           "in": "stepper",
           "o": [
             [
@@ -887,7 +887,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 486,
+          "t": 487,
           "in": "stepper",
           "o": [
             [
@@ -927,7 +927,7 @@ export default {
         },
         {
           "m": 2,
-          "t": 487,
+          "t": 488,
           "in": "stepper",
           "o": [
             [
@@ -959,7 +959,7 @@ export default {
         },
         {
           "m": 4,
-          "t": 488,
+          "t": 489,
           "in": "stepper",
           "o": [
             [
@@ -1158,7 +1158,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 500,
+          "t": 501,
           "in": "checkbox",
           "o": [
             [
@@ -1180,7 +1180,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 501,
+          "t": 502,
           "in": "checkbox",
           "o": [
             [
@@ -1202,7 +1202,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 502,
+          "t": 503,
           "in": "stepper",
           "o": [
             [
@@ -1222,7 +1222,7 @@ export default {
         },
         {
           "m": 2,
-          "t": 503,
+          "t": 504,
           "in": "checkbox",
           "o": [
             [
@@ -1241,7 +1241,7 @@ export default {
         },
         {
           "m": 5,
-          "t": 504,
+          "t": 505,
           "in": "checkbox",
           "o": [
             [
@@ -1254,7 +1254,7 @@ export default {
         },
         {
           "m": 5,
-          "t": 505,
+          "t": 506,
           "in": "checkbox",
           "o": [
             [
@@ -1373,7 +1373,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 506,
+          "t": 507,
           "in": "stepper",
           "o": [
             [
@@ -1396,7 +1396,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 507,
+          "t": 508,
           "in": "stepper",
           "o": [
             [
@@ -1418,7 +1418,7 @@ export default {
         },
         {
           "m": 2,
-          "t": 508,
+          "t": 509,
           "in": "checkbox",
           "o": [
             [
@@ -1566,7 +1566,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 509,
+          "t": 510,
           "in": "checkbox",
           "o": [
             [
@@ -1585,7 +1585,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 510,
+          "t": 511,
           "in": "stepper",
           "o": [
             [
@@ -1598,7 +1598,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 511,
+          "t": 512,
           "in": "stepper",
           "o": [
             [
@@ -1611,7 +1611,7 @@ export default {
         },
         {
           "m": 3,
-          "t": 512,
+          "t": 513,
           "in": "stepper",
           "o": [
             [
@@ -1730,7 +1730,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 513,
+          "t": 514,
           "in": "checkbox",
           "o": [
             [
@@ -1746,7 +1746,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 514,
+          "t": 515,
           "in": "checkbox",
           "o": [
             [
@@ -1762,7 +1762,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 515,
+          "t": 516,
           "in": "stepper",
           "o": [
             [
@@ -1785,7 +1785,7 @@ export default {
         },
         {
           "m": 2,
-          "t": 516,
+          "t": 517,
           "in": "stepper",
           "o": [
             [
@@ -1987,7 +1987,10 @@ export default {
     {
       "name": "Deathwatch Support",
       "sid": "4fde4216-b0dd-4665-8556-2d394d293ed6",
-      "dp": 0,
+      "dp": 1,
+      "fds": [
+        "Disruption"
+      ],
       "enhancements": [
         {
           "name": "Beacon Angelis",
@@ -2084,6 +2087,27 @@ export default {
           "strike-force": 2
         }
       },
+      "free": [
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Inquisitor"
+          ],
+          "recv": [
+            "Inquisitorial Agents"
+          ]
+        },
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Character",
+            "Voidfarers"
+          ],
+          "recv": [
+            "Voidsmen-At-Arms"
+          ]
+        }
+      ],
       "up": {
         "imperial-agents:inquisitor-draxus": {
           "1": 110
@@ -2117,6 +2141,7 @@ export default {
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
+          "11": 120,
           "12": 120
         },
         "imperial-agents:inquisitor-coteaz": {

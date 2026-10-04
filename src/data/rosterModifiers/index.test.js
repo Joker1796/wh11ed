@@ -173,9 +173,14 @@ describe('rosterModifiers data', () => {
           // bearer's UNIT ("models in the bearer's unit have the Deep Strike ability") reaches the
           // unit he joined as well as his own card, which is the one direction 19.04 gives an
           // enhancement beyond the single model it is worn by.
+          // `unit` joined them for an UPGRADE on 2026-10-03: "X unit only. This unit…" addresses the
+          // unit it was bought for, and 19.04 makes that every model of the Attached unit — the
+          // Characters leading it, or, bought for a Character, the squad he leads (a player's
+          // report on Furious Assault). An ordinary enhancement is worn by one model and stays off it.
           const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement', 'detachmentRule']
             : eff.target === 'led' ? ['ability', 'wargear', 'enhancement']
-              : ['ability', 'wargear']
+              : eff.target === 'unit' && /\(Upgrade\)/i.test(e.name) ? ['enhancement']
+                : ['ability', 'wargear']
           expect(canTarget, `${where}: target on a rule record`).toContain(e.kind)
           // A wargear rule addresses its bearer (no target), an aura's range, or the unit its
           // bearer joined — `unit` where the rule reads "while the bearer is leading a unit"

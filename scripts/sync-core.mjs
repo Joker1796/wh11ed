@@ -24,6 +24,9 @@
 // sides paraphrase. Report only; nothing is written.
 import { pathToFileURL } from 'node:url'
 import { loadAppdataCore, loadWh11edCore, appdataMarkup, plainText } from './lib/core-corpus.mjs'
+import { APPDATA_EXCEPTIONS } from './lib/appdata-exceptions.mjs'
+
+const REGISTERED = new Set(APPDATA_EXCEPTIONS.filter((e) => e.kind === 'core-rule-text').map((e) => e.num))
 
 function wordDiff(whPlain, appPlain) {
   const a = whPlain.split(' ')
@@ -34,9 +37,19 @@ function wordDiff(whPlain, appPlain) {
   while (tail < a.length - lead && tail < b.length - lead && a[a.length - 1 - tail] === b[b.length - 1 - tail]) tail++
   return { whMid: a.slice(lead, a.length - tail).join(' '), appMid: b.slice(lead, b.length - tail).join(' ') }
 }
+// What the two sides print differently without saying anything different (2026-10-03):
+//   • our FAQ block under a rule (`### FAQs`, from tables/faq.json) — the app keeps FAQs apart;
+//   • emphasis asterisks of any depth (`***D***'s` left "d s" behind) and pointer phrases ("see
+//     below", "as described below") where the app writes the number;
+//   • a word glued to the app's closing tag ("visible</b>or") — a space, not a new word.
+const withoutFaqs = (t) => String(t || '').replace(/(^|\n)### FAQs?\b[\s\S]*?(?=\n### |$)/g, '')
+const POINTERS = /\b(?:\(?see (?:below|above|left|right)\)?|as described (?:below|above))\b/g
+const comparable = (t) => plainText(String(t || '').replace(/\*+/g, '')).replace(POINTERS, ' ').replace(/\s+/g, ' ').trim()
+const unglue = (html) => String(html || '').replace(/<\/(b|i|u|em|strong|k)>(?=[A-Za-z])/g, '</$1> ')
+
 function compare(out, label, whText, appText) {
-  const wh = plainText(whText)
-  const app = plainText(appText)
+  const wh = comparable(withoutFaqs(whText))
+  const app = comparable(appText)
   if (!app && !wh) return
   if (wh === app) return
   if (!wh) {
@@ -87,7 +100,10 @@ for (const num of appNums) {
     lines.push(`  + ${num} missing in wh11ed — appdata "${a.title}" (${a.section}):\n      ${appdataMarkup(a.text).replace(/\n/g, '\n      ')}`)
     continue
   }
-  compare(lines, `${num} "${w.title}" [${w.file}] (appdata "${a.title}")`, w.body, appdataMarkup(a.text))
+  // A rule whose text follows an errata the app's own text has not taken in is the registry's
+  // to watch (scripts/lib/appdata-exceptions.mjs, kind core-rule-text) — not this report's.
+  if (REGISTERED.has(num)) continue
+  compare(lines, `${num} "${w.title}" [${w.file}] (appdata "${a.title}")`, w.body, appdataMarkup(unglue(a.text)))
 }
 for (const num of whNums.sort((x, y) => x.localeCompare(y, undefined, { numeric: true }))) {
   if (!app.has(num)) lines.push(`  - ${num} "${wh.get(num).title}" [${wh.get(num).file}] not in appdata (wh11ed-only subsection)`)

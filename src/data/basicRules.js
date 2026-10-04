@@ -707,6 +707,8 @@ Each time you move a model, unless otherwise stated:
 ### Moving a Model in a Straight Line
 Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the **maximum distance** of that **[gloss:move-type:move type]**.
 
+Both models shown here can move a **maximum distance** of 6". They both move 3" in a straight line, then 3" in another straight line, for a total movement of 6".
+
 ### Rotating a Model
 Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved. Models without a base are rotated around their central axis (see FRAME, 17.02).
 
@@ -768,16 +770,14 @@ If one or more of the above conditions are not met, that unit cannot make that m
               sectionNum: '03.01.03',
               title: 'Random Movement',
               fromApp: true,
-              body: `See Random Characteristics (02.02.03)
-
-Both models shown here can move a **maximum distance** of 6". They both move 3" in a straight line, then 3" in another straight line, for a total movement of 6".`,
+              body: `See Random Characteristics (02.02.03)`,
             },
             {
               id: 'section-03-01-04',
               sectionNum: '03.01.04',
               title: 'When Moving Up To',
               fromApp: true,
-              body: `Some rules allow a unit to make a move of up to X". That stated distance is the **maximum distance** for that move.`,
+              body: `Some rules allow a unit to make a stated **move type** of up to X". That stated distance is the **maximum distance** for that move.`,
             },
           ],
         },
@@ -793,7 +793,6 @@ Whenever a rule instructs you to set up a unit, place its models on the battlefi
 ▪ All other requirements and restrictions are met.
 
 If you cannot set up all of the models in a unit, remove that unit from the battlefield and return it to its original position (e.g. in **strategic reserves** or embarked within a [gloss:transport:TRANSPORT]).`,
-          note: 'If You Cannot Set Up a Unit: While doing so as the result of a **move type**, if you have to return a unit\'s models to their previous positions because it is not possible to set them all up, that unit has not been selected to make that move. This means it can be selected to make a move later, so could either attempt another set up or remain stationary.',
           children: [
             {
               id: 'section-03-02-01',
@@ -1036,7 +1035,7 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
 4. **Other Attacks:** Follow the first of the instructions below that applies:
 → If there are any weapons targeting the same unit that have not yet been used to make attacks, return to the **Gather Attack Dice** step.
 → Otherwise, if there are any weapons with unresolved attacks targeting a different unit, return to the **Select Enemy Unit** step.
-→ Otherwise, if all weapons have been used to make all of their attacks, this sequence ends.
+→ Otherwise, if all weapons have been used to make all of their attacks, this sequence ends and the attacking unit's attacks have been resolved.
 
 ### FAQs
 **Q:** My rule says that "this unit's ranged attacks have +1 **A**" — does each of my attacks get an extra attack dice?
@@ -1402,7 +1401,7 @@ The attacks are resolved one at a time, from lowest **save rolls** to highest:
           title: 'Visibility',
           body: `**[gloss:line-of-sight:Line of sight]** is used to determine visibility between models. For an observing model to have **line of sight**, it must be possible to draw an imaginary straight line, 1 mm wide, from any part of that model to any part of the model being observed. This line is the **line of sight**. While doing so, other models in the observing model's unit and in the observed model's unit are ignored.
 
-Other models and units can be either **visible** or **[gloss:fully-visible:fully visible]** to the observing model, as shown below.
+Other models and units can be either **visible** or **[gloss:fully-visible:fully visible]** to the observing model, as shown below. Note that terrain applies additional rules to visibility (13.07).
 
 ### Model Visible
 [img:/images/visibility/model-visible-diagram.jpg|Model visibility — model partially visible]
@@ -2030,6 +2029,8 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ### Движение модели по прямой линии
 Каждый раз, когда вы перемещаете модель по прямой линии, перемещайте её горизонтально по полю боя. Измеряйте расстояние от одной и той же точки на её базе в начале и в конце этого манёвра и прибавляйте это расстояние к любому другому расстоянию, которое она преодолела с момента начала манёвра её юнита. Пройденное расстояние не может превышать **[gloss:maximum-distance:максимальное расстояние]** для данного **[gloss:move-type:типа манёвра]**.
 
+Обе показанные здесь модели могут переместиться на **максимальное расстояние** 6". Обе перемещаются на 3" по прямой линии, затем на 3" по другой прямой линии, что в сумме даёт перемещение на 6".
+
 ### Поворот модели
 Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её базы, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии. Модели без базы поворачиваются вокруг своей центральной оси (см. FRAME, 17.02).
 
@@ -2059,13 +2060,11 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Случайное движение',
-              body: `См. Случайные характеристики (02.02.03)
-
-Обе показанные здесь модели могут переместиться на **[gloss:maximum-distance:максимальное расстояние]** 6". Обе перемещаются на 3" по прямой линии, затем на 3" по другой прямой линии, что в сумме даёт перемещение на 6".`,
+              body: `См. Случайные характеристики (02.02.03)`,
             },
             {
               title: 'При перемещении на величину до',
-              body: `Некоторые правила позволяют юниту совершить манёвр на величину до X". Это указанное расстояние является **[gloss:maximum-distance:максимальным расстоянием]** для этого манёвра.`,
+              body: `Некоторые правила позволяют юниту совершить указанный **тип манёвра** на величину до X". Это указанное расстояние является **[gloss:maximum-distance:максимальным расстоянием]** для этого манёвра.`,
             },
           ],
         },
@@ -2079,7 +2078,6 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Были соблюдены все остальные требования и ограничения.
 
 Если вы не можете установить все модели в юните, удалите этот юнит с поля боя и верните его на исходную позицию (например, в [gloss:strategic-reserves:стратегические резервы] или внутри [gloss:transport:TRANSPORT]).`,
-          note: `Если вы не можете установить юнит: если в результате манёвра вам пришлось вернуть модели юнита на прежние позиции, потому что невозможно установить их всех, можно сказать что этот юнит не был выбран для совершения этого манёвра. Поэтому он может либо повторить попытку установки, либо [gloss:remain-stationary:остаться недвижимым] (09.04).`,
           children: [
             {
               title: 'Если вы не можете установить юнит',
@@ -2264,7 +2262,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 4. **Другие атаки:** следуйте первой из инструкций ниже, которая применяется:
 → Если есть какое-либо оружие, нацеленное на тот же юнит, которое ещё не использовалось для совершения атак, вернитесь к шагу «Соберите кубики атаки».
 → В противном случае, если есть какое-либо оружие с неотыгранными атаками, нацеленное на другой юнит, вернитесь к шагу «Выберите вражеский юнит».
-→ В противном случае, если все оружие использовано для совершения всех своих атак, эта последовательность заканчивается.
+→ В противном случае, если все оружие использовано для совершения всех своих атак, эта последовательность заканчивается, и атаки атакующего юнита считаются отыгранными.
 
 ### FAQs
 **В:** Моё правило говорит, что «дальнобойные атаки этого юнита получают +1 **A**» — получает ли каждая моя атака дополнительный кубик атаки?
@@ -2551,7 +2549,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           title: 'Видимость',
           body: `**[gloss:line-of-sight:Линия обзора]** используется для определения видимости между моделями. Чтобы наблюдающая модель имела **[gloss:line-of-sight:линию обзора]**, необходимо провести воображаемую прямую линию шириной 1 мм от любой части этой модели до любой части наблюдаемой модели. Эта линия является **[gloss:line-of-sight:линией обзора]**. При этом другие модели в юните наблюдающей модели и в юните наблюдаемой модели игнорируются.
 
-Другие модели и юниты могут быть либо **[gloss:visible:видимыми]**, либо **[gloss:fully-visible:полностью видимыми]** для наблюдающей модели, как показано ниже.
+Другие модели и юниты могут быть либо **[gloss:visible:видимыми]**, либо **[gloss:fully-visible:полностью видимыми]** для наблюдающей модели, как показано ниже. Обратите внимание: укрытия добавляют свои правила видимости (13.07).
 
 ### Модель видима
 [img:/images/visibility/model-visible-diagram.jpg|Диаграмма видимости — модель частично видима]

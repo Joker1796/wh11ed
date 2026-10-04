@@ -211,7 +211,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 789,
+          "t": 790,
           "in": "stepper",
           "o": [
             [
@@ -334,7 +334,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 790,
+          "t": 791,
           "in": "checkbox",
           "o": [
             [
@@ -668,7 +668,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 791,
+          "t": 792,
           "in": "checkbox",
           "o": [
             [
@@ -684,7 +684,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 792,
+          "t": 793,
           "in": "checkbox",
           "o": [
             [
@@ -797,7 +797,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 793,
+          "t": 794,
           "in": "checkbox",
           "o": [
             [
@@ -813,7 +813,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 794,
+          "t": 795,
           "in": "checkbox",
           "o": [
             [
@@ -829,7 +829,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 795,
+          "t": 796,
           "in": "stepper",
           "o": [
             [
@@ -912,7 +912,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 796,
+          "t": 797,
           "in": "stepper",
           "o": [
             [
@@ -930,7 +930,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 797,
+          "t": 798,
           "in": "checkbox",
           "o": [
             [
@@ -940,7 +940,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 798,
+          "t": 799,
           "in": "checkbox",
           "o": [
             [
@@ -1143,7 +1143,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 799,
+          "t": 800,
           "in": "checkbox",
           "o": [
             [
@@ -1211,7 +1211,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 800,
+          "t": 801,
           "in": "checkbox",
           "o": [
             [
@@ -1225,7 +1225,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 801,
+          "t": 802,
           "in": "checkbox",
           "o": [
             [
@@ -1404,7 +1404,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 804,
+          "t": 805,
           "in": "checkbox",
           "o": [
             [
@@ -1421,7 +1421,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 805,
+          "t": 806,
           "in": "checkbox",
           "o": [
             [
@@ -1437,7 +1437,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 806,
+          "t": 807,
           "in": "checkbox",
           "o": [
             [
@@ -1516,7 +1516,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 807,
+          "t": 808,
           "in": "checkbox",
           "o": [
             [
@@ -1708,7 +1708,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 808,
+          "t": 809,
           "in": "checkbox",
           "o": [
             [
@@ -1721,7 +1721,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 809,
+          "t": 810,
           "in": "checkbox",
           "o": [
             [
@@ -1791,7 +1791,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 767,
+          "t": 768,
           "in": "checkbox",
           "o": [
             [
@@ -1804,7 +1804,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 768,
+          "t": 769,
           "in": "checkbox",
           "o": [
             [
@@ -1959,7 +1959,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 810,
+          "t": 811,
           "in": "checkbox",
           "o": [
             [
@@ -1975,7 +1975,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 811,
+          "t": 812,
           "in": "checkbox",
           "o": [
             [
@@ -1991,7 +1991,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 812,
+          "t": 813,
           "in": "checkbox",
           "o": [
             [
@@ -2176,7 +2176,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 813,
+          "t": 814,
           "in": "stepper",
           "o": [
             [
@@ -2189,7 +2189,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 814,
+          "t": 815,
           "in": "stepper",
           "o": [
             [
@@ -2299,7 +2299,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 815,
+          "t": 816,
           "in": "stepper",
           "o": [
             [
@@ -2312,7 +2312,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 816,
+          "t": 817,
           "in": "stepper",
           "o": [
             [
@@ -2370,7 +2370,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 774,
+          "t": 775,
           "in": "checkbox",
           "o": [
             [
@@ -2389,7 +2389,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 778,
+          "t": 779,
           "in": "stepper",
           "o": [
             [
@@ -2580,7 +2580,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 817,
+          "t": 818,
           "in": "stepper",
           "o": [
             [
@@ -3052,7 +3052,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 818,
+          "t": 819,
           "in": "checkbox",
           "o": [
             [
@@ -3066,7 +3066,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 819,
+          "t": 820,
           "in": "checkbox",
           "o": [
             [
@@ -3080,7 +3080,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 820,
+          "t": 821,
           "in": "stepper",
           "o": [
             [
@@ -3139,7 +3139,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 821,
+          "t": 822,
           "in": "checkbox",
           "o": [
             [
@@ -3158,7 +3158,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 822,
+          "t": 823,
           "in": "checkbox",
           "o": [
             [
@@ -3181,7 +3181,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 823,
+          "t": 824,
           "in": "checkbox",
           "o": [
             [
@@ -3302,7 +3302,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 824,
+          "t": 825,
           "in": "checkbox",
           "o": [
             [
@@ -3318,7 +3318,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 825,
+          "t": 826,
           "in": "stepper",
           "o": [
             [
@@ -3529,7 +3529,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 826,
+          "t": 827,
           "in": "stepper",
           "o": [
             [
@@ -3603,7 +3603,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 774,
+          "t": 775,
           "in": "checkbox",
           "o": [
             [
@@ -3622,7 +3622,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 775,
+          "t": 776,
           "in": "stepper",
           "o": [
             [
@@ -3640,7 +3640,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 776,
+          "t": 777,
           "in": "checkbox",
           "o": [
             [
@@ -3699,7 +3699,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 827,
+          "t": 828,
           "in": "stepper",
           "o": [
             [
@@ -3896,7 +3896,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 828,
+          "t": 829,
           "in": "checkbox",
           "o": [
             [
@@ -4006,7 +4006,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 829,
+          "t": 830,
           "in": "stepper",
           "o": [
             [
@@ -4129,7 +4129,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 830,
+          "t": 831,
           "in": "checkbox",
           "o": [
             [
@@ -4187,7 +4187,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 831,
+          "t": 832,
           "in": "checkbox",
           "o": [
             [
@@ -4207,7 +4207,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 832,
+          "t": 833,
           "in": "checkbox",
           "o": [
             [
@@ -4220,7 +4220,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 833,
+          "t": 834,
           "in": "checkbox",
           "o": [
             [
@@ -4323,7 +4323,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 834,
+          "t": 835,
           "in": "stepper",
           "o": [
             [
@@ -4630,7 +4630,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 835,
+          "t": 836,
           "in": "checkbox",
           "o": [
             [
@@ -4743,7 +4743,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 836,
+          "t": 837,
           "in": "checkbox",
           "o": [
             [
@@ -4765,7 +4765,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 837,
+          "t": 838,
           "in": "checkbox",
           "o": [
             [
@@ -4787,7 +4787,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 838,
+          "t": 839,
           "in": "stepper",
           "o": [
             [
@@ -4866,7 +4866,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 839,
+          "t": 840,
           "in": "stepper",
           "o": [
             [
@@ -4936,7 +4936,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 840,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
@@ -5346,7 +5346,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 769,
+          "t": 770,
           "in": "stepper",
           "o": [
             [
@@ -5365,7 +5365,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 770,
+          "t": 771,
           "in": "checkbox",
           "o": [
             [
@@ -5381,7 +5381,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 771,
+          "t": 772,
           "in": "stepper",
           "o": [
             [
@@ -5400,7 +5400,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 772,
+          "t": 773,
           "in": "checkbox",
           "o": [
             [
@@ -5484,7 +5484,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 841,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
@@ -5494,7 +5494,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 842,
+          "t": 843,
           "in": "checkbox",
           "o": [
             [
@@ -5504,7 +5504,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 843,
+          "t": 844,
           "in": "checkbox",
           "o": [
             [
@@ -5564,7 +5564,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 841,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
@@ -5574,7 +5574,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 842,
+          "t": 843,
           "in": "checkbox",
           "o": [
             [
@@ -5584,7 +5584,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 843,
+          "t": 844,
           "in": "checkbox",
           "o": [
             [
@@ -5671,7 +5671,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 782,
+          "t": 783,
           "in": "checkbox",
           "o": [
             [
@@ -5731,7 +5731,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 841,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
@@ -5741,7 +5741,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 842,
+          "t": 843,
           "in": "checkbox",
           "o": [
             [
@@ -5751,7 +5751,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 843,
+          "t": 844,
           "in": "checkbox",
           "o": [
             [
@@ -5810,7 +5810,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 844,
+          "t": 845,
           "in": "checkbox",
           "o": [
             [
@@ -6171,7 +6171,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 845,
+          "t": 846,
           "in": "checkbox",
           "o": [
             [
@@ -6194,7 +6194,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 846,
+          "t": 847,
           "in": "checkbox",
           "o": [
             [
@@ -6211,7 +6211,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 847,
+          "t": 848,
           "in": "checkbox",
           "o": [
             [
@@ -6224,7 +6224,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 848,
+          "t": 849,
           "in": "checkbox",
           "o": [
             [
@@ -6243,7 +6243,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 849,
+          "t": 850,
           "in": "checkbox",
           "o": [
             [
@@ -6329,7 +6329,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 850,
+          "t": 851,
           "in": "checkbox",
           "o": [
             [
@@ -6538,7 +6538,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 780,
+          "t": 781,
           "in": "stepper",
           "o": [
             [
@@ -6572,7 +6572,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 781,
+          "t": 782,
           "in": "stepper",
           "o": [
             [
@@ -6702,7 +6702,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 851,
+          "t": 852,
           "in": "checkbox",
           "o": [
             [
@@ -6718,7 +6718,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 852,
+          "t": 853,
           "in": "stepper",
           "o": [
             [
@@ -6791,7 +6791,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 853,
+          "t": 854,
           "in": "stepper",
           "o": [
             [
@@ -6899,7 +6899,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 853,
+          "t": 854,
           "in": "stepper",
           "o": [
             [
@@ -6963,7 +6963,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 773,
+          "t": 774,
           "in": "checkbox",
           "o": [
             [
@@ -7026,7 +7026,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 798,
+          "t": 799,
           "in": "checkbox",
           "o": [
             [
@@ -7111,7 +7111,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 854,
+          "t": 855,
           "in": "checkbox",
           "o": [
             [
@@ -7121,7 +7121,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 855,
+          "t": 856,
           "in": "checkbox",
           "o": [
             [
@@ -7134,7 +7134,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 856,
+          "t": 857,
           "in": "checkbox",
           "o": [
             [
@@ -7147,7 +7147,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 857,
+          "t": 858,
           "in": "checkbox",
           "o": [
             [
@@ -7258,7 +7258,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 858,
+          "t": 859,
           "in": "checkbox",
           "o": [
             [
@@ -7268,7 +7268,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 859,
+          "t": 860,
           "in": "checkbox",
           "o": [
             [
@@ -7322,7 +7322,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 779,
+          "t": 780,
           "in": "checkbox",
           "o": [
             [
@@ -7418,7 +7418,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 860,
+          "t": 861,
           "in": "checkbox",
           "o": [
             [
@@ -7431,7 +7431,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 861,
+          "t": 862,
           "in": "checkbox",
           "o": [
             [
@@ -7507,7 +7507,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 862,
+          "t": 863,
           "in": "checkbox",
           "o": [
             [
@@ -7567,7 +7567,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 841,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
@@ -7780,7 +7780,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 783,
+          "t": 784,
           "in": "stepper",
           "o": [
             [
@@ -7793,7 +7793,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 784,
+          "t": 785,
           "in": "stepper",
           "o": [
             [
@@ -7935,7 +7935,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 863,
+          "t": 864,
           "in": "checkbox",
           "o": [
             [
@@ -7948,7 +7948,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 864,
+          "t": 865,
           "in": "checkbox",
           "o": [
             [
@@ -7961,7 +7961,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 865,
+          "t": 866,
           "in": "stepper",
           "o": [
             [
@@ -7974,7 +7974,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 866,
+          "t": 867,
           "in": "stepper",
           "o": [
             [
@@ -7997,7 +7997,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 867,
+          "t": 868,
           "in": "stepper",
           "o": [
             [
@@ -8079,7 +8079,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 777,
+          "t": 778,
           "in": "checkbox",
           "o": [
             [
@@ -8101,7 +8101,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 778,
+          "t": 779,
           "in": "stepper",
           "o": [
             [
@@ -8234,7 +8234,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 868,
+          "t": 869,
           "in": "checkbox",
           "o": [
             [
@@ -8250,7 +8250,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 869,
+          "t": 870,
           "in": "stepper",
           "o": [
             [
@@ -8480,7 +8480,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 870,
+          "t": 871,
           "in": "checkbox",
           "o": [
             [
@@ -8493,7 +8493,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 871,
+          "t": 872,
           "in": "checkbox",
           "o": [
             [
@@ -8563,7 +8563,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 872,
+          "t": 873,
           "in": "stepper",
           "o": [
             [
@@ -8579,7 +8579,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 873,
+          "t": 874,
           "in": "checkbox",
           "o": [
             [
@@ -8595,7 +8595,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 874,
+          "t": 875,
           "in": "checkbox",
           "o": [
             [
@@ -8657,7 +8657,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 875,
+          "t": 876,
           "in": "checkbox",
           "o": [
             [
@@ -8828,7 +8828,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 787,
+          "t": 788,
           "in": "stepper",
           "o": [
             [
@@ -8999,7 +8999,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 876,
+          "t": 877,
           "in": "stepper",
           "o": [
             [
@@ -9113,7 +9113,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 877,
+          "t": 878,
           "in": "checkbox",
           "o": [
             [
@@ -9129,7 +9129,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 878,
+          "t": 879,
           "in": "stepper",
           "o": [
             [
@@ -9142,7 +9142,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 879,
+          "t": 880,
           "in": "stepper",
           "o": [
             [
@@ -9241,7 +9241,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 788,
+          "t": 789,
           "in": "stepper",
           "o": [
             [
@@ -9324,7 +9324,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 884,
+          "t": 885,
           "in": "checkbox",
           "o": [
             [
@@ -9440,7 +9440,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 778,
+          "t": 779,
           "in": "stepper",
           "o": [
             [
@@ -9463,7 +9463,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 774,
+          "t": 775,
           "in": "checkbox",
           "o": [
             [
@@ -9571,7 +9571,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 785,
+          "t": 786,
           "in": "stepper",
           "o": [
             [
@@ -9584,7 +9584,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 786,
+          "t": 787,
           "in": "stepper",
           "o": [
             [
@@ -9700,7 +9700,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 880,
+          "t": 881,
           "in": "checkbox",
           "o": [
             [
@@ -9716,7 +9716,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 881,
+          "t": 882,
           "in": "checkbox",
           "o": [
             [
@@ -9729,7 +9729,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 882,
+          "t": 883,
           "in": "stepper",
           "o": [
             [
@@ -9742,7 +9742,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 883,
+          "t": 884,
           "in": "stepper",
           "o": [
             [
@@ -9816,7 +9816,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 802,
+          "t": 803,
           "in": "checkbox",
           "o": [
             [
@@ -9855,7 +9855,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 803,
+          "t": 804,
           "in": "checkbox",
           "o": [
             [
@@ -10506,7 +10506,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 841,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
@@ -11580,6 +11580,27 @@ export default {
           "strike-force": 1
         }
       },
+      "free": [
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Inquisitor"
+          ],
+          "recv": [
+            "Inquisitorial Agents"
+          ]
+        },
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Character",
+            "Voidfarers"
+          ],
+          "recv": [
+            "Voidsmen-At-Arms"
+          ]
+        }
+      ],
       "up": {
         "imperial-agents:inquisitor-draxus": {
           "1": 110
@@ -11613,6 +11634,7 @@ export default {
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
+          "11": 120,
           "12": 120
         },
         "imperial-agents:inquisitor-coteaz": {
@@ -11689,5 +11711,11 @@ export default {
       },
       "mutex": 1
     }
-  ]
+  ],
+  "sharedDetachments": [
+    "Deathwatch Support"
+  ],
+  "sharedDetachmentFrom": {
+    "Deathwatch Support": "deathwatch"
+  }
 }

@@ -30,11 +30,13 @@ describe('DetachmentOption', () => {
 
   // A compact row with a tag and two dispositions cannot hold them beside its name: it takes two
   // lines, the cost up by the name (Awakened Dynasty, owner 2026-10-01). A lighter row stays one line.
-  it('stacks a crowded compact row, and leaves a light one on one line', () => {
-    const crowded = mount(DetachmentOption, { props: { name: 'Awakened Dynasty', unique: 'DYNASTY', forceDispositions: ['Take and Hold', 'Priority Assets'], dp: 3, compact: true } })
-    expect(crowded.classes()).toContain('stacked')
-    const light = mount(DetachmentOption, { props: { name: 'Warpbane Task Force', forceDispositions: ['Take and Hold', 'Purge the Foe'], dp: 3, compact: true } })
-    expect(light.classes()).not.toContain('stacked')
+  // A tag and two dispositions fit one line of the desk's dropdown in every faction (measured
+  // 2026-10-03), so no row is sent onto two lines by rule any more — it carries all of it on one.
+  it('keeps a full compact row on one line, tag and both dispositions shown', () => {
+    const w = mount(DetachmentOption, { props: { name: 'Awakened Dynasty', unique: 'DYNASTY', forceDispositions: ['Take and Hold', 'Priority Assets'], dp: 3, compact: true } })
+    expect(w.classes()).not.toContain('stacked')
+    expect(w.find('.det-unique').text()).toBe('DYNASTY')
+    expect(w.findAll('.det-fds .tone-chip')).toHaveLength(2)
   })
 
   // The faction bar reuses its picker for the Chapter list — plain names, no colour, no cost.

@@ -61,6 +61,30 @@ describe('duplicateLimit', () => {
   })
 })
 
+describe('validateRoster — no limit and the archive', () => {
+  const crowd = () => [U('marneus'), U('marneus'), ...Array.from({ length: 30 }, () => U('ballistus-dreadnought'))]
+  it('a list with no limit is never over points, DP or duplicates', () => {
+    const list = roster({ battleSize: 'none', units: crowd() })
+    const { points, issues } = validateRoster(list, { faction, core })
+    expect(points).toBeGreaterThan(2000)
+    expect(issues.map((i) => i.code)).not.toEqual(expect.arrayContaining(['overPoints']))
+    expect(issues.map((i) => i.code).filter((c) => c === 'overDuplicate')).toHaveLength(1) // Marneus: EPIC HERO, not a size limit
+  })
+  it('holds a custom list to the player\u2019s own limits', () => {
+    const list = roster({ battleSize: 'custom', customPoints: 2000, customLimits: { dup: 1, line: 3 },
+      units: [U('ballistus-dreadnought'), U('ballistus-dreadnought'), ...Array.from({ length: 4 }, () => U('intercessor-squad'))] })
+    const dups = validateRoster(list, { faction, core }).issues.filter((i) => i.code === 'overDuplicate')
+    expect(dups.map((i) => i.params.limit).sort()).toEqual([1, 3])
+    expect(duplicateLimit(intercessor, { dupLimit: 1, lineLimit: 3 })).toBe(3)
+    expect(duplicateLimit(intercessor, 3)).toBe(6)
+  })
+  it('an archived list is priced but never judged', () => {
+    const list = roster({ archived: true, faction: null, units: crowd() })
+    expect(validateRoster(list, { faction, core })).toMatchObject({ issues: [], errorCount: 0 })
+    expect(codes({ ...list, archived: undefined }).length).toBeGreaterThan(0)
+  })
+})
+
 describe('validateRoster — completeness', () => {
   it('warns when faction or detachment is missing', () => {
     expect(codes({ ...roster(), faction: null })).toContain('noFaction')

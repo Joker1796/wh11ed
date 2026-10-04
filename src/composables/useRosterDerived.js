@@ -21,7 +21,7 @@ import { computed } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import {
-  allySourceOf, capKeyOf, effectiveBattle, grantedKeywordsFor, leadsFor, rosterPoints,
+  allySourceOf, capKeyOf, effectiveBattle, grantedKeywordsFor, leadsFor, legalityOn, rosterPoints,
   sectionsOf, unitPoints,
 } from './rosterEngine.js'
 import { duplicateCounts, duplicateLimit, validateRoster } from './rosterValidation.js'
@@ -96,13 +96,13 @@ export function useRosterDerived(roster, factionData) {
   // going through the catalogue would be the one that ignores the cap.
   const dupCounts = computed(() => duplicateCounts(units.value, defOf))
   function dupBlocked(e) {
-    if (roster.value?.checkLegality === false) return false
+    if (!legalityOn(roster.value)) return false
     const def = defOf(e.id)
     if (!def) return true
     // Battleline the army's Detachments grant doubles the cap — the same question sectionsOf and
     // validateRoster ask, so the copy button can never disagree with the warning list.
     const granted = grantedKeywordsFor(allySourceOf(def.id)?.[1] || def.id, slugFor(def.id), curDetachments.value).map((g) => g.kw)
-    const cap = effBattle.value?.dupLimit ? duplicateLimit(def, effBattle.value.dupLimit, granted) : Infinity
+    const cap = effBattle.value?.dupLimit != null ? duplicateLimit(def, effBattle.value, granted) : Infinity
     return (dupCounts.value.get(capKeyOf(def)) || 0) >= cap
   }
 

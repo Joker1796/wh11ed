@@ -38,12 +38,14 @@
           {{ labels.partyJoinGo }}
         </button>
       </form>
-      <p
-        v-if="error"
-        class="pj-err"
-      >
-        {{ error }}
-      </p>
+      <ExpandTransition>
+        <p
+          v-if="error"
+          class="pj-err"
+        >
+          {{ error }}
+        </p>
+      </ExpandTransition>
     </template>
 
     <!-- Step two: the seat, named by the game's own players. A seat another phone holds is
@@ -75,12 +77,14 @@
           </button>
         </li>
       </ul>
-      <p
-        v-if="error"
-        class="pj-err"
-      >
-        {{ error }}
-      </p>
+      <ExpandTransition>
+        <p
+          v-if="error"
+          class="pj-err"
+        >
+          {{ error }}
+        </p>
+      </ExpandTransition>
     </template>
 
     <!-- The reader's own unfinished game stands in the way: it goes to history at its current
@@ -98,6 +102,7 @@
 </template>
 
 <script setup>
+import ExpandTransition from '../../components/ExpandTransition.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'

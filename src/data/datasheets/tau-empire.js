@@ -197,7 +197,7 @@ export default [
     "profiles": [
       {
         "name": "Ax-1-0 Tiger Shark",
-        "m": "20+\"",
+        "m": "-",
         "t": "11",
         "sv": "3+",
         "w": "18",
@@ -496,7 +496,7 @@ export default [
         "points": 80
       }
     ],
-    "flavor": "Where enemies must be driven from fortified positions or void ships boarded, there go the Fire Warriors of the Breacher Teams. Their pulse blasters are short ranged but lethal, and when coupled with the team’s tough armour, tactical discipline and specialist support drones, Breacher Teams become lethal at close quarters.",
+    "flavor": "Where enemies must be driven from fortified positions or voidships boarded, there go the Fire Warriors of the Breacher Teams. Their pulse blasters are short ranged but lethal, and when coupled with the team’s tough armour, tactical discipline and specialist support drones, Breacher Teams become nigh-unstoppable at close quarters.",
     "profiles": [
       {
         "name": "Breacher Team",
@@ -920,7 +920,7 @@ export default [
         "points": 70
       }
     ],
-    "flavor": "Aggressive and rebellious, Commander O’Shova is the master of the Mont’ka, the Killing Blow. Piloting his crimson battlesuit he carves a bloody path into the enemy, leading his separatist Fire Caste forces and wielding the enigmatic Dawn Blade with such strength and skill that no foe can stand against him.",
+    "flavor": "Aggressive and rebellious, Commander Farsight is the master of Mont’ka, the Killing Blow. Piloting his crimson battlesuit, O’Shovah carves a bloody path into the enemy, leading his separatist Fire caste forces and wielding the enigmatic Dawn Blade with such strength and skill that no foe can stand against him.",
     "profiles": [
       {
         "name": "Commander Farsight",
@@ -1139,7 +1139,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1537,7 +1537,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1624,7 +1624,7 @@ export default [
         "points": 100
       }
     ],
-    "flavor": "Accompanied by advanced shield and command drones, Commander O’Shaserra surges dynamically into battle. She is the master of the Kauyon, laying cunning ambushes for her enemies then striking with merciless fury. O’Shaserra spearheads these attacks from the front, and every shot from her fusion blasters heralds another fallen foe.",
+    "flavor": "Accompanied by advanced shield and command drones, Commander Shadowsun surges dynamically into battle. She is the master of Kauyon, laying cunning ambushes for her enemies then striking with merciless fury. O’Shaserra spearheads these attacks from the front and every shot from her fusion blasters heralds another fallen foe.",
     "profiles": [
       {
         "name": "Commander Shadowsun",
@@ -2117,7 +2117,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -2194,7 +2194,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "The XV8 Crisis Battlesuit is the most iconic and versatile fighting platform available to the Fire caste. When equipped with paired fusion blasters and shield generator it is said to be in the Sunforge conf iguration and becomes a devastating asset for hunting armoured vehicles or monstrous war beasts, slaying them with blasts of superthermic energy.",
+    "flavor": "The XV8 Crisis Battlesuit is the most iconic and versatile fighting platform available to the Fire caste. When equipped with paired fusion blasters and shield generator it is said to be in the Sunforge configuration and becomes a devastating asset for hunting armoured vehicles or monstrous war beasts, slaying them with blasts of superthermic energy.",
     "profiles": [
       {
         "name": "Crisis Sunforge Battlesuits",
@@ -2694,7 +2694,7 @@ export default [
         "points": 55
       }
     ],
-    "flavor": "Hidden behind shimmering stealth fields, the Firesight Marksmen play their targeting instruments over the foe and transmit data to the MV71 Sniper Drones in their thrall. In this way they augment the fire- prioritisation routines of the drones’ artificial intelligences, rendering them smarter, more cunning and even more deadly to distant foes.",
+    "flavor": "Hidden behind shimmering stealth fields, the Firesight Marksmen play their targeting instruments over the foe and transmit data to the MV71 sniper drones in their thrall. In this way they augment the fire-prioritisation routines of the drones’ artificial intelligences, rendering them smarter, more cunning and even more deadly to distant foes.",
     "profiles": [
       {
         "name": "Firesight Team",
@@ -2866,7 +2866,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -3378,7 +3378,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "Swift and vicious, Kroot Carnivore squads employ fieldcraft and predatory instinct to close rapidly with their foes. What they lack in resilience, they more than make up for in close-ranged savagery, hammering enemies with volleys from their rifles before charging in to rip and tear their victims to gory ribbons.",
+    "flavor": "Swift and vicious, Kroot Carnivore squads employ fieldcraft and predatory instinct to close rapidly with their foes. What they lack in resilience, they more than make up for in close-ranged savagery, hammering enemies with volleys from their Kroot rifles before charging in to rip and tear their victims to gory ribbons.",
     "profiles": [
       {
         "name": "Kroot Carnivores",
@@ -3500,17 +3500,27 @@ export default [
     "flavor": "Farstalker Kinbands are opportunistic mercenaries often operating for years far from the Kroot home world. They are experienced raiders, scouts and infiltrators, setting masterful ambushes from which to unleash the deadly weapons they have amassed over long careers as ruthless bounty hunters.",
     "profiles": [
       {
-        "name": "FARSTALKERS & KILL-BROKER",
+        "name": "Kroot Kill-broker",
         "m": "7\"",
         "t": "3",
         "sv": "6+",
         "w": "1",
         "ld": "7+",
         "oc": "1",
-        "baseSize": "28.5mm / 32mm"
+        "baseSize": "32mm"
       },
       {
-        "name": "KROOT HOUNDS",
+        "name": "Kroot Farstalker",
+        "m": "7\"",
+        "t": "3",
+        "sv": "6+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1",
+        "baseSize": "28.5mm"
+      },
+      {
+        "name": "Kroot Hound",
         "m": "12\"",
         "t": "3",
         "sv": "6+",
@@ -3529,7 +3539,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "-1",
         "d": "1"
@@ -3657,7 +3667,7 @@ export default [
         "points": 45
       }
     ],
-    "flavor": "All Shapers bear some responsibility for the gradual guidance of their fellows’ genetic makeup through ingestion of selected preg. The Flesh Shapers take this art to a more immediate and visceral extreme through the use of gruesome flesh-fetishes and ritualised butchery whose psychosomatic impact upon the Kroot is remarkable.",
+    "flavor": "All Shapers bear some responsibility for the gradual guidance of their fellows’ genetic makeup through ingestion of selected prey. The Flesh Shapers take this art to a more immediate and visceral extreme through the use of gruesome flesh-fetishes and ritualised butchery whose psychosomatic impact upon the Kroot is remarkable.",
     "profiles": [
       {
         "name": "Kroot Flesh Shaper",
@@ -3800,7 +3810,7 @@ export default [
         "points": 80
       }
     ],
-    "flavor": "Whether loners or grizzled mercenaries unable to fit within Kroot society, Lone-spears prefer the company of beasts and the surrounds of the wild. Mounted upon chameleonic Kalamondras, they make for talented long-range scouts. Moreover, armed with suitably potent firearms the Lone-spears excel in picking off valuable enemy targets and even eliminating armoured fighting vehicles.",
+    "flavor": "Whether loners or grizzled mercenaries unable to fit within Kroot society, Lone-spears prefer the company of beasts and the surrounds of the wild. Mounted upon chameleonic Kalamandras, they make for talented long-range scouts. Moreover, armed with suitably potent firearms the Lone-spears excel in picking off valuable enemy targets and even eliminating armoured fighting vehicles.",
     "profiles": [
       {
         "name": "Kroot Lone-spear",
@@ -3911,7 +3921,7 @@ export default [
         "points": 50
       }
     ],
-    "flavor": "Trail Shapers are more than simply masters of fieldcraft. As their title implies, they work with instinctive skill to shape the very battlef ield upon which the Kroot will meet their prey, the guiding routes along which the hunt will progress and the nature of the engagements in which their kindreds fight. A single Trail Shaper can alter the entire character of a war in the favour of the T’au Empire.",
+    "flavor": "Trail Shapers are more than simply masters of fieldcraft. As their title implies, they work with instinctive skill to shape the very battlefield upon which the Kroot will meet their prey, the guiding routes along which the hunt will progress and the nature of the engagements in which their kindreds fight. A single Trail Shaper can alter the entire character of a war in the favour of the T’au Empire.",
     "profiles": [
       {
         "name": "Kroot Trail Shaper",
@@ -4115,7 +4125,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Juvenile Krootox exhibit greater aggression and agility than their elders. Bands ofKroot make use of these facets by riding the Krootox into battle in Rampager packs. They act os ambushers, terror troops and skirmish cavalry, striking fast at their foes from unexpected quarters and seeking to break their battle lines to leave them vulnerable to the rest of the Hunting Pack.",
+    "flavor": "Juvenile Krootox exhibit greater aggression and agility than their elders. Bands of Kroot make use of these facets by riding the Krootox into battle in Rampager packs. They act as ambushers, terror troops and skirmish cavalry, striking fast at their foes from unexpected quarters and seeking to break their battle lines to leave them vulnerable to the rest of the Hunting Pack.",
     "profiles": [
       {
         "name": "Krootox Rampagers",
@@ -5023,11 +5033,11 @@ export default [
         "points": 160
       }
     ],
-    "flavor": "The Razorshark is an air superiority fighter with enough resilience and potent firepower to double as an alarmingly effective ground-attack craft at need. Deployed in large numbers to win control of the skies ahead of major T’au offensives, Razorsharks fill the skies with hails of searing ion blasts and streaking seeker missiles.",
+    "flavor": "The Razorshark is an air superiority fighter with enough resilience and potent firepower to double as an alarmingly effective ground-attack craft at need. Deployed in large numbers to win control of the skies ahead of major T’au offensives, Razorsharks fill the air with hails of searing ion blasts and streaking seeker missiles.",
     "profiles": [
       {
         "name": "Razorshark Strike Fighter",
-        "m": "20+\"",
+        "m": "-",
         "t": "10",
         "sv": "3+",
         "w": "12",
@@ -6016,7 +6026,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -6223,11 +6233,11 @@ export default [
         "points": 150
       }
     ],
-    "flavor": "Able to micro-manufacture its own energy-munitions in the heat of battle, the Sun Shark drops thrumming ’pulse bombs onto the foe and obliterates them in ferocious blasts of unleashed power. Boasting sufficient support weaponry to fight off enemy attempts at aerial interdiction, formations of these aircraft form mobile airborne fortresses in the heat of battle.",
+    "flavor": "Able to micro-manufacture its own energy-munitions in the heat of battle, the Sun Shark drops thrumming pulse bombs onto the foe and obliterates them in ferocious blasts of unleashed power. Boasting sufficient support weaponry to fight off enemy attempts at aerial interdiction, formations of these aircraft form mobile airborne fortresses in the heat of battle.",
     "profiles": [
       {
         "name": "Sun Shark Bomber",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "12",
@@ -7010,9 +7020,8 @@ export default [
       }
     ],
     "composition": [
-      "1-2 Tidewall Shieldlines"
+      "1 Tidewall Shieldline"
     ],
-    "loadout": "This model can be equipped with 1 Tidewall defence platform",
     "options": [
       "This model can be equipped with 1 Tidewall defence platform."
     ],
@@ -7049,7 +7058,7 @@ export default [
     "profiles": [
       {
         "name": "Tiger Shark",
-        "m": "20+\"",
+        "m": "-",
         "t": "11",
         "sv": "3+",
         "w": "18",
@@ -7399,7 +7408,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -7433,7 +7442,7 @@ export default [
       "1 Vespid Strain Leader",
       "4-9 Vespid Stingwings"
     ],
-    "loadout": "**Every model is equipped with:** neutron blaster; stingwing claws.",
+    "loadout": "**Each model is equipped with:** neutron blaster; stingwing claws.",
     "options": [
       "If this unit contains 10 models:\n▪ The Vespid Strain Leader can be equipped with 1 Oversight Drone.\n▪ 1 Vespid Stingwing can replace its neutron blaster with 1 T’au flamer\n▪ 1 Vespid Stingwing can replace its neutron blaster with 1 neutron grenade launcher\n▪ 1 Vespid Stingwing can replace its neutron blaster with 1 neutron rail rifle."
     ],

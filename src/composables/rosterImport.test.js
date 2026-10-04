@@ -308,6 +308,42 @@ Exported with App Version: v2.4.0 (1), Data Version: v925
 
 Exported from listhammer.info: https://listhammer.info/list/5d540378ffc45bcff8`
 
+// "-> Name" under a unit's block: the character joined to that unit (a Custodes list in the import
+// corpus, 2026-10-03 — two of the five were allied Inquisitors). Read as datasheet names, all five
+// were lost.
+describe('matchRoster — a character written as "-> Name" under its unit', () => {
+  const LIST = `Arrows (2000 points)
+
+Adeptus Custodes
+Lions of The Emperor (3 Detachment Points)
+Strike Force (2000 Point)
+
+Custodian Guard (170 points)
+• 4x Custodian Guard
+-> Inquisitor (65 points)
+• 1x Combi-weapon
+
+Custodian Wardens (210 points)
+• 4x Custodian Wardens
+-> Blade Champion (120 points)
+
+OTHER DATASHEETS
+
+Prosecutors (40 points)
+• 4x Prosecutors
+`
+  it('attaches each to the unit above it, an allied one included', async () => {
+    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const ctx = { faction: await loadRosterFaction('adeptus-custodes', { allies: true }), core: rosterCore, items: rosterItems.items }
+    const { payload, report } = matchRoster(parseList(LIST), ctx)
+    expect(report.missing).toEqual([])
+    const byId = (id) => payload.units.find((u) => u.id === id)
+    expect(byId('imperial-agents:inquisitor').leaderOf).toBe(byId('custodian-guard').uid)
+    expect(byId('blade-champion').leaderOf).toBe(byId('custodian-wardens').uid)
+    expect(byId('prosecutors').leaderOf).toBeUndefined()
+  })
+})
+
 describe('parseList — listhammer.info, detailed mode', () => {
   const p = parseList(LH_FULL)
 

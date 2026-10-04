@@ -430,6 +430,22 @@ describe('effectiveBattle', () => {
     expect(effectiveBattle({ battleSize: 'custom', customPoints: 800 }, core)).toMatchObject({ points: 800, dupLimit: 2, custom: true })
     expect(effectiveBattle({ battleSize: 'custom', customPoints: 5000 }, core)).toMatchObject({ points: 5000, dupLimit: 3, custom: true })
   })
+  // "No limit" lifts every limit hanging on the size, and still names the largest bracket for the
+  // ally tables.
+  // The player's own limits on a custom size: each key on its own, the rest still borrowed, the
+  // Battleline limit twice the copies unless set itself — and none of it outside a custom size.
+  it('takes the player\u2019s own limits on a custom size, borrowing what is not set', () => {
+    const own = { battleSize: 'custom', customPoints: 1500, customLimits: { dp: 1, dup: 2 } }
+    expect(effectiveBattle(own, core)).toMatchObject({ dp: 1, enhLimit: 4, dupLimit: 2, lineLimit: 4, ownLimits: true, base: 'strike-force' })
+    expect(effectiveBattle({ ...own, customLimits: { line: 9 } }, core)).toMatchObject({ dupLimit: 3, lineLimit: 9, ownLimits: true })
+    expect(effectiveBattle({ ...own, customLimits: { dp: -1, enh: 'x' } }, core)).toMatchObject({ dp: 3, enhLimit: 4, ownLimits: false })
+    expect(effectiveBattle({ battleSize: 'incursion', customLimits: { dp: 9 } }, core)).toMatchObject({ dp: 2, lineLimit: 4 })
+  })
+  it('lifts every limit for a list with no limit', () => {
+    expect(effectiveBattle({ battleSize: 'none' }, core)).toMatchObject({
+      points: Infinity, dp: Infinity, enhLimit: Infinity, dupLimit: Infinity, base: 'onslaught', unlimited: true,
+    })
+  })
 })
 
 describe('rosterPoints', () => {
@@ -1237,6 +1253,59 @@ describe('defaultLoadoutLines on a partial swap of copies', () => {
     const items = { 1: 'Shuriken catapult', 3: 'Flamer' }
     expect(defaultLoadoutLines(lord, items, { size: 0, wg: [[0, 0, 1]] })[0].items).toBe('Shuriken catapult ×1')
     expect(defaultLoadoutLines(lord, items, { size: 0, wg: [[0, 0, 2]] })).toEqual([])
+  })
+})
+
+describe('an "X or Y" swap on a profile whose models are not alike (alt)', () => {
+  // Havocs: a champion, then four Havocs — two with autocannons, two with lascannons (profile
+  // totals) — and "any number of Havocs can each have their autocannon or lascannon replaced".
+  // Until 2026-10-03 that group replaced nothing and four heavy bolters sat beside four heavy
+  // weapons (a player's report).
+  const havocs = {
+    minis: [{ n: 'Havoc Champion' }, { n: 'Havoc' }],
+    sizes: [{ pts: 135, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] }],
+    defaults: [[1, [[1, 2, 1], [3, 1], [2, 2, 1]]], [0, [[4, 1]]]],
+    gear: [{ m: 1, t: 1, in: 'stepper', o: [[1], [5], [2]], rep: [1, 2], alt: 1 }],
+  }
+  const items = { 1: 'Autocannon', 2: 'Lascannon', 3: 'Close combat weapon', 4: 'Flamer', 5: 'Heavy bolter' }
+  const havocLine = (wg) => defaultLoadoutLines(havocs, items, { size: 0, wg }).find((l) => l.mini === 'Havoc')?.items
+
+  it('prints the two halves of the profile as they are', () => {
+    expect(havocLine([])).toBe('Autocannon ×2, Close combat weapon, Lascannon ×2')
+  })
+
+  it('spends each pick on ONE of the two weapons, never both', () => {
+    expect(havocLine([[0, 1, 2]])).toBe('Close combat weapon, Lascannon ×2')
+    expect(havocLine([[0, 1, 4]])).toBe('Close combat weapon')
+    expect(swapOverdraft(havocs, { size: 0, wg: [[0, 1, 4]] })).toEqual([])
+  })
+
+  it('takes a pick for the weapon a model already has from the OTHER half first', () => {
+    // Two "autocannon" picks are the two lascannon Havocs changing weapons; the option's own
+    // autocannons are added back on top by the readers (removed is gross).
+    expect(havocLine([[0, 0, 2]])).toBe('Autocannon ×2, Close combat weapon')
+  })
+
+  it('pools both halves as the room the group has, and reports a pick past it', () => {
+    expect(swapRoom(havocs, { size: 0, wg: [] }, 0)).toBe(4)
+    expect(swapOverdraft(havocs, { size: 0, wg: [[0, 1, 5]] })).not.toEqual([])
+  })
+})
+
+describe('a swap that reaches a profile-total line', () => {
+  // Seven of nine Navis Armsmen carry the shotgun — a total, not one per model. It used to be no
+  // stock at all, so a swap took nothing off it.
+  const breachers = {
+    minis: [{ n: 'Sergeant' }, { n: 'Armsman' }],
+    sizes: [{ pts: 100, per: [10, 10], default: 1, comp: [[0, 1], [1, 9]] }],
+    defaults: [[0, [[3, 1]]], [1, [[1, 7, 1], [2, 1]]]],
+    gear: [{ m: 1, t: 1, in: 'checkbox', o: [[4]], rep: [1] }],
+  }
+  const items = { 1: 'Navis shotgun', 2: 'Close combat weapon', 3: 'Bolt pistol', 4: 'Meltagun' }
+
+  it('takes one copy off per model that swapped', () => {
+    const line = defaultLoadoutLines(breachers, items, { size: 0, wg: [[0, 0, 1]] }).find((l) => l.mini === 'Armsman')
+    expect(line.items).toBe('Navis shotgun ×6, Close combat weapon')
   })
 })
 

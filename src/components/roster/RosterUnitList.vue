@@ -86,7 +86,7 @@
             :data-flip="e.uid"
             :class="{
               'rul-attached': e.leaderOf,
-              'rul-host': blockOf(g.entries, e).length,
+              'rul-host': blockOf(g.entries, e).length || defOf(e.id)?.crew?.length,
               'rul-picked': inPane && openUid === e.uid,
             }"
           >
@@ -223,6 +223,21 @@
               </div>
             </CollapseTransition>
           </div>
+          <!-- Who comes WITH the unit and cannot be bought on his own (the data's `crew` — Sir
+               Hekhtur under Canis Rex): a row of his own, no points, nothing to configure; a tap
+               opens his card (owner, 2026-10-04). It goes when the unit goes. -->
+          <button
+            v-for="c in defOf(e.id)?.crew || []"
+            :key="c.id"
+            type="button"
+            class="rul-unit rul-crew"
+            :data-flip="e.uid + ':' + c.id"
+            @click="crewCard = { id: c.id, slug: slugOf(e.id) }"
+          >
+            <i class="bi bi-arrow-return-right rul-crew-mark" />
+            <span class="rul-crew-name">{{ c.name }}</span>
+            <span class="rul-crew-pts">0</span>
+          </button>
         </template>
       </template>
     </template>
@@ -248,6 +263,12 @@
         </FactionAccentScope>
       </div>
     </BaseModal>
+    <RosterUnitRulesModal
+      v-if="crewCard"
+      :unit-id="crewCard.id"
+      :faction-slug="crewCard.slug"
+      @close="crewCard = null"
+    />
   </div>
 </template>
 
@@ -259,6 +280,7 @@ import ActionMenu from '../ActionMenu.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import RosterUnitRow from './RosterUnitRow.vue'
+import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
@@ -321,7 +343,8 @@ useFlipMove(shape, listEl, { onAppear: pointAtNew })
 // pane's fold. Outline it for a moment, and bring it into view if it is not. One new tile only:
 // several at once is a list being loaded or rebuilt, not a unit being added.
 function pointAtNew(nodes) {
-  const tiles = nodes.filter((n) => n.classList.contains('rul-unit'))
+  // A crew row arrives with its unit and is not a second unit added.
+  const tiles = nodes.filter((n) => n.classList.contains('rul-unit') && !n.classList.contains('rul-crew'))
   if (tiles.length !== 1) return
   const tile = tiles[0]
   const ms = motionMs('--motion-flash')
@@ -346,6 +369,10 @@ function revealInPane(tile) {
   const delta = r.top < box.top ? r.top - box.top - 8 : r.bottom > box.bottom ? r.bottom - box.bottom + 8 : 0
   if (delta) pane.scrollTo({ top: pane.scrollTop + delta, behavior: motionMs('--motion-med') ? 'smooth' : 'auto' })
 }
+
+// The crew row's card (Sir Hekhtur): `{ id, slug }` of his datasheet. No entry behind it, so the card
+// is the printed sheet.
+const crewCard = ref(null)
 
 const openEntry = computed(() => {
   for (const g of props.groups) {
@@ -485,6 +512,23 @@ watch(naming, (on) => {
 .rul-bhead + .rul-unit { border-top: none; }
 .rul-unit.rul-attached,
 .rul-unit.rul-host { border-left: 2px solid var(--accent); }
+/* The crew row hangs off its unit like an attached tile, slimmer: a name and a zero. */
+.rul-unit:has(+ .rul-crew) { margin-bottom: 0; }
+.rul-unit.rul-crew {
+  display: flex; align-items: center; gap: 0.5rem; width: 100%;
+  padding: 0.35rem 0.6rem; border-left: 2px solid var(--accent);
+  /* Its own top edge, laid over the unit's bottom one: hovered, the row lights all four sides. */
+  position: relative; margin-top: -1px;
+  font: inherit; text-align: left; cursor: pointer; color: var(--text-primary);
+}
+/* …and the unit, hovered, lays its bottom edge back over the crew's top one. */
+@media (hover: hover) {
+  .rul-unit.rul-crew:hover,
+  .rul-unit:has(+ .rul-crew):hover { position: relative; z-index: 1; }
+}
+.rul-crew-mark { flex: none; color: var(--text-dim); font-size: 0.75rem; }
+.rul-crew-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.85rem; }
+.rul-crew-pts { flex: none; padding-right: var(--rul-acts-w, 2rem); font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; }
 
 /* The action button is OUT of the row's flow, over the tile's top-right corner, and the row itself
    spans the full width underneath it. In flow it was a column as tall as the tile: ~4rem taken
@@ -568,6 +612,9 @@ watch(naming, (on) => {
   /* The fold eats into the row's own left padding rather than adding to it. */
   .rul-fold + .rul-row { padding-left: 0.15rem; }
   .rul-chev { display: none; }
+  /* The unit's points drop to the right edge here; the crew's zero goes with them. */
+  .rul-unit.rul-crew { padding: 0.35rem 0.5rem; }
+  .rul-crew-pts { padding-right: 0; }
   /* Matches the button's new width: the reserve is what keeps the name's text out from
      under a control that would otherwise take the tap meant for the row. */
   .rul-headrow { --rul-acts-w: 2rem; }

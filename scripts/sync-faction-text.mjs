@@ -31,7 +31,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, SLUG_MAP, norm, appdataToMarkup, bodyText, currentWargearRules, loadModule, byNormName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { APPDATA, ROOT, SLUG_MAP, norm, appdataToMarkup, bodyText, currentWargearRules, loadModule, byNormName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 
 // Strip wh11ed's enrichment layer (and appdata's residual markup) down to bare comparable words.
@@ -40,6 +40,9 @@ import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 function plainText(s) {
   if (!s) return ''
   let t = s
+  // appdata's HTML entities ("&#x65;xcluding", "Not&#x65;") — a character, not a word break
+  t = t.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d)).replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
   t = t.replace(/\[gloss:[^:\]]+:([^\]]*)\]/g, '$1') // [gloss:id:label] → label
   t = t.replace(/\[def:[^:\]]+:([^\]]*)\]/g, '$1') // [def:id:label] → label
   t = t.replace(/\[core:([^\]]*)\]/g, '$1') // [core:Stealth] → Stealth
@@ -56,6 +59,11 @@ function plainText(s) {
   // modifiers) and / (keyword unions), which can carry meaning.
   t = t.toLowerCase().replace(/[^a-z0-9"/+%-]+/g, ' ').replace(/\s+/g, ' ').trim()
   t = t.replace(/\b([a-z]+) \1\b/g, '$1') // appdata stutters ("and it it can only") — wh11ed fixes them
+  t = t.replace(/\b(\d) cp\b/g, '$1cp') // "1 CP" ⇄ "1CP"
+  // A detachment's tag sentence: the tags are the MFM's to give and take (owner, 2026-08-26) and
+  // `npm run detmeta` holds them to it; in prose the two sides print and drop it independently.
+  t = t.replace(/\bthis detachment has the [a-z0-9 ]+? tag and cannot be taken with another [a-z0-9 ]+? detachment\b/g, ' ').replace(/\s+/g, ' ').trim()
+  t = t.replace(/(^| )-( |$)/g, ' ').replace(/\s+/g, ' ').trim() // a dash used as a separator, not a minus
   return t
 }
 
@@ -96,8 +104,10 @@ function compare(out, label, whText, appCandidates) {
     return
   }
   if (cands.some((c) => plainText(c) === wh)) return // matches a canonical variant — in sync
-  const app = cands[0]
-  const { whMid, appMid } = wordDiff(wh, plainText(app))
+  // Shown against the closest candidate — the one leaving the fewest words unmatched — so a
+  // combined rule is diffed against the app's rules joined, not against its first section.
+  const diffs = cands.map((c) => ({ c, ...wordDiff(wh, plainText(c)) }))
+  const { c: app, whMid, appMid } = diffs.sort((x, y) => (x.whMid.length + x.appMid.length) - (y.whMid.length + y.appMid.length))[0]
   out.push(`  ~ ${label}: text differs from appdata`)
   if (whMid && appMid) {
     out.push(`      wh11ed:  …${whMid}…`)
@@ -108,6 +118,44 @@ function compare(out, label, whText, appCandidates) {
     out.push(`      appdata has (missing in wh11ed): …${appMid}…`)
   }
   out.push(`      canonical (paste-ready):\n        ${app.replace(/\n/g, '\n        ')}`)
+}
+
+// Our one rule often carries several of the app's under `### Name` headings (Combat Doctrines
+// with Transhuman Strategist and Librarius; Waaagh! with Da Boss; a detachment's Restrictions):
+// each such section is compared with the app's rule of that name, and the rest — including a
+// `###` heading that names no other rule (Voice of Command's "The Orders") — with the main one.
+function visitSections(visit, label, mainName, body, appRules) {
+  const used = new Set()
+  const parts = String(body).split(/\n(?=### )/)
+  const main = [parts[0]]
+  const sections = []
+  for (const part of parts.slice(1)) {
+    const heading = part.match(/^### ([^\n|]+)/)[1].trim()
+    const rule = appRules.find((r) => !used.has(r) && !nameRelated(mainName, r.name) && nameRelated(heading, r.name || ''))
+    if (rule) { used.add(rule); sections.push([heading, part.replace(/^### [^\n]*\n?/, ''), rule]) } else main.push(part)
+  }
+  const mainCands = appRules.filter((r) => !used.has(r) && nameRelated(mainName, r.name || '')).map((r) => r.body ?? r.text)
+  visit(label, main.join('\n'), mainCands)
+  for (const [heading, text, rule] of sections) visit(`${label} · "${heading}"`, text, [rule.body ?? rule.text])
+}
+
+// tables/detachment_detail (+ its bullet points): the blocks a detachment carries beside its rules.
+let detailCache
+function detachmentDetails() {
+  if (detailCache) return detailCache
+  const read = (t) => JSON.parse(fs.readFileSync(path.join(APPDATA, 'tables', `${t}.json`), 'utf8'))
+  const bullets = new Map()
+  for (const b of read('detachment_detail_bullet_point')) {
+    if (!bullets.has(b.detachmentDetailId)) bullets.set(b.detachmentDetailId, [])
+    bullets.get(b.detachmentDetailId).push(b)
+  }
+  detailCache = new Map()
+  for (const d of read('detachment_detail').sort((a, b) => a.displayOrder - b.displayOrder)) {
+    const text = (bullets.get(d.id) || []).sort((a, b) => a.displayOrder - b.displayOrder).map((b) => `▪ ${b.localisations?.en?.text || ''}`).join('\n')
+    if (!detailCache.has(d.detachmentId)) detailCache.set(d.detachmentId, [])
+    detailCache.get(d.detachmentId).push({ name: d.localisations?.en?.title || '', text })
+  }
+  return detailCache
 }
 
 // Fuzzy name match used for army/detachment rules whose wh11ed and appdata names may differ by a
@@ -125,20 +173,20 @@ const nameRelated = (a, b) => {
 // sentence of ours even corresponds to. Returns a reason string when there is nothing to pair.
 export async function eachFactionTextPair(slug, visit, report = () => {}) {
   const appSlug = SLUG_MAP[slug] || slug
-  const bundle = loadAppdataBundle(appSlug) // our recorded departures applied — scripts/lib/appdata-exceptions.mjs
+  const bundle = loadAppdataBundle(appSlug, { family: true }) // our recorded departures applied — scripts/lib/appdata-exceptions.mjs
   const factionMod = await loadModule(path.join(ROOT, 'src/data/factions', `${slug}.js`))
   const en = Object.values(factionMod || {})[0]?.en
   if (!bundle) return 'no appdata bundle found — check SLUG_MAP or spelling'
   if (!en) return 'no src/data/factions/<slug>.js found'
 
   const cp = combatPatrolNames()
+  const details = detachmentDetails()
   const appDetachments = (bundle.detachments || []).filter((d) => !cp.detachments.has(norm(d.name)))
   const appArmyRules = (bundle.armyRules || []).filter((r) => !cp.armyRuleIds.has(r.id))
 
   // Army rule — wh11ed carries one combined `armyRule`; match appdata army rule(s) by name.
   if (en.armyRule?.body) {
-    const cands = appArmyRules.filter((r) => nameRelated(en.armyRule.name, r.name)).map((r) => r.body)
-    visit(`army rule "${en.armyRule.name}"`, en.armyRule.body, cands)
+    visitSections(visit, `army rule "${en.armyRule.name}"`, en.armyRule.name, en.armyRule.body, appArmyRules)
   }
 
   // Detachments: the detachment rule, then per-detachment stratagems and enhancements.
@@ -149,8 +197,12 @@ export async function eachFactionTextPair(slug, visit, report = () => {}) {
 
     if (d.rule?.body) {
       let ruleCands = (appDet.rules || []).filter((r) => nameRelated(d.rule.name, r.name))
-      if (!ruleCands.length && (appDet.rules || []).length === 1) ruleCands = appDet.rules // single unnamed-match rule
-      visit(`detachment "${d.name}" · rule "${d.rule.name}"`, d.rule.body, ruleCands.map((r) => r.body))
+      // The blocks the app keeps as data beside the rules (Restrictions, Keywords, Travelling
+      // Players — tables/detachment_detail) we print inside the rule (owner, 2026-10-03): they are
+      // sections like the app's other rules.
+      const appRules = [...(appDet.rules || []), ...(details.get(appDet.id) || [])]
+      const single = !ruleCands.length && (appDet.rules || []).length === 1 ? appDet.rules[0].name : d.rule.name
+      visitSections(visit, `detachment "${d.name}" · rule "${d.rule.name}"`, single, d.rule.body, appRules)
     }
 
     const appStratByName = byNormName(appDet.stratagems || [], (s) => s.name)
@@ -247,7 +299,10 @@ export async function eachFactionTextPair(slug, visit, report = () => {}) {
     // side in the same bullet-list-then-prose shape so plainText() sees comparable text.
     if ((d.composition?.length || d.loadout) && appDs.unitComposition) {
       const whComp = [...(d.composition || []).map((c) => `▪ ${c}`), d.loadout || ''].filter(Boolean).join('\n')
-      visit(`datasheet "${d.name}" · composition`, whComp, [appDs.unitComposition])
+      // The app writes "1 Clanblade model … 1 Item; 1 Item"; we print "Clanblade … Item, Item".
+      // A fold for the comparison only (4th argument) — check-emphasis reads the texts as they are.
+      const countless = (t) => t.replace(/(^|[>*\n▪■•◦;,:]\s*)1 (?=[A-Za-z’'])/g, '$1').replace(/ models?\b/g, '')
+      visit(`datasheet "${d.name}" · composition`, whComp, [appDs.unitComposition], countless)
     }
 
     // options vs wargearRules — both are independent "replace X with Y" blocks with no guaranteed
@@ -261,6 +316,7 @@ export async function eachFactionTextPair(slug, visit, report = () => {}) {
     const wgRulesTexts = (appDs.wargearRules || []).map((r) => r.rules).filter(Boolean)
     if (wgRulesTexts.length) {
       for (const opt of d.options || []) {
+        if (/^\s*\*/.test(opt)) continue // a footnote line of its own ("* Maximum 1 per model") — the containment check below covers it
         const optWords = new Set(plainText(opt).split(' '))
         const ranked = [...wgRulesTexts].sort((a, b) => overlap(plainText(appMarkup(b)), optWords) - overlap(plainText(appMarkup(a)), optWords))
         visit(`datasheet "${d.name}" · wargear option`, opt, ranked)
@@ -290,7 +346,7 @@ export async function eachFactionTextPair(slug, visit, report = () => {}) {
 
 async function syncFaction(slug) {
   const out = []
-  const why = await eachFactionTextPair(slug, (label, whText, cands) => compare(out, label, whText, cands), (line) => out.push(line))
+  const why = await eachFactionTextPair(slug, (label, whText, cands, fold = (t) => t) => compare(out, label, fold(whText), cands.map(fold)), (line) => out.push(line))
   console.log(`\n=== ${slug} (appdata: ${SLUG_MAP[slug] || slug}) ===`)
   if (why) console.log(`  ${why}`)
   else if (!out.length) console.log('  no text differences found')

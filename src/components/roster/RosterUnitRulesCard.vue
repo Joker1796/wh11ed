@@ -64,25 +64,29 @@
         {{ labels.srcStratagem }}
         <!-- The reason that applies to the WHOLE block is said once here (Battle-shock, or the
              unit having been targeted this phase already). -->
-        <span
-          v-if="stratsBlockedNote"
-          class="rum-strats-note"
-        >{{ stratsBlockedNote }}</span>
+        <ExpandTransition>
+          <span
+            v-if="stratsBlockedNote"
+            class="rum-strats-note"
+          >{{ stratsBlockedNote }}</span>
+        </ExpandTransition>
         <!-- What cannot be spent right now is FOLDED AWAY rather than shown inert: in a phase
              where two of nine are usable, seven greyed chips are what you read past to find
              them. It stays one tap away, because "where did my stratagem go" is a worse
              question than "why is this one grey" — and a stratagem already in force is never
              counted as blocked (stratagemsFor only asks once it is off), so nothing that is
              actually running can hide in here. -->
-        <button
-          v-if="blockedChips.length"
-          type="button"
-          class="rum-strats-more"
-          :aria-expanded="showBlocked"
-          @click="showBlocked = !showBlocked"
-        >
-          {{ labels.stratBlockedCount.replace('{n}', String(blockedChips.length)) }}
-        </button>
+        <ExpandTransition>
+          <button
+            v-if="blockedChips.length"
+            type="button"
+            class="rum-strats-more"
+            :aria-expanded="showBlocked"
+            @click="showBlocked = !showBlocked"
+          >
+            {{ labels.stratBlockedCount.replace('{n}', String(blockedChips.length)) }}
+          </button>
+        </ExpandTransition>
       </h4>
       <ConditionChips
         :switches="openChips"
@@ -122,13 +126,15 @@
            option picked and the unit having Advanced — and the second used to live only inside
            the ability that names it, several taps down. Both halves of one answer, together;
            this is why the ability itself no longer carries them (see pickCondSwitches). -->
-      <ConditionChips
-        v-if="pickCondSwitches.length"
-        class="rum-pick-conds"
-        :switches="pickCondSwitches"
-        @toggle="$emit('toggle-cond', $event)"
-        @info="openChipInfo"
-      />
+      <ExpandTransition>
+        <ConditionChips
+          v-if="pickCondSwitches.length"
+          class="rum-pick-conds"
+          :switches="pickCondSwitches"
+          @toggle="$emit('toggle-cond', $event)"
+          @info="openChipInfo"
+        />
+      </ExpandTransition>
     </div>
     <!-- Auras of other units in the list that reach this one. The chips are also on this
          unit's row in the list (where Battle-shock is marked) — one store, two ways in; an
@@ -259,6 +265,50 @@
             </DsAccordion>
           </div>
         </section>
+        <!-- A sheet that is part of this unit without being a unit of its own (Sir Hekhtur in
+             Canis Rex): his whole card, folded, where the reader looks when the Knight falls. -->
+        <section
+          v-if="companions.length"
+          class="rum-rules"
+        >
+          <h4 class="rum-rules-h">
+            {{ labels.rosterAlsoInUnit }}
+          </h4>
+          <div
+            v-for="c in companions"
+            :key="c.id"
+            class="rum-rule"
+          >
+            <DsAccordion
+              collapsible
+              :start-open="false"
+            >
+              <template #header="{ open, toggle }">
+                <button
+                  type="button"
+                  class="rum-rule-btn"
+                  :aria-expanded="open"
+                  @click="toggle"
+                >
+                  <span class="rum-rule-text">
+                    <span class="rum-rule-name">{{ c.name }}</span>
+                  </span>
+                  <ChevronIcon
+                    class="rum-chev"
+                    :turned="open"
+                    from="right"
+                    to="down"
+                  />
+                </button>
+              </template>
+              <DatasheetCard
+                :sheet="c"
+                :faction-slug="factionSlug"
+                collapsible
+              />
+            </DsAccordion>
+          </div>
+        </section>
       </template>
     </DatasheetCard>
     <p
@@ -286,6 +336,7 @@
 // actual modal DOM to <body> a second time, past the outer wrapper's div — CSS custom
 // properties only cascade through real DOM ancestry. Scoping it here keeps it a genuine
 // ancestor of DatasheetCard with no teleport in between.
+import ExpandTransition from '../ExpandTransition.vue'
 import ChevronIcon from '../ChevronIcon.vue'
 import { computed, ref } from 'vue'
 import RosterOwnedStar from './RosterOwnedStar.vue'
@@ -331,7 +382,7 @@ const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
 
 const {
-  loaded, view,
+  loaded, view, companions,
   rulesFaction, stratNamesRu,
   statMods, statNotes, allGrantedKeywords, linkedFactionRules, abilityStates,
   abilityModifiers,

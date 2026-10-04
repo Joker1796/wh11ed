@@ -37,7 +37,7 @@ The first time your selected Deed is completed your Oath is fulfilled and, until
 ▪ **We pledge to reap a great tally…** — This Deed is completed at the end of the battle round if the number of enemy units destroyed this battle round is greater than the battle round number, even if those units are subsequently returned to the battlefield (for example, two destroyed enemy units in the first battle round).
 
 ### Qualities
-▪ **…with our martial valour risen over all.** — Each time this model is selected to shoot or fight, you can re-roll one Hit roll and you can re-roll one Wound roll.
+▪ **…with all our martial valour risen over all.** — Each time this model is selected to shoot or fight, you can re-roll one Hit roll and you can re-roll one Wound roll.
 ▪ **…and we are eager for the challenge.** — Add 2" to this model's Move characteristic and add 1 to Advance and Charge rolls made for this model.
 ▪ **…yet shall our legacy be unsullied.** — Improve this model's Objective Control characteristic by 2 and its Leadership characteristic by 1.
 

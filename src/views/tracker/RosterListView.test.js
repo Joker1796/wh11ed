@@ -173,9 +173,47 @@ describe('RosterListView', () => {
     store.createRoster('A list')
     const w = mount(RosterListView, { global: { stubs } })
     await w.find('.kebab').trigger('click')
-    // Edit / Export / Duplicate / Pin / Delete — picked by label everywhere else in this file, so the
+    // Edit / Export / Duplicate / Pin / Archive / Delete — picked by label everywhere else in this file, so the
     // sheet can grow without a positional index quietly pointing at the wrong action.
-    expect(w.findAll('.act-btn').map((b) => b.text())).toEqual(['Edit', 'Export roster', 'Duplicate', 'Pin to top', 'Delete'])
+    expect(w.findAll('.act-btn').map((b) => b.text())).toEqual(['Edit', 'Export roster', 'Duplicate', 'Pin to top', 'Move to archive', 'Delete'])
+  })
+
+  // The archive (player request, 2026-10-02): a list kept for reference leaves the saved tab for
+  // its own, wears no issue count there, and comes back the same way.
+  it('moves a list to the archive tab and back', async () => {
+    const store = useRosters()
+    const r = store.createRoster('All my models')
+    store.updateRoster(r.id, { summary: { points: 4200, unitCount: 0, issues: 3 } })
+    const w = mount(RosterListView, { global: { stubs } })
+    expect(w.find('.issues').exists()).toBe(true)
+
+    await w.find('.kebab').trigger('click')
+    await act(w, 'Move to archive').trigger('click')
+    expect(store.rosterById(r.id).archived).toBe(true)
+    expect(store.activeRosters.value).toHaveLength(0)
+    await flushPromises()
+    expect(w.findAll('.roster')).toHaveLength(0)
+
+    const tabs = w.findAll('.rl-tabs button')
+    expect(tabs.map((t) => t.text())).toEqual(['Lists0', 'Drafts0', 'Archive1'])
+    await tabs[2].trigger('click')
+    await flushPromises()
+    expect(w.find('.rname').text()).toBe('All my models')
+    expect(w.find('.issues').exists()).toBe(false)
+
+    await w.find('.kebab').trigger('click')
+    await act(w, 'Restore from archive').trigger('click')
+    expect('archived' in store.rosterById(r.id)).toBe(false)
+    expect(store.activeRosters.value).toHaveLength(1)
+  })
+
+  it('shows the total alone on a list with no limit', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Everything')
+    store.updateRoster(r.id, { battleSize: 'none', summary: { points: 4200, unitCount: 0, issues: 0 } })
+    const w = mount(RosterListView, { global: { stubs } })
+    expect(w.find('.rpoints').text()).toBe('4200 pts')
+    expect(w.find('.rpoints').classes()).not.toContain('over')
   })
 
   // A finished list is passed on more often than it is edited, so it exports from here too — which

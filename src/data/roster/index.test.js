@@ -9,7 +9,7 @@ import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
 import { allySourceOf, leadTypeFor, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
-import { duplicateLimit } from '../../composables/rosterValidation.js'
+import { duplicateLimit, validateRoster } from '../../composables/rosterValidation.js'
 import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
 
@@ -56,6 +56,32 @@ describe('allied units', () => {
     expect(leadTypeFor(artemis, { uid: 'a' }, defOf('imperial-agents:aquila-kill-team'))).toBe('leader')
   })
 
+  // The MFM's allied list prints Inquisitorial Agents at 6 and 12 models; appdata also prices
+  // 7-11, 120 as allies. Until 2026-10-03 that size kept the Agents' own 100.
+  it('take the allied price of a size the MFM does not print from appdata', async () => {
+    const am = await loadRosterFaction('astra-militarum', { allies: true })
+    const ally = am.units.find((u) => u.id === 'imperial-agents:inquisitorial-agents')
+    expect(ally.sizes.map((s) => [s.per.join('-'), s.pts])).toEqual([['6-6', 60], ['7-11', 120], ['12-12', 120]])
+    const own = (await loadRosterFaction('imperial-agents')).units.find((u) => u.id === 'inquisitorial-agents')
+    expect(own.sizes.map((s) => s.pts)).toEqual([50, 100, 100])
+  })
+
+  // "For each INQUISITOR unit you include, one INQUISITORIAL AGENTS unit does not count towards the
+  // RETINUE units your army can include" (and Voidfarers characters for Voidsmen-at-Arms) — the
+  // slotless rows of allied_faction_keyword. Read since 2026-10-03.
+  it('let an Inquisitor free one Inquisitorial Agents unit from the Retinue cap', async () => {
+    const am = await loadRosterFaction('astra-militarum', { allies: true })
+    const u = (k, id) => ({ uid: k, id: `imperial-agents:${id}`, size: 0 })
+    const retinue = (extra) => validateRoster({
+      faction: 'astra-militarum', detachments: [am.detachments[0].name], battleSize: 'strike-force',
+      units: [{ uid: 'c', id: 'cadian-command-squad', size: 0, warlord: true }, ...extra],
+    }, { faction: am, core: rosterCore, items: rosterItems.items }).issues.filter((i) => i.code === 'allyOverLimit')
+    const squads = [u('b', 'inquisitorial-agents'), u('d', 'exaction-squad'), u('e', 'vigilant-squad')]
+    expect(retinue(squads)).toHaveLength(1)
+    expect(retinue([u('a', 'inquisitor'), ...squads])).toEqual([])
+    expect(retinue([u('a', 'navigator'), u('v', 'voidsmen-at-arms'), u('d', 'exaction-squad'), u('e', 'vigilant-squad')])).toEqual([])
+  })
+
   it('never name a bare target from another bundle, in any army', async () => {
     for (const { slug } of factions) {
       const data = await loadRosterFaction(slug, { allies: true })
@@ -65,6 +91,25 @@ describe('allied units', () => {
         for (const l of u.leads || []) expect(l.to.startsWith(`${src}:`), `${slug}: ${u.id} → ${l.to}`).toBe(true)
       }
     }
+  })
+})
+
+// appdata requires a "DNU" (do not use) placeholder keyword on the four Extremis enhancements of
+// Veiled Blade Elimination Force; the generator names the one Assassin each belongs to. Eversor and
+// Vindicare were missing until 2026-10-03 — nobody could take them, and those two Assassins played
+// 15 and 20 points too cheap there.
+describe('Veiled Blade Elimination Force', () => {
+  it('gives each Extremis enhancement to its one Assassin, mandatory', async () => {
+    const ia = await loadRosterFaction('imperial-agents')
+    const det = ia.detachments.find((d) => d.name === 'Veiled Blade Elimination Force')
+    const holder = Object.fromEntries(det.enhancements.map((e) => [e.name, e.req?.[0]?.kw?.[0]]))
+    expect(holder).toEqual({
+      'Decoy Targets': 'Callidus Assassin',
+      'Esoteric Explosives': 'Culexus Assassin',
+      'Intraneural Biotech': 'Eversor Assassin',
+      'Micromelta Rounds': 'Vindicare Assassin',
+    })
+    expect(det.enhancements.every((e) => e.mandatory)).toBe(true)
   })
 })
 
@@ -248,12 +293,34 @@ describe('replaced-item links', () => {
     expect(repNames(g)).toEqual(['Autoch-pattern bolter'])
   })
 
-  it('leaves "X or Y" alone when the profile holds both', () => {
-    // A Havoc starts with both the autocannon and the lascannon, so which one the swap consumes
-    // is the player's to decide. Guessing would delete a weapon the model still has.
+  it('records both as alternatives when the profile holds both of "X or Y"', () => {
+    // Two Havocs carry the autocannon and two the lascannon, so the profile holds both and the
+    // sentence cannot be pinned to one. Left without a `rep` until 2026-10-03, the swap gave up
+    // nothing and four heavy bolters sat beside four heavy weapons (a player's report); `alt` has
+    // the engine spend each pick on one of the two.
     const u = groupsOf('chaos-space-marines', 'havocs')
     const g = u.gear.find((x) => /Havoc autocannon or Havoc lascannon/i.test(textOf(x)))
-    expect(g.rep).toBeUndefined()
+    expect(repNames(g)).toEqual(['Havoc autocannon', 'Havoc lascannon'])
+    expect(g.alt).toBe(1)
+    // …and the profile's loadout is two of each, not an autocannon on every model.
+    const havoc = u.defaults.find(([m]) => m === 1)[1].map(([i, c, total]) => [rosterItems.items[i], c, total])
+    expect(havoc).toContainEqual(['Havoc autocannon', 2, 1])
+    expect(havoc).toContainEqual(['Havoc lascannon', 2, 1])
+  })
+
+  it('splits a group whose bullets each give up a different weapon', () => {
+    // "For every 5 models: ◦ 1 Raider's boltgun → 1 meltagun ◦ 1 Raider's reaver's blade → 1 power
+    // fist" was one group, and both options gave up the boltgun — ten reaver's blades stayed on the
+    // card beside the power fists (a player's report, 2026-10-04). One group per bullet now, each
+    // with its own weapon given up and its own 1-per-5 allowance.
+    const u = groupsOf('chaos-space-marines', 'red-corsairs-raiders')
+    const melta = u.gear.find((x) => /boltgun can be replaced with 1 meltagun/i.test(textOf(x)))
+    const fist = u.gear.find((x) => /reaver’s blade can be replaced with 1 power fist/i.test(textOf(x)))
+    expect(repNames(melta)).toEqual(['Boltgun'])
+    expect(repNames(fist)).toEqual(['Reaver’s blade'])
+    expect(melta.o).toHaveLength(1)
+    expect(fist.o).toHaveLength(1)
+    expect(fist.lim).toEqual([[5, 1], [10, 2]])
   })
 
   it('resolves a weapon category to the one weapon of that type', () => {
@@ -741,6 +808,20 @@ describe('wargear names are unambiguous within a unit', () => {
       }
     }
     expect(rows).toBeGreaterThan(9000) // the whole corpus really was walked
+  })
+
+  // A drone is a wargear item whose one profile is the gun on the sheet ("Gun Drone" → "Twin pulse
+  // carbine"). Unclaimed, the row stayed on every Crisis team, drones taken or not (player report
+  // e6093db4, 2026-10-03); items.js `stands` names the weapon an item stands for.
+  it('hides a drone\'s weapon when the drone is not taken', async () => {
+    const { weaponRowClaimer, overlaySheet } = await import('../../composables/rosterModifiers.js')
+    const { loadDatasheets } = await import('../datasheets/index.js')
+    const [fac, sheets] = await Promise.all([loadRosterFaction('tau-empire'), loadDatasheets('tau-empire')])
+    const def = fac.units.find((u) => u.id === 'crisis-sunforge-battlesuits')
+    const sheet = sheets.find((d) => d.id === def.id)
+    expect(weaponRowClaimer(def, rosterItems.items)('Twin pulse carbine')).toBeTruthy()
+    const shown = overlaySheet(sheet, { def, entry: { uid: 'x', id: def.id, size: 0 }, items: rosterItems.items }).sheet
+    expect(shown.ranged.map((w) => w.name)).not.toContain('Twin pulse carbine')
   })
 })
 
@@ -1415,5 +1496,15 @@ describe('conditional Battleline is the army\'s answer', () => {
       }
     }
     expect(flagged).toBeGreaterThan(20) // the whole corpus really was walked
+  })
+})
+
+// Deathwatch Support is filed with the Deathwatch and open to every Adeptus Astartes army; until
+// 2026-10-03 only the Deathwatch could take it, and at 0 DP where the MFM prints 1.
+describe('Deathwatch Support across the Space Marines family', () => {
+  it.each(['space-marines', 'blood-angels', 'black-templars', 'dark-angels', 'space-wolves', 'deathwatch'])('%s can field it at 1 DP', async (slug) => {
+    const f = await loadRosterFaction(slug)
+    const d = f.detachments.find((x) => x.name === 'Deathwatch Support')
+    expect(d?.dp).toBe(1)
   })
 })

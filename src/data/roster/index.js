@@ -72,8 +72,11 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
   const data = await load(slug)
   if (!data) return null
   const extra = allies && data.allies?.length ? await allyUnits(data) : []
-  const needSm = !!(data.sharedUnitIds?.length || data.sharedDetachments?.length)
-  if (!needSm && !extra.length) return data
+  // A shared detachment comes from space-marines.js unless `sharedDetachmentFrom` names its
+  // bundle (Deathwatch Support → deathwatch.js).
+  const fromOf = (name) => data.sharedDetachmentFrom?.[name] || 'space-marines'
+  const needSm = !!(data.sharedUnitIds?.length || data.sharedDetachments?.some((n) => fromOf(n) === 'space-marines'))
+  if (!needSm && !data.sharedDetachments?.length && !extra.length) return data
   const sm = needSm ? await load('space-marines') : null
   const idSet = new Set(data.sharedUnitIds || [])
   const shared = (sm?.units || [])
@@ -84,10 +87,20 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
   // same reason its shared units do. A different Detachment Points cost for this Chapter comes
   // with them (`detachmentDp`), so the budget the editor spends is the Chapter's own.
   if (!data.sharedDetachments?.length) return { ...data, units }
-  const want = new Set(data.sharedDetachments)
-  const dets = (sm?.detachments || [])
-    .filter((d) => want.has(d.name))
-    .map((d) => (data.detachmentDp?.[d.name] != null ? { ...d, dp: data.detachmentDp[d.name], shared: 1 } : { ...d, shared: 1 }))
+  const bySource = new Map()
+  for (const n of data.sharedDetachments) {
+    const src = fromOf(n)
+    if (!bySource.has(src)) bySource.set(src, new Set())
+    bySource.get(src).add(n)
+  }
+  const dets = []
+  for (const [src, want] of bySource) {
+    const bundle = src === 'space-marines' ? sm : await load(src)
+    for (const d of bundle?.detachments || []) {
+      if (!want.has(d.name)) continue
+      dets.push(data.detachmentDp?.[d.name] != null ? { ...d, dp: data.detachmentDp[d.name], shared: 1 } : { ...d, shared: 1 })
+    }
+  }
   const detachments = [...data.detachments, ...dets].sort((a, b) => a.name.localeCompare(b.name))
   return { ...data, units, detachments }
 }

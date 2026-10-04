@@ -255,6 +255,30 @@ describe('schema → v6', () => {
   })
 })
 
+describe('schema → v9', () => {
+  // Red Corsairs Raiders' meltagun / power fist group became two groups, one per weapon given up.
+  // The power fist pick moves to the new group; the meltagun and every other unit stay.
+  it('moves the Raiders’ power fist pick to its own group', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 8,
+      rosters: [{
+        id: 'r1',
+        name: 'Old',
+        faction: 'chaos-space-marines',
+        updatedAt: 1,
+        units: [
+          { uid: 'u1', id: 'red-corsairs-raiders', size: 1, wg: [[0, 0, 1], [1, 0, 2], [1, 1, 2]] },
+          { uid: 'u2', id: 'legionaries', wg: [[1, 1, 1]] },
+        ],
+      }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units.map((u) => u.wg)).toEqual([[[0, 0, 1], [1, 0, 2], [2, 0, 2]], [[1, 1, 1]]])
+  })
+})
+
 describe('schema → v8', () => {
   // The Space Marine Lieutenant's shield loadout became one bundled option (the instruction
   // spelled "neo- volkite" with a space, so its three items had been three options). Only the

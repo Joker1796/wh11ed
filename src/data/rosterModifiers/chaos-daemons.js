@@ -1262,6 +1262,7 @@ export default {
       "effects": [
         {
           "on": "profile",
+          "target": "unit",
           "stat": "m",
           "op": "add",
           "value": 1,
@@ -1624,6 +1625,7 @@ export default {
       "effects": [
         {
           "on": "weapon",
+          "target": "unit",
           "stat": "s",
           "op": "add",
           "value": 1,

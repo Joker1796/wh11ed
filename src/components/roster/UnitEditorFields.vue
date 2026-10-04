@@ -111,12 +111,14 @@
         />
       </section>
     </CollapseTransition>
-    <p
-      v-if="compLine"
-      class="ues-comp"
-    >
-      {{ compLine }}
-    </p>
+    <ExpandTransition>
+      <p
+        v-if="compLine"
+        class="ues-comp"
+      >
+        {{ compLine }}
+      </p>
+    </ExpandTransition>
     <!-- What shrinking the unit took off it, with the way back. Transient: it lives until the
          next change to this unit, and it is the only trace of picks the editor removed itself. -->
     <ExpandTransition>
@@ -173,41 +175,45 @@
     <!-- Default loadout (read-only). Its own points, where it has any, are marked on the heading:
          the size pill shows the Munitorum bracket, and without this the difference between that
          and the unit's total (a Terminator Assault Squad's ten thunder hammers, +50) is invisible. -->
-    <section
-      v-if="defaultLines.length"
-      class="ues-sec"
-    >
-      <h4 class="ues-h">
-        {{ labels.rosterDefaultWargear }}
-        <em
-          v-if="defaultPts"
-          class="ues-req"
-        >+{{ defaultPts }}{{ labels.rosterPointsLabel }}</em>
-      </h4>
-      <div class="opt-tile ues-default-row">
-        <div class="ues-default-list">
-          <p
-            v-for="(l, i) in defaultLines"
-            :key="i"
-            class="ues-default"
+    <ExpandTransition>
+      <section
+        v-if="defaultLines.length"
+        class="ues-sec"
+      >
+        <h4 class="ues-h">
+          {{ labels.rosterDefaultWargear }}
+          <ExpandTransition>
+            <em
+              v-if="defaultPts"
+              class="ues-req"
+            >+{{ defaultPts }}{{ labels.rosterPointsLabel }}</em>
+          </ExpandTransition>
+        </h4>
+        <div class="opt-tile ues-default-row">
+          <div class="ues-default-list">
+            <p
+              v-for="(l, i) in defaultLines"
+              :key="i"
+              class="ues-default"
+            >
+              <span
+                v-if="l.mini"
+                class="ues-mini"
+              >{{ l.mini }}:</span> {{ l.items }}
+            </p>
+          </div>
+          <button
+            v-if="defaultNames.length"
+            type="button"
+            class="opt-info"
+            :aria-label="labels.rosterViewInfo"
+            @click="openWeaponInfo(defaultNames, labels.rosterDefaultWargear)"
           >
-            <span
-              v-if="l.mini"
-              class="ues-mini"
-            >{{ l.mini }}:</span> {{ l.items }}
-          </p>
+            <i class="bi bi-info-circle" />
+          </button>
         </div>
-        <button
-          v-if="defaultNames.length"
-          type="button"
-          class="opt-info"
-          :aria-label="labels.rosterViewInfo"
-          @click="openWeaponInfo(defaultNames, labels.rosterDefaultWargear)"
-        >
-          <i class="bi bi-info-circle" />
-        </button>
-      </div>
-    </section>
+      </section>
+    </ExpandTransition>
 
     <!-- Warlord -->
     <ExpandTransition>
@@ -253,12 +259,12 @@
             class="ues-mini"
           >{{ miniName(g.m) }}</span>
           {{ groupLines[gi].head }}
-          <Transition name="fade">
+          <ExpandTransition>
             <span
               v-if="capChip(gi)"
               class="ues-cap"
             >{{ capChip(gi) }}</span>
-          </Transition>
+          </ExpandTransition>
         </h4>
         <ul
           v-if="groupLines[gi].bullets.length"
@@ -416,147 +422,153 @@
     <!-- Enhancement — only ones this unit could actually take (ineligible-for-this-unit options
          from the detachment's full list are hidden, not just disabled; an eligible one already
          used by another entry still shows, disabled, so it's clear why it can't be picked here). -->
-    <section
-      v-if="visibleEnhOptions.length"
-      class="ues-sec"
-    >
-      <h4 class="ues-h">
-        {{ labels.rosterEnhancement }}
-      </h4>
-      <div class="opt-col">
-        <div
-          v-for="e in visibleEnhOptions"
-          :key="e.name"
-          class="opt-tile"
-          :class="{
-            on: e.mandatory ? e.eligible : entry.enh === e.name,
-            disabled: e.mandatory ? true : e.used && entry.enh !== e.name,
-          }"
-        >
-          <label class="opt-select">
-            <input
-              type="checkbox"
-              :checked="e.mandatory ? e.eligible : entry.enh === e.name"
-              :disabled="e.mandatory || (e.used && entry.enh !== e.name)"
-              @change="toggleEnh(e.name)"
-            >
-            <span class="opt-name">
-              {{ e.name }}
-              <span
-                v-if="e.mandatory && e.eligible"
-                class="opt-tag"
-              >{{ labels.rosterEnhMandatory }}</span>
-              <span
-                v-else-if="e.used"
-                class="opt-tag"
-              >{{ labels.rosterEnhUsed }}</span>
-            </span>
-            <span
-              v-if="e.pts"
-              class="opt-pts"
-            >+{{ e.pts }}</span>
-          </label>
-          <button
-            type="button"
-            class="opt-info"
-            data-press
-            :aria-label="labels.rosterViewInfo"
-            @click="openEnhInfo(e.name)"
+    <ExpandTransition>
+      <section
+        v-if="visibleEnhOptions.length"
+        class="ues-sec"
+      >
+        <h4 class="ues-h">
+          {{ labels.rosterEnhancement }}
+        </h4>
+        <div class="opt-col">
+          <div
+            v-for="e in visibleEnhOptions"
+            :key="e.name"
+            class="opt-tile"
+            :class="{
+              on: e.mandatory ? e.eligible : entry.enh === e.name,
+              disabled: e.mandatory ? true : e.used && entry.enh !== e.name,
+            }"
           >
-            <i class="bi bi-info-circle" />
-          </button>
+            <label class="opt-select">
+              <input
+                type="checkbox"
+                :checked="e.mandatory ? e.eligible : entry.enh === e.name"
+                :disabled="e.mandatory || (e.used && entry.enh !== e.name)"
+                @change="toggleEnh(e.name)"
+              >
+              <span class="opt-name">
+                {{ e.name }}
+                <span
+                  v-if="e.mandatory && e.eligible"
+                  class="opt-tag"
+                >{{ labels.rosterEnhMandatory }}</span>
+                <span
+                  v-else-if="e.used"
+                  class="opt-tag"
+                >{{ labels.rosterEnhUsed }}</span>
+              </span>
+              <span
+                v-if="e.pts"
+                class="opt-pts"
+              >+{{ e.pts }}</span>
+            </label>
+            <button
+              type="button"
+              class="opt-info"
+              data-press
+              :aria-label="labels.rosterViewInfo"
+              @click="openEnhInfo(e.name)"
+            >
+              <i class="bi bi-info-circle" />
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ExpandTransition>
 
     <!-- Leader attachment — no separate "not attached" tile: unticking the selected checkbox
          already means that (same logic as the enhancement list above). -->
-    <section
-      v-if="leaderTargets.length"
-      class="ues-sec"
-    >
-      <h4 class="ues-h">
-        {{ labels.rosterAttachTo }}
-      </h4>
-      <div class="opt-col">
-        <div
-          v-for="t in leaderTargets"
-          :key="t.uid"
-          class="opt-tile"
-          :class="{ on: entry.leaderOf === t.uid, disabled: t.used && entry.leaderOf !== t.uid }"
-        >
-          <label class="opt-select">
-            <input
-              type="checkbox"
-              :checked="entry.leaderOf === t.uid"
-              :disabled="t.used && entry.leaderOf !== t.uid"
-              @change="toggleLeader(t.uid)"
-            >
-            <span class="opt-name">
-              {{ t.name }}
-              <span
-                v-if="t.type === 'support'"
-                class="opt-tag"
-              >{{ labels.rosterSupportTag }}</span>
-              <span
-                v-if="t.used && entry.leaderOf !== t.uid"
-                class="opt-tag"
-              >{{ labels.rosterEnhUsed }}</span>
-              <!-- Only where the datasheet name is offered twice — three identical words in a row
-                   and the player has to guess which squad they mean. -->
-              <em
-                v-if="targetHints.get(t.uid)"
-                class="opt-which"
-              >{{ targetHints.get(t.uid) }}</em>
-            </span>
-          </label>
+    <ExpandTransition>
+      <section
+        v-if="leaderTargets.length"
+        class="ues-sec"
+      >
+        <h4 class="ues-h">
+          {{ labels.rosterAttachTo }}
+        </h4>
+        <div class="opt-col">
+          <div
+            v-for="t in leaderTargets"
+            :key="t.uid"
+            class="opt-tile"
+            :class="{ on: entry.leaderOf === t.uid, disabled: t.used && entry.leaderOf !== t.uid }"
+          >
+            <label class="opt-select">
+              <input
+                type="checkbox"
+                :checked="entry.leaderOf === t.uid"
+                :disabled="t.used && entry.leaderOf !== t.uid"
+                @change="toggleLeader(t.uid)"
+              >
+              <span class="opt-name">
+                {{ t.name }}
+                <span
+                  v-if="t.type === 'support'"
+                  class="opt-tag"
+                >{{ labels.rosterSupportTag }}</span>
+                <span
+                  v-if="t.used && entry.leaderOf !== t.uid"
+                  class="opt-tag"
+                >{{ labels.rosterEnhUsed }}</span>
+                <!-- Only where the datasheet name is offered twice — three identical words in a row
+                     and the player has to guess which squad they mean. -->
+                <em
+                  v-if="targetHints.get(t.uid)"
+                  class="opt-which"
+                >{{ targetHints.get(t.uid) }}</em>
+              </span>
+            </label>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ExpandTransition>
 
     <!-- The same attachment from the squad's end (a player's request): the Leaders and Supports in
          the list that could join THIS unit. Ticking one attached elsewhere moves it here, and its
          row says where it is now so that is not a surprise. -->
-    <section
-      v-if="leaderSources.length"
-      class="ues-sec"
-    >
-      <h4 class="ues-h">
-        {{ labels.rosterAttachHere }}
-      </h4>
-      <div class="opt-col">
-        <div
-          v-for="s in leaderSources"
-          :key="s.uid"
-          class="opt-tile"
-          :class="{ on: isAttachedHere(s.uid), disabled: s.used }"
-        >
-          <label class="opt-select">
-            <input
-              type="checkbox"
-              :checked="isAttachedHere(s.uid)"
-              :disabled="s.used"
-              @change="toggleSource(s.uid)"
-            >
-            <span class="opt-name">
-              {{ s.name }}
-              <span
-                v-if="s.type === 'support'"
-                class="opt-tag"
-              >{{ labels.rosterSupportTag }}</span>
-              <span
-                v-if="s.used"
-                class="opt-tag"
-              >{{ labels.rosterEnhUsed }}</span>
-              <em
-                v-if="sourceHints.get(s.uid)"
-                class="opt-which"
-              >{{ sourceHints.get(s.uid) }}</em>
-            </span>
-          </label>
+    <ExpandTransition>
+      <section
+        v-if="leaderSources.length"
+        class="ues-sec"
+      >
+        <h4 class="ues-h">
+          {{ labels.rosterAttachHere }}
+        </h4>
+        <div class="opt-col">
+          <div
+            v-for="s in leaderSources"
+            :key="s.uid"
+            class="opt-tile"
+            :class="{ on: isAttachedHere(s.uid), disabled: s.used }"
+          >
+            <label class="opt-select">
+              <input
+                type="checkbox"
+                :checked="isAttachedHere(s.uid)"
+                :disabled="s.used"
+                @change="toggleSource(s.uid)"
+              >
+              <span class="opt-name">
+                {{ s.name }}
+                <span
+                  v-if="s.type === 'support'"
+                  class="opt-tag"
+                >{{ labels.rosterSupportTag }}</span>
+                <span
+                  v-if="s.used"
+                  class="opt-tag"
+                >{{ labels.rosterEnhUsed }}</span>
+                <em
+                  v-if="sourceHints.get(s.uid)"
+                  class="opt-which"
+                >{{ sourceHints.get(s.uid) }}</em>
+              </span>
+            </label>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ExpandTransition>
   </div>
 </template>
 

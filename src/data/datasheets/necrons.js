@@ -6,8 +6,9 @@
 // Necrons Faction Pack errata instead (matches src/data/factions/necrons.js, which
 // marks each with a "Faction-Pack Rules Update" comment): the six Cryptek Leaders'
 // core ("Support", not "Leader"), Monolith's Eternity Gate text (old ingress-move/
-// strategic-reserves wording), Night Scythe's "Invasion Beams" ability (name + the
-// re-embark sentence), and the 8" distances on Ophydian Destroyers' Tunnelling
+// strategic-reserves wording), Night Scythe's "Invasion Beams" ability name (its
+// re-embark sentence was dropped 2026-10-03: the app does not print it and no errata adds
+// it), and the 8" distances on Ophydian Destroyers' Tunnelling
 // Horrors — wahapedia had not picked up this Faction Pack as of 2026-07-15. Don't "fix"
 // these back to wahapedia's wording without checking whether wahapedia has since caught up.
 // (Transcendent C'tan's Transdimensional Displacement was reconciled to appdata 912 on
@@ -569,7 +570,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Accelerator Mandible",
-        "text": "At the start of the Fight phase, select one friendly Canoptek unit within 3\" of the bearer’s unit. Until the end of the phase, improve the Weapon Skill characteristic of models in that unit by 1."
+        "text": "At the start of the Fight phase, select one friendly Canoptek unit within 3\" of this unit. Until the end of the phase, improve the Weapon Skill characteristic of models in that unit by 1."
       },
       {
         "name": "Nanoscarab Projector",
@@ -1147,7 +1148,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "Chronomancers are Crypteks who harness temporal energies, their Chronomancer’s staves slowing down or speeding up weaponised time. Their timesplinter mantles use crystallised moments to confound enemy blows, while their chronometrons hasten allies through time itself.",
+    "flavor": "Chronomancers are Crypteks who harness temporal energies, using arcane staves to trap foes in bubbles of slowed time or rapidly age them with entropic blasts. Their timesplinter mantles use crystallised moments to confound enemy blows, while their chronometrons hasten allies through time itself.",
     "profiles": [
       {
         "name": "Chronomancer",
@@ -1736,7 +1737,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6+2",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -2043,7 +2044,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "Once the shook troops of the Necrontyr, Immortals still provide their masters with a powerful core of skilled soldiery millennia later. More advanced than Necron Warriors, they can employ a number of strategies even without command, and their firepower makes them deadly in close or midrange engagements.",
+    "flavor": "Once the shock troops of the Necrontyr, Immortals still provide their masters with a powerful core of skilled soldiery aeons later. More advanced than Necron Warriors, they can employ a number of strategies even without command, and their firepower makes them deadly in close or midrange engagements.",
     "profiles": [
       {
         "name": "Immortals",
@@ -2148,7 +2149,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -2438,7 +2439,7 @@ export default [
         "points": 80
       }
     ],
-    "flavor": "Lokhust Lords skim into battle on swift grav-sled bodies. Driven by nihilistic hatred, their every optimised strike slaughters swathes of the foe. Meanwhile, should the enemy wound a Lokhust Lord, in return they must watch in despair as minute repair-scarabs spill from his phylactery in a silvery tide to repair his rent form.",
+    "flavor": "Lokhust Lords skim into battle on swift grav-sled bodies. Driven by nihilistic hatred, their every optimised strike slaughters swathes of the foe. Should the enemy dare strike back, they must watch in despair as the pulse of a resurrection orb or the silvery mites spilling from a nanoscarab amulet repair the monomaniacal warrior, who rises ready to destroy again.",
     "profiles": [
       {
         "name": "Lokhust Lord",
@@ -2957,7 +2958,7 @@ export default [
     "abilities": [
       {
         "name": "Invasion Beams",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly NECRONS INFANTRY unit wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly NECRONS INFANTRY unit wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
       },
       {
         "name": "Quantum Invader",
@@ -3738,8 +3739,8 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Deadly Demise D6+2",
-    "faction": "Reanimation Protocols, Super-heavy Walker",
+    "core": "Deadly Demise D6+2, Super-heavy Walker",
+    "faction": "Reanimation Protocols",
     "abilities": [
       {
         "name": "Terrifying Monstrosity",
@@ -3958,7 +3959,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "Technomancers possess the power to augment and swiftly repair Necron units in the field. Some Technomancers use Canoptek cloaks to flit swiftly to wherever they are needed most, while others employ the nanoscarab beams of their Canoptek control nodes to augment from afar.",
+    "flavor": "Technomancers possess the power to augment and swiftly repair Necron units in the field. By using a Canoptek cloak – a techno-arcane mantle attached to a spiderlike construct that generates an anti-gravity field – they can flit swiftly to wherever they are needed most, or wherever they spy rich pickings of precious resources.",
     "profiles": [
       {
         "name": "Technomancer",
@@ -4075,8 +4076,7 @@ export default [
         "tags": [
           "BLAST",
           "DEVASTATING WOUNDS",
-          "INDIRECT FIRE",
-          "C'TAN POWER"
+          "INDIRECT FIRE"
         ],
         "range": "24\"",
         "a": "D6+3",
@@ -4090,12 +4090,11 @@ export default [
         "tags": [
           "IGNORES COVER",
           "DEVASTATING WOUNDS",
-          "TORRENT",
-          "C'TAN POWER"
+          "TORRENT"
         ],
         "range": "18\"",
         "a": "3D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-2",
         "d": "1"
@@ -4105,8 +4104,7 @@ export default [
         "tags": [
           "ANTI-CHARACTER 4+",
           "DEVASTATING WOUNDS",
-          "PRECISION",
-          "C'TAN POWER"
+          "PRECISION"
         ],
         "range": "24\"",
         "a": "1",
@@ -4165,7 +4163,7 @@ export default [
         "points": 420
       }
     ],
-    "flavor": "The Silent King rides to war aboard his dais of dominion, flanked by the phaerons of his Triarch and orbited by crackling noctilith menhirs. He unleashes god-like powers of annihilation upon his dismayed foes, even as his absolute authority radiates out to empower the Necron legions and drive them to inevitable victory.",
+    "flavor": "The Silent King rides to war aboard his dais of dominion, flanked by the phaerons of his Triarch and orbited by crackling noctilith menhirs. He unleashes godlike powers of annihilation upon his dismayed foes, even as his absolute authority radiates out to empower the Necron legions and drive them to inevitable victory.",
     "profiles": [
       {
         "name": "SZAREKH",
@@ -4435,7 +4433,7 @@ export default [
       },
       {
         "name": "Shieldvanes",
-        "text": "The bearer has a 3+ Save characteristic and a Move characteristic of 8\"."
+        "text": "The bearer has a Save characteristic of 3+ and a Move characteristic of 8\"."
       }
     ],
     "composition": [
@@ -4634,7 +4632,7 @@ export default [
         "points": 160
       }
     ],
-    "flavor": "Triarch Praetorians fight tirelessly to uphold the ancient dynastic codes of their race. Whether blasting the foe with antimatter particles, impaling them on their flickering voidblades or immolating them with their rods of covenant, the Praetorians’ gravity displacement packs and combat prowess make them truly deadly.",
+    "flavor": "Triarch Praetorians fight tirelessly to uphold the ancient dynastic codes of their people. Whether blasting the foe with antimatter particles, impaling them on their flickering voidblades or immolating them with their rods of covenant, the Praetorians’ gravity displacement packs and combat prowess make them truly deadly.",
     "profiles": [
       {
         "name": "Triarch Praetorians",
@@ -4754,7 +4752,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"

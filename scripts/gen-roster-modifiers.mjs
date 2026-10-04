@@ -597,6 +597,28 @@ function leaderUnitGaps(slug, sources, existing) {
   return out
 }
 
+// AN UPGRADE'S "THIS UNIT" IS THE ATTACHED UNIT TOO. "X unit only. This unit's melee attacks
+// have…" — an Upgrade is bought for a unit, and by 19.04 it reaches every model of the Attached
+// unit that unit is part of: the Characters leading it, or the squad a Character leads. Its effects
+// carry `target: 'unit'` (rosterStatMods' datasheetEntriesFor sends them across the attachment); a
+// record without it left the Leader's card bare beside a squad that had it (a player's report on
+// Furious Assault, 2026-10-03). "… model only. This model…" is one model's, and stays its own.
+const UPGRADE_UNIT_EXEMPT = new Set([])
+function upgradeUnitGaps(slug, sources, existing) {
+  const bySid = new Map((existing?.entries || []).map((e) => [e.sid, e]))
+  const out = []
+  for (const s of sources) {
+    if (s.kind !== 'enhancement' || !/\(Upgrade\)/i.test(s.name)) continue
+    const text = (s.prose || '').replace(/\*\*|<[^>]+>/g, '')
+    if (!/\bunit only\b/i.test(text) || !THIS_UNIT.test(text)) continue
+    const rec = bySid.get(s.sid)
+    const effects = (rec?.reviewed ? rec.effects || [] : []).filter((e) => e.target !== 'aura')
+    if (!effects.length || effects.every((e) => e.target === 'unit')) continue
+    if (!UPGRADE_UNIT_EXEMPT.has(`${slug} · ${s.name}`)) out.push(s)
+  }
+  return out
+}
+
 export async function run(argv = process.argv.slice(2)) {
   const check = argv.includes('--check')
   const queue = argv.includes('--queue')
@@ -607,7 +629,7 @@ export async function run(argv = process.argv.slice(2)) {
   }
 
   const ctx = sourceContext()
-  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0, leader: 0 }
+  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0, leader: 0, upgrade: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
@@ -635,6 +657,10 @@ export async function run(argv = process.argv.slice(2)) {
     for (const g of leaderUnitGaps(slug, sources, existing)) {
       totals.leader++
       console.log(`  ✗ leader  ${slug} · ${g.name} — a Leader's "this unit" rule with effects on the leader alone`)
+    }
+    for (const g of upgradeUnitGaps(slug, sources, existing)) {
+      totals.upgrade++
+      console.log(`  ✗ upgrade ${slug} · ${g.name} — an Upgrade's "this unit" effects without target 'unit'`)
     }
     for (const { entry, src, hash } of result.stale) {
       console.log(`  ⟲ stale   ${slug} · ${entry.kind} · ${entry.name}${entry.det ? ` (${entry.det})` : ''}`)
@@ -685,6 +711,10 @@ export async function run(argv = process.argv.slice(2)) {
     }
     if (totals.leader) {
       console.log('  --check: a Leader\'s "this unit" rule reaches the unit it leads (19.04) — add a `target: \'led\'` copy of its effects, or name it in LEADER_SELF_EXEMPT with the reason.')
+      return 1
+    }
+    if (totals.upgrade) {
+      console.log('  --check: an Upgrade\'s "this unit" reaches the whole Attached unit (19.04) — give its effects `target: \'unit\'`, or name it in UPGRADE_UNIT_EXEMPT with the reason.')
       return 1
     }
     if (totals.mismatch) {

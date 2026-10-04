@@ -47,12 +47,12 @@ export default {
       ru: '+1 если контролируешь объектив в своей зоне развёртывания',
     },
     {
-      en: 'Round 2+: +1 if you control an objective outside your deployment zone',
-      ru: 'Раунд 2+: +1 если контролируешь объектив вне своей зоны развёртывания',
+      en: 'Round 2+: +1 if you control an objective not within your deployment zone',
+      ru: 'Раунд 2+: +1 если контролируешь объектив не в пределах своей зоны развёртывания',
     },
     {
-      en: 'Round 2+: +1 if you control 2+ objectives outside your deployment zone',
-      ru: 'Раунд 2+: +1 если контролируешь 2+ объектива вне своей зоны развёртывания',
+      en: 'Round 2+: +1 if you control 2+ objectives not within your deployment zone',
+      ru: 'Раунд 2+: +1 если контролируешь 2+ объектива не в пределах своей зоны развёртывания',
     },
     {
       en: 'Round 2+: +1 if you control more objectives than your opponent',

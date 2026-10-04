@@ -61,7 +61,7 @@ export default [
     "rules": [
       {
         "name": "DEPLOYMENT",
-        "text": "When this model is set up, it will consist of 1 platform section, up to 5 shield sections, up to 2 broken shield sections, and up to 2 end sections. All sections must be connected to each other to form a continuous defence line; the two broken shield sections can be placed either at the end of the defence line, or in the middle of it such that both are within 1/2\" of each other (in this case, these two sections count as being connected to each other). All the sections that have been set up are then treated as a single model for all rules purposes."
+        "text": "When this model is set up, it will consist of 1 platform section, up to 5 shield sections, up to 2 broken shield sections, and up to 2 end sections. All sections must be connected to each other to form a continuous defence line; the two broken shield sections can be placed either at the end of the defence line, or in the middle of it such that both are within 1/2\" of each other (in this case, these two sections count as being connected to each other). All of the sections that have been set up are then treated as a single model for all rules purposes."
       }
     ]
   },
@@ -526,7 +526,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1311,7 +1311,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1432,7 +1432,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1556,7 +1556,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1666,7 +1666,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -2015,7 +2015,7 @@ export default [
         "points": 60
       }
     ],
-    "flavor": "Cadia’s officers are exceptional leaders of Humanity. Trained to be the best, they expect no less from their troops. They are as inspiring as the standards carried in their wake, and as motivational as the orders issued by their vox-operators.",
+    "flavor": "Cadia’s officers are exceptional leaders. Trained to be the best, they expect no less from their troops. They are as inspiring as the standards carried in their wake and as motivational as the orders issued via their vox‐operators.",
     "profiles": [
       {
         "name": "CADIAN COMMANDER",
@@ -2059,7 +2059,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -2280,7 +2280,7 @@ export default [
         "points": 65
       }
     ],
-    "flavor": "While massed infantry can overwhelm the foe, it often falls to Heavy Weapons Squads to deliver the killing blow. These teams of gun crews can swiftly set up their mobile heavy weapons. They bolster battle lines and provide close fire support with adaptable load-outs of precise or indiscriminate firepower.",
+    "flavor": "While massed infantry can overwhelm the foe, it often falls to Heavy Weapons Squads to deliver the killing blow. These teams of gun crews are able to swiftly set up their mobile heavy weapons. They bolster battle lines and provide close fire support with adaptable load-outs of precise or indiscriminate firepower.",
     "profiles": [
       {
         "name": "Heavy Weapons Squad",
@@ -2610,7 +2610,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28mm"
   },
   {
     "id": "cadian-shock-troops",
@@ -2658,7 +2658,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -3079,7 +3079,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -3114,7 +3114,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -3508,7 +3508,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -3804,7 +3804,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -4252,7 +4252,8 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps of Krieg"
+        "Death Korps of Krieg",
+        "Death Korps Grenadier Squad"
       ]
     },
     "keywords": [
@@ -4478,7 +4479,8 @@ export default [
         "Kasrkin",
         "Krieg Combat Engineers",
         "Catachan Jungle Fighters",
-        "Tempestus Scions"
+        "Tempestus Scions",
+        "Death Korps Grenadier Squad"
       ]
     },
     "keywords": [
@@ -4607,7 +4609,8 @@ export default [
         "Death Korps of Krieg",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Tempestus Scions"
+        "Tempestus Scions",
+        "Death Korps Grenadier Squad"
       ]
     },
     "keywords": [
@@ -5096,7 +5099,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -5556,7 +5559,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -5861,7 +5864,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -6402,7 +6405,7 @@ export default [
     "flavor": "Colonel-Commissar Ibram Gaunt combines the positions of feared political officer and the regimental commander of the Tanith First and Only. Joined by the regiment’s stealthy and deadly officers and soldiers – those known as Gaunt’s Ghosts – Gaunt’s infamous raids, secretive missions and unlikely victories have cemented his legend.",
     "profiles": [
       {
-        "name": "IBRAM GAUNT",
+        "name": "Ibram Gaunt",
         "m": "6\"",
         "t": "3",
         "sv": "4+",
@@ -6414,7 +6417,47 @@ export default [
         "baseSize": "28.5mm"
       },
       {
-        "name": "TANITH GHOST",
+        "name": "Colm Corbec",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "baseSize": "28.5mm"
+      },
+      {
+        "name": "Elim Rawne",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "baseSize": "28.5mm"
+      },
+      {
+        "name": "Hlaine Larkin",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "baseSize": "28.5mm"
+      },
+      {
+        "name": "’Try Again’ Bragg",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "baseSize": "28.5mm"
+      },
+      {
+        "name": "Oan Mkoll",
         "m": "6\"",
         "t": "3",
         "sv": "5+",
@@ -7158,7 +7201,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -7222,7 +7265,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Hellhounds are terrifying close-assault tanks, designed to flush enemies out of dense terrain with gouts of promethium, clouds of noxious gas or the searing touch of thermal weaponry. Those few who volunteer to serve in these tanks often have a cavalier attitude, and revel in their reputation for reckless destruction.",
+    "flavor": "Hellhounds are terrifying close assault tanks, designed to flush enemies out of dense terrain with gouts of promethium, clouds of noxious gas or the searing touch of thermal weaponry. Those few who volunteer to serve in these tanks often have a cavalier attitude, and revel in their reputation for reckless destruction.",
     "profiles": [
       {
         "name": "Hellhound",
@@ -7243,7 +7286,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+1",
-        "bs": "N/A",
+        "bs": "-",
         "s": "2",
         "ap": "-2",
         "d": "2"
@@ -7268,7 +7311,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -7293,7 +7336,7 @@ export default [
         ],
         "range": "18\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-2",
         "d": "1"
@@ -7739,7 +7782,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -8058,7 +8101,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -8351,7 +8394,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -8365,7 +8408,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "0",
         "d": "1"
@@ -8481,7 +8524,7 @@ export default [
         "points": 60
       }
     ],
-    "flavor": "The Death Korps of Krieg’s officer korps are brave bordering on reckless. Their casualtg rates are such that it is not uncommon for a representative of the Officio Prefectus, most commonly a high-ranking Commissar, to step into their place and take command, ably assisted by a retinue of veterans and junior officers.",
+    "flavor": "The Death Korps of Krieg’s officer korps are brave bordering on reckless. Their casualty rates are such that it is not uncommon for a representative of the Officio Prefectus, most commonly a high‐ranking Commissar, to step into their place and take command, ably assisted by a retinue of veterans and junior officers.",
     "profiles": [
       {
         "name": "LORD COMMISSAR",
@@ -8537,7 +8580,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -8740,7 +8783,8 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Krieg Combat Engineers",
-        "Death Korps of Krieg"
+        "Death Korps of Krieg",
+        "Death Korps Grenadier Squad"
       ]
     },
     "keywords": [
@@ -8772,7 +8816,7 @@ export default [
         "points": 70
       }
     ],
-    "flavor": "Death Karps Heavy Weapons Squads are deployed to support infantry assaults, forming overlapping fields of fire to pin down the enemy and enable waves of infantry to advance. Fire Coordinators direct the gunners under their command and ensure that they keep up a punishing rate of fire.",
+    "flavor": "Death Korps Heavy Weapons Squads are deployed to support infantry assaults, forming overlapping fields of fire to pin down the enemy and enable waves of infantry to advance. Fire Coordinators direct the gunners under their command and ensure that they keep up a punishing rate of fire.",
     "profiles": [
       {
         "name": "HEAVY WEAPONS GUNNER",
@@ -8804,7 +8848,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "2"
@@ -8938,7 +8982,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -9205,7 +9249,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -9437,7 +9481,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -9632,7 +9676,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -9839,7 +9883,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -10034,7 +10078,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -10216,7 +10260,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -10408,7 +10452,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -10739,7 +10783,8 @@ export default [
         "Kasrkin",
         "Krieg Combat Engineers",
         "Death Riders",
-        "Attilan Rough Riders"
+        "Attilan Rough Riders",
+        "Death Korps Grenadier Squad"
       ]
     },
     "keywords": [
@@ -12075,7 +12120,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -12573,7 +12618,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -12826,7 +12871,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -12878,7 +12923,8 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps of Krieg"
+        "Death Korps of Krieg",
+        "Death Korps Grenadier Squad"
       ]
     },
     "keywords": [
@@ -13829,7 +13875,8 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps of Krieg"
+        "Death Korps of Krieg",
+        "Death Korps Grenadier Squad"
       ]
     },
     "keywords": [
@@ -15224,7 +15271,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -15571,7 +15618,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -16099,7 +16146,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -16235,7 +16282,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -17039,7 +17086,8 @@ export default [
         "Catachan Jungle Fighters",
         "Kasrkin",
         "Death Korps of Krieg",
-        "Cadian Shock Troops"
+        "Cadian Shock Troops",
+        "Death Korps Grenadier Squad"
       ]
     },
     "keywords": [
@@ -17132,7 +17180,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -17336,7 +17384,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -18476,7 +18524,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"

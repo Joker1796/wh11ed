@@ -7,7 +7,7 @@ export const muster = {
       id: '25',
       num: '25',
       title: 'Muster Your Army',
-      description: 'Before a battle, each player musters an army from their collection and records it on an army roster. This section explains how to prepare your army for a game of Warhammer 40,000.',
+      description: 'The following rules tell you how to create an army list out of models and units from your Warhammer 40,000 collection.',
       subsections: [
         {
           id: 'section-25-01',
@@ -62,7 +62,7 @@ Select all of the **[gloss:enhancement:enhancements]** you want to include from 
 
 Unless otherwise stated:
 ▪ Only CHARACTER units can be given **enhancements**. If such a unit contains more than one model, select one CHARACTER model in that unit to have that **enhancement**.
-▪ EPIC HEROES cannot have **enhancements**.
+▪ EPIC HEROES models cannot be given **enhancements**.
 ▪ Your army cannot include more than one of the same **enhancement**.
 
 **[gloss:upgrade:Upgrades]:** Some **enhancements** are tagged with 'Upgrade'. Unlike other **enhancements**:
@@ -89,7 +89,7 @@ If you are playing an Incursion battle, you can select a 3DP **detachment** as y
       id: '25',
       num: '25',
       title: 'Сбор армии',
-      description: 'Перед битвой каждый игрок собирает армию из своей коллекции и записывает её в список армии. В этом разделе объясняется, как подготовить армию для игры в Warhammer 40,000.',
+      description: 'Следующие правила рассказывают, как составить список армии из моделей и юнитов вашей коллекции Warhammer 40,000.',
       subsections: [
         {
           id: 'section-25-01',
@@ -139,7 +139,7 @@ If you are playing an Incursion battle, you can select a 3DP **detachment** as y
 
 Если не указано иное:
 ▪ Только отряды CHARACTER могут получать **улучшения**. Если такой отряд содержит более одной модели, выберите одну модель CHARACTER в этом отряде, чтобы она получила это **улучшение**.
-▪ EPIC HEROES не могут иметь **улучшений**.
+▪ Моделям EPIC HEROES нельзя давать **улучшения**.
 ▪ Ваша армия не может включать более одного одинакового **улучшения**.
 
 **[gloss:upgrade:Улучшения-апгрейды]:** Некоторые **улучшения** помечены тегом «Upgrade». В отличие от других **улучшений**:

@@ -116,6 +116,8 @@ npm run companions   # GATE: the four Event Companion PDFs — version + the FAQ
 npm run radii        # fail on any border-radius outside the listed exceptions (see Corners & surfaces)
 npm run dupes        # fail when one CSS rule body is copied into a 2nd component beyond the recorded pairs (scripts/lib/css-dupes-baseline.json; see Shared UI primitives)
 npm run a11y         # GATE: render a sample of pages in Chrome (needs dist/) — text contrast in both themes, 24px tap targets, no sideways scroll; baseline in scripts/lib/a11y-baseline.json (see src/components/CLAUDE.md)
+npm run smoke        # GATE before a release (needs dist/): the test rosters seeded into Chrome, phone + desk widths — JS errors, sideways scroll, unrendered markup, and the checks RELEASE-CHECKLIST.md marks [авто]; `-- --wide` adds every faction
+npm run test-rosters # share links to the test rosters (scripts/lib/test-rosters.mjs) for checking by hand
 npm run imghash      # GATE (also in CI): fail when an image under public/images/ was edited in place instead of renamed (see PWA)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run faction-rules:index  # regenerate the faction-rules name index for search (see Search)

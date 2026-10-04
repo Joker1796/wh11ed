@@ -303,6 +303,17 @@ for (const p of table('wargear_item_profile')) {
   if (!wgItemTypes.has(p.wargearItemId)) wgItemTypes.set(p.wargearItemId, new Set())
   wgItemTypes.get(p.wargearItemId).add(p.type)
 }
+// The weapon an item STANDS FOR, when its one profile bears another name: a Gun Drone is the twin
+// pulse carbine on the datasheet. Without it the card could not tell that row is the drone's and
+// kept it on a Crisis team that took no drones (player report e6093db4, 2026-10-03). Single-profile
+// items only — a multi-profile item's profiles are modes ("Standard", "Supercharge"), not weapons.
+const MODE_WORDS = /^(melee|ranged|strike|sweep|standard|supercharge|overcharge|focused|dispersed|frag|krak|beam|blast|hunter)$/i
+const wgItemProfiles = new Map()
+for (const p of table('wargear_item_profile')) {
+  if (!['ranged', 'melee'].includes(p.type)) continue
+  if (!wgItemProfiles.has(p.wargearItemId)) wgItemProfiles.set(p.wargearItemId, [])
+  wgItemProfiles.get(p.wargearItemId).push(enOf(p).name || '')
+}
 const woById = new Map(table('wargear_option').map((o) => [o.id, o]))
 const woByGroup = new Map()
 for (const o of table('wargear_option')) {
@@ -329,7 +340,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -527,6 +538,8 @@ const LOADOUT_ITEM_FIXES = {
 
 const CHAPTERS = new Set(['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves'])
 const isChapter = (slug) => CHAPTERS.has(slug)
+// The Deathwatch's own detachments, by name — a shared one found here is folded from deathwatch.js.
+const DW_DETACHMENTS = new Set((loadJson(path.join(APPDATA, 'factions', 'deathwatch.json'))?.detachments || []).map((d) => norm(d.name)))
 
 function keyword(kws, name) {
   const n = name.toLowerCase()
@@ -696,6 +709,23 @@ function linkWargearConditions(datasheetId, drafts) {
 
   const resolveChunk = (chunk, miniId) => resolveItem(chunk, miniId) || resolveAlternatives(chunk, miniId)
 
+  // …and the case it leaves: a profile that holds BOTH, because its models are not alike. "2 Havocs
+  // are equipped with a Havoc autocannon, 2 with a Havoc lascannon", then "any number of Havocs can
+  // each have their Havoc autocannon or Havoc lascannon replaced" — each pick gives up whichever of
+  // the two that model carries. Static data cannot say which model takes the pick, so the group
+  // records both with `alt`: the engine spends a pick on one of them, never on both. Left unread
+  // until 2026-10-03, the group gave up nothing and four heavy bolters sat beside the four heavy
+  // weapons they replaced (a player's report). The whole phrase must be the alternatives — nothing
+  // joined to them by "and" or a comma — and every one of them printed on the profile.
+  const resolveHeldAlternatives = (phrase, miniId) => {
+    if (/,|\sand\s/i.test(phrase)) return null
+    const alts = phrase.split(/\s+or\s+/i).map((s) => s.trim()).filter(Boolean)
+    if (alts.length < 2) return null
+    const uuids = [...new Set(alts.map((a) => resolveItem(a, miniId)))]
+    if (uuids.length !== alts.length || !uuids.every((u) => u && defaultsByMini.get(miniId)?.has(u))) return null
+    return uuids
+  }
+
   // A phrase into the set of items it names. Commas always separate; "and" may or may not, since
   // an item can BE called "Cult claws and knife" — so every way of splitting on "and" is tried,
   // fewest pieces first, and the first reading where every piece is a real item wins. Fewest-first
@@ -743,6 +773,35 @@ function linkWargearConditions(datasheetId, drafts) {
   // replaced it, and the stock rule — a model cannot give the same item up twice — had nothing to
   // count, so a ten-Raptor squad offered two mutations with one chainsword left to trade.
   const ACTIVE_RE = /\bcan\s+(?:each\s+)?replace\s+(?:its|their|his|her|the)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s+with\b/i
+
+  // One group, two swaps: appdata files "For every 5 models in this unit: ◦ 1 Raider's boltgun can
+  // be replaced with 1 meltagun ◦ 1 Raider's reaver's blade can be replaced with 1 power fist" as a
+  // single group of two options, and the reading below takes the FIRST possessive for both — so the
+  // power fist replaced the boltgun and ten reaver's blades stayed on the card (a player's report,
+  // 2026-10-04). Each bullet is its own allowance over its own weapon, so the group is split into
+  // one draft per bullet, each written as the comma form of its head ("For every 5 models in this
+  // unit, 1 Raider's boltgun…"), which the scaled and conditional limit readers already know.
+  // Only where every bullet names a DIFFERENT weapon given up and every option belongs to exactly
+  // one bullet — bullets that all give up the same weapon (Vespid's "If this unit contains 10
+  // models: ◦ … neutron blaster with 1 T'au flamer ◦ … neutron blaster with 1 neutron grenade
+  // launcher") are one stock and stay one group.
+  const SPLIT_HEAD = /^(for every \d+ models? in (?:this|the) unit|if this unit contains \d+(?: or (?:fewer|more))? models?):$/i
+  const valueNames = (line, name) => new RegExp(`\\b${reEsc(norm(name))}(?:e?s)?\\b`).test(norm(line.split(VALUE_SPLIT).pop()))
+  for (let i = drafts.length - 1; i >= 0; i--) {
+    const d = drafts[i]
+    const lines = d.text.split('\n').map((l) => l.trim()).filter(Boolean)
+    const head = SPLIT_HEAD.exec(lines[0] || '')
+    if (!head || lines.length < 3 || !lines.slice(1).every((l) => BULLET_RE.test(l))) continue
+    const bullets = lines.slice(1).map((l) => l.replace(BULLET_RE, ''))
+    const reps = bullets.map((b) => { const m = b.match(REP_RE) || b.match(ACTIVE_RE); return m && resolvePhrase(m[1], d.miniId) })
+    if (!reps.every(Boolean) || new Set(reps.map((r) => r.slice().sort().join('+'))).size !== bullets.length) continue
+    const owner = d.opts.map((o) => bullets.filter((b) => valueNames(b, wgItemName.get(o.uuid) || '')).length === 1 ? bullets.findIndex((b) => valueNames(b, wgItemName.get(o.uuid) || '')) : -1)
+    if (owner.includes(-1) || bullets.some((_, bi) => !owner.includes(bi))) continue
+    const parts = bullets.map((b, bi) => ({ ...d, text: `${head[1]}, ${b}`, opts: d.opts.filter((_, oi) => owner[oi] === bi) }))
+    drafts.splice(i, 1, ...parts)
+    repStats.split.push(`${enOf(dsById.get(datasheetId)).name}: ${bullets.length} swaps — ${lines[0]}`)
+  }
+
   for (const d of drafts) {
     // A sentence can carry more than one possessive before the swap — "The Celestian Insidiant's
     // Superior's condemnor bolt pistol" — and the first one starts a phrase that names no item.
@@ -760,6 +819,10 @@ function linkWargearConditions(datasheetId, drafts) {
       last = m
       const uuids = resolvePhrase(m[1], d.miniId)
       if (uuids) { d.rep = uuids; repStats.resolved++ }
+    }
+    if (!d.rep && last) {
+      const uuids = resolveHeldAlternatives(last[1], d.miniId)
+      if (uuids) { d.rep = uuids; d.alt = true; repStats.resolved++ }
     }
     if (d.rep) continue
     if (last) repStats.unresolved.push(`${enOf(dsById.get(datasheetId)).name}: ${last[1].trim()}`)
@@ -1423,6 +1486,14 @@ const alliedTakers = groupBy(table('faction_keyword_allied_faction'), 'alliedFac
 const alliedParents = groupBy(table('allied_faction_parent_faction_keyword'), 'alliedFactionId')
 const alliedSheets = groupBy(table('allied_faction_datasheet'), 'alliedFactionId')
 const alliedKeywords = groupBy(table('allied_faction_keyword'), 'alliedFactionId')
+// "For each INQUISITOR unit you include in your army, you can include one INQUISITORIAL AGENTS unit
+// that does not count towards the number of RETINUE units" — appdata records it as a slotless
+// group on one keyword cap: every unit carrying ALL the donor keywords frees one unit carrying the
+// receiver keywords from that cap. Unread until 2026-10-03, when auditing Agents of the Imperium:
+// a legal Inquisitor + Inquisitorial Agents + two Retinue units read as over the Retinue limit.
+const slotlessByCap = groupBy(table('allied_faction_keyword_slotless_keyword_group'), 'alliedFactionKeywordId')
+const slotlessDonors = groupBy(table('allied_faction_keyword_slotless_keyword_group_donor_keyword'), 'alliedFactionKeywordSlotlessKeywordGroupId')
+const slotlessReceivers = groupBy(table('allied_faction_keyword_slotless_keyword_group_receiver_keyword'), 'alliedFactionKeywordSlotlessKeywordGroupId')
 const alliedPoints = groupBy(table('allied_faction_points_limit'), 'alliedFactionId')
 const alliedDets = groupBy(table('allied_faction_required_detachment'), 'alliedFactionId')
 
@@ -1464,11 +1535,34 @@ async function alliedPricesOf(slug) {
     for (const [name, prices] of allied) {
       const diff = {}
       for (const [models, p] of prices) if (own.get(name)?.get(models)?.base !== p.base) diff[models] = p.base
-      if (Object.keys(diff).length) out.set(name, diff)
+      out.set(name, { diff, priced: prices })
     }
   }
   alliedPriceCache.set(slug, out)
   return out
+}
+
+// The allied price of a size the MFM's allied list does not print. appdata keeps a datasheet's
+// allied prices as a parallel list of compositions marked with a grouping keyword (IMPERIUM, for
+// Agents of the Imperium in another Imperium army), and the MFM prints only some of its sizes:
+// Inquisitorial Agents are 6 and 12 models there, while appdata also prices 7-11 — 100 in the
+// Agents' own army, 120 as allies. Without this the allied 7-11 kept the native 100 (found on
+// 2026-10-03, auditing Agents of the Imperium). Same rule as pickPrices: the MFM wins wherever it
+// speaks, and appdata answers only where it is silent — keyed by the size's largest model count,
+// which is what the client's repriced() reads first.
+function alliedCompositionPrices(datasheetId, priced, native) {
+  const extra = {}
+  for (const c of compByDs.get(datasheetId) || []) {
+    if (!c.referenceGroupingKeywordId || !(c.points > 0)) continue
+    const rows = compMinis.get(c.id) || []
+    if (!rows.length) continue
+    const min = rows.reduce((a, r) => a + r.min, 0)
+    const max = rows.reduce((a, r) => a + r.max, 0)
+    if (priced?.has(min) || priced?.has(max)) continue
+    const own = native?.sizes?.find((z) => z.per[0] === min && z.per[1] === max)
+    if (own && own.pts !== c.points) extra[max] = c.points
+  }
+  return extra
 }
 
 async function alliesFor(factionKeywordId, ownUnitIds, slug) {
@@ -1502,8 +1596,10 @@ async function alliesFor(factionKeywordId, ownUnitIds, slug) {
       const id = `${srcSlug}:${unitId}`
       ids.push(id)
       const prices = await alliedPricesOf(srcSlug)
-      const diff = prices?.get(normApost(enOf(dsById.get(row.datasheetId)).name || ''))
-      if (diff) up[id] = diff
+      const hit = prices?.get(normApost(enOf(dsById.get(row.datasheetId)).name || ''))
+      const native = (await loadModule(path.join(ROOT, 'src/data/roster', `${srcSlug}.js`)))?.default?.units?.find((u) => u.id === unitId)
+      const diff = { ...(hit?.diff || {}), ...(hit ? alliedCompositionPrices(row.datasheetId, hit.priced, native) : {}) }
+      if (Object.keys(diff).length) up[id] = diff
     }
     if (!ids.length) { report.allies.empty.push(`${slug}: ${group.name}`); continue }
     group.ids = ids.sort()
@@ -1519,6 +1615,18 @@ async function alliesFor(factionKeywordId, ownUnitIds, slug) {
       lim[kw][size] = r.limitCount
     }
     if (Object.keys(lim).length) group.lim = lim
+    // `free`: [{ kw, donor: [keywords], recv: [keywords] }] — see slotlessByCap. One per rule, not per
+    // battle size: appdata repeats each group on every size's row of the same cap.
+    const free = new Map()
+    for (const r of alliedKeywords.get(af.id) || []) {
+      for (const g of slotlessByCap.get(r.id) || []) {
+        const donor = (slotlessDonors.get(g.id) || []).map((d) => kwName.get(d.keywordId)).filter(Boolean).sort()
+        const recv = (slotlessReceivers.get(g.id) || []).map((d) => kwName.get(d.keywordId)).filter(Boolean).sort()
+        const kw = kwName.get(r.keywordId)
+        if (kw && donor.length && recv.length) free.set(`${kw}|${donor}|${recv}`, { kw, donor, recv })
+      }
+    }
+    if (free.size) group.free = [...free.values()]
     if (af.isMutuallyExclusiveKeywordLimit) group.mutex = 1
     const pts = {}
     for (const r of alliedPoints.get(af.id) || []) if (bsSlug.get(r.battleSizeId)) pts[bsSlug.get(r.battleSizeId)] = r.pointsLimit
@@ -1812,7 +1920,21 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       const have = new Set(at[1].map(([id]) => id))
       for (const [uuid, c] of items) {
         const id = fx.item(fixItem(uuid))
-        if (have.has(id)) continue
+        // …and the row can OVERSTATE: it describes one model, and a profile whose models are not
+        // all alike gets that one model's loadout for every model. "2 Havocs are equipped with: Havoc
+        // autocannon … 2 Havocs are equipped with: Havoc lascannon" has a row of autocannon ×1 for
+        // the Havoc profile — four autocannons beside the group's two lascannons, a squad of six
+        // heavy weapons (a player's report, 2026-10-03). Where the group counts FEWER copies than
+        // the row times the models, the group's count is the profile's: per model if it divides,
+        // a total if not. Two profiles game-wide, Havocs and the Voidsmen's three lasguns.
+        if (have.has(id)) {
+          const row = at[1].find(([i]) => i === id)
+          const models = profileModels(m)
+          if (row[2] || models < 2 || c >= row[1] * models) continue
+          row.splice(1, 2, ...(c % models === 0 ? [c / models] : [c, 1]))
+          report.defaultsMerged.push(`${bd.name} / ${enOf((minisByDs.get(bd.id) || []).find((x) => (miniIdx.get(x.id) ?? 0) === m)).name || m}: ${wgItemName.get(uuid)} (${c} for the profile, not one per model)`)
+          continue
+        }
         const models = compOf(m)
         at[1].push(models > 1 ? [id, c, 1] : [id, c])
         report.defaultsMerged.push(`${bd.name} / ${enOf((minisByDs.get(bd.id) || []).find((x) => (miniIdx.get(x.id) ?? 0) === m)).name || m}: ${wgItemName.get(uuid)}${models > 1 ? ` (${c} for the profile)` : ''}`)
@@ -2090,6 +2212,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     if (d.lim) grp.lim = d.lim
     if (d.cp) grp.cp = d.cp
     if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
+    if (d.alt) grp.alt = 1
     if (d.keep?.length) grp.keep = d.keep.map((uuid) => fx.item(uuid))
     // A model that trades a paid default away stops paying for it: `dr` is what one pick in this
     // group gives back — per COPY where the group is per-copy, since that is how `n` is counted.
@@ -2142,6 +2265,11 @@ const ENH_REQ_FIXES = {
   'Reletavistic Tether': ['Transcendent C’tan'],
   'Decoy Targets': ['Callidus Assassin'],
   'Esoteric Explosives': ['Culexus Assassin'],
+  // The other two of the four Extremis abilities, missing until 2026-10-03: an Eversor and a
+  // Vindicare in a Veiled Blade army were 15 and 20 points too cheap and lacked the ability (found
+  // auditing Agents of the Imperium). `--check` now fails on any enhancement still pointing at DNU.
+  'Intraneural Biotech': ['Eversor Assassin'],
+  'Micromelta Rounds': ['Vindicare Assassin'],
 }
 
 // Distinct from both of the above: a chunk of "(Upgrade)"-type enhancements (an optional pick,
@@ -2231,6 +2359,9 @@ function buildEnhancement(e, nameToDsId, idMap) {
     enh.req = [{ kw: ENH_REQ_FIXES[name] }]
     enh.mandatory = 1
   }
+  // appdata's "do not use" placeholder left in place: no datasheet carries it, so nobody can take
+  // the enhancement. A new one is a gate (`--check`), not a note — two sat unnoticed until 2026-10-03.
+  if ((enh.req || []).some((r) => (r.kw || []).includes('DNU'))) report.dnu.push(name)
   // Attach targets this enhancement grants its bearer, resolved to this faction's own unit ids
   // (a target on another faction's datasheet has nothing to attach to in this roster and drops).
   const attach = (enhAttachByEnh.get(e.id) || [])
@@ -2348,6 +2479,13 @@ async function genFaction(slug) {
   const mfmMod = await loadModule(path.join(ROOT, 'src/data/mfm', `${slug}.js`))
   const mfmFaction = mfmMod?.default
   const mfmDet = new Map((mfmFaction?.detachments || []).map((d) => [norm(d.name), d]))
+  // The MFM prints a Chapter's own detachment on the Space Marines page as often as on its own
+  // (Deathwatch Support, dp 1 — it came out 0 here until 2026-10-03): a Chapter looks there second,
+  // as gen-faction-rules does.
+  if (isChapter(slug)) {
+    const smMfm = (await loadModule(path.join(ROOT, 'src/data/mfm', 'space-marines.js')))?.default
+    for (const d of smMfm?.detachments || []) if (!mfmDet.has(norm(d.name))) mfmDet.set(norm(d.name), d)
+  }
 
   // Detachment tags as the reference pages already show them (FactionRuleView's "Unique: …").
   const facMod = await loadModule(path.join(ROOT, 'src/data/factions', `${slug}.js`))
@@ -2400,6 +2538,19 @@ async function genFaction(slug) {
   // as `unitPoints` below instead.
   const prices = mfmPrices(ownMfmUnits(mfmFaction))
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex, prices)).sort((a, b) => a.name.localeCompare(b.name))
+  // …and the unit such a sheet comes WITH: one that shares a named rule with it ("Using Sir Hekhtur"
+  // on Canis Rex and on the pilot alike). `crew` lets the lists draw the pilot as a row of the unit
+  // he climbs out of, without loading the datasheets (owner, 2026-10-04) — the same test the unit
+  // card's `companions` applies to the full sheets.
+  const ruleNames = (d) => new Set((d.rules || []).map((r) => norm(enOf(r).name || r.name || '')).filter(Boolean))
+  for (const nb of (bundle.datasheets || []).filter((d) => noBuild.includes(d.name) && idMap.get(d.id))) {
+    const theirs = ruleNames(nb)
+    for (const bd of bundleUnits) {
+      if (![...ruleNames(bd)].some((n) => theirs.has(n))) continue
+      const u = units.find((x) => x.sid === bd.id)
+      if (u) (u.crew ||= []).push({ id: idMap.get(nb.id), name: nb.name })
+    }
+  }
   // Codex: Space Marines also plays the six Codex Supplement detachments (Blade of Ultramar …), which
   // appdata ships as one-detachment "factions" of their own. Each is its Chapter's only: `chapter`
   // says whose, the same field the faction page's chapter picker reads.
@@ -2439,10 +2590,19 @@ async function genFaction(slug) {
     const smMfm = (await loadModule(path.join(ROOT, 'src/data/mfm', 'space-marines.js')))?.default
     const over = chapterUnitPoints(mfmFaction, smMfm, shared, unitIdMap('space-marines'), nameToDsId)
     if (over) { data.unitPoints = over; report.price.chapterOverrides += Object.keys(over).length }
+  }
+  // The detachments of the Space Marines family this army may field from another bundle: a
+  // Chapter's Codex detachments (space-marines.js), and Deathwatch Support, which the app files
+  // with the Deathwatch and opens to every Adeptus Astartes army — the Space Marines included.
+  // Until 2026-10-03 only the Chapters were asked, and only space-marines.js was looked in, so
+  // nobody but the Deathwatch could take Deathwatch Support.
+  if (isChapter(slug) || slug === 'space-marines') {
     const sharedDets = sharedDetachmentsFor(data.name, detachments)
     if (sharedDets) {
       data.sharedDetachments = sharedDets.names
       if (sharedDets.dp) data.detachmentDp = sharedDets.dp
+      const from = Object.fromEntries(sharedDets.names.filter((n) => DW_DETACHMENTS.has(norm(n))).map((n) => [n, 'deathwatch']))
+      if (Object.keys(from).length) data.sharedDetachmentFrom = from
       report.sharedDets += sharedDets.names.length
     }
   }
@@ -2502,7 +2662,18 @@ function genItems() {
   for (const [uuid, id] of itemIds) items[id] = wgItemName.get(uuid) || packItemNames.get(uuid) || ''
   const texts = {}
   for (const [s, id] of textIds) texts[id] = s
-  const data = { items, texts }
+  // Keyed by the item's name (folded), not its id: what reads it matches a sheet's rows by name.
+  const stands = {}
+  for (const [uuid] of itemIds) {
+    const name = wgItemName.get(uuid)
+    const profiles = wgItemProfiles.get(uuid) || []
+    if (!name || profiles.length !== 1 || !profiles[0] || norm(profiles[0]) === norm(name)) continue
+    if (MODE_WORDS.test(profiles[0].trim())) continue // a lone mode left by a lost twin profile, not a weapon
+    const k = norm(name)
+    if (!stands[k]) stands[k] = []
+    if (!stands[k].includes(profiles[0])) stands[k].push(profiles[0])
+  }
+  const data = { items, texts, stands }
   writeOut('items.js', `${HEAD}// Shared wargear item names + group instruction texts, interned across all factions.\nexport default ${stableJson(data)}\n`)
 }
 
@@ -2588,8 +2759,11 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
   const data = await load(slug)
   if (!data) return null
   const extra = allies && data.allies?.length ? await allyUnits(data) : []
-  const needSm = !!(data.sharedUnitIds?.length || data.sharedDetachments?.length)
-  if (!needSm && !extra.length) return data
+  // A shared detachment comes from space-marines.js unless \`sharedDetachmentFrom\` names its
+  // bundle (Deathwatch Support → deathwatch.js).
+  const fromOf = (name) => data.sharedDetachmentFrom?.[name] || 'space-marines'
+  const needSm = !!(data.sharedUnitIds?.length || data.sharedDetachments?.some((n) => fromOf(n) === 'space-marines'))
+  if (!needSm && !data.sharedDetachments?.length && !extra.length) return data
   const sm = needSm ? await load('space-marines') : null
   const idSet = new Set(data.sharedUnitIds || [])
   const shared = (sm?.units || [])
@@ -2600,10 +2774,20 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
   // same reason its shared units do. A different Detachment Points cost for this Chapter comes
   // with them (\`detachmentDp\`), so the budget the editor spends is the Chapter's own.
   if (!data.sharedDetachments?.length) return { ...data, units }
-  const want = new Set(data.sharedDetachments)
-  const dets = (sm?.detachments || [])
-    .filter((d) => want.has(d.name))
-    .map((d) => (data.detachmentDp?.[d.name] != null ? { ...d, dp: data.detachmentDp[d.name], shared: 1 } : { ...d, shared: 1 }))
+  const bySource = new Map()
+  for (const n of data.sharedDetachments) {
+    const src = fromOf(n)
+    if (!bySource.has(src)) bySource.set(src, new Set())
+    bySource.get(src).add(n)
+  }
+  const dets = []
+  for (const [src, want] of bySource) {
+    const bundle = src === 'space-marines' ? sm : await load(src)
+    for (const d of bundle?.detachments || []) {
+      if (!want.has(d.name)) continue
+      dets.push(data.detachmentDp?.[d.name] != null ? { ...d, dp: data.detachmentDp[d.name], shared: 1 } : { ...d, shared: 1 })
+    }
+  }
   const detachments = [...data.detachments, ...dets].sort((a, b) => a.name.localeCompare(b.name))
   return { ...data, units, detachments }
 }
@@ -2728,6 +2912,10 @@ if (report.defaultsMerged.length) {
 }
 console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} left the phrase unreadable (an unlisted item, or two the profile both holds)`)
 for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
+if (rp.split.length) {
+  console.log(`  one group, several swaps: ${rp.split.length} groups split into one per weapon given up`)
+  for (const l of rp.split) console.log(`    - ${l}`)
+}
 console.log(`  kept-item locks: ${report.keep.resolved} groups keep an item locked ("cannot be replaced"); ${report.keep.unresolved.length} unreadable`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
 console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity, ${lm.bundled} matched through a bundled option), ${lm.fromProse} more from their own instruction where appdata records no set (+${lm.fromProseScaled} from its "for every N models, up to M" step form), ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
@@ -2774,6 +2962,13 @@ if (report.unlinked.length) {
   console.log(`  unlinked units (no datasheet page — slugified id, no deep link):`)
   for (const u of report.unlinked.slice(0, 40)) console.log(`    - ${u}`)
   if (report.unlinked.length > 40) console.log(`    … +${report.unlinked.length - 40} more`)
+}
+
+// An enhancement nobody can take fails BOTH runs, ahead of everything else: a stale-file verdict
+// would otherwise name the wrong cause, and a plain run would write the broken data.
+if (report.dnu.length) {
+  console.log(`\n  ✗ ${report.dnu.length} enhancement(s) nobody can take — appdata requires its "DNU" placeholder keyword; name the unit in ENH_REQ_FIXES: ${[...new Set(report.dnu)].join(', ')}`)
+  return 1
 }
 
 // --check contract, matching the other sync checks: report what would change, write nothing, and

@@ -49,7 +49,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, SLUG_MAP, norm, looseName, isWeaponType, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { APPDATA, ROOT, SLUG_MAP, norm, looseName, isWeaponType, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 
 // Scalar field maps for statline/weapon-profile comparisons: [wh11ed key, appdata key].
@@ -59,9 +59,22 @@ const WEAPON_FIELDS = {
   melee: [['a', 'A'], ['ws', 'WS'], ['s', 'S'], ['ap', 'AP'], ['d', 'D']],
 }
 
+let fkBySheet
+function factionKeywordsBySheet() {
+  if (fkBySheet) return fkBySheet
+  const tables = path.join(APPDATA, 'tables')
+  const name = new Map((loadJson(path.join(tables, 'faction_keyword.json')) || []).map((k) => [k.id, k.localisations?.en?.name]))
+  fkBySheet = new Map()
+  for (const r of loadJson(path.join(tables, 'datasheet_faction_keyword.json')) || []) {
+    if (!fkBySheet.has(r.datasheetId)) fkBySheet.set(r.datasheetId, [])
+    fkBySheet.get(r.datasheetId).push(name.get(r.factionKeywordId))
+  }
+  return fkBySheet
+}
+
 async function syncFaction(slug) {
   const appSlug = SLUG_MAP[slug] || slug
-  const bundle = loadAppdataBundle(appSlug) // our recorded departures applied — scripts/lib/appdata-exceptions.mjs
+  const bundle = loadAppdataBundle(appSlug, { family: true }) // our recorded departures applied — scripts/lib/appdata-exceptions.mjs
   console.log(`\n=== ${slug} (appdata: ${appSlug}) ===`)
   if (!bundle) { console.log('  no appdata bundle found — check SLUG_MAP or spelling'); return }
 
@@ -89,7 +102,8 @@ async function syncFaction(slug) {
   }
 
   // Detachments, and within each, stratagems/enhancements.
-  lines.push(...diffByName('detachment', en.detachments, appDetachments, (d) => d.name, (d) => d.name, [],
+  const carriedDets = new Set((en.detachments || []).map((d) => norm(d.name)))
+  lines.push(...diffByName('detachment', en.detachments, appDetachments.filter((d) => !d.familyOnly || carriedDets.has(norm(d.name))), (d) => d.name, (d) => d.name, [],
     (d) => (d.rules || []).map((r) => `${r.name}: ${bodyText(r.body)}`).join(' | ')))
   const appDetByName = byNormName(appDetachments, (d) => d.name)
   for (const d of en.detachments || []) {
@@ -116,24 +130,17 @@ async function syncFaction(slug) {
   for (const d of packSheets) {
     if (appDsByName.has(norm(d.name))) lines.push(`  ⟲ datasheet "${d.name}" [${d.id}] is now in appdata — retire the faction-pack copy (re-author from appdata, drop \`source\`)`)
   }
-  lines.push(...diffByName('datasheet', wh11edSheets.filter((d) => d.source !== 'faction-pack'), appDatasheets, (d) => d.name, (d) => d.name, [],
+  const carried = new Set(wh11edSheets.map((d) => norm(d.name)))
+  lines.push(...diffByName('datasheet', wh11edSheets.filter((d) => d.source !== 'faction-pack'), appDatasheets.filter((d) => !d.familyOnly || carried.has(norm(d.name))), (d) => d.name, (d) => d.name, [],
     (d) => `${(d.points || []).map((p) => `${p.models}=${p.points}pts`).join(', ')} — ${(d.keywords || []).join(', ')}`))
   for (const d of wh11edSheets) {
     const appDs = appDsByName.get(norm(d.name))
     if (!appDs) continue
-    // wh11ed's `points[].note` sometimes marks MFM "copy tax" tiers ("1st-2nd" vs "3rd+"
-    // costing more for spamming the same unit) — appdata's composition join only exposes
-    // the base price, so drop any tier past the first before comparing.
-    // appdata's own unit_composition join sometimes yields duplicate rows for the same
-    // price (multiple miniature slots in one composition) — de-dupe before comparing.
-    // The ordinal can be the whole note ("3rd+") or trail a longer composition
-    // description in parens ("3 Wolf Guard Headtakers (3rd+)") — match either.
-    const isSurchargeTier = (note) => note && /(^|\()(2nd|3rd|4th|5th)/i.test(note)
-    const whPts = [...new Set((d.points || []).filter((p) => !isSurchargeTier(p.note)).map((p) => p.points))].sort((x, y) => x - y)
-    const appPts = [...new Set((appDs.points || []).map((p) => p.points))].sort((x, y) => x - y)
-    if (whPts.length && appPts.length && JSON.stringify(whPts) !== JSON.stringify(appPts)) {
-      lines.push(`  ~ datasheet "${d.name}" points differ: wh11ed=${JSON.stringify(whPts)} appdata=${JSON.stringify(appPts)}`)
-    }
+    // Points are not compared here. They come from the Munitorum Field Manual (owner's rule: the
+    // app for rules, the MFM for points) and `npm run sync:mfm` holds them to it. Against appdata
+    // the comparison only ever printed how the two write a price — a detachment's surcharge as a
+    // second price (Veiled Blade's Extremis on an Assassin), a second Tidewall as "2 = 105" where
+    // the MFM says "+20" — nine lines that never changed and nobody read (until 2026-10-03).
     // Only appdata's `type: 'datasheet'` abilities are genuinely unit-specific and map to
     // wh11ed's `abilities` array — `core`/`faction` are Core Rulebook/army-rule references
     // wh11ed keeps as its own `core`/`faction` summary strings, and `wargear` maps to
@@ -145,17 +152,17 @@ async function syncFaction(slug) {
     }
     for (const n of whAbilities) if (!appAbilityByName.has(n)) lines.push(`  - datasheet "${d.name}" extra ability (not in appdata): "${n}"`)
 
-    // Compare core+faction as ONE merged set, not two separate fields: wh11ed's `faction`
-    // is itself sometimes a comma-joined list (e.g. Aeldari's "Battle Focus, Disparate
-    // Paths"), and appdata inconsistently buckets the same ability name as 'core' on some
-    // datasheets and 'faction' on others (e.g. "Super-heavy Walker") — diffing per-field
-    // would flag that inconsistency as a false difference even when the name set matches.
-    const appCoreFaction = (appDs.abilities || []).filter((a) => a.type === 'core' || a.type === 'faction').map((a) => norm(a.name))
-    const whCoreFaction = [...(d.core || '').split(','), ...(d.faction || '').split(',')].map((s) => norm(s.trim())).filter(Boolean)
-    const missingCF = appCoreFaction.filter((n) => !whCoreFaction.includes(n))
-    const extraCF = whCoreFaction.filter((n) => !appCoreFaction.includes(n))
-    if (missingCF.length || extraCF.length) {
-      lines.push(`  ~ datasheet "${d.name}" core/faction differ: wh11ed=${JSON.stringify([d.core, d.faction].filter(Boolean))} appdata=${JSON.stringify(appCoreFaction)}`)
+    // Core and faction abilities, each against its own bucket in appdata. Until 2026-10-03 they
+    // were compared as one merged set, because appdata files the same name as 'core' on one sheet
+    // and 'faction' on another ("Super-heavy Walker") — and that hid Seraptek Heavy Construct
+    // carrying Super-heavy Walker among its faction abilities while the app (and its errata) has it
+    // as a core one. The standard now is the app's own bucketing, sheet by sheet.
+    for (const [field, type] of [['core', 'core'], ['faction', 'faction']]) {
+      const app = (appDs.abilities || []).filter((a) => a.type === type).map((a) => norm(a.name)).sort()
+      const ours = (d[field] || '').split(',').map((s) => norm(s.trim())).filter(Boolean).sort()
+      if (JSON.stringify(app) !== JSON.stringify(ours)) {
+        lines.push(`  ~ datasheet "${d.name}" ${field} abilities differ: wh11ed=${JSON.stringify(ours)} appdata=${JSON.stringify(app)}`)
+      }
     }
 
     // Stats: match wh11ed's profiles[] to appdata's statlines[] by name; if unmatched AND wh11ed
@@ -195,7 +202,9 @@ async function syncFaction(slug) {
     const whInv = [...new Set((d.profiles || []).map((p) => p.inv).filter(Boolean))]
     const appInvList = appDs.invulnerableSaves || []
     if (whInv.length <= 1 && appInvList.length === 1 && !appInvList[0].miniatureId) {
-      const appInv = appInvList[0].save || appInvList[0].rangedSave
+      // A save against one kind of attack only is filed under that kind (Judiciar: meleeSave 4+,
+      // "Against melee attacks only") — the condition itself is compared just below.
+      const appInv = appInvList[0].save || appInvList[0].rangedSave || appInvList[0].meleeSave
       if ((whInv[0] || null) !== (appInv || null) && (whInv[0] || appInv)) {
         lines.push(`  ~ datasheet "${d.name}" invulnerable save differs: wh11ed=${JSON.stringify(whInv[0] || null)} appdata=${JSON.stringify(appInv || null)}`)
       }
@@ -243,8 +252,12 @@ async function syncFaction(slug) {
         // profile AND left the real one looking unclaimed.
         const pick = (fold) => profiles.filter((p) => fold(w.name).endsWith(fold(p.name)))
           .sort((a, b) => b.name.length - a.name.length)[0]
+        // A hunter profile can carry the weapon's own name (Deathwing Chainfist, whose broken
+        // `hunterProfileKeyword` is "**null**") — the generator names its row "<weapon> – hunter",
+        // and the name alone would pick the ordinary profile.
+        const hunter = /[–-]\s*hunter\b/i.test(w.name) && profiles.find((p) => 'hunterProfileKeyword' in p)
         const profile = profiles.length <= 1 ? profiles[0]
-          : pick(norm) || pick(looseName) || profiles[0]
+          : hunter || pick(norm) || pick(looseName) || profiles[0]
         if (!profile) continue
         claimedProfiles.add(`${item.id}|${profile.type}|${profile.name}`)
         for (const [wf, af] of WEAPON_FIELDS[kind]) {
@@ -272,11 +285,27 @@ async function syncFaction(slug) {
     }
 
     // Keywords: full set diff for every matched datasheet (previously only shown as a text
-    // pointer when the whole datasheet was missing). appdata's per-datasheet `factionKeywords` is
-    // always empty in this bundle shape (the faction keyword is implied by which faction bundle
-    // you're reading, not repeated per-sheet) — comparing it would be 100% noise, so only
-    // `keywords[]` is diffed; wh11ed's own `factionKeywords` isn't checked here.
+    // pointer when the whole datasheet was missing).
     lines.push(...diffSet(`datasheet "${d.name}" · keyword`, d.keywords || [], appDs.keywords || []))
+    // Faction keywords. The bundle's per-sheet `factionKeywords` is always empty; the relation lives
+    // in tables/datasheet_faction_keyword, reached through the sheet's source id. Not compared until
+    // 2026-10-03, and 13 sheets had none at all (the Exodite units, the Titans) while Death Guard's
+    // carried an empty one — and the roster matches "ASURYANI model only" against these.
+    const sourceId = smap[`ds:${d.id}`]
+    if (sourceId) {
+      lines.push(...diffSet(`datasheet "${d.name}" · faction keyword`, (d.factionKeywords || []).filter(Boolean), factionKeywordsBySheet().get(sourceId) || []))
+      if ((d.factionKeywords || []).some((k) => !k)) lines.push(`  ~ datasheet "${d.name}" has an empty faction keyword`)
+    }
+
+    // Flavor — the lore under the name. Not compared until 2026-10-03, and 208 sheets still carried
+    // the Wahapedia import's 10th-edition text while the app had rewritten it. Compared as words
+    // (markup, italics and quotes folded); the RU overlay translates it, so a finding here is an EN
+    // change AND a re-translation.
+    if (d.flavor && appDs.lore && !d.legends) {
+      const words = (t) => norm(String(t).replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+        .replace(/<[^>]+>/g, ' ').replace(/[*_]/g, '').replace(/[’‘]/g, "'"))
+      if (words(d.flavor) !== words(appDs.lore)) lines.push(`  ~ datasheet "${d.name}" flavor differs from appdata`)
+    }
 
     // baseSize: exact scalar (both sides are short strings like "32mm") — appdata always spaces
     // out "170 x 109mm", wh11ed always writes "170x109mm" — and for a mixed-base unit (a wargear
@@ -301,7 +330,17 @@ async function syncFaction(slug) {
     // (requiredDetachmentId/excludedDetachmentId only exist in the raw tables/
     // datasheet_bodyguard_group.json, not in this bundle) — a clean match here doesn't confirm any
     // detachment restriction is right, only that the unconditional unit list agrees.
+    // …plus what the Leader rule's own bullets name and no table does — a keyword ("IMPERIUM
+    // BATTLELINE INFANTRY") or a unit appdata does not carry (a Faction Pack Legends squad). The
+    // page prints those since 2026-10-03 (gen-datasheets' leaderUnits), so they are not "extra".
+    const leaderRule = [...(appDs.abilities || []), ...(appDs.rules || [])].find((a) => a.name === 'Leader' && /attached to the following/.test(a.rules || ''))
+    const proseUnits = [...(leaderRule?.rules || '').matchAll(/^■\s*\*\*\**(.+?)\*\*/gm)].map((m) => m[1].trim())
     const appLeaderUnits = (appDs.leaderOf || []).flatMap((l) => l.units || [])
+    const known = new Set(appLeaderUnits.map((u) => u.toLowerCase().replace(/[^a-z0-9]/g, '')))
+    for (const p of proseUnits) {
+      const k = p.toLowerCase().replace(/[^a-z0-9]/g, '')
+      if (!known.has(k) && (d.leader?.units || []).some((u) => u.toLowerCase().replace(/[^a-z0-9]/g, '') === k)) appLeaderUnits.push((d.leader.units).find((u) => u.toLowerCase().replace(/[^a-z0-9]/g, '') === k))
+    }
     if (d.leader?.units?.length || appLeaderUnits.length) {
       lines.push(...diffSet(`datasheet "${d.name}" · bodyguard unit`, d.leader?.units || [], appLeaderUnits))
     }

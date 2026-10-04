@@ -131,6 +131,8 @@ export async function loadWh11edCore() {
   // up as permanently "missing" even when transcribed.
   const ref = await loadModule(path.join(ROOT, 'src', 'data', 'reference.js'))
   flattenWh11ed(ref.abilityIntro.en, 'reference', wh)
+  // …and the section's own intro line (the app's "24"), which ChapterReference prints under its heading.
+  if (ref.abilitySection?.en?.description) wh.set('24', { title: 'Core Abilities', body: ref.abilitySection.en.description, file: 'reference' })
   for (const a of ref.coreAbilities.en) {
     if (a.num) wh.set(a.num, { title: a.name || '', body: [a.fullText, a.note, a.example].filter(Boolean).join('\n\n'), file: 'reference' })
     for (const c of a.children || []) if (c.sectionNum) wh.set(c.sectionNum, { title: c.title || '', body: c.body || '', file: 'reference' })

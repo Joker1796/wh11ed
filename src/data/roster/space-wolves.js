@@ -105,7 +105,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 885,
+          "t": 886,
           "in": "checkbox",
           "o": [
             [
@@ -210,7 +210,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 887,
+          "t": 888,
           "in": "checkbox",
           "o": [
             [
@@ -223,7 +223,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 888,
+          "t": 889,
           "in": "checkbox",
           "o": [
             [
@@ -457,7 +457,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 889,
+          "t": 890,
           "in": "checkbox",
           "o": [
             [
@@ -473,7 +473,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 890,
+          "t": 891,
           "in": "checkbox",
           "o": [
             [
@@ -961,7 +961,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 1163,
+          "t": 1164,
           "in": "stepper",
           "o": [
             [
@@ -992,7 +992,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1164,
+          "t": 1165,
           "in": "checkbox",
           "o": [
             [
@@ -1017,7 +1017,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1165,
+          "t": 1166,
           "in": "checkbox",
           "o": [
             [
@@ -1371,7 +1371,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1166,
+          "t": 1167,
           "in": "checkbox",
           "o": [
             [
@@ -1384,7 +1384,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1167,
+          "t": 1168,
           "in": "checkbox",
           "o": [
             [
@@ -1400,7 +1400,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 1168,
+          "t": 1169,
           "in": "stepper",
           "o": [
             [
@@ -1528,7 +1528,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1169,
+          "t": 1170,
           "in": "checkbox",
           "o": [
             [
@@ -1554,7 +1554,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1170,
+          "t": 1171,
           "in": "checkbox",
           "o": [
             [
@@ -1618,7 +1618,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1171,
+          "t": 1172,
           "in": "checkbox",
           "o": [
             [
@@ -1743,7 +1743,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 891,
+          "t": 892,
           "in": "stepper",
           "o": [
             [
@@ -1766,7 +1766,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 892,
+          "t": 893,
           "in": "stepper",
           "o": [
             [
@@ -1907,7 +1907,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 885,
+          "t": 886,
           "in": "checkbox",
           "o": [
             [
@@ -1923,7 +1923,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 823,
+          "t": 824,
           "in": "checkbox",
           "o": [
             [
@@ -1936,7 +1936,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 886,
+          "t": 887,
           "in": "checkbox",
           "o": [
             [
@@ -2049,7 +2049,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 1172,
+          "t": 1173,
           "in": "stepper",
           "o": [
             [
@@ -2142,7 +2142,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 893,
+          "t": 894,
           "in": "checkbox",
           "o": [
             [
@@ -2155,7 +2155,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 894,
+          "t": 895,
           "in": "checkbox",
           "o": [
             [
@@ -2211,7 +2211,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1173,
+          "t": 1174,
           "in": "checkbox",
           "o": [
             [
@@ -2242,7 +2242,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1174,
+          "t": 1175,
           "in": "checkbox",
           "o": [
             [
@@ -2267,7 +2267,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1175,
+          "t": 1176,
           "in": "checkbox",
           "o": [
             [
@@ -2342,7 +2342,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1176,
+          "t": 1177,
           "in": "checkbox",
           "o": [
             [
@@ -2373,7 +2373,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1177,
+          "t": 1178,
           "in": "checkbox",
           "o": [
             [
@@ -2404,7 +2404,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1178,
+          "t": 1179,
           "in": "checkbox",
           "o": [
             [
@@ -2546,7 +2546,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 895,
+          "t": 896,
           "in": "stepper",
           "o": [
             [
@@ -2616,7 +2616,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1179,
+          "t": 1180,
           "in": "checkbox",
           "o": [
             [
@@ -2664,7 +2664,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1180,
+          "t": 1181,
           "in": "checkbox",
           "o": [
             [
@@ -2737,7 +2737,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1181,
+          "t": 1182,
           "in": "checkbox",
           "o": [
             [
@@ -2788,7 +2788,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1175,
+          "t": 1176,
           "in": "checkbox",
           "o": [
             [
@@ -2802,7 +2802,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1144,
+          "t": 1145,
           "in": "checkbox",
           "o": [
             [
@@ -2875,7 +2875,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1182,
+          "t": 1183,
           "in": "checkbox",
           "o": [
             [
@@ -2920,7 +2920,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1183,
+          "t": 1184,
           "in": "checkbox",
           "o": [
             [
@@ -3031,7 +3031,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 896,
+          "t": 897,
           "in": "checkbox",
           "o": [
             [
@@ -3048,7 +3048,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 897,
+          "t": 898,
           "in": "stepper",
           "o": [
             [
@@ -3081,7 +3081,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 898,
+          "t": 899,
           "in": "stepper",
           "o": [
             [
@@ -3143,7 +3143,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1184,
+          "t": 1185,
           "in": "checkbox",
           "o": [
             [
@@ -3174,7 +3174,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1177,
+          "t": 1178,
           "in": "checkbox",
           "o": [
             [
@@ -3205,7 +3205,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1178,
+          "t": 1179,
           "in": "checkbox",
           "o": [
             [
@@ -3404,7 +3404,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 899,
+          "t": 900,
           "in": "checkbox",
           "o": [
             [
@@ -3420,7 +3420,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 900,
+          "t": 901,
           "in": "checkbox",
           "o": [
             [
@@ -3449,7 +3449,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 901,
+          "t": 902,
           "in": "checkbox",
           "o": [
             [
@@ -3468,7 +3468,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 902,
+          "t": 903,
           "in": "checkbox",
           "o": [
             [
@@ -3537,7 +3537,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 903,
+          "t": 904,
           "in": "stepper",
           "o": [
             [
@@ -3599,7 +3599,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 823,
+          "t": 824,
           "in": "checkbox",
           "o": [
             [
@@ -3612,7 +3612,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 905,
+          "t": 906,
           "in": "checkbox",
           "o": [
             [
@@ -3675,7 +3675,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 904,
+          "t": 905,
           "in": "stepper",
           "o": [
             [
@@ -3924,6 +3924,27 @@ export default {
           "strike-force": 1
         }
       },
+      "free": [
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Inquisitor"
+          ],
+          "recv": [
+            "Inquisitorial Agents"
+          ]
+        },
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Character",
+            "Voidfarers"
+          ],
+          "recv": [
+            "Voidsmen-At-Arms"
+          ]
+        }
+      ],
       "up": {
         "imperial-agents:inquisitor-draxus": {
           "1": 110
@@ -3957,6 +3978,7 @@ export default {
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
+          "11": 120,
           "12": 120
         },
         "imperial-agents:inquisitor-coteaz": {
@@ -4147,5 +4169,8 @@ export default {
     "Tacticus Attack Force",
     "Tacticus Firestorm Force",
     "Terminator Storm Force"
-  ]
+  ],
+  "sharedDetachmentFrom": {
+    "Deathwatch Support": "deathwatch"
+  }
 }

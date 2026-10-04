@@ -12,6 +12,7 @@ import { computed, ref, watch, watchEffect } from 'vue'
 import { useRosters } from './useRosters.js'
 import { useRosterDerived } from './useRosterDerived.js'
 import { summaryOf } from './rosterSummary.js'
+import { LIMIT_KEYS } from './rosterLimit.js'
 import { useRosterFactionData } from './useRosterFactionData.js'
 
 export function useRosterEditing(rosterId) {
@@ -90,7 +91,7 @@ export function useRosterEditing(rosterId) {
     if (was.name !== now.name) parts.push({ k: 'name' })
     // Everything the Setup tab owns, in one word: which of them moved is not worth a sentence
     // in a dialog the reader wants to get out of.
-    const SETUP = ['faction', 'detachments', 'battleSize', 'customPoints', 'disposition', 'notes', 'checkLegality']
+    const SETUP = ['faction', 'detachments', ...LIMIT_KEYS, 'disposition', 'notes', 'checkLegality']
     if (SETUP.some((f) => JSON.stringify(was[f]) !== JSON.stringify(now[f]))) parts.push({ k: 'setup' })
     return parts
   })

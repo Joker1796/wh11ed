@@ -10,13 +10,13 @@
 // is handled by weighting: a capital is about 1.4 lowercase letters wide in the display face.
 const CAP_WIDTH = 1.4
 
-export const NAME_LONG = 60
-export const NAME_XLONG = 100
+export const NAME_LONG = 28
+export const NAME_XLONG = 60
 
-// '' | 'long' | 'xlong' — used as a CSS class, so the sizes stay in the stylesheets. The
-// thresholds assume the name has the header row to itself: ~30 lowercase letters to a line at
-// 1.7rem on a phone, so two lines keep the full size and each step aims to bring a longer name
-// back to two or three lines rather than to a fixed small size.
+// '' | 'long' | 'xlong' — used as a CSS class, so the sizes stay in the stylesheets. The name
+// shares its row with the pencil and the "…": ~22 lowercase letters to a line at 1.7rem on a
+// phone. A name that would wrap at full size steps down at once (owner, 2026-10-03 — two lines
+// of 1.7rem were a third of the screen above the list); a sentence steps down twice.
 export function rosterNameFit(name) {
   const width = nameWidth(name)
   if (width >= NAME_XLONG) return 'xlong'

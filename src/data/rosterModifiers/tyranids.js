@@ -1210,6 +1210,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-CHARACTER 2+",

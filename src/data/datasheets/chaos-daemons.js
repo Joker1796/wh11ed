@@ -501,7 +501,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -749,7 +749,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1422,7 +1422,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1773,7 +1773,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "-1",
         "d": "1"
@@ -1854,7 +1854,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -2056,7 +2056,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-2",
         "d": "1"
@@ -2333,7 +2333,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Beasts of Nurgle"
+        "Beasts of Nurgle",
+        "Plague Toads",
+        "Pox Riders"
       ]
     },
     "keywords": [
@@ -2589,7 +2591,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -3016,7 +3018,7 @@ export default [
     "flavor": "Magic made manifest, these cavorting grotesques hurl balls of warpfire into the enemy ranks where they transmogrify and immolate their victims. Pink Horrors cackle, riddle and caper endlessly, their unsettling glee ending only in the moment when their mortal form is destroyed and forced to split messily into two Blue Horrors.",
     "profiles": [
       {
-        "name": "PINK HORROR",
+        "name": "Pink Horror",
         "m": "6\"",
         "t": "3",
         "sv": "7+",
@@ -3027,7 +3029,18 @@ export default [
         "baseSize": "32mm"
       },
       {
-        "name": "BLUE HORROR/BRIMSTONE HORROR",
+        "name": "Blue Horror",
+        "m": "6\"",
+        "t": "3",
+        "sv": "7+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "1",
+        "inv": "4+",
+        "baseSize": "32mm"
+      },
+      {
+        "name": "Brimstone Horror",
         "m": "6\"",
         "t": "3",
         "sv": "7+",
@@ -3378,7 +3391,6 @@ export default [
       }
     ],
     "core": "Deep Strike, Feel No Pain 5+, Leader",
-    "faction": "The Shadow of Chaos",
     "abilities": [
       {
         "name": "Poxbringer",
@@ -3530,7 +3542,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "8",
         "ap": "-2",
         "d": "1"
@@ -3924,7 +3936,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "8",
         "ap": "-1",
         "d": "1"
@@ -4412,7 +4424,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -4558,7 +4570,7 @@ export default [
         ],
         "range": "6\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "0",
         "d": "1"
@@ -4648,7 +4660,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -4664,7 +4676,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -4845,7 +4857,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -4860,7 +4872,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "D3"

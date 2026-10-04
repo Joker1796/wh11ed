@@ -63,6 +63,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, toRef, watch } from 'vue'
 import RosterPrintFragment from './RosterPrintFragment.vue'
+import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
@@ -123,7 +124,14 @@ const facts = computed(() => {
   // muster an opponent reads off the sheet to know which Primary Mission each of you is playing.
   const fd = dispositionOf(props.roster, dataDetachments.value)
   if (fd) out.push(fd)
-  if (props.opts.points) out.push(`${total.value} / ${effBattle.value.points}${l.rosterPointsLabel}`)
+  if (props.opts.points) {
+    const cap = Number.isFinite(effBattle.value.points) ? ` / ${effBattle.value.points}` : ''
+    out.push(`${total.value}${cap}${l.rosterPointsLabel}`)
+  }
+  // A list held to the player's own limits says so on paper too — whoever reads the sheet was not
+  // there when they were set (battleLimitFacts.js).
+  const own = ownLimitsLines(effBattle.value, l)
+  if (own.length) out.push(`${l.rosterLimitOwn} ${own.slice(1).join(' · ')}`)
   out.push(effBattle.value.name || '')
   out.push(`${l.printDataVersion} ${APP_DATA_VERSION}`)
   out.push(new Date().toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB'))

@@ -300,7 +300,7 @@ export default [
         ],
         "range": "18\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "8",
         "ap": "-1",
         "d": "2"
@@ -786,7 +786,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "2",
         "ap": "0",
         "d": "1"
@@ -920,7 +920,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "2",
         "ap": "0",
         "d": "1"
@@ -1029,7 +1029,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Seen as especially blessed by the Dark Gods, Knights Abominant are suffused with warp energy. They unleash this power in terrifying waves, corrupting and mutating those nearby, and incinerating distant foes with blasts of volkite energy. In combat, they thrash coiling, warp- wrought appendages, crushing anything that remains untainted.",
+    "flavor": "Seen as especially blessed by the Dark Gods, Knights Abominant are suffused with warp energy. They unleash this power in terrifying waves, corrupting and mutating those nearby, and incinerating distant foes with blasts from their volkite combustors. In combat, they thrash coiling, warp‑wrought appendages, crushing anything that remains untainted.",
     "profiles": [
       {
         "name": "Knight Abominant",
@@ -1145,7 +1145,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Knights Desecrator spare no living thing from their attacks. They possess potent mid- to close-range armaments capable of duelling enemy war engines and monstrous beasts, or annihilating hordes of lesser foes. They are also cruel taskmasters, snarling commands to War Dog followers that lope forwards at their sides.",
+    "flavor": "Knights Desecrator spare no living thing from their attacks. They possess potent mid-to close‑range armaments capable of duelling enemy war engines and monstrous beasts, or annihilating hordes of lesser foes. Their darkly regal pilots are cruel taskmasters, snarling commands to War Dog followers that lope to battle at their sides.",
     "profiles": [
       {
         "name": "Knight Desecrator",
@@ -1276,7 +1276,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "Knights Despoiler epitomise all it means to be a Chaos Knight. Their Fallen Nobles repudiate honour and seethe with hatred. Capable of bearing a variety of powerful weapons suited to its pilot’s temperament, they unleash their hatred at range or in thunderous melee at whim.",
+    "flavor": "Knights Despoiler epitomise all it means to be a Chaos Knight. Their Fallen Nobles repudiate honour and seethe with hatred. Capable of bearing a variety of powerful weapons suited to their pilot’s temperament, they unleash their hatred at range or in thunderous melee.",
     "profiles": [
       {
         "name": "Knight Despoiler",
@@ -1372,7 +1372,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1651,7 +1651,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6+6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "8",
         "ap": "-1",
         "d": "2"
@@ -1742,7 +1742,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "Knights Tirant are walking bastions of corruption Their mere presence is enough to foul reality with warp-taint that drives back foes and scrambles teleportation signals, even as it provides infernal protection for smaller classes of Chaos Knight Combined with their incredibly heavy arsenals of weaponry, they are terrifying war engines indeed.",
+    "flavor": "Knights Tyrant are walking bastions of corruption. Their mere presence is enough to foul reality with warp‑taint that drives back foes and scrambles teleportation signals, even as it provides infernal protection for smaller classes of Chaos Knight. Combined with their incredibly heavy arsenals of weaponry, they are terrifying war engines indeed.",
     "profiles": [
       {
         "name": "Knight Tyrant",
@@ -1777,7 +1777,7 @@ export default [
         ],
         "range": "18\"",
         "a": "3D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "8",
         "ap": "-1",
         "d": "2"
@@ -1918,7 +1918,7 @@ export default [
         "points": 135
       }
     ],
-    "flavor": "Between them, Brigands and their Fallen Noble pilots have become so enamoured of the skilful, ranged kill that they mostly disdain the chaos of close assaults. Some even swear dark pacts compelling them to slay potent foes with elegance, or else to purge war zones of all life with sweeping contempt.",
+    "flavor": "Between them, Brigands and their Fallen Noble pilots have become so enamoured of the skilful, ranged kill that they mostly disdain the chaos of close assaults. Some even swear dark pacts compelling them to slay potent foes with ballistic elegance, or else to purge war zones of all life employing only ranged firepower.",
     "profiles": [
       {
         "name": "War Dog Brigand",
@@ -2032,7 +2032,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "Methodical and coldly emotionless killers, Fallen Nobles who pilot War Dog Executioners employ long-barrelled, rapid-firing cannons to maximise their kills. They eviscerate throngs of the enemy and hammer the foes’ war engines into submission, seeking to reap ever greater murderous tallies than their peers.",
+    "flavor": "Methodical and coldly merciless, the Fallen Nobles who pilot War Dog Executioners employ their steeds’ long‑barrelled, rapid‑firing cannons to maximise their kills. They eviscerate throngs of the enemy and hammer the foes’ war engines into submission, seeking to reap greater murderous tallies than their peers.",
     "profiles": [
       {
         "name": "War Dog Executioner",
@@ -2133,7 +2133,7 @@ export default [
         "points": 135
       }
     ],
-    "flavor": "Like hounds on the scent, Huntsmen often pursue hulking enemies, hunting them down as prey. Their daemonbreath spears melt through the thickest armour while chaintalons are employed to drive deeply into gushing innards, tearing through organs and crew alike.",
+    "flavor": "Like hounds on the scent, Huntsmen often pursue much larger enemies and seek to drag their prey down as a pack. Their daemonbreath spears melt through the thickest armour while chaintalons are employed to drive deeply into gushing innards, tearing through organs and crew alike.",
     "profiles": [
       {
         "name": "War Dog Huntsman",
@@ -2245,7 +2245,7 @@ export default [
         "points": 145
       }
     ],
-    "flavor": "Aggressive and bloodthirsty, Karnivores eschew the more potent ranged weapons of the War Dog chassis. They revel in causing bloody confusion and despair, seeking the visceral thrill that only close-quarters slaughter provides. As a result, many of their pilots fall to the open worship of one of the Chaos Gods.",
+    "flavor": "Aggressive and bloodthirsty, Karnivores eschew the more potent ranged weapons of the War Dog chassis. Their pilots revel in causing bloody confusion and despair, seeking the visceral thrill that only close‑quarters slaughter provides. Such extreme inclinations lead many of their pilots to fall to the open worship of one of the Chaos Gods.",
     "profiles": [
       {
         "name": "War Dog Karnivore",
@@ -2418,7 +2418,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "2",
         "ap": "0",
         "d": "1"
@@ -2503,7 +2503,7 @@ export default [
         "points": 135
       }
     ],
-    "flavor": "Only the most strong-willed of minor nobility have the mental fortitude to pilot a Stalker. Like pack alphas, they often lead other War Dogs in carefully planned attacks, harrying the foe’s flanks, butchering reinforcements and hunting down lone threats. They unleash salvoes of fire at range or in the heart of combat with deadly claw strikes.",
+    "flavor": "Only the most strong‑willed pilots have the mental fortitude to harness a Stalker. Like pack alphas, they often lead other War Dogs in carefully planned attacks, harrying the foe’s flanks, butchering reinforcements and hunting down lone threats. Boasting a balance of long- and short‑ranged weaponry, these War Dogs are fearsome foes.",
     "profiles": [
       {
         "name": "War Dog Stalker",

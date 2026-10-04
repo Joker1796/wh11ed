@@ -29,6 +29,26 @@ export function useDatasheetParts(props, labels, { showPossible = () => true } =
   const markSet = computed(() => new Set(props.statMarks))
   const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
 
+  // The statlines as the card draws them. The data keeps one profile per model, as the app does
+  // (owner, 2026-10-03: Gaunt's Ghosts are six named models, not "Ibram Gaunt" and "Tanith Ghost");
+  // the card folds the ones that read the same into one row, their names listed. "The same" is
+  // every printed value, the invulnerable save and its note, the base, the count and the modifier
+  // marks — a model one rule changed keeps its own row. `index` is the first model's, for the marks.
+  const profileRows = computed(() => {
+    const STAT_KEYS = ['m', 't', 'sv', 'w', 'ld', 'oc', 'inv']
+    const rows = []
+    const byKey = new Map()
+    ;(props.sheet.profiles || []).forEach((p, index) => {
+      const key = JSON.stringify([...STAT_KEYS.map((k) => [p[k], isMarked('profile', k, index)]), p.invNote, p.baseSize, p.qty])
+      const row = byKey.get(key)
+      if (row) { row.names.push(p.name); return }
+      const fresh = { p, index, names: [p.name] }
+      byKey.set(key, fresh)
+      rows.push(fresh)
+    })
+    return rows.map(({ p, index, names }) => ({ p: names.length > 1 ? { ...p, name: names.join(', ') } : p, index }))
+  })
+
   // The modifier footnotes: those running now, then — folded on screen — those that could.
   // "Possible modifiers" alone reads as a second helping of the block above it, so it carries a
   // line saying none of it is running and that it comes from rules printed elsewhere.
@@ -54,5 +74,5 @@ export function useDatasheetParts(props, labels, { showPossible = () => true } =
     return out
   })
 
-  return { coreParts, extraCore, keywordGroups, extraKeywords, keywordNotes, rangedRows, meleeRows, isMarked, noteSections }
+  return { coreParts, extraCore, keywordGroups, extraKeywords, keywordNotes, rangedRows, meleeRows, isMarked, noteSections, profileRows }
 }

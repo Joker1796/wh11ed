@@ -126,4 +126,8 @@ onUnmounted(() => {
   border: 1px solid var(--border);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
 }
+/* The lists dropped in here are the modal's (`.modal-list`), and they bring the modal's own 0.75rem
+   inset with them — on top of the panel's, that was a 1.2rem band of empty card round every list
+   (owner, 2026-10-03). The panel's padding is the only inset a dropdown needs. */
+.pd-panel :deep(.modal-list) { padding: 0; }
 </style>

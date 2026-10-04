@@ -213,7 +213,9 @@ function stockBlocker(def, entry, gi) {
   const g = def.gear[gi]
   const ids = new Set()
   for (const [oi] of (g.o || []).entries()) {
-    const out = needs(g, oi).filter((id) => byItem.has(id) && byItem.get(id) <= 0)
+    let out = needs(g, oi).filter((id) => byItem.has(id) && byItem.get(id) <= 0)
+    // An "X or Y" group runs out only when no model carries either.
+    if (g.alt && g.rep.some((id) => (byItem.get(id) || 0) > 0)) out = out.filter((id) => !g.rep.includes(id))
     if (!out.length) return null
     out.forEach((id) => ids.add(id))
   }
@@ -1079,18 +1081,30 @@ export function modelsPerMini(def, entry) {
   return out
 }
 
-// Which profiles print an item in their default loadout, biggest first — the capacity a unit-wide
-// swap is spent against. A `total` quantity belongs to the PROFILE rather than to each of its
-// models (the single heavy bolter among two Gun Servitors) and is never reduced by a swap
-// anywhere, so such a line is not capacity either.
+// Which profiles print an item in their default loadout, and how many of their models carry it,
+// biggest first — the capacity a swap is spent against. A `total` quantity belongs to the PROFILE
+// rather than to each of its models (two of four Havocs carry the autocannon, seven of nine Navis
+// Armsmen the shotgun), one copy per model that holds it, so its capacity is that count. It used to
+// be no capacity at all, a line no swap reached: the Breachers' armsmen traded their shotguns and
+// kept all seven (2026-10-03, found with the Havocs report).
 function swapCarriers(def, perMini, id) {
   const out = []
   for (const [m, list] of def?.defaults || []) {
     const models = perMini?.get(m)
     if (!models) continue
-    if (list.some(([i, , total]) => i === id && !total)) out.push([m, models])
+    const row = list.find(([i]) => i === id)
+    if (row) out.push([m, row[2] ? Math.min(row[1], models) : models])
   }
   return out.sort((a, b) => b[1] - a[1])
+}
+
+// What a default line still holds after `take` models of its profile gave the item up — the one
+// reading of the loadout behind the editor's line, the export and the modifier overlay. A `total`
+// line loses one copy per model; a per-model line `c` per model (copiesLeft). A profile whose model
+// count is unknown keeps everything — never hide a weapon on a guess.
+export function copiesHeld(c, total, models, take) {
+  if (!take || models == null) return c
+  return total ? Math.max(0, c - take) : copiesLeft(c, models, take)
 }
 
 // How much of a MODEL one pick in group `g` takes of item `id` — 1 for an ordinary swap, where the
@@ -1173,6 +1187,26 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
   const net = (key) => (removed.get(key) || 0) - (back.get(key) || 0) + (held.get(key) || 0)
   // gi → item id → [models asked, models whose option hands it back, kept-not-replaced]
   const asked = new Map()
+  // `${m}:${id}` → models already asked for it, so an "X or Y" group (`alt`) spends its picks where
+  // a model still carries one: every model gives up ONE of the two, whichever it holds. Which model
+  // that is the data cannot say, so the picks fill the items in order — the ones the option does not
+  // hand straight back first (a Havoc picking an autocannon is a lascannon Havoc changing weapons),
+  // each up to the models carrying it — and whatever is left past the stock goes on the last, where
+  // the overdraft below reports it.
+  const spent = new Map()
+  const altSplit = (g, grants, models) => {
+    const m = g.m ?? 0
+    const ids = [...(g.rep || [])].sort((a, b) => grants.has(a) - grants.has(b))
+    let left = Number.isFinite(models) ? models : perMini.get(m) || 0
+    const out = []
+    ids.forEach((id, i) => {
+      const cap = swapCarriers(def, perMini, id).find(([cm]) => cm === m)?.[1] || 0
+      const take = i === ids.length - 1 ? left : Math.min(left, Math.max(0, cap - (spent.get(`${m}:${id}`) || 0)))
+      if (take > 0) out.push([id, take])
+      left -= take
+    })
+    return out
+  }
   for (const [gi, oi, n] of entry?.wg || []) {
     if (gi === exceptGi) continue
     const g = def?.gear?.[gi]
@@ -1184,11 +1218,13 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
     const keep = new Set(g.keep || [])
     if (!asked.has(gi)) asked.set(gi, new Map())
     const byItem = asked.get(gi)
-    for (const id of g.rep || []) {
+    const ask = (id, share) => {
       const cur = byItem.get(id) || [0, 0, false]
-      const share = models * pickShare(def, g, id)
       byItem.set(id, [cur[0] + share, cur[1] + (grants.has(id) && !keep.has(id) ? share : 0), false])
+      if (!g.all) bump(spent, `${g.m ?? 0}:${id}`, share)
     }
+    if (g.alt) altSplit(g, grants, models).forEach(([id, share]) => ask(id, share))
+    else for (const id of g.rep || []) ask(id, models * pickShare(def, g, id))
     for (const id of keep) {
       if (g.rep?.includes(id)) continue
       const cur = byItem.get(id) || [0, 0, true]
@@ -1286,8 +1322,13 @@ function needs(g, oi = null) {
 export function swapRoom(def, entry, gi, oi = null) {
   const byItem = swapRoomByItem(def, entry, gi)
   if (!byItem) return null
-  const ids = needs(def.gear[gi], oi).filter((id) => byItem.has(id))
-  return ids.length ? Math.min(...ids.map((id) => byItem.get(id))) : null
+  const g = def.gear[gi]
+  const ids = needs(g, oi).filter((id) => byItem.has(id))
+  if (!ids.length) return null
+  // An "X or Y" group needs a model carrying EITHER, so its alternatives are one pool.
+  const alt = g.alt ? ids.filter((id) => g.rep.includes(id)) : []
+  const pool = alt.length ? [alt.reduce((s, id) => s + byItem.get(id), 0)] : []
+  return Math.min(...pool, ...ids.filter((id) => !alt.includes(id)).map((id) => byItem.get(id)))
 }
 
 // The same answer per needed item (item id → models still carrying it), so the editor can name
@@ -1415,14 +1456,14 @@ export function defaultLoadoutLines(def, items, entry) {
     for (const [id, c, total] of list) {
       // `total` marks a quantity that belongs to the PROFILE rather than to each of its models —
       // one of the two Gun Servitors in a Servitor Battleclade carries the heavy bolter (see the
-      // generator's default-loadout merge) — so it is printed as it stands, never multiplied.
-      if (total) { put(id, `${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
+      // generator's default-loadout merge) — so it is printed as it stands, never multiplied, and a
+      // swap takes one copy per model off it.
       const take = removed.get(`${m}:${id}`) || 0
       if (!take || models == null) { put(id, `${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
       // take is a MODEL count (how many models of THIS profile swapped the item away); c is the
-      // item's per-model quantity, so the surviving total scales by both.
-      const remaining = copiesLeft(c, models, take)
-      if (remaining > 0) put(id, `${items[id]} ×${remaining}`)
+      // item's quantity, per model or for the profile (copiesHeld).
+      const remaining = copiesHeld(c, total, models, take)
+      if (remaining > 0) put(id, `${items[id]}${total && remaining === 1 ? '' : ` ×${remaining}`}`)
     }
     if (!parts.length) return []
     return [{ mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '', items: parts.join(', '), names }]
@@ -1695,20 +1736,52 @@ export function dpLimitFor(dets, budget) {
   return dets.length === 1 && spent > limit && spent <= SOLO_DETACHMENT_DP ? SOLO_DETACHMENT_DP : limit
 }
 
-// The effective battle-size limits for a roster. A 'custom' size carries its own points total
-// and borrows the duplicate / enhancement / DP limits of the standard bracket it falls within.
+// An archived list is kept, not fielded: "every unit I own", a painting queue, last season's list.
+// Nothing about it is checked (owner, 2026-10-03) — rules move on under a list nobody plays, and a
+// warning that is always on gets read as noise. `archived: true` is ABSENT on every other list, the
+// way `draft` is (useRosters.js); `legalityOn` is the one question the cap and the badge ask.
+export const isArchived = (r) => r?.archived === true
+export const legalityOn = (r) => r?.checkLegality !== false && !isArchived(r)
+
+// The effective battle-size limits for a roster — the ONE place every limit a list is held to comes
+// from: points, Detachment Points (`dp`), enhancements (`enhLimit`), copies of a datasheet
+// (`dupLimit`) and copies of a Battleline / Dedicated Transport one (`lineLimit`, twice `dupLimit`
+// in every size the game prints). The validator, the catalogue's "+", the copy button, the
+// detachment picker and the exports all read this object and nothing else.
+//
+// A 'custom' size carries its own points total and borrows the other limits of the standard bracket
+// it falls within — unless the player set their own (`customLimits: { dp, enh, dup, line }`, owner
+// 2026-10-03), each one independently: a key left out is still borrowed, and `line` left out is
+// twice the `dup` in force. `ownLimits` says whether any was set, for the screens that mark it.
+// 'none' is a list with no budget at all — "every model I own", a painting queue — and lifts
+// every limit with it: points, DP, enhancements, duplicates (owner, 2026-10-03). The limits are
+// Infinity rather than absent, so every `>` against them simply never fires; anything that PRINTS
+// a limit asks `unlimited` first. `base` still names a bracket, for the ally tables — which no
+// custom limit reaches: they are GW's per-size tables, not a number of the player's.
+export const UNLIMITED_BATTLE = 'none'
+export const CUSTOM_LIMIT_KEYS = ['dp', 'enh', 'dup', 'line']
+const ownNumber = (v) => (Number.isInteger(v) && v >= 0 ? v : null)
 export function effectiveBattle(roster, core) {
   const sizes = [...(core?.battleSizes || [])].sort((a, b) => a.points - b.points)
   const fallback = sizes[sizes.length - 1] || { points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }
+  if (roster?.battleSize === UNLIMITED_BATTLE) {
+    return { id: UNLIMITED_BATTLE, base: fallback.id, points: Infinity, dp: Infinity, enhLimit: Infinity, dupLimit: Infinity, lineLimit: Infinity, custom: false, unlimited: true }
+  }
   if (roster?.battleSize === 'custom') {
     const points = roster.customPoints || 0
     const std = sizes.find((b) => points <= b.points) || fallback
+    const own = roster.customLimits || {}
+    const dp = ownNumber(own.dp) ?? std.dp
+    const enhLimit = ownNumber(own.enh) ?? std.enhLimit
+    const dupLimit = ownNumber(own.dup) ?? std.dupLimit
+    const lineLimit = ownNumber(own.line) ?? dupLimit * 2
+    const ownLimits = CUSTOM_LIMIT_KEYS.some((k) => ownNumber(own[k]) != null)
     // `base` is the standard bracket whose limits a custom size borrows — the ally limits are
     // tabulated per battle size, so they need a bracket name even when the points are hand-typed.
-    return { id: 'custom', base: std.id, points, dp: std.dp, enhLimit: std.enhLimit, dupLimit: std.dupLimit, custom: true }
+    return { id: 'custom', base: std.id, points, dp, enhLimit, dupLimit, lineLimit, custom: true, ownLimits }
   }
-  const b = sizes.find((x) => x.id === roster?.battleSize)
-  return b ? { ...b, base: b.id, custom: false } : { ...fallback, base: fallback.id, custom: false }
+  const b = sizes.find((x) => x.id === roster?.battleSize) || fallback
+  return { ...b, base: b.id, lineLimit: b.dupLimit * 2, custom: false }
 }
 
 // Total points for a list of roster unit entries. `defOf(id)` resolves a unit id to its

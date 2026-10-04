@@ -12,6 +12,7 @@
       >
         {{ endReasonLabel }}
       </p>
+      <GameRosterLinks :game="game" />
       <ScoreBoard
         :game="game"
         :finished="true"
@@ -35,6 +36,7 @@
 import { endReasonFor } from '../../composables/gameScoring.js'
 import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import GameRosterLinks from './GameRosterLinks.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import ArmyRuleSummary from './ArmyRuleSummary.vue'

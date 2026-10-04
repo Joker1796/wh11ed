@@ -154,7 +154,9 @@ export default [
       "Vehicle",
       "Walker"
     ],
-    "factionKeywords": [],
+    "factionKeywords": [
+      "Adeptus Titanicus"
+    ],
     "baseSize": "Hull"
   },
   {
@@ -324,7 +326,9 @@ export default [
       "Walker",
       "Warbringer Nemesis Titan"
     ],
-    "factionKeywords": [],
+    "factionKeywords": [
+      "Adeptus Titanicus"
+    ],
     "baseSize": "Hull"
   },
   {
@@ -396,7 +400,7 @@ export default [
         ],
         "range": "24\"",
         "a": "3D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "7",
         "ap": "-2",
         "d": "3"
@@ -458,7 +462,9 @@ export default [
       "Walker",
       "Warhound Titan"
     ],
-    "factionKeywords": [],
+    "factionKeywords": [
+      "Adeptus Titanicus"
+    ],
     "baseSize": "Hull"
   },
   {
@@ -668,7 +674,9 @@ export default [
       "Walker",
       "Warlord Titan"
     ],
-    "factionKeywords": [],
+    "factionKeywords": [
+      "Adeptus Titanicus"
+    ],
     "baseSize": "Hull"
   }
 ]

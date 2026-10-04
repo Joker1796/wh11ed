@@ -114,6 +114,9 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
 .page-tabs {
   display: flex;
   gap: 0;
+  /* The row is measured, not the window: the same tabs stand in a narrow column on a wide screen
+     (the rosters desk with its unit pane open) and must tighten there as they do on a phone. */
+  container: page-tabs / inline-size;
   /* full-width accent line the tabs sit on */
   border-bottom: 1px solid var(--accent);
 }
@@ -216,9 +219,9 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
   opacity: 0.75;
 }
 
-@media (max-width: 640px) {
-  /* Three tabs share the row on the faction pages — tighten them so they fit on a phone
-     without scrolling. */
+@container page-tabs (max-width: 640px) {
+  /* Three tabs share the row on the faction pages — tighten them so they fit on a phone (or in a
+     narrow column) without scrolling. */
   .page-tab {
     flex: 1 1 0;
     justify-content: center;

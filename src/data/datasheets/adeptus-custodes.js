@@ -484,7 +484,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -586,16 +586,16 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "The Ares Gunship first earned its reputation on Ancient Terra, and has quashed the Emperor’s enemies on hundreds of worlds since. Most terrifying of the Ares’ offensive capabilities is the arachnus magna- blaze cannon, whose extreme energies can pierce the densest armour, leaving a trail of wrecks and corpses wherever the Ares deploys.",
+    "flavor": "The Ares Gunship first earned its reputation on Ancient Terra, and has quashed the Emperor’s enemies on hundreds of worlds since. Most terrifying of the Ares’ offensive capabilities is the arachnus magna-blaze cannon, whose extreme energies can pierce the densest armour, leaving a trail of wrecks and corpses wherever the Ares deploys.",
     "profiles": [
       {
         "name": "Ares Gunship",
-        "m": "20+\"",
+        "m": "-",
         "t": "12",
         "sv": "2+",
         "w": "22",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -678,7 +678,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "A Blade Champion is a living weapon in the Emperor’s hand. His role is to identify the greatest battlefield threat – be that a mighty leader, a host of killers or a deadly war engine – then to employ his archeotech blades and specialised fighting styles to ensure their swift and absolute destruction.",
+    "flavor": "A Blade Champion’s role is to identify the greatest battlefield threat then ensure its swift destruction. They are well‑equipped for the task, wielding crackling archeotech blades in a variety of combat styles – Behemor, Hurricanis and Victus – each perfect for dealing with a different kind of foe.",
     "profiles": [
       {
         "name": "Blade Champion",
@@ -918,7 +918,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -1025,7 +1025,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -1434,7 +1434,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "Veterans with centuries of service, Custodian Wardens are level-headed warriors who have sworn to fight as living fortresses no foe shall breach. With frightening intensity and wills of iron, these warriors cleave their foes in two with immense sweeps that are driven by their prodigious physical strength.",
+    "flavor": "Veterans with centuries of service, Custodian Wardens are level-headed warriors who have sworn to fight as living fortresses no foe shall breach. With frightening intensity and wills of iron, these warriors cleave their foes in two with immense sweeps of their energised spear and axe blades.",
     "profiles": [
       {
         "name": "Custodian Wardens",
@@ -1538,7 +1538,7 @@ export default [
         "points": 55
       }
     ],
-    "flavor": "Knight-Centuras are the leaders of Sisters of Silence cadres and the guardians of their traditions. They have earned the respect of their Sisters through years of service, impeccable fighting skills, immense power as Nulls and encyclopaedic knowledge of the witch and the sorcerer.",
+    "flavor": "Knight‑Centuras are the leaders of Sisters of Silence cadres and the guardians of their traditions. They have earned the respect of their Sisters through their years of service, impeccable fighting skills, prowess and control as Nulls and encyclopaedic knowledge of how best to hunt the witch and the sorcerer.",
     "profiles": [
       {
         "name": "Knight-Centura",
@@ -1572,7 +1572,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -2000,7 +2000,7 @@ export default [
         "points": 110
       }
     ],
-    "flavor": "Shield-Captains are among the greatest warriors in the Imperium. No matter which weapons they wield, they display absolute mastery of them. Their tactical and strategic abilities know few peers, and they read the ebb and flow of a war at a glance before directing their forces accordingly.",
+    "flavor": "Shield‑Captains are among the greatest warriors in the Imperium. No matter which weapons they wield, they display absolute mastery of them. Their tactical and strategic abilities are superlative, and they read the ebb and flow of a war at a glance before directing their forces accordingly.",
     "profiles": [
       {
         "name": "Shield-Captain",
@@ -2156,7 +2156,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "A Shield-Captain is already one of the most formidable combatants and superlative strategists in the Imperium. When clad in a nigh-on impenetrable suit of auramite Terminator armour, they become more powerful still – a walking fortress of Imperial might able to teleport directly into battle in a blaze of golden light.",
+    "flavor": "A Shield-Captain is already one of the most formidable combatants and superlative strategists in the Imperium. When clad in a nigh-on impenetrable suit of auramite Terminator armour, they become more powerful still – a walking fortress of Imperial might able to shrug off even the most dolorous blows.",
     "profiles": [
       {
         "name": "Shield-Captain in Allarus Terminator Armour",
@@ -2274,7 +2274,7 @@ export default [
         "points": 150
       }
     ],
-    "flavor": "All Shield-Captains are decisive warriors who suffer no impediment to their mission. Those Shield-Captains swiftest in thought and action soar into battle on Dawneagle jetbikes, plunging into the heart of the foe. Though these warriors appear arrogant, this is far from true – their self-assuredness is matched entirely by their skill.",
+    "flavor": "All Shield‑Captains are decisive warriors who suffer no impediment to their mission, but those swiftest in thought and action soar into battle on Dawneagle jetbikes. They plunge into the heart of the enemy lines to reap a tally with their interceptor lances before arcing away on screaming grav‑engines to strike again elsewhere.",
     "profiles": [
       {
         "name": "Shield-Captain on Dawneagle Jetbike",
@@ -2437,7 +2437,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "7",
         "ap": "-2",
         "d": "1"
@@ -3227,7 +3227,7 @@ export default [
         "points": 100
       }
     ],
-    "flavor": "Witchseekers wield sanctified flamers as they hunt witches through tangled corridors and muddy trenchworks alike. Closing with their heretical quarry, they unleash a roaring conflagration to immolate the foe, as well as any pyre.",
+    "flavor": "Witchseekers wield sanctified flamers as they hunt witches through tangled corridors and muddy trenchworks alike. Closing with their heretical quarry, they unleash a roaring conflagration to immolate the foe as effectively as would any witch‑burning pyre. Those not immediately incinerated are instead sent fleeing in abject terror.",
     "profiles": [
       {
         "name": "Witchseekers",
@@ -3248,7 +3248,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"

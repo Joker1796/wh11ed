@@ -24,10 +24,12 @@
         class="mcard-sub"
       >{{ subtitle }}</span>
       <!-- Affordance that the header expands (collapsed state only). -->
-      <span
-        v-if="collapsible && !open"
-        class="mcard-hint"
-      >{{ labels.missionExpand }}</span>
+      <ExpandTransition>
+        <span
+          v-if="collapsible && !open"
+          class="mcard-hint"
+        >{{ labels.missionExpand }}</span>
+      </ExpandTransition>
       <ChevronIcon
         v-if="collapsible"
         class="mcard-chev"
@@ -84,6 +86,7 @@
 </template>
 
 <script setup>
+import ExpandTransition from '../ExpandTransition.vue'
 import { ref, computed } from 'vue'
 import ChevronIcon from '../ChevronIcon.vue'
 import { ui } from '../../i18n/ui.js'

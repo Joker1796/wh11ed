@@ -95,7 +95,8 @@ export default [
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
         "Dominion Squad",
-        "Retributor Squad"
+        "Retributor Squad",
+        "Crusaders"
       ]
     },
     "keywords": [
@@ -124,7 +125,7 @@ export default [
         "points": 140
       }
     ],
-    "flavor": "Arco-flagellants are fitted with cybernetic weaponry and subdermal stimulant pumps as punishment for past misdeeds. When battle commences, their bodies are energised by means of a trigger word and they are unleashed on the enemy. Any foe they reach they lash to pieces with cyber-implanted flails.",
+    "flavor": "Arco-flagellants are fitted with cybernetic weaponry and subdermal stimulant pumps as punishment for past misdeeds. When battle commences, trigger words energise their bodies and the Arco-flagellants launch on the enemy. They lash any foe they reach to pieces with cyber-implanted flails.",
     "profiles": [
       {
         "name": "Arco-flagellants",
@@ -235,7 +236,7 @@ export default [
         "points": 100
       }
     ],
-    "flavor": "Battle Sisters of the Orders Militant are skilled and devout warriors. Wherever they advance, the light of the Emperor spreads like a holy dawn. Miracles manifest in their presence that turn aside the enemy’s strikes, or consume foes in fires of retribution as the Sisters cut down heretics with thundering salvoes from their boltguns.",
+    "flavor": "Battle Sisters of the Orders Militant are skilled and devout warriors. Wherever they advance, the light of the Emperor spreads like a holy dawn. Miracles manifest in their presence, turning aside the enemy’s strikes or consuming foes in fires of retribution as the Sisters cut down heretics with thundering salvoes from their boltguns.",
     "profiles": [
       {
         "name": "Battle Sisters Squad",
@@ -360,7 +361,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -374,7 +375,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -387,7 +388,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -510,7 +511,7 @@ export default [
         "points": 60
       }
     ],
-    "flavor": "Martial and spiritual commanders of the Orders Militant, Canonesses are as much veteran warriors with decades of experiences as they are shining examples of purity. Possessed of impeccable leadership skills, tactical genius and immense faith, they are beacons of both pious virtue and holy wrath.",
+    "flavor": "Martial and spiritual commanders of the Orders Militant, Canonesses are as much veteran warriors with decades of experience as they are shining examples of purity. Possessing impeccable leadership skills, tactical prowess and immense faith, Canonesses are beacons of both pious virtue and holy wrath.",
     "profiles": [
       {
         "name": "Canoness",
@@ -545,7 +546,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "2"
@@ -675,7 +676,8 @@ export default [
         "Battle Sisters Squad",
         "Celestian Insidiants",
         "Dominion Squad",
-        "Retributor Squad"
+        "Retributor Squad",
+        "Crusaders"
       ]
     },
     "keywords": [
@@ -699,7 +701,7 @@ export default [
         "points": 75
       }
     ],
-    "flavor": "Many Canonesses go to battle equiped with jump packs, using them to descend from the heavens and mete aut the Emperor's justice. Their Orders, combining strategic expertise with martial prowess. They lead flights of airborne warriors into the raging hearth of the battle.",
+    "flavor": "Many Canonesses go to battle equipped with jump packs, using them to descend from the heavens and mete out the Emperor’s justice. They are the greatest and most experienced warriors of their Orders, combining strategic expertise with martial prowess. They lead flights of airborne warriors into the raging heart of the battle.",
     "profiles": [
       {
         "name": "Canoness",
@@ -722,7 +724,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -814,7 +816,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Castigators are powerful battle tanks of the Adepta Sororitas. They provide excellent fire support for Battle Sisters thanks to their wide array of weapons, smashing through the foe’s lines and slaughtering great swathes of enemy infantry in a matter of seconds.",
+    "flavor": "Castigators are powerful battle tanks of the Adepta Sororitas. They provide excellent fire support for Battle Sisters thanks to their varied weapon systems, smashing through the foe’s lines and slaughtering great swathes of enemy infantry in seconds.",
     "profiles": [
       {
         "name": "Castigator",
@@ -994,7 +996,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1193,7 +1195,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Part of the Celestian elite of the Orders Militant, Celestian Sacresants are close-combat specialists who – rather than serve as bodyguards – are charged with a holy quest. Whether that be to secure sacred relics or purge sites of the unclean, the Sacresants are relentless in their pursuit of victory.",
+    "flavor": "Part of the Celestian elite of the Orders Militant, Celestian Sacresants are close-combat specialists - rather than bodyguards - charged with a holy quest. Whether securing sacred relics or purging sites of the unclean, the Sacresants are relentless in their pursuit of victory.",
     "profiles": [
       {
         "name": "Celestian Sacresants",
@@ -1241,7 +1243,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1408,7 +1410,7 @@ export default [
         "points": 85
       }
     ],
-    "flavor": "Ephrael Stern, the Daemonifuge, is capable of manifesting strange powers seen by some as witchery. Yet she is a zealous defender of the Imperial Creed with unwavering devotion. Alongside her Aeldari companion, Kyganil, Stern pits her augmented strength and speed against the Emperor’s enemies.",
+    "flavor": "Ephrael Stern manifests strange powers, which some see as witchery. Yet she is a zealous defender of the Imperial Creed with unwavering devotion. Alongside her Aeldari companion, Kyganil, Stern pits her augmented strength and speed against the Emperor’s enemies.",
     "profiles": [
       {
         "name": "EPHRAEL STERN",
@@ -1657,7 +1659,7 @@ export default [
         "points": 45
       }
     ],
-    "flavor": "With watchful eyes, the Sisters Dogmata seek out infractions amongst their Order. Held in as much fear as respect, with but a word they can condemn a Sister to the Repentia. With shouted prayers and great swings of their maces, they demonstrate the path of righteousness and show what the Sisters should expect if they fail in their duties.",
+    "flavor": "With watchful eyes, the Sisters Dogmata seek out infractions in their Order. Feared and respected equally, Dogmatas can condemn a Sister to the Repentia with a single word. With shouted prayers and swings of their maces, they demonstrate the path of righteousness, showing what the Sisters should expect if they fail in their duties.",
     "profiles": [
       {
         "name": "Dogmata",
@@ -1748,7 +1750,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Dominion Squads strike as swift and furious as lightning, clearing bunkers, capturing strategic locations and blunting counter-attacks with vicious salvoes from their flamers and meltaguns. They are aggressive, but not impetuous, matching their desire to kill with an awareness of tactical values and bringing righteousness where it is needed most.",
+    "flavor": "Dominion Squads strike as swift and furious as lightning, clearing bunkers, capturing strategic locations and blunting counterattacks with vicious salvoes from their flamers and meltaguns. They are aggressive but not impetuous, matching their desire to kill with an awareness of tactical values and bringing righteousness where needed most.",
     "profiles": [
       {
         "name": "Dominion Squad",
@@ -1864,7 +1866,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -1878,7 +1880,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1999,7 +2001,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Every flurry of notes performed by the Exorcist’s artillerist inloads targeting solutions and impact coordinates, so that volleys of thrice-blessed rockets are fired into the enemy. More than artillery tanks, Exorcists are mobile shrines to the magnificence of the Emperor that project inspirational battle canticles.",
+    "flavor": "Every flurry of notes performed by the Exorcist’s artillerist inloads targeting solutions and impact coordinates so that thrice-blessed rocket volleys bombard the enemy. More than artillery tanks, Exorcists are mobile shrines to the magnificence of the Emperor that project inspirational battle canticles.",
     "profiles": [
       {
         "name": "Exorcist",
@@ -2122,7 +2124,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "Hospitallers are physical and spiritual healers. They are possessed of medicinal expertise as well as serving as a font of faith for those in need, whispering mantras of vigour to dull pain and intoning prayers to salve fevered minds. They move swiftly across the battlefield, working in solemn calm despite the harshest conditions.",
+    "flavor": "Hospitallers are physical and spiritual healers. They possess medicinal expertise and serve as a font of faith for those in need, whispering mantras of vigour to dull pain and intoning prayers to salve fevered minds. They move swiftly across the battlefield, working solemnly despite the harshest conditions.",
     "profiles": [
       {
         "name": "Hospitaller",
@@ -2207,7 +2209,7 @@ export default [
         "points": 55
       }
     ],
-    "flavor": "It is the most sacred role of the Imagifier to extol the virtues of fallen Sisters and preach tales of their saintly deeds. Imagifiers bear aloft great stanchions in the image of a martyr inscribed with holy texts, and go wherever the fighting is thickest to recite litanies and inspire their fellow Sisters.",
+    "flavor": "It is the most sacred role of the Imagifier to extol the virtues of fallen Sisters and preach tales of their saintly deeds. Imagifiers bear aloft great stanchions in the image of a martyr inscribed with holy texts and go wherever the fighting is thickest to recite litanies and inspire their fellow Sisters.",
     "profiles": [
       {
         "name": "Imagifier",
@@ -2310,7 +2312,7 @@ export default [
         "note": "4th+"
       }
     ],
-    "flavor": "This Rhino variant has an aggressive machine spirit, and is equipped with an elaborate turret fitted with a powerful weapons system. This makes it ideal for rapid advances to clear enemy strongpoints, providing fire support for the troops it transports to battle and acting as an outrider escort for armoured columns.",
+    "flavor": "This Rhino variant has an aggressive machine spirit and an elaborate turret with a powerful weapons system; this makes it ideal for rapid advances to clear enemy strongpoints, providing fire support for the troops it transports to battle and acting as an outrider escort for armoured columns.",
     "profiles": [
       {
         "name": "Immolator",
@@ -2356,7 +2358,7 @@ export default [
         ],
         "range": "18\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2485,7 +2487,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2557,7 +2559,7 @@ export default [
         "points": 105
       }
     ],
-    "flavor": "Junith Eruita sweeps to battle wreathed in holy fire. She hovers above the battlefield upon thrumming waves of energy within the pulpit of Saint Holline’s Basilica. Her presence and voice inspire all around her, filling them with faith, while her heavy flamers douse her foes in purging fire.",
+    "flavor": "Junith Eruita sweeps to war wreathed in holy fire, hovering above the battlefield within the pulpit of Saint Holine’s Basilica. Her presence and voice inspire all around her, filling them with faith, while her heavy flamers douse her foes in purging fire.",
     "profiles": [
       {
         "name": "Junith Eruita",
@@ -2580,7 +2582,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2621,7 +2623,8 @@ export default [
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
         "Dominion Squad",
-        "Retributor Squad"
+        "Retributor Squad",
+        "Crusaders"
       ]
     },
     "keywords": [
@@ -2646,7 +2649,7 @@ export default [
         "points": 50
       }
     ],
-    "flavor": "It is the role of Ministorum Priests to harness the faith of Imperial warriors in battle. Often they join Wars of Faith – though it is not unheard of for a Ministorum Priest to lead one. They are filled with a fearsome religious fervour that incites the faithful as they bellow catechisms of hatred.",
+    "flavor": "It is the role of Ministorum Priests to harness the faith of Imperial warriors in battle. They will often join Wars of Faith - though it is not unheard of for a Ministorum Priest to lead one. Filled with a fearsome religious fervour, they incite the faithful a s they bellow catechisms of hatred.",
     "profiles": [
       {
         "name": "Ministorum Priest",
@@ -2680,7 +2683,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -2733,7 +2736,8 @@ export default [
         "Celestian Insidiants",
         "Dominion Squad",
         "Sanctifiers",
-        "Sisters Novitiate Squad"
+        "Sisters Novitiate Squad",
+        "Crusaders"
       ]
     },
     "keywords": [
@@ -2802,7 +2806,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -2900,7 +2904,7 @@ export default [
         "points": 215
       }
     ],
-    "flavor": "Aggressive, brash and taciturn, Morvenn Vahl leads the Adepta Sororitas from the front. Taking to the field in an ancient Paragon Warsuit, she smites foe after foe with deafening bursts from Fidelis, devastating salvoes of missiles and pinpoint thrusts with the Lance of Illumination.",
+    "flavor": "Aggressive and taciturn, Morvenn Vahl leads the Adepta Sororitas from the front. Taking to the field in an ancient Paragon Warsuit, she smites foe after foe with deafening bursts from Fidelis, devastating salvoes of missiles and pinpoint thrusts with the Lance of Illumination.",
     "profiles": [
       {
         "name": "Morvenn Vahl",
@@ -3023,7 +3027,7 @@ export default [
         "points": 50
       }
     ],
-    "flavor": "Palatines are highly capable and experienced commanders of Adepta Sororitas Missions. Unshakeable of faith and purpose, they act as excellent examples to the Battle Sisters that follow them. This makes them a powerful force on the battlefield, inspiring zealous warriors to victory.",
+    "flavor": "Palatines are highly capable and experienced commanders of Adepta Sororitas Missions. Unshakeable of faith and purpose, they are exemplars of the Imperial Creed. Their powerful belief inspires the zealous warriors they lead to victory.",
     "profiles": [
       {
         "name": "Palatine",
@@ -3113,7 +3117,8 @@ export default [
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
         "Dominion Squad",
-        "Retributor Squad"
+        "Retributor Squad",
+        "Crusaders"
       ]
     },
     "keywords": [
@@ -3143,7 +3148,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "A pilot must have immense faith for a Paragon Warsuit’s spirit to trust them. They must also have incredible skill to handle its control system, which allows for highly complex and fluid movements. Mastering a Paragon Warsuit makes a Sister capable of engaging the most fearsome of enemies and emerging victorious.",
+    "flavor": "A pilot must have immense faith for a Paragon Warsuit’s spirit to trust them. They must also have incredible skill to handle its control system, which allows for highly complex and fluid movements. Mastering a Paragon Warsuit makes a Sister capable of engaging the most fearsome enemies and emerging victorious.",
     "profiles": [
       {
         "name": "Paragon Warsuits",
@@ -3189,7 +3194,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -3294,7 +3299,7 @@ export default [
         "points": 140
       }
     ],
-    "flavor": "The pilots of Penitent Engines are subjected to terrible agony, thanks to the torment amplifiers spliced into their synapses. They blaze a trail of destruction with their flamers before charging headlong into the foe, guilt and pain driving them on, heedless of danger. All they leave in their wake is utter carnage.",
+    "flavor": "Thanks to the torment amplifiers spliced into their synapses, the pilots of Penitent Engines are in constant and terrible agony. They blaze a trail of destruction with their flamers before charging headlong into the foe, guilt and pain driving them on, heedless of danger. All they leave in their wake is utter carnage.",
     "profiles": [
       {
         "name": "Penitent Engines",
@@ -3318,7 +3323,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -3412,10 +3417,10 @@ export default [
         "points": 140
       }
     ],
-    "flavor": "Sisters Repentia charge across the battlefield howling prayers, filled with the need for atonement for past misdeeds. Overseen by a stern taskmaster in the form of a Repentia Superior who is ever vigilant for sinfulness, Repentia now exist only to slaughter the enemies of the Emperor, and so rush forward without heed for their own safety. Each seeks to redeem herself with acts of selfless bravery and violent devotion.",
+    "flavor": "Sisters Repentia charge across the battlefield, filled with the need for atonement for past misdeeds, howling prayers and litanies. Overseen by a stern taskmaster in the form of a Repentia Superior, they exist only to slaughter the enemies of the Emperor, rushing forward without heed for their own safety.",
     "profiles": [
       {
-        "name": "REPENTIA SUPERIOR",
+        "name": "Repentia Superior",
         "m": "7\"",
         "t": "3",
         "sv": "3+",
@@ -3426,7 +3431,7 @@ export default [
         "baseSize": "32mm"
       },
       {
-        "name": "SISTERS REPENTIA",
+        "name": "Sister Repentia",
         "m": "7\"",
         "t": "3",
         "sv": "7+",
@@ -3635,7 +3640,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Retributors are highly experienced warriors, and amongst the finest sharpshooters in their Order. Only the most level-headed Battle Sisters join their ranks. Providing long-range fire support is a task that requires excellent target prioritisation skills, as well as the ability to optimise firing solutions and identify enemy weak points.",
+    "flavor": "Retributors are highly experienced warriors and amongst the finest sharpshooters in their Order. Only the most level-headed Battle Sisters join their ranks. Providing long-range fire support is a task that requires excellent target prioritisation skills, as well as the ability to optimise firing solutions and identify enemy weak points.",
     "profiles": [
       {
         "name": "Retributor Squad",
@@ -3737,7 +3742,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -3750,7 +3755,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -3864,7 +3869,7 @@ export default [
         "points": 135
       }
     ],
-    "flavor": "Saint Celestine is a living embodiment of the Emperor’s might, and she radiates holy light. Beneath her the faithful are filled with courage, while heretics experience overwhelming terror. Flanked by her chosen Geminae champions, her gestures can heal the sick, or strike like the Emperor’s judgement itself to smite the foe with divine strength.",
+    "flavor": "Saint Celestine is a living embodiment of the Emperor’s might, and she radiates holy light. Beneath her, the faithful are filled with courage while heretics experience overwhelming terror. Flanked by her chosen Geminae champions, her gestures can heal the sick or strike like the Emperor’s judgement to smite the foe with divine strength.",
     "profiles": [
       {
         "name": "CELESTINE",
@@ -3910,7 +3915,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-2",
         "d": "1"
@@ -4011,7 +4016,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "2"
@@ -4036,7 +4041,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -4050,7 +4055,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -4201,7 +4206,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "The Seraphim fight in the Adepta Sororitas’ advanced guard. Only Battle Sisters with superlative dexterity are selected to join their ranks, firing with pinpoint accuracy while moving at great speeds. They must be able to land with incredible precision, cut down foes and retreat within a few heartbeats.",
+    "flavor": "The Seraphim fight in the Adepta Sororitas advanced guard. Only Battle Sisters with superlative reflexes are selected to join their ranks, firing with pinpoint accuracy while moving at immense speeds. They must be able to land with incredible precision, cut down foes and retreat within a few heartbeats.",
     "profiles": [
       {
         "name": "Seraphim Squad",
@@ -4249,7 +4254,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -4430,7 +4435,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -4545,7 +4550,7 @@ export default [
         "note": "4th+"
       }
     ],
-    "flavor": "Rhinos are the mainstay transport of the Adepta Sororitas, and before battle are blessed by Enginseers and Ministorum priests. They are durable, robust and easy to operate. Thanks to their indomitable machine spirits they rarely break down, and speed the warriors inside them across the battlefield wherever they are needed.",
+    "flavor": "Rhinos are the mainstay transport of the Adepta Sororitas, with Engineers and Ministorum Priests blessing each before battles. They are durable, robust and easy to operate, and thanks to their indomitable machine spirits, they rarely break down. They speed the warriors inside them across the battlefield wherever they are needed.",
     "profiles": [
       {
         "name": "Sororitas Rhino",
@@ -4634,7 +4639,7 @@ export default [
         "points": 245
       }
     ],
-    "flavor": "At the centre of the Triumph is the blessed bier upon which lie the mortal remains of Saint Katherine, beneath the sconce containing her fiery heart. Wherever the Triumph goes, the Emperor’s radiance goes with it. The glory of the martyred Matriarch is spread and Battle Sisters are filled with conviction to purge the foes of Mankind.",
+    "flavor": "At the centre of the Triumph is the blessed bier upon which lie the mortal remains of Saint Katherine beneath the sconce containing her fiery heart. Wherever the Triumph goes, the Emperor’s radiance goes with it. The glory of the martyred Matriarch spreads, and Battle Sisters fill with conviction to purge the foes of Mankind.",
     "profiles": [
       {
         "name": "Triumph of Saint Katherine",
@@ -4695,7 +4700,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Battle Sisters Squad"
+        "Battle Sisters Squad",
+        "Crusaders"
       ]
     },
     "keywords": [
@@ -4767,7 +4773,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Only those who experience a direct and persistent connection with the Emperor become Zephyrim. They are divine destroyers, figures of fathomless passion and integrity. On the battlefield they strike down their foes with ruthless precision, while their angelic singing drowns out the screams of the dying.",
+    "flavor": "Only those who experience a direct and persistent connection with the Emperor become Zephyrim. They are divine destroyers, figures of fathomless passion and integrity. On the battlefield, they strike down their foes with ruthless precision while their angelic singing drowns out the screams of the dying.",
     "profiles": [
       {
         "name": "Zephyrim Squad",

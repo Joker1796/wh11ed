@@ -107,8 +107,7 @@ export default {
     options: [
       'За каждые 5 моделей в этом юните у 1 Terminator его storm bolter можно заменить на одно из следующего:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon',
       'У 1 Terminator его storm bolter можно заменить на 1 Apothecary’s narthecium.',
-      'storm bolter у 1 Terminator можно заменить на одно из следующего:\n▪ 1 incinerator и 1 Ancient’s banner\n▪ 1 psilencer и 1 Ancient’s banner\n▪ 1 psycannon и 1 Ancient’s banner\n▪ 1 storm bolter и 1 Ancient’s banner*',
-      '* storm bolter этой модели заменить нельзя.',
+      'storm bolter у 1 Terminator можно заменить на одно из следующего:\n▪ 1 incinerator и 1 Ancient’s banner\n▪ 1 psilencer и 1 Ancient’s banner\n▪ 1 psycannon и 1 Ancient’s banner\n▪ 1 storm bolter и 1 Ancient’s banner*\n* storm bolter этой модели заменить нельзя.',
     ],
   },
 
@@ -276,7 +275,7 @@ export default {
 
   'paladin-squad': {
     flavor:
-      'Даже среди изысканных рядов Grey Knight Paladin — исключительные воины, чьи мощные псионические силы безупречно переплетаются с их боевым владением клинком, чтобы сокрушать даже могущественнейших врагов. Часто сопровождаемые Apothecary или несущими штандарт Ancient, они — излюбленные телохранители и Brother-Captain, и Grand Master.',
+      'Paladin, одни из величайших воинов Империума, бросаются в бой против чудовищных демонических противников. Это самые стойкие воины Grey Knight и образцы боевой мощи: каждый Paladin изгнал одного из могущественнейших демонов, когда-либо являвшихся в мир.',
     abilities: {
       'Attuned Onslaught (Psychic)':
         'Каждый раз, когда этот юнит совершает манёвр нападения, до конца хода прибавьте 1 к характеристике Урона (Damage) оружия ближнего боя моделей PALADIN SQUAD в этом юните.',
@@ -289,8 +288,7 @@ export default {
     options: [
       'За каждые 5 моделей в этом юните у до 2 Paladin их storm bolter можно заменить на одно из следующего:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon',
       'У 1 Paladin его storm bolter можно заменить на 1 Apothecary’s narthecium.',
-      'storm bolter у 1 Paladin можно заменить на одно из следующего:\n▪ 1 incinerator и 1 Ancient’s banner\n▪ 1 psilencer и 1 Ancient’s banner\n▪ 1 psycannon и 1 Ancient’s banner\n▪ 1 storm bolter и 1 Ancient’s banner*',
-      '* storm bolter этой модели заменить нельзя.',
+      'storm bolter у 1 Paladin можно заменить на одно из следующего:\n▪ 1 incinerator и 1 Ancient’s banner\n▪ 1 psilencer и 1 Ancient’s banner\n▪ 1 psycannon и 1 Ancient’s banner\n▪ 1 storm bolter и 1 Ancient’s banner*\n* storm bolter этой модели заменить нельзя.',
     ],
   },
 
@@ -309,7 +307,7 @@ export default {
 
   'purifier-squad': {
     flavor:
-      'Order of Purifiers воплощает святость цели Grey Knight. Они неподкупны и фанатичны, обладают незапятнанным духом. Телепортированные в самое сердце демонических легионов, они часто сражаются как наконечник, откуда обрушивают очищающий огонь, что выжигает осквернённых в пепел.',
+      'Purifier врываются на поле боя, окутанные ослепительным вихрем псионического света. Всецело преданные искоренению самых страшных угроз человечеству, они прорубают кровавый путь в самое сердце даже самых огромных и ужасных орд, неуклонно ведомые святостью своей цели, и сметают врага со своего пути залпами чародейского душевного огня.',
     abilities: {
       'Sanctity of Purpose':
         'Каждый раз, когда модель этого юнита совершает атаку, перебросьте бросок ранения, равный 1. Если цель находится в радиусе маркера цели, вы можете вместо этого перебросить бросок ранения.',

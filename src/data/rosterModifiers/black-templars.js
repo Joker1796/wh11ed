@@ -418,6 +418,7 @@ export default {
       "effects": [
         {
           "on": "unit",
+          "target": "unit",
           "stat": "core",
           "op": "grant",
           "value": "Fights First",

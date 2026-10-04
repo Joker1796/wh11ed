@@ -56,14 +56,16 @@
               {{ fill(labels.rosterMissionsPreviewing, { name: declared }) }}
             </template>
           </p>
-          <button
-            v-if="editable && candidates.length > 1 && shown !== declared"
-            type="button"
-            class="btn-ghost rmt-change"
-            @click="$emit('change', shown)"
-          >
-            {{ declared ? labels.rosterMissionsChange : labels.rosterMissionsChoose }}
-          </button>
+          <ExpandTransition>
+            <button
+              v-if="editable && candidates.length > 1 && shown !== declared"
+              type="button"
+              class="btn-ghost rmt-change"
+              @click="$emit('change', shown)"
+            >
+              {{ declared ? labels.rosterMissionsChange : labels.rosterMissionsChoose }}
+            </button>
+          </ExpandTransition>
         </div>
       </section>
 
@@ -154,6 +156,7 @@
 //
 // The declared disposition is the list's, and only the dialog behind "Change" writes it; the
 // switch here is a preview, so looking at the alternative can never quietly change the list.
+import ExpandTransition from '../ExpandTransition.vue'
 import { ref, computed, watch } from 'vue'
 import MissionCard from '../event/MissionCard.vue'
 import BaseModal from '../BaseModal.vue'

@@ -295,10 +295,26 @@ differ in what they return.
 
 Fail-open, as every other reader here: a per-copy group (`cp`), a unit whose models cannot be split
 between profiles (`modelsPerMini` null), an item the profile's printed loadout does not carry (a
-chained swap, an unresolved "X or Y") and a `total` line are not stock and never close anything.
+chained swap, an unreadable phrase) are not stock and never close anything.
 Known residue: the importer breaks a tie between two same-named options (the two shield bundles)
 by order, so one corpus list in 658 arrives with a Sergeant who swapped his power weapon twice and
 is told so — the fix is one tap in the editor; a stock-aware tie-break is the importer's to grow.
+
+**A profile whose models are not alike — `total` lines and `alt` groups (added 2026-10-03).** "2
+Havocs are equipped with an autocannon, 2 with a lascannon" is one Havoc profile holding two of each:
+`total` lines (`[id, 2, 1]`), not one autocannon per model. The generator read the loadout ROW,
+which describes one model, and gave all four an autocannon; it now takes the "Default Wargear"
+group's count where that is FEWER than row × models (Havocs, the Voidsmen's three lasguns). A
+`total` line is stock — one copy per model that holds it, `swapCarriers` capacity `min(c, models)` —
+and a swap takes a copy off it (`copiesHeld`, read by the loadout line, the export and the modifier
+overlay alike). It used to be no stock at all, so the Breachers' armsmen, a Purifier squad and the
+Sanctifiers' missionary swapped and kept the weapon. "Any number of Havocs can each have their
+autocannon **or** lascannon replaced" names both because the profile holds both: `rep: [ac, lc],
+alt: 1`, and `swapLedger` spends each pick on ONE of them — the item the option does not hand back
+first, each up to the models carrying it, the rest past the stock on the last, where the overdraft
+reports it. `swapRoom` pools the alternatives; `stockBlocker` closes the group only when no model
+carries either. Without it the group replaced nothing and four heavy bolters sat beside four heavy
+weapons (a player's report, 2026-10-03).
 
 **Kept items — `keep` (added 2026-09-24).** "(that model's boltgun cannot be replaced)" is read by
 the generator (`KEEP_RE`, 38 groups, `--check` fails on one whose item does not resolve) into
@@ -524,7 +540,10 @@ bundles already existed.
 
 **Prices are the allied ones** where the MFM prints a second list: the `up` map on a group is the
 same mechanism as a Chapter's `unitPoints` (model count → points, only where it differs). Draxus is
-75 points in her own army and 110 in somebody else's.
+75 points in her own army and 110 in somebody else's. A size the MFM's allied list does not print
+takes appdata's allied row — compositions carrying a `referenceGroupingKeywordId` (IMPERIUM for the
+Agents) are that parallel list — keyed by the size's largest model count: Inquisitorial Agents 7-11
+are 120 as allies (until 2026-10-03 they kept the native 100). The MFM still wins wherever it speaks.
 
 **What the runtime adds to the data.** `validateRoster` applies the Detachment gate (`allyLocked`),
 the per-keyword caps (`allyOverLimit`), the either/or of the Knight and Titan rules — "either one
@@ -1032,6 +1051,14 @@ directory; still part of this feature:
     printed profile lines in both parsers) nor wargear it could take, so reporting them would put a
     problem in front of a reader who can do nothing about it — and the entry costs Canis Rex's own
     415 either way.
+    His card still belongs on Canis Rex's: the unit card (`rosterUnitCard.js` `companions`) folds
+    in every free sheet of the faction that shares a rule with the unit ("Using Sir Hekhtur"),
+    under "Also in this unit" — in the roster view, the desk and a game alike (2026-10-03).
+    And he has a ROW of his own under the Knight in every list — the editor's (`RosterUnitList`)
+    and the view's, which a game and its history share (owner, 2026-10-04): the generator writes
+    `crew: [{ id, name }]` on the unit a free sheet shares a named rule with (the same test as
+    `companions`, on appdata's rule names), so the lists know without loading datasheets. The row
+    has no points and nothing to configure; a tap opens his printed card.
   - **The detachment line cannot be split as text.** The app writes every selected detachment on
     one line joined with commas and a final "and" — and detachment names contain "and" themselves:
     "Legends of Saga and Song and Saga of the Great Wolf" is TWO of them, and splitting on " and "
@@ -1346,8 +1373,8 @@ steps, and the phone its modal.
   one line. The Settings tab and the wizard's step 1 are ordinary pages: `.rw-host` is bound to
   the columns being up. The editor keeps both modes built (`v-show`) so a switch never rebuilds
   the catalogue and the list — their search, open groups and scroll survive a visit to Settings.
-- **`RosterSettingsBar.vue`** is the top line — name, faction, detachments (with the DP count),
-  battle size, Force Disposition, then its "…". **No points and no buttons** (owner, 2026-09-26):
+- **`RosterSettingsBar.vue`** is the top line — name, points limit (before the faction since
+  2026-10-03, as on the phone's form), faction, detachments (with the DP count), Force Disposition, then its "…". **No points and no buttons** (owner, 2026-09-26):
   the points, the issue badge and the way out are the fixed bar's at the bottom at every width, the
   desk included. It holds no state: both
   callers own a roster and do different things with the same answer (the wizard's faction pick also
@@ -2262,6 +2289,73 @@ whole point — but it is not a list: it shows only on the Drafts tab of `/roste
 be fielded. The flags never travel: `rosterShare.js`'s `PICK` is a whitelist, so a share link or
 a game snapshot carries the army and nothing about how it was made.
 
+**The archive** (player request 2026-10-02, owner's shape 2026-10-03). A saved list can be put
+away through its card's "…" — "every unit I own", a painting queue, last season's list: kept for
+reference, not for playing. `archived: true`, ABSENT on every other list (the way `draft` is), set
+and cleared by `setArchived(id, on)`, which bumps `updatedAt` and is followed by `saveToCloud` —
+unlike a draft, an archived list IS a saved list and syncs with its flag (`savedRosters` stays the
+sync scope; `domain/roster.ts` passes the key through). The list page's third tab after Drafts
+shows `archivedRosters`; the Lists tab and the tracker's `RosterPickerModal` show `activeRosters`.
+**An archived list is never checked**: `validateRoster` returns no issues for it (`isArchived` in
+rosterEngine), so the card, the view, the editor's badge (hidden) and the cached summary all go
+quiet together, and the catalogue's duplicate cap is off (`legalityOn`, the one question the cap
+asks). The "Check legality" box stays visible but disabled with the reason. The flag is not in
+`rosterShare`'s `PICK`: a link or a game snapshot carries the army, not where it is filed.
+
+**The points limit and "No limit"** (`battleSize: 'none'`, owner 2026-10-03). On the builder's
+screens the field is called **Points limit**, not battle size — the battle size is the tracker's
+word, for a game; a list has a limit. It is a picker (`RosterBattleSizeField`): the faction
+field's shape, a dropdown on a wide screen and a sheet on a phone (`AdaptivePicker`), `row` in the
+phone form and `bar` on the desk line. 1000 / 2000 / 3000 / Custom / No limit, default 2000, and
+every option says what it decides besides the points: DP, enhancements, copies of a unit,
+Battleline copies (a custom number names the size whose limits it borrows). The phone's form
+repeats that under the chosen value; the desk's line shows the value alone — beside the field the
+facts pushed the line onto a second row. That line never wraps: the name field gives way.
+
+**Custom, with the player's own limits** (owner, 2026-10-03). Custom is a joined − [ N pts ] +
+field (`NumberStepper`, the builder's and the tracker's own: rolling digits, pressed buttons; 50 a
+step, and `editable` so the number can be typed) under the phone's field. The player's own limits —
+Detachment Points, enhancements, copies of a unit, copies of a Battleline unit — are a dialog
+(`RosterCustomLimit` in a `BaseModal` wearing the list's faction colours through
+`FactionAccentScope`, the points again at its top) opened from the sliders square
+to the right of the field on both widths; on the desk picking "Custom" opens it too, since the
+line has no room for the number under the field. They are stored
+as `roster.customLimits: { dp, enh, dup, line }`, each key on its own: a key left out is borrowed
+from the size the points fall within, `line` left out is twice the `dup` in force, and "Back to
+<size>" drops the object. `effectiveBattle` is the only reader — it returns them as `dp`,
+`enhLimit`, `dupLimit`, `lineLimit` (`lineLimit` exists for every size now; `duplicateLimit` takes
+the battle object, a bare number still meaning a printed size), plus `ownLimits` for the screens
+that mark it. Ally limits are GW's per-size tables and stay the borrowed size's. Outside a custom
+size `customLimits` is ignored, and kept, so switching back restores them.
+
+**A list held to its own limits says so** wherever it is looked at: `RosterOwnLimitsMark` (a
+sliders icon) beside the points on the list card, the view's header, the building footer
+(`RosterPointsTally`'s `limits`) and — as plain text, being inside a button — the tracker's roster
+picker; a tap opens every limit in force in the glossary popover. The printed sheet's header and
+the Discord export carry a line of them; the GW app and WTC formats have no place for one and say
+nothing. A bare custom number (no own limits) is not marked — nothing about it is unusual.
+`battleLimitFacts.js`'s `ownLimitsLines` is the one wording.
+
+**Detachment tags in the picker** (2026-10-03). `useRosterBuildActions`'s `detachmentOptions`
+carries each detachment's `unique` tag (DYNASTY, DOCTRINES…), which `DetachmentPickerList` prints
+and uses to hide a second detachment sharing it (25.04). The mapping dropped it until then, so the
+builder showed no tags and let a clashing pair (Assault + Devastator Brethren, both DOCTRINES) be
+picked, leaving only `validateRoster`'s `detachmentTagClash` to object afterwards.
+
+**The limit travels as one value** (`src/composables/rosterLimit.js`: `LIMIT_KEYS`, `limitOf`,
+`applyLimit`). `battleSize`, `customPoints` and `customLimits` go between the picker, the two forms,
+the wizard's draft, the editor, Cancel's baseline and the share/snapshot payload as one object —
+a fourth key is added in `LIMIT_KEYS` and nowhere else. Its own module, not rosterEngine, because
+the bug-report dialog carries the share payload and must not drag the engine along.
+
+**No limit:** `effectiveBattle` returns every limit as `Infinity` with `unlimited: true` — points,
+DP, enhancements, duplicates all lift — so every `>` against them simply never fires; only the
+Epic Hero's cap of 1 stays, since that is the datasheet's, not the battle size's. Everything that
+PRINTS a limit asks `Number.isFinite` / `unlimited` first: the tally, the list card, the view
+header, the DP counts and the print header show the total alone, the "show points left" box is
+hidden, the GW export omits the battle-size line and states the DP the detachments spend, and the
+tracker handoff falls back to Strike Force as it does for Custom.
+
 **`roster.summary` (`{ points, unitCount, issues, v }`) is a CACHE**, and `rosterSummary.js` owns the
 rules around it. It exists precisely because of the line above: points live in the faction chunk,
 and the two screens that show them — `RosterListView` and the tracker's `RosterPickerModal` — must
@@ -2455,11 +2549,12 @@ MACHINE" is 21 characters and two lines while a longer lowercase name is one.
 **Alignment is `baseline`, not `center`**: the points sit beside the name's FIRST line, so a
 quote-as-a-name doesn't leave them floating against the middle of a five-line paragraph — which is
 the original complaint that started this whole header.
-**Size is** decided from the name, by `utils/rosterNameFit.js` → `'' | 'long' | 'xlong'` at 60 and
-100, counting a capital as 1.4 lowercase letters wide (an ALL-CAPS name is not a short one). The
+**Size is** decided from the name, by `utils/rosterNameFit.js` → `'' | 'long' | 'xlong'` at 28 and
+60, counting a capital as 1.4 lowercase letters wide (an ALL-CAPS name is not a short one). The
 bucket is a class on both the view header's `h1` and the editor's name input, and steps down with
-`clamp(…, vw, …)` so a desktop keeps the full size. Two lines keep the full size — the step is for
-a wall of text, not for a name that merely wraps.
+`clamp(…, vw, …)` so a desktop keeps the full size. A name that would wrap on a phone at full size
+steps down at once, and a wrapped name is set at line-height 1.1 (owner, 2026-10-03: two full-size
+lines were a third of the screen).
 
 Nothing is truncated on those two screens — the name IS the header. Places where the name is only
 a label truncate instead: the list card and the picker row clamp to two lines, and the tracker's setup cards/history pills were fixed separately
@@ -3735,6 +3830,15 @@ radiating entry through `ref.unit` — the datasheet the rule is printed on. An 
   certain by 22.01, no chip) and `auraOn` (anyone the player marked);
 - `aurasReaching` finds the source by `enhKey(u.enh) === enhKey(rec.name)` over the roster list, so
   `rosterUnits` now carries `enh` (chosen or mandatory, as everywhere else in this feature).
+
+**An Upgrade addresses the whole Attached unit** (2026-10-03, a player's report on Furious Assault).
+"X unit only. This unit's melee attacks have…" is bought for a unit, and 19.04 makes it every model
+of the Attached unit that unit is part of — so its effects carry `target: 'unit'`, and
+`datasheetEntriesFor` sends them to every OTHER card of that Attached unit (`attachedEnhKeys`:
+the bodyguard and each Character on it), whichever end the Upgrade was bought for. 30 Upgrades over
+17 factions read that way; the four reading "… model only. This model…" (Hagiomnifex, Exemplar
+of Duty, Swollen with Power, Temperamental Shokka) stay with their bearer. `npm run modifiers:check`
+fails on an Upgrade whose "this unit" effects lack the target (`upgradeUnitGaps`).
 
 **An enhancement can also address the bearer's UNIT** (2026-08-25), which is not the same as an aura
 and far more common — 89 relics of the 961. "Models in the bearer's unit have the Deep Strike

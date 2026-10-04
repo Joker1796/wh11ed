@@ -1125,3 +1125,13 @@ and appdata state fresh; a data model can change between now and when this is ne
     scraper kept only the first banner, and appdata carries one of the two. A player found it
     (Warpbane Task Force). Before asking which side is right, look at the raw page for what the
     parser dropped; a field that is a list in the world must not be scraped into a string.
+
+77. **A baseline accepted in one go is a switched-off gate.** On 2026-09-12 the sync baseline took
+    in all 732 findings of the day, none with a reason. Meant as "print only what is new", it became
+    "say nothing about what is old": the Wahapedia import's drift — aircraft at M `20+"` where the app
+    says "-", BS "N/A", abilities the app's sheet does not carry, 10th-edition flavor on 208 sheets,
+    empty faction keywords — lived under it until an errata check in October. Every finding now has
+    one home: fixed, the exceptions registry, a comparator rule, or a baseline entry WITH its reason;
+    732 → 237, and an empty reason fails `npm test`. On the way, what sync never compared at all
+    surfaced: faction keywords, flavor, the SM Chapters' detachments (filed in the Chapter bundles),
+    the core/faction split. Accept findings one at a time, each with its reason.

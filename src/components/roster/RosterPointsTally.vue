@@ -3,14 +3,15 @@
     <span
       ref="pointsEl"
       class="rc-points"
-      :class="{ over, 'with-left': showPointsLeft, large }"
-    >{{ shownPoints }} / {{ limit }}<ExpandTransition>
+      :class="{ over, 'with-left': showLeft, large }"
+    >{{ shownPoints }}<template v-if="limited"> / {{ limit }}</template><ExpandTransition>
       <span
-        v-if="showPointsLeft"
+        v-if="showLeft"
         class="pts-left"
         :class="{ over }"
       >{{ leftLabel }}</span>
     </ExpandTransition></span>
+    <RosterOwnLimitsMark :roster="limits" />
     <button
       v-if="badge"
       type="button"
@@ -52,10 +53,13 @@ import { pointsLeftLabel } from '../../composables/rosterEngine.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { useCountUp } from '../../composables/useCountUp.js'
 import ExpandTransition from '../ExpandTransition.vue'
+import RosterOwnLimitsMark from './RosterOwnLimitsMark.vue'
 
 const props = defineProps({
   points: { type: Number, default: 0 },
   limit: { type: Number, default: 0 },
+  // The roster's limit (rosterLimit.js's limitOf, or the roster) — marks the player's own limits.
+  limits: { type: Object, default: null },
   errorCount: { type: Number, default: 0 },
   // Every issue, errors included — `validation.issues.length`.
   issueCount: { type: Number, default: 0 },
@@ -70,6 +74,10 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { showPointsLeft } = useRosterPrefs()
 const over = computed(() => props.points > props.limit)
+// A list with no limit (rosterEngine's effectiveBattle, 'none') reads its total alone: no "/ ∞",
+// and no remainder whatever the reader's setting says.
+const limited = computed(() => Number.isFinite(props.limit))
+const showLeft = computed(() => showPointsLeft.value && limited.value)
 // The total runs to its new value rather than jumping, and pulses while it does — an add or a
 // removal made in the other pane is seen landing in the readout (owner, 2026-09-28). What is left
 // counts with it; the red of an over-budget list follows the real total, not the running one.
@@ -124,7 +132,9 @@ useFlashOnChange(() => props.points, pointsEl)
 /* The narrowest phones, measured with the web fonts in (2026-09-24): a notch smaller rather than
    the limit gone. */
 @media (max-width: 360px) {
-  .points-tally { gap: 0.25rem; }
+  .points-tally { gap: 0.15rem; }
   .rc-points:not(.large) { font-size: 0.74rem; }
+  /* The own-limits mark (2026-10-03) keeps its 24px target and drops its side padding. */
+  .points-tally :deep(.olm) { padding: 0; }
 }
 </style>

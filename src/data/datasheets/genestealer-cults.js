@@ -27,7 +27,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "No one truly knows what causes Aberrants to spring up amidst the brood cycle, yet the uses of these lumpen gene-deviants are obvious. Possessed of immense strength and resilience coupled with simplistic loyalty to the cult, they are hurled into battle as line breakers or massed as hulking, expendable bodyguards.",
+    "flavor": "No-one truly knows what causes Aberrants to spring up amidst the brood cycle, yet the uses of these lumpen gene-deviants are obvious. Possessed of immense strength and resilience coupled with simplistic loyalty to the cult, they are hurled into battle as line breakers or massed as hulking, expendable bodyguards.",
     "profiles": [
       {
         "name": "Aberrants",
@@ -400,7 +400,7 @@ export default [
         "points": 140
       }
     ],
-    "flavor": "Equipped with hand flamers and using their hulking strength andxenos dexterity to wield pilfered explosive charges, Acolyte Hybrids excel in bold missions of arson and ruination. Denying the oppressors any opportunity of a foothold, their destructive acts are often so wholesale that few witnesses survive their operations.",
+    "flavor": "Equipped with hand flamers and using their hulking strength and xenos dexterity to wield pilfered explosive charges, Acolyte Hybrids excel in bold missions of arson and ruination. Denying the oppressors any opportunity of a foothold, their destructive acts are often so wholesale that few witnesses survive their operations.",
     "profiles": [
       {
         "name": "Acolyte Hybrids with Hand Flamers",
@@ -437,7 +437,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "0",
         "d": "1"
@@ -649,7 +649,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -973,7 +973,7 @@ export default [
         "points": 50
       }
     ],
-    "flavor": "Vox-hacker and information assassin supreme, the Clamavus scythes into enemy communications networks for intelligence. It seeds the amplified psychic signal of the Broodmind through the foe’s comms to spread dismay from a distance, while up close it can rupture its victims’ brains with its savage audial symphony.",
+    "flavor": "Vox-hacker and information assassin supreme, the Clamavus scythes into enemy communications networks and plunders them for intelligence. It seeds the amplified psychic signal of the Broodmind through the foe’s comms to spread dismay from a distance, while up close it can rupture its victims’ brains with its savage audial symphony.",
     "profiles": [
       {
         "name": "Clamavus",
@@ -1081,7 +1081,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -1307,7 +1307,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Triggered by the approach of a hive fleet or a sudden trauma to the cult, Hybrid Metamorphs mutate from early generations of the brood cycle. Dormant gene-codes burst to life, bestowing weaponised limbs, ghastly bio-acidic glands and other so-called blessings upon these creatures, transforming them into devastating shock troops.",
+    "flavor": "Triggered by the approach of a hive fleet or a sudden trauma to the cult, Hybrid Metamorphs mutate from early generations of the brood cycle. Dormant gene-codes burst to life, bestowing weaponised limbs, ghastly bio-acidic glands and other so-called blessings upon these creatures, transforming them into devastating shock troops for the cult.",
     "profiles": [
       {
         "name": "Hybrid Metamorphs",
@@ -1341,7 +1341,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "0",
         "d": "1"
@@ -1803,7 +1803,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1875,7 +1875,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "2",
         "ap": "0",
         "d": "1"
@@ -1933,8 +1933,7 @@ export default [
       "One Neophyte Hybrid equipped with a Hybrid firearm can be equipped with 1 cult icon.",
       "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Heavy stubber*\n▪ Mining laser*\n▪ Seismic cannon*\n* To a maximum of 1 per 10 models in this unit.",
       "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Flamer*\n▪ Grenade launcher*\n▪ Webber*\n* To a maximum of 1 per 10 models in this unit.",
-      "The Neophyte Leader’s Hybrid firearm and close combat weapon can be replaced with 1 of the following:\n▪ 1 anointed pistol and 1 chainsword\n▪ 1 anointed pistol and 1 power weapon",
-      "* To a maximum of 1 per 10 models in this unit."
+      "The Neophyte Leader’s Hybrid firearm and close combat weapon can be replaced with 1 of the following:\n▪ 1 anointed pistol and 1 chainsword\n▪ 1 anointed pistol and 1 power weapon"
     ],
     "keywords": [
       "Great Devourer",
@@ -1957,7 +1956,7 @@ export default [
         "points": 50
       }
     ],
-    "flavor": "Engineered to share a portion of the Patriarch’s cerebral might, the Nexos can absorb the entirety of a cultist’s thoughts and experiences through physical contact. They compartmentalise millions of these snapshots, building a formidable mental map, then using it to direct cult forces like a rear-echelon officer of prodigious skill.",
+    "flavor": "Engineered to share a portion of the Patriarch’s cerebral might, the Nexos acts as their cult’s central nervous system. They use their comrades’ memories to craft strategic instructions and deployment orders. When they require a first-hand view of an engagement, they emerge into the light accompanied by cult bodyguards, directing assaults with all the expertise of a skilled field marshal.",
     "profiles": [
       {
         "name": "Nexos",

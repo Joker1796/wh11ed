@@ -1,6 +1,6 @@
 {
   "name": "wh-rules",
-  "version": "2.7.11",
+  "version": "2.7.13",
   "description": "Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition — core rules, the Event Companion, faction rules and unit datasheets, plus an offline game tracker. A fast, searchable Vue 3 SPA hosted at wh-rules.ru.",
   "scripts": {
     "dev": "vite",
@@ -28,6 +28,7 @@
     "sync": "node scripts/sync.mjs",
     "sync:text": "node scripts/sync-faction-text.mjs",
     "sync:mfm": "node scripts/sync-mfm-points.mjs",
+    "sync:baseline": "node scripts/sync-baseline-report.mjs",
     "parity": "node scripts/parity-check.mjs",
     "omissions": "node scripts/check-rule-omissions.mjs",
     "detmeta": "node scripts/check-detachment-meta.mjs",
@@ -45,6 +46,8 @@
     "radii": "node scripts/check-radii.mjs",
     "dupes": "node scripts/check-css-dupes.mjs",
     "a11y": "node scripts/check-a11y.mjs",
+    "smoke": "npx vite-node scripts/smoke.mjs",
+    "test-rosters": "npx vite-node scripts/test-roster-links.mjs",
     "imghash": "node scripts/check-image-renames.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
     "faction-icons": "node scripts/gen-faction-icons.mjs",

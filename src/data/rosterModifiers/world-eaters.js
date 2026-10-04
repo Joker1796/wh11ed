@@ -846,6 +846,7 @@ export default {
       "effects": [
         {
           "on": "melee",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "CLEAVE 2",
@@ -871,6 +872,7 @@ export default {
       "effects": [
         {
           "on": "melee",
+          "target": "unit",
           "stat": "ws",
           "op": "improve",
           "value": 1,
@@ -893,6 +895,7 @@ export default {
       "effects": [
         {
           "on": "profile",
+          "target": "unit",
           "stat": "oc",
           "op": "add",
           "value": 1,

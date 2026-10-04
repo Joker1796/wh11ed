@@ -26,13 +26,15 @@
         </li>
       </ul>
 
-      <p
-        v-if="notice"
-        class="lw-notice"
-        :class="{ deny: myRequestDenied || hostQuiet }"
-      >
-        {{ notice }}
-      </p>
+      <ExpandTransition>
+        <p
+          v-if="notice"
+          class="lw-notice"
+          :class="{ deny: myRequestDenied || hostQuiet }"
+        >
+          {{ notice }}
+        </p>
+      </ExpandTransition>
 
       <div class="lw-sync">
         <SyncIndicator />
@@ -87,6 +89,8 @@
 </template>
 
 <script setup>
+import { ownLimitsSummary } from '../../composables/ownLimits.js'
+import ExpandTransition from '../ExpandTransition.vue'
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
@@ -161,7 +165,11 @@ const summary = computed(() => {
   if (!p) return []
   const armies = Array.isArray(p.members) && current.value?.settings?.gameType === 'doubles' ? p.members : [p]
   return armies
-    .map((m) => [m.name, factionName(m.factionSlug), m.roster?.name].filter(Boolean).join(' · '))
+    .flatMap((m) => [
+      [m.name, factionName(m.factionSlug), m.roster?.name].filter(Boolean).join(' · '),
+      // A list held to its own limits says so — what the other phone is shown too (2026-10-03).
+      ownLimitsSummary(m.roster, labels.value),
+    ])
     .filter(Boolean)
 })
 

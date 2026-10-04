@@ -133,7 +133,6 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "Hull"
@@ -243,8 +242,7 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "Emperor’s Children",
-      ""
+      "Emperor’s Children"
     ],
     "baseSize": "Hull"
   },
@@ -298,8 +296,7 @@ export default [
       "Chaos"
     ],
     "factionKeywords": [
-      "Emperor’s Children",
-      ""
+      "Emperor’s Children"
     ],
     "baseSize": "50mm"
   },
@@ -359,7 +356,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -448,7 +445,6 @@ export default [
       "Terminator Squad"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "40mm"
@@ -541,7 +537,6 @@ export default [
       "Monster"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "60mm"
@@ -631,7 +626,6 @@ export default [
       "Daemon"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "60mm"
@@ -708,7 +702,6 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "",
       "Legions of Excess"
     ],
     "baseSize": "25mm"
@@ -796,7 +789,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "7",
         "ap": "-2",
         "d": "2"
@@ -916,7 +909,6 @@ export default [
       "Vehicle"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "160mm"
@@ -982,8 +974,7 @@ export default [
       "Daemon"
     ],
     "factionKeywords": [
-      "Legions of Excess",
-      ""
+      "Legions of Excess"
     ],
     "baseSize": "75x42mm Oval Base"
   },
@@ -1056,7 +1047,6 @@ export default [
       "Flawless Blades"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "40mm"
@@ -1170,7 +1160,6 @@ export default [
       "Slaanesh"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "130mm",
@@ -1224,7 +1213,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "2"
@@ -1282,7 +1271,6 @@ export default [
       "Daemon"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "120x92mm Oval Base"
@@ -1418,7 +1406,6 @@ export default [
       "Slaanesh"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "32mm"
@@ -1566,8 +1553,7 @@ export default [
       "Monster"
     ],
     "factionKeywords": [
-      "Legions of Excess",
-      ""
+      "Legions of Excess"
     ],
     "baseSize": "100mm"
   },
@@ -1745,7 +1731,6 @@ export default [
       "Grenades"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "40mm"
@@ -1841,8 +1826,7 @@ export default [
       "Slaanesh"
     ],
     "factionKeywords": [
-      "Emperor’s Children",
-      ""
+      "Emperor’s Children"
     ],
     "baseSize": "40mm"
   },
@@ -1922,7 +1906,6 @@ export default [
       "Lucius the Eternal"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "50mm"
@@ -1942,7 +1925,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Maulerfiends stalk the battlefield like immense hunting beasts. Once the enemy are in sight, these huge Daemon Engines thunder forward, even scaling defensive walls in their eagerness to get at the prey. Once amongst the foe, they slaughter anything in reach with their huge talons, crushing jaws and stabbing tendrils.",
+    "flavor": "The Maulerfiends of the Emperor’s Children possess a ravenous appetite for carnage and are empowered by the agonies inflicted upon them. They charge recklessly into the thick of the fighting, howling with pleasure as they tear infantry apart and reduce fortifications and vehicles to molten rubble with their fists or glowing magma cutters.",
     "profiles": [
       {
         "name": "Maulerfiend",
@@ -2019,8 +2002,7 @@ export default [
       "Walker"
     ],
     "factionKeywords": [
-      "Emperor’s Children",
-      ""
+      "Emperor’s Children"
     ],
     "baseSize": "120x92mm Oval Base"
   },
@@ -2039,7 +2021,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Orchestrating riotous destruction on vast scales, Noise Marines saturate the war zone with explosive bolts, clashing aural waves and extreme psychosonic attacks. These hedonistic worshippers of Slaanesh are inured to most stimuli, and seek to unleash the most cacophonous destruction to stir their jaded senses.",
+    "flavor": "Orchestrating riotous destruction on large scales, Noise Marines saturate the war zone with piercing bursts of shattering noise, thrumming waves of aural destruction and other extreme psychosonic attacks. These hedonistic worshippers of Slaanesh are inured to most stimuli and seek to unleash the most cacophonous destruction to stir their jaded senses.",
     "profiles": [
       {
         "name": "Noise Marines",
@@ -2145,7 +2127,6 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "40mm"
@@ -2237,7 +2218,6 @@ export default [
       "Slaanesh"
     ],
     "factionKeywords": [
-      "",
       "Legions of Excess"
     ],
     "baseSize": "60x35.5mm Oval Base"
@@ -2363,8 +2343,7 @@ export default [
       "Shalaxi Helbane"
     ],
     "factionKeywords": [
-      "Legions of Excess",
-      ""
+      "Legions of Excess"
     ],
     "baseSize": "100mm"
   },
@@ -2475,8 +2454,7 @@ export default [
       "Slaanesh"
     ],
     "factionKeywords": [
-      "Emperor’s Children",
-      ""
+      "Emperor’s Children"
     ],
     "baseSize": "40mm"
   },
@@ -2662,7 +2640,6 @@ export default [
       "Grenades"
     ],
     "factionKeywords": [
-      "",
       "Emperor’s Children"
     ],
     "baseSize": "32mm"

@@ -1519,7 +1519,7 @@ const en = {
       ],
       "enhancements": [
         {
-          "name": "War-tempered Artifice",
+          "name": "War Tempered Artifice",
           "points": 25,
           "flavor": "Having laboured long in the Chapter’s forges, this warrior smith has crafted his personal armaments. Each weapon is a masterwork tool of death‑dealing, wrought with care and strength, and embellished with the icons of their maker’s brotherhood.",
           "body": "ADEPTUS ASTARTES model only. This model’s melee attacks have:\n▪ +1 **[gloss:strength:S]**.\n▪ +1 **[gloss:damage-roll:D]**."
@@ -1632,7 +1632,7 @@ const en = {
           "body": "ADEPTUS ASTARTES model only. This model’s melee attacks have:\n▪ +1 **[gloss:strength:S]** and **[gloss:armour-penetration:AP]**.\n▪ __Or:__ If this unit made a **[gloss:charge-move:charge move]** this turn, +2 **S** and **AP**."
         },
         {
-          "name": "Stormseers' Wisdom",
+          "name": "Stormseer's Wisdom",
           "points": 15,
           "flavor": "The Chapter’s Librarians have made this champion privy to omens of great threats in future wars. Armed with this knowledge, they lead their warriors to war with a boldness that some mistake for recklessness.",
           "body": "ADEPTUS ASTARTES model only. This unit can re-roll **[gloss:advance-roll:advance rolls]**."

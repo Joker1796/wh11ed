@@ -52,7 +52,7 @@
           v-if="!shown.length"
           class="empty"
         >
-          {{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}
+          {{ emptyLabel }}
         </p>
         <TransitionGroup
           v-else
@@ -81,11 +81,13 @@
               <span class="rname">{{ r.name || labels.rosterUntitled }}</span>
               <!-- Pinned (useRosterPins): the mark stands beside the "…" that sets it, in the
                    army's colour like the faction line under the name. -->
-              <i
-                v-if="isRosterPinned(r.id)"
-                class="bi bi-pin-angle-fill rpin"
-                :title="labels.favPinnedGroup"
-              />
+              <ExpandTransition>
+                <i
+                  v-if="isRosterPinned(r.id)"
+                  class="bi bi-pin-angle-fill rpin"
+                  :title="labels.favPinnedGroup"
+                />
+              </ExpandTransition>
               <!-- A draft's actions sheet only ever held one item, so it is spared the extra tap:
                the card carries Delete itself. Everything a SAVED list can do still needs the
                sheet, so that one keeps the kebab. -->
@@ -140,6 +142,14 @@
                 >
                   {{ isRosterPinned(r.id) ? labels.favUnpin : labels.favPin }}
                 </button>
+                <!-- The archive (player request, 2026-10-02): lists kept for reference — every
+                     unit owned, the painting queue — step out of the way without being deleted. -->
+                <button
+                  class="act-btn"
+                  @click="onArchive(r.id, !r.archived)"
+                >
+                  {{ r.archived ? labels.rosterUnarchive : labels.rosterArchive }}
+                </button>
                 <button
                   class="act-btn act-danger"
                   @click="onDelete(r.id)"
@@ -170,12 +180,15 @@
             >{{ r.detachments.join(', ') }}</span>
             <div class="roster-meta">
               <span class="meta-left">
+                <!-- A list without a limit shows what it costs and nothing to measure it against; an archived
+                     one is never over anything (it is not checked). -->
                 <span
                   class="rpoints"
-                  :class="{ over: (r.summary?.points || 0) > limitOf(r) }"
+                  :class="{ over: !r.archived && (r.summary?.points || 0) > limitOf(r) }"
                 >
-                  {{ r.summary?.points || 0 }}<span class="unit">/{{ limitOf(r) }} {{ labels.rosterPointsLabel }}</span>
+                  {{ r.summary?.points || 0 }}<span class="unit"><template v-if="Number.isFinite(limitOf(r))">/{{ limitOf(r) }}</template> {{ labels.rosterPointsLabel }}</span>
                 </span>
+                <RosterOwnLimitsMark :roster="r" />
                 <!-- What this list did on the table. Only ever present on a saved list — a draft
                  can't be attached to a game — and it links nowhere: the full record is on
                  /tracker/stats, which the tracker page carries a way into. -->
@@ -191,7 +204,7 @@
                   class="rstep"
                 >{{ draftStepLabel(r) }}</span>
                 <span
-                  v-else-if="r.summary?.issues"
+                  v-else-if="r.summary?.issues && !r.archived"
                   class="issues"
                   :title="String(r.summary.issues)"
                 >
@@ -202,14 +215,16 @@
             </div>
           </li>
         </TransitionGroup>
-        <button
-          v-if="listed.length > visibleCount"
-          type="button"
-          class="show-more"
-          @click="visibleCount += PAGE"
-        >
-          {{ labels.trackerShowMore }} ({{ listed.length - visibleCount }})
-        </button>
+        <ExpandTransition>
+          <button
+            v-if="listed.length > visibleCount"
+            type="button"
+            class="show-more"
+            @click="visibleCount += PAGE"
+          >
+            {{ labels.trackerShowMore }} ({{ listed.length - visibleCount }})
+          </button>
+        </ExpandTransition>
       </div>
     </Transition>
 
@@ -237,11 +252,13 @@
 </template>
 
 <script setup>
+import ExpandTransition from '../../components/ExpandTransition.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import ActionMenu from '../../components/ActionMenu.vue'
 import RosterListHead from '../../components/roster/RosterListHead.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
+import RosterOwnLimitsMark from '../../components/roster/RosterOwnLimitsMark.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import FactionEmblem from '../../components/FactionEmblem.vue'
@@ -274,15 +291,22 @@ const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
-const { rosters, savedRosters, draftRosters, duplicateRoster, deleteRoster, rosterById } = useRosters()
+const { rosters, activeRosters, archivedRosters, draftRosters, duplicateRoster, deleteRoster, rosterById, setArchived } = useRosters()
 const { status, ensureSession } = useAuth()
 const { syncNow, saveToCloud, removeFromCloud, pulled } = useRosterSync()
 
 const tab = ref('saved')
 const tabs = computed(() => [
-  { key: 'saved', label: labels.value.rosterTabSaved, count: savedRosters.value.length, active: tab.value === 'saved' },
+  { key: 'saved', label: labels.value.rosterTabSaved, count: activeRosters.value.length, active: tab.value === 'saved' },
   { key: 'drafts', label: labels.value.rosterTabDrafts, count: draftRosters.value.length, active: tab.value === 'drafts' },
+  { key: 'archived', label: labels.value.rosterTabArchived, count: archivedRosters.value.length, active: tab.value === 'archived' },
 ])
+const TAB_LISTS = { saved: activeRosters, drafts: draftRosters, archived: archivedRosters }
+const emptyLabel = computed(() => ({
+  saved: labels.value.rostersEmpty,
+  drafts: labels.value.rosterDraftsEmpty,
+  archived: labels.value.rosterArchivedEmpty,
+})[tab.value])
 
 // Exporting needs the faction's generated bundle (unit names, wargear, points), which this screen
 // otherwise never loads — so it is fetched on demand, the same lazy load the editor does, and the
@@ -305,7 +329,7 @@ async function onExport(id) {
 }
 // An imported list lands in the editor, not in the read-only view: whatever the report could not
 // place is the reader's to finish, and that is where they can.
-const shown = computed(() => (tab.value === 'drafts' ? draftRosters : savedRosters).value)
+const shown = computed(() => TAB_LISTS[tab.value].value)
 // The factions this tab's lists belong to, with how many each, by name. A list with no faction
 // yet (a draft picked none) has no chip and shows under "All" only.
 const factionFilters = computed(() => {
@@ -421,6 +445,15 @@ function onDuplicate(id) {
   // A duplicate is a finished list the moment it exists — the same kind of deliberate save the
   // editor's Save button makes, so it goes to the cloud now rather than waiting for the next visit.
   if (copy) saveToCloud(copy.id)
+}
+
+// The flag is part of the list, so it goes to the cloud like any other edit, and the issue count
+// on the card is recounted under the new rule (setArchived, useRosters.js).
+function onArchive(id, on) {
+  menuFor.value = null
+  if (!setArchived(id, on)) return
+  saveToCloud(id)
+  refreshSummaries(rosters.value)
 }
 
 const pendingDelete = ref(null)

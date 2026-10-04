@@ -1315,6 +1315,7 @@ export default {
       "effects": [
         {
           "on": "melee",
+          "target": "unit",
           "stat": "ap",
           "op": "add",
           "value": -1,
@@ -1322,6 +1323,7 @@ export default {
         },
         {
           "on": "melee",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "CLEAVE 1",

@@ -101,6 +101,7 @@
               v-if="rosterPickerKey === ak(i, mi)"
               :selected="m.roster ? (m.rosterId || '') : null"
               :faction="m.factionSlug"
+              :max-points="isDoubles ? null : battlePoints"
               @pick="r => pickRoster(m, r)"
               @clear="clearRoster(m)"
               @close="rosterPickerKey = ''"
@@ -261,7 +262,7 @@ import { useColorClashGate } from '../../composables/useColorClashGate.js'
 import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, isYouSide, sideLabel } from '../../composables/useTracker.js'
+import { useTracker, membersOf, isYouSide, sideLabel, BATTLE_SIZES } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
@@ -277,6 +278,8 @@ const { active: partyActive, isHost, reseat } = useParty()
 const guest = partyActive.value && !isHost.value
 
 const isDoubles = game.settings.gameType === 'doubles'
+// The game's battle size in points — a list over it is not offered (the picker's `maxPoints`).
+const battlePoints = BATTLE_SIZES.find((b) => b.id === game.settings.battleSize)?.points ?? null
 
 // Local draft — only committed to the store on Save, so Cancel discards edits cleanly.
 const players = reactive(game.players.map(p => ({

@@ -916,8 +916,8 @@ const secondary = [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your opponent\'s turn or the end of the fifth battle round (whichever comes first)',
         rows: [
-          { text: 'Your beacon unit is on the battlefield and outside your deployment zone.', vp: 3 },
-          { text: 'Your beacon unit is on the battlefield and outside your territory.', vp: 5, modifier: 'or' },
+          { text: 'Your beacon unit is on the battlefield and not within your deployment zone.', vp: 3 },
+          { text: 'Your beacon unit is on the battlefield and not within your territory.', vp: 5, modifier: 'or' },
         ],
       },
     ],
@@ -933,8 +933,8 @@ const secondary = [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your opponent\'s turn or the end of the fifth battle round (whichever comes first)',
         rows: [
-          { text: 'Your beacon unit is on the battlefield and outside your deployment zone.', vp: 3 },
-          { text: 'Your beacon unit is on the battlefield and outside your territory.', vp: 5, modifier: 'or' },
+          { text: 'Your beacon unit is on the battlefield and not within your deployment zone.', vp: 3 },
+          { text: 'Your beacon unit is on the battlefield and not within your territory.', vp: 5, modifier: 'or' },
         ],
       },
     ],

@@ -1242,7 +1242,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1020,
+          "t": 1021,
           "in": "checkbox",
           "o": [
             [
@@ -1255,7 +1255,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1021,
+          "t": 1022,
           "in": "checkbox",
           "o": [
             [
@@ -1265,7 +1265,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 1022,
+          "t": 1023,
           "in": "checkbox",
           "o": [
             [
@@ -1368,7 +1368,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1023,
+          "t": 1024,
           "in": "checkbox",
           "o": [
             [
@@ -1378,7 +1378,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1024,
+          "t": 1025,
           "in": "checkbox",
           "o": [
             [
@@ -1388,7 +1388,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 1025,
+          "t": 1026,
           "in": "checkbox",
           "o": [
             [
@@ -3130,7 +3130,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1026,
+          "t": 1027,
           "in": "checkbox",
           "o": [
             [
@@ -3868,6 +3868,27 @@ export default {
           "strike-force": 1
         }
       },
+      "free": [
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Inquisitor"
+          ],
+          "recv": [
+            "Inquisitorial Agents"
+          ]
+        },
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Character",
+            "Voidfarers"
+          ],
+          "recv": [
+            "Voidsmen-At-Arms"
+          ]
+        }
+      ],
       "up": {
         "imperial-agents:inquisitor-draxus": {
           "1": 110
@@ -3901,6 +3922,7 @@ export default {
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
+          "11": 120,
           "12": 120
         },
         "imperial-agents:inquisitor-coteaz": {

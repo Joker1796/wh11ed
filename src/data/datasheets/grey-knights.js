@@ -33,7 +33,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -663,7 +663,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -746,8 +746,7 @@ export default [
     "options": [
       "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon",
       "1 Terminator can have its storm bolter replaced with 1 Apothecary’s narthecium.",
-      "1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*\n* That model’s storm bolter cannot be replaced.",
-      "* That model’s storm bolter cannot be replaced."
+      "1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*\n* That model’s storm bolter cannot be replaced."
     ],
     "keywords": [
       "Terminator",
@@ -894,7 +893,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -1053,7 +1052,7 @@ export default [
         ],
         "range": "18\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -1201,7 +1200,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "Grand Master Aldrik Voldus wields the mighty Malleus Argyrum, a daemon hammer whose head dances with sorcerous flame fewfoes can withstand. One of the most potent psykers his Chapter has known in years, he also possesses the power to unleash waves of soulfire against his enemies and to conjure sanctuaries of dancing psychic luminescence that shield his brothers from harm.",
+    "flavor": "Grand Master Aldrik Voldus wields the mighty Malleus Argyrum, a daemon hammer whose head dances with sorcerous flame few foes can withstand. One of the most potent psykers his Chapter has known in years, he also possesses the power to unleash waves of soulfire against his enemies and to conjure sanctuaries of dancing psychic luminescence that shield his brothers from harm.",
     "profiles": [
       {
         "name": "Grand Master Voldus",
@@ -1682,7 +1681,7 @@ export default [
     "profiles": [
       {
         "name": "Grey Knights Thunderhawk Gunship",
-        "m": "20+\"",
+        "m": "20\"",
         "t": "12",
         "sv": "2+",
         "w": "30",
@@ -1826,7 +1825,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Interceptor squads embody the Grey Knights’ ability to respond rapidly to crises and emergent threats. Their teleporters enable them to flicker in and out of realspace, performing short-ranged teleport ’shunts’and bursting from the Warp repeatedly with guns blazing and Nemesis force weapons singing as they butcher the unsuspecting foe.",
+    "flavor": "Interceptor squads embody the Grey Knights’ ability to respond rapidly to crises and emergent threats. Their teleporters enable them to flicker in and out of realspace, performing short-ranged teleport ’shunts’ and bursting from the Warp repeatedly with guns blazing and Nemesis force weapons singing as they butcher the unsuspecting foe.",
     "profiles": [
       {
         "name": "Interceptor Squad",
@@ -1847,7 +1846,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2070,7 +2069,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "The redoubtable Land Raider is the perfect armoured transport tank for the Grey Knights. Its arsenal of potent firepower is more than enough to mow down hordes of foes and,blast their armour support to scrap even as the Land Raider roars forward to deliver its passengers into the heart of the shell-shocked enemies’ lines.",
+    "flavor": "The redoubtable Land Raider is the perfect armoured transport tank for the Grey Knights. Its arsenal of potent firepower is more than enough to mow down hordes of foes and blast their armour support to scrap even as the Land Raider roars forward to deliver its passengers into the heart of the shell-shocked enemies lines.",
     "profiles": [
       {
         "name": "Land Raider",
@@ -2362,7 +2361,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-2",
         "d": "2"
@@ -2514,7 +2513,7 @@ export default [
         ],
         "range": "18\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2654,7 +2653,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Even amongst the rarefied ranks of the Grey Knights, Paladins are exceptional warriors whose potent psychic powers intertwine seamlessly with their martial bladework to devastate even the mightiest foes. Often accompanied by Apothecaries or banner-bearing Ancients, they are the favoured bodyguards of Brother-Captains and Grand Masters alike.",
+    "flavor": "Amongst the greatest warriors in the Imperium, Paladins throw themselves into combat against monstrous daemonic adversaries. They are the staunchest warriors of the Grey Knights and exemplars of martial might; each Paladin has banished one of the most powerful daemons ever to manifest.",
     "profiles": [
       {
         "name": "Paladin Squad",
@@ -2676,7 +2675,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2759,8 +2758,7 @@ export default [
     "options": [
       "For every 5 models in this unit, up to 2 Paladins can each have their storm bolter replaced with one of the following:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon",
       "1 Paladin can have its storm bolter replaced with 1 Apothecary’s narthecium.",
-      "1 Paladin’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*\n* That model’s storm bolter cannot be replaced.",
-      "* That model’s storm bolter cannot be replaced."
+      "1 Paladin’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*\n* That model’s storm bolter cannot be replaced."
     ],
     "keywords": [
       "Grenades",
@@ -2821,7 +2819,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -2940,7 +2938,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "The Order of Purifiers epitomise the Grey Knights’ sanctity of purpose. They are incorruptible and fanatical, possessed of an untarnished spirit. Teleported into the heart of daemonic legions, they often fight as a spearhead from where they unleash a cleansing fire that sears the corrupted to ash.",
+    "flavor": "The Purifiers blast onto the battlefield, wreathed in a blinding maelstrom of psychic light. Utterly dedicated to the eradication of the most dreadful threats to Mankind, they carve a bloody path into the very heart of even the most immense and terrible hordes, driven unwaveringly onward by their sanctity of purpose, scouring the foe from their path with blasts of sorcerous soul fire.",
     "profiles": [
       {
         "name": "Purifier Squad",
@@ -2961,7 +2959,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -3574,7 +3572,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "Powerful close-support aircraft, Stormraven Gunships are capable of deploying Grey Knights and even a revered Dreadnought where empyric disturbances prevent teleportation. Resilient and bristling with heavy weapons, Stormravens excel in armoured assaults and the fiery purgations of landing zones.",
+    "flavor": "Powerful close-support aircraft, Stormraven Gunships can deploy Grey Knights and even a revered Dreadnought where empyric disturbances prevent teleportation. Resilient and bristling with heavy weapons, Stormravens excel in armoured assaults and the fiery purgations of landing zones.",
     "profiles": [
       {
         "name": "Stormraven Gunship",
@@ -3921,7 +3919,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -4031,7 +4029,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "The ancient Grey Knights interred within Venerable Dreadnought sarcophagi direct their potent heavy weapons and the blows of their hydraulicfists with time-honed skill. Yet their many centuries of wisdom and experience are most valuable of all, aiding them in commanding strike forces while offering psychic guidance to their battle-brothers.",
+    "flavor": "The ancient Grey Knights interred within Venerable Dreadnought sarcophagi direct their potent heavy weapons and the blows of their hydraulic fists with time-honed skill. Yet their many centuries of wisdom and experience are most valuable of all, aiding them in commanding strike forces while offering psychic guidance to their battle-brothers.",
     "profiles": [
       {
         "name": "Venerable Dreadnought",
@@ -4064,7 +4062,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"

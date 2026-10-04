@@ -41,19 +41,21 @@
 
     <!-- Opening the lobby failed (no connection, or a session that went stale). Said out loud
          here rather than dropping the reader into an ordinary setup wondering what happened. -->
-    <p
-      v-if="shareError"
-      class="share-error"
-    >
-      <span>{{ shareError }}</span>
-      <button
-        type="button"
-        class="btn-ghost se-retry"
-        @click="createLobby"
+    <ExpandTransition>
+      <p
+        v-if="shareError"
+        class="share-error"
       >
-        {{ labels.lobbyShareRetry }}
-      </button>
-    </p>
+        <span>{{ shareError }}</span>
+        <button
+          type="button"
+          class="btn-ghost se-retry"
+          @click="createLobby"
+        >
+          {{ labels.lobbyShareRetry }}
+        </button>
+      </p>
+    </ExpandTransition>
 
     <!-- ───────── Step 1 — Armies ───────── -->
     <!-- A guest sees this panel and the mission panel's own side block, one under the other:
@@ -99,49 +101,53 @@
         </div>
       </div>
 
-      <div
-        v-if="!guest && !settings.combatPatrol"
-        class="field battle-size seg-thirds"
-      >
-        <span>{{ labels.trackerBattleSize }}</span>
-        <!-- The two lines are deliberate structure, not a wrap: the name reads first, the
-             numbers ride under it — a free-wrapping "Strike Force · 2000 · 3DP" broke wherever
-             the width said and every button broke differently. -->
-        <div class="seg">
-          <button
-            v-for="b in battleSizes"
-            :key="b.id"
-            class="bs-btn"
-            :class="{ on: settings.battleSize === b.id }"
-            @click="settings.battleSize = b.id"
-          >
-            <span class="bs-name">{{ b.name }}</span>
-            <span class="bs-sub">{{ b.points }} · {{ b.maxDp }} DP</span>
-          </button>
+      <ExpandTransition>
+        <div
+          v-if="!guest && !settings.combatPatrol"
+          class="field battle-size seg-thirds"
+        >
+          <span>{{ labels.trackerBattleSize }}</span>
+          <!-- The two lines are deliberate structure, not a wrap: the name reads first, the
+               numbers ride under it — a free-wrapping "Strike Force · 2000 · 3DP" broke wherever
+               the width said and every button broke differently. -->
+          <div class="seg">
+            <button
+              v-for="b in battleSizes"
+              :key="b.id"
+              class="bs-btn"
+              :class="{ on: settings.battleSize === b.id }"
+              @click="settings.battleSize = b.id"
+            >
+              <span class="bs-name">{{ b.name }}</span>
+              <span class="bs-sub">{{ b.points }} · {{ b.maxDp }} DP</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </ExpandTransition>
 
       <!-- Doubles: each player musters their own army, so the DP budget is per player. The
            battle size's own budget is the default; the event may set another (the companion
            leaves it to the organiser — "всё настраивается"). Label BESIDE the seg: three short
            buttons don't need the row, and the phone's vertical space does (CLAUDE.md's
            vertical-density rule — spend sideways before spending down). -->
-      <div
-        v-if="isDoubles && !guest"
-        class="field field-inline"
-      >
-        <span>{{ labels.trackerDpPerPlayer }}</span>
-        <div class="seg">
-          <button
-            v-for="n in [1, 2, 3]"
-            :key="n"
-            :class="{ on: memberMaxDp === n }"
-            @click="settings.dpPerPlayer = n === maxDp ? null : n"
-          >
-            {{ n }} DP
-          </button>
+      <ExpandTransition>
+        <div
+          v-if="isDoubles && !guest"
+          class="field field-inline"
+        >
+          <span>{{ labels.trackerDpPerPlayer }}</span>
+          <div class="seg">
+            <button
+              v-for="n in [1, 2, 3]"
+              :key="n"
+              :class="{ on: memberMaxDp === n }"
+              @click="settings.dpPerPlayer = n === maxDp ? null : n"
+            >
+              {{ n }} DP
+            </button>
+          </div>
         </div>
-      </div>
+      </ExpandTransition>
 
       <div class="players">
         <div
@@ -206,245 +212,283 @@
             v-else
             :inert="editable(i) ? undefined : true"
           >
-            <label
-              v-if="isDoubles"
-              class="field"
-            >
-              <span>{{ labels.trackerTeamName }}</span>
-              <input
-                v-model="p.teamName"
-                type="text"
-                :placeholder="labels.trackerTeamName"
+            <ExpandTransition>
+              <label
+                v-if="isDoubles"
+                class="field"
               >
-            </label>
+                <span>{{ labels.trackerTeamName }}</span>
+                <input
+                  v-model="p.teamName"
+                  type="text"
+                  :placeholder="labels.trackerTeamName"
+                >
+              </label>
+            </ExpandTransition>
 
             <!-- The army-identity block below (name / faction·roster / detachments) is written once
                and looped: armiesOf(p) is the side itself in singles, its two members in doubles —
                the two shapes are identical, so `m` stands for either. -->
-            <div
-              v-for="(m, mi) in armiesOf(p)"
-              :key="mi"
-              :class="{ 'member-block': isDoubles }"
-            >
-              <h4
-                v-if="isDoubles"
-                class="member-head"
+            <ExpandTransition>
+              <div
+                v-for="(m, mi) in armiesOf(p)"
+                :key="mi"
+                :class="{ 'member-block': isDoubles }"
               >
-                {{ mi === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2 }}
-              </h4>
-
-              <label class="field">
-                <input
-                  v-model="m.name"
-                  type="text"
-                  :placeholder="isDoubles ? labels.trackerMemberName : namePlaceholder(i)"
+                <h4
+                  v-if="isDoubles"
+                  class="member-head"
                 >
-              </label>
+                  {{ mi === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2 }}
+                </h4>
 
-              <!-- An attached list IS the army: it decides the faction, so it stands in the faction
-                 picker's place rather than beside one that could contradict it, and the button that
-                 attaches one sits in the same row — the two answer the same question. Detaching with
-                 the ✕ leaves the faction the list chose selected, and hands the picker back. -->
-              <div class="field">
-                <span>{{ attached(m) ? labels.trackerRoster : labels.trackerFaction }}</span>
-                <div class="faction-row">
-                  <div
-                    v-if="attached(m)"
-                    class="ro roster-line"
+                <label class="field">
+                  <input
+                    v-model="m.name"
+                    type="text"
+                    :placeholder="isDoubles ? labels.trackerMemberName : namePlaceholder(i)"
                   >
-                    <span class="rl-text">
-                      <template v-if="m.roster.faction">{{ factionName(m.roster.faction) }} · </template>{{ m.roster.name || labels.rosterUntitled }}
-                    </span>
-                    <button
-                      type="button"
-                      class="rl-clear"
-                      :aria-label="labels.trackerRosterDetach"
-                      :title="labels.trackerRosterDetach"
-                      @click="clearRoster(m)"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <!-- A dropdown under the button on a wide screen, the modal on a phone. -->
-                  <AdaptivePicker
-                    v-else
-                    class="faction-pick"
-                    panel-width="32rem"
-                    :title="labels.trackerSelectFaction"
-                    :open="factionPickerKey === ak(i, mi)"
-                    @update:open="v => (factionPickerKey = v ? ak(i, mi) : '')"
-                  >
-                    <template #trigger="{ toggle, open }">
-                      <button
-                        class="btn-choose-twist faction-btn"
-                        :aria-expanded="open"
-                        @click="toggle"
+                </label>
+
+                <!-- An attached list IS the army: it decides the faction, so it stands in the faction
+                   picker's place rather than beside one that could contradict it, and the button that
+                   attaches one sits in the same row — the two answer the same question. Detaching with
+                   the ✕ leaves the faction the list chose selected, and hands the picker back. -->
+                <div class="field">
+                  <span>{{ attached(m) ? labels.trackerRoster : labels.trackerFaction }}</span>
+                  <ExpandTransition>
+                    <div class="faction-row">
+                      <div
+                        v-if="attached(m)"
+                        class="ro roster-line"
                       >
-                        <span
-                          class="ct-name"
-                          :class="{ placeholder: !m.factionSlug }"
-                        >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
-                        <i class="bi bi-chevron-down ct-chev" />
-                      </button>
-                    </template>
-                    <template #default="{ compact, bodyClass }">
-                      <FactionPickerList
-                        :class="bodyClass"
-                        :compact="compact"
-                        :selected="m.factionSlug"
-                        :combat-patrol-only="settings.combatPatrol"
-                        @pick="slug => selectFaction(m, slug)"
-                      />
-                    </template>
-                  </AdaptivePicker>
-                  <!-- No list in Combat Patrol: the box IS the army (one fixed detachment, a
-                       fixed Force Disposition, a fixed set of models), so a 2000-point list
-                       attached here would describe a different game. -->
-                  <button
-                    v-if="!settings.combatPatrol"
-                    type="button"
-                    class="rp-open"
-                    :class="{ on: !!m.roster }"
-                    :aria-label="labels.trackerRosterAttach"
-                    :title="labels.trackerRosterAttach"
-                    @click="rosterPickerKey = ak(i, mi)"
+                        <span class="rl-text">
+                          <template v-if="m.roster.faction">{{ factionName(m.roster.faction) }} · </template>{{ m.roster.name || labels.rosterUntitled }}
+                        </span>
+                        <button
+                          type="button"
+                          class="rl-clear"
+                          :aria-label="labels.trackerRosterDetach"
+                          :title="labels.trackerRosterDetach"
+                          @click="clearRoster(m)"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <!-- A dropdown under the button on a wide screen, the modal on a phone. -->
+                      <AdaptivePicker
+                        v-else
+                        class="faction-pick"
+                        panel-width="32rem"
+                        :title="labels.trackerSelectFaction"
+                        :open="factionPickerKey === ak(i, mi)"
+                        @update:open="v => (factionPickerKey = v ? ak(i, mi) : '')"
+                      >
+                        <template #trigger="{ toggle, open }">
+                          <button
+                            class="btn-choose-twist faction-btn"
+                            :aria-expanded="open"
+                            @click="toggle"
+                          >
+                            <span
+                              class="ct-name"
+                              :class="{ placeholder: !m.factionSlug }"
+                            >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
+                            <i class="bi bi-chevron-down ct-chev" />
+                          </button>
+                        </template>
+                        <template #default="{ compact, bodyClass }">
+                          <FactionPickerList
+                            :class="bodyClass"
+                            :compact="compact"
+                            :selected="m.factionSlug"
+                            :combat-patrol-only="settings.combatPatrol"
+                            @pick="slug => selectFaction(m, slug)"
+                          />
+                        </template>
+                      </AdaptivePicker>
+                      <!-- No list in Combat Patrol: the box IS the army (one fixed detachment, a
+                           fixed Force Disposition, a fixed set of models), so a 2000-point list
+                           attached here would describe a different game. -->
+                      <ExpandTransition>
+                        <button
+                          v-if="!settings.combatPatrol"
+                          type="button"
+                          class="rp-open"
+                          :class="{ on: !!m.roster }"
+                          :aria-label="labels.trackerRosterAttach"
+                          :title="labels.trackerRosterAttach"
+                          @click="rosterPickerKey = ak(i, mi)"
+                        >
+                          <i class="bi bi-card-list" />
+                        </button>
+                      </ExpandTransition>
+                    </div>
+                  </ExpandTransition>
+                  <!-- A list held to its own limits says so here as on its own page — the opponent
+                       reads the same line in the lobby and on the game's player card (2026-10-03). -->
+                  <div
+                    v-if="attached(m) && ownLimitsOf(m.roster, labels).length"
+                    class="rl-limits"
                   >
-                    <i class="bi bi-card-list" />
-                  </button>
-                </div>
-                <RosterPickerModal
-                  v-if="rosterPickerKey === ak(i, mi)"
-                  :selected="m.roster ? (m.rosterId || '') : null"
-                  @pick="r => pickRoster(m, r)"
-                  @clear="clearRoster(m)"
-                  @close="rosterPickerKey = ''"
-                />
-              </div>
-
-              <div
-                v-if="!settings.combatPatrol"
-                class="field"
-              >
-                <span>
-                  {{ labels.trackerDpBudget }} <em
-                    class="dp-count"
-                    :class="{ over: dpSpent(m) > dpLimit(m) }"
-                  >{{ dpSpent(m) }} / {{ dpLimit(m) }} DP</em>
-                </span>
-                <!-- Several can be taken under the DP budget, so a pick leaves it open. -->
-                <AdaptivePicker
-                  v-if="m.factionSlug && detachmentsFor(m.factionSlug).length"
-                  panel-width="30rem"
-                  modal-width="520px"
-                  :title="labels.trackerDpBudget"
-                  :open="detPickerKey === ak(i, mi)"
-                  @update:open="v => (detPickerKey = v ? ak(i, mi) : '')"
-                >
-                  <template #trigger="{ toggle, open }">
-                    <button
-                      class="btn-choose-twist"
-                      :aria-expanded="open"
-                      @click="toggle"
-                    >
-                      <span
-                        class="ct-name"
-                        :class="{ placeholder: !m.detachments.length }"
-                      >{{ detSummary(m) }}</span>
-                      <i class="bi bi-chevron-down ct-chev" />
-                    </button>
-                  </template>
-                  <template #aside>
-                    <span
-                      class="mh-count"
-                      :class="{ over: dpSpent(m) > dpLimit(m) }"
-                    >{{ dpSpent(m) }} / {{ dpLimit(m) }} DP</span>
-                  </template>
-                  <template #default="{ compact, bodyClass }">
-                    <DetachmentPickerList
-                      :class="bodyClass"
-                      :compact="compact"
-                      :detachments="detachmentsFor(m.factionSlug)"
-                      :selected="m.detachments"
-                      :max-dp="memberMaxDp"
-                      :dp-spent="dpSpent(m)"
-                      @toggle="d => toggleDetachment(m, d)"
-                      @clear="m.detachments.splice(0)"
+                    <RosterOwnLimitsMark
+                      :roster="m.roster"
+                      labelled
                     />
-                  </template>
-                </AdaptivePicker>
-                <p
-                  v-else
-                  class="det-empty"
-                >
-                  {{ m.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}
-                </p>
+                  </div>
+                  <!-- The battle size changed under an attached list: say so, don't detach it — the
+                       player may be about to change the size back (owner, 2026-10-03). -->
+                  <ExpandTransition>
+                    <p
+                      v-if="rosterOverSize(m)"
+                      class="rl-over"
+                    >
+                      <i class="bi bi-exclamation-triangle-fill" /> {{ rosterOverSize(m) }}
+                    </p>
+                  </ExpandTransition>
+                  <RosterPickerModal
+                    v-if="rosterPickerKey === ak(i, mi)"
+                    :selected="m.roster ? (m.rosterId || '') : null"
+                    :max-points="isDoubles ? null : battlePoints"
+                    @pick="r => pickRoster(m, r)"
+                    @clear="clearRoster(m)"
+                    @close="rosterPickerKey = ''"
+                  />
+                </div>
+
+                <ExpandTransition>
+                  <div
+                    v-if="!settings.combatPatrol"
+                    class="field"
+                  >
+                    <span>
+                      {{ labels.trackerDpBudget }} <em
+                        class="dp-count"
+                        :class="{ over: dpSpent(m) > dpLimit(m) }"
+                      >{{ dpSpent(m) }} / {{ dpLimit(m) }} DP</em>
+                    </span>
+                    <!-- Several can be taken under the DP budget, so a pick leaves it open. -->
+                    <ExpandTransition>
+                      <AdaptivePicker
+                        v-if="m.factionSlug && detachmentsFor(m.factionSlug).length"
+                        panel-width="30rem"
+                        modal-width="520px"
+                        :title="labels.trackerDpBudget"
+                        :open="detPickerKey === ak(i, mi)"
+                        @update:open="v => (detPickerKey = v ? ak(i, mi) : '')"
+                      >
+                        <template #trigger="{ toggle, open }">
+                          <button
+                            class="btn-choose-twist"
+                            :aria-expanded="open"
+                            @click="toggle"
+                          >
+                            <span
+                              class="ct-name"
+                              :class="{ placeholder: !m.detachments.length }"
+                            >{{ detSummary(m) }}</span>
+                            <i class="bi bi-chevron-down ct-chev" />
+                          </button>
+                        </template>
+                        <template #aside>
+                          <span
+                            class="mh-count"
+                            :class="{ over: dpSpent(m) > dpLimit(m) }"
+                          >{{ dpSpent(m) }} / {{ dpLimit(m) }} DP</span>
+                        </template>
+                        <template #default="{ compact, bodyClass }">
+                          <DetachmentPickerList
+                            :class="bodyClass"
+                            :compact="compact"
+                            :detachments="detachmentsFor(m.factionSlug)"
+                            :selected="m.detachments"
+                            :max-dp="memberMaxDp"
+                            :dp-spent="dpSpent(m)"
+                            @toggle="d => toggleDetachment(m, d)"
+                            @clear="m.detachments.splice(0)"
+                          />
+                        </template>
+                      </AdaptivePicker>
+                      <p
+                        v-else
+                        class="det-empty"
+                      >
+                        {{ m.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}
+                      </p>
+                    </ExpandTransition>
+                  </div>
+                  <div
+                    v-else
+                    class="field"
+                  >
+                    <span>{{ labels.trackerCpBox }}</span>
+                    <ExpandTransition>
+                      <p
+                        v-if="!m.factionSlug"
+                        class="det-empty"
+                      >
+                        {{ labels.trackerSelectFaction }}
+                      </p>
+                      <p
+                        v-else-if="cpFactionFor(m)"
+                        class="ro cp-box-line"
+                      >
+                        {{ cpFactionFor(m).boxName }} · {{ cpFactionFor(m).dp }} DP
+                      </p>
+                      <p
+                        v-else
+                        class="det-empty"
+                      >
+                        {{ labels.trackerNoDetachments }}
+                      </p>
+                    </ExpandTransition>
+                  </div>
+                </ExpandTransition>
               </div>
-              <div
-                v-else
-                class="field"
-              >
-                <span>{{ labels.trackerCpBox }}</span>
-                <p
-                  v-if="!m.factionSlug"
-                  class="det-empty"
-                >
-                  {{ labels.trackerSelectFaction }}
-                </p>
-                <p
-                  v-else-if="cpFactionFor(m)"
-                  class="ro cp-box-line"
-                >
-                  {{ cpFactionFor(m).boxName }} · {{ cpFactionFor(m).dp }} DP
-                </p>
-                <p
-                  v-else
-                  class="det-empty"
-                >
-                  {{ labels.trackerNoDetachments }}
-                </p>
-              </div>
-            </div>
+            </ExpandTransition>
 
             <!-- Force type (Doubles Companion terminology). Auto derives from the two factions
                (same faction / two SM Chapters → Unified); the player can override — allies on a
                list can flip the real answer, and the app doesn't read lists at that depth.
                A div, not a label: it wraps only buttons, and a label would forward clicks. -->
-            <div
-              v-if="isDoubles"
-              class="field"
-            >
-              <span>
-                {{ labels.trackerForceType }}
-                <button
-                  type="button"
-                  class="help-btn"
-                  :aria-label="labels.trackerForceTypeHelpAria"
-                  @click="forceTypeHelpOpen = true"
-                >
-                  <i class="bi bi-question-circle" />
-                </button>
-              </span>
-              <div class="seg seg-fill">
-                <button
-                  :class="{ on: !p.forceType }"
-                  @click="p.forceType = null"
-                >
-                  {{ labels.trackerForceTypeAuto }}{{ derivedForceLabel(p) }}
-                </button>
-                <button
-                  :class="{ on: p.forceType === 'unified' }"
-                  @click="p.forceType = 'unified'"
-                >
-                  Unified
-                </button>
-                <button
-                  :class="{ on: p.forceType === 'convenience' }"
-                  @click="p.forceType = 'convenience'"
-                >
-                  Convenience
-                </button>
+            <ExpandTransition>
+              <div
+                v-if="isDoubles"
+                class="field"
+              >
+                <span>
+                  {{ labels.trackerForceType }}
+                  <button
+                    type="button"
+                    class="help-btn"
+                    :aria-label="labels.trackerForceTypeHelpAria"
+                    @click="forceTypeHelpOpen = true"
+                  >
+                    <i class="bi bi-question-circle" />
+                  </button>
+                </span>
+                <div class="seg seg-fill">
+                  <button
+                    :class="{ on: !p.forceType }"
+                    @click="p.forceType = null"
+                  >
+                    {{ labels.trackerForceTypeAuto }}{{ derivedForceLabel(p) }}
+                  </button>
+                  <button
+                    :class="{ on: p.forceType === 'unified' }"
+                    @click="p.forceType = 'unified'"
+                  >
+                    Unified
+                  </button>
+                  <button
+                    :class="{ on: p.forceType === 'convenience' }"
+                    @click="p.forceType = 'convenience'"
+                  >
+                    Convenience
+                  </button>
+                </div>
               </div>
-            </div>
+            </ExpandTransition>
 
             <label
               class="check br-check"
@@ -464,29 +508,31 @@
            code to read out, the way to the link and QR, and the way to close it. They used to
            stand in that row as equals, which made five buttons of five different meanings — and
            the two that move between wizard steps were the smallest of them. -->
-      <div
-        v-if="sharedSetup && !guest"
-        class="lobby-bar"
-      >
-        <SyncIndicator />
-        <button
-          type="button"
-          class="lobby-q"
-          :title="labels.lobbyInvite"
-          @click="partyOpen = true"
+      <ExpandTransition>
+        <div
+          v-if="sharedSetup && !guest"
+          class="lobby-bar"
         >
-          <i class="bi bi-qr-code" />
-          <span v-if="inviteCode">{{ labels.partyCode }} {{ inviteCode }}</span>
-          <span v-else>{{ labels.lobbyInvite }}</span>
-        </button>
-        <button
-          type="button"
-          class="lobby-q"
-          @click="cancelConfirmOpen = true"
-        >
-          {{ labels.lobbyCancelShort }}
-        </button>
-      </div>
+          <SyncIndicator />
+          <button
+            type="button"
+            class="lobby-q"
+            :title="labels.lobbyInvite"
+            @click="partyOpen = true"
+          >
+            <i class="bi bi-qr-code" />
+            <span v-if="inviteCode">{{ labels.partyCode }} {{ inviteCode }}</span>
+            <span v-else>{{ labels.lobbyInvite }}</span>
+          </button>
+          <button
+            type="button"
+            class="lobby-q"
+            @click="cancelConfirmOpen = true"
+          >
+            {{ labels.lobbyCancelShort }}
+          </button>
+        </div>
+      </ExpandTransition>
       <div
         v-if="!guest"
         class="actions"
@@ -542,31 +588,35 @@
           >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
           <i class="bi bi-chevron-right ct-chev" />
         </button>
-        <details
-          v-if="chosenTwist"
-          class="twist-chosen"
-        >
-          <summary>{{ labels.trackerTwistRules }}</summary>
-          <div class="twist-chosen-body">
-            <RuleBody :body="chosenTwist.body" />
-          </div>
-        </details>
-        <div
-          v-if="settings.twist === 'mirrored-world'"
-          class="field twist-mission"
-        >
-          <span>{{ labels.trackerTwistMission }}</span>
-          <button
-            class="btn-choose-twist"
-            @click="mirrorPickerOpen = true"
+        <ExpandTransition>
+          <details
+            v-if="chosenTwist"
+            class="twist-chosen"
           >
-            <span
-              class="ct-name"
-              :class="{ placeholder: !settings.twistMission }"
-            >{{ mirrorSummary }}</span>
-            <i class="bi bi-chevron-right ct-chev" />
-          </button>
-        </div>
+            <summary>{{ labels.trackerTwistRules }}</summary>
+            <div class="twist-chosen-body">
+              <RuleBody :body="chosenTwist.body" />
+            </div>
+          </details>
+        </ExpandTransition>
+        <ExpandTransition>
+          <div
+            v-if="settings.twist === 'mirrored-world'"
+            class="field twist-mission"
+          >
+            <span>{{ labels.trackerTwistMission }}</span>
+            <button
+              class="btn-choose-twist"
+              @click="mirrorPickerOpen = true"
+            >
+              <span
+                class="ct-name"
+                :class="{ placeholder: !settings.twistMission }"
+              >{{ mirrorSummary }}</span>
+              <i class="bi bi-chevron-right ct-chev" />
+            </button>
+          </div>
+        </ExpandTransition>
       </div>
 
       <div class="players">
@@ -681,34 +731,38 @@
           <!-- The primary is derived from BOTH dispositions, so in a lobby it is missing until
                the other side has chosen one — said out loud, because a block that simply is not
                there reads as a screen that forgot something. -->
-          <p
-            v-if="!primaryCards[i] && sharedSetup && !dispositionOf(oppOf(i))"
-            class="primary-pending"
-          >
-            {{ labels.lobbyPrimaryPending }}
-          </p>
-          <!-- Said on this phone's own card, where the two dispositions are read from: the card
-               opposite already says, at length, that it is waiting. -->
-          <p
-            v-else-if="!primaryFinal && editable(i)"
-            class="primary-pending"
-          >
-            {{ labels.lobbyPrimaryAgain }}
-          </p>
-          <div
-            v-if="primaryCards[i] && primaryFinal"
-            class="primary-block"
-          >
-            <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
-            <div class="primary-card">
-              <MissionCard
-                :mission="primaryCards[i]"
-                :show-lore="false"
-                collapsible
-                :default-open="false"
-              />
+          <ExpandTransition>
+            <p
+              v-if="!primaryCards[i] && sharedSetup && !dispositionOf(oppOf(i))"
+              class="primary-pending"
+            >
+              {{ labels.lobbyPrimaryPending }}
+            </p>
+            <!-- Said on this phone's own card, where the two dispositions are read from: the card
+                 opposite already says, at length, that it is waiting. -->
+            <p
+              v-else-if="!primaryFinal && editable(i)"
+              class="primary-pending"
+            >
+              {{ labels.lobbyPrimaryAgain }}
+            </p>
+          </ExpandTransition>
+          <ExpandTransition>
+            <div
+              v-if="primaryCards[i] && primaryFinal"
+              class="primary-block"
+            >
+              <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
+              <div class="primary-card">
+                <MissionCard
+                  :mission="primaryCards[i]"
+                  :show-lore="false"
+                  collapsible
+                  :default-open="false"
+                />
+              </div>
             </div>
-          </div>
+          </ExpandTransition>
 
           <!-- Which deck a side plays is that side's own call, so on a card another phone holds
                these are not offered: `.side-mirror` above reports the answer instead (sideSummary
@@ -732,22 +786,24 @@
               </div>
             </label>
 
-            <div
-              v-if="p.secondaryMode === 'fixed'"
-              class="field"
-            >
-              <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
-              <button
-                class="btn-choose-twist"
-                @click="fixedPickerFor = i"
+            <ExpandTransition>
+              <div
+                v-if="p.secondaryMode === 'fixed'"
+                class="field"
               >
-                <span
-                  class="ct-name"
-                  :class="{ placeholder: !p.fixedSecondaries.length }"
-                >{{ fixedSummary(p) }}</span>
-                <i class="bi bi-chevron-right ct-chev" />
-              </button>
-            </div>
+                <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
+                <button
+                  class="btn-choose-twist"
+                  @click="fixedPickerFor = i"
+                >
+                  <span
+                    class="ct-name"
+                    :class="{ placeholder: !p.fixedSecondaries.length }"
+                  >{{ fixedSummary(p) }}</span>
+                  <i class="bi bi-chevron-right ct-chev" />
+                </button>
+              </div>
+            </ExpandTransition>
           </template>
         </div>
       </div>
@@ -1112,6 +1168,7 @@
 </template>
 
 <script setup>
+import ExpandTransition from '../ExpandTransition.vue'
 import { reactive, ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import LayoutTabs from './LayoutTabs.vue'
@@ -1143,6 +1200,9 @@ import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary,
 import { FACTIONS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import RosterPickerModal from './RosterPickerModal.vue'
+import { useRosters } from '../../composables/useRosters.js'
+import { ownLimitsOf, ownLimitsSummary } from '../../composables/ownLimits.js'
+import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import TrackOptions from './TrackOptions.vue'
 import { defaultTrackSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
 
@@ -1372,6 +1432,8 @@ function sideSummary(i) {
     if (army) out.push(army)
     if (m.detachments?.length) out.push(m.detachments.join(', '))
     if (m.roster) out.push(`${labels.value.trackerRoster}: ${m.roster.name || labels.value.rosterUntitled}`)
+    const own = m.roster ? ownLimitsSummary(m.roster, labels.value) : ''
+    if (own) out.push(own)
   }
   // Only when it resolves to a name: a disposition id this build does not know (an older game,
   // a newer sender) would otherwise print a label with nothing after the colon.
@@ -1466,6 +1528,17 @@ watch(
 )
 
 const battleSizes = BATTLE_SIZES
+const battlePoints = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.points ?? null)
+// A list attached before the battle size shrank under it: its points from the stored list (a
+// list taken from a link carries none, and says nothing). Singles only, as the picker.
+const { rosterById } = useRosters()
+function rosterOverSize(m) {
+  if (!attached(m) || isDoubles.value || battlePoints.value == null) return ''
+  const pts = m.rosterId ? rosterById(m.rosterId)?.summary?.points : null
+  if (pts == null || pts <= battlePoints.value) return ''
+  const size = BATTLE_SIZES.find(b => b.id === settings.battleSize)?.name || ''
+  return labels.value.trackerRosterOverSize.replace('{points}', pts).replace('{size}', size).replace('{limit}', battlePoints.value)
+}
 const maxDp = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.maxDp ?? 3)
 // The budget ONE army must fit in: the battle size's in singles; per player in doubles (the
 // battle size's by default, or the organiser's own via settings.dpPerPlayer — null = follow).
@@ -2277,6 +2350,8 @@ function cancel() {
 /* Stands where the faction picker would be, so it keeps `.ro`'s shape and only adds the ✕. */
 .roster-line { display: flex; align-items: center; gap: 0.5rem; }
 .rl-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rl-limits { margin-top: 0.3rem; }
+.rl-over { margin: 0.3rem 0 0; color: var(--warning); font-size: 0.8rem; }
 .rl-clear {
   flex-shrink: 0; background: none; border: none; color: var(--text-muted);
   font-size: 0.9rem; line-height: 1; cursor: pointer; padding: 0.25rem 0.3rem;

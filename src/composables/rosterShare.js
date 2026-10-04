@@ -7,8 +7,9 @@
 // roster/unit ids are preserved so leaderOf references stay valid after import.
 
 import { SCHEMA_VERSION } from './useRosters.js'
+import { LIMIT_KEYS } from './rosterLimit.js'
 
-const PICK = ['name', 'faction', 'detachments', 'disposition', 'battleSize', 'customPoints', 'notes', 'units']
+const PICK = ['name', 'faction', 'detachments', 'disposition', ...LIMIT_KEYS, 'notes', 'units']
 // `notes` travels because a list's plan is part of the list — a game snapshot is where it is most
 // wanted (the notes are what the player wrote to read AT the table). Per-unit and per-block notes
 // need no mention here: they live on the entries, and `units` goes whole.

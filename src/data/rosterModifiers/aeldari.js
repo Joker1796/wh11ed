@@ -2088,6 +2088,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ap",
           "op": "add",
           "value": -1,
@@ -2354,6 +2355,7 @@ export default {
       "effects": [
         {
           "on": "unit",
+          "target": "unit",
           "stat": "core",
           "op": "grant",
           "value": "Fights First",

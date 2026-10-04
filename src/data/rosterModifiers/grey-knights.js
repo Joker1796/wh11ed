@@ -697,6 +697,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "s",
           "op": "add",
           "value": 2,
@@ -741,6 +742,7 @@ export default {
       "effects": [
         {
           "on": "unit",
+          "target": "unit",
           "stat": "core",
           "op": "grant",
           "value": "Stealth",

@@ -311,8 +311,10 @@ September even though `sync-core` printed it on every run — one finding among 
   Deathwatch kill team, Cadian Recon Squad, Raptors, Guardian Defenders, Noise Marines…) silently
   gave nothing up. The old report was keyed on the words "replaced with", so the active voice did
   not even appear in it as a miss: `SWAP_SHAPED` is now the one definition of "this sentence is a
-  swap", shared by the parser and the gate. A phrase that is read but names no single item ("this
-  model's X or Y") stays a printed NOTE, not a failure — those fail open by design.
+  swap", shared by the parser and the gate. A phrase that is read but names no single item stays a
+  printed NOTE, not a failure — those fail open by design. "This model's X or Y" where the profile
+  holds BOTH is not one of them since 2026-10-03: it is recorded as alternatives (`alt`, see
+  `src/components/roster/CLAUDE.md`).
 
 The first two share `scripts/lib/core-corpus.mjs` with `sync-core` — one normalization recipe, so the gate
 and the report can never disagree about what a rule says. A caveat that cost a day: appdata files

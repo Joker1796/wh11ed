@@ -848,7 +848,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 607,
+          "t": 608,
           "in": "checkbox",
           "o": [
             [
@@ -861,7 +861,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1075,
+          "t": 1076,
           "in": "checkbox",
           "o": [
             [
@@ -874,7 +874,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1076,
+          "t": 1077,
           "in": "checkbox",
           "o": [
             [
@@ -884,7 +884,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1077,
+          "t": 1078,
           "in": "checkbox",
           "o": [
             [
@@ -1114,7 +1114,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1078,
+          "t": 1079,
           "in": "stepper",
           "o": [
             [
@@ -1140,7 +1140,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1079,
+          "t": 1080,
           "in": "stepper",
           "o": [
             [
@@ -1156,7 +1156,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1080,
+          "t": 1081,
           "in": "stepper",
           "o": [
             [
@@ -1220,7 +1220,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1078,
+          "t": 1079,
           "in": "stepper",
           "o": [
             [
@@ -1246,7 +1246,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1079,
+          "t": 1080,
           "in": "stepper",
           "o": [
             [
@@ -1262,7 +1262,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1080,
+          "t": 1081,
           "in": "stepper",
           "o": [
             [
@@ -1513,7 +1513,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1081,
+          "t": 1082,
           "in": "checkbox",
           "o": [
             [
@@ -1548,7 +1548,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 607,
+          "t": 608,
           "in": "checkbox",
           "o": [
             [
@@ -1561,7 +1561,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1075,
+          "t": 1076,
           "in": "checkbox",
           "o": [
             [
@@ -1571,7 +1571,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 1082,
+          "t": 1083,
           "in": "checkbox",
           "o": [
             [
@@ -1764,7 +1764,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1083,
+          "t": 1084,
           "in": "checkbox",
           "o": [
             [
@@ -2303,6 +2303,27 @@ export default {
           "strike-force": 1
         }
       },
+      "free": [
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Inquisitor"
+          ],
+          "recv": [
+            "Inquisitorial Agents"
+          ]
+        },
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Character",
+            "Voidfarers"
+          ],
+          "recv": [
+            "Voidsmen-At-Arms"
+          ]
+        }
+      ],
       "up": {
         "imperial-agents:inquisitor-draxus": {
           "1": 110
@@ -2336,6 +2357,7 @@ export default {
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
+          "11": 120,
           "12": 120
         },
         "imperial-agents:inquisitor-coteaz": {
@@ -2529,5 +2551,8 @@ export default {
     "Tacticus Attack Force",
     "Tacticus Firestorm Force",
     "Terminator Storm Force"
-  ]
+  ],
+  "sharedDetachmentFrom": {
+    "Deathwatch Support": "deathwatch"
+  }
 }

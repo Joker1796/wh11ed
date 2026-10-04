@@ -46,16 +46,7 @@ const STOP = new Set(
 // appearing among the missing words of that finding. Keep the reason concrete — a future reader
 // must be able to re-derive whether it still holds.
 const ALLOW = [
-  {
-    num: '20.04',
-    words: ['excluding', 'themselves'],
-    why: 'appdata phrases the transport carve-out as an "(excluding units ... that are themselves in strategic reserves)" parenthetical; wh11ed inlines the same exclusion as "and is not embarked within a TRANSPORT that is also in strategic reserves".',
-  },
-  {
-    num: '10.06',
-    words: ['non-vehiclemodels'],
-    why: 'appdata writes "Non-MONSTER/Non-VEHICLE**Models:**" (its own missing space, hence the glued token); wh11ed writes "Non-MONSTER/VEHICLE Models". Same set of models — the negation distributes over the slash either way.',
-  },
+  // empty since 2026-10-03: 20.04 and 10.06 were rewritten to the app's wording
 ]
 
 const norm = (s) => plainText(s)

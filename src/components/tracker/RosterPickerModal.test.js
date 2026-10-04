@@ -27,6 +27,39 @@ async function waitUntil(fn, tries = 40) {
 }
 
 describe('RosterPickerModal', () => {
+  // A list over the game's battle size is not offered at all (owner, 2026-10-03), and the modal
+  // says how many it left out — an empty picker must not read as "my lists are gone".
+  it('hides a list over the battle size and says so', async () => {
+    const store = useRosters()
+    const r = store.createRoster('One Captain')
+    store.updateRoster(r.id, { faction: 'space-marines', units: [{ uid: 'a', id: 'captain', size: 0 }] })
+
+    mount(RosterPickerModal, { props: { maxPoints: 2000 } })
+    await waitUntil(() => body().findAll('.rp-row').length > 0)
+    expect(body().findAll('.rp-row')).toHaveLength(1)
+    document.body.innerHTML = ''
+
+    mount(RosterPickerModal, { props: { maxPoints: 10 } })
+    await waitUntil(() => body().findAll('.rp-row').length === 0)
+    expect(body().findAll('.rp-row')).toHaveLength(0)
+    expect(body().text()).toContain('10')
+  })
+
+  // …but hidden, not forbidden (owner, 2026-10-04): "Show" brings it back, and it can be taken.
+  it('shows a list over the battle size on request, and lets it be picked', async () => {
+    const store = useRosters()
+    const r = store.createRoster('One Captain')
+    store.updateRoster(r.id, { faction: 'space-marines', units: [{ uid: 'a', id: 'captain', size: 0 }] })
+
+    const w = mount(RosterPickerModal, { props: { maxPoints: 10 } })
+    await waitUntil(() => body().find('.rp-show').exists())
+    expect(body().findAll('.rp-row')).toHaveLength(0)
+    await body().find('.rp-show').trigger('click')
+    expect(body().findAll('.rp-row.over')).toHaveLength(1)
+    await body().find('.rp-row').trigger('click')
+    expect(w.emitted('pick')[0][0].id).toBe(r.id)
+  })
+
   it('lists the saved rosters and emits the one picked', async () => {
     const store = useRosters()
     const r = store.createRoster('Gladius 2k')
@@ -52,6 +85,18 @@ describe('RosterPickerModal', () => {
     await flushPromises()
     expect(body().findAll('.rp-row')).toHaveLength(0)
     expect(body().find('.rp-empty').exists()).toBe(true)
+  })
+
+  // An archived list is put away, not fielded — the player brings it back to play it.
+  it('never offers an archived list', async () => {
+    const store = useRosters()
+    const kept = store.createRoster('All my models')
+    store.updateRoster(kept.id, { faction: 'space-marines' })
+    store.setArchived(kept.id, true)
+
+    mount(RosterPickerModal)
+    await flushPromises()
+    expect(body().findAll('.rp-row')).toHaveLength(0)
   })
 
   it('says so when there is nothing saved yet, without blocking the link route', async () => {

@@ -802,6 +802,7 @@ export default {
       "effects": [
         {
           "on": "weapon",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "SUSTAINED HITS 1",
@@ -1097,6 +1098,7 @@ export default {
       "effects": [
         {
           "on": "profile",
+          "target": "unit",
           "stat": "m",
           "op": "add",
           "value": 2,

@@ -4,7 +4,7 @@
     id="section-24"
     num="24"
     :title="labels.coreAbilitiesTitle"
-    :description="labels.coreAbilitiesDesc"
+    :description="(abilitySection[locale] || abilitySection.en).description"
   />
 
   <!-- 24.01 и 24.02 -->
@@ -323,7 +323,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useAbilityFilter } from '../../composables/useAbilityFilter.js'
 import { useRoute } from 'vue-router'
 import { ui } from '../../i18n/ui.js'
-import { abilityIntro, coreAbilities, appendix, errata, faqs } from '../../data/reference.js'
+import { abilitySection, abilityIntro, coreAbilities, appendix, errata, faqs } from '../../data/reference.js'
 import { chunkSubsections } from '../../composables/columnChunks.js'
 
 const { renderInline } = useRenderInline()

@@ -15,23 +15,7 @@
       <span class="hv-date">{{ formatDate(game.finishedAt || game.createdAt) }}</span>
     </div>
 
-    <!-- The lists that were fielded, if they were attached at setup — the game carries its own
-         snapshot of each, so this still works long after the saved roster changed or went away. -->
-    <div
-      v-if="rosterLinks.length"
-      class="hv-rosters"
-    >
-      <RouterLink
-        v-for="l in rosterLinks"
-        :key="`${l.pi}:${l.mi ?? ''}`"
-        class="hv-roster"
-        :to="l.mi == null ? `/tracker/history/${game.id}/roster/${l.pi}` : `/tracker/history/${game.id}/roster/${l.pi}/${l.mi}`"
-      >
-        <i class="bi bi-card-list" />
-        <span class="hv-roster-who">{{ l.who }}</span>
-        <span class="hv-roster-name">{{ l.name }}</span>
-      </RouterLink>
-    </div>
+    <GameRosterLinks :game="game" />
 
     <ScoreBoard
       :game="game"
@@ -53,13 +37,14 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import GameRosterLinks from '../../components/tracker/GameRosterLinks.vue'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
 import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import LayoutCard from '../../components/event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, sideName } from '../../composables/useTracker.js'
+import { useTracker } from '../../composables/useTracker.js'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 
@@ -71,21 +56,6 @@ const { formatDate } = useFormatDate()
 const { history } = useTracker()
 
 const game = computed(() => history.value.find((g) => g.id === route.params.id) || null)
-
-// One pill per attached list — a doubles side can carry up to two (one per member), each
-// linking to its own member's snapshot (`mi` in the path; null/absent in singles).
-const rosterLinks = computed(() => (game.value?.players || [])
-  .flatMap((p, pi) => {
-    const sideWho = sideName(p, pi, labels.value)
-    return membersOf(p).map((m, rawMi) => ({
-      pi,
-      mi: m === p ? null : rawMi,
-      name: m.roster?.name || '',
-      who: m === p ? sideWho : (m.name || sideWho),
-      has: !!m.roster?.units,
-    }))
-  })
-  .filter((l) => l.has))
 
 // Battlefield layout diagram — recommended (by dispositions + letter) or a custom pick.
 const layout = computed(() => {
@@ -103,19 +73,6 @@ if (!game.value) router.replace('/tracker')
 </script>
 
 <style scoped>
-.hv-rosters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem; }
-.hv-roster {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  /* A list can be named anything, including a whole poem — the pill gives way rather than
-     widening the page (same reason .players uses minmax(0, 1fr); see GameSetup.vue). */
-  max-width: 100%; min-width: 0;
-  padding: 0.4rem 0.75rem; border: 1px solid var(--border);
-  background: var(--bg-card); color: var(--text-primary); text-decoration: none; font-size: 0.82rem;
-}
-.hv-roster:hover { border-color: var(--accent); color: var(--accent); }
-.hv-roster-who { color: var(--text-muted); }
-.hv-roster-name { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
 .history-view {
   padding-top: 0.5rem;
 }

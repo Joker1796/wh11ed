@@ -35,6 +35,12 @@
         <i class="bi bi-card-list" />
         <span class="proster-label">{{ labels.trackerRosterOpen }}</span>
       </button>
+      <!-- A list held to its own limits says so on both phones (the snapshot carries the limits);
+           a tap lists them (2026-10-03). -->
+      <RosterOwnLimitsMark
+        v-if="army.member.roster"
+        :roster="army.member.roster"
+      />
       <RouterLink
         v-else-if="unitsLink"
         class="proster ap-link"
@@ -84,6 +90,7 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import FactionEmblem from '../FactionEmblem.vue'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
+import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import RuleBody from '../RuleBody.vue'
 import { useParty } from '../../composables/useParty.js'
 import { tracks } from '../../data/trackerOptions.js'
@@ -191,6 +198,8 @@ defineExpose({ reveal })
   padding: 0.3rem 0.35rem 0.3rem 0.75rem;
 }
 .ap-head .proster { height: 32px; padding: 0 0.6rem; }
+/* The custom-limits mark beside the list button is a square of the button's own height. */
+.ap-head :deep(.olm) { flex: none; width: 32px; height: 32px; }
 .ap-fac {
   flex: 1 1 auto; min-width: 0; margin: 0;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

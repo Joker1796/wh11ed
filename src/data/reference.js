@@ -1,3 +1,14 @@
+// Section 24's own intro — the line the app prints under the "Core Abilities" heading (24.00).
+// Rendered as the chapter description by ChapterReference's SectionHeader.
+export const abilitySection = {
+  en: {
+    description: 'This section presents the most common abilities used in Warhammer 40,000. When these appear in other places, they are usually only referenced by name.',
+  },
+  ru: {
+    description: 'В этом разделе представлены самые распространённые способности, используемые в Warhammer 40,000. Когда они встречаются в других местах, на них обычно ссылаются только по названию.',
+  },
+}
+
 export const abilityIntro = {
   en: [
     {
@@ -100,7 +111,7 @@ If this ability takes the form **[BLAST X]**, each time you gather **attack dice
       type: 'weapon',
       flavor: 'With sufficient might or skill, warriors may sweep blades or talons through their foes in long lethal arcs.',
       fullText: `This ability always takes the form **[CLEAVE X]**. Each time you gather **[gloss:attack-dice:attack dice]** for a **[CLEAVE]** weapon, if you only selected one target for all of that weapon's attacks, add **X** additional **attack dice** for every five models that were in the target unit in the Select Targets step (rounding down).`,
-      example: 'If a **[CLEAVE 1]** weapon with an **A** characteristic of 3 targets a unit containing 16 models, you would gather three additional **attack dice** for that weapon (for a total of six for that weapon).',
+      example: 'If a **[CLEAVE 1]** weapon with an **A** characteristic of 3 targets one unit containing 16 models, you would gather three additional **attack dice** for that weapon (for a total of six for that weapon).',
     },
     {
       num: '24.07',
@@ -874,6 +885,17 @@ export const errata = {
       header: 'Grenades Stratagem',
       body: `The Grenades stratagem is the same as the **Explosives** stratagem.`,
     },
+    {
+      id: 'errata-01-02-06',
+      header: '01.02.06 – Splitting Units',
+      body: `Added:
+▪ A unit must be split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). If a rule states a specific **starting strength** of the split units, but this is not possible based on the number of models in the unit being split (e.g. due to attached **leader/support** models), split the unit as stated above.`,
+    },
+    {
+      id: 'errata-12-08',
+      header: '12.08 – Consolidation Move, After Moving, Ongoing Consolidation',
+      body: `Changed to: 'Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight**.'`,
+    },
   ],
   ru: [
     {
@@ -903,6 +925,17 @@ export const errata = {
       id: 'errata-grenades',
       header: 'Стратагема Grenades',
       body: `Стратагема Grenades — то же самое, что и стратагема **Explosives**.`,
+    },
+    {
+      id: 'errata-01-02-06',
+      header: '01.02.06 — разделение юнитов',
+      body: `Добавлено:
+▪ Юнит должен делиться на два юнита с как можно более равным числом моделей (при таком разделении отметьте, какие модели образуют каждый из двух новых юнитов). Если правило задаёт конкретную **начальную численность** разделённых юнитов, но она недостижима при таком количестве моделей в разделяемом юните (например, из-за присоединённых моделей **leader/support**), разделите юнит так, как указано выше.`,
+    },
+    {
+      id: 'errata-12-08',
+      header: '12.08 — консолидация, «После манёвра», продолжающаяся консолидация',
+      body: `Изменено на: «Каждая модель, которая начала этот манёвр **связанной боем** с вражеским юнитом, должна всё ещё быть **связана боем** с этим вражеским юнитом. Если один или несколько вражеских юнитов, **связанных боем** с вашим юнитом, ещё не были **выбраны для боя** в этой фазе, ваш оппонент должен выбрать каждый из таких юнитов поочерёдно; когда каждый выбран, он **получает право сражаться** и **выбирается для боя**».`,
     },
   ],
 }

@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor } from './rosterEngine.js'
+import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, isArchived } from './rosterEngine.js'
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -17,16 +17,21 @@ export function setupIssueCount(issues) {
   return (issues || []).filter((i) => SETUP_CODES.has(i.code)).length
 }
 
-// Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
-// and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
+// Per-unit duplicate cap: the battle size's limit, its Battleline / Dedicated Transport limit for
+// those (twice the other in every printed size, a number of its own in a custom one), and
+// hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25). `limits` is
+// effectiveBattle's object; a bare number is read as a printed size's `dupLimit` (the doubled
+// line limit follows), which is what the tests and the older callers pass.
 // `granted` — the keywords this unit has from the ARMY rather than from its datasheet
 // (rosterEngine's grantedKeywordsFor). Battleline is the only one that matters here, and it is
 // what makes the difference between three Warbikers and six: pass it wherever the roster's
 // detachments are known. `null` keeps the pre-gate reading of the raw `condBattleline` flag.
-export function duplicateLimit(def, dupLimit, granted = null) {
+export function duplicateLimit(def, limits, granted = null) {
+  const dup = typeof limits === 'number' ? limits : limits.dupLimit
+  const line = typeof limits === 'number' ? limits * 2 : (limits.lineLimit ?? dup * 2)
   if (def.flags?.epic) return 1
-  if (hasKeyword(def, 'Battleline') || isBattlelineNow(def, granted) || hasKeyword(def, 'Dedicated Transport')) return dupLimit * 2
-  return dupLimit
+  if (hasKeyword(def, 'Battleline') || isBattlelineNow(def, granted) || hasKeyword(def, 'Dedicated Transport')) return line
+  return dup
 }
 
 // How many roster entries currently occupy each duplicate-cap "slot" (rosterEngine.js's
@@ -66,6 +71,8 @@ export function validateRoster(roster, { faction, core, items } = {}) {
     faction?.slug ? grantedKeywordsFor(def?.id, faction.slug, detachments).map((g) => g.kw) : null
 
   const points = rosterPoints(units, defOf, detachments)
+  // An archived list is priced but never judged — see isArchived (rosterEngine.js).
+  if (isArchived(roster)) return { points, issues: [], errorCount: 0 }
   const issues = []
   // Every issue tied to an entry names it. The message templates cannot do that on their own — the
   // same code is raised from a dozen places and several carry no unit at all — so `unit` is filled
@@ -171,7 +178,7 @@ export function validateRoster(roster, { faction, core, items } = {}) {
     }
     for (const list of byKey.values()) {
       const def = defOf(list[0].id)
-      const limit = duplicateLimit(def, battle.dupLimit, grantedBattleline(def))
+      const limit = duplicateLimit(def, battle, grantedBattleline(def))
       if (list.length > limit) {
         add('overDuplicate', 'error', { uid: list[limit].uid, params: { count: list.length, limit } })
       }
@@ -486,7 +493,16 @@ export function validateRoster(roster, { faction, core, items } = {}) {
       for (const [kw, bySize] of Object.entries(g.lim || {})) {
         const cap = bySize[size]
         if (cap == null) continue
-        const n = list.filter((u) => hasKeyword(defOf(u.id), kw)).length
+        // A unit a slotless rule frees does not count against the cap (`free`, generator): each
+        // unit in the ARMY carrying every donor keyword — an Inquisitor — frees one ally carrying
+        // the receiver keywords — an Inquisitorial Agents unit. Until 2026-10-03 it counted, and a
+        // legal Inquisitor + Agents + two Retinue read as one Retinue over.
+        const all = (ks) => (u) => ks.every((k) => hasKeyword(defOf(u.id), k))
+        let freed = 0
+        for (const f of (g.free || []).filter((x) => x.kw === kw)) {
+          freed += Math.min(units.filter(all(f.donor)).length, list.filter(all(f.recv)).filter((u) => hasKeyword(defOf(u.id), kw)).length)
+        }
+        const n = list.filter((u) => hasKeyword(defOf(u.id), kw)).length - freed
         if (n) used.push(kw)
         if (n > cap) add('allyOverLimit', 'error', { params: { group: g.name, kw, count: n, limit: cap } })
       }

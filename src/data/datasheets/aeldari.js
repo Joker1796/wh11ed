@@ -176,7 +176,7 @@ export default [
         "points": 70
       }
     ],
-    "flavor": "Autarchs are legendary for their strategic brilliance, sublime martial skill and indomitable strength of will. Long have they trodden the Path of the Warrior, never once slipping into the trap of obsession. Instead, they apply all that they have learned and mastered to their command of the Asuryani warhosts.",
+    "flavor": "Autarchs are legendary for their strategic brilliance, sublime martial skill and indomitable strength of will. Long have they trodden the Path of the Warrior, never slipping into the obsession trap. Instead, they apply all they have learned and mastered to their command of the Asuryani warhosts.",
     "profiles": [
       {
         "name": "Autarch",
@@ -198,7 +198,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "-1",
         "d": "1"
@@ -518,7 +518,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "-1",
         "d": "1"
@@ -673,7 +673,7 @@ export default [
         "points": 250
       }
     ],
-    "flavor": "The Avatar of Khaine is an ancient war deity incarnate, whose mere presence incites merciless rage in the Asuryani around him. In battle, the Avatar marches through enemy fire without breaking stride, laughing cruelly as his weapon – the Wailing Doom – tastes hot flesh and spurting lifeblood with each swing and thrust.",
+    "flavor": "The Avatar of Khaine is an ancient war deity incarnate whose mere presence incites merciless rage in the Asuryani around him. In battle, the Avatar marches through enemy fire without breaking stride, laughing cruelly as his weapon – the Wailing Doom – tastes hot flesh and spurts lifeblood with each swing and thrust.",
     "profiles": [
       {
         "name": "Avatar of Khaine",
@@ -1006,7 +1006,9 @@ export default [
       "Mobile",
       "Mounted"
     ],
-    "factionKeywords": []
+    "factionKeywords": [
+      "Asuryani"
+    ]
   },
   {
     "id": "cobra",
@@ -1642,7 +1644,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1682,7 +1684,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "0",
         "d": "1"
@@ -1766,7 +1768,7 @@ export default [
         "points": 110
       }
     ],
-    "flavor": "The skilled and agile warriors known as Voidreavers make up the bulk of most Corsair warbands. With precise volleys of lethal shuriken fire they can tear through enemy infantry, or draw their power swords and storm hostile positions to engage in furious hand-to-hand fighting.",
+    "flavor": "The skilled and agile warriors known as Voidreavers make up the bulk of most Corsair warbands. With precise volleys of lethal shuriken fire, they can tear through enemy infantry or draw their power swords and storm hostile positions to engage in furious hand‐to‐hand fighting.",
     "profiles": [
       {
         "name": "Corsair Voidreavers",
@@ -1813,7 +1815,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "0",
         "d": "1"
@@ -1939,7 +1941,7 @@ export default [
         "points": 140
       }
     ],
-    "flavor": "The Void scarred are veterans hardened by a life of piracy. These Corsairs have travelled the stars for centuries and have seen the worst and the best the galaxy has to offer. Many have developed unique skills and fighting styles and carry specialist wargear into battle over the years.",
+    "flavor": "The Voidscarred are veterans hardened by a life of piracy. These Corsairs have travelled the stars for centuries and have seen the worst and the best the galaxy has to offer. Many have developed unique skills and fighting styles and carry specialist wargear into battle over the years.",
     "profiles": [
       {
         "name": "Corsair Voidscarred",
@@ -2026,7 +2028,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "0",
         "d": "1"
@@ -2186,7 +2188,7 @@ export default [
         "points": 160
       }
     ],
-    "flavor": "Crimson Hunters are the sublime pilots of formidable airborne fighters with armaments dedicated to aerial interdiction. With superhuman reflexes they hunt down and destroy enemy aircraft with sickening ease, their skills honed by nightly training sorties with those of their Aspect Shrine.",
+    "flavor": "Crimson Hunters are the sublime pilots of formidable airborne fighters with armaments dedicated to aerial interdiction. With superhuman reflexes, they hunt down and destroy enemy aircraft with sickening ease, their skills honed by nightly training sorties with those of their Aspect shrine.",
     "profiles": [
       {
         "name": "Crimson Hunter",
@@ -2871,7 +2873,9 @@ export default [
       "Mobile",
       "Mounted"
     ],
-    "factionKeywords": []
+    "factionKeywords": [
+      "Asuryani"
+    ]
   },
   {
     "id": "eldrad-ulthran",
@@ -2882,7 +2886,7 @@ export default [
         "points": 120
       }
     ],
-    "flavor": "One of the most potent Aeldari psykers ever to have lived, when Eldrad Ulthran takes to the field his enemies’ plans are already known to him. Such is Eldrad’s psychic might that he can break Titans and banish the mightiest of daemons, and over the millennia he has slain kings and champions beyond number.",
+    "flavor": "One of the most potent Aeldari psykers ever to have lived, when Eldrad Ulthran takes to the field, his enemies’ plans are already known to him. Such is Eldrad’s psychic might that he can break Titans and banish the mightiest of daemons, and over the millennia, he has slain kings and champions beyond number.",
     "profiles": [
       {
         "name": "Eldrad Ulthran",
@@ -2984,7 +2988,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "The primary battle tanks of the Asuryam, Falcons mount a diverse array of potent weapons that make them the bane of war machines and foot troops alike. They also boast a transport pod, in which small squads of warriors can be borne to wherever their martial prowess is most needed on the battlefield.",
+    "flavor": "The primary battle tanks of the Asuryani, Falcons mount a diverse array of potent weapons that make them the bane of war machines and foot troops alike. They also boast a transport pod, in which small squads of warriors can be borne to wherever their martial prowess is most needed on the battlefield.",
     "profiles": [
       {
         "name": "Falcon",
@@ -3267,7 +3271,7 @@ export default [
         "points": 60
       }
     ],
-    "flavor": "Farseers are expert combatants as well as battle seers. Their semi-sentient witchblades and singing spears are embedded with crystals that transmit the destructive potential of their bearer’s psyche. In battle, they flow around weapon blasts and blade thrusts with a natural grace that makes their foes seem predictable and slow.",
+    "flavor": "Farseers are expert combatants as well as battle seers. Their semi‐sentient witchblades and singing spears are embedded with crystals that transmit the destructive potential of their bearer’s psyche. When riding to battle astride sleek jetbikes, they flow around weapon blasts and blade thrusts with a natural grace that makes their foes seem predictable and slow.",
     "profiles": [
       {
         "name": "Farseer Skyrunner",
@@ -3424,7 +3428,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Fire Dragons are aggressive and warlike, seeking nothing less than the total annihilation of the enemy’s redoubts and war machines. They can identify the weak points of a target with a mere glance, then swiftly reduce them to molten liquid with their fusion guns.",
+    "flavor": "Fire Dragons are aggressive and warlike, seeking nothing less than destroying the enemy’s redoubts and war machines. They can identify a target’s weak points with a glance and then swiftly reduce them to molten liquid with their fusion guns.",
     "profiles": [
       {
         "name": "FIRE DRAGON",
@@ -3486,7 +3490,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+2",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-2",
         "d": "1"
@@ -3580,7 +3584,7 @@ export default [
         "points": 150
       }
     ],
-    "flavor": "The prism cannon of this vehicle is the bane of heavy battle tanks. In its firing process, a laser is discharged into a massive crystal prism that amplifies the shot’s potency. The energy is released in one of two ways – either as thin lances of light to destroy the toughest vehicles, or as a dispersed pulse to slaughter swathes of infantry.",
+    "flavor": "The prism cannon of this vehicle is the bane of heavy battle tanks. In its firing process, a laser is discharged into a massive crystal prism that amplifies the shot’s potency. The energy is released in one of two ways – either as thin lances of light to destroy the toughest vehicles or as a dispersed pulse to slaughter swathes of infantry.",
     "profiles": [
       {
         "name": "Fire Prism",
@@ -3803,7 +3807,7 @@ export default [
         "points": 130
       }
     ],
-    "flavor": "Fuegan has dedicated himself to the total destruction of the enemies of the Asuryani, and the trail of corpses he has left in his wake spans the galaxy. Those he sets his fiery gaze upon he either eradicates from existence with burning blasts from his firepike, Searsong, or cuts in twain with furious blows from the Fire Axe.",
+    "flavor": "Fuegan has dedicated himself to the destruction of the enemies of the Asuryani, and the trail of corpses he has left in his wake spans the galaxy. Those he sets his fiery gaze upon, he either eradicates from existence with burning blasts from his firepike, Searsong, or cuts in twain with furious blows from the Fire Axe.",
     "profiles": [
       {
         "name": "Fuegan",
@@ -3902,7 +3906,7 @@ export default [
         "points": 90
       }
     ],
-    "flavor": "Guardian Defenders are versatile support troops capable of unleashing withering hails of fire from their shuriken catapults. They also man anti-grav Heavy Weapon Platforms that can be fitted with a variety of powerful guns with which to sunder enemy armour or mow down swathes of infantry.",
+    "flavor": "Guardian Defenders are versatile support troops capable of unleashing withering hails of fire from their shuriken catapults. They also man anti‐grav Heavy Weapon Platforms that can be fitted with various powerful guns to sunder enemy armour or mow down swathes of infantry.",
     "profiles": [
       {
         "name": "GUARDIAN DEFENDER",
@@ -4056,7 +4060,7 @@ export default [
         "points": 155
       }
     ],
-    "flavor": "Hemlocks blend the psychic abilities of their Spiritseer pilots with the gestalt energies of the Aeldari dead, who can pilot the craft should the seer be incapacitated. The aircraft’s mindshock pod unleashes waves of negative emotion to cause terror in the enemy, while its heavy D-scythes hurl the Hemlock’s victims into the warp.",
+    "flavor": "Hemlocks blend their Spiritseer pilots’ psychic abilities with the gestalt energies of dead Aeldari, who can pilot the craft should the seer be incapacitated. The aircraft’s mindshock pod unleashes waves of negative emotion to cause terror in the enemy while its heavy D‐scythes hurl the Hemlock’s victims into the Warp.",
     "profiles": [
       {
         "name": "Hemlock Wraithfighter",
@@ -4597,7 +4601,7 @@ export default [
         "points": 105
       }
     ],
-    "flavor": "Always at the front of a charge and famed for her speed and ferocity, Jain Zar carries the Blade of Destruction, an ancient executioner. This she whirls in bloody arcs to carve through foes, before vaulting into a new position. With a flick of her wrist she unleashes the Silent Death, a triple-bladed throwing weapon that can easily sever a foe’s head.",
+    "flavor": "Always at the front of a charge and famed for her speed and ferocity, Jain Zar carries the Blade of Destruction, an ancient executioner. She whirls it in bloody arcs to carve through foes before vaulting into a new position. With a flick of her wrist, she unleashes the Silent Death, a triple‐bladed throwing weapon that can easily sever a foe’s head.",
     "profiles": [
       {
         "name": "Jain Zar",
@@ -4854,7 +4858,8 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Corsair Voidscarred",
-        "Corsair Voidreavers"
+        "Corsair Voidreavers",
+        "Corsair Reaver Band"
       ]
     },
     "keywords": [
@@ -4953,7 +4958,9 @@ export default [
       "Mobile",
       "Mounted"
     ],
-    "factionKeywords": []
+    "factionKeywords": [
+      "Asuryani"
+    ]
   },
   {
     "id": "lhykhis",
@@ -4987,7 +4994,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-2",
         "d": "1"
@@ -5298,7 +5305,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "The doomweaver mounted by the Night Spinner is an esoteric weapon that spins great swathes of monofilament wire into a lethal web that is launched high into the air. So strong is this substance that nothing can stop its descent, and any foe lying beneath it faces a horrible death as the razor-sharp strands fall first upon and then through them.",
+    "flavor": "The doomweaver mounted by the Night Spinner is an esoteric weapon that spins great swathes of monofilament wire into a lethal web launched high into the air. So strong is this substance that nothing can stop its descent, and any foe lying beneath it faces a horrible death as the razor‐sharp strands fall first upon and then through them.",
     "profiles": [
       {
         "name": "Night Spinner",
@@ -5816,7 +5823,8 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Corsair Voidscarred",
-        "Corsair Voidreavers"
+        "Corsair Voidreavers",
+        "Corsair Reaver Band"
       ]
     },
     "keywords": [
@@ -5845,7 +5853,7 @@ export default [
         "points": 110
       }
     ],
-    "flavor": "These Outcast warriors are adepts in the arts of stealth warfare, marksmanship and tracking their enemies through the harshest terrain. Veiled by cameleoline cloaks and gloom field generators, they can hide from their foes even in plain sight as they pick them off one by one from extreme range.",
+    "flavor": "These Outcast warriors are adept in stealth warfare, marksmanship and tracking their enemies through the harshest terrain. Veiled by cameleoline cloaks and gloom field generators, they can hide from their foes even in plain sight as they pick them off one by one from extreme range.",
     "profiles": [
       {
         "name": "Rangers",
@@ -5981,7 +5989,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6+6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "8",
         "ap": "-3",
         "d": "2"
@@ -6387,7 +6395,7 @@ export default [
         "points": 50
       }
     ],
-    "flavor": "Shadowseers can blind their enemies and drive them mad with their psychic powers. They shield their allies with veils of illusion, and crush bones in close combat with strikes from their miststaves – which also scramble the perceptions of those they hit.",
+    "flavor": "Shadowseers can blind their enemies and drive them mad with their psychic powers. They shield their allies with veils of illusion and salvoes of hallucinogen grenades from their criedann launchers and crush bones in close combat with strikes from their miststaves – which also scramble the perceptions of those they hit.",
     "profiles": [
       {
         "name": "Shadowseer",
@@ -6665,7 +6673,7 @@ export default [
         "points": 165
       }
     ],
-    "flavor": "Streaking into battle as barely perceived blurs, Shroud Runners effortlessly outmanoeuvre their enemies while harassing them with pinpoint sniper fire. Each jetbike acts as the mount for a pair of skilled Aeldari Rangers, the pillion rider often entering a marksman’s trance so as to aim and fire while travelling at incredible speeds.",
+    "flavor": "Streaking into battle as barely perceived blurs, Shroud Runners effortlessly outmanoeuvre their enemies while harassing them with pinpoint sniper fire. Each jetbike is the mount for a pair of skilled Aeldari Rangers, the pillion rider often entering a marksman’s trance to aim and fire while travelling at incredible speeds.",
     "profiles": [
       {
         "name": "Shroud Runners",
@@ -7278,7 +7286,7 @@ export default [
         "note": "4th+"
       }
     ],
-    "flavor": "These agile and nimble anti-grav transport craft swoop and spiral effortlessly through incoming fire, their flickering holo-fields giving them polychromatic camouflage. Armed with multiple heavy weapons, they provide great volumes of supporting fire for the troops they carry, scything down the foe with withering hails of shurikens.",
+    "flavor": "These agile and nimble anti‐grav transport craft swoop and spiral effortlessly through incoming fire, their flickering holo‐fields making them almost impossible to draw a bead on. Armed with multiple heavy weapons, they provide great volumes of supporting fire for the troops they carry, scything down the foe with withering hails of shuriken.",
     "profiles": [
       {
         "name": "Starweaver",
@@ -7456,7 +7464,9 @@ export default [
       "Mounted",
       "Psyker"
     ],
-    "factionKeywords": []
+    "factionKeywords": [
+      "Asuryani"
+    ]
   },
   {
     "id": "storm-guardians",
@@ -7500,7 +7510,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -7761,7 +7771,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Swooping Hawks soar high above the battlefield with incredible grace and agility, moving with such speed that they appear as a blur of colour. They are masters of harassment warfare, perfectly suited to breaking up enemy counter-attacks or picking off vulnerable formations with a hail of las-fire and plasma grenades.",
+    "flavor": "Swooping Hawks soar high above the battlefield with incredible grace and agility, moving with such speed that they appear as a blur of colour. They are masters of harassment warfare, perfectly suited to breaking up enemy counterattacks or picking off vulnerable formations with a hail of las fire and plasma grenades.",
     "profiles": [
       {
         "name": "SWOOPING HAWK",
@@ -8044,7 +8054,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "7",
         "ap": "-1",
         "d": "D3"
@@ -8263,7 +8273,7 @@ export default [
         "points": 75
       }
     ],
-    "flavor": "Choreographers of conflict, Troupe Masters direct their comrades’ reactions to the fates of battle and ensure their performance in the theatre of war is as perfect as it can be. They are blisteringly swift and deadly warriors, and with the consent of their peers they act as focal points of their Troupes.",
+    "flavor": "Choreographers of conflict, Troupe Masters direct their comrades’ reactions to the fates of battle and ensure their performance in the theatre of war is as perfect as it can be. They are blisteringly swift and deadly warriors and act as focal points of their Troupes with their peers’ consent.",
     "profiles": [
       {
         "name": "Troupe Master",
@@ -8679,7 +8689,7 @@ export default [
         "points": 115
       }
     ],
-    "flavor": "The Voidweaver’s potent combination of versatile weapons, lightweight psychoplastic armour, hyper-velocity and polychromatic camouflage make them exceptionally dangerous attack craft. Deadly on the ambush, groups of Voidweavers can rip apart enemy battle tanks or slaughter whole squads of infantry.",
+    "flavor": "The Voidweaver’s potent combination of versatile weapons, lightweight psychoplastic armour, hyper‐velocity and polychromatic camouflage make them exceptionally dangerous attack craft. Deadly in ambush, groups of Voidweavers can rip apart enemy battle tanks or slaughter whole infantry squads.",
     "profiles": [
       {
         "name": "Voidweaver",
@@ -9050,7 +9060,7 @@ export default [
         "points": 40
       }
     ],
-    "flavor": "Seers who have trained as Aspect Warriors find it easier to develop destructive psychic powers. These Aeldari are called Warlocks. In battle, they frequently band together in conclaves to pool their eldritch power, or else lead other Aeldari squads such as Guardians from the front. Casting the runes of battle, they wreak havoc on the foe.",
+    "flavor": "Seers trained as Aspect Warriors find it easier to develop destructive psychic powers. These Aeldari are called Warlocks. In battle, they frequently band together in conclaves to pool their eldritch power or lead other Aeldari squads, such as Guardians, from the front. Casting the runes of battle, they wreak havoc on the foe.",
     "profiles": [
       {
         "name": "Warlock",
@@ -9072,7 +9082,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -9180,7 +9190,7 @@ export default [
         "points": 110
       }
     ],
-    "flavor": "When Warlocks gather into battle conclaves, they pool their psychic might to defend their fellow Aeldari better and excoriate the foe with arcing storms ofempyric destruction. Wielding shimmering singing spears and witch blades with the skill of those trained on the Path of the Warrior, they also punish their enemies at close quarters.",
+    "flavor": "When Warlocks gather into battle conclaves, they pool their psychic might to defend their fellow Aeldari better and excoriate the foe with arcing storms of empyric destruction. Wielding shimmering singing spears and witchblades with the skill of those trained on the Path of the Warrior, they also punish their enemies at close quarters.",
     "profiles": [
       {
         "name": "Warlock Conclave",
@@ -9202,7 +9212,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -9310,7 +9320,7 @@ export default [
         "points": 90
       }
     ],
-    "flavor": "Jetbikes add great speed to Warlocks’ already formidable array of powers. Many craftworlds deploy entire Skyrunner conclaves, although such formations are especially common in the Wild Rider clans of Saim-Hann.",
+    "flavor": "Jetbikes add great speed to Warlocks’ already formidable array of powers. Many craftworlds deploy entire Skyrunner conclaves, although such formations are widespread in the Wild Rider clans of Saim‐Hann.",
     "profiles": [
       {
         "name": "Warlock Skyrunner",
@@ -9332,7 +9342,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -9616,7 +9626,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "-1",
         "d": "1"
@@ -9630,7 +9640,7 @@ export default [
         ],
         "range": "6\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "-1",
         "d": "1"
@@ -9643,7 +9653,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-2",
         "d": "1"
@@ -9656,7 +9666,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -10108,7 +10118,7 @@ export default [
         "points": 170
       }
     ],
-    "flavor": "The jetbikes ridden by the Windriders can cross leagues in the space of a few heartbeats, and to master such incredible machines takes great skill. Windriders are expected to do this and more, for in battle they must be able to shred what resistance they encounter with devastating bursts of fire from their jetbikes’ attached weapons.",
+    "flavor": "The jetbikes ridden by the Windriders can cross leagues in the space of a few heartbeats, and mastering such incredible machines takes great skill. Windriders are expected to do this and more for, in battle, they must be able to shred what resistance they encounter with devastating bursts of fire from their jetbikes’ attached weapons.",
     "profiles": [
       {
         "name": "Windriders",
@@ -10205,7 +10215,7 @@ export default [
         "points": 140
       }
     ],
-    "flavor": "Wraithblades are inhabited by wrathful spirits who are eager to get to grips with the foe. Armed with ghostswords or ghostaxes, they cleave their foes apart, each blow driven further by the power of the spirit stones implanted into the weapons. These stones are inhabited by malevolent souls that rage against their confinement.",
+    "flavor": "Wraithblades are inhabited by wrathful spirits eager to get to grips with the foe. Armed with ghostswords or ghostaxes, they cleave their foes apart, each blow driven further by the power of the spirit stones implanted into the weapons. These stones are inhabited by malevolent souls that rage against their confinement.",
     "profiles": [
       {
         "name": "Wraithblades",
@@ -10280,7 +10290,7 @@ export default [
         "points": 145
       }
     ],
-    "flavor": "Wraithguard are all but impervious to pain. This is vitally important, for their D-scythes and wraithcannons are short-ranged, and require them to advance close to the foe. These immensely powerful weapons fire arcane beams that open a momentary rift between realspace and the warp, capable of tearing any target apart.",
+    "flavor": "Wraithguard are all but impervious to pain; this is vitally important, for their D‐scythes and wraithcannons are short‐ranged and require them to advance close to the foe. These mighty weapons fire arcane beams that open a momentary rift between realspace and the Warp, capable of tearing any target apart.",
     "profiles": [
       {
         "name": "Wraithguard",
@@ -10310,7 +10320,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "7",
         "ap": "-3",
         "d": "1"
@@ -10674,7 +10684,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -10988,7 +10998,7 @@ export default [
         "points": 85
       }
     ],
-    "flavor": "Archons are the rulers of the terrifying Drukhari private armies and crime syndicates known as kabals. Those who have pledged themselves to the Ynnari faith bring all their malicious cunning and murderous skill to bear in its name, along with the military might of the Kabal they lead. Wielding eldritch weapons and veiled by shrouding shadowfields, they are powerful allies indeed.",
+    "flavor": "Archons are the rulers of the terrifying Drukhari private armies and crime syndicates known as kabals. Those who have pledged themselves to the Ynnari faith bring all their malicious cunning and murderous skill to bear in its name, along with the military might of the Kabal they lead. Wielding eldritch weapons and veiled by shrouding shadow fields, they are powerful allies indeed.",
     "profiles": [
       {
         "name": "Ynnari Archon",
@@ -11258,7 +11268,7 @@ export default [
         ],
         "range": "18\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "0",
         "d": "1"
@@ -11469,7 +11479,7 @@ export default [
         "points": 120
       }
     ],
-    "flavor": "Black-hearted gladiatorial racers who battle one another around the Commorrite arenas, Reavers ride bladed jetbikes bristling with devastating firepower. Those amongst the Ynnari hosts serve as bloodthirsty shock 1 cavalry that blitz through the enemy battle lines, raking them with envenomed splinters and beams of ravening energy even as they lop off heads and limbs.",
+    "flavor": "Black‐hearted gladiatorial racers who battle one another around the Commorrite arenas, Reavers ride bladed jetbikes bristling with devastating firepower. Those amongst the Ynnari hosts serve as bloodthirsty shock cavalry that blitz through the enemy battle lines, raking them with envenomed splinters and beams of ravening energy even as they lop off heads and limbs.",
     "profiles": [
       {
         "name": "Ynnari Reavers",
@@ -11965,7 +11975,8 @@ export default [
         "Storm Guardians",
         "Corsair Voidscarred",
         "Corsair Voidreavers",
-        "Guardian Defenders"
+        "Guardian Defenders",
+        "Corsair Reaver Band"
       ]
     },
     "keywords": [

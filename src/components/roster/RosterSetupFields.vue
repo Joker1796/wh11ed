@@ -15,6 +15,15 @@
         >
       </label>
 
+      <!-- The points limit before the faction (owner, 2026-10-03): how big a game comes first, what
+           army second — the order a list is planned in. -->
+      <RosterBattleSizeField
+        class="choice pick"
+        :faction="factionSlug"
+        :limit="limit"
+        @update:limit="$emit('update:limit', $event)"
+      />
+
       <div class="choice pick">
         <span class="ch-label">{{ labels.rosterFactionLabel }}</span>
         <button
@@ -36,11 +45,13 @@
       >
         <span class="ch-label">
           {{ labels.rosterDetachmentLabel }}
-          <em
-            v-if="hasFaction"
-            class="dp-count"
-            :class="{ over: dpSpent > dpLimit }"
-          >{{ dpSpent }} / {{ dpLimit }} DP</em>
+          <ExpandTransition>
+            <em
+              v-if="hasFaction"
+              class="dp-count"
+              :class="{ over: dpSpent > dpLimit }"
+            >{{ dpSpent }}<template v-if="Number.isFinite(dpLimit)"> / {{ dpLimit }}</template> DP</em>
+          </ExpandTransition>
         </span>
         <button
           type="button"
@@ -110,65 +121,38 @@
           @input="$emit('update:notes', $event.target.value)"
         />
       </label>
-
-      <div class="choice">
-        <span class="ch-label">{{ labels.rosterBattleSizeLabel }}</span>
-        <div class="bsize-opts">
-          <button
-            v-for="b in battleSizes"
-            :key="b.id"
-            class="bsize-btn"
-            :class="{ on: battleSize === b.id }"
-            @click="$emit('update:battleSize', b.id)"
-          >
-            {{ b.points }}
-          </button>
-          <button
-            class="bsize-btn"
-            :class="{ on: battleSize === 'custom' }"
-            @click="$emit('update:battleSize', 'custom')"
-          >
-            {{ labels.rosterCustom }}
-          </button>
-          <Transition name="fade">
-            <input
-              v-if="battleSize === 'custom'"
-              class="bsize-input"
-              type="number"
-              min="0"
-              step="5"
-              :value="customPoints"
-              @input="$emit('update:customPoints', Math.max(0, Number($event.target.value) || 0))"
-            >
-          </Transition>
-        </div>
-      </div>
     </div>
 
+    <!-- An archived list is never checked, whatever this says — so the box says why instead. -->
     <label
       class="check"
-      :class="{ on: checkLegality }"
+      :class="{ on: checkLegality && !archived }"
     >
       <input
         type="checkbox"
-        :checked="checkLegality"
+        :checked="checkLegality && !archived"
+        :disabled="archived"
         @change="$emit('update:checkLegality', $event.target.checked)"
       >
       <span>
         {{ labels.rosterCheckLegality }}
-        <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
+        <em class="check-note">{{ archived ? labels.rosterArchivedNote : labels.rosterCheckLegalityNote }}</em>
       </span>
     </label>
-    <label
-      class="check"
-      :class="{ on: showPointsLeft }"
-    >
-      <input
-        v-model="showPointsLeft"
-        type="checkbox"
+    <!-- No limit, nothing left to count down to. -->
+    <ExpandTransition>
+      <label
+        v-if="limit.battleSize !== UNLIMITED_BATTLE"
+        class="check"
+        :class="{ on: showPointsLeft }"
       >
-      <span>{{ labels.rosterShowPointsLeft }}</span>
-    </label>
+        <input
+          v-model="showPointsLeft"
+          type="checkbox"
+        >
+        <span>{{ labels.rosterShowPointsLeft }}</span>
+      </label>
+    </ExpandTransition>
   </div>
 </template>
 
@@ -185,15 +169,17 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
-import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
-import rosterCore from '../../data/roster/core.js'
+import { ROSTER_NOTES_MAX, UNLIMITED_BATTLE } from '../../composables/rosterEngine.js'
+import RosterBattleSizeField from './RosterBattleSizeField.vue'
 
 defineProps({
   showName: { type: Boolean, default: false },
   name: { type: String, default: '' },
-  battleSize: { type: String, default: 'strike-force' },
-  customPoints: { type: Number, default: 2000 },
+  // The points limit as one value (rosterEngine's limitOf), handed to RosterBattleSizeField.
+  limit: { type: Object, required: true },
   hasFaction: { type: Boolean, default: false },
+  // The list's faction, for the limit dialog's colours (RosterBattleSizeField).
+  factionSlug: { type: String, default: '' },
   factionName: { type: String, default: '' },
   detachmentSummary: { type: String, default: '' },
   dpSpent: { type: Number, default: 0 },
@@ -204,9 +190,10 @@ defineProps({
   showNotes: { type: Boolean, default: false },
   notes: { type: String, default: '' },
   checkLegality: { type: Boolean, default: true },
+  archived: { type: Boolean, default: false },
 })
 defineEmits([
-  'update:name', 'update:battleSize', 'update:customPoints', 'update:disposition',
+  'update:name', 'update:limit', 'update:disposition',
   'update:notes', 'update:checkLegality', 'pick-faction', 'pick-detachments',
 ])
 
@@ -214,7 +201,6 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 // A reader's own preference, kept on the device rather than in the list.
 const { showPointsLeft } = useRosterPrefs()
-const battleSizes = rosterCore.battleSizes
 </script>
 
 <style scoped>
@@ -264,6 +250,9 @@ const battleSizes = rosterCore.battleSizes
    `hover: hover`, because iOS leaves a tap's hover state on until something else is tapped. */
 @media (hover: hover) {
   .choice.pick:not(.off):hover { background: var(--bg-secondary); }
+  /* A custom points limit: only its head opens the picker, so only the head lights the row. */
+  .choice.pick.custom:hover { background: none; }
+  .choice.pick.custom:has(.bsf-trigger:hover) { background: var(--bg-secondary); }
 }
 .choice .bi-chevron-down { position: absolute; right: 0.6rem; top: 0.6rem; color: var(--text-dim); font-size: 0.7rem; }
 .ch-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
@@ -289,28 +278,7 @@ const battleSizes = rosterCore.battleSizes
 .disp-opts { margin-top: 0.15rem; align-self: flex-start; }
 .disp-opts button { font-size: 0.78rem; padding: 0.2rem 0.5rem; }
 
-.bsize-opts { display: inline-flex; gap: 0.25rem; margin-top: 0.1rem; }
-.bsize-btn {
-  padding: 0.2rem 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  cursor: pointer;
-}
-.bsize-btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-.bsize-input {
-  width: 5rem;
-  padding: 0.2rem 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  border: 1px solid var(--accent);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-}
-.bsize-input:focus { outline: none; }
+
 
 /* A row holding a field rather than a value (the name, the notes): the input stretches to it. */
 .tile-input {

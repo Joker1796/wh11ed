@@ -121,17 +121,17 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
 ▪ Did not embark within that TRANSPORT this phase.
 ▪ That TRANSPORT has not made an **advance** or **fall-back** move this phase.
 ◈ EFFECT | Your unit is set up as described in Set Up (03.02).
-◈ BEFORE MOVING | Select **disembark mode** in the following order:
+◈ BEFORE MOVING | Select **disembark mode**:
 ▪ **Rapid Disembark:** If that TRANSPORT made a **normal** or **[gloss:ingress-move:ingress move]** this phase, you must select this mode.
-▪ **Tactical Disembark:** Otherwise, if that TRANSPORT **[gloss:remain-stationary:remained stationary]** or has not yet been **[gloss:selected-to-move:selected to move]** this phase, and you can set up your unit as described below, you must select this mode.
+▪ **Tactical Disembark:** Otherwise, if that TRANSPORT **[gloss:remain-stationary:remained stationary]** or has not yet been **[gloss:selected-to-move:selected to move]** this phase, and if you can set up your unit as described below, you must select this mode.
 ▪ **Combat Disembark:** Otherwise, you must select this mode. Make a **hazard roll** (06.03) for each model in your unit.
 ◈ WHILE MOVING | Set up each model in your unit wholly within the **[gloss:set-up-distance:set-up distance]** of that TRANSPORT.
-▪ **Rapid Disembark** (after **ingress move**): each model must follow the same rules and restrictions that TRANSPORT had to follow while resolving that **ingress move**.
-▪ **Combat Disembark:** each model can be set up **engaged** with one or more enemy units that TRANSPORT is **engaged** with.
+▪ **Rapid Disembark:** If that TRANSPORT made an **ingress move** this turn, each model must follow the same rules that TRANSPORT had to follow while resolving that move.
+▪ **Combat Disembark:** Each model can be set up **engaged** with one or more enemy units that TRANSPORT is **engaged** with.
 ◈ AFTER MOVING
-▪ **Rapid Disembark:** until the end of the turn, your unit is not **eligible to declare a charge**.
-▪ **Tactical Disembark:** select your unit to make a **normal** or **advance move**.
-▪ **Combat Disembark:** your unit is **[gloss:battle-shocked:battle-shocked]** and, until the end of the turn, is not **eligible to declare a charge**.`,
+▪ **Rapid Disembark:** Until the end of the turn, your unit is not **eligible to declare a charge**.
+▪ **Tactical Disembark:** Select your unit to make a **normal** or **advance move**.
+▪ **Combat Disembark:** Your unit is **[gloss:battle-shocked:battle-shocked]** and, until the end of the turn, it is not **eligible to declare a charge**.`,
           seeAlso: ['Hazard Rolls 06.03'],
           children: [
             {
@@ -166,7 +166,7 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
 ◈ ELIGIBLE IF | As stated in the rule allowing this **move type**, if all of the following apply to your unit:
 ▪ Embarked within a TRANSPORT model that is on the battlefield.
 ▪ Did not embark within that TRANSPORT this phase.
-▪ That TRANSPORT has not made an **advance** or **fall-back** move this phase.
+▪ That TRANSPORT has not made an **advance/fall-back** move this phase.
 ◈ EFFECT | Your unit is set up as described in Set Up (03.02).
 ◈ WHILE MOVING | Set up each model in your unit wholly within the **[gloss:set-up-distance:set-up distance]** of that TRANSPORT.`,
         },
@@ -196,11 +196,7 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
           id: 'section-19-01',
           sectionNum: '19.01',
           title: 'Forming Attached Units',
-          body: `Some units have the **[gloss:leader:Leader]** or **[gloss:support:Support]** ability listed on their datasheet. Such units are known as **leader** units and **support** units respectively. Both of these abilities allow such units to **[gloss:lead:lead]** other friendly units (known as **[gloss:bodyguard:bodyguard]** units) to form **attached** units. An **attached** unit is a single unit for all rules purposes. **Leader** and **support** units can only lead specific **bodyguard** units, as listed in the Warhammer 40,000 app.
-
-Before the battle, in the Muster Armies step, for each **leader** and **support** unit in your army, you can select one friendly **bodyguard** unit that unit can **lead**. That unit will then **lead** that **bodyguard** unit for the battle and form an **attached** unit with it.
-
-Unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one **support** unit attached to it.
+          body: `Some units have the **[gloss:leader:Leader]** or **[gloss:support:Support]** ability listed on their datasheet (24.22 & 24.34). Such units are known as **leader** units and **support** units respectively. Both of these abilities allow such units to **[gloss:lead:lead]** other friendly units (known as **[gloss:bodyguard:bodyguard]** units) to form **attached** units. An **attached** unit is a single unit for all rules purposes. **Leader** and **support** units can only lead specific **bodyguard** units, as listed in the Warhammer 40,000 app.
 
 ### FAQs
 **Q:** The Munitorium Field Manual shows my unit can attach to different units than are on its datasheet — which do I use?
@@ -249,7 +245,7 @@ Rules that are triggered when a unit is **destroyed** are only triggered when th
 Otherwise, abilities/rules that affect a unit (or models in it) apply to every model in an **attached** unit, until the source of that ability/rule is **destroyed**, as shown in the table below.
 
 In all of the above cases, if that last model was **destroyed** as the result of an attack, the ability it was conferring upon the **attached** unit applies until the attacking unit has resolved all of its attacks.`,
-          note: `* This means **leader/support** units continue to benefit from their own "while this model is leading a unit" abilities even after their **bodyguard** unit is **destroyed**, provided they started the battle in an **attached** unit. Should those models later be **revived**, those abilities will once more apply to their **attached** unit.`,
+          note: `* This means **leader/support** units continue to benefit from their own "while this model is leading a unit" abilities even after their **bodyguard** unit is **destroyed**, provided they started the battle in an **attached** unit.`,
           children: [
             {
               id: 'section-19-04-01',
@@ -337,10 +333,10 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
           sectionNum: '20.04',
           title: 'Ingress Move',
           body: `◈ SET-UP DISTANCE | 6"
-◈ ELIGIBLE IF | Your unit is in **strategic reserves** and is not embarked within a TRANSPORT that is also in **strategic reserves**.
+◈ ELIGIBLE IF | Your unit is in **strategic reserves** (excluding units that are embarked within TRANSPORTS that are themselves in **strategic reserves**).
 ◈ EFFECT | Your unit is set up as described in Set Up (03.02).
-◈ WHILE MOVING | Set up your unit wholly within 6" of one or more battlefield edges and more than 8" horizontally from all enemy units.
-▪ **Before the Third Battle Round:** while doing so, no models can be set up within your opponent's [gloss:deployment-zone:deployment zone].
+◈ WHILE MOVING | Set up your unit wholly within the **set-up distance** of one or more battlefield edges and more than 8" horizontally from all enemy units.
+▪ **Before the Third Battle Round:** While doing so, no models can be set up within your opponent's [gloss:deployment-zone:deployment zone].
 ◈ AFTER MOVING | Unless otherwise stated, until the start of the next Charge phase, your unit is not eligible to make any other type of move.`,
         },
       ],
@@ -390,7 +386,7 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
           title: 'Flying Models',
           body: `Models with the **[gloss:fly:FLY]** keyword, and units such models are part of, are said to be able to FLY. Some rules also refer to such models/units as FLYING models/FLYING units.
 
-Models with the FLY keyword can **[gloss:take-to-the-skies:take to the skies]** when making a **normal**, **advance**, **fall-back** or **[gloss:charge-move:charge move]**. Each time a FLYING unit is selected to make such a move, before moving any models in that unit, the active player can declare that it will **take to the skies**. If it does, while resolving that move:
+Each time a FLYING unit is selected to make a **normal**, **advance**, **fall-back** or **[gloss:charge-move:charge move]**, before moving any models in that unit, the active player can declare that it will **[gloss:take-to-the-skies:take to the skies]**. If it does, while resolving that move:
 ▪ Subtract 2" from the **[gloss:maximum-distance:maximum distance]**.
 ▪ Each time a FLYING model moves:
 ▫ Ignore all vertical distance for the purposes of how far it has moved.
@@ -452,7 +448,7 @@ Unless otherwise stated, a unit's **faction abilities** only apply if the **army
           title: 'Wargear Abilities',
           body: `Abilities that are gained when a unit (or one of its models) has a particular item of wargear are **wargear abilities**, and are listed in the **Wargear Abilities** section of a datasheet.
 
-If a unit has an item of wargear that has a **wargear ability**, that ability applies to the unit. If a model within a unit has an item of wargear that has a **wargear ability**, that model is the 'bearer' of that item of wargear and that ability applies until that model is **destroyed**.`,
+If a unit has an item of wargear that has a **wargear ability**, that ability applies to that unit. If a model within a unit has an item of wargear that has a **wargear ability**, that model is the 'bearer' of that item of wargear and that ability applies until that model is **destroyed**.`,
         },
         {
           id: 'section-22-05',
@@ -626,17 +622,17 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
 ▪ Не грузился в этот TRANSPORT в эту фазу.
 ▪ Этот [gloss:transport:TRANSPORT] не совершал **[gloss:advance-move:продвижения]** или **[gloss:fall-back-move:отступления]** в эту фазу.
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
-◈ ПЕРЕД ДВИЖЕНИЕМ | Выберите **[gloss:disembark:режим высадки]** в следующем порядке:
+◈ ПЕРЕД ДВИЖЕНИЕМ | Выберите **[gloss:disembark:режим высадки]**:
 ▪ **Стремительная высадка (Rapid Disembark):** Если этот TRANSPORT совершил **[gloss:normal-move:обычный манёвр]** или **[gloss:ingress-move:манёвр прибытия]** в эту фазу, вы должны выбрать этот режим.
-▪ **Тактическая высадка (Tactical Disembark):** В противном случае, если этот TRANSPORT **[gloss:remain-stationary:оставался неподвижным]** или ещё не был **[gloss:selected-to-move:выбран для манёвра]** в эту фазу, и вы можете расставить свой отряд, как описано ниже, вы должны выбрать этот режим.
+▪ **Тактическая высадка (Tactical Disembark):** В противном случае, если этот TRANSPORT **[gloss:remain-stationary:оставался неподвижным]** или ещё не был **[gloss:selected-to-move:выбран для манёвра]** в эту фазу, и если вы можете расставить свой отряд, как описано ниже, вы должны выбрать этот режим.
 ▪ **Боевая высадка (Combat Disembark):** В противном случае вы должны выбрать этот режим. Совершите **[gloss:hazard-roll:бросок на опасность]** (06.03) за каждую модель вашего отряда.
 ◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте каждую модель вашего отряда целиком в пределах **[gloss:set-up-distance:расстояния расстановки]** от этого TRANSPORT.
-▪ **Стремительная высадка** (после **манёвра прибытия**): каждая модель должна следовать тем же правилам и ограничениям, которым должен был следовать TRANSPORT при отыгрыше этого манёвра прибытия.
-▪ **Боевая высадка:** каждая модель может быть расставлена **[gloss:engaged:в ближнем бою]** с одним или несколькими вражескими отрядами, **находящимися в ближнем бою** с TRANSPORT.
+▪ **Стремительная высадка:** Если этот TRANSPORT совершил **манёвр прибытия** в этом ходу, каждая модель должна следовать тем же правилам, которым должен был следовать TRANSPORT при отыгрыше этого манёвра.
+▪ **Боевая высадка:** Каждая модель может быть расставлена **[gloss:engaged:в ближнем бою]** с одним или несколькими вражескими отрядами, **находящимися в ближнем бою** с TRANSPORT.
 ◈ ПОСЛЕ ДВИЖЕНИЯ
-▪ **Стремительная высадка:** до конца хода ваш отряд не может объявлять нападение.
-▪ **Тактическая высадка:** выберите ваш отряд для совершения **обычного манёвра** или **продвижения**.
-▪ **Боевая высадка:** ваш отряд находится **[gloss:battle-shocked:в боевом шоке]** и до конца хода не может объявлять нападение.`,
+▪ **Стремительная высадка:** До конца хода ваш отряд не может объявлять нападение.
+▪ **Тактическая высадка:** Выберите ваш отряд для совершения **обычного манёвра** или **продвижения**.
+▪ **Боевая высадка:** Ваш отряд находится **[gloss:battle-shocked:в боевом шоке]** и до конца хода он не может объявлять нападение.`,
           children: [
             {
               id: 'section-18-04-01',
@@ -670,7 +666,7 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
 ◈ УСЛОВИЕ | Как указано в правиле, разрешающем этот **тип манёвра**, если к вашему отряду применяется всё из следующего:
 ▪ Погружён в модель TRANSPORT, находящуюся на поле боя.
 ▪ Не грузился в этот TRANSPORT в эту фазу.
-▪ Этот TRANSPORT не совершал **[gloss:advance-move:продвижения]** или **[gloss:fall-back-move:отступления]** в эту фазу.
+▪ Этот TRANSPORT не совершал **[gloss:advance-move:продвижения]/[gloss:fall-back-move:отступления]** в эту фазу.
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
 ◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте каждую модель вашего отряда целиком в пределах **[gloss:set-up-distance:расстояния расстановки]** от этого TRANSPORT.`,
         },
@@ -700,11 +696,7 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
           id: 'section-19-01',
           sectionNum: '19.01',
           title: 'Создание объединённых отрядов',
-          body: `Некоторые отряды имеют способность **[gloss:leader:Лидер]** или **[gloss:support:Поддержка]**, указанную на их карточке данных. Такие отряды известны как отряды **лидеров** и отряды **поддержки** соответственно. Обе эти способности позволяют таким отрядам **[gloss:lead:возглавлять]** другие дружественные отряды (известные как отряды **[gloss:bodyguard:телохранителей]**) для создания **[gloss:attached-unit:объединённых]** отрядов. **Объединённый** отряд является единым отрядом для всех игровых целей. Отряды **лидеров** и **поддержки** могут возглавлять только определённые отряды **телохранителей**, как указано в приложении Warhammer 40,000.
-
-До битвы, на шаге «Формирование армий» (Muster Armies step), для каждого отряда **лидера** и **поддержки** в вашей армии вы можете выбрать один дружественный отряд **телохранителей**, который он может **возглавлять**. Этот отряд будет **возглавлять** этот отряд **телохранителей** в битве и создаст с ним **объединённый** отряд.
-
-Если не указано иное, каждый отряд **телохранителей** может иметь только один присоединённый отряд **лидера** и один отряд **поддержки**.
+          body: `Некоторые отряды имеют способность **[gloss:leader:Лидер]** или **[gloss:support:Поддержка]**, указанную на их карточке данных (24.22 и 24.34). Такие отряды известны как отряды **лидеров** и отряды **поддержки** соответственно. Обе эти способности позволяют таким отрядам **[gloss:lead:возглавлять]** другие дружественные отряды (известные как отряды **[gloss:bodyguard:телохранителей]**) для создания **[gloss:attached-unit:объединённых]** отрядов. **Объединённый** отряд является единым отрядом для всех игровых целей. Отряды **лидеров** и **поддержки** могут возглавлять только определённые отряды **телохранителей**, как указано в приложении Warhammer 40,000.
 
 ### FAQs
 **В:** Munitorium Field Manual показывает, что мой юнит может присоединяться к другим юнитам, чем указано в его листе данных — что мне использовать?
@@ -743,7 +735,7 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
 В противном случае способности/правила, влияющие на отряд (или модели в нём), применяются к каждой модели в **объединённом** отряде до **[gloss:destroyed:уничтожения]** источника этой способности/правила, как показано в таблице ниже.
 
 Во всех вышеперечисленных случаях, если эта последняя модель была **уничтожена** в результате атаки, способность, которую она предоставляла **объединённому** отряду, действует до тех пор, пока атакующий отряд не отыграет все свои атаки.`,
-          note: `* Это означает, что отряды **лидеров/поддержки** (leader/support) продолжают пользоваться своими собственными способностями «пока эта модель ведёт отряд» даже после **[gloss:destroyed:уничтожения]** их отряда **[gloss:bodyguard:телохранителей]**, при условии, что они начали битву в составе **[gloss:attached-unit:объединённого]** отряда. Если эти модели впоследствии будут **[gloss:revive:воскрешены]**, эти способности снова будут применяться к их **объединённому** отряду.`,
+          note: `* Это означает, что отряды **лидеров/поддержки** (leader/support) продолжают пользоваться своими собственными способностями «пока эта модель ведёт отряд» даже после **[gloss:destroyed:уничтожения]** их отряда **[gloss:bodyguard:телохранителей]**, при условии, что они начали битву в составе **[gloss:attached-unit:объединённого]** отряда.`,
           children: [
             {
               title: 'Только смерть прекращает службу (Only In Death Does Duty End)',
@@ -819,10 +811,10 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
           sectionNum: '20.04',
           title: 'Манёвр прибытия (Ingress Move)',
           body: `◈ РАССТОЯНИЕ РАССТАНОВКИ | 6"
-◈ УСЛОВИЕ | Ваш отряд находится в **[gloss:strategic-reserves:стратегическом резерве]** и не погружён в [gloss:transport:TRANSPORT], также находящийся в **стратегическом резерве**.
+◈ УСЛОВИЕ | Ваш отряд находится в **[gloss:strategic-reserves:стратегическом резерве]** (за исключением отрядов, погружённых в [gloss:transport:TRANSPORTS], которые сами находятся в **стратегическом резерве**).
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
-◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте ваш отряд целиком в пределах 6" от одного или нескольких краёв поля боя и более чем в 8" по горизонтали от всех вражеских отрядов.
-▪ **До третьего раунда боя:** при этом ни одна модель не может быть расставлена в [gloss:deployment-zone:зоне развёртывания] противника.
+◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте ваш отряд целиком в пределах **расстояния расстановки** от одного или нескольких краёв поля боя и более чем в 8" по горизонтали от всех вражеских отрядов.
+▪ **До третьего раунда боя:** При этом ни одна модель не может быть расставлена в [gloss:deployment-zone:зоне развёртывания] противника.
 ◈ ПОСЛЕ ДВИЖЕНИЯ | Если не указано иное, до начала следующей фазы нападения (Charge phase) ваш отряд не может совершать другие виды манёвров.`,
         },
       ],
@@ -872,7 +864,7 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
           title: 'Летящие модели',
           body: `Модели с ключевым словом **[gloss:fly:FLY]** и отряды, в состав которых входят такие модели, считаются способными летать. Некоторые правила также называют такие модели/отряды ЛЕТЯЩИМИ (FLYING) моделями/отрядами.
 
-Модели с ключевым словом FLY могут **[gloss:take-to-the-skies:подниматься в небо]** (take to the skies) при совершении **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]**, **[gloss:fall-back-move:отступления]** или **[gloss:charge-move:манёвра нападения]**. Каждый раз, когда ЛЕТЯЩИЙ (FLYING) отряд выбирается для совершения такого манёвра, до манёвра любых моделей в этом отряде активный игрок может объявить, что он будет **подниматься в небо**. Если он это делает, при отыгрыше этого манёвра:
+Каждый раз, когда ЛЕТЯЩИЙ (FLYING) отряд выбирается для совершения **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]**, **[gloss:fall-back-move:отступления]** или **[gloss:charge-move:манёвра нападения]**, до манёвра любых моделей в этом отряде активный игрок может объявить, что он будет **[gloss:take-to-the-skies:подниматься в небо]** (take to the skies). Если он это делает, при отыгрыше этого манёвра:
 ▪ Вычтите 2" из **[gloss:maximum-distance:максимального расстояния]**.
 ▪ Каждый раз, когда ЛЕТЯЩАЯ модель движется:
 ▫ Игнорируйте всё вертикальное расстояние для целей определения пройденного расстояния.
@@ -933,7 +925,7 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
           title: 'Способности снаряжения',
           body: `Способности, получаемые, когда отряд (или одна из его моделей) имеет определённый предмет снаряжения, являются **способностями снаряжения** (wargear abilities) и перечислены в разделе «Способности снаряжения» карточки данных.
 
-Если отряд имеет предмет снаряжения со **способностью снаряжения**, эта способность применяется к отряду. Если модель в составе отряда имеет предмет снаряжения со **способностью снаряжения**, эта модель является «носителем» этого предмета снаряжения, и способность действует до тех пор, пока эта модель не будет **[gloss:destroyed:уничтожена]**.`,
+Если отряд имеет предмет снаряжения со **способностью снаряжения**, эта способность применяется к этому отряду. Если модель в составе отряда имеет предмет снаряжения со **способностью снаряжения**, эта модель является «носителем» этого предмета снаряжения, и способность действует до тех пор, пока эта модель не будет **[gloss:destroyed:уничтожена]**.`,
         },
         {
           id: 'section-22-05',

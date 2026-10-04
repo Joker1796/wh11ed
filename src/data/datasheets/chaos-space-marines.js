@@ -11,7 +11,7 @@ export default [
         "points": 300
       }
     ],
-    "flavor": "The Warmaster of Chaos is the greatest threat to the Imperium. He rules his Black Legion with an iron-taloned fist and stands as the embodiment of the Long War. Clad in Terminator armour and wielding his howling daemon sword, Drach’nyen, Abaddon slays any weakling champions sent to challenge him.",
+    "flavor": "The Warmaster of Chaos is the greatest threat to the Imperium. He rules his Black Legion with an iron-taloned fist and stands a s the embodiment of the Long War. Clad in Terminator armour and wielding his howling daemon sword, Drach’nyen, Abaddon slays any weakling champions sent to challenge him.",
     "profiles": [
       {
         "name": "Abaddon the Despoiler",
@@ -390,7 +390,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -2493,7 +2493,7 @@ export default [
         "note": "4th+"
       }
     ],
-    "flavor": "Based upon ancient workhorse vehicles that have served Humanity for millennia, Chaos Rhinos are well adapted for battlefield transportation. Though encrusted with heretical icons and corrupted by the warp, they remain as rugged and reliable as ever, safely carrying their passengers over fire-swept battlefields.",
+    "flavor": "Based upon ancient workhorse vehicles which have served Humanity for millennia, Chaos Rhinos are well adapted for battlefield transportation. Though encrusted with heretical icons and corrupted by the warp, they remain as rugged and reliable as ever, safely carrying their passengers over fire-swept battlefields.",
     "profiles": [
       {
         "name": "Chaos Rhino",
@@ -2717,7 +2717,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -3255,7 +3255,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Their bodies swollen with unholy power. Cultist Firebrands ore pyromaniacal champions of Chaos. Their very presence upon the battlefield infames the real of nearby cultists, driving them to ever-escalating acts of brutality and depravity.",
+    "flavor": "Their bodies swollen with unholy power, Cultist Firebrands are pyromaniacal champions of Chaos. Their very presence upon the battlefield inflames the zeal of nearby cultists, driving them to ever-escalating acts of brutality and depravity.",
     "profiles": [
       {
         "name": "Cultist Firebrand",
@@ -3276,7 +3276,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -3313,7 +3313,9 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Cultist Mob",
-        "Accursed Cultists"
+        "Accursed Cultists",
+        "Cultist Mob with Firearms",
+        "Negavolt Cultists"
       ]
     },
     "keywords": [
@@ -3792,7 +3794,9 @@ export default [
         "Cultist Mob",
         "Nemesis Claw",
         "Legionaries",
-        "Chosen"
+        "Chosen",
+        "Cultist Mob with Firearms",
+        "Negavolt Cultists"
       ]
     },
     "keywords": [
@@ -3821,10 +3825,10 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "A pooling of evil at the head of a Chaos Cult, Dark Communes are led by Cult Demagogues who preach mantras of hate laced with promises of power. They command Mindwitches, whose psychic powers are bought at terrible cost, and Iconarchs, who carry foul sigils that spread the Dark Gods’ malefic influence.",
+    "flavor": "A pooling of evil at the head of a Chaos Cult, Dark Communes are led by Cult Demagogues who preach mantras of hate laced with promises of power. They command Mindwitches, whose psychic powers are bought at terrible cost, and Iconarchs, who carry foul sigils that spread the Dark Gods malefic influence.",
     "profiles": [
       {
-        "name": "CULT DEMAGOGUE",
+        "name": "Cult Demagogue",
         "m": "6\"",
         "t": "3",
         "sv": "6+",
@@ -3834,14 +3838,34 @@ export default [
         "baseSize": "32mm"
       },
       {
-        "name": "OTHER MODELS",
+        "name": "Mindwitch",
         "m": "6\"",
         "t": "3",
         "sv": "6+",
         "w": "1",
         "ld": "7+",
         "oc": "1",
-        "baseSize": "28.5mm / 32mm"
+        "baseSize": "32mm"
+      },
+      {
+        "name": "Iconarch",
+        "m": "6\"",
+        "t": "3",
+        "sv": "6+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1",
+        "baseSize": "32mm"
+      },
+      {
+        "name": "Blessed Blade",
+        "m": "6\"",
+        "t": "3",
+        "sv": "6+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -3944,7 +3968,9 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Cultist Mob",
-        "Accursed Cultists"
+        "Accursed Cultists",
+        "Cultist Mob with Firearms",
+        "Negavolt Cultists"
       ]
     },
     "keywords": [
@@ -4193,7 +4219,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "7",
         "ap": "-2",
         "d": "2"
@@ -4584,7 +4610,9 @@ export default [
         "Chosen",
         "Accursed Cultists",
         "Legionaries",
-        "Cultist Mob"
+        "Cultist Mob",
+        "Cultist Mob with Firearms",
+        "Negavolt Cultists"
       ]
     },
     "keywords": [
@@ -5181,7 +5209,7 @@ export default [
         "points": 95
       }
     ],
-    "flavor": "Haarken is the Herald of the Apocalypse and the mouthpiece of Abaddon. He declares his master’s dominion by driving his daemon touched Helspear into soon-to-be-conquered worlds, following up with vicious destruction as he leads hosts of Raptors in strikes that sow fear and confusion.",
+    "flavor": "Haarken is the Herald of the Apocalypse and the mouthpiece of Abaddon. He declares his master’s dominion by driving his daemon-touched Helspear into soon-to-be-conquered worlds, following up with vicious destruction as he leads hosts of Raptors in strikes that sow fear and confusion.",
     "profiles": [
       {
         "name": "Haarken Worldclaimer",
@@ -5318,7 +5346,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -5557,7 +5585,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -5748,7 +5776,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "2"
@@ -6219,7 +6247,7 @@ export default [
         "points": 135
       }
     ],
-    "flavor": "Reviled as the Tyrant of Badab, Huron directs the pitiless reaving of his Red Corsairs with the ruthlessness of a pirate king, while accompanied by his esoteric Hamadrya. His Tyrant’s Claw is a bionic relic whose crackling talons tear through armour before the inbuilt incineration unit unleashes gouts of sulphurous fire.",
+    "flavor": "Reviled as the Tyrant of Badab, Huron directs the pitiless reaving of his Red Corsairs with the ruthlessness of a pirate king, while accompanied by his esoteric Hamadrya. His Tyrant’s Claw is a bionic relic whose crackling talons tear through armour before the in-built incineration unit unleashes gouts of sulphurous fire.",
     "profiles": [
       {
         "name": "Huron Blackheart",
@@ -6242,7 +6270,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+2",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "1"
@@ -6578,7 +6606,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "2"
@@ -6825,7 +6853,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -7074,7 +7102,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "2"
@@ -7395,10 +7423,10 @@ export default [
         "points": 150
       }
     ],
-    "flavor": "These lieutenants of Huron Blackheart stand within the circle of their master’s trust, a position both privileged and dangerous. When they gather to fight in their lord’s shadow, they epitomise the cruelty, cunning and piratical tactics that have made the Red Corsairs such a mighty power in the Maelstrom and beyond.",
+    "flavor": "These lieutenants of Huron Blackheart stand within the circle of their tyrannical master’s trust, a position both privileged and dangerous. When they gather to fight in their lord’s shadow, they epitomise the cruelty, cunning and piratical tactics that have made the Red Corsairs such a mighty power in the Maelstrom and beyond.",
     "profiles": [
       {
-        "name": "GARLON SOULEATER, GARREON THE CORPSEMASTER, KATAR GARRIX",
+        "name": "Garreon the Corpsemaster",
         "m": "6\"",
         "t": "5",
         "sv": "3+",
@@ -7408,14 +7436,44 @@ export default [
         "baseSize": "40mm"
       },
       {
-        "name": "CAPTAIN SARGOTTA, THE ENFORCER",
+        "name": "Garlon Souleater",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1",
+        "baseSize": "40mm"
+      },
+      {
+        "name": "Katar Garrix",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1",
+        "baseSize": "40mm"
+      },
+      {
+        "name": "Captain Sargotta",
         "m": "6\"",
         "t": "3",
         "sv": "4+",
         "w": "3",
         "ld": "6+",
         "oc": "1",
-        "baseSize": "40mm / 32mm"
+        "baseSize": "40mm"
+      },
+      {
+        "name": "The Enforcer",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -7587,7 +7645,7 @@ export default [
         "points": 125
       }
     ],
-    "flavor": "Maulerfiends stalk the battlefield like immense hunting beasts. Once the enemy are in sight, these huge Daemon Engines thunder forward, even scaling defensive walls in their eagerness to get at the prey. Once amongst the foe, they slaughter anything in reach with their huge talons, crushing jaws and stabbing tendrils.",
+    "flavor": "Maulerfiends stalk the battlefield like immense hunting beasts. Once the enemy are in sight, these huge Daemon Engines thunder forward, even scaling defensive walls in their eagerness to get at the prey. Once amongst the foe, they slaughter anything in reach with their huge fists, crushing jaws and stabbing tendrils.",
     "profiles": [
       {
         "name": "Maulerfiend",
@@ -7936,7 +7994,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -8461,7 +8519,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -8684,7 +8742,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "0",
         "d": "1"
@@ -8765,7 +8823,7 @@ export default [
         "points": 65
       }
     ],
-    "flavor": "Renegade warlords and lieutenants, the Reave Captains of the Red Corsairs are masters of underhanded warfare. Combining the strategic nous of loyalist Space Marine commanders with the viciousness of the Heretic Astartes, these merciless war leaders exploit their foes’ every weakness and leave none alive.",
+    "flavor": "Renegade warlords and lieutenants of Huron Blackheart himself, the Reave Captains of the Red Corsairs are masters of underhanded warfare. Combining the strategic nous of loyalist Space Marine commanders with the hate-fuelled viciousness of the Heretic Astartes, these merciless war leaders exploit their foes’ every weakness and leave none alive.",
     "profiles": [
       {
         "name": "",
@@ -10768,7 +10826,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -10912,7 +10970,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-2",
         "d": "1"
@@ -11169,7 +11227,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "3",
         "ap": "0",
         "d": "1"

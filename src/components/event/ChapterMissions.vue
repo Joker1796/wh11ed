@@ -39,7 +39,8 @@
         {{ labels.missionsTypeTwists }}
       </button>
     </div>
-    <Transition name="fade">
+    <!-- Appears with the primary missions; the list under it slides down rather than jumps. -->
+    <ExpandTransition>
       <div
         v-if="showPrimary"
         class="filter-chips"
@@ -67,7 +68,7 @@
           {{ d.name }}
         </button>
       </div>
-    </Transition>
+    </ExpandTransition>
   </div>
 
   <!-- Primary missions — grouped by the five Force Dispositions -->
@@ -163,6 +164,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import ExpandTransition from '../ExpandTransition.vue'
 import MissionCard from './MissionCard.vue'
 import PrimaryMatrix from './PrimaryMatrix.vue'
 import TwistCard from './TwistCard.vue'

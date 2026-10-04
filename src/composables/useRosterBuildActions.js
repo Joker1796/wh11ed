@@ -19,7 +19,6 @@ import { computed, ref } from 'vue'
 import { uid } from './useRosters.js'
 import { addUnitEntry, dispositionCandidates, dpLimitFor, duplicateUnitEntry, settleSupremeWarlord } from './rosterEngine.js'
 import { useRosterUndo } from './useRosterUndo.js'
-import rosterCore from '../data/roster/core.js'
 
 export function useRosterBuildActions({ roster, factionData, curDetachments, effBattle, defOf, commit, setFaction }) {
   const list = () => roster() || null
@@ -40,9 +39,12 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
   }
 
   // ── Detachments ──
-  // Options for the DP-budget-aware multi-select picker (DetachmentPickerModal).
+  // Options for the DP-budget-aware multi-select picker (DetachmentPickerModal). `unique` is the
+  // detachment's tag (DYNASTY, HYPERCRYPT…): the picker prints it and hides a second detachment
+  // sharing it (25.04). It was left out of this mapping until 2026-10-03, so the builder showed no
+  // tags and let the clashing pair be picked — only validateRoster caught it afterwards.
   const detachmentOptions = computed(() =>
-    (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDispositions: d.fds || [] })))
+    (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDispositions: d.fds || [], unique: d.unique || '' })))
   const detachmentSummary = computed(() => (list()?.detachments || []).join(', '))
   const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
   const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
@@ -148,6 +150,5 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
     openUid, toggleOpen, openEntry,
     addUnit, duplicateEntry, removeEntry, toggleWarlord,
     undoable, undoRemove, dismissUndo,
-    battleSizes: rosterCore.battleSizes,
   }
 }

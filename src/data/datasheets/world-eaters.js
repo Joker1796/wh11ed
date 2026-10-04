@@ -11,7 +11,7 @@ export default [
         "points": 330
       }
     ],
-    "flavor": "Angron is rage given immortal form. An engine of destruction, he possesses the strength to tear apart Imperial bastions with his bare hands and stop Titans in their tracks. Armed with the sword Samni’arius and the axe Spinegrinder, he is capable of carving his way through entire armies of foes in a whirlwind of apocalyptic bloodshed.",
+    "flavor": "Angron is rage given immortal form. An engine of destruction, he has the strength to tear apart Imperial bastions with his bare hands and fell Titans. Armed with the sword Samni’arius and the axe Spinegrinder, he can carve through entire armies of foes in a whirlwind of apocalyptic bloodshed.",
     "profiles": [
       {
         "name": "Angron",
@@ -219,7 +219,7 @@ export default [
         "points": 90
       }
     ],
-    "flavor": "Bloodletters are hate and violence made manifest. Attacking in berserk packs or in martial, marching ranks, they hack apart their victims with monstrous hellblades. These weapons glow red-hot with the fury of their wielders, and even the slightest wound they inflict can see the victim bled dry in seconds.",
+    "flavor": "Bloodletters are hate and violence made manifest. Attacking in berserk packs or in martial marching ranks, they hack apart their victims with monstrous hellblades. These weapons glow red‐hot with the fury of their wielders, and even the slightest wound they inflict can see the victim bled dry in seconds.",
     "profiles": [
       {
         "name": "Bloodletters",
@@ -299,7 +299,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Bloodthirsters are supreme warriors, ferocious embodiments of the Blood God’s rage and murderlust. Commanders and champions of the Khornate daemon legions, Bloodthirsters are possessed of supreme martial skill. They wield baroque weapons of appalling power, and slaughter all in their paths.",
+    "flavor": "Bloodthirsters are commanding warriors, ferocious embodiments of the Blood God’s rage and murderlust. Champions of the Khornate daemon legions, Bloodthirsters possess supreme martial skills. They wield destructive weapons of appalling power and slaughter all in their paths.",
     "profiles": [
       {
         "name": "Bloodthirster",
@@ -333,7 +333,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -874,7 +874,7 @@ export default [
         "note": "4th+"
       }
     ],
-    "flavor": "Rhinos are well-adapted for battlefield transportation. Even when corrupted by the Warp and encrusted with dried blood, they remain as reliable as ever, safely carrying their passengers overfire-swept terrain. Many of these vehicles are adorned with blades and have machine spirits just as bloodthirsty as their occupants.",
+    "flavor": "Rhinos are well‐adapted for battlefield transportation. Even when corrupted by the Warp and encrusted with dried blood, they remain as reliable as ever, safely carrying their passengers over fire‐swept terrain. Many of these vehicles are adorned with blades and have machine spirits just as bloodthirsty as their occupants.",
     "profiles": [
       {
         "name": "Chaos Rhino",
@@ -978,7 +978,7 @@ export default [
         "points": 95
       }
     ],
-    "flavor": "Becoming a Chaos Spawn is the dark fate of many upon the Path to Glory. Wracked with the endless gifts of the Dark Gods, they are mutated mounds of muscle, writhing pseudopods, slathering maws and far more. Chaos Spawn are herded towards their terrified foes, advancing in loping runs, seeking only to tear, crush and consume.",
+    "flavor": "Becoming a Chaos Spawn is the dark fate of many upon the Path to Glory. Wracked with the endless gifts of the Dark Gods, they are mutated mounds of muscle, writhing pseudopods, slathering maws and far more. Chaos Spawn are herded towards their terrified foes, advancing in loping runs, seeking to tear, crush and consume.",
     "profiles": [
       {
         "name": "Chaos Spawn",
@@ -1097,7 +1097,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1200,7 +1200,7 @@ export default [
         "points": 200
       }
     ],
-    "flavor": "The trail of blood a World Eater must leave behind him to become a Daemon Prince is so vast that it could submerge entire worlds. For their deeds, the Lord of Rage has rewarded them with infernal immortality and might. In battle, Daemon Princes lead their warbands in devastating assaults, striding unharmed through enemy attacks.",
+    "flavor": "The trail of blood a World Eater must leave behind him to become a Daemon Prince is so immense that it could submerge entire worlds. For their deeds, the Lord of Rage has rewarded them with infernal immortality and might. In battle, Daemon Princes lead their warbands in devastating assaults, striding unharmed through enemy attack.",
     "profiles": [
       {
         "name": "Daemon Prince of Khorne",
@@ -1289,7 +1289,7 @@ export default [
         "points": 170
       }
     ],
-    "flavor": "Desperate eagerness to kill in Khorne’s name is a trait shared by all World Eaters Daemon Princes. The blessing of a pair of powerful, hooked wings is the perfect aid. Descending from the skies at the speed of bullets, they slam into their enemies, roaring oaths to Khorne and swearing the doom of those before them.",
+    "flavor": "Desperate eagerness to kill in Khorne’s name is a trait all World Eaters Daemon Princes share. The blessing of a pair of mighty, hooked wings is the perfect aid. Descending from the skies at the speed of bullets, they slam into their enemies, roaring oaths to Khorne and swearing the doom of those before them.",
     "profiles": [
       {
         "name": "Daemon Prince of Khorne with Wings",
@@ -1428,7 +1428,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "7",
         "ap": "-2",
         "d": "2"
@@ -1607,7 +1607,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Virtually unrecognisable from the World Eaters they once were, Eightbound are Heretic Astartes whose form is possessed by eight daemons of Khorne. As a result they have incredible strength and savagery far in excess of others in their warband. Carrying all manner of chain weapons, they can rip apart any who stand against them.",
+    "flavor": "Virtually unrecognisable from the World Eaters they once were, Eightbound are Chaos Space Marines whose form is possessed by eight daemons of Khorne. As a result, they have incredible strength and savagery far in excess of others in their warband. Carrying all manner of chain weapons, they rip apart any who stand against them.",
     "profiles": [
       {
         "name": "Eightbound",
@@ -1682,7 +1682,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Some Eightbound reach a level of apotheosis when the soul of the World Eater they once were becomes one with the eight daemons sharing their physical form. This only makes them more dangerous. With no internal competition for control over their body, the Exalted Eightbound possess a purer kind of rage that is directed at their foes.",
+    "flavor": "Some Eightbound reach a level of apotheosis where the soul of the World Eater they once were becomes one with the eight daemons sharing their physical form; this only makes them more dangerous. With no internal competition for control over their body, the Exalted Eightbound possess a purer form of unnatural rage to direct at their enemies.",
     "profiles": [
       {
         "name": "Exalted Eightbound",
@@ -1770,7 +1770,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1837,7 +1837,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Forgefiends are fused with enormous rotary cannons that fire fist-sized phosphor shells, or else with ancient artefact ordnance perverted to vomit ectoplasma from the beasts’ own innards. With such weaponry they mow down masses of enemy troops and blast glowing craters into the toughest opposition.",
+    "flavor": "Forgefiends are fused with enormous rotary cannons that fire fist‐sized phosphor shells or shoot with ancient artefact ordnance perverted to vomit ectoplasma from the beasts’ innards. With such weaponry, they mow down masses of enemy troops and blast glowing craters into the toughest opposition.",
     "profiles": [
       {
         "name": "Forgefiend",
@@ -1939,7 +1939,7 @@ export default [
         "points": 70
       }
     ],
-    "flavor": "Goremongers are mortal cultists obsessed with mechanically augmenting their physical forms into macabre approximations of Khome’s Bloodletter daemons. Their augmetic limbs propel them across the battlefield at terrifying speed, allowing them to bring their brutal chain weapons to bear before the foe can respond.",
+    "flavor": "Goremongers are mortal cultists obsessed with mechanically augmenting their physical forms into macabre approximations of Khorne’s Bloodletter daemons. Their augmetic limbs propel them across the battlefield at terrifying speed, allowing them to bring their brutal chain weapons to bear before the foe can respond.",
     "profiles": [
       {
         "name": "",
@@ -2038,7 +2038,7 @@ export default [
         "points": 120
       }
     ],
-    "flavor": "Helbrutes are walking engines of destruction; their frehzied occupants are kept alive in a state of agony and insanity. These infernal sarcophagi are fitted with various powerful armaments to blast enemy armour open from afar and cruel appendages with which to hack, crush and claim a bounty of skulls for Khorne.",
+    "flavor": "Helbrutes are walking engines of destruction; their frenzied occupants are kept alive in a state of agony and insanity. These infernal sarcophagi are fitted with various powerful armaments to blast enemy armour open from afar and cruel appendages with which to hack, crush and claim a bounty of skulls for Khorne.",
     "profiles": [
       {
         "name": "Helbrute",
@@ -2071,7 +2071,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -2271,7 +2271,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6+3",
-        "bs": "N/A",
+        "bs": "-",
         "s": "6",
         "ap": "-1",
         "d": "2"
@@ -2348,7 +2348,7 @@ export default [
         "points": 120
       }
     ],
-    "flavor": "Jakhals are amongst the strongest and most bloodthirsty of all the mortal followers of the World Eaters, and seek to emulate their gore-crazed masters in every way they can. When sent into battle, they enter the fray with wild abandon, hacking and slashing with their chain weapons in the hope of earning the favour of their lords.",
+    "flavor": "Jakhals are amongst the strongest and most bloodthirsty of the mortal followers of the World Eaters and seek to emulate their gore‐crazed masters in every way. When sent into battle, they enter the fray with wild abandon, hacking with their chain weapons in the hope of earning the favour of their lords.",
     "profiles": [
       {
         "name": "Jakhals",
@@ -2561,7 +2561,7 @@ export default [
         "points": 330
       }
     ],
-    "flavor": "Berzerkers of Khorne relish their role as the Blood God’s sacred destroyers, and are fanatical in the extreme. The warp-fuelled anger of these psychopathic warriors drives them into an endless frenzy of action. Those who face them in battle disappear under a rain of heavy blows, each potent enough to shear limbs and shatter shields.",
+    "flavor": "Berzerkers of Khorne relish their role as the Blood God’s sacred destroyers and are fanatical in the extreme. The warp‐fuelled anger of these psychopathic warriors drives them into an endless frenzy of action. Those who face them in battle disappear under heavy blows, each potent enough to shear limbs and shatter shields.",
     "profiles": [
       {
         "name": "Khorne Berzerkers",
@@ -2835,7 +2835,7 @@ export default [
         "points": 100
       }
     ],
-    "flavor": "A master of swift raiding, devastating counter-attacks and hit-and-run strategies, Lord Invocatus seeks to shed more blood and take more skulls for Khorne by moving from one war zone to another at great speed, leading his hosts as they smash into enemy battle lines while mounted upon his mighty Juggernaut, Khal’guruth.",
+    "flavor": "A master of swift raiding, devastating counterattacks and sudden, shocking assaults, Lord Invocatus seeks to shed more blood and take more skulls for Khorne by moving from one war zone to another at great speed, leading his hosts as they smash into enemy battle lines while mounted upon his mighty Juggernaut, Khal’guruth.",
     "profiles": [
       {
         "name": "Lord Invocatus",
@@ -3041,7 +3041,7 @@ export default [
         "points": 60
       }
     ],
-    "flavor": "Masters of Executions are corrupted axemen who single-mindedly seek out the greatest enemy champions to claim their skulls for Khorne, bellowing a fatal decree before crashing forward and hacking through armour, flesh and bone.",
+    "flavor": "Masters of Executions are corrupted axemen who single‐mindedly seek out the greatest enemy champions to claim their skulls for Khorne. They bellow a fatal decree before crashing forward and hacking through armour, flesh and bone.",
     "profiles": [
       {
         "name": "Master of Executions",
@@ -3225,7 +3225,7 @@ export default [
         "points": 315
       }
     ],
-    "flavor": "Never pausing, never relenting, Skarbrand storms across realspace hacking apart every luckless foe that stands in its path. Worse, all who find themselves in the daemon’s presence are seized by its feral murderlust, a madness that sees elegant strategies collapse into orgies of primal savagery.",
+    "flavor": "Never pausing, never relenting, Skarbrand storms across realspace, hacking apart every luckless foe in its path. Worse, all who find themselves in the daemon’s presence are seized by its feral murderlust, a madness that sees elegant strategies collapse into orgies of primal savagery.",
     "profiles": [
       {
         "name": "Skarbrand",
@@ -3247,7 +3247,7 @@ export default [
         ],
         "range": "12\"",
         "a": "2D6",
-        "bs": "N/A",
+        "bs": "-",
         "s": "8",
         "ap": "-1",
         "d": "1"

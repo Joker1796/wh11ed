@@ -133,3 +133,22 @@ for (const [label, shape] of [['a stored roster (editor)', asStored], ["the wiza
     })
   })
 }
+
+// The picker prints a detachment's tag and hides a second one sharing it (DetachmentPickerList) —
+// which it can only do if the options carry it. They did not until 2026-10-03: no tags on screen,
+// and the clashing pair two clicks away.
+describe('detachment options', () => {
+  it('carry each detachment’s tag', async () => {
+    const necrons = await loadRosterFaction('necrons')
+    const roster = ref({ faction: 'necrons', battleSize: 'strike-force', detachments: [], units: [] })
+    const factionData = ref(necrons)
+    const { curDetachments, effBattle, defOf } = useRosterDerived(roster, factionData)
+    const { detachmentOptions } = useRosterBuildActions({
+      roster: () => roster.value, factionData, curDetachments, effBattle, defOf, commit: () => {}, setFaction: () => {},
+    })
+    const tagOf = (n) => detachmentOptions.value.find((d) => d.name === n)?.unique
+    expect(tagOf('Awakened Dynasty')).toBe('DYNASTY')
+    expect(tagOf('Hand of the Dynasty')).toBe('DYNASTY')
+    expect(tagOf('Canoptek Court')).toBe('')
+  })
+})

@@ -102,7 +102,6 @@ The battle round then ends and, unless the battle ends, the next battle round st
         sectionNum: '08.02',
         title: 'Gain Core CP',
         body: `Both players gain 1 Command Point (CP).`,
-        note: 'Command Points are a valuable resource you can spend to use stratagems (15). The Gain Core CP step ensures that both players gain 1CP each turn. While these are termed Core CP here, they are Command Points like any other.',
         children: [
           {
             id: 'section-08-02-01',
@@ -294,7 +293,6 @@ Many **move types** state conditions you must meet while/after moving. Those tha
 ▪ Your unit must be **unengaged**.
 ▪ Until the end of the turn, unless otherwise stated, your unit is not **eligible to shoot**, **declare a charge** or **start an action**.
 ▪ **Desperate Escape:** If your unit is not **battle-shocked**, you must make a **battle-shock roll** for your unit (01.07).`,
-        note: '**SELECTING MODES**\nSome rules instruct you to select a mode, such as **fall-back moves** (09.07). Modes are mutually exclusive, and you must assess each one in the order presented. When making a move, if your unit does not meet the conditions of any of the modes, it cannot make that move.\n\nSometimes a mode will be mandatory if applicable (e.g. **consolidation modes** (12.08)), but in the case of **fall-back moves**, **ordered retreat** is not mandatory, so you could select **desperate escape** instead.\n\nMany **move types** state conditions you must meet while/after moving. Those that are labelled with a mode name only apply if you selected that mode; those not labelled with a mode name always apply.',
         children: [
           {
             id: 'section-09-07-01',
@@ -394,7 +392,7 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 ▪ **MONSTER/VEHICLE Models:** Each time a MONSTER/VEHICLE model in your unit makes an attack:
 ▫ Unless that attack is made with a [CLOSE-QUARTERS] weapon and targets a unit your unit is **engaged** with, subtract 1 from the **[gloss:hit-roll:hit roll]**.
 ▫ If that attack is made with a [BLAST] weapon, it still cannot target a unit your unit is **engaged** with.
-▪ **Non-MONSTER/VEHICLE Models:** You can only select [CLOSE-QUARTERS] weapons and only target units **engaged** with your unit.
+▪ **Non-MONSTER/Non-VEHICLE Models:** You can only select [CLOSE-QUARTERS] weapons to make attacks with and you can only select enemy units that are **engaged** with your unit as targets.
 ◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
       },
       {
@@ -405,10 +403,12 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 ▪ **Unengaged** and did not make an **advance move** this turn.
 ▪ Has one or more [INDIRECT FIRE] weapons.
 ◈ EFFECT | Your unit shoots as described in Making Attacks (04).
-◈ WHILE SHOOTING | [INDIRECT FIRE] weapons can target units **not visible** to the attacking model. Each time an [INDIRECT FIRE] weapon makes an attack:
-▪ The target has the **[gloss:benefit-of-cover:benefit of cover]** against that attack (13.08).
-▪ You cannot re-roll **hit rolls**.
-▪ An **unmodified hit roll of 1–5** fails, unless your unit remained stationary this turn and the target is visible to a friendly unit — in which case **unmodified 1–3** fails instead.
+◈ WHILE SHOOTING
+▪ [INDIRECT FIRE] weapons in your unit can target units that are not **visible** to the attacking model.
+▪ Each time an [INDIRECT FIRE] weapon makes an attack:
+▫ The target has the **[gloss:benefit-of-cover:benefit of cover]** against that attack (13.08).
+▫ You cannot re-roll **hit rolls**.
+▫ An unmodified **hit roll** of 1–5 fails, unless your unit **[gloss:remain-stationary:remained stationary]** this turn and the target is **visible** to one or more friendly units, in which case an unmodified **hit roll** of 1–3 fails instead.
 ◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
         note: '**INDIRECT FIRE**\nWhen you select **indirect shooting** for a unit, its [INDIRECT FIRE] weapons can launch punishing barrages on targets that are not visible, but don\'t forget that its other weapons can still target other visible targets.',
       },
@@ -435,7 +435,6 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
         sectionNum: '11.01',
         title: 'Start of Charge Phase',
         body: `Rules that are triggered at the start of the Charge phase are resolved now.`,
-        note: 'Failed Charges: Note that, in the absence of modifiers to the **[gloss:charge-roll:charge roll]**, a result of 2 (a double 1) is never sufficient for a unit to complete a **[gloss:charge-move:charge move]**, as a unit cannot be within **[gloss:engagement-range:engagement range]** (2") when it attempts a charge. Such a roll would therefore result in a [gloss:failed-charge:failed charge], and the unit would not move.',
       },
       {
         id: 'section-11-02',
@@ -444,7 +443,7 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
         seeAlso: ['Target No Longer Eligible or Viable 24.00'],
         body: `The active player resolves charges with their eligible units one at a time, using the sequence below, until all of their units they choose to charge with have declared a charge and those charges have been resolved.
 
-1. Declare Charge: Select one friendly unit that has not declared a charge this phase and is **eligible to declare a charge**. That unit declares a charge. A unit is **eligible to declare a charge** if it is on the battlefield, unless otherwise stated. Some rules that prevent a unit from being **eligible to declare a charge**:
+1. Declare Charge: Select one friendly unit that has not declared a charge this phase and is **eligible to declare a charge**. That unit declares a charge. A unit is **eligible to declare a charge** if it is on the battlefield, unless otherwise stated. Here are some rules that prevent a unit from being **eligible to declare a charge**:
 ▪ It is not within 12" of one or more enemy units.
 ▪ It is engaged.
 ▪ It made an [gloss:advance:advance] or **fall-back move** this turn.
@@ -545,8 +544,8 @@ Because both **RED** units made **charge moves** this turn, they are both **Figh
 ▪ It was selected to make an **[gloss:overrun:overrun fight]** this phase (12.06).
 ◈ EFFECT | Your unit moves as described in Moving (03).
 ◈ BEFORE MOVING | Select **pile-in targets**:
-▪ If your unit is **engaged**, select every enemy unit it is **engaged** with as your **pile-in targets**.
-▪ Otherwise, select one or more enemy units within 5" of your unit as your **pile-in targets**.
+▪ If your unit is **engaged**, select every enemy unit it is **engaged** with.
+▪ Otherwise, select one or more enemy units within 5" of your unit.
 ◈ WHILE MOVING
 ▪ Models in base-contact with one or more enemy models cannot be moved.
 ▪ Each model that is moved must end its move closer to the closest **pile-in target**, and **engaged** with it if possible.
@@ -652,6 +651,10 @@ Players alternate selecting units to fight. **Fights First** units (**A** and **
         id: 'section-12-08',
         sectionNum: '12.08',
         title: 'Consolidation Move',
+        // GW's errata changed this rule's text and the app's own rule has not taken it in yet
+        // (scripts/lib/appdata-exceptions.mjs, core-consolidation-ongoing-errata) — the page says
+        // so under the rule and links the errata entry in the Reference chapter.
+        errataRef: { anchor: 'errata-12-08', date: '2026-08-26' },
         body: `◈ MAXIMUM DISTANCE | 3"
 ◈ ELIGIBLE IF | It is the Fight phase and your unit was **eligible to fight** this phase.
 ◈ EFFECT | Your unit moves as described in Moving (03).
@@ -664,7 +667,7 @@ Players alternate selecting units to fight. **Fights First** units (**A** and **
 ▪ **Engaging Consolidation:** Each model that is moved must end its move closer to the closest selected enemy unit, and **engaged** with it if possible.
 ▪ **Objective Consolidation:** Each model that is moved must end its move within range of the selected objective if possible, or closer to it if not.
 ◈ AFTER MOVING
-▪ **Ongoing Consolidation:** Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
+▪ **Ongoing Consolidation:** Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight** (12.04).
 ▪ **Engaging Consolidation:** Your unit must be **engaged** with all of the selected enemy units. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight** (12.04).
 ▪ **Objective Consolidation:** Your unit must be **unengaged** and within range of the selected objective.`,
         note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its **consolidation move** **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
@@ -772,7 +775,6 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
       {
         title: 'Получение базовых CP',
         body: `Оба игрока получают 1 командное очко (CP).`,
-        note: 'Командные очки (CP) — это ценный ресурс, который вы можете тратить на использование стратагем (15). Этап получения базовых CP гарантирует, что оба игрока получают по 1 CP в каждый ход. Хотя здесь они называются базовыми (Core CP), это такие же командные очки, как и любые другие. Некоторые правила иногда упоминают «базовые CP» (Core CP), когда говорят об этих очках.',
         children: [
           {
             title: 'Командные очки (Command Points)',
@@ -916,7 +918,6 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 ▪ Ваш юнит должен быть **[gloss:unengaged:не связан боем]**.
 ▪ До конца хода, если не указано иное, ваш юнит **не имеет права стрелять**, **объявлять нападение** и **начинать [gloss:action:действие]**.
 ▪ **Отчаянный побег:** Если ваш юнит не подвержен **боевому шоку**, вы должны сделать **[gloss:battle-shock-test:проверку боевого шока]** для вашего юнита (01.07).`,
-        note: '**ВЫБОР РЕЖИМОВ**\nНекоторые правила предписывают вам выбирать режим, например, [gloss:fall-back-move:для отступления] (09.07). Режимы взаимоисключающие, и вы должны оценивать каждый в представленном порядке. При совершении манёвра, если ваш юнит не соответствует условиям ни одного из режимов, он не может совершить этот манёвр.\n\nИногда режим является обязательным, если применим (например, [gloss:consolidation:режимы консолидации] (12.08)), но в [gloss:fall-back-move:случае отступления] [gloss:ordered-retreat:упорядоченное отступление] не является обязательным, поэтому вы можете вместо него выбрать [gloss:desperate-escape:отчаянный побег].\n\nМногие [gloss:move-type:типы манёвров] указывают условия, которые должны быть соблюдены во время/после манёвра. Те, которые помечены названием режима, применяются только если вы выбрали этот режим; те, которые не помечены названием режима, применяются всегда.',
         children: [
           {
             title: 'Проверка отчаянного побега (Desperate Escape Test)',
@@ -995,7 +996,7 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 ▪ **Модели MONSTER/VEHICLE:** Каждый раз, когда модель MONSTER/VEHICLE в вашем юните совершает атаку:
 ▫ Если эта атака не совершается орудием [CLOSE-QUARTERS] и не нацелена на юнит, с которым ваш юнит связан боем, вычтите 1 из **[gloss:hit-roll:броска на попадание]**.
 ▫ Если эта атака совершается орудием [BLAST], оно по-прежнему **не может** нацеливаться на юнит, с которым ваш юнит **[gloss:engaged:связан боем]**.
-▪ **Модели без MONSTER/VEHICLE:** Вы можете выбирать только орудия [CLOSE-QUARTERS] и только целями **[gloss:engaged:связанные боем]** с вашим юнитом вражеские юниты.
+▪ **Модели без MONSTER и без VEHICLE:** Вы можете выбирать для атак только орудия [CLOSE-QUARTERS] и можете выбирать целями только вражеские юниты, **[gloss:engaged:связанные боем]** с вашим юнитом.
 ◈ ПОСЛЕ СТРЕЛЬБЫ | До конца фазы ваш юнит **не имеет права [gloss:eligible-to-act:начинать действие]**.`,
       },
       {
@@ -1004,10 +1005,12 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 ▪ **[gloss:unengaged:Не связан боем]** и не совершал **[gloss:advance-move:продвижение]** в этом ходу.
 ▪ Имеет одно или несколько орудий [INDIRECT FIRE].
 ◈ ЭФФЕКТ | Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).
-◈ ВО ВРЕМЯ СТРЕЛЬБЫ | Орудия [INDIRECT FIRE] в вашем юните могут стрелять по юнитам, **[gloss:hidden:невидимым]** атакующей модели. Каждый раз, когда орудие [INDIRECT FIRE] совершает атаку:
-▪ Цель получает **[gloss:benefit-of-cover:преимущество укрытия]** от этой атаки (13.08).
-▪ Вы **не можете** перебрасывать **[gloss:hit-roll:броски на попадание]**.
-▪ **Немодифицированный бросок на попадание 1–5** проваливается, если только ваш юнит не оставался неподвижным в этом ходу и цель не видна союзному юниту — в таком случае вместо этого проваливается немодифицированный бросок **1–3**.
+◈ ВО ВРЕМЯ СТРЕЛЬБЫ
+▪ Орудия [INDIRECT FIRE] в вашем юните могут стрелять по юнитам, **[gloss:not-visible:невидимым]** для атакующей модели.
+▪ Каждый раз, когда орудие [INDIRECT FIRE] совершает атаку:
+▫ Цель получает **[gloss:benefit-of-cover:преимущество укрытия]** от этой атаки (13.08).
+▫ Вы не можете перебрасывать **[gloss:hit-roll:броски на попадание]**.
+▫ Немодифицированный **бросок на попадание** 1–5 проваливается, если только ваш юнит не **[gloss:remain-stationary:оставался неподвижным]** в этом ходу и цель не **видна** одному или нескольким союзным юнитам, — в таком случае вместо этого проваливается немодифицированный **бросок на попадание** 1–3.
 ◈ ПОСЛЕ СТРЕЛЬБЫ | До конца фазы ваш юнит **не имеет права [gloss:eligible-to-act:начинать действие]**.`,
         note: '**НЕПРЯМОЙ ОГОНЬ**\nКогда вы выбираете непрямую стрельбу для юнита, его орудия [INDIRECT FIRE] могут обрушивать губительные залпы на цели, которые не видны, но не забывайте, что его другое оружие всё ещё может нацеливаться на другие видимые цели.',
       },
@@ -1028,7 +1031,6 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
       {
         title: 'Начало фазы нападения',
         body: `Правила, срабатывающие в начале фазы нападения, отыгрываются сейчас.`,
-        note: 'Проваленные нападения (Failed Charges): Обратите внимание, что при отсутствии модификаторов [gloss:charge-roll:броска нападения] результат 2 (две единицы) никогда недостаточен для завершения юнитом [gloss:charge-move:манёвра нападения], так как юнит не может находиться в радиусе связывания боем (2") при попытке совершить [gloss:charge:нападение]. Такой бросок привёл бы к [gloss:failed-charge:провалу нападения], и юнит не переместился бы.',
       },
       {
         title: 'Нападение (Charge)',
@@ -1218,7 +1220,7 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 ▪ **Боевая консолидация:** Каждая перемещаемая модель должна завершить свой манёвр ближе к ближайшему выбранному вражескому юниту и **[gloss:engaged:связанной боем]** с ним, если возможно.
 ▪ **Консолидация на цели:** Каждая перемещаемая модель должна завершить свой манёвр в пределах досягаемости выбранной [gloss:objective:цели], если возможно, или ближе к ней, если нет.
 ◈ ПОСЛЕ МАНЁВРА
-▪ **Продолжающаяся консолидация:** Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.
+▪ **Продолжающаяся консолидация:** Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом. Если один или несколько вражеских юнитов, **[gloss:engaged:связанных боем]** с вашим юнитом, ещё не были **[gloss:selected-to-fight:выбраны для боя]** в этой фазе, ваш оппонент должен выбрать каждый из таких юнитов поочерёдно; когда каждый выбран, он **получает [gloss:eligible-to-fight:право сражаться]** и **[gloss:selected-to-fight:выбирается для боя]** (12.04).
 ▪ **Боевая консолидация:** Ваш юнит должен быть **[gloss:engaged:связан боем]** со всеми выбранными вражескими юнитами. Если один или несколько вражеских юнитов, **[gloss:engaged:связанных боем]** с вашим юнитом, ещё не были **[gloss:selected-to-fight:выбраны для боя]** в этой фазе, ваш оппонент должен выбрать каждый из таких юнитов поочерёдно; когда каждый выбран, он **получает [gloss:eligible-to-fight:право сражаться]** и **[gloss:selected-to-fight:выбирается для боя]** (12.04).
 ▪ **Консолидация на цели:** Ваш юнит должен быть **[gloss:unengaged:не связан боем]** и находиться в пределах досягаемости выбранной [gloss:objective:цели].`,
         note: '**НОВЫЕ ВРАГИ ДЛЯ СТОЛКНОВЕНИЯ**\nПри использовании режима **[gloss:consolidation:боевой консолидации]** ваш юнит может завершить свою консолидацию **[gloss:engaged:связанным боем]** с вражескими юнитами, которые ещё не сражались в этой фазе. В таком случае каждый из этих вражеских юнитов получит возможность атаковать ваш юнит, поэтому продумайте, насколько агрессивно вы хотите перемещать свой юнит, используя этот режим.',

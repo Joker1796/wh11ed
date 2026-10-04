@@ -1313,6 +1313,7 @@ export default {
       "effects": [
         {
           "on": "unit",
+          "target": "unit",
           "stat": "core",
           "op": "grant",
           "value": "Scouts 5\"",
@@ -1335,6 +1336,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "RAPID FIRE 1",
@@ -1438,6 +1440,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "ASSAULT",

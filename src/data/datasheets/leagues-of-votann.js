@@ -116,7 +116,7 @@ export default [
         "points": 85
       }
     ],
-    "flavor": "Wielding the mighty pick-hammer Kromlôk’s Revenge, Berehk Stornbröw leads his hand-chosen Cthonian Beserks – known as Berehk’s Breakers – into the heart of battle. Able to shrug off almost any punishment his enemies level against him and keep on fighting, Berehk is an unstoppable force of destruction who specialises in laying low the enemy’s champions.",
+    "flavor": "Wielding the mighty pick-hammer Kromlôk’s Revenge, Berehk Stornbröw leads his hand-chosen Cthonian Beserks – known as Berehk’s Breakers – into the heart of battle. Able to shrug off almost any punishment his enemies level against him and keep on fighting, Berehk is an unstoppable force of destruction who specialises in laying low the enemy’s champions",
     "profiles": [
       {
         "name": "",
@@ -209,7 +209,7 @@ export default [
         "points": 70
       }
     ],
-    "flavor": "Iron-masters are the most accomplished Brôkhyrs of their Kindred. In battle, they take on the duty of maintaining damaged Kin war engines, often aided by Ironkin and COG repair crews. These veteran Brôkhyrs also bring their most powerful personal creations to war, taking satisfaction in unleashing them upon the foe.",
+    "flavor": "Iron‑masters are amongst the most accomplished Brôkhyr of their guild. In battle, they maintain damaged war engines and mechanised soldiery, often aided by Ironkin and COG repair crews. These veteran Brôkhyr also bring their most powerful personal creations to war, taking satisfaction in unleashing them upon the foe.",
     "profiles": [
       {
         "name": "BRÔKHYR IRON-MASTER",
@@ -339,7 +339,7 @@ export default [
       "1 Ironkin Assistant",
       "3 E-COGS*"
     ],
-    "loadout": "* If this unit’s Brôkhyr Iron-master model is ever destroyed, all of this unit’s remaining E-COG models are also destroyed. While embarking within a Transport and while embarked within a TRANSPORT, each E-COG model takes up the space of 0 models.\n\n**The Brôkhyr Iron-master is equipped with:** graviton rifle; graviton hammer.\n\n**The Ironkin Assistant is equipped with:** las-beam cutter; close combat weapon.\n\n**One E-COG is equipped with:** Autoch-pattern bolt pistol; close combat weapon.\n\n**One other E-COG is equipped with:** plasma torch.\n\n**One other E-COG is equipped with:** manipulator arms.",
+    "loadout": "* If this unit’s Brôkhyr Iron-master model is ever destroyed, all of this unit’s remaining E-COG models are also destroyed. While embarking within a Transport and while embarked within a TRANSPORT, each E-COG model takes up the space of 0 models.\n\n**The Iron-master is equipped with:** graviton rifle; graviton hammer.\n\n**The Ironkin Assistant is equipped with:** las-beam cutter; close combat weapon.\n\n**One E-COG is equipped with:** Autoch-pattern bolt pistol; close combat weapon.\n\n**One other E-COG is equipped with:** plasma torch.\n\n**One other E-COG is equipped with:** manipulator arms.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -575,7 +575,7 @@ export default [
         "points": 180
       }
     ],
-    "flavor": "Cthonian Beserks are amongst the most heavily augmented and courageous Kin. Brandishing mining-tools-cum-weapons-of-war and unleashing explosives that tunnel through solid rock, the Beserks storm the enemy’s strongpoints and break them open like an asteroid filled with seams of precious ore.",
+    "flavor": "Cthonian Beserks are amongst the most heavily augmented and courageous Kin. Brandishing mining tools that double as weapons of war and unleashing explosives that tunnel through solid rock, the Beserks storm the enemy’s strong points and rupture them as if they were asteroids filled with seams of precious ore.",
     "profiles": [
       {
         "name": "Cthonian Beserks",
@@ -677,7 +677,7 @@ export default [
         "points": 100
       }
     ],
-    "flavor": "Earthshakers undermine enemy positions with subterranean artillery fire. Some batteries use tremor shells to destabilise strongpoints with deadly quakes. Breacher ordnance, meanwhile, drills to the surface before detonating in a storm of shrapnel, whilst those payloads which initially fail to lock onto their targets hunt them down using geomontic echolocation.",
+    "flavor": "Earthshakers undermine enemy positions with subterranean artillery fire. Some batteries use tremor shells to destabilise strongpoints with deadly quakes. Breacher ordnance, meanwhile, drills to the surface before detonating in a storm of shrapnel, whilst those payloads which initially fail to lock onto their targets hunt them down using geomantic echolocation.",
     "profiles": [
       {
         "name": "",
@@ -780,7 +780,7 @@ export default [
         "points": 65
       }
     ],
-    "flavor": "Einhyr Champions wear modified exo-armour fitted with mass drivers. Combined with their formidable close-quarters weaponry and bulky RAM shields, this wargear transforms them into living battering rams whose accelerated charge hits hard enough to smash clean through armoured fortress gates.",
+    "flavor": "Einhyr Champions wear modified exoarmour fitted with mass drivers. Combined with their formidable close‑quarters weaponry and bulky RAM shields, this wargear transforms them into living battering rams whose accelerated charge hits hard enough to smash clean through armoured fortress gates.",
     "profiles": [
       {
         "name": "Einhyr Champion",
@@ -896,7 +896,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Clad in formidable exo-armour and equipped with a fearsome array of weaponry, Einhyr Hearthguard are a force to be reckoned with. Whether forming bodyguards around their Oathband’s heroes or striking deep into the heart of enemy territory, they are unstoppable on the attack and immovable in defence.",
+    "flavor": "Clad in formidable exoarmour and equipped with a fearsome array of weaponry, Einhyr Hearthguard are a force to be reckoned with. Whether forming bodyguards around their oathband’s heroes or striking deep into the heart of enemy territory, they are unstoppable on the attack and immovable in defence.",
     "profiles": [
       {
         "name": "Einhyr Hearthguard",
@@ -1025,7 +1025,7 @@ export default [
         "points": 65
       }
     ],
-    "flavor": "The Grimnyr – or Living Ancestors – are privy to the wisdom of the Votann, and as close as to priests as the secular Kin get. Equipped with barrier tech such as ward staves and energy-focusing CORVS, they are able to rouse the fury of the immaterium against their foes.",
+    "flavor": "The Grimnyr – or Living Ancestors – are privy to the wisdom of the Votann and as close to priests as the secular Kin get. Equipped with barrier tech such as ward staves and energy‑focusing CORVs, they can rouse the fury of the Immaterium against their foes.",
     "profiles": [
       {
         "name": "GRIMNYR",
@@ -1151,7 +1151,7 @@ export default [
         "points": 90
       }
     ],
-    "flavor": "Well-armoured, well-trained and equipped with an array of powerful weaponry, Hearthkyn Warriors form the backbone of most Oathbands. Led by their Theyns, they lay down hails of firepower, shrugging off the enemy’s return volleys before storming in to shatter their wavering foes for good.",
+    "flavor": "Well‑armoured, well‑trained and equipped with powerful weaponry, Hearthkyn Warriors form the backbone of most oathbands. Led by their Theyns, they lay down hails of firepower, shrugging off the enemy’s return volleys before storming in to shatter their wavering foes for good.",
     "profiles": [
       {
         "name": "Hearthkyn Warriors",
@@ -1367,7 +1367,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "The iconic battle tank and armoured transport of the Leagues of Votann, the Hekaton Land Fortress is as venerable and well-respected as it is powerful. With a fearsome arsenal of heavy weaponry and tremendously resilient armour – and with the ability to bear bands of Kin soldiery into battle – it is a versatile military asset.",
+    "flavor": "The iconic battle tank and armoured transport of the Leagues of Votann, the Hekaton Land Fortress is as venerable and well‑respected as it is powerful. With a fearsome arsenal of heavy weaponry, tremendously resilient armour, and the ability to bear bands of Kin soldiery into battle, it is a versatile military asset.",
     "profiles": [
       {
         "name": "Hekaton Land Fortress",
@@ -1550,7 +1550,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Hernkyn Pioneers skim across alien worlds and scout enemy positions, riding on their magna-coil bikes. Fast, resilient, ond possessed of formidable firepower, these far-ranging bands of warriors often strike at the foe from unexpected quarters or send bock intelligence on enemy movements to their oathbond’s commanders.",
+    "flavor": "Hernkyn Pioneers skim across alien worlds and scout enemy positions, riding on their magna‑coil bikes. Fast, resilient, and possessed of formidable firepower, these far‑ranging bands of warriors often strike at the foe from unexpected quarters or send back intelligence on enemy movements to their oathband’s commanders.",
     "profiles": [
       {
         "name": "Hernkyn Pioneers",
@@ -1825,7 +1825,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Gifted by the Votann with innate martial talents, Ironkin Steeljacks are natural soldiers. They can anchor entire battle lines, shrugging off enemy firepower that would fell lesser Kin. When on the offensive, they unleash precision salvoes of searing volkanite beams that scour chosen joes from sites of value to their kindred.",
+    "flavor": "Gifted by the Votann with innate martial talents, Ironkin Steeljacks are natural soldiers. They can anchor entire battle lines, shrugging off enemy firepower that would fell lesser Kin. When on the offensive, they unleash precision salvoes of searing volkanite beams that scour chosen foes from sites of value to their kindred.",
     "profiles": [
       {
         "name": "",
@@ -1941,7 +1941,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "When equipped with oversized plasma swords or concussion gauntlets to match their larger frames, Ironkin Steeljacks excel as piledriving shock troops. Such squads can smash breaches in enemy lines, pulverise the foe’s elite infantry and tear holes in armoured plating, and monstrous flesh alike.",
+    "flavor": "When equipped with oversized plasma swords or concussion gauntlets to match their larger frames, Ironkin Steeljacks excel as piledriving shock troops. Such squads can smash breaches in enemy lines, pulverise the foe’s elite infantry and tear holes in armoured plating and monstrous flesh alike.",
     "profiles": [
       {
         "name": "",
@@ -2031,7 +2031,7 @@ export default [
         "points": 65
       }
     ],
-    "flavor": "Most Oathbands are led by a Kâhl, whose strategic wisdom, determination and martial might are an inspiration to their warriors. Kâhls are often equipped with especially powerful weapons and potent field or teleportation technologies, the better to lead the fight from the front and bring down the deadliest foes.",
+    "flavor": "Most oathbands are led by a Kâhl, whose strategic wisdom, determination and martial might inspire their warriors. Kâhls are often equipped with potent weapons and teleportation technologies, the better to lead the fight from the front and bring down the deadliest foes.",
     "profiles": [
       {
         "name": "Kâhl",
@@ -2259,7 +2259,7 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Kapricus Defenders are swift, magna-coil scouting engines. Heavily armed, some carry magna-roil cannons that can annihilate battle tanks many times the Defender’s mass. Others carry rapid-firing rotary cannons, which, paired with a Defender's magna-coil autocannons, enable their Hernkyn crew to scythe through enemy infantry to support Kin advances.",
+    "flavor": "Kapricus Defenders are swift, magna‑coil scouting engines. Heavily armed, some carry magna‑rail cannons that can annihilate battle tanks many times the Defender’s mass. Others carry rapid‑firing rotary cannons, which, paired with a Defender’s magna‑coil autocannons, enable their Hernkyn crew to scythe through enemy infantry to support Kin advances.",
     "profiles": [
       {
         "name": "",
@@ -2364,7 +2364,7 @@ export default [
         "points": 45
       }
     ],
-    "flavor": "Memnyr Strategists ore superlative martial tacticians. They offer tactical insights to outmanoeuvre the foe and map the enemy’s vulnerabilities. They can extrapolate a foe’s plans so well that their advice borders supernatural precognition, enabling the Kin to strike devastating blows when least expected.",
+    "flavor": "Memnyr Strategists are superlative martial tacticians. They offer tactical insights to outmanoeuvre the foe and map the enemy’s vulnerabilities. They can extrapolate a foe’s plans so well that their advice borders supernatural precognition, enabling the Kin to strike devastating blows when least expected.",
     "profiles": [
       {
         "name": "Memnyr Strategist",
@@ -2449,7 +2449,7 @@ export default [
         "note": "4th+"
       }
     ],
-    "flavor": "Designed to survive the worst that hostile worlds and alien predators can throw at it, the Sagitaur is a rugged ATV ideally suited to scouting operations and swift, armoured offensives. Sagitaurs mount a remarkable amount of firepower for their size, and can even knock out enemy battle tanks.",
+    "flavor": "Designed to survive the worst that hostile worlds and alien predators can throw at it, the Sagitaur is a rugged ATV ideally suited to scouting operations and swift, armoured offensives. Sagitaurs mount a remarkable amount of firepower for their size and can even knock out enemy battle tanks.",
     "profiles": [
       {
         "name": "Sagitaur",

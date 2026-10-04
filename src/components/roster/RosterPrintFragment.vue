@@ -169,18 +169,21 @@
             <span class="c-strat">{{ st.name }}</span><em v-if="st.nameRu"> · {{ st.nameRu }}</em>
             <span class="rps-cp">{{ st.cp }}</span>
           </h4>
-          <p class="rps-strat-when">
-            {{ st.when }}
-          </p>
+          <!-- Through the inline renderer, like every other rule text on the sheet: the fields carry
+               markup (`**…**`, `[gloss:…]` since 2.7.9), and as plain text it printed raw. -->
+          <p
+            class="rps-strat-when"
+            v-html="renderInline(st.when)"
+          />
           <!-- The gap between the parts is CSS, not a trailing space in the template — the
                compiler's whitespace condensing eats one, and TARGET ran straight into EFFECT. -->
           <p
             v-if="opts.stratagemText"
             class="rps-strat-text"
           >
-            <span v-if="st.target"><strong>{{ labels.stratTarget }}:</strong> {{ st.target }}</span>
-            <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> {{ st.effect }}</span>
-            <span v-if="st.restrictions"><strong>{{ labels.stratRestrictions }}:</strong> {{ st.restrictions }}</span>
+            <span v-if="st.target"><strong>{{ labels.stratTarget }}:</strong> <span v-html="renderInline(st.target)" /></span>
+            <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> <span v-html="renderInline(st.effect)" /></span>
+            <span v-if="st.restrictions"><strong>{{ labels.stratRestrictions }}:</strong> <span v-html="renderInline(st.restrictions)" /></span>
           </p>
         </article>
       </div>
@@ -209,6 +212,7 @@ import RuleBody from '../RuleBody.vue'
 import RosterPrintUnitCard from './RosterPrintUnitCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useRenderInline } from '../../composables/useRenderInline.js'
 
 const props = defineProps({
   // A block descriptor from RosterPrintSheet: { id, kind, units, cols? }.
@@ -221,6 +225,7 @@ const props = defineProps({
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const { renderInline } = useRenderInline()
 
 const slice = computed(() => props.block.units.slice(props.from, props.to))
 const uid = (i) => `${props.block.id}:${props.from + i}`

@@ -397,7 +397,8 @@ export default [
       "units": [
         "Deathwing Knights",
         "Deathwing Terminator Squad",
-        "Terminator Squad"
+        "Terminator Squad",
+        "Deathwing Command Squad"
       ]
     },
     "keywords": [

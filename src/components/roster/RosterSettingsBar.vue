@@ -27,6 +27,19 @@
       >
     </label>
 
+    <!-- The points limit before the faction (owner, 2026-10-03), as on the phone's form. What it
+         decides besides the points is said in the picker's own rows; once chosen, the line shows
+         the value alone. -->
+    <div class="rw-field">
+      <span>{{ labels.rosterPointsLimitLabel }}</span>
+      <RosterBattleSizeField
+        variant="bar"
+        :faction="factionSlug"
+        :limit="limit"
+        @update:limit="$emit('update:limit', $event)"
+      />
+    </div>
+
     <!-- The pickers drop down under their fields rather than covering the screen (owner,
          2026-10-01), with the modal's own rows inside (PickerDropdown). -->
     <div class="rw-field">
@@ -57,17 +70,19 @@
     <div class="rw-field">
       <span>
         {{ labels.rosterDetachmentLabel }}
-        <em
-          v-if="factionSlug"
-          class="dp-count"
-          :class="{ over: dpSpent > dpLimit }"
-        >{{ dpSpent }} / {{ dpLimit }} DP</em>
+        <ExpandTransition>
+          <em
+            v-if="factionSlug"
+            class="dp-count"
+            :class="{ over: dpSpent > dpLimit }"
+          >{{ dpSpent }}<template v-if="Number.isFinite(dpLimit)"> / {{ dpLimit }}</template> DP</em>
+        </ExpandTransition>
       </span>
       <!-- Several can be taken under the DP budget, so a pick leaves it open; a click outside or
            Escape closes it. -->
       <PickerDropdown
         v-model:open="detachmentPickerOpen"
-        width="30rem"
+        width="32rem"
         :label="labels.trackerDpBudget"
       >
         <template #trigger="{ toggle, open }">
@@ -93,95 +108,67 @@
       </PickerDropdown>
     </div>
 
-    <div class="rw-field">
-      <span>{{ labels.rosterBattleSizeLabel }}</span>
-      <div class="rw-row">
-        <div class="seg">
-          <button
-            v-for="b in battleSizes"
-            :key="b.id"
-            :class="{ on: battleSize === b.id }"
-            @click="$emit('update:battleSize', b.id)"
-          >
-            {{ b.points }}
-          </button>
-          <button
-            :class="{ on: battleSize === 'custom' }"
-            @click="$emit('update:battleSize', 'custom')"
-          >
-            {{ labels.rosterCustom }}
-          </button>
-        </div>
-        <Transition name="fade">
-          <input
-            v-if="battleSize === 'custom'"
-            class="rw-num"
-            type="number"
-            min="0"
-            step="5"
-            :value="customPoints"
-            @input="$emit('update:customPoints', $event.target.value)"
-          >
-        </Transition>
-      </div>
-    </div>
-
     <!-- An army has ONE Force Disposition. One on offer settles it and there is nothing to ask;
          several make it a declaration, and the list is where it is declared — here a dropdown, in
          the shape of the faction and detachment fields beside it (owner, 2026-10-01: on one line
          a row of buttons was the odd one out). The phone's form keeps its segmented control. -->
-    <div
-      v-if="factionSlug && dispositionCands.length"
-      class="rw-field"
-    >
-      <span>{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
-      <span
-        v-if="dispositionCands.length === 1"
-        class="rw-static"
-      >{{ dispositionCands[0] }}</span>
-      <PickerDropdown
-        v-else
-        v-model:open="dispositionPickerOpen"
-        class="rw-fd"
-        width="12rem"
-        align="right"
-        :label="labels.rosterDispositionDeclared"
+    <!-- What appears on this line as the list takes shape — the declared disposition, the DP
+         count, the custom limit's sliders — opens by sliding its neighbours aside and closes the
+         same way (ExpandTransition, owner 2026-10-03). -->
+    <ExpandTransition>
+      <div
+        v-if="factionSlug && dispositionCands.length"
+        class="rw-field"
       >
-        <template #trigger="{ toggle, open }">
-          <button
-            class="rw-choose"
-            :aria-expanded="open"
-            @click="toggle"
-          >
-            <span
-              v-if="dispositionCands.includes(disposition)"
-              class="tone tone-chip"
-              :style="toneVars(dispositionColor(disposition))"
-            >{{ disposition }}</span>
-            <span
-              v-else
-              class="placeholder"
-            >{{ labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-down" />
-          </button>
-        </template>
-        <div class="modal-list rw-fd-list">
-          <button
-            v-for="d in dispositionCands"
-            :key="d"
-            type="button"
-            class="rw-fd-opt"
-            :class="{ on: disposition === d }"
-            @click="dispositionPickerOpen = false; $emit('update:disposition', d)"
-          >
-            <span
-              class="tone tone-chip"
-              :style="toneVars(dispositionColor(d))"
-            >{{ d }}</span>
-          </button>
-        </div>
-      </PickerDropdown>
-    </div>
+        <span>{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
+        <span
+          v-if="dispositionCands.length === 1"
+          class="rw-static"
+        >{{ dispositionCands[0] }}</span>
+        <PickerDropdown
+          v-else
+          v-model:open="dispositionPickerOpen"
+          class="rw-fd"
+          width="12rem"
+          align="right"
+          :label="labels.rosterDispositionDeclared"
+        >
+          <template #trigger="{ toggle, open }">
+            <button
+              class="rw-choose"
+              :aria-expanded="open"
+              @click="toggle"
+            >
+              <span
+                v-if="dispositionCands.includes(disposition)"
+                class="tone tone-chip"
+                :style="toneVars(dispositionColor(disposition))"
+              >{{ disposition }}</span>
+              <span
+                v-else
+                class="placeholder"
+              >{{ labels.rosterChoose }}</span>
+              <i class="bi bi-chevron-down" />
+            </button>
+          </template>
+          <div class="modal-list rw-fd-list">
+            <button
+              v-for="d in dispositionCands"
+              :key="d"
+              type="button"
+              class="rw-fd-opt"
+              :class="{ on: disposition === d }"
+              @click="dispositionPickerOpen = false; $emit('update:disposition', d)"
+            >
+              <span
+                class="tone tone-chip"
+                :style="toneVars(dispositionColor(d))"
+              >{{ d }}</span>
+            </button>
+          </div>
+        </PickerDropdown>
+      </div>
+    </ExpandTransition>
 
     <!-- The notes and the legality switch are decided once and then left alone; giving each a
          permanent slot would spend the line on the two things nobody looks at twice. The points
@@ -215,30 +202,36 @@
             @input="$emit('update:notes', $event.target.value)"
           />
         </label>
+        <!-- An archived list is never checked, whatever this says — so the box says why instead. -->
         <label
           class="check"
-          :class="{ on: checkLegality }"
+          :class="{ on: checkLegality && !archived }"
         >
           <input
             type="checkbox"
-            :checked="checkLegality"
+            :checked="checkLegality && !archived"
+            :disabled="archived"
             @change="$emit('update:checkLegality', $event.target.checked)"
           >
           <span>
             {{ labels.rosterCheckLegality }}
-            <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
+            <em class="check-note">{{ archived ? labels.rosterArchivedNote : labels.rosterCheckLegalityNote }}</em>
           </span>
         </label>
-        <label
-          class="check"
-          :class="{ on: showPointsLeft }"
-        >
-          <input
-            v-model="showPointsLeft"
-            type="checkbox"
+        <!-- No limit, nothing left to count down to. -->
+        <ExpandTransition>
+          <label
+            v-if="limit.battleSize !== UNLIMITED_BATTLE"
+            class="check"
+            :class="{ on: showPointsLeft }"
           >
-          <span>{{ labels.rosterShowPointsLeft }}</span>
-        </label>
+            <input
+              v-model="showPointsLeft"
+              type="checkbox"
+            >
+            <span>{{ labels.rosterShowPointsLeft }}</span>
+          </label>
+        </ExpandTransition>
       </div>
     </PickerDropdown>
   </div>
@@ -247,13 +240,15 @@
 <script setup>
 import { computed, ref } from 'vue'
 import PickerDropdown from '../PickerDropdown.vue'
+import ExpandTransition from '../ExpandTransition.vue'
 import FactionPickerList from '../tracker/FactionPickerList.vue'
 import DetachmentPickerList from '../tracker/DetachmentPickerList.vue'
 import { toneVars } from '../../utils/tone.js'
 import { dispositionColor } from '../../data/dispositionColors.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX, UNLIMITED_BATTLE } from '../../composables/rosterEngine.js'
+import RosterBattleSizeField from './RosterBattleSizeField.vue'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 
 defineProps({
@@ -269,16 +264,16 @@ defineProps({
   // which is 3 for a lone 3 DP detachment at Incursion (rosterEngine's dpLimitFor).
   maxDp: { type: Number, default: 0 },
   dpLimit: { type: Number, default: 0 },
-  battleSize: { type: String, default: '' },
-  battleSizes: { type: Array, default: () => [] },
-  customPoints: { type: [Number, String], default: 0 },
+  // The points limit as one value (rosterEngine's limitOf), handed to RosterBattleSizeField.
+  limit: { type: Object, required: true },
   disposition: { type: String, default: '' },
   dispositionCands: { type: Array, default: () => [] },
   checkLegality: { type: Boolean, default: true },
+  archived: { type: Boolean, default: false },
   notes: { type: String, default: '' },
 })
 defineEmits([
-  'update:name', 'update:battleSize', 'update:customPoints', 'update:disposition',
+  'update:name', 'update:limit', 'update:disposition',
   'update:checkLegality', 'update:notes',
   'pick-faction', 'toggle-detachment', 'clear-detachments',
 ])
@@ -297,7 +292,10 @@ const moreOpen = ref(false)
 .rw-bar {
   display: flex;
   align-items: flex-end;
-  flex-wrap: wrap;
+  /* One row, always (owner, 2026-10-03: the "…" alone on a second row read as the bar falling
+     apart). The name is what gives way — it is typed once, and a long one still scrolls inside
+     its own box. */
+  flex-wrap: nowrap;
   gap: 0.6rem 0.9rem;
   padding-bottom: 0.6rem;
   margin-bottom: 0.6rem;
@@ -325,7 +323,7 @@ const moreOpen = ref(false)
    in BOTH themes — the navbar, the bottom bar, the sidebar's section head — and light text goes
    on it. Here it was paired with --text-primary, which in the light theme is the very same
    #2a2828: what you typed into the name field was invisible (report 8aabcef5). */
-.rw-name { flex: 1 1 12rem; max-width: 22rem; }
+.rw-name { flex: 1 1 12rem; min-width: 6rem; max-width: 22rem; }
 .rw-name input {
   width: 100%;
   background: var(--bg-secondary);
@@ -379,27 +377,24 @@ const moreOpen = ref(false)
 .rw-fd-opt.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
 @media (hover: hover) { .rw-fd-opt:hover { border-color: var(--accent); } }
 
-.rw-row { display: flex; align-items: center; gap: 0.4rem; }
-.rw-num {
-  width: 5.5rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  padding: 0.3rem 0.4rem;
-  font: inherit;
-  font-size: 0.9rem;
-}
 .rw-static { font-size: 0.9rem; color: var(--text-primary); padding: 0.35rem 0; }
 
+/* A square the height of the fields beside it — the same 0.9rem type, 1.5 line and 0.35rem padding
+   their boxes are made of — so its bottom edge is theirs (owner, 2026-10-03: it sat lower and
+   smaller than the row). */
 .rw-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-left: auto;
-  margin-bottom: 0.2rem;
+  aspect-ratio: 1;
   background: none;
   border: 1px solid var(--border);
   color: var(--text-muted);
-  padding: 0.25rem 0.45rem;
+  padding: 0.35rem;
   font: inherit;
-  line-height: 1;
+  font-size: 0.9rem;
+  line-height: 1.5;
   cursor: pointer;
 }
 @media (hover: hover) { .rw-more:hover { color: var(--accent); border-color: var(--accent); } }

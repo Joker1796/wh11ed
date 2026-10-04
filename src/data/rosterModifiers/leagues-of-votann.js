@@ -369,6 +369,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",

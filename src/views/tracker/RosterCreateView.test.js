@@ -34,6 +34,12 @@ const BaseModalStub = {
 }
 const stubs = { BaseModal: BaseModalStub, RouterLink: { props: ['to'], template: '<a><slot /></a>' } }
 
+// The points limit is a picker (RosterBattleSizeField): open it, take the option by its id.
+async function pickLimit(w, id) {
+  await w.find('.bsf-trigger').trigger('click')
+  await w.find(`.bsf-opt[data-limit="${id}"]`).trigger('click')
+}
+
 // Faction/unit data loads via dynamic import kicked off from an immediate watch — poll (with
 // real timers) until it lands, same pattern as RosterEditorView.test.js.
 async function waitFor(w, needle, tries = 60) {
@@ -49,10 +55,44 @@ async function waitFor(w, needle, tries = 60) {
 describe('RosterCreateView', () => {
   // The same question the editor's setup tab asks, and the tracker's own setup after it: an army
   // plays ONE Force Disposition, so two detachments that disagree make it a declaration.
+  // A points limit lowered after the detachments were picked can leave them over its Detachment
+  // Points: step 1 is the only place that can fix it, so Next stays off and says why (2026-10-03).
+  it('keeps Next off while the setup breaks its own limits, and says why', async () => {
+    const fac = (await import('../../data/roster/space-marines.js')).default
+    const only = (fd) => fac.detachments.filter((d) => d.fds?.length === 1 && d.fds[0] === fd).sort((a, b) => a.dp - b.dp)
+    const first = only('Take and Hold').find((d) => !d.unique)
+    const second = only('Purge the Foe').find((d) => d.dp + first.dp === 3 && (!d.unique || d.unique !== first.unique))
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await w.findAll('.ch-pick')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await waitFor(w, first.name)
+    for (const name of [first.name, second.name]) {
+      await w.findAll('.ch-pick')[1].trigger('click')
+      await w.findAll('.det').find((b) => b.text().includes(name)).trigger('click')
+      await w.find('.mh-close').trigger('click')
+    }
+    const next = () => w.find('.rc-sticky-actions .btn-primary')
+    expect(next().attributes('disabled')).toBeUndefined()
+
+    await pickLimit(w, 'incursion') // 2 DP for the 3 already spent
+    expect(next().attributes('disabled')).toBeDefined()
+    expect(w.find('.rc-block-note').text()).toContain('Over the Detachment Points budget (3/2 DP)')
+
+    await pickLimit(w, 'strike-force')
+    expect(next().attributes('disabled')).toBeUndefined()
+    expect(w.find('.rc-block-note').exists()).toBe(false)
+  })
+
   it('declares the Force Disposition when the chosen detachments disagree', async () => {
     const fac = (await import('../../data/roster/space-marines.js')).default
-    // The cheapest of each, so two of them still fit the battle size's Detachment Points.
-    const byFd = (fd) => fac.detachments.filter((d) => d.fds?.length === 1 && d.fds[0] === fd).sort((a, b) => a.dp - b.dp)[0].name
+    // One of each that can stand together: inside the battle size's 3 Detachment Points, and not
+    // sharing a tag — the cheapest two were Assault and Devastator Brethren, both DOCTRINES, a pair
+    // the picker rightly refuses once it knows the tags (2026-10-03).
+    const only = (fd) => fac.detachments.filter((d) => d.fds?.length === 1 && d.fds[0] === fd).sort((a, b) => a.dp - b.dp)
+    const first = only('Take and Hold').find((d) => !d.unique)
+    const second = only('Purge the Foe').find((d) => d.dp + first.dp <= 3 && (!d.unique || d.unique !== first.unique))
+    const byFd = (fd) => (fd === 'Take and Hold' ? first : second).name
     const w = mount(RosterCreateView, { global: { stubs } })
     await w.findAll('.ch-pick')[0].trigger('click')
     await waitFor(w, 'Space Marines')
@@ -220,7 +260,7 @@ describe('RosterCreateView', () => {
     // Back to step 1, shrink the battle size — the cap shrinks with it, out from under the
     // 3 Captains already on the list.
     await w.find('.rc-sticky-actions .btn-ghost').trigger('click') // → step 1
-    await w.findAll('.bsize-btn').find((b) => b.text() === '1000').trigger('click') // Incursion, dupLimit 2
+    await pickLimit(w, 'incursion') // 1000, dupLimit 2
     await w.find('.rc-sticky-actions .btn-primary').trigger('click') // → step 2 again
 
     // .text() drops the whitespace between the name and the count badge (a rendering quirk
@@ -297,9 +337,10 @@ describe('RosterCreateView', () => {
 
   it('supports a custom battle size, using the matching bracket to show the points limit', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
-    const custom = w.findAll('.bsize-btn').find((b) => b.text() === 'Custom')
-    await custom.trigger('click')
-    await w.find('.bsize-input').setValue(500)
+    await pickLimit(w, 'custom')
+    await flushPromises() // picking Custom opens the number for typing (RosterBattleSizeField)
+    await w.find('.rcl-points .step-input').setValue(500)
+    await w.find('.rcl-points .step-input').trigger('keydown', { key: 'Enter' })
 
     // The readout lives on step 2's half of the sticky bar — step 1 has the battle size itself on
     // screen and nothing spent yet to measure against it.
@@ -344,8 +385,10 @@ describe('RosterCreateView', () => {
 
     // Back to step 1, change the battle size, forward again — same roster, not a duplicate.
     await w.find('.rc-sticky-actions .btn-ghost').trigger('click')
-    await w.findAll('.bsize-btn').find((b) => b.text() === 'Custom').trigger('click')
-    await w.find('.bsize-input').setValue(750)
+    await pickLimit(w, 'custom')
+    await flushPromises() // picking Custom opens the number for typing (RosterBattleSizeField)
+    await w.find('.rcl-points .step-input').setValue(750)
+    await w.find('.rcl-points .step-input').trigger('keydown', { key: 'Enter' })
     await w.find('.rc-sticky-actions .btn-primary').trigger('click')
     await flushPromises()
 

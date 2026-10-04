@@ -815,6 +815,7 @@ export default {
       "effects": [
         {
           "on": "profile",
+          "target": "unit",
           "stat": "t",
           "op": "add",
           "value": 1,
@@ -822,6 +823,7 @@ export default {
         },
         {
           "on": "profile",
+          "target": "unit",
           "stat": "sv",
           "op": "set",
           "value": "4+",
@@ -829,6 +831,7 @@ export default {
         },
         {
           "on": "melee",
+          "target": "unit",
           "stat": "s",
           "op": "add",
           "value": 1,

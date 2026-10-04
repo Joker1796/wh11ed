@@ -1391,6 +1391,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
@@ -1404,6 +1405,7 @@ export default {
         },
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "SUSTAINED HITS 1",
@@ -1678,6 +1680,7 @@ export default {
       "effects": [
         {
           "on": "unit",
+          "target": "unit",
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
@@ -1706,6 +1709,7 @@ export default {
       "effects": [
         {
           "on": "melee",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "LETHAL HITS",
@@ -1784,6 +1788,7 @@ export default {
       "effects": [
         {
           "on": "ranged",
+          "target": "unit",
           "stat": "ability",
           "op": "grant",
           "value": "RAPID FIRE 1",

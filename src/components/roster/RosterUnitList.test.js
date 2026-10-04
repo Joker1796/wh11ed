@@ -48,6 +48,24 @@ describe('RosterUnitList', () => {
     expect(w.findAll('.rul-unit')).toHaveLength(2)
   })
 
+  // A unit that comes with somebody no list can buy (Canis Rex and Sir Hekhtur, the data's `crew`)
+  // draws him as a row of his own under it — no points to add, nothing to configure, his card a tap
+  // away (owner, 2026-10-04).
+  it('draws a unit’s crew as a row of its own under it', async () => {
+    const knight = { id: 'canis-rex', name: 'Canis Rex', sizes: [{ pts: 415, per: [1, 1], default: 1 }], gear: [], crew: [{ id: 'sir-hekhtur', name: 'Sir Hekhtur' }] }
+    const w = mountList({
+      groups: [{ id: 'epic', entries: [{ uid: 'k1', id: 'canis-rex', size: 0 }] }],
+      defOf: () => knight,
+      slugOf: () => 'imperial-knights',
+    })
+    const crew = w.find('.rul-crew')
+    expect(crew.text()).toContain('Sir Hekhtur')
+    expect(crew.find('.rul-crew-pts').text()).toBe('0')
+    expect(w.vm.crewCard).toBe(null)
+    await crew.trigger('click')
+    expect(w.vm.crewCard).toEqual({ id: 'sir-hekhtur', slug: 'imperial-knights' })
+  })
+
   // Everything starts open, and folding is a gesture rather than a setting: nothing is stored.
   it('starts unfolded, under a numbered default name', () => {
     const w = mountList()

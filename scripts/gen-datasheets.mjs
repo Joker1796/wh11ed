@@ -131,12 +131,24 @@ const allSheetNames = new Map()
 for (const f of fs.readdirSync(path.join(APPDATA, 'factions')).filter((x) => !x.startsWith('_'))) {
   for (const d of loadJson(path.join(APPDATA, 'factions', f))?.datasheets || []) allSheetNames.set(norm(d.name), d.name)
 }
+//
+// A bullet that names no datasheet in appdata is kept too, in the rule's own words (Title Case):
+// a keyword ("IMPERIUM BATTLELINE INFANTRY" — four Inquisitors) or a unit appdata does not carry
+// (a Faction Pack Legends squad, "CULTIST MOB WITH FIREARMS"). Dropped until 2026-10-03, the page
+// told a reader an Inquisitor could not join an Intercessor squad that the rule lets him join —
+// 16 such names on 52 datasheets.
+const SMALL = new Set(['with', 'of', 'the', 'on', 'and', 'in', 'a'])
+const titleCase = (s) => s.toLowerCase().split(/(\s+|-)/).map((w, i) => (i && SMALL.has(w) ? w : w.charAt(0).toUpperCase() + w.slice(1))).join('')
 function leaderUnits(ds, prose) {
   const units = new Set((ds.leaderOf || []).flatMap((l) => l.units || []))
   const structural = [...units].map(norm)
-  for (const m of (prose || '').matchAll(/^■\s*\*\*(.+?)\*\*/gm)) {
-    const name = allSheetNames.get(norm(m[1]))
-    if (!name || units.has(name)) continue
+  for (const m of (prose || '').matchAll(/^■\s*\*\*\**(.+?)\*\*/gm)) {
+    const name = allSheetNames.get(norm(m[1])) || titleCase(m[1].trim())
+    if (units.has(name) || structural.includes(norm(name))) continue
+    // …unless it is a keyword the listed units already spell out: "CRISIS BATTLESUITS" over the
+    // three Crisis datasheets the table names.
+    const words = (x) => x.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)
+    if (!allSheetNames.has(norm(name)) && [...units].some((u) => words(name).every((w) => words(u).includes(w)))) continue
     if (structural.some((s) => s.startsWith(`${norm(name)} `))) continue
     units.add(name)
   }

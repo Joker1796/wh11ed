@@ -354,7 +354,7 @@ export default {
       "gear": [
         {
           "m": 3,
-          "t": 1107,
+          "t": 1108,
           "in": "stepper",
           "o": [
             [
@@ -380,7 +380,7 @@ export default {
         },
         {
           "m": 3,
-          "t": 1108,
+          "t": 1109,
           "in": "stepper",
           "o": [
             [
@@ -393,7 +393,7 @@ export default {
         },
         {
           "m": 3,
-          "t": 1109,
+          "t": 1110,
           "in": "checkbox",
           "o": [
             [
@@ -406,7 +406,7 @@ export default {
         },
         {
           "m": 3,
-          "t": 1110,
+          "t": 1111,
           "in": "stepper",
           "o": [
             [
@@ -447,7 +447,7 @@ export default {
         },
         {
           "all": 1,
-          "t": 1111,
+          "t": 1112,
           "in": "checkbox",
           "o": [
             [
@@ -524,7 +524,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 449,
+          "t": 450,
           "in": "checkbox",
           "o": [
             [
@@ -534,7 +534,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 450,
+          "t": 451,
           "in": "checkbox",
           "o": [
             [
@@ -547,7 +547,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 451,
+          "t": 452,
           "in": "stepper",
           "o": [
             [
@@ -605,7 +605,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1112,
+          "t": 1113,
           "in": "checkbox",
           "o": [
             [
@@ -754,7 +754,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 452,
+          "t": 453,
           "in": "checkbox",
           "o": [
             [
@@ -764,7 +764,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 453,
+          "t": 454,
           "in": "checkbox",
           "o": [
             [
@@ -780,7 +780,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 454,
+          "t": 455,
           "in": "stepper",
           "o": [
             [
@@ -793,7 +793,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 455,
+          "t": 456,
           "in": "stepper",
           "o": [
             [
@@ -1032,7 +1032,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 456,
+          "t": 457,
           "in": "checkbox",
           "o": [
             [
@@ -1213,7 +1213,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 457,
+          "t": 458,
           "in": "checkbox",
           "o": [
             [
@@ -1326,7 +1326,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 458,
+          "t": 459,
           "in": "stepper",
           "o": [
             [
@@ -1466,7 +1466,7 @@ export default {
       "gear": [
         {
           "all": 1,
-          "t": 458,
+          "t": 459,
           "in": "checkbox",
           "o": [
             [
@@ -1570,7 +1570,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 456,
+          "t": 457,
           "in": "checkbox",
           "o": [
             [
@@ -1911,6 +1911,27 @@ export default {
           "strike-force": 1
         }
       },
+      "free": [
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Inquisitor"
+          ],
+          "recv": [
+            "Inquisitorial Agents"
+          ]
+        },
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Character",
+            "Voidfarers"
+          ],
+          "recv": [
+            "Voidsmen-At-Arms"
+          ]
+        }
+      ],
       "up": {
         "imperial-agents:inquisitor-draxus": {
           "1": 110
@@ -1944,6 +1965,7 @@ export default {
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
+          "11": 120,
           "12": 120
         },
         "imperial-agents:inquisitor-coteaz": {
@@ -2137,5 +2159,8 @@ export default {
     "Tacticus Attack Force",
     "Tacticus Firestorm Force",
     "Terminator Storm Force"
-  ]
+  ],
+  "sharedDetachmentFrom": {
+    "Deathwatch Support": "deathwatch"
+  }
 }

@@ -35,6 +35,17 @@ git log --oneline "$(git log --format=%H --grep='chore: release' -1)"..HEAD
 npm test && npm run lint && npm run build
 ```
 
+Затем смоук собранного сайта — тестовые ростеры в браузере, обе ширины, без ошибок JS,
+боковой прокрутки и сырой разметки (нужен свежий `dist/`):
+
+```bash
+npm run smoke                 # ~2 мин, каждый релиз
+npm run smoke -- --wide       # + все фракции, ~180 страниц на ширину — крупный релиз
+```
+
+Ручная часть — `RELEASE-CHECKLIST.md`: уровень A каждый релиз, B — разделы затронутых зон.
+Назвать владельцу уровень и разделы до выката, а не после.
+
 Если трогались данные правил — дополнительно то, что относится к правке: `npm run parity`,
 `npm run sync`, `npm run detmeta`, `npm run wtags`, `npm run dsrules`, `npm run imgrules`, `npm run imghash`.
 Подробности в `src/data/CLAUDE.md` → Data gates.

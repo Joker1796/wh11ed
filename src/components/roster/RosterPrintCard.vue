@@ -38,7 +38,7 @@
       class="rpc-stats"
     >
       <div
-        v-for="(p, i) in sheet.profiles"
+        v-for="({ p, index: i }, row) in profileRows"
         :key="i"
         class="rpc-statline"
       >
@@ -48,7 +48,7 @@
           class="rpc-stat"
         >
           <span
-            v-if="i === 0"
+            v-if="row === 0"
             class="rpc-stat-l"
           >{{ s.label }}</span>
           <span
@@ -61,7 +61,7 @@
           class="rpc-stat"
         >
           <span
-            v-if="i === 0"
+            v-if="row === 0"
             class="rpc-stat-l"
           >INV</span>
           <span
@@ -70,7 +70,7 @@
           >{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup v-if="isMarked('profile', 'inv', i)">*</sup></span>
         </span>
         <span
-          v-if="sheet.profiles.length > 1"
+          v-if="profileRows.length > 1"
           class="rpc-prof"
         >{{ p.name }}</span>
       </div>
@@ -309,7 +309,7 @@ const inlineText = (t) => renderInline(markFactionKw.value(t))
 
 const {
   coreParts, extraCore, keywordGroups, extraKeywords, keywordNotes,
-  rangedRows, meleeRows, isMarked, noteSections,
+  rangedRows, meleeRows, isMarked, noteSections, profileRows,
 } = useDatasheetParts(props, labels, { showPossible: () => props.showPossible })
 
 const invNotes = computed(() =>

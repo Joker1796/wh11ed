@@ -70,10 +70,12 @@
                  English on the first line by project convention) and, if it cannot be tapped, why.
                  The reason used to live in `title` alone — invisible on a touch screen, which is
                  where this is read — so a chip that was inert by design looked like a broken one. -->
-            <small
-              v-if="subLine(sw)"
-              class="cond-chip-sub"
-            >{{ subLine(sw) }}</small>
+            <ExpandTransition>
+              <small
+                v-if="subLine(sw)"
+                class="cond-chip-sub"
+              >{{ subLine(sw) }}</small>
+            </ExpandTransition>
           </span>
         </button>
         <button
@@ -97,6 +99,7 @@
 // and flipping one is the parent's business (only it knows which player is being drawn). A chip is
 // inert when the tracker owns the answer (`auto`) or when the rules forbid the change (`blocked` —
 // a Battle-shocked unit cannot be targeted with stratagems).
+import ExpandTransition from './ExpandTransition.vue'
 import { computed } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'

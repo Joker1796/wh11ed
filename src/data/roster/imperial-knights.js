@@ -202,7 +202,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 635,
+          "t": 636,
           "in": "checkbox",
           "o": [
             [
@@ -403,7 +403,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 635,
+          "t": 636,
           "in": "checkbox",
           "o": [
             [
@@ -464,6 +464,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "crew": [
+        {
+          "id": "sir-hekhtur",
+          "name": "Sir Hekhtur"
+        }
       ]
     },
     {
@@ -724,7 +730,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 636,
+          "t": 637,
           "in": "checkbox",
           "o": [
             [
@@ -809,7 +815,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 637,
+          "t": 638,
           "in": "checkbox",
           "o": [
             [
@@ -822,7 +828,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 638,
+          "t": 639,
           "in": "checkbox",
           "o": [
             [
@@ -979,7 +985,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 639,
+          "t": 640,
           "in": "checkbox",
           "o": [
             [
@@ -995,7 +1001,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 640,
+          "t": 641,
           "in": "checkbox",
           "o": [
             [
@@ -1065,7 +1071,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 637,
+          "t": 638,
           "in": "checkbox",
           "o": [
             [
@@ -1078,7 +1084,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 641,
+          "t": 642,
           "in": "checkbox",
           "o": [
             [
@@ -1161,7 +1167,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 637,
+          "t": 638,
           "in": "checkbox",
           "o": [
             [
@@ -1248,7 +1254,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 637,
+          "t": 638,
           "in": "checkbox",
           "o": [
             [
@@ -1261,7 +1267,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 641,
+          "t": 642,
           "in": "checkbox",
           "o": [
             [
@@ -1344,7 +1350,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 642,
+          "t": 643,
           "in": "checkbox",
           "o": [
             [
@@ -1360,7 +1366,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 641,
+          "t": 642,
           "in": "checkbox",
           "o": [
             [
@@ -1455,7 +1461,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 636,
+          "t": 637,
           "in": "checkbox",
           "o": [
             [
@@ -1536,7 +1542,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 637,
+          "t": 638,
           "in": "checkbox",
           "o": [
             [
@@ -1549,7 +1555,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 641,
+          "t": 642,
           "in": "checkbox",
           "o": [
             [
@@ -2244,6 +2250,27 @@ export default {
           "strike-force": 1
         }
       },
+      "free": [
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Inquisitor"
+          ],
+          "recv": [
+            "Inquisitorial Agents"
+          ]
+        },
+        {
+          "kw": "Retinue",
+          "donor": [
+            "Character",
+            "Voidfarers"
+          ],
+          "recv": [
+            "Voidsmen-At-Arms"
+          ]
+        }
+      ],
       "up": {
         "imperial-agents:inquisitor-draxus": {
           "1": 110
@@ -2277,6 +2304,7 @@ export default {
         },
         "imperial-agents:inquisitorial-agents": {
           "6": 60,
+          "11": 120,
           "12": 120
         },
         "imperial-agents:inquisitor-coteaz": {

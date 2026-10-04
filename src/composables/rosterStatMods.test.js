@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from './rosterStatMods.js'
+import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from './rosterStatMods.js'
 
 const sheet = () => ({
   name: 'Skorpekh Destroyers',
@@ -771,6 +771,48 @@ describe('datasheetEntriesFor — enhancement', () => {
     expect(out[0].effects[0].value).toBe('Deep Strike')
     // …and nobody else's: an enhancement with no aura has no range to reach across.
     expect(datasheetEntriesFor([webwayAwl], { unitId: 'kabalite-warriors' })).toEqual([])
+  })
+  // "ADEPTUS ASTARTES INFANTRY unit only. This unit's melee attacks have [SUSTAINED HITS 1…]" — an
+  // Upgrade addresses the unit it was bought for, and 19.04 makes that the whole Attached unit,
+  // whichever end of it carries the Upgrade (a player's report, 2026-10-03).
+  const furious = {
+    kind: 'enhancement',
+    name: 'Furious Assault (Upgrade)',
+    ref: { kind: 'enhancement', det: 'assault-brethren' },
+    effects: [{ on: 'melee', target: 'unit', stat: 'ability', op: 'grant', value: 'SUSTAINED HITS 1', when: null }],
+  }
+  const units = [
+    { uid: 'tac', id: 'tactical-squad', enh: 'Furious Assault (Upgrade)' },
+    { uid: 'cap', id: 'captain', leaderOf: 'tac' },
+    { uid: 'lt', id: 'lieutenant', leaderOf: 'tac' },
+    { uid: 'lone', id: 'chaplain' },
+  ]
+  const enhOf = (u) => u.enh || null
+
+  it('an Upgrade bought for a squad reaches the Characters leading it', () => {
+    for (const uid of ['cap', 'lt']) {
+      const keys = attachedEnhKeys(units.find((u) => u.uid === uid), units, enhOf)
+      const out = datasheetEntriesFor([furious], { unitId: 'captain', attachedEnhKeys: keys })
+      expect(out).toHaveLength(1)
+      expect(out[0].from).toBe('unit')
+    }
+    // …not a Character standing alone, and not the squad itself (its own card has it already).
+    expect(attachedEnhKeys(units[3], units, enhOf).size).toBe(0)
+    expect(attachedEnhKeys(units[0], units, enhOf).size).toBe(0)
+  })
+
+  it('an Upgrade bought for a Character reaches the squad he leads and the other Character in it', () => {
+    const onCaptain = units.map((u) => ({ ...u, enh: u.uid === 'cap' ? 'Furious Assault (Upgrade)' : undefined }))
+    for (const uid of ['tac', 'lt']) {
+      const keys = attachedEnhKeys(onCaptain.find((u) => u.uid === uid), onCaptain, enhOf)
+      expect(datasheetEntriesFor([furious], { unitId: uid, attachedEnhKeys: keys })).toHaveLength(1)
+    }
+  })
+
+  it('an ordinary enhancement stays with its bearer', () => {
+    const relic = { ...furious, name: 'Artificer Armour', effects: [{ on: 'profile', stat: 'sv', op: 'set', value: '2+', when: null }] }
+    const keys = attachedEnhKeys(units[1], units.map((u) => ({ ...u, enh: u.uid === 'tac' ? 'Artificer Armour' : undefined })), enhOf)
+    expect(datasheetEntriesFor([relic], { unitId: 'captain', attachedEnhKeys: keys })).toEqual([])
   })
 })
 

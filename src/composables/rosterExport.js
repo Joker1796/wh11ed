@@ -25,7 +25,7 @@
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
 import {
   allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
-  copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
+  copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
 } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
 
@@ -82,9 +82,10 @@ function loadoutGroups(def, entry, items) {
       const models = perMini?.get(m)
       for (const [id, c, total] of list) {
         // A `total` quantity is the profile's, not each model's (one of the two Gun Servitors has
-        // the heavy bolter), so it is printed as recorded rather than multiplied out.
-        if (total) { add(m, items[id], c); continue }
+        // the heavy bolter), so it is printed as recorded rather than multiplied out, less the
+        // copies a swap took (copiesHeld).
         const take = removed.get(`${m}:${id}`) || 0
+        if (total) { add(m, items[id], copiesHeld(c, total, models, take)); continue }
         add(m, items[id], models == null ? c : copiesLeft(c, models, take))
       }
     }
@@ -234,11 +235,16 @@ function gwUnit(row, attachedAs) {
 function gwText(m, version) {
   const lines = [`${m.roster?.name || 'Roster'} (${m.total} points)`, '']
   if (m.faction?.name) lines.push(m.faction.name)
-  lines.push(`${m.sizeName ? `${m.sizeName} ` : ''}(${m.battle.points} points)`)
+  // A list with no limit has no battle-size line: GW's format knows only the three sizes and a
+  // number, and an importer reading none falls back to Strike Force.
+  if (!m.battle.unlimited) lines.push(`${m.sizeName ? `${m.sizeName} ` : ''}(${m.battle.points} points)`)
   if (m.detachments.length) {
     const names = m.detachments.map((d) => d.name)
     const joined = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0]
-    lines.push(`${joined} (${m.battle.dp} Detachment Points)`)
+    // No limit, no budget to state: the line keeps its shape (the importer finds the detachments
+    // by it) and says what the detachments spend.
+    const dp = m.battle.unlimited ? m.detachments.reduce((s, d) => s + (d.dp || 0), 0) : m.battle.dp
+    lines.push(`${joined} (${dp} Detachment Points)`)
     // The one the army DECLARED. Undeclared (several detachments, nobody has chosen) prints the
     // candidates as it always did — the line then states the choice that is still open rather than
     // vanishing, and the importer takes only a single name as a declaration.
@@ -354,7 +360,15 @@ function compactText(m) {
   const head = [m.roster?.name, m.faction?.name, m.detachments.map((d) => d.name).join(', ')]
     .filter(Boolean)
     .join(' — ')
-  const lines = [`${head}${head ? ' — ' : ''}${m.total}/${m.battle.points} pts`, '']
+  const cap = m.battle.unlimited ? '' : `/${m.battle.points}`
+  const lines = [`${head}${head ? ' — ' : ''}${m.total}${cap} pts`]
+  // A list held to the player's own limits (a custom size) says which, so the reader in the chat
+  // is not checking it against a printed size. English, like every line this format writes.
+  if (m.battle.ownLimits) {
+    const b = m.battle
+    lines.push(`Own limits: ${b.dp} DP · ${b.enhLimit} enhancements · ${b.dupLimit} copies · ${b.lineLimit} Battleline`)
+  }
+  lines.push('')
 
   // Identical entries collapse: same datasheet, same size, same loadout, same enhancement. Points
   // are summed rather than multiplied, so the copy surcharge stays visible in the total.
