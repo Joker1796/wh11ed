@@ -36,3 +36,7 @@ seo-html/
 
 # The points PDF and its HTML (npm run points:pdf) — uploaded by hand, never committed.
 /points-pdf/
+
+# The stand's seed page (npm run stand:seed) — built from the data of the day, never committed.
+public/_seed.json
+public/_seed.html
