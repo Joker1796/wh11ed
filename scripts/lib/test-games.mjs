@@ -10,6 +10,7 @@
 //   - `test-games.test.js` plays each one and holds it to where it was meant to stop.
 //
 // Spec: { key, title, track, sides, upTo, doubles?, fixed?, twist?, scoreMode? }
+//   (about half the set plays to Battle Points — the result screen differs, owner 2026-10-04)
 //   track  — the tracker options (trackerOptions.js `setting` → bool);
 //   sides  — two armies, each [factionSlug] or [null, testRosterKey] (a list attached; its faction
 //            and detachments come from the list); doubles: two such armies per side;
@@ -31,27 +32,27 @@ export const TEST_GAMES = [
     track: { ...ALL_OFF, trackCP: true }, sides: [['orks'], ['space-marines']], upTo: [2, 1] },
   { key: 'phases', title: 'Без ростеров, с фазами и правилами фазы',
     track: { ...ALL_OFF, trackCP: true, trackPhases: true, trackPhaseRules: true, trackArmyYou: true, trackArmyOpp: true },
-    sides: [['aeldari'], ['necrons']], upTo: [3, 0, 'shooting'] },
+    sides: [['aeldari'], ['necrons']], upTo: [3, 0, 'shooting'], scoreMode: 'bp' },
   { key: 'full', title: 'Ростеры у обоих, всё включено, фазы',
     track: ALL_ON, sides: [[null, 'leaders'], [null, 'havocs']], upTo: [2, 1, 'movement'] },
   { key: 'fixed', title: 'Ростер только у себя, без фаз, фиксированные вторичные',
-    track: NO_PHASES, sides: [[null, 'breachers'], ['tyranids']], fixed: true, upTo: [4, 0] },
+    track: NO_PHASES, sides: [[null, 'breachers'], ['tyranids']], fixed: true, upTo: [4, 0], scoreMode: 'bp' },
   { key: 'not-begun', title: 'Не начата: ростеры, фазы — кнопка «Начать игру»',
     track: ALL_ON, sides: [[null, 'allies'], [null, 'legends']], upTo: null },
   { key: 'last-turn', title: 'Последний ход 5-го раунда, без фаз',
-    track: NO_PHASES, sides: [['blood-angels'], ['tau-empire']], upTo: [5, 1] },
+    track: NO_PHASES, sides: [['blood-angels'], ['tau-empire']], upTo: [5, 1], scoreMode: 'bp' },
   { key: 'last-phase', title: 'Последний ход 5-го раунда, с фазами, фаза боя',
     track: ALL_ON, sides: [[null, 'leaders'], ['orks']], upTo: [5, 1, 'fight'] },
   { key: 'doubles', title: 'Doubles 2×2: ростер у одного из четырёх, фазы',
     track: ALL_ON, doubles: true,
-    sides: [[[null, 'leaders'], ['adeptus-custodes']], [['chaos-space-marines'], ['death-guard']]], upTo: [2, 0, 'charge'] },
+    sides: [[[null, 'leaders'], ['adeptus-custodes']], [['chaos-space-marines'], ['death-guard']]], upTo: [2, 0, 'charge'], scoreMode: 'bp' },
   { key: 'own-limits', title: 'Свои лимиты против союзников, без фаз',
     track: NO_PHASES, sides: [[null, 'own-limits'], [null, 'allies']], upTo: [3, 1] },
   { key: 'no-factions', title: 'Без фракций, твист, режим BP, фазы',
     track: { ...ALL_OFF, trackCP: true, trackPhases: true, trackPhaseRules: true },
     sides: [[null], [null]], twist: 'scrambled-communications', scoreMode: 'bp', upTo: [2, 0, 'command'] },
   { key: 'errors', title: 'Ростер с ошибками против большого ростера, фазы',
-    track: ALL_ON, sides: [[null, 'errors'], [null, 'unlimited']], upTo: [1, 1, 'shooting'] },
+    track: ALL_ON, sides: [[null, 'errors'], [null, 'unlimited']], upTo: [1, 1, 'shooting'], scoreMode: 'bp' },
 ]
 
 const rosterCache = new Map()
