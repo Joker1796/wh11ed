@@ -101,8 +101,12 @@
         :dp-spent="dpSpent"
         :dp-limit="dpLimit"
         :disposition-cands="dispositionCands"
+        :detachment-options="detachmentOptions"
+        :detachments="detachments"
+        :max-dp="effBattle.dp"
         @pick-faction="factionPickerOpen = true"
-        @pick-detachments="detachmentPickerOpen = true"
+        @toggle-detachment="toggleDetachment"
+        @clear-detachments="clearDetachments"
       />
     </div>
 
@@ -215,6 +219,7 @@
           v-if="desk || step === 2"
           class="rc-sticky-info"
           :badge="!!factionSlug"
+          :checked="checkLegality"
           :points="points"
           :limit="limit"
           :limits="rosterLimit"
@@ -267,16 +272,6 @@
       @pick="pickFaction"
       @close="factionPickerOpen = false"
     />
-    <DetachmentPickerModal
-      v-if="detachmentPickerOpen"
-      :detachments="detachmentOptions"
-      :selected="detachments"
-      :max-dp="effBattle.dp"
-      :dp-spent="dpSpent"
-      @toggle="toggleDetachment"
-      @clear="clearDetachments"
-      @close="detachmentPickerOpen = false"
-    />
     <RosterRulesModal
       v-if="rulesOpen && factionSlug"
       :faction-slug="factionSlug"
@@ -307,7 +302,6 @@ import ExpandTransition from '../../components/ExpandTransition.vue'
 import { computed, nextTick, onBeforeUnmount, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
-import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import RosterUndoBar from '../../components/roster/RosterUndoBar.vue'
 import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
@@ -396,7 +390,7 @@ const {
 // picking one is the first choice worth remembering — from there the wizard has a draft to write
 // into.
 const {
-  factionPickerOpen, detachmentPickerOpen, pickFaction,
+  factionPickerOpen, pickFaction,
   detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit, toggleDetachment, clearDetachments,
   openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
   undoable, undoRemove, dismissUndo,
@@ -572,8 +566,8 @@ watchEffect(() => {
 }
 .rc-step:disabled { cursor: default; opacity: 0.55; }
 .rc-step:not(:disabled):hover { color: var(--text-primary); }
-.rc-step.on:not(:disabled):hover { color: var(--accent); }
-.rc-step.on { color: var(--accent); }
+.rc-step.on:not(:disabled):hover { color: var(--accent-ink); }
+.rc-step.on { color: var(--accent-ink); }
 .rc-step.done { color: var(--text-muted); }
 .rc-step-sep { color: var(--text-dim); font-size: 0.75rem; }
 /* Small phones: three steps + arrows is a lot to fit on one line. Shrink first; on the

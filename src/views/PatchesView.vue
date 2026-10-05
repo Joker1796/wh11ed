@@ -318,7 +318,7 @@ const titleOf = (p) => [
 }
 .pv-scope.on {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 600;
 }
 
@@ -346,7 +346,7 @@ const titleOf = (p) => [
 }
 .pv-opt:last-child { border-bottom: none; }
 .pv-opt:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
-.pv-opt.on .pv-opt-title { color: var(--accent); }
+.pv-opt.on .pv-opt-title { color: var(--accent-ink); }
 .pv-opt-title { font-weight: 600; font-size: 0.9rem; }
 .pv-opt-meta { font-size: 0.75rem; color: var(--text-muted); }
 </style>

@@ -151,6 +151,16 @@ or Stormlance army — the commonest thing a Chapter fields — could be neither
 The RULES side already handled it: `RosterViewView` and the stratagems page fall back to the
 space-marines faction file for a detachment the Chapter's own file doesn't define.
 
+**Printed in a book ≠ the book's army may take it.** Deathwatch Support is printed in Codex
+Supplement: Deathwatch, and it is how every OTHER Adeptus Astartes army brings the Deathwatch along:
+appdata entitles the Space Marines and every Chapter to it, not the Deathwatch, and the MFM's
+Deathwatch page agrees. The generator now keeps a faction's own detachments to what its keyword is
+entitled to; one printed for others stays in the file marked `lend` (so the others can fold it in)
+and `loadRosterFaction` leaves it out of the army's own list. The faction page still shows it, where
+it is printed (2026-10-05, owner: "offer it only to those who may pick it; read it anywhere").
+`src/data/chapterDetachments.test.js` holds the editor (appdata) and the tracker (MFM) to the same
+list for every faction — they disagreed on exactly this and nothing said so.
+
 ### A group of nothing but defaults is a loadout
 
 appdata records a miniature's starting gear as a `wargear_option_group` when there is no
@@ -1316,9 +1326,17 @@ show yet, or not; not ours to guess.
   (`rosterValidation.js`) is the shared tally built on top of it. **"Check legality"**
   (`roster.checkLegality`, per-roster, default `true`) is the player-facing toggle: on, it
   live-enforces `duplicateLimit` by disabling `RosterUnitBrowser`'s "+" button once a unit's
-  cap group is full; off, unlimited adding (today's pre-toggle behaviour). This is layered on
-  top of, not a replacement for, `validateRoster()`'s own always-on `overDuplicate` issue — the
-  two share the same `capKeyOf` grouping so they never disagree. Toggled on the creation
+  cap group is full; off, unlimited adding. **Off switches every check off, not just the cap**
+  (owner, 2026-10-04: "no rule checked, no warning shown, only that the checks are off"):
+  `validateRoster()` returns no issues at all — warnings included — exactly as for an archived
+  list, a total over its limit is not red (footer, list card, view page, the DP count), and the
+  one thing said is "Unchecked" (`rosterChecksOff`/`rosterChecksOffNote`): in place of the issues
+  badge in `RosterPointsTally` (the mark alone on a phone), in place of the warning count on the
+  list card, and as one muted line where the view page's issues bar would be. Every one of those
+  asks `legalityOn` (rosterEngine.js). The unit form's own option rules (wargear group caps, an
+  enhancement already taken, a leader already attached) are not checks in this sense and stay.
+  Both the cap and the `overDuplicate` issue share the same `capKeyOf` grouping so they never
+  disagree. Toggled on the creation
   wizard's step 1 and the editor's Settings tab (both `RosterSetupFields.vue`) — both write
   straight to the roster object. A count strictly OVER
   its cap (not just at it — unreachable through the "+" button itself, but reachable by lowering
@@ -1842,7 +1860,7 @@ are the app's shared `.check` rows (`style.css`), not a private pill.
 
 Both **hide** rather than dim, and that is not a preference: this list already spends opacity on
 "not in the roster yet" (`.rub-item`), so there is no dim left to mean "you cannot afford it". The
-shape is the detachment picker's (`DetachmentPickerModal`, the same week): what the filters took
+shape is the detachment picker's (`DetachmentPickerList`, the same week): what the filters took
 away is counted on screen.
 
 **Two things never go inside the fold**, because a closed accordion must not hide why the

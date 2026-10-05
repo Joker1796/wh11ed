@@ -62,7 +62,7 @@ const { state, text, title, icon } = useRosterCloudStatus({
   color: var(--text-muted);
   text-align: center;
 }
-.rc-bar .bi { color: var(--accent); }
+.rc-bar .bi { color: var(--accent-ink); }
 .rc-bar.err { color: var(--danger); }
 .rc-bar.err .bi { color: inherit; }
 </style>

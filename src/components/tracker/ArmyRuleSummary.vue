@@ -260,5 +260,5 @@ watch([game, locale], build, { immediate: true })
 }
 .as-items li { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .as-item-label { font-size: 0.85rem; color: var(--text-primary); overflow-wrap: anywhere; }
-.as-item-cost { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--accent); }
+.as-item-cost { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--accent-ink); }
 </style>

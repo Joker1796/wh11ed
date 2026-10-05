@@ -136,7 +136,7 @@ const importOpen = ref(false)
   margin-top: 1rem;
   margin-bottom: 0.75rem;
 }
-.rlh-stats.on { border-color: var(--accent); color: var(--accent); }
+.rlh-stats.on { border-color: var(--accent); color: var(--accent-ink); }
 
 /* The desk: one row across the columns — the buttons beside the title, one size down. */
 .rlh-desk {

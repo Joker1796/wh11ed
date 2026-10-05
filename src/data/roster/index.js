@@ -69,8 +69,11 @@ async function allyUnits(data) {
 }
 
 export async function loadRosterFaction(slug, { allies = false } = {}) {
-  const data = await load(slug)
-  if (!data) return null
+  const raw = await load(slug)
+  if (!raw) return null
+  // A detachment printed in this faction's book for OTHER armies (`lend`) is not one of its own:
+  // the armies it is lent to fold it in below (Deathwatch Support).
+  const data = raw.detachments?.some((d) => d.lend) ? { ...raw, detachments: raw.detachments.filter((d) => !d.lend) } : raw
   const extra = allies && data.allies?.length ? await allyUnits(data) : []
   // A shared detachment comes from space-marines.js unless `sharedDetachmentFrom` names its
   // bundle (Deathwatch Support → deathwatch.js).
@@ -93,15 +96,21 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
     if (!bySource.has(src)) bySource.set(src, new Set())
     bySource.get(src).add(n)
   }
+  // The army's own come first and the others after them, a group per faction they come from
+  // (`from`, the slug the pickers head the group with — DetachmentGroupHead), each by name.
+  const byName = (a, b) => a.name.localeCompare(b.name)
   const dets = []
   for (const [src, want] of bySource) {
     const bundle = src === 'space-marines' ? sm : await load(src)
+    const group = []
     for (const d of bundle?.detachments || []) {
       if (!want.has(d.name)) continue
-      dets.push(data.detachmentDp?.[d.name] != null ? { ...d, dp: data.detachmentDp[d.name], shared: 1 } : { ...d, shared: 1 })
+      const { lend, ...det } = d
+      group.push({ ...det, dp: data.detachmentDp?.[d.name] ?? d.dp, shared: 1, from: src })
     }
+    dets.push(...group.sort(byName))
   }
-  const detachments = [...data.detachments, ...dets].sort((a, b) => a.name.localeCompare(b.name))
+  const detachments = [...[...data.detachments].sort(byName), ...dets]
   return { ...data, units, detachments }
 }
 

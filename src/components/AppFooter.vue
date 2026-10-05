@@ -163,13 +163,13 @@ const showDetails = ref(false)
 }
 
 .footer-contact a {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .footer-contact a:hover {
-  color: var(--accent-hover);
+  color: var(--accent-ink-hover);
 }
 
 /* The row of ways in: accent text, no underline (the email above keeps its underline — it is
@@ -187,12 +187,12 @@ const showDetails = ref(false)
   /* 24px tap target (WCAG 2.5.8, `npm run a11y`): the row of ways in is what a phone reader
      taps, and at text height it was 22px. Two pixels a row, nothing moves. */
   min-height: 24px;
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 @media (hover: hover) {
   .footer-links a:hover,
-  .footer-links .footer-feedback:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 2px; }
+  .footer-links .footer-feedback:hover { color: var(--accent-ink-hover); text-decoration: underline; text-underline-offset: 2px; }
 }
 /* The legal page is the one nobody comes here for: muted, not accent. */
 .footer-links .footer-quiet { color: var(--text-muted); }
@@ -236,7 +236,7 @@ const showDetails = ref(false)
 }
 
 .footer-version a:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* One line with the app version — two stacked mono lines was the tallest thing in the column. */

@@ -158,7 +158,7 @@ useUpdateNotice().markSeen()
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 1.05rem;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .cl-date {
@@ -225,7 +225,7 @@ useUpdateNotice().markSeen()
   font-weight: 600;
   cursor: pointer;
 }
-.show-more:hover { border-color: var(--accent); color: var(--accent); }
+.show-more:hover { border-color: var(--accent); color: var(--accent-ink); }
 .show-more:disabled { opacity: 0.6; cursor: default; }
 .show-more:disabled:hover { border-color: var(--border); color: var(--text-muted); }
 

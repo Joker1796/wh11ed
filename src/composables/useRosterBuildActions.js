@@ -24,7 +24,6 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
   const list = () => roster() || null
 
   const factionPickerOpen = ref(false)
-  const detachmentPickerOpen = ref(false)
 
   // ── Faction ──
   function pickFaction(slug) {
@@ -39,16 +38,16 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
   }
 
   // ── Detachments ──
-  // Options for the DP-budget-aware multi-select picker (DetachmentPickerModal). `unique` is the
+  // Options for the DP-budget-aware multi-select picker (DetachmentPicker). `unique` is the
   // detachment's tag (DYNASTY, HYPERCRYPT…): the picker prints it and hides a second detachment
   // sharing it (25.04). It was left out of this mapping until 2026-10-03, so the builder showed no
   // tags and let the clashing pair be picked — only validateRoster caught it afterwards.
   const detachmentOptions = computed(() =>
-    (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDispositions: d.fds || [], unique: d.unique || '' })))
+    (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDispositions: d.fds || [], unique: d.unique || '', from: d.from || '' })))
   const detachmentSummary = computed(() => (list()?.detachments || []).join(', '))
   const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
   const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
-  // A lone 3 DP detachment at Incursion (25.04; DetachmentPickerModal never disables the first
+  // A lone 3 DP detachment at Incursion (25.04; DetachmentPicker never disables the first
   // pick). The screens show it as a "?" explainer instead of an error.
   // The budget these detachments are held to — the battle's, or 3 for a lone 3 DP one at Incursion.
   const dpLimit = computed(() => dpLimitFor(curDetachments.value, effBattle?.value?.dp))
@@ -144,7 +143,7 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
   }
 
   return {
-    factionPickerOpen, detachmentPickerOpen, pickFaction,
+    factionPickerOpen, pickFaction,
     detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit,
     toggleDetachment, clearDetachments, dropOrphanEnhancements,
     openUid, toggleOpen, openEntry,

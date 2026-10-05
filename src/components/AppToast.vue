@@ -64,7 +64,7 @@ const labels = computed(() => ui[locale.value])
   color: var(--text-primary);
 }
 .toast-icon {
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 1rem;
   flex-shrink: 0;
 }

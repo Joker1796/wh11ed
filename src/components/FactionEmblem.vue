@@ -72,7 +72,7 @@ const style = computed(() => {
   aspect-ratio: var(--ratio);
   max-width: 3em; /* a banner-wide emblem (Astra Militarum, 3.3:1) shrinks in the box instead */
   margin: -0.2em 0;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 /* Every stamp's centre on one spot — about a card's height in from the right edge — so a column of
    cards reads as one line of emblems: a wide one runs off the edge by itself, a narrow one stands

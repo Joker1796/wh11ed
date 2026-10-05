@@ -213,15 +213,19 @@ screens that had copied each other and drifted. The pairs that existed then are 
   (2026-09-25). Its rows must not shrink (`flex-shrink: 0`): the lists are flex columns.
   **A picker's list is a component of its own, so it can live in a modal OR a dropdown**
   (2026-10-01): `tracker/FactionPickerList.vue` and `tracker/DetachmentPickerList.vue` are the
-  rows; `FactionPickerModal`/`DetachmentPickerModal` wrap them in `BaseModal` (phones, the tracker),
-  and the desk's settings line wraps them in `PickerDropdown.vue` — the account menu's recipe
+  rows; `FactionPickerModal` wraps its list in `BaseModal` (phones, the tracker),
+  and the desk's settings line wraps it in `PickerDropdown.vue` — the account menu's recipe
   (backdrop for the outside click, Escape, `fade-pop`), the modal's surface, its own scroll. The
   declared Force Disposition there is a `PickerDropdown` too, its chips in their colours.
   Everywhere else a picker serves both widths, **`AdaptivePicker.vue`** picks the shape: the
   dropdown from 901px up, the modal below, the same list in both (its slot hands the list
   `compact` and `bodyClass`). In use: the faction pages' chapter and detachment pickers
-  (`FactionPickerBar`, rows from `FactionDetachmentList`) and the tracker's game setup (faction,
-  detachments). Not for pickers whose rows unfold rich content (missions, secondaries, twists,
+  (`FactionPickerBar`, rows from `FactionDetachmentList`), the tracker's game setup (faction) and
+  **every multi-pick of detachments under a DP budget — `tracker/DetachmentPicker.vue`**, the one
+  component the tracker's setup, the builder's phone form and the desk's settings line all open
+  (2026-10-05; the builder had a modal of its own and a dropdown of its own until then). Both
+  detachment lists put another faction's detachments (a row's `from`) after the army's own, under
+  `DetachmentGroupHead.vue`. Not for pickers whose rows unfold rich content (missions, secondaries, twists,
   layouts) or carry a form (the roster picker's share-link field) — a dropdown is for a short list.
   **The panel is teleported to `<body>`** and placed from the trigger's rect (`position: fixed`,
   `width`/`align` props, it follows scroll and resize): a dropdown inside a roster card
@@ -278,6 +282,16 @@ Every dialog is a `BaseModal` (teleported to `<body>`, `useModalA11y` for focus/
   global. A new dialog has to set its own padding — nothing will do it for you.
 
 
+## Borders that touch
+
+Two bordered boxes set flush against each other (a card and its ⓘ, a segmented control, a
+button group) share ONE edge: overlap them with `margin-left: -1px` instead of dropping one side's
+border, and lift whichever is hovered, focused or selected with `position: relative; z-index`, so
+its accent edge is drawn over the neighbour's grey one. Dropping a side (`border-left: none`) or
+skipping the lift leaves the hovered box with three accent sides — the owner caught it on the
+detachment picker's ⓘ (2026-10-04) and it has happened before. **Check every state on the shared
+edge — hover of each box, selected, focus — in a screenshot before calling it done.**
+
 ## Corners & surfaces
 
 **Corners are square.** `border-radius` is not a default we reach for — it is an exception that
@@ -312,6 +326,15 @@ There is no separate style passport: the design tokens at the top of `src/style.
 Read that `:root` block before styling anything new — it is short and it answers every "which
 colour / which face / how big" question.
 
+- **`--accent` fills, `--accent-ink` writes** (2026-10-05). A button ground, a tab plate, a tint
+  take `--accent`; text, an icon, a link take `--accent-ink` (and `--accent-ink-hover`). In the dark
+  theme the fill went a step darker (`#b8474d`, white on it 5.2:1) and the ink kept the red the
+  site always wrote in (`#c8585e`): every lighter shade that passes AA read pink to the owner, so
+  that red text stays below AA on purpose and is what the a11y baseline holds. Inside a faction's
+  colour the ink is that colour darkened by 15% in the light theme. Whatever re-points `--accent` must
+  re-point the ink beside it — `.fa-themed`, FactionLayout, Combat Patrol, the print sheet do, and
+  so does every game scope that points `--accent` at a side (`.turn-colored`, `.ap`, `.cps`, `.mside`…:
+  there the ink is the side colour itself).
 - **Colour** — `--bg-*` surfaces, `--accent` (the house oxblood), `--text-*`, `--border*`, the
   ability tints (`--ability-weapon` / `--ability-unit`) and the sub-rule set. There is a dark
   theme (`:root[data-theme='dark']` further down the same file), so a hex literal in a component
@@ -354,11 +377,12 @@ measures three things from computed styles and real geometry:
 
 Findings are keyed by theme + element signature + colour pair, not by page — a bad token pair is
 one finding however many pages carry it, and fixing the token clears them all. **The baseline**
-(`scripts/lib/a11y-baseline.json`, 124 entries after the first pass) holds what the palette itself
-was short of AA on that day: `--text-dim` on every surface (2.6–3.2:1), the dark `--accent` as
+(`scripts/lib/a11y-baseline.json`) holds since 2026-10-05 only the dark theme's red text, kept by
+the owner's choice (30 entries, see the palette note above). It held 124 after the first pass, all
+of them what the palette itself was short of AA on that day: `--text-dim` on every surface (2.6–3.2:1), the dark `--accent` as
 text (2.8–3.7:1) and as a button ground under white (4.2:1), `--text-muted` on `--bg-secondary`
-(4.24:1), a faction's own green as chip text. Those are palette decisions, still a fix each; the
-gate is red only on something new. A baseline entry that stops firing is reported as stale, so
+(4.24:1), a faction's own green as chip text. All fixed (the greys merged, the ink token, spot fixes); a
+new entry is a decision to write down, not a default. A baseline entry that stops firing is reported as stale, so
 the file shrinks as the palette is fixed; `--baseline` re-records it — read the diff first.
 
 Tracker and roster screens that need a game or a list in storage are not in the route sample on

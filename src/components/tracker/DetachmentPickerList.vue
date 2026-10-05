@@ -22,16 +22,47 @@
         class="det-hidden"
       >{{ labels.detachmentHidden.replace('{n}', hidden) }}</em>
     </div>
-    <DetachmentOption
-      v-for="d in offered"
+    <!-- The ⓘ on the right opens the detachment's rule, enhancements and stratagems over the
+         picker, so a detachment can be read before it is taken (a player's idea, 2026-10-04). A
+         button of its own beside the row, not inside it: the row is a button already. -->
+    <template
+      v-for="(d, i) in offered"
       :key="d.name"
-      :name="d.name"
-      :force-dispositions="d.forceDispositions || []"
-      :unique="d.unique || ''"
-      :dp="d.dp"
-      :on="selected.includes(d.name)"
-      :compact="compact"
-      @click="$emit('toggle', d)"
+    >
+      <DetachmentGroupHead
+        v-if="d.from && d.from !== offered[i - 1]?.from"
+        :from="d.from"
+      />
+      <div
+        class="det-row"
+        :class="{ compact }"
+      >
+        <DetachmentOption
+          :name="d.name"
+          :force-dispositions="d.forceDispositions || []"
+          :unique="d.unique || ''"
+          :dp="d.dp"
+          :on="selected.includes(d.name)"
+          :compact="compact"
+          @click="$emit('toggle', d)"
+        />
+        <button
+          v-if="factionSlug"
+          type="button"
+          class="det-info"
+          :title="labels.detachmentRules"
+          :aria-label="`${labels.detachmentRules}: ${d.name}`"
+          @click="infoFor = d.name"
+        >
+          <i class="bi bi-info-circle" />
+        </button>
+      </div>
+    </template>
+    <RosterRulesModal
+      v-if="infoFor"
+      :faction-slug="factionSlug"
+      :detachment="infoFor"
+      @close="infoFor = ''"
     />
   </div>
 </template>
@@ -40,8 +71,10 @@
 // The detachments a DP budget still allows, without the frame around them — the modal (phones, the
 // tracker) and the desk's dropdown (RosterSettingsBar) draw the same rows, the same "what is hidden
 // and why" line and the same way back.
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import DetachmentGroupHead from '../DetachmentGroupHead.vue'
 import DetachmentOption from '../DetachmentOption.vue'
+import RosterRulesModal from '../roster/RosterRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -52,11 +85,16 @@ const props = defineProps({
   dpSpent:     { type: Number, required: true },
   // The desk's dropdown: one-line rows and a quiet tools line (DetachmentOption's `compact`).
   compact:     { type: Boolean, default: false },
+  // Whose detachments these are — what the ⓘ needs to load their rules; without it, no ⓘ.
+  factionSlug: { type: String, default: '' },
 })
 defineEmits(['toggle', 'clear'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// The detachment whose rules are open over the picker, by name.
+const infoFor = ref('')
 
 
 // A detachment's TAG bars a second detachment sharing it ("this detachment has the DYNASTY tag and
@@ -86,4 +124,37 @@ const hidden = computed(() => props.detachments.length - offered.value.length)
 .det-hidden { font-size: 0.75rem; font-style: normal; color: var(--text-dim); text-align: right; }
 .det-tools.compact .det-clear { padding: 0.15rem 0.45rem; font-size: 0.75rem; white-space: nowrap; }
 .det-tools.compact .det-hidden { font-size: 0.7rem; line-height: 1.25; }
+
+/* The row and its ⓘ, one piece: the ⓘ against the card, the two borders laid over each other
+   (margin -1px) rather than one of them dropped (owner, 2026-10-04), the row's full height, so it
+   is a tap target of its own and not a speck in the card's corner. Whichever is hovered, or the
+   card when taken, comes on top — otherwise its accent edge on the shared side hides under the
+   neighbour's grey one (components/CLAUDE.md, "Borders that touch"). flex-shrink 0 for
+   DetachmentOption's reason (its .det). */
+.det-row { display: flex; align-items: stretch; flex-shrink: 0; }
+.det-row > .det { flex: 1; min-width: 0; }
+.det-row > * { position: relative; }
+.det-row > .det.on { z-index: 1; }
+@media (hover: hover) {
+  .det-row > :hover { z-index: 2; }
+}
+.det-info {
+  flex: none;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: -1px;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color var(--motion-fast), border-color var(--motion-fast);
+}
+.det-row.compact .det-info { width: 36px; font-size: 1rem; }
+@media (hover: hover) {
+  .det-info:hover { color: var(--accent-ink); border-color: var(--accent); }
+}
 </style>

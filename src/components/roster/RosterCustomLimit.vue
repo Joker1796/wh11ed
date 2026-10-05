@@ -116,5 +116,5 @@ defineExpose({ focus: () => points.value?.focus() })
 .rcl-row:first-child { border-top: none; }
 .rcl-name { font-size: 0.85rem; color: var(--text-primary); }
 /* A number the player set, against one borrowed from a size: the number takes the accent. */
-.own :deep(.step-val) { color: var(--accent); }
+.own :deep(.step-val) { color: var(--accent-ink); }
 </style>

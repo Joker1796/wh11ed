@@ -118,12 +118,12 @@ const { renderInline } = useRenderInline()
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.75rem;
   margin-top: 0.25rem; font-size: 0.76rem;
 }
-.sr-used { font-weight: 700; color: var(--accent); }
+.sr-used { font-weight: 700; color: var(--accent-ink); }
 .sr-undo {
   display: inline-flex; align-items: center; gap: 0.25rem;
   min-height: 28px; padding: 0; border: 0; background: none;
   font: inherit; font-weight: 600; color: var(--text-muted); cursor: pointer;
 }
-@media (hover: hover) { .sr-undo:hover { color: var(--accent); } }
+@media (hover: hover) { .sr-undo:hover { color: var(--accent-ink); } }
 .sr-why { color: var(--text-dim); }
 </style>

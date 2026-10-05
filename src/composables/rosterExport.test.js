@@ -167,9 +167,33 @@ describe('buildRosterText — compact', () => {
   })
 })
 
+// War Organ's "simple" export, as a player pasted it: units and points, nothing else.
+describe('buildRosterText — simple', () => {
+  it('prints the header, the detachments, the disposition, then "Unit (N points)" by name', () => {
+    expect(build('simple')).toBe([
+      'Strike Force Alpha [Space Marines] - (415 points)',
+      'Detachments: Gladius Task Force',
+      'Purge the Foe',
+      '',
+      'Captain (100 points)',
+      'Intercessor Squad (170 points)',
+      'Lieutenant (70 points)',
+      'Rhino (75 points)',
+    ].join('\n'))
+  })
+
+  // Every copy on a line of its own, with its own price — the lines add up to the header.
+  it('does not collapse copies', () => {
+    const t = buildRosterText({ ...roster, units: [...roster.units, { uid: 'e', id: 'rhino', size: 0 }] }, ctx, 'simple')
+    expect(t.split('\n').filter((l) => l.startsWith('Rhino ('))).toHaveLength(2)
+    const sum = t.split('\n').map((l) => Number(l.match(/\((\d+) points\)$/)?.[1] || 0)).slice(4).reduce((a, n) => a + n, 0)
+    expect(`(${sum} points)`).toBe(t.split('\n')[0].match(/\(\d+ points\)/)[0])
+  })
+})
+
 describe('buildRosterText — the shapes themselves', () => {
-  it('offers exactly the four formats, and defaults to the app’s', () => {
-    expect(EXPORT_FORMATS).toEqual(['gw', 'wtc', 'wtc-compact', 'compact'])
+  it('offers exactly the five formats, and defaults to the app’s', () => {
+    expect(EXPORT_FORMATS).toEqual(['gw', 'wtc', 'wtc-compact', 'compact', 'simple'])
     expect(buildRosterText(roster, ctx)).toBe(build('gw'))
   })
 

@@ -469,7 +469,7 @@ function searchDatasheets(q, locale) {
     for (const [id, name, aliasesRu, legacy, legends] of units) {
       const nameHit = foldName(name).includes(qn)
       // A unit's own name still wins if it also happens to match (checked first) — the alias is
-      // only surfaced as `titleRu` (the "found via nickname" subline) when it's the reason this
+      // only surfaced as `matchedBy` (the "found via nickname" note) when it's the reason this
       // result matched at all, not on every result for a unit that merely has aliases on file.
       const aliasHit = !nameHit && (aliasesRu || []).find((a) => foldName(a).includes(qn))
       // A retired Legends unit the sheet stands in for ("Ufthak Blackhawk" → Warboss). The
@@ -486,7 +486,13 @@ function searchDatasheets(q, locale) {
         key: `ds-${slug}-${id}`,
         sectionNum: '',
         title: name,
-        titleRu: legacyHit ? `${L.dsLegendsProxies}: ${legacyHit}` : isRu && aliasHit ? aliasHit : tagHit || '',
+        titleRu: '',
+        // WHY the unit is here — the nickname, the ability or keyword, the retired unit it stands
+        // in for — not a translation of its name, which is what `titleRu` carries for every other
+        // kind of result. SearchModal draws it at the end of the location line rather than as a
+        // line of its own: under every unit it only repeated the query, and a whole row each
+        // (2026-10-04, owner: "catastrophically much vertical space").
+        matchedBy: legacyHit ? `${L.dsLegendsProxies}: ${legacyHit}` : isRu && aliasHit ? aliasHit : tagHit || '',
         body: '',
         snippet: '',
         route: `/factions/${slug}/datasheets/${id}`,
@@ -538,7 +544,10 @@ function searchFactions(q, locale) {
         key: `faction-${f.slug}`,
         sectionNum: '',
         title: f.name,
-        titleRu: isRu && aliasHit ? aliasHit : '',
+        titleRu: '',
+        // Why it matched, not a translation of the title: drawn on the location line (see
+        // `matchedBy` in searchDatasheets).
+        matchedBy: isRu && aliasHit ? aliasHit : '',
         body: '',
         snippet: '',
         route: `/factions/${f.slug}`,

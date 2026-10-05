@@ -135,6 +135,9 @@ export function loadoutItemCopies(def, entry) {
 
   for (const [m, list] of def.defaults) {
     const models = perMini?.get(m)
+    // A profile the chosen size fields none of holds nothing: Wolf Guard Headtakers without their
+    // Hunting Wolves kept a "Teeth and Claws" row on the card, uncounted, until 2026-10-05.
+    if (models === 0) continue
     for (const [id, c, total] of list) {
       const take = removed.get(`${m}:${id}`) || 0
       // `take` counts MODELS OF THIS PROFILE that gave the item up; `c` is its per-model quantity.
@@ -191,6 +194,32 @@ export function loadoutItemCopies(def, entry) {
     for (const [id, c] of optionItems(opt)) {
       for (let k = 0; k < c; k++) for (const held of layers) slot(id, g.all ? null : (g.m ?? 0), held)
     }
+  }
+  // A CHAINED swap gives up what another option handed out, not what the model was printed with:
+  // "boltgun and close combat weapon → Astartes chainsword and bolt pistol", then "bolt pistol →
+  // hand flamer". The ledger counts it like any swap, but only printed lines were ever reduced, so
+  // the bolt pistol stayed beside the hand flamer (found 2026-10-05 sweeping every swap; 13 groups,
+  // Death Company Marines, Furioso, Dire Avengers, Corsairs, Wracks…). What a profile gave up that
+  // it was not printed with comes off the copies the options added, first ones first.
+  const printed = new Set(def.defaults.flatMap(([m, list]) => list.map(([id]) => `${m}:${id}`)))
+  for (const [key, take] of removed) {
+    if (!take || printed.has(key)) continue
+    const [m, id] = key.split(':').map(Number)
+    // The profile's own copies first, then the unit-wide ones (a Desolation Sergeant gives up the
+    // superkrak launcher a whole-unit group handed every model).
+    let left = take
+    for (const own of [true, false]) {
+      for (const sl of copies.get(id) || []) {
+        if (left <= 0) break
+        if ((own ? sl.m !== m : sl.m != null) || sl.n == null) continue
+        const d = Math.min(sl.n, left)
+        sl.n -= d
+        left -= d
+      }
+    }
+    const kept = (copies.get(id) || []).filter((sl) => sl.n !== 0)
+    if (kept.length) copies.set(id, kept)
+    else copies.delete(id)
   }
   // The Soul Grinder's mark arms it: "this model is additionally equipped with: phlegm
   // bombardment". Detachments aren't in scope here — Daemonic Allegiance is ungated, and a gated

@@ -69,7 +69,7 @@ function show(e) {
   padding: 0 0.2rem;
   background: none;
   border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 0.75rem;
   line-height: 1;
   cursor: pointer;

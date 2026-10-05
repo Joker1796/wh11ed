@@ -364,7 +364,7 @@ p {
 }
 
 .flow-arrow {
-  color: var(--accent);
+  color: var(--accent-ink);
   flex-shrink: 0;
   font-weight: 600;
 }
@@ -415,6 +415,9 @@ p {
 
 .result-fail    { background: #9d060d; }
 .result-success { background: #027360; }
+/* A bold term in an outcome ("**CRITICAL HIT**") keeps the plate's white: the global `strong` is a
+   dark ink for the page, and on the green plate it read 2.35:1 (a11y gate, 2026-10-05). */
+.result-outcome :deep(strong) { color: inherit; }
 
 :deep(.body-image) {
   display: block;

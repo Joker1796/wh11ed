@@ -70,7 +70,7 @@ defineProps({
   font-family: var(--font-display);
   font-size: var(--fs-section-num);
   font-weight: var(--fw-heading);
-  color: var(--accent);
+  color: var(--accent-ink);
   opacity: 0.35;
   line-height: 1;
   min-width: 4rem;

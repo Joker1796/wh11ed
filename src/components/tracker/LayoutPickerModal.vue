@@ -155,7 +155,7 @@ function pick(m, l) {
   padding: 0.3rem 1.1rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 0.84rem;
   font-weight: 700;
   cursor: pointer;

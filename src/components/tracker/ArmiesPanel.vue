@@ -66,7 +66,7 @@ defineExpose({ reveal })
 
 <style scoped>
 /* The tabs' lit edge in the chosen army's side colour. */
-.ap { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
+.ap { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); --accent-ink: var(--side); --accent-ink-hover: color-mix(in srgb, var(--side) 80%, #000); }
 .ap.opp { --side: var(--side-opponent); }
 .ap > .ap-card { margin-top: 0.6rem; }
 </style>

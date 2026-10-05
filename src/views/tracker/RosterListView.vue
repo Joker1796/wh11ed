@@ -181,10 +181,10 @@
             <div class="roster-meta">
               <span class="meta-left">
                 <!-- A list without a limit shows what it costs and nothing to measure it against; an archived
-                     one is never over anything (it is not checked). -->
+                     one, or one with its checks off, is never over anything (it is not checked). -->
                 <span
                   class="rpoints"
-                  :class="{ over: !r.archived && (r.summary?.points || 0) > limitOf(r) }"
+                  :class="{ over: legalityOn(r) && (r.summary?.points || 0) > limitOf(r) }"
                 >
                   {{ r.summary?.points || 0 }}<span class="unit"><template v-if="Number.isFinite(limitOf(r))">/{{ limitOf(r) }}</template> {{ labels.rosterPointsLabel }}</span>
                 </span>
@@ -203,8 +203,17 @@
                   v-if="r.draft"
                   class="rstep"
                 >{{ draftStepLabel(r) }}</span>
+                <!-- Checks off: said once, in place of a warning count — an archived list says it in its
+                     own tab, so the mark is for a list still in use. -->
                 <span
-                  v-else-if="r.summary?.issues && !r.archived"
+                  v-else-if="!r.archived && !legalityOn(r)"
+                  class="checks-off"
+                  :title="labels.rosterChecksOffNote"
+                >
+                  <i class="bi bi-slash-circle" /> {{ labels.rosterChecksOff }}
+                </span>
+                <span
+                  v-else-if="r.summary?.issues && legalityOn(r)"
                   class="issues"
                   :title="String(r.summary.issues)"
                 >
@@ -269,7 +278,7 @@ import { useRosters } from '../../composables/useRosters.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
-import { dispositionOf, effectiveBattle, usesAllies } from '../../composables/rosterEngine.js'
+import { dispositionOf, effectiveBattle, legalityOn, usesAllies } from '../../composables/rosterEngine.js'
 import { dispositionColor } from '../../data/dispositionColors.js'
 import { refreshSummaries } from '../../composables/rosterSummary.js'
 import rosterCore from '../../data/roster/core.js'
@@ -599,7 +608,7 @@ function confirmDelete() {
 .rfd { flex-shrink: 0; margin-top: 0.1rem; }
 .rdets { display: block; font-size: 0.72rem; color: var(--text-muted); opacity: 0.8; }
 @media (prefers-color-scheme: dark) {
-  .rfaction, .rpin { color: var(--fa-dark, var(--accent)); }
+  .rfaction, .rpin { color: var(--fa-dark, var(--accent-ink)); }
 }
 .rpin { flex-shrink: 0; margin-left: auto; font-size: 0.85rem; color: var(--fa-light, var(--accent)); }
 .rpoints { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); white-space: nowrap; }
@@ -615,16 +624,17 @@ function confirmDelete() {
 }
 .meta-left { display: inline-flex; align-items: center; gap: 0.6rem; }
 .issues { color: #d98a2b; display: inline-flex; align-items: center; gap: 0.25rem; }
+.checks-off { color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.25rem; }
 
 </style>
 
 <!-- Explicit data-theme must win over prefers-color-scheme in both directions (see FactionLayout). -->
 <style>
 :root[data-theme='light'] .roster.themed { border-left-color: var(--fa-light, #8b2a33); }
-:root[data-theme='dark'] .roster.themed { border-left-color: var(--fa-dark, #c8585e); }
+:root[data-theme='dark'] .roster.themed { border-left-color: var(--fa-dark, #b8474d); }
 @media (hover: hover) {
   :root[data-theme='light'] .roster.themed:hover { border-color: var(--fa-light, #8b2a33); }
-  :root[data-theme='dark'] .roster.themed:hover { border-color: var(--fa-dark, #c8585e); }
+  :root[data-theme='dark'] .roster.themed:hover { border-color: var(--fa-dark, #b8474d); }
 }
 :root[data-theme='light'] .rfaction,
 :root[data-theme='light'] .rpin { color: var(--fa-light, #8b2a33); }

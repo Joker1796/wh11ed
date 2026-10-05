@@ -212,7 +212,7 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
 }
 
 .det-meta-unique {
-  color: var(--accent);
+  color: var(--accent-ink);
   border-color: var(--accent);
 }
 
@@ -302,7 +302,7 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-ink);
   border: 1px solid var(--accent);
   padding: 1px 5px;
 }

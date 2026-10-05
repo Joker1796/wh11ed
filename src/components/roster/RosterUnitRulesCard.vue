@@ -549,7 +549,7 @@ defineExpose({ name: computed(() => view.value.sheet?.name || '') })
   color: var(--text-dim); font: inherit; text-transform: none; letter-spacing: 0;
   cursor: pointer; text-decoration: underline;
 }
-.rum-strats-more:hover { color: var(--accent); }
+.rum-strats-more:hover { color: var(--accent-ink); }
 .rum-strats-blocked { margin-top: 0.4rem; }
 .rum-strats-empty { margin: 0; color: var(--text-dim); font-size: 0.78rem; }
 /* A second row under the set's own chips: what the picked option still waits on. */
@@ -559,7 +559,7 @@ defineExpose({ name: computed(() => view.value.sheet?.name || '') })
   margin: 0 0 0.3rem; color: var(--text-muted);
   font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
 }
-.rum-strats-note { margin-left: 0.4rem; color: var(--accent); font-weight: 600; text-transform: none; letter-spacing: 0; }
+.rum-strats-note { margin-left: 0.4rem; color: var(--accent-ink); font-weight: 600; text-transform: none; letter-spacing: 0; }
 /* The English original beside a translated ability name — see DatasheetCard's .ds-name-en. */
 .rum-name-en { font-weight: 400; font-size: 0.85em; color: var(--text-muted); }
 .rum-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }
@@ -599,7 +599,7 @@ defineExpose({ name: computed(() => view.value.sheet?.name || '') })
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .rum-rule + .rum-rule { border-top: 1px dashed color-mix(in srgb, var(--accent) 30%, var(--border)); }
 .rum-rule-btn {
@@ -620,7 +620,7 @@ defineExpose({ name: computed(() => view.value.sheet?.name || '') })
 .rum-rule-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .rum-rule-src { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 .rum-rule-name { font-weight: 700; }
-.rum-chev { font-size: 0.7rem; color: var(--accent); flex-shrink: 0; }
+.rum-chev { font-size: 0.7rem; color: var(--accent-ink); flex-shrink: 0; }
 .rum-rule-body { padding-bottom: 0.5rem; }
 .rum-ability { margin-bottom: 0.35rem; }
 .rum-ability:last-child { margin-bottom: 0; }

@@ -16,7 +16,8 @@ import { isStandaloneDisplay } from './standalone.js'
 //   • anyone else asks for it — the ⚙ menu's "Download for offline" (AppNavbar.vue).
 //
 // Every fetch is served and stored by the SW's own CacheFirst routes (`/assets/` and `/images/`),
-// so nothing here touches the Cache API directly: a plain fetch is enough to populate them.
+// so nothing here WRITES to the Cache API: a plain fetch is enough to populate them. It is only
+// read, to leave out what is already there (`missing` below).
 
 const DONE_KEY = 'wh11ed-offline-warmed'
 const CONCURRENCY = 4
@@ -29,6 +30,22 @@ function checksum(urls) {
     for (let i = 0; i < url.length; i++) h = (Math.imul(31, h) + url.charCodeAt(i)) | 0
   }
   return `${urls.length}.${(h >>> 0).toString(36)}`
+}
+
+// The files of the list no cache holds yet — the only ones a run actually downloads. The list is
+// every file the app has beyond its shell (~780), and a release renames a hundred or so of them;
+// the rest the service worker answers from its cache without touching the network. Counting the
+// whole list, the indicator read "Downloading update 0/777" after every release, which looked
+// like the app pulling itself down again (owner, 2026-10-05) when it was ~2 MB of 17. Without the
+// Cache API (no service worker, a test) every file counts, as before.
+async function missing(files) {
+  if (typeof caches === 'undefined') return files
+  try {
+    const held = await Promise.all(files.map((url) => caches.match(url).then(Boolean, () => false)))
+    return files.filter((_, i) => !held[i])
+  } catch {
+    return files
+  }
 }
 
 // 'idle' — nothing to report (a tab that has not asked, or a set already warmed)
@@ -81,8 +98,16 @@ async function run({ force = false } = {}) {
       return
     }
 
+    const todo = await missing(files)
+    if (!todo.length) {
+      localStorage.setItem(DONE_KEY, sig)
+      warmed.value = true
+      if (force) status.value = 'ready' // the button asked: answer it, even with nothing to fetch
+      return
+    }
+
     isUpdate.value = !force && localStorage.getItem(DONE_KEY) !== null
-    total.value = files.length
+    total.value = todo.length
     done.value = 0
     status.value = 'warming'
 
@@ -92,8 +117,8 @@ async function run({ force = false } = {}) {
     let cursor = 0
     let failed = false
     const worker = async () => {
-      while (cursor < files.length) {
-        const url = files[cursor++]
+      while (cursor < todo.length) {
+        const url = todo[cursor++]
         try {
           await fetch(url, { cache: 'no-store' })
         } catch {
@@ -102,7 +127,7 @@ async function run({ force = false } = {}) {
         done.value++
       }
     }
-    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, files.length) }, worker))
+    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, todo.length) }, worker))
 
     if (failed) {
       status.value = 'error' // leave the marker as it was so a later attempt retries

@@ -388,7 +388,7 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 400;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-bottom: 0.4rem;
 }
 .block-hint { margin: -0.2rem 0 0.6rem; font-size: 0.78rem; color: var(--text-muted); }
@@ -403,7 +403,7 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
   vertical-align: middle;
   border-top: 2px solid currentColor;
 }
-.lg.you { color: var(--accent); }
+.lg.you { color: var(--accent-ink); }
 .lg.opp { color: var(--text-dim); }
 .lg.opp::before { border-top-style: dashed; }
 
@@ -417,7 +417,7 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
   font-size: 0.85rem;
 }
 .ros-name { color: var(--text-primary); text-decoration: none; }
-a.ros-name:hover { color: var(--accent); }
+a.ros-name:hover { color: var(--accent-ink); }
 .ros-rec { grid-row: span 2; align-self: center; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .ros-meta { font-size: 0.75rem; color: var(--text-dim); }
 </style>

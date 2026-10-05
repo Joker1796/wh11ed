@@ -1,14 +1,14 @@
 import { describe, it, expect, afterEach } from 'vitest'
 import { mount, DOMWrapper } from '@vue/test-utils'
-import DetachmentPickerModal from './DetachmentPickerModal.vue'
+import DetachmentPicker from './DetachmentPicker.vue'
 
-// BaseModal renders through <Teleport to="body">, so the buttons land outside the component's own
+// On a phone width (jsdom has no wide media query) the picker is BaseModal, which renders through <Teleport to="body">, so the buttons land outside the component's own
 // tree — search the document, as the other modal tests do.
 const body = () => new DOMWrapper(document.body)
 const det = (name, extra = {}) => ({ name, dp: 1, forceDispositions: ['Take and Hold'], ...extra })
 
-const mountPicker = (detachments, selected = []) => (wrapper = mount(DetachmentPickerModal, {
-  props: { detachments, selected, maxDp: 3, dpSpent: selected.length },
+const mountPicker = (detachments, selected = []) => (wrapper = mount(DetachmentPicker, {
+  props: { detachments, selected, maxDp: 3, dpSpent: selected.length, open: true },
   attachTo: document.body,
 }))
 const buttonFor = (name) => body().findAll('button.det').find((b) => b.text().includes(name))
@@ -18,7 +18,7 @@ const buttonFor = (name) => body().findAll('button.det').find((b) => b.text().in
 let wrapper = null
 afterEach(() => { wrapper?.unmount(); document.body.innerHTML = '' })
 
-describe('DetachmentPickerModal — tags', () => {
+describe('DetachmentPicker — tags', () => {
   const list = [
     det('Awakened Dynasty', { unique: 'DYNASTY' }),
     det('Hand of the Dynasty', { unique: 'DYNASTY' }),
@@ -46,8 +46,8 @@ describe('DetachmentPickerModal — tags', () => {
 
   it('offers only what the remaining Detachment Points can pay for', () => {
     // 3 DP spent of 3: nothing else fits, so nothing else is offered — and the count says so.
-    wrapper = mount(DetachmentPickerModal, {
-      props: { detachments: list, selected: ['Canoptek Court'], maxDp: 3, dpSpent: 3 },
+    wrapper = mount(DetachmentPicker, {
+      props: { detachments: list, selected: ['Canoptek Court'], maxDp: 3, dpSpent: 3, open: true },
       attachTo: document.body,
     })
     expect(body().findAll('button.det')).toHaveLength(1)
@@ -71,7 +71,7 @@ describe('DetachmentPickerModal — tags', () => {
 
 // Core rules 25.04: "If you are playing an Incursion battle, you can select a 3DP detachment as
 // your only detachment." The budget for that lone detachment IS 3 — the count says so, unflagged.
-describe('DetachmentPickerModal — a lone 3 DP detachment at Incursion', () => {
+describe('DetachmentPicker — a lone 3 DP detachment at Incursion', () => {
   const list = [det('Retaliation Cadre', { dp: 3 }), det('Kauyon', { dp: 1 }), det('Mont\'ka', { dp: 1 })]
 
   it('offers it at the start and counts it 3 / 3, not over', () => {
@@ -79,8 +79,8 @@ describe('DetachmentPickerModal — a lone 3 DP detachment at Incursion', () => 
     expect(buttonFor('Retaliation Cadre')).toBeDefined()
     wrapper.unmount()
     document.body.innerHTML = ''
-    wrapper = mount(DetachmentPickerModal, {
-      props: { detachments: list, selected: ['Retaliation Cadre'], maxDp: 2, dpSpent: 3 },
+    wrapper = mount(DetachmentPicker, {
+      props: { detachments: list, selected: ['Retaliation Cadre'], maxDp: 2, dpSpent: 3, open: true },
       attachTo: document.body,
     })
     const count = body().find('.mh-count')
@@ -91,12 +91,27 @@ describe('DetachmentPickerModal — a lone 3 DP detachment at Incursion', () => 
   })
 
   it('keeps the real budget for a detachment that fits', () => {
-    wrapper = mount(DetachmentPickerModal, {
-      props: { detachments: list, selected: ['Kauyon'], maxDp: 2, dpSpent: 1 },
+    wrapper = mount(DetachmentPicker, {
+      props: { detachments: list, selected: ['Kauyon'], maxDp: 2, dpSpent: 1, open: true },
       attachTo: document.body,
     })
     expect(body().find('.mh-count').text()).toBe('1 / 2 DP')
     expect(buttonFor('Mont\'ka')).toBeDefined()
     expect(buttonFor('Retaliation Cadre')).toBeUndefined()
+  })
+})
+
+describe('DetachmentPicker — another faction\'s detachments', () => {
+  it('heads each group of them, after the army\'s own', () => {
+    mountPicker([
+      det('Black Spear Task Force'),
+      det('Gladius Task Force', { from: 'space-marines' }),
+      det('Ironstorm Spearhead', { from: 'space-marines' }),
+      det('Deathwatch Support', { from: 'deathwatch' }),
+    ])
+    expect(body().findAll('.det-group').map((h) => h.text())).toEqual(['Space Marines detachments', 'Deathwatch detachments'])
+    const order = body().findAll('.det-group, button.det').map((e) => (e.classes('det-group') ? '#' : e.text().split('\n')[0].trim().slice(0, 8)))
+    expect(order[0]).not.toBe('#')
+    expect(order.filter((x) => x === '#')).toHaveLength(2)
   })
 })

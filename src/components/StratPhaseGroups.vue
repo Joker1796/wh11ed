@@ -85,7 +85,7 @@ function toggle(key) {
 .phase-head.now { border-color: var(--accent); }
 .phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
 .phase-name { flex: 1; text-align: left; }
-.phase-now { font-size: 0.85em; color: var(--accent); }
+.phase-now { font-size: 0.85em; color: var(--accent-ink); }
 .phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
 .phase-body { padding-top: 0.3rem; } /* the same step as between the heads */
 </style>

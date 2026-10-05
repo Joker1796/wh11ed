@@ -66,7 +66,7 @@ const LINKS = [
 .hero-subtitle {
   font-size: 0.85rem;
   letter-spacing: 2px;
-  color: var(--accent);
+  color: var(--accent-ink);
   text-transform: uppercase;
   font-weight: 600;
   font-family: var(--font-sans);
@@ -110,7 +110,7 @@ const LINKS = [
 }
 
 .link-host i {
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-right: 0.2rem;
 }
 

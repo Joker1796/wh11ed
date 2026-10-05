@@ -102,7 +102,7 @@ defineExpose({ show, openUnit })
 
 <style scoped>
 /* In the chosen army's side colour, like the Armies panel's tabs. */
-.rt { --side: var(--side-you); --accent: var(--side); }
+.rt { --side: var(--side-you); --accent: var(--side); --accent-ink: var(--side); }
 .rt.opp { --side: var(--side-opponent); }
 .rt-tabs { margin-bottom: 0.6rem; }
 </style>

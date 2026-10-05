@@ -37,7 +37,7 @@ const renderedBody = computed(() => props.body ? renderInline(props.body) : '')
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-bottom: 0.35rem;
 }
 

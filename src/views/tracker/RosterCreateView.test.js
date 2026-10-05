@@ -134,7 +134,7 @@ describe('RosterCreateView', () => {
 
     // Detachment picker only becomes usable once a faction is chosen; wait for its data.
     await waitFor(w, 'Gladius Task Force')
-    await w.findAll('.ch-pick')[1].trigger('click') // opens DetachmentPickerModal
+    await w.findAll('.ch-pick')[1].trigger('click') // opens the detachment picker
     const detBtn = w.findAll('.det').find((b) => b.text().includes('Gladius Task Force'))
     await detBtn.trigger('click')
     expect(w.text()).toContain('Gladius Task Force')
@@ -243,7 +243,7 @@ describe('RosterCreateView', () => {
     await waitFor(w, 'Gladius Task Force')
     await w.findAll('.ch-pick')[1].trigger('click')
     await w.findAll('.det').find((b) => b.text().includes('Gladius Task Force')).trigger('click')
-    await w.find('.mh-close').trigger('click') // close DetachmentPickerModal — its .modal-stub
+    await w.find('.mh-close').trigger('click') // close the detachment picker — its .modal-stub
     // would otherwise still be in the DOM (never auto-closes) and shadow RosterIssuesModal's own
     // .modal-stub later in this test.
 

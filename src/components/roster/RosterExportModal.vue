@@ -5,25 +5,21 @@
     @close="$emit('close')"
   >
     <div class="modal-body rex">
-      <!-- One list, three dialects: which one you need depends on where it is going (a TO's inbox,
-           a tournament header, a Discord channel), so the choice is a switch and not a setting. -->
-      <div
-        class="rex-fmts"
-        role="tablist"
-      >
-        <button
-          v-for="f in FORMATS"
-          :key="f"
-          type="button"
-          class="rex-fmt"
-          :class="{ on: format === f }"
-          role="tab"
-          :aria-selected="format === f"
-          @click="format = f"
-        >
-          {{ labels[FMT_LABEL[f]] }}
-        </button>
-      </div>
+      <!-- One list, five dialects: which one you need depends on where it is going (a TO's inbox,
+           a tournament header, a Discord channel), so the choice is asked every time and not kept
+           as a setting. A native select rather than a row of tabs (owner, 2026-10-05): five of
+           them took two lines on a phone, and a select opens the phone's own list instead of a
+           second sheet over this one — the import dialog asks its faction the same way. -->
+      <label class="rex-fmt">
+        <span>{{ labels.rosterExportFormat }}</span>
+        <select v-model="format">
+          <option
+            v-for="f in FORMATS"
+            :key="f"
+            :value="f"
+          >{{ labels[FMT_LABEL[f]] }}</option>
+        </select>
+      </label>
       <p class="rex-hint">
         {{ labels[FMT_HINT[format]] }}
       </p>
@@ -82,8 +78,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const FORMATS = EXPORT_FORMATS
-const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', 'wtc-compact': 'rosterFmtWtcCompact', compact: 'rosterFmtCompact' }
-const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', 'wtc-compact': 'rosterFmtWtcCompactHint', compact: 'rosterFmtCompactHint' }
+const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', 'wtc-compact': 'rosterFmtWtcCompact', compact: 'rosterFmtCompact', simple: 'rosterFmtSimple' }
+const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', 'wtc-compact': 'rosterFmtWtcCompactHint', compact: 'rosterFmtCompactHint', simple: 'rosterFmtSimpleHint' }
 const format = ref('gw')
 
 // The footer names the tool and the points data that wrote the list — never the GW app's own
@@ -128,17 +124,16 @@ async function copy(value, which) {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
 }
-.rex-fmts { display: flex; gap: 0.35rem; flex-wrap: wrap; }
-.rex-fmt {
-  padding: 0.35rem 0.7rem;
-  font-size: 0.78rem;
+.rex-fmt { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--text-secondary); }
+.rex-fmt select {
+  padding: 0.45rem 0.5rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   cursor: pointer;
 }
-.rex-fmt.on { color: #fff; background: var(--accent); border-color: var(--accent); }
 .rex-hint { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
 .rex-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .rex-btn {
@@ -159,7 +154,6 @@ async function copy(value, which) {
    they wrap into a stack that fills half the sheet. Same rule as the CTA rows — button-sized
    buttons on one line. */
 @media (max-width: 480px) {
-  .rex-fmt { padding: 0.3rem 0.55rem; font-size: 0.72rem; }
   .rex-actions { gap: 0.4rem; }
   .rex-btn { padding: 0.45rem 0.7rem; font-size: 0.78rem; white-space: nowrap; }
 }

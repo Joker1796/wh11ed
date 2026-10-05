@@ -326,7 +326,7 @@ const currentLayout = computed(() =>
   font-weight: 600;
 }
 .footprint-source :deep(.ext-link) {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: underline;
 }
 
@@ -566,7 +566,7 @@ const currentLayout = computed(() =>
   border-color: var(--accent);
 }
 .measurements-toggle[aria-pressed="true"] {
-  color: var(--accent);
+  color: var(--accent-ink);
   border-color: var(--accent);
 }
 .tab-main {

@@ -2004,7 +2004,8 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      "lend": 1
     }
   ],
   "allies": [

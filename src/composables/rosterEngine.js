@@ -1449,6 +1449,8 @@ export function defaultLoadoutLines(def, items, entry) {
 
   return (def?.defaults || []).flatMap(([m, list]) => {
     const models = perMini?.get(m)
+    // A profile this size fields none of has no line: Headtakers without their wolves (2026-10-05).
+    if (models === 0) return []
     const parts = []
     // The bare names too — what the editor's info button opens the profiles of.
     const names = []
@@ -1739,7 +1741,10 @@ export function dpLimitFor(dets, budget) {
 // An archived list is kept, not fielded: "every unit I own", a painting queue, last season's list.
 // Nothing about it is checked (owner, 2026-10-03) — rules move on under a list nobody plays, and a
 // warning that is always on gets read as noise. `archived: true` is ABSENT on every other list, the
-// way `draft` is (useRosters.js); `legalityOn` is the one question the cap and the badge ask.
+// way `draft` is (useRosters.js); `legalityOn` is the one question every check asks — the
+// validator, the duplicate cap, the badge, the red of a total over its limit. Unticking "Check
+// legality" switches all of them off, not just the cap (owner, 2026-10-04); the screens say so
+// once, with `rosterChecksOff`, instead of any warning.
 export const isArchived = (r) => r?.archived === true
 export const legalityOn = (r) => r?.checkLegality !== false && !isArchived(r)
 

@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-// Single-select faction picker — same modal shell + button-list styling as DetachmentPickerModal,
+// Single-select faction picker — same modal shell + button-list styling as the detachment picker (DetachmentPicker),
 // so faction and detachment selection read as one consistent flow. Picking one emits `pick` and the
 // parent closes the modal. The list is FactionPickerList, which the desk's dropdown draws too.
 import { computed } from 'vue'

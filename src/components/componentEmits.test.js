@@ -25,8 +25,12 @@ const camel = (s) => s.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 const files = vueFiles('src')
 const emitsOf = new Map()
 for (const f of files) {
-  const m = readFileSync(f, 'utf8').match(/defineEmits\(\[([^\]]*)\]\)/)
-  if (m) emitsOf.set(basename(f, '.vue'), new Set([...m[1].matchAll(/'([^']+)'/g)].map((x) => camel(x[1]))))
+  const src = readFileSync(f, 'utf8')
+  const m = src.match(/defineEmits\(\[([^\]]*)\]\)/)
+  if (!m) continue
+  // A `defineModel('x')` emits `update:x` (no name: `update:modelValue`) without listing it.
+  const models = [...src.matchAll(/defineModel\((?:'([^']+)')?/g)].map((x) => `update:${x[1] || 'modelValue'}`)
+  emitsOf.set(basename(f, '.vue'), new Set([...[...m[1].matchAll(/'([^']+)'/g)].map((x) => x[1]), ...models].map(camel)))
 }
 
 describe('component listeners', () => {

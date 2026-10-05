@@ -12,8 +12,16 @@
       >{{ leftLabel }}</span>
     </ExpandTransition></span>
     <RosterOwnLimitsMark :roster="limits" />
+    <!-- Checks switched off: the one thing said about legality is that it is not being checked. -->
+    <span
+      v-if="badge && !checked"
+      class="checks-off"
+      role="img"
+      :title="labels.rosterChecksOffNote"
+      :aria-label="labels.rosterChecksOffNote"
+    ><i class="bi bi-slash-circle" /><span class="co-txt">{{ labels.rosterChecksOff }}</span></span>
     <button
-      v-if="badge"
+      v-else-if="badge"
       type="button"
       class="issues-badge"
       :class="errorCount ? 'has-err' : (issueCount ? 'warn' : 'ok')"
@@ -65,6 +73,9 @@ const props = defineProps({
   issueCount: { type: Number, default: 0 },
   // No badge before a faction is picked: there is nothing to validate yet.
   badge: { type: Boolean, default: true },
+  // The list's "Check legality" (rosterEngine's legalityOn): off, a total over its limit is not red
+  // and the badge gives way to a quiet "Unchecked" — no warning of any kind (owner, 2026-10-04).
+  checked: { type: Boolean, default: true },
   // The desk's settings bar: the headline number of a line, in the display face.
   large: { type: Boolean, default: false },
 })
@@ -73,7 +84,7 @@ defineEmits(['open-issues'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { showPointsLeft } = useRosterPrefs()
-const over = computed(() => props.points > props.limit)
+const over = computed(() => props.checked && props.points > props.limit)
 // A list with no limit (rosterEngine's effectiveBattle, 'none') reads its total alone: no "/ ∞",
 // and no remainder whatever the reader's setting says.
 const limited = computed(() => Number.isFinite(props.limit))
@@ -122,12 +133,26 @@ useFlashOnChange(() => props.points, pointsEl)
 .issues-badge.has-err { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); }
 .issues-badge.warn { color: var(--warning); border-color: color-mix(in srgb, var(--warning) 45%, var(--border)); }
 .issues-badge.ok { color: #3c9a5f; }
+.checks-off {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
 
 /* The phone's compact measure, the same 480px the sticky bar around it steps down at (style.css). */
 @media (max-width: 480px) {
   .points-tally { gap: 0.35rem; }
   .rc-points:not(.large) { font-size: 0.85rem; }
   .issues-badge { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
+  /* The footer has no room for the words beside Save: the mark in the badge's box, the sentence in
+     its title and accessible name. */
+  .checks-off { padding: 0.25rem 0.4rem; }
+  .co-txt { display: none; }
 }
 /* The narrowest phones, measured with the web fonts in (2026-09-24): a notch smaller rather than
    the limit gone. */

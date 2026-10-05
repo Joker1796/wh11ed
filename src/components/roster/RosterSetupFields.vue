@@ -49,21 +49,36 @@
             <em
               v-if="hasFaction"
               class="dp-count"
-              :class="{ over: dpSpent > dpLimit }"
+              :class="{ over: checkLegality && !archived && dpSpent > dpLimit }"
             >{{ dpSpent }}<template v-if="Number.isFinite(dpLimit)"> / {{ dpLimit }}</template> DP</em>
           </ExpandTransition>
         </span>
-        <button
-          type="button"
-          class="ch-pick"
-          :disabled="!hasFaction"
-          @click="$emit('pick-detachments')"
+        <DetachmentPicker
+          v-model:open="detachmentPickerOpen"
+          class="ch-picker"
+          :detachments="detachmentOptions"
+          :selected="detachments"
+          :max-dp="maxDp"
+          :dp-spent="dpSpent"
+          :faction-slug="factionSlug"
+          @toggle="(d) => $emit('toggle-detachment', d)"
+          @clear="$emit('clear-detachments')"
         >
-          <span
-            class="ch-value"
-            :class="{ placeholder: !detachmentSummary }"
-          >{{ hasFaction ? (detachmentSummary || labels.rosterChoose) : labels.rosterPickFaction }}</span>
-        </button>
+          <template #trigger="{ toggle, open }">
+            <button
+              type="button"
+              class="ch-pick"
+              :disabled="!hasFaction"
+              :aria-expanded="open"
+              @click="toggle"
+            >
+              <span
+                class="ch-value"
+                :class="{ placeholder: !detachmentSummary }"
+              >{{ hasFaction ? (detachmentSummary || labels.rosterChoose) : labels.rosterPickFaction }}</span>
+            </button>
+          </template>
+        </DetachmentPicker>
         <i class="bi bi-chevron-down" />
       </div>
 
@@ -164,8 +179,9 @@
 // the count (2026-09-25). The name row is the wizard's (the editor names the list in its header),
 // the notes row the editor's (a plan is written where the list is edited, not where it starts).
 // The desk has its own one-line version of the same answers (RosterSettingsBar).
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import ExpandTransition from '../ExpandTransition.vue'
+import DetachmentPicker from '../tracker/DetachmentPicker.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
@@ -182,6 +198,11 @@ defineProps({
   factionSlug: { type: String, default: '' },
   factionName: { type: String, default: '' },
   detachmentSummary: { type: String, default: '' },
+  // What the detachment picker offers and holds (useRosterBuildActions' detachmentOptions and the
+  // list's names), against the battle's DP budget.
+  detachmentOptions: { type: Array, default: () => [] },
+  detachments: { type: Array, default: () => [] },
+  maxDp: { type: Number, default: 0 },
   dpSpent: { type: Number, default: 0 },
   // The budget the detachments are held to — 3 for a lone 3 DP one at Incursion (dpLimitFor).
   dpLimit: { type: Number, default: 0 },
@@ -194,13 +215,14 @@ defineProps({
 })
 defineEmits([
   'update:name', 'update:limit', 'update:disposition',
-  'update:notes', 'update:checkLegality', 'pick-faction', 'pick-detachments',
+  'update:notes', 'update:checkLegality', 'pick-faction', 'toggle-detachment', 'clear-detachments',
 ])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 // A reader's own preference, kept on the device rather than in the list.
 const { showPointsLeft } = useRosterPrefs()
+const detachmentPickerOpen = ref(false)
 </script>
 
 <style scoped>
@@ -244,6 +266,11 @@ const { showPointsLeft } = useRosterPrefs()
   cursor: pointer;
 }
 .ch-pick::after { content: ''; position: absolute; inset: 0; }
+/* The detachment row's button sits inside DetachmentPicker. Its wrappers must neither narrow it
+   (the row is a column aligned to the start) nor become what the overlay above is drawn in —
+   PickerDropdown is `position: relative` on a wide screen, and the whole row is the target. */
+.ch-picker { align-self: stretch; }
+.ch-picker :deep(.pd) { position: static; }
 .ch-pick:disabled { cursor: not-allowed; }
 .choice.off { opacity: 0.5; }
 /* The row lights by its BACKGROUND, the border belonging to the card around it — and behind
@@ -265,7 +292,7 @@ const { showPointsLeft } = useRosterPrefs()
 .dp-count {
   font-style: normal;
   font-family: var(--font-mono);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 700;
   margin-left: 0.3rem;
   letter-spacing: 0;

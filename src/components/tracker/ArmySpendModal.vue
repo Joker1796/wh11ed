@@ -80,7 +80,7 @@ const labels = computed(() => ui[locale.value])
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .opt:disabled .opt-cost { color: var(--text-dim); }
 </style>

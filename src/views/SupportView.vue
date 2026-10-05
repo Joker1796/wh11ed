@@ -190,11 +190,11 @@ const freeParts = computed(() => s.value.free.split(/(\{vk\}|\{bug\})/).filter(B
   border: none;
   background: none;
   font: inherit;
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: underline;
   cursor: pointer;
 }
-.pay-free a { color: var(--accent); text-decoration: underline; }
+.pay-free a { color: var(--accent-ink); text-decoration: underline; }
 
 /* Wide: text left, the payment card right — code on top, its note, the button under it. */
 @media (min-width: 760px) {

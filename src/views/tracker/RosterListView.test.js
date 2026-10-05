@@ -230,7 +230,7 @@ describe('RosterListView', () => {
       await new Promise((res) => setTimeout(res, 10))
     }
     expect(w.find('.rex').exists()).toBe(true)
-    expect(w.findAll('.rex-fmt').map((b) => b.text())).toEqual(['GW app', 'WTC', 'WTC-Compact', 'Discord'])
+    expect(w.findAll('.rex-fmt option').map((o) => o.text())).toEqual(['GW app', 'WTC', 'WTC-Compact', 'Discord', 'Simple'])
     w.unmount()
   })
 

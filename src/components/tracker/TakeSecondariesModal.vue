@@ -305,7 +305,7 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 }
 .pick-item .bi { font-size: 1.1rem; color: var(--text-dim); }
 .pick-item.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); }
-.pick-item.on .bi { color: var(--accent); }
+.pick-item.on .bi { color: var(--accent-ink); }
 .pick-item:disabled { opacity: 0.45; cursor: default; }
 .pick-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
 .pick-cat { white-space: nowrap; font-size: 0.72rem; color: var(--text-dim); }
@@ -320,7 +320,7 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 .ti-badge {
   flex-shrink: 0; padding: 0.1rem 0.4rem;
   border: 1px solid var(--accent); font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.03em; color: var(--accent);
+  letter-spacing: 0.03em; color: var(--accent-ink);
 }
 .ti-body { padding: 0.2rem 0 0.35rem; }
 .ti-gone {
@@ -333,7 +333,7 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 .ti-wd-btn {
   width: 100%; min-height: 36px; padding: 0.3rem 0.6rem;
   border: 1px solid var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
-  font: inherit; font-size: 0.84rem; font-weight: 700; color: var(--accent); cursor: pointer;
+  font: inherit; font-size: 0.84rem; font-weight: 700; color: var(--accent-ink); cursor: pointer;
 }
 /* A row of the pick list: the card (tap to choose) and its "i" (tap to read). */
 .pick-li { display: flex; gap: 0.25rem; }
@@ -343,7 +343,7 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
   border: 1px solid var(--border); background: var(--bg-card);
   color: var(--text-muted); font-size: 1rem; cursor: pointer;
 }
-@media (hover: hover) { .tk-info:hover { color: var(--accent); border-color: var(--accent); } }
+@media (hover: hover) { .tk-info:hover { color: var(--accent-ink); border-color: var(--accent); } }
 .ti-name { font-weight: 700; color: var(--text-primary); }
 .took-list { margin-bottom: 0.6rem; }
 .tk-done { display: flex; gap: 0.5rem; }

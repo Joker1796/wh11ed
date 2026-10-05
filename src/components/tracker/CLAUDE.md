@@ -603,7 +603,7 @@ and all (an ellipsis only clips a box that was allowed to be narrower than its t
 carries the same pair of cards and the same fix; the history page's roster pills take `max-width:
 100%` for the same reason.
 
-**`DetachmentPickerModal` offers only what a tap could do** (2026-08-28): a detachment that no
+**The detachment picker (`DetachmentPickerList`) offers only what a tap could do** (2026-08-28): a detachment that no
 longer fits the Detachment Points, or that clashes with a tag already taken (25.04), is off the
 list rather than greyed. The screen it draws is shared by the wizard and by both Roster Builder
 setup screens, and once a 3 DP budget is spent that was almost every row — a page of dimmed

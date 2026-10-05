@@ -121,7 +121,7 @@ describe('datasheet unit search', () => {
     await preloadDatasheetTags()
     const res = search('tide of muscle', 'en')
     const unit = res.find((r) => r.route === '/factions/orks/datasheets/boyz')
-    expect(unit?.titleRu).toBe('Tide of Muscle')
+    expect(unit?.matchedBy).toBe('Tide of Muscle')
     expect(unit.score).toBeLessThan(1)
     // The RU header the overlay gives the same ability finds it too.
     expect(search('вал мускулов', 'ru').some((r) => r.route === '/factions/orks/datasheets/boyz')).toBe(true)
@@ -154,7 +154,7 @@ describe('datasheet unit search', () => {
     const res = search('термосы', 'ru')
     expect(res.length).toBeGreaterThan(0)
     expect(res.every((r) => r.title.includes('Terminator'))).toBe(true)
-    expect(res.every((r) => r.titleRu === 'термосы')).toBe(true)
+    expect(res.every((r) => r.matchedBy === 'термосы')).toBe(true)
   })
 
   it('finds a faction page by its EN name or RU alias, ranked above its units', () => {
@@ -166,7 +166,7 @@ describe('datasheet unit search', () => {
     }
     const res = search('некроны', 'ru')
     expect(res[0].route).toBe('/factions/necrons')
-    expect(res[0].titleRu).toBe('некроны')
+    expect(res[0].matchedBy).toBe('некроны')
   })
 
   it('matches names and aliases apostrophe-blind — «ктан» finds the C’tan datasheets', async () => {
@@ -186,7 +186,7 @@ describe('datasheet unit search', () => {
     const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
     expect(unit).toBeTruthy()
     expect(unit.title).toBe('Ghazghkull Thraka') // the displayed name stays English
-    expect(unit.titleRu).toBe('Газя')
+    expect(unit.matchedBy).toBe('Газя')
   })
 
   it('does not surface an alias subline when the query matched the unit name itself', async () => {
@@ -194,7 +194,7 @@ describe('datasheet unit search', () => {
     const res = search('ghazghkull', 'ru')
     const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
     expect(unit).toBeTruthy()
-    expect(unit.titleRu).toBe('')
+    expect(unit.matchedBy).toBe('')
   })
 
   it('still finds a unit by RU alias in the EN locale, but without the alias subline', async () => {
@@ -204,7 +204,7 @@ describe('datasheet unit search', () => {
     const res = search('газя', 'en')
     const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
     expect(unit).toBeTruthy()
-    expect(unit.titleRu).toBe('')
+    expect(unit.matchedBy).toBe('')
   })
 
   it('marks a Warhammer Legends sheet so the result can wear the Legends badge', async () => {
@@ -227,7 +227,7 @@ describe('datasheet unit search', () => {
       const unit = res.find((r) => r.route === '/factions/orks/datasheets/warboss')
       expect(unit).toBeTruthy()
       expect(unit.title).toBe('Warboss')
-      expect(unit.titleRu).toBe(`${label}: Ufthak Blackhawk`)
+      expect(unit.matchedBy).toBe(`${label}: Ufthak Blackhawk`)
     }
   })
 })
@@ -320,7 +320,7 @@ describe('highlightMatch', () => {
 
 // The examples the empty search box types out (ui.searchExamples) are a promise: every one of
 // them must find what it names, in its own locale, with the name in the top result — either in
-// its title or, for a RU unit nickname, in the "found via" subline (titleRu).
+// its title or, for a RU unit nickname, in the "found via" note (matchedBy).
 describe('search examples', () => {
   it('each typed-out example finds what it names', async () => {
     await preloadDatasheetIndex()
@@ -331,7 +331,7 @@ describe('search examples', () => {
         expect(res.length, `${locale}: ${q}`).toBeGreaterThan(0)
         // Apostrophes fold the way search folds them: «Ктан» must count as finding «К’тан».
         const fold = (t) => t.toLowerCase().replace(/[’'`]/g, '')
-        const top = fold(`${res[0].title} ${res[0].titleRu || ''}`)
+        const top = fold(`${res[0].title} ${res[0].titleRu || ''} ${res[0].matchedBy || ''}`)
         expect(top, `${locale}: ${q}`).toContain(fold(q))
       }
     }

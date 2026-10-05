@@ -61,12 +61,12 @@ const contactEmail = 'gorlovevgeni9617@gmail.com'
 }
 
 .contact a {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .contact a:hover {
-  color: var(--accent-hover);
+  color: var(--accent-ink-hover);
 }
 </style>

@@ -84,7 +84,7 @@ function dismiss() {
 }
 
 .db-link {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: underline;
 }
 

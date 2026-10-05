@@ -177,7 +177,7 @@ const activeChapter = computed(() => {
   transition: margin-bottom var(--motion-fold), color 0.15s;
 }
 
-.chapter-toc-header:hover { color: var(--accent); }
+.chapter-toc-header:hover { color: var(--accent-ink); }
 .chapter-toc-chev { font-size: 0.75rem; }
 
 /* Folded, the box is just its heading line. */
@@ -213,12 +213,12 @@ const activeChapter = computed(() => {
 }
 
 .chapter-toc-chapter:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 
 .chapter-toc-group.current .chapter-toc-chapter {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .chapter-toc-list {
@@ -240,7 +240,7 @@ const activeChapter = computed(() => {
 }
 
 .chapter-toc-link:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 
@@ -252,7 +252,7 @@ const activeChapter = computed(() => {
 .chapter-toc-num {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--accent);
+  color: var(--accent-ink);
   flex-shrink: 0;
 }
 
@@ -301,7 +301,7 @@ const activeChapter = computed(() => {
 }
 
 .chapter-toc-subs-link:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 

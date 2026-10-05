@@ -942,7 +942,7 @@ function onEndBattle(reason) {
   padding: 0 0.8rem;
   border: 1px solid var(--accent);
   background: var(--bg-card);
-  color: var(--accent);
+  color: var(--accent-ink);
   font: inherit;
   font-size: 0.85rem;
   font-weight: 700;
@@ -967,7 +967,7 @@ function onEndBattle(reason) {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-right: 0.35rem;
 }
 .twist-card-body {
@@ -977,7 +977,7 @@ function onEndBattle(reason) {
   color: var(--text-muted);
 }
 /* The missions block in the chosen side's colour: its tabs' lit edge, the cards' accent. */
-.mside { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
+.mside { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); --accent-ink: var(--side); --accent-ink-hover: color-mix(in srgb, var(--side) 80%, #000); }
 .mside.opp { --side: var(--side-opponent); }
 .mside-tabs { margin-bottom: 0.6rem; }
 /* On the page's own background, like the CP panel (owner, 2026-09-29): the side tabs above already
@@ -1253,12 +1253,12 @@ function onEndBattle(reason) {
 .cr-btn.undo { background: var(--side); color: #fff; }
 .cr-btn:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
 .cr-help { flex-shrink: 0; padding: 0 0.2rem; border: 0; background: none; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
-@media (hover: hover) { .cr-help:hover { color: var(--accent); } }
+@media (hover: hover) { .cr-help:hover { color: var(--accent-ink); } }
 
 
 /* The broadcast button is a STATE: lit while the game is streaming to an overlay. */
 .bc-on {
-  color: var(--accent);
+  color: var(--accent-ink);
   border-color: var(--accent);
 }
 </style>

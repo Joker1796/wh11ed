@@ -476,7 +476,8 @@ async function copyName() {
   text-transform: none;
   letter-spacing: 0;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.82);
+  /* Full white: at 82% it read 4.07:1 on Orks' green plate (a11y gate, 2026-10-05). */
+  color: #fff;
 }
 
 .ds-actions {

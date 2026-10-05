@@ -44,7 +44,7 @@
         <template v-if="faction">
           <!-- The army rule: the one thing here that is true whatever the list picks. -->
           <div
-            v-if="faction.armyRule"
+            v-if="armyRule && faction.armyRule"
             class="rrp-sec"
           >
             <button
@@ -221,6 +221,10 @@ const props = defineProps({
   // Inside RosterRulesModal: no head of its own (the dialog's title says what this is) and open
   // from the start — opening the dialog IS the first tap the lazy load waits for.
   bare: { type: Boolean, default: false },
+  // One detachment looked up from the picker (RosterRulesModal's `detachment`): the army rule is
+  // the faction's, not the detachment's, so it stays out, and its own rule starts open.
+  armyRule: { type: Boolean, default: true },
+  startOpen: { type: Array, default: () => [] },
 })
 
 const { locale } = useLocale()
@@ -228,7 +232,7 @@ const { renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 const open = ref(props.bare)
-const openSecs = ref(new Set())
+const openSecs = ref(new Set(props.startOpen))
 const isOpen = (k) => openSecs.value.has(k)
 function toggle(k) {
   const next = new Set(openSecs.value)

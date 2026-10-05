@@ -478,7 +478,7 @@ watch(naming, (on) => {
   overflow-wrap: anywhere;
   cursor: pointer;
 }
-@media (hover: hover) { .rul-bname:hover { color: var(--accent); } }
+@media (hover: hover) { .rul-bname:hover { color: var(--accent-ink); } }
 .rul-btotal {
   flex: none;
   font-family: var(--font-mono);
@@ -558,7 +558,7 @@ watch(naming, (on) => {
   font-size: 0.7rem;
   cursor: pointer;
 }
-@media (hover: hover) { .rul-fold:hover { color: var(--accent); } }
+@media (hover: hover) { .rul-fold:hover { color: var(--accent-ink); } }
 .rul-row {
   flex: 1;
   min-width: 0;
@@ -584,7 +584,7 @@ watch(naming, (on) => {
   width: 2rem; height: 2.4rem; padding: 0; border: none; background: none;
   color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
 }
-@media (hover: hover) { .rul-more:hover { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); } }
+@media (hover: hover) { .rul-more:hover { color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 8%, transparent); } }
 
 /* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
    header/points bands). In LIGHT theme this reads fine against a selected checkbox tile

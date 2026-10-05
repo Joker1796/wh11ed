@@ -58,7 +58,7 @@ const paragraphs = computed(() =>
   margin-top: 0.2rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .oh-link:hover { text-decoration: underline; }
 </style>

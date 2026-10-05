@@ -5,6 +5,7 @@
 import { mfmFactions } from '../data/mfmFactions.js'
 import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 import { factionGroups } from '../data/factionsIndex.js'
+import chapterDetachments from '../data/chapterDetachments.js'
 
 export const FACTIONS = mfmFactions.en.map(f => ({ slug: f.slug, name: f.name }))
 
@@ -41,9 +42,25 @@ export const COMBAT_PATROL_FACTION_GROUPS = (() => {
 export function factionBySlug(slug) {
   return mfmFactions.en.find(f => f.slug === slug) || null
 }
+// The MFM lists a Chapter's Codex detachments among its own, alphabetically. The picker shows the
+// army's own first and the others after them, a group per faction they come from (`from`, the
+// slug DetachmentGroupHead names) — told apart by chapterDetachments.js, the file the faction
+// pages and the roster editor read the same entitlements from. Built once per faction.
+const detCache = new Map()
 export function detachmentsFor(slug) {
+  if (detCache.has(slug)) return detCache.get(slug)
   const f = factionBySlug(slug)
-  return f ? f.detachments : []
+  if (!f) return []
+  const foreign = chapterDetachments[slug] || []
+  const fromOf = new Map(foreign.map((e) => [e.name, e.from]))
+  const own = f.detachments.filter((d) => !fromOf.has(d.name))
+  const others = []
+  for (const src of new Set(foreign.map((e) => e.from))) {
+    others.push(...f.detachments.filter((d) => fromOf.get(d.name) === src).map((d) => ({ ...d, from: src })))
+  }
+  const out = [...own, ...others]
+  detCache.set(slug, out)
+  return out
 }
 export function detachmentInfo(slug, name) {
   return detachmentsFor(slug).find(d => d.name === name) || null

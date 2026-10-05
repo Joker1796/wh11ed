@@ -257,7 +257,7 @@ watch(() => props.items, () => { open.clear(); wasOpened.clear() })
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .pb-list { margin: 0; padding: 0; }
 .pb-det + .pb-det { margin-top: 0.5rem; }

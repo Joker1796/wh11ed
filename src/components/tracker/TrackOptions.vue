@@ -156,7 +156,7 @@ function helpText(o) {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin: 0;
 }
 .opt-row { display: flex; flex-wrap: wrap; align-items: stretch; }
@@ -186,12 +186,12 @@ function helpText(o) {
    longer takes an accent border, so it has no frame to win with. */
 .check:hover,
 .opt-info:hover { position: relative; z-index: 1; }
-.opt-info:hover { color: var(--accent); border-color: var(--accent); }
+.opt-info:hover { color: var(--accent-ink); border-color: var(--accent); }
 .opt-guide {
   font-size: 0.78rem;
   color: var(--text-dim);
 }
-.opt-guide:hover { color: var(--accent); }
+.opt-guide:hover { color: var(--accent-ink); }
 @media (min-width: 561px) {
   .track-opts.inline {
     display: grid;

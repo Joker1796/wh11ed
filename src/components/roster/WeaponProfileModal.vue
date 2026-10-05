@@ -346,7 +346,7 @@ const abilityRows = computed(() => [
     min-width: 0;
     padding: 0 0.1rem 0.3rem;
     background: none;
-    color: var(--accent);
+    color: var(--accent-ink);
     font-size: 0.64rem;
   }
   .wpm-weapons tbody tr {

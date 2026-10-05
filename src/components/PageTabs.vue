@@ -142,7 +142,7 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
   cursor: pointer;
   transition: color calc(var(--motion-page-tab) * 0.6) ease;
 }
-.page-tab.active { color: var(--accent); }
+.page-tab.active { color: var(--accent-ink); }
 @media (hover: hover) {
   .page-tab:not(.active):hover { color: var(--text-primary); }
 }

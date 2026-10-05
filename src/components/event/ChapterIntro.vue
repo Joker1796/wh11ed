@@ -88,7 +88,7 @@ function renderParagraphs(text) {
   background: var(--bg-card);
 }
 .author-note-icon {
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 1.2rem;
   line-height: 1.5;
   flex-shrink: 0;
@@ -103,7 +103,7 @@ function renderParagraphs(text) {
   display: inline-block;
   margin-top: 0.3rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .author-note-mail:hover {
   text-decoration: underline;

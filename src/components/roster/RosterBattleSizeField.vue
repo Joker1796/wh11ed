@@ -358,7 +358,7 @@ function pick(id, close) {
   border: 1px solid var(--border);
   white-space: nowrap;
 }
-.bsf-chip.mono { font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
+.bsf-chip.mono { font-family: var(--font-mono); font-weight: 700; color: var(--accent-ink); }
 /* The desk's dropdown is denser than the phone's sheet by its spacing alone, the type unchanged
    (owner, 2026-10-03): tighter rows and chips, and a panel wide enough (26rem) for a size's four
    chips to share one line. */

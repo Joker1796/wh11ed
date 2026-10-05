@@ -446,6 +446,8 @@ onBeforeUnmount(() => { ro?.disconnect(); ro = null })
 .rps {
   --accent: var(--text-primary);
   --accent-hover: var(--text-primary);
+  --accent-ink: var(--text-primary);
+  --accent-ink-hover: var(--text-primary);
   --link-accent: var(--text-primary);
   --link-accent-hover: var(--text-primary);
 }

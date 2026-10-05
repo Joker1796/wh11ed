@@ -373,7 +373,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   min-height: 32px; padding: 0 0.3rem; background: none; border: none;
   font: inherit; font-size: 0.78rem; font-weight: 600; color: var(--text-dim); cursor: pointer;
 }
-@media (hover: hover) { .untake-btn:hover { color: var(--accent); } }
+@media (hover: hover) { .untake-btn:hover { color: var(--accent-ink); } }
 .sec-empty { margin: 0.2rem 0 0; font-size: 0.82rem; color: var(--text-dim); }
 .cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; position: relative; }
 /* No side stripe (owner, 2026-09-29): the player's own card already wears one, and three more
@@ -423,7 +423,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   background: none; border: 1px solid var(--border); color: var(--text-dim);
   cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 0.55rem; flex-shrink: 0;
 }
-.manage:hover { color: var(--accent); border-color: var(--accent); }
+.manage:hover { color: var(--accent-ink); border-color: var(--accent); }
 .manage.restore { display: flex; align-items: center; justify-content: center; }
 .manage.restore .bi { font-size: 0.95rem; }
 

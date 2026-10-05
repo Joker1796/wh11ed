@@ -63,7 +63,7 @@ defineEmits(['toggle', 'close'])
 .modal-list { gap: 0.4rem; }
 
 /* Option rows use the same tokens as the other tracker pickers (TwistPickerModal `.tp-item`,
-   DetachmentPickerModal `.det`): bg-secondary tile + border, accent tint/border when selected.
+   DetachmentOption `.det`): bg-secondary tile + border, accent tint/border when selected.
    `color` is set explicitly because <button> does NOT inherit it (the UA default is black, which
    left the RuleBody text unreadable on a dark tile). */
 .opt {
@@ -90,7 +90,7 @@ defineEmits(['toggle', 'close'])
   line-height: 1.2;
   color: var(--text-dim);
 }
-.opt.on .opt-check { color: var(--accent); }
+.opt.on .opt-check { color: var(--accent-ink); }
 
 .opt-main { min-width: 0; flex: 1 1 auto; }
 
@@ -106,7 +106,7 @@ defineEmits(['toggle', 'close'])
   font-size: 0.72rem;
   font-weight: 700;
   font-family: var(--font-mono);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 /* Rule text — RuleBody renders a bare <p> (its root class isn't bound), so reach it with :deep and
    let the colour inherit from `.opt` (fixes the black-on-dark UA button default). */

@@ -177,7 +177,7 @@ const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.ima
   border-color: var(--accent);
 }
 .measurements-toggle[aria-pressed="true"] {
-  color: var(--accent);
+  color: var(--accent-ink);
   border-color: var(--accent);
 }
 @media (max-width: 420px) {

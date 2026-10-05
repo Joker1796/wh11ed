@@ -56,11 +56,11 @@ const owned = computed(() => isOwned(props.factionSlug, props.unitId))
   font-size: 1.05rem;
   cursor: pointer;
 }
-.rum-own.on { color: var(--accent); }
+.rum-own.on { color: var(--accent-ink); }
 /* The close button's hover plate beside it, so the star reads as a button too. */
 @media (hover: hover) {
   .rum-own:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
-  .rum-own.on:hover { color: var(--accent); }
+  .rum-own.on:hover { color: var(--accent-ink); }
 }
 
 </style>

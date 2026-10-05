@@ -151,7 +151,7 @@ function fmt(v) {
 }
 .sc-num { text-align: center; }
 .sc-num-r { display: block; color: var(--text-dim); font-size: 0.68rem; }
-.sc-num-you { color: var(--accent); font-weight: 600; }
+.sc-num-you { color: var(--accent-ink); font-weight: 600; }
 .sc-num-opp { color: var(--text-muted); }
 .sc-num-you::after { content: ' / '; color: var(--text-dim); font-weight: 400; }
 </style>

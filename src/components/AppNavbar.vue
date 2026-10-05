@@ -491,7 +491,8 @@ function closeRulesMenu() {
 
 .logo-sub {
   font-size: 0.62rem;
-  color: rgba(255,255,255,0.45);
+  /* 0.65, not 0.45: the tagline read 3.3:1 on the bar (a11y gate, 2026-10-05). */
+  color: rgba(255,255,255,0.65);
   letter-spacing: 0.8px;
   text-transform: uppercase;
   line-height: 1;
@@ -585,7 +586,7 @@ function closeRulesMenu() {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin: 0 0 0.3rem;
   padding-bottom: 0.25rem;
   border-bottom: 1px solid var(--border);
@@ -604,7 +605,7 @@ function closeRulesMenu() {
 }
 
 a.nd-link:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 
@@ -680,7 +681,8 @@ a.nd-link:hover {
   font-weight: 700;
   font-family: var(--font-mono);
   letter-spacing: 0.5px;
-  color: rgba(255,255,255,0.55);
+  /* The language not picked: 0.7 (was 0.55, 4.1:1 on the switch — a11y gate, 2026-10-05). */
+  color: rgba(255,255,255,0.7);
   transition: color 0.15s;
   pointer-events: none;
 }
@@ -790,7 +792,7 @@ a.nd-link:hover {
 }
 
 .settings-item.active {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* Who you are, above the way out — a line, not a control. */
@@ -810,7 +812,7 @@ a.nd-link:hover {
   width: 1.2rem;
   text-align: center;
   flex-shrink: 0;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .settings-item:disabled {

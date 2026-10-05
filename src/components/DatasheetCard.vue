@@ -1429,7 +1429,7 @@ function abilityStateLabel(st) {
   min-width: 0;
 }
 .ds-inv-band {
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 0.66rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -1469,14 +1469,40 @@ function abilityStateLabel(st) {
   .ds-stats.has-name .ds-legends-tag { grid-row: 2; }
 }
 /* Narrower still, six boxes fill the row (six at their 2.7rem minimum plus gaps are ~290px, the
-   badge ~60px): the tag steps down beside the invulnerable-save label (which then keeps to the
-   three columns under W/LD/OC) — a row of its own only on a sheet with no invulnerable save,
-   where it is the only thing on that row. 340px is the width where the corner actually runs
-   out; at 400px a 393px phone still had room and stepped down for nothing (2026-09-18). */
-@container dscard (max-width: 340px) {
-  .ds-legends-tag { grid-row: 2; grid-column: 7 / -1; align-self: start; }
-  .ds-stats:has(.ds-legends-tag) .ds-inv-side { grid-column: 4 / 7; }
+   badge ~60px). Two steps, both MEASURED by `npm run legends-tag`, which reads these numbers back
+   and fails when any Legends sheet needs more:
+   - ≤368px the badge turns on its side and stays on the stat row, reading top to bottom with
+     the letters' feet to the left — ~20px wide instead of ~57 (owner, 2026-10-04: "turn it, it
+     will fit"; bottom-to-top was tried first and turned the other way round the same day). The
+     row with it upright needs 363px of shell; 340px, picked by eye, ran the row off a 360px phone
+     (page and roster modal alike) and the view scrolled sideways (2026-10-04).
+   - ≤330px not even that fits (a 320px phone): it steps down beside the invulnerable-save label
+     (which then keeps to the three columns under W/LD/OC) — a row of its own only on a sheet with
+     no invulnerable save, where it is the only thing on that row. */
+@container dscard (max-width: 368px) {
+  .ds-legends-tag {
+    writing-mode: vertical-rl;
+    align-self: end;
+    padding: 0.3em 0;
+  }
+}
+@container dscard (max-width: 330px) {
+  .ds-legends-tag { grid-row: 2; grid-column: 7 / -1; align-self: start; writing-mode: horizontal-tb; padding: 0 0.3em; }
+  /* `contain: inline-size` — three max-content columns cannot absorb a long asterisk note the way
+     the flexible one did, and without it the note stretched W/LD/OC past the card's edge instead
+     of wrapping (Illic Nightspear, Hounds of Morkai). Contained, the block takes the columns'
+     width and the note wraps inside it. */
+  .ds-stats:has(.ds-legends-tag) .ds-inv-side { grid-column: 4 / 7; contain: inline-size; }
   .ds-stats.has-name .ds-legends-tag { grid-row: 3; }
+  /* Beside the invulnerable save it sits on the row's floor, by the shield's point: the label is
+     one line that does not wrap and, on a narrow card, runs on into the badge's column — level
+     with it at the top, the two overprinted (2026-10-04). `npm run legends-tag` checks the
+     badge touches nothing on its row and the row stays inside the screen. */
+  .ds-stats:has(.ds-inv-box) .ds-legends-tag { align-self: end; }
+  /* An asterisk note under the label fills that floor itself, its last line running to the
+     badge's edge — there the badge takes a row of its own under the note (a handful of sheets). */
+  .ds-stats:has(.ds-inv-note) .ds-legends-tag { grid-row: 3; }
+  .ds-stats.has-name:has(.ds-inv-note) .ds-legends-tag { grid-row: 4; }
 }
 
 /* Points — closing faction-colour band: bleeds over the card padding (mirroring
@@ -1494,7 +1520,7 @@ function abilityStateLabel(st) {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin: 0 0 0.25rem;
 }
 .ds-points table { border-collapse: collapse; font-size: 0.8rem; margin: 0; }
@@ -1713,9 +1739,11 @@ function abilityStateLabel(st) {
 
    The floor used to be ~380px, and it was the tags that set it: `.keyword` is `white-space:
    nowrap` everywhere else, so `[DEVASTATING WOUNDS]` was a ~130px word the name column could not
-   go under. Now that a tag may break (above), the floor is ~340px — the six stat columns plus a
-   readable name — and every phone in circulation keeps the table. Below it the stacked layout
-   still takes over. */
+   go under. Now that a tag may break (above), the floor is the six stat columns plus a readable
+   name — MEASURED at 300px of card (2026-10-04, all 1283 sheets: at 304px, a 320px phone, no
+   table is wider than the card, no number wraps, no word breaks, 124 of 6986 names take two
+   lines and none three). Every phone in circulation keeps the table; the stacked layout below
+   is the fallback for a narrower box, not a phone layout. */
 @container dscard (max-width: 560px) {
   .ds-weapons { --wname-share: 0.55; }
   .ds-weapons table { font-size: 0.74rem; }
@@ -1781,7 +1809,7 @@ function abilityStateLabel(st) {
   .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
 }
 
-/* The narrowest phones only (≤380px): now the table gives up and each weapon becomes its own
+/* Narrower than any phone (≤300px): now the table gives up and each weapon becomes its own
    small card — the weapon name on its own line, the statline as a labelled six-column grid,
    then its ability tags. Same markup either way — no second template, no JS media query, and no
    risk of the two drifting — via `tr { display: grid }` plus `display: contents` on the name
@@ -1789,15 +1817,18 @@ function abilityStateLabel(st) {
    `td::before { content: attr(data-label) }`, since the shared `thead` is gone.
 
    Placed after the compact-table block above so it wins at equal specificity where the two
-   disagree. 340 rather than the 560 this started as, and than the 380 it was until the tags were
-   allowed to break: a 360-430px phone (every current iPhone, most Androids, and the small ones
-   too) reads the table, and only a 320px screen has to give it up.
+   disagree. 300 rather than the 560 this started as, the 380 it was until the tags were allowed
+   to break, and the 340 picked by eye after that — which handed a 320-356px phone (and the
+   roster modal on a 360px one) the stacked cards a few pixels short of a table that fitted.
+   `npm run weapon-table` reads this number back and renders every sheet just above it: the
+   table must fit the card, no number may wrap, no word may break, no name may take more than
+   three lines.
 
    The `thead` is not hidden outright: its FIRST cell is the "Ranged Weapons"/"Melee Weapons"
    caption, which is the only thing telling the two blocks apart once they are stacked cards, so
    it survives as a section label above the group while the six stat headers go. Reusing that
    cell keeps one source for the text (and its translation) instead of adding a second one. */
-@container dscard (max-width: 340px) {
+@container dscard (max-width: 300px) {
   /* Undo the squeeze above — a card has room to be read, and only the table needed it. */
   .ds-weapons table { font-size: 0.82rem; }
   .wtag { font-size: 0.72rem; }
@@ -1824,7 +1855,7 @@ function abilityStateLabel(st) {
     min-width: 0;
     padding: 0 0.1rem 0.3rem;
     background: none;
-    color: var(--accent);
+    color: var(--accent-ink);
     font-size: 0.68rem;
   }
 
@@ -1928,7 +1959,7 @@ function abilityStateLabel(st) {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin: 0 0 0.2rem;
 }
 /* The "possible modifiers" heading is also the accordion's handle, and unlike every other block on
@@ -1949,7 +1980,7 @@ function abilityStateLabel(st) {
   margin: 0 0 0.4rem;
   transition: border-color var(--motion-fast), color var(--motion-fast);
 }
-.ds-mods-btn:hover { border-color: var(--accent); color: var(--accent); }
+.ds-mods-btn:hover { border-color: var(--accent); color: var(--accent-ink); }
 /* Open, the list below closes the section with its own rule and margin; shut, the pill is the
    section, and it needs that room itself or the abilities crowd it again. */
 .ds-mods-btn[aria-expanded="false"] { margin-bottom: 0.9rem; }
@@ -1968,9 +1999,9 @@ function abilityStateLabel(st) {
   padding: 0; border: 0; background: none; font: inherit; color: var(--text-primary);
   cursor: pointer; text-align: left;
 }
-.ds-mod-srcbtn:hover { color: var(--accent); }
+.ds-mod-srcbtn:hover { color: var(--accent-ink); }
 .ds-mod-srcbtn .bi { font-size: 0.85em; color: var(--text-muted); }
-.ds-mod-srcbtn:hover .bi { color: var(--accent); }
+.ds-mod-srcbtn:hover .bi { color: var(--accent-ink); }
 .ds-mod-det { color: var(--text-muted); }
 /* A conditional modifier didn't change anything on the card — the dimmed delta says so at a
    glance, and the condition follows. */
@@ -1978,8 +2009,8 @@ function abilityStateLabel(st) {
 .ds-mod-cond { flex-basis: 100%; padding-left: 0.1rem; font-style: italic; }
 /* Applied because the game says so, not because it is printed — the accent marks the difference
    at a glance, the italic condition beside it says what would take it away again. */
-.ds-mod-live .ds-mod-cond { color: var(--accent); font-style: normal; }
-.ds-mod-live .ds-mod-delta { color: var(--accent); }
+.ds-mod-live .ds-mod-cond { color: var(--accent-ink); font-style: normal; }
+.ds-mod-live .ds-mod-delta { color: var(--accent-ink); }
 /* The `*` on a value the layer rewrote, and its cell. Same asterisk convention as the granted
    keywords' `.ds-kw-star`.
    `line-height: 0` + `position: relative` instead of the default `vertical-align: super`: a real
@@ -1997,7 +2028,7 @@ function abilityStateLabel(st) {
   vertical-align: baseline;
   line-height: 0;
   font-size: 0.7em;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 700;
   margin-left: 1px;
 }
@@ -2006,7 +2037,7 @@ function abilityStateLabel(st) {
    default colour and only the asterisk shows. */
 .ds-weapons td.ds-stat-mod,
 .ds-weapons tbody td.ds-stat-mod,
-span.ds-stat-box.ds-stat-mod { color: var(--accent); }
+span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
 
 /* Abilities */
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
@@ -2027,7 +2058,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
   display: inline-flex; align-items: baseline; gap: 0.2rem; margin-right: 0.3rem;
   color: var(--text-muted); font-size: 0.78em; font-style: italic;
 }
-.ds-ab-state.on { color: var(--accent); font-style: normal; }
+.ds-ab-state.on { color: var(--accent-ink); font-style: normal; }
 .ds-ab-state .bi { font-size: 0.9em; font-style: normal; }
 .ds-ability-idle { opacity: 0.62; }
 .ds-ab-conds { margin-top: 0.35rem; }
@@ -2041,7 +2072,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin: var(--ds-head-top) 0 var(--ds-head-bottom);
 }
 /* Accordion header variant (collapsible/modal mode only) — same `.ds-group-title` look, reset to
@@ -2162,7 +2193,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
 }
 
 .ds-kw-star {
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-left: 1px;
 }
 

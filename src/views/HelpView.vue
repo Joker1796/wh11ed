@@ -104,7 +104,7 @@ const labels = computed(() => ui[locale.value])
 
 .help-nav-n { color: var(--text-dim); font-variant-numeric: tabular-nums; }
 
-.help-nav-item:hover { color: var(--accent); text-decoration: none; }
+.help-nav-item:hover { color: var(--accent-ink); text-decoration: none; }
 .help-nav-t { flex: 1; }
 .help-nav-go { font-size: 0.8rem; opacity: 0.6; }
 

@@ -5,9 +5,10 @@ import { ref, watch } from 'vue'
 import { getItem, setItem } from './safeStorage.js'
 
 // "Show points left" — the remainder under the "used / limit" readouts while building (settings
-// bar, both sticky bars). Off by default: the number a player subtracts in their head is worth a
-// second line only to the player who asked for it (2026-09-21).
-const showPointsLeft = ref(getItem('wh11ed-roster-points-left') === '1')
+// bar, both sticky bars). On by default since 2026-10-05: off (2026-09-21) read as "the builder
+// shows only the overage" to a player who never found the box. A stored '0' is a player's own
+// choice and stays off.
+const showPointsLeft = ref(getItem('wh11ed-roster-points-left') !== '0')
 watch(showPointsLeft, (v) => setItem('wh11ed-roster-points-left', v ? '1' : '0'))
 
 export function useRosterPrefs() {

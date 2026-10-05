@@ -102,7 +102,7 @@ const tone = computed(() => toneVars(entry.value?.color))
    vertical padding, so the row keeps its height): room for the faction's emblem (FactionBadge). */
 .fac-link .tone-badge { height: 1.8rem; width: 2.55rem; margin: -0.05rem 0 -0.05rem -0.1rem; }
 .fac-name { flex: 1; min-width: 0; font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; line-height: 1.1; color: var(--text-primary); }
-.fac-check { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+.fac-check { color: var(--accent-ink); font-weight: 700; flex-shrink: 0; }
 /* The desk's dropdown row: same parts, about half the height. */
 .fac.compact { padding: 0.2rem 0.4rem; gap: 0.35rem; }
 .fac.compact .fac-link { gap: 0.45rem; }

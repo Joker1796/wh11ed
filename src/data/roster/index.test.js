@@ -12,6 +12,7 @@ import { allySourceOf, leadTypeFor, optionItems, optionLabel, unitWargearPoints,
 import { duplicateLimit, validateRoster } from '../../composables/rosterValidation.js'
 import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
+import { PACK_ERRATA } from '../../../scripts/lib/pack-roster.mjs'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -1501,10 +1502,301 @@ describe('conditional Battleline is the army\'s answer', () => {
 
 // Deathwatch Support is filed with the Deathwatch and open to every Adeptus Astartes army; until
 // 2026-10-03 only the Deathwatch could take it, and at 0 DP where the MFM prints 1.
+// Printed in Codex Supplement: Deathwatch, but it is how the OTHER Adeptus Astartes armies bring the
+// Deathwatch along: appdata entitles the Space Marines and every Chapter to it and not the
+// Deathwatch (the MFM's Deathwatch page agrees). The editor offered it to Deathwatch lists until
+// 2026-10-05; the file keeps it as `lend` for the others to fold in.
 describe('Deathwatch Support across the Space Marines family', () => {
-  it.each(['space-marines', 'blood-angels', 'black-templars', 'dark-angels', 'space-wolves', 'deathwatch'])('%s can field it at 1 DP', async (slug) => {
+  it.each(['space-marines', 'blood-angels', 'black-templars', 'dark-angels', 'space-wolves'])('%s can field it at 1 DP', async (slug) => {
     const f = await loadRosterFaction(slug)
     const d = f.detachments.find((x) => x.name === 'Deathwatch Support')
     expect(d?.dp).toBe(1)
+    expect(d.lend).toBeUndefined()
+  })
+  it('the Deathwatch cannot', async () => {
+    const f = await loadRosterFaction('deathwatch')
+    expect(f.detachments.map((x) => x.name)).not.toContain('Deathwatch Support')
+  })
+})
+
+// A default loadout's TOTAL marker (`[id, c, 1]`) means "c for the whole profile, not one each" —
+// a count the profile's models cannot share out evenly (one plasma gun between two Missionaries).
+// A count that DOES divide is per model, and the generator divides it everywhere; one branch
+// pushed it as a total until 2026-10-05, and the Purifiers' four Nemesis force weapons stayed
+// four at a squad of nine — four psycannons took them all and the weapon lost its count (a
+// player's report). Black Templars' Crusader Squad carried the same error.
+describe('default loadout totals', () => {
+  it('mark only a count the profile cannot share out evenly', () => {
+    const bad = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        const bracket = (u.sizes || []).find((x) => x.default) || (u.sizes || [])[0]
+        for (const [m, list] of u.defaults || []) {
+          const models = (bracket?.comp || []).find(([mi]) => mi === m)?.[1] ?? (bracket?.per?.[0] ?? 1)
+          for (const [id, c, total] of list) {
+            if (total && models > 1 && c % models === 0) bad.push(`${slug}/${u.id}: ${rosterItems.items[id]} ${c} over ${models} models`)
+          }
+        }
+      }
+    }
+    expect(bad).toEqual([])
+  })
+
+  it('give each Purifier its Nemesis force weapon, less the ones traded for a psycannon', async () => {
+    const gk = await loadRosterFaction('grey-knights')
+    const def = gk.units.find((u) => u.id === 'purifier-squad')
+    // Six items share the name across Grey Knights; the one this unit starts with.
+    const nfw = def.defaults.flatMap(([, list]) => list.map(([id]) => id)).find((id) => /^nemesis force weapon$/i.test(rosterItems.items[id]))
+    // Ten models (Knight of the Flame + nine Purifiers), four psycannons: six swords remain.
+    expect(loadoutItemCounts(def, { id: def.id, size: 1, count: 10, wg: [[0, 2, 4]] }).get(nfw)).toBe(6)
+  })
+})
+
+// The datasheet says what each model carries — "This model is equipped with: 2 godhammer
+// lascannons; …", "Every Purifier is equipped with: …", "The Knight of the Flame and every
+// Purifier …" — and the default loadout the builder counts from must agree with it at every unit
+// size. The generator reads two appdata tables that count differently and either can be short;
+// two such errors were found by players and the rest (Land Raider, Defiler, Commissar Graves,
+// Intranzia Fraye) by this sweep (2026-10-05). The datasheet TEXT is the authority (owner,
+// 2026-10-05). A line is read only when every profile it names is one of the unit's miniatures by
+// its exact name; a unit with any line that is not is skipped whole, and an item the text and the
+// item list spell differently is skipped — never guessed.
+describe('default loadout against the datasheet text', () => {
+  const norm = (s) => String(s || '').toLowerCase().replace(/[’']/g, "'").replace(/[‐‑]/g, '-').replace(/\s+/g, ' ').trim()
+  const sing = (s) => norm(s).replace(/s$/, '')
+  // "Every Purifier", "The Knight of the Flame and every Purifier", "The A and B are both" → the
+  // profiles named, or null when a name is not exactly one of the unit's miniatures.
+  // "1 Gun Servitor", "One other Veteran Guardsman", "A Shade Runner" name ONE model of a profile:
+  // { one: [index] }, multiplied by one rather than by the profile's models.
+  const profilesOf = (who, minis) => {
+    const full = norm(who).replace(/ are both$/, '')
+    if (full === 'this model' || full === 'this unit') return 'this model'
+    if (full === 'every model' || full === 'each model') return 'every model'
+    const other = /^every other /.test(full)
+    const w = full.replace(/ model$/, '').replace(/^(the|every|each) (other )?/, '')
+    const find = (n) => minis.findIndex((m) => sing(m).replace(/\.$/, '') === sing(n))
+    // "Every other Voidsman": the profile less the models other lines single out.
+    if (other) return find(w) >= 0 ? { other: find(w) } : null
+    // A whole name first: a Deathwatch profile is "Kill Team Intercessor with Pyreblaster, Bolt
+    // Pistol and Knives and Fists", and splitting it at "and" would name no profile at all.
+    if (find(w) >= 0) return [find(w)]
+    const few = w.match(/^(1|one|a|an|\d+) (?:other )?(.+)$/)
+    if (few && find(few[2]) >= 0) return { one: [find(few[2])], n: /^\d+$/.test(few[1]) ? Number(few[1]) : 1 }
+    const idx = w.split(/,? and (?:every |the )?|, /).map((x) => find(x.replace(/^(the|every|each) /, '')))
+    return idx.every((x) => x >= 0) ? idx : null
+  }
+  // Items the text names that match no item of the unit by name — so their count goes unjudged.
+  // Frozen (2026-10-05): spelling the text and the item list disagree on ("artificier crozius"),
+  // a weapon profile for the weapon ("kannon – shell"), "nothing", wargear no table carries. A NEW
+  // entry is a name that changed in a data update and slipped out of the check; an entry that no
+  // longer occurs has been fixed or renamed — either way the list is corrected by hand.
+  const UNMATCHED = new Set([
+    "adepta-sororitas/battle-sanctum: nothing",
+    "aeldari/eldrad-ulthran: staff of ulthamar and witchblade",
+    "aeldari/leystalker: drakolithe",
+    "aeldari/maugan-ra: the maugetar",
+    "aeldari/webway-gate: nothing",
+    "astra-militarum/death-riders: steed's savage claw",
+    "astra-militarum/valkyrie: militarum multi-laser",
+    "black-templars/chaplain-grimaldus: artificier croziu",
+    "black-templars/chaplain-grimaldus: servitor combat weapon",
+    "black-templars/crusader-squad: knives and fist",
+    "chaos-titan-legions/chaos-warbringer-nemesis-titan: anvillus defence batterie",
+    "necrons/canoptek-tomb-sentinel: gloom prism",
+    "necrons/canoptek-tomb-stalker: gloom prism",
+    "necrons/nekrosor-ammentar: nullstone field generator",
+    "necrons/tomb-citadel-walls: nothing",
+    "orks/gargantuan-squiggoth: kannon - shell",
+    "space-marines/rhino-primaris: twin plasma gun - standard",
+    "space-marines/terrax-pattern-termite: combi-weapon - damnatu",
+    "tau-empire/commander-shadowsun: command-link drone",
+    "tau-empire/remote-sensor-tower: nothing",
+    "titan-legions/warbringer-nemesis-titan: anvillus defence batterie",
+  ])
+  it('counts what the loadout lines say, at every size', async () => {
+    const bad = []
+    const skipped = []
+    const unmatched = new Set()
+    let judged = 0
+    for (const { slug, data } of factions) {
+      let sheets
+      try { sheets = (await import(`../datasheets/${slug}.js`)).default } catch { continue }
+      for (const def of data.units || []) {
+        const sheet = sheets.find((s) => s.id === def.id)
+        // A sheet GW printed wrong is read through its errata, not as printed (pack-roster.mjs).
+        if (PACK_ERRATA[def.id]?.loadout) continue
+        const text = String(sheet?.loadout || '').split('\n').filter((l) => /equipped with/.test(l))
+        const lines = text.map((l) => l.match(/^\*\*(.+?) (?:is|are) equipped with:\*\*\s*(.+)$/))
+        if (!lines.length || lines.some((l) => !l) || !def.defaults?.length) continue
+        const minis = (def.minis || [{ n: def.name }]).map((m) => m.n)
+        const who = lines.map(([, w]) => profilesOf(w, minis))
+        // A profile no line names (the Aquilons' Gunfighter, an Aquilon the text does not set
+        // apart) is described by nothing here, so the unit's totals cannot be judged.
+        const named = new Set(who.flatMap((w) => (Array.isArray(w) ? w : w?.one || (w?.other != null ? [w.other] : []))))
+        if (!who.some((w) => typeof w === 'string') && who.every((w) => w != null) && minis.some((_, i) => !named.has(i))) continue
+        if (who.some((w) => w == null)) { lines.forEach(([, w], i) => { if (who[i] == null) skipped.push(`${slug}/${def.id}: "${w}" [${minis.join(' | ')}]`) }); continue }
+        for (let size = 0; size < (def.sizes || []).length; size++) {
+          for (const count of new Set(def.sizes[size].per || [])) {
+            const entry = { id: def.id, size, count }
+            const perMini = modelsPerMini(def, entry)
+            const counts = loadoutItemCounts(def, entry)
+            if (!perMini || !counts) continue
+            const all = [...perMini.values()].reduce((a, n) => a + n, 0)
+            const have = new Map()
+            for (const [id, n] of counts) { const k = sing(rosterItems.items[id]); have.set(k, n == null || have.get(k) === null ? null : (have.get(k) || 0) + n) }
+            const want = new Map()
+            lines.forEach(([, , list], li) => {
+              const w = who[li]
+              const singled = (m) => who.filter((x) => x?.one?.[0] === m).reduce((a, x) => a + x.n, 0)
+              const models = w === 'this model' ? 1 : w === 'every model' ? all
+                : w.one ? Math.min(w.n, perMini.get(w.one[0]) || 0)
+                  : w.other != null ? Math.max(0, (perMini.get(w.other) || 0) - singled(w.other))
+                    : w.reduce((a, m) => a + (perMini.get(m) || 0), 0)
+              for (const part of list.replace(/\.$/, '').split(/[;,]/)) {
+                const m = part.trim().match(/^(?:(\d+)\s+)?(.+)$/)
+                if (m) want.set(sing(m[2]), (want.get(sing(m[2])) || 0) + (Number(m[1]) || 1) * models)
+              }
+            })
+            for (const [k, n] of want) {
+              if (!have.has(k)) { if (n) unmatched.add(`${slug}/${def.id}: ${k}`); continue }
+              judged++
+              if (have.get(k) !== n) bad.push(`${slug}/${def.id} at ${count} models: ${k} — sheet ${n}, builder ${have.get(k)}`)
+            }
+          }
+        }
+      }
+    }
+    // 4434 counts judged on 2026-10-05; 47 lines skipped for a name the profiles do not carry
+    // ("Every Kasrkin Trooper" over "Kasrkin", a named hero). A drop says the reader went blind.
+    expect(judged).toBeGreaterThan(4300)
+    expect(skipped.length).toBeLessThan(60)
+    expect([...unmatched].filter((x) => !UNMATCHED.has(x))).toEqual([])
+    expect([...UNMATCHED].filter((x) => !unmatched.has(x))).toEqual([])
+    expect(bad).toEqual([])
+  })
+})
+
+// A profile the chosen size fields none of holds nothing — Wolf Guard Headtakers come with or
+// without their Hunting Wolves, and without them the card kept a "Teeth and Claws" row and the
+// editor a "Hunting Wolf: Teeth and Claws" line until 2026-10-05.
+describe('a profile at zero models', () => {
+  it('drops its weapons and its loadout line; with the wolves they come back, one each', async () => {
+    const sw = await loadRosterFaction('space-wolves')
+    const def = sw.units.find((u) => u.id === 'wolf-guard-headtakers')
+    const teeth = def.defaults.flatMap(([, l]) => l.map(([id]) => id)).find((id) => /^teeth and claws$/i.test(rosterItems.items[id]))
+    const alone = def.sizes.findIndex((s) => s.comp?.some(([m, n]) => m === 1 && n === 0))
+    const pack = def.sizes.findIndex((s) => s.comp?.some(([m, n]) => m === 1 && n === 3))
+    expect(loadoutItemCounts(def, { id: def.id, size: alone, count: def.sizes[alone].per[0] }).has(teeth)).toBe(false)
+    expect(defaultLoadoutLines(def, rosterItems.items, { id: def.id, size: alone, count: def.sizes[alone].per[0] }).map((l) => l.mini)).not.toContain('Hunting Wolf')
+    expect(loadoutItemCounts(def, { id: def.id, size: pack, count: def.sizes[pack].per[0] }).get(teeth)).toBe(3)
+  })
+})
+
+// Every wargear option of every unit, picked once at every size its profile is fielded (after
+// the option that hands its item out, for a CHAINED swap), must give up what it says it gives up,
+// add what it grants and touch nothing else; picked to its cap it must leave no count below zero.
+// Swept 2026-10-05 after the default-loadout sweep: the Fire Dragon Exarch's swap gave up the
+// troopers' fusion gun, a Magna-grapple Dreadnought kept its fists, and chained swaps (Death
+// Company Marines, Furioso, Dire Avengers, Corsairs, Kill Tank, Desolation Squad) left the first
+// weapon beside the second.
+describe('wargear swaps', () => {
+  // "… replaced with …" yet nothing to give up: the printed text replaces an item the model is not
+  // printed with — the Peltasts' options are the Hoplites' word for word (the Alpha's "arc lance"),
+  // GW's Faction Pack, checked against the PDF 2026-10-05; left as printed on the owner's word, the
+  // intended swap being a guess. A sheet whose fix is known goes in pack-roster's PACK_ERRATA, a
+  // name the prose spells differently in the generator's PROSE_NAME_FIXES. Frozen: a new entry is a
+  // swap that quietly adds without taking away.
+  const NO_REP = new Set([
+    'adeptus-mechanicus/secutarii-peltasts g0',
+  ])
+  it('give up what they replace, add what they grant, touch nothing else', () => {
+    const bad = []
+    const noRep = []
+    let picks = 0
+    for (const { slug, data } of factions) {
+      for (const def of data.units || []) {
+        for (const [gi, g] of (def.gear || []).entries()) {
+          const tag = `${slug}/${def.id} g${gi}`
+          if (/replaced with/i.test(rosterItems.texts[g.t] || '') && !g.rep?.length) noRep.push(tag)
+          for (let size = 0; size < (def.sizes || []).length; size++) {
+            const count = def.sizes[size].per?.[1] ?? def.sizes[size].per?.[0]
+            const base = { id: def.id, size, count, wg: [] }
+            if (!wargearGroupLive(def, base, gi)) continue
+            const perMini = modelsPerMini(def, base)
+            const models = g.all ? null : perMini?.get(g.m ?? 0)
+            if (!perMini || (!g.all && !models) || wargearGroupCap(def, base, gi)?.limit === 0) continue
+            const before = loadoutItemCounts(def, base)
+            if (!before) continue
+            for (const [oi, o] of g.o.entries()) {
+              picks++
+              // A chained swap's item first, from a group of the same profile where there is one.
+              const pre = []
+              for (const id of g.rep || []) {
+                if ((before.get(id) ?? 0) > 0) continue
+                const grants = (h, i) => i !== gi && h.o.some((x) => optionItems(x).some(([y]) => y === id))
+                let src = def.gear.findIndex((h, i) => grants(h, i) && (h.all || (h.m ?? 0) === (g.m ?? 0)))
+                if (src < 0) src = def.gear.findIndex(grants)
+                if (src >= 0) pre.push([src, def.gear[src].o.findIndex((x) => optionItems(x).some(([y]) => y === id)), 1])
+              }
+              const start = pre.length ? loadoutItemCounts(def, { ...base, wg: pre }) : before
+              const after = loadoutItemCounts(def, { ...base, wg: [...pre, [gi, oi, 1]] })
+              const add = new Map(optionItems(o))
+              for (const id of new Set([...start.keys(), ...after.keys()])) {
+                const b = start.get(id) ?? 0
+                const a = after.get(id) ?? 0
+                if (b == null || a == null) continue
+                const given = g.rep?.includes(id) && !add.has(id)
+                if (given && a >= b && b > 0 && !g.alt) bad.push(`${tag} o${oi} at ${count}: keeps ${rosterItems.items[id]} (${b}→${a})`)
+                if (!g.rep?.includes(id) && a - b !== (add.get(id) || 0)) bad.push(`${tag} o${oi} at ${count}: ${rosterItems.items[id]} ${b}→${a}, expected +${add.get(id) || 0}`)
+              }
+              const cap = wargearGroupCap(def, base, gi)?.limit ?? (g.in === 'stepper' ? models || 1 : 1)
+              for (const [id, n] of loadoutItemCounts(def, { ...base, wg: [[gi, oi, cap]] })) {
+                if (n != null && n < 0) bad.push(`${tag} o${oi} at ${count}×${cap}: ${rosterItems.items[id]} ${n}`)
+              }
+            }
+          }
+        }
+      }
+    }
+    expect(picks).toBeGreaterThan(3500)
+    expect(bad).toEqual([])
+    expect(noRep.filter((t) => !NO_REP.has(t))).toEqual([])
+    expect([...NO_REP].filter((t) => !noRep.includes(t))).toEqual([])
+  })
+})
+
+// Every weapon a datasheet prints must be one some model can carry — in its default loadout or by
+// an option (or the item a profile stands for: a Gun Drone is the twin pulse carbine, items.js
+// `stands`). A profile nobody can take is the mark of a sheet stitched from another: the Firearms
+// Cultists print an autogun that neither their pasted loadout nor any option hands out (found
+// 2026-10-05). Frozen; a new entry is a sheet to read against its source.
+describe('every printed weapon has a carrier', () => {
+  // Empty since PACK_ERRATA restored the Firearms Cultists and the Munitorum Servitors (2026-10-05).
+  const UNREACHABLE = new Set([])
+  const key = (s) => String(s || '').toLowerCase().replace(/[’']/g, "'").replace(/[‐‑]/g, '-').replace(/\s+/g, ' ').trim().replace(/s$/, '')
+  it('in a default loadout or an option', async () => {
+    const found = []
+    for (const { slug, data } of factions) {
+      let sheets
+      try { sheets = (await import(`../datasheets/${slug}.js`)).default } catch { continue }
+      for (const def of data.units || []) {
+        const sheet = sheets.find((s) => s.id === def.id)
+        if (!sheet || !def.defaults?.length) continue
+        const have = new Set()
+        const put = (id) => {
+          const name = rosterItems.items[id]
+          have.add(key(name))
+          for (const w of rosterItems.stands?.[String(name).toLowerCase()] || rosterItems.stands?.[key(name)] || []) have.add(key(w))
+        }
+        for (const [, list] of def.defaults) for (const [id] of list) put(id)
+        for (const g of def.gear || []) for (const o of g.o) for (const [id] of optionItems(o)) put(id)
+        for (const w of [...(sheet.ranged || []), ...(sheet.melee || [])]) {
+          const n = key(w.name.replace(/\s+[–-]\s+.*$/, ''))
+          if (![...have].some((h) => h === n || h.endsWith(` ${n}`) || n.endsWith(` ${h}`) || h.replace(/^twin /, '') === n)) found.push(`${slug}/${def.id}: ${n}`)
+        }
+      }
+    }
+    expect([...new Set(found)].filter((x) => !UNREACHABLE.has(x))).toEqual([])
+    expect([...UNREACHABLE].filter((x) => !found.includes(x))).toEqual([])
   })
 })

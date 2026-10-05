@@ -184,7 +184,7 @@ const positionStyle = computed(() => (anchor.value ? placeByAnchor(anchor.value)
 }
 
 .kw-num:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: underline dotted;
   text-underline-offset: 2px;
 }

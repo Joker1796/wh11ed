@@ -2,22 +2,27 @@
   <!-- The list's rules as a sheet over the builder, opened from the book beside the catalogue's
        search. They used to be a folded bar over both panes — a row of every phone's screen spent
        on something opened now and then (2026-09-24, the builder's height pass). The contents are
-       RosterRulesPanel's, unchanged, and load on this first open as they did on the fold's. -->
+       RosterRulesPanel's, unchanged, and load on this first open as they did on the fold's.
+       With `detachment` it is one detachment's sheet instead — rule, enhancements, stratagems —
+       opened from the ⓘ beside it in the picker, before it is taken (a player's idea, 2026-10-04:
+       new detachments are coming and nobody remembers them all). -->
   <BaseModal
-    :title="labels.rosterFactionRules"
+    :title="detachment || labels.rosterFactionRules"
     max-width="720px"
     @close="$emit('close')"
   >
     <div class="modal-body rrm-body">
       <p
-        v-if="detachments.length"
+        v-if="!detachment && detachments.length"
         class="rrm-dets"
       >
         {{ detachments.join(' · ') }}
       </p>
       <RosterRulesPanel
         :faction-slug="factionSlug"
-        :detachments="detachments"
+        :detachments="detachment ? [detachment] : detachments"
+        :army-rule="!detachment"
+        :start-open="detachment ? [detachment] : []"
         bare
       />
     </div>
@@ -34,6 +39,7 @@ import { useLocale } from '../../composables/useLocale.js'
 defineProps({
   factionSlug: { type: String, required: true },
   detachments: { type: Array, default: () => [] },
+  detachment: { type: String, default: '' },
 })
 defineEmits(['close'])
 

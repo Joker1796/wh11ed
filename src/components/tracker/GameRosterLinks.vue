@@ -66,7 +66,7 @@ const links = computed(() => (props.game.players || [])
   padding: 0.4rem 0.75rem; border: 1px solid var(--border);
   background: var(--bg-card); color: var(--text-primary); text-decoration: none; font-size: 0.82rem;
 }
-.grl-pill:hover { border-color: var(--accent); color: var(--accent); }
+.grl-pill:hover { border-color: var(--accent); color: var(--accent-ink); }
 .grl-who { color: var(--text-muted); }
 .grl-name { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>

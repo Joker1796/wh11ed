@@ -58,6 +58,29 @@ describe('startOfflineWarmup', () => {
     expect(fetched).toContain('/images/x.webp')
   })
 
+  // After a release most of the list is already cached under the same hashed names; only what a
+  // cache does not hold is fetched, and only that is counted — "0/777" after every update read as
+  // the whole app downloading again (owner, 2026-10-05).
+  it('fetches and counts only what no cache holds yet', async () => {
+    mockFetch()
+    vi.stubGlobal('caches', { match: vi.fn(async (url) => (url === '/assets/a.js' ? {} : undefined)) })
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    await startOfflineWarmup()
+    expect(fetched).toEqual(['/offline-manifest.json', '/assets/b.js', '/images/x.webp'])
+    const { done, total, status } = useOfflineWarmup()
+    expect([done.value, total.value, status.value]).toEqual([2, 2, 'ready'])
+  })
+
+  it('is done at once when every file is already cached', async () => {
+    mockFetch()
+    vi.stubGlobal('caches', { match: vi.fn(async () => ({})) })
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    await startOfflineWarmup()
+    expect(fetched).toEqual(['/offline-manifest.json'])
+    expect(useOfflineWarmup().status.value).toBe('ready')
+    expect(localStorage.getItem('wh11ed-offline-warmed')).toBeTruthy()
+  })
+
   it('does not claim success when a file fails', async () => {
     mockFetch()
     vi.stubGlobal('fetch', vi.fn(async (url) => {

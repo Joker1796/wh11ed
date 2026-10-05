@@ -67,7 +67,7 @@
     "src/components/event/ChapterLayouts.vue",
     "src/components/event/LayoutCard.vue"
   ],
-  ".measurements-toggle[aria-pressed=\"true\"] { color: var(--accent); border-color: var(--accent); }": [
+  ".measurements-toggle[aria-pressed=\"true\"] { color: var(--accent-ink); border-color: var(--accent); }": [
     "src/components/event/ChapterLayouts.vue",
     "src/components/event/LayoutCard.vue"
   ],
@@ -87,7 +87,7 @@
     "src/components/event/MissionCard.vue",
     "src/components/tracker/ScoreRows.vue"
   ],
-  ".player-head { font-family: var(--font-display); font-size: 1.21rem; font-weight: 500; color: var(--accent); margin-bottom: 0.75rem; }": [
+  ".player-head { font-family: var(--font-display); font-size: 1.21rem; font-weight: 500; color: var(--accent-ink); margin-bottom: 0.75rem; }": [
     "src/components/tracker/EditSetupModal.vue",
     "src/components/tracker/GameSetup.vue"
   ],

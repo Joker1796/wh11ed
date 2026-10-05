@@ -435,7 +435,7 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin: 1rem 0 0.4rem;
   padding-bottom: 0.25rem;
   border-bottom: 1px solid var(--border);
@@ -504,7 +504,7 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
    folds `--fa-light`/`--fa-dark` into `--accent`), so a marked shelf reads as part of the army
    rather than as a foreign gold. The pin keeps its quiet outline→filled swap: two marks in one
    corner, only one of them coloured. */
-.ds-own.on { color: var(--accent); }
+.ds-own.on { color: var(--accent-ink); }
 
 .ds-chip:hover { text-decoration: none; }
 
@@ -527,7 +527,7 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  color: var(--accent);
+  color: var(--accent-ink);
   white-space: nowrap;
 }
 
@@ -586,7 +586,7 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   font-size: 0.85rem;
   cursor: pointer;
 }
-.ds-legends-about:hover { color: var(--accent); }
+.ds-legends-about:hover { color: var(--accent-ink); }
 .ds-legends-about i { font-size: 0.7rem; }
 
 /* Muted — a folded aside, not the rules the page is for. The global `strong` is near-white at

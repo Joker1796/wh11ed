@@ -352,7 +352,7 @@ function onDisable() { disable() }
 .bc-json-dev {
   margin: 0 0 0.35rem;
   font-size: 0.75rem;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .bc-actions {
   display: flex;
@@ -363,6 +363,6 @@ function onDisable() { disable() }
 .bc-err {
   margin: 0.6rem 0 0;
   font-size: 0.78rem;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 </style>

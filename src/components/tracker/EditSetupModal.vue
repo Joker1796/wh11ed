@@ -483,7 +483,7 @@ function save() {
   background: none; border: none; color: var(--text-muted);
   font-size: 0.9rem; line-height: 1; cursor: pointer; padding: 0.15rem 0.25rem;
 }
-.rl-clear:hover { color: var(--accent); }
+.rl-clear:hover { color: var(--accent-ink); }
 .rp-open {
   display: flex; align-items: center; gap: 0.4rem; width: 100%;
   padding: 0.45rem 0.55rem;
@@ -500,7 +500,7 @@ function save() {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-bottom: 0.75rem;
 }
 /* Doubles member sub-boxes — same frame recipe as the wizard's (GameSetup's .member-block). */
@@ -534,7 +534,7 @@ function save() {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin: 0 0 0.6rem;
 }
 

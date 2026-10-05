@@ -55,7 +55,7 @@ const { entry, visible, markSeen } = useUpdateNotice()
 
 .ub-link {
   margin-left: 0.5rem;
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: underline;
   white-space: nowrap;
 }

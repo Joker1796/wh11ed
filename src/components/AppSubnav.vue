@@ -183,7 +183,7 @@ const subNavItems = computed(() => {
 }
 
 .subnav-link.active {
-  color: var(--accent);
+  color: var(--accent-ink);
   border-bottom-color: var(--accent);
   font-weight: 600;
 }

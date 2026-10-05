@@ -4500,7 +4500,7 @@ export default {
     "1061": "The Mukaali Rider Sergeant’s laspistol can be replaced with 1 plasma pistol.",
     "1062": "The Mukaali Rider Sergeant’s hunting lance can be replaced with one of the following:\n▪ 1 chainsword\n▪ 1 power weapon",
     "1063": "Up to 2 Mukaali Riders can each have their hunting lance replaced with one of the following:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun",
-    "1064": "Up to 2 models can each have their Servitor’s servo-arm replaced with one of the following:\n▪ 1 heavy bolter\n▪ 1 multi-melta\n▪ 1 plasma cannon",
+    "1064": "Up to 2 models can each have their Servitor’s servo-arm replaced with one of the following:\n▪ 1 heavy bolter and 1 close combat weapon\n▪ 1 multi-melta and 1 close combat weapon\n▪ 1 plasma cannon and 1 close combat weapon",
     "1065": "Any number of models’ twin heavy bolters can each be replaced with one of the following:\n▪ 1 defence searchlight\n▪ 1 twin autocannon\n▪ 1 twin heavy stubber\n▪ 1 twin lascannon",
     "1066": "This model’s 2 twin heavy bolters can be replaced with 2 twin heavy flamers.",
     "1067": "This model can be equipped with one of the following:\n▪ 2 lascannons and 2 twin heavy bolters\n▪ 2 lascannons and 2 twin heavy flamers",

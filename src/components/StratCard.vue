@@ -191,7 +191,8 @@ const renderField = text => (text ? renderRichText(text) : '')
   font-size: 0.66rem;
   font-weight: 400;
   letter-spacing: 0.2px;
-  color: rgba(255, 255, 255, 0.45);
+  /* 0.65: at 0.45 the second line read 4.1:1 on the black head (a11y gate, 2026-10-05). */
+  color: rgba(255, 255, 255, 0.65);
   line-height: 1.05;
   margin-top: -6px;
   overflow: hidden;
@@ -418,12 +419,12 @@ const renderField = text => (text ? renderRichText(text) : '')
 @media (prefers-color-scheme: dark) {
   .strat-card.turn-either { --turn-text: #5cbf83; }
   .strat-card.turn-your { --turn-text: #6aa9d6; }
-  .strat-card.turn-opponent { --turn-text: #ef6e60; }
+  .strat-card.turn-opponent { --turn-text: #f28b80; }
 }
 :root[data-theme='light'] .strat-card.turn-either { --turn-text: var(--turn-color); }
 :root[data-theme='light'] .strat-card.turn-your { --turn-text: var(--turn-color); }
 :root[data-theme='light'] .strat-card.turn-opponent { --turn-text: var(--turn-color); }
 :root[data-theme='dark'] .strat-card.turn-either { --turn-text: #5cbf83; }
 :root[data-theme='dark'] .strat-card.turn-your { --turn-text: #6aa9d6; }
-:root[data-theme='dark'] .strat-card.turn-opponent { --turn-text: #ef6e60; }
+:root[data-theme='dark'] .strat-card.turn-opponent { --turn-text: #f28b80; }
 </style>

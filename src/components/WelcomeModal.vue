@@ -62,9 +62,9 @@ function dismiss() {
 .welcome-lead { margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
 .welcome-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
 .welcome-list li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.5; }
-.welcome-list i { color: var(--accent); font-size: 1rem; line-height: 1.4; }
+.welcome-list i { color: var(--accent-ink); font-size: 1rem; line-height: 1.4; }
 .welcome-actions { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
-.welcome-more { color: var(--accent); text-decoration: none; font-size: 0.85rem; }
+.welcome-more { color: var(--accent-ink); text-decoration: none; font-size: 0.85rem; }
 .welcome-more:hover { text-decoration: underline; }
 .welcome-ok {
   padding: 0.5rem 1.1rem;

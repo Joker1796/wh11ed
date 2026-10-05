@@ -6,19 +6,22 @@
   >
     <span class="det-main">
       <!-- On the desk's one-line row the tag stands right after the name (owner, 2026-10-03); the
-           phone's two-line card keeps it on the second line, left of the dispositions. -->
+           phone's two-line card keeps it on the second line, left of the dispositions — until the
+           card is too narrow for the tag and two dispositions on one line, when the tag moves up
+           under the name, held tight to it (`head-tag`, the container query below; owner,
+           2026-10-04). -->
       <span class="det-title">
         <span class="det-name">{{ name }}</span>
-        <template v-if="compact">
-          <span
-            v-if="unique"
-            class="det-unique"
-          >{{ unique }}</span>
-          <span
-            v-if="tag"
-            class="det-unique"
-          >{{ tag }}</span>
-        </template>
+        <span
+          v-if="unique"
+          class="det-unique"
+          :class="{ 'head-tag': !compact }"
+        >{{ unique }}</span>
+        <span
+          v-if="tag"
+          class="det-unique"
+          :class="{ 'head-tag': !compact }"
+        >{{ tag }}</span>
       </span>
       <span
         v-if="nameRu"
@@ -39,11 +42,11 @@
       <template v-if="!compact">
         <span
           v-if="unique"
-          class="det-unique"
+          class="det-unique foot-tag"
         >{{ unique }}</span>
         <span
           v-if="tag"
-          class="det-unique"
+          class="det-unique foot-tag"
         >{{ tag }}</span>
       </template>
       <span
@@ -114,6 +117,7 @@ defineProps({
   background: var(--bg-secondary);
   cursor: pointer;
   transition: background var(--motion-fast), border-color var(--motion-fast);
+  container: det / inline-size;
 }
 
 @media (hover: hover) {
@@ -161,6 +165,10 @@ defineProps({
 }
 
 
+/* The card's tag is drawn twice and shown once: under the name by default, beside it when the card
+   is narrow (below). */
+.head-tag { display: none; }
+
 /* The second line, across the whole row: the phone card's tag left, the dispositions right. */
 .det-foot {
   grid-column: 1 / -1;
@@ -190,7 +198,7 @@ defineProps({
 
 .det.on .det-dp {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* The dropdown's row: one line — name, then the tag and the dispositions, the cost a plain figure
@@ -213,4 +221,19 @@ defineProps({
 .det.compact .tone-chip { font-size: 0.6rem; padding: 0.05rem 0.3rem; }
 /* The cost's plate the height of a disposition chip beside it. */
 .det.compact .det-dp { order: 1; padding: 0.05rem 0.35rem; font-size: 0.7rem; line-height: 1.3; }
+
+/* A card too narrow for its tag and two dispositions on one line: the line wrapped, the tag alone
+   on it and the dispositions on a third (owner's screenshot, 2026-10-04). Measured over all 331
+   detachment rows of all factions, the widest such line (Hearthband: HEARTHBAND + two
+   dispositions) needs a 339px card; below that the tag goes up UNDER the name, a caption held
+   tight to it (not beside it — owner, 2026-10-04), and the chips and the cost step down a size, so
+   two dispositions fit a 320px phone's card on one line (`npm run detachment-row`). */
+@container det (max-width: 338px) {
+  .det-title { flex-direction: column; align-items: flex-start; }
+  .head-tag { display: block; line-height: 1; margin-top: 0.05rem; }
+  .foot-tag { display: none; }
+  .det-foot:not(:has(.det-fds)) { display: none; }
+  .tone-chip { font-size: 0.6rem; padding: 0.05rem 0.3rem; letter-spacing: 0.02em; }
+  .det-dp { padding: 0.15rem 0.4rem; font-size: 0.8rem; }
+}
 </style>

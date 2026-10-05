@@ -75,7 +75,7 @@ const labels = computed(() => ui[locale.value])
   margin-right: 0.25rem;
   vertical-align: -0.4rem;
   background: color-mix(in srgb, var(--accent) 14%, transparent);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .ih-note { margin: 0; font-size: 0.78rem; line-height: 1.45; color: var(--text-muted); }
 </style>

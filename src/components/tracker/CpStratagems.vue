@@ -308,7 +308,7 @@ async function use(s) {
 <style scoped>
 .cps { margin-top: 0; }
 /* The block in the chosen side's colour: the tabs' lit edge, the filters, the rows' buttons. */
-.cps { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
+.cps { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); --accent-ink: var(--side); --accent-ink-hover: color-mix(in srgb, var(--side) 80%, #000); }
 .cps.opp { --side: var(--side-opponent); }
 .cps-tabs { margin-bottom: 0; }
 .cps-oppturn {

@@ -83,6 +83,13 @@ describe('validateRoster — no limit and the archive', () => {
     expect(validateRoster(list, { faction, core })).toMatchObject({ issues: [], errorCount: 0 })
     expect(codes({ ...list, archived: undefined }).length).toBeGreaterThan(0)
   })
+  it('a list with its checks switched off is priced but never judged — warnings included', () => {
+    const list = roster({ checkLegality: false, faction: null, units: crowd() })
+    const res = validateRoster(list, { faction, core })
+    expect(res).toMatchObject({ issues: [], errorCount: 0 })
+    expect(res.points).toBeGreaterThan(0)
+    expect(codes({ ...list, checkLegality: true })).toContain('noFaction')
+  })
 })
 
 describe('validateRoster — completeness', () => {

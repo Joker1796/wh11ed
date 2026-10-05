@@ -137,6 +137,7 @@ function sizes(points, minis, report, who) {
 // bolter carries. "Every other Nightmare Hulk" is the per-model remainder.
 function parseLoadout(text, minis, findMini, report, who) {
   const out = new Map() // mini → { each: [name…], total: [name…] }
+  const others = new Map() // mini → the items its "Every other X" paragraph names
   const paras = String(text || '').split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean)
   for (const p of paras) {
     if (/^\*\*Designer/.test(p)) continue
@@ -150,10 +151,12 @@ function parseLoadout(text, minis, findMini, report, who) {
       targets = []
       for (const part of subject.split(/\s+and\s+/i)) {
         const one = /^(one|1)\s+/i.test(part)
+        const other = /^every other\s+/i.test(part)
         const name = part.replace(/^(the|every other|every|each|an?|one|1)\s+/i, '').trim()
         const mi = findMini(name)
         if (mi == null) { report.loadout.push(`${who}: subject "${subject}"`); return null }
         if (one || minis[mi].aliases?.some((a) => norm(a) === norm(name))) total = true
+        if (other) others.set(mi, [...(others.get(mi) || []), ...m[2].replace(/\.$/, '').split(/;\s*/).map((s) => s.trim())])
         targets.push(mi)
       }
     }
@@ -165,6 +168,19 @@ function parseLoadout(text, minis, findMini, report, who) {
         if (total) row.total.push(it)
         else if (!row.each.includes(it)) row.each.push(it)
       }
+    }
+  }
+  // "One Nightmare Hulk is equipped with: belly-flamer; hideous mutations" + "Every other
+  // Nightmare Hulk is equipped with: hideous mutations": the mutations are on EVERY Hulk, one
+  // each — read as a per-model item AND a profile total, four Hulks held five (found 2026-10-05).
+  // An item the singled-out models also carry is the whole profile's, so its total copies go. An
+  // item only "every other" model has would be the profile less those models, which a per-model
+  // row overcounts — no pack says that yet, so it is reported rather than guessed at.
+  for (const [mi, items] of others) {
+    const row = out.get(mi)
+    for (const it of items) {
+      if (row.total.includes(it)) row.total = row.total.filter((t) => t !== it)
+      else report.note.push(`${who}: "${it}" is on every other model only — counted on every model`)
     }
   }
   return out
@@ -375,10 +391,55 @@ function perModelRules(gear, raws, sheet, seenItems, report, who) {
   return pm
 }
 
+// ---- Errata to GW's own sheets -----------------------------------------------------------------
+// A Faction Pack sheet stitched from another, read as printed, gives the builder a unit nobody can
+// field as GW meant it. Each entry rewrites a passage of the sheet's loadout or option text BEFORE
+// it is read, on the owner's word, with the evidence — and only for the builder: the datasheet
+// players read keeps GW's text. Found 2026-10-05 by the 'every printed weapon has a carrier' gate
+// (src/data/roster/index.test.js) and checked page by page against the PDFs. Remove an entry when
+// GW fixes the sheet — a passage no longer found fails the generator.
+export const PACK_ERRATA = {
+  // The back page is the plain Cultist Mob's — its title, its "autopistol; brutal assault weapon"
+  // loadout. The front prints Autogun and Close combat weapon, and every option trades "autogun and
+  // close combat weapon" or "a Chaos Cultist's autogun". The Champion's line is kept as printed: it
+  // agrees with his own "autopistol → bolt pistol".
+  'cultist-mob-with-firearms': {
+    loadout: [['**Every Chaos Cultist is equipped with:** autopistol; brutal assault weapon.', '**Every Chaos Cultist is equipped with:** autogun; close combat weapon.']],
+  },
+  // "Up to 2 models can each have their Servitor's servo-arm replaced with" a heavy weapon — and
+  // nothing to fight with: a model with no melee weapon cannot make melee attacks (core rules), and
+  // the sheet prints a Close combat weapon no model could otherwise take. GW's usual wording,
+  // "1 heavy bolter and 1 close combat weapon", restored.
+  'munitorum-servitors': {
+    options: [
+      ['▪ 1 heavy bolter\n', '▪ 1 heavy bolter and 1 close combat weapon\n'],
+      ['▪ 1 multi-melta\n', '▪ 1 multi-melta and 1 close combat weapon\n'],
+      ['▪ 1 plasma cannon', '▪ 1 plasma cannon and 1 close combat weapon'],
+    ],
+  },
+}
+
+function applyErrata(sheet) {
+  const fix = PACK_ERRATA[sheet.id]
+  if (!fix) return sheet
+  const swap = (text, pairs) => pairs.reduce((t, [from, to]) => {
+    if (!t.includes(from)) throw new Error(`pack-roster: PACK_ERRATA for ${sheet.id} — "${from.slice(0, 50)}" no longer in the sheet; GW fixed it? Remove the entry.`)
+    return t.replace(from, to)
+  }, text)
+  const out = { ...sheet }
+  if (fix.loadout) out.loadout = swap(String(sheet.loadout || ''), fix.loadout)
+  if (fix.options) {
+    const joined = (sheet.options || []).join('\u0000')
+    out.options = swap(joined, fix.options).split('\u0000')
+  }
+  return out
+}
+
 // ---- The unit ----------------------------------------------------------------------------------
 // `sheet` is the datasheet entry; `ctx` carries the faction's other units (for Leader targets),
 // the interners and the report. Returns the roster unit, or null when the sheet cannot be read.
-export function packRosterUnit(sheet, ctx) {
+export function packRosterUnit(printedSheet, ctx) {
+  const sheet = applyErrata(printedSheet)
   const { report, item, text, unitIdByName, allegFor } = ctx
   const who = sheet.name
   const minis = parseComposition(sheet.composition, report, who)
@@ -485,7 +546,19 @@ export function packRosterUnit(sheet, ctx) {
       const dicts = opt.all ? [...defaultNames.values()] : [defaultNames.get(opt.m)].filter(Boolean)
       const merged = new Map(dicts.flatMap((d) => [...d]))
       const parts = opt.given.split(/,\s*|\s+and\s+/i).map((s) => s.trim()).filter(Boolean)
-      const ids = parts.map((p) => findName(p, merged))
+      // …or the ONE printed item whose name ends with the phrase: a Magna-grapple Dreadnought's
+      // "Furioso fists" are its "twin Furioso fists" (found 2026-10-05 sweeping every swap).
+      const byTail = (p) => {
+        const forms = singulars(norm(p).replace(/^\d+\s+/, ''))
+        const hits = [...merged].filter(([key]) => forms.some((f) => singulars(key).some((k) => k.endsWith(` ${f}`))))
+        return new Set(hits.map(([, v]) => v)).size === 1 ? hits[0][1] : null
+      }
+      // …or an item an earlier option of this unit hands out: a CHAINED swap. Death Company Marines
+      // trade "boltgun and close combat weapon" for "Astartes chainsword and bolt pistol", then "bolt
+      // pistol" for a hand flamer — the pistol is no printed item, and the group was left without
+      // `rep`, so the hand flamer joined the pistol instead of replacing it (found 2026-10-05).
+      // (`seenItems`: every name this unit resolved so far, the earlier options' among them.)
+      const ids = parts.map((p) => findName(p, merged) ?? byTail(p) ?? findName(p, seenItems))
       if (ids.every((x) => x != null)) rep = [...new Set(ids)]
       else report.rep.push(`${who}: "${opt.given}"`)
     }

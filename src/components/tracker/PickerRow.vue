@@ -92,7 +92,7 @@ const labels = computed(() => ui[locale.value])
   border: none;
   border-left: 1px solid var(--border);
   background: none;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;

@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, isArchived } from './rosterEngine.js'
+import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn } from './rosterEngine.js'
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -71,8 +71,10 @@ export function validateRoster(roster, { faction, core, items } = {}) {
     faction?.slug ? grantedKeywordsFor(def?.id, faction.slug, detachments).map((g) => g.kw) : null
 
   const points = rosterPoints(units, defOf, detachments)
-  // An archived list is priced but never judged — see isArchived (rosterEngine.js).
-  if (isArchived(roster)) return { points, issues: [], errorCount: 0 }
+  // A list with its checks switched off, or archived, is priced but never judged — not one issue,
+  // warnings included (owner, 2026-10-04: "no rule checked, no warning shown, only that the
+  // checks are off"). See legalityOn (rosterEngine.js).
+  if (!legalityOn(roster)) return { points, issues: [], errorCount: 0 }
   const issues = []
   // Every issue tied to an entry names it. The message templates cannot do that on their own — the
   // same code is raised from a dozen places and several carry no unit at all — so `unit` is filled

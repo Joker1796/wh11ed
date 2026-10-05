@@ -61,7 +61,7 @@ defineEmits(['close'])
 .top-banner-icon {
   float: left;
   margin: 0.15rem 0.6rem 0.2rem 0;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 1rem;
 }
 

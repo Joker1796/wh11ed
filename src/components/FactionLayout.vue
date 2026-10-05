@@ -220,8 +220,10 @@ function backToUnits() {
 .faction-view.themed {
   --accent: var(--fa-light);
   --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-  --link-accent: var(--accent);
-  --link-accent-hover: var(--accent-hover);
+  --accent-ink: color-mix(in srgb, var(--fa-light) 85%, black);
+  --accent-ink-hover: color-mix(in srgb, var(--fa-light) 70%, black);
+  --link-accent: var(--accent-ink);
+  --link-accent-hover: var(--accent-ink-hover);
 }
 
 /* Dark theme: links stay the app's gold (--link-accent in style.css is a readability
@@ -233,6 +235,8 @@ function backToUnits() {
   .faction-view.themed {
     --accent: var(--fa-dark);
     --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+    --accent-ink: var(--fa-dark);
+    --accent-ink-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
     --link-accent: #e8c96a;
     --link-accent-hover: #f0d98a;
   }
@@ -303,13 +307,17 @@ function backToUnits() {
 :root[data-theme='light'] .faction-view.themed {
   --accent: var(--fa-light);
   --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-  --link-accent: var(--accent);
-  --link-accent-hover: var(--accent-hover);
+  --accent-ink: color-mix(in srgb, var(--fa-light) 85%, black);
+  --accent-ink-hover: color-mix(in srgb, var(--fa-light) 70%, black);
+  --link-accent: var(--accent-ink);
+  --link-accent-hover: var(--accent-ink-hover);
 }
 
 :root[data-theme='dark'] .faction-view.themed {
   --accent: var(--fa-dark);
   --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+  --accent-ink: var(--fa-dark);
+  --accent-ink-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
   --link-accent: #e8c96a;
   --link-accent-hover: #f0d98a;
 }

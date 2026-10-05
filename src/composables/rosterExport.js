@@ -1,7 +1,7 @@
 // Plain-text roster export, in the shapes the 40k community actually passes around. English names
 // throughout (unit / detachment / wargear names are EN by project convention). Pure functions.
 //
-// FOUR FORMATS, one resolved model:
+// FIVE FORMATS, one resolved model:
 //   gw       the Warhammer 40,000 app's own 11th-edition export — what a TO asks for and what every
 //            list reader (BCP, New Recruit, 40kCompactor) parses first. Attached units come first
 //            as their own blocks, then CHARACTERS / DEDICATED TRANSPORTS / OTHER DATASHEETS.
@@ -11,8 +11,11 @@
 //            shorter tournament export, and what the readers in circulation (40kCompactor,
 //            ListForge) accept alongside plain WTC. Same grammar, fewer lines.
 //   compact  one line per unit, ours, for pasting into a Discord channel; identical entries
-//            collapse into `2x`. The shortest thing here, at the price of not being a format
-//            anybody else parses.
+//            collapse into `2x`, wargear and enhancement in brackets.
+//   simple   War Organ's "simple" export: a name, the faction, the points, the detachments and
+//            the disposition, then "Unit (N points)" per unit and nothing else — no wargear, no
+//            collapsing. Asked for by a player (2026-10-05): the Discord lines, carrying their
+//            wargear, wrapped two and three deep in a phone's chat.
 //
 // The 11th-edition app export differs from the 10th's in ways this file has to honour: several
 // detachments at once with a Detachment Points budget, a Force Dispositions line, and attached
@@ -29,7 +32,7 @@ import {
 } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
 
-export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact']
+export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple']
 
 // WTC writes the faction's alliance ahead of its name ("Xenos - T'au Empire"). Our index splits the
 // Imperium in two (Space Marine chapters have their own group), which WTC does not.
@@ -396,6 +399,22 @@ function compactText(m) {
   return lines.join('\n').trimEnd()
 }
 
+// ── Simple (War Organ) ───────────────────────────────────────────────────────────────────────
+
+// "АспектХост [Aeldari] - (2000 points)", "Detachments: Aspect Host", the disposition alone on the
+// next line, a blank, then every unit in the screen's order as "Autarch (90 points)". A row's
+// points already carry its enhancement, so the lines add up to the total in the header.
+function simpleText(m) {
+  const name = m.roster?.name || m.faction?.name || ''
+  const lines = [`${name}${m.faction?.name ? ` [${m.faction.name}]` : ''} - (${m.total} points)`]
+  if (m.detachments.length) lines.push(`Detachments: ${m.detachments.map((d) => d.name).join(', ')}`)
+  const fds = m.disposition ? [m.disposition] : dispositionCandidates(m.detachments)
+  if (fds.length) lines.push(fds.join(', '))
+  lines.push('')
+  for (const r of orderedByName(m.rows, (x) => x.name)) lines.push(`${r.name} (${r.pts} points)`)
+  return lines.join('\n').trimEnd()
+}
+
 // ── entry point ──────────────────────────────────────────────────────────────────────────────
 
 // `version` (optional) is `{ app, data }` for the GW-format footer — the caller has them, this
@@ -406,5 +425,6 @@ export function buildRosterText(roster, ctx = {}, format = 'gw') {
   if (format === 'wtc') return wtcText(m)
   if (format === 'wtc-compact') return wtcText(m, true)
   if (format === 'compact') return compactText(m)
+  if (format === 'simple') return simpleText(m)
   return gwText(m, ctx.version)
 }

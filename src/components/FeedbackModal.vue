@@ -250,7 +250,7 @@ function close() {
 .fb-error {
   margin: 0.6rem 0 0;
   font-size: 0.78rem;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .fb-actions {
   display: flex;

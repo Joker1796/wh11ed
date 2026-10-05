@@ -1137,7 +1137,7 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
 }
 .pill.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); color: var(--text-primary); }
 .opt-name { color: var(--text-primary); }
-.opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
+.opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent-ink); }
 .opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
 /* Which of the two squads of that name this row is. Its OWN line — the name above it is what the
    reader scans, and a sentence trailing off the end of it would be read as part of the name. */
@@ -1181,7 +1181,7 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   border: none;
   border-left: 1px solid var(--border);
   font-size: 1.1rem;
-  color: var(--accent);
+  color: var(--accent-ink);
   cursor: pointer;
 }
 .opt-info:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }

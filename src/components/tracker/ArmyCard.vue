@@ -178,7 +178,7 @@ defineExpose({ reveal })
 
 <style scoped>
 /* In its side's colour — the rule card, the units link — like the Missions and CP panels. */
-.ap-card { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); }
+.ap-card { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); --accent-ink: var(--side); --accent-ink-hover: color-mix(in srgb, var(--side) 80%, #000); }
 .ap-card.opp { --side: var(--side-opponent); }
 /* The emblem is stamped on the whole card (owner, 2026-09-30), at one size whatever the card's
    height — a folded rule's text can make it a few screens tall — and under everything on it. */

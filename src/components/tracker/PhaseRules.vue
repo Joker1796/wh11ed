@@ -138,7 +138,7 @@ function toggle() {
   cursor: pointer;
   text-align: left;
 }
-.pr-head:hover { color: var(--accent); }
+.pr-head:hover { color: var(--accent-ink); }
 .pr-chev { font-size: 0.75rem; }
 .pr-title { flex: 1; }
 .pr-count {
@@ -155,7 +155,7 @@ function toggle() {
 .pr-side + .pr-side { margin-top: 0.6rem; }
 /* Each side in its colour — the same you / opponent colours as the score cards: its heading, and
    its lines' hover (not the turn's colour: the opponent's line lit in mine read as mine). */
-.pr-side { --side: var(--side-you); --accent: var(--side); }
+.pr-side { --side: var(--side-you); --accent: var(--side); --accent-ink: var(--side); }
 .pr-side.opp { --side: var(--side-opponent); }
 .pr-who {
   margin: 0 0 0.2rem;
@@ -182,7 +182,7 @@ function toggle() {
   cursor: pointer;
 }
 .pr-go-btn:hover .pr-name,
-.pr-go-btn:hover .pr-go { color: var(--accent); }
+.pr-go-btn:hover .pr-go { color: var(--accent-ink); }
 .pr-src {
   flex: 0 0 auto;
   max-width: 40%;
@@ -202,7 +202,7 @@ function toggle() {
   font-size: 0.8rem;
   color: var(--text-muted);
 }
-.pr-strats:hover { color: var(--accent); }
+.pr-strats:hover { color: var(--accent-ink); }
 button.pr-strats { width: 100%; padding-bottom: 0; border: 0; border-top: 1px solid var(--border); background: none; font: inherit; font-size: 0.8rem; text-align: left; cursor: pointer; }
 .pr-go { flex-shrink: 0; margin-left: auto; font-size: 0.75rem; color: var(--text-dim); }
 </style>

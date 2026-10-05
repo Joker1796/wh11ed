@@ -76,5 +76,8 @@ const { renderInline, renderRichText } = useRenderInline()
 
 .faq-badge.ans {
   background: var(--text-muted);
+  /* The page's own ground, not white: the muted grey is light in the dark theme, and white on it
+     read 2.4:1 (a11y gate, 2026-10-05). 5.5:1 light, 6.4:1 dark. */
+  color: var(--bg-primary);
 }
 </style>

@@ -478,14 +478,14 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   cursor: pointer;
 }
 .rub-filter-btn.on,
-.rub-filter-btn.open { color: var(--accent); border-color: var(--accent); }
+.rub-filter-btn.open { color: var(--accent-ink); border-color: var(--accent); }
 @media (hover: hover) { .rub-filter-btn:hover { color: var(--text-primary); } }
 .rub-filter-count {
   margin-left: 0.2rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* The fold and the line that says what its switches took away. The rows themselves are the app's
@@ -503,7 +503,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
    closed filter would cost a visible band of pane height for no content. */
 .rub-filters.folded { padding-bottom: 0; border-bottom: none; }
 .rub-filter-list { display: flex; flex-direction: column; gap: 0.35rem; padding-top: 0.35rem; }
-.rub-group-count.on { color: var(--accent); }
+.rub-group-count.on { color: var(--accent-ink); }
 .rub-hidden { font-style: normal; font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem; }
 /* flex/min-height, not just overflow: inside the build panes this component's height is bounded
    by the pane, and a column flex item defaults to min-height:auto — without these the body grows
@@ -575,7 +575,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 /* min-width, or a long name refuses to shrink past its min-content and runs UNDER the price
    beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
 .rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
-.rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent); }
+.rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent-ink); }
 .rub-count.over { color: var(--danger); }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
 .rub-rail { flex-shrink: 0; display: flex; align-items: stretch; }
@@ -591,7 +591,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   font-size: 1.1rem;
   cursor: pointer;
 }
-.rub-add { color: var(--accent); }
+.rub-add { color: var(--accent-ink); }
 @media (hover: hover) { .rub-add:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); } }
 .rub-add:disabled { opacity: 0.35; cursor: not-allowed; }
 @media (hover: hover) { .rub-add:disabled:hover { background: none; } }

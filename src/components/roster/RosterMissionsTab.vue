@@ -275,7 +275,7 @@ function openMission(m, side) {
   color: var(--text-muted);
 }
 .rmt-status-text { margin: 0; flex: 1; min-width: 0; }
-.rmt-status .bi-check2 { color: var(--accent); }
+.rmt-status .bi-check2 { color: var(--accent-ink); }
 .rmt-status.alt,
 .rmt-status.open { color: var(--warning); }
 

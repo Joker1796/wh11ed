@@ -344,7 +344,7 @@ watch(() => route.hash, (hash) => {
 .hero-subtitle {
   font-size: 0.95rem;
   line-height: 1.2;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-style: italic;
 }
 
@@ -443,7 +443,7 @@ watch(() => route.hash, (hash) => {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-ink);
   border: 1px solid var(--accent);
   padding: 1px 5px;
   white-space: nowrap;
@@ -503,7 +503,8 @@ watch(() => route.hash, (hash) => {
   text-transform: none;
   letter-spacing: 0;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.82);
+  /* Full white: at 82% it read 4.07:1 on Orks' green plate (a11y gate, 2026-10-05). */
+  color: #fff;
 }
 
 .cp-empty {
@@ -537,13 +538,17 @@ watch(() => route.hash, (hash) => {
 .cp-faction-view.themed {
   --accent: var(--fa-light);
   --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-  --link-accent: var(--accent);
-  --link-accent-hover: var(--accent-hover);
+  --accent-ink: color-mix(in srgb, var(--fa-light) 85%, black);
+  --accent-ink-hover: color-mix(in srgb, var(--fa-light) 70%, black);
+  --link-accent: var(--accent-ink);
+  --link-accent-hover: var(--accent-ink-hover);
 }
 @media (prefers-color-scheme: dark) {
   .cp-faction-view.themed {
     --accent: var(--fa-dark);
     --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+    --accent-ink: var(--fa-dark);
+    --accent-ink-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
     --link-accent: #e8c96a;
     --link-accent-hover: #f0d98a;
   }
@@ -558,13 +563,17 @@ watch(() => route.hash, (hash) => {
 :root[data-theme='light'] .cp-faction-view.themed {
   --accent: var(--fa-light);
   --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-  --link-accent: var(--accent);
-  --link-accent-hover: var(--accent-hover);
+  --accent-ink: color-mix(in srgb, var(--fa-light) 85%, black);
+  --accent-ink-hover: color-mix(in srgb, var(--fa-light) 70%, black);
+  --link-accent: var(--accent-ink);
+  --link-accent-hover: var(--accent-ink-hover);
 }
 
 :root[data-theme='dark'] .cp-faction-view.themed {
   --accent: var(--fa-dark);
   --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+  --accent-ink: var(--fa-dark);
+  --accent-ink-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
   --link-accent: #e8c96a;
   --link-accent-hover: #f0d98a;
 }

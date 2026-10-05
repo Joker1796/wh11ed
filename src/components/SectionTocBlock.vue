@@ -84,13 +84,13 @@ async function go(item) {
 }
 
 .section-toc-link:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .section-toc-num {
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-ink);
   min-width: 2.8rem;
   flex-shrink: 0;
 }

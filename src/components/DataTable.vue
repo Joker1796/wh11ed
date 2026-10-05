@@ -99,7 +99,7 @@ th:last-child {
   text-align: left;
   font-size: 0.82rem;
   font-style: italic;
-  color: var(--accent);
+  color: var(--accent-ink);
   background: var(--bg-row-hover);
   padding: 0.55rem 1rem;
 }

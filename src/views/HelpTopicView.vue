@@ -140,7 +140,7 @@ function onBodyClick(e) {
   margin-top: 1.5rem;
   padding: 0.6rem 1.3rem;
   border: 1px solid var(--accent);
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
@@ -171,7 +171,7 @@ function onBodyClick(e) {
   font-size: 0.9rem;
 }
 
-.ha-link:hover { color: var(--accent); text-decoration: none; }
+.ha-link:hover { color: var(--accent-ink); text-decoration: none; }
 .ha-next { margin-left: auto; text-align: right; }
 
 @media (max-width: 640px) {

@@ -141,7 +141,7 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 }
 /* The shared badge, sized to sit in this line as one of its chips. */
 .rur-wl { margin-left: 0; padding: 0.05rem 0.35rem; font-size: 0.68rem; vertical-align: baseline; }
-.rur-chip.role { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); color: var(--accent); }
+.rur-chip.role { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); color: var(--accent-ink); }
 
 .rur-picks { font-size: 0.72rem; color: var(--text-dim); line-height: 1.35; }
 .rur-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }

@@ -145,8 +145,19 @@ rest of the pipeline reads: `sync-appdata` does not list such a sheet as "extra 
 says `⟲ … is now in appdata — retire the faction-pack copy` the day appdata catches up (appdata
 wins, the pack was the stand-in); the RU coverage test in `datasheets/index.test.js` AWAITS a pack
 sheet with no overlay entry (EN ships first, by decision) and holds one with an entry to the full
-standard. Not in the roster builder: `gen-roster-data` builds units from appdata's composition and
-wargear tables, which a pack sheet does not have. First: Dark Angels ×3, 2026-09-18.
+standard. In the roster builder since 2.6.1: a pack sheet has no appdata tables, so
+`scripts/lib/pack-roster.mjs` reads the builder's unit from the sheet's own text (composition,
+loadout, options), fail-closed. First: Dark Angels ×3, 2026-09-18.
+
+**GW's own errors in a pack sheet (`PACK_ERRATA` in `pack-roster.mjs`)** — a sheet stitched from a
+neighbour reads into a unit nobody can field as GW meant it: the Firearms Cultists' back page is the
+plain Cultist Mob's (no autogun), the Munitorum Servitors' heavy weapons leave them nothing to fight
+with. An entry rewrites the passage BEFORE it is read, for the builder only — the datasheet players
+read keeps GW's text — on the owner's word and with the evidence in its comment; a passage that is
+no longer in the sheet fails the generator, so the entry goes when GW fixes the PDF. Found by the
+`every printed weapon has a carrier` gate (`src/data/roster/index.test.js`). Where the intended
+text is a guess it stays as printed and frozen in that test (Secutarii Peltasts, whose options are
+the Hoplites' word for word) — owner, 2026-10-05.
 
 **SM-Chapter datasheet dedup** — the 5 Chapter codex files (`black-templars.js`, `blood-angels.js`,
 `dark-angels.js`, `deathwatch.js`, `space-wolves.js`) don't duplicate datasheets that are identical

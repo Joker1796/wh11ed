@@ -691,7 +691,7 @@ function handleDefClick(e) {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-bottom: 0.5rem;
 }
 

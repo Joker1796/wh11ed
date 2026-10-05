@@ -292,7 +292,7 @@ async function handleAnchorClick(group, id, filter) {
 .sidebar-logo {
   font-size: 1.1rem;
   font-weight: 800;
-  color: var(--accent);
+  color: var(--accent-ink);
   letter-spacing: 1px;
 }
 

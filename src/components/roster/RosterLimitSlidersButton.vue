@@ -40,6 +40,6 @@ defineProps({
   color: var(--text-muted);
   cursor: pointer;
 }
-.lsb.own { color: var(--accent); border-color: var(--accent); }
-@media (hover: hover) { .lsb:hover { color: var(--accent); border-color: var(--accent); } }
+.lsb.own { color: var(--accent-ink); border-color: var(--accent); }
+@media (hover: hover) { .lsb:hover { color: var(--accent-ink); border-color: var(--accent); } }
 </style>

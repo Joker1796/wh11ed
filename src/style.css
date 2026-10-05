@@ -12,20 +12,31 @@
   --bg-insert: #2a2828;
   --accent: #8b2a33;
   --accent-hover: #6d1f27;
+  /* The accent as TEXT. A fill and a word want different shades of one red: in the dark theme no
+     single value read both as text on the page and as a ground under white (2.8–3.7:1 and 4.2:1,
+     a11y gate). So text takes the ink and fills keep --accent. Every place that re-points --accent
+     (.fa-themed, FactionLayout, Combat Patrol, the print sheet, the game's side scopes) re-points these with it: a custom
+     property declared from var(--accent) here would inherit already computed (owner, 2026-10-05). */
+  --accent-ink: #8b2a33;
+  --accent-ink-hover: #6d1f27;
   /* Accent legible on always-dark surfaces (e.g. the bottom-nav) regardless of theme. */
-  --accent-on-dark: #c8585e;
-  --link-accent: var(--accent);
-  --link-accent-hover: var(--accent-hover);
+  --accent-on-dark: #c8585e; /* text, icons and edges only — the same shade as the dark --accent-ink */
+  --link-accent: var(--accent-ink);
+  --link-accent-hover: var(--accent-ink-hover);
   --text-primary: #2a2828;
-  --text-muted: #686957;
-  --text-dim: #8a8b78;
+  --text-muted: #5e5f4e;
+  /* One grey for secondary text, in both themes: the paler step read 2.6–3.2:1 in light (#8a8b78)
+     and 3.2–3.8:1 in dark (#7e7e72), and a shade that passed AA could not be told from the muted
+     grey anyway, so dim text is the muted grey and is told apart by its size (owner, 2026-10-05).
+     The dark block overrides --text-muted only; this follows it. */
+  --text-dim: var(--text-muted);
   --text-on-dark: #f0ede8;
   --text-on-accent: #fff;
   --border: #c8cac0;
   --border-light: #d8dbd2;
   --bg-row-alt: rgba(104, 105, 87, 0.06);
   --bg-row-hover: rgba(139, 42, 51, 0.05);
-  --ability-weapon: #7a5a00;
+  --ability-weapon: #6e5100; /* 4.8:1 on its badge tint over --bg-secondary; #7a5a00 read 4.14 */
   --ability-unit: #004a6e;
   /* The two sides' colours in a game: yours the accent, the opponent's the unit-ability blue (which
      already passes contrast on the card in both themes). `--side-you` is a token of its own, not
@@ -137,7 +148,7 @@
 
 /* Brief color pulse on a value that just changed (useFlashOnChange re-triggers it). */
 @keyframes vp-flash {
-  from { color: var(--accent); }
+  from { color: var(--accent-ink); }
 }
 .vp-flash {
   animation: vp-flash var(--motion-flash) ease-out;
@@ -235,7 +246,7 @@
   height: 60px;
   border: none;
   background: var(--bg-primary);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 1.6rem;
   cursor: pointer;
   text-decoration: none;
@@ -309,13 +320,16 @@
   --bg-card: #303035;
   --bg-content: #2a2a2f;
   --bg-insert: #38383d;
-  --accent: #c8585e;
-  --accent-hover: #e07078;
+  --accent: #b8474d;
+  --accent-hover: #a83f45;
+  /* The red the dark theme always wrote in (owner, 2026-10-05: the lighter shades AA asks for read
+     pink). 2.8–3.7:1 on the dark surfaces — kept on purpose, listed in the a11y baseline. */
+  --accent-ink: #c8585e;
+  --accent-ink-hover: #e07078;
   --link-accent: #e8c96a;
   --link-accent-hover: #f0d98a;
   --text-primary: #e8e8e3;
   --text-muted: #a8a89a;
-  --text-dim: #7e7e72;
   --text-on-dark: #f0ede8;
   --text-on-accent: #fff;
   --border: #3a3a40;
@@ -402,7 +416,7 @@ body {
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 
@@ -413,7 +427,7 @@ a {
    scrollbar thumb) are left alone. */
 @media (hover: hover) {
   a:hover {
-    color: var(--accent-hover);
+    color: var(--accent-ink-hover);
     text-decoration: underline;
   }
 }
@@ -873,15 +887,19 @@ strong {
    what they teleport out of themselves — sets `--fa-light`/`--fa-dark` inline (useFactionAccent.js)
    and folds them into `--accent` with this class. Four scoped copies until 2026-09-25. The
    explicit data-theme wins over prefers-color-scheme in both directions (as in FactionLayout). */
+/* As text a faction's light colour is darkened by 15% (Orks' green read 3.7–4.4:1 on its own tints,
+   owner 2026-10-05); a fill keeps the colour itself. */
 .fa-themed {
   --accent: var(--fa-light, var(--accent));
   --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
+  --accent-ink: color-mix(in srgb, var(--fa-light, #8b2a33) 85%, black);
+  --accent-ink-hover: color-mix(in srgb, var(--fa-light, #8b2a33) 70%, black);
 }
 @media (prefers-color-scheme: dark) {
-  .fa-themed { --accent: var(--fa-dark, var(--accent)); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
+  .fa-themed { --accent: var(--fa-dark, var(--accent)); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); --accent-ink: var(--fa-dark, #c8585e); --accent-ink-hover: color-mix(in srgb, var(--fa-dark, #c8585e) 80%, white); }
 }
-:root[data-theme='light'] .fa-themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
-:root[data-theme='dark'] .fa-themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
+:root[data-theme='light'] .fa-themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); --accent-ink: color-mix(in srgb, var(--fa-light, #8b2a33) 85%, black); --accent-ink-hover: color-mix(in srgb, var(--fa-light, #8b2a33) 70%, black); }
+:root[data-theme='dark'] .fa-themed { --accent: var(--fa-dark, #b8474d); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); --accent-ink: var(--fa-dark, #c8585e); --accent-ink-hover: color-mix(in srgb, var(--fa-dark, #c8585e) 80%, white); }
 
 /* A game's two side colours (composables/sideColors.js — the standard pair or the factions'),
    folded per theme the same way .fa-themed folds a faction into --accent. The literal fallbacks
@@ -901,16 +919,20 @@ strong {
 .turn-colored {
   --accent: var(--side-you);
   --accent-hover: color-mix(in srgb, var(--side-you) 80%, #000);
+  --accent-ink: var(--side-you);
+  --accent-ink-hover: color-mix(in srgb, var(--side-you) 80%, #000);
 }
 .turn-colored.turn-opp {
   --accent: var(--side-opponent);
   --accent-hover: color-mix(in srgb, var(--side-opponent) 80%, #000);
+  --accent-ink: var(--side-opponent);
+  --accent-ink-hover: color-mix(in srgb, var(--side-opponent) 80%, #000);
 }
 /* A dialog of the game says whose turn it is in its title too. */
-.modal-overlay.turn-colored .mh-title { color: var(--accent); }
+.modal-overlay.turn-colored .mh-title { color: var(--accent-ink); }
 /* …but a unit's card from an army's list (the game's Roster tab) is that army's: its faction's
    colour, title and all, like the card under it (RosterViewView's modal scope). */
-.modal-overlay.army-colored .mh-title { color: var(--accent); }
+.modal-overlay.army-colored .mh-title { color: var(--accent-ink); }
 
 /* ── Roster screen header icon ─────────────────────────────────────────────
    The square icon buttons by a roster's name (editor and view: edit, share, the "…" menu). One of
@@ -934,7 +956,7 @@ strong {
   text-decoration: none;
   cursor: pointer;
 }
-.hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
+.hdr-icon:hover { border-color: var(--accent); color: var(--accent-ink); }
 
 /* ── Stat plate ────────────────────────────────────────────────────────────
    A characteristic in the 10th-ed look: no rounding, top-left + bottom-right corners chamfered
@@ -1113,7 +1135,7 @@ strong {
 .legends-badge.owned-badge {
   border-color: color-mix(in srgb, var(--accent) 40%, transparent);
   background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* The Warlord on a roster list row — the same badge, white (the primary text colour, so it holds
@@ -1186,7 +1208,7 @@ strong {
   vertical-align: middle;
 }
 
-@media (hover: hover) { .help-btn:hover { color: var(--accent); } }
+@media (hover: hover) { .help-btn:hover { color: var(--accent-ink); } }
 
 /* A link handed over to be copied: a read-only field beside its Copy button. Two dialogs share
    it (the broadcast overlay's link, a shared game's invite); the field is mono so a URL reads as
@@ -1261,7 +1283,7 @@ strong {
   font-weight: 600;
   cursor: pointer;
 }
-@media (hover: hover) { .show-more:hover { border-color: var(--accent); color: var(--accent); } }
+@media (hover: hover) { .show-more:hover { border-color: var(--accent); color: var(--accent-ink); } }
 
 /* ── Filter chips ──────────────────────────────────────────────────────────
    A wrapping row of buttons that narrow a list to one kind — "All" first, the one picked `.on`.
@@ -1294,7 +1316,7 @@ strong {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 1.05rem;
   line-height: 1;
   padding: 0.3rem;
@@ -1380,7 +1402,7 @@ strong {
   cursor: pointer;
 }
 
-@media (hover: hover) { .back:hover { color: var(--accent); } }
+@media (hover: hover) { .back:hover { color: var(--accent-ink); } }
 a.back { text-decoration: none; }
 @media (hover: hover) { a.back:hover { text-decoration: none; } }
 
@@ -1472,9 +1494,9 @@ a.btn-primary { color: #fff; text-decoration: none; }
 @media (hover: hover) { a.btn-primary:hover { color: #fff; text-decoration: none; } }
 
 .btn-ghost { background: none; color: var(--text-muted); border: 1px solid var(--border); }
-@media (hover: hover) { .btn-ghost:hover { border-color: var(--accent); color: var(--accent); } }
+@media (hover: hover) { .btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); } }
 a.btn-ghost { color: var(--text-muted); text-decoration: none; }
-@media (hover: hover) { a.btn-ghost:hover { color: var(--accent); text-decoration: none; } }
+@media (hover: hover) { a.btn-ghost:hover { color: var(--accent-ink); text-decoration: none; } }
 
 .btn-primary:disabled,
 .btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -1556,9 +1578,9 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   color: var(--text-muted);
   white-space: nowrap;
 }
-.mh-count.full { color: var(--accent); }
+.mh-count.full { color: var(--accent-ink); }
 .mh-count.over { color: var(--danger); }
-.mh-count.value { font-size: 0.95rem; color: var(--accent); }
+.mh-count.value { font-size: 0.95rem; color: var(--accent-ink); }
 
 @media (hover: hover) {
   .mh-close:hover {
