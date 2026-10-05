@@ -466,7 +466,7 @@ function navigate(item) {
 .result-num {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   font-weight: 600;
 }
 

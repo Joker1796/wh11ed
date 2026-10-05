@@ -995,7 +995,7 @@ useFlashOnChange(counter, counterEl)
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--accent-ink);
+  color: var(--text-muted);
 }
 
 .army-field-chev {
@@ -1313,8 +1313,13 @@ useFlashOnChange(counter, counterEl)
   font-family: inherit;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--accent-ink);
+  /* Muted, like the static line beside it: a fold to open, not an action — red read as one. */
+  color: var(--text-muted);
   text-align: left;
+}
+
+@media (hover: hover) {
+  .army-acc-head:hover { color: var(--text-primary); }
 }
 
 .army-acc-chev {

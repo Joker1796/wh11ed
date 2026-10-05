@@ -144,7 +144,7 @@ const text = computed(() => {
   animation: si-rot 0.8s linear infinite;
 }
 @keyframes si-rot { to { transform: rotate(360deg); } }
-.is-problem { color: var(--accent-ink); }
+.is-problem { color: var(--danger); }
 .is-problem .bi { font-size: 0.9rem; }
 /* The bubble. Above the button, because below it lands on the next row's controls — and on a
    phone that row is what the thumb is already over. */

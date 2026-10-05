@@ -320,7 +320,7 @@ const currentLayout = computed(() =>
   padding: 0.8rem 1rem;
   border: 1px solid var(--accent);
   border-left-width: 3px;
-  background: var(--bg-row-hover);
+  background: color-mix(in srgb, var(--accent-ink) 8%, transparent); /* a tinted note, not a hover */
   line-height: 1.5;
   font-size: 0.95rem;
   font-weight: 600;

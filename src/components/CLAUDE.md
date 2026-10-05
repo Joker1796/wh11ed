@@ -346,7 +346,10 @@ colour / which face / how big" question.
   as `#c0392b` (or its bootstrap cousin `#d9534f`) in 17 files, each with — or, more often,
   without — its own dark-theme override; now the token carries the dark shade itself, so a
   component never writes a `[data-theme='dark']` rule just to brighten a red. Not every red is
-  danger: `StratCard`'s opponent-turn tint is a turn colour and keeps its own value.
+  danger: `StratCard`'s opponent-turn tint is a turn colour and keeps its own value, and
+  `{red:…}` in rule text (`.color-red`, the RED side of a diagram) keeps its crimson. Since
+  2026-10-05 `--danger` is **vermilion** (`#b33a00` / dark `#ff8a5c`), not the brand crimson: an
+  over-budget total beside a selected chip read as one colour. Keep it apart from `--accent`.
 - **`--warning`** is its neighbour: "legal, but you still owe an answer" — the roster's
   worth-checking bar, the amber mark `PageTabs` puts on a tab that hides an unmade choice, the
   import warnings. It got a token on 2026-09-24; before that it was `var(--warning, #b8860b)` in

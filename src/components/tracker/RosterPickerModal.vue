@@ -47,17 +47,28 @@
           :disabled="wrongFaction(r)"
           @click="$emit('pick', r)"
         >
-          <span class="rp-name">{{ r.name || labels.rosterUntitled }}</span>
-          <span class="rp-meta">
-            <span>
-              <template v-if="factionName(r.faction)">{{ factionName(r.faction) }} · </template>
-              <span class="rp-pts">{{ r.summary?.points || 0 }} {{ labels.rosterPointsLabel }}</span> ·
-              <i class="bi bi-people-fill" /> {{ r.units?.length || 0 }}
+          <!-- The faction's badge, as on the faction list: a column of lists is told apart by army
+               at a glance (owner, 2026-10-05). -->
+          <span
+            v-if="factionOf(r)"
+            class="tone"
+            :style="toneVars(factionOf(r).color)"
+          >
+            <FactionBadge :faction="factionOf(r)" />
+          </span>
+          <span class="rp-text">
+            <span class="rp-name">{{ r.name || labels.rosterUntitled }}</span>
+            <span class="rp-meta">
+              <span>
+                <template v-if="factionOf(r)">{{ factionOf(r).name }} · </template>
+                <span class="rp-pts">{{ r.summary?.points || 0 }} {{ labels.rosterPointsLabel }}</span> ·
+                <i class="bi bi-people-fill" /> {{ r.units?.length || 0 }}
+              </span>
+              <RosterOwnLimitsMark
+                inert
+                :roster="r"
+              />
             </span>
-            <RosterOwnLimitsMark
-              inert
-              :roster="r"
-            />
           </span>
         </button>
       </ExpandTransition>
@@ -116,6 +127,8 @@ import { useRosters } from '../../composables/useRosters.js'
 import { decodeRoster } from '../../composables/rosterShare.js'
 import { refreshSummaries } from '../../composables/rosterSummary.js'
 import { factionGroups } from '../../data/factionsIndex.js'
+import FactionBadge from '../FactionBadge.vue'
+import { toneVars } from '../../utils/tone.js'
 
 const props = defineProps({
   // rosterId of the currently attached roster, or null. A link-imported one has no id, so the
@@ -152,8 +165,8 @@ const overSize = computed(() => activeRosters.value.filter(tooBig).length)
 const showBig = ref(false)
 
 const allFactions = factionGroups.flatMap((g) => g.factions)
-function factionName(slug) {
-  return allFactions.find((f) => f.slug === slug)?.name || ''
+function factionOf(r) {
+  return allFactions.find((f) => f.slug === r.faction) || null
 }
 
 function wrongFaction(r) {
@@ -188,7 +201,7 @@ async function useLink() {
 .modal-list { gap: 0.5rem; }
 .rp-empty { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 0.25rem; }
 .rp-row {
-  display: flex; flex-direction: column; gap: 0.15rem; text-align: left;
+  display: flex; align-items: center; gap: 0.65rem; text-align: left;
   padding: 0.6rem 0.75rem; border: 1px solid var(--border);
   background: var(--bg-card); color: var(--text-primary); cursor: pointer;
 }
@@ -197,6 +210,7 @@ async function useLink() {
 .rp-row.off:hover { border-color: var(--border); }
 .rp-note { margin: 0 0 0.25rem; color: var(--text-muted); font-size: 0.78rem; line-height: 1.4; }
 .rp-row.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.rp-text { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; min-width: 0; }
 .rp-name {
   font-weight: 600; font-size: 0.9rem;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;

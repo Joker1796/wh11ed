@@ -90,7 +90,7 @@ async function go(item) {
 .section-toc-num {
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   min-width: 2.8rem;
   flex-shrink: 0;
 }

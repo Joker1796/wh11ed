@@ -106,7 +106,7 @@ useFlipMove(() => pinned.value.map((f) => f.slug), rootEl)
 .hero-subtitle {
   font-size: 0.85rem;
   letter-spacing: 2px;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 600;
   font-family: var(--font-sans);
@@ -138,7 +138,7 @@ useFlipMove(() => pinned.value.map((f) => f.slug), rootEl)
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin: 0 0 0.5rem;
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--border);

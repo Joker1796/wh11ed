@@ -500,7 +500,7 @@ function save() {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin-bottom: 0.75rem;
 }
 /* Doubles member sub-boxes — same frame recipe as the wizard's (GameSetup's .member-block). */
@@ -534,7 +534,7 @@ function save() {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin: 0 0 0.6rem;
 }
 

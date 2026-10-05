@@ -156,7 +156,7 @@ function helpText(o) {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin: 0;
 }
 .opt-row { display: flex; flex-wrap: wrap; align-items: stretch; }

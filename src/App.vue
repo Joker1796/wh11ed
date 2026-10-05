@@ -231,12 +231,12 @@ const isRosterBrowseDesk = computed(() => rosterBrowseWide.value &&
 const { current: currentGame } = useTracker()
 // Not over the roster builder: the chip floated on the list pane's corner and covered a unit
 // (a player's report, 2026-09-19), and the builder's footer has no room left for it. The game is
-// one tap away on the bottom nav's Tracker.
+// one tap away on the bottom nav's Tracker. The front page shows it too (owner, 2026-10-05): it
+// was left out from the start, and a player coming back to the app mid-game lands there first.
 const showResumeGame = computed(() =>
   currentGame.value?.phase === 'playing' &&
   (!isTrackerRoute.value || isGameRosterRoute.value) &&
   !isRosterEditRoute.value &&
-  !isLanding.value &&
   !searchOpen.value &&
   !installHintOpen.value &&
   !mobileNavOpen.value

@@ -200,7 +200,7 @@ defineExpose({ visible })
 }
 
 @media (prefers-color-scheme: dark) {
-  .mb-icon { --mb-icon-bg: var(--bg-primary); --mb-icon-tint: var(--accent); }
+  .mb-icon { --mb-icon-bg: var(--bg-primary); --mb-icon-tint: var(--accent-ink); }
 }
 
 /* Separates the back-to-top button from whatever precedes it (the resume/tab-jump group)
@@ -226,5 +226,5 @@ defineExpose({ visible })
      FactionLayout.vue's equivalent block). -->
 <style>
 :root[data-theme='light'] .mb-icon { --mb-icon-bg: var(--bg-card); --mb-icon-tint: var(--bg-insert); }
-:root[data-theme='dark'] .mb-icon { --mb-icon-bg: var(--bg-primary); --mb-icon-tint: var(--accent); }
+:root[data-theme='dark'] .mb-icon { --mb-icon-bg: var(--bg-primary); --mb-icon-tint: var(--accent-ink); }
 </style>

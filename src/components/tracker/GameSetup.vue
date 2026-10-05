@@ -2159,7 +2159,7 @@ function cancel() {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin: 0 0 0.3rem;
 }
 .deploy-card .layout-note { margin: 0.4rem 0 0; }
@@ -2179,7 +2179,7 @@ function cancel() {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin-bottom: 0.75rem;
 }
 /* The team name beside "You"/"Opponent" in a step-2 heading — muted so the fixed side label
@@ -2227,7 +2227,7 @@ function cancel() {
 .dp-count {
   font-style: normal;
   font-family: var(--font-mono);
-  color: var(--accent-ink);
+  color: var(--text-muted);
   font-weight: 700;
   margin-left: 0.3rem;
 }

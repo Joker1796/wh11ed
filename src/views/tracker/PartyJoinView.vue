@@ -282,6 +282,6 @@ onMounted(() => {
 .pj-err {
   margin: 0.6rem 0 0;
   font-size: 0.85rem;
-  color: var(--accent-ink);
+  color: var(--danger);
 }
 </style>

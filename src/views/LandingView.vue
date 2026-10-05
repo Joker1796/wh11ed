@@ -56,7 +56,7 @@ const t = computed(() => landing[locale.value])
 .hero-subtitle {
   font-size: 0.85rem;
   letter-spacing: 3px;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 600;
   font-family: var(--font-sans);

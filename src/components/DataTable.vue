@@ -100,7 +100,7 @@ th:last-child {
   font-size: 0.82rem;
   font-style: italic;
   color: var(--accent-ink);
-  background: var(--bg-row-hover);
+  background: color-mix(in srgb, var(--accent-ink) 8%, transparent); /* a tinted note, not a hover */
   padding: 0.55rem 1rem;
 }
 

@@ -388,7 +388,7 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 400;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin-bottom: 0.4rem;
 }
 .block-hint { margin: -0.2rem 0 0.6rem; font-size: 0.78rem; color: var(--text-muted); }

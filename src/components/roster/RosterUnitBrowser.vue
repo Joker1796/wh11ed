@@ -485,7 +485,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--accent-ink);
+  color: var(--text-muted);
 }
 
 /* The fold and the line that says what its switches took away. The rows themselves are the app's
@@ -575,7 +575,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 /* min-width, or a long name refuses to shrink past its min-content and runs UNDER the price
    beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
 .rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
-.rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent-ink); }
+.rub-count { margin-left: 0.3em; font-weight: 700; color: var(--text-muted); }
 .rub-count.over { color: var(--danger); }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
 .rub-rail { flex-shrink: 0; display: flex; align-items: stretch; }

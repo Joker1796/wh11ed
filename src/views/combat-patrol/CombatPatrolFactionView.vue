@@ -344,7 +344,7 @@ watch(() => route.hash, (hash) => {
 .hero-subtitle {
   font-size: 0.95rem;
   line-height: 1.2;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   font-style: italic;
 }
 

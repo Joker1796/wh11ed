@@ -66,7 +66,7 @@ const LINKS = [
 .hero-subtitle {
   font-size: 0.85rem;
   letter-spacing: 2px;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 600;
   font-family: var(--font-sans);

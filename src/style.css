@@ -35,7 +35,7 @@
   --border: #c8cac0;
   --border-light: #d8dbd2;
   --bg-row-alt: rgba(104, 105, 87, 0.06);
-  --bg-row-hover: rgba(139, 42, 51, 0.05);
+  --bg-row-hover: rgba(104, 105, 87, 0.10); /* neutral: a red tint read as a warning */
   --ability-weapon: #6e5100; /* 4.8:1 on its badge tint over --bg-secondary; #7a5a00 read 4.14 */
   --ability-unit: #004a6e;
   /* The two sides' colours in a game: yours the accent, the opponent's the unit-ability blue (which
@@ -45,8 +45,10 @@
   --side-you: var(--accent);
   --side-opponent: var(--ability-unit);
   /* The one "something is wrong" red: points over budget, validation errors, losses,
-     destructive hover. Every red that means danger goes through this — not a literal. */
-  --danger: #c0392b;
+     destructive hover. Every red that means danger goes through this — not a literal.
+     Vermilion, not the brand's crimson (2026-10-05): over-budget beside a selected chip read as
+     the same colour, so an error did not stand out from a choice. */
+  --danger: #b33a00;
   /* A text diff (the patch notes): what a rule lost and gained, each its own ink on its own wash —
      solid colours, picked per theme: a tint of --danger over a dark card left the struck words
      unreadable (owner, 2026-10-01). */
@@ -335,10 +337,10 @@
   --border: #3a3a40;
   --border-light: #2c2c30;
   --bg-row-alt: rgba(255, 255, 255, 0.03);
-  --bg-row-hover: rgba(200, 88, 94, 0.10);
+  --bg-row-hover: rgba(255, 255, 255, 0.06);
   --ability-weapon: #e0b850;
   --ability-unit: #5fb2dc;
-  --danger: #ef6e60;
+  --danger: #ff8a5c;
   --diff-del-bg: #4d2522;
   --diff-del-ink: #f4b9b1;
   --diff-ins-bg: #1f4727;
@@ -435,8 +437,10 @@ a {
 /* `{red:TEXT}` markup renders a coloured <strong>. Written with the theme attribute on purpose:
    `[data-theme='dark'] strong` below recolours every strong to near-white, and a bare `.color-red`
    loses to it — the RED unit in the shooting example went white on 2026-09-21 when the dark
-   `.color-red` override was folded into the `--danger` token. */
-:root .color-red   { color: var(--danger); }
+   `.color-red` override was folded into the `--danger` token. It is a red, not an error — the
+   RED side of a diagram — so it keeps its own crimson since `--danger` went vermilion. */
+:root .color-red   { color: #c0392b; }
+:root[data-theme='dark'] .color-red { color: #ef6e60; }
 .color-blue  { color: #2471a3; }
 .color-green { color: #1e8449; }
 

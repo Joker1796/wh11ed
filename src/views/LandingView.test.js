@@ -31,7 +31,7 @@ describe('LandingView', () => {
     const ready = factionGroups.flatMap((g) => g.factions).filter((f) => f.ready).length
     for (const loc of ['en', 'ru']) {
       const card = landing[loc].sections.find((s) => s.key === 'factions')
-      expect(card.badge, loc).toContain(String(ready))
+      expect(card.tags.join(' '), loc).toContain(String(ready))
     }
   })
 

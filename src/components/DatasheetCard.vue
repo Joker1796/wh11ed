@@ -1520,7 +1520,7 @@ function abilityStateLabel(st) {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin: 0 0 0.25rem;
 }
 .ds-points table { border-collapse: collapse; font-size: 0.8rem; margin: 0; }
@@ -1959,7 +1959,7 @@ function abilityStateLabel(st) {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin: 0 0 0.2rem;
 }
 /* The "possible modifiers" heading is also the accordion's handle, and unlike every other block on
@@ -2072,7 +2072,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin: var(--ds-head-top) 0 var(--ds-head-bottom);
 }
 /* Accordion header variant (collapsible/modal mode only) — same `.ds-group-title` look, reset to

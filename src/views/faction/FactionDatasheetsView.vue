@@ -435,7 +435,7 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--accent-ink);
+  color: var(--text-muted);
   margin: 1rem 0 0.4rem;
   padding-bottom: 0.25rem;
   border-bottom: 1px solid var(--border);

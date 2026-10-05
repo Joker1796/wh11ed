@@ -6,9 +6,15 @@
       :to="s.path"
       class="section-card"
     >
-      <div class="section-card-top">
-        <span class="section-badge">{{ s.badge }}</span>
-      </div>
+      <ul class="section-tags">
+        <li
+          v-for="t in s.tags"
+          :key="t"
+          class="section-tag"
+        >
+          {{ t }}
+        </li>
+      </ul>
       <h2 class="section-card-title">
         {{ s.label }}
       </h2>
@@ -21,11 +27,11 @@
 
 <script setup>
 // The cards a landing page opens onto — the app's own front page (LandingView) and the Rules
-// section's (RulesLandingView): a badge, a title, a line on what is inside. The two drew the same
+// section's (RulesLandingView): a row of tags, a title, a line on what is inside. The two drew the same
 // grid with the same CSS; they differed only in the width they dropped to one column (600px on
 // one, never on the other), now the 640px most of the app steps down at.
 defineProps({
-  // [{ key, path, badge, label, desc }]
+  // [{ key, path, tags: string[], label, desc }]
   sections: { type: Array, required: true },
 })
 </script>
@@ -53,17 +59,34 @@ defineProps({
   text-decoration: none;
 }
 
-.section-card-top {
-  margin-bottom: 0.5rem;
+/* What is inside, as separate tags. Neutral on purpose: the card's red is its top edge on hover,
+   and a tag is a fact about the section, not something to press — the same quiet chrome as an
+   unpicked filter chip, in the small caps the tracker's section labels use. Owner, 2026-10-05,
+   after a solid fill, a tint and an outline all read as too loud or too faint. */
+.section-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  list-style: none;
 }
 
-.section-badge {
-  font-size: 0.72rem;
+.section-tag {
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-size: 0.68rem;
   font-weight: 700;
-  color: var(--accent-ink);
-  font-family: var(--font-mono);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  padding: 2px 7px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  transition: border-color 0.15s;
+}
+
+.section-card:hover .section-tag {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
 }
 
 .section-card-title {

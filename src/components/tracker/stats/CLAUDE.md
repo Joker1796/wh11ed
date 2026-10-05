@@ -40,7 +40,7 @@ Every chart prints its numbers as text as well — that is the phone-sized and s
 not decoration.
 
 Series colours are fixed by meaning: you = `--accent`, opponent = `--text-dim` dashed; win gold
-`#e3b341` and loss red `#c0392b` are the same two the history cards use.
+`#e3b341` and loss `--danger` (vermilion) are the same two the history cards use.
 
 ## Known approximation
 
