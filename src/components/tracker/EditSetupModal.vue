@@ -62,7 +62,8 @@
                  to do this; without it here, a player who built a list but forgot to pick it — or
                  whose game predates the feature — had no way back. Unlike the wizard, the list does
                  not decide the army here: the faction is already being played. -->
-            <div class="es-roster">
+            <div class="field es-roster">
+              <span>{{ labels.trackerRoster }}</span>
               <div
                 v-if="m.roster"
                 class="roster-line"
@@ -436,8 +437,8 @@ function save() {
 
 <style scoped>
 .es-note {
-  margin: 0 0 0.9rem;
-  padding: 0.6rem 0.7rem;
+  margin: 0 0 0.6rem;
+  padding: 0.5rem 0.65rem;
   background: var(--bg-secondary);
   font-size: 0.8rem;
   color: var(--text-muted);
@@ -447,16 +448,17 @@ function save() {
   display: grid;
   /* minmax(0, …) so a long roster name can't widen the card — see GameSetup.vue's .players. */
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
 }
+/* Compact (owner, 2026-10-07): the dialog is read on a phone, and the cards' air was most of it. */
 .player-card, .settings {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 1rem;
+  padding: 0.65rem 0.75rem;
 }
 .settings {
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -469,7 +471,9 @@ function save() {
 /* The list row. Not the wizard's (GameSetup's .roster-line/.rp-open sit in the faction's row and
    name the faction too); here the faction is already being played, so the list gets a line of its
    own and a full-width "attach" button. */
-.es-roster { margin-top: 0.75rem; }
+.es-roster { margin-bottom: 0; }
+/* Battle Ready under the list, not glued to it. */
+.player-card > .check { margin-top: 0.65rem; }
 .roster-line {
   display: flex; align-items: center; gap: 0.35rem;
   padding: 0.45rem 0.55rem;
@@ -502,7 +506,7 @@ function save() {
   font-size: 1.21rem;
   font-weight: 500;
   color: var(--text-muted);
-  margin-bottom: 0.75rem;
+  margin: 0 0 0.45rem;
 }
 /* Doubles member sub-boxes — same frame recipe as the wizard's (GameSetup's .member-block). */
 .member-block {
@@ -521,7 +525,7 @@ function save() {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
 }
 .field input[type="text"] {
   padding: 0.5rem 0.6rem;
