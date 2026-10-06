@@ -57,6 +57,7 @@
               <button
                 type="button"
                 class="pr-go-btn"
+                data-press
                 @click="lead(r)"
               >
                 <!-- A card per rule (owner, 2026-10-07: the bare lines read as plain text): what kind of
@@ -88,6 +89,7 @@
           v-if="embedded"
           type="button"
           class="pr-strats"
+          data-press
           @click="$emit('stratagems')"
         >
           <i class="bi bi-lightning-charge" />
@@ -97,6 +99,7 @@
         <RouterLink
           v-else
           class="pr-strats"
+          data-press
           :to="{ path: '/stratagems', query: { phase } }"
         >
           <i class="bi bi-lightning-charge" />
@@ -193,24 +196,29 @@ function toggle() {
   color: var(--side);
 }
 .pr-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
-.pr-rule {
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--side);
-  background: var(--bg-secondary);
-}
+/* The button IS the card (owner, 2026-10-07): a pointer over it lights the whole card — its frame in
+   the side's colour, the ground a shade lighter, the arrow — the way the app's other tappable plates
+   answer (.act-btn). The text keeps its colours: the ability is already in the side's. Behind
+   (hover: hover), so a tap on a phone leaves nothing lit behind it. */
 .pr-go-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
   padding: 0.45rem 0.6rem;
-  background: none;
-  border: none;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--side);
+  background: var(--bg-secondary);
   text-align: left;
   cursor: pointer;
 }
-.pr-go-btn:hover .pr-name,
-.pr-go-btn:hover .pr-go { color: var(--accent-ink); }
+@media (hover: hover) {
+  .pr-go-btn:hover {
+    border-color: var(--side);
+    background: color-mix(in srgb, var(--text-primary) 5%, var(--bg-secondary));
+  }
+  .pr-go-btn:hover .pr-go { color: var(--accent-ink); }
+}
 .pr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
 .pr-src {
   color: var(--text-muted);
@@ -226,17 +234,31 @@ function toggle() {
   line-height: 1.15;
 }
 .pr-ability { color: var(--accent-ink); font-size: 0.84rem; line-height: 1.35; }
+/* The door to the stratagems: a plate like the rule cards, without a side's bar — it is the
+   phase's, not an army's. */
 .pr-strats {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  margin-top: 0.7rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.8rem;
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  font: inherit;
+  font-size: 0.82rem;
   color: var(--text-muted);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
 }
-.pr-strats:hover { color: var(--accent-ink); }
-button.pr-strats { width: 100%; padding-bottom: 0; border: 0; border-top: 1px solid var(--border); background: none; font: inherit; font-size: 0.8rem; text-align: left; cursor: pointer; }
+@media (hover: hover) {
+  .pr-strats:hover {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--text-primary) 5%, var(--bg-secondary));
+    color: var(--text-primary);
+  }
+  .pr-strats:hover .pr-go { color: var(--accent-ink); }
+}
 .pr-go { flex-shrink: 0; margin-left: auto; font-size: 0.75rem; color: var(--text-dim); }
 </style>
