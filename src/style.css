@@ -11,6 +11,10 @@
   --bg-content: #f0f2ea;
   --bg-insert: #2a2828;
   --accent: #8b2a33;
+  /* The site's own red, fixed: --accent is re-pointed per screen (a faction's colour, the game
+     screen's side colours), and a control that must stay the site's red whatever the screen wears
+     takes this (the tracker's End game, owner 2026-10-06). Same value as --accent per theme. */
+  --brand: #8b2a33;
   --accent-hover: #6d1f27;
   /* The accent as TEXT. A fill and a word want different shades of one red: in the dark theme no
      single value read both as text on the page and as a ground under white (2.8–3.7:1 and 4.2:1,
@@ -323,6 +327,7 @@
   --bg-content: #2a2a2f;
   --bg-insert: #38383d;
   --accent: #b8474d;
+  --brand: #b8474d;
   --accent-hover: #a83f45;
   /* The red the dark theme always wrote in (owner, 2026-10-05: the lighter shades AA asks for read
      pink). 2.8–3.7:1 on the dark surfaces — kept on purpose, listed in the a11y baseline. */

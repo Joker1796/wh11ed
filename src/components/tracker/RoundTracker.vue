@@ -436,12 +436,12 @@
           @army="openArmyRule"
           @roster="openRoster"
         />
-        <p
+        <SideEmptyState
           v-if="!sideRuleCount"
-          class="panel-empty"
+          :faction="viewFaction"
         >
           {{ labels.trackerPhaseNoneSide }}
-        </p>
+        </SideEmptyState>
       </div>
     </section>
 
@@ -641,6 +641,8 @@ import PartyModal from './PartyModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
 import PhasePickerModal from './PhasePickerModal.vue'
 import PhaseRules from './PhaseRules.vue'
+import SideEmptyState from './SideEmptyState.vue'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -850,6 +852,8 @@ const viewSide = computed(() => pickedSide.value ?? focusSide.value)
 // The tabs whose panel is one side's, framed in the picked side's colour. The Log tells both sides
 // in one timeline, so there the cards are only the score.
 const framedTab = computed(() => ['missions', 'phase', 'cp', 'armies', 'roster', 'stats'].includes(tab.value))
+// The picked side's army, for an empty panel's emblem (the first member's in doubles).
+const viewFaction = computed(() => factionIndexBySlug(membersOf(current.value.players[viewSide.value])[0]?.factionSlug) || null)
 // The Phase tab's count is the picked side's, as its list is.
 const sideRuleCount = computed(() => phaseSides.value.find((s) => s.pi === viewSide.value)?.rules.length || 0)
 
@@ -1059,18 +1063,17 @@ function onEndBattle(reason) {
   min-height: 40px;
   white-space: nowrap;
   padding: 0 0.8rem;
-  /* Filled in the danger red, not the side's colour (owner, 2026-10-06): it ends the game for both
-     sides, whoever's turn it is. The page's own background as ink: dark on the dark theme's light
-     vermilion, light on the light theme's deep one. */
-  border: 1px solid var(--danger);
-  background: var(--danger);
-  color: var(--bg-primary);
+  /* Filled in the site's red, not the side's colour (owner, 2026-10-06): it ends the game for both
+     sides, whoever's turn it is. */
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: var(--text-on-accent);
   font: inherit;
   font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
 }
-@media (hover: hover) { .rb-finish:hover { background: color-mix(in srgb, var(--danger) 85%, #000); } }
+@media (hover: hover) { .rb-finish:hover { background: color-mix(in srgb, var(--brand) 85%, #000); } }
 .twist-card {
   max-width: 640px;
   margin: -0.4rem auto 1rem;
@@ -1364,7 +1367,7 @@ function onEndBattle(reason) {
 /* A framed panel hangs from the tab strip: its frame (CpStratagems' .cps.framed) starts where the
    strip's line is, so the open tab and what it shows read as one surface. */
 .panel-framed { margin-top: -0.7rem; }
-.phase-side { --side: var(--side-you); }
+.phase-side { --side: var(--side-you); display: flex; flex-direction: column; }
 .phase-side.opp { --side: var(--side-opponent); }
 .panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
 /* After the first switch, a panel coming into view slides in from the side its tab stands on

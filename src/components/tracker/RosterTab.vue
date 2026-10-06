@@ -5,12 +5,12 @@
   >
     <!-- Which list: one per army that carries one, on the same page tabs as the Armies panel — on
          the game screen only the picked side's (a doubles team's two members). -->
-    <p
+    <SideEmptyState
       v-if="controlled && !army"
-      class="rt-none"
+      :faction="sideFaction"
     >
       {{ labels.trackerRosterNoneSide }}
-    </p>
+    </SideEmptyState>
     <PageTabs
       v-if="listTabs.length > 1"
       class="rt-tabs"
@@ -36,10 +36,12 @@
 <script setup>
 import { computed, defineAsyncComponent, nextTick, onMounted, ref, watch } from 'vue'
 import PageTabs from '../PageTabs.vue'
-import { useTracker, isYouSide } from '../../composables/useTracker.js'
+import { useTracker, isYouSide, membersOf } from '../../composables/useTracker.js'
 import { useGameArmies } from '../../composables/useGameArmies.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import SideEmptyState from './SideEmptyState.vue'
 import { ui } from '../../i18n/ui.js'
 
 // The game screen's Roster tab (owner, 2026-09-30): the attached lists, read without leaving the
@@ -69,6 +71,10 @@ const offered = computed(() => (controlled.value ? withLists.value.filter((a) =>
 const army = computed(() => offered.value.find((a) => a.key === sel.value)
   || offered.value.find((a) => a.pi === props.defaultSide) || offered.value[0] || null)
 const shownSide = computed(() => (controlled.value ? props.side : army.value?.pi ?? null))
+// A side with no list says so over its army's emblem (SideEmptyState).
+const sideFaction = computed(() => (controlled.value
+  ? factionIndexBySlug(membersOf(current.value.players[props.side])[0]?.factionSlug) || null
+  : null))
 const listTabs = computed(() => offered.value.map((a) => ({ key: a.key, label: a.label, active: a.key === army.value?.key })))
 
 // Built ahead of the first visit, then kept: the game screen builds this panel while the browser
@@ -123,5 +129,5 @@ defineExpose({ show, openUnit })
 .rt { --side: var(--side-you); --accent: var(--side); --accent-ink: var(--side); }
 .rt.opp { --side: var(--side-opponent); }
 .rt-tabs { margin-bottom: 0.6rem; }
-.rt-none { margin: 0.4rem 0; font-size: 0.85rem; color: var(--text-dim); }
+.rt.side-frame { display: flex; flex-direction: column; }
 </style>
