@@ -154,12 +154,12 @@
           @keydown.enter="openGame(g.id)"
         >
           <FactionEmblem
-            v-for="side in [0, 1]"
-            :key="side"
+            v-for="st in stampsOf(g)"
+            :key="st.key"
             class="tone"
-            :class="side ? 'gc-stamp--right' : 'gc-stamp--left'"
-            :style="toneVars(sideFaction(g, side)?.color)"
-            :faction="sideFaction(g, side)"
+            :class="[st.side ? 'gc-stamp--right' : 'gc-stamp--left', st.slot && `gc-stamp--${st.slot}`]"
+            :style="toneVars(st.faction?.color)"
+            :faction="st.faction"
             stamp
           />
           <div class="gc-top">
@@ -183,7 +183,11 @@
           <div class="gc-body">
             <div class="gc-side gc-side--left">
               <span class="gc-name">{{ pname(g, 0) }}</span>
-              <span class="gc-faction">{{ factionName(g, 0) }}</span>
+              <span
+                v-for="(line, n) in armyLines(g, 0)"
+                :key="n"
+                class="gc-faction"
+              >{{ line }}</span>
             </div>
             <div class="gc-center">
               <div class="gc-score">
@@ -195,7 +199,11 @@
             </div>
             <div class="gc-side gc-side--right">
               <span class="gc-name">{{ pname(g, 1) }}</span>
-              <span class="gc-faction">{{ factionName(g, 1) }}</span>
+              <span
+                v-for="(line, n) in armyLines(g, 1)"
+                :key="n"
+                class="gc-faction"
+              >{{ line }}</span>
             </div>
           </div>
 
@@ -380,8 +388,10 @@ const primary = computed(() => {
 
 // The same start, with the lobby opened on arrival: `?share=1` is the wizard's instruction to
 // share as soon as it is on screen, so the host lands on the armies step with the code already
-// in hand instead of finding a button there.
-function startShared() {
+// in hand instead of finding a button there. `choice` is what SharedGameModal asked for — the host's
+// name, the game type (set before the lobby opens, because the lobby locks it) and, in doubles, the
+// team names.
+function startShared(choice) {
   if (!canShare.value) return
   if (current.value) {
     const lobby = current.value.phase === 'setup'
@@ -389,21 +399,26 @@ function startShared() {
       title: labels.value.lobbyNewGame,
       message: lobby ? labels.value.lobbyDiscardConfirm : labels.value.trackerOverwriteConfirm,
       confirmLabel: labels.value.lobbyNewGame,
-      action: doStartShared,
+      action: () => doStartShared(choice),
     }
     return
   }
-  doStartShared()
+  doStartShared(choice)
 }
 const sharedOpen = ref(false)
-function onSharedCreate() {
+function onSharedCreate(choice) {
   sharedOpen.value = false
-  startShared()
+  startShared(choice)
 }
-function doStartShared() {
+function doStartShared(choice) {
   archiveCurrent()
   setupDraft.value = null
-  router.push('/tracker/game?share=1')
+  const query = { share: '1' }
+  if (choice?.mode && choice.mode !== 'singles') query.mode = choice.mode
+  if (choice?.name) query.name = choice.name
+  if (choice?.teams?.[0]) query.team0 = choice.teams[0]
+  if (choice?.teams?.[1]) query.team1 = choice.teams[1]
+  router.push({ path: '/tracker/game', query })
 }
 // Resume any finished game from the summary modal — pull it back into active play.
 function onResumeGame(id) {
@@ -438,16 +453,40 @@ function pname(g, side) {
   const pl = g.players[idxOf(g, side)]
   return pl?.name || (side === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)
 }
-// The side's army, for its emblem on the card: the first of a doubles side's two.
-function sideFaction(g, side) {
-  return factionIndexBySlug(membersOf(g.players[idxOf(g, side)] || {})[0]?.factionSlug) || null
+// A side's armies: the side itself in singles, its two members in doubles.
+const armiesOfSide = (g, side) => membersOf(g.players[idxOf(g, side)] || {})
+// The emblems pressed into the card. One per side — or, when a doubles team fielded two DIFFERENT
+// factions, both, smaller and stepped diagonally (`a` toward the score and up, `b` toward the edge
+// and down), so the card says "two armies" before a word is read (owner, 2026-10-05). The same
+// faction twice stays one emblem: two identical stamps would only be noise.
+function stampsOf(g) {
+  const out = []
+  for (const side of [0, 1]) {
+    const seen = new Set()
+    const factions = []
+    for (const m of armiesOfSide(g, side)) {
+      const f = factionIndexBySlug(m?.factionSlug)
+      if (f && !seen.has(f.slug)) { seen.add(f.slug); factions.push(f) }
+    }
+    if (factions.length > 1) factions.slice(0, 2).forEach((f, i) => out.push({ key: `${side}${i}`, side, faction: f, slot: i ? 'b' : 'a' }))
+    else out.push({ key: `${side}`, side, faction: factions[0] || null, slot: '' })
+  }
+  return out
 }
-function factionName(g, side) {
-  // A doubles side fields two armies (side-level factionSlug is empty by design) — name both.
-  const names = membersOf(g.players[idxOf(g, side)] || {})
-    .map((m) => factionIndexBySlug(m?.factionSlug)?.name)
-    .filter(Boolean)
-  return names.join(' + ') || labels.value.trackerUnknownFaction
+// The text under a side's name: its faction in singles; in doubles one line per player — "Vasya ·
+// Adepta Sororitas" — rather than "A + B", which said what was fielded but not by whom, and wrapped
+// anyway (owner, 2026-10-05).
+function armyLines(g, side) {
+  const armies = armiesOfSide(g, side)
+  const doubles = g.settings?.gameType === 'doubles' && armies.length > 1
+  if (!doubles) {
+    return [factionIndexBySlug(armies[0]?.factionSlug)?.name || labels.value.trackerUnknownFaction]
+  }
+  return armies.map((m, mi) => {
+    const who = m?.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
+    const what = factionIndexBySlug(m?.factionSlug)?.name || labels.value.trackerUnknownFaction
+    return `${who} · ${what}`
+  })
 }
 
 // Battle Points per stored array index; concede sweeps 20–0 to the non-conceding player. Uses the
@@ -649,6 +688,18 @@ function footLine(g) {
    320px phone whatever the names do. */
 .game .stamp { height: calc(var(--stamp-k) * 6rem); }
 .game .gc-stamp--left { right: auto; left: 3.8rem; transform: translate(-50%, -50%); }
+/* A doubles team of two factions: both emblems, smaller, stepped on a diagonal around the side's
+   usual spot — `a` in toward the score and up, `b` out toward the edge and down, so the upper one
+   stays clear of the team name (owner, 2026-10-05) — overlapping a little, and neither reaching
+   the score on a 320px phone. */
+.game .gc-stamp--a,
+.game .gc-stamp--b { height: calc(var(--stamp-k) * 4.2rem); }
+.game .gc-stamp--a { top: 29%; }
+.game .gc-stamp--b { top: 73%; }
+.game .gc-stamp--left.gc-stamp--a { left: 5.5rem; }
+.game .gc-stamp--left.gc-stamp--b { left: 2.2rem; }
+.game .gc-stamp--right.gc-stamp--a { right: 5.5rem; }
+.game .gc-stamp--right.gc-stamp--b { right: 2.2rem; }
 
 .gc-top {
   display: flex;

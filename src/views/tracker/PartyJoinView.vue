@@ -52,31 +52,41 @@
          shown disabled with who holds it, never hidden — the reader should see the whole table. -->
     <template v-else>
       <h2 class="pj-sub">
-        {{ isLobby ? labels.partyJoinPickSeatLobby : labels.partyJoinPickSeat }}
+        {{ labels.partyJoinPickSeat }}
       </h2>
-      <ul class="pj-seats">
-        <li
-          v-for="s in seats"
-          :key="s.key"
+      <!-- Doubles: one group per team, under the team's name — four seats in one column read as
+           four strangers, and which two play together is the first thing a joining player needs. -->
+      <section
+        v-for="g in seatGroups"
+        :key="g.side"
+        class="pj-group"
+      >
+        <h3
+          v-if="g.label"
+          class="pj-team"
         >
-          <button
-            class="pj-seat"
-            :class="{ taken: s.takenBy }"
-            :disabled="busy || !!s.takenBy"
-            @click="onPick(s)"
+          {{ g.label }}
+        </h3>
+        <ul class="pj-seats">
+          <li
+            v-for="s in g.seats"
+            :key="s.key"
           >
-            <span class="pj-seat-name">{{ s.label }}</span>
-            <span
-              v-if="s.sub"
-              class="pj-seat-sub"
-            >{{ s.sub }}</span>
-            <span
-              v-if="s.takenBy"
-              class="pj-seat-taken"
-            >{{ labels.partyJoinSeatTaken.replace('{name}', s.takenBy) }}</span>
-          </button>
-        </li>
-      </ul>
+            <button
+              class="pj-seat"
+              :class="{ free: !s.takenBy }"
+              :disabled="busy || !!s.takenBy"
+              @click="onPick(s)"
+            >
+              <span class="pj-seat-name">{{ s.label }}</span>
+              <span
+                v-if="s.takenBy"
+                class="pj-seat-taken"
+              >{{ labels.partyJoinSeatTaken.replace('{name}', s.takenBy) }}</span>
+            </button>
+          </li>
+        </ul>
+      </section>
       <ExpandTransition>
         <p
           v-if="error"
@@ -160,6 +170,9 @@ function onCode() {
 
 // The seats, from the game as the server holds it: each side by its player's name (doubles:
 // each member of each team), with who already sits there.
+// An empty seat reads as a seat ("Player 1's seat"), not as a person called "Player 1" — the
+// name sent on sitting down stays the plain "Player 1" until its owner types one (owner, 2026-10-05).
+const seatOf = (n) => (n === 0 ? labels.value.partySeat1 : labels.value.partySeat2)
 const seats = computed(() => {
   const j = joined.value
   if (!j) return []
@@ -173,8 +186,9 @@ const seats = computed(() => {
         const h = holder(side, mi)
         out.push({
           key: `${side}:${mi}`, side, mi,
-          label: m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
-          sub: pl.name || pl.teamName || '',
+          label: m.name || seatOf(mi),
+          name: m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
+          team: pl.teamName || '',
           takenBy: h ? h.name || labels.value.partyHostBadge : null,
         })
       })
@@ -182,13 +196,25 @@ const seats = computed(() => {
       const h = holder(side, null)
       out.push({
         key: `${side}`, side, mi: null,
-        label: pl.name || (side === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
-        sub: '',
+        label: pl.name || seatOf(side),
+        name: pl.name || (side === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
+        team: '',
         takenBy: h ? h.name || labels.value.partyHostBadge : null,
       })
     }
   })
   return out
+})
+
+// The seats by side, for the screen: in doubles each team is its own group under its name; in
+// singles the two sides stay one list, as before.
+const seatGroups = computed(() => {
+  const doubles = joined.value?.slices?.shared?.data?.settings?.gameType === 'doubles'
+  if (!doubles) return [{ side: 'all', label: '', seats: seats.value }]
+  return [0, 1].map((side) => {
+    const list = seats.value.filter((s) => s.side === side)
+    return { side, label: list[0]?.team || labels.value.trackerTeamName, seats: list }
+  }).filter((g) => g.seats.length)
 })
 
 const pendingSeat = ref(null)
@@ -209,7 +235,7 @@ function onReplaceConfirmed() {
 async function sit(seat) {
   busy.value = true
   error.value = ''
-  const err = await takeSeat(joined.value, { side: seat.side, mi: seat.mi, name: seat.label })
+  const err = await takeSeat(joined.value, { side: seat.side, mi: seat.mi, name: seat.name })
   busy.value = false
   if (err) {
     error.value = errorText(err)
@@ -260,6 +286,15 @@ onMounted(() => {
   text-align: center;
 }
 .pj-seats { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.pj-group + .pj-group { margin-top: 1.25rem; }
+.pj-team {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
 .pj-seat {
   display: flex;
   flex-direction: column;
@@ -276,9 +311,10 @@ onMounted(() => {
 }
 @media (hover: hover) { .pj-seat:not(:disabled):hover { border-color: var(--accent); } }
 .pj-seat:disabled { cursor: default; opacity: 0.6; }
+/* A seat nobody holds yet is an open slot, drawn as one: dashed until someone sits there. */
+.pj-seat.free { border-style: dashed; border-color: var(--text-muted); }
 .pj-seat-name { font-size: 1.05rem; font-weight: 600; }
-.pj-seat-sub, .pj-seat-taken { font-size: 0.78rem; color: var(--text-muted); }
-.pj-seat-taken { color: var(--accent-ink); }
+.pj-seat-taken { font-size: 0.78rem; color: var(--accent-ink); }
 .pj-err {
   margin: 0.6rem 0 0;
   font-size: 0.85rem;

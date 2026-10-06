@@ -340,7 +340,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -2435,6 +2435,18 @@ const ENH_LOCK_FIXES = {
 }
 const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'")
 
+// An Upgrade appdata caps below the muster rules' "up to three of the same Upgrade in your army".
+// Every other non-Combat-Patrol Upgrade carries `limit: 3`; these are read as appdata's mistake,
+// expected to be fixed by a coming data version — a list, not a rule (owner's call, 2026-10-05).
+// Keyed by appdata's enhancement id, not the name: the one entry today is also misspelt, and a fix
+// may well correct both.
+//   - Dark Angels, Darkflight Pursuit: "Nightforged Battery (Upgarde)" — `limit: 1` at data
+//     version 972; a player could not give it to a second Land Speeder Vengeance (report 2026-10-05).
+// Each entry retires itself: once appdata says 3 (or the row is gone) `--check` fails and asks for
+// the entry to be dropped. An uncapped-below-three Upgrade NOT on this list fails `--check` too.
+const UPGRADE_LIMIT_FIXES = new Set(['4e119d31-30c8-4e94-be84-7f868ea1eb8b'])
+const UPGRADE_LIMIT = 3
+
 function buildEnhancement(e, nameToDsId, idMap) {
   const name = enOf(e).name
   const enh = { name, pts: e.basePointsCost, type: e.enhancementType }
@@ -2442,7 +2454,14 @@ function buildEnhancement(e, nameToDsId, idMap) {
   if (!e.isIncludedInEnhancementLimit) enh.uncounted = 1
   if (e.isEquipableByEpicHero) enh.epicOk = 1
   if (e.isEquipableByNonCharacterUnit) enh.nonCharOk = 1
-  if (e.limit && e.limit !== 1) enh.limit = e.limit
+  let limit = e.limit
+  if (e.enhancementType === 'upgrade') {
+    if (UPGRADE_LIMIT_FIXES.has(e.id)) {
+      if (limit === UPGRADE_LIMIT) report.upgradeLimit.retire.add(`${name}: appdata now says ${UPGRADE_LIMIT} — drop this entry`)
+      else { limit = UPGRADE_LIMIT; report.upgradeLimit.fixed.add(name) }
+    } else if (limit !== UPGRADE_LIMIT) report.upgradeLimit.unexplained.add(`${name} (limit ${limit}, id ${e.id})`)
+  }
+  if (limit && limit !== 1) enh.limit = limit
   // eligibility: OR of groups, each an AND of faction-keywords + keywords.
   const req = []
   for (const gid of reqGroupsByEnh.get(e.id) || []) {
@@ -3037,6 +3056,9 @@ for (const r of cmp.rejected.slice(0, 8)) console.log(`    - ${r}`)
 if (report.packAttach.length) {
   console.log(`  !! Faction Pack attachments (PACK_ATTACH): ${report.packAttach.join('; ')}`)
 }
+const ul = report.upgradeLimit
+console.log(`  ${ul.fixed.size} Upgrade(s) raised to the muster rules' ${UPGRADE_LIMIT} copies by hand (UPGRADE_LIMIT_FIXES)`)
+for (const l of [...ul.retire, ...ul.unexplained]) console.log(`  !! Upgrade limit: ${l}`)
 if (report.proseAttach.length) {
   console.log(`  !! prose-only attachments (PROSE_ATTACH): ${report.proseAttach.join('; ')}`)
 }
@@ -3147,6 +3169,17 @@ if (CHECK) {
   // stock rule had no stock to count against — the squad offered two mutations with one
   // chainsword left (reported 2026-09-23). `unresolved` stays a note below: those name an item
   // the profile cannot be pinned to ("this model's X or Y"), and they fail open by design.
+  // An Upgrade capped below the muster rules' three copies is a pick the editor refuses a legal
+  // list (Nightforged Battery, reported 2026-10-05); a hand fix appdata has caught up with, or
+  // whose row is gone, is one to delete — both are the point of UPGRADE_LIMIT_FIXES being a list.
+  const enhIds = new Set(table('enhancement').map((e) => e.id))
+  const goneFixes = [...UPGRADE_LIMIT_FIXES].filter((id) => !enhIds.has(id))
+  const ulProblems = [...ul.retire, ...ul.unexplained, ...goneFixes.map((id) => `${id}: no such enhancement in appdata any more — drop this entry`)]
+  if (ulProblems.length) {
+    console.log(`\n  --check: ${ulProblems.length} Upgrade limit(s) to look at (UPGRADE_LIMIT_FIXES):`)
+    for (const l of ulProblems) console.log(`    - ${l}`)
+    return 1
+  }
   if (rp.noMatch.length) {
     console.log(`\n  --check: ${rp.noMatch.length} swap instruction(s) in a shape the rep parser does not know — teach it the form (REP_RE / HAVE_RE / ACTIVE_RE):`)
     for (const l of rp.noMatch) console.log(`    - ${l.replace(/\s+/g, ' ')}`)

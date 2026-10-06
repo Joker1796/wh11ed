@@ -453,6 +453,10 @@ export function useParty() {
     lastError.value = null
     const you = g.players.findIndex((pl) => pl.isYou)
     const side = you >= 0 ? you : 0
+    // Doubles: the host sits in the FIRST seat of its team — its own army is member 1 — so that
+    // seat is held from the start. As the TEAM (`mi: null`) it held no member seat at all, and a
+    // joining phone could take member 1 out from under the host (owner, 2026-10-05).
+    const mi = g.settings?.gameType === 'doubles' ? 0 : null
     const cut = sliceGame(g)
     try {
       const res = await authedFetch('/party', {
@@ -460,8 +464,8 @@ export function useParty() {
         body: JSON.stringify({
           gameId: g.id,
           slices: cut,
-          seat: { side, mi: null },
-          name: sideName(g.players[side]),
+          seat: { side, mi },
+          name: mi == null ? sideName(g.players[side]) : (g.players[side]?.members?.[0]?.name || sideName(g.players[side])),
         }),
       })
       if (!res.ok) {
@@ -476,7 +480,7 @@ export function useParty() {
         memberId: data.memberId,
         token: data.memberToken,
         side,
-        mi: null,
+        mi,
         host: true,
         seq: data.seq,
         versions: { ...data.versions },

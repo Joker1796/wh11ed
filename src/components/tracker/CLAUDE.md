@@ -408,15 +408,19 @@ a host ends the party (`DELETE`). `archiveGame` strips `party` from the record. 
 that watcher; the tracker home, the game screen and the game roster all call it.
 
 **Deliberately not synced:** `isYou`, `trackArmyYou`/`trackArmyOpp`/`trackArmyRule`, `party`,
-`broadcast` (see Slices). In doubles the host's seat is the TEAM (`mi: null`); partners joining
-pick a member seat. The server contract is `wh11ed-api/README.md` "A shared live game".
+`broadcast` (see Slices). In doubles the host sits in its team's FIRST member seat (`mi: 0`,
+since 2026-10-05 — as the TEAM, `mi: null`, it held no member seat and a joining phone could take
+the host's own army); partners joining pick one of the other three. The server contract is `wh11ed-api/README.md` "A shared live game".
 
 ## The lobby — setting the game up together (`useLobby.js`)
 
 Since 2026-09-23 the setup itself can be shared, not just the game in progress. It starts on the
 TRACKER HOME — "Shared game" → *Start a new one* (`SharedGameModal.vue`, which also holds the
 join entry: the two are one subject and differ only in whether an account is needed) — and that
-opens the wizard with `?share=1`, whose only job is to share on arrival.
+opens the wizard with `?share=1`, whose only job is to share on arrival. **The game type is chosen
+in that dialog, before the lobby exists** (2026-10-05) — with the team names when it is doubles — and
+rides along as `?mode=`/`?team0=`/`?team1=`: the lobby locks the type (below), and until then it
+always opened as singles, so a shared doubles game could not be made at all.
 
 **The host lands on `LobbyInvite.vue`, not in the wizard.** The lobby's first stage is `invite`:
 the code, its QR, the link and who has arrived so far — because at a real table you call the
@@ -451,7 +455,11 @@ them loses what it typed **silently** — the class of bug a player finds, not a
 exactly one editor: the first phone to claim it, whoever it hands the right to (`takeOver`), or
 the host while no one else holds it. The partner's phone waits, and can take the right over —
 always offered, with a confirm, rather than gated on a liveness guess, because the honest answer
-to "is the other phone still alive" is not available. **The arbiter is the slice version, not the
+to "is the other phone still alive" is not available. **In doubles the screens say "the team", not "the side"**
+(`lobbyTeam*` labels, 2026-10-05): a player who sat down on "Player 2's seat" and got two army forms,
+or a waiting screen about "this side", could not tell they were filling in — or waiting on — their
+whole team. Each player filling their own army is a possible later step; it needs the side slice
+split or merged per member, not a label. **The arbiter is the slice version, not the
 claimant**: two phones claiming in the same second both write `lobby.editor`, the server accepts
 one and answers the other `409` with the winner's copy. No endpoint, no lock.
 
@@ -473,8 +481,10 @@ the guest was re-choosing the very thing the primary is made of — and both pri
 replaced by `lobbyPrimaryAgain` while that lasts, since a primary is the pair and neither half is
 settled. The watch rather than the "allow" button: a guest can also reopen without asking while
 the stage is still `armies`, and a guest claiming a side the host had been filling itself has the
-same effect on the steps ahead. The host's own way out is "Cancel the shared setup": the party ends and the
-game becomes this phone's own setup again, every field where it was.
+same effect on the steps ahead. The host's own way out is "Close the lobby" (the code screen and the wizard's lobby row
+alike): the party ends for every phone and the setup is thrown away, back to the tracker home. Until
+2026-10-05 it kept the setup as the host's own; the owner asked for a full cancel, and the host can
+fill any side itself anyway ("fill it in myself").
 
 **The protocol rides in the slices** — `game.lobby = { stage, grant, deny }` in `shared`,
 `player.lobby = { editor, ready, request }` in each side — and `stripLobby` wipes all of it when

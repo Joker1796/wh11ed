@@ -1728,7 +1728,8 @@ export default {
           "name": "Nightforged Battery (Upgarde)",
           "pts": 10,
           "type": "upgrade",
-          "nonCharOk": 1
+          "nonCharOk": 1,
+          "limit": 3
         }
       ]
     },

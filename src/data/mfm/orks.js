@@ -48,7 +48,7 @@ export default {
     { name: 'Gargantuan Squiggoth', options: [{ models: 1, points: 500, note: '1st' }, { models: 1, points: 600, note: '2nd+' }] },
     { name: 'Ghazghkull Thraka', options: [{ models: 1, points: 290 }] },
     { name: 'Gorkanaut', options: [{ models: 1, points: 325, note: '1st-2nd' }, { models: 1, points: 355, note: '3rd+' }] },
-    { name: 'Gretchin', options: [{ points: 45, note: '10 Gretchin' }, { points: 80, note: '11 Gretchin' }] },
+    { name: 'Gretchin', options: [{ points: 45, note: '10 Gretchin' }, { points: 80, note: '20 Gretchin' }] },
     { name: 'Gunwagon', options: [{ models: 1, points: 150, note: '1st-2nd' }, { models: 1, points: 160, note: '3rd+' }] },
     { name: 'Hunta Rig', options: [{ models: 1, points: 165, note: '1st-2nd' }, { models: 1, points: 185, note: '3rd+' }] },
     { name: 'Killa Kans', options: [{ models: 3, points: 130, note: '1st-2nd' }, { models: 6, points: 275, note: '1st-2nd' }, { models: 3, points: 170, note: '3rd+' }, { models: 6, points: 315, note: '3rd+' }] },

@@ -1265,7 +1265,7 @@ WTC body under section headings or an "Attached unit" line** — only the app's 
 as:", "◦") route to the app's parser — and tolerates "(With Outriders)" after the points; **points
 glued to the name** ("Vertus Praetors215 Points", a paste from the rendered page). Validation:
 **an Upgrade counts once toward the enhancement limit** however many units carry it (muster rules;
-eight legal lists were flagged). Across the corpus: over-limit wargear 219 → 24 lines, unknown
+eight legal lists were flagged), and **each Upgrade allows up to three copies** — appdata's `limit`, raised to 3 by hand where appdata says less (`UPGRADE_LIMIT_FIXES` in gen-roster-data.mjs: Nightforged Battery, reported 2026-10-05); the list retires itself, `--check` fails once appdata says 3, and fails on any new Upgrade capped below three. Across the corpus: over-limit wargear 219 → 24 lines, unknown
 datasheets 232 → 163 (the rest are old-codex units, foreign-language exports and hand-typed lists),
 current-version lists clean 132 → 148 of 157. What is left at v946 is the lists' own doing (no
 Warlord set, comments pasted into a unit) and one open question: two GT lists price the Vindicare

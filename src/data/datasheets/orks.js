@@ -3148,7 +3148,7 @@ export default [
       },
       {
         "points": 80,
-        "note": "11 Gretchin"
+        "note": "20 Gretchin"
       }
     ],
     "flavor": "What Gretchin – also called grots – lack in stature, courage, resilience, discipline, motivation, loyalty, aggression and personal hygiene, they allegedly make up for in numbers. They are at least reasonable shots with their underpowered firearms, and if all else fails, the Orks find that grots make excellent bullet-stops.",

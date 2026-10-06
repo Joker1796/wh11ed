@@ -24,6 +24,7 @@
         @cancel="goHome"
         @done="editing = false"
         @leave="leaveLobby"
+        @close-lobby="cancelLobby"
       />
     </template>
     <RoundTracker v-else-if="current.phase === 'playing'" />
@@ -98,7 +99,7 @@ import { useLobby } from '../../composables/useLobby.js'
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, newGame, resumeGame, archiveGame, closeLobby } = useTracker()
+const { current, newGame, resumeGame, archiveGame, closeLobby, discardGame } = useTracker()
 
 // This is a LIVE screen of the game: while it is up, a shared game polls for the other phones'
 // changes (useParty's gate); leaving it sends what is pending and stops the polling.
@@ -118,11 +119,14 @@ const hostInviting = computed(() => sharedSetup.value && isHost.value && stage.v
 function toWizard() {
   setStage('armies')
 }
-// Giving up on the lobby from that screen: the party ends and the setup is this phone's own
-// again, every field where it was (the wizard is still holding it).
+// Closing the lobby, from the code screen or the wizard's lobby row: the party ends for every
+// phone and the setup is thrown away — a lobby is dropped, never archived (putAwayCurrent).
+// Until 2026-10-05 this kept the setup as the host's own; the owner asked for a full cancel.
 async function cancelLobby() {
   await end()
   closeLobby()
+  discardGame()
+  router.push('/tracker')
 }
 // A guest that leaves keeps the game as its own setup — the party handle is what goes.
 async function leaveLobby() {

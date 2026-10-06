@@ -7,7 +7,7 @@ name: GW update watch
 
 on:
   schedule:
-    - cron: '17 */3 * * *'
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 concurrency:

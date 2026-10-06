@@ -142,10 +142,17 @@ const confirmed = computed(() => isReady(mySide.value))
 // not on the host.
 const canChange = computed(() => amEditor.value && confirmed.value)
 
-const title = computed(() => (amEditor.value ? labels.value.lobbyWaitTitle : labels.value.lobbyWaitPartner))
+// Doubles: the side is the team, and its two armies are filled by one phone — the partner's
+// screen says so rather than "this side", which reads as if it were somebody else's.
+const doubles = computed(() => current.value?.settings?.gameType === 'doubles')
+const title = computed(() => {
+  if (amEditor.value) return doubles.value ? labels.value.lobbyTeamWaitTitle : labels.value.lobbyWaitTitle
+  return doubles.value ? labels.value.lobbyTeamWaitPartner : labels.value.lobbyWaitPartner
+})
 const body = computed(() => {
   if (!amEditor.value) {
-    return labels.value.lobbyWaitHeld.replace('{name}', editorName(mySide.value) || labels.value.partyHostBadge)
+    const held = doubles.value ? labels.value.lobbyTeamWaitHeld : labels.value.lobbyWaitHeld
+    return held.replace('{name}', editorName(mySide.value) || labels.value.partyHostBadge)
   }
   return labels.value.lobbyWaitBody
 })

@@ -100,6 +100,21 @@ describe('sharing', () => {
     expect(party.canEdit(1)).toBe(true) // the host edits any side
   })
 
+  it('seats the host on its side, with no member, in singles', async () => {
+    await shareAsHost()
+    expect(JSON.parse(authedFetch.mock.calls.at(-1)[1].body).seat).toEqual({ side: 0, mi: null })
+  })
+
+  it('in doubles the host holds member 1 of its team, so a joining phone cannot take it', async () => {
+    tracker.current.value.settings.gameType = 'doubles'
+    tracker.current.value.players[0].members = [{ name: 'Host' }, { name: '' }]
+    await shareAsHost()
+    const body = JSON.parse(authedFetch.mock.calls.at(-1)[1].body)
+    expect(body.seat).toEqual({ side: 0, mi: 0 })
+    expect(body.name).toBe('Host')
+    expect(tracker.current.value.party.mi).toBe(0)
+  })
+
   it('refuses without an account', async () => {
     status.value = 'anon'
     expect(await party.share()).toBe(false)
