@@ -77,6 +77,7 @@
               <slot name="aside" />
               <button
                 class="mh-close"
+                data-press
                 :aria-label="labels.modalClose"
                 @click="$emit('close')"
               >
@@ -86,6 +87,7 @@
             <button
               v-else
               class="mh-close"
+              data-press
               :aria-label="labels.modalClose"
               @click="$emit('close')"
             >
