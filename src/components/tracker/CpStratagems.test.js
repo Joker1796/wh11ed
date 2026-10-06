@@ -24,8 +24,8 @@ beforeEach(async () => {
 })
 afterEach(() => { document.body.innerHTML = '' })
 
-async function mountTab(side = 0) {
-  const w = mount(CpStratagems, { props: { names: ['Me', 'Opp'], defaultSide: side } })
+async function mountTab(side = 0, extra = {}) {
+  const w = mount(CpStratagems, { props: { names: ['Me', 'Opp'], defaultSide: side, ...extra } })
   // The decks are dynamic imports: wait for the core rows, not for one tick.
   await vi.waitFor(async () => { await flushPromises(); expect(w.findAll('.sr').length).toBeGreaterThan(0) }, { timeout: 5000 })
   return w
@@ -122,11 +122,22 @@ describe('CpStratagems — the Stratagems page\'s filter', () => {
     expect(opp.some((t) => t.startsWith('Explosives'))).toBe(false)
   })
 
+  // The game screen picks the side on the score cards: no side tabs here then, the block framed,
+  // and a new pick from outside is followed.
+  it('follows a side picked outside, with no tabs of its own', async () => {
+    const w = await mountTab(0, { side: 1 })
+    expect(w.find('.cps-tabs').exists()).toBe(false)
+    expect(w.find('.cps').classes()).toContain('framed')
+    expect(w.find('.cps').classes()).toContain('opp')
+    await w.setProps({ side: 0 })
+    expect(w.find('.cps').classes()).not.toContain('opp')
+  })
+
   // Always grouped by phase (owner, 2026-10-06): no list/phases toggle here.
   it('narrows to one deck, always grouped by phase', async () => {
     const w = await mountTab(0)
     expect(w.find('.strat-toggle').exists()).toBe(false)
-    await w.findAll('.strat-filter').find((b) => b.text() === 'Core').trigger('click')
+    await w.findAll('.seg button').find((b) => b.text() === 'Core').trigger('click')
     expect(w.findAll('.phase-group').length).toBeGreaterThan(0)
     expect(w.findAll('.sr-tag').length).toBe(0) // one deck: no "Core" tag on each row
   })

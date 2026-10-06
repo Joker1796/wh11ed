@@ -17,7 +17,10 @@
         :class="{ 'tn-strong': part.strong }"
       >{{ part.text }}</span>
     </p>
-    <ScoreBoard />
+    <ScoreBoard
+      :selected="framedTab ? viewSide : -1"
+      @select="(i) => (pickedSide = i)"
+    />
 
     <!-- Moving the game on: two equal buttons, back and forward by a TURN — a round is two turns,
          and ending the second one opens the next round. The forward one wears the colour of the
@@ -184,9 +187,12 @@
          Switching (owner's mock, 2026-09-30): the old tab's fill drains down while the strip
          re-divides, then the new one fills from the bottom and its word rises into it; the panel
          slides in from the side the tab is on. -->
+    <!-- Over a framed panel (the side picked on the score cards) the strip wears that side's
+         colour rather than the turn's, so the open tab, its line and the frame are one colour. -->
     <nav
       ref="tabsEl"
       class="game-tabs"
+      :class="framedTab ? ['turn-colored', { 'turn-opp': !isYouSide(current.players[viewSide], viewSide) }] : null"
       role="tablist"
       :aria-label="labels.trackerTabsAria"
     >
@@ -349,13 +355,14 @@
     <section
       v-if="cpOn && built.has('cp')"
       v-show="tab === 'cp'"
-      class="panel"
+      class="panel panel-framed"
       role="tabpanel"
     >
       <CpStratagems
         ref="cpEl"
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
+        :side="viewSide"
       >
         <template #bank="{ side }">
           <div
@@ -776,7 +783,14 @@ watch(() => [current.value.currentRound, current.value.currentTurn], () => {
   tab.value = 'missions'
   viewRound.value = null
   missionSide.value = focusSide.value
+  pickedSide.value = null
 })
+// The side the side-aware panels show: picked on the score cards (ScoreBoard `selected`), else
+// the focus side; a new turn drops the pick.
+const pickedSide = ref(null)
+const viewSide = computed(() => pickedSide.value ?? focusSide.value)
+// The tabs whose panel is framed in the picked side's colour (the CP tab, for now).
+const framedTab = computed(() => tab.value === 'cp')
 
 // The open tab survives leaving the game screen — a look at a datasheet, the rules, the roster —
 // and coming back (owner's call, 2026-09-27). Kept on this device with the game and the turn it
@@ -1279,6 +1293,9 @@ function onEndBattle(reason) {
   font-family: var(--font-mono); font-size: 0.62rem; line-height: 1.35; letter-spacing: 0;
 }
 .gt-tab.on .gt-count { background: #fff; color: var(--accent); }
+/* A framed panel hangs from the tab strip: its frame (CpStratagems' .cps.framed) starts where the
+   strip's line is, so the open tab and what it shows read as one surface. */
+.panel-framed { margin-top: -0.7rem; }
 .panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
 /* After the first switch, a panel coming into view slides in from the side its tab stands on
    (.tab-back: from the left); the one it replaces is already hidden. v-show restarts the animation each time

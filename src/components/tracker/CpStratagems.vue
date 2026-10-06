@@ -2,7 +2,7 @@
   <section
     ref="cpsEl"
     class="cps"
-    :class="{ opp: !isYouSide(current.players[side], side) }"
+    :class="{ opp: !isYouSide(current.players[side], side), framed: controlled }"
   >
     <!-- Whose CP the stratagems spend: the app's own page tabs (owner, 2026-09-29), the same two
          tabs as the missions panel's — names alone, so switching between the panels moves nothing;
@@ -12,6 +12,7 @@
          the list below says whose it is; the chosen side's bank is one line under the tabs
          (RoundTracker's #bank slot). -->
     <PageTabs
+      v-if="!controlled"
       class="cps-tabs"
       fill
       :tabs="sideTabs"
@@ -42,14 +43,17 @@
     <!-- The same toolbar as the Stratagems page, without its list/phases toggle: here the list is
          always grouped by phase (owner, 2026-10-06) — a stratagem is looked for by WHEN. With
          the clock, the phase it stands on comes first, open and marked "now". -->
-    <h4 class="cps-label panel-label">
-      {{ labels.stratagemsHeading }}
-    </h4>
-    <StratFilterBar
-      v-model:filter="deck"
-      :filters="deckFilters"
-      :phase-toggle="false"
-    />
+    <div class="cps-head">
+      <h4 class="panel-label">
+        {{ labels.stratagemsHeading }}
+      </h4>
+      <StratFilterBar
+        v-model:filter="deck"
+        :filters="deckFilters"
+        :phase-toggle="false"
+        seg
+      />
+    </div>
 
     <p
       v-if="loading && deck !== 'core'"
@@ -135,17 +139,22 @@ import { loadStratTargets } from '../../composables/stratagemPlay.js'
 const props = defineProps({
   names: { type: Array, required: true },       // the two sides' display names
   defaultSide: { type: Number, required: true }, // whose turn it is / this phone's own side
+  // Set by the game screen when the score cards pick the side (ScoreBoard `selected`): no tabs
+  // here then, and the block is framed in the side's colour, hanging from the tab strip.
+  side: { type: Number, default: null },
 })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, stratUses, stratBlock, lastStratUse, undoStratagem } = useTracker()
 const { canEdit } = useParty()
 
-const side = ref(props.defaultSide)
+const controlled = computed(() => props.side === 0 || props.side === 1)
+const side = ref(controlled.value ? props.side : props.defaultSide)
+watch(() => props.side, (v) => { if (v === 0 || v === 1) side.value = v })
 // Another side's stratagems fade in under the standing tabs (useSwapFade).
 const cpsEl = ref(null)
 useSwapFade(side, () => [...(cpsEl.value?.children || [])].filter((el) => !el.matches('.page-tabs')))
-watch(() => props.defaultSide, (v) => { side.value = v })
+watch(() => props.defaultSide, (v) => { if (!controlled.value) side.value = v })
 const turnIdx = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 const sideOnTurn = computed(() => side.value === turnIdx.value)
 const sideTabs = computed(() => [0, 1].map((i) => ({
@@ -267,9 +276,18 @@ async function use(s) {
 }
 .cps-note { margin: 0.4rem 0 0; font-size: 0.78rem; color: var(--text-dim); }
 .cps-empty { margin: 0; font-size: 0.84rem; color: var(--text-dim); }
-/* The CP above, the stratagems below. Not var(--border): on the dark page it all but vanishes (as
-   ScoreBoard's breakdown rule did). */
-.cps-label { margin: 0.8rem 0 0.4rem; padding-top: 0.7rem; border-top: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent); }
+/* The CP above, the stratagems below: the label and its deck switch on one line, ruled off. Not
+   var(--border): on the dark page it all but vanishes (as ScoreBoard's breakdown rule did). */
+.cps-head {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.4rem 0.75rem;
+  margin: 0.7rem 0 0.6rem; padding-top: 0.7rem;
+  border-top: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent);
+}
+.cps-head .panel-label { margin: 0; }
+.cps-head > .strat-toolbar { margin: 0; }
+/* Framed (the side picked on the score cards): the block is the open tab's panel, one surface in
+   the side's colour from the tab strip's line down. */
+.cps.framed { border: 1px solid var(--side); border-top: 0; background: var(--bg-card); padding: 0.4rem 0.7rem 0.7rem; }
 .cps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
 /* Inside a phase card the rows are its lines: no frame of their own, a rule between them. */
 .cps-list.in-card { gap: 0; }

@@ -7,8 +7,14 @@
       v-for="(pl, i) in game.players"
       :key="i"
       class="col tone"
-      :class="{ lost: finished && leaderIdx !== -1 && leaderIdx !== i, turn: turnIdx === i, opp: !isYouSide(pl, i), themed: finished && !!sideFaction(pl) }"
+      :class="{ lost: finished && leaderIdx !== -1 && leaderIdx !== i, turn: turnIdx === i, opp: !isYouSide(pl, i), themed: finished && !!sideFaction(pl), pickable: selected >= 0, picked: selected === i }"
       :style="finished ? toneVars(sideFaction(pl)?.color) : undefined"
+      :role="selected >= 0 ? 'button' : undefined"
+      :tabindex="selected >= 0 ? 0 : undefined"
+      :aria-pressed="selected >= 0 ? selected === i : undefined"
+      :data-press="selected >= 0 ? '' : undefined"
+      @click="selected >= 0 && $emit('select', i)"
+      @keydown.enter.space.prevent="selected >= 0 && $emit('select', i)"
     >
       <!-- The side's army pressed into its card, as on the history's game cards (owner,
            2026-09-29): the first of a doubles side's two. In the board's colour for the side, not
@@ -83,7 +89,11 @@ import { tracks } from '../../data/trackerOptions.js'
 const props = defineProps({
   finished: { type: Boolean, default: false },
   game: { type: Object, default: null },
+  // The side the panel under the board shows (the game screen's CP tab): the cards ARE the side
+  // switch there, so the panel needs no tabs of its own (owner, 2026-10-06). -1: not a switch.
+  selected: { type: Number, default: -1 },
 })
+defineEmits(['select'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
@@ -156,6 +166,11 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
    its army's colour on the left, two colours met in its corner and read as decoration. A tie
    dims neither — the "tied" line under the board says it. */
 .col.lost { filter: grayscale(1); opacity: 0.55; }
+/* As the side switch: the chosen card is framed in its colour with a bar along its foot — the
+   same colour frames the panel below, which is what ties the two together. Not the turn's wash:
+   whose turn it is and whose side is on screen are two different answers. */
+.col.pickable { cursor: pointer; transition: border-color var(--motion-fast), box-shadow var(--motion-fast); }
+.col.picked { border-color: var(--side); box-shadow: inset 0 -4px 0 var(--side); }
 .col-head {
   display: flex;
   flex-wrap: wrap;

@@ -5,14 +5,13 @@
   <div class="strat-toolbar">
     <div
       v-if="filters.length"
-      class="strat-filters"
+      :class="seg ? 'seg' : 'strat-filters'"
       role="tablist"
     >
       <button
         v-for="f in filters"
         :key="f.key"
-        class="strat-filter"
-        :class="{ active: filter === f.key }"
+        :class="seg ? { on: filter === f.key } : ['strat-filter', { active: filter === f.key }]"
         role="tab"
         :aria-selected="filter === f.key"
         @click="$emit('update:filter', f.key)"
@@ -68,6 +67,9 @@ defineProps({
   nowOnly: { type: Boolean, default: false },
   // The list ↔ phases toggle; off where the list is always grouped (the tracker's CP tab).
   phaseToggle: { type: Boolean, default: true },
+  // The deck row as the app's segmented control (.seg) — inside a panel that has its own frame,
+  // where loose chips read as one more kind of tab (the tracker's CP tab).
+  seg: { type: Boolean, default: false },
 })
 defineEmits(['update:filter', 'update:byPhase', 'update:nowOnly'])
 const { locale } = useLocale()

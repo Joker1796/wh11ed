@@ -72,4 +72,17 @@ describe('ScoreBoard — Battle Points while the game is on', () => {
     const w = mount(ScoreBoard, { props: { game: { ...finishedGame(10, 10, 'vp'), phase: 'playing' } } })
     expect(w.find('.tie').exists()).toBe(false)
   })
+
+  // On the game screen's CP tab the cards are the side switch.
+  it('picks a side when asked to be the switch, and is no button otherwise', async () => {
+    const plain = mount(ScoreBoard, { props: { game: finishedGame(30, 10, 'vp') } })
+    expect(plain.find('.col[role="button"]').exists()).toBe(false)
+    const w = mount(ScoreBoard, { props: { game: finishedGame(30, 10, 'vp'), selected: 0 } })
+    const cols = w.findAll('.col')
+    expect(cols[0].classes()).toContain('picked')
+    expect(cols[0].attributes('aria-pressed')).toBe('true')
+    await cols[1].trigger('click')
+    await cols[0].trigger('keydown', { key: 'Enter' })
+    expect(w.emitted('select')).toEqual([[1], [0]])
+  })
 })
