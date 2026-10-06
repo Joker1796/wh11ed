@@ -205,7 +205,9 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   gap: 1.1rem;
   margin: 0.45rem 0 0;
   padding-top: 0.35rem;
-  border-top: 1px solid var(--border);
+  /* Not var(--border): on the dark card (#303035) it is #3a3a40 and vanished, showing only where it
+     crossed the stamp (owner, 2026-10-06). The muted text colour reads on both themes. */
+  border-top: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent);
 }
 .breakdown div { display: flex; flex-direction: column; gap: 0; }
 .breakdown dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
