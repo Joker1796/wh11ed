@@ -59,13 +59,17 @@
                 class="pr-go-btn"
                 @click="lead(r)"
               >
-                <span class="pr-src">{{ r.src }}</span>
-                <span class="pr-name">
-                  {{ r.name }}
-                  <small
-                    v-if="r.sub"
-                    class="pr-sub"
-                  >{{ r.sub }}</small>
+                <!-- A card per rule (owner, 2026-10-07: the bare lines read as plain text): what kind of
+                     rule it is on top, small; then what you look for at the table, large. For a unit
+                     ability that is the UNIT — you find the model first, then read what it does — so
+                     the units lead and the ability's name follows in the side's colour. -->
+                <span class="pr-text">
+                  <span class="pr-src">{{ r.src }}</span>
+                  <span class="pr-name">{{ r.units ? r.sub : r.name }}</span>
+                  <span
+                    v-if="r.units"
+                    class="pr-ability"
+                  >{{ r.name }}</span>
                 </span>
                 <i class="bi bi-chevron-right pr-go" />
               </button>
@@ -188,32 +192,40 @@ function toggle() {
   letter-spacing: 0.02em;
   color: var(--side);
 }
-.pr-list { list-style: none; margin: 0; padding: 0; }
-.pr-rule { border-top: 1px solid var(--border); }
-.pr-rule:first-child { border-top: none; }
+.pr-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.pr-rule {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--side);
+  background: var(--bg-secondary);
+}
 .pr-go-btn {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   width: 100%;
-  padding: 0.3rem 0;
+  padding: 0.45rem 0.6rem;
   background: none;
   border: none;
-  font-size: 0.82rem;
   text-align: left;
   cursor: pointer;
 }
 .pr-go-btn:hover .pr-name,
 .pr-go-btn:hover .pr-go { color: var(--accent-ink); }
+.pr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
 .pr-src {
-  flex: 0 0 auto;
-  max-width: 40%;
   color: var(--text-muted);
-  font-size: 0.84rem;
-  line-height: 1.5;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
-.pr-name { flex: 1; min-width: 0; color: var(--text-primary); }
-.pr-sub { display: block; color: var(--text-muted); font-size: 0.82rem; }
+.pr-name {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.15;
+}
+.pr-ability { color: var(--accent-ink); font-size: 0.84rem; line-height: 1.35; }
 .pr-strats {
   display: flex;
   align-items: center;
