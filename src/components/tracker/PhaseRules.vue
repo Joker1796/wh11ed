@@ -1,7 +1,8 @@
 <template>
   <section
-    v-if="sides.length"
+    v-if="shown.length"
     class="pr"
+    :class="{ 'in-frame': controlled }"
   >
     <!-- Closed by default, with the count in the header — an open block would push the round's
          actual scoring down the screen, which is exactly why CP and the army-rule card were moved
@@ -33,12 +34,15 @@
           {{ labels.trackerPhaseRulesNote }}
         </p>
         <div
-          v-for="side in sides"
+          v-for="side in shown"
           :key="side.pi"
           class="pr-side"
           :class="{ opp: !side.you }"
         >
-          <h4 class="pr-who">
+          <h4
+            v-if="!controlled"
+            class="pr-who"
+          >
             {{ side.name }}
           </h4>
           <ul class="pr-list">
@@ -110,9 +114,16 @@ import CollapseTransition from '../CollapseTransition.vue'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { usePhaseRules } from '../../composables/usePhaseRules.js'
 
-const props = defineProps({ embedded: { type: Boolean, default: false } })
+const props = defineProps({
+  embedded: { type: Boolean, default: false },
+  // The side picked on the score cards (the game screen's Phase tab, owner 2026-10-06): that army's
+  // rules alone, inside the panel's frame — the card above already names it.
+  side: { type: Number, default: null },
+})
 const emit = defineEmits(['stratagems', 'army', 'roster'])
 const { sides, total, phase, go, labels } = usePhaseRules()
+const controlled = computed(() => props.side === 0 || props.side === 1)
+const shown = computed(() => (controlled.value ? sides.value.filter((s) => s.pi === props.side) : sides.value))
 
 // In the Phase tab a line stays on the game screen where it can: a rule to the Armies tab, a unit
 // of the attached list to its card over this tab (or the list, for several), via RoundTracker.
@@ -133,6 +144,8 @@ function toggle() {
 
 <style scoped>
 .pr { margin: 0 0 0.75rem; border: 1px solid var(--border); background: var(--bg-card); }
+/* Inside the Phase tab's side frame: the frame is the box. */
+.pr.in-frame { margin: 0; border: 0; background: none; }
 .pr-head {
   display: flex;
   align-items: center;

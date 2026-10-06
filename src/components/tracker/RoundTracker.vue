@@ -416,25 +416,32 @@
       />
     </section>
 
-    <!-- What speaks in the phase the clock stands on, for both players (usePhaseRules.js). -->
+    <!-- What speaks in the phase the clock stands on for the side picked on the score cards
+         (usePhaseRules.js; both sides at once until 2026-10-06). -->
     <section
       v-if="phaseTabOn && built.has('phase')"
       v-show="tab === 'phase'"
-      class="panel"
+      class="panel panel-framed"
       role="tabpanel"
     >
-      <PhaseRules
-        embedded
-        @stratagems="openCpNow"
-        @army="openArmyRule"
-        @roster="openRoster"
-      />
-      <p
-        v-if="!phaseRuleCount"
-        class="panel-empty"
+      <div
+        class="phase-side side-frame"
+        :class="{ opp: !isYouSide(current.players[viewSide], viewSide) }"
       >
-        {{ labels.trackerPhaseNone }}
-      </p>
+        <PhaseRules
+          embedded
+          :side="viewSide"
+          @stratagems="openCpNow"
+          @army="openArmyRule"
+          @roster="openRoster"
+        />
+        <p
+          v-if="!sideRuleCount"
+          class="panel-empty"
+        >
+          {{ labels.trackerPhaseNoneSide }}
+        </p>
+      </div>
     </section>
 
     <section
@@ -678,11 +685,11 @@ const built = ref(new Set([tab.value]))
 // The Phase tab exists only while the game keeps the clock AND asked for the reminder; its count
 // is the reminder itself, readable without opening it.
 const phaseTabOn = computed(() => phasesOn.value && tracks(current.value.settings, 'trackPhaseRules'))
-const { total: phaseRuleCount } = usePhaseRules()
+const { sides: phaseSides } = usePhaseRules()
 const tabs = computed(() => [
   { id: 'missions', label: labels.value.trackerTabMissions, icon: 'bi-bullseye' },
   // The phase right after the missions (owner, 2026-09-30): what speaks now is read during the turn.
-  ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, icon: 'bi-hourglass-split', count: phaseRuleCount.value }] : []),
+  ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, icon: 'bi-hourglass-split', count: sideRuleCount.value }] : []),
   ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp, icon: 'bi-lightning-charge' }] : []),
   // The armies right after CP (owner, 2026-09-29): both are looked at during a turn, the log and
   // the stats after it.
@@ -791,9 +798,11 @@ watch(() => [current.value.currentRound, current.value.currentTurn], () => {
 // the focus side; a new turn drops the pick.
 const pickedSide = ref(null)
 const viewSide = computed(() => pickedSide.value ?? focusSide.value)
-// The tabs whose panel is one side's, framed in the picked side's colour. Phase and Log show both
-// sides at once, so there the cards are only the score.
-const framedTab = computed(() => ['missions', 'cp', 'armies', 'roster', 'stats'].includes(tab.value))
+// The tabs whose panel is one side's, framed in the picked side's colour. The Log tells both sides
+// in one timeline, so there the cards are only the score.
+const framedTab = computed(() => ['missions', 'phase', 'cp', 'armies', 'roster', 'stats'].includes(tab.value))
+// The Phase tab's count is the picked side's, as its list is.
+const sideRuleCount = computed(() => phaseSides.value.find((s) => s.pi === viewSide.value)?.rules.length || 0)
 
 // The open tab survives leaving the game screen — a look at a datasheet, the rules, the roster —
 // and coming back (owner's call, 2026-09-27). Kept on this device with the game and the turn it
@@ -1001,15 +1010,18 @@ function onEndBattle(reason) {
   min-height: 40px;
   white-space: nowrap;
   padding: 0 0.8rem;
-  border: 1px solid var(--accent);
-  background: var(--bg-card);
-  color: var(--accent-ink);
+  /* Filled in the danger red, not the side's colour (owner, 2026-10-06): it ends the game for both
+     sides, whoever's turn it is. The page's own background as ink: dark on the dark theme's light
+     vermilion, light on the light theme's deep one. */
+  border: 1px solid var(--danger);
+  background: var(--danger);
+  color: var(--bg-primary);
   font: inherit;
   font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
 }
-@media (hover: hover) { .rb-finish:hover { background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); } }
+@media (hover: hover) { .rb-finish:hover { background: color-mix(in srgb, var(--danger) 85%, #000); } }
 .twist-card {
   max-width: 640px;
   margin: -0.4rem auto 1rem;
@@ -1299,6 +1311,8 @@ function onEndBattle(reason) {
 /* A framed panel hangs from the tab strip: its frame (CpStratagems' .cps.framed) starts where the
    strip's line is, so the open tab and what it shows read as one surface. */
 .panel-framed { margin-top: -0.7rem; }
+.phase-side { --side: var(--side-you); }
+.phase-side.opp { --side: var(--side-opponent); }
 .panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
 /* After the first switch, a panel coming into view slides in from the side its tab stands on
    (.tab-back: from the left); the one it replaces is already hidden. v-show restarts the animation each time
