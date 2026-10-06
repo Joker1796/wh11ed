@@ -407,11 +407,13 @@ html {
 /* Visible keyboard focus across the app. Only shows for keyboard/AT users (`:focus-visible`),
    never on mouse click, so it doesn't add chrome for pointer users. Components that focus a
    non-interactive container programmatically (e.g. BaseModal's dialog root) suppress it with
-   their own `:focus { outline: none }`. */
+   their own `:focus { outline: none }`. Square like everything else (owner, 2026-10-06 — a 2px
+   radius here bent the ring round the corners): the outline follows the element's own corners.
+   It also lights after a key closes a dialog (focus goes back to its opener) — that is the
+   browser reading a keyboard user, and it stays. */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 2px;
 }
 
 body {
