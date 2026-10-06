@@ -14,6 +14,7 @@
         :aria-label="labels.trackerEditSetupInfo"
         :title="labels.trackerEditSetupInfo"
         :aria-expanded="noteOpen"
+        data-press
         @click="noteOpen = !noteOpen"
       >
         <i class="bi bi-info-circle" />
