@@ -4,9 +4,10 @@
        so every accented control — the tabs, the rounds, the buttons, the ticks — says whose turn
        it is. The sides themselves keep their own colours (--side-you / --side-opponent). -->
   <div
+    ref="rootEl"
     class="round-tracker side-colored turn-colored"
     :class="{ 'turn-opp': turnOpp, 'tab-moved': panelFrom, 'tab-back': panelFrom < 0 }"
-    :style="sideColors"
+    :style="[sideColors, fillPx ? { minHeight: `${fillPx}px` } : null]"
   >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
          kept always — the phase clock under the rounds is the optional part. -->
@@ -758,6 +759,54 @@ onMounted(() => {
   }
   idle(next)
 })
+// A short panel still reaches the foot of the screen (owner, 2026-10-06): the screen is a column at
+// least as tall as the room the page leaves it, the open panel takes the slack, and the tools row
+// with End game lands just above the turn bar — with no scroll. That room is the window less
+// everything above the screen (the bars, the update notice) and below it (the page's reserve for
+// the pinned bars): measured, since both vary, and neither depends on this screen's own height.
+const rootEl = ref(null)
+const fillPx = ref(0)
+// What the page puts under this screen, up to the main column: each wrapper's bottom padding and
+// border, this screen's and its wrappers' bottom margins, and anything after them. Read from the
+// styles, not from the document's height — the layout keeps the document at least a window tall,
+// so "below" taken from it counted the empty room this is meant to fill.
+function roomBelow(el) {
+  let below = 0
+  for (let n = el; n && !n.classList.contains('main-content'); n = n.parentElement) {
+    const p = n.parentElement
+    if (!p) break
+    below += parseFloat(getComputedStyle(n).marginBottom) || 0
+    for (let sib = n.nextElementSibling; sib; sib = sib.nextElementSibling) {
+      if (getComputedStyle(sib).position === 'fixed') continue
+      below += sib.offsetHeight
+    }
+    const cs = getComputedStyle(p)
+    below += (parseFloat(cs.paddingBottom) || 0) + (parseFloat(cs.borderBottomWidth) || 0)
+  }
+  return below
+}
+function fitHeight() {
+  const el = rootEl.value
+  if (!el) return
+  const top = el.getBoundingClientRect().top + window.scrollY
+  // No scroll: the screen ends where the page's own reserve under it still fits in the window.
+  const noScroll = window.innerHeight - top - roomBelow(el)
+  // …and the tools row sits a step above the pinned turn bar, not under it.
+  const bar = el.querySelector('.tf-sticky')
+  const barTop = bar ? bar.getBoundingClientRect().top : window.innerHeight
+  const aboveBar = barTop - 12 - (top - window.scrollY)
+  fillPx.value = Math.max(0, Math.floor(Math.min(noScroll, aboveBar)))
+}
+onMounted(() => {
+  fitHeight()
+  document.fonts?.ready.then(fitHeight)
+  window.addEventListener('resize', fitHeight)
+  // Another tab or side is another panel: re-measure. Set up here, not at the top level — the side
+  // reads the turn, which is declared further down this setup.
+  watch([tab, viewSide], () => nextTick(fitHeight))
+})
+onBeforeUnmount(() => window.removeEventListener('resize', fitHeight))
+
 // Switching panels from further down the page: the new panel starts right under the tab strip,
 // the strip at the top of the screen — not wherever a shorter panel lets the browser clamp the
 // scroll (2026-09-29: first a jump, then a screen-tall blank to stop it). From above, nothing moves.
@@ -1308,6 +1357,10 @@ function onEndBattle(reason) {
   font-family: var(--font-mono); font-size: 0.62rem; line-height: 1.35; letter-spacing: 0;
 }
 .gt-tab.on .gt-count { background: #fff; color: var(--accent); }
+/* A column, so the open panel can take the slack down to the tools row (fitHeight). */
+.round-tracker { display: flex; flex-direction: column; }
+.round-tracker > .panel { flex: 1 0 auto; display: flex; flex-direction: column; }
+.round-tracker > .panel > .side-frame { flex: 1 0 auto; }
 /* A framed panel hangs from the tab strip: its frame (CpStratagems' .cps.framed) starts where the
    strip's line is, so the open tab and what it shows read as one surface. */
 .panel-framed { margin-top: -0.7rem; }
