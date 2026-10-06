@@ -72,6 +72,13 @@ export const GROUP_LIMITS = {
 
 export const groupLimitOf = (group) => (group ? GROUP_LIMITS[group] || 1 : 0)
 
+// `WHOLE_GROUPS` — groups a card shows in full once any member is shown, even the members no
+// modifier on that unit reads. A doctrine is the ARMY's pick of the round: a Space Marines card
+// offered Assault and Devastator but not Tactical (it changes no number there), so a round under
+// Tactical showed both unticked and the third looked lost (owner, 2026-10-06). Picking it still
+// says something: it switches the other two off.
+export const WHOLE_GROUPS = new Set(['combat-doctrine'])
+
 // `hint` — what the state IS, for the "i" beside the chip. Only for the states the CORE rules
 // define: a player who cannot remember whether a failed charge counts, or what being Battle-shocked
 // costs, is answered here rather than three screens away. Written in both locales because the chip

@@ -24,7 +24,7 @@
 // values are recognised and read as rounds. Erring towards clearing EARLY is deliberate either
 // way: a switch that has gone stale would silently rewrite a number.
 
-import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
+import { conditions, groupLimitOf, WHOLE_GROUPS } from '../data/rosterModifiers/conditions.js'
 import { SM_FAMILY } from '../data/smChapters.js'
 import { tracks } from '../data/trackerOptions.js'
 import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
@@ -504,8 +504,20 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
       }
     }
   }
+  // A whole group stands in at its first member's place, in the order conditions.js lists it, and
+  // every member is credited to the rule that named that first one — one heading over the set, not
+  // the set split between the army rule and whichever ability happened to name a doctrine too.
+  const shown = []
+  for (const id of ids) {
+    const group = conditions[id].group
+    if (!WHOLE_GROUPS.has(group)) { shown.push(id); continue }
+    if (shown.some((s) => conditions[s].group === group)) continue
+    const members = Object.keys(conditions).filter((k) => conditions[k].group === group && conditions[k].scope === scope)
+    for (const m of members) namedBy.set(m, namedBy.get(id))
+    shown.push(...members)
+  }
   const active = activeConditions(player, clock, entry)
-  return [...ids].map((id) => ({
+  return shown.map((id) => ({
     id,
     label: conditions[id].label,
     on: active.has(id),

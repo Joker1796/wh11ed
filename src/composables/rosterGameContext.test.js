@@ -209,6 +209,24 @@ describe('switchesFor', () => {
     expect(unit[0].on).toBe(true)
   })
 
+  // A unit's modifiers name only the doctrines that change its numbers — on a Space Marines card
+  // Devastator and Assault, never Tactical. The doctrines are one pick, so the card shows all three,
+  // and a round under Tactical reads as Tactical rather than as two unticked chips.
+  it('shows every Combat Doctrine once any one of them is shown', () => {
+    const recs = [{ effects: [
+      { on: 'profile', stat: 'ap', op: 'add', value: -1, when: {}, cond: ['doctrine-devastator'] },
+      { on: 'profile', stat: 'a', op: 'add', value: 1, when: {}, cond: ['doctrine-assault'] },
+    ] }]
+    const p = player({}, { selectionByRound: { 1: 'tactical' } }, 'space-marines')
+    const unit = switchesFor(recs, 'unit', p, 1, { uid: 'u1' })
+    expect(unit.map((s) => s.id)).toEqual(['doctrine-assault', 'doctrine-devastator', 'doctrine-tactical'])
+    expect(unit.find((s) => s.id === 'doctrine-tactical').on).toBe(true)
+    // One heading over the three: the rule that named the first doctrine met.
+    const named = switchesFor([{ kind: 'army', name: 'Combat Doctrines', effects: recs[0].effects.slice(0, 1) },
+      { kind: 'ability', name: 'Gene-wrought Might', effects: recs[0].effects.slice(1) }], 'unit', p, 1, { uid: 'u1' })
+    expect(new Set(named.map((s) => s.src?.name))).toEqual(new Set(['Combat Doctrines']))
+  })
+
   // riled up is the one soft-auto condition: the War Cry proves it for everybody, and the unit's
   // own switch is still offered, because thirty-two other Ork rules grant it one unit at a time.
   it('keeps the riled-up switch on the unit even while the War Cry proves it', () => {
