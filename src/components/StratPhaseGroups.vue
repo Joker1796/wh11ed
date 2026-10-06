@@ -6,7 +6,7 @@
       v-for="g in groups"
       :key="g.key"
       class="phase-group"
-      :class="{ card, now: card && g.key === now }"
+      :class="{ card }"
     >
       <button
         type="button"
@@ -94,9 +94,9 @@ function toggle(key) {
 .phase-body { padding-top: 0.3rem; } /* the same step as between the heads */
 
 /* Card: the frame is the group's, the head a band at its top, the rows (the caller's) inside it
-   divided by rules. The live group's frame is the accent, as its head was. */
+   divided by rules. The live group is not framed in the accent: shut, a lit frame read as picked
+   (owner, 2026-10-06) — it is first in the list and says "now" in its name. */
 .phase-group.card { border: 1px solid var(--border); background: var(--bg-card); transition: border-color var(--motion-fast); }
-.phase-group.card.now { border-color: var(--accent); }
 @media (hover: hover) { .phase-group.card:has(.phase-head:hover) { border-color: var(--accent); } }
 .card .phase-head { border: 0; }
 .card .phase-body { padding-top: 0; border-top: 1px solid var(--border); }

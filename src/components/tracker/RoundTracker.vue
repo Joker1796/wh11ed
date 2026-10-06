@@ -369,25 +369,25 @@
             :class="{ 'player-locked': !canEdit(side) }"
             :inert="lock(side)"
           >
-            <span class="cr-bonus">{{ labels.trackerBonusLabel }} <b>{{ bonusOf(side) ? 1 : 0 }}/1</b></span>
+            <!-- The round's bonus CP as one toggle (owner, 2026-10-06 — a "0/1" label, a counter and
+                 a button were three things saying one): outlined while it can be taken, filled
+                 with a tick once taken. A tap takes it or gives it back; one a secondary discard
+                 gave is undone with the discard, so it shows taken and says where it came from. -->
             <button
-              v-if="canUndoBonus(side)"
-              class="cr-btn undo"
-              data-press
-              :title="labels.trackerBonusUndo"
-              @click="undoBonusCp(side)"
-            >
-              <i class="bi bi-arrow-counterclockwise" /> {{ labels.trackerBonusGainShort }}
-            </button>
-            <button
-              v-else
               class="cr-btn"
-              data-press
-              :disabled="!canGainBonus(side)"
-              :title="bonusSource(side)"
-              @click="gainBonusCp(side)"
+              :class="{ on: !!bonusOf(side) }"
+              data-press="pop"
+              :aria-pressed="!!bonusOf(side)"
+              :disabled="bonusOf(side) ? !canUndoBonus(side) : !canGainBonus(side)"
+              :title="bonusOf(side) ? (canUndoBonus(side) ? labels.trackerBonusUndo : bonusSource(side)) : bonusSource(side)"
+              @click="bonusOf(side) ? undoBonusCp(side) : gainBonusCp(side)"
             >
-              {{ labels.trackerBonusGainShort }}
+              <i
+                class="bi"
+                :class="bonusOf(side) ? 'bi-check-lg' : 'bi-plus-lg'"
+                aria-hidden="true"
+              />
+              {{ labels.trackerBonusToggle }}
             </button>
             <NumberStepper
               class="cr-adjust"
@@ -1390,8 +1390,6 @@ function onEndBattle(reason) {
   display: flex; align-items: center; gap: 0.5rem;
   margin-bottom: 0.6rem; padding: 0.4rem 0 0.1rem;
 }
-.cr-bonus { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
-.cr-bonus b { color: var(--text-primary); }
 .cr-adjust { margin-left: auto; }
 .cr-btn {
   display: inline-flex; align-items: center; gap: 0.25rem;
@@ -1399,8 +1397,10 @@ function onEndBattle(reason) {
   border: 1px solid var(--side); background: color-mix(in srgb, var(--side) 8%, var(--bg-card));
   font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--side); cursor: pointer; white-space: nowrap;
 }
-.cr-btn.undo { background: var(--side); color: #fff; }
-.cr-btn:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
+.cr-btn.on { background: var(--side); color: #fff; }
+.cr-btn:disabled:not(.on) { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
+/* Taken by a discard: still reads taken, just not a button here. */
+.cr-btn.on:disabled { cursor: default; opacity: 0.75; }
 .cr-help { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; padding: 0; border: 0; background: none; font-size: 1.35rem; color: var(--text-dim); cursor: pointer; }
 @media (hover: hover) { .cr-help:hover { color: var(--accent-ink); } }
 

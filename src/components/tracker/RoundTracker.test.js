@@ -356,6 +356,25 @@ describe('RoundTracker — the Phase tab', () => {
   })
 })
 
+// The round's bonus CP is one toggle (owner, 2026-10-06): outlined while it can be taken, filled
+// once taken, a second tap gives it back.
+describe('RoundTracker — the bonus CP toggle', () => {
+  it('takes the round\'s bonus and gives it back from one button', async () => {
+    startGame({}, {})
+    const w = mountTracker()
+    await openTab(w, 'CP')
+    await flushPromises()
+    const btn = () => w.find('.cp-bank .cr-btn')
+    expect(btn().classes()).not.toContain('on')
+    expect(btn().attributes('aria-pressed')).toBe('false')
+    await btn().trigger('click')
+    expect(btn().classes()).toContain('on')
+    expect(btn().attributes('aria-pressed')).toBe('true')
+    await btn().trigger('click')
+    expect(btn().classes()).not.toContain('on')
+  })
+})
+
 describe('RoundTracker — what the game keeps track of', () => {
   // The option HIDES a block; it never clears what the block recorded, so it is reversible
   // mid-game. The missions are deliberately not switchable — see src/data/trackerOptions.js.
