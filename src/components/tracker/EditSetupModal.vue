@@ -4,10 +4,30 @@
     max-width="560px"
     @close="$emit('close')"
   >
+    <!-- What may be changed here: a note read once, so it waits behind an "i" in the header
+         instead of taking the top of the dialog every time (owner, 2026-10-07). -->
+    <template #aside>
+      <button
+        type="button"
+        class="mh-icon"
+        :class="{ on: noteOpen }"
+        :aria-label="labels.trackerEditSetupInfo"
+        :title="labels.trackerEditSetupInfo"
+        :aria-expanded="noteOpen"
+        @click="noteOpen = !noteOpen"
+      >
+        <i class="bi bi-info-circle" />
+      </button>
+    </template>
     <div class="modal-body">
-      <p class="es-note">
-        {{ guest ? labels.trackerEditSetupGuestNote : labels.trackerEditSetupNote }}
-      </p>
+      <ExpandTransition>
+        <p
+          v-if="noteOpen"
+          class="es-note"
+        >
+          {{ guest ? labels.trackerEditSetupGuestNote : labels.trackerEditSetupNote }}
+        </p>
+      </ExpandTransition>
 
       <!-- A guest in a shared game gets only the option blocks — the players, the turn order, the
            score mode and the layout ARE the game and belong to the host (the note above says so
@@ -253,6 +273,7 @@
 <script setup>
 import { reactive, computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import ExpandTransition from '../ExpandTransition.vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
@@ -278,6 +299,9 @@ const game = current.value
 // options are offered here. Resolved once — a hand-over mid-dialog is not worth a live gate.
 const { active: partyActive, isHost, reseat } = useParty()
 const guest = partyActive.value && !isHost.value
+// A guest starts with the note open: for them it is not a footnote but the reason the dialog holds
+// only this phone's switches — the names, lists and turn order are the host's.
+const noteOpen = ref(guest)
 
 const isDoubles = game.settings.gameType === 'doubles'
 // The game's battle size in points — a list over it is not offered (the picker's `maxPoints`).

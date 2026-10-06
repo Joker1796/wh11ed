@@ -1651,6 +1651,16 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
    scoped overrides while each drew its header by hand. */
 .modal-head.two-line { align-items: flex-start; }
 .modal-head.dense .mh-close { min-width: 32px; min-height: 32px; }
+/* An icon beside the close button that opens something about the dialog (the "i" over a note the
+   dialog keeps folded): the close button's size and colour, lit while what it opens is open. */
+.mh-icon {
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 36px; min-height: 36px;
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); font-size: 1.05rem;
+}
+.mh-icon.on { color: var(--accent-ink); }
 
 /* A number in the header beside the close button: how many are picked of how many ("2 / 3"),
    turning the accent colour once the picks are all made and red when over; `.value` is the number
@@ -1669,7 +1679,7 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 .mh-count.value { font-size: 0.95rem; color: var(--accent-ink); }
 
 @media (hover: hover) {
-  .mh-close:hover {
+  .mh-close:hover, .mh-icon:hover {
     background: color-mix(in srgb, var(--text-primary) 8%, transparent);
     color: var(--text-primary);
   }
