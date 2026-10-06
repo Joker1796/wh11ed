@@ -169,7 +169,14 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 /* As the side switch: the chosen card is framed in its colour with a bar along its foot — the
    same colour frames the panel below, which is what ties the two together. Not the turn's wash:
    whose turn it is and whose side is on screen are two different answers. */
-.col.pickable { cursor: pointer; transition: border-color var(--motion-fast), box-shadow var(--motion-fast); }
+.col.pickable {
+  cursor: pointer;
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+  /* A button, not text: quick taps on a desk were selecting the numbers (owner, 2026-10-06). */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
 .col.picked { border-color: var(--side); box-shadow: inset 0 -4px 0 var(--side); }
 .col-head {
   display: flex;
