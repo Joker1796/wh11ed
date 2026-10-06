@@ -190,7 +190,8 @@ defineExpose({ reveal })
   background: color-mix(in srgb, var(--side) 6%, var(--bg-card));
 }
 .ap-body { margin: 0 0.6rem 0 0.75rem; padding: 0.6rem 0; border-top: 1px solid var(--border-light); }
-.ap-card > .stamp { top: 5.5rem; right: 5.5rem; height: calc(var(--stamp-k) * 7rem); color: var(--side); }
+/* A little up and in from where it first stood (owner, 2026-10-06). */
+.ap-card > .stamp { top: 4.3rem; right: 6.2rem; height: calc(var(--stamp-k) * 7rem); color: var(--side); }
 /* The card's head: the faction in its side's colour, like the score board's columns, and a
    compact units button — one short line over the rule. */
 .ap-head {
