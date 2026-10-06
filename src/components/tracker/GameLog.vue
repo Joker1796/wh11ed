@@ -1,21 +1,39 @@
 <template>
   <div class="glog">
-    <!-- What to read: a dropdown (owner, 2026-10-06 — a second row of tabs under the game's own
-         read as more navigation, and five of them were cramped), the plain text beside it. -->
+    <!-- What to read: the app's own dropdown (owner, 2026-10-06 — a second row of tabs under the
+         game's own read as more navigation, and the system select did not look like the app), the
+         plain text beside it. -->
     <div class="gl-top">
-      <label class="filter-select">
-        <span>{{ labels.trackerLogShow }}</span>
-        <select
-          :value="filter"
-          @change="filter = $event.target.value"
-        >
-          <option
-            v-for="f in filterOptions"
-            :key="f.key"
-            :value="f.key"
-          >{{ f.label }} ({{ f.n }})</option>
-        </select>
-      </label>
+      <AdaptivePicker
+        v-model:open="filterOpen"
+        class="gl-pick"
+        panel-width="16rem"
+        :title="labels.trackerLogShow"
+      >
+        <template #trigger="{ toggle, open }">
+          <button
+            type="button"
+            class="picker-trigger"
+            :aria-expanded="open"
+            @click="toggle"
+          >
+            <span class="picker-trigger-main">
+              <span class="picker-trigger-label">{{ labels.trackerLogShow }}</span>
+              <span class="picker-trigger-name">{{ shownFilter.name }} ({{ shownFilter.tag }})</span>
+            </span>
+            <i class="bi bi-chevron-down picker-trigger-chev" />
+          </button>
+        </template>
+        <template #default="{ compact, bodyClass, close }">
+          <FactionDetachmentList
+            :class="bodyClass"
+            :compact="compact"
+            :detachments="filterOptions"
+            :active-id="filter"
+            @pick="(id) => { filter = id; close() }"
+          />
+        </template>
+      </AdaptivePicker>
       <button
         class="btn-ghost gl-text"
         @click="textOpen = true"
@@ -95,6 +113,8 @@
 <script setup>
 import { computed, ref } from 'vue'
 import DieIcon from '../DieIcon.vue'
+import AdaptivePicker from '../AdaptivePicker.vue'
+import FactionDetachmentList from '../FactionDetachmentList.vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -112,8 +132,10 @@ const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 
 const FILTERS = ['all', 'points', 'cp', 'strat', 'cards']
-// Each with its count, as the roster list's faction filter does — an empty one says so up front.
-const filterOptions = computed(() => FILTERS.map((f) => ({ key: f, label: labels.value[`trackerLogFilter_${f}`], n: countOf(f) })))
+// Each with its count (the list's corner tag) — an empty one says so up front.
+const filterOptions = computed(() => FILTERS.map((f) => ({ id: f, name: labels.value[`trackerLogFilter_${f}`], tag: String(countOf(f)) })))
+const shownFilter = computed(() => filterOptions.value.find((o) => o.id === filter.value) || filterOptions.value[0])
+const filterOpen = ref(false)
 const filter = ref('all')
 // Another filter's entries fade in (useSwapFade).
 const listEl = ref(null)
@@ -191,11 +213,11 @@ async function copy() {
 <style scoped>
 /* The filter and the plain-text copy on one line, the hint under them. */
 .gl-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
-.gl-top .filter-select { flex: 1; min-width: 0; }
-/* The dropdown and "As text" one height (owner, 2026-10-06): the row stretches both to the taller,
-   and the dropdown's own padding is trimmed so that is the button's height, not the select's. */
+.gl-pick { flex: 1; min-width: 0; }
+/* The dropdown and "As text" one height (owner, 2026-10-06): the row stretches both. */
 .gl-top { align-items: stretch; }
-.gl-top .filter-select select { padding-block: 0.25rem; align-self: stretch; }
+/* …through the dropdown's own wrapper on a desk (PickerDropdown's .pd), straight on a phone. */
+.gl-pick :deep(.pd), .gl-pick .picker-trigger { flex: 1; min-height: 0; }
 .gl-text { flex-shrink: 0; padding: 0.4rem 0.7rem; font-size: 0.8rem; }
 .gl-hint { margin: 0.5rem 0 0; font-size: 0.76rem; color: var(--text-dim); }
 .gl-empty { margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-dim); }

@@ -25,19 +25,26 @@ function startGame() {
 }
 
 describe('GameLog', () => {
-  // A dropdown, not a row of tabs (owner, 2026-10-06), each choice with its count.
-  it('narrows the log with a dropdown that counts each choice', async () => {
+  // The app's own dropdown, not a row of tabs or the system select (owner, 2026-10-06), each
+  // choice with its count. On a phone (jsdom is narrow) it opens as a modal on <body>.
+  it('narrows the log with our dropdown that counts each choice', async () => {
     startGame()
     tracker.setRoundPrimary(0, 0, 5)
     tracker.gainBonusCp(1)
-    const w = mount(GameLog, { props: { names: ['Me', 'Opp'] } })
-    expect(w.find('.page-tab').exists()).toBe(false)
-    const opts = w.findAll('option').map((o) => o.text())
-    expect(opts[0]).toMatch(/^All \(\d+\)$/)
-    expect(opts).toContain('Scoring (1)')
-    await w.find('select').setValue('points')
+    const w = mount(GameLog, { props: { names: ['Me', 'Opp'] }, attachTo: document.body })
+    expect(w.find('select').exists()).toBe(false)
+    expect(w.find('.picker-trigger-name').text()).toMatch(/^All \(\d+\)$/)
+    const pick = async (name) => {
+      await w.find('.picker-trigger').trigger('click')
+      const opt = [...document.body.querySelectorAll('.det')].find((b) => b.textContent.includes(name))
+      opt.click()
+      await w.vm.$nextTick()
+    }
+    await pick('Scoring')
+    expect(w.find('.picker-trigger-name').text()).toBe('Scoring (1)')
     expect(w.findAll('.gl-item')).toHaveLength(1)
-    await w.find('select').setValue('cp')
+    await pick('CP')
     expect(w.findAll('.gl-item').map((li) => li.find('.gl-who').text())).toContain('Opp')
+    w.unmount()
   })
 })

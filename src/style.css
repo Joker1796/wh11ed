@@ -1299,6 +1299,59 @@ strong {
   background: var(--bg-secondary); border: 1px solid var(--border); cursor: pointer;
 }
 
+/* ── Picker trigger ────────────────────────────────────────────────────────
+   The app's own dropdown button: what is picked, a quiet caps label before it, a chevron — opening
+   an AdaptivePicker (a dropdown on a desk, a modal on a phone). The faction page's chapter and
+   detachment pickers, the game log's filter (owner, 2026-10-06: not the system select). */
+.picker-trigger {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 34px;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: border-color var(--motion-fast);
+}
+
+.picker-trigger:hover {
+  border-color: var(--accent);
+}
+
+.picker-trigger-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.picker-trigger-label {
+  flex-shrink: 0;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+}
+
+.picker-trigger-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.picker-trigger-chev {
+  flex-shrink: 0;
+  color: var(--text-dim);
+}
+
 /* ── Show more ──────────────────────────────────────────────────────────────
    The quiet button under a long list that reveals the next page of it: the tracker's game history
    (10 at a time) and the roster list (20). */

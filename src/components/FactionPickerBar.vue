@@ -20,16 +20,16 @@
         <template #trigger="{ toggle, open }">
           <button
             type="button"
-            class="fpb-trigger"
+            class="picker-trigger"
             :aria-label="labels.dsChapterFilter"
             :aria-expanded="open"
             @click="toggle"
           >
-            <span class="fpb-trigger-main">
-              <span class="fpb-trigger-label">{{ labels.dsChapterFilter }}</span>
-              <span class="fpb-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
+            <span class="picker-trigger-main">
+              <span class="picker-trigger-label">{{ labels.dsChapterFilter }}</span>
+              <span class="picker-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
             </span>
-            <i class="bi bi-chevron-down fpb-trigger-chev" />
+            <i class="bi bi-chevron-down picker-trigger-chev" />
           </button>
         </template>
         <template #default="{ compact, bodyClass, close }">
@@ -53,16 +53,16 @@
         <template #trigger="{ toggle, open }">
           <button
             type="button"
-            class="fpb-trigger"
+            class="picker-trigger"
             :aria-label="labels.factionDetachments"
             :aria-expanded="open"
             @click="toggle"
           >
-            <span class="fpb-trigger-main">
-              <span class="fpb-trigger-label">{{ labels.factionDetachments }}</span>
-              <span class="fpb-trigger-name">{{ activeDet?.name }}</span>
+            <span class="picker-trigger-main">
+              <span class="picker-trigger-label">{{ labels.factionDetachments }}</span>
+              <span class="picker-trigger-name">{{ activeDet?.name }}</span>
             </span>
-            <i class="bi bi-chevron-down fpb-trigger-chev" />
+            <i class="bi bi-chevron-down picker-trigger-chev" />
           </button>
         </template>
         <template #default="{ compact, bodyClass, close }">
@@ -182,56 +182,7 @@ function pickChapter(id) {
 /* Each picker's wrapper (AdaptivePicker) takes the share the trigger used to: side by side. */
 .fpb-pick { flex: 1; min-width: 0; }
 
-/* Trigger — a compact button that opens the picker modal. The label rides inside it as a
-   quiet dim prefix (no eyebrow line above), keeping the whole bar to a single row height. */
-.fpb-trigger {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  min-height: 34px;
-  padding: 0.3rem 0.65rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-size: 0.88rem;
-  font-weight: 600;
-  transition: border-color var(--motion-fast);
-}
-
-.fpb-trigger:hover {
-  border-color: var(--accent);
-}
-
-.fpb-trigger-main {
-  display: flex;
-  align-items: baseline;
-  gap: 0.45rem;
-  min-width: 0;
-}
-
-.fpb-trigger-label {
-  flex-shrink: 0;
-  font-size: 0.58rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-dim);
-}
-
-.fpb-trigger-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.fpb-trigger-chev {
-  flex-shrink: 0;
-  color: var(--text-dim);
-}
+/* The triggers are the shared .picker-trigger (style.css). */
 
 /* Narrow phones: two triggers side by side would cramp long detachment names, so stack
    them instead (still just two thin rows, ~half the old eyebrow+44px-button height). */
