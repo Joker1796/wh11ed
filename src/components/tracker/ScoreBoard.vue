@@ -1,5 +1,9 @@
 <template>
-  <div class="board">
+  <div
+    ref="boardEl"
+    class="board"
+    :class="{ stacked }"
+  >
     <!-- Each side wears its colour — you in the accent, the opponent in blue, and on a result its
          army's — as a stripe down the card and on the name; the side on turn adds a wash of it and
          the "turn" mark. -->
@@ -74,7 +78,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
@@ -126,6 +130,41 @@ function factionLine(pl) {
 function sideFaction(pl) {
   return factionIndexBySlug(membersOf(pl)[0]?.factionSlug) || null
 }
+
+// The two heads break alike (owner, 2026-10-06): if one side's faction does not fit beside its
+// name and drops to a second line, the other's drops too, so the scores and the breakdowns stand
+// level instead of one card running a line lower. Flex wrapping cannot see the neighbour, so it is
+// measured: with `stacked` off, does any faction sit below its name? Done on the element in one
+// go — class off, read, class back — so nothing is painted in between; the ref then settles it.
+const boardEl = ref(null)
+const stacked = ref(false)
+function measure() {
+  const el = boardEl.value
+  if (!el) return
+  const was = el.classList.contains('stacked')
+  el.classList.remove('stacked')
+  const wraps = [...el.querySelectorAll('.col-head')].some((h) => {
+    const name = h.querySelector('.pname')
+    const fac = h.querySelector('.pfaction')
+    return name && fac && fac.offsetTop > name.offsetTop + 2
+  })
+  if (was) el.classList.add('stacked')
+  stacked.value = wraps
+}
+let ro = null
+onMounted(() => {
+  measure()
+  // The display face arrives after the first paint, and it is narrower than the fallback.
+  document.fonts?.ready.then(measure)
+  if (typeof ResizeObserver !== 'undefined' && boardEl.value) {
+    ro = new ResizeObserver(() => measure())
+    ro.observe(boardEl.value)
+  }
+})
+onBeforeUnmount(() => ro?.disconnect())
+// A name, an army or the turn mark (it reserves room in the head) changes what fits.
+watch(() => [game.value?.players?.map((pl, i) => `${sideName(pl, i, labels.value)}|${factionLine(pl)}`).join('/'), turnIdx.value],
+  () => nextTick(measure))
 
 // Pulse a column's grand total when it changes (scoring feedback).
 const grandEls = []
@@ -202,6 +241,9 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 }
 .pfaction { font-size: 0.95rem; color: var(--text-muted); }
 .pfaction::before { content: '· '; }
+/* Both heads on two lines (see measure()): the army on a line of its own, without the joining dot. */
+.board.stacked .pfaction { flex-basis: 100%; }
+.board.stacked .pfaction::before { content: none; }
 .turn-tag {
   position: absolute;
   top: 0.6rem;
