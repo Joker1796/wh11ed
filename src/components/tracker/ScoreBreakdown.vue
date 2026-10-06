@@ -1,5 +1,8 @@
 <template>
-  <div class="breakdown">
+  <div
+    class="breakdown"
+    :class="controlled ? ['side-frame', { opp: !isYouSide(game.players[side], side) }] : null"
+  >
     <button
       v-if="!expanded"
       class="bd-toggle"
@@ -16,11 +19,12 @@
     <CollapseTransition :show="expanded || open">
       <div class="bd-body">
         <div
-          v-for="(pl, i) in game.players"
+          v-for="{ pl, i } in shown"
           :key="i"
           class="bd-player"
         >
           <div
+            v-if="!controlled"
             class="bd-name"
             :class="{ win: leaderIdx === i }"
           >
@@ -148,7 +152,7 @@
 import { ref, computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { sideName } from '../../composables/useTracker.js'
+import { sideName, isYouSide } from '../../composables/useTracker.js'
 import { spends } from '../../composables/cpLedger.js'
 import CollapseTransition from '../CollapseTransition.vue'
 import {
@@ -171,11 +175,16 @@ import { tracks } from '../../data/trackerOptions.js'
 const props = defineProps({
   game: { type: Object, default: null },
   expanded: { type: Boolean, default: false },
+  // The side picked on the score cards (the game screen's Stats tab): that side's table alone,
+  // framed in its colour — the card above already names it. Elsewhere both, one under the other.
+  side: { type: Number, default: null },
 })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 const game = computed(() => props.game || current.value)
+const controlled = computed(() => props.side === 0 || props.side === 1)
+const shown = computed(() => game.value.players.map((pl, i) => ({ pl, i })).filter(({ i }) => !controlled.value || i === props.side))
 // Through `tracks`, so an ancient game with no flag at all still shows the row it played with.
 const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 
@@ -241,6 +250,11 @@ function secondaries(pi) {
 
 <style scoped>
 .breakdown { margin-top: 0.75rem; }
+.breakdown.side-frame { --side: var(--side-you); margin-top: 0; }
+.breakdown.side-frame.opp { --side: var(--side-opponent); }
+/* Inside the frame the table is the panel itself: no card of its own (a box in a box). */
+.side-frame .bd-body { margin-top: 0.3rem; }
+.side-frame .bd-player { border: 0; padding: 0; background: none; }
 .bd-toggle {
   display: flex; align-items: center; justify-content: center; gap: 0.4rem;
   width: 100%; padding: 0.6rem 1rem;

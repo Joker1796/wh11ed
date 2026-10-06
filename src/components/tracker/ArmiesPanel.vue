@@ -1,11 +1,13 @@
 <template>
   <div
     class="ap"
-    :class="{ opp: army && !isYouSide(current.players[army.pi], army.pi) }"
+    :class="{ opp: army && !isYouSide(current.players[army.pi], army.pi), 'side-frame': controlled }"
   >
-    <!-- Which army: one per side, one per member in doubles (up to four) — on the same page tabs as
-         the Missions and CP panels (owner, 2026-09-29), the block in that army's side colour. -->
+    <!-- Which army: one per side, one per member in doubles (up to four), the block in that army's
+         side colour. On the game screen the side is picked on the score cards (`side`), and the
+         tabs are left only where the side has two armies — a doubles team's members. -->
     <PageTabs
+      v-if="armyTabs.length > 1"
       class="ap-tabs"
       fill
       :tabs="armyTabs"
@@ -28,7 +30,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import PageTabs from '../PageTabs.vue'
 import ArmyCard from './ArmyCard.vue'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
@@ -40,14 +42,24 @@ import { useSwapFade } from '../../composables/useSwapFade.js'
 const props = defineProps({
   names: { type: Array, required: true },   // the sides' display names
   defaultSide: { type: Number, default: 0 },
+  // The side picked on the score cards (RoundTracker): only its armies are offered here then.
+  side: { type: Number, default: null },
 })
 defineEmits(['roster'])
 const { current } = useTracker()
 
 const { armies, isDoubles } = useGameArmies(() => props.names)
-const sel = ref(Math.max(0, armies.value.findIndex((a) => a.pi === props.defaultSide)))
+const controlled = computed(() => props.side === 0 || props.side === 1)
+const firstOf = (pi) => Math.max(0, armies.value.findIndex((a) => a.pi === pi))
+const sel = ref(firstOf(controlled.value ? props.side : props.defaultSide))
+// Another side picked: its first army, unless the one on screen is already that side's.
+watch(() => props.side, (pi) => {
+  if ((pi === 0 || pi === 1) && armies.value[sel.value]?.pi !== pi) sel.value = firstOf(pi)
+})
 const army = computed(() => armies.value[sel.value] || null)
-const armyTabs = computed(() => armies.value.map((a, k) => ({ key: k, label: a.label, active: sel.value === k })))
+const armyTabs = computed(() => armies.value
+  .map((a, k) => ({ key: k, label: a.label, active: sel.value === k, pi: a.pi }))
+  .filter((t) => !controlled.value || t.pi === props.side))
 
 // A switch fades the new card in (useSwapFade).
 const cards = ref([])

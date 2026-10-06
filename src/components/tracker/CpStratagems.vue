@@ -2,7 +2,7 @@
   <section
     ref="cpsEl"
     class="cps"
-    :class="{ opp: !isYouSide(current.players[side], side), framed: controlled }"
+    :class="{ opp: !isYouSide(current.players[side], side), 'side-frame': controlled }"
   >
     <!-- Whose CP the stratagems spend: the app's own page tabs (owner, 2026-09-29), the same two
          tabs as the missions panel's — names alone, so switching between the panels moves nothing;
@@ -285,9 +285,6 @@ async function use(s) {
 }
 .cps-head .panel-label { margin: 0; }
 .cps-head > .strat-toolbar { margin: 0; }
-/* Framed (the side picked on the score cards): the block is the open tab's panel, one surface in
-   the side's colour from the tab strip's line down. */
-.cps.framed { border: 1px solid var(--side); border-top: 0; background: var(--bg-card); padding: 0.4rem 0.7rem 0.7rem; }
 .cps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
 /* Inside a phase card the rows are its lines: no frame of their own, a rule between them. */
 .cps-list.in-card { gap: 0; }

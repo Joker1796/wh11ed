@@ -127,7 +127,7 @@ describe('CpStratagems — the Stratagems page\'s filter', () => {
   it('follows a side picked outside, with no tabs of its own', async () => {
     const w = await mountTab(0, { side: 1 })
     expect(w.find('.cps-tabs').exists()).toBe(false)
-    expect(w.find('.cps').classes()).toContain('framed')
+    expect(w.find('.cps').classes()).toContain('side-frame')
     expect(w.find('.cps').classes()).toContain('opp')
     await w.setProps({ side: 0 })
     expect(w.find('.cps').classes()).not.toContain('opp')

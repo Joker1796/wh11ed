@@ -239,7 +239,7 @@
          empty for a frame while its decks loaded and the page jumped (2026-09-29). -->
     <section
       v-show="tab === 'missions'"
-      class="panel"
+      class="panel panel-framed"
       role="tabpanel"
     >
       <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
@@ -267,22 +267,16 @@
         </button>
       </div>
 
-      <!-- One side's missions at a time, picked on the app's page tabs (owner, 2026-09-29) — the
-           same tabs as the CP tab's, in the same order. A new turn opens the side on turn (this
-           phone's own side in a shared game: a guest does not want the other phone's cards first).
-           Names alone on the tabs, the same two as the CP tab's. The block wears the chosen side's
-           colour. Both sides open, one under the other, ran to several screens. -->
+      <!-- One side's missions at a time, the side picked on the score cards (owner, 2026-10-06;
+           page tabs of their own from 2026-09-29). A new turn opens the side on turn (this phone's
+           own side in a shared game: a guest does not want the other phone's cards first). The
+           block is framed in the chosen side's colour. Both sides open, one under the other, ran
+           to several screens. -->
       <div
         ref="msideEl"
-        class="mside"
+        class="mside side-frame"
         :class="{ opp: !isYouSide(current.players[missionSide], missionSide) }"
       >
-        <PageTabs
-          class="mside-tabs"
-          fill
-          :tabs="missionTabs"
-          @select="(i) => (missionSide = i)"
-        />
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
              player wants to see. The lock is on what SCORES — the primary, the deck, the army
@@ -455,23 +449,27 @@
     <section
       v-if="built.has('stats')"
       v-show="tab === 'stats'"
-      class="panel"
+      class="panel panel-framed"
       role="tabpanel"
     >
-      <ScoreBreakdown expanded />
+      <ScoreBreakdown
+        expanded
+        :side="viewSide"
+      />
     </section>
 
     <!-- The armies: each army's facts, the way to its units, its rules and stratagems. -->
     <section
       v-if="built.has('armies')"
       v-show="tab === 'armies'"
-      class="panel"
+      class="panel panel-framed"
       role="tabpanel"
     >
       <ArmiesPanel
         ref="armiesEl"
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
+        :side="viewSide"
         @roster="openRoster"
       />
     </section>
@@ -480,13 +478,14 @@
     <section
       v-if="hasLists && built.has('roster')"
       v-show="tab === 'roster'"
-      class="panel"
+      class="panel panel-framed"
       role="tabpanel"
     >
       <RosterTab
         ref="rosterEl"
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
+        :side="viewSide"
         :active="tab === 'roster'"
       />
     </section>
@@ -619,7 +618,6 @@ import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import CpStratagems from './CpStratagems.vue'
-import PageTabs from '../PageTabs.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
 import GameLog from './GameLog.vue'
 import ArmiesPanel from './ArmiesPanel.vue'
@@ -719,6 +717,7 @@ async function openCpNow() {
   cpEl.value?.showNow()
 }
 async function openArmyRule(at) {
+  pickedSide.value = at.pi
   tab.value = 'armies'
   await nextTick()
   armiesEl.value?.reveal(at)
@@ -726,7 +725,7 @@ async function openArmyRule(at) {
 // A list: the Roster tab on that army. One unit of it: its card over the tab on screen.
 const rosterEl = ref(null)
 async function openRoster({ pi, mi, uid }) {
-  if (uid == null) tab.value = 'roster'
+  if (uid == null) { pickedSide.value = pi; tab.value = 'roster' }
   built.value.add('roster')
   await nextTick()
   if (uid == null) rosterEl.value?.show({ pi, mi })
@@ -786,15 +785,15 @@ const focusSide = computed(() => {
 watch(() => [current.value.currentRound, current.value.currentTurn], () => {
   tab.value = 'missions'
   viewRound.value = null
-  missionSide.value = focusSide.value
   pickedSide.value = null
 })
 // The side the side-aware panels show: picked on the score cards (ScoreBoard `selected`), else
 // the focus side; a new turn drops the pick.
 const pickedSide = ref(null)
 const viewSide = computed(() => pickedSide.value ?? focusSide.value)
-// The tabs whose panel is framed in the picked side's colour (the CP tab, for now).
-const framedTab = computed(() => tab.value === 'cp')
+// The tabs whose panel is one side's, framed in the picked side's colour. Phase and Log show both
+// sides at once, so there the cards are only the score.
+const framedTab = computed(() => ['missions', 'cp', 'armies', 'roster', 'stats'].includes(tab.value))
 
 // The open tab survives leaving the game screen — a look at a datasheet, the rules, the roster —
 // and coming back (owner's call, 2026-09-27). Kept on this device with the game and the turn it
@@ -831,16 +830,11 @@ initBroadcast()
 const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 
 // Whose missions are open: the focus side, until a tab says otherwise; a new turn goes back to it.
-const missionSide = ref(focusSide.value)
+// The side on the Missions tab is the side picked on the score cards (viewSide).
+const missionSide = viewSide
 // Another side's missions fade in under the standing tabs (useSwapFade).
 const msideEl = ref(null)
 useSwapFade(missionSide, () => msideEl.value?.querySelector(':scope > .player'))
-watch(focusSide, (v) => { missionSide.value = v })
-const missionTabs = computed(() => [0, 1].map((i) => ({
-  key: i,
-  label: playerName(i),
-  active: missionSide.value === i,
-})))
 
 // Which side a player is — by who they are, never by position, since first turn reorders them.
 // The clock prints this and nothing else: it is read at a glance in the middle of a turn, and a
@@ -1046,7 +1040,6 @@ function onEndBattle(reason) {
 /* The missions block in the chosen side's colour: its tabs' lit edge, the cards' accent. */
 .mside { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); --accent-ink: var(--side); --accent-ink-hover: color-mix(in srgb, var(--side) 80%, #000); }
 .mside.opp { --side: var(--side-opponent); }
-.mside-tabs { margin-bottom: 0.6rem; }
 /* On the page's own background, like the CP panel (owner, 2026-09-29): the side tabs above already
    say whose it is, and a framed card inside the tab's frame was a box in a box. */
 .player { --side: var(--side-you); }
@@ -1208,7 +1201,9 @@ function onEndBattle(reason) {
   --gt-closed: 48px; /* a closed (icon) tab's width; the open one takes the rest */
   --gt-ease: cubic-bezier(0.65, 0, 0.35, 1);
   display: flex;
-  margin: 0.7rem 0;
+  /* Above: the same step as between the two score cards (ScoreBoard's .board gap), so the cards
+     and the strip read as one block (owner, 2026-10-06). Below: what .panel-framed takes back. */
+  margin: 0.75rem 0 0.7rem;
   border-bottom: 2px solid var(--accent);
   /* Pinned under the site's bar while a long panel (the roster) scrolls (owner, 2026-10-06). The
      page's own background behind it, so the panel does not show between the tabs. */
@@ -1216,6 +1211,10 @@ function onEndBattle(reason) {
   top: calc(var(--navbar-height) + var(--safe-top));
   z-index: 20;
   background: var(--bg-primary);
+}
+/* Phones: the cards' gap is a step smaller there (ScoreBoard), and so is this one. */
+@media (max-width: 560px) {
+  .game-tabs { margin-top: 0.4rem; }
 }
 /* Wide screens also pin the subnav (AppSubnav) under the bar. */
 @media (min-width: 901px) {

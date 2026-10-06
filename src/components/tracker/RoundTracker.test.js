@@ -59,10 +59,17 @@ async function openTab(w, label) {
   return w
 }
 const openArmies = (w) => openTab(w, 'Armies')
-// One side's missions at a time, on the side tabs (the side on turn first): open the other.
-async function unfold(w) {
-  await w.findAll('.mside-tabs .page-tab').find((t) => !t.classes('active')).trigger('click')
+// The side is picked on the score cards (stubbed here — ScoreBoard.test.js covers the cards):
+// pick one the way a card does, by its `select`.
+const board = (w) => w.findComponent({ name: 'ScoreBoard' })
+async function pickSide(w, i) {
+  board(w).vm.$emit('select', i)
+  await w.vm.$nextTick()
   return w
+}
+// One side's missions at a time (the side on turn first): open the other.
+async function unfold(w) {
+  return pickSide(w, Number(w.find('.player').attributes('data-side')) === 0 ? 1 : 0)
 }
 
 describe('RoundTracker — the tabs', () => {
@@ -120,14 +127,15 @@ describe('RoundTracker — the tabs', () => {
 })
 
 describe('RoundTracker — the missions panel', () => {
-  const firstName = (w) => w.find('.mside-tabs .page-tab.active').text()
+  const firstName = (w) => ['Me', 'Opp'][Number(w.find('.player').attributes('data-side'))]
 
   it('opens the side on turn on its tab, one side at a time', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = mountTracker()
     expect(w.findAll('.player')).toHaveLength(1)
     expect(firstName(w)).toBe('Me')
-    expect(w.findAll('.mside-tabs .page-tab').map((t) => t.text())).toEqual(['Me', 'Opp'])
+    expect(w.find('.mside-tabs').exists()).toBe(false) // no tabs of its own: the cards pick
+    expect(board(w).props('selected')).toBe(0)
     await unfold(w)
     expect(firstName(w)).toBe('Opp')
     tracker.endTurn()
@@ -374,9 +382,9 @@ describe('RoundTracker — a shared game', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     tracker.current.value.party = { id: 'p', token: 't', side: 0, mi: null, host: false, seq: 1, versions: {}, ...over }
   }
-  // One side a tab (owner, 2026-09-29): a side's card is read by opening its tab.
+  // One side at a time: a side's card is read by picking its score card.
   const sideCard = async (w, i) => {
-    await w.findAll('.mside-tabs .page-tab')[i].trigger('click')
+    await pickSide(w, i)
     return w.find('.player')
   }
   const lockedBoth = async (w) => [locked(await sideCard(w, 0)), locked(await sideCard(w, 1))]

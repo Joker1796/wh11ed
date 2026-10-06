@@ -80,6 +80,29 @@ describe('ArmiesPanel', () => {
     expect(await unitLinks(w)).toEqual(['/factions/orks/datasheets', 'roster 0/1', '/factions/drukhari/datasheets', null])
   })
 
+  // On the game screen the side is picked on the score cards: only that side's armies, and tabs
+  // only for a doubles team's two members.
+  it('offers only the picked side\'s armies, with tabs only for a doubles team', async () => {
+    start(
+      { teamName: 'Alpha', members: [{ name: 'Ann', factionSlug: 'orks' }, { name: 'Bob', factionSlug: 'aeldari' }] },
+      { teamName: 'Beta', members: [{ name: 'Cat', factionSlug: 'drukhari' }, { name: 'Dan', factionSlug: null }] },
+      { gameType: 'doubles' },
+    )
+    const w = mount(ArmiesPanel, { props: { names: ['Alpha', 'Beta'], side: 1 }, global: { stubs: { RouterLink: RouterLinkStub } } })
+    expect(w.find('.ap').classes()).toContain('side-frame')
+    expect(w.findAll('.ap-tabs .page-tab').map((e) => e.text())).toEqual(['Beta · Cat', 'Beta · Dan'])
+    expect(shown(w).find('.ap-fac').text()).toBe('Drukhari')
+    await w.setProps({ side: 0 })
+    expect(shown(w).find('.ap-fac').text()).toBe('Orks')
+  })
+
+  it('has no tabs for a singles side picked on the cards', () => {
+    start({ name: 'Me', factionSlug: 'orks' }, { name: 'Opp', factionSlug: 'necrons' })
+    const w = mount(ArmiesPanel, { props: { names: ['Me', 'Opp'], side: 1 }, global: { stubs: { RouterLink: RouterLinkStub } } })
+    expect(w.find('.ap-tabs').exists()).toBe(false)
+    expect(shown(w).find('.ap-fac').text()).toBe('Necrons')
+  })
+
   // Owner, 2026-09-29: the detachment rules read under the army rule, in its card.
   it('hands the army rule\'s text and each detachment\'s rule to the army rule card', async () => {
     start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons' })

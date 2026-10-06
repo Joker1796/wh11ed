@@ -1277,6 +1277,12 @@ strong {
    "Stratagems" over the CP tab's list (owner, 2026-10-06: nothing said what the list was). */
 .panel-label { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
 
+/* ── Side frame ────────────────────────────────────────────────────────────
+   The game screen's side-aware panel (Missions, CP, Armies, Roster): the side is picked on the
+   score cards, and the panel hangs from the open tab framed in that side's colour — one surface
+   from the tab strip's line down (owner, 2026-10-06). The block sets --side itself. */
+.side-frame { border: 1px solid var(--side); border-top: 0; background: var(--bg-card); padding: 0.4rem 0.7rem 0.7rem; }
+
 /* ── Show more ──────────────────────────────────────────────────────────────
    The quiet button under a long list that reveals the next page of it: the tracker's game history
    (10 at a time) and the roster list (20). */

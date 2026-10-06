@@ -1,11 +1,18 @@
 <template>
   <div
     class="rt"
-    :class="{ opp: army && !isYouSide(current.players[army.pi], army.pi) }"
+    :class="{ opp: shownSide != null && !isYouSide(current.players[shownSide], shownSide), 'side-frame': controlled }"
   >
-    <!-- Which list: one per army that carries one, on the same page tabs as the Armies panel. -->
+    <!-- Which list: one per army that carries one, on the same page tabs as the Armies panel — on
+         the game screen only the picked side's (a doubles team's two members). -->
+    <p
+      v-if="controlled && !army"
+      class="rt-none"
+    >
+      {{ labels.trackerRosterNoneSide }}
+    </p>
     <PageTabs
-      v-if="withLists.length > 1"
+      v-if="listTabs.length > 1"
       class="rt-tabs"
       fill
       :tabs="listTabs"
@@ -27,15 +34,18 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, nextTick, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, nextTick, onMounted, ref, watch } from 'vue'
 import PageTabs from '../PageTabs.vue'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { useGameArmies } from '../../composables/useGameArmies.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
+import { useLocale } from '../../composables/useLocale.js'
+import { ui } from '../../i18n/ui.js'
 
 // The game screen's Roster tab (owner, 2026-09-30): the attached lists, read without leaving the
-// game. The roster screen is heavy (the faction's datasheets, its modifier layer), so it is loaded
-// with the first list asked for — the game screen itself never carries it.
+// game. The roster screen is heavy (the faction's datasheets, its modifier layer), so it is its own
+// chunk, loaded while the browser is idle after the game screen is up — and only in a game that
+// has a list attached; the game screen itself never carries it.
 const RosterViewView = defineAsyncComponent(() => import('../../views/tracker/RosterViewView.vue'))
 
 const props = defineProps({
@@ -43,29 +53,37 @@ const props = defineProps({
   defaultSide: { type: Number, default: 0 },
   // The tab is on screen: the list shown reads the live game, every other one stays frozen.
   active: { type: Boolean, default: false },
+  // The side picked on the score cards (RoundTracker): only its lists are offered here then.
+  side: { type: Number, default: null },
 })
 const { current } = useTracker()
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
 const { armies } = useGameArmies(() => props.names)
 
 const keyOf = (pi, mi) => `${pi}:${mi ?? ''}`
 const withLists = computed(() => armies.value.filter((a) => a.member.roster).map((a) => ({ ...a, key: keyOf(a.pi, a.mi) })))
 const sel = ref(null)
-const army = computed(() => withLists.value.find((a) => a.key === sel.value)
-  || withLists.value.find((a) => a.pi === props.defaultSide) || withLists.value[0] || null)
-const listTabs = computed(() => withLists.value.map((a) => ({ key: a.key, label: a.label, active: a.key === army.value?.key })))
+const controlled = computed(() => props.side === 0 || props.side === 1)
+const offered = computed(() => (controlled.value ? withLists.value.filter((a) => a.pi === props.side) : withLists.value))
+const army = computed(() => offered.value.find((a) => a.key === sel.value)
+  || offered.value.find((a) => a.pi === props.defaultSide) || offered.value[0] || null)
+const shownSide = computed(() => (controlled.value ? props.side : army.value?.pi ?? null))
+const listTabs = computed(() => offered.value.map((a) => ({ key: a.key, label: a.label, active: a.key === army.value?.key })))
 
-// Built on the tab's first visit, then kept: the list on screen at once, the other armies' right
-// after while the browser is idle — built on their own first visit instead, a list came up empty
-// for a moment and the page jumped by its height (2026-09-30).
+// Built ahead of the first visit, then kept: the game screen builds this panel while the browser
+// is idle after it comes up (RoundTracker), and the panel builds every list the same way, frozen
+// and off screen. Built on their own first visit instead, a list came up empty for a moment and
+// the page jumped by its height (2026-09-30) — and the FIRST list still did, because it waited
+// for the tab to be shown: after a reload the first tap on "Roster" loaded the roster screen and
+// its faction data in front of the player, the panel growing in four steps (2026-10-06). Shown
+// before the idle build gets there, the list on screen is built at once.
 const built = ref(new Set())
-let restQueued = false
+const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 250))
+const buildRest = () => idle(() => { for (const x of withLists.value) built.value.add(x.key) })
+onMounted(buildRest)
 watch([army, () => props.active], ([a, on]) => {
-  if (!a || !on) return
-  built.value.add(a.key)
-  if (restQueued) return
-  restQueued = true
-  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 250))
-  idle(() => { for (const x of withLists.value) built.value.add(x.key) })
+  if (a && on) built.value.add(a.key)
 }, { immediate: true })
 const builtArmies = computed(() => withLists.value.filter((a) => built.value.has(a.key)))
 
@@ -105,4 +123,5 @@ defineExpose({ show, openUnit })
 .rt { --side: var(--side-you); --accent: var(--side); --accent-ink: var(--side); }
 .rt.opp { --side: var(--side-opponent); }
 .rt-tabs { margin-bottom: 0.6rem; }
+.rt-none { margin: 0.4rem 0; font-size: 0.85rem; color: var(--text-dim); }
 </style>
