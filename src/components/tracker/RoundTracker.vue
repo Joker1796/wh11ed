@@ -17,10 +17,6 @@
         :class="{ 'tn-strong': part.strong }"
       >{{ part.text }}</span>
     </p>
-    <ScoreBoard
-      :selected="framedTab ? viewSide : -1"
-      @select="(i) => (pickedSide = i)"
-    />
 
     <!-- Moving the game on: two equal buttons, back and forward by a TURN — a round is two turns,
          and ending the second one opens the next round. The forward one wears the colour of the
@@ -28,7 +24,9 @@
          back by the side that ended it: the button stays on screen for the other phone, greyed,
          with the reason on the line under the pair. The last turn of the game has nowhere to
          go, so there the forward button finishes the game instead. -->
-    <!-- The rounds, right under the score (owner's call, 2026-09-27). Finishing the game early is
+    <!-- The rounds, right under the round line and above the score (owner, 2026-10-06: the score
+         cards pick the side the panel shows, so they stand right over the tabs; the rounds were
+         under the score from 2026-09-27). Finishing the game early is
          at the foot of the screen with the other tools. A shared game's sync state rides here
          too — a row of its own would cost vertical space the phone does not have (it renders
          nothing for a game that is not shared). -->
@@ -44,6 +42,12 @@
       />
       <SyncIndicator />
     </div>
+
+    <!-- The score; on a framed tab the cards are also the side switch (ScoreBoard `selected`). -->
+    <ScoreBoard
+      :selected="framedTab ? viewSide : -1"
+      @select="(i) => (pickedSide = i)"
+    />
 
     <!-- The turn buttons are pinned above the bottom nav (the window's bottom edge on a desk): the
          one control used every turn stays under the thumb however far the panel below is scrolled
@@ -996,7 +1000,7 @@ function onEndBattle(reason) {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  margin: 0.4rem 0 0;
+  margin: 0 0 0.5rem;
 }
 .rb-finish {
   flex: 0 0 auto;
