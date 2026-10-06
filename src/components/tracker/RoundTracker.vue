@@ -160,6 +160,7 @@
       :names="current.players.map((_, i) => playerName(i))"
       :turn="turnIndex"
       :phase="current.currentPhase || 'command'"
+      :round="current.currentRound"
       @pick="onPickPhase"
       @close="phasePickerOpen = false"
     />
@@ -545,6 +546,17 @@
       @confirm="undoConfirm = false; undoTurn()"
       @close="undoConfirm = false"
     />
+    <!-- A pick that is not the next phase asks first: a stray tap ten rows long would move the
+         clock past phases nobody played (owner, 2026-10-06). -->
+    <ConfirmModal
+      v-if="phaseJump"
+      :title="labels.trackerPhaseJumpTitle"
+      :message="phaseJumpMessage"
+      :confirm-label="labels.trackerPhaseJumpGo"
+      :cancel-label="labels.trackerCancel"
+      @confirm="goToPhase(phaseJump.turn, phaseJump.phase); phaseJump = null"
+      @close="phaseJump = null"
+    />
     <TurnEndCheckModal
       v-if="pendingEnd"
       :checks="turnChecks"
@@ -718,13 +730,19 @@ onMounted(() => {
 // Switching panels from further down the page: the new panel starts right under the tab strip,
 // the strip at the top of the screen — not wherever a shorter panel lets the browser clamp the
 // scroll (2026-09-29: first a jump, then a screen-tall blank to stop it). From above, nothing moves.
+// The strip is sticky (owner, 2026-10-06), so "further down" is "the strip is stuck": its own top
+// then equals its sticky `top`, and the new panel is scrolled up to sit just under it.
 const tabsEl = ref(null)
 watch(tab, () => {
   const el = tabsEl.value
   if (!el) return
-  const top = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height')) || 56
-  const y = el.getBoundingClientRect().top
-  if (y < top) window.scrollTo({ top: window.scrollY + y - top - 8, behavior: 'instant' })
+  const cs = getComputedStyle(el)
+  const stuckAt = parseFloat(cs.top) || 0
+  if (el.getBoundingClientRect().top > stuckAt + 1) return
+  const panel = [...el.parentElement.children].find((c) => c.classList.contains('panel') && c.style.display !== 'none')
+  if (!panel) return
+  const want = stuckAt + el.offsetHeight + (parseFloat(cs.marginBottom) || 0)
+  window.scrollBy({ top: panel.getBoundingClientRect().top - want, behavior: 'instant' })
 }, { flush: 'post' })
 // The round on screen: the live one, or a past one opened for correction from the round steps
 // (`viewRound`). Local to this phone — what one player is correcting is not where the game is.
@@ -892,9 +910,26 @@ function canStepInTurn(delta) {
   return canStepPhase(delta) && i + delta >= 0 && i + delta < BATTLE_PHASES.length
 }
 
+// The slot right after the live one: the same turn's next phase, or the second turn's Command
+// after the first turn's Fight.
+function isNextPhase(turn, phase) {
+  const i = BATTLE_PHASES.indexOf(current.value.currentPhase || 'command')
+  const j = BATTLE_PHASES.indexOf(phase)
+  if (turn === turnIndex.value) return j === i + 1
+  return turnIndex.value === 0 && turn === 1 && i === BATTLE_PHASES.length - 1 && j === 0
+}
+
+// Picking the live slot or the next one moves at once; anything else asks first (phaseJump).
+const phaseJump = ref(null)
+const phaseJumpMessage = computed(() => phaseJump.value && labels.value.trackerPhaseJumpMessage
+  .replace('{phase}', phaseLabel(phaseJump.value.phase, labels.value))
+  .replace('{name}', playerName(phaseJump.value.turn)))
+
 function onPickPhase(turn, phase) {
-  goToPhase(turn, phase)
   phasePickerOpen.value = false
+  const live = turn === turnIndex.value && phase === (current.value.currentPhase || 'command')
+  if (live || isNextPhase(turn, phase)) goToPhase(turn, phase)
+  else phaseJump.value = { turn, phase }
 }
 
 
@@ -1143,6 +1178,16 @@ function onEndBattle(reason) {
   display: flex;
   margin: 0.7rem 0;
   border-bottom: 2px solid var(--accent);
+  /* Pinned under the site's bar while a long panel (the roster) scrolls (owner, 2026-10-06). The
+     page's own background behind it, so the panel does not show between the tabs. */
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--safe-top));
+  z-index: 20;
+  background: var(--bg-primary);
+}
+/* Wide screens also pin the subnav (AppSubnav) under the bar. */
+@media (min-width: 901px) {
+  .game-tabs { top: calc(var(--navbar-height) + var(--safe-top) + var(--subnav-height)); }
 }
 /* The open tab grows into what the closed ones leave: flex-grow, not grid columns (1fr to 48px does
    not animate), and the two grows always sum to one, so the strip re-divides without a wobble. */

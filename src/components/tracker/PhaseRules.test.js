@@ -66,6 +66,18 @@ describe('PhaseRules', () => {
     expect(w.text()).not.toContain('Waaagh!')
   })
 
+  // The Phase tab has no header of its own, and its tab says only "Phase": a line says what the
+  // list is. The folded block's header already does, so it carries none.
+  it('says what the list is in the Phase tab, and only there', async () => {
+    startGame()
+    const w = mount(PhaseRules, { props: { embedded: true }, global: { stubs: { RouterLink } } })
+    await vi.waitFor(() => { if (!w.find('.pr-note').exists()) throw new Error('not yet') }, { timeout: 2000, interval: 10 })
+    expect(w.find('.pr-note').text()).toBe('Rules that apply in this phase.')
+    const folded = await mountBlock()
+    await open(folded)
+    expect(folded.find('.pr-note').exists()).toBe(false)
+  })
+
   it('names each side, first-turn player first', async () => {
     startGame()
     const w = await mountBlock()

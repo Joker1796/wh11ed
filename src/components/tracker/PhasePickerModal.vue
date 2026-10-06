@@ -7,7 +7,7 @@
        renders in THIS component's scope, where those rules cannot reach it, so it comes out as
        bare browser defaults. Passing the title also gives the dialog its aria-labelledby. -->
   <BaseModal
-    :title="labels.trackerPhaseHeading"
+    :title="`${labels.trackerPhaseHeading} \u00b7 ${labels.trackerRoundShort} ${round}`"
     max-width="380px"
     @close="$emit('close')"
   >
@@ -48,6 +48,8 @@ const props = defineProps({
   names: { type: Array, required: true },
   turn: { type: Number, default: 0 },
   phase: { type: String, default: 'command' },
+  // The live round, in the title: the ten rows are this round's (owner, 2026-10-06).
+  round: { type: Number, default: 1 },
 })
 defineEmits(['pick', 'close'])
 
@@ -65,15 +67,15 @@ const turns = computed(() => props.names.map((name) => ({ name })))
 .pp-who {
   display: flex;
   align-items: baseline;
-  gap: 0.4rem;
-  font-size: 0.9rem;
+  gap: 0.6rem;
+  font-size: 1.6rem;
   font-weight: 600;
   color: var(--text-primary);
   padding-bottom: 0.2rem;
   border-bottom: 1px solid var(--border);
   margin-bottom: 0.2rem;
 }
-.pp-order { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
+.pp-order { font-size: 1.15rem; font-weight: 400; color: var(--text-muted); }
 .pp-phase {
   text-align: left;
   padding: 0.6rem 0.8rem;

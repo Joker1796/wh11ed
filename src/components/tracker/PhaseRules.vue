@@ -24,6 +24,14 @@
 
     <CollapseTransition :show="open">
       <div class="pr-body">
+        <!-- The Phase tab's word is just "Phase": the line says what the list is (owner, 2026-10-06).
+             The folded block's header already says it. -->
+        <p
+          v-if="embedded"
+          class="pr-note"
+        >
+          {{ labels.trackerPhaseRulesNote }}
+        </p>
         <div
           v-for="side in sides"
           :key="side.pi"
@@ -152,6 +160,7 @@ function toggle() {
   font-weight: 700;
 }
 .pr-body { padding: 0 0.6rem 0.6rem; }
+.pr-note { margin: 0.5rem 0 0.35rem; font-size: 0.78rem; color: var(--text-dim); }
 .pr-side + .pr-side { margin-top: 0.6rem; }
 /* Each side in its colour — the same you / opponent colours as the score cards: its heading, and
    its lines' hover (not the turn's colour: the opponent's line lit in mine read as mine). */

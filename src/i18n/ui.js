@@ -807,6 +807,10 @@ export const ui = {
     trackerPhaseRules: 'In this phase',
     trackerPhaseUnit: 'unit',
     trackerPhaseStrats: 'Stratagems for this phase',
+    trackerPhaseRulesNote: 'Rules that apply in this phase.',
+    trackerPhaseJumpTitle: 'Skip to another phase?',
+    trackerPhaseJumpMessage: '{name} \u00b7 {phase}. This is not the next phase. Go there?',
+    trackerPhaseJumpGo: 'Go',
     trackerHelpPhaseRules: "A block under the clock listing what has something to say in the phase the game is standing on: the army rule, the detachment rule, and — with an army list attached — the abilities of the units in it. Both players get a section, because a rule that fires in your OPPONENT'S phase is the one most easily forgotten.\nIt shows names, not rule text: tap through to the unit or the faction page for that. Stratagems are a link to their own page, which already groups them by phase.",
     trackerTrackBroadcast: 'Broadcast button (OBS)',
     trackerHelpBroadcast:
@@ -2087,6 +2091,10 @@ export const ui = {
     trackerPhaseRules: 'В этой фазе',
     trackerPhaseUnit: 'юнит',
     trackerPhaseStrats: 'Стратагемы этой фазы',
+    trackerPhaseRulesNote: 'Правила, которые действуют в этой фазе.',
+    trackerPhaseJumpTitle: 'Перейти в другую фазу?',
+    trackerPhaseJumpMessage: '{name} \u00b7 {phase}. Это не следующая фаза. Перейти?',
+    trackerPhaseJumpGo: 'Перейти',
     trackerHelpPhaseRules: 'Блок под часами, перечисляющий, у чего есть что сказать в текущей фазе: армейское правило, правило детачмента и — с прикреплённым листом — способности юнитов из него. Секция у каждого игрока: правило, срабатывающее в фазу ОППОНЕНТА, забывается легче всего.\nПоказаны названия, а не текст правил: за текстом — переход на юнита или на страницу фракции. Стратагемы — ссылкой на их собственную страницу, где они уже сгруппированы по фазам.',
     trackerTrackBroadcast: 'Кнопка трансляции (OBS)',
     trackerHelpBroadcast:

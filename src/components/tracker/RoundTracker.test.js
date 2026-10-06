@@ -267,7 +267,7 @@ describe('RoundTracker — the phase row', () => {
     expect(tracker.current.value.currentTurn).toBe(0)
   })
 
-  it('opens the picker and jumps where it says', async () => {
+  it('opens the picker and moves to the next phase at once', async () => {
     startGame({}, {}, { trackPhases: true })
     const w = mountTracker()
     await w.find('.tr-phase').trigger('click')
@@ -277,13 +277,40 @@ describe('RoundTracker — the phase row', () => {
     // The header comes from BaseModal itself. A hand-rolled copy in the #header slot renders in
     // the picker's scope, out of reach of BaseModal's scoped CSS — it looked like raw browser
     // defaults, and left the dialog with no accessible name. Both facts are checked by this line.
+    // It names the round the ten rows belong to.
     const dialog = document.body.querySelector('[role="dialog"]')
-    expect(document.getElementById(dialog.getAttribute('aria-labelledby')).textContent).toBe('Phase')
-    rows[8].click() // the second player's Charge phase
-    await w.vm.$nextTick()
+    expect(document.getElementById(dialog.getAttribute('aria-labelledby')).textContent).toBe('Phase \u00b7 Round 1')
+    rows[1].click() // the first player's Movement phase — the next one
+    await flushPromises()
+    expect(tracker.current.value.currentPhase).toBe('movement')
+    expect(document.body.querySelector('.cm-message')).toBeNull()
+    expect(document.body.querySelectorAll('.pp-phase')).toHaveLength(0) // and it closes
+  })
+
+  it('asks before jumping to a phase that is not the next', async () => {
+    startGame({}, {}, { trackPhases: true })
+    const w = mountTracker()
+    await w.find('.tr-phase').trigger('click')
+    document.body.querySelectorAll('.pp-phase')[8].click() // the second player's Charge phase
+    await flushPromises()
+    expect(tracker.current.value.currentTurn).toBe(0) // not yet
+    expect(document.body.querySelector('.cm-message').textContent).toBe('Opp \u00b7 Charge phase. This is not the next phase. Go there?')
+    document.body.querySelector('.modal-foot .btn-primary').click()
+    await flushPromises()
     expect(tracker.current.value.currentTurn).toBe(1)
     expect(tracker.current.value.currentPhase).toBe('charge')
-    expect(document.body.querySelectorAll('.pp-phase')).toHaveLength(0) // and it closes
+  })
+
+  it('treats the second turn\'s Command as next after the first turn\'s Fight', async () => {
+    startGame({}, {}, { trackPhases: true })
+    tracker.goToPhase(0, 'fight')
+    const w = mountTracker()
+    await w.find('.tr-phase').trigger('click')
+    document.body.querySelectorAll('.pp-phase')[5].click()
+    await flushPromises()
+    expect(document.body.querySelector('.cm-message')).toBeNull()
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(tracker.current.value.currentPhase).toBe('command')
   })
 })
 
