@@ -145,6 +145,7 @@
             <button
               type="button"
               class="help-btn"
+              data-press
               :aria-label="labels.trackerScoreHelp"
               @click="scoreHelpOpen = true"
             ><i class="bi bi-question-circle" /></button>

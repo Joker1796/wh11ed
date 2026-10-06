@@ -1,7 +1,7 @@
 <template>
   <div class="sec">
     <div class="sec-head">
-      <span class="sec-title">{{ labels.trackerSecondary }} · {{ labels.trackerRoundShort }} {{ round }}</span>
+      <span class="sec-title panel-label">{{ labels.trackerSecondary }} · {{ labels.trackerRoundShort }} {{ round }}</span>
       <!-- The turn's two cards (tactical, the side on turn, live round only): the one way new
            cards come in. Once taken, the hand changes only through a card's own rule. The same
            dialog stays a tap away after the draw (owner, 2026-09-29) — what came in, the WHEN
@@ -9,6 +9,7 @@
       <button
         v-if="canTake"
         class="take-btn"
+        data-press
         @click="takeOpen = true"
       >
         {{ labels.trackerTakeTwo }}
@@ -16,6 +17,7 @@
       <button
         v-if="takenNow"
         class="untake-btn"
+        data-press
         @click="takeOpen = true"
       >
         <DieIcon />
@@ -45,6 +47,7 @@
           <button
             type="button"
             class="card-open"
+            data-press
             @click="openSlug = m.slug"
           >
             <span class="card-name">{{ m.name }}</span>
@@ -68,6 +71,7 @@
           <button
             v-if="live && mode === 'tactical' && inHand(m.slug)"
             class="manage"
+            data-press
             :title="labels.trackerCardActions"
             :aria-label="labels.trackerCardActions"
             @click="actionSlug = m.slug"
@@ -77,6 +81,7 @@
           <button
             v-else-if="live && mode === 'tactical' && isSetAside(m.slug)"
             class="manage restore"
+            data-press
             :title="labels.trackerReturnToHand"
             :aria-label="labels.trackerReturnToHand"
             @click="onRestore(m.slug)"
@@ -135,6 +140,7 @@
         <button
           v-if="whenDrawnFor(actionMission)"
           class="act-btn"
+          data-press
           @click="startRedraw(actionMission.slug, whenDrawnFor(actionMission).mode)"
         >
           <strong>{{ labels.trackerWhenDrawn }}</strong>
@@ -142,6 +148,7 @@
         </button>
         <button
           class="act-btn"
+          data-press
           :disabled="!canCpRedraw(pi)"
           @click="startCpRedraw(actionMission.slug)"
         >
@@ -151,6 +158,7 @@
         <button
           v-if="canEndTurnDiscard(pi)"
           class="act-btn"
+          data-press
           @click="confirmSlug = actionMission.slug; actionSlug = null"
         >
           <strong>{{ labels.trackerEotDiscard }}</strong>
@@ -158,6 +166,7 @@
         </button>
         <button
           class="act-btn"
+          data-press
           @click="onSetAside(actionMission.slug)"
         >
           <strong>{{ labels.trackerSetAside }}</strong>
@@ -165,6 +174,7 @@
         </button>
         <button
           class="act-btn act-danger"
+          data-press
           @click="onReturn(actionMission.slug)"
         >
           <strong>{{ labels.trackerReturnToDeck }}</strong>
@@ -361,7 +371,6 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .sec { margin-top: 0.7rem; }
 .sec-head { display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 0.4rem; gap: 0 0.75rem; }
 .sec-title { margin-right: auto; }
-.sec-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
 .take-btn {
   flex-shrink: 0; white-space: nowrap;
   padding: 0.45rem 0.8rem; background: var(--accent); color: #fff; border: none;

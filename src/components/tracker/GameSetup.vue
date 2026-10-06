@@ -25,6 +25,7 @@
           <button
             type="button"
             class="step"
+            data-press
             :class="{ on: step === st.n, done: step > st.n }"
             :aria-current="step === st.n ? 'step' : undefined"
             :disabled="!canGoTo(st.n)"
@@ -115,6 +116,7 @@
               v-for="b in battleSizes"
               :key="b.id"
               class="bs-btn"
+              data-press
               :class="{ on: settings.battleSize === b.id }"
               @click="settings.battleSize = b.id"
             >
@@ -289,6 +291,7 @@
                       <template #trigger="{ toggle, open }">
                         <button
                           class="btn-choose-twist faction-btn"
+                          data-press
                           :aria-expanded="open"
                           @click="toggle"
                         >
@@ -386,6 +389,7 @@
                       <template #trigger="{ toggle, open }">
                         <button
                           class="btn-choose-twist"
+                          data-press
                           :aria-expanded="open"
                           @click="toggle"
                         >
@@ -448,6 +452,7 @@
                   <button
                     type="button"
                     class="help-btn"
+                    data-press
                     :aria-label="labels.trackerForceTypeHelpAria"
                     @click="forceTypeHelpOpen = true"
                   >
@@ -567,6 +572,7 @@
         </h3>
         <button
           class="btn-choose-twist"
+          data-press
           @click="twistPickerOpen = true"
         >
           <span
@@ -594,6 +600,7 @@
             <span>{{ labels.trackerTwistMission }}</span>
             <button
               class="btn-choose-twist"
+              data-press
               @click="mirrorPickerOpen = true"
             >
               <span
@@ -781,6 +788,7 @@
                 <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
                 <button
                   class="btn-choose-twist"
+                  data-press
                   @click="fixedPickerFor = i"
                 >
                   <span
@@ -865,6 +873,7 @@
               <button
                 type="button"
                 class="help-btn"
+                data-press
                 :aria-label="labels.trackerScoreHelp"
                 @click="scoreHelpOpen = true"
               ><i class="bi bi-question-circle" /></button>
@@ -886,6 +895,7 @@
               <button
                 type="button"
                 class="help-btn"
+                data-press
                 :aria-label="labels.trackerRoleHelpAria"
                 @click="roleHelpOpen = true"
               >

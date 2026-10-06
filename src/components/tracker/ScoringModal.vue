@@ -43,6 +43,7 @@
       <button
         v-if="whenDrawn && !readonly"
         class="redraw-btn"
+        data-press
         @click="$emit('redraw', whenDrawn.mode)"
       >
         {{ whenDrawn.mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}

@@ -28,6 +28,7 @@
           v-for="o in costs"
           :key="o.m"
           class="act-btn spm-cost"
+          data-press
           :class="{ on: o.m === picked }"
           :aria-pressed="o.m === picked"
           :disabled="!!o.block"
@@ -98,6 +99,7 @@
               <li>
                 <button
                   class="spm-unit"
+                  data-press
                   :disabled="!!t.block"
                   @click="choose(t)"
                 >

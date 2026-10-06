@@ -30,6 +30,7 @@
           >
             <button
               class="rc-item"
+              data-press
               @click="$emit('pick', m.slug)"
             >
               <span class="rc-name">{{ m.name }}</span>

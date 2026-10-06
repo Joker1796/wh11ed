@@ -36,6 +36,7 @@
         <span class="strat-toggle-label">{{ labels.stratNowOnly }}</span>
       </button>
       <button
+        v-if="phaseToggle"
         type="button"
         class="strat-toggle"
         data-press="pop"
@@ -65,6 +66,8 @@ defineProps({
   byPhase: { type: Boolean, default: false },
   nowAvailable: { type: Boolean, default: false },
   nowOnly: { type: Boolean, default: false },
+  // The list ↔ phases toggle; off where the list is always grouped (the tracker's CP tab).
+  phaseToggle: { type: Boolean, default: true },
 })
 defineEmits(['update:filter', 'update:byPhase', 'update:nowOnly'])
 const { locale } = useLocale()

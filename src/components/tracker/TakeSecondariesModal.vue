@@ -73,6 +73,7 @@
               </p>
               <button
                 class="ti-wd-btn"
+                data-press
                 @click="startRedraw(m.slug, whenDrawnAction(current, pi, m.slug).mode)"
               >
                 {{ whenDrawnAction(current, pi, m.slug).mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}
@@ -126,6 +127,7 @@
           >
             <button
               class="pick-item"
+              data-press
               :class="{ on: picked.includes(m.slug) }"
               :aria-pressed="picked.includes(m.slug)"
               :disabled="!picked.includes(m.slug) && picked.length >= need"

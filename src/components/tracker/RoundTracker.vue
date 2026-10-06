@@ -60,6 +60,7 @@
         >
           <button
             class="tr-btn tr-end"
+            data-press
             :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
             :disabled="!canEdit(turnIndex)"
             @click="beginGame()"
@@ -73,6 +74,7 @@
         >
           <button
             class="tr-btn tr-prev tr-icon"
+            data-press
             :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
             :title="undoTitle"
             :aria-label="labels.trackerUndoTurn"
@@ -85,6 +87,7 @@
           </button>
           <button
             class="tr-step"
+            data-press
             :disabled="!canStepInTurn(-1)"
             :aria-label="labels.ariaPrevPhase"
             @click="stepPhase(-1)"
@@ -93,6 +96,7 @@
           </button>
           <button
             class="tr-phase"
+            data-press
             :title="labels.trackerPhasePick"
             @click="phasePickerOpen = true"
           >
@@ -101,6 +105,7 @@
           </button>
           <button
             class="tr-step"
+            data-press
             :disabled="!canStepInTurn(1)"
             :aria-label="labels.ariaNextPhase"
             @click="stepPhase(1)"
@@ -109,6 +114,7 @@
           </button>
           <button
             class="tr-btn tr-end"
+            data-press
             :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
             :disabled="canEndTurn() && !canEdit(turnIndex)"
             :title="canEndTurn() ? endTitle : labels.trackerFinish"
@@ -123,6 +129,7 @@
         >
           <button
             class="tr-btn tr-prev"
+            data-press
             :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
             :title="undoTitle"
             @click="undoConfirm = true"
@@ -136,6 +143,7 @@
           <button
             v-if="canEndTurn()"
             class="tr-btn tr-end"
+            data-press
             :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
             :disabled="!canEdit(turnIndex)"
             :title="endTitle"
@@ -146,6 +154,7 @@
           <button
             v-else
             class="tr-btn tr-end"
+            data-press
             @click="requestEndTurn()"
           >
             <span class="tr-label">{{ labels.trackerFinish }}</span>
@@ -295,6 +304,7 @@
               v-if="primaryMission(i)"
               type="button"
               class="mission-card"
+              data-press
               :inert="lock(i)"
               @click="openPrimary = i"
             >
@@ -357,6 +367,7 @@
             <button
               v-if="canUndoBonus(side)"
               class="cr-btn undo"
+              data-press
               :title="labels.trackerBonusUndo"
               @click="undoBonusCp(side)"
             >
@@ -365,6 +376,7 @@
             <button
               v-else
               class="cr-btn"
+              data-press
               :disabled="!canGainBonus(side)"
               :title="bonusSource(side)"
               @click="gainBonusCp(side)"
@@ -381,6 +393,7 @@
             <button
               type="button"
               class="cr-help"
+              data-press
               :aria-label="labels.trackerCpHelpTitle"
               :title="labels.trackerCpHelpTitle"
               @click="cpHelpOpen = true"
@@ -529,6 +542,7 @@
            Finish is the turn bar's. -->
       <button
         class="rb-finish"
+        data-press
         @click="endModalOpen = true"
       >
         {{ labels.trackerFinish }}
@@ -1297,7 +1311,7 @@ function onEndBattle(reason) {
 }
 .cr-btn.undo { background: var(--side); color: #fff; }
 .cr-btn:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
-.cr-help { flex-shrink: 0; padding: 0 0.2rem; border: 0; background: none; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
+.cr-help { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; padding: 0; border: 0; background: none; font-size: 1.35rem; color: var(--text-dim); cursor: pointer; }
 @media (hover: hover) { .cr-help:hover { color: var(--accent-ink); } }
 
 

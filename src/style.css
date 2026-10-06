@@ -1272,6 +1272,11 @@ strong {
   line-height: 1.5;
 }
 
+/* ── Tracker panel label ───────────────────────────────────────────────────
+   The small caps line that names what a game panel holds: "Secondary · Round 2" over the cards,
+   "Stratagems" over the CP tab's list (owner, 2026-10-06: nothing said what the list was). */
+.panel-label { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
+
 /* ── Show more ──────────────────────────────────────────────────────────────
    The quiet button under a long list that reveals the next page of it: the tracker's game history
    (10 at a time) and the roster list (20). */

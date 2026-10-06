@@ -122,10 +122,12 @@ describe('CpStratagems — the Stratagems page\'s filter', () => {
     expect(opp.some((t) => t.startsWith('Explosives'))).toBe(false)
   })
 
-  it('narrows to one deck, and shows the flat list', async () => {
+  // Always grouped by phase (owner, 2026-10-06): no list/phases toggle here.
+  it('narrows to one deck, always grouped by phase', async () => {
     const w = await mountTab(0)
-    await w.find('.strat-toggle').trigger('click')
+    expect(w.find('.strat-toggle').exists()).toBe(false)
     await w.findAll('.strat-filter').find((b) => b.text() === 'Core').trigger('click')
-    expect(w.findAll('.cps-title').map((t) => t.text())).toEqual(['Core stratagems'])
+    expect(w.findAll('.phase-group').length).toBeGreaterThan(0)
+    expect(w.findAll('.sr-tag').length).toBe(0) // one deck: no "Core" tag on each row
   })
 })

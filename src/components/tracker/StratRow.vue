@@ -21,6 +21,7 @@
       <!-- The printed cost; playing asks whether a rule changed it this time (StratPlayModal). -->
       <button
         class="sr-use"
+        data-press
         :disabled="locked"
         :title="title || labels.trackerStratUse"
         @click="$emit('use')"
@@ -41,6 +42,7 @@
       <button
         v-if="undoable"
         class="sr-undo"
+        data-press
         @click="$emit('undo')"
       >
         <i

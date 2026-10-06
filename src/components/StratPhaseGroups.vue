@@ -6,6 +6,7 @@
       v-for="g in groups"
       :key="g.key"
       class="phase-group"
+      :class="{ card, now: card && g.key === now }"
     >
       <button
         type="button"
@@ -44,11 +45,14 @@ import { useLocale } from '../composables/useLocale.js'
 import { phaseLabel } from '../composables/stratagemPhases.js'
 
 // `groups` — groupByPhase() (a group may bring its own `label`); `open` — the open phases (a Set,
-// v-model); `now` — the group to mark as the live one (the tracker's; null anywhere else).
+// v-model); `now` — the group to mark as the live one (the tracker's; null anywhere else); `card` —
+// each group one card, its head and its rows inside one frame (the tracker's CP tab, owner
+// 2026-10-06: a head and loose cards under it read as a pile of separate things).
 const props = defineProps({
   groups: { type: Array, required: true },
   open: { type: Object, required: true },
   now: { type: String, default: null },
+  card: { type: Boolean, default: false },
 })
 const emit = defineEmits(['update:open'])
 const { locale } = useLocale()
@@ -88,4 +92,12 @@ function toggle(key) {
 .phase-now { font-size: 0.85em; color: var(--accent-ink); }
 .phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
 .phase-body { padding-top: 0.3rem; } /* the same step as between the heads */
+
+/* Card: the frame is the group's, the head a band at its top, the rows (the caller's) inside it
+   divided by rules. The live group's frame is the accent, as its head was. */
+.phase-group.card { border: 1px solid var(--border); background: var(--bg-card); transition: border-color var(--motion-fast); }
+.phase-group.card.now { border-color: var(--accent); }
+@media (hover: hover) { .phase-group.card:has(.phase-head:hover) { border-color: var(--accent); } }
+.card .phase-head { border: 0; }
+.card .phase-body { padding-top: 0; border-top: 1px solid var(--border); }
 </style>

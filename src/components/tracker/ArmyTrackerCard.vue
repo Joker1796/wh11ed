@@ -73,6 +73,7 @@
         <button
           v-if="!bonusApplied"
           class="army-bonus-btn"
+          data-press
           @click="applyBonus"
         >
           <i class="bi bi-plus-circle" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}
@@ -84,6 +85,7 @@
           <span><i class="bi bi-check-circle-fill" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}</span>
           <button
             class="army-head-reset"
+            data-press
             :aria-label="labels.trackerArmyReset"
             :title="labels.trackerArmyReset"
             @click="undoBonus"
@@ -140,6 +142,7 @@
             v-for="(d, di) in dice"
             :key="di"
             class="army-die"
+            data-press
             :aria-label="`${labels.trackerDiceSpend} (${d})`"
             :title="labels.trackerDiceSpend"
             @click="pendingDie = di"
@@ -163,6 +166,7 @@
           v-for="v in 6"
           :key="v"
           class="army-die-add"
+          data-press
           :aria-label="`${labels.trackerDiceAdd} ${v}`"
           @click="addArmyDie(pi, v, mi)"
         >
@@ -188,6 +192,7 @@
           v-for="o in view.options"
           :key="o.id"
           class="army-opt"
+          data-press
           :class="{ on: o.id === selectedId, spent: spent(o.id) }"
           :disabled="spent(o.id)"
           @click="pickOption(o.id)"
@@ -240,6 +245,7 @@
         <button
           v-if="usedCount === 0"
           class="army-call"
+          data-press
           :inert="lock"
           @click="fireArmyToggle(pi, currentRound, mi)"
         >
@@ -285,6 +291,7 @@
             <button
               v-if="canCallAgain"
               class="army-again"
+              data-press
               :inert="lock"
               @click="fireArmyToggle(pi, currentRound, mi)"
             >
@@ -424,6 +431,7 @@
               <span class="army-resurrect-cost">−{{ r.cost }}</span>
               <button
                 class="army-resurrect-undo"
+                data-press
                 :aria-label="labels.trackerArmyReset"
                 :title="labels.trackerArmyReset"
                 :inert="lock"

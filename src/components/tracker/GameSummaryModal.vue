@@ -24,6 +24,7 @@
     <footer class="modal-foot">
       <button
         class="gs-resume"
+        data-press
         @click="$emit('resume', game.id)"
       >
         {{ labels.trackerResume }}

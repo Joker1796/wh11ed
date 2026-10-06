@@ -26,6 +26,7 @@
           :key="p"
           type="button"
           class="pp-phase"
+          data-press
           :class="{ on: ti === turn && p === phase }"
           @click="$emit('pick', ti, p)"
         >

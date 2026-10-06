@@ -39,13 +39,16 @@
       {{ labels.trackerStratOtherPhone }}
     </p>
 
-    <!-- The same toolbar as the Stratagems page: which deck, and the list flat or grouped by
-         phase. Grouped, the phase the clock stands on (when the game keeps one) comes first,
-         open and marked "now". -->
+    <!-- The same toolbar as the Stratagems page, without its list/phases toggle: here the list is
+         always grouped by phase (owner, 2026-10-06) — a stratagem is looked for by WHEN. With
+         the clock, the phase it stands on comes first, open and marked "now". -->
+    <h4 class="cps-label panel-label">
+      {{ labels.stratagemsHeading }}
+    </h4>
     <StratFilterBar
       v-model:filter="deck"
-      v-model:by-phase="byPhase"
       :filters="deckFilters"
+      :phase-toggle="false"
     />
 
     <p
@@ -56,13 +59,13 @@
     </p>
 
     <StratPhaseGroups
-      v-if="byPhase"
       v-model:open="openPhases"
       :groups="groups"
       :now="phasesOn ? 'now' : null"
+      card
     >
       <template #default="{ group }">
-        <ul class="cps-list">
+        <ul class="cps-list in-card">
           <StratRow
             v-for="s in group.strats"
             :key="s._key"
@@ -76,53 +79,6 @@
         </ul>
       </template>
     </StratPhaseGroups>
-
-    <template v-else>
-      <template v-if="deck !== 'core'">
-        <h4 class="cps-title">
-          {{ labels.trackerStratArmy }} · {{ names[side] }}
-        </h4>
-        <p
-          v-if="!loading && !armyAll.length"
-          class="cps-empty"
-        >
-          {{ labels.trackerStratNoArmy }}
-        </p>
-        <ul
-          v-else
-          class="cps-list"
-        >
-          <StratRow
-            v-for="s in armyAll"
-            :key="s._key"
-            :strat="s"
-            v-bind="rowProps(s)"
-            @open="openStrat = s"
-            @use="use(s)"
-            @undo="undoStratagem(side, s._key)"
-          />
-        </ul>
-      </template>
-      <template v-if="deck !== 'army'">
-        <h4 class="cps-title">
-          {{ labels.trackerStratCore }}
-        </h4>
-        <p class="cps-hint">
-          {{ labels.trackerStratCoreNote }}
-        </p>
-        <ul class="cps-list">
-          <StratRow
-            v-for="s in core"
-            :key="s._key"
-            :strat="s"
-            v-bind="rowProps(s)"
-            @open="openStrat = s"
-            @use="use(s)"
-            @undo="undoStratagem(side, s._key)"
-          />
-        </ul>
-      </template>
-    </template>
 
     <!-- The full card. -->
     <BaseModal
@@ -230,12 +186,6 @@ const deckFilters = computed(() => [
   { key: 'core', label: labels.value.stratFilterCore },
   { key: 'army', label: labels.value.trackerStratArmyFilter },
 ])
-// Grouped by phase is the tracker's default — a stratagem is looked for by WHEN — and the choice
-// is remembered on this device, apart from the Stratagems page's own.
-const BY_PHASE_KEY = 'wh11ed-tracker-strats-by-phase'
-const byPhase = ref(getItem(BY_PHASE_KEY) !== '0')
-watch(byPhase, (on) => setItem(BY_PHASE_KEY, on ? '1' : '0'))
-
 const byName = (a, b) => a.name.localeCompare(b.name)
 const armyAll = computed(() => [...(decks.value[side.value] || [])].sort(byName))
 const isCore = (s) => String(s._key).startsWith('core:')
@@ -266,10 +216,8 @@ function readOpen() {
   try { return JSON.parse(getItem(OPEN_KEY) || '[]') } catch { return [] }
 }
 watch(openPhases, (set) => setItem(OPEN_KEY, JSON.stringify([...set])))
-// Come from the Phase tab's "Stratagems of this phase" (RoundTracker): grouped, with the "now"
-// group open — the list the line promised, not the phases folded as they were left.
+// Come from the Phase tab's "Stratagems of this phase" (RoundTracker): the "now" group open — the list the line promised, not the phases folded as they were left.
 function showNow() {
-  byPhase.value = true
   if (!openPhases.value.has('now')) openPhases.value = new Set([...openPhases.value, 'now'])
 }
 defineExpose({ showNow })
@@ -318,12 +266,13 @@ async function use(s) {
   font-size: 0.8rem; font-weight: 600; color: var(--text-primary);
 }
 .cps-note { margin: 0.4rem 0 0; font-size: 0.78rem; color: var(--text-dim); }
-.cps-title {
-  margin: 1rem 0 0.4rem;
-  font-family: var(--font-display); font-size: 1.35rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.02em; color: var(--text-primary);
-}
-.cps-hint { margin: -0.2rem 0 0.4rem; font-size: 0.78rem; color: var(--text-dim); }
 .cps-empty { margin: 0; font-size: 0.84rem; color: var(--text-dim); }
+/* The CP above, the stratagems below. Not var(--border): on the dark page it all but vanishes (as
+   ScoreBoard's breakdown rule did). */
+.cps-label { margin: 0.8rem 0 0.4rem; padding-top: 0.7rem; border-top: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent); }
 .cps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+/* Inside a phase card the rows are its lines: no frame of their own, a rule between them. */
+.cps-list.in-card { gap: 0; }
+.cps-list.in-card > .sr { border: 0; background: none; }
+.cps-list.in-card > .sr + .sr { border-top: 1px solid var(--border); }
 </style>
