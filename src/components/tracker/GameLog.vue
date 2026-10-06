@@ -1,18 +1,21 @@
 <template>
   <div class="glog">
-    <!-- What to read: the app's own page tabs, like the sides' in the other panels (owner,
-         2026-09-30 — chips read as toggles, and there is one choice here). -->
-    <div class="gl-tabs">
-      <PageTabs
-        fill
-        :tabs="filterTabs"
-        @select="(f) => (filter = f)"
-      />
-    </div>
+    <!-- What to read: a dropdown (owner, 2026-10-06 — a second row of tabs under the game's own
+         read as more navigation, and five of them were cramped), the plain text beside it. -->
     <div class="gl-top">
-      <p class="gl-hint">
-        {{ labels.trackerLogHint }}
-      </p>
+      <label class="filter-select">
+        <span>{{ labels.trackerLogShow }}</span>
+        <select
+          :value="filter"
+          @change="filter = $event.target.value"
+        >
+          <option
+            v-for="f in filterOptions"
+            :key="f.key"
+            :value="f.key"
+          >{{ f.label }} ({{ f.n }})</option>
+        </select>
+      </label>
       <button
         class="btn-ghost gl-text"
         @click="textOpen = true"
@@ -24,6 +27,9 @@
         {{ labels.trackerLogText }}
       </button>
     </div>
+    <p class="gl-hint">
+      {{ labels.trackerLogHint }}
+    </p>
 
     <div ref="listEl">
       <p
@@ -88,7 +94,6 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import PageTabs from '../PageTabs.vue'
 import DieIcon from '../DieIcon.vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
@@ -107,19 +112,21 @@ const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 
 const FILTERS = ['all', 'points', 'cp', 'strat', 'cards']
-const filterTabs = computed(() => FILTERS.map((f) => ({ key: f, label: labels.value[`trackerLogFilter_${f}`], active: filter.value === f })))
+// Each with its count, as the roster list's faction filter does — an empty one says so up front.
+const filterOptions = computed(() => FILTERS.map((f) => ({ key: f, label: labels.value[`trackerLogFilter_${f}`], n: countOf(f) })))
 const filter = ref('all')
-// Another filter's entries fade in under the standing tabs (useSwapFade).
+// Another filter's entries fade in (useSwapFade).
 const listEl = ref(null)
 useSwapFade(filter, () => listEl.value)
 const events = computed(() => buildGameLog(current.value))
+// Core CP come four a round, by themselves: under "All" they only bury the rest. The CP filter
+// still shows them, so every point is accounted for there.
+const passes = (e, f) => (f === 'all' ? e.type !== 'core' : e.kind === f)
+const countOf = (f) => events.value.filter((e) => passes(e, f)).length
 const rounds = computed(() => {
   const by = new Map()
   for (const e of events.value) {
-    if (filter.value !== 'all' && e.kind !== filter.value) continue
-    // Core CP come four a round, by themselves: under "All" they only bury the rest. The CP
-    // filter still shows them, so every point is accounted for there.
-    if (filter.value === 'all' && e.type === 'core') continue
+    if (!passes(e, filter.value)) continue
     if (!by.has(e.round)) by.set(e.round, [])
     by.get(e.round).push(e)
   }
@@ -182,12 +189,11 @@ async function copy() {
 </script>
 
 <style scoped>
-/* Five tabs share the row by their words, not equally: "Stratagems" is twice "CP". */
-.gl-tabs :deep(.page-tab) { flex: 1 1 auto; padding-inline: 0.4rem; }
-/* The hint and the plain-text copy on one line under the tabs. */
-.gl-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 0.5rem; }
+/* The filter and the plain-text copy on one line, the hint under them. */
+.gl-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+.gl-top .filter-select { flex: 1; min-width: 0; }
 .gl-text { flex-shrink: 0; padding: 0.4rem 0.7rem; font-size: 0.8rem; }
-.gl-hint { margin: 0; font-size: 0.76rem; color: var(--text-dim); }
+.gl-hint { margin: 0.5rem 0 0; font-size: 0.76rem; color: var(--text-dim); }
 .gl-empty { margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-dim); }
 .gl-round { margin-top: 0.9rem; }
 .gl-rh {
