@@ -450,6 +450,24 @@ describe('grantedKeywordsFor', () => {
   })
 })
 
+describe('overlaySheet — wargear abilities follow the loadout', () => {
+  // A wargear ability belongs to an item: printed for a unit that did not take the item, it read as
+  // a bonus the card forgot to count (a Captain who kept his bolter, "Relic Shield: +1 W", owner
+  // 2026-10-07). Matched by the English name — the RU sheet keeps it as `nameEn`.
+  const withGear = {
+    ...sheet,
+    wargearAbilities: [{ name: 'Силовое оружие', nameEn: 'Power weapon', text: '+1 W' }, { name: 'Icon of Flame', text: 'x' }],
+  }
+  const gearNames = (entry) => (run(entry, squad, withGear).sheet.wargearAbilities || []).map((a) => a.nameEn || a.name)
+
+  it("drops an item's ability while no model carries the item, and keeps what no item claims", () => {
+    expect(gearNames({ size: 0 })).toEqual(['Icon of Flame'])
+  })
+  it('shows it once the item is taken', () => {
+    expect(gearNames({ size: 0, wg: [[1, 0, 1]] })).toEqual(['Power weapon', 'Icon of Flame'])
+  })
+})
+
 describe('overlaySheet — granted keywords', () => {
   it('surfaces them alongside the sheet', () => {
     const out = overlaySheet(sheet, { unitId: 'troupe', factionSlug: 'aeldari', detachments: ['Ghosts of the Webway'] })

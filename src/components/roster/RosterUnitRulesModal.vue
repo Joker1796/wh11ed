@@ -1,6 +1,7 @@
 <template>
   <BaseModal
     :title="card?.name"
+    :subtitle="gameCtx && card?.attachedTo ? `${labels.rosterAttachedTo} ${card.attachedTo}` : ''"
     max-width="720px"
     max-height="90dvh"
     @close="$emit('close')"
@@ -30,6 +31,7 @@
         :ctx="ctx"
         :game-ctx="gameCtx"
         :warlord-in-title="!!gameCtx"
+        :attached-in-title="!!gameCtx"
         @toggle-cond="(...a) => $emit('toggle-cond', ...a)"
         @toggle-strat="(...a) => $emit('toggle-strat', ...a)"
         @toggle-aura="(...a) => $emit('toggle-aura', ...a)"

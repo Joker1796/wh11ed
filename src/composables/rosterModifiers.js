@@ -403,13 +403,26 @@ function filterWeapons(sheet, def, entry, items) {
 
   const ranged = take(sheet.ranged, false)
   const melee = take(sheet.melee, true)
-  if (!ranged.changed && !melee.changed) return sheet // identity preserved when nothing changed
+  // The wargear abilities follow the same question: a Relic Shield's "+1 W" printed for a Captain
+  // who kept his bolter read as a shield the card forgot to count (owner, 2026-10-07). An ability
+  // no item of the unit claims is kept, as an unclaimed weapon row is. Matched by the ENGLISH name
+  // — the RU sheet carries it as `nameEn`, and item names are English.
+  const gear = (() => {
+    if (!sheet.wargearAbilities) return { rows: null, changed: false }
+    const rows = sheet.wargearAbilities.filter((a) => {
+      const ids = claimOf({ name: a.nameEn || a.name })
+      return !ids || ids.some((id) => counts.has(id))
+    })
+    return { rows, changed: rows.length !== sheet.wargearAbilities.length }
+  })()
+  if (!ranged.changed && !melee.changed && !gear.changed) return sheet // identity preserved when nothing changed
 
   const out = { ...sheet }
   // An emptied table is dropped outright rather than left as a headed, rowless table — the same
   // shape a datasheet with no ranged/melee weapons has, which DatasheetCard already handles.
   if (ranged.changed) { if (ranged.rows.length) out.ranged = ranged.rows; else delete out.ranged }
   if (melee.changed) { if (melee.rows.length) out.melee = melee.rows; else delete out.melee }
+  if (gear.changed) { if (gear.rows.length) out.wargearAbilities = gear.rows; else delete out.wargearAbilities }
   return out
 }
 

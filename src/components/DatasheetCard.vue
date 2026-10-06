@@ -828,7 +828,7 @@
         </DsAccordion>
       </div>
       <div
-        v-if="sheet.leader"
+        v-if="sheet.leader && !hideLeader"
         class="ds-ability-group"
       >
         <DsAccordion :collapsible="collapsible">
@@ -1154,6 +1154,9 @@ const props = defineProps({
   statNotes: { type: Array, default: () => [] },
   // In a game: drop the modifiers that are not in force instead of listing them separately.
   hidePossible: { type: Boolean, default: false },
+  // In a game: no "can be attached to" list — the attaching was done in the builder, and at the
+  // table it is a screen of names between the abilities and what is in force (owner, 2026-10-07).
+  hideLeader: { type: Boolean, default: false },
   // Whether an ability's own precondition holds right now, keyed by ENGLISH ability name (see
   // src/composables/abilityStatus.js). Only the abilities that HAVE one appear, so a plain
   // datasheet — and every caller outside the roster — passes nothing and renders as before.

@@ -44,7 +44,7 @@
         >{{ labels.rosterEnhMandatory }}</span>
       </span>
       <span
-        v-if="view.context.attachedTo"
+        v-if="view.context.attachedTo && !attachedInTitle"
         class="rum-chip"
       >
         {{ labels.rosterAttachedTo }} <strong>{{ view.context.attachedTo }}</strong>
@@ -56,8 +56,11 @@
          of its own rather than sitting among the states, and each chip says how long it lasts.
          Flipping one rewrites the card and the row in the list behind it; the clock takes it
          back down on its own. -->
+    <!-- Only when something can be spent now (owner, 2026-10-07): a box saying "nothing in this
+         phase" cost two lines of the phone's height to say nothing. What cannot be spent stays
+         folded inside the box when there is one. -->
     <div
-      v-if="gameCtx?.strats?.length"
+      v-if="openChips.length"
       class="rum-strats rum-boxed"
     >
       <h4 class="rum-strats-h">
@@ -93,12 +96,6 @@
         @toggle="$emit('toggle-strat', $event)"
         @info="openChipInfo"
       />
-      <p
-        v-if="!openChips.length && !showBlocked"
-        class="rum-strats-empty"
-      >
-        {{ labels.stratNowEmpty }}
-      </p>
       <CollapseTransition :show="showBlocked">
         <ConditionChips
           class="rum-strats-blocked"
@@ -186,6 +183,7 @@
       :stat-marks="statMods.marks"
       :stat-notes="statNotes"
       :hide-possible="!!gameCtx"
+      :hide-leader="!!gameCtx"
       :ability-states="abilityStates"
       :ability-switches="abilitySwitches"
       collapsible
@@ -375,6 +373,9 @@ const props = defineProps({
   inline: { type: Boolean, default: false },
   // The dialog shows the Warlord badge in its header (a game's dialog), so not again here.
   warlordInTitle: { type: Boolean, default: false },
+  // The dialog says who the unit is attached to under its title (a game's dialog, owner
+  // 2026-10-07: a row of its own cost a line the table needs), so not again here.
+  attachedInTitle: { type: Boolean, default: false },
 })
 defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
 
@@ -393,7 +394,7 @@ const {
 // The roster facts row: only when there is a chip left to show in it.
 const ctxChips = computed(() => {
   const c = view.value.context
-  return !!c && ((c.warlord && !props.warlordInTitle) || !!c.enhancement || !!c.attachedTo)
+  return !!c && ((c.warlord && !props.warlordInTitle) || !!c.enhancement || (!!c.attachedTo && !props.attachedInTitle))
 })
 
 function openArmyRule(name, rect) {
@@ -513,7 +514,10 @@ const stratsBlockedNote = computed(() => {
 })
 
 // The dialog around it titles itself with the unit's name.
-defineExpose({ name: computed(() => view.value.sheet?.name || '') })
+defineExpose({
+  name: computed(() => view.value.sheet?.name || ''),
+  attachedTo: computed(() => view.value.context?.attachedTo || ''),
+})
 </script>
 
 <style scoped>
@@ -553,7 +557,6 @@ defineExpose({ name: computed(() => view.value.sheet?.name || '') })
 }
 .rum-strats-more:hover { color: var(--accent-ink); }
 .rum-strats-blocked { margin-top: 0.4rem; }
-.rum-strats-empty { margin: 0; color: var(--text-dim); font-size: 0.78rem; }
 /* A second row under the set's own chips: what the picked option still waits on. */
 .rum-pick-conds { margin-top: 0.4rem; }
 

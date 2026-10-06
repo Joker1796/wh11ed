@@ -488,9 +488,10 @@ describe('RosterUnitRulesModal', () => {
       w.unmount()
     })
 
-    it('says so when the whole block is folded away', async () => {
+    it('draws no block at all when nothing can be spent now', async () => {
+      // A box saying "nothing in this phase" cost two lines to say nothing (owner, 2026-10-07).
       const w = await open([strat('Wrong Phase', 'wrongPhase')])
-      expect(body().find('.rum-strats-empty').exists()).toBe(true)
+      expect(body().find('.rum-strats').exists()).toBe(false)
       w.unmount()
     })
   })
