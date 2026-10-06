@@ -420,6 +420,12 @@ describe('RoundTracker — a shared game', () => {
       caption: card.find('.plocked').exists(),
     }
   }
+  // Setup lives in the "⋯" on the round line: open it and find the row (the menu teleports).
+  async function setupRow(w) {
+    await w.find('.game-menu-btn').trigger('click')
+    await flushPromises()
+    return [...document.body.querySelectorAll('.act-btn')].find((b) => b.textContent.includes('Setup'))
+  }
   const OPEN = { card: undefined, primary: undefined, deck: undefined, caption: false }
   const LOCKED = { card: undefined, primary: 'true', deck: 'true', caption: true }
 
@@ -427,7 +433,7 @@ describe('RoundTracker — a shared game', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = await mountBoth()
     expect(await lockedBoth(w)).toEqual([OPEN, OPEN])
-    expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
+    expect((await setupRow(w)).disabled).toBe(false)
   })
 
   it('a guest gets the other side locked but readable, and keeps the setup button', async () => {
@@ -435,7 +441,7 @@ describe('RoundTracker — a shared game', () => {
     const w = await mountBoth()
     expect(await lockedBoth(w)).toEqual([LOCKED, OPEN])
     expect((await sideCard(w, 0)).text()).toContain('Scored on another phone')
-    expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
+    expect((await setupRow(w)).disabled).toBe(false)
   })
 
   it('the host edits a side nobody sits on, and not one another phone holds', async () => {
@@ -489,8 +495,12 @@ describe('RoundTracker — dialogs wear the turn colour', () => {
     const w = mount(RoundTracker, {
       global: { stubs: { ScoreBoard: true, ArmyTrackerCard: true, NumberStepper: true, RouterLink: RouterLinkStub } },
     })
-    await w.find('.rb-finish').trigger('click') // "Finish game" opens a dialog
-    const overlay = document.body.querySelector('.modal-overlay')
+    await w.find('.game-menu-btn').trigger('click') // the "⋯" on the round line…
+    const finish = [...document.body.querySelectorAll('.act-btn')].find((b) => b.textContent.includes('Finish game'))
+    finish.click() // …and its "Finish game" opens a dialog
+    await flushPromises()
+    const overlays = document.body.querySelectorAll('.modal-overlay')
+    const overlay = overlays[overlays.length - 1]
     expect([...overlay.classList]).toEqual(expect.arrayContaining(['side-colored', 'turn-colored', 'turn-opp']))
     expect(overlay.getAttribute('style')).toContain('--so-light')
   })

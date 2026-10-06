@@ -34,20 +34,20 @@
           {{ labels.trackerPhaseRulesNote }}
         </p>
         <div
-          v-for="side in shown"
-          :key="side.pi"
+          v-for="army in shown"
+          :key="army.pi"
           class="pr-side"
-          :class="{ opp: !side.you }"
+          :class="{ opp: !army.you }"
         >
           <h4
             v-if="!controlled"
             class="pr-who"
           >
-            {{ side.name }}
+            {{ army.name }}
           </h4>
           <ul class="pr-list">
             <li
-              v-for="r in side.rules"
+              v-for="r in army.rules"
               :key="r.key"
               class="pr-rule"
             >

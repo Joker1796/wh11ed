@@ -11,13 +11,83 @@
   >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
          kept always — the phase clock under the rounds is the optional part. -->
-    <p class="turn-now">
-      <span
-        v-for="(part, k) in turnHeadline"
-        :key="k"
-        :class="{ 'tn-strong': part.strong }"
-      >{{ part.text }}</span>
-    </p>
+    <div class="turn-row">
+      <p class="turn-now">
+        <span
+          v-for="(part, k) in turnHeadline"
+          :key="k"
+          :class="{ 'tn-strong': part.strong }"
+        >{{ part.text }}</span>
+      </p>
+      <!-- The game's tools, once a footer row of their own, behind one "⋯" on the round line (owner,
+           2026-10-06): the line has room on the right, the footer cost a whole row. Not a gear —
+           the site's settings gear sits in the navbar right above. A dot on the "⋯" says a shared
+           game or a broadcast is on: a state you can no longer see on its button must not go dark. -->
+      <ActionMenu
+        v-model:open="gameMenuOpen"
+        :title="labels.trackerGameMenu"
+      >
+        <template #trigger="{ toggle }">
+          <button
+            type="button"
+            class="btn-ghost game-menu-btn"
+            :class="{ live: partyActive || broadcastOn }"
+            :aria-label="labels.trackerGameMenu"
+            :title="labels.trackerGameMenu"
+            data-press
+            @click="toggle"
+          >
+            <i class="bi bi-three-dots" />
+          </button>
+        </template>
+        <template #default="{ close }">
+          <!-- Setup is the host's in a shared game (it rewrites both sides — a swapped first turn
+               is all five slices), but the dialog is still a guest's: it is where this phone's own
+               "what to show" switches live (EditSetupModal's guest mode). -->
+          <button
+            class="act-btn gm-row"
+            @click="close(); editSetupOpen = true"
+          >
+            <i class="bi bi-gear" /> {{ labels.trackerEditSetup }}
+          </button>
+          <!-- The shared game (several phones on this one game): always offered — it is how the
+               other side gets to score. -->
+          <button
+            class="act-btn gm-row"
+            @click="close(); partyOpen = true"
+          >
+            <i class="bi bi-people-fill" /> {{ labels.partyTitle }}
+            <span
+              v-if="partyActive"
+              class="gm-live"
+            >{{ labels.trackerOnNow }}</span>
+          </button>
+          <!-- Live broadcast (the OBS overlay), offered only when the game asked for it
+               (settings.trackBroadcast, niche, off by default) — but a broadcast already LIVE keeps
+               it whatever the row says: a stream running with no control would be the dishonest
+               kind of hidden. -->
+          <button
+            v-if="broadcastOn || tracks(current.settings, 'trackBroadcast')"
+            class="act-btn gm-row"
+            @click="close(); broadcastOpen = true"
+          >
+            <i class="bi bi-broadcast" /> {{ labels.trackerBroadcastTitle }}
+            <span
+              v-if="broadcastOn"
+              class="gm-live"
+            >{{ labels.trackerOnNow }}</span>
+          </button>
+          <!-- Finishing the game early: a thing done once, not every turn. The last turn's own
+               Finish is the turn bar's; GameEndModal is the confirmation. -->
+          <button
+            class="act-btn act-danger gm-row"
+            @click="close(); endModalOpen = true"
+          >
+            <i class="bi bi-flag" /> {{ labels.trackerFinish }}
+          </button>
+        </template>
+      </ActionMenu>
+    </div>
 
     <!-- Moving the game on: two equal buttons, back and forward by a TURN — a round is two turns,
          and ending the second one opens the next round. The forward one wears the colour of the
@@ -27,8 +97,8 @@
          go, so there the forward button finishes the game instead. -->
     <!-- The rounds, right under the round line and above the score (owner, 2026-10-06: the score
          cards pick the side the panel shows, so they stand right over the tabs; the rounds were
-         under the score from 2026-09-27). Finishing the game early is
-         at the foot of the screen with the other tools. A shared game's sync state rides here
+         under the score from 2026-09-27). Finishing the game early is in the "⋯" on the round line
+         with the other tools. A shared game's sync state rides here
          too — a row of its own would cost vertical space the phone does not have (it renders
          nothing for a game that is not shared). -->
     <div class="round-bar">
@@ -514,58 +584,6 @@
       @close="openPrimary = -1"
     />
 
-    <div class="actions">
-      <div class="actions-left">
-        <!-- Setup is the host's in a shared game (it rewrites both sides — a swapped first turn
-             is all five slices), but the dialog is still a guest's: it is where this phone's own
-             "what to show" switches live (EditSetupModal's guest mode). -->
-        <button
-          class="btn-ghost btn-icon"
-          :aria-label="labels.trackerEditSetup"
-          :title="labels.trackerEditSetup"
-          @click="editSetupOpen = true"
-        >
-          <i class="bi bi-chevron-left" />
-          <i class="bi bi-gear" />
-        </button>
-        <!-- The shared game (several phones on this one game): a state like the broadcast,
-             lit while shared. Always offered — it is how the other side gets to score. -->
-        <button
-          class="btn-ghost btn-icon"
-          :class="{ 'bc-on': partyActive }"
-          :aria-label="labels.partyTitle"
-          :title="labels.partyTitle"
-          @click="partyOpen = true"
-        >
-          <i class="bi bi-people-fill" />
-        </button>
-        <!-- Live broadcast (the OBS overlay): a state, not a page — lit while streaming. The
-             button is offered only when the game asked for it (settings.trackBroadcast, a row
-             of the option table; niche feature, off by default) — but a broadcast already LIVE
-             keeps it whatever the row says: a stream running with no visible control would be
-             the dishonest kind of hidden. -->
-        <button
-          v-if="broadcastOn || tracks(current.settings, 'trackBroadcast')"
-          class="btn-ghost btn-icon"
-          :class="{ 'bc-on': broadcastOn }"
-          :aria-label="labels.trackerBroadcastTitle"
-          :title="labels.trackerBroadcastTitle"
-          @click="broadcastOpen = true"
-        >
-          <i class="bi bi-broadcast" />
-        </button>
-      </div>
-      <!-- Finishing the game early: at the foot of the screen, beside the game's other tools —
-           a thing done once, not every turn (owner's call, 2026-09-27). The last turn's own
-           Finish is the turn bar's. -->
-      <button
-        class="rb-finish"
-        data-press
-        @click="endModalOpen = true"
-      >
-        {{ labels.trackerFinish }}
-      </button>
-    </div>
 
     <!-- Undo turn asks first: it sits beside End turn on the pinned bar, and a stray tap would
          step the whole game back (owner's call, 2026-09-27). -->
@@ -635,6 +653,7 @@ import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import TurnEndCheckModal from './TurnEndCheckModal.vue'
 import ConfirmModal from '../ConfirmModal.vue'
+import ActionMenu from '../ActionMenu.vue'
 import EditSetupModal from './EditSetupModal.vue'
 import BroadcastModal from './BroadcastModal.vue'
 import PartyModal from './PartyModal.vue'
@@ -762,8 +781,8 @@ onMounted(() => {
   idle(next)
 })
 // A short panel still reaches the foot of the screen (owner, 2026-10-06): the screen is a column at
-// least as tall as the room the page leaves it, the open panel takes the slack, and the tools row
-// with End game lands just above the turn bar — with no scroll. That room is the window less
+// least as tall as the room the page leaves it, the open panel takes the slack, and its foot lands
+// just above the turn bar — with no scroll. That room is the window less
 // everything above the screen (the bars, the update notice) and below it (the page's reserve for
 // the pinned bars): measured, since both vary, and neither depends on this screen's own height.
 const rootEl = ref(null)
@@ -877,6 +896,7 @@ const editSetupOpen = ref(false)
 const phasePickerOpen = ref(false)
 const broadcastOpen = ref(false)
 const partyOpen = ref(false)
+const gameMenuOpen = ref(false)
 
 // The shared game: which side this phone may edit, and whether it is the host. With no party,
 // canEdit is true for both and nothing here changes. `lock` is canEdit as an `inert` value.
@@ -912,7 +932,7 @@ function playerName(i) {
 }
 
 // A phrase about a player, with their name in it. A side with no name of its own is printed as
-// "You" / "Opponent" (sideLabel), and "ход выполняет Вы" is not Russian — so your own unnamed side
+// "You" / "Opponent" (sideLabel), and "Завершить ход Вы" is not Russian — so your own unnamed side
 // takes the `…You` variant of the phrase instead.
 function aboutPlayer(key, i) {
   const l = labels.value
@@ -927,7 +947,10 @@ const turnHeadline = computed(() => {
   const t = turnIndex.value
   const pl = current.value.players[t]
   const parts = [{ text: `${l.trackerRoundShort} ` }, { text: String(current.value.currentRound), strong: true }, { text: ' \u00b7 ' }]
-  if (!pl.name && isYouSide(pl, t)) return [...parts, { text: l.trackerTurnNowYou }]
+  // Your own turn is "your turn" whatever you named yourself (owner, 2026-10-06): the name is for
+  // telling the OTHER side apart. "Your" is this phone's side — in a shared game `isYou` is the
+  // device's seat, not the host's — and in doubles the side is the team, which plays its turn together.
+  if (isYouSide(pl, t)) return [...parts, { text: l.trackerTurnNowYou }]
   const [before, after] = l.trackerTurnNow.split('{name}')
   return [...parts, { text: before }, { text: playerName(t), strong: true }, { text: after }].filter(p => p.text)
 })
@@ -1058,22 +1081,6 @@ function onEndBattle(reason) {
   gap: 0.3rem;
   margin: 0 0 0.5rem;
 }
-.rb-finish {
-  flex: 0 0 auto;
-  min-height: 40px;
-  white-space: nowrap;
-  padding: 0 0.8rem;
-  /* Filled in the site's red, not the side's colour (owner, 2026-10-06): it ends the game for both
-     sides, whoever's turn it is. */
-  border: 1px solid var(--brand);
-  background: var(--brand);
-  color: var(--text-on-accent);
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-@media (hover: hover) { .rb-finish:hover { background: color-mix(in srgb, var(--brand) 85%, #000); } }
 .twist-card {
   max-width: 640px;
   margin: -0.4rem auto 1rem;
@@ -1156,12 +1163,6 @@ function onEndBattle(reason) {
   color: var(--text-dim);
 }
 .sr-sub { font-size: 0.72rem; color: var(--text-dim); }
-.actions { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 1.25rem; }
-.actions-left { display: flex; gap: 0.6rem; }
-.btn-icon {
-  display: inline-flex; align-items: center; gap: 0.25rem;
-  padding: 0.6rem 0.7rem; font-size: 1rem; line-height: 1;
-}
 /* A side another phone plays: readable, not touchable. */
 .player-locked { opacity: 0.72; }
 .plocked {
@@ -1169,18 +1170,50 @@ function onEndBattle(reason) {
   font-size: 0.72rem;
   color: var(--text-muted);
 }
-/* Small phones: the icon row stays one line (~320px). */
-@media (max-width: 430px) {
-  .actions .btn-icon { padding: 0.45rem 0.55rem; font-size: 0.9rem; }
-  .actions-left { gap: 0.4rem; }
-}
 
 /* The headline over the score: round and turn, read at a glance from across the table. */
 /* Inline, not flex: the headline's spans carry their own spaces ("Andronovmy’s turn" has none
    between the name and the rest), and flex items would trim them and space by the gap instead. */
 /* One line: a long name is cut with "…" (owner, 2026-09-29) instead of pushing the board down. */
+/* The round line and the game's "⋯": the button no taller than the line needs, so the row costs
+   no more than the line did; the rounds sit close under it (owner, 2026-10-06). */
+.turn-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.3rem;
+}
+.turn-row .am { margin-left: auto; }
+.game-menu-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+/* A shared game or a broadcast is on: their buttons used to light up; now the "⋯" carries a dot,
+   and the row inside says which. */
+.game-menu-btn.live::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.gm-row { display: flex; align-items: center; gap: 0.5rem; }
+.gm-live {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--accent-ink);
+}
 .turn-now {
-  margin: 0 0 0.5rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
   font-size: 1.05rem;
   color: var(--text-muted);
   overflow: hidden;
@@ -1405,9 +1438,4 @@ function onEndBattle(reason) {
 @media (hover: hover) { .cr-help:hover { color: var(--accent-ink); } }
 
 
-/* The broadcast button is a STATE: lit while the game is streaming to an overlay. */
-.bc-on {
-  color: var(--accent-ink);
-  border-color: var(--accent);
-}
 </style>
