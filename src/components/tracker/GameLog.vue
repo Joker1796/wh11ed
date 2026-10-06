@@ -192,6 +192,10 @@ async function copy() {
 /* The filter and the plain-text copy on one line, the hint under them. */
 .gl-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
 .gl-top .filter-select { flex: 1; min-width: 0; }
+/* The dropdown and "As text" one height (owner, 2026-10-06): the row stretches both to the taller,
+   and the dropdown's own padding is trimmed so that is the button's height, not the select's. */
+.gl-top { align-items: stretch; }
+.gl-top .filter-select select { padding-block: 0.25rem; align-self: stretch; }
 .gl-text { flex-shrink: 0; padding: 0.4rem 0.7rem; font-size: 0.8rem; }
 .gl-hint { margin: 0.5rem 0 0; font-size: 0.76rem; color: var(--text-dim); }
 .gl-empty { margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-dim); }
