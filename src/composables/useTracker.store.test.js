@@ -1275,3 +1275,37 @@ describe('playStratagem', () => {
     expect(tracker.current.value.players[0].ctx?.strats).toBeFalsy()
   })
 })
+
+describe('unit status', () => {
+  it('carries the setup reserves into the game and stamps a change with the clock', () => {
+    const setup = setupGame()
+    setup.players[0].unitStatus = { u1: { s: 'reserve', name: 'Terminators' } }
+    tracker.newGame(setup)
+    const g = tracker.current.value
+    expect(g.players[0].unitStatus.u1).toMatchObject({ s: 'reserve', round: 0 })
+    expect(g.players[1].unitStatus).toEqual({})
+    // Before the first turn begins, a change is still "before the battle".
+    tracker.setUnitStatus(0, 'u2', 'reserve', 'Scouts')
+    expect(g.players[0].unitStatus.u2.round).toBe(0)
+    tracker.beginGame()
+    tracker.goToRound(2)
+    tracker.setUnitStatus(0, 'u1', 'table', 'Terminators')
+    expect(g.players[0].unitStatus.u1).toMatchObject({ s: 'table', round: 2, turn: 0, name: 'Terminators' })
+    tracker.setUnitStatus(1, 'x', 'destroyed', 'Boyz')
+    expect(g.players[1].unitStatus.x).toMatchObject({ s: 'destroyed', round: 2 })
+    tracker.setUnitStatus(1, 'x', 'table', 'Boyz')
+    expect(g.players[1].unitStatus.x).toBeUndefined()
+  })
+
+  // Doubles: each member's list keeps its own statuses, the way it keeps its own switches.
+  it('writes a doubles member, not the side', () => {
+    const setup = setupGame({ settings: { gameType: 'doubles' } })
+    setup.players = setup.players.map((p) => ({ ...p, teamName: p.name, members: [{ name: 'A', unitStatus: { m: { s: 'reserve' } } }, { name: 'B' }] }))
+    tracker.newGame(setup)
+    const side = tracker.current.value.players[0]
+    expect(side.members[0].unitStatus.m.s).toBe('reserve')
+    tracker.setUnitStatus(0, 'n', 'destroyed', 'N', 1)
+    expect(side.members[1].unitStatus.n.s).toBe('destroyed')
+    expect(side.unitStatus).toEqual({})
+  })
+})

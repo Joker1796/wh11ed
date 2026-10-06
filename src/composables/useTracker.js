@@ -21,6 +21,7 @@ import { tracks } from '../data/trackerOptions.js'
 import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from './cpLedger.js'
 import { clockOf, stampOf } from './rosterGameContext.js'
 import { SM_FAMILY } from '../data/smChapters.js'
+import { statusRecord, setupReserves } from './unitStatus.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -348,6 +349,7 @@ function makeMember(m = {}) {
     detachments: [...(m.detachments || [])],
     rosterId: m.rosterId || null,
     roster: m.roster || null,
+    unitStatus: setupReserves(m.unitStatus),
     army: {},
   }
 }
@@ -378,6 +380,8 @@ function makePlayer(p, opponent, settings, isYou = false) {
     // stored in the roster's own compact form (ids + indices) to stay inside the API's 64 KB cap.
     rosterId: doubles ? null : (p.rosterId || null),
     roster: doubles ? null : (p.roster || null),
+    // Where each unit of that list is (unitStatus.js) — the setup's reserves to start with.
+    unitStatus: doubles ? {} : setupReserves(p.unitStatus),
     ...(doubles
       ? {
           teamName: p.teamName || '',
@@ -766,6 +770,19 @@ export function useTracker() {
       pl.ctx.units[uid][id] = at
     } else delete pl.ctx.units[uid][id]
     if (!Object.keys(pl.ctx.units[uid]).length) delete pl.ctx.units[uid]
+  }
+
+  // A unit of the attached list goes on the battlefield, into reserves, or is destroyed
+  // (unitStatus.js). Before the first turn begins the record says round 0 — the reserves are
+  // chosen before the battle (20.01). `name` is the unit's, for the game log.
+  function setUnitStatus(pi, uid, status, name, mi) {
+    const g = current.value
+    const pl = memberAt(g.players[pi], mi)
+    if (!pl.unitStatus) pl.unitStatus = {}
+    const clock = { round: g.begun === false ? 0 : g.currentRound, turn: g.currentTurn === 1 ? 1 : 0, name }
+    const rec = statusRecord(pl.unitStatus[uid], status, clock)
+    if (rec) pl.unitStatus[uid] = rec
+    else delete pl.unitStatus[uid]
   }
 
   // A stratagem SPENT on one unit. Keyed by the roster entry's uid and then by the modifier
@@ -1518,6 +1535,7 @@ export function useTracker() {
     canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, spendCp,
     stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem, playStratagem, unplayOnUnit,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
+    setUnitStatus,
     goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
