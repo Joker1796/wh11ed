@@ -182,8 +182,7 @@ The following are special **[gloss:move-type:move types]** that certain or all o
           // The profile lives in appdata's `enhancement_wargear_item_profile`, not in the rule's
           // prose (which ends at this colon on their side too) — stated inline, the way the
           // other two enhancements of this shape already do it (TL-4ø9, Orksbane).
-          body: `WARBOSS model only. This model has the following weapon:
-▪ **Da Gobshot Thunderbuss** [LETHAL HITS: NON-MONSTER/VEHICLE, RAPID FIRE 6] — Range 24", A 6, BS 4+, S 7, AP -2, D 2.`,
+          body: `WARBOSS model only. This model has the following weapon:`,
         },
         {
           name: 'Morgog’s Finkin’ Cap',
@@ -848,9 +847,7 @@ If you rolled two D6, when this unit has attacked, this unit makes one **[gloss:
           // state it too. Same sentence the other factions' granted attaches use.
           body: `BIG MEK/WARBOSS INFANTRY model only. While this model is part of an **[gloss:attached-unit:attached]** unit, this model has:
 ▪ [core:Infiltrators].
-▪ [core:Stealth].
-
-In the Declare Battle Formations step, the bearer can be attached to a Kommandos unit.`,
+▪ [core:Stealth].`,
         },
         {
           name: 'Throat-slittas (Upgrade)',
@@ -1028,9 +1025,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Kommandos
           points: 25,
           flavor: 'This impressively ostentatious piece of headgear signifies that whoever nicked it last controls a fleet of kroozers and invasion landers, ideal for the rapid redeployment of loot-hungry Orks.',
           // Attach granted structurally by appdata, not by the printed prose — see Kill Kommanda.
-          body: `BIG MEK/WARBOSS INFANTRY model only. When both players have deployed their armies, you can redeploy up to three friendly ORKS INFANTRY units. When doing so, you can set those units up in **[gloss:strategic-reserves:strategic reserves]**, regardless of how many units are already in **strategic reserves**.
-
-In the Declare Battle Formations step, the bearer can be attached to a Flash Gitz unit.`,
+          body: `BIG MEK/WARBOSS INFANTRY model only. When both players have deployed their armies, you can redeploy up to three friendly ORKS INFANTRY units. When doing so, you can set those units up in **[gloss:strategic-reserves:strategic reserves]**, regardless of how many units are already in **strategic reserves**.`,
         },
         {
           name: 'Supa-snazz Dakka (Upgrade)',
@@ -1074,15 +1069,13 @@ Friendly ORKS PSYKER models have the following **[gloss:psychic-ability:psychic 
           name: 'Da Krunch',
           points: 10,
           flavor: 'Roiling energies frequently erupt from this Weirdboy’s eyes, solidifying above the enemy into the huge green foot of Gork (or Mork) himself, which repeatedly stamps on the foe.',
-          body: `ORKS PSYKER model only. This model has the following weapon:
-▪ **Da Krunch** [BLAST 3, HAZARDOUS, LETHAL HITS, PSYCHIC] — Range 24", A 3, BS 4+, S 5, AP -1, D 1.`,
+          body: `ORKS PSYKER model only. This model has the following weapon:`,
         },
         {
           name: '\'Eadbanger',
           points: 15,
           flavor: 'Known for yelling ‘Kop dis, ya zogger!’ at his chosen target beforehand, this Weirdboy is in the habit of projecting a bolt of raw power from his forehead which splatters the victim’s brains across a wide area.',
-          body: `ORKS PSYKER model only. This model has the following weapon:
-▪ **'Eadbanger** [HAZARDOUS, PRECISION, PSYCHIC] — Range 24", A 2, BS 4+, S 6, AP -3, D 3.`,
+          body: `ORKS PSYKER model only. This model has the following weapon:`,
         },
         {
           name: 'Warphead',

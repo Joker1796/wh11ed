@@ -12,6 +12,7 @@ export const BTN_ICONS = {
   gear: { icon: 'bi-gear', en: 'Settings', ru: 'Настройки' },           // the roster builder's Settings mode
   panes: { icon: 'bi-layout-split', en: 'Units', ru: 'Юниты' },         // …its Units mode
   book: { icon: 'bi-book', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search
+  shield: { icon: 'bi-shield-shaded', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search since 2.7.17 (was the book)
   revert: { icon: 'bi-arrow-counterclockwise', en: 'Cancel', ru: 'Отмена' }, // Cancel on a narrow phone
   star: { icon: 'bi-star', en: 'In my collection', ru: 'Есть в коллекции' }, // the roster unit card's header
   info: { icon: 'bi-info-circle', en: 'View details', ru: 'Подробнее' }, // a wargear row's profiles in the unit editor

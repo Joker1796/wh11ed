@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -331,6 +331,44 @@ describe('enhancementPoints / unitPoints with enhancement', () => {
 // records no unit-specific keyword for them at all, so their generated req — often just the
 // faction keyword — would offer them on any Character of that faction. gen-roster-data.mjs's
 // hand-curated ENH_LOCK_FIXES pins those to the named datasheet(s) as `lockDs`.
+// Who in the list wears an enhancement, and who could (EnhancementList, a player's request).
+describe('enhancementBearers', () => {
+  const defs = {
+    cap: { id: 'cap', name: 'Captain', flags: { char: 1 }, kws: ['Infantry', 'Character'] },
+    lt: { id: 'lt', name: 'Lieutenant', flags: { char: 1 }, kws: ['Infantry', 'Character'] },
+    tank: { id: 'tank', name: 'Predator', flags: {}, kws: ['Vehicle'] },
+  }
+  const defOf = (id) => defs[id]
+  const dets = [{ name: 'D', enhancements: [
+    { name: 'Artificer’s Blade', pts: 15 },
+    { name: 'Iron Hide', pts: 10, req: [{ kw: ['Vehicle'] }] },
+  ] }]
+  it('names who wears it, else who could, counting repeats', () => {
+    const units = [{ uid: 1, id: 'cap', enh: 'Artificer’s Blade' }, { uid: 2, id: 'lt' }, { uid: 3, id: 'lt' }, { uid: 4, id: 'tank' }]
+    // The rules text spells the apostrophe plainly: matched all the same.
+    // Taken once, and once is its limit: nobody else is offered it.
+    expect(enhancementBearers("Artificer's Blade", { units, defOf, detachments: dets })).toEqual({ taken: ['Captain'], can: [] })
+    // Untaken: the characters free to carry it, counted (the Captain wears nothing in this one).
+    expect(enhancementBearers("Artificer's Blade", { units: units.map((u) => ({ ...u, enh: undefined })), defOf, detachments: dets }))
+      .toEqual({ taken: [], can: ['Captain', 'Lieutenant ×2'] })
+    expect(enhancementBearers('Iron Hide', { units, defOf, detachments: dets })).toEqual({ taken: [], can: [] }) // not a character
+  })
+  // An "(Upgrade)" one may go on several units: while its limit has room, the rest still count.
+  it('keeps the candidates of an upgrade taken fewer times than its limit', () => {
+    const inf = { id: 'inf', name: 'Intercessors', flags: {}, kws: ['Infantry'] }
+    const up = [{ name: 'D', enhancements: [{ name: 'Furious', limit: 2, nonCharOk: 1 }] }]
+    const defOf2 = (id) => ({ ...defs, inf })[id]
+    const units = [{ uid: 1, id: 'inf', enh: 'Furious' }, { uid: 2, id: 'inf' }, { uid: 3, id: 'inf' }]
+    expect(enhancementBearers('Furious', { units, defOf: defOf2, detachments: up })).toEqual({ taken: ['Intercessors'], can: ['Intercessors ×2'] })
+    units[1].enh = 'Furious'
+    expect(enhancementBearers('Furious', { units, defOf: defOf2, detachments: up })).toEqual({ taken: ['Intercessors ×2'], can: [] })
+  })
+
+  it('has no answer for an enhancement no selected detachment offers', () => {
+    expect(enhancementBearers('Nope', { units: [], defOf, detachments: dets })).toBeNull()
+  })
+})
+
 describe('enhEligible — lockDs (curated "specific datasheet only" restriction)', () => {
   const warriors = { sid: 'ds-necron-warriors', name: 'Necron Warriors', kws: ['Character'], flags: { char: 1 } }
   const otherUnit = { sid: 'ds-other', name: 'Immortals', kws: ['Character'], flags: { char: 1 } }

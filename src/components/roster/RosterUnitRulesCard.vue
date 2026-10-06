@@ -251,6 +251,7 @@
                   v-if="b.body"
                   :body="b.body"
                 />
+                <RuleExtras :extras="b.extras" />
                 <div
                   v-for="a in b.abilities || []"
                   :key="a.name"
@@ -346,6 +347,7 @@ import DsAccordion from '../DsAccordion.vue'
 import ConditionChips from '../ConditionChips.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import RuleBody from '../RuleBody.vue'
+import RuleExtras from '../RuleExtras.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'

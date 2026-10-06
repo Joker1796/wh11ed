@@ -134,7 +134,7 @@ const en = {
           points: 20,
           flavor:
             'With this device the bearer can twist space and time about them, enfolding them in a swirling darkness. When it fades, they have vanished, rematerialising elsewhere through a miracle of arcane science.',
-          body: `Necrons model only. (Once per battle, per army) At the end of your opponent's turn, if this unit is unengaged, you can use this ability. If you do:
+          body: `(Once per battle, per army) At the end of your opponent's turn, if this unit is unengaged, you can use this ability. If you do:
 ▪ Place this unit in **[gloss:strategic-reserves:strategic reserves]**.
 ▪ This unit has [core:Deep Strike] until the start of your next Shooting phase.
 ▪ This unit must make an ingress move in your next Movement phase (including in your first turn).`,
@@ -1165,9 +1165,7 @@ This **[gloss:detachments:detachment]** has the Hypercrypt tag and cannot be tak
           name: 'Murdermind',
           points: 15,
           flavor: "Consumed by the Destroyer madness, this Cryptek's powerful intellect is turned entirely toward killing.",
-          body: `Cryptek model only. The bearer has the DESTROYER CULT keyword. Add 3" to the Move characteristic of the bearer.
-
-In the Declare Battle Formations step, the bearer can be attached to a Lokhust Destroyers, Lokhust Heavy Destroyers, Ophydian Destroyers or Skorpekh Destroyers unit.`,
+          body: `Cryptek model only. The bearer has the DESTROYER CULT keyword. Add 3" to the Move characteristic of the bearer.`,
         },
         {
           name: 'Mark of the Nekrosor',

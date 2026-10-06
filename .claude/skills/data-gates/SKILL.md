@@ -1,6 +1,6 @@
 ---
 name: data-gates
-description: Прогнать проверки данных wh11ed (sync, parity, detmeta, wtags, dsrules, imgrules, coregrants, emphasis, omissions, radii, dupes, a11y, imghash и генераторы с --check) и правильно прочитать вывод. Использовать после любой правки данных правил, датащитов, картинок или стилей.
+description: Прогнать проверки данных wh11ed (sync, parity, detmeta, wtags, dsrules, imgrules, ruletext, coregrants, emphasis, omissions, radii, dupes, a11y, imghash и генераторы с --check) и правильно прочитать вывод. Использовать после любой правки данных правил, датащитов, картинок или стилей.
 ---
 
 # Гейты данных
@@ -18,6 +18,7 @@ npm run detmeta       # GATE: dp/Force Disposition детачмента прот
 npm run wtags         # GATE: у каждого оружейного тега на датащите есть текст
 npm run dsrules       # GATE: именованные правила appdata есть и у нас
 npm run imgrules      # GATE: цифры, которые appdata рисует картинкой внутри правила, есть в нашем тексте
+npm run ruletext      # GATE: текст правил фракций = приложение GW (отличия только записанные, с причиной); EN↔RU одинаковы по абзацам и лору; условия-данные — в extras/, не в тексте
 npm run coregrants    # GATE: правило, дающее core-способность, сказало об этом слою модификаторов
 npm run exceptions    # GATE: каждое записанное расхождение с appdata ещё нужно (ошибка у GW на месте) и ещё применено у нас
 npm run emphasis      # GATE: выделение из канона не потеряно в нашей прозе

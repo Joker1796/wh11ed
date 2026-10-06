@@ -158,7 +158,7 @@ useUpdateNotice().markSeen()
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 1.05rem;
-  color: var(--text-muted);
+  color: var(--accent-ink);
 }
 
 .cl-date {

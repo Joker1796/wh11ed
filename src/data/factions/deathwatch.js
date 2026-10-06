@@ -121,7 +121,7 @@ const en = {
           "name": "The Thief of Secrets",
           "points": 10,
           "flavor": "The Thief of Secrets is a blade whose machine spirit has an unquenchable thirst for knowledge. It has tasted the vitae of countless alien races, absorbing those liquids through auto-sanctified sanguinator-channels and codifying them through the honeycombed array of logicum cells within. The biological secrets of many xenos races have thus been laid bare, allowing the blade’s user to modulate its power field, the better to slice through chitinous armour, rupture xenoform organs and burn out alien nervous systems.",
-          "body": "WATCH MASTER/CAPTAIN model only. This model has the following weapon:\n▪ **The Thief of Secrets** — Melee, A 6, WS 2+, S 6, AP -3, D 2."
+          "body": "WATCH MASTER/CAPTAIN model only. This model has the following weapon:"
         },
         {
           "name": "Beacon Angelis",

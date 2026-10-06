@@ -37,9 +37,10 @@ import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 // Strip wh11ed's enrichment layer (and appdata's residual markup) down to bare comparable words.
 // Applied to BOTH sides — appdata text is run through appdataToMarkup first, so both arrive in
 // the same `**bold**`/`▪`/CAPS convention before this peels it all off.
-function plainText(s) {
+export function plainText(s) {
   if (!s) return ''
-  let t = s
+  // Lore lines inside a rule ("> …", RuleBody draws them as lore): the app keeps lore apart.
+  let t = String(s).split('\n').filter((l) => !l.startsWith('> ')).join('\n')
   // appdata's HTML entities ("&#x65;xcluding", "Not&#x65;") — a character, not a word break
   t = t.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
     .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d)).replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')

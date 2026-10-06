@@ -873,7 +873,7 @@ const en = {
           "name": "Imperium’s Sword",
           "points": 20,
           "flavor": "This champion hurls himself forwards with unbridled ferocity, cutting down the foe like a reaping whirlwind.",
-          "body": "ADEPTUS ASTARTES model only. This model has the following weapon:\n▪ **Imperium’s Sword** — Melee, A 6, WS 2+, S 7, AP -3, D 3."
+          "body": "ADEPTUS ASTARTES model only. This model has the following weapon:"
         },
         {
           "name": "Furious Assault (Upgrade)",

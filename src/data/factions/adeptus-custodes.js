@@ -826,11 +826,6 @@ This **[gloss:detachments:detachment]** has the LIONS tag and cannot be taken wi
 ### Moritoi Ancients
 Add 2" to the Move characteristic of models in ADEPTUS CUSTODES WALKER units from your army and add 1 to Advance and Charge rolls made for such units.
 
-### Keywords
-In the Muster Armies step, you can select up to 2 ADEPTUS CUSTODES WALKER models from your army. The selected units gain the CHARACTER keyword.
-
-**Designer's Note:** This means the selected models can be given Enhancements and one of them can be selected as your WARLORD.
-
 This detachment has the ARMOURY tag and cannot be taken with another ARMOURY detachment.`,
       },
       stratagems: [

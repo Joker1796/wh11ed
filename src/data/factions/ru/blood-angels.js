@@ -152,9 +152,7 @@ export default {
           target: 'Тот юнит SANGUINARY GUARD.',
           effect: `Ваш юнит имеет:
 ▪ [core:Stealth].
-▪ -3" к **[gloss:detection-range:радиусу обнаружения]**.
-
-.`,
+▪ -3" к **[gloss:detection-range:радиусу обнаружения]**.`,
         },
       ],
       enhancements: [
@@ -212,9 +210,7 @@ export default {
           target: 'Тот юнит ADEPTUS ASTARTES CHARACTER.',
           effect: `Ваш юнит имеет:
 ▪ [core:Stealth].
-▪ -3" к **[gloss:detection-range:радиусу обнаружения]**.
-
-.`,
+▪ -3" к **[gloss:detection-range:радиусу обнаружения]**.`,
         },
         // Strike Now for Glory
         {

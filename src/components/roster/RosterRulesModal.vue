@@ -1,5 +1,5 @@
 <template>
-  <!-- The list's rules as a sheet over the builder, opened from the book beside the catalogue's
+  <!-- The list's rules as a sheet over the builder, opened from the shield beside the catalogue's
        search. They used to be a folded bar over both panes — a row of every phone's screen spent
        on something opened now and then (2026-09-24, the builder's height pass). The contents are
        RosterRulesPanel's, unchanged, and load on this first open as they did on the fold's.
@@ -23,6 +23,7 @@
         :detachments="detachment ? [detachment] : detachments"
         :army-rule="!detachment"
         :start-open="detachment ? [detachment] : []"
+        :list="detachment ? null : list"
         bare
       />
     </div>
@@ -40,6 +41,9 @@ defineProps({
   factionSlug: { type: String, required: true },
   detachments: { type: Array, default: () => [] },
   detachment: { type: String, default: '' },
+  // The list being built — each enhancement then says who in it wears it or could. Not for one
+  // detachment looked up before it is taken: that sheet is about the detachment, not the list.
+  list: { type: Object, default: null },
 })
 defineEmits(['close'])
 

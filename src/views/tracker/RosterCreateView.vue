@@ -276,6 +276,7 @@
       v-if="rulesOpen && factionSlug"
       :faction-slug="factionSlug"
       :detachments="detachments"
+      :list="rulesList"
       @close="rulesOpen = false"
     />
     <!-- Saving with no Force Disposition declared asks once (useDispositionGate). -->
@@ -345,6 +346,8 @@ const desk = useMediaQuery('(min-width: 1200px)')
 
 const step = ref(1)
 const rulesOpen = ref(false)
+// The list for the rules sheet, so each enhancement says who wears it or could (EnhancementList).
+const rulesList = computed(() => ({ units: units.value || [], defOf, detachments: curDetachments.value, factionSlug: factionSlug.value }))
 const name = ref('')
 const factionSlug = ref(null)
 const detachments = ref([])

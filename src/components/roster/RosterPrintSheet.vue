@@ -95,6 +95,9 @@ const emit = defineEmits(['pages'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+// What the app applies as data (RuleExtras on screen) is printed as paragraphs after the rule's
+// text: on paper a plate of its own would only cost room.
+const withExtras = (body, extras) => [body, ...(extras || []).map((x) => x[locale.value] || x.en)].filter(Boolean).join('\n\n')
 
 // The wargear column earns its width only when nothing else is carrying the loadout: with cards
 // on, each unit's loadout is on its own card a few pages later, and printing it twice only makes
@@ -177,7 +180,7 @@ const enhancements = computed(() => {
     const found = props.detachments
       .flatMap((d) => d.enhancements || [])
       .find((x) => enhKey(x.name) === key)
-    out.push({ key, name: found?.name || name, body: found?.body || '', bearer: def?.name || e.id })
+    out.push({ key, name: found?.name || name, body: withExtras(found?.body || '', found?.extras), bearer: def?.name || e.id })
   }
   return out
 })
@@ -269,7 +272,7 @@ const blocks = computed(() => {
       t: 'rule',
       name: `${det.name} · ${det.rule.name}`,
       em: det.rule.nameRu || '',
-      body: det.rule.body,
+      body: withExtras(det.rule.body, det.rule.extras),
     }))
     if (rules.length) {
       out.push({ id: 'detach', kind: 'rules', units: [{ t: 'h2', label: l.factionDetachment, keepWithNext: true }, ...rules] })

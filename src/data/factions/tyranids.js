@@ -32,14 +32,14 @@ const en = {
     flavor:
       'The teeming broods of a hive fleet do not think for themselves. They are directed by the gestalt consciousness of the Hive Mind, its iron will channelled through synapse-beasts and cast over the battlefield as an icy, alien dread that gnaws at the minds of the prey.',
     body: `### Synapse
-Some TYRANIDS serve as synaptic conduits or nodal relays through which a portion of the Hive Mind's iron will flows, overriding the natural instincts of the swarm to direct the teeming warrior-beasts to function as a single, gestalt organism on the battlefield.
+> Some TYRANIDS serve as synaptic conduits or nodal relays through which a portion of the Hive Mind's iron will flows, overriding the natural instincts of the swarm to direct the teeming warrior-beasts to function as a single, gestalt organism on the battlefield.
 
 If your Army Faction is Tyranids, while a Tyranids unit from your army is within 6" of one or more friendly Synapse models, that Tyranids unit is said to be within Synapse Range of that model and of your army. While a Tyranids unit from your army is within Synapse Range of your army:
 ▪ Each time that unit takes a Battle-shock test, take that test on 3D6 instead of 2D6.
 ▪ Each time a model in that unit makes a melee attack, add 1 to the Strength characteristic of that attack.
 
 ### Shadow in the Warp
-Tyranids flood the battlefield with the psychic signature of the hive fleet — an icy, alien dread that gnaws at the minds of their prey and smothers even the most stalwart courage. When faced with such unfathomable horror, many are driven insane or suffer catastrophic neural damage.
+> Tyranids flood the battlefield with the psychic signature of the hive fleet — an icy, alien dread that gnaws at the minds of their prey and smothers even the most stalwart courage. When faced with such unfathomable horror, many are driven insane or suffer catastrophic neural damage.
 
 If your Army Faction is Tyranids, once per battle, in either player's Command phase, if one or more units from your army with this ability are on the battlefield, you can unleash the Shadow in the Warp. When you do, each enemy unit on the battlefield must take a Battle-shock test. Each time an enemy unit takes such a Battle-shock test, if it is within 6" of one or more Synapse units from your army, subtract 1 from that test.`,
   },
@@ -542,7 +542,7 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
         body: `TYRANIDS units with this ability are eligible to charge in a turn in which they Fell Back. Vanguard Invader units with this ability are eligible to charge in a turn in which they Advanced.
 
 ### Vanguard Prime
-During the earliest stages of a Tyranid invasion, the rare bioform Imperial observers have named Deathleaper has been seen fulfilling a leadership and coordination role amongst the swarms. Employing pheromone trails and goading imperatives, the creature provides guidance to other warrior organisms that is the localised equivalent of synaptic control.
+> During the earliest stages of a Tyranid invasion, the rare bioform Imperial observers have named Deathleaper has been seen fulfilling a leadership and coordination role amongst the swarms. Employing pheromone trails and goading imperatives, the creature provides guidance to other warrior organisms that is the localised equivalent of synaptic control.
 
 Deathleaper loses the Hunter Organism rule and can be your WARLORD.`,
       },

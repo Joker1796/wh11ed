@@ -482,14 +482,44 @@
                 :key="det.name"
                 class="rv-rule-block"
               >
-                <h3 class="roster-group-head">
-                  {{ det.name }}
+                <!-- Headed like the army rule above, by what it is (owner, 2026-10-06): the bare
+                     name over the rule did not say it was the detachment. One detachment: its
+                     name in the heading. Several: one "Detachments" heading over the first, and
+                     each one's name over its own rule. -->
+                <h3
+                  v-if="selectedDetachmentRules.length === 1"
+                  class="roster-group-head"
+                >
+                  {{ labels.rosterDetachmentLabel }} · {{ det.name }}
                 </h3>
+                <template v-else>
+                  <h3
+                    v-if="det === selectedDetachmentRules[0]"
+                    class="roster-group-head"
+                  >
+                    {{ labels.factionDetachments }}
+                  </h3>
+                  <h4 class="rv-det-name">
+                    {{ det.name }}
+                  </h4>
+                </template>
                 <RuleBlock
                   :title="det.rule.name"
                   :subtitle="det.rule.nameRu"
                   :body="det.rule.body"
                 />
+                <RuleExtras :extras="det.rule.extras" />
+                <!-- Its enhancements, and who in this list wears each one or could (a player's
+                     request, 2026-10-06). -->
+                <template v-if="det.enhancements?.length">
+                  <h3 class="roster-group-head">
+                    {{ labels.factionEnhancements }}
+                  </h3>
+                  <EnhancementList
+                    :enhancements="det.enhancements"
+                    :list="rulesList"
+                  />
+                </template>
               </section>
             </template>
           </div>
@@ -694,6 +724,8 @@ import { memberAt } from '../../composables/rosterGameLink.js'
 import { usableInSlot, groupByPhase } from '../../composables/stratagemPhases.js'
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
+import EnhancementList from '../../components/roster/EnhancementList.vue'
+import RuleExtras from '../../components/RuleExtras.vue'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
@@ -1614,6 +1646,8 @@ const { rulesFaction, detachmentLookup } = useRosterFactionRules(() => roster.va
   when: () => rulesWanted.value || tab.value === 'rules' || tab.value === 'stratagems',
 })
 
+// The list, for the Rules tab's enhancements to say who wears each (EnhancementList).
+const rulesList = computed(() => ({ units: roster.value?.units || [], defOf, detachments: curDetachments.value, factionSlug: roster.value?.faction }))
 const selectedDetachmentRules = computed(() =>
   (roster.value?.detachments || [])
     .map((name) => detachmentLookup.value.get(normName(name)))
@@ -1974,6 +2008,8 @@ function stratKey(strat) {
    settled by chunk order, which is nobody's intention. Through the wrapper it is 0,3,0 and wins
    outright. */
 .rv-rules .rv-rule-block :deep(.rule-block) { padding: 0.5rem 0; }
+/* One of several detachments, named over its rule under the shared heading. */
+.rv-det-name { margin: 0.5rem 0 0; font-family: var(--font-display); font-size: 1.15rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; color: var(--accent-ink); }
 .rv-rules .rv-rule-block :deep(.rule-body) { font-size: 0.85rem; line-height: 1.45; }
 .rv-rules .rv-rule-block :deep(.rule-body p) { margin-bottom: 0.5rem; }
 .rv-rules .rv-rule-block :deep(.rule-body p:last-child) { margin-bottom: 0; }

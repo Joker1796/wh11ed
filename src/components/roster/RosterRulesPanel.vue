@@ -107,6 +107,7 @@
                   :subtitle="det.rule.nameRu"
                   :body="det.rule.body"
                 />
+                <RuleExtras :extras="det.rule?.extras" />
               </div>
             </CollapseTransition>
           </div>
@@ -134,27 +135,10 @@
             </button>
             <CollapseTransition :show="isOpen('enh')">
               <div class="rrp-sec-body">
-                <article
-                  v-for="e in enhancements"
-                  :key="e.name"
-                  class="rrp-enh"
-                >
-                  <div class="rrp-enh-head">
-                    <span class="rrp-enh-name">{{ e.name }}</span>
-                    <span
-                      v-if="e.nameRu"
-                      class="rrp-enh-ru"
-                    >{{ e.nameRu }}</span>
-                    <span
-                      v-if="e.points != null"
-                      class="rrp-enh-pts"
-                    >{{ e.points }}{{ labels.rosterPointsLabel }}</span>
-                  </div>
-                  <div
-                    class="rrp-enh-body"
-                    v-html="renderRichText(e.body)"
-                  />
-                </article>
+                <EnhancementList
+                  :enhancements="enhancements"
+                  :list="list"
+                />
               </div>
             </CollapseTransition>
           </div>
@@ -205,7 +189,8 @@ import { computed, defineAsyncComponent, ref } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useRenderInline } from '../../composables/useRenderInline.js'
+import EnhancementList from './EnhancementList.vue'
+import RuleExtras from '../RuleExtras.vue'
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionRules } from '../../composables/useRosterFactionData.js'
 
@@ -225,10 +210,12 @@ const props = defineProps({
   // the faction's, not the detachment's, so it stays out, and its own rule starts open.
   armyRule: { type: Boolean, default: true },
   startOpen: { type: Array, default: () => [] },
+  // The list itself, so each enhancement says who wears it or could (EnhancementList): { units,
+  // defOf, detachments (roster data), factionSlug }. Without it the texts alone.
+  list: { type: Object, default: null },
 })
 
 const { locale } = useLocale()
-const { renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 const open = ref(props.bare)
@@ -360,13 +347,6 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
 .rrp-sec-body :deep(.rule-body p) { margin-bottom: 0.45rem; }
 .rrp-sec-body :deep(.rule-body p:last-child) { margin-bottom: 0; }
 
-.rrp-enh { padding: 0.35rem 0; border-top: 1px dashed var(--border); }
-.rrp-enh:first-child { border-top: none; padding-top: 0; }
-.rrp-enh-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.35rem; }
-.rrp-enh-name { font-weight: 700; font-size: 0.95rem; color: var(--text-primary); }
-.rrp-enh-ru { font-size: 0.72rem; color: var(--text-muted); }
-.rrp-enh-pts { margin-left: auto; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
-.rrp-enh-body { font-size: 0.8rem; line-height: 1.4; color: var(--text-primary); }
 
 /* One column of cards: this panel sits above a two-pane layout that is already narrow on a
    phone and half a screen wide on a desktop, so a grid of stratagems would fight it. */

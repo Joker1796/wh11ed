@@ -42,6 +42,7 @@
           class="erm-body"
           v-html="renderInline(enh.body)"
         />
+        <RuleExtras :extras="enh.extras" />
         <div
           v-if="enh.note"
           class="erm-note"
@@ -67,6 +68,7 @@
 // matching headache from the mandatory-enhancement bug — see rosterEngine.js's history).
 import { computed, ref, watch, toRef } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import RuleExtras from '../RuleExtras.vue'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

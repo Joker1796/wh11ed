@@ -25,5 +25,27 @@ export async function loadFaction(slug) {
   const loader = modules[`./${slug}.js`]
   if (!loader) return null
   const mod = await loader()
-  return mod[exportName(slug)] ?? Object.values(mod)[0] ?? null
+  const data = mod[exportName(slug)] ?? Object.values(mod)[0] ?? null
+  await attachExtras(slug, data)
+  return data
+}
+
+// What the GW app applies as data rather than prints in a rule (keyword grants, restrictions and
+// allied units, who an enhancement's bearer can lead, its weapon) lives in ./extras/<slug>.js, out
+// of the rule bodies so those can match the app word for word (owner, 2026-10-06). It is hung on
+// the objects here as `extras` — [{ en, ru }] — on a detachment's `rule` and on an enhancement;
+// RuleExtras.vue draws it under the text. The RU overlay inherits it (deepOverlay copies what the
+// overlay does not name). Its own chunk, fetched with the faction that has one. Once per module.
+const extrasModules = import.meta.glob('./extras/*.js')
+async function attachExtras(slug, data) {
+  if (!data?.en || data.__extras) return
+  const loader = extrasModules[`./extras/${slug}.js`]
+  const x = loader ? (await loader()).default : null
+  if (x) {
+    for (const det of data.en.detachments || []) {
+      if (x[`det:${det.id}`] && det.rule) det.rule.extras = x[`det:${det.id}`]
+      for (const e of det.enhancements || []) if (x[`enh:${det.id}:${e.name}`]) e.extras = x[`enh:${det.id}:${e.name}`]
+    }
+  }
+  Object.defineProperty(data, '__extras', { value: true })
 }

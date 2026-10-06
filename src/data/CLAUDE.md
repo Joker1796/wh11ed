@@ -194,6 +194,23 @@ found the bug first: 09.07 Fall-back Move lost the word "shoot" in June and stay
 September even though `sync-core` printed it on every run — one finding among 287 — and on
 2026-09-10 the same reader-before-gate pattern produced the two below it.
 
+- **`npm run ruletext`** (`scripts/check-rule-text.mjs`) — a faction's rule text (army rule,
+  detachment rules, enhancements, stratagems) **reads as the GW app prints it** (owner,
+  2026-10-06). `sync-faction-text` compares it; every difference we keep on purpose (a GW typo we
+  fix, our headings, a picture the app draws that we transcribe) is in `scripts/lib/sync-baseline.json`
+  with its reason, and anything else fails here — `npm run sync` only prints it. Second half: the RU
+  overlay says it in the **same shape** — same paragraphs, same lore lines — and every extras entry
+  has both languages. Born of a Death Guard detachment whose "KEYWORDS" paragraph left the English
+  in July and stayed in the Russian until October; the old parity gate compared markup, not paragraphs.
+  - **What the app applies as data, not text** — keyword grants, restrictions and allied units,
+    "the bearer can be attached to …", an enhancement's weapon profile — is **not** in the rule
+    body: it is `src/data/factions/extras/<slug>.js` (`det:<detachment id>` / `enh:<detachment
+    id>:<enhancement name>` → `[{ en, ru }]`), hung on the objects by `loadFaction()` and drawn
+    under the rule by `RuleExtras.vue` ("Also applies"), printed as a paragraph after it. A picture
+    the app draws inside a rule (a battle-size or dice table) is the rule itself, not data: it stays
+    in the body (`imgrules`).
+  - **Lore inside a rule's text** is a line starting `> ` (EN and RU at the same place): RuleBody
+    draws it as lore (`.rule-flavor`, hidden by "hide lore"), and the text comparison skips it.
 - **`npm run omissions`** (`scripts/check-rule-omissions.mjs`) — the ONE direction that is always a
   defect: appdata's Core Rules carry text wh11ed does not. It reports two shapes — a *dropped word*
   (a line we clearly do carry, minus a load-bearing word) and a *missing line* — and nothing else.

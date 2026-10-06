@@ -244,7 +244,7 @@ const en = {
           "name": "Wolf-Touched",
           "points": 15,
           "flavor": "Whilst the Canis Helix has yet to overcome this champion fully, it is stirred to life by the thrill of battle and the scent of blood.",
-          "body": "ADEPTUS ASTARTES model only. This unit has:\n▪ WULFEN.\n▪ +2” **[gloss:move-characteristic:M]**.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wulfen or Wulfen with Storm Shields unit."
+          "body": "ADEPTUS ASTARTES model only. This unit has:\n▪ WULFEN.\n▪ +2” **[gloss:move-characteristic:M]**."
         },
         {
           "name": "Hunter’s Guile",

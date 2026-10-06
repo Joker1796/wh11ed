@@ -263,6 +263,7 @@
 <script setup>
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import { computed, onMounted, ref, watch } from 'vue'
+import { getItem, setItem, removeItem } from '../../composables/safeStorage.js'
 import { useRouter } from 'vue-router'
 import ActionMenu from '../../components/ActionMenu.vue'
 import RosterListHead from '../../components/roster/RosterListHead.vue'
@@ -354,7 +355,11 @@ const factionFilters = computed(() => {
 })
 // One choice for both tabs. It holds only while the tab still has lists of that faction — the
 // last one deleted, or a tab without it, shows everything again rather than an empty page.
-const pickedFaction = ref(null)
+// Remembered on this device (a player's request, 2026-10-06): opening the page again shows the
+// faction picked last time. Kept even while it shows nothing, so it comes back with its lists.
+const FACTION_KEY = 'wh11ed-roster-list-faction'
+const pickedFaction = ref(getItem(FACTION_KEY) || null)
+watch(pickedFaction, (f) => (f ? setItem(FACTION_KEY, f) : removeItem(FACTION_KEY)))
 const onlyFaction = computed(() => (
   factionFilters.value.length > 1 && factionFilters.value.some((f) => f.slug === pickedFaction.value)
     ? pickedFaction.value : null

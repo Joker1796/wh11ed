@@ -6,10 +6,6 @@
       role="status"
     >
       <div class="ru-inner">
-        <i
-          class="bi bi-trash3 ru-icon"
-          aria-hidden="true"
-        />
         <span class="ru-text">{{ labels.rosterRemoved.replace('{name}', undoable.name) }}</span>
         <button
           type="button"
@@ -72,27 +68,32 @@ const labels = computed(() => ui[locale.value])
    `--accent-on-dark` would hand every army the same red: the border followed the faction and the
    button did not, which is what the owner saw on a Necron list. The fallback is for a roster with
    no faction picked yet. */
+/* Sized by its content, one line (owner, 2026-10-06: on a phone the full-width bar with a trash
+   icon and a name wrapping to three lines was "huge"). A long name is cut with an
+   ellipsis — the reader just removed that unit and knows which it was; a screen reader still gets
+   the whole line. */
 .ru-inner {
   pointer-events: auto;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  max-width: 34rem;
+  gap: 0.25rem;
+  width: fit-content;
+  max-width: min(34rem, 100%);
   margin: 0 auto;
-  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+  padding: 0.15rem 0.15rem 0.15rem 0.7rem;
   background: var(--bg-insert);
   border: 1px solid color-mix(in srgb, var(--ru-accent) 45%, var(--bg-insert));
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   color: var(--text-on-dark);
   --ru-accent: var(--fa-dark, var(--accent-on-dark));
 }
-.ru-icon { flex-shrink: 0; color: var(--ru-accent); }
 .ru-text {
-  flex: 1;
   min-width: 0;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   line-height: 1.3;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* The one action, loud enough to be the reason the bar is there. The accent carries it as an
    OUTLINE, not as the letters: a faction accent on this surface runs around 3:1, which is fine for
@@ -100,13 +101,14 @@ const labels = computed(() => ui[locale.value])
    high-contrast ink and the box does the shouting. */
 .ru-undo {
   flex-shrink: 0;
-  min-height: 32px;
-  padding: 0 0.7rem;
+  min-height: 28px;
+  margin-left: 0.35rem;
+  padding: 0 0.55rem;
   border: 1px solid var(--ru-accent);
   background: none;
   color: var(--text-on-dark);
   font: inherit;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -115,13 +117,13 @@ const labels = computed(() => ui[locale.value])
 @media (hover: hover) { .ru-undo:hover { background: color-mix(in srgb, var(--ru-accent) 22%, transparent); } }
 .ru-close {
   flex-shrink: 0;
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 30px;
+  min-height: 30px;
   border: none;
   background: none;
   color: var(--text-on-dark);
   opacity: 0.7;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
 }
 @media (hover: hover) { .ru-close:hover { opacity: 1; } }

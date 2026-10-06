@@ -237,7 +237,7 @@ const en = {
           name: "Butcher Lord",
           points: 10,
           flavor: "Some World Eaters lead packs of cultists into battle, inspiring the masses with their inhuman savagery.",
-          body: "WORLD EATERS INFANTRY model only. The bearer has the [core:Infiltrators] ability.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Goremongers or Jakhals unit.",
+          body: "WORLD EATERS INFANTRY model only. The bearer has the [core:Infiltrators] ability.",
         },
         {
           name: "Brazen Form",
@@ -371,7 +371,7 @@ const en = {
       rule: {
         name: "Blood Tithe",
         flavor: "To call forth the blood legions requires the spilling of oceans of crimson gore.",
-        body: "Each time a Blood Legions or World Eaters unit from your army destroys an enemy unit, roll one D6: on a 3+, you gain 1 Blood Tithe point (BTP). At the start of the Command phase, you can spend one or more of your BTP to activate one of the following abilities until the end of the battle:\n▪ **Enraged Abjuration [2BTP]**\nBLOOD LEGIONS and WORLD EATERS models from your army have the Feel No Pain 5+ ability against Psychic Attacks and mortal wounds.\n▪ **Daemonic Rage [3BTP]**\nMelee weapons equipped by BLOOD LEGIONS units from your army have the [LANCE] ability.\n▪ **Boon of Blood [4BTP]**\nBLOOD LEGIONS units from your army have a 4+ invulnerable save.\n▪ **Might of Khorne [5BTP]**\nBLOOD LEGIONS units from your army gain the Blessings of Khorne ability.\n\nRESTRICTIONS\nYou can include the Blood Legions units in your army. The combined points cost of such units you can include in your army is:\n\n**Incursion:** Up to 500 pts\n**Strike Force:** Up to 1000 pts\n**Onslaught:** Up to 1500 pts\n\nNo BLOOD LEGIONS model from your army can be your WARLORD.",
+        body: "Each time a Blood Legions or World Eaters unit from your army destroys an enemy unit, roll one D6: on a 3+, you gain 1 Blood Tithe point (BTP). At the start of the Command phase, you can spend one or more of your BTP to activate one of the following abilities until the end of the battle:\n▪ **Enraged Abjuration [2BTP]**\nBLOOD LEGIONS and WORLD EATERS models from your army have the Feel No Pain 5+ ability against Psychic Attacks and mortal wounds.\n▪ **Daemonic Rage [3BTP]**\nMelee weapons equipped by BLOOD LEGIONS units from your army have the [LANCE] ability.\n▪ **Boon of Blood [4BTP]**\nBLOOD LEGIONS units from your army have a 4+ invulnerable save.\n▪ **Might of Khorne [5BTP]**\nBLOOD LEGIONS units from your army gain the Blessings of Khorne ability.",
       },
       stratagems: [
         {
@@ -458,7 +458,7 @@ const en = {
           name: "Disciple of Khorne",
           points: 15,
           flavor: "This puissant master of carnage has earned the right to lead Khornes immortal legions to war.",
-          body: "Lord on Juggernaut model only. The bearer has the [core:Deep Strike] ability and it has the BLOOD LEGIONS Faction keyword instead of the WORLD EATERS Faction keyword.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Bloodcrushers or Flesh Hounds unit.",
+          body: "Lord on Juggernaut model only. The bearer has the [core:Deep Strike] ability and it has the BLOOD LEGIONS Faction keyword instead of the WORLD EATERS Faction keyword.",
         },
         {
           name: "Blade of Endless Bloodshed",

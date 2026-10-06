@@ -15,7 +15,9 @@ import { takeUnitEntry, restoreUnitEntry } from './rosterEngine.js'
 // Both screens that remove units use it — the editor over the roster it owns, the wizard over a
 // draft's array — so `unitsOf` is a getter rather than a roster: the two hold their units
 // differently, and this only ever needs the array.
-export const UNDO_MS = 8000
+// How long the "Removed" bar offers Undo: 3 s since 2026-10-06 (owner — 8 s left it over the
+// list well after the moment had passed; a mistap is noticed at once).
+export const UNDO_MS = 3000
 
 export function useRosterUndo(unitsOf, onChange) {
   // What the bar says, and nothing else: the ticket itself stays out of the ref so a removed

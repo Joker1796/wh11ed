@@ -735,8 +735,7 @@ Friendly TECH-PRIEST models have the following ability:
           name: 'TL-4ø9',
           points: 30,
           flavor: 'This modest-seeming casket is named for the almost indecipherable sigils on its ancient casing. The prevailing theocratic dogma is that this artefact is a weapon, for when its iris shutter is opened, a night-black beam of incredible power is released.',
-          body: `Tech-Priest model only. This model has the following weapon:
-▪ **TL-4ø9** [DEVASTATING WOUNDS, HAZARDOUS] — Range 24", A 3, BS 2+, S 11, AP -2, D D3+2.`,
+          body: `Tech-Priest model only. This model has the following weapon:`,
         },
       ],
     },

@@ -326,6 +326,13 @@ reports it. `swapRoom` pools the alternatives; `stockBlocker` closes the group o
 carries either. Without it the group replaced nothing and four heavy bolters sat beside four heavy
 weapons (a player's report, 2026-10-03).
 
+**One copy of several — `rc` (main generator since 2026-10-06).** "The Nob can have their Rokkit
+Pistol replaced with 1 Smash Hammer": the Nob carries two, the sentence names one (no "each", no
+"both", no number, the item singular), so `gen-roster-data` writes `rc: 1` and `pickShare` charges a
+pick one copy of the two — the other stays on the card and the list. Read as an ordinary swap it took
+both (a player's report). The Legends generator (`pack-roster`) already wrote `rc` for "2 of this
+model's …"; corpus-wide the singular wording on a multi-copy per-model line is Tankbustas alone today.
+
 **Kept items — `keep` (added 2026-09-24).** "(that model's boltgun cannot be replaced)" is read by
 the generator (`KEEP_RE`, 38 groups, `--check` fails on one whose item does not resolve) into
 `g.keep`. The model still carries the item — the loadout line keeps it — but no other group may
@@ -1495,7 +1502,7 @@ back.
 **`useRosterUndo.js` is the one step back the builder has** (2026-09-23). Building a list is a long
 session of small picks and the trash icon sat on the same tile as the row that opens them; the only
 way back from a mis-tap was Cancel, which throws away the session rather than the tap. It holds the
-last removal for 8 seconds (`UNDO_MS`) and `RosterUndoBar.vue` offers it back — a REPORT with one
+last removal for 3 seconds (`UNDO_MS`, 8 until 2026-10-06) and `RosterUndoBar.vue` offers it back — a REPORT with one
 action, `role="status"`, taking no focus, ignoring it being the ordinary outcome. ONE slot on
 purpose: a stack invites "undo until it looks right", which is a different feature and one that
 would have to survive a save, a reload and both screens. The ticket lives in a closure, not in the
@@ -1822,13 +1829,21 @@ mission datasets). The list's "Statistics" button is just a link to `/roster`.
 ## Faction rules beside the build (added 2026-08-28)
 
 `RosterRulesPanel.vue` on **both** building screens — the wizard's Units step and the editor's
-Units mode. **Since 2026-09-24 it is a sheet, not a bar**: the book beside the catalogue's search
+Units mode. **Since 2026-09-24 it is a sheet, not a bar**: the shield (book until 2026-10-06 — the top bar's lore switch is a book too) beside the catalogue's search
 (`RosterUnitBrowser`'s `rules-button` → `open-rules`) opens `RosterRulesModal`, which hosts the
 panel `bare` (no head of its own, open from the start). The folded bar over both panes cost a row
 of every phone's screen for something opened now and then — see "Height for the panes" below. The question a half-built list raises is "what does my detachment
 actually do?", and the answer used to live on the faction pages, one navigation out of the builder
 and back (the resume chip in "Views" exists because of that trip). The list's own Rules tab is no
 help either: it is on the finished list's view screen.
+
+**Who wears an enhancement (2026-10-06, a player's request).** Each enhancement in the rules sheet
+and in the list view's Rules tab says, under its text, which unit of the list has taken it or which
+could — `EnhancementList.vue` over `rosterEngine.enhancementBearers`, the same `enhEligible` the
+editor's enhancement picker asks (granted keywords included). Names are matched loosely between the
+rules bundle and the roster data (apostrophes, case); a mandatory enhancement is worn by every unit
+it fits; repeated names are counted ("Captain ×2"). The one-detachment sheet from the picker's ⓘ
+gets no list — it is about the detachment, not the list.
 
 - **Folded twice.** The panel starts closed — it is reference, not the work — and each thing inside
   it is its own fold: the army rule, one per picked detachment, the enhancements those detachments
@@ -1871,21 +1886,22 @@ phone spent three rows of the catalogue on switches already summed up by that co
 open and nothing hidden the block drops its own padding and rule (`.rub-filters.folded`): a closed
 filter must not cost a visible band of pane height.
 
-- **"Fits the points left"** compares `minPoints(u)` — the cheapest bracket plus any mandatory
-  enhancement, exactly the figure the row prints — against the `remaining` prop, which both views
-  pass as `limit - points`. No `remaining` (no battle size resolvable) takes the toggle off the
-  screen rather than guessing. The promise is "its cheapest configuration fits"; a bigger bracket
-  or paid wargear chosen afterwards can still take the list over, and saying so is the points
-  readout's job.
+- **"Fits the points left"** compares `minPoints(u)` — the NEXT copy's cheapest bracket, copy tax
+  and any mandatory enhancement included, exactly the figure the row prints — against the
+  `remaining` prop, which both views pass as `limit - points`. No `remaining` (no battle size
+  resolvable) takes the toggle off the screen rather than guessing. The promise is "another copy
+  fits"; a bigger bracket or paid wargear chosen afterwards can still take the list over, and
+  saying so is the points readout's job.
 - **"In my collection"** reads `useCollection` (below).
 
 Two things follow from the pane being a list you are BUILDING, not a picker:
 
-- **A unit already in the list is never filtered away**, by either toggle. A catalogue that drops
-  what you just added — the budget ran out, or you are proxying something you do not own — reads as
-  a bug; its row keeps its count badge instead. It is also why the copy tax (`def.step`) never enters
-  the budget test: the surcharge lands on the Nth copy, and every unit the test prices is on its
-  first.
+- **The budget filter asks the same question of every row, the units in the list included**
+  (owner, 2026-10-06). It used to spare them, for the "−" their rows carried; that button left the
+  catalogue on 2026-09-23, and a player then read the spared rows as the filter not working ("why
+  are the others hidden and not these"). While another copy fits the row stays, so building three
+  copies is three taps. **The other two toggles still spare a unit in the list**: a catalogue that
+  drops what you just added because you are proxying a box you do not own reads as a bug.
 - **The "N hidden" count is taken after `sectionsOf`, not before it.** A group whose ally
   Detachment isn't selected is not on offer whatever the toggles say, and counting it as hidden by
   the filter would be a lie. That is the one reason `allSections` exists beside `groups`; with both

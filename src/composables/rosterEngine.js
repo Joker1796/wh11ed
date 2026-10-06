@@ -658,6 +658,38 @@ export function findEnhancement(detachments, name) {
   return null
 }
 
+// Who in this list wears an enhancement, and who could (a player's request, 2026-10-06 — reading
+// a list's enhancements, the first question is "on whom?"). `name` is the enhancement's as the
+// rules text prints it; matched loosely against the roster data's (apostrophes, case). Units are
+// answered by their datasheet name, repeated names counted ("Captain ×2"); a unit already wearing
+// another is no candidate. A mandatory one is worn by every unit it fits. Null when no selected
+// detachment offers it.
+const looseName = (s) => String(s || '').replace(/[\u2019'`]/g, "'").trim().toLowerCase()
+export function enhancementBearers(name, { units = [], defOf, detachments = [], factionSlug } = {}) {
+  let enh = null
+  for (const d of detachments) {
+    enh = d?.enhancements?.find((x) => looseName(x.name) === looseName(name)) || null
+    if (enh) break
+  }
+  if (!enh || !defOf) return null
+  const taken = []
+  const can = []
+  for (const u of units) {
+    const def = defOf(u.id)
+    if (!def) continue
+    const fits = enhEligible(enh, def, grantedKeywords(def, u, detachments, factionSlug))
+    if (u.enh === enh.name || (enh.mandatory && fits)) taken.push(def.name)
+    // One enhancement a unit: one already wearing another is not a candidate.
+    else if (fits && !enh.mandatory && !u.enh) can.push(def.name)
+  }
+  const counted = (names) => [...names.reduce((m, n) => m.set(n, (m.get(n) || 0) + 1), new Map())]
+    .map(([n, k]) => (k > 1 ? `${n} ×${k}` : n))
+  // An "(Upgrade)" one may be taken several times (`limit`): while there is room, the candidates
+  // still count after the first taker.
+  const room = taken.length < (enh.limit || 1)
+  return { taken: counted(taken), can: room ? counted(can) : [] }
+}
+
 // Enhancement options for one roster entry: every enhancement across the roster's selected
 // detachments (deduped by name — the same enhancement can be offered by more than one
 // detachment), each flagged eligible for this unit and/or already at its per-name cap on OTHER

@@ -1748,6 +1748,7 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 /* "Hide lore" mode — hides non-rules flavour text */
 [data-hide-lore="true"] .intro-quote,
 [data-hide-lore="true"] .ability-flavor,
+[data-hide-lore="true"] .rule-flavor,
 [data-hide-lore="true"] .strat-flavor,
 [data-hide-lore="true"] .event-flavor,
 [data-hide-lore="true"] .tcard-flavor,

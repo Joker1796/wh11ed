@@ -40,7 +40,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       rule: {
         name: "Daemonic Empowerment",
         flavor: "Where the Emperor’s Children indulge their obsession, the power ofSlaanesh empowers those in his thrall.",
-        body: "▪ While an Emperor’s Children unit from your army is within 6\" of one or more friendly Legions of Excess units, it is Empowered.\n▪ While a LEGIONS OF EXCESS unit from your army is within 6\" of one or more friendly EMPEROR’S CHILDREN units, it is Empowered.\n\nWhile a unit from your army is Empowered, weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability. If such a weapon already has that ability, each time an attack is made with that weapon, an unmodified Hit roll of 5+ scores a Critical Hit.\n\nLEGIONS OF EXCESS\nYou can include Legions of Excess units in your army, even though they do not have the EMPEROR’S CHILDREN Faction keyword. The combined points cost of such units you can include in your army is:\n▪ **Incursion:** Up to 500 pts\n▪ **Strike Force:** Up to 1000 pts\n▪ **Onslaught:** Up to 1500 pts\nNo LEGIONS OF EXCESS models from your army can be your WARLORD.",
+        body: "▪ While an Emperor’s Children unit from your army is within 6\" of one or more friendly Legions of Excess units, it is Empowered.\n▪ While a LEGIONS OF EXCESS unit from your army is within 6\" of one or more friendly EMPEROR’S CHILDREN units, it is Empowered.\n\nWhile a unit from your army is Empowered, weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability. If such a weapon already has that ability, each time an attack is made with that weapon, an unmodified Hit roll of 5+ scores a Critical Hit.",
       },
       stratagems: [
         {
@@ -336,7 +336,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Exalted Patron",
           points: 15,
           flavor: "This champion is a domineering martial lord, hungry for the adulation and audience of his warband’s most self-centred blademasters.",
-          body: "Lord Exultant model only. Add 1\" to the Move characteristic of the bearer.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Flawless Blades unit.",
+          body: "Lord Exultant model only. Add 1\" to the Move characteristic of the bearer.",
         },
         {
           name: "Soulstain Made Manifest",

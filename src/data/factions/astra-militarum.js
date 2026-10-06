@@ -50,7 +50,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Squadron Command",
         flavor: "Officers in charge of motorised formations are as well versed in armoured combat as in infantry operations.",
-        body: "Add Squadron to the list of units each **Officer** unit from your army can issue [gloss:am-order:**Orders**] to. Add the **Order** below to those listed in the Voice of Command ability.\n\nON MY SIGNAL\n\nThis **Order** can only be issued to Armoured Skirmisher units (see Keywords). Each time an enemy unit ends a Normal or Advance move within 8\" of this unit, this unit can make a Normal move of up to D6\". Each unit can only move in this way once per turn.\n\nKEYWORDS\nAstra Militarum Squadron units from your army have the ARMOURED SKIRMISHER keyword (excluding Artillery units and units containing one or more models with a Wounds characteristic of 13 or higher).",
+        body: "Add Squadron to the list of units each **Officer** unit from your army can issue [gloss:am-order:**Orders**] to. Add the **Order** below to those listed in the Voice of Command ability.\n\nON MY SIGNAL\n\nThis **Order** can only be issued to Armoured Skirmisher units (see Keywords). Each time an enemy unit ends a Normal or Advance move within 8\" of this unit, this unit can make a Normal move of up to D6\". Each unit can only move in this way once per turn.",
       },
       stratagems: [
         {
@@ -802,7 +802,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Ceaseless Cannonade",
         flavor: "The heaviest Astra Militarum vehicles are adamantine behemoths whose armour is almost impenetrable. The crews of these colossal war engines need have no concern for the integrity of their vehicles, unleashing even the most violently destructive ordnance at point-blank range.",
-        body: "Each time an ASTRA MILITARUM TITANIC or ASTRA MILITARUM SQUADRON unit from your army is selected to shoot, models in that unit can target enemy units within Engagement Range of that unit (including with Blast weapons), provided no other friendly units are also within Engagement Range of that enemy unit. When doing so, such models do not suffer the penalty to their Hit rolls for being within Engagement Range of one or more enemy units (excluding attacks made with Indirect Fire weapons).\n\nKEYWORDS\nIn the Muster Armies step, you can select one or more **ASTRA MILITARUM** TITANIC units from your army to gain the CHARACTER keyword.\n\n**Designer’s Note:** This means that the selected units can be given Enhancements, and one of them can be selected as your WARLORD.",
+        body: "Each time an ASTRA MILITARUM TITANIC or ASTRA MILITARUM SQUADRON unit from your army is selected to shoot, models in that unit can target enemy units within Engagement Range of that unit (including with Blast weapons), provided no other friendly units are also within Engagement Range of that enemy unit. When doing so, such models do not suffer the penalty to their Hit rolls for being within Engagement Range of one or more enemy units (excluding attacks made with Indirect Fire weapons).",
       },
       stratagems: [
         {
@@ -961,7 +961,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           points: 10,
           upgrade: true,
           flavor: "The whine of hidden bionics, webs of ugly scars, or the rattle of abraded lungs with every barked order signals a grizzled veteran whose devotion to duty has seen them survive not only the enemy but also proximity to the most overly muscled soldiers.",
-          body: "COMMISSAR model only. This model has [core:Feel No Pain 4+].\n\nIn the Declare Battle Formations step, the bearer can be attached to an Ogryn Squad or Bullgryn Squad unit.",
+          body: "COMMISSAR model only. This model has [core:Feel No Pain 4+].",
         },
       ],
     },

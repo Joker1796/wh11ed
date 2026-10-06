@@ -135,6 +135,7 @@
     </h4>
     <p
       v-else
+      :class="{ 'rule-flavor': block.lore }"
       v-html="renderInline(block.text)"
     />
   </template>
@@ -280,6 +281,12 @@ const blocks = computed(() => {
     } else if (isResultRow) {
       if (mode !== 'result-table') { flush(); mode = 'result-table' }
       buf.push(line)
+    } else if (line.startsWith('> ')) {
+      // A lore line inside a rule's text ("> …", owner 2026-10-06): the app keeps lore apart from
+      // the rule, so we mark it — drawn as lore and hidden by the "hide lore" switch, and left out
+      // of the text sync (sync-faction-text). A player's report: lore stayed under "hide lore".
+      flush()
+      result.push({ type: 'p', text: line.slice(2), lore: true })
     } else {
       if (mode !== 'p') { flush(); mode = 'p' }
       buf.push(line)
@@ -296,6 +303,8 @@ const { renderInline } = useRenderInline()
 p {
   margin-bottom: 0.7rem;
 }
+/* Lore inside a rule's text, as the faction page prints a rule's own lore. */
+.rule-flavor { font-family: var(--font-serif); font-style: italic; color: var(--text-muted); }
 
 .rule-subheading {
   font-family: var(--font-display);

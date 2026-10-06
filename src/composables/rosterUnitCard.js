@@ -394,7 +394,7 @@ export function useRosterUnitCard(props) {
       if (src.kind === 'enhancement') {
         if (!fac) continue
         const found = findEnhancementProse(fac.detachments, src.name, props.ctx?.detachments)
-        if (found?.body) out.push({ key: `enh:${src.name}`, src: labels.value.rosterEnhancement, name: found.name, body: found.body, switches: switchesOfRule('enhancement', found.name, null) })
+        if (found?.body) out.push({ key: `enh:${src.name}`, src: labels.value.rosterEnhancement, name: found.name, body: found.body, extras: found.extras, switches: switchesOfRule('enhancement', found.name, null) })
       } else if (src.kind === 'detachment') {
         if (!fac) continue
         const target = detKey(src.name)
@@ -406,6 +406,7 @@ export function useRosterUnitCard(props) {
             src: `${labels.value.factionDetachment} · ${det.name}`,
             name: det.rule.name,
             body: det.rule.body,
+            extras: det.rule.extras,
             switches: switchesOfRule('detachmentRule', det.rule.name, det.name),
           })
         }

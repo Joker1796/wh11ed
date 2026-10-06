@@ -168,7 +168,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       rule: {
         name: "Marked Prey",
         flavor: "Once War Dogs have singled out a victim, they target it relentlessly until it is dragged down and torn apart.",
-        body: "At the start of your Command phase, select one unit from your opponent’s army. Until the start of your next Command phase, each time a War Dog model from your army makes an attack that targets that enemy unit, if that unit is visible to the attacking model, that attack has the [SUSTAINED HITS 1] ability.\n\nKEYWORDS\nWhile using the Houndpack Lance Detachment, the following rules apply:\n▪ Your army must include three or more WAR DOG units.\n▪ WAR DOG units from your army have the BATTLELINE keyword.\n▪ When mustering your army, select three WAR DOG units from your army. Until the end of the battle, those units have the CHARACTER keyword.*\n\n***Designer’s Note:** This means that the selected units can be given Enhancements and one of them can be selected as your WARLORD.",
+        body: "At the start of your Command phase, select one unit from your opponent’s army. Until the start of your next Command phase, each time a War Dog model from your army makes an attack that targets that enemy unit, if that unit is visible to the attacking model, that attack has the [SUSTAINED HITS 1] ability.",
       },
       stratagems: [
         {

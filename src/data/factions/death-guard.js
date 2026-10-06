@@ -485,7 +485,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       rule: {
         name: "Reverberant Rancidity",
         flavor: "Reality rings like a struck bell as it rebels against the sheer wrongness of Nurgle’s daemons. Borne upon these jarring waves of metaphysical disease, magnified and redoubled with every dolorous peal, the Plague God’s myriad infections spread and multiply all the faster.",
-        body: "While a Plague Legions unit from your army is within 7\" of one or more DEATH GUARD units from your army, that PLAGUE LEGIONS unit has the Nurgle’s Gift ability.\n\nWhile a Death Guard unit from your army is within 7\" of one or more PLAGUE LEGIONS units from your army, add 3\" to that DEATH GUARD units Contagion Range.\n\nPLAGUE LEGIONS\nYou can include Plague Legions units in your army, even though they do not have the DEATH GUARD Faction keyword. The combined points cost of such units you can include in your army is:\n▪ **Incursion:** Up to 500 pts\n▪ **Strike Force:** Up to 1000 pts\n▪ **Onslaught:** Up to 1500 pts\n\nNo PLAGUE LEGIONS models from your army can be your WARLORD.",
+        body: "While a Plague Legions unit from your army is within 7\" of one or more DEATH GUARD units from your army, that PLAGUE LEGIONS unit has the Nurgle’s Gift ability.\n\nWhile a Death Guard unit from your army is within 7\" of one or more PLAGUE LEGIONS units from your army, add 3\" to that DEATH GUARD units Contagion Range.",
       },
       stratagems: [
         {

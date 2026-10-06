@@ -2249,6 +2249,27 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }))
     if (copies > 1) { d.cp = copies; report.limit.perCopy++ }
   }
+  // One copy of several: "The Nob can have their Rokkit Pistol replaced with 1 Smash Hammer" — the
+  // Nob carries two rokkit pistols and the sentence names ONE (no "each", no "both", no number, the
+  // item in the singular), so a pick takes one copy (`rc`, rosterEngine's pickShare) and the other
+  // stays. Read as an ordinary swap it took both off the model, card and list (a player's report,
+  // 2026-10-06). Only a per-model line: a profile TOTAL ("2 Havocs are equipped with…") is one copy
+  // per model already, and a per-copy group (`cp`) has its own allowance.
+  for (const d of drafts) {
+    if (d.cp || d.lim || d.rep?.length !== 1) continue
+    const head = d.text.split('\n')[0]
+    const low = head.toLowerCase()
+    if (/\b(each|both|all|two|three|four|[2-9])\b/.test(low.split('replaced')[0])) continue
+    // Looked up, not interned: fx.item() hands out the next id on a first call, and calling it here,
+    // earlier than the groups below, renumbers items across every faction file.
+    const id = itemIds.get(d.rep[0])
+    const hit = id != null && (defaults.find(([m]) => m === d.m)?.[1] || []).find(([i]) => i === id)
+    if (!hit || hit.length > 2 || !(hit[1] > 1)) continue
+    const name = String(wgItemName.get(d.rep[0]) || '').toLowerCase()
+    if (!name || !low.includes(name) || low.includes(`${name}s`) || (/y$/.test(name) && low.includes(name.replace(/y$/, 'ies')))) continue
+    d.rc = 1
+    report.limit.oneCopy = (report.limit.oneCopy || 0) + 1
+  }
   // "Any number of Tempestus Scions can each have their hot-shot lasgun replaced with one of the
   // following" — one pick per MODEL of that profile, not one pick for the unit. appdata files it as
   // a checkbox with no limited-choice set, and the editor draws a capless multi-option checkbox as
@@ -2319,6 +2340,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     if (d.lim) grp.lim = d.lim
     if (d.cp) grp.cp = d.cp
+    if (d.rc) grp.rc = d.rc
     if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
     if (d.alt) grp.alt = 1
     if (d.keep?.length) grp.keep = d.keep.map((uuid) => fx.item(uuid))

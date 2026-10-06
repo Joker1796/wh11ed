@@ -530,11 +530,7 @@ Asuryani Psyker models from your army have the following ability:
         name: 'Acrobatic Onslaught',
         flavor:
           'Trying to fight the Harlequins of the Laughing God is like battling bladed smoke. They flip and bound through the enemy ranks with contemptuous ease, springing across the heads and shoulders of dumbfounded combatants, sprinting across the hulls of war engines, all the while bearing down with murderous intent upon their true intended victims.',
-        body: `Each time a **Harlequins** model from your army makes a Charge move, it can move through enemy models.
-
-**Travelling Players:**
-▪ Troupe units from your army gain the **Battleline** keyword and Troupe models in those units have an Objective Control characteristic of 2.
-▪ You can include up to three of each of the following models in your army: Death Jester, Shadowseer, Troupe Master.`,
+        body: `Each time a **Harlequins** model from your army makes a Charge move, it can move through enemy models.`,
       },
       stratagems: [
         {
@@ -1265,11 +1261,7 @@ Each time you use one of the Stratagems opposite, if your Fate dice pool contain
           "Playing their roles to perfection, the Harlequins embody the swift-striking fangs and deadly venoms of the Cosmic Serpent's brood, dominating the stage of the battlefield with their swift and vicious performances.",
         body: `Weapons equipped by **Harlequins Mounted** and **Harlequins Vehicle** models from your army have the [SUSTAINED HITS 1] ability.
 
-Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, until the end of the turn, that unit's weapons have the [SUSTAINED HITS 1] ability.
-
-**Travelling Players:**
-▪ Troupe units from your army gain the **Battleline** keyword, and Troupe models in those units have an Objective Control characteristic of 2.
-▪ You can include up to three of each of the following models in your army: Death Jester, Shadowseer, Troupe Master.`,
+Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, until the end of the turn, that unit's weapons have the [SUSTAINED HITS 1] ability.`,
       },
       stratagems: [
         {

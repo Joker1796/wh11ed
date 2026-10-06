@@ -82,6 +82,7 @@
           :subtitle="det.rule.nameRu"
           :body="det.rule.body"
         />
+        <RuleExtras :extras="det.rule.extras" />
 
         <!-- Stratagems -->
         <template v-if="det.stratagems && det.stratagems.length">
@@ -152,6 +153,7 @@
               class="enh-note"
               v-html="renderInline(e.note)"
             />
+            <RuleExtras :extras="e.extras" />
           </article>
         </div>
       </section>
@@ -162,6 +164,7 @@
 <script setup>
 import { computed } from 'vue'
 import RuleBlock from '../../components/RuleBlock.vue'
+import RuleExtras from '../../components/RuleExtras.vue'
 import StratCard from '../../components/StratCard.vue'
 import FactionPickerBar from '../../components/FactionPickerBar.vue'
 import { useFactionPage } from '../../composables/useFactionPage.js'

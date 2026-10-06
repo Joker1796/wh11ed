@@ -242,14 +242,28 @@ describe('RosterUnitBrowser — the catalogue filters', () => {
     expect(w.find('.rub-hidden').text()).toContain('2')
   })
 
-  // The row carries the "−" button, and a catalogue that drops what you just added — because the
-  // budget ran out on it — reads as a bug rather than as a filter.
-  it('keeps a unit already in the list on screen, whatever the budget says', async () => {
+  // Owner, 2026-10-06: a player read the units in the list staying on screen as the filter not
+  // working. The question is "does another copy fit?" for every row, in the list or not.
+  it('hides a unit already in the list once another copy no longer fits', async () => {
     const w = mountBrowser({ remaining: 10, addedIds: ['b'] })
     await tick(filters(w)[0])
+    expect(w.text()).not.toContain('Bravo Character')
+    expect(w.find('.rub-hidden').text()).toContain('5')
+  })
+
+  it('keeps a unit already in the list while another copy still fits', async () => {
+    const w = mountBrowser({ remaining: 100, addedIds: ['b'] })
+    await tick(filters(w)[0])
+    expect(rowFor(w, 'Bravo Character').find('.rub-count').exists()).toBe(true)
+  })
+
+  // The collection filter is about the shelf, not the budget: proxying a box you do not own must
+  // not make the unit you just added vanish.
+  it('keeps a unit already in the list when only the collection filter would hide it', async () => {
+    const w = mountBrowser({ addedIds: ['b'] })
+    await tick(filters(w).at(-1))
     expect(w.text()).toContain('Bravo Character')
     expect(w.text()).not.toContain('Alpha Battleline')
-    expect(w.find('.rub-hidden').text()).toContain('4')
   })
 
   // The row only SHOWS the mark (a star badge beside the name); the collection is edited in the

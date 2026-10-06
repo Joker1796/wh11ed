@@ -22,6 +22,32 @@
 
 export const changelog = [
   {
+    version: '2.7.17',
+    date: '2026-10-06',
+    en: [
+      { h: 'Roster builder' },
+      'The list you edited last is now at the top of your lists. Pinned lists stay above it. Just opening a list does not move it.',
+      'The “Fits the points left” filter now hides units that are already in your list too. A unit stays while one more copy of it fits. Before, units in the list were never hidden.',
+    'The Rules tab of a roster now shows your detachments’ enhancements. Under each one you see which unit has taken it. If it is still free, you see which units can take it. The same shows in the builder under {btn:shield}.',
+    'The faction filter on your lists is now remembered. The page opens on the faction you picked last time.',
+    'The Tankbustas Nob now swaps only one Rokkit Pistol for a Smash Hammer. Before, both pistols disappeared.',
+    { h: 'Faction rules' },
+    'Faction rule texts now match the GW app word for word. What the app applies on its own is in an “Also applies” plate under the rule: keywords units gain, limits on allied units, which units an enhancement’s bearer can join, an enhancement’s weapon.',
+    '“Hide lore” now hides lore inside rules too. Before, Tyranids lore stayed in the army rule and in the Vanguard Onslaught detachment.',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      'Список, который вы меняли последним, теперь стоит первым. Закреплённые списки по-прежнему выше всех. Если список просто открыть, он не сдвигается.',
+      'Фильтр «Влезает в остаток» теперь прячет и юниты, которые уже есть в списке. Юнит остаётся, пока влезает ещё одна его копия. Раньше юниты из списка не прятались никогда.',
+    'На вкладке «Правила» в ростере теперь есть улучшения ваших детачментов. Под каждым написано, какой юнит его взял. Если улучшение свободно, написано, какие юниты могут его взять. То же видно в конструкторе по кнопке {btn:shield}.',
+    'Фильтр по фракции в списке ростеров теперь запоминается. Страница открывается на той фракции, которую вы выбрали в прошлый раз.',
+    'У Tankbustas ноб теперь меняет на Smash Hammer только один Rokkit Pistol. Раньше пропадали оба.',
+    { h: 'Правила фракций' },
+    'Текст правил фракций теперь совпадает с приложением GW слово в слово. То, что приложение применяет само, вынесено в плашку «Действует также» под правилом: ключевые слова для юнитов, лимиты на союзников, к каким отрядам можно присоединить носителя улучшения, оружие улучшения.',
+    'Кнопка «скрыть лор» теперь прячет и лор внутри правил. Раньше у Tyranids он оставался в правиле армии и в детачменте Vanguard Onslaught.',
+    ],
+  },
+  {
     version: '2.7.16',
     date: '2026-10-05',
     en: [
@@ -163,26 +189,6 @@ version: '2.7.15',
       'У Red Corsairs Raiders power fist теперь заменяет reaver’s blade, а meltagun — boltgun. Раньше оба заменяли boltgun, и мечи оставались на карточке. В отряде из 10 моделей можно взять до двух того и другого.',
       { h: 'Откуда берутся правила' },
       'Все датащиты на сайте совпадают с официальным приложением GW. Если в печатном кодексе написано иначе, я беру вариант из приложения. Очки — из Munitorum Field Manual: GW говорит, что он всегда самый точный.',
-    ],
-  },
-  {
-    version: '2.7.12',
-    date: '2026-10-02',
-    en: [
-      { h: 'Fixes' },
-      'A Leader’s “this unit” rules now reach the unit he leads. For example, a Chaplain’s Litany of Hate gives [LANCE] to his squad’s melee weapons, and an Ancient gives his squad +1 OC. A second character attached to the same squad gets them too. Before, the roster showed them on the Leader’s own card only. I checked every such rule in the game: 40 of them, from the Librarian’s Psychic Hood to Stealth from a Fluxmaster.',
-      'Weapon abilities limited to certain targets, such as [LETHAL HITS: non-MONSTER/VEHICLE] or [ANTI-MONSTER/VEHICLE 4+], used to show as plain text. Now they are tags like the others. Tap one to see the rule and, above it, which targets it works against.',
-      'On a datasheet, weapon names and numbers are larger and in the same font as the characteristics. On a phone the tags run under the whole weapon row, so a long tag no longer breaks inside its frame.',
-      'On a phone, a weapon with several profiles shows its name once, on a line of its own, and each profile under it by its own name: “standard”, “supercharge”. Weapon names there now almost never take two lines.',
-      'On the patch notes page, pinning a faction in the faction list no longer switches the list from “All factions” to “My factions”.',
-    ],
-    ru: [
-      { h: 'Исправления' },
-      'Правила лидера про «this unit» теперь действуют на отряд, к которому он прикреплён. Например, Litany of Hate у капеллана даёт [LANCE] оружию ближнего боя всего отряда, а Ancient даёт отряду +1 OC. Второй персонаж, прикреплённый к тому же отряду, тоже их получает. Раньше конструктор показывал их только на карточке самого лидера. Я проверил все такие правила в игре — их 40, от Psychic Hood у библиариев до Stealth от Fluxmaster.',
-      'Способности оружия с ограничением по целям, например [LETHAL HITS: non-MONSTER/VEHICLE] или [ANTI-MONSTER/VEHICLE 4+], показывались простым текстом. Теперь это такие же теги, как остальные. Нажмите на тег — откроется правило, а над ним сказано, против каких целей он действует.',
-      'В листе данных названия оружия и цифры профиля крупнее и тем же шрифтом, что характеристики. На телефоне теги идут под всей строкой оружия, и длинный тег больше не ломается внутри рамки.',
-      'На телефоне у оружия с несколькими профилями название теперь написано один раз, отдельной строкой, а под ним профили своими именами: «standard», «supercharge». Названия оружия там почти перестали переноситься на две строки.',
-      'На странице изменений правил закрепление фракции в списке фракций больше не переключает его со «Всех фракций» на «Мои фракции».',
     ],
   },
 ]

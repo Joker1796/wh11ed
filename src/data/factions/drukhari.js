@@ -848,9 +848,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
 ▪ Each time a HARLEQUINS unit from your army destroys an enemy unit, HARLEQUIN units from your army are winning the wager.
 ▪ While DRUKHARI units from your army are winning the wager, HARLEQUIN units from your army are losing the wager, and vice versa.
 
-Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that model's unit is winning the wager, re-roll a Hit roll of 1. If that model's unit is losing the wager, re-roll a Hit roll of 1 and re-roll a Wound roll of 1 instead.
-
-**Harlequins:** You can include Harlequins units in your army (see Codex: Aeldari). The combined points cost of such units depends on your battle size: Incursion — up to 500 pts; Strike Force — up to 1000 pts; Onslaught — up to 1500 pts. No Harlequins models from your army can be your **[gloss:warlord:Warlord]**. If you select this Detachment, you cannot use the Corsairs and Travelling Players army rule.`,
+Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that model's unit is winning the wager, re-roll a Hit roll of 1. If that model's unit is losing the wager, re-roll a Hit roll of 1 and re-roll a Wound roll of 1 instead.`,
       },
       stratagems: [
         {

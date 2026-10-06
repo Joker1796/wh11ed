@@ -51,7 +51,9 @@
         :title="labels.rosterFactionRules"
         @click="$emit('open-rules')"
       >
-        <i class="bi bi-book" />
+        <!-- The faction-rules shield, as the faction pages and the bottom nav draw it — not the
+             book, which the top bar already uses for the lore switch (owner, 2026-10-06). -->
+        <i class="bi bi-shield-shaded" />
       </button>
     </div>
 
@@ -257,7 +259,7 @@ const props = defineProps({
   // Points still unspent (the views' `limit - points`), which is all the budget filter needs.
   // Null — no battle size resolvable — takes that filter off the screen rather than guessing.
   remaining: { type: Number, default: null },
-  // Show the book that opens the list's rules (the caller owns the dialog: `open-rules`).
+  // Show the shield that opens the list's rules (the caller owns the dialog: `open-rules`).
   rulesButton: { type: Boolean, default: false },
 })
 defineEmits(['add', 'open-rules'])
@@ -332,17 +334,21 @@ function srcOf(u) {
 }
 function ownsUnit(u) { const s = srcOf(u); return isOwned(s.slug, s.id) }
 
-// A unit already in the list is never filtered away — same reason the detachment picker keeps the
-// detachments you took: its row carries the "−" button, and a list that hides what you just added
-// (because the budget ran out, or because you are proxying something you don't own) reads as a
-// bug rather than as a filter.
+// The budget filter asks one question of every row, the units already in the list included:
+// "does ANOTHER copy fit?" — `minPoints` is the next copy's cheapest bracket, copy tax and any
+// mandatory enhancement included. It used to spare the units in the list, for the "−" their rows
+// carried; that button left the catalogue on 2026-09-23 (removing is the list's business), and a
+// player then read the spared rows as the filter not working: "why are the others hidden and not
+// these" (owner, 2026-10-06). While another copy fits the row stays, so a third copy is one more
+// tap; choosing a bigger bracket or paid wargear afterwards can still take the list over, and
+// saying so is the points readout's job.
 //
-// The promise the budget filter makes is "its cheapest configuration fits" — `minPoints` is the
-// cheapest bracket plus any mandatory enhancement. Choosing a bigger bracket or paid wargear
-// afterwards can still take the list over, and saying so is the points readout's job.
+// The other two filters still spare a unit already in the list: they are about what you own and
+// what you want to see, and a list that hides what you just added (proxying a box you don't own)
+// reads as a bug rather than as a filter.
 function passesFilters(u) {
-  if (countOf(u.id)) return true
   if (onlyAffordable.value && hasBudget.value && minPoints(u) > props.remaining) return false
+  if (countOf(u.id)) return true
   if (onlyOwned.value && !ownsUnit(u)) return false
   if (hideLegends.value && u.flags?.legends) return false
   return true

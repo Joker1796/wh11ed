@@ -261,9 +261,7 @@ ${chapterLock}`,
           flavor: 'Хотя Спираль Канис ещё не одолела этого поборника до конца, её будоражат к жизни азарт битвы и запах крови.',
           body: `Только модель ADEPTUS ASTARTES. Этот юнит имеет:
 ▪ WULFEN.
-▪ +2” **[gloss:move-characteristic:M]**.
-
-В шаге Declare Battle Formations носителя можно присоединить к юниту Wulfen или Wulfen with Storm Shields.`,
+▪ +2” **[gloss:move-characteristic:M]**.`,
         },
         // Hunter’s Guile
         {

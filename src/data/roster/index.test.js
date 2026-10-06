@@ -1800,3 +1800,18 @@ describe('every printed weapon has a carrier', () => {
     expect([...UNREACHABLE].filter((x) => !found.includes(x))).toEqual([])
   })
 })
+
+// "The Nob can have their Rokkit Pistol replaced with 1 Smash Hammer": the Nob carries two and the
+// sentence names one — the swap takes one copy (`rc`), the other stays (a player's report,
+// 2026-10-06: both pistols went).
+describe('a swap of one copy of several (rc)', () => {
+  it('takes one of the Tankbusta Nob\'s two rokkit pistols', async () => {
+    const orks = await loadRosterFaction('orks')
+    const def = orks.units.find((u) => u.id === 'tankbustas')
+    const gi = def.gear.findIndex((g) => g.rc === 1)
+    expect(gi).toBeGreaterThanOrEqual(0)
+    const nob = (wg) => defaultLoadoutLines(def, rosterItems.items, { uid: 'x', id: def.id, size: 0, wg }).find((l) => l.mini === 'Nob').items
+    expect(nob([])).toBe('Rokkit Pistol ×2, Choppa')
+    expect(nob([[gi, 0, 1]])).toBe('Rokkit Pistol ×1, Choppa')
+  })
+})
