@@ -207,7 +207,10 @@
                 :class="{ active: pressSoundOn }"
                 @click="togglePressSound"
               >
-                <i :class="pressSoundOn ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute'" />
+                <i
+                  class="snd-ico"
+                  :class="pressSoundOn ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute-fill'"
+                />
                 <span>{{ pressSoundOn ? labels.pressSoundOff : labels.pressSoundOn }}</span>
               </button>
               <button
@@ -797,6 +800,9 @@ a.nd-link:hover {
   text-align: center;
   flex-shrink: 0;
 }
+/* The speaker glyph is drawn small in its box; at the same size it read lighter than the sun and
+   the book above it (owner, 2026-10-07). */
+.settings-item i.snd-ico { font-size: 1.25rem; }
 
 .settings-item:hover {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
