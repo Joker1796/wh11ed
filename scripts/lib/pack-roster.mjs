@@ -200,10 +200,13 @@ function parseValue(value, bullets) {
     const n = num(m[1])
     return bullets.length && n ? { options: list(), limit: n, dup: m[2] ? n : 1 } : null
   }
-  if (/^two different (?:weapons|options) from the following list:$/i.test(v)) return bullets.length ? { options: list(), limit: 2, dup: 1 } : null
+  // "Two different" is an EXACT count (`exact`), not only a ceiling: a model that took one would
+  // hold one weapon where its datasheet gives it two (2026-10-07). The "either 1 twin lightning
+  // claws, or…" form offers that first option on its own (`solo`), which satisfies it alone.
+  if (/^two different (?:weapons|options) from the following list:$/i.test(v)) return bullets.length ? { options: list(), limit: 2, dup: 1, exact: 2 } : null
   if ((m = v.match(/^either (\d+ .+?), or two different weapons from the following list:$/i))) {
     const claws = parseSet(m[1])
-    return bullets.length && claws ? { options: [claws, ...list()], limit: 2, dup: 1 } : null
+    return bullets.length && claws ? { options: [claws, ...list()], limit: 2, dup: 1, exact: 2, solo: [0] } : null
   }
   if (/:$/.test(v) && bullets.length) return null // a list head this reader does not know
   if ((m = v.match(/^up to (\d+) (.+?)\.?$/i))) {
@@ -326,7 +329,10 @@ function parseOption(text, ctx) {
   const single1 = f.n === 1 && !f.per
   g.in = single1 && !value.stepper ? 'checkbox' : 'stepper'
   if (single1 && value.stepper) g.lim = [[0, value.limit, value.dup]]
-  else if (single1) { if (value.limit > 1) g.lim = [[0, value.limit, value.dup]] }
+  else if (single1) {
+    if (value.limit > 1) g.lim = [[0, value.limit, value.dup]]
+    if (value.exact) { g.ex = value.exact; if (value.solo) g.solo = value.solo }
+  }
   else if (f.per) {
     const rows = []
     for (let k = 1; k * f.per <= maxModels; k++) rows.push([k * f.per, k * f.n])
@@ -571,6 +577,7 @@ export function packRosterUnit(printedSheet, ctx) {
     }
     const grp = { ...(opt.all ? { all: 1 } : { m: opt.m }), t: text(String(raw)), in: opt.in, o: opt.options.map((set) => [set.length === 1 && set[0][1] === 1 ? resolve(set[0][0]) : set.map(([n, c]) => [resolve(n), c])]) }
     if (opt.lim) grp.lim = opt.lim
+    if (opt.ex) { grp.ex = opt.ex; if (opt.solo) grp.solo = opt.solo }
     if (rep) grp.rep = rep
     // "Each of this model's X" — one swap per copy, the loadout count its cap (`cp`). "2 of this
     // model's heavy bolters can be replaced with 2 lascannons" is ONE swap that takes two copies of

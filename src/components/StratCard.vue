@@ -362,10 +362,11 @@ const renderField = text => (text ? renderRichText(text) : '')
   min-width: 0;
 }
 
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .strat-sub-title {
   font-family: var(--font-display);
   font-size: 0.94rem;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }

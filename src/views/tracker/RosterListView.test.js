@@ -89,6 +89,18 @@ describe('RosterListView', () => {
   })
 
   // Owner, 2026-10-06: the list changed last comes first; a pinned one stays above it.
+  // Player report b337c3bf (2026-10-07): the list stores appdata's spelling of a detachment, the
+  // MFM its own, and an exact match dropped Vow-sworn Crusaders' Purge the Foe. With two
+  // detachments the chip then showed the OTHER one's disposition instead.
+  it('shows the Force Disposition chip whichever way the MFM spells the detachment', async () => {
+    const store = useRosters()
+    const one = store.createRoster('Crusade')
+    one.faction = 'black-templars'; one.detachments = ['Vow-sworn Crusaders']
+    const w = mount(RosterListView, { global: { stubs } })
+    await vi.waitFor(async () => { await flushPromises(); expect(w.find('.rfd').exists()).toBe(true) }, { timeout: 15000 })
+    expect(w.find('.rfd').text()).toBe('Purge the Foe')
+  })
+
   it('puts the list edited last on top, under the pinned ones', async () => {
     const store = useRosters()
     const { toggleRosterPin } = await import('../../composables/useRosterPins.js')

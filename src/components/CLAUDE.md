@@ -360,6 +360,11 @@ colour / which face / how big" question.
   `--font-sans` (Inter) on everything else, `--font-serif` (EB Garamond) only on lore flavour
   text. The heading scale is `--fs-*` / `--fw-heading`; new headings pick a step, they don't
   invent a size. `font-family: inherit` on buttons/inputs is fine (it is undoing the UA default).
+  **The display face at 18px or less is weight 400** — condensed, it reads cramped at 500 and
+  up (owner, 2026-10-07: the roster editor's section headings at 600, the rules' ability names
+  at 700, a dozen small labels at 500 all lightened). Emphasis that small comes from colour or
+  case, not weight. `npm run a11y` checks it on rendered pages (computed styles, so an inherited
+  `--fw-heading` counts too).
 - **Layout constants** — `--navbar-height`, `--subnav-height`, `--header-total`,
   `--sidebar-width`, the `--safe-*` insets. Anything that must line up with the chrome
   references these rather than repeating `56px`.

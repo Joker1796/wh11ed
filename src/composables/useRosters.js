@@ -10,7 +10,7 @@ const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
-export const SCHEMA_VERSION = 9
+export const SCHEMA_VERSION = 10
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -182,6 +182,31 @@ export function migrateRoster(r, v) {
       if (/(^|\/)red-corsairs-raiders$/.test(u.id || '') && Array.isArray(u.wg)) {
         u.wg = u.wg.map(([g, o, ...rest]) => (g === 1 && o === 1 ? [2, 0, ...rest] : [g, o, ...rest]))
       }
+    }
+  }
+
+  // → v10: the Deathwatch Terminator Squad's power-fist swap offered "Power Fist" on its own — an
+  // item of the pair it gives up that the instruction never offers, and that the GW app refuses
+  // ("Invalid wargear selected", checked 2026-10-07). With it gone, the Sergeant's copy of the
+  // instruction and the Terminators' are the same group, and the generator folds them into one
+  // unit-wide group, as it does everywhere else. So the old groups move: g1 (heavy weapons) → g0;
+  // g0 (the Sergeant's swap) and g2 (the Terminators', minus its option 0) → g1, counts added.
+  // A lone power fist pick is dropped — it was never a legal loadout.
+  if (!(v >= 10)) {
+    for (const u of r.units || []) {
+      if (!/(^|\/)deathwatch-terminator-squad$/.test(u.id || '') || !Array.isArray(u.wg)) continue
+      const merged = new Map()
+      const out = []
+      for (const [g, o, n] of u.wg) {
+        if (g === 1) out.push(n == null ? [0, o] : [0, o, n])
+        else if (g === 0 || (g === 2 && o > 0)) {
+          const oi = g === 0 ? o : o - 1
+          merged.set(oi, (merged.get(oi) || 0) + (n ?? 1))
+        }
+      }
+      for (const [oi, n] of merged) out.push([1, oi, n])
+      if (out.length) u.wg = out
+      else delete u.wg
     }
   }
   return r

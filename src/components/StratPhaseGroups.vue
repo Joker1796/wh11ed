@@ -67,6 +67,7 @@ function toggle(key) {
 <style scoped>
 /* Closed heads stack tight, like the list rows under them (owner, 2026-10-02). */
 .phase-group { margin-bottom: 0.3rem; }
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .phase-head {
   display: flex;
   align-items: center;
@@ -79,7 +80,7 @@ function toggle(key) {
   cursor: pointer;
   font-family: var(--font-display);
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   transition: border-color var(--motion-fast);

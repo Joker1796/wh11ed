@@ -4,6 +4,8 @@
 //
 //   {btn:gear}      an icon button, as the screen draws it — the names below, nothing else
 //   {key:Put back}  a text button, the label as written (localized by the note itself)
+//   {who:Creego}    an outside contributor's name, in amber (owner, 2026-10-07): the thanks
+//                   should stand out from the change it is attached to
 //
 // Drawn with the app's own icon font and colours: no images, both themes, both locales, and it
 // cannot go stale while the screen keeps the same icon. A name missing from BTN_ICONS fails
@@ -29,8 +31,12 @@ const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, 
 // after an icon, read as two separate things.
 const RUN_RE = /(?:\{(?:btn|key):[^}]+\}(?:\s+(?=\{(?:btn|key):))?)+[.,;:!?»”)]?/g
 
+const WHO_RE = /\{who:([^}]+)\}/g
+
 export function renderMarks(html, locale = 'en') {
-  return String(html).replace(RUN_RE, (run) => `<span class="cl-nw">${drawMarks(run, locale)}</span>`)
+  return String(html)
+    .replace(RUN_RE, (run) => `<span class="cl-nw">${drawMarks(run, locale)}</span>`)
+    .replace(WHO_RE, (m, who) => `<strong class="cl-who">${esc(who)}</strong>`)
 }
 
 function drawMarks(html, locale) {

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import UnitEditorFields from './UnitEditorFields.vue'
+import ConfirmModal from '../ConfirmModal.vue'
 import { wargearGroupCap } from '../../composables/rosterEngine.js'
 import rosterItems from '../../data/roster/items.js'
 import drukhari from '../../data/roster/drukhari.js'
@@ -12,6 +13,8 @@ import adeptusMechanicus from '../../data/roster/adeptus-mechanicus.js'
 import chaosSpaceMarines from '../../data/roster/chaos-space-marines.js'
 import chaosDaemons from '../../data/roster/chaos-daemons.js'
 import necrons from '../../data/roster/necrons.js'
+import spaceWolves from '../../data/roster/space-wolves.js'
+import darkAngels from '../../data/roster/dark-angels.js'
 
 // Mounted against REAL generated data: what this guards is the path from the generator's bundled
 // options to what the player actually reads, which a fixture would hide.
@@ -61,7 +64,7 @@ describe('UnitEditorFields — pick limits', () => {
   it('caps a stepper by the remaining budget, not by the model count', () => {
     const gi = kasrkin.gear.findIndex((g) => g.o.length > 3 && g.lim)
     // The "+" of the first option in that group, however the tiles are laid out.
-    const plus = (w) => w.findAll('.opt-step-body')[0].findAll('.step-btn')[1]
+    const plus = (w) => w.findAll('.opt-tile:not(.opt-stock) .opt-step-body')[0].findAll('.step-btn')[1]
     // Its own duplicate cap is 2, so a second copy is fine and a third is not — even though the
     // squad has 10 models and the group's total allowance is 4.
     expect(plus(mountFor(kasrkin, { wg: [[gi, 0, 1]] })).attributes('disabled')).toBeUndefined()
@@ -146,7 +149,7 @@ describe('UnitEditorFields — unit composition', () => {
     expect(gi).toBeGreaterThan(-1)
     const w = mountFor(ruststalkers, { size, count: 10 })
     // Steppers render in group order; the model-count one lives outside the wargear sections.
-    const wargearSteppers = w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
+    const wargearSteppers = w.findAllComponents(NumberStepper).filter((s) => !s.classes('stock-n')).slice(w.find('.ues-count').exists() ? 1 : 0)
     const before = ruststalkers.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
     expect(wargearSteppers[before].props('max')).toBe(9)
   })
@@ -159,7 +162,7 @@ describe('UnitEditorFields — unit composition', () => {
     const russ = astraMilitarum.units.find((u) => u.id === 'leman-russ-battle-tank')
     const gi = russ.gear.findIndex((g) => g.in === 'stepper' && !g.lim && !g.all && g.o.length > 1)
     expect(gi).toBeGreaterThan(-1)
-    const steppers = (w) => w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
+    const steppers = (w) => w.findAllComponents(NumberStepper).filter((s) => !s.classes('stock-n')).slice(w.find('.ues-count').exists() ? 1 : 0)
     const before = russ.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
     // One model, so one pick for the group: untouched, every row offers it…
     const idle = steppers(mountFor(russ))
@@ -179,7 +182,7 @@ describe('UnitEditorFields — unit composition', () => {
     const gi = wraithlord.gear.findIndex((g) => g.cp)
     expect(gi).toBeGreaterThan(-1)
     const w = mountFor(wraithlord)
-    const steppers = w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
+    const steppers = w.findAllComponents(NumberStepper).filter((s) => !s.classes('stock-n')).slice(w.find('.ues-count').exists() ? 1 : 0)
     const before = wraithlord.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
     expect(steppers[before].props('max')).toBe(2)
   })
@@ -206,7 +209,7 @@ describe('UnitEditorFields — a cap that grows with the squad', () => {
     // above that each option gets its own stepper sharing the group's budget. The unit already
     // has two steppers of its own at any size (the model count, and the ungated chainsword swap),
     // so it is the group's nine options appearing that this counts.
-    const steppers = (count) => mountFor(legionaries, { size: 1, count }).findAllComponents(NumberStepper).length
+    const steppers = (count) => mountFor(legionaries, { size: 1, count }).findAllComponents(NumberStepper).filter((s) => !s.classes('stock-n')).length
     expect(steppers(10) - steppers(9)).toBe(9)
   })
 
@@ -214,7 +217,7 @@ describe('UnitEditorFields — a cap that grows with the squad', () => {
     // "(duplicates are not allowed)" is prose — appdata leaves duplicateLimit empty here, so the
     // generator reads it from the instruction. Without that, two havoc autocannons.
     const w = mountFor(legionaries, { size: 1, count: 10, wg: [[specialGi, 2, 1]] })
-    const steppers = w.findAllComponents(NumberStepper)
+    const steppers = w.findAllComponents(NumberStepper).filter((s) => !s.classes('stock-n'))
     const taken = steppers.find((s) => s.props('modelValue') === 1)
     expect(taken.props('max')).toBe(1)
   })
@@ -416,14 +419,165 @@ describe('UnitEditorFields — attach to this unit', () => {
     const w = mountSquad(units, [{ uid: 'tm', name: 'Technomancer', type: 'support', used: false, elsewhere: 'other' }])
     const tile = w.findAll('.opt-tile').at(-1)
     expect(tile.text()).toContain('now with Necron Warriors')
+    // Attached elsewhere: nothing moves until the player confirms, and the box stays unticked.
     await tile.find('input').setValue(true)
+    expect(units[2].leaderOf).toBe('other')
+    expect(tile.find('input').element.checked).toBe(false)
+    const ask = w.findComponent(ConfirmModal)
+    expect(ask.props('title')).toBe('Move Technomancer here?')
+    expect(ask.props('message')).toContain('detaches it from Necron Warriors')
+    expect(ask.props('message')).toContain('Necron Warriors is left with no Character attached.')
+    await ask.vm.$emit('confirm')
     expect(units[2].leaderOf).toBe('sq')
+    expect(w.findComponent(ConfirmModal).exists()).toBe(false)
+    // Detaching from here, and attaching a free one, ask nothing.
     await tile.find('input').setValue(false)
     expect(units[2].leaderOf).toBeUndefined()
+    await tile.find('input').setValue(true)
+    expect(units[2].leaderOf).toBe('sq')
+    expect(w.findComponent(ConfirmModal).exists()).toBe(false)
+  })
+
+  // Cancel leaves both units as they were; the message names what travels with the Character and
+  // stays quiet about the other unit when another Character is still on it.
+  it('keeps the attachment on cancel, and says only what is true', async () => {
+    const units = [
+      { uid: 'sq', id: 'necron-warriors', size: 0 },
+      { uid: 'other', id: 'necron-warriors', size: 0 },
+      { uid: 'tm', id: 'technomancer', size: 0, leaderOf: 'other', enh: 'Veil of Darkness' },
+      { uid: 'ov', id: 'overlord', size: 0, leaderOf: 'other' },
+    ]
+    const w = mountSquad(units, [{ uid: 'tm', name: 'Technomancer', type: 'support', used: false, elsewhere: 'other' }])
+    await w.findAll('.opt-tile').at(-1).find('input').setValue(true)
+    const ask = w.findComponent(ConfirmModal)
+    expect(ask.props('message')).toContain('The enhancement Veil of Darkness stays with Technomancer.')
+    expect(ask.props('message')).not.toContain('is left with no Character')
+    await ask.vm.$emit('close')
+    expect(units[2].leaderOf).toBe('other')
+    expect(w.findComponent(ConfirmModal).exists()).toBe(false)
   })
 
   it('draws nothing when no one in the list could join', () => {
     const w = mountSquad([{ uid: 'sq', id: 'necron-warriors', size: 0 }], [])
     expect(w.text()).not.toContain('Attach to this unit')
+  })
+})
+
+describe('UnitEditorFields — can be led by', () => {
+  const warriors = necrons.units.find((u) => u.id === 'necron-warriors')
+  const mountWith = (leaderCandidates) => mount(UnitEditorFields, {
+    props: {
+      entry: { uid: 'sq', id: 'necron-warriors', size: 0 },
+      def: warriors,
+      items: rosterItems.items,
+      texts: rosterItems.texts,
+      leaderCandidates,
+    },
+    // The sheet itself is RosterUnitRulesModal's to test; here only that the row opens it.
+    global: { stubs: { Teleport: true, RosterUnitRulesModal: true } },
+  })
+  const cands = [
+    { id: 'overlord', name: 'Overlord', type: 'leader', pts: 85, used: false, linked: true, slug: 'necrons', sheetId: 'overlord' },
+    { id: 'technomancer', name: 'Technomancer', type: 'support', pts: 75, used: false, linked: true, slug: 'necrons', sheetId: 'technomancer' },
+  ]
+
+  // Folded until asked for, the count on the heading; "+" asks the parent to add AND attach.
+  it('folds the catalogue candidates behind a counted heading, and adds one on "+"', async () => {
+    const w = mountWith(cands)
+    const fold = w.find('.ues-fold')
+    expect(fold.text()).toBe('Can be led by · 2')
+    expect(fold.attributes('aria-expanded')).toBe('false')
+    await fold.trigger('click')
+    expect(fold.attributes('aria-expanded')).toBe('true')
+    const tiles = w.findAll('.opt-tile').filter((t) => t.find('.bi-plus-lg').exists())
+    expect(tiles).toHaveLength(2)
+    await tiles[0].find('.opt-info').trigger('click')
+    expect(w.emitted('add-leader')).toEqual([['overlord']])
+    expect(tiles[1].text()).toContain('Support')
+  })
+
+  it('draws nothing when no one in the catalogue could join', () => {
+    expect(mountWith([]).find('.ues-fold').exists()).toBe(false)
+  })
+
+  // The row opens the candidate's datasheet — its own faction and bare id, as the catalogue does.
+  it('opens a candidate\'s datasheet from its row', async () => {
+    const w = mountWith(cands)
+    await w.find('.ues-fold').trigger('click')
+    expect(w.findComponent({ name: 'RosterUnitRulesModal' }).exists()).toBe(false)
+    await w.findAll('.opt-open')[1].trigger('click')
+    const modal = w.findComponent({ name: 'RosterUnitRulesModal' })
+    expect(modal.props()).toMatchObject({ unitId: 'technomancer', factionSlug: 'necrons' })
+    modal.vm.$emit('close')
+    await w.vm.$nextTick()
+    expect(w.findComponent({ name: 'RosterUnitRulesModal' }).exists()).toBe(false)
+  })
+})
+
+// "Two different weapons" (`ex`): the heading's chip says the count is exact and how many are
+// still owed. It stands there from the start, so picking changes its words, not the layout.
+describe('UnitEditorFields — exact-count groups', () => {
+  const wgpl = spaceWolves.units.find((u) => u.name === 'Wolf Guard Pack Leader')
+  const strike = darkAngels.units.find((u) => u.name === 'Deathwing Strikemaster')
+  const chip = (w) => w.findAll('.ues-cap').map((c) => c.text())[0]
+
+  it('asks for two, then for the one still owed', () => {
+    expect(chip(mountFor(wgpl))).toBe('pick 2 different')
+    expect(chip(mountFor(wgpl, { wg: [[0, 2, 1]] }))).toBe('1 more to pick')
+    expect(chip(mountFor(wgpl, { wg: [[0, 2, 1], [0, 3, 1]] }))).toBe('pick 2 different')
+  })
+
+  it('is satisfied by the sentence’s own single option', () => {
+    expect(chip(mountFor(strike, { wg: [[0, 0, 1]] }))).toBe('pick 2 different')
+    expect(chip(mountFor(strike, { wg: [[0, 1, 1]] }))).toBe('1 more to pick')
+  })
+})
+
+// A single swap no unit size lets past one model is drawn as the two-row "one of", like every
+// other single swap — appdata calls the Chaplain's "storm bolter → relic shield" a stepper, and a
+// 0/1 counter there read as a different kind of choice (2026-10-07).
+describe('UnitEditorFields — a one-model swap appdata calls a stepper', () => {
+  it('draws the Chaplain in Terminator Armour\'s swap as stock / replacement rows', async () => {
+    const sm = (await import('../../data/roster/space-marines.js')).default
+    const chap = sm.units.find((u) => u.name === 'Chaplain in Terminator Armour')
+    expect(chap.gear[0].in).toBe('stepper')
+    const w = mountFor(chap)
+    expect(w.findAllComponents(NumberStepper)).toHaveLength(0)
+    const names = w.findAll('.opt-name').map((n) => n.text())
+    expect(names.some((n) => n.includes('Storm Bolter'))).toBe(true)
+    expect(names.some((n) => n.includes('Relic Shield'))).toBe(true)
+  })
+
+  // One model at the default size but more at a bigger one: the counter stays, so the control does
+  // not change shape when the squad grows.
+  it('keeps the counter where a bigger squad may take more', () => {
+    const ironstrider = adeptusMechanicus.units.find((u) => u.name === 'Ironstrider Ballistarii')
+    expect(mountFor(ironstrider).findAllComponents(NumberStepper).filter((s) => !s.classes('stock-n')).length).toBeGreaterThan(0)
+  })
+})
+
+// From six models on a count can be typed (a tap on the number) — twenty swaps are not twenty
+// taps. Below that the number stays a plain readout.
+describe('UnitEditorFields — typing a count', () => {
+  const warriors = necrons.units.find((u) => u.name === 'Necron Warriors')
+  const typed = (w) => w.findAllComponents(NumberStepper).filter((s) => !s.classes('stock-n'))
+
+  it('lets a twenty-model squad type its swap count, capped at what the group allows', async () => {
+    const w = mountFor(warriors, { size: warriors.sizes.length - 1, count: 20 })
+    const st = typed(w).find((s) => s.props('editable') && s.props('max') >= 6)
+    expect(st).toBeTruthy()
+    await st.find('.step-edit').trigger('click')
+    const input = st.find('.step-input')
+    expect(input.attributes('inputmode')).toBe('numeric')
+    expect(input.attributes('enterkeyhint')).toBe('done')
+    await input.setValue('99')
+    await input.trigger('keydown', { key: 'Enter' })
+    expect(st.emitted('update:modelValue').at(-1)[0]).toBe(st.props('max'))
+  })
+
+  it('keeps small groups to − and +', () => {
+    const w = mountFor(wracks)
+    expect(typed(w).length).toBeGreaterThan(0)
+    expect(typed(w).filter((s) => s.props('editable'))).toHaveLength(0)
   })
 })

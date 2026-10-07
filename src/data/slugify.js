@@ -9,3 +9,13 @@ export function slugify(name) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
 }
+
+// The key two spellings of one DETACHMENT name share. The roster stores appdata's spelling, the
+// MFM its own, and they differ in case, apostrophe and diacritics ("Vow-sworn Crusaders" /
+// "Vow-Sworn Crusaders", "Dëlve Assault Shift" / "delve-assault-shift"), so an exact `===` silently
+// finds nothing (player report b337c3bf, 2026-10-07: a Purge the Foe list showed no chip). Combining
+// marks go first: slugify() alone drops "ë" to a hyphen. slugify() itself stays untouched — it is
+// load-bearing for DOM ids and the search index.
+export function detKey(name) {
+  return slugify((name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+}

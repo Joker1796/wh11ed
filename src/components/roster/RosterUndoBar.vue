@@ -2,7 +2,7 @@
   <Transition name="rub-undo">
     <div
       v-if="undoable"
-      class="ru-bar"
+      :class="inline ? 'ru-inline' : 'ru-bar'"
       role="status"
     >
       <div class="ru-inner">
@@ -38,6 +38,10 @@ import { useLocale } from '../../composables/useLocale.js'
 defineProps({
   // { name } while the offer stands, null otherwise — useRosterUndo's own `undoable`.
   undoable: { type: Object, default: null },
+  // Inside the roster footer (.rc-sticky-inner) rather than floating over the page: on the desk it
+  // stands in the room between the points and the buttons (owner, 2026-10-07). The phone keeps
+  // the floating form — there the middle of that bar is the mode switch, and there is no room.
+  inline: { type: Boolean, default: false },
 })
 defineEmits(['undo', 'dismiss'])
 
@@ -61,6 +65,20 @@ const labels = computed(() => ui[locale.value])
 }
 @media (min-width: 901px) {
   .ru-bar { bottom: calc(var(--roster-sticky-h, 0px) + 1rem); }
+}
+/* Inline: a flex item of the footer, centred by equal auto margins — the actions' own
+   `margin-left: auto` is handed over to this in style.css, or the free space would split three
+   ways. It may shrink (min-width: 0) so a long name ellipsizes instead of pushing Save off. No
+   drop shadow: it sits on the bar, it does not float over it. */
+.ru-inline {
+  display: flex;
+  min-width: 0;
+  margin: 0 auto;
+}
+.ru-inline .ru-inner {
+  max-width: 100%;
+  margin: 0;
+  box-shadow: none;
 }
 /* The bar is an always-dark surface, so its accent is the faction's DARK one — `--fa-dark`, the
    half of the pair the screens fold into `--accent` only in the dark theme (useFactionAccent).

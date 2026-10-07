@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -551,6 +551,74 @@ describe('leaderSourcesFor', () => {
     expect(onC.find((x) => x.uid === 'a')).toMatchObject({ used: false, elsewhere: null })
     // b could move here, but c's Leader slot is taken by a.
     expect(onC.find((x) => x.uid === 'b')).toMatchObject({ used: true, elsewhere: 'd' })
+  })
+})
+
+describe('leaderCandidatesFor', () => {
+  const squad = { id: 'intercessor-squad', name: 'Intercessor Squad', sizes: [{ pts: 80, per: [5, 5], default: 1 }] }
+  const leader = { id: 'captain', name: 'Captain', sizes: [{ pts: 90, per: [1, 1], default: 1 }], leads: [{ to: 'intercessor-squad', type: 'leader' }] }
+  const lieutenant = { id: 'lieutenant', name: 'Lieutenant', sizes: [{ pts: 50, per: [1, 1], default: 1 }], leads: [{ to: 'intercessor-squad', type: 'leader' }] }
+  const supporter = { id: 'apothecary', name: 'Apothecary', sizes: [{ pts: 45, per: [1, 1], default: 1 }], leads: [{ to: 'intercessor-squad', type: 'support' }] }
+  const stranger = { id: 'techmarine', name: 'Techmarine', sizes: [{ pts: 55, per: [1, 1], default: 1 }], leads: [{ to: 'servitors', type: 'leader' }] }
+  const catalogue = [squad, leader, lieutenant, supporter, stranger]
+  const defOf = (id) => catalogue.find((d) => d.id === id)
+
+  // From the catalogue, not the list: a squad added before any Character still says who could
+  // lead it (a player's ask, 2026-10-06). Sorted by name, priced at the default size.
+  it('lists the datasheets that could lead this unit, before any is in the list', () => {
+    const units = [{ uid: 's', id: 'intercessor-squad' }]
+    expect(leaderCandidatesFor('s', units, catalogue, defOf)).toEqual([
+      { id: 'apothecary', name: 'Apothecary', type: 'support', pts: 45, used: false, legends: false },
+      { id: 'captain', name: 'Captain', type: 'leader', pts: 90, used: false, legends: false },
+      { id: 'lieutenant', name: 'Lieutenant', type: 'leader', pts: 50, used: false, legends: false },
+    ])
+  })
+
+  // A datasheet already in the list belongs to leaderSourcesFor's section; a taken slot marks
+  // every candidate of that type, and leaves the other type open.
+  it('marks a full slot, and leaves the other type open', () => {
+    const units = [{ uid: 's', id: 'intercessor-squad' }, { uid: 'c', id: 'captain', leaderOf: 's' }]
+    const got = leaderCandidatesFor('s', units, catalogue, defOf)
+    expect(got.map((c) => c.id)).toEqual(['apothecary', 'captain', 'lieutenant'])
+    expect(got.find((c) => c.id === 'lieutenant').used).toBe(true)
+    expect(got.find((c) => c.id === 'apothecary').used).toBe(false)
+  })
+
+  // A free copy in the list is the section above's (attach it, no new purchase); a copy already
+  // leading another squad is not, so a second one is still offered.
+  it('leaves out a datasheet the list holds a free copy of, not one busy with another unit', () => {
+    const free = [{ uid: 's', id: 'intercessor-squad' }, { uid: 'l', id: 'lieutenant' }]
+    expect(leaderCandidatesFor('s', free, catalogue, defOf).map((c) => c.id)).toEqual(['apothecary', 'captain'])
+    const busy = [{ uid: 's', id: 'intercessor-squad' }, { uid: 's2', id: 'intercessor-squad' }, { uid: 'l', id: 'lieutenant', leaderOf: 's2' }]
+    expect(leaderCandidatesFor('s', busy, catalogue, defOf).find((c) => c.id === 'lieutenant')).toMatchObject({ used: false })
+  })
+
+  it('answers nothing for a unit no one leads, or an unknown entry', () => {
+    expect(leaderCandidatesFor('c', [{ uid: 'c', id: 'captain' }], catalogue, defOf)).toEqual([])
+    expect(leaderCandidatesFor('nope', [], catalogue, defOf)).toEqual([])
+  })
+
+  // A keyword group ("any IMPERIUM BATTLELINE INFANTRY unit") is not a named attachment, so it
+  // does not suggest anyone here — the picker on the Character's end still accepts it.
+  it('suggests only leaders that name this unit, not a keyword group that covers it', () => {
+    const inquisitor = { id: 'inquisitor', name: 'Inquisitor', sizes: [{ pts: 55, per: [1, 1], default: 1 }], leadKw: [{ kw: ['Battleline', 'Infantry'], type: 'leader' }] }
+    const cat = [...catalogue, inquisitor]
+    const byId = (id) => cat.find((d) => d.id === id)
+    const units = [{ uid: 's', id: 'intercessor-squad' }]
+    const sq = { ...squad, kws: ['Battleline', 'Infantry'] }
+    const withKws = (id) => (id === 'intercessor-squad' ? sq : byId(id))
+    expect(leaderCandidatesFor('s', units, cat, withKws).map((c) => c.id)).toEqual(['apothecary', 'captain', 'lieutenant'])
+  })
+
+  // Against real data: the Intercessor Squad's own table, and a borrowed (MIRROR_ATTACH) one —
+  // Victrix Honour Guard takes "a CAPTAIN or CHAPTER MASTER unit" that could lead Intercessors.
+  it('reads the real Space Marines attachments, mirrored ones included', async () => {
+    const { default: sm } = await import('../data/roster/space-marines.js')
+    const byId = (id) => sm.units.find((u) => u.id === id)
+    const names = (id) => leaderCandidatesFor('x', [{ uid: 'x', id }], sm.units, byId).map((c) => `${c.name}:${c.type}`)
+    expect(names('intercessor-squad')).toEqual(expect.arrayContaining(['Captain:leader', 'Apothecary:support', 'Marneus Calgar:leader']))
+    expect(names('victrix-honour-guard')).toEqual(expect.arrayContaining(['Captain:leader', 'Marneus Calgar:leader']))
+    expect(names('victrix-honour-guard')).not.toContain('Apothecary:support')
   })
 })
 
@@ -1809,5 +1877,20 @@ describe('dpLimitFor', () => {
   it('is the battle\'s budget at Strike Force', () => {
     expect(dpLimitFor([{ dp: 3 }], 3)).toBe(3)
     expect(dpLimitFor([], 3)).toBe(3)
+  })
+})
+
+// Every instruction with list markers comes apart into a head and its bullets — in BOTH locales.
+// The Faction Pack transcriptions mark theirs with `▪`, which the reader did not know, and 114
+// Legends instructions ran their whole list into the heading (2026-10-07).
+describe('splitInstruction — every marked list in the data', () => {
+  it('leaves no list marker inside a head', async () => {
+    const { default: rosterItemsData } = await import('../data/roster/items.js')
+    const { default: ru } = await import('../data/roster/ru/texts.js')
+    const bad = []
+    for (const [id, t] of [...Object.entries(rosterItemsData.texts), ...Object.entries(ru)]) {
+      if (/[◦•■▪▫]/.test(splitInstruction(t).head)) bad.push(id)
+    }
+    expect(bad).toEqual([])
   })
 })

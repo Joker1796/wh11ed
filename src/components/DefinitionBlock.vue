@@ -55,10 +55,11 @@ function renderLines(text) {
   border-top: 1px solid var(--bg-definition-border);
 }
 
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .definition-term {
   font-family: var(--font-display);
   font-size: 1.10rem;
-  font-weight: 500;
+  font-weight: 400;
   margin-bottom: 0.15rem;
   color: var(--text-primary);
 }

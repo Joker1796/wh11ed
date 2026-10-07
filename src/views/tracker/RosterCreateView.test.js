@@ -52,7 +52,11 @@ async function waitFor(w, needle, tries = 60) {
 
 // The Space Marines detachment these walk through is Gladius Task Force; it was 1st Company Task
 // Force until Codex: Space Marines (app data 963) retired that one.
-describe('RosterCreateView', () => {
+// Each test mounts the whole wizard on real Space Marines data, re-imported after vi.resetModules:
+// ~1.8s locally, 5s and over on a CI runner — so the 5s default timed out at random (3 of 6 main
+// runs, 2026-10-07). Raised for this file only, as StratagemsView.test.js does, so the rest of the
+// suite keeps the tight default.
+describe('RosterCreateView', { timeout: 20000 }, () => {
   // The same question the editor's setup tab asks, and the tracker's own setup after it: an army
   // plays ONE Force Disposition, so two detachments that disagree make it a declaration.
   // A points limit lowered after the detachments were picked can leave them over its Detachment

@@ -199,8 +199,11 @@ function handleDefClick(e) {
 }
 
 @media (max-width: 480px) {
+  /* 17.6px here, so the display face drops to 400 — it reads cramped above that at this size
+     (src/components/CLAUDE.md → Type; npm run a11y checks it). */
   .sub-rule-title {
     font-size: 1.1rem;
+    font-weight: 400;
   }
 }
 </style>

@@ -171,6 +171,7 @@ or run.
 - [`DATA-SYNC.md`](./DATA-SYNC.md) — updating the rules from a new release of the official app;
   [`APPDATA-SYNC-LESSONS.md`](./APPDATA-SYNC-LESSONS.md) — what went wrong before.
 - [`RELEASE-CHECKLIST.md`](./RELEASE-CHECKLIST.md) — what to check by hand before a release.
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md) — branches, pull requests and how a release is assembled.
 
 ## Contributing
 
@@ -184,8 +185,9 @@ Two very different kinds of help, both welcome:
   warm-up, view restore, cache strategies). The `CLAUDE.md` files record the *"don't fix this"*
   invariants and why they exist — worth a search before changing something that looks wrong.
 
-Before opening a PR: `npm run lint`, `npm test`, `npm run build`, and the gates for what you
-touched.
+How a change travels — branch from `main`, PR against `main`, through a release branch to
+production — is in [`CONTRIBUTING.md`](./CONTRIBUTING.md). Before opening a PR: `npm run lint`,
+`npm test`, `npm run build`, and the gates for what you touched.
 
 ## Licence
 

@@ -41,6 +41,40 @@
         />
       </FactionAccentScope>
     </Teleport>
+    <!-- A "Can be led by" candidate's sheet — a preview, like the catalogue's: the character is
+         not in the list, so the overlay gets the army's Detachments and nothing of an entry. Its
+         own faction's slug and bare id (RosterEntryFields), since an Inquisitor offered to a
+         Space Marines squad is an Imperial Agents sheet. -->
+    <!-- Moving a Character that already leads another unit: say what changes before it does
+         (owner, 2026-10-07 — one tap silently took the Leader off the other squad). -->
+    <Teleport
+      v-if="moveAsk"
+      to="body"
+    >
+      <FactionAccentScope :faction-slug="factionSlug">
+        <ConfirmModal
+          :title="moveAsk.title"
+          :message="moveAsk.message"
+          :confirm-label="labels.rosterMoveConfirm"
+          :cancel-label="labels.rosterCancel"
+          @confirm="confirmMove"
+          @close="moveAsk = null"
+        />
+      </FactionAccentScope>
+    </Teleport>
+    <Teleport
+      v-if="leaderPreview"
+      to="body"
+    >
+      <FactionAccentScope :faction-slug="leaderPreview.slug">
+        <RosterUnitRulesModal
+          :unit-id="leaderPreview.sheetId"
+          :faction-slug="leaderPreview.slug"
+          :ctx="{ detachments }"
+          @close="leaderPreview = null"
+        />
+      </FactionAccentScope>
+    </Teleport>
     <Teleport
       v-if="weaponInfoNames"
       to="body"
@@ -104,9 +138,12 @@
           <span class="ues-cap">{{ labels.rosterModelsMin.replace('{n}', rangeSize.per[0]) }}</span>
         </h4>
         <NumberStepper
+          compact
           :model-value="models"
           :min="rangeSize.per[0]"
           :max="rangeSize.per[1]"
+          :editable="rangeSize.per[1] - rangeSize.per[0] >= TYPE_FROM"
+          :label="labels.rosterModelsLabel"
           @update:model-value="setCount"
         />
       </section>
@@ -172,16 +209,18 @@
       </div>
     </section>
 
-    <!-- Default loadout (read-only). Its own points, where it has any, are marked on the heading:
-         the size pill shows the Munitorum bracket, and without this the difference between that
-         and the unit's total (a Terminator Assault Squad's ten thunder hammers, +50) is invisible. -->
+    <!-- Wargear no group replaces (read-only, and no pick changes it — what a pick can touch is in
+         its group below, the stock weapon as a row of its own). The stock loadout's own points,
+         where it has any, are marked on the heading: the size pill shows the Munitorum bracket,
+         and without this the difference between that and the unit's total (a Terminator Assault
+         Squad's ten thunder hammers, +50) is invisible. -->
     <ExpandTransition>
       <section
-        v-if="defaultLines.length"
+        v-if="defaultLines.length || defaultPts"
         class="ues-sec"
       >
         <h4 class="ues-h">
-          {{ labels.rosterDefaultWargear }}
+          {{ defaultLines.length ? labels.rosterFixedWargear : labels.rosterDefaultWargear }}
           <ExpandTransition>
             <em
               v-if="defaultPts"
@@ -189,7 +228,10 @@
             >+{{ defaultPts }}{{ labels.rosterPointsLabel }}</em>
           </ExpandTransition>
         </h4>
-        <div class="opt-tile ues-default-row">
+        <div
+          v-if="defaultLines.length"
+          class="opt-tile ues-default-row"
+        >
           <div class="ues-default-list">
             <p
               v-for="(l, i) in defaultLines"
@@ -207,7 +249,7 @@
             type="button"
             class="opt-info"
             :aria-label="labels.rosterViewInfo"
-            @click="openWeaponInfo(defaultNames, labels.rosterDefaultWargear)"
+            @click="openWeaponInfo(defaultNames, labels.rosterFixedWargear)"
           >
             <i class="bi bi-info-circle" />
           </button>
@@ -282,6 +324,21 @@
           class="ues-bnote"
         >
           * {{ groupLines[gi].note }}
+        </p>
+        <!-- A group drawn as what the models hold says how to change it, on a line that is always
+             there: it came and went with the first "−" at first, and pushed the rows down under
+             a player clicking two weapons off in a row (2026-10-07). Only its words change. -->
+        <p
+          v-if="holds[gi]"
+          class="ues-blocked ues-hold"
+          :class="{ 'ues-freed': freed(gi) }"
+        >
+          <Transition
+            name="fade"
+            mode="out-in"
+          >
+            <span :key="freed(gi)">{{ freed(gi) ? labels.rosterHoldFreed.replace('{n}', freed(gi)) : labels.rosterHoldHow }}</span>
+          </Transition>
         </p>
         <!-- Each of these comes and goes with picks made in OTHER groups, so it slides in. -->
         <ExpandTransition mode="out-in">
@@ -386,6 +443,34 @@
           v-else
           class="opt-col"
         >
+          <!-- What the group replaces, as a row: how many models still carry it (rosterHold's
+               stockLeft — after every group, so two groups that replace the same pistol show the
+               same number). A count, not a control: it is whatever the rows below did not take,
+               so "+" on an option takes from it in one click. The stepper is drawn with its
+               buttons hidden so the number stands in the column of the numbers under it. -->
+          <div
+            v-if="!holds[gi] && stockLefts[gi] != null"
+            class="opt-tile opt-stock"
+          >
+            <div class="opt-step-body">
+              <span class="opt-name opt-stock-name"><span>{{ g.rep.map((id) => items[id]).join(' + ') }}</span><span class="opt-tag">{{ labels.rosterStockTag }}</span></span>
+              <NumberStepper
+                compact
+                class="stock-n"
+                :model-value="stockLefts[gi]"
+                disabled
+              />
+            </div>
+            <button
+              type="button"
+              class="opt-info"
+              data-press
+              :aria-label="labels.rosterViewInfo"
+              @click="openWeaponInfo(g.rep.map((id) => items[id]))"
+            >
+              <i class="bi bi-info-circle" />
+            </button>
+          </div>
           <div
             v-for="(o, oi) in g.o"
             :key="oi"
@@ -398,10 +483,23 @@
                 class="opt-pts"
               > +{{ o[1] }}</span></span>
               <NumberStepper
+                v-if="holds[gi]"
+                compact
+                :model-value="held(gi, oi)"
+                :min="0"
+                :max="held(gi, oi) + freed(gi)"
+                :disabled="shut[gi]"
+                @update:model-value="setHeld(gi, oi, $event)"
+              />
+              <NumberStepper
+                v-else
+                compact
                 :model-value="stepCount(gi, oi)"
                 :min="0"
                 :max="stepMax(gi, oi)"
                 :disabled="shut[gi]"
+                :editable="typeable(gi)"
+                :label="optLabel(o)"
                 @update:model-value="setStep(gi, oi, $event)"
               />
             </div>
@@ -525,8 +623,8 @@
     </ExpandTransition>
 
     <!-- The same attachment from the squad's end (a player's request): the Leaders and Supports in
-         the list that could join THIS unit. Ticking one attached elsewhere moves it here, and its
-         row says where it is now so that is not a surprise. -->
+         the list that could join THIS unit. Ticking one attached elsewhere asks first (ConfirmModal,
+         saying what the move does) and then moves it here; its row says where it is now. -->
     <ExpandTransition>
       <section
         v-if="leaderSources.length"
@@ -547,7 +645,7 @@
                 type="checkbox"
                 :checked="isAttachedHere(s.uid)"
                 :disabled="s.used"
-                @change="toggleSource(s.uid)"
+                @change="toggleSource(s.uid, $event)"
               >
               <span class="opt-name">
                 {{ s.name }}
@@ -569,6 +667,91 @@
         </div>
       </section>
     </ExpandTransition>
+
+    <!-- "Can be led by" (a player's ask, 2026-10-06): the Leaders and Supports the CATALOGUE holds
+         that could join this unit and the list does not have yet — the section above only knows
+         what is already in it, so a squad added first said nothing. Folded by default, the count on
+         the heading: a Space Marines squad has a dozen and more. "+" adds the character and
+         attaches it here in one tap. Only rows that could be attached right now arrive here
+         (RosterEntryFields drops a taken slot and a reached cap), so every "+" works. -->
+    <ExpandTransition>
+      <section
+        v-if="leaderCandidates.length"
+        class="ues-sec"
+      >
+        <!-- A heading holding its toggle (not a button styled as one): the display face and the
+             heading's place in the outline stay those of every other section here. -->
+        <h4
+          class="ues-h ues-fold-h"
+          :class="{ open: ledByOpen }"
+        >
+          <button
+            type="button"
+            class="ues-fold"
+            :aria-expanded="ledByOpen"
+            @click="ledByOpen = !ledByOpen"
+          >
+            <ChevronIcon
+              class="ues-fold-chev"
+              :turned="ledByOpen"
+            />
+            <span>{{ ledByTitle }}</span>
+          </button>
+        </h4>
+        <CollapseTransition :show="ledByOpen">
+          <div class="opt-col">
+            <div
+              v-for="c in leaderCandidates"
+              :key="c.id"
+              class="opt-tile"
+            >
+              <!-- The row itself opens the character's datasheet — "who could lead this" is
+                   usually followed by "and what does he do", and the answer is one tap away
+                   instead of a trip to the catalogue. An unlinked unit has no sheet to open. -->
+              <button
+                v-if="c.linked"
+                type="button"
+                class="opt-step-body opt-open"
+                :title="labels.rosterShowDatasheet"
+                @click="leaderPreview = c"
+              >
+                <span class="opt-name">
+                  {{ c.name }}
+                  <span
+                    v-if="c.type === 'support'"
+                    class="opt-tag"
+                  >{{ labels.rosterSupportTag }}</span>
+                </span>
+                <span class="opt-pts">{{ c.pts }}</span>
+              </button>
+              <div
+                v-else
+                class="opt-step-body"
+              >
+                <span class="opt-name">
+                  {{ c.name }}
+                  <span
+                    v-if="c.type === 'support'"
+                    class="opt-tag"
+                  >{{ labels.rosterSupportTag }}</span>
+                </span>
+                <span class="opt-pts">{{ c.pts }}</span>
+              </div>
+              <button
+                type="button"
+                class="opt-info"
+                data-press
+                :aria-label="labels.rosterLedByAdd.replace('{unit}', c.name)"
+                :title="labels.rosterLedByAdd.replace('{unit}', c.name)"
+                @click="$emit('add-leader', c.id)"
+              >
+                <i class="bi bi-plus-lg" />
+              </button>
+            </div>
+          </div>
+        </CollapseTransition>
+      </section>
+    </ExpandTransition>
   </div>
 </template>
 
@@ -579,15 +762,18 @@
 import { computed, ref, watch } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import CollapseTransition from '../CollapseTransition.vue'
+import ChevronIcon from '../ChevronIcon.vue'
 import ExpandTransition from '../ExpandTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import WeaponProfileModal from './WeaponProfileModal.vue'
 import EnhancementRuleModal from './EnhancementRuleModal.vue'
+import ConfirmModal from '../ConfirmModal.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { ENTRY_NOTE_MAX, allySourceOf, allegFor, allegSpent, defaultLoadoutLines, defaultWargearPoints, fitWargear, modelsPerMini, overdrawnGroups, optionItems, optionLabel, setNote, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { ENTRY_NOTE_MAX, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, overdrawnGroups, optionItems, optionLabel, setNote, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne } from '../../composables/rosterEngine.js'
+import { holdCounts, holdGroup, holdWg, stockLeft } from '../../composables/rosterHold.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -611,11 +797,20 @@ const props = defineProps({
   leaderTargets: { type: Array, default: () => [] },
   // rosterEngine's leaderSourcesFor: the entries that could be attached to this one.
   leaderSources: { type: Array, default: () => [] },
+  // rosterEngine's leaderCandidatesFor, narrowed to who could join this unit right now.
+  leaderCandidates: { type: Array, default: () => [] },
 })
-defineEmits(['toggle-warlord'])
+defineEmits(['toggle-warlord', 'add-leader'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// "Can be led by" is folded until asked for; the title is built here, not out of adjacent
+// template fragments (a line break there would be a real space — see the root CLAUDE.md).
+const ledByOpen = ref(false)
+// The candidate whose datasheet is open, or null.
+const leaderPreview = ref(null)
+const ledByTitle = computed(() => `${labels.value.rosterLedBy} · ${props.leaderCandidates.length}`)
 
 // What tells two targets of the same datasheet apart, in the player's own terms first: the name
 // they gave that block, then the facts that differ (models, enhancement, mark, their note), then
@@ -710,12 +905,29 @@ function blockerText(gi) {
 // one-of group already looks like, and 0 gets its own sentence instead.
 function capChip(gi) {
   const cap = caps.value[gi]
+  // An exact count says so, and how many are still owed — the chip stands in the heading either
+  // way, so only its words change as the player picks (nothing above the rows moves).
+  const ex = props.def?.gear?.[gi]?.ex
+  if (ex) {
+    const owed = exactPicksOwed(props.def, props.entry, gi)
+    return owed ? labels.value.rosterPickExactLeft.replace('{n}', owed) : labels.value.rosterPickExact.replace('{n}', ex)
+  }
   if (!cap || cap.limit < 2) return ''
   const upTo = labels.value.rosterPickUpTo.replace('{n}', cap.limit)
   return cap.dup ? `${upTo}, ${labels.value.rosterPickDup.replace('{n}', cap.dup)}` : upTo
 }
 
 const optLabel = (o) => optionLabel(o, props.items)
+
+// From six models on, a count can be typed as well as stepped (a tap on the number): twenty
+// Termagants with fleshborers is not twenty taps (owner, 2026-10-07). Read from the group's own
+// ceiling, not the room left in it, so the control does not change kind halfway through a group.
+const TYPE_FROM = 6
+function typeable(gi) {
+  const cap = caps.value[gi]
+  const ceiling = cap ? cap.limit : wargearGroupFallbackCap(props.def, props.entry, gi)
+  return ceiling != null && ceiling >= TYPE_FROM
+}
 const optNames = (o) => optionItems(o).map(([id]) => props.items[id]).filter(Boolean)
 
 // Every wargear row is a checkbox (selection) plus a separate trailing button; the button opens a
@@ -863,7 +1075,7 @@ const sizeTells = computed(() => {
 })
 
 // ── Default loadout summary ──
-const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items, props.entry))
+const defaultLines = computed(() => fixedLoadoutLines(props.def, props.items, props.entry))
 // Every item the lines name, once — a Sergeant and his squad both carrying a bolt pistol is one
 // profile to read. The info button beside them opens all of it, the way an option's button opens
 // the option: the default loadout was the one wargear on this screen with no way to read it.
@@ -884,8 +1096,13 @@ function setWg(next) {
 // Without a structural cap this falls back exactly to the old inputType-only reading.
 function mode(g, gi) {
   const cap = caps.value[gi]
-  if (g.in === 'stepper' || (cap && cap.limit > 1)) return 'stepper'
-  return g.o.length > 1 ? 'radio' : 'toggle'
+  // A single-option "stepper" that no unit size lets past one model is a one-for-one swap, drawn
+  // like every other one (wargearGroupAlwaysOne) — not a 0/1 counter.
+  const single = g.in === 'stepper' && g.o.length === 1 && !(cap && cap.limit > 1) && wargearGroupAlwaysOne(props.def, gi)
+  if (!single && (g.in === 'stepper' || (cap && cap.limit > 1))) return 'stepper'
+  // A single option that REPLACES something is a choice between two things, so the stock weapon
+  // is a row of its own, as in every one-of group: it is no longer listed above the groups.
+  return g.o.length > 1 || g.rep?.length ? 'radio' : 'toggle'
 }
 
 // radio (one-of): a single selection per group. `null` means "the default loadout" — shown as
@@ -929,6 +1146,42 @@ function setStep(gi, oi, n) {
   if (n > 0) next.push([gi, oi, n])
   setWg(next)
 }
+// A group whose rows include the weapons it replaces (Havocs' "autocannon or lascannon → one of
+// five", the two among them) is drawn as what the models HOLD — see rosterHold.js. Its stock
+// models are already spoken for, so a change is two steps: "−" takes a weapon off a model, "+"
+// gives the freed model another. What is taken off and not yet replaced lives only here: the
+// entry changes when the model gets its new weapon, so leaving a weapon off and walking away
+// changes nothing — the hint over the rows says so.
+const stockLefts = computed(() => (props.def.gear || []).map((g, gi) => (g.rep?.length ? stockLeft(props.def, props.entry, gi) : null)))
+const holds = computed(() => (props.def.gear || []).map((g, gi) => (holdGroup(props.def, gi) ? holdCounts(props.def, props.entry, gi) : null)))
+const takenOff = ref({})
+let ownWrite = false
+watch(() => [props.entry, props.entry.wg, props.entry.size, props.entry.count], () => {
+  if (ownWrite) ownWrite = false
+  else takenOff.value = {}
+})
+const offAt = (gi, oi) => takenOff.value[gi]?.[oi] || 0
+function held(gi, oi) { return holds.value[gi][oi] - offAt(gi, oi) }
+function freed(gi) { return (takenOff.value[gi] || []).reduce((a, n) => a + (n || 0), 0) }
+function setHeld(gi, oi, n) {
+  const off = [...(takenOff.value[gi] || [])]
+  if (n < held(gi, oi)) {
+    off[oi] = offAt(gi, oi) + 1
+  } else if (offAt(gi, oi)) {
+    off[oi]--
+  } else {
+    const from = off.findIndex((x) => x > 0)
+    if (from < 0) return
+    off[from]--
+    const counts = [...holds.value[gi]]
+    counts[from]--
+    counts[oi]++
+    ownWrite = true
+    setWg(holdWg(props.def, props.entry, gi, counts))
+  }
+  takenOff.value = { ...takenOff.value, [gi]: off }
+}
+
 // What's left for THIS option: the group's own budget minus what its siblings already took, and
 // never more than the duplicate cap on a single option. Falls back to reading "For every N
 // models, 1 model…" out of the instruction for the groups appdata gives no cap for — that guess
@@ -996,11 +1249,35 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
 // pickers edit one fact and cannot disagree.
 const unitByUid = (uid) => props.units.find((u) => u.uid === uid)
 function isAttachedHere(uid) { return unitByUid(uid)?.leaderOf === props.entry.uid }
-function toggleSource(uid) {
+function toggleSource(uid, ev) {
   const other = unitByUid(uid)
   if (!other) return
   if (other.leaderOf === props.entry.uid) delete other.leaderOf
-  else other.leaderOf = props.entry.uid
+  else if (other.leaderOf && unitByUid(other.leaderOf)) {
+    // Attached elsewhere: ask first. The box stays as it was until the answer — the state did not
+    // change, so Vue would not redraw it on its own.
+    if (ev?.target) ev.target.checked = false
+    moveAsk.value = moveQuestion(other)
+  } else other.leaderOf = props.entry.uid
+}
+// What a move does, spelled out: off the other unit (and whether that leaves it with no Character),
+// onto this one, the points untouched, an enhancement travelling with its bearer.
+const moveAsk = ref(null)
+function moveQuestion(other) {
+  const l = labels.value
+  const name = props.defOf?.(other.id)?.name || ''
+  const fromEntry = unitByUid(other.leaderOf)
+  const from = fromEntry?.blockName || props.defOf?.(fromEntry?.id)?.name || ''
+  const fill = (s) => s.replaceAll('{unit}', name).replaceAll('{from}', from).replaceAll('{enh}', other.enh || '')
+  const leftAlone = !props.units.some((u) => u.uid !== other.uid && u.leaderOf === other.leaderOf)
+  const message = [l.rosterMoveBody, leftAlone ? l.rosterMoveLeft : '', other.enh ? l.rosterMoveEnh : '']
+    .filter(Boolean).map(fill).join(' ')
+  return { uid: other.uid, title: fill(l.rosterMoveTitle), message }
+}
+function confirmMove() {
+  const other = unitByUid(moveAsk.value?.uid)
+  if (other) other.leaderOf = props.entry.uid
+  moveAsk.value = null
 }
 // Where a candidate is now, if not here; and, where one datasheet is offered twice, what tells the
 // copies apart — the same facts the forward picker leans on, fewer of them: a Leader is one model.
@@ -1050,11 +1327,12 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   .ues-top { flex-direction: column; align-items: stretch; gap: 0.35rem; }
 }
 .ues-sec:first-of-type { border-top: none; }
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .ues-h {
-  font-size: 0.98rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 400;
   color: var(--text-primary);
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.3rem;
   line-height: 1.35;
 }
 /* A wargear group's heading is a whole sentence lifted off the datasheet — "1 Cultist Champion's
@@ -1070,7 +1348,9 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   font-size: 0.88rem;
   line-height: 1.5;
 }
-.ues-mini { color: var(--text-dim); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.03em; margin-right: 0.3rem; }
+/* The size of the text it heads (owner, 2026-10-07: at 0.7rem the model name read smaller than
+   the sentence after it) — capitals at the same size as the sentence's own capitals. */
+.ues-mini { color: var(--text-dim); font-weight: 500; text-transform: uppercase; font-size: inherit; letter-spacing: 0.02em; margin-right: 0.3rem; }
 .ues-default { font-size: 0.85rem; margin: 0.15rem 0; }
 /* The default loadout is a tile like the options under it (owner, 2026-10-01): the same frame and
    ground, its info button in the same right-hand column. Inside a tile the names read at full
@@ -1096,6 +1376,11 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   color: var(--text-muted);
   font-style: italic;
 }
+/* The stock row's number without its buttons: hidden, not removed, so it keeps the stepper's
+   width and stands over the numbers below it. */
+.stock-n :deep(.step-btn) { visibility: hidden; }
+.ues-hold { font-style: normal; transition: color 0.2s; }
+.ues-freed { color: var(--accent-ink); }
 .ues-cap {
   display: inline-block;
   margin-left: 0.35rem;
@@ -1139,6 +1424,11 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
 .opt-name { color: var(--text-primary); }
 .opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent-ink); }
 .opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
+/* The stock row's name and its tag are two flex items: when the line runs out the TAG drops to the
+   next line, and the weapon names stay whole ("Bolt Pistol + Boltgun", not "Bolt Pistol +" over
+   "Boltgun STOCK" — owner, 2026-10-07). */
+.opt-stock-name { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.4rem; }
+.opt-stock-name .opt-tag { margin-left: 0; }
 /* Which of the two squads of that name this row is. Its OWN line — the name above it is what the
    reader scans, and a sentence trailing off the end of it would be read as part of the name. */
 .opt-which { display: block; margin-top: 0.1rem; font-size: 0.7rem; font-style: normal; line-height: 1.3; color: var(--text-muted); }
@@ -1185,6 +1475,35 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   cursor: pointer;
 }
 .opt-info:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+/* "Can be led by" — a fold whose heading is the toggle. */
+.ues-fold-h { margin: 0; }
+.ues-fold-h.open { margin-bottom: 0.5rem; }
+.ues-fold {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ues-fold-chev { font-size: 0.8rem; color: var(--text-muted); }
+/* A candidate's row is a button that opens its datasheet; it keeps the tile's look. */
+.opt-open {
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.opt-open:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.opt-open:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .opt-step-body {
   flex: 1;
   display: flex;

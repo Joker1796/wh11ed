@@ -31,10 +31,11 @@ const renderedBody = computed(() => props.body ? renderInline(props.body) : '')
   margin-top: 0.5rem;
 }
 
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .group-label-title {
   font-family: var(--font-display);
   font-size: 1.01rem;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--accent-ink);

@@ -542,9 +542,10 @@ function handleDefClick(e) {
   flex-shrink: 0;
 }
 
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .ability-name {
   margin: 0;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 1.05rem;
   line-height: 1.3;
   flex: 1;
@@ -554,6 +555,7 @@ function handleDefClick(e) {
 .ability-name.weapon {
   color: var(--ability-weapon, #7a5a00);
   font-family: var(--font-mono);
+  font-weight: 700;
 }
 
 .ability-name.unit {
@@ -685,10 +687,11 @@ function handleDefClick(e) {
   background: var(--bg-secondary);
 }
 
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .digital-support-title {
   font-family: var(--font-display);
   font-size: 1.10rem;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-muted);

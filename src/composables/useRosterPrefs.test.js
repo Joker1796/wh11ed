@@ -17,4 +17,12 @@ describe('useRosterPrefs', () => {
     localStorage.setItem('wh11ed-roster-points-left', '0')
     expect((await fresh()).showPointsLeft.value).toBe(false)
   })
+
+  // One switch for the catalogue and the "Can be led by" list, under the key the catalogue
+  // always used — a choice made before it moved here is kept.
+  it('shows Legends by default and keeps a stored "hide"', async () => {
+    expect((await fresh()).hideLegends.value).toBe(false)
+    localStorage.setItem('wh11ed-roster-filter-legends', '1')
+    expect((await fresh()).hideLegends.value).toBe(true)
+  })
 })

@@ -1812,9 +1812,13 @@ describe('matchRoster — a squad that swaps in pairs', () => {
     const def = ctx.faction.units.find((u) => u.id === 'deathwatch-terminator-squad')
     const wg = payload.units.find((u) => u.id === 'deathwatch-terminator-squad').wg
     const names = ([gi, oi]) => optionItems(def.gear[gi].o[oi]).map(([id]) => ctx.items[id]).sort()
+    // Since 2026-10-07 the Sergeant's and the Terminators' copies of the swap are one unit-wide
+    // group (the lone "Power Fist" option that kept them apart was dropped), so the two swapped
+    // models are one pick of the pair, counted twice.
     const pairs = wg.filter((w) => names(w).includes('Thunder Hammer'))
-    expect(pairs.map((w) => def.gear[w[0]].m).sort()).toEqual([0, 1])        // one per profile…
-    for (const w of pairs) expect([names(w), w[2]]).toEqual([['Storm Shield', 'Thunder Hammer'], 1]) // …each the pair, once
+    expect(pairs).toHaveLength(1)
+    expect(def.gear[pairs[0][0]].all).toBe(1)
+    expect([names(pairs[0]), pairs[0][2]]).toEqual([['Storm Shield', 'Thunder Hammer'], 2])
   })
 
   // Three bundled options differ only in their last weapon ("1 boltstorm gauntlet and 1 relic

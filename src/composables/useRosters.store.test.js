@@ -255,6 +255,34 @@ describe('schema → v6', () => {
   })
 })
 
+describe('schema → v10', () => {
+  // Deathwatch Terminator Squad: the lone "Power Fist" option is gone and the Sergeant's and the
+  // Terminators' copies of the swap are one unit-wide group. Heavy weapons move g1 → g0, both
+  // swaps land in g1 (counts added), a lone power fist pick is dropped, other units stay.
+  it('moves the Terminators’ picks onto the folded groups', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 9,
+      rosters: [{
+        id: 'r1',
+        name: 'Old',
+        faction: 'deathwatch',
+        updatedAt: 1,
+        units: [
+          { uid: 'u1', id: 'deathwatch-terminator-squad', size: 1, wg: [[0, 3], [1, 0, 2], [2, 4, 2], [2, 0, 1], [2, 1, 1]] },
+          { uid: 'u2', id: 'deathwatch-terminator-squad', wg: [[2, 0, 1]] },
+          { uid: 'u3', id: 'deathwatch-veterans', wg: [[1, 1, 1]] },
+        ],
+      }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units[0].wg).toEqual([[0, 0, 2], [1, 3, 3], [1, 0, 1]])
+    expect(r.units[1].wg).toBeUndefined()
+    expect(r.units[2].wg).toEqual([[1, 1, 1]])
+  })
+})
+
 describe('schema → v9', () => {
   // Red Corsairs Raiders' meltagun / power fist group became two groups, one per weapon given up.
   // The power fist pick moves to the new group; the meltagun and every other unit stay.

@@ -114,6 +114,14 @@ export function useRosterDerived(roster, factionData) {
       ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore, items: rosterItems.items })
       : { points: points.value, issues: [], errorCount: 0 })
 
+  // The datasheets the army may take right now — what the catalogue offers (a group a Detachment
+  // locks is not in it), for the fields' "Can be led by" list (leaderCandidatesFor).
+  const catalogue = computed(() =>
+    sectionsOf(factionData.value?.units || [], {
+      faction: { allies: factionData.value?.allies || [], slug: roster.value?.faction },
+      detachments: curDetachments.value,
+    }).flatMap((sec) => sec.items))
+
   // Everything `RosterEntryFields` needs beyond the entry itself, identical wherever the fields
   // land — under the row on a phone, in the column beside it on a desk.
   const fieldProps = computed(() => ({
@@ -124,6 +132,8 @@ export function useRosterDerived(roster, factionData) {
     defOf,
     armySlug: roster.value?.faction || '',
     slugOf: slugFor,
+    catalogue: catalogue.value,
+    dupBlocked,
   }))
 
   return {

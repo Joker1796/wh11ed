@@ -1000,3 +1000,30 @@ describe('rules about one model across groups (Legends Crisis Battlesuits)', () 
     expect(perModelFits(def, { ...e, wg: fitWargear(def, e) })).toBe(true)
   })
 })
+
+// "…replaced with two different weapons from the following list" is an exact count (`ex`): one
+// pick left a Wolf Guard Pack Leader holding one weapon, and nothing said so (2026-10-07).
+describe('exact-count wargear groups ("two different weapons")', () => {
+  let sw, da
+  beforeAll(async () => {
+    sw = (await import('../data/roster/space-wolves.js')).default
+    da = (await import('../data/roster/dark-angels.js')).default
+  })
+  const issues = (fac, slug, name, wg) => {
+    const id = fac.units.find((u) => u.name === name).id
+    const r = { faction: slug, battleSize: 'strikeForce', detachments: [], units: [{ uid: 'a', id, size: 0, wg }] }
+    return validateRoster(r, { faction: fac, core }).issues.filter((i) => i.code === 'wargearPickExact')
+  }
+
+  it('flags one weapon where two are owed, and accepts none or two', () => {
+    expect(issues(sw, 'space-wolves', 'Wolf Guard Pack Leader', [[0, 2, 1]])).toHaveLength(1)
+    expect(issues(sw, 'space-wolves', 'Wolf Guard Pack Leader', [[0, 2, 1], [0, 3, 1]])).toHaveLength(0)
+    expect(issues(sw, 'space-wolves', 'Wolf Guard Pack Leader', [])).toHaveLength(0)
+  })
+
+  it('takes the sentence’s own single option as a complete answer', () => {
+    // Deathwing Strikemaster: "either 1 twin lightning claws, or two different weapons…".
+    expect(issues(da, 'dark-angels', 'Deathwing Strikemaster', [[0, 0, 1]])).toHaveLength(0)
+    expect(issues(da, 'dark-angels', 'Deathwing Strikemaster', [[0, 1, 1]])).toHaveLength(1)
+  })
+})

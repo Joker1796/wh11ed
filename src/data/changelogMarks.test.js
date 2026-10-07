@@ -26,4 +26,10 @@ describe('changelog marks', () => {
     // A pair of marks and the stop after them never break apart.
     expect(renderMarks('switch {btn:gear} {btn:panes}. Next')).toMatch(/<span class="cl-nw"><span class="cl-btn"[^]*bi-layout-split[^]*<\/span>\.<\/span> Next$/)
   })
+
+  // A contributor's credit: the name in amber, escaped like any text.
+  it('draws {who:…} as the amber name', () => {
+    expect(renderMarks('Made by {who:Creego}. Thanks!')).toBe('Made by <strong class="cl-who">Creego</strong>. Thanks!')
+    expect(renderMarks('{who:<b>}')).toBe('<strong class="cl-who">&lt;b&gt;</strong>')
+  })
 })

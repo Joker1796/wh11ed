@@ -176,6 +176,7 @@
                 v-bind="fieldProps"
                 :entry="e"
                 @toggle-warlord="toggleWarlord"
+                @add-leader="addLeaderTo"
               />
             </template>
           </RosterUnitList>
@@ -185,12 +186,15 @@
             v-bind="fieldProps"
             :entry="openEntry"
             @toggle-warlord="toggleWarlord"
+            @add-leader="addLeaderTo"
           />
         </template>
       </RosterWorkbench>
     </div>
 
+    <!-- Floating on the phone; on the desk it is the footer's middle (below). -->
     <RosterUndoBar
+      v-if="!desk"
       :undoable="undoable"
       @undo="undoRemove"
       @dismiss="dismissUndo"
@@ -226,6 +230,13 @@
           :error-count="validation.errorCount"
           :issue-count="validation.issues.length"
           @open-issues="issuesOpen = true"
+        />
+        <RosterUndoBar
+          v-if="desk"
+          inline
+          :undoable="undoable"
+          @undo="undoRemove"
+          @dismiss="dismissUndo"
         />
         <div class="rc-sticky-actions">
           <!-- No steps on the desk, so nothing to go back to and nothing to go forward to: the
@@ -395,7 +406,7 @@ const {
 const {
   factionPickerOpen, pickFaction,
   detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit, toggleDetachment, clearDetachments,
-  openUid, toggleOpen, openEntry, addUnit, duplicateEntry, removeEntry, toggleWarlord,
+  openUid, toggleOpen, openEntry, addUnit, addLeaderTo, duplicateEntry, removeEntry, toggleWarlord,
   undoable, undoRemove, dismissUndo,
 } = useRosterBuildActions({
   roster: () => draftRoster.value,

@@ -529,9 +529,10 @@ const currentLayout = computed(() =>
   color: var(--link-accent);
   line-height: 1.2;
 }
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .side-vs {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-dim);
 }
 

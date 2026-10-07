@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn } from './rosterEngine.js'
+import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn } from './rosterEngine.js'
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -223,6 +223,10 @@ export function validateRoster(roster, { faction, core, items } = {}) {
       }
       const over = cap.dup && (u.wg || []).find(([g, , n]) => g === gi && (n || 1) > cap.dup)
       if (over) add('overWargearDup', 'error', { uid: u.uid, params: { count: over[2] || 1, limit: cap.dup } })
+      // "…replaced with two different weapons": the count is exact (`ex`), so one pick leaves the
+      // model one weapon short of its datasheet. A `solo` option ("either 1 twin lightning claws,
+      // or two different…") is a complete answer on its own.
+      if (exactPicksOwed(def, u, gi)) add('wargearPickExact', 'error', { uid: u.uid, params: { count: spent, limit: def.gear[gi].ex } })
       // One per model across a set of options (Broadside's twin plasma rifle / twin smart missile
       // system) — rosterEngine's wargearExclOver.
       for (const x of wargearExclOver(def, u, gi)) {

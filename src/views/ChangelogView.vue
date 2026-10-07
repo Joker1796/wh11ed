@@ -186,6 +186,8 @@ useUpdateNotice().markSeen()
 /* A text button sits on the line's baseline — its label is text among text; the icon's -0.2em is
    for a glyph with no baseline of its own, and pulled the label below the line. */
 .cl-list :deep(.cl-key) { vertical-align: baseline; height: auto; padding: 0.15em 0.45em; font-size: 0.85em; font-weight: 600; }
+/* A contributor's name ({who:…}, changelogMarks.js) — the amber token, AA in both themes. */
+.cl-list :deep(.cl-who) { color: var(--warning); font-weight: 700; }
 
 .cl-list {
   margin: 0;

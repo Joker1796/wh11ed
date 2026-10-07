@@ -65,10 +65,11 @@ const t = computed(() => rulesLanding[locale.value])
   text-decoration: none;
 }
 
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .rule-name {
   font-family: var(--font-display);
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-primary);
 }
 

@@ -230,6 +230,7 @@ import { allySourceOf, groupLabel, mandatoryEnhancementFor, capKeyOf, sectionsOf
 import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { foldName, preloadDatasheetTags, TAG_MIN, unitTagHit } from '../../composables/datasheetTags.js'
 import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
 
@@ -310,10 +311,10 @@ const searched = computed(() => {
 // catalogue's first answer should be the whole catalogue.
 const onlyAffordable = ref(getItem('wh11ed-roster-filter-budget') === '1')
 const onlyOwned = ref(getItem('wh11ed-roster-filter-owned') === '1')
-const hideLegends = ref(getItem('wh11ed-roster-filter-legends') === '1')
+// Shared with the unit fields' "Can be led by" list (useRosterPrefs), which hides Legends too.
+const { hideLegends } = useRosterPrefs()
 watch(onlyAffordable, (v) => setItem('wh11ed-roster-filter-budget', v ? '1' : ''))
 watch(onlyOwned, (v) => setItem('wh11ed-roster-filter-owned', v ? '1' : ''))
-watch(hideLegends, (v) => setItem('wh11ed-roster-filter-legends', v ? '1' : ''))
 const hasLegends = computed(() => props.units.some((u) => u.flags?.legends))
 
 const hasBudget = computed(() => Number.isFinite(props.remaining))

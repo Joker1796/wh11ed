@@ -21,6 +21,9 @@
 //              target is inline in running text (the inline exception).
 //   overflow — the document must not scroll sideways at any width; the widest offenders are
 //              listed so the culprit table or chip row is findable.
+//   type     — the display face (Sofia Sans Extra Condensed) at 18px or less is weight 400: the
+//              condensed letters read cramped at 500 and up (owner, 2026-10-07; src/components/
+//              CLAUDE.md → Type). Read from computed styles, so an inherited weight counts too.
 //
 // Findings are keyed by an element signature (tag.classes) plus the colour pair — the same list
 // style failing on forty rows, or on ten pages, is one finding, not forty. A finding that is a
@@ -34,7 +37,7 @@
 // something NEW; a baseline entry that stops firing is reported as stale so the file shrinks as
 // the palette is fixed. `--baseline` re-records it — read the diff before committing.
 //
-// Usage: npm run a11y [-- --routes=/factions/orks,/tracker] [--only=contrast|target|overflow]
+// Usage: npm run a11y [-- --routes=/factions/orks,/tracker] [--only=contrast|target|overflow|type]
 //                     [--widths=390,1280] [--themes=light,dark] [--en] [--verbose] [--baseline]
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -87,7 +90,7 @@ const args = Object.fromEntries(
     return m ? [m[1], m[2] ?? true] : [a, true]
   }),
 )
-const only = args.only ? String(args.only).split(',') : ['contrast', 'target', 'overflow']
+const only = args.only ? String(args.only).split(',') : ['contrast', 'target', 'overflow', 'type']
 const widths = args.widths ? String(args.widths).split(',').map(Number) : [390, 1280]
 const themes = args.themes ? String(args.themes).split(',') : ['light', 'dark']
 const routes = args.routes ? String(args.routes).split(',') : ROUTES
@@ -174,7 +177,7 @@ function measure({ checks }) {
     return acc ? over(acc, { r: 255, g: 255, b: 255, a: 1 }) : { r: 255, g: 255, b: 255, a: 1 }
   }
 
-  const out = { contrast: [], target: [], overflow: [] }
+  const out = { contrast: [], target: [], overflow: [], type: [] }
   const all = [...document.body.querySelectorAll('*')]
 
   if (checks.includes('contrast')) {
@@ -285,6 +288,23 @@ function measure({ checks }) {
     }
   }
 
+  if (checks.includes('type')) {
+    const seen = new Set()
+    for (const el of all) {
+      const text = [...el.childNodes].filter((n) => n.nodeType === 3).map((n) => n.textContent).join('').trim()
+      if (!text || !visible(el)) continue
+      const cs = getComputedStyle(el)
+      if (!/Sofia Sans Extra Condensed/i.test(cs.fontFamily.split(',')[0])) continue
+      const size = parseFloat(cs.fontSize)
+      const weight = parseInt(cs.fontWeight, 10)
+      if (size > 18 || weight <= 400) continue
+      const s = sig(el)
+      if (seen.has(s)) continue
+      seen.add(s)
+      out.type.push({ sig: s, size: Math.round(size * 10) / 10, weight, text: text.slice(0, 40) })
+    }
+  }
+
   if (checks.includes('overflow')) {
     const doc = document.documentElement
     if (doc.scrollWidth > doc.clientWidth + 1) {
@@ -378,7 +398,7 @@ const keyOf = (f) =>
     ? `overflow · ${f.route} · ${f.width}px`
     : f.check === 'contrast'
       ? `contrast · ${f.theme} · ${f.sig} · ${f.item.fg} on ${f.item.bg}`
-      : `target · ${f.sig}`
+      : `${f.check} · ${f.sig}`
 
 const baseline = (() => {
   if (record || !existsSync(BASELINE_PATH)) return {}
@@ -412,6 +432,7 @@ const fmt = (f) => {
   if (f.check === 'contrast')
     return `${where}  ${f.sig}  ${i.fg} on ${i.bg} = ${i.ratio}:1 (need ${i.need}, ${i.size}px)  “${i.text}”`
   if (f.check === 'target') return `${where}  ${f.sig}  ${i.w}×${i.h}px  “${i.text}”`
+  if (f.check === 'type') return `${where}  ${f.sig}  display face ${i.size}px at weight ${i.weight} (≤18px must be 400)  “${i.text}”`
   return `${where}  page scrolls sideways: ${i.scrollWidth} > ${i.clientWidth}px  ← ${i.culprits.join(', ')}`
 }
 
@@ -431,7 +452,7 @@ if (real.length) {
     console.error('  ' + fmt(g.first))
     if (g.where.length > 1) console.error(`      also on ${g.where.length - 1} more: ${g.where.slice(1, 6).join('; ')}${g.where.length > 6 ? '; …' : ''}`)
   }
-  console.error(`\nContrast is WCAG AA (4.5:1 text, 3:1 large), targets 24×24px, no sideways scroll.`)
+  console.error(`\nContrast is WCAG AA (4.5:1 text, 3:1 large), targets 24×24px, no sideways scroll, the display face ≤18px at weight 400.`)
   console.error(`A deliberate exception goes into ALLOWED in scripts/check-a11y.mjs with the reason.`)
   process.exit(1)
 }

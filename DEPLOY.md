@@ -87,8 +87,11 @@ npm run deploy
 - `BUMP=none npm run deploy` — выложить **текущую** версию как есть (когда номер уже
   выставлен в коммите/`package.json` и автобамп не нужен).
 
-Бамп коммитится (`chore: release vX.Y.Z`) и пушится в `origin main` **после**
-успешного деплоя — поэтому катить надо с `main` и с чистым рабочим деревом.
+Катить надо **с релизной ветки `release/X.Y.Z`** и с чистым рабочим деревом (ветки и порядок
+сборки релиза — `CONTRIBUTING.md`). Деплой откажется, если бамп даст не ту версию, что в имени
+ветки. **После** успешного деплоя бамп коммитится (`chore: release vX.Y.Z`) и пушится в релизную
+ветку, затем `main` перематывается на неё (`--ff-only`) и тоже пушится. Если `main` за это время
+ушёл вперёд и перемотка невозможна, деплой это скажет: тогда слить релиз в `main` руками.
 
 ### Сброс кэша CDN
 
@@ -136,7 +139,7 @@ curl -s https://wh-rules.ru/robots.txt | grep -i sitemap
 
 ## Что делает `deploy.sh` кроме загрузки
 
-`deploy.sh` **auto-bumps `package.json` (`BUMP=patch` by default)** before building — use `BUMP=none npm run deploy` to ship the current version as-is, or `BUMP=minor`/`major`. When it bumps (`BUMP` ≠ `none`), it also **commits + pushes** the bump (`chore: release vX.Y.Z`) to `origin main` once the deploy succeeds — so deploy from `main` with a clean tree (uncommitted changes outside `package.json`/`package-lock.json`, or being on another branch, aborts the deploy before it builds anything).
+`deploy.sh` **auto-bumps `package.json` (`BUMP=patch` by default)** before building — use `BUMP=none npm run deploy` to ship the current version as-is, or `BUMP=minor`/`major`. When it bumps (`BUMP` ≠ `none`), it also **commits + pushes** the bump (`chore: release vX.Y.Z`) to the release branch once the deploy succeeds, then fast-forwards `main` to it and pushes `main` — so deploy from `release/X.Y.Z` with a clean tree (uncommitted changes outside `package.json`/`package-lock.json`, another branch, or a bump that would not land on the version in the branch name aborts the deploy before it builds anything). See `CONTRIBUTING.md` for the branch flow.
 
 **One target only.** The retired `wh11ed.ru` is frozen on its last build (v2.2.6, with the move banner) and is never redeployed — `deploy-both.sh` is gone, `.env.deploy` (bucket + CDN + `VITE_SITE_ORIGIN` + `VITE_API_BASE_URL`) is the single working config, and `.env.deploy.wh11ed` survives only as a rollback escape hatch (`ENVFILE=.env.deploy.wh11ed BUMP=none npm run deploy`). Don't reintroduce a two-domain release.
 

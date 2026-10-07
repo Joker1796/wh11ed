@@ -106,11 +106,12 @@ function isRecommended(rowId, colId) {
 }
 
 .col-head,
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .row-head {
   background: var(--bg-secondary);
   font-family: var(--font-display);
   font-size: 0.94rem;
-  font-weight: 500;
+  font-weight: 400;
   padding: 0.5rem 0.6rem;
   color: var(--text-primary);
 }

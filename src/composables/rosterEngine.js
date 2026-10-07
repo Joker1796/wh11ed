@@ -1,6 +1,6 @@
 // Pure roster maths — no Vue, no store. Shared by the editor (live points, unit grouping) and,
 // later, the validation engine. Everything here takes plain data so it's trivially testable.
-import { slugify } from '../data/slugify.js'
+import { detKey } from '../data/slugify.js'
 import conditionalKeywords from '../data/conditionalKeywords.json'
 
 // Battlefield-role buckets a unit is filed under in the editor / add-unit list, in display
@@ -229,7 +229,9 @@ function stockBlocker(def, entry, gi) {
 // Four markers are in use (◦ ■ ▫ •) and one list has none at all — just a head line ending in
 // ':' and an option per line — so the marker is not what identifies a list. A line opening with
 // '*' is a footnote about the options rather than one of them, and comes back separately.
-const BULLET = /^[◦•■▫]\s*/
+// `▪` is the Faction Pack transcriptions' marker (114 Legends instructions); without it their
+// lists ran together into one paragraph of the heading (2026-10-07).
+const BULLET = /^[◦•■▪▫]\s*/
 const FOOTNOTE = /^\*\s*/
 export function splitInstruction(text) {
   const lines = String(text || '').split('\n').map((l) => l.trim()).filter(Boolean)
@@ -426,6 +428,22 @@ export function perModelRoom(def, entry, gi, oi) {
 // two big shootas and two dread klaws, a War Walker's two shuriken cannons, which at 2 models is
 // four swaps). Deliberately conservative: `null` where the group belongs to no single profile, so
 // the caller keeps its own behaviour rather than being handed a guess.
+// A group no unit size lets more than one model take — "This model's storm bolter can be replaced
+// with 1 relic shield" on a Chaplain, "1 model's … can be replaced" on a squad of any size. appdata
+// still calls some of these steppers, and a 0/1 counter beside a one-for-one swap read as a
+// different kind of choice from the two-row "one of" every other single swap is (2026-10-07). Asked
+// at the LARGEST bracket and its top model count, so the answer never changes with the unit's size
+// and the control does not change shape under a "+" on the model count.
+export function wargearGroupAlwaysOne(def, gi) {
+  const sizes = def?.sizes || []
+  if (!def?.gear?.[gi] || !sizes.length) return false
+  const top = sizes.length - 1
+  const entry = { id: def.id, size: top, count: sizes[top]?.per?.[1] }
+  const cap = wargearGroupCap(def, entry, gi)
+  const ceiling = cap ? cap.limit : wargearGroupFallbackCap(def, entry, gi)
+  return ceiling != null && ceiling <= 1
+}
+
 export function wargearGroupFallbackCap(def, entry, gi) {
   const g = def?.gear?.[gi]
   if (!g || g.all || g.m == null) return null
@@ -530,16 +548,10 @@ export function enhEligible(enh, def, granted = []) {
 // is active". Nothing new is generated for this.
 
 // The sidecar keys detachments by their wh11ed id, the roster refers to them by their appdata
-// display name, so matching means slugifying the name. NOT the shared slugify() alone: appdata
-// spells "Dëlve Assault Shift" with a diaeresis, which slugify() drops to `d-lve-assault-shift`
-// and would silently fail to match the `delve-assault-shift` id (24 of 25 gated grants matched
-// without this, one didn't — the same silent-no-op class as the enhancement apostrophe bug).
-// Stripping combining marks first fixes it; slugify() itself is load-bearing for DOM ids and the
-// search index, so it stays untouched.
-const detKey = (name) => slugify((name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
-
-// Same job for a detachment name, which needs no such stripping — exported so the modal matches
-// the roster's detachment names to the faction file's exactly the way grantedKeywordsFor does.
+// display name, so matching goes through detKey() (src/data/slugify.js), not slugify() alone:
+// appdata spells "Dëlve Assault Shift" with a diaeresis, which slugify() drops to
+// `d-lve-assault-shift` (24 of 25 gated grants matched without it). Re-exported so the modal
+// matches the roster's detachment names to the faction file's the way grantedKeywordsFor does.
 export { detKey }
 
 // `detachments` accepts either the resolved detachment objects the editor/browser pass around
@@ -886,6 +898,53 @@ export function leaderSourcesFor(targetUid, units, defOf, detachments = []) {
     })
   }
   return out
+}
+
+// Who COULD lead this entry, asked of the whole catalogue instead of the list (a player's ask,
+// 2026-10-06 — "I add Intercessors and want to know who can lead them"). leaderSourcesFor only
+// knows the entries already in the list, so until a Character was added the squad's end of the
+// attachment said nothing at all.
+// **Named attachments only** (owner's call, 2026-10-06): a candidate must list THIS unit in its own
+// `leads` (leadsFor — the datasheet's table, a mirrored link, a mandatory enhancement's grant, all
+// detachment-gated), the way a Captain names "Assault Intercessor Squad". A keyword group
+// (`leadKw` — an Inquisitor's "any IMPERIUM BATTLELINE INFANTRY unit") does NOT put a character
+// here: it read as "this Inquisitor's sheet says he leads Assault Intercessors", which the sheet
+// nowhere says by name. Narrower than leadTypeFor on purpose — the Character's own "Attach to
+// unit" picker and validateRoster still accept a keyword attachment, so one made from that end
+// is still legal; this list just does not suggest it.
+// `catalogue` — the datasheets the army may take right now (the caller drops what its Detachments
+// lock, as the catalogue does). A datasheet the list holds a FREE copy of (attached to nobody) is
+// left out: that copy is leaderSourcesFor's, one section up, and attaches without a new purchase.
+// One whose every copy already leads another unit stays: a Lieutenant with squad A is offered to
+// squad B as a second Lieutenant, not only as "move him here" (the caller's duplicate cap decides
+// whether a second copy is legal).
+// `used` — this unit's slot of that type is already held, so a new one could not be attached.
+// Not covered: an attachment only an OPTIONAL enhancement grants (Abhuman Detail) — the bearer
+// does not have it yet, and whether it may take it is a question about that entry.
+export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachments = []) {
+  const target = (units || []).find((u) => u.uid === targetUid)
+  const targetDef = target && defOf(target.id)
+  if (!targetDef) return []
+  const freeInList = new Set((units || []).filter((u) => u.uid !== targetUid && !u.leaderOf).map((u) => u.id))
+  const attached = (units || [])
+    .filter((o) => o.uid !== targetUid && o.leaderOf === targetUid)
+    .map((o) => ({ entry: o, def: defOf(o.id) }))
+  const out = []
+  for (const def of catalogue || []) {
+    if (!def || def.id === targetDef.id || freeInList.has(def.id)) continue
+    const type = leadsFor(def, null, detachments).find((l) => l.to === targetDef.id)?.type
+    if (!type) continue
+    out.push({
+      id: def.id,
+      name: def.name,
+      type,
+      pts: unitBasePoints(def, Math.max(0, (def.sizes || []).findIndex((s) => s.default))),
+      used: hostSlotTaken(def, null, target, targetDef, attached, detachments),
+      // For the caller's "Hide Legends units" (useRosterPrefs) — a reader preference, not a rule.
+      legends: !!def.flags?.legends,
+    })
+  }
+  return orderedByName(out, (c) => c.name)
 }
 
 // Attach targets an ENHANCEMENT grants its bearer — a Cryptek with Murdermind gains DESTROYER
@@ -1473,6 +1532,39 @@ export function pickMiniFor(def, entry, gi) {
   if (!g.rep?.length) return 0
   const [first] = swapCarriers(def, modelsPerMini(def, entry), g.rep[0])
   return first ? first[0] : 0
+}
+
+// The stock items NO wargear group replaces — the editor's "Wargear that cannot be replaced".
+// Printed as the datasheet prints them, and no pick ever changes it: everything a pick can touch
+// is drawn in its own group, the stock weapon as a row with how many models still carry it
+// (owner, 2026-10-07). A block above the groups that grew and shrank with every click moved the
+// buttons under the player's finger. Only a size that fields none of a profile drops its line.
+// "…replaced with two different weapons" (`ex`, from the generators): how many picks the group
+// still owes, 0 when it is untouched or complete. One pick of a `solo` option ("either 1 twin
+// lightning claws, or two different…") is complete on its own.
+export function exactPicksOwed(def, entry, gi) {
+  const g = def?.gear?.[gi]
+  if (!g?.ex) return 0
+  const spent = wargearGroupSpent(entry, gi)
+  if (!spent || spent >= g.ex) return 0
+  const picked = (entry?.wg || []).filter(([x, , n]) => x === gi && (n ?? 1) > 0)
+  if (picked.length === 1 && (picked[0][2] ?? 1) === 1 && g.solo?.includes(picked[0][1])) return 0
+  return g.ex - spent
+}
+
+export function fixedLoadoutLines(def, items, entry) {
+  const perMini = entry && def ? modelsPerMini(def, entry) : null
+  const replaced = new Set((def?.gear || []).flatMap((g) => (g.rep || []).map((id) => (g.all ? `*:${id}` : `${g.m ?? 0}:${id}`))))
+  return (def?.defaults || []).flatMap(([m, list]) => {
+    if (perMini?.get(m) === 0) return []
+    const kept = list.filter(([id]) => !replaced.has(`${m}:${id}`) && !replaced.has(`*:${id}`))
+    if (!kept.length) return []
+    return [{
+      mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '',
+      items: kept.map(([id, c]) => `${items[id]}${c > 1 ? ` ×${c}` : ''}`).join(', '),
+      names: kept.map(([id]) => items[id]),
+    }]
+  })
 }
 
 export function defaultLoadoutLines(def, items, entry) {

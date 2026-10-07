@@ -72,6 +72,15 @@ Read the one for the directory you're touching:
 This file is the map: what the app is, how it is laid out, how a route becomes a page, and the
 invariants with no single directory to live in.
 
+## Branches and releases
+
+**`main` is what is live, and it moves once per release** (since 2026-10-07, when the project got
+its first outside contributor). Work — ours and a contributor's — branches from `main`; a checked
+branch is merged into the open `release/X.Y.Z`, which is deployed and then fast-forwards `main`.
+Do not commit to `main` directly, and do not merge a PR with the GitHub button: a contributor's PR
+goes into `review/pr-N` **by merge, never cherry-pick**, so GitHub marks it merged when the release
+reaches `main`. Full flow: `CONTRIBUTING.md`; the deploy side: `deploy.sh` step 0 and `DEPLOY.md`.
+
 ## How this repo relates to the others
 
 The product is split across separate repositories, cloned side by side into one working folder.
@@ -115,7 +124,7 @@ npm run layouts      # GATE: the 45 layout diagrams against the app's own artwor
 npm run companions   # GATE: the four Event Companion PDFs — version + the FAQ appdata does not carry
 npm run radii        # fail on any border-radius outside the listed exceptions (see Corners & surfaces)
 npm run dupes        # fail when one CSS rule body is copied into a 2nd component beyond the recorded pairs (scripts/lib/css-dupes-baseline.json; see Shared UI primitives)
-npm run a11y         # GATE: render a sample of pages in Chrome (needs dist/) — text contrast in both themes, 24px tap targets, no sideways scroll; baseline in scripts/lib/a11y-baseline.json (see src/components/CLAUDE.md)
+npm run a11y         # GATE: render a sample of pages in Chrome (needs dist/) — text contrast in both themes, 24px tap targets, no sideways scroll, the display face ≤18px at weight 400; baseline in scripts/lib/a11y-baseline.json (see src/components/CLAUDE.md)
 npm run legends-tag  # GATE (needs dist/): every Legends sheet's stat row + badge, EN/RU, measured against the container width at which DatasheetCard steps the badge down a row — read from the CSS
 npm run weapon-table # GATE (needs dist/): every datasheet's weapons table, EN/RU, 1px above the width where it turns into cards — read from the CSS: fits the card, no number wraps, no word breaks, no name over 3 lines
 npm run detachment-row # GATE (needs dist/): every faction's detachment picker — a card's tag + dispositions line stays one line 1px above the width (read from the CSS) where the tag moves up under the name; at 320px the chips stay one line and nothing runs past the card

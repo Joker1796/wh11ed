@@ -119,6 +119,19 @@ for (const [label, shape] of [['a stored roster (editor)', asStored], ["the wiza
       expect(warlords()).toEqual(['roboute-guilliman'])
     })
 
+    // "Can be led by": one tap adds the character AND attaches it to the squad it was offered on.
+    it('adds a Leader already attached to the unit it was picked for', () => {
+      const { list, actions, commit } = setup(shape)
+      actions.addLeaderTo('lieutenant', 'i1')
+      const added = list.get().units.at(-1)
+      expect(added).toMatchObject({ id: 'lieutenant', leaderOf: 'i1' })
+      expect(commit).toHaveBeenCalled()
+      // …and nothing for a host that is not in the list.
+      const before = list.get().units.length
+      actions.addLeaderTo('lieutenant', 'nope')
+      expect(list.get().units).toHaveLength(before)
+    })
+
     it('adds, copies and removes a line', () => {
       const { list, actions } = setup(shape)
       actions.addUnit('intercessor-squad')

@@ -75,7 +75,7 @@
     "src/components/tracker/EditSetupModal.vue",
     "src/components/tracker/GameSetup.vue"
   ],
-  ".member-head { font-family: var(--font-display); font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin: 0 0 0.5rem; }": [
+  ".member-head { font-family: var(--font-display); font-size: 0.95rem; font-weight: 400; color: var(--text-muted); margin: 0 0 0.5rem; }": [
     "src/components/tracker/EditSetupModal.vue",
     "src/components/tracker/GameSetup.vue"
   ],
@@ -86,10 +86,6 @@
   ".or { font-style: normal; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-right: 0.2rem; }": [
     "src/components/event/MissionCard.vue",
     "src/components/tracker/ScoreRows.vue"
-  ],
-  ".player-head { font-family: var(--font-display); font-size: 1.21rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.75rem; }": [
-    "src/components/tracker/EditSetupModal.vue",
-    "src/components/tracker/GameSetup.vue"
   ],
   ".rp-open:hover { border-color: var(--accent); color: var(--text-primary); }": [
     "src/components/tracker/EditSetupModal.vue",

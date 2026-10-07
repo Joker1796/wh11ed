@@ -438,11 +438,12 @@ function limitOf(r) { return effectiveBattle(r, rosterCore).points }
 // data (~290 KB), so it is fetched after mount, the way the setup wizard does, and the chips
 // appear when it lands. A name the MFM no longer knows (renamed in a points update) just has no
 // disposition — the line still prints what the list says it fields.
-const mfm = ref(null)
-onMounted(() => { import('../../data/mfmFactions.js').then((m) => { mfm.value = m.mfmFactions.en }) })
+// Looked up through the tracker's detachmentInfo, which matches the two spellings of a name (the
+// list's appdata one, the MFM's) — an exact match lost Vow-sworn Crusaders' Purge the Foe.
+const info = ref(null)
+onMounted(() => { import('../../composables/trackerFactions.js').then((m) => { info.value = m.detachmentInfo }) })
 function fdOf(r) {
-  const known = mfm.value?.find((f) => f.slug === r.faction)?.detachments || []
-  const dets = (r.detachments || []).map((n) => known.find((d) => d.name === n)).filter(Boolean)
+  const dets = info.value ? (r.detachments || []).map((n) => info.value(r.faction, n)).filter(Boolean) : []
   return dispositionOf(r, dets.map((d) => ({ fds: d.forceDispositions })))
 }
 function toneOf(r) {

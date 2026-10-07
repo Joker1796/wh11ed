@@ -142,12 +142,13 @@ const phoneRows = computed(() =>
 .pm-table td { border: 1px solid var(--border); }
 .pm-corner { width: 9.5rem; padding: 0.35rem 0.6rem; background: var(--bg-secondary); text-align: left; }
 .pm-corner span { display: block; font-size: 0.7rem; font-weight: 600; color: var(--text-muted); }
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .pm-head {
   padding: 0.5rem 0.4rem;
   background: var(--bg-secondary);
   font-family: var(--font-display);
   font-size: 0.92rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-primary);
   text-align: center;
 }
@@ -178,6 +179,7 @@ tr.current .pm-cell { background: color-mix(in srgb, var(--accent) 6%, transpare
 /* ── Narrow: rows ── */
 .pm-rows { display: none; }
 .pm-row + .pm-row { margin-top: 1rem; }
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .pm-row-head {
   display: flex;
   align-items: center;
@@ -185,7 +187,7 @@ tr.current .pm-cell { background: color-mix(in srgb, var(--accent) 6%, transpare
   margin: 0 0 0.35rem;
   font-family: var(--font-display);
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;

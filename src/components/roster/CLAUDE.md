@@ -333,6 +333,15 @@ pick one copy of the two — the other stays on the card and the list. Read as a
 both (a player's report). The Legends generator (`pack-roster`) already wrote `rc` for "2 of this
 model's …"; corpus-wide the singular wording on a multi-copy per-model line is Tankbustas alone today.
 
+**Exact counts — `ex` / `solo` (added 2026-10-07).** "…replaced with two different weapons from
+the following list" is a count the model must meet, not only a ceiling: `lim` (up to 2, no
+duplicates) let one pick through, and the model was left one weapon short. `ex` is the count,
+`solo` the options the same sentence offers on their own ("either 1 twin lightning claws, or two
+different weapons…", the Deathwing Strikemaster). Both from `scripts/lib/pack-roster.mjs` — the
+four groups that say it are Legends sheets. `rosterEngine.exactPicksOwed` is the one reader: the
+editor's cap chip ("pick 2 different" → "1 more to pick", words only, never a new line) and
+`validateRoster`'s `wargearPickExact`.
+
 **Kept items — `keep` (added 2026-09-24).** "(that model's boltgun cannot be replaced)" is read by
 the generator (`KEEP_RE`, 38 groups, `--check` fails on one whose item does not resolve) into
 `g.keep`. The model still carries the item — the loadout line keeps it — but no other group may
@@ -369,6 +378,39 @@ faction AND emits the keywords themselves (`leadKw`), because a resolved id cann
 Draxus allied into an Adeptus Mechanicus army joins a Skitarii Vanguard her own bundle has never
 heard of. `rosterEngine.leadTypeFor` answers the question against the unit actually in the list, and
 both the target picker and `leaderTargetInvalid` go through it.
+
+### Who can lead this unit — three views of one question
+
+An attachment is read from three ends; the first two ask `leadTypeFor`, so they cannot disagree:
+
+- **"Attach to unit"** (on a Character) — `leaderTargetsFor`: the list's units it could join.
+- **"Attach to this unit"** (on a squad) — `leaderSourcesFor`: the list's Characters that could
+  join it, asked through `leaderTargetsFor` itself. Ticking one that leads another unit asks first
+  (owner, 2026-10-07): the confirmation says it leaves that unit (and when that unit is left with no
+  Character), that the points do not change, and that an enhancement travels with its bearer.
+- **"Can be led by"** (on a squad, added 2026-10-06) — `leaderCandidatesFor`: asked of the
+  **catalogue** instead of the list, because the section above is empty until a Character is added
+  ("I add Intercessors and want to know who can lead them"). **The one exception to "all three ask
+  `leadTypeFor`"**: this list takes only characters that NAME the unit in their own `leads`
+  (`leadsFor` — table, mirror, mandatory-enhancement grant, detachment gates), never a keyword
+  group (`leadKw`). An Inquisitor's "any IMPERIUM BATTLELINE INFANTRY unit" made every allied
+  Inquisitor a suggestion for Assault Intercessors, which their sheet does not say by name (owner's
+  call, 2026-10-06). The picker and the validator still accept the keyword attachment. The catalogue is what the
+  unit browser offers right now (`useRosterDerived`'s `catalogue` — `sectionsOf` without
+  `keepLocked`, so a group a Detachment locks is not offered), minus datasheets the list holds a
+  free (unattached) copy of — that copy is the section above; one whose every copy already leads
+  another unit stays, so squad B is offered a second Lieutenant while the first is with squad A. Folded by default with the count on the heading; "+" is
+  `useRosterBuildActions.addLeaderTo(id, hostUid)`, which adds the character and writes its
+  `leaderOf` in one commit; tapping the row itself opens the character's datasheet
+  (`RosterUnitRulesModal` as a preview, `ctx: { detachments }` — no entry yet), at its OWN faction's
+  slug and bare id, which `RosterEntryFields` adds as `slug`/`sheetId` (an allied Inquisitor is an
+  Imperial Agents sheet). **Only candidates that could be attached right now are listed**
+  (owner's call, 2026-10-06): a taken slot (`hostSlotTaken` — a Leader on the squad removes every
+  other Leader, Supports stay) or a reached duplicate cap drops the row, filtered in
+  `RosterEntryFields`; the engine still reports `used` for any caller that wants it. Legends characters follow the
+catalogue's **"Hide Legends units"** — one switch for both, `hideLegends` in `useRosterPrefs.js`
+(moved there from `RosterUnitBrowser`, same storage key), applied in `RosterEntryFields`. Not covered: an attachment only an
+  OPTIONAL enhancement grants (Abhuman Detail) — the bearer has no enhancement yet.
 
 ### Points
 
@@ -2089,6 +2131,16 @@ gained a count, and folding the Deathwatch Veterans' pair also let the "for ever
 cap appdata records for it match its group at last — two identical options are exactly what makes a
 limited-choice set ambiguous.
 
+**A lone item of the given-up pair is not an option** (`dropStockRemnants`, 2026-10-07). appdata
+lists the Deathwatch Terminators' "Power Fist and Storm Bolter replaced with one of the following:
+1 Storm Bolter and 1 Chainfist, …" item by item, Power Fist among them, and after the pairing the
+power fist was left as an option of its own — one that leaves the model a power fist and nothing
+else, which the GW app refuses ("Invalid wargear selected", checked in the app). Dropped where the
+group has bundles, the item is one of two or more given up, and the sentence's value half never
+names it; the run prints each one (one today). With it gone the Sergeant's and the Terminators'
+copies of the instruction matched and were folded into one unit-wide group — `useRosters.js` v10
+moves stored picks onto it.
+
 Two guards keep it fail-open, and both currently reject real groups — don't remove them to raise
 the number: every option appdata lists must be named by the prose (else the prose is describing
 something else), and a multi-item set must be backed by the enumeration. A rejected group is
@@ -2212,7 +2264,11 @@ editor states in words instead of hiding, so an existing pick can still be clear
 **The cap is what picks the editor's mode**, not appdata's `inputType` alone: a group allowing
 several models becomes per-option steppers sharing one budget (`stepMax` = remaining budget,
 never more than the duplicate cap), whatever appdata calls it — "Up to 2 Vigilants can each…"
-was a checkbox, i.e. one choice for the whole squad. Limit 1 stays the familiar radio/toggle.
+was a checkbox, i.e. one choice for the whole squad. Limit 1 stays the familiar radio/toggle. **The other way round too** (2026-10-07): a single-option group
+appdata marks `stepper` that no unit size lets past one model (`wargearGroupAlwaysOne`, asked at the
+largest bracket — the Chaplain in Terminator Armour's relic shield, 47 groups) is drawn as the
+two-row one-of, not a 0/1 counter. One that only starts at one and grows with the squad (123 groups)
+keeps its counter, so the control never changes shape under the model count's "+".
 
 **A "for every N models, up to M" instruction is a step table, and the generator reads it as one**
 (`SCALED_ALLOWANCE`, 2026-08-27). `proseAllowance` refuses the scaled forms on purpose — they are

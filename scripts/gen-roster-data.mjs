@@ -340,7 +340,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1026,6 +1026,26 @@ function itemsNamedIn(rawClause, rawVocab) {
   }
   out.sort((a, b) => a[2] - b[2])
   return out.map(([uuid, n]) => [uuid, n])
+}
+
+// "Any number of models can each have their Power Fist and Storm Bolter replaced with one of the
+// following: 1 Storm Bolter and 1 Chainfist, 1 Storm Bolter and 1 Power Weapon, …" — appdata lists
+// the options item by item (the GW app's picker does too), the bundle reader pairs them back up,
+// and an item of the given-up pair that no option of the sentence names is left over as an option
+// of its own. The app refuses that pick ("Invalid wargear selected", checked in the app
+// 2026-10-07): a Deathwatch Terminator holding a power fist and nothing else is no loadout. Dropped
+// only in a group that has bundles, only for an item it gives up among two or more, and only when
+// the value half of the sentence does not name it.
+function dropStockRemnants(unitName, drafts, out) {
+  for (const d of drafts) {
+    if (!(d.rep?.length >= 2) || !d.opts.some((o) => o.items)) continue
+    const value = norm(d.text.split('\n')[0].split(VALUE_SPLIT).pop())
+    const named = (uuid) => new RegExp(`\\b${reEsc(norm(wgItemName.get(uuid) || ''))}(?:e?s)?\\b`).test(value)
+    const keep = d.opts.filter((o) => o.items || !d.rep.includes(o.uuid) || named(o.uuid))
+    if (keep.length === d.opts.length) continue
+    out.push(`${unitName}: ${d.opts.filter((o) => !keep.includes(o)).map((o) => wgItemName.get(o.uuid)).join(', ')}`)
+    d.opts = keep
+  }
 }
 
 function linkWargearBundles(datasheetId, unitName, drafts, stats) {
@@ -2117,6 +2137,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   }
   linkWargearConditions(bd.id, drafts)
   linkWargearBundles(bd.id, bd.name, drafts, report.bundle)
+  dropStockRemnants(bd.name, drafts, report.bundle.stockRemnant)
   // Before the limits: two identical groups are exactly what makes a limited set ambiguous, so
   // folding them first lets its cap land on the one group that remains.
   drafts = mergeMiniatureDuplicates(drafts, report.limit)
@@ -3150,6 +3171,10 @@ for (const [why, list] of [["prose doesn't account for every option", b.unclaime
   if (!list.length) continue
   console.log(`  left as appdata lists them — ${why} (${list.length}):`)
   for (const l of list) console.log(`    - ${l.replace(/\s+/g, ' ').slice(0, 110)}`)
+}
+if (b.stockRemnant.length) {
+  console.log(`  dropped a lone item of the given-up pair the sentence offers on its own nowhere (${b.stockRemnant.length}):`)
+  for (const l of b.stockRemnant) console.log(`    - ${l}`)
 }
 // The Faction Pack Legends, read from their own printed text — every line below is a sheet the
 // roster shows less of than the PDF says; the parser guesses nothing, so each is a template to add.

@@ -1118,6 +1118,9 @@ strong {
    the bar but its Next button, and a lone child under space-between sits at the LEFT edge. */
 .rc-sticky-actions { display: flex; gap: 0.5rem; margin-left: auto; }
 /* The points readout and issue badge inside it are RosterPointsTally.vue. */
+/* The desk's undo offer (RosterUndoBar, inline) stands between the points and the actions,
+   centred by its own auto margins — so the actions give theirs up while it is there. */
+.rc-sticky-inner > .ru-inline + .rc-sticky-actions { margin-left: 0; }
 
 /* Legends mark — says a datasheet sits on the Legends shelf rather than the matched-play one.
    Shared by the datasheet grid, the roster unit browser and the datasheet page, so all three

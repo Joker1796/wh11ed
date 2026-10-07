@@ -67,6 +67,7 @@ const labels = computed(() => ui[locale.value])
 }
 .tp-item.on { border-color: var(--accent); }
 .tp-row { display: flex; align-items: stretch; gap: 0.4rem; }
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .tp-toggle {
   flex: 1;
   display: flex;
@@ -81,7 +82,7 @@ const labels = computed(() => ui[locale.value])
   text-align: left;
   font-family: var(--font-display);
   font-size: 1.10rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-primary);
 }
 .tp-chev { color: var(--text-dim); font-size: 0.9rem; }

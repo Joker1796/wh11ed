@@ -38,18 +38,22 @@ aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
 # 0) Bump the patch version (package.json) before building, so each deploy ships a
 #    new version number. Override the segment with BUMP=minor|major ./deploy.sh.
 #    Use BUMP=none to deploy the current version as-is (e.g. when it was set in the commit).
-#    Otherwise the bump is committed (`chore: release vX.Y.Z`) and pushed to origin main
-#    once the deploy succeeds (see step 5) — so run this from main with a clean tree.
+#    Otherwise the bump is committed (`chore: release vX.Y.Z`) and pushed once the deploy
+#    succeeds (see step 5) — so run this from a release/X.Y.Z branch with a clean tree. `main`
+#    is what is live and moves only here: step 5 fast-forwards it to the release (CONTRIBUTING.md).
 BUMP="${BUMP:-patch}"
 if [ "$BUMP" = "none" ]; then
   echo "▶ Skipping version bump (BUMP=none); shipping v$(node -p "require('./package.json').version")"
 else
   BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-  if [ "$BRANCH" != "main" ]; then
-    echo "✗ Refusing to bump+commit the version: not on main (on '$BRANCH')." >&2
-    echo "  Switch to main, or run with BUMP=none to deploy without touching git." >&2
-    exit 1
-  fi
+  case "$BRANCH" in
+    release/*) ;;
+    *)
+      echo "✗ Refusing to bump+commit the version: not on a release/X.Y.Z branch (on '$BRANCH')." >&2
+      echo "  Releases ship from their branch (CONTRIBUTING.md), or run with BUMP=none to deploy without touching git." >&2
+      exit 1
+      ;;
+  esac
   if [ -n "$(git status --porcelain -- . ':!package.json' ':!package-lock.json')" ]; then
     echo "✗ Refusing to bump+commit the version: working tree has unrelated uncommitted changes:" >&2
     git status --short -- . ':!package.json' ':!package-lock.json' >&2
@@ -58,6 +62,13 @@ else
   echo "▶ Bumping version ($BUMP)…"
   NEW_VERSION="$(npm version "$BUMP" --no-git-tag-version)"
   echo "  → $NEW_VERSION"
+  # The branch names the version it ships; a bump that lands elsewhere (the wrong BUMP, or a
+  # branch cut from a stale main) would publish one number under another's name.
+  if [ "$NEW_VERSION" != "v${BRANCH#release/}" ]; then
+    echo "✗ The bump gives $NEW_VERSION, but the branch is $BRANCH. Undoing the bump." >&2
+    git checkout -- package.json package-lock.json
+    exit 1
+  fi
 fi
 
 # 0b) Release notes: the app ships only the newest CHANGELOG_KEEP entries of src/data/changelog.js;
@@ -290,7 +301,15 @@ if [ "$BUMP" != "none" ]; then
   # The changelog too: step 0b may have moved its older entries to the archive.
   git add package.json package-lock.json src/data/changelog.js
   git commit -m "chore: release v$(node -p "require('./package.json').version")"
-  git push origin main
+  git push origin "$BRANCH"
+  # The release is live, so it becomes the base for everything after it. Fast-forward only: if
+  # main moved on its own, say so instead of inventing a merge here.
+  echo "▶ Fast-forwarding main to $BRANCH…"
+  if git fetch origin main && git checkout main && git merge --ff-only "$BRANCH" && git push origin main; then
+    echo "  main = $BRANCH. Delete the merged release/review branches when convenient."
+  else
+    echo "⚠ main could not be fast-forwarded to $BRANCH — merge it by hand (git checkout main && git merge $BRANCH)." >&2
+  fi
 elif ! git diff --quiet -- src/data/changelog.js; then
   echo "⚠ BUMP=none: src/data/changelog.js lost its older entries to the archive (step 0b) — commit it."
 fi

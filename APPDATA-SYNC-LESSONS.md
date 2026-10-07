@@ -1135,3 +1135,13 @@ and appdata state fresh; a data model can change between now and when this is ne
     732 → 237, and an empty reason fails `npm test`. On the way, what sync never compared at all
     surfaced: faction keywords, flavor, the SM Chapters' detachments (filed in the Chapter bundles),
     the core/faction split. Accept findings one at a time, each with its reason.
+78. **A lesson kept in the script it was learned in fixes that script only.** Lesson 57 found that
+    the MFM spells detachment names its own way (curly apostrophe, capitals) and taught
+    `check-detachment-meta.mjs` to match through `norm()`. The app's own lookups were not touched:
+    the tracker's `detachmentInfo` and the roster list's Force Disposition chip (added eleven days
+    later) still matched with `===`, so six detachments a roster names in appdata's spelling were
+    never found — a player saw Vow-sworn Crusaders with no Purge the Foe (report b337c3bf,
+    2026-10-07, fixed in 2.7.18). When a sweep finds a mismatch CLASS, grep the runtime for the same
+    comparison, and leave a test that walks the real data through the real lookup
+    (`trackerFactions.test.js` asks the MFM for every detachment the builder offers). Detachment
+    names from two sources meet through `detKey()` (`src/data/slugify.js`).

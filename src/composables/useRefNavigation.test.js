@@ -65,8 +65,9 @@ describe('scrollToAnchor', () => {
   let el
   let scrolls
 
-  // The align waits for two steady frames before it fires, so give the loop a handful of them.
-  const frames = () => new Promise((r) => setTimeout(r, 120))
+  // The align waits for two steady frames before it fires. Wait on the RESULT, not a fixed 120ms:
+  // inside the full suite the frames came late and the assertion ran first (failed 2026-10-07).
+  const settled = (assert) => vi.waitFor(assert, { timeout: 3000, interval: 10 })
 
   beforeEach(() => {
     scrolls = []
@@ -88,16 +89,16 @@ describe('scrollToAnchor', () => {
   // only from 17.4 — so before this, both scrolls animated and the second interrupted the first.
   it('scrolls with the page’s smooth behaviour switched off, and puts it back', async () => {
     scrollToAnchor('section-03-02')
-    await frames()
-    expect(scrolls.length).toBeGreaterThanOrEqual(2)
-    expect(scrolls.map((s) => s.kind)).toEqual(['into', 'by'])
-    expect(scrolls.every((s) => s.css === 'auto')).toBe(true)         // …during
-    expect(document.documentElement.style.scrollBehavior).toBe('smooth') // …and restored after
+    await settled(() => {
+      expect(scrolls.map((s) => s.kind)).toEqual(['into', 'by'])
+      expect(document.documentElement.style.scrollBehavior).toBe('smooth') // …restored after
+    })
+    expect(scrolls.every((s) => s.css === 'auto')).toBe(true)         // …and off during
   })
 
   it('offsets below the sticky header, without relying on the behavior option', async () => {
     scrollToAnchor('section-03-02', 120)
-    await frames()
+    await settled(() => expect(scrolls.some((s) => s.kind === 'by')).toBe(true))
     const by = scrolls.find((s) => s.kind === 'by')
     expect(by.args).toEqual([0, -120])          // positional form: no options bag to be ignored
     expect(el.scrollIntoView).toHaveBeenCalledWith({ block: 'start' })
@@ -113,8 +114,7 @@ describe('scrollToAnchor', () => {
     await new Promise((r) => setTimeout(r, 100))
     expect(scrolls).toHaveLength(0)              // still moving → nothing scrolled yet
     clearInterval(shrink)
-    await frames()
-    expect(scrolls.length).toBeGreaterThan(0)    // settled → aligned
+    await settled(() => expect(scrolls.length).toBeGreaterThan(0))    // settled → aligned
     delete window.visualViewport
   })
 

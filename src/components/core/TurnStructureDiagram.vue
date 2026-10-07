@@ -150,8 +150,10 @@ defineProps({
     top: 0.4rem;
   }
 
+  /* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
   .turn-step-title {
     font-size: 1.08rem;
+    font-weight: 400;
   }
 
   .turn-step-desc {

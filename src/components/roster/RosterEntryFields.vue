@@ -20,7 +20,9 @@
     :enh-options="enhOptions"
     :leader-targets="leaderTargets"
     :leader-sources="leaderSources"
+    :leader-candidates="leaderCandidates"
     @toggle-warlord="$emit('toggle-warlord', entry.uid)"
+    @add-leader="(id) => $emit('add-leader', id, entry.uid)"
   />
 </template>
 
@@ -28,8 +30,9 @@
 import { computed } from 'vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import {
-  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leaderSourcesFor,
+  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, allySourceOf,
 } from '../../composables/rosterEngine.js'
+import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -42,8 +45,11 @@ const props = defineProps({
   // another faction's bundle, which is what `slugOf` answers — the two are not the same question.
   armySlug: { type: String, default: '' },
   slugOf: { type: Function, default: () => '' },
+  // What the catalogue offers right now, and its duplicate cap — for "Can be led by".
+  catalogue: { type: Array, default: () => [] },
+  dupBlocked: { type: Function, default: () => false },
 })
-defineEmits(['toggle-warlord'])
+defineEmits(['toggle-warlord', 'add-leader'])
 
 const def = computed(() => props.defOf(props.entry.id))
 const canWarlord = computed(() => !!def.value && canBeWarlord(
@@ -57,4 +63,22 @@ const leaderTargets = computed(() => (def.value
   : []))
 // …and the other way round: who in the list could be attached to this one.
 const leaderSources = computed(() => leaderSourcesFor(props.entry.uid, props.units, props.defOf, props.detachments))
+// …and who from the catalogue could, that the list does not hold yet — only those that could be
+// attached to THIS unit right now (owner's call, 2026-10-06: the list answers "who can I put on
+// this squad", so a row that cannot is noise, not information). Out: a candidate whose slot on
+// this unit is already held (`used` — a Captain on the squad takes the Leader slot from every other
+// Leader), and one at the duplicate cap the catalogue's own "+" stops at (none of these is in the
+// list, but two datasheets of one character share a cap — `charId`, capKeyOf).
+// Legends follow the catalogue's own "Hide Legends units" switch — the same preference, so the
+// two never disagree about whether a Legends character is on offer.
+const { hideLegends } = useRosterPrefs()
+const leaderCandidates = computed(() => leaderCandidatesFor(
+  props.entry.uid, props.units, props.catalogue, props.defOf, props.detachments,
+).filter((c) => !c.used && !props.dupBlocked({ id: c.id }) && !(hideLegends.value && c.legends))
+  // Where its datasheet lives: an allied candidate's id is namespaced with ITS faction
+  // (`imperial-agents:inquisitor-coteaz`), a bare one belongs to the army.
+  .map((c) => {
+    const src = allySourceOf(c.id)
+    return { ...c, slug: src?.[0] || props.armySlug, sheetId: src?.[1] || c.id, linked: !!props.defOf(c.id)?.linked }
+  }))
 </script>

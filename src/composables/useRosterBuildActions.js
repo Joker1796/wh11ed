@@ -103,6 +103,17 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
     if (defOf(unitId)?.flags?.supreme) settleSupremeWarlord(r.units, defOf, entry.uid)
     commit()
   }
+  // "Can be led by": a Leader the list does not hold yet, added and attached to `hostUid` in one
+  // tap (leaderCandidatesFor). The host's fields stay open — the player is still working on it.
+  function addLeaderTo(unitId, hostUid) {
+    const r = list()
+    if (!r?.units.some((u) => u.uid === hostUid)) return
+    const entry = addUnitEntry(r.units, defOf(unitId), unitId, uid())
+    if (!entry) return
+    entry.leaderOf = hostUid
+    if (defOf(unitId)?.flags?.supreme) settleSupremeWarlord(r.units, defOf, entry.uid)
+    commit()
+  }
   // A configured copy, right under its original. Its fields stay shut: a copy is wanted AS the
   // original far more often than not, and opening it would push the tapped row off the screen.
   function duplicateEntry(entry) {
@@ -147,7 +158,7 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
     detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit,
     toggleDetachment, clearDetachments, dropOrphanEnhancements,
     openUid, toggleOpen, openEntry,
-    addUnit, duplicateEntry, removeEntry, toggleWarlord,
+    addUnit, addLeaderTo, duplicateEntry, removeEntry, toggleWarlord,
     undoable, undoRemove, dismissUndo,
   }
 }
