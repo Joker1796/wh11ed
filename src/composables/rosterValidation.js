@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn } from './rosterEngine.js'
+import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn } from './rosterEngine.js'
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -233,6 +233,12 @@ export function validateRoster(roster, { faction, core, items } = {}) {
         const names = x.set.map((oi) => optionItems(def.gear[gi].o[oi]).map(([id]) => items?.[id]).filter(Boolean).join(' + ')).filter(Boolean).join(', ')
         add('overWargearOnePerModel', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit, names } })
       }
+    }
+    // A model's limit across several groups (`xpm`): a Commander's two shield generators, a Knight
+    // Destrier's two chainswords. Same message as the one-per-model sets above.
+    for (const x of wargearXpmOver(def, u)) {
+      const names = [...new Set(x.set.s.flatMap(([g, o]) => (o == null ? def.gear[g].o : [def.gear[g].o[o]]).map((op) => optionItems(op).map(([id]) => items?.[id]).filter(Boolean).join(' + '))))].filter(Boolean).join(', ')
+      add('overWargearOnePerModel', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit, names } })
     }
     // Rules about one model across groups (`pm`, Legends Crisis Battlesuits): the picks cannot be
     // dealt onto the models — rosterEngine's perModelFits.

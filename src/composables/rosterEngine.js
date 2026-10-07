@@ -325,6 +325,47 @@ export function wargearExclRoom(def, entry, gi, oi) {
     Math.max(0, limit - set.filter((o) => o !== oi).reduce((n, o) => n + optionCount(entry, gi, o), 0))))
 }
 
+// `xpm` — a model's limit that spans SEVERAL groups (gen-roster-data.mjs's crossGroupPerModel,
+// 2026-10-07): a Tau Commander's starred support systems ("this model cannot have duplicates of
+// these"), offered both as the burst-cannon swap and in "up to three of the following"; a Knight
+// Destrier's chainsword, offered by both weapon arms; a Hive Tyrant's heavy venom cannon OR
+// stranglethorn cannon; the Hernkyn Pioneers' "a model can only take one of these options, and not
+// with a HYLas rotary cannon". Each entry is `{ s: [[gi, oi?]…], k }` — the picks the pairs cover
+// (a bare [gi] is the whole group) together at most k per model of the profile — or, with `item`,
+// at most the copies of that item the model holds (the Helbrute's "for each Helbrute fist this
+// model is equipped with", the fists the multi-melta swap may add counted in). Counts again, which
+// is exact for these: every entry is one model's, or groups whose models are interchangeable.
+const xpmHit = (pair, gi, oi) => pair[0] === gi && (pair.length === 1 || pair[1] === oi)
+function xpmSpent(def, entry, set, skip = () => false) {
+  return (entry?.wg || []).filter(([g, o]) => !skip(g, o) && set.s.some((p) => xpmHit(p, g, o))).reduce((n, [, , c]) => n + (c || 1), 0)
+}
+function xpmLimit(def, entry, set) {
+  if (set.item != null) {
+    const groups = new Set(set.s.map(([g]) => g))
+    const m = def.gear[set.s[0][0]]?.m ?? 0
+    const stock = (def.defaults || []).find(([dm]) => dm === m)?.[1]?.find(([id]) => id === set.item)?.[1] || 0
+    const granted = (entry?.wg || []).filter(([g]) => !groups.has(g)).reduce((n, [g, o, c]) =>
+      n + optionItems(def.gear[g]?.o?.[o]).filter(([id]) => id === set.item).reduce((k, [, q]) => k + (q || 1), 0) * (c || 1), 0)
+    return stock + granted
+  }
+  const ms = new Set(set.s.map(([g]) => (def.gear[g]?.all ? 'all' : def.gear[g]?.m ?? 0)))
+  const only = ms.size === 1 ? [...ms][0] : 'all'
+  const per = only === 'all' ? null : modelsPerMini(def, entry)?.get(only)
+  return (set.k || 1) * (per ?? capModels(def, entry))
+}
+export function wargearXpmOver(def, entry) {
+  return (def?.xpm || []).map((set) => ({ set, spent: xpmSpent(def, entry, set), limit: xpmLimit(def, entry, set) }))
+    .filter((x) => x.spent > x.limit)
+}
+// Room for one more of (gi, oi) under every entry that covers it, or null when none does.
+// `wholeGroup`: the pick REPLACES the group's own (a one-of radio), so the group's picks do not count.
+export function wargearXpmRoom(def, entry, gi, oi, { wholeGroup = false } = {}) {
+  const sets = (def?.xpm || []).filter((set) => set.s.some((p) => xpmHit(p, gi, oi)))
+  if (!sets.length) return null
+  const skip = wholeGroup ? (g) => g === gi : (g, o) => g === gi && o === oi
+  return Math.min(...sets.map((set) => Math.max(0, xpmLimit(def, entry, set) - xpmSpent(def, entry, set, skip))))
+}
+
 // `pm` — rules about ONE model that reach across groups (pack-roster.mjs's perModelRules; Legends
 // Crisis Battlesuits: each suit takes up to three from one group, at most one of each starred item
 // counting the burst-cannon swap too, and at most three ranged weapons counting the swap's pick or
@@ -1500,6 +1541,7 @@ export function fitWargear(def, entry) {
       if (ceiling != null && wargearGroupSpent(e, gi) > ceiling) i = k
       else if (cap?.dup && (wg[k][2] || 1) > cap.dup) i = k
       else if (wargearExclOver(def, e, gi).some((x) => x.set.includes(wg[k][1]))) i = k
+      else if (wargearXpmOver(def, e).some((x) => x.set.s.some((p) => xpmHit(p, gi, wg[k][1])))) i = k
     }
     // Then the rules about one model across groups (`pm`): the latest pick in either group they cover.
     if (i < 0 && !perModelFits(def, e)) {

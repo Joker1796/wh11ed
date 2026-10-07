@@ -377,13 +377,13 @@
             v-for="opt in radioRows(g)"
             :key="opt.oi ?? 'default'"
             class="opt-tile"
-            :class="{ on: radioSel(gi) === opt.oi, disabled: shut[gi] }"
+            :class="{ on: radioSel(gi) === opt.oi, disabled: shut[gi] || (radioSel(gi) !== opt.oi && xpmFull(gi, opt.oi)) }"
           >
             <label class="opt-select">
               <input
                 type="checkbox"
                 :checked="radioSel(gi) === opt.oi"
-                :disabled="shut[gi]"
+                :disabled="shut[gi] || (radioSel(gi) !== opt.oi && xpmFull(gi, opt.oi))"
                 @change="setRadio(gi, opt.oi)"
               >
               <span class="opt-name">{{ opt.name }}</span>
@@ -411,13 +411,13 @@
         >
           <div
             class="opt-tile"
-            :class="{ on: toggleOn(gi), disabled: shut[gi] }"
+            :class="{ on: toggleOn(gi), disabled: shut[gi] || (!toggleOn(gi) && xpmFull(gi, 0)) }"
           >
             <label class="opt-select">
               <input
                 type="checkbox"
                 :checked="toggleOn(gi)"
-                :disabled="shut[gi]"
+                :disabled="shut[gi] || (!toggleOn(gi) && xpmFull(gi, 0))"
                 @change="toggle(gi)"
               >
               <span class="opt-name">{{ optLabel(g.o[0]) }}</span>
@@ -772,7 +772,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { ENTRY_NOTE_MAX, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, overdrawnGroups, optionItems, optionLabel, setNote, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne } from '../../composables/rosterEngine.js'
+import { ENTRY_NOTE_MAX, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, overdrawnGroups, optionItems, optionLabel, setNote, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom } from '../../composables/rosterEngine.js'
 import { holdCounts, holdGroup, holdWg, stockLeft } from '../../composables/rosterHold.js'
 
 const props = defineProps({
@@ -1191,7 +1191,13 @@ function setHeld(gi, oi, n) {
 // and ranged weapons counted with the burst-cannon swap) — rosterEngine's perModelRoom, whichever
 // branch below answered.
 function stepMax(gi, oi) {
-  return Math.min(groupStepMax(gi, oi), perModelRoom(props.def, props.entry, gi, oi) ?? Infinity)
+  return Math.min(groupStepMax(gi, oi), perModelRoom(props.def, props.entry, gi, oi) ?? Infinity,
+    wargearXpmRoom(props.def, props.entry, gi, oi) ?? Infinity)
+}
+// A one-of row or a toggle a model's cross-group limit (`xpm`) has no room for: a Knight Destrier
+// whose other arm already holds the chainsword. Greyed, not hidden — and never the row that is on.
+function xpmFull(gi, oi) {
+  return oi != null && wargearXpmRoom(props.def, props.entry, gi, oi, { wholeGroup: true }) === 0
 }
 function groupStepMax(gi, oi) {
   // What the group's OTHER options have already taken. Every ceiling below belongs to the GROUP —

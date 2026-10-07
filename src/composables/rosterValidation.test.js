@@ -1027,3 +1027,68 @@ describe('exact-count wargear groups ("two different weapons")', () => {
     expect(issues(da, 'dark-angels', 'Deathwing Strikemaster', [[0, 1, 1]])).toHaveLength(1)
   })
 })
+
+// A model's limit across SEVERAL groups (`xpm`), read from the footnotes that state it — none of
+// these was enforced before an audit of every instruction (2026-10-07).
+describe('cross-group limits on one model', () => {
+  const load = async (slug) => (await import(`../data/roster/${slug}.js`)).default
+  const issuesOf = (fac, slug, name, wg, size = 0, count) => {
+    const id = fac.units.find((u) => u.name === name).id
+    const unit = { uid: 'a', id, size, wg }
+    if (count != null) unit.count = count
+    return validateRoster({ faction: slug, battleSize: 'strikeForce', detachments: [], units: [unit] }, { faction: fac, core })
+      .issues.filter((i) => i.code === 'overWargearOnePerModel')
+  }
+  const opt = (fac, name, gi, item) => {
+    const g = fac.units.find((u) => u.name === name).gear[gi]
+    return g.o.findIndex((o) => itemsOf[Array.isArray(o[0]) ? o[0][0][0] : o[0]] === item)
+  }
+  let itemsOf
+  beforeAll(async () => { itemsOf = (await import('../data/roster/items.js')).default.items })
+
+  it('one chainsword per Knight Destrier, whichever arm', async () => {
+    const ik = await load('imperial-knights')
+    const cs = opt(ik, 'Knight Destrier', 0, 'Bellatus reaper chainsword')
+    const sp = opt(ik, 'Knight Destrier', 1, 'Thundershock spear')
+    expect(issuesOf(ik, 'imperial-knights', 'Knight Destrier', [[0, cs, 1], [1, opt(ik, 'Knight Destrier', 1, 'Bellatus reaper chainsword'), 1]])).toHaveLength(1)
+    expect(issuesOf(ik, 'imperial-knights', 'Knight Destrier', [[0, cs, 1], [1, sp, 1]])).toHaveLength(0)
+  })
+
+  it('a Hive Tyrant takes one of the heavy venom and stranglethorn cannons', async () => {
+    const ty = await load('tyranids')
+    const hvc0 = opt(ty, 'Hive Tyrant', 0, 'Heavy venom cannon')
+    const st1 = opt(ty, 'Hive Tyrant', 1, 'Stranglethorn cannon')
+    expect(issuesOf(ty, 'tyranids', 'Hive Tyrant', [[0, hvc0, 1], [1, st1, 1]])).toHaveLength(1)
+    expect(issuesOf(ty, 'tyranids', 'Hive Tyrant', [[0, hvc0, 1]])).toHaveLength(0)
+  })
+
+  it('an Aspiring Champion takes one plasma pistol', async () => {
+    const csm = await load('chaos-space-marines')
+    const pp = (gi) => opt(csm, 'Legionaries', gi, 'Plasma pistol')
+    expect(issuesOf(csm, 'chaos-space-marines', 'Legionaries', [[0, pp(0), 1], [1, pp(1), 1]])).toHaveLength(1)
+  })
+
+  it('a Coldstar Commander does not double a starred system across its two groups', async () => {
+    const tau = await load('tau-empire')
+    const sg = (gi) => opt(tau, 'Commander in Coldstar Battlesuit', gi, 'Shield Generator')
+    expect(issuesOf(tau, 'tau-empire', 'Commander in Coldstar Battlesuit', [[0, sg(0), 1], [2, sg(2), 1]])).toHaveLength(1)
+    expect(issuesOf(tau, 'tau-empire', 'Commander in Coldstar Battlesuit', [[2, sg(2), 1], [2, opt(tau, 'Commander in Coldstar Battlesuit', 2, 'Missile pod'), 2]])).toHaveLength(0)
+  })
+
+  it('Pioneers: comms array and scanner on two models, none beside a heavy weapon', async () => {
+    const lov = await load('leagues-of-votann')
+    expect(lov.units.find((u) => u.name === 'Hernkyn Pioneers').gear[1].lim).toEqual([[0, 3, 1]])
+    expect(issuesOf(lov, 'leagues-of-votann', 'Hernkyn Pioneers', [[1, 0, 1], [1, 1, 1]])).toHaveLength(0)
+    expect(issuesOf(lov, 'leagues-of-votann', 'Hernkyn Pioneers', [[0, 0, 1], [1, 0, 1], [1, 1, 1], [1, 2, 1]])).toHaveLength(1)
+  })
+
+  it('a Helbrute takes one weapon per Helbrute fist it still holds', async () => {
+    const dg = await load('death-guard')
+    const name = 'Helbrute'
+    const fist0 = opt(dg, name, 0, 'Helbrute fist')
+    expect(issuesOf(dg, 'death-guard', name, [[3, 0, 1]])).toHaveLength(0)
+    expect(issuesOf(dg, 'death-guard', name, [[3, 0, 2]])).toHaveLength(1)
+    expect(issuesOf(dg, 'death-guard', name, [[0, fist0, 1], [3, 0, 2]])).toHaveLength(0)
+    expect(issuesOf(dg, 'death-guard', name, [[1, 0, 1], [3, 0, 1]])).toHaveLength(1)
+  })
+})

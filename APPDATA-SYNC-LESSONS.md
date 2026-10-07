@@ -1145,3 +1145,14 @@ and appdata state fresh; a data model can change between now and when this is ne
     comparison, and leave a test that walks the real data through the real lookup
     (`trackerFactions.test.js` asks the MFM for every detachment the builder offers). Detachment
     names from two sources meet through `detKey()` (`src/data/slugify.js`).
+79. **Audit the reading, not the report.** The generator's own report said every wargear
+    instruction was read (0 unparsed, 0 unresolved), and still a sweep that compared each group's
+    TEXT with its STRUCTURE (2026-10-07) found: "replace one of their macro-scalpels" read as no swap
+    (Talos kept both scalpels); an appdata typo ("Lascannonss") that silently dropped a group's "2 of
+    each" counts, while the exceptions registry that corrects such typos was never applied to the
+    roster generator at all; "This model's 2 Heavy Bolters" taking all four; footnotes limiting one
+    model across two groups (six units) enforced nowhere; three one-model allowances read as a
+    one-of; and the RU instruction texts stale since two generator changes earlier (roster:data did
+    not regenerate them). A report counts what the reader recognised as a failure — it cannot list
+    what it read wrongly with confidence. Re-run the comparison sweep after a generator change: every
+    instruction with "or", "one of", a number, or a footnote, checked against rep/rc/counts/lim/xpm.

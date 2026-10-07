@@ -333,6 +333,20 @@ pick one copy of the two — the other stays on the card and the list. Read as a
 both (a player's report). The Legends generator (`pack-roster`) already wrote `rc` for "2 of this
 model's …"; corpus-wide the singular wording on a multi-copy per-model line is Tankbustas alone today.
 
+**A limit across several groups — `xpm` (added 2026-10-07).** Some footnotes limit ONE MODEL across
+groups that each look fine alone: a Tau Commander's starred systems ("this model cannot have
+duplicates of these") offered both as the burst-cannon swap and in "up to three of the following"; a
+Knight Destrier's chainsword on either arm; a Hive Tyrant's heavy venom OR stranglethorn cannon; an
+Aspiring Champion's plasma pistol in two swaps; the Pioneers' "a model can only take one of these
+options, and not with a HYLas rotary cannon"; the Helbrute's "for each Helbrute fist this model is
+equipped with". None of it was enforced until an audit of every instruction. The generator
+(`crossGroupPerModel`) writes `u.xpm = [{ s: [[gi, oi?]…], k }]` — the covered picks together at
+most k per model of the profile — or `{ s, item }`, at most the copies of that item the model holds
+(grants from other groups counted in). `wargearXpmOver` feeds `validateRoster`'s
+`overWargearOnePerModel` and `fitWargear`; `wargearXpmRoom` caps the editor's steppers and greys a
+one-of row or toggle with no room (never the row that is on). The run prints every entry. The
+importer does not read it yet: an imported list that breaks one is reported by the validator.
+
 **Exact counts — `ex` / `solo` (added 2026-10-07).** "…replaced with two different weapons from
 the following list" is a count the model must meet, not only a ceiling: `lim` (up to 2, no
 duplicates) let one pick through, and the model was left one weapon short. `ex` is the count,

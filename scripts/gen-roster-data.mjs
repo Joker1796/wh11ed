@@ -29,6 +29,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
+import { APPDATA_EXCEPTIONS } from './lib/appdata-exceptions.mjs'
 
 const T = path.join(APPDATA, 'tables')
 const OUT = path.join(ROOT, 'src/data/roster')
@@ -808,7 +809,9 @@ function linkWargearConditions(datasheetId, drafts) {
   // across 11 factions declared no `rep`: the weapon stayed on the model beside the one that
   // replaced it, and the stock rule — a model cannot give the same item up twice — had nothing to
   // count, so a ten-Raptor squad offered two mutations with one chainsword left to trade.
-  const ACTIVE_RE = /\bcan\s+(?:each\s+)?replace\s+(?:its|their|his|her|the)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s+with\b/i
+  // …and "can each replace ONE OF their macro-scalpels with" (the Talos, 2026-10-07): the item is
+  // still named, one copy of it goes — `rc` below.
+  const ACTIVE_RE = /\bcan\s+(?:each\s+)?replace\s+(?:one of\s+)?(?:its|their|his|her|the)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s+with\b/i
 
   // One group, two swaps: appdata files "For every 5 models in this unit: ◦ 1 Raider's boltgun can
   // be replaced with 1 meltagun ◦ 1 Raider's reaver's blade can be replaced with 1 power fist" as a
@@ -1036,6 +1039,17 @@ function itemsNamedIn(rawClause, rawVocab) {
 // 2026-10-07): a Deathwatch Terminator holding a power fist and nothing else is no loadout. Dropped
 // only in a group that has bundles, only for an item it gives up among two or more, and only when
 // the value half of the sentence does not name it.
+// The appdata-exceptions registry's wargear-rule typos ("Lascannonss", "can be equipped 1 medi") are
+// GW's text errors the datasheets already print corrected. The roster read the raw tables and kept
+// them — on the Kratos the typo cost its whole group the "2 of each" counts (2026-10-07). One
+// registry, applied here too, so a correction is written once and reaches every generated layer.
+const TYPO_FIXES = APPDATA_EXCEPTIONS.filter((e) => e.kind === 'wargear-rule')
+function fixWargearTypos(unitName, text) {
+  let out = text
+  for (const e of TYPO_FIXES) if (e.datasheet === unitName && out.includes(e.from)) out = out.replace(e.from, e.to)
+  return out
+}
+
 function dropStockRemnants(unitName, drafts, out) {
   for (const d of drafts) {
     if (!(d.rep?.length >= 2) || !d.opts.some((o) => o.items)) continue
@@ -1127,8 +1141,9 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
     // something other than this group's option list and can't be trusted to replace it.
     // The one exception is the item being given up when appdata also lists it among the group's
     // options ("…have their Power Fist and Storm Bolter replaced with one of the following:
-    // …" — Deathwatch Terminators, 963): that is the "keep it" choice, named in the head of the
-    // sentence, never among the entries. It stays an option of its own, first.
+    // …" — Deathwatch Terminators, 963): it is named in the head of the sentence, never among the
+    // entries, so it does not fail this check. It was read as a "keep it" choice and left as an
+    // option of its own; the GW app refuses that pick, and dropStockRemnants removes it (2026-10-07).
     const claimed = new Set(sets.flat().map(([uuid]) => uuid))
     const head = flatText(d.text.split(VALUE_SPLIT)[0])
     const kept = d.opts.filter((o) => !claimed.has(o.uuid) && head.includes(flatText(wgItemName.get(o.uuid))))
@@ -2146,7 +2161,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // BELOW that weapon choice, not above it.
   let drafts = []
   for (const g of (wogByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)) {
-    const text = (enOf(g).instructionText || '').trim()
+    const text = fixWargearTypos(bd.name, (enOf(g).instructionText || '').trim())
     if (!text || isDefaultGroup(g)) continue
     const rawOpts = (woByGroup.get(g.id) || []).sort((a, b) => a.displayOrder - b.displayOrder)
     if (!rawOpts.length) continue
@@ -2277,6 +2292,8 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   const grantCount = (o) => (o.items ? o.items.reduce((n, [, c]) => n + (c || 1), 0) : 1)
   for (const d of drafts) {
     if (d.lim || !d.rep?.length || !/\beach\b/i.test(d.text.split('\n')[0])) continue
+    // "each replace ONE OF their macro-scalpels" is one copy per model, not every copy (rc, below).
+    if (/\breplace\s+one of\s+(?:its|their)\b/i.test(d.text.split('\n')[0])) continue
     if (!d.opts.every((o) => grantCount(o) === 1)) continue
     const row = defaults.find(([m]) => m === d.m)?.[1] || []
     // A count that is the profile's TOTAL rather than one model's has to be divided by the models
@@ -2300,8 +2317,31 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // stays. Read as an ordinary swap it took both off the model, card and list (a player's report,
   // 2026-10-06). Only a per-model line: a profile TOTAL ("2 Havocs are equipped with…") is one copy
   // per model already, and a per-copy group (`cp`) has its own allowance.
+  // "Any number of models can each replace ONE OF their macro-scalpels with one of the following"
+  // says it outright: a Talos carries two and gives up one (an audit of every instruction,
+  // 2026-10-07 — read as no swap at all, the model kept both and gained the new weapon).
   for (const d of drafts) {
-    if (d.cp || d.lim || d.rep?.length !== 1) continue
+    if (d.cp || d.rep?.length !== 1 || !/\breplace\s+one of\s+(?:its|their)\b/i.test(d.text.split('\n')[0])) continue
+    d.rc = 1
+    report.limit.oneCopy = (report.limit.oneCopy || 0) + 1
+  }
+  // "This model's 2 Heavy Bolters can be replaced with …" on a Kratos that carries FOUR (two
+  // sponsons, a group each): a pick takes the two the sentence names, not all four (an audit,
+  // 2026-10-07). Only where the printed loadout holds more than the number — "this model's 2
+  // twin heavy flamers" on a model with exactly two is the ordinary whole swap.
+  for (const d of drafts) {
+    if (d.cp || d.rc || d.rep?.length !== 1) continue
+    const m = d.text.split('\n')[0].match(/^this model(?:'|’)s (\d|two|three|four) /i)
+    if (!m) continue
+    const n = WORD_NUM[m[1].toLowerCase()] || Number(m[1])
+    const id = itemIds.get(d.rep[0])
+    const hit = id != null && (defaults.find(([dm]) => dm === d.m)?.[1] || []).find(([i]) => i === id)
+    if (!hit || hit.length > 2 || !(hit[1] > n)) continue
+    d.rc = n
+    report.limit.oneCopy = (report.limit.oneCopy || 0) + 1
+  }
+  for (const d of drafts) {
+    if (d.cp || d.lim || d.rc || d.rep?.length !== 1) continue
     const head = d.text.split('\n')[0]
     const low = head.toLowerCase()
     if (/\b(each|both|all|two|three|four|[2-9])\b/.test(low.split('replaced')[0])) continue
@@ -3047,6 +3087,81 @@ function oneEachPerModel(slug, units) {
   }
 }
 
+// A model's limit across SEVERAL groups, from the footnotes that state it (`xpm`, rosterEngine's
+// wargearXpmOver/Room; an audit of every instruction, 2026-10-07 — none of these was enforced):
+//   "This model cannot have duplicates of these pieces of wargear." / "* Maximum 1 per model." —
+//     each STARRED item at most once, wherever the model's groups offer it (Tau Commanders: the
+//     burst-cannon swap and "up to three of the following"; a Champion's two pistol-or-weapon swaps)
+//   "A model cannot be equipped with more than one X or more than one Y." (Knight Destrier)
+//   "cannot be equipped with both A and B … more than 1 A … more than 1 B" (Hive Tyrant)
+//   "A model can only take one of these options" / "These options cannot be taken on the same
+//     model" / "You cannot select both X and Y for the same model" — the starred groups together at
+//     most one per model, plus the groups of any item the sentence forbids alongside (Pioneers)
+//   "For each X* this model is equipped with … That X cannot then be replaced." — the group and
+//     every swap of X together at most the X the model holds (Helbrute).
+// Units with `pm` (the Legends Crisis Battlesuits) already carry their own reading and are skipped.
+function crossGroupPerModel(slug, units) {
+  const texts = new Map([...textIds].map(([t, id]) => [id, t]))
+  const nameOf = new Map([...itemIds].map(([uuid, id]) => [id, norm(wgItemName.get(uuid) || packItemNames.get(uuid) || '')]))
+  const idOfName = (u, name) => { const n = norm(name); for (const g of u.gear || []) for (const o of g.o) { const ids = Array.isArray(o[0]) ? o[0].map(([id]) => id) : [o[0]]; for (const id of ids) if (nameOf.get(id) === n || nameOf.get(id) === n.replace(/s$/, '')) return id } return null }
+  const single = (o) => (Array.isArray(o[0]) ? (o[0].length === 1 ? o[0][0][0] : null) : o[0])
+  const pairsOf = (u, name, m) => {
+    const n = norm(name)
+    const out = []
+    u.gear.forEach((g, gi) => { if (m != null && (g.all || (g.m ?? 0) !== m)) return; g.o.forEach((o, oi) => { const id = single(o); const nm = id != null && nameOf.get(id); if (nm && (nm === n || nm === n.replace(/s$/, ''))) out.push([gi, oi]) }) })
+    return out
+  }
+  for (const u of units) {
+    if (u.pm || !u.gear?.length) continue
+    const xpm = []
+    const push = (set, why) => { if (set.s.length) { xpm.push(set); report.limit.perModelBudget.push(`${u.name}: across groups — ${why}`) } }
+    u.gear.forEach((g, gi) => {
+      const t = texts.get(g.t) || ''
+      const lines = t.split('\n').map((l) => l.trim()).filter(Boolean)
+      const foot = lines.filter((l) => /^\*/.test(l)).join(' ')
+      if (!foot) return
+      const m = g.all ? null : g.m ?? 0
+      if (/cannot have duplicates of these|maximum 1 per model/i.test(foot)) {
+        for (const l of lines) { const b = l.match(/^[◦•▪■▫]\s*(?:1\s+)?(.+?)\*\s*$/); if (b) push({ s: pairsOf(u, b[1], m), k: 1 }, `one ${b[1]}`) }
+      }
+      const more = foot.match(/more than one (.+?) or more than one (.+?)\.?\*?\s*$/i)
+      if (more) for (const nm of [more[1], more[2]]) push({ s: pairsOf(u, nm, m), k: 1 }, `one ${nm}`)
+      const both = foot.match(/cannot be equipped with both (?:an? )?(.+?) and (?:an? )?(.+?)\./i)
+      if (both && /more than 1/i.test(foot)) {
+        push({ s: [...pairsOf(u, both[1], m), ...pairsOf(u, both[2], m)], k: 1 }, `one of ${both[1]} / ${both[2]}`)
+      }
+      if (/only take one of these options|cannot be taken on the same model|cannot select both .+ for the same model/i.test(foot)) {
+        // The groups "these options" means: those carrying the same footnote, and a starred group
+        // with no footnote of its own (Spectrus prints it under the second of two starred lines).
+        // A starred group whose star points at a DIFFERENT footnote is not one of them (Krieg's
+        // special weapons, "*" = once per unit, beside its "**" medi-pack and vox-caster).
+        const footOf = (ht) => ht.split('\n').map((l) => l.trim()).filter((l) => /^\*/.test(l)).join(' ')
+        const starred = u.gear.map((h, hi) => [h, hi]).filter(([h]) => { const ht = texts.get(h.t) || ''; const f2 = footOf(ht); return f2 === foot || (!f2 && ht.split('\n')[0].includes('*')) }).map(([, hi]) => hi)
+        const with_ = foot.match(/cannot be equipped with (?:an? )?(.+?) or (?:an? )?(.+?)\.?\s*$/i)
+        const extra = with_ ? [...pairsOf(u, with_[1], null), ...pairsOf(u, with_[2], null)].map(([hi]) => hi) : []
+        const groups = [...new Set([...starred, ...extra])]
+        if (!xpm.some((x) => JSON.stringify(x.s) === JSON.stringify(groups.map((hi) => [hi])))) push({ s: groups.map((hi) => [hi]), k: 1 }, `one of groups ${groups.join('/')}`)
+        // Several "■ 1 model … can be equipped with 1 X" lines in ONE group are separate allowances,
+        // one model each — not a one-of: the Pioneers may take the comms array AND the scanner.
+        const allowances = lines.filter((l) => /^[■▪◦•]\s*1 model\b/i.test(l)).length
+        if (allowances > 1 && !g.lim) { g.lim = [[0, allowances, 1]]; report.limit.perModelBudget.push(`${u.name}: ${allowances} separate one-model allowances in one group`) }
+      }
+      const each = lines[0].match(/^for each (.+?)\*? this model is equipped with/i)
+      if (each && /cannot then be replaced/i.test(foot)) {
+        const id = idOfName(u, each[1])
+        if (id != null) {
+          const swaps = u.gear.map((h, hi) => [h, hi]).filter(([h, hi]) => hi !== gi && h.rep?.includes(id)).map(([, hi]) => [hi])
+          push({ s: [[gi], ...swaps], item: id }, `for each ${each[1]}`)
+        }
+      }
+    })
+    // One entry per distinct set (a footnote repeated under two groups names the same set twice).
+    const seen = new Set()
+    const uniq = xpm.filter((x) => { const k = JSON.stringify(x); if (seen.has(k)) return false; seen.add(k); return true })
+    if (uniq.length) u.xpm = uniq
+  }
+}
+
 // The same entitlements for the FACTION PAGE (src/composables/useFactionPage.js): which other
 // file's detachments this faction's picker offers after its own, and what each costs it. The page
 // must not load a 45 KB roster file to learn sixteen names, so they get a file of their own —
@@ -3085,6 +3200,7 @@ for (const { slug, data } of built) {
   const pack = await packUnitsFor(slug, data.units)
   if (pack.length) { data.units.push(...pack); data.units.sort((a, b) => a.name.localeCompare(b.name)); report.units += pack.length; report.linked += pack.length }
   oneEachPerModel(slug, data.units)
+  crossGroupPerModel(slug, data.units)
   writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
 }
 genItems() // after all factions — the intern dicts are complete

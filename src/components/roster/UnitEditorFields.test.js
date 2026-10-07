@@ -581,3 +581,18 @@ describe('UnitEditorFields — typing a count', () => {
     expect(typed(w).filter((s) => s.props('editable'))).toHaveLength(0)
   })
 })
+
+// A model's limit across groups (`xpm`): with one arm already holding the chainsword, the other
+// arm's chainsword row is greyed out — the one-of row that is on never is.
+describe('UnitEditorFields — a limit across groups', () => {
+  it('greys the Knight Destrier’s second chainsword', async () => {
+    const ik = (await import('../../data/roster/imperial-knights.js')).default
+    const def = ik.units.find((u) => u.name === 'Knight Destrier')
+    const cs = (gi) => def.gear[gi].o.findIndex((o) => rosterItems.items[o[0]] === 'Bellatus reaper chainsword')
+    const w = mountFor(def, { wg: [[0, cs(0), 1]] })
+    const rowsOf = (gi) => w.findAll('.ues-sec').filter((s) => s.find('.opt-col').exists())[gi].findAll('.opt-tile')
+    const chainswordRow = rowsOf(1).find((t) => t.text().includes('Bellatus reaper chainsword'))
+    expect(chainswordRow.classes()).toContain('disabled')
+    expect(rowsOf(0).find((t) => t.text().includes('Bellatus reaper chainsword')).classes()).not.toContain('disabled')
+  })
+})

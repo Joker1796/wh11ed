@@ -7422,9 +7422,9 @@ export default [
     ],
     "loadout": "**This model is equipped with:** 1 Armoured Tracks; 1 Autocannon; 4 Heavy Bolter; 1 Kratos Battle Cannon.",
     "options": [
-      "This model's 2 Heavy Bolters can be replaced with one of the following: 2 Autocannons, 2 Lascannonss, 2 Volkite Calivers",
+      "This model's 2 Heavy Bolters can be replaced with one of the following: 2 Autocannons, 2 Lascannons, 2 Volkite Calivers",
       "This model's Kratos Battle Cannon can be replaced with one of the following: 1 Melta Blast-gun, 1 Volkite Cardanelle",
-      "This model's 2 Heavy Bolters can be replaced with one of the following: 2 Heavy Flamers, 2 Lascannonss, 2 Volkite Culverins",
+      "This model's 2 Heavy Bolters can be replaced with one of the following: 2 Heavy Flamers, 2 Lascannons, 2 Volkite Culverins",
       "This model can be equipped with one of the following: 1 Combi-weapon, 1 Havoc Launcher, 1 Heavy Bolter, 1 Heavy Flamer, 1 Multi-melta, 1 Twin Boltgun",
       "This model can be equipped with 1 Hunter-killer Missile"
     ],
