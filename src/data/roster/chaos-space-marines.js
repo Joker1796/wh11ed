@@ -1226,6 +1226,14 @@ export default {
         {
           "to": "legionaries",
           "type": "leader"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "leader"
         }
       ]
     },
@@ -1469,6 +1477,14 @@ export default {
         },
         {
           "to": "legionaries",
+          "type": "leader"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader"
+        },
+        {
+          "to": "nemesis-claw",
           "type": "leader"
         }
       ]
@@ -3953,6 +3969,14 @@ export default {
         },
         {
           "to": "legionaries",
+          "type": "support"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support"
+        },
+        {
+          "to": "nemesis-claw",
           "type": "support"
         }
       ]
@@ -8690,6 +8714,14 @@ export default {
         {
           "to": "legionaries",
           "type": "leader"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "leader"
         }
       ]
     },
@@ -8781,6 +8813,14 @@ export default {
         },
         {
           "to": "legionaries",
+          "type": "leader"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader"
+        },
+        {
+          "to": "nemesis-claw",
           "type": "leader"
         }
       ]

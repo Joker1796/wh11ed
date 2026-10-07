@@ -393,7 +393,25 @@ Draxus allied into an Adeptus Mechanicus army joins a Skitarii Vanguard her own 
 heard of. `rosterEngine.leadTypeFor` answers the question against the unit actually in the list, and
 both the target picker and `leaderTargetInvalid` go through it.
 
-### Who can lead this unit — three views of one question
+### Who can lead this unit — four views of one question
+
+**On the datasheet itself (added 2026-10-07):** a bodyguard's card carries "Led by" / "Supported by"
+(`DatasheetCard`'s `ledByGroups`), the leader block read from the other end. The lists are
+generated, not derived from the printed "can be attached to" lists: `genLedBy` in
+gen-roster-data.mjs reverses every unit's `leads` per faction (a Chapter's pool folded in) into
+`src/data/ledBy/<slug>.js`, loaded lazily for the card's faction (`loadLedBy`), so the mirrors, the
+Faction Pack Legends and the enhancement grants are in — and the page and the builder cannot
+disagree. A Detachment-gated lead carries `{ in: [...] }` or `{ out: [...] }`; the CSM pairs that
+state one attachment twice (inside D, outside D) cancel out. An enhancement's grant is a row of its
+own ("A Character with the Abhuman Detail enhancement (Grizzled Company)"). A keyword attachment —
+the Inquisitors' "Imperium Battleline Infantry" — is NOT listed: it stays text on the leader's own
+sheet (owner's call). Writing the lists found a reading bug: MIRROR_ATTACH took the bold
+"(excluding **EPIC HEROES**)" for a keyword the candidate NEEDS, which with `noEpic` admitted
+nobody — invisible while appdata's own tables carried the links, fatal for the Legends; and the
+Legends were never mirrored at all (`mirrorPackLeads`). 12 links added, Nemesis Claw and Red
+Corsairs Raiders' Legends leaders among them.
+
+### Who can lead this unit — the builder's three views
 
 An attachment is read from three ends; the first two ask `leadTypeFor`, so they cannot disagree:
 

@@ -435,7 +435,11 @@ const MIRROR_ATTACH = []
     const from = m && (dsByName.get(norm(m[1])) || dsByName.get(norm(m[1]).replace(/s$/, '')))
     if (!from) { report.mirror.unread.push(enOf(dsById.get(r.datasheetId)).name || r.datasheetId); continue }
     const head = text.split(/can be attached to/i)[0]
-    const need = [...head.matchAll(/\*\*([^*]+)\*\*/g)].map((x) => x[1].trim()).filter((k) => norm(k) !== 'character')
+    // The keywords a candidate must have — not the ones an "(excluding **EPIC HEROES**)" names:
+    // read as a requirement, that clause and the noEpic flag below together admitted nobody, and
+    // only appdata's own tables kept the Nemesis Claw's leaders (the Legends had none) until
+    // 2026-10-07.
+    const need = [...head.replace(/\(excluding[^)]*\)/gi, '').matchAll(/\*\*([^*]+)\*\*/g)].map((x) => x[1].trim()).filter((k) => norm(k) !== 'character')
     MIRROR_ATTACH.push({ to: r.datasheetId, from: new Set(from), need, noEpic: /excluding[^)]*epic/i.test(head) })
   }
   report.mirror.rules = MIRROR_ATTACH.length
@@ -3162,6 +3166,93 @@ function crossGroupPerModel(slug, units) {
   }
 }
 
+// MIRROR_ATTACH for the Faction Pack Legends. The rule ("If a CHARACTER unit with the Leader
+// ability (excluding Epic Heroes) can be attached to a Legionaries unit, it can be attached to this
+// unit instead") is applied while the appdata units are built, and the Legends join the faction
+// after — so a Chaos Lord on Disc of Tzeentch, who may lead Legionaries, could not lead the Nemesis
+// Claw beside them (found 2026-10-07 by the datasheets' "Led by" lists). Same rule, same reading:
+// at the type the borrowed attachment has, gated as it is, never for an Epic Hero where it says so.
+function mirrorPackLeads(slug, pack) {
+  if (!pack.length) return
+  const idMap = unitIdMap(slug)
+  for (const u of pack) {
+    if (!u.leads?.length) continue
+    for (const m of MIRROR_ATTACH) {
+      const to = idMap.get(m.to)
+      if (!to || to === u.id || u.leads.some((l) => l.to === to)) continue
+      if (m.noEpic && u.flags?.epic) continue
+      if (m.need.length && !m.need.some((k) => (u.kws || []).some((x) => norm(x) === norm(k)))) continue
+      const from = new Set([...m.from].map((uuid) => idMap.get(uuid)).filter(Boolean))
+      const via = u.leads.find((l) => from.has(l.to))
+      if (!via) continue
+      const lead = { to, type: via.type }
+      if (via.reqDet) lead.reqDet = via.reqDet
+      if (via.exclDet) lead.exclDet = via.exclDet
+      u.leads.push(lead)
+      report.mirror.added.push(`${u.name} (Legends) → ${to}`)
+    }
+  }
+}
+
+// "Led by" / "Supported by" for a BODYGUARD unit's datasheet page (owner, 2026-10-07): the reverse
+// of every leader's `leads`, per faction, so the datasheet shows who may join the unit the way a
+// leader's shows whom it may join. Read from the roster layer rather than from the printed "can be
+// attached to" lists, because the roster already holds what those lists miss: the "attached to
+// this unit instead" mirrors (9 links appdata does not record), the Faction Pack Legends, and the
+// attachments an enhancement grants. One small file per faction (src/data/ledBy/<slug>.js), loaded
+// with the page. A lead gated on a Detachment carries it — `in` (only there) or `out` (not there);
+// the CSM pairs that state one attachment twice, required-inside and excluded-outside, cancel out.
+// A keyword attachment (an Inquisitor's "Imperium Battleline Infantry") is not listed by name.
+function genLedBy() {
+  const bySlug = new Map(built.map(({ slug, data }) => [slug, data]))
+  const sm = bySlug.get('space-marines')
+  fs.mkdirSync(path.join(OUT, '../ledBy'), { recursive: true })
+  const index = []
+  for (const { slug, data } of built) {
+    const shared = new Set(data.sharedUnitIds || [])
+    const pool = [...data.units, ...(sm && slug !== 'space-marines' ? sm.units.filter((u) => shared.has(u.id)) : [])]
+    const ids = new Set(pool.map((u) => u.id))
+    const dets = [...(data.detachments || []), ...(sm && slug !== 'space-marines' ? sm.detachments || [] : [])]
+    const detName = new Map(dets.filter((d) => d.sid).map((d) => [d.sid, d.name]))
+    const out = {}
+    const add = (to, row) => { (out[to] ||= []).push(row) }
+    for (const u of pool) {
+      const byTarget = new Map()
+      for (const l of u.leads || []) {
+        if (!ids.has(l.to) || l.to === u.id) continue
+        const k = `${l.to}|${l.type}`
+        if (!byTarget.has(k)) byTarget.set(k, [])
+        byTarget.get(k).push(l)
+      }
+      for (const [k, ls] of byTarget) {
+        const [to, type] = k.split('|')
+        // Any ungated statement, or "inside D" beside "outside D" for the same D, is "always".
+        // Otherwise the Detachments it needs (several possible), or the one it is barred from.
+        let note = null
+        if (!ls.some((l) => !l.reqDet && !l.exclDet)) {
+          const reqs = new Set(ls.map((l) => l.reqDet).filter(Boolean))
+          const excls = new Set(ls.map((l) => l.exclDet).filter(Boolean))
+          const always = [...excls].some((d) => reqs.has(d))
+          if (!always && reqs.size) note = { in: [...reqs].map((d) => detName.get(d)).filter(Boolean).sort() }
+          else if (!always && excls.size) note = { out: [...excls].map((d) => detName.get(d)).filter(Boolean).sort() }
+          if (note && !(note.in || note.out).length) note = null
+        }
+        add(to, note ? [u.name, type, note] : [u.name, type])
+      }
+    }
+    // A Detachment's enhancement that lets its bearer join a unit (Abhuman Detail → Ogryns).
+    for (const d of data.detachments || []) for (const e of d.enhancements || []) for (const a of e.attach || []) {
+      if (ids.has(a.to)) add(a.to, [e.name.replace(/\s*\((?:Upgrade|Ulgrade)\)$/i, ''), a.type, { enh: 1, det: d.name }])
+    }
+    const keys = Object.keys(out).sort()
+    if (!keys.length) continue
+    const sorted = Object.fromEntries(keys.map((k) => [k, out[k].sort((a, b) => (a[1] === b[1] ? a[0].localeCompare(b[0]) : a[1] === 'leader' ? -1 : 1))]))
+    writeOut(`../ledBy/${slug}.js`, `${HEAD}// bodyguard datasheet id -> [name, 'leader' | 'support', note?] of the characters that may join it.\nexport default ${stableJson(sorted)}\n`)
+    index.push(slug)
+  }
+  report.ledBy = index.length
+}
+
 // The same entitlements for the FACTION PAGE (src/composables/useFactionPage.js): which other
 // file's detachments this faction's picker offers after its own, and what each costs it. The page
 // must not load a 45 KB roster file to learn sixteen names, so they get a file of their own —
@@ -3199,6 +3290,7 @@ for (const slug of slugs) await genFaction(slug)
 for (const { slug, data } of built) {
   const pack = await packUnitsFor(slug, data.units)
   if (pack.length) { data.units.push(...pack); data.units.sort((a, b) => a.name.localeCompare(b.name)); report.units += pack.length; report.linked += pack.length }
+  mirrorPackLeads(slug, pack)
   oneEachPerModel(slug, data.units)
   crossGroupPerModel(slug, data.units)
   writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
@@ -3206,6 +3298,7 @@ for (const { slug, data } of built) {
 genItems() // after all factions — the intern dicts are complete
 genIndex()
 genChapterDetachments()
+genLedBy()
 
 console.log(`\nroster data: ${report.factions} factions, ${report.units} units (${report.linked} linked, ${report.unlinked.length} unlinked)`)
 const pr = report.price

@@ -3040,6 +3040,10 @@ export default {
         {
           "to": "subductor-squad",
           "type": "leader"
+        },
+        {
+          "to": "sanctifiers",
+          "type": "leader"
         }
       ],
       "leadKw": [
@@ -3256,6 +3260,10 @@ export default {
         },
         {
           "to": "subductor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sanctifiers",
           "type": "leader"
         }
       ],

@@ -376,3 +376,27 @@ describe('DatasheetCard ability line', () => {
     expect(w.find('.ds-ability').text()).toBe('Пацаны (Ladz): Пока этот юнит.')
   })
 })
+
+// "Led by" / "Supported by" (owner, 2026-10-07): the leader block from the bodyguard's end, loaded
+// for the card's faction; a name with a sheet in the faction links to it, a Detachment-only
+// attachment says so.
+describe('DatasheetCard — who may join this unit', () => {
+  it('lists the leaders and supports of a Legionaries squad', async () => {
+    const { vi } = await import('vitest')
+    const unitIndex = new Map([['Chaos Lord', 'chaos-lord'], ['Master of Executions', 'master-of-executions']])
+    const w = mount(DatasheetCard, {
+      props: { sheet: sheet({ id: 'legionaries', name: 'Legionaries' }), factionSlug: 'chaos-space-marines', unitIndex },
+      global: { stubs: { RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } },
+    })
+    await vi.waitFor(() => expect(w.text()).toContain('Led by'))
+    expect(w.text()).toContain('Supported by')
+    const link = w.findAll('a').find((a) => a.text() === 'Chaos Lord')
+    expect(link.attributes('href')).toBe('/factions/chaos-space-marines/datasheets/chaos-lord')
+  })
+
+  it('draws nothing for a unit no one joins', async () => {
+    const w = mount(DatasheetCard, { props: { sheet: sheet({ id: 'no-such-unit' }), factionSlug: 'chaos-space-marines' } })
+    await new Promise((r) => setTimeout(r, 50))
+    expect(w.text()).not.toContain('Led by')
+  })
+})

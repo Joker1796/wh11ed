@@ -880,6 +880,66 @@
           </div>
         </DsAccordion>
       </div>
+      <!-- Who may join this unit (ledByGroups): the leader block above, read from the other end. -->
+      <div
+        v-for="grp in ledByGroups"
+        :key="grp.key"
+        class="ds-ability-group"
+      >
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button
+              v-if="collapsible"
+              type="button"
+              class="ds-group-title ds-group-btn"
+              :aria-expanded="open"
+              @click="toggle"
+            >
+              <span>{{ grp.title }}</span>
+              <ChevronIcon
+                class="ds-chev"
+                :turned="open"
+                from="right"
+                to="down"
+              />
+            </button>
+            <h5
+              v-else
+              class="ds-group-title"
+            >
+              {{ grp.title }}
+            </h5>
+          </template>
+          <div class="ds-ability">
+            <div>{{ grp.lead }}</div>
+            <ul class="ds-list">
+              <li
+                v-for="r in grp.rows"
+                :key="r.key"
+              >
+                <template v-if="r.enh">
+                  {{ r.enh }}
+                </template>
+                <template v-else>
+                  <RouterLink
+                    v-if="unitIndex?.get(r.name)"
+                    :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(r.name)}`"
+                  >
+                    {{ r.name }}
+                  </RouterLink>
+                  <template v-else>
+                    {{ r.name }}
+                  </template>
+                  <span
+                    v-if="r.note"
+                    class="ds-ledby-note"
+                  > · {{ r.note }}</span>
+                </template>
+              </li>
+            </ul>
+          </div>
+        </DsAccordion>
+      </div>
 
       <!-- Composition / loadout / options.
          Hidden entirely under `hideChoices` (the roster builder): every one of these three
@@ -1091,7 +1151,7 @@
 <script setup>
 import ChevronIcon from './ChevronIcon.vue'
 import { copyTierLabel } from '../utils/copyTier.js'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
@@ -1216,6 +1276,37 @@ const leaderGroupLabel = computed(() =>
   /\bSupport\b/.test(props.sheet.core || '') ? labels.value.dsSupport : labels.value.dsLeader,
 )
 
+// "Led by" / "Supported by": who may join THIS unit, the reverse of every leader's "can be attached
+// to" (owner, 2026-10-07). From src/data/ledBy (the roster layer: mirrors, Legends and enhancement
+// grants included), loaded for the card's own faction. A row is [name, type, note?]: a note names
+// the Detachments the attachment needs (`in`) or is barred from (`out`), or makes it an
+// enhancement's grant (`enh`, `det`). A keyword attachment (an Inquisitor's "Imperium Battleline
+// Infantry") stays text on the leader's own sheet and is not listed here.
+const ledByRows = ref([])
+watch(() => [props.factionSlug, props.sheet?.id], async ([slug, id]) => {
+  ledByRows.value = []
+  if (!slug || !id) return
+  const { loadLedBy } = await import('../data/ledBy/index.js')
+  const data = await loadLedBy(slug)
+  if (props.factionSlug === slug && props.sheet?.id === id) ledByRows.value = data?.[id] || []
+}, { immediate: true })
+const ledByGroups = computed(() => {
+  const l = labels.value
+  const noteOf = (n) => {
+    if (!n) return ''
+    if (n.in) return l.dsLedByOnlyIn.replace('{det}', n.in.join(', '))
+    if (n.out) return l.dsLedByNotIn.replace('{det}', n.out.join(', '))
+    return ''
+  }
+  const row = ([name, , note]) => (note?.enh
+    ? { key: `enh:${name}`, enh: l.dsLedByEnh.replace('{enh}', name).replace('{det}', note.det) }
+    : { key: name, name, note: noteOf(note) })
+  return [
+    { key: 'leader', title: l.dsLedBy, lead: l.dsLedByText, rows: ledByRows.value.filter((r) => r[1] === 'leader').map(row) },
+    { key: 'support', title: l.dsSupportedBy, lead: l.dsSupportedByText, rows: ledByRows.value.filter((r) => r[1] === 'support').map(row) },
+  ].filter((g) => g.rows.length)
+})
+
 // See the otherFactionUnits prop doc above — drop those names entirely rather than list a
 // bodyguard target the current faction's army could never actually take.
 const visibleLeaderUnits = computed(() => {
@@ -1297,6 +1388,8 @@ function abilityStateLabel(st) {
 </script>
 
 <style scoped>
+/* A Detachment an attachment needs or is barred from, after the character's name. */
+.ds-ledby-note { font-size: 0.85em; color: var(--text-muted); }
 .ds-shell { container: dscard / inline-size; }
 
 /* THE CARD'S RHYTHM, in one place. Every gap on the card is one of these, because the card is
