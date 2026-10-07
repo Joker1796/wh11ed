@@ -36,8 +36,11 @@ describe('ledBy', () => {
     expect(csm.legionaries.map(([n]) => n)).toEqual(expect.arrayContaining(['Chaos Lord', 'Fabius Bile', 'Master of Executions']))
   })
 
-  it('carries an enhancement’s grant as one, with its Detachment', async () => {
+  it('carries an enhancement’s grant as one, with its Detachment and who may take it', async () => {
     const am = await loadLedBy('astra-militarum')
-    expect(am['ogryn-squad']).toEqual(expect.arrayContaining([['Abhuman Detail', 'leader', { enh: 1, det: 'Grizzled Company' }]]))
+    expect(am['ogryn-squad']).toEqual(expect.arrayContaining([['Abhuman Detail', 'leader', { enh: 1, det: 'Grizzled Company', by: ['Commissar'] }]]))
+    // "CHAOS LORD WITH JUMP PACK model only" — not every Chaos character (appdata's datasheet group).
+    const csm = await loadLedBy('chaos-space-marines')
+    expect(csm['warp-talons'].find((r) => r[0] === 'Pact of Cursed Pinions')[2].by).toEqual(['Chaos Lord with Jump Pack'])
   })
 })

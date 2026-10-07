@@ -8736,7 +8736,8 @@ export default {
             {
               "fac": [
                 "Harlequins"
-              ]
+              ],
+              "ds": "Troupe Master"
             }
           ]
         },
@@ -8748,7 +8749,8 @@ export default {
             {
               "fac": [
                 "Harlequins"
-              ]
+              ],
+              "ds": "Shadowseer"
             }
           ]
         }
@@ -8893,11 +8895,9 @@ export default {
             {
               "fac": [
                 "Asuryani"
-              ]
+              ],
+              "ds": "Rangers"
             }
-          ],
-          "lockDs": [
-            "216b62f1-59f1-4a8e-827c-acc9b75aa07a"
           ]
         },
         {
@@ -8910,17 +8910,15 @@ export default {
             {
               "fac": [
                 "Asuryani"
-              ]
+              ],
+              "ds": "Shroud Runners"
             },
             {
               "fac": [
                 "Asuryani"
-              ]
+              ],
+              "ds": "Rangers"
             }
-          ],
-          "lockDs": [
-            "216b62f1-59f1-4a8e-827c-acc9b75aa07a",
-            "a3607c4b-ac69-4702-9afc-1189902bcd93"
           ]
         }
       ]
@@ -9169,11 +9167,9 @@ export default {
             {
               "fac": [
                 "Harlequins"
-              ]
+              ],
+              "ds": "Troupe"
             }
-          ],
-          "lockDs": [
-            "c8d1dad9-ecf7-4a27-a061-0826eda8454c"
           ]
         },
         {

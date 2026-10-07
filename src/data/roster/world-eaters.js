@@ -2650,11 +2650,9 @@ export default {
             {
               "fac": [
                 "World Eaters"
-              ]
+              ],
+              "ds": "Maulerfiend"
             }
-          ],
-          "lockDs": [
-            "a50d6156-46da-49ca-bb61-d4dbe18bb929"
           ]
         },
         {

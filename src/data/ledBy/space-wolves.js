@@ -657,7 +657,40 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Saga of the Beastslayer"
+        "det": "Saga of the Beastslayer",
+        "by": [
+          "Ancient",
+          "Ancient in Terminator Armour",
+          "Bladeguard Ancient",
+          "Captain",
+          "Captain in Gravis Armour",
+          "Captain in Phobos Armour",
+          "Captain in Terminator Armour",
+          "Captain on Bike",
+          "Captain with Jump Pack",
+          "Chaplain",
+          "Chaplain in Terminator Armour",
+          "Chaplain on Bike",
+          "Chaplain with Jump Pack",
+          "Cyberwolf",
+          "Iron Priest",
+          "Judiciar",
+          "Librarian",
+          "Librarian in Phobos Armour",
+          "Librarian in Terminator Armour",
+          "Lieutenant",
+          "Lieutenant in Phobos Armour",
+          "Lieutenant with Combi-weapon",
+          "Techmarine",
+          "Wolf Guard Battle Leader",
+          "Wolf Guard Battle Leader in Terminator Armour",
+          "Wolf Guard Battle Leader on Thunderwolf",
+          "Wolf Guard Pack Leader",
+          "Wolf Guard Pack Leader in Terminator Armour",
+          "Wolf Guard Pack Leader with Jump Pack",
+          "Wolf Lord on Thunderwolf",
+          "Wolf Priest"
+        ]
       }
     ]
   ],
@@ -667,7 +700,40 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Saga of the Beastslayer"
+        "det": "Saga of the Beastslayer",
+        "by": [
+          "Ancient",
+          "Ancient in Terminator Armour",
+          "Bladeguard Ancient",
+          "Captain",
+          "Captain in Gravis Armour",
+          "Captain in Phobos Armour",
+          "Captain in Terminator Armour",
+          "Captain on Bike",
+          "Captain with Jump Pack",
+          "Chaplain",
+          "Chaplain in Terminator Armour",
+          "Chaplain on Bike",
+          "Chaplain with Jump Pack",
+          "Cyberwolf",
+          "Iron Priest",
+          "Judiciar",
+          "Librarian",
+          "Librarian in Phobos Armour",
+          "Librarian in Terminator Armour",
+          "Lieutenant",
+          "Lieutenant in Phobos Armour",
+          "Lieutenant with Combi-weapon",
+          "Techmarine",
+          "Wolf Guard Battle Leader",
+          "Wolf Guard Battle Leader in Terminator Armour",
+          "Wolf Guard Battle Leader on Thunderwolf",
+          "Wolf Guard Pack Leader",
+          "Wolf Guard Pack Leader in Terminator Armour",
+          "Wolf Guard Pack Leader with Jump Pack",
+          "Wolf Lord on Thunderwolf",
+          "Wolf Priest"
+        ]
       }
     ]
   ]

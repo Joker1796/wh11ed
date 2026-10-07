@@ -2155,7 +2155,8 @@ export default {
             {
               "fac": [
                 "Emperor’s Children"
-              ]
+              ],
+              "ds": "Lord Kakophonist"
             }
           ]
         },
@@ -2194,7 +2195,8 @@ export default {
             {
               "fac": [
                 "Emperor’s Children"
-              ]
+              ],
+              "ds": "Lord Exultant"
             }
           ]
         },
@@ -2206,7 +2208,8 @@ export default {
             {
               "fac": [
                 "Emperor’s Children"
-              ]
+              ],
+              "ds": "Lord Exultant"
             }
           ]
         }
@@ -2477,11 +2480,9 @@ export default {
             {
               "fac": [
                 "Emperor’s Children"
-              ]
+              ],
+              "ds": "Flawless Blades"
             }
-          ],
-          "lockDs": [
-            "9e3e0b01-cb93-4805-95da-a58f79847f80"
           ]
         },
         {
@@ -2494,11 +2495,9 @@ export default {
             {
               "fac": [
                 "Emperor’s Children"
-              ]
+              ],
+              "ds": "Flawless Blades"
             }
-          ],
-          "lockDs": [
-            "9e3e0b01-cb93-4805-95da-a58f79847f80"
           ]
         }
       ]

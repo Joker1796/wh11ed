@@ -1052,8 +1052,15 @@ const compLine = computed(() => {
 // profiles are in the squad: Corsair Voidscarred has three 7-model builds at 140 points (Shade
 // Runner + Soul Weaver, Soul Weaver + Way Seeker, Shade Runner + Way Seeker). Only those pills get
 // a suffix, naming the profiles that actually tell the tied brackets apart; every other pill is
-// left as it was. All 32 tied brackets in the corpus resolve to a non-empty name this way.
+// left as it was. Where the same profiles are in every tied build and only their counts differ
+// (Accursed Cultists: 6–10 Mutants + 3–6 Torments, or 5–10 + 4–6, both 9–16 for 185), names alone
+// read twice — a player's report, 2026-10-08 — so those pills state the counts.
 const bracketAt = (s, m) => (s.comp || []).find((c) => c[0] === m)?.[1] ?? 0
+const countAt = (s, m) => {
+  const c = (s.comp || []).find((x) => x[0] === m)
+  if (!c) return ''
+  return c[2] != null && c[2] !== c[1] ? `${c[1]}–${c[2]}` : String(c[1])
+}
 const sizeTells = computed(() => {
   const out = new Array(props.def.sizes.length).fill('')
   const groups = new Map()
@@ -1069,6 +1076,14 @@ const sizeTells = computed(() => {
       .filter((m) => new Set(idxs.map((i) => bracketAt(props.def.sizes[i], m))).size > 1)
     for (const i of idxs) {
       out[i] = varying.filter((m) => bracketAt(props.def.sizes[i], m) > 0).map(miniName).join(' + ')
+    }
+    if (new Set(idxs.map((i) => out[i])).size === idxs.length) continue
+    const counted = (props.def.minis || [])
+      .map((_, m) => m)
+      .filter((m) => new Set(idxs.map((i) => countAt(props.def.sizes[i], m))).size > 1)
+    for (const i of idxs) {
+      out[i] = counted.filter((m) => bracketAt(props.def.sizes[i], m) > 0)
+        .map((m) => `${countAt(props.def.sizes[i], m)} ${miniName(m)}`).join(' + ')
     }
   }
   return out

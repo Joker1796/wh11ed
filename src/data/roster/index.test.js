@@ -8,11 +8,12 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { allySourceOf, leadTypeFor, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
+import { enhEligible, enhOptionsFor, allyGroupsFor, allySourceOf, leadTypeFor, hostSlotTaken, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
 import { duplicateLimit, validateRoster } from '../../composables/rosterValidation.js'
 import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
 import { PACK_ERRATA } from '../../../scripts/lib/pack-roster.mjs'
+import { CHARACTER_GRANTS } from '../../../scripts/lib/character-grants.mjs'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -202,8 +203,8 @@ describe('roster factions', () => {
           for (const e of d.enhancements) {
             expect(e.name).toBeTruthy()
             expect(typeof e.pts).toBe('number')
-            // eligibility, when present, is OR-groups of faction-keywords / keywords
-            if (e.req) for (const g of e.req) expect((g.fac?.length || 0) + (g.kw?.length || 0)).toBeGreaterThan(0)
+            // eligibility, when present, is OR-groups of faction-keywords / keywords / one datasheet
+            if (e.req) for (const g of e.req) expect((g.fac?.length || 0) + (g.kw?.length || 0) + (g.ds ? 1 : 0)).toBeGreaterThan(0)
           }
         }
       })
@@ -943,7 +944,9 @@ describe('allegiance choices', () => {
     // EPIC HERO and carries no mark already) — see gen-roster-data.mjs's packUnitsFor. Was 92
     // from appdata until Codex: Space Marines (app data 963) retired Headhunter Task Force, whose
     // keyword upgrade 25 vehicles carried (17 Space Marines, 7 Black Templars, 1 Blood Angels).
-    expect(withAlleg()).toHaveLength(67 + 17)
+    // Plus the 11 Legends TITANIC tanks Steel Hammer's rule makes eligible for its CHARACTER
+    // choice (CHARACTER_GRANTS, 2026-10-07).
+    expect(withAlleg()).toHaveLength(67 + 17 + 11)
   })
 
   it('always offers something to choose, and says whether it must be chosen', () => {
@@ -1151,6 +1154,39 @@ describe('an attachment one unit borrows from another', () => {
     expect(leads('captain')).toEqual(expect.arrayContaining(['company-heroes', 'victrix-honour-guard']))
     expect(leads('lieutenant')).toContain('company-heroes')
     expect(leads('lieutenant')).not.toContain('victrix-honour-guard')
+  })
+})
+
+// One Leader and one Support per Bodyguard unit (core rules). Every pair of Supports on every unit,
+// asked the way the editor's picker asks it: until 2026-10-08 an Exalted Champion's 10th-edition
+// footer ("even if one other CHARACTER model has already been attached") let it sit beside a
+// second Support on four Chaos units — a player's report. And no footer is read as "beside
+// anyone" except the Death Guard form the gate below names.
+describe('attachment slots', () => {
+  it('seats no Bodyguard unit with two Supports', () => {
+    const bad = []
+    for (const { slug, data } of factions) {
+      for (const host of data.units || []) {
+        const sups = data.units.filter((u) => leadTypeFor(u, { id: u.id }, host, data.detachments) === 'support')
+        for (const a of sups) {
+          for (const b of sups) {
+            if (a !== b && !hostSlotTaken(b, { id: b.id }, { id: host.id }, host, [{ def: a, entry: { id: a.id } }], data.detachments)) bad.push(`${slug}/${host.id}: ${a.id} + ${b.id}`)
+          }
+        }
+      }
+    }
+    expect(bad).toEqual([])
+  })
+
+  it('lets only the Death Guard’s "one other Leader unit" footer join beside anyone', () => {
+    const free = factions.flatMap(({ slug, data }) => (data.units || []).filter((u) => u.flags?.alongside).map((u) => `${slug}/${u.id}`))
+    expect(free.every((k) => k.startsWith('death-guard/'))).toBe(true)
+    const named = Object.fromEntries(factions.flatMap(({ data }) => (data.units || []).filter((u) => u.along).map((u) => [u.id, u.along])))
+    expect(named).toEqual({
+      'death-rider-commissar': ['Death Rider Squadron Commander', 'Lord Marshal Dreir', 'Lord Solar Leontus'],
+      'jokaero-weaponsmith': ['Inquisitor'],
+      'vargard-obyron': ['Nemesor Zahndrekh'],
+    })
   })
 })
 
@@ -1812,5 +1848,115 @@ describe('a swap of one copy of several (rc)', () => {
     const nob = (wg) => defaultLoadoutLines(def, rosterItems.items, { uid: 'x', id: def.id, size: 0, wg }).find((l) => l.mini === 'Nob').items
     expect(nob([])).toBe('Rokkit Pistol ×2, Choppa')
     expect(nob([[gi, 0, 1]])).toBe('Rokkit Pistol ×1, Choppa')
+  })
+})
+
+// "ARCHON model only": an enhancement whose rules text names its bearer must not be offered to
+// anyone else. appdata says so in the `datasheetId` of its requirement group, which the generator
+// did not read until 2026-10-07 — 36 enhancements across 13 factions were open to other units
+// of the faction (Pact of Cursed Pinions to 28 Chaos characters), and the Orks' upgrades to every
+// unit in the codex. Read against the printed prose rather than appdata, so a group appdata itself
+// leaves out shows up here too. "X/Y" and "X or Y" are alternatives; each one must be spelled by
+// the unit's own keywords, its name and the enhancement's faction keywords.
+describe('enhancement bearer named in its prose', () => {
+  it('offers "<X> model only" to X and nobody else', async () => {
+    const FDIR = path.join(DIR, '../factions')
+    const lc = (s) => String(s).replace(/[’']/g, "'").toLowerCase().trim()
+    const prose = new Map() // "detachment|enhancement" -> body
+    for (const f of fs.readdirSync(FDIR).filter((x) => x.endsWith('.js') && x !== 'index.js')) {
+      const walk = (o, det) => {
+        if (!o || typeof o !== 'object') return
+        if (Array.isArray(o)) return o.forEach((x) => walk(x, det))
+        if (Array.isArray(o.enhancements) && o.name) det = o.name
+        if (o.name && typeof o.body === 'string' && 'points' in o) prose.set(`${lc(det)}|${lc(o.name)}`, o.body)
+        Object.values(o).forEach((x) => walk(x, det))
+      }
+      for (const v of Object.values(await import(`../factions/${f}`))) walk(v?.en || v)
+    }
+    const covers = (u, phrase, facs) => {
+      const words = lc(phrase).split(/\s+/)
+      const keys = new Set([...(u.kws || []).map(lc), lc(u.name), ...facs])
+      const ok = [true]
+      for (let i = 0; i < words.length; i++) if (ok[i]) for (let j = i + 1; j <= words.length; j++) if (keys.has(words.slice(i, j).join(' '))) ok[j] = true
+      // The prose names a unit in the singular ("SCOUT SENTINEL unit only" — Scout Sentinels).
+      const n = lc(u.name).replace(/s$/, '')
+      return !!ok[words.length] || n === lc(phrase).replace(/s$/, '') || n.endsWith(` ${lc(phrase)}`)
+    }
+    let read = 0
+    const wrong = []
+    for (const { slug } of factions) {
+      const data = await loadRosterFaction(slug)
+      if (!data?.detachments) continue
+      for (const det of data.detachments) for (const e of det.enhancements || []) {
+        if (e.mandatory) continue
+        const body = prose.get(`${lc(det.name)}|${lc(e.name.replace(/\s*\((?:Upgrade|Ulgrade)\)$/i, ''))}`)
+        const m = body?.replace(/\*\*|\[[a-z]+:[^\]]*:([^\]]+)\]/g, '$1').match(/^([^.\n]*?)\s+(?:models?|units?)\s+only/i)
+        if (!m) continue
+        read++
+        const alts = m[1].replace(/\(excluding[^)]*\)/i, '').replace(/^friendly\s+/i, '').split(/\s*(?:,|\/|\bor\b)\s*/i).filter(Boolean)
+        const facs = (e.req || []).flatMap((g) => g.fac || []).map(lc)
+        for (const u of data.units) if (enhEligible(e, u) && !alts.some((a) => covers(u, a, facs))) wrong.push(`${slug} / ${det.name} / ${e.name}: ${u.name}`)
+      }
+    }
+    expect(read).toBeGreaterThan(300)
+    expect([...new Set(wrong)]).toEqual([])
+  })
+})
+
+// Someone in the army can carry it: every enhancement, asked the way the editor asks (enhOptionsFor),
+// over the faction's units plus the allies its Detachment admits, with a Detachment's "these units
+// gain CHARACTER" choice taken. Steel Hammer's rule hands CHARACTER to any ASTRA MILITARUM TITANIC
+// unit, and the eleven Legends ones had no such choice until 2026-10-07 (CHARACTER_GRANTS in the
+// generator). An enhancement no unit of this army may take is named here with the reason.
+const NOBODY_BY_RULE = new Map([
+  ['space-wolves / Narthecis Gauntlet', 'Apothecary Biologis only, and the Space Wolves army rule bars APOTHECARY'],
+])
+describe('every enhancement has a bearer', () => {
+  it('in its own army, allies and granted CHARACTER included', async () => {
+    const nobody = []
+    for (const { slug } of factions) {
+      const fac = await loadRosterFaction(slug, { allies: true })
+      if (!fac?.detachments) continue
+      const allyIds = new Set((fac.allies || []).flatMap((g) => g.ids))
+      for (const det of fac.detachments) {
+        const admitted = new Set(allyGroupsFor(fac, [det]).flatMap((g) => g.ids))
+        const pool = fac.units.filter((u) => !allyIds.has(u.id) || admitted.has(u.id))
+        for (const e of det.enhancements || []) {
+          if (e.mandatory) continue
+          const entry = (u) => ({ uid: 'x', id: u.id, ...(u.alleg?.o?.some((o) => o.n === 'Character') ? { alleg: 'Character' } : {}) })
+          if (!pool.some((u) => enhOptionsFor(u, [det], [entry(u)], 'x', slug).find((o) => o.name === e.name)?.eligible)) nobody.push(`${slug} / ${e.name}`)
+        }
+      }
+    }
+    expect(nobody.filter((k) => !NOBODY_BY_RULE.has(k))).toEqual([])
+    expect([...NOBODY_BY_RULE.keys()].filter((k) => !nobody.includes(k))).toEqual([])
+  }, 60000)
+
+  it('lets a Legends TITANIC tank become a Character in Steel Hammer and carry its enhancement', async () => {
+    const am = await loadRosterFaction('astra-militarum')
+    const det = am.detachments.find((d) => d.name === 'Steel Hammer')
+    const mach = am.units.find((u) => u.name === 'Macharius')
+    expect(mach.alleg).toMatchObject({ det: 'Steel Hammer', o: [{ n: 'Character' }] })
+    const opt = (entry) => enhOptionsFor(mach, [det], [entry], 'x', 'astra-militarum').find((o) => o.name === 'Battalion Commander')
+    expect(opt({ uid: 'x', id: mach.id }).eligible).toBe(false)
+    expect(opt({ uid: 'x', id: mach.id, alleg: 'Character' }).eligible).toBe(true)
+  })
+})
+
+// …and every unit a rule of that kind names has the choice — the Legends included, which appdata's
+// own list of carriers never holds. Keywords as CHARACTER_GRANTS spells them; the faction keyword is
+// the army's own name.
+describe('a Detachment that grants CHARACTER by keyword', () => {
+  it('offers the choice to every unit that fits its rule', () => {
+    const missing = []
+    for (const { slug, data } of factions) {
+      if (!data?.units) continue
+      const groups = [...new Set(data.units.map((u) => u.alleg?.g).filter((g) => CHARACTER_GRANTS[g]))]
+      for (const g of groups) for (const u of data.units) {
+        const have = new Set([...(u.kws || []).map((k) => k.toLowerCase()), String(data.name).toLowerCase()])
+        if (CHARACTER_GRANTS[g].every((k) => have.has(k)) && u.alleg?.g !== g) missing.push(`${slug} / ${g}: ${u.name}`)
+      }
+    }
+    expect(missing).toEqual([])
   })
 })

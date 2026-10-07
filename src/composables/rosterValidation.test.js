@@ -746,6 +746,36 @@ describe('validateRoster — a leader that does not take the slot', () => {
   })
 })
 
+// The Faction Pack Legends with the same kind of footer, read narrower (2026-10-08): until then each
+// joined beside ANYONE. A Vargard Obyron joins beside Nemesor Zahndrekh only, and an Exalted
+// Champion — a Support in 11th edition — is a plain Support (a player found it sitting beside a
+// Master of Executions).
+describe('validateRoster — Legends that join beside a named character only', () => {
+  let nec, csm
+  beforeAll(async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    ;[nec, csm] = await Promise.all([loadRosterFaction('necrons'), loadRosterFaction('chaos-space-marines')])
+  })
+  const at = (id, uid, leaderOf, extra = {}) => ({ uid, id, size: 0, ...(leaderOf ? { leaderOf } : {}), ...extra })
+  const many = (faction, units) => validateRoster({
+    name: 'X', faction: faction.slug, battleSize: 'strike-force', detachments: [faction.detachments[0].name], units,
+  }, { faction, core }).issues.filter((i) => i.code === 'manyLeaders').map((i) => i.uid)
+
+  it('seats Obyron beside Zahndrekh and nobody else', () => {
+    expect(many(nec, [at('lychguard', 'i1'), at('nemesor-zahndrekh', 'i2', 'i1', { warlord: true }), at('vargard-obyron', 'i3', 'i1')])).toEqual([])
+    expect(many(nec, [at('lychguard', 'i1'), at('overlord', 'i2', 'i1', { warlord: true }), at('vargard-obyron', 'i3', 'i1')])).toEqual(['i3'])
+  })
+
+  it('refuses an Exalted Champion as a second Support, and the picker agrees', async () => {
+    const list = [at('legionaries', 'i1'), at('master-of-executions', 'i2', 'i1', { warlord: true }), at('exalted-champion', 'i3', 'i1')]
+    expect(many(csm, list)).toEqual(['i3'])
+    const { leaderTargetsFor } = await import('./rosterEngine.js')
+    const defOf = (id) => csm.units.find((u) => u.id === id)
+    const legionaries = leaderTargetsFor(defOf('exalted-champion'), list.slice(0, 2), 'i3', defOf, csm.detachments.slice(0, 1)).find((t) => t.uid === 'i1')
+    expect(legionaries.used).toBe(true)
+  })
+})
+
 // The other side of the same question: the datasheet of the BODYGUARD unit says how many leaders it
 // may hold. Four Astra Militarum squads take two "provided no more than one of those units is a
 // COMMAND SQUAD unit" — a Castellan and a Command Squad on one squad is how that army is ordinarily

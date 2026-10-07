@@ -30,6 +30,8 @@ import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
 import { APPDATA_EXCEPTIONS } from './lib/appdata-exceptions.mjs'
+import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
+import { enhEligible } from '../src/composables/rosterEnhEligible.js'
 
 const T = path.join(APPDATA, 'tables')
 const OUT = path.join(ROOT, 'src/data/roster')
@@ -212,9 +214,18 @@ for (const r of table('enhancement_required_keyword_group_keyword')) {
   reqGroupKw.get(k).push(kwName.get(r.keywordId))
 }
 const reqGroupsByEnh = new Map() // enhancementId -> [groupId]
+// A group can also name ONE datasheet (`datasheetId`, 136 of 977): "ARCHON model only" is a group
+// of the faction keyword plus the Archon sheet, with no keyword row at all. Unread until
+// 2026-10-07, so all of them came out as "any Character of the faction" — Pact of Cursed Pinions
+// was offered to 28 Chaos characters instead of the Chaos Lord with Jump Pack. Kept as the sheet's
+// NAME, not its id: a Chapter fields the Space Marines copy of a sheet the group may name by
+// another faction's id.
+const reqGroupDs = new Map() // groupId -> datasheet name
+const dsNameById = new Map(table('datasheet').map((d) => [d.id, enOf(d).name]))
 for (const g of table('enhancement_required_keyword_group')) {
   if (!reqGroupsByEnh.has(g.enhancementId)) reqGroupsByEnh.set(g.enhancementId, [])
   reqGroupsByEnh.get(g.enhancementId).push(g.id)
+  if (g.datasheetId && dsNameById.get(g.datasheetId)) reqGroupDs.set(g.id, dsNameById.get(g.datasheetId))
 }
 const exclKwByEnh = new Map() // enhancementId -> [keyword name]
 for (const r of table('enhancement_excluded_keyword')) {
@@ -239,8 +250,8 @@ for (const r of table('enhancement_excluded_keyword')) {
 // was offered on Skorpekh Destroyers and refused to every Cryptek.
 //
 // `lockDs` itself still exists and is still correct: its only source is now the hand-curated
-// ENH_LOCK_FIXES below, which is a different problem (prose says "<unit> only" but appdata records
-// no unit-specific keyword at all).
+// ENH_LOCK_FIXES below (empty today), which is a different problem (prose says "<unit> only" but
+// appdata records neither a keyword nor a datasheet for it).
 const enhBgDsByGroup = new Map() // groupId -> [datasheetId]
 for (const r of table('enhancement_bodyguard_group_datasheet')) {
   if (!enhBgDsByGroup.has(r.enhancementBodyguardGroupId)) enhBgDsByGroup.set(r.enhancementBodyguardGroupId, [])
@@ -2491,59 +2502,17 @@ const ENH_REQ_FIXES = {
   'Micromelta Rounds': ['Vindicare Assassin'],
 }
 
-// Distinct from both of the above: a chunk of "(Upgrade)"-type enhancements (an optional pick,
-// unlike the automatic ENH_REQ_FIXES ones — and NOT the same 10 covered by the
-// enhancement_bodyguard_group link, which is not read at all — see above) read
-// "<unit> unit/model only" in their own rules text, but their ONLY structured requirement in
-// wh40k-appdata is the faction keyword — audited: 36 of 71 non-Combat-Patrol upgrade-type
-// enhancements have no unit-specific keyword AND no bodyguard link, so as generated they look
-// eligible on any Character of the right faction instead of the one unit actually named (e.g.
-// Necrons' "Enlivened Sentinels" — Necron Warriors only — showed up selectable on Immortals too).
-// Resolved to the CURRENT faction's own datasheet id (see nameToDsId in genFaction) rather than a
-// hardcoded UUID, so a codex sharing a unit name across sub-factions (Helbrute, Maulerfiend — one
-// datasheet per Chaos Legion book) still resolves to the right copy. Keyed by the enhancement's
-// own `name` (post-suffix, matching ENH_REQ_FIXES's convention); values are the exact appdata
-// datasheet name(s) from its own rules text (curly apostrophes/hyphens where the datasheet uses
-// them — see genFaction's apostrophe-normalized lookup).
-const ENH_LOCK_FIXES = {
-  'Mark of the Star Children (Upgrade)': ['Purestrain Genestealers'],
-  'Insectile Murmuration (Upgrade)': ['Plague Marines'],
-  'Enlivened Sentinels (Upgrade)': ['Necron Warriors'],
-  'Recursive Reanimation (Upgrade)': ['Tomb Blades'],
-  'Devious Disguises (Upgrade)': ['Neophyte Hybrids'],
-  'Cryptophotaic Camouflage (Upgrade)': ['Von Ryan’s Leapers'],
-  'Encircling Horrors (Upgrade)': ['Neurolictor', 'Lictor', 'Von Ryan’s Leapers'],
-  'Plagueveil (Upgrade)': ['Plague Marines'],
-  'Fierce Example (Upgrade)': ['Wolf Guard Terminators'],
-  'Precognicient Volleys (Upgrade)': ['Purgation Squad'],
-  'Predestined Coordinates (Upgrade)': ['Interceptor Squad'],
-  'Boons of Deimos (Upgrade)': ['Purgation Squad'],
-  'Symphonic Payload (Upgrade)': ['Exorcist'],
-  "Assassins' Eye (Upgrade)": ['Rangers', 'Shroud Runners'],
-  'Sharp Eyes (Upgrade)': ['Ratlings'],
-  'Shadowfall Masks (Upgrade)': ['Troupe'],
-  'Camouflaged Snipers (Upgrade)': ['Rangers'],
-  'Destabilising Predation (Upgrade)': ['Norn Emissary'],
-  'Astral Overlap (Upgrade)': ['Interceptor Squad'],
-  'Fervent Exemplars (Upgrade)': ['Sword Brethren Squad'],
-  'Long-range Scout (Upgrade)': ['Scout Sentinels'],
-  'Optimised Attack Lines (Upgrade)': ['Sagitaur'],
-  'Inheritors of Sigismund (Upgrade)': ['Sword Brethren Squad'],
-  'Lancet of the Worldsore (Upgrade)': ['Helbrute', 'Myphitic Blight-haulers'],
-  'Nightforged Battery (Upgrade)': ['Land Speeder Vengeance'],
-  'Tools of Dominion (Upgrade)': ['Immortals'],
-  'Beguiling Grotesquerie (Upgrade)': ['Flawless Blades'],
-  'Talons of Butchery (Upgrade)': ['Maulerfiend'],
-  'Eager Patrons (Upgrade)': ['Flawless Blades'],
-  'Entreaty of Perpetual Ardour (Upgrade)': ['Hellblaster Squad'],
-  'Mortality Shroud (Aura) (Upgrade)': ['Obelisk'],
-  'Writ of Compunction (Upgrade)': ['Celestian Sacresants'],
-  'Negation Emitters (Upgrade)': ['Stealth Battlesuits'],
-  'Elixir of the Corpse Courts (Upgrade)': ['Cronos', 'Talos'],
-  'Saturation Rounds (Upgrade)': ['Sagitaur'],
-  'Stealth-screened Cybercanids (Upgrade)': ['Serberys Raiders'],
-  'Synaptoprescience (Upgrade)': ['Norn Assimilator'],
-}
+// Distinct from both of the above: an enhancement whose rules text reads "<unit> unit/model only"
+// while appdata records neither a keyword nor a datasheet for it, so as generated it looks eligible
+// on any unit of the faction. Pinned to the named sheet(s) of the CURRENT faction as `lockDs`
+// (resolved through nameToDsId in genFaction), keyed by the enhancement's own `name`.
+// Empty since 2026-10-07: 33 of the 36 entries here were said by appdata all along, in the
+// `datasheetId` of the requirement group (see reqGroupDs), and the other three were dead — two
+// enhancements GW retired and one GW spells "Nightforged Battery (Upgarde)", which this key never
+// matched. A key that matches no enhancement now fails the run (unusedLockFixes below), so a
+// misspelt one cannot sit here doing nothing again.
+const ENH_LOCK_FIXES = {}
+const usedLockFixes = new Set()
 const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'")
 
 // An Upgrade appdata caps below the muster rules' "up to three of the same Upgrade in your army".
@@ -2573,7 +2542,7 @@ function buildEnhancement(e, nameToDsId, idMap) {
     } else if (limit !== UPGRADE_LIMIT) report.upgradeLimit.unexplained.add(`${name} (limit ${limit}, id ${e.id})`)
   }
   if (limit && limit !== 1) enh.limit = limit
-  // eligibility: OR of groups, each an AND of faction-keywords + keywords.
+  // eligibility: OR of groups, each an AND of faction-keywords + keywords (+ the one datasheet).
   const req = []
   for (const gid of reqGroupsByEnh.get(e.id) || []) {
     const g = {}
@@ -2581,12 +2550,14 @@ function buildEnhancement(e, nameToDsId, idMap) {
     const kw = (reqGroupKw.get(gid) || []).filter(Boolean)
     if (fac.length) g.fac = fac
     if (kw.length) g.kw = kw
-    if (fac.length || kw.length) req.push(g)
+    if (reqGroupDs.has(gid)) g.ds = reqGroupDs.get(gid)
+    if (fac.length || kw.length || g.ds) req.push(g)
   }
   if (req.length) enh.req = req
   const excl = (exclKwByEnh.get(e.id) || []).filter(Boolean)
   if (excl.length) enh.exclKw = excl
   if (ENH_LOCK_FIXES[name]) {
+    usedLockFixes.add(name)
     const ids = ENH_LOCK_FIXES[name].map((n) => nameToDsId.get(normApost(n))).filter(Boolean)
     // Conservative: only apply if EVERY named target resolved — a partial/failed resolution
     // (e.g. a future appdata rename) falls back to the existing (too-broad) faction-keyword
@@ -2892,11 +2863,14 @@ async function packUnitsFor(slug, units) {
   // list, so a pack Legends Chaos Lord on Bike gets the same choice appdata's 43 units carry.
   const mark = units.find((u) => u.alleg?.g === 'mark-of-chaos')?.alleg
   const MARKS = ['khorne', 'tzeentch', 'nurgle', 'slaanesh', 'chaos undivided']
+  // The same for a Detachment that hands CHARACTER to units it names by keyword (CHARACTER_GRANTS):
+  // Steel Hammer's "one or more ASTRA MILITARUM TITANIC units" takes a Legends Macharius too.
+  const grants = units.map((u) => u.alleg).filter((a) => a && CHARACTER_GRANTS[a.g])
   const allegFor = (d) => {
-    if (!mark) return null
     const kws = [...(d.keywords || []), ...(d.factionKeywords || [])].map(norm)
-    if (!kws.includes('heretic astartes') || kws.includes('epic hero') || kws.some((k) => MARKS.includes(k))) return null
-    return JSON.parse(JSON.stringify(mark))
+    if (mark && kws.includes('heretic astartes') && !kws.includes('epic hero') && !kws.some((k) => MARKS.includes(k))) return JSON.parse(JSON.stringify(mark))
+    const grant = grants.find((a) => CHARACTER_GRANTS[a.g].every((k) => kws.includes(k)))
+    return grant ? JSON.parse(JSON.stringify(grant)) : null
   }
   // Keyword-named Leader targets ("Imperium Battleline Infantry"), against every unit this file
   // will hold — appdata's and the pack's; a keyword that names nothing here resolves to nothing.
@@ -3240,9 +3214,14 @@ function genLedBy() {
         add(to, note ? [u.name, type, note] : [u.name, type])
       }
     }
-    // A Detachment's enhancement that lets its bearer join a unit (Abhuman Detail → Ogryns).
-    for (const d of data.detachments || []) for (const e of d.enhancements || []) for (const a of e.attach || []) {
-      if (ids.has(a.to)) add(a.to, [e.name.replace(/\s*\((?:Upgrade|Ulgrade)\)$/i, ''), a.type, { enh: 1, det: d.name }])
+    // A Detachment's enhancement that lets its bearer join a unit (Abhuman Detail → Ogryns), with
+    // the characters that may take it (`by`) — asked of the roster's own rule, so the page and the
+    // builder cannot disagree on who that is.
+    for (const d of data.detachments || []) for (const e of d.enhancements || []) {
+      const to = (e.attach || []).filter((a) => ids.has(a.to))
+      if (!to.length) continue
+      const by = [...new Set(pool.filter((u) => enhEligible(e, u)).map((u) => u.name))].sort()
+      for (const a of to) add(a.to, [e.name.replace(/\s*\((?:Upgrade|Ulgrade)\)$/i, ''), a.type, { enh: 1, det: d.name, by }])
     }
     const keys = Object.keys(out).sort()
     if (!keys.length) continue
@@ -3431,6 +3410,23 @@ if (report.unlinked.length) {
 
 // An enhancement nobody can take fails BOTH runs, ahead of everything else: a stale-file verdict
 // would otherwise name the wrong cause, and a plain run would write the broken data.
+const characterGrantUnread = [...report.alleg.kinds].map((k) => k.replace(/ \(.*\)$/, ''))
+  .filter((g) => /-keywords?$/.test(g) && !CHARACTER_GRANTS[g])
+if (characterGrantUnread.length) {
+  console.log(`\n  ✗ a Detachment grants CHARACTER by choice and its rule is not in CHARACTER_GRANTS — read it, name its keywords: ${characterGrantUnread.join(', ')}`)
+  return 1
+}
+// A Legends Leader whose "even if … already been attached" footer no template reads would join
+// either nobody or everybody — the second is how an Exalted Champion became a second Support.
+if (pk.alongside.length) {
+  console.log(`\n  ✗ a Faction Pack Leader's "even if … already been attached" footer is unread — add its wording to pack-roster.mjs alongsideOf:\n${pk.alongside.map((l) => `      - ${l}`).join('\n')}`)
+  return 1
+}
+const unusedLockFixes = Object.keys(ENH_LOCK_FIXES).filter((k) => !usedLockFixes.has(k))
+if (unusedLockFixes.length) {
+  console.log(`\n  ✗ ENH_LOCK_FIXES names ${unusedLockFixes.length} enhancement(s) no detachment has — misspelt, or retired by GW: ${unusedLockFixes.join(', ')}`)
+  return 1
+}
 if (report.dnu.length) {
   console.log(`\n  ✗ ${report.dnu.length} enhancement(s) nobody can take — appdata requires its "DNU" placeholder keyword; name the unit in ENH_REQ_FIXES: ${[...new Set(report.dnu)].join(', ')}`)
   return 1

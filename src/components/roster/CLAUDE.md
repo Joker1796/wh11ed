@@ -74,6 +74,16 @@ class of derived data as the datasheet/mfm pipelines (structural facts only, no 
   SAME leader on one unit. Checked against the whole game: `bodyguardType` agrees with the rule's
   own name ("Leader"/"Support") on all 304 datasheets that have a group, so this is the one
   exception class, not a symptom of a wider typing problem.
+  **The Faction Pack Legends print the same kind of footer in other words** (`alongsideOf` in
+  `pack-roster.mjs`, 2026-10-08). Until then any "even if … already been attached" became
+  `flags.alongside`, so four Legends took no slot at all: an Exalted Champion sat beside a second
+  Support (a player's report) and a Jokaero beside any Leader. Now "one other Leader unit" is the
+  flag; "even if X, Y or Z model has already been attached" is **`along`** — keywords, read by
+  `joinsAlongside` (rosterEngine), free only beside those (Death Rider Commissar, Jokaero
+  Weaponsmith, Vargard Obyron); "one other CHARACTER model" (the Exalted Champion, a Support in
+  11th edition) is read as nothing — core rules already seat a Leader and a Support together
+  (owner's ruling). Any other wording fails the generator. Gates: `index.test.js` → "attachment
+  slots" (no Bodyguard takes two Supports, every pair asked as the picker asks it).
 - **`MIRROR_ATTACH`** — an attachment one datasheet borrows from another: "If a **CHARACTER** unit
   from your army with the Leader ability can be attached to an **INTERCESSOR SQUAD**, it can be
   attached to this unit instead." 33 datasheets carry a rule of that shape (Deathwing Terminator
@@ -403,7 +413,10 @@ gen-roster-data.mjs reverses every unit's `leads` per faction (a Chapter's pool 
 Faction Pack Legends and the enhancement grants are in — and the page and the builder cannot
 disagree. A Detachment-gated lead carries `{ in: [...] }` or `{ out: [...] }`; the CSM pairs that
 state one attachment twice (inside D, outside D) cancel out. An enhancement's grant is a row of its
-own ("A Character with the Abhuman Detail enhancement (Grizzled Company)"). A keyword attachment —
+own ("A Character with the Abhuman Detail enhancement (Grizzled Company)"), carrying `by` — the
+characters that may take it, asked of `enhEligible` itself (`src/composables/rosterEnhEligible.js`,
+a module without imports so the Node generator can load it) — and its "Character" opens them as a
+list, the way a faction keyword in rule prose does (`openUnitList` in useFactionKeywordUnits). A keyword attachment —
 the Inquisitors' "Imperium Battleline Infantry" — is NOT listed: it stays text on the leader's own
 sheet (owner's call). Writing the lists found a reading bug: MIRROR_ATTACH took the bold
 "(excluding **EPIC HEROES**)" for a keyword the candidate NEEDS, which with `noEpic` admitted

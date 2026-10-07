@@ -7,7 +7,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Khorne Daemonkin"
+        "det": "Khorne Daemonkin",
+        "by": [
+          "Lord on Juggernaut"
+        ]
       }
     ]
   ],
@@ -45,7 +48,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Khorne Daemonkin"
+        "det": "Khorne Daemonkin",
+        "by": [
+          "Lord on Juggernaut"
+        ]
       }
     ]
   ],
@@ -55,7 +61,11 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Cult of Blood"
+        "det": "Cult of Blood",
+        "by": [
+          "Master of Executions",
+          "Slaughterbound"
+        ]
       }
     ]
   ],
@@ -65,7 +75,11 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Cult of Blood"
+        "det": "Cult of Blood",
+        "by": [
+          "Master of Executions",
+          "Slaughterbound"
+        ]
       }
     ]
   ],

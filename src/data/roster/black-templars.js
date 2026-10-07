@@ -1403,6 +1403,9 @@ export default {
           "limit": 3,
           "req": [
             {
+              "ds": "Crusader Squad"
+            },
+            {
               "kw": [
                 "Crusader Squad"
               ]
@@ -1445,10 +1448,10 @@ export default {
               "kw": [
                 "Sword Brethren Squad"
               ]
+            },
+            {
+              "ds": "Sword Brethren Squad"
             }
-          ],
-          "lockDs": [
-            "0c901841-b89d-4e0c-be08-ad06860f1e8b"
           ]
         },
         {
@@ -1459,13 +1462,13 @@ export default {
           "limit": 3,
           "req": [
             {
+              "ds": "Sword Brethren Squad"
+            },
+            {
               "kw": [
                 "Sword Brethren Squad"
               ]
             }
-          ],
-          "lockDs": [
-            "0c901841-b89d-4e0c-be08-ad06860f1e8b"
           ]
         }
       ]
@@ -1511,6 +1514,12 @@ export default {
               "kw": [
                 "Chaplain"
               ]
+            },
+            {
+              "ds": "Chaplain"
+            },
+            {
+              "ds": "Judiciar"
             }
           ]
         },

@@ -3906,8 +3906,7 @@ export default {
       ],
       "flags": {
         "legends": 1,
-        "char": 1,
-        "alongside": 1
+        "char": 1
       },
       "sizes": [
         {
@@ -10091,7 +10090,8 @@ export default {
             {
               "fac": [
                 "Heretic Astartes"
-              ]
+              ],
+              "ds": "Chaos Lord with Jump Pack"
             }
           ]
         },
@@ -10103,7 +10103,8 @@ export default {
             {
               "fac": [
                 "Heretic Astartes"
-              ]
+              ],
+              "ds": "Chaos Lord with Jump Pack"
             }
           ],
           "attach": [

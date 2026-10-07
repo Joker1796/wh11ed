@@ -304,7 +304,7 @@ if [ "$BUMP" != "none" ]; then
   git push origin "$BRANCH"
   # The release is live, so it becomes the base for everything after it. Fast-forward only: if
   # main moved on its own, say so instead of inventing a merge here.
-  echo "▶ Fast-forwarding main to $BRANCH…"
+  echo "▶ Fast-forwarding main to ${BRANCH}…"
   if git fetch origin main && git checkout main && git merge --ff-only "$BRANCH" && git push origin main; then
     echo "  main = $BRANCH. Delete the merged release/review branches when convenient."
   else

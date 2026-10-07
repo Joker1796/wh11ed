@@ -13,7 +13,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Court of the Phoenician"
+        "det": "Court of the Phoenician",
+        "by": [
+          "Lord Exultant"
+        ]
       }
     ],
     [

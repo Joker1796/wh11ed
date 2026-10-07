@@ -1870,9 +1870,15 @@ export default {
               ]
             },
             {
+              "ds": "Captain"
+            },
+            {
               "kw": [
                 "Captain"
               ]
+            },
+            {
+              "ds": "Watch Master"
             }
           ]
         },
@@ -1894,9 +1900,15 @@ export default {
           "type": "miniature",
           "req": [
             {
+              "ds": "Captain"
+            },
+            {
               "kw": [
                 "Captain"
               ]
+            },
+            {
+              "ds": "Watch Master"
             },
             {
               "kw": [
@@ -1911,6 +1923,9 @@ export default {
           "type": "miniature",
           "req": [
             {
+              "ds": "Techmarine"
+            },
+            {
               "kw": [
                 "Techmarine"
               ]
@@ -1919,6 +1934,9 @@ export default {
               "kw": [
                 "Watch Master"
               ]
+            },
+            {
+              "ds": "Watch Master"
             }
           ]
         }

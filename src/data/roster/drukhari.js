@@ -2920,7 +2920,8 @@ export default {
             {
               "fac": [
                 "Drukhari"
-              ]
+              ],
+              "ds": "Succubus"
             }
           ]
         },
@@ -2932,7 +2933,8 @@ export default {
             {
               "fac": [
                 "Drukhari"
-              ]
+              ],
+              "ds": "Succubus"
             }
           ]
         }
@@ -2954,7 +2956,8 @@ export default {
             {
               "fac": [
                 "Drukhari"
-              ]
+              ],
+              "ds": "Archon"
             }
           ]
         },
@@ -2966,7 +2969,8 @@ export default {
             {
               "fac": [
                 "Drukhari"
-              ]
+              ],
+              "ds": "Archon"
             }
           ]
         }
@@ -3289,7 +3293,8 @@ export default {
             {
               "fac": [
                 "Drukhari"
-              ]
+              ],
+              "ds": "Haemonculus"
             }
           ]
         },
@@ -3303,17 +3308,15 @@ export default {
             {
               "fac": [
                 "Drukhari"
-              ]
+              ],
+              "ds": "Cronos"
             },
             {
               "fac": [
                 "Drukhari"
-              ]
+              ],
+              "ds": "Talos"
             }
-          ],
-          "lockDs": [
-            "35d5461d-5518-42f1-9e65-c1a6075f8692",
-            "5cec7cfa-bc87-4e5d-a321-dfbc2a3aded9"
           ]
         }
       ]

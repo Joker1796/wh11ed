@@ -52,8 +52,16 @@ export async function openFactionKeyword(keyword, pageFaction = null, { load, an
   shown.value = { keyword, factionSlug: slugs[0], units, anchor }
 }
 
+// The same list for a set of units known up front rather than read off a keyword — a datasheet's
+// "a Character with the Abhuman Detail enhancement" (DatasheetCard): who may take it. `heading`
+// replaces the "Units with «…»" title.
+export function openUnitList({ heading, factionSlug, units, anchor = null }) {
+  ++pending // a keyword list still loading must not replace this one
+  shown.value = { keyword: '', heading, factionSlug, units, anchor }
+}
+
 export function closeFactionKeyword() { shown.value = null }
 
 export function useFactionKeywordUnits() {
-  return { shown, openFactionKeyword, closeFactionKeyword }
+  return { shown, openFactionKeyword, openUnitList, closeFactionKeyword }
 }

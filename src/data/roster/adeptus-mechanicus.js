@@ -3266,7 +3266,8 @@ export default {
             {
               "fac": [
                 "Adeptus Mechanicus"
-              ]
+              ],
+              "ds": "Skitarii Marshal"
             }
           ]
         },
@@ -3280,11 +3281,9 @@ export default {
             {
               "fac": [
                 "Adeptus Mechanicus"
-              ]
+              ],
+              "ds": "Serberys Raiders"
             }
-          ],
-          "lockDs": [
-            "428c2950-a5ef-4c7d-a902-04014972ae54"
           ]
         }
       ]
@@ -3607,7 +3606,8 @@ export default {
             {
               "fac": [
                 "Adeptus Mechanicus"
-              ]
+              ],
+              "ds": "Cybernetica Datasmith"
             }
           ]
         },

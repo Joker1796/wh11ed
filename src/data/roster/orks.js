@@ -5045,7 +5045,12 @@ export default {
           "pts": 15,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Nobz"
+            }
+          ]
         },
         {
           "name": "Tellyporta Boss",
@@ -5084,7 +5089,12 @@ export default {
         {
           "name": "It Came from da Drops",
           "pts": 20,
-          "type": "miniature"
+          "type": "miniature",
+          "req": [
+            {
+              "ds": "Beastboss on Squigosaur"
+            }
+          ]
         }
       ]
     },
@@ -5105,6 +5115,12 @@ export default {
               "kw": [
                 "Big Mek"
               ]
+            },
+            {
+              "ds": "Big Mek"
+            },
+            {
+              "ds": "Mek"
             }
           ]
         },
@@ -5113,6 +5129,9 @@ export default {
           "pts": 30,
           "type": "miniature",
           "req": [
+            {
+              "ds": "Big Mek"
+            },
             {
               "kw": [
                 "Big Mek"
@@ -5194,7 +5213,12 @@ export default {
           "pts": 25,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Boyz"
+            }
+          ]
         }
       ]
     },
@@ -5223,7 +5247,12 @@ export default {
         {
           "name": "Competitive Streak",
           "pts": 15,
-          "type": "miniature"
+          "type": "miniature",
+          "req": [
+            {
+              "ds": "Deffkilla Wartrike"
+            }
+          ]
         }
       ]
     },
@@ -5244,6 +5273,9 @@ export default {
               "kw": [
                 "Big Mek"
               ]
+            },
+            {
+              "ds": "Big Mek"
             }
           ]
         },
@@ -5252,14 +5284,24 @@ export default {
           "pts": 20,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Big Mek with Shokk Attack Gun"
+            }
+          ]
         },
         {
           "name": "Enhanced Runt-maw (Upgrade)",
           "pts": 10,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Big Mek with Shokk Attack Gun"
+            }
+          ]
         }
       ]
     },
@@ -5276,14 +5318,24 @@ export default {
           "pts": 10,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Gretchin"
+            }
+          ]
         },
         {
           "name": "Minefield Detail (Upgrade)",
           "pts": 10,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Gretchin"
+            }
+          ]
         }
       ]
     },
@@ -5327,6 +5379,12 @@ export default {
               "kw": [
                 "Warboss"
               ]
+            },
+            {
+              "ds": "Bigboss"
+            },
+            {
+              "ds": "Big Mek"
             }
           ]
         }
@@ -5345,6 +5403,9 @@ export default {
           "pts": 20,
           "type": "miniature",
           "req": [
+            {
+              "ds": "Big Mek"
+            },
             {
               "kw": [
                 "Big Mek"
@@ -5369,7 +5430,15 @@ export default {
           "pts": 15,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Stormboyz"
+            },
+            {
+              "ds": "Kommandos"
+            }
+          ]
         }
       ]
     },
@@ -5446,6 +5515,9 @@ export default {
           "type": "miniature",
           "req": [
             {
+              "ds": "Big Mek"
+            },
+            {
               "kw": [
                 "Infantry",
                 "Warboss"
@@ -5470,7 +5542,12 @@ export default {
           "pts": 25,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Flash Gitz"
+            }
+          ]
         }
       ]
     },

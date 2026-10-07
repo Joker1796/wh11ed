@@ -3111,7 +3111,8 @@ export default {
             {
               "fac": [
                 "Thousand Sons"
-              ]
+              ],
+              "ds": "Tzaangor Shaman"
             }
           ]
         },

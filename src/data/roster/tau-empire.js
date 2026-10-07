@@ -5726,11 +5726,9 @@ export default {
             {
               "fac": [
                 "T’au Empire"
-              ]
+              ],
+              "ds": "Stealth Battlesuits"
             }
-          ],
-          "lockDs": [
-            "eb4c3561-28e7-4062-b7bb-fd312958d7d5"
           ]
         },
         {
@@ -5740,6 +5738,9 @@ export default {
           "nonCharOk": 1,
           "limit": 3,
           "req": [
+            {
+              "ds": "Stealth Battlesuits"
+            },
             {
               "kw": [
                 "Pathfinder Team"

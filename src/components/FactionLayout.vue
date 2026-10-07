@@ -220,10 +220,30 @@ function backToUnits() {
 .faction-view.themed {
   --accent: var(--fa-light);
   --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-  --accent-ink: color-mix(in srgb, var(--fa-light) 85%, black);
+  --accent-ink: var(--fa-ink-light);
   --accent-ink-hover: color-mix(in srgb, var(--fa-light) 70%, black);
   --link-accent: var(--accent-ink);
   --link-accent-hover: var(--accent-ink-hover);
+}
+
+/* The faction's colour as TEXT on the dark theme — a link, the "Invulnerable Save" band — is the
+   same hue held at an OKLCH lightness of at least 0.76. Twelve dark colours sat under 4.5:1 on
+   their own tinted card (Chaos Space Marines 3.2:1, Adepta Sororitas 3.4:1; `npm run a11y` over
+   one datasheet per faction, 2026-10-07); 0.76 is the floor at which the worst of all thirty reads
+   4.8:1, and the colours already above it are left exactly as they are. Fills keep --fa-dark:
+   white text sits on those, and a lighter fill would only lower that. */
+/* The light theme's ink, the mirror case: held at a lightness of at most 0.45, which darkens only
+   the lightest — Aeldari's and the Votann's weapon tags were 4.4:1 on their own tinted pill. */
+.faction-view.themed {
+  --fa-ink-dark: var(--fa-dark);
+  --fa-ink-light: color-mix(in srgb, var(--fa-light) 85%, black);
+}
+
+@supports (color: oklch(from red l c h)) {
+  .faction-view.themed {
+    --fa-ink-dark: oklch(from var(--fa-dark) max(l, 0.76) c h);
+    --fa-ink-light: oklch(from color-mix(in srgb, var(--fa-light) 85%, black) min(l, 0.45) c h);
+  }
 }
 
 /* Dark theme: links stay the app's gold (--link-accent in style.css is a readability
@@ -235,8 +255,8 @@ function backToUnits() {
   .faction-view.themed {
     --accent: var(--fa-dark);
     --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
-    --accent-ink: var(--fa-dark);
-    --accent-ink-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+    --accent-ink: var(--fa-ink-dark);
+    --accent-ink-hover: color-mix(in srgb, var(--fa-ink-dark) 80%, white);
     --link-accent: #e8c96a;
     --link-accent-hover: #f0d98a;
   }
@@ -307,7 +327,7 @@ function backToUnits() {
 :root[data-theme='light'] .faction-view.themed {
   --accent: var(--fa-light);
   --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-  --accent-ink: color-mix(in srgb, var(--fa-light) 85%, black);
+  --accent-ink: var(--fa-ink-light);
   --accent-ink-hover: color-mix(in srgb, var(--fa-light) 70%, black);
   --link-accent: var(--accent-ink);
   --link-accent-hover: var(--accent-ink-hover);
@@ -316,8 +336,8 @@ function backToUnits() {
 :root[data-theme='dark'] .faction-view.themed {
   --accent: var(--fa-dark);
   --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
-  --accent-ink: var(--fa-dark);
-  --accent-ink-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+  --accent-ink: var(--fa-ink-dark);
+  --accent-ink-hover: color-mix(in srgb, var(--fa-ink-dark) 80%, white);
   --link-accent: #e8c96a;
   --link-accent-hover: #f0d98a;
 }

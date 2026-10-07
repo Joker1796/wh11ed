@@ -631,9 +631,11 @@ export function packRosterUnit(printedSheet, ctx) {
   const has = (k) => kws.some((x) => norm(x) === norm(k))
   if (has('Character')) flags.char = 1
   if (has('Epic Hero')) flags.epic = 1
-  if (/even if .* already been attached/i.test(sheet.leader?.footer || '')) flags.alongside = 1
+  const along = alongsideOf(sheet.leader?.footer, report, who)
+  if (along === 1) flags.alongside = 1
 
   const unit = { id: sheet.id, name: sheet.name, kws, flags, sizes: sz, linked: 1 }
+  if (Array.isArray(along)) unit.along = along
   if (!single) unit.minis = minis.map((m) => ({ n: m.n }))
   if (defaults.length) unit.defaults = defaults
   if (gear.length) unit.gear = gear
@@ -664,6 +666,25 @@ export function packRosterUnit(printedSheet, ctx) {
   return unit
 }
 
+// A Leader's footer that lets it join a unit that is already led — 10th-edition carve-outs the
+// Faction Packs still print. Until 2026-10-08 any "even if … already been attached" became
+// `flags.alongside`, which takes no slot at all, so four Legends joined anyone: a Jokaero beside
+// any Leader rather than an INQUISITOR, an Exalted Champion as a second Support (a player's
+// report). Three wordings now, and any other one stops the generator:
+//   "even if one other Leader unit" — the Death Guard form: no slot (1);
+//   "even if X[, Y or Z] model/unit" — beside those keywords only (the list);
+//   "even if one other CHARACTER model" — the Exalted Champion, a Support in 11th edition: core
+//     rules already seat one Leader and one Support together, so it is read as a plain Support
+//     (owner's ruling, 2026-10-08).
+function alongsideOf(footer, report, who) {
+  if (!/already been attached/i.test(footer || '')) return null
+  if (/even if one other Leader unit has already been attached/i.test(footer)) return 1
+  if (/even if one other CHARACTER model has already been attached/i.test(footer)) return null
+  const m = footer.match(/even if (?:one )?([A-Z][A-Z’' ]+(?:, [A-Z][A-Z’' ]+)*(?: or [A-Z][A-Z’' ]+)?) (?:(?:model|unit) )?has already been attached/)
+  if (!m) { report.alongside.push(`${who}: ${footer.slice(0, 120)}`); return null }
+  return m[1].split(/, | or /).map((k) => k.trim().toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()))
+}
+
 export function emptyPackReport() {
-  return { units: 0, composition: [], bracket: [], noPoints: [], loadout: [], option: [], rep: [], unknownItem: [], note: [], lead: [] }
+  return { units: 0, composition: [], bracket: [], noPoints: [], loadout: [], option: [], rep: [], unknownItem: [], note: [], lead: [], alongside: [] }
 }

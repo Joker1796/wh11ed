@@ -3193,23 +3193,21 @@ export default {
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Lictor"
             },
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Neurolictor"
             },
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Von Ryan’s Leapers"
             }
-          ],
-          "lockDs": [
-            "1886e094-c06e-42db-a52e-6296007a34c8",
-            "4cafed2f-39f8-419a-a937-ed52ff20c275",
-            "21a90836-b9b0-4ac4-9fb4-c6baf998352f"
           ]
         },
         {
@@ -3222,11 +3220,9 @@ export default {
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Von Ryan’s Leapers"
             }
-          ],
-          "lockDs": [
-            "21a90836-b9b0-4ac4-9fb4-c6baf998352f"
           ]
         }
       ]
@@ -3568,11 +3564,9 @@ export default {
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Norn Emissary"
             }
-          ],
-          "lockDs": [
-            "3516ca8e-d0bb-436e-a5c8-01b856025373"
           ]
         },
         {
@@ -3585,11 +3579,9 @@ export default {
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Norn Assimilator"
             }
-          ],
-          "lockDs": [
-            "bf89ff1e-6604-4b08-b22c-efeda49428fe"
           ]
         }
       ]
@@ -3729,12 +3721,14 @@ export default {
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Winged Tyranid Prime"
             },
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Tyranid Prime with Lash Whip"
             }
           ]
         },
@@ -3746,12 +3740,14 @@ export default {
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Tyranid Prime with Lash Whip"
             },
             {
               "fac": [
                 "Tyranids"
-              ]
+              ],
+              "ds": "Winged Tyranid Prime"
             }
           ]
         }

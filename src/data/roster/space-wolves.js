@@ -3799,6 +3799,9 @@ export default {
               "kw": [
                 "Wolf Priest"
               ]
+            },
+            {
+              "ds": "Wolf Priest"
             }
           ]
         },
@@ -3807,6 +3810,9 @@ export default {
           "pts": 15,
           "type": "miniature",
           "req": [
+            {
+              "ds": "Captain in Terminator Armour"
+            },
             {
               "fac": [
                 "Adeptus Astartes"
@@ -3835,6 +3841,9 @@ export default {
           "pts": 20,
           "type": "miniature",
           "req": [
+            {
+              "ds": "Wolf Guard Battle Leader"
+            },
             {
               "kw": [
                 "Battle Leader",

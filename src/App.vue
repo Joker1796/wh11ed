@@ -88,6 +88,7 @@
     <KeywordUnitsModal
       v-if="fkwShown"
       :keyword="fkwShown.keyword"
+      :heading="fkwShown.heading"
       :units="fkwShown.units"
       :faction-slug="fkwShown.factionSlug"
       :anchor="fkwShown.anchor"

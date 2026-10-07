@@ -141,6 +141,29 @@ describe('UnitEditorFields — unit composition', () => {
     expect(sevens.join(' ')).toContain('Shade Runner')
   })
 
+  // Accursed Cultists: two 9–16 builds at 185 with BOTH profiles in each — the names tied too, and
+  // a player read the pair as one pill printed twice (2026-10-08). Every tied pill in the corpus
+  // must read differently, not merely carry a suffix.
+  it('tells tied pills apart by counts where the names are the same', () => {
+    const accursed = chaosSpaceMarines.units.find((u) => u.id === 'accursed-cultists')
+    const pills = mountFor(accursed).findAll('.pill').map((p) => p.text())
+    expect(pills.filter((t) => t.startsWith('9–16'))).toEqual([
+      '9–16 · 185pts · 6–10 Mutant + 3–6 Torment',
+      '9–16 · 185pts · 5–10 Mutant + 4–6 Torment',
+    ])
+    const files = import.meta.glob(['../../data/roster/*.js', '!../../data/roster/*.test.js'], { eager: true, import: 'default' })
+    const same = []
+    for (const [f, data] of Object.entries(files)) {
+      for (const def of data?.units || []) {
+        const keys = def.sizes.map((s) => `${s.per.join('-')}:${s.pts}`)
+        if (new Set(keys).size === keys.length) continue
+        const texts = mountFor(def).findAll('.pill').map((p) => p.text())
+        if (new Set(texts).size < texts.length) same.push(`${f}/${def.id}`)
+      }
+    }
+    expect(same).toEqual([])
+  })
+
   it('caps an uncapped stepper by its own profile, not the whole squad', () => {
     // "Any number of Sicarian Ruststalkers can each have their transonic razor…" — the Princeps is
     // not one of them, so a 10-model unit allows 9 swaps, where the squad count would allow 10.

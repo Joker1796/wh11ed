@@ -3484,11 +3484,9 @@ export default {
             {
               "fac": [
                 "Grey Knights"
-              ]
+              ],
+              "ds": "Purgation Squad"
             }
-          ],
-          "lockDs": [
-            "51b9bdea-4d59-45a9-816a-9254137033f8"
           ]
         },
         {
@@ -3501,11 +3499,9 @@ export default {
             {
               "fac": [
                 "Grey Knights"
-              ]
+              ],
+              "ds": "Purgation Squad"
             }
-          ],
-          "lockDs": [
-            "51b9bdea-4d59-45a9-816a-9254137033f8"
           ]
         }
       ]
@@ -3592,11 +3588,9 @@ export default {
             {
               "fac": [
                 "Grey Knights"
-              ]
+              ],
+              "ds": "Interceptor Squad"
             }
-          ],
-          "lockDs": [
-            "ee4cd7a4-ed21-4919-8a3a-a79c53c7b837"
           ]
         },
         {
@@ -3609,11 +3603,9 @@ export default {
             {
               "fac": [
                 "Grey Knights"
-              ]
+              ],
+              "ds": "Interceptor Squad"
             }
-          ],
-          "lockDs": [
-            "ee4cd7a4-ed21-4919-8a3a-a79c53c7b837"
           ]
         }
       ]

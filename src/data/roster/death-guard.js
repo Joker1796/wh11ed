@@ -3428,17 +3428,15 @@ export default {
             {
               "fac": [
                 "Death Guard"
-              ]
+              ],
+              "ds": "Helbrute"
             },
             {
               "fac": [
                 "Death Guard"
-              ]
+              ],
+              "ds": "Myphitic Blight-haulers"
             }
-          ],
-          "lockDs": [
-            "2a02787d-3f2f-4733-a1a9-f2e12455fcd7",
-            "659ccf4f-90e3-4807-a3d8-eefcf1178845"
           ]
         }
       ]
@@ -3519,11 +3517,9 @@ export default {
             {
               "fac": [
                 "Death Guard"
-              ]
+              ],
+              "ds": "Plague Marines"
             }
-          ],
-          "lockDs": [
-            "7deaf954-52cc-4aa0-ac42-a0ef8e80caba"
           ]
         },
         {
@@ -3536,11 +3532,9 @@ export default {
             {
               "fac": [
                 "Death Guard"
-              ]
+              ],
+              "ds": "Plague Marines"
             }
-          ],
-          "lockDs": [
-            "7deaf954-52cc-4aa0-ac42-a0ef8e80caba"
           ]
         }
       ]

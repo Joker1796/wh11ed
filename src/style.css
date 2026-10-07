@@ -496,16 +496,28 @@ a {
 
 /* A faction's unit keyword named in rule prose ("one Endless Multitude unit") — a tap lists the
    units that carry it (useFactionKeywordUnits.js). The gloss's dotted line, since it too is a word
-   that explains itself on a tap, in the link colour, since what it opens is a list of links. */
-.fkw {
+   that explains itself on a tap, in the link colour, since what it opens is a list of links.
+   `.fkw-btn` is the same word as a real button, for a list a component opens itself (a datasheet's
+   "a Character with the … enhancement" — who may take it). */
+.fkw,
+.fkw-btn {
   text-decoration: underline dotted;
   text-decoration-color: var(--link-accent);
   text-underline-offset: 2px;
   cursor: pointer;
 }
 
+.fkw-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+
 @media (hover: hover) {
-  .fkw:hover { color: var(--link-accent-hover); }
+  .fkw:hover,
+  .fkw-btn:hover { color: var(--link-accent-hover); }
 }
 
 .cross-ref {

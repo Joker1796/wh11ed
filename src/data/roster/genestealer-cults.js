@@ -2203,12 +2203,14 @@ export default {
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Sanctus"
             },
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Locus"
             }
           ]
         },
@@ -2220,12 +2222,14 @@ export default {
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Reductus Saboteur"
             },
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Kelermorph"
             }
           ]
         }
@@ -2373,11 +2377,9 @@ export default {
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Purestrain Genestealers"
             }
-          ],
-          "lockDs": [
-            "b99d0732-524e-43a9-bd3f-b50942e23521"
           ]
         },
         {
@@ -2388,7 +2390,8 @@ export default {
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Patriarch"
             }
           ]
         }
@@ -2509,12 +2512,14 @@ export default {
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Magus"
             },
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Primus"
             }
           ]
         },
@@ -2528,11 +2533,9 @@ export default {
             {
               "fac": [
                 "Genestealer Cults"
-              ]
+              ],
+              "ds": "Neophyte Hybrids"
             }
-          ],
-          "lockDs": [
-            "2a1941df-b537-49b6-bf69-c4375c29b167"
           ]
         }
       ]

@@ -91,7 +91,15 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Wreckas"
+        "det": "Wreckas",
+        "by": [
+          "Beastboss",
+          "Big Mek",
+          "Big Mek in Mega Armour",
+          "Big Mek with Shokk Attack Gun",
+          "Warboss",
+          "Warboss in Mega Armour"
+        ]
       }
     ],
     [
@@ -123,7 +131,16 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Taktikal Brigade"
+        "det": "Taktikal Brigade",
+        "by": [
+          "Beastboss",
+          "Big Mek",
+          "Big Mek Dakkarig",
+          "Big Mek in Mega Armour",
+          "Big Mek with Shokk Attack Gun",
+          "Warboss",
+          "Warboss in Mega Armour"
+        ]
       }
     ]
   ],

@@ -1733,7 +1733,12 @@ export default {
           "pts": 10,
           "type": "upgrade",
           "nonCharOk": 1,
-          "limit": 3
+          "limit": 3,
+          "req": [
+            {
+              "ds": "Land Speeder Vengeance"
+            }
+          ]
         }
       ]
     },

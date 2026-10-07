@@ -397,7 +397,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Murdertalon Raiders"
+        "det": "Murdertalon Raiders",
+        "by": [
+          "Chaos Lord with Jump Pack"
+        ]
       }
     ],
     [
@@ -405,7 +408,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Nightmare Hunt"
+        "det": "Nightmare Hunt",
+        "by": [
+          "Chaos Lord with Jump Pack"
+        ]
       }
     ]
   ]

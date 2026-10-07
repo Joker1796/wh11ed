@@ -63,7 +63,12 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Warpmeld Pact"
+        "det": "Warpmeld Pact",
+        "by": [
+          "Infernal Master",
+          "Sorcerer",
+          "Sorcerer in Terminator Armour"
+        ]
       }
     ],
     [

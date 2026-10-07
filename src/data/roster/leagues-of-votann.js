@@ -2016,11 +2016,9 @@ export default {
             {
               "fac": [
                 "Leagues of Votann"
-              ]
+              ],
+              "ds": "Sagitaur"
             }
-          ],
-          "lockDs": [
-            "2cd10c6f-04dc-4d4d-8121-26b5e01ec0f6"
           ]
         },
         {
@@ -2033,11 +2031,9 @@ export default {
             {
               "fac": [
                 "Leagues of Votann"
-              ]
+              ],
+              "ds": "Sagitaur"
             }
-          ],
-          "lockDs": [
-            "2cd10c6f-04dc-4d4d-8121-26b5e01ec0f6"
           ]
         }
       ]

@@ -10605,6 +10605,9 @@ export default {
           "type": "miniature",
           "req": [
             {
+              "ds": "Captain"
+            },
+            {
               "kw": [
                 "Captain"
               ]
@@ -10846,6 +10849,9 @@ export default {
               "kw": [
                 "Captain"
               ]
+            },
+            {
+              "ds": "Captain"
             }
           ]
         }
@@ -10869,6 +10875,9 @@ export default {
               "kw": [
                 "Ancient"
               ]
+            },
+            {
+              "ds": "Ancient"
             }
           ]
         },
@@ -10893,6 +10902,9 @@ export default {
               "kw": [
                 "Captain"
               ]
+            },
+            {
+              "ds": "Captain"
             }
           ]
         },
@@ -10971,7 +10983,12 @@ export default {
         {
           "name": "Narthecis Gauntlet",
           "pts": 20,
-          "type": "miniature"
+          "type": "miniature",
+          "req": [
+            {
+              "ds": "Apothecary Biologis"
+            }
+          ]
         }
       ]
     },
@@ -11086,6 +11103,9 @@ export default {
               "kw": [
                 "Techmarine"
               ]
+            },
+            {
+              "ds": "Techmarine"
             }
           ]
         },
@@ -11098,6 +11118,9 @@ export default {
               "kw": [
                 "Techmarine"
               ]
+            },
+            {
+              "ds": "Techmarine"
             }
           ]
         },
@@ -11410,6 +11433,9 @@ export default {
               "kw": [
                 "Captain"
               ]
+            },
+            {
+              "ds": "Captain"
             }
           ]
         }

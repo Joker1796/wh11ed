@@ -13,7 +13,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Grizzled Company"
+        "det": "Grizzled Company",
+        "by": [
+          "Commissar"
+        ]
       }
     ],
     [
@@ -21,7 +24,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Abhuman Auxiliaries"
+        "det": "Abhuman Auxiliaries",
+        "by": [
+          "Commissar"
+        ]
       }
     ]
   ],
@@ -293,7 +299,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Grizzled Company"
+        "det": "Grizzled Company",
+        "by": [
+          "Commissar"
+        ]
       }
     ],
     [
@@ -301,7 +310,10 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Abhuman Auxiliaries"
+        "det": "Abhuman Auxiliaries",
+        "by": [
+          "Commissar"
+        ]
       }
     ]
   ],

@@ -3887,7 +3887,8 @@ export default {
             {
               "fac": [
                 "Adepta Sororitas"
-              ]
+              ],
+              "ds": "Canoness with Jump Pack"
             }
           ]
         },
@@ -3901,11 +3902,9 @@ export default {
             {
               "fac": [
                 "Adepta Sororitas"
-              ]
+              ],
+              "ds": "Exorcist"
             }
-          ],
-          "lockDs": [
-            "6d5e56ad-ef9f-442d-8c55-88d4f2cf878b"
           ]
         }
       ]
@@ -4067,11 +4066,9 @@ export default {
             {
               "fac": [
                 "Adepta Sororitas"
-              ]
+              ],
+              "ds": "Celestian Sacresants"
             }
-          ],
-          "lockDs": [
-            "7f57f601-3fd3-441d-b9f6-dd648cc69bef"
           ]
         },
         {

@@ -61,6 +61,11 @@ const ROUTES = [
   '/factions/orks/datasheets',
   '/factions/orks/datasheets/boyz',
   '/factions/orks/faq',
+  // The darkest faction colour as text (Chaos Space Marines' pink: a leader's links, the
+  // Invulnerable Save band) and an English name on a faction-coloured header (T'au, RU) — both
+  // were under 4.5:1 in the dark theme until 2026-10-07, on pages this list did not open.
+  '/factions/chaos-space-marines/datasheets/chaos-lord',
+  '/factions/tau-empire/datasheets/commander-farsight',
   '/stratagems',
   '/combat-patrol',
   '/tracker',

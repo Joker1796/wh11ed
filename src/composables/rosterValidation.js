@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn } from './rosterEngine.js'
+import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn } from './rosterEngine.js'
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -440,8 +440,10 @@ export function validateRoster(roster, { faction, core, items } = {}) {
         // …and a leader that takes no slot at all (`flags.alongside`, see leaderOccupies): the
         // Death Guard characters join a Plague Marines unit that already has a Leader, and only a
         // second copy of the SAME one is barred — which is what keying them by their own id leaves.
-        const key = own?.flags?.alongside ? `${type}:${u.id}` : type
-        if (!slots.has(key)) slots.set(key, { type, own: !!own?.flags?.alongside, list: [] })
+        // A Legends Leader that names whom it joins beside (`along`) is free only beside them.
+        const free = !!own?.flags?.alongside || list.some((o) => o !== u && joinsAlongside(own, defOf(o.id)))
+        const key = free ? `${type}:${u.id}` : type
+        if (!slots.has(key)) slots.set(key, { type, own: free, list: [] })
         slots.get(key).list.push(u)
       }
       for (const slot of slots.values()) {

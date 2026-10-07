@@ -171,7 +171,13 @@ export default {
       "leader",
       {
         "enh": 1,
-        "det": "Penitent Host"
+        "det": "Penitent Host",
+        "by": [
+          "Canoness",
+          "Canoness with Jump Pack",
+          "Ministorum Priest",
+          "Palatine"
+        ]
       }
     ]
   ],

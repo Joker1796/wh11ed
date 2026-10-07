@@ -1571,7 +1571,8 @@ export default {
             {
               "fac": [
                 "Chaos Knights"
-              ]
+              ],
+              "ds": "Knight Tyrant"
             }
           ]
         },
@@ -1583,7 +1584,8 @@ export default {
             {
               "fac": [
                 "Chaos Knights"
-              ]
+              ],
+              "ds": "Knight Tyrant"
             }
           ]
         }

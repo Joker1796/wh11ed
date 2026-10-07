@@ -394,6 +394,19 @@ describe('DatasheetCard — who may join this unit', () => {
     expect(link.attributes('href')).toBe('/factions/chaos-space-marines/datasheets/chaos-lord')
   })
 
+  it("opens an enhancement row's Character as the units that may take it", async () => {
+    const { vi } = await import('vitest')
+    const { useFactionKeywordUnits } = await import('../composables/useFactionKeywordUnits.js')
+    const { shown, closeFactionKeyword } = useFactionKeywordUnits()
+    const unitIndex = new Map([['Commissar', 'commissar']])
+    const w = mount(DatasheetCard, { props: { sheet: sheet({ id: 'ogryn-squad', name: 'Ogryn Squad' }), factionSlug: 'astra-militarum', unitIndex } })
+    await vi.waitFor(() => expect(w.find('.fkw-btn').exists()).toBe(true))
+    expect(w.text()).toContain('A Character with the Abhuman Detail enhancement (Grizzled Company)')
+    await w.find('.fkw-btn').trigger('click')
+    expect(shown.value).toMatchObject({ heading: 'Can take Abhuman Detail', factionSlug: 'astra-militarum', units: [{ id: 'commissar', name: 'Commissar' }] })
+    closeFactionKeyword()
+  })
+
   it('draws nothing for a unit no one joins', async () => {
     const w = mount(DatasheetCard, { props: { sheet: sheet({ id: 'no-such-unit' }), factionSlug: 'chaos-space-marines' } })
     await new Promise((r) => setTimeout(r, 50))

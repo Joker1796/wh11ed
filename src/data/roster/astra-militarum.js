@@ -248,7 +248,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "armageddon-pattern-medusa",
@@ -3888,8 +3898,7 @@ export default {
       ],
       "flags": {
         "legends": 1,
-        "char": 1,
-        "alongside": 1
+        "char": 1
       },
       "sizes": [
         {
@@ -3902,6 +3911,11 @@ export default {
         }
       ],
       "linked": 1,
+      "along": [
+        "Death Rider Squadron Commander",
+        "Lord Marshal Dreir",
+        "Lord Solar Leontus"
+      ],
       "defaults": [
         [
           0,
@@ -4208,7 +4222,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "doomhammer",
@@ -4833,7 +4857,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "griffon-mortar-carrier",
@@ -7708,7 +7742,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "macharius-omega",
@@ -7805,7 +7849,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "macharius-vanquisher",
@@ -7905,7 +7959,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "macharius-vulcan",
@@ -8005,7 +8069,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "malcador",
@@ -8608,7 +8682,17 @@ export default {
             3240
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "marauder-destroyer",
@@ -8669,7 +8753,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "medusa-carriage-battery",
@@ -11170,7 +11264,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "stormlord",
@@ -12521,7 +12625,17 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      }
     },
     {
       "id": "valkyrie",
@@ -12968,11 +13082,9 @@ export default {
             {
               "fac": [
                 "Astra Militarum"
-              ]
+              ],
+              "ds": "Ratlings"
             }
-          ],
-          "lockDs": [
-            "6397c7fd-79f1-43e0-9ddb-115f0ba150f1"
           ]
         },
         {
@@ -13183,11 +13295,9 @@ export default {
             {
               "fac": [
                 "Astra Militarum"
-              ]
+              ],
+              "ds": "Scout Sentinels"
             }
-          ],
-          "lockDs": [
-            "62d85e34-a50d-4c67-841a-037256b34d47"
           ]
         },
         {

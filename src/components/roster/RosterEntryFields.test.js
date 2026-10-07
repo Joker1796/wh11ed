@@ -42,13 +42,16 @@ describe('RosterEntryFields — "Can be led by" and Legends', () => {
   })
 
   // Only who could be attached to THIS unit now: an Overlord on the squad holds its Leader slot,
-  // so the other Leaders leave the list and the Supports stay — except Vargard Obyron, who joins
-  // "even if one other Leader unit has already been attached" (`flags.alongside`).
+  // so the other Leaders leave the list and the Supports stay. Vargard Obyron joins "even if
+  // NEMESOR ZAHNDREKH has already been attached" (`along`) — beside him, and nobody else.
   it('leaves out every candidate whose slot on this unit is taken', () => {
     const w = mountSquad([{ uid: 'ov', id: 'overlord', size: 0, leaderOf: 'sq' }])
     const got = w.findComponent(UnitEditorFields).props('leaderCandidates')
-    expect(got.filter((c) => c.type === 'leader').map((c) => c.name)).toEqual(['Vargard Obyron'])
+    expect(got.filter((c) => c.type === 'leader')).toEqual([])
     expect(got.map((c) => c.name)).toContain('Technomancer')
+    const z = mountSquad([{ uid: 'nz', id: 'nemesor-zahndrekh', size: 0, leaderOf: 'sq' }])
+    const withZ = z.findComponent(UnitEditorFields).props('leaderCandidates')
+    expect(withZ.filter((c) => c.type === 'leader').map((c) => c.name)).toEqual(['Vargard Obyron'])
   })
 
   // Where each candidate's datasheet lives, for the row that opens it: an allied Inquisitor

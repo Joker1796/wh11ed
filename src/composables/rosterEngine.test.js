@@ -694,6 +694,35 @@ describe('enhEligible — attach-granting enhancements (regression)', () => {
   })
 })
 
+// "ARCHON model only" is appdata's requirement group naming one datasheet (`ds`), with no keyword
+// row at all. Unread until 2026-10-07: every such enhancement went to any Character of the faction.
+describe('enhEligible — a requirement group naming one datasheet (ds)', () => {
+  const archon = { id: 'archon', name: 'Archon', flags: { char: 1 }, kws: ['Character', 'Infantry'] }
+  const haem = { id: 'haemonculus', name: 'Haemonculus', flags: { char: 1 }, kws: ['Character', 'Infantry'] }
+  it('takes the named sheet only, apostrophes aside', () => {
+    const enh = { name: 'Towering Arrogance', req: [{ fac: ['Drukhari'], ds: 'Archon' }] }
+    expect(enhEligible(enh, archon)).toBe(true)
+    expect(enhEligible(enh, haem)).toBe(false)
+    expect(enhEligible({ name: 'X', req: [{ ds: 'Von Ryan\u2019s Leapers' }] }, { name: "Von Ryan's Leapers", flags: { char: 1 } })).toBe(true)
+  })
+  it('is one alternative among the groups', () => {
+    const enh = { name: 'X', req: [{ ds: 'Archon' }, { kw: ['Haemonculus'] }] }
+    expect(enhEligible(enh, archon)).toBe(true)
+    expect(enhEligible(enh, { ...haem, kws: [...haem.kws, 'Haemonculus'] })).toBe(true)
+    expect(enhEligible(enh, { ...haem, name: 'Succubus' })).toBe(false)
+  })
+  it('real data: Pact of Cursed Pinions on the Chaos Lord with Jump Pack alone', async () => {
+    const rf = (await import('../data/roster/chaos-space-marines.js')).default
+    const enh = rf.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === 'Pact of Cursed Pinions')
+    expect(rf.units.filter((u) => enhEligible(enh, u)).map((u) => u.name)).toEqual(['Chaos Lord with Jump Pack'])
+  })
+  it('real data: an Ork upgrade goes on its own unit, not on every unit of the codex', async () => {
+    const rf = (await import('../data/roster/orks.js')).default
+    const enh = rf.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === 'Wimp-kickaz (Upgrade)')
+    expect(rf.units.filter((u) => enhEligible(enh, u)).map((u) => u.name)).toEqual(['Nobz'])
+  })
+})
+
 // An enhancement can GRANT its bearer an attach the datasheet doesn't list — appdata's
 // enhancement_bodyguard_group, emitted as `attach` (see gen-roster-data.mjs). 13 game-wide.
 describe('enhancement-granted attaches', () => {

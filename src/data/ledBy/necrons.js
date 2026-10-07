@@ -85,7 +85,14 @@ export default {
       "support",
       {
         "enh": 1,
-        "det": "Cursed Legion"
+        "det": "Cursed Legion",
+        "by": [
+          "Chronomancer",
+          "Geomancer",
+          "Plasmancer",
+          "Psychomancer",
+          "Technomancer"
+        ]
       }
     ]
   ],
@@ -99,7 +106,14 @@ export default {
       "support",
       {
         "enh": 1,
-        "det": "Cursed Legion"
+        "det": "Cursed Legion",
+        "by": [
+          "Chronomancer",
+          "Geomancer",
+          "Plasmancer",
+          "Psychomancer",
+          "Technomancer"
+        ]
       }
     ]
   ],
@@ -197,7 +211,14 @@ export default {
       "support",
       {
         "enh": 1,
-        "det": "Cursed Legion"
+        "det": "Cursed Legion",
+        "by": [
+          "Chronomancer",
+          "Geomancer",
+          "Plasmancer",
+          "Psychomancer",
+          "Technomancer"
+        ]
       }
     ]
   ],
@@ -211,7 +232,14 @@ export default {
       "support",
       {
         "enh": 1,
-        "det": "Cursed Legion"
+        "det": "Cursed Legion",
+        "by": [
+          "Chronomancer",
+          "Geomancer",
+          "Plasmancer",
+          "Psychomancer",
+          "Technomancer"
+        ]
       }
     ]
   ]

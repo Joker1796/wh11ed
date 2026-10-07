@@ -97,6 +97,7 @@ import { formatBaseSize } from '../utils/baseSize.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useMediaQuery } from '../composables/useMediaQuery.js'
 import { placeByAnchor } from '../utils/anchorPlacement.js'
+import { opensPopover } from '../composables/useKeywordPopover.js'
 
 // Opened from DatasheetCard's Keywords line (see its `keyword-click` emit) — lists every
 // other unit in the SAME faction's roster that also carries the clicked keyword, so a reader
@@ -105,7 +106,9 @@ import { placeByAnchor } from '../utils/anchorPlacement.js'
 // belong to another faction (`slug`, and `faction` to say so aloud) and may be one of the units
 // of the list on screen (`own`, marked and sorted first by the caller).
 const props = defineProps({
-  keyword: { type: String, required: true },
+  keyword: { type: String, default: '' },
+  // A list not read off a keyword (useFactionKeywordUnits' openUnitList) names itself.
+  heading: { type: String, default: '' },
   units: { type: Array, required: true }, // [{ id, name, baseSize?, slug?, faction?, own? }]
   factionSlug: { type: String, required: true },
   // The tapped word's rect (useFactionKeywordUnits) — what a wide screen hangs the list from.
@@ -117,7 +120,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 const factionName = (slug) => factionIndexBySlug(slug)?.name || slug
-const title = computed(() => labels.value.dsUnitsWithKeyword.replace('{kw}', props.keyword))
+const title = computed(() => props.heading || labels.value.dsUnitsWithKeyword.replace('{kw}', props.keyword))
 
 // The width every other "dropdown on a wide screen" switches at (AdaptivePicker).
 const wide = useMediaQuery('(min-width: 901px)')
@@ -128,7 +131,9 @@ const popStyle = computed(() => placeByAnchor(props.anchor, { width: 380, cap: t
 // (it is placed from a rect taken when it opened and cannot follow). A tap on another faction
 // keyword lands outside too — App.vue opens that one as this one closes.
 const popEl = ref(null)
-function onOutside(e) { if (!popEl.value?.contains(e.target)) emit('close') }
+// A component's own opener (useKeywordPopover's `data-kw-open`) has already put the next list in
+// this one's place; closing on its click would close that.
+function onOutside(e) { if (!popEl.value?.contains(e.target) && !opensPopover(e.target)) emit('close') }
 function onKey(e) { if (e.key === 'Escape') emit('close') }
 function onMove(e) { if (!popEl.value?.contains(e.target)) emit('close') }
 onMounted(async () => {
