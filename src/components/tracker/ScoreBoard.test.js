@@ -86,3 +86,19 @@ describe('ScoreBoard — Battle Points while the game is on', () => {
     expect(w.emitted('select')).toEqual([[1], [0]])
   })
 })
+
+// A doubles side with two armies wears both emblems (owner, 2026-10-07 — one read as one army);
+// a pair of one faction stays one.
+describe('ScoreBoard — doubles emblems', () => {
+  it('stamps each side with its armies, each faction once', () => {
+    const g = finishedGame(10, 5)
+    g.settings.doubles = true
+    g.players[0].members = [{ name: 'A', factionSlug: 'orks' }, { name: 'B', factionSlug: 'aeldari' }]
+    g.players[1].members = [{ name: 'C', factionSlug: 'necrons' }, { name: 'D', factionSlug: 'necrons' }]
+    const w = mount(ScoreBoard, { props: { game: g, finished: true } })
+    const cols = w.findAll('.col')
+    expect(cols[0].findAll('.stamp')).toHaveLength(2)
+    expect(cols[0].findAll('.stamp-a, .stamp-b')).toHaveLength(2)
+    expect(cols[1].findAll('.stamp')).toHaveLength(1)
+  })
+})

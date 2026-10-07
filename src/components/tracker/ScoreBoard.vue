@@ -21,10 +21,15 @@
       @keydown.enter.space.prevent="selected >= 0 && $emit('select', i)"
     >
       <!-- The side's army pressed into its card, as on the history's game cards (owner,
-           2026-09-29): the first of a doubles side's two. In the board's colour for the side, not
-           its own: the armies' by default, or the phone's picks ("Customise colours"). -->
+           2026-09-29); a doubles side with two armies wears both, staggered like those cards
+           (owner, 2026-10-07 — one emblem for a pair read as one army). In the board's colour for
+           the side, not its own: the armies' by default, or the phone's picks ("Customise
+           colours"). -->
       <FactionEmblem
-        :faction="sideFaction(pl)"
+        v-for="(f, fi) in sideFactions(pl)"
+        :key="f?.slug || fi"
+        :class="sideFactions(pl).length > 1 && (fi ? 'stamp-b' : 'stamp-a')"
+        :faction="f"
         stamp
       />
       <!-- Flex with a gap, so the template's line breaks between the spans add nothing; the
@@ -127,9 +132,17 @@ function factionLine(pl) {
   return [...new Set(names)].join(' / ')
 }
 
-function sideFaction(pl) {
-  return factionIndexBySlug(membersOf(pl)[0]?.factionSlug) || null
+// The side's armies, each faction once (a doubles pair of one faction is one emblem), two at most.
+function sideFactions(pl) {
+  const out = []
+  for (const m of membersOf(pl)) {
+    const f = factionIndexBySlug(m?.factionSlug)
+    if (f && !out.some((x) => x.slug === f.slug)) out.push(f)
+  }
+  return out.length ? out.slice(0, 2) : [null]
 }
+// The side's colour on a result is its first army's.
+const sideFaction = (pl) => sideFactions(pl)[0]
 
 // The two heads break alike (owner, 2026-10-06): if one side's faction does not fit beside its
 // name and drops to a second line, the other's drops too, so the scores and the breakdowns stand
@@ -194,6 +207,12 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
    army's emblem should not change size between the two. */
 .col { contain: paint; }
 .col .stamp { height: calc(var(--stamp-k) * 4.5rem); color: var(--side); }
+/* Two armies on one side: smaller and staggered, the first high and further in, the second low and
+   nearer the edge — the history cards' arrangement (TrackerHomeView's gc-stamp--a/b). */
+.col .stamp.stamp-a,
+.col .stamp.stamp-b { height: calc(var(--stamp-k) * 3.6rem); }
+.col .stamp.stamp-a { top: 32%; right: 4.6rem; }
+.col .stamp.stamp-b { top: 72%; right: 1.6rem; }
 .col.opp { --side: var(--side-opponent); }
 /* A result wears each side's army colour instead (owner, 2026-09-29): the game is over, and "who was
    whom" reads from the armies. During play the you/opponent pair stays — it tells the two phones'
