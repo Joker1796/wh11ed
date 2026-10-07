@@ -11,7 +11,7 @@
 // validation, export and the game card read it as before; holdWg is the one translation from
 // "who holds what" back to swaps, and rosterHold.test.js walks every distribution of every group
 // this applies to through the engine and back.
-import { optionItems, modelsPerMini, swapRoom, wargearGroupSpent } from './rosterEngine.js'
+import { optionItems, modelsPerMini, swapRoom } from './rosterEngine.js'
 import { loadoutItemCopies } from './rosterModifiers.js'
 
 // Whether group `gi` is drawn this way: a per-model stepper whose options are single items, among
@@ -80,5 +80,10 @@ export function stockLeft(def, entry, gi) {
   const g = def?.gear?.[gi]
   if (!g?.rep?.length || g.keep?.length) return null
   const room = swapRoom(def, entry, gi)
-  return room == null ? null : Math.max(0, room - wargearGroupSpent(entry, gi))
+  if (room == null) return null
+  // A pick whose option hands back everything the group gives up ("Flamer + Combi-bolter", the
+  // Chaos Bikers' additions) leaves the model holding its stock weapon, so it is not counted off.
+  const backs = (oi) => { const got = new Set(optionItems(g.o?.[oi]).map(([id]) => id)); return g.rep.every((id) => got.has(id)) }
+  const spent = (entry?.wg || []).filter(([x, oi]) => x === gi && !backs(oi)).reduce((n, [, , c]) => n + (c || 1), 0)
+  return Math.max(0, room - spent)
 }

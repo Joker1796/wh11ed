@@ -340,7 +340,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1045,6 +1045,29 @@ function dropStockRemnants(unitName, drafts, out) {
     if (keep.length === d.opts.length) continue
     out.push(`${unitName}: ${d.opts.filter((o) => !keep.includes(o)).map((o) => wgItemName.get(o.uuid)).join(', ')}`)
     d.opts = keep
+  }
+}
+
+// "Up to 2 Chaos Bikers can each have their combi-bolter replaced with 1 combi-weapon, OR can be
+// equipped with one of the following: flamer, meltagun, plasma gun" — one group, two kinds of pick:
+// the combi-weapon replaces the combi-bolter, the others are ADDED to it. `rep` is per group, so
+// every pick took the combi-bolter away (a player's report f2ba4023, 2026-10-07). The added
+// options become bundles that hand the item back — "Flamer + Combi-bolter", the shape the
+// Terminators' "cyclone missile launcher and 1 storm bolter" already has — so the ledger keeps the
+// model's combi-bolter and the shared cap of two stays one group's. One group game-wide.
+const ADD_OR_SWAP = /replaced with (?:1|one) ([^,]+?),? or (?:can )?(?:be )?equipped with one of the following/i
+function linkAddOrSwap(unitName, drafts, out) {
+  for (const d of drafts) {
+    const m = ADD_OR_SWAP.exec(d.text.split('\n')[0])
+    if (!m || !d.rep?.length) continue
+    const swapped = norm(m[1])
+    let changed = 0
+    for (const o of d.opts) {
+      if (o.items || norm(wgItemName.get(o.uuid) || '') === swapped) continue
+      o.items = [[o.uuid, 1], ...d.rep.map((u) => [u, 1])]
+      changed++
+    }
+    if (changed) out.push(`${unitName}: ${changed} option(s) add to, not replace, ${d.rep.map((u) => wgItemName.get(u)).join(', ')}`)
   }
 }
 
@@ -2138,6 +2161,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   linkWargearConditions(bd.id, drafts)
   linkWargearBundles(bd.id, bd.name, drafts, report.bundle)
   dropStockRemnants(bd.name, drafts, report.bundle.stockRemnant)
+  linkAddOrSwap(bd.name, drafts, report.bundle.addOrSwap)
   // Before the limits: two identical groups are exactly what makes a limited set ambiguous, so
   // folding them first lets its cap land on the one group that remains.
   drafts = mergeMiniatureDuplicates(drafts, report.limit)
@@ -3171,6 +3195,10 @@ for (const [why, list] of [["prose doesn't account for every option", b.unclaime
   if (!list.length) continue
   console.log(`  left as appdata lists them — ${why} (${list.length}):`)
   for (const l of list) console.log(`    - ${l.replace(/\s+/g, ' ').slice(0, 110)}`)
+}
+if (b.addOrSwap.length) {
+  console.log(`  "replaced with X, or equipped with one of" — the additions keep what X replaces (${b.addOrSwap.length}):`)
+  for (const l of b.addOrSwap) console.log(`    - ${l}`)
 }
 if (b.stockRemnant.length) {
   console.log(`  dropped a lone item of the given-up pair the sentence offers on its own nowhere (${b.stockRemnant.length}):`)

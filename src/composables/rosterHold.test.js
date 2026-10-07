@@ -115,3 +115,25 @@ describe('wargear that cannot be replaced', () => {
     expect(at([[0, 0, 10]])).toEqual(at([]))
   })
 })
+
+// Chaos Bikers: "…combi-bolter replaced with 1 combi-weapon, or can be equipped with one of the
+// following: flamer, meltagun, plasma gun" — the combi-weapon REPLACES, the others are ADDED
+// (a player's report f2ba4023, 2026-10-07). A biker with a flamer keeps his combi-bolter.
+describe('an addition offered beside a swap', () => {
+  const csm = factions.find((d) => d.slug === 'chaos-space-marines')
+  const def = csm.units.find((u) => u.id === 'chaos-bikers')
+  const gi = def.gear.findIndex((g) => /or can be equipped with one of the following/.test(shared.texts[g.t]))
+  const optOf = (name) => def.gear[gi].o.findIndex((o) => optionNames(o).includes(name))
+  const optionNames = (o) => (Array.isArray(o[0]) ? o[0].map(([id]) => shared.items[id]) : [shared.items[o[0]]])
+  const entry = (wg) => ({ uid: 'b', id: def.id, size: 1, count: 6, wg })
+
+  it('keeps the combi-bolter with a flamer, and gives it up for a combi-weapon', () => {
+    expect(optionNames(def.gear[gi].o[optOf('Flamer')])).toEqual(['Flamer', 'Combi-bolter'])
+    expect(optionNames(def.gear[gi].o[optOf('Combi-weapon')])).toEqual(['Combi-weapon'])
+    const flamers = entry([[gi, optOf('Flamer'), 2]])
+    expect(swapOverdraft(def, flamers)).toEqual([])
+    expect(stockLeft(def, flamers, gi)).toBe(5) // five Chaos Bikers, none of them gave it up
+    const combis = entry([[gi, optOf('Combi-weapon'), 2]])
+    expect(stockLeft(def, combis, gi)).toBe(3)
+  })
+})
