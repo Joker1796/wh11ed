@@ -154,11 +154,16 @@ useUpdateNotice().markSeen()
   margin-bottom: 0.5rem;
 }
 
+/* The version is a plate, the accent FILL with white on it (owner, 2026-10-07): as accent INK on
+   the dark page it was 3.7:1 — the dark theme's red text the owner keeps below AA — and a version
+   number is the one line here that has to be read at a glance. */
 .cl-ver {
+  padding: 0.05rem 0.45rem;
+  background: var(--accent);
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 1.05rem;
-  color: var(--accent-ink);
+  color: var(--text-on-accent);
 }
 
 .cl-date {
