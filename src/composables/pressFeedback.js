@@ -1,4 +1,5 @@
 import { motionMs } from './motionToken.js'
+import { pressSound } from './pressSound.js'
 
 // How a button answers the finger, app-wide, from ONE document listener (owner, 2026-09-28).
 // Two feels:
@@ -94,13 +95,18 @@ export function installPressFeedback(root = document) {
   root.addEventListener('pointerdown', (e) => {
     if (e.button !== 0) return
     const el = pressable(e.target)
-    if (!el || !press(el)) return
+    if (!el) return
+    // The click sounds with the sink and with the rise (pressSound.js, off unless switched on) —
+    // even where reduced motion leaves nothing to animate, so it does not hang off press().
+    pressSound(el, 0)
+    press(el)
     const up = () => done(true)
     const off = () => done(false)
     const done = (letGo) => {
       el.removeEventListener('pointerup', up)
       el.removeEventListener('pointerleave', off)
       el.removeEventListener('pointercancel', off)
+      pressSound(el, 1)
       release(el, letGo)
     }
     el.addEventListener('pointerup', up)
@@ -114,6 +120,6 @@ export function installPressFeedback(root = document) {
     if (e.detail !== 0) return
     const el = pressable(e.target)
     if (!el || !isPop(el) || performance.now() - (lastRelease.get(el) ?? -1e9) < 400) return
-    if (press(el)) release(el, true)
+    if (press(el)) { pressSound(el, 0); pressSound(el, 1); release(el, true) }
   })
 }

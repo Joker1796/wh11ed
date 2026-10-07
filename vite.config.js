@@ -271,7 +271,8 @@ export default defineConfig({
         //
         // The glob still casts wide; `manifestTransforms` below is what narrows it, because the
         // shell is a fact about the import graph and not about filenames.
-        globPatterns: ['**/*.{js,css,html,svg,woff2,png}'],
+        // mp3: the four press clicks (public/sounds, ~6 KB), so the installed app clicks offline too.
+        globPatterns: ['**/*.{js,css,html,svg,woff2,png,mp3}'],
         globIgnores: ['**/images/**'], // images are runtime-cached, not precached
         // Keep the shell (offlineShell() above) plus the handful of root files that are not
         // chunks: the HTML the navigate fallback serves, and the icons an installed app shows

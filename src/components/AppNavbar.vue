@@ -201,6 +201,15 @@
                 <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'" />
                 <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
               </button>
+              <!-- The click a button makes as it sinks (pressSound.js) — off by default. -->
+              <button
+                class="settings-item"
+                :class="{ active: pressSoundOn }"
+                @click="togglePressSound"
+              >
+                <i :class="pressSoundOn ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute'" />
+                <span>{{ pressSoundOn ? labels.pressSoundOff : labels.pressSoundOn }}</span>
+              </button>
               <button
                 v-if="(canInstall || iosInstall) && !isStandalone"
                 class="settings-item"
@@ -297,6 +306,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { localePath, stripLocale } from '../router/locale.js'
 import { useTheme } from '../composables/useTheme.js'
 import { useLoreVisibility } from '../composables/useLoreVisibility.js'
+import { usePressSound } from '../composables/pressSound.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
 import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../composables/useOfflineWarmup.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
@@ -326,6 +336,7 @@ function toggleLocale() {
 }
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
+const { pressSoundOn, togglePressSound } = usePressSound()
 const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
 const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
 const isPatchesRoute = computed(() => stripLocale(route.path) === '/patches')
