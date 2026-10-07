@@ -175,3 +175,19 @@ describe('a pair of a larger stock', () => {
     expect(count([[0, 0, 1], [2, 1, 1]], 'Heavy Bolter')).toBe(0)
   })
 })
+
+// Secutarii Peltasts: the Faction Pack prints "The Peltast Alpha's arc lance can be replaced with 1
+// archeotech pistol", copied from the Hoplites — a Peltast has no arc lance. PACK_ERRATA reads it as
+// the galvanic caster (owner, 2026-10-07): the pistol now takes the Alpha's caster.
+describe('the Peltast Alpha’s pistol', () => {
+  const am = factions.find((d) => d.slug === 'adeptus-mechanicus')
+  const def = am.units.find((u) => u.name === 'Secutarii Peltasts')
+  it('trades the Alpha’s galvanic caster for the archeotech pistol', () => {
+    const casters = (wg) => {
+      const lines = defaultLoadoutLines(def, shared.items, { uid: 'p', id: def.id, size: 0, wg }) || []
+      return lines.reduce((n, l) => { const m = l.items.match(/Galvanic caster(?: ×(\d+))?/); return n + (m ? Number(m[1] || 1) : 0) }, 0)
+    }
+    const before = casters([])
+    expect(casters([[0, 0, 1]])).toBe(before - 1)
+  })
+})

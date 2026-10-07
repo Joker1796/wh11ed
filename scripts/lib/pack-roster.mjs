@@ -416,6 +416,15 @@ export const PACK_ERRATA = {
   // nothing to fight with: a model with no melee weapon cannot make melee attacks (core rules), and
   // the sheet prints a Close combat weapon no model could otherwise take. GW's usual wording,
   // "1 heavy bolter and 1 close combat weapon", restored.
+  // "The Peltast Alpha's arc lance can be replaced with 1 archeotech pistol" — the Hoplites' option
+  // two pages earlier, word for word with the unit's name swapped. A Peltast carries no arc lance
+  // (its weapon table holds none; "Every model is equipped with: galvanic caster; close combat
+  // weapon"), and the pistol is a ranged weapon, so what the Alpha trades is its galvanic caster,
+  // as the Hoplite Alpha trades its own main weapon. Owner's word, 2026-10-07 (the AdMech Faction
+  // Pack PDF, Secutarii Hoplites and Peltasts pages); found by an audit of every instruction.
+  'secutarii-peltasts': {
+    options: [['The Peltast Alpha’s arc lance can be replaced', 'The Peltast Alpha’s galvanic caster can be replaced']],
+  },
   'munitorum-servitors': {
     options: [
       ['▪ 1 heavy bolter\n', '▪ 1 heavy bolter and 1 close combat weapon\n'],

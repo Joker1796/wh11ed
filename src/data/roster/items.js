@@ -4460,7 +4460,7 @@ export default {
     "1021": "The Hoplite Alpha’s arc lance can be replaced with 1 archeotech pistol.",
     "1022": "The Hoplite Alpha can be equipped with 1 Alpha close combat weapon.",
     "1023": "1 Secutarii Hoplite can be equipped with one of the following:\n▪ 1 enhanced data-tether\n▪ 1 omnispex",
-    "1024": "The Peltast Alpha’s arc lance can be replaced with 1 archeotech pistol.",
+    "1024": "The Peltast Alpha’s galvanic caster can be replaced with 1 archeotech pistol.",
     "1025": "The Peltast Alpha can be equipped with 1 Alpha close combat weapon.",
     "1026": "1 Secutarii Peltast can be equipped with one of the following:\n▪ 1 enhanced data-tether\n▪ 1 omnispex",
     "1027": "This model’s 2 combi-bolters can be replaced with one of the following:\n▪ 2 heavy flamers\n▪ 2 twin volkite chargers",

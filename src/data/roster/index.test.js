@@ -1701,14 +1701,13 @@ describe('a profile at zero models', () => {
 // weapon beside the second.
 describe('wargear swaps', () => {
   // "… replaced with …" yet nothing to give up: the printed text replaces an item the model is not
-  // printed with — the Peltasts' options are the Hoplites' word for word (the Alpha's "arc lance"),
-  // GW's Faction Pack, checked against the PDF 2026-10-05; left as printed on the owner's word, the
-  // intended swap being a guess. A sheet whose fix is known goes in pack-roster's PACK_ERRATA, a
-  // name the prose spells differently in the generator's PROSE_NAME_FIXES. Frozen: a new entry is a
-  // swap that quietly adds without taking away.
-  const NO_REP = new Set([
-    'adeptus-mechanicus/secutarii-peltasts g0',
-  ])
+  // printed with. Empty since 2026-10-07: the one entry, the Peltasts' "arc lance" (the Hoplites'
+  // option word for word, GW's Faction Pack), was left as printed on 2026-10-05 as a guess, and read
+  // as the galvanic caster on the owner's word once the Hoplites' page showed where the line came
+  // from (pack-roster's PACK_ERRATA). A sheet whose fix is known goes there, a name the prose
+  // spells differently in the generator's PROSE_NAME_FIXES. Frozen: a new entry is a swap that
+  // quietly adds without taking away.
+  const NO_REP = new Set([])
   it('give up what they replace, add what they grant, touch nothing else', () => {
     const bad = []
     const noRep = []

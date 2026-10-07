@@ -965,7 +965,7 @@ export default {
   "1021": "arc lance модели Hoplite Alpha можно заменить на 1 archeotech pistol.",
   "1022": "Модель Hoplite Alpha может получить 1 Alpha close combat weapon.",
   "1023": "1 модель Secutarii Hoplite может получить одно из:\n▪ 1 enhanced data-tether\n▪ 1 omnispex",
-  "1024": "arc lance модели Peltast Alpha можно заменить на 1 archeotech pistol.",
+  "1024": "galvanic caster модели Peltast Alpha можно заменить на 1 archeotech pistol.",
   "1025": "Модель Peltast Alpha может получить 1 Alpha close combat weapon.",
   "1026": "1 модель Secutarii Peltast может получить одно из:\n▪ 1 enhanced data-tether\n▪ 1 omnispex",
   "1027": "2 combi-bolters этой модели можно заменить на одно из:\n▪ 2 heavy flamers\n▪ 2 twin volkite chargers",
