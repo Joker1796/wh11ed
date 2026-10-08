@@ -1252,14 +1252,16 @@ function onEndBattle(reason) {
   background: var(--bg-primary);
   border-top: 1px solid var(--border);
 }
-.tf-sticky-inner { max-width: 860px; margin: 0 auto; padding: 0.4rem 2rem; }
+.tf-sticky-inner { max-width: 860px; margin: 0 auto; padding: 0.25rem 2rem; }
 @media (max-width: 900px) {
   .tf-sticky { bottom: calc(52px + var(--safe-bottom, 0px)); padding-bottom: 0; }
-  .tf-sticky-inner { padding: 0.4rem calc(1rem + var(--safe-right)) 0.4rem calc(1rem + var(--safe-left)); }
+  .tf-sticky-inner { padding: 0.25rem calc(1rem + var(--safe-right)) 0.25rem calc(1rem + var(--safe-left)); }
 }
 @media (max-width: 480px) {
-  .tf-sticky-inner { padding: 0.4rem calc(0.5rem + var(--safe-right)) 0.4rem calc(0.5rem + var(--safe-left)); }
+  .tf-sticky-inner { padding: 0.25rem calc(0.5rem + var(--safe-right)) 0.25rem calc(0.5rem + var(--safe-left)); }
 }
+/* In the bar the row is the bar's only line: the padding above and below is all the air it has. */
+.tf-sticky .turn-row { margin: 0; }
 /* With phases: undo · ‹ · the phase · › · end. */
 .turn-row.begin { grid-template-columns: 1fr; }
 .turn-row.phased { grid-template-columns: 42px 34px minmax(0, 1fr) 34px auto; gap: 0.3rem; }
