@@ -290,7 +290,8 @@ settings menu, a game's ⋯ menu, a faction's tabs, the game screen's tabs, add 
 pins and a unit's status (`wi-unit-*`); the classes are grouped by place in `style.css`. Five were
 drawn to the pack's style to fill its gaps: `lore-on` (the lore shown, the owner's `lore` is it
 hidden), `offline-ready`, `sync` (in progress), `install` and `check`; later `own`/`own-on` (the
-collection star), `copy` and `image` (a datasheet's ⋯ menu, owner 2026-10-08). **`wi-army` is wherever the app
+collection star), `copy` and `image` (a datasheet's ⋯ menu, owner 2026-10-08). `tab-units` is redrawn
+symmetric (a squad of three; the pack's two figures read lopsided, owner 2026-10-08). **`wi-army` is wherever the app
 means an army or its rules**; swords, hourglass and skull mean a unit's status and nothing else.
 Paired states swap the class (`theme-light`/`-dark`, `sound-on`/`-off`, `pin-on`/`-off`,
 `lore`/`lore-on`, `add`/`check`, `own`/`own-on`). Still Bootstrap: anything the pack has no drawing for, including
