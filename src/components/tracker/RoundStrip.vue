@@ -116,6 +116,10 @@ function pick(n) {
 
 <style scoped>
 .rs {
+  /* The rounds' grey: muted, a step above the line still to come (owner, 2026-10-08 — the bright
+     grey out-shouted the phases' colour beside it). A past round differs from a coming one by its
+     fill alone. */
+  --rs-mute: color-mix(in srgb, var(--text-dim) 55%, var(--bg-primary));
   display: flex;
   align-items: center;
   flex: 1 1 auto;
@@ -129,16 +133,16 @@ function pick(n) {
 /* The points and lines are grey (owner, 2026-09-30): the colour on the line is the phases', each in
    the colour of the side whose turn it was. */
 .rs-ln { flex: 1 1 0; height: 2px; background: var(--border); }
-.rs-ln.done { background: var(--text-dim); }
+.rs-ln.done { background: var(--rs-mute); }
 .rs-pt {
   position: relative;
   flex: 0 0 auto;
   width: 12px;
   height: 12px;
-  border: 2px solid var(--text-dim);
+  border: 2px solid var(--rs-mute);
   background: var(--bg-primary);
 }
-.rs-pt.done, .rs-pt.live { background: var(--text-dim); }
+.rs-pt.done, .rs-pt.live { background: var(--rs-mute); }
 /* A past round open for correction: a frame the colour of the page around it. Square, like every
    corner in the app (owner, 2026-09-30: the points were circles). */
 .rs-pt.shown { box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--text-primary); }
@@ -147,7 +151,7 @@ function pick(n) {
   content: '';
   position: absolute;
   inset: -2px;
-  background: var(--text-dim);
+  background: var(--rs-mute);
   animation: rs-pulse 2.4s ease-out infinite;
 }
 @keyframes rs-pulse {
