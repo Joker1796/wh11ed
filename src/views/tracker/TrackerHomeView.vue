@@ -111,10 +111,7 @@
       @close="sharedOpen = false"
     />
 
-    <section
-      class="history"
-      data-tour="home-history"
-    >
+    <section class="history">
       <div class="history-head">
         <h2>{{ labels.trackerHistory }}</h2>
         <span
@@ -149,9 +146,10 @@
         class="games"
       >
         <li
-          v-for="g in visibleGames"
+          v-for="(g, k) in visibleGames"
           :key="g.id"
           class="game"
+          :data-tour="k === 0 ? 'home-history' : undefined"
           :class="resultClass(g)"
           role="button"
           tabindex="0"

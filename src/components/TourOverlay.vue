@@ -110,7 +110,12 @@ function measure() {
   vh.value = window.innerHeight
   if (!el?.isConnected) { rect.value = null; return }
   const r = el.getBoundingClientRect()
-  rect.value = { x: r.left - PAD, y: r.top - PAD, w: r.width + PAD * 2, h: r.height + PAD * 2 }
+  // Never past the window's edges: a block taller than the screen was framed off its foot.
+  const x = Math.max(r.left - PAD, 2)
+  const y = Math.max(r.top - PAD, 2)
+  const right = Math.min(r.right + PAD, window.innerWidth - 2)
+  const bottom = Math.min(r.bottom + PAD, window.innerHeight - 2)
+  rect.value = { x, y, w: Math.max(0, right - x), h: Math.max(0, bottom - y) }
   if (cardEl.value) cardH.value = cardEl.value.offsetHeight
 }
 // Kept on the element for as long as the step is up: the page moves under it without a scroll

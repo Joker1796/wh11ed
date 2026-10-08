@@ -25,7 +25,7 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'home-history',
-        ru: { title: 'История партий', text: 'Сыгранные партии. Нажмите на карточку — итог и «Продолжить игру». Со входом в аккаунт история хранится и в облаке.' },
+        ru: { title: 'История партий', text: 'Здесь сыгранные партии. Нажмите на карточку, чтобы увидеть итог или продолжить игру. Со входом в аккаунт история хранится и в облаке.' },
         en: { title: 'Game history', text: 'Your finished games. Tap a card for the result and “Resume game”. Signed in, the history is kept in the cloud too.' },
       },
     ],
@@ -136,10 +136,16 @@ export const TOUR_CHAPTERS = {
         en: { title: 'The score', text: 'Both sides’ VP, CP and points. Each side has its colour, all down the screen.' },
       },
       {
+        target: 'game-reserves',
+        when: (ctx) => !ctx.begun && ctx.lists,
+        ru: { title: 'Резервы', text: 'Перед боем отметьте, какие юниты уходят в резерв. Кнопка откроет ваш ростер: у каждого юнита справа кнопка статуса — выберите «В резерве».' },
+        en: { title: 'Reserves', text: 'Before the battle, mark which units go into reserve. This opens your roster: each unit has a status button on the right — pick “In reserve”.' },
+      },
+      {
         target: 'game-turnbar',
         when: (ctx) => !ctx.begun,
-        ru: { title: 'Начать игру', text: 'Партия создана, но бой ещё не начат. Расставьте армии, отметьте юниты в резерве и нажмите «Начать игру». С этой кнопки начнётся первый ход и придут первые CP.' },
-        en: { title: 'Start the game', text: 'The game is set up, but the battle has not begun. Deploy, mark the units in reserve and press “Start game”. The first turn and its first CP start with this button.' },
+        ru: { title: 'Начать игру', text: 'Партия создана, но бой ещё не начат. Расставьте армии и нажмите «Начать игру». С этой кнопки начнётся первый ход и придут первые CP.' },
+        en: { title: 'Start the game', text: 'The game is set up, but the battle has not begun. Deploy and press “Start game”. The first turn and its first CP start with this button.' },
       },
       {
         target: 'game-turnbar',

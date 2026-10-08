@@ -166,7 +166,21 @@
         <div
           v-if="!begun"
           class="turn-row begin"
+          :class="{ 'with-reserves': reservesSide }"
         >
+          <!-- Before the battle, the reserves are chosen (20.01): straight to the attached lists,
+               whose rows carry each unit's status (owner, 2026-10-09). Only when a list is there
+               to mark — without one there is no unit to put in reserve. -->
+          <button
+            v-if="reservesSide"
+            class="tr-btn tr-reserves"
+            data-press
+            data-tour="game-reserves"
+            @click="openReserves"
+          >
+            <i class="wi wi-unit-reserve" />
+            <span class="tr-label">{{ labels.trackerMarkReserves }}</span>
+          </button>
           <button
             class="tr-btn tr-end"
             data-press
@@ -742,7 +756,7 @@ const tab = ref('missions')
 const { maybeStart: maybeStartTour, start: startTour, step: tourStep } = useTour()
 watch(() => tourStep.value?.tab, (t) => { if (t) tab.value = t })
 // What the tour's steps ask of this screen: has the battle begun, is the phase clock on.
-const tourCtx = () => ({ begun: begun.value, phases: tracks(current.value?.settings, 'trackPhases') })
+const tourCtx = () => ({ begun: begun.value, phases: tracks(current.value?.settings, 'trackPhases'), lists: !!reservesSide.value })
 // The tour: this screen's chapter on its first showing (what the turn bar says depends on whether
 // the battle has begun), and the turn's own chapter the moment it does.
 onMounted(() => maybeStartTour('game', tourCtx()))
@@ -796,6 +810,19 @@ async function openArmyRule(at) {
   tab.value = 'armies'
   await nextTick()
   armiesEl.value?.reveal(at)
+}
+// The reserves before the battle: the first army with a list this phone may mark, on the Roster
+// tab, where each unit's row has its status (UnitStatusButton).
+const reservesSide = computed(() => {
+  for (const [pi, pl] of (current.value?.players || []).entries()) {
+    if (!canEdit(pi)) continue
+    const mi = membersOf(pl).findIndex((m) => m.roster)
+    if (mi >= 0) return { pi, mi: pl.members ? mi : undefined }
+  }
+  return null
+})
+function openReserves() {
+  if (reservesSide.value) openRoster(reservesSide.value)
 }
 // A list: the Roster tab on that army. One unit of it: its card over the tab on screen.
 const rosterEl = ref(null)
@@ -1289,6 +1316,8 @@ function onEndBattle(reason) {
 .tf-sticky .turn-row { margin: 0; }
 /* With phases: undo · ‹ · the phase · › · end. */
 .turn-row.begin { grid-template-columns: 1fr; }
+.turn-row.begin.with-reserves { grid-template-columns: 1fr 1fr; }
+.tr-reserves { font-size: 0.95rem; }
 /* The round line is not the turn bar: the grid above halved it and cut a name short beside an
    empty half. The headline takes what the "⋯" leaves. */
 .turn-row.turn-line { display: flex; }
