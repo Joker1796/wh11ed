@@ -115,8 +115,8 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'game-line',
-        ru: { title: 'Где мы в партии', text: 'Раунд и чей ход. Точка — цвет того, кто ходит. В совместной игре она мигает, пока всё синхронизировано.' },
-        en: { title: 'Where the game is', text: 'The round and whose turn. The dot is the colour of the side on turn. In a shared game it blinks while in sync.' },
+        ru: { title: 'Раунд и ход', text: 'Здесь видно, какой идёт раунд и чей сейчас ход. Точка слева — цвет стороны, которая ходит. В совместной игре она медленно мигает, пока телефоны синхронизированы.' },
+        en: { title: 'Round and turn', text: 'This line shows the round and whose turn it is. The dot is the colour of the side on turn. In a shared game it slowly blinks while the phones are in sync.' },
       },
       {
         target: 'game-rounds',

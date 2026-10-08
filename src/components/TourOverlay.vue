@@ -113,14 +113,14 @@ function measure() {
   rect.value = { x: r.left - PAD, y: r.top - PAD, w: r.width + PAD * 2, h: r.height + PAD * 2 }
   if (cardEl.value) cardH.value = cardEl.value.offsetHeight
 }
-// Kept on the element while the page settles under it (a scroll, a panel sliding in): a frame
-// loop for a moment after each step, then the scroll and resize events alone.
-function followFor(ms) {
+// Kept on the element for as long as the step is up: the page moves under it without a scroll
+// or a resize to say so — a banner folding away above, a panel sliding in — and a light measured
+// once was left on the empty place (owner, 2026-10-09). One rect a frame is nothing.
+function followStep() {
   cancelAnimationFrame(follow)
-  const until = performance.now() + ms
   const tick = () => {
     measure()
-    if (performance.now() < until) follow = requestAnimationFrame(tick)
+    if (step.value) follow = requestAnimationFrame(tick)
   }
   follow = requestAnimationFrame(tick)
 }
@@ -138,25 +138,20 @@ watch(step, async (s) => {
       el.scrollIntoView({ block: 'center', behavior: reduced() ? 'auto' : 'smooth' })
     }
   }
-  followFor(700)
+  followStep()
   await nextTick()
   nextBtn.value?.focus({ preventScroll: true })
 }, { immediate: true })
 
-const onMove = () => measure()
 const onKey = (e) => {
   if (!step.value) return
   if (e.key === 'Escape') finish()
   else if (e.key === 'ArrowRight') next()
   else if (e.key === 'ArrowLeft') back()
 }
-window.addEventListener('scroll', onMove, { passive: true })
-window.addEventListener('resize', onMove)
 window.addEventListener('keydown', onKey)
 onUnmounted(() => {
   cancelAnimationFrame(follow)
-  window.removeEventListener('scroll', onMove)
-  window.removeEventListener('resize', onMove)
   window.removeEventListener('keydown', onKey)
 })
 
