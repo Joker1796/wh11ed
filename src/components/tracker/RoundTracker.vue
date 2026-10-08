@@ -109,6 +109,7 @@
         :live="current.currentRound"
         :shown="shownRound"
         :phase="stripPhase"
+        :turn-color="turnOpp ? 'var(--side-opponent)' : 'var(--side-you)'"
         @pick="(n) => (viewRound = n === current.currentRound ? null : n)"
       />
       <SyncIndicator />

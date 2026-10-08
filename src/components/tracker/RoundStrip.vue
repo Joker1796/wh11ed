@@ -23,9 +23,11 @@
         :class="{ done: n <= live }"
       />
       <!-- A hint on hover names the round under the pointer (owner, 2026-10-02). -->
+      <!-- The live round's point wears the colour of the side whose turn it is (owner, 2026-10-08). -->
       <span
         class="rs-pt"
-        :class="{ done: n < live || (phase && n === live), live: n === live && !phase, shown: n === shown && n !== live }"
+        :class="{ done: n < live, now: n === live, live: n === live && !phase, shown: n === shown && n !== live }"
+        :style="n === live && turnColor ? { '--rs-now': turnColor } : null"
         :title="`${labels.trackerRound} ${n}`"
       />
       <span
@@ -101,6 +103,8 @@ const props = defineProps({
   // colors ([first turn's, second turn's] side colour), label (the phase and whose turn, for the
   // dialog) }; null without it.
   phase: { type: Object, default: null },
+  // The colour of the side whose turn it is — the live round's point wears it.
+  turnColor: { type: String, default: '' },
 })
 // `pick(n)`: the round to show — the live one takes the screen back from a correction.
 const emit = defineEmits(['pick'])
@@ -141,7 +145,8 @@ function pick(n) {
   border: 2px solid var(--rs-mute);
   background: var(--bg-primary);
 }
-.rs-pt.done, .rs-pt.live { background: var(--rs-mute); }
+.rs-pt.done { background: var(--rs-mute); }
+.rs-pt.now { border-color: var(--rs-now, var(--rs-mute)); background: var(--rs-now, var(--rs-mute)); }
 /* A past round open for correction: a frame the colour of the page around it. Square, like every
    corner in the app (owner, 2026-09-30: the points were circles). */
 .rs-pt.shown { box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--text-primary); }
@@ -150,7 +155,7 @@ function pick(n) {
   content: '';
   position: absolute;
   inset: -2px;
-  background: var(--rs-mute);
+  background: var(--rs-now, var(--rs-mute));
   animation: rs-pulse 2.4s ease-out infinite;
 }
 @keyframes rs-pulse {

@@ -160,7 +160,7 @@ describe('RoundTracker — the missions panel', () => {
     tracker.endTurn()
     tracker.endTurn() // round 2
     const w = mountTracker()
-    expect(w.findAll('.rs-pt').map((p) => p.classes().filter((c) => c !== 'rs-pt').join())).toEqual(['done', 'live', '', '', ''])
+    expect(w.findAll('.rs-pt').map((p) => p.classes().filter((c) => c !== 'rs-pt').join())).toEqual(['done', 'now,live', '', '', ''])
     await w.find('button.rs').trigger('click')
     const steps = [...document.body.querySelectorAll('.rs-item')]
     expect(document.body.querySelector('.rs-text').textContent).toContain('End turn') // says what moves the game
