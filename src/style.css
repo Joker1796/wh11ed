@@ -368,12 +368,17 @@
 /* Corners are square app-wide (see "Corners & surfaces" in CLAUDE.md) — stated once, here,
    instead of in every component. It has to be stated at all because form controls are the one
    thing browsers round on their own: iOS Safari gives <button>/<input> a radius of its own
-   unless told otherwise, which would have quietly re-rounded every button in the app. */
+   unless told otherwise, which would have quietly re-rounded every button in the app.
+   The same goes for the typeface: a control does not inherit the page's, and every button or
+   field that did not say `font: inherit` drew in the system Arial — a roster's unit names beside
+   the catalogue's Inter ones read as a different size (owner, 2026-10-08). The family only:
+   sizes are each control's own. */
 button,
 input,
 select,
 textarea {
   border-radius: 0;
+  font-family: inherit;
 }
 
 /* Kill double-tap-to-zoom (and the legacy 300ms tap delay) on tap targets — rapid taps on

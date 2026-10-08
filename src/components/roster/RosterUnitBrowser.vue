@@ -581,8 +581,10 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 .rub-text { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.55rem 0.7rem; }
 /* min-width, or a long name refuses to shrink past its min-content and runs UNDER the price
    beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
-.rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
-.rub-count { margin-left: 0.3em; font-weight: 700; color: var(--text-muted); }
+/* The list's own name size (RosterUnitRow .rur-name): a unit reads the same in both panes. */
+.rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
+/* A step under the name it follows (owner, 2026-10-08), in em so it keeps to the name's size. */
+.rub-count { margin-left: 0.3em; font-size: 0.85em; font-weight: 700; color: var(--text-muted); }
 .rub-count.over { color: var(--danger); }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
 .rub-rail { flex-shrink: 0; display: flex; align-items: stretch; }
