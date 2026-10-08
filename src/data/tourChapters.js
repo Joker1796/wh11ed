@@ -166,8 +166,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-menu',
-        ru: { title: 'Меню партии', text: 'Настройка, совместная игра, трансляция, завершить игру — и эти подсказки снова.' },
-        en: { title: 'The game’s menu', text: 'Setup, shared game, broadcast, finishing the game — and these hints again.' },
+        ru: { title: 'Меню партии', text: 'Здесь настройка партии, совместная игра, трансляция и завершение игры. Отсюда же можно снова открыть туториал.' },
+        en: { title: 'The game’s menu', text: 'Game setup, the shared game, the broadcast and finishing the game. The tutorial opens from here again too.' },
       },
     ],
   },
