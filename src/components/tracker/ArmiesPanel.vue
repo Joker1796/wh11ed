@@ -81,4 +81,11 @@ defineExpose({ reveal })
 .ap { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); --accent-ink: var(--side); --accent-ink-hover: color-mix(in srgb, var(--side) 80%, #000); }
 .ap.opp { --side: var(--side-opponent); }
 .ap > .ap-card { margin-top: 0.6rem; }
+/* Under a doubles team's tabs the card hangs from them (owner, 2026-10-08 — a gap and two grounds
+   read as two blocks): no gap, the open tab on the card's own ground, and the card's frame in the
+   side colour with its top edge given to the strip's line, which the open tab parts. The thick
+   side bar goes too — 4px under the tab's 1px edge was a step in the frame; the frame's colour
+   names the side, as on every other panel hanging from tabs (`.side-frame`). */
+.ap-tabs { --page-tab-open-bg: color-mix(in srgb, var(--side) 6%, var(--bg-card)); }
+.ap-tabs ~ .ap-card { margin-top: 0; border: 1px solid var(--side); border-top: 0; }
 </style>

@@ -133,8 +133,9 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
   letter-spacing: 0.3px;
   color: var(--text-muted);
   /* The content's colour under every tab: it covers the container's line, so where the open
-     tab's own line has parted the tab opens into the content. The closed look is a layer on top. */
-  background: var(--bg-primary);
+     tab's own line has parted the tab opens into the content. The closed look is a layer on top.
+     Content on a ground of its own (a card) names that ground in --page-tab-open-bg. */
+  background: var(--page-tab-open-bg, var(--bg-primary));
   border: 0;
   padding: 0.55rem 1.3rem;
   margin-bottom: -1px; /* overlap the container's accent line */
