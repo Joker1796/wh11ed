@@ -99,7 +99,7 @@
           <button
             v-if="TOUR_ON"
             class="act-btn gm-row"
-            @click="close(); startTour('game', { begun })"
+            @click="close(); startTour('game', tourCtx())"
           >
             <i class="bi bi-question-circle" /> {{ labels.tourReplay }}
           </button>
@@ -741,9 +741,11 @@ const tab = ref('missions')
 // about a tab opens it.
 const { maybeStart: maybeStartTour, start: startTour, step: tourStep } = useTour()
 watch(() => tourStep.value?.tab, (t) => { if (t) tab.value = t })
+// What the tour's steps ask of this screen: has the battle begun, is the phase clock on.
+const tourCtx = () => ({ begun: begun.value, phases: tracks(current.value?.settings, 'trackPhases') })
 // The tour: this screen's chapter on its first showing (what the turn bar says depends on whether
 // the battle has begun), and the turn's own chapter the moment it does.
-onMounted(() => maybeStartTour('game', { begun: begun.value }))
+onMounted(() => maybeStartTour('game', tourCtx()))
 watch(begun, (on, was) => { if (on && was === false) maybeStartTour('turn') })
 // The panels built so far (see the template): the open one, then the rest one per idle moment.
 const built = ref(new Set([tab.value]))

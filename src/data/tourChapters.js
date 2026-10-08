@@ -120,8 +120,15 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-rounds',
+        when: (ctx) => ctx.phases,
         ru: { title: 'Раунды', text: 'Полоса — это пять раундов, текущий разбит на фазы обоих ходов. Нажмите на неё, чтобы открыть список раундов. Прошлый раунд можно открыть и поправить его счёт, а партия при этом останется на месте.' },
         en: { title: 'Rounds', text: 'The strip is the five rounds, the current one split into both turns’ phases. Tap it for the list of rounds. A past round opens for correcting its score, and the game stays where it is.' },
+      },
+      {
+        target: 'game-rounds',
+        when: (ctx) => !ctx.phases,
+        ru: { title: 'Раунды', text: 'Полоса — это пять раундов. Нажмите на неё, чтобы открыть список раундов. Прошлый раунд можно открыть и поправить его счёт, а партия при этом останется на месте.' },
+        en: { title: 'Rounds', text: 'The strip is the five rounds. Tap it for the list of rounds. A past round opens for correcting its score, and the game stays where it is.' },
       },
       {
         target: 'game-score',
