@@ -46,28 +46,38 @@
         class="turn-tag"
       >{{ labels.trackerTurnTag }}</span>
       <div
-        :ref="el => (grandEls[i] = el)"
+        :ref="flashRef(`grand${i}`)"
         class="grand"
       >
         <template v-if="bpMode">
-          {{ bp[i] }}<span class="grand-unit">BP</span>
-          <span class="grand-vp">{{ grandTotal(i) }} VP</span>
+          {{ shownBp[i] }}<span class="grand-unit">BP</span>
+          <span class="grand-vp">{{ shownGrand[i] }} VP</span>
         </template>
         <template v-else>
-          {{ grandTotal(i) }}<span class="grand-unit">VP</span><span
+          {{ shownGrand[i] }}<span class="grand-unit">VP</span><span
             v-if="liveBp"
             class="grand-bp"
-          >{{ bp[i] }}<span class="grand-unit">BP</span></span>
+          >{{ shownBp[i] }}<span class="grand-unit">BP</span></span>
         </template>
       </div>
       <dl
         v-if="!finished"
         class="breakdown"
       >
-        <div><dt>{{ labels.trackerPrimary }}</dt><dd>{{ primaryTotal(i) }}</dd></div>
-        <div><dt>{{ labels.trackerSecondary }}</dt><dd>{{ secondaryTotal(i) }}</dd></div>
+        <div>
+          <dt>{{ labels.trackerPrimary }}</dt><dd :ref="flashRef(`primary${i}`)">
+            {{ shownPrimary[i] }}
+          </dd>
+        </div>
+        <div>
+          <dt>{{ labels.trackerSecondary }}</dt><dd :ref="flashRef(`secondary${i}`)">
+            {{ shownSecondary[i] }}
+          </dd>
+        </div>
         <div v-if="showCp">
-          <dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd>
+          <dt>{{ labels.trackerCp }}</dt><dd :ref="flashRef(`cp${i}`)">
+            {{ shownCp[i] }}
+          </dd>
         </div>
       </dl>
     </div>
@@ -87,6 +97,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
+import { useCountUp } from '../../composables/useCountUp.js'
 import { useTracker, sideName, isYouSide, membersOf } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
@@ -179,10 +190,29 @@ onBeforeUnmount(() => ro?.disconnect())
 watch(() => [game.value?.players?.map((pl, i) => `${sideName(pl, i, labels.value)}|${factionLine(pl)}`).join('/'), turnIdx.value],
   () => nextTick(measure))
 
-// Pulse a column's grand total when it changes (scoring feedback).
-const grandEls = []
-useFlashOnChange(() => grandTotal(0), () => grandEls[0])
-useFlashOnChange(() => grandTotal(1), () => grandEls[1])
+// Every number on the board runs to its new value and pulses, as the roster total does
+// (owner, 2026-10-08): scoring is seen landing, here and from the other phone alike. A board
+// always has two sides.
+const scores = {
+  grand: grandTotal,
+  primary: primaryTotal,
+  secondary: secondaryTotal,
+  cp: (i) => game.value?.players?.[i]?.cp ?? 0,
+}
+const counted = (of) => {
+  const runs = [0, 1].map((i) => useCountUp(() => of(i)))
+  return computed(() => runs.map((r) => r.value))
+}
+const shownGrand = counted(scores.grand)
+const shownPrimary = counted(scores.primary)
+const shownSecondary = counted(scores.secondary)
+const shownCp = counted(scores.cp)
+const shownBp = counted((i) => bp.value[i])
+const flashEls = {}
+const flashRef = (key) => (el) => { flashEls[key] = el }
+for (const [name, of] of Object.entries(scores)) {
+  for (const i of [0, 1]) useFlashOnChange(() => of(i), () => flashEls[`${name}${i}`])
+}
 </script>
 
 <style scoped>
