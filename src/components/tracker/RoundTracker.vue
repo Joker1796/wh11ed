@@ -1267,7 +1267,7 @@ function onEndBattle(reason) {
 .tr-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
   min-width: 0;
-  min-height: 42px;
+  min-height: 36px;
   padding: 0.35rem 0.6rem;
   border: 1px solid var(--border);
   background: var(--bg-card);
@@ -1281,13 +1281,13 @@ function onEndBattle(reason) {
 }
 .tr-icon { padding: 0; font-size: 1.1rem; }
 .tr-step {
-  min-height: 42px; padding: 0;
+  min-height: 36px; padding: 0;
   border: 1px solid var(--border); background: var(--bg-card);
   font-size: 1.2rem; color: var(--text-primary); cursor: pointer;
 }
 .tr-step:disabled { opacity: 0.35; cursor: default; }
 .tr-phase {
-  display: grid; align-content: center; min-width: 0; min-height: 42px; padding: 0.15rem 0.4rem;
+  display: grid; align-content: center; min-width: 0; min-height: 36px; padding: 0.15rem 0.4rem;
   border: 1px solid var(--border); background: var(--bg-card); font: inherit; cursor: pointer; text-align: center;
 }
 .tp-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.7rem; color: var(--text-dim); line-height: 1.2; }

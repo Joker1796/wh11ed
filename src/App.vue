@@ -448,8 +448,8 @@ onUnmounted(() => {
 @media (max-width: 480px) {
   .app-layout:has(.rc-sticky:not(.page-leaving .rc-sticky)) { --roster-sticky-h: 3.1rem; }
 }
-/* The tracker's pinned turn buttons (RoundTracker's .tf-sticky): 42px buttons + 2 × 0.25rem +
+/* The tracker's pinned turn buttons (RoundTracker's .tf-sticky): 36px buttons + 2 × 0.25rem +
    the border — the same reserve the roster bar makes, so the floating buttons yield to it and the
    page's end is not under it (the padding rules below add it). */
-.app-layout:has(.tf-sticky) { --roster-sticky-h: 3.2rem; }
+.app-layout:has(.tf-sticky) { --roster-sticky-h: 2.85rem; }
 </style>
