@@ -867,11 +867,15 @@ strong {
    baseline. Drawn as a mask filled with the text colour, the way FactionEmblem draws an emblem, so
    they follow the colour of what holds them. Under Vite's inline limit, so each file lands in this
    stylesheet as a data URI: no request, nothing to precache, there offline. */
+/* The drawings keep a margin inside their 24px square that a Bootstrap glyph does not, so at 1em
+   they read a size smaller (owner, 2026-10-08). Drawn at 1.2em, the overflow taken back by a
+   negative margin: the box in the line stays 1em, as a glyph's, and nothing beside it moves. */
 .wi {
   display: inline-block;
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.125em;
+  width: 1.2em;
+  height: 1.2em;
+  margin: -0.1em;
+  vertical-align: -0.225em;
   background-color: currentColor;
   mask: no-repeat center / contain;
 }
