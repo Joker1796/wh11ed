@@ -28,6 +28,10 @@ function buildInfoMeta() {
 // so a single VITE_SITE_ORIGIN drives runtime canonical, the sitemap, robots.txt AND the static
 // tags — no hand-editing index.html/robots at the domain cutover.
 const SITE_ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh-rules.ru'
+// The new tracker's beta on its own subdomain (VITE_BETA=1 in .env.deploy.beta): not indexed — the
+// site is the one search should know — and installed under a name of its own beside the site's app.
+const BETA = process.env.VITE_BETA === '1'
+const APP_NAME = BETA ? 'WH Rules Beta' : 'WH Rules'
 
 // Replace the %SITE_ORIGIN% placeholder in index.html at build time. Not Vite's built-in
 // %VITE_*% mechanism, so we control the fallback (a bare `npm run build` with no env still emits
@@ -36,7 +40,11 @@ function injectSiteOrigin() {
   return {
     name: 'site-origin',
     transformIndexHtml(html) {
-      return html.replaceAll('%SITE_ORIGIN%', SITE_ORIGIN)
+      const out = html.replaceAll('%SITE_ORIGIN%', SITE_ORIGIN)
+      if (!BETA) return out
+      return out
+        .replace(/<meta name="robots" content="[^"]*"/, '<meta name="robots" content="noindex, nofollow"')
+        .replace('<meta name="apple-mobile-web-app-title" content="WH Rules"', `<meta name="apple-mobile-web-app-title" content="${APP_NAME}"`)
     },
   }
 }
@@ -205,7 +213,7 @@ export default defineConfig({
         name: 'Warhammer 40,000 11th Edition — Rules, Rosters & Game Tracker',
         // Shown under the installed icon — this is the app's user-facing name. Keep it short
         // enough not to be truncated on a phone home screen (~12 chars).
-        short_name: 'WH Rules',
+        short_name: APP_NAME,
         description:
           'A bilingual (EN/RU) app for playing Warhammer 40,000 11th Edition: core rules and the Event Companion, faction rules and unit datasheets, an army list builder, and a game tracker that applies your army\'s own rules. Works fully offline, no account needed.',
         lang: 'en',

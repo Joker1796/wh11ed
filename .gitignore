@@ -9,6 +9,7 @@ dist/
 .env.*
 !.env.example
 !.env.deploy.example
+!.env.deploy.beta.example
 
 # Local source/reference material (not for the repo)
 sources/

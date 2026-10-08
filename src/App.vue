@@ -4,6 +4,7 @@
     :style="{ '--mobile-bar-h': mobileBarVisible ? '3.5rem' : '0px' }"
   >
     <DomainMoveBanner v-if="!isBare" />
+    <BetaBanner v-if="IS_BETA && !isBare" />
     <UpdateNoticeBar v-if="!isBare" />
 
     <AppNavbar
@@ -134,6 +135,8 @@ import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
 import MobileUtilityBar from './components/MobileUtilityBar.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
 import DomainMoveBanner from './components/DomainMoveBanner.vue'
+import BetaBanner from './components/BetaBanner.vue'
+import { IS_BETA } from './config.js'
 import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
 import AppFooter from './components/AppFooter.vue'
 import { useLocale } from './composables/useLocale.js'

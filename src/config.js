@@ -9,6 +9,9 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localho
 // (VITE_SITE_ORIGIN in deploy.sh / .env.deploy) — the retired wh11ed.ru is frozen, not rebuilt.
 export const SITE_ORIGIN = import.meta.env.VITE_SITE_ORIGIN || 'https://wh-rules.ru'
 
+// The new tracker's beta build (VITE_BETA=1, .env.deploy.beta): beta.wh-rules.ru, its banner, no index.
+export const IS_BETA = import.meta.env.VITE_BETA === '1'
+
 // The domain the "we've moved" banner points visitors to. Deliberately a fixed constant, NOT
 // SITE_ORIGIN: the banner only shows on the old host, whose build self-canonicals to itself, so
 // reusing SITE_ORIGIN would advertise the old domain as the "new" one.

@@ -178,9 +178,12 @@ ${entries.join('\n')}
   // index as duplicates of their bare twins. This tells Yandex to drop the parameter and treat them
   // as one page. The Russian content is unaffected — it lives at /ru/… now, where no query is
   // involved. Drop this only when the old URLs are gone from the index for good.
+  // The tracker's beta subdomain (VITE_BETA) is kept out of search altogether.
   writeFileSync(
     join(DIST, 'robots.txt'),
-    `User-agent: *\nAllow: /\n\nClean-param: lang\n\nSitemap: ${ORIGIN}/sitemap.xml\n`,
+    process.env.VITE_BETA === '1'
+      ? 'User-agent: *\nDisallow: /\n'
+      : `User-agent: *\nAllow: /\n\nClean-param: lang\n\nSitemap: ${ORIGIN}/sitemap.xml\n`,
   )
 
   // Every route needs its Russian twin as a bucket key too, or `/ru/rules` would fall through

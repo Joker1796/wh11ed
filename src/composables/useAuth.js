@@ -329,8 +329,10 @@ function login(provider, returnTo) {
   } catch {
     /* ignore private mode — the callback just falls back to its default */
   }
-  // Full-page navigation: the backend 302s to the provider and back to /tracker/auth-callback.
-  window.location.href = api(`/auth/${provider}/login`)
+  // Full-page navigation: the backend 302s to the provider and back to /tracker/auth-callback —
+  // on THIS site: the API serves the tracker's beta subdomain too, and returns to an allow-listed
+  // origin that asks (wh11ed-api, `?return=`).
+  window.location.href = api(`/auth/${provider}/login?return=${encodeURIComponent(window.location.origin)}`)
 }
 
 async function logout() {
