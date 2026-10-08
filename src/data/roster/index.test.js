@@ -13,6 +13,7 @@ import { duplicateLimit, validateRoster } from '../../composables/rosterValidati
 import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
 import { PACK_ERRATA } from '../../../scripts/lib/pack-roster.mjs'
+import { KEEP_RE } from '../../../scripts/lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from '../../../scripts/lib/character-grants.mjs'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
@@ -470,6 +471,26 @@ describe('replaced-item links', () => {
     expect(withReplaced).toBeGreaterThan(800)
     expect(missing).toBeLessThanOrEqual(2)
     expect(packMissing).toBeLessThanOrEqual(12)
+  })
+})
+
+describe('kept-item locks', () => {
+  // "(this model's storm bolter cannot be replaced)" is the stock rule's `keep`: the model still
+  // carries the item and no other group may take it. Both readers have to read it — the Faction
+  // Pack one did not, and three Legends sheets let a cyclone Terminator trade the storm bolter he
+  // was told to keep (a player's report, 2026-10-08; keepClause.mjs). "This weapon cannot be
+  // replaced" names no item the model started with and has no lock to carry.
+  it('every group that tells a model to keep an item carries the lock', () => {
+    const missing = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        for (const g of u.gear || []) {
+          const text = rosterItems.texts[g.t] || ''
+          if ([...text.matchAll(KEEP_RE)].length && !g.keep?.length) missing.push(`${slug}/${u.id}`)
+        }
+      }
+    }
+    expect(missing).toEqual([])
   })
 })
 

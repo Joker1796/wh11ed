@@ -79,8 +79,9 @@ function loadoutGroups(def, entry, items) {
     g.items.set(name, (g.items.get(name) || 0) + n)
   }
 
+  let removed = null
   if (def?.defaults?.length) {
-    const removed = swapsByMini(def, entry, perMini)
+    removed = swapsByMini(def, entry, perMini)
     for (const [m, list] of def.defaults) {
       const models = perMini?.get(m)
       for (const [id, c, total] of list) {
@@ -107,6 +108,29 @@ function loadoutGroups(def, entry, items) {
       // No recorded default loadout: the option's own label is all we can honestly print, and it
       // stands alone rather than beside weapons we don't know about.
       add(grp.m ?? 0, optionLabel(opt, items), n || 1)
+    }
+  }
+
+  // What a model gave up that its printed lines could not have held came off an option's copies —
+  // a chained swap ("bolt pistol → hand flamer" after a swap that handed the pistol out), or a
+  // printed item handed back by one option and taken by another group (the Deathwatch Terminator's
+  // cyclone storm bolter, a player 2026-10-08). The same reading as rosterModifiers'
+  // loadoutItemCopies, so the export and the card print one loadout.
+  if (removed) {
+    const printed = new Set(def.defaults.flatMap(([m, list]) => list.map(([id]) => `${m}:${id}`)))
+    for (const [key, take] of removed) {
+      const [m, id] = key.split(':').map(Number)
+      const models = perMini?.get(m)
+      if (!take || (printed.has(key) && models == null)) continue
+      let left = printed.has(key) ? take - models : take
+      for (const g of [groups.get(m), ...[...groups.values()].filter((x) => x !== groups.get(m))]) {
+        if (left <= 1e-9 || !g) continue
+        const have = g.items.get(items[id]) || 0
+        const d = Math.min(have, left)
+        if (d >= have) g.items.delete(items[id])
+        else g.items.set(items[id], have - d)
+        left -= d
+      }
     }
   }
 

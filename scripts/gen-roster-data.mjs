@@ -30,6 +30,7 @@ import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
 import { APPDATA_EXCEPTIONS } from './lib/appdata-exceptions.mjs'
+import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
 
@@ -892,7 +893,6 @@ function linkWargearConditions(datasheetId, drafts) {
   // group may take it. Nothing read the clause until 2026-09-24, so four Raptors with two plasma
   // pistols could still trade all four chainswords. "This weapon cannot be replaced" (the Chimera's
   // new heavy bolter) names no item the model started with and is left alone.
-  const KEEP_RE = /\b(?:that|this|these)\s+models?(?:'s|’s|s'|s’|'|’)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s+cannot be replaced/gi
   for (const d of drafts) {
     const keep = []
     for (const m of d.text.matchAll(KEEP_RE)) {

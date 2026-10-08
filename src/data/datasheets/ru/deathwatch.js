@@ -80,7 +80,7 @@ export default {
     },
     loadout: '**Каждая модель вооружена:** 1 Power Fist; 1 Storm Bolter.',
     options: [
-      'До 3 моделей Deathwatch Terminator можно заменить их Storm Bolter на одно из следующего: 1 Assault Cannon, 1 Cyclone Missile Launcher и 1 Storm Bolter, 1 Heavy Flamer, 1 Plasma Cannon',
+      'До 3 моделей Deathwatch Terminator можно заменить их Storm Bolter на одно из следующего: 1 Assault Cannon, 1 Cyclone Missile Launcher и 1 Storm Bolter (Storm Bolter этой модели нельзя заменить), 1 Heavy Flamer, 1 Plasma Cannon',
       'Любому числу моделей можно заменить их Power Fist и Storm Bolter на одно из следующего: 1 Storm Bolter и 1 Chainfist, 1 Storm Bolter и 1 Power Weapon, 1 Thunder Hammer и 1 Storm Shield, 1 Twin Lightning Claws',
     ],
   },

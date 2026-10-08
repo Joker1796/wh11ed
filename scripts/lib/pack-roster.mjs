@@ -11,6 +11,7 @@
 // `fx` the appdata units use (an item the pack shares with appdata — "Bolt pistol" — gets appdata's
 // id, so the importer, the stock rule and the export cannot tell the two sources apart).
 import { norm } from './sync-common.mjs'
+import { KEEP_RE } from './keepClause.mjs'
 
 const WORD_NUM = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6 }
 const num = (s) => (s == null ? null : WORD_NUM[String(s).toLowerCase()] ?? Number(s))
@@ -588,6 +589,19 @@ export function packRosterUnit(printedSheet, ctx) {
     if (opt.lim) grp.lim = opt.lim
     if (opt.ex) { grp.ex = opt.ex; if (opt.solo) grp.solo = opt.solo }
     if (rep) grp.rep = rep
+    // What the group keeps LOCKED ("this model's storm bolter cannot be replaced", keepClause.mjs),
+    // resolved like what it gives up.
+    if (opt.given) {
+      const dicts = opt.all ? [...defaultNames.values()] : [defaultNames.get(opt.m)].filter(Boolean)
+      const merged = new Map(dicts.flatMap((d) => [...d]))
+      const keep = []
+      for (const k of String(raw).matchAll(KEEP_RE)) {
+        const id = findName(k[1], merged) ?? findName(k[1], seenItems)
+        if (id != null) keep.push(id)
+        else report.rep.push(`${who}: kept "${k[1]}"`)
+      }
+      if (keep.length) grp.keep = [...new Set(keep)]
+    }
     // "Each of this model's X" — one swap per copy, the loadout count its cap (`cp`). "2 of this
     // model's heavy bolters can be replaced with 2 lascannons" is ONE swap that takes two copies of
     // the Malcador's seven (`rc`, rosterEngine's pickShare), and "Both of" is one swap of them all

@@ -90,6 +90,17 @@ export const APPDATA_EXCEPTIONS = [
     source: 'as sm-kratos-lascannonss-a',
   },
   {
+    id: 'dw-terminator-cyclone-storm-bolter-kept',
+    kind: 'wargear-rule',
+    slug: 'deathwatch',
+    datasheet: 'Deathwatch Terminator Squad',
+    from: '1 Cyclone Missile Launcher and 1 Storm Bolter, 1 Heavy Flamer',
+    to: '1 Cyclone Missile Launcher and 1 Storm Bolter (that model’s Storm Bolter cannot be replaced), 1 Heavy Flamer',
+    ours: '1 Cyclone Missile Launcher and 1 Storm Bolter (that model’s Storm Bolter cannot be replaced)',
+    why: 'appdata drops the footnote the Terminator Squad and the Deathwing Terminator Squad both print on the same option. The GW app refuses a cyclone Terminator who also trades fist and storm bolter for hammer and shield ("Invalid wargear selected") and accepts the squad without that overlap — so the builder let a player take both (a player\'s report, 2026-10-08).',
+    source: 'GW app 2.7.1 → Battle Forge, Deathwatch Terminator Squad, checked 2026-10-08: cyclone ×1 + thunder hammer/storm shield ×4 invalid, cyclone ×1 + hammer/shield ×3 valid',
+  },
+  {
     id: 'csm-raptors-up-to-typo',
     kind: 'wargear-rule',
     slug: 'chaos-space-marines',

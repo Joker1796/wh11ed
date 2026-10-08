@@ -1391,8 +1391,11 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
         if (left <= 0) break
         const key = `${m}:${id}`
         // Room is what the profile still NETS: a model whose swap handed the item back is still
-        // carrying it, so it is not a model the next swap has to look elsewhere for.
-        const room = models - net(key) + Math.min(backLeft, left)
+        // carrying it, so it is not a model the next swap has to look elsewhere for. But one group
+        // swaps each model once: never more of a profile than it fields. Without that cap ten
+        // Deathwatch Terminators all taking "storm bolter and chainfist" charged ten swaps to the
+        // nine Terminators and none to the Sergeant, who kept his power fist (a player, 2026-10-08).
+        const room = Math.min(models, models - net(key) + Math.min(backLeft, left))
         if (room <= 0) continue
         const spend = Math.min(room, left)
         const returned = Math.min(backLeft, spend)

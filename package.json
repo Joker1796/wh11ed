@@ -12,7 +12,7 @@
     "deploy": "bash deploy.sh",
     "images:webp": "node scripts/gen-webp.mjs && node scripts/gen-image-dims.mjs",
     "datasheets:index": "node scripts/gen-datasheet-index.mjs",
-    "roster:data": "node scripts/gen-roster-data.mjs && node scripts/gen-roster-texts-ru.mjs",
+    "roster:data": "node scripts/gen-roster-data.mjs && node scripts/gen-roster-texts-ru.mjs && node scripts/gen-enhancement-weapons.mjs",
     "roster:data:check": "node scripts/gen-roster-data.mjs --check && node scripts/gen-roster-texts-ru.mjs --check",
     "roster:imports": "npx vite-node scripts/check-roster-imports.mjs",
     "faction-rules:index": "node scripts/gen-faction-rules-index.mjs",

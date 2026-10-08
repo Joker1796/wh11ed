@@ -5,8 +5,8 @@
 export default {
   "enh:brute-bosses:Da Gobshot Thunderbuss": [
     {
-      "en": "▪ **Da Gobshot Thunderbuss** [LETHAL HITS: NON-MONSTER/VEHICLE, RAPID FIRE 6] — Range 24\", A 6, BS 4+, S 7, AP -2, D 2.",
-      "ru": "▪ **Da Gobshot Thunderbuss** [LETHAL HITS: NON-MONSTER/VEHICLE, RAPID FIRE 6] — Дальность 24\", A 6, BS 4+, S 7, AP -2, D 2."
+      "en": "▪ **Da Gobshot Thunderbuss** [LETHAL HITS: non-MONSTER/VEHICLE, RAPID FIRE 6] — Range 24\", A 6, BS 4+, S 7, AP -2, D 2.",
+      "ru": "▪ **Da Gobshot Thunderbuss** [LETHAL HITS: non-MONSTER/VEHICLE, RAPID FIRE 6] — Дальность 24\", A 6, BS 4+, S 7, AP -2, D 2."
     }
   ],
   "enh:taktikal-brigade:Kill Kommanda": [

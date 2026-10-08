@@ -53,6 +53,7 @@
 //
 // Usage: node scripts/sync-enhancement-restrictions.mjs   (also run as part of `npm run sync`).
 
+import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, norm, appdataToMarkup, loadModule, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy } from './lib/sync-common.mjs'
@@ -97,6 +98,15 @@ async function loadFaction(slug) {
   const mod = await loadModule(path.join(ROOT, 'src/data/factions', `${slug}.js`))
   return Object.values(mod || {})[0]?.en || null
 }
+const extrasCache = new Map()
+async function extrasOf(slug) {
+  if (!extrasCache.has(slug)) {
+    const file = path.join(ROOT, 'src/data/factions/extras', `${slug}.js`)
+    extrasCache.set(slug, fs.existsSync(file) ? (await import(pathToFileURL(file).href)).default : {})
+  }
+  return extrasCache.get(slug)
+}
+
 async function findEnhancement(slug, detKey, enhNormName) {
   const en = await loadFaction(slug)
   const det = (en?.detachments || []).find((d) => `det:${d.id || norm(d.name)}` === detKey)
@@ -193,7 +203,7 @@ for (const [enhId, enhGroups] of groupsByEnh) {
 // characteristic must appear somewhere in the body, in either locale's file.
 const profileById = new Map(read('wargear_item_profile.json').map((r) => [r.id, r]))
 const abilityName = new Map(read('wargear_ability.json').map((r) => [r.id, nameOf(r)]))
-const abilitiesByProfile = groupBy(read('wargear_item_profile_wargear_ability.json'), (r) => r.wargearItemProfileId)
+const abilitiesByProfile = groupBy(read('wargear_item_profile_wargear_ability.json'), 'wargearItemProfileId')
 const weaponFlagged = []
 let weaponsChecked = 0
 for (const row of read('enhancement_wargear_item_profile.json')) {
@@ -207,7 +217,9 @@ for (const row of read('enhancement_wargear_item_profile.json')) {
   weaponsChecked++
   const stats = [p.range, p.attacks, p.ballisticSkill || p.weaponSkill, p.strength, p.armourPenetration, p.damage].filter(Boolean)
   const abil = (abilitiesByProfile.get(p.id) || []).map((r) => abilityName.get(r.wargearAbilityId)).filter(Boolean)
-  const body = enh.body || ''
+  // The profile is drawn in the enhancement's plate (data/factions/extras/<slug>.js), out of its
+  // text — read both, or all six weapons read as missing and the report stops being read.
+  const body = `${enh.body || ''}\n${(await extrasOf(slug))[`enh:${det.id}:${enh.name}`]?.map((x) => x.en).join('\n') || ''}`
   const absent = [nameOf(p), ...stats, ...abil].filter((x) => !body.includes(String(x)))
   if (absent.length) weaponFlagged.push({ slug, detachment: det?.name, enhancement: enh.name, absent })
 }

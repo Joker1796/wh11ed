@@ -502,9 +502,11 @@ function translateClause(text) {
   // Codex: Space Marines (963) writes the options on the head's own line — "…replaced with one of
   // the following: 1 Hand Flamer, 1 Plasma Pistol" — where older sheets break them into ◦ bullets.
   // The head goes through the frames as usual; the items stay English, only their "and" glue is
-  // Russian. An entry carrying its own clause in brackets is not a plain item: fail open.
+  // Russian. An entry carrying its own clause in brackets is not a plain item: fail open — unless
+  // the clause is a note noteRu knows ("(that model's storm bolter cannot be replaced)").
   const inline = s.match(INLINE_LIST)
-  if (inline && !/[()]/.test(inline[2])) {
+  const plainOrKnown = (list) => !/[()]/.test(noteRu(list).replace(/\([^()]*нельзя заменить\)/g, ''))
+  if (inline && plainOrKnown(inline[2])) {
     const head = translateClause(`${inline[1]}:`)
     return head ? `${head} ${inline[2].split(/,\s*/).map(joinRu).join(', ')}` : null
   }

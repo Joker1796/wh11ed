@@ -3926,7 +3926,7 @@ export default {
     "487": "For every 5 models in this unit, 1 Gravis Veteran model can have their Infernus Heavy Bolter replaced with one of the following: 1 Frag Cannon, 1 Hellstorm Bolt Rifle and 1 Grenade Launcher",
     "488": "For every 5 models in this unit, 1 Deathwatch Veteran with Heavy Thunder Hammer and Bolt Pistol model can have their Heavy Thunder Hammer replaced with 1 Power Weapon and 1 Storm Shield.",
     "489": "For every 5 models in this unit, 1 Deathwatch Veteran with Stalker Bolt Rifle, Bolt Pistol and Knives and Fist model can have their Stalker Bolt Rifle replaced with 1 Plasma Incinerator.",
-    "490": "Up to 3 Deathwatch Terminator models can each have their Storm Bolter replaced with one of the following: 1 Assault Cannon, 1 Cyclone Missile Launcher and 1 Storm Bolter, 1 Heavy Flamer, 1 Plasma Cannon",
+    "490": "Up to 3 Deathwatch Terminator models can each have their Storm Bolter replaced with one of the following: 1 Assault Cannon, 1 Cyclone Missile Launcher and 1 Storm Bolter (that model’s Storm Bolter cannot be replaced), 1 Heavy Flamer, 1 Plasma Cannon",
     "491": "Any number of models can each have their Power Fist and Storm Bolter replaced with one of the following: 1 Storm Bolter and 1 Chainfist, 1 Storm Bolter and 1 Power Weapon, 1 Thunder Hammer and 1 Storm Shield, 1 Twin Lightning Claws",
     "492": "The Watch Sergeant can have their Boltgun replaced with 1 Combi-weapon.",
     "493": "The Watch Sergeant can have their Power Weapon replaced with 1 Xenophase Blade.",

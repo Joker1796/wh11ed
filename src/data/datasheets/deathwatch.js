@@ -454,7 +454,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** 1 Power Fist; 1 Storm Bolter.",
     "options": [
-      "Up to 3 Deathwatch Terminator models can each have their Storm Bolter replaced with one of the following: 1 Assault Cannon, 1 Cyclone Missile Launcher and 1 Storm Bolter, 1 Heavy Flamer, 1 Plasma Cannon",
+      "Up to 3 Deathwatch Terminator models can each have their Storm Bolter replaced with one of the following: 1 Assault Cannon, 1 Cyclone Missile Launcher and 1 Storm Bolter (that model’s Storm Bolter cannot be replaced), 1 Heavy Flamer, 1 Plasma Cannon",
       "Any number of models can each have their Power Fist and Storm Bolter replaced with one of the following: 1 Storm Bolter and 1 Chainfist, 1 Storm Bolter and 1 Power Weapon, 1 Thunder Hammer and 1 Storm Shield, 1 Twin Lightning Claws"
     ],
     "keywords": [

@@ -318,3 +318,25 @@ describe('allies in the GW export', () => {
     expect(text).toContain(`(${85 + 15 + 160 + 10 + 70 + 75 + 65} points)`)
   })
 })
+
+describe('buildRosterText — a printed item given up twice on one model', () => {
+  // Deathwatch Terminators: the cyclone hands its storm bolter back, then hammer and shield take
+  // fist and storm bolter from the same three models and one more (a player, 2026-10-08).
+  const dwItems = { 1: 'Storm Bolter', 2: 'Power Fist', 3: 'Cyclone Missile Launcher', 4: 'Thunder Hammer', 5: 'Storm Shield' }
+  const dw = {
+    id: 'dwt', name: 'Deathwatch Terminator Squad', kws: ['Infantry'], flags: {},
+    minis: [{ n: 'Deathwatch Terminator Sergeant' }, { n: 'Deathwatch Terminator' }],
+    sizes: [{ pts: 190, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] }],
+    defaults: [[1, [[1, 1], [2, 1]]], [0, [[2, 1], [1, 1]]]],
+    gear: [
+      { m: 1, in: 'stepper', o: [[[[3, 1], [1, 1]]]], lim: [[0, 3]], rep: [1] },
+      { all: 1, in: 'stepper', o: [[[[4, 1], [5, 1]]]], rep: [2, 1] },
+    ],
+  }
+  it('prints the one storm bolter the squad still carries', () => {
+    const r = { name: 'X', faction: 'deathwatch', detachments: ['Gladius Task Force'], battleSize: 'strike-force', units: [{ uid: 'u', id: 'dwt', size: 0, wg: [[1, 0, 4], [0, 0, 3]] }] }
+    const txt = buildRosterText(r, { ...ctx, faction: { ...faction, units: [dw] }, items: dwItems })
+    const bolters = [...txt.matchAll(/(\d+)x Storm Bolter/g)].reduce((s, m) => s + Number(m[1]), 0)
+    expect(bolters).toBe(1)
+  })
+})

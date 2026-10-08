@@ -17,6 +17,7 @@
 import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor, detKey } from './rosterEngine.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 import rosterItemsData from '../data/roster/items.js'
+import ENH_WEAPONS from '../data/enhancementWeapons.js'
 // Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
 // carry an enhancement; re-exported here because this is where every caller already imports them.
 export { grantedKeywordsFor, detKey } from './rosterEngine.js'
@@ -201,13 +202,22 @@ export function loadoutItemCopies(def, entry) {
   // the bolt pistol stayed beside the hand flamer (found 2026-10-05 sweeping every swap; 13 groups,
   // Death Company Marines, Furioso, Dire Avengers, Corsairs, Wracks…). What a profile gave up that
   // it was not printed with comes off the copies the options added, first ones first.
+  //
+  // A PRINTED item can be given up twice on one model too: an option hands it back ("cyclone
+  // missile launcher and 1 storm bolter") and another group takes it ("power fist and storm bolter →
+  // thunder hammer and storm shield"). The printed lines can lose no more than the profile's
+  // models; the rest of what the ledger counts came off copies an option added — else they stayed
+  // on the card (a player, 2026-10-08: four storm bolters on a squad that kept one).
   const printed = new Set(def.defaults.flatMap(([m, list]) => list.map(([id]) => `${m}:${id}`)))
   for (const [key, take] of removed) {
-    if (!take || printed.has(key)) continue
+    if (!take) continue
     const [m, id] = key.split(':').map(Number)
+    const models = perMini?.get(m)
+    if (printed.has(key) && models == null) continue
     // The profile's own copies first, then the unit-wide ones (a Desolation Sergeant gives up the
     // superkrak launcher a whole-unit group handed every model).
-    let left = take
+    let left = printed.has(key) ? take - models : take
+    if (left <= 1e-9) continue
     for (const own of [true, false]) {
       for (const sl of copies.get(id) || []) {
         if (left <= 0) break
@@ -553,11 +563,25 @@ function allegGrant(def, entry, detachments) {
   return [{ kw, detName: null, extra: false, alleg: allegFor(def, detachments)?.t || null }]
 }
 
+// The weapons the entry's enhancement gives it ("This model has the following weapon:") join its
+// own table, marked as the enhancement's (`enh`, DatasheetCard's tag) — at the bottom of the card,
+// in the enhancement's plate, a player forgot the bearer had them at all (2026-10-08). The rows
+// come from appdata's own profile (scripts/gen-enhancement-weapons.mjs).
+function withEnhancementWeapons(sheet, entry) {
+  const given = entry?.enh && ENH_WEAPONS[enhKey(entry.enh)]
+  if (!given || !(given.melee.length || given.ranged.length)) return sheet
+  const out = { ...sheet }
+  for (const kind of ['ranged', 'melee']) {
+    if (given[kind].length) out[kind] = [...(sheet[kind] || []), ...given[kind].map((w) => ({ ...w, enh: entry.enh }))]
+  }
+  return out
+}
+
 export function overlaySheet(sheet, ctx) {
   if (!sheet) return { sheet, grantedKeywords: [], context: null, ruleSources: [], notes: [] }
   const { def, entry, items, unitId, factionSlug, detachments } = ctx || {}
   return {
-    sheet: filterWeapons(sheet, def, entry, items),
+    sheet: withEnhancementWeapons(filterWeapons(sheet, def, entry, items), entry),
     // …plus the keyword the entry chose for itself. The sidecar can't carry these: which mark a
     // unit took is a per-list decision, not a property of the datasheet (which is exactly why
     // gen-conditional-keywords.mjs skips appdata's 274 allegiance rows).

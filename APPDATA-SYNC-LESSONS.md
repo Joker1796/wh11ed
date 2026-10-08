@@ -1188,3 +1188,15 @@ and appdata state fresh; a data model can change between now and when this is ne
     (`index.test.js` → "attachment slots"). Same day, same shape on screen: the size pills were
     held to "a tied pill gets a suffix", and Accursed Cultists' two builds got the same suffix —
     the test now asks that every pill reads differently.
+83. **A clause one reader learnt is a hole in every other reader.** "(this model's storm bolter
+    cannot be replaced)" became the stock rule's `keep` in gen-roster-data on 2026-09-24; the
+    Faction Pack reader never read it, so a cyclone Terminator on three Legends sheets (Deathwing
+    Command Squad, Imperial Agents' Deathwatch Terminators, Proteus) could trade the bolter he was
+    told to keep — and the codex Deathwatch Terminator Squad lost the same footnote in appdata
+    itself (the GW app refuses the overlap; an exception now restores it). The engine underneath
+    was blind too: a printed item handed back by one option and taken by another group stayed on
+    the card (four storm bolters on a squad that kept one; a player's report, 2026-10-08), and a
+    unit-wide group could charge a profile more swaps than it has models. A clause both readers
+    need lives in one module (`scripts/lib/keepClause.mjs`); the gate asks the invariant over
+    every group ("kept-item locks": a group that tells a model to keep an item carries the lock),
+    not the one sheet the report named.

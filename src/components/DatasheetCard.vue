@@ -138,6 +138,10 @@
                     v-if="w.qty > 1"
                     class="wqty"
                   >&times;{{ w.qty }}</span></span></span><span
+                    v-if="w.enh"
+                    class="wenh"
+                    :title="w.enh"
+                  >{{ labels.dsEnhancementWeapon }}</span><span
                     v-if="w.tags?.length"
                     class="wtags"
                   ><span
@@ -242,6 +246,10 @@
                     v-if="w.qty > 1"
                     class="wqty"
                   >&times;{{ w.qty }}</span></span></span><span
+                    v-if="w.enh"
+                    class="wenh"
+                    :title="w.enh"
+                  >{{ labels.dsEnhancementWeapon }}</span><span
                     v-if="w.tags?.length"
                     class="wtags"
                   ><span
@@ -1731,6 +1739,13 @@ function abilityStateLabel(st) {
    and the column labels hang off the same scale (below). */
 .ds-weapons td:not(.wname), .ds-weapons .wname-text { font-size: 1.25rem; line-height: 1.2; }
 .wtags { margin-left: 0.35rem; }
+/* A weapon the entry's enhancement gives it (rosterModifiers' withEnhancementWeapons): said beside
+   its name, since nothing else on the row tells it from the datasheet's own. */
+.wenh {
+  display: inline-block; margin-left: 0.35rem; padding: 0 0.3rem;
+  border: 1px solid var(--accent); color: var(--accent-ink);
+  font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; vertical-align: 0.1em;
+}
 /* A small gap between tags, across and between wrapped lines — butted together their frames read
    as one long box (owner, 2026-10-02). inline-block so the vertical margin takes. The stacked
    layout lays them out with a flex `gap` instead and zeroes this. */
