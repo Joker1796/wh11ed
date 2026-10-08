@@ -1291,15 +1291,23 @@ function onEndBattle(reason) {
   border: 1px solid var(--border); background: var(--bg-card); font: inherit; cursor: pointer; text-align: center;
 }
 .tp-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.7rem; color: var(--text-dim); line-height: 1.2; }
-.tp-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; text-transform: uppercase; line-height: 1.1; color: var(--text-primary); }
+.tp-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; line-height: 1.1; color: var(--text-primary); }
 @media (hover: hover) { .tr-phase:hover, .tr-step:not(:disabled):hover { border-color: var(--accent); } }
 .tr-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tr-end { --side: var(--side-you); background: var(--side); border-color: var(--side); color: #fff; }
+/* «Завершить ход» beside the longest phase («Фаза ближнего боя») on a 360px phone (owner, 2026-10-08):
+   both a step under the bar's other words, measured — at 1.05/1.1rem they needed 205px of 179. */
+.tr-end { --side: var(--side-you); background: var(--side); border-color: var(--side); color: #fff; font-size: 0.95rem; }
 .tr-end.opp { --side: var(--side-opponent); }
 .tr-btn:disabled { opacity: 0.45; cursor: default; }
 @media (hover: hover) {
   .tr-prev:not(:disabled):hover { border-color: var(--accent); }
   .tr-end:not(:disabled):hover { background: color-mix(in srgb, var(--side) 85%, #000); }
+}
+/* A 320px phone: the fixed buttons narrower too, the words another step down (measured to fit). */
+@media (max-width: 340px) {
+  .turn-row.phased { grid-template-columns: 36px 28px minmax(0, 1fr) 28px auto; gap: 0.2rem; }
+  .tp-name { font-size: 0.82rem; }
+  .tr-end { font-size: 0.86rem; padding-inline: 0.45rem; }
 }
 
 /* The working area's tabs: one strip, joined, on a line in the accent — the active tab is filled

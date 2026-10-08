@@ -46,10 +46,6 @@
         {{ labels.trackerLogText }}
       </button>
     </div>
-    <p class="gl-hint">
-      {{ labels.trackerLogHint }}
-    </p>
-
     <div ref="listEl">
       <p
         v-if="!rounds.length"
@@ -212,7 +208,7 @@ async function copy() {
 </script>
 
 <style scoped>
-/* The filter and the plain-text copy on one line, the hint under them. */
+/* The filter and the plain-text copy on one line. */
 .gl-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
 .gl-pick { flex: 1; min-width: 0; }
 /* The dropdown and "As text" one height (owner, 2026-10-06): the row stretches both. */
@@ -220,9 +216,10 @@ async function copy() {
 /* …through the dropdown's own wrapper on a desk (PickerDropdown's .pd), straight on a phone. */
 .gl-pick :deep(.pd), .gl-pick .picker-trigger { flex: 1; min-height: 0; }
 .gl-text { flex-shrink: 0; padding: 0.4rem 0.7rem; font-size: 0.8rem; }
-.gl-hint { margin: 0.5rem 0 0; font-size: 0.76rem; color: var(--text-dim); }
-.gl-empty { margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-dim); }
+.gl-empty { margin: 0.6rem 0 0; font-size: 0.85rem; color: var(--text-dim); }
 .gl-round { margin-top: 0.9rem; }
+/* Under the filter the gap the other panels keep under their controls, not the one between rounds. */
+.gl-round:first-child { margin-top: 0.6rem; }
 .gl-rh {
   margin: 0 0 0.35rem;
   font-family: var(--font-display); font-size: 1.25rem; font-weight: 600;

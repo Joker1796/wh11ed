@@ -129,5 +129,8 @@ defineExpose({ show, openUnit })
 .rt { --side: var(--side-you); --accent: var(--side); --accent-ink: var(--side); }
 .rt.opp { --side: var(--side-opponent); }
 .rt-tabs { margin-bottom: 0.6rem; }
+/* In the side's frame the open tab opens onto the frame's ground, as the Armies tabs onto their card
+   (owner, 2026-10-08) — on the page's darker ground it read as a block apart from the list. */
+.rt.side-frame .rt-tabs { --page-tab-open-bg: var(--bg-card); }
 .rt.side-frame { display: flex; flex-direction: column; }
 </style>
