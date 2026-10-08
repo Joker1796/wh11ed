@@ -8,11 +8,22 @@ import { instantly } from './useRefNavigation.js'
 // which threw the page by hundreds of px (2026-09-28). Instant, like every programmatic scroll
 // that is not the reader's own jump.
 export function bringTabsIntoView(entering) {
+  const by = tabsOffset(entering)
+  if (by) instantly(() => window.scrollBy(0, by))
+}
+
+// How far up the page has to go for that (negative px), 0 when the strip is in view — for a caller
+// that moves the page itself (useSwapFade glides it).
+export function tabsOffset(entering) {
   let host = entering?.parentElement
   while (host && !host.querySelector(':scope > .page-tabs, :scope > * > .page-tabs')) host = host.parentElement
-  const strip = host?.querySelector('.page-tabs')
-  if (!strip) return
+  return stripOffset(host?.querySelector('.page-tabs'))
+}
+
+// The same for any strip of controls: how far up to bring it just below the header, 0 if in view.
+export function stripOffset(strip) {
+  if (!strip) return 0
   const header = Math.max(0, ...[...document.querySelectorAll('.navbar, .subnav')].map((h) => h.getBoundingClientRect().bottom))
   const top = strip.getBoundingClientRect().top
-  if (top < header) instantly(() => window.scrollBy(0, top - header - 8))
+  return top < header ? top - header - 8 : 0
 }

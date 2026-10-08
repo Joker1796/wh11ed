@@ -675,6 +675,8 @@ import { bonusIn } from '../../composables/cpLedger.js'
 import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { provideModalScope } from '../../composables/modalScope.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
+import { hold, settle } from '../../composables/settleScroll.js'
+import { motionMs } from '../../composables/motionToken.js'
 import { useTracker, gameBegun, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
@@ -832,19 +834,24 @@ onBeforeUnmount(() => window.removeEventListener('resize', fitHeight))
 // the strip at the top of the screen — not wherever a shorter panel lets the browser clamp the
 // scroll (2026-09-29: first a jump, then a screen-tall blank to stop it). From above, nothing moves.
 // The strip is sticky (owner, 2026-10-06), so "further down" is "the strip is stuck": its own top
-// then equals its sticky `top`, and the new panel is scrolled up to sit just under it.
+// then equals its sticky `top`, and the new panel is brought up to sit just under it. The move
+// glides with the panel's own entrance (owner, 2026-10-08: the screen leapt), and a shorter panel
+// does not let the browser clamp the page in one frame either (settleScroll.js).
 const tabsEl = ref(null)
+watch(tab, hold) // `pre`: before the old panel is hidden
 watch(tab, () => {
   const el = tabsEl.value
-  if (!el) return
+  settle(motionMs('--motion-tab'), el ? tabsOffset(el) : 0)
+}, { flush: 'post' })
+function tabsOffset(el) {
   const cs = getComputedStyle(el)
   const stuckAt = parseFloat(cs.top) || 0
-  if (el.getBoundingClientRect().top > stuckAt + 1) return
+  if (el.getBoundingClientRect().top > stuckAt + 1) return 0
   const panel = [...el.parentElement.children].find((c) => c.classList.contains('panel') && c.style.display !== 'none')
-  if (!panel) return
+  if (!panel) return 0
   const want = stuckAt + el.offsetHeight + (parseFloat(cs.marginBottom) || 0)
-  window.scrollBy({ top: panel.getBoundingClientRect().top - want, behavior: 'instant' })
-}, { flush: 'post' })
+  return panel.getBoundingClientRect().top - want
+}
 // The round on screen: the live one, or a past one opened for correction from the round steps
 // (`viewRound`). Local to this phone — what one player is correcting is not where the game is.
 const viewRound = ref(null)

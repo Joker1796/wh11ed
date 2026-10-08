@@ -7,6 +7,7 @@
     <!-- Detachment filters only while a game is in progress: without one this page stays the
          plain core-stratagem quick reference. Shared with the tracker's CP tab. -->
     <StratFilterBar
+      ref="barEl"
       v-model:filter="filter"
       v-model:by-phase="byPhase"
       :filters="hasGame ? filters : []"
@@ -67,6 +68,9 @@ import { useTracker } from '../composables/useTracker.js'
 import { loadCoreStratagems, loadSideStratagems, sideSignature } from '../composables/gameStratagems.js'
 import { PHASE_ORDER, groupByPhase } from '../composables/stratagemPhases.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
+import { hold, settle } from '../composables/settleScroll.js'
+import { stripOffset } from '../composables/bringTabsIntoView.js'
+import { motionMs } from '../composables/motionToken.js'
 
 const route = useRoute()
 const { locale } = useLocale()
@@ -178,6 +182,13 @@ const VIEW_KEY = 'wh11ed-stratagems-by-phase'
 const wantedPhase = PHASE_ORDER.includes(String(route?.query?.phase)) ? String(route.query.phase) : null
 const byPhase = ref(wantedPhase ? true : getItem(VIEW_KEY) === '1')
 watch(byPhase, (on) => setItem(VIEW_KEY, on ? '1' : '0'))
+
+// A filter or the phase view can shorten the page under the reader (the phases fold to their
+// heads): the page glides to the new list's start, filters just under the header, instead of the
+// browser clamping it in one frame (owner, 2026-10-08; settleScroll.js).
+const barEl = ref(null)
+watch([filter, byPhase], hold)
+watch([filter, byPhase], () => settle(motionMs('--motion-swap'), stripOffset(barEl.value?.$el)), { flush: 'post' })
 const openPhases = ref(new Set(wantedPhase ? [wantedPhase] : []))
 
 const phaseGroups = computed(() => groupByPhase(visibleStratagems.value))
