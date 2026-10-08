@@ -538,6 +538,16 @@ The game screen's Phase tab: **what has something to say in the phase the game i
 phase's name — `usePhaseRules`' sides carry `groups` (one unnamed for the clock's phase, else one per
 phase with something in it) and `count` (rules, one named in two phases counted once).
 
+**What a unit says, four kinds** (owner, 2026-10-08), all under "Units", the kind before the name
+where it is not a datasheet ability: its **datasheet abilities**; its **wargear abilities**, only
+while it carries the item (the index says `d` — it starts with it — or `g`, the `[group, option]`
+picks of the roster data that give it, matched against the entry's `wg`; an ability no item of the
+unit is named after is `d`, showing over hiding); every **ability-set option** that names a phase,
+under the set's name (which option is up is picked in the game, so all are offered); and its
+**enhancement** — `entry.enh`, or the one the datasheet is forced to take in a fielded detachment
+(`me` in the unit's record, since rosterEngine derives it and never stores it). Enhancements are
+`enh` in the faction's record, by name, anchored to their card (`enh-<detId>-<slug>`).
+
 **When in the phase** (2026-10-08): the index carries `m: { phase: 'start' | 'end' }` from
 `phaseMomentsOf` (stratagemPhases.js) — a phase every mention of which is "at the start/end of …";
 "until the start/end of …" is a duration and does not count, and a phase also named any other way is

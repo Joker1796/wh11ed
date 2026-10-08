@@ -97,18 +97,34 @@ export function usePhaseRules() {
         const ally = allySourceOf(u.id)
         const src = ally ? idx[ally[0]] : fac
         const rec = src?.units?.[ally ? ally[1] : u.id]
-        if (!rec) continue
-        for (const e of rec.a) {
+        if (!rec && !u.enh) continue
+        // What this entry has to say, of four kinds (owner, 2026-10-08): its datasheet abilities;
+        // its wargear abilities — only while it carries the item (`d` it starts with it, `g` the
+        // picks that give it); every option of its ability sets (which is up is picked during the
+        // game); and its enhancement, chosen or the one its datasheet is forced to take.
+        const said = [
+          ...(rec?.a || []).map((e) => [e, 'ability']),
+          ...(rec?.w || []).filter((e) => e.d || picked(u, e.g)).map((e) => [e, 'wargear']),
+          ...(rec?.s || []).map((e) => [e, 'set']),
+        ]
+        const enh = u.enh || forcedEnh(rec, m.detachments)
+        const enhE = enh && fac?.enh?.[enh]
+        if (enhE) said.push([enhE, 'enh'])
+        for (const [e, type] of said) {
           if (!usableInSlot(e.p, e.s, ph, mine)) continue
           // One line per RULE: three Intercessor Squads with the same ability are one reminder with
           // three names under it, not three identical lines.
-          const key = `${e.n}`
+          const key = `${type}|${e.set || ''}|${e.n}`
           if (!byRule.has(key)) {
             byRule.set(key, {
               key: `u|${mi ?? ''}|${key}`,
               kind: 'unit',
               mi: rawMi,
               name: nameOf(e),
+              // What it is, where an ability of the datasheet would not be the first guess.
+              what: type === 'wargear' ? labels.value.trackerPhaseWargear
+                : type === 'enh' ? labels.value.trackerPhaseEnh
+                  : type === 'set' ? e.set : null,
               when: momentOf(e, ph),
               units: new Set(),
               // Where this one unit's card is. Dropped for the list as soon as a SECOND entry turns
@@ -126,7 +142,7 @@ export function usePhaseRules() {
             r.to = listOf(m, pi, mi)
             if (r.roster) r.roster = { pi, mi }
           }
-          r.units.add(rec.n)
+          r.units.add(rec?.n || u.id)
         }
       }
       for (const r of byRule.values()) out.push({ ...r, sub: [...r.units].join(' · ') })
@@ -167,6 +183,19 @@ export function usePhaseRules() {
   }
   function listOf(m, pi, mi) {
     return m.roster ? rosterPath(pi, mi) : `/factions/${m.factionSlug}/datasheets`
+  }
+
+  // Does this entry carry an item a wargear ability comes with — one of the [group, option]
+  // picks (`wg` holds [group, option, count]) that grant it?
+  function picked(u, pairs) {
+    return !!pairs && (u.wg || []).some(([gi, oi, n]) => (n ?? 1) > 0 && pairs.some(([g, o]) => g === gi && o === oi))
+  }
+  // A mandatory enhancement is never stored on the entry: the index names it per detachment.
+  function forcedEnh(rec, dets) {
+    const me = rec?.me
+    if (!me) return null
+    const d = (dets || []).find((x) => Object.keys(me).some((k) => norm(k) === norm(x)))
+    return d ? me[Object.keys(me).find((k) => norm(k) === norm(d))] : null
   }
 
   // When in the phase a rule fires, from the index ('start' / 'end'); absent is during it.

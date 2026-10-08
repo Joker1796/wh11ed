@@ -92,6 +92,10 @@
                           class="pr-when"
                         >{{ whenLabel(r.when) }}</span>
                         <span
+                          v-if="r.what"
+                          class="pr-src pr-what"
+                        >{{ r.what }}</span>
+                        <span
                           v-if="r.units || r.src !== labels.trackerArmyRule"
                           :class="r.units ? 'pr-ability' : 'pr-src'"
                         >{{ r.units ? r.name : r.src }}</span>
@@ -289,6 +293,9 @@ function toggle() {
 .pr-sub { font-size: 0.8rem; line-height: 1.3; }
 .pr-ability { color: var(--accent-ink); }
 .pr-src { color: var(--text-muted); }
+/* What a unit's line is when it is not one of the datasheet's own abilities: wargear, an
+   enhancement, an ability set's name. Before the name, as the moment is. */
+.pr-what { margin-right: 0.35rem; }
 /* When in the phase it fires, where the text says: before what it is. */
 .pr-when {
   margin-right: 0.35rem;

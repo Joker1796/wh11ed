@@ -109,6 +109,47 @@ describe('PhaseRules', () => {
     expect(w.text()).toContain('Painboy')
   })
 
+  // Wargear speaks only while the unit carries it: the Battle Sisters' Simulacrum Imperialis is
+  // a pick (group 4), so a squad without it says nothing at the end of the Command phase.
+  it('adds a wargear ability only for the unit that took the item', async () => {
+    const list = (wg) => ({
+      id: 'r1', name: 'L', faction: 'adepta-sororitas', detachments: [], battleSize: 'strike-force',
+      units: [{ uid: 'b1', id: 'battle-sisters-squad', size: 0, ...(wg ? { wg } : {}) }],
+    })
+    startGame({ factionSlug: 'adepta-sororitas', roster: list(null) })
+    let w = await mountBlock()
+    if (w.find('.pr-head').exists()) await open(w)
+    expect(w.text()).not.toContain('Simulacrum Imperialis')
+    w.unmount()
+    startGame({ factionSlug: 'adepta-sororitas', roster: list([[4, 0, 1]]) })
+    w = await mountBlock()
+    await open(w)
+    expect(w.text()).toContain('Simulacrum Imperialis')
+    expect(w.text()).toContain('Wargear')
+  })
+
+  // An enhancement speaks for its bearer: chosen on the entry, or the one its datasheet is forced
+  // to take in a detachment (a C'tan Shard's in Pantheon of Woe, never stored on the entry).
+  it('adds the enhancement a unit carries, chosen or mandatory', async () => {
+    startGame({
+      factionSlug: 'adepta-sororitas',
+      roster: { id: 'r1', name: 'L', faction: 'adepta-sororitas', detachments: [], battleSize: 'strike-force', units: [{ uid: 'c1', id: 'canoness', size: 0, enh: 'Litanies of Faith' }] },
+    })
+    let w = await mountBlock()
+    await open(w)
+    expect(w.text()).toContain('Litanies of Faith')
+    expect(w.text()).toContain('Enhancement')
+    w.unmount()
+    startGame({}, {
+      factionSlug: 'necrons', detachments: ['Pantheon of Woe'],
+      roster: { id: 'r2', name: 'N', faction: 'necrons', detachments: ['Pantheon of Woe'], battleSize: 'strike-force', units: [{ uid: 'v1', id: 'ctan-shard-of-the-void-dragon', size: 0 }] },
+    })
+    tracker.goToPhase(0, 'shooting')
+    w = await mountBlock()
+    await open(w)
+    expect(w.text()).toContain('Animus Damper')
+  })
+
   it('renders nothing when no rule has anything to say', async () => {
     startGame()
     tracker.goToPhase(0, 'charge')   // eight abilities in the whole game name the Charge phase
