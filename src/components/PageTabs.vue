@@ -202,6 +202,9 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
 .page-tab-icon {
   font-size: 0.9em;
 }
+/* The owner's drawings are lighter than a Bootstrap glyph of the same box: a step up to read the
+   same beside the label (owner, 2026-10-08). */
+.page-tab-icon.wi { font-size: 1.05em; }
 
 /* "There is something left to answer behind this tab." Amber, not the error red: what it marks is
    a list that is legal and saveable — the player simply still owes a choice, and a red mark would

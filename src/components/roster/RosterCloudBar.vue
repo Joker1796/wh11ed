@@ -11,10 +11,7 @@
     :class="{ err: state === 'error', compact }"
     :title="compact && title !== text ? title : undefined"
   >
-    <i
-      class="bi"
-      :class="icon"
-    />
+    <i :class="icon" />
     <span class="rc-text">{{ text }}</span>
   </p>
 </template>
@@ -62,7 +59,7 @@ const { state, text, title, icon } = useRosterCloudStatus({
   color: var(--text-muted);
   text-align: center;
 }
-.rc-bar .bi { color: var(--accent-ink); }
+.rc-bar .wi { color: var(--accent-ink); }
 .rc-bar.err { color: var(--danger); }
-.rc-bar.err .bi { color: inherit; }
+.rc-bar.err .wi { color: inherit; }
 </style>

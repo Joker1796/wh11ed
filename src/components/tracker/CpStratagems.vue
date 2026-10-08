@@ -29,7 +29,7 @@
       class="cps-oppturn"
     >
       <i
-        class="bi bi-hourglass-split"
+        class="wi wi-clock"
         aria-hidden="true"
       /> {{ labels.trackerStratOppTurn.replace('{name}', names[turnIdx]) }}
     </p>

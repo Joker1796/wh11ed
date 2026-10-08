@@ -31,7 +31,7 @@
         :aria-pressed="nowOnly"
         @click="$emit('update:nowOnly', !nowOnly)"
       >
-        <i class="bi bi-hourglass-split" />
+        <i class="wi wi-clock" />
         <span class="strat-toggle-label">{{ labels.stratNowOnly }}</span>
       </button>
       <button

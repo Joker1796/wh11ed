@@ -23,10 +23,7 @@
           :class="{ err: cloud.err }"
           :title="cloud.title"
         >
-          <i
-            class="bi"
-            :class="cloud.icon"
-          />
+          <i :class="cloud.icon" />
           <span class="ca-text">{{ cloud.text }}</span>
         </span>
         <RouterLink
@@ -127,7 +124,7 @@
             :aria-label="labels.cloudSync"
             @click="syncNow"
           >
-            <i class="bi bi-arrow-clockwise" />
+            <i class="wi wi-sync" />
           </button>
         </span>
       </div>
@@ -166,7 +163,7 @@
             <span class="gc-date">
               <i
                 v-if="status === 'authed' && isBackedUp(g)"
-                class="bi bi-cloud-check-fill cloud-flag"
+                class="wi wi-cloud-synced cloud-flag"
                 :title="labels.cloudBackedUp"
               />
               {{ formatDate(g.finishedAt || g.createdAt) }}
@@ -362,15 +359,15 @@ function doStartNew() {
 // on entry — is what is on this phone also somewhere else.
 const cloud = computed(() => {
   const l = labels.value
-  if (status.value !== 'authed') return { icon: 'bi-cloud', text: l.cloudLocalOnly, title: l.cloudSignInHint }
-  if (lastError.value) return { icon: 'bi-cloud-slash', text: l.cloudNotSynced, title: l.cloudError, err: true }
-  if (syncing.value) return { icon: 'bi-arrow-repeat', text: l.cloudSyncing, title: '' }
+  if (status.value !== 'authed') return { icon: 'wi wi-cloud', text: l.cloudLocalOnly, title: l.cloudSignInHint }
+  if (lastError.value) return { icon: 'wi wi-cloud-error', text: l.cloudNotSynced, title: l.cloudError, err: true }
+  if (syncing.value) return { icon: 'wi wi-sync', text: l.cloudSyncing, title: '' }
   if (inSync.value) {
     return cloudEmpty.value
-      ? { icon: 'bi-cloud', text: l.cloudEmpty, title: '' }
-      : { icon: 'bi-cloud-check-fill', text: l.cloudInSync, title: '' }
+      ? { icon: 'wi wi-cloud', text: l.cloudEmpty, title: '' }
+      : { icon: 'wi wi-cloud-synced', text: l.cloudInSync, title: '' }
   }
-  return { icon: 'bi-cloud', text: l.cloudSyncing, title: '' }
+  return { icon: 'wi wi-cloud', text: l.cloudSyncing, title: '' }
 })
 
 // What the one big button does, and what it says. A game in progress (or a lobby, or a setup
@@ -650,7 +647,7 @@ function footLine(g) {
   font-weight: 600;
   color: var(--text-dim);
 }
-.in-sync .bi { color: var(--accent-ink); }
+.in-sync .wi { color: var(--accent-ink); }
 /* Small "force sync" icon button next to the status — muted, highlights on hover, spins while syncing. */
 .in-sync .sync-icon {
   display: inline-flex;
@@ -663,10 +660,10 @@ function footLine(g) {
   cursor: pointer;
   line-height: 1;
 }
-.in-sync .sync-icon .bi { color: var(--text-dim); font-size: 0.9rem; }
-.in-sync .sync-icon:hover .bi { color: var(--accent-ink); }
+.in-sync .sync-icon .wi { color: var(--text-dim); font-size: 0.9rem; }
+.in-sync .sync-icon:hover .wi { color: var(--accent-ink); }
 .in-sync .sync-icon:disabled { cursor: default; }
-.in-sync .sync-icon.spinning .bi { animation: spin 0.8s linear infinite; color: var(--accent-ink); }
+.in-sync .sync-icon.spinning .wi { animation: spin 0.8s linear infinite; color: var(--accent-ink); }
 .empty { color: var(--text-muted); font-style: italic; }
 .games { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; position: relative; }
 .game {

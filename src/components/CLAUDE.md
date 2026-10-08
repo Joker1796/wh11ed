@@ -295,7 +295,10 @@ Paired states swap the class (`theme-light`/`-dark`, `sound-on`/`-off`, `pin-on`
 `lore`/`lore-on`, `add`/`check`). Still Bootstrap: anything the pack has no drawing for, including
 the roster cloud-status icons (a family of cloud states only partly drawn). A scoped rule that sized
 `.bi` must follow the swap to `.wi`; in a fixed-width icon column give `.wi` `margin-inline: 0`, or
-it sits 0.2em narrower than its `bi` neighbours. A new drawing: the file, one `.wi-name` line.
+it sits 0.2em narrower than its `bi` neighbours. Every file's `viewBox` is a square cropped round its ink, the ink 21 of its 24 (22.5 for the
+diagonal pencil and pins) and centred — the pack's own margins varied from 1 to 4.5, and a drawing
+with a wide one read a size small. A new drawing: the file, its viewBox measured the same way
+(`getBBox()` in a browser), one `.wi-name` line.
 
 ## Modals
 

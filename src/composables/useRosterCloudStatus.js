@@ -60,13 +60,13 @@ export function useRosterCloudStatus({ hint = false, compact = false } = {}) {
   })
 
   const icon = computed(() => ({
-    hint: 'bi-cloud',
-    syncing: 'bi-arrow-repeat',
-    error: 'bi-cloud-slash',
-    updated: 'bi-cloud-arrow-down-fill',
-    saved: 'bi-cloud-check-fill',
-    pending: 'bi-cloud-arrow-up',
-    synced: 'bi-cloud-check-fill',
+    hint: 'wi wi-cloud',
+    syncing: 'wi wi-sync',
+    error: 'wi wi-cloud-error',
+    updated: 'wi wi-cloud-down',
+    saved: 'wi wi-cloud-synced',
+    pending: 'wi wi-cloud-up',
+    synced: 'wi wi-cloud-synced',
   }[state.value] || ''))
 
   return { state, text, title, icon }

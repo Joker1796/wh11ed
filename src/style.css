@@ -890,6 +890,8 @@ strong {
 .wi-unit-table { mask-image: url('./assets/icons/unit-on-field.svg'); }
 .wi-unit-reserve { mask-image: url('./assets/icons/unit-in-reserve.svg'); }
 .wi-unit-destroyed { mask-image: url('./assets/icons/unit-destroyed.svg'); }
+/* The time to act (what can be played now, whose turn it is): a dial, not the reserve's hourglass */
+.wi-clock { mask-image: url('./assets/icons/ui-clock.svg'); }
 /* Bottom nav (Rosters also the roster tab in a game); a faction's tabs */
 .wi-rules { mask-image: url('./assets/icons/nav-rules.svg'); }
 .wi-stratagems { mask-image: url('./assets/icons/nav-stratagems.svg'); }
@@ -906,6 +908,11 @@ strong {
 .wi-lore-on { mask-image: url('./assets/icons/ui-lore-on.svg'); }
 .wi-sound-on { mask-image: url('./assets/icons/ui-sound-on.svg'); }
 .wi-sound-off { mask-image: url('./assets/icons/ui-sound-off.svg'); }
+/* the cloud's states — a roster's or a game's backup, the account */
+.wi-cloud { mask-image: url('./assets/icons/ui-cloud.svg'); }
+.wi-cloud-up { mask-image: url('./assets/icons/ui-cloud-up.svg'); }
+.wi-cloud-down { mask-image: url('./assets/icons/ui-offline.svg'); }
+.wi-cloud-error { mask-image: url('./assets/icons/ui-cloud-error.svg'); }
 .wi-offline { mask-image: url('./assets/icons/ui-offline.svg'); }
 .wi-offline-ready { mask-image: url('./assets/icons/ui-offline-ready.svg'); }
 .wi-sync { mask-image: url('./assets/icons/ui-sync.svg'); }

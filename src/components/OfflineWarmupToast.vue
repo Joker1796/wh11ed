@@ -1,7 +1,7 @@
 <template>
   <AppToast
     :show="visible"
-    :icon="status === 'ready' ? 'bi-check-circle' : 'bi-cloud-arrow-down'"
+    :icon="status === 'ready' ? 'wi wi-offline-ready' : 'wi wi-offline'"
     :text="text"
     @close="dismissed = true"
   />

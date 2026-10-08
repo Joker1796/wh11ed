@@ -9,7 +9,7 @@
     >
       <i
         v-if="icon"
-        :class="['bi', icon, 'toast-icon']"
+        :class="[icon, 'toast-icon']"
       />
       <span class="toast-text">{{ text }}</span>
       <button
