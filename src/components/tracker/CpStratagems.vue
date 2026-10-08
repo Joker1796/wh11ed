@@ -114,7 +114,7 @@
         </p>
         <button
           type="button"
-          class="btn-primary cps-card-use"
+          class="btn-ghost cps-card-use"
           data-press
           :disabled="cardRow.locked"
           :title="cardRow.title || labels.trackerStratUse"
@@ -317,7 +317,7 @@ const cardRow = computed(() => (openStrat.value ? rowProps(openStrat.value) : {}
 .cps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
 /* Inside a phase card the rows are its lines: no frame of their own, a rule between them. */
 .cps-list.in-card { gap: 0; }
-.cps-list.in-card > .sr { border: 0; background: none; }
+.cps-list.in-card > .sr { --sr-bg: var(--bg-card); border: 0; }
 .cps-list.in-card > .sr + .sr { border-top: 1px solid var(--border); }
 /* The card's way to play it: under the scrolling card, always in reach. */
 .cps-card-foot {
@@ -326,5 +326,7 @@ const cardRow = computed(() => (openStrat.value ? rowProps(openStrat.value) : {}
   border-top: 1px solid var(--border);
 }
 .cps-card-why { flex: 1 1 12rem; margin: 0; font-size: 0.8rem; color: var(--text-muted); }
-.cps-card-use { flex: 0 0 auto; }
+/* Outlined in the side's colour, like the rows' CP buttons — not filled (owner, 2026-10-08). */
+.cps-card-use { flex: 0 0 auto; border-color: var(--accent); color: var(--accent-ink); }
+.cps-card-use:disabled { border-color: var(--border); color: var(--text-dim); cursor: default; }
 </style>

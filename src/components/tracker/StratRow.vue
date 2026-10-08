@@ -90,7 +90,14 @@ const { renderInline } = useRenderInline()
   column-gap: 0.5rem;
   padding: 0.4rem 0.5rem;
   border: 1px solid var(--border);
-  background: var(--bg-card);
+  background: var(--sr-bg, var(--bg-card));
+}
+/* The row answers a pointer over the part that opens its card (owner, 2026-10-08): a shade lighter,
+   the name in the side's colour — not over the CP button, which answers for itself. Behind
+   (hover: hover), so a tap on a phone leaves nothing lit. */
+@media (hover: hover) {
+  .sr:has(.sr-main:hover) { background: color-mix(in srgb, var(--text-primary) 5%, var(--sr-bg, var(--bg-card))); }
+  .sr-main:hover .sr-name { color: var(--accent-ink); }
 }
 .sr-main { min-width: 0; padding: 0; border: 0; background: none; text-align: left; font: inherit; cursor: pointer; }
 .sr-name {
@@ -111,10 +118,15 @@ const { renderInline } = useRenderInline()
 .sr-ctrl { display: flex; align-items: center; gap: 0.25rem; }
 .sr-use {
   min-width: 50px; height: 36px; padding: 0 0.4rem;
-  border: 1px solid var(--accent); background: var(--accent); color: #fff;
+  /* Outlined, not filled (owner, 2026-10-08: a column of filled buttons shouted over the list);
+     the fill is the pointer's answer. */
+  border: 1px solid var(--accent); background: none; color: var(--accent-ink);
   font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; cursor: pointer;
 }
-.sr-use:disabled { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
+@media (hover: hover) {
+  .sr-use:not(:disabled):hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+}
+.sr-use:disabled { border-color: var(--border); color: var(--text-dim); cursor: default; }
 .sr-foot {
   grid-column: 1 / -1;
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.75rem;
