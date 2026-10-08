@@ -21,6 +21,10 @@ export const SOUNDS = ['click-down', 'click-up', 'card-down', 'card-up', 'toggle
 
 const KEY = 'wh11ed-press-sound' // the switch's first name, kept: readers have it set
 const VOLUME = 0.15 // the README's 0.3–0.6 was loud at the table: owner, 2026-10-08, "quieter", twice
+// A sound's own level against the rest, where the recording itself is the louder one: the button
+// click is heard on every tap and stood out (owner, 2026-10-08). A trim here, not a new file — the
+// timbre was right, only its level was not.
+const TRIM = { 'click-down': 0.6, 'click-up': 0.6 }
 
 export const soundOn = ref(getItem(KEY) === '1')
 
@@ -71,7 +75,7 @@ function start(name) {
   if (c.state === 'suspended') c.resume() // iOS suspends it in the background
   const src = c.createBufferSource()
   const gain = c.createGain()
-  gain.gain.value = VOLUME
+  gain.gain.value = VOLUME * (TRIM[name] ?? 1)
   src.buffer = buf
   src.connect(gain).connect(c.destination)
   src.start()
