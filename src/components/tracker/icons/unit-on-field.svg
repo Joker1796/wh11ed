@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <g transform="translate(12 12) scale(.9) translate(-12 -12)">
+  <g transform="rotate(-45 12 12)">
+    <path d="M10.4 9.6 V0.6 Q10.4 -1 12 -1 Q13.6 -1 13.6 0.6 V9.6 Z"/>
+    <path d="M13.6 0.8 l1.1 .7 l-1.1 .7 Z M13.6 3.2 l1.1 .7 l-1.1 .7 Z M13.6 5.6 l1.1 .7 l-1.1 .7 Z M13.6 8 l1.1 .7 l-1.1 .7 Z M13.6 15 l1.1 .7 l-1.1 .7 Z M13.6 17.2 l1.1 .7 l-1.1 .7 Z"/>
+    <path d="M10.4 14.4 H13.6 V18.8 H10.4 Z"/>
+    <path d="M8 18.8 H16 V20.6 H8 Z"/>
+    <rect x="11.1" y="20.6" width="1.8" height="2.4"/>
+    <circle cx="12" cy="23.8" r="1.2"/>
+  </g>
+  <g transform="rotate(45 12 12)">
+    <path d="M10.4 18.8 V1 L12 -1.2 L13.6 1 V18.8 Z"/>
+    <path d="M7.6 18.8 H16.4 L15.4 20.4 H8.6 Z"/>
+    <rect x="11.1" y="20.4" width="1.8" height="2.6"/>
+    <path d="M12 22.6 L13.2 23.8 L12 25 L10.8 23.8 Z"/>
+  </g>
+  </g>
+</svg>
