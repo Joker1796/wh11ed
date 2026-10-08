@@ -71,12 +71,51 @@
                 to="right"
               />
             </button>
+            <!-- The name is edited where it is read: the head turns into the field (owner,
+                 2026-10-08 — in the host's "…" sheet it opened at the list's far edge). Enter or ✓
+                 keeps it, Escape or ✕ drops it, a tap elsewhere keeps it as a field would; ✓ and ✕
+                 hold the focus (pointerdown.prevent) so the field is not blurred under them. -->
+            <template v-if="naming === e.uid">
+              <input
+                :ref="setNameInput"
+                v-model="nameDraft"
+                class="rul-bname-input"
+                type="text"
+                :maxlength="BLOCK_NAME_MAX"
+                :placeholder="defaultBlockName(e)"
+                :aria-label="labels.rosterBlockName"
+                @keydown.enter.prevent="saveName(e)"
+                @keydown.esc.prevent="naming = null"
+                @blur="saveName(e)"
+              >
+              <button
+                type="button"
+                class="rul-bname-act"
+                data-press
+                :aria-label="labels.rosterSave"
+                @pointerdown.prevent
+                @click="saveName(e)"
+              >
+                <i class="bi bi-check-lg" />
+              </button>
+              <button
+                type="button"
+                class="rul-bname-act"
+                data-press
+                :aria-label="labels.rosterCancel"
+                @pointerdown.prevent
+                @click="naming = null"
+              >
+                <i class="bi bi-x-lg" />
+              </button>
+            </template>
             <button
+              v-else
               type="button"
               class="rul-bname"
-              @click="openName(e)"
+              @click="startName(e)"
             >
-              {{ e.blockName || labels.rosterBlockDefault.replace('{n}', blockNo.get(e.uid)) }}
+              {{ e.blockName || defaultBlockName(e) }}
             </button>
             <span class="rul-btotal">{{ hostBlockTotal(g.entries, e, (x) => pointsOf(x) || 0) }}{{ labels.rosterPointsLabel }}</span>
           </div>
@@ -150,14 +189,13 @@
                   <template #body="{ compact }">
                     <FactionAccentScope :faction-slug="slugOf(e.id)">
                       <div
-                        v-if="!naming"
                         class="act-list"
                         :class="{ 'act-compact': compact }"
                       >
                         <button
                           v-if="hasBlock(e)"
                           class="act-btn"
-                          @click="naming = true"
+                          @click="startName(e)"
                         >
                           {{ labels.rosterBlockName }}
                         </button>
@@ -174,37 +212,6 @@
                         >
                           {{ labels.rosterRemove }}
                         </button>
-                      </div>
-                      <div
-                        v-else
-                        class="rul-name-body"
-                        :class="{ 'rul-name-compact': compact }"
-                      >
-                        <label class="rul-name-lab">
-                          <span>{{ labels.rosterBlockName }}</span>
-                          <input
-                            :ref="setNameInput"
-                            v-model="nameDraft"
-                            type="text"
-                            :maxlength="BLOCK_NAME_MAX"
-                            :placeholder="defOf(e.id)?.name || ''"
-                            @keyup.enter="saveName"
-                          >
-                        </label>
-                        <div class="rul-name-acts">
-                          <button
-                            class="btn-ghost"
-                            @click="menuFor = null"
-                          >
-                            {{ labels.rosterCancel }}
-                          </button>
-                          <button
-                            class="btn-primary"
-                            @click="saveName"
-                          >
-                            {{ labels.rosterSave }}
-                          </button>
-                        </div>
                       </div>
                     </FactionAccentScope>
                   </template>
@@ -274,7 +281,7 @@
 
 <script setup>
 import ChevronIcon from '../ChevronIcon.vue'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import ActionMenu from '../ActionMenu.vue'
 import CollapseTransition from '../CollapseTransition.vue'
@@ -402,32 +409,30 @@ const hasBlock = (e) => !!e && !e.leaderOf && props.groups.some((g) => (g.entrie
 // the same numbers).
 const blockNo = computed(() => blockNumbers(props.groups))
 
-// The name is written straight onto the host entry, like every other field the editor touches —
-// the store's deep watch is what saves it. `setNote` is the shared write: it trims, caps, and
-// REMOVES the field when the text is emptied, so clearing a name is the same gesture as setting
-// one and leaves nothing behind in the saved roster.
-const naming = ref(false)
+// A block's name, edited in its head (`naming` — the host being renamed). It is written straight
+// onto the host entry, like every other field the editor touches — the store's deep watch is what
+// saves it. `setNote` is the shared write: it trims, caps, and REMOVES the field when the text is
+// emptied, so clearing a name is the same gesture as setting one and leaves nothing behind.
+const defaultBlockName = (e) => labels.value.rosterBlockDefault.replace('{n}', blockNo.value.get(e.uid))
+const naming = ref(null)
 const nameDraft = ref('')
 const nameInput = ref(null)
-// A function ref: the field now lives inside the list's v-for (each row's own menu), where a
-// string ref would collect an array.
+// A function ref: the field lives inside the list's v-for, where a string ref would collect an array.
 const setNameInput = (el) => { nameInput.value = el }
-function openName(entry) {
-  menuFor.value = entry
-  naming.value = true
-}
-function saveName() {
-  if (menuFor.value) setNote(menuFor.value, 'blockName', nameDraft.value, BLOCK_NAME_MAX)
+// From the head or from the host's "…": the sheet closes (and hands focus back to its trigger as it
+// goes), then the field takes the focus — after that render, so it keeps it.
+function startName(entry) {
   menuFor.value = null
+  naming.value = entry.uid
+  nameDraft.value = entry.blockName || ''
+  nextTick(() => { nameInput.value?.focus(); nameInput.value?.select() })
 }
-watch(menuFor, (e) => {
-  naming.value = naming.value && !!e
-  nameDraft.value = e?.blockName || ''
-  if (e && naming.value) nextTick(() => nameInput.value?.focus())
-})
-watch(naming, (on) => {
-  if (on) nextTick(() => nameInput.value?.focus())
-})
+// Once: Enter, ✓ and the blur that follows them all land here, and only the first one writes.
+function saveName(entry) {
+  if (naming.value !== entry.uid) return
+  naming.value = null
+  setNote(entry, 'blockName', nameDraft.value, BLOCK_NAME_MAX)
+}
 </script>
 
 <style scoped>
@@ -487,20 +492,34 @@ watch(naming, (on) => {
   color: var(--text-primary);
 }
 
-/* Renaming, in the sheet the block's other actions already live in. */
-.rul-name-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
-.rul-name-compact { padding: 0.35rem; }
-.rul-name-lab { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.78rem; color: var(--text-muted); }
-.rul-name-lab input {
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
+/* Renaming, in the head itself: the field takes the name's place and size, ✓ and ✕ beside it. */
+.rul-bname-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid var(--accent);
   background: var(--bg-secondary);
   color: var(--text-primary);
   font: inherit;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 700;
 }
-.rul-name-lab input:focus { outline: none; border-color: var(--accent); }
-.rul-name-acts { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.rul-bname-input:focus { outline: none; }
+.rul-bname-act {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+}
+@media (hover: hover) { .rul-bname-act:hover { color: var(--accent-ink); } }
 
 /* The attached block: the tiles touch, and the army's colour runs down the left of all of them —
    the host's tile included, so the edge starts where the block does. Drawn HERE rather than from

@@ -111,19 +111,26 @@ describe('RosterUnitList', () => {
 
   // A player's own name for a block — "home objective", "centre push" — is the one thing about a
   // list the app cannot know. Offered on a HOST only: a lone unit has its own note field.
-  it('names a block from the host\'s sheet, and heads it with the name', async () => {
+  // The name is edited in the block's head, where it is read — from the head itself or from the
+  // host's sheet, which only sends the player there.
+  it('names a block in its head, from the head or the host\'s sheet', async () => {
     const w = mountList()
     const body = new DOMWrapper(document.body)
     expect(w.find('.rul-bname').text()).toBe('Unit 1')
 
     await w.findAll('.rul-more')[0].trigger('click')
     await body.findAll('.act-btn').find((b) => b.text() === 'Name this unit').trigger('click')
-    await body.find('.rul-name-lab input').setValue('Home objective')
-    await body.find('.rul-name-acts .btn-primary').trigger('click')
+    await w.find('.rul-bhead .rul-bname-input').setValue('Home objective')
+    await w.find('.rul-bhead .rul-bname-input').trigger('keydown', { key: 'Enter' })
 
     expect(entries[0].blockName).toBe('Home objective')
     expect(w.find('.rul-bhead .rul-bname').text()).toBe('Home objective')
     expect(w.find('.rul-bhead .rul-btotal').text()).toContain('190') // 90 + 100, the whole block
+
+    await w.find('.rul-bname').trigger('click')
+    await w.find('.rul-bname-input').setValue('Centre push')
+    await w.find('.rul-bname-input').trigger('keydown', { key: 'Escape' })
+    expect(entries[0].blockName).toBe('Home objective') // Escape drops the draft
   })
 
   it('offers no name for a unit with nothing attached to it', async () => {
