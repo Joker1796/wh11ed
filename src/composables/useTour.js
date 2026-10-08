@@ -28,11 +28,11 @@ if (TOUR_ON && typeof location !== 'undefined' && new URLSearchParams(location.s
   setItem(SEEN_KEY, '[]')
 }
 const seen = ref(readSeen())
-const active = ref(null) // { id, i }
+const active = ref(null) // { id, i, steps } — the chapter's steps that hold for the screen's state
 
 export function useTour() {
-  const chapter = computed(() => (active.value ? TOUR_CHAPTERS[active.value.id] : null))
-  const step = computed(() => chapter.value?.steps[active.value.i] || null)
+  const chapter = computed(() => (active.value ? { steps: active.value.steps } : null))
+  const step = computed(() => active.value?.steps[active.value.i] || null)
 
   function markSeen(id) {
     if (seen.value.has(id)) return
@@ -41,14 +41,17 @@ export function useTour() {
   }
 
   // A chapter the first time its screen comes up. Never over another one already on screen.
-  function maybeStart(id) {
+  // `ctx` is the screen's state a step may ask about (`when`): the game screen before the battle
+  // has "Start game" where the phases will be (owner, 2026-10-08).
+  function maybeStart(id, ctx = {}) {
     if (!TOUR_ON || !TOUR_CHAPTERS[id] || seen.value.has(id) || active.value) return
-    start(id)
+    start(id, ctx)
   }
 
-  function start(id) {
+  function start(id, ctx = {}) {
     if (!TOUR_ON || !TOUR_CHAPTERS[id]) return
-    active.value = { id, i: 0 }
+    const steps = TOUR_CHAPTERS[id].steps.filter((s) => !s.when || s.when(ctx))
+    if (steps.length) active.value = { id, i: 0, steps }
   }
 
   function next() {

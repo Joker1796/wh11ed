@@ -2,7 +2,8 @@
 // (2026-10-08). One chapter per screen of the game's flow, in its order. A step names the element
 // it lights by its `data-tour` value — `target: { phone, desk }` where the two layouts differ
 // (desk = wider than 900px) — or none, for a card in the middle of a dimmed screen. `tab` opens
-// that tab of the game screen first.
+// that tab of the game screen first. `when(ctx)` keeps a step to a state of the screen (the ctx
+// its screen passes: the game screen says whether the battle has `begun`).
 
 export const TOUR_CHAPTERS = {
   home: {
@@ -129,6 +130,13 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-turnbar',
+        when: (ctx) => !ctx.begun,
+        ru: { title: 'Начать игру', text: 'Партия создана, но бой ещё не начат. Расставьте армии, отметьте юниты в резерве и нажмите «Начать игру». С этой кнопки начнётся первый ход и придут первые CP.' },
+        en: { title: 'Start the game', text: 'The game is set up, but the battle has not begun. Deploy, mark the units in reserve and press “Start game”. The first turn and its first CP start with this button.' },
+      },
+      {
+        target: 'game-turnbar',
+        when: (ctx) => ctx.begun,
         ru: { title: 'Ход и фазы', text: 'Стрелками — по фазам, нажмите на фазу, чтобы выбрать её. «Завершить ход» сначала покажет, что ещё не начислено.' },
         en: { title: 'Turn and phases', text: 'The arrows walk the phases, tap the phase to pick one. “End turn” first shows what is not scored yet.' },
       },
@@ -147,6 +155,22 @@ export const TOUR_CHAPTERS = {
         target: 'game-menu',
         ru: { title: 'Меню партии', text: 'Настройка, совместная игра, трансляция, завершить игру — и эти подсказки снова.' },
         en: { title: 'The game’s menu', text: 'Setup, shared game, broadcast, finishing the game — and these hints again.' },
+      },
+    ],
+  },
+  // The battle has begun: what the turn bar does now. Shown the moment "Start game" is pressed, so a
+  // player who met the screen before the battle still gets it.
+  turn: {
+    steps: [
+      {
+        target: 'game-turnbar',
+        ru: { title: 'Ход и фазы', text: 'Стрелками — по фазам, нажмите на фазу, чтобы выбрать её. Кнопка слева отменяет ход.' },
+        en: { title: 'Turn and phases', text: 'The arrows walk the phases, tap the phase to pick one. The button on the left undoes the turn.' },
+      },
+      {
+        target: 'game-turnbar',
+        ru: { title: 'Завершить ход', text: '«Завершить ход» сначала покажет, что ещё не начислено и какие карты уйдут. Потом ход перейдёт сопернику.' },
+        en: { title: 'End turn', text: '“End turn” first shows what is not scored yet and which cards leave. Then the turn passes to the opponent.' },
       },
     ],
   },

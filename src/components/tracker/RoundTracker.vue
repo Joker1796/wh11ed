@@ -99,7 +99,7 @@
           <button
             v-if="TOUR_ON"
             class="act-btn gm-row"
-            @click="close(); startTour('game')"
+            @click="close(); startTour('game', { begun })"
           >
             <i class="bi bi-question-circle" /> {{ labels.tourReplay }}
           </button>
@@ -741,7 +741,10 @@ const tab = ref('missions')
 // about a tab opens it.
 const { maybeStart: maybeStartTour, start: startTour, step: tourStep } = useTour()
 watch(() => tourStep.value?.tab, (t) => { if (t) tab.value = t })
-onMounted(() => maybeStartTour('game'))
+// The tour: this screen's chapter on its first showing (what the turn bar says depends on whether
+// the battle has begun), and the turn's own chapter the moment it does.
+onMounted(() => maybeStartTour('game', { begun: begun.value }))
+watch(begun, (on, was) => { if (on && was === false) maybeStartTour('turn') })
 // The panels built so far (see the template): the open one, then the rest one per idle moment.
 const built = ref(new Set([tab.value]))
 // The Phase tab exists while the game asked for the reminder; its count is the reminder itself,
