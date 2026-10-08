@@ -40,7 +40,7 @@
         @click="textOpen = true"
       >
         <i
-          class="bi bi-clipboard"
+          class="wi wi-copy"
           aria-hidden="true"
         />
         {{ labels.trackerLogText }}
