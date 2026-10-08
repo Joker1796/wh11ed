@@ -21,6 +21,7 @@
           type="button"
           class="bsf-trigger"
           :aria-expanded="open"
+          aria-haspopup="dialog"
           @click="toggle"
         >
           <span

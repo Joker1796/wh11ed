@@ -32,7 +32,8 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
   the finger is **`pressFeedback.js`**, one document listener installed in `main.js` — not a
   directive per button. The shared primitives (`.btn-primary`, `.btn-ghost`, `.tab`, `.bn-item`)
   sink a little while held by class alone — not `.seg`, whose answer is its sliding plate (a button
-  shrinking inside a plate that does not shows the plate round its edges); a one-off opts in with `data-press`; an icon
+  shrinking inside a plate that does not shows the plate round its edges); a one-off opts in with `data-press` (and `data-press-scope="<selector>"` when the button is the
+  face of a bigger card that should sink whole — a roster unit, its Battle-shocked row included); an icon
   button whose result stays on screen (a mark, a toggle, back-to-top) takes `data-press="pop"` —
   its icon sinks and springs back with a wobble on release. Every checkbox row (a `<label>`
   holding a checkbox) pops its box the same way, found by shape, not marked. A press sinks a button
@@ -41,6 +42,31 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
   `:active`**: the tap flips the button's own `:class`, and Vue rewrites the whole attribute when a
   class binding changes, so an added class is gone before it can play (the first version never
   animated anywhere); `:active` is unreliable on iOS and loses to every scoped `transition`.
+- **A dropdown closes on a tap outside through `useOutsideTap`, never a backdrop** (2026-10-08).
+  A full-screen transparent backdrop also covered the dropdown's own trigger: a second tap on the
+  gear closed the menu without pressing the gear — no sink, no sound. `useOutsideTap(open, inside,
+  close)` listens on the window while open: inside (trigger + panel) passes untouched, outside
+  closes on release and is swallowed as a backdrop's was (pointerdown stopped before pressFeedback,
+  the click after it stopped). Used by the settings gear, `PickerDropdown`, `SyncIndicator`.
+- **Sounds: one engine, the triggers beside what sounds** (owner's set, 2026-10-08; off until
+  switched on in the ⚙ menu). `uiSound.js` is the engine — the list of files (`SOUNDS`, each a
+  `public/sounds/<name>.mp3`, precached as mp3), the switch, `playSound(name)`; nothing else touches
+  Web Audio. Switched on, the files load at idle on every visit (decoded on an offline context, no
+  gesture needed) and the playing context is made at the first touch — loading at the first tap
+  made that click late and lost its let-go. Who plays what: a press in `pressSound.js` (from `pressFeedback`: click, or card for a
+  target over 200×80, `data-press-sound="card|click"` overrides; a tap held under 150 ms is heard
+  once, going down — its let-go ran into the press — measured by the events' own times); what a control DID in
+  `stateSounds.js` (document listeners, `main.js`) — a mark (`data-press-sound="toggle"` plus
+  `aria-pressed`, or a checkbox) by its new state, `toggle-on/off`; a switch — `role="tab"`, a
+  `.seg` button, a `button[aria-expanded]` (a fold's head) — slides, `seg`, a tab or segment only
+  when the pick moves; a dialog opening and closing (`BaseModal`, mount / unmount) slides too — the same sound
+  twice within 50 ms plays once (`uiSound.js`), so a dialog replaced by the next is one slide; an error toast in
+  `AppToast.vue`. Those are silent under the finger
+  (`soundsOwnState`): one action, one sound. **A button that opens a menu or a picker carries
+  `aria-haspopup`** (`menu` / `dialog`) — that is what keeps it an ordinary click; a new dropdown
+  trigger without it would slide like a fold. Points, CP, phases have no sound of their own — the button
+  that did it is the sound (owner). A new sound: add the file and its name to `SOUNDS`, and play it
+  where the thing happens — not a second engine.
 - **`.seg` slides its lit half** (`segSlider.js`, installed in `main.js` beside `pressFeedback`).
   One MutationObserver on class changes of buttons inside a `.seg` — no `.seg` in the app had to
   change. Before its first switch a `.seg` draws as it always did; on the first switch it becomes
@@ -215,7 +241,7 @@ screens that had copied each other and drifted. The pairs that existed then are 
   (2026-10-01): `tracker/FactionPickerList.vue` and `tracker/DetachmentPickerList.vue` are the
   rows; `FactionPickerModal` wraps its list in `BaseModal` (phones, the tracker),
   and the desk's settings line wraps it in `PickerDropdown.vue` — the account menu's recipe
-  (backdrop for the outside click, Escape, `fade-pop`), the modal's surface, its own scroll. The
+  (`useOutsideTap` for the outside tap, Escape, `fade-pop`), the modal's surface, its own scroll. The
   declared Force Disposition there is a `PickerDropdown` too, its chips in their colours.
   Everywhere else a picker serves both widths, **`AdaptivePicker.vue`** picks the shape: the
   dropdown from 901px up, the modal below, the same list in both (its slot hands the list

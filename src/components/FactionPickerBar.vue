@@ -23,6 +23,7 @@
             class="picker-trigger"
             :aria-label="labels.dsChapterFilter"
             :aria-expanded="open"
+            aria-haspopup="dialog"
             @click="toggle"
           >
             <span class="picker-trigger-main">
@@ -56,6 +57,7 @@
             class="picker-trigger"
             :aria-label="labels.factionDetachments"
             :aria-expanded="open"
+            aria-haspopup="dialog"
             @click="toggle"
           >
             <span class="picker-trigger-main">

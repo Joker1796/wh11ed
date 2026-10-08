@@ -163,24 +163,21 @@
         <!-- The gear on every width since 2026-10-01 (owner): the theme, the account, the lore
              toggle, bug reports and support live in it on the desktop too, rather than as a row of
              buttons (the theme joined them 2026-10-02). -->
-        <div class="settings-wrap">
+        <div
+          ref="settingsWrapEl"
+          class="settings-wrap"
+        >
           <button
             class="settings-btn"
             data-press
             :class="{ active: settingsOpen }"
             :aria-expanded="settingsOpen"
+            aria-haspopup="menu"
             :aria-label="labels.ariaSettings"
             @click="toggleSettings"
           >
             <i class="bi bi-gear-fill" />
           </button>
-          <Transition name="fade">
-            <div
-              v-if="settingsOpen"
-              class="settings-backdrop"
-              @click="settingsOpen = false"
-            />
-          </Transition>
           <Transition name="fade-pop">
             <div
               v-if="settingsOpen"
@@ -201,17 +198,17 @@
                 <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'" />
                 <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
               </button>
-              <!-- The click a button makes as it sinks (pressSound.js) — off by default. -->
+              <!-- The interface's sounds (uiSound.js) — off by default. -->
               <button
                 class="settings-item"
-                :class="{ active: pressSoundOn }"
-                @click="togglePressSound"
+                :class="{ active: soundOn }"
+                @click="toggleSound"
               >
                 <i
                   class="snd-ico"
-                  :class="pressSoundOn ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute-fill'"
+                  :class="soundOn ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute-fill'"
                 />
-                <span>{{ pressSoundOn ? labels.pressSoundOff : labels.pressSoundOn }}</span>
+                <span>{{ soundOn ? labels.soundOff : labels.soundOn }}</span>
               </button>
               <button
                 v-if="(canInstall || iosInstall) && !isStandalone"
@@ -292,6 +289,7 @@
           class="hamburger"
           :class="{ open: mobileNavOpen }"
           :aria-expanded="mobileNavOpen"
+          aria-haspopup="dialog"
           :aria-label="labels.ariaToggleMenu"
           @click="$emit('toggle-mobile-nav')"
         >
@@ -309,7 +307,8 @@ import { useLocale } from '../composables/useLocale.js'
 import { localePath, stripLocale } from '../router/locale.js'
 import { useTheme } from '../composables/useTheme.js'
 import { useLoreVisibility } from '../composables/useLoreVisibility.js'
-import { usePressSound } from '../composables/pressSound.js'
+import { useUiSound } from '../composables/uiSound.js'
+import { useOutsideTap } from '../composables/useOutsideTap.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
 import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../composables/useOfflineWarmup.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
@@ -339,7 +338,7 @@ function toggleLocale() {
 }
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
-const { pressSoundOn, togglePressSound } = usePressSound()
+const { soundOn, toggleSound } = useUiSound()
 const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
 const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
 const isPatchesRoute = computed(() => stripLocale(route.path) === '/patches')
@@ -390,6 +389,9 @@ function searchRect() {
 defineExpose({ searchRect })
 
 const settingsOpen = ref(false)
+// A tap anywhere but the gear and its menu closes it (useOutsideTap).
+const settingsWrapEl = ref(null)
+useOutsideTap(settingsOpen, () => [settingsWrapEl.value], () => { settingsOpen.value = false })
 
 // Bug reports: the ⚙ menu is the one surface present on every screen, so the entry lives here.
 const { openFeedback } = useFeedbackModal()
@@ -745,12 +747,6 @@ a.nd-link:hover {
 }
 .settings-btn.active i {
   transform: rotate(180deg);
-}
-
-.settings-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 205;
 }
 
 .settings-menu {

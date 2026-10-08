@@ -334,9 +334,15 @@
                       'rvunit-on': unitPane && viewingUid === e.uid,
                     }"
                   >
+                    <!-- The unit's stats open it — heard as a card (pressSound.js), and the whole card
+                         sinks with them, Battle-shocked row and all (`data-press-scope`); a crew line
+                         below is a card of its own (owner, 2026-10-08). -->
                     <button
                       type="button"
                       class="rvunit-main"
+                      data-press
+                      data-press-sound="card"
+                      data-press-scope=".rvunit"
                       @click="viewingUid = e.uid"
                     >
                       <span class="rvunit-text">
@@ -444,6 +450,8 @@
                     type="button"
                     class="rvunit rvunit-main rvunit-crew"
                     :class="{ 'rvunit-on': unitPane && viewingCrew === c.id }"
+                    data-press
+                    data-press-sound="card"
                     @click="openCrew(c)"
                   >
                     <i class="bi bi-arrow-return-right rvunit-crew-mark" />

@@ -103,11 +103,12 @@
 </template>
 
 <script setup>
-import { ref, computed, useId } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, useId } from 'vue'
 import { useModalScope } from '../composables/modalScope.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useModalA11y } from '../composables/useModalA11y.js'
+import { playSound } from '../composables/uiSound.js'
 
 const props = defineProps({
   title: { type: String, default: '' },
@@ -131,6 +132,10 @@ const titleId = useId()
 
 const root = ref(null)
 useModalA11y(root, () => emit('close'), { initialFocus: props.initialFocus })
+// A dialog slides in and out with the segmented switch's sound (uiSound.js; owner, 2026-10-08).
+// Mounted is opened and unmounted is closed: no dialog is kept built behind a v-show.
+onMounted(() => playSound('seg'))
+onBeforeUnmount(() => playSound('seg'))
 </script>
 
 <style scoped>

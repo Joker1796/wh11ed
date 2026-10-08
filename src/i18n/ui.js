@@ -90,9 +90,9 @@ export const ui = {
     themeToLight: 'Switch to light theme',
     loreHide: 'Hide lore text',
     loreShow: 'Show lore text',
-    // The press click (pressSound.js): the item says what a tap will do.
-    pressSoundOn: 'Turn button sounds on',
-    pressSoundOff: 'Turn button sounds off',
+    // The interface's sounds (uiSound.js): the item says what a tap will do.
+    soundOn: 'Turn button sounds on',
+    soundOff: 'Turn button sounds off',
     installApp: 'Install app',
     installIosTitle: 'Add to Home Screen',
     installIosIntro: 'To install the app on your iPhone or iPad, add it to the Home Screen from Safari:',
@@ -1432,8 +1432,8 @@ export const ui = {
     themeToLight: 'Светлая тема',
     loreHide: 'Скрыть лор',
     loreShow: 'Показать лор',
-    pressSoundOn: 'Включить звук кнопок',
-    pressSoundOff: 'Выключить звук кнопок',
+    soundOn: 'Включить звук кнопок',
+    soundOff: 'Выключить звук кнопок',
     installApp: 'Установить приложение',
     installIosTitle: 'На экран «Домой»',
     installIosIntro: 'Чтобы установить приложение на iPhone или iPad, добавьте его на экран «Домой» из Safari:',

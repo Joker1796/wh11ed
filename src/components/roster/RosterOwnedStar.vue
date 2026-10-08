@@ -5,6 +5,7 @@
   >
     <button
       data-press="pop"
+      data-press-sound="toggle"
       type="button"
       class="rum-own"
       :class="{ on: owned }"

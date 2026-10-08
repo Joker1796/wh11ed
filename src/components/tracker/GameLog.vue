@@ -15,6 +15,7 @@
             type="button"
             class="picker-trigger"
             :aria-expanded="open"
+            aria-haspopup="dialog"
             @click="toggle"
           >
             <span class="picker-trigger-main">

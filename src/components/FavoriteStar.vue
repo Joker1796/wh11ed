@@ -1,6 +1,7 @@
 <template>
   <button
     data-press="pop"
+    data-press-sound="toggle"
     type="button"
     class="fav-star"
     :class="{ on: pinned }"

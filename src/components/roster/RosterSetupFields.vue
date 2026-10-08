@@ -70,6 +70,7 @@
               class="ch-pick"
               :disabled="!hasFaction"
               :aria-expanded="open"
+              aria-haspopup="dialog"
               @click="toggle"
             >
               <span

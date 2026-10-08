@@ -293,6 +293,7 @@
                           class="btn-choose-twist faction-btn"
                           data-press
                           :aria-expanded="open"
+                          aria-haspopup="dialog"
                           @click="toggle"
                         >
                           <span
@@ -391,6 +392,7 @@
                           class="btn-choose-twist"
                           data-press
                           :aria-expanded="open"
+                          aria-haspopup="dialog"
                           @click="toggle"
                         >
                           <span

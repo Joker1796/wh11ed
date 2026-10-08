@@ -18,6 +18,8 @@
         :key="o.id"
         class="opt"
         :class="{ on: selected.includes(o.id) }"
+        data-press="pop"
+        data-press-sound="toggle"
         :aria-pressed="selected.includes(o.id)"
         @click="$emit('toggle', o.id)"
       >

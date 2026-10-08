@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import { installErrorLog } from './composables/useErrorLog.js'
 import { installStaleChunkRecovery } from './composables/staleChunks.js'
 import { installPressFeedback } from './composables/pressFeedback.js'
+import { installUiSound } from './composables/uiSound.js'
+import { installStateSounds } from './composables/stateSounds.js'
 import { installSegSlider } from './composables/segSlider.js'
 import { router } from './router/index.js'
 import App from './App.vue'
@@ -27,6 +29,8 @@ installStaleChunkRecovery(router)
 
 // How every button answers the finger — one document listener, see pressFeedback.js.
 installPressFeedback()
+installUiSound()
+installStateSounds()
 // …and every segmented control slides its lit half to the new pick (segSlider.js).
 installSegSlider()
 

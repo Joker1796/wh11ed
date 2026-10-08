@@ -46,8 +46,11 @@ const lastRelease = new WeakMap() // button → when it was last let go (see the
 const boxOf = (el) => el.querySelector('input[type="checkbox"]')
 const isPop = (el) => el.dataset.press === 'pop' || !!boxOf(el)
 
+// What sinks: the button itself, or — `data-press-scope="<selector>"` — the card it is the face of,
+// when the card holds more than the button (a roster unit: its stats are the button, its
+// Battle-shocked row is not, and the card sinks whole; owner, 2026-10-08).
 function targetOf(el, pop) {
-  if (!pop) return el
+  if (!pop) return (el.dataset.pressScope && el.closest(el.dataset.pressScope)) || el
   const box = boxOf(el)
   if (box) return box
   const icon = el.querySelector('i')
@@ -62,7 +65,7 @@ function press(el) {
   const ms = motionMs('--motion-fast')
   if (!target?.animate || !ms) return false
   held.get(el)?.anim.cancel()
-  const down = pop ? SUNK : pressedScale(el)
+  const down = pop ? SUNK : pressedScale(target)
   const anim = target.animate([{ transform: 'scale(1)' }, { transform: down }], {
     duration: ms, easing: 'ease-out', fill: 'forwards',
   })
@@ -97,16 +100,20 @@ export function installPressFeedback(root = document) {
     const el = pressable(e.target)
     if (!el) return
     // The click sounds with the sink and with the rise (pressSound.js, off unless switched on) —
-    // even where reduced motion leaves nothing to animate, so it does not hang off press().
+    // even where reduced motion leaves nothing to animate, so it does not hang off press(). How
+    // long the finger held is the sound's to judge: a quick tap rises silently.
     pressSound(el, 0)
+    const downAt = e.timeStamp
     press(el)
-    const up = () => done(true)
-    const off = () => done(false)
-    const done = (letGo) => {
+    const up = (ev) => done(true, ev)
+    const off = (ev) => done(false, ev)
+    const done = (letGo, ev) => {
       el.removeEventListener('pointerup', up)
       el.removeEventListener('pointerleave', off)
       el.removeEventListener('pointercancel', off)
-      pressSound(el, 1)
+      // The events' own times, not now: the first touch also starts the audio, and a handler run
+      // late made a quick tap look held.
+      pressSound(el, 1, { held: ev.timeStamp - downAt })
       release(el, letGo)
     }
     el.addEventListener('pointerup', up)

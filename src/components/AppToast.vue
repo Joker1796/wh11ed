@@ -28,11 +28,12 @@
 // offline warm-up and the roster's cloud save both use (2026-09-24, when the second one arrived and
 // the first one's markup was about to be copied). It only draws: whether it shows, and for how long,
 // is the caller's.
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
+import { playSound } from '../composables/uiSound.js'
 
-defineProps({
+const props = defineProps({
   show: { type: Boolean, default: false },
   text: { type: String, default: '' },
   icon: { type: String, default: '' },
@@ -40,6 +41,9 @@ defineProps({
   tone: { type: String, default: '' },
 })
 defineEmits(['close'])
+
+// The one toast with a sound (uiSound.js): an error, as it comes up.
+watch(() => props.show && props.tone === 'error', (on) => { if (on) playSound('error') })
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])

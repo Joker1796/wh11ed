@@ -21,6 +21,7 @@
             type="button"
             class="pv-trigger"
             :aria-expanded="open"
+            aria-haspopup="dialog"
             @click="togglePicker"
           >
             <span class="pv-trigger-label">{{ labels.patchesFaction }}</span>
@@ -70,6 +71,7 @@
             type="button"
             class="pv-trigger"
             :aria-expanded="open"
+            aria-haspopup="dialog"
             @click="togglePatches"
           >
             <!-- When it came out, on the label line: the name alone left "is this the new one?" open
