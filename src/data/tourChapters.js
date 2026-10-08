@@ -137,6 +137,11 @@ export const TOUR_CHAPTERS = {
 
       },
       {
+        target: 'setup-look',
+        ru: { title: 'Цвета сторон', text: 'Каждая сторона на экране партии окрашена в цвет своей фракции. Здесь видно, как это будет выглядеть. Чтобы выбрать цвет каждой стороны самому, отметьте «Настроить цвета». Этот выбор действует только на вашем телефоне.' },
+        en: { title: 'Side colours', text: 'On the game screen each side wears its faction’s colour. This shows how it will look. To choose each side’s colour yourself, tick “Customise colours”. The choice applies to your phone only.' },
+      },
+      {
         target: 'setup-start',
         ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово. Откроется экран партии. Бой начнётся отдельной кнопкой, когда вы расставите армии.' },
 
