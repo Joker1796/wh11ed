@@ -50,35 +50,58 @@
             >
               {{ phaseLabel(g.phase, labels) }}
             </h5>
-            <!-- One block of rows, not a card per rule (owner, 2026-10-08: five rules took the
-                 whole phone). A row: what you look for at the table on top — the units for an
-                 ability, the rule's name otherwise — and under it, small, when in the phase it
-                 fires and what it is. Every row is a way in, its arrow says so. -->
-            <ul class="pr-list">
-              <li
-                v-for="r in g.rules"
-                :key="r.key"
+            <!-- Per army of the side (a doubles team's two, under the faction's name), its own rules
+                 and then its units, each a block of rows — not a card per rule (owner, 2026-10-08:
+                 five rules took the whole phone, and one undivided block read as a heap). A row:
+                 what you look for at the table on top — the units for an ability, the rule's name
+                 otherwise — and under it, small, when in the phase it fires and what it is. -->
+            <template
+              v-for="part in g.parts"
+              :key="part.key"
+            >
+              <h5
+                v-if="part.who"
+                class="pr-army"
               >
-                <button
-                  type="button"
-                  class="pr-go-btn"
-                  data-press
-                  @click="lead(r)"
+                {{ part.who }}
+              </h5>
+              <h6 class="pr-kind">
+                {{ part.kind === 'unit' ? labels.trackerPhaseUnits : labels.trackerPhaseArmyRules }}
+              </h6>
+              <ul class="pr-list">
+                <li
+                  v-for="r in part.rules"
+                  :key="r.key"
                 >
-                  <span class="pr-text">
-                    <span class="pr-name">{{ r.units ? r.sub : r.name }}</span>
-                    <span class="pr-sub">
+                  <button
+                    type="button"
+                    class="pr-go-btn"
+                    data-press
+                    @click="lead(r)"
+                  >
+                    <span class="pr-text">
+                      <span class="pr-name">{{ r.units ? r.sub : r.name }}</span>
+                      <!-- The army rule says nothing under "Army rules" that the head has not
+                           said; a detachment's rule names its detachment. -->
                       <span
-                        v-if="r.when !== 'during'"
-                        class="pr-when"
-                      >{{ whenLabel(r.when) }}</span>
-                      <span :class="r.units ? 'pr-ability' : 'pr-src'">{{ r.units ? r.name : r.src }}</span>
+                        v-if="r.when !== 'during' || r.units || r.src !== labels.trackerArmyRule"
+                        class="pr-sub"
+                      >
+                        <span
+                          v-if="r.when !== 'during'"
+                          class="pr-when"
+                        >{{ whenLabel(r.when) }}</span>
+                        <span
+                          v-if="r.units || r.src !== labels.trackerArmyRule"
+                          :class="r.units ? 'pr-ability' : 'pr-src'"
+                        >{{ r.units ? r.name : r.src }}</span>
+                      </span>
                     </span>
-                  </span>
-                  <i class="bi bi-chevron-right pr-go" />
-                </button>
-              </li>
-            </ul>
+                    <i class="bi bi-chevron-right pr-go" />
+                  </button>
+                </li>
+              </ul>
+            </template>
           </section>
         </div>
         <!-- Stratagems have their own page in this same subnav, which already groups by phase and
@@ -200,15 +223,33 @@ function toggle() {
   letter-spacing: 0.02em;
   color: var(--side);
 }
-.pr-group + .pr-group { margin-top: 0.5rem; }
+.pr-group + .pr-group { margin-top: 0.6rem; }
+/* A doubles team's army, then what kind of rule: two small heads, the second the quieter. */
+.pr-army {
+  margin: 0.5rem 0 0.15rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--side);
+}
+.pr-group > .pr-army:first-child { margin-top: 0; }
+.pr-kind {
+  margin: 0.4rem 0 0.2rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.pr-group > .pr-kind:first-child, .pr-army + .pr-kind, .pr-phase + .pr-kind { margin-top: 0; }
 .pr-phase {
   margin: 0 0 0.25rem;
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--text-muted);
+  color: var(--text-primary);
 }
 /* One block, rows parted by hairlines, the side's bar down its left. */
 .pr-list {

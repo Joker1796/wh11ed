@@ -544,10 +544,12 @@ phase with something in it) and `count` (rules, one named in two phases counted 
 during. Rows run start → during → end, and the moment leads a row's second line. ~150 starts and
 ~130 ends over the 960 entries.
 
-**Density** (owner, 2026-10-08 — five rules took a phone's screen): one block of rows parted by
-hairlines, the side's bar down the block; a row is what you look for at the table (the units, or the
-rule's name) over one small line (moment · the ability or where the rule comes from). No "unit" /
-"army rule" label line and no caption line — the tab's name says what the list is.
+**Density and grouping** (owner, 2026-10-08 — five rules took a phone's screen, and one undivided
+block then read as a heap): `partsOf` splits a phase's rules per army of the side (a doubles team's
+two under the faction's name), then "Army rules" (army + detachment) before "Units", each a block of
+rows parted by hairlines with the side's bar down it. A row is what you look for at the table (the
+units, or the rule's name) over one small line (moment · the ability, or the detachment's name — the
+army rule has none, its head says it). No caption line — the tab's name says what the list is.
 
 **Two sides, not one.** 55 of the datasheet abilities that name a phase name their OPPONENT'S ("In
 your opponent's Movement phase, if an enemy unit ends a move within 8"…"), and those are the ones a

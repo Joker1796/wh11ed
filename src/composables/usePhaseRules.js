@@ -19,6 +19,7 @@ import { useTracker, membersOf, sideName, isYouSide } from './useTracker.js'
 import { tracks } from '../data/trackerOptions.js'
 import { usableInSlot, BATTLE_PHASES } from './stratagemPhases.js'
 import { allySourceOf } from './rosterEngine.js'
+import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionChoice } from './useFactionChoice.js'
 import { useRefNavigation } from './useRefNavigation.js'
 
@@ -72,7 +73,7 @@ export function usePhaseRules() {
         const k = `${src}|${e.n}|${m.factionSlug}`
         if (seen.has(k)) return
         seen.add(k)
-        out.push({ key: k, src, name: nameOf(e), sub: null, when: momentOf(e, ph), slug: m.factionSlug, at: e.at, det: e.id, army: { pi, mi, rule } })
+        out.push({ key: k, kind: 'rule', mi: rawMi, src, name: nameOf(e), sub: null, when: momentOf(e, ph), slug: m.factionSlug, at: e.at, det: e.id, army: { pi, mi, rule } })
       }
 
       if (fac) {
@@ -105,7 +106,8 @@ export function usePhaseRules() {
           if (!byRule.has(key)) {
             byRule.set(key, {
               key: `u|${mi ?? ''}|${key}`,
-              src: labels.value.trackerPhaseUnit,
+              kind: 'unit',
+              mi: rawMi,
               name: nameOf(e),
               when: momentOf(e, ph),
               units: new Set(),
@@ -129,8 +131,25 @@ export function usePhaseRules() {
       }
       for (const r of byRule.values()) out.push({ ...r, sub: [...r.units].join(' · ') })
     })
-    // In the order the phase is played: what fires at its start, then during it, then at its end.
-    return out.sort((a, b) => MOMENTS.indexOf(a.when) - MOMENTS.indexOf(b.when))
+    return out
+  }
+
+  // A phase's rules in the parts the tab draws (owner, 2026-10-08 — one undivided block read as
+  // a heap): per army of the side (a doubles team's two, under the faction's name), the army's own
+  // rules first, then its units; inside each, in the order the phase is played — what fires at its
+  // start, then during it, then at its end.
+  function partsOf(pi, rules) {
+    const members = membersOf(current.value?.players?.[pi])
+    const parts = []
+    members.forEach((m, mi) => {
+      const who = members.length > 1 ? factionIndexBySlug(m.factionSlug)?.name || m.name || null : null
+      for (const kind of ['rule', 'unit']) {
+        const these = rules.filter((r) => r.mi === mi && r.kind === kind)
+          .sort((a, b) => MOMENTS.indexOf(a.when) - MOMENTS.indexOf(b.when))
+        if (these.length) parts.push({ key: `${mi}|${kind}`, who: parts.some((x) => x.mi === mi) ? null : who, mi, kind, rules: these })
+      }
+    })
+    return parts
   }
 
   function rosterPath(pi, mi) {
@@ -187,9 +206,9 @@ export function usePhaseRules() {
     return order
       .map((pi) => {
         const groups = phases
-          .map((ph) => ({ phase: byPhase.value ? null : ph, rules: rulesFor(pi, ph) }))
-          .filter((g) => g.rules.length)
-        const count = new Set(groups.flatMap((g) => g.rules.map((r) => r.key))).size
+          .map((ph) => ({ phase: byPhase.value ? null : ph, parts: partsOf(pi, rulesFor(pi, ph)) }))
+          .filter((g) => g.parts.length)
+        const count = new Set(groups.flatMap((g) => g.parts.flatMap((p) => p.rules.map((r) => r.key)))).size
         return { pi, you: isYouSide(current.value?.players?.[pi], pi), name: playerName(pi), groups, count }
       })
       .filter((s) => s.count)
