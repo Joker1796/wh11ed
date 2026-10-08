@@ -97,6 +97,18 @@
                 <i class="wi wi-more-v" />
               </button>
             </template>
+            <!-- The game this list is for: the tracker's setup opens with the faction, detachments,
+                 battle size and the list itself already in place (rosterHandoff.js). Lost when the
+                 header's actions moved into this menu (2026-08-28); back by the owner's call,
+                 2026-10-08. -->
+            <button
+              type="button"
+              class="act-btn"
+              :disabled="!roster.faction"
+              @click="playThisList"
+            >
+              {{ labels.rosterUseInTracker }}
+            </button>
             <!-- Both of these WRITE the list out, so both wait for the faction data that names its
                  units — a copy taken a beat too early would be a list with no army in it. -->
             <button
@@ -1628,6 +1640,18 @@ function toggleArchived() {
 function goPrint() {
   menuOpen.value = false
   router.push(`/roster/${roster.value.id}/print`)
+}
+// Into the tracker's setup with this list in place (rosterHandoff.js). Loaded on the tap, like the
+// game's own store above: the plain roster route must not carry the tracker. A game in progress
+// is never overwritten — the draft waits on the tracker's home, behind "Continue setup".
+async function playThisList() {
+  menuOpen.value = false
+  const [{ prefillDraftFromRoster }, { useTracker }] = await Promise.all([
+    import('../../composables/rosterHandoff.js'),
+    import('../../composables/useTracker.js'),
+  ])
+  prefillDraftFromRoster(roster.value)
+  router.push(useTracker().current.value ? '/tracker' : '/tracker/game')
 }
 // The whole list as text, in the GW app's dialect — the one a player pastes into a chat or a
 // TO's form. The sheet stays open long enough to say it worked and then closes itself: a

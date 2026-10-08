@@ -160,12 +160,20 @@ describe('RosterViewView', () => {
     // Picked by label, never by index — same rule as the list page's own actions sheet.
     const acts = [...document.querySelectorAll('.act-btn')]
     expect(acts.map((b) => b.textContent.trim()))
-      .toEqual([ui.en.rosterExportTitle, ui.en.printAction, ui.en.rosterCopyList, ui.en.rosterArchive])
+      .toEqual([ui.en.rosterUseInTracker, ui.en.rosterExportTitle, ui.en.printAction, ui.en.rosterCopyList, ui.en.rosterArchive])
 
     acts.find((b) => b.textContent.trim() === ui.en.rosterCopyList).click()
     await flushPromises()
     expect(writeText).toHaveBeenCalledTimes(1)
     expect(writeText.mock.calls[0][0]).toContain('Menu list')
+
+    // "Start a game with this list": the tracker's setup draft carries the list (rosterHandoff.js).
+    acts.find((b) => b.textContent.trim() === ui.en.rosterUseInTracker).click()
+    for (let i = 0; i < 40 && !localStorage.getItem('wh11ed-tracker-setup-draft'); i++) {
+      await flushPromises()
+      await new Promise((res) => setTimeout(res, 25))
+    }
+    expect(JSON.parse(localStorage.getItem('wh11ed-tracker-setup-draft')).players[0].rosterId).toBe(r.id)
 
     // The same archive the list page's cards offer.
     acts.find((b) => b.textContent.trim() === ui.en.rosterArchive).click()

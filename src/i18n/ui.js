@@ -629,7 +629,7 @@ export const ui = {
     rosterSharedTitle: 'Shared roster',
     rosterSaveToMine: 'Save to my rosters',
     rosterSharedInvalid: 'This share link is invalid or corrupted.',
-    rosterUseInTracker: 'Use in tracker',
+    rosterUseInTracker: 'Start a game with this list',
     rosterMoreActions: 'More actions',
     // The undo bar. "Removed: <name>" rather than "<name> removed" so the Russian line needs no
     // gender for a unit name it cannot decline.
@@ -1973,7 +1973,7 @@ export const ui = {
     rosterSharedTitle: 'Общий лист',
     rosterSaveToMine: 'Сохранить к себе',
     rosterSharedInvalid: 'Ссылка недействительна или повреждена.',
-    rosterUseInTracker: 'В трекер',
+    rosterUseInTracker: 'Начать партию с этим списком',
     rosterMoreActions: 'Другие действия',
     rosterAttachedFold: 'Свернуть отряд',
     rosterGroupAttached: 'Прикреплённые юниты',
