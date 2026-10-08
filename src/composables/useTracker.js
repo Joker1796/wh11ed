@@ -22,6 +22,7 @@ import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from 
 import { clockOf, stampOf } from './rosterGameContext.js'
 import { SM_FAMILY } from '../data/smChapters.js'
 import { statusRecord, setupReserves } from './unitStatus.js'
+import { TRACKER_GEN } from './trackerGen.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -581,6 +582,8 @@ export function useTracker() {
       // Command points are a ledger in this game (cpLedger.js): Core CP arrive by themselves at
       // every Command phase. A game started before the ledger has no flag and keeps its stepper.
       cpAuto: true,
+      // Which tracker plays it (trackerGen.js): the site's cannot join or resume it.
+      trackerGen: TRACKER_GEN,
       settings,
       players: youFirst
         ? [makePlayer(a, b, settings, true),  makePlayer(b, a, settings, false)]
@@ -1464,6 +1467,8 @@ export function useTracker() {
     if (!g) return
     const resumed = JSON.parse(JSON.stringify(g))
     resumed.phase = 'playing'
+    // Played on here, it is this tracker's game from now on (trackerGen.js).
+    resumed.trackerGen = TRACKER_GEN
     delete resumed.finishedAt
     delete resumed.result
     delete resumed.endReason

@@ -5,7 +5,7 @@
 // turns away the other tracker's phones (wh11ed-api, `tracker_version`) with the generation the
 // host plays — `siteOfGen` is where to send the player.
 
-export const TRACKER_GEN = 1
+export const TRACKER_GEN = 2
 
 const SITES = { 1: 'https://wh-rules.ru', 2: 'https://beta.wh-rules.ru' }
 

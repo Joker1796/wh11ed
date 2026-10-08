@@ -221,6 +221,19 @@ describe('history: archive & resume', () => {
     expect(g.players[0].rounds[0].primary).toBe(9)   // play state preserved
     expect(tracker.history.value.find(x => x.id === id)).toBeUndefined()
   })
+  it('a game started or resumed here is this tracker’s (trackerGen.js)', async () => {
+    const { TRACKER_GEN } = await import('./trackerGen.js')
+    tracker.newGame(setupGame())
+    expect(tracker.current.value.trackerGen).toBe(TRACKER_GEN)
+    tracker.beginGame()
+    tracker.finishGame('early')
+    const id = tracker.current.value.id
+    tracker.archiveGame()
+    const older = tracker.history.value.find(x => x.id === id)
+    delete older.trackerGen // a game from the site's tracker, reached through the cloud
+    tracker.resumeFromHistory(id)
+    expect(tracker.current.value.trackerGen).toBe(TRACKER_GEN)
+  })
 })
 
 describe('redrawSecondary (WHEN DRAWN actions)', () => {
