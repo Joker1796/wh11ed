@@ -3,6 +3,7 @@ import { useAuth } from './useAuth.js'
 import { useTracker } from './useTracker.js'
 import { sliceGame, assembleGame, stableJson, sideOfSlice, SLICE_NAMES } from './gameSlices.js'
 import { API_BASE_URL } from '../config.js'
+import { TRACKER_GEN } from './trackerGen.js'
 
 // One game on several phones. The host — the only one who needs an account — shares the game in
 // progress; the others join by link, QR or a six-digit code and take a seat. What is shared is the
@@ -513,10 +514,11 @@ export function useParty() {
       const res = await fetch(api('/party/join'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credential),
+        body: JSON.stringify({ ...credential, gen: TRACKER_GEN }),
       })
       const data = await res.json().catch(() => ({}))
-      if (!res.ok) return { error: data.error || `join ${res.status}` }
+      // `gen`: the host plays the other tracker (trackerGen.js) — where to send the player.
+      if (!res.ok) return { error: data.error || `join ${res.status}`, gen: data.gen }
       return data
     } catch {
       return { error: 'network' }

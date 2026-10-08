@@ -350,6 +350,13 @@ memberId, token, side, mi, host, seq, versions, status }` — like the broadcast
 survives reloads through the store's own persistence; the base cut (the slices as the server last
 saw them) sits in `wh11ed-party-base`. **What is shared is the game, never the navigation.**
 
+**Two trackers, no shared games** (2026-10-08). The new tracker's beta runs on `beta.wh-rules.ru`
+beside this one, and a game is never played across the two (`trackerGen.js`: this build is
+generation 1, a beta game carries `trackerGen: 2`). `join()` sends `gen`; the server answers a
+mismatch with `409 tracker_version` and the host's generation, and `PartyJoinView` links the same
+invite on that site. A beta game that reached this history through the cloud is read, not resumed
+(`GameSummaryModal`, `playableHere`).
+
 **The tick.** `sync()` compares the game's cut against the base, sends the slices that differ
 (each with the version it was based on) together with `since` — the last party `seq` this phone
 saw — and takes back every slice someone else changed, in ONE `POST /party/{id}/sync` (the gateway

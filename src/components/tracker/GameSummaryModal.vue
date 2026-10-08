@@ -22,9 +22,18 @@
     </div>
 
     <footer class="modal-foot">
+      <!-- A game from the new tracker's beta is read here, not played on (trackerGen.js): the
+           button stays, dimmed, with the reason under it. -->
+      <p
+        v-if="!resumable"
+        class="gs-why"
+      >
+        {{ labels.trackerResumeOtherGen }}
+      </p>
       <button
         class="gs-resume"
         data-press
+        :disabled="!resumable"
         @click="$emit('resume', game.id)"
       >
         {{ labels.trackerResume }}
@@ -44,6 +53,7 @@ import ArmyRuleSummary from './ArmyRuleSummary.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
+import { playableHere } from '../../composables/trackerGen.js'
 
 const props = defineProps({
   game: { type: Object, required: true },
@@ -52,6 +62,7 @@ defineEmits(['resume', 'close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
+const resumable = computed(() => playableHere(props.game))
 
 const END_REASON_LABELS = {
   'friendly-concede': 'trackerEndFriendlyConcede',
@@ -80,5 +91,7 @@ const endReasonLabel = computed(() => {
   font-size: 0.95rem;
   cursor: pointer;
 }
-.gs-resume:hover { background: var(--accent-hover); }
+.gs-resume:not(:disabled):hover { background: var(--accent-hover); }
+.gs-resume:disabled { opacity: 0.5; cursor: default; }
+.gs-why { margin: 0 0 0.5rem; font-size: 0.8rem; color: var(--text-muted); text-align: center; }
 </style>

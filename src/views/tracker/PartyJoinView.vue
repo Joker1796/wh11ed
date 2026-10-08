@@ -39,12 +39,20 @@
         </button>
       </form>
       <ExpandTransition>
-        <p
+        <div
           v-if="error"
           class="pj-err"
         >
-          {{ error }}
-        </p>
+          <p>{{ error }}</p>
+          <!-- The host plays the other tracker: the same invite, on its site (trackerGen.js). -->
+          <a
+            v-if="otherGen"
+            class="btn-primary pj-other"
+            :href="otherHref"
+          >
+            {{ labels[`partyJoinOpenGen${otherGen}`] }}
+          </a>
+        </div>
       </ExpandTransition>
     </template>
 
@@ -119,6 +127,7 @@ import ConfirmModal from '../../components/ConfirmModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
+import { SITE_GENS, siteOfGen } from '../../composables/trackerGen.js'
 import { useTracker } from '../../composables/useTracker.js'
 
 const route = useRoute()
@@ -132,6 +141,9 @@ const code = ref('')
 const digits = computed(() => code.value.replace(/\D/g, ''))
 const busy = ref(false)
 const error = ref('')
+const otherGen = ref(0) // the tracker generation the host plays, when it is not this one
+// A link brought its invite in the path; a code is typed again there.
+const otherHref = computed(() => siteOfGen(otherGen.value) + route.fullPath)
 const joined = ref(null) // the server's answer to /join: slices, members, the member token
 
 function errorText(err) {
@@ -140,6 +152,7 @@ function errorText(err) {
   if (err === 'too_many') return l.partyJoinTooMany
   if (err === 'network') return l.partyJoinNetwork
   if (err === 'seat_taken') return l.partyRejoinBlocked
+  if (err === 'tracker_version') return l[`partyJoinOtherGen${otherGen.value}`] || l.partyStatusError
   return l.partyStatusError
 }
 
@@ -149,6 +162,7 @@ async function doJoin(credential) {
   const res = await join(credential)
   busy.value = false
   if (res.error) {
+    otherGen.value = res.error === 'tracker_version' && SITE_GENS.includes(res.gen) ? res.gen : 0
     error.value = errorText(res.error)
     return
   }
@@ -320,4 +334,6 @@ onMounted(() => {
   font-size: 0.85rem;
   color: var(--danger);
 }
+.pj-err p { margin: 0; }
+.pj-other { display: inline-block; margin-top: 0.6rem; text-decoration: none; }
 </style>
