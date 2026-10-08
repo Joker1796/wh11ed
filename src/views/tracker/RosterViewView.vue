@@ -332,6 +332,7 @@
                       'rvunit-attached': e.leaderOf,
                       'rvunit-host': hasAttached(g.entries, e) || !!defOf(e.id)?.crew,
                       'rvunit-on': unitPane && viewingUid === e.uid,
+                      'rvunit-fallen': fallen(e),
                     }"
                   >
                     <!-- The unit's stats open it — heard as a card (pressSound.js), and the whole card
@@ -371,20 +372,24 @@
                             class="rvunit-sub"
                           >{{ summaryLine(e) }}</span>
                         </span>
-                        <span
-                          v-if="rowMeta.get(e.uid)?.stats.length"
-                          class="rvunit-stats"
-                        >
+                        <!-- A destroyed unit folds to its name and the way to change that (owner,
+                             2026-10-08): its numbers and switches say nothing any more. -->
+                        <ExpandTransition>
                           <span
-                            v-for="s in rowMeta.get(e.uid).stats"
-                            :key="s.label"
-                            class="rvst"
-                            :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }"
+                            v-if="rowMeta.get(e.uid)?.stats.length && !fallen(e)"
+                            class="rvunit-stats"
                           >
-                            <span class="rvst-label">{{ s.label }}</span>
-                            <span class="stat-plate rvst-box">{{ s.value }}</span>
+                            <span
+                              v-for="s in rowMeta.get(e.uid).stats"
+                              :key="s.label"
+                              class="rvst"
+                              :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }"
+                            >
+                              <span class="rvst-label">{{ s.label }}</span>
+                              <span class="stat-plate rvst-box">{{ s.value }}</span>
+                            </span>
                           </span>
-                        </span>
+                        </ExpandTransition>
                         <span
                           v-if="!inTracker"
                           class="rvunit-sub"
@@ -409,13 +414,13 @@
                       class="rvunit-conds"
                     >
                       <ConditionChips
-                        v-if="pinnedChipOf(e)"
+                        v-if="pinnedChipOf(e) && !fallen(e)"
                         :switches="[pinnedChipOf(e)]"
                         @toggle="toggleUnitChip(e, $event)"
                         @info="openChipInfo"
                       />
                       <button
-                        v-if="restChipsOf(e).length"
+                        v-if="restChipsOf(e).length && !fallen(e)"
                         type="button"
                         class="rvunit-more"
                         :aria-expanded="openChips.has(e.uid)"
@@ -440,7 +445,7 @@
                     </div>
                     <CollapseTransition
                       v-if="restChipsOf(e).length"
-                      :show="openChips.has(e.uid)"
+                      :show="openChips.has(e.uid) && !fallen(e)"
                     >
                       <ConditionChips
                         class="rvunit-conds rvunit-rest"
@@ -696,6 +701,7 @@ import { useRoute, useRouter } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
+import ExpandTransition from '../../components/ExpandTransition.vue'
 import StratFilterBar from '../../components/StratFilterBar.vue'
 import StratPhaseGroups from '../../components/StratPhaseGroups.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
@@ -1481,6 +1487,7 @@ function toggleUnitCondFor(entry, sw) {
   }
 }
 
+const fallen = (entry) => inGame.value && unitStatusOf(gamePlayer.value, entry.uid) === 'destroyed'
 // On the battlefield, in reserves, destroyed — an attached unit moves whole, dies part by part
 // (statusTargets). The store stamps it with the game's clock (unitStatus.js).
 function setStatus(entry, status) {
@@ -1936,6 +1943,13 @@ function stratKey(strat) {
   border-top: 1px dashed var(--border);
 }
 .rvunit-conds > .cond-chips { flex: 1; min-width: 0; }
+/* A destroyed unit is one line: its name, quieter, and the status button at the line's
+   end — the switches row lifted onto it rather than a second line holding one button. */
+.rvunit-fallen { position: relative; }
+.rvunit-fallen .rvunit-main { padding-block: 0.35rem; padding-right: 3.4rem; }
+.rvunit-fallen .rvunit-name { color: var(--text-dim); }
+.rvunit-fallen .rvunit-pts { display: none; }
+.rvunit-fallen .rvunit-conds { position: absolute; top: 50%; right: 0.5rem; padding: 0; border: 0; transform: translateY(-50%); }
 /* The handle for everything that did not fit on the row: quiet, and it says how much is behind it
    so the row stays honest about what it is hiding. */
 .rvunit-more {
