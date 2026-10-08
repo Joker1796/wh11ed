@@ -116,10 +116,9 @@ function pick(n) {
 
 <style scoped>
 .rs {
-  /* The rounds' grey: muted, a step above the line still to come (owner, 2026-10-08 — the bright
-     grey out-shouted the phases' colour beside it). A past round differs from a coming one by its
-     fill alone. */
-  --rs-mute: color-mix(in srgb, var(--text-dim) 55%, var(--bg-primary));
+  /* The rounds' grey is the phases' still to come (owner, 2026-10-08 — the bright grey out-shouted
+     the phases' colour beside it). A past round differs from a coming one by its fill alone. */
+  --rs-mute: var(--border);
   display: flex;
   align-items: center;
   flex: 1 1 auto;
