@@ -98,9 +98,10 @@ function pick(s) {
 }
 @media (hover: hover) { .us-btn:not(:disabled):hover { border-color: var(--accent); color: var(--accent-ink); } }
 .us-btn:disabled { cursor: default; }
-/* Off the battlefield says so in colour: waiting in the side's, gone in the danger red. */
-.us-reserve { border-color: var(--accent); color: var(--accent-ink); }
-.us-destroyed { border-color: var(--danger); color: var(--danger); }
+/* In play in the army's colour (the roster screen's accent is its faction's); gone, grey — it is
+   out of the game, not an error (owner, 2026-10-08). */
+.us-table, .us-reserve { border-color: var(--accent); color: var(--accent-ink); }
+.us-destroyed { border-color: var(--border); color: var(--text-dim); }
 .us-icon { display: inline-flex; width: 1.15em; height: 1.15em; flex-shrink: 0; }
 .us-icon :deep(svg) { width: 100%; height: 100%; }
 /* On the row the drawing fills its square: at the text's size its detail ran together. */
