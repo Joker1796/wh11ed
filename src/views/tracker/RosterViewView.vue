@@ -1943,6 +1943,10 @@ function stratKey(strat) {
   border-top: 1px dashed var(--border);
 }
 .rvunit-conds > .cond-chips { flex: 1; min-width: 0; }
+/* One height for everything on this line — the chips, their "i", the fold, the status button
+   (owner, 2026-10-08: 27, 23 and 32px side by side). The status button's 2rem sets it: its drawing
+   needs the room. A chip that wraps to two lines still grows. */
+.rvunit-conds :deep(.cond-chip), .rvunit-conds :deep(.cond-info), .rvunit-conds .rvunit-more { min-height: 2rem; }
 /* A destroyed unit is one line: its name, quieter, and the status button at the line's
    end — the switches row lifted onto it rather than a second line holding one button. */
 .rvunit-fallen { position: relative; }
