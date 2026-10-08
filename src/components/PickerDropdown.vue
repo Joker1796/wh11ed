@@ -11,19 +11,12 @@
     <!-- Teleported and placed by the trigger's own rect: a dropdown inside a card or a scrolling
          column was clipped by it (a roster card is `contain: paint`, the desk's list column scrolls),
          and one inside a sticky bar lived in that bar's stacking context. From <body> nothing above
-         it can clip or cover it, and a click on its backdrop no longer bubbles into the card the
-         trigger sits in. -->
+         it can clip or cover it. A tap elsewhere closes it (useOutsideTap). -->
     <Teleport to="body">
-      <Transition name="fade">
-        <div
-          v-if="open"
-          class="pd-backdrop"
-          @click="open = false"
-        />
-      </Transition>
       <Transition name="fade-pop">
         <div
           v-if="open"
+          ref="panelEl"
           class="pd-panel"
           role="dialog"
           :aria-label="label"
@@ -40,10 +33,11 @@
 // A picker that drops down under its trigger instead of covering the screen — the desk's settings
 // line, AdaptivePicker on a wide screen (faction pages, game setup, the "…" action menus). The
 // panel holds the SAME list the modal does, so a row looks and behaves alike in both (owner,
-// 2026-10-01). The account menu's recipe: a transparent backdrop takes the click outside, Escape
-// closes, `fade-pop` opens it. The parent owns `open` (v-model:open) — a single pick closes it, a
+// 2026-10-01). The account menu's recipe: a tap outside closes it (useOutsideTap — not a backdrop,
+// which covered the trigger too), Escape closes, `fade-pop` opens it. The parent owns `open` (v-model:open) — a single pick closes it, a
 // multi-pick (detachments under a DP budget) leaves it up.
 import { computed, onUnmounted, ref, watch } from 'vue'
+import { useOutsideTap } from '../composables/useOutsideTap.js'
 
 const props = defineProps({
   label: { type: String, default: '' },
@@ -56,6 +50,8 @@ const open = defineModel('open', { type: Boolean, default: false })
 const toggle = () => { open.value = !open.value }
 
 const rootEl = ref(null)
+const panelEl = ref(null)
+useOutsideTap(open, () => [rootEl.value, panelEl.value], () => { open.value = false })
 const place = ref(null)
 // The faction accent a screen sets on its own root (useFactionAccent) does not reach <body>: the
 // panel carries the values it would have inherited where it was opened.
@@ -114,7 +110,6 @@ onUnmounted(() => {
 
 <style scoped>
 .pd { position: relative; display: inline-flex; flex-direction: column; }
-.pd-backdrop { position: fixed; inset: 0; z-index: 205; }
 /* The modal's surface, dropped under the trigger: same card ground and frame, its own scroll. */
 .pd-panel {
   position: fixed;

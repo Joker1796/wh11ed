@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="party"
+    ref="wrapEl"
     class="si-wrap"
   >
     <button
@@ -10,6 +11,7 @@
       type="button"
       :aria-label="text"
       :aria-expanded="open"
+      aria-haspopup="dialog"
       @click="toggle"
     >
       <span
@@ -40,11 +42,6 @@
         role="status"
       >{{ text }}</span>
     </Transition>
-    <div
-      v-if="open"
-      class="si-backdrop"
-      @click="open = false"
-    />
   </div>
 </template>
 
@@ -53,6 +50,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
+import { useOutsideTap } from '../../composables/useOutsideTap.js'
 
 // The sync state of a shared game, in the round bar: three looks and no more. A quiet dot for
 // "in sync" (tap it for how long ago), a spinner only for a request that is taking a while — a
@@ -65,6 +63,9 @@ const labels = computed(() => ui[locale.value])
 const { party, status, lastSyncAt } = useParty()
 
 const open = ref(false)
+// Tapping anywhere else closes it (useOutsideTap).
+const wrapEl = ref(null)
+useOutsideTap(open, () => [wrapEl.value], () => { open.value = false })
 // Which edge the bubble hangs from, decided when it opens: an indicator in the left half of the
 // screen opens to the right and one in the right half to the left, so the text never leaves the
 // viewport and the page never scrolls sideways because of it.
@@ -165,11 +166,5 @@ const text = computed(() => {
 }
 .si-pop.start { left: 0; }
 .si-pop.end { right: 0; }
-/* Tapping anywhere else closes it — the same recipe the account menu uses. */
-.si-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 4;
-}
 @media (prefers-reduced-motion: reduce) { .si-spin { animation: none; } }
 </style>
