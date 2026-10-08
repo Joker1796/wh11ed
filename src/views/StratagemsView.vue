@@ -1,16 +1,25 @@
 <template>
   <div class="view">
-    <div class="view-hero">
+    <!-- Without a game the toolbar is the phase toggle alone: it sits opposite the title rather
+         than taking a line of its own (owner, 2026-10-08). -->
+    <div class="view-hero strat-hero">
       <h1>{{ labels.stratagemsHeading }}</h1>
+      <StratFilterBar
+        v-if="!hasGame"
+        ref="barEl"
+        v-model:by-phase="byPhase"
+        class="strat-hero-bar"
+      />
     </div>
 
     <!-- Detachment filters only while a game is in progress: without one this page stays the
          plain core-stratagem quick reference. Shared with the tracker's CP tab. -->
     <StratFilterBar
+      v-if="hasGame"
       ref="barEl"
       v-model:filter="filter"
       v-model:by-phase="byPhase"
-      :filters="hasGame ? filters : []"
+      :filters="filters"
     />
 
     <Transition name="fade">
@@ -195,6 +204,17 @@ const phaseGroups = computed(() => groupByPhase(visibleStratagems.value))
 </script>
 
 <style scoped>
+/* A reference page read on a phone: the hero takes a line, not a screen's sixth (owner, 2026-10-08). */
+.strat-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0 0.6rem;
+  margin-bottom: 0.9rem;
+}
+.strat-hero h1 { margin-bottom: 0; }
+.strat-hero .strat-hero-bar { margin-bottom: 0; }
 .strat-empty {
   color: var(--text-muted);
   font-style: italic;

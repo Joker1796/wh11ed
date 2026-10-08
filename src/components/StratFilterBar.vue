@@ -80,7 +80,7 @@ const labels = computed(() => ui[locale.value])
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 .strat-toggle {
   font: inherit;
