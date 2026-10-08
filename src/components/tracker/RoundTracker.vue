@@ -1228,9 +1228,10 @@ function onEndBattle(reason) {
   white-space: nowrap;
 }
 .turn-head { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
-.turn-dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-/* The indicator's dot where the plain one stands: its button is a tap target wider than the dot. */
-.turn-head > .si-wrap { margin-inline: -0.55rem -0.35rem; }
+.turn-dot { flex-shrink: 0; width: 8px; height: 8px; margin-left: 0.4rem; border-radius: 50%; background: var(--accent); }
+/* The indicator's dot where the plain one stands, off the page's edge (owner, 2026-10-08): its
+   button is a tap target wider than the dot. */
+.turn-head > .si-wrap { margin-inline: 0.05rem -0.35rem; }
 .tn-strong { font-weight: 700; color: var(--text-primary); }
 /* Back and forward by a turn: two equal halves. Forward wears the colour of the side on turn. */
 .turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }

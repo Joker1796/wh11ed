@@ -141,12 +141,12 @@ const text = computed(() => {
   border-radius: 50%;
   background: var(--accent);
 }
-/* In sync: a slow ring off the dot — the game is live with the other phones (owner, 2026-10-08).
-   Only while the last request answered; paused and offline stand still. */
-.live .si-dot { animation: si-pulse 2.4s ease-out infinite; }
-@keyframes si-pulse {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent); }
-  70%, 100% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 0%, transparent); }
+/* In sync: the dot slowly dims and lights again — the game is live with the other phones (owner,
+   2026-10-08). Only while the last request answered; paused and offline stand still. */
+.live .si-dot { animation: si-breathe 2.8s ease-in-out infinite; }
+@keyframes si-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
 }
 .si-spin {
   width: 0.75rem;
