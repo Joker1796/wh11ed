@@ -7,7 +7,7 @@
     <button
       ref="btn"
       class="sync-ind"
-      :class="[`is-${kind}`, { open }]"
+      :class="[`is-${kind}`, { open, live: status === 'ok' }]"
       type="button"
       :aria-label="text"
       :aria-expanded="open"
@@ -38,7 +38,7 @@
       <span
         v-if="open"
         class="si-pop"
-        :class="align"
+        :class="[align, drop]"
         role="status"
       >{{ text }}</span>
     </Transition>
@@ -57,6 +57,12 @@ import { useOutsideTap } from '../../composables/useOutsideTap.js'
 // spinner that flashes every three seconds reads as "something is wrong" and stops being seen
 // within a minute — and a warning glyph, with its reason, when the phone is not in sync and the
 // player should know it.
+
+defineProps({
+  // Where the bubble opens: up (the lobby row, the default), or down — on the game screen's first
+  // line, where up is under the navbar.
+  drop: { type: String, default: 'up' },
+})
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -130,11 +136,17 @@ const text = computed(() => {
   cursor: pointer;
 }
 .si-dot {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--accent);
-  opacity: 0.7;
+}
+/* In sync: a slow ring off the dot — the game is live with the other phones (owner, 2026-10-08).
+   Only while the last request answered; paused and offline stand still. */
+.live .si-dot { animation: si-pulse 2.4s ease-out infinite; }
+@keyframes si-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 0%, transparent); }
 }
 .si-spin {
   width: 0.75rem;
@@ -164,7 +176,8 @@ const text = computed(() => {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.si-pop.down { bottom: auto; top: calc(100% + 0.3rem); }
 .si-pop.start { left: 0; }
 .si-pop.end { right: 0; }
-@media (prefers-reduced-motion: reduce) { .si-spin { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .si-spin, .live .si-dot { animation: none; } }
 </style>

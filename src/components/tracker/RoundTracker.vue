@@ -11,18 +11,33 @@
   >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
          kept always — the phase clock under the rounds is the optional part. -->
-    <div class="turn-row">
-      <p class="turn-now">
+    <div class="turn-row turn-line">
+      <!-- The dot before the line is the turn's colour — and, in a shared game, the sync state:
+           tap it for how long ago, it pulses while in sync (owner, 2026-10-08; it stood alone at
+           the rounds' end before). Its bubble opens downwards, clear of the navbar. -->
+      <div class="turn-head">
+        <SyncIndicator
+          v-if="partyHandle"
+          drop="down"
+        />
         <span
-          v-for="(part, k) in turnHeadline"
-          :key="k"
-          :class="{ 'tn-strong': part.strong }"
-        >{{ part.text }}</span>
-      </p>
+          v-else
+          class="turn-dot"
+          aria-hidden="true"
+        />
+        <p class="turn-now">
+          <span
+            v-for="(part, k) in turnHeadline"
+            :key="k"
+            :class="{ 'tn-strong': part.strong }"
+          >{{ part.text }}</span>
+        </p>
+      </div>
       <!-- The game's tools, once a footer row of their own, behind one "⋯" on the round line (owner,
            2026-10-06): the line has room on the right, the footer cost a whole row. Not a gear —
-           the site's settings gear sits in the navbar right above. A dot on the "⋯" says a shared
-           game or a broadcast is on: a state you can no longer see on its button must not go dark. -->
+           the site's settings gear sits in the navbar right above. No dot on it any more (owner,
+           2026-10-08): a shared game shows on the round line's own dot, and the rows inside say
+           "on now". -->
       <ActionMenu
         v-model:open="gameMenuOpen"
         :title="labels.trackerGameMenu"
@@ -31,7 +46,6 @@
           <button
             type="button"
             class="btn-ghost game-menu-btn"
-            :class="{ live: partyActive || broadcastOn }"
             :aria-label="labels.trackerGameMenu"
             :title="labels.trackerGameMenu"
             data-press
@@ -98,9 +112,7 @@
     <!-- The rounds, right under the round line and above the score (owner, 2026-10-06: the score
          cards pick the side the panel shows, so they stand right over the tabs; the rounds were
          under the score from 2026-09-27). Finishing the game early is in the "⋯" on the round line
-         with the other tools. A shared game's sync state rides here
-         too — a row of its own would cost vertical space the phone does not have (it renders
-         nothing for a game that is not shared). -->
+         with the other tools. A shared game's sync state is the round line's dot. -->
     <div class="round-bar">
       <!-- A step is a VIEW, not a move: a past round opens for correction (the game stays where it
            is — only End/Undo turn move it), the live one comes back (RoundStrip.vue). -->
@@ -112,7 +124,6 @@
         :turn-color="turnOpp ? 'var(--side-opponent)' : 'var(--side-you)'"
         @pick="(n) => (viewRound = n === current.currentRound ? null : n)"
       />
-      <SyncIndicator />
     </div>
 
     <!-- The score; on a framed tab the cards are also the side switch (ScoreBoard `selected`). -->
@@ -908,7 +919,7 @@ const gameMenuOpen = ref(false)
 
 // The shared game: which side this phone may edit, and whether it is the host. With no party,
 // canEdit is true for both and nothing here changes. `lock` is canEdit as an `inert` value.
-const { active: partyActive, isHost, canEdit } = useParty()
+const { active: partyActive, isHost, canEdit, party: partyHandle } = useParty()
 const lock = (pi) => (canEdit(pi) ? undefined : true)
 
 // Live broadcast: arm the push watcher on entering the game screen, so a reload mid-stream
@@ -1200,18 +1211,6 @@ function onEndBattle(reason) {
   font-size: 1.05rem;
   line-height: 1;
 }
-/* A shared game or a broadcast is on: their buttons used to light up; now the "⋯" carries a dot,
-   and the row inside says which. */
-.game-menu-btn.live::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-}
 .gm-row { display: flex; align-items: center; gap: 0.5rem; }
 .gm-live {
   margin-left: auto;
@@ -1228,16 +1227,10 @@ function onEndBattle(reason) {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.turn-now::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 0.5rem;
-  vertical-align: 0.15em;
-  border-radius: 50%;
-  background: var(--accent);
-}
+.turn-head { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+.turn-dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+/* The indicator's dot where the plain one stands: its button is a tap target wider than the dot. */
+.turn-head > .si-wrap { margin-inline: -0.55rem -0.35rem; }
 .tn-strong { font-weight: 700; color: var(--text-primary); }
 /* Back and forward by a turn: two equal halves. Forward wears the colour of the side on turn. */
 .turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
@@ -1263,6 +1256,10 @@ function onEndBattle(reason) {
 .tf-sticky .turn-row { margin: 0; }
 /* With phases: undo · ‹ · the phase · › · end. */
 .turn-row.begin { grid-template-columns: 1fr; }
+/* The round line is not the turn bar: the grid above halved it and cut a name short beside an
+   empty half. The headline takes what the "⋯" leaves. */
+.turn-row.turn-line { display: flex; }
+.turn-line .turn-head { flex: 1 1 auto; }
 .turn-row.phased { grid-template-columns: 42px 34px minmax(0, 1fr) 34px auto; gap: 0.3rem; }
 .tr-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
