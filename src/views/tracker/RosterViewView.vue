@@ -73,7 +73,7 @@
             class="hdr-icon"
             :aria-label="labels.rosterEdit"
           >
-            <i class="bi bi-pencil" />
+            <i class="wi wi-edit" />
           </RouterLink>
           <!-- Everything else this list can become — a printed sheet, a text export, a clipboard
              full of it — behind one "…" instead of an icon each. The printer stood here alone
@@ -94,7 +94,7 @@
                 :aria-label="labels.rosterMoreActions"
                 @click="toggle"
               >
-                <i class="bi bi-three-dots-vertical" />
+                <i class="wi wi-more-v" />
               </button>
             </template>
             <!-- Both of these WRITE the list out, so both wait for the faction data that names its

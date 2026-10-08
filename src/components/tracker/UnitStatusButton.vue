@@ -45,7 +45,7 @@
           <span>{{ label(s) }}</span>
           <i
             v-if="s === status"
-            class="bi bi-check-lg us-check"
+            class="wi wi-check us-check"
           />
         </button>
       </div>

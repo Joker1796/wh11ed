@@ -124,7 +124,7 @@ describe('RosterEditorView', () => {
 
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    expect(w.find('.red-head .bi-clipboard-data').exists()).toBe(false)
+    expect(w.find('.red-head .wi-tracker').exists()).toBe(false)
     expect(push).not.toHaveBeenCalled()
   })
 

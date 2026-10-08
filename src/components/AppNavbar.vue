@@ -115,27 +115,7 @@
           :aria-label="labels.ariaSearchTitle"
           @click="$emit('open-search')"
         >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle
-              cx="11"
-              cy="11"
-              r="8"
-            /><line
-              x1="21"
-              y1="21"
-              x2="16.65"
-              y2="16.65"
-            />
-          </svg>
+          <i class="wi wi-search" />
           <span class="search-hint">Ctrl K</span>
         </button>
         <button
@@ -176,7 +156,7 @@
             :aria-label="labels.ariaSettings"
             @click="toggleSettings"
           >
-            <i class="bi bi-gear-fill" />
+            <i class="wi wi-settings" />
           </button>
           <Transition name="fade-pop">
             <div
@@ -187,7 +167,7 @@
                 class="settings-item"
                 @click="toggleTheme"
               >
-                <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'" />
+                <i :class="theme === 'dark' ? 'wi wi-theme-light' : 'wi wi-theme-dark'" />
                 <span>{{ theme === 'dark' ? labels.themeToLight : labels.themeToDark }}</span>
               </button>
               <button
@@ -195,7 +175,7 @@
                 :class="{ active: hideLore }"
                 @click="toggleLore"
               >
-                <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'" />
+                <i :class="hideLore ? 'wi wi-lore' : 'wi wi-lore-on'" />
                 <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
               </button>
               <!-- The interface's sounds (uiSound.js) — off by default. -->
@@ -204,10 +184,7 @@
                 :class="{ active: soundOn }"
                 @click="toggleSound"
               >
-                <i
-                  class="snd-ico"
-                  :class="soundOn ? 'bi bi-volume-up-fill' : 'bi bi-volume-mute-fill'"
-                />
+                <i :class="soundOn ? 'wi wi-sound-on' : 'wi wi-sound-off'" />
                 <span>{{ soundOn ? labels.soundOff : labels.soundOn }}</span>
               </button>
               <button
@@ -215,7 +192,7 @@
                 class="settings-item"
                 @click="onInstallClick"
               >
-                <i class="bi bi-download" />
+                <i class="wi wi-install" />
                 <span>{{ labels.installApp }}</span>
               </button>
               <!-- The rest of the app, on demand. The shell is ~1 MB and everything else is
@@ -236,7 +213,7 @@
                 class="settings-item"
                 @click="onFeedback"
               >
-                <i class="bi bi-bug" />
+                <i class="wi wi-bug" />
                 <span>{{ labels.feedbackMenu }}</span>
               </button>
               <RouterLink
@@ -244,14 +221,14 @@
                 class="settings-item"
                 @click="settingsOpen = false"
               >
-                <i class="bi bi-heart" />
+                <i class="wi wi-support" />
                 <span>{{ labels.supportProject }}</span>
               </RouterLink>
               <!-- The account: it joins the lore toggle and the rest rather than crowding the
                    navbar with a button of its own. -->
               <template v-if="accountStatus === 'authed'">
                 <p class="settings-who">
-                  <i class="bi bi-cloud-check-fill" />
+                  <i class="wi wi-cloud-synced" />
                   <!-- An e-mail that has to wrap breaks before the "@": name on one line,
                        domain on the next — not a stray "yande / x.ru". -->
                   <span v-if="accountEmailParts">{{ accountEmailParts.name }}<wbr>{{ accountEmailParts.domain }}</span>
@@ -261,7 +238,7 @@
                   class="settings-item"
                   @click="onSignOut"
                 >
-                  <i class="bi bi-box-arrow-right" />
+                  <i class="wi wi-logout" />
                   <span>{{ labels.cloudSignOut }}</span>
                 </button>
               </template>
@@ -419,8 +396,8 @@ const offlineLabel = computed(() => {
   return offlineSize.value ? `${labels.value.offlineDownload} · ${offlineSize.value}` : labels.value.offlineDownload
 })
 const offlineIcon = computed(() => {
-  if (warmupStatus.value === 'warming') return 'bi bi-arrow-repeat'
-  return warmed.value ? 'bi bi-cloud-check-fill' : 'bi bi-cloud-arrow-down'
+  if (warmupStatus.value === 'warming') return 'wi wi-sync'
+  return warmed.value ? 'wi wi-offline-ready' : 'wi wi-offline'
 })
 // The menu stays open: the progress is on this very item, and closing it would hide the one thing
 // that says the download started. The toast repeats it once the menu does close.
@@ -796,9 +773,9 @@ a.nd-link:hover {
   text-align: center;
   flex-shrink: 0;
 }
-/* The speaker glyph is drawn small in its box; at the same size it read lighter than the sun and
-   the book above it (owner, 2026-10-07). */
-.settings-item i.snd-ico { font-size: 1.25rem; }
+/* The owner's drawings (`.wi`) take back their overflow with a negative margin; here the column
+   is a fixed 1.2rem, so they keep it and the labels line up with the glyph rows'. */
+.settings-item .wi { margin-inline: 0; }
 
 .settings-item:hover {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
@@ -820,9 +797,10 @@ a.nd-link:hover {
   /* Only when the e-mail is wider than the capped menu — and then at the <wbr>. */
   overflow-wrap: anywhere;
 }
-.settings-who .bi {
+.settings-who .wi {
   font-size: 1rem;
   width: 1.2rem;
+  margin-inline: 0;
   text-align: center;
   flex-shrink: 0;
   color: var(--accent-ink);
@@ -851,6 +829,8 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.13);
   color: #fff;
 }
+
+.search-btn .wi { font-size: 0.95rem; }
 
 .search-hint {
   font-size: 0.7rem;

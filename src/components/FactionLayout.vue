@@ -139,12 +139,12 @@ const tabs = computed(() => {
   const l = labels.value
   return [
     // Army rule + detachments are merged onto the base page. Icons match the mobile
-    // bottom nav (wi-army = faction, bi-people-fill = units) — used by the FAB.
+    // bottom nav (wi-army = faction, wi-units = units) — used by the FAB.
     { to: base, label: l.factionRules, icon: 'wi wi-army' },
     // prefix: the per-unit pages (/datasheets/:unit) keep this tab highlighted
-    { to: `${base}/datasheets`, label: l.factionDatasheets, prefix: true, icon: 'bi bi-people-fill' },
+    { to: `${base}/datasheets`, label: l.factionDatasheets, prefix: true, icon: 'wi wi-units' },
     // Official GW FAQ & errata for the faction (src/data/factionFaq.json).
-    { to: `${base}/faq`, label: l.factionFaq, icon: 'bi bi-patch-question' },
+    { to: `${base}/faq`, label: l.factionFaq, icon: 'wi wi-faq' },
   ]
 })
 

@@ -38,7 +38,7 @@
             :key="'t' + n"
             class="enh-unit on"
           ><i
-            class="bi bi-check-lg"
+            class="wi wi-check"
             aria-hidden="true"
           /> {{ n }}</span>
         </template>

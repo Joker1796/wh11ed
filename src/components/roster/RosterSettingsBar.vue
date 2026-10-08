@@ -189,7 +189,7 @@
           :aria-expanded="moreOpen"
           @click="toggle"
         >
-          <i class="bi bi-three-dots" />
+          <i class="wi wi-more" />
         </button>
       </template>
       <div class="rw-more-body">

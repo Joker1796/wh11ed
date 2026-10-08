@@ -879,16 +879,55 @@ strong {
   background-color: currentColor;
   mask: no-repeat center / contain;
 }
+/* Tracker tabs; the army wherever an army is shown */
 .wi-army { mask-image: url('./assets/icons/tab-army.svg'); }
 .wi-cp { mask-image: url('./assets/icons/tab-cp.svg'); }
 .wi-log { mask-image: url('./assets/icons/tab-log.svg'); }
 .wi-missions { mask-image: url('./assets/icons/tab-missions.svg'); }
 .wi-phase { mask-image: url('./assets/icons/tab-phase.svg'); }
-.wi-roster { mask-image: url('./assets/icons/tab-roster.svg'); }
 .wi-stats { mask-image: url('./assets/icons/tab-stats.svg'); }
+/* Unit status — swords, hourglass and skull mean only this */
 .wi-unit-table { mask-image: url('./assets/icons/unit-on-field.svg'); }
 .wi-unit-reserve { mask-image: url('./assets/icons/unit-in-reserve.svg'); }
 .wi-unit-destroyed { mask-image: url('./assets/icons/unit-destroyed.svg'); }
+/* Bottom nav (Rosters also the roster tab in a game); a faction's tabs */
+.wi-rules { mask-image: url('./assets/icons/nav-rules.svg'); }
+.wi-stratagems { mask-image: url('./assets/icons/nav-stratagems.svg'); }
+.wi-tracker { mask-image: url('./assets/icons/nav-tracker.svg'); }
+.wi-rosters { mask-image: url('./assets/icons/nav-rosters.svg'); }
+.wi-units { mask-image: url('./assets/icons/tab-units.svg'); }
+.wi-faq { mask-image: url('./assets/icons/tab-faq.svg'); }
+/* Header and its settings menu. Paired states swap the file, not the style */
+.wi-search { mask-image: url('./assets/icons/ui-search.svg'); }
+.wi-settings { mask-image: url('./assets/icons/ui-settings.svg'); }
+.wi-theme-light { mask-image: url('./assets/icons/ui-theme-light.svg'); }
+.wi-theme-dark { mask-image: url('./assets/icons/ui-theme-dark.svg'); }
+.wi-lore { mask-image: url('./assets/icons/ui-lore.svg'); }
+.wi-lore-on { mask-image: url('./assets/icons/ui-lore-on.svg'); }
+.wi-sound-on { mask-image: url('./assets/icons/ui-sound-on.svg'); }
+.wi-sound-off { mask-image: url('./assets/icons/ui-sound-off.svg'); }
+.wi-offline { mask-image: url('./assets/icons/ui-offline.svg'); }
+.wi-offline-ready { mask-image: url('./assets/icons/ui-offline-ready.svg'); }
+.wi-sync { mask-image: url('./assets/icons/ui-sync.svg'); }
+.wi-install { mask-image: url('./assets/icons/ui-install.svg'); }
+.wi-bug { mask-image: url('./assets/icons/ui-bug.svg'); }
+.wi-support { mask-image: url('./assets/icons/ui-support.svg'); }
+.wi-cloud-synced { mask-image: url('./assets/icons/ui-cloud-synced.svg'); }
+.wi-logout { mask-image: url('./assets/icons/ui-logout.svg'); }
+/* Actions */
+.wi-add { mask-image: url('./assets/icons/ui-add.svg'); }
+.wi-check { mask-image: url('./assets/icons/ui-check.svg'); }
+.wi-import { mask-image: url('./assets/icons/ui-import.svg'); }
+.wi-edit { mask-image: url('./assets/icons/ui-edit.svg'); }
+.wi-more { mask-image: url('./assets/icons/ui-more.svg'); }
+.wi-more-v { mask-image: url('./assets/icons/ui-more-vertical.svg'); }
+.wi-pin-on { mask-image: url('./assets/icons/pin-on.svg'); }
+.wi-pin-off { mask-image: url('./assets/icons/pin-off.svg'); }
+/* A game's menu */
+.wi-party-settings { mask-image: url('./assets/icons/party-settings.svg'); }
+.wi-coop { mask-image: url('./assets/icons/party-coop.svg'); }
+.wi-broadcast { mask-image: url('./assets/icons/party-broadcast.svg'); }
+.wi-end { mask-image: url('./assets/icons/party-end.svg'); }
 
 /* ── Boxed switch ──────────────────────────────────────────────────────────
    A row of separate boxes picking one of a few (the wizard's first-turn choice, the Event

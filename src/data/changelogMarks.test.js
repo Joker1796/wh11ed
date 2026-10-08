@@ -20,7 +20,7 @@ describe('changelog marks', () => {
 
   it('draws an icon button and a text button', () => {
     const html = renderMarks('Switch with {btn:gear}, undo with {key:Put back}.', 'ru')
-    expect(html).toContain('<span class="cl-btn" role="img" aria-label="Настройки" title="Настройки"><i class="bi bi-gear"></i></span>')
+    expect(html).toContain('<span class="cl-btn" role="img" aria-label="Настройки" title="Настройки"><i class="wi wi-settings"></i></span>')
     expect(html).toContain('<span class="cl-key">Put back</span>')
     expect(renderMarks('{btn:nope}')).toContain('{btn:nope}')
     // A pair of marks and the stop after them never break apart.

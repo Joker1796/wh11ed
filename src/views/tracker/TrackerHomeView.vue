@@ -93,7 +93,7 @@
           :title="labels.statsLink"
           :aria-label="labels.statsLink"
         >
-          <i class="bi bi-bar-chart" /> <span class="cta-stats-text">{{ labels.statsLink }}</span>
+          <i class="wi wi-stats" /> <span class="cta-stats-text">{{ labels.statsLink }}</span>
         </RouterLink>
       </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher

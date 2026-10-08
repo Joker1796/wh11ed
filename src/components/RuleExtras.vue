@@ -10,7 +10,7 @@
   >
     <p class="rule-extras-title">
       <i
-        class="bi bi-gear"
+        class="wi wi-settings"
         aria-hidden="true"
       /> {{ labels.ruleExtrasTitle }}
     </p>

@@ -46,7 +46,7 @@
         class="proster ap-link"
         :to="unitsLink.to"
       >
-        <i :class="`bi ${unitsLink.icon}`" />
+        <i :class="unitsLink.icon" />
         <span class="proster-label">{{ unitsLink.label }}</span>
       </RouterLink>
     </div>
@@ -135,7 +135,7 @@ const trackerCards = computed(() => {
 // The units without a list: the faction's datasheets (a list opens in the Roster tab, above).
 const unitsLink = computed(() => {
   const slug = props.army.member.factionSlug
-  return slug ? { to: `/factions/${slug}/datasheets`, icon: 'bi-people-fill', label: labels.value.factionDatasheets } : null
+  return slug ? { to: `/factions/${slug}/datasheets`, icon: 'wi wi-units', label: labels.value.factionDatasheets } : null
 })
 
 // The army's rules: its army rule and its detachments'. Kept while the card lives, so coming back

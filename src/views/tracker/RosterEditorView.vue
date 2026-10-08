@@ -471,7 +471,7 @@ const editorModes = computed(() => [
   {
     key: 'settings',
     label: labels.value.rosterCreateStep1,
-    icon: 'bi bi-gear',
+    icon: 'wi wi-settings',
     // A list can be perfectly legal and still owe an answer that lives on this tab — an undeclared
     // Force Disposition, a detachment never picked. Nothing said so from the Units tab, where the
     // whole build happens: the footer badge showed a green tick (it counts errors, and these are

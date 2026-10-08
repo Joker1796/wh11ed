@@ -32,7 +32,7 @@ describe('FactionLayout — the way back from a unit page', () => {
     const { contributions } = useMobileActionBar()
     const action = contributions['faction-back-to-units']?.[0]
     expect(action.label).toBeTruthy()
-    expect(action.icon).toBe('bi bi-people-fill')
+    expect(action.icon).toBe('wi wi-units')
     w.unmount()
   })
 
@@ -73,7 +73,7 @@ describe('FactionLayout — the way back from a unit page', () => {
     const w = mount(FactionLayout, { props: { hero: false }, global: { stubs: { RouterLink } } })
     await settle()
     const fabs = w.findAll('.faction-fabs .fab-btn')
-    expect(fabs.map((b) => b.find('i').classes().join(' '))).toEqual(['wi wi-army', 'bi bi-people-fill', 'bi bi-patch-question'])
+    expect(fabs.map((b) => b.find('i').classes().join(' '))).toEqual(['wi wi-army', 'wi wi-units', 'wi wi-faq'])
     expect(fabs[0].attributes('href')).toBe('/factions/orks')
     expect(fabs[2].attributes('href')).toBe('/factions/orks/faq')
     history.replaceState({ back: '/factions/orks/datasheets' }, '')

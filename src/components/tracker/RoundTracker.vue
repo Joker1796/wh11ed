@@ -37,7 +37,7 @@
             data-press
             @click="toggle"
           >
-            <i class="bi bi-three-dots" />
+            <i class="wi wi-more" />
           </button>
         </template>
         <template #default="{ close }">
@@ -48,7 +48,7 @@
             class="act-btn gm-row"
             @click="close(); editSetupOpen = true"
           >
-            <i class="bi bi-gear" /> {{ labels.trackerEditSetup }}
+            <i class="wi wi-party-settings" /> {{ labels.trackerEditSetup }}
           </button>
           <!-- The shared game (several phones on this one game): always offered — it is how the
                other side gets to score. -->
@@ -56,7 +56,7 @@
             class="act-btn gm-row"
             @click="close(); partyOpen = true"
           >
-            <i class="bi bi-people-fill" /> {{ labels.partyTitle }}
+            <i class="wi wi-coop" /> {{ labels.partyTitle }}
             <span
               v-if="partyActive"
               class="gm-live"
@@ -71,7 +71,7 @@
             class="act-btn gm-row"
             @click="close(); broadcastOpen = true"
           >
-            <i class="bi bi-broadcast" /> {{ labels.trackerBroadcastTitle }}
+            <i class="wi wi-broadcast" /> {{ labels.trackerBroadcastTitle }}
             <span
               v-if="broadcastOn"
               class="gm-live"
@@ -83,7 +83,7 @@
             class="act-btn act-danger gm-row"
             @click="close(); endModalOpen = true"
           >
-            <i class="bi bi-flag" /> {{ labels.trackerFinish }}
+            <i class="wi wi-end" /> {{ labels.trackerFinish }}
           </button>
         </template>
       </ActionMenu>
@@ -453,8 +453,8 @@
               @click="bonusOf(side) ? undoBonusCp(side) : gainBonusCp(side)"
             >
               <i
-                class="bi"
-                :class="bonusOf(side) ? 'bi-check-lg' : 'bi-plus-lg'"
+                class="wi"
+                :class="bonusOf(side) ? 'wi-check' : 'wi-add'"
                 aria-hidden="true"
               />
               {{ labels.trackerBonusToggle }}
@@ -720,7 +720,7 @@ const tabs = computed(() => [
   // the stats after it.
   { id: 'armies', label: labels.value.trackerTabArmies, icon: 'wi wi-army' },
   // The attached lists, read in the game (owner, 2026-09-30) — only when there is one.
-  ...(hasLists.value ? [{ id: 'roster', label: labels.value.trackerRosterOpen, icon: 'wi wi-roster' }] : []),
+  ...(hasLists.value ? [{ id: 'roster', label: labels.value.trackerRosterOpen, icon: 'wi wi-rosters' }] : []),
   { id: 'log', label: labels.value.trackerTabLog, icon: 'wi wi-log' },
   { id: 'stats', label: labels.value.trackerTabStats, icon: 'wi wi-stats' },
 ])
@@ -1368,8 +1368,8 @@ function onEndBattle(reason) {
   transform: scaleY(1);
   transition-delay: calc(var(--motion-tab) * 0.25);
 }
-.gt-tab > .bi, .gt-tab > .gt-word { position: relative; } /* over the fill */
-.gt-tab .bi { font-size: 1.1rem; }
+.gt-tab > .wi, .gt-tab > .gt-word { position: relative; } /* over the fill */
+.gt-tab .wi { font-size: 1.1rem; }
 .gt-word { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* The new word rises into the filled tab; the old one goes at once. */
 .gt-word-enter-active {
@@ -1383,7 +1383,7 @@ function onEndBattle(reason) {
 @media (max-width: 480px) { .game-tabs { --gt-closed: 40px; } }
 @media (max-width: 360px) {
   .game-tabs { --gt-closed: 34px; }
-  .gt-tab.on > .bi { display: none; }
+  .gt-tab.on > .wi { display: none; }
   .gt-tab.on { font-size: 1rem; }
 }
 /* Hover: the tab's own edge in the accent — lifted over its neighbours, which overlap it by a pixel

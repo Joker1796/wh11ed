@@ -123,7 +123,7 @@
           data-press
           @click="$emit('stratagems')"
         >
-          <i class="bi bi-lightning-charge" />
+          <i class="wi wi-stratagems" />
           {{ byPhase ? labels.trackerPhaseStrats : labels.trackerTurnStrats }}
           <i class="bi bi-chevron-right pr-go" />
         </button>
@@ -133,7 +133,7 @@
           data-press
           :to="{ path: '/stratagems', query: { phase } }"
         >
-          <i class="bi bi-lightning-charge" />
+          <i class="wi wi-stratagems" />
           {{ labels.trackerPhaseStrats }}
           <i class="bi bi-chevron-right pr-go" />
         </RouterLink>

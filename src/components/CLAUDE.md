@@ -284,10 +284,18 @@ Most icons are the Bootstrap icon font (`bi bi-…`). **The owner's own drawings
 `.wi .wi-<name>` in `style.css`, one-colour SVGs in `src/assets/icons/` drawn as a mask filled with
 `currentColor` — the same size and baseline as a `bi` glyph, so a template swaps one class string for
 the other. Each file is under Vite's inline limit and lands in the stylesheet as a data URI: no
-request, nothing for the PWA to precache, there offline. In use: the game screen's tabs, a unit's
-status (`wi-unit-*`), and **`wi-army` wherever the app means an army or its rules** — the bottom
-nav's Factions, a faction's Rules tab and its side button, the roster catalogue's faction-rules
-button, the changelog's `{btn:shield}`. A new drawing: the file, one `.wi-name` line, nothing else.
+request, nothing for the PWA to precache, there offline — so a drawing over 4 KB is thinned (its
+points), not shipped as a file. **The pack** (2026-10-08) covers the bottom nav, the header and its
+settings menu, a game's ⋯ menu, a faction's tabs, the game screen's tabs, add / import / edit / more,
+pins and a unit's status (`wi-unit-*`); the classes are grouped by place in `style.css`. Five were
+drawn to the pack's style to fill its gaps: `lore-on` (the lore shown, the owner's `lore` is it
+hidden), `offline-ready`, `sync` (in progress), `install` and `check`. **`wi-army` is wherever the app
+means an army or its rules**; swords, hourglass and skull mean a unit's status and nothing else.
+Paired states swap the class (`theme-light`/`-dark`, `sound-on`/`-off`, `pin-on`/`-off`,
+`lore`/`lore-on`, `add`/`check`). Still Bootstrap: anything the pack has no drawing for, including
+the roster cloud-status icons (a family of cloud states only partly drawn). A scoped rule that sized
+`.bi` must follow the swap to `.wi`; in a fixed-width icon column give `.wi` `margin-inline: 0`, or
+it sits 0.2em narrower than its `bi` neighbours. A new drawing: the file, one `.wi-name` line.
 
 ## Modals
 

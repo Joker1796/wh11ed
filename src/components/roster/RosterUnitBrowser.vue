@@ -192,7 +192,7 @@
                     :title="atCap(u) ? labels.rosterAtDuplicateCap : undefined"
                     @click.stop="$emit('add', u.id)"
                   >
-                    <i class="bi bi-plus-lg" />
+                    <i class="wi wi-add" />
                   </button>
                 </span>
               </div>

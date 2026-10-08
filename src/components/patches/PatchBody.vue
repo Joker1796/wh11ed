@@ -37,7 +37,7 @@
             target="_blank"
             rel="noopener"
           >
-            <i class="bi bi-download" />
+            <i class="wi wi-import" />
             {{ download.button }}
           </a>
         </div>

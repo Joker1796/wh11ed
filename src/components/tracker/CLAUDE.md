@@ -122,7 +122,7 @@ width, and the word on screen is always where you are. **Wider than 900px every 
 word** (owner, 2026-10-02): the tabs are equal, the open one is the filled one, and of the switch
 only the fill and the panel's slide are left. In order, each the owner's own drawing (2026-10-08,
 `.wi-*` in style.css — see components/CLAUDE.md): Missions `wi-missions`, Phase / Turn `wi-phase`
-(with its count in the corner), CP `wi-cp`, Armies `wi-army`, Roster `wi-roster` (only when an
+(with its count in the corner), CP `wi-cp`, Armies `wi-army`, Roster `wi-rosters` (the bottom nav's) (only when an
 army carries a list), Log `wi-log`, Stats `wi-stats`. Switching is animated (owner's mock, 2026-09-30:
 the old fill drains, the new one fills from the bottom, the word rises, the panel slides in from
 the tab's side; timed off `--motion-tab`). **Every panel is built once and kept** (`v-show`): the

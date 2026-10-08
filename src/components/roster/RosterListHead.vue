@@ -11,7 +11,7 @@
         class="btn-primary btn-lg"
         @click="router.push('/roster/new')"
       >
-        <i class="bi bi-plus-lg" /> {{ labels.rosterNew }}
+        <i class="wi wi-add" /> {{ labels.rosterNew }}
       </button>
       <!-- Most players already have their list somewhere else — in the GW app, in New Recruit.
            Pasting it beats rebuilding it, so the second way in sits beside the first. -->
@@ -19,7 +19,7 @@
         class="btn-ghost"
         @click="importOpen = true"
       >
-        <i class="bi bi-clipboard-plus" /> {{ labels.rosterImport }}
+        <i class="wi wi-import" /> {{ labels.rosterImport }}
       </button>
       <!-- The game statistics (owner, 2026-09-29: they are not a roster's, so not on a roster's
            page — they were a bar there until the same day). On the desk they fill its right-hand
@@ -32,7 +32,7 @@
         :title="labels.statsLink"
         :aria-label="labels.statsLink"
       >
-        <i class="bi bi-bar-chart" /> <span class="rlh-stats-text">{{ labels.statsLink }}</span>
+        <i class="wi wi-stats" /> <span class="rlh-stats-text">{{ labels.statsLink }}</span>
       </RouterLink>
     </div>
     <div class="rlh-side">

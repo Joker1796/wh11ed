@@ -66,7 +66,7 @@
           v-if="errataRef"
           class="rule-errata"
         >
-          <i class="bi bi-pencil-square" />
+          <i class="wi wi-edit" />
           {{ errataNote }}
           <a
             :href="`#${errataRef.anchor}`"
@@ -161,7 +161,7 @@ function handleDefClick(e) {
   font-size: 0.8rem;
   color: var(--text-muted);
 }
-.rule-errata .bi { margin-right: 0.25rem; }
+.rule-errata .wi { margin-right: 0.25rem; }
 .rule-errata a { margin-left: 0.25rem; }
 .rule-block {
   border-bottom: 1px solid var(--border-light);

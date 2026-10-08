@@ -11,13 +11,13 @@
 // cannot go stale while the screen keeps the same icon. A name missing from BTN_ICONS fails
 // changelog.test.js rather than printing "{btn:…}" to a reader.
 export const BTN_ICONS = {
-  gear: { icon: 'bi-gear', en: 'Settings', ru: 'Настройки' },           // the roster builder's Settings mode
-  panes: { icon: 'bi-layout-split', en: 'Units', ru: 'Юниты' },         // …its Units mode
-  book: { icon: 'bi-book', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search
+  gear: { icon: 'wi wi-settings', en: 'Settings', ru: 'Настройки' },           // the roster builder's Settings mode
+  panes: { icon: 'bi bi-layout-split', en: 'Units', ru: 'Юниты' },         // …its Units mode
+  book: { icon: 'bi bi-book', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search
   shield: { icon: 'wi wi-army', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search since 2.7.17 (was the book)
-  revert: { icon: 'bi-arrow-counterclockwise', en: 'Cancel', ru: 'Отмена' }, // Cancel on a narrow phone
-  star: { icon: 'bi-star', en: 'In my collection', ru: 'Есть в коллекции' }, // the roster unit card's header
-  info: { icon: 'bi-info-circle', en: 'View details', ru: 'Подробнее' }, // a wargear row's profiles in the unit editor
+  revert: { icon: 'bi bi-arrow-counterclockwise', en: 'Cancel', ru: 'Отмена' }, // Cancel on a narrow phone
+  star: { icon: 'bi bi-star', en: 'In my collection', ru: 'Есть в коллекции' }, // the roster unit card's header
+  info: { icon: 'bi bi-info-circle', en: 'View details', ru: 'Подробнее' }, // a wargear row's profiles in the unit editor
 }
 
 export const MARK_RE = /\{btn:([a-z-]+)\}|\{key:([^}]+)\}/g
@@ -42,7 +42,7 @@ export function renderMarks(html, locale = 'en') {
 function drawMarks(html, locale) {
   return html.replace(MARK_RE, (m, btn, key) => {
     const b = btn && BTN_ICONS[btn]
-    if (btn) return b ? `<span class="cl-btn" role="img" aria-label="${esc(b[locale] || b.en)}" title="${esc(b[locale] || b.en)}"><i class="bi ${b.icon}"></i></span>` : m
+    if (btn) return b ? `<span class="cl-btn" role="img" aria-label="${esc(b[locale] || b.en)}" title="${esc(b[locale] || b.en)}"><i class="${b.icon}"></i></span>` : m
     return `<span class="cl-key">${esc(key)}</span>`
   })
 }

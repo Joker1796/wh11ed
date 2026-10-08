@@ -750,7 +750,7 @@
                 :title="l.addLabel.replace('{unit}', c.name)"
                 @click="l.add(c)"
               >
-                <i class="bi bi-plus-lg" />
+                <i class="wi wi-add" />
               </button>
             </div>
           </div>

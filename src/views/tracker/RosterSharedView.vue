@@ -22,7 +22,7 @@
         class="rs-save"
         @click="save"
       >
-        <i class="bi bi-download" /> {{ labels.rosterSaveToMine }}
+        <i class="wi wi-import" /> {{ labels.rosterSaveToMine }}
       </button>
     </template>
     <p

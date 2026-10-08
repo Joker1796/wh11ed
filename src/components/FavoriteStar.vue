@@ -11,8 +11,8 @@
     @click.stop.prevent="$emit('toggle')"
   >
     <i
-      class="bi"
-      :class="pinned ? 'bi-pin-angle-fill' : 'bi-pin-angle'"
+      class="wi"
+      :class="pinned ? 'wi-pin-on' : 'wi-pin-off'"
     />
   </button>
 </template>

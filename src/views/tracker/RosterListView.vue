@@ -84,7 +84,7 @@
               <ExpandTransition>
                 <i
                   v-if="isRosterPinned(r.id)"
-                  class="bi bi-pin-angle-fill rpin"
+                  class="wi wi-pin-on rpin"
                   :title="labels.favPinnedGroup"
                 />
               </ExpandTransition>
@@ -112,7 +112,7 @@
                     :aria-label="labels.rosterMoreActions"
                     @click.stop="toggle"
                   >
-                    <i class="bi bi-three-dots-vertical" />
+                    <i class="wi wi-more-v" />
                   </button>
                 </template>
                 <button

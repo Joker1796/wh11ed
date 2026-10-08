@@ -96,7 +96,7 @@
                 @pointerdown.prevent
                 @click="saveName(e)"
               >
-                <i class="bi bi-check-lg" />
+                <i class="wi wi-check" />
               </button>
               <button
                 type="button"
@@ -180,7 +180,7 @@
                       :title="labels.rosterMoreActions"
                       @click="toggle"
                     >
-                      <i class="bi bi-three-dots-vertical" />
+                      <i class="wi wi-more-v" />
                     </button>
                   </template>
                   <!-- The modal is teleported to <body>, which leaves the view's faction-accent
