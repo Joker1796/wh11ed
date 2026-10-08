@@ -119,7 +119,7 @@
           :title="cardRow.title || labels.trackerStratUse"
           @click="use(openStrat, true)"
         >
-          {{ labels.trackerStratUse }} · {{ openStrat._cost }}CP
+          {{ labels.trackerStratUse }}
         </button>
       </footer>
     </BaseModal>
