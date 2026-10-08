@@ -53,7 +53,7 @@
       >
         <!-- The faction-rules shield, as the faction pages and the bottom nav draw it — not the
              book, which the top bar already uses for the lore switch (owner, 2026-10-06). -->
-        <i class="bi bi-shield-shaded" />
+        <i class="wi wi-army" />
       </button>
     </div>
 

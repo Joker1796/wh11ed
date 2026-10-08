@@ -288,7 +288,6 @@
           aria-hidden="true"
         />
         <i
-          class="bi"
           :class="t.icon"
           aria-hidden="true"
         />
@@ -713,17 +712,17 @@ const built = ref(new Set([tab.value]))
 const phaseTabOn = computed(() => tracks(current.value.settings, 'trackPhaseRules'))
 const { sides: phaseSides } = usePhaseRules()
 const tabs = computed(() => [
-  { id: 'missions', label: labels.value.trackerTabMissions, icon: 'bi-bullseye' },
+  { id: 'missions', label: labels.value.trackerTabMissions, icon: 'wi wi-missions' },
   // The phase right after the missions (owner, 2026-09-30): what speaks now is read during the turn.
-  ...(phaseTabOn.value ? [{ id: 'phase', label: phasesOn.value ? labels.value.trackerTabPhase : labels.value.trackerTabTurn, icon: 'bi-hourglass-split', count: sideRuleCount.value }] : []),
-  ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp, icon: 'bi-lightning-charge' }] : []),
+  ...(phaseTabOn.value ? [{ id: 'phase', label: phasesOn.value ? labels.value.trackerTabPhase : labels.value.trackerTabTurn, icon: 'wi wi-phase', count: sideRuleCount.value }] : []),
+  ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp, icon: 'wi wi-cp' }] : []),
   // The armies right after CP (owner, 2026-09-29): both are looked at during a turn, the log and
   // the stats after it.
-  { id: 'armies', label: labels.value.trackerTabArmies, icon: 'bi-shield-shaded' },
+  { id: 'armies', label: labels.value.trackerTabArmies, icon: 'wi wi-army' },
   // The attached lists, read in the game (owner, 2026-09-30) — only when there is one.
-  ...(hasLists.value ? [{ id: 'roster', label: labels.value.trackerRosterOpen, icon: 'bi-card-list' }] : []),
-  { id: 'log', label: labels.value.trackerTabLog, icon: 'bi-journal-text' },
-  { id: 'stats', label: labels.value.trackerTabStats, icon: 'bi-bar-chart-line' },
+  ...(hasLists.value ? [{ id: 'roster', label: labels.value.trackerRosterOpen, icon: 'wi wi-roster' }] : []),
+  { id: 'log', label: labels.value.trackerTabLog, icon: 'wi wi-log' },
+  { id: 'stats', label: labels.value.trackerTabStats, icon: 'wi wi-stats' },
 ])
 watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })

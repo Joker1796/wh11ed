@@ -10,7 +10,7 @@ describe('UnitStatusButton', () => {
   it('shows the status as its icon, and offers the three in a dialog', async () => {
     const w = mount(UnitStatusButton, { props: { status: 'reserve', name: 'Havocs' }, attachTo: document.body })
     expect(w.find('.us-btn').classes()).toContain('us-reserve')
-    expect(w.find('.us-btn svg').exists()).toBe(true)
+    expect(w.find('.us-btn i').classes()).toContain('wi-unit-reserve')
     await w.find('.us-btn').trigger('click')
     const opts = body().findAll('.us-opt')
     expect(opts.map((o) => o.text())).toEqual(['On the battlefield', 'In Strategic Reserves', 'Destroyed'])

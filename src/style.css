@@ -861,6 +861,31 @@ strong {
   .view-hero h1 { font-size: 1.6rem !important; }
 }
 
+/* ── App icons ─────────────────────────────────────────────────────────────
+   The owner's own one-colour drawings (src/assets/icons, 2026-10-08), used beside the Bootstrap
+   icon font: `<i class="wi wi-army" />` wherever a `bi bi-…` would go, and the same size and
+   baseline. Drawn as a mask filled with the text colour, the way FactionEmblem draws an emblem, so
+   they follow the colour of what holds them. Under Vite's inline limit, so each file lands in this
+   stylesheet as a data URI: no request, nothing to precache, there offline. */
+.wi {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  background-color: currentColor;
+  mask: no-repeat center / contain;
+}
+.wi-army { mask-image: url('./assets/icons/tab-army.svg'); }
+.wi-cp { mask-image: url('./assets/icons/tab-cp.svg'); }
+.wi-log { mask-image: url('./assets/icons/tab-log.svg'); }
+.wi-missions { mask-image: url('./assets/icons/tab-missions.svg'); }
+.wi-phase { mask-image: url('./assets/icons/tab-phase.svg'); }
+.wi-roster { mask-image: url('./assets/icons/tab-roster.svg'); }
+.wi-stats { mask-image: url('./assets/icons/tab-stats.svg'); }
+.wi-unit-table { mask-image: url('./assets/icons/unit-on-field.svg'); }
+.wi-unit-reserve { mask-image: url('./assets/icons/unit-in-reserve.svg'); }
+.wi-unit-destroyed { mask-image: url('./assets/icons/unit-destroyed.svg'); }
+
 /* ── Boxed switch ──────────────────────────────────────────────────────────
    A row of separate boxes picking one of a few (the wizard's first-turn choice, the Event
    Companion's layout A/B/C). Neither PageTabs (which changes what the page shows) nor .seg

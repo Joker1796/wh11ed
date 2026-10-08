@@ -13,9 +13,9 @@
     :aria-label="`${labels.unitStatusTitle}: ${label(status)}`"
     @click="open = true"
   >
-    <span
-      class="us-icon"
-      v-html="ICONS[status]"
+    <i
+      class="us-icon wi"
+      :class="`wi-unit-${status}`"
     />
   </button>
 
@@ -38,9 +38,9 @@
           data-press
           @click="pick(s)"
         >
-          <span
-            class="us-icon"
-            v-html="ICONS[s]"
+          <i
+            class="us-icon wi"
+            :class="`wi-unit-${s}`"
           />
           <span>{{ label(s) }}</span>
           <i
@@ -59,11 +59,6 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { UNIT_STATUSES } from '../../composables/unitStatus.js'
-// The owner's own drawings (2026-10-08), one colour (`currentColor`), inlined: three small marks on
-// every row of a list are not worth three requests, and they must be there offline.
-import onField from './icons/unit-on-field.svg?raw'
-import inReserve from './icons/unit-in-reserve.svg?raw'
-import destroyed from './icons/unit-destroyed.svg?raw'
 
 defineProps({
   status: { type: String, default: 'table' },
@@ -75,7 +70,6 @@ const emit = defineEmits(['set'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const ICONS = { table: onField, reserve: inReserve, destroyed }
 const KEYS = { table: 'unitStatusTable', reserve: 'unitStatusReserve', destroyed: 'unitStatusDestroyed' }
 const label = (s) => labels.value[KEYS[s]]
 
@@ -102,10 +96,10 @@ function pick(s) {
    out of the game, not an error (owner, 2026-10-08). */
 .us-table, .us-reserve { border-color: var(--accent); color: var(--accent-ink); }
 .us-destroyed { border-color: var(--border); color: var(--text-dim); }
-.us-icon { display: inline-flex; width: 1.15em; height: 1.15em; flex-shrink: 0; }
-.us-icon :deep(svg) { width: 100%; height: 100%; }
-/* On the row the drawing fills its square: at the text's size its detail ran together. */
-.us-btn > .us-icon { width: 1.25rem; height: 1.25rem; }
+/* The owner's drawings (`.wi-unit-*`, style.css). On the row the drawing fills its square: at the
+   text's size its detail ran together. */
+.us-icon { flex-shrink: 0; font-size: 1.15em; }
+.us-btn > .us-icon { font-size: 1.25rem; }
 .us-opt { display: flex; align-items: center; gap: 0.6rem; }
 .us-opt.on { border-color: var(--accent); }
 .us-check { margin-left: auto; color: var(--accent-ink); }

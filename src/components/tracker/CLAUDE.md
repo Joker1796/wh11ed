@@ -120,10 +120,10 @@ read as two menus, and they were one menu). Every CLOSED tab is an icon (`aria-l
 name it); the OPEN tab takes the rest of the width and shows its icon and its word — one row at any
 width, and the word on screen is always where you are. **Wider than 900px every tab carries its
 word** (owner, 2026-10-02): the tabs are equal, the open one is the filled one, and of the switch
-only the fill and the panel's slide are left. In order: Missions `bi-bullseye`, Phase
-`bi-hourglass-split` (with its count in the corner), CP `bi-lightning-charge`, Armies
-`bi-shield-shaded`, Roster `bi-card-list` (only when an army carries a list), Log
-`bi-journal-text`, Stats `bi-bar-chart-line`. Switching is animated (owner's mock, 2026-09-30:
+only the fill and the panel's slide are left. In order, each the owner's own drawing (2026-10-08,
+`.wi-*` in style.css — see components/CLAUDE.md): Missions `wi-missions`, Phase / Turn `wi-phase`
+(with its count in the corner), CP `wi-cp`, Armies `wi-army`, Roster `wi-roster` (only when an
+army carries a list), Log `wi-log`, Stats `wi-stats`. Switching is animated (owner's mock, 2026-09-30:
 the old fill drains, the new one fills from the bottom, the word rises, the panel slides in from
 the tab's side; timed off `--motion-tab`). **Every panel is built once and kept** (`v-show`): the
 open one at once, the rest one per idle moment — a switch shows, it never builds. The strip stands on a 2px accent line;

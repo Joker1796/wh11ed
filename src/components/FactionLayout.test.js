@@ -73,7 +73,7 @@ describe('FactionLayout — the way back from a unit page', () => {
     const w = mount(FactionLayout, { props: { hero: false }, global: { stubs: { RouterLink } } })
     await settle()
     const fabs = w.findAll('.faction-fabs .fab-btn')
-    expect(fabs.map((b) => b.find('i').classes().join(' '))).toEqual(['bi bi-shield-shaded', 'bi bi-people-fill', 'bi bi-patch-question'])
+    expect(fabs.map((b) => b.find('i').classes().join(' '))).toEqual(['wi wi-army', 'bi bi-people-fill', 'bi bi-patch-question'])
     expect(fabs[0].attributes('href')).toBe('/factions/orks')
     expect(fabs[2].attributes('href')).toBe('/factions/orks/faq')
     history.replaceState({ back: '/factions/orks/datasheets' }, '')

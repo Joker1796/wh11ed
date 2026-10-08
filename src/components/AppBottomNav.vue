@@ -27,7 +27,7 @@
       :class="{ active: isFactionRoute }"
       @click="$emit('open-factions')"
     >
-      <i class="bi bi-shield-shaded" />
+      <i class="wi wi-army" />
       <span>{{ labels.navFactions }}</span>
     </button>
     <RouterLink

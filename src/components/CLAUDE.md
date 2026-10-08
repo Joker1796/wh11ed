@@ -278,6 +278,17 @@ screens that had copied each other and drifted. The pairs that existed then are 
   because Vue times enter/leave by the root's own animation and would cut a child's short.
 
 
+## App icons
+
+Most icons are the Bootstrap icon font (`bi bi-…`). **The owner's own drawings** (2026-10-08) are
+`.wi .wi-<name>` in `style.css`, one-colour SVGs in `src/assets/icons/` drawn as a mask filled with
+`currentColor` — the same size and baseline as a `bi` glyph, so a template swaps one class string for
+the other. Each file is under Vite's inline limit and lands in the stylesheet as a data URI: no
+request, nothing for the PWA to precache, there offline. In use: the game screen's tabs, a unit's
+status (`wi-unit-*`), and **`wi-army` wherever the app means an army or its rules** — the bottom
+nav's Factions, a faction's Rules tab and its side button, the roster catalogue's faction-rules
+button, the changelog's `{btn:shield}`. A new drawing: the file, one `.wi-name` line, nothing else.
+
 ## Modals
 
 Every dialog is a `BaseModal` (teleported to `<body>`, `useModalA11y` for focus/Escape).
