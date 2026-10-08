@@ -20,7 +20,7 @@ import { getItem, setItem } from './safeStorage.js'
 export const SOUNDS = ['click-down', 'click-up', 'card-down', 'card-up', 'toggle-on', 'toggle-off', 'seg', 'error']
 
 const KEY = 'wh11ed-press-sound' // the switch's first name, kept: readers have it set
-const VOLUME = 0.4 // comfortable at 0.3–0.6 (the recordings' README)
+const VOLUME = 0.25 // the README's 0.3–0.6 was loud at the table: owner, 2026-10-08, "all quieter"
 
 export const soundOn = ref(getItem(KEY) === '1')
 
