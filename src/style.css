@@ -930,6 +930,10 @@ strong {
 .wi-more-v { mask-image: url('./assets/icons/ui-more-vertical.svg'); }
 .wi-pin-on { mask-image: url('./assets/icons/pin-on.svg'); }
 .wi-pin-off { mask-image: url('./assets/icons/pin-off.svg'); }
+.wi-own { mask-image: url('./assets/icons/ui-own.svg'); } /* the collection: in it — .wi-own-on */
+.wi-own-on { mask-image: url('./assets/icons/ui-own-on.svg'); }
+.wi-copy { mask-image: url('./assets/icons/ui-copy.svg'); }
+.wi-image { mask-image: url('./assets/icons/ui-image.svg'); }
 /* A game's menu */
 .wi-party-settings { mask-image: url('./assets/icons/party-settings.svg'); }
 .wi-coop { mask-image: url('./assets/icons/party-coop.svg'); }

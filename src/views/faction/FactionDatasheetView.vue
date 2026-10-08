@@ -46,7 +46,7 @@
               :aria-pressed="owned"
               @click="toggleOwned(route.params.slug, sheet.id, sheet.name)"
             >
-              <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'" />
+              <i :class="owned ? 'wi wi-own-on' : 'wi wi-own'" />
             </button>
             <button
               type="button"
@@ -57,7 +57,7 @@
               data-press="pop"
               @click="copyName"
             >
-              <i :class="copied ? 'bi bi-check2' : 'bi bi-clipboard'" />
+              <i :class="copied ? 'wi wi-check' : 'wi wi-copy'" />
             </button>
             <button
               v-if="sheet.flavor"
@@ -81,7 +81,7 @@
               :title="labels.dsSearchImage"
               :aria-label="labels.dsSearchImage"
             >
-              <i class="bi bi-image" />
+              <i class="wi wi-image" />
             </a>
             <!-- On a phone the five buttons above fold into this one (the container query below
                  swaps them): five 30px squares beside a name like "Kill Team Cassius" left the name
@@ -116,13 +116,13 @@
                 class="act-btn ds-act"
                 @click="moreDo(() => toggleOwned(route.params.slug, sheet.id, sheet.name))"
               >
-                <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'" />{{ owned ? labels.dsOwnRemove : labels.dsOwnAdd }}
+                <i :class="owned ? 'wi wi-own-on' : 'wi wi-own'" />{{ owned ? labels.dsOwnRemove : labels.dsOwnAdd }}
               </button>
               <button
                 class="act-btn ds-act"
                 @click="moreDo(copyName)"
               >
-                <i class="bi bi-clipboard" />{{ labels.dsCopyName }}
+                <i class="wi wi-copy" />{{ labels.dsCopyName }}
               </button>
               <button
                 v-if="sheet.flavor"
@@ -138,7 +138,7 @@
                 class="act-btn ds-act"
                 @click="moreOpen = false"
               >
-                <i class="bi bi-image" />{{ labels.dsSearchImage }}
+                <i class="wi wi-image" />{{ labels.dsSearchImage }}
               </a>
             </ActionMenu>
           </div>

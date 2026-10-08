@@ -86,7 +86,7 @@
               v-model="onlyOwned"
               type="checkbox"
             >
-            <span><i class="bi bi-star-fill" /> {{ labels.rosterFilterOwned }}</span>
+            <span><i class="wi wi-own-on" /> {{ labels.rosterFilterOwned }}</span>
           </label>
           <!-- Legends units are listed and marked rather than hidden, so a player who wants them
                out of the way says so once. Only offered where the faction has any. -->
@@ -171,7 +171,7 @@
                     class="legends-badge owned-badge"
                     :title="labels.rosterFilterOwned"
                     :aria-label="labels.rosterFilterOwned"
-                  ><i class="bi bi-star-fill" /></span><span
+                  ><i class="wi wi-own-on" /></span><span
                     v-if="countOf(u.id)"
                     class="rub-count"
                     :class="{ over: isOver(u) }"

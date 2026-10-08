@@ -45,7 +45,7 @@
         <div class="ds-tools">
           <p class="ds-legend">
             <span><i class="wi wi-pin-on" /> {{ labels.favPinnedGroup }}</span>
-            <span><i class="bi bi-star" /> {{ labels.rosterFilterOwned }}</span>
+            <span><i class="wi wi-own" /> {{ labels.rosterFilterOwned }}</span>
           </p>
           <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
                still publishes is a rule somebody is reading. The switch is for the player building
@@ -113,7 +113,7 @@
                   :aria-pressed="isOwned(slug, s.id)"
                   @click.stop.prevent="toggleOwned(slug, s.id, s.name)"
                 >
-                  <i :class="isOwned(slug, s.id) ? 'bi bi-star-fill' : 'bi bi-star'" />
+                  <i :class="isOwned(slug, s.id) ? 'wi wi-own-on' : 'wi wi-own'" />
                 </button>
               </span>
               <span class="ds-chip-name">{{ s.name }}</span>

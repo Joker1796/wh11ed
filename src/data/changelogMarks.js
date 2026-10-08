@@ -16,7 +16,7 @@ export const BTN_ICONS = {
   book: { icon: 'bi bi-book', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search
   shield: { icon: 'wi wi-army', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search since 2.7.17 (was the book)
   revert: { icon: 'bi bi-arrow-counterclockwise', en: 'Cancel', ru: 'Отмена' }, // Cancel on a narrow phone
-  star: { icon: 'bi bi-star', en: 'In my collection', ru: 'Есть в коллекции' }, // the roster unit card's header
+  star: { icon: 'wi wi-own', en: 'In my collection', ru: 'Есть в коллекции' }, // the roster unit card's header
   info: { icon: 'bi bi-info-circle', en: 'View details', ru: 'Подробнее' }, // a wargear row's profiles in the unit editor
 }
 

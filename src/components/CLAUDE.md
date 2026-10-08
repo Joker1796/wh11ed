@@ -289,10 +289,11 @@ points), not shipped as a file. **The pack** (2026-10-08) covers the bottom nav,
 settings menu, a game's ⋯ menu, a faction's tabs, the game screen's tabs, add / import / edit / more,
 pins and a unit's status (`wi-unit-*`); the classes are grouped by place in `style.css`. Five were
 drawn to the pack's style to fill its gaps: `lore-on` (the lore shown, the owner's `lore` is it
-hidden), `offline-ready`, `sync` (in progress), `install` and `check`. **`wi-army` is wherever the app
+hidden), `offline-ready`, `sync` (in progress), `install` and `check`; later `own`/`own-on` (the
+collection star), `copy` and `image` (a datasheet's ⋯ menu, owner 2026-10-08). **`wi-army` is wherever the app
 means an army or its rules**; swords, hourglass and skull mean a unit's status and nothing else.
 Paired states swap the class (`theme-light`/`-dark`, `sound-on`/`-off`, `pin-on`/`-off`,
-`lore`/`lore-on`, `add`/`check`). Still Bootstrap: anything the pack has no drawing for, including
+`lore`/`lore-on`, `add`/`check`, `own`/`own-on`). Still Bootstrap: anything the pack has no drawing for, including
 the roster cloud-status icons (a family of cloud states only partly drawn). A scoped rule that sized
 `.bi` must follow the swap to `.wi`; in a fixed-width icon column give `.wi` `margin-inline: 0`, or
 it sits 0.2em narrower than its `bi` neighbours. Every file's `viewBox` is a square cropped round its ink, the ink 21 of its 24 (22.5 for the

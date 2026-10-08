@@ -35,8 +35,8 @@
           @click="copy(text, 'text')"
         >
           <i
-            class="bi"
-            :class="copied === 'text' ? 'bi-check-lg' : 'bi-clipboard'"
+            class="wi"
+            :class="copied === 'text' ? 'wi-check' : 'wi-copy'"
           />
           {{ copied === 'text' ? labels.rosterCopied : labels.rosterCopyText }}
         </button>

@@ -14,7 +14,7 @@
       :aria-label="owned ? labels.dsOwnRemove : labels.dsOwnAdd"
       @click="toggleOwned(factionSlug, unitId, name)"
     >
-      <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'" />
+      <i :class="owned ? 'wi wi-own-on' : 'wi wi-own'" />
     </button>
   </FactionAccentScope>
 </template>
