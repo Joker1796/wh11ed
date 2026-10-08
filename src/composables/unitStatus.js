@@ -56,3 +56,13 @@ export function setupReserves(unitStatus) {
   }
   return out
 }
+
+// Which entries one choice moves (owner, 2026-10-08). Into reserves and out of them an attached unit
+// goes whole — it is one unit (19.01) — but its parts die one by one: a Leader can fall while his
+// squad fights on. So `destroyed` is the tapped entry's alone, and a move to or from reserves takes
+// every part still alive, leaving the fallen where they are — the tapped entry excepted: on itself,
+// the choice is the player's. `parts` is the attached unit, the tapped entry among them.
+export function statusTargets(player, entry, parts, status) {
+  if (status === 'destroyed') return [entry]
+  return (parts?.length ? parts : [entry]).filter((p) => p.uid === entry.uid || unitStatusOf(player, p.uid) !== 'destroyed')
+}

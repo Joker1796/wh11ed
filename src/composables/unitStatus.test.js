@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { unitStatusOf, statusRecord, reserveLimitOf, reservePoints, statusCounts, setupReserves } from './unitStatus.js'
+import { unitStatusOf, statusRecord, reserveLimitOf, reservePoints, statusCounts, setupReserves, statusTargets } from './unitStatus.js'
 
 describe('unitStatus', () => {
   // A game saved before statuses existed has no records — every unit reads as deployed.
@@ -41,5 +41,30 @@ describe('unitStatus', () => {
     expect(Object.keys(out)).toEqual(['a'])
     expect(out.a).toMatchObject({ s: 'reserve', round: 0, turn: 0, name: 'A' })
     expect(setupReserves(undefined)).toEqual({})
+  })
+})
+
+// An attached unit goes into reserves and comes out whole; its parts die one by one, and the
+// fallen stay fallen when the rest moves (owner, 2026-10-08).
+describe('statusTargets', () => {
+  const sq = { uid: 'sq' }
+  const cap = { uid: 'cap' }
+  const anc = { uid: 'anc' }
+  const parts = [sq, cap, anc]
+  const player = { unitStatus: { anc: { s: 'destroyed' } } }
+  const uids = (xs) => xs.map((x) => x.uid)
+
+  it('destroys the tapped entry alone', () => {
+    expect(uids(statusTargets(player, cap, parts, 'destroyed'))).toEqual(['cap'])
+  })
+  it('moves the living parts to or from reserves, the fallen left where they are', () => {
+    expect(uids(statusTargets(player, cap, parts, 'reserve'))).toEqual(['sq', 'cap'])
+    expect(uids(statusTargets(player, sq, parts, 'table'))).toEqual(['sq', 'cap'])
+  })
+  it('lets the tapped entry itself come back', () => {
+    expect(uids(statusTargets(player, anc, parts, 'table'))).toEqual(['sq', 'cap', 'anc'])
+  })
+  it('answers for a unit standing alone', () => {
+    expect(uids(statusTargets({}, sq, [], 'reserve'))).toEqual(['sq'])
   })
 })

@@ -707,7 +707,7 @@ import ActionMenu from '../../components/ActionMenu.vue'
 import RosterOwnLimitsMark from '../../components/roster/RosterOwnLimitsMark.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
 import UnitStatusButton from '../../components/tracker/UnitStatusButton.vue'
-import { unitStatusOf } from '../../composables/unitStatus.js'
+import { unitStatusOf, statusTargets } from '../../composables/unitStatus.js'
 import PageTabs from '../../components/PageTabs.vue'
 import RosterMissionsTab from '../../components/roster/RosterMissionsTab.vue'
 import RosterDispositionModal from '../../components/roster/RosterDispositionModal.vue'
@@ -1481,10 +1481,12 @@ function toggleUnitCondFor(entry, sw) {
   }
 }
 
-// On the battlefield, in reserves, destroyed — per entry: a Leader can fall while his squad
-// fights on. The store stamps it with the game's clock (unitStatus.js).
+// On the battlefield, in reserves, destroyed — an attached unit moves whole, dies part by part
+// (statusTargets). The store stamps it with the game's clock (unitStatus.js).
 function setStatus(entry, status) {
-  tracker.value?.setUnitStatus(gamePi.value, entry.uid, status, defOf(entry.id)?.name || entry.id, gameMi.value)
+  for (const p of statusTargets(gamePlayer.value, entry, attachedEntries(entry), status)) {
+    tracker.value?.setUnitStatus(gamePi.value, p.uid, status, defOf(p.id)?.name || p.id, gameMi.value)
+  }
 }
 
 function toggleArmyCond(sw) {
