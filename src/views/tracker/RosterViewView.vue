@@ -31,6 +31,7 @@
 
       <header
         class="rv-head"
+        data-tour="rv-head"
         :class="{ own: showPoints && ownLimits }"
       >
         <!-- The name and its points share a wrapping row (owner, 2026-10-03): the points stand at
@@ -71,6 +72,7 @@
             v-if="!inGame"
             :to="`/roster/${roster.id}`"
             class="hdr-icon"
+            data-tour="rv-edit"
             :aria-label="labels.rosterEdit"
           >
             <i class="wi wi-edit" />
@@ -91,6 +93,7 @@
               <button
                 type="button"
                 class="hdr-icon"
+                data-tour="rv-menu"
                 :aria-label="labels.rosterMoreActions"
                 @click="toggle"
               >
@@ -162,6 +165,7 @@
         v-if="issues.length && !inTracker"
         type="button"
         class="rv-issues"
+        data-tour="rv-issues"
         :class="{ err: errorCount }"
         @click="issuesOpen = true"
       >
@@ -204,6 +208,7 @@
         <section
           v-if="possibleGroups.length"
           class="rv-possible"
+          data-tour="rv-possible"
         >
           <button
             type="button"
@@ -280,6 +285,7 @@
         <PageTabs
           v-if="!inTracker"
           class="rv-tabs"
+          data-tour="rv-tabs"
           :tabs="viewTabs"
           @select="tab = $event"
         />
@@ -340,6 +346,7 @@
                   </div>
                   <div
                     class="rvunit"
+                    data-tour="rv-unit"
                     :class="{
                       'rvunit-attached': e.leaderOf,
                       'rvunit-host': hasAttached(g.entries, e) || !!defOf(e.id)?.crew,
@@ -767,6 +774,7 @@ import RuleExtras from '../../components/RuleExtras.vue'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
+import { useTour, useTourShow } from '../../composables/useTour.js'
 
 const props = defineProps({
   // The rosters desk (RosterDeskView) shows a saved roster beside the list, by id; the routes
@@ -903,6 +911,10 @@ watch([roster, gameRoster], () => {
 }, { immediate: true })
 
 const tab = ref('units')
+// The tour of this page — its own, not inside a game (there the game's chapter tells about it).
+const ownPage = () => !inGame.value && !props.inTracker
+const { maybeStart: maybeStartTour } = useTour()
+useTourShow('viewTab', (k) => { if (ownPage() && viewTabs.value.some((t) => t.key === k)) tab.value = k })
 // The list's notes start folded on every visit — deliberately not remembered: what is worth a row
 // of the first screen is the army, and a plan is read at a moment, not throughout.
 const notesOpen = ref(false)
@@ -1690,6 +1702,14 @@ const hasAttached = (entries, host) => !host.leaderOf && (entries || []).some((e
 // it: a detachment object carries its `.stratagems` alongside its `.rule`, the same shape
 // FactionRuleView.vue reads.
 const rulesWanted = ref(false)
+onMounted(() => {
+  if (ownPage()) {
+    maybeStartTour('roster-view', {
+      get issues() { return issues.value.length > 0 },
+      get possible() { return possibleGroups.value.length > 0 },
+    })
+  }
+})
 onMounted(() => {
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 250))
   idle(() => { rulesWanted.value = true })

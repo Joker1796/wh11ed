@@ -215,6 +215,7 @@
     <div class="rc-sticky">
       <div class="rc-sticky-inner">
         <RosterPointsTally
+          data-tour="rw-tally"
           class="rc-sticky-info"
           :points="points"
           :limit="limit"
@@ -238,6 +239,7 @@
         <div
           v-if="!desk"
           class="seg red-mode"
+          data-tour="red-mode"
           role="group"
         >
           <button
@@ -278,6 +280,7 @@
           </button>
           <button
             class="btn-primary"
+            data-tour="rw-save"
             @click="guardFd(save)"
           >
             {{ labels.rosterSave }}
@@ -337,7 +340,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import { useDispositionGate } from '../../composables/useDispositionGate.js'
@@ -367,6 +370,7 @@ import { applyLimit, limitOf } from '../../composables/rosterLimit.js'
 import { setupIssueCount } from '../../composables/rosterValidation.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
+import { useTour, useTourShow } from '../../composables/useTour.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -394,6 +398,17 @@ const rulesList = computed(() => ({ units: roster.value.units || [], defOf, deta
 // the tabs and two panes it has always had. 1200px is where a third column stops squeezing the
 // other two — below it the catalogue's rows start wrapping their prices.
 const desk = useMediaQuery('(min-width: 1200px)')
+// The tour: on a phone, first the two modes (walking both: useTourShow), then the units, and the
+// setup's chapter the first time the settings mode is open; on a desk the settings line and the
+// columns are on one screen.
+const { maybeStart: maybeStartTour } = useTour()
+useTourShow('editorMode', (m) => { if (!desk.value) tab.value = m })
+onMounted(() => {
+  if (!desk.value) maybeStartTour('roster-edit')
+  else maybeStartTour('roster-setup')
+  maybeStartTour('roster-units')
+})
+watch(tab, (m) => { if (m === 'settings' && !desk.value) maybeStartTour('roster-setup') })
 // Crossing into or out of the desk swaps no mode, so nothing fades and nothing moves `paneTab`.
 watch(desk, () => { paneTab.value = tab.value })
 
@@ -497,6 +512,8 @@ const {
   commit: touch,
   setFaction: (slug) => { roster.value.faction = slug },
 })
+// The Force Disposition field comes with the detachments: its own chapter, the first time it does.
+watch(() => dispositionCands.value.length > 0, (on) => { if (on) maybeStartTour('roster-disposition') }, { immediate: true, flush: 'post' })
 
 // A note is the one field here that keeps its own line breaks, so it is written straight rather
 // than through rosterEngine's single-line `setNote` — only the length cap is shared.

@@ -22,7 +22,7 @@
         <div
           ref="cardEl"
           class="tour-card"
-          :class="{ phone }"
+          :class="{ phone, waiting: !resolved }"
           :style="cardStyle"
         >
           <p class="tour-count">
@@ -78,7 +78,7 @@ import { useTour } from '../composables/useTour.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { active, chapter, step, next, back, finish } = useTour()
+const { active, chapter, step, next, back, pass, finish } = useTour()
 
 const last = computed(() => !!chapter.value && active.value.i === chapter.value.steps.length - 1)
 const text = computed(() => step.value?.[locale.value] || step.value?.en || {})
@@ -108,7 +108,9 @@ let follow = 0
 function measure() {
   vw.value = window.innerWidth
   vh.value = window.innerHeight
-  if (!el?.isConnected) { rect.value = null; return }
+  // The element left the page — a panel fading out for the one the step opened: find it again.
+  if (!el?.isConnected) el = step.value ? targetOf(step.value) : null
+  if (!el) { rect.value = null; return }
   const r = el.getBoundingClientRect()
   // Never past the window's edges: a block taller than the screen was framed off its foot.
   const x = Math.max(r.left - PAD, 2)
@@ -131,11 +133,24 @@ function followStep() {
 }
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+// The card stays hidden while the step's element is looked for: a step passed over must not
+// flash its text first.
+const resolved = ref(false)
 watch(step, async (s) => {
+  resolved.value = false
   if (!s) { el = null; rect.value = null; return }
   await nextTick()
   await nextTick() // a step that opened a tab: the panel is on screen a tick after the tab
   el = targetOf(s)
+  // A panel that fades in after the one it replaces is a moment late: look again for a while.
+  for (let n = 0; !el && s.target && n < 16 && step.value === s; n++) {
+    await new Promise((r) => setTimeout(r, 50))
+    el = targetOf(s)
+  }
+  if (step.value !== s) return
+  // Its element is not on screen in this state or at this width: the step says nothing here.
+  if (!el && s.target && (typeof s.target !== 'object' || s.target.phone || s.target.desk)) { pass(); return }
+  resolved.value = true
   if (el) {
     const r = el.getBoundingClientRect()
     const fixed = getComputedStyle(el).position === 'fixed' || el.closest('.tf-sticky')
@@ -209,6 +224,7 @@ const cardStyle = computed(() => {
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   transition: top var(--motion-med) ease, left var(--motion-med) ease, bottom var(--motion-med) ease;
 }
+.tour-card.waiting { visibility: hidden; }
 .tour-card.phone { left: calc(var(--safe-left, 0px) + 12px); right: calc(var(--safe-right, 0px) + 12px); }
 .tour-count { margin: 0 0 0.2rem; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
 .tour-title { margin: 0 0 0.35rem; font-family: var(--font-display); font-size: 1.3rem; font-weight: var(--fw-heading); }

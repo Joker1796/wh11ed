@@ -1,9 +1,10 @@
 // The tracker tour's chapters (useTour.js, TourOverlay.vue) — a PROTOTYPE for the owner to correct
 // (2026-10-08). One chapter per screen of the game's flow, in its order. A step names the element
 // it lights by its `data-tour` value — `target: { phone, desk }` where the two layouts differ
-// (desk = wider than 900px) — or none, for a card in the middle of a dimmed screen. `tab` opens
-// that tab of the game screen first. `when(ctx)` keeps a step to a state of the screen (the ctx
-// its screen passes: the game screen says whether the battle has `begun`).
+// (desk = wider than 900px) — or none, for a card in the middle of a dimmed screen. `show` puts the
+// screen in the state the step tells about first — a tab of the game screen opened, a side picked
+// (useTourShow, answered by the screen that owns the state). `when(ctx)` keeps a step to a state of
+// the screen (the ctx its screen passes: the game screen says whether the battle has `begun`).
 
 export const TOUR_CHAPTERS = {
   home: {
@@ -17,9 +18,9 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: null,
-        ru: { title: 'Партия из ростера', text: 'Откройте ростер, нажмите «…» и выберите «Начать партию с этим списком». Так партию можно начать прямо из ростера: фракция, детачменты и сам ростер встанут в настройку сами.' },
+        ru: { title: 'Партия из ростера', text: 'Откройте ростер, нажмите «⋮» и выберите «Начать партию с этим списком». Так партию можно начать прямо из ростера: фракция, детачменты и сам ростер встанут в настройку сами.' },
 
-        en: { title: 'A game from a roster', text: 'Open a roster, press “…” and pick “Start a game with this list”. That starts a game straight from the roster: the faction, detachments and the roster itself fill the setup for you.' },
+        en: { title: 'A game from a roster', text: 'Open a roster, press “⋮” and pick “Start a game with this list”. That starts a game straight from the roster: the faction, detachments and the roster itself fill the setup for you.' },
 
       },
       {
@@ -171,40 +172,98 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-score',
-        ru: { title: 'Счёт', text: 'Нажмите на карточку стороны, и вкладки ниже покажут её данные. На карточках счёт обеих сторон: победные очки или BP, первичка, вторичка и CP. У каждой стороны свой цвет.' },
-        en: { title: 'Score', text: 'Tap a side’s card, and the tabs below show that side. The cards hold both sides’ score: Victory Points or BP, primary, secondary and CP. Each side has its own colour.' },
+        show: { side: 'you' },
+        ru: { title: 'Счёт', text: 'Здесь счёт обеих сторон: победные очки или BP, первичка, вторичка и CP. У каждой стороны свой цвет. Карточка выбранной стороны обведена её цветом.' },
+        en: { title: 'Score', text: 'Both sides’ score is here: Victory Points or BP, primary, secondary and CP. Each side has its own colour. The chosen side’s card is outlined in it.' },
+      },
+      {
+        target: 'game-score',
+        show: { side: 'opp', tab: 'missions' },
+        ru: { title: 'Сторона соперника', text: 'Нажмите на карточку соперника, и вкладки ниже покажут его: миссии, CP, армию. Сейчас выбран соперник. С новым ходом вкладки снова покажут сторону, которая ходит.' },
+        en: { title: 'The opponent’s side', text: 'Tap the opponent’s card, and the tabs below show their side: missions, CP, army. The opponent is chosen now. With each new turn the tabs go back to the side on turn.' },
       },
       {
         target: 'game-reserves',
+        show: { side: null },
         when: (ctx) => !ctx.begun && ctx.lists,
         ru: { title: 'Резервы', text: 'Нажмите «Отметить резервы», если какие-то юниты не выходят на стол при расстановке, а остаются в стратегическом резерве. Их нужно отметить до начала боя. Откроется ваш ростер, и туториал покажет, где это сделать.' },
         en: { title: 'Reserves', text: 'Press “Mark reserves” if some units stay in Strategic Reserves instead of deploying. They are marked before the battle. Your roster opens, and the tutorial shows where to do it.' },
       },
       {
         target: 'game-start',
+        show: { side: null },
         when: (ctx) => !ctx.begun,
         ru: { title: 'Начать игру', text: 'Расставьте армии на столе и нажмите «Начать игру». Пока бой не начат: с этой кнопки начнётся первый ход, и придут первые CP.' },
         en: { title: 'Start game', text: 'Deploy your armies on the table and press “Start game”. The battle has not begun yet: the first turn starts with this button, and the first CP arrive.' },
       },
       {
         target: 'game-turnbar',
+        show: { side: null },
         when: (ctx) => ctx.begun,
         ru: { title: 'Ход и фазы', text: 'Переключайте фазы хода стрелками. Нажмите на название фазы, чтобы выбрать её из списка. Кнопка «Завершить ход» передаёт ход сопернику.' },
         en: { title: 'Turn and phases', text: 'Switch the turn’s phases with the arrows. Tap the phase’s name to pick it from a list. “End turn” passes the turn to the opponent.' },
       },
       {
         target: 'game-tabs',
-        ru: { title: 'Вкладки', text: 'Нажмите на значок, чтобы открыть вкладку: миссии, фаза, CP, армии, ростер, лог или статистика. Каждый новый ход открывается на вкладке «Миссии».' },
-        en: { title: 'Tabs', text: 'Tap an icon to open a tab: missions, phase, CP, armies, roster, log or stats. Every new turn opens on the Missions tab.' },
+        show: { tab: 'missions', side: null },
+        ru: { title: 'Вкладки', text: 'Нажмите на значок, чтобы открыть вкладку. Открытая вкладка подписана словом. Дальше туториал откроет каждую по очереди. Каждый новый ход открывается на вкладке «Миссии».' },
+        en: { title: 'Tabs', text: 'Tap an icon to open a tab. The open tab is named in words. Next the tutorial opens each one in turn. Every new turn opens on the Missions tab.' },
       },
       {
         target: 'game-missions',
-        tab: 'missions',
-        ru: { title: 'Миссии', text: 'Отмечайте выполненные миссии, чтобы начислить очки. Здесь первичная и вторичные миссии. В тактическом режиме здесь же вы берёте новые карты и сбрасываете ненужные.' },
-        en: { title: 'Missions', text: 'Mark the missions you achieve to score them. The primary and secondary missions are here. In tactical mode you also draw new cards and discard ones you do not need here.' },
+        show: { tab: 'missions' },
+        ru: { title: 'Миссии', text: 'Отмечайте выполненные миссии, чтобы начислить очки. Нажмите на миссию, чтобы открыть её условия. Здесь первичная и вторичные миссии. В тактическом режиме здесь же вы берёте новые карты и сбрасываете ненужные.' },
+        en: { title: 'Missions', text: 'Mark the missions you achieve to score them. Tap a mission to open its conditions. The primary and secondary missions are here. In tactical mode you also draw new cards and discard ones you do not need here.' },
+      },
+      {
+        target: 'game-panel-phase',
+        show: { tab: 'phase' },
+        when: (ctx) => ctx.tabs?.includes('phase') && ctx.phases,
+        ru: { title: 'Фаза', text: 'Здесь то, что действует в текущей фазе: правила армии и детачмента, способности юнитов и стратагемы этой фазы. Нажмите на строку, чтобы открыть правило или карточку юнита. Число на значке вкладки — сколько правил у этой фазы.' },
+        en: { title: 'Phase', text: 'What works in the current phase is here: the army and detachment rules, the units’ abilities and this phase’s stratagems. Tap a line to open the rule or the unit’s card. The number on the tab’s icon is how many rules this phase has.' },
+      },
+      {
+        target: 'game-panel-phase',
+        show: { tab: 'phase' },
+        when: (ctx) => ctx.tabs?.includes('phase') && !ctx.phases,
+        ru: { title: 'Ход', text: 'Здесь то, что действует в каждой фазе хода: правила армии и детачмента, способности юнитов и стратагемы. Нажмите на строку, чтобы открыть правило или карточку юнита.' },
+        en: { title: 'Turn', text: 'What works in each phase of the turn is here: the army and detachment rules, the units’ abilities and the stratagems. Tap a line to open the rule or the unit’s card.' },
+      },
+      {
+        target: 'game-panel-cp',
+        show: { tab: 'cp' },
+        when: (ctx) => ctx.tabs?.includes('cp'),
+        ru: { title: 'CP и стратагемы', text: 'Нажмите на стратагему, а затем «Использовать», чтобы сыграть её: CP спишутся сами. Здесь командные очки стороны и её стратагемы по фазам. Стратагемы, которые сейчас сыграть нельзя, отмечены с причиной.' },
+        en: { title: 'CP and stratagems', text: 'Tap a stratagem, then “Use”, to play it: the CP are taken off by themselves. The side’s Command Points and its stratagems by phase are here. The ones that cannot be played now say why.' },
+      },
+      {
+        target: 'game-panel-armies',
+        show: { tab: 'armies' },
+        ru: { title: 'Армии', text: 'Здесь армия стороны: её юниты и правила, которыми она играет, — армейское правило и правила детачментов. Счётчики армейского правила, например Waaagh!, ведутся здесь же.' },
+        en: { title: 'Armies', text: 'The side’s army is here: its units and the rules it plays by — the army rule and the detachment rules. The army rule’s counters, Waaagh! for example, are kept here too.' },
+      },
+      {
+        target: 'game-tabs',
+        show: { tab: 'roster' },
+        when: (ctx) => ctx.tabs?.includes('roster'),
+        ru: { title: 'Ростер', text: 'Нажмите на юнит ниже, чтобы открыть его карточку. На вкладке «Ростер» — приложенный ростер стороны. Числа в карточках уже с поправками от правил, которые действуют в партии.' },
+        en: { title: 'Roster', text: 'Tap a unit below to open its card. The Roster tab holds the side’s attached roster. The numbers on the cards already carry what the rules in play change.' },
+      },
+      {
+        target: 'game-panel-log',
+        show: { tab: 'log' },
+        ru: { title: 'Лог', text: 'Здесь всё, что случилось в партии, по раундам: очки, CP, стратагемы. Лог показывает обе стороны сразу. Его можно скопировать текстом.' },
+        en: { title: 'Log', text: 'Everything that happened in the game is here, by round: points, CP, stratagems. The log shows both sides at once. It can be copied as text.' },
+      },
+      {
+        target: 'game-panel-stats',
+        show: { tab: 'stats' },
+        ru: { title: 'Статистика', text: 'Здесь очки стороны по раундам: первичка, вторичка и CP. Так видно, в каком раунде что набрано.' },
+        en: { title: 'Stats', text: 'The side’s points by round are here: primary, secondary and CP. It shows what was scored in which round.' },
       },
       {
         target: 'game-menu',
+        show: { tab: 'missions', side: null },
         ru: { title: 'Меню партии', text: 'Нажмите «…», чтобы открыть меню партии: настройка, совместная игра, трансляция и завершение игры. Отсюда же можно снова открыть туториал.' },
         en: { title: 'The game’s menu', text: 'Press “…” to open the game’s menu: setup, the shared game, the broadcast and finishing the game. The tutorial opens from here again too.' },
       },
@@ -216,6 +275,7 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'game-tabs',
+        show: { tab: 'roster' },
         ru: { title: 'Ваш ростер', text: 'Открылась вкладка «Ростер». Здесь ваши юниты, и у каждого отмечено, где он: на поле боя, в стратегическом резерве или уничтожен.' },
         en: { title: 'Your roster', text: 'The Roster tab is open. Your units are here, and each one shows where it is: on the battlefield, in Strategic Reserves or destroyed.' },
       },
@@ -226,9 +286,10 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-score',
+        show: { side: 'opp', tab: 'roster' },
         when: (ctx) => ctx.otherList && !ctx.shared,
-        ru: { title: 'Резервы соперника', text: 'Нажмите на карточку счёта соперника, и на вкладке появится его ростер. Его резервы отмечаются так же.' },
-        en: { title: 'The opponent’s reserves', text: 'Tap the opponent’s score card, and the tab shows their roster. Their reserves are marked the same way.' },
+        ru: { title: 'Резервы соперника', text: 'Нажмите на карточку счёта соперника, и на вкладке появится его ростер — как сейчас. Его резервы отмечаются так же.' },
+        en: { title: 'The opponent’s reserves', text: 'Tap the opponent’s score card, and the tab shows their roster — as it does now. Their reserves are marked the same way.' },
       },
       {
         target: 'game-score',
@@ -238,6 +299,7 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-start',
+        show: { side: null },
         ru: { title: 'Когда резервы отмечены', text: 'Нажмите «Начать игру». Когда юнит выйдет из резерва на стол, откройте его статус снова и выберите «На поле боя».' },
         en: { title: 'With the reserves marked', text: 'Press “Start game”. When a unit arrives from reserves, open its status again and pick “On the battlefield”.' },
       },
@@ -256,6 +318,252 @@ export const TOUR_CHAPTERS = {
         target: 'game-turnbar',
         ru: { title: 'Завершить ход', text: 'Нажмите «Завершить ход», когда закончите ход. Сначала трекер покажет, что ещё не начислено и какие карты уйдут. Потом ход перейдёт сопернику.' },
         en: { title: 'End turn', text: 'Press “End turn” when your turn is done. The tracker first shows what is not scored yet and which cards leave. Then the turn passes to the opponent.' },
+      },
+    ],
+  },
+
+  // ── The roster builder (owner, 2026-10-09) ──────────────────────────────────────────────────────
+  // The list of lists: on a phone its own page, on a desk the left column beside the open roster.
+  'roster-list': {
+    steps: [
+      {
+        target: 'roster-new',
+        ru: { title: 'Создать лист', text: 'Нажмите «Создать лист», чтобы собрать ростер. Сначала вы выберете фракцию и детачменты, потом добавите юниты.' },
+        en: { title: 'New list', text: 'Press “New list” to build a roster. First you pick the faction and detachments, then you add units.' },
+      },
+      {
+        target: 'roster-import',
+        ru: { title: 'Импорт', text: 'Нажмите «Импорт», чтобы вставить готовый список текстом — например, из приложения GW или New Recruit. Ростер соберётся сам.' },
+        en: { title: 'Import', text: 'Press “Import” to paste a finished list as text — from the GW app or New Recruit, for example. The roster builds itself.' },
+      },
+      {
+        target: 'roster-stats',
+        ru: { title: 'Статистика', text: 'Нажмите «Статистика», чтобы увидеть свои сыгранные партии: победы, соперников, вторичные миссии и итоги по каждому ростеру.' },
+        en: { title: 'Statistics', text: 'Press “Statistics” to see your finished games: wins, opponents, secondary missions and how each roster did.' },
+      },
+      {
+        target: 'roster-tabs',
+        show: { listTab: 'saved' },
+        ru: { title: 'Списки', text: 'Нажмите на вкладку, чтобы переключить раздел. «Списки» — ваши сохранённые ростеры.' },
+        en: { title: 'Lists', text: 'Tap a tab to switch the section. “Lists” holds your saved rosters.' },
+      },
+      {
+        target: 'roster-tabs',
+        show: { listTab: 'drafts' },
+        ru: { title: 'Черновики', text: '«Черновики» — ростеры, которые вы начали собирать и ещё не сохранили. Нажмите на черновик, чтобы продолжить с того же места.' },
+        en: { title: 'Drafts', text: '“Drafts” holds rosters you started and have not saved yet. Tap a draft to carry on where you left off.' },
+      },
+      {
+        target: 'roster-tabs',
+        show: { listTab: 'archived' },
+        ru: { title: 'Архив', text: '«Архив» — ростеры, которые вы убрали из списков. Они не проверяются по правилам. Вернуть ростер можно из его меню «⋮».' },
+        en: { title: 'Archive', text: '“Archive” holds rosters you put away. They are not checked against the rules. A roster comes back from its “⋮” menu.' },
+      },
+      {
+        target: 'roster-card',
+        show: { listTab: 'saved' },
+        when: (ctx) => ctx.cards,
+        ru: { title: 'Карточка ростера', text: 'Нажмите на карточку, чтобы открыть ростер. На ней фракция, Force Disposition, детачменты, очки и число ошибок.' },
+        en: { title: 'A roster’s card', text: 'Tap a card to open the roster. It shows the faction, Force Disposition, detachments, points and the number of problems.' },
+      },
+      {
+        target: 'roster-card-menu',
+        show: { listTab: 'saved' },
+        when: (ctx) => ctx.cards,
+        ru: { title: 'Меню ростера', text: 'Нажмите «⋮», чтобы открыть меню ростера: начать партию с этим списком, редактировать, экспорт, дублировать, закрепить сверху, убрать в архив или удалить.' },
+        en: { title: 'The roster’s menu', text: 'Press “⋮” to open the roster’s menu: start a game with this list, edit, export, duplicate, pin to the top, archive or delete.' },
+      },
+      {
+        target: 'roster-cloud',
+        show: { listTab: 'saved' },
+        ru: { title: 'Где хранятся ростеры', text: 'Здесь видно, где лежат ваши ростеры. Без входа они хранятся только на этом устройстве. Войдите в аккаунт в меню ⚙, и ростеры будут на всех ваших устройствах.' },
+        en: { title: 'Where rosters are kept', text: 'This says where your rosters are kept. Signed out, they live on this device only. Sign in from the ⚙ menu, and your rosters are on all your devices.' },
+      },
+    ],
+  },
+  // The roster's own page, outside a game.
+  'roster-view': {
+    steps: [
+      {
+        target: 'rv-head',
+        show: { viewTab: 'units' },
+        ru: { title: 'Ростер', text: 'Здесь название ростера и его очки из лимита. Если очков больше лимита, число станет красным.' },
+        en: { title: 'The roster', text: 'The roster’s name and its points out of the limit are here. Over the limit, the number turns red.' },
+      },
+      {
+        target: 'rv-edit',
+        ru: { title: 'Редактировать', text: 'Нажмите на карандаш, чтобы изменить ростер: юниты, вооружение, детачменты.' },
+        en: { title: 'Edit', text: 'Press the pencil to change the roster: units, wargear, detachments.' },
+      },
+      {
+        target: 'rv-issues',
+        when: (ctx) => ctx.issues,
+        ru: { title: 'Ошибки', text: 'Нажмите на эту строку, чтобы увидеть, что в ростере не по правилам. Из списка можно перейти к юниту с ошибкой.' },
+        en: { title: 'Problems', text: 'Tap this line to see what in the roster breaks the rules. From the list you can go to the unit at fault.' },
+      },
+      {
+        target: 'rv-possible',
+        when: (ctx) => ctx.possible,
+        ru: { title: 'Возможные модификаторы', text: 'Нажмите, чтобы раскрыть список. Это правила, которые меняют характеристики юнитов при условии, — например, когда юнит атаковал. В партии они учитываются, когда условие выполнено.' },
+        en: { title: 'Possible modifiers', text: 'Tap to open the list. These are rules that change a unit’s characteristics on a condition — when it charged, for example. In a game they count once the condition is met.' },
+      },
+      {
+        target: 'rv-tabs',
+        show: { viewTab: 'units' },
+        ru: { title: 'Вкладки', text: 'Нажмите на вкладку, чтобы переключить раздел. Дальше туториал откроет каждую.' },
+        en: { title: 'Tabs', text: 'Tap a tab to switch the section. Next the tutorial opens each one.' },
+      },
+      {
+        target: 'rv-unit',
+        show: { viewTab: 'units' },
+        ru: { title: 'Юниты', text: 'Нажмите на юнит, чтобы открыть его карточку: характеристики, оружие и способности. Улучшения и правила детачмента в ней уже учтены.' },
+        en: { title: 'Units', text: 'Tap a unit to open its card: characteristics, weapons and abilities. Enhancements and the detachment’s rules are already applied to it.' },
+      },
+      {
+        target: 'rv-tabs',
+        show: { viewTab: 'rules' },
+        ru: { title: 'Правила', text: 'На вкладке «Правила» — правило армии и правила детачментов этого ростера.' },
+        en: { title: 'Rules', text: 'The Rules tab holds the army rule and this roster’s detachment rules.' },
+      },
+      {
+        target: 'rv-tabs',
+        show: { viewTab: 'stratagems' },
+        ru: { title: 'Стратагемы', text: 'На вкладке «Стратагемы» — стратагемы детачментов этого ростера.' },
+        en: { title: 'Stratagems', text: 'The Stratagems tab holds this roster’s detachment stratagems.' },
+      },
+      {
+        target: 'rv-tabs',
+        show: { viewTab: 'missions' },
+        ru: { title: 'Миссии', text: 'На вкладке «Миссии» — Force Disposition ростера и первичная миссия против каждой Force Disposition соперника. Так можно подготовиться к партии заранее.' },
+        en: { title: 'Missions', text: 'The Missions tab holds the roster’s Force Disposition, with the primary mission against each of the opponent’s. It helps to prepare for a game in advance.' },
+      },
+      {
+        target: 'rv-menu',
+        show: { viewTab: 'units' },
+        ru: { title: 'Меню ростера', text: 'Нажмите «⋮» и выберите «Начать партию с этим списком», чтобы сыграть этим ростером. Здесь же экспорт, копирование списка целиком, печать и архив.' },
+        en: { title: 'The roster’s menu', text: 'Press “⋮” and pick “Start a game with this list” to play with this roster. Export, copying the whole list, printing and the archive are here too.' },
+      },
+    ],
+  },
+  // The roster's settings: the creator's first step, the editor's settings mode, the desk's line.
+  'roster-setup': {
+    steps: [
+      {
+        target: 'rs-name',
+        ru: { title: 'Название', text: 'Впишите название ростера. Его видно в списке ростеров и в партии.' },
+        en: { title: 'Name', text: 'Enter the roster’s name. It shows in the list of rosters and in a game.' },
+      },
+      {
+        target: 'rs-size',
+        ru: { title: 'Размер игры', text: 'Выберите размер игры. Он задаёт лимит очков и число очков детачмента (DP). Можно задать и свой лимит.' },
+        en: { title: 'Game size', text: 'Choose the game size. It sets the points limit and the Detachment Points (DP). You can set your own limit too.' },
+      },
+      {
+        target: 'rs-faction',
+        ru: { title: 'Фракция', text: 'Выберите фракцию армии. От неё зависят юниты в каталоге и детачменты.' },
+        en: { title: 'Faction', text: 'Choose the army’s faction. The units in the catalogue and the detachments depend on it.' },
+      },
+      {
+        target: 'rs-detachments',
+        ru: { title: 'Детачменты', text: 'Выберите детачменты. Каждый стоит очков детачмента (DP), счётчик рядом показывает, сколько потрачено.' },
+        en: { title: 'Detachments', text: 'Choose the detachments. Each costs Detachment Points (DP), and the counter beside them shows how many are spent.' },
+      },
+      {
+        target: 'rs-notes',
+        ru: { title: 'Заметки', text: 'Запишите план на игру или напоминания. Заметки видно на странице ростера.' },
+        en: { title: 'Notes', text: 'Write down a game plan or reminders. The notes show on the roster’s page.' },
+      },
+      {
+        target: 'rs-check',
+        ru: { title: 'Проверка правил', text: 'Снимите галочку, если собираете ростер не по правилам — например, для дружеской игры. Тогда конструктор не будет отмечать ошибки.' },
+        en: { title: 'Rules check', text: 'Untick this when the roster is not meant to follow the rules — for a friendly game, say. The builder then marks no problems.' },
+      },
+      {
+        target: 'rs-more',
+        ru: { title: 'Ещё настройки', text: 'Нажмите, чтобы открыть заметки и проверку правил. Снимите там галочку «Проверять легитимность», если собираете ростер не по правилам.' },
+        en: { title: 'More settings', text: 'Press to open the notes and the rules check. Untick “Check legality” there when the roster is not meant to follow the rules.' },
+      },
+      {
+        target: 'rc-next',
+        ru: { title: 'Дальше — юниты', text: 'Нажмите «Далее», когда выберете фракцию. На следующем шаге вы добавите юниты.' },
+        en: { title: 'Next — units', text: 'Press “Next” once the faction is chosen. On the next step you add units.' },
+      },
+    ],
+  },
+  // The units: the catalogue and the list (and on a desk the chosen unit's fields), in the creator
+  // and the editor alike.
+  'roster-units': {
+    steps: [
+      {
+        target: 'rw-catalog',
+        show: { filters: false },
+        ru: { title: 'Каталог', text: 'Нажмите «+», чтобы добавить юнит в ростер. Нажмите на название, чтобы прочитать карточку юнита. Здесь все юниты фракции по разделам.' },
+        en: { title: 'Catalogue', text: 'Press “+” to add a unit to the roster. Tap a name to read the unit’s card. All the faction’s units are here, by section.' },
+      },
+      {
+        target: 'cat-search',
+        ru: { title: 'Поиск', text: 'Введите название юнита, способность или ключевое слово, чтобы найти юнит.' },
+        en: { title: 'Search', text: 'Type a unit’s name, an ability or a keyword to find a unit.' },
+      },
+      {
+        target: 'cat-filters-body',
+        show: { filters: true },
+        ru: { title: 'Фильтры', text: 'Нажмите на воронку, чтобы открыть фильтры. Например, «Влезает в остаток» оставит юниты, которые помещаются в оставшиеся очки.' },
+        en: { title: 'Filters', text: 'Press the funnel to open the filters. “Fits what is left”, for example, keeps the units that fit the points still free.' },
+      },
+      {
+        target: 'cat-rules',
+        show: { filters: false },
+        ru: { title: 'Правила фракции', text: 'Нажмите, чтобы прочитать правило армии и правила выбранных детачментов, не уходя из ростера.' },
+        en: { title: 'Faction rules', text: 'Press to read the army rule and the chosen detachments’ rules without leaving the roster.' },
+      },
+      {
+        target: 'rw-list',
+        ru: { title: 'Ваш ростер', text: 'Нажмите на юнит, чтобы настроить его: число моделей, вооружение, улучшения, лидера. Здесь юниты ростера по разделам.' },
+        en: { title: 'Your roster', text: 'Tap a unit to set it up: models, wargear, enhancements, a leader. The roster’s units are here, by section.' },
+      },
+      {
+        target: 'rw-editor',
+        ru: { title: 'Настройка юнита', text: 'Здесь настройки юнита, которого вы выбрали в ростере: модели, вооружение, улучшения.' },
+        en: { title: 'The unit’s setup', text: 'The setup of the unit you chose in the roster is here: models, wargear, enhancements.' },
+      },
+      {
+        target: 'rw-tally',
+        ru: { title: 'Очки и ошибки', text: 'Нажмите на значок рядом с очками, чтобы увидеть, что в ростере не по правилам. Здесь очки ростера из лимита.' },
+        en: { title: 'Points and problems', text: 'Tap the mark beside the points to see what in the roster breaks the rules. The roster’s points out of the limit are here.' },
+      },
+      {
+        target: 'rw-save',
+        ru: { title: 'Сохранить', text: 'Нажмите «Сохранить», когда закончите. Если вы вошли в аккаунт, ростер сохранится и в облаке.' },
+        en: { title: 'Save', text: 'Press “Save” when you are done. When you are signed in, the roster is saved to the cloud too.' },
+      },
+    ],
+  },
+  // The editor on a phone: two modes on one switch at the bottom.
+  'roster-edit': {
+    steps: [
+      {
+        target: 'red-mode',
+        show: { editorMode: 'settings' },
+        ru: { title: 'Настройка', text: 'Нажмите на шестерёнку, чтобы открыть настройку ростера: название, размер игры, фракцию и детачменты.' },
+        en: { title: 'Setup', text: 'Press the gear to open the roster’s setup: name, game size, faction and detachments.' },
+      },
+      {
+        target: 'red-mode',
+        show: { editorMode: 'units' },
+        ru: { title: 'Юниты', text: 'Нажмите на вторую кнопку, чтобы вернуться к юнитам: каталог слева, ваш ростер справа.' },
+        en: { title: 'Units', text: 'Press the second button to go back to the units: the catalogue on the left, your roster on the right.' },
+      },
+    ],
+  },
+  // The Force Disposition field comes with the detachments, after the setup's chapter has been
+  // and gone on a new roster — so it has a chapter of its own, shown when the field appears.
+  'roster-disposition': {
+    steps: [
+      {
+        target: 'rs-disposition',
+        ru: { title: 'Force Disposition', text: 'Выберите Force Disposition армии. Её дают выбранные детачменты, и от неё зависит первичная миссия в партии.' },
+        en: { title: 'Force Disposition', text: 'Choose the army’s Force Disposition. The chosen detachments offer it, and the primary mission of a game depends on it.' },
       },
     ],
   },

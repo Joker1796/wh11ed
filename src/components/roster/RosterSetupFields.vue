@@ -4,6 +4,7 @@
       <label
         v-if="showName"
         class="choice field-tile"
+        data-tour="rs-name"
       >
         <span class="ch-label">{{ labels.rosterNameLabel }}</span>
         <input
@@ -19,12 +20,16 @@
            army second — the order a list is planned in. -->
       <RosterBattleSizeField
         class="choice pick"
+        data-tour="rs-size"
         :faction="factionSlug"
         :limit="limit"
         @update:limit="$emit('update:limit', $event)"
       />
 
-      <div class="choice pick">
+      <div
+        class="choice pick"
+        data-tour="rs-faction"
+      >
         <span class="ch-label">{{ labels.rosterFactionLabel }}</span>
         <button
           type="button"
@@ -41,6 +46,7 @@
 
       <div
         class="choice pick"
+        data-tour="rs-detachments"
         :class="{ off: !hasFaction }"
       >
         <span class="ch-label">
@@ -91,6 +97,7 @@
         <div
           v-if="dispositionCands.length"
           class="choice"
+          data-tour="rs-disposition"
         >
           <span class="ch-label">{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
           <!-- One candidate is stated; a second detachment turns it into a choice — the change fades. -->
@@ -127,6 +134,7 @@
       <label
         v-if="showNotes"
         class="choice field-tile"
+        data-tour="rs-notes"
       >
         <span class="ch-label">{{ labels.rosterNotes }}</span>
         <textarea
@@ -142,6 +150,7 @@
     <!-- An archived list is never checked, whatever this says — so the box says why instead. -->
     <label
       class="check"
+      data-tour="rs-check"
       :class="{ on: checkLegality && !archived }"
     >
       <input

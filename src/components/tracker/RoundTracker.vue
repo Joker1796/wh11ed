@@ -471,6 +471,7 @@
     <section
       v-if="cpOn && built.has('cp')"
       v-show="tab === 'cp'"
+      data-tour="game-panel-cp"
       class="panel panel-framed"
       role="tabpanel"
     >
@@ -539,6 +540,7 @@
     <section
       v-if="phaseTabOn && built.has('phase')"
       v-show="tab === 'phase'"
+      data-tour="game-panel-phase"
       class="panel panel-framed"
       role="tabpanel"
     >
@@ -565,6 +567,7 @@
     <section
       v-if="built.has('log')"
       v-show="tab === 'log'"
+      data-tour="game-panel-log"
       class="panel"
       role="tabpanel"
     >
@@ -574,6 +577,7 @@
     <section
       v-if="built.has('stats')"
       v-show="tab === 'stats'"
+      data-tour="game-panel-stats"
       class="panel panel-framed"
       role="tabpanel"
     >
@@ -587,6 +591,7 @@
     <section
       v-if="built.has('armies')"
       v-show="tab === 'armies'"
+      data-tour="game-panel-armies"
       class="panel panel-framed"
       role="tabpanel"
     >
@@ -705,7 +710,7 @@ import EditSetupModal from './EditSetupModal.vue'
 import BroadcastModal from './BroadcastModal.vue'
 import PartyModal from './PartyModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
-import { TOUR_ON, useTour } from '../../composables/useTour.js'
+import { TOUR_ON, useTour, useTourShow } from '../../composables/useTour.js'
 import PhasePickerModal from './PhasePickerModal.vue'
 import PhaseRules from './PhaseRules.vue'
 import SideEmptyState from './SideEmptyState.vue'
@@ -754,10 +759,10 @@ provideModalScope(computed(() => ({
 const tab = ref('missions')
 // The tour (useTour.js): its chapter the first time this screen comes up, and a step that is
 // about a tab opens it.
-const { maybeStart: maybeStartTour, start: startTour, step: tourStep } = useTour()
-watch(() => tourStep.value?.tab, (t) => { if (t) tab.value = t })
-// What the tour's steps ask of this screen: has the battle begun, is the phase clock on.
-const tourCtx = () => ({ begun: begun.value, phases: tracks(current.value?.settings, 'trackPhases'), lists: !!reservesSide.value })
+const { maybeStart: maybeStartTour, start: startTour } = useTour()
+// What the tour's steps ask of this screen: has the battle begun, is the phase clock on, which
+// tabs this game has.
+const tourCtx = () => ({ begun: begun.value, phases: tracks(current.value?.settings, 'trackPhases'), lists: !!reservesSide.value, tabs: tabs.value.map((t) => t.id) })
 // The tour: this screen's chapter on its first showing (what the turn bar says depends on whether
 // the battle has begun), and the turn's own chapter the moment it does.
 onMounted(() => maybeStartTour('game', tourCtx()))
@@ -954,6 +959,13 @@ const viewSide = computed(() => pickedSide.value ?? focusSide.value)
 // The tabs whose panel is one side's, framed in the picked side's colour. The Log tells both sides
 // in one timeline, so there the cards are only the score.
 const framedTab = computed(() => ['missions', 'phase', 'cp', 'armies', 'roster', 'stats'].includes(tab.value))
+// The tour's steps open a tab and pick a side for what they tell (useTourShow).
+useTourShow('tab', (t) => { if (tabs.value.some((x) => x.id === t)) { built.value.add(t); tab.value = t } })
+// A side by who it is to this phone ('you' / 'opp'), not by index: players[0] is whoever went
+// first. null hands the panels back to the side they follow on their own.
+useTourShow('side', (who) => {
+  pickedSide.value = who == null ? null : current.value.players.findIndex((pl, i) => isYouSide(pl, i) === (who === 'you'))
+})
 // The picked side's army, for an empty panel's emblem (the first member's in doubles).
 const viewFaction = computed(() => factionIndexBySlug(membersOf(current.value.players[viewSide.value])[0]?.factionSlug) || null)
 // The Phase tab's count is the picked side's, as its list is.

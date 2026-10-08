@@ -33,13 +33,22 @@
     ref="colsEl"
     class="rw-cols"
   >
-    <div class="rw-col rw-col-fill">
+    <div
+      class="rw-col rw-col-fill"
+      data-tour="rw-catalog"
+    >
       <slot name="catalog" />
     </div>
-    <div class="rw-col rw-col-scroll">
+    <div
+      class="rw-col rw-col-scroll"
+      data-tour="rw-list"
+    >
       <slot name="list" />
     </div>
-    <div class="rw-col rw-col-scroll">
+    <div
+      class="rw-col rw-col-scroll"
+      data-tour="rw-editor"
+    >
       <slot
         v-if="selected"
         name="editor"
@@ -60,10 +69,16 @@
     ref="colsEl"
     class="roster-panes rw-panes"
   >
-    <div class="rp-catalog">
+    <div
+      class="rp-catalog"
+      data-tour="rw-catalog"
+    >
       <slot name="catalog" />
     </div>
-    <div class="rp-list">
+    <div
+      class="rp-list"
+      data-tour="rw-list"
+    >
       <slot name="list" />
     </div>
   </div>

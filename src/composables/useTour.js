@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { IS_BETA } from '../config.js'
 import { TOUR_CHAPTERS } from '../data/tourChapters.js'
 import { getItem, setItem } from './safeStorage.js'
@@ -28,9 +28,38 @@ if (TOUR_ON && typeof location !== 'undefined' && new URLSearchParams(location.s
   setItem(SEEN_KEY, '[]')
 }
 const seen = ref(readSeen())
-let waiting = null // a chapter waiting for the screen to be free (maybeStart)
+let waiting = null // the timer looking for a free screen (maybeStart)
+const pending = new Map() // id → { ctx, at }: chapters asked for and not yet shown, in order
+const PENDING_MS = 60000 // a chapter not shown within a minute of its screen asking is dropped
 const dialogOpen = () => typeof document !== 'undefined' && !!document.querySelector('.modal-overlay:not([inert])')
+// The chapter's steps that hold for this state of its screen.
+const stepsOf = (id, ctx) => TOUR_CHAPTERS[id].steps.filter((s) => !s.when || s.when(ctx))
+// Whether a step's element is on screen now.
+function present(st) {
+  if (typeof document === 'undefined') return true
+  const desk = window.matchMedia?.('(min-width: 901px)').matches
+  const t = st.target && typeof st.target === 'object' ? (desk ? st.target.desk : st.target.phone) : st.target
+  return !!t && [...document.querySelectorAll(`[data-tour="${t}"]`)].some((el) => el.getClientRects().length > 0)
+}
+// Whether any element the chapter lights is on screen — its screen is still the one showing.
+const onScreen = (id, ctx) => stepsOf(id, ctx).some(present)
 const active = ref(null) // { id, i, steps } — the chapter's steps that hold for the screen's state
+
+// What a step shows on its screen before it lights anything (owner, 2026-10-09: "if there is
+// something on the screen to switch and tell about, switch it for the telling") — a tab opened, a
+// side picked, a pane brought forward. A step says it as `show: { <key>: value }`; the screen that
+// owns that state answers here with how to set it, so a chapter never clicks the page itself and a
+// step walked back to puts its own state back. A key the step does not name is left alone.
+export function useTourShow(key, apply) {
+  watch(
+    () => {
+      const st = active.value?.steps[active.value.i]
+      return st?.show && Object.hasOwn(st.show, key) ? { v: st.show[key] } : null
+    },
+    (got) => { if (got) apply(got.v) },
+    { immediate: true },
+  )
+}
 
 export function useTour() {
   const chapter = computed(() => (active.value ? { steps: active.value.steps } : null))
@@ -48,33 +77,47 @@ export function useTour() {
   // open, then for every open one to close (a leaving copy is inert — modalLeave.js).
   // `ctx` is the screen's state a step may ask about (`when`): the game screen before the battle
   // has "Start game" where the phases will be (owner, 2026-10-08).
+  // Chapters asked for together WAIT IN LINE: the rosters' desk is the list of lists and a roster
+  // side by side, each with its chapter, and the second used to cancel the first. A waiting
+  // chapter starts only while something it lights is on screen, and one not shown within a minute
+  // is dropped — its screen has gone.
   function maybeStart(id, ctx = {}) {
     if (!TOUR_ON || !TOUR_CHAPTERS[id] || seen.value.has(id)) return
-    clearInterval(waiting)
+    pending.set(id, { ctx, at: Date.now() })
+    if (waiting) return
     let free = 0 // the screen has to stay free for two looks: a dialog may open a moment late
     waiting = setInterval(() => {
       free = active.value || dialogOpen() ? 0 : free + 1
       if (free < 2) return
-      clearInterval(waiting)
-      waiting = null
-      if (!seen.value.has(id)) start(id, ctx)
+      for (const [pid, p] of pending) {
+        if (seen.value.has(pid) || Date.now() - p.at > PENDING_MS) { pending.delete(pid); continue }
+        if (!onScreen(pid, p.ctx)) continue // not drawn yet, or its screen is not the one up
+        pending.delete(pid)
+        start(pid, p.ctx)
+        break
+      }
+      if (!pending.size) { clearInterval(waiting); waiting = null }
+      free = 0
     }, 400)
   }
 
   function start(id, ctx = {}) {
     if (!TOUR_ON || !TOUR_CHAPTERS[id]) return
-    const steps = TOUR_CHAPTERS[id].steps.filter((s) => !s.when || s.when(ctx))
-    if (steps.length) active.value = { id, i: 0, steps }
+    // A step about an element this screen does not have now (a field a choice not made yet would
+    // bring, a column of another width) is left out, so the count says what is coming. One that
+    // first opens something (`show`) is kept: its element comes with what it opens.
+    const steps = stepsOf(id, ctx).filter((st) => st.show || !st.target || present(st))
+    if (steps.length) active.value = { id, i: 0, steps, dir: 1 }
   }
 
   function next() {
     if (!active.value) return
-    if (active.value.i < chapter.value.steps.length - 1) active.value = { ...active.value, i: active.value.i + 1 }
+    if (active.value.i < chapter.value.steps.length - 1) active.value = { ...active.value, i: active.value.i + 1, dir: 1 }
     else finish()
   }
 
   function back() {
-    if (active.value?.i > 0) active.value = { ...active.value, i: active.value.i - 1 }
+    if (active.value?.i > 0) active.value = { ...active.value, i: active.value.i - 1, dir: -1 }
   }
 
   // Done or skipped, the chapter is seen: skipping is an answer too.
@@ -89,5 +132,14 @@ export function useTour() {
     setItem(SEEN_KEY, '[]')
   }
 
-  return { active, chapter, step, maybeStart, start, next, back, finish, resetAll }
+  // A step whose element is not on screen is passed over the way the reader was going: a field
+  // that comes with a choice not made yet (the Force Disposition before a faction), a column only
+  // a wide screen has. Back at the first step, it goes forward instead.
+  function pass() {
+    if (!active.value) return
+    if (active.value.dir < 0 && active.value.i > 0) back()
+    else next()
+  }
+
+  return { active, chapter, step, maybeStart, start, next, back, pass, finish, resetAll }
 }

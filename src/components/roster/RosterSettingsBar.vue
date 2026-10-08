@@ -17,6 +17,7 @@
     <label
       v-if="showName"
       class="rw-field rw-name"
+      data-tour="rs-name"
     >
       <span>{{ labels.rosterNameLabel }}</span>
       <input
@@ -30,7 +31,10 @@
     <!-- The points limit before the faction (owner, 2026-10-03), as on the phone's form. What it
          decides besides the points is said in the picker's own rows; once chosen, the line shows
          the value alone. -->
-    <div class="rw-field">
+    <div
+      class="rw-field"
+      data-tour="rs-size"
+    >
       <span>{{ labels.rosterPointsLimitLabel }}</span>
       <RosterBattleSizeField
         variant="bar"
@@ -42,7 +46,10 @@
 
     <!-- The pickers drop down under their fields rather than covering the screen (owner,
          2026-10-01), with the modal's own rows inside (PickerDropdown). -->
-    <div class="rw-field">
+    <div
+      class="rw-field"
+      data-tour="rs-faction"
+    >
       <span>{{ labels.rosterFactionLabel }}</span>
       <PickerDropdown
         v-model:open="factionPickerOpen"
@@ -68,7 +75,10 @@
       </PickerDropdown>
     </div>
 
-    <div class="rw-field">
+    <div
+      class="rw-field"
+      data-tour="rs-detachments"
+    >
       <span>
         {{ labels.rosterDetachmentLabel }}
         <ExpandTransition>
@@ -118,6 +128,7 @@
       <div
         v-if="factionSlug && dispositionCands.length"
         class="rw-field"
+        data-tour="rs-disposition"
       >
         <span>{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
         <span
@@ -184,6 +195,7 @@
         <button
           type="button"
           class="rw-more"
+          data-tour="rs-more"
           :aria-label="labels.rosterMoreSettings"
           :title="labels.rosterMoreSettings"
           :aria-expanded="moreOpen"
