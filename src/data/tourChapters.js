@@ -10,23 +10,31 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'home-cta',
-        ru: { title: 'Партия начинается здесь', text: '«Новая игра» открывает настройку из четырёх шагов. Если партия уже идёт, кнопка вернёт в неё.' },
-        en: { title: 'A game starts here', text: '“New game” opens a four-step setup. With a game in progress, this button takes you back to it.' },
+        ru: { title: 'Новая игра', text: 'Нажмите «Новая игра», чтобы начать партию. Откроется настройка из четырёх шагов: армии, миссия, поле и что отслеживать. Если партия уже идёт, здесь будет кнопка «Продолжить игру».' },
+
+        en: { title: 'New game', text: 'Press “New game” to start a game. A four-step setup opens: armies, mission, field and what to track. With a game in progress, this button says “Resume game”.' },
+
       },
       {
         target: null,
-        ru: { title: 'Из ростера — ещё быстрее', text: 'В меню «…» любого ростера есть «Начать партию с этим списком». Фракция, детачменты и сам список встанут в настройку сами.' },
-        en: { title: 'Faster from a roster', text: 'Any roster’s “…” menu has “Start a game with this list”. The faction, detachments and the list itself fill the setup for you.' },
+        ru: { title: 'Партия из ростера', text: 'Партию можно начать и из ростера. Откройте ростер, нажмите «…» и выберите «Начать партию с этим списком». Фракция, детачменты и сам ростер встанут в настройку сами.' },
+
+        en: { title: 'A game from a roster', text: 'You can start a game from a roster too. Open the roster, press “…” and pick “Start a game with this list”. The faction, detachments and the roster itself fill the setup for you.' },
+
       },
       {
         target: 'home-coop',
-        ru: { title: 'Совместная игра', text: 'Одна партия на двух–четырёх телефонах: каждый ведёт свою сторону. Хост создаёт лобби и отправляет ссылку или код.' },
-        en: { title: 'Shared game', text: 'One game on two to four phones, each player keeps their own side. The host opens a lobby and sends a link or a code.' },
+        ru: { title: 'Совместная игра', text: 'Нажмите, если играете на нескольких телефонах. Каждый игрок ведёт свою сторону на своём телефоне. Один игрок создаёт партию и отправляет остальным ссылку или код.' },
+
+        en: { title: 'Shared game', text: 'Press this when you play on several phones. Each player keeps their own side on their own phone. One player creates the game and sends the others a link or a code.' },
+
       },
       {
         target: 'home-history',
-        ru: { title: 'История партий', text: 'Здесь сыгранные партии. Нажмите на карточку, чтобы увидеть итог или продолжить игру. Со входом в аккаунт история хранится и в облаке.' },
-        en: { title: 'Game history', text: 'Your finished games. Tap a card for the result and “Resume game”. Signed in, the history is kept in the cloud too.' },
+        ru: { title: 'История партий', text: 'Здесь ваши сыгранные партии. Нажмите на карточку, чтобы увидеть итог или продолжить игру. Если вы вошли в аккаунт, история хранится и в облаке.' },
+
+        en: { title: 'Game history', text: 'Your finished games are here. Tap a card to see the result or to resume the game. When you are signed in, the history is kept in the cloud too.' },
+
       },
     ],
   },
@@ -34,18 +42,24 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'setup-gametype',
-        ru: { title: 'Шаг 1 — армии', text: 'Сначала формат: один на один или Doubles, две армии на сторону.' },
-        en: { title: 'Step 1 — armies', text: 'The format first: one on one, or Doubles with two armies a side.' },
+        ru: { title: 'Тип игры', text: 'Выберите, как вы играете. Одиночная — один игрок против одного. Парная (Doubles) — два на два, у каждой стороны по две армии. Комбат патруль — небольшие армии из стартовых наборов.' },
+
+        en: { title: 'Game type', text: 'Choose how you play. Singles is one player against one. Doubles is two against two, with two armies a side. Combat Patrol is small armies from the starter boxes.' },
+
       },
       {
         target: 'setup-size',
-        ru: { title: 'Размер битвы', text: 'От него зависят очки армии и Detachment Points.' },
-        en: { title: 'Battle size', text: 'It sets the army’s points and the Detachment Points.' },
+        ru: { title: 'Размер игры', text: 'Выберите размер игры. Он задаёт лимит очков армии и число очков детачмента (DP).' },
+
+        en: { title: 'Game size', text: 'Choose the game size. It sets the army’s points limit and the Detachment Points (DP).' },
+
       },
       {
         target: 'setup-player',
-        ru: { title: 'Ваша армия', text: 'Имя, фракция и детачменты. Лучше приложить ростер: тогда в партии будут карточки юнитов, их правила и модификаторы.' },
-        en: { title: 'Your army', text: 'Name, faction and detachments. Better still, attach a roster: the game then has your unit cards, their rules and modifiers.' },
+        ru: { title: 'Ваша армия', text: 'Впишите своё имя, выберите фракцию и детачменты. Если у вас есть ростер, приложите его кнопкой справа от фракции. Тогда в партии будут карточки ваших юнитов с их правилами. Ниже так же заполните армию соперника.' },
+
+        en: { title: 'Your army', text: 'Enter your name, pick your faction and detachments. If you have a roster, attach it with the button to the right of the faction. The game then has your unit cards with their rules. Fill in the opponent’s army below the same way.' },
+
       },
     ],
   },
@@ -53,18 +67,24 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'setup-twist',
-        ru: { title: 'Шаг 2 — миссия', text: 'Твист выбирается здесь, а не в конце: он меняет саму миссию.' },
-        en: { title: 'Step 2 — the mission', text: 'The twist is chosen here, not at the end: it changes the mission itself.' },
+        ru: { title: 'Твист', text: 'Твист — дополнительное правило партии, которое меняет миссию. Нажмите «Выбрать твист» и выберите его из списка или возьмите случайный.' },
+
+        en: { title: 'Twist', text: 'A twist is an extra rule of the game that changes the mission. Press “Choose twist” and pick one from the list, or take a random one.' },
+
       },
       {
         target: 'setup-secondary',
-        ru: { title: 'Вторичные миссии', text: 'Тактические — тянете карты каждый ход. Фиксированные — выбираете две сейчас.' },
-        en: { title: 'Secondary missions', text: 'Tactical — you draw cards every turn. Fixed — you pick two now.' },
+        ru: { title: 'Вторичные миссии', text: 'Выберите, как вы играете вторичные миссии. Тактические — каждый ход вы берёте новые карты из колоды. Фиксированные — вы выбираете две миссии сейчас, и они остаются на всю партию.' },
+
+        en: { title: 'Secondary missions', text: 'Choose how you play secondary missions. Tactical: you draw new cards from the deck every turn. Fixed: you pick two missions now, and they stay for the whole game.' },
+
       },
       {
         target: 'setup-primary',
-        ru: { title: 'Первичка', text: 'Карточка первичной миссии этой партии — уже с учётом твиста.' },
-        en: { title: 'The primary', text: 'This game’s primary mission card, the twist already applied.' },
+        ru: { title: 'Первичная миссия', text: 'Это первичная миссия вашей партии. Твист в ней уже учтён. Нажмите на карточку, чтобы прочитать её правила.' },
+
+        en: { title: 'Primary mission', text: 'This is your game’s primary mission, with the twist already applied. Tap the card to read its rules.' },
+
       },
     ],
   },
@@ -72,23 +92,31 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'setup-score',
-        ru: { title: 'Шаг 3 — поле', text: 'Режим счёта: победные очки или Battle Points.' },
-        en: { title: 'Step 3 — the field', text: 'The score mode: Victory Points or Battle Points.' },
+        ru: { title: 'Счёт', text: 'Выберите, как считать результат. VP — победные очки за партию. BP — Battle Points, турнирные очки по итогам партии.' },
+
+        en: { title: 'Score', text: 'Choose how the result is counted. VP is the game’s Victory Points. BP is Battle Points, the tournament points for the result.' },
+
       },
       {
         target: 'setup-attacker',
-        ru: { title: 'Кто атакует', text: 'От роли зависит сторона стола на раскладке.' },
-        en: { title: 'Who attacks', text: 'The role decides your side of the table on the layout.' },
+        ru: { title: 'Attacker', text: 'Отметьте, кто атакует. От этого зависит, с какой стороны стола вы расставляетесь.' },
+
+        en: { title: 'Attacker', text: 'Mark who attacks. It decides which side of the table you deploy on.' },
+
       },
       {
         target: 'setup-first',
-        ru: { title: 'Кто ходит первым', text: 'Первый ход задаёт порядок всей партии.' },
-        en: { title: 'Who goes first', text: 'The first turn sets the order for the whole game.' },
+        ru: { title: 'Первый ход', text: 'Отметьте, кто ходит первым. Этот порядок ходов сохранится на всю партию.' },
+
+        en: { title: 'First turn', text: 'Mark who goes first. This turn order stays for the whole game.' },
+
       },
       {
         target: 'setup-layout',
-        ru: { title: 'Раскладка', text: 'Рекомендованная раскладка террейна для этой миссии.' },
-        en: { title: 'Layout', text: 'The recommended terrain layout for this mission.' },
+        ru: { title: 'Расстановка поля', text: 'Это рекомендованная расстановка террейна для вашей миссии. По этой схеме поставьте террейн на столе.' },
+
+        en: { title: 'Layout', text: 'This is the recommended terrain layout for your mission. Set the terrain on the table by this map.' },
+
       },
     ],
   },
@@ -96,18 +124,24 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'setup-opts-game',
-        ru: { title: 'Шаг 4 — что отслеживать', text: 'Что выключено, на экране партии не появится. Включить можно и посреди игры.' },
-        en: { title: 'Step 4 — what to track', text: 'Whatever is off does not appear on the game screen. You can switch it on mid-game.' },
+        ru: { title: 'Что отслеживать', text: 'Выберите, что трекер будет вести за вас: фазы, CP, правила армий. Выключенное не появится на экране партии. Включить его можно и посреди игры, в настройке партии.' },
+
+        en: { title: 'What to track', text: 'Choose what the tracker keeps for you: phases, CP, army rules. Whatever is off does not appear on the game screen. You can switch it on mid-game, in the game’s setup.' },
+
       },
       {
         target: 'setup-opts-roster',
-        ru: { title: 'С ростером', text: 'Если армия с ростером: фазы, напоминания и карточки юнитов в партии.' },
-        en: { title: 'With a roster', text: 'For an army with a roster: phases, reminders and unit cards in the game.' },
+        ru: { title: 'Ростер и модификаторы', text: 'Эти пункты работают, если к армии приложен ростер. Например, живые модификаторы покажут в карточке юнита, что изменили правила.' },
+
+        en: { title: 'Roster and modifiers', text: 'These work when a roster is attached to the army. For example, live modifiers show on a unit’s card what the rules changed.' },
+
       },
       {
         target: 'setup-start',
-        ru: { title: 'В игру', text: 'Партия создастся, а первый ход начнётся отдельной кнопкой, когда закончите расстановку.' },
-        en: { title: 'To the game', text: 'The game is created, and the first turn starts with its own button once you have deployed.' },
+        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово. Откроется экран партии. Бой начнётся отдельной кнопкой, когда вы расставите армии.' },
+
+        en: { title: 'Go to the game', text: 'Press this when everything is ready. The game screen opens. The battle starts with its own button once you have deployed.' },
+
       },
     ],
   },
@@ -115,59 +149,59 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'game-line',
-        ru: { title: 'Раунд и ход', text: 'Здесь видно, какой идёт раунд и чей сейчас ход. Точка слева — цвет стороны, которая ходит. В совместной игре она медленно мигает, пока телефоны синхронизированы.' },
-        en: { title: 'Round and turn', text: 'This line shows the round and whose turn it is. The dot is the colour of the side on turn. In a shared game it slowly blinks while the phones are in sync.' },
+        ru: { title: 'Раунд и ход', text: 'Здесь написано, какой сейчас раунд и чей ход. Точка слева окрашена в цвет стороны, которая ходит. В совместной игре точка медленно мигает, пока телефоны синхронизированы.' },
+        en: { title: 'Round and turn', text: 'This line says which round it is and whose turn. The dot on the left has the colour of the side on turn. In a shared game the dot slowly blinks while the phones are in sync.' },
       },
       {
         target: 'game-rounds',
         when: (ctx) => ctx.phases,
-        ru: { title: 'Раунды', text: 'Полоса — это пять раундов, текущий разбит на фазы обоих ходов. Нажмите на неё, чтобы открыть список раундов. Прошлый раунд можно открыть и поправить его счёт, а партия при этом останется на месте.' },
-        en: { title: 'Rounds', text: 'The strip is the five rounds, the current one split into both turns’ phases. Tap it for the list of rounds. A past round opens for correcting its score, and the game stays where it is.' },
+        ru: { title: 'Раунды', text: 'Эта полоса — пять раундов партии. Текущий раунд разбит на фазы обоих ходов. Нажмите на полосу, чтобы открыть список раундов. Там можно открыть прошлый раунд и поправить его счёт.' },
+        en: { title: 'Rounds', text: 'This strip is the game’s five rounds. The current round is split into both turns’ phases. Tap the strip to open the list of rounds. There you can open a past round and correct its score.' },
       },
       {
         target: 'game-rounds',
         when: (ctx) => !ctx.phases,
-        ru: { title: 'Раунды', text: 'Полоса — это пять раундов. Нажмите на неё, чтобы открыть список раундов. Прошлый раунд можно открыть и поправить его счёт, а партия при этом останется на месте.' },
-        en: { title: 'Rounds', text: 'The strip is the five rounds. Tap it for the list of rounds. A past round opens for correcting its score, and the game stays where it is.' },
+        ru: { title: 'Раунды', text: 'Эта полоса — пять раундов партии. Нажмите на неё, чтобы открыть список раундов. Там можно открыть прошлый раунд и поправить его счёт.' },
+        en: { title: 'Rounds', text: 'This strip is the game’s five rounds. Tap it to open the list of rounds. There you can open a past round and correct its score.' },
       },
       {
         target: 'game-score',
-        ru: { title: 'Счёт', text: 'VP, CP и очки обеих сторон. У каждой стороны свой цвет — он идёт через весь экран.' },
-        en: { title: 'The score', text: 'Both sides’ VP, CP and points. Each side has its colour, all down the screen.' },
+        ru: { title: 'Счёт', text: 'Здесь счёт обеих сторон: победные очки, первичка, вторичка и CP. У каждой стороны свой цвет. Нажмите на карточку стороны, и вкладки ниже покажут её данные.' },
+        en: { title: 'Score', text: 'Both sides’ score is here: Victory Points, primary, secondary and CP. Each side has its own colour. Tap a side’s card, and the tabs below show that side.' },
       },
       {
         target: 'game-reserves',
         when: (ctx) => !ctx.begun && ctx.lists,
-        ru: { title: 'Резервы', text: 'Юниты, которые вы не ставите на стол при расстановке, а оставляете в стратегическом резерве, отмечаются до начала боя. Тогда трекер помнит, кто ещё не вышел на поле. Нажмите «Отметить резервы» — откроется ваш ростер, и туториал покажет, где отмечать.' },
-        en: { title: 'Reserves', text: 'Units you keep in Strategic Reserves instead of deploying are marked before the battle. The tracker then knows who has not arrived yet. Press “Mark reserves” — your roster opens, and the tutorial shows where to mark them.' },
+        ru: { title: 'Резервы', text: 'Если какие-то юниты не выходят на стол при расстановке, а остаются в стратегическом резерве, отметьте их до начала боя. Нажмите «Отметить резервы». Откроется ваш ростер, и туториал покажет, где это сделать.' },
+        en: { title: 'Reserves', text: 'If some units stay in Strategic Reserves instead of deploying, mark them before the battle. Press “Mark reserves”. Your roster opens, and the tutorial shows where to do it.' },
       },
       {
         target: 'game-start',
         when: (ctx) => !ctx.begun,
-        ru: { title: 'Начать игру', text: 'Партия создана, но бой ещё не начат. Расставьте армии и нажмите «Начать игру». С этой кнопки начнётся первый ход и придут первые CP.' },
-        en: { title: 'Start the game', text: 'The game is set up, but the battle has not begun. Deploy and press “Start game”. The first turn and its first CP start with this button.' },
+        ru: { title: 'Начать игру', text: 'Партия готова, но бой ещё не начат. Расставьте армии на столе и нажмите «Начать игру». С этой кнопки начнётся первый ход, и придут первые CP.' },
+        en: { title: 'Start game', text: 'The game is ready, but the battle has not begun. Deploy your armies on the table and press “Start game”. The first turn begins with this button, and the first CP arrive.' },
       },
       {
         target: 'game-turnbar',
         when: (ctx) => ctx.begun,
-        ru: { title: 'Ход и фазы', text: 'Стрелками — по фазам, нажмите на фазу, чтобы выбрать её. «Завершить ход» сначала покажет, что ещё не начислено.' },
-        en: { title: 'Turn and phases', text: 'The arrows walk the phases, tap the phase to pick one. “End turn” first shows what is not scored yet.' },
+        ru: { title: 'Ход и фазы', text: 'Стрелки переключают фазы хода. Нажмите на название фазы, чтобы выбрать её из списка. Кнопка «Завершить ход» передаёт ход сопернику.' },
+        en: { title: 'Turn and phases', text: 'The arrows switch the turn’s phases. Tap the phase’s name to pick it from a list. “End turn” passes the turn to the opponent.' },
       },
       {
         target: 'game-tabs',
-        ru: { title: 'Вкладки', text: 'Миссии, фаза, CP, армии, ростер, лог и статистика. Каждый новый ход открывается на «Миссиях».' },
-        en: { title: 'Tabs', text: 'Missions, phase, CP, armies, roster, log and stats. Every new turn opens on Missions.' },
+        ru: { title: 'Вкладки', text: 'Это вкладки партии: миссии, фаза, CP, армии, ростер, лог и статистика. Нажмите на значок, чтобы открыть вкладку. Каждый новый ход открывается на вкладке «Миссии».' },
+        en: { title: 'Tabs', text: 'These are the game’s tabs: missions, phase, CP, armies, roster, log and stats. Tap an icon to open a tab. Every new turn opens on the Missions tab.' },
       },
       {
         target: 'game-missions',
         tab: 'missions',
-        ru: { title: 'Миссии', text: 'Первичка и вторички обеих сторон: тянуть, начислять и сбрасывать карты.' },
-        en: { title: 'Missions', text: 'Both sides’ primary and secondaries: draw, score and set cards aside.' },
+        ru: { title: 'Миссии', text: 'Здесь первичная и вторичные миссии. Отмечайте выполненные, чтобы начислить очки. В тактическом режиме здесь же вы берёте новые карты и сбрасываете ненужные.' },
+        en: { title: 'Missions', text: 'The primary and secondary missions are here. Mark the ones you achieve to score them. In tactical mode you also draw new cards and discard ones you do not need here.' },
       },
       {
         target: 'game-menu',
         ru: { title: 'Меню партии', text: 'Здесь настройка партии, совместная игра, трансляция и завершение игры. Отсюда же можно снова открыть туториал.' },
-        en: { title: 'The game’s menu', text: 'Game setup, the shared game, the broadcast and finishing the game. The tutorial opens from here again too.' },
+        en: { title: 'The game’s menu', text: 'Game setup, the shared game, the broadcast and finishing the game are here. The tutorial opens from here again too.' },
       },
     ],
   },
@@ -177,19 +211,19 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'game-tabs',
-        ru: { title: 'Ваш ростер', text: 'Открылась вкладка «Ростер» — ваш ростер в партии. У каждого юнита в нём отмечено, где он: на поле боя, в стратегическом резерве или уничтожен.' },
-        en: { title: 'Your roster', text: 'The Roster tab is open — your roster in the game. Each unit in it says where it is: on the battlefield, in Strategic Reserves or destroyed.' },
+        ru: { title: 'Ваш ростер', text: 'Открылась вкладка «Ростер». Здесь ваши юниты, и у каждого отмечено, где он: на поле боя, в стратегическом резерве или уничтожен.' },
+        en: { title: 'Your roster', text: 'The Roster tab is open. Your units are here, and each one shows where it is: on the battlefield, in Strategic Reserves or destroyed.' },
       },
       {
         target: 'unit-status',
-        ru: { title: 'Статус юнита', text: 'Эта кнопка есть в строке каждого юнита. Нажмите её и выберите «В стратегическом резерве» для каждого юнита, которого нет на столе. Иконка на кнопке покажет, что выбрано.' },
-        en: { title: 'Unit status', text: 'Every unit’s row has this button. Press it and pick “In Strategic Reserves” for each unit that is not on the table. The icon on the button then shows the choice.' },
+        ru: { title: 'Статус юнита', text: 'Нажмите эту кнопку у юнита, который остаётся в резерве, и выберите «В стратегическом резерве». Повторите для каждого такого юнита. Иконка на кнопке покажет выбранный статус.' },
+        en: { title: 'Unit status', text: 'Press this button on a unit that stays in reserve, and pick “In Strategic Reserves”. Do the same for each such unit. The icon on the button shows the chosen status.' },
       },
       {
         target: 'game-score',
         when: (ctx) => ctx.otherList && !ctx.shared,
-        ru: { title: 'Резервы соперника', text: 'У соперника тоже есть ростер. Нажмите на его карточку счёта — вкладка покажет его юнитов, и резервы можно отметить так же.' },
-        en: { title: 'The opponent’s reserves', text: 'The opponent has a roster too. Tap their score card — the tab shows their units, and their reserves are marked the same way.' },
+        ru: { title: 'Резервы соперника', text: 'Резервы соперника отмечаются так же. Нажмите на его карточку счёта, и на вкладке появится его ростер.' },
+        en: { title: 'The opponent’s reserves', text: 'The opponent’s reserves are marked the same way. Tap their score card, and the tab shows their roster.' },
       },
       {
         target: 'game-score',
@@ -199,8 +233,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-start',
-        ru: { title: 'Дальше', text: 'Когда юнит выйдет из резерва на стол, снова откройте его статус и выберите «На поле боя». А пока — когда резервы отмечены, нажмите «Начать игру».' },
-        en: { title: 'Next', text: 'When a unit arrives from reserves, open its status again and pick “On the battlefield”. For now — with the reserves marked, press “Start game”.' },
+        ru: { title: 'Когда резервы отмечены', text: 'Нажмите «Начать игру». Когда юнит выйдет из резерва на стол, откройте его статус снова и выберите «На поле боя».' },
+        en: { title: 'With the reserves marked', text: 'Press “Start game”. When a unit arrives from reserves, open its status again and pick “On the battlefield”.' },
       },
     ],
   },
@@ -210,13 +244,13 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'game-turnbar',
-        ru: { title: 'Ход и фазы', text: 'Стрелками — по фазам, нажмите на фазу, чтобы выбрать её. Кнопка слева отменяет ход.' },
-        en: { title: 'Turn and phases', text: 'The arrows walk the phases, tap the phase to pick one. The button on the left undoes the turn.' },
+        ru: { title: 'Ход и фазы', text: 'Бой начался. Стрелки переключают фазы хода. Нажмите на название фазы, чтобы выбрать её из списка. Кнопка с круглой стрелкой отменяет последний ход.' },
+        en: { title: 'Turn and phases', text: 'The battle has begun. The arrows switch the turn’s phases. Tap the phase’s name to pick it from a list. The round-arrow button undoes the last turn.' },
       },
       {
         target: 'game-turnbar',
-        ru: { title: 'Завершить ход', text: '«Завершить ход» сначала покажет, что ещё не начислено и какие карты уйдут. Потом ход перейдёт сопернику.' },
-        en: { title: 'End turn', text: '“End turn” first shows what is not scored yet and which cards leave. Then the turn passes to the opponent.' },
+        ru: { title: 'Завершить ход', text: 'Когда закончите ход, нажмите «Завершить ход». Сначала трекер покажет, что ещё не начислено и какие карты уйдут. Потом ход перейдёт сопернику.' },
+        en: { title: 'End turn', text: 'When your turn is done, press “End turn”. The tracker first shows what is not scored yet and which cards leave. Then the turn passes to the opponent.' },
       },
     ],
   },
