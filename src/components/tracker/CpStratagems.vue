@@ -88,7 +88,6 @@
     <BaseModal
       v-if="openStrat"
       :title="openStrat.name"
-      :subtitle="`${openStrat._cost}CP`"
       max-width="520px"
       @close="openStrat = null"
     >
