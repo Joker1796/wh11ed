@@ -138,11 +138,11 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-reserves',
         when: (ctx) => !ctx.begun && ctx.lists,
-        ru: { title: 'Резервы', text: 'Перед боем отметьте, какие юниты уходят в резерв. Кнопка откроет ваш ростер: у каждого юнита справа кнопка статуса — выберите «В резерве».' },
-        en: { title: 'Reserves', text: 'Before the battle, mark which units go into reserve. This opens your roster: each unit has a status button on the right — pick “In reserve”.' },
+        ru: { title: 'Резервы', text: 'Юниты, которые вы не ставите на стол при расстановке, а оставляете в стратегическом резерве, отмечаются до начала боя. Тогда трекер помнит, кто ещё не вышел на поле. Нажмите «Отметить резервы» — откроется ваш ростер, и туториал покажет, где отмечать.' },
+        en: { title: 'Reserves', text: 'Units you keep in Strategic Reserves instead of deploying are marked before the battle. The tracker then knows who has not arrived yet. Press “Mark reserves” — your roster opens, and the tutorial shows where to mark them.' },
       },
       {
-        target: 'game-turnbar',
+        target: 'game-start',
         when: (ctx) => !ctx.begun,
         ru: { title: 'Начать игру', text: 'Партия создана, но бой ещё не начат. Расставьте армии и нажмите «Начать игру». С этой кнопки начнётся первый ход и придут первые CP.' },
         en: { title: 'Start the game', text: 'The game is set up, but the battle has not begun. Deploy and press “Start game”. The first turn and its first CP start with this button.' },
@@ -168,6 +168,39 @@ export const TOUR_CHAPTERS = {
         target: 'game-menu',
         ru: { title: 'Меню партии', text: 'Здесь настройка партии, совместная игра, трансляция и завершение игры. Отсюда же можно снова открыть туториал.' },
         en: { title: 'The game’s menu', text: 'Game setup, the shared game, the broadcast and finishing the game. The tutorial opens from here again too.' },
+      },
+    ],
+  },
+  // Marking the reserves: shown the first time "Mark reserves" is pressed (owner, 2026-10-09: the
+  // button used to leave the player on the roster with nothing said).
+  reserves: {
+    steps: [
+      {
+        target: 'game-tabs',
+        ru: { title: 'Ваш ростер', text: 'Открылась вкладка «Ростер» — ваш ростер в партии. У каждого юнита в нём отмечено, где он: на поле боя, в стратегическом резерве или уничтожен.' },
+        en: { title: 'Your roster', text: 'The Roster tab is open — your roster in the game. Each unit in it says where it is: on the battlefield, in Strategic Reserves or destroyed.' },
+      },
+      {
+        target: 'unit-status',
+        ru: { title: 'Статус юнита', text: 'Эта кнопка есть в строке каждого юнита. Нажмите её и выберите «В стратегическом резерве» для каждого юнита, которого нет на столе. Иконка на кнопке покажет, что выбрано.' },
+        en: { title: 'Unit status', text: 'Every unit’s row has this button. Press it and pick “In Strategic Reserves” for each unit that is not on the table. The icon on the button then shows the choice.' },
+      },
+      {
+        target: 'game-score',
+        when: (ctx) => ctx.otherList && !ctx.shared,
+        ru: { title: 'Резервы соперника', text: 'У соперника тоже есть ростер. Нажмите на его карточку счёта — вкладка покажет его юнитов, и резервы можно отметить так же.' },
+        en: { title: 'The opponent’s reserves', text: 'The opponent has a roster too. Tap their score card — the tab shows their units, and their reserves are marked the same way.' },
+      },
+      {
+        target: 'game-score',
+        when: (ctx) => ctx.otherList && ctx.shared,
+        ru: { title: 'Резервы соперника', text: 'В совместной игре соперник отмечает свои резервы сам, на своём телефоне.' },
+        en: { title: 'The opponent’s reserves', text: 'In a shared game the opponent marks their own reserves, on their phone.' },
+      },
+      {
+        target: 'game-start',
+        ru: { title: 'Дальше', text: 'Когда юнит выйдет из резерва на стол, снова откройте его статус и выберите «На поле боя». А пока — когда резервы отмечены, нажмите «Начать игру».' },
+        en: { title: 'Next', text: 'When a unit arrives from reserves, open its status again and pick “On the battlefield”. For now — with the reserves marked, press “Start game”.' },
       },
     ],
   },

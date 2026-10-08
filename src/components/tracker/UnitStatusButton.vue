@@ -7,6 +7,7 @@
     class="us-btn"
     :class="`us-${status}`"
     data-press
+    data-tour="unit-status"
     aria-haspopup="dialog"
     :disabled="disabled"
     :title="label(status)"

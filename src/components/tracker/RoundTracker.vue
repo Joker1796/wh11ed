@@ -184,6 +184,7 @@
           <button
             class="tr-btn tr-end"
             data-press
+            data-tour="game-start"
             :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
             :disabled="!canEdit(turnIndex)"
             @click="beginGame()"
@@ -821,8 +822,12 @@ const reservesSide = computed(() => {
   }
   return null
 })
+// …and, the first time, the tour of marking them: where, with what, and what then.
 function openReserves() {
-  if (reservesSide.value) openRoster(reservesSide.value)
+  if (!reservesSide.value) return
+  openRoster(reservesSide.value)
+  const lists = (current.value?.players || []).filter((pl) => membersOf(pl).some((m) => m.roster)).length
+  maybeStartTour('reserves', { otherList: lists > 1, shared: partyActive.value })
 }
 // A list: the Roster tab on that army. One unit of it: its card over the tab on screen.
 const rosterEl = ref(null)

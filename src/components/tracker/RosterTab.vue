@@ -1,6 +1,7 @@
 <template>
   <div
     class="rt"
+    data-tour="game-roster"
     :class="{ opp: shownSide != null && !isYouSide(current.players[shownSide], shownSide), 'side-frame': controlled }"
   >
     <!-- Which list: one per army that carries one, on the same page tabs as the Armies panel — on
