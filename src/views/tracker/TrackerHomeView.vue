@@ -44,7 +44,10 @@
          it is computed, and the row underneath carries whatever the primary is not. "New game"
          sits there on purpose once something IS in progress: it is the button that throws that
          away, and it has no business next to the one that continues it. -->
-    <div class="cta">
+    <div
+      class="cta"
+      data-tour="home-cta"
+    >
       <RouterLink
         v-if="primary.to"
         :to="primary.to"
@@ -77,6 +80,7 @@
         <button
           type="button"
           class="btn-ghost"
+          data-tour="home-coop"
           @click="sharedOpen = true"
         >
           <i class="bi bi-people" /> {{ labels.lobbyNewGameShort }}
@@ -87,6 +91,7 @@
         <RouterLink
           to="/tracker/stats"
           class="btn-ghost cta-stats"
+          data-tour="home-stats"
           :title="labels.statsLink"
           :aria-label="labels.statsLink"
         >
@@ -106,7 +111,10 @@
       @close="sharedOpen = false"
     />
 
-    <section class="history">
+    <section
+      class="history"
+      data-tour="home-history"
+    >
       <div class="history-head">
         <h2>{{ labels.trackerHistory }}</h2>
         <span
@@ -242,6 +250,7 @@
 <script setup>
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import { ref, computed, onMounted, watch } from 'vue'
+import { useTour } from '../../composables/useTour.js'
 import { useRoute, useRouter } from 'vue-router'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
@@ -313,7 +322,9 @@ if (route.query.game) {
   router.replace({ query: {} })
 }
 
+const { maybeStart: maybeStartTour } = useTour()
 onMounted(async () => {
+  maybeStartTour('home')
   initCloudSync()
   // A shared game archived from here ("New game", resuming another) has to say goodbye to the
   // other phones; the watcher that does so is armed once, and this is the earliest screen.

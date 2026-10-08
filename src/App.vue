@@ -5,6 +5,8 @@
   >
     <DomainMoveBanner v-if="!isBare" />
     <BetaBanner v-if="IS_BETA && !isBare" />
+    <!-- The tracker tour (useTour.js): the beta's, and the dev stand's where it is written. -->
+    <TourOverlay v-if="TOUR_ON" />
     <UpdateNoticeBar v-if="!isBare" />
 
     <AppNavbar
@@ -117,6 +119,10 @@ import { useBackToCloseWhile } from './composables/useBackToClose.js'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
+// Loaded only where the tour exists; the flag is read here, not from useTour, so the chapters'
+// texts stay out of the root bundle.
+const TourOverlay = defineAsyncComponent(() => import('./components/TourOverlay.vue'))
+const TOUR_ON = IS_BETA || import.meta.env.DEV
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 // Async like the search palette: the dialog pulls the tracker store for its attach offer.
 const FeedbackModal = defineAsyncComponent(() => import('./components/FeedbackModal.vue'))

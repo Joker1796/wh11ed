@@ -11,7 +11,10 @@
   >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
          kept always — the phase clock under the rounds is the optional part. -->
-    <div class="turn-row turn-line">
+    <div
+      class="turn-row turn-line"
+      data-tour="game-line"
+    >
       <!-- The dot before the line is the turn's colour — and, in a shared game, the sync state:
            tap it for how long ago, it pulses while in sync (owner, 2026-10-08; it stood alone at
            the rounds' end before). Its bubble opens downwards, clear of the navbar. -->
@@ -46,6 +49,7 @@
           <button
             type="button"
             class="btn-ghost game-menu-btn"
+            data-tour="game-menu"
             :aria-label="labels.trackerGameMenu"
             :title="labels.trackerGameMenu"
             data-press
@@ -91,6 +95,14 @@
               class="gm-live"
             >{{ labels.trackerOnNow }}</span>
           </button>
+          <!-- The tour of this screen again (useTour.js) — the beta's. -->
+          <button
+            v-if="TOUR_ON"
+            class="act-btn gm-row"
+            @click="close(); startTour('game')"
+          >
+            <i class="bi bi-question-circle" /> {{ labels.tourReplay }}
+          </button>
           <!-- Finishing the game early: a thing done once, not every turn. The last turn's own
                Finish is the turn bar's; GameEndModal is the confirmation. -->
           <button
@@ -113,7 +125,10 @@
          cards pick the side the panel shows, so they stand right over the tabs; the rounds were
          under the score from 2026-09-27). Finishing the game early is in the "⋯" on the round line
          with the other tools. A shared game's sync state is the round line's dot. -->
-    <div class="round-bar">
+    <div
+      class="round-bar"
+      data-tour="game-rounds"
+    >
       <!-- A step is a VIEW, not a move: a past round opens for correction (the game stays where it
            is — only End/Undo turn move it), the live one comes back (RoundStrip.vue). -->
       <RoundStrip
@@ -129,6 +144,7 @@
     <!-- The score; on a framed tab the cards are also the side switch (ScoreBoard `selected`). -->
     <ScoreBoard
       :selected="framedTab ? viewSide : -1"
+      data-tour="game-score"
       @select="(i) => (pickedSide = i)"
     />
 
@@ -137,7 +153,10 @@
          (owner's call, 2026-09-27). Its height is reserved in App.vue (.tf-sticky) — change the
          padding or the button height and change that number with them. -->
     <div class="tf-sticky">
-      <div class="tf-sticky-inner">
+      <div
+        class="tf-sticky-inner"
+        data-tour="game-turnbar"
+      >
         <!-- With the phase clock on, the phase joins this row (owner's call, 2026-09-27): undo turn as
              an icon, the phase arrows, the phase itself (tap → any phase of either turn), and End turn.
              The arrows stay INSIDE the turn — they stop at Command and at Fight — so a turn changes only
@@ -279,6 +298,7 @@
     <nav
       ref="tabsEl"
       class="game-tabs"
+      data-tour="game-tabs"
       :class="framedTab ? ['turn-colored', { 'turn-opp': !isYouSide(current.players[viewSide], viewSide) }] : null"
       role="tablist"
       :aria-label="labels.trackerTabsAria"
@@ -322,6 +342,7 @@
     <section
       v-show="tab === 'missions'"
       class="panel panel-framed"
+      data-tour="game-missions"
       role="tabpanel"
     >
       <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
@@ -669,6 +690,7 @@ import EditSetupModal from './EditSetupModal.vue'
 import BroadcastModal from './BroadcastModal.vue'
 import PartyModal from './PartyModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
+import { TOUR_ON, useTour } from '../../composables/useTour.js'
 import PhasePickerModal from './PhasePickerModal.vue'
 import PhaseRules from './PhaseRules.vue'
 import SideEmptyState from './SideEmptyState.vue'
@@ -715,6 +737,11 @@ provideModalScope(computed(() => ({
 // The working area's tabs (see the template). CP is offered only to a game that tracks it; a
 // game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
 const tab = ref('missions')
+// The tour (useTour.js): its chapter the first time this screen comes up, and a step that is
+// about a tab opens it.
+const { maybeStart: maybeStartTour, start: startTour, step: tourStep } = useTour()
+watch(() => tourStep.value?.tab, (t) => { if (t) tab.value = t })
+onMounted(() => maybeStartTour('game'))
 // The panels built so far (see the template): the open one, then the rest one per idle moment.
 const built = ref(new Set([tab.value]))
 // The Phase tab exists while the game asked for the reminder; its count is the reminder itself,

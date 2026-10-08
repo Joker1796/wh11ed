@@ -69,6 +69,7 @@
       <div
         v-if="!guest"
         class="field game-type seg-thirds"
+        data-tour="setup-gametype"
       >
         <span>{{ labels.trackerGameType }}</span>
         <!-- Locked once the setup is shared: a seat means "a side" in singles and "one member of
@@ -106,6 +107,7 @@
         <div
           v-if="!guest && !settings.combatPatrol"
           class="field battle-size seg-thirds"
+          data-tour="setup-size"
         >
           <span>{{ labels.trackerBattleSize }}</span>
           <!-- The two lines are deliberate structure, not a wrap: the name reads first, the
@@ -156,6 +158,7 @@
           v-for="{ p, i } in shownPlayers"
           :key="i"
           class="player-card"
+          :data-tour="i === shownPlayers[0].i ? 'setup-player' : undefined"
         >
           <h3 class="player-head">
             {{ playerLabel(i) }}
@@ -568,6 +571,7 @@
       <div
         v-if="!guest && !settings.combatPatrol"
         class="settings twist-block"
+        data-tour="setup-twist"
       >
         <h3 class="block-head">
           {{ labels.trackerTwistHeading }}
@@ -749,7 +753,10 @@
               class="primary-block"
             >
               <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
-              <div class="primary-card">
+              <div
+                class="primary-card"
+                data-tour="setup-primary"
+              >
                 <MissionCard
                   :mission="primaryCards[i]"
                   :show-lore="false"
@@ -768,7 +775,10 @@
                no business touching (owner, 2026-09-24). No `inert` inside here: within
                `!mirrored` the side is always this phone's to edit. -->
           <template v-if="!mirrored(i)">
-            <label class="field">
+            <label
+              class="field"
+              data-tour="setup-secondary"
+            >
               <span>{{ labels.trackerSecondaryMode }}</span>
               <div class="seg">
                 <button
@@ -869,7 +879,10 @@
         <div class="settings deploy-opts deploy-card">
           <!-- The score mode leads the step's questions since 2026-10-02 (owner): it is a rule of
                this game agreed at the table, like the roles below, not a tracker preference. -->
-          <label class="field">
+          <label
+            class="field"
+            data-tour="setup-score"
+          >
             <span>
               {{ labels.trackerScoreMode }}
               <button
@@ -891,7 +904,10 @@
               >{{ labels.trackerScoreBp }}</button>
             </div>
           </label>
-          <div class="field">
+          <div
+            class="field"
+            data-tour="setup-attacker"
+          >
             <span>
               {{ labels.trackerAttacker }}
               <button
@@ -921,7 +937,10 @@
           </div>
           <!-- Who deploys first sits with the layout: both answer "where and in what order do we
                set up", and neither is a setting of the app. -->
-          <label class="field">
+          <label
+            class="field"
+            data-tour="setup-first"
+          >
             <span>{{ labels.trackerFirstTurn }}</span>
             <div class="seg">
               <button
@@ -972,6 +991,7 @@
             />
             <LayoutCard
               v-if="currentLayout"
+              data-tour="setup-layout"
               :layout="currentLayout"
             />
           </template>
@@ -1013,14 +1033,20 @@
            split trackerOptions.js already makes. Thirteen rows in one column ran past a screen;
            two columns of six or seven fit one, like the steps before. -->
       <div class="two-col">
-        <div class="settings deploy-opts">
+        <div
+          class="settings deploy-opts"
+          data-tour="setup-opts-game"
+        >
           <TrackOptions
             :settings="settings"
             :ctx="trackCtx"
             group="game"
           />
         </div>
-        <div class="settings deploy-opts">
+        <div
+          class="settings deploy-opts"
+          data-tour="setup-opts-roster"
+        >
           <TrackOptions
             :settings="settings"
             :ctx="trackCtx"
@@ -1032,7 +1058,10 @@
       </div>
       <!-- The side colours: a card of their own, full width under the two columns — the preview
            is both sides' cards, too wide for a column (2026-10-02). -->
-      <div class="settings deploy-opts look-opts">
+      <div
+        class="settings deploy-opts look-opts"
+        data-tour="setup-look"
+      >
         <TrackOptions
           :settings="settings"
           :ctx="trackCtx"
@@ -1052,6 +1081,7 @@
         <button
           class="btn-primary"
           :disabled="!canStart"
+          data-tour="setup-start"
           @click="guardColors(start)"
         >
           {{ labels.trackerToGame }}
@@ -1203,6 +1233,7 @@ import { useRosters } from '../../composables/useRosters.js'
 import { ownLimitsOf, ownLimitsSummary } from '../../composables/ownLimits.js'
 import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import TrackOptions from './TrackOptions.vue'
+import { useTour } from '../../composables/useTour.js'
 import { defaultTrackSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
 
 // Where the Doubles terminology in the force-type help actually comes from — the Event
@@ -1274,6 +1305,9 @@ const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 
 const lobbyGame = current.value?.phase === 'setup' ? current.value : null
 const draft = lobbyGame ? null : setupDraft.value
 const step = ref(draft?.step ?? 1)
+// Each step's chapter of the tracker tour, the first time the host reaches it (useTour.js).
+const { maybeStart: maybeStartTour } = useTour()
+watch(step, (n) => { if (!guest.value) maybeStartTour(`setup-${n}`) }, { immediate: true, flush: 'post' })
 const players = lobbyGame
   ? lobbyGame.players
   : reactive([
