@@ -405,10 +405,11 @@
                    and the numbers they belong to got lost between them. The chevron appears only
                    when there is something behind it. -->
                     <div
-                      v-if="pinnedChipOf(e)"
+                      v-if="pinnedChipOf(e) || inGame"
                       class="rvunit-conds"
                     >
                       <ConditionChips
+                        v-if="pinnedChipOf(e)"
                         :switches="[pinnedChipOf(e)]"
                         @toggle="toggleUnitChip(e, $event)"
                         @info="openChipInfo"
@@ -428,6 +429,14 @@
                           to="up"
                         />
                       </button>
+                      <!-- Where the unit is: the row's other end (owner, 2026-10-08). -->
+                      <UnitStatusButton
+                        v-if="inGame"
+                        :status="unitStatusOf(gamePlayer, e.uid)"
+                        :name="defOf(e.id)?.name || e.id"
+                        :disabled="!canSwitch"
+                        @set="setStatus(e, $event)"
+                      />
                     </div>
                     <CollapseTransition
                       v-if="restChipsOf(e).length"
@@ -697,6 +706,8 @@ import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
 import RosterOwnLimitsMark from '../../components/roster/RosterOwnLimitsMark.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
+import UnitStatusButton from '../../components/tracker/UnitStatusButton.vue'
+import { unitStatusOf } from '../../composables/unitStatus.js'
 import PageTabs from '../../components/PageTabs.vue'
 import RosterMissionsTab from '../../components/roster/RosterMissionsTab.vue'
 import RosterDispositionModal from '../../components/roster/RosterDispositionModal.vue'
@@ -1468,6 +1479,12 @@ function toggleUnitCondFor(entry, sw) {
     }
     tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on, gameMi.value)
   }
+}
+
+// On the battlefield, in reserves, destroyed — per entry: a Leader can fall while his squad
+// fights on. The store stamps it with the game's clock (unitStatus.js).
+function setStatus(entry, status) {
+  tracker.value?.setUnitStatus(gamePi.value, entry.uid, status, defOf(entry.id)?.name || entry.id, gameMi.value)
 }
 
 function toggleArmyCond(sw) {
