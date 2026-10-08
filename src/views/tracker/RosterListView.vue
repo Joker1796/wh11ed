@@ -115,6 +115,15 @@
                     <i class="wi wi-more-v" />
                   </button>
                 </template>
+                <!-- A finished list's first use is a game (playRoster.js). -->
+                <button
+                  v-if="!r.draft"
+                  class="act-btn"
+                  :disabled="!r.faction"
+                  @click="onPlay(r)"
+                >
+                  {{ labels.rosterUseInTracker }}
+                </button>
                 <button
                   class="act-btn"
                   @click="onEdit(r.id)"
@@ -265,6 +274,7 @@ import ExpandTransition from '../../components/ExpandTransition.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { getItem, setItem, removeItem } from '../../composables/safeStorage.js'
 import { useRouter } from 'vue-router'
+import { playRoster } from '../../composables/playRoster.js'
 import ActionMenu from '../../components/ActionMenu.vue'
 import RosterListHead from '../../components/roster/RosterListHead.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
@@ -461,6 +471,10 @@ const menuFor = ref(null)
 function onEdit(id) {
   menuFor.value = null
   router.push(`/roster/${id}`)
+}
+function onPlay(r) {
+  menuFor.value = null
+  playRoster(r, router)
 }
 function onDuplicate(id) {
   menuFor.value = null

@@ -746,6 +746,7 @@ import StratPlayModal from '../../components/tracker/StratPlayModal.vue'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
+import { playRoster } from '../../composables/playRoster.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
@@ -1641,17 +1642,10 @@ function goPrint() {
   menuOpen.value = false
   router.push(`/roster/${roster.value.id}/print`)
 }
-// Into the tracker's setup with this list in place (rosterHandoff.js). Loaded on the tap, like the
-// game's own store above: the plain roster route must not carry the tracker. A game in progress
-// is never overwritten — the draft waits on the tracker's home, behind "Continue setup".
-async function playThisList() {
+// Into the tracker's setup with this list in place (playRoster.js).
+function playThisList() {
   menuOpen.value = false
-  const [{ prefillDraftFromRoster }, { useTracker }] = await Promise.all([
-    import('../../composables/rosterHandoff.js'),
-    import('../../composables/useTracker.js'),
-  ])
-  prefillDraftFromRoster(roster.value)
-  router.push(useTracker().current.value ? '/tracker' : '/tracker/game')
+  playRoster(roster.value, router)
 }
 // The whole list as text, in the GW app's dialect — the one a player pastes into a chat or a
 // TO's form. The sheet stays open long enough to say it worked and then closes itself: a

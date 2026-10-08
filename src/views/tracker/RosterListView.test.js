@@ -219,7 +219,7 @@ describe('RosterListView', () => {
     await w.find('.kebab').trigger('click')
     // Edit / Export / Duplicate / Pin / Archive / Delete — picked by label everywhere else in this file, so the
     // sheet can grow without a positional index quietly pointing at the wrong action.
-    expect(w.findAll('.act-btn').map((b) => b.text())).toEqual(['Edit', 'Export roster', 'Duplicate', 'Pin to top', 'Move to archive', 'Delete'])
+    expect(w.findAll('.act-btn').map((b) => b.text())).toEqual(['Start a game with this list', 'Edit', 'Export roster', 'Duplicate', 'Pin to top', 'Move to archive', 'Delete'])
   })
 
   // The archive (player request, 2026-10-02): a list kept for reference leaves the saved tab for
