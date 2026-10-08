@@ -482,6 +482,11 @@ export const ui = {
     // "Can be led by": Leaders from the catalogue not in the list yet (UnitEditorFields).
     rosterLedBy: 'Can be led by',
     rosterLedByAdd: 'Add {unit} and attach it to this unit',
+    rosterCanLead: 'Can lead',
+    rosterCanLeadAdd: 'Add {unit} and attach this Character to it',
+    rosterAddHostTitle: 'Add {host} and move {unit} to it?',
+    rosterAddHostBody: '{unit} is attached to {from} now. A new {host} joins the list, and {unit} moves from {from} to it.',
+    rosterAddHostConfirm: 'Add and move',
     // The player's own notes — a list's plan, a unit's reminder, a name for an attached block.
     rosterNotes: 'Notes',
     rosterMoreSettings: 'More settings',
@@ -1807,6 +1812,11 @@ export const ui = {
     rosterMoveConfirm: 'Перенести',
     rosterLedBy: 'Кто может возглавить',
     rosterLedByAdd: 'Добавить {unit} и прикрепить к этому отряду',
+    rosterCanLead: 'Кого может возглавить',
+    rosterCanLeadAdd: 'Добавить {unit} и прикрепить к нему этого персонажа',
+    rosterAddHostTitle: 'Добавить {host} и перенести к нему {unit}?',
+    rosterAddHostBody: 'Сейчас {unit} с {from}. В лист добавится новый отряд {host}, и персонаж перейдёт к нему от {from}.',
+    rosterAddHostConfirm: 'Добавить и перенести',
     rosterNotes: 'Заметки',
     rosterMoreSettings: 'Ещё настройки',
     rosterPickUnitHint: 'Выберите юнит, чтобы настроить модели, вооружение и энхансы.',

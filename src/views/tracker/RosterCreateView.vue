@@ -177,6 +177,7 @@
                 :entry="e"
                 @toggle-warlord="toggleWarlord"
                 @add-leader="addLeaderTo"
+                @add-host="addHostFor"
               />
             </template>
           </RosterUnitList>
@@ -187,6 +188,7 @@
             :entry="openEntry"
             @toggle-warlord="toggleWarlord"
             @add-leader="addLeaderTo"
+            @add-host="addHostFor"
           />
         </template>
       </RosterWorkbench>
@@ -406,7 +408,7 @@ const {
 const {
   factionPickerOpen, pickFaction,
   detachmentOptions, detachmentSummary, dispositionCands, dpSpent, dpLimit, toggleDetachment, clearDetachments,
-  openUid, toggleOpen, openEntry, addUnit, addLeaderTo, duplicateEntry, removeEntry, toggleWarlord,
+  openUid, toggleOpen, openEntry, addUnit, addLeaderTo, addHostFor, duplicateEntry, removeEntry, toggleWarlord,
   undoable, undoRemove, dismissUndo,
 } = useRosterBuildActions({
   roster: () => draftRoster.value,

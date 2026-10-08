@@ -90,3 +90,34 @@ describe('RosterEntryFields — "Can be led by" and Legends', () => {
       .toMatchObject({ slug: 'imperial-agents', sheetId: 'inquisitor-coteaz', linked: true })
   })
 })
+
+// The mirror on a Character (owner, 2026-10-08): the units an Overlord names, minus a copy the list
+// already holds free for him, minus one at the duplicate cap; "+" names the Character as the leader.
+describe('RosterEntryFields — "Can lead"', () => {
+  const mountLeader = (units, dupBlocked = () => false) => mount(RosterEntryFields, {
+    props: {
+      entry: units[0], units, defOf, catalogue: necrons.units, dupBlocked,
+      items: rosterItems.items, texts: rosterItems.texts, armySlug: 'necrons',
+    },
+    global: { stubs: { Teleport: true } },
+  })
+  const hosts = (w) => w.findComponent(UnitEditorFields).props('leaderHosts')
+
+  it('offers the units the Character names, each pointing at its own datasheet', () => {
+    const got = hosts(mountLeader([{ uid: 'ov', id: 'overlord', size: 0 }]))
+    expect(got.map((h) => h.name)).toEqual(['Immortals', 'Lychguard', 'Necron Warriors'])
+    expect(got[0]).toMatchObject({ slug: 'necrons', sheetId: 'immortals', linked: true })
+  })
+
+  it('leaves out a unit the list holds free for it, and one at the duplicate cap', () => {
+    const units = [{ uid: 'ov', id: 'overlord', size: 0 }, { uid: 'im', id: 'immortals', size: 0 }]
+    const w = mountLeader(units, ({ id }) => id === 'lychguard')
+    expect(hosts(w).map((h) => h.name)).toEqual(['Necron Warriors'])
+  })
+
+  it('passes "+" up with the Character\'s uid', () => {
+    const w = mountLeader([{ uid: 'ov', id: 'overlord', size: 0 }])
+    w.findComponent(UnitEditorFields).vm.$emit('add-host', 'immortals')
+    expect(w.emitted('add-host')).toEqual([['immortals', 'ov']])
+  })
+})

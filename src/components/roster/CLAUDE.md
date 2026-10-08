@@ -424,9 +424,9 @@ nobody — invisible while appdata's own tables carried the links, fatal for the
 Legends were never mirrored at all (`mirrorPackLeads`). 12 links added, Nemesis Claw and Red
 Corsairs Raiders' Legends leaders among them.
 
-### Who can lead this unit — the builder's three views
+### Who can lead this unit — the builder's four views
 
-An attachment is read from three ends; the first two ask `leadTypeFor`, so they cannot disagree:
+An attachment is read from four ends; the first two ask `leadTypeFor`, so they cannot disagree:
 
 - **"Attach to unit"** (on a Character) — `leaderTargetsFor`: the list's units it could join.
 - **"Attach to this unit"** (on a squad) — `leaderSourcesFor`: the list's Characters that could
@@ -456,6 +456,15 @@ An attachment is read from three ends; the first two ask `leadTypeFor`, so they 
 catalogue's **"Hide Legends units"** — one switch for both, `hideLegends` in `useRosterPrefs.js`
 (moved there from `RosterUnitBrowser`, same storage key), applied in `RosterEntryFields`. Not covered: an attachment only an
   OPTIONAL enhancement grants (Abhuman Detail) — the bearer has no enhancement yet.
+- **"Can lead"** (on a Character, owner 2026-10-08) — `leaderHostsFor`, the mirror of the one
+  above: catalogue units the Character NAMES in `leadsFor` (read with its entry, so an enhancement
+  already picked counts), minus a datasheet the list holds a copy of it could join right now (that
+  copy is "Attach to unit"); a copy whose slot is taken leaves the unit offered. Same filters in
+  `RosterEntryFields` (cap, Legends) and the same markup — `UnitEditorFields` draws both lists from
+  one template (`addLists`). "+" is `useRosterBuildActions.addHostFor(id, leaderUid)`: adds the unit
+  and writes the Character's `leaderOf` in one commit. A Character that already leads another unit
+  asks first (`movePrompt`, shared with the squad-end move): the new unit joins the list and the
+  Character moves to it, what it leaves behind, the enhancement it keeps.
 
 ### Points
 

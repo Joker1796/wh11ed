@@ -537,6 +537,62 @@ describe('UnitEditorFields — can be led by', () => {
   })
 })
 
+// "Can lead" (owner, 2026-10-08): the mirror on a Character — units from the catalogue it could
+// lead; "+" adds one with this Character on it, asking first when it already leads another.
+describe('UnitEditorFields — units this Character could lead', () => {
+  const overlord = necrons.units.find((u) => u.id === 'overlord')
+  const defOf = (id) => necrons.units.find((u) => u.id === id)
+  const hosts = [
+    { id: 'immortals', name: 'Immortals', type: 'leader', pts: 70, linked: true, slug: 'necrons', sheetId: 'immortals' },
+    { id: 'necron-warriors', name: 'Necron Warriors', type: 'leader', pts: 90, linked: true, slug: 'necrons', sheetId: 'necron-warriors' },
+  ]
+  const mountLeader = (units) => mount(UnitEditorFields, {
+    props: {
+      entry: units[0],
+      def: overlord,
+      items: rosterItems.items,
+      texts: rosterItems.texts,
+      units,
+      defOf,
+      leaderHosts: hosts,
+    },
+    global: { stubs: { Teleport: true, RosterUnitRulesModal: true } },
+  })
+
+  it('folds behind a counted heading, and adds a free Character\'s unit on "+" without asking', async () => {
+    const w = mountLeader([{ uid: 'ov', id: 'overlord', size: 0 }])
+    const fold = w.find('.ues-fold')
+    expect(fold.text()).toBe('Can lead · 2')
+    await fold.trigger('click')
+    await w.findAll('.opt-info').filter((b) => b.find('.bi-plus-lg').exists())[1].trigger('click')
+    expect(w.emitted('add-host')).toEqual([['necron-warriors']])
+    expect(w.findComponent(ConfirmModal).exists()).toBe(false)
+  })
+
+  it('asks before moving a Character that leads another unit, and adds only on confirm', async () => {
+    const units = [
+      { uid: 'ov', id: 'overlord', size: 0, leaderOf: 'sq', enh: 'Veil of Darkness' },
+      { uid: 'sq', id: 'necron-warriors', size: 0 },
+    ]
+    const w = mountLeader(units)
+    await w.find('.ues-fold').trigger('click')
+    await w.findAll('.opt-info').filter((b) => b.find('.bi-plus-lg').exists())[0].trigger('click')
+    expect(w.emitted('add-host')).toBeUndefined()
+    const ask = w.findComponent(ConfirmModal)
+    expect(ask.props('title')).toBe('Add Immortals and move Overlord to it?')
+    expect(ask.props('message')).toContain('A new Immortals joins the list')
+    expect(ask.props('message')).toContain('Necron Warriors is left with no Character attached.')
+    expect(ask.props('message')).toContain('The enhancement Veil of Darkness stays with Overlord.')
+    expect(ask.props('confirmLabel')).toBe('Add and move')
+    await ask.vm.$emit('close')
+    expect(w.emitted('add-host')).toBeUndefined()
+    await w.findAll('.opt-info').filter((b) => b.find('.bi-plus-lg').exists())[0].trigger('click')
+    await w.findComponent(ConfirmModal).vm.$emit('confirm')
+    expect(w.emitted('add-host')).toEqual([['immortals']])
+    expect(w.findComponent(ConfirmModal).exists()).toBe(false)
+  })
+})
+
 // "Two different weapons" (`ex`): the heading's chip says the count is exact and how many are
 // still owed. It stands there from the start, so picking changes its words, not the layout.
 describe('UnitEditorFields — exact-count groups', () => {

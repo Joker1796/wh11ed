@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -619,6 +619,58 @@ describe('leaderCandidatesFor', () => {
     expect(names('intercessor-squad')).toEqual(expect.arrayContaining(['Captain:leader', 'Apothecary:support', 'Marneus Calgar:leader']))
     expect(names('victrix-honour-guard')).toEqual(expect.arrayContaining(['Captain:leader', 'Marneus Calgar:leader']))
     expect(names('victrix-honour-guard')).not.toContain('Apothecary:support')
+  })
+})
+
+describe('leaderHostsFor', () => {
+  const squad = { id: 'intercessor-squad', name: 'Intercessor Squad', sizes: [{ pts: 80, per: [5, 5], default: 1 }] }
+  const vets = { id: 'sternguard', name: 'Sternguard Veteran Squad', sizes: [{ pts: 100, per: [5, 5], default: 1 }] }
+  const servitors = { id: 'servitors', name: 'Servitors', sizes: [{ pts: 40, per: [4, 4], default: 1 }] }
+  const captain = { id: 'captain', name: 'Captain', sizes: [{ pts: 90, per: [1, 1], default: 1 }], leads: [{ to: 'intercessor-squad', type: 'leader' }, { to: 'sternguard', type: 'leader' }] }
+  const apothecary = { id: 'apothecary', name: 'Apothecary', sizes: [{ pts: 45, per: [1, 1], default: 1 }], leads: [{ to: 'intercessor-squad', type: 'support' }] }
+  const catalogue = [squad, vets, servitors, captain, apothecary]
+  const defOf = (id) => catalogue.find((d) => d.id === id)
+
+  // The mirror of "Can be led by": from the catalogue, before any squad is in the list.
+  it('lists the units this Character could lead, before any is in the list', () => {
+    expect(leaderHostsFor('c', [{ uid: 'c', id: 'captain' }], catalogue, defOf)).toEqual([
+      { id: 'intercessor-squad', name: 'Intercessor Squad', type: 'leader', pts: 80, legends: false },
+      { id: 'sternguard', name: 'Sternguard Veteran Squad', type: 'leader', pts: 100, legends: false },
+    ])
+    expect(leaderHostsFor('a', [{ uid: 'a', id: 'apothecary' }], catalogue, defOf)).toMatchObject([{ id: 'intercessor-squad', type: 'support' }])
+  })
+
+  // A copy it could join now is "Attach to unit"'s; a copy whose Leader slot is taken is not, so a
+  // second squad is still offered. The squad it is already with counts as joinable.
+  it('leaves out a unit the list holds a joinable copy of, not one whose slot is taken', () => {
+    const free = [{ uid: 'c', id: 'captain' }, { uid: 's', id: 'intercessor-squad' }]
+    expect(leaderHostsFor('c', free, catalogue, defOf).map((h) => h.id)).toEqual(['sternguard'])
+    const here = [{ uid: 'c', id: 'captain', leaderOf: 's' }, { uid: 's', id: 'intercessor-squad' }]
+    expect(leaderHostsFor('c', here, catalogue, defOf).map((h) => h.id)).toEqual(['sternguard'])
+    const taken = [{ uid: 'c', id: 'captain' }, { uid: 's', id: 'intercessor-squad' }, { uid: 'c2', id: 'captain', leaderOf: 's' }]
+    expect(leaderHostsFor('c', taken, catalogue, defOf).map((h) => h.id)).toEqual(['intercessor-squad', 'sternguard'])
+  })
+
+  it('answers nothing for a unit that leads no one, or an unknown entry', () => {
+    expect(leaderHostsFor('s', [{ uid: 's', id: 'intercessor-squad' }], catalogue, defOf)).toEqual([])
+    expect(leaderHostsFor('nope', [], catalogue, defOf)).toEqual([])
+  })
+
+  // A keyword group is not a named attachment: an Inquisitor suggests no squad from this end either.
+  it('suggests only units the Character names, not a keyword group', () => {
+    const inquisitor = { id: 'inquisitor', name: 'Inquisitor', leadKw: [{ kw: ['Battleline', 'Infantry'], type: 'leader' }] }
+    const cat = [...catalogue, inquisitor, { ...squad, kws: ['Battleline', 'Infantry'] }]
+    expect(leaderHostsFor('i', [{ uid: 'i', id: 'inquisitor' }], cat, (id) => cat.find((d) => d.id === id))).toEqual([])
+  })
+
+  // Against real data: a Captain names Intercessors, an Apothecary does not name Victrix.
+  it('reads the real Space Marines attachments', async () => {
+    const { default: sm } = await import('../data/roster/space-marines.js')
+    const byId = (id) => sm.units.find((u) => u.id === id)
+    const names = (id) => leaderHostsFor('x', [{ uid: 'x', id }], sm.units, byId).map((h) => `${h.name}:${h.type}`)
+    expect(names('captain')).toEqual(expect.arrayContaining(['Intercessor Squad:leader']))
+    expect(names('apothecary')).toEqual(expect.arrayContaining(['Intercessor Squad:support']))
+    expect(names('apothecary').some((n) => n.startsWith('Victrix'))).toBe(false)
   })
 })
 

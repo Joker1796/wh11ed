@@ -945,6 +945,35 @@ export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachme
   return orderedByName(out, (c) => c.name)
 }
 
+// The same question from the Character's end (owner, 2026-10-08): which units from the catalogue
+// this Character could lead, that the list cannot give it yet. Named attachments only, as above —
+// read with the ENTRY, so an enhancement already picked counts (Murdermind's Destroyer squads).
+// A datasheet the list holds a copy of that this Character could join right now is left out: that
+// copy is in "Attach to unit" (leaderTargetsFor), and joins without a new purchase. One whose every
+// copy is taken stays — a second squad is the answer. A new unit is empty, so nothing is `used`.
+export function leaderHostsFor(leaderUid, units, catalogue, defOf, detachments = []) {
+  const entry = (units || []).find((u) => u.uid === leaderUid)
+  const def = entry && defOf(entry.id)
+  if (!def) return []
+  const leads = leadsFor(def, entry, detachments)
+  if (!leads.length) return []
+  const joinable = new Set(leaderTargetsFor(def, units, leaderUid, defOf, detachments)
+    .filter((t) => !t.used).map((t) => (units || []).find((u) => u.uid === t.uid)?.id))
+  const typeOf = new Map(leads.map((l) => [l.to, l.type]))
+  const out = []
+  for (const host of catalogue || []) {
+    if (!host || !typeOf.has(host.id) || joinable.has(host.id)) continue
+    out.push({
+      id: host.id,
+      name: host.name,
+      type: typeOf.get(host.id),
+      pts: unitBasePoints(host, Math.max(0, (host.sizes || []).findIndex((s) => s.default))),
+      legends: !!host.flags?.legends,
+    })
+  }
+  return orderedByName(out, (c) => c.name)
+}
+
 // Attach targets an ENHANCEMENT grants its bearer — a Cryptek with Murdermind gains DESTROYER
 // CULT and with it the Destroyer squads, a Commissar with Abhuman Detail can join Ogryns. From
 // appdata's enhancement_bodyguard_group, emitted by gen-roster-data.mjs as `attach` in the same

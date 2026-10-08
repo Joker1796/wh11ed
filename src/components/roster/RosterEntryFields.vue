@@ -21,8 +21,10 @@
     :leader-targets="leaderTargets"
     :leader-sources="leaderSources"
     :leader-candidates="leaderCandidates"
+    :leader-hosts="leaderHosts"
     @toggle-warlord="$emit('toggle-warlord', entry.uid)"
     @add-leader="(id) => $emit('add-leader', id, entry.uid)"
+    @add-host="(id) => $emit('add-host', id, entry.uid)"
   />
 </template>
 
@@ -30,7 +32,7 @@
 import { computed } from 'vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import {
-  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, allySourceOf,
+  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, allySourceOf,
 } from '../../composables/rosterEngine.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 
@@ -45,11 +47,11 @@ const props = defineProps({
   // another faction's bundle, which is what `slugOf` answers — the two are not the same question.
   armySlug: { type: String, default: '' },
   slugOf: { type: Function, default: () => '' },
-  // What the catalogue offers right now, and its duplicate cap — for "Can be led by".
+  // What the catalogue offers right now, and its duplicate cap — for "Can be led by" and "Can lead".
   catalogue: { type: Array, default: () => [] },
   dupBlocked: { type: Function, default: () => false },
 })
-defineEmits(['toggle-warlord', 'add-leader'])
+defineEmits(['toggle-warlord', 'add-leader', 'add-host'])
 
 const def = computed(() => props.defOf(props.entry.id))
 const canWarlord = computed(() => !!def.value && canBeWarlord(
@@ -72,13 +74,19 @@ const leaderSources = computed(() => leaderSourcesFor(props.entry.uid, props.uni
 // Legends follow the catalogue's own "Hide Legends units" switch — the same preference, so the
 // two never disagree about whether a Legends character is on offer.
 const { hideLegends } = useRosterPrefs()
+const offered = (c) => !c.used && !props.dupBlocked({ id: c.id }) && !(hideLegends.value && c.legends)
+// Where its datasheet lives: an allied row's id is namespaced with ITS faction
+// (`imperial-agents:inquisitor-coteaz`), a bare one belongs to the army.
+const withSheet = (c) => {
+  const src = allySourceOf(c.id)
+  return { ...c, slug: src?.[0] || props.armySlug, sheetId: src?.[1] || c.id, linked: !!props.defOf(c.id)?.linked }
+}
 const leaderCandidates = computed(() => leaderCandidatesFor(
   props.entry.uid, props.units, props.catalogue, props.defOf, props.detachments,
-).filter((c) => !c.used && !props.dupBlocked({ id: c.id }) && !(hideLegends.value && c.legends))
-  // Where its datasheet lives: an allied candidate's id is namespaced with ITS faction
-  // (`imperial-agents:inquisitor-coteaz`), a bare one belongs to the army.
-  .map((c) => {
-    const src = allySourceOf(c.id)
-    return { ...c, slug: src?.[0] || props.armySlug, sheetId: src?.[1] || c.id, linked: !!props.defOf(c.id)?.linked }
-  }))
+).filter(offered).map(withSheet))
+// …and the mirror on a Character (owner, 2026-10-08): the units it could lead that the list cannot
+// give it yet, on the same terms — the cap, the Legends switch.
+const leaderHosts = computed(() => leaderHostsFor(
+  props.entry.uid, props.units, props.catalogue, props.defOf, props.detachments,
+).filter(offered).map(withSheet))
 </script>

@@ -41,10 +41,7 @@
         />
       </FactionAccentScope>
     </Teleport>
-    <!-- A "Can be led by" candidate's sheet — a preview, like the catalogue's: the character is
-         not in the list, so the overlay gets the army's Detachments and nothing of an entry. Its
-         own faction's slug and bare id (RosterEntryFields), since an Inquisitor offered to a
-         Space Marines squad is an Imperial Agents sheet. -->
+
     <!-- Moving a Character that already leads another unit: say what changes before it does
          (owner, 2026-10-07 — one tap silently took the Leader off the other squad). -->
     <Teleport
@@ -55,23 +52,27 @@
         <ConfirmModal
           :title="moveAsk.title"
           :message="moveAsk.message"
-          :confirm-label="labels.rosterMoveConfirm"
+          :confirm-label="moveAsk.confirmLabel"
           :cancel-label="labels.rosterCancel"
           @confirm="confirmMove"
           @close="moveAsk = null"
         />
       </FactionAccentScope>
     </Teleport>
+    <!-- A "Can be led by" / "Can lead" row's sheet — a preview, like the catalogue's: the unit is
+         not in the list, so the overlay gets the army's Detachments and nothing of an entry. Its
+         own faction's slug and bare id (RosterEntryFields), since an Inquisitor offered to a
+         Space Marines squad is an Imperial Agents sheet. -->
     <Teleport
-      v-if="leaderPreview"
+      v-if="sheetPreview"
       to="body"
     >
-      <FactionAccentScope :faction-slug="leaderPreview.slug">
+      <FactionAccentScope :faction-slug="sheetPreview.slug">
         <RosterUnitRulesModal
-          :unit-id="leaderPreview.sheetId"
-          :faction-slug="leaderPreview.slug"
+          :unit-id="sheetPreview.sheetId"
+          :faction-slug="sheetPreview.slug"
           :ctx="{ detachments }"
-          @close="leaderPreview = null"
+          @close="sheetPreview = null"
         />
       </FactionAccentScope>
     </Teleport>
@@ -668,52 +669,56 @@
       </section>
     </ExpandTransition>
 
-    <!-- "Can be led by" (a player's ask, 2026-10-06): the Leaders and Supports the CATALOGUE holds
-         that could join this unit and the list does not have yet — the section above only knows
-         what is already in it, so a squad added first said nothing. Folded by default, the count on
-         the heading: a Space Marines squad has a dozen and more. "+" adds the character and
-         attaches it here in one tap. Only rows that could be attached right now arrive here
-         (RosterEntryFields drops a taken slot and a reached cap), so every "+" works. -->
-    <ExpandTransition>
+    <!-- "Can be led by" (a player's ask, 2026-10-06) on a squad, and its mirror "Can lead" (owner,
+         2026-10-08) on a Character: what the CATALOGUE holds that could be attached here and the
+         list cannot give yet — the sections above only know what is already in it, so a squad
+         added first said nothing. One markup for both. Folded by default, the count on the
+         heading: a Space Marines squad has a dozen and more. "+" adds the unit and attaches it in
+         one tap. Only rows that could be attached right now arrive here (RosterEntryFields drops
+         a taken slot and a reached cap), so every "+" works. -->
+    <ExpandTransition
+      v-for="l in addLists"
+      :key="l.key"
+    >
       <section
-        v-if="leaderCandidates.length"
+        v-if="l.rows.length"
         class="ues-sec"
       >
         <!-- A heading holding its toggle (not a button styled as one): the display face and the
              heading's place in the outline stay those of every other section here. -->
         <h4
           class="ues-h ues-fold-h"
-          :class="{ open: ledByOpen }"
+          :class="{ open: foldOpen[l.key] }"
         >
           <button
             type="button"
             class="ues-fold"
-            :aria-expanded="ledByOpen"
-            @click="ledByOpen = !ledByOpen"
+            :aria-expanded="!!foldOpen[l.key]"
+            @click="foldOpen[l.key] = !foldOpen[l.key]"
           >
             <ChevronIcon
               class="ues-fold-chev"
-              :turned="ledByOpen"
+              :turned="!!foldOpen[l.key]"
             />
-            <span>{{ ledByTitle }}</span>
+            <span>{{ l.title }}</span>
           </button>
         </h4>
-        <CollapseTransition :show="ledByOpen">
+        <CollapseTransition :show="!!foldOpen[l.key]">
           <div class="opt-col">
             <div
-              v-for="c in leaderCandidates"
+              v-for="c in l.rows"
               :key="c.id"
               class="opt-tile"
             >
-              <!-- The row itself opens the character's datasheet — "who could lead this" is
-                   usually followed by "and what does he do", and the answer is one tap away
-                   instead of a trip to the catalogue. An unlinked unit has no sheet to open. -->
+              <!-- The row itself opens the unit's datasheet — "who could join" is usually followed
+                   by "and what does it do", and the answer is one tap away instead of a trip to
+                   the catalogue. An unlinked unit has no sheet to open. -->
               <button
                 v-if="c.linked"
                 type="button"
                 class="opt-step-body opt-open"
                 :title="labels.rosterShowDatasheet"
-                @click="leaderPreview = c"
+                @click="sheetPreview = c"
               >
                 <span class="opt-name">
                   {{ c.name }}
@@ -741,9 +746,9 @@
                 type="button"
                 class="opt-info"
                 data-press
-                :aria-label="labels.rosterLedByAdd.replace('{unit}', c.name)"
-                :title="labels.rosterLedByAdd.replace('{unit}', c.name)"
-                @click="$emit('add-leader', c.id)"
+                :aria-label="l.addLabel.replace('{unit}', c.name)"
+                :title="l.addLabel.replace('{unit}', c.name)"
+                @click="l.add(c)"
               >
                 <i class="bi bi-plus-lg" />
               </button>
@@ -799,18 +804,26 @@ const props = defineProps({
   leaderSources: { type: Array, default: () => [] },
   // rosterEngine's leaderCandidatesFor, narrowed to who could join this unit right now.
   leaderCandidates: { type: Array, default: () => [] },
+  // rosterEngine's leaderHostsFor, narrowed the same way: the units this Character could lead.
+  leaderHosts: { type: Array, default: () => [] },
 })
-defineEmits(['toggle-warlord', 'add-leader'])
+const emit = defineEmits(['toggle-warlord', 'add-leader', 'add-host'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-// "Can be led by" is folded until asked for; the title is built here, not out of adjacent
-// template fragments (a line break there would be a real space — see the root CLAUDE.md).
-const ledByOpen = ref(false)
-// The candidate whose datasheet is open, or null.
-const leaderPreview = ref(null)
-const ledByTitle = computed(() => `${labels.value.rosterLedBy} · ${props.leaderCandidates.length}`)
+// "Can be led by" and "Can lead", each folded until asked for; the titles are built here, not out
+// of adjacent template fragments (a line break there would be a real space — see the root CLAUDE.md).
+const foldOpen = ref({})
+// The row whose datasheet is open, or null.
+const sheetPreview = ref(null)
+const addLists = computed(() => {
+  const l = labels.value
+  return [
+    { key: 'led-by', rows: props.leaderCandidates, title: `${l.rosterLedBy} · ${props.leaderCandidates.length}`, addLabel: l.rosterLedByAdd, add: (c) => emit('add-leader', c.id) },
+    { key: 'can-lead', rows: props.leaderHosts, title: `${l.rosterCanLead} · ${props.leaderHosts.length}`, addLabel: l.rosterCanLeadAdd, add: addHost },
+  ]
+})
 
 // What tells two targets of the same datasheet apart, in the player's own terms first: the name
 // they gave that block, then the facts that differ (models, enhancement, mark, their note), then
@@ -1282,22 +1295,41 @@ function toggleSource(uid, ev) {
   } else other.leaderOf = props.entry.uid
 }
 // What a move does, spelled out: off the other unit (and whether that leaves it with no Character),
-// onto this one, the points untouched, an enhancement travelling with its bearer.
+// onto this one, the points untouched, an enhancement travelling with its bearer. `run` is the move.
 const moveAsk = ref(null)
 function moveQuestion(other) {
   const l = labels.value
-  const name = props.defOf?.(other.id)?.name || ''
-  const fromEntry = unitByUid(other.leaderOf)
-  const from = fromEntry?.blockName || props.defOf?.(fromEntry?.id)?.name || ''
-  const fill = (s) => s.replaceAll('{unit}', name).replaceAll('{from}', from).replaceAll('{enh}', other.enh || '')
-  const leftAlone = !props.units.some((u) => u.uid !== other.uid && u.leaderOf === other.leaderOf)
-  const message = [l.rosterMoveBody, leftAlone ? l.rosterMoveLeft : '', other.enh ? l.rosterMoveEnh : '']
+  return movePrompt(other, l.rosterMoveTitle, l.rosterMoveBody, {}, l.rosterMoveConfirm, () => {
+    const o = unitByUid(other.uid)
+    if (o) o.leaderOf = props.entry.uid
+  })
+}
+// "Can lead" for a Character already with another unit: the "+" moves it onto the new one, so it
+// asks the same way — what it leaves, what it keeps — and that the new unit joins the list.
+function addHost(c) {
+  const l = labels.value
+  if (props.entry.leaderOf && unitByUid(props.entry.leaderOf)) {
+    moveAsk.value = movePrompt(props.entry, l.rosterAddHostTitle, l.rosterAddHostBody, { '{host}': c.name },
+      l.rosterAddHostConfirm, () => emit('add-host', c.id))
+  } else emit('add-host', c.id)
+}
+function movePrompt(mover, title, body, extra, confirmLabel, run) {
+  const l = labels.value
+  const fromEntry = unitByUid(mover.leaderOf)
+  const words = {
+    '{unit}': props.defOf?.(mover.id)?.name || '',
+    '{from}': fromEntry?.blockName || props.defOf?.(fromEntry?.id)?.name || '',
+    '{enh}': mover.enh || '',
+    ...extra,
+  }
+  const fill = (s) => Object.entries(words).reduce((t, [k, v]) => t.replaceAll(k, v), s)
+  const leftAlone = !props.units.some((u) => u.uid !== mover.uid && u.leaderOf === mover.leaderOf)
+  const message = [body, leftAlone ? l.rosterMoveLeft : '', mover.enh ? l.rosterMoveEnh : '']
     .filter(Boolean).map(fill).join(' ')
-  return { uid: other.uid, title: fill(l.rosterMoveTitle), message }
+  return { title: fill(title), message, confirmLabel, run }
 }
 function confirmMove() {
-  const other = unitByUid(moveAsk.value?.uid)
-  if (other) other.leaderOf = props.entry.uid
+  moveAsk.value?.run()
   moveAsk.value = null
 }
 // Where a candidate is now, if not here; and, where one datasheet is offered twice, what tells the

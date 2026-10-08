@@ -132,6 +132,21 @@ for (const [label, shape] of [['a stored roster (editor)', asStored], ["the wiza
       expect(list.get().units).toHaveLength(before)
     })
 
+    // "Can lead": one tap adds the squad AND puts the Character on it, moving it off another.
+    it('adds a unit with the Character it was picked for attached', () => {
+      const { list, actions, commit } = setup(shape)
+      const lead = list.get().units.find((u) => u.uid === 'c1')
+      lead.leaderOf = 'i1'
+      actions.addHostFor('intercessor-squad', lead.uid)
+      const added = list.get().units.at(-1)
+      expect(added).toMatchObject({ id: 'intercessor-squad' })
+      expect(lead.leaderOf).toBe(added.uid)
+      expect(commit).toHaveBeenCalled()
+      const before = list.get().units.length
+      actions.addHostFor('intercessor-squad', 'nope')
+      expect(list.get().units).toHaveLength(before)
+    })
+
     it('adds, copies and removes a line', () => {
       const { list, actions } = setup(shape)
       actions.addUnit('intercessor-squad')
