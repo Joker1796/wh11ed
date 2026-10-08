@@ -137,9 +137,16 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
   a view that is expensive to build is not remounted per switch: both stay built behind `v-show`,
   one `<Transition>` each, and the leaving one's `after-leave` lets the other in — the editor does
   both (`paneTab`). A tab switch hands its `@enter` to `bringTabsIntoView`.
-- **`BaseModal` animates open only** — on a phone the sheet rises from below the screen edge, wider
-  it grows in from 0.94, at `--motion-slow`; never the dialog's opacity (VoiceOver focus, see its CSS) (`<Transition name="modal" appear>`); **close is intentionally
-  instant** — a leave phase races the focus-restore in `useModalA11y.js`. Don't "fix" it.
+- **`BaseModal` animates both ways** — on a phone the sheet rises from below the screen edge, wider
+  it grows in from 0.94, at `--motion-slow`; never the dialog's opacity (VoiceOver focus, see its CSS) (`<Transition name="modal" appear>`).
+  **The exit is played by a copy** (`modalLeave.js`, owner 2026-10-08): the dialog itself still
+  goes at once with its consumer's `v-if` — a leave phase on the real one raced the focus-restore
+  in `useModalA11y.js`, which is why close used to be instant — and an inert, `aria-hidden` clone
+  (ids stripped, scroll positions copied) drops/shrinks away at `--motion-med` and removes itself.
+  A dialog opening while a copy leaves is a **swap**: the copy drops its dim at once and the new
+  one opens with its dim already there (`.modal-swap`), so only the sheets move. To make a hand-over
+  a swap, close the old dialog in the same tick the new one opens (load what the new one needs
+  first — `CpStratagems.use(s, fromCard)`). Reduced motion: the token is 0 and no copy is made.
 - **Page transitions**: `App.vue` wraps `<RouterView>` in `<Transition name="fade" mode="out-in">`
   keyed on `pageKey`. **Every page swap fades** (owner, 2026-09-29): from 2026-09-28 pages slid
   sideways down and up a chain (`meta.trail`/`meta.level`), the help's prev/next did too, and the

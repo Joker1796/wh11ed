@@ -5,9 +5,9 @@
        ancestor's context and can end up rendered under unrelated fixed UI (e.g. the
        tracker's "resume game" bar) despite nominally having a higher z-index. -->
   <Teleport to="body">
-    <!-- Enter-only transition (`appear` — consumers mount the modal with their own v-if).
-       Close stays instant: a leave phase would have to outlive the consumer's v-if and
-       would race useModalA11y's focus restore. -->
+    <!-- The entrance (`appear` — consumers mount the modal with their own v-if). The exit is
+         played by a copy (modalLeave.js): the dialog itself goes at once, as a v-if wants, and
+         focus returns with nothing of it left to reach. -->
     <Transition
       name="modal"
       appear
@@ -15,8 +15,9 @@
       <!-- The opening screen's scope (modalScope.js) rides on the overlay: the game screen's turn
            colour, for one. -->
       <div
+        ref="overlay"
         class="modal-overlay"
-        :class="scope?.class"
+        :class="[scope?.class, { 'modal-swap': swap }]"
         :style="[{ zIndex }, scope?.style]"
         @click.self="$emit('close')"
       >
@@ -109,6 +110,7 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useModalA11y } from '../composables/useModalA11y.js'
 import { playSound } from '../composables/uiSound.js'
+import { leaveCopy, swapping, handOver } from '../composables/modalLeave.js'
 
 const props = defineProps({
   title: { type: String, default: '' },
@@ -134,8 +136,17 @@ const root = ref(null)
 useModalA11y(root, () => emit('close'), { initialFocus: props.initialFocus })
 // A dialog slides in and out with the segmented switch's sound (uiSound.js; owner, 2026-10-08).
 // Mounted is opened and unmounted is closed: no dialog is kept built behind a v-show.
-onMounted(() => playSound('seg'))
-onBeforeUnmount(() => playSound('seg'))
+// One dialog opening as another leaves is a swap: the dim behind them stays (modalLeave.js).
+const overlay = ref(null)
+const swap = swapping()
+onMounted(() => {
+  playSound('seg')
+  if (swap) handOver()
+})
+onBeforeUnmount(() => {
+  playSound('seg')
+  leaveCopy(overlay.value)
+})
 </script>
 
 <style scoped>
@@ -186,7 +197,7 @@ onBeforeUnmount(() => playSound('seg'))
    the system sheets do; wider, it grows in from 0.94. */
 .modal-enter-active { transition: background-color var(--motion-slow) ease; }
 .modal-enter-active .modal { transition: transform var(--motion-slow) cubic-bezier(0.2, 0.8, 0.2, 1); }
-.modal-enter-from { background-color: transparent; }
+.modal-enter-from:not(.modal-swap) { background-color: transparent; }
 .modal-enter-from .modal { transform: scale(0.94); }
 
 @media (max-width: 560px) {

@@ -98,6 +98,31 @@
           :sublabel="openStrat.sublabel || null"
         />
       </div>
+      <!-- Played from the card too (owner, 2026-10-08): the card is where the decision is made.
+           The same button and lock as its row; the dialog hands over to the play dialog. -->
+      <footer
+        v-if="canEdit(side)"
+        class="cps-card-foot"
+      >
+        <!-- Why it cannot be played, short of CP included: a disabled button's tooltip never
+             opens under a finger. -->
+        <p
+          v-if="cardRow.title"
+          class="cps-card-why"
+        >
+          {{ cardRow.title }}
+        </p>
+        <button
+          type="button"
+          class="btn-primary cps-card-use"
+          data-press
+          :disabled="cardRow.locked"
+          :title="cardRow.title || labels.trackerStratUse"
+          @click="use(openStrat, true)"
+        >
+          {{ labels.trackerStratUse }} · {{ openStrat._cost }}CP
+        </button>
+      </footer>
     </BaseModal>
 
     <!-- Playing one (StratPlayModal): the unit it is played on, when it is aimed at one and a
@@ -254,12 +279,16 @@ function rowProps(s) {
 // Playing one: the units it may be played on are gathered first (stratagemPlay.js), then the
 // dialog asks.
 const playing = ref(null)
-async function use(s) {
+// `fromCard`: played from its open card, which closes in the same tick the play dialog opens — a
+// swap, not a close and an open (modalLeave.js), so the units are gathered before either moves.
+async function use(s, fromCard = false) {
   if (!canEdit(side.value)) return
   const pi = side.value
   const targets = await loadStratTargets(current.value, pi, s)
+  if (fromCard) openStrat.value = null
   playing.value = { strat: s, pi, targets }
 }
+const cardRow = computed(() => (openStrat.value ? rowProps(openStrat.value) : {}))
 </script>
 
 <style scoped>
@@ -290,4 +319,12 @@ async function use(s) {
 .cps-list.in-card { gap: 0; }
 .cps-list.in-card > .sr { border: 0; background: none; }
 .cps-list.in-card > .sr + .sr { border-top: 1px solid var(--border); }
+/* The card's way to play it: under the scrolling card, always in reach. */
+.cps-card-foot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.4rem 0.75rem;
+  padding: 0.6rem 0.9rem calc(0.6rem + var(--safe-bottom, 0px));
+  border-top: 1px solid var(--border);
+}
+.cps-card-why { flex: 1 1 12rem; margin: 0; font-size: 0.8rem; color: var(--text-muted); }
+.cps-card-use { flex: 0 0 auto; }
 </style>
