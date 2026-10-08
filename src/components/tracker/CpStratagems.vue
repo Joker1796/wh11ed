@@ -51,7 +51,6 @@
         v-model:filter="deck"
         :filters="deckFilters"
         :phase-toggle="false"
-        seg
       />
     </div>
 

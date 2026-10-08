@@ -5,13 +5,13 @@
   <div class="strat-toolbar">
     <div
       v-if="filters.length"
-      :class="seg ? 'seg' : 'strat-filters'"
+      class="seg"
       role="tablist"
     >
       <button
         v-for="f in filters"
         :key="f.key"
-        :class="seg ? { on: filter === f.key } : ['strat-filter', { active: filter === f.key }]"
+        :class="{ on: filter === f.key }"
         role="tab"
         :aria-selected="filter === f.key"
         @click="$emit('update:filter', f.key)"
@@ -67,9 +67,6 @@ defineProps({
   nowOnly: { type: Boolean, default: false },
   // The list ↔ phases toggle; off where the list is always grouped (the tracker's CP tab).
   phaseToggle: { type: Boolean, default: true },
-  // The deck row as the app's segmented control (.seg) — inside a panel that has its own frame,
-  // where loose chips read as one more kind of tab (the tracker's CP tab).
-  seg: { type: Boolean, default: false },
 })
 defineEmits(['update:filter', 'update:byPhase', 'update:nowOnly'])
 const { locale } = useLocale()
@@ -85,12 +82,6 @@ const labels = computed(() => ui[locale.value])
   gap: 0.6rem;
   margin-bottom: 1rem;
 }
-.strat-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-.strat-filter,
 .strat-toggle {
   font: inherit;
   font-size: 0.8rem;
@@ -110,25 +101,21 @@ const labels = computed(() => ui[locale.value])
   gap: 0.4rem;
 }
 @media (hover: hover) {
-  .strat-filter:hover,
   .strat-toggle:hover {
     color: var(--text-primary);
     border-color: var(--accent);
   }
 }
-.strat-filter.active,
 .strat-toggle.active {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
 }
-/* Narrow phones: with a game on there are 4 toolbar buttons (3 filters + the toggle),
-   which wrap to a second row. Compact them so they fit one line — tighter filter pills
-   and an icon-only toggle (its text label is the widest of the lot). */
+/* Narrow phones: with a game on the deck row's four and the toggle share the line. Compact them
+   so they fit — a tighter switch and an icon-only toggle (its text label is the widest of the lot). */
 @media (max-width: 480px) {
   .strat-toolbar { gap: 0.4rem; }
-  .strat-filters { gap: 0.3rem; }
-  .strat-filter { padding: 0.35rem 0.6rem; font-size: 0.75rem; }
+  .seg button { padding: 0.35rem 0.6rem; font-size: 0.75rem; }
   .strat-toggle { padding: 0.35rem 0.55rem; }
   .strat-toggle-label { display: none; }
 }

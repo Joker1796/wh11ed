@@ -45,8 +45,8 @@ describe('StratagemsView with an active game', () => {
     const w = mount(StratagemsView)
 
     // The filter bar only renders once the active game's faction data has resolved.
-    await vi.waitFor(() => expect(w.findAll('.strat-filter')).toHaveLength(4), WAIT)
-    const filters = w.findAll('.strat-filter')
+    await vi.waitFor(() => expect(w.findAll('.seg [role=tab]')).toHaveLength(4), WAIT)
+    const filters = w.findAll('.seg [role=tab]')
     expect(filters.map((f) => f.text())).toEqual(['All', 'Core', 'Mine', "Opponent's"])
 
     // Default view, with a game on = everything, so nothing has to be hunted for.
@@ -120,7 +120,7 @@ describe('StratagemsView — whose stratagem is this', () => {
     expect(sub).toContain('Me')          // the player's own name, since All mixes both sides
 
     // …and on the Core tab the rulebook's own cards still fall back to the core label.
-    await w.findAll('.strat-filter')[1].trigger('click')
+    await w.findAll('.seg [role=tab]')[1].trigger('click')
     await vi.waitFor(() => expect(w.text()).toContain('Command Re-roll'), WAIT)
     const core = w.findAll('.strat-card').find((c) => c.text().includes('Command Re-roll'))
     expect(core.find('.strat-sublabel').text()).toContain('CORE')
