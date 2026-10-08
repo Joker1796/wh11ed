@@ -25,14 +25,6 @@
 
     <CollapseTransition :show="open">
       <div class="pr-body">
-        <!-- The Phase tab's word is just "Phase": the line says what the list is (owner, 2026-10-06).
-             The folded block's header already says it. -->
-        <p
-          v-if="embedded"
-          class="pr-note"
-        >
-          {{ labels.trackerPhaseRulesNote }}
-        </p>
         <div
           v-for="army in shown"
           :key="army.pi"
@@ -45,37 +37,49 @@
           >
             {{ army.name }}
           </h4>
-          <ul class="pr-list">
-            <li
-              v-for="r in army.rules"
-              :key="r.key"
-              class="pr-rule"
+          <!-- One group for the phase the clock stands on; without a clock, one per phase of the
+               turn, headed by the phase (owner, 2026-10-08). -->
+          <section
+            v-for="g in army.groups"
+            :key="g.phase || 'now'"
+            class="pr-group"
+          >
+            <h5
+              v-if="g.phase"
+              class="pr-phase"
             >
-              <!-- A name the reader cannot get to is half a reminder, so every line is a way in:
-                   a unit to its card, a rule to its place on the faction page — or, in the Phase
-                   tab, to the game's own Armies tab, where it reads with its tracker. -->
-              <button
-                type="button"
-                class="pr-go-btn"
-                data-press
-                @click="lead(r)"
+              {{ phaseLabel(g.phase, labels) }}
+            </h5>
+            <!-- One block of rows, not a card per rule (owner, 2026-10-08: five rules took the
+                 whole phone). A row: what you look for at the table on top — the units for an
+                 ability, the rule's name otherwise — and under it, small, when in the phase it
+                 fires and what it is. Every row is a way in, its arrow says so. -->
+            <ul class="pr-list">
+              <li
+                v-for="r in g.rules"
+                :key="r.key"
               >
-                <!-- A card per rule (owner, 2026-10-07: the bare lines read as plain text): what kind of
-                     rule it is on top, small; then what you look for at the table, large. For a unit
-                     ability that is the UNIT — you find the model first, then read what it does — so
-                     the units lead and the ability's name follows in the side's colour. -->
-                <span class="pr-text">
-                  <span class="pr-src">{{ r.src }}</span>
-                  <span class="pr-name">{{ r.units ? r.sub : r.name }}</span>
-                  <span
-                    v-if="r.units"
-                    class="pr-ability"
-                  >{{ r.name }}</span>
-                </span>
-                <i class="bi bi-chevron-right pr-go" />
-              </button>
-            </li>
-          </ul>
+                <button
+                  type="button"
+                  class="pr-go-btn"
+                  data-press
+                  @click="lead(r)"
+                >
+                  <span class="pr-text">
+                    <span class="pr-name">{{ r.units ? r.sub : r.name }}</span>
+                    <span class="pr-sub">
+                      <span
+                        v-if="r.when !== 'during'"
+                        class="pr-when"
+                      >{{ whenLabel(r.when) }}</span>
+                      <span :class="r.units ? 'pr-ability' : 'pr-src'">{{ r.units ? r.name : r.src }}</span>
+                    </span>
+                  </span>
+                  <i class="bi bi-chevron-right pr-go" />
+                </button>
+              </li>
+            </ul>
+          </section>
         </div>
         <!-- Stratagems have their own page in this same subnav, which already groups by phase and
              already knows both players' detachments. A second list here would be two copies of one
@@ -93,7 +97,7 @@
           @click="$emit('stratagems')"
         >
           <i class="bi bi-lightning-charge" />
-          {{ labels.trackerPhaseStrats }}
+          {{ byPhase ? labels.trackerPhaseStrats : labels.trackerTurnStrats }}
           <i class="bi bi-chevron-right pr-go" />
         </button>
         <RouterLink
@@ -120,6 +124,7 @@ import { computed, ref } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { usePhaseRules } from '../../composables/usePhaseRules.js'
+import { phaseLabel } from '../../composables/stratagemPhases.js'
 
 const props = defineProps({
   embedded: { type: Boolean, default: false },
@@ -128,7 +133,8 @@ const props = defineProps({
   side: { type: Number, default: null },
 })
 const emit = defineEmits(['stratagems', 'army', 'roster'])
-const { sides, total, phase, go, labels } = usePhaseRules()
+const { sides, total, phase, byPhase, go, labels } = usePhaseRules()
+const whenLabel = (w) => (w === 'start' ? labels.value.trackerPhaseStart : labels.value.trackerPhaseEnd)
 const controlled = computed(() => props.side === 0 || props.side === 1)
 const shown = computed(() => (controlled.value ? sides.value.filter((s) => s.pi === props.side) : sides.value))
 
@@ -180,7 +186,6 @@ function toggle() {
   font-weight: 700;
 }
 .pr-body { padding: 0 0.6rem 0.6rem; }
-.pr-note { margin: 0.5rem 0 0.35rem; font-size: 0.78rem; color: var(--text-dim); }
 .pr-side + .pr-side { margin-top: 0.6rem; }
 /* Each side in its colour — the same you / opponent colours as the score cards: its heading, and
    its lines' hover (not the turn's colour: the opponent's line lit in mine read as mine). */
@@ -195,45 +200,63 @@ function toggle() {
   letter-spacing: 0.02em;
   color: var(--side);
 }
-.pr-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
-/* The button IS the card (owner, 2026-10-07): a pointer over it lights the whole card — its frame in
-   the side's colour, the ground a shade lighter, the arrow — the way the app's other tappable plates
-   answer (.act-btn). The text keeps its colours: the ability is already in the side's. Behind
-   (hover: hover), so a tap on a phone leaves nothing lit behind it. */
+.pr-group + .pr-group { margin-top: 0.5rem; }
+.pr-phase {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+/* One block, rows parted by hairlines, the side's bar down its left. */
+.pr-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--side);
+  background: var(--bg-secondary);
+}
+.pr-list > li + li { border-top: 1px solid var(--border); }
+/* The row lights under a pointer — ground a shade lighter, the arrow in the side's colour — the
+   way the app's other tappable plates answer (.act-btn). Behind (hover: hover), so a tap on a
+   phone leaves nothing lit behind it. */
 .pr-go-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.45rem 0.6rem;
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--side);
-  background: var(--bg-secondary);
+  padding: 0.35rem 0.6rem;
+  border: 0;
+  background: none;
   text-align: left;
   cursor: pointer;
 }
 @media (hover: hover) {
-  .pr-go-btn:hover {
-    border-color: var(--side);
-    background: color-mix(in srgb, var(--text-primary) 5%, var(--bg-secondary));
-  }
+  .pr-go-btn:hover { background: color-mix(in srgb, var(--text-primary) 5%, var(--bg-secondary)); }
   .pr-go-btn:hover .pr-go { color: var(--accent-ink); }
 }
-.pr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
-.pr-src {
-  color: var(--text-muted);
+.pr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pr-name {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1.15;
+}
+.pr-sub { font-size: 0.8rem; line-height: 1.3; }
+.pr-ability { color: var(--accent-ink); }
+.pr-src { color: var(--text-muted); }
+/* When in the phase it fires, where the text says: before what it is. */
+.pr-when {
+  margin-right: 0.35rem;
+  color: var(--text-primary);
   font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-.pr-name {
-  color: var(--text-primary);
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  line-height: 1.15;
-}
-.pr-ability { color: var(--accent-ink); font-size: 0.84rem; line-height: 1.35; }
 /* The door to the stratagems: a plate like the rule cards, without a side's bar — it is the
    phase's, not an army's. */
 .pr-strats {

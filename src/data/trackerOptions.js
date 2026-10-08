@@ -112,7 +112,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpPhaseRules',
     default: true,
     remember: true,
-    requires: 'trackPhases',
+    // No `requires` since 2026-10-08: without the clock the tab lists the whole turn instead.
   },
   {
     // The OBS-broadcast button. A niche feature, so the ROW is what puts the button on the

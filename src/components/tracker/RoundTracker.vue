@@ -510,7 +510,7 @@
           v-if="!sideRuleCount"
           :faction="viewFaction"
         >
-          {{ labels.trackerPhaseNoneSide }}
+          {{ phasesOn ? labels.trackerPhaseNoneSide : labels.trackerTurnNoneSide }}
         </SideEmptyState>
       </div>
     </section>
@@ -706,14 +706,15 @@ provideModalScope(computed(() => ({
 const tab = ref('missions')
 // The panels built so far (see the template): the open one, then the rest one per idle moment.
 const built = ref(new Set([tab.value]))
-// The Phase tab exists only while the game keeps the clock AND asked for the reminder; its count
-// is the reminder itself, readable without opening it.
-const phaseTabOn = computed(() => phasesOn.value && tracks(current.value.settings, 'trackPhaseRules'))
+// The Phase tab exists while the game asked for the reminder; its count is the reminder itself,
+// readable without opening it. Without the clock it is the Turn tab: the same list for each phase
+// of the turn (owner, 2026-10-08).
+const phaseTabOn = computed(() => tracks(current.value.settings, 'trackPhaseRules'))
 const { sides: phaseSides } = usePhaseRules()
 const tabs = computed(() => [
   { id: 'missions', label: labels.value.trackerTabMissions, icon: 'bi-bullseye' },
   // The phase right after the missions (owner, 2026-09-30): what speaks now is read during the turn.
-  ...(phaseTabOn.value ? [{ id: 'phase', label: labels.value.trackerTabPhase, icon: 'bi-hourglass-split', count: sideRuleCount.value }] : []),
+  ...(phaseTabOn.value ? [{ id: 'phase', label: phasesOn.value ? labels.value.trackerTabPhase : labels.value.trackerTabTurn, icon: 'bi-hourglass-split', count: sideRuleCount.value }] : []),
   ...(cpOn.value ? [{ id: 'cp', label: labels.value.trackerCp, icon: 'bi-lightning-charge' }] : []),
   // The armies right after CP (owner, 2026-09-29): both are looked at during a turn, the log and
   // the stats after it.
@@ -881,7 +882,7 @@ const framedTab = computed(() => ['missions', 'phase', 'cp', 'armies', 'roster',
 // The picked side's army, for an empty panel's emblem (the first member's in doubles).
 const viewFaction = computed(() => factionIndexBySlug(membersOf(current.value.players[viewSide.value])[0]?.factionSlug) || null)
 // The Phase tab's count is the picked side's, as its list is.
-const sideRuleCount = computed(() => phaseSides.value.find((s) => s.pi === viewSide.value)?.rules.length || 0)
+const sideRuleCount = computed(() => phaseSides.value.find((s) => s.pi === viewSide.value)?.count || 0)
 
 // The open tab survives leaving the game screen — a look at a datasheet, the rules, the roster —
 // and coming back (owner's call, 2026-09-27). Kept on this device with the game and the turn it

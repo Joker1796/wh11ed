@@ -16,10 +16,14 @@ import { useRouter } from 'vue-router'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import { useTracker, membersOf, sideName, isYouSide } from './useTracker.js'
+import { tracks } from '../data/trackerOptions.js'
 import { usableInSlot, BATTLE_PHASES } from './stratagemPhases.js'
 import { allySourceOf } from './rosterEngine.js'
 import { useFactionChoice } from './useFactionChoice.js'
 import { useRefNavigation } from './useRefNavigation.js'
+
+// The order a phase is played in, and the line's `when`.
+export const MOMENTS = ['start', 'during', 'end']
 
 export function usePhaseRules() {
   const { locale } = useLocale()
@@ -39,12 +43,15 @@ export function usePhaseRules() {
 
   const phase = computed(() => current.value?.currentPhase || BATTLE_PHASES[0])
   const turn = computed(() => (current.value?.currentTurn === 1 ? 1 : 0))
+  // A game keeping the clock asks about the phase it stands on; one that does not, about the whole
+  // turn — each phase of it, in play order (owner, 2026-10-08: the same tab, the turn's analog).
+  const byPhase = computed(() => tracks(current.value?.settings, 'trackPhases'))
 
   // Detachment names are matched the way the rest of the app matches them — apostrophes and case
   // are the two things that differ between GW's own spellings of one name.
   const norm = (s) => String(s || '').toLowerCase().replace(/[’']/g, "'").trim()
 
-  function rulesFor(pi) {
+  function rulesFor(pi, ph) {
     const pl = current.value?.players?.[pi]
     const idx = index.value
     if (!pl || !idx) return []
@@ -61,11 +68,11 @@ export function usePhaseRules() {
       // `army` — where the rule reads in the game's own Armies tab: the army (pi, mi) and which of
       // its rules ('army', or the detachment's name).
       const take = (e, src, rule) => {
-        if (!e || !usableInSlot(e.p, e.s, phase.value, mine)) return
+        if (!e || !usableInSlot(e.p, e.s, ph, mine)) return
         const k = `${src}|${e.n}|${m.factionSlug}`
         if (seen.has(k)) return
         seen.add(k)
-        out.push({ key: k, src, name: nameOf(e), sub: null, slug: m.factionSlug, at: e.at, det: e.id, army: { pi, mi, rule } })
+        out.push({ key: k, src, name: nameOf(e), sub: null, when: momentOf(e, ph), slug: m.factionSlug, at: e.at, det: e.id, army: { pi, mi, rule } })
       }
 
       if (fac) {
@@ -91,7 +98,7 @@ export function usePhaseRules() {
         const rec = src?.units?.[ally ? ally[1] : u.id]
         if (!rec) continue
         for (const e of rec.a) {
-          if (!usableInSlot(e.p, e.s, phase.value, mine)) continue
+          if (!usableInSlot(e.p, e.s, ph, mine)) continue
           // One line per RULE: three Intercessor Squads with the same ability are one reminder with
           // three names under it, not three identical lines.
           const key = `${e.n}`
@@ -100,6 +107,7 @@ export function usePhaseRules() {
               key: `u|${mi ?? ''}|${key}`,
               src: labels.value.trackerPhaseUnit,
               name: nameOf(e),
+              when: momentOf(e, ph),
               units: new Set(),
               // Where this one unit's card is. Dropped for the list as soon as a SECOND entry turns
               // up carrying the rule: with three Intercessor Squads there is no single card to mean,
@@ -121,7 +129,8 @@ export function usePhaseRules() {
       }
       for (const r of byRule.values()) out.push({ ...r, sub: [...r.units].join(' · ') })
     })
-    return out
+    // In the order the phase is played: what fires at its start, then during it, then at its end.
+    return out.sort((a, b) => MOMENTS.indexOf(a.when) - MOMENTS.indexOf(b.when))
   }
 
   function rosterPath(pi, mi) {
@@ -139,6 +148,11 @@ export function usePhaseRules() {
   }
   function listOf(m, pi, mi) {
     return m.roster ? rosterPath(pi, mi) : `/factions/${m.factionSlug}/datasheets`
+  }
+
+  // When in the phase a rule fires, from the index ('start' / 'end'); absent is during it.
+  function momentOf(e, ph) {
+    return e.m?.[ph] || 'during'
   }
 
   // The RU name where the datasheet overlay had one; rule and unit names stay English by convention.
@@ -163,14 +177,24 @@ export function usePhaseRules() {
     return sideName(current.value?.players?.[pi], pi, labels.value)
   }
 
-  // The side whose turn it is first, so the block reads in the order the phase is played.
+  // The side whose turn it is first, so the block reads in the order the phase is played. Each side
+  // carries `groups`: one, unnamed, for the phase the clock stands on — or, without a clock, one per
+  // phase of the turn that has something to say. `count` is the rules, a rule named in two phases
+  // of the turn counted once.
   const sides = computed(() => {
     const order = turn.value === 0 ? [0, 1] : [1, 0]
+    const phases = byPhase.value ? [phase.value] : BATTLE_PHASES
     return order
-      .map((pi) => ({ pi, you: isYouSide(current.value?.players?.[pi], pi), name: playerName(pi), rules: rulesFor(pi) }))
-      .filter((s) => s.rules.length)
+      .map((pi) => {
+        const groups = phases
+          .map((ph) => ({ phase: byPhase.value ? null : ph, rules: rulesFor(pi, ph) }))
+          .filter((g) => g.rules.length)
+        const count = new Set(groups.flatMap((g) => g.rules.map((r) => r.key))).size
+        return { pi, you: isYouSide(current.value?.players?.[pi], pi), name: playerName(pi), groups, count }
+      })
+      .filter((s) => s.count)
   })
-  const total = computed(() => sides.value.reduce((n, s) => n + s.rules.length, 0))
+  const total = computed(() => sides.value.reduce((n, s) => n + s.count, 0))
 
-  return { sides, total, phase, go, labels }
+  return { sides, total, phase, byPhase, go, labels }
 }

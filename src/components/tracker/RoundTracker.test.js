@@ -76,10 +76,13 @@ describe('RoundTracker — the tabs', () => {
   it('opens on the missions and offers CP only to a game that counts it', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = mountTracker()
-    expect(tabLabels(w)).toEqual(['Missions', 'CP', 'Armies', 'Log', 'Stats'])
+    // No clock: the rules reminder is the Turn tab (the whole turn, phase by phase).
+    expect(tabLabels(w)).toEqual(['Missions', 'Turn', 'CP', 'Armies', 'Log', 'Stats'])
     expect(w.find('.gt-tab.on').text()).toBe('Missions') // the open tab says its word
-    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false })
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false, trackPhaseRules: false })
     expect(tabLabels(mountTracker())).toEqual(['Missions', 'Armies', 'Log', 'Stats'])
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackPhases: true })
+    expect(tabLabels(mountTracker())).toContain('Phase')
   })
 
   // A turn starts with drawing and scoring, so a new turn brings the player back to them.
@@ -102,7 +105,7 @@ describe('RoundTracker — the tabs', () => {
       expect(w.findAll('[role="tabpanel"]')).toHaveLength(1) // the missions, at once
       await vi.advanceTimersByTimeAsync(2000)
       const panels = w.findAll('[role="tabpanel"]')
-      expect(panels).toHaveLength(5) // one per tab, all but the open one hidden
+      expect(panels).toHaveLength(6) // one per tab, all but the open one hidden
       expect(panels.filter((p) => p.isVisible())).toHaveLength(1)
       const missions = panels[0].element
       await openTab(w, 'Log')

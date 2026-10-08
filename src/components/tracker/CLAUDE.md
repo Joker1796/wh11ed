@@ -39,7 +39,7 @@ phase row in a game that had none.
 
 **Two groups.** `group: 'game'` is the tracker's own screen: CP, the army rule per side
 (`trackArmyYou`/`trackArmyOpp`, legacy `trackArmyRule`), the clock (`trackPhases`) and the phase
-reminder under it (`trackPhaseRules`, `requires: 'trackPhases'`). `group: 'roster'` only means
+reminder (`trackPhaseRules` — the Phase tab with the clock, the Turn tab without it). `group: 'roster'` only means
 anything with an army list attached: the modifier master (`trackModifiers`) and the five families
 of switch under it (`trackUnitStates`, `trackArmyStates`, `trackStratagems`, `trackAuras`,
 `trackAbilitySets`, each `requires: 'trackModifiers'`). What each family governs on the roster
@@ -110,7 +110,7 @@ X · round N" under the buttons is gone (owner's call, 2026-09-27). **With the p
 the phase lives in the turn row itself (owner's call, 2026-09-27): undo turn as an icon, ‹, the
 phase (tap → the phase picker), ›, End turn. The arrows stop at Command and at Fight — a turn
 changes only by End / Undo turn, so never past the end-of-turn check. The reminder ("in this
-phase", `trackPhaseRules`) is the **Phase** tab of the upper row, its count on the tab
+phase", `trackPhaseRules`) is the **Phase** tab of the upper row (the **Turn** tab in a game without the clock), its count on the tab
 (`usePhaseRules.js` counts; `PhaseRules.vue embedded` draws). Its lines stay on the game screen
 (2026-09-30): the stratagems line opens the CP tab on the "now" group (`CpStratagems.showNow`), a
 rule opens the Armies tab on that army with the rule unfolded (`ArmiesPanel.reveal`), a unit of an
@@ -532,8 +532,22 @@ changing who goes first mid-game from `EditSetupModal`, which reorders the playe
 
 ## The phase reminder (`PhaseRules.vue`)
 
-Under the clock, one accordion: **what has something to say in the phase the game is standing on**,
-for both players. `settings.trackPhaseRules`, on by default, and it needs the clock (`requires`).
+The game screen's Phase tab: **what has something to say in the phase the game is standing on**.
+`settings.trackPhaseRules`, on by default. **Without the clock it is the Turn tab** (owner,
+2026-10-08; no `requires` since): the same list for each phase of the current turn, under the
+phase's name — `usePhaseRules`' sides carry `groups` (one unnamed for the clock's phase, else one per
+phase with something in it) and `count` (rules, one named in two phases counted once).
+
+**When in the phase** (2026-10-08): the index carries `m: { phase: 'start' | 'end' }` from
+`phaseMomentsOf` (stratagemPhases.js) — a phase every mention of which is "at the start/end of …";
+"until the start/end of …" is a duration and does not count, and a phase also named any other way is
+during. Rows run start → during → end, and the moment leads a row's second line. ~150 starts and
+~130 ends over the 960 entries.
+
+**Density** (owner, 2026-10-08 — five rules took a phone's screen): one block of rows parted by
+hairlines, the side's bar down the block; a row is what you look for at the table (the units, or the
+rule's name) over one small line (moment · the ability or where the rule comes from). No "unit" /
+"army rule" label line and no caption line — the tab's name says what the list is.
 
 **Two sides, not one.** 55 of the datasheet abilities that name a phase name their OPPONENT'S ("In
 your opponent's Movement phase, if an enemy unit ends a move within 8"…"), and those are the ones a

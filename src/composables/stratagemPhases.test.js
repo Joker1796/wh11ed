@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { phasesOf, phaseSidesOf, usableInSlot, BATTLE_PHASES } from './stratagemPhases.js'
+import { phasesOf, phaseSidesOf, phaseMomentsOf, usableInSlot, BATTLE_PHASES } from './stratagemPhases.js'
 
 // The timing line is the only place GW says WHEN a stratagem may be used, and it always names the
 // phase — and, when it matters, whose it is. These are real wordings out of src/data/factions.
@@ -69,5 +69,26 @@ describe('a phase named only as a comparison', () => {
     const dying = 'When this model is destroyed, it can shoot as if it were your Shooting phase.'
     expect(phasesOf(dying)).toEqual(['any'])
     expect(phaseSidesOf(dying)).toEqual({})
+  })
+})
+
+// When inside the phase a rule fires, for the reminder's order: start first, end last.
+describe('phaseMomentsOf', () => {
+  it('reads a trigger at the start or the end of a phase', () => {
+    expect(phaseMomentsOf('At the start of your Command phase, you gain 1CP.')).toEqual({ command: 'start' })
+    expect(phaseMomentsOf("At the end of your opponent's Fight phase, roll one D6.")).toEqual({ fight: 'end' })
+    expect(phaseMomentsOf("End of your opponent's Charge phase")).toEqual({ charge: 'end' })
+  })
+  it('carries the moment along an "or" list of phases', () => {
+    expect(phaseMomentsOf('Start of your Movement or Charge phase')).toEqual({ movement: 'start', charge: 'start' })
+  })
+  // A duration names a phase too, and says nothing about when the rule fires.
+  it('reads "until the start/end of" as a duration, not a moment', () => {
+    expect(phaseMomentsOf('In your Movement phase, select one unit; it is active until the start of your next Command phase.')).toEqual({})
+    expect(phaseMomentsOf("until the end of your opponent's next Shooting phase")).toEqual({})
+  })
+  it('leaves a phase also named another way to "during"', () => {
+    expect(phaseMomentsOf('At the start of your Command phase, select one. In your Command phase, you can also…')).toEqual({})
+    expect(phaseMomentsOf('In your Shooting phase, after this unit has shot…')).toEqual({})
   })
 })

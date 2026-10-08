@@ -81,6 +81,37 @@ export function phaseSidesOf(englishWhen) {
   return out
 }
 
+// WHEN inside the phase, per phase the text names: 'start' where every mention of that phase is
+// "at the start of … phase", 'end' where every one is "at the end of … phase"; a phase also named
+// any other way ("in your Shooting phase", "until the end of your opponent's next Fight phase" — a
+// duration, not a trigger) is left out, i.e. during the phase. For the tracker's phase reminder,
+// which puts what fires at the start first and what fires at the end last (owner, 2026-10-08).
+// "Start of your Movement or Charge phase" reaches Charge too: the "or" list continues the moment.
+const MOMENT_RE = new RegExp(
+  `(?:\\b(at the start|at the end|start|end) of\\s+)?(?:(?:the|your opponent['\u2019]s|your|each|the next|your next|your opponent['\u2019]s next)\\s+)?\\b(${NAMED_PHASES.join('|')})(?: phase\\b| or (?=(?:the |your )?(?:${NAMED_PHASES.join('|')})\\b))`,
+  'gi',
+)
+export function phaseMomentsOf(englishText) {
+  const seen = {}
+  if (!englishText) return {}
+  let carry = null
+  for (const m of withoutComparisons(englishText).matchAll(MOMENT_RE)) {
+    const lead = (m[1] || '').toLowerCase()
+    // "until the start/end of …" is a duration, not a trigger: the words before the match decide.
+    const before = englishText.slice(Math.max(0, m.index - 12), m.index).toLowerCase()
+    const until = /\buntil\s+(?:the\s+)?$/.test(before)
+    let moment = until ? null
+      : lead.endsWith('start') ? 'start'
+        : lead.endsWith('end') ? 'end'
+          : null
+    if (!lead && carry) moment = carry
+    carry = m[0].toLowerCase().endsWith(' or ') ? moment : null
+    const phase = m[2].toLowerCase()
+    seen[phase] = phase in seen && seen[phase] !== moment ? null : moment
+  }
+  return Object.fromEntries(Object.entries(seen).filter(([, v]) => v))
+}
+
 // Can this stratagem be used in the slot the game is standing on? `mine` is whether the turn
 // belongs to the player whose roster is open. A stratagem with no detectable phase, or one that
 // works in any phase, is always offered — the timing line is still printed on the card.

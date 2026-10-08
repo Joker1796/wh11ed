@@ -25,9 +25,9 @@ vi.mock('../../composables/useRefNavigation.js', () => ({
   useRefNavigation: () => ({ navigateTo, resolveRef: () => null }),
 }))
 
-function startGame(p0 = {}, p1 = {}) {
+function startGame(p0 = {}, p1 = {}, settings = {}) {
   tracker.newGame({
-    settings: { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', scoreMode: 'vp', trackPhases: true },
+    settings: { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', scoreMode: 'vp', trackPhases: true, ...settings },
     players: [
       { name: 'Me', factionSlug: 'orks', detachments: [], disposition: DISPOSITIONS[0].id, role: 'attacker', secondaryMode: 'fixed', fixedSecondaries: [], ...p0 },
       { name: 'Opp', factionSlug: 'necrons', detachments: [], disposition: DISPOSITIONS[1].id, role: 'defender', secondaryMode: 'fixed', fixedSecondaries: [], ...p1 },
@@ -66,16 +66,23 @@ describe('PhaseRules', () => {
     expect(w.text()).not.toContain('Waaagh!')
   })
 
-  // The Phase tab has no header of its own, and its tab says only "Phase": a line says what the
-  // list is. The folded block's header already does, so it carries none.
-  it('says what the list is in the Phase tab, and only there', async () => {
+  // When in the phase a rule fires leads its second line: the Waaagh! is called at the START of
+  // the Command phase, and what fires at the start stands first.
+  it('says when in the phase a rule fires', async () => {
     startGame()
-    const w = mount(PhaseRules, { props: { embedded: true }, global: { stubs: { RouterLink } } })
-    await vi.waitFor(() => { if (!w.find('.pr-note').exists()) throw new Error('not yet') }, { timeout: 2000, interval: 10 })
-    expect(w.find('.pr-note').text()).toBe('Rules that apply in this phase.')
-    const folded = await mountBlock()
-    await open(folded)
-    expect(folded.find('.pr-note').exists()).toBe(false)
+    const w = await mountBlock()
+    await open(w)
+    expect(w.find('.pr-when').text()).toBe('At the start')
+  })
+
+  // A game without the clock asks about the whole turn: each phase that has something to say,
+  // under its own heading (owner, 2026-10-08).
+  it('lists the turn phase by phase when the game keeps no clock', async () => {
+    startGame({}, {}, { trackPhases: false })
+    const w = await mountBlock()
+    await open(w)
+    expect(w.findAll('.pr-phase').map((h) => h.text())).toContain('Command phase')
+    expect(w.text()).toContain('Waaagh!')
   })
 
   it('names each side, first-turn player first', async () => {
