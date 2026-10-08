@@ -28,6 +28,8 @@ if (TOUR_ON && typeof location !== 'undefined' && new URLSearchParams(location.s
   setItem(SEEN_KEY, '[]')
 }
 const seen = ref(readSeen())
+let waiting = null // a chapter waiting for the screen to be free (maybeStart)
+const dialogOpen = () => typeof document !== 'undefined' && !!document.querySelector('.modal-overlay:not([inert])')
 const active = ref(null) // { id, i, steps } — the chapter's steps that hold for the screen's state
 
 export function useTour() {
@@ -40,12 +42,23 @@ export function useTour() {
     setItem(SEEN_KEY, JSON.stringify([...seen.value]))
   }
 
-  // A chapter the first time its screen comes up. Never over another one already on screen.
+  // A chapter the first time its screen comes up. Never over another one already on screen, and
+  // never over a dialog: "Start game" opens the secondaries' draw at once, and the turn's chapter
+  // lit the bar under it (owner, 2026-10-09). So it waits a beat for a dialog that is about to
+  // open, then for every open one to close (a leaving copy is inert — modalLeave.js).
   // `ctx` is the screen's state a step may ask about (`when`): the game screen before the battle
   // has "Start game" where the phases will be (owner, 2026-10-08).
   function maybeStart(id, ctx = {}) {
-    if (!TOUR_ON || !TOUR_CHAPTERS[id] || seen.value.has(id) || active.value) return
-    start(id, ctx)
+    if (!TOUR_ON || !TOUR_CHAPTERS[id] || seen.value.has(id)) return
+    clearInterval(waiting)
+    let free = 0 // the screen has to stay free for two looks: a dialog may open a moment late
+    waiting = setInterval(() => {
+      free = active.value || dialogOpen() ? 0 : free + 1
+      if (free < 2) return
+      clearInterval(waiting)
+      waiting = null
+      if (!seen.value.has(id)) start(id, ctx)
+    }, 400)
   }
 
   function start(id, ctx = {}) {
