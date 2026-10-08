@@ -129,7 +129,7 @@
                 class="act-btn ds-act"
                 @click="moreDo(openLoreFromSheet)"
               >
-                <i class="wi wi-lore-on" />{{ labels.loreShow }}
+                <i class="wi wi-lore" />{{ labels.loreShow }}
               </button>
               <a
                 :href="imageUrl"
