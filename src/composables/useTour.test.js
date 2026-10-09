@@ -58,6 +58,30 @@ describe('useTour', () => {
     expect(t.active.value).toBe(null)
   })
 
+  // The tracker home's chapter was still waiting when "Shared game" took the player to the lobby;
+  // it started during the page change, while the leaving home was still in the DOM, and its card
+  // stood over the invite with nothing lit (2026-10-09).
+  it('a chapter still waiting is dropped with its page', async () => {
+    const { leavePage } = await import('./useTour.js')
+    const t = useTour()
+    t.maybeStart('home')
+    vi.advanceTimersByTime(450)
+    leavePage()
+    vi.advanceTimersByTime(2000) // home-cta is still here, as the leaving page's is for a moment
+    expect(t.active.value).toBe(null)
+  })
+
+  it('a chapter on screen closes with its page, unseen, and comes back there', async () => {
+    const { leavePage } = await import('./useTour.js')
+    const t = useTour()
+    t.start('home')
+    leavePage()
+    expect(t.active.value).toBe(null)
+    t.maybeStart('home')
+    vi.advanceTimersByTime(900)
+    expect(t.active.value?.id).toBe('home')
+  })
+
   it('a seen chapter does not come back by itself', () => {
     const t = useTour()
     t.start('home')

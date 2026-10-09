@@ -48,6 +48,16 @@ function present(st) {
 const onScreen = (id, ctx) => stepsOf(id, ctx).some(present)
 const active = ref(null) // { id, i, steps } — the chapter's steps that hold for the screen's state
 
+// The page changed (TourOverlay, from App.vue's pageKey): its chapters go with it. One still
+// waiting would start in the moment the leaving page is in the DOM — the tracker home's did, and
+// its card stood over the lobby's invite with nothing lit (2026-10-09) — and one on screen would
+// stay there, lighting nothing. Closed, not finished: unread, it shows again on its own screen.
+export function leavePage() {
+  pending.clear()
+  if (waiting) { clearInterval(waiting); waiting = null }
+  active.value = null
+}
+
 // What a step shows on its screen before it lights anything (owner, 2026-10-09: "if there is
 // something on the screen to switch and tell about, switch it for the telling") — a tab opened, a
 // side picked, a pane brought forward. A step says it as `show: { <key>: value }`; the screen that
