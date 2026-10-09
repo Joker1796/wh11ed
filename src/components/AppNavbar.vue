@@ -4,9 +4,13 @@
       <RouterLink
         to="/"
         class="navbar-logo"
+        :class="{ beta: IS_BETA }"
       >
-        <span class="logo-wh">WH40K</span>
-        <span class="logo-sub">11th Edition</span>
+        <span class="logo-wh">WH Rules</span>
+        <span
+          class="logo-scale"
+          aria-hidden="true"
+        />
       </RouterLink>
 
       <nav class="navbar-links">
@@ -306,6 +310,9 @@ import { rulesLanding } from '../data/rulesLanding.js'
 import { replayableNow } from '../composables/tourScreen.js'
 import { IS_BETA } from '../config.js'
 
+// The beta's mark is the site's with a yellow scale (the icon set does the same, 2026-10-09).
+const IS_BETA = import.meta.env.VITE_BETA === '1'
+
 defineProps({
   mobileNavOpen: Boolean,
 })
@@ -492,25 +499,29 @@ function closeRulesMenu() {
   flex-shrink: 0;
 }
 
+/* The wordmark (owner, 2026-10-09): "WH RULES" over a ruler — the same lockup as the app icon,
+   drawn here in CSS rather than shipped as a picture, so it stays sharp at any density. The
+   scale is a baseline with a tick every few pixels; red on the site, yellow on the beta. */
 .logo-wh {
   font-family: var(--font-display);
-  font-size: 1.54rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 800;
   color: var(--text-on-dark);
-  /* Tracked out so the condensed wordmark spans the same width as the "11th
-     Edition" subtitle below it (the lockup lines up flush on both edges). */
-  letter-spacing: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
   line-height: 1;
 }
 
-.logo-sub {
-  font-size: 0.62rem;
-  /* 0.65, not 0.45: the tagline read 3.3:1 on the bar (a11y gate, 2026-10-05). */
-  color: rgba(255,255,255,0.65);
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  line-height: 1;
+.logo-scale {
+  --scale: #b8474d;
+  display: block;
+  height: 6px;
+  margin-top: 2px;
+  background:
+    linear-gradient(var(--scale), var(--scale)) bottom / 100% 2px no-repeat,
+    repeating-linear-gradient(90deg, var(--scale) 0 1.5px, transparent 1.5px 7px) bottom / 100% 100% no-repeat;
 }
+.navbar-logo.beta .logo-scale { --scale: #e2b340; }
 
 .navbar-links {
   display: flex;

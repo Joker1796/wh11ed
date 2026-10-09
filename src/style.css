@@ -77,7 +77,7 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
   /* Condensed display face for ALL headings/titles across the app (h1–h4 + the per-component
-     .*-title/.mh-title/etc.) and the WH40K logo wordmark (.logo-wh). EB Garamond (--font-serif)
+     .*-title/.mh-title/etc.) and the WH RULES logo wordmark (.logo-wh). EB Garamond (--font-serif)
      stays only on lore flavor text (.flavor-quote/.flavor-line). */
   --font-display: 'Sofia Sans Extra Condensed', 'Inter', sans-serif;
   /* Shared text/content heading scale (the "Basic Rules" look). Single source of truth —
