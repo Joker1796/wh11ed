@@ -167,14 +167,28 @@ watch(step, async (s) => {
   nextBtn.value?.focus({ preventScroll: true })
 }, { immediate: true })
 
+// The page stands still while a step is up (owner, 2026-10-09): a finger dragged on the dim moved
+// the page, the lit element slid under the sticky header, and the light framed the header. Not a
+// body lock — `body{overflow:hidden}` resets the scroll on iOS Safari (the modals' rule,
+// tracker/CLAUDE.md) — but the gestures themselves: `touch-action: none` on the layer, and the
+// wheel, touchmove and scrolling keys turned away while it is up. The tour's own scrollIntoView is
+// a script's, and still moves the page to the next step's element.
+const SCROLL_KEYS = new Set(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '])
+const hold = (e) => { if (step.value) e.preventDefault() }
 const onKey = (e) => {
   if (!step.value) return
   if (e.key === 'Escape') finish()
   else if (e.key === 'ArrowRight') next()
   else if (e.key === 'ArrowLeft') back()
+  // Space on a focused button presses it; anywhere else it would page down.
+  else if (SCROLL_KEYS.has(e.key) && !(e.key === ' ' && e.target?.closest?.('button'))) e.preventDefault()
 }
 window.addEventListener('keydown', onKey)
+window.addEventListener('wheel', hold, { passive: false })
+window.addEventListener('touchmove', hold, { passive: false })
 onUnmounted(() => {
+  window.removeEventListener('wheel', hold)
+  window.removeEventListener('touchmove', hold)
   cancelAnimationFrame(follow)
   window.removeEventListener('keydown', onKey)
 })
@@ -206,7 +220,7 @@ const cardStyle = computed(() => {
 </script>
 
 <style scoped>
-.tour { position: fixed; inset: 0; z-index: 450; }
+.tour { position: fixed; inset: 0; z-index: 450; touch-action: none; }
 .tour-block { position: absolute; inset: 0; }
 /* The light: a frame round the element, and everything outside it dimmed by its own shadow. It
    glides from one element to the next. */
