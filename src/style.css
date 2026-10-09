@@ -1511,12 +1511,14 @@ strong {
 }
 
 /* A finger needs the 44px box; the row does not need to grow by it, so the padding is pulled
-   back out of the layout. */
+   back out of the layout. Sideways by no more than the phone's 0.5rem page gutter: at -0.55rem the
+   box stood 0.8px past the screen, and the rosters and tracker homes could be dragged sideways by a
+   pixel (2026-10-09). */
 @media (pointer: coarse) {
   .hero-help {
     min-width: 44px;
     min-height: 44px;
-    margin: -0.45rem -0.55rem;
+    margin: -0.45rem -0.5rem;
   }
 }
 

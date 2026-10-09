@@ -192,7 +192,21 @@ for (const width of widths) {
       await page.evaluate(() => document.fonts.ready)
       visited++
       const sideways = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
-      if (sideways > 1) failures.push(`${where}: scrolls sideways by ${sideways}px`)
+      // Any pixel counts: scrollWidth rounds up, so a bar 0.58px too wide reads as 1 — and the
+      // wordmark's did, on every page at 320px, under a `> 1` that let it through (2026-10-09).
+      if (sideways > 0) {
+        // Name what sticks out, the way the column check below does: a bare "by 1px" sends the
+        // reader hunting. The outermost offender is the culprit; its children only follow it.
+        const culprit = await page.evaluate(() => {
+          const cw = document.documentElement.clientWidth
+          // Inside a fixed box (the closed side menu waits off screen) nothing widens the page.
+          const inFixed = (el) => { for (let e = el; e; e = e.parentElement) if (getComputedStyle(e).position === 'fixed') return true; return false }
+          const out = [...document.querySelectorAll('body *')].find((el) => el.getClientRects().length
+            && el.getBoundingClientRect().right > cw + 0.01 && !inFixed(el))
+          return out ? `${out.tagName.toLowerCase()}.${[...out.classList].join('.')} to ${out.getBoundingClientRect().right.toFixed(2)}px` : '?'
+        })
+        failures.push(`${where}: scrolls sideways by ${sideways}px (${culprit})`)
+      }
       // Rule markup that reached the reader unrendered — the print sheet printed `**[gloss:…]**`
       // in its stratagem lines for a release before anyone looked (2026-10-03).
       const raw = await page.evaluate(() => (document.body.innerText.match(/\[(?:gloss|core|def):[^\]]*\]|\*\*[^*\n]{1,60}\*\*/) || [])[0])

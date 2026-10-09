@@ -980,4 +980,11 @@ a.nd-link:hover {
     padding: 0 0.75rem;
   }
 }
+
+/* The wordmark (88px) left the phone's bar 0.58px wider than a 320px screen, and every page could
+   be dragged sideways by a pixel (2026-10-09). Measured: the bar fits from 321px, so the narrowest
+   phones take 4px off the gap between the wordmark and the buttons. */
+@media (max-width: 359px) {
+  .navbar-inner { gap: 0.5rem; }
+}
 </style>
