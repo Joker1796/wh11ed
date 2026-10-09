@@ -414,20 +414,29 @@ export const TOUR_CHAPTERS = {
       {
         target: 'roster-tabs',
         show: { listTab: 'saved' },
+        when: (ctx) => ctx.any,
         ru: { title: 'Списки', text: 'Нажмите на вкладку, чтобы переключить раздел. «Списки» — ваши сохранённые ростеры.' },
         en: { title: 'Lists', text: 'Tap a tab to switch the section. “Lists” holds your saved rosters.' },
       },
       {
         target: 'roster-tabs',
         show: { listTab: 'drafts' },
+        when: (ctx) => ctx.any,
         ru: { title: 'Черновики', text: '«Черновики» — ростеры, которые вы начали собирать и ещё не сохранили. Нажмите на черновик, чтобы продолжить с того же места.' },
         en: { title: 'Drafts', text: '“Drafts” holds rosters you started and have not saved yet. Tap a draft to carry on where you left off.' },
       },
       {
         target: 'roster-tabs',
         show: { listTab: 'archived' },
+        when: (ctx) => ctx.any,
         ru: { title: 'Архив', text: '«Архив» — ростеры, которые вы убрали из списков. Они не проверяются по правилам. Вернуть ростер можно из его меню «⋮».' },
         en: { title: 'Archive', text: '“Archive” holds rosters you put away. They are not checked against the rules. A roster comes back from its “⋮” menu.' },
+      },
+      {
+        target: 'roster-tabs',
+        when: (ctx) => !ctx.any,
+        ru: { title: 'Ваши ростеры', text: 'Здесь будут ваши ростеры: сохранённые — в «Списках», недостроенные — в «Черновиках», убранные — в «Архиве». Пока здесь пусто.' },
+        en: { title: 'Your rosters', text: 'Your rosters will be here: saved ones under “Lists”, unfinished ones under “Drafts”, put away ones under “Archive”. It is empty for now.' },
       },
       {
         target: 'roster-card',
@@ -448,6 +457,12 @@ export const TOUR_CHAPTERS = {
         show: { listTab: 'saved' },
         ru: { title: 'Где хранятся ростеры', text: 'Здесь видно, где лежат ваши ростеры. Без входа они хранятся только на этом устройстве. Войдите в аккаунт в меню ⚙, и ростеры будут на всех ваших устройствах.' },
         en: { title: 'Where rosters are kept', text: 'This says where your rosters are kept. Signed out, they live on this device only. Sign in from the ⚙ menu, and your rosters are on all your devices.' },
+      },
+      {
+        target: 'roster-new',
+        when: (ctx) => !ctx.any,
+        ru: { title: 'Первый ростер', text: 'Нажмите «Создать лист», чтобы собрать первый ростер. Туториал проведёт вас по шагам. Если лист уже собран в другом месте, нажмите «Импорт».' },
+        en: { title: 'Your first roster', text: 'Press “New list” to build your first roster. The tutorial walks you through it. If the list is already built elsewhere, press “Import”.' },
       },
     ],
   },

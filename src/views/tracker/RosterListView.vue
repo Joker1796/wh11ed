@@ -323,7 +323,11 @@ const tab = ref('saved')
 // The tour walks the three tabs (useTourShow) and asks for its chapter once the page is up.
 const { maybeStart: maybeStartTour } = useTour()
 useTourShow('listTab', (k) => { tab.value = k })
-onMounted(() => maybeStartTour('roster-list', { get cards() { return activeRosters.value.length > 0 } }))
+onMounted(() => maybeStartTour('roster-list', {
+  get cards() { return activeRosters.value.length > 0 },
+  // A first visit has no list anywhere: the three tabs are told about in one step, not walked.
+  get any() { return activeRosters.value.length + draftRosters.value.length + archivedRosters.value.length > 0 },
+}))
 const tabs = computed(() => [
   { key: 'saved', label: labels.value.rosterTabSaved, count: activeRosters.value.length, active: tab.value === 'saved' },
   { key: 'drafts', label: labels.value.rosterTabDrafts, count: draftRosters.value.length, active: tab.value === 'drafts' },
