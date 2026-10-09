@@ -1505,7 +1505,9 @@ function onEndBattle(reason) {
    (owner, 2026-10-02): the tabs are equal and all say what they are; the open one is the filled
    one. Nothing grows, so of the switch only the fill and the panel's slide are left. */
 @media (min-width: 901px) {
-  .gt-tab { flex: 1 1 0; }
+  /* Equal — but never narrower than the tab's own word: equal shares cut «Статистика» to
+     «СТАТИСТИ…» (82px of word in a 76px slot, 2026-10-09); now it takes 122px, the rest 113. */
+  .gt-tab { flex: 1 1 0; min-width: max-content; }
 }
 @media (hover: hover) { .gt-tab:not(.on):hover { z-index: 1; border-color: var(--accent); color: var(--text-primary); } }
 /* The phase tab's count, in its corner. */
