@@ -1200,3 +1200,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     need lives in one module (`scripts/lib/keepClause.mjs`); the gate asks the invariant over
     every group ("kept-item locks": a group that tells a model to keep an item carries the lock),
     not the one sheet the report named.
+
+84. **A field the generator does not read is a rule nobody checks.** appdata's bodyguard groups
+    carry `requiresAllUnitsHaveKeywordId` (Pactbound Zealots: leader and unit share a mark) and the
+    generator copied the detachment gate beside it but not it; a hand-written "chosen mark = chosen
+    mark" stood in and missed every unit printed with its mark — Abaddon led a Nurgle squad (a
+    player's report, 2026-10-09). The fix reads the field, and `BG_FIELDS` now stops the generator
+    on any group field it does not know. The same report found a limit appdata states only in
+    prose (Daemonic Pact's BATTLELINE ratio): read it out of the sentence, and fail on a sentence of
+    that shape the reader does not understand, so the next one is not silently skipped either.

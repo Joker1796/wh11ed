@@ -796,6 +796,32 @@ export function hostSlotTaken(def, entry, host, hostDef, attached, detachments =
   return false
 }
 
+// "A CHARACTER unit can only be attached to a unit if both units share the same keyword" — the
+// Pactbound Zealots restriction, which appdata states on the attachment itself ("requires all
+// units have keyword", one group per mark) and the generator carries as `allKw`: the keywords one
+// of which the leader and the unit it joins must BOTH have. A keyword counts whether the unit is
+// printed with it (Abaddon's CHAOS UNDIVIDED) or chose it (a Chaos Lord's Mark of Chaos). Until
+// 2026-10-09 a hand-written "chosen mark = chosen mark" stood in for this, and an Epic Hero, who
+// chooses nothing, joined a unit of any mark (a player's report).
+//
+// Returns null when the attachment is fine or not yet decidable — a unit that still owes its
+// mandatory mark (allegMissing says so) may end up sharing one — else what each side has, for the
+// message: `{ own, theirs }`.
+export function sharedKeywordClash(def, entry, targetDef, targetEntry, detachments = []) {
+  if (!def || !targetDef) return null
+  const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
+  const lead = direct || gatedLeads((def.leadKw || []).map((g) => ({ ...g, to: (g.kw || []).join('+') })), detachments)
+    .find((g) => (g.kw || []).every((k) => hasKeyword(targetDef, k)))
+  const need = lead?.allKw
+  if (!need?.length) return null
+  const owes = (d, e) => !!allegFor(d, detachments)?.req && !e?.alleg
+  if (owes(def, entry) || owes(targetDef, targetEntry)) return null
+  const has = (d, e) => (k) => hasKeyword(d, k) || (allegKeyword(d, e, detachments) || '').toLowerCase() === k.toLowerCase()
+  if (need.some((k) => has(def, entry)(k) && has(targetDef, targetEntry)(k))) return null
+  const list = (d, e) => need.filter(has(d, e)).join(', ') || '—'
+  return { own: list(def, entry), theirs: list(targetDef, targetEntry) }
+}
+
 export function leadTypeFor(def, entry, targetDef, detachments = []) {
   if (!def || !targetDef) return null
   const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
@@ -827,14 +853,12 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
   const leads = leadsFor(def, entry, detachments)
   if (!leads.length && !def?.leadKw?.length) return []
   const typeOf = (id) => leadTypeFor(def, entry, defOf ? defOf(id) : null, detachments)
-  // Marks of Chaos: "a Character unit can only be attached to a unit if both units share the same
-  // keyword". Scoped to that group by key — it is that detachment rule's own clause, not something
-  // allegiances do in general, and the CHARACTER-granting upgrades carry no such restriction. A
-  // target that hasn't chosen yet stays offered: the mark is picked per unit, in any order.
-  const ownMark = allegFor(def, detachments)?.g === 'mark-of-chaos' ? entry?.alleg : null
+  // Pactbound Zealots: only a unit sharing one of the keywords the attachment requires
+  // (sharedKeywordClash). One that hasn't chosen its mark yet stays offered: marks are picked per
+  // unit, in any order.
   return (units || [])
     .filter((u) => u.uid !== excludeUid && typeOf(u.id))
-    .filter((u) => !ownMark || !u.alleg || u.alleg === ownMark)
+    .filter((u) => !defOf || !sharedKeywordClash(def, entry, defOf(u.id), u, detachments))
     .map((u) => {
       const type = typeOf(u.id)
       const attached = (units || [])

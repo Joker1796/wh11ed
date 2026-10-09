@@ -181,7 +181,14 @@ for (const r of table('datasheet_bodyguard_group_keyword')) {
   bgKeywords.get(r.datasheetBodyguardGroupId).push(bgKwName.get(r.keywordId))
 }
 const bgByLeader = new Map() // leader datasheetId -> [group]
+// Every field an attachment group carries is read below — a new one is a condition on who may join
+// whom, and dropping it widens the attachment silently. `requiresAllUnitsHaveKeywordId` was
+// dropped that way until 2026-10-09 (Pactbound Zealots' shared mark; an Epic Hero joined a unit of
+// any mark), so a field not on this list now stops the generator instead.
+const BG_FIELDS = new Set(['id', 'datasheetId', 'bodyguardType', 'factionKeywordId', 'requiredDetachmentId', 'excludedDetachmentId', 'requiresAllUnitsHaveKeywordId'])
 for (const g of table('datasheet_bodyguard_group')) {
+  const unread = Object.keys(g).filter((k) => !BG_FIELDS.has(k) && g[k] != null && g[k] !== false && g[k] !== '')
+  if (unread.length) throw new Error(`datasheet_bodyguard_group ${g.id}: field(s) the generator does not read — ${unread.join(', ')}. Read them (who may join whom) and add them to BG_FIELDS.`)
   if (!bgByLeader.has(g.datasheetId)) bgByLeader.set(g.datasheetId, [])
   bgByLeader.get(g.datasheetId).push(g)
 }
@@ -353,7 +360,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1606,6 +1613,30 @@ const slotlessReceivers = groupBy(table('allied_faction_keyword_slotless_keyword
 const alliedPoints = groupBy(table('allied_faction_points_limit'), 'alliedFactionId')
 const alliedDets = groupBy(table('allied_faction_required_detachment'), 'alliedFactionId')
 
+// "For each of the following keywords, the number of non-BATTLELINE units with that keyword you
+// include in this way cannot be greater than the number of BATTLELINE units with that keyword you
+// include in this way: KHORNE, TZEENTCH, NURGLE, SLAANESH" — Daemonic Pact, the rule that lets a
+// Heretic Astartes or Chaos Knights army take Legiones Daemonica units. appdata has no table for it,
+// only the sentence, so it is read out of the sentence: the army rule names its faction (the
+// ally's), and the keywords are the rule's own list. Emitted on that faction's allied group as
+// `ratio`; rosterValidation counts it. Until 2026-10-09 nothing did (a player's report).
+// A sentence of the same kind in other words stops the generator: it is a limit nothing would check.
+const ratioByFk = new Map() // ally faction keyword id -> [keyword]
+{
+  const fkOfRule = groupBy(table('army_rule_faction_keyword'), 'armyRuleId')
+  const RATIO = /the number of non-\*\*BATTLELINE\*\* units with that keyword you include in this way cannot be greater than the number of \*\*BATTLELINE\*\* units with that keyword you include in this way:([\s\S]*)/
+  const kwCanonical = new Map(table('keyword').map((k) => [norm(enOf(k).name || ''), enOf(k).name]))
+  for (const c of table('rule_container_component')) {
+    const text = enOf(c).textContent || ''
+    if (!/non-\*\*BATTLELINE\*\*|non-BATTLELINE/i.test(text) || !/cannot be greater|cannot exceed|no more than/i.test(text)) continue
+    const m = text.match(RATIO)
+    const fks = (fkOfRule.get(c.armyRuleId) || []).map((r) => r.factionKeywordId)
+    const kws = m ? [...m[1].matchAll(/■\s*\*\*([^*]+)\*\*/g)].map((x) => kwCanonical.get(norm(x[1]))).filter(Boolean) : []
+    if (!m || !fks.length || !kws.length) throw new Error(`rule_container_component ${c.id}: a BATTLELINE ratio the generator cannot read — "${text.slice(0, 160)}…". Read it into an allied group's \`ratio\`.`)
+    for (const fk of fks) ratioByFk.set(fk, kws)
+  }
+}
+
 // datasheet uuid -> [our faction slug, our unit id]. sourceIds.json is the same map the datasheet
 // pages are keyed by, and a datasheet appears under exactly one faction there (1039 of them, no
 // duplicates), so this resolves an allied datasheet to the bundle that actually holds it.
@@ -1743,6 +1774,12 @@ async function alliesFor(factionKeywordId, ownUnitIds, slug) {
     const dets = (alliedDets.get(af.id) || []).map((r) => enOf(detById.get(r.detachmentId)).name).filter(Boolean).sort()
     if (dets.length) group.dets = dets
     if (af.canTakeEnhancements) group.enh = 1
+    // Daemonic Pact's BATTLELINE ratio (ratioByFk) — on the units taken "in this way", the rule's
+    // own group: the one its faction is the ally of, with no Detachment of its own to unlock it.
+    if (!af.isSiblingFaction && !dets.length) {
+      const ratio = (alliedParents.get(af.id) || []).map((p) => ratioByFk.get(p.factionKeywordId)).find(Boolean)
+      if (ratio) { group.ratio = ratio; report.allies.ratio.push(`${slug}: ${group.name} — ${ratio.join(', ')}`) }
+    }
     if (Object.keys(up).length) group.up = up
     if (missing.length) report.allies.missing.push(`${slug}/${group.name}: ${missing.join(', ')}`)
     out.push({ group, distance })
@@ -1907,6 +1944,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       const kw = { kw: bgKeywords.get(g.id).filter(Boolean), type: g.bodyguardType }
       if (g.requiredDetachmentId) kw.reqDet = g.requiredDetachmentId
       if (g.excludedDetachmentId) kw.exclDet = g.excludedDetachmentId
+      if (g.requiresAllUnitsHaveKeywordId) kw.allKw = [bgKwName.get(g.requiresAllUnitsHaveKeywordId)].filter(Boolean)
       if (kw.kw.length) leadKw.push(kw)
       const want = bgKeywords.get(g.id).map(norm).filter(Boolean)
       targets = (kwIndex ? want.map((k) => kwIndex.get(k) || []).reduce((a, b) => a.filter((x) => b.includes(x)), want.length ? kwIndex.get(want[0]) || [] : []) : [])
@@ -1918,6 +1956,14 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       const lead = { to: idMap.get(targetDsId) || slugify(enOf(dsById.get(targetDsId)).name || ''), type: g.bodyguardType }
       if (g.requiredDetachmentId) lead.reqDet = g.requiredDetachmentId
       if (g.excludedDetachmentId) lead.exclDet = g.excludedDetachmentId
+      // "Requires all units have keyword": the leader AND the unit it joins must both carry it —
+      // appdata's own statement of Pactbound Zealots' "a CHARACTER unit can only be attached to a
+      // unit if both units share the same keyword" (300 groups, 60 leaders × the five marks). It
+      // was dropped here until 2026-10-09, and a hand-written "chosen mark = chosen mark" check
+      // stood in for it — blind to a mark a unit is printed with (Abaddon's CHAOS UNDIVIDED), so
+      // an Epic Hero joined a unit of any mark (a player's report). One per group; the groups
+      // naming one target are folded below into a list of which keywords may be the shared one.
+      if (g.requiresAllUnitsHaveKeywordId) lead.allKw = [bgKwName.get(g.requiresAllUnitsHaveKeywordId)].filter(Boolean)
       leads.push(lead)
       // …kept by appdata uuid as well, for the mirror rules below: they ask which units this one
       // may join, and a name is not what identifies those.
@@ -1940,16 +1986,24 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     const lead = { to, type: via.type }
     if (via.reqDet) lead.reqDet = via.reqDet
     if (via.exclDet) lead.exclDet = via.exclDet
+    if (via.allKw) lead.allKw = [...via.allKw]
     leads.push(lead)
     report.mirror.added.push(`${bd.name} → ${to}`)
   }
   // Deduped: a keyword group ("any Imperium Battleline Infantry unit") and a listed group can name
-  // the same unit, and the picker would offer it twice.
-  const seenLead = new Set()
-  const uniqueLeads = leads.filter((l) => {
+  // the same unit, and the picker would offer it twice. Groups that differ only in the keyword the
+  // two must share fold into one lead whose `allKw` lists them all (any one of them shared will
+  // do); one without that requirement among them leaves the attachment unrestricted.
+  const byLeadKey = new Map()
+  for (const l of leads) {
     const k = `${l.to}|${l.type}|${l.reqDet || ''}|${l.exclDet || ''}`
-    return seenLead.has(k) ? false : (seenLead.add(k), true)
-  })
+    const had = byLeadKey.get(k)
+    if (!had) { byLeadKey.set(k, l.allKw ? { ...l, allKw: [...l.allKw] } : l); continue }
+    if (!had.allKw) continue
+    if (!l.allKw) { delete had.allKw; continue }
+    for (const kw of l.allKw) if (!had.allKw.includes(kw)) had.allKw.push(kw)
+  }
+  const uniqueLeads = [...byLeadKey.values()]
   if (hosts) unit.hosts = hosts
   if (uniqueLeads.length) unit.leads = uniqueLeads
   if (leadKw.length) unit.leadKw = leadKw
@@ -3162,6 +3216,8 @@ function mirrorPackLeads(slug, pack) {
       const lead = { to, type: via.type }
       if (via.reqDet) lead.reqDet = via.reqDet
       if (via.exclDet) lead.exclDet = via.exclDet
+      if (via.allKw) lead.allKw = [...via.allKw]
+    if (via.allKw) lead.allKw = [...via.allKw]
       u.leads.push(lead)
       report.mirror.added.push(`${u.name} (Legends) → ${to}`)
     }
@@ -3294,6 +3350,7 @@ const ally = report.allies
 console.log(`  allies: ${ally.groups} allied contexts across the factions, ${ally.units} unit slots`)
 if (ally.empty.length) console.log(`    no unit resolved (skipped): ${ally.empty.join('; ')}`)
 for (const l of ally.narrowed) console.log(`    two rules for one group, kept the one written for this army — ${l}`)
+for (const l of ally.ratio) console.log(`    BATTLELINE ratio (non-BATTLELINE ≤ BATTLELINE per keyword) — ${l}`)
 for (const l of ally.missing.slice(0, 10)) console.log(`    unresolved allied datasheet — ${l}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)

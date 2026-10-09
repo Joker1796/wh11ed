@@ -543,12 +543,17 @@ describe('validateRoster — detachment tags', () => {
 describe('validateRoster — allegiance', () => {
   const vindicator = {
     id: 'chaos-vindicator', name: 'Chaos Vindicator', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 185, per: [1, 1], default: 1 }],
-    alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Khorne' }, { n: 'Nurgle' }] },
+    alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Khorne' }, { n: 'Nurgle' }, { n: 'Chaos Undivided' }] },
   }
   const lord = {
     id: 'chaos-lord', name: 'Chaos Lord', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 95, per: [1, 1], default: 1 }],
-    leads: [{ to: 'chaos-vindicator', type: 'leader' }],
+    leads: [{ to: 'chaos-vindicator', type: 'leader', reqDet: 'pz', allKw: ['Khorne', 'Nurgle', 'Chaos Undivided'] }, { to: 'chaos-vindicator', type: 'leader', exclDet: 'pz' }],
     alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Khorne' }, { n: 'Nurgle' }] },
+  }
+  // Printed with its mark, so it chooses none (a player's report, 2026-10-09).
+  const abaddon = {
+    id: 'abaddon', name: 'Abaddon the Despoiler', kws: ['Character', 'Epic Hero', 'Infantry', 'Chaos Undivided'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 280, per: [1, 1], default: 1 }],
+    leads: [{ to: 'chaos-vindicator', type: 'leader', reqDet: 'pz', allKw: ['Khorne', 'Nurgle', 'Chaos Undivided'] }, { to: 'chaos-vindicator', type: 'leader', exclDet: 'pz' }],
   }
   const rhino = {
     id: 'rhino', name: 'Rhino', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 75, per: [1, 1], default: 1 }],
@@ -556,7 +561,7 @@ describe('validateRoster — allegiance', () => {
   }
   const pactbound = { sid: 'pz', name: 'Pactbound Zealots', dp: 3, enhancements: [] }
   const headhunter = { sid: 'hh', name: 'Headhunter Task Force', dp: 3, enhancements: [] }
-  const f = { ...faction, units: [...faction.units, vindicator, lord, rhino], detachments: [pactbound, headhunter] }
+  const f = { ...faction, units: [...faction.units, vindicator, lord, rhino, abaddon], detachments: [pactbound, headhunter] }
   const codesOf = (units, dets) => validateRoster({ ...roster(), detachments: dets, units }, { faction: f, core }).issues
 
   it('reports a mark the rules require and the list does not state', () => {
@@ -620,6 +625,13 @@ describe('validateRoster — allegiance', () => {
     const leader = { ...U('chaos-lord'), uid: 'l1', alleg: 'Khorne', leaderOf: 'v1', warlord: true }
     const iss = codesOf([target, leader], ['Pactbound Zealots']).find((i) => i.code === 'allegMismatch')
     expect(iss.params).toMatchObject({ unit: 'Chaos Lord', own: 'Khorne', target: 'Chaos Vindicator', theirs: 'Nurgle' })
+  })
+
+  it('holds an Epic Hero to the mark it is printed with', () => {
+    const marked = (alleg) => codesOf([{ ...U('chaos-vindicator'), uid: 'v1', alleg }, { ...U('abaddon'), uid: 'a1', leaderOf: 'v1', warlord: true }], ['Pactbound Zealots'])
+      .find((i) => i.code === 'allegMismatch')
+    expect(marked('Nurgle').params).toMatchObject({ unit: 'Abaddon the Despoiler', own: 'Chaos Undivided', theirs: 'Nurgle' })
+    expect(marked('Chaos Undivided')).toBeUndefined()
   })
 })
 
@@ -1120,5 +1132,33 @@ describe('cross-group limits on one model', () => {
     expect(issuesOf(dg, 'death-guard', name, [[3, 0, 2]])).toHaveLength(1)
     expect(issuesOf(dg, 'death-guard', name, [[0, fist0, 1], [3, 0, 2]])).toHaveLength(0)
     expect(issuesOf(dg, 'death-guard', name, [[1, 0, 1], [3, 0, 1]])).toHaveLength(1)
+  })
+})
+
+// Daemonic Pact (a player's report, 2026-10-09): per keyword, the allied daemons WITHOUT Battleline
+// may not outnumber those with it. `ratio` is the generator's reading of that sentence.
+describe('validateRoster — the allies\' Battleline ratio', () => {
+  const lord = { id: 'chaos-lord', name: 'Chaos Lord', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 90, per: [1, 1], default: 1 }] }
+  const letters = { id: 'chaos-daemons:bloodletters', name: 'Bloodletters', kws: ['Battleline', 'Infantry', 'Daemon', 'Khorne'], flags: {}, sizes: [{ pts: 110, per: [10, 10], default: 1 }] }
+  const crushers = { id: 'chaos-daemons:bloodcrushers', name: 'Bloodcrushers', kws: ['Mounted', 'Daemon', 'Khorne'], flags: {}, sizes: [{ pts: 120, per: [3, 3], default: 1 }] }
+  const bearers = { id: 'chaos-daemons:plaguebearers', name: 'Plaguebearers', kws: ['Battleline', 'Infantry', 'Daemon', 'Nurgle'], flags: {}, sizes: [{ pts: 110, per: [10, 10], default: 1 }] }
+  const csm = {
+    slug: 'chaos-space-marines', units: [lord, letters, crushers, bearers], detachments: [detachment],
+    allies: [{ key: 'legiones-daemonica', name: 'Legiones Daemonica', ids: [letters.id, crushers.id, bearers.id], pts: { 'strike-force': 500 }, ratio: ['Khorne', 'Tzeentch', 'Nurgle', 'Slaanesh'] }],
+  }
+  const issues = (...ids) => validateRoster(roster({ faction: 'chaos-space-marines', units: [U('chaos-lord', { warlord: true }), ...ids.map((id) => U(id))] }), { faction: csm, core })
+    .issues.filter((i) => i.code === 'allyRatio')
+
+  it('accepts as many without Battleline as with it', () => {
+    expect(issues(letters.id, crushers.id)).toEqual([])
+  })
+
+  it('flags more without Battleline than with it, per keyword', () => {
+    const [iss] = issues(letters.id, crushers.id, crushers.id)
+    expect(iss.params).toMatchObject({ kw: 'Khorne', count: 2, limit: 1 })
+  })
+
+  it('does not let one god\'s Battleline cover another\'s', () => {
+    expect(issues(bearers.id, crushers.id).map((i) => i.params.kw)).toEqual(['Khorne'])
   })
 })

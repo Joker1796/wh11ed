@@ -2067,7 +2067,13 @@ export default {
         "incursion": 250,
         "strike-force": 500,
         "onslaught": 750
-      }
+      },
+      "ratio": [
+        "Khorne",
+        "Tzeentch",
+        "Nurgle",
+        "Slaanesh"
+      ]
     },
     {
       "key": "titanicus-traitoris",

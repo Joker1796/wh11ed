@@ -666,6 +666,12 @@ sentence every CROSS-FACTION allied rule ends with and which no table records: *
 models can be your WARLORD, and they cannot be given Enhancements"* (`allyWarlord`, `allyEnh`).
 **In-bundle groups are deliberately spared that pair** — Aeldari's Harlequins rule has no such
 clause, and Ynnari units are exactly what the Devoted of Ynnead Detachment's Enhancements are for.
+**`ratio`** (since 2026-10-09) is Daemonic Pact's second paragraph — per KHORNE/TZEENTCH/NURGLE/
+SLAANESH, the allied units without BATTLELINE may not outnumber those with it (`allyRatio`). No
+table holds it: the generator reads the sentence out of `rule_container_component`, finds its
+faction through `army_rule_faction_keyword`, and puts the rule's own keyword list on that faction's
+undetached, non-sibling allied group (Chaos Knights and Chaos Space Marines today). A sentence of
+that kind in other words stops the generator.
 `canTakeEnhancements` is appdata's own field (`enh`) and overrides the ban where it is set.
 
 **A detachment can bar another faction's datasheet.** `excludedUnits` ids are namespaced the same
@@ -1406,6 +1412,12 @@ show yet, or not; not ours to guess.
   `new Map()` (last wins) — two entries for one target would resolve to different types.
   Dropping the enhancement afterwards leaves the now-illegal attachment in place and lets
   `validateRoster` warn about it, rather than silently rewriting the roster.
+  A lead can also carry **`allKw`** — appdata's `requiresAllUnitsHaveKeywordId`: the leader AND the
+  unit must share one of these keywords (Pactbound Zealots, 300 groups folded to one lead per
+  target). `sharedKeywordClash()` checks it for the picker and `allegMismatch`, counting a printed
+  keyword (Abaddon's CHAOS UNDIVIDED) as much as a chosen mark; a unit still owing its mandatory
+  mark is not judged yet. The generator stops on any bodyguard-group field it does not read
+  (`BG_FIELDS`) — this one was dropped silently until 2026-10-09.
   A lead can also carry **`reqDet`/`exclDet`** — a detachment uuid, matched against the `sid` on the
   roster's detachment objects. 59 leads carry each today, all Chaos Space Marines, where appdata
   states the same Pactbound Zealots attachments twice (once required-inside, once excluded-outside):

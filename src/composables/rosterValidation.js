@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn } from './rosterEngine.js'
+import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash } from './rosterEngine.js'
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -275,19 +275,17 @@ export function validateRoster(roster, { faction, core, items } = {}) {
       if (min && spent < min) add('allegUnderLimit', 'error', { params: { group: t, count: spent, limit: min } })
     }
 
-    // "A Character unit can only be attached to a unit if both units share the same keyword" —
-    // the restriction printed in the Marks of Chaos detachment rule. Scoped to that group by key,
-    // because it is that rule's own wording, not a property of allegiances in general: the
-    // CHARACTER-granting upgrades carry no such clause.
+    // "A CHARACTER unit can only be attached to a unit if both units share the same keyword" —
+    // Pactbound Zealots, as appdata states it on the attachment (sharedKeywordClash): a printed
+    // keyword counts as much as a chosen mark, so an Epic Hero's CHAOS UNDIVIDED is held to it too.
     for (const u of units) {
-      if (!u.leaderOf || !u.alleg) continue
-      const own = allegFor(defOf(u.id), detachments)
-      if (own?.g !== 'mark-of-chaos') continue
+      if (!u.leaderOf) continue
       const target = units.find((x) => x.uid === u.leaderOf)
-      if (!target?.alleg || target.alleg === u.alleg) continue
+      const clash = target && sharedKeywordClash(defOf(u.id), u, defOf(target.id), target, detachments)
+      if (!clash) continue
       add('allegMismatch', 'error', {
         uid: u.uid,
-        params: { own: u.alleg, target: nameOf(target.uid) || defOf(target.id)?.name, theirs: target.alleg },
+        params: { own: clash.own, target: nameOf(target.uid) || defOf(target.id)?.name, theirs: clash.theirs },
       })
     }
   }
@@ -521,6 +519,19 @@ export function validateRoster(roster, { faction, core, items } = {}) {
         if (n > cap) add('allyOverLimit', 'error', { params: { group: g.name, kw, count: n, limit: cap } })
       }
       if (g.mutex && used.length > 1) add('allyMutex', 'error', { params: { group: g.name, kws: used.join(', ') } })
+      // Daemonic Pact: per keyword, the allies WITHOUT Battleline may not outnumber those with it
+      // ("the number of non-BATTLELINE units with that keyword … cannot be greater than the number
+      // of BATTLELINE units with that keyword"). `ratio` is read from that sentence by the
+      // generator; until 2026-10-09 nothing counted it (a player's report).
+      for (const kw of g.ratio || []) {
+        const withKw = list.filter((u) => hasKeyword(defOf(u.id), kw))
+        const line = withKw.filter((u) => {
+          const def = defOf(u.id)
+          return hasKeyword(def, 'Battleline') || isBattlelineNow(def, faction?.slug ? grantedKeywordsFor(def?.id, faction.slug, detachments).map((x) => x.kw) : null)
+        }).length
+        const other = withKw.length - line
+        if (other > line) add('allyRatio', 'error', { params: { group: g.name, kw, count: other, limit: line } })
+      }
       if (!cross.length) continue
       for (const u of cross) {
         if (u.warlord) add('allyWarlord', 'error', { uid: u.uid })

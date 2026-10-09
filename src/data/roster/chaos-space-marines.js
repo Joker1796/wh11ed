@@ -36,7 +36,14 @@ export default {
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Khorne",
+            "Tzeentch",
+            "Chaos Undivided",
+            "Nurgle"
+          ]
         },
         {
           "to": "chosen",
@@ -51,7 +58,14 @@ export default {
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Chaos Undivided",
+            "Slaanesh",
+            "Nurgle",
+            "Tzeentch"
+          ]
         }
       ],
       "defaults": [
@@ -763,12 +777,26 @@ export default {
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Slaanesh",
+            "Tzeentch",
+            "Nurgle",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Khorne",
+            "Nurgle",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
@@ -778,7 +806,14 @@ export default {
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Tzeentch",
+            "Nurgle",
+            "Chaos Undivided",
+            "Khorne"
+          ]
         },
         {
           "to": "chosen",
@@ -788,7 +823,14 @@ export default {
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Chaos Undivided",
+            "Khorne",
+            "Tzeentch",
+            "Nurgle"
+          ]
         },
         {
           "to": "legionaries",
@@ -901,7 +943,14 @@ export default {
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Nurgle",
+            "Khorne"
+          ]
         },
         {
           "to": "chaos-terminator-squad",
@@ -1663,7 +1712,14 @@ export default {
         {
           "to": "raptors",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Khorne",
+            "Chaos Undivided",
+            "Nurgle",
+            "Tzeentch"
+          ]
         },
         {
           "to": "raptors",
@@ -2824,12 +2880,26 @@ export default {
         {
           "to": "cultist-mob",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Slaanesh",
+            "Nurgle"
+          ]
         },
         {
           "to": "accursed-cultists",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Slaanesh",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Nurgle"
+          ]
         },
         {
           "to": "cultist-mob",
@@ -3310,22 +3380,50 @@ export default {
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Nurgle",
+            "Khorne"
+          ]
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Slaanesh",
+            "Khorne",
+            "Chaos Undivided",
+            "Tzeentch"
+          ]
         },
         {
           "to": "cultist-mob",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Slaanesh",
+            "Chaos Undivided",
+            "Khorne",
+            "Tzeentch"
+          ]
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Nurgle",
+            "Tzeentch",
+            "Chaos Undivided",
+            "Khorne"
+          ]
         },
         {
           "to": "cultist-mob",
@@ -3345,12 +3443,26 @@ export default {
         {
           "to": "accursed-cultists",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Tzeentch",
+            "Khorne",
+            "Slaanesh",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Chaos Undivided",
+            "Slaanesh",
+            "Tzeentch",
+            "Nurgle"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
@@ -3475,12 +3587,26 @@ export default {
         {
           "to": "accursed-cultists",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Tzeentch",
+            "Slaanesh",
+            "Chaos Undivided",
+            "Khorne"
+          ]
         },
         {
           "to": "cultist-mob",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Slaanesh",
+            "Chaos Undivided",
+            "Khorne",
+            "Tzeentch"
+          ]
         },
         {
           "to": "accursed-cultists",
@@ -4021,22 +4147,50 @@ export default {
         {
           "to": "accursed-cultists",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Tzeentch",
+            "Khorne",
+            "Slaanesh",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Tzeentch",
+            "Nurgle",
+            "Chaos Undivided",
+            "Slaanesh"
+          ]
         },
         {
           "to": "cultist-mob",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Tzeentch",
+            "Nurgle",
+            "Slaanesh",
+            "Khorne",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Slaanesh",
+            "Tzeentch",
+            "Nurgle",
+            "Khorne"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
@@ -4046,7 +4200,14 @@ export default {
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Tzeentch",
+            "Nurgle",
+            "Chaos Undivided",
+            "Slaanesh"
+          ]
         },
         {
           "to": "cultist-mob",
@@ -4559,7 +4720,14 @@ export default {
         {
           "to": "raptors",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Tzeentch",
+            "Nurgle",
+            "Slaanesh",
+            "Khorne",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "raptors",
@@ -5285,12 +5453,26 @@ export default {
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch"
+          ]
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Khorne",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Nurgle"
+          ]
         },
         {
           "to": "legionaries",
@@ -5300,12 +5482,26 @@ export default {
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Nurgle",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Khorne"
+          ]
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Slaanesh",
+            "Nurgle",
+            "Tzeentch",
+            "Khorne"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
@@ -5520,12 +5716,26 @@ export default {
         {
           "to": "mutilators",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Slaanesh",
+            "Tzeentch",
+            "Khorne"
+          ]
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Slaanesh",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Nurgle"
+          ]
         },
         {
           "to": "obliterators",
@@ -5535,7 +5745,14 @@ export default {
         {
           "to": "obliterators",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Khorne",
+            "Slaanesh",
+            "Chaos Undivided",
+            "Tzeentch"
+          ]
         },
         {
           "to": "chaos-terminator-squad",
@@ -6110,22 +6327,50 @@ export default {
         {
           "to": "chosen",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Tzeentch",
+            "Khorne",
+            "Slaanesh",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "legionaries",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Slaanesh",
+            "Tzeentch",
+            "Khorne"
+          ]
         },
         {
           "to": "nemesis-claw",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Slaanesh",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Khorne"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Slaanesh",
+            "Tzeentch",
+            "Chaos Undivided",
+            "Khorne"
+          ]
         },
         {
           "to": "chosen",
@@ -6213,17 +6458,38 @@ export default {
         {
           "to": "possessed",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Slaanesh",
+            "Khorne",
+            "Nurgle",
+            "Tzeentch"
+          ]
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Khorne",
+            "Nurgle",
+            "Chaos Undivided",
+            "Tzeentch"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Tzeentch",
+            "Nurgle",
+            "Slaanesh",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "nemesis-claw",
@@ -6233,12 +6499,26 @@ export default {
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Slaanesh",
+            "Nurgle",
+            "Chaos Undivided",
+            "Tzeentch"
+          ]
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Chaos Undivided",
+            "Nurgle",
+            "Tzeentch",
+            "Khorne"
+          ]
         },
         {
           "to": "legionaries",
@@ -6334,7 +6614,14 @@ export default {
         {
           "to": "legionaries",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Chaos Undivided",
+            "Tzeentch",
+            "Slaanesh",
+            "Nurgle"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
@@ -6344,12 +6631,26 @@ export default {
         {
           "to": "red-corsairs-raiders",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Tzeentch",
+            "Nurgle",
+            "Khorne",
+            "Slaanesh",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "chosen",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Tzeentch",
+            "Slaanesh",
+            "Nurgle",
+            "Khorne"
+          ]
         },
         {
           "to": "chosen",
@@ -7745,22 +8046,50 @@ export default {
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Slaanesh",
+            "Nurgle",
+            "Tzeentch",
+            "Khorne"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Tzeentch",
+            "Chaos Undivided",
+            "Khorne",
+            "Nurgle"
+          ]
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Tzeentch",
+            "Chaos Undivided",
+            "Slaanesh",
+            "Khorne"
+          ]
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Khorne",
+            "Chaos Undivided",
+            "Slaanesh",
+            "Tzeentch"
+          ]
         },
         {
           "to": "legionaries",
@@ -8357,17 +8686,38 @@ export default {
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Chaos Undivided",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Slaanesh",
+            "Chaos Undivided",
+            "Khorne",
+            "Tzeentch"
+          ]
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Khorne",
+            "Nurgle",
+            "Chaos Undivided",
+            "Tzeentch"
+          ]
         },
         {
           "to": "nemesis-claw",
@@ -8387,7 +8737,14 @@ export default {
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Tzeentch",
+            "Chaos Undivided",
+            "Khorne",
+            "Nurgle",
+            "Slaanesh"
+          ]
         },
         {
           "to": "chosen",
@@ -8465,7 +8822,14 @@ export default {
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Chaos Undivided",
+            "Slaanesh",
+            "Tzeentch",
+            "Nurgle"
+          ]
         },
         {
           "to": "chaos-terminator-squad",
@@ -8974,7 +9338,14 @@ export default {
         {
           "to": "traitor-guardsmen-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Slaanesh",
+            "Tzeentch",
+            "Khorne"
+          ]
         },
         {
           "to": "traitor-guardsmen-squad",
@@ -9443,22 +9814,50 @@ export default {
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Tzeentch",
+            "Nurgle",
+            "Slaanesh",
+            "Khorne",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Nurgle",
+            "Chaos Undivided",
+            "Slaanesh",
+            "Tzeentch"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Slaanesh",
+            "Tzeentch",
+            "Khorne",
+            "Nurgle",
+            "Chaos Undivided"
+          ]
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Khorne",
+            "Chaos Undivided",
+            "Slaanesh",
+            "Nurgle",
+            "Tzeentch"
+          ]
         },
         {
           "to": "havocs",
@@ -9473,7 +9872,14 @@ export default {
         {
           "to": "havocs",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Nurgle",
+            "Tzeentch",
+            "Chaos Undivided",
+            "Slaanesh",
+            "Khorne"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
@@ -10696,7 +11102,13 @@ export default {
         "incursion": 250,
         "strike-force": 500,
         "onslaught": 750
-      }
+      },
+      "ratio": [
+        "Khorne",
+        "Tzeentch",
+        "Nurgle",
+        "Slaanesh"
+      ]
     },
     {
       "key": "titanicus-traitoris",

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1651,12 +1651,21 @@ describe('attaching under Marks of Chaos', () => {
   // "A Character unit can only be attached to a unit if both units share the same keyword."
   const sorcerer = {
     id: 'sorcerer', name: 'Sorcerer', kws: ['Character', 'Psyker'], flags: { char: 1 }, sizes: [{ pts: 70, per: [1, 1] }],
-    leads: [{ to: 'chaos-marines', type: 'leader' }],
+    // As the generator writes it from appdata: inside the detachment, one of the marks shared.
+    leads: [{ to: 'chaos-marines', type: 'leader', reqDet: 'pz', allKw: ['Khorne', 'Tzeentch', 'Nurgle', 'Slaanesh', 'Chaos Undivided'] }, { to: 'chaos-marines', type: 'leader', exclDet: 'pz' }],
     alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Tzeentch' }, { n: 'Nurgle' }] },
   }
-  const squad = { id: 'chaos-marines', name: 'Legionaries', kws: ['Infantry'], flags: {}, sizes: [{ pts: 90, per: [5, 5] }] }
-  const dets = [{ name: 'Pactbound Zealots', dp: 3, enhancements: [] }]
-  const defOf = (id) => (id === 'sorcerer' ? sorcerer : squad)
+  const squad = {
+    id: 'chaos-marines', name: 'Legionaries', kws: ['Infantry'], flags: {}, sizes: [{ pts: 90, per: [5, 5] }],
+    alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Tzeentch' }, { n: 'Nurgle' }, { n: 'Chaos Undivided' }] },
+  }
+  // An Epic Hero chooses no mark: it is printed with one.
+  const abaddon = {
+    id: 'abaddon', name: 'Abaddon the Despoiler', kws: ['Character', 'Epic Hero', 'Chaos Undivided'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 280, per: [1, 1] }],
+    leads: [{ to: 'chaos-marines', type: 'leader', reqDet: 'pz', allKw: ['Khorne', 'Tzeentch', 'Nurgle', 'Slaanesh', 'Chaos Undivided'] }, { to: 'chaos-marines', type: 'leader', exclDet: 'pz' }],
+  }
+  const dets = [{ sid: 'pz', name: 'Pactbound Zealots', dp: 3, enhancements: [] }]
+  const defOf = (id) => ({ sorcerer, abaddon }[id] || squad)
 
   const targets = (own, theirs) => leaderTargetsFor(
     sorcerer,
@@ -1674,6 +1683,25 @@ describe('attaching under Marks of Chaos', () => {
 
   it('still offers a squad that hasn\'t chosen yet — marks are picked in any order', () => {
     expect(targets('Nurgle', null)).toEqual(['them'])
+  })
+
+  // A player's report (2026-10-09): Abaddon joined a squad of any mark.
+  const epicTargets = (theirs, dets2 = dets) => leaderTargetsFor(
+    abaddon, [{ uid: 'me', id: 'abaddon' }, { uid: 'them', id: 'chaos-marines', alleg: theirs }], 'me', defOf, dets2,
+  ).map((t) => t.uid)
+
+  it('holds an Epic Hero to the mark it is printed with', () => {
+    expect(epicTargets('Chaos Undivided')).toEqual(['them'])
+    expect(epicTargets('Nurgle')).toEqual([])
+  })
+
+  it('lets it join anyone outside the detachment', () => {
+    expect(epicTargets('Nurgle', [{ sid: 'vlw', name: 'Veterans of the Long War', dp: 3, enhancements: [] }])).toEqual(['them'])
+  })
+
+  it('names what each side has', () => {
+    expect(sharedKeywordClash(abaddon, {}, squad, { alleg: 'Nurgle' }, dets)).toEqual({ own: 'Chaos Undivided', theirs: 'Nurgle' })
+    expect(sharedKeywordClash(abaddon, {}, squad, {}, dets)).toBeNull() // the squad owes its mark yet
   })
 })
 
