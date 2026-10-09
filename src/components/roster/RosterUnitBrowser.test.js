@@ -32,6 +32,23 @@ describe('RosterUnitBrowser', () => {
     expect(w.text()).not.toContain('Alpha Battleline')
   })
 
+  // A search opens every group with a match, but a tap on a header must still close it — it used
+  // to do nothing while the box had text (a player's report, 2026-10-09). A new query opens all
+  // again.
+  it('closes a group on a tap while searching, and opens it again for a new query', async () => {
+    const w = mountBrowser()
+    await w.find('.rub-search').setValue('a')
+    const head = () => w.findAll('.rub-head')[0]
+    expect(head().attributes('aria-expanded')).toBe('true')
+    await head().trigger('click')
+    expect(head().attributes('aria-expanded')).toBe('false')
+    await head().trigger('click')
+    expect(head().attributes('aria-expanded')).toBe('true')
+    await head().trigger('click')
+    await w.find('.rub-search').setValue('al')
+    expect(head().attributes('aria-expanded')).toBe('true')
+  })
+
   it('shows the cheapest bracket as the listed price', () => {
     const w = mountBrowser()
     const row = w.findAll('.rub-item').find((r) => r.text().includes('Echo Other'))

@@ -273,15 +273,21 @@ defineEmits(['add', 'open-rules'])
 
 // Groups start collapsed (same pattern as StratagemsView's per-phase accordions) — the list
 // runs to 90+ units, so a fully-open browser is a wall of rows to scroll past. While the
-// search box has a query, every group with a match force-opens (so results are never hidden
-// behind a collapsed header) regardless of its manual toggle state.
+// search box has a query, every group with a match opens by itself, so results are never hidden
+// behind a header — but a tap still closes one: the search keeps its own set of closed groups,
+// apart from the open ones without it. Until 2026-10-09 the query forced every group open and a
+// tap on a header did nothing (a player's report). A new query opens them all again: its results
+// are new.
 const openGroups = ref(new Set())
+const closedInSearch = ref(new Set())
+const searching = () => !!query.value.trim()
 function toggleGroup(id) {
-  const next = new Set(openGroups.value)
+  const set = searching() ? closedInSearch : openGroups
+  const next = new Set(set.value)
   next.has(id) ? next.delete(id) : next.add(id)
-  openGroups.value = next
+  set.value = next
 }
-function isOpen(id) { return !!query.value.trim() || openGroups.value.has(id) }
+function isOpen(id) { return searching() ? !closedInSearch.value.has(id) : openGroups.value.has(id) }
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -293,6 +299,7 @@ const { isOwned } = useCollection()
 // obvious opening move; it is now one pane of the build screen, which opens showing the list
 // beside it — popping the keyboard there covers the very thing the reader came to look at.
 const query = ref('')
+watch(query, () => { if (closedInSearch.value.size) closedInSearch.value = new Set() })
 
 // Search only. The toggles below narrow this further; the two stay apart so the "N hidden" note
 // can compare them and say how much the toggles — not the typing — took away. A unit is found by
