@@ -207,30 +207,6 @@ export const changelog = [
       '«Закрыть лобби» теперь отменяет совместную игру целиком. Подключившиеся игроки выходят, настройка не сохраняется.',
     ],
   },
-  {
-version: '2.7.15',
-    date: '2026-10-05',
-    en: [
-      { h: 'Space Marines detachments' },
-      'The pages of Deathwatch, Blood Angels, Dark Angels, Space Wolves and Black Templars now have the Space Marines detachments. Before, they had only the Chapter’s own.',
-      'Detachment lists show the army’s own detachments first, then the Space Marines ones. This is the same on faction pages, in the roster builder and in the tracker.',
-      'A Deathwatch list can no longer take Deathwatch Support. By the rules, only the Space Marines and the other Chapters can take it. Its rules are still on the Deathwatch page.',
-      { h: 'Roster builder' },
-      'The points you have left are now shown under the total. You can turn this off in the roster settings.',
-      { h: 'Colours' },
-      'I worked on the colours. Grey captions are easier to read in both themes. A faction’s colour in text is a little darker. Buttons in the dark theme are a little darker too.',
-    ],
-    ru: [
-      { h: 'Детачменты Space Marines' },
-      'На страницах Deathwatch, Blood Angels, Dark Angels, Space Wolves и Black Templars теперь есть детачменты Space Marines. Раньше там были только детачменты самого ордена.',
-      'В списках детачментов сначала идут детачменты армии, потом детачменты Space Marines. Так на страницах фракций, в конструкторе ростеров и в трекере.',
-      'В список Deathwatch больше нельзя взять Deathwatch Support. По правилам его берут только Space Marines и другие ордены. Его правила по-прежнему есть на странице Deathwatch.',
-      { h: 'Конструктор ростеров' },
-      'Под итогом очков теперь видно, сколько очков осталось. Это можно выключить в настройках ростера.',
-      { h: 'Цвета' },
-      'Я поработал над цветами. Серые подписи стало легче читать в обеих темах. Цвет фракции в тексте стал чуть темнее. Кнопки в тёмной теме тоже стали чуть темнее.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
