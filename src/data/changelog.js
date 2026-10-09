@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.7.21',
+    date: '2026-10-10',
+    en: [
+      { h: 'Roster builder' },
+      'A Support unit that is not attached to any unit now shows an error. By the rules each Support unit must be attached to a unit.',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      'Юнит Support, который ни к кому не присоединён, теперь отмечен ошибкой. По правилам каждый Support должен быть присоединён к отряду.',
+    ],
+  },
+  {
     version: '2.7.20',
     date: '2026-10-09',
     en: [

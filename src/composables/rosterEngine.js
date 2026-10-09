@@ -822,6 +822,19 @@ export function sharedKeywordClash(def, entry, targetDef, targetEntry, detachmen
   return { own: list(def, entry), theirs: list(targetDef, targetEntry) }
 }
 
+// A Support unit — one its datasheet lets join a bodyguard unit ONLY as Support (core 24.34). Core
+// 25.04: "Each support unit in your roster must be attached to a bodyguard unit" (rosterValidation's
+// supportUnattached). Every attachment, not any: Cato Sicarius joins Victrix Honour Guard as Support
+// through his own Captain of the Honour Guard, but his core ability is Leader, and a Leader may stand
+// alone — the only unit in the data with both kinds (2026-10-09). Checked against appdata that day:
+// the 46 datasheets printing Support, plus nine more that are rightly held to it — seven Faction Pack
+// Legends whose PDF prints Support (appdata carries no Legends), and the Ogryn Bodyguard and Nork
+// Deddog, whose own Loyal Protector rule says they "must join one COMMAND SQUAD unit".
+export function isSupportUnit(def) {
+  const types = [...(def?.leads || []), ...(def?.leadKw || [])].map((l) => l.type)
+  return types.length > 0 && types.every((t) => t === 'support')
+}
+
 export function leadTypeFor(def, entry, targetDef, detachments = []) {
   if (!def || !targetDef) return null
   const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)

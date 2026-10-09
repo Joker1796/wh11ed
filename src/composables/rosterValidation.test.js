@@ -1162,3 +1162,28 @@ describe('validateRoster — the allies\' Battleline ratio', () => {
     expect(issues(bearers.id, crushers.id).map((i) => i.params.kw)).toEqual(['Khorne'])
   })
 })
+
+// Core 25.04: "Each support unit in your roster must be attached to a bodyguard unit."
+describe('validateRoster — a Support unit on its own', () => {
+  const squad = { id: 'squad', name: 'Intercessor Squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }] }
+  const apo = { id: 'apo', name: 'Apothecary Biologis', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 70, per: [1, 1], default: 1 }], leads: [{ to: 'squad', type: 'support' }] }
+  const cap = { id: 'cap', name: 'Captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 80, per: [1, 1], default: 1 }], leads: [{ to: 'squad', type: 'leader' }] }
+  // Cato Sicarius: a Leader whose own ability also lets him join Victrix Honour Guard as Support.
+  const cato = { id: 'cato', name: 'Cato Sicarius', kws: ['Character', 'Infantry'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }], leads: [{ to: 'squad', type: 'leader' }, { to: 'squad', type: 'support' }] }
+  const sf = { ...faction, units: [squad, apo, cap, cato] }
+  const unattached = (units) => validateRoster(roster({ units }), { faction: sf, core }).issues.filter((i) => i.code === 'supportUnattached')
+
+  it('flags a Support unit attached to nothing', () => {
+    const [iss] = unattached([U('cap', { warlord: true }), U('squad'), U('apo', { uid: 'a1' })])
+    expect(iss).toMatchObject({ uid: 'a1', level: 'error', params: { unit: 'Apothecary Biologis' } })
+  })
+
+  it('accepts it once attached', () => {
+    const s = U('squad', { uid: 's1' })
+    expect(unattached([U('cap', { warlord: true }), s, U('apo', { leaderOf: 's1' })])).toEqual([])
+  })
+
+  it('lets a Leader stand alone, Cato Sicarius included', () => {
+    expect(unattached([U('cap', { warlord: true }), U('cato'), U('squad')])).toEqual([])
+  })
+})
