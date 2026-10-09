@@ -249,6 +249,10 @@ const cardStyle = computed(() => {
 .tour-text { margin: 0 0 0.8rem; font-size: 0.92rem; line-height: 1.45; }
 .tour-actions { display: flex; gap: 0.5rem; align-items: center; }
 .tour-skip { margin-right: auto; }
+/* The three buttons share the card's width: at their own 1.3rem sides "Пропустить / Назад /
+   Далее" stood out past a 360px phone's card (owner, 2026-10-09; 42px at 320) and ate the desk
+   card's inner margin. Measured: with 0.7rem sides they fit in RU from 320px and on the desk. */
+.tour-actions > button { padding-left: 0.7rem; padding-right: 0.7rem; }
 .tour-fade-enter-active, .tour-fade-leave-active { transition: opacity var(--motion-med) ease; }
 .tour-fade-enter-from, .tour-fade-leave-to { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
