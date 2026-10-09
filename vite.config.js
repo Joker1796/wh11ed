@@ -38,9 +38,10 @@ const APP_NAME = BETA ? 'WH Rules Beta' : 'WH Rules'
 // folder rather than renamed files: the new path is what makes browsers, the CDN and Android's
 // installed icon drop the old pictures, which had the same names.
 const BRAND = BETA ? 'beta' : 'main'
-// `beta-2`: the beta's icons say BETA under the WH since 2026-10-09 (owner) — a new folder for the
-// same reason as above: a changed picture needs a new path.
-const BRAND_DIR = `brand/${BRAND === 'beta' ? 'beta-2' : BRAND}`
+// `-2` (2026-10-09, owner): the icons are one centred block — WH over a plain bar as wide as the
+// letters, BETA between them on the beta — and the launch screens are balanced the same way. A new
+// folder for the same reason as above: a changed picture needs a new path.
+const BRAND_DIR = `brand/${BRAND}-2`
 
 // Replace the %SITE_ORIGIN% placeholder in index.html at build time. Not Vite's built-in
 // %VITE_*% mechanism, so we control the fallback (a bare `npm run build` with no env still emits
