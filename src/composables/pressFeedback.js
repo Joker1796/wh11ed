@@ -42,6 +42,10 @@ const WOBBLE = [
 
 const held = new WeakMap() // button → { target, anim, pop, down }
 const lastRelease = new WeakMap() // button → when it was last let go (see the click handler)
+// A finger held this long without moving is pressing, not starting a scroll; one that moves more
+// than SLOP_PX first is scrolling (a browser takes a pan from about 10px of travel).
+const SURE_MS = 100
+const SLOP_PX = 10
 
 const boxOf = (el) => el.querySelector('input[type="checkbox"]')
 const isPop = (el) => el.dataset.press === 'pop' || !!boxOf(el)
@@ -102,23 +106,42 @@ export function installPressFeedback(root = document) {
     // The click sounds with the sink and with the rise (pressSound.js, off unless switched on) —
     // even where reduced motion leaves nothing to animate, so it does not hang off press(). How
     // long the finger held is the sound's to judge: a quick tap rises silently.
-    pressSound(el, 0)
+    // A finger on a list may be starting a scroll, and every unit card under it clicked as the list
+    // moved (owner, 2026-10-09). So under a finger the press is heard once it is one: at the let-go
+    // of a tap, or after SURE_MS of a finger held still — and never for a finger that moved off or
+    // turned into a scroll. A mouse is heard at once: it does not scroll by dragging.
+    const touch = e.pointerType !== 'mouse'
+    let sounded = false
+    const sound = () => { if (!sounded) { sounded = true; pressSound(el, 0) } }
+    let sure = null
+    if (touch) sure = setTimeout(sound, SURE_MS)
+    else sound()
+    const x0 = e.clientX
+    const y0 = e.clientY
     const downAt = e.timeStamp
     press(el)
     const up = (ev) => done(true, ev)
     const off = (ev) => done(false, ev)
+    const moved = (ev) => { if (Math.hypot(ev.clientX - x0, ev.clientY - y0) > SLOP_PX) clearTimeout(sure) }
     const done = (letGo, ev) => {
+      clearTimeout(sure)
       el.removeEventListener('pointerup', up)
       el.removeEventListener('pointerleave', off)
       el.removeEventListener('pointercancel', off)
-      // The events' own times, not now: the first touch also starts the audio, and a handler run
-      // late made a quick tap look held.
-      pressSound(el, 1, { held: ev.timeStamp - downAt })
+      el.removeEventListener('pointermove', moved)
+      // A press that was not let go on the button (slid off, became a scroll) did nothing: silent.
+      if (letGo) {
+        sound()
+        // The events' own times, not now: the first touch also starts the audio, and a handler
+        // run late made a quick tap look held.
+        pressSound(el, 1, { held: ev.timeStamp - downAt })
+      }
       release(el, letGo)
     }
     el.addEventListener('pointerup', up)
     el.addEventListener('pointerleave', off)
     el.addEventListener('pointercancel', off)
+    if (touch) el.addEventListener('pointermove', moved)
   })
   // Enter / Space: no pointer went down, so a pop plays whole (a plain press has nothing to show).
   // A tap on a checkbox row's text makes the browser click the box as well, and that forwarded
