@@ -54,24 +54,40 @@ export const help = {
         body: `**Rosters** builds a list against the points from the current Munitorum Field Manual: pick units, wargear, leaders and enhancements, and the running total and the rules limits are checked as you go.
 ▪ **Already have a list elsewhere?** "Import" reads the text export from the Warhammer 40,000 app, from listhammer.info (with wargear or without) and from New Recruit (WTC and WTC-Compact). Everything we could not match is listed instead of silently dropped.
 ▪ **Allies** are there too: Agents of the Imperium in an Imperium army, a Knight or a Titan, Daemons with Chaos Space Marines, Brood Brothers in a Genestealer Cults list. They get their own section, cost what they cost as allies, and their limits — how many, how many points, which detachment unlocks them — are checked like everything else.
-▪ **Export** writes the list back out in four shapes: the GW app's own format, WTC, WTC-Compact, and a short one for a chat.
-▪ **Share** turns a list into a link. The list travels inside the link itself, so it never reaches a server, and whoever opens it needs no account.
-▪ **Print it.** The printer button on a saved list opens a page that is the document itself: a one-sheet summary — the list, the army and detachment rules, the stratagems a line each — or the whole booklet with a card per unit, and a set of checkboxes between the two. It says how many sheets it will be as you tick them.
-▪ A finished list can be handed to the tracker, and then its rules — auras, stratagems, states like Battle-shocked — are shown on the unit cards during the game.`,
+▪ **Export** is in a list's ⋮ menu. It writes the list out in five formats: the GW app's, WTC, WTC-Compact, Discord and plain.
+▪ **To share a list**, press "Copy share link" in the same window. The list travels inside the link, so it never reaches a server. Whoever opens it needs no account.
+▪ **To print**, pick "Print" in the ⋮ menu. You get a one-sheet summary or a full booklet with a card per unit, and checkboxes in between. The page says how many sheets it will take.
+▪ **To play with a list**, pick "Start a game with this list" in its ⋮ menu. The tracker's setup opens with the faction, the detachments and the list already in. During the game the list's rules — auras, stratagems, states like Battle-shocked — show on the unit cards.`,
       },
       {
         id: 'help-tracker',
         title: 'Tracking a game',
         to: '/tracker',
         toLabel: 'Open the tracker',
-        body: `The tracker keeps score for both players: the mission and its secondaries, command points, and the per-round totals with a running Battle Points result.
-▪ Start a game, and the app remembers it — closing the tab or losing signal mid-game changes nothing.
-▪ **Not everything has to be tracked.** The last step of the setup — and the ⚙ Setup button during the game — lists the aids the app will keep alongside the missions: command points, each side's army rule, the turn-and-phase clock and its reminder of what applies in the phase you are in, and, with an army list attached, how much of that list's own rules it should follow — stratagems spent, auras, unit states, the sets you pick one option of each round. Turning one off only hides it: what it had recorded stays and comes back with it, and a rule that goes unclaimed is still printed on the card with the condition it is waiting for. Every row carries an "i" saying what it costs you.
-▪ Finished games go to the history, where you can look back at how the score was made.
-▪ Enough of them and the **statistics** page builds itself: win rate, average score, how you do on the play and on the receive, which factions beat you and which secondary cards actually pay. Under five games it shows counts rather than percentages, because three games are not a percentage.
-▪ Sign in — the account button in the top bar, or the ⚙ menu on a phone — and the history and your army lists keep themselves in step across your devices: nothing to press, and a new phone starts where the old one left off.
-▪ **Setting up together.** "Play together" on the first step of the setup opens a lobby: the others join by link, QR or a six-digit code — the "Shared game" button on the tracker page asks which of the two you want — and fill in their own side from their own phone (name, faction, detachments, their army list), then press Done. Nothing leaves a phone before that. You keep the mission, the battlefield, who goes first and what the app tracks, and you start the game when the other side is in. A side is filled in by ONE phone — the first to join it — and that phone can hand the right to its partner; the other sees a waiting screen. While you are still on the armies step a guest can change their side freely; once you have moved on, they ask and you answer.
-▪ **One game, several phones.** The people icon beside the game controls shares the game you are playing: the others join by link, QR or a six-digit code — "Join a shared game" on the tracker page — pick who they are, and each scores their own side, while the board is the same for everyone within a few seconds. Only the host needs an account. The other side's card is on your screen, greyed: you see it — their list, their army rule's text — and they score it; that holds for the host too, until the host frees their seat in the sharing dialog — or ticks "Score both sides from this phone" there, for a guest who joined to watch. The gear on a joined phone sets only what this phone shows, such as the opponent's army-rule card. Losing signal changes nothing — play on, the phones catch up; the dot on the round bar says where the sync stands. When the game ends, everyone keeps it in their own history.`,
+        body: `The tracker keeps score for both players: the primary and secondary missions, command points, and the totals by round with a running Battle Points result.
+▪ The game in progress is remembered. Closing the tab or losing signal mid-game changes nothing.
+**What to track**
+▪ The last step of the setup lists what the app keeps beside the missions: command points, each side's army rule, the turn-and-phase clock and what applies in the current phase. With an army list attached, it also asks how closely to follow the list's own rules: stratagems spent, auras, unit states.
+▪ During the game the same list is under the "Setup" button.
+▪ Turning a row off only hides it. What it recorded stays and comes back with it.
+▪ Every row has an "i" that says what it does.
+**History and statistics**
+▪ A finished game goes to the history. Tap it to see how the score was made, or to resume it.
+▪ The **statistics** page builds itself from the history: win rate, average score, going first and second, which factions beat you, which secondary cards pay. Under five games it shows counts, not percentages.
+▪ Sign in from the ⚙ menu, and the history and your lists are the same on all your devices. There is nothing to press: a new phone starts where the old one left off.
+**Setting a game up together**
+▪ On the tracker page press "Shared game", then "Start a new one". Choose the game type and press "Open the lobby". Only you need an account.
+▪ The others press "Shared game", then "Join a game", and enter the code — or open your link or QR code.
+▪ Each guest fills in their own side on their device: name, faction, detachments, list. Then they press "Done". Nothing leaves their phone before that.
+▪ You choose the mission, the battlefield, who goes first and what to track. You start the game once the other side is in.
+▪ A side is filled in by one phone: the first to join it. It can hand the right over to a partner.
+▪ While you are on the armies step, a guest changes their side freely. Once you have moved on, they ask, and you answer.
+**One game, several phones**
+▪ A game already running is shared from the people icon beside the game's buttons. The others join the same way, by code, link or QR, and pick their side.
+▪ Each phone scores its own side. The board is the same on every phone within a few seconds.
+▪ The other side's card is on your screen, greyed: you can read it, they score it. The host too, until it frees their seat in the sharing window. "Score both sides from this device" is there for a guest who only came to watch.
+▪ Losing signal changes nothing: play on, and the devices catch up. The dot on the round bar shows how the sync is doing.
+▪ When the game ends, each player keeps it in their own history.`,
       },
       {
         id: 'help-broadcast',
@@ -89,19 +105,22 @@ export const help = {
       {
         id: 'help-offline',
         title: 'Offline, and installing the app',
-        body: `**A browser tab stays light on purpose** — it downloads the app and the text, and fetches pictures only as you look at them. That is the right trade for someone who opened one rule on the way to the club.
-**The installed app goes fully offline.** Install it from the menu (⚙ → Install app; on an iPhone: Share → Add to Home Screen), open it once with a connection, and it downloads everything it needs. After that a venue with no signal changes nothing.
-▪ **Want the lot without installing?** ⚙ → Download for offline. The button says how much it is before you tap it, and it does the same thing the installed app does for itself.
+        body: `**The site in a browser tab stays light on purpose.** It loads the text, and pictures only as you look at them. That suits someone who opened one rule on the way to the club.
+**Playing at a table, put it on your phone as an app.** It then works with no signal: the rules, your lists and the tracker.
+▪ **To install:** ⚙ → "Install app". On an iPhone: Safari's Share button → "Add to Home Screen".
+▪ **On an iPhone, sign in before you install.** There the installed app keeps its data apart from Safari and does not see the lists and games you made in the browser. Once you are signed in, they show up in the app too. On Android the app and the browser share them.
+▪ Open the installed app once with a connection: it downloads everything it needs. The bottom of the screen shows how far it is.
+▪ **Want it all without installing?** ⚙ → "Download for offline". The button says how much it is before you tap it.
 ▪ Updates arrive by themselves and are never applied in the middle of a game.
-▪ It is worth doing the first launch — or that download — at home, not in the queue at the event.`,
+▪ Do the first launch at home, not in the queue at the event.`,
       },
       {
         id: 'help-data',
         title: 'Your data, and ours',
-        body: `**Your lists and games live on your device**, not on a server — clearing the browser's data clears them too. **Nothing here needs an account:** every part of the app works signed out, with nothing locked, capped or nagged about. **Signing in adds a second home rather than moving them:** they then sync both ways, so a list saved on one device is on the next one you open, a game finished on the phone is in the history on the laptop, and a lost phone costs you nothing. Lists upload when you SAVE one, not on every keystroke, and if two devices changed the same list the later save wins. **The way in and out is the same on every page:** the account button in the top bar on a computer, the ⚙ menu on a phone — signing in returns you to the page you were on.
+        body: `**Your lists and games live on your device**, not on a server — clearing the browser's data clears them too. **Nothing here needs an account:** every part of the app works signed out, with nothing locked, capped or nagged about. **Signing in adds a second home rather than moving them:** they then sync both ways, so a list saved on one device is on the next one you open, a game finished on the phone is in the history on the laptop, and a lost phone costs you nothing. Lists upload when you SAVE one, not on every keystroke, and if two devices changed the same list the later save wins. **Sign in and out from the ⚙ menu** on any page. Signing in brings you back to the page you were on.
 **Our rules and points have a version**, shown in the footer beside the app version. If a list you built somewhere else prices differently here, that is normally the two of us reading different Munitorum Field Manuals rather than an arithmetic error — the import shows both figures side by side for exactly that reason.
 ▪ **On an iPhone, a tab is not a safe place to keep them.** Safari clears a site's storage after about a week without a visit, and your lists and games are in it. Adding the app to the Home Screen exempts it, and signing in puts a copy in the cloud; either one is enough, and doing nothing is only fine if you play often.
-▪ Found a rule that reads wrong, or a unit priced wrong? Write to the address in the footer, or open an issue in the repository. Say which faction and which unit, and it gets fixed in the next update.
+▪ Found a rule that reads wrong, or a unit priced wrong? Press ⚙ → "Report a bug". Say which faction and which unit, and it gets fixed in the next update.
 ▪ What changed and when is listed under the version number, on the changelog page.`,
       },
     ],
@@ -136,24 +155,40 @@ export const help = {
         body: `**Ростеры** собирают лист по очкам текущего Munitorum Field Manual: юниты, вооружение, лидеры и улучшения, а сумма и ограничения правил проверяются по ходу.
 ▪ **Лист уже собран где-то ещё?** «Импорт» читает текстовую выгрузку из приложения Warhammer 40,000, с listhammer.info (с вооружением и без) и из New Recruit (WTC и WTC-Compact). Всё, что не удалось сопоставить, показывается списком, а не пропадает молча.
 ▪ **Союзники** тоже на месте: Agents of the Imperium в имперской армии, рыцарь или титан, демоны у Chaos Space Marines, Brood Brothers в листе Genestealer Cults. У них своя секция, цена именно союзная, а ограничения — сколько штук, на сколько очков и какой детачмент их открывает — проверяются наравне со всем остальным.
-▪ **Экспорт** отдаёт лист обратно в четырёх видах: формат приложения GW, WTC, WTC-Compact и короткий для чата.
-▪ **Поделиться** превращает лист в ссылку. Лист едет внутри самой ссылки, то есть не попадает на сервер, а тому, кто её откроет, не нужен аккаунт.
-▪ **Распечатать.** Кнопка принтера на сохранённом листе открывает страницу, которая и есть будущий документ: шпаргалка на один лист — список, армейское правило и правило детачмента, стратагемы по строке — или полный буклет с карточкой на каждый юнит, а между ними набор галок. Сколько получится листов, написано прямо там и меняется по ходу.
-▪ Готовый лист можно передать в трекер — и тогда его правила (ауры, стратагемы, состояния вроде Battle-shocked) видны на карточках юнитов прямо во время партии.`,
+▪ **Экспорт** — в меню ⋮ листа. Он отдаёт лист в пяти форматах: приложение GW, WTC, WTC-Compact, Discord и простой.
+▪ **Чтобы поделиться листом**, нажмите «Копировать ссылку» в том же окне. Лист едет внутри ссылки и не попадает на сервер. Тому, кто её откроет, аккаунт не нужен.
+▪ **Чтобы распечатать**, выберите «Печать» в меню ⋮. Получится шпаргалка на один лист или полный буклет с карточкой на каждый юнит, а между ними — набор галочек. Сколько выйдет листов, написано на странице.
+▪ **Чтобы сыграть листом**, выберите «Начать партию с этим списком» в его меню ⋮. Настройка трекера откроется с фракцией, детачментами и самим листом. Во время партии правила листа — ауры, стратагемы, состояния вроде Battle-shocked — видны на карточках юнитов.`,
       },
       {
         id: 'help-tracker',
         title: 'Вести партию',
         to: '/tracker',
         toLabel: 'Открыть трекер',
-        body: `Трекер считает за обоих игроков: миссию и вторичные задачи, командные очки и суммы по раундам с текущим результатом в Battle Points.
-▪ Начатая партия запоминается — закрыть вкладку или потерять сеть посреди игры ничего не меняет.
-▪ **Отслеживать всё необязательно.** На последнем шаге настройки — и по кнопке ⚙ «Настройки» во время партии — перечислено, что приложение будет вести рядом с миссиями: командные очки, армейское правило каждой стороны, часы «ход и фаза» и напоминание о том, что действует в текущей фазе, а с прикреплённым листом — насколько подробно следовать правилам самого списка: потраченные стратагемы, ауры, состояния юнитов, наборы, из которых каждый раунд выбирают одно. Выключенное только прячется: записанное остаётся и вернётся вместе с ним, а незаявленное правило по-прежнему выписано на карточке вместе с условием, которого оно ждёт. У каждой строки есть «i» с объяснением, чего вы лишаетесь.
-▪ Сыгранные партии уходят в историю, где видно, из чего сложился счёт.
-▪ Из них сама собой складывается **статистика**: винрейт, средний счёт, как идут дела на первом и на втором ходу, кто вас обыгрывает и какие вторичные карты реально приносят очки. Пока партий меньше пяти, показываем счёт, а не проценты: три партии — это не процент.
-▪ Войдите в аккаунт — кнопка аккаунта в верхней панели, на телефоне пункт в меню ⚙ — и история с армейскими листами сами держатся в актуальном состоянии на всех ваших устройствах: нажимать ничего не нужно, а новый телефон начинает с того же места.
-▪ **Настраиваемся вместе.** Кнопка «Играть вместе» на первом шаге настройки открывает лобби: остальные подключаются по ссылке, QR или шестизначному коду — кнопка «Совместная игра» на странице трекера, в ней выбор: начать новую или подключиться — и заполняют свою сторону со своего телефона: имя, фракцию, детачменты, свой ростер, — а потом нажимают «Готово». До этого момента с телефона ничего не уходит. За вами остаются миссия, поле, очерёдность хода и то, что приложение будет отслеживать; вы же и начинаете партию, когда сторона соперника на месте. Сторону заполняет ОДИН телефон — тот, кто подключился к ней первым, — и он может передать право напарнику; второй видит экран ожидания. Пока вы на шаге «Армии», гость меняет свою сторону свободно; когда вы ушли дальше — он просит, а вы отвечаете.
-▪ **Одна партия — несколько телефонов.** Значок с людьми рядом с кнопками партии делает её совместной игрой: остальные подключаются по ссылке, QR или шестизначному коду — «Подключиться к совместной игре» на странице трекера, — выбирают, кто они, и каждый ведёт свою сторону, а табло у всех одно с задержкой в несколько секунд. Аккаунт нужен только хосту. Карточка чужой стороны у вас на экране, но приглушена: вы её видите — лист, текст правила армии, — а ведут её они; это касается и хоста, пока он не освободит их место в окне партии — или не включит там «Вести обе стороны с этого телефона», если гость подключился только смотреть. Шестерёнка на подключившемся телефоне настраивает только то, что показывает этот телефон, — например, карточку правила армии соперника. Пропала связь — ничего не меняется: играйте дальше, телефоны догонят друг друга; точка на полосе раундов показывает, как дела у синхронизации. Когда партия закончится, каждый сохраняет её в свою историю.`,
+        body: `Трекер считает за обоих игроков: первичную и вторичные миссии, командные очки и суммы по раундам с текущим результатом в Battle Points.
+▪ Начатая партия запоминается. Закрыть вкладку или потерять сеть посреди игры ничего не меняет.
+**Что отслеживать**
+▪ На последнем шаге настройки перечислено, что приложение ведёт рядом с миссиями: командные очки, правило армии каждой стороны, часы «ход и фаза» и что действует в текущей фазе. С прикреплённым листом добавляется, насколько подробно следовать его правилам: потраченные стратагемы, ауры, состояния юнитов.
+▪ Во время партии тот же список открывается кнопкой «Настройки».
+▪ Выключенная строка только прячется. Записанное остаётся и вернётся вместе с ней.
+▪ У каждой строки есть «i» с объяснением, что она делает.
+**История и статистика**
+▪ Доигранная партия уходит в историю. Нажмите на неё, чтобы увидеть, из чего сложился счёт, или продолжить её.
+▪ Страница **статистики** складывается из истории сама: винрейт, средний счёт, первый и второй ход, кто вас обыгрывает, какие вторичные карты приносят очки. Пока партий меньше пяти, она показывает количество, а не проценты.
+▪ Войдите в аккаунт в меню ⚙, и история с листами будут одинаковыми на всех ваших устройствах. Нажимать ничего не нужно: новый телефон начинает с того же места.
+**Настроить партию вместе**
+▪ На странице трекера нажмите «Совместная игра», затем «Начать новую». Выберите тип игры и запустите лобби. Аккаунт нужен только вам.
+▪ Остальные нажимают «Совместная игра», затем «Подключиться», и вводят код — или открывают вашу ссылку или QR-код.
+▪ Каждый гость заполняет свою сторону на своём устройстве: имя, фракцию, детачменты, лист. Потом нажимает «Готово». До этого с его телефона ничего не уходит.
+▪ Вы выбираете миссию, поле, очерёдность хода и что отслеживать. Партию начинаете вы, когда сторона соперника на месте.
+▪ Сторону заполняет один телефон — тот, что подключился к ней первым. Он может передать право партнёру.
+▪ Пока вы на шаге «Армии», гость меняет свою сторону свободно. Когда вы ушли дальше, он просит, а вы отвечаете.
+**Одна партия на нескольких телефонах**
+▪ Уже идущей партией можно поделиться значком с людьми рядом с кнопками партии. Остальные подключаются так же — по коду, ссылке или QR — и выбирают свою сторону.
+▪ Каждый телефон ведёт свою сторону. Табло у всех одно, с задержкой в несколько секунд.
+▪ Чужая сторона на вашем экране приглушена: читать её можно, ведёт её другое устройство. Хоста это тоже касается, пока он не освободит это место в окне совместной игры. Там же есть «Вести обе стороны с этого устройства» — для гостя, который подключился только смотреть.
+▪ Пропала связь — играйте дальше, устройства догонят друг друга. Точка на полосе раундов показывает, как идёт синхронизация.
+▪ Когда партия закончится, каждый сохраняет её в свою историю.`,
       },
       {
         id: 'help-broadcast',
@@ -171,19 +206,22 @@ export const help = {
       {
         id: 'help-offline',
         title: 'Офлайн и установка приложения',
-        body: `**Вкладка в браузере намеренно остаётся лёгкой** — она качает приложение и тексты, а картинки подтягивает по мере просмотра. Это правильный размен для того, кто открыл одно правило по дороге в клуб.
-**Установленное приложение работает полностью офлайн.** Поставьте его из меню (⚙ → «Установить приложение»; на айфоне: «Поделиться» → «На экран «Домой»»), один раз откройте при связи — и оно скачает всё нужное. После этого площадка без сети ничего не меняет.
-▪ **Хотите всё сразу, но без установки?** ⚙ → «Скачать для офлайна». На кнопке написан размер до того, как вы её нажмёте, а делает она то же самое, что установленное приложение делает само.
+        body: `**Сайт во вкладке браузера намеренно лёгкий.** Он загружает тексты, а картинки — по мере просмотра. Это удобно тому, кто открыл одно правило по дороге в клуб.
+**Если играете за столом, поставьте сайт на телефон как приложение.** Тогда он работает без сети: правила, ростеры и трекер.
+▪ **Как поставить:** ⚙ → «Установить приложение». На айфоне: кнопка «Поделиться» в Safari → «На экран „Домой“».
+▪ **На айфоне сначала войдите в аккаунт.** Там установленное приложение хранит данные отдельно от Safari и не видит ростеры и партии, сделанные в браузере. После входа они появятся и в приложении. На Android приложение и браузер видят одни и те же данные.
+▪ Один раз откройте установленное приложение при связи: оно скачает всё нужное. Как идёт загрузка, видно внизу экрана.
+▪ **Хотите всё сразу, но без установки?** ⚙ → «Скачать для офлайна». На кнопке написан размер ещё до нажатия.
 ▪ Обновления приходят сами и никогда не применяются посреди партии.
-▪ Первый запуск — или эту загрузку — стоит сделать дома, а не в очереди на ивенте.`,
+▪ Первый запуск лучше сделать дома, а не в очереди на ивенте.`,
       },
       {
         id: 'help-data',
         title: 'Ваши данные и наши',
-        body: `**Ваши листы и партии хранятся на устройстве**, а не на сервере — очистка данных браузера удалит и их. **Аккаунт здесь ни для чего не обязателен:** без входа работает всё, ничего не заперто, не урезано и не выпрашивается. **Вход не переносит данные, а добавляет второй дом:** дальше они синхронизируются в обе стороны — лист, сохранённый на одном устройстве, открывается на следующем, партия, доигранная на телефоне, лежит в истории на ноутбуке, а потерянный телефон не стоит вам ничего. Листы уезжают в облако в момент **сохранения**, а не на каждое нажатие; если один и тот же лист меняли на двух устройствах, побеждает то сохранение, что позже. **Вход и выход находятся в одном месте на любой странице:** кнопка аккаунта в верхней панели, на телефоне — пункт в меню ⚙; после входа вы возвращаетесь на ту же страницу, с которой уходили.
+        body: `**Ваши листы и партии хранятся на устройстве**, а не на сервере — очистка данных браузера удалит и их. **Аккаунт здесь ни для чего не обязателен:** без входа работает всё, ничего не заперто, не урезано и не выпрашивается. **Вход не переносит данные, а добавляет второй дом:** дальше они синхронизируются в обе стороны — лист, сохранённый на одном устройстве, открывается на следующем, партия, доигранная на телефоне, лежит в истории на ноутбуке, а потерянный телефон не стоит вам ничего. Листы уезжают в облако в момент **сохранения**, а не на каждое нажатие; если один и тот же лист меняли на двух устройствах, побеждает то сохранение, что позже. **Вход и выход — в меню ⚙** на любой странице. После входа вы вернётесь на ту же страницу.
 **У наших правил и очков есть версия**, она показана в подвале рядом с версией приложения. Если лист, собранный в другом месте, оценивается у нас иначе, обычно это значит, что мы читаем разные выпуски Munitorum Field Manual, а не ошибку в арифметике — именно поэтому импорт показывает обе суммы рядом.
 ▪ **На айфоне вкладка — ненадёжное место для хранения.** Safari очищает хранилище сайта примерно через неделю без визитов, а списки и партии лежат именно там. Приложение, добавленное на экран «Домой», под эту чистку не попадает, а вход в аккаунт кладёт копию в облако; достаточно любого из двух, и ничего не делать можно только если вы играете часто.
-▪ Нашли правило с ошибкой или неверные очки у юнита? Напишите на адрес в подвале или заведите issue в репозитории. Укажите фракцию и юнит — поправим в ближайшем обновлении.
+▪ Нашли правило с ошибкой или неверные очки у юнита? Нажмите ⚙ → «Сообщить об ошибке». Укажите фракцию и юнит — поправим в ближайшем обновлении.
 ▪ Что и когда менялось, перечислено под номером версии, на странице изменений.`,
       },
     ],

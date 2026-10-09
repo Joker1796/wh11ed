@@ -154,13 +154,23 @@ Vue 3 SPA using HTML5 history routing (`createWebHistory`) — clean paths like 
 - Old `/#/path` links are rewritten by a tiny inline shim at the top of `index.html` (`location.replace`, keeps the query even inside the hash — the pre-migration OAuth callback relies on that). Keep the shim — it's what makes old bookmarks/shared links work forever.
 
 
-**First-visit card** (`WelcomeModal.vue` + `useWelcome.js`, key `wh11ed-welcome-seen`): three facts
-a reader cannot get from the screen — what is here, that the *installed* app goes fully offline, and
-that their lists live on the device — plus a link to `/help`. **Landing page only**: most visitors
+**First-visit card** (`WelcomeModal.vue` + `useWelcome.js`, key `wh11ed-welcome-seen`): two facts
+a reader cannot get from the screen — what is here, and that it needs no account and keeps their
+lists on the device — plus a link to `/help`. No install pitch (see below). **Landing page only**: most visitors
 arrive from a search engine straight into a rule and are mid-question, and a card across that is an
 interruption, not a welcome. Shown once; dismissing (or following the link) is permanent, and the
 decision is taken on mount rather than in a route watcher, so navigating to `/` later in a session
 never raises it.
+
+**The way to the installed app follows the player's real path** (owner, 2026-10-09; `installPath.js`).
+The first visit is to a SITE — found from a search, read in a tab — so the welcome card says what is
+here and asks for no install, and it never shows in the installed app. The offer to install
+(`InstallOffer.vue`) comes once, at the first sign the site is used for real: a saved list, a game,
+or a third visit — never over a game, a list being built or a join, once a session until answered.
+On an iPhone with lists or games in Safari it asks for a sign-in FIRST: an installed app there has
+storage of its own and would open empty. The installed app's first launch has its own card
+(`AppFirstRun.vue`): it is downloading for offline, and on an empty iPhone, sign in to bring the
+lists over.
 
 **Navigation model:** Two levels.
 

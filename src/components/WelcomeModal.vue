@@ -10,7 +10,6 @@
       </p>
       <ul class="welcome-list">
         <li><i class="bi bi-grid-3x3-gap" /><span>{{ labels.welcomeWhat }}</span></li>
-        <li><i class="bi bi-wifi-off" /><span>{{ labels.welcomeOffline }}</span></li>
         <li><i class="bi bi-phone" /><span>{{ labels.welcomeLocal }}</span></li>
       </ul>
       <div class="welcome-actions">
@@ -33,9 +32,11 @@
 </template>
 
 <script setup>
-// Shown ONCE, on a first visit to the landing page. Three facts a reader cannot get from the
-// screen — what is here, that the installed app goes fully offline, and that their data is local.
-// Everything else is on /help, one link away.
+// Shown ONCE, on a first visit to the landing page. Two facts a reader cannot get from the screen —
+// what is here, and that it needs no account and keeps their data local. It does NOT ask for an
+// install (owner, 2026-10-09): the first visit is to a site, and the app pays only once the player
+// uses it for real — the offer comes then (InstallOffer, installPath.js). Not in the installed app,
+// which has its own first-launch card (AppFirstRun). Everything else is on /help, one link away.
 //
 // The landing only, deliberately: most visitors arrive from a search engine straight into a rule
 // and are mid-question, and a card across that is an interruption, not a welcome. Dismissing is

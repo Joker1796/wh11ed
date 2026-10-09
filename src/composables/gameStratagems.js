@@ -17,7 +17,7 @@
 import { mergeSections } from './useBilingualMerge.js'
 import { membersOf } from './rosterGameLink.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
-import { SM_CHAPTERS } from '../data/smChapters.js'
+import { detachmentSources } from '../data/detachmentSources.js'
 
 // A stratagem's own usage limits, from its ENGLISH restrictions. Only limits on USING the
 // stratagem — "you cannot select the same model more than once per battle" is about a target
@@ -119,8 +119,7 @@ export async function loadArmyStrats(m, loc, combatPatrol = false) {
     const enF = loc === 'en' ? f : await loadCombatPatrolFaction(m.factionSlug, 'en')
     return (f.stratagems || []).map((s, i) => derive(s, enF?.stratagems?.[i], `cp:${m.factionSlug}|${enF?.stratagems?.[i]?.name || s.name}`))
   }
-  const sources = [m.factionSlug]
-  if (SM_CHAPTERS.has(m.factionSlug)) sources.push('space-marines')
+  const sources = detachmentSources(m.factionSlug)
   // normName(detachment) → { det, stratNamesRu }; the chapter's own data wins over the shared one.
   const lookup = new Map()
   for (const slug of sources) {
@@ -179,8 +178,7 @@ export async function loadArmyRules(m, loc, combatPatrol = false) {
     if (!f) return null
     return { armyRule: f.armyRule || null, detachments: f.rule ? [{ name: f.rule.name, rule: f.rule }] : [] }
   }
-  const sources = [m.factionSlug]
-  if (SM_CHAPTERS.has(m.factionSlug)) sources.push('space-marines')
+  const sources = detachmentSources(m.factionSlug)
   let armyRule = null
   const dets = new Map()
   for (const slug of sources) {

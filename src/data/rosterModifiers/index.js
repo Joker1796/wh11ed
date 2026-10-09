@@ -11,6 +11,7 @@
 // conditions.js is the shared `cond` vocabulary and coreRules.js the rulebook's own modifiers —
 // neither is a faction, so both are excluded and the glob keeps meaning "one entry per faction".
 import { SM_CHAPTERS } from '../smChapters.js'
+import { borrowedFrom, detachmentSources } from '../detachmentSources.js'
 
 const loaders = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./*.test.js'], { import: 'default' })
 
@@ -25,21 +26,30 @@ export async function loadRosterModifiers(slug) {
   }
 }
 
-// The records a LIST of this faction reads. A Chapter fields Codex: Space Marines units and
-// detachments, whose records live in the Space Marines file — without them a Blood Angels list on
+// The records a LIST of this faction reads: its own, then those of every file it borrows a
+// detachment from (detachmentSources). A Chapter fields Codex: Space Marines units and detachments,
+// so it reads every Space Marines record but the army rule — without them a Blood Angels list on
 // Gladius Task Force had none of its detachment's modifiers, and its Terminator Assault Squads
-// none of their Storm Shields (2026-10-01). Space Marines' army-rule records are left out: the
-// Chapter's file carries its own Combat Doctrines, and both would apply it twice. Every record is
-// still gated by unit, detachment and keyword downstream, so the rest cannot reach a card it
-// does not bear on.
+// none of their Storm Shields (2026-10-01); the Chapter's file carries its own Combat Doctrines,
+// and both would apply it twice. From any other file a list reads only the detachments it borrows
+// (a Space Marines list on Deathwatch Support reads Mission Tactics, not the Deathwatch's army).
+// Every record is still gated by unit, detachment and keyword downstream, so the rest cannot reach
+// a card it does not bear on.
 export async function loadRosterModifiersFor(slug) {
   const own = await loadRosterModifiers(slug)
-  if (!SM_CHAPTERS.has(slug)) return own
-  const sm = await loadRosterModifiers('space-marines')
-  if (!sm) return own
-  const seen = new Set((own?.entries || []).map((e) => e.sid))
-  const extra = sm.entries.filter((e) => e.kind !== 'armyRule' && !seen.has(e.sid))
-  return { ...(own || { slug }), entries: [...(own?.entries || []), ...extra] }
+  const entries = [...(own?.entries || [])]
+  const seen = new Set(entries.map((e) => e.sid))
+  for (const from of detachmentSources(slug).slice(1)) {
+    const data = await loadRosterModifiers(from)
+    if (!data) continue
+    const lent = from === 'space-marines' && SM_CHAPTERS.has(slug) ? null : borrowedFrom(slug, from)
+    for (const e of data.entries) {
+      if (seen.has(e.sid) || e.kind === 'armyRule' || (lent && !lent.has(e.det))) continue
+      seen.add(e.sid)
+      entries.push(e)
+    }
+  }
+  return entries.length === (own?.entries.length || 0) ? own : { ...(own || { slug }), entries }
 }
 
 // The records that are actually usable: reviewed by a human AND carrying at least one effect.

@@ -6,6 +6,8 @@
 //   {key:Put back}  a text button, the label as written (localized by the note itself)
 //   {who:Creego}    an outside contributor's name, in amber (owner, 2026-10-07): the thanks
 //                   should stand out from the change it is attached to
+//   {link:beta.wh-rules.ru}  a site the note sends the reader to, clickable (owner, 2026-10-09);
+//                   https only, the address is the text, a new tab
 //
 // Drawn with the app's own icon font and colours: no images, both themes, both locales, and it
 // cannot go stale while the screen keeps the same icon. A name missing from BTN_ICONS fails
@@ -32,11 +34,14 @@ const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, 
 const RUN_RE = /(?:\{(?:btn|key):[^}]+\}(?:\s+(?=\{(?:btn|key):))?)+[.,;:!?»”)]?/g
 
 const WHO_RE = /\{who:([^}]+)\}/g
+// A host (and an optional path) — nothing that could close the attribute or start a scheme.
+const LINK_RE = /\{link:([a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/[\w./-]*)?)\}/g
 
 export function renderMarks(html, locale = 'en') {
   return String(html)
     .replace(RUN_RE, (run) => `<span class="cl-nw">${drawMarks(run, locale)}</span>`)
     .replace(WHO_RE, (m, who) => `<strong class="cl-who">${esc(who)}</strong>`)
+    .replace(LINK_RE, (m, to) => `<a class="cl-link" href="https://${to}" target="_blank" rel="noopener">${to}</a>`)
 }
 
 function drawMarks(html, locale) {

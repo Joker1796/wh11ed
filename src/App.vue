@@ -69,6 +69,15 @@
       v-if="welcomeOpen"
       @close="welcomeOpen = false"
     />
+    <AppFirstRun
+      v-if="appFirstOpen"
+      @close="appFirstOpen = false"
+    />
+    <InstallOffer
+      v-if="installOfferOpen"
+      @close="installOfferOpen = false"
+      @ios-help="installHintOpen = true"
+    />
     <Transition name="search">
       <SearchModal
         v-if="searchOpen"
@@ -117,6 +126,8 @@ import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } fr
 import { pageLeaving, pageArrived } from './composables/usePageMotion.js'
 import { useRoute, useRouter } from 'vue-router'
 import { shouldWelcome } from './composables/useWelcome.js'
+import { appFirstRunDue, countVisit, offerDue, offerShown, preview as installPreview } from './composables/installPath.js'
+import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useFeedbackModal } from './composables/useFeedbackModal.js'
 import { useBackToCloseWhile } from './composables/useBackToClose.js'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
@@ -127,6 +138,8 @@ const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.
 const TourOverlay = defineAsyncComponent(() => import('./components/TourOverlay.vue'))
 const TOUR_ON = IS_BETA || import.meta.env.DEV
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
+const InstallOffer = defineAsyncComponent(() => import('./components/InstallOffer.vue'))
+const AppFirstRun = defineAsyncComponent(() => import('./components/AppFirstRun.vue'))
 // Async like the search palette: the dialog pulls the tracker store for its attach offer.
 const FeedbackModal = defineAsyncComponent(() => import('./components/FeedbackModal.vue'))
 const FactionsNavModal = defineAsyncComponent(() => import('./components/FactionsNavModal.vue'))
@@ -339,11 +352,32 @@ function onGlobalClick(e) {
 // rather than in a route watcher: a reader who navigates TO the landing later in the session is
 // already using the site, and telling them what it is at that point is noise.
 const welcomeOpen = ref(false)
+// The installed app's own first launch, in place of the site's welcome (installPath.js).
+const appFirstOpen = ref(false)
+// The one offer to install, at the first sign the site is used for real (installPath.js): looked
+// at a moment after each page arrives — never over a dialog, a welcome, or a game or list in the
+// making — and shown once a session until it is answered.
+const installOfferOpen = ref(false)
+const { canInstall, iosInstall } = useInstallPrompt()
+let offerTimer = 0
+watch(() => appPath.value, (path) => {
+  clearTimeout(offerTimer)
+  offerTimer = setTimeout(() => {
+    if (installOfferOpen.value || welcomeOpen.value || appFirstOpen.value) return
+    if (document.querySelector('.modal-overlay:not([inert]), .tour')) return
+    if (!offerDue(path, { installable: canInstall.value || iosInstall.value })) return
+    offerShown()
+    installOfferOpen.value = true
+  }, 2500)
+}, { immediate: true })
 
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('click', onGlobalClick)
-  welcomeOpen.value = shouldWelcome(appPath.value)
+  countVisit()
+  welcomeOpen.value = !installPreview && shouldWelcome(appPath.value)
+  appFirstOpen.value = appFirstRunDue() || !!installPreview?.startsWith('first')
+  if (installPreview?.startsWith('offer')) installOfferOpen.value = true
   // Silent session restore, once per load: the navbar's account menu is on every page, so the
   // answer to "am I signed in" can no longer wait for the tracker to be opened. Costs one
   // request against the refresh cookie, resolves to 'anon' offline or with no backend.

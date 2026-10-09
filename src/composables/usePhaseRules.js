@@ -19,6 +19,7 @@ import { useTracker, membersOf, sideName, isYouSide } from './useTracker.js'
 import { tracks } from '../data/trackerOptions.js'
 import { usableInSlot, BATTLE_PHASES } from './stratagemPhases.js'
 import { allySourceOf } from './rosterEngine.js'
+import { detachmentSources } from '../data/detachmentSources.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionChoice } from './useFactionChoice.js'
 import { useRefNavigation } from './useRefNavigation.js'
@@ -79,10 +80,13 @@ export function usePhaseRules() {
       if (fac) {
         take(fac.army, labels.value.trackerArmyRule, 'army')
         // The detachment's own rule, under the detachment's name — which is what the game stores.
+        // A borrowed detachment is indexed under the faction it is printed for (detachmentSources).
         for (const name of m.detachments || []) {
-          const byName = fac.dets || {}
-          const key = Object.keys(byName).find((k) => norm(k) === norm(name))
-          if (key) take(byName[key], name, key)
+          for (const src of detachmentSources(m.factionSlug)) {
+            const byName = idx[src]?.dets || {}
+            const key = Object.keys(byName).find((k) => norm(k) === norm(name))
+            if (key) { take(byName[key], name, key); break }
+          }
         }
       }
 

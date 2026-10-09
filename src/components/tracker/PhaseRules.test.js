@@ -85,6 +85,16 @@ describe('PhaseRules', () => {
     expect(w.text()).toContain('Waaagh!')
   })
 
+  // A detachment the army borrows is indexed under the faction it is printed for: a Blood Angels
+  // side on Gauntlet Task Force had no line for its rule, the Space Marines' entry (2026-10-09).
+  it('finds a borrowed detachment\'s rule in the file it is printed in', async () => {
+    startGame({ factionSlug: 'blood-angels', detachments: ['Gauntlet Task Force'] })
+    tracker.goToPhase(0, 'shooting')
+    const w = await mountBlock()
+    await open(w)
+    expect(w.text()).toContain('Combined Deployment')
+  })
+
   it('names each side, first-turn player first', async () => {
     startGame()
     const w = await mountBlock()

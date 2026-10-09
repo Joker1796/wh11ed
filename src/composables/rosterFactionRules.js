@@ -10,7 +10,7 @@
 // NEVER import src/data/factions/* statically from a view. The bundle is 30-60 KB per faction and
 // this is the reason every caller here is dynamic — see wh11ed/CLAUDE.md.
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
-import { SM_CHAPTERS } from '../data/smChapters.js'
+import { detachmentSources } from '../data/detachmentSources.js'
 
 // Apostrophes travel badly between datasets: the roster stores the detachment name the MFM prints,
 // the faction file spells it its own way. Compare through this, never raw.
@@ -61,11 +61,10 @@ function withRuNames(fac, mod) {
 }
 
 // Every detachment this faction can field, by normalised name, plus the faction itself. The
-// lookup is what a roster reads: it names detachments, and a Chapter's list may name one that
-// lives in the Space Marines file.
+// lookup is what a roster reads: it names detachments, and a list may name one that lives in
+// another faction's file (detachmentSources).
 export async function loadRosterFactionRules(slug, loc) {
-  const sources = [slug]
-  if (SM_CHAPTERS.has(slug)) sources.push('space-marines')
+  const sources = detachmentSources(slug)
   const lookup = new Map()
   let faction = null
   for (const s of sources) {
@@ -81,10 +80,11 @@ export async function loadRosterFactionRules(slug, loc) {
 }
 
 // The faction's prose as a CARD reads it — English (the modifier layer and the rule gates read EN)
-// and the reader's language — with, for a Chapter, the Codex: Space Marines detachments after its
-// own: a Chapter fields those too, and they live in the Space Marines file (a Blood Angels list on
-// Gladius Task Force had no detachment rule, enhancement or stratagem on its cards — a player's
-// report, 2026-10-01). Its own come first, so a name it reprints is read from the Chapter.
+// and the reader's language — with the detachments it borrows from other files after its own
+// (detachmentSources): a Blood Angels list on Gladius Task Force had no detachment rule,
+// enhancement or stratagem on its cards (a player's report, 2026-10-01), a Space Marines list on
+// Deathwatch Support the same (2026-10-09). Its own come first, so a name it reprints is read
+// from there.
 // `stratNamesRu` is the RU name map of every file read (stratagem names stay English on the card).
 export async function loadFactionWithCodex(slug, loc) {
   const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
@@ -94,7 +94,7 @@ export async function loadFactionWithCodex(slug, loc) {
   let en = null
   let local = null
   let stratNamesRu = null
-  for (const src of SM_CHAPTERS.has(slug) ? [slug, 'space-marines'] : [slug]) {
+  for (const src of detachmentSources(slug)) {
     const data = await loadFaction(src)
     if (!data?.en) continue
     let l = data.en

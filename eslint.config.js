@@ -69,6 +69,12 @@ export default [
       // (`v-if`, `?.`, `|| fallback`). Requiring a default would mostly add noise like
       // `default: undefined`.
       'vue/require-default-prop': 'off',
+
+      // A template name the script never declares evaluates to `undefined` without a word in a
+      // build: the phone's roster editor handed its detachment picker `detachments`, a name it did
+      // not have, and for four releases the picker showed nothing picked, offered what no longer
+      // fit and hid Clear (a player's screenshot, 2026-10-09).
+      'vue/no-undef-properties': 'error',
     },
   },
 

@@ -5,9 +5,9 @@ export const VK_URL = 'https://vk.ru/whrules'
 
 export const landing = {
   en: {
-    tagline: 'Unofficial 11th Edition app — rules, rosters, and the game itself',
+    tagline: 'Unofficial 11th Edition site — rules, rosters, and the game itself',
     description:
-      'Everything the table needs, in one place: the complete Core Rules and Event Companion, every faction\'s rules and datasheets, an army list builder priced against the current Munitorum Field Manual, and a game tracker that knows your army — it shows how a detachment rule, an aura or a stratagem changes your units\' numbers while you play. Bilingual (EN/RU), installable, fully offline, free and ad-free. All of it works without an account and stays on your device; signing in only makes your lists and games follow you between devices.',
+      'Everything the table needs, in one place: the complete Core Rules and Event Companion, every faction\'s rules and datasheets, an army list builder priced against the current Munitorum Field Manual, and a game tracker that knows your army — it shows how a detachment rule, an aura or a stratagem changes your units\' numbers while you play. Bilingual (EN/RU), free and ad-free; on a phone it installs as an app that works with no signal at all. All of it works without an account and stays on your device; signing in only makes your lists and games follow you between devices.',
     sections: [
       {
         key: 'rules',
@@ -81,9 +81,9 @@ export const landing = {
   },
 
   ru: {
-    tagline: 'Неофициальное приложение для игры в Вархаммер 40 000, 11-я редакция',
+    tagline: 'Неофициальный сайт для игры в Вархаммер 40 000, 11-я редакция',
     description:
-      'Всё, что нужно за столом, в одном месте: полные основные правила и Event Companion, правила и листы данных всех фракций, конструктор армейских листов по актуальному Munitorum Field Manual и трекер партии, который знает вашу армию — он показывает, как правило детачмента, аура или стратагема меняют характеристики ваших юнитов прямо по ходу игры. Двуязычно (EN/RU), ставится как приложение, работает полностью офлайн, бесплатно и без рекламы. Всё это работает без аккаунта и остаётся на вашем устройстве; вход нужен лишь затем, чтобы листы и партии ехали за вами между устройствами.',
+      'Всё, что нужно за столом, в одном месте: полные основные правила и Event Companion, правила и листы данных всех фракций, конструктор армейских листов по актуальному Munitorum Field Manual и трекер партии, который знает вашу армию — он показывает, как правило детачмента, аура или стратагема меняют характеристики ваших юнитов прямо по ходу игры. Двуязычно (EN/RU), бесплатно и без рекламы; на телефон ставится как приложение, которое работает совсем без сети. Всё это работает без аккаунта и остаётся на вашем устройстве; вход нужен лишь затем, чтобы листы и партии ехали за вами между устройствами.',
     sections: [
       {
         key: 'rules',

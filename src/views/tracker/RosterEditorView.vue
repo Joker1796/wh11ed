@@ -97,7 +97,7 @@
             :check-legality="roster.checkLegality !== false"
             :archived="!!roster.archived"
             :detachment-options="detachmentOptions"
-            :detachments="detachments"
+            :detachments="roster.detachments || []"
             :max-dp="effBattle.dp"
             @update:limit="setLimit"
             @update:disposition="setDisposition"
