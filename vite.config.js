@@ -32,6 +32,13 @@ const SITE_ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh-rules.ru'
 // site is the one search should know — and installed under a name of its own beside the site's app.
 const BETA = process.env.VITE_BETA === '1'
 const APP_NAME = BETA ? 'WH Rules Beta' : 'WH Rules'
+// The icon set (public/brand/<set>/: icons, iOS launch screens, the link preview, the install
+// dialog's screenshots — drawn in Claude Design, 2026-10-09). The beta (VITE_BETA=1) has its own,
+// the same mark with a yellow ruler, so the two installed apps tell apart on a home screen. A
+// folder rather than renamed files: the new path is what makes browsers, the CDN and Android's
+// installed icon drop the old pictures, which had the same names.
+const BRAND = BETA ? 'beta' : 'main'
+const BRAND_DIR = `brand/${BRAND}`
 
 // Replace the %SITE_ORIGIN% placeholder in index.html at build time. Not Vite's built-in
 // %VITE_*% mechanism, so we control the fallback (a bare `npm run build` with no env still emits
@@ -40,7 +47,7 @@ function injectSiteOrigin() {
   return {
     name: 'site-origin',
     transformIndexHtml(html) {
-      const out = html.replaceAll('%SITE_ORIGIN%', SITE_ORIGIN)
+      const out = html.replaceAll('%SITE_ORIGIN%', SITE_ORIGIN).replaceAll('%BRAND%', BRAND_DIR)
       if (!BETA) return out
       return out
         .replace(/<meta name="robots" content="[^"]*"/, '<meta name="robots" content="noindex, nofollow"')
@@ -205,7 +212,9 @@ export default defineConfig({
       // but only applied when the user clicks "Update" in UpdateToast.vue — so we
       // never auto-reload mid-game in the tracker. Offline precache is unaffected.
       registerType: 'prompt',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      // The glob below already finds this set's icons and `ICON` keeps them; letting the plugin add
+      // them too (includeAssets, the manifest's icons) put each in the precache twice.
+      includeManifestIcons: false,
       manifest: {
         // Explicit `id` keeps the app identity stable across deploys even if
         // start_url ever changes (avoids duplicate installs).
@@ -225,9 +234,9 @@ export default defineConfig({
         background_color: '#242428',
         categories: ['games', 'reference', 'books'],
         icons: [
-          { src: 'pwa-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-          { src: 'pwa-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-          { src: 'maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: `${BRAND_DIR}/pwa-192.png`, sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: `${BRAND_DIR}/pwa-512.png`, sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: `${BRAND_DIR}/maskable-512.png`, sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
         // History routing (createWebHistory): shortcut URLs are clean paths.
         shortcuts: [
@@ -235,37 +244,30 @@ export default defineConfig({
             name: 'Game Tracker',
             short_name: 'Tracker',
             url: '/tracker',
-            icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
+            icons: [{ src: `${BRAND_DIR}/pwa-192.png`, sizes: '192x192', type: 'image/png' }],
           },
           {
             name: 'Army Lists',
             short_name: 'Rosters',
             url: '/roster',
-            icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
+            icons: [{ src: `${BRAND_DIR}/pwa-192.png`, sizes: '192x192', type: 'image/png' }],
           },
           {
             name: 'Missions',
             short_name: 'Missions',
             url: '/event-companion/missions',
-            icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
+            icons: [{ src: `${BRAND_DIR}/pwa-192.png`, sizes: '192x192', type: 'image/png' }],
           },
         ],
-        screenshots: [
-          {
-            src: 'screenshot-wide.png',
-            sizes: '1280x720',
-            type: 'image/png',
-            form_factor: 'wide',
-            label: 'Warhammer 40,000 11th Edition rules, rosters and game tracker',
-          },
-          {
-            src: 'screenshot-narrow.png',
-            sizes: '720x1280',
-            type: 'image/png',
-            form_factor: 'narrow',
-            label: 'Searchable bilingual rules on mobile',
-          },
-        ],
+        // Four of each: the install dialog's "store page". The site shows its sections, the beta
+        // its tracker's tabs.
+        screenshots: (BRAND === 'beta'
+          ? ['The game: missions', 'Command points and stratagems', 'Both armies\' rules', 'Your roster in the game']
+          : ['Core rules and the Event Companion', 'Faction rules and datasheets', 'The army list builder', 'The game tracker']
+        ).flatMap((label, i) => [
+          { src: `${BRAND_DIR}/screenshot-wide${i ? `-${i + 1}` : ''}.png`, sizes: '1280x720', type: 'image/png', form_factor: 'wide', label },
+          { src: `${BRAND_DIR}/screenshot-narrow${i ? `-${i + 1}` : ''}.png`, sizes: '720x1280', type: 'image/png', form_factor: 'narrow', label },
+        ]),
       },
       workbox: {
         // Precache ONLY the app shell, and this time it is true. The comment here used to claim
@@ -287,8 +289,10 @@ export default defineConfig({
         // before any of its JS runs. Everything else drops to runtimeCaching.
         manifestTransforms: [
           (entries) => {
-            const ROOT = /^(index\.html|registerSW\.js|manifest\.webmanifest|favicon\.svg|apple-touch-icon\.png|pwa-\d+\.png|maskable-\d+\.png)$/
-            return { manifest: entries.filter((e) => ROOT.test(e.url) || shellFiles.has(e.url)) }
+            const ROOT = /^(index\.html|registerSW\.js|manifest\.webmanifest)$/
+            // Only this build's own icons: the other set ships in the bucket but is never shown.
+            const ICON = new RegExp(`^${BRAND_DIR}/(favicon\\.svg|apple-touch-icon\\.png|pwa-\\d+\\.png|maskable-\\d+\\.png)$`)
+            return { manifest: entries.filter((e) => ROOT.test(e.url) || ICON.test(e.url) || shellFiles.has(e.url)) }
           },
         ],
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
