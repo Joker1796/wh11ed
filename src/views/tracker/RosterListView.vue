@@ -555,16 +555,17 @@ function confirmDelete() {
 }
 /* Tighter than the list page (owner, 2026-09-29): the column is a picker to scan down, so every
    card spends less height — the card's padding and its line gaps, the tabs' and the filter's
-   margins, and the "…" button, which keeps its tap area but no longer props the name row open. */
+   margins, and the "…" button, which keeps its tap area but no longer props the name row open.
+   Loosened a step on 2026-10-09 (owner): the card's own lines had come to touch. */
 .rl-in-desk .rl-tabs { margin-bottom: 0.6rem; }
 .rl-in-desk .rl-factions { margin-bottom: 0.5rem; }
 .rl-in-desk .rl-factions select { padding: 0.25rem 0.4rem; }
 .rl-in-desk .rosters { gap: 0.4rem; }
-.rl-in-desk .roster { padding: 0.45rem 0.7rem 0.5rem; }
+.rl-in-desk .roster { padding: 0.6rem 0.8rem 0.65rem; }
 .rl-in-desk .rname { font-size: 0.9rem; line-height: 1.25; }
 .rl-in-desk .kebab { margin: -0.35rem -0.4rem -0.35rem 0; }
-.rl-in-desk .rline { margin-top: 0; }
-.rl-in-desk .roster-meta { margin-top: 0.2rem; }
+.rl-in-desk .rline { margin-top: 0.1rem; }
+.rl-in-desk .roster-meta { margin-top: 0.35rem; }
 /* The faction's bar on the left stays; the other three edges and a wash say "open". */
 .roster.on {
   border-top-color: var(--accent);
@@ -596,7 +597,11 @@ function confirmDelete() {
 @media (hover: hover) and (prefers-color-scheme: dark) {
   .roster.themed:hover { border-color: var(--fa-dark, var(--accent)); }
 }
-.roster-main { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+/* The "…" stands by the name's first line, not the middle of a name that wrapped, and a step clear
+   of it (owner, 2026-10-09); its 32px box hangs over the line instead of opening the row. */
+.roster-main { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.9rem; }
+.roster-main .kebab { margin: -0.3rem -0.3rem -0.3rem 0; }
+.roster-main .rpin { margin-top: 0.2rem; }
 /* A card is a card: a name that runs on is cut at two lines rather than stretching the row.
    The whole thing is readable on the list's own page. */
 .rname {
@@ -621,11 +626,13 @@ function confirmDelete() {
 /* The draft's own Delete: same hit area as the kebab it replaces, and it says what it does only
    on hover — a bin sitting bright red on every draft card would shout louder than the card. */
 @media (hover: hover) { .kebab.danger:hover { background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); } }
-/* Faction on the left, the disposition chip pinned right; the detachments under them, one step
-   quieter than the faction — a fact to check, not a headline. */
-.rline { display: flex; align-items: flex-start; gap: 0.45rem; margin-top: 0.05rem; }
+/* Faction on the left, the disposition chip pinned right and centred on it: the chip is taller
+   than the faction's line, and hung from its top it pressed on the detachments (owner,
+   2026-10-09). The detachments under them, one step quieter than the faction — a fact to check,
+   not a headline. */
+.rline { display: flex; align-items: center; gap: 0.45rem; margin: 0.05rem 0 0.15rem; }
 .rfaction { flex: 1 1 auto; min-width: 0; font-size: 0.78rem; font-weight: 600; color: var(--fa-light, var(--accent)); opacity: 0.7; }
-.rfd { flex-shrink: 0; margin-top: 0.1rem; }
+.rfd { flex-shrink: 0; }
 .rdets { display: block; font-size: 0.72rem; color: var(--text-muted); opacity: 0.8; }
 @media (prefers-color-scheme: dark) {
   .rfaction, .rpin { color: var(--fa-dark, var(--accent-ink)); }

@@ -679,6 +679,7 @@ function footLine(g) {
   position: relative;
   overflow: hidden;
   isolation: isolate; /* each side's emblem stamp (FactionEmblem) sits under the card's text */
+  container-type: inline-size; /* the stamps' step in toward the score reads the card's width */
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 0.6rem 0.5rem 0.65rem;
@@ -692,8 +693,16 @@ function footLine(g) {
    twice a Combat Patrol card's height and its own height varies (a long name wraps), so the stamp is
    sized on a fixed 6rem rather than on the card — which keeps the two apart under the score on a
    320px phone whatever the names do. */
-.game .stamp { height: calc(var(--stamp-k) * 6rem); }
-.game .gc-stamp--left { right: auto; left: 3.8rem; transform: translate(-50%, -50%); }
+/* Where the card is wider than a phone, both stamps step in toward the score (owner, 2026-10-09):
+   at 3.8rem from the edge a desk card left them stranded in its corners, the length of a name away
+   from the result they belong to. The step is what the card has beyond a phone's — nothing at
+   390px — and stops 10rem short of the middle, clear of the score with the widest emblem. */
+.game .stamp {
+  --gc-in: max(0rem, 50cqw - 13.8rem);
+  height: calc(var(--stamp-k) * 6rem);
+  right: calc(3.8rem + var(--gc-in));
+}
+.game .gc-stamp--left { right: auto; left: calc(3.8rem + var(--gc-in)); transform: translate(-50%, -50%); }
 /* A doubles team of two factions: both emblems, smaller, stepped on a diagonal around the side's
    usual spot — `a` in toward the score and up, `b` out toward the edge and down, so the upper one
    stays clear of the team name (owner, 2026-10-05) — overlapping a little, and neither reaching
@@ -702,10 +711,10 @@ function footLine(g) {
 .game .gc-stamp--b { height: calc(var(--stamp-k) * 4.2rem); }
 .game .gc-stamp--a { top: 29%; }
 .game .gc-stamp--b { top: 73%; }
-.game .gc-stamp--left.gc-stamp--a { left: 5.5rem; }
-.game .gc-stamp--left.gc-stamp--b { left: 2.2rem; }
-.game .gc-stamp--right.gc-stamp--a { right: 5.5rem; }
-.game .gc-stamp--right.gc-stamp--b { right: 2.2rem; }
+.game .gc-stamp--left.gc-stamp--a { left: calc(5.5rem + var(--gc-in)); }
+.game .gc-stamp--left.gc-stamp--b { left: calc(2.2rem + var(--gc-in)); }
+.game .gc-stamp--right.gc-stamp--a { right: calc(5.5rem + var(--gc-in)); }
+.game .gc-stamp--right.gc-stamp--b { right: calc(2.2rem + var(--gc-in)); }
 
 .gc-top {
   display: flex;

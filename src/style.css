@@ -928,6 +928,9 @@ strong {
 .wi-edit { mask-image: url('./assets/icons/ui-edit.svg'); }
 .wi-more { mask-image: url('./assets/icons/ui-more.svg'); }
 .wi-more-v { mask-image: url('./assets/icons/ui-more-vertical.svg'); }
+/* Its three diamonds run the box's full height, where a drawn icon keeps a margin: at 1.2em it
+   stood taller than the line beside it (owner, 2026-10-09). */
+.wi.wi-more-v { font-size: 0.9em; }
 .wi-pin-on { mask-image: url('./assets/icons/pin-on.svg'); }
 .wi-pin-off { mask-image: url('./assets/icons/pin-off.svg'); }
 .wi-own { mask-image: url('./assets/icons/ui-own.svg'); } /* the collection: in it — .wi-own-on */
