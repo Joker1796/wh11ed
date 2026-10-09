@@ -234,7 +234,7 @@ import { useFlipMove } from '../../composables/useFlipMove.js'
 import { reconcileFactionMarks } from '../../composables/useUserPrefs.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { scrollToAnchor } from '../../composables/useRefNavigation.js'
-import { foldName, preloadDatasheetTags, TAG_MIN, unitTagHit } from '../../composables/datasheetTags.js'
+import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from '../../composables/datasheetTags.js'
 import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
 
 const route = useRoute()
@@ -351,10 +351,11 @@ const { ghostText, typing } = useUnitSearchGhost({ slug, locale, query: dsQuery,
 const filteredDatasheets = computed(() => {
   const q = dsQuery.value.trim().toLowerCase()
   const qf = foldName(q)
+  const words = queryWords(q)
   const c = chapter.value
   return datasheets.value.filter((s) => {
     if (hideLegends.value && s.legends) return false
-    if (q && !s.name.toLowerCase().includes(q) && !unitTagHit(slug.value, s.id, qf)) return false
+    if (q && !wordsIn(s.name, words) && !unitTagHit(slug.value, s.id, qf)) return false
     if (c) {
       // Chapter-less sheets are generic Adeptus Astartes units, legal in any Chapter's army.
       const sc = chapterOf(s)

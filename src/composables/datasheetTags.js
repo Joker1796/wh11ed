@@ -19,6 +19,27 @@ export function foldName(s) {
   return s.toLowerCase().replace(/ё/g, 'е').replace(/[’'`]/g, '')
 }
 
+// A query matches a text when every one of its words is in it, in any order: the RU names put
+// the words where Russian puts them ("сционы Темпестус" for Tempestus Scions), and a player types
+// them in either order. A Russian word is matched without its case ending, so "сционов" finds
+// "сционы" and "орков" finds "орки". A player's report (2026-10-09): "темпестус сционов" found
+// nothing, in the builder or anywhere else. One answer for every unit search that uses this.
+const RU_ENDING = /(ами|ями|ого|его|ому|ему|ыми|ими|ов|ев|ей|ам|ям|ах|ях|ой|ый|ий|ая|яя|ое|ее|ые|ие|ую|юю|ом|ем|а|я|ы|и|у|ю|о|е|ь)$/
+export function queryWords(q) {
+  return foldName(q).split(/[\s\-–—]+/).filter(Boolean).map((w) => {
+    if (!/[а-я]/.test(w)) return w
+    // Short words keep their ending: «газя» is a nickname, not «газ» + a case.
+    if (w.length < 5) return w
+    const stem = w.replace(RU_ENDING, '')
+    return stem.length >= 3 ? stem : w
+  })
+}
+export function wordsIn(text, words) {
+  if (!text || !words.length) return false
+  const t = foldName(text)
+  return words.every((w) => t.includes(w))
+}
+
 let tagIndex = null
 let promise = null
 const tagVersion = ref(0)
@@ -44,6 +65,7 @@ export function unitTagHit(slug, unitId, q) {
   const f = tagIndex[slug]
   const idx = f?.byUnit[unitId]
   if (!idx) return null
-  for (const i of idx) if (f.folded[i].includes(q)) return f.table[i]
+  const words = queryWords(q)
+  for (const i of idx) if (words.every((w) => f.folded[i].includes(w))) return f.table[i]
   return null
 }

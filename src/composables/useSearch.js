@@ -14,7 +14,7 @@ import { factionGroups } from '../data/factionsIndex.js'
 import { factionAliasesRu } from '../data/factionAliasesRu.js'
 import { h4AnchorId } from './anchors.js'
 import { splitBodyEntries } from './columnChunks.js'
-import { foldName, preloadDatasheetTags, TAG_MIN, unitTagHit } from './datasheetTags.js'
+import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from './datasheetTags.js'
 
 // Every core-rules chapter lives on one page now, so a hit's `route` is the same for all of
 // them; the anchor (`id`) is what actually distinguishes them.
@@ -462,20 +462,22 @@ export async function getDatasheetIndex() {
 function searchDatasheets(q, locale) {
   if (!dsIndex) return []
   const qn = stripApos(q)
+  const words = queryWords(q)
+  const phrase = foldName(q)
   const isRu = locale === 'ru'
   const L = ui[locale] || ui.en
   const results = []
   for (const [slug, faction, units] of dsIndex) {
     for (const [id, name, aliasesRu, legacy, legends] of units) {
-      const nameHit = foldName(name).includes(qn)
+      const nameHit = wordsIn(name, words)
       // A unit's own name still wins if it also happens to match (checked first) — the alias is
       // only surfaced as `matchedBy` (the "found via nickname" note) when it's the reason this
       // result matched at all, not on every result for a unit that merely has aliases on file.
-      const aliasHit = !nameHit && (aliasesRu || []).find((a) => foldName(a).includes(qn))
+      const aliasHit = !nameHit && (aliasesRu || []).find((a) => wordsIn(a, words))
       // A retired Legends unit the sheet stands in for ("Ufthak Blackhawk" → Warboss). The
       // subline says so in either locale: the result's title is a different name from the one
       // typed, and without the reason it reads as a wrong hit.
-      const legacyHit = !nameHit && !aliasHit && (legacy || []).find((a) => foldName(a).includes(qn))
+      const legacyHit = !nameHit && !aliasHit && (legacy || []).find((a) => wordsIn(a, words))
       // Found by an ability or keyword ("deep strike", "fly"): the tag is the subline, since the
       // title alone would not say why the unit is here. Ranked under every name hit — a query
       // like "infantry" matches hundreds of sheets, and a unit CALLED what was typed comes first.
@@ -500,7 +502,9 @@ function searchDatasheets(q, locale) {
         // Drawn as the shared .legends-badge beside the title — the same mark the datasheet grid
         // and the roster browser wear, so a Legends hit reads as one before the page opens.
         legends: !!legends,
-        score: tagHit ? 0.9 : 2,
+        // The words as typed, side by side, rank above the same words apart: "terminator squad"
+        // leads with Terminator Squad, then Terminator Assault Squad.
+        score: tagHit ? 0.9 : foldName(nameHit ? name : aliasHit || legacyHit).includes(phrase) ? 2 : 1.95,
       })
     }
   }
@@ -531,13 +535,13 @@ export function preloadFactionRulesIndex() {
 function searchFactions(q, locale) {
   const isRu = locale === 'ru'
   const L = ui[locale] || ui.en
-  const qn = stripApos(q)
+  const words = queryWords(q)
   const results = []
   for (const group of factionGroups) {
     for (const f of group.factions) {
       if (!f.ready) continue
-      const nameHit = foldName(f.name).includes(qn)
-      const aliasHit = !nameHit && (factionAliasesRu[f.slug] || []).find((a) => foldName(a).includes(qn))
+      const nameHit = wordsIn(f.name, words)
+      const aliasHit = !nameHit && (factionAliasesRu[f.slug] || []).find((a) => wordsIn(a, words))
       if (!nameHit && !aliasHit) continue
       results.push({
         id: '',

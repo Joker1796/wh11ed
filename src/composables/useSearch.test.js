@@ -232,6 +232,18 @@ describe('datasheet unit search', () => {
   })
 })
 
+describe('unit search by words', () => {
+  // The RU name of Tempestus Scions is "сционы Темпестус"; a player typed the other order, in the
+  // genitive, and got nothing (2026-10-09).
+  it('finds a unit by its RU name in either word order and case', async () => {
+    await preloadDatasheetIndex()
+    await preloadDatasheetTags()
+    for (const q of ['темпестус сционов', 'сционы темпестус', 'tempestus scions']) {
+      expect(search(q, 'ru').some((r) => r.title === 'Tempestus Scions'), q).toBe(true)
+    }
+  })
+})
+
 describe('faction rules search', () => {
   it('anchors a stratagem result to its own card, not the detachment heading', async () => {
     await preloadFactionRulesIndex()

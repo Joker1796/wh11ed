@@ -236,7 +236,7 @@ import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
-import { foldName, preloadDatasheetTags, TAG_MIN, unitTagHit } from '../../composables/datasheetTags.js'
+import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from '../../composables/datasheetTags.js'
 import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
 import { useTourShow } from '../../composables/useTour.js'
 
@@ -313,8 +313,9 @@ const searched = computed(() => {
   const q = query.value.trim().toLowerCase()
   if (!q) return props.units
   const qf = foldName(q)
+  const words = queryWords(q)
   return props.units.filter((u) => {
-    if (u.name.toLowerCase().includes(q)) return true
+    if (wordsIn(u.name, words)) return true
     const s = srcOf(u)
     return !!unitTagHit(s.slug, s.id, qf)
   })
