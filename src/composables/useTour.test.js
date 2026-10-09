@@ -116,4 +116,19 @@ describe('useTour', () => {
     vi.advanceTimersByTime(900)
     expect(t.active.value?.id).toBe('roster-view')
   })
+
+  // The ⚙ menu offers "this screen's tutorial" only while one of the chapters the page asked for
+  // has something on screen to light.
+  it('offers the replay only while an asked chapter has an element on screen', async () => {
+    const { replayableNow, forgetScreen } = await import('./tourScreen.js')
+    forgetScreen()
+    const t = useTour()
+    expect(replayableNow()).toBe(false)
+    t.maybeStart('roster-setup') // nothing of it on screen
+    expect(replayableNow()).toBe(false)
+    const field = anchor('rs-name')
+    expect(replayableNow()).toBe(true)
+    field.remove()
+    expect(replayableNow()).toBe(false)
+  })
 })

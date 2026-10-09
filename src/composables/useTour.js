@@ -86,7 +86,8 @@ export function useTour() {
   // is dropped — its screen has gone.
   function maybeStart(id, ctx = {}) {
     if (!TOUR_ON || !TOUR_CHAPTERS[id]) return
-    asked.value = [...asked.value.filter((a) => a.id !== id), { id, ctx }]
+    const targets = [...new Set(stepsOf(id, ctx).flatMap((st) => (st.target && typeof st.target === 'object' ? [st.target.phone, st.target.desk] : [st.target])).filter(Boolean))]
+    asked.value = [...asked.value.filter((a) => a.id !== id), { id, ctx, targets }]
     if (seen.value.has(id)) return
     pending.set(id, { ctx, at: Date.now() })
     if (waiting) return
