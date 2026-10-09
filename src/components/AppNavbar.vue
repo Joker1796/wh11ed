@@ -8,9 +8,15 @@
       >
         <span class="logo-wh">WH Rules</span>
         <span
-          class="logo-scale"
+          class="logo-base"
           aria-hidden="true"
-        />
+        >
+          <span class="logo-scale" />
+          <span
+            v-if="IS_BETA"
+            class="logo-beta"
+          >beta</span>
+        </span>
       </RouterLink>
 
       <nav class="navbar-links">
@@ -510,16 +516,44 @@ function closeRulesMenu() {
   line-height: 1;
 }
 
+.logo-base {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  margin-top: 2px;
+}
 .logo-scale {
   --scale: #b8474d;
-  display: block;
+  flex: 1;
   height: 6px;
-  margin-top: 2px;
   background:
     linear-gradient(var(--scale), var(--scale)) bottom / 100% 2px no-repeat,
     repeating-linear-gradient(90deg, var(--scale) 0 1.5px, transparent 1.5px 7px) bottom / 100% 100% no-repeat;
 }
 .navbar-logo.beta .logo-scale { --scale: #e2b340; }
+/* The beta's right end of the ruler is its tag (owner, 2026-10-09): amber, slanted like the
+   badges such builds wear. The box leans, the word stands upright over it. */
+.logo-beta {
+  position: relative;
+  flex: none;
+  padding: 1px 6px 0;
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #242428;
+  isolation: isolate;
+}
+.logo-beta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #e2b340;
+  transform: skewX(-16deg);
+}
 
 .navbar-links {
   display: flex;
