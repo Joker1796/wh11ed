@@ -104,4 +104,16 @@ describe('useTour', () => {
     scope.stop()
     expect(shown).toEqual(['missions', 'missions', 'missions', 'phase', 'cp', 'armies', 'log', 'stats', 'missions'])
   })
+
+  it('a chapter in line is not dropped while the one before it is read', () => {
+    const t = useTour()
+    t.maybeStart('roster-list')
+    t.maybeStart('roster-view')
+    vi.advanceTimersByTime(900)
+    expect(t.active.value?.id).toBe('roster-list')
+    vi.advanceTimersByTime(120000) // a slow reader
+    t.finish()
+    vi.advanceTimersByTime(900)
+    expect(t.active.value?.id).toBe('roster-view')
+  })
 })

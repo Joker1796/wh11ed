@@ -181,6 +181,7 @@
           <div
             v-if="mirrored(i)"
             class="side-mirror"
+            data-tour="lobby-other"
           >
             <p
               v-if="!isReady(i)"
@@ -655,6 +656,7 @@
           <div
             v-if="mirrored(i)"
             class="side-mirror"
+            data-tour="lobby-other"
           >
             <p
               v-if="!isReady(i)"
@@ -849,6 +851,7 @@
         </button>
         <button
           class="btn-primary"
+          data-tour="lobby-done"
           :disabled="!canConfirmSide"
           @click="guestDone"
         >
@@ -1307,7 +1310,6 @@ const draft = lobbyGame ? null : setupDraft.value
 const step = ref(draft?.step ?? 1)
 // Each step's chapter of the tracker tour, the first time the host reaches it (useTour.js).
 const { maybeStart: maybeStartTour } = useTour()
-watch(step, (n) => { if (!guest.value) maybeStartTour(`setup-${n}`) }, { immediate: true, flush: 'post' })
 const players = lobbyGame
   ? lobbyGame.players
   : reactive([
@@ -1520,6 +1522,13 @@ function editable(i) {
 
 // ── Doubles ────────────────────────────────────────────────────────────────────────────────
 const isDoubles = computed(() => settings.gameType === 'doubles')
+// The setup's chapters, and in a shared setup what it changes: the other side fills itself in.
+// A guest has its own chapter — its side's form and Done.
+const setupTourCtx = () => ({ lobby: !!sharedSetup.value, doubles: isDoubles.value })
+watch(step, (n) => {
+  if (guest.value) maybeStartTour('lobby-guest', setupTourCtx())
+  else maybeStartTour(`setup-${n}`, setupTourCtx())
+}, { immediate: true, flush: 'post' })
 // The armies a side fields: itself in singles, its two members in doubles. The member shape is
 // a subset of the side's (name/factionSlug/detachments/rosterId/roster), so the army-identity
 // template block and every helper below take either.

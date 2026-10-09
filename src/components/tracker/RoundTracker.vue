@@ -762,11 +762,20 @@ const tab = ref('missions')
 const { maybeStart: maybeStartTour, start: startTour } = useTour()
 // What the tour's steps ask of this screen: has the battle begun, is the phase clock on, which
 // tabs this game has.
-const tourCtx = () => ({ begun: begun.value, phases: tracks(current.value?.settings, 'trackPhases'), lists: !!reservesSide.value, tabs: tabs.value.map((t) => t.id) })
-// The tour: this screen's chapter on its first showing (what the turn bar says depends on whether
-// the battle has begun), and the turn's own chapter the moment it does.
-onMounted(() => maybeStartTour('game', tourCtx()))
-watch(begun, (on, was) => { if (on && was === false) maybeStartTour('turn') })
+// In a shared game: is this phone the one whose turn it is (`canTurn` — the turn buttons are its),
+// is it the host. In doubles a side is a team of two armies.
+// Read when the chapter starts, not when it is asked for: a shared game learns which sides the
+// other phones hold from the server's first answer, a moment after this screen comes up.
+const tourCtx = () => ({
+  get begun() { return begun.value },
+  get phases() { return tracks(current.value?.settings, 'trackPhases') },
+  get lists() { return !!reservesSide.value },
+  get tabs() { return tabs.value.map((t) => t.id) },
+  get shared() { return !!partyActive.value },
+  get host() { return !!isHost.value },
+  get canTurn() { return canEdit(turnIndex.value) },
+  get doubles() { return (current.value?.players || []).some((pl) => membersOf(pl).length > 1) },
+})
 // The panels built so far (see the template): the open one, then the rest one per idle moment.
 const built = ref(new Set([tab.value]))
 // The Phase tab exists while the game asked for the reminder; its count is the reminder itself,
@@ -996,6 +1005,24 @@ const gameMenuOpen = ref(false)
 // The shared game: which side this phone may edit, and whether it is the host. With no party,
 // canEdit is true for both and nothing here changes. `lock` is canEdit as an `inert` value.
 const { active: partyActive, isHost, canEdit, party: partyHandle } = useParty()
+// The tour: this screen's chapter on its first showing (what the turn bar says depends on whether
+// the battle has begun), the turn's own the moment it does, and a shared game's.
+// In a shared game the chapters wait for the server's first answer (which sides the other phones
+// hold, `party.held`): before it every side reads as this phone's, and a guest was told to press a
+// "Start game" that was grey on its screen. Six seconds at most — offline it never comes.
+function startScreenTour() {
+  maybeStartTour('game', tourCtx())
+  if (partyActive.value) maybeStartTour('shared', tourCtx())
+}
+const partyKnown = () => !partyActive.value || partyHandle.value?.held !== undefined
+onMounted(() => {
+  if (partyKnown()) return startScreenTour()
+  const stop = watch(partyKnown, (ok) => { if (ok) { stop(); clearTimeout(late); startScreenTour() } })
+  const late = setTimeout(() => { stop(); startScreenTour() }, 6000)
+})
+watch(begun, (on, was) => { if (on && was === false) maybeStartTour('turn', tourCtx()) })
+// A game shared after the screen came up (from its own menu) gets the shared game's chapter then.
+watch(() => !!partyActive.value, (on) => { if (on) maybeStartTour('shared', tourCtx()) })
 const lock = (pi) => (canEdit(pi) ? undefined : true)
 
 // Live broadcast: arm the push watcher on entering the game screen, so a reload mid-stream

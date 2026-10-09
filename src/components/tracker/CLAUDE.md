@@ -721,3 +721,12 @@ action, then says what the thing is, in the names the screen prints.
   chapter of its own instead (`roster-disposition`).
 - A panel taller than the screen is lit by its tab strip, not by itself: the light would fill the
   screen and the page would scroll deep into it.
+- **Shared and doubles games change what a step may say.** The game screen's `ctx` carries
+  `shared`, `host`, `canTurn` (the turn buttons are this phone's) and `doubles` as getters, read
+  when the chapter starts — and in a shared game the chapters wait for the server's first answer
+  (`party.held`), or a guest is told to press a "Start game" that is grey on its screen. Steps
+  come in variants by `when`; a doubles step names the partner's army by seat (`member:
+  'partner' | 'mine'`), never by index — a guest may sit on the team's second army. Chapters of
+  their own: `shared` (after the game's), `lobby-invite` (the host's code screen), `lobby-guest`
+  (a guest's side), `lobby-wait`; the setup's chapters take `ctx.lobby`.
+

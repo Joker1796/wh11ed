@@ -9,6 +9,7 @@
     <PageTabs
       v-if="armyTabs.length > 1"
       class="ap-tabs"
+      data-tour="game-members"
       fill
       :tabs="armyTabs"
       @select="(k) => (sel = k)"
@@ -36,6 +37,8 @@ import ArmyCard from './ArmyCard.vue'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { useGameArmies } from '../../composables/useGameArmies.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
+import { useTourShow } from '../../composables/useTour.js'
+import { useParty } from '../../composables/useParty.js'
 
 // The Armies tab: each army of the game (a side, or each member of a doubles team) on its own tab —
 // its faction, the way to its units, its rules (ArmyCard.vue).
@@ -61,6 +64,16 @@ const armyTabs = computed(() => armies.value
   .map((a, k) => ({ key: k, label: a.label, active: sel.value === k, pi: a.pi }))
   .filter((t) => !controlled.value || t.pi === props.side))
 
+// The tour in a doubles game opens the partner's army and then this phone's own again
+// (useTourShow, 'partner' / 'mine'): which member is whose is this phone's seat in a shared game,
+// This phone's army in a side: its seat's member in a shared game, else the first.
+const { party: partyHandle } = useParty()
+const mySeatIn = (pi) => (partyHandle.value?.side === pi && partyHandle.value?.mi != null ? partyHandle.value.mi : 0)
+// the first army when one phone keeps the whole team.
+useTourShow('member', (who) => {
+  const t = armyTabs.value.find((x) => (armies.value[x.key].mi === mySeatIn(x.pi)) === (who === 'mine'))
+  if (t) sel.value = t.key
+})
 // A switch fades the new card in (useSwapFade).
 const cards = ref([])
 useSwapFade(sel, () => cards.value[sel.value]?.$el)

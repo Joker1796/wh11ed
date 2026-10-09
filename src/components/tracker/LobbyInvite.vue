@@ -11,6 +11,7 @@
       <PartyInvite
         v-if="invite"
         :invite="invite"
+        data-tour="lobby-code"
       />
       <p
         v-else
@@ -22,7 +23,10 @@
       <!-- Who has arrived. The host does not have to wait for anyone to go on setting the game
            up — the wizard's own gate is what holds the start until the other side is in — so
            this is a report, not a turnstile. -->
-      <div class="li-who">
+      <div
+        class="li-who"
+        data-tour="lobby-people"
+      >
         <span class="li-label">{{ labels.partyMembers }}</span>
         <p
           v-if="!guests.length"
@@ -56,6 +60,7 @@
         </button>
         <button
           class="btn-primary"
+          data-tour="lobby-go"
           @click="$emit('next')"
         >
           {{ labels.lobbyInviteNext }}
@@ -82,6 +87,7 @@ import ConfirmModal from '../ConfirmModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
+import { useTour } from '../../composables/useTour.js'
 
 // Where a shared game begins: the code and the link, and who has come in so far. It stands
 // BEFORE the wizard because that is the order the table works in — you call the other player
@@ -103,6 +109,10 @@ onMounted(async () => {
   timer = setInterval(refreshMembers, 5000)
 })
 onUnmounted(() => clearInterval(timer))
+
+// The invitation's chapter, the first time a host opens a lobby.
+const { maybeStart: maybeStartTour } = useTour()
+onMounted(() => maybeStartTour('lobby-invite'))
 </script>
 
 <style scoped>

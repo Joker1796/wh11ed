@@ -124,6 +124,9 @@ export function useTour() {
   function finish() {
     if (active.value) markSeen(active.value.id)
     active.value = null
+    // The chapters in line waited for this one: their minute starts now, not when they were asked
+    // for — a fifteen-step chapter read slowly outlasted it, and the next was dropped.
+    for (const p of pending.values()) p.at = Date.now()
   }
 
   // Every chapter shown again, each on its own screen.

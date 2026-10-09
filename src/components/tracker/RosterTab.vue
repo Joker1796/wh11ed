@@ -15,6 +15,7 @@
     <PageTabs
       v-if="listTabs.length > 1"
       class="rt-tabs"
+      data-tour="game-members"
       fill
       :tabs="listTabs"
       @select="(k) => (sel = k)"
@@ -44,6 +45,8 @@ import { useLocale } from '../../composables/useLocale.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import SideEmptyState from './SideEmptyState.vue'
 import { ui } from '../../i18n/ui.js'
+import { useTourShow } from '../../composables/useTour.js'
+import { useParty } from '../../composables/useParty.js'
 
 // The game screen's Roster tab (owner, 2026-09-30): the attached lists, read without leaving the
 // game. The roster screen is heavy (the faction's datasheets, its modifier layer), so it is its own
@@ -77,6 +80,14 @@ const sideFaction = computed(() => (controlled.value
   ? factionIndexBySlug(membersOf(current.value.players[props.side])[0]?.factionSlug) || null
   : null))
 const listTabs = computed(() => offered.value.map((a) => ({ key: a.key, label: a.label, active: a.key === army.value?.key })))
+// This phone's army in a side: its seat's member in a shared game, else the first.
+const { party: partyHandle } = useParty()
+const mySeatIn = (pi) => (partyHandle.value?.side === pi && partyHandle.value?.mi != null ? partyHandle.value.mi : 0)
+// The tour in a doubles game opens the partner's list, then this phone's own (see ArmiesPanel).
+useTourShow('member', (who) => {
+  const a = offered.value.find((x) => (x.mi === mySeatIn(x.pi)) === (who === 'mine'))
+  if (a) sel.value = a.key
+})
 
 // Built ahead of the first visit, then kept: the game screen builds this panel while the browser
 // is idle after it comes up (RoundTracker), and the panel builds every list the same way, frozen
