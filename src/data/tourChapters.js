@@ -25,9 +25,9 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'home-coop',
-        ru: { title: 'Совместная игра', text: 'Нажмите, если играете на нескольких телефонах. Каждый игрок ведёт свою сторону на своём телефоне. Один игрок создаёт партию и отправляет остальным ссылку или код.' },
+        ru: { title: 'Совместная игра', text: 'Нажмите, если играете на нескольких устройствах. Каждый игрок ведёт свою сторону на своём устройстве. Один игрок создаёт партию и отправляет остальным ссылку или код.' },
 
-        en: { title: 'Shared game', text: 'Press this when you play on several phones. Each player keeps their own side on their own phone. One player creates the game and sends the others a link or a code.' },
+        en: { title: 'Shared game', text: 'Press this when you play on several devices. Each player keeps their own side on their own device. One player creates the game and sends the others a link or a code.' },
 
       },
       {
@@ -52,8 +52,8 @@ export const TOUR_CHAPTERS = {
       {
         target: 'setup-gametype',
         when: (ctx) => ctx.lobby,
-        ru: { title: 'Тип игры', text: 'Тип игры вы выбрали, когда открыли совместную игру. Здесь его уже не поменять: к нему привязаны места подключившихся телефонов.' },
-        en: { title: 'Game type', text: 'You chose the game type when you opened the shared game. It cannot change here: the joined phones’ seats depend on it.' },
+        ru: { title: 'Тип игры', text: 'Тип игры вы выбрали, когда открыли совместную игру. Здесь его уже не поменять: к нему привязаны места подключившихся устройств.' },
+        en: { title: 'Game type', text: 'You chose the game type when you opened the shared game. It cannot change here: the joined devices’ seats depend on it.' },
       },
       {
         target: 'setup-size',
@@ -73,14 +73,14 @@ export const TOUR_CHAPTERS = {
       {
         target: 'setup-player',
         when: (ctx) => ctx.lobby && !ctx.doubles,
-        ru: { title: 'Ваша армия', text: 'Впишите своё имя, выберите фракцию и детачменты. Если у вас есть ростер, приложите его кнопкой справа от фракции. Сторону соперника он заполняет сам, на своём телефоне.' },
-        en: { title: 'Your army', text: 'Enter your name, pick your faction and detachments. If you have a roster, attach it with the button to the right of the faction. The opponent fills in their own side, on their phone.' },
+        ru: { title: 'Ваша армия', text: 'Впишите своё имя, выберите фракцию и детачменты. Если у вас есть ростер, приложите его кнопкой справа от фракции. Сторону соперника он заполняет сам, на своём устройстве.' },
+        en: { title: 'Your army', text: 'Enter your name, pick your faction and detachments. If you have a roster, attach it with the button to the right of the faction. The opponent fills in their own side, on their device.' },
       },
       {
         target: 'setup-player',
         when: (ctx) => ctx.lobby && ctx.doubles,
-        ru: { title: 'Ваша команда', text: 'Заполните обе армии своей команды: имена, фракции, детачменты, ростеры. Команду соперника заполняет её игрок, на своём телефоне.' },
-        en: { title: 'Your team', text: 'Fill in both armies of your team: names, factions, detachments, rosters. The opposing team is filled in by its player, on their phone.' },
+        ru: { title: 'Ваша команда', text: 'Заполните обе армии своей команды: имена, фракции, детачменты, ростеры. Команду соперника заполняет её игрок, на своём устройстве.' },
+        en: { title: 'Your team', text: 'Fill in both armies of your team: names, factions, detachments, rosters. The opposing team is filled in by its player, on their device.' },
       },
       {
         target: 'lobby-other',
@@ -165,8 +165,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'setup-look',
-        ru: { title: 'Цвета сторон', text: 'Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому. Без этого каждая сторона окрашена в цвет своей фракции — здесь видно, как это будет выглядеть. Выбор действует только на вашем телефоне.' },
-        en: { title: 'Side colours', text: 'Tick “Customise colours” to choose each side’s colour yourself. Otherwise each side wears its faction’s colour — this shows how it will look. The choice applies to your phone only.' },
+        ru: { title: 'Цвета сторон', text: 'Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому. Без этого каждая сторона окрашена в цвет своей фракции — здесь видно, как это будет выглядеть. Выбор действует только на вашем устройстве.' },
+        en: { title: 'Side colours', text: 'Tick “Customise colours” to choose each side’s colour yourself. Otherwise each side wears its faction’s colour — this shows how it will look. The choice applies to your device only.' },
       },
       {
         target: 'setup-start',
@@ -179,8 +179,8 @@ export const TOUR_CHAPTERS = {
       {
         target: 'setup-start',
         when: (ctx) => ctx.lobby,
-        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово и соперник отправил свою сторону. Партия откроется на всех телефонах сразу. Бой начнётся отдельной кнопкой, когда вы расставите армии.' },
-        en: { title: 'Go to the game', text: 'Press this when everything is ready and the opponent has sent their side. The game opens on every phone at once. The battle starts with its own button once you have deployed.' },
+        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово и соперник отправил свою сторону. Партия откроется на всех устройствах сразу. Бой начнётся отдельной кнопкой, когда вы расставите армии.' },
+        en: { title: 'Go to the game', text: 'Press this when everything is ready and the opponent has sent their side. The game opens on every device at once. The battle starts with its own button once you have deployed.' },
       },
     ],
   },
@@ -188,8 +188,8 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'game-line',
-        ru: { title: 'Раунд и ход', text: 'Здесь написано, какой сейчас раунд и чей ход. Точка слева окрашена в цвет стороны, которая ходит. В совместной игре точка медленно мигает, пока телефоны синхронизированы.' },
-        en: { title: 'Round and turn', text: 'This line says which round it is and whose turn. The dot on the left has the colour of the side on turn. In a shared game the dot slowly blinks while the phones are in sync.' },
+        ru: { title: 'Раунд и ход', text: 'Здесь написано, какой сейчас раунд и чей ход. Точка слева окрашена в цвет стороны, которая ходит. В совместной игре точка медленно мигает, пока устройства синхронизированы.' },
+        en: { title: 'Round and turn', text: 'This line says which round it is and whose turn. The dot on the left has the colour of the side on turn. In a shared game the dot slowly blinks while the devices are in sync.' },
       },
       {
         target: 'game-rounds',
@@ -241,15 +241,15 @@ export const TOUR_CHAPTERS = {
         target: 'game-start',
         show: { side: null },
         when: (ctx) => !ctx.begun && ctx.canTurn === false,
-        ru: { title: 'Начать игру', text: '«Начать игру» нажимает игрок, который ходит первым, на своём телефоне. У вас эта кнопка серая. Бой начнётся на всех телефонах сразу.' },
-        en: { title: 'Start game', text: '“Start game” is pressed by the player who goes first, on their phone. Here the button is grey. The battle starts on every phone at once.' },
+        ru: { title: 'Начать игру', text: '«Начать игру» нажимает игрок, который ходит первым, на своём устройстве. У вас эта кнопка серая. Бой начнётся на всех устройствах сразу.' },
+        en: { title: 'Start game', text: '“Start game” is pressed by the player who goes first, on their device. Here the button is grey. The battle starts on every device at once.' },
       },
       {
         target: 'game-turnbar',
         show: { side: null },
         when: (ctx) => ctx.begun && ctx.canTurn === false,
-        ru: { title: 'Ход соперника', text: 'Сейчас ходит соперник: фазы переключает и ход завершает он, на своём телефоне. У вас эти кнопки серые, а всё, что он делает, сразу видно здесь.' },
-        en: { title: 'The opponent’s turn', text: 'The opponent is on turn: they step the phases and end the turn, on their phone. Here the buttons are grey, and everything they do shows here at once.' },
+        ru: { title: 'Ход соперника', text: 'Сейчас ходит соперник: фазы переключает и ход завершает он, на своём устройстве. У вас эти кнопки серые, а всё, что он делает, сразу видно здесь.' },
+        en: { title: 'The opponent’s turn', text: 'The opponent is on turn: they step the phases and end the turn, on their device. Here the buttons are grey, and everything they do shows here at once.' },
       },
       {
         target: 'game-turnbar',
@@ -364,8 +364,8 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-score',
         when: (ctx) => ctx.otherList && ctx.shared,
-        ru: { title: 'Резервы соперника', text: 'В совместной игре соперник отмечает свои резервы сам, на своём телефоне.' },
-        en: { title: 'The opponent’s reserves', text: 'In a shared game the opponent marks their own reserves, on their phone.' },
+        ru: { title: 'Резервы соперника', text: 'В совместной игре соперник отмечает свои резервы сам, на своём устройстве.' },
+        en: { title: 'The opponent’s reserves', text: 'In a shared game the opponent marks their own reserves, on their device.' },
       },
       {
         target: 'game-start',
@@ -382,8 +382,8 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-turnbar',
         when: (ctx) => ctx.canTurn === false,
-        ru: { title: 'Бой начался', text: 'Фазы переключает и ход завершает тот, кто ходит, на своём телефоне. Когда ход перейдёт к вам, кнопки внизу оживут.' },
-        en: { title: 'The battle has begun', text: 'Whoever is on turn steps the phases and ends the turn, on their phone. When the turn passes to you, the buttons below come alive.' },
+        ru: { title: 'Бой начался', text: 'Фазы переключает и ход завершает тот, кто ходит, на своём устройстве. Когда ход перейдёт к вам, кнопки внизу оживут.' },
+        en: { title: 'The battle has begun', text: 'Whoever is on turn steps the phases and ends the turn, on their device. When the turn passes to you, the buttons below come alive.' },
       },
       {
         target: 'game-turnbar',
@@ -683,26 +683,26 @@ export const TOUR_CHAPTERS = {
         target: 'game-score',
         show: { side: null },
         when: (ctx) => !ctx.doubles,
-        ru: { title: 'Совместная игра', text: 'Этот телефон ведёт вашу сторону: её миссии, CP и счётчики. Если соперник подключился со своего телефона, его сторону здесь можно открыть и читать, но менять её может только он.' },
-        en: { title: 'Shared game', text: 'This phone keeps your side: its missions, CP and counters. When the opponent has joined from their phone, their side opens and reads here, but only their phone changes it.' },
+        ru: { title: 'Совместная игра', text: 'Это устройство ведёт вашу сторону: её миссии, CP и счётчики. Если соперник подключился со своего устройства, его сторону здесь можно открыть и читать, но менять её может только он.' },
+        en: { title: 'Shared game', text: 'This device keeps your side: its missions, CP and counters. When the opponent has joined from their device, their side opens and reads here, but only their device changes it.' },
       },
       {
         target: 'game-score',
         show: { side: null },
         when: (ctx) => ctx.doubles,
-        ru: { title: 'Совместная игра', text: 'Этот телефон ведёт вашу команду: её миссии, CP и счётчики. Команду соперника здесь можно открыть и читать, но менять её может только телефон её игрока.' },
-        en: { title: 'Shared game', text: 'This phone keeps your team: its missions, CP and counters. The opposing team opens and reads here, but only its player’s phone changes it.' },
+        ru: { title: 'Совместная игра', text: 'Это устройство ведёт вашу команду: её миссии, CP и счётчики. Команду соперника здесь можно открыть и читать, но менять её может только устройство её игрока.' },
+        en: { title: 'Shared game', text: 'This device keeps your team: its missions, CP and counters. The opposing team opens and reads here, but only its player’s device changes it.' },
       },
       {
         target: 'game-line',
-        ru: { title: 'Синхронизация', text: 'Изменения приходят на другие телефоны за несколько секунд. Пока всё синхронизировано, точка слева медленно мигает. Если связи нет, вместо точки появится значок — нажмите на него, чтобы узнать причину.' },
-        en: { title: 'Sync', text: 'Changes reach the other phones within seconds. While everything is in sync, the dot on the left blinks slowly. Without a connection a mark takes its place — tap it to see why.' },
+        ru: { title: 'Синхронизация', text: 'Изменения приходят на другие устройства за несколько секунд. Пока всё синхронизировано, точка слева медленно мигает. Если связи нет, вместо точки появится значок — нажмите на него, чтобы узнать причину.' },
+        en: { title: 'Sync', text: 'Changes reach the other devices within seconds. While everything is in sync, the dot on the left blinks slowly. Without a connection a mark takes its place — tap it to see why.' },
       },
       {
         target: 'game-menu',
         when: (ctx) => ctx.host,
-        ru: { title: 'Участники', text: 'Нажмите «…» и выберите «Совместная игра»: там код и ссылка для приглашения и список подключённых. Там же можно отключить телефон, передать роль хоста или закончить совместную игру.' },
-        en: { title: 'Who is in', text: 'Press “…” and pick “Shared game”: the code and link to invite, and who has joined. You can also disconnect a phone, hand the host role over or end the shared game there.' },
+        ru: { title: 'Участники', text: 'Нажмите «…» и выберите «Совместная игра»: там код и ссылка для приглашения и список подключённых. Там же можно отключить устройство, передать роль хоста или закончить совместную игру.' },
+        en: { title: 'Who is in', text: 'Press “…” and pick “Shared game”: the code and link to invite, and who has joined. You can also disconnect a device, hand the host role over or end the shared game there.' },
       },
       {
         target: 'game-menu',
@@ -769,8 +769,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'lobby-takeover',
-        ru: { title: 'Забрать редактирование', text: 'Вашу сторону сейчас заполняет другой телефон. Нажмите, чтобы заполнять её самому.' },
-        en: { title: 'Take editing over', text: 'Another phone is filling in your side now. Press to fill it in yourself.' },
+        ru: { title: 'Забрать редактирование', text: 'Вашу сторону сейчас заполняет другое устройство. Нажмите, чтобы заполнять её самому.' },
+        en: { title: 'Take editing over', text: 'Another device is filling in your side now. Press to fill it in yourself.' },
       },
       {
         target: 'lobby-leave',

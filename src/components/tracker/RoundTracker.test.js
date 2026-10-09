@@ -443,7 +443,7 @@ describe('RoundTracker — a shared game', () => {
     withParty({ host: false, side: 1 })
     const w = await mountBoth()
     expect(await lockedBoth(w)).toEqual([LOCKED, OPEN])
-    expect((await sideCard(w, 0)).text()).toContain('Scored on another phone')
+    expect((await sideCard(w, 0)).text()).toContain('Scored on another device')
     expect((await setupRow(w)).disabled).toBe(false)
   })
 
