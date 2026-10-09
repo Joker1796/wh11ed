@@ -64,6 +64,7 @@
         <header class="red-head">
           <input
             class="rname-input"
+            data-tour="rs-name"
             :class="nameFit"
             :value="roster.name"
             :placeholder="labels.rosterUntitled"
@@ -403,12 +404,23 @@ const desk = useMediaQuery('(min-width: 1200px)')
 // columns are on one screen.
 const { maybeStart: maybeStartTour } = useTour()
 useTourShow('editorMode', (m) => { if (!desk.value) tab.value = m })
+// The Force Disposition's chapter comes after the setup's, which tells the detachments it follows
+// from — and only while its field is on screen: on a phone the settings mode, not the units it
+// opens on (asked at once, it stood first in line and came before the setup's chapter).
+const askDisposition = () => {
+  if (dispositionCands.value.length && (desk.value || tab.value === 'settings')) maybeStartTour('roster-disposition')
+}
 onMounted(() => {
   if (!desk.value) maybeStartTour('roster-edit')
   else maybeStartTour('roster-setup')
+  askDisposition()
   maybeStartTour('roster-units')
 })
-watch(tab, (m) => { if (m === 'settings' && !desk.value) maybeStartTour('roster-setup') })
+watch(tab, (m) => {
+  if (m !== 'settings' || desk.value) return
+  maybeStartTour('roster-setup')
+  askDisposition()
+})
 // Crossing into or out of the desk swaps no mode, so nothing fades and nothing moves `paneTab`.
 watch(desk, () => { paneTab.value = tab.value })
 
@@ -513,7 +525,7 @@ const {
   setFaction: (slug) => { roster.value.faction = slug },
 })
 // The Force Disposition field comes with the detachments: its own chapter, the first time it does.
-watch(() => dispositionCands.value.length > 0, (on) => { if (on) maybeStartTour('roster-disposition') }, { immediate: true, flush: 'post' })
+watch(() => dispositionCands.value.length > 0, (on) => { if (on) askDisposition() }, { flush: 'post' })
 
 // A note is the one field here that keeps its own line breaks, so it is written straight rather
 // than through rosterEngine's single-line `setNote` — only the length cap is shared.

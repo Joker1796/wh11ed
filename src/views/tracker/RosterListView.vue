@@ -327,6 +327,8 @@ onMounted(() => maybeStartTour('roster-list', {
   get cards() { return activeRosters.value.length > 0 },
   // A first visit has no list anywhere: the three tabs are told about in one step, not walked.
   get any() { return activeRosters.value.length + draftRosters.value.length + archivedRosters.value.length > 0 },
+  // The rosters' desk with no roster open shows the statistics beside the list already.
+  get statsOpen() { return props.inDesk && !props.activeId },
 }))
 const tabs = computed(() => [
   { key: 'saved', label: labels.value.rosterTabSaved, count: activeRosters.value.length, active: tab.value === 'saved' },

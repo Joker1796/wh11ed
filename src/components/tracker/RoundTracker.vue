@@ -775,6 +775,8 @@ const tourCtx = () => ({
   get host() { return !!isHost.value },
   get canTurn() { return canEdit(turnIndex.value) },
   get doubles() { return (current.value?.players || []).some((pl) => membersOf(pl).length > 1) },
+  // A wide screen names every tab; a phone names only the open one.
+  get wide() { return wideTabs.value },
 })
 // The panels built so far (see the template): the open one, then the rest one per idle moment.
 const built = ref(new Set([tab.value]))

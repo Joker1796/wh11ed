@@ -992,11 +992,14 @@
               @select="selectLayout"
               @custom="layoutPickerOpen = true"
             />
-            <LayoutCard
+            <!-- The tour's anchor on a wrapper: LayoutCard has two roots (the card and its
+                 full-size modal), so an attribute on it lands nowhere and the step was skipped. -->
+            <div
               v-if="currentLayout"
               data-tour="setup-layout"
-              :layout="currentLayout"
-            />
+            >
+              <LayoutCard :layout="currentLayout" />
+            </div>
           </template>
           <p
             v-else

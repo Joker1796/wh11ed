@@ -65,9 +65,9 @@ export const TOUR_CHAPTERS = {
       {
         target: 'setup-player',
         when: (ctx) => !ctx.lobby,
-        ru: { title: 'Ваша армия', text: 'Впишите своё имя, выберите фракцию и детачменты. Если у вас есть ростер, приложите его кнопкой справа от фракции. Тогда в партии будут карточки ваших юнитов с их правилами. Ниже так же заполните армию соперника.' },
+        ru: { title: 'Ваша армия', text: 'Впишите своё имя, выберите фракцию и детачменты. Если у вас есть ростер, приложите его кнопкой справа от фракции. Тогда в партии будут карточки ваших юнитов с их правилами. Армию соперника заполните так же.' },
 
-        en: { title: 'Your army', text: 'Enter your name, pick your faction and detachments. If you have a roster, attach it with the button to the right of the faction. The game then has your unit cards with their rules. Fill in the opponent’s army below the same way.' },
+        en: { title: 'Your army', text: 'Enter your name, pick your faction and detachments. If you have a roster, attach it with the button to the right of the faction. The game then has your unit cards with their rules. Fill in the opponent’s army the same way.' },
 
       },
       {
@@ -260,9 +260,17 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-tabs',
+        when: (ctx) => !ctx.wide,
         show: { tab: 'missions', side: null },
         ru: { title: 'Вкладки', text: 'Нажмите на значок, чтобы открыть вкладку. Открытая вкладка подписана словом. Дальше туториал откроет каждую по очереди. Каждый новый ход открывается на вкладке «Миссии».' },
         en: { title: 'Tabs', text: 'Tap an icon to open a tab. The open tab is named in words. Next the tutorial opens each one in turn. Every new turn opens on the Missions tab.' },
+      },
+      {
+        target: 'game-tabs',
+        when: (ctx) => ctx.wide,
+        show: { tab: 'missions', side: null },
+        ru: { title: 'Вкладки', text: 'Нажмите на вкладку, чтобы открыть её. Открытая вкладка залита цветом. Дальше туториал откроет каждую по очереди. Каждый новый ход открывается на вкладке «Миссии».' },
+        en: { title: 'Tabs', text: 'Click a tab to open it. The open tab is filled with colour. Next the tutorial opens each one in turn. Every new turn opens on the Missions tab.' },
       },
       {
         target: 'game-missions',
@@ -408,8 +416,15 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'roster-stats',
-        ru: { title: 'Статистика', text: 'Нажмите «Статистика», чтобы увидеть свои сыгранные партии: победы, соперников, вторичные миссии и итоги по каждому ростеру.' },
-        en: { title: 'Statistics', text: 'Press “Statistics” to see your finished games: wins, opponents, secondary missions and how each roster did.' },
+        when: (ctx) => !ctx.statsOpen,
+        ru: { title: 'Статистика', text: 'Нажмите кнопку с графиком, чтобы увидеть свои сыгранные партии: победы, соперников, вторичные миссии и итоги по каждому ростеру.' },
+        en: { title: 'Statistics', text: 'Press the button with the chart to see your finished games: wins, opponents, secondary missions and how each roster did.' },
+      },
+      {
+        target: 'roster-stats',
+        when: (ctx) => ctx.statsOpen,
+        ru: { title: 'Статистика', text: 'Посмотрите справа свои сыгранные партии: победы, соперников, вторичные миссии и итоги по каждому ростеру. Когда открыт ростер, кнопка «Статистика» возвращает сюда.' },
+        en: { title: 'Statistics', text: 'See your finished games on the right: wins, opponents, secondary missions and how each roster did. With a roster open, “Statistics” brings you back here.' },
       },
       {
         target: 'roster-tabs',
@@ -471,9 +486,17 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'rv-head',
+        when: (ctx) => ctx.points !== false,
         show: { viewTab: 'units' },
         ru: { title: 'Ростер', text: 'Здесь название ростера и его очки из лимита. Если очков больше лимита, число станет красным.' },
         en: { title: 'The roster', text: 'The roster’s name and its points out of the limit are here. Over the limit, the number turns red.' },
+      },
+      {
+        target: 'rv-head',
+        when: (ctx) => ctx.points === false,
+        show: { viewTab: 'units' },
+        ru: { title: 'Ростер', text: 'Здесь название ростера. Его очки из лимита — на карточке в списке слева. Если очков станет больше лимита, число появится и здесь, красным.' },
+        en: { title: 'The roster', text: 'The roster’s name is here. Its points out of the limit are on its card in the list on the left. Over the limit, the number shows here too, in red.' },
       },
       {
         target: 'rv-edit',
@@ -540,8 +563,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'rs-size',
-        ru: { title: 'Размер игры', text: 'Выберите размер игры. Он задаёт лимит очков и число очков детачмента (DP). Можно задать и свой лимит.' },
-        en: { title: 'Game size', text: 'Choose the game size. It sets the points limit and the Detachment Points (DP). You can set your own limit too.' },
+        ru: { title: 'Лимит очков', text: 'Выберите размер игры. Он задаёт лимит очков и число очков детачмента (DP). Можно задать и свой лимит.' },
+        en: { title: 'Points limit', text: 'Choose the game size. It sets the points limit and the Detachment Points (DP). You can set your own limit too.' },
       },
       {
         target: 'rs-faction',
@@ -550,8 +573,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'rs-detachments',
-        ru: { title: 'Детачменты', text: 'Выберите детачменты. Каждый стоит очков детачмента (DP), счётчик рядом показывает, сколько потрачено.' },
-        en: { title: 'Detachments', text: 'Choose the detachments. Each costs Detachment Points (DP), and the counter beside them shows how many are spent.' },
+        ru: { title: 'Детачменты', text: 'Выберите детачменты, когда фракция выбрана. Каждый стоит очков детачмента (DP). Сколько потрачено, видно в подписи поля.' },
+        en: { title: 'Detachments', text: 'Choose the detachments once the faction is chosen. Each costs Detachment Points (DP). The field’s caption shows how many are spent.' },
       },
       {
         target: 'rs-notes',
@@ -560,13 +583,13 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'rs-check',
-        ru: { title: 'Проверка правил', text: 'Снимите галочку, если собираете ростер не по правилам — например, для дружеской игры. Тогда конструктор не будет отмечать ошибки.' },
-        en: { title: 'Rules check', text: 'Untick this when the roster is not meant to follow the rules — for a friendly game, say. The builder then marks no problems.' },
+        ru: { title: 'Проверка правил', text: 'Снимите галочку «Проверять легитимность», если собираете ростер не по правилам — например, для дружеской игры. Тогда конструктор не будет отмечать ошибки.' },
+        en: { title: 'Rules check', text: 'Untick “Check legality” when the roster is not meant to follow the rules — for a friendly game, say. The builder then marks no problems.' },
       },
       {
         target: 'rs-more',
-        ru: { title: 'Ещё настройки', text: 'Нажмите, чтобы открыть заметки и проверку правил. Снимите там галочку «Проверять легитимность», если собираете ростер не по правилам.' },
-        en: { title: 'More settings', text: 'Press to open the notes and the rules check. Untick “Check legality” there when the roster is not meant to follow the rules.' },
+        ru: { title: 'Ещё настройки', text: 'Нажмите «…», чтобы открыть заметки и проверку правил. Снимите там галочку «Проверять легитимность», если собираете ростер не по правилам.' },
+        en: { title: 'More settings', text: 'Press “…” to open the notes and the rules check. Untick “Check legality” there when the roster is not meant to follow the rules.' },
       },
       {
         target: 'rc-next',
@@ -609,8 +632,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'rw-editor',
-        ru: { title: 'Настройка юнита', text: 'Здесь настройки юнита, которого вы выбрали в ростере: модели, вооружение, улучшения.' },
-        en: { title: 'The unit’s setup', text: 'The setup of the unit you chose in the roster is here: models, wargear, enhancements.' },
+        ru: { title: 'Настройка юнита', text: 'Нажмите на юнит в ростере, и здесь откроются его настройки: модели, вооружение, улучшения.' },
+        en: { title: 'The unit’s setup', text: 'Tap a unit in the roster, and its setup opens here: models, wargear, enhancements.' },
       },
       {
         target: 'rw-tally',

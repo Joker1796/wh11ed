@@ -1707,6 +1707,8 @@ onMounted(() => {
     maybeStartTour('roster-view', {
       get issues() { return issues.value.length > 0 },
       get possible() { return possibleGroups.value.length > 0 },
+      // On the rosters' desk the points stand on the list's card, here only over the limit.
+      get points() { return showPoints.value },
     })
   }
 })
