@@ -2,6 +2,9 @@ import { ref, computed, watch } from 'vue'
 import { IS_BETA } from '../config.js'
 import { TOUR_CHAPTERS } from '../data/tourChapters.js'
 import { getItem, setItem } from './safeStorage.js'
+import { asked } from './tourScreen.js'
+
+export { forgetScreen } from './tourScreen.js'
 
 // The new tracker's guided tour (owner, 2026-10-08): chapters along the game's own flow — the
 // tracker home, each setup step, the game screen — each shown by itself the first time its screen
@@ -82,7 +85,9 @@ export function useTour() {
   // chapter starts only while something it lights is on screen, and one not shown within a minute
   // is dropped — its screen has gone.
   function maybeStart(id, ctx = {}) {
-    if (!TOUR_ON || !TOUR_CHAPTERS[id] || seen.value.has(id)) return
+    if (!TOUR_ON || !TOUR_CHAPTERS[id]) return
+    asked.value = [...asked.value.filter((a) => a.id !== id), { id, ctx }]
+    if (seen.value.has(id)) return
     pending.set(id, { ctx, at: Date.now() })
     if (waiting) return
     let free = 0 // the screen has to stay free for two looks: a dialog may open a moment late
@@ -129,6 +134,18 @@ export function useTour() {
     for (const p of pending.values()) p.at = Date.now()
   }
 
+  // This screen's chapters again, in the order it asked for them — those whose elements are still
+  // here (a page that turned from the setup into the game keeps only the game's).
+  const replayable = computed(() => TOUR_ON && asked.value.length > 0)
+  function replay() {
+    const again = asked.value.filter((a) => onScreen(a.id, a.ctx))
+    if (!again.length) return
+    if (active.value) active.value = null
+    seen.value = new Set([...seen.value].filter((id) => !again.some((a) => a.id === id)))
+    setItem(SEEN_KEY, JSON.stringify([...seen.value]))
+    for (const a of again) maybeStart(a.id, a.ctx)
+  }
+
   // Every chapter shown again, each on its own screen.
   function resetAll() {
     seen.value = new Set()
@@ -144,5 +161,5 @@ export function useTour() {
     else next()
   }
 
-  return { active, chapter, step, maybeStart, start, next, back, pass, finish, resetAll }
+  return { active, chapter, step, maybeStart, start, next, back, pass, finish, resetAll, replayable, replay }
 }

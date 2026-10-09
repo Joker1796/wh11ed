@@ -729,4 +729,9 @@ action, then says what the thing is, in the names the screen prints.
   'partner' | 'mine'`), never by index — a guest may sit on the team's second army. Chapters of
   their own: `shared` (after the game's), `lobby-invite` (the host's code screen), `lobby-guest`
   (a guest's side), `lobby-wait`; the setup's chapters take `ctx.lobby`.
+- **Seen once, then on request.** Every screen's chapters come back from the ⚙ menu ("Tutorial of
+  this screen"): `maybeStart` records what the page asked for, seen or not, in `tourScreen.js` (a
+  module without the texts — the navbar is in the root bundle), the overlay forgets it on a new
+  page (App's `pageKey`), and `replay()` shows again those whose elements are on screen. The game
+  screen's own ⋯ menu keeps its item.
 

@@ -6,7 +6,10 @@
     <DomainMoveBanner v-if="!isBare" />
     <BetaBanner v-if="IS_BETA && !isBare" />
     <!-- The tracker tour (useTour.js): the beta's, and the dev stand's where it is written. -->
-    <TourOverlay v-if="TOUR_ON" />
+    <TourOverlay
+      v-if="TOUR_ON"
+      :page="pageKey"
+    />
     <UpdateNoticeBar v-if="!isBare" />
 
     <AppNavbar

@@ -74,8 +74,12 @@
 import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
-import { useTour } from '../composables/useTour.js'
+import { forgetScreen, useTour } from '../composables/useTour.js'
 
+// The page on screen (App.vue's pageKey): a new one, and the ⚙ menu's "this screen's tutorial"
+// forgets the chapters the last page asked for.
+const props = defineProps({ page: { type: String, default: '' } })
+watch(() => props.page, () => forgetScreen())
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { active, chapter, step, next, back, pass, finish } = useTour()

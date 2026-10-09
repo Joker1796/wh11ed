@@ -209,6 +209,15 @@
                 <i :class="offlineIcon" />
                 <span>{{ offlineLabel }}</span>
               </button>
+              <!-- The beta's tutorial: this screen's chapters again (tourScreen.js). -->
+              <button
+                v-if="TOUR_ON && tourAsked.length"
+                class="settings-item"
+                @click="onTour"
+              >
+                <i class="bi bi-question-circle" />
+                <span>{{ labels.tourThisScreen }}</span>
+              </button>
               <button
                 class="settings-item"
                 @click="onFeedback"
@@ -294,6 +303,8 @@ import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { ui } from '../i18n/ui.js'
 import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
 import { rulesLanding } from '../data/rulesLanding.js'
+import { asked as tourAsked } from '../composables/tourScreen.js'
+import { IS_BETA } from '../config.js'
 
 defineProps({
   mobileNavOpen: Boolean,
@@ -345,6 +356,13 @@ async function onSignOut() {
 function onMockToggle() {
   settingsOpen.value = false
   toggleMock()
+}
+// The tutorial loads only when asked for: its chapters stay out of the root bundle.
+const TOUR_ON = IS_BETA || import.meta.env.DEV
+async function onTour() {
+  settingsOpen.value = false
+  const { useTour } = await import('../composables/useTour.js')
+  useTour().replay()
 }
 
 const labels = computed(() => ui[locale.value])
