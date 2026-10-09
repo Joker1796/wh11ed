@@ -310,8 +310,6 @@ import { rulesLanding } from '../data/rulesLanding.js'
 import { replayableNow } from '../composables/tourScreen.js'
 import { IS_BETA } from '../config.js'
 
-// The beta's mark is the site's with a yellow scale (the icon set does the same, 2026-10-09).
-const IS_BETA = import.meta.env.VITE_BETA === '1'
 
 defineProps({
   mobileNavOpen: Boolean,
