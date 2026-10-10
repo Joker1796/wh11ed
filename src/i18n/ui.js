@@ -2261,7 +2261,7 @@ export const ui = {
     trackerStepStart: 'Начало фазы',
     trackerStepEnd: 'Конец фазы',
     trackerStepCp: 'Получение базовых CP',
-    trackerStepShock: 'Шок',
+    trackerStepShock: 'Battle-shock',
     trackerStepAbilities: 'Командные способности',
     trackerStepMove: 'Движение юнитов',
     trackerStepShoot: 'Стрельба',
