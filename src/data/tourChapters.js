@@ -302,8 +302,8 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-panel-armies',
         show: { tab: 'armies' },
-        ru: { title: 'Армии', text: 'Здесь армия стороны: её юниты и правила, которыми она играет, — армейское правило и правила детачментов. Счётчики армейского правила, например Waaagh!, ведутся здесь же.' },
-        en: { title: 'Armies', text: 'The side’s army is here: its units and the rules it plays by — the army rule and the detachment rules. The army rule’s counters, Waaagh! for example, are kept here too.' },
+        ru: { title: 'Армия', text: 'Здесь армия стороны: сверху правила, которыми она играет, — армейское правило и правила детачментов, под ними юниты из ростера. Счётчики армейского правила, например Waaagh!, ведутся здесь же.' },
+        en: { title: 'Army', text: 'The side’s army is here: on top the rules it plays by — the army rule and the detachment rules — and under them the units of its roster. The army rule’s counters, Waaagh! for example, are kept here too.' },
       },
       {
         target: 'game-members',
@@ -313,11 +313,11 @@ export const TOUR_CHAPTERS = {
         en: { title: 'The partner’s army', text: 'Tap a name to open your partner’s army. In doubles a team has two armies, each with its own rules and counters. The partner’s army is open now.' },
       },
       {
-        target: 'game-tabs',
-        show: { tab: 'roster' },
-        when: (ctx) => ctx.tabs?.includes('roster'),
-        ru: { title: 'Ростер', text: 'Нажмите на юнит ниже, чтобы открыть его карточку. На вкладке «Ростер» — приложенный ростер стороны. Числа в карточках уже с поправками от правил, которые действуют в партии.' },
-        en: { title: 'Roster', text: 'Tap a unit below to open its card. The Roster tab holds the side’s attached roster. The numbers on the cards already carry what the rules in play change.' },
+        target: 'game-roster',
+        show: { tab: 'armies' },
+        when: (ctx) => ctx.lists,
+        ru: { title: 'Ростер', text: 'Нажмите на юнит, чтобы открыть его карточку. Под правилами армии — приложенный ростер стороны. Числа в карточках уже с поправками от правил, которые действуют в партии.' },
+        en: { title: 'Roster', text: 'Tap a unit to open its card. Under the army’s rules is the side’s attached roster. The numbers on the cards already carry what the rules in play change.' },
       },
       {
         target: 'game-panel-log',
@@ -344,10 +344,10 @@ export const TOUR_CHAPTERS = {
   reserves: {
     steps: [
       {
-        target: 'game-tabs',
-        show: { tab: 'roster' },
-        ru: { title: 'Ваш ростер', text: 'Открылась вкладка «Ростер». Здесь ваши юниты, и у каждого отмечено, где он: на поле боя, в стратегическом резерве или уничтожен.' },
-        en: { title: 'Your roster', text: 'The Roster tab is open. Your units are here, and each one shows where it is: on the battlefield, in Strategic Reserves or destroyed.' },
+        target: 'game-roster',
+        show: { tab: 'armies' },
+        ru: { title: 'Ваш ростер', text: 'Открылась вкладка «Армия». Под правилами — ваши юниты, и у каждого отмечено, где он: на поле боя, в стратегическом резерве или уничтожен.' },
+        en: { title: 'Your roster', text: 'The Army tab is open. Under the rules are your units, and each one shows where it is: on the battlefield, in Strategic Reserves or destroyed.' },
       },
       {
         target: 'unit-status',
@@ -356,10 +356,10 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-score',
-        show: { side: 'opp', tab: 'roster' },
+        show: { side: 'opp', tab: 'armies' },
         when: (ctx) => ctx.otherList && !ctx.shared,
-        ru: { title: 'Резервы соперника', text: 'Нажмите на карточку счёта соперника, и на вкладке появится его ростер — как сейчас. Его резервы отмечаются так же.' },
-        en: { title: 'The opponent’s reserves', text: 'Tap the opponent’s score card, and the tab shows their roster — as it does now. Their reserves are marked the same way.' },
+        ru: { title: 'Резервы соперника', text: 'Нажмите на карточку счёта соперника, и во вкладке «Армия» появится его ростер — как сейчас. Его резервы отмечаются так же.' },
+        en: { title: 'The opponent’s reserves', text: 'Tap the opponent’s score card, and the Army tab shows their roster — as it does now. Their reserves are marked the same way.' },
       },
       {
         target: 'game-score',

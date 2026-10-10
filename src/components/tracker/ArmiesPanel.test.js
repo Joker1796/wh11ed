@@ -31,19 +31,20 @@ function mountPanel(names = ['Me', 'Opp']) {
 // Every army's card is built and kept; the one on screen is the one v-show left displayed.
 const onScreen = (el) => !String(el.attributes('style') || '').includes('display: none')
 const shown = (w) => w.findAll('.ap-card').find(onScreen)
-// The units link of every army, picking each in turn: the faction's datasheets by address, the
-// attached list by the Roster tab it asks the game screen for ("roster pi/mi").
+// The way to the units of every army, picking each in turn: the faction's datasheets by address;
+// an attached list stands under the card in the same Army tab since 2026-10-10, so the card has no
+// button to it — the panel names the army on screen ("list pi:mi") for the list to follow.
 async function unitLinks(w) {
   const out = []
   for (const b of w.findAll('.ap-tabs .page-tab')) {
     await b.trigger('click')
     const card = shown(w)
-    const list = card.find('button.proster')
-    if (list.exists()) {
-      await list.trigger('click')
-      const { pi, mi } = w.emitted('roster').at(-1)[0]
-      out.push(`roster ${pi}/${mi ?? ''}`)
-    } else out.push(card.find('a.proster').exists() ? card.find('a.proster').attributes('href') : null)
+    if (card.find('a.proster').exists()) { out.push(card.find('a.proster').attributes('href')); continue }
+    const key = w.emitted('army').at(-1)[0]
+    const [pi, mi] = key.split(':')
+    const pl = tracker.current.value.players[pi]
+    const member = mi === '' ? pl : pl.members[mi]
+    out.push(member?.roster ? `list ${key}` : null)
   }
   return out
 }
@@ -57,7 +58,7 @@ describe('ArmiesPanel', () => {
   it('prefers the attached list — that army only', async () => {
     const roster = { id: 'r1', name: 'Da List', faction: 'orks', detachments: [], units: [] }
     start({ factionSlug: 'orks', rosterId: 'r1', roster }, { factionSlug: 'necrons' })
-    expect(await unitLinks(mountPanel())).toEqual(['roster 0/', '/factions/necrons/datasheets'])
+    expect(await unitLinks(mountPanel())).toEqual(['list 0:', '/factions/necrons/datasheets'])
   })
 
   it('has no link for a legacy army without a faction, and says why', async () => {
@@ -77,7 +78,7 @@ describe('ArmiesPanel', () => {
     const w = mountPanel(['Alpha', 'Beta'])
     expect(w.findAll('.ap-tabs .page-tab').map((e) => e.text())).toEqual(['Alpha · Ann', 'Alpha · Bob', 'Beta · Cat', 'Beta · Dan'])
     expect(w.find('.ap-fac').text()).toBe('Orks')
-    expect(await unitLinks(w)).toEqual(['/factions/orks/datasheets', 'roster 0/1', '/factions/drukhari/datasheets', null])
+    expect(await unitLinks(w)).toEqual(['/factions/orks/datasheets', 'list 0:1', '/factions/drukhari/datasheets', null])
   })
 
   // On the game screen the side is picked on the score cards: only that side's armies, and tabs

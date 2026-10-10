@@ -58,7 +58,7 @@ async function openTab(w, label) {
   await w.findAll('.gt-tab').find(t => t.attributes('aria-label') === label).trigger('click')
   return w
 }
-const openArmies = (w) => openTab(w, 'Armies')
+const openArmies = (w) => openTab(w, 'Army')
 // The side is picked on the score cards (stubbed here — ScoreBoard.test.js covers the cards):
 // pick one the way a card does, by its `select`.
 const board = (w) => w.findComponent({ name: 'ScoreBoard' })
@@ -77,10 +77,10 @@ describe('RoundTracker — the tabs', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = mountTracker()
     // No clock: the rules reminder is the Turn tab (the whole turn, phase by phase).
-    expect(tabLabels(w)).toEqual(['Missions', 'Turn', 'CP', 'Armies', 'Log', 'Stats'])
+    expect(tabLabels(w)).toEqual(['Missions', 'Turn', 'CP', 'Army', 'Log', 'Stats'])
     expect(w.find('.gt-tab.on').text()).toBe('Missions') // the open tab says its word
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false, trackPhaseRules: false })
-    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Armies', 'Log', 'Stats'])
+    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Army', 'Log', 'Stats'])
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackPhases: true })
     expect(tabLabels(mountTracker())).toContain('Phase')
   })
@@ -105,7 +105,7 @@ describe('RoundTracker — the tabs', () => {
     w.unmount()
     const back = mountTracker()
     await back.vm.$nextTick()
-    expect(back.find('.gt-tab.on').text()).toBe('Armies')
+    expect(back.find('.gt-tab.on').text()).toBe('Army')
     expect(back.findComponent({ name: 'ArmiesPanel' }).props('side')).toBe(1)
   })
 
@@ -350,7 +350,7 @@ describe('RoundTracker — the Phase tab', () => {
   // Owner, 2026-09-30: what speaks now is read during the turn, next to the missions.
   it('stands right after the missions', () => {
     startGame({}, {}, { trackPhases: true, trackPhaseRules: true })
-    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Phase', 'CP', 'Armies', 'Log', 'Stats'])
+    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Phase', 'CP', 'Army', 'Log', 'Stats'])
   })
 
   // Its lines lead into the game's own tabs, not off the game screen.
@@ -367,7 +367,7 @@ describe('RoundTracker — the Phase tab', () => {
     const rule = w.findAll('.pr-go-btn').find((b) => b.text().includes('Waaagh!'))
     await rule.trigger('click')
     await flushPromises()
-    expect(w.find('.gt-tab.on').attributes('aria-label')).toBe('Armies')
+    expect(w.find('.gt-tab.on').attributes('aria-label')).toBe('Army')
     expect(w.find('.ap-fac').text()).toBe('Orks')
   })
 })

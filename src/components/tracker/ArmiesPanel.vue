@@ -25,8 +25,9 @@
       :ref="(el) => { cards[k] = el }"
       :army="a"
       :is-doubles="isDoubles"
-      @roster="(at) => $emit('roster', at)"
     />
+    <!-- Under the card, inside the same frame: the army's attached list (RoundTracker puts it here). -->
+    <slot />
   </div>
 </template>
 
@@ -48,7 +49,7 @@ const props = defineProps({
   // The side picked on the score cards (RoundTracker): only its armies are offered here then.
   side: { type: Number, default: null },
 })
-defineEmits(['roster'])
+const emit = defineEmits(['army'])
 const { current } = useTracker()
 
 const { armies, isDoubles } = useGameArmies(() => props.names)
@@ -60,6 +61,9 @@ watch(() => props.side, (pi) => {
   if ((pi === 0 || pi === 1) && armies.value[sel.value]?.pi !== pi) sel.value = firstOf(pi)
 })
 const army = computed(() => armies.value[sel.value] || null)
+// The army on screen, for the list under its card (RoundTracker puts the attached roster there —
+// one Army tab since 2026-10-10, owner, from Misha's note).
+watch(army, (a) => emit('army', a ? `${a.pi}:${a.mi ?? ''}` : null), { immediate: true })
 const armyTabs = computed(() => armies.value
   .map((a, k) => ({ key: k, label: a.label, active: sel.value === k, pi: a.pi }))
   .filter((t) => !controlled.value || t.pi === props.side))
@@ -86,7 +90,12 @@ async function reveal({ pi, mi, rule }) {
   await nextTick()
   cards.value[k]?.reveal(rule)
 }
-defineExpose({ reveal })
+// Show an army (its list under the card): "Mark reserves", the Phase tab's line to several units.
+function show({ pi, mi }) {
+  const k = armies.value.findIndex((a) => a.pi === pi && (mi == null || a.mi === mi))
+  if (k >= 0) sel.value = k
+}
+defineExpose({ reveal, show })
 </script>
 
 <style scoped>

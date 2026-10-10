@@ -159,12 +159,15 @@ back to Missions. What lives where:
   content in (`useSwapFade.js`, Web Animations off `--motion-swap`, 0.6s; the tabs stand). Content that
   loads (an army's rules, a list) is built once and kept — rebuilt on each switch it came up empty
   and jumped the page (2026-09-30).
-- **Armies** — `ArmiesPanel.vue` + `ArmyCard.vue` (one per army, all built with the panel): one card per army (a side; each member in doubles — up to four;
-  `useGameArmies.js`), its emblem stamped under it (2026-09-30): the faction and the way to its
-  units — the Roster tab for an attached list, the faction's datasheets without one — then the
-  army rule's tracker with the detachment rules as folds (`ArmyTrackerCard bare`). No disposition
-  or detachment line: nobody looked them up mid-game.
-- **Roster** — `RosterTab.vue`: the attached lists, each the roster screen itself
+- **Army** — `ArmiesPanel.vue` + `ArmyCard.vue` (one per army, all built with the panel): one card per army (a side; each member in doubles — up to four;
+  `useGameArmies.js`), its emblem stamped under it (2026-09-30): the faction, the army rule's
+  tracker with the detachment rules as folds (`ArmyTrackerCard bare`), and — without a list — the
+  way to the faction's datasheets. No disposition or detachment line: nobody looked them up mid-game.
+  **The attached list stands under the card, in the same frame** (`RosterTab embedded`, through
+  ArmiesPanel's slot, following its pick via the `army` event): one Army tab since 2026-10-10
+  (owner, from Misha's note) — the separate Roster tab was the same army a tab away, its card's
+  "Roster" button only switched to it, and seven tabs crowded a phone.
+- The list under it — `RosterTab.vue`: the attached lists, each the roster screen itself
   (`RosterViewView in-tracker`, loaded async so the game chunk never carries it), built on its
   first visit and kept (owner, 2026-09-30). Off screen a list is `frozen`: it reads a plain copy of
   the game taken as it left, so a tap elsewhere does not redo its modifier layer; on screen — or

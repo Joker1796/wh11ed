@@ -2,18 +2,18 @@
   <div
     class="rt"
     data-tour="game-roster"
-    :class="{ opp: shownSide != null && !isYouSide(current.players[shownSide], shownSide), 'side-frame': controlled }"
+    :class="{ opp: shownSide != null && !isYouSide(current.players[shownSide], shownSide), 'side-frame': controlled && !embedded, embedded }"
   >
     <!-- Which list: one per army that carries one, on the same page tabs as the Armies panel — on
          the game screen only the picked side's (a doubles team's two members). -->
     <SideEmptyState
-      v-if="controlled && !army"
+      v-if="controlled && !army && !embedded"
       :faction="sideFaction"
     >
       {{ labels.trackerRosterNoneSide }}
     </SideEmptyState>
     <PageTabs
-      v-if="listTabs.length > 1"
+      v-if="listTabs.length > 1 && !embedded"
       class="rt-tabs"
       data-tour="game-members"
       fill
@@ -61,6 +61,11 @@ const props = defineProps({
   active: { type: Boolean, default: false },
   // The side picked on the score cards (RoundTracker): only its lists are offered here then.
   side: { type: Number, default: null },
+  // Under the army's card in the Army tab (owner, 2026-10-10 — one tab for the army and its list):
+  // the army is the card's (`armyKey`, ArmiesPanel's pick), so no tabs and no empty state of its
+  // own — an army without a list shows only its card, which says where its units are.
+  embedded: { type: Boolean, default: false },
+  armyKey: { type: String, default: null },
 })
 const { current } = useTracker()
 const { locale } = useLocale()
@@ -72,8 +77,10 @@ const withLists = computed(() => armies.value.filter((a) => a.member.roster).map
 const sel = ref(null)
 const controlled = computed(() => props.side === 0 || props.side === 1)
 const offered = computed(() => (controlled.value ? withLists.value.filter((a) => a.pi === props.side) : withLists.value))
-const army = computed(() => offered.value.find((a) => a.key === sel.value)
-  || offered.value.find((a) => a.pi === props.defaultSide) || offered.value[0] || null)
+const army = computed(() => (props.embedded
+  ? withLists.value.find((a) => a.key === props.armyKey) || null
+  : offered.value.find((a) => a.key === sel.value)
+    || offered.value.find((a) => a.pi === props.defaultSide) || offered.value[0] || null))
 const shownSide = computed(() => (controlled.value ? props.side : army.value?.pi ?? null))
 // A side with no list says so over its army's emblem (SideEmptyState).
 const sideFaction = computed(() => (controlled.value
@@ -141,6 +148,8 @@ defineExpose({ show, openUnit })
 .rt { --side: var(--side-you); --accent: var(--side); --accent-ink: var(--side); }
 .rt.opp { --side: var(--side-opponent); }
 .rt-tabs { margin-bottom: 0.6rem; }
+/* Under the army's card in the Army tab: a step down from it, no frame of its own. */
+.rt.embedded { margin-top: 0.75rem; }
 /* In the side's frame the open tab opens onto the frame's ground, as the Armies tabs onto their card
    (owner, 2026-10-08) — on the page's darker ground it read as a block apart from the list. */
 .rt.side-frame .rt-tabs { --page-tab-open-bg: var(--bg-card); }

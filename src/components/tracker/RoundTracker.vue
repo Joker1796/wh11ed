@@ -600,24 +600,22 @@
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
         :side="viewSide"
-        @roster="openRoster"
-      />
-    </section>
-
-    <!-- The attached lists (RosterTab.vue): each built on its first visit and kept. -->
-    <section
-      v-if="hasLists && built.has('roster')"
-      v-show="tab === 'roster'"
-      class="panel panel-framed"
-      role="tabpanel"
-    >
-      <RosterTab
-        ref="rosterEl"
-        :names="current.players.map((_, i) => playerName(i))"
-        :default-side="focusSide"
-        :side="viewSide"
-        :active="tab === 'roster'"
-      />
+        @army="(k) => (armyKey = k)"
+      >
+        <!-- The army's attached list right under its card, in its frame (RosterTab.vue, each list
+             built while idle and kept): one Army tab since 2026-10-10 (owner, from Misha's note) — the
+             Roster tab was the same army a tab away, and its card's "Roster" button only switched to it. -->
+        <RosterTab
+          v-if="hasLists"
+          ref="rosterEl"
+          embedded
+          :army-key="armyKey"
+          :names="current.players.map((_, i) => playerName(i))"
+          :default-side="focusSide"
+          :side="viewSide"
+          :active="tab === 'armies'"
+        />
+      </ArmiesPanel>
     </section>
 
     <ScoringModal
@@ -794,14 +792,12 @@ const tabs = computed(() => [
   // the stats after it.
   { id: 'armies', label: labels.value.trackerTabArmies, icon: 'wi wi-army' },
   // The attached lists, read in the game (owner, 2026-09-30) — only when there is one.
-  ...(hasLists.value ? [{ id: 'roster', label: labels.value.trackerRosterOpen, icon: 'wi wi-rosters' }] : []),
   { id: 'log', label: labels.value.trackerTabLog, icon: 'wi wi-log' },
   { id: 'stats', label: labels.value.trackerTabStats, icon: 'wi wi-stats' },
 ])
 watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
 const hasLists = computed(() => (current.value?.players || []).some((pl) => membersOf(pl).some((m) => m.roster)))
-watch(hasLists, (on) => { if (!on && tab.value === 'roster') tab.value = 'missions' })
 // The round line's phases (RoundStrip), with the clock on: both turns' phases, the live one.
 const stripPhase = computed(() => {
   if (!phasesOn.value) return null
@@ -847,13 +843,15 @@ function openReserves() {
 }
 // A list: the Roster tab on that army. One unit of it: its card over the tab on screen.
 const rosterEl = ref(null)
+// An army's list (the Army tab, under its card) or one of its units' cards over the tab on screen.
 async function openRoster({ pi, mi, uid }) {
-  if (uid == null) { pickedSide.value = pi; tab.value = 'roster' }
-  built.value.add('roster')
+  if (uid == null) { pickedSide.value = pi; tab.value = 'armies' }
+  built.value.add('armies')
   await nextTick()
-  if (uid == null) rosterEl.value?.show({ pi, mi })
+  if (uid == null) armiesEl.value?.show({ pi, mi })
   else rosterEl.value?.openUnit({ pi, mi, uid })
 }
+const armyKey = ref(null)
 // Where the new panel slides in from: the side the tab stands on, relative to the old one
 // (1 from the right, -1 from the left; 0 until the first switch).
 const panelFrom = ref(0)
@@ -971,7 +969,7 @@ const pickedSide = ref(null)
 const viewSide = computed(() => pickedSide.value ?? focusSide.value)
 // The tabs whose panel is one side's, framed in the picked side's colour. The Log tells both sides
 // in one timeline, so there the cards are only the score.
-const framedTab = computed(() => ['missions', 'phase', 'cp', 'armies', 'roster', 'stats'].includes(tab.value))
+const framedTab = computed(() => ['missions', 'phase', 'cp', 'armies', 'stats'].includes(tab.value))
 // The tour's steps open a tab and pick a side for what they tell (useTourShow).
 useTourShow('tab', (t) => { if (tabs.value.some((x) => x.id === t)) { built.value.add(t); tab.value = t } })
 // A side by who it is to this phone ('you' / 'opp'), not by index: players[0] is whoever went

@@ -25,16 +25,8 @@
       >
         {{ labels.trackerArmyNoFaction }}
       </p>
-      <!-- The list opens in the game screen's own Roster tab (RoundTracker). -->
-      <button
-        v-if="army.member.roster"
-        type="button"
-        class="proster ap-link"
-        @click="$emit('roster', { pi: army.pi, mi: army.mi })"
-      >
-        <i class="bi bi-card-list" />
-        <span class="proster-label">{{ labels.trackerRosterOpen }}</span>
-      </button>
+      <!-- An attached list stands right under this card in the Army tab (RoundTracker, 2026-10-10),
+           so there is no button to it; without one, the way to the faction's units. -->
       <!-- A list held to its own limits says so on both phones (the snapshot carries the limits);
            a tap lists them (2026-10-03). -->
       <RosterOwnLimitsMark
@@ -109,7 +101,7 @@ const props = defineProps({
   army: { type: Object, required: true },
   isDoubles: { type: Boolean, default: false },
 })
-defineEmits(['roster'])
+
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
