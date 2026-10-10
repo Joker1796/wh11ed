@@ -74,19 +74,23 @@
       </ExpandTransition>
 
       <!-- A share link is the second source, and for the opponent usually the only one: their list
-           lives on their phone, not in this browser. Same payload the /roster/shared page reads. -->
+           lives on their phone, not in this browser. Same payload the /roster/shared page reads.
+           Or the list's exported TEXT (Misha, 2026-10-10: "not only by link"), read by the same
+           parser and matcher as the Import dialog. -->
       <div class="rp-link">
         <label
           class="rp-link-label"
           :for="linkId"
         >{{ labels.trackerRosterFromLink }}</label>
         <div class="rp-link-row">
-          <input
+          <!-- A textarea, not an input: a list's exported text is many lines, and an input drops
+               the line breaks the parser reads. -->
+          <textarea
             :id="linkId"
             v-model="link"
-            type="text"
+            rows="2"
             :placeholder="labels.trackerRosterLinkPlaceholder"
-          >
+          />
           <button
             type="button"
             class="rp-link-btn"
@@ -123,7 +127,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import ExpandTransition from '../ExpandTransition.vue'
-import { useRosters } from '../../composables/useRosters.js'
+import { useRosters, SCHEMA_VERSION } from '../../composables/useRosters.js'
 import { decodeRoster } from '../../composables/rosterShare.js'
 import { refreshSummaries } from '../../composables/rosterSummary.js'
 import { factionGroups } from '../../data/factionsIndex.js'
@@ -179,11 +183,20 @@ const link = ref('')
 const linkError = ref('')
 const busy = ref(false)
 
-// Accepts what the user actually has in the clipboard: the whole share URL, or just the payload.
+// Accepts what the user actually has in the clipboard: the whole share URL, just the payload, or a
+// list's exported text (GW app, listhammer, New Recruit).
+const SHARE = /[#&?]r=|^\d\.[\w-]+$/
 async function useLink() {
   busy.value = true
   linkError.value = ''
   const raw = link.value.trim()
+  if (!SHARE.test(raw)) {
+    const out = await fromText(raw)
+    busy.value = false
+    if (out.error) { linkError.value = out.error; return }
+    emit('pick', out.roster)
+    return
+  }
   const payload = raw.match(/[#&?]r=([^&\s]+)/)?.[1] ?? raw
   const decoded = await decodeRoster(decodeURIComponent(payload))
   busy.value = false
@@ -193,6 +206,30 @@ async function useLink() {
   // Not saved to the roster list — it is attached to this game only. Importing someone else's
   // list into your own collection is a separate, deliberate act on the /roster/shared page.
   emit('pick', decoded)
+}
+
+// A list's exported text, read the way the Import dialog reads it. Refused when anything in it was
+// not recognised: a list attached to a game should be the list played, and the Import dialog is
+// where the missing lines are shown one by one. The parser and the faction's roster data load only
+// now — the picker opens in every setup, a pasted text is the rare case.
+async function fromText(raw) {
+  const l = labels.value
+  const [{ detectFormat, matchFaction, matchRoster, parseList }, { loadRosterFaction, rosterItems }, { default: rosterCore }] = await Promise.all([
+    import('../../composables/rosterImport.js'), import('../../data/roster/index.js'), import('../../data/roster/core.js'),
+  ])
+  const parsed = parseList(raw, detectFormat(raw))
+  if (!parsed?.units?.length) return { error: l.rosterImportUnknown }
+  const slug = matchFaction(parsed.faction) || props.faction
+  if (!slug) return { error: l.rosterImportNoFaction.replace('{n}', parsed.faction || '—') }
+  if (props.faction && slug !== props.faction) return { error: l.trackerRosterWrongFaction }
+  const faction = await loadRosterFaction(slug, { allies: true })
+  if (!faction) return { error: l.rosterImportNoFaction.replace('{n}', parsed.faction || '—') }
+  const res = matchRoster(parsed, { faction, core: rosterCore, items: rosterItems.items })
+  if (!res.payload?.units?.length) return { error: l.rosterImportUnknown }
+  const nameOf = (m) => (typeof m === 'string' ? m : m?.name || '')
+  const missing = [...(res.report.missing || []), ...(res.report.detachments?.missing || [])].map(nameOf).filter(Boolean)
+  if (missing.length) return { error: l.trackerRosterTextMissing.replace('{names}', missing.join(', ')) }
+  return { roster: { ...res.payload, v: SCHEMA_VERSION } }
 }
 </script>
 
@@ -229,7 +266,8 @@ async function useLink() {
 .rp-link { margin-top: 0.5rem; border-top: 1px solid var(--border); padding-top: 0.75rem; }
 .rp-link-label { display: block; color: var(--text-muted); font-size: 0.78rem; margin-bottom: 0.35rem; }
 .rp-link-row { display: flex; gap: 0.4rem; }
-.rp-link-row input {
+.rp-link-row textarea {
+  resize: none; font-family: inherit; line-height: 1.35;
   flex: 1; min-width: 0; padding: 0.5rem 0.6rem; font-size: 0.85rem;
   border: 1px solid var(--border); background: var(--bg-input, var(--bg-card)); color: var(--text-primary);
 }
