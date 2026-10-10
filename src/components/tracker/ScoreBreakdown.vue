@@ -101,7 +101,7 @@
                 :key="'bp'+r"
                 class="g-cell"
               >
-                {{ bpRounds[i][r - 1] }}
+                {{ r <= bpUpTo ? bpRounds[i][r - 1] : '' }}
               </div>
               <div class="g-total">
                 {{ bpNow[i] }}/20
@@ -160,6 +160,9 @@ const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 // now. Same computation the broadcast payload publishes, off the same helpers.
 const showBp = computed(() => game.value?.settings?.scoreMode === 'bp')
 const bpNow = computed(() => battlePoints(game.value))
+// Only the rounds that have begun: a round not played yet has no result of its own, and the running
+// total repeated into it read as points already scored (Misha, 2026-10-10). A finished game shows all.
+const bpUpTo = computed(() => (game.value?.finishedAt ? ROUND_COUNT : (game.value?.currentRound || 1)))
 const bpRounds = computed(() => {
   const g = game.value
   if (!g) return [[], []]
