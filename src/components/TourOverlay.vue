@@ -137,11 +137,23 @@ function followStep() {
 }
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+// Room below the page's end for a step that must scroll past it (see the step's scroll): a spacer at
+// the end of <body>, as tall as the scroll lacks, gone with the step.
+let spacer = null
+function roomFor(by) {
+  const lacks = by - (document.documentElement.scrollHeight - window.innerHeight - window.scrollY)
+  if (lacks <= 0) return
+  spacer ||= Object.assign(document.createElement('div'), { ariaHidden: 'true' })
+  spacer.style.height = `${Math.ceil(lacks)}px`
+  document.body.appendChild(spacer)
+}
+function dropRoom() { spacer?.remove(); spacer = null }
 // The card stays hidden while the step's element is looked for: a step passed over must not
 // flash its text first.
 const resolved = ref(false)
 watch(step, async (s) => {
   resolved.value = false
+  dropRoom()
   if (!s) { el = null; rect.value = null; return }
   await nextTick()
   await nextTick() // a step that opened a tab: the panel is on screen a tick after the tab
@@ -158,7 +170,28 @@ watch(step, async (s) => {
   if (el) {
     const r = el.getBoundingClientRect()
     const fixed = getComputedStyle(el).position === 'fixed' || el.closest('.tf-sticky')
-    if (!fixed && (r.top < 80 || r.bottom > window.innerHeight - 80)) {
+    await nextTick()
+    const cardTall = cardEl.value?.offsetHeight || 0
+    // On a phone the card is a sheet at the top or the bottom edge (cardStyle). An element taller
+    // than the room the sheet leaves cannot be shown whole beside it, and its TOP is what a step
+    // names — the button, the tab row, the search box: its top is brought up under the bar and the
+    // sheet goes to the bottom, over the element's tail. Until 2026-10-10 such a panel was centred
+    // and the sheet lay over its top, on the very button the step was about (Misha's CP step).
+    // The sticky bar's own height, not where its bottom stands now: a banner above it scrolls away.
+    const bar = document.querySelector('.navbar')?.offsetHeight || 0
+    const vhNow = window.innerHeight
+    const roomBelowSheet = vhNow - cardTall - GAP * 2 // the light's bottom, the sheet at the bottom
+    const fitsBeside = r.top >= cardTall + GAP * 2 || vhNow - r.bottom >= cardTall + GAP * 2
+    if (!fixed && phone.value && r.height > roomBelowSheet - bar - GAP) {
+      window.scrollBy({ top: r.top - (bar + GAP), behavior: reduced() ? 'auto' : 'smooth' })
+    } else if (!fixed && phone.value && (!fitsBeside || r.top < bar || r.bottom > vhNow)) {
+      // It fits above a bottom sheet once moved: bring its bottom to the sheet's edge, its top kept
+      // clear of the bar. A short page cannot scroll that far — the setup's last fields sit at its
+      // end — so it is lengthened for the step by exactly what it lacks (`roomFor`).
+      const by = Math.min(r.bottom - roomBelowSheet, r.top - (bar + GAP))
+      roomFor(by)
+      window.scrollBy({ top: by, behavior: reduced() ? 'auto' : 'smooth' })
+    } else if (!fixed && !phone.value && (r.top < 80 || r.bottom > window.innerHeight - 80)) {
       el.scrollIntoView({ block: 'center', behavior: reduced() ? 'auto' : 'smooth' })
     }
   }
@@ -187,6 +220,7 @@ window.addEventListener('keydown', onKey)
 window.addEventListener('wheel', hold, { passive: false })
 window.addEventListener('touchmove', hold, { passive: false })
 onUnmounted(() => {
+  dropRoom()
   window.removeEventListener('wheel', hold)
   window.removeEventListener('touchmove', hold)
   cancelAnimationFrame(follow)
@@ -199,13 +233,21 @@ const holeStyle = computed(() => {
   return { transform: `translate(${r.x}px, ${r.y}px)`, width: `${r.w}px`, height: `${r.h}px` }
 })
 
-// The card on a phone is a sheet across the width, on the half of the screen the light is not
-// in; on a wider screen it stands beside the light — under it where there is room, else over it.
+// The card on a phone is a sheet across the width, at the top or the bottom edge — the one where
+// it does not cover the light. Where both have room, the half the light is not in; where only one
+// does, that one (until 2026-10-10 it was the half alone, and a light reaching past the middle had
+// the sheet over its edge — over the tabs a step was naming, Misha's note); where neither does, the
+// bottom, over the tail of a light whose top was brought up under the bar (the step's scroll). On a wider screen it stands
+// beside the light — under it where there is room, else over it.
 const cardStyle = computed(() => {
   const r = rect.value
   if (phone.value) {
     if (!r) return { top: `${Math.max(GAP, (vh.value - cardH.value) / 2)}px` }
-    return r.y + r.h / 2 > vh.value / 2
+    const need = cardH.value + GAP * 2
+    const fitsTop = r.y >= need
+    const fitsBottom = vh.value - (r.y + r.h) >= need
+    const top = fitsTop && fitsBottom ? r.y + r.h / 2 > vh.value / 2 : fitsTop
+    return top
       ? { top: `calc(${GAP}px + var(--safe-top, 0px))` }
       : { bottom: `calc(${GAP}px + var(--safe-bottom, 0px))` }
   }
