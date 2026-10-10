@@ -2,6 +2,16 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import RosterUnitBrowser from './RosterUnitBrowser.vue'
 import { useCollection } from '../../composables/useCollection.js'
+import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
+
+// The filter switches are module-wide preferences now (shared with the unit fields' leader
+// lists), so a cleared localStorage no longer resets them — each case starts them off itself.
+function resetFilters() {
+  const p = useRosterPrefs()
+  p.onlyAffordable.value = false
+  p.onlyOwned.value = false
+  p.hideLegends.value = false
+}
 
 const units = [
   { id: 'a', name: 'Alpha Battleline', kws: ['Battleline'], sizes: [{ pts: 80, per: [5, 5] }] },
@@ -241,6 +251,7 @@ describe('RosterUnitBrowser — the catalogue filters', () => {
   beforeEach(() => {
     for (const k of Object.keys(collection)) delete collection[k]
     localStorage.clear()
+    resetFilters()
   })
 
   it('offers no budget toggle without a points figure to compare against', () => {
@@ -339,6 +350,7 @@ describe('RosterUnitBrowser — an allied unit is owned under ITS faction', () =
   beforeEach(() => {
     for (const k of Object.keys(collection)) delete collection[k]
     localStorage.clear()
+    resetFilters()
   })
 
   // Browsed inside a Space Marines list, an Inquisitor is still an Imperial Agents datasheet — the

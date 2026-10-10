@@ -134,6 +134,8 @@ export function useRosterDerived(roster, factionData) {
     slugOf: slugFor,
     catalogue: catalogue.value,
     dupBlocked,
+    // Points still unspent, for the catalogue filters the "Can be led by" lists follow.
+    remaining: Number.isFinite(limit.value) ? limit.value - points.value : null,
   }))
 
   return {
