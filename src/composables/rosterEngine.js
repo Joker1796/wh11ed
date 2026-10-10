@@ -74,6 +74,17 @@ export function unitBasePoints(unitDef, sizeIdx = 0, copyIndex = 1) {
   return pts
 }
 
+// What ANOTHER copy of a datasheet costs at the least: its cheapest bracket, the copy tax for the
+// copy it would be (`copies` already in the list), and any enhancement a selected detachment forces
+// on it. The catalogue's row price and its "Fits the points left" filter, and the same filter on
+// the unit fields' "Can be led by" / "Can lead" lists — one number, so the two never disagree.
+export function nextCopyMinPoints(def, copies = 0, detachments = []) {
+  if (!def) return 0
+  const sizes = def.sizes || []
+  const cheapest = sizes.reduce((best, s, i) => (s.pts < sizes[best].pts ? i : best), 0)
+  return unitBasePoints(def, cheapest, copies + 1) + (mandatoryEnhancementFor(def, detachments)?.pts || 0)
+}
+
 // Points from a unit's selected wargear. Selections live on the entry as `wg: [[gi,oi,n],…]`
 // (group index, option index, count) — only choices the user made, so this is the money a unit
 // spends ON TOP of the loadout it comes with. What that loadout itself costs is

@@ -19,6 +19,26 @@ watch(showPointsLeft, (v) => setItem('wh11ed-roster-points-left', v ? '1' : '0')
 const hideLegends = ref(getItem('wh11ed-roster-filter-legends') === '1')
 watch(hideLegends, (v) => setItem('wh11ed-roster-filter-legends', v ? '1' : ''))
 
+// The catalogue's other two filters, "Fits the points left" and "Only units I own" — moved here
+// with Legends (owner, 2026-10-09) so the "Can be led by" / "Can lead" lists follow every switch
+// the catalogue has, not just one. Same storage keys the browser always used.
+const onlyAffordable = ref(getItem('wh11ed-roster-filter-budget') === '1')
+const onlyOwned = ref(getItem('wh11ed-roster-filter-owned') === '1')
+watch(onlyAffordable, (v) => setItem('wh11ed-roster-filter-budget', v ? '1' : ''))
+watch(onlyOwned, (v) => setItem('wh11ed-roster-filter-owned', v ? '1' : ''))
+
+// The one question both places ask of a unit. `minPts` — what another copy costs at the least
+// (nextCopyMinPoints); `remaining` — points still unspent, null when there is no limit to read
+// (the budget filter is then off); `inList` — a copy is already in the list, which spares it the
+// owned and Legends filters (a list that hides what you just added reads as a bug), not the budget.
+function passesRosterFilters({ minPts = 0, owned = false, legends = false, inList = false }, remaining) {
+  if (onlyAffordable.value && Number.isFinite(remaining) && minPts > remaining) return false
+  if (inList) return true
+  if (onlyOwned.value && !owned) return false
+  if (hideLegends.value && legends) return false
+  return true
+}
+
 export function useRosterPrefs() {
-  return { showPointsLeft, hideLegends }
+  return { showPointsLeft, hideLegends, onlyAffordable, onlyOwned, passesRosterFilters }
 }
