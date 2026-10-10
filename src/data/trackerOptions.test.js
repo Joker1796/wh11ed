@@ -135,3 +135,22 @@ describe('normalizeTrackSettings', () => {
     expect(normalizeTrackSettings({ trackPhases: true }, CTX_BARE).trackPhases).toBe(true)
   })
 })
+
+// Owner, 2026-10-10: Battle-shock on by default only where command points are counted — that is
+// where the mark blocks a stratagem; a game not counting CP starts without the chip.
+describe('the Battle-shock row', () => {
+  it('follows command points when a game never set it', () => {
+    expect(tracks({ trackCP: true }, 'trackBattleShock')).toBe(true)
+    expect(tracks({ trackCP: false }, 'trackBattleShock')).toBe(false)
+    expect(tracks({ trackCP: false, trackBattleShock: true }, 'trackBattleShock')).toBe(true)
+  })
+
+  it('starts the setup the same way', () => {
+    expect(defaultTrackSettings({ trackCP: false }).trackBattleShock).toBe(false)
+    expect(defaultTrackSettings({}).trackBattleShock).toBe(true)
+  })
+
+  it('needs the modifiers master, like the unit states', () => {
+    expect(tracks({ trackCP: true, trackModifiers: false }, 'trackBattleShock')).toBe(false)
+  })
+})

@@ -41,9 +41,16 @@ phase row in a game that had none.
 (`trackArmyYou`/`trackArmyOpp`, legacy `trackArmyRule`), the clock (`trackPhases`) and the phase
 reminder (`trackPhaseRules` — the Phase tab with the clock, the Turn tab without it). `group: 'roster'` only means
 anything with an army list attached: the modifier master (`trackModifiers`) and the five families
-of switch under it (`trackUnitStates`, `trackArmyStates`, `trackStratagems`, `trackAuras`,
-`trackAbilitySets`, each `requires: 'trackModifiers'`). What each family governs on the roster
-screen is in `src/components/roster/CLAUDE.md`.
+of switch under it (`trackUnitStates`, `trackBattleShock`, `trackArmyStates`, `trackStratagems`,
+`trackAuras`, `trackAbilitySets`, each `requires: 'trackModifiers'`). What each family governs on the
+roster screen is in `src/components/roster/CLAUDE.md`.
+
+**Battle-shock is its own row** (2026-10-10, owner, after Misha called the marking bureaucracy): the
+one unit state the app ACTS on (a shocked unit is refused its own side's stratagems, its ongoing ones
+end), so it is switched apart from the other unit states. Its default follows CP (`defaultWhen`):
+where command points are not counted, nothing is spent here for the mark to guard. The game's clock
+carries it (`clockOf().shock`), so `activeConditions` and `stratagemsBlocked` read it with no new
+argument; off, the shock switch is not consulted at all.
 
 **The clock moved out of the roster group on 2026-08-25, and the reason is worth keeping.** It was
 offered only alongside an attached list, because the roster screen was the only thing that read a

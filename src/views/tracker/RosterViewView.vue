@@ -764,7 +764,7 @@ import { groupModNotes, modDelta, possibleModNotes } from '../../composables/ros
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
+import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf, isShockCondition } from '../../composables/rosterGameContext.js'
 import { memberAt } from '../../composables/rosterGameLink.js'
 import { usableInSlot, groupByPhase } from '../../composables/stratagemPhases.js'
 import { normName } from '../../composables/rosterFactionRules.js'
@@ -897,6 +897,7 @@ const activeFor = (entry) => (inGame.value
   ? activeConditions(gamePlayer.value, gameClock.value, entry, {
       army: keeps('trackArmyStates'),
       unit: keeps('trackUnitStates'),
+      shock: keeps('trackBattleShock'),
       units: roster.value?.units,
     })
   : rosterConditions(entry, roster.value?.units))
@@ -1383,11 +1384,17 @@ const armySwitches = computed(() => {
 })
 // This entry's own state switches, for the row in the list. Same source as the card's, so the two
 // can never disagree; cached per entry because the template asks for them on every render.
+// Battle-shock answers to its own row, the other states to the unit-states row (trackerOptions).
+function keptUnitSwitches(list) {
+  const shock = keeps('trackBattleShock')
+  const states = keeps('trackUnitStates')
+  return list.filter((sw) => (isShockCondition(sw.id) ? shock : states))
+}
 const unitSwitchCache = computed(() => {
   const m = new Map()
-  if (!canSwitch.value || !keeps('trackUnitStates')) return m
+  if (!canSwitch.value || !(keeps('trackUnitStates') || keeps('trackBattleShock'))) return m
   for (const e of roster.value?.units || []) {
-    m.set(e.uid, withRuleInfo(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e)))
+    m.set(e.uid, withRuleInfo(keptUnitSwitches(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e))))
   }
   return m
 })
@@ -1551,8 +1558,8 @@ const viewingGameCtx = computed(() => {
     // Picks are army-wide (allPicks): the card of a unit standing in someone else's aura must
     // read the same number its row does.
     chosen: canSwitch.value && keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
-    switches: canSwitch.value && keeps('trackUnitStates')
-      ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
+    switches: canSwitch.value
+      ? keptUnitSwitches(switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value))
       : [],
     armySwitches: canSwitch.value && keeps('trackArmyStates')
       ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, viewingEntry.value)

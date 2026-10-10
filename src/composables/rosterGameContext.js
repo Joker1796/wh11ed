@@ -41,8 +41,14 @@ export function clockOf(game, pi = 0) {
     phase: game?.currentPhase || BATTLE_PHASES[0],
     mine: (game?.currentTurn === 1 ? 1 : 0) === pi,
     tracked,
+    // Whether this game keeps Battle-shock (trackerOptions' battle-shock row): off, the state is
+    // not consulted at all — no stratagem blocked, no rule switched by it.
+    shock: tracks(game?.settings, 'trackBattleShock'),
   }
 }
+// Battle-shock's own two conditions, answered by the battle-shock row rather than the unit states'.
+const SHOCK_IDS = new Set(['unit-battle-shocked', 'unit-not-battle-shocked'])
+export const isShockCondition = (id) => SHOCK_IDS.has(id)
 
 // A moment, as one number. Phases are numbered from 1 so that an untracked game (stamp
 // `round*100`) can never be mistaken for one standing in a phase.
@@ -178,6 +184,7 @@ function clockHolds(c, clock) {
 export function activeConditions(player, clock, entry, opts = {}) {
   const army = opts.army !== false
   const unit = opts.unit !== false
+  const shock = opts.shock ?? (clock && typeof clock === 'object' ? clock.shock !== false : true)
   const round = normaliseClock(clock).round
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
@@ -187,7 +194,7 @@ export function activeConditions(player, clock, entry, opts = {}) {
     else if (isAuto(id)) on = AUTO[id](player, round)
     else if (c.scope === 'roster') on = rosterAnswers(id, entry, opts.units)
     else if (c.scope === 'army') on = army && switchOn(player?.ctx?.army, id, clock)
-    else if (entry?.uid) on = unit && switchOn(player?.ctx?.units?.[entry.uid], id, clock)
+    else if (entry?.uid) on = (SHOCK_IDS.has(id) ? shock : unit) && switchOn(player?.ctx?.units?.[entry.uid], id, clock)
     // …and a soft-auto condition is also on while the tracker — or the entry's own datasheet —
     // can prove it, switch or no switch.
     if (!on && SOFT_AUTO[id]) on = SOFT_AUTO[id](player, round) || entryProves(id, entry)

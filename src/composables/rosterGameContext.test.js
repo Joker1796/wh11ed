@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { activeConditions, switchesFor, isAuto, clockOf, stampOf } from './rosterGameContext.js'
+import { activeConditions, switchesFor, isAuto, clockOf, stampOf, stratagemsBlocked } from './rosterGameContext.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 
 const player = (ctx, army, factionSlug = null) => ({ ctx, army, factionSlug })
@@ -169,11 +169,25 @@ describe('activeConditions', () => {
     expect(activeConditions(p, 2, { uid: 'u2' }).has('unit-not-battle-shocked')).toBe(true)
   })
 
-  it('keeps the ordinary state in a game that is not keeping unit states', () => {
+  // Battle-shock has its own row since 2026-10-10 (owner): the unit states' switch no longer
+  // answers for it, the battle-shock switch does.
+  it('keeps the ordinary state in a game that is not keeping Battle-shock', () => {
     const p = player({ units: { u1: { 'unit-battle-shocked': 2 } } })
-    const out = activeConditions(p, 2, { uid: 'u1' }, { unit: false })
+    const out = activeConditions(p, 2, { uid: 'u1' }, { shock: false })
     expect(out.has('unit-battle-shocked')).toBe(false)
     expect(out.has('unit-not-battle-shocked')).toBe(true)
+  })
+
+  it('reads Battle-shock with the other unit states switched off', () => {
+    const p = player({ units: { u1: { 'unit-battle-shocked': 2 } } })
+    expect(activeConditions(p, 2, { uid: 'u1' }, { unit: false }).has('unit-battle-shocked')).toBe(true)
+  })
+
+  it('takes the game\'s Battle-shock row from its clock — off, no stratagem is blocked', () => {
+    const p = player({ units: { u1: { 'unit-battle-shocked': 2 } } })
+    const clock = { round: 2, turn: 0, phase: 'command', mine: true, tracked: false, shock: false }
+    expect(stratagemsBlocked(p, clock, { uid: 'u1' })).toBe(false)
+    expect(stratagemsBlocked(p, { ...clock, shock: true }, { uid: 'u1' })).toBe(true)
   })
 
   // A hand-set value under the negation's own id — a game played before it stopped being a

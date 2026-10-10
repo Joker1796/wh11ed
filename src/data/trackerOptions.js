@@ -175,6 +175,24 @@ export const TRACK_OPTIONS = [
     unavailable: NEEDS_ROSTER,
   },
   {
+    // Battle-shock on its own row (owner, 2026-10-10, from Misha's "bureaucracy" note): it is the one
+    // unit state the tracker ACTS on — a shocked unit cannot be targeted by its own side's stratagems
+    // (Core 01.07), so the CP tab greys it and its ongoing ones end — and the one marked every
+    // Command phase. 99 rules in 25 of 36 factions read it, but the app does little with the mark
+    // beyond stratagems: on by default only where command points are counted, so stratagems are spent
+    // here. Off: no chip, nothing blocked, no rule switched by it.
+    id: 'battle-shock',
+    setting: 'trackBattleShock',
+    group: 'roster',
+    label: 'trackerTrackBattleShock',
+    help: 'trackerHelpBattleShock',
+    default: true,
+    defaultWhen: (settings) => tracks(settings, 'trackCP'),
+    remember: true,
+    requires: 'trackModifiers',
+    unavailable: NEEDS_ROSTER,
+  },
+  {
     id: 'army-states',
     setting: 'trackArmyStates',
     group: 'roster',
@@ -246,7 +264,12 @@ export function tracks(settings, setting) {
   if (o.requires && !tracks(settings, o.requires)) return false
   const own = settings?.[setting]
   const old = o.legacy ? settings?.[o.legacy] : undefined
-  return (own ?? old ?? o.default) !== false
+  return (own ?? old ?? defaultOf(o, settings)) !== false
+}
+// A row's default, for a game that never set it: fixed, or (`defaultWhen`) read off the game's other
+// settings — Battle-shock follows command points.
+function defaultOf(o, settings) {
+  return o.defaultWhen ? o.defaultWhen(settings || {}) : o.default
 }
 
 // The setup wizard's starting values: the last finished game's choice where the row remembers one,
@@ -258,7 +281,7 @@ export function defaultTrackSettings(last = {}) {
   for (const o of TRACK_OPTIONS) {
     const own = o.remember ? last?.[o.setting] : undefined
     const old = o.remember && o.legacy ? last?.[o.legacy] : undefined
-    out[o.setting] = (own ?? old ?? o.default) !== false
+    out[o.setting] = (own ?? old ?? defaultOf(o, { ...last, ...out })) !== false
   }
   return out
 }
@@ -270,7 +293,7 @@ export function trackSettingsOf(settings = {}) {
   for (const o of TRACK_OPTIONS) {
     const own = settings?.[o.setting]
     const old = o.legacy ? settings?.[o.legacy] : undefined
-    out[o.setting] = (own ?? old ?? o.default) !== false
+    out[o.setting] = (own ?? old ?? defaultOf(o, settings)) !== false
   }
   return out
 }

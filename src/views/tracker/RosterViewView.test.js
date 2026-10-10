@@ -884,7 +884,7 @@ describe('RosterViewView', () => {
       })
 
       it('drops the unit chips on their own, and keeps the numbers nobody has to claim', async () => {
-        const w = await open({ trackUnitStates: false })
+        const w = await open({ trackUnitStates: false, trackBattleShock: false })
         await waitForSelector(w, '.rvst-mod')
         // The Waaagh! is read from the tracker, not from a chip, so it still rewrites the row.
         expect(w.find('.rvst-mod').exists()).toBe(true)
