@@ -59,7 +59,9 @@
       :readonly="!canEdit(army.pi)"
       :texts="ruleTexts"
     />
-    <!-- The tracker switched off for this side: the rules still read, plainly. -->
+    <!-- The tracker switched off for this side: the rules still read, plainly — and folded when the
+         army's list stands under this card (owner, 2026-10-10), so the units are not pushed a few
+         screens down; read in the game's first minutes, the list every turn. -->
     <div
       v-if="!trackerCards.length && ruleTexts.length"
       class="ap-body"
@@ -68,11 +70,30 @@
         v-for="t in ruleTexts"
         :key="t.key"
         class="ap-rule"
+        :class="{ folded: foldRules }"
       >
-        <div class="ap-rule-kind">
+        <button
+          v-if="foldRules"
+          type="button"
+          class="ap-rule-kind ap-rule-toggle"
+          :aria-expanded="openRules.includes(t.key)"
+          @click="toggleRule(t.key)"
+        >
+          <i
+            class="bi"
+            :class="openRules.includes(t.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+          />
+          {{ t.title }}
+        </button>
+        <div
+          v-else
+          class="ap-rule-kind"
+        >
           {{ t.title }}
         </div>
-        <RuleBody :body="t.body" />
+        <CollapseTransition :show="!foldRules || openRules.includes(t.key)">
+          <RuleBody :body="t.body" />
+        </CollapseTransition>
       </section>
     </div>
   </div>
@@ -84,6 +105,7 @@ import FactionEmblem from '../FactionEmblem.vue'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import RuleBody from '../RuleBody.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import { useParty } from '../../composables/useParty.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
@@ -142,6 +164,12 @@ watch(locale, async () => {
 }, { immediate: true })
 // What reads under the army rule: its full text (the card drops it where it already is the text)
 // and each detachment's rule.
+// Folded under an attached list (the Army tab shows it right below); a fold opened stays open.
+const foldRules = computed(() => !!props.army.member.roster)
+const openRules = ref([])
+const toggleRule = (key) => {
+  openRules.value = openRules.value.includes(key) ? openRules.value.filter((k) => k !== key) : [...openRules.value, key]
+}
 const ruleTexts = computed(() => {
   const r = rules.value
   if (!r) return []
@@ -181,7 +209,7 @@ defineExpose({ reveal })
   border-left: 4px solid var(--side);
   background: color-mix(in srgb, var(--side) 6%, var(--bg-card));
 }
-.ap-body { margin: 0 0.6rem 0 0.75rem; padding: 0.6rem 0; border-top: 1px solid var(--border-light); }
+.ap-body { margin: 0 0.6rem 0 0.75rem; padding: 0.45rem 0 0.4rem; border-top: 1px solid var(--border-light); }
 /* A little up and in from where it first stood (owner, 2026-10-06). */
 .ap-card > .stamp { top: 4.3rem; right: 6.2rem; height: calc(var(--stamp-k) * 7rem); color: var(--side); }
 /* The card's head: the faction in its side's colour, like the score board's columns, and a
@@ -203,6 +231,13 @@ defineExpose({ reveal })
 .ap-rule { padding: 0.6rem 0 0.2rem; border-top: 1px solid var(--border-light); }
 .ap-rule:first-child { border-top: 0; padding-top: 0; }
 .ap-rule-kind { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); }
+/* Folded: the kind line is the fold's head, the rule under it on a tap. */
+.ap-rule.folded { padding: 0.3rem 0 0.1rem; }
+.ap-rule-toggle {
+  display: flex; align-items: center; gap: 0.35rem; width: 100%; padding: 0.1rem 0;
+  border: 0; background: none; cursor: pointer; font-family: inherit; text-align: left;
+}
+.ap-rule-toggle .bi { font-size: 0.65rem; }
 /* Built to NumberStepper's `.step-btn` recipe — it shares a row with one, and anything else
    next to those buttons read as a different kind of thing. One class for both of the row's army
    links (the attached list, or the faction's datasheets) so the slot looks the same either way.

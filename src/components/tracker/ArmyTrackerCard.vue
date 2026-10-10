@@ -871,6 +871,10 @@ useFlashOnChange(counter, counterEl)
   border-left: 3px solid var(--accent);
 }
 .army-card.bare { margin-top: 0; padding: 0; background: none; border: 0; }
+/* On the Army tab's card (bare) the folds sit closer (owner, 2026-10-10: the rule's head, "How it
+   works" and the detachment line each stood a line apart): a hairline and a small step, not a gap. */
+.army-card.bare .army-acc { margin-top: 0.3rem; padding-top: 0.25rem; }
+.army-card.bare .army-acc-head { padding: 0.1rem 0; }
 
 .army-head {
   display: flex;
