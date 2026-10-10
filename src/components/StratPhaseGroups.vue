@@ -68,30 +68,10 @@ function toggle(key) {
 /* Closed heads stack tight, like the list rows under them (owner, 2026-10-02). */
 .phase-group { margin-bottom: 0.3rem; }
 /* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
-.phase-head {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.5rem 0.7rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  transition: border-color var(--motion-fast);
-}
 /* Hover only where there is one: on a phone a tapped head kept the hover and looked "live". */
 @media (hover: hover) { .phase-head:hover { border-color: var(--accent); } }
 .phase-head.now { border-color: var(--accent); }
-.phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
-.phase-name { flex: 1; text-align: left; }
 .phase-now { font-size: 0.85em; color: var(--accent-ink); }
-.phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
 .phase-body { padding-top: 0.3rem; } /* the same step as between the heads */
 
 /* Card: the frame is the group's, the head a band at its top, the rows (the caller's) inside it

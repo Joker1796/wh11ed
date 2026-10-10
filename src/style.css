@@ -1937,3 +1937,51 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
      should not be coloured as though it could. */
   a { color: inherit !important; text-decoration: none !important; }
 }
+
+/* ── Stratagem phase groups ─────────────────────────────────────────────────
+   The fold heads of stratagems grouped by phase and the filter bar's toggles, shared by the
+   Stratagems page (StratPhaseGroups / StratFilterBar) and the roster screen's own copy of them
+   (RosterViewView) — the `dupes` gate found them written out twice (2026-10-10). */
+.phase-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transition: border-color var(--motion-fast);
+}
+.phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
+.phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+.phase-name { flex: 1; text-align: left; }
+.strat-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+}
+/* Only where there is a pointer to hover with: on a phone a tapped toggle kept its hover colour. */
+@media (hover: hover) { .strat-toggle:hover { color: var(--text-primary); border-color: var(--accent); } }
+/* After the hover, so a lit toggle stays lit under the pointer. */
+.strat-toggle.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
