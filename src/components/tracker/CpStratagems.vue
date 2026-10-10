@@ -240,14 +240,28 @@ const groups = computed(() => [
   ...groupByPhase(shown.value),
 ])
 
-// Which groups are open: all closed at first, then as the player left them — remembered on the
-// device (owner's call, 2026-09-27).
+// Which groups are open, remembered on the device (owner's call, 2026-09-27). Their starting state
+// follows the clock (owner, 2026-10-10, from Misha's note): with phases kept the groups start folded
+// and the "now" group is the one to open; without them there is no "now", the list IS the reference,
+// and it starts open like the first tracker's — the player folds what they do not want. Each mode
+// remembers its own, so folding one does not fold the other: with the clock what is kept is the
+// OPEN set, without it the CLOSED one.
 const OPEN_KEY = 'wh11ed-tracker-strats-open'
-const openPhases = ref(new Set(readOpen()))
-function readOpen() {
-  try { return JSON.parse(getItem(OPEN_KEY) || '[]') } catch { return [] }
+const CLOSED_KEY = 'wh11ed-tracker-strats-closed'
+const readSet = (key) => {
+  try { return new Set(JSON.parse(getItem(key) || '[]')) } catch { return new Set() }
 }
-watch(openPhases, (set) => setItem(OPEN_KEY, JSON.stringify([...set])))
+const openOn = ref(readSet(OPEN_KEY))
+const closedOff = ref(readSet(CLOSED_KEY))
+watch(openOn, (set) => setItem(OPEN_KEY, JSON.stringify([...set])))
+watch(closedOff, (set) => setItem(CLOSED_KEY, JSON.stringify([...set])))
+const openPhases = computed({
+  get: () => (phasesOn.value ? openOn.value : new Set(groups.value.map((g) => g.key).filter((k) => !closedOff.value.has(k)))),
+  set: (next) => {
+    if (phasesOn.value) openOn.value = next
+    else closedOff.value = new Set(groups.value.map((g) => g.key).filter((k) => !next.has(k)))
+  },
+})
 // Come from the Phase tab's "Stratagems of this phase" (RoundTracker): the "now" group open — the list the line promised, not the phases folded as they were left.
 function showNow() {
   if (!openPhases.value.has('now')) openPhases.value = new Set([...openPhases.value, 'now'])

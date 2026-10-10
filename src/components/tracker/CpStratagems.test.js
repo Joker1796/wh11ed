@@ -142,3 +142,26 @@ describe('CpStratagems — the Stratagems page\'s filter', () => {
     expect(w.findAll('.sr-tag').length).toBe(0) // one deck: no "Core" tag on each row
   })
 })
+
+// Owner, 2026-10-10 (Misha's note): without the phase clock the list is the reference and starts
+// open, as in the first tracker; with it the groups start folded and "now" is the one to open.
+describe('CpStratagems — the phase groups start', () => {
+  const heads = (w) => w.findAll('[aria-expanded]').map((b) => b.attributes('aria-expanded'))
+  it('open without the phase clock, and keep what the player folded', async () => {
+    let w = await mountTab()
+    expect(heads(w).length).toBeGreaterThan(1)
+    expect(heads(w).every((v) => v === 'true')).toBe(true)
+    await w.find('[aria-expanded]').trigger('click')
+    expect(heads(w)[0]).toBe('false')
+    w.unmount()
+    w = await mountTab()
+    expect(heads(w)[0]).toBe('false')
+    expect(heads(w).slice(1).every((v) => v === 'true')).toBe(true)
+  })
+
+  it('folded with the clock', async () => {
+    tracker.current.value.settings.trackPhases = true
+    const w = await mountTab()
+    expect(heads(w).every((v) => v === 'false')).toBe(true)
+  })
+})
