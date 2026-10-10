@@ -27,10 +27,12 @@ export const changelog = [
     en: [
       { h: 'Roster builder' },
       'A Support unit that is not attached to any unit now shows an error. By the rules each Support unit must be attached to a unit.',
+      'In a unit’s fields, “Can be led by” and “Can lead” follow every catalogue filter: “Fits the points left”, “In my collection” and hidden Legends.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
       'Юнит Support, который ни к кому не присоединён, теперь отмечен ошибкой. По правилам каждый Support должен быть присоединён к отряду.',
+      'В полях юнита списки «Кто может возглавить» и «Кого может возглавить» учитывают все фильтры каталога: «Влезает в остаток», «Есть в коллекции» и скрытые Legends.',
     ],
   },
   {
