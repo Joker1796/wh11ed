@@ -67,6 +67,9 @@ const links = computed(() => (props.game.players || [])
   background: var(--bg-card); color: var(--text-primary); text-decoration: none; font-size: 0.82rem;
 }
 .grl-pill:hover { border-color: var(--accent); color: var(--accent-ink); }
-.grl-who { color: var(--text-muted); }
+.grl-pill > .bi { flex-shrink: 0; }
+/* One line each, cut with "…": a long player name used to wrap into a column beside the icon
+   (owner, 2026-10-10). The player gets at most half the pill, the list the rest. */
+.grl-who { color: var(--text-muted); flex: 0 1 auto; max-width: 50%; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .grl-name { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
