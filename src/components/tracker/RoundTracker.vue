@@ -957,8 +957,10 @@ const focusSide = computed(() => {
 })
 
 // A new turn starts on the missions, on the live round, on the focus side's tab: the first
-// thing a turn does is draw and score.
-watch(() => [current.value.currentRound, current.value.currentTurn], () => {
+// thing a turn does is draw and score. "Start game" begins the first turn without changing it, so
+// it counts too: pressed with the other side's tab picked, the side on turn's deck — which offers
+// the draw — stayed off screen (Misha, 2026-10-10).
+watch(() => [current.value.currentRound, current.value.currentTurn, gameBegun(current.value)], () => {
   tab.value = 'missions'
   viewRound.value = null
   pickedSide.value = null
