@@ -82,35 +82,8 @@ const labels = computed(() => ui[locale.value])
   gap: 0.6rem;
   margin-bottom: 0.75rem;
 }
-.strat-toggle {
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
-}
 /* The toggles sit on the right even when there's no filter row (no game). */
 .strat-right { margin-left: auto; display: flex; gap: 0.5rem; }
-.strat-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-@media (hover: hover) {
-  .strat-toggle:hover {
-    color: var(--text-primary);
-    border-color: var(--accent);
-  }
-}
-.strat-toggle.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
 /* Narrow phones: with a game on the deck row's four and the toggle share the line. Compact them
    so they fit — a tighter switch and an icon-only toggle (its text label is the widest of the lot). */
 @media (max-width: 480px) {

@@ -495,6 +495,31 @@ function closeRulesMenu() {
   gap: 2rem;
 }
 
+/* The brand's grid behind the wordmark (owner, 2026-10-10) — the same thin squares as the app icon,
+   the launch screen and the posts — fading out just past it (owner: closer to the logo). The bar is dark in both themes,
+   so one grid serves both. Drawn behind the bar's content (`isolation` + z-index -1) and deaf to
+   the pointer, so nothing in the bar moves or stops answering. */
+.navbar-inner {
+  position: relative;
+  isolation: isolate;
+}
+.navbar-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 10rem;
+  max-width: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 14px 14px;
+  background-position: -1px -1px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 1rem, #000 45%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 1rem, #000 45%, transparent 100%);
+}
+
 .navbar-logo {
   display: flex;
   flex-direction: column;
