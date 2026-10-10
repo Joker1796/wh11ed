@@ -6,15 +6,18 @@ import rosterItems from '../../data/roster/items.js'
 import necrons from '../../data/roster/necrons.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { loadRosterFaction } from '../../data/roster/index.js'
+import { useCollection } from '../../composables/useCollection.js'
+import { nextCopyMinPoints } from '../../composables/rosterEngine.js'
 
 // Real data: Necron Warriors can be led by three Legends characters (Lord, Nemesor Zahndrekh,
 // Vargard Obyron) beside the Codex ones — the case the catalogue's "Hide Legends units" is for.
 const defOf = (id) => necrons.units.find((u) => u.id === id)
 const LEGENDS = ['Lord', 'Nemesor Zahndrekh', 'Vargard Obyron']
-const mountSquad = (extra = []) => {
+const mountSquad = (extra = [], more = {}) => {
   const units = [{ uid: 'sq', id: 'necron-warriors', size: 0 }, ...extra]
   return mount(RosterEntryFields, {
     props: {
+      ...more,
       entry: units[0], units, defOf, catalogue: necrons.units,
       items: rosterItems.items, texts: rosterItems.texts, armySlug: 'necrons',
     },
@@ -93,6 +96,49 @@ describe('RosterEntryFields — "Can be led by" and Legends', () => {
 
 // The mirror on a Character (owner, 2026-10-08): the units an Overlord names, minus a copy the list
 // already holds free for him, minus one at the duplicate cap; "+" names the Character as the leader.
+// Every catalogue filter, not just Legends (owner, 2026-10-09): the same switches the catalogue
+// shows, through the same predicate.
+describe('RosterEntryFields — the catalogue\'s other filters', () => {
+  const prefs = useRosterPrefs()
+  const { collection, toggleOwned } = useCollection()
+  afterEach(() => {
+    prefs.onlyAffordable.value = false
+    prefs.onlyOwned.value = false
+    for (const k of Object.keys(collection)) delete collection[k]
+  })
+
+  it('offers only a leader the points left can pay for, while "Fits the points left" is on', async () => {
+    const overlord = defOf('overlord').name
+    const pts = nextCopyMinPoints(defOf('overlord'), 0, [])
+    const w = mountSquad([], { remaining: pts })
+    const all = candidates(w)
+    prefs.onlyAffordable.value = true
+    await w.vm.$nextTick()
+    const fit = candidates(w)
+    expect(fit).toContain(overlord)
+    expect(fit.length).toBeLessThanOrEqual(all.length)
+    for (const c of w.findComponent(UnitEditorFields).props('leaderCandidates')) {
+      expect(nextCopyMinPoints(defOf(c.id), 0, [])).toBeLessThanOrEqual(pts)
+    }
+  })
+
+  it('leaves the budget alone when there is no limit to read', async () => {
+    const w = mountSquad()
+    const all = candidates(w)
+    prefs.onlyAffordable.value = true
+    await w.vm.$nextTick()
+    expect(candidates(w)).toEqual(all)
+  })
+
+  it('offers only owned leaders while "Only units I own" is on', async () => {
+    toggleOwned('necrons', 'overlord', 'Overlord')
+    const w = mountSquad()
+    prefs.onlyOwned.value = true
+    await w.vm.$nextTick()
+    expect(candidates(w)).toEqual(['Overlord'])
+  })
+})
+
 describe('RosterEntryFields — "Can lead"', () => {
   const mountLeader = (units, dupBlocked = () => false) => mount(RosterEntryFields, {
     props: {

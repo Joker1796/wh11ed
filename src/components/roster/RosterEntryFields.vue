@@ -33,8 +33,10 @@ import { computed } from 'vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import {
   canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, allySourceOf,
+  nextCopyMinPoints, capKeyOf,
 } from '../../composables/rosterEngine.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
+import { useCollection } from '../../composables/useCollection.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -50,6 +52,8 @@ const props = defineProps({
   // What the catalogue offers right now, and its duplicate cap — for "Can be led by" and "Can lead".
   catalogue: { type: Array, default: () => [] },
   dupBlocked: { type: Function, default: () => false },
+  // Points still unspent (null: no limit to read) — for the catalogue's "Fits the points left".
+  remaining: { type: Number, default: null },
 })
 defineEmits(['toggle-warlord', 'add-leader', 'add-host'])
 
@@ -71,10 +75,25 @@ const leaderSources = computed(() => leaderSourcesFor(props.entry.uid, props.uni
 // this unit is already held (`used` — a Captain on the squad takes the Leader slot from every other
 // Leader), and one at the duplicate cap the catalogue's own "+" stops at (none of these is in the
 // list, but two datasheets of one character share a cap — `charId`, capKeyOf).
-// Legends follow the catalogue's own "Hide Legends units" switch — the same preference, so the
-// two never disagree about whether a Legends character is on offer.
-const { hideLegends } = useRosterPrefs()
-const offered = (c) => !c.used && !props.dupBlocked({ id: c.id }) && !(hideLegends.value && c.legends)
+// Then every filter the catalogue has (owner, 2026-10-09; Legends alone since 2026-10-06): fits the
+// points left, only units I own, hide Legends — the same switches and the same predicate
+// (useRosterPrefs' passesRosterFilters), so the two never disagree about what is on offer.
+const { passesRosterFilters } = useRosterPrefs()
+const { isOwned } = useCollection()
+const catalogueById = computed(() => new Map(props.catalogue.map((d) => [d.id, d])))
+// Copies in the list by cap key, as the catalogue counts them (two datasheets of one character).
+const copiesOf = (def) => props.units.filter((u) => capKeyOf(props.defOf(u.id) || { id: u.id }) === capKeyOf(def)).length
+const offered = (c) => {
+  if (c.used || props.dupBlocked({ id: c.id })) return false
+  const def = catalogueById.value.get(c.id)
+  const inList = def ? copiesOf(def) : 0
+  return passesRosterFilters({
+    minPts: def ? nextCopyMinPoints(def, props.units.filter((u) => u.id === c.id).length, props.detachments) : c.pts,
+    owned: isOwned(c.slug, c.sheetId),
+    legends: c.legends,
+    inList: inList > 0,
+  }, props.remaining)
+}
 // Where its datasheet lives: an allied row's id is namespaced with ITS faction
 // (`imperial-agents:inquisitor-coteaz`), a bare one belongs to the army.
 const withSheet = (c) => {
@@ -83,10 +102,10 @@ const withSheet = (c) => {
 }
 const leaderCandidates = computed(() => leaderCandidatesFor(
   props.entry.uid, props.units, props.catalogue, props.defOf, props.detachments,
-).filter(offered).map(withSheet))
+).map(withSheet).filter(offered))
 // …and the mirror on a Character (owner, 2026-10-08): the units it could lead that the list cannot
-// give it yet, on the same terms — the cap, the Legends switch.
+// give it yet, on the same terms — the cap, the catalogue's filters.
 const leaderHosts = computed(() => leaderHostsFor(
   props.entry.uid, props.units, props.catalogue, props.defOf, props.detachments,
-).filter(offered).map(withSheet))
+).map(withSheet).filter(offered))
 </script>

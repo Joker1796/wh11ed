@@ -226,10 +226,9 @@ import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { allySourceOf, groupLabel, mandatoryEnhancementFor, capKeyOf, sectionsOf, grantedKeywordsFor, unitBasePoints } from '../../composables/rosterEngine.js'
+import { allySourceOf, groupLabel, capKeyOf, sectionsOf, grantedKeywordsFor, nextCopyMinPoints } from '../../composables/rosterEngine.js'
 import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
-import { getItem, setItem } from '../../composables/safeStorage.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from '../../composables/datasheetTags.js'
 import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
@@ -317,12 +316,9 @@ const searched = computed(() => {
 
 // Per device, like the missions screen's own filters (ChapterMissions.vue). Both start off: the
 // catalogue's first answer should be the whole catalogue.
-const onlyAffordable = ref(getItem('wh11ed-roster-filter-budget') === '1')
-const onlyOwned = ref(getItem('wh11ed-roster-filter-owned') === '1')
-// Shared with the unit fields' "Can be led by" list (useRosterPrefs), which hides Legends too.
-const { hideLegends } = useRosterPrefs()
-watch(onlyAffordable, (v) => setItem('wh11ed-roster-filter-budget', v ? '1' : ''))
-watch(onlyOwned, (v) => setItem('wh11ed-roster-filter-owned', v ? '1' : ''))
+// All three live in useRosterPrefs: the unit fields' "Can be led by" / "Can lead" lists follow
+// the same switches, through the same predicate (passesRosterFilters).
+const { onlyAffordable, onlyOwned, hideLegends, passesRosterFilters } = useRosterPrefs()
 const hasLegends = computed(() => props.units.some((u) => u.flags?.legends))
 
 const hasBudget = computed(() => Number.isFinite(props.remaining))
@@ -356,11 +352,9 @@ function ownsUnit(u) { const s = srcOf(u); return isOwned(s.slug, s.id) }
 // what you want to see, and a list that hides what you just added (proxying a box you don't own)
 // reads as a bug rather than as a filter.
 function passesFilters(u) {
-  if (onlyAffordable.value && hasBudget.value && minPoints(u) > props.remaining) return false
-  if (countOf(u.id)) return true
-  if (onlyOwned.value && !ownsUnit(u)) return false
-  if (hideLegends.value && u.flags?.legends) return false
-  return true
+  return passesRosterFilters({
+    minPts: minPoints(u), owned: ownsUnit(u), legends: !!u.flags?.legends, inList: !!countOf(u.id),
+  }, props.remaining)
 }
 
 
@@ -445,10 +439,7 @@ function countLabel(u) {
 // copy's price while the list charged the third one 10 more — "false hopes", as the player who
 // reported it put it. Counted by exact id, the way rosterPoints assigns copy indexes.
 function minPoints(u) {
-  const sizes = u.sizes || []
-  const cheapest = sizes.reduce((best, s, i) => (s.pts < sizes[best].pts ? i : best), 0)
-  const copies = props.addedIds.filter((id) => id === u.id).length
-  return unitBasePoints(u, cheapest, copies + 1) + (mandatoryEnhancementFor(u, props.detachments)?.pts || 0)
+  return nextCopyMinPoints(u, props.addedIds.filter((id) => id === u.id).length, props.detachments)
 }
 
 const previewId = ref(null)
