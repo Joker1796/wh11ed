@@ -40,6 +40,21 @@ describe('buildGameLog', () => {
     expect(log.map((e) => e.type)).toEqual(['adjust', 'drawn', 'drawn'])
   })
 
+  // Owner, 2026-10-10, from Misha's note: "Return to deck" undid a draw without a trace, so a
+  // player could redraw until the hand suited them. The undo stays; every step of it is logged.
+  it('keeps a put-back hand in the log: the draw, the putting back, the new draw', () => {
+    vi.setSystemTime(1500)
+    tracker.takeRandomSecondaries(0)
+    const first = [...tracker.current.value.players[0].secondary.hand]
+    vi.setSystemTime(2000)
+    for (const slug of first) tracker.returnSecondaryToDeck(0, slug)
+    vi.setSystemTime(2500)
+    tracker.takeRandomSecondaries(0)
+    const log = buildGameLog(tracker.current.value).filter((e) => e.pi === 0 && e.kind === 'cards')
+    expect(log.filter((e) => e.type === 'returned').map((e) => e.slug).sort()).toEqual([...first].sort())
+    expect(log.filter((e) => e.type === 'drawn')).toHaveLength(4)
+  })
+
   it('names the unit a stratagem was played on', () => {
     const strat = { _key: 'det|Hold Fast', name: 'Hold Fast', _cost: 1, _limits: {}, _phases: ['any'], _sides: [] }
     tracker.playStratagem(0, strat, 1, { uid: 'u1', name: 'Chosen' })
@@ -76,9 +91,15 @@ describe('buildGameLog', () => {
     expect(b).toBeTruthy()
   })
 
-  it('forgets what was undone — the log cannot disagree with the score', () => {
+  // Until 2026-10-10 an undone take vanished from the log ("the log cannot disagree with the
+  // score"). It still cannot: the take scored nothing. But it is told now — drawn, then put back —
+  // so a hand drawn again and again shows (owner, from Misha's note).
+  it('tells an undone take as taken and put back, scoring nothing', () => {
     tracker.takeRandomSecondaries(0)
     tracker.untakeSecondaries(0)
-    expect(buildGameLog(tracker.current.value).filter((e) => e.type === 'drawn')).toHaveLength(0)
+    const log = buildGameLog(tracker.current.value)
+    expect(log.filter((e) => e.type === 'drawn')).toHaveLength(2)
+    expect(log.filter((e) => e.type === 'returned')).toHaveLength(2)
+    expect(log.filter((e) => e.type === 'scored')).toHaveLength(0)
   })
 })

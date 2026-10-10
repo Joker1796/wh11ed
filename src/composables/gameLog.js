@@ -19,6 +19,7 @@
 //     'setAside' { slug }               …set aside by hand
 //     'redraw'   { slug }               …replaced for 1CP
 //     'whenDrawn' { slug, mode }        …discarded / shuffled back by its own WHEN DRAWN rule
+//     'returned' { slug }               …put back in the deck by hand (its draw is told as 'drawn' too)
 //     'core' | 'bonus' { amount, source } · 'adjust' { amount } · 'strat' { amount, name, ref, target? }
 //       (`target` — the unit it was played on, when it was: { uid, name, opp? })
 
@@ -35,6 +36,12 @@ export function buildGameLog(game) {
     const redrawn = new Set((pl.cpLog || []).filter((e) => e.kind === 'spend' && e.source === 'redraw').map((e) => e.ref))
     for (const [slug, round] of Object.entries(s.drawn || {})) {
       out.push({ round, turn: pi, pi, kind: 'cards', type: 'drawn', slug, source: s.source?.[slug] || null, t: s.drawnAt?.[slug] })
+    }
+    // A card put back by hand: its draw happened, and so did the putting back (useTracker's
+    // returnSecondaryToDeck keeps both, since the undo wipes the card's own `drawn`).
+    for (const e of s.returned || []) {
+      out.push({ round: e.drawnRound, turn: pi, pi, kind: 'cards', type: 'drawn', slug: e.slug, source: e.source || null, t: e.drawnAt ?? undefined })
+      out.push({ round: e.round, turn: pi, pi, kind: 'cards', type: 'returned', slug: e.slug, t: e.t })
     }
     for (const e of s.whenDrawn || []) {
       out.push({ round: e.round, turn: pi, pi, kind: 'cards', type: 'whenDrawn', slug: e.slug, mode: e.mode, t: e.t })

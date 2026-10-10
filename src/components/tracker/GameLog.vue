@@ -169,6 +169,7 @@ function line(e) {
     case 'discard': return l.trackerLogDiscard.replace('{card}', cardName(e.pi, e.slug))
     case 'setAside': return l.trackerLogSetAside.replace('{card}', cardName(e.pi, e.slug))
     case 'redraw': return l.trackerLogRedraw.replace('{card}', cardName(e.pi, e.slug))
+    case 'returned': return l.trackerLogReturned.replace('{card}', cardName(e.pi, e.slug))
     case 'whenDrawn': return (e.mode === 'shuffle' ? l.trackerLogWhenDrawnShuffle : l.trackerLogWhenDrawnDiscard).replace('{card}', cardName(e.pi, e.slug))
     case 'core': return l.trackerLogCore
     case 'bonus': return l.trackerLogBonus

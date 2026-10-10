@@ -960,8 +960,18 @@ export function useTracker() {
 
   // Return a card to the deck — a full undo: drop it from hand/discarded, wipe any VP
   // it scored, forget its drawn round, and make it available to draw/pick again.
+  //
+  // The undo leaves a trace (owner, 2026-10-10, from Misha's note: draw two, put them back, draw
+  // again until the hand suits — and nobody would know). `returned` keeps the draw it undid and
+  // when the card went back; the log tells both, so a put-back hand reads as one in the log.
   function returnSecondaryToDeck(pi, slug) {
     const s = current.value.players[pi].secondary
+    if (s.drawn?.[slug] != null) {
+      ;(s.returned ||= []).push({
+        slug, drawnRound: s.drawn[slug], drawnAt: s.drawnAt?.[slug] ?? null, source: s.source?.[slug] ?? null,
+        round: current.value.currentRound, t: Date.now(),
+      })
+    }
     s.hand = s.hand.filter(x => x !== slug)
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
     s.scored = s.scored.filter(e => e.slug !== slug)
