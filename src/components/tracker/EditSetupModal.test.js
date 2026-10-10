@@ -189,7 +189,7 @@ describe('EditSetupModal — a guest in a shared game', () => {
     expect(body().text()).toContain('host')
     const rowOf = (name) => body().findAll('.opt-row').find(r => r.text().includes(name))
     expect(rowOf('Track CP').find('input').element.disabled).toBe(true)
-    const opp = rowOf("opponent's army rule")
+    const opp = rowOf("Opponent's army rule counter")
     expect(opp.find('input').element.disabled).toBe(false)
     await opp.find('input').setValue(false)
     await save()
