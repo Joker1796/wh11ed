@@ -103,7 +103,7 @@ describe('RosterPickerModal', () => {
     mount(RosterPickerModal)
     await flushPromises()
     expect(body().find('.rp-empty').exists()).toBe(true)
-    expect(body().find('.rp-link input').exists()).toBe(true)
+    expect(body().find('.rp-link textarea').exists()).toBe(true)
   })
 
   // The opponent's list normally lives on THEIR phone, so a share link is the only way it can
@@ -115,7 +115,7 @@ describe('RosterPickerModal', () => {
     })
     const w = mount(RosterPickerModal)
     await flushPromises()
-    await body().find('.rp-link input').setValue(`https://wh-rules.ru/roster/shared#r=${payload}`)
+    await body().find('.rp-link textarea').setValue(`https://wh-rules.ru/roster/shared#r=${payload}`)
     await body().find('.rp-link-btn').trigger('click')
     await waitUntil(() => w.emitted('pick'))
 
@@ -129,7 +129,7 @@ describe('RosterPickerModal', () => {
   it('reports a malformed link instead of attaching nothing silently', async () => {
     const w = mount(RosterPickerModal)
     await flushPromises()
-    await body().find('.rp-link input').setValue('garbage')
+    await body().find('.rp-link textarea').setValue('garbage')
     await body().find('.rp-link-btn').trigger('click')
     await waitUntil(() => body().find('.rp-link-error').exists())
     expect(body().find('.rp-link-error').exists()).toBe(true)
@@ -179,7 +179,7 @@ describe('RosterPickerModal', () => {
       })
       const w = mount(RosterPickerModal, { props: { faction: 'orks' } })
       await flushPromises()
-      await body().find('.rp-link input').setValue(payload)
+      await body().find('.rp-link textarea').setValue(payload)
       await body().find('.rp-link-btn').trigger('click')
       await waitUntil(() => body().find('.rp-link-error').exists())
       expect(body().find('.rp-link-error').text()).toBe('That list is a different faction.')
@@ -194,5 +194,46 @@ describe('RosterPickerModal', () => {
     await w.setProps({ selected: 'r1' })
     await body().find('.rp-clear').trigger('click')
     expect(w.emitted('clear')).toHaveLength(1)
+  })
+})
+
+// Misha, 2026-10-10: "not only by link" — a list's exported text too, read as Import reads it.
+describe('RosterPickerModal — a pasted list text', () => {
+  const list = (extra = '') => `Test list (1000 points)
+
+Space Marines
+Incursion (1000 points)
+Gladius Task Force (2 Detachment Points)
+
+CHARACTERS
+
+Captain (80 points)
+• Warlord
+
+BATTLELINE
+
+Intercessor Squad (75 points)
+${extra}`
+
+  it('attaches the list it reads', async () => {
+    const w = mount(RosterPickerModal, { props: { faction: 'space-marines' } })
+    await flushPromises()
+    await body().find('.rp-link textarea').setValue(list())
+    await body().find('.rp-link-btn').trigger('click')
+    await waitUntil(() => w.emitted('pick') || body().find('.rp-link-error').exists(), 10000)
+    expect(body().find('.rp-link-error').exists()).toBe(false)
+    const [picked] = w.emitted('pick')[0]
+    expect(picked.faction).toBe('space-marines')
+    expect(picked.units.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('refuses one with a line it does not know, and names it', async () => {
+    const w = mount(RosterPickerModal, { props: { faction: 'space-marines' } })
+    await flushPromises()
+    await body().find('.rp-link textarea').setValue(list('\nNo Such Unit (100 points)\n'))
+    await body().find('.rp-link-btn').trigger('click')
+    await waitUntil(() => body().find('.rp-link-error').exists(), 10000)
+    expect(body().find('.rp-link-error').text()).toContain('No Such Unit')
+    expect(w.emitted('pick')).toBeUndefined()
   })
 })
