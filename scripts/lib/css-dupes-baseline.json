@@ -115,22 +115,6 @@
     "src/components/event/MissionCard.vue",
     "src/components/tracker/ScoringModal.vue"
   ],
-  ".phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }": [
-    "src/views/StratagemsView.vue",
-    "src/views/tracker/RosterViewView.vue"
-  ],
-  ".phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }": [
-    "src/views/StratagemsView.vue",
-    "src/views/tracker/RosterViewView.vue"
-  ],
-  ".phase-head { display: flex; align-items: center; gap: 0.5rem; width: 100%; padding: 0.5rem 0.7rem; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.3px; transition: border-color var(--motion-fast); }": [
-    "src/views/StratagemsView.vue",
-    "src/views/tracker/RosterViewView.vue"
-  ],
-  ".phase-name { flex: 1; text-align: left; }": [
-    "src/views/StratagemsView.vue",
-    "src/views/tracker/RosterViewView.vue"
-  ],
   ".player-head { font-family: var(--font-display); font-size: 1.21rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.75rem; }": [
     "src/components/tracker/EditSetupModal.vue",
     "src/components/tracker/GameSetup.vue"
@@ -146,14 +130,6 @@
   ".strat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; align-items: start; }": [
     "src/views/combat-patrol/CombatPatrolFactionView.vue",
     "src/views/faction/FactionRuleView.vue"
-  ],
-  ".strat-toggle.active { background: var(--accent); border-color: var(--accent); color: #fff; }": [
-    "src/views/StratagemsView.vue",
-    "src/views/tracker/RosterViewView.vue"
-  ],
-  ".strat-toggle:hover { color: var(--text-primary); border-color: var(--accent); }": [
-    "src/views/StratagemsView.vue",
-    "src/views/tracker/RosterViewView.vue"
   ],
   ".tp-act { flex: 1; min-height: 44px; justify-content: center; }": [
     "src/components/tracker/MissionPickerModal.vue",

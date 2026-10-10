@@ -2027,46 +2027,10 @@ function stratKey(strat) {
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
-.strat-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
-}
-.strat-toggle:hover { color: var(--text-primary); border-color: var(--accent); }
-.strat-toggle.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 .phase-group { margin-bottom: 0.75rem; }
 /* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
-.phase-head {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.5rem 0.7rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  transition: border-color var(--motion-fast);
-}
 .phase-head:hover { border-color: var(--accent); }
-.phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
-.phase-name { flex: 1; text-align: left; }
-.phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
 .phase-grid { padding-top: 0.75rem; }
 
 @media (max-width: 480px) {
