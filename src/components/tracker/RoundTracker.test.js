@@ -96,6 +96,19 @@ describe('RoundTracker — the tabs', () => {
     expect(w.find('.cp-bank').isVisible()).toBe(false) // kept once opened, hidden
   })
 
+  // Misha, 2026-10-10: "Units" on the opponent's army, then "Back to the game", landed on this
+  // phone's own army. The tab came back; the side picked on the score cards did not.
+  it('comes back from another page on the tab AND the side it left', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    const w = await openArmies(mountTracker())
+    await pickSide(w, 1)
+    w.unmount()
+    const back = mountTracker()
+    await back.vm.$nextTick()
+    expect(back.find('.gt-tab.on').text()).toBe('Armies')
+    expect(back.findComponent({ name: 'ArmiesPanel' }).props('side')).toBe(1)
+  })
+
   // Nothing is built in the frame a panel slides in: the rest are built while idle, then shown.
   it('builds the other panels while idle and keeps each one it switches away from', async () => {
     vi.useFakeTimers()

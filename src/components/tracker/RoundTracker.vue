@@ -988,14 +988,18 @@ const sideRuleCount = computed(() => phaseSides.value.find((s) => s.pi === viewS
 // and coming back (owner's call, 2026-09-27). Kept on this device with the game and the turn it
 // was open in: back in the same turn, the same tab; the turn moved meanwhile (another phone ended
 // it), the missions, as at the start of any turn. A tab this game no longer offers (CP or the
-// phase reminder switched off) falls back to the missions too.
+// phase reminder switched off) falls back to the missions too. The side picked on the score cards
+// comes back with it: "Units" on the opponent's army led back to this phone's own (Misha, 2026-10-10).
 const TAB_KEY = 'wh11ed-tracker-tab'
 const clockKey = () => `${current.value.id}|${current.value.currentRound}|${current.value.currentTurn === 1 ? 1 : 0}`
 try {
   const saved = JSON.parse(getItem(TAB_KEY) || 'null')
-  if (saved?.at === clockKey() && tabs.value.some((t) => t.id === saved.tab)) tab.value = saved.tab
+  if (saved?.at === clockKey() && tabs.value.some((t) => t.id === saved.tab)) {
+    tab.value = saved.tab
+    if (saved.side === 0 || saved.side === 1) pickedSide.value = saved.side
+  }
 } catch { /* an unreadable entry is just no memory */ }
-watch([tab, clockKey], () => setItem(TAB_KEY, JSON.stringify({ at: clockKey(), tab: tab.value })))
+watch([tab, clockKey, pickedSide], () => setItem(TAB_KEY, JSON.stringify({ at: clockKey(), tab: tab.value, side: pickedSide.value })))
 
 const cpHelpOpen = ref(false) // the CP tab's "?"
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
