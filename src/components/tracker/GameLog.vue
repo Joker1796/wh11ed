@@ -158,6 +158,17 @@ function cardName(pi, slug) {
 }
 const signed = (n) => (n > 0 ? `+${n}` : `${n}`)
 
+// Why a card's own WHEN DRAWN rule let it be replaced (owner, 2026-10-10): the condition the rule
+// names, read off the card — the first battle round, or its paired card in hand — so the log says
+// what made the replacement legal, not only that it happened. A rule with no condition says nothing.
+function whenDrawnWhy(e) {
+  const l = labels.value
+  const gate = missionBySlug(e.slug, current.value?.players?.[e.pi]?.role)?.whenDrawn?.gate
+  if (gate === 'first-round') return ` — ${l.trackerLogWhyFirstRound}`
+  if (gate?.pairedActive) return ` — ${l.trackerLogWhyPaired.replace('{card}', cardName(e.pi, gate.pairedActive))}`
+  return ''
+}
+
 // One entry in words. Kept here, not in gameLog.js: the words are the locale's.
 function line(e) {
   const l = labels.value
@@ -170,7 +181,7 @@ function line(e) {
     case 'setAside': return l.trackerLogSetAside.replace('{card}', cardName(e.pi, e.slug))
     case 'redraw': return l.trackerLogRedraw.replace('{card}', cardName(e.pi, e.slug))
     case 'returned': return l.trackerLogReturned.replace('{card}', cardName(e.pi, e.slug))
-    case 'whenDrawn': return (e.mode === 'shuffle' ? l.trackerLogWhenDrawnShuffle : l.trackerLogWhenDrawnDiscard).replace('{card}', cardName(e.pi, e.slug))
+    case 'whenDrawn': return (e.mode === 'shuffle' ? l.trackerLogWhenDrawnShuffle : l.trackerLogWhenDrawnDiscard).replace('{card}', cardName(e.pi, e.slug)) + whenDrawnWhy(e)
     case 'core': return l.trackerLogCore
     case 'bonus': return l.trackerLogBonus
     case 'adjust': return l.trackerLogAdjust.replace('{n}', signed(e.amount))

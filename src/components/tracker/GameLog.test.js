@@ -48,3 +48,19 @@ describe('GameLog', () => {
     w.unmount()
   })
 })
+
+// Owner, 2026-10-10: a card replaced by its own WHEN DRAWN rule says in the log what allowed it.
+describe('GameLog — a card shuffled back by its own rule', () => {
+  it('names the condition that let it go back', () => {
+    startGame()
+    const s = tracker.current.value.players[0].secondary
+    // Defend Stronghold: "When Drawn: if it is the first battle round, shuffle it back and draw a new one".
+    s.deck = s.deck.filter((x) => x !== 'defend-stronghold')
+    s.hand.push('defend-stronghold')
+    tracker.redrawSecondary(0, 'defend-stronghold', 'shuffle')
+    const w = mount(GameLog, { props: { names: ['Me', 'Opp'] } })
+    const line = w.findAll('.gl-item').map((li) => li.text()).find((t) => t.includes('Defend Stronghold'))
+    expect(line).toContain('first battle round')
+    w.unmount()
+  })
+})
