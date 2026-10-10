@@ -262,11 +262,6 @@ const openPhases = computed({
     else closedOff.value = new Set(groups.value.map((g) => g.key).filter((k) => !next.has(k)))
   },
 })
-// Come from the Phase tab's "Stratagems of this phase" (RoundTracker): the "now" group open — the list the line promised, not the phases folded as they were left.
-function showNow() {
-  if (!openPhases.value.has('now')) openPhases.value = new Set([...openPhases.value, 'now'])
-}
-defineExpose({ showNow })
 
 const openStrat = ref(null)
 

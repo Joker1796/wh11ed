@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { missions } from '../data/missions.js'
-import { scoringMoment, lockedNow, turnEndChecks } from './missionTiming.js'
+import { scoringMoment, lockedNow, turnEndChecks, cardMoments } from './missionTiming.js'
 
 // The gate: every scoring block of every card has a known moment. A new phrasing in the data
 // (an erratum, a new mission pack) fails here instead of scoring in the wrong turn.
@@ -49,12 +49,14 @@ describe('missionTiming — lockedNow', () => {
   })
 })
 
-describe('turnEndChecks', () => {
+describe('turnEndChecks / cardMoments', () => {
   // A tiny stand-in for the mission data: slug → EN blocks; scorable returns them with bi.
   const MISSIONS = {
     beacon: [{ heading: 'Any Battle Round', when: "End of your opponent's turn or the end of the fifth battle round (whichever comes first)", kind: 'tactical' }],
     mine: [{ heading: 'Any Battle Round', when: 'End of your turn', kind: 'tactical' }],
     prim: [{ heading: 'Any Battle Round', when: 'End of your turn' }, { heading: 'End of Battle', when: '' }],
+    cmd: [{ heading: 'Any Battle Round', when: 'End of your Command phase' }],
+    always: [{ heading: 'Any Battle Round', when: 'While this card is active', kind: 'tactical' }],
   }
   const missionEn = (slug) => ({ blocks: MISSIONS[slug] })
   const scorable = (slug) => MISSIONS[slug].map((b, bi) => ({ ...b, bi, rows: [] }))
@@ -74,5 +76,18 @@ describe('turnEndChecks', () => {
 
   it('adds the End of Battle and the fifth-round fallback on the turn that closes the battle', () => {
     expect(brief(turnEndChecks(game(5, 1), scorable, missionEn))).toEqual(['0:beacon:0', '0:primary:1', '1:beacon:0', '1:primary:0,1'])
+  })
+
+  // The Turn tab's layout of one side's turn: each card once per moment it scores at, the end of
+  // the owner's Command phase apart from the end of the turn; "while active" has no moment.
+  const moments = (g, pi) => cardMoments(g, pi, scorable, missionEn, (slug) => slug).map((c) => `${c.at}:${c.slug || 'primary'}`)
+  it('places a side\'s cards at the step of the turn they score in', () => {
+    const g = game(2, 0)
+    g.players[0].primarySlug = 'cmd'
+    g.players[0].secondary.hand = ['mine', 'beacon', 'always']
+    expect(moments(g, 0)).toEqual(['command-end:primary', 'turn-end:mine'])
+    expect(moments(g, 1)).toEqual(['turn-end:beacon'])
+    // the opponent's turn: the end-of-your-turn cards wait, the opponent's-turn one is due
+    expect(moments(game(2, 1), 0)).toEqual(['turn-end:beacon'])
   })
 })

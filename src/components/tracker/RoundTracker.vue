@@ -476,7 +476,6 @@
       role="tabpanel"
     >
       <CpStratagems
-        ref="cpEl"
         :names="current.players.map((_, i) => playerName(i))"
         :default-side="focusSide"
         :side="viewSide"
@@ -549,14 +548,15 @@
         :class="{ opp: !isYouSide(current.players[viewSide], viewSide) }"
       >
         <PhaseRules
+          v-if="sideRuleCount"
           embedded
           :side="viewSide"
-          @stratagems="openCpNow"
           @army="openArmyRule"
           @roster="openRoster"
+          @missions="tab = 'missions'"
         />
         <SideEmptyState
-          v-if="!sideRuleCount"
+          v-else
           :faction="viewFaction"
         >
           {{ phasesOn ? labels.trackerPhaseNoneSide : labels.trackerTurnNoneSide }}
@@ -791,7 +791,6 @@ const tabs = computed(() => [
   // The armies right after CP (owner, 2026-09-29): both are looked at during a turn, the log and
   // the stats after it.
   { id: 'armies', label: labels.value.trackerTabArmies, icon: 'wi wi-army' },
-  // The attached lists, read in the game (owner, 2026-09-30) — only when there is one.
   { id: 'log', label: labels.value.trackerTabLog, icon: 'wi wi-log' },
   { id: 'stats', label: labels.value.trackerTabStats, icon: 'wi wi-stats' },
 ])
@@ -809,15 +808,8 @@ const stripPhase = computed(() => {
   const colors = g.players.map((pl, i) => (isYouSide(pl, i) ? 'var(--side-you)' : 'var(--side-opponent)'))
   return { steps: BATTLE_PHASES.length * 2, at, colors, label: `${phaseLabel(g.currentPhase || 'command', labels.value)} · ${playerName(turnIndex.value)}` }
 })
-// The Phase tab's lines into the other tabs: its stratagems line opens the CP tab on the phase's
-// group, a rule opens the Armies tab on that army with the rule unfolded.
-const cpEl = ref(null)
+// The Turn tab's rule lines into the Army tab: that army, with the rule unfolded.
 const armiesEl = ref(null)
-async function openCpNow() {
-  tab.value = 'cp'
-  await nextTick()
-  cpEl.value?.showNow()
-}
 async function openArmyRule(at) {
   pickedSide.value = at.pi
   tab.value = 'armies'
@@ -949,6 +941,10 @@ const shownRound = computed(() => viewRound.value || current.value.currentRound)
 
 // Whose missions come first: this phone's own side in a shared game, otherwise the side on
 // turn. The other is folded until asked for.
+// Whose turn it is — players[0] is always the first-turn player, so the turn IS a player index
+// (useTracker). Declared before everything below that reads it during setup — the tab memory
+// asks for the tabs, whose counts ask for the side on screen — or it is read before it exists.
+const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 const focusSide = computed(() => {
   const p = current.value.party
   return p && !p.revoked && !p.ended && (p.side === 0 || p.side === 1) ? p.side : turnIndex.value
@@ -1035,9 +1031,6 @@ const lock = (pi) => (canEdit(pi) ? undefined : true)
 // resumes pushing without reopening the dialog. `enabled` also lights the toolbar button.
 const { enabled: broadcastOn, init: initBroadcast } = useBroadcast()
 initBroadcast()
-
-// players[0] is always the first-turn player, so the turn IS a player index (useTracker).
-const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 
 // Whose missions are open: the focus side, until a tab says otherwise; a new turn goes back to it.
 // The side on the Missions tab is the side picked on the score cards (viewSide).

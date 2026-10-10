@@ -106,3 +106,42 @@ export function turnEndChecks(game, scorable, missionEn) {
   })
   return out
 }
+
+// Where in the turn on the clock each of one side's cards scores — the Turn/Phase tab lays the
+// turn out step by step and puts a card at its moment (owner, 2026-10-10). The same reading of
+// the moments as turnEndChecks, but for one side and for the whole turn: the end of the owner's
+// Command phase is a moment of its own; "while this card is active" has none and is left out.
+// Returns [{ at: 'command-end' | 'turn-end', slug | null (the primary), name }], once per card
+// and moment.
+export function cardMoments(game, pi, scorable, missionEn, missionName) {
+  if (!game || game.phase !== 'playing') return []
+  const pl = game.players?.[pi]
+  if (!pl) return []
+  const R = game.currentRound
+  const T = game.currentTurn === 1 ? 1 : 0
+  const opp = pi !== T
+  const last = R === 5 && T === 1
+  const stepOf = (m) => {
+    if (!m) return null
+    if (m.at === 'your-command') return opp ? null : 'command-end'
+    if (m.at === 'end-battle') return last ? 'turn-end' : null
+    if (m.at === 'opp-turn') return opp || (last && m.fallback === 'r5') ? 'turn-end' : null
+    if (m.at === 'your-turn') return opp ? null : 'turn-end'
+    if (m.at === 'any-turn') return 'turn-end'
+    return null
+  }
+  const out = []
+  const pick = (slug, role) => {
+    const en = missionEn(slug, role)
+    const at = new Set()
+    for (const b of scorable(slug, role, R)) {
+      if (role && pl.secondaryMode && b.kind && b.kind !== pl.secondaryMode) continue
+      const s = stepOf(scoringMoment(en?.blocks[b.bi]))
+      if (s) at.add(s)
+    }
+    for (const s of at) out.push({ at: s, slug: role ? slug : null, name: missionName(slug, role) })
+  }
+  if (pl.primarySlug) pick(pl.primarySlug, null)
+  for (const slug of pl.secondary?.hand || []) pick(slug, pl.role)
+  return out
+}

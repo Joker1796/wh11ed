@@ -15,17 +15,34 @@ import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
-import { useTracker, membersOf, sideName, isYouSide } from './useTracker.js'
+import { useTracker, membersOf, sideName, isYouSide, scorableBlocks, missionBySlug } from './useTracker.js'
+import { cardMoments } from './missionTiming.js'
 import { tracks } from '../data/trackerOptions.js'
-import { usableInSlot, BATTLE_PHASES } from './stratagemPhases.js'
+import { usableInSlot, BATTLE_PHASES, phaseLabel } from './stratagemPhases.js'
 import { allySourceOf } from './rosterEngine.js'
 import { detachmentSources } from '../data/detachmentSources.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionChoice } from './useFactionChoice.js'
 import { useRefNavigation } from './useRefNavigation.js'
 
-// The order a phase is played in, and the line's `when`.
-export const MOMENTS = ['start', 'during', 'end']
+// The steps of each phase in play order (Core Rules 08–12), and the step a rule that fires
+// "during" the phase is shown at — its main step. Start and End are the phase's own first and
+// last steps, which is where a rule's `start` / `end` moment lands.
+export const PHASE_STEPS = {
+  command: ['start', 'cp', 'shock', 'abilities', 'end'],
+  movement: ['start', 'move', 'end'],
+  shooting: ['start', 'shoot', 'end'],
+  charge: ['start', 'charge', 'end'],
+  fight: ['start', 'pile-in', 'fight', 'consolidate', 'end'],
+}
+const MAIN_STEP = { command: 'abilities', movement: 'move', shooting: 'shoot', charge: 'charge', fight: 'fight' }
+const STEP_LABEL = {
+  start: 'trackerStepStart', end: 'trackerStepEnd', cp: 'trackerStepCp', shock: 'trackerStepShock',
+  abilities: 'trackerStepAbilities', move: 'trackerStepMove', shoot: 'trackerStepShoot',
+  charge: 'trackerStepCharge', 'pile-in': 'trackerStepPileIn', fight: 'trackerStepFight',
+  consolidate: 'trackerStepConsolidate',
+}
+export const stepOfMoment = (when, ph) => (when === 'start' || when === 'end' ? when : MAIN_STEP[ph])
 
 export function usePhaseRules() {
   const { locale } = useLocale()
@@ -154,24 +171,6 @@ export function usePhaseRules() {
     return out
   }
 
-  // A phase's rules in the parts the tab draws (owner, 2026-10-08 — one undivided block read as
-  // a heap): per army of the side (a doubles team's two, under the faction's name), the army's own
-  // rules first, then its units; inside each, in the order the phase is played — what fires at its
-  // start, then during it, then at its end.
-  function partsOf(pi, rules) {
-    const members = membersOf(current.value?.players?.[pi])
-    const parts = []
-    members.forEach((m, mi) => {
-      const who = members.length > 1 ? factionIndexBySlug(m.factionSlug)?.name || m.name || null : null
-      for (const kind of ['rule', 'unit']) {
-        const these = rules.filter((r) => r.mi === mi && r.kind === kind)
-          .sort((a, b) => MOMENTS.indexOf(a.when) - MOMENTS.indexOf(b.when))
-        if (these.length) parts.push({ key: `${mi}|${kind}`, who: parts.some((x) => x.mi === mi) ? null : who, mi, kind, rules: these })
-      }
-    })
-    return parts
-  }
-
   function rosterPath(pi, mi) {
     return mi == null ? `/tracker/game/roster/${pi}` : `/tracker/game/roster/${pi}/${mi}`
   }
@@ -229,24 +228,60 @@ export function usePhaseRules() {
     return sideName(current.value?.players?.[pi], pi, labels.value)
   }
 
-  // The side whose turn it is first, so the block reads in the order the phase is played. Each side
-  // carries `groups`: one, unnamed, for the phase the clock stands on — or, without a clock, one per
-  // phase of the turn that has something to say. `count` is the rules, a rule named in two phases
-  // of the turn counted once.
+  // The side whose turn it is first, so the tab reads in the order the turn is played. Each side
+  // carries its `turn` laid out step by step, and `count`: the rules (one named in two phases of
+  // the turn counted once) and the card moments.
   const sides = computed(() => {
     const order = turn.value === 0 ? [0, 1] : [1, 0]
-    const phases = byPhase.value ? [phase.value] : BATTLE_PHASES
-    return order
-      .map((pi) => {
-        const groups = phases
-          .map((ph) => ({ phase: byPhase.value ? null : ph, parts: partsOf(pi, rulesFor(pi, ph)) }))
-          .filter((g) => g.parts.length)
-        const count = new Set(groups.flatMap((g) => g.parts.flatMap((p) => p.rules.map((r) => r.key)))).size
-        return { pi, you: isYouSide(current.value?.players?.[pi], pi), name: playerName(pi), groups, count }
-      })
-      .filter((s) => s.count)
+    return order.map((pi) => {
+      const laid = turnOf(pi)
+      const count = new Set(laid.flatMap((sec) => sec.steps.flatMap((st) => st.rows.map((r) => r.key)))).size
+      return { pi, you: isYouSide(current.value?.players?.[pi], pi), name: playerName(pi), turn: laid, count }
+    })
   })
   const total = computed(() => sides.value.reduce((n, s) => n + s.count, 0))
+
+  // The turn on the clock laid out in play order for one side (owner, 2026-10-10): the start of
+  // the turn, each phase step by step, the end of the turn — and at each step what fires there,
+  // the side's rules by their moment and its mission cards by when they score. With a clock, only
+  // the phase it stands on (and the turn's start or end when that phase borders it). Every step is
+  // listed, empty or not: the order of the turn is itself the reminder.
+  function cardsOf(pi) {
+    const game = current.value
+    return cardMoments(
+      game, pi,
+      (slug, role, round) => scorableBlocks(slug, role, round, locale.value),
+      (slug, role) => missionBySlug(slug, role),
+      (slug, role) => missionBySlug(slug, role)?.name || slug,
+    ).map((c) => ({ ...c, key: `card|${c.at}|${c.slug || 'primary'}`, kind: 'card', what: c.slug ? labels.value.trackerSecondary : labels.value.trackerPrimary }))
+  }
+  function turnOf(pi) {
+    const members = membersOf(current.value?.players?.[pi])
+    const whoOf = (mi) => (members.length > 1 ? factionIndexBySlug(members[mi]?.factionSlug)?.name || members[mi]?.name || null : null)
+    const cards = cardsOf(pi)
+    const L = labels.value
+    const phases = byPhase.value ? [phase.value] : BATTLE_PHASES
+    const out = []
+    if (phases[0] === 'command') out.push({ key: 'turn-start', title: L.trackerStepTurnStart, steps: [{ id: 'turn-start', label: null, rows: [] }] })
+    for (const ph of phases) {
+      const rules = rulesFor(pi, ph).map((r) => ({ ...r, who: whoOf(r.mi) }))
+      out.push({
+        key: ph,
+        title: phaseLabel(ph, L),
+        steps: PHASE_STEPS[ph].map((id) => ({
+          id,
+          label: L[STEP_LABEL[id]],
+          rows: [
+            // The army's own rules before its units', as everywhere in the tab.
+            ...rules.filter((r) => stepOfMoment(r.when, ph) === id).sort((a, b) => (a.kind === b.kind ? a.mi - b.mi : a.kind === 'rule' ? -1 : 1)),
+            ...(ph === 'command' && id === 'end' ? cards.filter((c) => c.at === 'command-end') : []),
+          ],
+        })),
+      })
+    }
+    if (phases[phases.length - 1] === 'fight') out.push({ key: 'turn-end', title: L.trackerStepTurnEnd, steps: [{ id: 'turn-end', label: null, rows: cards.filter((c) => c.at === 'turn-end') }] })
+    return out
+  }
 
   return { sides, total, phase, byPhase, go, labels }
 }

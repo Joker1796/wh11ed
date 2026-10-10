@@ -353,15 +353,13 @@ describe('RoundTracker — the Phase tab', () => {
     expect(tabLabels(mountTracker())).toEqual(['Missions', 'Phase', 'CP', 'Army', 'Log', 'Stats'])
   })
 
-  // Its lines lead into the game's own tabs, not off the game screen.
-  it('opens the CP tab on the phase\'s group, and the Armies tab on a rule', async () => {
+  // Its lines lead into the game's own tabs, not off the game screen. No stratagems line any more
+  // (owner, 2026-10-10): they are the CP tab's, already filtered to the phase.
+  it('opens the Army tab on a rule, and carries no stratagems line', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackPhases: true, trackPhaseRules: true })
     const w = await openTab(mountTracker(), 'Phase')
-    await vi.waitFor(async () => { await flushPromises(); expect(w.find('.pr-strats').exists()).toBe(true) }, { timeout: 5000 })
-    await w.find('.pr-strats').trigger('click')
-    await flushPromises()
-    expect(w.find('.gt-tab.on').attributes('aria-label')).toBe('CP')
-    expect(JSON.parse(localStorage.getItem('wh11ed-tracker-strats-open'))).toContain('now')
+    await vi.waitFor(async () => { await flushPromises(); expect(w.text()).toContain('Waaagh!') }, { timeout: 5000 })
+    expect(w.find('.pr-strats').exists()).toBe(false)
 
     await openTab(w, 'Phase')
     const rule = w.findAll('.pr-go-btn').find((b) => b.text().includes('Waaagh!'))

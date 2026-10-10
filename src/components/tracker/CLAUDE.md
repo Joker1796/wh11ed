@@ -119,9 +119,10 @@ phase (tap → the phase picker), ›, End turn. The arrows stop at Command and 
 changes only by End / Undo turn, so never past the end-of-turn check. The reminder ("in this
 phase", `trackPhaseRules`) is the **Phase** tab of the upper row (the **Turn** tab in a game without the clock), its count on the tab
 (`usePhaseRules.js` counts; `PhaseRules.vue embedded` draws). Its lines stay on the game screen
-(2026-09-30): the stratagems line opens the CP tab on the "now" group (`CpStratagems.showNow`), a
-rule opens the Armies tab on that army with the rule unfolded (`ArmiesPanel.reveal`), a unit of an
-attached list opens its card over the Phase tab (`RosterTab.openUnit`), several units — the list.
+(2026-09-30): a rule opens the Army tab on that army with the rule unfolded (`ArmiesPanel.reveal`), a unit of an
+attached list opens its card in the Army tab (`RosterTab.openUnit`), several units — the list; a
+mission card opens the Missions tab. No stratagems line since 2026-10-10 — the CP tab is one tap
+away and already filters to the phase.
 **One strip of tabs** over one panel (owner's calls, 2026-09-27: two rows split by a heavy rule
 read as two menus, and they were one menu). Every CLOSED tab is an icon (`aria-label` + `title`
 name it); the OPEN tab takes the rest of the width and shows its icon and its word — one row at any
@@ -551,9 +552,22 @@ changing who goes first mid-game from `EditSetupModal`, which reorders the playe
 
 The game screen's Phase tab: **what has something to say in the phase the game is standing on**.
 `settings.trackPhaseRules`, on by default. **Without the clock it is the Turn tab** (owner,
-2026-10-08; no `requires` since): the same list for each phase of the current turn, under the
-phase's name — `usePhaseRules`' sides carry `groups` (one unnamed for the clock's phase, else one per
-phase with something in it) and `count` (rules, one named in two phases counted once).
+2026-10-08; no `requires` since).
+
+**The turn in the order it is played** (owner, 2026-10-10): `usePhaseRules`' sides carry `turn` —
+Start of turn, each phase step by step (`PHASE_STEPS`, Core Rules 08–12), End of turn; with the
+clock, only its phase (plus the turn's start or end where the phase borders it). At each step what
+fires there: the side's rules by their moment (`start`/`end` at the phase's first/last step, during
+at its main step — `stepOfMoment`), army rules before units, and the side's **mission cards where
+they score** (`missionTiming.cardMoments`: the end of its Command phase, or the end of the turn —
+"while active" has no moment). **One fold per phase** (and the turn's start and end) on the shared
+`StratPhaseGroups` (card mode, as in the CP tab; a group may bring its own `count`), **all shut by
+default**, each counting what fires inside it; the open ones are remembered
+(`wh11ed-turn-steps-open`). Opened, a step with something heads its rows, and a run of steps with
+nothing is ONE quiet line ("Start of phase · Gain Core CP · Battle-shock") — the order stays readable
+without a line apiece (owner, 2026-10-10: a line per empty step gave the screen to emptiness; the
+"only steps with rules" switch that came first is gone). A side with nothing at all gets the empty
+state instead of the folds. `count` is the rules (one named in two phases once) plus the card moments.
 
 **What a unit says, four kinds** (owner, 2026-10-08), all under "Units", the kind before the name
 where it is not a datasheet ability: its **datasheet abilities**; its **wargear abilities**, only
@@ -568,15 +582,9 @@ under the set's name (which option is up is picked in the game, so all are offer
 **When in the phase** (2026-10-08): the index carries `m: { phase: 'start' | 'end' }` from
 `phaseMomentsOf` (stratagemPhases.js) — a phase every mention of which is "at the start/end of …";
 "until the start/end of …" is a duration and does not count, and a phase also named any other way is
-during. Rows run start → during → end, and the moment leads a row's second line. ~150 starts and
-~130 ends over the 960 entries.
-
-**Density and grouping** (owner, 2026-10-08 — five rules took a phone's screen, and one undivided
-block then read as a heap): `partsOf` splits a phase's rules per army of the side (a doubles team's
-two under the faction's name), then "Army rules" (army + detachment) before "Units", each a block of
-rows parted by hairlines with the side's bar down it. A row is what you look for at the table (the
-units, or the rule's name) over one small line (moment · the ability, or the detachment's name — the
-army rule has none, its head says it). No caption line — the tab's name says what the list is.
+during. ~150 starts and ~130 ends over the 960 entries. A row is what you look for at the table (the
+units, or the rule's name) over one small line (what it is · the ability, or the detachment's name;
+a doubles team's army after it).
 
 **Two sides, not one.** 55 of the datasheet abilities that name a phase name their OPPONENT'S ("In
 your opponent's Movement phase, if an enemy unit ends a move within 8"…"), and those are the ones a
@@ -605,15 +613,6 @@ your opponent's Movement phase, if an enemy unit ends a move within 8"…" are b
 reminder is for, and no phrasing test separates them from a passive mention. Naming the phase is
 the whole test — erring towards SHOWING, the same call `usableInSlot` already makes.
 
-**Stratagems are a link, not a list.** `/stratagems` is in this same subnav, already groups by
-phase and already knows both players' detachments; a second list would be two copies of one thing
-that drift apart. There is no count beside the link because counting would mean loading the faction
-rules bundle onto the playing screen — the one thing the index exists to avoid. **The link carries
-the phase** (`/stratagems?phase=fight`) and `StratagemsView` reads it into the INITIAL values of
-`byPhase`/`openPhases` — not by assigning them afterwards, which would fire the persist watcher
-and remember a view mode the reader never chose. Landing on six collapsed accordions is what makes
-such a link pointless.
-
 **Every line is a way in.** A name the reader cannot get to is half a reminder, so a line
 navigates: a unit to its card — inside the attached list (`/tracker/game/roster/:pi?unit=<uid>`,
 which `RosterViewView` reads into its initial `viewingUid`) so the game's own modifiers apply, or
@@ -624,11 +623,8 @@ index stores the same anchor ids the search index does. A rule carried by more t
 the list instead of a card: three squads of the same datasheet are three cards, and there is no
 single one to mean (counted by entry, not by name — the line still says "Boyz" once).
 
-**Closed by default, count in the header, remembered** (`wh11ed-phase-rules-open`). An open block
-pushes the round's actual scoring down the screen, which is why CP and the army-rule card were put
-BELOW the secondaries in the first place; "3 rules in this phase" does the reminding from the
-closed state. One line per RULE, with the units that carry it named under it — three Intercessor
-Squads with the same ability are one reminder, not three identical lines.
+One line per RULE, with the units that carry it named under it — three Intercessor Squads with the
+same ability are one reminder, not three identical lines.
 
 ## Setup wizard
 

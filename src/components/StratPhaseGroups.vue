@@ -25,7 +25,7 @@
           v-if="g.key === now && !g.label"
           class="phase-now"
         > · {{ labels.trackerStratNow }}</small></span>
-        <span class="phase-count">{{ g.strats.length }}</span>
+        <span class="phase-count">{{ g.count ?? g.strats.length }}</span>
       </button>
       <CollapseTransition :show="open.has(g.key)">
         <div class="phase-body">
@@ -44,7 +44,8 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { phaseLabel } from '../composables/stratagemPhases.js'
 
-// `groups` — groupByPhase() (a group may bring its own `label`); `open` — the open phases (a Set,
+// `groups` — groupByPhase() (a group may bring its own `label`, and its own `count` when what it
+// holds is not stratagems — the tracker's Turn tab); `open` — the open phases (a Set,
 // v-model); `now` — the group to mark as the live one (the tracker's; null anywhere else); `card` —
 // each group one card, its head and its rows inside one frame (the tracker's CP tab, owner
 // 2026-10-06: a head and loose cards under it read as a pile of separate things).

@@ -36,7 +36,7 @@ function startGame(p0 = {}, p1 = {}, settings = {}) {
 }
 async function mountBlock() {
   const w = mount(PhaseRules, { global: { stubs: { RouterLink } } })
-  // The index is a dynamic import — real file I/O under vitest — so wait for the block to
+  // The steps render at once; the rules on them wait for the index, a dynamic import — real file I/O under vitest — so wait for the block to
   // appear rather than for a number of ticks. It used to poll 40 times with a zero timeout,
   // which is a budget in TICKS, not in time: with the whole tracker suite running beside it the
   // cold import sometimes needed more, and the next line then triggered a click on nothing.
@@ -44,12 +44,16 @@ async function mountBlock() {
   // Swallowed on purpose: one case mounts a game where the block correctly renders NOTHING, and
   // waiting for it there is waiting for something that will never come.
   await vi.waitFor(() => {
-    if (!w.find('.pr-head').exists()) throw new Error('the phase block has not rendered yet')
+    if (!w.find('.pr-list').exists()) throw new Error('the phase block has not rendered yet')
   }, { timeout: 2000, interval: 10 }).catch(() => {})
   await flushPromises()
   return w
 }
-const open = async (w) => { await w.find('.pr-head').trigger('click'); await flushPromises() }
+// The step a row stands at: the step head right before its block.
+const stepOf = (w, text) => {
+  const li = w.findAll('.pr-list > li').find((x) => x.text().includes(text))
+  return li?.element.closest('.pr-list').previousElementSibling?.textContent.trim()
+}
 
 describe('PhaseRules', () => {
   // The block's whole reason to exist: it answers for the phase the clock is standing on, and it
@@ -57,7 +61,6 @@ describe('PhaseRules', () => {
   it('lists the army rules that name the current phase, and re-answers when the phase moves', async () => {
     startGame()
     const w = await mountBlock()
-    await open(w)
     // Orks' Waaagh! is called in the Command phase, which is where a game starts.
     expect(w.text()).toContain('Waaagh!')
 
@@ -66,22 +69,26 @@ describe('PhaseRules', () => {
     expect(w.text()).not.toContain('Waaagh!')
   })
 
-  // When in the phase a rule fires leads its second line: the Waaagh! is called at the START of
-  // the Command phase, and what fires at the start stands first.
-  it('says when in the phase a rule fires', async () => {
-    startGame()
+  // A rule stands at the step it fires in (owner, 2026-10-10): the Waaagh! is called at the
+  // START of the Command phase; what fires during a phase, at its main step.
+  it('puts a rule at the step of the phase it fires in', async () => {
+    startGame({ roster: { id: 'r1', name: 'L', faction: 'orks', detachments: [], battleSize: 'strike-force', units: [{ uid: 'u1', id: 'painboy', size: 0 }] } })
     const w = await mountBlock()
-    await open(w)
-    expect(w.find('.pr-when').text()).toBe('At the start')
+    expect(stepOf(w, 'Waaagh!')).toBe('Start of phase')
+    expect(stepOf(w, 'Crude Surgery')).toBe('Command abilities')
+    // the steps with nothing in a row are one quiet line, so the order still reads
+    const cmd = w.findAll('.pr-side')[0].findAll('.phase-group').find((g) => g.find('.phase-name').text() === 'Command phase')
+    expect(cmd.findAll('.pr-steps > *').map((x) => x.text().split('\n')[0].trim()))
+      .toEqual(['Start of phase', 'Waaagh!', 'Gain Core CP · Battle-shock', 'Command abilities', 'PainboyCrude Surgery', 'End of phase'])
   })
 
   // A game without the clock asks about the whole turn: each phase that has something to say,
   // under its own heading (owner, 2026-10-08).
-  it('lists the turn phase by phase when the game keeps no clock', async () => {
+  it('lays out the whole turn when the game keeps no clock', async () => {
     startGame({}, {}, { trackPhases: false })
     const w = await mountBlock()
-    await open(w)
-    expect(w.findAll('.pr-phase').map((h) => h.text())).toContain('Command phase')
+    const side = w.findAll('.pr-side')[0]
+    expect(side.findAll('.phase-name').map((h) => h.text())).toEqual(['Start of turn', 'Command phase', 'Movement phase', 'Shooting phase', 'Charge phase', 'Fight phase', 'End of turn'])
     expect(w.text()).toContain('Waaagh!')
   })
 
@@ -91,14 +98,12 @@ describe('PhaseRules', () => {
     startGame({ factionSlug: 'blood-angels', detachments: ['Gauntlet Task Force'] })
     tracker.goToPhase(0, 'shooting')
     const w = await mountBlock()
-    await open(w)
     expect(w.text()).toContain('Combined Deployment')
   })
 
   it('names each side, first-turn player first', async () => {
     startGame()
     const w = await mountBlock()
-    await open(w)
     const who = w.findAll('.pr-who').map((h) => h.text())
     expect(who[0]).toBe('Me')
   })
@@ -112,7 +117,6 @@ describe('PhaseRules', () => {
       },
     })
     const w = await mountBlock()
-    await open(w)
     // "In your Command phase…" — and the unit it belongs to is named under it. (Boyz carried
     // this case until Codex: Orks gave them no Command-phase ability at all.)
     expect(w.text()).toContain('Crude Surgery')
@@ -128,12 +132,10 @@ describe('PhaseRules', () => {
     })
     startGame({ factionSlug: 'adepta-sororitas', roster: list(null) })
     let w = await mountBlock()
-    if (w.find('.pr-head').exists()) await open(w)
     expect(w.text()).not.toContain('Simulacrum Imperialis')
     w.unmount()
     startGame({ factionSlug: 'adepta-sororitas', roster: list([[4, 0, 1]]) })
     w = await mountBlock()
-    await open(w)
     expect(w.text()).toContain('Simulacrum Imperialis')
     expect(w.text()).toContain('Wargear')
   })
@@ -146,7 +148,6 @@ describe('PhaseRules', () => {
       roster: { id: 'r1', name: 'L', faction: 'adepta-sororitas', detachments: [], battleSize: 'strike-force', units: [{ uid: 'c1', id: 'canoness', size: 0, enh: 'Litanies of Faith' }] },
     })
     let w = await mountBlock()
-    await open(w)
     expect(w.text()).toContain('Litanies of Faith')
     expect(w.text()).toContain('Enhancement')
     w.unmount()
@@ -156,24 +157,34 @@ describe('PhaseRules', () => {
     })
     tracker.goToPhase(0, 'shooting')
     w = await mountBlock()
-    await open(w)
     expect(w.text()).toContain('Animus Damper')
   })
 
-  it('renders nothing when no rule has anything to say', async () => {
-    startGame()
-    tracker.goToPhase(0, 'charge')   // eight abilities in the whole game name the Charge phase
+  // One fold per phase, all shut by default, each with what it holds counted; what is opened is
+  // remembered (owner, 2026-10-10).
+  it('folds each phase shut with its count, and remembers what was opened', async () => {
+    startGame({}, {}, { trackPhases: false })
     const w = await mountBlock()
-    expect(w.find('.pr').exists()).toBe(false)
+    const side = w.findAll('.pr-side')[0]
+    expect(side.findAll('.phase-head').every((h) => h.attributes('aria-expanded') === 'false')).toBe(true)
+    const cmd = side.findAll('.phase-head').find((h) => h.text().includes('Command phase'))
+    expect(Number(cmd.find('.phase-count').text())).toBeGreaterThan(0)
+    expect(side.findAll('.phase-head')[0].find('.phase-count').text()).toBe('0') // the turn's start
+    await cmd.trigger('click')
+    expect(JSON.parse(localStorage.getItem('wh11ed-turn-steps-open'))).toEqual(['command'])
   })
 
-  it('remembers whether it was left open', async () => {
-    startGame()
+  // A mission card stands where it scores: the side on turn's primary, for one, at the end of
+  // its Command phase or the end of the turn — whichever its blocks say.
+  it('puts the mission cards at the moment they score, and leads them to the Missions tab', async () => {
+    startGame({}, {}, { trackPhases: false })
+    tracker.current.value.currentRound = 2
     const w = await mountBlock()
-    // CollapseTransition keeps its slot mounted and clips it, so `aria-expanded` is the state.
-    expect(w.find('.pr-head').attributes('aria-expanded')).toBe('false')
-    await open(w)
-    expect(localStorage.getItem('wh11ed-phase-rules-open')).toBe('1')
+    const card = w.findAll('.pr-side')[0].findAll('.pr-list > li').find((li) => li.text().includes('Primary'))
+    expect(card).toBeTruthy()
+    expect(['Command phase', 'End of turn']).toContain(card.element.closest('.phase-group').querySelector('.phase-name').textContent.trim())
+    await card.find('button').trigger('click')
+    expect(w.emitted('missions')).toHaveLength(1)
   })
 })
 
@@ -188,7 +199,6 @@ describe('PhaseRules — where a line leads', () => {
   it('opens the unit\'s own card inside the attached list', async () => {
     startGame({ roster: roster([{ uid: 'u1', id: 'painboy', size: 0 }]) })
     const w = await mountBlock()
-    await open(w)
     await line(w, 'Crude Surgery').trigger('click')
     expect(push).toHaveBeenCalledWith({ path: '/tracker/game/roster/0', query: { unit: 'u1' } })
   })
@@ -198,7 +208,6 @@ describe('PhaseRules — where a line leads', () => {
   it('opens the list when more than one unit carries the rule', async () => {
     startGame({ roster: roster([{ uid: 'u1', id: 'painboy', size: 0 }, { uid: 'u2', id: 'painboy', size: 0 }]) })
     const w = await mountBlock()
-    await open(w)
     await line(w, 'Crude Surgery').trigger('click')
     expect(push).toHaveBeenCalledWith('/tracker/game/roster/0')
   })
@@ -206,7 +215,6 @@ describe('PhaseRules — where a line leads', () => {
   it('sends an army rule to its anchor on the faction page', async () => {
     startGame()
     const w = await mountBlock()
-    await open(w)
     await line(w, 'Waaagh!').trigger('click')
     expect(navigateTo).toHaveBeenCalledWith({ route: '/factions/orks', anchor: 'waaagh' })
   })
@@ -214,7 +222,6 @@ describe('PhaseRules — where a line leads', () => {
   it('falls back to the faction datasheet when the player fielded no list', async () => {
     startGame()
     const w = await mountBlock()
-    await open(w)
     // No roster → no unit lines at all, so the army rule is the only way in. Guarding the
     // fallback here rather than asserting a link that cannot exist.
     expect(w.findAll('.pr-go-btn').every((b) => !b.text().includes('Crude Surgery'))).toBe(true)
