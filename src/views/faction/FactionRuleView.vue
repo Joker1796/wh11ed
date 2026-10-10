@@ -1,5 +1,8 @@
 <template>
-  <div class="faction-rules-page">
+  <div
+    class="faction-rules-page tone"
+    :style="tone"
+  >
     <!-- `faction` resolves asynchronously (its EN chunk is lazy-loaded per slug), so
          everything below must wait for it rather than dereference a null. -->
     <template v-if="faction">
@@ -173,8 +176,12 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
 import { slugify } from '../../data/slugify.js'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { toneVars } from '../../utils/tone.js'
 
 const { slug, faction } = useFactionPage()
+// The faction's own colour (the faction badges' pair, light and dark theme) for the rule plates below.
+const tone = computed(() => toneVars(factionIndexBySlug(slug.value)?.color))
 const { locale } = useLocale()
 const { renderInline, renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
@@ -346,4 +353,24 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   color: var(--text-muted);
 }
 
+
+/* A rule's "### " subheading on a plate in the faction's colour (owner, 2026-10-10, from Misha's
+   note with Wahapedia beside it: "Corsairs and Travelling Players" was hard to find in the army
+   rule's text). The RU line rides on the same plate, pressed right under the English. */
+.faction-rules-page :deep(.rule-subheading) {
+  margin: 1rem 0 0.45rem;
+  padding: 0.22rem 0.6rem 0.26rem;
+  /* The darker of the faction's pair in both themes: white has to read on it. */
+  background: color-mix(in srgb, var(--tone-light, var(--accent)) 88%, #000);
+  color: #fff;
+  font-size: calc(var(--fs-subheading) * 1.05);
+  line-height: 1.05;
+}
+.faction-rules-page :deep(.rule-subheading-ru) {
+  color: #fff;
+  opacity: 0.85;
+  font-size: 0.82rem;
+  line-height: 1.05;
+  margin-top: 0;
+}
 </style>
