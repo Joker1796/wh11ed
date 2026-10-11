@@ -48,16 +48,44 @@
         novalidate
         @submit.prevent="submit"
       >
+        <!-- Sign in | create an account: one switch at the top instead of two links at the bottom.
+             "Forgot your password?" is its own step, reached from beside the password. -->
+        <div
+          v-if="mode !== 'forgot'"
+          class="seg si-seg"
+          role="tablist"
+        >
+          <button
+            type="button"
+            role="tab"
+            :aria-selected="mode === 'login'"
+            :class="{ on: mode === 'login' }"
+            @click="switchTo('login')"
+          >
+            {{ labels.signInTitle }}
+          </button>
+          <button
+            type="button"
+            role="tab"
+            :aria-selected="mode === 'register'"
+            :class="{ on: mode === 'register' }"
+            @click="switchTo('register')"
+          >
+            {{ labels.registerTitle }}
+          </button>
+        </div>
         <p
-          v-if="mode === 'forgot'"
+          v-else
           class="si-text"
         >
           {{ labels.forgotText }}
         </p>
-        <label class="field">
-          <span>{{ labels.signInEmail }}</span>
+
+        <label class="si-field">
+          <span class="si-label">{{ labels.signInEmail }}</span>
           <input
             v-model="email"
+            class="si-input"
             type="email"
             inputmode="email"
             autocomplete="email"
@@ -66,23 +94,49 @@
             required
           >
         </label>
-        <label
+        <div
           v-if="mode !== 'forgot'"
-          class="field"
+          class="si-field"
         >
-          <span>{{ labels.signInPassword }}</span>
-          <input
-            v-model="password"
-            type="password"
-            :autocomplete="mode === 'register' ? 'new-password' : 'current-password'"
-            :minlength="mode === 'register' ? 8 : undefined"
-            required
-          >
+          <div class="si-label-row">
+            <label
+              :for="pwId"
+              class="si-label"
+            >{{ labels.signInPassword }}</label>
+            <button
+              v-if="mode === 'login'"
+              type="button"
+              class="si-link"
+              @click="switchTo('forgot')"
+            >
+              {{ labels.signInForgot }}
+            </button>
+          </div>
+          <div class="si-pw">
+            <input
+              :id="pwId"
+              v-model="password"
+              class="si-input"
+              :type="showPassword ? 'text' : 'password'"
+              :autocomplete="mode === 'register' ? 'new-password' : 'current-password'"
+              :minlength="mode === 'register' ? 8 : undefined"
+              required
+            >
+            <button
+              type="button"
+              class="si-eye"
+              :aria-label="showPassword ? labels.signInHidePassword : labels.signInShowPassword"
+              :aria-pressed="showPassword"
+              @click="showPassword = !showPassword"
+            >
+              <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'" />
+            </button>
+          </div>
           <small
             v-if="mode === 'register'"
             class="si-hint"
           >{{ labels.registerPasswordHint }}</small>
-        </label>
+        </div>
 
         <p
           v-if="error"
@@ -94,38 +148,20 @@
 
         <button
           type="submit"
-          class="btn-primary si-submit"
+          class="btn-primary btn-lg si-submit"
           :disabled="busy"
         >
           {{ submitLabel }}
         </button>
 
-        <div class="si-links">
-          <template v-if="mode === 'login'">
-            <button
-              type="button"
-              class="si-link"
-              @click="switchTo('forgot')"
-            >
-              {{ labels.signInForgot }}
-            </button>
-            <button
-              type="button"
-              class="si-link"
-              @click="switchTo('register')"
-            >
-              {{ labels.signInToRegister }}
-            </button>
-          </template>
-          <button
-            v-else
-            type="button"
-            class="si-link"
-            @click="switchTo('login')"
-          >
-            {{ mode === 'register' ? labels.registerToLogin : labels.signInBack }}
-          </button>
-        </div>
+        <button
+          v-if="mode === 'forgot'"
+          type="button"
+          class="si-link si-center"
+          @click="switchTo('login')"
+        >
+          {{ labels.signInBack }}
+        </button>
       </form>
 
       <!-- Yandex stays as the other way in: a full-page trip that comes back to where the dialog
@@ -136,10 +172,14 @@
         </p>
         <button
           type="button"
-          class="btn-ghost si-yandex"
+          class="btn-ghost btn-lg si-yandex"
           :disabled="busy"
           @click="withYandex"
         >
+          <span
+            class="si-ya"
+            aria-hidden="true"
+          >Я</span>
           {{ labels.cloudSignInYandex }}
         </button>
       </template>
@@ -166,10 +206,13 @@ const password = ref('')
 const busy = ref(false)
 const error = ref('')
 const mailWent = ref(true)
+const showPassword = ref(false)
+const pwId = `si-pw-${Math.random().toString(36).slice(2, 8)}`
 
+// The switch under the title already says "Sign in | Create an account"; the title names the place.
 const title = computed(() => ({
-  login: labels.value.signInTitle,
-  register: labels.value.registerTitle,
+  login: labels.value.signInDialogTitle,
+  register: labels.value.signInDialogTitle,
   registered: labels.value.registerTitle,
   forgot: labels.value.forgotTitle,
   forgotSent: labels.value.forgotTitle,
@@ -239,34 +282,84 @@ async function withYandex() {
 </script>
 
 <style scoped>
-.si-body { padding: 0.9rem 1rem 1.1rem; }
-.si-form { display: flex; flex-direction: column; gap: 0.7rem; }
-.si-form input { width: 100%; }
-.si-text { margin: 0 0 0.2rem; line-height: 1.5; }
-.si-note { margin: 0.4rem 0 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.45; }
-.si-hint { display: block; margin-top: 0.25rem; font-size: 0.8rem; color: var(--text-muted); }
+.si-body { padding: 1rem 1.1rem 1.2rem; }
+.si-form { display: flex; flex-direction: column; gap: 0.85rem; }
+.si-seg { width: 100%; margin-bottom: 0.15rem; }
+.si-seg button { flex: 1; padding: 0.55rem 0.5rem; font-size: 0.9rem; }
+
+.si-field { display: flex; flex-direction: column; gap: 0.3rem; }
+.si-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+.si-label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+/* 16px: below it iOS zooms the page in on focus and never zooms back out. */
+.si-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.55rem 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.4;
+  transition: border-color var(--motion-fast);
+}
+.si-input:focus { outline: none; border-color: var(--accent); }
+.si-pw { position: relative; }
+.si-pw .si-input { padding-right: 2.8rem; }
+.si-eye {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2.75rem;
+  height: 100%;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+@media (hover: hover) { .si-eye:hover { color: var(--text-primary); } }
+
+.si-text { margin: 0; line-height: 1.5; }
+.si-note { margin: 0.5rem 0 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.45; }
+.si-hint { font-size: 0.8rem; color: var(--text-muted); }
 .si-error { margin: 0; font-size: 0.88rem; color: var(--danger); line-height: 1.4; }
-.si-submit { width: 100%; }
-.si-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.4rem 1rem; }
+
+.si-submit, .si-yandex { width: 100%; justify-content: center; }
+.si-submit { margin-top: 0.15rem; }
 .si-link {
-  padding: 0.35rem 0;
+  padding: 0.2rem 0;
   border: 0;
   background: none;
   color: var(--accent-ink);
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   cursor: pointer;
 }
 @media (hover: hover) { .si-link:hover { color: var(--accent-ink-hover); text-decoration: underline; } }
-.si-actions { display: flex; justify-content: flex-end; margin-top: 0.9rem; }
+.si-center { align-self: center; }
+
+.si-actions { display: flex; justify-content: flex-end; margin-top: 1rem; }
 .si-or {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin: 1rem 0 0.7rem;
+  gap: 0.7rem;
+  margin: 1.1rem 0 0.8rem;
   font-size: 0.8rem;
   color: var(--text-muted);
 }
 .si-or::before, .si-or::after { content: ''; flex: 1; border-top: 1px solid var(--border); }
-.si-yandex { width: 100%; }
+/* A provider button reads as a real choice, not a disabled one: full text colour. */
+.si-yandex { gap: 0.55rem; color: var(--text-primary); }
+.si-ya {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: #fc3f1d; /* Yandex's own red, on purpose: the mark is theirs, not a theme colour */
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+}
 </style>
