@@ -81,8 +81,23 @@ export default {
       },
       "hash": "b34f63a7",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase its unit Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда отряд совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "f737f1fc-4495-41f8-9f62-67f77f31597b:avatar-of-khaine",
@@ -131,8 +146,22 @@ export default {
       },
       "hash": "b2e6f2c0",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly WRAITH CONSTRUCT or ASURYANI VEHICLE unit and not leading a unit",
+            "ru": "пока в пределах 3\" от дружественного отряда WRAITH CONSTRUCT или ASURYANI VEHICLE и не ведёт отряд"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:bonesinger:way-of-the-shaper-psychic",
@@ -145,8 +174,17 @@ export default {
       },
       "hash": "3b865e6d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "def6141c-f3be-438e-8d5c-3fed35eaec4f:clanblade",
@@ -610,8 +648,22 @@ export default {
       },
       "hash": "27c7b058",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 9,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "aafd1de0-4432-4784-8f06-9d2d2204f308:night-spinner",
@@ -638,8 +690,22 @@ export default {
       },
       "hash": "5cff7af9",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:phoenix:strafing-run",
@@ -652,8 +718,22 @@ export default {
       },
       "hash": "856c8978",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that cannot FLY",
+            "ru": "по отряду без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "d7a81ef9-41fa-4187-a223-452a4db79d50:prince-yriel",
@@ -725,7 +805,7 @@ export default {
       },
       "hash": "422d9eb0",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -3391,8 +3471,22 @@ export default {
       },
       "hash": "e679790b",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against units without TITANIC",
+            "ru": "по отрядам без TITANIC"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "1471d478-16f0-4ae5-8e10-b81d96a07945:shining-spears",
@@ -3435,8 +3529,16 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "23aebc71-e6d1-4ccd-bbc6-7344e8c3f89d:storm-guardians",

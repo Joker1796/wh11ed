@@ -757,8 +757,17 @@ export default {
       },
       "hash": "05ab595a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
     },
     {
       "sid": "pack:x-101:mindlock",
@@ -771,8 +780,35 @@ export default {
       },
       "hash": "851fca29",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a TECH-PRIEST is leading this unit",
+            "ru": "пока отряд ведёт TECH-PRIEST"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a TECH-PRIEST is leading this unit",
+            "ru": "пока отряд ведёт TECH-PRIEST"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "53a34500-653b-4767-ac3b-c23a2c84c383",
@@ -2134,8 +2170,16 @@ export default {
       },
       "hash": "70d639ac",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:secutarii-peltasts:omnispex",
@@ -2149,8 +2193,16 @@ export default {
       },
       "hash": "70d639ac",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3970cd7b-a8ee-4429-96e1-99d8a57709a2:skitarii-rangers",

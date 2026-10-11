@@ -109,8 +109,22 @@ export default {
       },
       "hash": "0ffc4f9b",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "74e8bcac-20e7-42a6-bb3f-da299f501a0c:chaos-bikers",
@@ -165,8 +179,17 @@ export default {
       },
       "hash": "3b4686bc",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:chaos-lord-on-disc-of-tzeentch:lord-of-fate",
@@ -179,8 +202,17 @@ export default {
       },
       "hash": "0fcf2bb4",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "b265fc6e-3f98-45af-a8a1-e5e2dbae3284:chaos-lord",
@@ -527,8 +559,16 @@ export default {
       },
       "hash": "30ecc971",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds and Psychic Attacks)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
@@ -602,8 +642,22 @@ export default {
       },
       "hash": "5cff7af9",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "16e941e3-a6e6-44d1-9759-29dcca29a912:heretic-astartes-daemon-prince",
@@ -719,8 +773,22 @@ export default {
       },
       "hash": "a3012fa8",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "7f7f725f-6107-488d-b11b-845d2788a1ce:master-of-possession",
@@ -1030,8 +1098,22 @@ export default {
       },
       "hash": "d3dc334a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "on a 2+ at the start of your opponent's Shooting phase",
+            "ru": "на 2+ в начале фазы стрельбы оппонента"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "76261740-3578-4653-a8c7-d912c9fa7d47:sorcerer-in-terminator-armour",
@@ -1058,8 +1140,25 @@ export default {
       },
       "hash": "3355e9f6",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "for the phase, after its unit makes a Dark Pact",
+            "ru": "на фазу, после того как его отряд заключил Dark Pact"
+          },
+          "cond": [
+            "unit-dark-pact-invoked"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:sorcerer-on-disc-of-tzeentch:flames-of-change-psychic",
@@ -1072,8 +1171,17 @@ export default {
       },
       "hash": "ef111d18",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:sorcerer-on-palanquin-of-nurgle:gift-of-poxes-psychic",
@@ -1086,8 +1194,17 @@ export default {
       },
       "hash": "34bcfbd0",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:sorcerer-on-steed-of-slaanesh:dark-favour-psychic",
@@ -1124,8 +1241,17 @@ export default {
       },
       "hash": "9367c498",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "14\"",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "3ae2b3c4-81d6-4a30-a9ed-1ad9526ead12:traitor-enforcer",
@@ -3815,7 +3941,7 @@ export default {
       },
       "hash": "b300d963",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     }
   ]

@@ -579,6 +579,7 @@ const ROLL_BONUS = /add 1 to the (?:Hit|Wound) roll/i
 const ROLL_EXEMPT = new Set([
   // the bonus reaches other units than the record's own
   'adeptus-custodes · Slayer of Champions', 'aeldari · Eldrad Ulthran: Doom', 'aeldari · Farseer: Guide',
+  'astra-militarum · Regimental Attachés: Aeronautica Commander', // friendly AIRCRAFT, not the Attachés (Legends)
   'black-templars · Reclaim Our Honour!', 'blood-angels · Vengeful Onslaught',
   'chaos-daemons · The Masque of Slaanesh: The Eternal Dance', 'dark-angels · Illuminating Fire',
   'genestealer-cults · Avenge the Star Children', 'grey-knights · Venerable Dreadnought: Guidance of the Ancients',
@@ -618,6 +619,7 @@ const LEADER_SELF_EXEMPT = new Set([
   'adepta-sororitas · Saint Celestine: Lifewards',
   'aeldari · Warlock Conclave: Psychic Communion', 'aeldari · Warlock Skyrunners: Psychic Communion',
   'chaos-space-marines · Traitor Enforcer: Mutated Bodyguard',
+  'astra-militarum · Quartermaster Cadre Squad: Mindlock', // its own Medical scalpels (Legends)
   // only while NOT attached
   'leagues-of-votann · Brôkhyr Iron-master: Brôkhyr Guild Support',
 ])

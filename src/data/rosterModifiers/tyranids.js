@@ -222,8 +222,90 @@ export default {
       },
       "hash": "c94c298b",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while SUSTAINED HITS 1 is the one selected for this fight",
+            "ru": "пока для этого боя выбрано SUSTAINED HITS 1"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while LANCE is the one selected for this fight",
+            "ru": "пока для этого боя выбрано LANCE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while LETHAL HITS is the one selected for this fight",
+            "ru": "пока для этого боя выбрано LETHAL HITS"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while SUSTAINED HITS 1 is the one selected for this fight",
+            "ru": "пока для этого боя выбрано SUSTAINED HITS 1"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while LANCE is the one selected for this fight",
+            "ru": "пока для этого боя выбрано LANCE"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while LETHAL HITS is the one selected for this fight",
+            "ru": "пока для этого боя выбрано LETHAL HITS"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "474971c2-032e-4663-89c0-43d3bc98f7ed:neurogaunts",
@@ -470,7 +552,7 @@ export default {
       },
       "hash": "bffde138",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

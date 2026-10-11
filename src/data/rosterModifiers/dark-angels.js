@@ -90,8 +90,22 @@ export default {
       },
       "hash": "6fe70108",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit contains an Ancient",
+            "ru": "пока в отряде есть Ancient"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:deathwing-command-squad:honour-or-death",
@@ -104,7 +118,7 @@ export default {
       },
       "hash": "294e9608",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -118,8 +132,17 @@ export default {
       },
       "hash": "b443bf84",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:deathwing-strikemaster:vanquish-the-foe",
@@ -132,8 +155,35 @@ export default {
       },
       "hash": "f29066d1",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that is Below Half-strength",
+            "ru": "по вражескому отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that is Below Half-strength",
+            "ru": "по вражескому отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "993f1855-67a5-4e6c-ac8a-754b84b99c63:ezekiel",
@@ -537,8 +587,17 @@ export default {
       },
       "hash": "a613551a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null,
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "pack:ravenwing-talonmaster:talonmaster",
@@ -551,8 +610,22 @@ export default {
       },
       "hash": "ad358e1b",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of another friendly ADEPTUS ASTARTES MOUNTED or FLY VEHICLE unit",
+            "ru": "пока в пределах 3\" от другого дружественного отряда ADEPTUS ASTARTES MOUNTED или FLY VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "95dbd786-5940-4348-85b1-074ba54c817f",
@@ -891,8 +964,22 @@ export default {
       },
       "hash": "6026918c",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "6",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "b2bf043f-39ca-4ae5-83e4-dd5dab3a3bb1:deathwing-terminator-squad",

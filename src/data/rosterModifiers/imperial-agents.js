@@ -76,8 +76,22 @@ export default {
       },
       "hash": "c9f8edd4",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "1",
+          "when": {
+            "en": "while an INQUISITOR is leading this unit",
+            "ru": "пока отряд ведёт INQUISITOR"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:daemonhost:malefic-warding",
@@ -90,8 +104,30 @@ export default {
       },
       "hash": "5fa821fc",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while an INQUISITOR is leading this unit",
+            "ru": "пока отряд ведёт INQUISITOR"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
     },
     {
       "sid": "3abf4a41-24a8-4b00-99ff-070da866be07:eversor-assassin",
@@ -186,8 +222,22 @@ export default {
       },
       "hash": "89d62c76",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is Below Half-strength",
+            "ru": "по отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:fortis-kill-team:kill-team",
@@ -200,7 +250,7 @@ export default {
       },
       "hash": "64def260",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -312,7 +362,7 @@ export default {
       },
       "hash": "64def260",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -393,8 +443,20 @@ export default {
       },
       "hash": "518705b7",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 4,
+          "only": {
+            "name": "Warp grasp"
+          },
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "5ad5311f-39c0-48d2-b0aa-45afbe912f33:inquisitor-greyfax",
@@ -459,8 +521,17 @@ export default {
       },
       "hash": "cc945e29",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null,
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "pack:inquisitor-karamazov:unsubtle-crusader",
@@ -473,7 +544,7 @@ export default {
       },
       "hash": "e2380af3",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -589,8 +660,22 @@ export default {
       },
       "hash": "c3f5174d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "1",
+          "when": {
+            "en": "while an INQUISITOR also leads its unit",
+            "ru": "пока отряд также ведёт INQUISITOR"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:jokaero-weaponsmith:inconceivable-augmentation",
@@ -603,8 +688,17 @@ export default {
       },
       "hash": "29574b05",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:kill-team-cassius:catechism-of-death",
@@ -617,8 +711,22 @@ export default {
       },
       "hash": "ce021738",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while this unit contains Chaplain Cassius",
+            "ru": "пока в отряде есть Chaplain Cassius"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:kill-team-cassius:kill-team",
@@ -631,7 +739,7 @@ export default {
       },
       "hash": "64def260",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -797,7 +905,7 @@ export default {
       },
       "hash": "64def260",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -811,8 +919,22 @@ export default {
       },
       "hash": "8f8b26fd",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is not Below Half-strength",
+            "ru": "по отряду, который не Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a6a3da0c-0f81-4ebf-89b7-4e9e0db73fe8:rogue-trader-entourage",
@@ -882,7 +1004,7 @@ export default {
       },
       "hash": "64def260",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -896,8 +1018,22 @@ export default {
       },
       "hash": "0ffc4f9b",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "29dd94a6-896b-4c38-98f1-abea90c30860:vigilant-squad",
@@ -2177,8 +2313,22 @@ export default {
       },
       "hash": "34369015",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "10\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:inquisitor-in-terminator-armour:blessed-wardings",
@@ -2217,8 +2367,16 @@ export default {
       },
       "hash": "4153f25b",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Psyker",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4c0dbe01-e4a8-4fd5-992b-f35d5ef423a4:inquisitor",
@@ -2279,8 +2437,22 @@ export default {
       },
       "hash": "da4a395d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "12\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:kill-team-cassius:psychic-hood",
@@ -2294,8 +2466,16 @@ export default {
       },
       "hash": "1d4ed2a6",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:proteus-kill-team:astartes-shield",
@@ -2309,8 +2489,22 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:proteus-kill-team:jump-pack",
@@ -2324,8 +2518,22 @@ export default {
       },
       "hash": "da4a395d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "12\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:proteus-kill-team:storm-shield",
@@ -2415,8 +2623,16 @@ export default {
       },
       "hash": "7c0f0ce2",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:spectrus-kill-team:jump-pack",
@@ -2430,8 +2646,22 @@ export default {
       },
       "hash": "da4a395d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "12\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:veteran-bike-squad:astartes-shield",
@@ -2445,8 +2675,22 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -152,8 +152,22 @@ export default {
       },
       "hash": "3f8d6f13",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:death-guard-sorcerer-in-terminator-armour:pestilent-familiar-psychic",
@@ -166,8 +180,41 @@ export default {
       },
       "hash": "72647afc",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "once per battle, for the phase this ability is used",
+            "ru": "раз за битву, на фазу, когда способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "once per battle, for the phase this ability is used",
+            "ru": "раз за битву, на фазу, когда способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:death-guard-sorcerer-in-terminator-armour:putrescent-vitality-psychic",
@@ -180,7 +227,7 @@ export default {
       },
       "hash": "b11b4dff",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1359,8 +1406,16 @@ export default {
       },
       "hash": "1826ca25",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5028ed26-8ff1-4fc8-b844-168659f516ac:deathshroud-terminators",

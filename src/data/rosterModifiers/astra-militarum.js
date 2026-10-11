@@ -18,8 +18,17 @@ export default {
       },
       "hash": "b68a3722",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "e42730d6-21b4-4166-ba64-964869fc997a:aegis-defence-line",
@@ -195,8 +204,16 @@ export default {
       },
       "hash": "4fbc0c74",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:ciaphas-cain:unparalleled-luck-once-per-battle-per-army",
@@ -209,8 +226,22 @@ export default {
       },
       "hash": "d605a48d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "2+",
+          "when": {
+            "en": "once per battle, for the phase this ability is used",
+            "ru": "раз за битву, на фазу, когда способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:colossus:tracking-target",
@@ -223,8 +254,41 @@ export default {
       },
       "hash": "c61c1236",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 5+",
+          "only": {
+            "name": "Colossus siege mortar"
+          },
+          "when": {
+            "en": "in a turn this unit remained stationary",
+            "ru": "в ходу, когда отряд остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 5+",
+          "only": {
+            "name": "Colossus siege mortar"
+          },
+          "when": {
+            "en": "in a turn this unit remained stationary",
+            "ru": "в ходу, когда отряд остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "70a1ca8c-56dc-4a33-a686-8dcc96c513a0:commissar-yarrick",
@@ -380,8 +444,22 @@ export default {
       },
       "hash": "9b4fe74b",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "after it Remained Stationary, until your next Movement phase",
+            "ru": "после того как остался на месте, до вашей следующей фазы движения"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "6cbbd413-470c-423c-8ca9-13eb380bd682:field-ordnance-battery",
@@ -453,8 +531,22 @@ export default {
       },
       "hash": "09293164",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while under an Order, having Remained Stationary",
+            "ru": "под приказом, если остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:hells-last:lesk-s-heroes",
@@ -467,8 +559,24 @@ export default {
       },
       "hash": "0b053ecb",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "f05d9118-3d4f-4356-bffd-dd7693bc5d92:leman-russ-eradicator",
@@ -607,8 +715,22 @@ export default {
       },
       "hash": "2aa7b74c",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against an enemy unit within half range",
+            "ru": "по вражескому отряду в пределах половины дальности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:malcador:rugged-reliability",
@@ -621,7 +743,7 @@ export default {
       },
       "hash": "2f253aea",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -729,8 +851,35 @@ export default {
       },
       "hash": "54cde2a5",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a TECH-PRIEST ENGINSEER is leading this unit",
+            "ru": "пока отряд ведёт TECH-PRIEST ENGINSEER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a TECH-PRIEST ENGINSEER is leading this unit",
+            "ru": "пока отряд ведёт TECH-PRIEST ENGINSEER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "7df2649f-03eb-4f18-bc9c-3038fb440140:nork-deddog",
@@ -850,8 +999,25 @@ export default {
       },
       "hash": "16650f13",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:quartermaster-cadre-squad:medicae-medi-packs",
@@ -864,8 +1030,36 @@ export default {
       },
       "hash": "e8e53ad6",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this unit contains Medicae Servitors",
+            "ru": "пока в отряде есть Medicae Servitors"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this unit contains Medicae Servitors",
+            "ru": "пока в отряде есть Medicae Servitors"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "pack:quartermaster-cadre-squad:mindlock",
@@ -878,8 +1072,25 @@ export default {
       },
       "hash": "7b68999d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "only": {
+            "name": "Medical scalpels"
+          },
+          "when": {
+            "en": "while this unit contains a Quartermaster Revenant",
+            "ru": "пока в отряде есть Quartermaster Revenant"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:rapier-laser-destroyer-battery:powerful-volley",
@@ -892,8 +1103,25 @@ export default {
       },
       "hash": "ca382cda",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "only": {
+            "tag": "HEAVY"
+          },
+          "when": {
+            "en": "while under an Order, having Remained Stationary",
+            "ru": "под приказом, если остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:regimental-attaches:aeronautica-commander",
@@ -906,7 +1134,7 @@ export default {
       },
       "hash": "a660eb8c",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -920,7 +1148,7 @@ export default {
       },
       "hash": "462130ef",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -948,8 +1176,41 @@ export default {
       },
       "hash": "3047da6e",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "set",
+          "value": "6",
+          "only": {
+            "name": "Payback"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 3",
+          "only": {
+            "name": "Payback"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "33045c06-1dbd-443b-b374-61783b865d2b:shadowsword",
@@ -990,8 +1251,22 @@ export default {
       },
       "hash": "44afe737",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a VEHICLE unit",
+            "ru": "по отряду VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:tauros-assault-vehicle:turbo-boost",

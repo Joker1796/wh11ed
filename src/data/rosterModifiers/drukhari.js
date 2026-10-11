@@ -18,8 +18,17 @@ export default {
       },
       "hash": "8a45c235",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
     },
     {
       "sid": "pack:court-of-the-archon:deadly-retinue-pain",
@@ -32,8 +41,48 @@ export default {
       },
       "hash": "fd37eff9",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while Empowered, with a Lhamaean in the unit",
+            "ru": "пока отряд Empowered и в нём есть Lhamaean"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while Empowered, with a Medusae in the unit",
+            "ru": "пока отряд Empowered и в нём есть Medusae"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "while Empowered, with an Ur-ghul in the unit",
+            "ru": "пока отряд Empowered и в нём есть Ur-ghul"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
     },
     {
       "sid": "214982bf-5eac-4189-ac0a-1c0945f404c2:coven-of-agonies-cronos",
@@ -99,8 +148,35 @@ export default {
       },
       "hash": "e38d4805",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "set",
+          "value": "8",
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
     },
     {
       "sid": "6ebe6990-ffa4-4fa2-a063-0fff0fd61e60:haemonculus",
@@ -604,8 +680,22 @@ export default {
       },
       "hash": "88c51acf",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that cannot FLY",
+            "ru": "по отряду без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "01b389b5-c381-4610-83e1-ea05cd85b20a:razorwing-jetfighter",
@@ -660,8 +750,35 @@ export default {
       },
       "hash": "f0e44a96",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "while Empowered, against a VEHICLE unit",
+            "ru": "пока Empowered, по отряду VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while Empowered, against a non-VEHICLE unit",
+            "ru": "пока Empowered, по отряду без VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "24a65646-e270-4708-a07e-4fd26d1bb189:reavers",
@@ -771,8 +888,25 @@ export default {
       },
       "hash": "5cd56744",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 8",
+          "only": {
+            "name": "Pulse disintegrators"
+          },
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:urien-rakarth:father-of-pain",
@@ -785,8 +919,17 @@ export default {
       },
       "hash": "bd499842",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs attacks with a Damage characteristic of 1)",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "pack:urien-rakarth:sculptor-of-torments-pain",
@@ -799,8 +942,36 @@ export default {
       },
       "hash": "52262587",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "fa0d2462-a7dd-4f57-abcb-e001e8682912:wracks",

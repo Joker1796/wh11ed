@@ -42,8 +42,57 @@ export default {
       },
       "hash": "174b2b1a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "only": {
+            "name": "Fidelity"
+          },
+          "when": {
+            "en": "while Direct Grace is the one selected for this fight",
+            "ru": "пока для этого боя выбран Direct Grace"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "name": "Fidelity"
+          },
+          "when": {
+            "en": "while Forceful Strike is the one selected for this fight",
+            "ru": "пока для этого боя выбран Forceful Strike"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "only": {
+            "name": "Fidelity"
+          },
+          "when": {
+            "en": "while Whirling Stance is the one selected for this fight (instead of SUSTAINED HITS 1)",
+            "ru": "пока для этого боя выбран Whirling Stance (вместо SUSTAINED HITS 1)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:aunva:duality-shield",
@@ -56,8 +105,22 @@ export default {
       },
       "hash": "bf4ab1b4",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "2+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:aunva:supreme-loyalty-aura",
@@ -78,7 +141,7 @@ export default {
       },
       "hash": "25ca0153",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -292,8 +355,22 @@ export default {
       },
       "hash": "0ffc4f9b",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "edf3cf2b-c0b0-4d8b-b5c2-acc69bcbffe8:crisis-starscythe-battlesuits",
@@ -451,8 +528,25 @@ export default {
       },
       "hash": "cc05bfb5",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "only": {
+            "name": "Knarloc beak and talons"
+          },
+          "when": {
+            "en": "until the end of the turn it ended a Charge move",
+            "ru": "до конца хода, в котором завершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "bdf68a61-1dd3-452b-bfb9-98d2770b8789:kroot-farstalkers",
@@ -580,8 +674,22 @@ export default {
       },
       "hash": "f1f0a2fd",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "по отряду MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:longstrike:xv02-pilot-battlesuit",
@@ -594,7 +702,7 @@ export default {
       },
       "hash": "759ba884",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -608,7 +716,7 @@ export default {
       },
       "hash": "7cda8d5d",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -850,7 +958,7 @@ export default {
       },
       "hash": "ac5f2d46",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -864,8 +972,22 @@ export default {
       },
       "hash": "45a236d5",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "18\"",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "2206b8e8-8ebc-4747-9bd3-6b44ccb32ff0",
@@ -2294,8 +2416,16 @@ export default {
       },
       "hash": "0c8f7a1a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:commander-in-crisis-battlesuit:shield-drone",
@@ -2309,8 +2439,22 @@ export default {
       },
       "hash": "219c8b44",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:commander-in-crisis-battlesuit:shield-generator",
@@ -2324,8 +2468,16 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:commander-in-enforcer-battlesuit",
@@ -2414,8 +2566,16 @@ export default {
       },
       "hash": "0c8f7a1a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:crisis-battlesuits:shield-drone",
@@ -2429,8 +2589,22 @@ export default {
       },
       "hash": "219c8b44",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:crisis-battlesuits:shield-generator",
@@ -2444,8 +2618,22 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:crisis-fireknife-battlesuits",
@@ -2698,8 +2886,17 @@ export default {
       },
       "hash": "cfe10de0",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:great-knarloc:hooked",
@@ -2713,7 +2910,7 @@ export default {
       },
       "hash": "68625146",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -2728,8 +2925,16 @@ export default {
       },
       "hash": "42c8065e",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a7dcf8ec-6f67-443a-a77f-51c50f42e2e3:kroot-farstalkers",
@@ -2986,8 +3191,16 @@ export default {
       },
       "hash": "0c8f7a1a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:xv9-hazard-battlesuits:shield-drone",
@@ -3001,8 +3214,22 @@ export default {
       },
       "hash": "219c8b44",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:xv9-hazard-battlesuits:shield-generator",
@@ -3016,8 +3243,22 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -18,8 +18,48 @@ export default {
       },
       "hash": "c5f52efb",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-ignores-cover"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-lethal"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS D3",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-sustained"
+          ]
+        }
+      ]
     },
     {
       "sid": "1142f775-5766-44be-b032-fd2edd0ac4ee:belakor",
@@ -522,8 +562,22 @@ export default {
       },
       "hash": "4e22b159",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a Battle-shocked enemy unit",
+            "ru": "по вражескому отряду в Battle-shock"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:giant-chaos-spawn:creature-of-khorne",
@@ -536,8 +590,22 @@ export default {
       },
       "hash": "2e977bd3",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this model has the KHORNE keyword",
+            "ru": "если у модели есть ключевое слово KHORNE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:giant-chaos-spawn:creature-of-nurgle",
@@ -550,8 +618,22 @@ export default {
       },
       "hash": "97752c54",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this model has the NURGLE keyword",
+            "ru": "если у модели есть ключевое слово NURGLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:giant-chaos-spawn:creature-of-slaanesh",
@@ -564,8 +646,22 @@ export default {
       },
       "hash": "2d2b08f1",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this model has the SLAANESH keyword",
+            "ru": "если у модели есть ключевое слово SLAANESH"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:giant-chaos-spawn:creature-of-tzeentch",
@@ -578,8 +674,22 @@ export default {
       },
       "hash": "f5fbbde0",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "if this model has the TZEENTCH keyword",
+            "ru": "если у модели есть ключевое слово TZEENTCH"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "2b28facf-6d9e-477a-9612-5fb56296aef1:great-unclean-one",
@@ -678,8 +788,17 @@ export default {
       },
       "hash": "b74af02a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "8732df0b-f46f-46a7-a14e-8c306abaafbe:infernal-enrapturess",
@@ -831,8 +950,25 @@ export default {
       },
       "hash": "8dbc765e",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "only": {
+            "name": "Pox Rider plaguesword"
+          },
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "b056eee6-6e63-4855-af76-8794c8659a37:rendmaster-on-blood-throne",
@@ -1011,8 +1147,22 @@ export default {
       },
       "hash": "2e977bd3",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this model has the KHORNE keyword",
+            "ru": "если у модели есть ключевое слово KHORNE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:spined-chaos-beast:creature-of-nurgle",
@@ -1025,8 +1175,22 @@ export default {
       },
       "hash": "97752c54",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this model has the NURGLE keyword",
+            "ru": "если у модели есть ключевое слово NURGLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:spined-chaos-beast:creature-of-slaanesh",
@@ -1039,8 +1203,22 @@ export default {
       },
       "hash": "2d2b08f1",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this model has the SLAANESH keyword",
+            "ru": "если у модели есть ключевое слово SLAANESH"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:spined-chaos-beast:creature-of-tzeentch",
@@ -1053,8 +1231,22 @@ export default {
       },
       "hash": "f5fbbde0",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "if this model has the TZEENTCH keyword",
+            "ru": "если у модели есть ключевое слово TZEENTCH"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "de75e5f2-6284-4fd0-93e4-e6a7ca260f18:spoilpox-scrivener",

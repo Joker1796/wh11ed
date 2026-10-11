@@ -110,3 +110,13 @@ describe('splitBearers — T\'au Shield Drones', () => {
     expect(rows).toEqual([['Strike Team ×9', rows[0][1]], ['Strike Team · Shield Drone ×1', rows[0][1] + 1]])
   })
 })
+
+// The same drone on a Legends sheet from a Faction Pack (gen-roster-modifiers' packSources): until
+// 2026-10-11 these had no record at all.
+describe('splitBearers — Legends T\'au Shield Drones', () => {
+  it('adds 1 Wounds to a Commander in Crisis Battlesuit for each drone', async () => {
+    const w = async (n) => Number((await card('tau-empire', 'commander-in-crisis-battlesuit', 0, n ? [['Shield Drone', n]] : [])).sheet.profiles[0].w)
+    const base = await w(0)
+    expect([await w(1), await w(2)]).toEqual([base + 1, base + 2])
+  })
+})

@@ -18,8 +18,17 @@ export default {
       },
       "hash": "0f6feb47",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:cyberwolf:alpha-hunter",
@@ -32,8 +41,17 @@ export default {
       },
       "hash": "4d9db6ce",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:cyberwolf:close-in-for-the-kill",
@@ -46,8 +64,35 @@ export default {
       },
       "hash": "f29066d1",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that is Below Half-strength",
+            "ru": "по вражескому отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against an enemy unit that is Below Half-strength",
+            "ru": "по вражескому отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f3066d58-dd3a-4020-9fde-40534ca0ed90:fenrisian-wolves",
@@ -129,8 +174,26 @@ export default {
       },
       "hash": "c22900c8",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "name": "Crushing teeth and claws"
+          },
+          "when": {
+            "en": "in a turn this unit made a Charge move",
+            "ru": "в ходу, когда отряд совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:harald-deathwolf:mantle-of-the-troll-king",
@@ -143,7 +206,7 @@ export default {
       },
       "hash": "2ec75a42",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -405,8 +468,22 @@ export default {
       },
       "hash": "7280af0a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in a turn this unit made a Charge move",
+            "ru": "в ходу, когда отряд совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:stormfang-gunship:frozen-prey",
@@ -419,7 +496,7 @@ export default {
       },
       "hash": "727a781b",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -474,8 +551,22 @@ export default {
       },
       "hash": "ab962b17",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "while attached to a unit that contains another CHARACTER model",
+            "ru": "пока присоединён к отряду, где есть другая модель CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:wolf-guard-battle-leader-in-terminator-armour:tactical-precision",
@@ -488,8 +579,17 @@ export default {
       },
       "hash": "b443bf84",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:wolf-guard-battle-leader-on-thunderwolf:tactical-precision",
@@ -502,8 +602,17 @@ export default {
       },
       "hash": "b443bf84",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "034419af-dce0-48aa-925c-551cc62870bf:wolf-guard-battle-leader",
@@ -616,8 +725,22 @@ export default {
       },
       "hash": "7772ab86",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while a CHARACTER is leading this unit",
+            "ru": "пока отряд ведёт CHARACTER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:wolf-lord-on-thunderwolf:speed-of-the-hunter",
@@ -630,7 +753,7 @@ export default {
       },
       "hash": "82199bc3",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1029,8 +1152,22 @@ export default {
       },
       "hash": "6026918c",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "6",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:wolf-guard-battle-leader-on-thunderwolf:storm-shield",
@@ -1044,8 +1181,22 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "33ffd159-0227-4b14-a504-7452ad364393:wolf-guard-battle-leader",
@@ -1112,8 +1263,22 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:wolf-guard-pack-leader:storm-shield",
@@ -1127,8 +1292,22 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "33ffd159-0227-4b14-a504-7452ad364393:wolf-guard-terminators",
@@ -1171,8 +1350,22 @@ export default {
       },
       "hash": "5e0ca50d",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:wolf-lord-on-thunderwolf:relic-shield",

@@ -310,7 +310,7 @@ export default {
       },
       "hash": "61237916",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -324,8 +324,17 @@ export default {
       },
       "hash": "3164196a",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "2e6f2691-8a5a-4ab6-baf6-c9d6b1b6f0fd:paladin-squad",
@@ -425,8 +434,35 @@ export default {
       },
       "hash": "89b60d58",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a BROTHERHOOD TECHMARINE is leading this unit",
+            "ru": "пока отряд ведёт BROTHERHOOD TECHMARINE"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a BROTHERHOOD TECHMARINE is leading this unit",
+            "ru": "пока отряд ведёт BROTHERHOOD TECHMARINE"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:servitors:retinue",
@@ -439,8 +475,22 @@ export default {
       },
       "hash": "2046c9ce",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "while a BROTHERHOOD TECHMARINE is leading this unit",
+            "ru": "пока отряд ведёт BROTHERHOOD TECHMARINE"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "349ad1d7-8340-47bd-bd2f-8ed6262b4ddb:stormhawk-interceptor",

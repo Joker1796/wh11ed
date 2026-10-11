@@ -109,7 +109,7 @@ export default {
       },
       "hash": "2603f445",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -137,8 +137,22 @@ export default {
       },
       "hash": "01d0774f",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в радиусе маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e06de742-1a30-4957-9c7a-7afde6d40508:catacomb-command-barge",
@@ -296,8 +310,23 @@ export default {
       },
       "hash": "5deb1072",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "target": "aura",
+          "when": {
+            "en": "against ranged attacks",
+            "ru": "против стрелковых атак"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7d7ee4d3-72bd-404e-bb89-281b7cca87cd:geomancer",
@@ -405,8 +434,17 @@ export default {
       },
       "hash": "6134aab8",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "12dac8d8-3c5e-46bf-a06f-f216708577f7:nekrosor-ammentar",
@@ -758,7 +796,7 @@ export default {
       },
       "hash": "20c5ef9b",
       "ver": 972,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -810,8 +848,22 @@ export default {
       },
       "hash": "9b9fe911",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "while in the same unit as Nemesor Zahndrekh",
+            "ru": "пока в одном отряде с Nemesor Zahndrekh"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "71124c51-fb03-44ee-acf1-4e5f6b6d5c13",
@@ -2280,8 +2332,17 @@ export default {
       },
       "hash": "45115fa3",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:canoptek-tomb-stalker:gloom-prism-aura",
@@ -2303,8 +2364,17 @@ export default {
       },
       "hash": "45115fa3",
       "ver": 972,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c0da2d15-20c2-4da9-a9df-a0ce62051918:lokhust-lord",
