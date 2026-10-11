@@ -328,7 +328,10 @@ function parseOption(text, ctx) {
   // hunter-killer missiles" on one model). Several: a stepper, capped by n / the per-5 table /
   // nothing ("any number").
   const single1 = f.n === 1 && !f.per
-  g.in = single1 && !value.stepper ? 'checkbox' : 'stepper'
+  // "…up to two of the following, and can take duplicates" on ONE model is a count per option, not
+  // a tick: a checkbox let a Legends T'au Commander take a second Shield Drone of no kind at all,
+  // where the Codex Commander's stepper does (2026-10-11).
+  g.in = single1 && !value.stepper && !(value.dup > 1) ? 'checkbox' : 'stepper'
   if (single1 && value.stepper) g.lim = [[0, value.limit, value.dup]]
   else if (single1) {
     if (value.limit > 1) g.lim = [[0, value.limit, value.dup]]
