@@ -244,6 +244,17 @@
                   <span v-if="accountEmailParts">{{ accountEmailParts.name }}<wbr>{{ accountEmailParts.domain }}</span>
                   <span v-else>{{ accountName || labels.cloudSignedIn }}</span>
                 </p>
+                <!-- An email sign-in whose address is not proven yet: the one thing to ask for, and
+                     the way to ask again — the mail may be in Spam or never have left. -->
+                <button
+                  v-if="unconfirmedEmail"
+                  class="settings-item settings-confirm"
+                  :disabled="resendState === 'sending'"
+                  @click="onResend"
+                >
+                  <i class="bi bi-envelope-exclamation" />
+                  <span>{{ resendState === 'sent' ? labels.accountResent : `${labels.accountConfirmEmail} · ${labels.accountResend}` }}</span>
+                </button>
                 <button
                   class="settings-item"
                   @click="onSignOut"
@@ -269,7 +280,7 @@
                 @click="onSignIn"
               >
                 <i class="bi bi-person" />
-                <span>{{ labels.cloudSignInYandex }}</span>
+                <span>{{ labels.cloudSignIn }}</span>
               </button>
               <button
                 v-if="accountDev"
@@ -310,6 +321,7 @@ import { useInstallPrompt } from '../composables/useInstallPrompt.js'
 import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../composables/useOfflineWarmup.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
 import { useAccountActions } from '../composables/useAccountActions.js'
+import { useAuth } from '../composables/useAuth.js'
 import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { ui } from '../i18n/ui.js'
 import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
@@ -359,6 +371,16 @@ const accountEmailParts = computed(() => {
 // Every gear-menu entry closes the menu behind it; the account ones are no different.
 // A sign-in that finds the server down stays on the page, and the menu stays open on the line
 // that says so.
+// The account's email sign-in, when its address is not confirmed yet (/me → login.verified).
+const { user: authUser, resendVerification } = useAuth()
+const unconfirmedEmail = computed(() => authUser.value?.login && !authUser.value.login.verified)
+const resendState = ref('idle') // idle | sending | sent | error
+async function onResend() {
+  resendState.value = 'sending'
+  const r = await resendVerification(locale.value)
+  resendState.value = r.ok ? 'sent' : 'error'
+}
+
 async function onSignIn() {
   if (await signIn()) settingsOpen.value = false
 }
