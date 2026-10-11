@@ -68,6 +68,35 @@ describe('syncNow', () => {
     expect(cloud.isBackedUp(g1)).toBe(true)
   })
 
+  it('re-uploads, in the same pass, games it remembers uploading but the cloud no longer has', async () => {
+    const g1 = game('g1')
+    localStorage.setItem('wh11ed-tracker-synced', JSON.stringify([`g1:${g1.finishedAt}`]))
+    await load()
+    h.history.value = [g1]
+    const puts = []
+    h.fetchImpl = (url, opts) => {
+      if (opts?.method === 'PUT') { puts.push(url); return Promise.resolve({ ok: true }) }
+      return Promise.resolve({ ok: true, json: async () => ({ games: [] }) }) // an empty new server
+    }
+    expect(cloud.isBackedUp(g1)).toBe(true) // the memory says so before the check
+    await cloud.syncNow()
+    expect(puts).toEqual(['/games/g1'])
+    expect(cloud.isBackedUp(g1)).toBe(true)
+    expect(cloud.lastError.value).toBeNull()
+  })
+
+  it('does not upload a game twice in one pass when the listing still lacks it', async () => {
+    await load()
+    h.history.value = [game('g1')]
+    let puts = 0
+    h.fetchImpl = (url, opts) => {
+      if (opts?.method === 'PUT') { puts++; return Promise.resolve({ ok: false, status: 500 }) }
+      return Promise.resolve({ ok: true, json: async () => ({ games: [] }) })
+    }
+    await cloud.syncNow()
+    expect(puts).toBe(1)
+  })
+
   it('a resumed+changed game (same id, new finishedAt) is no longer shown as backed up', async () => {
     await load()
     const g1 = game('g1')
