@@ -395,6 +395,70 @@ async function logout() {
   status.value = 'anon'
 }
 
+// ─── Email + password (wh11ed-api routes/email-auth.ts) ──────────────────────────────────────
+// Each call that signs in gets the refresh cookie back (credentials: 'include') and then runs the
+// same refresh() a Yandex sign-in does, so the rest of the app cannot tell the two apart.
+// Resolves { ok, error?, … }: `error` is the API's code ('bad_credentials', 'email_taken',
+// 'too_many', 'link_invalid', 'mail_failed', 'invalid_input') or 'network' / 'server'.
+async function emailCall(path, body) {
+  try {
+    const res = await fetch(api(`/auth/email/${path}`), {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    const data = await res.json().catch(() => ({}))
+    if (res.ok) return { ok: true, ...data }
+    return { ok: false, error: data.error || (res.status >= 500 ? 'server' : 'invalid_input') }
+  } catch {
+    return { ok: false, error: navigator.onLine === false ? 'network' : 'server' }
+  }
+}
+
+// Where a mailed link should point: this site (the beta's links lead back to the beta).
+const linkContext = (locale) => ({ locale, origin: typeof location !== 'undefined' ? location.origin : undefined })
+
+async function signedIn(result) {
+  if (result.ok) await refresh()
+  return result
+}
+
+const loginWithPassword = async (email, password) => signedIn(await emailCall('login', { email, password }))
+const register = async (email, password, locale) => signedIn(await emailCall('register', { email, password, ...linkContext(locale) }))
+const forgotPassword = (email, locale) => emailCall('forgot', { email, ...linkContext(locale) })
+const resetPassword = async (token, password) => signedIn(await emailCall('reset', { token, password }))
+async function verifyEmail(token) {
+  const r = await emailCall('verify', { token })
+  if (r.ok && status.value === 'authed') await loadUser()
+  return r
+}
+async function resendVerification(locale) {
+  try {
+    const res = await authedFetch('/auth/email/resend', { method: 'POST', body: JSON.stringify(linkContext(locale)) })
+    const data = await res.json().catch(() => ({}))
+    return res.ok ? { ok: true, ...data } : { ok: false, error: data.error || 'server' }
+  } catch {
+    return { ok: false, error: 'network' }
+  }
+}
+
+// Signed in already: give this account an email + password (a Yandex account's second way in),
+// or change the password. Both through authedFetch; /me is re-read so the menu follows.
+async function accountCall(path, body) {
+  try {
+    const res = await authedFetch(`/auth/email/${path}`, { method: 'POST', body: JSON.stringify(body) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) return { ok: false, error: data.error || (res.status >= 500 ? 'server' : 'invalid_input') }
+    await loadUser()
+    return { ok: true, ...data }
+  } catch {
+    return { ok: false, error: navigator.onLine === false ? 'network' : 'server' }
+  }
+}
+const addPasswordLogin = (email, password, locale) => accountCall('add', { email, password, ...linkContext(locale) })
+const changePassword = (current, password) => accountCall('password', { current, password })
+
 export function useAuth() {
   return {
     status,
@@ -405,6 +469,14 @@ export function useAuth() {
     ensureSession,
     authedFetch,
     takeReturnPath,
+    loginWithPassword,
+    register,
+    forgotPassword,
+    resetPassword,
+    verifyEmail,
+    resendVerification,
+    addPasswordLogin,
+    changePassword,
     // DEV-only test helpers (no-ops / stripped in production):
     dev: DEV,
     mockSignIn,
