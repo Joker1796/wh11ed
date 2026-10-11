@@ -91,3 +91,32 @@ describe('splitBearers', () => {
     expect(res.notes.some((n) => n.source.endsWith('Spotter') && !n.applied)).toBe(true)
   })
 })
+
+// T'au drones are tokens, not models (army rule "Drones"): a Shield Drone adds 1 to its BEARER's
+// Wounds, once per drone — the bearer may take two (player report, 2026-10-11; the GW app's Battle
+// Forge accepts two on one Cadre Fireblade). The records said "the Shield Drone model only" and
+// were never applied.
+describe('splitBearers — T\'au Shield Drones', () => {
+  it('adds 1 Wounds for one drone and 2 for two, on a model of its own', async () => {
+    const w = async (n) => (await card('tau-empire', 'cadre-fireblade', 0, n ? [['Shield Drone', n]] : [])).sheet.profiles.map((p) => [row(p), Number(p.w)])
+    const base = (await w(0))[0][1]
+    expect(await w(1)).toEqual([['Cadre Fireblade', base + 1]])
+    expect(await w(2)).toEqual([['Cadre Fireblade', base + 2]])
+  })
+
+  it('gives the Shas\'ui with a drone a row of its own in a Strike Team', async () => {
+    const res = await card('tau-empire', 'strike-team', 0, [['Shield Drone', 1]])
+    const rows = res.sheet.profiles.map((p) => [row(p), Number(p.w)])
+    expect(rows).toEqual([['Strike Team ×9', rows[0][1]], ['Strike Team · Shield Drone ×1', rows[0][1] + 1]])
+  })
+})
+
+// The same drone on a Legends sheet from a Faction Pack (gen-roster-modifiers' packSources): until
+// 2026-10-11 these had no record at all.
+describe('splitBearers — Legends T\'au Shield Drones', () => {
+  it('adds 1 Wounds to a Commander in Crisis Battlesuit for each drone', async () => {
+    const w = async (n) => Number((await card('tau-empire', 'commander-in-crisis-battlesuit', 0, n ? [['Shield Drone', n]] : [])).sheet.profiles[0].w)
+    const base = await w(0)
+    expect([await w(1), await w(2)]).toEqual([base + 1, base + 2])
+  })
+})

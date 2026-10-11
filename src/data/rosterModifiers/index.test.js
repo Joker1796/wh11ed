@@ -37,8 +37,10 @@ describe('rosterModifiers data', () => {
     for (const { file, e } of allEntries) {
       // The appdata uuid, optionally suffixed with the datasheet it was attached to: 56 abilities
       // are published once and printed on several datasheets, and each needs its own record
-      // (a different `ref.unit`). The uuid still leads, so the identity is unchanged.
-      expect(e.sid, `${file} ${e.name}`).toMatch(/^[0-9a-f-]{36}(:[a-z0-9-]+)?$/)
+      // (a different `ref.unit`). The uuid still leads, so the identity is unchanged. A Legends
+      // datasheet from a Faction Pack has no appdata uuid: `pack:<unit>:<ability>` (gen-roster-
+      // modifiers' packSources), hashed against our own transcription.
+      expect(e.sid, `${file} ${e.name}`).toMatch(/^(?:[0-9a-f-]{36}(:[a-z0-9-]+)?|pack:[a-z0-9-]+:[a-z0-9-]+)$/)
       expect(e.hash, `${file} ${e.name}`).toMatch(/^[0-9a-f]{8}$/)
       expect(typeof e.ver, `${file} ${e.name}`).toBe('number')
     }
@@ -341,6 +343,26 @@ describe('rosterModifiers data', () => {
     const rec = data.entries.find((e) => e.name === name)
     expect(rec.ref.scopes).toEqual([{ targets: [target], excludes: [] }])
     expect(rec.effects.some((eff) => eff.target === 'aura')).toBe(true)
+  })
+
+  // A bonus a piece of wargear gives ITS BEARER is placed on the models that carry it
+  // (`wargear-bearer`, rosterStatMods' splitBearers). Parked on `blocked-subset` it is never applied
+  // at all: eleven T'au Shield Drone records read "the Shield Drone model only" — 10th edition,
+  // when the drone was a model — and a Cadre Fireblade with a drone kept W 5 until a player wrote
+  // in (2026-10-11). The 2026-10-01 move to `wargear-bearer` was made by the word "bearer", which
+  // these did not use. What stays parked is named here, with the reason.
+  it('places a wargear bonus on its bearer instead of parking it as part-of-the-unit', () => {
+    const PARKED = {
+      // OC on the bearer AND "while its unit is not Battle-shocked": two conditions, and a placed
+      // bearer effect carries only its own.
+      'drukhari.js:Hand of the Archon: Kabalite Icon': 'bearer + not Battle-shocked',
+      'drukhari.js:Kabalite Warriors: Kabalite Icon': 'bearer + not Battle-shocked',
+    }
+    const found = allEntries
+      .filter(({ e }) => e.kind === 'wargear' && e.ref?.item
+        && e.effects.some((x) => x.on === 'profile' && x.cond?.includes('blocked-subset')))
+      .map(({ file, e }) => `${file.replace('./', '')}:${e.name}`)
+    expect(found.sort()).toEqual(Object.keys(PARKED).sort())
   })
 
   it('exposes only reviewed records that actually carry an effect', () => {

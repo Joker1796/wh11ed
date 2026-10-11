@@ -66,6 +66,70 @@ export default {
       ]
     },
     {
+      "sid": "pack:daemonhost:bound-daemon",
+      "kind": "ability",
+      "name": "Daemonhost: Bound Daemon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemonhost"
+      },
+      "hash": "c9f8edd4",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "1",
+          "when": {
+            "en": "while an INQUISITOR is leading this unit",
+            "ru": "пока отряд ведёт INQUISITOR"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:daemonhost:malefic-warding",
+      "kind": "ability",
+      "name": "Daemonhost: Malefic Warding",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemonhost"
+      },
+      "hash": "5fa821fc",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while an INQUISITOR is leading this unit",
+            "ru": "пока отряд ведёт INQUISITOR"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
+    },
+    {
       "sid": "3abf4a41-24a8-4b00-99ff-070da866be07:eversor-assassin",
       "kind": "ability",
       "name": "Eversor Assassin: Overkill",
@@ -148,6 +212,48 @@ export default {
       ]
     },
     {
+      "sid": "pack:fortis-kill-team:fortis-doctrines",
+      "kind": "ability",
+      "name": "Fortis Kill Team: Fortis Doctrines",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fortis-kill-team"
+      },
+      "hash": "89d62c76",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is Below Half-strength",
+            "ru": "по отряду Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:fortis-kill-team:kill-team",
+      "kind": "ability",
+      "name": "Fortis Kill Team: Kill Team",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fortis-kill-team"
+      },
+      "hash": "64def260",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "a3719eb1-6c71-4db2-927b-f1a50dffbb3b:grey-knights-terminator-squad",
       "kind": "ability",
       "name": "Grey Knights Terminator Squad: Hammerhand",
@@ -202,6 +308,62 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:indomitor-kill-team:indomitor-doctrines",
+      "kind": "ability",
+      "name": "Indomitor Kill Team: Indomitor Doctrines",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "indomitor-kill-team"
+      },
+      "hash": "496e063b",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is Below Half-strength",
+            "ru": "пока отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "note": "Read as Death Korps of Krieg: Grim Demeanour (astra-militarum), the same text."
+    },
+    {
+      "sid": "pack:indomitor-kill-team:kill-team",
+      "kind": "ability",
+      "name": "Indomitor Kill Team: Kill Team",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "indomitor-kill-team"
+      },
+      "hash": "64def260",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "500e30b2-050d-43e9-9682-e9902367e0a8:inquisitor-coteaz",
@@ -271,6 +433,32 @@ export default {
       ]
     },
     {
+      "sid": "pack:inquisitor-eisenhorn:malus-codicium",
+      "kind": "ability",
+      "name": "Inquisitor Eisenhorn: Malus Codicium",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitor-eisenhorn"
+      },
+      "hash": "518705b7",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 4,
+          "only": {
+            "name": "Warp grasp"
+          },
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "5ad5311f-39c0-48d2-b0aa-45afbe912f33:inquisitor-greyfax",
       "kind": "ability",
       "name": "Inquisitor Greyfax: No Mercy",
@@ -321,6 +509,43 @@ export default {
           "target": "unit"
         }
       ]
+    },
+    {
+      "sid": "pack:inquisitor-karamazov:throne-of-judgement-aura",
+      "kind": "ability",
+      "name": "Inquisitor Karamazov: Throne of Judgement (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitor-karamazov"
+      },
+      "hash": "cc945e29",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null,
+          "target": "aura"
+        }
+      ]
+    },
+    {
+      "sid": "pack:inquisitor-karamazov:unsubtle-crusader",
+      "kind": "ability",
+      "name": "Inquisitor Karamazov: Unsubtle Crusader",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitor-karamazov"
+      },
+      "hash": "e2380af3",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "ee171eca-1e2b-4684-8eae-ad0356a9491c:inquisitor-kroyle",
@@ -395,6 +620,129 @@ export default {
       ]
     },
     {
+      "sid": "pack:janus-draik:backroom-deals",
+      "kind": "ability",
+      "name": "Janus Draik: Backroom Deals",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "janus-draik"
+      },
+      "hash": "90b508e3",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": {
+            "en": "while this unit is the one selected for this ability in the Declare Battle Formations step and is leading a unit",
+            "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Rogue Trader Entourage: Backroom Deals (imperial-agents), the same text."
+    },
+    {
+      "sid": "pack:jokaero-weaponsmith:a-weaponsmith-not-a-warlord",
+      "kind": "ability",
+      "name": "Jokaero Weaponsmith: A Weaponsmith, Not a Warlord",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "jokaero-weaponsmith"
+      },
+      "hash": "c3f5174d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "1",
+          "when": {
+            "en": "while an INQUISITOR also leads its unit",
+            "ru": "пока отряд также ведёт INQUISITOR"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:jokaero-weaponsmith:inconceivable-augmentation",
+      "kind": "ability",
+      "name": "Jokaero Weaponsmith: Inconceivable Augmentation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "jokaero-weaponsmith"
+      },
+      "hash": "29574b05",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "pack:kill-team-cassius:catechism-of-death",
+      "kind": "ability",
+      "name": "Kill Team Cassius: Catechism of Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kill-team-cassius"
+      },
+      "hash": "ce021738",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while this unit contains Chaplain Cassius",
+            "ru": "пока в отряде есть Chaplain Cassius"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:kill-team-cassius:kill-team",
+      "kind": "ability",
+      "name": "Kill Team Cassius: Kill Team",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kill-team-cassius"
+      },
+      "hash": "64def260",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7b8abd6e-ceb3-4e6b-90c4-b46306d857c5:ministorum-priest",
       "kind": "ability",
       "name": "Ministorum Priest: Holy Hatred",
@@ -459,6 +807,36 @@ export default {
       ]
     },
     {
+      "sid": "pack:neyam-shai-murad:backroom-deals",
+      "kind": "ability",
+      "name": "Neyam Shai Murad: Backroom Deals",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "neyam-shai-murad"
+      },
+      "hash": "90b508e3",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": {
+            "en": "while this unit is the one selected for this ability in the Declare Battle Formations step and is leading a unit",
+            "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Rogue Trader Entourage: Backroom Deals (imperial-agents), the same text."
+    },
+    {
       "sid": "f44961d2-ef44-41e8-ae8f-ad3d2486401e:preacher-teguen",
       "kind": "ability",
       "name": "Preacher Teguen: Holy Hatred",
@@ -509,6 +887,48 @@ export default {
           "when": {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:proteus-kill-team:kill-team",
+      "kind": "ability",
+      "name": "Proteus Kill Team: Kill Team",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "proteus-kill-team"
+      },
+      "hash": "64def260",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:proteus-kill-team:proteus-doctrines",
+      "kind": "ability",
+      "name": "Proteus Kill Team: Proteus Doctrines",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "proteus-kill-team"
+      },
+      "hash": "8f8b26fd",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that is not Below Half-strength",
+            "ru": "по отряду, который не Below Half-strength"
           },
           "cond": [
             "never"
@@ -569,6 +989,48 @@ export default {
           },
           "cond": [
             "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:spectrus-kill-team:kill-team",
+      "kind": "ability",
+      "name": "Spectrus Kill Team: Kill Team",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spectrus-kill-team"
+      },
+      "hash": "64def260",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:veteran-bike-squad:turbo-boost",
+      "kind": "ability",
+      "name": "Veteran Bike Squad: Turbo-boost",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "veteran-bike-squad"
+      },
+      "hash": "0ffc4f9b",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
           ]
         }
       ]
@@ -1735,6 +2197,36 @@ export default {
       ]
     },
     {
+      "sid": "pack:deathwatch-terminator-squad:storm-shield",
+      "kind": "wargear",
+      "name": "Deathwatch Terminator Squad: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwatch-terminator-squad",
+        "item": "storm shield"
+      },
+      "hash": "38451d6c",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ],
+      "note": "Read as Bullgryn Squad: Slabshield (astra-militarum), the same text."
+    },
+    {
       "sid": "bde4aec2-30a1-4d29-a294-e5c220d4c16b:exaction-squad",
       "kind": "wargear",
       "name": "Exaction Squad: Soulguilt Scanner",
@@ -1810,6 +2302,83 @@ export default {
       ]
     },
     {
+      "sid": "pack:indomitor-kill-team:jump-pack",
+      "kind": "wargear",
+      "name": "Indomitor Kill Team: Jump Pack",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "indomitor-kill-team",
+        "item": "jump pack"
+      },
+      "hash": "34369015",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "10\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:inquisitor-in-terminator-armour:blessed-wardings",
+      "kind": "wargear",
+      "name": "Inquisitor in Terminator Armour: Blessed Wardings",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "inquisitor-in-terminator-armour",
+        "item": "blessed wardings"
+      },
+      "hash": "bda848a8",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "6+",
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Inquisitor: Blessed Wardings (imperial-agents), the same text."
+    },
+    {
+      "sid": "pack:inquisitor-in-terminator-armour:psychic-gifts",
+      "kind": "wargear",
+      "name": "Inquisitor in Terminator Armour: Psychic Gifts",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "inquisitor-in-terminator-armour",
+        "item": "psychic gifts"
+      },
+      "hash": "4153f25b",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Psyker",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "4c0dbe01-e4a8-4fd5-992b-f35d5ef423a4:inquisitor",
       "kind": "wargear",
       "name": "Inquisitor: Blessed Wardings",
@@ -1857,6 +2426,146 @@ export default {
       ]
     },
     {
+      "sid": "pack:kill-team-cassius:jump-pack",
+      "kind": "wargear",
+      "name": "Kill Team Cassius: Jump Pack",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "kill-team-cassius",
+        "item": "jump pack"
+      },
+      "hash": "da4a395d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "12\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:kill-team-cassius:psychic-hood",
+      "kind": "wargear",
+      "name": "Kill Team Cassius: Psychic Hood",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "kill-team-cassius",
+        "item": "psychic hood"
+      },
+      "hash": "1d4ed2a6",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:proteus-kill-team:astartes-shield",
+      "kind": "wargear",
+      "name": "Proteus Kill Team: Astartes Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "proteus-kill-team",
+        "item": "astartes shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:proteus-kill-team:jump-pack",
+      "kind": "wargear",
+      "name": "Proteus Kill Team: Jump Pack",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "proteus-kill-team",
+        "item": "jump pack"
+      },
+      "hash": "da4a395d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "12\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:proteus-kill-team:storm-shield",
+      "kind": "wargear",
+      "name": "Proteus Kill Team: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "proteus-kill-team",
+        "item": "storm shield"
+      },
+      "hash": "38451d6c",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ],
+      "note": "Read as Bullgryn Squad: Slabshield (astra-militarum), the same text."
+    },
+    {
       "sid": "34c3c209-6c20-4bfd-941b-5cf6224c3011:sanctifiers",
       "kind": "wargear",
       "name": "Sanctifiers: Simulacrum Imperialis",
@@ -1899,6 +2608,87 @@ export default {
           "op": "improve",
           "value": 1,
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:spectrus-kill-team:helix-gauntlet",
+      "kind": "wargear",
+      "name": "Spectrus Kill Team: Helix Gauntlet",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "spectrus-kill-team",
+        "item": "helix gauntlet"
+      },
+      "hash": "7c0f0ce2",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:spectrus-kill-team:jump-pack",
+      "kind": "wargear",
+      "name": "Spectrus Kill Team: Jump Pack",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "spectrus-kill-team",
+        "item": "jump pack"
+      },
+      "hash": "da4a395d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "12\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:veteran-bike-squad:astartes-shield",
+      "kind": "wargear",
+      "name": "Veteran Bike Squad: Astartes Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "veteran-bike-squad",
+        "item": "astartes shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
         }
       ]
     }

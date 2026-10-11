@@ -2973,6 +2973,18 @@ is worse than one reading T5 with a note. A value the layer cannot compute hones
 and, since 2026-08-22, a DATASHEET's own abilities, its WARGEAR, the CORE RULES and STRATAGEMS. The last two are where most of
 the game's numbers actually live: 436 ability candidates and 136 wargear ones, all reviewed.
 
+**The ninth source is not appdata: Legends from a Faction Pack** (2026-10-11). appdata carries
+Legends for Orks alone; the rest (`source: "faction-pack"`, hub skill `legends-from-pack`) are
+transcribed by hand and have no appdata uuid, so until then not one of their abilities had a
+record — a Legends Crisis team's Shield Drone added nothing while the Codex team's did.
+`gen-roster-modifiers.mjs`'s `packSources` reads them from OUR datasheet, keyed
+`pack:<unit>:<ability>` and hashed against our transcription, so an edit to the sheet reads as
+`stale` like an appdata rewrite would. 199 candidates on 239 sheets; 31 whose text is word for
+word a reviewed Codex ability with a single reading took that reading (their `note` says from
+where), the rest were read one by one. **The day GW moves such a unit into appdata** (sync-appdata
+says "retire the faction-pack copy"), its records stop having a source and `--check` fails with
+`✗ adopted`: re-point the `sid` to the appdata uuid and re-read the rule against appdata's wording.
+
 **Wargear** (`kind: 'wargear'`, from appdata's `datasheet.wargear[].ruleText`) is an item, not a
 rule, so it applies only once the entry actually TOOK it: `ctx.itemNames` is the set of normalised
 item names the loadout fields (`loadoutItemNames`), and `ref.item` is matched against it. Without
@@ -2998,6 +3010,16 @@ profile no mini names, a second item on models already given one — stays a not
 The card, the print card and the tracker's list plates all place the same way. Before this, 24
 such effects were `blocked-subset` notes, and the Mortifiers' Anchorite Sarcophagus carried no
 condition at all — one of two Mortifiers taking it printed M 7" and Sv 3+ for both.
+
+**Two copies on one model count twice** (2026-10-11). A T'au bearer may take two Shield Drones,
+and each adds 1 to its Wounds: the placement reads a profile's copies as LAYERS (models with a
+first copy, models with a second…, the shape `loadoutItemCopies` gives), puts each layer's models
+in a row of their own (`· Shield Drone ×2`) and multiplies an `add` by the copies — a `set` is the
+same with two. **And the migration that missed them:** the 24 effects moved off `blocked-subset`
+on 2026-10-01 were found by the word "bearer"; eleven Shield Drone records said "the Shield Drone
+model only" (10th edition, when the drone was a model) and stayed parked, so no drone ever added a
+Wound until a player wrote in. `src/data/rosterModifiers/index.test.js` now fails on any wargear
+profile effect parked on `blocked-subset` that is not named there with its reason.
 
 **A lesson from the same day:** the candidate heuristic had no pattern for `has a Move
 characteristic of 7"` — a SET rather than a delta, and the wording nearly every wargear rule uses.

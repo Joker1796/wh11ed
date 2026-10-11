@@ -8,7 +8,10 @@ import { API_BASE_URL } from '../config.js'
 // Security: the access token lives in memory only (never localStorage) — protects it from XSS.
 // On reload it's gone and is re-obtained via a silent /auth/refresh against the HttpOnly cookie.
 
-// 'idle' = not yet checked this load; 'authed' / 'anon' after a refresh attempt.
+// 'idle' = not yet checked this load; 'authed' / 'anon' after a refresh attempt; 'down' — the
+// server did not answer while the browser says it is online. Not 'anon': the refresh cookie is
+// still there, and a screen that says "sign in" sends the player to a dead login page (the Yandex
+// Cloud outage of 2026-10-11, when the gateway answered 502 to everything).
 const status = ref('idle')
 const user = ref(null) // { id, email, displayName }
 let accessToken = null
@@ -254,7 +257,8 @@ async function refresh() {
       if (!res.ok) {
         accessToken = null
         user.value = null
-        status.value = 'anon'
+        if (res.status >= 500) serverDown()
+        else status.value = 'anon'
         return false
       }
       const data = await res.json()
@@ -265,13 +269,51 @@ async function refresh() {
     } catch {
       accessToken = null
       user.value = null
-      status.value = 'anon'
+      // A 502 with no CORS headers reaches the page as a network error, the same as no signal at
+      // all; only the browser's own flag tells the two apart.
+      if (navigator.onLine === false) status.value = 'anon'
+      else serverDown()
       return false
     } finally {
       refreshing = null
     }
   })()
   return refreshing
+}
+
+// While the server is down, ask again every minute the page is on screen, and at once when the
+// page comes back into view or the browser back online — a player who keeps the tab open sees
+// the account return by itself, no reload.
+const RETRY_DOWN_MS = 60_000
+let retryTimer = null
+function serverDown() {
+  status.value = 'down'
+  if (retryTimer || typeof window === 'undefined') return
+  const retry = () => {
+    if (status.value !== 'down') return stopRetry()
+    if (document.visibilityState !== 'hidden') refresh()
+  }
+  retryTimer = setInterval(retry, RETRY_DOWN_MS)
+  window.addEventListener('online', retry)
+  document.addEventListener('visibilitychange', retry)
+  stopRetry = () => {
+    clearInterval(retryTimer)
+    retryTimer = null
+    window.removeEventListener('online', retry)
+    document.removeEventListener('visibilitychange', retry)
+  }
+}
+let stopRetry = () => {}
+
+// Is the server there at all? Asked before a sign-in leaves the page: the login route is a
+// full-page trip, and with the API down it lands on the gateway's bare 502.
+async function serverUp() {
+  try {
+    const res = await fetch(api('/health'), { signal: AbortSignal.timeout(5000) })
+    return res.ok
+  } catch {
+    return false
+  }
 }
 
 // One-shot silent restore — App.vue calls it once on boot, because the navbar's account menu
@@ -321,7 +363,13 @@ function takeReturnPath() {
   return safeReturnPath(raw)
 }
 
-function login(provider, returnTo) {
+// Resolves false, without leaving the page, when the server does not answer — `status` is then
+// 'down' and the screen says so.
+async function login(provider, returnTo) {
+  if (!mockEnabled() && !(await serverUp())) {
+    serverDown()
+    return false
+  }
   const path = safeReturnPath(returnTo)
   try {
     if (path) sessionStorage.setItem(RETURN_KEY, path)
@@ -333,6 +381,7 @@ function login(provider, returnTo) {
   // on THIS site: the API serves the tracker's beta subdomain too, and returns to an allow-listed
   // origin that asks (wh11ed-api, `?return=`).
   window.location.href = api(`/auth/${provider}/login?return=${encodeURIComponent(window.location.origin)}`)
+  return true
 }
 
 async function logout() {

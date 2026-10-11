@@ -8,6 +8,60 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:aetaos-rau-keres:master-of-magicks-psychic",
+      "kind": "ability",
+      "name": "Aetaos’rau’keres: Master of Magicks (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aetaos-rau-keres"
+      },
+      "hash": "c5f52efb",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-ignores-cover"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-lethal"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS D3",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-sustained"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "1142f775-5766-44be-b032-fd2edd0ac4ee:belakor",
       "kind": "ability",
       "name": "Be’lakor: Pall of Despair (Aura, Psychic)",
@@ -498,6 +552,146 @@ export default {
       ]
     },
     {
+      "sid": "pack:furies:prey-on-the-weak",
+      "kind": "ability",
+      "name": "Furies: Prey on the Weak",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "furies"
+      },
+      "hash": "4e22b159",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a Battle-shocked enemy unit",
+            "ru": "по вражескому отряду в Battle-shock"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:giant-chaos-spawn:creature-of-khorne",
+      "kind": "ability",
+      "name": "Giant Chaos Spawn: Creature of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "giant-chaos-spawn"
+      },
+      "hash": "2e977bd3",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this model has the KHORNE keyword",
+            "ru": "если у модели есть ключевое слово KHORNE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:giant-chaos-spawn:creature-of-nurgle",
+      "kind": "ability",
+      "name": "Giant Chaos Spawn: Creature of Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "giant-chaos-spawn"
+      },
+      "hash": "97752c54",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this model has the NURGLE keyword",
+            "ru": "если у модели есть ключевое слово NURGLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:giant-chaos-spawn:creature-of-slaanesh",
+      "kind": "ability",
+      "name": "Giant Chaos Spawn: Creature of Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "giant-chaos-spawn"
+      },
+      "hash": "2d2b08f1",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this model has the SLAANESH keyword",
+            "ru": "если у модели есть ключевое слово SLAANESH"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:giant-chaos-spawn:creature-of-tzeentch",
+      "kind": "ability",
+      "name": "Giant Chaos Spawn: Creature of Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "giant-chaos-spawn"
+      },
+      "hash": "f5fbbde0",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "if this model has the TZEENTCH keyword",
+            "ru": "если у модели есть ключевое слово TZEENTCH"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "2b28facf-6d9e-477a-9612-5fb56296aef1:great-unclean-one",
       "kind": "ability",
       "name": "Great Unclean One: Daemon Lord of Nurgle",
@@ -580,6 +774,29 @@ export default {
           "cond": [
             "unit-charged"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:herald-of-slaanesh-on-steed-of-slaanesh:lethal-caress",
+      "kind": "ability",
+      "name": "Herald of Slaanesh on Steed of Slaanesh: Lethal Caress",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "herald-of-slaanesh-on-steed-of-slaanesh"
+      },
+      "hash": "b74af02a",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null,
+          "target": "unit"
         }
       ]
     },
@@ -723,6 +940,37 @@ export default {
       ]
     },
     {
+      "sid": "pack:pox-riders:bounding-assault",
+      "kind": "ability",
+      "name": "Pox Riders: Bounding Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "pox-riders"
+      },
+      "hash": "8dbc765e",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "only": {
+            "name": "Pox Rider plaguesword"
+          },
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "b056eee6-6e63-4855-af76-8794c8659a37:rendmaster-on-blood-throne",
       "kind": "ability",
       "name": "Rendmaster on Blood Throne: Blood Throne",
@@ -763,6 +1011,21 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:scabeiathrax-the-bloated:nurgle-s-rot-psychic",
+      "kind": "ability",
+      "name": "Scabeiathrax the Bloated: Nurgle’s Rot (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "scabeiathrax-the-bloated"
+      },
+      "hash": "2250767e",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [],
+      "note": "Read as Great Unclean One: Nurgle’s Rot (chaos-daemons), the same text."
     },
     {
       "sid": "cec3a53a-130a-4a69-af12-4c54cc70b899:skarbrand",
@@ -870,6 +1133,118 @@ export default {
           "value": 1,
           "when": null,
           "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "pack:spined-chaos-beast:creature-of-khorne",
+      "kind": "ability",
+      "name": "Spined Chaos Beast: Creature of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spined-chaos-beast"
+      },
+      "hash": "2e977bd3",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this model has the KHORNE keyword",
+            "ru": "если у модели есть ключевое слово KHORNE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:spined-chaos-beast:creature-of-nurgle",
+      "kind": "ability",
+      "name": "Spined Chaos Beast: Creature of Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spined-chaos-beast"
+      },
+      "hash": "97752c54",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this model has the NURGLE keyword",
+            "ru": "если у модели есть ключевое слово NURGLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:spined-chaos-beast:creature-of-slaanesh",
+      "kind": "ability",
+      "name": "Spined Chaos Beast: Creature of Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spined-chaos-beast"
+      },
+      "hash": "2d2b08f1",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this model has the SLAANESH keyword",
+            "ru": "если у модели есть ключевое слово SLAANESH"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:spined-chaos-beast:creature-of-tzeentch",
+      "kind": "ability",
+      "name": "Spined Chaos Beast: Creature of Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spined-chaos-beast"
+      },
+      "hash": "f5fbbde0",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "if this model has the TZEENTCH keyword",
+            "ru": "если у модели есть ключевое слово TZEENTCH"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -2274,6 +2649,46 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:pox-riders:daemonic-icon",
+      "kind": "wargear",
+      "name": "Pox Riders: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pox-riders",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ],
+      "note": "Read as Bloodcrushers: Daemonic Icon (chaos-daemons), the same text."
+    },
+    {
+      "sid": "pack:pox-riders:instrument-of-chaos",
+      "kind": "wargear",
+      "name": "Pox Riders: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pox-riders",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [],
+      "note": "Read as Bloodcrushers: Instrument of Chaos (chaos-daemons), the same text."
     },
     {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:seekers",

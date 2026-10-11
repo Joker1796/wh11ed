@@ -27,10 +27,20 @@ export const changelog = [
     en: [
       { h: 'Roster builder' },
       'A Support unit that is not attached to any unit now shows an error. By the rules each Support unit must be attached to a unit.',
+      'In a unit’s fields, “Can be led by” and “Can lead” follow every catalogue filter: “Fits the points left”, “In my collection” and hidden Legends.',
+      'A T’au Shield Drone now adds 1 to its bearer’s Wounds on the unit card. Two drones add 2. In a squad, the model with a drone gets its own row.',
+      'A Commander in Coldstar Battlesuit and a Commander in Enforcer Battlesuit can now take two of the same drone, as their datasheet allows.',
+      'Legends unit cards now count their own abilities and wargear, like every other unit: the numbers change and weapons get their abilities.',
+      'If one model takes two of the same melee weapon, the second one is marked “fights with one”. A model fights with one melee weapon, so the list warns you that the second copy adds nothing. There is no warning when the unit’s own ability rewards the pair.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
       'Юнит Support, который ни к кому не присоединён, теперь отмечен ошибкой. По правилам каждый Support должен быть присоединён к отряду.',
+      'В полях юнита списки «Кто может возглавить» и «Кого может возглавить» учитывают все фильтры каталога: «Влезает в остаток», «Есть в коллекции» и скрытые Legends.',
+      'Shield Drone у T’au теперь добавляет носителю 1 к Wounds на карточке юнита. Два дрона добавляют 2. В отряде модель с дроном показана отдельной строкой.',
+      'Commander in Coldstar Battlesuit и Commander in Enforcer Battlesuit теперь могут взять два одинаковых дрона, как разрешает их датащит.',
+      'Карточки юнитов Legends теперь учитывают их способности и снаряжение, как у остальных юнитов: меняются характеристики, у оружия появляются способности.',
+      'Если одной модели взять два одинаковых оружия ближнего боя, у второго стоит пометка «бьёт одним». Модель бьёт одним оружием ближнего боя, поэтому проверка списка предупреждает, что вторая копия ничего не добавляет. Если способность юнита даёт бонус за пару, предупреждения нет.',
     ],
   },
   {

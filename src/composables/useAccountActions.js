@@ -15,8 +15,9 @@ export function useAccountActions() {
   // Yandex ID gives us an email for most accounts and a display name for the rest.
   const accountName = computed(() => user.value?.email || user.value?.displayName || '')
 
+  // Resolves false when the server is down — the page stays, and `status` says why.
   function signIn() {
-    login('yandex', route.fullPath)
+    return login('yandex', route.fullPath)
   }
 
   // DEV-only: flip a fake session without the OAuth round trip (stripped from prod builds).

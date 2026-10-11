@@ -506,6 +506,10 @@ export function useParty() {
     return pl?.name || pl?.teamName || ''
   }
 
+  // A failed request is 'network' only when the browser says it is offline; online, it is our
+  // server (a gateway 502 carries no CORS headers and fails the same way as no signal).
+  const unreachable = () => (navigator.onLine === false ? 'network' : 'server')
+
   // ── Guest: join and take a seat ─────────────────────────────────────────────────────────────
 
   // Step one: exchange the invite for a member token. Returns the server's answer — the game's
@@ -520,10 +524,11 @@ export function useParty() {
       })
       const data = await res.json().catch(() => ({}))
       // `gen`: the host plays the other tracker (trackerGen.js) — where to send the player.
+      if (res.status >= 500) return { error: 'server' }
       if (!res.ok) return { error: data.error || `join ${res.status}`, gen: data.gen }
       return data
     } catch {
-      return { error: 'network' }
+      return { error: unreachable() }
     }
   }
 
@@ -551,8 +556,9 @@ export function useParty() {
         body: JSON.stringify({ side, mi, name }),
       })
     } catch {
-      return 'network'
+      return unreachable()
     }
+    if (res.status >= 500) return 'server'
     const data = await res.json().catch(() => ({}))
     if (!res.ok) return data.error || `seat ${res.status}`
     const slices = Object.fromEntries(Object.entries(joined.slices).map(([n, s]) => [n, s.data]))

@@ -318,7 +318,22 @@ function meleeRowsFor(w, slots, perMini) {
   const ranks = []
   for (const list of byProfile.values()) list.forEach((n, r) => { ranks[r] = (ranks[r] || 0) + n })
   if (ranks.length < 2) return null
-  return ranks.map((n) => (n > 1 ? { ...w, qty: n } : { ...w }))
+  // `copy` marks the rows past the first: the card says on them that the model fights with one.
+  return ranks.map((n, r) => ({ ...w, ...(n > 1 ? { qty: n } : {}), ...(r ? { copy: r + 1 } : {}) }))
+}
+
+// The melee weapons this entry holds a SECOND copy of on one model with nothing to show for it —
+// the names the card marks "fights with one" (meleeRowsFor), unless one of the unit's own rules is
+// proven by that very loadout (wargearConditions): a Telemon's pair of caestus is +2 Attacks, a
+// Talos's pair of macro-scalpels is [TWIN-LINKED]. The list warns on what is left (owner,
+// 2026-10-11): legal, and worth nothing by 04.01. `records` are the faction's modifier entries.
+export function idleMeleeCopies(def, entry, items, sheet, records) {
+  if (!def || !entry || !sheet) return []
+  const copies = (overlaySheet(sheet, { def, entry, items }).sheet.melee || []).filter((w) => w.copy)
+  if (!copies.length) return []
+  const proven = wargearConditions(def, entry, items, sheet)
+  const rewarded = (records || []).some((r) => r.ref?.unit === sheet.id && (r.effects || []).some((e) => e.cond?.some((c) => proven.has(c))))
+  return rewarded ? [] : [...new Set(copies.map((w) => w.name))]
 }
 
 // The wargear conditions (conditions.js, `gear`) this entry's loadout proves — "if this model is

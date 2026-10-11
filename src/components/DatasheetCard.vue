@@ -142,6 +142,10 @@
                     class="wenh"
                     :title="w.enh"
                   >{{ labels.dsEnhancementWeapon }}</span><span
+                    v-if="w.copy"
+                    class="wenh wcopy"
+                    :title="labels.dsWeaponCopyHint"
+                  >{{ labels.dsWeaponCopy }}</span><span
                     v-if="w.tags?.length"
                     class="wtags"
                   ><span
@@ -250,6 +254,10 @@
                     class="wenh"
                     :title="w.enh"
                   >{{ labels.dsEnhancementWeapon }}</span><span
+                    v-if="w.copy"
+                    class="wenh wcopy"
+                    :title="labels.dsWeaponCopyHint"
+                  >{{ labels.dsWeaponCopy }}</span><span
                     v-if="w.tags?.length"
                     class="wtags"
                   ><span
@@ -301,6 +309,19 @@
                     v-if="isMarked('melee', 'd', i)"
                     class="ds-mod-star"
                   >*</sup>
+                </td>
+              </tr>
+              <!-- Two rows on purpose (rosterModifiers' meleeRowsFor): said once, under the second,
+                   with the rule it rests on as a link (owner, 2026-10-11). -->
+              <tr
+                v-if="w.copy === 2"
+                class="wcopy-note"
+              >
+                <td colspan="7">
+                  <div
+                    class="wcopy-note-text"
+                    v-html="renderInline(labels.dsWeaponCopyNote)"
+                  />
                 </td>
               </tr>
             </template>
@@ -1745,6 +1766,17 @@ function abilityStateLabel(st) {
   display: inline-block; margin-left: 0.35rem; padding: 0 0.3rem;
   border: 1px solid var(--accent); color: var(--accent-ink);
   font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; vertical-align: 0.1em;
+}
+/* A second copy of a melee weapon on the same model (rosterModifiers' meleeRowsFor): a model fights
+   with one (04.01), so the row says so where the number would otherwise read as more attacks. */
+.wcopy { border-color: var(--border); color: var(--text-muted); text-transform: none; letter-spacing: 0; }
+/* The note wraps at the table's width and never sets it: `width: 0; min-width: 100%` adds nothing to
+   the column sizing an auto table does, then fills the cell the other rows sized. */
+.wcopy-note td { padding-top: 0; white-space: normal; }
+.wcopy-note-text {
+  width: 0; min-width: 100%;
+  font-family: var(--font-sans); font-size: 0.75rem; font-weight: 400; line-height: 1.35;
+  text-transform: none; letter-spacing: 0; text-align: left; color: var(--text-muted);
 }
 /* A small gap between tags, across and between wrapped lines — butted together their frames read
    as one long box (owner, 2026-10-02). inline-block so the vertical margin takes. The stacked

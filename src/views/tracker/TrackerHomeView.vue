@@ -368,6 +368,7 @@ function doStartNew() {
 // on entry — is what is on this phone also somewhere else.
 const cloud = computed(() => {
   const l = labels.value
+  if (status.value === 'down') return { icon: 'wi wi-cloud-error', text: l.cloudServerDown, title: l.cloudServerDownHint, err: true }
   if (status.value !== 'authed') return { icon: 'wi wi-cloud', text: l.cloudLocalOnly, title: l.cloudSignInHint }
   if (lastError.value) return { icon: 'wi wi-cloud-error', text: l.cloudNotSynced, title: l.cloudError, err: true }
   if (syncing.value) return { icon: 'wi wi-sync', text: l.cloudSyncing, title: '' }

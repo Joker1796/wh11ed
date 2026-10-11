@@ -345,3 +345,21 @@ describe('the other tracker', () => {
     expect(res).toEqual({ error: 'tracker_version', gen: 2 })
   })
 })
+
+// The Yandex Cloud outage of 2026-10-11: online, a failed join is our server, not the player's
+// signal — "No connection" sent people to check a Wi-Fi that was fine.
+describe('a join the server does not answer', () => {
+  it('is the server when the browser is online, and no connection when it is not', async () => {
+    fetchMock.mockRejectedValueOnce(new TypeError('Failed to fetch'))
+    expect(await party.join({ code: '123456' })).toEqual({ error: 'server' })
+    const offline = vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false)
+    fetchMock.mockRejectedValueOnce(new TypeError('Failed to fetch'))
+    expect(await party.join({ code: '123456' })).toEqual({ error: 'network' })
+    offline.mockRestore()
+  })
+
+  it('is the server on a 5xx answer', async () => {
+    fetchMock.mockResolvedValueOnce(answer(502, {}))
+    expect(await party.join({ code: '123456' })).toEqual({ error: 'server' })
+  })
+})

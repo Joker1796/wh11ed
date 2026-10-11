@@ -109,7 +109,8 @@ const text = computed(() => {
     case 'busy': return l.partyStatusBusy
     case 'off':
     case 'paused': return l.partyStatusPaused
-    case 'offline': return l.partyStatusOffline
+    // The same failed request either way; the browser's flag says whose end it is.
+    case 'offline': return navigator.onLine === false ? l.partyStatusOffline : l.partyStatusServerDown
     case 'readonly': return l.partyStatusReadonly
     case 'revoked': return l.partyStatusRevoked
     case 'ended': return l.partyStatusEnded
