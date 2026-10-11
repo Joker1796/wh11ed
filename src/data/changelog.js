@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.7.22',
+    date: '2026-10-12',
+    en: [
+      { h: 'Cloud backup' },
+      'After you sign in, games that are missing from the cloud go there at once. Before, a game this device had backed up earlier waited for your next visit to the tracker.',
+    ],
+    ru: [
+      { h: 'Облачная копия' },
+      'После входа игры, которых нет в облаке, сразу уходят туда. Раньше игра, которую устройство уже сохраняло, ждала следующего захода в трекер.',
+    ],
+  },
+  {
     version: '2.7.21',
     date: '2026-10-11',
     en: [
