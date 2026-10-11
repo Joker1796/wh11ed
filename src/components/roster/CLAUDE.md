@@ -2999,6 +2999,16 @@ The card, the print card and the tracker's list plates all place the same way. B
 such effects were `blocked-subset` notes, and the Mortifiers' Anchorite Sarcophagus carried no
 condition at all — one of two Mortifiers taking it printed M 7" and Sv 3+ for both.
 
+**Two copies on one model count twice** (2026-10-11). A T'au bearer may take two Shield Drones,
+and each adds 1 to its Wounds: the placement reads a profile's copies as LAYERS (models with a
+first copy, models with a second…, the shape `loadoutItemCopies` gives), puts each layer's models
+in a row of their own (`· Shield Drone ×2`) and multiplies an `add` by the copies — a `set` is the
+same with two. **And the migration that missed them:** the 24 effects moved off `blocked-subset`
+on 2026-10-01 were found by the word "bearer"; eleven Shield Drone records said "the Shield Drone
+model only" (10th edition, when the drone was a model) and stayed parked, so no drone ever added a
+Wound until a player wrote in. `src/data/rosterModifiers/index.test.js` now fails on any wargear
+profile effect parked on `blocked-subset` that is not named there with its reason.
+
 **A lesson from the same day:** the candidate heuristic had no pattern for `has a Move
 characteristic of 7"` — a SET rather than a delta, and the wording nearly every wargear rule uses.
 68 records were invisible for that reason alone, including the one that started the hunt (a
