@@ -143,8 +143,10 @@ export function useCloudSync() {
   const inSync = computed(
     () => checked.value && pendingUploadCount.value === 0 && pendingDownloadCount.value === 0,
   )
-  // After a cloud check, distinguishes "all backed up" from "the cloud simply has nothing".
-  const cloudEmpty = computed(() => cloudMetas.value.length === 0)
+  // After a cloud check, distinguishes "all backed up" from "the cloud simply has nothing". The
+  // listing alone is not enough: games uploaded after it (syncNow's second pass) are in the cloud
+  // though the listing predates them.
+  const cloudEmpty = computed(() => cloudMetas.value.length === 0 && cloudSigs.value.size === 0)
 
   function isBackedUp(game) {
     return cloudSigs.value.has(gameSig(game))

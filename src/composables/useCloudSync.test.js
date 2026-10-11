@@ -83,6 +83,16 @@ describe('syncNow', () => {
     expect(puts).toEqual(['/games/g1'])
     expect(cloud.isBackedUp(g1)).toBe(true)
     expect(cloud.lastError.value).toBeNull()
+    expect(cloud.inSync.value).toBe(true)
+    expect(cloud.cloudEmpty.value).toBe(false) // not "the cloud has no games" — it has this one now
+  })
+
+  it('an empty cloud and nothing to upload still says the cloud is empty', async () => {
+    await load()
+    h.history.value = []
+    h.fetchImpl = () => Promise.resolve({ ok: true, json: async () => ({ games: [] }) })
+    await cloud.syncNow()
+    expect(cloud.cloudEmpty.value).toBe(true)
   })
 
   it('does not upload a game twice in one pass when the listing still lacks it', async () => {
