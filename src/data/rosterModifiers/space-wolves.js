@@ -8,6 +8,48 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:canis-wolfborn:born-of-wolves",
+      "kind": "ability",
+      "name": "Canis Wolfborn: Born of Wolves",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "canis-wolfborn"
+      },
+      "hash": "0f6feb47",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:cyberwolf:alpha-hunter",
+      "kind": "ability",
+      "name": "Cyberwolf: Alpha Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cyberwolf"
+      },
+      "hash": "4d9db6ce",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:cyberwolf:close-in-for-the-kill",
+      "kind": "ability",
+      "name": "Cyberwolf: Close In for the Kill",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cyberwolf"
+      },
+      "hash": "f29066d1",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "f3066d58-dd3a-4020-9fde-40534ca0ed90:fenrisian-wolves",
       "kind": "ability",
       "name": "Fenrisian Wolves: Hunting Hounds",
@@ -77,6 +119,34 @@ export default {
       ]
     },
     {
+      "sid": "pack:harald-deathwolf:lord-of-the-wolfkin",
+      "kind": "ability",
+      "name": "Harald Deathwolf: Lord of the Wolfkin",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "harald-deathwolf"
+      },
+      "hash": "c22900c8",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:harald-deathwolf:mantle-of-the-troll-king",
+      "kind": "ability",
+      "name": "Harald Deathwolf: Mantle of the Troll King",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "harald-deathwolf"
+      },
+      "hash": "2ec75a42",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "6b0f24dc-2a81-497a-bd6f-33b04d7b2284:iron-priest",
       "kind": "ability",
       "name": "Iron Priest: Iron Priest",
@@ -103,6 +173,50 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:krom-dragongaze:refuse-to-accept-defeat",
+      "kind": "ability",
+      "name": "Krom Dragongaze: Refuse to Accept Defeat",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "krom-dragongaze"
+      },
+      "hash": "f34e2507",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is Below Half-strength",
+            "ru": "пока отряд Below Half-strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Aleya: Tenacious Spirit (adeptus-custodes), the same text."
     },
     {
       "sid": "8950d4a1-67cf-4d2f-a6cd-6620a52ad87c:njal-stormcaller",
@@ -281,6 +395,34 @@ export default {
       ]
     },
     {
+      "sid": "pack:skyclaws:headstrong",
+      "kind": "ability",
+      "name": "Skyclaws: Headstrong",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skyclaws"
+      },
+      "hash": "7280af0a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:stormfang-gunship:frozen-prey",
+      "kind": "ability",
+      "name": "Stormfang Gunship: Frozen Prey",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormfang-gunship"
+      },
+      "hash": "727a781b",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "5210eeb0-688a-4877-92ba-7c821b6e79e3:thunderwolf-cavalry",
       "kind": "ability",
       "name": "Thunderwolf Cavalry: Thunderous Charge",
@@ -320,6 +462,48 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:wolf-guard-battle-leader-in-terminator-armour:huskarl-to-the-jarl",
+      "kind": "ability",
+      "name": "Wolf Guard Battle Leader in Terminator Armour: Huskarl to the Jarl",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard-battle-leader-in-terminator-armour"
+      },
+      "hash": "ab962b17",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:wolf-guard-battle-leader-in-terminator-armour:tactical-precision",
+      "kind": "ability",
+      "name": "Wolf Guard Battle Leader in Terminator Armour: Tactical Precision",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard-battle-leader-in-terminator-armour"
+      },
+      "hash": "b443bf84",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:wolf-guard-battle-leader-on-thunderwolf:tactical-precision",
+      "kind": "ability",
+      "name": "Wolf Guard Battle Leader on Thunderwolf: Tactical Precision",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard-battle-leader-on-thunderwolf"
+      },
+      "hash": "b443bf84",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "034419af-dce0-48aa-925c-551cc62870bf:wolf-guard-battle-leader",
@@ -420,6 +604,34 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:wolf-guard:chosen-companions",
+      "kind": "ability",
+      "name": "Wolf Guard: Chosen Companions",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard"
+      },
+      "hash": "7772ab86",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:wolf-lord-on-thunderwolf:speed-of-the-hunter",
+      "kind": "ability",
+      "name": "Wolf Lord on Thunderwolf: Speed of the Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-lord-on-thunderwolf"
+      },
+      "hash": "82199bc3",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "c2399b89-2877-4b9b-9ad2-0b22a3dc9a63:wolf-priest",
@@ -806,6 +1018,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "pack:wolf-guard-battle-leader-in-terminator-armour:relic-shield",
+      "kind": "wargear",
+      "name": "Wolf Guard Battle Leader in Terminator Armour: Relic Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-battle-leader-in-terminator-armour",
+        "item": "relic shield"
+      },
+      "hash": "6026918c",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:wolf-guard-battle-leader-on-thunderwolf:storm-shield",
+      "kind": "wargear",
+      "name": "Wolf Guard Battle Leader on Thunderwolf: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-battle-leader-on-thunderwolf",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "33ffd159-0227-4b14-a504-7452ad364393:wolf-guard-battle-leader",
       "kind": "wargear",
       "name": "Wolf Guard Battle Leader: Storm Shield",
@@ -827,6 +1069,66 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:wolf-guard-pack-leader-in-terminator-armour:storm-shield",
+      "kind": "wargear",
+      "name": "Wolf Guard Pack Leader in Terminator Armour: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-pack-leader-in-terminator-armour",
+        "item": "storm shield"
+      },
+      "hash": "38451d6c",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ],
+      "note": "Read as Bullgryn Squad: Slabshield (astra-militarum), the same text."
+    },
+    {
+      "sid": "pack:wolf-guard-pack-leader-with-jump-pack:storm-shield",
+      "kind": "wargear",
+      "name": "Wolf Guard Pack Leader with Jump Pack: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-pack-leader-with-jump-pack",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:wolf-guard-pack-leader:storm-shield",
+      "kind": "wargear",
+      "name": "Wolf Guard Pack Leader: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-pack-leader",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "33ffd159-0227-4b14-a504-7452ad364393:wolf-guard-terminators",
@@ -856,6 +1158,45 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:wolf-guard:storm-shield",
+      "kind": "wargear",
+      "name": "Wolf Guard: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:wolf-lord-on-thunderwolf:relic-shield",
+      "kind": "wargear",
+      "name": "Wolf Lord on Thunderwolf: Relic Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-lord-on-thunderwolf",
+        "item": "relic shield"
+      },
+      "hash": "d4febadd",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "7",
+          "when": null
+        }
+      ],
+      "note": "Read as Ogryn Bodyguard: Slabshield (astra-militarum), the same text."
     }
   ]
 }

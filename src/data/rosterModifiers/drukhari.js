@@ -8,6 +8,34 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:court-of-the-archon:court-of-the-archon",
+      "kind": "ability",
+      "name": "Court of the Archon: Court of the Archon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "court-of-the-archon"
+      },
+      "hash": "8a45c235",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:court-of-the-archon:deadly-retinue-pain",
+      "kind": "ability",
+      "name": "Court of the Archon: Deadly Retinue (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "court-of-the-archon"
+      },
+      "hash": "fd37eff9",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "214982bf-5eac-4189-ac0a-1c0945f404c2:coven-of-agonies-cronos",
       "kind": "ability",
       "name": "Coven of Agonies Cronos: Empowered Engines (Pain)",
@@ -59,6 +87,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:grotesques:macro-steroids-pain",
+      "kind": "ability",
+      "name": "Grotesques: Macro-steroids (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "grotesques"
+      },
+      "hash": "e38d4805",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "6ebe6990-ffa4-4fa2-a063-0fff0fd61e60:haemonculus",
@@ -552,6 +594,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:raven-strike-fighter:ground-attack-craft",
+      "kind": "ability",
+      "name": "Raven Strike Fighter: Ground-attack Craft",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "raven-strike-fighter"
+      },
+      "hash": "88c51acf",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "01b389b5-c381-4610-83e1-ea05cd85b20a:razorwing-jetfighter",
       "kind": "ability",
       "name": "Razorwing Jetfighter: Ground-attack Craft",
@@ -591,6 +647,20 @@ export default {
       "hash": "503b3fd4",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:reaper:electromagentic-cascade-pain",
+      "kind": "ability",
+      "name": "Reaper: Electromagentic Cascade (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "reaper"
+      },
+      "hash": "f0e44a96",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -689,6 +759,48 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:tantalus:engine-of-destruction-pain",
+      "kind": "ability",
+      "name": "Tantalus: Engine of Destruction (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tantalus"
+      },
+      "hash": "5cd56744",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:urien-rakarth:father-of-pain",
+      "kind": "ability",
+      "name": "Urien Rakarth: Father of Pain",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "urien-rakarth"
+      },
+      "hash": "bd499842",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:urien-rakarth:sculptor-of-torments-pain",
+      "kind": "ability",
+      "name": "Urien Rakarth: Sculptor of Torments (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "urien-rakarth"
+      },
+      "hash": "52262587",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "fa0d2462-a7dd-4f57-abcb-e001e8682912:wracks",

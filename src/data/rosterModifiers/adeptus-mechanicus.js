@@ -747,6 +747,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:x-101:bound-creation",
+      "kind": "ability",
+      "name": "X-101: Bound Creation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "x-101"
+      },
+      "hash": "05ab595a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:x-101:mindlock",
+      "kind": "ability",
+      "name": "X-101: Mindlock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "x-101"
+      },
+      "hash": "851fca29",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "53a34500-653b-4767-ac3b-c23a2c84c383",
       "kind": "armyRule",
       "name": "Doctrina Imperatives",
@@ -2093,6 +2121,36 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:secutarii-hoplites:omnispex",
+      "kind": "wargear",
+      "name": "Secutarii Hoplites: Omnispex",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "secutarii-hoplites",
+        "item": "omnispex"
+      },
+      "hash": "70d639ac",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:secutarii-peltasts:omnispex",
+      "kind": "wargear",
+      "name": "Secutarii Peltasts: Omnispex",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "secutarii-peltasts",
+        "item": "omnispex"
+      },
+      "hash": "70d639ac",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "3970cd7b-a8ee-4429-96e1-99d8a57709a2:skitarii-rangers",

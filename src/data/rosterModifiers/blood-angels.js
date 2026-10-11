@@ -91,6 +91,72 @@ export default {
       ]
     },
     {
+      "sid": "pack:brother-corbulo:sanguinary-priest",
+      "kind": "ability",
+      "name": "Brother Corbulo: Sanguinary Priest",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "brother-corbulo"
+      },
+      "hash": "ccc78431",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "unit",
+          "when": null
+        }
+      ],
+      "note": "Read as Hospitaller: Medicus Ministorum (adepta-sororitas), the same text."
+    },
+    {
+      "sid": "pack:brother-corbulo:the-red-grail",
+      "kind": "ability",
+      "name": "Brother Corbulo: The Red Grail",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "brother-corbulo"
+      },
+      "hash": "4852bd6e",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:captain-tycho:embittered",
+      "kind": "ability",
+      "name": "Captain Tycho: Embittered",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "captain-tycho"
+      },
+      "hash": "6d2c086a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:captain-tycho:gifted-commander",
+      "kind": "ability",
+      "name": "Captain Tycho: Gifted Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "captain-tycho"
+      },
+      "hash": "d0be5338",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "9b5008a3-0500-4e93-acc1-e690145a1d6e:chief-librarian-mephiston",
       "kind": "ability",
       "name": "Chief Librarian Mephiston: Quickening (psychic level 1)",
@@ -183,6 +249,90 @@ export default {
       ]
     },
     {
+      "sid": "pack:death-company-dreadnought-with-magna-grapple:black-rage",
+      "kind": "ability",
+      "name": "Death Company Dreadnought with Magna-grapple: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-dreadnought-with-magna-grapple"
+      },
+      "hash": "b0159a4a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:death-company-dreadnought-with-magna-grapple:magna-grapple",
+      "kind": "ability",
+      "name": "Death Company Dreadnought with Magna-grapple: Magna-grapple",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-dreadnought-with-magna-grapple"
+      },
+      "hash": "d07334b2",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:death-company-marines-with-boltguns-and-jump-packs:an-honourable-death-in-combat",
+      "kind": "ability",
+      "name": "Death Company Marines with Boltguns and Jump Packs: An Honourable Death in Combat",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-marines-with-boltguns-and-jump-packs"
+      },
+      "hash": "a9e0e315",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:death-company-marines-with-boltguns-and-jump-packs:black-rage",
+      "kind": "ability",
+      "name": "Death Company Marines with Boltguns and Jump Packs: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-marines-with-boltguns-and-jump-packs"
+      },
+      "hash": "c967aef4",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:death-company-marines-with-boltguns:an-honourable-death-in-combat",
+      "kind": "ability",
+      "name": "Death Company Marines with Boltguns: An Honourable Death in Combat",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-marines-with-boltguns"
+      },
+      "hash": "a9e0e315",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:death-company-marines-with-boltguns:black-rage",
+      "kind": "ability",
+      "name": "Death Company Marines with Boltguns: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-marines-with-boltguns"
+      },
+      "hash": "c967aef4",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "4708f68e-155f-4d54-83d8-6e2eb9ab114a:death-company-marines",
       "kind": "ability",
       "name": "Death Company Marines: An Honourable Death in Combat",
@@ -223,6 +373,20 @@ export default {
           "alt": 0
         }
       ]
+    },
+    {
+      "sid": "pack:gabriel-seth:whirlwind-of-gore",
+      "kind": "ability",
+      "name": "Gabriel Seth: Whirlwind of Gore",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gabriel-seth"
+      },
+      "hash": "9cc36577",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "1f8252ef-df73-466a-892b-d0fb0c055f23:lemartes",
@@ -267,6 +431,66 @@ export default {
       "ver": 963,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:librarian-dreadnought:shield-of-sanguinius-aura-psychic",
+      "kind": "ability",
+      "name": "Librarian Dreadnought: Shield of Sanguinius (Aura, Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "librarian-dreadnought",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "f0481f4f",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:sanguinary-priest-with-jump-pack:blood-chalice",
+      "kind": "ability",
+      "name": "Sanguinary Priest with Jump Pack: Blood Chalice",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-priest-with-jump-pack"
+      },
+      "hash": "b74af02a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:sanguinary-priest-with-jump-pack:sanguinary-priest",
+      "kind": "ability",
+      "name": "Sanguinary Priest with Jump Pack: Sanguinary Priest",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-priest-with-jump-pack"
+      },
+      "hash": "ccc78431",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "unit",
+          "when": null
+        }
+      ],
+      "note": "Read as Hospitaller: Medicus Ministorum (adepta-sororitas), the same text."
     },
     {
       "sid": "129df28d-4368-4c90-90c2-1785b61ebdb6:sanguinary-priest",
@@ -347,6 +571,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:tycho-the-lost:black-rage",
+      "kind": "ability",
+      "name": "Tycho the Lost: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tycho-the-lost"
+      },
+      "hash": "b0159a4a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "478d1fb6-e105-48d6-832e-05e63103b1b5",
@@ -563,6 +801,36 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:death-company-dreadnought-with-magna-grapple:smoke-launchers",
+      "kind": "wargear",
+      "name": "Death Company Dreadnought with Magna-grapple: Smoke Launchers",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "death-company-dreadnought-with-magna-grapple",
+        "item": "smoke launchers"
+      },
+      "hash": "2317e82e",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:furioso-dreadnought:magna-grapple",
+      "kind": "wargear",
+      "name": "Furioso Dreadnought: Magna-grapple",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "furioso-dreadnought",
+        "item": "magna-grapple"
+      },
+      "hash": "2687f8bb",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     }
   ]
 }

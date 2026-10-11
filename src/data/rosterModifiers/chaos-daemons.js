@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:aetaos-rau-keres:master-of-magicks-psychic",
+      "kind": "ability",
+      "name": "Aetaos’rau’keres: Master of Magicks (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aetaos-rau-keres"
+      },
+      "hash": "c5f52efb",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "1142f775-5766-44be-b032-fd2edd0ac4ee:belakor",
       "kind": "ability",
       "name": "Be’lakor: Pall of Despair (Aura, Psychic)",
@@ -498,6 +512,76 @@ export default {
       ]
     },
     {
+      "sid": "pack:furies:prey-on-the-weak",
+      "kind": "ability",
+      "name": "Furies: Prey on the Weak",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "furies"
+      },
+      "hash": "4e22b159",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:giant-chaos-spawn:creature-of-khorne",
+      "kind": "ability",
+      "name": "Giant Chaos Spawn: Creature of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "giant-chaos-spawn"
+      },
+      "hash": "2e977bd3",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:giant-chaos-spawn:creature-of-nurgle",
+      "kind": "ability",
+      "name": "Giant Chaos Spawn: Creature of Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "giant-chaos-spawn"
+      },
+      "hash": "97752c54",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:giant-chaos-spawn:creature-of-slaanesh",
+      "kind": "ability",
+      "name": "Giant Chaos Spawn: Creature of Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "giant-chaos-spawn"
+      },
+      "hash": "2d2b08f1",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:giant-chaos-spawn:creature-of-tzeentch",
+      "kind": "ability",
+      "name": "Giant Chaos Spawn: Creature of Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "giant-chaos-spawn"
+      },
+      "hash": "f5fbbde0",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "2b28facf-6d9e-477a-9612-5fb56296aef1:great-unclean-one",
       "kind": "ability",
       "name": "Great Unclean One: Daemon Lord of Nurgle",
@@ -582,6 +666,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:herald-of-slaanesh-on-steed-of-slaanesh:lethal-caress",
+      "kind": "ability",
+      "name": "Herald of Slaanesh on Steed of Slaanesh: Lethal Caress",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "herald-of-slaanesh-on-steed-of-slaanesh"
+      },
+      "hash": "b74af02a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "8732df0b-f46f-46a7-a14e-8c306abaafbe:infernal-enrapturess",
@@ -723,6 +821,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:pox-riders:bounding-assault",
+      "kind": "ability",
+      "name": "Pox Riders: Bounding Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "pox-riders"
+      },
+      "hash": "8dbc765e",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "b056eee6-6e63-4855-af76-8794c8659a37:rendmaster-on-blood-throne",
       "kind": "ability",
       "name": "Rendmaster on Blood Throne: Blood Throne",
@@ -763,6 +875,21 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:scabeiathrax-the-bloated:nurgle-s-rot-psychic",
+      "kind": "ability",
+      "name": "Scabeiathrax the Bloated: Nurgle’s Rot (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "scabeiathrax-the-bloated"
+      },
+      "hash": "2250767e",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [],
+      "note": "Read as Great Unclean One: Nurgle’s Rot (chaos-daemons), the same text."
     },
     {
       "sid": "cec3a53a-130a-4a69-af12-4c54cc70b899:skarbrand",
@@ -872,6 +999,62 @@ export default {
           "target": "unit"
         }
       ]
+    },
+    {
+      "sid": "pack:spined-chaos-beast:creature-of-khorne",
+      "kind": "ability",
+      "name": "Spined Chaos Beast: Creature of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spined-chaos-beast"
+      },
+      "hash": "2e977bd3",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:spined-chaos-beast:creature-of-nurgle",
+      "kind": "ability",
+      "name": "Spined Chaos Beast: Creature of Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spined-chaos-beast"
+      },
+      "hash": "97752c54",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:spined-chaos-beast:creature-of-slaanesh",
+      "kind": "ability",
+      "name": "Spined Chaos Beast: Creature of Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spined-chaos-beast"
+      },
+      "hash": "2d2b08f1",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:spined-chaos-beast:creature-of-tzeentch",
+      "kind": "ability",
+      "name": "Spined Chaos Beast: Creature of Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spined-chaos-beast"
+      },
+      "hash": "f5fbbde0",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "de75e5f2-6284-4fd0-93e4-e6a7ca260f18:spoilpox-scrivener",
@@ -2274,6 +2457,46 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:pox-riders:daemonic-icon",
+      "kind": "wargear",
+      "name": "Pox Riders: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pox-riders",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ],
+      "note": "Read as Bloodcrushers: Daemonic Icon (chaos-daemons), the same text."
+    },
+    {
+      "sid": "pack:pox-riders:instrument-of-chaos",
+      "kind": "wargear",
+      "name": "Pox Riders: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pox-riders",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [],
+      "note": "Read as Bloodcrushers: Instrument of Chaos (chaos-daemons), the same text."
     },
     {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:seekers",

@@ -211,6 +211,43 @@ export default {
       ]
     },
     {
+      "sid": "pack:celestian-sacresant-aveline:instrument-of-the-emperor-s-wrath",
+      "kind": "ability",
+      "name": "Celestian Sacresant Aveline: Instrument of the Emperor’s Wrath",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "celestian-sacresant-aveline"
+      },
+      "hash": "e53a6039",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:crusaders:spiritual-fortitude",
+      "kind": "ability",
+      "name": "Crusaders: Spiritual Fortitude",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "crusaders"
+      },
+      "hash": "b8b41276",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ],
+      "note": "Read as Celestian Insidiants: Rituale Nullificatus (adepta-sororitas), the same text."
+    },
+    {
       "sid": "bf4ca9bb-ec32-4711-b960-33d77130ff4e:dogmata",
       "kind": "ability",
       "name": "Dogmata: Executioner of Heretics",

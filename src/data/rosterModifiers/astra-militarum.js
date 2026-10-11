@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:iron-hand-straken:cold-steel-and-courage",
+      "kind": "ability",
+      "name": "‘Iron Hand’ Straken: Cold Steel and Courage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-hand-straken"
+      },
+      "hash": "b68a3722",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "e42730d6-21b4-4166-ba64-964869fc997a:aegis-defence-line",
       "kind": "ability",
       "name": "Aegis Defence Line: Defence Line",
@@ -171,6 +185,48 @@ export default {
       ]
     },
     {
+      "sid": "pack:ciaphas-cain:psychic-blank",
+      "kind": "ability",
+      "name": "Ciaphas Cain: Psychic Blank",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ciaphas-cain"
+      },
+      "hash": "4fbc0c74",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:ciaphas-cain:unparalleled-luck-once-per-battle-per-army",
+      "kind": "ability",
+      "name": "Ciaphas Cain: Unparalleled Luck (Once per battle, per army)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ciaphas-cain"
+      },
+      "hash": "d605a48d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:colossus:tracking-target",
+      "kind": "ability",
+      "name": "Colossus: Tracking Target",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "colossus"
+      },
+      "hash": "c61c1236",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "70a1ca8c-56dc-4a33-a686-8dcc96c513a0:commissar-yarrick",
       "kind": "ability",
       "name": "Commissar Yarrick: Counterstrategist",
@@ -314,6 +370,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:elysian-sniper-squad:mark-the-target",
+      "kind": "ability",
+      "name": "Elysian Sniper Squad: Mark the Target",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "elysian-sniper-squad"
+      },
+      "hash": "9b4fe74b",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "6cbbd413-470c-423c-8ca9-13eb380bd682:field-ordnance-battery",
       "kind": "ability",
       "name": "Field Ordnance Battery: Rearm, Reload, Fire",
@@ -371,6 +441,34 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:heavy-mortar-team:rearm-reload-fire",
+      "kind": "ability",
+      "name": "Heavy Mortar Team: Rearm, Reload, Fire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "heavy-mortar-team"
+      },
+      "hash": "09293164",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:hells-last:lesk-s-heroes",
+      "kind": "ability",
+      "name": "Hell’s Last: Lesk’s Heroes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hells-last"
+      },
+      "hash": "0b053ecb",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "f05d9118-3d4f-4356-bffd-dd7693bc5d92:leman-russ-eradicator",
@@ -499,6 +597,34 @@ export default {
       ]
     },
     {
+      "sid": "pack:malcador-annihilator:battlefield-dominance",
+      "kind": "ability",
+      "name": "Malcador Annihilator: Battlefield Dominance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "malcador-annihilator"
+      },
+      "hash": "2aa7b74c",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:malcador:rugged-reliability",
+      "kind": "ability",
+      "name": "Malcador: Rugged Reliability",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "malcador"
+      },
+      "hash": "2f253aea",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ff7a4560-5c66-40ed-9890-e145a5612d8e:manticore",
       "kind": "ability",
       "name": "Manticore: Furious Barrage",
@@ -576,6 +702,35 @@ export default {
           "target": "unit"
         }
       ]
+    },
+    {
+      "sid": "pack:minotaur:armoured-frontis",
+      "kind": "ability",
+      "name": "Minotaur: Armoured Frontis",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "minotaur"
+      },
+      "hash": "e577ede9",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [],
+      "note": "Read as Telemon Heavy Dreadnought: Guardian Eternal (adeptus-custodes), the same text."
+    },
+    {
+      "sid": "pack:munitorum-servitors:mindlock",
+      "kind": "ability",
+      "name": "Munitorum Servitors: Mindlock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "munitorum-servitors"
+      },
+      "hash": "54cde2a5",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "7df2649f-03eb-4f18-bc9c-3038fb440140:nork-deddog",
@@ -685,6 +840,90 @@ export default {
       ]
     },
     {
+      "sid": "pack:provisionally-prepared:well-stocked-supplies",
+      "kind": "ability",
+      "name": "Provisionally Prepared: Well-stocked Supplies",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "provisionally-prepared"
+      },
+      "hash": "16650f13",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:quartermaster-cadre-squad:medicae-medi-packs",
+      "kind": "ability",
+      "name": "Quartermaster Cadre Squad: Medicae Medi-packs",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "quartermaster-cadre-squad"
+      },
+      "hash": "e8e53ad6",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:quartermaster-cadre-squad:mindlock",
+      "kind": "ability",
+      "name": "Quartermaster Cadre Squad: Mindlock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "quartermaster-cadre-squad"
+      },
+      "hash": "7b68999d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:rapier-laser-destroyer-battery:powerful-volley",
+      "kind": "ability",
+      "name": "Rapier Laser Destroyer Battery: Powerful Volley",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rapier-laser-destroyer-battery"
+      },
+      "hash": "ca382cda",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:regimental-attaches:aeronautica-commander",
+      "kind": "ability",
+      "name": "Regimental Attachés: Aeronautica Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "regimental-attaches"
+      },
+      "hash": "a660eb8c",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:regimental-attaches:artillery-commander",
+      "kind": "ability",
+      "name": "Regimental Attachés: Artillery Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "regimental-attaches"
+      },
+      "hash": "462130ef",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "3ab67e3d-9134-477a-a176-59ac72bc9e26:rogal-dorn-battle-tank",
       "kind": "ability",
       "name": "Rogal Dorn Battle Tank: Ablative Plating",
@@ -696,6 +935,20 @@ export default {
       "hash": "c1c6946a",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:sergeant-harker:payback-time",
+      "kind": "ability",
+      "name": "Sergeant Harker: Payback Time",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sergeant-harker"
+      },
+      "hash": "3047da6e",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -725,6 +978,49 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:stygies-destroyer-tank-hunter:tank-hunter",
+      "kind": "ability",
+      "name": "Stygies Destroyer Tank Hunter: Tank Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stygies-destroyer-tank-hunter"
+      },
+      "hash": "44afe737",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:tauros-assault-vehicle:turbo-boost",
+      "kind": "ability",
+      "name": "Tauros Assault Vehicle: Turbo-boost",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tauros-assault-vehicle"
+      },
+      "hash": "18a0ce80",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "note": "Read as Ynnari Raider: Aethersails (aeldari), the same text."
     },
     {
       "sid": "7f40c14c-ac8c-40f8-8cf4-39a6b6dec019:tech-priest-enginseer",
@@ -1915,6 +2211,30 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:hells-last:regimental-banner",
+      "kind": "wargear",
+      "name": "Hell’s Last: Regimental Banner",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "hells-last",
+        "item": "regimental banner"
+      },
+      "hash": "ec06b6a4",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "note": "Read as Allarus Custodians: Vexilla (adeptus-custodes), the same text."
     },
     {
       "sid": "264530a8-a2ae-4fe3-8776-022de8bbddf7:krieg-command-squad",

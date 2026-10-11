@@ -99,6 +99,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:blood-slaughterer:scuttling-gait",
+      "kind": "ability",
+      "name": "Blood Slaughterer: Scuttling Gait",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "blood-slaughterer"
+      },
+      "hash": "0ffc4f9b",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "74e8bcac-20e7-42a6-bb3f-da299f501a0c:chaos-bikers",
       "kind": "ability",
       "name": "Chaos Bikers: Rapid Assault",
@@ -138,6 +152,34 @@ export default {
       "hash": "f62f7f7a",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:chaos-lord-on-bike:swift-assault",
+      "kind": "ability",
+      "name": "Chaos Lord on Bike: Swift Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-lord-on-bike"
+      },
+      "hash": "3b4686bc",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:chaos-lord-on-disc-of-tzeentch:lord-of-fate",
+      "kind": "ability",
+      "name": "Chaos Lord on Disc of Tzeentch: Lord of Fate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-lord-on-disc-of-tzeentch"
+      },
+      "hash": "0fcf2bb4",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -365,6 +407,30 @@ export default {
       ]
     },
     {
+      "sid": "pack:exalted-champion:dark-champion",
+      "kind": "ability",
+      "name": "Exalted Champion: Dark Champion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "exalted-champion"
+      },
+      "hash": "b981890e",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Tzaangor Shaman: Bestial Prophet (thousand-sons), the same text."
+    },
+    {
       "sid": "8c1bf1ec-33df-49e3-b557-a8380670eaf6:fabius-bile",
       "kind": "ability",
       "name": "Fabius Bile: Enhanced Warriors",
@@ -451,6 +517,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:greater-brass-scorpion:runes-of-the-blood-god",
+      "kind": "ability",
+      "name": "Greater Brass Scorpion: Runes of the Blood God",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "greater-brass-scorpion"
+      },
+      "hash": "30ecc971",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
       "kind": "ability",
       "name": "Helbrute: Devoted to Destruction",
@@ -510,6 +590,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:hell-blade:interceptor",
+      "kind": "ability",
+      "name": "Hell Blade: Interceptor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hell-blade"
+      },
+      "hash": "5cff7af9",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "16e941e3-a6e6-44d1-9759-29dcca29a912:heretic-astartes-daemon-prince",
@@ -613,6 +707,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "pack:kytan-ravager:bloodlust",
+      "kind": "ability",
+      "name": "Kytan Ravager: Bloodlust",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kytan-ravager"
+      },
+      "hash": "a3012fa8",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "7f7f725f-6107-488d-b11b-845d2788a1ce:master-of-possession",
@@ -873,6 +981,59 @@ export default {
       ]
     },
     {
+      "sid": "pack:renegade-plague-ogryns:wall-of-muscle",
+      "kind": "ability",
+      "name": "Renegade Plague Ogryns: Wall of Muscle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "renegade-plague-ogryns"
+      },
+      "hash": "6903aaca",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [],
+      "note": "Read as Bullgryn Squad: Wall of Muscle (astra-militarum), the same text."
+    },
+    {
+      "sid": "pack:rogue-psyker:cursed-wardings-psychic",
+      "kind": "ability",
+      "name": "Rogue Psyker: Cursed Wardings (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rogue-psyker"
+      },
+      "hash": "d4f151a2",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "unit",
+          "when": null
+        }
+      ],
+      "note": "Read as Primaris Psyker: Malign Wardings (astra-militarum), the same text."
+    },
+    {
+      "sid": "pack:rogue-psyker:psychic-barrier-psychic",
+      "kind": "ability",
+      "name": "Rogue Psyker: Psychic Barrier (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rogue-psyker"
+      },
+      "hash": "d3dc334a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "76261740-3578-4653-a8c7-d912c9fa7d47:sorcerer-in-terminator-armour",
       "kind": "ability",
       "name": "Sorcerer in Terminator Armour: Death Hex",
@@ -884,6 +1045,86 @@ export default {
       "hash": "1bfaa601",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:sorcerer-on-bike:unholy-power",
+      "kind": "ability",
+      "name": "Sorcerer on Bike: Unholy Power",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-bike"
+      },
+      "hash": "3355e9f6",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:sorcerer-on-disc-of-tzeentch:flames-of-change-psychic",
+      "kind": "ability",
+      "name": "Sorcerer on Disc of Tzeentch: Flames of Change (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-disc-of-tzeentch"
+      },
+      "hash": "ef111d18",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:sorcerer-on-palanquin-of-nurgle:gift-of-poxes-psychic",
+      "kind": "ability",
+      "name": "Sorcerer on Palanquin of Nurgle: Gift of Poxes (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-palanquin-of-nurgle"
+      },
+      "hash": "34bcfbd0",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:sorcerer-on-steed-of-slaanesh:dark-favour-psychic",
+      "kind": "ability",
+      "name": "Sorcerer on Steed of Slaanesh: Dark Favour (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-steed-of-slaanesh"
+      },
+      "hash": "58585162",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Epidemius: Blessed by the Plague God (chaos-daemons), the same text."
+    },
+    {
+      "sid": "pack:sorcerer-on-steed-of-slaanesh:infernal-speed",
+      "kind": "ability",
+      "name": "Sorcerer on Steed of Slaanesh: Infernal Speed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-steed-of-slaanesh"
+      },
+      "hash": "9367c498",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -3561,6 +3802,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "pack:blood-slaughterer:impaled",
+      "kind": "wargear",
+      "name": "Blood Slaughterer: Impaled",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "blood-slaughterer",
+        "item": "impaled"
+      },
+      "hash": "b300d963",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     }
   ]
 }

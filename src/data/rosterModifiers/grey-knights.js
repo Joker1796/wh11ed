@@ -300,6 +300,34 @@ export default {
       ]
     },
     {
+      "sid": "pack:kaldor-draigo:one-with-the-warp-psychic",
+      "kind": "ability",
+      "name": "Kaldor Draigo: One With the Warp (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kaldor-draigo"
+      },
+      "hash": "61237916",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:kaldor-draigo:untouchable-purity",
+      "kind": "ability",
+      "name": "Kaldor Draigo: Untouchable Purity",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kaldor-draigo"
+      },
+      "hash": "3164196a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "2e6f2691-8a5a-4ab6-baf6-c9d6b1b6f0fd:paladin-squad",
       "kind": "ability",
       "name": "Paladin Squad: Attuned Onslaught",
@@ -385,6 +413,34 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:servitors:mindlock",
+      "kind": "ability",
+      "name": "Servitors: Mindlock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "servitors"
+      },
+      "hash": "89b60d58",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:servitors:retinue",
+      "kind": "ability",
+      "name": "Servitors: Retinue",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "servitors"
+      },
+      "hash": "2046c9ce",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "349ad1d7-8340-47bd-bd2f-8ed6262b4ddb:stormhawk-interceptor",

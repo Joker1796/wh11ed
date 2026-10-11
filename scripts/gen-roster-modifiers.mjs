@@ -419,7 +419,48 @@ export function sourcesForSlug(slug, ctx) {
     ...allegianceSources(ctx.allegTables, (bundle.datasheets || []).map((d) => d.id)),
     ...abilitySources(bundle, ctx.dsBySid),
     ...wargearSources(bundle, ctx.dsBySid),
+    ...packSources(ctx.pack?.get(slug) || []),
   ]
+}
+
+// LEGENDS FROM A FACTION PACK — the one source that is not appdata. appdata carries Legends for
+// Orks alone; every other Legends datasheet is transcribed by hand from GW's Faction Pack PDF
+// (`source: "faction-pack"`, hub skill legends-from-pack) and has no appdata uuid, so until
+// 2026-10-11 not one of their ~450 abilities had a record: a Legends Crisis team's Shield Drone
+// added nothing while the Codex team's did (player report). They are read from OUR datasheet, the
+// only text there is, and keyed `pack:<unit>:<ability>` — the hash pins that text exactly as an
+// appdata record pins appdata's, so an edit to the transcription reads as `stale`.
+//
+// The day GW moves such a unit into appdata, sync-appdata says "retire the faction-pack copy"; the
+// sheet stops being a pack sheet, this source stops emitting it, and its records turn up as
+// `adopted` — an orphan with a reason: re-point the sid to the appdata uuid and re-read the rule
+// against appdata's wording (see the orphan report in run()).
+export async function packSheets() {
+  const out = new Map()
+  const dir = path.join(ROOT, 'src/data/datasheets')
+  for (const f of fs.readdirSync(dir)) {
+    if (!f.endsWith('.js') || f.includes('test') || f === 'index.js') continue
+    const mod = await loadModule(path.join(dir, f))
+    const list = mod?.default || Object.values(mod || {}).find(Array.isArray) || []
+    const pack = list.filter((d) => d.source === 'faction-pack')
+    if (pack.length) out.set(f.replace(/\.js$/, ''), pack)
+  }
+  return out
+}
+
+function packSources(sheets) {
+  const out = []
+  for (const d of sheets) {
+    const leads = !!d.leader
+    const push = (kind, a, ref) => {
+      const prose = a.text
+      if (!a.name || !prose) return
+      out.push({ sid: `pack:${d.id}:${slugifyName(a.name)}`, kind, name: `${d.name}: ${a.name}`, det: null, ref: { ...ref, ...auraRef(prose) }, prose, leads })
+    }
+    for (const a of [...(d.abilities || []), ...(d.specialAbilities || [])]) push('ability', a, { kind: 'ability', unit: d.id })
+    for (const a of d.wargearAbilities || []) push('wargear', a, { kind: 'wargear', unit: d.id, item: normItemName(a.name) })
+  }
+  return out
 }
 
 // A reviewed effect that names its weapon (`only.name`) must name one the faction's datasheets
@@ -628,7 +669,8 @@ export async function run(argv = process.argv.slice(2)) {
     return 0
   }
 
-  const ctx = sourceContext()
+  const ctx = { ...sourceContext(), pack: await packSheets() }
+  const appdataUnits = new Set([...ctx.dsBySid.values()].map((d) => d.id))
   const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0, leader: 0, upgrade: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
@@ -671,7 +713,10 @@ export async function run(argv = process.argv.slice(2)) {
       queueItems.push({ slug, sid: s.sid, status: 'new', kind: s.kind, name: s.name, det: s.det, newHash: proseHash(s.prose), prose: s.prose, effects: [] })
     }
     for (const e of result.orphan) {
-      console.log(`  ✗ orphan  ${slug} · ${e.kind} · ${e.name} — source gone from appdata`)
+      // A Faction Pack record whose unit appdata now carries (see packSources): not gone — moved.
+      if (e.sid.startsWith('pack:') && appdataUnits.has(e.ref?.unit)) {
+        console.log(`  ✗ adopted ${slug} · ${e.kind} · ${e.name} — this Legends unit is in appdata now: re-point the sid to its appdata uuid and re-read the rule`)
+      } else console.log(`  ✗ orphan  ${slug} · ${e.kind} · ${e.name} — source gone from appdata`)
       queueItems.push({ slug, sid: e.sid, status: 'orphan', kind: e.kind, name: e.name, det: e.det })
     }
     // The queue is the REVIEW list, not the diff: a record whose prose hasn't moved but which

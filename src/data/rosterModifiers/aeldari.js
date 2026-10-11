@@ -71,6 +71,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:autarch-skyrunner:ride-the-wind",
+      "kind": "ability",
+      "name": "Autarch Skyrunner: Ride the Wind",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "autarch-skyrunner"
+      },
+      "hash": "b34f63a7",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "f737f1fc-4495-41f8-9f62-67f77f31597b:avatar-of-khaine",
       "kind": "ability",
       "name": "Avatar of Khaine: Molten Form",
@@ -104,6 +118,34 @@ export default {
       "hash": "935b9071",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:bonesinger:bonesinger",
+      "kind": "ability",
+      "name": "Bonesinger: Bonesinger",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bonesinger"
+      },
+      "hash": "b2e6f2c0",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:bonesinger:way-of-the-shaper-psychic",
+      "kind": "ability",
+      "name": "Bonesinger: Way of the Shaper (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bonesinger"
+      },
+      "hash": "3b865e6d",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -392,6 +434,30 @@ export default {
       ]
     },
     {
+      "sid": "pack:irillyth:reaper-of-souls",
+      "kind": "ability",
+      "name": "Irillyth: Reaper of Souls",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "irillyth"
+      },
+      "hash": "b981890e",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Tzaangor Shaman: Bestial Prophet (thousand-sons), the same text."
+    },
+    {
       "sid": "8a00605e-b319-4a00-9d3d-2da951171be8:jain-zar",
       "kind": "ability",
       "name": "Jain Zar: Whirling Death",
@@ -419,6 +485,30 @@ export default {
           "target": "unit"
         }
       ]
+    },
+    {
+      "sid": "pack:karandras:shadow-hunter",
+      "kind": "ability",
+      "name": "Karandras: Shadow Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "karandras"
+      },
+      "hash": "b981890e",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Tzaangor Shaman: Bestial Prophet (thousand-sons), the same text."
     },
     {
       "sid": "65c1bd9f-dcc0-46ee-964f-573a55b3ea9a:kharseth",
@@ -510,6 +600,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:lynx:speed-of-vaul",
+      "kind": "ability",
+      "name": "Lynx: Speed of Vaul",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lynx"
+      },
+      "hash": "27c7b058",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "aafd1de0-4432-4784-8f06-9d2d2204f308:night-spinner",
       "kind": "ability",
       "name": "Night Spinner: Monofilament Web",
@@ -521,6 +625,34 @@ export default {
       "hash": "3ef10aea",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:nightwing:interceptor",
+      "kind": "ability",
+      "name": "Nightwing: Interceptor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nightwing"
+      },
+      "hash": "5cff7af9",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:phoenix:strafing-run",
+      "kind": "ability",
+      "name": "Phoenix: Strafing Run",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "phoenix"
+      },
+      "hash": "856c8978",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -581,6 +713,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:scorpion:lanced-obliteration",
+      "kind": "ability",
+      "name": "Scorpion: Lanced Obliteration",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "scorpion"
+      },
+      "hash": "422d9eb0",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "75bc40c3-7ddf-487f-994a-812cebbd1ed8:shadow-weaver-platform",
@@ -1243,6 +1389,35 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:wasp-assault-walker:cloudbreakers",
+      "kind": "ability",
+      "name": "Wasp Assault Walker: Cloudbreakers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wasp-assault-walker"
+      },
+      "hash": "18a0ce80",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "note": "Read as Ynnari Raider: Aethersails (aeldari), the same text."
     },
     {
       "sid": "8a3daae2-6619-44f7-b774-f9452f4ab3c1:wraithblades",
@@ -3205,6 +3380,21 @@ export default {
       ]
     },
     {
+      "sid": "pack:karandras:the-scorpion-s-bite",
+      "kind": "wargear",
+      "name": "Karandras: The Scorpion’s Bite",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "karandras",
+        "item": "the scorpion's bite"
+      },
+      "hash": "e679790b",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "1471d478-16f0-4ae5-8e10-b81d96a07945:shining-spears",
       "kind": "wargear",
       "name": "Shining Spears: Shimmershield",
@@ -3232,6 +3422,21 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:skathach-wraithknight:scattershield",
+      "kind": "wargear",
+      "name": "Skathach Wraithknight: Scattershield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "skathach-wraithknight",
+        "item": "scattershield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "23aebc71-e6d1-4ccd-bbc6-7344e8c3f89d:storm-guardians",

@@ -37,8 +37,10 @@ describe('rosterModifiers data', () => {
     for (const { file, e } of allEntries) {
       // The appdata uuid, optionally suffixed with the datasheet it was attached to: 56 abilities
       // are published once and printed on several datasheets, and each needs its own record
-      // (a different `ref.unit`). The uuid still leads, so the identity is unchanged.
-      expect(e.sid, `${file} ${e.name}`).toMatch(/^[0-9a-f-]{36}(:[a-z0-9-]+)?$/)
+      // (a different `ref.unit`). The uuid still leads, so the identity is unchanged. A Legends
+      // datasheet from a Faction Pack has no appdata uuid: `pack:<unit>:<ability>` (gen-roster-
+      // modifiers' packSources), hashed against our own transcription.
+      expect(e.sid, `${file} ${e.name}`).toMatch(/^(?:[0-9a-f-]{36}(:[a-z0-9-]+)?|pack:[a-z0-9-]+:[a-z0-9-]+)$/)
       expect(e.hash, `${file} ${e.name}`).toMatch(/^[0-9a-f]{8}$/)
       expect(typeof e.ver, `${file} ${e.name}`).toBe('number')
     }

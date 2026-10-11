@@ -212,6 +212,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:malanthrope:prey-adaptation",
+      "kind": "ability",
+      "name": "Malanthrope: Prey Adaptation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "malanthrope"
+      },
+      "hash": "c94c298b",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "474971c2-032e-4663-89c0-43d3bc98f7ed:neurogaunts",
       "kind": "ability",
       "name": "Neurogaunts: Neurocytes",
@@ -443,6 +457,20 @@ export default {
       "hash": "c06b50c6",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:sky-slasher-swarms:chitinous-horrors",
+      "kind": "ability",
+      "name": "Sky-slasher Swarms: Chitinous Horrors",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sky-slasher-swarms"
+      },
+      "hash": "bffde138",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {

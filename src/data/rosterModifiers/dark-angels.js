@@ -80,6 +80,62 @@ export default {
       ]
     },
     {
+      "sid": "pack:deathwing-command-squad:astartes-banner",
+      "kind": "ability",
+      "name": "Deathwing Command Squad: Astartes Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwing-command-squad"
+      },
+      "hash": "6fe70108",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:deathwing-command-squad:honour-or-death",
+      "kind": "ability",
+      "name": "Deathwing Command Squad: Honour or Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwing-command-squad"
+      },
+      "hash": "294e9608",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:deathwing-strikemaster:tactical-precision",
+      "kind": "ability",
+      "name": "Deathwing Strikemaster: Tactical Precision",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwing-strikemaster"
+      },
+      "hash": "b443bf84",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:deathwing-strikemaster:vanquish-the-foe",
+      "kind": "ability",
+      "name": "Deathwing Strikemaster: Vanquish the Foe",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwing-strikemaster"
+      },
+      "hash": "f29066d1",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "993f1855-67a5-4e6c-ac8a-754b84b99c63:ezekiel",
       "kind": "ability",
       "name": "Ezekiel: Book of Salvation",
@@ -462,6 +518,43 @@ export default {
       ]
     },
     {
+      "sid": "pack:ravenwing-talonmaster:nowhere-to-hide",
+      "kind": "ability",
+      "name": "Ravenwing Talonmaster: Nowhere to Hide",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ravenwing-talonmaster",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES MOUNTED",
+              "ADEPTUS ASTARTES FLY VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "a613551a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:ravenwing-talonmaster:talonmaster",
+      "kind": "ability",
+      "name": "Ravenwing Talonmaster: Talonmaster",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ravenwing-talonmaster"
+      },
+      "hash": "ad358e1b",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "95dbd786-5940-4348-85b1-074ba54c817f",
       "kind": "armyRule",
       "name": "Combat Doctrines",
@@ -728,6 +821,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "pack:deathwing-command-squad:storm-shield",
+      "kind": "wargear",
+      "name": "Deathwing Command Squad: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwing-command-squad",
+        "item": "storm shield"
+      },
+      "hash": "38451d6c",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ],
+      "note": "Read as Bullgryn Squad: Slabshield (astra-militarum), the same text."
+    },
+    {
       "sid": "b2bf043f-39ca-4ae5-83e4-dd5dab3a3bb1:deathwing-knights",
       "kind": "wargear",
       "name": "Deathwing Knights: Watcher in the Dark",
@@ -755,6 +878,21 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:deathwing-strikemaster:storm-shield",
+      "kind": "wargear",
+      "name": "Deathwing Strikemaster: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwing-strikemaster",
+        "item": "storm shield"
+      },
+      "hash": "6026918c",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "b2bf043f-39ca-4ae5-83e4-dd5dab3a3bb1:deathwing-terminator-squad",

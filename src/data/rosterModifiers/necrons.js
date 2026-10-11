@@ -33,6 +33,30 @@ export default {
       ]
     },
     {
+      "sid": "pack:anrakyr-the-traveller:lord-of-the-pyrrhian-eternals",
+      "kind": "ability",
+      "name": "Anrakyr the Traveller: Lord of the Pyrrhian Eternals",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "anrakyr-the-traveller"
+      },
+      "hash": "aa7eb7dd",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Bloodmaster: Bloodmaster (chaos-daemons), the same text."
+    },
+    {
       "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:ctan-shard-of-the-deceiver",
       "kind": "ability",
       "name": "C’tan Shard of the Deceiver: Necrodermis",
@@ -75,6 +99,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:canoptek-acanthrites:damaged-armour",
+      "kind": "ability",
+      "name": "Canoptek Acanthrites: Damaged Armour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "canoptek-acanthrites"
+      },
+      "hash": "2603f445",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ce417ae7-d402-4fe0-8666-aabd4aa80e64:canoptek-scarab-swarms",
       "kind": "ability",
       "name": "Canoptek Scarab Swarms: Chittering Swarm",
@@ -86,6 +124,20 @@ export default {
       "hash": "61cec700",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:canoptek-tomb-sentinel:aggressor-guardian",
+      "kind": "ability",
+      "name": "Canoptek Tomb Sentinel: Aggressor Guardian",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "canoptek-tomb-sentinel"
+      },
+      "hash": "01d0774f",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -226,6 +278,28 @@ export default {
       ]
     },
     {
+      "sid": "pack:gauss-pylon:phase-shift-generator-aura",
+      "kind": "ability",
+      "name": "Gauss Pylon: Phase Shift Generator (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gauss-pylon",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "5deb1072",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "7d7ee4d3-72bd-404e-bb89-281b7cca87cd:geomancer",
       "kind": "ability",
       "name": "Geomancer: Tectonic Reverberations",
@@ -319,6 +393,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:lord:relentless-march",
+      "kind": "ability",
+      "name": "Lord: Relentless March",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord"
+      },
+      "hash": "6134aab8",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "12dac8d8-3c5e-46bf-a06f-f216708577f7:nekrosor-ammentar",
@@ -660,6 +748,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:tomb-citadel-walls:ziggurat-dock",
+      "kind": "ability",
+      "name": "Tomb Citadel Walls: Ziggurat Dock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tomb-citadel-walls"
+      },
+      "hash": "20c5ef9b",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:transcendent-ctan",
       "kind": "ability",
       "name": "Transcendent C’tan: Necrodermis",
@@ -671,6 +773,44 @@ export default {
       "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:vargard-obyron:ghostwalk-mantle",
+      "kind": "ability",
+      "name": "Vargard Obyron: Ghostwalk Mantle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vargard-obyron"
+      },
+      "hash": "f54f8f52",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "target": "unit",
+          "when": null
+        }
+      ],
+      "note": "Read as Aleya: Tactical Perception (adeptus-custodes), the same text."
+    },
+    {
+      "sid": "pack:vargard-obyron:the-vargard-s-duty",
+      "kind": "ability",
+      "name": "Vargard Obyron: The Vargard’s Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vargard-obyron"
+      },
+      "hash": "9b9fe911",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -2119,6 +2259,52 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:canoptek-tomb-sentinel:gloom-prism-aura",
+      "kind": "wargear",
+      "name": "Canoptek Tomb Sentinel: Gloom Prism (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "canoptek-tomb-sentinel",
+        "item": "gloom prism (aura)",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "45115fa3",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:canoptek-tomb-stalker:gloom-prism-aura",
+      "kind": "wargear",
+      "name": "Canoptek Tomb Stalker: Gloom Prism (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "canoptek-tomb-stalker",
+        "item": "gloom prism (aura)",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "45115fa3",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "c0da2d15-20c2-4da9-a9df-a0ce62051918:lokhust-lord",

@@ -8,6 +8,80 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:aunshi:inspirational-defiance",
+      "kind": "ability",
+      "name": "Aun’Shi: Inspirational Defiance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aunshi"
+      },
+      "hash": "be69986d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Dogmata: Unflinching Determination (adepta-sororitas), the same text."
+    },
+    {
+      "sid": "pack:aunshi:martial-warrior",
+      "kind": "ability",
+      "name": "Aun’Shi: Martial Warrior",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aunshi"
+      },
+      "hash": "174b2b1a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:aunva:duality-shield",
+      "kind": "ability",
+      "name": "Aun’Va: Duality Shield",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aunva"
+      },
+      "hash": "bf4ab1b4",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:aunva:supreme-loyalty-aura",
+      "kind": "ability",
+      "name": "Aun’Va: Supreme Loyalty (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aunva",
+        "scopes": [
+          {
+            "targets": [
+              "T’AU EMPIRE"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "25ca0153",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "186372fc-8ed9-4e80-98ff-445d3712ef3c:ax-1-0-tiger-shark",
       "kind": "ability",
       "name": "AX-1-0 Tiger Shark: Titan Hunter",
@@ -208,6 +282,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:crisis-battlesuits:turbo-jets",
+      "kind": "ability",
+      "name": "Crisis Battlesuits: Turbo-jets",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "crisis-battlesuits"
+      },
+      "hash": "0ffc4f9b",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "edf3cf2b-c0b0-4d8b-b5c2-acc69bcbffe8:crisis-starscythe-battlesuits",
       "kind": "ability",
       "name": "Crisis Starscythe Battlesuits: Starscythe",
@@ -296,6 +384,35 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:great-knarloc:loping-stride",
+      "kind": "ability",
+      "name": "Great Knarloc: Loping Stride",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "great-knarloc"
+      },
+      "hash": "18a0ce80",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "note": "Read as Ynnari Raider: Aethersails (aeldari), the same text."
+    },
+    {
       "sid": "1b0c45a9-bee6-47d2-8424-d0aa5a1522a1:hammerhead-gunship",
       "kind": "ability",
       "name": "Hammerhead Gunship: Armour Hunter",
@@ -322,6 +439,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:knarloc-riders:thunderous-pounce",
+      "kind": "ability",
+      "name": "Knarloc Riders: Thunderous Pounce",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knarloc-riders"
+      },
+      "hash": "cc05bfb5",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "bdf68a61-1dd3-452b-bfb9-98d2770b8789:kroot-farstalkers",
@@ -439,6 +570,48 @@ export default {
       ]
     },
     {
+      "sid": "pack:longstrike:armour-hunter",
+      "kind": "ability",
+      "name": "Longstrike: Armour Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "longstrike"
+      },
+      "hash": "f1f0a2fd",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:longstrike:xv02-pilot-battlesuit",
+      "kind": "ability",
+      "name": "Longstrike: XV02 Pilot Battlesuit",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "longstrike"
+      },
+      "hash": "759ba884",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:orca-dropship:jet-pack-insertion",
+      "kind": "ability",
+      "name": "Orca Dropship: Jet Pack Insertion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "orca-dropship"
+      },
+      "hash": "7cda8d5d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "0b8a9cdf-f6e5-4e4f-9846-69c0c6c8b0f7:pathfinder-team",
       "kind": "ability",
       "name": "Pathfinder Team: Target Uploaded",
@@ -534,6 +707,30 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:shaso-ralai:eclipse-field-generator",
+      "kind": "ability",
+      "name": "Shas’o R’alai: Eclipse Field Generator",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "shaso-ralai"
+      },
+      "hash": "b352cc54",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Kâhl: Rampart Crest (leagues-of-votann), the same text."
     },
     {
       "sid": "d86960ba-ce82-4f5d-bf4d-70811d1e8a29:sudden-dawn-cadre-pathfinder-team",
@@ -641,6 +838,34 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:xv9-hazard-battlesuits:photon-casters",
+      "kind": "ability",
+      "name": "XV9 Hazard Battlesuits: Photon Casters",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "xv9-hazard-battlesuits"
+      },
+      "hash": "ac5f2d46",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:yvahra-battlesuit:nova-burst",
+      "kind": "ability",
+      "name": "Y’vahra Battlesuit: Nova Burst",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "yvahra-battlesuit"
+      },
+      "hash": "45a236d5",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "2206b8e8-8ebc-4747-9bd3-6b44ccb32ff0",
@@ -2058,6 +2283,51 @@ export default {
       ]
     },
     {
+      "sid": "pack:commander-in-crisis-battlesuit:marker-drone",
+      "kind": "wargear",
+      "name": "Commander in Crisis Battlesuit: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-crisis-battlesuit",
+        "item": "marker drone"
+      },
+      "hash": "0c8f7a1a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:commander-in-crisis-battlesuit:shield-drone",
+      "kind": "wargear",
+      "name": "Commander in Crisis Battlesuit: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-crisis-battlesuit",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:commander-in-crisis-battlesuit:shield-generator",
+      "kind": "wargear",
+      "name": "Commander in Crisis Battlesuit: Shield Generator",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-crisis-battlesuit",
+        "item": "shield generator"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:commander-in-enforcer-battlesuit",
       "kind": "wargear",
       "name": "Commander in Enforcer Battlesuit: Marker Drone",
@@ -2131,6 +2401,51 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:crisis-battlesuits:marker-drone",
+      "kind": "wargear",
+      "name": "Crisis Battlesuits: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-battlesuits",
+        "item": "marker drone"
+      },
+      "hash": "0c8f7a1a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:crisis-battlesuits:shield-drone",
+      "kind": "wargear",
+      "name": "Crisis Battlesuits: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-battlesuits",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:crisis-battlesuits:shield-generator",
+      "kind": "wargear",
+      "name": "Crisis Battlesuits: Shield Generator",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-battlesuits",
+        "item": "shield generator"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:crisis-fireknife-battlesuits",
@@ -2362,6 +2677,59 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:great-knarloc:baggage-harness-aura",
+      "kind": "wargear",
+      "name": "Great Knarloc: Baggage Harness (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "great-knarloc",
+        "item": "baggage harness (aura)",
+        "scopes": [
+          {
+            "targets": [
+              "KROOT"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "cfe10de0",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:great-knarloc:hooked",
+      "kind": "wargear",
+      "name": "Great Knarloc: Hooked",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "great-knarloc",
+        "item": "hooked"
+      },
+      "hash": "68625146",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:heavy-gun-drones:markerlight",
+      "kind": "wargear",
+      "name": "Heavy Gun Drones: Markerlight",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "heavy-gun-drones",
+        "item": "markerlight"
+      },
+      "hash": "42c8065e",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "a7dcf8ec-6f67-443a-a77f-51c50f42e2e3:kroot-farstalkers",
@@ -2605,6 +2973,51 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:xv9-hazard-battlesuits:marker-drone",
+      "kind": "wargear",
+      "name": "XV9 Hazard Battlesuits: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "xv9-hazard-battlesuits",
+        "item": "marker drone"
+      },
+      "hash": "0c8f7a1a",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:xv9-hazard-battlesuits:shield-drone",
+      "kind": "wargear",
+      "name": "XV9 Hazard Battlesuits: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "xv9-hazard-battlesuits",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:xv9-hazard-battlesuits:shield-generator",
+      "kind": "wargear",
+      "name": "XV9 Hazard Battlesuits: Shield Generator",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "xv9-hazard-battlesuits",
+        "item": "shield generator"
+      },
+      "hash": "5e0ca50d",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
     }
   ]
 }

@@ -142,6 +142,48 @@ export default {
       ]
     },
     {
+      "sid": "pack:death-guard-possessed:infectious-bloodshed",
+      "kind": "ability",
+      "name": "Death Guard Possessed: Infectious Bloodshed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-guard-possessed"
+      },
+      "hash": "3f8d6f13",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:death-guard-sorcerer-in-terminator-armour:pestilent-familiar-psychic",
+      "kind": "ability",
+      "name": "Death Guard Sorcerer in Terminator Armour: Pestilent Familiar (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-guard-sorcerer-in-terminator-armour"
+      },
+      "hash": "72647afc",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:death-guard-sorcerer-in-terminator-armour:putrescent-vitality-psychic",
+      "kind": "ability",
+      "name": "Death Guard Sorcerer in Terminator Armour: Putrescent Vitality (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-guard-sorcerer-in-terminator-armour"
+      },
+      "hash": "b11b4dff",
+      "ver": 972,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "cb37619a-5b58-4891-a794-8b2891848d10:deathshroud-terminators",
       "kind": "ability",
       "name": "Deathshroud Terminators: Silent Bodyguard",
@@ -1303,6 +1345,21 @@ export default {
       "hash": "ac9574f8",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:death-guard-possessed:diseased-icon",
+      "kind": "wargear",
+      "name": "Death Guard Possessed: Diseased Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "death-guard-possessed",
+        "item": "diseased icon"
+      },
+      "hash": "1826ca25",
+      "ver": 972,
+      "reviewed": false,
       "effects": []
     },
     {
