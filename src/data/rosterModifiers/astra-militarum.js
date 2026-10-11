@@ -8,6 +8,29 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:iron-hand-straken:cold-steel-and-courage",
+      "kind": "ability",
+      "name": "‘Iron Hand’ Straken: Cold Steel and Courage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-hand-straken"
+      },
+      "hash": "b68a3722",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
       "sid": "e42730d6-21b4-4166-ba64-964869fc997a:aegis-defence-line",
       "kind": "ability",
       "name": "Aegis Defence Line: Defence Line",
@@ -171,6 +194,103 @@ export default {
       ]
     },
     {
+      "sid": "pack:ciaphas-cain:psychic-blank",
+      "kind": "ability",
+      "name": "Ciaphas Cain: Psychic Blank",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ciaphas-cain"
+      },
+      "hash": "4fbc0c74",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:ciaphas-cain:unparalleled-luck-once-per-battle-per-army",
+      "kind": "ability",
+      "name": "Ciaphas Cain: Unparalleled Luck (Once per battle, per army)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ciaphas-cain"
+      },
+      "hash": "d605a48d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "2+",
+          "when": {
+            "en": "once per battle, for the phase this ability is used",
+            "ru": "раз за битву, на фазу, когда способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:colossus:tracking-target",
+      "kind": "ability",
+      "name": "Colossus: Tracking Target",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "colossus"
+      },
+      "hash": "c61c1236",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 5+",
+          "only": {
+            "name": "Colossus siege mortar"
+          },
+          "when": {
+            "en": "in a turn this unit remained stationary",
+            "ru": "в ходу, когда отряд остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 5+",
+          "only": {
+            "name": "Colossus siege mortar"
+          },
+          "when": {
+            "en": "in a turn this unit remained stationary",
+            "ru": "в ходу, когда отряд остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "70a1ca8c-56dc-4a33-a686-8dcc96c513a0:commissar-yarrick",
       "kind": "ability",
       "name": "Commissar Yarrick: Counterstrategist",
@@ -314,6 +434,34 @@ export default {
       ]
     },
     {
+      "sid": "pack:elysian-sniper-squad:mark-the-target",
+      "kind": "ability",
+      "name": "Elysian Sniper Squad: Mark the Target",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "elysian-sniper-squad"
+      },
+      "hash": "9b4fe74b",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "after it Remained Stationary, until your next Movement phase",
+            "ru": "после того как остался на месте, до вашей следующей фазы движения"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "6cbbd413-470c-423c-8ca9-13eb380bd682:field-ordnance-battery",
       "kind": "ability",
       "name": "Field Ordnance Battery: Rearm, Reload, Fire",
@@ -369,6 +517,64 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:heavy-mortar-team:rearm-reload-fire",
+      "kind": "ability",
+      "name": "Heavy Mortar Team: Rearm, Reload, Fire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "heavy-mortar-team"
+      },
+      "hash": "09293164",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while under an Order, having Remained Stationary",
+            "ru": "под приказом, если остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:hells-last:lesk-s-heroes",
+      "kind": "ability",
+      "name": "Hell’s Last: Lesk’s Heroes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hells-last"
+      },
+      "hash": "0b053ecb",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -499,6 +705,48 @@ export default {
       ]
     },
     {
+      "sid": "pack:malcador-annihilator:battlefield-dominance",
+      "kind": "ability",
+      "name": "Malcador Annihilator: Battlefield Dominance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "malcador-annihilator"
+      },
+      "hash": "2aa7b74c",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against an enemy unit within half range",
+            "ru": "по вражескому отряду в пределах половины дальности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:malcador:rugged-reliability",
+      "kind": "ability",
+      "name": "Malcador: Rugged Reliability",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "malcador"
+      },
+      "hash": "2f253aea",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ff7a4560-5c66-40ed-9890-e145a5612d8e:manticore",
       "kind": "ability",
       "name": "Manticore: Furious Barrage",
@@ -574,6 +822,62 @@ export default {
           "value": "SUSTAINED HITS 1",
           "when": null,
           "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "pack:minotaur:armoured-frontis",
+      "kind": "ability",
+      "name": "Minotaur: Armoured Frontis",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "minotaur"
+      },
+      "hash": "e577ede9",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [],
+      "note": "Read as Telemon Heavy Dreadnought: Guardian Eternal (adeptus-custodes), the same text."
+    },
+    {
+      "sid": "pack:munitorum-servitors:mindlock",
+      "kind": "ability",
+      "name": "Munitorum Servitors: Mindlock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "munitorum-servitors"
+      },
+      "hash": "54cde2a5",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a TECH-PRIEST ENGINSEER is leading this unit",
+            "ru": "пока отряд ведёт TECH-PRIEST ENGINSEER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a TECH-PRIEST ENGINSEER is leading this unit",
+            "ru": "пока отряд ведёт TECH-PRIEST ENGINSEER"
+          },
+          "cond": [
+            "unit-led"
+          ]
         }
       ]
     },
@@ -685,6 +989,169 @@ export default {
       ]
     },
     {
+      "sid": "pack:provisionally-prepared:well-stocked-supplies",
+      "kind": "ability",
+      "name": "Provisionally Prepared: Well-stocked Supplies",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "provisionally-prepared"
+      },
+      "hash": "16650f13",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "pack:quartermaster-cadre-squad:medicae-medi-packs",
+      "kind": "ability",
+      "name": "Quartermaster Cadre Squad: Medicae Medi-packs",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "quartermaster-cadre-squad"
+      },
+      "hash": "e8e53ad6",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this unit contains Medicae Servitors",
+            "ru": "пока в отряде есть Medicae Servitors"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this unit contains Medicae Servitors",
+            "ru": "пока в отряде есть Medicae Servitors"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "pack:quartermaster-cadre-squad:mindlock",
+      "kind": "ability",
+      "name": "Quartermaster Cadre Squad: Mindlock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "quartermaster-cadre-squad"
+      },
+      "hash": "7b68999d",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "only": {
+            "name": "Medical scalpels"
+          },
+          "when": {
+            "en": "while this unit contains a Quartermaster Revenant",
+            "ru": "пока в отряде есть Quartermaster Revenant"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:rapier-laser-destroyer-battery:powerful-volley",
+      "kind": "ability",
+      "name": "Rapier Laser Destroyer Battery: Powerful Volley",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rapier-laser-destroyer-battery"
+      },
+      "hash": "ca382cda",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "only": {
+            "tag": "HEAVY"
+          },
+          "when": {
+            "en": "while under an Order, having Remained Stationary",
+            "ru": "под приказом, если остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:regimental-attaches:aeronautica-commander",
+      "kind": "ability",
+      "name": "Regimental Attachés: Aeronautica Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "regimental-attaches"
+      },
+      "hash": "a660eb8c",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:regimental-attaches:artillery-commander",
+      "kind": "ability",
+      "name": "Regimental Attachés: Artillery Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "regimental-attaches"
+      },
+      "hash": "462130ef",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3ab67e3d-9134-477a-a176-59ac72bc9e26:rogal-dorn-battle-tank",
       "kind": "ability",
       "name": "Rogal Dorn Battle Tank: Ablative Plating",
@@ -697,6 +1164,53 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:sergeant-harker:payback-time",
+      "kind": "ability",
+      "name": "Sergeant Harker: Payback Time",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sergeant-harker"
+      },
+      "hash": "3047da6e",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "set",
+          "value": "6",
+          "only": {
+            "name": "Payback"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 3",
+          "only": {
+            "name": "Payback"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "33045c06-1dbd-443b-b374-61783b865d2b:shadowsword",
@@ -725,6 +1239,63 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:stygies-destroyer-tank-hunter:tank-hunter",
+      "kind": "ability",
+      "name": "Stygies Destroyer Tank Hunter: Tank Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stygies-destroyer-tank-hunter"
+      },
+      "hash": "44afe737",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a VEHICLE unit",
+            "ru": "по отряду VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:tauros-assault-vehicle:turbo-boost",
+      "kind": "ability",
+      "name": "Tauros Assault Vehicle: Turbo-boost",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tauros-assault-vehicle"
+      },
+      "hash": "18a0ce80",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "note": "Read as Ynnari Raider: Aethersails (aeldari), the same text."
     },
     {
       "sid": "7f40c14c-ac8c-40f8-8cf4-39a6b6dec019:tech-priest-enginseer",
@@ -1915,6 +2486,30 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "pack:hells-last:regimental-banner",
+      "kind": "wargear",
+      "name": "Hell’s Last: Regimental Banner",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "hells-last",
+        "item": "regimental banner"
+      },
+      "hash": "ec06b6a4",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "note": "Read as Allarus Custodians: Vexilla (adeptus-custodes), the same text."
     },
     {
       "sid": "264530a8-a2ae-4fe3-8776-022de8bbddf7:krieg-command-squad",

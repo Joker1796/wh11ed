@@ -2973,6 +2973,18 @@ is worse than one reading T5 with a note. A value the layer cannot compute hones
 and, since 2026-08-22, a DATASHEET's own abilities, its WARGEAR, the CORE RULES and STRATAGEMS. The last two are where most of
 the game's numbers actually live: 436 ability candidates and 136 wargear ones, all reviewed.
 
+**The ninth source is not appdata: Legends from a Faction Pack** (2026-10-11). appdata carries
+Legends for Orks alone; the rest (`source: "faction-pack"`, hub skill `legends-from-pack`) are
+transcribed by hand and have no appdata uuid, so until then not one of their abilities had a
+record — a Legends Crisis team's Shield Drone added nothing while the Codex team's did.
+`gen-roster-modifiers.mjs`'s `packSources` reads them from OUR datasheet, keyed
+`pack:<unit>:<ability>` and hashed against our transcription, so an edit to the sheet reads as
+`stale` like an appdata rewrite would. 199 candidates on 239 sheets; 31 whose text is word for
+word a reviewed Codex ability with a single reading took that reading (their `note` says from
+where), the rest were read one by one. **The day GW moves such a unit into appdata** (sync-appdata
+says "retire the faction-pack copy"), its records stop having a source and `--check` fails with
+`✗ adopted`: re-point the `sid` to the appdata uuid and re-read the rule against appdata's wording.
+
 **Wargear** (`kind: 'wargear'`, from appdata's `datasheet.wargear[].ruleText`) is an item, not a
 rule, so it applies only once the entry actually TOOK it: `ctx.itemNames` is the set of normalised
 item names the loadout fields (`loadoutItemNames`), and `ref.item` is matched against it. Without

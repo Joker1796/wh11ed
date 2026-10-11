@@ -300,6 +300,43 @@ export default {
       ]
     },
     {
+      "sid": "pack:kaldor-draigo:one-with-the-warp-psychic",
+      "kind": "ability",
+      "name": "Kaldor Draigo: One With the Warp (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kaldor-draigo"
+      },
+      "hash": "61237916",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:kaldor-draigo:untouchable-purity",
+      "kind": "ability",
+      "name": "Kaldor Draigo: Untouchable Purity",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kaldor-draigo"
+      },
+      "hash": "3164196a",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
       "sid": "2e6f2691-8a5a-4ab6-baf6-c9d6b1b6f0fd:paladin-squad",
       "kind": "ability",
       "name": "Paladin Squad: Attuned Onslaught",
@@ -383,6 +420,75 @@ export default {
           "value": "Feel No Pain 6+ (vs mortal wounds)",
           "target": "aura",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:servitors:mindlock",
+      "kind": "ability",
+      "name": "Servitors: Mindlock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "servitors"
+      },
+      "hash": "89b60d58",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a BROTHERHOOD TECHMARINE is leading this unit",
+            "ru": "пока отряд ведёт BROTHERHOOD TECHMARINE"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while a BROTHERHOOD TECHMARINE is leading this unit",
+            "ru": "пока отряд ведёт BROTHERHOOD TECHMARINE"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:servitors:retinue",
+      "kind": "ability",
+      "name": "Servitors: Retinue",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "servitors"
+      },
+      "hash": "2046c9ce",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "while a BROTHERHOOD TECHMARINE is leading this unit",
+            "ru": "пока отряд ведёт BROTHERHOOD TECHMARINE"
+          },
+          "cond": [
+            "unit-led"
+          ]
         }
       ]
     },

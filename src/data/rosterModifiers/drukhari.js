@@ -8,6 +8,83 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:court-of-the-archon:court-of-the-archon",
+      "kind": "ability",
+      "name": "Court of the Archon: Court of the Archon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "court-of-the-archon"
+      },
+      "hash": "8a45c235",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
+    },
+    {
+      "sid": "pack:court-of-the-archon:deadly-retinue-pain",
+      "kind": "ability",
+      "name": "Court of the Archon: Deadly Retinue (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "court-of-the-archon"
+      },
+      "hash": "fd37eff9",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while Empowered, with a Lhamaean in the unit",
+            "ru": "пока отряд Empowered и в нём есть Lhamaean"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while Empowered, with a Medusae in the unit",
+            "ru": "пока отряд Empowered и в нём есть Medusae"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "while Empowered, with an Ur-ghul in the unit",
+            "ru": "пока отряд Empowered и в нём есть Ur-ghul"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "214982bf-5eac-4189-ac0a-1c0945f404c2:coven-of-agonies-cronos",
       "kind": "ability",
       "name": "Coven of Agonies Cronos: Empowered Engines (Pain)",
@@ -52,6 +129,47 @@ export default {
           "value": 1,
           "when": {
             "en": "while the unit is Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:grotesques:macro-steroids-pain",
+      "kind": "ability",
+      "name": "Grotesques: Macro-steroids (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "grotesques"
+      },
+      "hash": "e38d4805",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "set",
+          "value": "8",
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while Empowered",
             "ru": "пока отряд Empowered"
           },
           "cond": [
@@ -552,6 +670,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:raven-strike-fighter:ground-attack-craft",
+      "kind": "ability",
+      "name": "Raven Strike Fighter: Ground-attack Craft",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "raven-strike-fighter"
+      },
+      "hash": "88c51acf",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that cannot FLY",
+            "ru": "по отряду без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "01b389b5-c381-4610-83e1-ea05cd85b20a:razorwing-jetfighter",
       "kind": "ability",
       "name": "Razorwing Jetfighter: Ground-attack Craft",
@@ -592,6 +738,47 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:reaper:electromagentic-cascade-pain",
+      "kind": "ability",
+      "name": "Reaper: Electromagentic Cascade (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "reaper"
+      },
+      "hash": "f0e44a96",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "while Empowered, against a VEHICLE unit",
+            "ru": "пока Empowered, по отряду VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while Empowered, against a non-VEHICLE unit",
+            "ru": "пока Empowered, по отряду без VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "24a65646-e270-4708-a07e-4fd26d1bb189:reavers",
@@ -687,6 +874,102 @@ export default {
           "cond": [
             "wargear-two-macro-scalpels"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:tantalus:engine-of-destruction-pain",
+      "kind": "ability",
+      "name": "Tantalus: Engine of Destruction (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tantalus"
+      },
+      "hash": "5cd56744",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 8",
+          "only": {
+            "name": "Pulse disintegrators"
+          },
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:urien-rakarth:father-of-pain",
+      "kind": "ability",
+      "name": "Urien Rakarth: Father of Pain",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "urien-rakarth"
+      },
+      "hash": "bd499842",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs attacks with a Damage characteristic of 1)",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "pack:urien-rakarth:sculptor-of-torments-pain",
+      "kind": "ability",
+      "name": "Urien Rakarth: Sculptor of Torments (Pain)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "urien-rakarth"
+      },
+      "hash": "52262587",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ],
+          "target": "led"
         }
       ]
     },

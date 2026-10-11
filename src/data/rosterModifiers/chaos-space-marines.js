@@ -99,6 +99,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:blood-slaughterer:scuttling-gait",
+      "kind": "ability",
+      "name": "Blood Slaughterer: Scuttling Gait",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "blood-slaughterer"
+      },
+      "hash": "0ffc4f9b",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "74e8bcac-20e7-42a6-bb3f-da299f501a0c:chaos-bikers",
       "kind": "ability",
       "name": "Chaos Bikers: Rapid Assault",
@@ -139,6 +167,52 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:chaos-lord-on-bike:swift-assault",
+      "kind": "ability",
+      "name": "Chaos Lord on Bike: Swift Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-lord-on-bike"
+      },
+      "hash": "3b4686bc",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "pack:chaos-lord-on-disc-of-tzeentch:lord-of-fate",
+      "kind": "ability",
+      "name": "Chaos Lord on Disc of Tzeentch: Lord of Fate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-lord-on-disc-of-tzeentch"
+      },
+      "hash": "0fcf2bb4",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "b265fc6e-3f98-45af-a8a1-e5e2dbae3284:chaos-lord",
@@ -365,6 +439,30 @@ export default {
       ]
     },
     {
+      "sid": "pack:exalted-champion:dark-champion",
+      "kind": "ability",
+      "name": "Exalted Champion: Dark Champion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "exalted-champion"
+      },
+      "hash": "b981890e",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Tzaangor Shaman: Bestial Prophet (thousand-sons), the same text."
+    },
+    {
       "sid": "8c1bf1ec-33df-49e3-b557-a8380670eaf6:fabius-bile",
       "kind": "ability",
       "name": "Fabius Bile: Enhanced Warriors",
@@ -451,6 +549,28 @@ export default {
       ]
     },
     {
+      "sid": "pack:greater-brass-scorpion:runes-of-the-blood-god",
+      "kind": "ability",
+      "name": "Greater Brass Scorpion: Runes of the Blood God",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "greater-brass-scorpion"
+      },
+      "hash": "30ecc971",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds and Psychic Attacks)",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
       "kind": "ability",
       "name": "Helbrute: Devoted to Destruction",
@@ -498,6 +618,34 @@ export default {
       "effects": [
         {
           "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit that can FLY",
+            "ru": "по отряду с FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:hell-blade:interceptor",
+      "kind": "ability",
+      "name": "Hell Blade: Interceptor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hell-blade"
+      },
+      "hash": "5cff7af9",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
           "stat": "hit",
           "op": "add",
           "value": 1,
@@ -611,6 +759,34 @@ export default {
             "never"
           ],
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "pack:kytan-ravager:bloodlust",
+      "kind": "ability",
+      "name": "Kytan Ravager: Bloodlust",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kytan-ravager"
+      },
+      "hash": "a3012fa8",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
         }
       ]
     },
@@ -873,6 +1049,73 @@ export default {
       ]
     },
     {
+      "sid": "pack:renegade-plague-ogryns:wall-of-muscle",
+      "kind": "ability",
+      "name": "Renegade Plague Ogryns: Wall of Muscle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "renegade-plague-ogryns"
+      },
+      "hash": "6903aaca",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [],
+      "note": "Read as Bullgryn Squad: Wall of Muscle (astra-militarum), the same text."
+    },
+    {
+      "sid": "pack:rogue-psyker:cursed-wardings-psychic",
+      "kind": "ability",
+      "name": "Rogue Psyker: Cursed Wardings (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rogue-psyker"
+      },
+      "hash": "d4f151a2",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "unit",
+          "when": null
+        }
+      ],
+      "note": "Read as Primaris Psyker: Malign Wardings (astra-militarum), the same text."
+    },
+    {
+      "sid": "pack:rogue-psyker:psychic-barrier-psychic",
+      "kind": "ability",
+      "name": "Rogue Psyker: Psychic Barrier (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rogue-psyker"
+      },
+      "hash": "d3dc334a",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "on a 2+ at the start of your opponent's Shooting phase",
+            "ru": "на 2+ в начале фазы стрельбы оппонента"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "76261740-3578-4653-a8c7-d912c9fa7d47:sorcerer-in-terminator-armour",
       "kind": "ability",
       "name": "Sorcerer in Terminator Armour: Death Hex",
@@ -885,6 +1128,130 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "pack:sorcerer-on-bike:unholy-power",
+      "kind": "ability",
+      "name": "Sorcerer on Bike: Unholy Power",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-bike"
+      },
+      "hash": "3355e9f6",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "for the phase, after its unit makes a Dark Pact",
+            "ru": "на фазу, после того как его отряд заключил Dark Pact"
+          },
+          "cond": [
+            "unit-dark-pact-invoked"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:sorcerer-on-disc-of-tzeentch:flames-of-change-psychic",
+      "kind": "ability",
+      "name": "Sorcerer on Disc of Tzeentch: Flames of Change (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-disc-of-tzeentch"
+      },
+      "hash": "ef111d18",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "pack:sorcerer-on-palanquin-of-nurgle:gift-of-poxes-psychic",
+      "kind": "ability",
+      "name": "Sorcerer on Palanquin of Nurgle: Gift of Poxes (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-palanquin-of-nurgle"
+      },
+      "hash": "34bcfbd0",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "pack:sorcerer-on-steed-of-slaanesh:dark-favour-psychic",
+      "kind": "ability",
+      "name": "Sorcerer on Steed of Slaanesh: Dark Favour (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-steed-of-slaanesh"
+      },
+      "hash": "58585162",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "unit"
+        }
+      ],
+      "note": "Read as Epidemius: Blessed by the Plague God (chaos-daemons), the same text."
+    },
+    {
+      "sid": "pack:sorcerer-on-steed-of-slaanesh:infernal-speed",
+      "kind": "ability",
+      "name": "Sorcerer on Steed of Slaanesh: Infernal Speed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-steed-of-slaanesh"
+      },
+      "hash": "9367c498",
+      "ver": 972,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "14\"",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "3ae2b3c4-81d6-4a30-a9ed-1ad9526ead12:traitor-enforcer",
@@ -3561,6 +3928,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "pack:blood-slaughterer:impaled",
+      "kind": "wargear",
+      "name": "Blood Slaughterer: Impaled",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "blood-slaughterer",
+        "item": "impaled"
+      },
+      "hash": "b300d963",
+      "ver": 972,
+      "reviewed": true,
+      "effects": []
     }
   ]
 }
