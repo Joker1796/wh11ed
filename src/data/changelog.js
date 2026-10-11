@@ -23,7 +23,7 @@
 export const changelog = [
   {
     version: '2.7.21',
-    date: '2026-10-10',
+    date: '2026-10-11',
     en: [
       { h: 'Roster builder' },
       'A Support unit that is not attached to any unit now shows an error. By the rules each Support unit must be attached to a unit.',
