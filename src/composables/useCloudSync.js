@@ -143,8 +143,10 @@ export function useCloudSync() {
   const inSync = computed(
     () => checked.value && pendingUploadCount.value === 0 && pendingDownloadCount.value === 0,
   )
-  // After a cloud check, distinguishes "all backed up" from "the cloud simply has nothing".
-  const cloudEmpty = computed(() => cloudMetas.value.length === 0)
+  // After a cloud check, distinguishes "all backed up" from "the cloud simply has nothing". The
+  // listing alone is not enough: games uploaded after it (syncNow's second pass) are in the cloud
+  // though the listing predates them.
+  const cloudEmpty = computed(() => cloudMetas.value.length === 0 && cloudSigs.value.size === 0)
 
   function isBackedUp(game) {
     return cloudSigs.value.has(gameSig(game))
@@ -201,16 +203,25 @@ export function useCloudSync() {
       // of silently reporting success (failed games also stay out of cloudSigs → still shown
       // as pending, but without this the user gets no error at all).
       let uploadFailures = 0
-      for (const g of history.value) {
-        if (cloudSigs.value.has(gameSig(g))) continue // this exact version is already in the cloud
-        const ok = await uploadGame(g)
-        if (!ok) uploadFailures++
+      const tried = new Set()
+      const pushMissing = async () => {
+        for (const g of history.value) {
+          const sig = gameSig(g)
+          if (cloudSigs.value.has(sig) || tried.has(sig)) continue // already in the cloud / tried
+          tried.add(sig)
+          if (!(await uploadGame(g))) uploadFailures++
+        }
       }
+      await pushMissing()
 
       const res = await authedFetch('/games')
       if (!res.ok) throw new Error(`list failed: ${res.status}`)
       const { games = [] } = await res.json()
       takeCloudListing(games)
+      // The first pass skipped what this phone REMEMBERED uploading; the listing is the truth.
+      // A cloud that no longer holds those games — an empty new server after the 2026-10-11 move
+      // off Yandex, or copies deleted elsewhere by hand — gets them now, not on the next visit.
+      await pushMissing()
 
       const localIds = new Set(history.value.map((g) => g.id))
       const restored = []
