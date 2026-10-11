@@ -377,8 +377,10 @@ async function login(provider, returnTo) {
   } catch {
     /* ignore private mode — the callback just falls back to its default */
   }
-  // Full-page navigation: the backend 302s to the provider and back to /tracker/auth-callback.
-  window.location.href = api(`/auth/${provider}/login`)
+  // Full-page navigation: the backend 302s to the provider and back to /tracker/auth-callback —
+  // on THIS site: the API serves the tracker's beta subdomain too, and returns to an allow-listed
+  // origin that asks (wh11ed-api, `?return=`).
+  window.location.href = api(`/auth/${provider}/login?return=${encodeURIComponent(window.location.origin)}`)
   return true
 }
 
@@ -441,6 +443,22 @@ async function resendVerification(locale) {
   }
 }
 
+// Signed in already: give this account an email + password (a Yandex account's second way in),
+// or change the password. Both through authedFetch; /me is re-read so the menu follows.
+async function accountCall(path, body) {
+  try {
+    const res = await authedFetch(`/auth/email/${path}`, { method: 'POST', body: JSON.stringify(body) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) return { ok: false, error: data.error || (res.status >= 500 ? 'server' : 'invalid_input') }
+    await loadUser()
+    return { ok: true, ...data }
+  } catch {
+    return { ok: false, error: navigator.onLine === false ? 'network' : 'server' }
+  }
+}
+const addPasswordLogin = (email, password, locale) => accountCall('add', { email, password, ...linkContext(locale) })
+const changePassword = (current, password) => accountCall('password', { current, password })
+
 export function useAuth() {
   return {
     status,
@@ -457,6 +475,8 @@ export function useAuth() {
     resetPassword,
     verifyEmail,
     resendVerification,
+    addPasswordLogin,
+    changePassword,
     // DEV-only test helpers (no-ops / stripped in production):
     dev: DEV,
     mockSignIn,

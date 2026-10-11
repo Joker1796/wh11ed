@@ -255,6 +255,16 @@
                   <i class="bi bi-envelope-exclamation" />
                   <span>{{ resendState === 'sent' ? labels.accountResent : `${labels.accountConfirmEmail} · ${labels.accountResend}` }}</span>
                 </button>
+                <!-- A Yandex account can add an email + password as a second way in; an account with
+                     one can change the password. Both open the sign-in dialog in that mode. -->
+                <button
+                  class="settings-item"
+                  aria-haspopup="dialog"
+                  @click="onAccountLogin"
+                >
+                  <i :class="authUser?.login ? 'bi bi-key' : 'bi bi-envelope-plus'" />
+                  <span>{{ authUser?.login ? labels.accountChangePassword : labels.accountAddLogin }}</span>
+                </button>
                 <button
                   class="settings-item"
                   @click="onSignOut"
@@ -322,6 +332,7 @@ import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../compos
 import { useRouteSection } from '../composables/useRouteSection.js'
 import { useAccountActions } from '../composables/useAccountActions.js'
 import { useAuth } from '../composables/useAuth.js'
+import { useSignInModal } from '../composables/useSignInModal.js'
 import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { ui } from '../i18n/ui.js'
 import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
@@ -379,6 +390,12 @@ async function onResend() {
   resendState.value = 'sending'
   const r = await resendVerification(locale.value)
   resendState.value = r.ok ? 'sent' : 'error'
+}
+
+const { openSignIn } = useSignInModal()
+function onAccountLogin() {
+  settingsOpen.value = false
+  openSignIn(route.fullPath, authUser.value?.login ? 'change' : 'add')
 }
 
 async function onSignIn() {

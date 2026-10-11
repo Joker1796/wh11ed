@@ -5,12 +5,16 @@
     @close="closeSignIn"
   >
     <div class="modal-body si-body">
-      <!-- Registered: the account works already; the mail only proves the address. -->
-      <template v-if="mode === 'registered'">
+      <!-- Done: registered or an email added (the account works already; the mail only proves the
+           address), or the password changed. -->
+      <template v-if="mode === 'registered' || mode === 'added' || mode === 'changed'">
         <p class="si-text">
-          {{ registeredText }}
+          {{ doneText }}
         </p>
-        <p class="si-note">
+        <p
+          v-if="mode !== 'changed'"
+          class="si-note"
+        >
           {{ labels.signInCheckSpam }}
         </p>
         <div class="si-actions">
@@ -51,7 +55,7 @@
         <!-- Sign in | create an account: one switch at the top instead of two links at the bottom.
              "Forgot your password?" is its own step, reached from beside the password. -->
         <div
-          v-if="mode !== 'forgot'"
+          v-if="mode === 'login' || mode === 'register'"
           class="seg si-seg"
           role="tablist"
         >
@@ -75,13 +79,16 @@
           </button>
         </div>
         <p
-          v-else
+          v-else-if="mode === 'forgot' || mode === 'add'"
           class="si-text"
         >
-          {{ labels.forgotText }}
+          {{ mode === 'forgot' ? labels.forgotText : labels.addLoginText }}
         </p>
 
-        <label class="si-field">
+        <label
+          v-if="mode !== 'change'"
+          class="si-field"
+        >
           <span class="si-label">{{ labels.signInEmail }}</span>
           <input
             v-model="email"
@@ -94,6 +101,19 @@
             required
           >
         </label>
+        <label
+          v-if="mode === 'change'"
+          class="si-field"
+        >
+          <span class="si-label">{{ labels.changeCurrentPassword }}</span>
+          <input
+            v-model="currentPassword"
+            class="si-input"
+            :type="showPassword ? 'text' : 'password'"
+            autocomplete="current-password"
+            required
+          >
+        </label>
         <div
           v-if="mode !== 'forgot'"
           class="si-field"
@@ -102,7 +122,7 @@
             <label
               :for="pwId"
               class="si-label"
-            >{{ labels.signInPassword }}</label>
+            >{{ mode === 'change' ? labels.changeNewPassword : labels.signInPassword }}</label>
             <button
               v-if="mode === 'login'"
               type="button"
@@ -118,8 +138,8 @@
               v-model="password"
               class="si-input"
               :type="showPassword ? 'text' : 'password'"
-              :autocomplete="mode === 'register' ? 'new-password' : 'current-password'"
-              :minlength="mode === 'register' ? 8 : undefined"
+              :autocomplete="mode === 'login' ? 'current-password' : 'new-password'"
+              :minlength="mode === 'login' ? undefined : 8"
               required
             >
             <button
@@ -133,7 +153,7 @@
             </button>
           </div>
           <small
-            v-if="mode === 'register'"
+            v-if="mode !== 'login'"
             class="si-hint"
           >{{ labels.registerPasswordHint }}</small>
         </div>
@@ -197,10 +217,12 @@ import { useSignInModal } from '../composables/useSignInModal.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { login, loginWithPassword, register, forgotPassword } = useAuth()
-const { returnTo, closeSignIn } = useSignInModal()
+const { login, loginWithPassword, register, forgotPassword, addPasswordLogin, changePassword } = useAuth()
+const { returnTo, startMode, closeSignIn } = useSignInModal()
 
-const mode = ref('login') // login | register | forgot | registered | forgotSent
+// login | register | forgot | add | change, and the answers: registered | forgotSent | added | changed
+const mode = ref(startMode.value)
+const currentPassword = ref('')
 const email = ref('')
 const password = ref('')
 const busy = ref(false)
@@ -216,18 +238,30 @@ const title = computed(() => ({
   registered: labels.value.registerTitle,
   forgot: labels.value.forgotTitle,
   forgotSent: labels.value.forgotTitle,
+  add: labels.value.addLoginTitle,
+  added: labels.value.addLoginTitle,
+  change: labels.value.changeTitle,
+  changed: labels.value.changeTitle,
 })[mode.value])
 const submitLabel = computed(() => ({
   login: labels.value.signInSubmit,
   register: labels.value.registerSubmit,
   forgot: labels.value.forgotSubmit,
+  add: labels.value.addLoginSubmit,
+  change: labels.value.changeSubmit,
 })[mode.value])
-const registeredText = computed(() => (mailWent.value ? labels.value.registerDone : labels.value.registerDoneNoMail)
-  .replace('{email}', email.value.trim()))
+const doneText = computed(() => {
+  const l = labels.value
+  if (mode.value === 'changed') return l.changeDone
+  const sent = mode.value === 'added' ? (mailWent.value ? l.addLoginDone : l.addLoginDoneNoMail)
+    : (mailWent.value ? l.registerDone : l.registerDoneNoMail)
+  return sent.replaceAll('{email}', email.value.trim())
+})
 
 const ERRORS = {
   bad_credentials: 'authErrBadCredentials',
   email_taken: 'authErrEmailTaken',
+  has_login: 'authErrHasLogin',
   too_many: 'authErrTooMany',
   invalid_input: 'authErrInvalid',
   mail_failed: 'authErrMail',
@@ -244,8 +278,10 @@ function switchTo(next) {
 // server says the same thing, but a round trip for a typo is slow on a table's bad signal.
 function localProblem() {
   const e = email.value.trim()
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return labels.value.authErrEmail
-  if (mode.value === 'register' && password.value.length < 8) return labels.value.registerPasswordHint
+  if (mode.value === 'change') {
+    if (!currentPassword.value) return labels.value.authErrInvalid
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return labels.value.authErrEmail
+  if (mode.value !== 'login' && mode.value !== 'forgot' && password.value.length < 8) return labels.value.registerPasswordHint
   if (mode.value === 'login' && !password.value) return labels.value.authErrInvalid
   return ''
 }
@@ -259,6 +295,8 @@ async function submit() {
   let r
   if (mode.value === 'login') r = await loginWithPassword(e, password.value)
   else if (mode.value === 'register') r = await register(e, password.value, locale.value)
+  else if (mode.value === 'add') r = await addPasswordLogin(e, password.value, locale.value)
+  else if (mode.value === 'change') r = await changePassword(currentPassword.value, password.value)
   else r = await forgotPassword(e, locale.value)
   busy.value = false
   if (!r.ok) {
@@ -266,11 +304,13 @@ async function submit() {
     return
   }
   password.value = ''
+  currentPassword.value = ''
   if (mode.value === 'login') closeSignIn()
-  else if (mode.value === 'register') {
+  else if (mode.value === 'register' || mode.value === 'add') {
     mailWent.value = r.mailSent !== false
-    mode.value = 'registered'
-  } else mode.value = 'forgotSent'
+    mode.value = mode.value === 'register' ? 'registered' : 'added'
+  } else if (mode.value === 'change') mode.value = 'changed'
+  else mode.value = 'forgotSent'
 }
 
 async function withYandex() {

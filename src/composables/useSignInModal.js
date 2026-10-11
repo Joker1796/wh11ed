@@ -5,12 +5,16 @@ import { ref } from 'vue'
 // and the path it was opened from travels with it, so a Yandex sign-in still comes back there.
 const open = ref(false)
 const returnTo = ref('')
+// What the dialog opens on: 'login' for a guest; 'add' (an email + password for a Yandex account)
+// or 'change' (a new password) from the ⚙ menu of a signed-in player.
+const startMode = ref('login')
 
 export function useSignInModal() {
   return {
     open,
     returnTo,
-    openSignIn: (from = '') => { returnTo.value = from; open.value = true },
+    startMode,
+    openSignIn: (from = '', mode = 'login') => { returnTo.value = from; startMode.value = mode; open.value = true },
     closeSignIn: () => { open.value = false },
   }
 }
