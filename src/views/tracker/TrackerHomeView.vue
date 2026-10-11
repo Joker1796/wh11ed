@@ -376,6 +376,7 @@ function doStartNew() {
 // on entry — is what is on this phone also somewhere else.
 const cloud = computed(() => {
   const l = labels.value
+  if (status.value === 'down') return { icon: 'bi-cloud-slash', text: l.cloudServerDown, title: l.cloudServerDownHint, err: true }
   if (status.value !== 'authed') return { icon: 'bi-cloud', text: l.cloudLocalOnly, title: l.cloudSignInHint }
   if (lastError.value) return { icon: 'bi-cloud-slash', text: l.cloudNotSynced, title: l.cloudError, err: true }
   if (syncing.value) return { icon: 'bi-arrow-repeat', text: l.cloudSyncing, title: '' }

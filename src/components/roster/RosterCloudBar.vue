@@ -8,7 +8,7 @@
   <p
     v-if="text"
     class="rc-bar"
-    :class="{ err: state === 'error', compact }"
+    :class="{ err: state === 'error' || state === 'down', compact }"
     :title="compact && title !== text ? title : undefined"
   >
     <i :class="icon" />

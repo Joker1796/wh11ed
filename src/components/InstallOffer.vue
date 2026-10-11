@@ -94,7 +94,7 @@ const iosHow = computed(() => iosInstall.value || preview === 'offer-ios')
 // A phone or a tablet is told about the table; a computer just about working with no signal.
 const phone = preview === 'offer-ios' || (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches)
 const signInFirst = computed(() => {
-  if (!isIos() || status.value === 'authed') return false
+  if (!isIos() || status.value === 'authed' || status.value === 'down') return false
   const { rosters, games } = localWork()
   return rosters + games > 0
 })

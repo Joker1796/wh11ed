@@ -151,6 +151,7 @@ function errorText(err) {
   if (err === 'not_found' || err === 'invalid_invite') return l.partyJoinNotFound
   if (err === 'too_many') return l.partyJoinTooMany
   if (err === 'network') return l.partyJoinNetwork
+  if (err === 'server') return l.partyJoinServerDown
   if (err === 'seat_taken') return l.partyRejoinBlocked
   if (err === 'tracker_version') return l[`partyJoinOtherGen${otherGen.value}`] || l.partyStatusError
   return l.partyStatusError
