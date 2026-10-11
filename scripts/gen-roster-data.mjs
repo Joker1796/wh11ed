@@ -2238,7 +2238,12 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       m: miniIdx.get(g.miniatureId) ?? 0,
       miniId: g.miniatureId,
       text,
-      in: rawOpts[0]?.inputType || 'checkbox',
+      // "…up to two of the following, and can take duplicates" is a count per option whatever
+      // appdata's input type says: it marks four T'au groups (Strike and Breacher Shas'ui, the
+      // Coldstar and Enforcer Commanders) `checkbox`, and a model could not take the second
+      // Shield Drone its datasheet allows — the Cadre Fireblade's identical group is a stepper
+      // (2026-10-11). The datasheet's words over the table (the house rule for wargear).
+      in: /can take duplicates/i.test(text) ? 'stepper' : (rawOpts[0]?.inputType || 'checkbox'),
       opts: rawOpts.map((o) => ({ uuid: o.wargearItemId, pts: o.points || 0, def: o.defaultValue || 0 })),
     })
   }
