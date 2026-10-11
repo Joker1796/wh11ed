@@ -36,11 +36,44 @@ describe('refresh', () => {
     expect(auth.user.value).toBeNull()
   })
 
-  it('never throws on a network error — resolves false and marks anon', async () => {
+  it('never throws on a network error — offline, it resolves false and marks anon', async () => {
     global.fetch = vi.fn().mockRejectedValue(new Error('offline'))
+    vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false)
     await load()
     await expect(auth.refresh()).resolves.toBe(false)
     expect(auth.status.value).toBe('anon')
+    vi.restoreAllMocks()
+  })
+
+  // The Yandex Cloud outage of 2026-10-11: the gateway's 502 carries no CORS headers, so the page
+  // sees a network error while the browser is online. That is the server, not a signed-out player.
+  it('marks down, not anon, when the request fails while the browser is online', async () => {
+    global.fetch = vi.fn().mockRejectedValue(new TypeError('Failed to fetch'))
+    await load()
+    await expect(auth.refresh()).resolves.toBe(false)
+    expect(auth.status.value).toBe('down')
+  })
+
+  it('marks down on a 5xx answer', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: false, status: 502 })
+    await load()
+    await auth.refresh()
+    expect(auth.status.value).toBe('down')
+  })
+
+  it('asks again while down, and comes back signed in by itself', async () => {
+    vi.useFakeTimers()
+    global.fetch = vi.fn().mockRejectedValue(new TypeError('Failed to fetch'))
+    await load()
+    await auth.refresh()
+    expect(auth.status.value).toBe('down')
+    global.fetch = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ accessToken: 'tok' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'u' }) })
+    await vi.advanceTimersByTimeAsync(60_000)
+    expect(auth.status.value).toBe('authed')
+    vi.useRealTimers()
   })
 
   it('de-dupes concurrent refreshes into a single /auth/refresh call', async () => {
@@ -113,11 +146,14 @@ describe('authedFetch', () => {
 // The backend always lands on one fixed callback path, so where to go next is the app's own
 // bookkeeping — and the value is read straight back out of storage into router.replace().
 describe('return path', () => {
-  beforeEach(() => sessionStorage.clear())
+  beforeEach(() => {
+    sessionStorage.clear()
+    global.fetch = vi.fn().mockResolvedValue({ ok: true }) // /health
+  })
 
   it('remembers where sign-in started, and spends it once', async () => {
     await load()
-    auth.login('yandex', '/roster/abc?tab=units')
+    await auth.login('yandex', '/roster/abc?tab=units')
     expect(auth.takeReturnPath()).toBe('/roster/abc?tab=units')
     expect(auth.takeReturnPath()).toBeNull() // read once: a return path is spent by the redirect
   })
@@ -125,15 +161,30 @@ describe('return path', () => {
   it('refuses anything that is not a same-site path', async () => {
     await load()
     for (const bad of ['//evil.example', 'https://evil.example', 'roster', '']) {
-      auth.login('yandex', bad)
+      await auth.login('yandex', bad)
       expect(auth.takeReturnPath()).toBeNull()
     }
   })
 
   it('clears a stale path when sign-in is started without one', async () => {
     await load()
-    auth.login('yandex', '/tracker')
-    auth.login('yandex')
+    await auth.login('yandex', '/tracker')
+    await auth.login('yandex')
     expect(auth.takeReturnPath()).toBeNull()
+  })
+})
+
+// A sign-in is a full-page trip; with the API down it ended on the gateway's bare 502.
+describe('sign-in with the server down', () => {
+  it('stays on the page, says the server is down, and keeps no return path', async () => {
+    sessionStorage.clear()
+    global.fetch = vi.fn().mockRejectedValue(new TypeError('Failed to fetch'))
+    await load()
+    const before = window.location.href
+    await expect(auth.login('yandex', '/tracker')).resolves.toBe(false)
+    expect(auth.status.value).toBe('down')
+    expect(window.location.href).toBe(before)
+    expect(auth.takeReturnPath()).toBeNull()
+    expect(String(global.fetch.mock.calls[0][0])).toMatch(/\/health$/)
   })
 })

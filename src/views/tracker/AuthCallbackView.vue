@@ -79,7 +79,10 @@ const REASONS = {
 const failure = ref('')
 
 const leave = () => router.replace(back)
-const retry = () => login('yandex', back)
+// The server down: say so here rather than send the player to the gateway's 502.
+const retry = async () => {
+  if (!(await login('yandex', back))) failure.value = labels.value.cloudServerDownHint
+}
 
 onMounted(async () => {
   if (code && code !== 'access_denied') {

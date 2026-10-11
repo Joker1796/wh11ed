@@ -7,6 +7,7 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import { useRosterSync } from './useRosterSync.js'
 import { useInstallPrompt } from './useInstallPrompt.js'
+import { useAuth } from './useAuth.js'
 
 // `hint`: say something to a signed-out user (the list page does). `compact`: the heading-row form,
 // where the signed-out sentence becomes three words. Each may be a value, a ref or a getter.
@@ -21,8 +22,12 @@ export function useRosterCloudStatus({ hint = false, compact = false } = {}) {
   // table, so the hint says which of the two rather than being a warning nobody can act on.
   // Not shown in the installed app (`iosInstall` is already false there) or anywhere else.
   const { iosInstall } = useInstallPrompt()
+  const { status: authStatus } = useAuth()
 
   const state = computed(() => {
+    // The server not answering is not "signed out": the lists are where they were, and the
+    // account returns by itself (useAuth retries).
+    if (authStatus.value === 'down') return props.hint ? 'down' : ''
     if (!enabled.value) return props.hint ? 'hint' : ''
     if (syncing.value || uploading.value) return 'syncing'
     if (lastError.value) return 'error'
@@ -38,14 +43,17 @@ export function useRosterCloudStatus({ hint = false, compact = false } = {}) {
   const title = computed(() => {
     const l = labels.value
     if (state.value === 'hint') return iosInstall.value ? l.rosterCloudHintIos : l.rosterCloudHint
+    if (state.value === 'down') return l.cloudServerDownHint
     return text.value
   })
 
   const text = computed(() => {
     const l = labels.value
     if (props.compact && state.value === 'hint') return l.cloudLocalOnly
+    if (props.compact && state.value === 'down') return l.cloudServerDown
     switch (state.value) {
       case 'hint': return iosInstall.value ? l.rosterCloudHintIos : l.rosterCloudHint
+      case 'down': return l.cloudServerDownHint
       case 'syncing': return l.rosterCloudSyncing
       case 'error': return l.rosterCloudError
       case 'updated': {
@@ -61,6 +69,7 @@ export function useRosterCloudStatus({ hint = false, compact = false } = {}) {
 
   const icon = computed(() => ({
     hint: 'wi wi-cloud',
+    down: 'wi wi-cloud-error',
     syncing: 'wi wi-sync',
     error: 'wi wi-cloud-error',
     updated: 'wi wi-cloud-down',

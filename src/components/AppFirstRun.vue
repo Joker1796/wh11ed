@@ -56,7 +56,7 @@ const labels = computed(() => ui[locale.value])
 const { status, signIn } = useAccountActions()
 
 const emptyOnIos = computed(() => {
-  if (!isIos() || status.value === 'authed') return false
+  if (!isIos() || status.value === 'authed' || status.value === 'down') return false
   const { rosters, games } = localWork()
   return rosters + games === 0
 })

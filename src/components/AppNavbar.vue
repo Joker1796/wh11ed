@@ -252,6 +252,16 @@
                   <span>{{ labels.cloudSignOut }}</span>
                 </button>
               </template>
+              <!-- The server not answering is not "signed out": the button would lead to the
+                   gateway's bare 502, so the menu says what is going on instead (2026-10-11). -->
+              <p
+                v-else-if="accountStatus === 'down'"
+                class="settings-who settings-down"
+                :title="labels.cloudServerDownHint"
+              >
+                <i class="bi bi-cloud-slash" />
+                <span>{{ labels.cloudServerDown }}</span>
+              </p>
               <button
                 v-else
                 class="settings-item"
@@ -347,9 +357,10 @@ const accountEmailParts = computed(() => {
 })
 
 // Every gear-menu entry closes the menu behind it; the account ones are no different.
-function onSignIn() {
-  settingsOpen.value = false
-  signIn()
+// A sign-in that finds the server down stays on the page, and the menu stays open on the line
+// that says so.
+async function onSignIn() {
+  if (await signIn()) settingsOpen.value = false
 }
 async function onSignOut() {
   settingsOpen.value = false
@@ -874,6 +885,17 @@ a.nd-link:hover {
   text-align: center;
   flex-shrink: 0;
   color: var(--accent-ink);
+}
+/* The server down: the same line, in the colour of something wrong, with room under it. */
+.settings-down {
+  padding-bottom: 0.6rem;
+  color: var(--danger);
+}
+.settings-down .bi {
+  font-size: 1rem;
+  width: 1.2rem;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .settings-item:disabled {

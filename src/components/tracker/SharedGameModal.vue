@@ -20,7 +20,7 @@
             @click="creating = true"
           >
             <span class="sg-act-name">{{ labels.lobbyChoiceCreate }}</span>
-            <span class="sg-act-sub">{{ canShare ? labels.lobbyChoiceCreateHint : labels.partySignIn }}</span>
+            <span class="sg-act-sub">{{ canShare ? labels.lobbyChoiceCreateHint : authStatus === 'down' ? labels.partyServerDown : labels.partySignIn }}</span>
           </button>
           <RouterLink
             to="/tracker/join"
@@ -117,6 +117,7 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
+import { useAuth } from '../../composables/useAuth.js'
 
 // The two ways into a shared game, behind one button. They were two entries side by side on the
 // tracker home and that was wrong in two ways: it made "join someone else's table" look as
@@ -126,6 +127,7 @@ import { useParty } from '../../composables/useParty.js'
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { canShare } = useParty()
+const { status: authStatus } = useAuth()
 
 // The same three modes as the setup's own "Game type" row (GameSetup's setGameMode).
 const MODES = [
