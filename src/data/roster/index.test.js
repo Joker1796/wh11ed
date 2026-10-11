@@ -1981,3 +1981,23 @@ describe('a Detachment that grants CHARACTER by keyword', () => {
     expect(missing).toEqual([])
   })
 })
+
+// "…up to two of the following, and can take duplicates" is a COUNT per option. As a checkbox it
+// let a model take each option once: a Legends T'au Commander could not take the second Shield
+// Drone its datasheet allows, while the Codex Commander's stepper could (2026-10-11, the Faction
+// Pack reader). Every faction, every group.
+describe('a group that can take duplicates', () => {
+  it('is a stepper, never a checkbox', async () => {
+    const slugs = fs.readdirSync(path.dirname(fileURLToPath(import.meta.url)))
+      .filter((f) => f.endsWith('.js') && !/^(core|items|index)\.js$|\.test\.js$/.test(f)).map((f) => f.replace(/\.js$/, ''))
+    const bad = []
+    for (const slug of slugs) {
+      for (const u of (await loadRosterFaction(slug)).units) {
+        for (const g of u.gear || []) {
+          if (g.in === 'checkbox' && /can take duplicates/i.test(rosterItems.texts[g.t] || '')) bad.push(`${slug}: ${u.name}`)
+        }
+      }
+    }
+    expect(bad).toEqual([])
+  }, 60000)
+})

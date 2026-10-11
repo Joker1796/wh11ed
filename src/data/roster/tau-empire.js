@@ -396,7 +396,7 @@ export default {
         {
           "m": 0,
           "t": 907,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               2796
@@ -872,7 +872,7 @@ export default {
         {
           "m": 0,
           "t": 915,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               2818
@@ -1063,7 +1063,7 @@ export default {
         {
           "m": 0,
           "t": 1190,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               2818
@@ -1107,7 +1107,7 @@ export default {
         {
           "m": 0,
           "t": 1191,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               2797
@@ -1319,7 +1319,7 @@ export default {
         {
           "m": 0,
           "t": 915,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               2819
@@ -4688,7 +4688,7 @@ export default {
         {
           "m": 0,
           "t": 955,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               2796
