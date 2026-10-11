@@ -28,11 +28,13 @@ export const changelog = [
       { h: 'Roster builder' },
       'A Support unit that is not attached to any unit now shows an error. By the rules each Support unit must be attached to a unit.',
       'In a unit’s fields, “Can be led by” and “Can lead” follow every catalogue filter: “Fits the points left”, “In my collection” and hidden Legends.',
+      'A T’au Shield Drone now adds 1 to its bearer’s Wounds on the unit card. Two drones add 2. In a squad, the model with a drone gets its own row. Legends units do not have this yet.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
       'Юнит Support, который ни к кому не присоединён, теперь отмечен ошибкой. По правилам каждый Support должен быть присоединён к отряду.',
       'В полях юнита списки «Кто может возглавить» и «Кого может возглавить» учитывают все фильтры каталога: «Влезает в остаток», «Есть в коллекции» и скрытые Legends.',
+      'Shield Drone у T’au теперь добавляет носителю 1 к Wounds на карточке юнита. Два дрона добавляют 2. В отряде модель с дроном показана отдельной строкой. У юнитов Legends этого пока нет.',
     ],
   },
   {
