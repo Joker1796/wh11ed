@@ -1,13 +1,19 @@
 #!/usr/bin/env node
 // Move the older release notes out of src/data/changelog.js into the API's archive.
 //
-//   node scripts/changelog-rollover.mjs [--keep 5] [--file src/data/changelog.js] [--api ../wh11ed-api]
+//   node scripts/changelog-rollover.mjs --ssh wh@<server> [--ssh-key ~/.ssh/key] [--keep 5] [--check]
+//   node scripts/changelog-rollover.mjs --api ../wh11ed-api [--keep 5]        (DATABASE_URL set: the stand)
 //
 // The file keeps its newest `--keep` entries; everything older goes to wh11ed-api's
 // `changelog` table (GET /changelog serves it to the "What's new" page on request). Run by
-// deploy.sh before the build, with the production YDB env set (YDB_ENDPOINT / YDB_DATABASE /
-// YDB_ACCESS_TOKEN). Notes almost nobody reads then stay out of the app's first load and out of the
-// installed app's offline download (owner's call, 2026-09-27).
+// deploy.sh before the build. Notes almost nobody reads then stay out of the app's first load and
+// out of the installed app's offline download (owner's call, 2026-09-27).
+//
+// Where the archive lives decides how it is reached. Production (since the move off Yandex,
+// 2026-10-11): the database sits on the API's server and is not reachable from outside, so the
+// entries go over ssh to the API container, which publishes them itself (`--ssh`). The stand, or
+// any database this machine can reach: a sibling wh11ed-api checkout with DATABASE_URL (`--api`).
+// `--check` publishes nothing — an empty batch through the same path — to prove the way is open.
 //
 // Nothing is dropped from the file until the archive holds it. The order:
 //   1. publish the older entries with wh11ed-api's `npm run changelog:publish`, which validates
@@ -32,7 +38,35 @@ function arg(name, fallback) {
 }
 const KEEP = Number(arg('keep', '5'))
 const FILE = resolve(arg('file', 'src/data/changelog.js'))
-const API = resolve(arg('api', '../wh11ed-api'))
+const SSH = arg('ssh', '')
+const SSH_KEY = arg('ssh-key', '')
+const API = SSH ? '' : resolve(arg('api', '../wh11ed-api'))
+const CHECK = process.argv.includes('--check')
+
+// Publish a batch to the archive; exit status 0 means validated, written and read back (wh11ed-api
+// scripts/changelog-publish.ts). Over ssh the JSON rides stdin into the API container — no file on
+// the server, no port opened for it.
+function publish(batch) {
+  const json = JSON.stringify(batch)
+  if (SSH) {
+    const remote = 'cd /opt/wh-rules && docker compose -f docker-compose.prod.yml exec -T api sh -c ' +
+      `'cat > /tmp/changelog.json && node --import tsx scripts/changelog-publish.ts /tmp/changelog.json; rc=$?; rm -f /tmp/changelog.json; exit $rc'`
+    const args = [...(SSH_KEY ? ['-i', SSH_KEY] : []), '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', SSH, remote]
+    return spawnSync('ssh', args, { input: json, stdio: ['pipe', 'inherit', 'inherit'] }).status
+  }
+  const dir = mkdtempSync(join(tmpdir(), 'changelog-'))
+  const file = join(dir, 'entries.json')
+  writeFileSync(file, json)
+  const st = spawnSync('npm', ['--prefix', API, 'run', '--silent', 'changelog:publish', '--', file], { stdio: 'inherit', env: process.env }).status
+  rmSync(dir, { recursive: true, force: true })
+  return st
+}
+
+if (CHECK) {
+  const st = publish([])
+  console.log(st === 0 ? '  changelog: the archive is reachable' : '  ⚠ changelog: the archive is NOT reachable')
+  process.exit(st === 0 ? 0 : 2)
+}
 
 // A fresh process each time: the module cache would hand back the file as it was first imported.
 function versionsIn(file) {
@@ -50,18 +84,13 @@ if (entries.length <= KEEP) {
 }
 const older = entries.slice(KEEP)
 
-if (!existsSync(join(API, 'package.json'))) {
+if (!SSH && !existsSync(join(API, 'package.json'))) {
   console.error(`  ⚠ changelog: no wh11ed-api checkout at ${API} — ${older.length} older entries stay in the file`)
   process.exit(2)
 }
 
 // 1. Publish, and believe it only on exit 0.
-const dir = mkdtempSync(join(tmpdir(), 'changelog-'))
-const json = join(dir, 'entries.json')
-writeFileSync(json, JSON.stringify(older))
-const pub = spawnSync('npm', ['--prefix', API, 'run', '--silent', 'changelog:publish', '--', json], { stdio: 'inherit', env: process.env })
-rmSync(dir, { recursive: true, force: true })
-if (pub.status !== 0) {
+if (publish(older) !== 0) {
   console.error(`  ⚠ changelog: publishing to the archive failed — ${older.length} older entries stay in the file`)
   process.exit(2)
 }

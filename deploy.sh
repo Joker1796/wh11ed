@@ -76,27 +76,22 @@ fi
 #     notes almost nobody reads stay out of the first load and the installed app's offline download.
 #     scripts/changelog-rollover.mjs publishes them, reads them back, and only then cuts them from the
 #     file — any failure leaves the file whole and the deploy goes on (the page renders it all the
-#     same). Needs a wh11ed-api checkout beside this one and CHANGELOG_YDB_ENDPOINT /
-#     CHANGELOG_YDB_DATABASE in .env.deploy; the cut file is committed with the version bump (step 5).
+#     same). The archive is the API server's database, reached over ssh (CHANGELOG_SSH = wh@<server>,
+#     CHANGELOG_SSH_KEY in .env.deploy) — it is not reachable from outside. The cut file is committed
+#     with the version bump (step 5).
 CHANGELOG_KEEP="${CHANGELOG_KEEP:-5}"
-if [ -n "${CHANGELOG_YDB_DATABASE-}" ]; then
+if [ -n "${CHANGELOG_SSH-}" ]; then
   echo "▶ Release notes → archive (keeping the newest $CHANGELOG_KEEP)"
-  YDB_TOKEN="$("$YC_BIN" iam create-token 2>/dev/null || true)"
-  if [ -n "$YDB_TOKEN" ]; then
-    set +e
-    YDB_ENDPOINT="$CHANGELOG_YDB_ENDPOINT" YDB_DATABASE="$CHANGELOG_YDB_DATABASE" YDB_ACCESS_TOKEN="$YDB_TOKEN" \
-      node scripts/changelog-rollover.mjs --keep "$CHANGELOG_KEEP"
-    ROLLOVER_RC=$?
-    set -e
-    if [ "$ROLLOVER_RC" -eq 3 ]; then
-      echo "✗ The changelog rewrite did not check out and was reverted — look before deploying." >&2
-      exit 1
-    fi
-  else
-    echo "  ⚠ no IAM token (yc: $YC_BIN) — release notes stay whole in the file"
+  set +e
+  node scripts/changelog-rollover.mjs --keep "$CHANGELOG_KEEP" --ssh "$CHANGELOG_SSH" ${CHANGELOG_SSH_KEY:+--ssh-key "$CHANGELOG_SSH_KEY"}
+  ROLLOVER_RC=$?
+  set -e
+  if [ "$ROLLOVER_RC" -eq 3 ]; then
+    echo "✗ The changelog rewrite did not check out and was reverted — look before deploying." >&2
+    exit 1
   fi
 else
-  echo "⚠ CHANGELOG_YDB_DATABASE unset — release notes stay whole in the file (see .env.deploy.example)"
+  echo "⚠ CHANGELOG_SSH unset — release notes stay whole in the file (see .env.deploy.example)"
 fi
 
 # Point the SPA at the production API. Vite inlines VITE_API_BASE_URL at build time;
