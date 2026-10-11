@@ -901,27 +901,45 @@ export function splitBearers(sheet, entries, def, entry, items) {
   }
   const unitModels = [...modelsOf.values()].reduce((a, n) => a + n, 0)
 
-  // Bearers of one item, per profile index — or null when they cannot be placed.
+  // Bearers of one item, per profile index — or null when they cannot be placed. Each profile
+  // answers with its LAYERS: how many models hold a first copy, how many a second, and so on —
+  // the shape loadoutItemCopies gives a mini's slots, where picks past the model count are further
+  // copies on the same models. A T'au Shas'ui with two Shield Drones is [1, 1]: one model, two
+  // drones, and "add 1 to the bearer's Wounds" twice over (2026-10-11).
   const bearersOf = (itemName) => {
     const ids = [...copies.keys()].filter((id) => itemKey(items[id]) === itemName)
     const slots = ids.flatMap((id) => copies.get(id))
     if (!slots.length || slots.some((s) => s.n == null)) return null
     const out = new Map()
+    const add = (p, n) => {
+      const layers = out.get(p) || []
+      // A copy goes on the models already holding the most copies that still have room for one.
+      let left = n
+      for (let k = 0; left > 0; k++) {
+        const room = (k === 0 ? modelsOf.get(p) : layers[k - 1]) - (layers[k] || 0)
+        const take = Math.min(left, room)
+        if (take > 0) { layers[k] = (layers[k] || 0) + take; left -= take }
+        if (k > layers.length) return false
+      }
+      out.set(p, layers)
+      return true
+    }
     let loose = 0
     for (const s of slots) {
       if (s.m == null) { loose += s.n; continue }
       const p = profileOf(s.m)
-      if (p == null) return null
-      out.set(p, (out.get(p) || 0) + s.n)
+      if (p == null || !add(p, s.n)) return null
     }
     for (const m of minis) {
       if (!loose) break
       const p = profileOf(m)
-      const take = Math.min(loose, perMini.get(m) - (out.get(p) || 0))
-      if (take > 0) { out.set(p, (out.get(p) || 0) + take); loose -= take }
+      const take = Math.min(loose, perMini.get(m) - (out.get(p)?.[0] || 0))
+      if (take > 0) { add(p, take); loose -= take }
     }
     return loose ? null : out
   }
+  // Models per number of copies held: layers [3, 1] are two models with one copy and one with two.
+  const byCopies = (layers) => layers.map((n, k) => [k + 1, n - (layers[k + 1] || 0)]).filter(([, n]) => n > 0)
 
   // Each row as groups of models that carry the same items; a group with no items is the row as
   // printed. A second item may only be given to models that carry nothing yet.
@@ -930,11 +948,11 @@ export function splitBearers(sheet, entries, def, entry, items) {
     if (!groups[table].has(i)) groups[table].set(i, [{ items: [], n: models }])
     return groups[table].get(i)
   }
-  const give = (list, item, n) => {
+  const give = (list, item, n, times = 1) => {
     const bare = list.find((g) => !g.items.length)
     if (!bare || bare.n < n) return null
     bare.n -= n
-    const g = { items: [item], n, effects: [] }
+    const g = { items: [times > 1 ? `${item} ×${times}` : item], n, times, effects: [] }
     list.push(g)
     return g
   }
@@ -948,22 +966,24 @@ export function splitBearers(sheet, entries, def, entry, items) {
     const by = bearersOf(e.ref.item)
     if (!by) continue
     const label = items[[...copies.keys()].find((id) => itemKey(items[id]) === e.ref.item)]
-    const total = [...by.values()].reduce((a, n) => a + n, 0)
-    const mine = new Map() // `${table}:${row}` → this record's group there
-    const groupAt = (table, i, models, n) => {
-      const k = `${table}:${i}`
-      if (!mine.has(k)) mine.set(k, give(groupsOf(table, i, models), label, n))
+    const total = [...by.values()].reduce((a, layers) => a + layers.reduce((x, n) => x + n, 0), 0)
+    const mine = new Map() // `${table}:${row}:${copies}` → this record's group there
+    const groupAt = (table, i, models, n, times = 1) => {
+      const k = `${table}:${i}:${times}`
+      if (!mine.has(k)) mine.set(k, give(groupsOf(table, i, models), label, n, times))
       return mine.get(k)
     }
     for (const effect of e.effects) {
       if (!effect.cond?.includes(BEARER) || effect.cond.length !== 1) continue
       const spots = []
       if (effect.on === 'profile') {
-        const want = [...by].filter(([, n]) => n)
-        const fits = want.every(([p, n]) => mine.has(`profiles:${p}`)
-          || (groupsOf('profiles', p, modelsOf.get(p)).find((g) => !g.items.length)?.n ?? 0) >= n)
+        const want = [...by].filter(([, layers]) => layers[0])
+        const fits = want.every(([p, layers]) => [...mine.keys()].some((k) => k.startsWith(`profiles:${p}:`))
+          || (groupsOf('profiles', p, modelsOf.get(p)).find((g) => !g.items.length)?.n ?? 0) >= layers[0])
         if (!fits) continue
-        for (const [p, n] of want) spots.push(groupAt('profiles', p, modelsOf.get(p), n))
+        for (const [p, layers] of want) {
+          for (const [times, n] of byCopies(layers)) spots.push(groupAt('profiles', p, modelsOf.get(p), n, times))
+        }
       } else {
         for (const table of WEAPON_TABLES[effect.on] || []) {
           for (const [i, w] of (sheet[table] || []).entries()) {
@@ -1010,14 +1030,18 @@ export function splitBearers(sheet, entries, def, entry, items) {
       effects: e.effects.flatMap((x) => {
         const spots = placed.get(x)
         if (!spots) return [x]
-        const rows = {}
+        // One applied effect per number of copies: two Shield Drones add twice what one does. Only
+        // an `add` multiplies — a SET ("has a Move characteristic of 7\"") is the same with two.
+        const byTimes = new Map()
         for (const g of spots) {
           const at = where.get(g)
           if (!at) continue
-          ;(rows[at.table] ||= []).push(at.index)
+          const t = x.op === 'add' && typeof x.value === 'number' ? (g.times || 1) : 1
+          if (!byTimes.has(t)) byTimes.set(t, {})
+          ;(byTimes.get(t)[at.table] ||= []).push(at.index)
         }
-        const done = { ...x, cond: null, when: null, rows }
-        return partial.has(x) ? [done, x] : [done]
+        const done = [...byTimes].map(([t, rows]) => ({ ...x, value: t > 1 ? x.value * t : x.value, cond: null, when: null, rows }))
+        return partial.has(x) ? [...done, x] : done
       }),
     }
   })

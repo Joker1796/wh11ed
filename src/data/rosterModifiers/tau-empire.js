@@ -124,11 +124,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -650,21 +650,7 @@ export default {
       "hash": "e80ed40e",
       "ver": 925,
       "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "w",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "if the model was upgraded with a Shield Drone",
-            "ru": "если модель улучшена дроном-щитом (Shield Drone)"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        }
-      ],
+      "effects": [],
       "ref": {
         "kind": "armyRule"
       }
@@ -1883,11 +1869,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -1935,11 +1921,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -1987,11 +1973,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2039,11 +2025,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2114,11 +2100,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2189,11 +2175,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2241,11 +2227,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2293,11 +2279,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2368,11 +2354,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2492,11 +2478,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
@@ -2567,11 +2553,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "the Shield Drone model only",
-            "ru": "только модель Shield Drone"
+            "en": "the bearer only",
+            "ru": "только носитель"
           },
           "cond": [
-            "blocked-subset"
+            "wargear-bearer"
           ]
         }
       ]
