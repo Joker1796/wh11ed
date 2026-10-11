@@ -22,8 +22,20 @@
 
 export const changelog = [
   {
+    version: '2.7.22',
+    date: '2026-10-12',
+    en: [
+      { h: 'Cloud' },
+      'I am getting the cloud ready to move to a new server. Nothing changes for you in this update.',
+    ],
+    ru: [
+      { h: 'Облако' },
+      'Готовлю облако к переезду на новый сервер. Для вас в этом обновлении ничего не меняется.',
+    ],
+  },
+  {
     version: '2.7.21',
-    date: '2026-10-10',
+    date: '2026-10-11',
     en: [
       { h: 'Roster builder' },
       'A Support unit that is not attached to any unit now shows an error. By the rules each Support unit must be attached to a unit.',
@@ -173,60 +185,6 @@ export const changelog = [
       'Блок «Кто может возглавить» сделал {who:Creego} и прислал его в проект на GitHub. Ещё он перенёс плашку «Вернуть» после удаления отряда на широком экране в нижнюю панель. Спасибо!',
       { h: 'Force Disposition' },
       'У шести детачментов, например Vow-sworn Crusaders, не было верной плашки Force Disposition в списке ростеров и в настройке партии. Теперь она верная, а в настройке партии есть и очки детачмента.',
-    ],
-  },
-  {
-    version: '2.7.17',
-    date: '2026-10-06',
-    en: [
-      { h: 'Roster builder' },
-      'The list you edited last is now at the top of your lists. Pinned lists stay above it. Just opening a list does not move it.',
-      'The “Fits the points left” filter now hides units that are already in your list too. A unit stays while one more copy of it fits. Before, units in the list were never hidden.',
-    'The Rules tab of a roster now shows your detachments’ enhancements. Under each one you see which unit has taken it. If it is still free, you see which units can take it. The same shows in the builder under {btn:shield}.',
-    'The faction filter on your lists is now remembered. The page opens on the faction you picked last time.',
-    'The Tankbustas Nob now swaps only one Rokkit Pistol for a Smash Hammer. Before, both pistols disappeared.',
-    { h: 'Faction rules' },
-    'Faction rule texts now match the GW app word for word. What the app applies on its own is in an “Also applies” plate under the rule: keywords units gain, limits on allied units, which units an enhancement’s bearer can join, an enhancement’s weapon.',
-    '“Hide lore” now hides lore inside rules too. Before, Tyranids lore stayed in the army rule and in the Vanguard Onslaught detachment.',
-    ],
-    ru: [
-      { h: 'Конструктор ростеров' },
-      'Список, который вы меняли последним, теперь стоит первым. Закреплённые списки по-прежнему выше всех. Если список просто открыть, он не сдвигается.',
-      'Фильтр «Влезает в остаток» теперь прячет и юниты, которые уже есть в списке. Юнит остаётся, пока влезает ещё одна его копия. Раньше юниты из списка не прятались никогда.',
-    'На вкладке «Правила» в ростере теперь есть улучшения ваших детачментов. Под каждым написано, какой юнит его взял. Если улучшение свободно, написано, какие юниты могут его взять. То же видно в конструкторе по кнопке {btn:shield}.',
-    'Фильтр по фракции в списке ростеров теперь запоминается. Страница открывается на той фракции, которую вы выбрали в прошлый раз.',
-    'У Tankbustas ноб теперь меняет на Smash Hammer только один Rokkit Pistol. Раньше пропадали оба.',
-    { h: 'Правила фракций' },
-    'Текст правил фракций теперь совпадает с приложением GW слово в слово. То, что приложение применяет само, вынесено в плашку «Действует также» под правилом: ключевые слова для юнитов, лимиты на союзников, к каким отрядам можно присоединить носителя улучшения, оружие улучшения.',
-    'Кнопка «скрыть лор» теперь прячет и лор внутри правил. Раньше у Tyranids он оставался в правиле армии и в детачменте Vanguard Onslaught.',
-    ],
-  },
-  {
-    version: '2.7.16',
-    date: '2026-10-05',
-    en: [
-      { h: 'Roster builder' },
-      'You can now take the Nightforged Battery Upgrade up to three times, like any other Upgrade. It is in the Dark Angels Darkflight Pursuit detachment. Before, the roster builder let you take it only once.',
-      'The mistake came from the data of the official GW app. There, this Upgrade is limited to one copy. All the other Upgrades there are limited to three. By the muster rules, you can take any Upgrade up to three times.',
-      { h: 'Points' },
-      'The Munitorum Field Manual was updated today. No prices changed. GW fixed one label: Gretchin cost 80 points for 20 models. Before, the Orks unit page said 11 models.',
-      { h: 'Tracker: Doubles and shared games' },
-      'A shared game can now be Doubles. Before you open the lobby, enter your name and choose the game type. For Doubles, also enter the names of both teams.',
-      'On the join screen, seats are grouped by team. Free seats have a dashed border. The first seat of the host’s team is the host’s.',
-      'In Doubles, one phone fills in both armies of a team. The screens now say so.',
-      '“Close the lobby” now cancels the shared game completely. The players who joined leave, and the setup is not kept.',
-    ],
-    ru: [
-      { h: 'Конструктор ростеров' },
-      'Upgrade Nightforged Battery теперь можно взять до трёх раз, как любой другой Upgrade. Он есть в детачменте Dark Angels Darkflight Pursuit. Раньше конструктор давал взять его только один раз.',
-      'Ошибка пришла из данных официального приложения GW. Там у этого Upgrade стоит лимит в одну копию. У всех остальных Upgrade там стоит три. По правилам сбора армии любой Upgrade можно взять до трёх раз.',
-      { h: 'Очки' },
-      'Сегодня обновился Munitorum Field Manual. Цены не изменились. GW исправили одну подпись: Gretchin стоят 80 очков за 20 моделей. Раньше на странице юнита у орков было написано 11 моделей.',
-      { h: 'Трекер: парная и совместная игра' },
-      'Совместную игру теперь можно начать в парном формате. Перед запуском лобби впишите своё имя и выберите тип игры. Для парной игры впишите ещё названия обеих команд.',
-      'На экране подключения места сгруппированы по командам. Свободные места обведены пунктиром. Первое место в команде хоста занято хостом.',
-      'В парной игре обе армии команды заполняет один телефон. Теперь это написано на экране.',
-      '«Закрыть лобби» теперь отменяет совместную игру целиком. Подключившиеся игроки выходят, настройка не сохраняется.',
     ],
   },
 ]
