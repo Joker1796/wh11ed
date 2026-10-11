@@ -21,6 +21,8 @@ const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const PartyJoinView     = () => import('../views/tracker/PartyJoinView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
+const EmailVerifyView   = () => import('../views/account/EmailVerifyView.vue')
+const PasswordResetView = () => import('../views/account/PasswordResetView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
 // The list and a saved roster's page are one screen on a wide window (RosterDeskView), and the
@@ -136,6 +138,10 @@ const localeRoutes = [
     // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
     { path: '/tracker/history/:gid/roster/:pi/:mi?', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
+    // Where the links in sign-in mails land (wh11ed-api routes/email-auth.ts). Private like the
+    // callback: not in STATIC_ROUTES, so the bucket answers them with the SPA and they stay unindexed.
+    { path: '/account/verify', component: EmailVerifyView },
+    { path: '/account/reset', component: PasswordResetView },
     // The live-broadcast overlay an OBS Browser Source opens. `bare` strips the app chrome
     // (App.vue); private like /tracker/game — not in STATIC_ROUTES, auto non-indexable.
     { path: '/broadcast/:token', component: BroadcastOverlayView, meta: { section: 'tracker', bare: true } },
