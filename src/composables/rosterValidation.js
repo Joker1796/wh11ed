@@ -55,7 +55,10 @@ const NAMED_NOT_EPIC = new Set(['kayvaan-shrike'])
 
 // `items` (the shared wargear-name dictionary, data/roster/items.js) is optional: only the stock
 // rule's message names an item, and a caller that merely counts errors need not carry it.
-export function validateRoster(roster, { faction, core, items } = {}) {
+// `idleCopies(unit)`, when given, names the melee weapons a unit holds twice on one model for
+// nothing (rosterModifiers' idleMeleeCopies) — it needs the datasheet and the modifier records, which
+// the editor loads on the side; without it the check is silent, as before they arrive.
+export function validateRoster(roster, { faction, core, items, idleCopies } = {}) {
   const units = roster?.units || []
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
   const defOf = (id) => defMap.get(id)
@@ -165,6 +168,15 @@ export function validateRoster(roster, { faction, core, items } = {}) {
   for (const u of units) {
     const def = defOf(u.id)
     if (def?.flags?.legends) add('legendsUnit', 'warn', { uid: u.uid })
+  }
+
+  // A second copy of a melee weapon on one model: legal, and by 04.01 (a model fights with ONE
+  // melee weapon) worth nothing unless the unit's own rule rewards the pair. A warning, like
+  // everything here that is allowed but probably not meant (owner, 2026-10-11).
+  if (idleCopies) {
+    for (const u of units) {
+      for (const weapon of idleCopies(u) || []) add('meleeCopyIdle', 'warn', { uid: u.uid, params: { item: weapon } })
+    }
   }
 
   // Duplicate datasheet limits — grouped by capKeyOf, not raw id, so a future same-character/
