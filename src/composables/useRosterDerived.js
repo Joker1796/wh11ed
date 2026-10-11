@@ -17,7 +17,7 @@
 // Reads only. Nothing here writes to the roster, so a screen can call it for a list it does not own
 // (the print sheet, the game's snapshot) without having to think about who is allowed to mutate it.
 
-import { computed } from 'vue'
+import { computed, shallowReactive, watchEffect } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import {
@@ -27,6 +27,9 @@ import {
 import { duplicateCounts, duplicateLimit, validateRoster } from './rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
 import { rosterItems } from '../data/roster/index.js'
+import { loadDatasheets } from '../data/datasheets/index.js'
+import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
+import { idleMeleeCopies } from './rosterModifiers.js'
 
 // `roster` — a ref/computed of the roster object (may read null while it loads, or before the
 // wizard has one). `factionData` — a ref/computed of the compact faction bundle from
@@ -109,9 +112,32 @@ export function useRosterDerived(roster, factionData) {
   // Never blocks, only reports — see rosterValidation.js. Computed only once the faction data is
   // in: before that every unit id looks unknown and the list would accuse itself of holding units
   // that don't exist.
+  // The "two of one melee weapon, for nothing" warning reads the datasheet's melee rows and the
+  // unit's own rules, neither of which the list carries — loaded on the side, per faction, only for
+  // a list holding a unit with a wargear pick. Until they arrive the check stays silent.
+  const sideData = shallowReactive(new Map()) // slug → { sheets, records } | 'loading'
+  watchEffect(() => {
+    for (const u of units.value) {
+      if (!u.wg?.length) continue
+      const slug = slugFor(u.id)
+      if (!slug || sideData.has(slug)) continue
+      sideData.set(slug, 'loading')
+      Promise.all([loadDatasheets(slug), loadRosterModifiersFor(slug)])
+        .then(([sheets, mods]) => sideData.set(slug, { sheets, records: mods?.entries || [] }))
+        .catch(() => { /* no warning, as before the data arrives */ })
+    }
+  })
+  function idleCopies(u) {
+    if (!u.wg?.length) return null
+    const side = sideData.get(slugFor(u.id))
+    if (!side || side === 'loading') return null
+    const sheetId = allySourceOf(u.id)?.[1] || u.id
+    return idleMeleeCopies(defOf(u.id), u, rosterItems.items, side.sheets.find((d) => d.id === sheetId), side.records)
+  }
+
   const validation = computed(() =>
     factionData.value && roster.value
-      ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore, items: rosterItems.items })
+      ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore, items: rosterItems.items, idleCopies })
       : { points: points.value, issues: [], errorCount: 0 })
 
   // The datasheets the army may take right now — what the catalogue offers (a group a Detachment
