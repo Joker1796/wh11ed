@@ -26,11 +26,11 @@ export const changelog = [
     date: '2026-10-12',
     en: [
       { h: 'Cloud' },
-      'I am getting the cloud ready to move to a new server. This update changes nothing you will see.',
+      'I am getting the cloud ready to move to a new server. Nothing changes for you in this update.',
     ],
     ru: [
       { h: 'Облако' },
-      'Готовлю облако к переезду на новый сервер. В этом обновлении нет изменений, которые видно в игре.',
+      'Готовлю облако к переезду на новый сервер. Для вас в этом обновлении ничего не меняется.',
     ],
   },
   {
