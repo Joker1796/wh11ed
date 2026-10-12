@@ -278,9 +278,60 @@
  */
 
 /**
- * A roster modifier record (src/data/rosterModifiers/<slug>.js) — the parts read outside its own
- * module.
- * @typedef {{ ref?: { unit?: string, item?: string }, effects?: Array<{ cond?: string[] }> } & Record<string, any>} ModifierRecord
+ * One effect of a modifier record: what it changes (`on` a profile, a weapon table, a keyword…,
+ * `stat`, `op`, `value`) and when (`cond` — condition ids from conditions.js; `when` its wording).
+ * The overlay adds `rows` when it places a bearer's effect on particular rows (splitBearers).
+ * @typedef {object} ModifierEffect
+ * @property {string} on
+ * @property {string} stat
+ * @property {string} op
+ * @property {string | number} [value]
+ * @property {string[]} [cond]
+ * @property {{ en: string, ru?: string } | null} [when]
+ * @property {string} [target]
+ * @property {{ name?: string, notName?: string[], tag?: string, notTag?: string }} [only]
+ * @property {number} [alt]
+ * @property {number} [scope]
+ * @property {Record<string, number[]>} [rows]
+ */
+
+/** A keyword gate read off a rule's prose. @typedef {{ targets: string[], excludes: string[] }} RuleScope */
+
+/**
+ * What a modifier record hangs off, by kind — each kind always carries its own fields (checked over
+ * all 2048 records, 2026-10-12): a datasheet ability its `unit`, a wargear rule its `unit` and
+ * `item`, a detachment rule, enhancement or stratagem its detachment `det`…
+ * @typedef {{ kind: 'ability', unit: string, scopes?: RuleScope[], set?: string, pickLimit?: number }
+ *   | { kind: 'wargear', unit: string, item: string, scopes?: RuleScope[] }
+ *   | { kind: 'detachmentRule', det: string, scopes?: RuleScope[] }
+ *   | { kind: 'enhancement', det: string, scopes?: RuleScope[] }
+ *   | { kind: 'stratagem', det: string, name: string }
+ *   | { kind: 'allegiance', g: string, opt: string }
+ *   | { kind: 'armyRule' }} ModifierRef
+ */
+
+/**
+ * A roster modifier record (src/data/rosterModifiers/<slug>.js, `entries`) — every key the
+ * generator emits; roster.types.test.js holds the data to this list.
+ * @typedef {object} ModifierRecord
+ * @property {string} sid
+ * @property {string} name
+ * @property {string} kind
+ * @property {string | null} [det]
+ * @property {string} [dur]
+ * @property {ModifierEffect[]} effects
+ * @property {string} [hash]
+ * @property {string} [note]
+ * @property {boolean} [reviewed]
+ * @property {number} [ver]
+ * @property {ModifierRef | null} [ref]
+ */
+
+/**
+ * A modifier record as the overlay applies it: the generated record plus what the caller resolved
+ * — the prose `body`, the unit it is printed on (`owner`) and the direction it reached this card
+ * from (`from`), an aura's keyword gate (`scopes`), a stratagem's `slot` and `targetScopes`.
+ * @typedef {ModifierRecord & { body?: string, owner?: string | null, from?: string | null, scopes?: RuleScope[] | null, slot?: { phases: any, sides: any } | null, targetScopes?: any }} ModEntry
  */
 
 /** Resolves a datasheet id to its facts. @typedef {(id: string) => RosterUnit | null | undefined} DefOf */

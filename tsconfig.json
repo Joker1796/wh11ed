@@ -22,6 +22,7 @@
     "src/composables/rosterEnhEligible.js",
     "src/composables/rosterValidation.js",
     "src/composables/rosterModifiers.js",
-    "src/composables/rosterExport.js"
+    "src/composables/rosterExport.js",
+    "src/composables/rosterStatMods.js"
   ]
 }

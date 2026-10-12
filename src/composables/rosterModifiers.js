@@ -420,7 +420,7 @@ export function idleMeleeCopies(def, entry, items, sheet, records) {
   const copies = (overlayWeapons(sheet, def, entry, items).melee || []).filter((w) => w.copy)
   if (!copies.length) return []
   const proven = wargearConditions(def, entry, items, sheet)
-  const rewarded = (records || []).some((r) => r.ref?.unit === sheet.id && (r.effects || []).some((e) => e.cond?.some((c) => proven.has(c))))
+  const rewarded = (records || []).some((r) => !!r.ref && 'unit' in r.ref && r.ref.unit === sheet.id && (r.effects || []).some((e) => e.cond?.some((c) => proven.has(c))))
   return rewarded ? [] : [...new Set(copies.map((w) => w.name))]
 }
 

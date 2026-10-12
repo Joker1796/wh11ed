@@ -1,3 +1,4 @@
+// @ts-check
 // Apply the numeric modifier layer (Tier C) to a datasheet. Pure — no Vue, no data imports; the
 // caller hands in the records it loaded and the rule prose they were read from.
 //
@@ -22,6 +23,13 @@ import { enhKey, detKey, itemKey, loadoutItemCopies } from './rosterModifiers.js
 import { modelsPerMini } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
+
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('./roster.types.js').PrintedSheet} PrintedSheet */
+/** @typedef {import('./roster.types.js').ModEntry} ModEntry */
+/** @typedef {import('./roster.types.js').ModifierEffect} ModifierEffect */
+/** @typedef {Set<string> | null | undefined} IdSet */
 
 // Which model profiles / weapon rows an effect addresses.
 const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged', 'melee'] }
@@ -86,6 +94,13 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
 // Arithmetic on a printed characteristic, or null when it can't be done honestly.
 // Characteristics come in four printed shapes: a plain number ("5"), a distance ('6"'), a
 // skill/save roll ("3+") and a dice expression ("D6+2"). Only the first three are computable.
+/**
+ * @param {unknown} current
+ * @param {string} op
+ * @param {unknown} value
+ * @param {string | null} [stat]
+ * @returns {string | null}
+ */
 export function applyValue(current, op, value, stat = null) {
   const raw = String(current ?? '').trim()
   // A model has one invulnerable save and uses the best it has been given: an aura's "6+
@@ -132,6 +147,11 @@ export function applyValue(current, op, value, stat = null) {
 // The number inside a weapon ability: "RAPID FIRE 2" → 2. Abilities that carry one always print it
 // last; one that carries none ("TWIN-LINKED") returns null and is left alone rather than guessed at.
 const TAGGED = /^(.*?)\s+(-?\d+)$/
+/**
+ * @param {string} tag
+ * @param {string} name
+ * @param {number | string} delta
+ */
 export function bumpTag(tag, name, delta) {
   const m = TAGGED.exec(String(tag).trim())
   if (!m) return null
@@ -182,6 +202,13 @@ const SCOPELESS = new Set(['enhancement', 'allegiance', 'ability', 'wargear', 's
 // is live with `applied: false`, and it belongs with the ones that did rewrite a number. What is
 // NOT live is a conditional effect whose condition the game has not proven — the card shows those
 // apart (in a game, not at all: a block headed "in effect" must not list what is not).
+/**
+ * @param {ModEntry} entry
+ * @param {ModifierEffect} effect
+ * @param {boolean} applied
+ * @param {string[] | null} [via]
+ * @param {boolean} [live]
+ */
 function noteOf(entry, effect, applied, via = null, live = true) {
   return {
     source: entry.name,
@@ -236,7 +263,10 @@ function condHolds(cond, active, entry = null) {
 // options) answers for them. Everywhere else an absent `cond` still means "nobody has read this
 // yet" and stays unproven. Getting that backwards made every stratagem a footnote that never
 // applied, however many chips were lit.
-const byChoice = (entry) => entry.kind === 'stratagem' || !!entry.ref?.set
+// A rule the player switches on as one of a set (`ref.set` — only datasheet abilities carry one).
+/** @param {ModEntry} rec */
+const isSetRule = (rec) => rec.ref?.kind === 'ability' && !!rec.ref.set
+const byChoice = (entry) => entry.kind === 'stratagem' || isSetRule(entry)
 function effectLive(entry, effect, active, chosen) {
   if (byChoice(entry) && !chosen?.has(entry.sid)) return false
   if (effect.cond?.length) return condHolds(effect.cond, active, entry)
@@ -249,6 +279,14 @@ function effectLive(entry, effect, active, chosen) {
 // `profile:<stat>:<profileIndex>` / `<ranged|melee>:<stat>:<rowIndex>` for the card to mark, and
 // the keywords granted to the unit (which the caller must fold into `keywords` and re-run — see
 // grantedKeywordsFrom).
+/**
+ * @param {PrintedSheet | null | undefined} sheet
+ * @param {ModEntry[] | null | undefined} entries
+ * @param {string[]} keywords
+ * @param {any} factionKeywordSets
+ * @param {IdSet} [active] conditions proven true
+ * @param {IdSet} [chosen] stratagems and set rules the player switched on
+ */
 export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null, chosen = null) {
   if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [], core: [] }
 
@@ -427,6 +465,13 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 // running the full apply pass first would gate on the un-granted keyword set. A conditional grant
 // counts only when `active` proves it — the same test the numbers get, so the keyword layer and
 // the number layer can never disagree about whether a rule is on.
+/**
+ * @param {ModEntry[] | null | undefined} entries
+ * @param {string[]} keywords
+ * @param {any} factionKeywordSets
+ * @param {IdSet} [active]
+ * @param {IdSet} [chosen]
+ */
 export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null, chosen = null) {
   const out = []
   for (const entry of entries || []) {
@@ -476,8 +521,12 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, activ
 // stops the rewrite (no /i flag: the lookahead must mean a capital), and a run that then matches
 // no datasheet still falls to escape 3.
 const OWN_UNIT_LEAD = /^(?:That|One|Two|Three|Up to \w+|Any number of|One or more|Two or more|One other|One of those)\s+(?=[A-Z])/
+/**
+ * @param {{ target?: string, when?: string } | null | undefined} st
+ */
 export function stratagemTargetScopes(st) {
-  const target = (st?.target || '').replace(/\*\*/g, '')
+  if (!st) return null
+  const target = (st.target || '').replace(/\*\*/g, '')
   if (!target) return null
   // "That … unit", or a model "in that unit" (Eye of the Gods: "One HERETIC ASTARTES CHARACTER
   // model in that unit", the WHEN line carrying the exclusions) — the WHEN line names the unit.
@@ -485,6 +534,12 @@ export function stratagemTargetScopes(st) {
   return ruleScopes(target) ?? (OWN_UNIT_LEAD.test(target) ? ruleScopes(target.replace(OWN_UNIT_LEAD, 'Friendly ')) : null)
 }
 
+/**
+ * @param {ModEntry[] | null | undefined} entries
+ * @param {string[]} keywords
+ * @param {any} factionKeywordSets
+ * @returns {ModEntry[]}
+ */
 export function gateStratagems(entries, keywords, factionKeywordSets) {
   return (entries || []).filter((e) => (
     e.kind !== 'stratagem' ||
@@ -498,6 +553,12 @@ export function gateStratagems(entries, keywords, factionKeywordSets) {
 //
 // `keywordsOf(unitId)` is the caller's lookup into the datasheets it has already loaded; the
 // attachment itself is read from the roster, which records it, so nothing here is inferred.
+/**
+ * @param {Partial<RosterEntry> | null | undefined} entry
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {((unitId: string) => string[] | null | undefined) | null | undefined} keywordsOf
+ * @returns {string[]}
+ */
 export function attachedUnitKeywords(entry, units, keywordsOf) {
   if (!entry || !keywordsOf) return []
   const hostUid = entry.leaderOf || entry.uid
@@ -569,6 +630,12 @@ function armyRuleMatches(recName, ourName) {
 // that affects a unit affect every model in the Attached unit, so a Furious Assault bought for a
 // Tactical Squad is the Captain's too, and one bought for the Captain is the squad's (a player's
 // report, 2026-10-03). `enhOf(u)` names an entry's enhancement, chosen or mandatory.
+/**
+ * @param {Partial<RosterEntry> | null | undefined} entry
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {(u: RosterEntry) => string | null | undefined} enhOf
+ * @returns {Set<string>}
+ */
 export function attachedEnhKeys(entry, units, enhOf) {
   if (!entry) return new Set()
   const host = entry.leaderOf || entry.uid
@@ -576,6 +643,11 @@ export function attachedEnhKeys(entry, units, enhOf) {
   return new Set(members.filter((u) => u.uid !== entry.uid).map(enhOf).filter(Boolean).map(enhKey))
 }
 
+/**
+ * @param {ModEntry[] | null | undefined} records
+ * @param {{ unitId?: string, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], itemNames?: Set<string> | null, leaderItemNames?: Map<string, Set<string>> | null, leaderEnhNames?: Set<string> | null, attachedEnhKeys?: Set<string> | null, auraOn?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @returns {ModEntry[]}
+ */
 export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], itemNames = null, leaderItemNames = null, leaderEnhNames = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
   const out = []
   for (const rec of records || []) {
@@ -656,6 +728,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       continue
     }
     if (rec.kind !== 'ability' || rec.ref?.kind !== 'ability') continue
+    const ref = rec.ref
     const of = (t) => (rec.effects || []).filter((e) => (e.target || 'self') === t)
     // A record's name is "<unit>: <ability>". Split rather than reformat: the card labels an
     // effect by WHERE it came from ("LEADER · Fabius Bile") and names the rule separately, so
@@ -669,9 +742,9 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
     // within 6" of this model") — without it a Rhino would collect the buff meant for the Sisters.
     const pushAura = (from) => {
       const effects = of('aura')
-      if (effects.length) out.push({ ...rec, body: '', effects, name, owner, from, scopes: rec.ref.scopes || null })
+      if (effects.length) out.push({ ...rec, body: '', effects, name, owner, from, scopes: ref.scopes || null })
     }
-    if (rec.ref.unit === unitId) {
+    if (ref.unit === unitId) {
       push(of('self'), 'self')
       // 19.04, on the leader's own card: his "models in that unit" reaches him too — but only
       // once there IS a unit, which the roster answers and no player has to be asked.
@@ -680,7 +753,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       // range of its own aura ability" — so the bearer's own unit needs no switch and no range.
       pushAura('self')
     }
-    if (leaderUnitIds.includes(rec.ref.unit)) {
+    if (leaderUnitIds.includes(ref.unit)) {
       push(of('led'), 'led')
       push(of('unit'), 'led')
       // The aura's model is INSIDE this unit, at 0" — same certainty, from the list alone.
@@ -692,17 +765,17 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
     // own model AND to the unit it leads (`self` + `led`: "this unit…", "this model's unit…") is a
     // whole-unit rule by its shape. A `led` with no `self` twin is the narrow "Bodyguard models"
     // wording, which a Character is not (a player's report, 2026-10-02).
-    if (coLeaderUnitIds.includes(rec.ref.unit) && rec.ref.unit !== unitId) {
+    if (coLeaderUnitIds.includes(ref.unit) && ref.unit !== unitId) {
       push(of('unit'), 'co')
       if (of('self').length) push(of('led'), 'co')
       pushAura('co')
     }
-    if (ledUnitId && rec.ref.unit === ledUnitId) {
+    if (ledUnitId && ref.unit === ledUnitId) {
       push(of('leader'), 'leader')
       pushAura('leader')   // …and the Character standing in that unit is inside its aura too
     }
     // Anyone else is a question only the player can answer: it is a distance on the table.
-    if (rec.ref.unit !== unitId && auraOn?.has(rec.sid)) pushAura('aura')
+    if (ref.unit !== unitId && auraOn?.has(rec.sid)) pushAura('aura')
   }
   return out
 }
@@ -716,6 +789,10 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 //     no chip at all,
 //   · and the source is not already leading this unit / led by it, where the answer is automatic.
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
+/**
+ * @param {ModEntry[] | null | undefined} records
+ * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: string[], factionKeywordSets?: any, active?: IdSet, chosen?: IdSet, leaderEnhNames?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ */
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
   keywords = [], factionKeywordSets = null, active = null, chosen = null, leaderEnhNames = null,
@@ -727,11 +804,12 @@ export function aurasReaching(records, {
   // does nothing until it is one of the two relics picked this round. Offering the chip anyway is
   // offering a switch that moves no number, which is exactly what this layer refuses to do
   // elsewhere (switchesFor's `answerable`).
-  const proven = (rec, e) => (!rec.ref?.set || chosen?.has(rec.sid))
+  const proven = (rec, e) => (!isSetRule(rec) || chosen?.has(rec.sid))
     && (!e.cond?.length || e.cond.every((id) => active?.has(id)))
   for (const rec of records || []) {
     if (rec.ref?.kind !== 'ability' && rec.ref?.kind !== 'wargear'
       && rec.ref?.kind !== 'enhancement' && rec.ref?.kind !== 'detachmentRule') continue
+    const ref = rec.ref
     const reaching = (rec.effects || []).filter((e) => e.target === 'aura' && proven(rec, e))
     if (!reaching.length) continue
     // A DETACHMENT RULE's aura has no source ENTRY: the models carrying it are named by keyword, and
@@ -739,37 +817,37 @@ export function aurasReaching(records, {
     // detachment — and is offered once, to every unit the reach clause names, provided that
     // detachment is on the table. No `detIds`, no chip: a rule from a detachment this army is not
     // playing must never offer a switch.
-    if (rec.ref.kind === 'detachmentRule') {
-      if (!detIds?.has(rec.ref.det)) continue
-      if (!reaching.some((e) => effectApplies(e, rec.ref.scopes, keywords, rec.kind, factionKeywordSets, true))) continue
-      out.push({ sid: rec.sid, source: rec.det, sourceUid: null, unit: null, name: rec.name, det: rec.ref.det })
+    if (ref.kind === 'detachmentRule') {
+      if (!detIds?.has(ref.det)) continue
+      if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets, true))) continue
+      out.push({ sid: rec.sid, source: rec.det, sourceUid: null, unit: null, name: rec.name, det: ref.det })
       continue
     }
     // An ENHANCEMENT aura radiates from an ENTRY, not from a datasheet: which model wears the relic
     // is the roster's answer, so the source is found by the enhancement's name and the two certain
     // cases (the bearer itself, and the unit the bearer is attached to) are skipped by entry rather
     // than by unit id.
-    if (rec.ref.kind === 'enhancement') {
+    if (ref.kind === 'enhancement') {
       if (leaderEnhNames?.has(rec.name)) continue
-      if (!reaching.some((e) => effectApplies(e, rec.ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
+      if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
       for (const u of rosterUnits) {
         if (!u.enh || enhKey(u.enh) !== enhKey(rec.name) || u.uid === entryUid) continue
         out.push({ sid: rec.sid, source: u.name || u.id, sourceUid: u.uid, unit: u.id, name: rec.name })
       }
       continue
     }
-    if (automatic.has(rec.ref.unit)) continue
+    if (automatic.has(ref.unit)) continue
     // The same fail-open escapes the apply pass uses, so a chip is offered exactly when the
     // modifier behind it would land.
-    if (!reaching.some((e) => effectApplies(e, rec.ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
+    if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
     for (const u of rosterUnits) {
-      if (u.id !== rec.ref.unit || u.uid === entryUid) continue
+      if (u.id !== ref.unit || u.uid === entryUid) continue
       const at = rec.name.indexOf(': ')
       out.push({
         sid: rec.sid,
         source: u.name || u.id,       // the entry the aura radiates from, as the list names it
         sourceUid: u.uid,
-        unit: rec.ref.unit,           // …and its datasheet, for the caller's RU name lookup
+        unit: ref.unit,           // …and its datasheet, for the caller's RU name lookup
         name: at === -1 ? rec.name : rec.name.slice(at + 2),
       })
     }
@@ -777,6 +855,14 @@ export function aurasReaching(records, {
   return out
 }
 
+/**
+ * @param {ModEntry[] | null | undefined} records
+ * @param {any} facEn the faction's English rules bundle
+ * @param {Array<string | { name?: string } | null | undefined> | null | undefined} detachmentNames
+ * @param {string | null | undefined} enhancementName
+ * @param {{ g?: string, opt?: string } | null | undefined} alleg the entry's allegiance group and pick
+ * @returns {ModEntry[]}
+ */
 export function resolveModifierEntries(records, facEn, detachmentNames, enhancementName, alleg) {
   if (!facEn || !records?.length) return []
   const fielded = new Set((detachmentNames || [])
@@ -784,27 +870,28 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
     .filter(Boolean))
   const out = []
   for (const rec of records) {
-    if (!rec.ref) continue
+    const ref = rec.ref
+    if (!ref) continue
     // Datasheet abilities and wargear rules are resolved by datasheetEntriesFor() above — they hang off a unit, not
     // off a rule this function can look up in the faction bundle.
-    if (rec.ref.kind === 'ability' || rec.ref.kind === 'wargear') continue
-    if (rec.ref.kind === 'allegiance') {
+    if (ref.kind === 'ability' || ref.kind === 'wargear') continue
+    if (ref.kind === 'allegiance') {
       // Applies only to the unit that made this exact choice. `alleg` is `{ g, opt }` — the
       // datasheet's allegiance group and what this entry picked (rosterEngine's allegFor/entry).
       // No body: the ability's prose addresses its own model, so there are no scopes to read.
-      if (alleg?.g === rec.ref.g && alleg?.opt === rec.ref.opt) out.push({ ...rec, body: '' })
+      if (alleg?.g === ref.g && alleg?.opt === ref.opt) out.push({ ...rec, body: '' })
       continue
     }
     // A stratagem belongs to a detachment the same way its rules do, so it is fielded or it is not.
-    if (rec.ref.kind === 'stratagem') {
-      const det = (facEn.detachments || []).find((d) => d.id === rec.ref.det)
+    if (ref.kind === 'stratagem') {
+      const det = (facEn.detachments || []).find((d) => d.id === ref.det)
       if (!det || !fielded.has(detKey(det.name))) continue
       // …and WHEN it may be used, from the stratagem's own English timing line, so the chip can
       // refuse a stratagem in a phase the game does not allow it in (rosterGameContext's
       // stratagemsFor). Read here because this is the one place that has both the record and the
       // faction data it came from; `facEn` is always the English bundle, which is what phasesOf
       // must be given.
-      const st = (det.stratagems || []).find((x) => enhKey(x.name) === enhKey(rec.ref.name || rec.name))
+      const st = (det.stratagems || []).find((x) => enhKey(x.name) === enhKey(ref.name || rec.name))
       const slot = st?.when ? { phases: phasesOf(st.when), sides: phaseSidesOf(st.when) } : null
       // …and WHO it may be spent on, from the same line the player reads before spending it:
       // "TARGET: One DAMNED unit from your army…". Kept apart from `scopes` — which gates an
@@ -816,7 +903,7 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       out.push({ ...rec, body: '', slot, targetScopes })
       continue
     }
-    if (rec.ref.kind === 'armyRule') {
+    if (ref.kind === 'armyRule') {
       // appdata gives a faction SEVERAL army rules (Space Marines have three); we model one, and
       // `ref: {kind:'armyRule'}` can only point at that one. A record written against a rule we do
       // not model separately would silently read the wrong prose — T'au's `Drones` reading the body
@@ -829,16 +916,16 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       }
       continue
     }
-    const det = (facEn.detachments || []).find((d) => d.id === rec.ref.det)
+    const det = (facEn.detachments || []).find((d) => d.id === ref.det)
     if (!det || !fielded.has(detKey(det.name))) continue
-    if (rec.ref.kind === 'detachmentRule') {
+    if (ref.kind === 'detachmentRule') {
       // Its AURA effects are not facts about the army the way the rest of the rule is — they reach
       // whoever is standing near a model that carries it, which only the player can say. They leave
       // through the chip (datasheetEntriesFor's `auraOn`); what stays here is the rest of the rule,
       // gated as every detachment rule is, by the scopes read off its own body.
       const own = (rec.effects || []).filter((e) => e.target !== 'aura')
       if (det.rule?.body && (own.length || !(rec.effects || []).length)) out.push({ ...rec, body: det.rule.body, effects: own })
-    } else if (rec.ref.kind === 'enhancement') {
+    } else if (ref.kind === 'enhancement') {
       if (!enhancementName || enhKey(rec.name) !== enhKey(enhancementName)) continue
       const found = det.enhancements?.find((x) => enhKey(x.name) === enhKey(rec.name))
       if (!found?.body) continue
@@ -850,7 +937,7 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       const aura = (rec.effects || []).filter((e) => e.target === 'aura')
       const own = (rec.effects || []).filter((e) => e.target !== 'aura')
       if (own.length || !aura.length) out.push({ ...rec, body: found.body, effects: own })
-      if (aura.length) out.push({ ...rec, body: found.body, effects: aura, scopes: rec.ref.scopes || null, from: 'self' })
+      if (aura.length) out.push({ ...rec, body: found.body, effects: aura, scopes: ref.scopes || null, from: 'self' })
     }
   }
   return out
@@ -877,6 +964,13 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
 // Returns the sheet to apply to and the entries to apply: a placed effect loses its condition and
 // carries `rows` instead, the indices it may touch, per table (rosterStatMods' applyStatMods).
 const BEARER = 'wargear-bearer'
+/**
+ * @param {PrintedSheet | null | undefined} sheet
+ * @param {ModEntry[] | null | undefined} entries
+ * @param {RosterUnit | null | undefined} def
+ * @param {Partial<RosterEntry> | null | undefined} entry
+ * @param {Record<number, string> | null | undefined} items
+ */
 export function splitBearers(sheet, entries, def, entry, items) {
   const isBearer = (e) => e.kind === 'wargear' && e.ref?.item && (e.effects || []).some((x) => x.cond?.includes(BEARER))
   if (!sheet || !entries?.some(isBearer)) return { sheet, entries }
@@ -888,7 +982,7 @@ export function splitBearers(sheet, entries, def, entry, items) {
   const profiles = sheet.profiles || []
   const profileOf = (m) => {
     if (profiles.length === 1) return 0
-    const want = itemKey(def.minis?.[m]?.n)
+    const want = itemKey(def?.minis?.[m]?.n)
     const i = want ? profiles.findIndex((p) => itemKey(p.name) === want) : -1
     return i < 0 ? null : i
   }
@@ -908,8 +1002,13 @@ export function splitBearers(sheet, entries, def, entry, items) {
   // drones, and "add 1 to the bearer's Wounds" twice over (2026-10-11).
   const bearersOf = (itemName) => {
     const ids = [...copies.keys()].filter((id) => itemKey(items[id]) === itemName)
-    const slots = ids.flatMap((id) => copies.get(id))
-    if (!slots.length || slots.some((s) => s.n == null)) return null
+    // Every count known, or nothing is placed: a bearer is never put on a guess.
+    const slots = []
+    for (const s of ids.flatMap((id) => copies.get(id) || [])) {
+      if (s.n == null) return null
+      slots.push({ m: s.m, n: s.n })
+    }
+    if (!slots.length) return null
     const out = new Map()
     const add = (p, n) => {
       const layers = out.get(p) || []
@@ -933,7 +1032,7 @@ export function splitBearers(sheet, entries, def, entry, items) {
     for (const m of minis) {
       if (!loose) break
       const p = profileOf(m)
-      const take = Math.min(loose, perMini.get(m) - (out.get(p)?.[0] || 0))
+      const take = Math.min(loose, (perMini.get(m) ?? 0) - (out.get(p)?.[0] || 0))
       if (take > 0) { add(p, take); loose -= take }
     }
     return loose ? null : out
@@ -963,9 +1062,12 @@ export function splitBearers(sheet, entries, def, entry, items) {
   const placed = new Map() // effect object → the groups it lands on
   const partial = new Set() // weapon effects some of whose rows could not be placed
   for (const e of entries.filter(isBearer)) {
-    const by = bearersOf(e.ref.item)
+    if (e.ref?.kind !== 'wargear') continue // isBearer: only a wargear rule names an item
+    const item = e.ref.item
+    const by = bearersOf(item)
     if (!by) continue
-    const label = items[[...copies.keys()].find((id) => itemKey(items[id]) === e.ref.item)]
+    const labelId = [...copies.keys()].find((id) => itemKey(items[id]) === item)
+    const label = labelId == null ? item : items[labelId]
     const total = [...by.values()].reduce((a, layers) => a + layers.reduce((x, n) => x + n, 0), 0)
     const mine = new Map() // `${table}:${row}:${copies}` → this record's group there
     const groupAt = (table, i, models, n, times = 1) => {
@@ -1040,7 +1142,7 @@ export function splitBearers(sheet, entries, def, entry, items) {
           if (!byTimes.has(t)) byTimes.set(t, {})
           ;(byTimes.get(t)[at.table] ||= []).push(at.index)
         }
-        const done = [...byTimes].map(([t, rows]) => ({ ...x, value: t > 1 ? x.value * t : x.value, cond: null, when: null, rows }))
+        const done = [...byTimes].map(([t, rows]) => ({ ...x, value: t > 1 ? Number(x.value) * t : x.value, cond: null, when: null, rows }))
         return partial.has(x) ? [...done, x] : done
       }),
     }
