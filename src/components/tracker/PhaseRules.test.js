@@ -36,6 +36,13 @@ function startGame(p0 = {}, p1 = {}, settings = {}) {
 }
 async function mountBlock() {
   const w = mount(PhaseRules, { global: { stubs: { RouterLink } } })
+  // The rules wait for the phase index, the one dynamic import usePhaseRules makes. Since the Turn
+  // tab draws its steps at once (2026-10-10) the block is on screen BEFORE the rules are, so waiting
+  // for the block alone passed at once and, with the whole suite running beside it, the checks then
+  // read steps with no rules in them (a flaky failure in two cases). Awaiting the same module is
+  // the wait that means something: the component's own await on it resolves first.
+  await import('../../data/phaseIndex.js')
+  await flushPromises()
   // The steps render at once; the rules on them wait for the index, a dynamic import — real file I/O under vitest — so wait for the block to
   // appear rather than for a number of ticks. It used to poll 40 times with a zero timeout,
   // which is a budget in TICKS, not in time: with the whole tracker suite running beside it the
