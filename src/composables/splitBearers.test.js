@@ -2,6 +2,10 @@
 // weapons to the loadout, pick the records the entry carries, place them, apply) for the units the
 // placement was written for, and for the one it must leave alone.
 import { describe, it, expect } from 'vitest'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { modelsPerMini, wargearGroupCap } from './rosterEngine.js'
 import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
 import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
@@ -9,6 +13,7 @@ import { overlaySheet, loadoutItemNames, itemKey } from './rosterModifiers.js'
 import { applyStatMods, datasheetEntriesFor, splitBearers } from './rosterStatMods.js'
 
 const items = rosterItems.items
+const HERE = path.dirname(fileURLToPath(import.meta.url))
 
 // [group, option] of the first option on `def` that hands out `item`.
 function pick(def, item) {
@@ -119,4 +124,60 @@ describe('splitBearers — Legends T\'au Shield Drones', () => {
     const base = await w(0)
     expect([await w(1), await w(2)]).toEqual([base + 1, base + 2])
   })
+})
+
+// Copies from a unit-wide group (a Crisis team's or a Broadside's drones, a Bullgryn's shields) belong
+// to no profile and are dealt out by splitBearers itself. Until 2026-10-12 that dealing counted a
+// mini's models against its whole profile and never gave a second copy, so a drone on every suit —
+// or two on one — placed nothing and the Wounds went back to the printed number (a player's report:
+// "at the maximum number of Shield Drones the added wounds disappear").
+describe('splitBearers — copies from a unit-wide group', () => {
+  const wounds = async (slug, unitId, size, n) => (await card(slug, unitId, size, n ? [['Shield Drone', n]] : [])).sheet.profiles.map((p) => [row(p), Number(p.w)])
+
+  it('gives every Crisis suit its drone, and then a second', async () => {
+    const base = (await wounds('tau-empire', 'crisis-battlesuits', 0, 0))[0][1]
+    expect(await wounds('tau-empire', 'crisis-battlesuits', 0, 3)).toEqual([['Crisis Battlesuits', base + 1]])
+    expect(await wounds('tau-empire', 'crisis-battlesuits', 0, 6)).toEqual([['Crisis Battlesuits', base + 2]])
+  })
+
+  it('adds 2 Wounds to a lone Broadside with two drones', async () => {
+    const base = (await wounds('tau-empire', 'broadside-battlesuits', 0, 0))[0][1]
+    expect(await wounds('tau-empire', 'broadside-battlesuits', 0, 2)).toEqual([['Broadside Battlesuits', base + 2]])
+  })
+
+  // The whole class: every bearer rule on a profile, every unit that can take its item, every count
+  // up to the group's cap that the unit's models can hold, at each size — placed, not left a note.
+  it('places every bearer rule at every count a unit can hold', async () => {
+    const lost = []
+    const slugs = fs.readdirSync(path.join(HERE, '../data/roster')).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js'].includes(f) && !f.endsWith('.test.js')).map((f) => f.replace(/\.js$/, ''))
+    for (const slug of slugs) {
+      const fac = await loadRosterFaction(slug)
+      const sheets = await loadDatasheets(slug)
+      const recs = (await loadRosterModifiersFor(slug))?.entries?.filter((e) => e.reviewed
+        && e.effects?.some((x) => x.on === 'profile' && x.cond?.length === 1 && x.cond[0] === 'wargear-bearer')) || []
+      for (const rec of recs) {
+        const def = fac.units.find((u) => u.id === rec.ref?.unit)
+        const printed = sheets.find((d) => d.id === rec.ref?.unit)
+        if (!def || !printed) continue
+        for (const [gi, g] of (def.gear || []).entries()) for (const [oi, o] of (g.o || []).entries()) {
+          if (!JSON.stringify(o).match(/\d+/g)?.some((id) => itemKey(items[id]) === rec.ref.item)) continue
+          for (const [size, sz] of (def.sizes || []).entries()) {
+            const models = sz.per?.[1] ?? sz.per?.[0] ?? 1
+            const perMini = modelsPerMini(def, { id: def.id, size, count: models })
+            // A group of one profile with no model of that profile in this bracket offers nothing.
+            if (!perMini || (g.m != null && !perMini.get(g.m))) continue
+            const cap = wargearGroupCap(def, { id: def.id, size, count: models }, gi)
+            for (let n = 1; n <= Math.min(cap?.limit ?? models, models * 2); n++) {
+              const entry = { uid: 'u', id: def.id, size, count: models, wg: [[gi, oi, n]] }
+              const sheet = overlaySheet(printed, { def, entry, items }).sheet
+              const entries = datasheetEntriesFor([rec], { unitId: def.id, itemNames: loadoutItemNames(def, entry, items) })
+              const placed = splitBearers(sheet, entries, def, entry, items)
+              if (!placed.entries.some((e) => e.effects.some((x) => x.rows))) lost.push(`${slug} ${def.id} ${rec.ref.item} ×${n} in ${models}`)
+            }
+          }
+        }
+      }
+    }
+    expect(lost).toEqual([])
+  }, 300000)
 })

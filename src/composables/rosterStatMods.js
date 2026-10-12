@@ -1026,17 +1026,22 @@ export function splitBearers(sheet, entries, def, entry, items) {
   const perMini = modelsPerMini(def, entry)
   if (!copies || !perMini || !items) return { sheet, entries }
 
-  // Which printed profile a mini is: by name, or the only one there is.
+  // Which printed profile a mini is: by name, or the only one there is. The plural is folded — the
+  // roster data names a profile "Kill Team Bikers" where the sheet prints "KILL TEAM BIKER".
   /** @type {DatasheetProfile[]} */
   const profiles = sheet.profiles || []
+  /** @param {string | null | undefined} s */
+  const singular = (s) => itemKey(s).replace(/s\b/g, '')
   /** @param {number} m @returns {number | null} */
   const profileOf = (m) => {
     if (profiles.length === 1) return 0
-    const want = itemKey(def?.minis?.[m]?.n)
-    const i = want ? profiles.findIndex((p) => itemKey(p.name) === want) : -1
+    const want = singular(def?.minis?.[m]?.n)
+    const i = want ? profiles.findIndex((p) => singular(p.name) === want) : -1
     return i < 0 ? null : i
   }
-  const minis = [...perMini.keys()].sort((a, b) => a - b)
+  // A mini this entry fields no model of needs no profile: a Proteus Kill Team of five Veterans
+  // is not held up by the jump-pack Veterans its sheet prints no row of their own for.
+  const minis = [...perMini.keys()].filter((m) => (perMini.get(m) ?? 0) > 0).sort((a, b) => a - b)
   /** @type {Map<number, number>} profile index → models */
   const modelsOf = new Map()
   for (const m of minis) {
@@ -1083,12 +1088,26 @@ export function splitBearers(sheet, entries, def, entry, items) {
       const p = profileOf(s.m)
       if (p == null || !add(p, s.n)) return null
     }
-    for (const m of minis) {
-      if (!loose) break
-      const p = profileOf(m)
-      if (p == null) continue   // never: every mini was given a profile above
-      const take = Math.min(loose, (perMini.get(m) ?? 0) - (out.get(p)?.[0] || 0))
-      if (take > 0) { add(p, take); loose -= take }
+    // Copies from a unit-wide group belong to no profile: first copies go out in the datasheet's
+    // own order (the first to the Sergeant), then second copies the same way, and so on. Counted
+    // against each PROFILE's models — several minis can share one printed profile (a Crisis team's
+    // Shas'vre and Shas'ui are one "Crisis Battlesuits" row) — and a second layer is dealt at all:
+    // until 2026-10-12 neither was, so a drone or a shield on every model, or two on one, placed
+    // nothing and the bonus vanished from the card (a player's report: Shield Drones at the maximum).
+    const order = [...new Set(minis.map(profileOf))].filter((p) => p != null)
+    for (let k = 0; loose > 0; k++) {
+      let dealt = 0
+      for (const p of order) {
+        const layers = out.get(p) || []
+        const room = (k === 0 ? modelsOf.get(p) ?? 0 : layers[k - 1] || 0) - (layers[k] || 0)
+        const take = Math.min(loose, room)
+        if (take <= 0) continue
+        layers[k] = (layers[k] || 0) + take
+        out.set(p, layers)
+        loose -= take
+        dealt += take
+      }
+      if (!dealt) break
     }
     return loose ? null : out
   }
