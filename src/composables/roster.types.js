@@ -259,7 +259,8 @@
  * @property {string} code
  * @property {'error' | 'warn'} level
  * @property {string} [uid]
- * @property {Record<string, string | number>} [params]
+ * @property {Record<string, string | number | undefined>} [params] a param is missing when the data it names
+ *   is (a group with no title, a target with no name)
  */
 
 /**
@@ -295,7 +296,7 @@
  * @property {string} stat
  * @property {string} op
  * @property {string | number} [value]
- * @property {string[]} [cond]
+ * @property {string[] | null} [cond]
  * @property {{ en: string, ru?: string } | null} [when]
  * @property {string} [target]
  * @property {{ name?: string, notName?: string[], tag?: string, notTag?: string }} [only]
@@ -334,15 +335,213 @@
  * @property {boolean} [reviewed]
  * @property {number} [ver]
  * @property {ModifierRef | null} [ref]
+ * @property {string} [num]  a core-rule record's section (coreRules.js), which has no ref
  */
 
 /**
  * A modifier record as the overlay applies it: the generated record plus what the caller resolved
  * — the prose `body`, the unit it is printed on (`owner`) and the direction it reached this card
  * from (`from`), an aura's keyword gate (`scopes`), a stratagem's `slot` and `targetScopes`.
- * @typedef {ModifierRecord & { body?: string, owner?: string | null, from?: string | null, scopes?: RuleScope[] | null, slot?: { phases: any, sides: any } | null, targetScopes?: any }} ModEntry
+ * @typedef {ModifierRecord & { body?: string, owner?: string | null, from?: string | null, scopes?: RuleScope[] | null, slot?: { phases: string[], sides: Record<string, string> } | null, targetScopes?: RuleScope[] | null }} ModEntry
  */
 
 /** Resolves a datasheet id to its facts. @typedef {(id: string) => RosterUnit | null | undefined} DefOf */
+
+/**
+ * What a live game hands a unit's card (RosterViewView's viewingGameCtx): what is true for the unit
+ * now, and the chips of each kind it may flip.
+ * @typedef {object} CardGameCtx
+ * @property {Set<string>} [active]
+ * @property {CondSwitch[]} [strats]
+ * @property {CondSwitch[]} [auras]
+ * @property {CondSwitch[]} [picks]
+ * @property {Set<string>} [chosen] ability-set options picked anywhere in the army
+ * @property {CondSwitch[]} [switches]
+ * @property {CondSwitch[]} [armySwitches]
+ */
+
+// ── A list somebody else's tool wrote (rosterImport.js) ───────────────────────────────────────
+
+/** A weapon line in a unit's body: `n` copies, printed under the profile `mini` if the export said. @typedef {{ n: number, name: string, mini?: string | null }} GearLine */
+
+/** A model line: `n` models of the profile it names (empty when the export named none). @typedef {{ n: number, name: string }} ModelLine */
+
+/**
+ * A unit as a parser read it, before any datasheet is known. `group` ties the members of one
+ * attached block together; `attachedTo` is WTC's link line, `loose` the lines nobody understood.
+ * @typedef {object} ParsedUnit
+ * @property {string} name
+ * @property {number} pts
+ * @property {string | null} group
+ * @property {null} [role]
+ * @property {boolean} warlord
+ * @property {string | null} enh
+ * @property {string | null} alleg
+ * @property {string | null} [attachedAs]
+ * @property {Array<{ group: string | null, attachedAs: string | null | undefined }>} [also] the other block a repeated unit stood in
+ * @property {number | null} [models]
+ * @property {GearLine[]} [weapons]
+ * @property {ModelLine[]} [modelLines]
+ * @property {boolean} [flatBody] the body lost its nesting, so every line is a candidate model line
+ * @property {string | null} [ref] WTC's `Char1`-style reference
+ * @property {string[]} [attachedTo]
+ * @property {string[]} [loose]
+ * @property {boolean} [fromProfiles] the model count is being summed from profile lines
+ */
+
+/**
+ * A whole list as a parser read it.
+ * @typedef {object} ParsedList
+ * @property {'gw' | 'wtc' | 'listhammer-compact'} format
+ * @property {string} name
+ * @property {string} faction
+ * @property {number} limit  the battle size's points
+ * @property {number} stated the list's own total
+ * @property {string[]} detachments
+ * @property {string} [detachmentLine] the raw line, resolved against the faction's detachments later
+ * @property {string} [disposition]
+ * @property {ParsedUnit[]} units
+ * @property {number} [repeated] repeats of an attached unit folded away
+ * @property {Array<{ name: string, onRef: string | null, onName: string | null }>} [enhancements] WTC header
+ * @property {{ ref: string | null, name: string } | null} [warlord] WTC header
+ */
+
+/**
+ * One unit of the import report: what it matched, and what of it did not land.
+ * @typedef {object} ImportUnitLine
+ * @property {string} name
+ * @property {string} id
+ * @property {number | null} models
+ * @property {{ picked: string[], missing: string[] }} gear
+ * @property {{ name: string, ok: boolean } | null} enh
+ * @property {{ stated: number, computed: number }} points
+ */
+
+/**
+ * @typedef {object} ImportReport
+ * @property {string} name
+ * @property {ImportUnitLine[]} units
+ * @property {Array<{ name: string, pts: number }>} missing datasheets we do not have
+ * @property {number} repeated
+ * @property {{ matched: string[], missing: string[] }} detachments
+ * @property {{ stated: number, statedUnits: number, computed: number }} points
+ */
+
+/**
+ * The roster an import creates — the stored roster's fields, before the store gives it an id.
+ * @typedef {object} ImportPayload
+ * @property {string} name
+ * @property {string} faction
+ * @property {string[]} detachments
+ * @property {string} [disposition]
+ * @property {string} battleSize
+ * @property {number} [customPoints]
+ * @property {RosterEntry[]} units
+ */
+
+// ── A game, as the live-rules layer reads it (rosterGameContext.js) ───────────────────────────
+
+/**
+ * One entry of the condition vocabulary (src/data/rosterModifiers/conditions.js) — a state of the
+ * game a modifier can wait on. `scope` says who answers it; `rounds` / `phase` + `side` are the
+ * clock's half, `gear` the loadout a `wargear-*` id asks for, `negates` the state an ordinary one
+ * is the opposite of.
+ * @typedef {object} Condition
+ * @property {'army' | 'unit' | 'roster' | 'clock'} scope
+ * @property {'phase' | 'turn' | 'round' | 'battle'} duration
+ * @property {{ en: string, ru: string }} label
+ * @property {{ en: string, ru: string }} [hint]
+ * @property {string} [group]
+ * @property {string} [negates]
+ * @property {boolean} [blocksStratagems]
+ * @property {number[]} [rounds]
+ * @property {string} [phase]
+ * @property {'own' | 'any'} [side]
+ * @property {{ copies?: number, name?: string, melee?: number, besides?: string[], all?: string[] }} [gear]
+ */
+
+/**
+ * What a game is standing on, from one player's side (`clockOf`). `turn` is whose turn it is —
+ * 0 the first player, 1 the second — and `mine` whether that is this player.
+ * @typedef {object} GameClock
+ * @property {number} round
+ * @property {0 | 1} turn
+ * @property {string} phase  a BATTLE_PHASES id
+ * @property {boolean} mine
+ * @property {boolean} tracked  the game keeps phases (settings.trackPhases)
+ */
+
+/**
+ * A moment as one number, `round*100 + turn*10 + phase` — or, in a game saved before the clock
+ * existed, the bare round (1..5).
+ * @typedef {number} Stamp
+ */
+
+/** Switches or records in force, each with the moment it was flipped. @typedef {Record<string, Stamp>} StampStore */
+
+/**
+ * What the player has told the game about their army: `army` the army-wide switches, and per roster
+ * entry uid its unit switches, the stratagems spent on it, the ability-set options picked on it and
+ * the auras marked as reaching it.
+ * @typedef {object} PlayerCtx
+ * @property {StampStore} [army]
+ * @property {Record<string, StampStore>} [units]
+ * @property {Record<string, StampStore>} [strats]
+ * @property {Record<string, StampStore>} [picks]
+ * @property {Record<string, StampStore>} [auras]
+ */
+
+/**
+ * The army-rule tracker's state, per battle round (the shared primitives in useTracker).
+ * @typedef {object} ArmyTrackerState
+ * @property {Record<number, string>} [selectionByRound]
+ * @property {Record<number, string[]>} [multiByRound]
+ * @property {number[]} [toggleRounds]
+ */
+
+/**
+ * The tracker's player, the part the live-rules layer reads.
+ * @typedef {object} GamePlayer
+ * @property {string} [factionSlug]
+ * @property {ArmyTrackerState} [army]
+ * @property {PlayerCtx} [ctx]
+ */
+
+/**
+ * The game itself, the part `clockOf` reads.
+ * @typedef {object} GameState
+ * @property {Record<string, any>} [settings]
+ * @property {number} [currentRound]
+ * @property {number} [currentTurn]
+ * @property {string} [currentPhase]
+ */
+
+/**
+ * One chip of a condition strip (ConditionChips): a game state, a spent stratagem, a picked
+ * ability-set option or a marked aura. Every kind carries the first five fields; the rest belong to
+ * the kinds that need them.
+ * @typedef {object} CondSwitch
+ * @property {string} id
+ * @property {{ en: string, ru: string }} label
+ * @property {boolean} on
+ * @property {boolean} auto       shown, not the player's to flip here
+ * @property {string} [duration]
+ * @property {string} [scope]
+ * @property {string | null} [group]
+ * @property {number} [groupLimit]
+ * @property {{ kind: string, name: string, det: string | null, unit: string | null } | null} [src]
+ * @property {string | null} [det]
+ * @property {boolean} [blocked]
+ * @property {'shock' | 'wrongPhase' | 'unitPhase' | 'usedPhase' | null} [blockedBy]
+ * @property {boolean} [pick]
+ * @property {{ owner: string | null, ability: string, set: string, unit: string }} [from]
+ * @property {boolean} [aura]
+ * @property {{ name: string, text: string } | null} [info]
+ */
+
+/**
+ * An aura that could reach a unit (rosterStatMods' `aurasReaching`), as the chip strip takes it.
+ * @typedef {{ sid: string, source: string, name: string, nameRu?: string, info?: { name: string, text: string } | null }} AuraReach
+ */
 
 export {}

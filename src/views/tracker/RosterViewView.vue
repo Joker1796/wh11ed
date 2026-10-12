@@ -177,7 +177,7 @@
 
       <p
         v-if="!roster.faction"
-        class="rv-hint"
+        class="empty-note"
       >
         {{ labels.rosterViewNoFaction }}
       </p>
@@ -293,7 +293,7 @@
           >
             <p
               v-if="!roster.units.length"
-              class="rv-hint"
+              class="empty-note"
             >
               {{ labels.rosterUnitsEmptyView }}
             </p>
@@ -451,177 +451,22 @@
           </div>
 
           <!-- Army rule + selected detachment(s) rule, lazily loaded (heavy faction rules bundle) -->
-          <div
+          <RosterRulesTab
             v-else-if="tab === 'rules'"
             key="rules"
-            class="rv-rules"
-          >
-            <template v-if="rulesFaction">
-              <section class="rv-rule-block">
-                <h3 class="roster-group-head">
-                  {{ labels.factionArmyRule }}
-                </h3>
-                <RuleBlock
-                  :id="rulesFaction.armyRule.id"
-                  :title="rulesFaction.armyRule.name"
-                  :subtitle="rulesFaction.armyRule.nameRu"
-                  :body="rulesFaction.armyRule.body"
-                  :example="rulesFaction.armyRule.example"
-                />
-              </section>
-              <section
-                v-for="det in selectedDetachmentRules"
-                :key="det.name"
-                class="rv-rule-block"
-              >
-                <!-- Headed like the army rule above, by what it is (owner, 2026-10-06): the bare
-                     name over the rule did not say it was the detachment. One detachment: its
-                     name in the heading. Several: one "Detachments" heading over the first, and
-                     each one's name over its own rule. -->
-                <h3
-                  v-if="selectedDetachmentRules.length === 1"
-                  class="roster-group-head"
-                >
-                  {{ labels.rosterDetachmentLabel }} · {{ det.name }}
-                </h3>
-                <template v-else>
-                  <h3
-                    v-if="det === selectedDetachmentRules[0]"
-                    class="roster-group-head"
-                  >
-                    {{ labels.factionDetachments }}
-                  </h3>
-                  <h4 class="rv-det-name">
-                    {{ det.name }}
-                  </h4>
-                </template>
-                <RuleBlock
-                  :title="det.rule.name"
-                  :subtitle="det.rule.nameRu"
-                  :body="det.rule.body"
-                />
-                <RuleExtras :extras="det.rule.extras" />
-                <!-- Its enhancements, and who in this list wears each one or could (a player's
-                     request, 2026-10-06). -->
-                <template v-if="det.enhancements?.length">
-                  <h3 class="roster-group-head">
-                    {{ labels.factionEnhancements }}
-                  </h3>
-                  <EnhancementList
-                    :enhancements="det.enhancements"
-                    :list="rulesList"
-                  />
-                </template>
-              </section>
-            </template>
-          </div>
+            :faction="rulesFaction"
+            :detachments="selectedDetachmentRules"
+            :list="rulesList"
+          />
 
-          <!-- Stratagems — same setup as the standalone StratagemsView.vue page (toolbar toggle +
-           phase accordions / flat grid), just pre-filtered to this roster's own detachments
-           instead of a core/you/opp filter (each card's sublabel already says which
-           detachment it's from, same as that page's detachment cards). -->
-          <div
+          <!-- Stratagems — the Stratagems page's own toolbar and phase groups, over this roster's
+               detachments (RosterStratagemsTab). -->
+          <RosterStratagemsTab
             v-else-if="tab === 'stratagems'"
             key="stratagems"
-            class="rv-strats"
-          >
-            <template v-if="rulesFaction">
-              <p
-                v-if="!selectedDetachmentRules.length"
-                class="rv-hint"
-              >
-                {{ labels.rosterViewNoDetachment }}
-              </p>
-              <template v-else>
-                <div class="strat-toolbar">
-                  <!-- Only in a live game that keeps a clock: narrow the list to what this player can
-                   actually use in the slot the game is standing on. -->
-                  <button
-                    v-if="nowSlot"
-                    type="button"
-                    class="strat-toggle now-toggle"
-                    data-press="pop"
-                    :class="{ active: nowOnly }"
-                    :aria-pressed="nowOnly"
-                    @click="nowOnly = !nowOnly"
-                  >
-                    <i class="bi bi-hourglass-split" />
-                    <span class="strat-toggle-label">{{ labels.stratNowOnly }}</span>
-                  </button>
-                  <button
-                    type="button"
-                    class="strat-toggle"
-                    data-press="pop"
-                    :class="{ active: byPhase }"
-                    :aria-pressed="byPhase"
-                    :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"
-                    @click="byPhase = !byPhase"
-                  >
-                    <i
-                      class="bi"
-                      :class="byPhase ? 'bi-list-ul' : 'bi-collection'"
-                    />
-                    <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
-                  </button>
-                </div>
-
-                <Transition name="fade">
-                  <p
-                    v-if="nowOnly && !visibleStratagems.length"
-                    class="rv-hint"
-                  >
-                    {{ labels.stratNowEmpty }}
-                  </p>
-                </Transition>
-
-                <template v-if="byPhase && !nowOnly">
-                  <div
-                    v-for="g in phaseGroups"
-                    :key="g.key"
-                    class="phase-group"
-                  >
-                    <button
-                      type="button"
-                      class="phase-head"
-                      :aria-expanded="openPhases.has(g.key)"
-                      @click="togglePhase(g.key)"
-                    >
-                      <ChevronIcon
-                        class="phase-chev"
-                        :turned="openPhases.has(g.key)"
-                        from="right"
-                        to="down"
-                      />
-                      <span class="phase-name">{{ phaseLabel(g.key, labels) }}</span>
-                      <span class="phase-count">{{ g.strats.length }}</span>
-                    </button>
-                    <CollapseTransition :show="openPhases.has(g.key)">
-                      <div class="strat-grid phase-grid">
-                        <StratCard
-                          v-for="s in g.strats"
-                          :key="stratKey(s)"
-                          :strat="s"
-                          :sublabel="s.sublabel"
-                        />
-                      </div>
-                    </CollapseTransition>
-                  </div>
-                </template>
-
-                <div
-                  v-else-if="visibleStratagems.length"
-                  class="strat-grid"
-                >
-                  <StratCard
-                    v-for="s in visibleStratagems"
-                    :key="stratKey(s)"
-                    :strat="s"
-                    :sublabel="s.sublabel"
-                  />
-                </div>
-              </template>
-            </template>
-          </div>
+            :detachments="rulesFaction ? selectedDetachmentRules : null"
+            :game-slot="nowSlot"
+          />
 
           <!-- Preparing for an opponent: the five matchups this list's disposition can be dealt.
                Off the table only — in a game the matchup is already decided. -->
@@ -699,8 +544,6 @@
 import ChevronIcon from '../../components/ChevronIcon.vue'
 import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import RuleBlock from '../../components/RuleBlock.vue'
-import StratCard from '../../components/StratCard.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
@@ -712,6 +555,8 @@ import RosterOwnLimitsMark from '../../components/roster/RosterOwnLimitsMark.vue
 import ConditionChips from '../../components/ConditionChips.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import RosterMissionsTab from '../../components/roster/RosterMissionsTab.vue'
+import RosterRulesTab from '../../components/roster/RosterRulesTab.vue'
+import RosterStratagemsTab from '../../components/roster/RosterStratagemsTab.vue'
 import RosterDispositionModal from '../../components/roster/RosterDispositionModal.vue'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { refreshSummaries } from '../../composables/rosterSummary.js'
@@ -739,12 +584,8 @@ import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { memberAt } from '../../composables/rosterGameLink.js'
-import { phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
-import EnhancementList from '../../components/roster/EnhancementList.vue'
-import RuleExtras from '../../components/RuleExtras.vue'
-import { getItem, setItem } from '../../composables/safeStorage.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
 
@@ -1627,13 +1468,7 @@ const selectedDetachmentRules = computed(() =>
     .map((name) => detachmentLookup.value.get(normName(name)))
     .filter(Boolean))
 
-// ── Stratagems tab: same by-phase/as-list toggle as StratagemsView.vue, over the flattened
-// stratagems of every selected detachment (each card's own sublabel already says which
-// detachment it's from — no extra per-detachment grouping needed on top of that). The view
-// preference is shared with the standalone page (same localStorage key) so it isn't a
-// separate setting to learn twice.
-const allStratagems = computed(() => selectedDetachmentRules.value.flatMap((det) => det.stratagems || []))
-
+// ── Stratagems tab (RosterStratagemsTab): what it needs from the game.
 // The slot the game is standing on, but only when there IS one to stand on: a live game that
 // tracks phases. A finished game out of history keeps the clock it ended with — "what can I use
 // now" is not a question that record can answer.
@@ -1646,44 +1481,6 @@ const nowSlot = computed(() => {
     mine: (g.currentTurn === 1 ? 1 : 0) === gamePi.value,
   }
 })
-const nowOnly = ref(false)
-// The filter can only be on while there is a slot: leaving the game (or the round bar losing the
-// setting) must not leave the list silently filtered by a phase nobody is in.
-watch(nowSlot, (slot) => { if (!slot) nowOnly.value = false })
-
-const visibleStratagems = computed(() => {
-  const slot = nowSlot.value
-  if (!nowOnly.value || !slot) return allStratagems.value
-  return allStratagems.value.filter((s) => usableInSlot(s._phases, s._sides, slot.phase, slot.mine))
-})
-
-const VIEW_KEY = 'wh11ed-stratagems-by-phase'
-const byPhase = ref(getItem(VIEW_KEY) === '1')
-watch(byPhase, (on) => setItem(VIEW_KEY, on ? '1' : '0'))
-const openPhases = ref(new Set())
-
-// Grouping by phase while filtering TO one phase would be one accordion with everything in it,
-// so the filter renders the flat list (see the template's `byPhase && !nowOnly`).
-const phaseGroups = computed(() => {
-  const by = new Map()
-  for (const s of visibleStratagems.value) {
-    for (const k of s._phases?.length ? s._phases : ['any']) {
-      if (!by.has(k)) by.set(k, [])
-      by.get(k).push(s)
-    }
-  }
-  return PHASE_ORDER.filter((k) => by.has(k)).map((k) => ({ key: k, strats: by.get(k) }))
-})
-
-function togglePhase(key) {
-  const next = new Set(openPhases.value)
-  next.has(key) ? next.delete(key) : next.add(key)
-  openPhases.value = next
-}
-
-function stratKey(strat) {
-  return strat.num || `${strat.sublabel || ''}|${strat.name}`
-}
 </script>
 
 <style scoped>
@@ -1784,7 +1581,6 @@ function stratKey(strat) {
   .hdr-icon { width: 2.1rem; height: 2.1rem; font-size: 0.9rem; }
 }
 
-.rv-hint { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 
 /* The same folder tabs the faction pages wear (PageTabs) — three halves of one list, not three
    filters above it. They pick up this list's faction accent through --accent. */
@@ -1974,68 +1770,6 @@ function stratKey(strat) {
 .rvunit-sub { font-size: 0.74rem; color: var(--text-dim); }
 .rvunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .rvunit-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
-
-/* The Rules tab is a REREAD of rules the player already knows, on the screen they hold at the
-   table — not the rules page, where a rule is being read for the first time. So it runs a step
-   smaller and tighter than RuleBlock's own sizes: --fs-rule-title and --fs-subheading are
-   inherited custom properties, so setting them here re-sizes the headings inside RuleBlock /
-   RuleBody without reaching into their scoped styles at all; the rest is :deep() on the two
-   things that set the rhythm — body type and paragraph gaps. */
-.rv-rules {
-  /* A step smaller than the rules page, not two. Sofia Sans Extra Condensed is narrow enough
-     that a nominal size reads about a size below a sans of the same value — at 1.15rem the rule's
-     own name ended up looking no larger than the body underneath it, and the section label above
-     it smaller still (owner, 2026-09-24). Raised so the three levels are told apart at arm's
-     length: label 1.35 → name 1.45 → sub-rule 1.3 → body 0.85rem of Inter, the same pair of sizes
-     the builder's own rules panel uses so one rule reads alike on both screens. The sub-rule heading
-     needed the same correction as the name for the same reason — a rule that names two abilities
-     was printing their headings smaller than the sentences under them. */
-  --fs-rule-title: 1.45rem;
-  --fs-subheading: 1.3rem;
-}
-/* Every override goes through the .rv-rule-block wrapper on purpose: a bare `.rv-rules
-   :deep(.rule-body)` ties RuleBlock's own `.rule-body` on specificity (both 0,2,0) and would be
-   settled by chunk order, which is nobody's intention. Through the wrapper it is 0,3,0 and wins
-   outright. */
-.rv-rules .rv-rule-block :deep(.rule-block) { padding: 0.5rem 0; }
-/* One of several detachments, named over its rule under the shared heading. */
-.rv-det-name { margin: 0.5rem 0 0; font-family: var(--font-display); font-size: 1.15rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; color: var(--accent-ink); }
-.rv-rules .rv-rule-block :deep(.rule-body) { font-size: 0.85rem; line-height: 1.45; }
-.rv-rules .rv-rule-block :deep(.rule-body p) { margin-bottom: 0.5rem; }
-.rv-rules .rv-rule-block :deep(.rule-body p:last-child) { margin-bottom: 0; }
-.rv-rules .rv-rule-block :deep(.rule-header) { margin-bottom: 0.4rem; }
-.rv-rules .rv-rule-block :deep(.rule-list),
-.rv-rules .rv-rule-block :deep(.rule-ol) { margin-bottom: 0.4rem; }
-.rv-rules .rv-rule-block :deep(.rule-list li),
-.rv-rules .rv-rule-block :deep(.rule-ol li) { margin-bottom: 0.15rem; line-height: 1.35; }
-.rv-rules .rv-rule-block :deep(.rule-subheading) { margin: 0.5rem 0 0.15rem; }
-/* The section label above a rule — "Army rule", or the detachment's name. Display face like the
-   rule's own name, so it needs the same treatment: it sits one step under the name it introduces
-   (1.35 to 1.45) and clear of the body, instead of the 1.05rem it shared with the Units tab. */
-.rv-rules .roster-group-head { margin: 0.8rem 0 0.35rem; font-size: 1.35rem; }
-.rv-rules .rv-rule-block:first-child .roster-group-head { margin-top: 0; }
-.rv-rule-block { margin-bottom: 0.9rem; }
-
-/* Stratagems tab — same toolbar/toggle/phase-accordion/grid language as the standalone
-   StratagemsView.vue page — copied, not shared (scoped styles don't cross component
-   boundaries). No .strat-filters here (StratagemsView's core/you/opp row) — this tab has
-   nothing to filter, it's always just this roster's own detachments. */
-.strat-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.phase-group { margin-bottom: 0.75rem; }
-/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
-.phase-head:hover { border-color: var(--accent); }
-.phase-grid { padding-top: 0.75rem; }
-
-@media (max-width: 480px) {
-  .strat-toggle-label { display: none; }
-}
 
 /* ── On the rosters desk (RosterDeskView) ──
    The page is a column of the desk and scrolls inside it; the way back is not drawn, the list of

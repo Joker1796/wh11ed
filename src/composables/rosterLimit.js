@@ -17,6 +17,7 @@ export const LIMIT_KEYS = ['battleSize', 'customPoints', 'customLimits']
  * @returns {RosterLimit}
  */
 export function limitOf(r) {
+  /** @type {RosterLimit} */
   const out = { battleSize: r?.battleSize || 'strike-force', customPoints: r?.customPoints ?? 2000 }
   if (r?.customLimits) out.customLimits = { ...r.customLimits }
   return out

@@ -25,7 +25,7 @@
     <Transition name="fade">
       <p
         v-if="!visibleStratagems.length"
-        class="strat-empty"
+        class="empty-note"
       >
         {{ labels.stratNoneForFilter }}
       </p>
@@ -215,10 +215,4 @@ const phaseGroups = computed(() => groupByPhase(visibleStratagems.value))
 }
 .strat-hero h1 { margin-bottom: 0; }
 .strat-hero .strat-hero-bar { margin-bottom: 0; }
-.strat-empty {
-  color: var(--text-muted);
-  font-style: italic;
-  padding: 1.5rem 0;
-  text-align: center;
-}
 </style>

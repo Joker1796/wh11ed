@@ -1,0 +1,41 @@
+/* The two marks a datasheet card puts on a value, shared by the card (DatasheetCard) and its weapons
+   tables (DatasheetWeaponTable): a count beside a name (.wqty) and the asterisk on a number the
+   roster's modifier layer rewrote (.ds-mod-star). Each component reads this file as its own
+   scoped sheet. */
+/* How many of this weapon the ROSTER ENTRY fields — a count the printed datasheet keeps in its
+   loadout sentence, which the roster card hides as a settled choice (rosterModifiers.js) — and,
+   on a model profile, how many models a "the bearer only" row stands for (rosterStatMods'
+   splitBearers: "Terminator · Storm Shield ×2"). Only
+   ever present on a sheet the overlay has been through, and only when the number is known and
+   greater than one, so the plain datasheet page is untouched. Muted and trailing: the name still
+   has to read as a name. */
+/* `<wbr>` in the markup, not a space: the count is glued to the name (there is no whitespace
+   between them in the template, or the ×2 could drift a word away from what it counts), and
+   without a break opportunity "supercharge×2" is one unbreakable token. A name whose last word
+   plus its count did not fit the line moved the WHOLE token down and left the line it came from
+   visibly short — which reads as "there is a gap after the ×2". The wbr lets the count drop on
+   its own when nothing else will do; the nowrap below keeps ×2 itself whole either way. */
+.wqty {
+  margin-left: 0.35rem;
+  /* The name's face and weight, a step smaller and muted: a count beside the name, not a footnote
+     (at 0.78rem it was) and not louder than the name (at 600 it was) — owner, 2026-10-02. */
+  font-size: 0.88em;
+  font-weight: 400;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* A narrow card (≤560px, the weapons table's tightened layout) sets the count a step closer. */
+@container dscard (max-width: 560px) {
+  .wqty { margin-left: 0.2rem; }
+}
+.ds-mod-star {
+  position: relative;
+  top: -0.4em;
+  vertical-align: baseline;
+  line-height: 0;
+  font-size: 0.7em;
+  color: var(--accent-ink);
+  font-weight: 700;
+  margin-left: 1px;
+}

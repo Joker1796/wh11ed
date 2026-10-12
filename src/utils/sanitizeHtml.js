@@ -27,7 +27,9 @@ const SAFE_URL = /^(?:https?:|mailto:|\/|#|[^:]*$)/i
 const TAG_RE = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][a-zA-Z0-9-]*)((?:\s+[^\s"'>/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+))?)*)\s*(\/?)>/g
 const ATTR_RE = /([^\s"'>/=]+)(?:\s*=\s*("[^"]*"|'[^']*'|[^\s"'=<>`]+))?/g
 
+/** @param {string} s */
 const escapeTag = (s) => s.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+/** @param {string | undefined} v */
 const unquote = (v) => (v && /^["']/.test(v) ? v.slice(1, -1) : v || '')
 
 /**
@@ -45,13 +47,22 @@ function attrAllowed(name, value) {
   return true
 }
 
+// Memoised by input, the way useRenderInline memoises the renderers: what reaches here is their
+// output — the same few thousand strings over and over, one per mount — and a pass costs about
+// twenty times a render-cache hit (measured 2026-10-12: ~1 µs a string, 12 ms over all the data).
+/** @type {Map<string, string>} */
+const memo = new Map()
+
 /**
  * @param {unknown} html
  * @returns {string}
  */
 export function sanitizeHtml(html) {
   if (html == null) return ''
-  return String(html).replace(TAG_RE, (whole, close, tag, attrs, self) => {
+  const input = String(html)
+  const hit = memo.get(input)
+  if (hit !== undefined) return hit
+  const out = input.replace(TAG_RE, (whole, close, tag, attrs, self) => {
     if (whole.startsWith('<!--')) return ''
     if (!TAGS.has(tag.toLowerCase())) return escapeTag(whole)
     if (close) return `</${tag}>`
@@ -59,4 +70,6 @@ export function sanitizeHtml(html) {
     if (kept.length === [...attrs.matchAll(ATTR_RE)].length) return whole
     return `<${tag}${kept.map((m) => ` ${m[0]}`).join('')}${self ? ' /' : ''}>`
   })
+  memo.set(input, out)
+  return out
 }

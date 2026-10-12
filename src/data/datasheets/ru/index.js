@@ -18,6 +18,10 @@ export { localizeSheet } from './localize.js'
 // from a single lazy import. For the 5 SM-Chapter codex factions (see `sharedIdsFor` in
 // ../index.js), also folds in space-marines.js's own RU overlay entries for the shared
 // unit ids — the chapter's own entry for an id wins if both exist.
+/**
+ * @param {string} slug
+ * @returns {Promise<import('../../data.types.js').DatasheetsRuModule | null>}
+ */
 export async function loadDatasheetsRu(slug) {
   const loader = modules[`./${slug}.js`]
   const own = loader ? await loader() : null

@@ -903,3 +903,93 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
 </script>
 
 <style scoped src="./unitEditorFields.css"></style>
+
+<style scoped>
+.ues { display: flex; flex-direction: column; gap: 0; }
+/* The way to the datasheet was a bare text link and read as a caption; it is the app's own ghost
+   button now (style.css), trimmed to sit in a row with a field rather than stand on its own. */
+.ues-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
+.ues-sheet-link { flex: 0 0 auto; padding: 0.35rem 0.6rem; font-size: 0.8rem; white-space: nowrap; }
+/* Label beside the field, not above it, and the field takes whatever the button leaves. */
+.ues-note { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 0.4rem; }
+.ues-note-lab { flex: 0 0 auto; font-size: 0.78rem; color: var(--text-muted); }
+.ues-note input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.3rem 0.45rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+.ues-note input:focus { outline: none; border-color: var(--accent); }
+/* A build pane is ~180px wide: the button and a labelled field cannot share that row, so the note
+   drops under it and keeps its caption beside it. */
+@container (max-width: 300px) {
+  .ues-top { flex-direction: column; align-items: stretch; gap: 0.35rem; }
+}
+.ues-default { font-size: 0.85rem; margin: 0.15rem 0; }
+/* The default loadout is a tile like the options under it (owner, 2026-10-01): the same frame and
+   ground, its info button in the same right-hand column. Inside a tile the names read at full
+   strength — muted text in a frame reads as a disabled pick. The button keeps a floor so a one-line
+   loadout still gives the finger a target. */
+.ues-default-list { flex: 1; min-width: 0; align-self: center; padding: 0.5rem 0.6rem; }
+.ues-default-row .opt-info { min-height: 2.4rem; }
+.ues-count { display: flex; align-items: center; justify-content: space-between; }
+.ues-comp { margin: -0.35rem 0 0; font-size: 0.82rem; color: var(--muted); }
+.ues-trimmed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.ues-req { font-style: normal; font-size: 0.78rem; color: var(--muted); margin-left: 0.4rem; }
+.pill-tell { opacity: 0.75; }
+.opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+/* Which of the two squads of that name this row is. Its OWN line — the name above it is what the
+   reader scans, and a sentence trailing off the end of it would be read as part of the name. */
+.opt-which { display: block; margin-top: 0.1rem; font-size: 0.7rem; font-style: normal; line-height: 1.3; color: var(--text-muted); }
+/* White, like the Warlord badge on the list row (2026-09-26). */
+.wl-flag { color: var(--text-primary); margin-right: 0.3rem; }
+/* "Can be led by" — a fold whose heading is the toggle. */
+.ues-fold-h { margin: 0; }
+.ues-fold-h.open { margin-bottom: 0.5rem; }
+.ues-fold {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ues-fold-chev { font-size: 0.8rem; color: var(--text-muted); }
+/* A candidate's row is a button that opens its datasheet; it keeps the tile's look. */
+.opt-open {
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.opt-open:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.opt-open:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* Smallest phones (down to 320px) — the section headings (.ues-h) stay full-size, everything
+   else shrinks a step so the checkbox tiles/info button/pill row don't force horizontal
+   crowding or wrap awkwardly at this width. */
+@media (max-width: 360px) {
+  .ues-default { font-size: 0.78rem; }
+  .opt-which { font-size: 0.64rem; }
+}
+</style>

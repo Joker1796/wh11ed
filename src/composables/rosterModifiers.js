@@ -33,6 +33,7 @@ export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 /** @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {Record<number, string>} Items */
 /** One copy of an item: the profile holding it (`m`, null for a unit-wide group) and on how many of its models (`n`, null when unknown). @typedef {{ m: number | null, n: number | null }} Slot */
+/** A keyword the roster gives a unit that its sheet does not print: from a rule (`detName`), or the mark the entry chose (`alleg`, that choice's title). @typedef {{ kw: string, detName: string | null, extra: boolean, alleg?: string | null }} GrantedKeyword */
 /** A rule bearing on an entry, to be resolved to its prose by the caller. @typedef {{ kind: 'enhancement' | 'detachment', name: string } | { kind: 'leader', unitId: string }} RuleSource */
 /** @typedef {{ def?: RosterUnit | null, entry?: EntryLike | null, items?: Items | null, unitId?: string, factionSlug?: string, detachments?: Detachment[], leaderTargets?: Array<{ uid: string, name: string }>, units?: RosterEntry[] }} OverlayContext */
 
@@ -47,6 +48,7 @@ export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 // the option's row was unclaimed, and an unclaimed row is always shown (see filterWeapons).
 // Mirrored by `normItemName` in scripts/gen-roster-modifiers.mjs — a wargear record's `ref.item`
 // is compared against `loadoutItemNames` with this key, so the two must agree.
+/** @param {string | null | undefined} s @returns {string} */
 const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\p{Pd}/gu, '-').replace(/\s+/g, ' ').trim()
 export { norm as itemKey }
 
@@ -69,6 +71,10 @@ function rowMatchesItem(row, item) {
 // offer. Returns normalised-name → ids, because a name can legitimately intern to more than one
 // id (the same weapon published under two appdata uuids) and a row claimed by any of them must
 // answer to all of them.
+/** An enhancement's weapons, by enhKey. @type {Record<string, { melee: WeaponRow[], ranged: WeaponRow[] }>} */
+const ENH_WEAPON_ROWS = ENH_WEAPONS
+
+/** @type {Record<string, string[]>} */
 const STANDS = rosterItemsData.stands || {}
 
 /**
@@ -77,11 +83,15 @@ const STANDS = rosterItemsData.stands || {}
  * @returns {Map<string, ItemId[]>}
  */
 function itemNameIndex(def, items) {
+  /** @type {Map<string, ItemId[]>} */
   const byName = new Map()
+  /** @param {string} n @param {ItemId} id */
   const put = (n, id) => {
-    if (!byName.has(n)) byName.set(n, [])
-    if (!byName.get(n).includes(id)) byName.get(n).push(id)
+    let ids = byName.get(n)
+    if (!ids) byName.set(n, (ids = []))
+    if (!ids.includes(id)) ids.push(id)
   }
+  /** @param {ItemId} id */
   const add = (id) => {
     const n = norm(items?.[id])
     if (!n) return
@@ -187,10 +197,13 @@ export function loadoutItemCopies(def, entry) {
   // Two sources can hand the entry the same item — a Defiler whose baleflamer AND missile launcher
   // are both traded for a heavy reaper autocannon fields two of them, one from each group — so
   // each source is a slot of its own, and the total adds them.
+  /** @type {Map<ItemId, Slot[]>} */
   const copies = new Map()
+  /** @param {ItemId} id @param {number | null} m @param {number | null} n */
   const slot = (id, m, n) => {
-    if (!copies.has(id)) copies.set(id, [])
-    copies.get(id).push({ m, n })
+    let list = copies.get(id)
+    if (!list) copies.set(id, (list = []))
+    list.push({ m, n })
   }
 
   for (const [m, list] of def.defaults) {
@@ -383,18 +396,21 @@ export function weaponRowClaimer(def, items) {
 function meleeRowsFor(w, slots, perMini) {
   if ((w.tags || []).some((t) => /^extra attacks$/i.test(t))) return null
   if (slots.some((s) => s.n == null)) return null
+  /** @type {Map<number | 'all', number[]>} */
   const byProfile = new Map()
   for (const s of slots) {
     if (!s.n) continue
     const k = s.m == null ? 'all' : s.m
-    if (!byProfile.has(k)) byProfile.set(k, [])
-    byProfile.get(k).push(s.n)
+    let list = byProfile.get(k)
+    if (!list) byProfile.set(k, (list = []))
+    list.push(s.n)
   }
   for (const [k, list] of byProfile) {
     const models = k === 'all' ? null : perMini?.get(k)
     const sum = list.reduce((a, n) => a + n, 0)
     if (models != null && list.length > 1 && sum <= models) byProfile.set(k, [sum])
   }
+  /** @type {number[]} */
   const ranks = []
   for (const list of byProfile.values()) list.forEach((n, r) => { ranks[r] = (ranks[r] || 0) + n })
   if (ranks.length < 2) return null
@@ -468,13 +484,15 @@ export function wargearConditions(def, entry, items, sheet) {
     }
   }
 
+  /** @param {string} name @param {string | undefined} n */
   const starts = (name, n) => name.startsWith(norm(n))
   for (const [cid, c] of Object.entries(conditions)) {
     const g = c.gear
     if (!g) continue
     const holds = [...held.values()].some((byName) => {
       const list = [...byName.values()]
-      if (g.copies) return list.some((r) => starts(r.name, g.name) && r.n >= g.copies)
+      const { copies, name } = g
+      if (copies && name) return list.some((r) => starts(r.name, name) && r.n >= copies)
       if (g.melee) {
         const n = list.filter((r) => !(g.besides || []).some((b) => starts(r.name, b))).reduce((a, r) => a + r.n, 0)
         return n >= g.melee
@@ -501,13 +519,20 @@ function filterWeapons(sheet, def, entry, items) {
   const perMini = modelsPerMini(def, entry)
   const claim = weaponRowClaimer(def, items)
   if (!claim) return sheet
+  /** @param {{ name?: string } | null | undefined} row */
   const claimOf = (row) => claim(row?.name)
 
   // Trim the table to what the entry fields, and stamp the quantity on what stays. One pass
   // because it is one question — which item is this row, and how many of it does the unit hold —
   // and two passes could answer it differently.
+  /**
+   * @param {WeaponRow[] | undefined} rows
+   * @param {boolean} melee
+   * @returns {{ rows: WeaponRow[], changed: boolean }} `rows` is read only when `changed`
+   */
   const take = (rows, melee) => {
-    if (!rows) return { rows, changed: false }
+    if (!rows) return { rows: [], changed: false }
+    /** @type {WeaponRow[]} */
     const out = []
     let changed = false
     for (const w of rows) {
@@ -586,6 +611,7 @@ export function enhKey(s) {
 export function findEnhancementProse(detachments, name, own) {
   const target = enhKey(name)
   const mine = new Set((own || []).map((d) => detKey(typeof d === 'string' ? d : d?.name)))
+  /** @param {D[]} ds */
   const find = (ds) => {
     for (const d of ds) {
       const e = d?.enhancements?.find((x) => enhKey(x.name) === target)
@@ -696,6 +722,7 @@ export function ruleSourcesFor(ctx) {
  * @param {RosterUnit | null | undefined} def
  * @param {EntryLike | null | undefined} entry
  * @param {Detachment[] | null | undefined} detachments
+ * @returns {GrantedKeyword[]}
  */
 function allegGrant(def, entry, detachments) {
   const kw = allegKeyword(def, entry, detachments)
@@ -713,10 +740,12 @@ function allegGrant(def, entry, detachments) {
  * @returns {PrintedSheet}
  */
 function withEnhancementWeapons(sheet, entry) {
-  const given = entry?.enh && ENH_WEAPONS[enhKey(entry.enh)]
+  const given = entry?.enh && ENH_WEAPON_ROWS[enhKey(entry.enh)]
   if (!given || !(given.melee.length || given.ranged.length)) return sheet
   const out = { ...sheet }
-  for (const kind of ['ranged', 'melee']) {
+  /** @type {Array<'ranged' | 'melee'>} */
+  const kinds = ['ranged', 'melee']
+  for (const kind of kinds) {
     if (given[kind].length) out[kind] = [...(sheet[kind] || []), ...given[kind].map((w) => ({ ...w, enh: entry.enh }))]
   }
   return out
@@ -738,6 +767,7 @@ function overlayWeapons(sheet, def, entry, items) {
 /**
  * @param {PrintedSheet | null | undefined} sheet
  * @param {OverlayContext | null | undefined} ctx
+ * @returns {{ sheet: PrintedSheet | null | undefined, grantedKeywords: GrantedKeyword[], context: ReturnType<typeof entryContext>, ruleSources: RuleSource[], notes: never[] }}
  */
 export function overlaySheet(sheet, ctx) {
   if (!sheet) return { sheet, grantedKeywords: [], context: null, ruleSources: [], notes: [] }

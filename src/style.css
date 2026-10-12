@@ -1938,6 +1938,31 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   a { color: inherit !important; text-decoration: none !important; }
 }
 
+/* ── Weapon profile arrow ────────────────────────────────────────────────────
+   The small arrow before each profile of a weapon that has several ("Plasma incinerator" →
+   standard / supercharge), wherever weapon rows are drawn: a datasheet's tables and the wargear
+   info dialog. */
+.wprofile-arrow {
+  display: inline-block;
+  width: 13px;
+  height: 9px;
+  margin-right: 0.4rem;
+  background: var(--accent);
+  clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%);
+  vertical-align: middle;
+}
+
+/* ── Empty note ──────────────────────────────────────────────────────────────
+   What a list says when it has nothing to show — no stratagem for this filter, no detachment
+   picked yet: quiet, in the room the list would have taken. The Stratagems page and a saved
+   list's tabs each carried their own copy until 2026-10-12. */
+.empty-note {
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
 /* ── Account landing ─────────────────────────────────────────────────────────
    The page a link from an email lands on — confirming the address, setting a new password: one
    centred column, a title, a sentence, the action. Shared by EmailVerifyView and PasswordResetView

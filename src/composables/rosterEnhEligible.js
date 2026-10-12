@@ -25,6 +25,7 @@ export function hasKeyword(unit, name) {
 // specific unit is already maximally restrictive, so it overrides that unit's general noEnh/
 // epic-without-epicOk gates below — those exist to keep *generic* enhancements off units that
 // can't normally take them, not to block a unit from its own dedicated option.
+/** @param {unknown} a @param {unknown} b */
 const sameName = (a, b) => String(a).replace(/[\u2019']/g, "'").toLowerCase() === String(b).replace(/[\u2019']/g, "'").toLowerCase()
 
 /**
@@ -62,7 +63,9 @@ export function enhEligible(enh, def, granted = []) {
   // `granted` are keywords the ENTRY gained rather than the datasheet printing them — today the
   // allegiance upgrades that hand CHARACTER to a vehicle, which is precisely what makes it able to
   // carry an enhancement. Callers without an entry pass nothing and get the printed sheet's answer.
+  /** @param {unknown} x */
   const lc = (x) => String(x || '').toLowerCase()
+  /** @param {string} k */
   const has = (k) => hasKeyword(def, k) || granted.some((g) => lc(g) === lc(k))
   if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => has(k))
   if (enh.lockDs?.length) return !!def.sid && enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => has(k))

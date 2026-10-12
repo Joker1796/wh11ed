@@ -226,7 +226,7 @@ import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { allySourceOf, groupLabel, capKeyOf, sectionsOf, grantedKeywordsFor, nextCopyMinPoints } from '../../composables/rosterEngine.js'
+import { allySourceOf, groupLabel, capKeyOf, sectionsOfUnits, grantedKeywordsFor, nextCopyMinPoints } from '../../composables/rosterEngine.js'
 import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
@@ -375,7 +375,7 @@ const sectionsFor = (list) =>
   // The slug goes in so sectionsOf can ask conditionalKeywords.json which units this army's
   // Detachments make Battleline — without it Gretchin would sit under BATTLELINE in every list.
   // Already by name inside each section — the same order the list itself reads in.
-  sectionsOf(list, { faction: { allies: props.allies, slug: props.factionSlug }, detachments: props.detachments })
+  sectionsOfUnits(list, { faction: { allies: props.allies, slug: props.factionSlug }, detachments: props.detachments })
     .map((sec) => ({ ...sec, units: sec.items }))
 
 // Counted after sectionsOf, not before it: a group whose ally Detachment isn't selected is not on
