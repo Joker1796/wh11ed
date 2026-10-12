@@ -192,6 +192,7 @@ function gwBody(entries) {
   // pooled, and a Seraphim Superior's plasma pistol and power weapon were scored against the
   // squad's bolt pistols (2026-09-19).
   const byBullet = entries.some((e) => e.sub) && entries.some((e) => e.bullet && !e.sub)
+  /** @param {BodyLine} e */
   const depth = (e) => e.indent + (byBullet && e.sub ? 4 : 0)
   const nested = byBullet || entries.some((e) => e.indent >= 4 && e.bullet)
   if (!nested) {
@@ -246,9 +247,12 @@ function foldRepeatedAttachments(out) {
   const over = out.units.reduce((n, u) => n + (u.pts || 0), 0) - stated
   if (over <= 0) return
   const claimed = new Set()
+  /** @type {ParsedUnit[]} */
   const dupes = []
+  /** @param {ParsedUnit} u @param {(a: ParsedUnit) => unknown} fits */
   const twinOf = (u, fits) => out.units.find((a) => a !== u && !claimed.has(a) && !dupes.includes(a)
     && a.pts === u.pts && norm(a.name) === norm(u.name) && fits(a))
+  /** @param {ParsedUnit} u */
   const body = (u) => /^bodyguard/i.test(u.attachedAs || '')
   for (const u of out.units) {
     // The parts a unit can play are one bodyguard and one attaching role (Leader or Support), so
@@ -568,6 +572,7 @@ const wtcGear = (tail) => (tail || '')
 // the header is wherever they are, and a row of '+' is read as its end rather than its beginning.
 /** @param {string[]} lines @param {WtcList} out @returns {number} where the body starts */
 function wtcHeader(lines, out) {
+  /** @param {string} t */
   const isField = (t) => /^\+\s*\S/.test(t) && !t.startsWith('++')
   let i = lines.findIndex((l) => isField(l.trim()))
   if (i < 0) return 0
@@ -756,6 +761,7 @@ function fromHeader(out) {
   // test rosters, 2026-10-03). So a header entry is placed only while the body has placed fewer
   // copies of that enhancement than the header has named so far — an upgrade can be on several.
   const named = new Map()
+  /** @param {string} name */
   const placed = (name) => out.units.filter((u) => u.enh && norm(u.enh) === norm(name)).length
   for (const e of out.enhancements) {
     named.set(norm(e.name), (named.get(norm(e.name)) || 0) + 1)
@@ -828,6 +834,7 @@ export function matchFaction(name) {
   // Empire" as often as "T’au Empire", and norm() folds the typographic one onto the plain one but
   // cannot invent one that isn't there. Nothing else tells two faction names apart, so a match
   // that ignores it is still an exact match.
+  /** @param {string} x */
   const bare = (x) => x.replace(/'/g, '')
   for (const w of cands) {
     for (const g of factionGroups) {
@@ -869,11 +876,13 @@ export function matchFaction(name) {
  * @returns {Map<string, OptionRef[]>}
  */
 function optionIndex(def, items, entry) {
+  /** @type {Map<string, OptionRef[]>} */
   const idx = new Map()
+  /** @param {string} key @param {OptionRef} ref */
   const put = (key, ref) => {
     if (!key) return
-    if (!idx.has(key)) idx.set(key, [])
-    const at = idx.get(key)
+    let at = idx.get(key)
+    if (!at) idx.set(key, (at = []))
     if (!at.some((r) => r.gi === ref.gi && r.oi === ref.oi)) at.push(ref)
   }
   def?.gear?.forEach((g, gi) => {
@@ -947,6 +956,7 @@ function sizeIndexFor(def, models, perMini = null) {
   const n = models || 0   // read only when the list gave a count
   /** @param {import('./roster.types.js').SizeBracket} s */
   const inRange = (s) => n >= (s.per?.[0] ?? 1) && n <= (s.per?.[1] ?? s.per?.[0] ?? 1)
+  /** @param {import('./roster.types.js').SizeBracket} s */
   const admits = (s) => !perMini?.size || !s.comp?.length || s.comp.every(([mi, a, b]) => {
     const n = perMini.get(mi) || 0
     return b == null ? n === a : n >= a && n <= b
@@ -981,6 +991,7 @@ const fold = (s) => String(s || '').replace(/[‘’ʼ`´]/g, "'").toLowerCase()
 export function resolveDetachmentLine(line, known) {
   const hay = fold(line)
   const taken = new Array(hay.length).fill(false)
+  /** @param {number} at @param {number} len */
   const free = (at, len) => { for (let i = at; i < at + len; i++) if (taken[i]) return false; return true }
   const hits = []
   for (const det of [...known].sort((a, b) => (b.name || '').length - (a.name || '').length)) {
@@ -1105,6 +1116,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   // A player can tag two copies of one datasheet apart in the app's own name field — "Commander in
   // Enforcer Battlesuit (Blue)" beside "(Black)" — and no datasheet in the game is named with a
   // trailing parenthesis, so a name that only matches without one is that name with a note on it.
+  /** @param {string | null | undefined} name */
   const defOf = (name) => byName.get(norm(name))
     || byName.get(norm(String(name || '').replace(/\s*\([^()]*\)\s*$/, '')))
   for (const pu of parsed.units || []) {
@@ -1127,6 +1139,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // rather than reported: the entry costs what it costs, and there is nothing to fix.
     const noBuild = new Set((faction.noBuild || []).map((n) => norm(n)))
     if (noBuild.size) {
+      /** @param {string | null | undefined} name */
       const isNoBuild = (name) => noBuild.has(norm(name))
       const dropped = modelLines.filter((l) => isNoBuild(l.name))
       modelLines = modelLines.filter((l) => !isNoBuild(l.name))
@@ -1161,6 +1174,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // folds the plural: a list may print either number of either name.
     const self = norm(def.name)
     const known = new Set((def.minis || []).map((m) => norm(m?.n)).filter(Boolean))
+    /** @param {string | null | undefined} name */
     const isModel = (name) => known.has(norm(name)) || norm(name) === self
       || known.has(norm(profileHead(name))) || norm(profileHead(name)) === self
     const lines = modelLines
@@ -1235,6 +1249,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // is known: "Genestealer claws and talons" is one weapon, and it resolves as one. Three items
     // come as a series — listhammer's "Vexilla, Misericordia and Praesidium Shield" on Custodian
     // Guard (2026-09-27) — so the commas split too, under the same every-part-known rule.
+    /** @param {string} name */
     const knownGear = (name) => { const k = norm(name); return !!k && (printed.has(k) || idx.has(k)) }
     weapons = weapons.flatMap((w) => {
       if (knownGear(w.name) || !/ and /i.test(w.name)) return [w]
@@ -1258,6 +1273,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const perProfile = modelsPerMini(def, entry)
     const printedPer = new Map()  // `${miniIndex|*}:${item}` → copies
     const printedCount = new Map()
+    /** @param {Map<string, number>} map @param {string} k @param {number} n */
     const bump = (map, k, n) => map.set(k, (map.get(k) || 0) + n)
     for (const [m, list] of def.defaults || []) {
       const n = perProfile?.get(m) || 0
@@ -1272,6 +1288,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         bump(printedCount, k, copies)
       }
     }
+    /** @param {number} gi */
     const untouched = (gi) => {
       const rep = def.gear?.[gi]?.rep || []
       if (!rep.length) return false
@@ -1283,6 +1300,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     }
     /** @type {Map<string, Pick>} */
     const picks = new Map()
+    /** @param {OptionRef | Pick} r */
     const key2 = (r) => `${r.gi}:${r.oi}`
     const usedGroups = new Set()
     // Whether a group can still take a pick, read as the editor reads it (UnitEditorFields' mode):
@@ -1298,6 +1316,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // And a group that allows several picks but "never the same one twice" (`dup`) has, for ONE
     // option, only what the duplicate cap leaves: two plasma guns on a 10-model Raptor squad are
     // one from each of its two special-weapon groups, not two from the first (2026-09-19).
+    /** @param {number} gi @param {number | null} [oi] */
     const roomLeft = (gi, oi = null) => {
       const capOf = wargearGroupCap(def, entry, gi)
       const cap = capOf?.limit ?? wargearGroupFallbackCap(def, entry, gi) ?? null
@@ -1328,6 +1347,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       }
       return room
     }
+    /** @param {number} gi */
     const roomIn = (gi) => roomLeft(gi) > 0
     // How well an option ANSWERS the list: a bundled option ("1 boltstorm gauntlet, 1 power fist
     // and 1 relic blade") is one pick that puts three weapons on the model, and the Captain in
@@ -1368,6 +1388,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       if (!opt) return 0
       const names = optionItems(opt).map(([id]) => norm(items?.[id])).filter(Boolean)
       if (names.length < 2) return 1
+      /** @type {(x: string) => boolean} */
       const has = mi != null && itemised.has(String(mi)) ? (x) => listedPer.has(`${mi}:${x}`) : (x) => listed.has(x)
       return names.reduce((n, x) => n + (!has(x) ? -1 : over(x, mi) ? 1 : 0), 0)
     }
@@ -1397,6 +1418,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       }
       extraOf.set(w, n)
     }
+    /** @param {GearLine} w @param {string} key */
     const absorb = (w, key) => {
       let n = extraOf.get(w) ?? (w.n || 1)
       // The profile the export named has none of this left — but a datasheet can field several
@@ -1421,6 +1443,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // halves instead would count them twice (two cyclone missile launchers become four, and the
     // squad takes a swap it is not entitled to). A composite standing ALONE still gets reported: it
     // is then the only statement of that loadout there is, and we did fail to place it.
+    /** @param {GearLine} w */
     const restates = (w) => {
       const parts = String(w.name || '').split(/\s+(?:&|w\/|and)\s+/i).map(norm).filter(Boolean)
       if (parts.length < 2) return false
@@ -1432,6 +1455,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // may replace either pair of talons, its heavy venom cannon only the extra pair — placed first
     // and into the first group, the claws filled it and the cannon had nowhere legal left
     // (2026-09-19, two GT lists).
+    /** @param {number} gi @param {number} from */
     const soleHomeLater = (gi, from) => weapons.slice(from + 1).some((o) => {
       const rs = idx.get(norm(o.name))
       return !!rs?.length && rs.every((r) => r.gi === gi)
@@ -1452,6 +1476,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const all = own.length ? own : refs
       const touched = all.filter((r) => !untouched(r.gi))
       const fitted = touched.length ? touched : all
+      /** @param {OptionRef} r */
       const fit = (r) => fitOf(r, want)
       const best = Math.max(...fitted.map(fit))
       const pool = fitted.filter((r) => fit(r) === best)
@@ -1473,6 +1498,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       /** @param {OptionRef} r */
       const optKey = (r) => optionItems(def.gear?.[r.gi]?.o?.[r.oi]).map(([id]) => id).sort().join('+')
       const shared = new Set(pool.map(optKey)).size > 1
+      /** @param {OptionRef} r */
       const holds = (r) => picks.get(key2(r))?.names.has(key)
       // Is there anywhere ELSE for what is left of this line to go? Guards the spill above against
       // walking in circles when every candidate is full or already holds it.
@@ -1481,6 +1507,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // be replaced with 2 magma cutters" is a single swap, and the export prints what the model
       // ends up holding ("2x Magma cutters") — counted as two picks it filled a group that allows
       // one, and called a stock Maulerfiend illegal.
+      /** @param {OptionRef} r */
       const per = (r) => {
         const opt = def.gear?.[r.gi]?.o?.[r.oi]
         const hit = opt ? optionItems(opt).find(([id]) => norm(items?.[id]) === key) : null
@@ -1499,6 +1526,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         //  3. an option of a group already used, and failing that the first candidate.
         //     An untouched group the squad is too small for (room 0) is not opened for it: what
         //     the list holds goes to a group that can take it, and only failing that anywhere.
+        /** @param {OptionRef[]} rs */
         const fresh = (rs) => {
           const open = rs.filter((r) => !usedGroups.has(r.gi) && roomIn(r.gi))
           return open.find((r) => !soleHomeLater(r.gi, wi)) || open[0]
@@ -1618,6 +1646,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     if (!rows) rowsOf.set(key, (rows = []))
     rows.push({ entry: u, def: byName.get(key) })
   })
+  /** @param {string} target @returns {Row | undefined} */
   const rowFor = (target) => {
     const at = String(target || '').match(/^(.*?)\s*\[(\d+)\]$/)
     const rows = rowsOf.get(norm(at ? at[1] : target)) || []
@@ -1629,7 +1658,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   // Bodyguard joins a Cadian Command Squad, which is itself a Character unit leading Shock Troops —
   // and taking the line's own subject as the leader got that backwards. It cost the attachment
   // outright: a leader holds one link, so the wrong one silently replaced the right one.
+  /** @param {RosterUnit | undefined} d */
   const isChar = (d) => !!(d?.flags?.char || d?.flags?.epic)
+  /**
+   * @param {Row} a
+   * @param {Row | undefined} other
+   * @returns {{ leader: Row, body: Row, legal: boolean } | null}
+   */
   const linkFor = (a, other) => {
     if (!other || other.entry === a.entry) return null
     const forward = leadTypeFor(a.def, a.entry, other.def, dets)
@@ -1674,6 +1709,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // is made, so a block we read wrong leaves its units standing alone rather than attached to
     // something they may not join.
     const unlabelled = members.every((m) => !m.attachedAs)
+    /** @param {Row} m @param {Row} host */
     const canLead = (m, host) => m !== host && !!leadTypeFor(m.def, m.entry, host.def, dets)
     let body = members.find((m) => /^bodyguard/i.test(m.attachedAs || ''))
     if (!body && unlabelled && members.length > 1) {

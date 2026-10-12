@@ -101,6 +101,8 @@ const turnOfStamp = (at) => Math.floor(at / 10)
 // condition asks about, which most do not — Drukhari's tracker counts Pain tokens, not which
 // Combat Drug is running, and the Sororitas one banks Miracle dice and says nothing about which
 // unit is Righteous. Those stay switches.
+/** A condition the tracker answers from the player's army-rule state this round. @typedef {(player: GamePlayer | null | undefined, round: number) => boolean} AutoReader */
+/** @type {Record<string, AutoReader>} */
 const AUTO = {
   // Adeptus Mechanicus — a per-round `selection` whose option ids are the Imperatives themselves.
   'imperative-protector': (player, round) => player?.factionSlug === 'adeptus-mechanicus'
@@ -127,6 +129,7 @@ export const isAuto = (id) => Object.hasOwn(AUTO, id)
 // one unit at a time. So the War Cry turns it on for everybody while its window is open, and the
 // unit's own switch answers the rest. (Plain AUTO would have been wrong in both directions: it
 // would have taken the switch away, and read "no War Cry" as "nothing is riled up".)
+/** @type {Record<string, AutoReader>} */
 const SOFT_AUTO = {
   'riled-up': (player, round) => player?.factionSlug === 'orks'
     && (player?.army?.toggleRounds || []).includes(round),
@@ -135,7 +138,7 @@ const SOFT_AUTO = {
   // all five Codex Supplements share the army rule (app data 963), so every one of them reads it.
   ...Object.fromEntries(['assault', 'devastator', 'tactical'].filter((d) => conditions[`doctrine-${d}`])
     .map((d) => [`doctrine-${d}`,
-      (player, round) => SM_FAMILY.has(player?.factionSlug) && player?.army?.selectionByRound?.[round] === d])),
+      (player, round) => !!player?.factionSlug && SM_FAMILY.has(player.factionSlug) && player?.army?.selectionByRound?.[round] === d])),
 }
 
 // …and two datasheets answer it outright, with no trigger and no window: the Stompa's Waaagh!
@@ -144,6 +147,7 @@ const SOFT_AUTO = {
 // player's to flip — asking would be asking them to confirm what their own datasheet prints.
 // Guarded by a test that scans every Orks datasheet for the phrase, so a third one cannot appear
 // in a later codex and quietly go unread.
+/** @type {Record<string, Set<string>>} */
 const ENTRY_PROVES = { 'riled-up': new Set(['stompa', 'zodgrod-wortsnagga']) }
 /** @param {string} id @param {EntryLike | null | undefined} entry */
 const entryProves = (id, entry) => !!(entry?.id && ENTRY_PROVES[id]?.has(entry.id))
@@ -272,16 +276,19 @@ export function rosterConditions(entry, units = null) {
 // ones the store would have kept. Nothing is deleted: the game's own record stays as it was played.
 /** @param {Set<string>} out @param {GamePlayer | null | undefined} player @param {EntryLike | null | undefined} entry */
 function capGroups(out, player, entry) {
+  /** @type {Map<string, string[]>} */
   const byGroup = new Map()
   for (const id of out) {
     const group = conditions[id]?.group
     if (!group) continue
-    if (!byGroup.has(group)) byGroup.set(group, [])
-    byGroup.get(group).push(id)
+    let ids = byGroup.get(group)
+    if (!ids) byGroup.set(group, (ids = []))
+    ids.push(id)
   }
   for (const [group, ids] of byGroup) {
     const limit = groupLimitOf(group)
     if (ids.length <= limit) continue
+    /** @param {string} id */
     const stampFor = (id) => (conditions[id].scope === 'army'
       ? player?.ctx?.army?.[id]
       : entry?.uid ? player?.ctx?.units?.[entry.uid]?.[id] : undefined) ?? 0
@@ -578,6 +585,7 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
   // taken — a condition is named by one rule in all but a handful of cases, and the second would
   // be the same rule under another unit anyway.
   const namedBy = new Map()
+  /** @param {string} id */
   const answerable = (id) => {
     const c = conditions[id]
     if (!c) return false

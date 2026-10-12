@@ -12,6 +12,7 @@ import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hos
 /** @typedef {import('./roster.types.js').Roster} Roster */
 /** @typedef {import('./roster.types.js').BattleSize} BattleSize */
 /** @typedef {import('./roster.types.js').RosterIssue} RosterIssue */
+/** An issue as raised here: a param may be missing when the data it names is (a group with no title, a target with no name). @typedef {Omit<RosterIssue, 'params'> & { params?: Record<string, string | number | undefined> }} Issue */
 /** @typedef {import('./roster.types.js').DefOf} DefOf */
 /** @typedef {import('./roster.types.js').Detachment} Detachment */
 
@@ -86,17 +87,19 @@ const NAMED_NOT_EPIC = new Set(['kayvaan-shrike'])
 /**
  * @param {Partial<Roster> | null | undefined} roster
  * @param {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string>, idleCopies?: (u: RosterEntry) => string[] | null | undefined }} [opts]
- * @returns {{ points: number, issues: RosterIssue[], errorCount: number }}
+ * @returns {{ points: number, issues: Issue[], errorCount: number }}
  */
 export function validateRoster(roster, { faction, core, items, idleCopies } = {}) {
   const units = roster?.units || []
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
-  const defOf = (id) => defMap.get(id)
+  /** @param {string | undefined} id */
+  const defOf = (id) => (id == null ? undefined : defMap.get(id))
   const battle = effectiveBattle(roster, core)
   const detachments = rosterDetachments(roster, faction)
 
   // Battleline gained from a Detachment, per unit — the doubled duplicate cap below asks this,
   // and so does the section a unit is filed under (rosterEngine's sectionsOf).
+  /** @param {RosterUnit | undefined} def */
   const grantedBattleline = (def) =>
     faction?.slug ? grantedKeywordsFor(def?.id, faction.slug, detachments).map((g) => g.kw) : null
 
@@ -105,6 +108,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // warnings included (owner, 2026-10-04: "no rule checked, no warning shown, only that the
   // checks are off"). See legalityOn (rosterEngine.js).
   if (!legalityOn(roster)) return { points, issues: [], errorCount: 0 }
+  /** @type {Issue[]} */
   const issues = []
   // Every issue tied to an entry names it. The message templates cannot do that on their own — the
   // same code is raised from a dozen places and several carry no unit at all — so `unit` is filled
@@ -112,6 +116,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // holding three Warbosses would then say the same thing three times, so a name shared by several
   // entries gets that entry's number in the list: the reader can tell which row the modal will jump
   // to before they tap it.
+  /** @param {string} uid */
   const nameOf = (uid) => {
     const at = units.findIndex((u) => u.uid === uid)
     const def = at < 0 ? null : defOf(units[at].id)
@@ -120,7 +125,13 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     if (same.length < 2) return def.name
     return `${def.name} (${same.findIndex((u) => u.uid === uid) + 1})`
   }
+  /**
+   * @param {string} code
+   * @param {Issue['level']} level
+   * @param {{ uid?: string, params?: Issue['params'] }} [extra]
+   */
   const add = (code, level, extra) => {
+    /** @type {Issue} */
     const iss = { code, level, ...extra }
     if (iss.uid) {
       const unit = nameOf(iss.uid)
@@ -461,13 +472,16 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // The picker already disables an occupied target of the same type; this catches it anyway for
   // data that predates that guard (or a detachment swap that left two of the same type attached).
   {
+    /** @type {Map<string, RosterEntry[]>} */
     const byTarget = new Map()
     for (const u of units) {
       if (!u.leaderOf) continue
-      if (!byTarget.has(u.leaderOf)) byTarget.set(u.leaderOf, [])
-      byTarget.get(u.leaderOf).push(u)
+      let hosted = byTarget.get(u.leaderOf)
+      if (!hosted) byTarget.set(u.leaderOf, (hosted = []))
+      hosted.push(u)
     }
     const flagged = new Set()
+    /** @param {RosterEntry} u @param {string} host */
     const tooMany = (u, host) => {
       if (flagged.has(u.uid)) return
       flagged.add(u.uid)
@@ -522,7 +536,8 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     const active = allyGroupsFor(faction, detachments)
     const activeKeys = new Set(active.map((g) => g.key))
     const size = battle.base || battle.id
-    const byGroup = new Map()          // group key -> entries counting against it
+    /** @type {Map<string, RosterEntry[]>} group key -> entries counting against it */
+    const byGroup = new Map()
     for (const u of units) {
       const groups = allyGroupsOf(faction, u.id)
       if (!groups.length) continue
@@ -534,8 +549,9 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
         add('allyLocked', 'error', { uid: u.uid, params: { dets: dets.join(', ') } })
         continue
       }
-      if (!byGroup.has(mine.key)) byGroup.set(mine.key, [])
-      byGroup.get(mine.key).push(u)
+      let counted = byGroup.get(mine.key)
+      if (!counted) byGroup.set(mine.key, (counted = []))
+      counted.push(u)
     }
     for (const g of active) {
       const list = byGroup.get(g.key) || []
@@ -559,6 +575,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
         // unit in the ARMY carrying every donor keyword — an Inquisitor — frees one ally carrying
         // the receiver keywords — an Inquisitorial Agents unit. Until 2026-10-03 it counted, and a
         // legal Inquisitor + Agents + two Retinue read as one Retinue over.
+        /** @param {string[]} ks @returns {(u: RosterEntry) => boolean} */
         const all = (ks) => (u) => ks.every((k) => hasKeyword(defOf(u.id), k))
         let freed = 0
         for (const f of (g.free || []).filter((x) => x.kw === kw)) {
