@@ -151,8 +151,8 @@
                   ><span
                     v-for="t in w.tags"
                     :key="t"
+                    v-safe-html="renderInline('[' + t + ']')"
                     class="wtag"
-                    v-html="renderInline('[' + t + ']')"
                   /></span>
                 </td>
                 <td data-label="Range">
@@ -263,8 +263,8 @@
                   ><span
                     v-for="t in w.tags"
                     :key="t"
+                    v-safe-html="renderInline('[' + t + ']')"
                     class="wtag"
-                    v-html="renderInline('[' + t + ']')"
                   /></span>
                 </td>
                 <td data-label="Range">
@@ -319,8 +319,8 @@
               >
                 <td colspan="7">
                   <div
+                    v-safe-html="renderInline(labels.dsWeaponCopyNote)"
                     class="wcopy-note-text"
-                    v-html="renderInline(labels.dsWeaponCopyNote)"
                   />
                 </td>
               </tr>
@@ -552,7 +552,7 @@
                   :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
                 />{{ abilityStateLabel(abilityState(a)) }}
               </span>
-              <span v-html="dsRichText(a.text)" />
+              <span v-safe-html="dsRichText(a.text)" />
               <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
                  the same switch the unit's row in the list carries — one store, two ways in. -->
               <ConditionChips
@@ -612,7 +612,7 @@
                   :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
                 />{{ abilityStateLabel(abilityState(a)) }}
               </span>
-              <span v-html="dsRichText(a.text)" />
+              <span v-safe-html="dsRichText(a.text)" />
               <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
                  the same switch the unit's row in the list carries — one store, two ways in. -->
               <ConditionChips
@@ -672,7 +672,7 @@
                   :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
                 />{{ abilityStateLabel(abilityState(a)) }}
               </span>
-              <span v-html="dsRichText(a.text)" />
+              <span v-safe-html="dsRichText(a.text)" />
               <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
                  the same switch the unit's row in the list carries — one store, two ways in. -->
               <ConditionChips
@@ -741,7 +741,7 @@
                   :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
                 />{{ abilityStateLabel(abilityState(a)) }}
               </span>
-              <span v-html="dsRichText(a.text)" />
+              <span v-safe-html="dsRichText(a.text)" />
               <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
                  the same switch the unit's row in the list carries — one store, two ways in. -->
               <ConditionChips
@@ -789,7 +789,7 @@
               </h5>
             </template>
             <div class="ds-ability">
-              <span v-html="dsRichText(r.text)" />
+              <span v-safe-html="dsRichText(r.text)" />
             </div>
           </DsAccordion>
         </div>
@@ -816,7 +816,7 @@
               </button>
               <strong v-else>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
             </template>
-            <div v-html="dsRichText(sheet.damaged.text)" />
+            <div v-safe-html="dsRichText(sheet.damaged.text)" />
           </DsAccordion>
         </div>
       </div>
@@ -851,8 +851,8 @@
             </h5>
           </template>
           <div
+            v-safe-html="dsRichText(sheet.transport)"
             class="ds-ability"
-            v-html="dsRichText(sheet.transport)"
           />
         </DsAccordion>
       </div>
@@ -885,7 +885,7 @@
             </h5>
           </template>
           <div class="ds-ability">
-            <div v-html="dsRichText(sheet.leader.text)" />
+            <div v-safe-html="dsRichText(sheet.leader.text)" />
             <ul class="ds-list">
               <li
                 v-for="u in visibleLeaderUnits"
@@ -904,7 +904,7 @@
             </ul>
             <div
               v-if="sheet.leader.footer"
-              v-html="dsRichText(sheet.leader.footer)"
+              v-safe-html="dsRichText(sheet.leader.footer)"
             />
           </div>
         </DsAccordion>
@@ -1022,13 +1022,13 @@
               <li
                 v-for="c in sheet.composition"
                 :key="c"
-                v-html="dsText(c)"
+                v-safe-html="dsText(c)"
               />
             </ul>
             <div
               v-if="sheet.loadout"
+              v-safe-html="dsText(sheet.loadout)"
               class="ds-loadout"
-              v-html="dsText(sheet.loadout)"
             />
           </div>
         </DsAccordion>
@@ -1065,8 +1065,8 @@
             <div
               v-for="(o, i) in sheet.options"
               :key="i"
+              v-safe-html="dsText(o)"
               class="ds-option"
-              v-html="dsText(o)"
             />
           </div>
         </DsAccordion>
@@ -1201,6 +1201,7 @@ import { useDatasheetParts } from '../composables/useDatasheetParts.js'
 import DsAccordion from './DsAccordion.vue'
 import ConditionChips from './ConditionChips.vue'
 import { openUnitList } from '../composables/useFactionKeywordUnits.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const props = defineProps({
   sheet: { type: Object, required: true },

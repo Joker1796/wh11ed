@@ -164,8 +164,8 @@
                 {{ e.flavor }}
               </p>
               <div
+                v-safe-html="renderRichText(e.body)"
                 class="enh-body"
-                v-html="renderRichText(e.body)"
               />
             </article>
           </div>
@@ -234,6 +234,7 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { slugify } from '../../data/slugify.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const route = useRoute()
 const { locale } = useLocale()

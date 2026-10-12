@@ -2,8 +2,8 @@
   <!-- The rule as the rules pages print it — paragraphs, lists, bold terms, keywords — with the
        words it lost struck and the words it gained marked, in place (owner, 2026-10-01). -->
   <div
+    v-safe-html="html"
     class="ptd"
-    v-html="html"
   />
 </template>
 
@@ -17,6 +17,7 @@
 import { computed } from 'vue'
 import { diffWords } from '../../utils/wordDiff.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({
   from: { type: String, default: '' },

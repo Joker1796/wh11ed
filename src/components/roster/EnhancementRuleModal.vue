@@ -39,14 +39,14 @@
           {{ enh.flavor }}
         </p>
         <div
+          v-safe-html="renderInline(enh.body)"
           class="erm-body"
-          v-html="renderInline(enh.body)"
         />
         <RuleExtras :extras="enh.extras" />
         <div
           v-if="enh.note"
+          v-safe-html="renderInline(enh.note)"
           class="erm-note"
-          v-html="renderInline(enh.note)"
         />
       </template>
       <p
@@ -74,6 +74,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { findEnhancementProse } from '../../composables/rosterModifiers.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({
   name: { type: String, required: true },

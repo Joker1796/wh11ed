@@ -28,17 +28,17 @@
           <td
             v-for="(cell, j) in row"
             :key="j"
+            v-safe-html="renderCell(cell)"
             :data-label="headers[j]"
-            v-html="renderCell(cell)"
           />
         </tr>
       </tbody>
       <tfoot v-if="footnote">
         <tr>
           <td
+            v-safe-html="renderCell(footnote)"
             :colspan="headers.length"
             class="table-footnote"
-            v-html="renderCell(footnote)"
           />
         </tr>
       </tfoot>
@@ -48,6 +48,7 @@
 
 <script setup>
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const { renderInline } = useRenderInline()
 

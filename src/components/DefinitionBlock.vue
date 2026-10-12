@@ -10,8 +10,8 @@
         {{ def.term }}
       </p>
       <div
+        v-safe-html="renderLines(def.text)"
         class="definition-text"
-        v-html="renderLines(def.text)"
       />
     </div>
   </div>
@@ -19,6 +19,7 @@
 
 <script setup>
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 defineProps({
   definitions: {

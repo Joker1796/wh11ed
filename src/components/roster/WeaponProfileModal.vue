@@ -41,8 +41,8 @@
                 ><span
                   v-for="t in w.tags"
                   :key="t"
+                  v-safe-html="renderInline('[' + t + ']')"
                   class="wtag"
-                  v-html="renderInline('[' + t + ']')"
                 /></span>
               </td>
               <td data-label="Range">
@@ -91,8 +91,8 @@
                 ><span
                   v-for="t in w.tags"
                   :key="t"
+                  v-safe-html="renderInline('[' + t + ']')"
                   class="wtag"
-                  v-html="renderInline('[' + t + ']')"
                 /></span>
               </td>
               <td data-label="Range">
@@ -121,7 +121,7 @@
           :key="a.name"
           class="wpm-ability"
         >
-          <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)" />
+          <strong>{{ a.name }}:</strong> <span v-safe-html="renderInline(a.text)" />
         </div>
       </div>
       <p
@@ -157,6 +157,7 @@ import { loadDatasheets } from '../../data/datasheets/index.js'
 import { localizeSheet } from '../../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from '../../composables/useDatasheetsRu.js'
 import { weaponBase, withGroupPos } from '../../utils/weaponGroups.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({
   unitId: { type: String, required: true },

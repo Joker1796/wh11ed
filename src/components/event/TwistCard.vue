@@ -19,8 +19,8 @@
          the `tcard-flavor` class is hidden in "Hide lore" mode. -->
     <p
       v-if="twist.example"
+      v-safe-html="renderInline(twist.example)"
       class="tcard-flavor"
-      v-html="renderInline(twist.example)"
     />
 
     <div class="tcard-body">
@@ -29,8 +29,8 @@
 
     <p
       v-if="twist.note"
+      v-safe-html="renderInline(twist.note)"
       class="tcard-note"
-      v-html="renderInline(twist.note)"
     />
   </article>
 </template>
@@ -38,6 +38,7 @@
 <script setup>
 import RuleBody from '../RuleBody.vue'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 defineProps({
   twist: { type: Object, required: true }, // { id, title, titleRu?, body, note?, example? }

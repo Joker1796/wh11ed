@@ -25,15 +25,15 @@
       <div
         v-for="para in introParagraphs"
         :key="para"
+        v-safe-html="renderInline(para)"
         class="para"
-        v-html="renderInline(para)"
       />
       <div
         v-for="(para, i) in missionParagraphs"
         :key="para"
+        v-safe-html="renderInline(para)"
         class="para"
         :class="{ 'para-col-break-after': i === 1 }"
-        v-html="renderInline(para)"
       />
     </div>
   </section>
@@ -57,7 +57,7 @@
           >
         </a>
       </div>
-      <p v-html="renderInline(t.app)" />
+      <p v-safe-html="renderInline(t.app)" />
     </div>
   </section>
 </template>
@@ -68,6 +68,7 @@ import { intro } from '../../data/intro.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
