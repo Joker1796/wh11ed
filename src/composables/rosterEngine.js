@@ -22,6 +22,9 @@ export { hasKeyword, enhEligible }
 /** @typedef {import('./roster.types.js').ItemId} ItemId */
 /** An entry as the engine reads it — a saved one, or a partial one a caller builds to ask a question. @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {NonNullable<RosterUnit['xpm']>[number]} XpmSet */
+/** @typedef {import('./roster.types.js').GearGroup} GearGroup */
+/** perModelFits said no, so the datasheet and its per-model rules are there. @typedef {RosterUnit & { pm: NonNullable<RosterUnit['pm']> }} PmUnit */
+/** A datasheet already known to be there, with its wargear groups. @typedef {RosterUnit & { gear: GearGroup[] }} GearedUnit */
 /** What takeUnitEntry hands back for restoreUnitEntry. @typedef {{ uid: string, entry: RosterEntry, at?: number, detached?: string[] }} RemovalTicket */
 
 // Battlefield-role buckets a unit is filed under in the editor / add-unit list, in display
@@ -178,7 +181,7 @@ export function defaultWargearPoints(def, entry) {
     // modelsPerMini). Only safe where every profile costs the same, which is the shape all but one
     // of the seven have; the odd one out (Victrix Honour Guard, whose Champion and Ancient are
     // priced differently) has a fixed composition and never lands here.
-    if (def.dw.length !== (def.minis?.length || 1) || def.dw.some(([, p]) => p !== def.dw[0][1])) return 0
+    if (def.dw.length !== (def.minis?.length || 1) || def.dw.some(([, p]) => p !== /** @type {Array<[number, number]>} */ (def.dw)[0][1])) return 0
     pts = def.dw[0][1] * models
   }
   for (const [gi, , n] of entry?.wg || []) {
@@ -233,7 +236,7 @@ export function wargearGroupLive(def, entry, gi) {
   if (wantActive) return !!pick
   if (!pick) return true
 
-  const g = def.gear[sibGi]
+  const g = /** @type {GearedUnit} */ (def).gear[sibGi] // `cond` came from def.gear
   const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
   // A unit-wide group is scoped to the whole squad, a per-profile one to its own models.
   const scope = g?.all ? (entry?.count ?? size?.per?.[0] ?? 1) : modelsPerMini(def, entry)?.get(g?.m ?? 0)
@@ -264,7 +267,7 @@ export function wargearGroupLive(def, entry, gi) {
 export function wargearGroupBlocker(def, entry, gi) {
   const cond = def?.gear?.[gi]?.cond
   if (!cond || wargearGroupLive(def, entry, gi)) return stockBlocker(def, entry, gi)
-  const sib = def.gear[cond[0]]
+  const sib = /** @type {GearedUnit} */ (def).gear[cond[0]] // `cond` came from def.gear
   const rep = sib?.rep?.length ? sib.rep : null
   // Name what the sibling actually took, when it took something — listing every option it offers
   // would tell the reader to remove three things when they picked one.
@@ -286,12 +289,13 @@ function stockBlocker(def, entry, gi) {
   if ((entry?.wg || []).some(([g]) => g === gi)) return null
   const byItem = swapRoomByItem(def, entry, gi)
   if (!byItem) return null
-  const g = def.gear[gi]
+  const g = /** @type {GearedUnit} */ (def).gear[gi] // swapRoomByItem answered, so the group is there
   const ids = new Set()
   for (const [oi] of (g.o || []).entries()) {
-    let out = needs(g, oi).filter((id) => byItem.has(id) && byItem.get(id) <= 0)
+    let out = needs(g, oi).filter((id) => byItem.has(id) && /** @type {number} */ (byItem.get(id)) <= 0)
     // An "X or Y" group runs out only when no model carries either.
-    if (g.alt && g.rep.some((id) => (byItem.get(id) || 0) > 0)) out = out.filter((id) => !g.rep.includes(id))
+    // An `alt` group always replaces.
+    if (g.alt && /** @type {ItemId[]} */ (g.rep).some((id) => (byItem.get(id) || 0) > 0)) out = out.filter((id) => !/** @type {ItemId[]} */ (g.rep).includes(id))
     if (!out.length) return null
     out.forEach((id) => ids.add(id))
   }
@@ -537,7 +541,7 @@ export function perModelFits(def, entry) {
   const one = new Set(pm.one || [])
   const [rangedMax, rangedIds] = pm.ranged || [Infinity, []]
   const ranged = new Set(rangedIds)
-  const given = pm.base != null ? def.gear[pm.base]?.rep?.[0] ?? null : null
+  const given = pm.base != null ? /** @type {GearedUnit} */ (def).gear[pm.base]?.rep?.[0] ?? null : null
   const bases = []
   if (pm.base != null) for (const [id, n] of pmCounts(def, entry, pm.base)) for (let k = 0; k < n; k++) bases.push(id)
   // More swaps than models: a unit-wide swap group has no cap of its own to say so, so this does.
@@ -696,7 +700,7 @@ export function canBeWarlord(def, detachments, granted = []) {
 export function grantedKeywords(def, entry, detachments, factionSlug) {
   return [
     ...grantedKeywordsFor(def?.id, factionSlug, detachments).map((g) => g.kw),
-    ...[allegKeyword(def, entry, detachments)].filter(Boolean),
+    .../** @type {string[]} */ ([allegKeyword(def, entry, detachments)].filter(Boolean)),
   ]
 }
 
@@ -724,7 +728,8 @@ export { detKey }
  * @returns {Array<{ kw: string, detName: string | null, extra: boolean }>}
  */
 export function grantedKeywordsFor(unitId, factionSlug, detachments) {
-  const grants = conditionalKeywords[factionSlug]?.[unitId]
+  // An undefined slug or id finds nothing, which is the answer.
+  const grants = conditionalKeywords[/** @type {string} */ (factionSlug)]?.[/** @type {string} */ (unitId)]
   if (!grants?.length) return []
   const picked = new Map() // detKey -> display name, for the footnote
   for (const d of detachments || []) {
@@ -794,7 +799,8 @@ export function dispositionCandidates(detachments) {
 export function dispositionOf(roster, detachments) {
   const cands = dispositionCandidates(detachments)
   if (cands.length === 1) return cands[0]
-  return cands.includes(roster?.disposition) ? roster.disposition : null
+  // includes() is true only for a string, so `roster` is there whenever it is read.
+  return cands.includes(/** @type {string} */ (roster?.disposition)) ? /** @type {string} */ (/** @type {Partial<Roster>} */ (roster).disposition) : null
 }
 
 // ── Allegiance: the mark/keyword an entry chooses for itself ──────────────────────────────────
@@ -1038,7 +1044,7 @@ export function hostSlotTaken(def, entry, host, hostDef, attached, detachments =
   const type = leadTypeFor(def, entry, hostDef, detachments)
   const same = attached.filter((o) => leadTypeFor(o.def, o.entry, hostDef, detachments) === type && occupies(def, o.def))
   if (same.length >= (type === 'leader' ? lim.leader : lim.support)) return true
-  if (lim.oneKw && hasKeyword(def, lim.oneKw) && attached.some((o) => o.def && hasKeyword(o.def, lim.oneKw))) return true
+  if (lim.oneKw && hasKeyword(def, lim.oneKw) && attached.some((o) => o.def && hasKeyword(o.def, /** @type {string} */ (lim.oneKw)))) return true
   if (lim.noDup && attached.some((o) => o.def?.id === def?.id)) return true
   return false
 }
@@ -1589,7 +1595,7 @@ export function modelsPerMini(def, entry) {
   const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
   if (!size) return null
   const total = entry?.count ?? size.per?.[0] ?? 1
-  if (!(def.minis?.length > 1)) return new Map([[0, total]])
+  if (!(/** @type {number} */ (def.minis?.length) > 1)) return new Map([[0, total]]) // undefined > 1 is false: one profile
   if (!size.comp) return null
   const ranges = size.comp.filter((c) => c.length === 3)
   if (ranges.length > 1) return null
@@ -1718,6 +1724,12 @@ export function swapsByMini(def, entry, perMini) {
 // Terminator who took "cyclone missile launcher and 1 storm bolter" got his storm bolter back
 // locked. A kept item the option hands back is therefore never `back`, and a kept item the group
 // does not replace at all is `held`. Stock is the NET: removed less back, plus held.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Map<number, number> | null} perMini
+ * @param {number | null} [exceptGi]
+ */
 function swapLedger(def, entry, perMini, exceptGi = null) {
   const removed = new Map()
   const back = new Map()
@@ -1774,7 +1786,7 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
   }
   const unitWide = []
   for (const [gi, byItem] of asked) {
-    const g = def.gear[gi]
+    const g = /** @type {GearedUnit} */ (def).gear[gi] // `asked` was filled from def.gear
     if (g.all) { unitWide.push([g, byItem]); continue }
     const m = g.m ?? 0
     const models = perMini.get(m)
@@ -1840,6 +1852,11 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
 
 // The items one pick in group `g` actually takes off a model: what the group replaces, less what
 // the option itself grants back. With no option named, everything the group replaces.
+/**
+ * @param {GearGroup} g
+ * @param {number | null} [oi]
+ * @returns {ItemId[]}
+ */
 function givenUp(g, oi = null) {
   const opt = oi == null ? null : g.o?.[oi]
   if (!opt) return g.rep || []
@@ -1850,6 +1867,11 @@ function givenUp(g, oi = null) {
 // What a pick NEEDS the model to still carry: everything it gives up, plus every item the group
 // keeps locked (`keep` — "that model's boltgun cannot be replaced"), whether or not the option
 // hands it back.
+/**
+ * @param {GearGroup} g
+ * @param {number | null} [oi]
+ * @returns {ItemId[]}
+ */
 function needs(g, oi = null) {
   return [...new Set([...givenUp(g, oi), ...(g.keep || [])])]
 }
@@ -1873,13 +1895,14 @@ function needs(g, oi = null) {
 export function swapRoom(def, entry, gi, oi = null) {
   const byItem = swapRoomByItem(def, entry, gi)
   if (!byItem) return null
-  const g = def.gear[gi]
+  const g = /** @type {GearedUnit} */ (def).gear[gi] // swapRoomByItem answered, so the group is there
   const ids = needs(g, oi).filter((id) => byItem.has(id))
   if (!ids.length) return null
   // An "X or Y" group needs a model carrying EITHER, so its alternatives are one pool.
-  const alt = g.alt ? ids.filter((id) => g.rep.includes(id)) : []
-  const pool = alt.length ? [alt.reduce((s, id) => s + byItem.get(id), 0)] : []
-  return Math.min(...pool, ...ids.filter((id) => !alt.includes(id)).map((id) => byItem.get(id)))
+  const alt = g.alt ? ids.filter((id) => /** @type {ItemId[]} */ (g.rep).includes(id)) : [] // an `alt` group always replaces
+  // ids are byItem's own keys (filtered by has() above).
+  const pool = alt.length ? [alt.reduce((s, id) => s + /** @type {number} */ (byItem.get(id)), 0)] : []
+  return Math.min(...pool, ...ids.filter((id) => !alt.includes(id)).map((id) => /** @type {number} */ (byItem.get(id))))
 }
 
 // The same answer per needed item (item id → models still carrying it), so the editor can name
@@ -1943,7 +1966,7 @@ export function overdrawnGroups(def, entry) {
     const ceiling = cap ? cap.limit : wargearGroupFallbackCap(def, entry, gi)
     if (ceiling != null && spent > ceiling) { out.add(gi); continue }
     if (!over.size || !needs(g).some((id) => over.has(id))) continue
-    const picked = (entry.wg || []).filter(([pg]) => pg === gi).map(([, oi]) => oi)
+    const picked = (/** @type {EntryLike} */ (entry).wg || []).filter(([pg]) => pg === gi).map(([, oi]) => oi) // spent > 0: entry is there
     if (picked.some((oi) => { const room = swapRoom(def, entry, gi, oi); return room != null && spent > room })) out.add(gi)
   }
   return out
@@ -1985,14 +2008,14 @@ export function fitWargear(def, entry) {
     }
     // Then the rules about one model across groups (`pm`): the latest pick in either group they cover.
     if (i < 0 && !perModelFits(def, e)) {
-      for (let k = wg.length - 1; k >= 0 && i < 0; k--) if (wg[k][0] === def.pm.add || wg[k][0] === def.pm.base) i = k
+      for (let k = wg.length - 1; k >= 0 && i < 0; k--) if (wg[k][0] === /** @type {PmUnit} */ (def).pm.add || wg[k][0] === /** @type {PmUnit} */ (def).pm.base) i = k
     }
     // Then stock: the latest pick that spends an overdrawn item.
     if (i < 0) {
       const over = new Set(swapOverdraft(def, e).map((o) => o.id))
       if (!over.size) break
       for (let k = wg.length - 1; k >= 0 && i < 0; k--) {
-        const g = def.gear?.[wg[k][0]]
+        const g = /** @type {RosterUnit} */ (def).gear?.[wg[k][0]] // an overdraft needs a datasheet
         if (g && wargearGroupLive(def, e, wg[k][0]) && needs(g, wg[k][1]).some((id) => over.has(id))) i = k
       }
       if (i < 0) break
@@ -2046,6 +2069,17 @@ export function exactPicksOwed(def, entry, gi) {
   return g.ex - spent
 }
 
+// The profile name a loadout line is headed with — blank when the datasheet has one profile, as
+// there is nothing to tell apart. Shared by both loadout readers below.
+/**
+ * @param {RosterUnit} def
+ * @param {number} m
+ * @returns {string}
+ */
+function miniName(def, m) {
+  return (def.minis?.length || 0) > 1 ? (def.minis?.[m]?.n || '') : ''
+}
+
 /**
  * @param {RosterUnit | null | undefined} def
  * @param {Record<number, string>} items
@@ -2060,7 +2094,7 @@ export function fixedLoadoutLines(def, items, entry) {
     const kept = list.filter(([id]) => !replaced.has(`${m}:${id}`) && !replaced.has(`*:${id}`))
     if (!kept.length) return []
     return [{
-      mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '',
+      mini: miniName(/** @type {RosterUnit} */ (def), m),
       items: kept.map(([id, c]) => `${items[id]}${c > 1 ? ` ×${c}` : ''}`).join(', '),
       names: kept.map(([id]) => items[id]),
     }]
@@ -2098,7 +2132,7 @@ export function defaultLoadoutLines(def, items, entry) {
       if (remaining > 0) put(id, `${items[id]}${total && remaining === 1 ? '' : ` ×${remaining}`}`)
     }
     if (!parts.length) return []
-    return [{ mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '', items: parts.join(', '), names }]
+    return [{ mini: miniName(/** @type {RosterUnit} */ (def), m), items: parts.join(', '), names }]
   })
 }
 
@@ -2112,12 +2146,12 @@ export function defaultLoadoutLines(def, items, entry) {
  */
 export function wargearNames(def, entry, items) {
   if (!entry?.wg?.length) return []
-  return entry.wg.map(([gi, oi, n]) => {
+  return /** @type {string[]} */ (entry.wg.map(([gi, oi, n]) => {
     const opt = def?.gear?.[gi]?.o?.[oi]
     if (!opt || !wargearGroupLive(def, entry, gi)) return null
     const name = optionLabel(opt, items)
-    return n > 1 ? `${name} ×${n}` : name
-  }).filter(Boolean)
+    return /** @type {number} */ (n) > 1 ? `${name} ×${n}` : name // undefined > 1 is false: one
+  }).filter(Boolean))
 }
 
 // ── Allies ────────────────────────────────────────────────────────────────────────────────────
@@ -2130,7 +2164,7 @@ export function wargearNames(def, entry, items) {
  */
 export function allySourceOf(id) {
   const at = String(id || '').indexOf(':')
-  return at < 0 ? null : [id.slice(0, at), id.slice(at + 1)]
+  return at < 0 ? null : [/** @type {string} */ (id).slice(0, at), /** @type {string} */ (id).slice(at + 1)] // a ':' means a string
 }
 
 // Does this roster hold a unit from another faction's bundle? The read-only screens use it to
@@ -2391,7 +2425,9 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
   const all = faction?.allies || []
   const active = allyGroupsFor(faction, detachments)
   const activeKeys = new Set(active.map((g) => g.key))
+  /** @type {Map<string, any[]>} */
   const byKey = new Map(all.map((g) => [g.key, []]))
+  /** @type {Map<string, any[]>} */
   const roles = new Map(UNIT_GROUPS.map((id) => [id, []]))
   const where = new Map() // item → the list it was filed into, and whether that list is an ally group
   const ordered = orderedByName(items, (it) => (defOf ? defOf(idOf(it)) : it)?.name)
@@ -2417,7 +2453,7 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
   return [
     ...UNIT_GROUPS.map((id) => ({ id, items: roles.get(id) })),
     ...active.map(groupSection),
-    ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && byKey.get(g.key).length).map(groupSection) : []),
+    ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && /** @type {any[]} */ (byKey.get(g.key)).length).map(groupSection) : []),
   ]
 }
 

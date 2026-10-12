@@ -13,6 +13,9 @@ import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAl
 /** @typedef {import('./roster.types.js').BattleSize} BattleSize */
 /** @typedef {import('./roster.types.js').RosterIssue} RosterIssue */
 /** @typedef {import('./roster.types.js').DefOf} DefOf */
+/** @typedef {import('./roster.types.js').Detachment} Detachment */
+/** @typedef {import('./roster.types.js').Enhancement} Enhancement */
+/** @typedef {import('./roster.types.js').GearGroup} GearGroup */
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -93,9 +96,9 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   const defOf = (id) => defMap.get(id)
   const battle = effectiveBattle(roster, core)
   // Selected detachments (roster stores names, like the tracker) → their data objects.
-  const detachments = (roster?.detachments || [])
+  const detachments = /** @type {Detachment[]} */ ((roster?.detachments || [])
     .map((name) => (faction?.detachments || []).find((d) => d.name === name))
-    .filter(Boolean)
+    .filter(Boolean))
 
   // Battleline gained from a Detachment, per unit — the doubled duplicate cap below asks this,
   // and so does the section a unit is filed under (rosterEngine's sectionsOf).
@@ -220,7 +223,8 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
       byKey.get(key).push(u)
     }
     for (const list of byKey.values()) {
-      const def = defOf(list[0].id)
+      // Every list holds only entries with a datasheet — byKey skips the rest.
+      const def = /** @type {RosterUnit} */ (defOf(list[0].id))
       const limit = duplicateLimit(def, battle, grantedBattleline(def))
       if (list.length > limit) {
         add('overDuplicate', 'error', { uid: list[limit].uid, params: { count: list.length, limit } })
@@ -241,7 +245,9 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // that arrived over — an import, or one saved before a rule. Those are reported, never trimmed:
   // nothing the player did produced them, and which weapon to give up is theirs to say.
   for (const u of units) {
-    const def = defOf(u.id)
+    // Undefined for an entry with no datasheet; every read of `def.gear` below runs inside a loop
+    // that only turns when the gear is there (its own groups, `xpm`, `pm`).
+    const def = /** @type {RosterUnit & { gear: GearGroup[] }} */ (defOf(u.id))
     for (const [gi] of (def?.gear || []).entries()) {
       const cap = wargearGroupCap(def, u, gi)
       if (!wargearGroupLive(def, u, gi)) continue
@@ -339,7 +345,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     const def = defOf(w.id)
     // The allegiance keyword counts here for the same reason it counts for enhancements below: a
     // War Dog that took Houndpack Lance's CHARACTER is a Character.
-    const granted = [allegKeyword(def, w, detachments)].filter(Boolean)
+    const granted = /** @type {string[]} */ ([allegKeyword(def, w, detachments)].filter(Boolean))
     if (def && !canBeWarlord(def, detachments, granted)) add('warlordIneligible', 'error', { uid: w.uid })
   }
   // A detachment can name MORE THAN ONE candidate (Aeldari's "Devoted of Ynnead": Yvraine OR The
@@ -369,7 +375,8 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // only), on a legal unit.
   // An enhancement its own rules bar from the Warlord (World Eaters' Disciple of Khorne).
   for (const w of warlords) {
-    const e = w.enh && findEnhancement(detachments, w.enh)
+    // '' when the Warlord has none — and ''?.notWarlord is undefined, as for null.
+    const e = /** @type {Enhancement | null | undefined} */ (w.enh && findEnhancement(detachments, w.enh))
     if (e?.notWarlord) add('enhNotWarlord', 'error', { uid: w.uid, params: { enh: w.enh } })
   }
 
@@ -392,7 +399,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     const seenUpgrades = new Set()
     let counted = 0
     for (const u of enhUnits) {
-      const e = findEnhancement(detachments, u.enh)
+      const e = findEnhancement(detachments, /** @type {string} */ (u.enh)) // enhUnits all carry one
       if (!e || e.uncounted) continue
       if (e.type === 'upgrade') {
         if (seenUpgrades.has(u.enh)) continue
@@ -404,7 +411,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   }
   for (const u of enhUnits) {
     if (!detachments.length) { add('enhNoDetachment', 'error', { uid: u.uid }); continue }
-    const e = findEnhancement(detachments, u.enh)
+    const e = findEnhancement(detachments, /** @type {string} */ (u.enh))
     const def = defOf(u.id)
     // Asked about the ENTRY, not the printed datasheet — the same question enhOptionsFor answers
     // when the editor offers the enhancement in the first place, through the same helper so the two
@@ -498,7 +505,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
       // The mix the datasheet limits, where it does: "provided no more than one of those units is
       // a COMMAND SQUAD unit", "provided those Leaders are not duplicates".
       if (lim.oneKw) {
-        const named = list.filter((u) => { const d = defOf(u.id); return d && hasKeyword(d, lim.oneKw) })
+        const named = list.filter((u) => { const d = defOf(u.id); return d && hasKeyword(d, /** @type {string} */ (lim.oneKw)) })
         for (const u of named.slice(1)) tooMany(u, uid)
       }
       if (lim.noDup) {
@@ -518,7 +525,8 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   if (faction?.allies?.length) {
     const active = allyGroupsFor(faction, detachments)
     const activeKeys = new Set(active.map((g) => g.key))
-    const size = battle.base || battle.id
+    // Undefined only without battle sizes at all (no `core` passed — tests); the lookups then miss.
+    const size = /** @type {string} */ (battle.base || battle.id)
     const byGroup = new Map()          // group key -> entries counting against it
     for (const u of units) {
       const groups = allyGroupsOf(faction, u.id)
