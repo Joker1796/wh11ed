@@ -1,11 +1,22 @@
+// @ts-check
 // Who may carry an enhancement — read by the roster builder (through rosterEngine.js, which
 // re-exports these) and by gen-roster-data.mjs for a datasheet's "Led by" rows. A module of its
 // own, without imports, so the Node generator can load it: rosterEngine.js pulls a JSON file in,
 // and plain Node will not import that.
 
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').Enhancement} Enhancement */
+
+/**
+ * @param {{ kws?: string[] } | null | undefined} unit
+ * @param {string} name
+ * @returns {boolean}
+ */
 export function hasKeyword(unit, name) {
   const n = name.toLowerCase()
-  return (unit.kws || []).some((k) => k.toLowerCase() === n)
+  // A unit the data no longer has (an entry left by a retired datasheet) has no keywords — the
+  // validator's ally checks ask this of every unit in the army, and threw on one (2026-10-12).
+  return (unit?.kws || []).some((k) => k.toLowerCase() === n)
 }
 
 // A tiny handful of enhancements (Necrons' Pantheon of Woe, Imperial Agents' Veiled Blade Elim.
@@ -16,6 +27,11 @@ export function hasKeyword(unit, name) {
 // can't normally take them, not to block a unit from its own dedicated option.
 const sameName = (a, b) => String(a).replace(/[\u2019']/g, "'").toLowerCase() === String(b).replace(/[\u2019']/g, "'").toLowerCase()
 
+/**
+ * @param {Enhancement} enh
+ * @param {RosterUnit} def
+ * @returns {boolean}
+ */
 export function lockedToExactUnit(enh, def) {
   return enh.req?.length === 1 && enh.req[0].kw?.length === 1 && enh.req[0].kw[0] === def.name
 }
@@ -35,6 +51,12 @@ export function lockedToExactUnit(enh, def) {
 // inverted eligibility for all 13 attach-granting enhancements — Murdermind was offered on
 // Skorpekh Destroyers and refused to every Cryptek. That source was removed on 2026-08-19; if a
 // future audit sees `lockDs` on an enhancement that is not in ENH_LOCK_FIXES, it has come back.
+/**
+ * @param {Enhancement | null | undefined} enh
+ * @param {RosterUnit | null | undefined} def
+ * @param {string[]} [granted]
+ * @returns {boolean}
+ */
 export function enhEligible(enh, def, granted = []) {
   if (!enh || !def) return false
   // `granted` are keywords the ENTRY gained rather than the datasheet printing them — today the
@@ -43,7 +65,7 @@ export function enhEligible(enh, def, granted = []) {
   const lc = (x) => String(x || '').toLowerCase()
   const has = (k) => hasKeyword(def, k) || granted.some((g) => lc(g) === lc(k))
   if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => has(k))
-  if (enh.lockDs?.length) return enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => has(k))
+  if (enh.lockDs?.length) return !!def.sid && enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => has(k))
   if (def.flags?.noEnh) return false
   if (!def.flags?.char && !enh.nonCharOk && !granted.some((g) => lc(g) === 'character')) return false
   if (def.flags?.epic && !enh.epicOk) return false

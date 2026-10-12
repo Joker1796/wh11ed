@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
     "test:watch": "vitest",
     "deploy": "bash deploy.sh",
     "images:webp": "node scripts/gen-webp.mjs && node scripts/gen-image-dims.mjs",
@@ -88,6 +89,7 @@
     "jsdom": "^30.0.1",
     "playwright-core": "^1.63.0",
     "sharp": "^0.35.4",
+    "typescript": "5.9.3",
     "vite-plugin-pwa": "^1.3.0",
     "vitest": "^5.0.0"
   }

@@ -1,0 +1,25 @@
+{
+  // Type CHECKING only — nothing here takes part in the build. Vite never reads this file and
+  // strips JSDoc with every other comment, so the bundle is byte-for-byte what it was without it.
+  // A file opts in with `// @ts-check` on its first line; `checkJs` stays off so an unmarked file
+  // is never reported. Hub journal: 2026-10-12-code-quality.md (stage 1 — types).
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "strictNullChecks": true,
+    "types": ["vite/client"]
+  },
+  "include": [
+    "src/composables/roster.types.js",
+    "src/composables/rosterEngine.js",
+    "src/composables/rosterEnhEligible.js",
+    "src/composables/rosterValidation.js"
+  ]
+}

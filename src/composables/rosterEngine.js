@@ -1,3 +1,4 @@
+// @ts-check
 // Pure roster maths — no Vue, no store. Shared by the editor (live points, unit grouping) and,
 // later, the validation engine. Everything here takes plain data so it's trivially testable.
 import { detKey } from '../data/slugify.js'
@@ -5,6 +6,25 @@ import conditionalKeywords from '../data/conditionalKeywords.json'
 import { hasKeyword, enhEligible, lockedToExactUnit } from './rosterEnhEligible.js'
 
 export { hasKeyword, enhEligible }
+
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('./roster.types.js').Detachment} Detachment */
+/** @typedef {import('./roster.types.js').Enhancement} Enhancement */
+/** @typedef {import('./roster.types.js').GearOption} GearOption */
+/** @typedef {import('./roster.types.js').WargearPick} WargearPick */
+/** @typedef {import('./roster.types.js').AllyGroup} AllyGroup */
+/** @typedef {import('./roster.types.js').AllegianceChoice} AllegianceChoice */
+/** @typedef {import('./roster.types.js').LeadLink} LeadLink */
+/** @typedef {import('./roster.types.js').Roster} Roster */
+/** @typedef {import('./roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('./roster.types.js').DefOf} DefOf */
+/** @typedef {import('./roster.types.js').ItemId} ItemId */
+/** An entry as the engine reads it — a saved one, or a partial one a caller builds to ask a question. @typedef {Partial<RosterEntry>} EntryLike */
+/** @typedef {NonNullable<RosterUnit['xpm']>[number]} XpmSet */
+/** @typedef {import('./roster.types.js').GearGroup} GearGroup */
+/** @typedef {import('./roster.types.js').SizeBracket} SizeBracket */
+/** What takeUnitEntry hands back for restoreUnitEntry. @typedef {{ uid: string, entry: RosterEntry, at?: number, detached?: string[] }} RemovalTicket */
 
 // Battlefield-role buckets a unit is filed under in the editor / add-unit list, in display
 // order. Derived from keywords (which stay English — see CLAUDE.md), Epic Hero and Character
@@ -31,6 +51,11 @@ export const GROUP_LABEL_KEYS = {
 }
 
 // A group's heading: an ally group is named for its source, everything else by its role.
+/**
+ * @param {{ id: string, ally?: AllyGroup | null }} g
+ * @param {Record<string, string>} labels
+ * @returns {string}
+ */
 export function groupLabel(g, labels) {
   return g.ally ? g.ally.name : (labels[GROUP_LABEL_KEYS[g.id]] || '')
 }
@@ -44,6 +69,11 @@ export function groupLabel(g, labels) {
 // the roster's detachments are known; `null` means "caller cannot say", and the unit's own
 // `condBattleline` flag ("this datasheet can be Battleline under some detachment") is used, which
 // is what every caller did before the flag was gated.
+/**
+ * @param {RosterUnit} unit
+ * @param {string[] | null} [granted]
+ * @returns {string}
+ */
 export function bucketOf(unit, granted = null) {
   if (unit.flags?.epic) return 'epic'
   if (unit.flags?.char) return 'characters'
@@ -61,11 +91,21 @@ export function bucketOf(unit, granted = null) {
 // two distinct datasheets is still capped as ONE — e.g. if a second "Titus" datasheet ever
 // ships, both would carry the same `charId` and share a single Epic Hero slot instead of each
 // getting its own. No current unit sets it; this is the extension point for that case.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @returns {string | undefined}
+ */
 export function capKeyOf(def) { return def?.charId || def?.id }
 
 // Points for one unit entry at a given size bracket and copy index (1-based, among same-id
 // units in the roster). Copy tax (datasheet_points_step): the surcharge applies to the Nth
 // and every later copy — see Phase 0. Wargear/enhancement points are added by the caller.
+/**
+ * @param {RosterUnit | null | undefined} unitDef
+ * @param {number} [sizeIdx]
+ * @param {number} [copyIndex]
+ * @returns {number}
+ */
 export function unitBasePoints(unitDef, sizeIdx = 0, copyIndex = 1) {
   if (!unitDef) return 0
   const size = unitDef.sizes?.[sizeIdx] || unitDef.sizes?.[0]
@@ -78,6 +118,12 @@ export function unitBasePoints(unitDef, sizeIdx = 0, copyIndex = 1) {
 // copy it would be (`copies` already in the list), and any enhancement a selected detachment forces
 // on it. The catalogue's row price and its "Fits the points left" filter, and the same filter on
 // the unit fields' "Can be led by" / "Can lead" lists — one number, so the two never disagree.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {number} [copies]
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {number}
+ */
 export function nextCopyMinPoints(def, copies = 0, detachments = []) {
   if (!def) return 0
   const sizes = def.sizes || []
@@ -90,6 +136,11 @@ export function nextCopyMinPoints(def, copies = 0, detachments = []) {
 // spends ON TOP of the loadout it comes with. What that loadout itself costs is
 // defaultWargearPoints() below; the two never overlap (no option in the corpus is both priced and
 // flagged default — the priced defaults are the ones nobody picks, they are simply there).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {number}
+ */
 export function unitWargearPoints(def, entry) {
   if (!def?.gear || !entry?.wg?.length) return 0
   let pts = 0
@@ -111,21 +162,26 @@ export function unitWargearPoints(def, entry) {
 // `dw` (per-model money by profile) and `dr` are gen-roster-data.mjs's, which is where the appdata
 // readings behind them belong — a profile's total copies vs one model's, and groups counted per
 // copy of a weapon rather than per model. Seven datasheets have any of this.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {number}
+ */
 export function defaultWargearPoints(def, entry) {
   if (!def?.dw?.length) return 0
-  const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
-  const models = entry?.count ?? size?.per?.[0] ?? 1
+  const dw = def.dw
+  const models = modelCount(def, entry)
   const perMini = modelsPerMini(def, entry)
   let pts = 0
   if (perMini) {
-    for (const [m, p] of def.dw) pts += p * (perMini.get(m) || 0)
+    for (const [m, p] of dw) pts += p * (perMini.get(m) || 0)
   } else {
     // Two open-ended profiles: the split is the player's and the data doesn't record it (see
     // modelsPerMini). Only safe where every profile costs the same, which is the shape all but one
     // of the seven have; the odd one out (Victrix Honour Guard, whose Champion and Ancient are
     // priced differently) has a fixed composition and never lands here.
-    if (def.dw.length !== (def.minis?.length || 1) || def.dw.some(([, p]) => p !== def.dw[0][1])) return 0
-    pts = def.dw[0][1] * models
+    if (dw.length !== (def.minis?.length || 1) || dw.some(([, p]) => p !== dw[0][1])) return 0
+    pts = dw[0][1] * models
   }
   for (const [gi, , n] of entry?.wg || []) {
     const g = def.gear?.[gi]
@@ -162,8 +218,15 @@ export function defaultWargearPoints(def, entry) {
 // one model swapped its rifle (61 of the 63 gated groups are on multi-model units). On a
 // single-model datasheet, where scope is 1, the two readings coincide — Overlord and Canoness,
 // the only two, behave exactly as before.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {boolean}
+ */
 export function wargearGroupLive(def, entry, gi) {
-  const cond = def?.gear?.[gi]?.cond
+  const gear = def?.gear || []
+  const cond = gear[gi]?.cond
   if (!cond) return true
   const [sibGi, wantActive] = cond
   const pick = (entry?.wg || []).find(([g]) => g === sibGi)
@@ -173,10 +236,9 @@ export function wargearGroupLive(def, entry, gi) {
   if (wantActive) return !!pick
   if (!pick) return true
 
-  const g = def.gear[sibGi]
-  const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
+  const g = gear[sibGi]
   // A unit-wide group is scoped to the whole squad, a per-profile one to its own models.
-  const scope = g?.all ? (entry?.count ?? size?.per?.[0] ?? 1) : modelsPerMini(def, entry)?.get(g?.m ?? 0)
+  const scope = g?.all ? modelCount(def, entry) : modelsPerMini(def, entry)?.get(g?.m ?? 0)
   if (scope == null) return true // scope unknown → assume a model still qualifies, never hide on a guess
   // The same reading of a pick as swapsByMini's `consumed`: a stepper carries the model count, a
   // checkbox is one model unless its instruction hands the swap to the whole profile.
@@ -195,10 +257,17 @@ export function wargearGroupLive(def, entry, gi) {
 // A third answer, 'stock', comes from the stock rule (stockBlocker below): the named items have
 // already been replaced by another group, and there is no model left carrying them.
 // `ids` are wargear item ids; the caller names them (this file never holds the dictionary).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {{ need: 'gone' | 'present' | 'stock', ids: ItemId[] } | null}
+ */
 export function wargearGroupBlocker(def, entry, gi) {
-  const cond = def?.gear?.[gi]?.cond
+  const gear = def?.gear || []
+  const cond = gear[gi]?.cond
   if (!cond || wargearGroupLive(def, entry, gi)) return stockBlocker(def, entry, gi)
-  const sib = def.gear[cond[0]]
+  const sib = gear[cond[0]]
   const rep = sib?.rep?.length ? sib.rep : null
   // Name what the sibling actually took, when it took something — listing every option it offers
   // would tell the reader to remove three things when they picked one.
@@ -215,16 +284,24 @@ export function wargearGroupBlocker(def, entry, gi) {
 // row cannot be undone. Whether that pick overdraws the unit is validateRoster's to say.
 // Closed only when EVERY option is — an option that hands an item back does not need it, so a
 // group can stay open through one of its rows while the others have nothing left to take.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {{ need: 'stock', ids: ItemId[] } | null}
+ */
 function stockBlocker(def, entry, gi) {
   if ((entry?.wg || []).some(([g]) => g === gi)) return null
+  const g = def?.gear?.[gi]
   const byItem = swapRoomByItem(def, entry, gi)
-  if (!byItem) return null
-  const g = def.gear[gi]
+  if (!g || !byItem) return null
+  const rep = g.rep || []
   const ids = new Set()
   for (const [oi] of (g.o || []).entries()) {
-    let out = needs(g, oi).filter((id) => byItem.has(id) && byItem.get(id) <= 0)
+    // An item byItem does not track is never "run out".
+    let out = needs(g, oi).filter((id) => (byItem.get(id) ?? Infinity) <= 0)
     // An "X or Y" group runs out only when no model carries either.
-    if (g.alt && g.rep.some((id) => (byItem.get(id) || 0) > 0)) out = out.filter((id) => !g.rep.includes(id))
+    if (g.alt && rep.some((id) => (byItem.get(id) || 0) > 0)) out = out.filter((id) => !rep.includes(id))
     if (!out.length) return null
     out.forEach((id) => ids.add(id))
   }
@@ -242,6 +319,10 @@ function stockBlocker(def, entry, gi) {
 // lists ran together into one paragraph of the heading (2026-10-07).
 const BULLET = /^[◦•■▪▫]\s*/
 const FOOTNOTE = /^\*\s*/
+/**
+ * @param {string | null | undefined} text
+ * @returns {{ head: string, bullets: string[], note: string }}
+ */
 export function splitInstruction(text) {
   const lines = String(text || '').split('\n').map((l) => l.trim()).filter(Boolean)
   const body = []
@@ -268,6 +349,10 @@ export function splitInstruction(text) {
 // reads those out of the instruction prose and verifies them against appdata's own enumeration
 // of legal loadouts) — and then it carries the full set instead. Every reader goes through here;
 // nothing else should unpack slot 0, or the second half of a bundle silently disappears.
+/**
+ * @param {GearOption | null | undefined} o
+ * @returns {Array<[ItemId, number]>}
+ */
 export function optionItems(o) {
   const head = o?.[0]
   if (Array.isArray(head)) return head.map(([id, n]) => [id, n || 1])
@@ -275,6 +360,11 @@ export function optionItems(o) {
 }
 
 // An option's display label — "Hexrifle + Torturer's tool", "2× Mortifier flamer".
+/**
+ * @param {GearOption | null | undefined} o
+ * @param {Record<number, string> | null | undefined} items
+ * @returns {string}
+ */
 export function optionLabel(o, items) {
   return optionItems(o)
     .map(([id, n]) => `${n > 1 ? `${n}× ` : ''}${items?.[id] || ''}`)
@@ -291,16 +381,58 @@ export function optionLabel(o, items) {
 // `null` means the group carries no structural cap and the caller keeps its own behaviour —
 // 220 groups have one, the rest (a cross-group choice pool, an ambiguous match) don't, and
 // inventing a cap for those would forbid legal loadouts.
-// The unit's model count as the caps read it — the live count, not the size bracket.
-function capModels(def, entry) {
-  const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
-  return entry?.count ?? size?.per?.[0] ?? 1
+// The size bracket an entry is at, falling back to the first — every reader of an entry's size asks
+// this one question, so it is asked here once.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {SizeBracket | undefined}
+ */
+export function sizeOf(def, entry) {
+  return def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
 }
 
+// The unit's model count — the live count the player set, else the bracket's minimum.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {number}
+ */
+export function modelCount(def, entry) {
+  return entry?.count ?? sizeOf(def, entry)?.per?.[0] ?? 1
+}
+
+// The model count a list row prints — null where the bracket only ever holds one model, since
+// "1 model" says nothing. The roster row, the print sheet and the attach picker all print it.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {number | null}
+ */
+export function shownModelCount(def, entry) {
+  const size = sizeOf(def, entry)
+  return size && size.per[1] > 1 ? modelCount(def, entry) : null
+}
+
+// The bracket a new entry starts at: the one the data marks default, else the first.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @returns {number}
+ */
+export function defaultSizeIndex(def) {
+  return Math.max(0, (def?.sizes || []).findIndex((s) => s.default))
+}
+
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {{ limit: number, dup: number } | null}
+ */
 export function wargearGroupCap(def, entry, gi) {
   const rows = def?.gear?.[gi]?.lim
   if (!rows?.length) return null
-  const models = capModels(def, entry)
+  const models = modelCount(def, entry)
   let row = null
   for (const r of rows) if (models >= r[0] && (!row || r[0] > row[0])) row = r
   // Below every threshold the group genuinely offers nothing ("for every 5 models…" in a
@@ -318,18 +450,31 @@ export function wargearGroupCap(def, entry, gi) {
 function optionCount(entry, gi, oi) {
   return (entry?.wg || []).filter(([g, o]) => g === gi && o === oi).reduce((n, [, , c]) => n + (c || 1), 0)
 }
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {Array<{ set: number[], spent: number, limit: number }>}
+ */
 export function wargearExclOver(def, entry, gi) {
   const sets = def?.gear?.[gi]?.excl
   if (!sets?.length) return []
-  const limit = capModels(def, entry)
+  const limit = modelCount(def, entry)
   return sets
     .map((set) => ({ set, spent: set.reduce((n, oi) => n + optionCount(entry, gi, oi), 0), limit }))
     .filter((x) => x.spent > limit)
 }
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @param {number} oi
+ * @returns {number | null}
+ */
 export function wargearExclRoom(def, entry, gi, oi) {
   const sets = (def?.gear?.[gi]?.excl || []).filter((set) => set.includes(oi))
   if (!sets.length) return null
-  const limit = capModels(def, entry)
+  const limit = modelCount(def, entry)
   return Math.min(...sets.map((set) =>
     Math.max(0, limit - set.filter((o) => o !== oi).reduce((n, o) => n + optionCount(entry, gi, o), 0))))
 }
@@ -345,6 +490,7 @@ export function wargearExclRoom(def, entry, gi, oi) {
 // model is equipped with", the fists the multi-melta swap may add counted in). Counts again, which
 // is exact for these: every entry is one model's, or groups whose models are interchangeable.
 const xpmHit = (pair, gi, oi) => pair[0] === gi && (pair.length === 1 || pair[1] === oi)
+/** @param {(g: number, o: number) => boolean} [skip] */
 function xpmSpent(def, entry, set, skip = () => false) {
   return (entry?.wg || []).filter(([g, o]) => !skip(g, o) && set.s.some((p) => xpmHit(p, g, o))).reduce((n, [, , c]) => n + (c || 1), 0)
 }
@@ -360,14 +506,27 @@ function xpmLimit(def, entry, set) {
   const ms = new Set(set.s.map(([g]) => (def.gear[g]?.all ? 'all' : def.gear[g]?.m ?? 0)))
   const only = ms.size === 1 ? [...ms][0] : 'all'
   const per = only === 'all' ? null : modelsPerMini(def, entry)?.get(only)
-  return (set.k || 1) * (per ?? capModels(def, entry))
+  return (set.k || 1) * (per ?? modelCount(def, entry))
 }
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {Array<{ set: XpmSet, spent: number, limit: number }>}
+ */
 export function wargearXpmOver(def, entry) {
   return (def?.xpm || []).map((set) => ({ set, spent: xpmSpent(def, entry, set), limit: xpmLimit(def, entry, set) }))
     .filter((x) => x.spent > x.limit)
 }
 // Room for one more of (gi, oi) under every entry that covers it, or null when none does.
 // `wholeGroup`: the pick REPLACES the group's own (a one-of radio), so the group's picks do not count.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @param {number} oi
+ * @param {{ wholeGroup?: boolean }} [opts]
+ * @returns {number | null}
+ */
 export function wargearXpmRoom(def, entry, gi, oi, { wholeGroup = false } = {}) {
   const sets = (def?.xpm || []).filter((set) => set.s.some((p) => xpmHit(p, gi, oi)))
   if (!sets.length) return null
@@ -412,14 +571,19 @@ function maxFlow(cap, s, t) {
     flow += push
   }
 }
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {boolean}
+ */
 export function perModelFits(def, entry) {
   const pm = def?.pm
   if (!pm) return true
-  const models = capModels(def, entry)
+  const models = modelCount(def, entry)
   const one = new Set(pm.one || [])
   const [rangedMax, rangedIds] = pm.ranged || [Infinity, []]
   const ranged = new Set(rangedIds)
-  const given = pm.base != null ? def.gear[pm.base]?.rep?.[0] ?? null : null
+  const given = pm.base != null ? def.gear?.[pm.base]?.rep?.[0] ?? null : null
   const bases = []
   if (pm.base != null) for (const [id, n] of pmCounts(def, entry, pm.base)) for (let k = 0; k < n; k++) bases.push(id)
   // More swaps than models: a unit-wide swap group has no cap of its own to say so, so this does.
@@ -457,10 +621,17 @@ export function perModelFits(def, entry) {
 // deals out, scanning the whole range because a swap can make room (a suit that trades its burst
 // cannon for a support system has a ranged slot free). null for a group `pm` does not cover; the
 // current count when nothing fits, so the editor only ever stops the "+".
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @param {number} oi
+ * @returns {number | null}
+ */
 export function perModelRoom(def, entry, gi, oi) {
   const pm = def?.pm
   if (!pm || (gi !== pm.add && gi !== pm.base)) return null
-  const models = capModels(def, entry)
+  const models = modelCount(def, entry)
   const others = (entry?.wg || []).filter(([g, o]) => !(g === gi && o === oi))
   const current = optionCount(entry, gi, oi)
   let best = null
@@ -484,6 +655,11 @@ export function perModelRoom(def, entry, gi, oi) {
 // different kind of choice from the two-row "one of" every other single swap is (2026-10-07). Asked
 // at the LARGEST bracket and its top model count, so the answer never changes with the unit's size
 // and the control does not change shape under a "+" on the model count.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {number} gi
+ * @returns {boolean}
+ */
 export function wargearGroupAlwaysOne(def, gi) {
   const sizes = def?.sizes || []
   if (!def?.gear?.[gi] || !sizes.length) return false
@@ -494,6 +670,12 @@ export function wargearGroupAlwaysOne(def, gi) {
   return ceiling != null && ceiling <= 1
 }
 
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {number | null}
+ */
 export function wargearGroupFallbackCap(def, entry, gi) {
   const g = def?.gear?.[gi]
   if (!g || g.all || g.m == null) return null
@@ -503,6 +685,12 @@ export function wargearGroupFallbackCap(def, entry, gi) {
 
 // What the entry has already spent in a group, optionally ignoring one option (so a stepper can
 // ask "how much room is left for ME").
+/**
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @param {number | null} [exceptOi]
+ * @returns {number}
+ */
 export function wargearGroupSpent(entry, gi, exceptOi = null) {
   return (entry?.wg || [])
     .filter(([g, oi]) => g === gi && oi !== exceptOi)
@@ -522,6 +710,12 @@ export function wargearGroupSpent(entry, gi, exceptOi = null) {
 // rules use the word, the nomination of a Warlord included, and the army's app exports one as
 // the Warlord. A unit BARRED from being the Warlord stays barred: the grant adds a keyword, it
 // does not overrule a rule written about this datasheet.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Detachment[] | null | undefined} detachments
+ * @param {string[]} [granted]
+ * @returns {boolean}
+ */
 export function canBeWarlord(def, detachments, granted = []) {
   if (def?.id && (detachments || []).some((d) => d.grantedWarlord?.includes(def.id))) return true
   if (def?.flags?.noWarlord) return false
@@ -538,10 +732,18 @@ export function canBeWarlord(def, detachments, granted = []) {
 //     this every one of that detachment's upgrades was ineligible for every unit in the game, and a
 //     legal list came back with two errors on it;
 //   • an allegiance upgrade the entry chose for itself hands a vehicle CHARACTER.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Detachment[] | null | undefined} detachments
+ * @param {string | undefined} factionSlug
+ * @returns {string[]}
+ */
 export function grantedKeywords(def, entry, detachments, factionSlug) {
+  const alleg = allegKeyword(def, entry, detachments)
   return [
     ...grantedKeywordsFor(def?.id, factionSlug, detachments).map((g) => g.kw),
-    ...[allegKeyword(def, entry, detachments)].filter(Boolean),
+    ...(alleg ? [alleg] : []),
   ]
 }
 
@@ -562,7 +764,14 @@ export { detKey }
 // `detachments` accepts either the resolved detachment objects the editor/browser pass around
 // (`curDetachments`) or the bare name strings a roster stores — being permissive here is what
 // keeps a call site from silently wiring the wrong one.
+/**
+ * @param {string | undefined} unitId
+ * @param {string | undefined} factionSlug
+ * @param {Array<Detachment | string> | null | undefined} detachments
+ * @returns {Array<{ kw: string, detName: string | null, extra: boolean }>}
+ */
 export function grantedKeywordsFor(unitId, factionSlug, detachments) {
+  if (!factionSlug || !unitId) return []
   const grants = conditionalKeywords[factionSlug]?.[unitId]
   if (!grants?.length) return []
   const picked = new Map() // detKey -> display name, for the footnote
@@ -594,6 +803,11 @@ export function grantedKeywordsFor(unitId, factionSlug, detachments) {
 // that knows WHICH detachment grants it is conditionalKeywords.json, the same sidecar
 // `grantedKeywords` already runs enhancement and Warlord eligibility through — so this asks it,
 // and the flag survives only as the fallback for a caller that has no detachments to check.
+/**
+ * @param {RosterUnit | null | undefined} unit
+ * @param {string[] | null} [granted]
+ * @returns {boolean}
+ */
 export function isBattlelineNow(unit, granted = null) {
   if (granted == null) return !!unit?.condBattleline
   return granted.some((k) => String(k).toLowerCase() === 'battleline')
@@ -608,6 +822,10 @@ export function isBattlelineNow(unit, granted = null) {
 // declaration, stored as the name `fds` spells it. Not the tracker's own id: that vocabulary lives in the Event Companion data,
 // which the roster screens deliberately never load, and the one place both are in scope
 // (rosterHandoff) can translate.
+/**
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {string[]}
+ */
 export function dispositionCandidates(detachments) {
   return [...new Set((detachments || []).flatMap((d) => d?.fds || []).filter(Boolean))]
 }
@@ -616,10 +834,16 @@ export function dispositionCandidates(detachments) {
 // still names a candidate, and null when there is a choice nobody has made yet (or no detachment
 // at all). Self-healing by construction: dropping the detachment a declaration came from takes the
 // declaration with it, so a list can never claim a disposition it no longer fields.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {string | null}
+ */
 export function dispositionOf(roster, detachments) {
   const cands = dispositionCandidates(detachments)
   if (cands.length === 1) return cands[0]
-  return cands.includes(roster?.disposition) ? roster.disposition : null
+  const declared = roster?.disposition
+  return declared && cands.includes(declared) ? declared : null
 }
 
 // ── Allegiance: the mark/keyword an entry chooses for itself ──────────────────────────────────
@@ -634,6 +858,11 @@ export function dispositionOf(roster, detachments) {
 // gen-conditional-keywords.mjs) and the roster is where they belong.
 //
 // Returns the live choice descriptor, or null when the gating detachment isn't in the army.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {AllegianceChoice | null}
+ */
 export function allegFor(def, detachments) {
   const a = def?.alleg
   if (!a?.o?.length) return null
@@ -643,6 +872,12 @@ export function allegFor(def, detachments) {
 
 // The keyword this entry gained from its choice — the mark itself ("Nurgle") unless the data says
 // the option grants a differently-named one. Null when nothing is chosen or the gate is closed.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {string | null}
+ */
 export function allegKeyword(def, entry, detachments) {
   const a = allegFor(def, detachments)
   if (!a || !entry?.alleg) return null
@@ -651,6 +886,12 @@ export function allegKeyword(def, entry, detachments) {
 }
 
 // Extra wargear the choice grants (Soul Grinder's torrent of burning blood and friends).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {ItemId[]}
+ */
 export function allegItems(def, entry, detachments) {
   const a = allegFor(def, detachments)
   const opt = a && entry?.alleg ? a.o.find((o) => o.n === entry.alleg) : null
@@ -658,6 +899,13 @@ export function allegItems(def, entry, detachments) {
 }
 
 // How many entries in the army have taken an optional (capped) choice of this group.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {DefOf} defOf
+ * @param {string} groupKey
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {number}
+ */
 export function allegSpent(units, defOf, groupKey, detachments) {
   return (units || []).filter((u) => {
     const a = allegFor(defOf(u.id), detachments)
@@ -667,6 +915,11 @@ export function allegSpent(units, defOf, groupKey, detachments) {
 
 // Find an enhancement by name across the roster's selected detachments (an army may field
 // several detachments, up to its Detachment-Points budget — like the tracker).
+/**
+ * @param {Detachment[] | null | undefined} detachments
+ * @param {string | null | undefined} name no name finds nothing: every enhancement has one
+ * @returns {Enhancement | null}
+ */
 export function findEnhancement(detachments, name) {
   for (const d of detachments || []) {
     const e = d?.enhancements?.find((x) => x.name === name)
@@ -682,6 +935,11 @@ export function findEnhancement(detachments, name) {
 // another is no candidate. A mandatory one is worn by every unit it fits. Null when no selected
 // detachment offers it.
 const looseName = (s) => String(s || '').replace(/[\u2019'`]/g, "'").trim().toLowerCase()
+/**
+ * @param {string} name
+ * @param {{ units?: RosterEntry[], defOf?: DefOf, detachments?: Detachment[], factionSlug?: string }} [opts]
+ * @returns {{ taken: string[], can: string[] } | null}
+ */
 export function enhancementBearers(name, { units = [], defOf, detachments = [], factionSlug } = {}) {
   let enh = null
   for (const d of detachments) {
@@ -720,6 +978,14 @@ export function enhancementBearers(name, { units = [], defOf, detachments = [], 
 // its own "used" flag. `mandatory` enhancements still show (so the list explains why the unit
 // costs more) but are never a player pick — the caller renders them locked "on" when `eligible`
 // (see mandatoryEnhancementFor for the same eligible one, used to drive the actual points).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Detachment[] | null | undefined} detachments
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {string | null | undefined} excludeUid
+ * @param {string | undefined} factionSlug
+ * @returns {Array<{ name: string, pts: number, eligible: boolean, used: boolean, mandatory: boolean }>}
+ */
 export function enhOptionsFor(def, detachments, units, excludeUid, factionSlug) {
   // An allegiance upgrade can hand a vehicle CHARACTER, and that is what makes it able to carry an
   // enhancement at all — so eligibility is asked about the ENTRY, not just the printed sheet.
@@ -749,6 +1015,11 @@ export function enhOptionsFor(def, detachments, units, excludeUid, factionSlug) 
 // roster's selected detachments grants one. Not a player pick: applied to every eligible unit
 // unconditionally, so unlike a normal enhancement it isn't tracked on the entry (no entry.enh,
 // no "used elsewhere" bookkeeping) — it's recomputed from def + detachments every time.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {Enhancement | null}
+ */
 export function mandatoryEnhancementFor(def, detachments) {
   if (!def || !detachments?.length) return null
   for (const det of detachments) {
@@ -783,26 +1054,37 @@ export { occupies as leaderOccupies }
 // the four Astra Militarum squads that take two Leaders "provided no more than one of those units
 // is a COMMAND SQUAD unit" (a Castellan AND a Command Squad on one squad is how that army is
 // ordinarily built), and Kroot Carnivores, who take two once twenty strong and never two the same.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {{ leader: number, support: number, oneKw?: string, noDup?: 1 }}
+ */
 export function hostLimitsFor(def, entry) {
   const h = def?.hosts
   if (!h) return { leader: 1, support: 1 }
-  if (h.minModels) {
-    const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
-    const models = entry?.count ?? size?.per?.[0] ?? 1
-    if (models < h.minModels) return { leader: 1, support: 1 }
-  }
+  if (h.minModels && modelCount(def, entry) < h.minModels) return { leader: 1, support: 1 }
   return { leader: h.n || 1, support: 1, oneKw: h.oneKw, noDup: h.noDup }
 }
 
 // Whether attaching `def` to the unit `host` would break one of those limits — the one question the
 // editor's picker and the validator both ask, so they can never disagree about it. `attached` is
 // every leader already on that host except the one being placed.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {EntryLike} host
+ * @param {RosterUnit | null | undefined} hostDef
+ * @param {Array<{ entry: EntryLike, def: RosterUnit | null | undefined }>} attached
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {boolean}
+ */
 export function hostSlotTaken(def, entry, host, hostDef, attached, detachments = []) {
   const lim = hostLimitsFor(hostDef, host)
   const type = leadTypeFor(def, entry, hostDef, detachments)
   const same = attached.filter((o) => leadTypeFor(o.def, o.entry, hostDef, detachments) === type && occupies(def, o.def))
   if (same.length >= (type === 'leader' ? lim.leader : lim.support)) return true
-  if (lim.oneKw && hasKeyword(def, lim.oneKw) && attached.some((o) => o.def && hasKeyword(o.def, lim.oneKw))) return true
+  const { oneKw } = lim
+  if (oneKw && hasKeyword(def, oneKw) && attached.some((o) => o.def && hasKeyword(o.def, oneKw))) return true
   if (lim.noDup && attached.some((o) => o.def?.id === def?.id)) return true
   return false
 }
@@ -818,6 +1100,14 @@ export function hostSlotTaken(def, entry, host, hostDef, attached, detachments =
 // Returns null when the attachment is fine or not yet decidable — a unit that still owes its
 // mandatory mark (allegMissing says so) may end up sharing one — else what each side has, for the
 // message: `{ own, theirs }`.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {RosterUnit | null | undefined} targetDef
+ * @param {EntryLike | null | undefined} targetEntry
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {{ own: string, theirs: string } | null}
+ */
 export function sharedKeywordClash(def, entry, targetDef, targetEntry, detachments = []) {
   if (!def || !targetDef) return null
   const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
@@ -841,11 +1131,22 @@ export function sharedKeywordClash(def, entry, targetDef, targetEntry, detachmen
 // the 46 datasheets printing Support, plus nine more that are rightly held to it — seven Faction Pack
 // Legends whose PDF prints Support (appdata carries no Legends), and the Ogryn Bodyguard and Nork
 // Deddog, whose own Loyal Protector rule says they "must join one COMMAND SQUAD unit".
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @returns {boolean}
+ */
 export function isSupportUnit(def) {
   const types = [...(def?.leads || []), ...(def?.leadKw || [])].map((l) => l.type)
   return types.length > 0 && types.every((t) => t === 'support')
 }
 
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {RosterUnit | null | undefined} targetDef
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {'leader' | 'support' | null}
+ */
 export function leadTypeFor(def, entry, targetDef, detachments = []) {
   if (!def || !targetDef) return null
   const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
@@ -863,6 +1164,11 @@ export function leadTypeFor(def, entry, targetDef, detachments = []) {
 // parenthetical is the only limit left, so it blocks nothing but another copy of ITSELF. A few
 // Legends name WHOM they may join beside instead (`along`, keywords: a Jokaero Weaponsmith "even
 // if one INQUISITOR unit has already been attached") — beside anyone else they take the slot.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {RosterUnit | null | undefined} [other]
+ * @returns {boolean}
+ */
 export const joinsAlongside = (def, other) => !!def?.flags?.alongside
   || !!(other && def?.along?.some((k) => hasKeyword(other, k)))
 const occupies = (def, other) => (joinsAlongside(def, other) || joinsAlongside(other, def)
@@ -872,6 +1178,14 @@ const occupies = (def, other) => (joinsAlongside(def, other) || joinsAlongside(o
 // `items` is optional and only feeds the disambiguating facts below: the wargear a target's own
 // player CHOSE, which is often the only thing separating two squads of one datasheet. A caller
 // that has no item dictionary to hand (the print sheet, the read-only view) simply gets none.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {string | null | undefined} excludeUid
+ * @param {DefOf} defOf
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @param {Record<number, string> | null} [items]
+ */
 export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = [], items = null) {
   const entry = (units || []).find((u) => u.uid === excludeUid)
   const leads = leadsFor(def, entry, detachments)
@@ -890,7 +1204,6 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
         .map((o) => ({ entry: o, def: defOf(o.id) }))
       const used = hostSlotTaken(def, entry, u, defOf(u.id), attached, detachments)
       const tDef = defOf(u.id)
-      const size = tDef?.sizes?.[u.size ?? 0] || tDef?.sizes?.[0]
       // Everything that can tell two copies of one datasheet apart, as FACTS — the caller builds
       // the sentence, because this module knows no locale. A list holds "Necron Warriors" twice
       // far more often than not, and a picker that offers the same three words twice makes the
@@ -902,7 +1215,7 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
         type,
         blockName: u.blockName || '',
         // Only where the bracket can hold more than one: "1 model" distinguishes nothing.
-        models: size && size.per[1] > 1 ? (u.count ?? size.per[0]) : null,
+        models: shownModelCount(tDef, u),
         enh: u.enh || mandatoryEnhancementFor(tDef, detachments)?.name || '',
         alleg: u.alleg || '',
         note: u.note || '',
@@ -922,6 +1235,12 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
 // about who may join whom, a full Leader slot, a Mark of Chaos or an enhancement-granted target.
 // `used` — the slot this candidate would take is held by someone else; `elsewhere` — the uid it is
 // attached to now, if not here (ticking it here moves it, which the caller says).
+/**
+ * @param {string} targetUid
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {DefOf} defOf
+ * @param {Detachment[] | null | undefined} [detachments]
+ */
 export function leaderSourcesFor(targetUid, units, defOf, detachments = []) {
   const out = []
   for (const u of units || []) {
@@ -967,6 +1286,13 @@ export function leaderSourcesFor(targetUid, units, defOf, detachments = []) {
 // `used` — this unit's slot of that type is already held, so a new one could not be attached.
 // Not covered: an attachment only an OPTIONAL enhancement grants (Abhuman Detail) — the bearer
 // does not have it yet, and whether it may take it is a question about that entry.
+/**
+ * @param {string} targetUid
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {RosterUnit[] | null | undefined} catalogue
+ * @param {DefOf} defOf
+ * @param {Detachment[] | null | undefined} [detachments]
+ */
 export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachments = []) {
   const target = (units || []).find((u) => u.uid === targetUid)
   const targetDef = target && defOf(target.id)
@@ -984,7 +1310,7 @@ export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachme
       id: def.id,
       name: def.name,
       type,
-      pts: unitBasePoints(def, Math.max(0, (def.sizes || []).findIndex((s) => s.default))),
+      pts: unitBasePoints(def, defaultSizeIndex(def)),
       used: hostSlotTaken(def, null, target, targetDef, attached, detachments),
       // For the caller's "Hide Legends units" (useRosterPrefs) — a reader preference, not a rule.
       legends: !!def.flags?.legends,
@@ -999,6 +1325,13 @@ export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachme
 // A datasheet the list holds a copy of that this Character could join right now is left out: that
 // copy is in "Attach to unit" (leaderTargetsFor), and joins without a new purchase. One whose every
 // copy is taken stays — a second squad is the answer. A new unit is empty, so nothing is `used`.
+/**
+ * @param {string} leaderUid
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {RosterUnit[] | null | undefined} catalogue
+ * @param {DefOf} defOf
+ * @param {Detachment[] | null | undefined} [detachments]
+ */
 export function leaderHostsFor(leaderUid, units, catalogue, defOf, detachments = []) {
   const entry = (units || []).find((u) => u.uid === leaderUid)
   const def = entry && defOf(entry.id)
@@ -1015,7 +1348,7 @@ export function leaderHostsFor(leaderUid, units, catalogue, defOf, detachments =
       id: host.id,
       name: host.name,
       type: typeOf.get(host.id),
-      pts: unitBasePoints(host, Math.max(0, (host.sizes || []).findIndex((s) => s.default))),
+      pts: unitBasePoints(host, defaultSizeIndex(host)),
       legends: !!host.flags?.legends,
     })
   }
@@ -1027,6 +1360,12 @@ export function leaderHostsFor(leaderUid, units, catalogue, defOf, detachments =
 // appdata's enhancement_bodyguard_group, emitted by gen-roster-data.mjs as `attach` in the same
 // `{ to, type }` shape a datasheet's own `leads` uses. Covers a mandatory enhancement too, since
 // the bearer carries that whether or not `entry.enh` was ever set.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {Array<{ to: string, type: 'leader' | 'support' }>}
+ */
 export function enhAttachOf(def, entry, detachments) {
   const e = entry?.enh ? findEnhancement(detachments, entry.enh) : mandatoryEnhancementFor(def, detachments)
   return e?.attach || []
@@ -1062,6 +1401,12 @@ function gatedLeads(leads, detachments) {
 // One entry per target, printed first and a granted duplicate dropped: callers read this list
 // both with `.find()` (first match wins) and through `new Map()` (last match wins), so a target
 // appearing twice would resolve to a different `type` depending on which one asked.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {LeadLink[]}
+ */
 export function leadsFor(def, entry, detachments) {
   const own = gatedLeads(def?.leads || [], detachments)
   const extra = enhAttachOf(def, entry, detachments)
@@ -1073,6 +1418,12 @@ export function leadsFor(def, entry, detachments) {
 // Points added by a unit's enhancement: its chosen one (entry.enh), or — absent a choice — a
 // mandatory one it's automatically stuck with regardless of entry.enh (`def` is only needed for
 // that fallback; existing callers that never pass it just skip the mandatory check).
+/**
+ * @param {Detachment[] | null | undefined} detachments
+ * @param {EntryLike | null | undefined} entry
+ * @param {RosterUnit | null | undefined} [def]
+ * @returns {number}
+ */
 export function enhancementPoints(detachments, entry, def) {
   if (entry?.enh) return findEnhancement(detachments, entry.enh)?.pts || 0
   return mandatoryEnhancementFor(def, detachments)?.pts || 0
@@ -1080,6 +1431,13 @@ export function enhancementPoints(detachments, entry, def) {
 
 // Full points for one unit entry: base bracket (+ copy tax), the loadout it comes with, the wargear
 // picked on top of it, and its enhancement (chosen or mandatory).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} [copyIndex]
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {number}
+ */
 export function unitPoints(def, entry, copyIndex = 1, detachments = null) {
   return unitBasePoints(def, entry?.size ?? 0, copyIndex)
     + defaultWargearPoints(def, entry)
@@ -1095,10 +1453,16 @@ export function unitPoints(def, entry, copyIndex = 1, detachments = null) {
 //
 // `newUid` is passed in rather than generated: this module stays free of the store (uid() lives in
 // useRosters.js) and of anything that isn't a pure function of its arguments.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {RosterUnit | null | undefined} def
+ * @param {string} unitId
+ * @param {string} newUid
+ * @returns {RosterEntry | null}
+ */
 export function addUnitEntry(units, def, unitId, newUid) {
   if (!units || !def) return null
-  const at = def.sizes.findIndex((s) => s.default)
-  const entry = { uid: newUid, id: unitId, size: at >= 0 ? at : 0 }
+  const entry = { uid: newUid, id: unitId, size: defaultSizeIndex(def) }
   units.push(entry)
   return entry
 }
@@ -1110,6 +1474,12 @@ export function addUnitEntry(units, def, unitId, newUid) {
 // plain data, so the screen holding one across a snackbar's lifetime holds no live references
 // into the roster; `ticket.uid` is also what a caller holding per-entry UI state (an open
 // accordion) drops.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {string | null | undefined} unitId
+ * @param {string | null} [entryUid]
+ * @returns {RemovalTicket | null}
+ */
 export function takeUnitEntry(units, unitId, entryUid = null) {
   if (!units) return null
   for (let i = units.length - 1; i >= 0; i--) {
@@ -1130,6 +1500,11 @@ export function takeUnitEntry(units, unitId, entryUid = null) {
 // and a restored unit landing at the end is a different list from the one that was there a second
 // ago — and every leader that had to let go of it takes hold again. A uid that is somehow back in
 // the list already (two undos of one removal) restores nothing rather than duplicating it.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {RemovalTicket | null | undefined} ticket
+ * @returns {string | null}
+ */
 export function restoreUnitEntry(units, ticket) {
   if (!units || !ticket?.entry) return null
   if (units.some((u) => u.uid === ticket.uid)) return null
@@ -1148,6 +1523,12 @@ export function restoreUnitEntry(units, ticket) {
 // one of them"), so a second one arriving changes nothing, and when the one wearing the title
 // leaves, the seat passes to the next. `preferUid` is the unit that just arrived; otherwise the
 // first in list order. Returns the uid made Warlord, or null.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {DefOf} defOf
+ * @param {string | null} [preferUid]
+ * @returns {string | null}
+ */
 export function settleSupremeWarlord(units, defOf, preferUid = null) {
   if (!units?.length || units.some((u) => u.warlord)) return null
   const supreme = units.filter((u) => defOf(u.id)?.flags?.supreme)
@@ -1171,6 +1552,12 @@ export function settleSupremeWarlord(units, defOf, preferUid = null) {
 // The copy lands directly after its original rather than at the end of the list: the two are read
 // as a pair, and the copy tax (`entryMeta`'s copyIndex, assigned in list order) then falls on the
 // second one, which is the one that just appeared.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {string} entryUid
+ * @param {string} newUid
+ * @returns {RosterEntry | null}
+ */
 export function duplicateUnitEntry(units, entryUid, newUid) {
   if (!units) return null
   const at = units.findIndex((u) => u.uid === entryUid)
@@ -1192,10 +1579,18 @@ export function duplicateUnitEntry(units, entryUid, newUid) {
 // The Warlord used to be a bare '★' here. The star now means "I own this model" elsewhere in the
 // app (useCollection.js), and a lone symbol on its own line was never decodable anyway — the word
 // is both unambiguous and free of the glyph-coverage roulette a flag character would bring.
+/**
+ * @param {EntryLike} e
+ * @param {RosterUnit | null | undefined} def
+ * @param {string} modelsLabel
+ * @param {string} upgradesLabel
+ * @param {string} [warlordLabel]
+ * @returns {string}
+ */
 export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = '') {
-  if (!def) return ''
-  const size = def.sizes[e.size ?? 0] || def.sizes[0]
-  const n = e.count ?? size.per[0]
+  const size = sizeOf(def, e)
+  if (!def || !size) return ''
+  const n = modelCount(def, e)
   const parts = []
   if (e.warlord && warlordLabel) parts.push(warlordLabel)
   if (size.per[1] > 1) parts.push(`${n} ${modelsLabel}`)
@@ -1229,11 +1624,16 @@ export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = 
 // 7 compositions in the corpus, the Deathwatch kill teams and Accursed Cultists — the split is the
 // player's to make and the data doesn't record it, so this returns null and every caller falls
 // back to the pre-2026-08-20 behaviour rather than guessing.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {Map<number, number> | null}
+ */
 export function modelsPerMini(def, entry) {
-  const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
+  const size = sizeOf(def, entry)
   if (!size) return null
-  const total = entry?.count ?? size.per?.[0] ?? 1
-  if (!(def.minis?.length > 1)) return new Map([[0, total]])
+  const total = modelCount(def, entry)
+  if ((def?.minis?.length ?? 0) <= 1) return new Map([[0, total]])
   if (!size.comp) return null
   const ranges = size.comp.filter((c) => c.length === 3)
   if (ranges.length > 1) return null
@@ -1268,6 +1668,13 @@ function swapCarriers(def, perMini, id) {
 // reading of the loadout behind the editor's line, the export and the modifier overlay. A `total`
 // line loses one copy per model; a per-model line `c` per model (copiesLeft). A profile whose model
 // count is unknown keeps everything — never hide a weapon on a guess.
+/**
+ * @param {number} c
+ * @param {number | undefined} total
+ * @param {number | null | undefined} models
+ * @param {number} take
+ * @returns {number}
+ */
 export function copiesHeld(c, total, models, take) {
   if (!take || models == null) return c
   return total ? Math.max(0, c - take) : copiesLeft(c, models, take)
@@ -1291,6 +1698,12 @@ function pickShare(def, g, id) {
 
 // The copies of a per-model item `c` that `models` models still hold after `take` (a share of a
 // model, see pickShare) went — rounded, since a share of 1/3 summed three times is not always 1.
+/**
+ * @param {number} c
+ * @param {number} models
+ * @param {number} take
+ * @returns {number}
+ */
 export function copiesLeft(c, models, take) {
   return Math.max(0, Math.round(c * (models - take) * 1e6) / 1e6)
 }
@@ -1314,6 +1727,12 @@ export function copiesLeft(c, models, take) {
 // always taken, and it cannot empty a one-model champion's line on the first tick. Per-profile
 // groups are charged FIRST so a profile's own swaps claim its models before a unit-wide one does,
 // and nothing is ever charged past what a profile actually fields.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Map<number, number> | null} perMini
+ * @returns {Map<string, number>}
+ */
 export function swapsByMini(def, entry, perMini) {
   return swapLedger(def, entry, perMini).removed
 }
@@ -1343,6 +1762,12 @@ export function swapsByMini(def, entry, perMini) {
 // Terminator who took "cyclone missile launcher and 1 storm bolter" got his storm bolter back
 // locked. A kept item the option hands back is therefore never `back`, and a kept item the group
 // does not replace at all is `held`. Stock is the NET: removed less back, plus held.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Map<number, number> | null} perMini
+ * @param {number | null} [exceptGi]
+ */
 function swapLedger(def, entry, perMini, exceptGi = null) {
   const removed = new Map()
   const back = new Map()
@@ -1399,7 +1824,8 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
   }
   const unitWide = []
   for (const [gi, byItem] of asked) {
-    const g = def.gear[gi]
+    const g = def?.gear?.[gi]
+    if (!g) continue
     if (g.all) { unitWide.push([g, byItem]); continue }
     const m = g.m ?? 0
     const models = perMini.get(m)
@@ -1420,8 +1846,7 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
     if (carrier && net(key) > carrier[1] + 1e-9) over.push({ id, used: net(key), cap: carrier[1] })
   }
   if (!unitWide.length) return { removed, back, held, over }
-  const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
-  const unitModels = entry?.count ?? size?.per?.[0] ?? 1
+  const unitModels = modelCount(def, entry)
   // Unit-wide overdraft is summed per ITEM across groups: two groups that each overdraw the same
   // combi-bolter are one problem with one count, not two lines that each undercount it.
   const overWide = new Map() // item id → [models no carrier could absorb, the unit's stock]
@@ -1465,6 +1890,11 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
 
 // The items one pick in group `g` actually takes off a model: what the group replaces, less what
 // the option itself grants back. With no option named, everything the group replaces.
+/**
+ * @param {GearGroup} g
+ * @param {number | null} [oi]
+ * @returns {ItemId[]}
+ */
 function givenUp(g, oi = null) {
   const opt = oi == null ? null : g.o?.[oi]
   if (!opt) return g.rep || []
@@ -1475,6 +1905,11 @@ function givenUp(g, oi = null) {
 // What a pick NEEDS the model to still carry: everything it gives up, plus every item the group
 // keeps locked (`keep` — "that model's boltgun cannot be replaced"), whether or not the option
 // hands it back.
+/**
+ * @param {GearGroup} g
+ * @param {number | null} [oi]
+ * @returns {ItemId[]}
+ */
 function needs(g, oi = null) {
   return [...new Set([...givenUp(g, oi), ...(g.keep || [])])]
 }
@@ -1488,21 +1923,41 @@ function needs(g, oi = null) {
 // and copies are not models), a unit whose models cannot be split between profiles
 // (modelsPerMini), an item the profile's printed loadout does not carry, or an option that needs
 // nothing at all.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @param {number | null} [oi]
+ * @returns {number | null}
+ */
 export function swapRoom(def, entry, gi, oi = null) {
+  const g = def?.gear?.[gi]
   const byItem = swapRoomByItem(def, entry, gi)
-  if (!byItem) return null
-  const g = def.gear[gi]
-  const ids = needs(g, oi).filter((id) => byItem.has(id))
-  if (!ids.length) return null
+  if (!g || !byItem) return null
+  // The needed items byItem tracks, each with the models still carrying it.
+  /** @type {Array<[ItemId, number]>} */
+  const rooms = []
+  for (const id of needs(g, oi)) {
+    const left = byItem.get(id)
+    if (left != null) rooms.push([id, left])
+  }
+  if (!rooms.length) return null
   // An "X or Y" group needs a model carrying EITHER, so its alternatives are one pool.
-  const alt = g.alt ? ids.filter((id) => g.rep.includes(id)) : []
-  const pool = alt.length ? [alt.reduce((s, id) => s + byItem.get(id), 0)] : []
-  return Math.min(...pool, ...ids.filter((id) => !alt.includes(id)).map((id) => byItem.get(id)))
+  const rep = g.rep || []
+  const alt = g.alt ? rooms.filter(([id]) => rep.includes(id)) : []
+  const pool = alt.length ? [alt.reduce((sum, [, left]) => sum + left, 0)] : []
+  return Math.min(...pool, ...rooms.filter((r) => !alt.includes(r)).map(([, left]) => left))
 }
 
 // The same answer per needed item (item id → models still carrying it), so the editor can name
 // the item that ran out rather than the whole set the group gives up. A kept item the profile does
 // not print is left out rather than voiding the group — the footnote has nothing to lock there.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {Map<ItemId, number> | null}
+ */
 export function swapRoomByItem(def, entry, gi) {
   const g = def?.gear?.[gi]
   if (!(g?.rep?.length || g?.keep?.length) || g.cp) return null
@@ -1526,6 +1981,11 @@ export function swapRoomByItem(def, entry, gi) {
 // validateRoster. Empty for a legal list; the editor keeps the list legal as you click (swapRoom
 // greys the group out), so this fires on a list that was built before the rule, was imported, or
 // shrank under its swaps.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {Array<{ id: ItemId, used: number, cap: number }>}
+ */
 export function swapOverdraft(def, entry) {
   return swapLedger(def, entry, modelsPerMini(def, entry)).over
 }
@@ -1534,6 +1994,11 @@ export function swapOverdraft(def, entry) {
 // them in place, so the player sees WHERE to press "−" rather than only a line in the issues list.
 // A group is over its stock when it holds more picks than the room the other groups left it
 // (swapRoom, per picked option) and one of the items it needs is overdrawn.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {Set<number>}
+ */
 export function overdrawnGroups(def, entry) {
   const out = new Set()
   const over = new Set(swapOverdraft(def, entry).map((o) => o.id))
@@ -1545,7 +2010,7 @@ export function overdrawnGroups(def, entry) {
     const ceiling = cap ? cap.limit : wargearGroupFallbackCap(def, entry, gi)
     if (ceiling != null && spent > ceiling) { out.add(gi); continue }
     if (!over.size || !needs(g).some((id) => over.has(id))) continue
-    const picked = (entry.wg || []).filter(([pg]) => pg === gi).map(([, oi]) => oi)
+    const picked = (entry?.wg || []).filter(([pg]) => pg === gi).map(([, oi]) => oi)
     if (picked.some((oi) => { const room = swapRoom(def, entry, gi, oi); return room != null && spent > room })) out.add(gi)
   }
   return out
@@ -1558,7 +2023,13 @@ export function overdrawnGroups(def, entry) {
 // player last touched each row — one model at a time, until every group is inside its ceiling and
 // nothing is given up twice. A list that arrives already over (an import, a list saved before the
 // rule) is NOT passed through here: validateRoster reports it and the player decides.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {WargearPick[] | null}
+ */
 export function fitWargear(def, entry) {
+  /** @type {WargearPick[]} */
   let wg = (entry?.wg || []).map((p) => [...p])
   const at = () => ({ ...entry, wg })
   const drop = (i) => {
@@ -1566,6 +2037,7 @@ export function fitWargear(def, entry) {
     if (n > 1) wg[i][2] = n - 1
     else wg.splice(i, 1)
   }
+  const pm = def?.pm
   let changed = false
   for (let guard = 0; guard < 200; guard++) {
     const e = at()
@@ -1581,15 +2053,15 @@ export function fitWargear(def, entry) {
       else if (wargearXpmOver(def, e).some((x) => x.set.s.some((p) => xpmHit(p, gi, wg[k][1])))) i = k
     }
     // Then the rules about one model across groups (`pm`): the latest pick in either group they cover.
-    if (i < 0 && !perModelFits(def, e)) {
-      for (let k = wg.length - 1; k >= 0 && i < 0; k--) if (wg[k][0] === def.pm.add || wg[k][0] === def.pm.base) i = k
+    if (i < 0 && pm && !perModelFits(def, e)) {
+      for (let k = wg.length - 1; k >= 0 && i < 0; k--) if (wg[k][0] === pm.add || wg[k][0] === pm.base) i = k
     }
     // Then stock: the latest pick that spends an overdrawn item.
     if (i < 0) {
       const over = new Set(swapOverdraft(def, e).map((o) => o.id))
       if (!over.size) break
       for (let k = wg.length - 1; k >= 0 && i < 0; k--) {
-        const g = def.gear?.[wg[k][0]]
+        const g = def?.gear?.[wg[k][0]]
         if (g && wargearGroupLive(def, e, wg[k][0]) && needs(g, wg[k][1]).some((id) => over.has(id))) i = k
       }
       if (i < 0) break
@@ -1605,6 +2077,12 @@ export function fitWargear(def, entry) {
 // loses an accursed weapon and the squad gains the power fist, rather than the champion gaining it
 // while the squad keeps all five). A unit-wide group that replaces nothing has nothing to pair
 // with and stays on the first profile, as it always was.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {number}
+ */
 export function pickMiniFor(def, entry, gi) {
   const g = def?.gear?.[gi]
   if (!g?.all) return g?.m ?? 0
@@ -1621,6 +2099,12 @@ export function pickMiniFor(def, entry, gi) {
 // "…replaced with two different weapons" (`ex`, from the generators): how many picks the group
 // still owes, 0 when it is untouched or complete. One pick of a `solo` option ("either 1 twin
 // lightning claws, or two different…") is complete on its own.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {number}
+ */
 export function exactPicksOwed(def, entry, gi) {
   const g = def?.gear?.[gi]
   if (!g?.ex) return 0
@@ -1631,6 +2115,23 @@ export function exactPicksOwed(def, entry, gi) {
   return g.ex - spent
 }
 
+// The profile name a loadout line is headed with — blank when the datasheet has one profile, as
+// there is nothing to tell apart. Shared by both loadout readers below and the export.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {number} m
+ * @returns {string}
+ */
+export function miniName(def, m) {
+  return (def?.minis?.length ?? 0) > 1 ? (def?.minis?.[m]?.n || '') : ''
+}
+
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Record<number, string>} items
+ * @param {EntryLike | null | undefined} [entry]
+ * @returns {Array<{ mini: string, items: string, names: string[] }>}
+ */
 export function fixedLoadoutLines(def, items, entry) {
   const perMini = entry && def ? modelsPerMini(def, entry) : null
   const replaced = new Set((def?.gear || []).flatMap((g) => (g.rep || []).map((id) => (g.all ? `*:${id}` : `${g.m ?? 0}:${id}`))))
@@ -1639,13 +2140,19 @@ export function fixedLoadoutLines(def, items, entry) {
     const kept = list.filter(([id]) => !replaced.has(`${m}:${id}`) && !replaced.has(`*:${id}`))
     if (!kept.length) return []
     return [{
-      mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '',
+      mini: miniName(def, m),
       items: kept.map(([id, c]) => `${items[id]}${c > 1 ? ` ×${c}` : ''}`).join(', '),
       names: kept.map(([id]) => items[id]),
     }]
   })
 }
 
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Record<number, string>} items
+ * @param {EntryLike | null | undefined} [entry]
+ * @returns {Array<{ mini: string, items: string, names: string[] }>}
+ */
 export function defaultLoadoutLines(def, items, entry) {
   const perMini = entry && def ? modelsPerMini(def, entry) : null
   const removed = swapsByMini(def, entry, perMini)
@@ -1671,33 +2178,49 @@ export function defaultLoadoutLines(def, items, entry) {
       if (remaining > 0) put(id, `${items[id]}${total && remaining === 1 ? '' : ` ×${remaining}`}`)
     }
     if (!parts.length) return []
-    return [{ mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '', items: parts.join(', '), names }]
+    return [{ mini: miniName(def, m), items: parts.join(', '), names }]
   })
 }
 
 // Names of the wargear items a unit entry has swapped/added on top of its default loadout
 // (entry.wg deviations only — see UnitEditorFields/rosterExport.js for the same shape).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Record<number, string>} items
+ * @returns {string[]}
+ */
 export function wargearNames(def, entry, items) {
   if (!entry?.wg?.length) return []
-  return entry.wg.map(([gi, oi, n]) => {
+  return entry.wg.flatMap(([gi, oi, n]) => {
     const opt = def?.gear?.[gi]?.o?.[oi]
-    if (!opt || !wargearGroupLive(def, entry, gi)) return null
+    if (!opt || !wargearGroupLive(def, entry, gi)) return []
     const name = optionLabel(opt, items)
-    return n > 1 ? `${name} ×${n}` : name
-  }).filter(Boolean)
+    const label = (n ?? 1) > 1 ? `${name} ×${n}` : name
+    return label ? [label] : []
+  })
 }
 
 // ── Allies ────────────────────────────────────────────────────────────────────────────────────
 // An allied unit's id is namespaced `<source faction slug>:<unit id>` (see data/roster/index.js) —
 // it is the only mark it carries, so everything about allies is derived from the id plus the
 // faction's own `allies` metadata rather than from a flag stamped on the entry.
+/**
+ * @param {string | null | undefined} id
+ * @returns {[string, string] | null}
+ */
 export function allySourceOf(id) {
-  const at = String(id || '').indexOf(':')
-  return at < 0 ? null : [id.slice(0, at), id.slice(at + 1)]
+  const s = String(id || '')
+  const at = s.indexOf(':')
+  return at < 0 ? null : [s.slice(0, at), s.slice(at + 1)]
 }
 
 // Does this roster hold a unit from another faction's bundle? The read-only screens use it to
 // decide whether loadRosterFaction has to pull those bundles at all (the editor always does).
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @returns {boolean}
+ */
 export function usesAllies(roster) {
   return (roster?.units || []).some((u) => allySourceOf(u?.id))
 }
@@ -1707,6 +2230,11 @@ export function usesAllies(roster) {
 // need Khorne Daemonkin), which is also what tells Drukhari's two overlapping Aeldari groups apart
 // — the same Troupe is a 500-point Harlequins ally under Reaper's Wager and a 250-point one under
 // the corsair Detachments, so the selected Detachment decides which limits apply.
+/**
+ * @param {{ allies?: AllyGroup[] } | null | undefined} faction
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {AllyGroup[]}
+ */
 export function allyGroupsFor(faction, detachments = []) {
   const names = new Set((detachments || []).map((d) => d?.name).filter(Boolean))
   return (faction?.allies || []).filter((g) => !g.dets?.length || g.dets.some((n) => names.has(n)))
@@ -1714,12 +2242,23 @@ export function allyGroupsFor(faction, detachments = []) {
 
 // Every group that lists this unit, whether or not its Detachment requirement is met — the
 // difference is what separates "this unit is an ally" from "this unit is not allowed here".
+/**
+ * @param {{ allies?: AllyGroup[] } | null | undefined} faction
+ * @param {string} id
+ * @returns {AllyGroup[]}
+ */
 export function allyGroupsOf(faction, id) {
   return (faction?.allies || []).filter((g) => (g.ids || []).includes(id))
 }
 
 // The group a unit counts against right now: the first ACTIVE group listing it, or null when the
 // unit is an ordinary member of the army.
+/**
+ * @param {{ allies?: AllyGroup[] } | null | undefined} faction
+ * @param {string} id
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {AllyGroup | null}
+ */
 export function allyGroupOf(faction, id, detachments = []) {
   return allyGroupsFor(faction, detachments).find((g) => (g.ids || []).includes(id)) || null
 }
@@ -1812,6 +2351,13 @@ export const ROSTER_NOTES_MAX = 2000
 // Write a note, or remove it. Absent rather than empty: an empty string is not a note, and every
 // reader here treats a missing field as "no note" — which is also what makes this need no schema
 // bump (a roster saved before notes existed simply has none).
+/**
+ * @param {Record<string, any> | null | undefined} obj
+ * @param {string} key
+ * @param {unknown} value
+ * @param {number} [max]
+ * @returns {void}
+ */
 export function setNote(obj, key, value, max = ENTRY_NOTE_MAX) {
   if (!obj) return
   const text = String(value ?? '').replace(/\s+/g, ' ').trim().slice(0, max)
@@ -1823,6 +2369,11 @@ export function setNote(obj, key, value, max = ENTRY_NOTE_MAX) {
 // that is simply `leaderOf`, but attachments can chain legally (Huron leads the Masters of the
 // Maelstrom, which Support a Chosen squad): the Chosen is the root of all three. Walks `entries`
 // only, and stops on a loop. An entry attached to nothing is its own root.
+/**
+ * @param {EntryLike[] | null | undefined} entries
+ * @param {EntryLike | null | undefined} e
+ * @returns {string | undefined}
+ */
 export function blockRootUid(entries, e) {
   const byUid = new Map((entries || []).map((x) => [x.uid, x]))
   let at = e
@@ -1834,6 +2385,12 @@ export function blockRootUid(entries, e) {
 // What a whole attached block costs, asked of its HOST — printed on the block's own head line in
 // the editor's list and on the list's view, where the reader is already looking. Null unless
 // this entry actually has something attached to it, so a lone squad prints one number as before.
+/**
+ * @param {RosterEntry[] | null | undefined} entries
+ * @param {EntryLike | null | undefined} host
+ * @param {(e: RosterEntry) => number} pointsOf
+ * @returns {number | null}
+ */
 export function hostBlockTotal(entries, host, pointsOf) {
   if (!host || host.leaderOf) return null
   // The whole chain, not just the units on the host itself (see blockRootUid).
@@ -1846,6 +2403,10 @@ export function hostBlockTotal(entries, host, pointsOf) {
 // the default name ("Unit 2") is what a player sees until they write their own, and it has to mean
 // the second block on the screen, not the second one in Battleline. `groups` is the sectioned list
 // both the editor's list and the view draw (`[{ entries }]`); host uid → number.
+/**
+ * @param {Array<{ entries?: RosterEntry[] }> | null | undefined} groups
+ * @returns {Map<string, number>}
+ */
 export function blockNumbers(groups) {
   const m = new Map()
   let n = 0
@@ -1859,12 +2420,23 @@ export function blockNumbers(groups) {
 
 // The one comparator every list of units is read in — the catalogue, the sections of a list, the
 // export. English datasheet names, so the default locale's collation is the same everywhere.
+/**
+ * @param {unknown} a
+ * @param {unknown} b
+ * @returns {number}
+ */
 export const byUnitName = (a, b) => String(a || '').localeCompare(String(b || ''))
 
 // `items` in reading order: by `nameOf(item)`, ties in the order given (a stable sort — copies of
 // one datasheet keep their adding order, which is what the copy tax reads). Items with no name —
 // an entry whose datasheet the data no longer has — come first, together, in their own order;
 // every caller filters those out anyway.
+/**
+ * @template T
+ * @param {T[] | null | undefined} items
+ * @param {(it: T) => string | undefined} nameOf
+ * @returns {T[]}
+ */
 export function orderedByName(items, nameOf) {
   return (items || []).map((it, i) => ({ it, i, n: nameOf(it) }))
     .sort((x, y) => byUnitName(x.n, y.n) || x.i - y.i)
@@ -1893,11 +2465,17 @@ export function orderedByName(items, nameOf) {
 // then a second squad had to delete and re-add to see the two squads together (report 05870f4a);
 // the alternative — dragging rows — needs a gesture the two-pane phone layout has no room for and
 // an order the format would have to carry.
+/**
+ * @param {any[]} items
+ * @param {{ faction?: { slug?: string, allies?: AllyGroup[] } | null, detachments?: Detachment[], defOf?: DefOf, idOf?: (x: any) => string, keepLocked?: boolean, pairAttached?: boolean }} [opts]
+ */
 export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x) => x?.id, keepLocked = false, pairAttached = false } = {}) {
   const all = faction?.allies || []
   const active = allyGroupsFor(faction, detachments)
   const activeKeys = new Set(active.map((g) => g.key))
+  /** @type {Map<string, any[]>} */
   const byKey = new Map(all.map((g) => [g.key, []]))
+  /** @type {Map<string, any[]>} */
   const roles = new Map(UNIT_GROUPS.map((id) => [id, []]))
   const where = new Map() // item → the list it was filed into, and whether that list is an ally group
   const ordered = orderedByName(items, (it) => (defOf ? defOf(idOf(it)) : it)?.name)
@@ -1923,7 +2501,7 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
   return [
     ...UNIT_GROUPS.map((id) => ({ id, items: roles.get(id) })),
     ...active.map(groupSection),
-    ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && byKey.get(g.key).length).map(groupSection) : []),
+    ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && byKey.get(g.key)?.length).map(groupSection) : []),
   ]
 }
 
@@ -1935,6 +2513,11 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
 // detachment that fits keeps the real budget — "1 / 3" at Incursion would promise a second
 // detachment the budget does not have room for. `dets` carry `dp`; `budget` is the battle's.
 export const SOLO_DETACHMENT_DP = 3
+/**
+ * @param {Array<{ dp?: number }>} dets
+ * @param {number | null | undefined} budget
+ * @returns {number}
+ */
 export function dpLimitFor(dets, budget) {
   const limit = budget ?? Infinity
   const spent = dets.reduce((s, d) => s + (d.dp || 0), 0)
@@ -1948,7 +2531,15 @@ export function dpLimitFor(dets, budget) {
 // validator, the duplicate cap, the badge, the red of a total over its limit. Unticking "Check
 // legality" switches all of them off, not just the cap (owner, 2026-10-04); the screens say so
 // once, with `rosterChecksOff`, instead of any warning.
+/**
+ * @param {{ archived?: boolean } | null | undefined} r
+ * @returns {boolean}
+ */
 export const isArchived = (r) => r?.archived === true
+/**
+ * @param {{ archived?: boolean, checkLegality?: boolean } | null | undefined} r
+ * @returns {boolean}
+ */
 export const legalityOn = (r) => r?.checkLegality !== false && !isArchived(r)
 
 // The effective battle-size limits for a roster — the ONE place every limit a list is held to comes
@@ -1969,9 +2560,15 @@ export const legalityOn = (r) => r?.checkLegality !== false && !isArchived(r)
 export const UNLIMITED_BATTLE = 'none'
 export const CUSTOM_LIMIT_KEYS = ['dp', 'enh', 'dup', 'line']
 const ownNumber = (v) => (Number.isInteger(v) && v >= 0 ? v : null)
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {{ battleSizes?: BattleSize[] } | null | undefined} core
+ */
 export function effectiveBattle(roster, core) {
   const sizes = [...(core?.battleSizes || [])].sort((a, b) => a.points - b.points)
-  const fallback = sizes[sizes.length - 1] || { points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }
+  // With no battle sizes at all (a caller that passes no `core` — tests only) a Strike Force stands
+  // in, whole: its id is what the ally tables are keyed by.
+  const fallback = sizes[sizes.length - 1] || { id: 'strike-force', name: 'Strike Force', points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }
   if (roster?.battleSize === UNLIMITED_BATTLE) {
     return { id: UNLIMITED_BATTLE, base: fallback.id, points: Infinity, dp: Infinity, enhLimit: Infinity, dupLimit: Infinity, lineLimit: Infinity, custom: false, unlimited: true }
   }
@@ -1995,6 +2592,12 @@ export function effectiveBattle(roster, core) {
 // Total points for a list of roster unit entries. `defOf(id)` resolves a unit id to its
 // faction-data definition. Copy index is assigned per unit id in list order, so the 2nd/3rd
 // copy of a datasheet pays its step surcharge.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {DefOf} defOf
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {number}
+ */
 export function rosterPoints(units, defOf, detachments = null) {
   const seen = new Map()
   let total = 0
@@ -2009,6 +2612,12 @@ export function rosterPoints(units, defOf, detachments = null) {
 // The budget's remainder as the readouts print it under "used / limit": "125 left" while there
 // is room, "25 over" once past it, and nothing at all without a limit to count against. `labels`
 // is the locale's ui block (rosterPointsLeft / rosterPointsOver carry the `{n}` slot).
+/**
+ * @param {number} points
+ * @param {number} limit
+ * @param {{ rosterPointsLeft: string, rosterPointsOver: string }} labels
+ * @returns {string}
+ */
 export function pointsLeftLabel(points, limit, labels) {
   if (!Number.isFinite(limit) || limit <= 0) return ''
   const left = limit - points

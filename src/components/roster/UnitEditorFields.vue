@@ -777,7 +777,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { ENTRY_NOTE_MAX, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, overdrawnGroups, optionItems, optionLabel, setNote, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom } from '../../composables/rosterEngine.js'
+import { ENTRY_NOTE_MAX, sizeOf, modelCount, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, overdrawnGroups, optionItems, optionLabel, setNote, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom } from '../../composables/rosterEngine.js'
 import { holdCounts, holdGroup, holdWg, stockLeft } from '../../composables/rosterHold.js'
 
 const props = defineProps({
@@ -967,9 +967,9 @@ const visibleEnhOptions = computed(() =>
   props.enhOptions.filter((e) => e.eligible || e.name === props.entry.enh))
 
 // ── Size / model count ──
-const curSize = computed(() => props.def.sizes[props.entry.size ?? 0] || props.def.sizes[0])
+const curSize = computed(() => sizeOf(props.def, props.entry))
 const curRange = computed(() => curSize.value.per[0] !== curSize.value.per[1])
-const models = computed(() => props.entry.count ?? curSize.value.per[0])
+const models = computed(() => modelCount(props.def, props.entry))
 // The last bracket that had a range — what the model-count block draws, so it can fold away
 // showing its own numbers after a fixed-size bracket is picked.
 const rangeSize = ref(curRange.value ? curSize.value : null)

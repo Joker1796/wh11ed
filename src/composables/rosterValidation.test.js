@@ -496,6 +496,23 @@ describe('validateRoster — an entry the data no longer knows', () => {
     const { issues } = validateRoster(roster({ units: [U('captain')] }), { core })
     expect(issues.map((i) => i.code)).not.toContain('unknownUnit')
   })
+
+  // The ally checks walk EVERY unit of the army asking its keywords — Imperial Agents' "an
+  // Inquisitor frees one Retinue slot" counts the Inquisitors in the whole list. An entry with no
+  // datasheet behind it threw there (`hasKeyword(undefined)`), and the list it was meant to explain
+  // could not be validated at all. Found by the type check (strictNullChecks), 2026-10-12.
+  it('still validates an army with allies when one entry has no datasheet', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const sm = await loadRosterFaction('space-marines', { allies: true })
+    const retinue = sm.units.find((u) => u.id.startsWith('imperial-agents:') && u.kws.includes('Retinue'))
+    const r = roster({
+      faction: 'space-marines',
+      detachments: [sm.detachments[0].name],
+      units: [{ ...U('captain'), warlord: true }, U(retinue.id), U('unit-that-was-retired')],
+    })
+    const codes = validateRoster(r, { faction: sm, core }).issues.map((i) => i.code)
+    expect(codes).toContain('unknownUnit')
+  })
 })
 
 describe('validateRoster — detachment exclusions', () => {

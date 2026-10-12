@@ -1,9 +1,19 @@
+// @ts-check
 // Roster validation — a pure module (no Vue, no store). Philosophy: NEVER block. Like the
 // official app, we always compute a total and surface violations for the user to judge, rather
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
 import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('./roster.types.js').Roster} Roster */
+/** @typedef {import('./roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('./roster.types.js').RosterIssue} RosterIssue */
+/** @typedef {import('./roster.types.js').DefOf} DefOf */
+/** @typedef {import('./roster.types.js').Detachment} Detachment */
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -13,6 +23,10 @@ import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAl
 // the list, not by the limit.
 export const SETUP_CODES = new Set(['noFaction', 'noDetachment', 'detachmentGone', 'dispositionUndeclared', 'detachmentTagClash', 'overDp'])
 
+/**
+ * @param {RosterIssue[] | null | undefined} issues
+ * @returns {number}
+ */
 export function setupIssueCount(issues) {
   return (issues || []).filter((i) => SETUP_CODES.has(i.code)).length
 }
@@ -26,6 +40,12 @@ export function setupIssueCount(issues) {
 // (rosterEngine's grantedKeywordsFor). Battleline is the only one that matters here, and it is
 // what makes the difference between three Warbikers and six: pass it wherever the roster's
 // detachments are known. `null` keeps the pre-gate reading of the raw `condBattleline` flag.
+/**
+ * @param {RosterUnit} def
+ * @param {number | { dupLimit: number, lineLimit?: number }} limits
+ * @param {string[] | null} [granted]
+ * @returns {number}
+ */
 export function duplicateLimit(def, limits, granted = null) {
   const dup = typeof limits === 'number' ? limits : limits.dupLimit
   const line = typeof limits === 'number' ? limits * 2 : (limits.lineLimit ?? dup * 2)
@@ -38,6 +58,11 @@ export function duplicateLimit(def, limits, granted = null) {
 // capKeyOf — normally one per datasheet id, but a future same-character/multiple-datasheets
 // case would share a key). Shared by validateRoster's own check below and
 // RosterUnitBrowser.vue's live add-button guard, so the two never disagree about the count.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {DefOf} defOf
+ * @returns {Map<string | undefined, number>}
+ */
 export function duplicateCounts(units, defOf) {
   const m = new Map()
   for (const u of units || []) {
@@ -58,15 +83,21 @@ const NAMED_NOT_EPIC = new Set(['kayvaan-shrike'])
 // `idleCopies(unit)`, when given, names the melee weapons a unit holds twice on one model for
 // nothing (rosterModifiers' idleMeleeCopies) — it needs the datasheet and the modifier records, which
 // the editor loads on the side; without it the check is silent, as before they arrive.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string>, idleCopies?: (u: RosterEntry) => string[] | null | undefined }} [opts]
+ * @returns {{ points: number, issues: RosterIssue[], errorCount: number }}
+ */
 export function validateRoster(roster, { faction, core, items, idleCopies } = {}) {
   const units = roster?.units || []
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
   const defOf = (id) => defMap.get(id)
   const battle = effectiveBattle(roster, core)
   // Selected detachments (roster stores names, like the tracker) → their data objects.
-  const detachments = (roster?.detachments || [])
-    .map((name) => (faction?.detachments || []).find((d) => d.name === name))
-    .filter(Boolean)
+  const detachments = (roster?.detachments || []).flatMap((name) => {
+    const d = (faction?.detachments || []).find((x) => x.name === name)
+    return d ? [d] : []
+  })
 
   // Battleline gained from a Detachment, per unit — the doubled duplicate cap below asks this,
   // and so does the section a unit is filed under (rosterEngine's sectionsOf).
@@ -192,6 +223,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     }
     for (const list of byKey.values()) {
       const def = defOf(list[0].id)
+      if (!def) continue // byKey holds only entries with a datasheet
       const limit = duplicateLimit(def, battle, grantedBattleline(def))
       if (list.length > limit) {
         add('overDuplicate', 'error', { uid: list[limit].uid, params: { count: list.length, limit } })
@@ -213,7 +245,9 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // nothing the player did produced them, and which weapon to give up is theirs to say.
   for (const u of units) {
     const def = defOf(u.id)
-    for (const [gi] of (def?.gear || []).entries()) {
+    if (!def) continue // an entry with no datasheet has nothing to check here (unknownUnit says so)
+    const gear = def.gear || []
+    for (const [gi] of gear.entries()) {
       const cap = wargearGroupCap(def, u, gi)
       if (!wargearGroupLive(def, u, gi)) continue
       if (!cap) {
@@ -238,18 +272,18 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
       // "…replaced with two different weapons": the count is exact (`ex`), so one pick leaves the
       // model one weapon short of its datasheet. A `solo` option ("either 1 twin lightning claws,
       // or two different…") is a complete answer on its own.
-      if (exactPicksOwed(def, u, gi)) add('wargearPickExact', 'error', { uid: u.uid, params: { count: spent, limit: def.gear[gi].ex } })
+      if (exactPicksOwed(def, u, gi)) add('wargearPickExact', 'error', { uid: u.uid, params: { count: spent, limit: gear[gi].ex } })
       // One per model across a set of options (Broadside's twin plasma rifle / twin smart missile
       // system) — rosterEngine's wargearExclOver.
       for (const x of wargearExclOver(def, u, gi)) {
-        const names = x.set.map((oi) => optionItems(def.gear[gi].o[oi]).map(([id]) => items?.[id]).filter(Boolean).join(' + ')).filter(Boolean).join(', ')
+        const names = x.set.map((oi) => optionItems(gear[gi].o[oi]).map(([id]) => items?.[id]).filter(Boolean).join(' + ')).filter(Boolean).join(', ')
         add('overWargearOnePerModel', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit, names } })
       }
     }
     // A model's limit across several groups (`xpm`): a Commander's two shield generators, a Knight
     // Destrier's two chainswords. Same message as the one-per-model sets above.
     for (const x of wargearXpmOver(def, u)) {
-      const names = [...new Set(x.set.s.flatMap(([g, o]) => (o == null ? def.gear[g].o : [def.gear[g].o[o]]).map((op) => optionItems(op).map(([id]) => items?.[id]).filter(Boolean).join(' + '))))].filter(Boolean).join(', ')
+      const names = [...new Set(x.set.s.flatMap(([g, o]) => (o == null ? gear[g].o : [gear[g].o[o]]).map((op) => optionItems(op).map(([id]) => items?.[id]).filter(Boolean).join(' + '))))].filter(Boolean).join(', ')
       add('overWargearOnePerModel', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit, names } })
     }
     // Rules about one model across groups (`pm`, Legends Crisis Battlesuits): the picks cannot be
@@ -310,7 +344,8 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     const def = defOf(w.id)
     // The allegiance keyword counts here for the same reason it counts for enhancements below: a
     // War Dog that took Houndpack Lance's CHARACTER is a Character.
-    const granted = [allegKeyword(def, w, detachments)].filter(Boolean)
+    const alleg = allegKeyword(def, w, detachments)
+    const granted = alleg ? [alleg] : []
     if (def && !canBeWarlord(def, detachments, granted)) add('warlordIneligible', 'error', { uid: w.uid })
   }
   // A detachment can name MORE THAN ONE candidate (Aeldari's "Devoted of Ynnead": Yvraine OR The
@@ -340,7 +375,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // only), on a legal unit.
   // An enhancement its own rules bar from the Warlord (World Eaters' Disciple of Khorne).
   for (const w of warlords) {
-    const e = w.enh && findEnhancement(detachments, w.enh)
+    const e = findEnhancement(detachments, w.enh)
     if (e?.notWarlord) add('enhNotWarlord', 'error', { uid: w.uid, params: { enh: w.enh } })
   }
 
@@ -468,8 +503,9 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
       }
       // The mix the datasheet limits, where it does: "provided no more than one of those units is
       // a COMMAND SQUAD unit", "provided those Leaders are not duplicates".
-      if (lim.oneKw) {
-        const named = list.filter((u) => { const d = defOf(u.id); return d && hasKeyword(d, lim.oneKw) })
+      const { oneKw } = lim
+      if (oneKw) {
+        const named = list.filter((u) => { const d = defOf(u.id); return d && hasKeyword(d, oneKw) })
         for (const u of named.slice(1)) tooMany(u, uid)
       }
       if (lim.noDup) {
@@ -570,8 +606,13 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
 
 // An issue in words: its `issue_<code>` template from ui.js (handed in — this module has no
 // locale) with the params filled in. The issues dialog and the save-time disposition prompt read it.
+/**
+ * @param {RosterIssue} iss
+ * @param {Record<string, string>} labels
+ * @returns {string}
+ */
 export function issueText(iss, labels) {
   const tpl = labels[`issue_${iss.code}`] || iss.code
   const p = iss.params || {}
-  return tpl.replace(/\{(\w+)\}/g, (_, k) => (p[k] ?? ''))
+  return tpl.replace(/\{(\w+)\}/g, (_, k) => String(p[k] ?? ''))
 }

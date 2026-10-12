@@ -29,6 +29,7 @@
 import {
   allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
+  miniName, modelCount,
 } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
 
@@ -66,8 +67,8 @@ function loadoutGroups(def, entry, items) {
   const at = (m) => {
     if (!groups.has(m)) {
       groups.set(m, {
-        name: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '',
-        models: perMini?.get(m) ?? (entry?.count ?? def.sizes?.[entry?.size ?? 0]?.per?.[0] ?? 1),
+        name: miniName(def, m),
+        models: perMini?.get(m) ?? modelCount(def, entry),
         items: new Map(),
       })
     }
@@ -176,7 +177,6 @@ function resolve(roster, { faction, core, items } = {}) {
     if (!def) continue
     const copy = (seen.get(entry.id) || 0) + 1
     seen.set(entry.id, copy)
-    const size = def.sizes?.[entry.size ?? 0] || def.sizes?.[0]
     const alleg = allegFor(def, detachments)
     rows.push({
       uid: entry.uid,
@@ -188,7 +188,7 @@ function resolve(roster, { faction, core, items } = {}) {
       bucket: bucketOf(def, faction?.slug ? grantedKeywordsFor(entry.id, faction.slug, detachments).map((g) => g.kw) : null),
       ally: allyIds.has(entry.id),
       pts: unitPoints(def, entry, copy, detachments),
-      models: entry.count ?? size?.per?.[0] ?? 1,
+      models: modelCount(def, entry),
       warlord: !!entry.warlord,
       alleg: alleg && entry.alleg ? { label: alleg.t || 'Allegiance', value: entry.alleg } : null,
       enh: enhancementOf(def, entry, detachments),
