@@ -230,6 +230,15 @@
  * @property {string} [disposition] the declared Force Disposition, as `fds` spells it
  * @property {string} [notes]
  * @property {RosterEntry[]} units
+ * @property {number} [createdAt] epoch ms
+ * @property {number} [updatedAt] epoch ms
+ * @property {boolean} [draft] still in the creation wizard (never synced)
+ * @property {RosterSummary} [summary] cached points/units/issues for the list screen (rosterSummary.js)
+ */
+
+/**
+ * The cached summary a list row prints without loading the faction (rosterSummary.js).
+ * @typedef {{ points: number, unitCount: number, issues: number, v: string }} RosterSummary
  */
 
 /**

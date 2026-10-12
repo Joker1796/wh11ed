@@ -23,6 +23,10 @@
     "src/composables/rosterValidation.js",
     "src/composables/rosterModifiers.js",
     "src/composables/rosterExport.js",
-    "src/composables/rosterStatMods.js"
+    "src/composables/rosterStatMods.js",
+    "src/composables/rosterHold.js",
+    "src/composables/rosterSummary.js",
+    "src/composables/rosterLimit.js",
+    "src/composables/rosterHandoff.js"
   ]
 }

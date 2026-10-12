@@ -1,3 +1,4 @@
+// @ts-check
 // The `summary` denormalised onto every stored roster — `{ points, unitCount, issues }` — is what
 // the two list screens show: RosterListView and the tracker's RosterPickerModal, neither of which
 // loads a faction's data chunk. Points live in that chunk (a unit's bracket, its copy tax, its
@@ -28,8 +29,19 @@ import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
 import { APP_VERSION } from '../buildInfo.js'
 
+/** @typedef {import('./roster.types.js').Roster} Roster */
+/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('./roster.types.js').RosterSummary} RosterSummary */
+
 // The shape, in one place. Callers on an editing screen pass the points and error count they
 // already compute live, rather than paying for a second pass over the same units.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {number} points
+ * @param {number} [errorCount]
+ * @param {string} [version]
+ * @returns {RosterSummary}
+ */
 export function summaryOf(roster, points, errorCount = 0, version = APP_VERSION) {
   return { points, unitCount: roster?.units?.length || 0, issues: errorCount, v: version }
 }
@@ -41,6 +53,11 @@ export function summaryOf(roster, points, errorCount = 0, version = APP_VERSION)
 // (a summary from before the stamp existed has none, and is repriced once). None of these catches
 // a change that keeps the count (swapping wargear), which is why this is a safety net and not the
 // mechanism.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {string} [version]
+ * @returns {boolean}
+ */
 export function summaryStale(roster, version = APP_VERSION) {
   if (!roster?.units?.length) return false
   const s = roster.summary
@@ -48,6 +65,11 @@ export function summaryStale(roster, version = APP_VERSION) {
 }
 
 // The whole summary computed from scratch — the repair path, which has no live computeds to reuse.
+/**
+ * @param {Partial<Roster>} roster
+ * @param {RosterFaction} factionData
+ * @returns {RosterSummary}
+ */
 export function summarize(roster, factionData) {
   const units = new Map((factionData?.units || []).map((u) => [u.id, u]))
   const detachments = rosterDetachments(roster, factionData)
@@ -59,6 +81,10 @@ export function summarize(roster, factionData) {
 // summary straight onto the roster object (the store deep-watches and persists it) rather than
 // through `updateRoster`, which would bump `updatedAt` — repairing a number the app failed to
 // cache is not the user editing their list, and the list screen shows that date.
+/**
+ * @param {Array<Partial<Roster> | null | undefined> | null | undefined} rosters
+ * @returns {Promise<void>}
+ */
 export async function refreshSummaries(rosters) {
   const byFaction = new Map()
   for (const r of rosters || []) {

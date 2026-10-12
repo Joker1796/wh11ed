@@ -68,6 +68,11 @@ async function allyUnits(data) {
   return out
 }
 
+/**
+ * @param {string} slug
+ * @param {{ allies?: boolean }} [opts]
+ * @returns {Promise<import('../../composables/roster.types.js').RosterFaction | null>}
+ */
 export async function loadRosterFaction(slug, { allies = false } = {}) {
   const raw = await load(slug)
   if (!raw) return null

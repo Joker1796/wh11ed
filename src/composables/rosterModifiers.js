@@ -151,7 +151,7 @@ function countsOf(copies) {
  * @param {Array<number | null | undefined>} terms
  * @returns {number | null}
  */
-function sumKnown(terms) {
+export function sumKnown(terms) {
   let sum = 0
   for (const t of terms) {
     if (t == null) return null
