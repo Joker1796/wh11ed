@@ -5,7 +5,7 @@
   >
     <i class="bi bi-translate author-note-icon" />
     <div class="author-note-body">
-      <p v-html="renderInline(intro.authorNote)" />
+      <p v-safe-html="renderInline(intro.authorNote)" />
       <a
         :href="'mailto:' + authorEmail"
         class="author-note-mail"
@@ -39,8 +39,8 @@
 
       <div
         v-if="intro.note"
+        v-safe-html="renderParagraphs(intro.note)"
         class="note-box"
-        v-html="renderParagraphs(intro.note)"
       />
     </div>
   </div>
@@ -53,6 +53,7 @@ import RuleBody from '../RuleBody.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const { locale } = useLocale()
 const { renderInline, renderParagraphs } = useRenderInline()

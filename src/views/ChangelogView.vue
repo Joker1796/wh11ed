@@ -37,8 +37,8 @@
             <li
               v-for="(note, i) in (e[locale] || e.en)"
               :key="i"
+              v-safe-html="renderMarks(renderInline(note.h || note), locale)"
               :class="{ 'cl-h': note.h }"
-              v-html="renderMarks(renderInline(note.h || note), locale)"
             />
           </ul>
         </section>
@@ -86,6 +86,7 @@ import { useFormatDate } from '../composables/useFormatDate.js'
 import { useUpdateNotice } from '../composables/useUpdateNotice.js'
 import { useChangelogArchive } from '../composables/useChangelogArchive.js'
 import { ui } from '../i18n/ui.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])

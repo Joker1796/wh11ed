@@ -56,8 +56,8 @@
 
         <div
           v-if="note"
+          v-safe-html="renderParagraphs(note)"
           class="note-box"
-          v-html="renderParagraphs(note)"
         />
 
         <!-- A rule whose text comes from GW's errata rather than the rule as the app prints it:
@@ -76,8 +76,8 @@
 
         <div
           v-if="example"
+          v-safe-html="renderInline(example)"
           class="example-block"
-          v-html="renderInline(example)"
         />
 
         <slot />
@@ -110,6 +110,7 @@ import { useRenderInline, scrollToDefinition } from '../composables/useRenderInl
 import { useLocale } from '../composables/useLocale.js'
 import { scrollToAnchor } from '../composables/useRefNavigation.js'
 import { ui } from '../i18n/ui.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const props = defineProps({
   id: String,

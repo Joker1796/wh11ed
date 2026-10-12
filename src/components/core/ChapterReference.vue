@@ -85,8 +85,8 @@
       >
         <p
           v-if="ability.flavor"
+          v-safe-html="renderInline(ability.flavor)"
           class="ability-flavor"
-          v-html="renderInline(ability.flavor)"
         />
 
         <template
@@ -100,7 +100,7 @@
             <li
               v-for="(item, li) in block.items"
               :key="li"
-              v-html="renderInline(item)"
+              v-safe-html="renderInline(item)"
             />
           </ul>
           <ol
@@ -110,7 +110,7 @@
             <li
               v-for="(item, li) in block.items"
               :key="li"
-              v-html="renderInline(item)"
+              v-safe-html="renderInline(item)"
             />
           </ol>
           <div
@@ -126,28 +126,28 @@
                 {{ row.label }}
               </div>
               <div
+                v-safe-html="renderInline(row.content)"
                 class="info-content"
-                v-html="renderInline(row.content)"
               />
             </div>
           </div>
           <p
             v-else
-            v-html="renderInline(block.text)"
+            v-safe-html="renderInline(block.text)"
           />
         </template>
       </div>
 
       <div
         v-if="ability.example"
+        v-safe-html="renderInline(ability.example)"
         class="example-block"
-        v-html="renderInline(ability.example)"
       />
 
       <div
         v-if="ability.note"
+        v-safe-html="renderParagraphs(ability.note)"
         class="note-box ability-note-box"
-        v-html="renderParagraphs(ability.note)"
       />
 
       <SubRuleBlock
@@ -219,12 +219,12 @@
             <li
               v-for="(item, li) in block.items"
               :key="li"
-              v-html="renderInline(item)"
+              v-safe-html="renderInline(item)"
             />
           </ul>
           <p
             v-else
-            v-html="renderInline(block.text)"
+            v-safe-html="renderInline(block.text)"
           />
         </template>
       </div>
@@ -238,13 +238,13 @@
 
       <div
         v-if="entry.example"
+        v-safe-html="renderInline(entry.example)"
         class="example-block"
-        v-html="renderInline(entry.example)"
       />
       <div
         v-if="entry.note"
+        v-safe-html="renderParagraphs(entry.note)"
         class="note-box"
-        v-html="renderParagraphs(entry.note)"
       />
     </div>
   </div>
@@ -280,12 +280,12 @@
             <li
               v-for="(item, li) in block.items"
               :key="li"
-              v-html="renderInline(item)"
+              v-safe-html="renderInline(item)"
             />
           </ul>
           <p
             v-else
-            v-html="renderInline(block.text)"
+            v-safe-html="renderInline(block.text)"
           />
         </template>
       </div>
@@ -325,6 +325,7 @@ import { useRoute } from 'vue-router'
 import { ui } from '../../i18n/ui.js'
 import { abilitySection, abilityIntro, coreAbilities, appendix, errata, faqs } from '../../data/reference.js'
 import { chunkSubsections } from '../../composables/columnChunks.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const { renderInline, renderParagraphs } = useRenderInline()
 const { locale } = useLocale()

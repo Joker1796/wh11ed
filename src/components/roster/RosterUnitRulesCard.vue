@@ -258,7 +258,7 @@
                   <strong>{{ a.name }}<span
                     v-if="a.nameEn"
                     class="rum-name-en"
-                  > ({{ a.nameEn }})</span>:</strong> <span v-html="renderInline(a.text)" />
+                  > ({{ a.nameEn }})</span>:</strong> <span v-safe-html="renderInline(a.text)" />
                 </div>
               </div>
             </DsAccordion>
@@ -355,6 +355,7 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 // it: the chips, what they open, and what may not be spent right now.
 import { useRosterUnitCard } from '../../composables/rosterUnitCard.js'
 import { enhKey, detKey } from '../../composables/rosterModifiers.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({
   unitId: { type: String, required: true },

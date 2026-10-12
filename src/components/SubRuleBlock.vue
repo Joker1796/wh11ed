@@ -50,14 +50,14 @@
 
           <div
             v-if="note"
+            v-safe-html="renderParagraphs(note)"
             class="note-box"
-            v-html="renderParagraphs(note)"
           />
 
           <div
             v-if="example"
+            v-safe-html="renderInline(example)"
             class="example-block"
-            v-html="renderInline(example)"
           />
         </div>
       </div>
@@ -74,6 +74,7 @@ import RuleBody from './RuleBody.vue'
 import DataTable from './DataTable.vue'
 import CollapseTransition from './CollapseTransition.vue'
 import { useRenderInline, scrollToDefinition } from '../composables/useRenderInline.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 // A third-level rule block (x.x.x), nested inside a subsection (x.x) and rendered as a
 // collapsible accordion (collapsed by default). Body markup is parsed by the shared RuleBody,

@@ -28,6 +28,8 @@
     "src/composables/rosterSummary.js",
     "src/composables/rosterLimit.js",
     "src/composables/rosterHandoff.js",
-    "src/utils/debouncedSave.js"
+    "src/utils/debouncedSave.js",
+    "src/utils/sanitizeHtml.js",
+    "src/directives/safeHtml.js"
   ]
 }

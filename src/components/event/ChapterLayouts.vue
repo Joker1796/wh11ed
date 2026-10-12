@@ -9,8 +9,8 @@
   <p
     v-for="(para, i) in introParagraphs"
     :key="i"
+    v-safe-html="renderInline(para)"
     class="lead"
-    v-html="renderInline(para)"
   />
 
   <!-- `ec-footprints` is the search hit's anchor (useSearch). -->
@@ -22,13 +22,13 @@
   />
 
   <p
+    v-safe-html="renderInline(ec.terrain.footprints.footnote)"
     class="footprint-source"
-    v-html="renderInline(ec.terrain.footprints.footnote)"
   />
 
   <p
+    v-safe-html="renderInline(ec.terrain.keyNote)"
     class="key-note"
-    v-html="renderInline(ec.terrain.keyNote)"
   />
 
   <!-- LAYOUTS KEY — collapsible legend (preference persisted) -->
@@ -229,6 +229,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()

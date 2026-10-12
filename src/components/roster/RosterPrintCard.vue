@@ -237,11 +237,11 @@
             v-if="it.a.nameEn"
             class="rpc-en"
           > ({{ it.a.nameEn }})</span>: </strong>
-          <span v-html="richText(it.a.text)" />
+          <span v-safe-html="richText(it.a.text)" />
         </template>
         <span
           v-else-if="it.html"
-          v-html="it.html"
+          v-safe-html="it.html"
         />
       </div>
     </div>
@@ -279,6 +279,7 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 import { modDelta } from '../../composables/rosterModNotes.js'
 import { factionKwMarker, invNoteText, statCells } from '../../composables/datasheetParts.js'
 import { useDatasheetParts } from '../../composables/useDatasheetParts.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({
   // The resolved sheet — whichever tier the caller chose (printed / trimmed / modified).

@@ -148,13 +148,13 @@
               {{ e.flavor }}
             </p>
             <div
+              v-safe-html="renderRichText(e.body)"
               class="enh-body"
-              v-html="renderRichText(e.body)"
             />
             <div
               v-if="e.note"
+              v-safe-html="renderInline(e.note)"
               class="enh-note"
-              v-html="renderInline(e.note)"
             />
             <RuleExtras :extras="e.extras" />
           </article>
@@ -178,6 +178,7 @@ import { useFactionChoice } from '../../composables/useFactionChoice.js'
 import { slugify } from '../../data/slugify.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const { slug, faction } = useFactionPage()
 // The faction's own colour (the faction badges' pair, light and dark theme) for the rule plates below.

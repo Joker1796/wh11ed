@@ -19,9 +19,9 @@
     </div>
 
     <div
+      v-safe-html="renderRichText(section.body)"
       class="help-body"
       @click="onBodyClick"
-      v-html="renderRichText(section.body)"
     />
 
     <!-- The door into what was just explained. A reader who arrived from that section already
@@ -75,6 +75,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { useKeywordPopover } from '../composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from '../composables/useRefNavigation.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const route = useRoute()
 const router = useRouter()

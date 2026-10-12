@@ -4,8 +4,8 @@
       {{ title }}
     </div>
     <p
+      v-safe-html="renderedBody"
       class="group-label-body"
-      v-html="renderedBody"
     />
   </div>
 </template>
@@ -13,6 +13,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const { renderInline } = useRenderInline()
 

@@ -60,10 +60,10 @@ export default [
         caughtErrorsIgnorePattern: '^_',
       }],
 
-      // This app IS a rules renderer: every rule body is a data string with `**`-markup that
-      // src/utils turns into HTML, and all 86 call sites feed it data from src/data — never
-      // user input. The rule has nothing to warn about here.
-      'vue/no-v-html': 'off',
+      // This app renders its rule text to HTML, and every such string goes in through
+      // `v-safe-html` (src/directives/safeHtml.js → src/utils/sanitizeHtml.js, an allow-list of
+      // what our renderers emit). A bare `v-html` skips that, so it is an error (2026-10-12).
+      'vue/no-v-html': 'error',
 
       // An optional prop without a default is valid Vue 3; the call sites handle `undefined`
       // (`v-if`, `?.`, `|| fallback`). Requiring a default would mostly add noise like

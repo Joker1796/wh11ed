@@ -32,8 +32,8 @@
       <div class="strat-row">
         <span class="strat-label">{{ labels.stratWhen }}</span>
         <div
+          v-safe-html="renderField(strat.when)"
           class="strat-content"
-          v-html="renderField(strat.when)"
         />
       </div>
       <div
@@ -42,15 +42,15 @@
       >
         <span class="strat-label">{{ labels.stratTarget }}</span>
         <div
+          v-safe-html="renderField(strat.target)"
           class="strat-content"
-          v-html="renderField(strat.target)"
         />
       </div>
       <div class="strat-row">
         <span class="strat-label">{{ labels.stratEffect }}</span>
         <div
+          v-safe-html="renderField(strat.effect)"
           class="strat-content"
-          v-html="renderField(strat.effect)"
         />
       </div>
 
@@ -70,8 +70,8 @@
             <span class="strat-extra-cp">{{ extra.cp }}</span>
           </div>
           <div
+            v-safe-html="renderField(extra.body)"
             class="strat-content"
-            v-html="renderField(extra.body)"
           />
         </div>
       </template>
@@ -82,8 +82,8 @@
       >
         <span class="strat-label">{{ labels.stratRestrictions }}</span>
         <div
+          v-safe-html="renderInline(strat.restrictions)"
           class="strat-content"
-          v-html="renderInline(strat.restrictions)"
         />
       </div>
     </div>
@@ -111,8 +111,8 @@
         >
           <span class="strat-label">{{ field.label }}</span>
           <div
+            v-safe-html="renderField(field.text)"
             class="strat-content"
-            v-html="renderField(field.text)"
           />
         </div>
       </div>
@@ -125,6 +125,7 @@ import { computed } from 'vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const { renderInline, renderRichText } = useRenderInline()
 const { locale } = useLocale()

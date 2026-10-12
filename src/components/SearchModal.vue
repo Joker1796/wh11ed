@@ -97,12 +97,12 @@
               >{{ item.sectionNum }}</span>
               <span class="result-section">{{ item.sectionTitle }}<template v-if="item.matchedBy">
                 · <span
+                  v-safe-html="highlightMatch(item.matchedBy, query)"
                   class="result-matched"
-                  v-html="highlightMatch(item.matchedBy, query)"
                 /></template></span>
             </div>
             <div class="result-title">
-              <span v-html="highlightMatch(item.title, query)" />
+              <span v-safe-html="highlightMatch(item.title, query)" />
               <span
                 v-if="item.legends"
                 class="legends-badge"
@@ -111,13 +111,13 @@
             </div>
             <div
               v-if="item.titleRu"
+              v-safe-html="highlightMatch(item.titleRu, query)"
               class="result-title-ru"
-              v-html="highlightMatch(item.titleRu, query)"
             />
             <div
               v-if="item.snippet"
+              v-safe-html="highlightMatch(item.snippet, query)"
               class="result-snippet"
-              v-html="highlightMatch(item.snippet, query)"
             />
           </li>
         </TransitionGroup>
@@ -183,6 +183,7 @@ import { useSearchHistory } from '../composables/useSearchHistory.js'
 import { useTypingPlaceholder } from '../composables/useTypingPlaceholder.js'
 import { useMediaQuery } from '../composables/useMediaQuery.js'
 import { ui } from '../i18n/ui.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const props = defineProps({
   // Returns the navbar search button's rect (App.vue), or null where there is no navbar.
