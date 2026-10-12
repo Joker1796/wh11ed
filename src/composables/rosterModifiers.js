@@ -474,7 +474,8 @@ export function wargearConditions(def, entry, items, sheet) {
     if (!g) continue
     const holds = [...held.values()].some((byName) => {
       const list = [...byName.values()]
-      if (g.copies) return list.some((r) => starts(r.name, g.name) && r.n >= g.copies)
+      const { copies, name } = g
+      if (copies && name) return list.some((r) => starts(r.name, name) && r.n >= copies)
       if (g.melee) {
         const n = list.filter((r) => !(g.besides || []).some((b) => starts(r.name, b))).reduce((a, r) => a + r.n, 0)
         return n >= g.melee

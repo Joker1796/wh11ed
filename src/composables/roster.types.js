@@ -345,4 +345,109 @@
 
 /** Resolves a datasheet id to its facts. @typedef {(id: string) => RosterUnit | null | undefined} DefOf */
 
+// ── A game, as the live-rules layer reads it (rosterGameContext.js) ───────────────────────────
+
+/**
+ * One entry of the condition vocabulary (src/data/rosterModifiers/conditions.js) — a state of the
+ * game a modifier can wait on. `scope` says who answers it; `rounds` / `phase` + `side` are the
+ * clock's half, `gear` the loadout a `wargear-*` id asks for, `negates` the state an ordinary one
+ * is the opposite of.
+ * @typedef {object} Condition
+ * @property {'army' | 'unit' | 'roster' | 'clock'} scope
+ * @property {'phase' | 'turn' | 'round' | 'battle'} duration
+ * @property {{ en: string, ru: string }} label
+ * @property {{ en: string, ru: string }} [hint]
+ * @property {string} [group]
+ * @property {string} [negates]
+ * @property {boolean} [blocksStratagems]
+ * @property {number[]} [rounds]
+ * @property {string} [phase]
+ * @property {'own' | 'any'} [side]
+ * @property {{ copies?: number, name?: string, melee?: number, besides?: string[], all?: string[] }} [gear]
+ */
+
+/**
+ * What a game is standing on, from one player's side (`clockOf`). `turn` is whose turn it is —
+ * 0 the first player, 1 the second — and `mine` whether that is this player.
+ * @typedef {object} GameClock
+ * @property {number} round
+ * @property {0 | 1} turn
+ * @property {string} phase  a BATTLE_PHASES id
+ * @property {boolean} mine
+ * @property {boolean} tracked  the game keeps phases (settings.trackPhases)
+ */
+
+/**
+ * A moment as one number, `round*100 + turn*10 + phase` — or, in a game saved before the clock
+ * existed, the bare round (1..5).
+ * @typedef {number} Stamp
+ */
+
+/** Switches or records in force, each with the moment it was flipped. @typedef {Record<string, Stamp>} StampStore */
+
+/**
+ * What the player has told the game about their army: `army` the army-wide switches, and per roster
+ * entry uid its unit switches, the stratagems spent on it, the ability-set options picked on it and
+ * the auras marked as reaching it.
+ * @typedef {object} PlayerCtx
+ * @property {StampStore} [army]
+ * @property {Record<string, StampStore>} [units]
+ * @property {Record<string, StampStore>} [strats]
+ * @property {Record<string, StampStore>} [picks]
+ * @property {Record<string, StampStore>} [auras]
+ */
+
+/**
+ * The army-rule tracker's state, per battle round (the shared primitives in useTracker).
+ * @typedef {object} ArmyTrackerState
+ * @property {Record<number, string>} [selectionByRound]
+ * @property {Record<number, string[]>} [multiByRound]
+ * @property {number[]} [toggleRounds]
+ */
+
+/**
+ * The tracker's player, the part the live-rules layer reads.
+ * @typedef {object} GamePlayer
+ * @property {string} [factionSlug]
+ * @property {ArmyTrackerState} [army]
+ * @property {PlayerCtx} [ctx]
+ */
+
+/**
+ * The game itself, the part `clockOf` reads.
+ * @typedef {object} GameState
+ * @property {Record<string, any>} [settings]
+ * @property {number} [currentRound]
+ * @property {number} [currentTurn]
+ * @property {string} [currentPhase]
+ */
+
+/**
+ * One chip of a condition strip (ConditionChips): a game state, a spent stratagem, a picked
+ * ability-set option or a marked aura. Every kind carries the first five fields; the rest belong to
+ * the kinds that need them.
+ * @typedef {object} CondSwitch
+ * @property {string} id
+ * @property {{ en: string, ru: string }} label
+ * @property {boolean} on
+ * @property {boolean} auto       shown, not the player's to flip here
+ * @property {string} [duration]
+ * @property {string} [scope]
+ * @property {string | null} [group]
+ * @property {number} [groupLimit]
+ * @property {{ kind: string, name: string, det: string | null, unit: string | null } | null} [src]
+ * @property {string | null} [det]
+ * @property {boolean} [blocked]
+ * @property {'shock' | 'wrongPhase' | 'unitPhase' | 'usedPhase' | null} [blockedBy]
+ * @property {boolean} [pick]
+ * @property {{ owner: string | null, ability: string, set: string, unit: string }} [from]
+ * @property {boolean} [aura]
+ * @property {{ name: string, text: string } | null} [info]
+ */
+
+/**
+ * An aura that could reach a unit (rosterStatMods' `aurasReaching`), as the chip strip takes it.
+ * @typedef {{ sid: string, source: string, name: string, nameRu?: string, info?: { name: string, text: string } | null }} AuraReach
+ */
+
 export {}
