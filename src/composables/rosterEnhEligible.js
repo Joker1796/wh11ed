@@ -25,6 +25,7 @@ export function hasKeyword(unit, name) {
 // specific unit is already maximally restrictive, so it overrides that unit's general noEnh/
 // epic-without-epicOk gates below — those exist to keep *generic* enhancements off units that
 // can't normally take them, not to block a unit from its own dedicated option.
+/** @param {unknown} a @param {unknown} b */
 const sameName = (a, b) => String(a).replace(/[\u2019']/g, "'").toLowerCase() === String(b).replace(/[\u2019']/g, "'").toLowerCase()
 
 /**

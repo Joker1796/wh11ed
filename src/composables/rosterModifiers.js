@@ -33,6 +33,7 @@ export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 /** @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {Record<number, string>} Items */
 /** One copy of an item: the profile holding it (`m`, null for a unit-wide group) and on how many of its models (`n`, null when unknown). @typedef {{ m: number | null, n: number | null }} Slot */
+/** A keyword the roster gives a unit that its sheet does not print: from a rule (`detName`), or the mark the entry chose (`alleg`, that choice's title). @typedef {{ kw: string, detName: string | null, extra: boolean, alleg?: string | null }} GrantedKeyword */
 /** A rule bearing on an entry, to be resolved to its prose by the caller. @typedef {{ kind: 'enhancement' | 'detachment', name: string } | { kind: 'leader', unitId: string }} RuleSource */
 /** @typedef {{ def?: RosterUnit | null, entry?: EntryLike | null, items?: Items | null, unitId?: string, factionSlug?: string, detachments?: Detachment[], leaderTargets?: Array<{ uid: string, name: string }>, units?: RosterEntry[] }} OverlayContext */
 
@@ -47,6 +48,7 @@ export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 // the option's row was unclaimed, and an unclaimed row is always shown (see filterWeapons).
 // Mirrored by `normItemName` in scripts/gen-roster-modifiers.mjs — a wargear record's `ref.item`
 // is compared against `loadoutItemNames` with this key, so the two must agree.
+/** @param {string | null | undefined} s @returns {string} */
 const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\p{Pd}/gu, '-').replace(/\s+/g, ' ').trim()
 export { norm as itemKey }
 
@@ -697,6 +699,7 @@ export function ruleSourcesFor(ctx) {
  * @param {RosterUnit | null | undefined} def
  * @param {EntryLike | null | undefined} entry
  * @param {Detachment[] | null | undefined} detachments
+ * @returns {GrantedKeyword[]}
  */
 function allegGrant(def, entry, detachments) {
   const kw = allegKeyword(def, entry, detachments)
@@ -739,6 +742,7 @@ function overlayWeapons(sheet, def, entry, items) {
 /**
  * @param {PrintedSheet | null | undefined} sheet
  * @param {OverlayContext | null | undefined} ctx
+ * @returns {{ sheet: PrintedSheet | null | undefined, grantedKeywords: GrantedKeyword[], context: ReturnType<typeof entryContext>, ruleSources: RuleSource[], notes: never[] }}
  */
 export function overlaySheet(sheet, ctx) {
   if (!sheet) return { sheet, grantedKeywords: [], context: null, ruleSources: [], notes: [] }

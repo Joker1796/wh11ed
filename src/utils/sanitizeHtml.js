@@ -27,7 +27,9 @@ const SAFE_URL = /^(?:https?:|mailto:|\/|#|[^:]*$)/i
 const TAG_RE = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][a-zA-Z0-9-]*)((?:\s+[^\s"'>/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+))?)*)\s*(\/?)>/g
 const ATTR_RE = /([^\s"'>/=]+)(?:\s*=\s*("[^"]*"|'[^']*'|[^\s"'=<>`]+))?/g
 
+/** @param {string} s */
 const escapeTag = (s) => s.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+/** @param {string | undefined} v */
 const unquote = (v) => (v && /^["']/.test(v) ? v.slice(1, -1) : v || '')
 
 /**

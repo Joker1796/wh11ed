@@ -31,6 +31,7 @@ export function phaseLabel(key, labels) {
 // several phases (e.g. "opponent's Shooting phase or the Fight phase") is returned with all
 // of them, so it shows under each — `any` is reserved for stratagems that literally work in
 // "any phase" (and, as a fallback, ones with no detectable phase at all).
+/** @param {string | null | undefined} englishWhen @returns {string[]} */
 export function phasesOf(englishWhen) {
   if (!englishWhen) return ['any']
   if (/\bany phase\b/i.test(englishWhen)) return ['any']
@@ -69,7 +70,12 @@ const SIDE_RE = new RegExp(
   'gi',
 )
 
+/**
+ * @param {string | null | undefined} englishWhen
+ * @returns {Record<string, 'own' | 'opp' | 'both'>}
+ */
 export function phaseSidesOf(englishWhen) {
+  /** @type {Record<string, 'own' | 'opp' | 'both'>} */
   const out = {}
   if (!englishWhen) return out
   for (const m of withoutComparisons(englishWhen).matchAll(SIDE_RE)) {

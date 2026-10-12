@@ -39,6 +39,7 @@ import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 /** @typedef {import('./roster.types.js').CondSwitch} CondSwitch */
 /** @typedef {import('./roster.types.js').AuraReach} AuraReach */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** The entry a card is drawn for — read for its uid, id and leaderOf only. @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
 /** @typedef {import('./roster.types.js').ModEntry} ModEntry */
 /** A clock, or the bare round number a game saved before the clock existed stores. @typedef {GameClock | number | null | undefined} ClockLike */
@@ -81,8 +82,11 @@ function normaliseClock(clock) {
 }
 
 // A stored value from before stamps existed is a bare round number (1..5); a stamp is ≥ 100.
+/** @param {Stamp} at */
 const isLegacy = (at) => at < 100
+/** @param {Stamp} at */
 const roundOfStamp = (at) => (isLegacy(at) ? at : Math.floor(at / 100))
+/** @param {Stamp} at */
 const turnOfStamp = (at) => Math.floor(at / 10)
 
 // Conditions read from the game rather than asked about. Keyed by condition id; each reader gets
@@ -113,6 +117,7 @@ const AUTO = {
     && (player?.army?.multiByRound?.[round] || []).includes('warp-blades'),
 }
 
+/** @param {string} id */
 export const isAuto = (id) => Object.hasOwn(AUTO, id)
 
 // Conditions the tracker can prove ON but whose OFF proves nothing, so the hand switch has to stay
@@ -140,6 +145,7 @@ const SOFT_AUTO = {
 // Guarded by a test that scans every Orks datasheet for the phrase, so a third one cannot appear
 // in a later codex and quietly go unread.
 const ENTRY_PROVES = { 'riled-up': new Set(['stompa', 'zodgrod-wortsnagga']) }
+/** @param {string} id @param {EntryLike | null | undefined} entry */
 const entryProves = (id, entry) => !!(entry?.id && ENTRY_PROVES[id]?.has(entry.id))
 
 // Is a switch still in force? Compared at the granularity its own rule states — except against a
@@ -170,7 +176,7 @@ function stampHolds(at, duration, clock) {
 // Answered by the list itself: a Leader entry records the unit it is attached to, so asking the
 // player would be asking them to repeat themselves. `units` is the roster's entries — `unit-led`
 // has to look the other way along the link, for a Leader pointing at THIS entry.
-/** @param {string} id @param {RosterEntry | null | undefined} entry @param {RosterEntry[] | null | undefined} units */
+/** @param {string} id @param {EntryLike | null | undefined} entry @param {RosterEntry[] | null | undefined} units */
 function rosterAnswers(id, entry, units) {
   if (id === 'unit-leading') return !!entry?.leaderOf
   if (id === 'unit-led') return !!entry?.leaderOf || (!!entry?.uid && (units || []).some((u) => u.leaderOf === entry.uid))
@@ -203,7 +209,7 @@ function clockHolds(c, clock) {
 /**
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
- * @param {RosterEntry | null | undefined} entry
+ * @param {EntryLike | null | undefined} entry
  * @param {{ units?: RosterEntry[] | null, army?: boolean, unit?: boolean }} [opts]
  * @returns {Set<string>}
  */
@@ -246,7 +252,7 @@ export function activeConditions(player, clock, entry, opts = {}) {
 // An ordinary state (`negates`) is answered here too: nothing has happened to a list nobody is
 // playing, so "while not Battle-shocked" is as true as the printed number.
 /**
- * @param {RosterEntry | null | undefined} entry
+ * @param {EntryLike | null | undefined} entry
  * @param {RosterEntry[] | null} [units]
  * @returns {Set<string>}
  */
@@ -264,7 +270,7 @@ export function rosterConditions(entry, units = null) {
 // existed can hold all six of Creations of Bile's augmentations, each rewriting a stat. Reading is
 // where that has to be caught, so the cap is applied here too and the newest switches win, the same
 // ones the store would have kept. Nothing is deleted: the game's own record stays as it was played.
-/** @param {Set<string>} out @param {GamePlayer | null | undefined} player @param {RosterEntry | null | undefined} entry */
+/** @param {Set<string>} out @param {GamePlayer | null | undefined} player @param {EntryLike | null | undefined} entry */
 function capGroups(out, player, entry) {
   const byGroup = new Map()
   for (const id of out) {
@@ -301,7 +307,7 @@ function capGroups(out, player, entry) {
 /**
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
- * @param {RosterEntry | null | undefined} entry
+ * @param {EntryLike | null | undefined} entry
  * @param {ModEntry[] | null | undefined} records
  * @returns {Set<string>}
  */
@@ -322,7 +328,7 @@ export function activeStratagems(player, clock, entry, records) {
 // record's sid, stamped when it was picked, and lasting the battle round the set's own wording
 // gives it ("until the start of the next battle round this model has those abilities"). Every set
 // in the game is worded that way, so the window is not per-record.
-/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {RosterEntry | null | undefined} entry @returns {Set<string>} */
+/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {EntryLike | null | undefined} entry @returns {Set<string>} */
 export function activePicks(player, clock, entry) {
   const out = new Set()
   const store = entry?.uid ? player?.ctx?.picks?.[entry.uid] : null
@@ -361,7 +367,7 @@ export function allPicks(player, clock) {
  * @param {ModifierRecord[] | null | undefined} records
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
- * @param {RosterEntry | null | undefined} entry
+ * @param {EntryLike | null | undefined} entry
  * @returns {CondSwitch[]}
  */
 export function pickSwitchesFor(records, player, clock, entry) {
@@ -395,7 +401,7 @@ export function pickSwitchesFor(records, player, clock, entry) {
 // a BATTLE ROUND: what makes an aura start or stop applying is movement, and re-confirming every
 // phase would be a tap per unit per phase for a fact that rarely changes inside one round. Erring
 // early, as everywhere else here — a mark that has gone stale would quietly rewrite a number.
-/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {RosterEntry | null | undefined} entry @returns {Set<string>} */
+/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {EntryLike | null | undefined} entry @returns {Set<string>} */
 export function activeAuras(player, clock, entry) {
   const out = new Set()
   const store = entry?.uid ? player?.ctx?.auras?.[entry.uid] : null
@@ -413,7 +419,7 @@ export function activeAuras(player, clock, entry) {
  * @param {AuraReach[] | null | undefined} reaching
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
- * @param {RosterEntry | null | undefined} entry
+ * @param {EntryLike | null | undefined} entry
  * @returns {CondSwitch[]}
  */
 export function auraSwitchesFor(reaching, player, clock, entry) {
@@ -435,7 +441,7 @@ export function auraSwitchesFor(reaching, player, clock, entry) {
 
 // Is a condition that forbids spending stratagems on this unit on right now? (Battle-shock is the
 // only one, but which condition it is belongs in the vocabulary, not in this file.)
-/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {RosterEntry | null | undefined} entry */
+/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {EntryLike | null | undefined} entry */
 export function stratagemsBlocked(player, clock, entry) {
   for (const id of activeConditions(player, clock, entry)) {
     if (conditions[id]?.blocksStratagems) return true
@@ -454,7 +460,7 @@ export function stratagemsBlocked(player, clock, entry) {
  * @param {ModEntry[] | null | undefined} resolvedEntries
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
- * @param {RosterEntry | null | undefined} entry
+ * @param {EntryLike | null | undefined} entry
  * @returns {string[]}
  */
 export function stratagemsClearedBy(condId, resolvedEntries, player, clock, entry) {
@@ -513,7 +519,7 @@ function spentThisPhase(player, clock) {
  * @param {ModEntry[] | null | undefined} resolvedEntries
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
- * @param {RosterEntry | null | undefined} entry
+ * @param {EntryLike | null | undefined} entry
  * @returns {CondSwitch[]}
  */
 export function stratagemsFor(resolvedEntries, player, clock, entry) {
@@ -561,7 +567,7 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
  * @param {string} scope
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
- * @param {RosterEntry | null | undefined} entry
+ * @param {EntryLike | null | undefined} entry
  * @returns {CondSwitch[]}
  */
 export function switchesFor(resolvedEntries, scope, player, clock, entry) {

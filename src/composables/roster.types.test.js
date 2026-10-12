@@ -7,29 +7,11 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { typedefProps, inlineKeys } from '../../scripts/lib/typedef-keys.mjs'
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const DATA = path.join(HERE, '../data/roster')
 const TYPES = fs.readFileSync(path.join(HERE, 'roster.types.js'), 'utf8')
-
-// typedef name → { property name → its type text }
-export function typedefProps(src) {
-  const out = new Map()
-  for (const block of src.split('/**').slice(1)) {
-    const name = block.match(/@typedef\s+\{object\}\s+(\w+)/)?.[1]
-    if (!name) continue
-    const props = new Map()
-    for (const m of block.matchAll(/@property\s+\{(.+?)\}\s+\[?(\w+)/g)) props.set(m[2], m[1])
-    out.set(name, props)
-  }
-  return out
-}
-
-// The keys of an inline object type: `{ at: number, pts: number }`, `Array<{ n: string }>`.
-export function inlineKeys(type) {
-  const body = type.match(/\{(.*)\}/)?.[1]
-  return body ? [...body.matchAll(/(\w+)\??\s*:/g)].map((m) => m[1]) : null
-}
 
 const defs = typedefProps(TYPES)
 const files = fs.readdirSync(DATA).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js'].includes(f) && !f.endsWith('.test.js'))

@@ -24,6 +24,13 @@ export { hasKeyword, enhEligible }
 /** @typedef {NonNullable<RosterUnit['xpm']>[number]} XpmSet */
 /** @typedef {import('./roster.types.js').GearGroup} GearGroup */
 /** @typedef {import('./roster.types.js').SizeBracket} SizeBracket */
+/** What sectionsOf files: anything with a datasheet id, and for an attached block its uid and host. @typedef {{ id: string, uid?: string, leaderOf?: string | null }} SectionItem */
+/** @typedef {{ faction?: { slug?: string, allies?: AllyGroup[] } | null, detachments?: Detachment[], keepLocked?: boolean, pairAttached?: boolean }} SectionOpts */
+/**
+ * A heading of the unit list and what is under it — a battlefield role, or an allied group.
+ * @template T
+ * @typedef {{ id: string, items: T[], ally?: AllyGroup, locked?: boolean }} UnitSection
+ */
 /** What takeUnitEntry hands back for restoreUnitEntry. @typedef {{ uid: string, entry: RosterEntry, at?: number, detached?: string[] }} RemovalTicket */
 
 // Battlefield-role buckets a unit is filed under in the editor / add-unit list, in display
@@ -2273,9 +2280,16 @@ export function allyGroupOf(faction, id, detachments = []) {
 // group's heading carries its own accounting, so a unit belonging to one never leaves it: there
 // the block is simply gathered in place, host first. Same for an allied Leader on a native host —
 // it stays under its own group rather than being pulled out of it.
+/**
+ * @template {SectionItem} T
+ * @param {T[]} items
+ * @param {Map<T, { list: T[], ally: boolean }>} where
+ * @param {T[] | undefined} attached
+ */
 function joinAttached(items, where, attached) {
   if (!attached) return
   const byUid = new Map((items || []).map((it) => [it?.uid, it]))
+  /** @type {Map<string | undefined, T[]>} */
   const kids = new Map()
   // Keyed by the block's ROOT. Attachments can chain, legally: Huron leads the Masters of the
   // Maelstrom while the Masters Support a Chosen squad (the GW app exports exactly that), an Ogryn
@@ -2292,13 +2306,15 @@ function joinAttached(items, where, attached) {
     if (!it?.leaderOf || !byUid.has(it.leaderOf) || !where.has(it)) continue
     const root = rootOf(it)
     if (!root || root === it) continue
-    if (!kids.has(root.uid)) kids.set(root.uid, [])
-    kids.get(root.uid).push(it)
+    let block = kids.get(root.uid)
+    if (!block) kids.set(root.uid, (block = []))
+    block.push(it)
   }
+  /** @param {T} p */
   const drop = (p) => {
-    const { list } = where.get(p)
-    const at = list.indexOf(p)
-    if (at >= 0) list.splice(at, 1)
+    const list = where.get(p)?.list
+    const at = list ? list.indexOf(p) : -1
+    if (list && at >= 0) list.splice(at, 1)
   }
   // Hosts in the order they were handed over — by name, since sectionsOf sorts before filing —
   // so the Attached section reads the way every other section does. A block touching an ALLY group
@@ -2306,17 +2322,17 @@ function joinAttached(items, where, attached) {
   // must not leave it.
   for (const host of items || []) {
     const children = kids.get(host?.uid)
-    if (!children || !where.has(host)) continue
-    if (!where.get(host).ally && children.every((c) => !where.get(c).ally)) {
+    const home = where.get(host)   // every child is filed too: only filed items were collected above
+    if (!children || !home) continue
+    if (!home.ally && children.every((c) => !where.get(c)?.ally)) {
       drop(host)
       children.forEach(drop)
       attached.push(host, ...children)
       continue
     }
-    const home = where.get(host).list
-    const same = children.filter((c) => where.get(c).list === home)
+    const same = children.filter((c) => where.get(c)?.list === home.list)
     same.forEach(drop)
-    home.splice(home.indexOf(host) + 1, 0, ...same)
+    home.list.splice(home.list.indexOf(host) + 1, 0, ...same)
   }
 }
 
@@ -2451,9 +2467,9 @@ export function orderedByName(items, nameOf) {
 // legally be there, which is also what validateRoster says about them — but a list that already
 // holds one still shows it (`keepLocked`), under the group it belongs to.
 //
-// `items` are whatever the caller lists (unit defs in the browser, roster entries elsewhere);
-// `idOf` pulls the unit id out of one. `pairAttached` is for the entry lists only — the browser
-// shows datasheets, which nothing is attached to.
+// `items` are roster entries resolved through `defOf`; the browser lists the datasheets themselves
+// and goes through `sectionsOfUnits`, below. `pairAttached` is for the entry lists only — the
+// browser shows datasheets, which nothing is attached to.
 //
 // READING ORDER. Inside a section everything reads like the catalogue: datasheets by name, the
 // copies of one datasheet together in the order they were added. The roster's own `units` array
@@ -2466,22 +2482,26 @@ export function orderedByName(items, nameOf) {
 // the alternative — dragging rows — needs a gesture the two-pane phone layout has no room for and
 // an order the format would have to carry.
 /**
- * @param {any[]} items
- * @param {{ faction?: { slug?: string, allies?: AllyGroup[] } | null, detachments?: Detachment[], defOf?: DefOf, idOf?: (x: any) => string, keepLocked?: boolean, pairAttached?: boolean }} [opts]
+ * Roster entries, each resolved to its datasheet through `defOf`.
+ * @template {SectionItem} T
+ * @param {T[]} items
+ * @param {SectionOpts & { defOf: DefOf }} opts
+ * @returns {Array<UnitSection<T>>}
  */
-export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x) => x?.id, keepLocked = false, pairAttached = false } = {}) {
+export function sectionsOf(items, { faction, detachments = [], defOf, keepLocked = false, pairAttached = false }) {
   const all = faction?.allies || []
   const active = allyGroupsFor(faction, detachments)
   const activeKeys = new Set(active.map((g) => g.key))
-  /** @type {Map<string, any[]>} */
+  /** @type {Map<string, T[]>} */
   const byKey = new Map(all.map((g) => [g.key, []]))
-  /** @type {Map<string, any[]>} */
+  /** @type {Map<string, T[]>} */
   const roles = new Map(UNIT_GROUPS.map((id) => [id, []]))
-  const where = new Map() // item → the list it was filed into, and whether that list is an ally group
-  const ordered = orderedByName(items, (it) => (defOf ? defOf(idOf(it)) : it)?.name)
+  /** @type {Map<T, { list: T[], ally: boolean }>} item → the list it was filed into, and whether that list is an ally group */
+  const where = new Map()
+  const ordered = orderedByName(items, (it) => defOf(it.id)?.name)
   for (const it of ordered) {
-    const id = idOf(it)
-    const def = defOf ? defOf(id) : it
+    const id = it.id
+    const def = defOf(id)
     if (!def) continue
     const groups = all.filter((g) => (g.ids || []).includes(id))
     const mine = groups.find((g) => activeKeys.has(g.key)) || groups[0]
@@ -2497,12 +2517,24 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
   // Active groups always (the browser offers them even while empty); a locked one only where the
   // caller keeps locked units — the editor and the read-only view must still show a unit that is
   // in the list, or its points would go missing from the screen but not from the total.
-  const groupSection = (g) => ({ id: `ally:${g.key}`, ally: g, locked: !activeKeys.has(g.key), items: byKey.get(g.key) })
+  /** @param {AllyGroup} g @returns {UnitSection<T>} */
+  const groupSection = (g) => ({ id: `ally:${g.key}`, ally: g, locked: !activeKeys.has(g.key), items: byKey.get(g.key) || [] })
   return [
-    ...UNIT_GROUPS.map((id) => ({ id, items: roles.get(id) })),
+    ...UNIT_GROUPS.map((id) => ({ id, items: roles.get(id) || [] })),
     ...active.map(groupSection),
     ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && byKey.get(g.key)?.length).map(groupSection) : []),
   ]
+}
+
+// The catalogue's split: the items ARE the datasheets, so each resolves to itself.
+/**
+ * @param {RosterUnit[]} units
+ * @param {SectionOpts} [opts]
+ * @returns {Array<UnitSection<RosterUnit>>}
+ */
+export function sectionsOfUnits(units, opts = {}) {
+  const byId = new Map((units || []).map((u) => [u.id, u]))
+  return sectionsOf(units || [], { ...opts, defOf: (id) => byId.get(id) })
 }
 
 // The Detachment Points a set of detachments is held to: the battle size's budget (core rules

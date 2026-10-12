@@ -295,7 +295,7 @@
  * @property {string} stat
  * @property {string} op
  * @property {string | number} [value]
- * @property {string[]} [cond]
+ * @property {string[] | null} [cond]
  * @property {{ en: string, ru?: string } | null} [when]
  * @property {string} [target]
  * @property {{ name?: string, notName?: string[], tag?: string, notTag?: string }} [only]
@@ -334,16 +334,30 @@
  * @property {boolean} [reviewed]
  * @property {number} [ver]
  * @property {ModifierRef | null} [ref]
+ * @property {string} [num]  a core-rule record's section (coreRules.js), which has no ref
  */
 
 /**
  * A modifier record as the overlay applies it: the generated record plus what the caller resolved
  * — the prose `body`, the unit it is printed on (`owner`) and the direction it reached this card
  * from (`from`), an aura's keyword gate (`scopes`), a stratagem's `slot` and `targetScopes`.
- * @typedef {ModifierRecord & { body?: string, owner?: string | null, from?: string | null, scopes?: RuleScope[] | null, slot?: { phases: any, sides: any } | null, targetScopes?: any }} ModEntry
+ * @typedef {ModifierRecord & { body?: string, owner?: string | null, from?: string | null, scopes?: RuleScope[] | null, slot?: { phases: string[], sides: Record<string, string> } | null, targetScopes?: RuleScope[] | null }} ModEntry
  */
 
 /** Resolves a datasheet id to its facts. @typedef {(id: string) => RosterUnit | null | undefined} DefOf */
+
+/**
+ * What a live game hands a unit's card (RosterViewView's viewingGameCtx): what is true for the unit
+ * now, and the chips of each kind it may flip.
+ * @typedef {object} CardGameCtx
+ * @property {Set<string>} [active]
+ * @property {CondSwitch[]} [strats]
+ * @property {CondSwitch[]} [auras]
+ * @property {CondSwitch[]} [picks]
+ * @property {Set<string>} [chosen] ability-set options picked anywhere in the army
+ * @property {CondSwitch[]} [switches]
+ * @property {CondSwitch[]} [armySwitches]
+ */
 
 // ── A list somebody else's tool wrote (rosterImport.js) ───────────────────────────────────────
 

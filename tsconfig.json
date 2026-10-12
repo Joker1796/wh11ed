@@ -18,6 +18,7 @@
   },
   "include": [
     "src/composables/roster.types.js",
+    "src/data/data.types.js",
     "src/composables/rosterEngine.js",
     "src/composables/rosterEnhEligible.js",
     "src/composables/rosterValidation.js",
@@ -30,6 +31,8 @@
     "src/composables/rosterHandoff.js",
     "src/composables/rosterGameContext.js",
     "src/composables/rosterImport.js",
+    "src/composables/rosterUnitCard.js",
+    "src/composables/useDatasheetsRu.js",
     "src/utils/debouncedSave.js",
     "src/utils/sanitizeHtml.js",
     "src/directives/safeHtml.js"

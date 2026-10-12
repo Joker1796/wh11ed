@@ -30,6 +30,8 @@ import { conditions } from '../data/rosterModifiers/conditions.js'
 /** @typedef {import('./roster.types.js').ModEntry} ModEntry */
 /** @typedef {import('./roster.types.js').ModifierEffect} ModifierEffect */
 /** @typedef {Set<string> | null | undefined} IdSet */
+/** @typedef {import('./roster.types.js').RuleScope} RuleScope */
+/** Every datasheet's keywords in the faction — for the "extraction matched nobody" escape. @typedef {string[][] | null | undefined} KeywordSets */
 
 // Which model profiles / weapon rows an effect addresses.
 const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged', 'melee'] }
@@ -48,7 +50,12 @@ const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged',
 // Without this the restriction had nowhere to live but the `when` prose, which meant the modifier
 // could never be applied at all — a unit-wide +1 Strength would have hit weapons the rule doesn't
 // touch. See conditions.js's `blocked-weapon`.
+/** @param {unknown} s */
 const norm = (s) => String(s ?? '').toLowerCase().trim()
+/**
+ * @param {{ name?: string, tags?: string[] } | null | undefined} row
+ * @param {ModifierEffect['only']} only
+ */
 function rowMatchesOnly(row, only) {
   if (!only) return true
   const tags = (row?.tags || []).map(norm)
@@ -64,6 +71,14 @@ function rowMatchesOnly(row, only) {
 // ruleScopes(); a null scope means the effect belongs to the rule as a whole, so any statement
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
 // unit carrying it.
+/**
+ * @param {{ scope?: number }} effect
+ * @param {RuleScope[] | null | undefined} scopes
+ * @param {string[]} keywords
+ * @param {string} kind
+ * @param {KeywordSets} factionKeywordSets
+ * @param {boolean} [strict] a detachment rule's aura: an unreadable gate reaches nobody
+ */
 function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, strict = false) {
   // No scopes to gate on. Either the prose named no unit at all (fail-open, see ruleTargets), or
   // the record's kind is one whose prose addresses exactly the card it is applied to — an
@@ -162,7 +177,12 @@ export function bumpTag(tag, name, delta) {
 // Just the two fields an `only` clause reads, copied off the working sheet so a later write to it
 // cannot change what an earlier clause of the same record was looking at.
 const ROW_TABLES = ['ranged', 'melee', 'profiles']
+/**
+ * @param {PrintedSheet} sheet
+ * @returns {Record<string, Array<{ name?: string, tags?: string[] }>>}
+ */
 function snapshotRows(sheet) {
+  /** @type {Record<string, Array<{ name?: string, tags?: string[] }>>} */
   const out = {}
   for (const t of ROW_TABLES) {
     if (sheet[t]) out[t] = sheet[t].map((r) => ({ name: r.name, tags: r.tags ? [...r.tags] : r.tags }))
@@ -173,6 +193,7 @@ function snapshotRows(sheet) {
 // `rows` — the rows an effect was PLACED on, per table, by splitBearers: a Storm Shield's +1 W
 // belongs to the row of the models that carry it, not to every profile of the unit. Absent, every
 // row the effect's `on`/`only` select is in.
+/** @param {ModifierEffect} effect @param {string} table @param {number} i */
 const inRows = (effect, table, i) => !effect.rows || !!effect.rows[table]?.includes(i)
 
 // A grant is an effect whose "value" is a name rather than a number: `stat: 'keyword'` gives the
@@ -181,6 +202,7 @@ const inRows = (effect, table, i) => !effect.rows || !!effect.rows[table]?.inclu
 // `stat: 'core'` gives the UNIT one of the rulebook's core abilities (Feel No Pain 5+, Stealth,
 // Lone Operative); `stat: 'ability'` gives its weapons a bracketed ability. Modelled as an effect rather than a
 // second system so `when`, `scope` and the whole applicability machinery are shared.
+/** @param {ModifierEffect} effect */
 const isGrant = (effect) => effect.op === 'grant'
 
 // The dice a modifier can be added to rather than a printed number: `stat: 'hit'` / `'wound'` with
@@ -243,10 +265,12 @@ function noteOf(entry, effect, applied, via = null, live = true) {
 // card `from: 'led'` is here only because a Leader carrying it is attached to this unit, so asking
 // the roster again — against the bodyguard entry, which leads nobody — would answer no and gate off
 // a rule that plainly applies. Everything else is answered by `active` alone.
+/** @param {string} id @param {IdSet} active @param {ModEntry | null} entry */
 const proven = (id, active, entry) => !!active?.has(id) || (id === 'unit-leading' && (entry?.from === 'led' || entry?.from === 'co'))
 
 // Does the game say every condition on this effect holds? An effect with no `cond` at all is
 // unreviewed markup, and is treated as unproven — never as unconditional.
+/** @param {string[] | null | undefined} cond @param {IdSet} active @param {ModEntry | null} [entry] */
 function condHolds(cond, active, entry = null) {
   return Array.isArray(cond) && cond.length > 0 && cond.every((id) => proven(id, active, entry))
 }
@@ -266,7 +290,9 @@ function condHolds(cond, active, entry = null) {
 // A rule the player switches on as one of a set (`ref.set` — only datasheet abilities carry one).
 /** @param {ModEntry} rec */
 const isSetRule = (rec) => rec.ref?.kind === 'ability' && !!rec.ref.set
+/** @param {ModEntry} entry */
 const byChoice = (entry) => entry.kind === 'stratagem' || isSetRule(entry)
+/** @param {ModEntry} entry @param {ModifierEffect} effect @param {IdSet} active @param {IdSet} chosen */
 function effectLive(entry, effect, active, chosen) {
   if (byChoice(entry) && !chosen?.has(entry.sid)) return false
   if (effect.cond?.length) return condHolds(effect.cond, active, entry)
@@ -283,7 +309,7 @@ function effectLive(entry, effect, active, chosen) {
  * @param {PrintedSheet | null | undefined} sheet
  * @param {ModEntry[] | null | undefined} entries
  * @param {string[]} keywords
- * @param {any} factionKeywordSets
+ * @param {KeywordSets} factionKeywordSets
  * @param {IdSet} [active] conditions proven true
  * @param {IdSet} [chosen] stratagems and set rules the player switched on
  */
@@ -468,7 +494,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 /**
  * @param {ModEntry[] | null | undefined} entries
  * @param {string[]} keywords
- * @param {any} factionKeywordSets
+ * @param {KeywordSets} factionKeywordSets
  * @param {IdSet} [active]
  * @param {IdSet} [chosen]
  */
@@ -537,7 +563,7 @@ export function stratagemTargetScopes(st) {
 /**
  * @param {ModEntry[] | null | undefined} entries
  * @param {string[]} keywords
- * @param {any} factionKeywordSets
+ * @param {KeywordSets} factionKeywordSets
  * @returns {ModEntry[]}
  */
 export function gateStratagems(entries, keywords, factionKeywordSets) {
@@ -616,7 +642,9 @@ export function attachedUnitKeywords(entry, units, keywordsOf) {
 // Our army-rule name against the record's, apostrophes and case aside. Containment either way:
 // a merged name covers the record it was merged from, and a record named for the whole rule still
 // matches when our name is the longer one.
+/** @param {string | null | undefined} s */
 const normRule = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+/** @param {string | null | undefined} recName @param {string | null | undefined} ourName */
 function armyRuleMatches(recName, ourName) {
   const a = normRule(recName)
   const b = normRule(ourName)
@@ -791,7 +819,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: string[], factionKeywordSets?: any, active?: IdSet, chosen?: IdSet, leaderEnhNames?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: string[], factionKeywordSets?: KeywordSets, active?: IdSet, chosen?: IdSet, leaderEnhNames?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  */
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
@@ -857,7 +885,7 @@ export function aurasReaching(records, {
 
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {any} facEn the faction's English rules bundle
+ * @param {import('../data/data.types.js').FactionRules | null | undefined} facEn the faction's English rules bundle
  * @param {Array<string | { name?: string } | null | undefined> | null | undefined} detachmentNames
  * @param {string | null | undefined} enhancementName
  * @param {{ g?: string, opt?: string } | null | undefined} alleg the entry's allegiance group and pick

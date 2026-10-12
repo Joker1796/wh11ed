@@ -1,3 +1,4 @@
+// @ts-check
 // One roster unit's card, resolved: the printed datasheet, everything the roster does to it, and
 // the prose of the rules that did it. Two screens read a unit this way — RosterUnitRulesModal (a
 // card opened from a list, with the live game's chips around it) and the print sheet (every unit
@@ -32,10 +33,25 @@ import { loadDatasheets } from '../data/datasheets/index.js'
 import { localizeSheet } from '../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from './useDatasheetsRu.js'
 
+/** @typedef {import('../data/data.types.js').Datasheet} Datasheet */
+/** @typedef {import('../data/data.types.js').FactionRules} FactionRules */
+/** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
+/** @typedef {import('./roster.types.js').CondSwitch} CondSwitch */
+/**
+ * The calling component's props.
+ * @typedef {object} UnitCardProps
+ * @property {string} unitId
+ * @property {string} factionSlug
+ * @property {import('./rosterModifiers.js').OverlayContext | null} [ctx]
+ * @property {import('./roster.types.js').CardGameCtx | null} [gameCtx]
+ */
+
+/** @param {UnitCardProps} props */
 export function useRosterUnitCard(props) {
   const { locale } = useLocale()
   const labels = computed(() => ui[locale.value])
 
+  /** @type {import('vue').Ref<Datasheet[]>} */
   const datasheets = ref([])
   const loaded = ref(false)
   watch(
@@ -56,6 +72,11 @@ export function useRosterUnitCard(props) {
 
   // Any datasheet from this faction, in the current locale. Shared by the viewed sheet and by an
   // attached Leader's abilities below — those must be translated too, not left English in RU.
+  /**
+   * @template {Datasheet | null} S
+   * @param {S} en
+   * @returns {S}
+   */
   function localize(en) {
     if (!en || locale.value !== 'ru') return en
     const mod = ruModule.value
@@ -72,7 +93,8 @@ export function useRosterUnitCard(props) {
   // nowhere in a roster or a game (player report e6093db4, 2026-10-03).
   const companions = computed(() => {
     const own = datasheets.value.find((d) => d.id === props.unitId)
-    const names = new Set((own?.rules || []).map((r) => (r.name || '').toLowerCase()))
+    if (!own) return []
+    const names = new Set((own.rules || []).map((r) => (r.name || '').toLowerCase()))
     if (!names.size) return []
     return datasheets.value
       .filter((d) => d.id !== own.id && !d.points?.length && (d.rules || []).some((r) => names.has((r.name || '').toLowerCase())))
@@ -89,12 +111,15 @@ export function useRosterUnitCard(props) {
   // explain. Same load path as EnhancementRuleModal and RosterViewView's Rules tab; a faction's
   // chunk is ~30-60 KB and is precached for the installed PWA, so an opened modal doesn't go to
   // the network offline.
+  /** @type {import('vue').Ref<FactionRules | null>} */
   const rulesFaction = ref(null)
   // The same faction data, never RU-overlaid: ruleTargets.js reads English prose (keywords stay
   // English by project convention, the sentences around them do not), so the gate would silently
   // stop matching in RU if it read the localised bodies.
+  /** @type {import('vue').Ref<FactionRules | null>} */
   const rulesFactionEn = ref(null)
   // EN stratagem name → RU display name, for the chips (RU locale only; null in EN).
+  /** @type {import('vue').Ref<Record<string, string> | null>} */
   const stratNamesRu = ref(null)
   watch(
     [() => props.factionSlug, () => !!props.ctx, locale],
@@ -117,6 +142,7 @@ export function useRosterUnitCard(props) {
   // The numeric modifier layer (Tier C). Lazily imported per faction and entirely optional: if the
   // directory is gone, or the faction has no file, this stays null and the card keeps its printed
   // numbers — Tiers A+B, unchanged.
+  /** @type {import('vue').Ref<{ entries?: ModifierRecord[] } | null>} */
   const modifierData = ref(null)
   watch(
     [() => props.factionSlug, () => !!props.ctx],
@@ -406,8 +432,7 @@ export function useRosterUnitCard(props) {
         // no extra fetch. Its full card stays one click away on its own row; what's useful here is
         // what it brings to the unit being read.
         const led = localize(datasheets.value.find((d) => d.id === src.unitId) || null)
-        const abilities = led?.abilities?.length ? led.abilities : null
-        if (abilities) out.push({ key: `leader:${src.unitId}`, src: labels.value.rosterLeaderTag, name: led.name, abilities })
+        if (led?.abilities?.length) out.push({ key: `leader:${src.unitId}`, src: labels.value.rosterLeaderTag, name: led.name, abilities: led.abilities })
       }
     }
     return out
