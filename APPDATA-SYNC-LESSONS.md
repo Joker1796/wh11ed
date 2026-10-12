@@ -1209,3 +1209,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     on any group field it does not know. The same report found a limit appdata states only in
     prose (Daemonic Pact's BATTLELINE ratio): read it out of the sentence, and fail on a sentence of
     that shape the reader does not understand, so the next one is not silently skipped either.
+
+85. **An errata table is a list of edits someone still has to make.** The 30 September codex
+    errata print their stat changes as tables ("T5 - Infractors, Lord Exultant, Sorcerer,
+    Tormentors"), and GW then re-keys the statlines by hand. appdata 963 took the squads and left
+    the EC Sorcerer and Lord Exultant at T4, and the Purifier Squad's close combat weapon at S4; a
+    player found the Sorcerer (2026-10-12). The AP "1" weapon rows were the same slip, fixed one
+    by one with no gate behind them. Nothing that compares appdata with itself can see this — only
+    the errata text says what is right — so `npm run errata-tables` reads every line of every such
+    table against our sheets and fails on a line it cannot read.

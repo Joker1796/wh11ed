@@ -328,6 +328,15 @@ September even though `sync-core` printed it on every run — one finding among 
   corrected lived only as sync-baseline entries — quiet, but neither regeneration-proof nor able to
   tell GW's fix from GW's change. Deciding to depart from appdata is the owner's call; the registry
   is where the decision is written down.
+  An entry resting on an errata line carries it verbatim (`errata: { publication, header, line }`),
+  and the gate also fails when GW rewrites or withdraws that line.
+- **`npm run errata-tables`** (`scripts/check-errata-tables.mjs`) — every codex errata table of
+  the "Change the following unit / weapon characteristics" kind, line by line, against OUR sheets.
+  GW re-keys those tables into the statlines by hand and misses rows (EC Sorcerer and Lord
+  Exultant left at T4, the Purifier Squad's close combat weapon at S4 — 2026-10-12, a player's
+  report), and appdata compared with itself can never show it. A line the parser cannot read
+  fails; a name it cannot place fails unless `UNIT_ALIASES` / `NOT_CARRIED` in the script say why;
+  a mismatch is fixed by a `unit-stat` / `weapon-stat` exception, never by editing the sheet.
 
 - **`npm run roster:data:check`** (`scripts/gen-roster-data.mjs`) — besides reporting that the
   generated faction files are stale, it fails on a wargear instruction whose SHAPE the replacement
