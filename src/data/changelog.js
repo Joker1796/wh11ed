@@ -32,6 +32,8 @@ export const changelog = [
       { h: 'Answers to your questions' },
       'Why can’t Black Templars take Gladius Task Force? The GW app and the Munitorum Field Manual do not give it to them either. So the roster builder does not offer it.',
       'Why can’t a Necrons Overlord take an Overlord’s blade and a Resurrection Orb together? By the datasheet, the orb is only for a model without a tachyon arrow. The tachyon arrow is replaced only together with the blade.',
+      { h: 'Roster builder' },
+      'I tidied up the roster builder’s code and fixed a few small errors in how lists are checked.',
     ],
     ru: [
       { h: 'Датащиты' },
@@ -41,6 +43,8 @@ export const changelog = [
       { h: 'Ответы на вопросы' },
       'Почему у Black Templars нет Gladius Task Force? Его не дают им ни приложение GW, ни Munitorum Field Manual. Поэтому конструктор его не предлагает.',
       'Почему Overlord у Necrons не может взять Overlord’s blade и Resurrection Orb вместе? По датащиту сферу берёт только модель без tachyon arrow. А tachyon arrow меняется только вместе с blade.',
+      { h: 'Конструктор ростеров' },
+      'Я навёл порядок в коде конструктора ростеров и исправил несколько мелких ошибок в проверке списков.',
     ],
   },
   {
