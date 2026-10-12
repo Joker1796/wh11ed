@@ -21,6 +21,13 @@ describe('sanitizeHtml', () => {
     expect(sanitizeHtml('a<!-- c -->b')).toBe('ab')
   })
 
+  it('answers a repeat from its memo with the same safe string', () => {
+    const html = '<b onclick="x()">a</b><script>y()</script>'
+    const first = sanitizeHtml(html)
+    expect(first).toBe('<b>a</b>&lt;script&gt;y()&lt;/script&gt;')
+    expect(sanitizeHtml(html)).toBe(first)
+  })
+
   it('keeps the QR code and the patch diff as they are', () => {
     const qr = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h29v29H0z"/><path stroke="#000000" d="M1 1.5h7"/></svg>\n'
     expect(sanitizeHtml(qr)).toBe(qr)
