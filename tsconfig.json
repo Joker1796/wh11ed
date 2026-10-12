@@ -27,6 +27,7 @@
     "src/composables/rosterHold.js",
     "src/composables/rosterSummary.js",
     "src/composables/rosterLimit.js",
-    "src/composables/rosterHandoff.js"
+    "src/composables/rosterHandoff.js",
+    "src/utils/debouncedSave.js"
   ]
 }

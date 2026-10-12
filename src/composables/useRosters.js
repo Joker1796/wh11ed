@@ -1,4 +1,5 @@
 import { computed, ref, watch } from 'vue'
+import { debouncedSave } from '../utils/debouncedSave.js'
 
 // Roster builder store — a module singleton persisted to localStorage, mirroring the
 // pattern in useTracker.js / useLocale.js. Holds the user's saved army lists; the roster
@@ -232,35 +233,18 @@ function load() {
 
 const rosters = ref(load())
 
-// Auto-save on every mutation (debounced), flushed before the page goes away — same machinery
-// and rationale as useTracker.js (an installed iOS PWA can be frozen without firing pagehide).
-const SAVE_DELAY = 500
-let saveTimer = null
-
-function flushSave() {
-  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null }
+// Auto-save on every mutation (debounced), flushed before the page goes away (debouncedSave).
+const { schedule: scheduleSave, now: flushSave } = debouncedSave(() => {
   try {
     localStorage.setItem(KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: rosters.value }))
   } catch { /* quota / private mode — ignore */ }
-}
-
-function scheduleSave() {
-  if (!saveTimer) saveTimer = setTimeout(() => { saveTimer = null; flushSave() }, SAVE_DELAY)
-}
+})
 
 // Force an immediate synchronous persist — for the infrequent, critical mutations
 // (create / duplicate / delete / import) a frozen-PWA debounce window must not drop them.
 function saveNow() { flushSave() }
 
 watch(rosters, scheduleSave, { deep: true })
-
-if (typeof window !== 'undefined') {
-  window.addEventListener('pagehide', flushSave)
-  window.addEventListener('beforeunload', flushSave)
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') flushSave()
-  })
-}
 
 function touch(r) { r.updatedAt = Date.now() }
 
