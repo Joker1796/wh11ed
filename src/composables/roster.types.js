@@ -141,6 +141,7 @@
  * @property {string[]} [exclKw] keywords that bar it
  * @property {Array<{ ds?: string, kw?: string[], fac?: string[] }>} [req] who may take it — any one group
  * @property {Array<{ to: string, type: 'leader' | 'support' }>} [attach] units the bearer can then join
+ * @property {string[]} [lockDs] only these datasheets, by `sid` (gen-roster-data.mjs ENH_LOCK_FIXES; empty today)
  */
 
 /**
@@ -240,6 +241,16 @@
  * @property {number} dp
  * @property {number} enhLimit
  * @property {number} dupLimit
+ */
+
+/**
+ * One finding of validateRoster (rosterValidation.js). `code` names an `issue_<code>` template in
+ * ui.js; `uid` ties it to an entry; `params` fill the template.
+ * @typedef {object} RosterIssue
+ * @property {string} code
+ * @property {'error' | 'warn'} level
+ * @property {string} [uid]
+ * @property {Record<string, string | number>} [params]
  */
 
 /** Resolves a datasheet id to its facts. @typedef {(id: string) => RosterUnit | null | undefined} DefOf */

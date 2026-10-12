@@ -1,9 +1,18 @@
+// @ts-check
 // Roster validation — a pure module (no Vue, no store). Philosophy: NEVER block. Like the
 // official app, we always compute a total and surface violations for the user to judge, rather
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
 import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('./roster.types.js').Roster} Roster */
+/** @typedef {import('./roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('./roster.types.js').RosterIssue} RosterIssue */
+/** @typedef {import('./roster.types.js').DefOf} DefOf */
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree
@@ -13,6 +22,10 @@ import { hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAl
 // the list, not by the limit.
 export const SETUP_CODES = new Set(['noFaction', 'noDetachment', 'detachmentGone', 'dispositionUndeclared', 'detachmentTagClash', 'overDp'])
 
+/**
+ * @param {RosterIssue[] | null | undefined} issues
+ * @returns {number}
+ */
 export function setupIssueCount(issues) {
   return (issues || []).filter((i) => SETUP_CODES.has(i.code)).length
 }
@@ -26,6 +39,12 @@ export function setupIssueCount(issues) {
 // (rosterEngine's grantedKeywordsFor). Battleline is the only one that matters here, and it is
 // what makes the difference between three Warbikers and six: pass it wherever the roster's
 // detachments are known. `null` keeps the pre-gate reading of the raw `condBattleline` flag.
+/**
+ * @param {RosterUnit} def
+ * @param {number | { dupLimit: number, lineLimit?: number }} limits
+ * @param {string[] | null} [granted]
+ * @returns {number}
+ */
 export function duplicateLimit(def, limits, granted = null) {
   const dup = typeof limits === 'number' ? limits : limits.dupLimit
   const line = typeof limits === 'number' ? limits * 2 : (limits.lineLimit ?? dup * 2)
@@ -38,6 +57,11 @@ export function duplicateLimit(def, limits, granted = null) {
 // capKeyOf — normally one per datasheet id, but a future same-character/multiple-datasheets
 // case would share a key). Shared by validateRoster's own check below and
 // RosterUnitBrowser.vue's live add-button guard, so the two never disagree about the count.
+/**
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {DefOf} defOf
+ * @returns {Map<string | undefined, number>}
+ */
 export function duplicateCounts(units, defOf) {
   const m = new Map()
   for (const u of units || []) {
@@ -58,6 +82,11 @@ const NAMED_NOT_EPIC = new Set(['kayvaan-shrike'])
 // `idleCopies(unit)`, when given, names the melee weapons a unit holds twice on one model for
 // nothing (rosterModifiers' idleMeleeCopies) — it needs the datasheet and the modifier records, which
 // the editor loads on the side; without it the check is silent, as before they arrive.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string>, idleCopies?: (u: RosterEntry) => string[] | null | undefined }} [opts]
+ * @returns {{ points: number, issues: RosterIssue[], errorCount: number }}
+ */
 export function validateRoster(roster, { faction, core, items, idleCopies } = {}) {
   const units = roster?.units || []
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
@@ -570,8 +599,14 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
 
 // An issue in words: its `issue_<code>` template from ui.js (handed in — this module has no
 // locale) with the params filled in. The issues dialog and the save-time disposition prompt read it.
+/**
+ * @param {RosterIssue} iss
+ * @param {Record<string, string>} labels
+ * @returns {string}
+ */
 export function issueText(iss, labels) {
   const tpl = labels[`issue_${iss.code}`] || iss.code
-  const p = iss.params || {}
+  // A number in `params` is fine: replace() turns the callback's result into a string.
+  const p = /** @type {Record<string, any>} */ (iss.params || {})
   return tpl.replace(/\{(\w+)\}/g, (_, k) => (p[k] ?? ''))
 }
