@@ -20,6 +20,7 @@
     "src/composables/roster.types.js",
     "src/composables/rosterEngine.js",
     "src/composables/rosterEnhEligible.js",
-    "src/composables/rosterValidation.js"
+    "src/composables/rosterValidation.js",
+    "src/composables/rosterModifiers.js"
   ]
 }

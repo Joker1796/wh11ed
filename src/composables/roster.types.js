@@ -253,6 +253,36 @@
  * @property {Record<string, string | number>} [params]
  */
 
+/**
+ * A weapon row of a printed datasheet (src/data/datasheets/<slug>.js). The overlay adds `qty` (how
+ * many the unit holds), `copy` (a second copy on one model) and `enh` (an enhancement's weapon).
+ * @typedef {object} WeaponRow
+ * @property {string} name
+ * @property {string[]} [tags]
+ * @property {string} [range]
+ * @property {string} [a]
+ * @property {string} [bs]
+ * @property {string} [ws]
+ * @property {string} [s]
+ * @property {string} [ap]
+ * @property {string} [d]
+ * @property {number} [qty]
+ * @property {number} [copy]
+ * @property {string} [enh]
+ */
+
+/**
+ * A printed datasheet as the roster overlay reads it — only the parts it touches are named; the
+ * rest of the sheet rides along untouched.
+ * @typedef {{ id: string, name: string, ranged?: WeaponRow[], melee?: WeaponRow[], wargearAbilities?: Array<{ name: string, nameEn?: string, text?: string }> } & Record<string, any>} PrintedSheet
+ */
+
+/**
+ * A roster modifier record (src/data/rosterModifiers/<slug>.js) — the parts read outside its own
+ * module.
+ * @typedef {{ ref?: { unit?: string, item?: string }, effects?: Array<{ cond?: string[] }> } & Record<string, any>} ModifierRecord
+ */
+
 /** Resolves a datasheet id to its facts. @typedef {(id: string) => RosterUnit | null | undefined} DefOf */
 
 export {}
