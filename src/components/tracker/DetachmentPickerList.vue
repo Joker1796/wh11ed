@@ -98,7 +98,8 @@ const infoFor = ref('')
 
 
 // A detachment's TAG bars a second detachment sharing it ("this detachment has the DYNASTY tag and
-// cannot be taken with another DYNASTY detachment", core rules 25.04). 26 tags across 17 factions,
+// cannot be taken with another DYNASTY detachment" — the detachment's own rule; the MFM prints it as
+// "UNIQUE: DYNASTY"). 26 tags across 17 factions,
 // 19 of the pairs affordable inside a 3 DP budget — so without this the illegal pair is two clicks
 // away. validateRoster repeats the check for imported lists.
 const takenTags = computed(() => new Set(props.detachments

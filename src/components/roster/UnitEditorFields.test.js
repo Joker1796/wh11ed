@@ -408,6 +408,20 @@ describe('UnitEditorFields — shrinking the unit', () => {
     expect(w.find('.ues-trimmed').exists()).toBe(false)
   })
 
+  // The groups are their own component since 2026-10-12 (UnitWargearGroups): a pick travels up as
+  // `set-wg` and this component writes it. A pick made while the trim offer stands answers it.
+  it('writes a pick made in the groups, and drops the trim offer with it', async () => {
+    const w = mountFor(terms, { size: 1, count: 10, wg: [[combi, 0, 8], [paired, 0, 2]] })
+    const entry = w.props('entry')
+    await pill(w, 0).trigger('click')
+    expect(w.find('.ues-trimmed').exists()).toBe(true)
+    // The combi-weapon stepper, at the five the trim left: one fewer is a pick like any other.
+    const step = w.findAllComponents(NumberStepper).find((n) => n.props('label') === 'Combi-weapon')
+    await step.vm.$emit('update:modelValue', 4)
+    expect(entry.wg).toEqual([[combi, 0, 4]])
+    expect(w.find('.ues-trimmed').exists()).toBe(false)
+  })
+
   it('leaves a list that arrived over alone, and marks the rows instead', () => {
     const w = mountFor(terms, { wg: [[combi, 0, 5], [paired, 0, 1]] })
     expect(w.props('entry').wg).toEqual([[combi, 0, 5], [paired, 0, 1]])

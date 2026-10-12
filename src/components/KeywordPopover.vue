@@ -38,9 +38,9 @@
         </div>
         <div
           v-if="activeKeyword.fullText"
+          v-safe-html="renderRichText(activeKeyword.fullText)"
           class="kw-popover-body"
           @click="handleBodyClick"
-          v-html="renderRichText(activeKeyword.fullText)"
         />
       </div>
     </Transition>
@@ -56,6 +56,7 @@ import { resolveRef, useRefNavigation } from '../composables/useRefNavigation.js
 import { ui } from '../i18n/ui.js'
 import { placeByAnchor } from '../utils/anchorPlacement.js'
 import { useLocale } from '../composables/useLocale.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])

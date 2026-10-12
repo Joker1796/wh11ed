@@ -18,6 +18,10 @@
 //     RAW and fails when the error we patch is no longer there (GW fixed or changed it: re-read and
 //     drop or update the entry), and when our data no longer carries the correction.
 //
+// An entry that rests on an errata line carries it as `errata: { publication, header, line }`, the
+// line verbatim from appdata's tables/faq.json: the gate fails when GW rewrites or withdraws that
+// line, because then the correction may no longer be what the errata says.
+//
 // An entry needs a `why` and a `source` a person can open. "appdata looks odd" is not a source; the
 // decision to depart is the owner's (memory: appdata is canon; ask before overriding it).
 //
@@ -34,6 +38,10 @@
 //   weapon-stat    — one characteristic of a weapon appdata prints wrong on several sheets of one
 //                    faction: `item` names the wargear item, `field` the characteristic in appdata's
 //                    spelling (AP, S…), `from` what appdata has on every listed sheet, `to` ours.
+//   unit-stat      — one characteristic of a model's statline that a codex errata table changed and
+//                    appdata's statlines did not take in: `datasheets` names the sheets, `field`
+//                    the characteristic in appdata's spelling (T, W, Sv…), `from` what every
+//                    statline on those sheets has now, `to` ours.
 //   core-rule-text — a Core Rules errata appdata's own rule text has not taken in: `num` names the
 //                    rule in factions/_core-rules.json (slug '_core-rules'), `from` must occur in its
 //                    text (appdata's markup), `ours` must occur in src/data/<file>. Core Rules are
@@ -230,6 +238,31 @@ export const APPDATA_EXCEPTIONS = [
     why: 'The Core Rules errata of 26 August 2026 gives Ongoing Consolidation\'s After Moving the same "your opponent must select each of those units" sentence Engaging Consolidation has; appdata 931–972 keeps the old one-sentence line.',
     source: 'Warhammer 40,000: The App → Core Rules → Updates & Errata, "12.08 - Consolidation Move, After Moving Section, Ongoing Consolidation" (in appdata tables/faq.json since 931; checked 2026-10-03)',
   },
+  {
+    id: 'gk-purifier-close-combat-weapon-s',
+    kind: 'weapon-stat',
+    slug: 'grey-knights',
+    item: 'Close combat weapon',
+    field: 'S',
+    from: '4',
+    to: '5',
+    datasheets: ['Purifier Squad'],
+    errata: { publication: 'Codex: Grey Knights', header: 'Datasheets', line: 'Close Combat Weapon - **S**5 - Interceptor Squad, Purgation Squad, Purifier' },
+    why: 'The errata of 30 September 2026 gives the close combat weapon S5 on all three squads ("Purifier" is the Purifier Squad); appdata 963–972 raised Interceptors and Purgators and left the Purifiers at S4. Found by npm run errata-tables 2026-10-12.',
+    source: 'Warhammer 40,000: The App → Codex: Grey Knights → Updates & Errata, "Datasheets" (in appdata tables/faq.json since 963; checked 2026-10-12)',
+  },
+  {
+    id: 'ec-character-toughness',
+    kind: 'unit-stat',
+    slug: 'emperors-children',
+    datasheets: ['Lord Exultant', 'Sorcerer'],
+    field: 'T',
+    from: '4',
+    to: '5',
+    errata: { publication: 'Codex: Emperor’s Children', header: 'Datasheets', line: '**T**5 - Infractors, Lord Exultant, Sorcerer, Tormentors' },
+    why: 'The errata of 30 September 2026 raises all four to T5; appdata 963–972 raised Infractors and Tormentors and left the two characters at T4. A player reported the Sorcerer 2026-10-12.',
+    source: 'Warhammer 40,000: The App → Codex: Emperor’s Children → Updates & Errata, "Datasheets" (in appdata tables/faq.json since 963; checked 2026-10-12)',
+  },
 ]
 
 const appSlugOf = (slug) => SLUG_MAP[slug] || slug
@@ -243,12 +276,21 @@ const coreRuleOf = (bundle, e) => (bundle?.rules || []).find((r) => r.num === e.
 // Core Rules entry for `core-rule-text`.
 const targetOf = (bundle, e) => (e.kind === 'enhancement-text' ? enhOf(bundle, e)
   : e.kind === 'core-rule-text' ? coreRuleOf(bundle, e)
-    : e.kind === 'weapon-stat' ? bundle
+    : e.kind === 'weapon-stat' || e.kind === 'unit-stat' ? bundle
     : sheetOf(bundle, e.datasheet))
 
 // What appdata says now, for the one place an entry patches — compared with what the entry
 // expects to find. Returns null when appdata still has the error, or the reason it does not.
 function appdataDrift(e, ds) {
+  if (e.kind === 'unit-stat') {
+    for (const name of e.datasheets) {
+      const sheet = sheetOf(ds, name)
+      if (!sheet) return `datasheet "${name}" is gone from appdata`
+      const off = (sheet.statlines || []).filter((s) => s[e.field] !== e.from)
+      if (off.length || !sheet.statlines?.length) return `"${name}" ${e.field} is now ${JSON.stringify(off.map((s) => s[e.field]))}, the entry expects "${e.from}"`
+    }
+    return null
+  }
   if (e.kind === 'weapon-stat') {
     for (const name of e.datasheets) {
       const item = itemOf(sheetOf(ds, name), e.item)
@@ -286,7 +328,9 @@ function patchSheet(e, ds) {
   if (e.kind === 'weapon-profile') itemOf(ds, e.item).profiles.unshift({ ...e.add, tags: [...e.add.tags] })
   else if (e.kind === 'wargear-rule') for (const r of ds.wargearRules) r.rules = r.rules.replace(e.from, e.to)
   else if (e.kind === 'enhancement-text') ds.rules = e.to
-  else if (e.kind === 'weapon-stat') {
+  else if (e.kind === 'unit-stat') {
+    for (const name of e.datasheets) for (const st of sheetOf(ds, name).statlines) st[e.field] = e.to
+  } else if (e.kind === 'weapon-stat') {
     for (const name of e.datasheets) for (const p of itemOf(sheetOf(ds, name), e.item).profiles) p[e.field] = e.to
   }
 }
@@ -356,6 +400,16 @@ export async function oursCarries(e) {
     return (enh.body || '').includes(e.ours) ? null : `our "${e.enhancement}" does not read "${e.ours}"`
   }
   const file = path.join(ROOT, 'src/data/datasheets', `${e.slug}.js`)
+  if (e.kind === 'unit-stat') {
+    const sheets = (await import(pathToFileURL(file).href)).default
+    for (const name of e.datasheets) {
+      const d = sheets.find((x) => norm(x.name) === norm(name))
+      if (!d) return `our sheet "${name}" is missing`
+      const off = (d.profiles || []).filter((p) => String(p[e.field.toLowerCase()]) !== e.to)
+      if (off.length || !d.profiles?.length) return `our "${name}" ${e.field} is ${JSON.stringify(off.map((p) => p[e.field.toLowerCase()]))}, not "${e.to}"`
+    }
+    return null
+  }
   if (e.kind === 'weapon-stat') {
     const sheets = (await import(pathToFileURL(file).href)).default
     for (const name of e.datasheets) {
@@ -376,6 +430,19 @@ export async function oursCarries(e) {
   return (d.options || []).some((o) => o.replace(/‐/g, '-').includes(e.ours)) ? null : `no option reading "${e.ours}" on our sheet`
 }
 
+// The errata an entry rests on, as appdata prints it now: null when the line is still there.
+const faqRows = () => loadJson(path.join(APPDATA, 'tables', 'faq.json')) || []
+const publicationName = (id) => (loadJson(path.join(APPDATA, 'tables', 'publication.json')) || [])
+  .find((p) => p.id === id)?.localisations?.en?.name
+export function errataDrift(e, rows = faqRows()) {
+  if (!e.errata) return null
+  const { publication, header, line } = e.errata
+  const hits = rows.filter((r) => r.localisations?.en?.errataHeader === header && publicationName(r.publicationId) === publication)
+  if (!hits.length) return `the "${header}" errata of ${publication} is gone`
+  return hits.some((r) => (r.localisations.en.errataText || '').split('\n').some((l) => l.trim() === line)) ? null
+    : `the "${header}" errata of ${publication} no longer reads "${line}"`
+}
+
 // Every problem with the registry, as lines; empty means all entries hold.
 export async function checkAppdataExceptions() {
   const problems = []
@@ -386,6 +453,8 @@ export async function checkAppdataExceptions() {
     if (!e.why || !e.source) problems.push(`${e.id}: an exception needs a "why" and a "source"`)
     const drift = appdataDrift(e, targetOf(loadJson(bundlePath(appSlugOf(e.slug))), e))
     if (drift) problems.push(`${e.id}: appdata changed — ${drift}. GW fixed or reworked it: re-read, then drop or update the entry.`)
+    const errata = errataDrift(e)
+    if (errata) problems.push(`${e.id}: ${errata}. GW rewrote the errata: re-read it, then update or drop the entry.`)
     const missing = await oursCarries(e)
     if (missing) problems.push(`${e.id}: our data lost the correction — ${missing}. Regenerated without the registry? gen-datasheets applies it.`)
   }

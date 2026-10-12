@@ -31,7 +31,7 @@ describe('DetachmentPicker — tags', () => {
     expect(buttonFor('Awakened Dynasty').text()).toContain('DYNASTY')
   })
 
-  // Core rules 25.04: "…cannot be taken with another DYNASTY detachment". Taken off the list
+  // The detachment's own rule (the MFM's "UNIQUE: DYNASTY"): "…cannot be taken with another DYNASTY detachment". Taken off the list
   // rather than greyed (2026-08-28): once a budget is spent most of the list is unpickable, and a
   // page of dimmed rows reads as a broken screen. What went, and why, is said once above the list.
   it('takes a second detachment sharing the tag off the list, and nothing else', () => {

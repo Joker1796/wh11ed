@@ -1,4 +1,5 @@
 import { ref, watch } from 'vue'
+import { debouncedSave } from '../utils/debouncedSave.js'
 import { missions, primaryFor } from '../data/missions.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
@@ -262,15 +263,12 @@ const setupDraft = ref(load(DRAFT_KEY, null))
 // Auto-save on every mutation — "saved automatically as you play". Debounced so a
 // burst of changes (e.g. typing in a name field, stepping a score counter) doesn't
 // deep-serialize the whole game tree on every keystroke; we flush before the page
-// goes away so the last change is never lost.
-const SAVE_DELAY = 500
-let saveTimer = null
+// goes away so the last change is never lost (debouncedSave).
 let pendingCurrent = false
 let pendingHistory = false
 let pendingSetupDraft = false
 
-function flushSave() {
-  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null }
+function writePending() {
   // History BEFORE current: when archiving, current is cleared and the game moves to history.
   // Writing history first means a failure (quota/iOS) on the current write can't leave us with
   // a finished game dropped from both keys.
@@ -294,9 +292,7 @@ function flushSave() {
   }
 }
 
-function scheduleSave() {
-  if (!saveTimer) saveTimer = setTimeout(() => { saveTimer = null; flushSave() }, SAVE_DELAY)
-}
+const { schedule: scheduleSave, now: flushSave } = debouncedSave(writePending)
 
 // Force an immediate, synchronous persist. The 500ms debounce (+ flush on pagehide/hidden)
 // is fine for frequent in-play edits, but for the infrequent, critical game transitions
@@ -313,15 +309,6 @@ watch(current, () => { pendingCurrent = true; scheduleSave() }, { deep: true })
 watch(history, () => { pendingHistory = true; scheduleSave() }, { deep: true })
 watch(setupDraft, () => { pendingSetupDraft = true; scheduleSave() }, { deep: true })
 
-// The debounce window could drop the final mutation if the tab closes / refreshes /
-// is backgrounded (mobile/PWA) before the timer fires — flush synchronously on those.
-if (typeof window !== 'undefined') {
-  window.addEventListener('pagehide', flushSave)
-  window.addEventListener('beforeunload', flushSave)
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') flushSave()
-  })
-}
 
 // How a secondary came into the hand — 'random' (off the deck) or 'chosen' (picked by hand); the
 // card shows it (a die / a hand icon). Kept per slug in `secondary.source`; absent on older games, where a

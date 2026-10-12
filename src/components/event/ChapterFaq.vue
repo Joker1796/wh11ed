@@ -10,8 +10,8 @@
     {{ faq.intro }}
   </p>
   <p
+    v-safe-html="renderInline(faq.errata)"
     class="errata"
-    v-html="renderInline(faq.errata)"
   />
 
   <div class="faq-list">
@@ -34,6 +34,7 @@ import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()

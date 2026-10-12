@@ -11,7 +11,7 @@
         v-for="(item, j) in block.items"
         :key="j"
       >
-        <span v-html="renderInline(item.text)" />
+        <span v-safe-html="renderInline(item.text)" />
         <ul
           v-if="item.sub?.length"
           class="rule-list rule-list--sub"
@@ -19,7 +19,7 @@
           <li
             v-for="(s, k) in item.sub"
             :key="k"
-            v-html="renderInline(s)"
+            v-safe-html="renderInline(s)"
           />
         </ul>
       </li>
@@ -31,7 +31,7 @@
       <li
         v-for="(item, j) in block.items"
         :key="j"
-        v-html="renderInline(item)"
+        v-safe-html="renderInline(item)"
       />
     </ol>
     <div
@@ -44,7 +44,7 @@
         class="flow-item"
       >
         <span class="flow-arrow">→</span>
-        <span v-html="renderInline(item)" />
+        <span v-safe-html="renderInline(item)" />
       </div>
     </div>
     <div
@@ -58,13 +58,13 @@
       >
         <span class="result-arrow">→</span>
         <span
+          v-safe-html="renderInline(row.condition)"
           class="result-condition"
-          v-html="renderInline(row.condition)"
         />
         <span
+          v-safe-html="renderInline(row.outcome)"
           class="result-outcome"
           :class="row.isFail ? 'result-fail' : 'result-success'"
-          v-html="renderInline(row.outcome)"
         />
       </div>
     </div>
@@ -85,8 +85,8 @@
       >
         <span class="info-label">{{ row.label }}</span><span
           v-if="row.content"
+          v-safe-html="renderInline(row.content)"
           class="info-content"
-          v-html="renderInline(row.content)"
         />
         <ul
           v-if="row.items.length"
@@ -95,7 +95,7 @@
           <li
             v-for="(item, m) in row.items"
             :key="m"
-            v-html="renderInline(item)"
+            v-safe-html="renderInline(item)"
           />
         </ul>
       </div>
@@ -127,7 +127,7 @@
       :id="id ? h4AnchorId(id, block.n) : undefined"
       class="rule-subheading"
     >
-      <span v-html="renderInline(block.text)" />
+      <span v-safe-html="renderInline(block.text)" />
       <span
         v-if="block.ru"
         class="rule-subheading-ru"
@@ -135,8 +135,8 @@
     </h4>
     <p
       v-else
+      v-safe-html="renderInline(block.text)"
       :class="{ 'rule-flavor': block.lore }"
-      v-html="renderInline(block.text)"
     />
   </template>
 </template>
@@ -147,6 +147,7 @@ import AppImage from './AppImage.vue'
 import FaqItem from './FaqItem.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { h4AnchorId } from '../composables/anchors.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 // Renders a rule `body` string as typed blocks. Multi-root (fragment) on purpose: its
 // nodes become direct children of the parent's `.rule-body`, so a floated `sideImage`

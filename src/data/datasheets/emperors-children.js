@@ -1576,7 +1576,7 @@ export default [
       {
         "name": "Lord Exultant",
         "m": "7\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "5",
         "ld": "6+",
@@ -2360,7 +2360,7 @@ export default [
       {
         "name": "Sorcerer",
         "m": "7\"",
-        "t": "4",
+        "t": "5",
         "sv": "3+",
         "w": "4",
         "ld": "6+",

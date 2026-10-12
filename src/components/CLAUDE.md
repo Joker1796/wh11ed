@@ -213,7 +213,9 @@ screens that had copied each other and drifted. The pairs that existed then are 
   `.split-block`, `.strat-grid`, `.act-list` + `.act-btn` + `.act-danger` (the "…" actions sheet
   a card or a header opens — one full-width button per thing you can do; global since 2026-08-28,
   when the third copy was about to be written and `npm run dupes` would have failed),
-  `.copy-row` + `.copy-field` + `.copy-btn` (a link handed over to be copied), and **`.tone`** +
+  `.copy-row` + `.copy-field` + `.copy-btn` (a link handed over to be copied), `.empty-note` (what a
+  list says when it has nothing to show), `.wprofile-arrow` (before each profile of a
+  several-profile weapon), and **`.tone`** +
   `.tone-bar` / `.tone-badge` / `.tone-chip` (2026-09-17: an element carrying `--tone-light` /
   `--tone-dark` gets `--tone` resolved for the reader's theme — the faction colour pair from
   `factionsIndex.js`, or a disposition's from `data/dispositionColors.js` — and wears it as a

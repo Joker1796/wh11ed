@@ -2,17 +2,18 @@
   <div class="faq-item">
     <div class="faq-q">
       <span class="faq-badge">{{ qLabel }}</span>
-      <span v-html="renderInline(q)" />
+      <span v-safe-html="renderInline(q)" />
     </div>
     <div class="faq-a">
       <span class="faq-badge ans">{{ aLabel }}</span>
-      <span v-html="renderRichText(a)" />
+      <span v-safe-html="renderRichText(a)" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 // Shared Q/A card for FAQ entries — used by RuleBody's inline `**Q:**/**A:**` blocks
 // and the standalone Reference/Event Companion FAQ pages, so all three share one look.

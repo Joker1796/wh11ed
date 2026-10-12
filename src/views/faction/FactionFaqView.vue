@@ -63,12 +63,12 @@
           >
             <h4
               v-if="e.header"
+              v-safe-html="renderInline(e.header)"
               class="errata-title"
-              v-html="renderInline(e.header)"
             />
             <div
+              v-safe-html="renderRichText(e.body)"
               class="errata-body"
-              v-html="renderRichText(e.body)"
             />
           </div>
         </div>
@@ -107,6 +107,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { scrollToAnchor } from '../../composables/useRefNavigation.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const route = useRoute()
 useFactionPage()

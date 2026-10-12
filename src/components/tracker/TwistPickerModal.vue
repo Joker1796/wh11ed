@@ -32,14 +32,14 @@
         <div class="tw-body">
           <p
             v-if="t.example"
+            v-safe-html="renderInline(t.example)"
             class="tcard-flavor"
-            v-html="renderInline(t.example)"
           />
           <RuleBody :body="t.body" />
           <p
             v-if="t.note"
+            v-safe-html="renderInline(t.note)"
             class="tp-note"
-            v-html="renderInline(t.note)"
           />
         </div>
       </PickerRow>
@@ -55,6 +55,7 @@ import PickerRow from './PickerRow.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({
   twists: { type: Array, required: true },   // [{ id, title, body, note?, example? }]

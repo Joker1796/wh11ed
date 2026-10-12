@@ -1,0 +1,109 @@
+/* What the unit editor (UnitEditorFields) and its wargear groups (UnitWargearGroups) both draw —
+   the sections, the headings, the option rows and pills. Each component reads this file as its
+   own scoped sheet and keeps the rest in its own <style>: the groups are a fragment inside the
+   editor, so a scoped rule of one never reaches the other's elements. */
+.ues-sec { padding: 0.6rem 0; border-top: 1px solid var(--border); }
+.ues-sec:first-of-type { border-top: none; }
+/* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
+.ues-h {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0 0 0.3rem;
+  line-height: 1.35;
+}
+/* The size of the text it heads (owner, 2026-10-07: at 0.7rem the model name read smaller than
+   the sentence after it) — capitals at the same size as the sentence's own capitals. */
+.ues-mini { color: var(--text-dim); font-weight: 500; text-transform: uppercase; font-size: inherit; letter-spacing: 0.02em; margin-right: 0.3rem; }
+.ues-cap {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.opt-col { display: flex; flex-direction: column; gap: 0.3rem; }
+.pill {
+  padding: 0.3rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
+}
+.pill.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); color: var(--text-primary); }
+.opt-name { color: var(--text-primary); }
+.opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent-ink); }
+.opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
+
+/* Checkbox tiles (wargear picks, enhancements, warlord) — same look as the tracker's
+   ScoringModal checkbox rows (.m-cond/.m-check), so a "select" control reads the same
+   everywhere in the app, themed by the faction accent already scoped in by the parent view.
+   The tile is a row of two independent controls, not one big clickable button: the label
+   toggles the checkbox, and the trailing button (same idiom as RosterUnitBrowser's "+" add
+   button) opens the option's profile/rule — no chevron, no accordion look. */
+.opt-tile {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+.opt-tile.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.opt-tile.disabled { opacity: 0.45; }
+.opt-select {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.opt-select input { width: 20px; height: 20px; margin-top: 1px; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+.opt-tile.disabled .opt-select { cursor: not-allowed; }
+.opt-info {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  font-size: 1.1rem;
+  color: var(--accent-ink);
+  cursor: pointer;
+}
+.opt-info:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.opt-step-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+}
+
+/* Smallest phones (down to 320px) — the section headings (.ues-h) stay full-size, everything
+   else shrinks a step so the checkbox tiles/info button/pill row don't force horizontal
+   crowding or wrap awkwardly at this width. */
+@media (max-width: 360px) {
+  .pill { padding: 0.22rem 0.45rem; font-size: 0.72rem; }
+  .opt-select { padding: 0.4rem 0.45rem; gap: 0.4rem; font-size: 0.78rem; }
+  .opt-select input { width: 16px; height: 16px; }
+  .opt-name { font-size: 0.78rem; }
+  .opt-pts { font-size: 0.78rem; }
+  .opt-tag { font-size: 0.56rem; margin-left: 0.25rem; }
+  .opt-info { width: 2.15rem; font-size: 0.95rem; }
+  .opt-step-body { padding: 0.4rem 0.45rem; gap: 0.35rem; }
+}

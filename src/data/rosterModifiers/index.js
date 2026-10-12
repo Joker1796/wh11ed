@@ -16,6 +16,10 @@ import { borrowedFrom, detachmentSources } from '../detachmentSources.js'
 const loaders = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./*.test.js'], { import: 'default' })
 
 // One faction's records, or null when the faction has no file (or the layer was removed).
+/**
+ * @param {string} slug
+ * @returns {Promise<{ entries?: import('../../composables/roster.types.js').ModifierRecord[] } | null>}
+ */
 export async function loadRosterModifiers(slug) {
   const loader = loaders[`./${slug}.js`]
   if (!loader) return null
@@ -35,6 +39,11 @@ export async function loadRosterModifiers(slug) {
 // (a Space Marines list on Deathwatch Support reads Mission Tactics, not the Deathwatch's army).
 // Every record is still gated by unit, detachment and keyword downstream, so the rest cannot reach
 // a card it does not bear on.
+/**
+ * @param {string} slug
+ * @returns {Promise<{ entries?: import('../../composables/roster.types.js').ModifierRecord[] } | null>} null when neither
+ *   this faction nor any it borrows from has records
+ */
 export async function loadRosterModifiersFor(slug) {
   const own = await loadRosterModifiers(slug)
   const entries = [...(own?.entries || [])]

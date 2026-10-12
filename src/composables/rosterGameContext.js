@@ -1,3 +1,4 @@
+// @ts-check
 // What is true RIGHT NOW, at the table — the half of a conditional modifier the data cannot know.
 // Pure: no Vue, no store (the game object is passed in), same discipline as rosterEngine.js.
 //
@@ -29,10 +30,29 @@ import { SM_FAMILY } from '../data/smChapters.js'
 import { tracks } from '../data/trackerOptions.js'
 import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 
+/** @typedef {import('./roster.types.js').GameClock} GameClock */
+/** @typedef {import('./roster.types.js').Condition} Condition */
+/** @typedef {import('./roster.types.js').GameState} GameState */
+/** @typedef {import('./roster.types.js').GamePlayer} GamePlayer */
+/** @typedef {import('./roster.types.js').Stamp} Stamp */
+/** @typedef {import('./roster.types.js').StampStore} StampStore */
+/** @typedef {import('./roster.types.js').CondSwitch} CondSwitch */
+/** @typedef {import('./roster.types.js').AuraReach} AuraReach */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** The entry a card is drawn for — read for its uid, id and leaderOf only. @typedef {Partial<RosterEntry>} EntryLike */
+/** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
+/** @typedef {import('./roster.types.js').ModEntry} ModEntry */
+/** A clock, or the bare round number a game saved before the clock existed stores. @typedef {GameClock | number | null | undefined} ClockLike */
+
 // ── The clock ─────────────────────────────────────────────────────────────────────────────────
 // What the game is standing on, from the point of view of ONE player: which battle round, whose
 // turn it is (`mine`), which phase, and whether the game is keeping phases at all. Built once by
 // the caller and passed down, rather than each function digging into the game object.
+/**
+ * @param {GameState | null | undefined} game
+ * @param {number} [pi] the player whose side the clock is read from
+ * @returns {GameClock}
+ */
 export function clockOf(game, pi = 0) {
   const tracked = tracks(game?.settings, 'trackPhases')
   return {
@@ -48,10 +68,12 @@ export function clockOf(game, pi = 0) {
 }
 // Battle-shock's own two conditions, answered by the battle-shock row rather than the unit states'.
 const SHOCK_IDS = new Set(['unit-battle-shocked', 'unit-not-battle-shocked'])
+/** @param {string} id */
 export const isShockCondition = (id) => SHOCK_IDS.has(id)
 
 // A moment, as one number. Phases are numbered from 1 so that an untracked game (stamp
 // `round*100`) can never be mistaken for one standing in a phase.
+/** @param {ClockLike} clock @returns {Stamp} */
 export function stampOf(clock) {
   const c = normaliseClock(clock)
   if (!c.tracked) return c.round * 100
@@ -60,14 +82,18 @@ export function stampOf(clock) {
 
 // Tolerate a bare round number where a clock is expected — that is what a game saved before the
 // clock existed hands us, and what the older tests pass.
+/** @param {ClockLike} clock @returns {GameClock} */
 function normaliseClock(clock) {
   if (typeof clock === 'number') return { round: clock, turn: 0, phase: BATTLE_PHASES[0], mine: true, tracked: false }
   return clock || { round: 1, turn: 0, phase: BATTLE_PHASES[0], mine: true, tracked: false }
 }
 
 // A stored value from before stamps existed is a bare round number (1..5); a stamp is ≥ 100.
+/** @param {Stamp} at */
 const isLegacy = (at) => at < 100
+/** @param {Stamp} at */
 const roundOfStamp = (at) => (isLegacy(at) ? at : Math.floor(at / 100))
+/** @param {Stamp} at */
 const turnOfStamp = (at) => Math.floor(at / 10)
 
 // Conditions read from the game rather than asked about. Keyed by condition id; each reader gets
@@ -82,6 +108,8 @@ const turnOfStamp = (at) => Math.floor(at / 10)
 // condition asks about, which most do not — Drukhari's tracker counts Pain tokens, not which
 // Combat Drug is running, and the Sororitas one banks Miracle dice and says nothing about which
 // unit is Righteous. Those stay switches.
+/** A condition the tracker answers from the player's army-rule state this round. @typedef {(player: GamePlayer | null | undefined, round: number) => boolean} AutoReader */
+/** @type {Record<string, AutoReader>} */
 const AUTO = {
   // Adeptus Mechanicus — a per-round `selection` whose option ids are the Imperatives themselves.
   'imperative-protector': (player, round) => player?.factionSlug === 'adeptus-mechanicus'
@@ -98,6 +126,7 @@ const AUTO = {
     && (player?.army?.multiByRound?.[round] || []).includes('warp-blades'),
 }
 
+/** @param {string} id */
 export const isAuto = (id) => Object.hasOwn(AUTO, id)
 
 // Conditions the tracker can prove ON but whose OFF proves nothing, so the hand switch has to stay
@@ -107,6 +136,7 @@ export const isAuto = (id) => Object.hasOwn(AUTO, id)
 // one unit at a time. So the War Cry turns it on for everybody while its window is open, and the
 // unit's own switch answers the rest. (Plain AUTO would have been wrong in both directions: it
 // would have taken the switch away, and read "no War Cry" as "nothing is riled up".)
+/** @type {Record<string, AutoReader>} */
 const SOFT_AUTO = {
   'riled-up': (player, round) => player?.factionSlug === 'orks'
     && (player?.army?.toggleRounds || []).includes(round),
@@ -115,7 +145,7 @@ const SOFT_AUTO = {
   // all five Codex Supplements share the army rule (app data 963), so every one of them reads it.
   ...Object.fromEntries(['assault', 'devastator', 'tactical'].filter((d) => conditions[`doctrine-${d}`])
     .map((d) => [`doctrine-${d}`,
-      (player, round) => SM_FAMILY.has(player?.factionSlug) && player?.army?.selectionByRound?.[round] === d])),
+      (player, round) => !!player?.factionSlug && SM_FAMILY.has(player.factionSlug) && player?.army?.selectionByRound?.[round] === d])),
 }
 
 // …and two datasheets answer it outright, with no trigger and no window: the Stompa's Waaagh!
@@ -124,12 +154,15 @@ const SOFT_AUTO = {
 // player's to flip — asking would be asking them to confirm what their own datasheet prints.
 // Guarded by a test that scans every Orks datasheet for the phrase, so a third one cannot appear
 // in a later codex and quietly go unread.
+/** @type {Record<string, Set<string>>} */
 const ENTRY_PROVES = { 'riled-up': new Set(['stompa', 'zodgrod-wortsnagga']) }
+/** @param {string} id @param {EntryLike | null | undefined} entry */
 const entryProves = (id, entry) => !!(entry?.id && ENTRY_PROVES[id]?.has(entry.id))
 
 // Is a switch still in force? Compared at the granularity its own rule states — except against a
 // legacy round-only value (or in a game not keeping phases), where the round is all either side
 // knows and a shorter duration can only be answered as coarsely as that.
+/** @param {StampStore | undefined} store @param {string} id @param {ClockLike} clock */
 function switchOn(store, id, clock) {
   const at = store?.[id]
   if (at == null) return false
@@ -140,6 +173,7 @@ function switchOn(store, id, clock) {
 
 // Is a stamp still inside the window a duration gives it? Shared by switches and by stratagems,
 // which expire the same way for the same reason.
+/** @param {Stamp | null | undefined} at @param {string | undefined} duration @param {ClockLike} clock */
 function stampHolds(at, duration, clock) {
   if (at == null) return false
   if (duration === 'battle') return true
@@ -153,6 +187,7 @@ function stampHolds(at, duration, clock) {
 // Answered by the list itself: a Leader entry records the unit it is attached to, so asking the
 // player would be asking them to repeat themselves. `units` is the roster's entries — `unit-led`
 // has to look the other way along the link, for a Leader pointing at THIS entry.
+/** @param {string} id @param {EntryLike | null | undefined} entry @param {RosterEntry[] | null | undefined} units */
 function rosterAnswers(id, entry, units) {
   if (id === 'unit-leading') return !!entry?.leaderOf
   if (id === 'unit-led') return !!entry?.leaderOf || (!!entry?.uid && (units || []).some((u) => u.leaderOf === entry.uid))
@@ -163,6 +198,7 @@ function rosterAnswers(id, entry, units) {
 // phases — every game knows its battle round — so it answers always. A phase needs a game keeping
 // them, and a `side: 'own'` one ("your Shooting phase") additionally wants the turn to belong to
 // the player whose card is being drawn; an ownerless one (the Fight phase) is true in both turns.
+/** @param {Condition} c @param {ClockLike} clock */
 function clockHolds(c, clock) {
   const k = normaliseClock(clock)
   if (c.rounds) return c.rounds.includes(k.round)
@@ -181,6 +217,13 @@ function clockHolds(c, clock) {
 // being listed with their condition, which is the same honest degradation a game without phases
 // has. The other three sources are never gated: `auto` (the tracker already knows), `clock` and
 // `roster` cost the player nothing to maintain, so there is nothing to switch off.
+/**
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @param {{ units?: RosterEntry[] | null, army?: boolean, unit?: boolean, shock?: boolean }} [opts]
+ * @returns {Set<string>}
+ */
 export function activeConditions(player, clock, entry, opts = {}) {
   const army = opts.army !== false
   const unit = opts.unit !== false
@@ -220,6 +263,11 @@ export function activeConditions(player, clock, entry, opts = {}) {
 //
 // An ordinary state (`negates`) is answered here too: nothing has happened to a list nobody is
 // playing, so "while not Battle-shocked" is as true as the printed number.
+/**
+ * @param {EntryLike | null | undefined} entry
+ * @param {RosterEntry[] | null} [units]
+ * @returns {Set<string>}
+ */
 export function rosterConditions(entry, units = null) {
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
@@ -234,20 +282,24 @@ export function rosterConditions(entry, units = null) {
 // existed can hold all six of Creations of Bile's augmentations, each rewriting a stat. Reading is
 // where that has to be caught, so the cap is applied here too and the newest switches win, the same
 // ones the store would have kept. Nothing is deleted: the game's own record stays as it was played.
+/** @param {Set<string>} out @param {GamePlayer | null | undefined} player @param {EntryLike | null | undefined} entry */
 function capGroups(out, player, entry) {
+  /** @type {Map<string, string[]>} */
   const byGroup = new Map()
   for (const id of out) {
     const group = conditions[id]?.group
     if (!group) continue
-    if (!byGroup.has(group)) byGroup.set(group, [])
-    byGroup.get(group).push(id)
+    let ids = byGroup.get(group)
+    if (!ids) byGroup.set(group, (ids = []))
+    ids.push(id)
   }
   for (const [group, ids] of byGroup) {
     const limit = groupLimitOf(group)
     if (ids.length <= limit) continue
+    /** @param {string} id */
     const stampFor = (id) => (conditions[id].scope === 'army'
       ? player?.ctx?.army?.[id]
-      : player?.ctx?.units?.[entry?.uid]?.[id]) ?? 0
+      : entry?.uid ? player?.ctx?.units?.[entry.uid]?.[id] : undefined) ?? 0
     // Oldest first, then drop from the front until the group fits. Ids came out of `out` in
     // dictionary order, which is the same tie-break the store uses for switches sharing a stamp.
     const ordered = ids.map((id, i) => ({ id, at: stampFor(id), i }))
@@ -267,6 +319,13 @@ function capGroups(out, player, entry) {
 // the turn" next, and a handful last the battle. Expiry is the same single comparison a switch
 // uses, so a stratagem spent in the Shooting phase stops rewriting the card in the Fight phase
 // without anyone having to remember to turn it off.
+/**
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @param {ModEntry[] | null | undefined} records
+ * @returns {Set<string>}
+ */
 export function activeStratagems(player, clock, entry, records) {
   const out = new Set()
   const store = entry?.uid ? player?.ctx?.strats?.[entry.uid] : null
@@ -284,6 +343,7 @@ export function activeStratagems(player, clock, entry, records) {
 // record's sid, stamped when it was picked, and lasting the battle round the set's own wording
 // gives it ("until the start of the next battle round this model has those abilities"). Every set
 // in the game is worded that way, so the window is not per-record.
+/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {EntryLike | null | undefined} entry @returns {Set<string>} */
 export function activePicks(player, clock, entry) {
   const out = new Set()
   const store = entry?.uid ? player?.ctx?.picks?.[entry.uid] : null
@@ -300,6 +360,7 @@ export function activePicks(player, clock, entry) {
 // own `ctx.picks` know nothing about it. The one non-unique exception is the Drukhari Raider, where
 // two of them would share one choice; that is the price of not threading the source entry through
 // every apply pass, and it is written down rather than hidden.
+/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @returns {Set<string>} */
 export function allPicks(player, clock) {
   const out = new Set()
   for (const store of Object.values(player?.ctx?.picks || {})) {
@@ -317,36 +378,45 @@ export function allPicks(player, clock) {
 // `records` are the RAW option records (rosterModifiers' pickEntries), not resolved ones: an option
 // that changes no number carries no effects and so never reaches the resolver — and those are
 // exactly the ones a tally needs.
+/**
+ * @param {ModifierRecord[] | null | undefined} records
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @returns {CondSwitch[]}
+ */
 export function pickSwitchesFor(records, player, clock, entry) {
   const on = activePicks(player, clock, entry)
-  return (records || [])
-    .filter((rec) => rec.ref?.set && rec.ref.unit === entry?.id)
-    .map((rec) => {
-      const at = rec.name.indexOf(': ')
-      return {
-        id: rec.sid,
-        // The record is named "<unit>: <ability>"; the chip shows the ability, and the view swaps
-        // in the RU card's own name for it.
-        label: { en: at === -1 ? rec.name : rec.name.slice(at + 2), ru: at === -1 ? rec.name : rec.name.slice(at + 2) },
-        on: on.has(rec.sid),
-        auto: false,
-        pick: true,
-        group: `set:${rec.ref.set}`,
-        groupLimit: rec.ref.pickLimit || 1,
-        from: {
-          owner: at === -1 ? null : rec.name.slice(0, at),
-          ability: at === -1 ? rec.name : rec.name.slice(at + 2),
-          set: rec.ref.set,
-          unit: rec.ref.unit,
-        },
-      }
-    })
+  // Only an ability record can belong to a set.
+  return (records || []).flatMap((rec) => {
+    const ref = rec.ref
+    if (ref?.kind !== 'ability' || !ref.set || ref.unit !== entry?.id) return []
+    const at = rec.name.indexOf(': ')
+    return [{
+      id: rec.sid,
+      // The record is named "<unit>: <ability>"; the chip shows the ability, and the view swaps
+      // in the RU card's own name for it.
+      label: { en: at === -1 ? rec.name : rec.name.slice(at + 2), ru: at === -1 ? rec.name : rec.name.slice(at + 2) },
+      on: on.has(rec.sid),
+      auto: false,
+      pick: true,
+      group: `set:${ref.set}`,
+      groupLimit: ref.pickLimit || 1,
+      from: {
+        owner: at === -1 ? null : rec.name.slice(0, at),
+        ability: at === -1 ? rec.name : rec.name.slice(at + 2),
+        set: ref.set,
+        unit: ref.unit,
+      },
+    }]
+  })
 }
 
 // The auras the player says are reaching this unit right now, as a set of record ids. The window is
 // a BATTLE ROUND: what makes an aura start or stop applying is movement, and re-confirming every
 // phase would be a tap per unit per phase for a fact that rarely changes inside one round. Erring
 // early, as everywhere else here — a mark that has gone stale would quietly rewrite a number.
+/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {EntryLike | null | undefined} entry @returns {Set<string>} */
 export function activeAuras(player, clock, entry) {
   const out = new Set()
   const store = entry?.uid ? player?.ctx?.auras?.[entry.uid] : null
@@ -360,6 +430,13 @@ export function activeAuras(player, clock, entry) {
 // The chips: one per aura that could reach this unit (rosterStatMods' aurasReaching decides which),
 // each saying where it radiates from, and whether the player has marked it. Same shape as the
 // condition and stratagem switches, so they render in the same strip on the unit's row.
+/**
+ * @param {AuraReach[] | null | undefined} reaching
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @returns {CondSwitch[]}
+ */
 export function auraSwitchesFor(reaching, player, clock, entry) {
   const on = activeAuras(player, clock, entry)
   return (reaching || []).map((a) => ({
@@ -379,6 +456,7 @@ export function auraSwitchesFor(reaching, player, clock, entry) {
 
 // Is a condition that forbids spending stratagems on this unit on right now? (Battle-shock is the
 // only one, but which condition it is belongs in the vocabulary, not in this file.)
+/** @param {GamePlayer | null | undefined} player @param {ClockLike} clock @param {EntryLike | null | undefined} entry */
 export function stratagemsBlocked(player, clock, entry) {
   for (const id of activeConditions(player, clock, entry)) {
     if (conditions[id]?.blocksStratagems) return true
@@ -392,6 +470,14 @@ export function stratagemsBlocked(player, clock, entry) {
 // while a phase- or turn-long one is still affecting the unit, which is exactly what a
 // Battle-shocked unit may not be. Returns sids for the caller to un-spend; pure, so the store stays
 // the single writer.
+/**
+ * @param {string} condId
+ * @param {ModEntry[] | null | undefined} resolvedEntries
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @returns {string[]}
+ */
 export function stratagemsClearedBy(condId, resolvedEntries, player, clock, entry) {
   if (!conditions[condId]?.blocksStratagems) return []
   const byId = new Map((resolvedEntries || []).map((r) => [r.sid, r]))
@@ -409,6 +495,11 @@ export function stratagemsClearedBy(condId, resolvedEntries, player, clock, entr
 // Only a game that keeps phases can answer this. Without one every stamp is a bare round (see the
 // clock note at the top), so "the same phase" is unknowable, and blocking a whole round would
 // forbid play the rules allow — the wrong way to be wrong. Returns null there, and the limits sit out.
+/**
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @returns {{ sids: Set<string>, byUid: Map<string, Set<string>> } | null}
+ */
 function spentThisPhase(player, clock) {
   if (!normaliseClock(clock).tracked) return null
   const now = stampOf(clock)
@@ -439,11 +530,18 @@ function spentThisPhase(player, clock) {
 // which is also the escape hatch for the "unless otherwise stated" stratagem that IS allowed to
 // double up: un-spend the other one. (Switching Battle-shock on un-spends them for you, so a
 // shocked unit normally has none left — stratagemsClearedBy.)
+/**
+ * @param {ModEntry[] | null | undefined} resolvedEntries
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @returns {CondSwitch[]}
+ */
 export function stratagemsFor(resolvedEntries, player, clock, entry) {
   const active = activeStratagems(player, clock, entry, resolvedEntries)
   const shocked = stratagemsBlocked(player, clock, entry)
   const spent = spentThisPhase(player, clock)
-  const takenThisPhase = !!spent?.byUid.get(entry?.uid)?.size
+  const takenThisPhase = !!(entry?.uid && spent?.byUid.get(entry.uid)?.size)
   // The slot the game is standing in — only a game keeping phases has one, and without it the
   // timing line is unanswerable, exactly as the per-phase limits above are.
   const k = normaliseClock(clock)
@@ -452,6 +550,7 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
     .filter((rec) => rec.kind === 'stratagem' && rec.effects?.length)
     .map((rec) => {
       const on = active.has(rec.sid)
+      /** @type {CondSwitch['blockedBy']} */
       let blockedBy = null
       if (!on) {
         if (shocked) blockedBy = 'shock'
@@ -478,6 +577,14 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
 // The switches worth showing for a set of resolved modifier records: the conditions their effects
 // actually name, at the given scope, and only where every condition on that effect is answerable —
 // a switch that cannot change anything on screen is worse than no switch at all.
+/**
+ * @param {ModEntry[] | null | undefined} resolvedEntries
+ * @param {string} scope
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @returns {CondSwitch[]}
+ */
 export function switchesFor(resolvedEntries, scope, player, clock, entry) {
   const ids = new Set()
   // …and WHICH rule named each one. A chip reading "Adrenalight" says nothing on its own: finding
@@ -486,6 +593,7 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
   // taken — a condition is named by one rule in all but a handful of cases, and the second would
   // be the same rule under another unit anyway.
   const namedBy = new Map()
+  /** @param {string} id */
   const answerable = (id) => {
     const c = conditions[id]
     if (!c) return false
@@ -517,7 +625,7 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
   const shown = []
   for (const id of ids) {
     const group = conditions[id].group
-    if (!WHOLE_GROUPS.has(group)) { shown.push(id); continue }
+    if (!group || !WHOLE_GROUPS.has(group)) { shown.push(id); continue }
     if (shown.some((s) => conditions[s].group === group)) continue
     const members = Object.keys(conditions).filter((k) => conditions[k].group === group && conditions[k].scope === scope)
     for (const m of members) namedBy.set(m, namedBy.get(id))
@@ -546,7 +654,14 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
   }))
 }
 
+/** @param {ModEntry | undefined} rec */
 function srcOf(rec) {
   if (!rec) return null
-  return { kind: rec.kind, name: rec.name, det: rec.ref?.det || null, unit: rec.ref?.unit || null }
+  const ref = rec.ref
+  return {
+    kind: rec.kind,
+    name: rec.name,
+    det: (ref && 'det' in ref && ref.det) || null,
+    unit: (ref && 'unit' in ref && ref.unit) || null,
+  }
 }

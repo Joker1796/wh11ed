@@ -58,21 +58,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.account-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  min-height: 50vh;
-  max-width: 30rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  text-align: center;
-}
-.al-title { margin: 0; font-family: var(--font-display); font-size: 1.6rem; text-transform: uppercase; }
-.al-text { margin: 0; line-height: 1.5; color: var(--text-secondary); }
-.al-actions { margin-top: 0.4rem; }
+/* The page's column, title and text are the global Account landing (style.css). */
 .spinner {
   width: 28px;
   height: 28px;

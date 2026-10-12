@@ -1938,6 +1938,52 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   a { color: inherit !important; text-decoration: none !important; }
 }
 
+/* ── Weapon profile arrow ────────────────────────────────────────────────────
+   The small arrow before each profile of a weapon that has several ("Plasma incinerator" →
+   standard / supercharge), wherever weapon rows are drawn: a datasheet's tables and the wargear
+   info dialog. */
+.wprofile-arrow {
+  display: inline-block;
+  width: 13px;
+  height: 9px;
+  margin-right: 0.4rem;
+  background: var(--accent);
+  clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%);
+  vertical-align: middle;
+}
+
+/* ── Empty note ──────────────────────────────────────────────────────────────
+   What a list says when it has nothing to show — no stratagem for this filter, no detachment
+   picked yet: quiet, in the room the list would have taken. The Stratagems page and a saved
+   list's tabs each carried their own copy until 2026-10-12. */
+.empty-note {
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+/* ── Account landing ─────────────────────────────────────────────────────────
+   The page a link from an email lands on — confirming the address, setting a new password: one
+   centred column, a title, a sentence, the action. Shared by EmailVerifyView and PasswordResetView
+   (2026-10-12: each carried its own copy, which `npm run dupes` caught). A view narrows the column
+   with its own `max-width` if it needs to. */
+.account-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 50vh;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: center;
+}
+.al-title { margin: 0; font-family: var(--font-display); font-size: 1.6rem; text-transform: uppercase; }
+.al-text { margin: 0; line-height: 1.5; color: var(--text-secondary); }
+.al-actions { margin-top: 0.4rem; }
+
 /* ── Stratagem phase groups ─────────────────────────────────────────────────
    The fold heads of stratagems grouped by phase and the filter bar's toggles, shared by the
    Stratagems page (StratPhaseGroups / StratFilterBar) and the roster screen's own copy of them

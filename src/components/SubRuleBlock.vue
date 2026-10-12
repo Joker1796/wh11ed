@@ -33,7 +33,7 @@
 
         <div
           class="rule-body"
-          @click="handleDefClick"
+          @click="scrollToDefinition"
         >
           <RuleBody
             :id="id"
@@ -50,14 +50,14 @@
 
           <div
             v-if="note"
+            v-safe-html="renderParagraphs(note)"
             class="note-box"
-            v-html="renderParagraphs(note)"
           />
 
           <div
             v-if="example"
+            v-safe-html="renderInline(example)"
             class="example-block"
-            v-html="renderInline(example)"
           />
         </div>
       </div>
@@ -73,7 +73,8 @@ import SeeAlsoBlock from './SeeAlsoBlock.vue'
 import RuleBody from './RuleBody.vue'
 import DataTable from './DataTable.vue'
 import CollapseTransition from './CollapseTransition.vue'
-import { useRenderInline } from '../composables/useRenderInline.js'
+import { useRenderInline, scrollToDefinition } from '../composables/useRenderInline.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 // A third-level rule block (x.x.x), nested inside a subsection (x.x) and rendered as a
 // collapsible accordion (collapsed by default). Body markup is parsed by the shared RuleBody,
@@ -103,21 +104,8 @@ watch(() => route.hash, (hash) => {
   }
 }, { immediate: true })
 
-const { renderInline } = useRenderInline()
+const { renderInline, renderParagraphs } = useRenderInline()
 
-function renderParagraphs(text) {
-  return text.split('\n\n').map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`).join('')
-}
-
-function handleDefClick(e) {
-  const target = e.target.closest('[data-def]')
-  if (!target) return
-  const el = document.getElementById('def-' + target.dataset.def)
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 100
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
-}
 </script>
 
 <style scoped>

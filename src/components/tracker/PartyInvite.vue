@@ -20,8 +20,8 @@
     </div>
     <div
       v-if="qrSvg"
+      v-safe-html="qrSvg"
       class="pi-qr"
-      v-html="qrSvg"
     />
     <div class="pi-row pi-code-row">
       <span class="pi-label">{{ labels.partyCode }}</span>
@@ -47,6 +47,7 @@ import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 // The host's invitation — the link, its QR and the six-digit code — as one block, because it is
 // needed in two places: the sharing dialog of a game already running, and the lobby screen where

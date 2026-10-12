@@ -13,8 +13,8 @@
       >{{ tag }}</small></span>
       <span
         v-if="strat.when"
+        v-safe-html="renderInline(strat.when)"
         class="sr-when"
-        v-html="renderInline(strat.when)"
       />
     </button>
     <div class="sr-ctrl">
@@ -64,6 +64,7 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 // One stratagem in the CP tab: name and timing (tap for the full card) and the cost button, which
 // plays it (the cost a rule changed is asked then, StratPlayModal). Pure presentation — CpStratagems decides every number and the reason.

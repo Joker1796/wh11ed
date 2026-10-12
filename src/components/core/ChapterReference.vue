@@ -81,12 +81,12 @@
 
       <div
         class="ability-body"
-        @click="handleDefClick"
+        @click="scrollToDefinition"
       >
         <p
           v-if="ability.flavor"
+          v-safe-html="renderInline(ability.flavor)"
           class="ability-flavor"
-          v-html="renderInline(ability.flavor)"
         />
 
         <template
@@ -100,7 +100,7 @@
             <li
               v-for="(item, li) in block.items"
               :key="li"
-              v-html="renderInline(item)"
+              v-safe-html="renderInline(item)"
             />
           </ul>
           <ol
@@ -110,7 +110,7 @@
             <li
               v-for="(item, li) in block.items"
               :key="li"
-              v-html="renderInline(item)"
+              v-safe-html="renderInline(item)"
             />
           </ol>
           <div
@@ -126,28 +126,28 @@
                 {{ row.label }}
               </div>
               <div
+                v-safe-html="renderInline(row.content)"
                 class="info-content"
-                v-html="renderInline(row.content)"
               />
             </div>
           </div>
           <p
             v-else
-            v-html="renderInline(block.text)"
+            v-safe-html="renderInline(block.text)"
           />
         </template>
       </div>
 
       <div
         v-if="ability.example"
+        v-safe-html="renderInline(ability.example)"
         class="example-block"
-        v-html="renderInline(ability.example)"
       />
 
       <div
         v-if="ability.note"
+        v-safe-html="renderParagraphs(ability.note)"
         class="note-box ability-note-box"
-        v-html="renderNoteHtml(ability.note)"
       />
 
       <SubRuleBlock
@@ -207,7 +207,7 @@
         {{ entry.title }}
       </h3>
 
-      <div @click="handleDefClick">
+      <div @click="scrollToDefinition">
         <template
           v-for="(block, bi) in parseBody(entry.body)"
           :key="bi"
@@ -219,12 +219,12 @@
             <li
               v-for="(item, li) in block.items"
               :key="li"
-              v-html="renderInline(item)"
+              v-safe-html="renderInline(item)"
             />
           </ul>
           <p
             v-else
-            v-html="renderInline(block.text)"
+            v-safe-html="renderInline(block.text)"
           />
         </template>
       </div>
@@ -238,13 +238,13 @@
 
       <div
         v-if="entry.example"
+        v-safe-html="renderInline(entry.example)"
         class="example-block"
-        v-html="renderInline(entry.example)"
       />
       <div
         v-if="entry.note"
+        v-safe-html="renderParagraphs(entry.note)"
         class="note-box"
-        v-html="renderNoteHtml(entry.note)"
       />
     </div>
   </div>
@@ -268,7 +268,7 @@
         {{ entry.header }}
       </h3>
 
-      <div @click="handleDefClick">
+      <div @click="scrollToDefinition">
         <template
           v-for="(block, bi) in parseBody(entry.body)"
           :key="bi"
@@ -280,12 +280,12 @@
             <li
               v-for="(item, li) in block.items"
               :key="li"
-              v-html="renderInline(item)"
+              v-safe-html="renderInline(item)"
             />
           </ul>
           <p
             v-else
-            v-html="renderInline(block.text)"
+            v-safe-html="renderInline(block.text)"
           />
         </template>
       </div>
@@ -318,15 +318,16 @@ import DataTable from '../DataTable.vue'
 import RuleBlock from '../RuleBlock.vue'
 import SubRuleBlock from '../SubRuleBlock.vue'
 import FaqItem from '../FaqItem.vue'
-import { useRenderInline } from '../../composables/useRenderInline.js'
+import { useRenderInline, scrollToDefinition } from '../../composables/useRenderInline.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useAbilityFilter } from '../../composables/useAbilityFilter.js'
 import { useRoute } from 'vue-router'
 import { ui } from '../../i18n/ui.js'
 import { abilitySection, abilityIntro, coreAbilities, appendix, errata, faqs } from '../../data/reference.js'
 import { chunkSubsections } from '../../composables/columnChunks.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
-const { renderInline } = useRenderInline()
+const { renderInline, renderParagraphs } = useRenderInline()
 const { locale } = useLocale()
 const route = useRoute()
 
@@ -441,21 +442,6 @@ function parseBody(text) {
   return result
 }
 
-function renderNoteHtml(text) {
-  return text.split('\n\n')
-    .map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`)
-    .join('')
-}
-
-function handleDefClick(e) {
-  const target = e.target.closest('[data-def]')
-  if (!target) return
-  const el = document.getElementById('def-' + target.dataset.def)
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 100
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
-}
 </script>
 
 <style scoped>

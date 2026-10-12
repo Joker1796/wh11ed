@@ -22,8 +22,8 @@
         >{{ e.points }} {{ labels.rosterPointsLabel }}</span>
       </div>
       <div
+        v-safe-html="renderRichText(e.body)"
         class="enh-body"
-        v-html="renderRichText(e.body)"
       />
       <RuleExtras :extras="e.extras" />
       <!-- Who: the units as tags — the one wearing it filled with a tick, the free ones outlined. -->
@@ -66,6 +66,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { enhancementBearers } from '../../composables/rosterEngine.js'
 import RuleExtras from '../RuleExtras.vue'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({
   // The rules bundle's enhancements (name, nameRu, points, body).

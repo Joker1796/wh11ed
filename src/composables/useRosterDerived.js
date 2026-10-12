@@ -21,8 +21,9 @@ import { computed, shallowReactive, watchEffect } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import {
+  rosterDetachments,
   allySourceOf, capKeyOf, effectiveBattle, grantedKeywordsFor, leadsFor, legalityOn, rosterPoints,
-  sectionsOf, unitPoints,
+  sectionsOf, sectionsOfUnits, unitPoints,
 } from './rosterEngine.js'
 import { duplicateCounts, duplicateLimit, validateRoster } from './rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
@@ -47,12 +48,7 @@ export function useRosterDerived(roster, factionData) {
   })
   function defOf(id) { return unitMap.value.get(id) }
 
-  // The roster stores detachment NAMES (as the tracker does); these are the data objects behind
-  // them, which is what pricing, legality and every rule gate actually read.
-  const curDetachments = computed(() =>
-    (roster.value?.detachments || [])
-      .map((name) => (factionData.value?.detachments || []).find((d) => d.name === name))
-      .filter(Boolean))
+  const curDetachments = computed(() => rosterDetachments(roster.value, factionData.value))
 
   const effBattle = computed(() => effectiveBattle(roster.value || {}, rosterCore))
   const limit = computed(() => effBattle.value.points)
@@ -143,7 +139,7 @@ export function useRosterDerived(roster, factionData) {
   // The datasheets the army may take right now — what the catalogue offers (a group a Detachment
   // locks is not in it), for the fields' "Can be led by" list (leaderCandidatesFor).
   const catalogue = computed(() =>
-    sectionsOf(factionData.value?.units || [], {
+    sectionsOfUnits(factionData.value?.units || [], {
       faction: { allies: factionData.value?.allies || [], slug: roster.value?.faction },
       detachments: curDetachments.value,
     }).flatMap((sec) => sec.items))

@@ -41,8 +41,8 @@
                 ><span
                   v-for="t in w.tags"
                   :key="t"
+                  v-safe-html="renderInline('[' + t + ']')"
                   class="wtag"
-                  v-html="renderInline('[' + t + ']')"
                 /></span>
               </td>
               <td data-label="Range">
@@ -91,8 +91,8 @@
                 ><span
                   v-for="t in w.tags"
                   :key="t"
+                  v-safe-html="renderInline('[' + t + ']')"
                   class="wtag"
-                  v-html="renderInline('[' + t + ']')"
                 /></span>
               </td>
               <td data-label="Range">
@@ -121,7 +121,7 @@
           :key="a.name"
           class="wpm-ability"
         >
-          <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)" />
+          <strong>{{ a.name }}:</strong> <span v-safe-html="renderInline(a.text)" />
         </div>
       </div>
       <p
@@ -154,8 +154,10 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
-import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
+import { localizeSheet } from '../../data/datasheets/ru/index.js'
+import { useDatasheetsRu } from '../../composables/useDatasheetsRu.js'
 import { weaponBase, withGroupPos } from '../../utils/weaponGroups.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({
   unitId: { type: String, required: true },
@@ -210,17 +212,7 @@ const meleeRows = computed(() => matching(sheet.value?.melee))
 
 // The same sheet with its prose in RU (null outside the RU locale, and while the overlay chunk
 // is still loading — the EN original shows until it arrives, never an empty modal).
-const ruModule = ref(null)
-watch(
-  [() => props.factionSlug, locale],
-  async ([slug, loc]) => {
-    ruModule.value = null
-    if (!slug || loc !== 'ru') return
-    const mod = await loadDatasheetsRu(slug)
-    if (props.factionSlug === slug && locale.value === 'ru') ruModule.value = mod
-  },
-  { immediate: true },
-)
+const ruModule = useDatasheetsRu(() => props.factionSlug)
 const ruSheet = computed(() => {
   const en = sheet.value
   if (!en || !ruModule.value) return null
@@ -288,15 +280,6 @@ const abilityRows = computed(() => [
 .wpm-weapons tr.wg-mid td,
 .wpm-weapons tr.wg-end td {
   background: color-mix(in srgb, var(--accent) 8%, transparent);
-}
-.wprofile-arrow {
-  display: inline-block;
-  width: 13px;
-  height: 9px;
-  margin-right: 0.4rem;
-  background: var(--accent);
-  clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%);
-  vertical-align: middle;
 }
 
 /* Phones: the same two-step treatment DatasheetCard's own weapon tables get — see the long

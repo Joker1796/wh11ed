@@ -22,6 +22,34 @@
 
 export const changelog = [
   {
+    version: '2.8.1',
+    date: '2026-10-12',
+    en: [
+      { h: 'Datasheets' },
+      'The Emperor’s Children Sorcerer and Lord Exultant now have Toughness 5, as the codex errata of 30 September requires. The site takes its datasheets from the GW app. The errata raised Toughness for four units, but the app’s datasheets got it for only two of them. So I missed the other two. I now also check the datasheets against the errata itself.',
+      'The close combat weapon of the Grey Knights Purifier Squad now has Strength 5, as the codex errata requires.',
+      'I improved my comparison scripts and checked all 234 characteristic changes from the errata of eight codexes. The rest were already right.',
+      { h: 'Answers to your questions' },
+      'Why can’t Black Templars take Gladius Task Force? The GW app and the Munitorum Field Manual do not give it to them either. So the roster builder does not offer it.',
+      'Why can’t a Necrons Overlord take an Overlord’s blade and a Resurrection Orb together? By the datasheet, the orb is only for a model without a tachyon arrow. The tachyon arrow is replaced only together with the blade.',
+      'Why can’t Dark Angels take Wrath of the Rock together with Terminator Storm Force? Both detachments have the TERMINATOR tag. A list cannot take two detachments with the same tag. The Munitorum Field Manual and the GW app both give them this tag. In the roster builder the tag is shown on the detachment’s card.',
+      { h: 'Roster builder' },
+      'I tidied up the roster builder’s code and fixed a few small errors in how lists are checked.',
+    ],
+    ru: [
+      { h: 'Датащиты' },
+      'У Sorcerer и Lord Exultant из Emperor’s Children теперь Toughness 5. Так требует эррата кодекса от 30 сентября. Сайт берёт датащиты из приложения GW. Эррата подняла Toughness четырём юнитам, а в датащитах приложения её подняли только двум. Поэтому я пропустил остальные два. Теперь я дополнительно сверяю датащиты с самой эрратой.',
+      'У close combat weapon в Purifier Squad из Grey Knights теперь Strength 5. Так требует эррата кодекса.',
+      'Я доработал скрипты сравнения и сверил все 234 изменения характеристик из эррат восьми кодексов. Остальные уже были верными.',
+      { h: 'Ответы на вопросы' },
+      'Почему у Black Templars нет Gladius Task Force? Его не дают им ни приложение GW, ни Munitorum Field Manual. Поэтому конструктор его не предлагает.',
+      'Почему Overlord у Necrons не может взять Overlord’s blade и Resurrection Orb вместе? По датащиту сферу берёт только модель без tachyon arrow. А tachyon arrow меняется только вместе с blade.',
+      'Почему Dark Angels не могут взять Wrath of the Rock вместе с Terminator Storm Force? У обоих детачментов тег TERMINATOR. Два детачмента с одним тегом в один список брать нельзя. Этот тег им дают и Munitorum Field Manual, и приложение GW. В конструкторе тег подписан на карточке детачмента.',
+      { h: 'Конструктор ростеров' },
+      'Я навёл порядок в коде конструктора ростеров и исправил несколько мелких ошибок в проверке списков.',
+    ],
+  },
+  {
     version: '2.8.0',
     date: '2026-10-11',
     en: [

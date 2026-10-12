@@ -168,6 +168,10 @@ function depluralise(phrase) {
 // One `{ targets, excludes }` per statement that speaks about your own army, or null for
 // "don't gate this rule". Per statement, not merged: a rule applies to a unit when ANY of its
 // statements does, and each statement's exclusions bind only to its own targets.
+/**
+ * @param {string | null | undefined} body
+ * @returns {Array<{ targets: string[], excludes: string[] }> | null}
+ */
 export function ruleScopes(body) {
   const own = passages(body).filter((p) => OWN_SIDE.test(p))
   if (!own.length) return null // escape 1

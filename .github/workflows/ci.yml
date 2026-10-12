@@ -44,6 +44,13 @@ jobs:
         if: ${{ !cancelled() }}
         run: npm run lint
 
+      # Types as a CHECK only (JSDoc + `// @ts-check`, tsconfig.json): Vite never reads them, so
+      # the build is the same with or without. A file opts in one at a time; this keeps the ones
+      # that did honest.
+      - name: Typecheck
+        if: ${{ !cancelled() }}
+        run: npm run typecheck
+
       # An image URL is cached for a year by the CDN and forever by the service worker, both of
       # which key on the URL alone — so an illustration changed in place never reaches anyone who
       # has already seen the old one. The rule has been written down since the caching split was

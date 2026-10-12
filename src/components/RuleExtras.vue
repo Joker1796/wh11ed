@@ -17,8 +17,8 @@
     <div
       v-for="(t, i) in items"
       :key="i"
+      v-safe-html="renderRichText(t)"
       class="rule-extras-item"
-      v-html="renderRichText(t)"
     />
   </aside>
 </template>
@@ -28,6 +28,7 @@ import { computed } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { vSafeHtml } from '../directives/safeHtml.js'
 
 const props = defineProps({
   // [{ en, ru }] — none or empty draws nothing.

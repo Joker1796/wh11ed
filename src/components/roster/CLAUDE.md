@@ -2494,7 +2494,8 @@ nothing. A bare custom number (no own limits) is not marked — nothing about it
 
 **Detachment tags in the picker** (2026-10-03). `useRosterBuildActions`'s `detachmentOptions`
 carries each detachment's `unique` tag (DYNASTY, DOCTRINES…), which `DetachmentPickerList` prints
-and uses to hide a second detachment sharing it (25.04). The mapping dropped it until then, so the
+and uses to hide a second detachment sharing it (the detachment's own rule — the MFM's "UNIQUE:" line,
+appdata's `detachment_unique_keyword`; not the core rules). The mapping dropped it until then, so the
 builder showed no tags and let a clashing pair (Assault + Devastator Brethren, both DOCTRINES) be
 picked, leaving only `validateRoster`'s `detachmentTagClash` to object afterwards.
 
@@ -2634,12 +2635,13 @@ because a list is read far more often than it is edited and the reason behind th
 warning count used to be two screens away; Units / Rules / Stratagems tabs, the latter two loading faction
 rule text via `loadFaction()` from `data/factions/index.js` — **async**, not the old sync
 `getFaction()`, see below — on first open of either tab, sharing one fetch since a detachment
-object carries both `.rule` and `.stratagems`). Its Stratagems tab is deliberately the same
-setup as the standalone `/stratagems` page (`StratagemsView.vue`): the by-phase/as-list toggle
-(same `localStorage['wh11ed-stratagems-by-phase']` key, so the preference is shared, not
-learned twice), phase accordions via `stratagemPhases.js`'s `phasesOf`/`phaseLabel`/
-`PHASE_ORDER`, and the same masonry `.strat-grid` — just pre-filtered to the roster's own
-detachments (flattened, no filter row) instead of that page's core/you/opp filter.
+object carries both `.rule` and `.stratagems`). The two tabs are components of their own,
+`RosterRulesTab` and `RosterStratagemsTab` (2026-10-12). The Stratagems tab is the standalone
+`/stratagems` page's own parts — `StratFilterBar` (the by-phase/as-list toggle, the same
+`localStorage['wh11ed-stratagems-by-phase']` key, and "usable now" in a live game keeping a clock)
+and `StratPhaseGroups` over `groupByPhase` — pre-filtered to the roster's own detachments
+(flattened, no deck row). It was a hand copy of them until then, and had drifted: the owner's
+tighter phase heads (2026-10-02) never reached it.
 
 Its **Units tab** shows the base statline as small chamfered plates (`.rvst`/`.rvst-box` — the global `.stat-plate`,
 scaled-down copies of `DatasheetCard.vue`'s own `.ds-stat`/`.ds-stat-box`), invulnerable save
@@ -2720,8 +2722,15 @@ a label truncate instead: the list card and the picker row clamp to two lines, a
 
 `RosterUnitBrowser` (add-unit list/search), `RosterUnitList` (the roster's own list, shared by the
 editor and the wizard — see Editing flow) and `RosterUnitRow` (one entry's collapsed line inside
-it), `UnitEditorFields` (wargear/enhancement/warlord
-pick UI for one unit), `WeaponProfileModal`, `EnhancementRuleModal` (loads the enhancement's
+it), `UnitEditorFields` (size/warlord/enhancement/leader pick UI for one unit) and
+`UnitWargearGroups` (its wargear groups, split out 2026-10-12: rendered as a fragment so its
+sections stay siblings of the editor's own — `.ues-sec:first-of-type` depends on it; it never
+writes the entry, a pick is `set-wg` and the editor applies it; what both draw is
+`unitEditorFields.css`, read by each as its own scoped sheet, and each keeps the rest in its own
+`<style>` — a scoped rule of one never reaches the other's elements, so a rule both need is in that
+file and nowhere else). A split like this is checked with a DOM dump (`scripts/lib/dom-dump.mjs`:
+`unit-pane-dump.mjs` for the editor's panes, `roster-view-dump.mjs` for a saved list's page), which
+must show no difference before and after, `WeaponProfileModal`, `EnhancementRuleModal` (loads the enhancement's
 rule text via `loadFaction()`, same as `RosterViewView`), `RosterIssuesModal` (renders
 `validateRoster()`'s issues), `RosterExportModal` (wraps `rosterExport.js`),
 `RosterUnitRulesModal` (wraps `DatasheetCard` with its `collapsible` prop — see Known gaps;

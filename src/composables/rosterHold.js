@@ -1,3 +1,4 @@
+// @ts-check
 // Swap groups drawn as WHAT THE MODELS HOLD rather than as how many swaps were made.
 //
 // A stepper counts models that took an option. Where the group's own options include the weapons
@@ -12,7 +13,12 @@
 // "who holds what" back to swaps, and rosterHold.test.js walks every distribution of every group
 // this applies to through the engine and back.
 import { optionItems, modelsPerMini, swapRoom } from './rosterEngine.js'
-import { loadoutItemCopies } from './rosterModifiers.js'
+import { loadoutItemCopies, sumKnown } from './rosterModifiers.js'
+
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('./roster.types.js').WargearPick} WargearPick */
+/** @typedef {Partial<RosterEntry>} EntryLike */
 
 // Whether group `gi` is drawn this way: a per-model stepper whose options are single items, among
 // them every item it replaces — so the rows ARE the profile's whole loadout for that slot, and
@@ -23,21 +29,28 @@ import { loadoutItemCopies } from './rosterModifiers.js'
 // profile, a priced option among the stock ones (rewriting the group would charge the models that
 // never changed), and another group of the same profile that replaces or hands out these items
 // (the stock rule would share them between two drawings).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {number} gi
+ * @returns {boolean}
+ */
 export function holdGroup(def, gi) {
-  const g = def?.gear?.[gi]
+  const gear = def?.gear || []
+  const g = gear[gi]
   if (!g || g.in !== 'stepper' || !g.rep?.length) return false
+  const rep = g.rep
   if (g.all || g.cp || g.repall || g.lim || g.keep?.length) return false
   const its = (g.o || []).map((o) => optionItems(o))
   if (its.some((x) => x.length !== 1 || x[0][1] !== 1)) return false
   const ids = its.map((x) => x[0][0])
-  if (!g.rep.every((id) => ids.includes(id))) return false
-  if ((g.o || []).some((o, oi) => o[1] && g.rep.includes(ids[oi]))) return false
+  if (!rep.every((id) => ids.includes(id))) return false
+  if ((g.o || []).some((o, oi) => o[1] && rep.includes(ids[oi]))) return false
   const m = g.m ?? 0
   // Printed on every model once, or as the profile's share ("2 Havocs are equipped with") — never
   // twice on one model. Whether the shares add up to the model count is holdCounts' to check.
-  const stock = new Map((def.defaults || []).find(([dm]) => dm === m)?.[1].map(([id, c, total]) => [id, [c, total]]) || [])
-  if (!g.rep.every((id) => stock.has(id) && (stock.get(id)[1] || stock.get(id)[0] === 1))) return false
-  return !def.gear.some((h, hi) => hi !== gi && (h.all || (h.m ?? 0) === m) && (
+  const stock = new Map((def?.defaults || []).find(([dm]) => dm === m)?.[1].map(([id, c, total]) => [id, [c, total]]) || [])
+  if (!rep.every((id) => { const st = stock.get(id); return !!st && (st[1] || st[0] === 1) })) return false
+  return !gear.some((h, hi) => hi !== gi && (h.all || (h.m ?? 0) === m) && (
     h.rep?.some((id) => ids.includes(id)) || (h.o || []).some((o) => optionItems(o).some(([id]) => ids.includes(id)))
   ))
 }
@@ -46,16 +59,27 @@ export function holdGroup(def, gi) {
 // stock models included. null where the rows do not add up to the profile's models — the engine
 // cannot count it (a profile of unknown size), or the size printed fewer stock weapons than models
 // — and the editor then keeps the plain swap steppers for that group.
+/**
+ * @param {RosterUnit} def
+ * @param {EntryLike} entry
+ * @param {number} gi
+ * @returns {number[] | null}
+ */
 export function holdCounts(def, entry, gi) {
-  const g = def.gear[gi]
+  const g = def.gear?.[gi]
+  if (!g) return null
   const m = g.m ?? 0
   const copies = loadoutItemCopies(def, entry)
   const models = modelsPerMini(def, entry)?.get(m)
   if (!copies || !models) return null
-  const counts = g.o.map((o) => (copies.get(optionItems(o)[0][0]) || [])
-    .filter((sl) => sl.m === m)
-    .reduce((s, sl) => (s == null || sl.n == null ? null : s + sl.n), 0))
-  return counts.some((n) => n == null) || counts.reduce((a, b) => a + b, 0) !== models ? null : counts
+  // Per option, how many models of the profile hold its item — all known, or no answer.
+  const counts = []
+  for (const o of g.o) {
+    const n = sumKnown((copies.get(optionItems(o)[0][0]) || []).filter((sl) => sl.m === m).map((sl) => sl.n))
+    if (n == null) return null
+    counts.push(n)
+  }
+  return counts.reduce((a, b) => a + b, 0) === models ? counts : null
 }
 
 // The entry's `wg` with group `gi` set so that its rows hold `counts` (by option index, adding up
@@ -63,11 +87,21 @@ export function holdCounts(def, entry, gi) {
 // model of the profile, each to what it should hold — the engine then has no choice of which stock
 // weapon a swap gives up (with "autocannon or lascannon" it would pick for us, and could pick the
 // one the player meant to keep).
+/**
+ * @param {RosterUnit} def
+ * @param {EntryLike} entry
+ * @param {number} gi
+ * @param {number[]} counts
+ * @returns {WargearPick[]}
+ */
 export function holdWg(def, entry, gi, counts) {
   const rest = (entry.wg || []).filter(([g]) => g !== gi)
   const stock = holdCounts(def, { ...entry, wg: rest }, gi)
   if (!stock || stock.every((n, oi) => n === counts[oi])) return rest
-  return [...rest, ...counts.flatMap((n, oi) => (n > 0 ? [[gi, oi, n]] : []))]
+  /** @type {WargearPick[]} */
+  const out = [...rest]
+  for (const [oi, n] of counts.entries()) if (n > 0) out.push([gi, oi, n])
+  return out
 }
 
 // The stock row of any other stepper that replaces something: how many models in the group's
@@ -76,14 +110,22 @@ export function holdWg(def, entry, gi, counts) {
 // pistols) show the same number, because it is the same pistols. The engine's stock rule already
 // knows it: swapRoom is what the OTHER groups left this one. null where that cannot be said (a
 // per-copy group, an unknown split between profiles), and the editor then draws no stock row.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {number | null}
+ */
 export function stockLeft(def, entry, gi) {
   const g = def?.gear?.[gi]
   if (!g?.rep?.length || g.keep?.length) return null
+  const rep = g.rep
   const room = swapRoom(def, entry, gi)
   if (room == null) return null
   // A pick whose option hands back everything the group gives up ("Flamer + Combi-bolter", the
   // Chaos Bikers' additions) leaves the model holding its stock weapon, so it is not counted off.
-  const backs = (oi) => { const got = new Set(optionItems(g.o?.[oi]).map(([id]) => id)); return g.rep.every((id) => got.has(id)) }
+  /** @param {number} oi */
+  const backs = (oi) => { const got = new Set(optionItems(g.o?.[oi]).map(([id]) => id)); return rep.every((id) => got.has(id)) }
   const spent = (entry?.wg || []).filter(([x, oi]) => x === gi && !backs(oi)).reduce((n, [, , c]) => n + (c || 1), 0)
   return Math.max(0, room - spent)
 }

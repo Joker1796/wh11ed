@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, sectionsOfUnits, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1774,7 +1774,7 @@ describe('a section reads by name', () => {
   })
 
   it('orders the catalogue the same way', () => {
-    const secs = sectionsOf([terms, brothers], { faction })
+    const secs = sectionsOfUnits([terms, brothers], { faction })
     expect(secs.find((s) => s.id === 'infantry').items.map((u) => u.id)).toEqual(['brotherhood', 'terminator-squad'])
   })
 

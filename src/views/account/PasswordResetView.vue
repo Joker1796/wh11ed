@@ -86,23 +86,11 @@ async function submit() {
 </script>
 
 <style scoped>
-.account-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  min-height: 50vh;
-  max-width: 24rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  text-align: center;
-}
-.al-title { margin: 0; font-family: var(--font-display); font-size: 1.6rem; text-transform: uppercase; }
-.al-text { margin: 0; line-height: 1.5; color: var(--text-secondary); }
+/* The page's column, title and text are the global Account landing (style.css); a form wants the
+   narrower column. */
+.account-link { max-width: 24rem; }
 .al-form { display: flex; flex-direction: column; gap: 0.7rem; width: 100%; text-align: left; }
 .al-form input { width: 100%; }
 .al-hint { display: block; margin-top: 0.25rem; font-size: 0.8rem; color: var(--text-muted); }
 .al-error { margin: 0; font-size: 0.88rem; color: var(--danger); }
-.al-actions { margin-top: 0.4rem; }
 </style>
