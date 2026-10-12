@@ -2494,7 +2494,8 @@ nothing. A bare custom number (no own limits) is not marked — nothing about it
 
 **Detachment tags in the picker** (2026-10-03). `useRosterBuildActions`'s `detachmentOptions`
 carries each detachment's `unique` tag (DYNASTY, DOCTRINES…), which `DetachmentPickerList` prints
-and uses to hide a second detachment sharing it (25.04). The mapping dropped it until then, so the
+and uses to hide a second detachment sharing it (the detachment's own rule — the MFM's "UNIQUE:" line,
+appdata's `detachment_unique_keyword`; not the core rules). The mapping dropped it until then, so the
 builder showed no tags and let a clashing pair (Assault + Devastator Brethren, both DOCTRINES) be
 picked, leaving only `validateRoster`'s `detachmentTagClash` to object afterwards.
 

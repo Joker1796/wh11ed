@@ -538,7 +538,7 @@ describe('validateRoster — a clean list', () => {
 
 describe('validateRoster — detachment tags', () => {
   // "This detachment has the DYNASTY tag and cannot be taken with another DYNASTY detachment"
-  // (core rules 25.04). The picker greys the second one out; this catches an imported list.
+  // (the detachment's own rule; the MFM's "UNIQUE: DYNASTY"). The picker greys the second one out; this catches an imported list.
   const tagged = (name, unique, dp = 1) => ({ sid: `det-${name}`, name, dp, unique, enhancements: [] })
   const f = { ...faction, detachments: [tagged('Awakened Dynasty', 'DYNASTY'), tagged('Hand of the Dynasty', 'DYNASTY'), tagged('Hypercrypt Legion', 'HYPERCRYPT')] }
   const run = (names) => validateRoster(

@@ -182,7 +182,10 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   if (dpSpent > dpLimitFor(detachments, battle.dp)) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
 
   // Detachment tags: "This detachment has the DYNASTY tag and cannot be taken with another DYNASTY
-  // detachment" (core rules 25.04). 26 tags across 17 factions, and 19 of those pairs fit inside a
+  // detachment" — the detachment's own rule says so, not the core rules. The MFM prints the tag as
+  // "UNIQUE: DYNASTY" and appdata keeps it in `detachment_unique_keyword`, and some detachments carry
+  // it only there: Wrath of the Rock and Terminator Storm Force are both TERMINATOR and neither rule
+  // text says it (a player's question, 2026-10-12). 26 tags across 17 factions, and 19 of those pairs fit inside a
   // 3 DP budget, so this is reachable in two clicks — the editor's picker greys the second one out,
   // and this catches a list that was imported or built before the tag was known.
   {

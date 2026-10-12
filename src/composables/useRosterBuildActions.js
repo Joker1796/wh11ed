@@ -40,7 +40,7 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
   // ── Detachments ──
   // Options for the DP-budget-aware multi-select picker (DetachmentPicker). `unique` is the
   // detachment's tag (DYNASTY, HYPERCRYPT…): the picker prints it and hides a second detachment
-  // sharing it (25.04). It was left out of this mapping until 2026-10-03, so the builder showed no
+  // sharing it (the detachment's own rule, the MFM's "UNIQUE:" line). It was left out of this mapping until 2026-10-03, so the builder showed no
   // tags and let the clashing pair be picked — only validateRoster caught it afterwards.
   const detachmentOptions = computed(() =>
     (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDispositions: d.fds || [], unique: d.unique || '', from: d.from || '' })))
