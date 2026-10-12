@@ -3030,6 +3030,17 @@ model only" (10th edition, when the drone was a model) and stayed parked, so no 
 Wound until a player wrote in. `src/data/rosterModifiers/index.test.js` now fails on any wargear
 profile effect parked on `blocked-subset` that is not named there with its reason.
 
+**Copies from a unit-wide group are dealt by `splitBearers` itself** (2026-10-12, a player's report:
+"at the maximum number of Shield Drones the added Wounds disappear"). A Crisis team's or a
+Broadside's drones, a Bullgryn's shields belong to no profile; first copies go out in the sheet's
+order, then second copies. The dealing used to count a mini against its whole PROFILE (a Crisis
+team's Shas'vre and Shas'ui share one printed row) and never gave a second copy, so a drone on
+every suit, or two on one Broadside, placed nothing and the card fell back to the printed Wounds —
+65 of 436 unit × count cases across the game, storm shields on every Wolf Guard and Deathwatch
+Terminator among them. A mini fielding no model needs no profile (Proteus Kill Team's jump-pack
+Veterans have no row of their own), and profile names are compared plural-blind. Gate:
+`splitBearers.test.js` → "places every bearer rule at every count a unit can hold".
+
 **A lesson from the same day:** the candidate heuristic had no pattern for `has a Move
 characteristic of 7"` — a SET rather than a delta, and the wording nearly every wargear rule uses.
 68 records were invisible for that reason alone, including the one that started the hunt (a
@@ -3686,6 +3697,14 @@ at all. Three files, one idea:
   `activeConditions` applies the same cap on READ, because a game saved before the cap existed can
   still hold six. Ungrouped where the rule allows any number: Blessings of Khorne activates up to
   two, Combat Drugs can be rolled two at a time.
+  **One unit can hold more than its group allows** (2026-10-12, a player's report): "while this
+  model is leading a unit, that unit can be affected by up to two different Orders at the same
+  time" — Ursula Creed's Lord Castellan and a Tempestus Command Squad's Command Rod, the two such
+  rules appdata has. `groupLimitsFor` (rosterGameContext) reads the sentence off the rules of
+  whoever leads the unit — the leader's abilities and the wargear it took — and the view hands the
+  result to `setUnitCondition` (write), `activeConditions` (read) and `switchesFor` (the "N of 2"
+  on the chips). `rosterGameContext.test.js` fails on an "affected by … Orders" wording it does not
+  read.
   Datasheet abilities added five ids of their own: `unit-stationary` ("each time this unit Remains
   Stationary…"), `unit-engaged`, `unit-empowered` (Drukhari spend a Pain token to Empower a unit;
   the tracker banks the tokens but does not record which unit was Empowered), and the three
