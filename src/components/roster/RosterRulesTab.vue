@@ -1,6 +1,6 @@
+<!-- A saved list's Rules tab: the army rule, then each of the list's detachments — its rule and
+     its enhancements, with who in the list wears each one or could. -->
 <template>
-  <!-- A saved list's Rules tab: the army rule, then each of the list's detachments — its rule and
-       its enhancements, with who in the list wears each one or could. -->
   <div class="rv-rules">
     <template v-if="faction">
       <section class="rv-rule-block">

@@ -1,6 +1,6 @@
+<!-- One of a datasheet's two weapons tables, ranged or melee — the same table written out twice
+     in DatasheetCard until 2026-10-12. -->
 <template>
-  <!-- One of a datasheet's two weapons tables, ranged or melee — the same table written out twice
-       in DatasheetCard until 2026-10-12. -->
   <div class="ds-weapons">
     <table>
       <thead>

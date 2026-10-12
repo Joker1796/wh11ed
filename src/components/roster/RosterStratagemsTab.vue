@@ -1,8 +1,8 @@
+<!-- A saved list's Stratagems tab: the stratagems of its own detachments, as the Stratagems page
+     shows them — the same toolbar and phase groups (StratFilterBar, StratPhaseGroups), and no
+     deck row, since there is nothing to filter between. In a live game that keeps a clock the
+     toolbar also offers "usable now". -->
 <template>
-  <!-- A saved list's Stratagems tab: the stratagems of its own detachments, as the Stratagems page
-       shows them — the same toolbar and phase groups (StratFilterBar, StratPhaseGroups), and no
-       deck row, since there is nothing to filter between. In a live game that keeps a clock the
-       toolbar also offers "usable now". -->
   <div class="rv-strats">
     <p
       v-if="detachments && !detachments.length"
