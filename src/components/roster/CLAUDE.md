@@ -2720,8 +2720,12 @@ a label truncate instead: the list card and the picker row clamp to two lines, a
 
 `RosterUnitBrowser` (add-unit list/search), `RosterUnitList` (the roster's own list, shared by the
 editor and the wizard — see Editing flow) and `RosterUnitRow` (one entry's collapsed line inside
-it), `UnitEditorFields` (wargear/enhancement/warlord
-pick UI for one unit), `WeaponProfileModal`, `EnhancementRuleModal` (loads the enhancement's
+it), `UnitEditorFields` (size/warlord/enhancement/leader pick UI for one unit) and
+`UnitWargearGroups` (its wargear groups, split out 2026-10-12: rendered as a fragment so its
+sections stay siblings of the editor's own — `.ues-sec:first-of-type` depends on it; it never
+writes the entry, a pick is `set-wg` and the editor applies it; both read one scoped stylesheet,
+`unitEditorFields.css`; a split like this is checked with `scripts/unit-pane-dump.mjs`, which must
+show no difference before and after), `WeaponProfileModal`, `EnhancementRuleModal` (loads the enhancement's
 rule text via `loadFaction()`, same as `RosterViewView`), `RosterIssuesModal` (renders
 `validateRoster()`'s issues), `RosterExportModal` (wraps `rosterExport.js`),
 `RosterUnitRulesModal` (wraps `DatasheetCard` with its `collapsible` prop — see Known gaps;
