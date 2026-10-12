@@ -1938,6 +1938,17 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   a { color: inherit !important; text-decoration: none !important; }
 }
 
+/* ── Empty note ──────────────────────────────────────────────────────────────
+   What a list says when it has nothing to show — no stratagem for this filter, no detachment
+   picked yet: quiet, in the room the list would have taken. The Stratagems page and a saved
+   list's tabs each carried their own copy until 2026-10-12. */
+.empty-note {
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
 /* ── Account landing ─────────────────────────────────────────────────────────
    The page a link from an email lands on — confirming the address, setting a new password: one
    centred column, a title, a sentence, the action. Shared by EmailVerifyView and PasswordResetView
