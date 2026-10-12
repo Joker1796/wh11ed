@@ -259,7 +259,8 @@
  * @property {string} code
  * @property {'error' | 'warn'} level
  * @property {string} [uid]
- * @property {Record<string, string | number>} [params]
+ * @property {Record<string, string | number | undefined>} [params] a param is missing when the data it names
+ *   is (a group with no title, a target with no name)
  */
 
 /**

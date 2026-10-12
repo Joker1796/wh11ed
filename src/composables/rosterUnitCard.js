@@ -50,7 +50,7 @@ import { useDatasheetsRu } from './useDatasheetsRu.js'
 /** @param {UnitCardProps} props */
 export function useRosterUnitCard(props) {
   const { locale } = useLocale()
-  const labels = computed(() => ui[locale.value === 'ru' ? 'ru' : 'en'])
+  const labels = computed(() => ui[locale.value])
 
   /** @type {import('vue').Ref<Datasheet[]>} */
   const datasheets = ref([])

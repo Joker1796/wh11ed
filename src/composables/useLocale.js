@@ -10,6 +10,7 @@ import { localeOfPath } from '../router/locale.js'
 // locale guards in router/index.js). Until 2026-08-26 this was inverted — the preference decided
 // the language and the composable wrote `?lang=ru` back into the address with `replaceState` —
 // which is why the two could disagree and why a Russian page had no address of its own.
+/** @returns {Locale} */
 function readInitialLocale() {
   if (typeof window === 'undefined') return 'en'
   if (localeOfPath(window.location.pathname) === 'ru') return 'ru'
@@ -24,6 +25,8 @@ export function readStoredLocale() {
   return getItem('locale') === 'ru' ? 'ru' : 'en'
 }
 
+/** @typedef {'en' | 'ru'} Locale */
+/** @type {import('vue').Ref<Locale>} */
 export const locale = ref(readInitialLocale())
 
 // Keep <html lang> honest. The URL is no longer touched here — navigation owns it.
@@ -36,6 +39,7 @@ watch(locale, syncDocument)
 
 /** Remember the reader's choice. Changing what is on screen is a NAVIGATION (to the paired
  *  address), so the caller does that — see AppNavbar.vue. */
+/** @param {Locale} loc */
 export function setLocale(loc) {
   setItem('locale', loc)
   locale.value = loc

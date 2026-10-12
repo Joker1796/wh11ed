@@ -12,7 +12,6 @@ import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hos
 /** @typedef {import('./roster.types.js').Roster} Roster */
 /** @typedef {import('./roster.types.js').BattleSize} BattleSize */
 /** @typedef {import('./roster.types.js').RosterIssue} RosterIssue */
-/** An issue as raised here: a param may be missing when the data it names is (a group with no title, a target with no name). @typedef {Omit<RosterIssue, 'params'> & { params?: Record<string, string | number | undefined> }} Issue */
 /** @typedef {import('./roster.types.js').DefOf} DefOf */
 /** @typedef {import('./roster.types.js').Detachment} Detachment */
 
@@ -87,7 +86,7 @@ const NAMED_NOT_EPIC = new Set(['kayvaan-shrike'])
 /**
  * @param {Partial<Roster> | null | undefined} roster
  * @param {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string>, idleCopies?: (u: RosterEntry) => string[] | null | undefined }} [opts]
- * @returns {{ points: number, issues: Issue[], errorCount: number }}
+ * @returns {{ points: number, issues: RosterIssue[], errorCount: number }}
  */
 export function validateRoster(roster, { faction, core, items, idleCopies } = {}) {
   const units = roster?.units || []
@@ -108,7 +107,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // warnings included (owner, 2026-10-04: "no rule checked, no warning shown, only that the
   // checks are off"). See legalityOn (rosterEngine.js).
   if (!legalityOn(roster)) return { points, issues: [], errorCount: 0 }
-  /** @type {Issue[]} */
+  /** @type {RosterIssue[]} */
   const issues = []
   // Every issue tied to an entry names it. The message templates cannot do that on their own — the
   // same code is raised from a dozen places and several carry no unit at all — so `unit` is filled
@@ -127,11 +126,11 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   }
   /**
    * @param {string} code
-   * @param {Issue['level']} level
-   * @param {{ uid?: string, params?: Issue['params'] }} [extra]
+   * @param {RosterIssue['level']} level
+   * @param {{ uid?: string, params?: RosterIssue['params'] }} [extra]
    */
   const add = (code, level, extra) => {
-    /** @type {Issue} */
+    /** @type {RosterIssue} */
     const iss = { code, level, ...extra }
     if (iss.uid) {
       const unit = nameOf(iss.uid)
