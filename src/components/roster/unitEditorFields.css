@@ -1,28 +1,8 @@
-.ues { display: flex; flex-direction: column; gap: 0; }
-/* The way to the datasheet was a bare text link and read as a caption; it is the app's own ghost
-   button now (style.css), trimmed to sit in a row with a field rather than stand on its own. */
-.ues-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
-.ues-sheet-link { flex: 0 0 auto; padding: 0.35rem 0.6rem; font-size: 0.8rem; white-space: nowrap; }
+/* What the unit editor (UnitEditorFields) and its wargear groups (UnitWargearGroups) both draw —
+   the sections, the headings, the option rows and pills. Each component reads this file as its
+   own scoped sheet and keeps the rest in its own <style>: the groups are a fragment inside the
+   editor, so a scoped rule of one never reaches the other's elements. */
 .ues-sec { padding: 0.6rem 0; border-top: 1px solid var(--border); }
-/* Label beside the field, not above it, and the field takes whatever the button leaves. */
-.ues-note { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 0.4rem; }
-.ues-note-lab { flex: 0 0 auto; font-size: 0.78rem; color: var(--text-muted); }
-.ues-note input {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 0.3rem 0.45rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  font-family: inherit;
-  font-size: 0.85rem;
-}
-.ues-note input:focus { outline: none; border-color: var(--accent); }
-/* A build pane is ~180px wide: the button and a labelled field cannot share that row, so the note
-   drops under it and keeps its caption beside it. */
-@container (max-width: 300px) {
-  .ues-top { flex-direction: column; align-items: stretch; gap: 0.35rem; }
-}
 .ues-sec:first-of-type { border-top: none; }
 /* The condensed display face this small reads cramped above 400 (owner, 2026-10-07). */
 .ues-h {
@@ -32,52 +12,9 @@
   margin: 0 0 0.3rem;
   line-height: 1.35;
 }
-/* A wargear group's heading is a whole sentence lifted off the datasheet — "1 Cultist Champion's
-   autopistol can be replaced with 1 bolt pistol", and in Russian a sentence of prose wrapped
-   around English item names. style.css puts every h1–h4 in the display face, which is Sofia Sans
-   EXTRA CONDENSED: right for the two-word labels the other sections carry, and a wall of narrow
-   strokes for two lines of prose at weight 600. So this one heading takes the body face at a
-   normal weight. It keeps full colour and stays larger than the option list under it, so it still
-   leads the group; only the letterforms change. */
-.ues-h.ues-instr {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
 /* The size of the text it heads (owner, 2026-10-07: at 0.7rem the model name read smaller than
    the sentence after it) — capitals at the same size as the sentence's own capitals. */
 .ues-mini { color: var(--text-dim); font-weight: 500; text-transform: uppercase; font-size: inherit; letter-spacing: 0.02em; margin-right: 0.3rem; }
-.ues-default { font-size: 0.85rem; margin: 0.15rem 0; }
-/* The default loadout is a tile like the options under it (owner, 2026-10-01): the same frame and
-   ground, its info button in the same right-hand column. Inside a tile the names read at full
-   strength — muted text in a frame reads as a disabled pick. The button keeps a floor so a one-line
-   loadout still gives the finger a target. */
-.ues-default-list { flex: 1; min-width: 0; align-self: center; padding: 0.5rem 0.6rem; }
-.ues-default-row .opt-info { min-height: 2.4rem; }
-/* The option list under a group's instruction — indented under the heading it belongs to, and
-   muted so the heading still reads as the heading. */
-.ues-blist { margin: -0.25rem 0 0.5rem; padding-left: 1.1rem; list-style: none; }
-.ues-blist li { position: relative; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
-.ues-blist li::before { content: '◦'; position: absolute; left: -0.85rem; color: var(--text-dim); }
-.ues-bnote { margin: -0.25rem 0 0.5rem; font-size: 0.78rem; color: var(--text-dim); line-height: 1.35; }
-/* A group waiting on a sibling. The heading and the instruction stay at full strength — the
-   reader still has to be able to READ what the option is — while the tiles below carry the same
-   .opt-tile.disabled fade every other unavailable pick in this editor uses. */
-.ues-inert .ues-h,
-.ues-inert .ues-blist { opacity: 0.6; }
-.ues-blocked {
-  margin: -0.25rem 0 0.5rem;
-  font-size: 0.78rem;
-  line-height: 1.35;
-  color: var(--text-muted);
-  font-style: italic;
-}
-/* The stock row's number without its buttons: hidden, not removed, so it keeps the stepper's
-   width and stands over the numbers below it. */
-.stock-n :deep(.step-btn) { visibility: hidden; }
-.ues-hold { font-style: normal; transition: color 0.2s; }
-.ues-freed { color: var(--accent-ink); }
 .ues-cap {
   display: inline-block;
   margin-left: 0.35rem;
@@ -90,21 +27,6 @@
   vertical-align: middle;
   white-space: nowrap;
 }
-.ues-count { display: flex; align-items: center; justify-content: space-between; }
-.ues-comp { margin: -0.35rem 0 0; font-size: 0.82rem; color: var(--muted); }
-.ues-over { color: var(--danger); font-style: normal; }
-.ues-trimmed {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 0.6rem;
-  margin: 0.35rem 0 0;
-  font-size: 0.82rem;
-  color: var(--muted);
-}
-.ues-req { font-style: normal; font-size: 0.78rem; color: var(--muted); margin-left: 0.4rem; }
-.pill-tell { opacity: 0.75; }
-.opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .opt-col { display: flex; flex-direction: column; gap: 0.3rem; }
 .pill {
   padding: 0.3rem 0.6rem;
@@ -121,16 +43,6 @@
 .opt-name { color: var(--text-primary); }
 .opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent-ink); }
 .opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
-/* The stock row's name and its tag are two flex items: when the line runs out the TAG drops to the
-   next line, and the weapon names stay whole ("Bolt Pistol + Boltgun", not "Bolt Pistol +" over
-   "Boltgun STOCK" — owner, 2026-10-07). */
-.opt-stock-name { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.4rem; }
-.opt-stock-name .opt-tag { margin-left: 0; }
-/* Which of the two squads of that name this row is. Its OWN line — the name above it is what the
-   reader scans, and a sentence trailing off the end of it would be read as part of the name. */
-.opt-which { display: block; margin-top: 0.1rem; font-size: 0.7rem; font-style: normal; line-height: 1.3; color: var(--text-muted); }
-/* White, like the Warlord badge on the list row (2026-09-26). */
-.wl-flag { color: var(--text-primary); margin-right: 0.3rem; }
 
 /* Checkbox tiles (wargear picks, enhancements, warlord) — same look as the tracker's
    ScoringModal checkbox rows (.m-cond/.m-check), so a "select" control reads the same
@@ -172,35 +84,6 @@
   cursor: pointer;
 }
 .opt-info:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
-/* "Can be led by" — a fold whose heading is the toggle. */
-.ues-fold-h { margin: 0; }
-.ues-fold-h.open { margin-bottom: 0.5rem; }
-.ues-fold {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  width: 100%;
-  min-height: 24px;
-  padding: 0;
-  background: none;
-  border: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.ues-fold-chev { font-size: 0.8rem; color: var(--text-muted); }
-/* A candidate's row is a button that opens its datasheet; it keeps the tile's look. */
-.opt-open {
-  background: none;
-  border: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.opt-open:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
-.opt-open:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .opt-step-body {
   flex: 1;
   display: flex;
@@ -215,15 +98,12 @@
    else shrinks a step so the checkbox tiles/info button/pill row don't force horizontal
    crowding or wrap awkwardly at this width. */
 @media (max-width: 360px) {
-  .ues-default { font-size: 0.78rem; }
-  .ues-blist li { font-size: 0.78rem; }
   .pill { padding: 0.22rem 0.45rem; font-size: 0.72rem; }
   .opt-select { padding: 0.4rem 0.45rem; gap: 0.4rem; font-size: 0.78rem; }
   .opt-select input { width: 16px; height: 16px; }
   .opt-name { font-size: 0.78rem; }
   .opt-pts { font-size: 0.78rem; }
   .opt-tag { font-size: 0.56rem; margin-left: 0.25rem; }
-  .opt-which { font-size: 0.64rem; }
   .opt-info { width: 2.15rem; font-size: 0.95rem; }
   .opt-step-body { padding: 0.4rem 0.45rem; gap: 0.35rem; }
 }

@@ -500,3 +500,55 @@ function groupStepMax(gi, oi) {
 </script>
 
 <style scoped src="./unitEditorFields.css"></style>
+
+<style scoped>
+/* A wargear group's heading is a whole sentence lifted off the datasheet — "1 Cultist Champion's
+   autopistol can be replaced with 1 bolt pistol", and in Russian a sentence of prose wrapped
+   around English item names. style.css puts every h1–h4 in the display face, which is Sofia Sans
+   EXTRA CONDENSED: right for the two-word labels the other sections carry, and a wall of narrow
+   strokes for two lines of prose at weight 600. So this one heading takes the body face at a
+   normal weight. It keeps full colour and stays larger than the option list under it, so it still
+   leads the group; only the letterforms change. */
+.ues-h.ues-instr {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+/* The option list under a group's instruction — indented under the heading it belongs to, and
+   muted so the heading still reads as the heading. */
+.ues-blist { margin: -0.25rem 0 0.5rem; padding-left: 1.1rem; list-style: none; }
+.ues-blist li { position: relative; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+.ues-blist li::before { content: '◦'; position: absolute; left: -0.85rem; color: var(--text-dim); }
+.ues-bnote { margin: -0.25rem 0 0.5rem; font-size: 0.78rem; color: var(--text-dim); line-height: 1.35; }
+/* A group waiting on a sibling. The heading and the instruction stay at full strength — the
+   reader still has to be able to READ what the option is — while the tiles below carry the same
+   .opt-tile.disabled fade every other unavailable pick in this editor uses. */
+.ues-inert .ues-h,
+.ues-inert .ues-blist { opacity: 0.6; }
+.ues-blocked {
+  margin: -0.25rem 0 0.5rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+  font-style: italic;
+}
+/* The stock row's number without its buttons: hidden, not removed, so it keeps the stepper's
+   width and stands over the numbers below it. */
+.stock-n :deep(.step-btn) { visibility: hidden; }
+.ues-hold { font-style: normal; transition: color 0.2s; }
+.ues-freed { color: var(--accent-ink); }
+.ues-over { color: var(--danger); font-style: normal; }
+/* The stock row's name and its tag are two flex items: when the line runs out the TAG drops to the
+   next line, and the weapon names stay whole ("Bolt Pistol + Boltgun", not "Bolt Pistol +" over
+   "Boltgun STOCK" — owner, 2026-10-07). */
+.opt-stock-name { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.4rem; }
+.opt-stock-name .opt-tag { margin-left: 0; }
+
+/* Smallest phones (down to 320px) — the section headings (.ues-h) stay full-size, everything
+   else shrinks a step so the checkbox tiles/info button/pill row don't force horizontal
+   crowding or wrap awkwardly at this width. */
+@media (max-width: 360px) {
+  .ues-blist li { font-size: 0.78rem; }
+}
+</style>
