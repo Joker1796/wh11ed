@@ -55,15 +55,11 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderInline, renderParagraphs } = useRenderInline()
 const ec = computed(() => getEventContent(locale.value))
 const intro = computed(() => ec.value.sequence.introduction)
 
 const authorEmail = 'gorlovevgeni9617@gmail.com'
-
-function renderParagraphs(text) {
-  return text.split('\n\n').map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`).join('')
-}
 </script>
 
 <style scoped>
