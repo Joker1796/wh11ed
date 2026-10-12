@@ -31,9 +31,11 @@ import { conditions } from '../data/rosterModifiers/conditions.js'
 /** @typedef {import('./roster.types.js').ModifierEffect} ModifierEffect */
 /** @typedef {Set<string> | null | undefined} IdSet */
 /** @typedef {import('./roster.types.js').RuleScope} RuleScope */
+/** @typedef {import('../data/data.types.js').DatasheetProfile} DatasheetProfile */
 /** Every datasheet's keywords in the faction — for the "extraction matched nobody" escape. @typedef {string[][] | null | undefined} KeywordSets */
 
 // Which model profiles / weapon rows an effect addresses.
+/** @type {Record<string, Array<'ranged' | 'melee'>>} */
 const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged', 'melee'] }
 
 // A narrower target than `on` can express: "the bearer's Psychic weapons only", "excluding Extra
@@ -59,6 +61,7 @@ const norm = (s) => String(s ?? '').toLowerCase().trim()
 function rowMatchesOnly(row, only) {
   if (!only) return true
   const tags = (row?.tags || []).map(norm)
+  /** @param {string} t */
   const has = (t) => tags.some((x) => x === norm(t) || x.startsWith(`${norm(t)} `))
   if (only.tag && !has(only.tag)) return false
   if (only.notTag && has(only.notTag)) return false
@@ -88,6 +91,7 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
   // reads scopes for those. An AURA is the exception among abilities: it addresses "a friendly
   // ADEPTA SORORITAS unit", and its scopes travel on the entry, so it lands here gated.
   if (!scopes?.length) return true
+  /** @param {string[]} kws @returns {(sc: RuleScope) => boolean} */
   const hits = (kws) => (sc) => sc.targets.some((t) => keywordsMatchTarget(kws, t))
     && !sc.excludes.some((x) => keywordsMatchTarget(kws, x))
   // The same "the extraction matched nobody, so distrust it" escape ruleTargets.js applies when
@@ -177,6 +181,10 @@ export function bumpTag(tag, name, delta) {
 // Just the two fields an `only` clause reads, copied off the working sheet so a later write to it
 // cannot change what an earlier clause of the same record was looking at.
 const ROW_TABLES = ['ranged', 'melee', 'profiles']
+/** @param {{ name?: string, tags?: string[] }} r */
+const copyRowTags = (r) => ({ name: r.name, tags: r.tags ? [...r.tags] : r.tags })
+/** @param {DatasheetProfile} p */
+const copyProfile = (p) => ({ ...p })
 /**
  * @param {PrintedSheet} sheet
  * @returns {Record<string, Array<{ name?: string, tags?: string[] }>>}
@@ -185,7 +193,7 @@ function snapshotRows(sheet) {
   /** @type {Record<string, Array<{ name?: string, tags?: string[] }>>} */
   const out = {}
   for (const t of ROW_TABLES) {
-    if (sheet[t]) out[t] = sheet[t].map((r) => ({ name: r.name, tags: r.tags ? [...r.tags] : r.tags }))
+    if (sheet[t]) out[t] = sheet[t].map(copyRowTags)
   }
   return out
 }
@@ -316,6 +324,7 @@ function effectLive(entry, effect, active, chosen) {
 export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null, chosen = null) {
   if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [], core: [] }
 
+  /** @type {PrintedSheet | null} */
   let out = null // cloned lazily — an all-conditional unit must keep the original object identity
   const notes = []
   const marks = new Set()
@@ -330,7 +339,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
   const target = () => {
     if (!out) {
       out = { ...sheet }
-      if (sheet.profiles) out.profiles = sheet.profiles.map((p) => ({ ...p }))
+      if (sheet.profiles) out.profiles = sheet.profiles.map(copyProfile)
       if (sheet.ranged) out.ranged = sheet.ranged.map((w) => ({ ...w }))
       if (sheet.melee) out.melee = sheet.melee.map((w) => ({ ...w }))
     }
@@ -363,6 +372,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     // An entry the player has to CHOOSE (a stratagem, an ability set's option) is gated whether or
     // not its effect carries a `when`: unspent and unpicked mean the same thing as an unproven
     // condition, and a reviewer leaving `when` null must not turn the gate off.
+    /** @param {ModifierEffect} eff */
     const gated = (eff) => !!eff.when || byChoice(entry)
     const replaced = new Set()
     for (const eff of effects) {
@@ -411,11 +421,12 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         for (const table of WEAPON_TABLES[effect.on] || []) {
           const rows = current()[table] || []
           for (let i = 0; i < rows.length; i++) {
-            if (!rowMatchesOnly(asFound[table][i], effect.only) || !inRows(effect, table, i)) continue
-            const tags = current()[table][i].tags || []
+            if (!rowMatchesOnly(asFound[table]?.[i], effect.only) || !inRows(effect, table, i)) continue
+            const tags = rows[i].tags || []
             if (tags.some((t) => String(t).toUpperCase() === String(effect.value).toUpperCase())) continue
-            const dest = target()[table][i]
-            dest.tags = [...tags, String(effect.value)]
+            // the clone has every row the sheet has, so this is the same row, writable
+            const dest = target()[table]?.[i]
+            if (dest) dest.tags = [...tags, String(effect.value)]
             marks.add(`${table}:tags:${i}`)
             added = true
           }
@@ -436,11 +447,12 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           for (const table of WEAPON_TABLES[effect.on] || []) {
             const rows = current()[table] || []
             for (let i = 0; i < rows.length; i++) {
-              if (!rowMatchesOnly(asFound[table][i], effect.only) || !inRows(effect, table, i)) continue
-              const tags = current()[table][i].tags || []
+              if (!rowMatchesOnly(asFound[table]?.[i], effect.only) || !inRows(effect, table, i)) continue
+              const tags = rows[i].tags || []
               const next = tags.map((t) => bumpTag(t, at[1], at[2]) ?? t)
               if (next.every((t, k) => t === tags[k])) continue
-              target()[table][i].tags = next
+              const dest = target()[table]?.[i]
+              if (dest) dest.tags = next
               marks.add(`${table}:tags:${i}`)
               bumped = true
             }
@@ -460,6 +472,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       }
 
       const tables = effect.on === 'profile' ? ['profiles'] : (WEAPON_TABLES[effect.on] || [])
+      /** @param {string} t */
       const markPrefix = (t) => (t === 'profiles' ? 'profile' : t)
 
       let changed = false
@@ -757,6 +770,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
     }
     if (rec.kind !== 'ability' || rec.ref?.kind !== 'ability') continue
     const ref = rec.ref
+    /** @param {string} t */
     const of = (t) => (rec.effects || []).filter((e) => (e.target || 'self') === t)
     // A record's name is "<unit>: <ability>". Split rather than reformat: the card labels an
     // effect by WHERE it came from ("LEADER · Fabius Bile") and names the rule separately, so
@@ -764,10 +778,12 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
     const at = rec.name.indexOf(': ')
     const owner = at === -1 ? null : rec.name.slice(0, at)
     const name = at === -1 ? rec.name : rec.name.slice(at + 2)
+    /** @param {ModifierEffect[]} effects @param {string} from */
     const push = (effects, from) => { if (effects.length) out.push({ ...rec, body: '', effects, name, owner, from }) }
     // An AURA (`target: 'aura'`) reaches whole units rather than one card, so it travels with the
     // keyword gate its prose named (Core Rules 22.01 wording: "a friendly ADEPTA SORORITAS unit
     // within 6" of this model") — without it a Rhino would collect the buff meant for the Sisters.
+    /** @param {string} from */
     const pushAura = (from) => {
       const effects = of('aura')
       if (effects.length) out.push({ ...rec, body: '', effects, name, owner, from, scopes: ref.scopes || null })
@@ -832,6 +848,7 @@ export function aurasReaching(records, {
   // does nothing until it is one of the two relics picked this round. Offering the chip anyway is
   // offering a switch that moves no number, which is exactly what this layer refuses to do
   // elsewhere (switchesFor's `answerable`).
+  /** @param {ModEntry} rec @param {ModifierEffect} e */
   const proven = (rec, e) => (!isSetRule(rec) || chosen?.has(rec.sid))
     && (!e.cond?.length || e.cond.every((id) => active?.has(id)))
   for (const rec of records || []) {
@@ -992,6 +1009,8 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
 // Returns the sheet to apply to and the entries to apply: a placed effect loses its condition and
 // carries `rows` instead, the indices it may touch, per table (rosterStatMods' applyStatMods).
 const BEARER = 'wargear-bearer'
+/** @typedef {'profiles' | 'ranged' | 'melee'} BearerTable */
+/** Models of one row that carry the same items; no items is the row as printed. @typedef {{ items: string[], n: number, times?: number, effects?: ModifierEffect[] }} BearerGroup */
 /**
  * @param {PrintedSheet | null | undefined} sheet
  * @param {ModEntry[] | null | undefined} entries
@@ -1000,14 +1019,17 @@ const BEARER = 'wargear-bearer'
  * @param {Record<number, string> | null | undefined} items
  */
 export function splitBearers(sheet, entries, def, entry, items) {
-  const isBearer = (e) => e.kind === 'wargear' && e.ref?.item && (e.effects || []).some((x) => x.cond?.includes(BEARER))
+  /** @param {ModEntry} e */
+  const isBearer = (e) => e.kind === 'wargear' && e.ref?.kind === 'wargear' && !!e.ref.item && (e.effects || []).some((x) => x.cond?.includes(BEARER))
   if (!sheet || !entries?.some(isBearer)) return { sheet, entries }
   const copies = loadoutItemCopies(def, entry)
   const perMini = modelsPerMini(def, entry)
   if (!copies || !perMini || !items) return { sheet, entries }
 
   // Which printed profile a mini is: by name, or the only one there is.
+  /** @type {DatasheetProfile[]} */
   const profiles = sheet.profiles || []
+  /** @param {number} m @returns {number | null} */
   const profileOf = (m) => {
     if (profiles.length === 1) return 0
     const want = itemKey(def?.minis?.[m]?.n)
@@ -1015,11 +1037,12 @@ export function splitBearers(sheet, entries, def, entry, items) {
     return i < 0 ? null : i
   }
   const minis = [...perMini.keys()].sort((a, b) => a - b)
-  const modelsOf = new Map() // profile index → models
+  /** @type {Map<number, number>} profile index → models */
+  const modelsOf = new Map()
   for (const m of minis) {
     const p = profileOf(m)
     if (p == null) return { sheet, entries }
-    modelsOf.set(p, (modelsOf.get(p) || 0) + perMini.get(m))
+    modelsOf.set(p, (modelsOf.get(p) || 0) + (perMini.get(m) ?? 0))
   }
   const unitModels = [...modelsOf.values()].reduce((a, n) => a + n, 0)
 
@@ -1028,6 +1051,7 @@ export function splitBearers(sheet, entries, def, entry, items) {
   // the shape loadoutItemCopies gives a mini's slots, where picks past the model count are further
   // copies on the same models. A T'au Shas'ui with two Shield Drones is [1, 1]: one model, two
   // drones, and "add 1 to the bearer's Wounds" twice over (2026-10-11).
+  /** @param {string} itemName @returns {Map<number, number[]> | null} */
   const bearersOf = (itemName) => {
     const ids = [...copies.keys()].filter((id) => itemKey(items[id]) === itemName)
     // Every count known, or nothing is placed: a bearer is never put on a guess.
@@ -1037,13 +1061,15 @@ export function splitBearers(sheet, entries, def, entry, items) {
       slots.push({ m: s.m, n: s.n })
     }
     if (!slots.length) return null
+    /** @type {Map<number, number[]>} */
     const out = new Map()
+    /** @param {number} p @param {number} n */
     const add = (p, n) => {
       const layers = out.get(p) || []
       // A copy goes on the models already holding the most copies that still have room for one.
       let left = n
       for (let k = 0; left > 0; k++) {
-        const room = (k === 0 ? modelsOf.get(p) : layers[k - 1]) - (layers[k] || 0)
+        const room = (k === 0 ? modelsOf.get(p) ?? 0 : layers[k - 1]) - (layers[k] || 0)
         const take = Math.min(left, room)
         if (take > 0) { layers[k] = (layers[k] || 0) + take; left -= take }
         if (k > layers.length) return false
@@ -1060,21 +1086,35 @@ export function splitBearers(sheet, entries, def, entry, items) {
     for (const m of minis) {
       if (!loose) break
       const p = profileOf(m)
+      if (p == null) continue   // never: every mini was given a profile above
       const take = Math.min(loose, (perMini.get(m) ?? 0) - (out.get(p)?.[0] || 0))
       if (take > 0) { add(p, take); loose -= take }
     }
     return loose ? null : out
   }
   // Models per number of copies held: layers [3, 1] are two models with one copy and one with two.
-  const byCopies = (layers) => layers.map((n, k) => [k + 1, n - (layers[k + 1] || 0)]).filter(([, n]) => n > 0)
+  /** @param {number[]} layers @returns {Array<[number, number]>} */
+  const byCopies = (layers) => {
+    /** @type {Array<[number, number]>} */
+    const out = []
+    layers.forEach((n, k) => {
+      const exactly = n - (layers[k + 1] || 0)
+      if (exactly > 0) out.push([k + 1, exactly])
+    })
+    return out
+  }
 
   // Each row as groups of models that carry the same items; a group with no items is the row as
   // printed. A second item may only be given to models that carry nothing yet.
+  /** @type {Record<BearerTable, Map<number, BearerGroup[]>>} */
   const groups = { profiles: new Map(), ranged: new Map(), melee: new Map() }
+  /** @param {BearerTable} table @param {number} i @param {number} models @returns {BearerGroup[]} */
   const groupsOf = (table, i, models) => {
-    if (!groups[table].has(i)) groups[table].set(i, [{ items: [], n: models }])
-    return groups[table].get(i)
+    let list = groups[table].get(i)
+    if (!list) groups[table].set(i, (list = [{ items: [], n: models }]))
+    return list
   }
+  /** @param {BearerGroup[]} list @param {string} item @param {number} n @param {number} [times] */
   const give = (list, item, n, times = 1) => {
     const bare = list.find((g) => !g.items.length)
     if (!bare || bare.n < n) return null
@@ -1098,6 +1138,7 @@ export function splitBearers(sheet, entries, def, entry, items) {
     const label = labelId == null ? item : items[labelId]
     const total = [...by.values()].reduce((a, layers) => a + layers.reduce((x, n) => x + n, 0), 0)
     const mine = new Map() // `${table}:${row}:${copies}` → this record's group there
+    /** @param {BearerTable} table @param {number} i @param {number} models @param {number} n @param {number} [times] */
     const groupAt = (table, i, models, n, times = 1) => {
       const k = `${table}:${i}:${times}`
       if (!mine.has(k)) mine.set(k, give(groupsOf(table, i, models), label, n, times))
@@ -1109,10 +1150,10 @@ export function splitBearers(sheet, entries, def, entry, items) {
       if (effect.on === 'profile') {
         const want = [...by].filter(([, layers]) => layers[0])
         const fits = want.every(([p, layers]) => [...mine.keys()].some((k) => k.startsWith(`profiles:${p}:`))
-          || (groupsOf('profiles', p, modelsOf.get(p)).find((g) => !g.items.length)?.n ?? 0) >= layers[0])
+          || (groupsOf('profiles', p, modelsOf.get(p) ?? 0).find((g) => !g.items.length)?.n ?? 0) >= layers[0])
         if (!fits) continue
         for (const [p, layers] of want) {
-          for (const [times, n] of byCopies(layers)) spots.push(groupAt('profiles', p, modelsOf.get(p), n, times))
+          for (const [times, n] of byCopies(layers)) spots.push(groupAt('profiles', p, modelsOf.get(p) ?? 0, n, times))
         }
       } else {
         for (const table of WEAPON_TABLES[effect.on] || []) {
@@ -1132,7 +1173,9 @@ export function splitBearers(sheet, entries, def, entry, items) {
   // Pass 2: rebuild the touched tables, a row per group, and remember where each group went.
   const out = { ...sheet }
   const where = new Map() // group → { table, index }
-  for (const table of ['profiles', 'ranged', 'melee']) {
+  /** @type {BearerTable[]} */
+  const bearerTables = ['profiles', 'ranged', 'melee']
+  for (const table of bearerTables) {
     if (!groups[table].size) continue
     const rows = []
     for (const [i, row] of (sheet[table] || []).entries()) {

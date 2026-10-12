@@ -37,6 +37,7 @@ import { useDatasheetsRu } from './useDatasheetsRu.js'
 /** @typedef {import('../data/data.types.js').FactionRules} FactionRules */
 /** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
 /** @typedef {import('./roster.types.js').CondSwitch} CondSwitch */
+/** A note under the stats, as applyStatMods writes it. @typedef {ReturnType<typeof applyStatMods>['notes'][number]} StatNote */
 /**
  * The calling component's props.
  * @typedef {object} UnitCardProps
@@ -49,7 +50,7 @@ import { useDatasheetsRu } from './useDatasheetsRu.js'
 /** @param {UnitCardProps} props */
 export function useRosterUnitCard(props) {
   const { locale } = useLocale()
-  const labels = computed(() => ui[locale.value])
+  const labels = computed(() => ui[locale.value === 'ru' ? 'ru' : 'en'])
 
   /** @type {import('vue').Ref<Datasheet[]>} */
   const datasheets = ref([])
@@ -219,6 +220,7 @@ export function useRosterUnitCard(props) {
   // an enhancement, found the same way ruleBlocks below finds them. Returns null when the record's
   // rule can't be resolved (an allegiance ability carries no body at all, and the two datasets can
   // legitimately disagree about a name), and then the note simply stays plain text.
+  /** @param {StatNote | null | undefined} n @returns {{ name: string, body: string } | null} */
   function modSource(n) {
     const fac = rulesFaction.value
     if (!fac || !n) return null
@@ -246,6 +248,7 @@ export function useRosterUnitCard(props) {
 
   // Does a rule bear on this unit? Read from the EN body (see rulesFactionEn); the block that
   // renders still shows the localised text.
+  /** @param {string | null | undefined} enBody */
   function applies(enBody) {
     return ruleAppliesTo(enBody, unitKeywords.value, factionKeywordSets.value)
   }
@@ -387,6 +390,12 @@ export function useRosterUnitCard(props) {
   // looked up in the switch lists the game context handed down. A condition with no switch there is
   // one the game answers by itself (the clock, the tracker, the roster) or one nothing on this card
   // can change — either way there is nothing to offer, so it is left out rather than shown dead.
+  /**
+   * @param {string} kind
+   * @param {string | null | undefined} name
+   * @param {string | null | undefined} det
+   * @returns {CondSwitch[]}
+   */
   function switchesOfRule(kind, name, det) {
     const all = [...(props.gameCtx?.switches || []), ...(props.gameCtx?.armySwitches || [])]
     if (!all.length) return []
