@@ -65,8 +65,7 @@ export function enhEligible(enh, def, granted = []) {
   const lc = (x) => String(x || '').toLowerCase()
   const has = (k) => hasKeyword(def, k) || granted.some((g) => lc(g) === lc(k))
   if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => has(k))
-  // A unit with no `sid` is on no such list: includes(undefined) is false.
-  if (enh.lockDs?.length) return enh.lockDs.includes(/** @type {string} */ (def.sid)) && !enh.exclKw?.some((k) => has(k))
+  if (enh.lockDs?.length) return !!def.sid && enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => has(k))
   if (def.flags?.noEnh) return false
   if (!def.flags?.char && !enh.nonCharOk && !granted.some((g) => lc(g) === 'character')) return false
   if (def.flags?.epic && !enh.epicOk) return false

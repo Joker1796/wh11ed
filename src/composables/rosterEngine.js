@@ -23,8 +23,7 @@ export { hasKeyword, enhEligible }
 /** An entry as the engine reads it — a saved one, or a partial one a caller builds to ask a question. @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {NonNullable<RosterUnit['xpm']>[number]} XpmSet */
 /** @typedef {import('./roster.types.js').GearGroup} GearGroup */
-/** perModelFits said no, so the datasheet and its per-model rules are there. @typedef {RosterUnit & { pm: NonNullable<RosterUnit['pm']> }} PmUnit */
-/** A datasheet already known to be there, with its wargear groups. @typedef {RosterUnit & { gear: GearGroup[] }} GearedUnit */
+/** @typedef {import('./roster.types.js').SizeBracket} SizeBracket */
 /** What takeUnitEntry hands back for restoreUnitEntry. @typedef {{ uid: string, entry: RosterEntry, at?: number, detached?: string[] }} RemovalTicket */
 
 // Battlefield-role buckets a unit is filed under in the editor / add-unit list, in display
@@ -170,19 +169,19 @@ export function unitWargearPoints(def, entry) {
  */
 export function defaultWargearPoints(def, entry) {
   if (!def?.dw?.length) return 0
-  const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
-  const models = entry?.count ?? size?.per?.[0] ?? 1
+  const dw = def.dw
+  const models = modelCount(def, entry)
   const perMini = modelsPerMini(def, entry)
   let pts = 0
   if (perMini) {
-    for (const [m, p] of def.dw) pts += p * (perMini.get(m) || 0)
+    for (const [m, p] of dw) pts += p * (perMini.get(m) || 0)
   } else {
     // Two open-ended profiles: the split is the player's and the data doesn't record it (see
     // modelsPerMini). Only safe where every profile costs the same, which is the shape all but one
     // of the seven have; the odd one out (Victrix Honour Guard, whose Champion and Ancient are
     // priced differently) has a fixed composition and never lands here.
-    if (def.dw.length !== (def.minis?.length || 1) || def.dw.some(([, p]) => p !== /** @type {Array<[number, number]>} */ (def.dw)[0][1])) return 0
-    pts = def.dw[0][1] * models
+    if (dw.length !== (def.minis?.length || 1) || dw.some(([, p]) => p !== dw[0][1])) return 0
+    pts = dw[0][1] * models
   }
   for (const [gi, , n] of entry?.wg || []) {
     const g = def.gear?.[gi]
@@ -226,7 +225,8 @@ export function defaultWargearPoints(def, entry) {
  * @returns {boolean}
  */
 export function wargearGroupLive(def, entry, gi) {
-  const cond = def?.gear?.[gi]?.cond
+  const gear = def?.gear || []
+  const cond = gear[gi]?.cond
   if (!cond) return true
   const [sibGi, wantActive] = cond
   const pick = (entry?.wg || []).find(([g]) => g === sibGi)
@@ -236,10 +236,9 @@ export function wargearGroupLive(def, entry, gi) {
   if (wantActive) return !!pick
   if (!pick) return true
 
-  const g = /** @type {GearedUnit} */ (def).gear[sibGi] // `cond` came from def.gear
-  const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
+  const g = gear[sibGi]
   // A unit-wide group is scoped to the whole squad, a per-profile one to its own models.
-  const scope = g?.all ? (entry?.count ?? size?.per?.[0] ?? 1) : modelsPerMini(def, entry)?.get(g?.m ?? 0)
+  const scope = g?.all ? modelCount(def, entry) : modelsPerMini(def, entry)?.get(g?.m ?? 0)
   if (scope == null) return true // scope unknown → assume a model still qualifies, never hide on a guess
   // The same reading of a pick as swapsByMini's `consumed`: a stepper carries the model count, a
   // checkbox is one model unless its instruction hands the swap to the whole profile.
@@ -265,16 +264,17 @@ export function wargearGroupLive(def, entry, gi) {
  * @returns {{ need: 'gone' | 'present' | 'stock', ids: ItemId[] } | null}
  */
 export function wargearGroupBlocker(def, entry, gi) {
-  const cond = def?.gear?.[gi]?.cond
+  const gear = def?.gear || []
+  const cond = gear[gi]?.cond
   if (!cond || wargearGroupLive(def, entry, gi)) return stockBlocker(def, entry, gi)
-  const sib = /** @type {GearedUnit} */ (def).gear[cond[0]] // `cond` came from def.gear
+  const sib = gear[cond[0]]
   const rep = sib?.rep?.length ? sib.rep : null
   // Name what the sibling actually took, when it took something — listing every option it offers
   // would tell the reader to remove three things when they picked one.
   const pick = (entry?.wg || []).find(([g]) => g === cond[0])
   const opt = pick ? sib?.o?.[pick[1]] : null
   const ids = rep || [...new Set((opt ? [opt] : sib?.o || []).flatMap((o) => optionItems(o).map(([id]) => id)))]
-  return { need: /** @type {'gone' | 'present'} */ (!!rep === !!cond[1] ? 'gone' : 'present'), ids }
+  return { need: !!rep === !!cond[1] ? 'gone' : 'present', ids }
 }
 
 // The stock rule's half of wargearGroupBlocker (see swapRoom): an UNTOUCHED group whose swap has
@@ -284,18 +284,24 @@ export function wargearGroupBlocker(def, entry, gi) {
 // row cannot be undone. Whether that pick overdraws the unit is validateRoster's to say.
 // Closed only when EVERY option is — an option that hands an item back does not need it, so a
 // group can stay open through one of its rows while the others have nothing left to take.
-/** @returns {{ need: 'stock', ids: ItemId[] } | null} */
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {{ need: 'stock', ids: ItemId[] } | null}
+ */
 function stockBlocker(def, entry, gi) {
   if ((entry?.wg || []).some(([g]) => g === gi)) return null
+  const g = def?.gear?.[gi]
   const byItem = swapRoomByItem(def, entry, gi)
-  if (!byItem) return null
-  const g = /** @type {GearedUnit} */ (def).gear[gi] // swapRoomByItem answered, so the group is there
+  if (!g || !byItem) return null
+  const rep = g.rep || []
   const ids = new Set()
   for (const [oi] of (g.o || []).entries()) {
-    let out = needs(g, oi).filter((id) => byItem.has(id) && /** @type {number} */ (byItem.get(id)) <= 0)
+    // An item byItem does not track is never "run out".
+    let out = needs(g, oi).filter((id) => (byItem.get(id) ?? Infinity) <= 0)
     // An "X or Y" group runs out only when no model carries either.
-    // An `alt` group always replaces.
-    if (g.alt && /** @type {ItemId[]} */ (g.rep).some((id) => (byItem.get(id) || 0) > 0)) out = out.filter((id) => !/** @type {ItemId[]} */ (g.rep).includes(id))
+    if (g.alt && rep.some((id) => (byItem.get(id) || 0) > 0)) out = out.filter((id) => !rep.includes(id))
     if (!out.length) return null
     out.forEach((id) => ids.add(id))
   }
@@ -375,10 +381,34 @@ export function optionLabel(o, items) {
 // `null` means the group carries no structural cap and the caller keeps its own behaviour —
 // 220 groups have one, the rest (a cross-group choice pool, an ambiguous match) don't, and
 // inventing a cap for those would forbid legal loadouts.
-// The unit's model count as the caps read it — the live count, not the size bracket.
-function capModels(def, entry) {
-  const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
-  return entry?.count ?? size?.per?.[0] ?? 1
+// The size bracket an entry is at, falling back to the first — every reader of an entry's size asks
+// this one question, so it is asked here once.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {SizeBracket | undefined}
+ */
+export function sizeOf(def, entry) {
+  return def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
+}
+
+// The unit's model count — the live count the player set, else the bracket's minimum.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {number}
+ */
+export function modelCount(def, entry) {
+  return entry?.count ?? sizeOf(def, entry)?.per?.[0] ?? 1
+}
+
+// The bracket a new entry starts at: the one the data marks default, else the first.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @returns {number}
+ */
+export function defaultSizeIndex(def) {
+  return Math.max(0, (def?.sizes || []).findIndex((s) => s.default))
 }
 
 /**
@@ -390,7 +420,7 @@ function capModels(def, entry) {
 export function wargearGroupCap(def, entry, gi) {
   const rows = def?.gear?.[gi]?.lim
   if (!rows?.length) return null
-  const models = capModels(def, entry)
+  const models = modelCount(def, entry)
   let row = null
   for (const r of rows) if (models >= r[0] && (!row || r[0] > row[0])) row = r
   // Below every threshold the group genuinely offers nothing ("for every 5 models…" in a
@@ -417,7 +447,7 @@ function optionCount(entry, gi, oi) {
 export function wargearExclOver(def, entry, gi) {
   const sets = def?.gear?.[gi]?.excl
   if (!sets?.length) return []
-  const limit = capModels(def, entry)
+  const limit = modelCount(def, entry)
   return sets
     .map((set) => ({ set, spent: set.reduce((n, oi) => n + optionCount(entry, gi, oi), 0), limit }))
     .filter((x) => x.spent > limit)
@@ -432,7 +462,7 @@ export function wargearExclOver(def, entry, gi) {
 export function wargearExclRoom(def, entry, gi, oi) {
   const sets = (def?.gear?.[gi]?.excl || []).filter((set) => set.includes(oi))
   if (!sets.length) return null
-  const limit = capModels(def, entry)
+  const limit = modelCount(def, entry)
   return Math.min(...sets.map((set) =>
     Math.max(0, limit - set.filter((o) => o !== oi).reduce((n, o) => n + optionCount(entry, gi, o), 0))))
 }
@@ -464,7 +494,7 @@ function xpmLimit(def, entry, set) {
   const ms = new Set(set.s.map(([g]) => (def.gear[g]?.all ? 'all' : def.gear[g]?.m ?? 0)))
   const only = ms.size === 1 ? [...ms][0] : 'all'
   const per = only === 'all' ? null : modelsPerMini(def, entry)?.get(only)
-  return (set.k || 1) * (per ?? capModels(def, entry))
+  return (set.k || 1) * (per ?? modelCount(def, entry))
 }
 /**
  * @param {RosterUnit | null | undefined} def
@@ -537,11 +567,11 @@ function maxFlow(cap, s, t) {
 export function perModelFits(def, entry) {
   const pm = def?.pm
   if (!pm) return true
-  const models = capModels(def, entry)
+  const models = modelCount(def, entry)
   const one = new Set(pm.one || [])
   const [rangedMax, rangedIds] = pm.ranged || [Infinity, []]
   const ranged = new Set(rangedIds)
-  const given = pm.base != null ? /** @type {GearedUnit} */ (def).gear[pm.base]?.rep?.[0] ?? null : null
+  const given = pm.base != null ? def.gear?.[pm.base]?.rep?.[0] ?? null : null
   const bases = []
   if (pm.base != null) for (const [id, n] of pmCounts(def, entry, pm.base)) for (let k = 0; k < n; k++) bases.push(id)
   // More swaps than models: a unit-wide swap group has no cap of its own to say so, so this does.
@@ -589,7 +619,7 @@ export function perModelFits(def, entry) {
 export function perModelRoom(def, entry, gi, oi) {
   const pm = def?.pm
   if (!pm || (gi !== pm.add && gi !== pm.base)) return null
-  const models = capModels(def, entry)
+  const models = modelCount(def, entry)
   const others = (entry?.wg || []).filter(([g, o]) => !(g === gi && o === oi))
   const current = optionCount(entry, gi, oi)
   let best = null
@@ -698,9 +728,10 @@ export function canBeWarlord(def, detachments, granted = []) {
  * @returns {string[]}
  */
 export function grantedKeywords(def, entry, detachments, factionSlug) {
+  const alleg = allegKeyword(def, entry, detachments)
   return [
     ...grantedKeywordsFor(def?.id, factionSlug, detachments).map((g) => g.kw),
-    .../** @type {string[]} */ ([allegKeyword(def, entry, detachments)].filter(Boolean)),
+    ...(alleg ? [alleg] : []),
   ]
 }
 
@@ -728,8 +759,8 @@ export { detKey }
  * @returns {Array<{ kw: string, detName: string | null, extra: boolean }>}
  */
 export function grantedKeywordsFor(unitId, factionSlug, detachments) {
-  // An undefined slug or id finds nothing, which is the answer.
-  const grants = conditionalKeywords[/** @type {string} */ (factionSlug)]?.[/** @type {string} */ (unitId)]
+  if (!factionSlug || !unitId) return []
+  const grants = conditionalKeywords[factionSlug]?.[unitId]
   if (!grants?.length) return []
   const picked = new Map() // detKey -> display name, for the footnote
   for (const d of detachments || []) {
@@ -799,8 +830,8 @@ export function dispositionCandidates(detachments) {
 export function dispositionOf(roster, detachments) {
   const cands = dispositionCandidates(detachments)
   if (cands.length === 1) return cands[0]
-  // includes() is true only for a string, so `roster` is there whenever it is read.
-  return cands.includes(/** @type {string} */ (roster?.disposition)) ? /** @type {string} */ (/** @type {Partial<Roster>} */ (roster).disposition) : null
+  const declared = roster?.disposition
+  return declared && cands.includes(declared) ? declared : null
 }
 
 // ── Allegiance: the mark/keyword an entry chooses for itself ──────────────────────────────────
@@ -874,7 +905,7 @@ export function allegSpent(units, defOf, groupKey, detachments) {
 // several detachments, up to its Detachment-Points budget — like the tracker).
 /**
  * @param {Detachment[] | null | undefined} detachments
- * @param {string} name
+ * @param {string | null | undefined} name no name finds nothing: every enhancement has one
  * @returns {Enhancement | null}
  */
 export function findEnhancement(detachments, name) {
@@ -1019,11 +1050,7 @@ export { occupies as leaderOccupies }
 export function hostLimitsFor(def, entry) {
   const h = def?.hosts
   if (!h) return { leader: 1, support: 1 }
-  if (h.minModels) {
-    const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
-    const models = entry?.count ?? size?.per?.[0] ?? 1
-    if (models < h.minModels) return { leader: 1, support: 1 }
-  }
+  if (h.minModels && modelCount(def, entry) < h.minModels) return { leader: 1, support: 1 }
   return { leader: h.n || 1, support: 1, oneKw: h.oneKw, noDup: h.noDup }
 }
 
@@ -1044,7 +1071,8 @@ export function hostSlotTaken(def, entry, host, hostDef, attached, detachments =
   const type = leadTypeFor(def, entry, hostDef, detachments)
   const same = attached.filter((o) => leadTypeFor(o.def, o.entry, hostDef, detachments) === type && occupies(def, o.def))
   if (same.length >= (type === 'leader' ? lim.leader : lim.support)) return true
-  if (lim.oneKw && hasKeyword(def, lim.oneKw) && attached.some((o) => o.def && hasKeyword(o.def, /** @type {string} */ (lim.oneKw)))) return true
+  const { oneKw } = lim
+  if (oneKw && hasKeyword(def, oneKw) && attached.some((o) => o.def && hasKeyword(o.def, oneKw))) return true
   if (lim.noDup && attached.some((o) => o.def?.id === def?.id)) return true
   return false
 }
@@ -1164,7 +1192,7 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
         .map((o) => ({ entry: o, def: defOf(o.id) }))
       const used = hostSlotTaken(def, entry, u, defOf(u.id), attached, detachments)
       const tDef = defOf(u.id)
-      const size = tDef?.sizes?.[u.size ?? 0] || tDef?.sizes?.[0]
+      const size = sizeOf(tDef, u)
       // Everything that can tell two copies of one datasheet apart, as FACTS — the caller builds
       // the sentence, because this module knows no locale. A list holds "Necron Warriors" twice
       // far more often than not, and a picker that offers the same three words twice makes the
@@ -1271,7 +1299,7 @@ export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachme
       id: def.id,
       name: def.name,
       type,
-      pts: unitBasePoints(def, Math.max(0, (def.sizes || []).findIndex((s) => s.default))),
+      pts: unitBasePoints(def, defaultSizeIndex(def)),
       used: hostSlotTaken(def, null, target, targetDef, attached, detachments),
       // For the caller's "Hide Legends units" (useRosterPrefs) — a reader preference, not a rule.
       legends: !!def.flags?.legends,
@@ -1309,7 +1337,7 @@ export function leaderHostsFor(leaderUid, units, catalogue, defOf, detachments =
       id: host.id,
       name: host.name,
       type: typeOf.get(host.id),
-      pts: unitBasePoints(host, Math.max(0, (host.sizes || []).findIndex((s) => s.default))),
+      pts: unitBasePoints(host, defaultSizeIndex(host)),
       legends: !!host.flags?.legends,
     })
   }
@@ -1423,8 +1451,7 @@ export function unitPoints(def, entry, copyIndex = 1, detachments = null) {
  */
 export function addUnitEntry(units, def, unitId, newUid) {
   if (!units || !def) return null
-  const at = def.sizes.findIndex((s) => s.default)
-  const entry = { uid: newUid, id: unitId, size: at >= 0 ? at : 0 }
+  const entry = { uid: newUid, id: unitId, size: defaultSizeIndex(def) }
   units.push(entry)
   return entry
 }
@@ -1550,9 +1577,9 @@ export function duplicateUnitEntry(units, entryUid, newUid) {
  * @returns {string}
  */
 export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = '') {
-  if (!def) return ''
-  const size = def.sizes[e.size ?? 0] || def.sizes[0]
-  const n = e.count ?? size.per[0]
+  const size = sizeOf(def, e)
+  if (!def || !size) return ''
+  const n = modelCount(def, e)
   const parts = []
   if (e.warlord && warlordLabel) parts.push(warlordLabel)
   if (size.per[1] > 1) parts.push(`${n} ${modelsLabel}`)
@@ -1592,10 +1619,10 @@ export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = 
  * @returns {Map<number, number> | null}
  */
 export function modelsPerMini(def, entry) {
-  const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
+  const size = sizeOf(def, entry)
   if (!size) return null
-  const total = entry?.count ?? size.per?.[0] ?? 1
-  if (!(/** @type {number} */ (def.minis?.length) > 1)) return new Map([[0, total]]) // undefined > 1 is false: one profile
+  const total = modelCount(def, entry)
+  if ((def?.minis?.length ?? 0) <= 1) return new Map([[0, total]])
   if (!size.comp) return null
   const ranges = size.comp.filter((c) => c.length === 3)
   if (ranges.length > 1) return null
@@ -1786,7 +1813,8 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
   }
   const unitWide = []
   for (const [gi, byItem] of asked) {
-    const g = /** @type {GearedUnit} */ (def).gear[gi] // `asked` was filled from def.gear
+    const g = def?.gear?.[gi]
+    if (!g) continue
     if (g.all) { unitWide.push([g, byItem]); continue }
     const m = g.m ?? 0
     const models = perMini.get(m)
@@ -1807,8 +1835,7 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
     if (carrier && net(key) > carrier[1] + 1e-9) over.push({ id, used: net(key), cap: carrier[1] })
   }
   if (!unitWide.length) return { removed, back, held, over }
-  const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
-  const unitModels = entry?.count ?? size?.per?.[0] ?? 1
+  const unitModels = modelCount(def, entry)
   // Unit-wide overdraft is summed per ITEM across groups: two groups that each overdraw the same
   // combi-bolter are one problem with one count, not two lines that each undercount it.
   const overWide = new Map() // item id → [models no carrier could absorb, the unit's stock]
@@ -1893,16 +1920,22 @@ function needs(g, oi = null) {
  * @returns {number | null}
  */
 export function swapRoom(def, entry, gi, oi = null) {
+  const g = def?.gear?.[gi]
   const byItem = swapRoomByItem(def, entry, gi)
-  if (!byItem) return null
-  const g = /** @type {GearedUnit} */ (def).gear[gi] // swapRoomByItem answered, so the group is there
-  const ids = needs(g, oi).filter((id) => byItem.has(id))
-  if (!ids.length) return null
+  if (!g || !byItem) return null
+  // The needed items byItem tracks, each with the models still carrying it.
+  /** @type {Array<[ItemId, number]>} */
+  const rooms = []
+  for (const id of needs(g, oi)) {
+    const left = byItem.get(id)
+    if (left != null) rooms.push([id, left])
+  }
+  if (!rooms.length) return null
   // An "X or Y" group needs a model carrying EITHER, so its alternatives are one pool.
-  const alt = g.alt ? ids.filter((id) => /** @type {ItemId[]} */ (g.rep).includes(id)) : [] // an `alt` group always replaces
-  // ids are byItem's own keys (filtered by has() above).
-  const pool = alt.length ? [alt.reduce((s, id) => s + /** @type {number} */ (byItem.get(id)), 0)] : []
-  return Math.min(...pool, ...ids.filter((id) => !alt.includes(id)).map((id) => /** @type {number} */ (byItem.get(id))))
+  const rep = g.rep || []
+  const alt = g.alt ? rooms.filter(([id]) => rep.includes(id)) : []
+  const pool = alt.length ? [alt.reduce((sum, [, left]) => sum + left, 0)] : []
+  return Math.min(...pool, ...rooms.filter((r) => !alt.includes(r)).map(([, left]) => left))
 }
 
 // The same answer per needed item (item id → models still carrying it), so the editor can name
@@ -1966,7 +1999,7 @@ export function overdrawnGroups(def, entry) {
     const ceiling = cap ? cap.limit : wargearGroupFallbackCap(def, entry, gi)
     if (ceiling != null && spent > ceiling) { out.add(gi); continue }
     if (!over.size || !needs(g).some((id) => over.has(id))) continue
-    const picked = (/** @type {EntryLike} */ (entry).wg || []).filter(([pg]) => pg === gi).map(([, oi]) => oi) // spent > 0: entry is there
+    const picked = (entry?.wg || []).filter(([pg]) => pg === gi).map(([, oi]) => oi)
     if (picked.some((oi) => { const room = swapRoom(def, entry, gi, oi); return room != null && spent > room })) out.add(gi)
   }
   return out
@@ -1985,13 +2018,15 @@ export function overdrawnGroups(def, entry) {
  * @returns {WargearPick[] | null}
  */
 export function fitWargear(def, entry) {
-  let wg = (entry?.wg || []).map((p) => /** @type {WargearPick} */ ([...p]))
+  /** @type {WargearPick[]} */
+  let wg = (entry?.wg || []).map((p) => [...p])
   const at = () => ({ ...entry, wg })
   const drop = (i) => {
     const n = wg[i][2] || 1
     if (n > 1) wg[i][2] = n - 1
     else wg.splice(i, 1)
   }
+  const pm = def?.pm
   let changed = false
   for (let guard = 0; guard < 200; guard++) {
     const e = at()
@@ -2007,15 +2042,15 @@ export function fitWargear(def, entry) {
       else if (wargearXpmOver(def, e).some((x) => x.set.s.some((p) => xpmHit(p, gi, wg[k][1])))) i = k
     }
     // Then the rules about one model across groups (`pm`): the latest pick in either group they cover.
-    if (i < 0 && !perModelFits(def, e)) {
-      for (let k = wg.length - 1; k >= 0 && i < 0; k--) if (wg[k][0] === /** @type {PmUnit} */ (def).pm.add || wg[k][0] === /** @type {PmUnit} */ (def).pm.base) i = k
+    if (i < 0 && pm && !perModelFits(def, e)) {
+      for (let k = wg.length - 1; k >= 0 && i < 0; k--) if (wg[k][0] === pm.add || wg[k][0] === pm.base) i = k
     }
     // Then stock: the latest pick that spends an overdrawn item.
     if (i < 0) {
       const over = new Set(swapOverdraft(def, e).map((o) => o.id))
       if (!over.size) break
       for (let k = wg.length - 1; k >= 0 && i < 0; k--) {
-        const g = /** @type {RosterUnit} */ (def).gear?.[wg[k][0]] // an overdraft needs a datasheet
+        const g = def?.gear?.[wg[k][0]]
         if (g && wargearGroupLive(def, e, wg[k][0]) && needs(g, wg[k][1]).some((id) => over.has(id))) i = k
       }
       if (i < 0) break
@@ -2072,12 +2107,12 @@ export function exactPicksOwed(def, entry, gi) {
 // The profile name a loadout line is headed with — blank when the datasheet has one profile, as
 // there is nothing to tell apart. Shared by both loadout readers below.
 /**
- * @param {RosterUnit} def
+ * @param {RosterUnit | null | undefined} def
  * @param {number} m
  * @returns {string}
  */
 function miniName(def, m) {
-  return (def.minis?.length || 0) > 1 ? (def.minis?.[m]?.n || '') : ''
+  return (def?.minis?.length ?? 0) > 1 ? (def?.minis?.[m]?.n || '') : ''
 }
 
 /**
@@ -2094,7 +2129,7 @@ export function fixedLoadoutLines(def, items, entry) {
     const kept = list.filter(([id]) => !replaced.has(`${m}:${id}`) && !replaced.has(`*:${id}`))
     if (!kept.length) return []
     return [{
-      mini: miniName(/** @type {RosterUnit} */ (def), m),
+      mini: miniName(def, m),
       items: kept.map(([id, c]) => `${items[id]}${c > 1 ? ` ×${c}` : ''}`).join(', '),
       names: kept.map(([id]) => items[id]),
     }]
@@ -2132,7 +2167,7 @@ export function defaultLoadoutLines(def, items, entry) {
       if (remaining > 0) put(id, `${items[id]}${total && remaining === 1 ? '' : ` ×${remaining}`}`)
     }
     if (!parts.length) return []
-    return [{ mini: miniName(/** @type {RosterUnit} */ (def), m), items: parts.join(', '), names }]
+    return [{ mini: miniName(def, m), items: parts.join(', '), names }]
   })
 }
 
@@ -2146,12 +2181,13 @@ export function defaultLoadoutLines(def, items, entry) {
  */
 export function wargearNames(def, entry, items) {
   if (!entry?.wg?.length) return []
-  return /** @type {string[]} */ (entry.wg.map(([gi, oi, n]) => {
+  return entry.wg.flatMap(([gi, oi, n]) => {
     const opt = def?.gear?.[gi]?.o?.[oi]
-    if (!opt || !wargearGroupLive(def, entry, gi)) return null
+    if (!opt || !wargearGroupLive(def, entry, gi)) return []
     const name = optionLabel(opt, items)
-    return /** @type {number} */ (n) > 1 ? `${name} ×${n}` : name // undefined > 1 is false: one
-  }).filter(Boolean))
+    const label = (n ?? 1) > 1 ? `${name} ×${n}` : name
+    return label ? [label] : []
+  })
 }
 
 // ── Allies ────────────────────────────────────────────────────────────────────────────────────
@@ -2163,8 +2199,9 @@ export function wargearNames(def, entry, items) {
  * @returns {[string, string] | null}
  */
 export function allySourceOf(id) {
-  const at = String(id || '').indexOf(':')
-  return at < 0 ? null : [/** @type {string} */ (id).slice(0, at), /** @type {string} */ (id).slice(at + 1)] // a ':' means a string
+  const s = String(id || '')
+  const at = s.indexOf(':')
+  return at < 0 ? null : [s.slice(0, at), s.slice(at + 1)]
 }
 
 // Does this roster hold a unit from another faction's bundle? The read-only screens use it to
@@ -2453,7 +2490,7 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
   return [
     ...UNIT_GROUPS.map((id) => ({ id, items: roles.get(id) })),
     ...active.map(groupSection),
-    ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && /** @type {any[]} */ (byKey.get(g.key)).length).map(groupSection) : []),
+    ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && byKey.get(g.key)?.length).map(groupSection) : []),
   ]
 }
 
@@ -2518,10 +2555,9 @@ const ownNumber = (v) => (Number.isInteger(v) && v >= 0 ? v : null)
  */
 export function effectiveBattle(roster, core) {
   const sizes = [...(core?.battleSizes || [])].sort((a, b) => a.points - b.points)
-  // With no battle sizes at all (a caller that passes no `core`) the fallback has no id: `base` is
-  // then undefined. Every caller in the app passes rosterCore, so this is a test-only path.
-  /** @type {Omit<BattleSize, 'id' | 'name'> & { id?: string, name?: string }} */
-  const fallback = sizes[sizes.length - 1] || { points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }
+  // With no battle sizes at all (a caller that passes no `core` — tests only) a Strike Force stands
+  // in, whole: its id is what the ally tables are keyed by.
+  const fallback = sizes[sizes.length - 1] || { id: 'strike-force', name: 'Strike Force', points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }
   if (roster?.battleSize === UNLIMITED_BATTLE) {
     return { id: UNLIMITED_BATTLE, base: fallback.id, points: Infinity, dp: Infinity, enhLimit: Infinity, dupLimit: Infinity, lineLimit: Infinity, custom: false, unlimited: true }
   }
