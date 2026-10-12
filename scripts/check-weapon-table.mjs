@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// A datasheet's weapons stay a TABLE on a phone (DatasheetCard.vue, the ≤560px block) and turn into
+// A datasheet's weapons stay a TABLE on a phone (DatasheetWeaponTable.vue, the ≤560px block) and turn into
 // stacked cards only below a container width set in CSS. That width was 340px, picked by eye, and a
 // 320-356px phone — or the roster modal on a 360px one — got the cards a few pixels short of a
 // table that fitted (2026-10-04, owner's two screenshots of Vargard Obyron). Measured over all
@@ -29,7 +29,7 @@ const verbose = 'verbose' in args
 const MAX_LINES = 3
 
 // The breakpoint: the top-level container query that dissolves the name cell into the card grid.
-const css = readFileSync(join(ROOT, 'src/components/DatasheetCard.vue'), 'utf8')
+const css = readFileSync(join(ROOT, 'src/components/DatasheetWeaponTable.vue'), 'utf8')
 const block = [...css.matchAll(/^@container dscard \(max-width: (\d+)px\) \{\n([\s\S]*?)^\}$/gm)]
   .find((m) => m[2].includes('.ds-weapons td.wname { display: contents; }'))
 if (!block) {
@@ -134,7 +134,7 @@ console.log(
   `${names} weapon names, ${twoLine} on two lines`,
 )
 if (faults.length) {
-  console.error(`✗ ${faults.length} fault(s) — fix the table, or raise the breakpoint in DatasheetCard.vue:`)
+  console.error(`✗ ${faults.length} fault(s) — fix the table, or raise the breakpoint in DatasheetWeaponTable.vue:`)
   for (const f of faults.slice(0, 20)) console.error(`  ${f.path} — ${f.what}`)
 }
 process.exit(faults.length ? 1 : 0)

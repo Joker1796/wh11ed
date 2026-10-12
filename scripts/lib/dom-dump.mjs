@@ -68,8 +68,11 @@ export async function unfoldAll(page, root, rounds = 30) {
   await page.waitForTimeout(400)
 }
 
-// The subtree under a locator, as text.
-export function dumpTree(locator) {
+// The subtree under a locator, as text. The pointer is moved off the page first: a dialog that opens
+// under the spot just clicked would otherwise be dumped in its hover colours, or not, by timing.
+export async function dumpTree(locator) {
+  await locator.page().mouse.move(0, 0)
+  await locator.page().waitForTimeout(150)
   return locator.evaluate((root) => {
     const PROPS = ['display', 'position', 'flex-direction', 'align-items', 'justify-content', 'gap', 'grid-template-columns',
       'margin', 'padding', 'border', 'border-radius', 'width', 'height', 'min-height', 'font-family', 'font-size', 'font-weight',

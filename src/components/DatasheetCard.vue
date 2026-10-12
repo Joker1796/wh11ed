@@ -91,243 +91,18 @@
       </div>
 
       <!-- Weapons -->
-      <div
+      <DatasheetWeaponTable
         v-if="sheet.ranged?.length"
-        class="ds-weapons"
-      >
-        <table>
-          <thead>
-            <tr>
-              <th class="wname">
-                {{ labels.dsRanged }}
-              </th><th>Range</th><th>A</th><th>BS</th><th>S</th><th>AP</th><th>D</th>
-            </tr>
-          </thead>
-          <tbody>
-            <template
-              v-for="(w, i) in rangedRows"
-              :key="i"
-            >
-              <!-- A weapon with several profiles: its name once, on a row of its own, and each
-                   profile under it by what tells them apart — "Plasma incinerator – supercharge ×5"
-                   in a half-row column broke over two lines on most phones (see weaponGroups.js). -->
-              <tr
-                v-if="w.gpos === 'start'"
-                class="wg-head"
-              >
-                <td
-                  class="wname"
-                  colspan="7"
-                >
-                  <span class="wname-text">{{ w.base }}<wbr v-if="w.qty > 1"><span
-                    v-if="w.qty > 1"
-                    class="wqty"
-                  >&times;{{ w.qty }}</span></span>
-                </td>
-              </tr>
-              <tr :class="'wg-' + w.gpos">
-                <td class="wname">
-                  <span class="wname-text"><span
-                    v-if="w.gpos !== 'single'"
-                    class="wprofile-arrow"
-                    aria-hidden="true"
-                  /><span
-                    v-if="w.gpos !== 'single'"
-                    class="wn-prof"
-                  >{{ w.profile }}</span><span :class="{ 'wn-full': w.gpos !== 'single' }">{{ w.name }}<wbr v-if="w.qty > 1"><span
-                    v-if="w.qty > 1"
-                    class="wqty"
-                  >&times;{{ w.qty }}</span></span></span><span
-                    v-if="w.enh"
-                    class="wenh"
-                    :title="w.enh"
-                  >{{ labels.dsEnhancementWeapon }}</span><span
-                    v-if="w.copy"
-                    class="wenh wcopy"
-                    :title="labels.dsWeaponCopyHint"
-                  >{{ labels.dsWeaponCopy }}</span><span
-                    v-if="w.tags?.length"
-                    class="wtags"
-                  ><span
-                    v-for="t in w.tags"
-                    :key="t"
-                    v-safe-html="renderInline('[' + t + ']')"
-                    class="wtag"
-                  /></span>
-                </td>
-                <td data-label="Range">
-                  {{ w.range }}
-                </td><td
-                  data-label="A"
-                  :class="{ 'ds-stat-mod': isMarked('ranged', 'a', i) }"
-                >
-                  {{ w.a }}<sup
-                    v-if="isMarked('ranged', 'a', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td><td
-                  data-label="BS"
-                  :class="{ 'ds-stat-mod': isMarked('ranged', 'bs', i) }"
-                >
-                  {{ w.bs }}<sup
-                    v-if="isMarked('ranged', 'bs', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td><td
-                  data-label="S"
-                  :class="{ 'ds-stat-mod': isMarked('ranged', 's', i) }"
-                >
-                  {{ w.s }}<sup
-                    v-if="isMarked('ranged', 's', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td><td
-                  data-label="AP"
-                  :class="{ 'ds-stat-mod': isMarked('ranged', 'ap', i) }"
-                >
-                  {{ w.ap }}<sup
-                    v-if="isMarked('ranged', 'ap', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td><td
-                  data-label="D"
-                  :class="{ 'ds-stat-mod': isMarked('ranged', 'd', i) }"
-                >
-                  {{ w.d }}<sup
-                    v-if="isMarked('ranged', 'd', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>
-      <div
+        kind="ranged"
+        :rows="rangedRows"
+        :is-marked="isMarked"
+      />
+      <DatasheetWeaponTable
         v-if="sheet.melee?.length"
-        class="ds-weapons"
-      >
-        <table>
-          <thead>
-            <tr>
-              <th class="wname">
-                {{ labels.dsMelee }}
-              </th><th>Range</th><th>A</th><th>WS</th><th>S</th><th>AP</th><th>D</th>
-            </tr>
-          </thead>
-          <tbody>
-            <template
-              v-for="(w, i) in meleeRows"
-              :key="i"
-            >
-              <!-- A weapon with several profiles: its name once, on a row of its own, and each
-                   profile under it by what tells them apart — "Plasma incinerator – supercharge ×5"
-                   in a half-row column broke over two lines on most phones (see weaponGroups.js). -->
-              <tr
-                v-if="w.gpos === 'start'"
-                class="wg-head"
-              >
-                <td
-                  class="wname"
-                  colspan="7"
-                >
-                  <span class="wname-text">{{ w.base }}<wbr v-if="w.qty > 1"><span
-                    v-if="w.qty > 1"
-                    class="wqty"
-                  >&times;{{ w.qty }}</span></span>
-                </td>
-              </tr>
-              <tr :class="'wg-' + w.gpos">
-                <td class="wname">
-                  <span class="wname-text"><span
-                    v-if="w.gpos !== 'single'"
-                    class="wprofile-arrow"
-                    aria-hidden="true"
-                  /><span
-                    v-if="w.gpos !== 'single'"
-                    class="wn-prof"
-                  >{{ w.profile }}</span><span :class="{ 'wn-full': w.gpos !== 'single' }">{{ w.name }}<wbr v-if="w.qty > 1"><span
-                    v-if="w.qty > 1"
-                    class="wqty"
-                  >&times;{{ w.qty }}</span></span></span><span
-                    v-if="w.enh"
-                    class="wenh"
-                    :title="w.enh"
-                  >{{ labels.dsEnhancementWeapon }}</span><span
-                    v-if="w.copy"
-                    class="wenh wcopy"
-                    :title="labels.dsWeaponCopyHint"
-                  >{{ labels.dsWeaponCopy }}</span><span
-                    v-if="w.tags?.length"
-                    class="wtags"
-                  ><span
-                    v-for="t in w.tags"
-                    :key="t"
-                    v-safe-html="renderInline('[' + t + ']')"
-                    class="wtag"
-                  /></span>
-                </td>
-                <td data-label="Range">
-                  Melee
-                </td><td
-                  data-label="A"
-                  :class="{ 'ds-stat-mod': isMarked('melee', 'a', i) }"
-                >
-                  {{ w.a }}<sup
-                    v-if="isMarked('melee', 'a', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td><td
-                  data-label="WS"
-                  :class="{ 'ds-stat-mod': isMarked('melee', 'ws', i) }"
-                >
-                  {{ w.ws }}<sup
-                    v-if="isMarked('melee', 'ws', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td><td
-                  data-label="S"
-                  :class="{ 'ds-stat-mod': isMarked('melee', 's', i) }"
-                >
-                  {{ w.s }}<sup
-                    v-if="isMarked('melee', 's', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td><td
-                  data-label="AP"
-                  :class="{ 'ds-stat-mod': isMarked('melee', 'ap', i) }"
-                >
-                  {{ w.ap }}<sup
-                    v-if="isMarked('melee', 'ap', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td><td
-                  data-label="D"
-                  :class="{ 'ds-stat-mod': isMarked('melee', 'd', i) }"
-                >
-                  {{ w.d }}<sup
-                    v-if="isMarked('melee', 'd', i)"
-                    class="ds-mod-star"
-                  >*</sup>
-                </td>
-              </tr>
-              <!-- Two rows on purpose (rosterModifiers' meleeRowsFor): said once, under the second,
-                   with the rule it rests on as a link (owner, 2026-10-11). -->
-              <tr
-                v-if="w.copy === 2"
-                class="wcopy-note"
-              >
-                <td colspan="7">
-                  <div
-                    v-safe-html="renderInline(labels.dsWeaponCopyNote)"
-                    class="wcopy-note-text"
-                  />
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>
+        kind="melee"
+        :rows="meleeRows"
+        :is-marked="isMarked"
+      />
 
       <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
          carries a `*`; this is where the `*` is explained.
@@ -1199,6 +974,7 @@ import { modDelta } from '../composables/rosterModNotes.js'
 import { factionPartsOf, factionKwMarker, invNoteText, statCells } from '../composables/datasheetParts.js'
 import { useDatasheetParts } from '../composables/useDatasheetParts.js'
 import DsAccordion from './DsAccordion.vue'
+import DatasheetWeaponTable from './DatasheetWeaponTable.vue'
 import ConditionChips from './ConditionChips.vue'
 import { openUnitList } from '../composables/useFactionKeywordUnits.js'
 import { vSafeHtml } from '../directives/safeHtml.js'
@@ -1441,6 +1217,8 @@ function abilityStateLabel(st) {
 }
 
 </script>
+
+<style scoped src="./datasheetMarks.css"></style>
 
 <style scoped>
 /* A Detachment an attachment needs or is barred from, after the character's name. */
@@ -1717,126 +1495,6 @@ function abilityStateLabel(st) {
 /* …but the pill variant carries a border, and 0.3rem from the weapon table's last row reads as
    part of it. Only matters when there is nothing in play and "possible" follows the table alone. */
 .ds-weapons:has(+ .ds-mods-btn) { margin-bottom: 0.55rem; }
-/* `margin: 0` because style.css gives every `table` a 1rem margin top and bottom — the card's own
-   spacing (--ds-space, the 0.05rem between ranged and melee below) sat ON TOP of 32px of that
-   between the two tables and 16px above and below the pair, unnoticed since the first commit
-   (a player's screenshot, 2026-09-19). The card decides its gaps; the page rule is for prose. */
-.ds-weapons table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 0; }
-.ds-weapons th {
-  text-align: center;
-  font-size: 0.62rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #fff;
-  background: var(--ds-th-bg, var(--accent));
-  padding: 0.3rem 0.35rem;
-  white-space: nowrap;
-}
-
-.ds-weapons td {
-  text-align: center;
-  padding: 0.3rem 0.35rem;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-primary);
-  white-space: nowrap;
-}
-.ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
-/* The FIRST header cell is not a column label — it is the block's name ("Ranged Weapons"), the
-   twin of the band over the abilities block, and it is read from across the table rather than
-   scanned like RANGE / A / BS. So it holds `.ds-group-title`'s size and tracking at every width,
-   including the narrow ones below where the six stat labels shrink to fit (owner, 2026-09-24).
-   Sizing it apart from them is what makes that possible: the stat labels set the width of six
-   columns, this one sits in the name's column and costs the row nothing. */
-.ds-weapons th.wname { font-size: 0.68rem; letter-spacing: 1px; }
-/* A weapon's name and numbers in the stat plates' face (owner, 2026-09-30): the condensed display
-   font — the name in the body font read a size larger than numbers of the same size. 400, the
-   regular face: 600 and then 500 at 1.25rem still read heavy beside the plates' 700 (owner,
-   2026-09-30, and twice 2026-10-02). */
-.ds-weapons td:not(.wname), .ds-weapons .wname-text { font-family: var(--font-display); font-weight: 400; }
-/* ONE scale for the weapon rows at every width (owner, 2026-10-02: "the sizes are inconsistent").
-   Until then the name and the numbers were 20px in a narrow card and 13px in a wide one — a tablet
-   or the desk read its weapons smaller than a phone did, beside a count (16px) and tags (12px)
-   that had not shrunk with them. The name and numbers are 1.25rem everywhere; the count, the tags
-   and the column labels hang off the same scale (below). */
-.ds-weapons td:not(.wname), .ds-weapons .wname-text { font-size: 1.25rem; line-height: 1.2; }
-.wtags { margin-left: 0.35rem; }
-/* A weapon the entry's enhancement gives it (rosterModifiers' withEnhancementWeapons): said beside
-   its name, since nothing else on the row tells it from the datasheet's own. */
-.wenh {
-  display: inline-block; margin-left: 0.35rem; padding: 0 0.3rem;
-  border: 1px solid var(--accent); color: var(--accent-ink);
-  font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; vertical-align: 0.1em;
-}
-/* A second copy of a melee weapon on the same model (rosterModifiers' meleeRowsFor): a model fights
-   with one (04.01), so the row says so where the number would otherwise read as more attacks. */
-.wcopy { border-color: var(--border); color: var(--text-muted); text-transform: none; letter-spacing: 0; }
-/* The note wraps at the table's width and never sets it: `width: 0; min-width: 100%` adds nothing to
-   the column sizing an auto table does, then fills the cell the other rows sized. */
-.wcopy-note td { padding-top: 0; white-space: normal; }
-.wcopy-note-text {
-  width: 0; min-width: 100%;
-  font-family: var(--font-sans); font-size: 0.75rem; font-weight: 400; line-height: 1.35;
-  text-transform: none; letter-spacing: 0; text-align: left; color: var(--text-muted);
-}
-/* A small gap between tags, across and between wrapped lines — butted together their frames read
-   as one long box (owner, 2026-10-02). inline-block so the vertical margin takes. The stacked
-   layout lays them out with a flex `gap` instead and zeroes this. */
-.wtag { display: inline-block; font-size: 0.72rem; margin: 0 0.25rem 0.2rem 0; }
-/* How many of this weapon the ROSTER ENTRY fields — a count the printed datasheet keeps in its
-   loadout sentence, which the roster card hides as a settled choice (rosterModifiers.js) — and,
-   on a model profile, how many models a "the bearer only" row stands for (rosterStatMods'
-   splitBearers: "Terminator · Storm Shield ×2"). Only
-   ever present on a sheet the overlay has been through, and only when the number is known and
-   greater than one, so the plain datasheet page is untouched. Muted and trailing: the name still
-   has to read as a name. */
-/* `<wbr>` in the markup, not a space: the count is glued to the name (there is no whitespace
-   between them in the template, or the ×2 could drift a word away from what it counts), and
-   without a break opportunity "supercharge×2" is one unbreakable token. A name whose last word
-   plus its count did not fit the line moved the WHOLE token down and left the line it came from
-   visibly short — which reads as "there is a gap after the ×2". The wbr lets the count drop on
-   its own when nothing else will do; the nowrap below keeps ×2 itself whole either way. */
-.wqty {
-  margin-left: 0.35rem;
-  /* The name's face and weight, a step smaller and muted: a count beside the name, not a footnote
-     (at 0.78rem it was) and not louder than the name (at 600 it was) — owner, 2026-10-02. */
-  font-size: 0.88em;
-  font-weight: 400;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-/* Weapon ability badges ([DEVASTATING WOUNDS]…) — the shared .keyword class (style.css)
-   sizes itself in `em`, so nested in .wtag's already-small 0.72rem it rendered near-illegible
-   (~9px) and the letters ran together. Pin it to a fixed, readable size instead of letting it
-   compound with the ancestor font-size. */
-.wtag :deep(.keyword) {
-  font-size: 0.68rem;
-  letter-spacing: 0.2px;
-}
-
-/* Multi-profile weapons (Wahapedia-style): each profile row carries an accent arrow-pennant
-   before the name, and all rows of one weapon share a faint faction-accent background so the
-   profiles read as one weapon. Single-profile weapons are untouched. */
-.ds-weapons tr.wg-head td,
-.ds-weapons tr.wg-start td,
-.ds-weapons tr.wg-mid td,
-.ds-weapons tr.wg-end td {
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-}
-/* The weapon's own name over its profiles — in a NARROW card only (the ≤560px block below). A wide
-   card has the room for "Plasma Incinerator – supercharge ×5" on one line, so there each profile
-   row keeps its full name and the heading row is not drawn (owner, 2026-10-02). */
-.ds-weapons tr.wg-head { display: none; }
-.wn-prof { display: none; }
-.wprofile-arrow {
-  display: inline-block;
-  width: 13px;
-  height: 9px;
-  margin-right: 0.4rem;
-  background: var(--accent);
-  clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%);
-  vertical-align: middle;
-}
 
 /* Very narrow phones (≤480px): placed after the base .ds-card/.ds-cardhead/.ds-points/
    .ds-weapons rules above so it wins the cascade at equal specificity (a same-specificity
@@ -1915,67 +1573,6 @@ function abilityStateLabel(st) {
    is the fallback for a narrower box, not a phone layout. */
 @container dscard (max-width: 560px) {
   .ds-weapons { --wname-share: 0.55; }
-  .ds-weapons table { font-size: 0.74rem; }
-  .ds-weapons th {
-    padding: 0.25rem 0.15rem;
-    font-size: 0.55rem;
-    letter-spacing: 0.3px;
-  }
-  /* …the six stat labels, not the block's name: that one keeps the full size (see the base rule). */
-  .ds-weapons th.wname { font-size: 0.68rem; letter-spacing: 1px; }
-  .ds-weapons td { padding: 0.3rem 0.15rem; }
-  /* The numbers a size up from the squeezed table's (owner, 2026-09-30: "the numbers are tiny
-     though there is room") — the stat columns spread over half the row, so they have it; the
-     weapon's name reads at the same size (owner, the same day), wrapping in its half if it must.
-     A size up again on a tighter line (owner, the same day: "the rows are tall, a larger font fits
-     without making them taller") — 1.25rem × 1.2 is the line 1.02rem × 1.5 used to take. */
-  /* The name takes a SHARE of the row, not everything that is left. `width: 99%` (what this
-     was until 2026-08-27) squeezes the six stat columns to their content minimum and parks them
-     against the right edge, so a row reading "Bolt pistol ×9" spent about 40% of its width on
-     nothing — the void a reader has to cross to get from the name to the numbers, and the first
-     thing anyone comparing this card to the GW app points at. At 50% the slack goes to the stat
-     columns instead and they spread across their half — half rather than the 45% first tried,
-     because at 45% a name like "Plasma pistol – supercharge ×2" wrapped on a 390px phone and
-     did not on a 400px one.
-
-     The cost, stated plainly: the ability tags live in this cell, so they now have ~50% of the
-     row to wrap in, and a weapon carrying three of them takes a second line. That is why the
-     keyword pills below are allowed to break. */
-  .ds-weapons .wname {
-    /* 55, not 50 (2026-10-02): measured over all 2432 weapon names on a 390px phone with "×5",
-       50% broke 281 of them over two lines; the profile heading row cut that to 81 and this to
-       27. The stat columns cannot be squeezed by it — where their values are wide ("D6+3") the
-       table simply does not give the name its share. */
-    width: calc(var(--wname-share) * 100%);
-    min-width: 0;
-    padding-left: 0.35rem;
-  }
-  .ds-weapons .wname-text { display: block; }
-  /* Half a row is not enough for "Plasma Incinerator – supercharge ×5": measured over all 2432
-     weapon names, 208 of the 281 that broke on a 390px phone were a profile. The weapon's name and
-     count go on a heading row, closed up to the profiles under it, and each profile shows only
-     what tells it apart. */
-  .ds-weapons tr.wg-head { display: table-row; }
-  .ds-weapons tr.wg-head td { padding-bottom: 0; border-bottom: none; }
-  .ds-weapons tr.wg-start td { border-top: none; }
-  .wn-prof { display: inline; }
-  .wn-full { display: none; }
-  /* Tags under the name rather than beside it: on the same line they are what pushes the six
-     stat columns off the screen. */
-  /* The tags run under the whole row, not just the name's half: the stat cells are one line tall,
-     so the space under the numbers is free. In the name's half a long tag broke inside its pill —
-     "[LETHAL HITS: NON-" over "MONSTER/VEHICLE]" in one tall frame (2026-09-30). Inline-size
-     containment keeps the tags out of the column's own minimum, so the stat columns keep their
-     share and the table its width. */
-  /* The row's width is the name column's divided by its share — `--wname-share`, the one number
-     both rules read. `200%` was right only while the share was 50%: at 55% it ran the tags 10% past
-     the card's edge (2026-10-02). A percentage, not `cqw`: a length in px counts toward the cell's
-     minimum width and pushed the whole table wider than the card. */
-  .wtags { display: block; contain: inline-size; width: calc(100% / var(--wname-share) - 0.35rem); margin: 0.15rem 0 0; }
-  .wtag { font-size: 0.6rem; }
-  .wtag :deep(.keyword) { letter-spacing: 0; padding: 0 3px; }
-  .wqty { margin-left: 0.2rem; }
-  .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
 }
 
 /* Narrower than any phone (≤300px): now the table gives up and each weapon becomes its own
@@ -1998,10 +1595,6 @@ function abilityStateLabel(st) {
    it survives as a section label above the group while the six stat headers go. Reusing that
    cell keeps one source for the text (and its translation) instead of adding a second one. */
 @container dscard (max-width: 300px) {
-  /* Undo the squeeze above — a card has room to be read, and only the table needed it. */
-  .ds-weapons table { font-size: 0.82rem; }
-  .wtag { font-size: 0.72rem; }
-  .wtag :deep(.keyword) { letter-spacing: 0.2px; padding: 0 5px; }
 
   .ds-weapons { overflow-x: visible; }
   /* Cancel the ≤480px edge bleed: these are bordered cards now, and running them off the
@@ -2010,95 +1603,6 @@ function abilityStateLabel(st) {
   /* A real gap between the ranged block and the melee block — they are two labelled sections
      now, not two halves of one table (the base rule tightens them to 0.05rem). */
   .ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.6rem; }
-
-  .ds-weapons table,
-  .ds-weapons thead,
-  .ds-weapons tbody,
-  .ds-weapons thead tr { display: block; }
-  /* Section caption: the accent-coloured label above the group, not the filled bar it is on a
-     table (there is no row of columns left for it to head). */
-  .ds-weapons th { display: none; }
-  .ds-weapons th.wname {
-    display: block;
-    width: auto; /* not the table's 50% name share: the label above a stack of cards spans it */
-    min-width: 0;
-    padding: 0 0.1rem 0.3rem;
-    background: none;
-    color: var(--accent-ink);
-    font-size: 0.68rem;
-  }
-
-  /* Each weapon (or each group of profiles) is its own card. */
-  .ds-weapons tbody tr {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 0.05rem 0.2rem;
-    margin-bottom: 0.25rem;
-    padding: 0.35rem 0.4rem 0.4rem;
-    border: 1px solid var(--border);
-    background: color-mix(in srgb, var(--text-primary) 3%, transparent);
-  }
-  .ds-weapons tbody tr:last-child { margin-bottom: 0; }
-  .ds-weapons td {
-    display: block;
-    padding: 0;
-    border: none;
-    text-align: center;
-  }
-  /* The name cell dissolves so its two children lay out as grid items themselves: the name on
-     the first row, the tags after the stats (hence `order`, which the stat cells leave at 0). */
-  .ds-weapons td.wname { display: contents; }
-  .ds-weapons .wname-text {
-    grid-column: 1 / -1;
-    text-align: left;
-    margin-bottom: 0.1rem;
-  }
-  .ds-weapons .wtags {
-    grid-column: 1 / -1;
-    order: 1;
-    display: flex;
-    flex-wrap: wrap;
-    /* Undo the table's run under the whole row (above): the grid cell is the row already, and a
-       200% width ran the tags off a 320px screen (2026-09-30). */
-    width: auto;
-    contain: none;
-    gap: 0.25rem;
-    margin: 0.2rem 0 0;
-  }
-  .ds-weapons .wtag { margin: 0; }
-  .ds-weapons td[data-label]::before {
-    content: attr(data-label);
-    display: block;
-    font-size: 0.56rem;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-
-  /* A multi-profile weapon stays ONE card: the profiles keep the group tint, lose the gap
-     between them, and the seams between them are drawn as internal dividers. */
-  .ds-weapons tbody tr.wg-head,
-  .ds-weapons tbody tr.wg-start,
-  .ds-weapons tbody tr.wg-mid,
-  .ds-weapons tbody tr.wg-end {
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-  }
-  .ds-weapons tr.wg-head td,
-  .ds-weapons tr.wg-start td,
-  .ds-weapons tr.wg-mid td,
-  .ds-weapons tr.wg-end td { background: none; }
-  .ds-weapons tbody tr.wg-head,
-  .ds-weapons tbody tr.wg-start,
-  .ds-weapons tbody tr.wg-mid {
-    margin-bottom: 0;
-    border-bottom: none;
-  }
-  /* The heading opens the card; the first profile carries on inside it. */
-  .ds-weapons tbody tr.wg-head { display: grid; padding-bottom: 0; }
-  .ds-weapons tbody tr.wg-start { border-top: none; }
-  .ds-weapons tbody tr.wg-mid,
-  .ds-weapons tbody tr.wg-end { border-top: 1px dashed var(--border); }
 }
 
 /* Modifier footnotes — quiet, small, and clearly secondary to the card's own content: they
@@ -2191,21 +1695,9 @@ function abilityStateLabel(st) {
    sets its own colour, so it stays muted. */
 /* A core ability the layer added, marked like every other value it put on this card. */
 .ds-core-granted { border-style: dashed; }
-.ds-mod-star {
-  position: relative;
-  top: -0.4em;
-  vertical-align: baseline;
-  line-height: 0;
-  font-size: 0.7em;
-  color: var(--accent-ink);
-  font-weight: 700;
-  margin-left: 1px;
-}
 /* Both hosts set their own `color` at a higher specificity than a bare class — `.ds-weapons td`
    and `.ds-stat-box` are class+element — so the mark has to match that or the value stays the
    default colour and only the asterisk shows. */
-.ds-weapons td.ds-stat-mod,
-.ds-weapons tbody td.ds-stat-mod,
 span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
 
 /* Abilities */
@@ -2332,7 +1824,8 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
 }
 
 .ds-list { margin: 0.2rem 0 0.3rem 1.1rem; padding: 0; }
-.ds-loadout, .ds-option { margin-bottom: 0.3rem; white-space: pre-line; }
+.ds-loadout,
+.ds-option { margin-bottom: 0.3rem; white-space: pre-line; }
 
 .ds-keywords {
   margin-top: var(--ds-kw-top);
@@ -2375,7 +1868,6 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
   font-style: italic;
   color: var(--text-muted);
 }
-
 </style>
 
 <!-- Unscoped on purpose (same reason as FactionLayout): a data-theme selector above the

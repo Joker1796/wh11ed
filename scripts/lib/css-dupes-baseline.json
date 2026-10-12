@@ -134,9 +134,5 @@
   ".tp-act { flex: 1; min-height: 44px; justify-content: center; }": [
     "src/components/tracker/MissionPickerModal.vue",
     "src/components/tracker/TwistPickerModal.vue"
-  ],
-  ".wprofile-arrow { display: inline-block; width: 13px; height: 9px; margin-right: 0.4rem; background: var(--accent); clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%); vertical-align: middle; }": [
-    "src/components/DatasheetCard.vue",
-    "src/components/roster/WeaponProfileModal.vue"
   ]
 }

@@ -281,15 +281,6 @@ const abilityRows = computed(() => [
 .wpm-weapons tr.wg-end td {
   background: color-mix(in srgb, var(--accent) 8%, transparent);
 }
-.wprofile-arrow {
-  display: inline-block;
-  width: 13px;
-  height: 9px;
-  margin-right: 0.4rem;
-  background: var(--accent);
-  clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%);
-  vertical-align: middle;
-}
 
 /* Phones: the same two-step treatment DatasheetCard's own weapon tables get — see the long
    comments there for the whole rationale. Squeezed but still a table down to ~380px, each row its
