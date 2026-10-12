@@ -14,7 +14,9 @@
  */
 export function hasKeyword(unit, name) {
   const n = name.toLowerCase()
-  return (unit.kws || []).some((k) => k.toLowerCase() === n)
+  // A unit the data no longer has (an entry left by a retired datasheet) has no keywords — the
+  // validator's ally checks ask this of every unit in the army, and threw on one (2026-10-12).
+  return (unit?.kws || []).some((k) => k.toLowerCase() === n)
 }
 
 // A tiny handful of enhancements (Necrons' Pantheon of Woe, Imperial Agents' Veiled Blade Elim.
