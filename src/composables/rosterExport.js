@@ -1,3 +1,4 @@
+// @ts-check
 // Plain-text roster export, in the shapes the 40k community actually passes around. English names
 // throughout (unit / detachment / wargear names are EN by project convention). Pure functions.
 //
@@ -29,8 +30,16 @@
 import {
   allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
-  miniName, modelCount,
+  miniName, modelCount, rosterDetachments,
 } from './rosterEngine.js'
+
+/** @typedef {import('./roster.types.js').Roster} Roster */
+/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('./roster.types.js').Detachment} Detachment */
+/** @typedef {import('./roster.types.js').BattleSize} BattleSize */
+/** What the export needs besides the roster. @typedef {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> | null }} ExportContext */
 import { factionGroups } from '../data/factionsIndex.js'
 
 export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple']
@@ -60,8 +69,15 @@ const GW_SECTIONS = [
 //
 // `null` from modelsPerMini means the split between profiles is unknown (a bracket that leaves two
 // profiles free); we then keep the per-model quantity rather than inventing a total.
+/**
+ * @param {RosterUnit} def
+ * @param {RosterEntry} entry
+ * @param {Record<number, string> | null | undefined} items
+ * @returns {Array<{ name: string, models: number, items: Array<{ name: string, n: number }> }>}
+ */
 function loadoutGroups(def, entry, items) {
   if (!items) return []
+  const defaults = def.defaults || []
   const perMini = modelsPerMini(def, entry)
   const groups = new Map()
   const at = (m) => {
@@ -81,9 +97,9 @@ function loadoutGroups(def, entry, items) {
   }
 
   let removed = null
-  if (def?.defaults?.length) {
+  if (defaults.length) {
     removed = swapsByMini(def, entry, perMini)
-    for (const [m, list] of def.defaults) {
+    for (const [m, list] of defaults) {
       const models = perMini?.get(m)
       for (const [id, c, total] of list) {
         // A `total` quantity is the profile's, not each model's (one of the two Gun Servitors has
@@ -102,7 +118,7 @@ function loadoutGroups(def, entry, items) {
     if (!grp || !wargearGroupLive(def, entry, gi)) continue
     const opt = grp.o?.[oi]
     if (!opt) continue
-    if (def?.defaults?.length) {
+    if (defaults.length) {
       const m = pickMiniFor(def, entry, gi)
       for (const [id, q] of optionItems(opt)) add(m, items[id], q * (n || 1))
     } else {
@@ -118,12 +134,16 @@ function loadoutGroups(def, entry, items) {
   // cyclone storm bolter, a player 2026-10-08). The same reading as rosterModifiers'
   // loadoutItemCopies, so the export and the card print one loadout.
   if (removed) {
-    const printed = new Set(def.defaults.flatMap(([m, list]) => list.map(([id]) => `${m}:${id}`)))
+    const printed = new Set(defaults.flatMap(([m, list]) => list.map(([id]) => `${m}:${id}`)))
     for (const [key, take] of removed) {
       const [m, id] = key.split(':').map(Number)
       const models = perMini?.get(m)
-      if (!take || (printed.has(key) && models == null)) continue
-      let left = printed.has(key) ? take - models : take
+      if (!take) continue
+      let left = take
+      if (printed.has(key)) {
+        if (models == null) continue
+        left -= models
+      }
       for (const g of [groups.get(m), ...[...groups.values()].filter((x) => x !== groups.get(m))]) {
         if (left <= 1e-9 || !g) continue
         const have = g.items.get(items[id]) || 0
@@ -145,6 +165,11 @@ function loadoutGroups(def, entry, items) {
     .filter((g) => g.items.length)
 }
 
+/**
+ * @param {RosterUnit} def
+ * @param {RosterEntry} entry
+ * @param {Detachment[]} detachments
+ */
 function enhancementOf(def, entry, detachments) {
   if (entry?.enh) {
     const found = (detachments || []).flatMap((d) => d.enhancements || []).find((e) => e.name === entry.enh)
@@ -154,12 +179,14 @@ function enhancementOf(def, entry, detachments) {
   return m ? { name: m.name, pts: m.pts, type: m.type || 'miniature', mandatory: true } : null
 }
 
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {ExportContext} [ctx]
+ */
 function resolve(roster, { faction, core, items } = {}) {
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
   const defOf = (id) => defMap.get(id)
-  const detachments = (roster?.detachments || [])
-    .map((name) => (faction?.detachments || []).find((d) => d.name === name))
-    .filter(Boolean)
+  const detachments = rosterDetachments(roster, faction)
   const battle = effectiveBattle(roster, core)
   const total = rosterPoints(roster?.units, defOf, detachments)
 
@@ -212,7 +239,10 @@ function resolve(roster, { faction, core, items } = {}) {
     if (!leadersOf.has(r.leaderOf)) leadersOf.set(r.leaderOf, [])
     leadersOf.get(r.leaderOf).push(r)
   }
-  const attached = orderedByName([...leadersOf.entries()].map(([uid, leaders]) => ({ leaders, body: byUid.get(uid) })), (g) => g.body.name)
+  const attached = orderedByName([...leadersOf.entries()].flatMap(([uid, leaders]) => {
+    const body = byUid.get(uid)
+    return body ? [{ leaders, body }] : []
+  }), (g) => g.body.name)
   const inAttached = new Set(attached.flatMap((g) => [g.body.uid, ...g.leaders.map((l) => l.uid)]))
   const loose = ordered.filter((r) => !inAttached.has(r.uid))
 
@@ -222,7 +252,7 @@ function resolve(roster, { faction, core, items } = {}) {
 
   // The army's own Force Disposition — the declared one where its detachments disagree, and never
   // a list of every candidate: an army list states the card it plays, not the ones it could have.
-  return { rows, loose, attached, detachments, battle, total, sizeName, faction, roster, disposition: dispositionOf(roster, detachments) }
+  return { rows, loose, attached, detachments, battle, total, sizeName, faction, roster, items, disposition: dispositionOf(roster, detachments) }
 }
 
 // ── GW app, 11th edition ─────────────────────────────────────────────────────────────────────
@@ -443,9 +473,14 @@ function simpleText(m) {
 
 // `version` (optional) is `{ app, data }` for the GW-format footer — the caller has them, this
 // module does not import either.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {ExportContext & { version?: { app: string, data: string | number } }} [ctx]
+ * @param {string} [format] one of EXPORT_FORMATS
+ * @returns {string}
+ */
 export function buildRosterText(roster, ctx = {}, format = 'gw') {
   const m = resolve(roster, ctx)
-  m.items = ctx.items
   if (format === 'wtc') return wtcText(m)
   if (format === 'wtc-compact') return wtcText(m, true)
   if (format === 'compact') return compactText(m)

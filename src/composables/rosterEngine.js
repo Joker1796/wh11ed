@@ -2589,6 +2589,21 @@ export function effectiveBattle(roster, core) {
   return { ...b, base: b.id, lineLimit: b.dupLimit * 2, custom: false }
 }
 
+// The roster stores its detachments by NAME (as the tracker does); these are the data objects
+// behind them, in the roster's order — what pricing, legality and every rule gate read. A name the
+// faction no longer has is left out here; validateRoster reports it (detachmentGone).
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {{ detachments?: Detachment[] } | null | undefined} faction
+ * @returns {Detachment[]}
+ */
+export function rosterDetachments(roster, faction) {
+  return (roster?.detachments || []).flatMap((name) => {
+    const d = (faction?.detachments || []).find((x) => x.name === name)
+    return d ? [d] : []
+  })
+}
+
 // Total points for a list of roster unit entries. `defOf(id)` resolves a unit id to its
 // faction-data definition. Copy index is assigned per unit id in list order, so the 2nd/3rd
 // copy of a datasheet pays its step surcharge.

@@ -22,7 +22,7 @@
 // freezing prices at build time (2026-09-30). Remembering a list's price for a fixed tournament
 // ruleset is a separate, deliberate feature — not this cache (hub journal, paused).
 
-import { rosterPoints, usesAllies } from './rosterEngine.js'
+import { rosterDetachments, rosterPoints, usesAllies } from './rosterEngine.js'
 import { validateRoster } from './rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
@@ -50,9 +50,7 @@ export function summaryStale(roster, version = APP_VERSION) {
 // The whole summary computed from scratch — the repair path, which has no live computeds to reuse.
 export function summarize(roster, factionData) {
   const units = new Map((factionData?.units || []).map((u) => [u.id, u]))
-  const detachments = (roster?.detachments || [])
-    .map((name) => (factionData?.detachments || []).find((d) => d.name === name))
-    .filter(Boolean)
+  const detachments = rosterDetachments(roster, factionData)
   const { errorCount } = validateRoster(roster, { faction: factionData, core: rosterCore })
   return summaryOf(roster, rosterPoints(roster?.units, (id) => units.get(id), detachments), errorCount)
 }
