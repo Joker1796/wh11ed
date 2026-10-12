@@ -89,6 +89,34 @@ describe('roster types', () => {
     expect([...missing]).toEqual([])
   })
 
+  // The modifier records (src/data/rosterModifiers/<slug>.js) — the same promise for the overlay's
+  // own input: the record, its effects, and its `ref` per kind (ModifierRef is a union by kind).
+  it('describes every key the modifier records carry', async () => {
+    const MODS = path.join(HERE, '../data/rosterModifiers')
+    const recProps = new Set(defs.get('ModifierRecord').keys())
+    const effProps = new Set(defs.get('ModifierEffect').keys())
+    const refBlock = TYPES.slice(TYPES.indexOf('@typedef {{ kind:'), TYPES.indexOf('ModifierRef */'))
+    const refKinds = new Map([...refBlock.matchAll(/\{ kind: '(\w+)'([^}]*)\}/g)].map((m) => [m[1], new Set(['kind', ...[...m[2].matchAll(/(\w+)\??\s*:/g)].map((x) => x[1])])]))
+    expect(refKinds.size).toBeGreaterThanOrEqual(7)
+    const missing = new Set()
+    const modFiles = fs.readdirSync(MODS).filter((f) => f.endsWith('.js') && !['index.js', 'conditions.js', 'coreRules.js'].includes(f) && !f.endsWith('.test.js'))
+    let n = 0
+    for (const f of modFiles) {
+      const { entries } = (await import(path.join(MODS, f))).default
+      for (const r of entries || []) {
+        n++
+        for (const k of Object.keys(r)) if (!recProps.has(k)) missing.add(`ModifierRecord.${k} (${f})`)
+        for (const e of r.effects || []) for (const k of Object.keys(e)) if (!effProps.has(k)) missing.add(`ModifierEffect.${k} (${f})`)
+        if (!r.ref) continue
+        const kind = refKinds.get(r.ref.kind)
+        if (!kind) { missing.add(`ModifierRef kind '${r.ref.kind}' (${f})`); continue }
+        for (const k of Object.keys(r.ref)) if (!kind.has(k)) missing.add(`ModifierRef '${r.ref.kind}'.${k} (${f})`)
+      }
+    }
+    expect(n).toBeGreaterThan(1000)
+    expect([...missing]).toEqual([])
+  })
+
   it('fails on a key the types do not know', () => {
     const known = new Set(defs.get('GearGroup').keys())
     expect(known.has('newField')).toBe(false)

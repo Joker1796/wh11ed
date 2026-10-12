@@ -35,7 +35,7 @@
 
       <div
         class="rule-body"
-        @click="handleDefClick"
+        @click="scrollToDefinition"
       >
         <AppImage
           v-if="sideImage"
@@ -106,7 +106,7 @@ import SeeAlsoBlock from './SeeAlsoBlock.vue'
 import AppImage from './AppImage.vue'
 import RuleBody from './RuleBody.vue'
 import SubRuleBlock from './SubRuleBlock.vue'
-import { useRenderInline } from '../composables/useRenderInline.js'
+import { useRenderInline, scrollToDefinition } from '../composables/useRenderInline.js'
 import { useLocale } from '../composables/useLocale.js'
 import { scrollToAnchor } from '../composables/useRefNavigation.js'
 import { ui } from '../i18n/ui.js'
@@ -126,7 +126,7 @@ const props = defineProps({
   errataRef: { type: Object, default: null },
 })
 
-const { renderInline } = useRenderInline()
+const { renderInline, renderParagraphs } = useRenderInline()
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -140,19 +140,6 @@ const errataNote = computed(() => {
 
 const bodyIsInfoCard = computed(() => (props.body || '').trimStart().startsWith('◈'))
 
-function renderParagraphs(text) {
-  return text.split('\n\n').map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`).join('')
-}
-
-function handleDefClick(e) {
-  const target = e.target.closest('[data-def]')
-  if (!target) return
-  const el = document.getElementById('def-' + target.dataset.def)
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 100
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
-}
 </script>
 
 <style scoped>

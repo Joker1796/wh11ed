@@ -1,3 +1,4 @@
+// @ts-check
 // Roster modifier overlay — what a datasheet looks like for ONE roster entry, as opposed to the
 // bare printed sheet. Pure functions, no Vue, no store (same discipline as rosterEngine.js /
 // rosterValidation.js). See src/components/roster/CLAUDE.md ("Modifier overlay"); this file is
@@ -22,6 +23,19 @@ import ENH_WEAPONS from '../data/enhancementWeapons.js'
 // carry an enhancement; re-exported here because this is where every caller already imports them.
 export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('./roster.types.js').Detachment} Detachment */
+/** @typedef {import('./roster.types.js').ItemId} ItemId */
+/** @typedef {import('./roster.types.js').WeaponRow} WeaponRow */
+/** @typedef {import('./roster.types.js').PrintedSheet} PrintedSheet */
+/** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
+/** @typedef {Partial<RosterEntry>} EntryLike */
+/** @typedef {Record<number, string>} Items */
+/** One copy of an item: the profile holding it (`m`, null for a unit-wide group) and on how many of its models (`n`, null when unknown). @typedef {{ m: number | null, n: number | null }} Slot */
+/** A rule bearing on an entry, to be resolved to its prose by the caller. @typedef {{ kind: 'enhancement' | 'detachment', name: string } | { kind: 'leader', unitId: string }} RuleSource */
+/** @typedef {{ def?: RosterUnit | null, entry?: EntryLike | null, items?: Items | null, unitId?: string, factionSlug?: string, detachments?: Detachment[], leaderTargets?: Array<{ uid: string, name: string }>, units?: RosterEntry[] }} OverlayContext */
+
 // Name matching between two independently-generated datasets: wargear item names live in
 // src/data/roster/items.js (interned from appdata's `wargear_item`), weapon rows live in
 // src/data/datasheets/<slug>.js. They agree on wording but not always on glyphs: the apostrophe
@@ -41,6 +55,11 @@ export { norm as itemKey }
 // which the datasheet files spell out as separate rows ("Plasma pistol – standard" / "– supercharge";
 // the en dash is a plain hyphen by the time `norm` has run on the row). The parenthesised form
 // covers the same idea written a different way ("Heavy flamer (twin-linked)").
+/**
+ * @param {string} row
+ * @param {string | undefined} item
+ * @returns {boolean}
+ */
 function rowMatchesItem(row, item) {
   if (!item) return false
   return row === item || row.startsWith(`${item} - `) || row.startsWith(`${item} (`)
@@ -52,6 +71,11 @@ function rowMatchesItem(row, item) {
 // answer to all of them.
 const STANDS = rosterItemsData.stands || {}
 
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Items | null | undefined} items
+ * @returns {Map<string, ItemId[]>}
+ */
 function itemNameIndex(def, items) {
   const byName = new Map()
   const put = (n, id) => {
@@ -82,6 +106,11 @@ function itemNameIndex(def, items) {
 // bracket that leaves two profiles free — there we only ADD what was picked, so a swapped-away
 // weapon may linger, but one the unit still has is never removed. That asymmetry is deliberate;
 // see filterWeapons.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {Set<ItemId> | null}
+ */
 export function loadoutItemIds(def, entry) {
   const counts = loadoutItemCounts(def, entry)
   return counts && new Set(counts.keys())
@@ -96,14 +125,39 @@ export function loadoutItemIds(def, entry) {
 // datasheet: a Sister Superior and her squad hold the same boltgun as two separate `defaults`
 // rows, so "per model" there is a sum of two ones. The unit total is defined for every shape, it
 // is what the weapon table's reader is about to roll, and it moves with the unit's size.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {Map<ItemId, number | null> | null}
+ */
 export function loadoutItemCounts(def, entry) {
   const copies = loadoutItemCopies(def, entry)
-  if (!copies) return null
+  return copies && countsOf(copies)
+}
+
+// The unit's count of each item, from its copies.
+/**
+ * @param {Map<ItemId, Slot[]>} copies
+ * @returns {Map<ItemId, number | null>}
+ */
+function countsOf(copies) {
   const counts = new Map()
-  for (const [id, slots] of copies) {
-    counts.set(id, slots.reduce((a, s) => (a == null || s.n == null ? null : a + s.n), 0))
-  }
+  for (const [id, slots] of copies) counts.set(id, sumKnown(slots.map((s) => s.n)))
   return counts
+}
+
+// A sum that is unknown as soon as one of its terms is — a number is never invented on a guess.
+/**
+ * @param {Array<number | null | undefined>} terms
+ * @returns {number | null}
+ */
+export function sumKnown(terms) {
+  let sum = 0
+  for (const t of terms) {
+    if (t == null) return null
+    sum += t
+  }
+  return sum
 }
 
 // The same walk, one level finer: every COPY of an item the entry fields, as a slot — which
@@ -119,6 +173,11 @@ export function loadoutItemCounts(def, entry) {
 //
 // Order is the loadout's own: defaults first, then the option groups in the order the entry
 // picked them. Only the slot's position within its profile matters downstream.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {Map<ItemId, Slot[]> | null}
+ */
 export function loadoutItemCopies(def, entry) {
   if (!def || !entry || !def.defaults?.length) return null
 
@@ -182,6 +241,7 @@ export function loadoutItemCopies(def, entry) {
     // for what it was for: a squad shrunk under a stale pick.
     const models = g.all ? null : perMini?.get(g.m ?? 0)
     const room = models == null ? null : Math.max(models * (g.cp || 1), wargearGroupCap(def, entry, gi)?.limit ?? 0)
+    /** @type {number | null} */
     let picks = 1
     if (g.in === 'stepper') picks = room == null ? (n || 1) : Math.min(n || 1, room)
     else if (g.repall && !g.all) picks = models == null ? null : models
@@ -213,10 +273,13 @@ export function loadoutItemCopies(def, entry) {
     if (!take) continue
     const [m, id] = key.split(':').map(Number)
     const models = perMini?.get(m)
-    if (printed.has(key) && models == null) continue
     // The profile's own copies first, then the unit-wide ones (a Desolation Sergeant gives up the
     // superkrak launcher a whole-unit group handed every model).
-    let left = printed.has(key) ? take - models : take
+    let left = take
+    if (printed.has(key)) {
+      if (models == null) continue
+      left -= models
+    }
     if (left <= 1e-9) continue
     for (const own of [true, false]) {
       for (const sl of copies.get(id) || []) {
@@ -243,6 +306,12 @@ export function loadoutItemCopies(def, entry) {
 // integers interned across factions and mean nothing to appdata, while the name is what the uuid
 // bridge stores on both sides. `null` when the loadout cannot be computed, which reads as "say
 // nothing" rather than "equipped with nothing".
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Items | null | undefined} items
+ * @returns {Set<string> | null}
+ */
 export function loadoutItemNames(def, entry, items) {
   const kept = loadoutItemIds(def, entry)
   if (!kept || !items) return null
@@ -264,6 +333,11 @@ export function loadoutItemNames(def, entry, items) {
 // The claim itself is `weaponRowClaimer`, exported so the data-wide test in
 // src/data/roster/index.test.js can walk every sheet's unclaimed rows and catch the next glyph
 // `norm` doesn't fold — the non-breaking hyphen went unnoticed until a player met it.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Items | null | undefined} items
+ * @returns {((name: string | undefined) => ItemId[] | null) | null}
+ */
 export function weaponRowClaimer(def, items) {
   const byName = itemNameIndex(def, items)
   if (!byName.size) return null
@@ -276,7 +350,7 @@ export function weaponRowClaimer(def, items) {
   return (name) => {
     const r = norm(name)
     const claim = names.find((n) => rowMatchesItem(r, n))
-    return claim ? byName.get(claim) : null
+    return (claim && byName.get(claim)) || null
   }
 }
 
@@ -300,6 +374,12 @@ export function weaponRowClaimer(def, items) {
 // close combat weapon", "1 meltagun and …") — four grants, four different Raptors out of ten, and
 // read as ranks they printed four identical rows (player report, 2026-09-30). Where the grants fit
 // the profile's models, they are one row with their sum.
+/**
+ * @param {WeaponRow} w
+ * @param {Slot[]} slots
+ * @param {Map<number, number> | null} perMini
+ * @returns {WeaponRow[] | null}
+ */
 function meleeRowsFor(w, slots, perMini) {
   if ((w.tags || []).some((t) => /^extra attacks$/i.test(t))) return null
   if (slots.some((s) => s.n == null)) return null
@@ -327,12 +407,20 @@ function meleeRowsFor(w, slots, perMini) {
 // proven by that very loadout (wargearConditions): a Telemon's pair of caestus is +2 Attacks, a
 // Talos's pair of macro-scalpels is [TWIN-LINKED]. The list warns on what is left (owner,
 // 2026-10-11): legal, and worth nothing by 04.01. `records` are the faction's modifier entries.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Items | null | undefined} items
+ * @param {PrintedSheet | null | undefined} sheet
+ * @param {ModifierRecord[] | null | undefined} records
+ * @returns {string[]}
+ */
 export function idleMeleeCopies(def, entry, items, sheet, records) {
   if (!def || !entry || !sheet) return []
-  const copies = (overlaySheet(sheet, { def, entry, items }).sheet.melee || []).filter((w) => w.copy)
+  const copies = (overlayWeapons(sheet, def, entry, items).melee || []).filter((w) => w.copy)
   if (!copies.length) return []
   const proven = wargearConditions(def, entry, items, sheet)
-  const rewarded = (records || []).some((r) => r.ref?.unit === sheet.id && (r.effects || []).some((e) => e.cond?.some((c) => proven.has(c))))
+  const rewarded = (records || []).some((r) => !!r.ref && 'unit' in r.ref && r.ref.unit === sheet.id && (r.effects || []).some((e) => e.cond?.some((c) => proven.has(c))))
   return rewarded ? [] : [...new Set(copies.map((w) => w.name))]
 }
 
@@ -346,6 +434,13 @@ export function idleMeleeCopies(def, entry, items, sheet, records) {
 //
 // `sheet` is the PRINTED datasheet: its melee rows say which items are melee weapons, and a row
 // name is what `gear` names.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Items | null | undefined} items
+ * @param {PrintedSheet | null | undefined} sheet
+ * @returns {Set<string>}
+ */
 export function wargearConditions(def, entry, items, sheet) {
   const out = new Set()
   const copies = loadoutItemCopies(def, entry)
@@ -392,11 +487,18 @@ export function wargearConditions(def, entry, items, sheet) {
   return out
 }
 
+/**
+ * @param {PrintedSheet} sheet
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Items | null | undefined} items
+ * @returns {PrintedSheet}
+ */
 function filterWeapons(sheet, def, entry, items) {
   const copies = loadoutItemCopies(def, entry)
-  const counts = loadoutItemCounts(def, entry)
+  if (!copies) return sheet
+  const counts = countsOf(copies)
   const perMini = modelsPerMini(def, entry)
-  if (!counts) return sheet
   const claim = weaponRowClaimer(def, items)
   if (!claim) return sheet
   const claimOf = (row) => claim(row?.name)
@@ -420,8 +522,8 @@ function filterWeapons(sheet, def, entry, items) {
       // sum is one weapon's quantity rather than two different weapons conflated by their name.
       // An unknown anywhere in it makes the row's count unknown, and an unknown count says
       // nothing at all — the reader is told less, never told wrong.
-      const qty = fielded.reduce((a, id) => (a == null || counts.get(id) == null ? null : a + counts.get(id)), 0)
-      if (qty > 1) { out.push({ ...w, qty }); changed = true } else out.push(w)
+      const qty = sumKnown(fielded.map((id) => counts.get(id)))
+      if (qty != null && qty > 1) { out.push({ ...w, qty }); changed = true } else out.push(w)
     }
     return { rows: out, changed }
   }
@@ -432,22 +534,20 @@ function filterWeapons(sheet, def, entry, items) {
   // who kept his bolter read as a shield the card forgot to count (owner, 2026-10-07). An ability
   // no item of the unit claims is kept, as an unclaimed weapon row is. Matched by the ENGLISH name
   // — the RU sheet carries it as `nameEn`, and item names are English.
-  const gear = (() => {
-    if (!sheet.wargearAbilities) return { rows: null, changed: false }
-    const rows = sheet.wargearAbilities.filter((a) => {
-      const ids = claimOf({ name: a.nameEn || a.name })
-      return !ids || ids.some((id) => counts.has(id))
-    })
-    return { rows, changed: rows.length !== sheet.wargearAbilities.length }
-  })()
-  if (!ranged.changed && !melee.changed && !gear.changed) return sheet // identity preserved when nothing changed
+  const abilities = sheet.wargearAbilities || []
+  const keptAbilities = abilities.filter((a) => {
+    const ids = claimOf({ name: a.nameEn || a.name })
+    return !ids || ids.some((id) => counts.has(id))
+  })
+  const gearChanged = keptAbilities.length !== abilities.length
+  if (!ranged.changed && !melee.changed && !gearChanged) return sheet // identity preserved when nothing changed
 
   const out = { ...sheet }
   // An emptied table is dropped outright rather than left as a headed, rowless table — the same
   // shape a datasheet with no ranged/melee weapons has, which DatasheetCard already handles.
   if (ranged.changed) { if (ranged.rows.length) out.ranged = ranged.rows; else delete out.ranged }
   if (melee.changed) { if (melee.rows.length) out.melee = melee.rows; else delete out.melee }
-  if (gear.changed) { if (gear.rows.length) out.wargearAbilities = gear.rows; else delete out.wargearAbilities }
+  if (gearChanged) { if (keptAbilities.length) out.wargearAbilities = keptAbilities; else delete out.wargearAbilities }
   return out
 }
 
@@ -456,6 +556,10 @@ function filterWeapons(sheet, def, entry, items) {
 // files (ASCII, those two carried as separate booleans) — 132 of 898 names differ, none of them a
 // real content gap. Lives here rather than in EnhancementRuleModal.vue, which is where it was
 // written, so the modal's rule-block lookup and that component share one implementation.
+/**
+ * @param {string | null | undefined} s
+ * @returns {string}
+ */
 export function enhKey(s) {
   return (s || '')
     .replace(/\s*\((?:Upgrade|Aura)\)\s*/gi, ' ')
@@ -472,6 +576,13 @@ export function enhKey(s) {
 // Arms list the other one's text (a player's report, 2026-10-01). The rest of the faction is the
 // fallback for a list whose detachment the prose file does not carry by that name.
 // `own`: the roster's detachments, as names or as objects with a `name`.
+/**
+ * @template {{ name?: string, enhancements?: Array<{ name: string }> }} D
+ * @param {D[] | null | undefined} detachments
+ * @param {string} name
+ * @param {Array<string | { name?: string } | null | undefined> | null | undefined} own
+ * @returns {NonNullable<D['enhancements']>[number] | null}
+ */
 export function findEnhancementProse(detachments, name, own) {
   const target = enhKey(name)
   const mine = new Set((own || []).map((d) => detKey(typeof d === 'string' ? d : d?.name)))
@@ -498,6 +609,10 @@ export function findEnhancementProse(detachments, name, own) {
 // `entry.enh` was ever set. `attachedTo` resolves through `leaderTargets` (the same
 // leaderTargetsFor() list the editor's attachment picker uses); without that list the attachment
 // is simply not reported rather than reported as a raw uid.
+/**
+ * @param {OverlayContext | null | undefined} ctx
+ * @returns {{ warlord: boolean, enhancement: { name: string, pts: number, mandatory: boolean } | null, attachedTo: string | null } | null}
+ */
 export function entryContext(ctx) {
   const { def, entry, detachments, leaderTargets } = ctx || {}
   if (!entry) return null
@@ -531,9 +646,14 @@ export function entryContext(ctx) {
 // enhancement shows only on the unit carrying it, a Leader's abilities only on the unit it's
 // attached to. Army-wide rules are shown army-wide, labelled with where they come from, and the
 // reader judges. They render as collapsed accordions, so the cost of showing one is a line.
+/**
+ * @param {OverlayContext | null | undefined} ctx
+ * @returns {RuleSource[]}
+ */
 export function ruleSourcesFor(ctx) {
   const { entry, detachments, units } = ctx || {}
   if (!entry && !detachments?.length) return [] // no roster context at all — a plain preview
+  /** @type {RuleSource[]} */
   const out = []
 
   const enh = entryContext(ctx)?.enhancement
@@ -572,6 +692,11 @@ export function ruleSourcesFor(ctx) {
 // returns: { sheet, grantedKeywords, context, ruleSources, notes }. `notes` is reserved for Tier
 // C's attributed stat annotations and stays empty until then — `ruleSources` is Tier B's own
 // thing and does not belong in it.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Detachment[] | null | undefined} detachments
+ */
 function allegGrant(def, entry, detachments) {
   const kw = allegKeyword(def, entry, detachments)
   if (!kw) return []
@@ -582,6 +707,11 @@ function allegGrant(def, entry, detachments) {
 // own table, marked as the enhancement's (`enh`, DatasheetCard's tag) — at the bottom of the card,
 // in the enhancement's plate, a player forgot the bearer had them at all (2026-10-08). The rows
 // come from appdata's own profile (scripts/gen-enhancement-weapons.mjs).
+/**
+ * @param {PrintedSheet} sheet
+ * @param {EntryLike | null | undefined} entry
+ * @returns {PrintedSheet}
+ */
 function withEnhancementWeapons(sheet, entry) {
   const given = entry?.enh && ENH_WEAPONS[enhKey(entry.enh)]
   if (!given || !(given.melee.length || given.ranged.length)) return sheet
@@ -592,11 +722,28 @@ function withEnhancementWeapons(sheet, entry) {
   return out
 }
 
+// The sheet's weapons as this entry fields them: the loadout trimmed and counted, the enhancement's
+// own weapons added. The card's table and the "fights with one" warning read the same rows.
+/**
+ * @param {PrintedSheet} sheet
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {Items | null | undefined} items
+ * @returns {PrintedSheet}
+ */
+function overlayWeapons(sheet, def, entry, items) {
+  return withEnhancementWeapons(filterWeapons(sheet, def, entry, items), entry)
+}
+
+/**
+ * @param {PrintedSheet | null | undefined} sheet
+ * @param {OverlayContext | null | undefined} ctx
+ */
 export function overlaySheet(sheet, ctx) {
   if (!sheet) return { sheet, grantedKeywords: [], context: null, ruleSources: [], notes: [] }
   const { def, entry, items, unitId, factionSlug, detachments } = ctx || {}
   return {
-    sheet: withEnhancementWeapons(filterWeapons(sheet, def, entry, items), entry),
+    sheet: overlayWeapons(sheet, def, entry, items),
     // …plus the keyword the entry chose for itself. The sidecar can't carry these: which mark a
     // unit took is a per-list decision, not a property of the datasheet (which is exactly why
     // gen-conditional-keywords.mjs skips appdata's 274 allegiance rows).

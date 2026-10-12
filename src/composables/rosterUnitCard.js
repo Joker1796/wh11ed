@@ -29,7 +29,8 @@ import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
-import { loadDatasheetsRu, localizeSheet } from '../data/datasheets/ru/index.js'
+import { localizeSheet } from '../data/datasheets/ru/index.js'
+import { useDatasheetsRu } from './useDatasheetsRu.js'
 
 export function useRosterUnitCard(props) {
   const { locale } = useLocale()
@@ -51,17 +52,7 @@ export function useRosterUnitCard(props) {
     { immediate: true },
   )
 
-  const ruModule = ref(null)
-  watch(
-    [() => props.factionSlug, locale],
-    async ([slug, loc]) => {
-      ruModule.value = null
-      if (!slug || loc !== 'ru') return
-      const mod = await loadDatasheetsRu(slug)
-      if (props.factionSlug === slug && locale.value === 'ru') ruModule.value = mod
-    },
-    { immediate: true },
-  )
+  const ruModule = useDatasheetsRu(() => props.factionSlug)
 
   // Any datasheet from this faction, in the current locale. Shared by the viewed sheet and by an
   // attached Leader's abilities below — those must be translated too, not left English in RU.

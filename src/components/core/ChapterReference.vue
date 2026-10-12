@@ -81,7 +81,7 @@
 
       <div
         class="ability-body"
-        @click="handleDefClick"
+        @click="scrollToDefinition"
       >
         <p
           v-if="ability.flavor"
@@ -147,7 +147,7 @@
       <div
         v-if="ability.note"
         class="note-box ability-note-box"
-        v-html="renderNoteHtml(ability.note)"
+        v-html="renderParagraphs(ability.note)"
       />
 
       <SubRuleBlock
@@ -207,7 +207,7 @@
         {{ entry.title }}
       </h3>
 
-      <div @click="handleDefClick">
+      <div @click="scrollToDefinition">
         <template
           v-for="(block, bi) in parseBody(entry.body)"
           :key="bi"
@@ -244,7 +244,7 @@
       <div
         v-if="entry.note"
         class="note-box"
-        v-html="renderNoteHtml(entry.note)"
+        v-html="renderParagraphs(entry.note)"
       />
     </div>
   </div>
@@ -268,7 +268,7 @@
         {{ entry.header }}
       </h3>
 
-      <div @click="handleDefClick">
+      <div @click="scrollToDefinition">
         <template
           v-for="(block, bi) in parseBody(entry.body)"
           :key="bi"
@@ -318,7 +318,7 @@ import DataTable from '../DataTable.vue'
 import RuleBlock from '../RuleBlock.vue'
 import SubRuleBlock from '../SubRuleBlock.vue'
 import FaqItem from '../FaqItem.vue'
-import { useRenderInline } from '../../composables/useRenderInline.js'
+import { useRenderInline, scrollToDefinition } from '../../composables/useRenderInline.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useAbilityFilter } from '../../composables/useAbilityFilter.js'
 import { useRoute } from 'vue-router'
@@ -326,7 +326,7 @@ import { ui } from '../../i18n/ui.js'
 import { abilitySection, abilityIntro, coreAbilities, appendix, errata, faqs } from '../../data/reference.js'
 import { chunkSubsections } from '../../composables/columnChunks.js'
 
-const { renderInline } = useRenderInline()
+const { renderInline, renderParagraphs } = useRenderInline()
 const { locale } = useLocale()
 const route = useRoute()
 
@@ -441,21 +441,6 @@ function parseBody(text) {
   return result
 }
 
-function renderNoteHtml(text) {
-  return text.split('\n\n')
-    .map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`)
-    .join('')
-}
-
-function handleDefClick(e) {
-  const target = e.target.closest('[data-def]')
-  if (!target) return
-  const el = document.getElementById('def-' + target.dataset.def)
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 100
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
-}
 </script>
 
 <style scoped>

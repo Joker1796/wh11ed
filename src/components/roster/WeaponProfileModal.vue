@@ -154,7 +154,8 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
-import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
+import { localizeSheet } from '../../data/datasheets/ru/index.js'
+import { useDatasheetsRu } from '../../composables/useDatasheetsRu.js'
 import { weaponBase, withGroupPos } from '../../utils/weaponGroups.js'
 
 const props = defineProps({
@@ -210,17 +211,7 @@ const meleeRows = computed(() => matching(sheet.value?.melee))
 
 // The same sheet with its prose in RU (null outside the RU locale, and while the overlay chunk
 // is still loading — the EN original shows until it arrives, never an empty modal).
-const ruModule = ref(null)
-watch(
-  [() => props.factionSlug, locale],
-  async ([slug, loc]) => {
-    ruModule.value = null
-    if (!slug || loc !== 'ru') return
-    const mod = await loadDatasheetsRu(slug)
-    if (props.factionSlug === slug && locale.value === 'ru') ruModule.value = mod
-  },
-  { immediate: true },
-)
+const ruModule = useDatasheetsRu(() => props.factionSlug)
 const ruSheet = computed(() => {
   const en = sheet.value
   if (!en || !ruModule.value) return null

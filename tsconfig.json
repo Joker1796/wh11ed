@@ -20,6 +20,14 @@
     "src/composables/roster.types.js",
     "src/composables/rosterEngine.js",
     "src/composables/rosterEnhEligible.js",
-    "src/composables/rosterValidation.js"
+    "src/composables/rosterValidation.js",
+    "src/composables/rosterModifiers.js",
+    "src/composables/rosterExport.js",
+    "src/composables/rosterStatMods.js",
+    "src/composables/rosterHold.js",
+    "src/composables/rosterSummary.js",
+    "src/composables/rosterLimit.js",
+    "src/composables/rosterHandoff.js",
+    "src/utils/debouncedSave.js"
   ]
 }
