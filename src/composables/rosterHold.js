@@ -124,6 +124,7 @@ export function stockLeft(def, entry, gi) {
   if (room == null) return null
   // A pick whose option hands back everything the group gives up ("Flamer + Combi-bolter", the
   // Chaos Bikers' additions) leaves the model holding its stock weapon, so it is not counted off.
+  /** @param {number} oi */
   const backs = (oi) => { const got = new Set(optionItems(g.o?.[oi]).map(([id]) => id)); return rep.every((id) => got.has(id)) }
   const spent = (entry?.wg || []).filter(([x, oi]) => x === gi && !backs(oi)).reduce((n, [, , c]) => n + (c || 1), 0)
   return Math.max(0, room - spent)

@@ -7,6 +7,9 @@ import { hasKeyword, enhEligible, lockedToExactUnit } from './rosterEnhEligible.
 
 export { hasKeyword, enhEligible }
 
+/** conditionalKeywords.json: faction → datasheet → the keywords it gains (`det`: only in that detachment). @type {Record<string, Record<string, Array<{ kw: string, det?: string, extra?: boolean }>>>} */
+const KEYWORD_GRANTS = conditionalKeywords
+
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
 /** @typedef {import('./roster.types.js').Detachment} Detachment */
@@ -50,6 +53,7 @@ export const UNIT_GROUPS = ['attached', 'epic', 'characters', 'battleline', 'tra
 
 // The i18n key for each group's heading — shared by every screen that lists units grouped by
 // UNIT_GROUPS (the editor, the read-only view, the creation wizard's unit browser/config step).
+/** @type {Record<string, string>} */
 export const GROUP_LABEL_KEYS = {
   attached: 'rosterGroupAttached',
   epic: 'dsGroupEpicHeroes', characters: 'dsGroupCharacters', battleline: 'dsGroupBattleline',
@@ -332,7 +336,9 @@ const FOOTNOTE = /^\*\s*/
  */
 export function splitInstruction(text) {
   const lines = String(text || '').split('\n').map((l) => l.trim()).filter(Boolean)
+  /** @type {string[]} */
   const body = []
+  /** @type {string[]} */
   const notes = []
   // Only ever a footnote once something came before it — an instruction can't open with one.
   for (const l of lines) (body.length && FOOTNOTE.test(l) ? notes : body).push(l)
@@ -454,6 +460,7 @@ export function wargearGroupCap(def, entry, gi) {
 // stores counts, not who holds what, and for counts the rule is exactly "each set together at most
 // the unit's model count". wargearExclOver lists the sets an entry breaks (validator, fitWargear);
 // wargearExclRoom is how many of ONE option its sets still allow (editor, importer), or null.
+/** @param {EntryLike | null | undefined} entry @param {number} gi @param {number} oi */
 function optionCount(entry, gi, oi) {
   return (entry?.wg || []).filter(([g, o]) => g === gi && o === oi).reduce((n, [, , c]) => n + (c || 1), 0)
 }
@@ -496,21 +503,29 @@ export function wargearExclRoom(def, entry, gi, oi) {
 // at most the copies of that item the model holds (the Helbrute's "for each Helbrute fist this
 // model is equipped with", the fists the multi-melta swap may add counted in). Counts again, which
 // is exact for these: every entry is one model's, or groups whose models are interchangeable.
+/** @param {XpmSet['s'][number]} pair @param {number} gi @param {number} oi */
 const xpmHit = (pair, gi, oi) => pair[0] === gi && (pair.length === 1 || pair[1] === oi)
-/** @param {(g: number, o: number) => boolean} [skip] */
+/**
+ * @param {RosterUnit} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {XpmSet} set
+ * @param {(g: number, o: number) => boolean} [skip]
+ */
 function xpmSpent(def, entry, set, skip = () => false) {
   return (entry?.wg || []).filter(([g, o]) => !skip(g, o) && set.s.some((p) => xpmHit(p, g, o))).reduce((n, [, , c]) => n + (c || 1), 0)
 }
+/** @param {RosterUnit} def @param {EntryLike | null | undefined} entry @param {XpmSet} set */
 function xpmLimit(def, entry, set) {
+  const gear = def.gear || []   // an xpm set is written from the unit's own groups
   if (set.item != null) {
     const groups = new Set(set.s.map(([g]) => g))
-    const m = def.gear[set.s[0][0]]?.m ?? 0
+    const m = gear[set.s[0][0]]?.m ?? 0
     const stock = (def.defaults || []).find(([dm]) => dm === m)?.[1]?.find(([id]) => id === set.item)?.[1] || 0
     const granted = (entry?.wg || []).filter(([g]) => !groups.has(g)).reduce((n, [g, o, c]) =>
-      n + optionItems(def.gear[g]?.o?.[o]).filter(([id]) => id === set.item).reduce((k, [, q]) => k + (q || 1), 0) * (c || 1), 0)
+      n + optionItems(gear[g]?.o?.[o]).filter(([id]) => id === set.item).reduce((k, [, q]) => k + (q || 1), 0) * (c || 1), 0)
     return stock + granted
   }
-  const ms = new Set(set.s.map(([g]) => (def.gear[g]?.all ? 'all' : def.gear[g]?.m ?? 0)))
+  const ms = new Set(set.s.map(([g]) => (gear[g]?.all ? 'all' : gear[g]?.m ?? 0)))
   const only = ms.size === 1 ? [...ms][0] : 'all'
   const per = only === 'all' ? null : modelsPerMini(def, entry)?.get(only)
   return (set.k || 1) * (per ?? modelCount(def, entry))
@@ -521,7 +536,8 @@ function xpmLimit(def, entry, set) {
  * @returns {Array<{ set: XpmSet, spent: number, limit: number }>}
  */
 export function wargearXpmOver(def, entry) {
-  return (def?.xpm || []).map((set) => ({ set, spent: xpmSpent(def, entry, set), limit: xpmLimit(def, entry, set) }))
+  if (!def) return []
+  return (def.xpm || []).map((set) => ({ set, spent: xpmSpent(def, entry, set), limit: xpmLimit(def, entry, set) }))
     .filter((x) => x.spent > x.limit)
 }
 // Room for one more of (gi, oi) under every entry that covers it, or null when none does.
@@ -535,8 +551,10 @@ export function wargearXpmOver(def, entry) {
  * @returns {number | null}
  */
 export function wargearXpmRoom(def, entry, gi, oi, { wholeGroup = false } = {}) {
-  const sets = (def?.xpm || []).filter((set) => set.s.some((p) => xpmHit(p, gi, oi)))
+  if (!def) return null
+  const sets = (def.xpm || []).filter((set) => set.s.some((p) => xpmHit(p, gi, oi)))
   if (!sets.length) return null
+  /** @type {(g: number, o: number) => boolean} */
   const skip = wholeGroup ? (g) => g === gi : (g, o) => g === gi && o === oi
   return Math.min(...sets.map((set) => Math.max(0, xpmLimit(def, entry, set) - xpmSpent(def, entry, set, skip))))
 }
@@ -550,16 +568,20 @@ export function wargearXpmRoom(def, entry, gi, oi, { wholeGroup = false } = {}) 
 // counts are a flow: item → the model (at most 1 of a starred item, none if it is the base) →
 // through the model's ranged allowance when the item is ranged → the model's slots. The flow
 // carries every pick exactly when a legal assignment exists.
+/** @param {GearOption} o */
 const pmItemOf = (o) => (Array.isArray(o[0]) ? o[0][0][0] : o[0])
+/** @param {RosterUnit} def @param {EntryLike | null | undefined} entry @param {number} gi */
 function pmCounts(def, entry, gi) {
+  /** @type {Map<ItemId, number>} */
   const m = new Map()
   for (const [g, oi, c] of entry?.wg || []) {
     if (g !== gi) continue
-    const id = pmItemOf(def.gear[gi].o[oi])
+    const id = pmItemOf((def.gear || [])[gi].o[oi])
     m.set(id, (m.get(id) || 0) + (c || 1))
   }
   return m
 }
+/** @param {number[][]} cap residual capacities, consumed @param {number} s @param {number} t @returns {number} */
 function maxFlow(cap, s, t) {
   const n = cap.length
   let flow = 0
@@ -567,8 +589,8 @@ function maxFlow(cap, s, t) {
     const prev = new Array(n).fill(-1)
     prev[s] = s
     const queue = [s]
-    while (queue.length && prev[t] < 0) {
-      const u = queue.shift()
+    for (let head = 0; head < queue.length && prev[t] < 0; head++) {
+      const u = queue[head]
       for (let v = 0; v < n; v++) if (prev[v] < 0 && cap[u][v] > 0) { prev[v] = u; queue.push(v) }
     }
     if (prev[t] < 0) return flow
@@ -591,6 +613,7 @@ export function perModelFits(def, entry) {
   const [rangedMax, rangedIds] = pm.ranged || [Infinity, []]
   const ranged = new Set(rangedIds)
   const given = pm.base != null ? def.gear?.[pm.base]?.rep?.[0] ?? null : null
+  /** @type {Array<ItemId | null>} */
   const bases = []
   if (pm.base != null) for (const [id, n] of pmCounts(def, entry, pm.base)) for (let k = 0; k < n; k++) bases.push(id)
   // More swaps than models: a unit-wide swap group has no cap of its own to say so, so this does.
@@ -600,6 +623,7 @@ export function perModelFits(def, entry) {
   // slot holding its base instead of what the swap gives up.
   const row = def.defaults?.[0]?.[1] || []
   const printed = row.filter(([id, , total]) => ranged.has(id) && !total).reduce((n, [, c]) => n + (c || 1), 0)
+  /** @param {ItemId | null} b */
   const rangedOf = (b) => printed - (given != null && ranged.has(given) ? 1 : 0) + (b != null && ranged.has(b) ? 1 : 0)
 
   const adds = [...pmCounts(def, entry, pm.add)]
@@ -607,7 +631,9 @@ export function perModelFits(def, entry) {
   if (!want) return true
   // Nodes: 0 source · items · per model a ranged gate and the model · sink.
   const K = adds.length
+  /** @param {number} i */
   const R = (i) => 1 + K + 2 * i
+  /** @param {number} i */
   const T = (i) => 2 + K + 2 * i
   const sink = 1 + K + 2 * models
   const cap = Array.from({ length: sink + 1 }, () => new Array(sink + 1).fill(0))
@@ -779,13 +805,15 @@ export { detKey }
  */
 export function grantedKeywordsFor(unitId, factionSlug, detachments) {
   if (!factionSlug || !unitId) return []
-  const grants = conditionalKeywords[factionSlug]?.[unitId]
+  const grants = KEYWORD_GRANTS[factionSlug]?.[unitId]
   if (!grants?.length) return []
-  const picked = new Map() // detKey -> display name, for the footnote
+  /** @type {Map<string, string>} detKey -> display name, for the footnote */
+  const picked = new Map()
   for (const d of detachments || []) {
     const name = typeof d === 'string' ? d : d?.name
     if (name) picked.set(detKey(name), name)
   }
+  /** @type {Array<{ kw: string, detName: string | null, extra: boolean }>} */
   const out = []
   const seen = new Set()
   // Army-wide grants first: when the same keyword arrives both ways, the unconditional claim is
@@ -794,7 +822,7 @@ export function grantedKeywordsFor(unitId, factionSlug, detachments) {
     if (g.det && !picked.has(g.det)) continue
     if (seen.has(g.kw)) continue
     seen.add(g.kw)
-    out.push({ kw: g.kw, detName: g.det ? picked.get(g.det) : null, extra: !!g.extra })
+    out.push({ kw: g.kw, detName: (g.det && picked.get(g.det)) || null, extra: !!g.extra })
   }
   return out
 }
@@ -941,6 +969,7 @@ export function findEnhancement(detachments, name) {
 // answered by their datasheet name, repeated names counted ("Captain ×2"); a unit already wearing
 // another is no candidate. A mandatory one is worn by every unit it fits. Null when no selected
 // detachment offers it.
+/** @param {string | null | undefined} s */
 const looseName = (s) => String(s || '').replace(/[\u2019'`]/g, "'").trim().toLowerCase()
 /**
  * @param {string} name
@@ -964,8 +993,13 @@ export function enhancementBearers(name, { units = [], defOf, detachments = [], 
     // One enhancement a unit: one already wearing another is not a candidate.
     else if (fits && !enh.mandatory && !u.enh) can.push(def.name)
   }
-  const counted = (names) => [...names.reduce((m, n) => m.set(n, (m.get(n) || 0) + 1), new Map())]
-    .map(([n, k]) => (k > 1 ? `${n} ×${k}` : n))
+  /** @param {string[]} names */
+  const counted = (names) => {
+    /** @type {Map<string, number>} */
+    const tally = new Map()
+    for (const n of names) tally.set(n, (tally.get(n) || 0) + 1)
+    return [...tally].map(([n, k]) => (k > 1 ? `${n} ×${k}` : n))
+  }
   // An "(Upgrade)" one may be taken several times (`limit`): while there is room, the candidates
   // still count after the first taker.
   const room = taken.length < (enh.limit || 1)
@@ -1122,10 +1156,13 @@ export function sharedKeywordClash(def, entry, targetDef, targetEntry, detachmen
     .find((g) => (g.kw || []).every((k) => hasKeyword(targetDef, k)))
   const need = lead?.allKw
   if (!need?.length) return null
+  /** @param {RosterUnit} d @param {EntryLike | null | undefined} e */
   const owes = (d, e) => !!allegFor(d, detachments)?.req && !e?.alleg
   if (owes(def, entry) || owes(targetDef, targetEntry)) return null
+  /** @param {RosterUnit} d @param {EntryLike | null | undefined} e @returns {(k: string) => boolean} */
   const has = (d, e) => (k) => hasKeyword(d, k) || (allegKeyword(d, e, detachments) || '').toLowerCase() === k.toLowerCase()
   if (need.some((k) => has(def, entry)(k) && has(targetDef, targetEntry)(k))) return null
+  /** @param {RosterUnit} d @param {EntryLike | null | undefined} e */
   const list = (d, e) => need.filter(has(d, e)).join(', ') || '—'
   return { own: list(def, entry), theirs: list(targetDef, targetEntry) }
 }
@@ -1178,6 +1215,7 @@ export function leadTypeFor(def, entry, targetDef, detachments = []) {
  */
 export const joinsAlongside = (def, other) => !!def?.flags?.alongside
   || !!(other && def?.along?.some((k) => hasKeyword(other, k)))
+/** @param {RosterUnit | null | undefined} def @param {RosterUnit | null | undefined} other */
 const occupies = (def, other) => (joinsAlongside(def, other) || joinsAlongside(other, def)
   ? def?.id != null && def.id === other?.id
   : true)
@@ -1197,6 +1235,7 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
   const entry = (units || []).find((u) => u.uid === excludeUid)
   const leads = leadsFor(def, entry, detachments)
   if (!leads.length && !def?.leadKw?.length) return []
+  /** @param {string} id */
   const typeOf = (id) => leadTypeFor(def, entry, defOf ? defOf(id) : null, detachments)
   // Pactbound Zealots: only a unit sharing one of the keywords the attachment requires
   // (sharedKeywordClash). One that hasn't chosen its mark yet stays offered: marks are picked per
@@ -1386,6 +1425,12 @@ export function enhAttachOf(def, entry, detachments) {
 // would offer an attachment that is legal in a detachment the army didn't take. Deduped by
 // target+type afterwards, because the two halves of such a pair collapse to one entry once gated
 // and the list's callers (`.find()` first-wins, `new Map()` last-wins) need exactly one.
+/**
+ * @template {{ to: string, type: string, reqDet?: string, exclDet?: string }} L
+ * @param {L[]} leads
+ * @param {Detachment[] | null | undefined} detachments
+ * @returns {L[]}
+ */
 function gatedLeads(leads, detachments) {
   if (!leads.some((l) => l.reqDet || l.exclDet)) return leads
   const sids = new Set((detachments || []).map((d) => d?.sid).filter(Boolean))
@@ -1660,7 +1705,14 @@ export function modelsPerMini(def, entry) {
 // Armsmen the shotgun), one copy per model that holds it, so its capacity is that count. It used to
 // be no capacity at all, a line no swap reached: the Breachers' armsmen traded their shotguns and
 // kept all seven (2026-10-03, found with the Havocs report).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {Map<number, number> | null | undefined} perMini
+ * @param {ItemId} id
+ * @returns {Array<[number, number]>} profile → the models carrying it
+ */
 function swapCarriers(def, perMini, id) {
+  /** @type {Array<[number, number]>} */
   const out = []
   for (const [m, list] of def?.defaults || []) {
     const models = perMini?.get(m)
@@ -1695,12 +1747,18 @@ export function copiesHeld(c, total, models, take) {
 // took the whole model, so one flamer on a Wraithlord took BOTH catapults off its card and list.
 // Charged as a share of a model, so the ledger stays in models and its readers turn it back into
 // copies as `c × (models − take)`; `null` count or a `total` row → 1, never a guess.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {GearGroup | null | undefined} g
+ * @param {ItemId} id
+ * @returns {number}
+ */
 function pickShare(def, g, id) {
   if (!g?.cp && !g?.rc) return 1
   const row = def?.defaults?.find(([m]) => m === (g.m ?? 0))?.[1] || []
   const c = row.find(([i, , total]) => i === id && !total)?.[1]
-  if (!(c > 1)) return 1
-  return Math.min(1, (g.cp ? 1 : g.rc) / c)
+  if (!c || c <= 1) return 1
+  return Math.min(1, (g.cp ? 1 : g.rc || 1) / c)
 }
 
 // The copies of a per-model item `c` that `models` models still hold after `take` (a share of a
@@ -1776,14 +1834,21 @@ export function swapsByMini(def, entry, perMini) {
  * @param {number | null} [exceptGi]
  */
 function swapLedger(def, entry, perMini, exceptGi = null) {
+  /** @type {Map<string, number>} `${profile}:${item}` → models */
   const removed = new Map()
+  /** @type {Map<string, number>} */
   const back = new Map()
+  /** @type {Map<string, number>} */
   const held = new Map()
+  /** @type {Array<{ id: ItemId, used: number, cap: number }>} */
   const over = []
   if (!perMini) return { removed, back, held, over }
+  /** @param {Map<string, number>} map @param {string} key @param {number} n */
   const bump = (map, key, n) => map.set(key, (map.get(key) || 0) + n)
+  /** @param {string} key */
   const net = (key) => (removed.get(key) || 0) - (back.get(key) || 0) + (held.get(key) || 0)
   // gi → item id → [models asked, models whose option hands it back, kept-not-replaced]
+  /** @type {Map<number, Map<ItemId, [number, number, boolean]>>} */
   const asked = new Map()
   // `${m}:${id}` → models already asked for it, so an "X or Y" group (`alt`) spends its picks where
   // a model still carries one: every model gives up ONE of the two, whichever it holds. Which model
@@ -1791,11 +1856,19 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
   // hand straight back first (a Havoc picking an autocannon is a lascannon Havoc changing weapons),
   // each up to the models carrying it — and whatever is left past the stock goes on the last, where
   // the overdraft below reports it.
+  /** @type {Map<string, number>} */
   const spent = new Map()
+  /**
+   * @param {GearGroup} g
+   * @param {Set<ItemId>} grants
+   * @param {number} models
+   * @returns {Array<[ItemId, number]>}
+   */
   const altSplit = (g, grants, models) => {
     const m = g.m ?? 0
-    const ids = [...(g.rep || [])].sort((a, b) => grants.has(a) - grants.has(b))
+    const ids = [...(g.rep || [])].sort((a, b) => Number(grants.has(a)) - Number(grants.has(b)))
     let left = Number.isFinite(models) ? models : perMini.get(m) || 0
+    /** @type {Array<[ItemId, number]>} */
     const out = []
     ids.forEach((id, i) => {
       const cap = swapCarriers(def, perMini, id).find(([cm]) => cm === m)?.[1] || 0
@@ -1814,8 +1887,9 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
     const models = g.in === 'stepper' ? n || 1 : g.repall ? Infinity : 1
     const grants = new Set(optionItems(g.o?.[oi]).map(([id]) => id))
     const keep = new Set(g.keep || [])
-    if (!asked.has(gi)) asked.set(gi, new Map())
-    const byItem = asked.get(gi)
+    let byItem = asked.get(gi)
+    if (!byItem) asked.set(gi, (byItem = new Map()))
+    /** @param {ItemId} id @param {number} share */
     const ask = (id, share) => {
       const cur = byItem.get(id) || [0, 0, false]
       byItem.set(id, [cur[0] + share, cur[1] + (grants.has(id) && !keep.has(id) ? share : 0), false])
@@ -1829,6 +1903,7 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
       byItem.set(id, [cur[0] + models, 0, true])
     }
   }
+  /** @type {Array<[GearGroup, Map<ItemId, [number, number, boolean]>]>} */
   const unitWide = []
   for (const [gi, byItem] of asked) {
     const g = def?.gear?.[gi]
@@ -1978,6 +2053,7 @@ export function swapRoomByItem(def, entry, gi) {
       if (g.rep?.includes(id)) return null
       continue
     }
+    /** @param {number} m @param {number} models */
     const left = (m, models) => models - (removed.get(`${m}:${id}`) || 0) + (back.get(`${m}:${id}`) || 0) - (held.get(`${m}:${id}`) || 0)
     out.set(id, carriers.reduce((s, [m, models]) => s + Math.max(0, left(m, models)), 0))
   }
@@ -2039,6 +2115,7 @@ export function fitWargear(def, entry) {
   /** @type {WargearPick[]} */
   let wg = (entry?.wg || []).map((p) => [...p])
   const at = () => ({ ...entry, wg })
+  /** @param {number} i */
   const drop = (i) => {
     const n = wg[i][2] || 1
     if (n > 1) wg[i][2] = n - 1
@@ -2168,9 +2245,12 @@ export function defaultLoadoutLines(def, items, entry) {
     const models = perMini?.get(m)
     // A profile this size fields none of has no line: Headtakers without their wolves (2026-10-05).
     if (models === 0) return []
+    /** @type {string[]} */
     const parts = []
     // The bare names too — what the editor's info button opens the profiles of.
+    /** @type {string[]} */
     const names = []
+    /** @param {ItemId} id @param {string} text */
     const put = (id, text) => { parts.push(text); names.push(items[id]) }
     for (const [id, c, total] of list) {
       // `total` marks a quantity that belongs to the PROFILE rather than to each of its models —
@@ -2296,10 +2376,13 @@ function joinAttached(items, where, attached) {
   // Bodyguard joins a Command Squad that leads its own squad. That is ONE block under the root.
   // Keyed by the direct host, the middle unit was filed as the root's child and then again as the
   // head of its own block, and the list drew it twice (a player's report, 2026-09-24).
+  /** @param {T} it */
   const rootOf = (it) => {
     let at = it
     const seen = new Set()
-    while (at?.leaderOf && byUid.has(at.leaderOf) && !seen.has(at.uid)) { seen.add(at.uid); at = byUid.get(at.leaderOf) }
+    /** @param {T} x */
+    const hostOf = (x) => (x.leaderOf ? byUid.get(x.leaderOf) : undefined)
+    for (let up = hostOf(at); up && !seen.has(at.uid); up = hostOf(at)) { seen.add(at.uid); at = up }
     return at
   }
   for (const it of items || []) {
@@ -2590,8 +2673,10 @@ export const legalityOn = (r) => r?.checkLegality !== false && !isArchived(r)
 // a limit asks `unlimited` first. `base` still names a bracket, for the ally tables — which no
 // custom limit reaches: they are GW's per-size tables, not a number of the player's.
 export const UNLIMITED_BATTLE = 'none'
+/** @type {Array<'dp' | 'enh' | 'dup' | 'line'>} */
 export const CUSTOM_LIMIT_KEYS = ['dp', 'enh', 'dup', 'line']
-const ownNumber = (v) => (Number.isInteger(v) && v >= 0 ? v : null)
+/** @param {unknown} v @returns {number | null} */
+const ownNumber = (v) => (typeof v === 'number' && Number.isInteger(v) && v >= 0 ? v : null)
 /**
  * @param {Partial<Roster> | null | undefined} roster
  * @param {{ battleSizes?: BattleSize[] } | null | undefined} core

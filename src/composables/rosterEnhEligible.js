@@ -63,7 +63,9 @@ export function enhEligible(enh, def, granted = []) {
   // `granted` are keywords the ENTRY gained rather than the datasheet printing them — today the
   // allegiance upgrades that hand CHARACTER to a vehicle, which is precisely what makes it able to
   // carry an enhancement. Callers without an entry pass nothing and get the printed sheet's answer.
+  /** @param {unknown} x */
   const lc = (x) => String(x || '').toLowerCase()
+  /** @param {string} k */
   const has = (k) => hasKeyword(def, k) || granted.some((g) => lc(g) === lc(k))
   if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => has(k))
   if (enh.lockDs?.length) return !!def.sid && enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => has(k))
