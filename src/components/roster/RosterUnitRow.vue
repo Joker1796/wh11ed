@@ -68,7 +68,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { mandatoryEnhancementFor, wargearNames } from '../../composables/rosterEngine.js'
+import { mandatoryEnhancementFor, shownModelCount, wargearNames } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -91,11 +91,8 @@ const chips = computed(() => {
   const def = props.def
   if (!def) return out
   if (props.role) out.push({ key: 'role', text: props.role, role: true })
-  const size = def.sizes?.[props.entry.size ?? 0] || def.sizes?.[0]
-  // A one-model datasheet says nothing by saying "1 model"; a bracket that can hold more does.
-  if (size && size.per[1] > 1) {
-    out.push({ key: 'models', text: `${props.entry.count ?? size.per[0]} ${labels.value.rosterModelsLabel}` })
-  }
+  const models = shownModelCount(def, props.entry)
+  if (models != null) out.push({ key: 'models', text: `${models} ${labels.value.rosterModelsLabel}` })
   const enh = props.entry.enh || mandatoryEnhancementFor(def, props.detachments)?.name
   if (enh) out.push({ key: 'enh', text: enh })
   if (props.entry.alleg) out.push({ key: 'alleg', text: props.entry.alleg })

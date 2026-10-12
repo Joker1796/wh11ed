@@ -402,6 +402,18 @@ export function modelCount(def, entry) {
   return entry?.count ?? sizeOf(def, entry)?.per?.[0] ?? 1
 }
 
+// The model count a list row prints — null where the bracket only ever holds one model, since
+// "1 model" says nothing. The roster row, the print sheet and the attach picker all print it.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {number | null}
+ */
+export function shownModelCount(def, entry) {
+  const size = sizeOf(def, entry)
+  return size && size.per[1] > 1 ? modelCount(def, entry) : null
+}
+
 // The bracket a new entry starts at: the one the data marks default, else the first.
 /**
  * @param {RosterUnit | null | undefined} def
@@ -1192,7 +1204,6 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
         .map((o) => ({ entry: o, def: defOf(o.id) }))
       const used = hostSlotTaken(def, entry, u, defOf(u.id), attached, detachments)
       const tDef = defOf(u.id)
-      const size = sizeOf(tDef, u)
       // Everything that can tell two copies of one datasheet apart, as FACTS — the caller builds
       // the sentence, because this module knows no locale. A list holds "Necron Warriors" twice
       // far more often than not, and a picker that offers the same three words twice makes the
@@ -1204,7 +1215,7 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
         type,
         blockName: u.blockName || '',
         // Only where the bracket can hold more than one: "1 model" distinguishes nothing.
-        models: size && size.per[1] > 1 ? (u.count ?? size.per[0]) : null,
+        models: shownModelCount(tDef, u),
         enh: u.enh || mandatoryEnhancementFor(tDef, detachments)?.name || '',
         alleg: u.alleg || '',
         note: u.note || '',
@@ -2105,13 +2116,13 @@ export function exactPicksOwed(def, entry, gi) {
 }
 
 // The profile name a loadout line is headed with — blank when the datasheet has one profile, as
-// there is nothing to tell apart. Shared by both loadout readers below.
+// there is nothing to tell apart. Shared by both loadout readers below and the export.
 /**
  * @param {RosterUnit | null | undefined} def
  * @param {number} m
  * @returns {string}
  */
-function miniName(def, m) {
+export function miniName(def, m) {
   return (def?.minis?.length ?? 0) > 1 ? (def?.minis?.[m]?.n || '') : ''
 }
 

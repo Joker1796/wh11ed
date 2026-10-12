@@ -71,6 +71,7 @@ import { rosterItems } from '../../data/roster/index.js'
 import {
   allySourceOf, dispositionOf, groupLabel, mandatoryEnhancementFor, wargearNames,
   leaderTargetsFor,
+  shownModelCount,
 } from '../../composables/rosterEngine.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { enhKey } from '../../composables/rosterModifiers.js'
@@ -151,8 +152,8 @@ function tagsOf(e) {
   const out = []
   const role = roleOf(e)
   if (role) out.push(role)
-  const size = def?.sizes?.[e.size ?? 0] || def?.sizes?.[0]
-  if (size && size.per[1] > 1) out.push(`${e.count ?? size.per[0]} ${l.rosterModelsLabel}`)
+  const models = shownModelCount(def, e)
+  if (models != null) out.push(`${models} ${l.rosterModelsLabel}`)
   if (e.warlord) out.push(l.rosterWarlord)
   const enh = e.enh || mandatoryEnhancementFor(def, dataDetachments.value)?.name
   if (enh) out.push(enh)
