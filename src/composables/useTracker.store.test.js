@@ -517,6 +517,17 @@ describe('condition switches', () => {
     expect(tracker.current.value.players[0].ctx.units.u1).toEqual({ 'order-fix-bayonets': 102 })
   })
 
+  // "That unit can be affected by up to two different Orders at the same time" (a Command Rod, Ursula
+  // Creed): the caller passes the unit's own size, and the group holds two before it replaces.
+  it('lets a unit a rule allows two Orders hold two, then replaces the oldest', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitCondition(0, 'u1', 'order-take-aim', 101, true, undefined, 2)
+    tracker.setUnitCondition(0, 'u1', 'order-fix-bayonets', 102, true, undefined, 2)
+    expect(tracker.current.value.players[0].ctx.units.u1).toEqual({ 'order-take-aim': 101, 'order-fix-bayonets': 102 })
+    tracker.setUnitCondition(0, 'u1', 'order-move-move-move', 103, true, undefined, 2)
+    expect(tracker.current.value.players[0].ctx.units.u1).toEqual({ 'order-fix-bayonets': 102, 'order-move-move-move': 103 })
+  })
+
   // Creations of Bile: "either select one from the list below, or randomly determine two". Two fit
   // in the group; a third one pushes out the one that has been on longest.
   it('lets a capped group hold its whole allowance, then evicts the oldest', () => {

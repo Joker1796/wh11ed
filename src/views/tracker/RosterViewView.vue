@@ -577,12 +577,12 @@ import { loadDatasheets } from '../../data/datasheets/index.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
-import { loadoutItemNames } from '../../composables/rosterModifiers.js'
+import { itemKey, loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
+import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf, groupLimitsFor } from '../../composables/rosterGameContext.js'
 import { memberAt } from '../../composables/rosterGameLink.js'
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
@@ -689,6 +689,7 @@ const activeFor = (entry) => (inGame.value
       army: keeps('trackArmyStates'),
       unit: keeps('trackUnitStates'),
       units: roster.value?.units,
+      groupLimits: groupLimitsOf(entry),
     })
   : rosterConditions(entry, roster.value?.units))
 
@@ -1168,7 +1169,7 @@ const unitSwitchCache = computed(() => {
   const m = new Map()
   if (!canSwitch.value || !keeps('trackUnitStates')) return m
   for (const e of roster.value?.units || []) {
-    m.set(e.uid, withRuleInfo(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e)))
+    m.set(e.uid, withRuleInfo(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e, groupLimitsOf(e))))
   }
   return m
 })
@@ -1272,6 +1273,21 @@ function attachedEntries(entry) {
   return group.length ? group : [entry]
 }
 
+// The rule texts an entry carries: its datasheet's abilities, and the wargear abilities of what it
+// took — a Command Rod counts only on the squad that has one.
+function rulesOf(entry) {
+  const sheet = fullSheets.value.get(entry.id)
+  if (!sheet) return []
+  const carried = loadoutItemNames(defOf(entry.id), entry, rosterItems.items)
+  return [
+    ...(sheet.abilities || []),
+    ...(sheet.wargearAbilities || []).filter((a) => carried?.has(itemKey(a.name))),
+  ].map((a) => a.text)
+}
+// How many of a group this entry's attached unit may hold where a Leader's rule raises it (two
+// Orders under a Command Rod or Ursula Creed — rosterGameContext's groupLimitsFor).
+const groupLimitsOf = (entry) => groupLimitsFor(entry, roster.value?.units, rulesOf)
+
 // Switching a per-unit condition on or off. A condition that forbids stratagems takes the ongoing
 // ones off the unit as it goes on: leaving a spent stratagem rewriting the card of a unit that may
 // not be affected by one is the contradiction the player would have to notice and undo by hand.
@@ -1283,13 +1299,14 @@ function attachedEntries(entry) {
 function toggleUnitCondFor(entry, sw) {
   if (sw.auto) return
   const at = stampOf(gameClock.value)
+  const limits = groupLimitsOf(entry)
   for (const part of attachedEntries(entry)) {
     if (!sw.on) {
       for (const sid of stratagemsClearedBy(sw.id, resolvedFor(part), gamePlayer.value, gameClock.value, part)) {
         tracker.value?.setUnitStratagem(gamePi.value, part.uid, sid, at, false, gameMi.value)
       }
     }
-    tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on, gameMi.value)
+    tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on, gameMi.value, limits[conditions[sw.id]?.group || ''])
   }
 }
 
@@ -1324,7 +1341,7 @@ const viewingGameCtx = computed(() => {
     // read the same number its row does.
     chosen: canSwitch.value && keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
     switches: canSwitch.value && keeps('trackUnitStates')
-      ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
+      ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value, groupLimitsOf(viewingEntry.value))
       : [],
     armySwitches: canSwitch.value && keeps('trackArmyStates')
       ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, viewingEntry.value)

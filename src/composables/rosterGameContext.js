@@ -42,6 +42,7 @@ import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 /** The entry a card is drawn for — read for its uid, id and leaderOf only. @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
 /** @typedef {import('./roster.types.js').ModEntry} ModEntry */
+/** A group's size for one unit, where a rule raises it above the group's own: `{ order: 2 }`. @typedef {Record<string, number>} GroupLimits */
 /** A clock, or the bare round number a game saved before the clock existed stores. @typedef {GameClock | number | null | undefined} ClockLike */
 
 // ── The clock ─────────────────────────────────────────────────────────────────────────────────
@@ -214,7 +215,7 @@ function clockHolds(c, clock) {
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
  * @param {EntryLike | null | undefined} entry
- * @param {{ units?: RosterEntry[] | null, army?: boolean, unit?: boolean }} [opts]
+ * @param {{ units?: RosterEntry[] | null, army?: boolean, unit?: boolean, groupLimits?: GroupLimits }} [opts]
  * @returns {Set<string>}
  */
 export function activeConditions(player, clock, entry, opts = {}) {
@@ -241,7 +242,7 @@ export function activeConditions(player, clock, entry, opts = {}) {
   for (const [id, c] of Object.entries(conditions)) {
     if (c.negates && !out.has(c.negates)) out.add(id)
   }
-  capGroups(out, player, entry)
+  capGroups(out, player, entry, opts.groupLimits)
   return out
 }
 
@@ -274,8 +275,13 @@ export function rosterConditions(entry, units = null) {
 // existed can hold all six of Creations of Bile's augmentations, each rewriting a stat. Reading is
 // where that has to be caught, so the cap is applied here too and the newest switches win, the same
 // ones the store would have kept. Nothing is deleted: the game's own record stays as it was played.
-/** @param {Set<string>} out @param {GamePlayer | null | undefined} player @param {EntryLike | null | undefined} entry */
-function capGroups(out, player, entry) {
+/**
+ * @param {Set<string>} out
+ * @param {GamePlayer | null | undefined} player
+ * @param {EntryLike | null | undefined} entry
+ * @param {GroupLimits} [limits] this unit's own sizes, where a rule raises one (groupLimitsFor)
+ */
+function capGroups(out, player, entry, limits) {
   /** @type {Map<string, string[]>} */
   const byGroup = new Map()
   for (const id of out) {
@@ -286,7 +292,7 @@ function capGroups(out, player, entry) {
     ids.push(id)
   }
   for (const [group, ids] of byGroup) {
-    const limit = groupLimitOf(group)
+    const limit = limits?.[group] ?? groupLimitOf(group)
     if (ids.length <= limit) continue
     /** @param {string} id */
     const stampFor = (id) => (conditions[id].scope === 'army'
@@ -575,9 +581,10 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
  * @param {EntryLike | null | undefined} entry
+ * @param {GroupLimits} [limits] this unit's own group sizes (groupLimitsFor)
  * @returns {CondSwitch[]}
  */
-export function switchesFor(resolvedEntries, scope, player, clock, entry) {
+export function switchesFor(resolvedEntries, scope, player, clock, entry, limits) {
   const ids = new Set()
   // …and WHICH rule named each one. A chip reading "Adrenalight" says nothing on its own: finding
   // out that the six of them are Combat Drugs, off the Spectacle of Spite detachment, meant
@@ -639,7 +646,7 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
     // The store enforces the cap either way (useTracker's enforceGroupLimit) — this is only for
     // showing it, because a group of six chips that silently holds two needs to say so.
     group: conditions[id].group || null,
-    groupLimit: groupLimitOf(conditions[id].group),
+    groupLimit: limits?.[conditions[id].group || ''] ?? groupLimitOf(conditions[id].group),
     // Enough for a view to name the rule and find its text; resolving either needs the faction
     // data, which this pure layer does not have (see RosterViewView's withRuleInfo).
     src: srcOf(namedBy.get(id)),
@@ -657,3 +664,55 @@ function srcOf(rec) {
     unit: (ref && 'unit' in ref && ref.unit) || null,
   }
 }
+
+// ── A unit that may hold more of a group ──────────────────────────────────────────────────────
+// "While this model is leading a unit, that unit can be affected by up to two different Orders at
+// the same time" — Ursula Creed's Lord Castellan, and the Command Rod a Militarum Tempestus Command
+// Squad can carry (a player's report, 2026-10-12: the tracker let that unit hold one Order). Those
+// two are every such rule appdata has; the sentence is read rather than the names listed, and
+// rosterGameContext.test.js fails on a wording in the data this does not read.
+const GROUP_RAISES = [{ group: 'order', re: /can be affected by up to (\w+) different Orders at the same time/i }]
+/** @type {Record<string, number>} */
+const NUMBER_WORDS = { one: 1, two: 2, three: 3, four: 4 }
+
+/**
+ * The group sizes a rule's text grants the unit its bearer leads.
+ * @param {string | null | undefined} text
+ * @returns {GroupLimits}
+ */
+export function groupRaisesOf(text) {
+  /** @type {GroupLimits} */
+  const out = {}
+  for (const { group, re } of GROUP_RAISES) {
+    const m = String(text || '').match(re)
+    const n = m ? NUMBER_WORDS[m[1].toLowerCase()] ?? Number(m[1]) : NaN
+    if (n > 1) out[group] = Math.max(out[group] || 0, n)
+  }
+  return out
+}
+
+/**
+ * The group sizes of the attached unit an entry belongs to: what the rules of a Character LEADING
+ * it raise ("while this model is leading a unit"). Every card of that unit gets the same answer —
+ * an Order affects the whole attached unit (19.01), and so does the room for a second one.
+ * @param {EntryLike | null | undefined} entry
+ * @param {RosterEntry[] | null | undefined} units the roster's entries
+ * @param {(e: RosterEntry) => string[]} rulesOf the rule texts an entry carries — its datasheet's
+ *   abilities and the wargear abilities of what it took
+ * @returns {GroupLimits}
+ */
+export function groupLimitsFor(entry, units, rulesOf) {
+  /** @type {GroupLimits} */
+  const out = {}
+  const hostUid = entry?.leaderOf || entry?.uid
+  if (!hostUid) return out
+  const list = units || []
+  if (!list.some((u) => u.uid === hostUid)) return out
+  for (const leader of list.filter((u) => u.leaderOf === hostUid)) {
+    for (const text of rulesOf(leader)) {
+      for (const [group, n] of Object.entries(groupRaisesOf(text))) out[group] = Math.max(out[group] || 0, n)
+    }
+  }
+  return out
+}
+

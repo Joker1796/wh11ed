@@ -35,6 +35,9 @@ export const changelog = [
       'Why can’t Dark Angels take Wrath of the Rock together with Terminator Storm Force? Both detachments have the TERMINATOR tag. A list cannot take two detachments with the same tag. The Munitorum Field Manual and the GW app both give them this tag. In the roster builder the tag is shown on the detachment’s card.',
       { h: 'Roster builder' },
       'I tidied up the roster builder’s code and fixed a few small errors in how lists are checked.',
+      'The unit card now shows what wargear adds when every model in the unit has it. Before, the bonus vanished: a Shield Drone on every Crisis suit or Broadside, a brute shield on every Bullgryn, a storm shield on every Wolf Guard. Two Shield Drones on one Broadside now add 2 Wounds.',
+      { h: 'Tracker' },
+      'A unit led by Ursula Creed, or by a Militarum Tempestus Command Squad with a Command Rod, can now hold two Orders. Before, the second Order replaced the first.',
     ],
     ru: [
       { h: 'Датащиты' },
@@ -47,6 +50,9 @@ export const changelog = [
       'Почему Dark Angels не могут взять Wrath of the Rock вместе с Terminator Storm Force? У обоих детачментов тег TERMINATOR. Два детачмента с одним тегом в один список брать нельзя. Этот тег им дают и Munitorum Field Manual, и приложение GW. В конструкторе тег подписан на карточке детачмента.',
       { h: 'Конструктор ростеров' },
       'Я навёл порядок в коде конструктора ростеров и исправил несколько мелких ошибок в проверке списков.',
+      'Карточка юнита теперь показывает прибавку от снаряжения, когда оно есть у каждой модели отряда. Раньше прибавка пропадала: Shield Drone на каждом Crisis или Broadside, brute shield у каждого Bullgryn, storm shield у каждого Wolf Guard. Два Shield Drone на одном Broadside теперь дают +2 к ранам.',
+      { h: 'Трекер' },
+      'Отряд, который ведёт Ursula Creed или командное отделение Militarum Tempestus с Command Rod, теперь может держать два приказа. Раньше второй приказ заменял первый.',
     ],
   },
   {

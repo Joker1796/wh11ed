@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import { activeConditions, switchesFor, isAuto, clockOf, stampOf } from './rosterGameContext.js'
+import { activeConditions, switchesFor, isAuto, clockOf, stampOf, groupRaisesOf, groupLimitsFor } from './rosterGameContext.js'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
+import { loadDatasheets } from '../data/datasheets/index.js'
+import { itemKey, loadoutItemNames } from './rosterModifiers.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 
 const player = (ctx, army, factionSlug = null) => ({ ctx, army, factionSlug })
@@ -644,6 +650,74 @@ describe('stratagems', () => {
   it('says nothing for an entry that spent none', async () => {
     const { activeStratagems } = await import('./rosterGameContext.js')
     expect(activeStratagems(player({}), 1, entry, [rec('krump', 'phase')]).size).toBe(0)
+  })
+})
+
+// "That unit can be affected by up to two different Orders at the same time" — a Command Rod on a
+// Militarum Tempestus Command Squad, Ursula Creed's Lord Castellan (a player's report, 2026-10-12:
+// the tracker let the unit hold one Order).
+describe('groupLimitsFor — a unit a Leader lets hold two Orders', () => {
+  const am = async () => ({ fac: await loadRosterFaction('astra-militarum'), sheets: await loadDatasheets('astra-militarum') })
+  // The texts an entry carries, as RosterViewView reads them: the sheet's abilities and the wargear
+  // abilities of what it took.
+  const rulesOf = ({ fac, sheets }) => (e) => {
+    const sheet = sheets.find((d) => d.id === e.id)
+    const carried = loadoutItemNames(fac.units.find((u) => u.id === e.id), e, rosterItems.items)
+    return [...(sheet.abilities || []), ...(sheet.wargearAbilities || []).filter((a) => carried?.has(itemKey(a.name)))].map((a) => a.text)
+  }
+  // [group, option] of the Command Squad's command rod.
+  const rodPick = (def) => {
+    for (const [gi, g] of def.gear.entries()) for (const [oi, o] of g.o.entries()) {
+      if (JSON.stringify(o).match(/\d+/g)?.some((id) => itemKey(rosterItems.items[id]) === itemKey('Command Rod'))) return [gi, oi]
+    }
+    throw new Error('no command rod')
+  }
+
+  it('gives a Command Squad with a Command Rod, and the squad it leads, two Orders', async () => {
+    const data = await am()
+    const def = data.fac.units.find((u) => u.id === 'militarum-tempestus-command-squad')
+    const squad = { uid: 's', id: 'tempestus-scions', size: 0 }
+    const withRod = { uid: 'c', id: def.id, size: 0, leaderOf: 's', wg: [[...rodPick(def), 1]] }
+    const without = { uid: 'c', id: def.id, size: 0, leaderOf: 's' }
+    expect(groupLimitsFor(squad, [squad, withRod], rulesOf(data))).toEqual({ order: 2 })
+    expect(groupLimitsFor(withRod, [squad, withRod], rulesOf(data))).toEqual({ order: 2 })
+    expect(groupLimitsFor(squad, [squad, without], rulesOf(data))).toEqual({})
+  })
+
+  it('gives the unit Ursula Creed leads two Orders, and nothing while she stands alone', async () => {
+    const data = await am()
+    const squad = { uid: 's', id: 'cadian-shock-troops', size: 0 }
+    expect(groupLimitsFor(squad, [squad, { uid: 'u', id: 'ursula-creed', size: 0, leaderOf: 's' }], rulesOf(data))).toEqual({ order: 2 })
+    const alone = { uid: 'u', id: 'ursula-creed', size: 0 }
+    expect(groupLimitsFor(alone, [squad, alone], rulesOf(data))).toEqual({})
+  })
+
+  it('lets activeConditions keep both Orders on such a unit, and one elsewhere', () => {
+    const p = player({ units: { s: { 'order-take-aim': 101, 'order-fix-bayonets': 102 } } })
+    const two = activeConditions(p, 1, { uid: 's' }, { groupLimits: { order: 2 } })
+    expect(['order-take-aim', 'order-fix-bayonets'].every((id) => two.has(id))).toBe(true)
+    const one = activeConditions(p, 1, { uid: 's' })
+    expect(['order-take-aim', 'order-fix-bayonets'].filter((id) => one.has(id))).toEqual(['order-fix-bayonets'])
+  })
+
+  // The class: every rule in the data that lets a unit hold several Orders is read, so a new wording
+  // fails here instead of leaving that unit at one.
+  it('reads every "affected by … Orders" rule in the datasheets', async () => {
+    const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), '../data/datasheets')
+    const unread = []
+    let found = 0
+    for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.js') && f !== 'index.js' && !f.endsWith('.test.js'))) {
+      const { default: list } = await import(path.join(dir, file))
+      for (const d of list || []) {
+        for (const a of [...(d.abilities || []), ...(d.wargearAbilities || []), ...(d.specialAbilities || []), ...(d.rules || [])]) {
+          if (!/affected by[^.]*Orders/i.test(a.text || '')) continue
+          found++
+          if (!groupRaisesOf(a.text).order) unread.push(`${d.id}: ${a.name}`)
+        }
+      }
+    }
+    expect(found).toBeGreaterThanOrEqual(2)
+    expect(unread).toEqual([])
   })
 })
 

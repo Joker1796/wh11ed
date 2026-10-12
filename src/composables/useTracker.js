@@ -579,10 +579,13 @@ export function useTracker() {
   // always been. A group whose rule allows several (Creations of Bile picks two augmentations)
   // carries its size in GROUP_LIMITS, and the OLDEST sibling makes way — evicting rather than
   // refusing keeps a full group changeable in one tap, the same way a single-slot group is.
-  function enforceGroupLimit(store, id) {
+  //
+  // `limit` is the unit's own size for the group where a rule raises it — a Tempestus squad led by a
+  // Command Rod may hold two Orders (rosterGameContext's groupLimitsFor, which the caller asks).
+  function enforceGroupLimit(store, id, limit = null) {
     const group = conditions[id]?.group
     if (!group || !store) return
-    const limit = groupLimitOf(group)
+    limit = limit ?? groupLimitOf(group)
     // Insertion order is the tie-break: two switches flipped in the same phase share a stamp, and
     // the one flipped first is still the one that has been on longest.
     const siblings = Object.keys(store)
@@ -605,13 +608,13 @@ export function useTracker() {
 
   // Keyed by the roster ENTRY's uid — the game carries its own snapshot of the list, so those
   // uids are stable for the life of the game whatever happens to the saved roster.
-  function setUnitCondition(pi, uid, id, at, on, mi) {
+  function setUnitCondition(pi, uid, id, at, on, mi, limit = null) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.units) pl.ctx.units = {}
     if (!pl.ctx.units[uid]) pl.ctx.units[uid] = {}
     if (on) {
-      enforceGroupLimit(pl.ctx.units[uid], id)
+      enforceGroupLimit(pl.ctx.units[uid], id, limit)
       pl.ctx.units[uid][id] = at
     } else delete pl.ctx.units[uid][id]
     if (!Object.keys(pl.ctx.units[uid]).length) delete pl.ctx.units[uid]
