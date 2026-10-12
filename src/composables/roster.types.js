@@ -345,6 +345,85 @@
 
 /** Resolves a datasheet id to its facts. @typedef {(id: string) => RosterUnit | null | undefined} DefOf */
 
+// ── A list somebody else's tool wrote (rosterImport.js) ───────────────────────────────────────
+
+/** A weapon line in a unit's body: `n` copies, printed under the profile `mini` if the export said. @typedef {{ n: number, name: string, mini?: string | null }} GearLine */
+
+/** A model line: `n` models of the profile it names (empty when the export named none). @typedef {{ n: number, name: string }} ModelLine */
+
+/**
+ * A unit as a parser read it, before any datasheet is known. `group` ties the members of one
+ * attached block together; `attachedTo` is WTC's link line, `loose` the lines nobody understood.
+ * @typedef {object} ParsedUnit
+ * @property {string} name
+ * @property {number} pts
+ * @property {string | null} group
+ * @property {null} [role]
+ * @property {boolean} warlord
+ * @property {string | null} enh
+ * @property {string | null} alleg
+ * @property {string | null} [attachedAs]
+ * @property {Array<{ group: string | null, attachedAs: string | null | undefined }>} [also] the other block a repeated unit stood in
+ * @property {number | null} [models]
+ * @property {GearLine[]} [weapons]
+ * @property {ModelLine[]} [modelLines]
+ * @property {boolean} [flatBody] the body lost its nesting, so every line is a candidate model line
+ * @property {string | null} [ref] WTC's `Char1`-style reference
+ * @property {string[]} [attachedTo]
+ * @property {string[]} [loose]
+ * @property {boolean} [fromProfiles] the model count is being summed from profile lines
+ */
+
+/**
+ * A whole list as a parser read it.
+ * @typedef {object} ParsedList
+ * @property {'gw' | 'wtc' | 'listhammer-compact'} format
+ * @property {string} name
+ * @property {string} faction
+ * @property {number} limit  the battle size's points
+ * @property {number} stated the list's own total
+ * @property {string[]} detachments
+ * @property {string} [detachmentLine] the raw line, resolved against the faction's detachments later
+ * @property {string} [disposition]
+ * @property {ParsedUnit[]} units
+ * @property {number} [repeated] repeats of an attached unit folded away
+ * @property {Array<{ name: string, onRef: string | null, onName: string | null }>} [enhancements] WTC header
+ * @property {{ ref: string | null, name: string } | null} [warlord] WTC header
+ */
+
+/**
+ * One unit of the import report: what it matched, and what of it did not land.
+ * @typedef {object} ImportUnitLine
+ * @property {string} name
+ * @property {string} id
+ * @property {number | null} models
+ * @property {{ picked: string[], missing: string[] }} gear
+ * @property {{ name: string, ok: boolean } | null} enh
+ * @property {{ stated: number, computed: number }} points
+ */
+
+/**
+ * @typedef {object} ImportReport
+ * @property {string} name
+ * @property {ImportUnitLine[]} units
+ * @property {Array<{ name: string, pts: number }>} missing datasheets we do not have
+ * @property {number} repeated
+ * @property {{ matched: string[], missing: string[] }} detachments
+ * @property {{ stated: number, statedUnits: number, computed: number }} points
+ */
+
+/**
+ * The roster an import creates — the stored roster's fields, before the store gives it an id.
+ * @typedef {object} ImportPayload
+ * @property {string} name
+ * @property {string} faction
+ * @property {string[]} detachments
+ * @property {string} [disposition]
+ * @property {string} battleSize
+ * @property {number} [customPoints]
+ * @property {RosterEntry[]} units
+ */
+
 // ── A game, as the live-rules layer reads it (rosterGameContext.js) ───────────────────────────
 
 /**

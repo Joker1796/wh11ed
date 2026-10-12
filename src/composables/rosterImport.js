@@ -1,3 +1,4 @@
+// @ts-check
 // Read an army list somebody else's tool wrote, and turn it into one of ours.
 //
 // THE FORMATS (see rosterExport.js for the ones we write):
@@ -31,6 +32,23 @@ import { factionGroups } from '../data/factionsIndex.js'
 import { DISPOSITION_NAMES } from '../data/dispositionColors.js'
 import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
 
+/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('./roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('./roster.types.js').GearLine} GearLine */
+/** @typedef {import('./roster.types.js').ModelLine} ModelLine */
+/** @typedef {import('./roster.types.js').ParsedUnit} ParsedUnit */
+/** @typedef {import('./roster.types.js').ParsedList} ParsedList */
+/** @typedef {import('./roster.types.js').ImportUnitLine} ImportUnitLine */
+/** @typedef {import('./roster.types.js').ImportReport} ImportReport */
+/** @typedef {import('./roster.types.js').ImportPayload} ImportPayload */
+/** What the WTC parser builds: a list whose header always has room for enhancements. @typedef {ParsedList & { enhancements: NonNullable<ParsedList['enhancements']> }} WtcList */
+/** A line of a GW unit body as read, before gwBody decides what it is. @typedef {{ indent: number, bullet: boolean, sub: boolean, n: number, name: string }} BodyLine */
+/** Where an option can be written: group, option, profile, and whether the group counts models. @typedef {{ gi: number, oi: number, m: number, stepper: boolean }} OptionRef */
+/** One option the list was read as taking, and how many of what it was counted from. @typedef {{ gi: number, oi: number, stepper: boolean, n: number, byMini: Map<string, Map<string, number>>, shared: Set<string>, names: Set<string> }} Pick */
+/** A unit of the payload with its datasheet. @typedef {{ entry: RosterEntry, def: RosterUnit | undefined }} Row */
+
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
 // `m` so detectFormat can test it against a whole pasted list; parseGw tests it a line at a time.
 const SECTIONS = /^(CHARACTERS?|EPIC HEROES|BATTLELINE|DEDICATED TRANSPORTS|OTHER DATASHEETS|ALLIED UNITS):?$/m
@@ -57,6 +75,7 @@ const PTS = '(?:pts?|points?)'
 const POINTS_LINE = new RegExp(`^(.+?)\\s*(?:\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)|(?<=[^\\d\\s.,])(\\d[\\d.,]*) ?${PTS})(?:\\s*[-\u2013\u2014]\\s*\\S.*)?$`, 'i')
 // Points are whole numbers: a dot, comma or space inside one is a thousands separator, not a
 // decimal point — listhammer writes a 2000-point list as "2.000 Points".
+/** @param {string | number} s */
 const num = (s) => +String(s).replace(/\D/g, '')
 
 // Apostrophes are the single most common reason a name fails to match: the app writes T’au with a
@@ -78,6 +97,7 @@ const num = (s) => +String(s).replace(/\D/g, '')
 // fold together, and the only names that do are one weapon written both ways (Bolt pistol / Bolt
 // pistols). The count and the price ride on this — a plural read as wargear drops a six-model unit
 // into the three-model bracket.
+/** @param {string | null | undefined} s @returns {string} */
 export const norm = (s) => (s || '')
   .replace(/[‘’ʼ`´]/g, "'")
   .replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, '-')
@@ -97,6 +117,7 @@ const MOJIBAKE = /\u00e2\u20ac|\u00c3[\u0080-\u00bf]/
 // slots are spelled as their control codes, which cannot appear in text a cp1252 reader produced.
 const CP1252 = '\u20ac\u0081\u201a\u0192\u201e\u2026\u2020\u2021\u02c6\u2030\u0160\u2039\u0152\u008d\u017d\u008f'
   + '\u0090\u2018\u2019\u201c\u201d\u2022\u2013\u2014\u02dc\u2122\u0161\u203a\u0153\u009d\u017e\u0178'
+/** @param {string | null | undefined} text @returns {string} */
 function repairMojibake(text) {
   const t = text || ''
   if (!MOJIBAKE.test(t)) return t
@@ -116,17 +137,20 @@ function repairMojibake(text) {
 // Exactly one of our own faction names — used to tell a list titled after its author from a list
 // whose header line is the faction itself. Deliberately strict, unlike matchFaction's fallback
 // pass: a loose match here would eat the title of a list called "Orks go fast".
+/** @param {string} t */
 const isFactionName = (t) => factionGroups.some((g) => g.factions.some((f) => norm(f.name) === norm(t)))
 
 // ── format detection ─────────────────────────────────────────────────────────────────────────
 
 
 // A Force Disposition by its own name, case aside — the canonical spelling, or null.
+/** @param {string} t @returns {string | null} */
 function dispositionNamed(t) {
   const low = t.toLowerCase()
   return DISPOSITION_NAMES.find((n) => n.toLowerCase() === low) || null
 }
 
+/** @param {string | null | undefined} text @returns {ParsedList['format'] | null} */
 export function detectFormat(text) {
   const t = repairMojibake(text)
   if (/^\s*\++\s*$/m.test(t) && /^\+ (FACTION KEYWORD|TOTAL ARMY POINTS):/m.test(t)) return 'wtc'
@@ -141,6 +165,7 @@ export function detectFormat(text) {
 // The short listhammer mode carries no marker of its own except a footer nobody is obliged to
 // paste, so it is recognised by what it LACKS: nothing is bulleted, and only the header line
 // prices anything — every other line is a bare unit (or an enhancement note under one).
+/** @param {string} text */
 function isCompactList(text) {
   const lines = (text || '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
   const bullet = new RegExp(`^${BULLET}`)
@@ -156,6 +181,10 @@ function isCompactList(text) {
 // one model ("• 2x Chaos Spawn" → "  • 2x Hideous mutations"), and prints them directly when it has
 // one. Both shapes indent the same, so the tell is the BULLET: a bulleted line at depth 4 means the
 // depth-2 lines above it are model groups; an unbulleted one is the second weapon of a single model.
+/**
+ * @param {BodyLine[]} entries
+ * @returns {{ models: number | null, weapons: GearLine[], modelLines: ModelLine[], flatBody?: boolean }}
+ */
 function gwBody(entries) {
   // Nesting is read from indentation, or — where a paste has lost it — from the bullets: the GW
   // app's "◦" lines are the weapons under the "•" model line above them. listhammer strips every
@@ -210,6 +239,7 @@ function gwBody(entries) {
 // Each surviving entry can account for at most one repeat. Against a loose copy the attached one
 // stays, because it is the one carrying the attachment; between two blocks the parts are carried
 // by whichever copy stays, so it takes on the other's as well.
+/** @param {ParsedList} out */
 function foldRepeatedAttachments(out) {
   const stated = out.stated
   if (!stated) return
@@ -237,12 +267,18 @@ function foldRepeatedAttachments(out) {
   out.repeated = dupes.length
 }
 
+/** @param {string} text @returns {ParsedList} */
 function parseGw(text) {
+  /** @type {ParsedList} */
   const out = { format: 'gw', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [] }
+  /** @type {ParsedUnit | null} */
   let unit = null
+  /** @type {BodyLine[]} */
   let entries = []
+  /** @type {string | null} */
   let group = null       // the `Attached Unit N` this unit belongs to, if any
   let groups = 0         // …numbered here when the block is headed by its members' names instead
+  /** @type {ParsedUnit | null} */
   let host = null        // the last unit not marked "->" — what an arrowed unit below it joins
   let inAttached = false // inside the ATTACHED UNITS section
   let seenHeader = false
@@ -252,7 +288,9 @@ function parseGw(text) {
   // LIST's points, not a unit's — a title can print its own points several lines below its name.
   let inHeader = true
   let labelledFaction = ''   // set when the header names the faction outright, rather than by a bare line
+  /** @type {string[]} */
   const plains = []      // the bare lines: the title's own continuation lines, and the faction
+  /** @type {string[]} */
   const titles = []      // what the list calls itself — the last thing asked which faction it is
 
   const flush = () => {
@@ -273,7 +311,7 @@ function parseGw(text) {
   for (const raw of (text || '').split(/\r?\n/)) {
     const line = raw.replace(/\s+$/, '')
     if (!line.trim()) continue
-    const indent = line.match(/^ */)[0].length
+    const indent = line.search(/[^ ]/)   // the line has text (checked above), so never -1
     const t = line.trim()
 
     if (/^Exported (with|from)/i.test(t)) { flush(); break }
@@ -302,8 +340,8 @@ function parseGw(text) {
       // no detachment its enhancement was rejected as one this army cannot take.
       if (/^\++$/.test(t)) { if (labelled) inHeader = false; continue }
       const kv = t.match(/^([^:]{2,40}):\s*(.*)$/)
-      const key = kv && kv[1].replace(/\s*\([^)]*\)/g, '').trim().toLowerCase()
-      const val = kv && kv[2].trim()
+      const key = kv ? kv[1].replace(/\s*\([^)]*\)/g, '').trim().toLowerCase() : ''
+      const val = kv ? kv[2].trim() : ''
       if (key === 'list name') { out.name = val; seenHeader = true; labelled = true; continue }
       // "Chaos Knights, Heretic Astartes" — the army's own faction first, its allies after. The
       // allied units come with the ally's own datasheets, which is a matter for the faction data,
@@ -328,7 +366,7 @@ function parseGw(text) {
       }
       // Labels with nothing to add: the enhancements are printed again under the units that carry
       // them, and the mission is the table's business, not the list's.
-      if (/^(army enhancements|mission)$/.test(key || '')) { labelled = true; continue }
+      if (/^(army enhancements|mission)$/.test(key)) { labelled = true; continue }
     }
 
     const dets = t.match(/^(.+?) \((\d+) Detachment Points?\)$/i)
@@ -446,9 +484,12 @@ function parseGw(text) {
 // front of a name is MODELS, not units: "2x Ghazghkull Thraka" is Ghazghkull plus Makari, and
 // "20x Boyz" is nineteen Boyz and a Nob. There is no wargear here at all, so an imported unit
 // gets its datasheet's printed loadout and the reader adjusts from there.
+/** @param {string} text @returns {ParsedList} */
 function parseListhammerCompact(text) {
+  /** @type {ParsedList} */
   const out = { format: 'listhammer-compact', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [] }
   let seenHeader = false
+  /** @type {ParsedUnit[]} */
   let members = []
   let groups = 0
 
@@ -473,9 +514,9 @@ function parseListhammerCompact(text) {
     if (!parts.length) continue
     const group = parts.length > 1 ? `g${++groups}` : null
     members = parts.map((p, i) => {
-      const m = p.match(/^(?:(\d+)x\s+)?(.+)$/)
+      const [, n, name = p] = p.match(/^(?:(\d+)x\s+)?(.+)$/) || []
       return {
-        name: m[2].trim(),
+        name: name.trim(),
         pts: 0,
         group,
         role: null,
@@ -485,7 +526,7 @@ function parseListhammerCompact(text) {
         // The bodyguard is last; the first character is the Leader and any in between take the
         // second (Support) slot the same unit can hold.
         attachedAs: !group ? null : i === parts.length - 1 ? 'Bodyguard' : i === 0 ? 'Leader' : 'Support',
-        models: m[1] ? +m[1] : null,
+        models: n ? +n : null,
         weapons: [],
       }
     })
@@ -504,13 +545,14 @@ function parseListhammerCompact(text) {
 
 const REF = '[A-Za-z]+\\d+'
 
+/** @param {string | null | undefined} tail @returns {Array<{ n: number, name: string }>} */
 const wtcGear = (tail) => (tail || '')
   .split(',')
   .map((s) => s.trim())
   .filter(Boolean)
   .map((s) => {
-    const m = s.match(/^(?:(\d+)x? )?(?:with )?(.+)$/i)
-    return { n: +(m[1] || 1), name: m[2].trim() }
+    const [, n, name = s] = s.match(/^(?:(\d+)x? )?(?:with )?(.+)$/i) || []
+    return { n: +(n || 1), name: name.trim() }
   })
 
 // The `+++ … +++` block. Returns where the body starts, so a list with no header at all still
@@ -524,6 +566,7 @@ const wtcGear = (tail) => (tail || '')
 // ("VALIDE", their name, a link to a video of the army), with no opening row at all, and with only
 // the CLOSING one. What IS dependable is the fields — `+ KEY: value` lines, continued by `& …` — so
 // the header is wherever they are, and a row of '+' is read as its end rather than its beginning.
+/** @param {string[]} lines @param {WtcList} out @returns {number} where the body starts */
 function wtcHeader(lines, out) {
   const isField = (t) => /^\+\s*\S/.test(t) && !t.startsWith('++')
   let i = lines.findIndex((l) => isField(l.trim()))
@@ -572,8 +615,10 @@ function wtcHeader(lines, out) {
   return i
 }
 
+/** @param {string} text @returns {ParsedList} */
 function parseWtc(text) {
   const lines = (text || '').split(/\r?\n/).map((l) => l.replace(/\u00a0/g, ' '))
+  /** @type {WtcList} */
   const out = { format: 'wtc', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [], enhancements: [], warlord: null }
   const start = wtcHeader(lines, out)
   const body = lines.slice(start).join('\n')
@@ -607,7 +652,9 @@ function parseWtc(text) {
     return fromHeader(out)
   }
 
+  /** @type {ParsedUnit & { attachedTo: string[], loose: string[], weapons: GearLine[] } | null} */
   let unit = null
+  /** @type {string | null} */
   let mini = null          // the profile the following indented lines belong to
   const flush = () => { if (unit) { delete unit.fromProfiles; out.units.push(unit); unit = null; mini = null } }
 
@@ -637,10 +684,10 @@ function parseWtc(text) {
       mini = m?.[2]?.trim() || null
       if (unit) {
         if (!unit.fromProfiles) { unit.models = 0; unit.fromProfiles = true }
-        unit.models += n
+        unit.models = (unit.models || 0) + n
         // Kept as well as counted, the same way gwBody keeps them: matchRoster is the only place
         // that knows whether a profile is one of this datasheet's own.
-        ;(unit.modelLines || (unit.modelLines = [])).push({ n, name: mini })
+        ;(unit.modelLines || (unit.modelLines = [])).push({ n, name: mini || '' })
         // "• 1x Tempestor Prime: Warlord, Command rod" — the app writes the token on the unit's
         // own line, this export writes it on the model that IS the warlord.
         if (cut !== -1) {
@@ -694,10 +741,12 @@ function parseWtc(text) {
 
 // The header names the warlord and every enhancement, by reference or by name. A compact export
 // may say it ONLY there, so the header is read as a source and not merely as a summary.
+/** @param {WtcList} out @returns {ParsedList} */
 function fromHeader(out) {
-  if (out.warlord) {
-    const want = norm(out.warlord.name)
-    const hit = out.units.find((u) => u.ref === out.warlord.ref) || out.units.find((u) => norm(u.name) === want)
+  const wl = out.warlord
+  if (wl) {
+    const want = norm(wl.name)
+    const hit = out.units.find((u) => u.ref === wl.ref) || out.units.find((u) => norm(u.name) === want)
     if (hit) hit.warlord = true
   }
   // The header and the body can both name an enhancement — our own WTC export writes it twice, in
@@ -718,6 +767,11 @@ function fromHeader(out) {
   return out
 }
 
+/**
+ * @param {string | null | undefined} text
+ * @param {ParsedList['format'] | null} [format]
+ * @returns {ParsedList | null}
+ */
 export function parseList(text, format = null) {
   const t = repairMojibake(text)
   const f = format || detectFormat(t)
@@ -743,6 +797,7 @@ const KEYWORD_FACTIONS = new Map([[norm('Legiones Daemonica'), 'chaos-daemons']]
 
 // The faction the list names, as one of ours. WTC writes the alliance in front ("Xenos - Aeldari"),
 // which parseWtc has already stripped.
+/** @param {string | null | undefined} name @returns {string | null} a faction slug */
 export function matchFaction(name) {
   const want = norm(name)
   if (!want) return null
@@ -768,7 +823,7 @@ export function matchFaction(name) {
   // Two names, one faction: an export can print the faction KEYWORD where our data prints the
   // codex. Only where the keyword belongs to exactly one of ours — HERETIC ASTARTES is four
   // factions and says nothing on its own, so it is not here.
-  for (const w of cands) if (KEYWORD_FACTIONS.has(w)) return KEYWORD_FACTIONS.get(w)
+  for (const w of cands) { const slug = KEYWORD_FACTIONS.get(w); if (slug) return slug }
   // The apostrophe is the one character the two sides never agree about — a list writes "Tau
   // Empire" as often as "T’au Empire", and norm() folds the typographic one onto the plain one but
   // cannot invent one that isn't there. Nothing else tells two faction names apart, so a match
@@ -807,6 +862,12 @@ export function matchFaction(name) {
 // "1 hyperphase sword and 1 dispersion shield" arrives as two lines; indexing only single-item
 // options left both unplaceable and the swap untaken, which silently imported a Lychguard unit
 // still holding its printed warscythes.
+/**
+ * @param {RosterUnit} def
+ * @param {Record<number, string> | undefined} items
+ * @param {RosterEntry} [entry]
+ * @returns {Map<string, OptionRef[]>}
+ */
 function optionIndex(def, items, entry) {
   const idx = new Map()
   const put = (key, ref) => {
@@ -836,28 +897,34 @@ function optionIndex(def, items, entry) {
 // assault weapon". Only the head names the profile, and the loadout is printed again as its own
 // lines underneath, so nothing is lost by cutting it: read whole, the line named no profile the
 // datasheet has, so those models went uncounted (a ten-model Jakhal pack came out as eight).
+/** @param {string | null | undefined} name */
 const profileHead = (name) => String(name || '').split(/\s+w\/\s+/i)[0].trim()
 
 // Which miniature profile a weapon line was printed under, as an index into `def.minis` — the
 // sergeant and the squad often have a group each offering the same weapon, and picking the wrong
 // one prices the unit wrong.
+/** @param {RosterUnit} def @param {string | null | undefined} name @returns {number | null} */
 function miniIndexOf(def, name) {
-  if (!name || !(def?.minis?.length > 1)) return null
+  const minis = def?.minis
+  if (!name || !minis || minis.length <= 1) return null
   const want = norm(profileHead(name))
-  const hit = def.minis.findIndex((m) => norm(m?.n) === want)
+  const hit = minis.findIndex((m) => norm(m?.n) === want)
   return hit >= 0 ? hit : null
 }
 
 // Enhancement names, compared with the kind tag ignored on both sides: our data carries it inside
 // the name for some factions ("Dead Shiny Shootas (Upgrade)"), the GW app leaves it off, and
 // listhammer prints it — three spellings of one enhancement.
+/** @param {string | null | undefined} s */
 const enhKey = (s) => norm(String(s || '').replace(/\s*\((?:upgrade|miniature|unit)\)\s*$/i, ''))
 
+/** @param {RosterUnit} def @param {Record<number, string> | undefined} items @returns {Set<string>} */
 const defaultNames = (def, items) => new Set(
   (def?.defaults || []).flatMap(([, list]) => list.map(([id]) => norm(items?.[id]))).filter(Boolean),
 )
 
 // Whether a model count is one the datasheet can actually be fielded at.
+/** @param {RosterUnit} def @param {number | null | undefined} models */
 const fitsBracket = (def, models) => models != null
   && (def?.sizes || []).some((s) => models >= (s.per?.[0] ?? 1) && models <= (s.per?.[1] ?? s.per?.[0] ?? 1))
 
@@ -869,9 +936,17 @@ const fitsBracket = (def, models) => models != null
 // sixteen models mixed from all three profiles, both at 275 points. Taking the first that fits the
 // COUNT gave a 4/3/3 kill team the ten-of-one bracket, where the other two profiles have no models
 // — and every wargear group belonging to them was then capped at zero.
+/**
+ * @param {RosterUnit} def
+ * @param {number | null | undefined} models
+ * @param {Map<number, number> | null} [perMini]
+ * @returns {number}
+ */
 function sizeIndexFor(def, models, perMini = null) {
   const sizes = def?.sizes || []
-  const inRange = (s) => models >= (s.per?.[0] ?? 1) && models <= (s.per?.[1] ?? s.per?.[0] ?? 1)
+  const n = models || 0   // read only when the list gave a count
+  /** @param {import('./roster.types.js').SizeBracket} s */
+  const inRange = (s) => n >= (s.per?.[0] ?? 1) && n <= (s.per?.[1] ?? s.per?.[0] ?? 1)
   const admits = (s) => !perMini?.size || !s.comp?.length || s.comp.every(([mi, a, b]) => {
     const n = perMini.get(mi) || 0
     return b == null ? n === a : n >= a && n <= b
@@ -896,7 +971,13 @@ function sizeIndexFor(def, models, perMini = null) {
 //
 // Case and apostrophe folding only — both leave the string's length alone, so an index into the
 // folded copy is an index into the original and the leftovers can be reported as written.
+/** @param {string | null | undefined} s */
 const fold = (s) => String(s || '').replace(/[‘’ʼ`´]/g, "'").toLowerCase()
+/**
+ * @param {string} line
+ * @param {Array<{ name: string }>} known
+ * @returns {{ matched: string[], missing: string[] }}
+ */
 export function resolveDetachmentLine(line, known) {
   const hay = fold(line)
   const taken = new Array(hay.length).fill(false)
@@ -937,6 +1018,13 @@ export function resolveDetachmentLine(line, known) {
 // first, it read as four frag cannons in a group that allows two, and called a legal list illegal.
 // So a bundle is counted by the item that IDENTIFIES it, and a shared one only when there is
 // nothing else to go on.
+/**
+ * @param {Pick} pick
+ * @param {string | null | undefined} mini
+ * @param {string} key
+ * @param {number} n
+ * @param {boolean} shared
+ */
 function count(pick, mini, key, n, shared) {
   const at = mini || ''
   const by = pick.byMini.get(at) || new Map()
@@ -944,6 +1032,7 @@ function count(pick, mini, key, n, shared) {
   pick.byMini.set(at, by)
   if (shared) pick.shared.add(key)
 }
+/** @param {Pick} pick */
 function stepperCount(pick) {
   let total = 0
   for (const by of pick.byMini.values()) {
@@ -953,10 +1042,16 @@ function stepperCount(pick) {
   return total || 1
 }
 
+/**
+ * @param {ParsedList | null | undefined} parsed
+ * @param {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> }} [data]
+ * @returns {{ payload: ImportPayload | null, report: ImportReport }}
+ */
 export function matchRoster(parsed, { faction, core, items } = {}) {
   // `stated` is the list's own header total (which includes units we may have failed to match);
   // `statedUnits` sums only the units that DID match, so the two figures beside `computed` say
   // whether a difference is our points data or a unit that went missing.
+  /** @type {ImportReport} */
   const report = { name: parsed?.name || '', units: [], missing: [], repeated: parsed?.repeated || 0, detachments: { matched: [], missing: [] }, points: { stated: parsed?.stated || 0, statedUnits: 0, computed: 0 } }
   if (!parsed || !faction) return { payload: null, report }
 
@@ -973,6 +1068,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   }
 
   const battle = (core?.battleSizes || []).find((b) => b.points === parsed.limit)
+  /** @type {ImportPayload} */
   const payload = {
     name: parsed.name || 'Roster',
     faction: faction.slug,
@@ -990,15 +1086,20 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   // Ministorum Priest, and an AM list saying "Ministorum Priest" means its own. So the army's own
   // entry always wins; an allied one is taken only where the army has nothing by that name — which
   // is what lets an Inquisitor Draxus in a Custodes list resolve at all.
+  /** @type {Map<string, RosterUnit>} */
   const byName = new Map()
   for (const u of faction.units || []) {
     const key = norm(u.name)
     const prev = byName.get(key)
     if (!prev || (allySourceOf(prev.id) && !allySourceOf(u.id))) byName.set(key, u)
   }
+  /** @type {Map<string, number>} */
   const copies = new Map()
+  /** @type {Map<string, Array<Row & { attachedAs: string | null | undefined }>>} */
   const groups = new Map()
+  /** @type {Array<Row & { target: string }>} */
   const attachments = []
+  /** @type {Array<Row & { line: string }>} */
   const loose = []
 
   // A player can tag two copies of one datasheet apart in the app's own name field — "Commander in
@@ -1113,11 +1214,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     }
     const size = sizeIndexFor(def, models, perMini)
     const bracket = def.sizes?.[size]
+    /** @type {RosterEntry} */
     const entry = { uid: `i${payload.units.length + 1}`, id: def.id, size }
     if (models && (bracket?.per?.[1] ?? 0) > (bracket?.per?.[0] ?? 0)) entry.count = models
     if (pu.warlord) entry.warlord = true
     if (alleg) entry.alleg = alleg
 
+    /** @type {ImportUnitLine} */
     const line = { name: def.name, id: def.id, models: models || null, gear: { picked: [], missing: [] }, enh: null, points: { stated: pu.pts, computed: 0 } }
 
     // Wargear: only what DEVIATES from the printed loadout is a pick. Everything the datasheet
@@ -1178,6 +1281,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         return was > 0 && (listed.get(k) || 0) >= was
       })
     }
+    /** @type {Map<string, Pick>} */
     const picks = new Map()
     const key2 = (r) => `${r.gi}:${r.oi}`
     const usedGroups = new Set()
@@ -1215,9 +1319,10 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       }
       // The rules about one model across groups (`pm`): one more of this option must still deal out.
       if (oi != null && def.pm && (gi === def.pm.add || gi === def.pm.base) && room > 0) {
+        /** @type {import('./roster.types.js').WargearPick[]} */
         const wg = [...picks.values()].map((p) => [p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
         const at = wg.find(([g, o]) => g === gi && o === oi)
-        if (at) at[2] += 1
+        if (at) at[2] = (at[2] || 0) + 1
         else wg.push([gi, oi, 1])
         if (!perModelFits(def, { ...entry, wg })) room = 0
       }
@@ -1251,11 +1356,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // the power fists are the three it has over. Scoring both +1 gave the chainsword bundle the
     // inferno pistols, and the power fists then had to be a second swap — four picks in a group
     // that allows two (2026-09-19).
+    /** @param {string} x @param {number | null} mi */
     const over = (x, mi) => {
       const have = mi != null && itemised.has(String(mi)) ? listedPer.get(`${mi}:${x}`) || 0 : listed.get(x) || 0
       const given = mi != null && itemised.has(String(mi)) ? printedPer.get(`${mi}:${x}`) || 0 : printedCount.get(x) || 0
       return have > given
     }
+    /** @param {OptionRef} r @param {number | null} [mi] */
     const fitOf = (r, mi = null) => {
       const opt = def.gear?.[r.gi]?.o?.[r.oi]
       if (!opt) return 0
@@ -1363,7 +1470,8 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // identical special-weapon groups) are not that: the weapon still identifies its option,
       // it just has two homes. Counted as shared, "1x Meltagun" inherited the count of the
       // "2x Close combat weapon" half that had gone in before it and became two meltaguns.
-      const optKey = (r) => optionItems(def.gear?.[r.gi]?.o?.[r.oi] || []).map(([id]) => id).sort().join('+')
+      /** @param {OptionRef} r */
+      const optKey = (r) => optionItems(def.gear?.[r.gi]?.o?.[r.oi]).map(([id]) => id).sort().join('+')
       const shared = new Set(pool.map(optKey)).size > 1
       const holds = (r) => picks.get(key2(r))?.names.has(key)
       // Is there anywhere ELSE for what is left of this line to go? Guards the spill above against
@@ -1486,8 +1594,9 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // supports and in the one its own leader joined it in (see foldRepeatedAttachments).
     for (const m of [{ group: pu.group, attachedAs: pu.attachedAs }, ...(pu.also || [])]) {
       if (!m.group) continue
-      if (!groups.has(m.group)) groups.set(m.group, [])
-      groups.get(m.group).push({ entry, def, attachedAs: m.attachedAs })
+      let block = groups.get(m.group)
+      if (!block) groups.set(m.group, (block = []))
+      block.push({ entry, def, attachedAs: m.attachedAs })
     }
     for (const target of pu.attachedTo || []) attachments.push({ entry, def, target })
     for (const line of pu.loose || []) loose.push({ entry, def, line })
@@ -1501,11 +1610,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   // Warboss was stored last, and three characters piled onto one mob — so the rows are kept in list
   // order and the index picks among them.
   const dets = (faction.detachments || []).filter((d) => payload.detachments.includes(d.name))
+  /** @type {Map<string, Row[]>} */
   const rowsOf = new Map()
   payload.units.forEach((u, i) => {
     const key = norm(report.units[i]?.name)
-    if (!rowsOf.has(key)) rowsOf.set(key, [])
-    rowsOf.get(key).push({ entry: u, def: byName.get(key) })
+    let rows = rowsOf.get(key)
+    if (!rows) rowsOf.set(key, (rows = []))
+    rows.push({ entry: u, def: byName.get(key) })
   })
   const rowFor = (target) => {
     const at = String(target || '').match(/^(.*?)\s*\[(\d+)\]$/)
@@ -1528,7 +1639,10 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const leader = isChar(a.def) ? a : (isChar(other.def) ? other : null)
     return leader ? { leader, body: leader === a ? other : a, legal: !!forward } : null
   }
-  const links = attachments.map((a) => linkFor(a, rowFor(a.target))).filter(Boolean)
+  const links = attachments.flatMap((a) => {
+    const link = linkFor(a, rowFor(a.target))
+    return link ? [link] : []
+  })
 
   // A line whose only mark is the name of the rule that attaches: an Ogryn Bodyguard says "Loyal
   // Protector Cadian Command Squad[1]" where every other export writes "Attached to". The
