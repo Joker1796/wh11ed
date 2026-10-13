@@ -461,9 +461,10 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   /* The two marks stack in the corner, so they cost the name ONE icon of width instead of two —
      at this grid's 180px a second column of buttons was breaking names onto a third line. The
      min-height is what the stack needs: the buttons are absolute and would otherwise hang out of
-     a short chip (a one-line name and its points). Two marks at 1.35rem + the corner offset —
-     2.9rem; a one-line chip grew 5px for it on 2026-09-21 when the marks were made bigger. */
-  min-height: 2.9rem;
+     a short chip (a one-line name and its points). Two marks at 1.35rem + their 0.3rem off each
+     edge — 3.3rem (owner, 2026-10-13: flush to the edges they stuck to the frame; 0.3rem, not more,
+     because a one-line chip's own 50px grows to this). */
+  min-height: 3.3rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   cursor: pointer;
@@ -474,7 +475,7 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 /* Both marks sit on the chip's right edge, the pin (favourite) at its top and the star (owned) at its
    bottom (owner, 2026-10-13): stacked together they read as one control on a tall chip. They are
    inside the RouterLink, so their handlers stop propagation / prevent navigation. */
-.ds-marks { position: absolute; top: 0.15rem; bottom: 0.15rem; right: 0.2rem; display: flex; flex-direction: column; justify-content: space-between; }
+.ds-marks { position: absolute; top: 0.3rem; bottom: 0.3rem; right: 0.2rem; display: flex; flex-direction: column; justify-content: space-between; }
 
 .ds-fav {
   display: flex;
