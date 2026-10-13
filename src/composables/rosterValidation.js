@@ -4,7 +4,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -256,6 +256,16 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     const def = defOf(u.id)
     if (!def) continue // an entry with no datasheet has nothing to check here (unknownUnit says so)
     const gear = def.gear || []
+    // A count that is not a whole number: the editor's "+" stopped at a ceiling counted in models
+    // where one pick took part of a model (two macro-scalpels on a Talos, one swapped), and stored
+    // what it stopped at — 1.5 ichor injectors (a player's report, 2026-10-13). The ceiling is in
+    // picks now; a list saved before that is reported, not rewritten, and one tap on the stepper
+    // gives a whole number back. Its points are charged as stored until then, which is why this
+    // says so rather than rounding quietly.
+    for (const [gi, oi, n] of u.wg || []) {
+      if (n == null || Number.isInteger(n)) continue
+      add('wargearCountFraction', 'warn', { uid: u.uid, params: { item: optionLabel(gear[gi]?.o?.[oi], items), count: n } })
+    }
     for (const [gi] of gear.entries()) {
       const cap = wargearGroupCap(def, u, gi)
       if (!wargearGroupLive(def, u, gi)) continue

@@ -342,6 +342,11 @@ Pistol replaced with 1 Smash Hammer": the Nob carries two, the sentence names on
 pick one copy of the two — the other stays on the card and the list. Read as an ordinary swap it took
 both (a player's report). The Legends generator (`pack-roster`) already wrote `rc` for "2 of this
 model's …"; corpus-wide the singular wording on a multi-copy per-model line is Tankbustas alone today.
+**Room is counted in picks of the asking group** (`picksIn` in `swapRoom`/`stockBlocker`,
+2026-10-13): such a pick spends a SHARE of a model, and a room answered in models let the stepper
+store 1.5 ichor injectors on a Talos and left a Decimator's "both cannons" open on one. A list saved
+before that carries a fractional count and `validateRoster` warns (`wargearCountFraction`) rather
+than rounding it; `index.test.js` → "room left for a swap" sweeps every group.
 
 **A limit across several groups — `xpm` (added 2026-10-07).** Some footnotes limit ONE MODEL across
 groups that each look fine alone: a Tau Commander's starred systems ("this model cannot have
@@ -702,6 +707,11 @@ that is in the list can't disappear from the screen while still counting in the 
 prints them under **ALLIED UNITS** — the app's own heading, which our importer already read, so an
 exported list comes back whole. Attached allies stay inside their `Attached Unit` block, as the app
 prints them.
+
+**A lead's target is compared without the ally prefix** (`leadTo`, 2026-10-13): a lead names its
+datasheet bare, an allied unit in the list carries `<slug>:`, and every SM leader was refused the
+Deathwatch squads Deathwatch Support brings (161 pairs). Every reader of a lead's target goes
+through `leadTo`; `index.test.js` → "attach a Leader to every unit its datasheet names".
 
 **Import**: allied units resolve by name like any other, but the army's OWN datasheet always wins a
 name collision — an Astra Militarum list saying "Ministorum Priest" means its own.
