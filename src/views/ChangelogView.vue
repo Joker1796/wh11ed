@@ -253,7 +253,9 @@ useUpdateNotice().markSeen()
   gap: 0.4rem;
   margin: 0 0 0.3rem;
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  /* A size up from the body text it heads (owner, 2026-10-13: at 1.15rem the condensed face read
+     no bigger than the notes under it). */
+  font-size: 1.45rem;
   font-weight: 400;
   line-height: 1.1;
   color: var(--text-primary);
