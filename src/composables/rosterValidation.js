@@ -4,7 +4,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -613,8 +613,9 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
       }
       if (!cross.length) continue
       for (const u of cross) {
-        if (u.warlord) add('allyWarlord', 'error', { uid: u.uid })
-        if (u.enh && !g.enh) add('allyEnh', 'error', { uid: u.uid, params: { enh: u.enh } })
+        const bars = allyBars(faction, u.id, detachments)
+        if (u.warlord && bars?.warlord) add('allyWarlord', 'error', { uid: u.uid })
+        if (u.enh && bars?.enh) add('allyEnh', 'error', { uid: u.uid, params: { enh: u.enh } })
       }
     }
   }

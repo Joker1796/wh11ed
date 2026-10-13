@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { enhEligible, enhOptionsFor, allyGroupsFor, allySourceOf, leadTypeFor, hostSlotTaken, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
+import { enhEligible, enhOptionsFor, allyGroupsFor, allySourceOf, allyBars, leadTypeFor, hostSlotTaken, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
 import { duplicateLimit, validateRoster } from '../../composables/rosterValidation.js'
 import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
@@ -83,6 +83,27 @@ describe('allied units', () => {
     expect(retinue(squads)).toHaveLength(1)
     expect(retinue([u('a', 'inquisitor'), ...squads])).toEqual([])
     expect(retinue([u('a', 'navigator'), u('v', 'voidsmen-at-arms'), u('d', 'exaction-squad'), u('e', 'vigilant-squad')])).toEqual([])
+  })
+
+  // The allied rule's last sentence, as the editor and validateRoster both read it: no Warlord, no
+  // enhancement — unless the group carries appdata's canTakeEnhancements. A unit of the army itself
+  // is barred from nothing.
+  it('bar a cross-faction ally from the Warlord and, unless its group allows one, an enhancement', async () => {
+    const csm = await loadRosterFaction('chaos-space-marines', { allies: true })
+    expect(allyBars(csm, 'chaos-daemons:changecaster')).toEqual({ warlord: true, enh: true })
+    expect(allyBars(csm, 'chaos-lord')).toBe(null)
+    let lifted = 0
+    for (const { slug } of factions) {
+      const data = await loadRosterFaction(slug, { allies: true })
+      for (const g of data?.allies || []) {
+        const id = (g.ids || []).find((x) => allySourceOf(x))
+        if (!id) continue
+        const bars = allyBars({ allies: [g] }, id)
+        expect(bars, `${slug} ${g.name}`).toEqual({ warlord: true, enh: !g.enh })
+        if (g.enh) lifted++
+      }
+    }
+    expect(lifted).toBeGreaterThan(0)
   })
 
   it('never name a bare target from another bundle, in any army', async () => {

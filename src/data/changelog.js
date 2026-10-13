@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.8.2',
+    date: '2026-10-14',
+    en: [
+      { h: 'Roster builder' },
+      '**Allies can no longer take an enhancement or be the Warlord.** The allied rule forbids both, and before the builder offered them and then marked the list as invalid. For example, a [Changecaster](/factions/chaos-daemons/datasheets/changecaster) in a Chaos Space Marines list. Where an ally group allows enhancements, they stay.',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      '**Союзникам больше нельзя дать улучшение или сделать их Warlord.** Правило союзников запрещает и то, и другое, а раньше конструктор это предлагал и потом помечал список как неверный. Например, [Changecaster](/factions/chaos-daemons/datasheets/changecaster) в списке Chaos Space Marines. Там, где группа союзников разрешает улучшения, они остаются.',
+    ],
+  },
+  {
     version: '2.8.1',
     date: '2026-10-12',
     en: [

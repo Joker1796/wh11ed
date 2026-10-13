@@ -2373,6 +2373,26 @@ export function allyGroupsOf(faction, id) {
   return (faction?.allies || []).filter((g) => (g.ids || []).includes(id))
 }
 
+// What the allied rule bars a unit from: every CROSS-faction allied rule ends "None of these models
+// can be your WARLORD, and they cannot be given Enhancements", and appdata's `canTakeEnhancements`
+// (`enh` on the group) lifts the second half only. In-bundle groups (Harlequins, Ynnari) have no
+// such sentence. null for a unit that is no ally. The editor (the Warlord box, the enhancement
+// picker) and validateRoster (allyWarlord, allyEnh) both ask here — until 2026-10-13 only the
+// validator did, so the editor offered a Changecaster in a Chaos Space Marines list two
+// enhancements and the Warlord's flag, and the list then came back with two errors (a player's
+// report).
+/**
+ * @param {{ allies?: AllyGroup[] } | null | undefined} faction
+ * @param {string} id
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {{ warlord: boolean, enh: boolean } | null}
+ */
+export function allyBars(faction, id, detachments = []) {
+  if (!allySourceOf(id)) return null
+  const g = allyGroupOf(faction, id, detachments) || allyGroupsOf(faction, id)[0] || null
+  return { warlord: true, enh: !g?.enh }
+}
+
 // The group a unit counts against right now: the first ACTIVE group listing it, or null when the
 // unit is an ordinary member of the army.
 /**
