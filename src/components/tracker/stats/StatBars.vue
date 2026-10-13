@@ -68,7 +68,7 @@ function width(ratio) {
   height: 100%;
   background: var(--accent);
 }
-.sb-val { color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sb-val { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sb-row.dim .sb-fill { background: var(--text-dim); opacity: 0.55; }
 .sb-row.dim .sb-val { color: var(--text-dim); }
 </style>

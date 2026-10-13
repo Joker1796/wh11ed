@@ -560,7 +560,7 @@ function footLine(g) {
   padding: 0.5rem 0.75rem;
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  color: var(--text-secondary);
+  color: inherit;
   text-decoration: none;
   font-size: 0.85rem;
 }

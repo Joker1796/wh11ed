@@ -128,7 +128,6 @@ function onBodyClick(e) {
 }
 
 .help-body {
-  color: var(--text-secondary);
   line-height: 1.7;
 }
 

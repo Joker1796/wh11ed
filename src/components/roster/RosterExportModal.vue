@@ -162,7 +162,7 @@ async function copy(value, which) {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
 }
-.rex-fmt { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--text-secondary); }
+.rex-fmt { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; }
 .rex-fmt select {
   padding-block: 0.45rem;
   padding-left: 0.5rem;

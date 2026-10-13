@@ -14,11 +14,9 @@ import path from 'node:path'
 
 const ROOT = path.resolve(__dirname, '..')
 
-// Known and waiting for the owner (2026-10-13). Each is a visual change to fix, not a typo:
-// the text has always been drawn in its parent's colour.
+// Known, each with its reason. `--text-secondary` and `--muted` (21 hints and captions) were
+// removed 2026-10-13 rather than defined: the owner kept the colour they had always been drawn in.
 const KNOWN = {
-  '--text-secondary': 'never defined; ~20 hints and captions (sign-in, welcome, help, stats, roster import/export) inherit the main text colour',
-  '--muted': 'never defined; the unit editor\'s composition and requirement lines inherit their colour',
   '--side': '.side-frame (style.css) expects the block to set it; nothing on main renders that block',
 }
 

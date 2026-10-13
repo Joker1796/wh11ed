@@ -159,7 +159,7 @@ function later() {
 @media (hover: hover) { .io-close:hover { color: var(--text-primary); } }
 .io-title { margin: 0 2rem 0.35rem 0; font-weight: 700; font-size: 0.95rem; }
 .io-title .wi { color: var(--accent-ink); }
-.io-text { margin: 0 0 0.5rem; font-size: 0.85rem; line-height: 1.45; color: var(--text-secondary); }
+.io-text { margin: 0 0 0.5rem; font-size: 0.85rem; line-height: 1.45; }
 .io-note { margin: 0 0 0.6rem; font-size: 0.82rem; line-height: 1.45; color: var(--warning); }
 .io-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 </style>

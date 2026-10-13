@@ -73,7 +73,6 @@ const labels = computed(() => ui[locale.value])
 .hero-desc {
   margin: 0.5rem auto 0;
   max-width: 40rem;
-  color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -98,7 +97,7 @@ const labels = computed(() => ui[locale.value])
   align-items: baseline;
   gap: 0.5rem;
   padding: 0.35rem 0;
-  color: var(--text-secondary);
+  color: inherit;
   text-decoration: none;
 }
 

@@ -64,12 +64,10 @@ onUnmounted(() => {
 }
 
 .hero-subtitle {
-  color: var(--text-secondary);
   font-size: 1.05rem;
 }
 
 .not-found-text {
-  color: var(--text-secondary);
   margin-bottom: 1.25rem;
 }
 
