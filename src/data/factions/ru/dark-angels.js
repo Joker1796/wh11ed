@@ -57,28 +57,28 @@ export default {
   armyRule: {
     body: `В начале вашей фазы командования вы можете выбрать одну из перечисленных ниже **[gloss:sm-combat-doctrine:боевых доктрин]**. Если вы это делаете, эта **боевая доктрина** активна для дружественных юнитов ADEPTUS ASTARTES с этой способностью до начала вашей следующей фазы командования.
 
-### Assault Doctrine
+### Assault Doctrine | Штурмовая доктрина
 Когда этот юнит выбран для совершения **[gloss:advance-move:продвижения]**, это **продвижение** не лишает его права **[gloss:declare-charge:объявлять нападение]**.
 
-### Devastator Doctrine
+### Devastator Doctrine | Опустошительная доктрина
 Дальнобойные атаки этого юнита имеют [ASSAULT].
 
-### Tactical Doctrine
+### Tactical Doctrine | Тактическая доктрина
 Когда этот юнит выбран для **[gloss:fall-back-move:отступления]**, это **отступление** не лишает его права **стрелять** и **[gloss:declare-charge:объявлять нападение]**.
 
 Если не указано иное:
 ▪ Каждую **[gloss:sm-combat-doctrine:боевую доктрину]** можно выбрать только один раз за битву.
 ▪ Для каждого юнита может быть активна только одна **боевая доктрина**. Если правило делает **боевую доктрину** активной для юнита, любая **боевая доктрина**, ранее активная для этого юнита, перестаёт быть для него активной.
 
-### Transhuman Strategist
+### Transhuman Strategist | Трансчеловеческий стратег
 В начале раунда боя, если модель с этой способностью — ваш WARLORD, получите 1CP.
 
-### The Ravenwing
+### The Ravenwing | Крыло Ворона
 Следующие дружественные юниты ADEPTUS ASTARTES имеют RAVENWING:
 ▪ Юниты MOUNTED.
 ▪ Юниты VEHICLE FLY.
 
-### The Deathwing
+### The Deathwing | Крыло Смерти
 Следующие дружественные юниты ADEPTUS ASTARTES имеют DEATHWING:
 ▪ Юниты TERMINATOR.
 ▪ Юниты BLADEGUARD ANCIENT/BLADEGUARD VETERAN SQUAD/STERNGUARD VETERAN SQUAD/VANGUARD VETERAN SQUAD WITH JUMP PACKS.
