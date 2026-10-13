@@ -192,8 +192,8 @@ describe('buildRosterText — simple', () => {
 })
 
 describe('buildRosterText — the shapes themselves', () => {
-  it('offers exactly the five formats, and defaults to the app’s', () => {
-    expect(EXPORT_FORMATS).toEqual(['gw', 'wtc', 'wtc-compact', 'compact', 'simple'])
+  it('offers exactly the six formats, and defaults to the app’s', () => {
+    expect(EXPORT_FORMATS).toEqual(['gw', 'wtc', 'wtc-compact', 'compact', 'simple', 'rus'])
     expect(buildRosterText(roster, ctx)).toBe(build('gw'))
   })
 
@@ -338,5 +338,47 @@ describe('buildRosterText — a printed item given up twice on one model', () =>
     const txt = buildRosterText(r, { ...ctx, faction: { ...faction, units: [dw] }, items: dwItems })
     const bolters = [...txt.matchAll(/(\d+)x Storm Bolter/g)].reduce((s, m) => s + Number(m[1]), 0)
     expect(bolters).toBe(1)
+  })
+})
+
+// A Russian tournament's list, to the rules an organiser publishes (Ordo Eventus, the owner's
+// club, 2026-10-13): the `+ PLAYER NAME / … / ENHANCEMENT` header, "Attached Unit N:" blocks, units
+// under keyword prefixes, the model count only where it varies, only the wargear a choice reaches.
+describe('rus — the Russian tournament format', () => {
+  it('writes the header, the attached blocks and the prefixed units', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const coreData = (await import('../data/roster/core.js')).default
+    const itemsData = (await import('../data/roster/items.js')).default
+    const sm = await loadRosterFaction('space-marines')
+    const det = sm.detachments.find((d) => d.enhancements?.length && !d.lend)
+    const enh = det.enhancements[0].name
+    const roster = { name: 'Dragon', faction: 'space-marines', detachments: [det.name], battleSize: 'strike-force', units: [
+      { uid: 'c', id: 'captain-in-terminator-armour', size: 0, warlord: true, enh, leaderOf: 't' },
+      { uid: 't', id: 'terminator-assault-squad', size: 1 },
+      { uid: 'r', id: 'redemptor-dreadnought', size: 0 },
+      { uid: 'i', id: 'impulsor', size: 0 },
+    ] }
+    const ctxRus = { faction: sm, core: coreData, items: itemsData.items, who: { player: 'Ivan', hin: '933' } }
+    const text = buildRosterText(roster, ctxRus, 'rus')
+    const lines = text.split('\n')
+    expect(lines[0]).toBe('+'.repeat(47))
+    expect(lines.slice(1, 11)).toEqual([
+      '+ PLAYER NAME: Ivan', '+ ARMY NAME: Dragon', '+ HIN: 933', '+ FACTION KEYWORD: Imperium - Adeptus Astartes',
+      `+ DETACHMENT: ${det.name}`, expect.stringMatching(/^\+ FORCE DISPOSITION: [^,]+$/), expect.stringMatching(/^\+ TOTAL ARMY POINTS: \d+pts$/),
+      '+ WARLORD: Captain in Terminator Armour', `+ ENHANCEMENT: CH1: ${enh}`, '+'.repeat(47),
+    ])
+    expect(text).toContain('\nAttached Unit 1:\nCH1: Captain in Terminator Armour: ')
+    expect(text).toMatch(new RegExp(`^CH1: Captain in Terminator Armour: .*${enh}, Warlord \\(\\d+ pts\\)$`, 'm'))
+    expect(text).toMatch(/^IN1: \(\d+\) Terminator Assault Squad: .* \(\d+ pts\)$/m)
+    expect(text).toMatch(/^VE1: Redemptor Dreadnought: /m)
+    expect(text).toMatch(/^DT1: Impulsor: /m)
+    // Fixed wargear is not written: the Redemptor's fists, the Impulsor's tracks.
+    expect(text).not.toMatch(/Redemptor Fist|Armoured Hull/i)
+    // The unit lines add up to the header's total.
+    const total = Number(/TOTAL ARMY POINTS: (\d+)/.exec(text)[1])
+    const sum = [...text.matchAll(/^[A-Z]{2}\d+: .*\((\d+) pts\)$/gm)].reduce((n, x) => n + Number(x[1]), 0)
+    expect(sum).toBe(total)
+    // No player, no HIN: the name stays empty, the HIN a dash.
+    expect(buildRosterText(roster, { ...ctxRus, who: {} }, 'rus')).toContain('+ PLAYER NAME:\n+ ARMY NAME: Dragon\n+ HIN: -\n')
   })
 })

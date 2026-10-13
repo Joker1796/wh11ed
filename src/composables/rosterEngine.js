@@ -1594,6 +1594,20 @@ export function restoreUnitEntry(units, ticket) {
   return ticket.uid
 }
 
+// "This model must be your WARLORD" (SUPREME COMMANDER) — but not for an ally: every cross-faction
+// allied rule says "None of these models can be your WARLORD", and the allied rule wins (owner,
+// 2026-10-13). Be'lakor, a Daemonic Pact ally of Chaos Space Marines and Chaos Knights, is the case
+// today: the builder seated him as Warlord and the list was illegal whichever way it was set. Read
+// by settleSupremeWarlord and validateRoster's supremeCommander checks alike.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {string} id
+ * @returns {boolean}
+ */
+export function mustBeWarlord(def, id) {
+  return !!def?.flags?.supreme && !allySourceOf(id)
+}
+
 // SUPREME COMMANDER ("if this model is in your army, it must be your Warlord"): the builder hands
 // such a unit the title itself, but only into an EMPTY seat. A Warlord the player picked is never
 // taken away silently — with a non-SUPREME Warlord standing, validateRoster's error says what is
@@ -1609,7 +1623,7 @@ export function restoreUnitEntry(units, ticket) {
  */
 export function settleSupremeWarlord(units, defOf, preferUid = null) {
   if (!units?.length || units.some((u) => u.warlord)) return null
-  const supreme = units.filter((u) => defOf(u.id)?.flags?.supreme)
+  const supreme = units.filter((u) => mustBeWarlord(defOf(u.id), u.id))
   if (!supreme.length) return null
   const pick = supreme.find((u) => u.uid === preferUid) || supreme[0]
   pick.warlord = true
@@ -2371,6 +2385,26 @@ export function allyGroupsFor(faction, detachments = []) {
  */
 export function allyGroupsOf(faction, id) {
   return (faction?.allies || []).filter((g) => (g.ids || []).includes(id))
+}
+
+// What the allied rule bars a unit from: every CROSS-faction allied rule ends "None of these models
+// can be your WARLORD, and they cannot be given Enhancements", and appdata's `canTakeEnhancements`
+// (`enh` on the group) lifts the second half only. In-bundle groups (Harlequins, Ynnari) have no
+// such sentence. null for a unit that is no ally. The editor (the Warlord box, the enhancement
+// picker) and validateRoster (allyWarlord, allyEnh) both ask here — until 2026-10-13 only the
+// validator did, so the editor offered a Changecaster in a Chaos Space Marines list two
+// enhancements and the Warlord's flag, and the list then came back with two errors (a player's
+// report).
+/**
+ * @param {{ allies?: AllyGroup[] } | null | undefined} faction
+ * @param {string} id
+ * @param {Detachment[] | null | undefined} [detachments]
+ * @returns {{ warlord: boolean, enh: boolean } | null}
+ */
+export function allyBars(faction, id, detachments = []) {
+  if (!allySourceOf(id)) return null
+  const g = allyGroupOf(faction, id, detachments) || allyGroupsOf(faction, id)[0] || null
+  return { warlord: true, enh: !g?.enh }
 }
 
 // The group a unit counts against right now: the first ACTIVE group listing it, or null when the

@@ -2,7 +2,7 @@
 // Plain-text roster export, in the shapes the 40k community actually passes around. English names
 // throughout (unit / detachment / wargear names are EN by project convention). Pure functions.
 //
-// FIVE FORMATS, one resolved model:
+// SIX FORMATS, one resolved model:
 //   gw       the Warhammer 40,000 app's own 11th-edition export — what a TO asks for and what every
 //            list reader (BCP, New Recruit, 40kCompactor) parses first. Attached units come first
 //            as their own blocks, then CHARACTERS / DEDICATED TRANSPORTS / OTHER DATASHEETS.
@@ -17,6 +17,10 @@
 //            the disposition, then "Unit (N points)" per unit and nothing else — no wargear, no
 //            collapsing. Asked for by a player (2026-10-05): the Discord lines, carrying their
 //            wargear, wrapped two and three deep in a phone's chat.
+//   rus      a Russian tournament's list, as the organisers' rules ask for it (Ordo Eventus): the
+//            `+ PLAYER NAME / HIN / … / WARLORD / ENHANCEMENT` header, "Attached Unit N:" blocks,
+//            units under keyword prefixes (CH1:, IN2:), only the wargear a choice reaches. Asked
+//            for by a contributor and the owner (2026-10-13).
 //
 // The 11th-edition app export differs from the 10th's in ways this file has to honour: several
 // detachments at once with a Detachment Points budget, a Force Dispositions line, and attached
@@ -30,7 +34,7 @@
 import {
   allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
-  miniName, modelCount, rosterDetachments,
+  miniName, modelCount, rosterDetachments, hasKeyword,
 } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').Roster} Roster */
@@ -61,7 +65,7 @@ import {
 /** What the export needs besides the roster. @typedef {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> | null }} ExportContext */
 import { factionGroups } from '../data/factionsIndex.js'
 
-export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple']
+export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple', 'rus']
 
 // WTC writes the faction's alliance ahead of its name ("Xenos - T'au Empire"). Our index splits the
 // Imperium in two (Space Marine chapters have their own group), which WTC does not.
@@ -508,13 +512,120 @@ function simpleText(m) {
   return lines.join('\n').trimEnd()
 }
 
+// ── Russian tournament (Ordo Eventus) ────────────────────────────────────────────────────────
+
+// A Russian tournament's list, written to the rules an organiser publishes with the event — the
+// owner's own club's (Ordo Eventus, "Правила составления ростера", 2025; 2026-10-13), the most
+// precise of the ones collected: the `+ PLAYER NAME / ARMY NAME / HIN / FACTION KEYWORD /
+// DETACHMENT / FORCE DISPOSITION / TOTAL ARMY POINTS / WARLORD / ENHANCEMENT` header (HIN is the
+// player's rating number, "-" until they have one; ONE disposition, the one they play), every
+// attachment as an "Attached Unit N:" block, the rest under keyword prefixes (EH1:, CH1:, IN2: …),
+// the model count only where the unit's size can vary, and of a unit's wargear exactly what COULD
+// be changed — taken or kept ("Redemptor Dreadnought: Heavy flamer, Icarus rocket pod, Macro plasma
+// incinerator, Twin storm bolter"), never what is fixed. A first draft followed 40001format.xyz
+// and printed the whole loadout; the Hyper regulation says the same thing in fewer words.
+
+// The prefixes, in the order the list is written. A unit takes the first that fits it.
+/** @type {Array<[string, (r: ExportRow) => boolean]>} */
+const RUS_PREFIXES = [
+  ['EH', (r) => r.bucket === 'epic'],
+  ['CH', (r) => r.bucket === 'characters'],
+  ['BL', (r) => r.bucket === 'battleline'],
+  ['DT', (r) => r.bucket === 'transports'],
+  ['FO', (r) => r.bucket === 'fortifications'],
+  ['IN', (r) => hasKeyword(r.def, 'Infantry') || hasKeyword(r.def, 'Swarm')],
+  ['MO', (r) => hasKeyword(r.def, 'Mounted')],
+  ['BE', (r) => hasKeyword(r.def, 'Beast')],
+  ['VE', (r) => hasKeyword(r.def, 'Vehicle')],
+  ['MN', (r) => hasKeyword(r.def, 'Monster')],
+]
+const RUS_ORDER = ['EH', 'CH', 'BL', 'IN', 'MO', 'BE', 'VE', 'MN', 'DT', 'FO', 'AU']
+/** @param {ExportRow} r */
+const rusPrefix = (r) => (r.ally ? 'AU' : RUS_PREFIXES.find(([, fits]) => fits(r))?.[0] || 'IN')
+
+// Of the loadout the unit fields, the items a choice reaches — what an option gives up or hands
+// over on this datasheet — with their counts; fixed wargear is left out.
+/** @param {ExportRow} r @param {Record<number, string> | null | undefined} items */
+function changeableGear(r, items) {
+  const names = new Set()
+  for (const g of r.def?.gear || []) {
+    for (const id of g.rep || []) names.add(items?.[id])
+    for (const o of g.o || []) for (const [id] of optionItems(o)) names.add(items?.[id])
+  }
+  const held = new Map()
+  for (const g of r.gear) for (const it of g.items) if (names.has(it.name)) held.set(it.name, (held.get(it.name) || 0) + it.n)
+  return [...held]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([name, n]) => (n > 1 || r.models > 1 ? `${n}x ${name}` : name))
+}
+
+/** @param {Resolved} m @param {{ player?: string, hin?: string }} [who] */
+function rusText(m, who = {}) {
+  const bar = '+'.repeat(47)
+  const slug = m.roster?.faction
+  const group = factionGroups.find((g) => g.factions.some((f) => f.slug === slug))
+  const alliance = group ? ALLIANCE[group.id] : undefined
+  const fds = m.disposition ? [m.disposition] : dispositionCandidates(m.detachments)
+
+  // The order the units are written in: the attached blocks first, then every other unit by its
+  // prefix. Numbers count per prefix across the whole list, so the header can point at "CH1".
+  const led = new Set(m.rows.filter((r) => r.leaderOf).map((r) => r.leaderOf))
+  const hosts = m.rows.filter((r) => led.has(r.uid) && !r.leaderOf)
+  const blocks = hosts.map((h) => [...m.rows.filter((x) => x.leaderOf === h.uid), h])
+  const inBlock = new Set(blocks.flat().map((r) => r.uid))
+  /** @type {Array<[string, ExportRow[]]>} */
+  const rest = RUS_ORDER.map((p) => [p, orderedByName(m.rows.filter((r) => !inBlock.has(r.uid) && rusPrefix(r) === p), (r) => r.name)])
+  /** @type {Map<string, string>} */
+  const ref = new Map()
+  /** @type {Map<string, number>} */
+  const count = new Map()
+  for (const r of [...blocks.flat(), ...rest.flatMap(([, rows]) => rows)]) {
+    const p = rusPrefix(r)
+    count.set(p, (count.get(p) || 0) + 1)
+    ref.set(r.uid, `${p}${count.get(p)}`)
+  }
+
+  const warlord = m.rows.find((r) => r.warlord)
+  const enhanced = m.rows.filter((r) => r.enh)
+  const out = [
+    bar,
+    `+ PLAYER NAME: ${who.player || ''}`.trimEnd(),
+    `+ ARMY NAME: ${m.roster?.name || ''}`.trimEnd(),
+    `+ HIN: ${who.hin || '-'}`,
+    `+ FACTION KEYWORD: ${alliance ? `${alliance} - ` : ''}${m.faction?.name || ''}`,
+    `+ DETACHMENT: ${m.detachments.map((d) => d.name).join(', ')}`.trimEnd(),
+    `+ FORCE DISPOSITION: ${fds[0] || ''}`.trimEnd(),
+    `+ TOTAL ARMY POINTS: ${m.total}pts`,
+    `+ WARLORD: ${warlord ? warlord.name : '-'}`,
+    `+ ENHANCEMENT: ${enhanced.length ? enhanced.map((r) => `${ref.get(r.uid)}: ${r.enh?.name}`).join(', ') : '-'}`,
+    bar,
+  ]
+
+  /** @param {ExportRow} r */
+  const line = (r) => {
+    const sz = r.def?.sizes || []
+    const varies = sz.length > 1 || sz.some((s) => s.per && s.per[0] !== s.per[1])
+    const parts = [
+      ...(r.alleg ? [r.alleg.value] : []),
+      ...changeableGear(r, m.items),
+      ...(r.enh ? [r.enh.name] : []),
+      ...(r.warlord ? ['Warlord'] : []),
+    ]
+    return `${ref.get(r.uid)}: ${varies ? `(${r.models}) ` : ''}${r.name}${parts.length ? `: ${parts.join(', ')}` : ''} (${r.pts} pts)`
+  }
+
+  blocks.forEach((rows, i) => out.push('', `Attached Unit ${i + 1}:`, ...rows.map(line)))
+  for (const [, rows] of rest) if (rows.length) out.push('', ...rows.map(line))
+  return out.join('\n').trimEnd()
+}
+
 // ── entry point ──────────────────────────────────────────────────────────────────────────────
 
 // `version` (optional) is `{ app, data }` for the GW-format footer — the caller has them, this
 // module does not import either.
 /**
  * @param {Partial<Roster> | null | undefined} roster
- * @param {ExportContext & { version?: { app: string, data: string | number } }} [ctx]
+ * @param {ExportContext & { version?: { app: string, data: string | number }, who?: { player?: string, hin?: string } }} [ctx]
  * @param {string} [format] one of EXPORT_FORMATS
  * @returns {string}
  */
@@ -524,5 +635,6 @@ export function buildRosterText(roster, ctx = {}, format = 'gw') {
   if (format === 'wtc-compact') return wtcText(m, true)
   if (format === 'compact') return compactText(m)
   if (format === 'simple') return simpleText(m)
+  if (format === 'rus') return rusText(m, ctx.who)
   return gwText(m, ctx.version)
 }
