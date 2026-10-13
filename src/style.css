@@ -944,6 +944,10 @@ strong {
 .wi-chevron-right { mask-image: url('./assets/icons/ui-chevron-right.svg'); }
 .wi-arrow-up { mask-image: url('./assets/icons/ui-arrow-up.svg'); }
 .wi-arrow-right { mask-image: url('./assets/icons/ui-arrow-right.svg'); }
+.wi-arrow-left { mask-image: url('./assets/icons/ui-arrow-left.svg'); }
+.wi-hand { mask-image: url('./assets/icons/ui-hand.svg'); } /* picked by hand (a secondary not drawn) */
+.wi-target { mask-image: url('./assets/icons/ui-target.svg'); }
+.wi-cone { mask-image: url('./assets/icons/ui-cone.svg'); } /* the beta's banner: under construction */
 .wi-return { mask-image: url('./assets/icons/ui-return.svg'); }
 .wi-undo { mask-image: url('./assets/icons/ui-undo.svg'); }
 .wi-redo { mask-image: url('./assets/icons/ui-redo.svg'); }
