@@ -46,7 +46,7 @@
         @click="$emit('undo')"
       >
         <i
-          class="bi bi-arrow-counterclockwise"
+          class="wi wi-undo"
           aria-hidden="true"
         />
         {{ labels.trackerStratUndo }}

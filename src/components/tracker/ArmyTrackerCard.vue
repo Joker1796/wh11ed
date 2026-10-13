@@ -47,7 +47,7 @@
           :inert="lock"
           @click="undoArmyToggle(pi, mi)"
         >
-          <i class="bi bi-arrow-counterclockwise" />
+          <i class="wi wi-undo" />
         </button>
       </ExpandTransition>
     </div>
@@ -57,7 +57,7 @@
       v-if="view.kind === 'pool'"
       class="army-pool-hint"
     >
-      <i class="bi bi-arrow-repeat" /> {{ roundStart }} · {{ labels.trackerPoolRefill }}
+      <i class="wi wi-sync" /> {{ roundStart }} · {{ labels.trackerPoolRefill }}
     </p>
 
     <!-- One-time round-1 bonus (GSC's Deeds That Speak to the Masses enhancement): the tracker
@@ -76,13 +76,13 @@
           data-press
           @click="applyBonus"
         >
-          <i class="bi bi-plus-circle" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}
+          <i class="wi wi-add-circle" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}
         </button>
         <div
           v-else
           class="army-bonus-done"
         >
-          <span><i class="bi bi-check-circle-fill" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}</span>
+          <span><i class="wi wi-ok" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}</span>
           <button
             class="army-head-reset"
             data-press
@@ -90,7 +90,7 @@
             :title="labels.trackerArmyReset"
             @click="undoBonus"
           >
-            <i class="bi bi-arrow-counterclockwise" />
+            <i class="wi wi-undo" />
           </button>
         </div>
       </ExpandTransition>
@@ -109,7 +109,7 @@
         @click="showSpendPicker = true"
       >
         <span class="army-field-val">{{ labels.trackerArmySpend }}</span>
-        <i class="bi bi-chevron-down army-field-chev" />
+        <i class="wi wi-chevron-down army-field-chev" />
       </button>
     </div>
 
@@ -148,8 +148,8 @@
             @click="pendingDie = di"
           >
             <i
-              class="bi"
-              :class="`bi-dice-${d}-fill`"
+              class="wi"
+              :class="`wi-dice-${d}`"
             />
           </button>
         </div>
@@ -171,8 +171,8 @@
           @click="addArmyDie(pi, v, mi)"
         >
           <i
-            class="bi"
-            :class="`bi-dice-${v}-fill`"
+            class="wi"
+            :class="`wi-dice-${v}`"
           />
         </button>
       </div>
@@ -229,7 +229,7 @@
           {{ multiSelected.length ? multiSelected.map((o) => o.name).join(', ') : `${labels.trackerArmyActivate} ${view.max}` }}
         </span>
         <span class="army-field-count">{{ multiIds.length }}/{{ view.max }}</span>
-        <i class="bi bi-chevron-down army-field-chev" />
+        <i class="wi wi-chevron-down army-field-chev" />
       </button>
     </div>
 
@@ -265,8 +265,8 @@
                 @click="showActive = !showActive"
               >
                 <i
-                  class="bi army-acc-chev"
-                  :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"
+                  class="wi army-acc-chev"
+                  :class="showActive ? 'wi-chevron-down' : 'wi-chevron-right'"
                 />
                 <span class="army-acc-title">
                   <strong>{{ labels.trackerArmyActive }}</strong> · {{ labels.trackerRoundShort }} {{ currentRound }}
@@ -316,8 +316,8 @@
         @click="showHowto = !showHowto"
       >
         <i
-          class="bi army-acc-chev"
-          :class="showHowto ? 'bi-chevron-down' : 'bi-chevron-right'"
+          class="wi army-acc-chev"
+          :class="showHowto ? 'wi-chevron-down' : 'wi-chevron-right'"
         />
         <span class="army-acc-title">{{ labels.trackerArmyHowto }}</span>
       </button>
@@ -356,8 +356,8 @@
           @click="showHowto = !showHowto"
         >
           <i
-            class="bi army-acc-chev"
-            :class="showHowto ? 'bi-chevron-down' : 'bi-chevron-right'"
+            class="wi army-acc-chev"
+            :class="showHowto ? 'wi-chevron-down' : 'wi-chevron-right'"
           />
           <span class="army-acc-title">{{ labels.trackerArmyHowto }}</span>
         </button>
@@ -389,8 +389,8 @@
         @click="toggleText(t.key)"
       >
         <i
-          class="bi army-acc-chev"
-          :class="openTexts.includes(t.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+          class="wi army-acc-chev"
+          :class="openTexts.includes(t.key) ? 'wi-chevron-down' : 'wi-chevron-right'"
         />
         <span class="army-acc-title">{{ t.title }}</span>
       </button>
@@ -415,8 +415,8 @@
           @click="showResurrected = !showResurrected"
         >
           <i
-            class="bi army-acc-chev"
-            :class="showResurrected ? 'bi-chevron-down' : 'bi-chevron-right'"
+            class="wi army-acc-chev"
+            :class="showResurrected ? 'wi-chevron-down' : 'wi-chevron-right'"
           />
           <span class="army-acc-title">{{ labels.trackerArmyResurrected }} · {{ resurrected.length }}</span>
         </button>
@@ -437,7 +437,7 @@
                 :inert="lock"
                 @click="undoArmyResurrect(pi, i, mi)"
               >
-                <i class="bi bi-arrow-counterclockwise" />
+                <i class="wi wi-undo" />
               </button>
             </li>
           </ul>
@@ -461,8 +461,8 @@
           @click="showActive = !showActive"
         >
           <i
-            class="bi army-acc-chev"
-            :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"
+            class="wi army-acc-chev"
+            :class="showActive ? 'wi-chevron-down' : 'wi-chevron-right'"
           />
           <span class="army-acc-title">
             {{ labels.trackerArmyActive }}<template v-if="activeRules.length === 1 && activeRules[0].name">: <strong>{{ activeRules[0].name }}</strong></template>
@@ -1038,7 +1038,7 @@ useFlashOnChange(counter, counterEl)
   color: var(--text-muted);
 }
 
-.army-pool-hint .bi {
+.army-pool-hint .wi {
   font-size: 0.68rem;
 }
 
@@ -1180,7 +1180,7 @@ useFlashOnChange(counter, counterEl)
   transition: transform 0.1s, color 0.15s;
 }
 
-.army-die .bi {
+.army-die .wi {
   font-size: 2rem;
   line-height: 1;
 }
@@ -1229,7 +1229,7 @@ useFlashOnChange(counter, counterEl)
   transition: color 0.15s, transform 0.1s;
 }
 
-.army-die-add .bi {
+.army-die-add .wi {
   font-size: 1.4rem;
   line-height: 1;
 }

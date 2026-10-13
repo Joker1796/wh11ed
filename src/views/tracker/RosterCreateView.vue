@@ -21,7 +21,7 @@
         to="/roster"
         class="back"
       >
-        <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
+        <i class="wi wi-chevron-left" /> {{ labels.rosterBackToList }}
       </RouterLink>
 
       <!-- The step markers are navigation, not just a progress read-out: any step already
@@ -221,7 +221,7 @@
             v-if="!desk && step === 1 && setupErrors.length"
             class="rc-block-note"
           >
-            <i class="bi bi-exclamation-triangle-fill" /> {{ issueText(setupErrors[0], labels) }}
+            <i class="wi wi-warning" /> {{ issueText(setupErrors[0], labels) }}
           </p>
         </ExpandTransition>
         <RosterPointsTally
@@ -499,7 +499,7 @@ if (resumed) {
 // The draft survives that on its own, but the way BACK didn't: /roster opens on Saved lists, so
 // a reader returning through the nav saw a list without their roster in it. Note the draft on
 // the way out and App.vue floats a "to roster" chip over whatever they went to read.
-onBeforeUnmount(() => rememberDraft(rosterId.value))
+onBeforeUnmount(() => rememberDraft(rosterId.value, (id) => !!rosterById(id)?.draft))
 // ...and drop it on the way in, whichever door was used — the chip's whole job is being here.
 forgetDraft()
 function step1Patch() {

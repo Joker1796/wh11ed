@@ -269,6 +269,15 @@ const activeView = computed(() => {
   gap: 0.6rem;
 }
 
+/* On the desktop's wide faction page (App.vue, isFactionPageRoute) the entries tile in two columns,
+   as the faction's rules and the Core Rules do (owner, 2026-10-13); an entry never splits. */
+@media (min-width: 1024px) {
+  .errata-list,
+  .faq-list { display: block; column-count: 2; column-gap: 1.5rem; }
+  .errata-list > *,
+  .faq-list > * { break-inside: avoid; margin-bottom: 0.9rem; }
+}
+
 .faq-empty {
   color: var(--text-muted);
   font-size: 1rem;

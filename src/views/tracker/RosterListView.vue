@@ -82,13 +82,18 @@
             <div class="roster-main">
               <span class="rname">{{ r.name || labels.rosterUntitled }}</span>
               <!-- Pinned (useRosterPins): the mark stands beside the "…" that sets it, in the
-                   army's colour like the faction line under the name. -->
+                   army's colour like the faction line under the name. Tapping it unpins, after a
+                   question (owner, 2026-10-13): one stray tap on a card must not reorder the list. -->
               <ExpandTransition>
-                <i
+                <button
                   v-if="isRosterPinned(r.id)"
-                  class="wi wi-pin-on rpin"
-                  :title="labels.favPinnedGroup"
-                />
+                  class="kebab rpin"
+                  :title="labels.favUnpin"
+                  :aria-label="labels.favUnpin"
+                  @click.stop="pendingUnpin = r.id"
+                >
+                  <i class="wi wi-pin-on" />
+                </button>
               </ExpandTransition>
               <!-- A draft's actions sheet only ever held one item, so it is spared the extra tap:
                the card carries Delete itself. Everything a SAVED list can do still needs the
@@ -99,7 +104,7 @@
                 :aria-label="labels.trackerDelete"
                 @click.stop="pendingDelete = r.id"
               >
-                <i class="bi bi-trash" />
+                <i class="wi wi-trash" />
               </button>
               <!-- Saved lists only — a draft deletes from its own card and never opens this. -->
               <ActionMenu
@@ -209,7 +214,7 @@
                   class="rrec"
                   :title="labels.statsTitle"
                 >
-                  <i class="bi bi-trophy" /> {{ recordOf(r) }}
+                  <i class="wi wi-trophy" /> {{ recordOf(r) }}
                 </span>
                 <span
                   v-if="r.draft"
@@ -222,14 +227,14 @@
                   class="checks-off"
                   :title="labels.rosterChecksOffNote"
                 >
-                  <i class="bi bi-slash-circle" /> {{ labels.rosterChecksOff }}
+                  <i class="wi wi-none" /> {{ labels.rosterChecksOff }}
                 </span>
                 <span
                   v-else-if="r.summary?.issues && legalityOn(r)"
                   class="issues"
                   :title="String(r.summary.issues)"
                 >
-                  <i class="bi bi-exclamation-triangle-fill" /> {{ r.summary.issues }}
+                  <i class="wi wi-warning" /> {{ r.summary.issues }}
                 </span>
               </span>
               <span class="date">{{ formatDate(r.updatedAt) }}</span>
@@ -258,6 +263,17 @@
       :cancel-label="labels.trackerCancel"
       @confirm="confirmDelete"
       @close="pendingDelete = null"
+    />
+
+
+    <ConfirmModal
+      v-if="pendingUnpin"
+      :title="labels.favUnpin"
+      :message="labels.rosterUnpinConfirm"
+      :confirm-label="labels.favUnpin"
+      :cancel-label="labels.trackerCancel"
+      @confirm="toggleRosterPin(pendingUnpin); pendingUnpin = null"
+      @close="pendingUnpin = null"
     />
 
 
@@ -508,6 +524,7 @@ function onArchive(id, on) {
 }
 
 const pendingDelete = ref(null)
+const pendingUnpin = ref(null)
 function onDelete(id) {
   menuFor.value = null
   pendingDelete.value = id
@@ -561,7 +578,7 @@ function confirmDelete() {
    Loosened a step on 2026-10-09 (owner): the card's own lines had come to touch. */
 .rl-in-desk .rl-tabs { margin-bottom: 0.6rem; }
 .rl-in-desk .rl-factions { margin-bottom: 0.5rem; }
-.rl-in-desk .rl-factions select { padding: 0.25rem 0.4rem; }
+.rl-in-desk .rl-factions select { padding-block: 0.25rem; padding-left: 0.4rem; }
 .rl-in-desk .rosters { gap: 0.4rem; }
 .rl-in-desk .roster { padding: 0.6rem 0.8rem 0.65rem; }
 .rl-in-desk .rname { font-size: 0.9rem; line-height: 1.25; }
@@ -603,7 +620,11 @@ function confirmDelete() {
    of it (owner, 2026-10-09); its 32px box hangs over the line instead of opening the row. */
 .roster-main { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.9rem; }
 .roster-main .kebab { margin: -0.3rem -0.3rem -0.3rem 0; }
-.roster-main .rpin { margin-top: 0.2rem; }
+/* The pin and the "…" hang 0.3rem below the name's line; this keeps them off the disposition chip
+   under it (owner, 2026-10-13). */
+.roster-main { margin-bottom: 0.45rem; }
+/* The pin is a button now (it unpins); its box sits flush with the "…" beside it. */
+.roster-main .rpin { margin-left: auto; margin-right: -0.6rem; }
 /* A card is a card: a name that runs on is cut at two lines rather than stretching the row.
    The whole thing is readable on the list's own page. */
 .rname {
@@ -639,7 +660,7 @@ function confirmDelete() {
 @media (prefers-color-scheme: dark) {
   .rfaction, .rpin { color: var(--fa-dark, var(--accent-ink)); }
 }
-.rpin { flex-shrink: 0; margin-left: auto; font-size: 0.85rem; color: var(--fa-light, var(--accent)); }
+.rpin { font-size: 0.85rem; color: var(--fa-light, var(--accent)); }
 .rpoints { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); white-space: nowrap; }
 .rpoints.over { color: var(--danger); }
 .rpoints .unit { font-size: 0.62rem; color: var(--text-dim); margin-left: 0.15rem; }

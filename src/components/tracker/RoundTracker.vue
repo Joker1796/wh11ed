@@ -101,7 +101,7 @@
             class="act-btn gm-row"
             @click="close(); startTour('game', tourCtx())"
           >
-            <i class="bi bi-question-circle" /> {{ labels.tourReplay }}
+            <i class="wi wi-help" /> {{ labels.tourReplay }}
           </button>
           <!-- Finishing the game early: a thing done once, not every turn. The last turn's own
                Finish is the turn bar's; GameEndModal is the confirmation. -->
@@ -205,7 +205,7 @@
             @click="undoConfirm = true"
           >
             <i
-              class="bi bi-arrow-counterclockwise"
+              class="wi wi-undo"
               aria-hidden="true"
             />
           </button>
@@ -259,7 +259,7 @@
             @click="undoConfirm = true"
           >
             <i
-              class="bi bi-arrow-left"
+              class="wi wi-arrow-left"
               aria-hidden="true"
             />
             <span class="tr-label">{{ labels.trackerUndoTurn }}</span>
@@ -521,7 +521,7 @@
               :title="labels.trackerCpHelpTitle"
               @click="cpHelpOpen = true"
             >
-              <i class="bi bi-question-circle" />
+              <i class="wi wi-help" />
             </button>
           </div>
         </template>

@@ -26,7 +26,7 @@
           >
             <span class="pv-trigger-label">{{ labels.patchesFaction }}</span>
             <span class="pv-trigger-name">{{ filterName }}</span>
-            <i class="bi bi-chevron-down" />
+            <i class="wi wi-chevron-down" />
           </button>
         </template>
         <template #default="{ compact, bodyClass }">
@@ -78,7 +78,7 @@
                  (owner, 2026-10-02). -->
             <span class="pv-trigger-label">{{ labels.patchesUpdate }} · {{ formatDate(current.date) }}</span>
             <span class="pv-trigger-name">{{ titleOf(current) }}</span>
-            <i class="bi bi-chevron-down" />
+            <i class="wi wi-chevron-down" />
           </button>
         </template>
         <template #default="{ bodyClass }">
@@ -141,6 +141,7 @@
 // update's changes load when it is picked (one on the page at a time, the newest by default). Narrowing to a faction (or to
 // the pinned ones) is in the address, so a link to "what changed for Orks" can be shared.
 import { computed, reactive, ref, watch } from 'vue'
+import { getItem, setItem } from '../composables/safeStorage.js'
 import { useRoute, useRouter } from 'vue-router'
 import AdaptivePicker from '../components/AdaptivePicker.vue'
 import FactionPickerList from '../components/tracker/FactionPickerList.vue'
@@ -166,11 +167,14 @@ const pinned = computed(() => pinnedFactionsFrom(factionGroups).map((f) => f.slu
 // who pinned factions sees theirs — decided when the faction list is first opened and kept after:
 // the list has the pin stars, and a pin there swapped "All" for "Mine" (and the update with it)
 // under the reader's finger (owner, 2026-10-02).
+// The last pick is kept on this device and comes back with a bare /patches (owner, 2026-10-13): a
+// reader follows one army, and picking it again on every visit was the chore. A link's `?f=` wins.
+const SAVED_KEY = 'wh11ed-patches-faction'
 const pickerOpen = ref(false)
 const startScope = ref(null)
 watch(pickerOpen, (open) => { if (open && !startScope.value) startScope.value = pinned.value.length ? 'mine' : 'all' })
 const filter = computed(() => {
-  const f = route.query.f
+  const f = route.query.f || getItem(SAVED_KEY, '') || undefined
   if (f === 'all' || (f && factionIndexBySlug(f))) return f
   const scope = f === 'mine' ? 'mine' : f ? 'all' : startScope.value || (pinned.value.length ? 'mine' : 'all')
   return scope === 'mine' && pinned.value.length ? 'mine' : 'all'
@@ -185,6 +189,7 @@ const filterName = computed(() => (filter.value === 'all' ? labels.value.patches
 // As a push it is also what Back should undo: the previous filter.
 function pick(f) {
   pickerOpen.value = false
+  setItem(SAVED_KEY, f)
   if (f !== filter.value) router.push({ query: { ...route.query, f } })
 }
 
@@ -299,7 +304,7 @@ const titleOf = (p) => [
   color: var(--text-muted);
 }
 .pv-trigger-name { font-weight: 600; font-size: 0.9rem; }
-.pv-trigger .bi { grid-column: 2; grid-row: 1 / span 2; font-size: 0.75rem; color: var(--text-muted); }
+.pv-trigger .wi { grid-column: 2; grid-row: 1 / span 2; font-size: 0.75rem; color: var(--text-muted); }
 
 .pv-scopes {
   display: flex;

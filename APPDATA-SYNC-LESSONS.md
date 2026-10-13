@@ -1218,3 +1218,14 @@ and appdata state fresh; a data model can change between now and when this is ne
     by one with no gate behind them. Nothing that compares appdata with itself can see this — only
     the errata text says what is right — so `npm run errata-tables` reads every line of every such
     table against our sheets and fails on a line it cannot read.
+
+86. **A copy carries its text, not always its translation.** A rule's `### ` plate keeps its
+    English name in RU and adds the Russian after a pipe (`### Deeds | Деяния`) — RuleBody shows it
+    beside the English and search indexes it. The four Combat Doctrines were copied into every
+    Chapter file from Space Marines without their Russian, the Orks' 946 overlay was rewritten
+    without it, and a rename on the EN side ("Orders" → "The Orders") left the RU naming a plate
+    that no longer existed: 38 plates in 10 factions, found by the owner reading the page
+    (2026-10-13). `ruletext` compares paragraphs and `parity` counts the `###` markers, so both
+    passed. `src/data/factions/ru/subheadings.test.js` (inside `npm test`) pairs the plates of every
+    army and detachment rule by position: a plate added or dropped by a sync, a renamed one, or
+    one with no Russian fails it — after a bump, write the RU line where it points.

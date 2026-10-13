@@ -147,7 +147,7 @@ describe('RosterViewView', () => {
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitForSelector(w, 'button.hdr-icon')
-    expect(w.find('.bi-printer').exists()).toBe(false)   // no icon per action any more
+    expect(w.find('.wi-print').exists()).toBe(false)   // no icon per action any more
 
     await w.find('button.hdr-icon').trigger('click')
     // Export and Copy stay disabled until the faction bundle lands — a copy taken before it would

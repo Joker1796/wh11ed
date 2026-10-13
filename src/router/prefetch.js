@@ -1,7 +1,6 @@
 import { loadFaction } from '../data/factions/index.js'
 import { loadFactionRu } from '../data/factions/ru/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
-import { loadDatasheetsRu } from '../data/datasheets/ru/index.js'
 import { locale } from '../composables/useLocale.js'
 
 // What a page needs before it is shown, fetched while the OLD page is still on screen
@@ -35,7 +34,9 @@ export const PREFETCH = {
   factionUnit: (to) => [
     ...factionPage(to.params.slug),
     loadDatasheets(to.params.slug),
-    ru() && loadDatasheetsRu(to.params.slug),
+    // A dynamic import, not a static one: the RU overlay loader re-exports localizeSheet, and this
+    // module is in the app shell every visitor downloads (src/shellImports.test.js).
+    ru() && import('../data/datasheets/ru/index.js').then((m) => m.loadDatasheetsRu(to.params.slug)),
   ],
 }
 

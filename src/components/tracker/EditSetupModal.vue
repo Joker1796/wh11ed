@@ -17,7 +17,7 @@
         data-press
         @click="noteOpen = !noteOpen"
       >
-        <i class="bi bi-info-circle" />
+        <i class="wi wi-info" />
       </button>
     </template>
     <div class="modal-body">
@@ -106,7 +106,7 @@
                 class="rp-open"
                 @click="rosterPickerKey = ak(i, mi)"
               >
-                <i class="bi bi-card-list" />
+                <i class="wi wi-roster-list" />
                 <span>{{ labels.trackerRosterAttach }}</span>
               </button>
               <!-- The one thing attaching can't fix, so it has to be said rather than silently
@@ -170,7 +170,7 @@
               data-press
               :aria-label="labels.trackerScoreHelp"
               @click="scoreHelpOpen = true"
-            ><i class="bi bi-question-circle" /></button>
+            ><i class="wi wi-help" /></button>
           </span>
           <div class="seg">
             <button

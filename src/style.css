@@ -755,7 +755,7 @@ strong {
 
 [data-theme='dark'] strong {
   color: #fbfaf7;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .note-box strong {
@@ -862,12 +862,12 @@ strong {
 }
 
 /* ── App icons ─────────────────────────────────────────────────────────────
-   The owner's own one-colour drawings (src/assets/icons, 2026-10-08), used beside the Bootstrap
-   icon font: `<i class="wi wi-army" />` wherever a `bi bi-…` would go, and the same size and
-   baseline. Drawn as a mask filled with the text colour, the way FactionEmblem draws an emblem, so
+   The app's only icons: one-colour drawings in src/assets/icons — the owner's pack (2026-10-08) and
+   the rest drawn to its manner when the Bootstrap icon font went (2026-10-13). `<i class="wi
+   wi-army" />`, the size and baseline of a line of text. Drawn as a mask filled with the text colour, the way FactionEmblem draws an emblem, so
    they follow the colour of what holds them. Under Vite's inline limit, so each file lands in this
    stylesheet as a data URI: no request, nothing to precache, there offline. */
-/* The drawings keep a margin inside their 24px square that a Bootstrap glyph does not, so at 1em
+/* The drawings keep a margin inside their 24px square that a font glyph does not, so at 1em
    they read a size smaller (owner, 2026-10-08). Drawn at 1.2em, the overflow taken back by a
    negative margin: the box in the line stays 1em, as a glyph's, and nothing beside it moves. */
 .wi {
@@ -937,6 +937,69 @@ strong {
 .wi-own-on { mask-image: url('./assets/icons/ui-own-on.svg'); }
 .wi-copy { mask-image: url('./assets/icons/ui-copy.svg'); }
 .wi-image { mask-image: url('./assets/icons/ui-image.svg'); }
+/* Drawn 2026-10-13 in place of the Bootstrap icon font. Chevrons: ChevronIcon picks the direction */
+.wi-chevron-down { mask-image: url('./assets/icons/ui-chevron-down.svg'); }
+.wi-chevron-up { mask-image: url('./assets/icons/ui-chevron-up.svg'); }
+.wi-chevron-left { mask-image: url('./assets/icons/ui-chevron-left.svg'); }
+.wi-chevron-right { mask-image: url('./assets/icons/ui-chevron-right.svg'); }
+.wi-arrow-up { mask-image: url('./assets/icons/ui-arrow-up.svg'); }
+.wi-arrow-right { mask-image: url('./assets/icons/ui-arrow-right.svg'); }
+.wi-return { mask-image: url('./assets/icons/ui-return.svg'); }
+.wi-undo { mask-image: url('./assets/icons/ui-undo.svg'); }
+.wi-redo { mask-image: url('./assets/icons/ui-redo.svg'); }
+.wi-close { mask-image: url('./assets/icons/ui-close.svg'); }
+.wi-fullscreen { mask-image: url('./assets/icons/ui-fullscreen.svg'); }
+.wi-share { mask-image: url('./assets/icons/ui-share.svg'); }
+.wi-add-circle { mask-image: url('./assets/icons/ui-add-circle.svg'); }
+.wi-trash { mask-image: url('./assets/icons/ui-trash.svg'); }
+.wi-print { mask-image: url('./assets/icons/ui-print.svg'); }
+.wi-link { mask-image: url('./assets/icons/ui-link.svg'); }
+.wi-qr { mask-image: url('./assets/icons/ui-qr.svg'); }
+.wi-sliders { mask-image: url('./assets/icons/ui-sliders.svg'); }
+.wi-filter { mask-image: url('./assets/icons/ui-filter.svg'); } /* a filter set — .wi-filter-on */
+.wi-filter-on { mask-image: url('./assets/icons/ui-filter-on.svg'); }
+.wi-eye { mask-image: url('./assets/icons/ui-eye.svg'); }
+.wi-eye-off { mask-image: url('./assets/icons/ui-eye-off.svg'); }
+.wi-box { mask-image: url('./assets/icons/ui-box.svg'); } /* a tick box, ticked — .wi-box-on */
+.wi-box-on { mask-image: url('./assets/icons/ui-box-on.svg'); }
+/* What a line says: a note, a question, a warning, an error, done, not there */
+.wi-info { mask-image: url('./assets/icons/ui-info.svg'); }
+.wi-help { mask-image: url('./assets/icons/ui-help.svg'); }
+.wi-warning { mask-image: url('./assets/icons/ui-warning.svg'); }
+.wi-warning-line { mask-image: url('./assets/icons/ui-warning-line.svg'); }
+.wi-error { mask-image: url('./assets/icons/ui-error.svg'); }
+.wi-ok { mask-image: url('./assets/icons/ui-ok.svg'); }
+.wi-ok-line { mask-image: url('./assets/icons/ui-ok-line.svg'); }
+.wi-none { mask-image: url('./assets/icons/ui-none.svg'); }
+.wi-stars { mask-image: url('./assets/icons/ui-stars.svg'); }
+.wi-lightning { mask-image: url('./assets/icons/ui-lightning.svg'); }
+/* Things */
+.wi-flag { mask-image: url('./assets/icons/ui-flag.svg'); }
+.wi-trophy { mask-image: url('./assets/icons/ui-trophy.svg'); }
+.wi-roster-list { mask-image: url('./assets/icons/ui-roster-list.svg'); }
+.wi-list { mask-image: url('./assets/icons/ui-list.svg'); }
+.wi-collection { mask-image: url('./assets/icons/ui-collection.svg'); }
+.wi-grid { mask-image: url('./assets/icons/ui-grid.svg'); }
+.wi-panes { mask-image: url('./assets/icons/ui-panes.svg'); }
+.wi-book { mask-image: url('./assets/icons/ui-book.svg'); }
+.wi-doc { mask-image: url('./assets/icons/ui-doc.svg'); }
+.wi-pdf { mask-image: url('./assets/icons/ui-pdf.svg'); }
+.wi-ruler { mask-image: url('./assets/icons/ui-ruler.svg'); }
+.wi-signpost { mask-image: url('./assets/icons/ui-signpost.svg'); }
+.wi-language { mask-image: url('./assets/icons/ui-language.svg'); }
+.wi-phone { mask-image: url('./assets/icons/ui-phone.svg'); }
+.wi-person { mask-image: url('./assets/icons/ui-person.svg'); }
+.wi-people { mask-image: url('./assets/icons/ui-people.svg'); }
+.wi-key { mask-image: url('./assets/icons/ui-key.svg'); }
+.wi-mail-alert { mask-image: url('./assets/icons/ui-mail-alert.svg'); }
+.wi-mail-add { mask-image: url('./assets/icons/ui-mail-add.svg'); }
+/* A die's face, in rules text (Unmodified 6) and the army trackers' dice */
+.wi-dice-1 { mask-image: url('./assets/icons/dice-1.svg'); }
+.wi-dice-2 { mask-image: url('./assets/icons/dice-2.svg'); }
+.wi-dice-3 { mask-image: url('./assets/icons/dice-3.svg'); }
+.wi-dice-4 { mask-image: url('./assets/icons/dice-4.svg'); }
+.wi-dice-5 { mask-image: url('./assets/icons/dice-5.svg'); }
+.wi-dice-6 { mask-image: url('./assets/icons/dice-6.svg'); }
 /* A game's menu */
 .wi-party-settings { mask-image: url('./assets/icons/party-settings.svg'); }
 .wi-coop { mask-image: url('./assets/icons/party-coop.svg'); }
@@ -1117,7 +1180,7 @@ strong {
    left guessing why "Agents of the Imperium" is a heading inside a Custodes list. */
 .roster-group-tag {
   margin-left: 0.5em;
-  font-family: var(--font-body, inherit);
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   font-style: normal;
   font-weight: 600;
@@ -1392,15 +1455,33 @@ strong {
    from the tab strip's line down (owner, 2026-10-06). The block sets --side itself. */
 .side-frame { border: 1px solid var(--side); border-top: 0; background: var(--bg-card); padding: 0.4rem 0.7rem 0.7rem; }
 
+/* ── Native select ─────────────────────────────────────────────────────────
+   A native <select> stays native — on a phone it opens the system's own list (owner, 2026-10-05) —
+   but its arrow is ours: the browser's sat against the right edge, out of line with every other
+   chevron on the site (owner, 2026-10-13). The bootstrap chevron-down the picker trigger wears, in
+   --text-muted; a data URI cannot read a variable, so the dark theme has its own copy. A
+   component styling a select sets `background-color` and `padding-block`/`padding-left`, never
+   the shorthands, or the arrow and its room are gone. */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%235e5f4e' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 0.75rem;
+}
+:root[data-theme='dark'] select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23a8a89a' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E"); }
+
 /* ── Filter select ─────────────────────────────────────────────────────────
    A label and a native dropdown narrowing a list: the roster list's faction filter, the game
    log's (owner, 2026-10-06 — a row of tabs over a list read as more navigation). */
 .filter-select { display: flex; align-items: center; gap: 0.6rem; font-size: 0.8rem; color: var(--text-muted); }
 .filter-select > span { flex-shrink: 0; }
 .filter-select select {
-  flex: 1; min-width: 0; max-width: 18rem; padding: 0.4rem 0.5rem;
+  flex: 1; min-width: 0; max-width: 18rem; padding-block: 0.4rem; padding-left: 0.5rem;
   font: inherit; font-size: 0.85rem; color: var(--text-primary);
-  background: var(--bg-secondary); border: 1px solid var(--border); cursor: pointer;
+  background-color: var(--bg-secondary); border: 1px solid var(--border); cursor: pointer;
 }
 
 /* ── Picker trigger ────────────────────────────────────────────────────────
@@ -1981,7 +2062,7 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   text-align: center;
 }
 .al-title { margin: 0; font-family: var(--font-display); font-size: 1.6rem; text-transform: uppercase; }
-.al-text { margin: 0; line-height: 1.5; color: var(--text-secondary); }
+.al-text { margin: 0; line-height: 1.5; }
 .al-actions { margin-top: 0.4rem; }
 
 /* ── Stratagem phase groups ─────────────────────────────────────────────────

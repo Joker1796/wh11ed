@@ -4,7 +4,7 @@
       class="back"
       to="/tracker"
     >
-      <i class="bi bi-chevron-left" /> {{ labels.trackerBackToTracker }}
+      <i class="wi wi-chevron-left" /> {{ labels.trackerBackToTracker }}
     </RouterLink>
     <h1 class="pj-title">
       {{ labels.partyJoinTitle }}

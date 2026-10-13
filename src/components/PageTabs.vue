@@ -33,7 +33,7 @@
         /><span class="page-tab-label">{{ t.label }}</span>
         <i
           v-if="t.warn"
-          class="bi bi-exclamation-triangle-fill page-tab-warn"
+          class="wi wi-warning page-tab-warn"
           role="img"
           :aria-label="t.warn"
           :title="t.warn"
@@ -68,7 +68,7 @@
         /><span class="page-tab-label">{{ t.label }}</span>
         <i
           v-if="t.warn"
-          class="bi bi-exclamation-triangle-fill page-tab-warn"
+          class="wi wi-warning page-tab-warn"
           role="img"
           :aria-label="t.warn"
           :title="t.warn"

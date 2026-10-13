@@ -24,8 +24,8 @@
         @click="$emit('toggle', o.id)"
       >
         <i
-          class="bi opt-check"
-          :class="selected.includes(o.id) ? 'bi-check-square-fill' : 'bi-square'"
+          class="wi opt-check"
+          :class="selected.includes(o.id) ? 'wi-box-on' : 'wi-box'"
         />
         <span class="opt-main">
           <span class="opt-head">

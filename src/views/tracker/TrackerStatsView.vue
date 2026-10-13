@@ -3,14 +3,6 @@
     class="stats-view"
     :class="{ 'sv-in-desk': inDesk }"
   >
-    <RouterLink
-      v-if="!inDesk"
-      to="/tracker"
-      class="back"
-    >
-      <i class="bi bi-chevron-left" /> {{ labels.subNavTrackerHome }}
-    </RouterLink>
-
     <div class="hero">
       <h1>{{ labels.statsTitle }}</h1>
       <p class="hero-desc">
@@ -213,7 +205,8 @@ import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
 defineProps({
   // The rosters desk (RosterDeskView) shows this beside the list of rosters, as a column that
-  // scrolls on its own and without the way back to the tracker.
+  // scrolls on its own. No "back to the tracker" link on its own page either (owner, 2026-10-13):
+  // the bottom nav is that way back.
   inDesk: { type: Boolean, default: false },
 })
 
@@ -350,7 +343,7 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
 
 .hero { padding: 0.8rem 0 0.6rem; border-bottom: 2px solid var(--accent); margin-bottom: 1.2rem; }
 .hero h1 { font-family: var(--font-display); font-size: 2.4rem; font-weight: 400; color: var(--text-primary); }
-.hero-desc { margin: 0.35rem 0 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55; }
+.hero-desc { margin: 0.35rem 0 0; font-size: 0.9rem; line-height: 1.55; }
 
 .empty { color: var(--text-muted); font-size: 0.9rem; }
 
@@ -418,6 +411,6 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
 }
 .ros-name { color: var(--text-primary); text-decoration: none; }
 a.ros-name:hover { color: var(--accent-ink); }
-.ros-rec { grid-row: span 2; align-self: center; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.ros-rec { grid-row: span 2; align-self: center; font-variant-numeric: tabular-nums; }
 .ros-meta { font-size: 0.75rem; color: var(--text-dim); }
 </style>

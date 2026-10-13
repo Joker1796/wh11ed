@@ -211,6 +211,11 @@ September even though `sync-core` printed it on every run — one finding among 
     in the body (`imgrules`).
   - **Lore inside a rule's text** is a line starting `> ` (EN and RU at the same place): RuleBody
     draws it as lore (`.rule-flavor`, hidden by "hide lore"), and the text comparison skips it.
+- **`src/data/factions/ru/subheadings.test.js`** (inside `npm test`) — every `### ` plate of an army
+  or detachment rule has its RU twin: `### <the same English> | <Russian>`, paired by position with
+  the EN file as the page merges it. Fails on a plate a sync added or dropped, one GW renamed (the
+  RU still names the old one), and one with no Russian. A keyword plate (`BROOD BROTHERS`) stays as
+  it is; anything else written otherwise goes in its `RU_ONLY` with the reason. Lesson 86.
 - **`npm run omissions`** (`scripts/check-rule-omissions.mjs`) — the ONE direction that is always a
   defect: appdata's Core Rules carry text wh11ed does not. It reports two shapes — a *dropped word*
   (a line we clearly do carry, minus a load-bearing word) and a *missing line* — and nothing else.

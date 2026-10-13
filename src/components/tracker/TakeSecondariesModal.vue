@@ -46,7 +46,7 @@
               />
               <i
                 v-else
-                class="bi bi-hand-index-thumb ti-src"
+                class="wi wi-hand ti-src"
                 aria-hidden="true"
               />
             </button>
@@ -90,7 +90,7 @@
             @click="untakeSecondaries(pi)"
           >
             <i
-              class="bi bi-arrow-counterclockwise"
+              class="wi wi-undo"
               aria-hidden="true"
             />
             {{ labels.trackerTakeUndo }}
@@ -136,8 +136,8 @@
               <span class="pick-name">{{ m.name }}</span>
               <span class="pick-cat">{{ m.category }}</span>
               <i
-                class="bi"
-                :class="picked.includes(m.slug) ? 'bi-check-square-fill' : 'bi-square'"
+                class="wi"
+                :class="picked.includes(m.slug) ? 'wi-box-on' : 'wi-box'"
                 aria-hidden="true"
               />
             </button>
@@ -149,7 +149,7 @@
               @click="detailSlug = m.slug"
             >
               <i
-                class="bi bi-info-circle"
+                class="wi wi-info"
                 aria-hidden="true"
               />
             </button>
@@ -305,9 +305,9 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
   font: inherit;
   cursor: pointer;
 }
-.pick-item .bi { font-size: 1.1rem; color: var(--text-dim); }
+.pick-item .wi { font-size: 1.1rem; color: var(--text-dim); }
 .pick-item.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); }
-.pick-item.on .bi { color: var(--accent-ink); }
+.pick-item.on .wi { color: var(--accent-ink); }
 .pick-item:disabled { opacity: 0.45; cursor: default; }
 .pick-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
 .pick-cat { white-space: nowrap; font-size: 0.72rem; color: var(--text-dim); }

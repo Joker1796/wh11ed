@@ -938,8 +938,9 @@ directory; still part of this feature:
     ENHANCEMENT` (HIN — the player's rating number, "-" until they have one; ONE disposition;
     enhancements as `CH1: name`), then `Attached Unit N:` blocks, then the rest under keyword
     prefixes EH CH BL IN MO BE VE MN DT FO AU numbered across the list; `(N)` before a name only
-    where the size can vary; of the wargear only what a choice reaches (an option's items or what
-    it gives up), taken or kept — never the fixed loadout; enhancement, then Warlord, then
+    where the size can vary; of the wargear only the swaps the player made, with how many
+    models took each ("1x Multi-melta") — never the printed loadout, kept or fixed (owner,
+    2026-10-13); enhancement, then Warlord, then
     `(N pts)` at the end. Player and HIN are fields of the export dialog, kept per device. A first
     draft followed 40001format.xyz (the formatter many organisers point at, which reads only
     BattleScribe `.ros/.rosz` — we do not write those: a real one needs BSData catalogue ids our
@@ -1897,7 +1898,7 @@ What moved, and why each was safe to move:
 
 - **The name heads Settings only.** It is renamed once; over the panes it was a row spent forever.
 - **The tabs became the footer's gear / split panes** (`.seg`, `editorModes`; Settings first, and
-  Units wears `bi-layout-split` — the catalogue and the list side by side — at the owner's pick,
+  Units wears split panes (`wi-panes`) — the catalogue and the list side by side — at the owner's pick,
   after a hammer and then people). The footer was already
   there on both modes, so the switch costs no height; the amber mark rides on the gear. The switch
   never shrinks (squeezed, `.seg`'s overflow clipped the gear under Cancel on a Russian 375px
@@ -2064,7 +2065,7 @@ Module singleton + `localStorage` (`wh11ed-collection`), the `useFavorites.js` p
 It is **not** a layer of `wh11ed-favorites`: a pin reorders a picker and is documented as never
 carrying army-list semantics, while owning a box is a fact about a shelf. Keeping them apart is
 what stops either from inheriting the other's meaning — and they are drawn apart too, the pin
-staying `bi-pin-angle`, the owned mark a star.
+staying a pin, the owned mark a star.
 
 Marks are set in three places, all sharing the singleton: the unit card's header
 (`RosterUnitRulesModal`, a star beside the close, keyed by the card's own `factionSlug`/`unitId`
@@ -2089,7 +2090,7 @@ icon, called it "Pinned" («Закреплённые»). One feature, one vocabu
 `favPin` / `favUnpin` / `favPinnedGroup` (and `rosterFilterOwned` for the star). **Device-local**: rosters sync,
 this does not, until there is a `/collection` endpoint to sync it to.
 
-**The Warlord's mark moved to `bi-flag-fill`** the same day. The star now means "I own this model"
+**The Warlord's mark moved to a flag (`wi-flag`)** the same day. The star now means "I own this model"
 in the pane beside it, and one gold glyph cannot mean both on one screen. The Warlord kept the
 gold `#e3b341` until 2026-09-26, when its flag went white (`--text-primary`) on the list row's badge
 and the editor's checkbox alike; the owned star takes **`var(--accent)`** — the faction's own colour, since every

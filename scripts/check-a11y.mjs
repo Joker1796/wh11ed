@@ -24,6 +24,12 @@
 //   type     — the display face (Sofia Sans Extra Condensed) at 18px or less is weight 400: the
 //              condensed letters read cramped at 500 and up (owner, 2026-10-07; src/components/
 //              CLAUDE.md → Type). Read from computed styles, so an inherited weight counts too.
+//   face     — every weight (and, for EB Garamond, style) the page renders our three faces in is
+//              one src/fonts.js loads. The browser never says when it substitutes: asked for
+//              Sofia 600 with no 600 loaded it quietly draws 700, and nothing looks broken. The
+//              faces are trimmed to what is drawn (2026-10-13: no weight 800 anywhere, EB Garamond
+//              italic only — the installed app's warm-up fetches every face), so a style asking
+//              for a dropped one fails here. scripts/lib/font-faces.mjs, shared with `npm run smoke`.
 //
 // Findings are keyed by an element signature (tag.classes) plus the colour pair — the same list
 // style failing on forty rows, or on ten pages, is one finding, not forty. A finding that is a
@@ -43,6 +49,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright-core'
 import { preview } from 'vite'
+import { missingFaces } from './lib/font-faces.mjs'
 
 const ROOT = join(import.meta.dirname, '..')
 const BASELINE_PATH = join(ROOT, 'scripts/lib/a11y-baseline.json')
@@ -95,7 +102,7 @@ const args = Object.fromEntries(
     return m ? [m[1], m[2] ?? true] : [a, true]
   }),
 )
-const only = args.only ? String(args.only).split(',') : ['contrast', 'target', 'overflow', 'type']
+const only = args.only ? String(args.only).split(',') : ['contrast', 'target', 'overflow', 'type', 'face']
 const widths = args.widths ? String(args.widths).split(',').map(Number) : [390, 1280]
 const themes = args.themes ? String(args.themes).split(',') : ['light', 'dark']
 const routes = args.routes ? String(args.routes).split(',') : ROUTES
@@ -182,7 +189,7 @@ function measure({ checks }) {
     return acc ? over(acc, { r: 255, g: 255, b: 255, a: 1 }) : { r: 255, g: 255, b: 255, a: 1 }
   }
 
-  const out = { contrast: [], target: [], overflow: [], type: [] }
+  const out = { contrast: [], target: [], overflow: [], type: [], face: [] }
   const all = [...document.body.querySelectorAll('*')]
 
   if (checks.includes('contrast')) {
@@ -381,6 +388,7 @@ for (const width of widths) {
         await page.evaluate(() => document.fonts.ready)
         pages++
         const res = await page.evaluate(measure, { checks: only })
+        if (only.includes('face')) res.face = await page.evaluate(missingFaces)
         for (const check of only) {
           for (const item of res[check]) {
             findings.push({ route: path, theme, width, check, sig: item.sig ?? '', item })
@@ -403,7 +411,9 @@ const keyOf = (f) =>
     ? `overflow · ${f.route} · ${f.width}px`
     : f.check === 'contrast'
       ? `contrast · ${f.theme} · ${f.sig} · ${f.item.fg} on ${f.item.bg}`
-      : `${f.check} · ${f.sig}`
+      : f.check === 'face'
+        ? `face · ${f.sig} · ${f.item.face}`
+        : `${f.check} · ${f.sig}`
 
 const baseline = (() => {
   if (record || !existsSync(BASELINE_PATH)) return {}
@@ -437,6 +447,7 @@ const fmt = (f) => {
   if (f.check === 'contrast')
     return `${where}  ${f.sig}  ${i.fg} on ${i.bg} = ${i.ratio}:1 (need ${i.need}, ${i.size}px)  “${i.text}”`
   if (f.check === 'target') return `${where}  ${f.sig}  ${i.w}×${i.h}px  “${i.text}”`
+  if (f.check === 'face') return `${where}  ${f.sig}  ${i.face} is drawn but not loaded (src/fonts.js) — the browser substitutes  “${i.text}”`
   if (f.check === 'type') return `${where}  ${f.sig}  display face ${i.size}px at weight ${i.weight} (≤18px must be 400)  “${i.text}”`
   return `${where}  page scrolls sideways: ${i.scrollWidth} > ${i.clientWidth}px  ← ${i.culprits.join(', ')}`
 }
@@ -457,7 +468,7 @@ if (real.length) {
     console.error('  ' + fmt(g.first))
     if (g.where.length > 1) console.error(`      also on ${g.where.length - 1} more: ${g.where.slice(1, 6).join('; ')}${g.where.length > 6 ? '; …' : ''}`)
   }
-  console.error(`\nContrast is WCAG AA (4.5:1 text, 3:1 large), targets 24×24px, no sideways scroll, the display face ≤18px at weight 400.`)
+  console.error(`\nContrast is WCAG AA (4.5:1 text, 3:1 large), targets 24×24px, no sideways scroll, the display face ≤18px at weight 400, every drawn face loaded.`)
   console.error(`A deliberate exception goes into ALLOWED in scripts/check-a11y.mjs with the reason.`)
   process.exit(1)
 }

@@ -9,7 +9,7 @@
       to="/help"
       class="back"
     >
-      <i class="bi bi-chevron-left" /> {{ t.title }}
+      <i class="wi wi-chevron-left" /> {{ t.title }}
     </RouterLink>
 
     <div class="hero">
@@ -33,7 +33,7 @@
       class="help-go"
     >
       {{ section.toLabel }}
-      <i class="bi bi-chevron-right" />
+      <i class="wi wi-chevron-right" />
     </RouterLink>
 
     <!-- The six topics are one guide read in order as often as they are arrived at singly, so the
@@ -47,7 +47,7 @@
         :to="`/help/${slugOf(prev)}`"
         class="ha-link ha-prev"
       >
-        <i class="bi bi-chevron-left" />
+        <i class="wi wi-chevron-left" />
         <span>{{ prev.title }}</span>
       </RouterLink>
       <RouterLink
@@ -56,7 +56,7 @@
         class="ha-link ha-next"
       >
         <span>{{ next.title }}</span>
-        <i class="bi bi-chevron-right" />
+        <i class="wi wi-chevron-right" />
       </RouterLink>
     </nav>
   </div>
@@ -128,7 +128,6 @@ function onBodyClick(e) {
 }
 
 .help-body {
-  color: var(--text-secondary);
   line-height: 1.7;
 }
 

@@ -149,7 +149,7 @@
               :aria-pressed="showPassword"
               @click="showPassword = !showPassword"
             >
-              <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'" />
+              <i :class="showPassword ? 'wi wi-eye-off' : 'wi wi-eye'" />
             </button>
           </div>
           <small
@@ -329,7 +329,7 @@ async function withYandex() {
 
 .si-field { display: flex; flex-direction: column; gap: 0.3rem; }
 .si-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
-.si-label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+.si-label { font-size: 0.85rem; font-weight: 600; }
 /* 16px: below it iOS zooms the page in on focus and never zooms back out. */
 .si-input {
   width: 100%;

@@ -73,8 +73,8 @@
           @click="copy(url, 'link')"
         >
           <i
-            class="bi"
-            :class="copied === 'link' ? 'bi-check-lg' : 'bi-link-45deg'"
+            class="wi"
+            :class="copied === 'link' ? 'wi-check' : 'wi-link'"
           />
           {{ copied === 'link' ? labels.rosterCopied : labels.rosterCopyLink }}
         </button>
@@ -162,13 +162,14 @@ async function copy(value, which) {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
 }
-.rex-fmt { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--text-secondary); }
+.rex-fmt { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; }
 .rex-fmt select {
-  padding: 0.45rem 0.5rem;
+  padding-block: 0.45rem;
+  padding-left: 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-primary);
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
   border: 1px solid var(--border);
   cursor: pointer;
 }

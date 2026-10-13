@@ -53,7 +53,7 @@
         :aria-expanded="showDetails"
         @click="showDetails = !showDetails"
       >
-        <i :class="showDetails ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" />
+        <i :class="showDetails ? 'wi wi-chevron-up' : 'wi wi-chevron-down'" />
         <span>{{ showDetails ? t.footer.detailsHide : t.footer.detailsShow }}</span>
       </button>
 

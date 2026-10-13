@@ -39,7 +39,7 @@
       :aria-label="labels.openContents"
       @click="tocOpen = true"
     >
-      <i class="bi bi-list-ul" />
+      <i class="wi wi-list" />
     </button>
 
     <BaseModal
@@ -144,7 +144,7 @@ function onModalSelect(id, filter) {
 useContributeMobileActions(props.actionKey, () => !backToTopVisible.value ? [] : [
   {
     key: props.actionKey,
-    icon: 'bi bi-list-ul',
+    icon: 'wi wi-list',
     label: labels.value.openContents,
     onClick: () => { tocOpen.value = true },
   },

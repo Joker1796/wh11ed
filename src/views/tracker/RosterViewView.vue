@@ -22,7 +22,7 @@
           class="back"
           :class="{ 'rv-back-list': !inGame }"
         >
-          <i class="bi bi-chevron-left" /> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
+          <i class="wi wi-chevron-left" /> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
         </RouterLink>
       </div>
       <!-- The answer to the Save that landed here — a toast, not a line of the page (2026-09-24).
@@ -155,7 +155,7 @@
         v-if="roster.faction && !roster.archived && !legalityOn(roster)"
         class="rv-checks-off"
       >
-        <i class="bi bi-slash-circle" /> {{ labels.rosterChecksOffNote }}
+        <i class="wi wi-none" /> {{ labels.rosterChecksOffNote }}
       </p>
       <!-- What the list breaks, said HERE. The editor has always had this behind its footer badge,
          but a list is read far more often than it is edited, and "why is this illegal" was two
@@ -170,8 +170,8 @@
         @click="issuesOpen = true"
       >
         <i
-          class="bi"
-          :class="errorCount ? 'bi-x-octagon-fill' : 'bi-exclamation-triangle-fill'"
+          class="wi"
+          :class="errorCount ? 'wi-error' : 'wi-warning'"
         />
         <span class="rvi-txt">
           {{ (errorCount ? labels.rosterViewIssues : labels.rosterViewWarns).replace('{n}', String(errorCount || issues.length)) }}
@@ -180,7 +180,7 @@
           v-if="errorCount && warnCount"
           class="rvi-more"
         >{{ labels.rosterViewWarns.replace('{n}', String(warnCount)) }}</span>
-        <i class="bi bi-chevron-right rvi-go" />
+        <i class="wi wi-chevron-right rvi-go" />
       </button>
 
       <p
@@ -487,12 +487,12 @@
                     data-press-sound="card"
                     @click="openCrew(c)"
                   >
-                    <i class="bi bi-arrow-return-right rvunit-crew-mark" />
+                    <i class="wi wi-return rvunit-crew-mark" />
                     <span class="rvunit-text">
                       <span class="rvunit-name">{{ c.name }}</span>
                     </span>
                     <span class="rvunit-pts">0</span>
-                    <i class="bi bi-chevron-right rvunit-chev" />
+                    <i class="wi wi-chevron-right rvunit-chev" />
                   </button>
                 </template>
               </template>

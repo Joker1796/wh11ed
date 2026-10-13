@@ -9,7 +9,7 @@
         v-if="!issues.length"
         class="ri-clean"
       >
-        <i class="bi bi-check-circle-fill" /> {{ labels.rosterNoIssues }}
+        <i class="wi wi-ok" /> {{ labels.rosterNoIssues }}
       </p>
       <component
         :is="iss.uid ? 'button' : 'div'"
@@ -21,15 +21,15 @@
         @click="iss.uid && $emit('goto', iss.uid)"
       >
         <i
-          class="bi"
-          :class="iss.level === 'error' ? 'bi-x-octagon-fill' : 'bi-exclamation-triangle-fill'"
+          class="wi"
+          :class="iss.level === 'error' ? 'wi-error' : 'wi-warning'"
         />
         <span class="ri-msg">{{ message(iss) }}</span>
         <!-- The message names the unit; this says the row will take you to it. An issue about the
              army as a whole (points, detachment) has nowhere to go, and does not pretend to. -->
         <i
           v-if="iss.uid"
-          class="bi bi-chevron-right ri-go"
+          class="wi wi-chevron-right ri-go"
         />
       </component>
     </div>
@@ -61,7 +61,7 @@ const message = (iss) => issueText(iss, labels.value)
 <style scoped>
 .ri { display: flex; flex-direction: column; gap: 0.4rem; padding: 0.75rem; overflow-y: auto; }
 .ri-clean { display: flex; align-items: center; gap: 0.4rem; color: var(--text-muted); }
-.ri-clean .bi { color: #3c9a5f; }
+.ri-clean .wi { color: #3c9a5f; }
 .ri-item {
   display: flex;
   align-items: flex-start;
@@ -78,9 +78,9 @@ const message = (iss) => issueText(iss, labels.value)
 .ri-item.is-link { cursor: pointer; }
 .ri-item.error { border-left-color: var(--danger); }
 .ri-item.warn { border-left-color: #d98a2b; }
-.ri-item .bi { margin-top: 0.1rem; flex-shrink: 0; }
-.ri-item.error .bi { color: var(--danger); }
-.ri-item.warn .bi { color: #d98a2b; }
+.ri-item .wi { margin-top: 0.1rem; flex-shrink: 0; }
+.ri-item.error .wi { color: var(--danger); }
+.ri-item.warn .wi { color: #d98a2b; }
 .ri-msg { color: var(--text-primary); flex: 1; }
 .ri-go { margin-top: 0.1rem; color: var(--text-muted); font-size: 0.8rem; }
 </style>

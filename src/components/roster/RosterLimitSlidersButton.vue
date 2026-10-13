@@ -10,7 +10,7 @@
     :aria-label="label"
     :title="label"
   >
-    <i class="bi bi-sliders" />
+    <i class="wi wi-sliders" />
   </button>
 </template>
 

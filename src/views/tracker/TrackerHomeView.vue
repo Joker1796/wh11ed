@@ -32,7 +32,7 @@
           :title="labels.helpSection"
           :aria-label="labels.helpSection"
         >
-          <i class="bi bi-question-circle" />
+          <i class="wi wi-help" />
         </RouterLink>
       </div>
     </div>
@@ -83,7 +83,7 @@
           data-tour="home-coop"
           @click="sharedOpen = true"
         >
-          <i class="bi bi-people" /> {{ labels.lobbyNewGameShort }}
+          <i class="wi wi-people" /> {{ labels.lobbyNewGameShort }}
         </button>
         <!-- The way to the statistics (owner, 2026-09-29), the roster list heading's button,
              kept in the quiet row (owner, 2026-09-30). It replaced a record bar over the history, which showed only once a game counted and was
@@ -179,7 +179,7 @@
               :title="labels.trackerDelete"
               @click.stop="onDeleteGame(g.id)"
             >
-              <i class="bi bi-trash" />
+              <i class="wi wi-trash" />
             </button>
           </div>
 
@@ -762,7 +762,7 @@ function footLine(g) {
 .gc-center { display: flex; flex-direction: column; align-items: center; gap: 0.05rem; padding: 0 0.15rem; }
 .gc-score {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   /* Large, the one thing a history row is read for (owner, 2026-09-29) — but by the width: at
      320px a 2.6rem "100 – 95" squeezed both names into mid-word breaks. */
   font-size: clamp(1.9rem, 9.5vw, 2.6rem);
@@ -772,7 +772,7 @@ function footLine(g) {
   letter-spacing: -0.01em;
 }
 .gc-dash { margin: 0 0.24em; color: var(--text-dim); font-weight: 500; }
-.gc-result { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.11em; }
+.gc-result { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.11em; }
 .res-win .gc-result { color: #e3b341; }
 .res-loss .gc-result { color: var(--danger); }
 .res-draw .gc-result { color: var(--text-dim); }

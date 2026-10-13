@@ -22,7 +22,7 @@
               <span class="picker-trigger-label">{{ labels.trackerLogShow }}</span>
               <span class="picker-trigger-name">{{ shownFilter.name }} ({{ shownFilter.tag }})</span>
             </span>
-            <i class="bi bi-chevron-down picker-trigger-chev" />
+            <i class="wi wi-chevron-down picker-trigger-chev" />
           </button>
         </template>
         <template #default="{ compact, bodyClass, close }">
@@ -74,7 +74,7 @@
               class="gl-src"
             /><i
               v-else-if="e.type === 'drawn' && e.source === 'chosen'"
-              class="bi bi-hand-index-thumb gl-src"
+              class="wi wi-hand gl-src"
               aria-hidden="true"
             /></span>
           </li>

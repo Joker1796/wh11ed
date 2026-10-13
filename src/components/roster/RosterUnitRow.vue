@@ -44,7 +44,7 @@
             class="legends-badge warlord-badge rur-wl"
             :title="labels.rosterWarlord"
             :aria-label="labels.rosterWarlord"
-          ><i class="bi bi-flag-fill" /></span>
+          ><i class="wi wi-flag" /></span>
         </ExpandTransition>
         <span
           v-for="c in chips"

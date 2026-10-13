@@ -21,221 +21,6 @@ function api(path) {
   return `${API_BASE_URL}${path}`
 }
 
-// ─── DEV-only mock ────────────────────────────────────────────────────────────────────────────
-// Lets you exercise the signed-in UI locally without real OAuth (which redirects to the prod site).
-// Everything here is behind `import.meta.env.DEV`, so Vite strips it from production builds.
-const DEV = import.meta.env.DEV
-const MOCK_FLAG = 'wh11ed-dev-mock-auth'
-const MOCK_USER = { id: 'mock', email: 'test@local', displayName: 'Tester' }
-let mockActive = false
-const mockCloud = new Map() // gameId → full game blob (a fake backend store)
-// Broadcast goes through localStorage, not a Map: the overlay is ANOTHER TAB of the same
-// origin (per-tab module state can't reach it), and localStorage is the one same-origin
-// channel a polling read loop can watch without a server in the loop.
-const MOCK_BC_KEY = 'wh11ed-dev-mock-broadcast'
-function mockBcRead() {
-  try { return JSON.parse(localStorage.getItem(MOCK_BC_KEY) || 'null') } catch { return null }
-}
-function mockBcWrite(v) {
-  try {
-    if (v) localStorage.setItem(MOCK_BC_KEY, JSON.stringify(v))
-    else localStorage.removeItem(MOCK_BC_KEY)
-  } catch { /* ignore */ }
-}
-const mockRosterCloud = new Map() // rosterId → full roster blob
-const mockRosterGraves = new Map() // rosterId → deletedAt (the API tombstones, so the mock does too)
-
-function mockEnabled() {
-  return DEV && mockActive
-}
-
-function mockJson(body, statusCode = 200) {
-  return new Response(JSON.stringify(body), {
-    status: statusCode,
-    headers: { 'Content-Type': 'application/json' },
-  })
-}
-
-function mockRosterMeta(r) {
-  return {
-    rosterId: r.id,
-    name: r.name || '',
-    faction: r.faction || null,
-    updatedAt: r.updatedAt || 0,
-    points: r.summary?.points || 0,
-    unitCount: r.summary?.unitCount || 0,
-  }
-}
-
-function mockMeta(g) {
-  return {
-    gameId: g.id,
-    createdAt: g.createdAt,
-    finishedAt: g.finishedAt,
-    resultSummary: g.result?.totals ? g.result.totals.join('–') : '',
-    players: g.players?.map((p) => p.name) ?? [],
-  }
-}
-
-// A shared game (useParty.js) cannot be mocked: its whole point is another phone reached
-// through a real server. On the stand the mock forwards /party calls to the local backend with
-// a token that backend minted for the purpose (`npm run dev:jwt` in wh11ed-api), pasted into
-// localStorage under this key. Without one, the forwarded call is simply 401 — the dialog
-// then says the sync errored, which is the truth.
-const DEV_JWT_KEY = 'wh11ed-dev-jwt'
-function devJwt() {
-  try { return localStorage.getItem(DEV_JWT_KEY) || '' } catch { return '' }
-}
-
-// Stand-in for the API: same shapes useCloudSync expects, no network.
-function mockFetch(path, opts = {}) {
-  const method = (opts.method || 'GET').toUpperCase()
-  if (path.startsWith('/party')) {
-    return fetch(api(path), {
-      ...opts,
-      headers: {
-        ...(opts.headers || {}),
-        Authorization: `Bearer ${devJwt()}`,
-        ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
-      },
-    })
-  }
-  if (path === '/me') return mockJson(MOCK_USER)
-  if (path === '/games' && method === 'GET') {
-    return mockJson({ games: [...mockCloud.values()].map(mockMeta) })
-  }
-  if (path === '/rosters' && method === 'GET') {
-    return mockJson({
-      rosters: [
-        ...[...mockRosterCloud.values()].map(mockRosterMeta),
-        ...[...mockRosterGraves].map(([rosterId, deletedAt]) => ({ rosterId, deleted: true, deletedAt })),
-      ],
-    })
-  }
-  const mr = path.match(/^\/rosters\/([^?]+)\??(.*)$/)
-  if (mr) {
-    const id = decodeURIComponent(mr[1])
-    if (method === 'PUT') {
-      mockRosterCloud.set(id, JSON.parse(opts.body))
-      mockRosterGraves.delete(id)
-      return mockJson({ ok: true, rosterId: id })
-    }
-    if (method === 'GET') {
-      const r = mockRosterCloud.get(id)
-      return r ? mockJson(r) : mockJson({ error: 'not_found' }, 404)
-    }
-    if (method === 'DELETE') {
-      if (mockRosterCloud.has(id)) {
-        mockRosterGraves.set(id, Number(new URLSearchParams(mr[2]).get('at')) || Date.now())
-      }
-      mockRosterCloud.delete(id)
-      return mockJson({ ok: true })
-    }
-  }
-  // Bug reports: accept and drop — the stand has no inbox, and the modal only needs an ok.
-  if (path === '/feedback' && method === 'POST') return mockJson({ ok: true })
-  // Broadcast (matched before the generic /games/:id, which would swallow the sub-path).
-  const mb = path.match(/^\/games\/(.+)\/broadcast$/)
-  if (mb) {
-    const gameId = decodeURIComponent(mb[1])
-    if (method === 'POST') {
-      const token = 'mock-' + Math.random().toString(36).slice(2, 10)
-      mockBcWrite({ token, gameId, payload: null, updatedAt: null })
-      return mockJson({ token })
-    }
-    if (method === 'GET') {
-      const b = mockBcRead()
-      return b && b.gameId === gameId ? mockJson({ token: b.token }) : mockJson({ error: 'not_found' }, 404)
-    }
-    if (method === 'DELETE') {
-      mockBcWrite(null)
-      return mockJson({ ok: true })
-    }
-  }
-  const ml = path.match(/^\/broadcast\/live\/(.+)$/)
-  if (ml && method === 'PUT') {
-    const b = mockBcRead()
-    if (!b || b.gameId !== decodeURIComponent(ml[1])) return mockJson({ error: 'not_found' }, 404)
-    mockBcWrite({ ...b, payload: JSON.parse(opts.body), updatedAt: new Date().toISOString() })
-    return mockJson({ ok: true })
-  }
-  const m = path.match(/^\/games\/(.+)$/)
-  if (m) {
-    const id = decodeURIComponent(m[1])
-    if (method === 'PUT') {
-      mockCloud.set(id, JSON.parse(opts.body))
-      return mockJson({ ok: true })
-    }
-    if (method === 'GET') {
-      const g = mockCloud.get(id)
-      return g ? mockJson(g) : mockJson({ error: 'not_found' }, 404)
-    }
-    if (method === 'DELETE') {
-      mockCloud.delete(id)
-      return mockJson({ ok: true })
-    }
-  }
-  return mockJson({ error: 'mock_unhandled' }, 404)
-}
-
-function setMockAuthed() {
-  mockActive = true
-  accessToken = 'mock'
-  user.value = MOCK_USER
-  status.value = 'authed'
-}
-
-// The stand's token, fetched rather than pasted. A shared game is the one thing the dev mock
-// cannot fake — it needs a real server — so the test sign-in asks the local backend for the
-// same token `npm run dev:jwt` prints and keeps it where the /party forwarder looks. The route
-// exists only on the stand (DEV_JWT=1 in its compose file); anywhere else this is one failed
-// request that changes nothing, and the sign-in itself does not wait for it.
-async function fetchDevJwt() {
-  try {
-    const res = await fetch(`${API_BASE_URL}/dev/jwt`)
-    if (!res.ok) return
-    const { token } = await res.json()
-    if (token) localStorage.setItem(DEV_JWT_KEY, token)
-  } catch { /* no stand running — the dialogs say what is missing */ }
-}
-
-function mockSignIn() {
-  if (!DEV) return
-  setMockAuthed()
-  try {
-    localStorage.setItem(MOCK_FLAG, '1')
-  } catch {
-    /* ignore */
-  }
-  fetchDevJwt()
-}
-
-function mockSignOut() {
-  try { localStorage.removeItem(DEV_JWT_KEY) } catch { /* ignore */ }
-  mockActive = false
-  mockCloud.clear()
-  mockBcWrite(null)
-  mockRosterCloud.clear()
-  mockRosterGraves.clear()
-  accessToken = null
-  user.value = null
-  status.value = 'anon'
-  try {
-    localStorage.removeItem(MOCK_FLAG)
-  } catch {
-    /* ignore */
-  }
-}
-
-// Restore a mock session across dev-server reloads.
-if (DEV) {
-  try {
-    if (localStorage.getItem(MOCK_FLAG) === '1') setMockAuthed()
-  } catch {
-    /* ignore */
-  }
-}
-
 async function loadUser() {
   const res = await fetch(api('/me'), {
     headers: { Authorization: `Bearer ${accessToken}` },
@@ -246,10 +31,6 @@ async function loadUser() {
 // POST /auth/refresh (sends the HttpOnly cookie). Sets the access token + user, or marks anon.
 // Returns true on success. Network errors (no backend / offline) resolve to false, never throw.
 async function refresh() {
-  if (mockEnabled()) {
-    setMockAuthed()
-    return true
-  }
   if (refreshing) return refreshing
   refreshing = (async () => {
     try {
@@ -324,7 +105,6 @@ async function ensureSession() {
 
 // Bearer fetch against the API with a single transparent refresh+retry on 401.
 async function authedFetch(path, opts = {}) {
-  if (mockEnabled()) return mockFetch(path, opts)
   const doFetch = () =>
     fetch(api(path), {
       ...opts,
@@ -366,7 +146,7 @@ function takeReturnPath() {
 // Resolves false, without leaving the page, when the server does not answer — `status` is then
 // 'down' and the screen says so.
 async function login(provider, returnTo) {
-  if (!mockEnabled() && !(await serverUp())) {
+  if (!(await serverUp())) {
     serverDown()
     return false
   }
@@ -477,9 +257,5 @@ export function useAuth() {
     resendVerification,
     addPasswordLogin,
     changePassword,
-    // DEV-only test helpers (no-ops / stripped in production):
-    dev: DEV,
-    mockSignIn,
-    mockSignOut,
   }
 }

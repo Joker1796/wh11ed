@@ -18,11 +18,11 @@
         :aria-expanded="isOpen('pdf')"
         @click="toggle('pdf')"
       >
-        <i class="bi bi-file-earmark-pdf pb-pdf-icon" />
+        <i class="wi wi-pdf pb-pdf-icon" />
         <span class="pb-fac-name">{{ download.title }}</span>
         <span class="pb-count">PDF</span>
         <i
-          class="bi bi-chevron-down pb-chev"
+          class="wi wi-chevron-down pb-chev"
           :class="{ open: isOpen('pdf') }"
         />
       </button>
@@ -62,7 +62,7 @@
         <span class="pb-fac-name">{{ b.name }}</span>
         <span class="pb-count">{{ b.count }}</span>
         <i
-          class="bi bi-chevron-down pb-chev"
+          class="wi wi-chevron-down pb-chev"
           :class="{ open: isOpen(b.key) }"
         />
       </button>

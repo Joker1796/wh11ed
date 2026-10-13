@@ -11,7 +11,7 @@ import { useSignInModal } from './useSignInModal.js'
 // it: a Yandex sign-in is a full-page trip and comes back to whichever page it started from.
 export function useAccountActions() {
   const route = useRoute()
-  const { status, user, logout, dev, mockSignIn, mockSignOut } = useAuth()
+  const { status, user, logout } = useAuth()
   const { openSignIn } = useSignInModal()
 
   // Yandex ID gives us an email for most accounts and a display name for the rest.
@@ -23,11 +23,5 @@ export function useAccountActions() {
     return true
   }
 
-  // DEV-only: flip a fake session without the OAuth round trip (stripped from prod builds).
-  function toggleMock() {
-    if (status.value === 'authed') mockSignOut()
-    else mockSignIn()
-  }
-
-  return { status, accountName, signIn, signOut: logout, dev, toggleMock }
+  return { status, accountName, signIn, signOut: logout }
 }

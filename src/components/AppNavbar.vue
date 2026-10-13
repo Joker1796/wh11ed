@@ -225,7 +225,7 @@
                 class="settings-item"
                 @click="onTour"
               >
-                <i class="bi bi-question-circle" />
+                <i class="wi wi-help" />
                 <span>{{ labels.tourThisScreen }}</span>
               </button>
               <button
@@ -261,7 +261,7 @@
                   :disabled="resendState === 'sending'"
                   @click="onResend"
                 >
-                  <i class="bi bi-envelope-exclamation" />
+                  <i class="wi wi-mail-alert" />
                   <span>{{ resendState === 'sent' ? labels.accountResent : `${labels.accountConfirmEmail} · ${labels.accountResend}` }}</span>
                 </button>
                 <!-- A Yandex account can add an email + password as a second way in; an account with
@@ -271,7 +271,7 @@
                   aria-haspopup="dialog"
                   @click="onAccountLogin"
                 >
-                  <i :class="authUser?.login ? 'bi bi-key' : 'bi bi-envelope-plus'" />
+                  <i :class="authUser?.login ? 'wi wi-key' : 'wi wi-mail-add'" />
                   <span>{{ authUser?.login ? labels.accountChangePassword : labels.accountAddLogin }}</span>
                 </button>
                 <button
@@ -289,7 +289,7 @@
                 class="settings-who settings-down"
                 :title="labels.cloudServerDownHint"
               >
-                <i class="bi bi-cloud-slash" />
+                <i class="wi wi-cloud-error" />
                 <span>{{ labels.cloudServerDown }}</span>
               </p>
               <button
@@ -298,16 +298,8 @@
                 :disabled="accountStatus === 'idle'"
                 @click="onSignIn"
               >
-                <i class="bi bi-person" />
+                <i class="wi wi-person" />
                 <span>{{ labels.cloudSignIn }}</span>
-              </button>
-              <button
-                v-if="accountDev"
-                class="settings-item"
-                @click="onMockToggle"
-              >
-                <i class="bi bi-wrench" />
-                <span>{{ accountStatus === 'authed' ? 'тест-выход' : 'тест-вход' }}</span>
               </button>
             </div>
           </Transition>
@@ -379,8 +371,6 @@ const {
   accountName,
   signIn,
   signOut,
-  dev: accountDev,
-  toggleMock,
 } = useAccountActions()
 // Split at the "@" so the template can put a <wbr> there; null when the name isn't an e-mail.
 const accountEmailParts = computed(() => {
@@ -413,10 +403,6 @@ async function onSignIn() {
 async function onSignOut() {
   settingsOpen.value = false
   await signOut()
-}
-function onMockToggle() {
-  settingsOpen.value = false
-  toggleMock()
 }
 // The tutorial loads only when asked for: its chapters stay out of the root bundle.
 const TOUR_ON = IS_BETA || import.meta.env.DEV
@@ -584,7 +570,7 @@ function closeRulesMenu() {
 .logo-wh {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-on-dark);
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -614,7 +600,7 @@ function closeRulesMenu() {
   padding: 1px 6px 0;
   font-family: var(--font-display);
   font-size: 0.66rem;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -949,7 +935,7 @@ a.nd-link:hover {
   padding-bottom: 0.6rem;
   color: var(--danger);
 }
-.settings-down .bi {
+.settings-down .wi {
   font-size: 1rem;
   width: 1.2rem;
   text-align: center;

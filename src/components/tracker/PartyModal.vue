@@ -168,15 +168,7 @@
         v-if="lastError"
         class="pt-err"
       >
-        {{ devHint ? `${labels.partyStatusError} — ${lastError}` : labels.partyStatusError }}
-      </p>
-      <!-- The stand's one trap, said where it bites: with the mock account and no dev token the
-           share is a 401, and "sync error" alone sends the tester to the network tab. -->
-      <p
-        v-if="devHint"
-        class="pt-note-small"
-      >
-        {{ labels.partyDevJwtHint }}
+        {{ labels.partyStatusError }}
       </p>
     </div>
   </BaseModal>
@@ -199,12 +191,6 @@ const {
   share, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave, setScoreAll,
 } = useParty()
 const { current } = useTracker()
-
-// DEV only (stripped from production builds): the share failed and no stand token is set.
-const devHint = computed(() => {
-  if (!import.meta.env.DEV || !lastError.value) return false
-  try { return !localStorage.getItem('wh11ed-dev-jwt') } catch { return false }
-})
 
 // The clock behind "seen N minutes ago" (the invite block keeps its own for the code's
 // expiry — see PartyInvite.vue).
@@ -348,9 +334,10 @@ onUnmounted(() => clearInterval(timer))
 .pt-seat-pick {
   flex: 1 1 8rem;
   min-width: 0;
-  padding: 0.3rem 0.4rem;
+  padding-block: 0.3rem;
+  padding-left: 0.4rem;
   border: 1px solid var(--border);
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
   color: var(--text-primary);
   font: inherit;
   font-size: 0.8rem;

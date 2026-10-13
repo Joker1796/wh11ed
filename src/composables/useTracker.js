@@ -1,5 +1,6 @@
 import { ref, watch } from 'vue'
 import { debouncedSave } from '../utils/debouncedSave.js'
+import { CUR_KEY, gameInPlay, isValidGame } from './gameInPlay.js'
 import { missions, primaryFor } from '../data/missions.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
@@ -31,7 +32,6 @@ import { TRACKER_GEN } from './trackerGen.js'
 // GDM tracker; scoring constants (15/round, 45 total primary; 45 total secondary;
 // 20 per fixed secondary) match the official caps.
 
-const CUR_KEY = 'wh11ed-tracker-current'
 // Where the finished games live. The key is defined in gameStats.js — the read-only side, used by
 // screens that show a record without this store; this module remains their only WRITER.
 const DRAFT_KEY = 'wh11ed-tracker-setup-draft'
@@ -242,17 +242,9 @@ function load(key, fallback) {
   }
 }
 
-// Minimal shape guard: a corrupted or old-schema blob can JSON.parse fine yet be the wrong
-// shape, then throw deep in a render (e.g. `current.players[i].primarySlug`) and wedge the
-// tracker. Reject anything without the stable game shape (two players + a settings object).
-export function isValidGame(g) {
-  return (
-    !!g && typeof g === 'object' &&
-    Array.isArray(g.players) && g.players.length === 2 &&
-    g.players.every((p) => p && typeof p === 'object') &&
-    !!g.settings && typeof g.settings === 'object'
-  )
-}
+// The shape guard lives with the shell's own view of the game (gameInPlay.js) and is re-exported
+// for the store's other readers.
+export { isValidGame }
 
 const loadedCurrent = load(CUR_KEY, null)
 const current = ref(isValidGame(loadedCurrent) ? loadedCurrent : null)
@@ -306,6 +298,8 @@ function saveNow() {
 }
 
 watch(current, () => { pendingCurrent = true; scheduleSave() }, { deep: true })
+// The shell's "a game is on" flag (gameInPlay.js) follows the store from the moment it loads.
+watch(() => current.value?.phase, (phase) => { gameInPlay.value = phase === 'playing' }, { immediate: true })
 watch(history, () => { pendingHistory = true; scheduleSave() }, { deep: true })
 watch(setupDraft, () => { pendingSetupDraft = true; scheduleSave() }, { deep: true })
 

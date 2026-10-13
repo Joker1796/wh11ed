@@ -71,7 +71,7 @@
           @click="openPicker"
         >
           <i
-            class="bi bi-crosshair"
+            class="wi wi-target"
             aria-hidden="true"
           /> {{ labels.trackerStratPickTarget }}
         </button>

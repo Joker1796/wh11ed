@@ -179,7 +179,7 @@
                   data-kw-open
                   @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
                 >
-                  {{ n.source }}<i class="bi bi-info-circle" />
+                  {{ n.source }}<i class="wi wi-info" />
                 </button>
                 <span
                   v-else
@@ -193,7 +193,7 @@
                   class="ds-mod-cond"
                 ><i
                   v-if="n.via"
-                  class="bi bi-lightning-charge-fill"
+                  class="wi wi-lightning"
                 /> {{ n.when[locale] || n.when.en }}</span>
               </li>
             </template>
@@ -323,8 +323,8 @@
                 :class="{ on: abilityState(a).on }"
               >
                 <i
-                  class="bi"
-                  :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
+                  class="wi"
+                  :class="abilityState(a).on ? 'wi-link' : 'wi-none'"
                 />{{ abilityStateLabel(abilityState(a)) }}
               </span>
               <span v-safe-html="dsRichText(a.text)" />
@@ -383,8 +383,8 @@
                 :class="{ on: abilityState(a).on }"
               >
                 <i
-                  class="bi"
-                  :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
+                  class="wi"
+                  :class="abilityState(a).on ? 'wi-link' : 'wi-none'"
                 />{{ abilityStateLabel(abilityState(a)) }}
               </span>
               <span v-safe-html="dsRichText(a.text)" />
@@ -443,8 +443,8 @@
                 :class="{ on: abilityState(a).on }"
               >
                 <i
-                  class="bi"
-                  :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
+                  class="wi"
+                  :class="abilityState(a).on ? 'wi-link' : 'wi-none'"
                 />{{ abilityStateLabel(abilityState(a)) }}
               </span>
               <span v-safe-html="dsRichText(a.text)" />
@@ -512,8 +512,8 @@
                 :class="{ on: abilityState(a).on }"
               >
                 <i
-                  class="bi"
-                  :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
+                  class="wi"
+                  :class="abilityState(a).on ? 'wi-link' : 'wi-none'"
                 />{{ abilityStateLabel(abilityState(a)) }}
               </span>
               <span v-safe-html="dsRichText(a.text)" />
@@ -1673,8 +1673,8 @@ function abilityStateLabel(st) {
   cursor: pointer; text-align: left;
 }
 .ds-mod-srcbtn:hover { color: var(--accent-ink); }
-.ds-mod-srcbtn .bi { font-size: 0.85em; color: var(--text-muted); }
-.ds-mod-srcbtn:hover .bi { color: var(--accent-ink); }
+.ds-mod-srcbtn .wi { font-size: 0.85em; color: var(--text-muted); }
+.ds-mod-srcbtn:hover .wi { color: var(--accent-ink); }
 .ds-mod-det { color: var(--text-muted); }
 /* A conditional modifier didn't change anything on the card — the dimmed delta says so at a
    glance, and the condition follows. */
@@ -1720,7 +1720,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
   color: var(--text-muted); font-size: 0.78em; font-style: italic;
 }
 .ds-ab-state.on { color: var(--accent-ink); font-style: normal; }
-.ds-ab-state .bi { font-size: 0.9em; font-style: normal; }
+.ds-ab-state .wi { font-size: 0.9em; font-style: normal; }
 .ds-ability-idle { opacity: 0.62; }
 .ds-ab-conds { margin-top: 0.35rem; }
 

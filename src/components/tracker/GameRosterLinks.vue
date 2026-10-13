@@ -9,7 +9,7 @@
       class="grl-pill"
       :to="l.mi == null ? `/tracker/history/${game.id}/roster/${l.pi}` : `/tracker/history/${game.id}/roster/${l.pi}/${l.mi}`"
     >
-      <i class="bi bi-card-list" />
+      <i class="wi wi-roster-list" />
       <span class="grl-who">{{ l.who }}</span>
       <span class="grl-name">{{ l.name }}</span>
       <!-- inert: a button may not sit inside a link; the limits are in its tooltip. Icon only —
@@ -67,7 +67,7 @@ const links = computed(() => (props.game.players || [])
   background: var(--bg-card); color: var(--text-primary); text-decoration: none; font-size: 0.82rem;
 }
 .grl-pill:hover { border-color: var(--accent); color: var(--accent-ink); }
-.grl-pill > .bi { flex-shrink: 0; }
+.grl-pill > .wi { flex-shrink: 0; }
 /* One line each, cut with "…": a long player name used to wrap into a column beside the icon
    (owner, 2026-10-10). The player gets at most half the pill, the list the rest. */
 .grl-who { color: var(--text-muted); flex: 0 1 auto; max-width: 50%; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

@@ -52,7 +52,7 @@
         :title="labels.helpSection"
         :aria-label="labels.helpSection"
       >
-        <i class="bi bi-question-circle" />
+        <i class="wi wi-help" />
       </RouterLink>
     </div>
 

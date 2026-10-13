@@ -57,7 +57,7 @@
               :title="source(m.slug) === 'random' ? labels.trackerSourceRandom : labels.trackerSourceChosen"
             ><DieIcon v-if="source(m.slug) === 'random'" /><i
               v-else
-              class="bi bi-hand-index-thumb"
+              class="wi wi-hand"
               aria-hidden="true"
             /></span>
             <ExpandTransition>
@@ -86,7 +86,7 @@
             :aria-label="labels.trackerReturnToHand"
             @click="onRestore(m.slug)"
           >
-            <i class="bi bi-arrow-counterclockwise" />
+            <i class="wi wi-undo" />
           </button>
         </div>
       </li>
@@ -434,7 +434,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 }
 .manage:hover { color: var(--accent-ink); border-color: var(--accent); }
 .manage.restore { display: flex; align-items: center; justify-content: center; }
-.manage.restore .bi { font-size: 0.95rem; }
+.manage.restore .wi { font-size: 0.95rem; }
 
 /* Set-aside (discarded) card: dimmed, dashed border, a "Discarded" badge. Only the card
    face is muted — the Return button stays fully legible so undoing an accidental set-aside

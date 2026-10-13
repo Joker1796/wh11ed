@@ -12,7 +12,7 @@
         class="btn-ghost ues-sheet-link"
         @click="rulesOpen = true"
       >
-        <i class="bi bi-file-earmark-text" /> {{ labels.rosterShowDatasheet }}
+        <i class="wi wi-doc" /> {{ labels.rosterShowDatasheet }}
       </button>
       <label class="ues-note">
         <span class="ues-note-lab">{{ labels.rosterNote }}</span>
@@ -252,7 +252,7 @@
             :aria-label="labels.rosterViewInfo"
             @click="openWeaponInfo(defaultNames, labels.rosterFixedWargear)"
           >
-            <i class="bi bi-info-circle" />
+            <i class="wi wi-info" />
           </button>
         </div>
       </section>
@@ -274,7 +274,7 @@
               :checked="isWarlord"
               @change="$emit('toggle-warlord')"
             >
-            <span class="opt-name"><i class="bi bi-flag-fill wl-flag" /> {{ labels.rosterWarlord }}</span>
+            <span class="opt-name"><i class="wi wi-flag wl-flag" /> {{ labels.rosterWarlord }}</span>
           </label>
         </div>
       </section>
@@ -342,7 +342,7 @@
               :aria-label="labels.rosterViewInfo"
               @click="openEnhInfo(e.name)"
             >
-              <i class="bi bi-info-circle" />
+              <i class="wi wi-info" />
             </button>
           </div>
         </div>
@@ -937,7 +937,7 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
 .ues-default-list { flex: 1; min-width: 0; align-self: center; padding: 0.5rem 0.6rem; }
 .ues-default-row .opt-info { min-height: 2.4rem; }
 .ues-count { display: flex; align-items: center; justify-content: space-between; }
-.ues-comp { margin: -0.35rem 0 0; font-size: 0.82rem; color: var(--muted); }
+.ues-comp { margin: -0.35rem 0 0; font-size: 0.82rem; }
 .ues-trimmed {
   display: flex;
   flex-wrap: wrap;
@@ -945,9 +945,8 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   gap: 0.25rem 0.6rem;
   margin: 0.35rem 0 0;
   font-size: 0.82rem;
-  color: var(--muted);
 }
-.ues-req { font-style: normal; font-size: 0.78rem; color: var(--muted); margin-left: 0.4rem; }
+.ues-req { font-style: normal; font-size: 0.78rem; margin-left: 0.4rem; }
 .pill-tell { opacity: 0.75; }
 .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 /* Which of the two squads of that name this row is. Its OWN line — the name above it is what the

@@ -119,7 +119,7 @@
             :aria-label="labels.rosterViewInfo"
             @click="openWeaponInfo(opt.names)"
           >
-            <i class="bi bi-info-circle" />
+            <i class="wi wi-info" />
           </button>
         </div>
       </div>
@@ -153,7 +153,7 @@
             :aria-label="labels.rosterViewInfo"
             @click="openWeaponInfo(optNames(g.o[0]))"
           >
-            <i class="bi bi-info-circle" />
+            <i class="wi wi-info" />
           </button>
         </div>
       </div>
@@ -188,7 +188,7 @@
             :aria-label="labels.rosterViewInfo"
             @click="openWeaponInfo(g.rep.map((id) => items[id]))"
           >
-            <i class="bi bi-info-circle" />
+            <i class="wi wi-info" />
           </button>
         </div>
         <div
@@ -230,7 +230,7 @@
             :aria-label="labels.rosterViewInfo"
             @click="openWeaponInfo(optNames(o))"
           >
-            <i class="bi bi-info-circle" />
+            <i class="wi wi-info" />
           </button>
         </div>
       </div>

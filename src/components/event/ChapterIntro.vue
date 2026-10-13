@@ -3,7 +3,7 @@
     v-if="intro.authorNote"
     class="author-note"
   >
-    <i class="bi bi-translate author-note-icon" />
+    <i class="wi wi-language author-note-icon" />
     <div class="author-note-body">
       <p v-safe-html="renderInline(intro.authorNote)" />
       <a

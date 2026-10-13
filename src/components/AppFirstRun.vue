@@ -13,7 +13,7 @@
         v-if="emptyOnIos"
         class="afr-text afr-note"
       >
-        <i class="bi bi-phone" />
+        <i class="wi wi-phone" />
         <span>{{ labels.appFirstIosText }}</span>
       </p>
       <div class="afr-actions">

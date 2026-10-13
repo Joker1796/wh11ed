@@ -33,7 +33,7 @@
             {{ d }}
             <i
               v-if="d === declared"
-              class="bi bi-check2"
+              class="wi wi-check"
               :aria-label="labels.rosterMissionsInList"
             />
           </button>
@@ -50,7 +50,7 @@
               {{ labels.rosterMissionsUndeclared }}
             </template>
             <template v-else-if="shown === declared">
-              <i class="bi bi-check2" /> {{ labels.rosterMissionsDeclared }}
+              <i class="wi wi-check" /> {{ labels.rosterMissionsDeclared }}
             </template>
             <template v-else>
               {{ fill(labels.rosterMissionsPreviewing, { name: declared }) }}
@@ -86,6 +86,21 @@
               class="rmt-icon"
             >
             {{ labels.trackerVs }} {{ m.opp.name }}
+            <!-- The three terrain layouts this pair is played on (a player's request, 2026-10-13):
+                 folded, on the opponent's own line, so the row costs no height until asked. -->
+            <button
+              type="button"
+              class="rmt-lbtn"
+              :aria-expanded="layoutsOpen === m.opp.id"
+              @click="toggleLayouts(m.opp.id)"
+            >
+              {{ labels.rosterMissionsLayouts }}
+              <ChevronIcon
+                from="down"
+                to="up"
+                :turned="layoutsOpen === m.opp.id"
+              />
+            </button>
           </span>
           <span class="rmt-pair">
             <button
@@ -105,6 +120,18 @@
               >{{ m[side].nameRu }}</span>
             </button>
           </span>
+          <ExpandTransition>
+            <div
+              v-if="layoutsOpen === m.opp.id && layoutsOf(m.opp.id)"
+              class="rmt-layouts"
+            >
+              <LayoutCard
+                v-for="l in layoutsOf(m.opp.id)"
+                :key="l.id"
+                :layout="l"
+              />
+            </div>
+          </ExpandTransition>
         </div>
       </div>
 
@@ -159,6 +186,8 @@
 import ExpandTransition from '../ExpandTransition.vue'
 import { ref, computed, watch } from 'vue'
 import MissionCard from '../event/MissionCard.vue'
+import LayoutCard from '../event/LayoutCard.vue'
+import ChevronIcon from '../ChevronIcon.vue'
 import BaseModal from '../BaseModal.vue'
 import { DISPOSITIONS } from '../../data/dispositions.js'
 import { dispositionColor } from '../../data/dispositionColors.js'
@@ -207,6 +236,16 @@ const matchups = computed(() => {
     shared: opp.id === me.id ? local(primaryFor(me.id, opp.id)) : null,
   }))
 })
+
+// The layouts of a pair live with the Event Companion's data (~150 KB), which the roster screens
+// never carry: it is fetched the first time a row's layouts are opened, and shared from then on.
+const layoutsOpen = ref(null)
+const matchupOf = ref(null)
+async function toggleLayouts(oppId) {
+  layoutsOpen.value = layoutsOpen.value === oppId ? null : oppId
+  if (layoutsOpen.value && !matchupOf.value) matchupOf.value = (await import('../../composables/trackerLayout.js')).matchupFor
+}
+const layoutsOf = (oppId) => matchupOf.value?.(byName(shown.value)?.id, oppId)?.layouts || null
 
 // A tapped mission, with the matchup it belongs to: "Priority Assets vs Take and Hold" for the
 // list's own, the other way round for the opponent's — the first name is always whose mission it is.
@@ -264,7 +303,7 @@ function openMission(m, side) {
   background: color-mix(in srgb, var(--tone) 14%, transparent);
 }
 .rmt-cand:disabled { cursor: default; }
-.rmt-cand .bi-check2 { color: var(--tone); }
+.rmt-cand .wi-check { color: var(--tone); }
 .rmt-icon { width: 20px; height: 20px; object-fit: contain; flex: none; }
 .rmt-status {
   display: flex;
@@ -275,7 +314,7 @@ function openMission(m, side) {
   color: var(--text-muted);
 }
 .rmt-status-text { margin: 0; flex: 1; min-width: 0; }
-.rmt-status .bi-check2 { color: var(--accent-ink); }
+.rmt-status .wi-check { color: var(--accent-ink); }
 .rmt-status.alt,
 .rmt-status.open { color: var(--warning); }
 
@@ -294,6 +333,25 @@ function openMission(m, side) {
 }
 .rmt-row + .rmt-row { border-top-width: 0; }
 .rmt-vs { display: flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; color: var(--text-muted); }
+.rmt-lbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+  min-height: 32px;
+  padding: 0 0.35rem;
+  border: none;
+  background: none;
+  color: var(--accent-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+@media (hover: hover) { .rmt-lbtn:hover { text-decoration: underline; } }
+/* Under the row, across both of its columns: the three layouts, each opening full size. */
+.rmt-layouts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.4rem; }
+.rmt-layouts :deep(.layout-caption) { font-size: 0.72rem; }
 .rmt-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 .rmt-m {
   display: flex;

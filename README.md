@@ -87,7 +87,8 @@ Anything that inflates the tab download works against this.
   (HTML5 history — clean, indexable paths; Russian lives under `/ru/…`)
 - [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) — manifest + Workbox service worker
 - **Self-hosted fonts** via [@fontsource](https://fontsource.org/) (Inter, EB Garamond, Sofia Sans
-  Extra Condensed) and `bootstrap-icons` — **no external CDN**, so typography and icons work offline
+  Extra Condensed) — **no external CDN**, so typography works offline; icons are the app's own
+  drawings (`src/assets/icons`), inlined into the stylesheet
 - [Vitest](https://vitest.dev/) + [@vue/test-utils](https://test-utils.vuejs.org/) (jsdom),
   ESLint + `eslint-plugin-vue`
 - Dev only: [sharp](https://sharp.pixelplumbing.com/) and [opentype.js](https://opentype.js.org/)
@@ -115,9 +116,9 @@ npm run preview  # preview the production build
 Sign-in, cloud sync and shared games are the only features that need
 [wh11ed-api](https://github.com/Joker1796/wh11ed-api): `VITE_API_BASE_URL` points at it and
 defaults to a local server (`http://localhost:8787`). Without it, sign-in simply fails and the
-rest of the app is unaffected. The dev build has a mock sign-in in the ⚙ menu, which never ships
-to production; to try a shared game on several "phones" locally, run the API's
-docker stand (its README) and open the app on ports 5173–5175.
+rest of the app is unaffected. To work on anything behind a sign-in, run the API's docker stand
+(its DEVELOPMENT.md): "Sign in" then goes through the real sign-in code to a stand-in Yandex page.
+For a shared game on several "phones", open the app on ports 5173–5175.
 
 ## Checks
 

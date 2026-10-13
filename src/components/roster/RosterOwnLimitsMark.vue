@@ -14,7 +14,7 @@
       class="olm inert"
       :class="{ 'icon-only': iconOnly }"
       :title="iconOnly ? `${labels.rosterLimitOwnTitle}: ${lines.join(' · ')}` : lines.join(' · ')"
-    ><i class="bi bi-sliders" /><template v-if="!iconOnly"> {{ labels.rosterLimitOwnShort }}</template></span>
+    ><i class="wi wi-sliders" /><template v-if="!iconOnly"> {{ labels.rosterLimitOwnShort }}</template></span>
     <button
       v-else-if="lines.length"
       type="button"
@@ -25,7 +25,7 @@
       :aria-label="`${labels.rosterLimitOwnTitle}: ${lines.join(', ')}`"
       @click.stop="show"
     >
-      <i class="bi bi-sliders" />
+      <i class="wi wi-sliders" />
       <template v-if="labelled">
         {{ labels.rosterLimitOwnApplied }}
       </template>

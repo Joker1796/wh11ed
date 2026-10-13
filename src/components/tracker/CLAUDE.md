@@ -236,7 +236,7 @@ once per turn on the phone that plays that side (a module-level memory, so a tab
 reopen it). A random pair is written at once, so reopening cannot re-roll it; "Put them back"
 undoes the take while neither card has scored. After that the hand changes only through a card's
 own rule — WHEN DRAWN, set aside, return to deck, in the card's "⋯" sheet. The free "Draw" /
-"Choose" buttons are gone. Each card shows how it came in (`secondary.source`: a die or a hand icon — `DieIcon.vue` (our own: Bootstrap draws dice only face-on) and `bi-hand-index-thumb`; icons, never emoji).
+"Choose" buttons are gone. Each card shows how it came in (`secondary.source`: a die or a hand icon — `DieIcon.vue` (our own: Bootstrap draws dice only face-on) and `wi-hand`; icons, never emoji).
 
 **Achieved cards leave at the end of EACH turn** (`setAsideAchieved`, the Event Companion's
 "Achieving Secondary Missions"), not only when the round changes. The entry remembers the turn

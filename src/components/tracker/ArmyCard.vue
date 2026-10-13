@@ -80,8 +80,8 @@
           @click="toggleRule(t.key)"
         >
           <i
-            class="bi"
-            :class="openRules.includes(t.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+            class="wi"
+            :class="openRules.includes(t.key) ? 'wi-chevron-down' : 'wi-chevron-right'"
           />
           {{ t.title }}
         </button>
@@ -237,7 +237,7 @@ defineExpose({ reveal })
   display: flex; align-items: center; gap: 0.35rem; width: 100%; padding: 0.1rem 0;
   border: 0; background: none; cursor: pointer; font-family: inherit; text-align: left;
 }
-.ap-rule-toggle .bi { font-size: 0.65rem; }
+.ap-rule-toggle .wi { font-size: 0.65rem; }
 /* Built to NumberStepper's `.step-btn` recipe — it shares a row with one, and anything else
    next to those buttons read as a different kind of thing. One class for both of the row's army
    links (the attached list, or the faction's datasheets) so the slot looks the same either way.

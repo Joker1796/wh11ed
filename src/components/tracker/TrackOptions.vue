@@ -58,7 +58,7 @@
         :aria-label="`${labels[o.label]} — ${labels.trackerOptionHelp}`"
         @click="helpFor = o"
       >
-        <i class="bi bi-question-circle" />
+        <i class="wi wi-help" />
       </button>
       <!-- What the choice looks like, under its row: both sides' cards in the colours it gives,
            and while the row is on, a colour picker over each (the picks are settings.sideColors). -->

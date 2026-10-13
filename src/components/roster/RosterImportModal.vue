@@ -134,7 +134,7 @@
             v-if="clean"
             class="rim-ok"
           >
-            <i class="bi bi-check-circle" /> {{ labels.rosterImportClean }}
+            <i class="wi wi-ok-line" /> {{ labels.rosterImportClean }}
           </p>
         </div>
       </ExpandTransition>
@@ -253,7 +253,7 @@ function create() {
 
 <style scoped>
 .rim { display: flex; flex-direction: column; gap: 0.7rem; padding: 0.75rem; }
-.rim-hint { margin: 0; font-size: 0.8rem; color: var(--text-secondary); }
+.rim-hint { margin: 0; font-size: 0.8rem; }
 .rim-text {
   width: 100%;
   min-height: 11rem;
@@ -267,12 +267,13 @@ function create() {
   border: 1px solid var(--border);
 }
 .rim-error { margin: 0; font-size: 0.8rem; color: var(--danger); }
-.rim-faction { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--text-secondary); }
+.rim-faction { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; }
 .rim-faction select {
-  padding: 0.4rem 0.5rem;
+  padding-block: 0.4rem;
+  padding-left: 0.5rem;
   font-size: 0.85rem;
   color: var(--text-primary);
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
   border: 1px solid var(--border);
 }
 .rim-warn-note { color: var(--text-muted); font-weight: 400; }
@@ -282,7 +283,7 @@ function create() {
 .rim-note { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
 .rim-warn { display: flex; flex-direction: column; gap: 0.15rem; font-size: 0.78rem; }
 .rim-warn-h { font-weight: 600; color: var(--warning); }
-.rim-ok { margin: 0; font-size: 0.82rem; color: var(--text-secondary); }
+.rim-ok { margin: 0; font-size: 0.82rem; }
 .rim-actions { display: flex; gap: 0.6rem; }
 .rim-btn {
   padding: 0.55rem 1rem;

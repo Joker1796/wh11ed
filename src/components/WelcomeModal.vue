@@ -9,8 +9,8 @@
         {{ labels.welcomeLead }}
       </p>
       <ul class="welcome-list">
-        <li><i class="bi bi-grid-3x3-gap" /><span>{{ labels.welcomeWhat }}</span></li>
-        <li><i class="bi bi-phone" /><span>{{ labels.welcomeLocal }}</span></li>
+        <li><i class="wi wi-grid" /><span>{{ labels.welcomeWhat }}</span></li>
+        <li><i class="wi wi-phone" /><span>{{ labels.welcomeLocal }}</span></li>
       </ul>
       <div class="welcome-actions">
         <RouterLink
@@ -60,7 +60,7 @@ function dismiss() {
 
 <style scoped>
 .welcome { display: flex; flex-direction: column; gap: 0.9rem; padding: 0.9rem; }
-.welcome-lead { margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+.welcome-lead { margin: 0; font-size: 0.9rem; line-height: 1.6; }
 .welcome-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
 .welcome-list li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.5; }
 .welcome-list i { color: var(--accent-ink); font-size: 1rem; line-height: 1.4; }

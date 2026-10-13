@@ -10,8 +10,8 @@
       @click="open = !open"
     >
       <i
-        class="bi"
-        :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"
+        class="wi"
+        :class="open ? 'wi-chevron-up' : 'wi-chevron-down'"
       />
       {{ labels.trackerDetails }}
     </button>

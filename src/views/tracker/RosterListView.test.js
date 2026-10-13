@@ -203,7 +203,7 @@ describe('RosterListView', () => {
     await w.findAll('.rl-tabs button')[1].trigger('click')
     const btn = w.find('.kebab')
     expect(btn.classes()).toContain('danger')
-    expect(btn.find('.bi-trash').exists()).toBe(true)
+    expect(btn.find('.wi-trash').exists()).toBe(true)
 
     await btn.trigger('click')
     expect(w.findAll('.act-btn')).toHaveLength(0)   // no actions sheet on the way
@@ -274,7 +274,7 @@ describe('RosterListView', () => {
       await new Promise((res) => setTimeout(res, 10))
     }
     expect(w.find('.rex').exists()).toBe(true)
-    expect(w.findAll('.rex-fmt option').map((o) => o.text())).toEqual(['GW app', 'WTC', 'WTC-Compact', 'Discord', 'Simple'])
+    expect(w.findAll('.rex-fmt option').map((o) => o.text())).toEqual(['GW app', 'WTC', 'WTC-Compact', 'Discord', 'Simple', 'Russian tournament'])
     w.unmount()
   })
 

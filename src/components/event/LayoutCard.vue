@@ -11,7 +11,7 @@
         :alt="`Layout ${layout.id}`"
         class="layout-img"
       />
-      <span class="expand-hint"><i class="bi bi-arrows-fullscreen" /></span>
+      <span class="expand-hint"><i class="wi wi-fullscreen" /></span>
     </button>
     <figcaption class="layout-caption">
       <span class="layout-badge">{{ labels.eventLayout }} {{ layout.id }}</span>
@@ -38,7 +38,7 @@
         :aria-pressed="modalMeasurements"
         @click="modalMeasurements = !modalMeasurements"
       >
-        <i class="bi bi-rulers" />
+        <i class="wi wi-ruler" />
         <span>{{ modalMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
       </button>
     </template>

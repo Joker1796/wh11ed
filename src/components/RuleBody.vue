@@ -318,12 +318,17 @@ p {
   color: var(--text-primary);
   margin: 0.75rem 0 0.25rem;
   scroll-margin-top: 100px;
+  /* The RU name follows the English one on its line where there is room, and drops under it where
+     there is not (owner, 2026-10-13). */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.6rem;
 }
 
-/* RU translation of an English subheading — small muted line tucked under it */
+/* RU translation of an English subheading — small and muted, beside it or under it */
 .rule-subheading-ru {
-  display: block;
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   font-size: 1rem;
   font-weight: 500;
   color: var(--text-muted);
@@ -474,7 +479,7 @@ p {
 
 .info-label {
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--text-primary);

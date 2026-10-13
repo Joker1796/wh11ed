@@ -80,7 +80,7 @@
                           >{{ r.who }}</span>
                         </span>
                       </span>
-                      <i class="bi bi-chevron-right pr-go" />
+                      <i class="wi wi-chevron-right pr-go" />
                     </button>
                   </li>
                 </ul>

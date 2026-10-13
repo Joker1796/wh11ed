@@ -1,7 +1,7 @@
 <template>
   <i
-    class="bi chevron-icon"
-    :class="`bi-chevron-${from}`"
+    class="wi chevron-icon"
+    :class="`wi-chevron-${from}`"
     :style="style"
     aria-hidden="true"
   />
@@ -9,7 +9,7 @@
 
 <script setup>
 // The fold's arrow, turned rather than swapped. Twenty accordion headers wrote
-// `:class="open ? 'bi-chevron-down' : 'bi-chevron-right'"` — one glyph replaced by another in a
+// `:class="open ? 'wi-chevron-down' : 'wi-chevron-right'"` — one glyph replaced by another in a
 // single frame, next to a body that takes a third of a second to open (2026-09-28). This draws
 // the `from` glyph and rotates it to `to` while `turned`; everything else (size, colour, margin)
 // stays with the caller's own class, which lands on the <i> as before.

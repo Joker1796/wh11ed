@@ -54,7 +54,7 @@ const { renderInline } = useRenderInline()
 
 function renderCell(cell) {
   const withDice = cell.replace(/\b([2-6])\+/g,
-    (_, n) => `<i class="bi bi-dice-${n}-fill dice-icon"></i><span class="dice-plus">+</span>`)
+    (_, n) => `<i class="wi wi-dice-${n} dice-icon"></i><span class="dice-plus">+</span>`)
   return renderInline(withDice)
 }
 

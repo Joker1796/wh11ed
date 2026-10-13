@@ -1,8 +1,8 @@
 <template>
-  <!-- A die seen from a corner, like the 🎲 it replaces: Bootstrap Icons draws dice only face-on
-       (bi-dice-1…6), and a face-on die reads as "five" rather than "at random". One pip on top,
+  <!-- A die seen from a corner, like the 🎲 it replaces: the app's dice faces (`wi-dice-1…6`) are
+       face-on, and a face-on die reads as "five" rather than "at random". One pip on top,
        two on the left face, three on the right. `currentColor`, 1em — sized and coloured like the
-       `bi` icons beside it; the top face is lit a little so the shape reads at 16px. Decorative:
+       icons beside it; the top face is lit a little so the shape reads at 16px. Decorative:
        the label next to it carries the meaning. -->
   <svg
     class="die-icon"

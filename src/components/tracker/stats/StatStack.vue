@@ -5,7 +5,7 @@
       :key="row.key"
       class="ss-row"
     >
-      <span class="ss-who">{{ row.label }}</span>
+      <span>{{ row.label }}</span>
       <span class="ss-bar">
         <span
           v-for="p in parts"
@@ -65,7 +65,6 @@ function fmt(v) {
   gap: 0.5rem;
   font-size: 0.82rem;
 }
-.ss-who { color: var(--text-secondary); }
 .ss-bar { display: flex; height: 0.8rem; overflow: hidden; background: var(--bg-secondary); }
 .ss-seg { display: block; height: 100%; }
 .ss-primary { background: var(--accent); }

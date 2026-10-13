@@ -30,7 +30,7 @@
               <span class="picker-trigger-label">{{ labels.dsChapterFilter }}</span>
               <span class="picker-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
             </span>
-            <i class="bi bi-chevron-down picker-trigger-chev" />
+            <i class="wi wi-chevron-down picker-trigger-chev" />
           </button>
         </template>
         <template #default="{ compact, bodyClass, close }">
@@ -64,7 +64,7 @@
               <span class="picker-trigger-label">{{ labels.factionDetachments }}</span>
               <span class="picker-trigger-name">{{ activeDet?.name }}</span>
             </span>
-            <i class="bi bi-chevron-down picker-trigger-chev" />
+            <i class="wi wi-chevron-down picker-trigger-chev" />
           </button>
         </template>
         <template #default="{ compact, bodyClass, close }">
@@ -168,6 +168,9 @@ function pickChapter(id) {
   display: flex;
   gap: 0.5rem;
 }
+/* On a page widened past the reading measure (a faction's own page, App.vue) the controls line up
+   with its wider column. */
+:global(.main-content--wide .fpb-inner) { max-width: 1120px; }
 
 @media (max-width: 900px) {
   .fpb-inner {

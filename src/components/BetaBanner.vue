@@ -1,7 +1,7 @@
 <template>
   <TopBanner
     :show="!closed"
-    icon="bi-cone-striped"
+    icon="wi-cone"
     :close-label="labels.updateDismiss"
     @close="close"
   >

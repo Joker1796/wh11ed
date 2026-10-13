@@ -19,7 +19,7 @@
 //            wargear, wrapped two and three deep in a phone's chat.
 //   rus      a Russian tournament's list, as the organisers' rules ask for it (Ordo Eventus): the
 //            `+ PLAYER NAME / HIN / … / WARLORD / ENHANCEMENT` header, "Attached Unit N:" blocks,
-//            units under keyword prefixes (CH1:, IN2:), only the wargear a choice reaches. Asked
+//            units under keyword prefixes (CH1:, IN2:), only the swaps the player made. Asked
 //            for by a contributor and the owner (2026-10-13).
 //
 // The 11th-edition app export differs from the 10th's in ways this file has to honour: several
@@ -520,10 +520,10 @@ function simpleText(m) {
 // DETACHMENT / FORCE DISPOSITION / TOTAL ARMY POINTS / WARLORD / ENHANCEMENT` header (HIN is the
 // player's rating number, "-" until they have one; ONE disposition, the one they play), every
 // attachment as an "Attached Unit N:" block, the rest under keyword prefixes (EH1:, CH1:, IN2: …),
-// the model count only where the unit's size can vary, and of a unit's wargear exactly what COULD
-// be changed — taken or kept ("Redemptor Dreadnought: Heavy flamer, Icarus rocket pod, Macro plasma
-// incinerator, Twin storm bolter"), never what is fixed. A first draft followed 40001format.xyz
-// and printed the whole loadout; the Hyper regulation says the same thing in fewer words.
+// the model count only where the unit's size can vary, and of a unit's wargear only the swaps the
+// player made — never the printed loadout, kept or fixed (owner, 2026-10-13, after a reviewer
+// found "2x Melta Rifle" beside the one multi-melta). A first draft followed 40001format.xyz and
+// printed the whole loadout; a second printed every changeable item, kept ones included.
 
 // The prefixes, in the order the list is written. A unit takes the first that fits it.
 /** @type {Array<[string, (r: ExportRow) => boolean]>} */
@@ -543,20 +543,21 @@ const RUS_ORDER = ['EH', 'CH', 'BL', 'IN', 'MO', 'BE', 'VE', 'MN', 'DT', 'FO', '
 /** @param {ExportRow} r */
 const rusPrefix = (r) => (r.ally ? 'AU' : RUS_PREFIXES.find(([, fits]) => fits(r))?.[0] || 'IN')
 
-// Of the loadout the unit fields, the items a choice reaches — what an option gives up or hands
-// over on this datasheet — with their counts; fixed wargear is left out.
+// What the player changed, and nothing else: each option taken, with how many models took it
+// ("1x Multi-melta" on a three-model Eradicator Squad, never the two melta rifles left). The
+// owner's ruling (2026-10-13): the printed loadout is on the datasheet, the list says the swaps.
 /** @param {ExportRow} r @param {Record<number, string> | null | undefined} items */
-function changeableGear(r, items) {
-  const names = new Set()
-  for (const g of r.def?.gear || []) {
-    for (const id of g.rep || []) names.add(items?.[id])
-    for (const o of g.o || []) for (const [id] of optionItems(o)) names.add(items?.[id])
+function swappedGear(r, items) {
+  const taken = new Map()
+  for (const [gi, oi, n] of r.entry.wg || []) {
+    const opt = r.def?.gear?.[gi]?.o?.[oi]
+    if (!opt || !wargearGroupLive(r.def, r.entry, gi)) continue
+    const label = optionLabel(opt, items)
+    taken.set(label, (taken.get(label) || 0) + (n ?? 1))
   }
-  const held = new Map()
-  for (const g of r.gear) for (const it of g.items) if (names.has(it.name)) held.set(it.name, (held.get(it.name) || 0) + it.n)
-  return [...held]
+  return [...taken]
     .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([name, n]) => (n > 1 || r.models > 1 ? `${n}x ${name}` : name))
+    .map(([label, n]) => (n > 1 || r.models > 1 ? `${n}x ${label}` : label))
 }
 
 /** @param {Resolved} m @param {{ player?: string, hin?: string }} [who] */
@@ -607,7 +608,7 @@ function rusText(m, who = {}) {
     const varies = sz.length > 1 || sz.some((s) => s.per && s.per[0] !== s.per[1])
     const parts = [
       ...(r.alleg ? [r.alleg.value] : []),
-      ...changeableGear(r, m.items),
+      ...swappedGear(r, m.items),
       ...(r.enh ? [r.enh.name] : []),
       ...(r.warlord ? ['Warlord'] : []),
     ]

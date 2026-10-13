@@ -31,7 +31,7 @@
           data-kw-open
           :aria-label="g.owner"
           @click="$emit('info', { info: g.info }, $event.currentTarget.getBoundingClientRect())"
-        ><i class="bi bi-info-circle" /></button>
+        ><i class="wi wi-info" /></button>
       </span>
       <span
         v-if="g.limit > 1"
@@ -61,8 +61,8 @@
           <!-- A square box, not a round one: this is a checkbox (each state stands alone), and
                round is the shape the app reserves for a radio-style either/or. -->
           <i
-            class="bi"
-            :class="sw.on ? 'bi-check-square-fill' : 'bi-square'"
+            class="wi"
+            :class="sw.on ? 'wi-box-on' : 'wi-box'"
           />
           <span class="cond-chip-text">
             {{ sw.label[locale] || sw.label.en }}
@@ -85,7 +85,7 @@
           data-kw-open
           :aria-label="sw.label[locale] || sw.label.en"
           @click="$emit('info', sw, $event.currentTarget.getBoundingClientRect())"
-        ><i class="bi bi-info-circle" /></button>
+        ><i class="wi wi-info" /></button>
       </span>
     </div>
   </div>
@@ -213,7 +213,7 @@ const groups = computed(() => {
 .cond-chip.auto { cursor: default; opacity: 0.55; border-style: dashed; }
 /* Two lines need a left-aligned text column and a little more room top and bottom. */
 .cond-chip.stacked { align-items: flex-start; padding-top: 0.28rem; padding-bottom: 0.28rem; }
-.cond-chip.stacked .bi { margin-top: 0.1rem; }
+.cond-chip.stacked .wi { margin-top: 0.1rem; }
 .cond-chip-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.25; text-align: left; }
 .cond-chip-sub { color: var(--text-muted); font-size: 0.68rem; font-weight: 400; }
 </style>

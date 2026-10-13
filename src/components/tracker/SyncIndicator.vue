@@ -21,7 +21,7 @@
       />
       <i
         v-else-if="kind === 'problem'"
-        class="bi bi-exclamation-triangle-fill"
+        class="wi wi-warning"
         aria-hidden="true"
       />
       <span
@@ -159,7 +159,7 @@ const text = computed(() => {
 }
 @keyframes si-rot { to { transform: rotate(360deg); } }
 .is-problem { color: var(--danger); }
-.is-problem .bi { font-size: 0.9rem; }
+.is-problem .wi { font-size: 0.9rem; }
 /* The bubble. Above the button, because below it lands on the next row's controls — and on a
    phone that row is what the thumb is already over. */
 .si-pop {

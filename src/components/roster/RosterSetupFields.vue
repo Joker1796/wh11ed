@@ -41,7 +41,7 @@
             :class="{ placeholder: !factionName }"
           >{{ factionName || labels.rosterChoose }}</span>
         </button>
-        <i class="bi bi-chevron-down" />
+        <i class="wi wi-chevron-down" />
       </div>
 
       <div
@@ -86,7 +86,7 @@
             </button>
           </template>
         </DetachmentPicker>
-        <i class="bi bi-chevron-down" />
+        <i class="wi wi-chevron-down" />
       </div>
 
       <!-- An army has ONE Force Disposition — the card selected after mustering, on which the
@@ -291,7 +291,7 @@ const detachmentPickerOpen = ref(false)
   .choice.pick.custom:hover { background: none; }
   .choice.pick.custom:has(.bsf-trigger:hover) { background: var(--bg-secondary); }
 }
-.choice .bi-chevron-down { position: absolute; right: 0.6rem; top: 0.6rem; color: var(--text-dim); font-size: 0.7rem; }
+.choice .wi-chevron-down { position: absolute; right: 0.6rem; top: 0.6rem; color: var(--text-dim); font-size: 0.7rem; }
 .ch-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
 .ch-label .help-btn { position: relative; z-index: 1; }
 /* A button centres its text, which nobody noticed while every value was one or two words: a list

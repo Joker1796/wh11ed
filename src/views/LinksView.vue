@@ -19,7 +19,7 @@
         class="link-card"
       >
         <span class="link-title">{{ l.label }}</span>
-        <span class="link-host"><i class="bi bi-file-earmark-pdf" /> warhammer-community.com</span>
+        <span class="link-host"><i class="wi wi-pdf" /> warhammer-community.com</span>
       </a>
     </div>
   </div>

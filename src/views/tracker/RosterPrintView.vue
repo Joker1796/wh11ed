@@ -36,7 +36,7 @@
             class="btn-primary rpv-print"
             @click="print"
           >
-            <i class="bi bi-printer" /> {{ labels.printAction }}
+            <i class="wi wi-print" /> {{ labels.printAction }}
           </button>
         </div>
 

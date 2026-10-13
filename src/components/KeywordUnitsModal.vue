@@ -26,7 +26,7 @@
             :aria-label="labels.modalClose"
             @click="$emit('close')"
           >
-            <i class="bi bi-x-lg" />
+            <i class="wi wi-close" />
           </button>
         </div>
         <div class="modal-list kum-pop-list">

@@ -5,7 +5,7 @@
       role="status"
     >
       <i
-        class="bi top-banner-icon"
+        class="wi top-banner-icon"
         :class="icon"
       />
       <button
@@ -13,7 +13,7 @@
         :aria-label="closeLabel"
         @click="$emit('close')"
       >
-        <i class="bi bi-x" />
+        <i class="wi wi-close" />
       </button>
       <slot />
     </div>
@@ -34,7 +34,7 @@ import CollapseTransition from './CollapseTransition.vue'
 defineProps({
   // Driven by state, not v-if, so closing can animate (CollapseTransition).
   show: { type: Boolean, default: true },
-  // A Bootstrap Icons class: 'bi-stars', 'bi-signpost-2'.
+  // A Bootstrap Icons class: 'wi-stars', 'wi-signpost'.
   icon: { type: String, required: true },
   closeLabel: { type: String, required: true },
 })

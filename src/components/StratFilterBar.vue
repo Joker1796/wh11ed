@@ -45,8 +45,8 @@
         @click="$emit('update:byPhase', !byPhase)"
       >
         <i
-          class="bi"
-          :class="byPhase ? 'bi-list-ul' : 'bi-collection'"
+          class="wi"
+          :class="byPhase ? 'wi-list' : 'wi-collection'"
         />
         <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
       </button>

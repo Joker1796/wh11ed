@@ -31,7 +31,7 @@
           >
             <span class="help-nav-n">{{ i + 1 }}.</span>
             <span class="help-nav-t">{{ s.title }}</span>
-            <i class="bi bi-chevron-right help-nav-go" />
+            <i class="wi wi-chevron-right help-nav-go" />
           </RouterLink>
         </li>
       </ol>
@@ -73,7 +73,6 @@ const labels = computed(() => ui[locale.value])
 .hero-desc {
   margin: 0.5rem auto 0;
   max-width: 40rem;
-  color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -98,7 +97,7 @@ const labels = computed(() => ui[locale.value])
   align-items: baseline;
   gap: 0.5rem;
   padding: 0.35rem 0;
-  color: var(--text-secondary);
+  color: inherit;
   text-decoration: none;
 }
 

@@ -41,7 +41,7 @@
 
     <main
       class="main-content"
-      :class="{ 'main-content--wide': isCoreRoute || isEventRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk, 'main-content--browse': isRosterBrowseDesk }"
+      :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isFactionPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk, 'main-content--browse': isRosterBrowseDesk }"
     >
       <RouterView v-slot="{ Component }">
         <Transition
@@ -168,11 +168,10 @@ import { useLocale } from './composables/useLocale.js'
 import { useAuth } from './composables/useAuth.js'
 import { startPrefsSync } from './composables/useUserPrefs.js'
 import { useKeywordPopover, opensPopover } from './composables/useKeywordPopover.js'
-import { useTracker } from './composables/useTracker.js'
+import { gameInPlay } from './composables/gameInPlay.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useRouteSection } from './composables/useRouteSection.js'
 import { useMediaQuery } from './composables/useMediaQuery.js'
-import { useRosters } from './composables/useRosters.js'
 import { useRosterDraftResume } from './composables/useRosterDraftResume.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
@@ -247,6 +246,10 @@ const isRosterEditRoute = computed(() =>
 const isRosterDeskRoute = computed(() => isRosterEditRoute.value && !appPath.value.endsWith('/print'))
 // The factions index lays its four groups out as four columns, which the 860px measure cannot fit.
 const isFactionsIndexRoute = computed(() => appPath.value === '/factions')
+// A faction's own page — its rules, units and FAQ tabs, one width for all three so a tab switch
+// does not move the page: the rules lay their long texts out in two columns, like the Core Rules
+// (owner, 2026-10-13). A unit's datasheet stays at the reading measure.
+const isFactionPageRoute = computed(() => /^\/factions\/[^/]+(\/(datasheets|faq))?$/.test(appPath.value))
 // The list of rosters and a saved roster's page, which a window wider than the bottom nav's
 // 900px shows as one screen of columns (RosterDeskView): as wide as the builder's desk, filling the
 // window with no footer under it, and one page for the swap (pageKey).
@@ -258,13 +261,12 @@ const isRosterBrowseDesk = computed(() => rosterBrowseWide.value &&
 // that isn't the game — anywhere outside the tracker, plus the one tracker screen that is itself
 // a long read (a roster opened out of the live game). Hidden while a full-screen modal/drawer is
 // open so it never overlaps them.
-const { current: currentGame } = useTracker()
 // Not over the roster builder: the chip floated on the list pane's corner and covered a unit
 // (a player's report, 2026-09-19), and the builder's footer has no room left for it. The game is
 // one tap away on the bottom nav's Tracker. The front page shows it too (owner, 2026-10-05): it
 // was left out from the start, and a player coming back to the app mid-game lands there first.
 const showResumeGame = computed(() =>
-  currentGame.value?.phase === 'playing' &&
+  gameInPlay.value &&
   (!isTrackerRoute.value || isGameRosterRoute.value) &&
   !isRosterEditRoute.value &&
   !searchOpen.value &&
@@ -276,14 +278,12 @@ const showResumeGame = computed(() =>
 // didn't: /roster opens on Saved lists and the draft is one tab over, so a returning reader saw a
 // list without their roster in it. RosterCreateView notes the draft as it unmounts; the id is a
 // hint, so re-check it's still a draft — it may have been saved (finish() clears the flags) or
-// deleted from the list while the chip was up.
-const { rosterById } = useRosters()
-const { pendingDraftId } = useRosterDraftResume()
+// deleted from the list while the chip was up (draftToResume does).
+const { draftToResume } = useRosterDraftResume()
 const resumeDraftId = computed(() => {
-  const id = pendingDraftId.value
-  if (!id || appPath.value === '/roster/new') return null
+  if (appPath.value === '/roster/new') return null
   if (isLanding.value || searchOpen.value || installHintOpen.value || mobileNavOpen.value) return null
-  return rosterById(id)?.draft ? id : null
+  return draftToResume()
 })
 
 // MobileUtilityBar decides its own visibility (resume / faction tabs / scroll-to-top, any

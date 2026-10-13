@@ -14,8 +14,8 @@
       >
         <span class="tp-name">{{ name }}</span>
         <i
-          class="bi tp-chev"
-          :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"
+          class="wi tp-chev"
+          :class="open ? 'wi-chevron-up' : 'wi-chevron-down'"
         />
       </button>
       <button

@@ -282,10 +282,11 @@ screens that had copied each other and drifted. The pairs that existed then are 
 
 ## App icons
 
-Most icons are the Bootstrap icon font (`bi bi-…`). **The owner's own drawings** (2026-10-08) are
-`.wi .wi-<name>` in `style.css`, one-colour SVGs in `src/assets/icons/` drawn as a mask filled with
-`currentColor` — the same size and baseline as a `bi` glyph, so a template swaps one class string for
-the other. Each file is under Vite's inline limit and lands in the stylesheet as a data URI: no
+**Every icon is the app's own drawing** — `.wi .wi-<name>` in `style.css`, one-colour SVGs in
+`src/assets/icons/` drawn as a mask filled with `currentColor`. There is no icon font: the Bootstrap
+icon font went on 2026-10-13 (owner: no one else's drawings shipped as ours, not even for a while),
+and `src/icons.test.js` fails on any `bi-…`, on a `wi-…` with no rule and on a drawing no rule shows.
+Each file is under Vite's inline limit and lands in the stylesheet as a data URI: no
 request, nothing for the PWA to precache, there offline — so a drawing over 4 KB is thinned (its
 points), not shipped as a file. **The pack** (2026-10-08) covers the bottom nav, the header and its
 settings menu, a game's ⋯ menu, a faction's tabs, the game screen's tabs, add / import / edit / more,
@@ -293,14 +294,17 @@ pins and a unit's status (`wi-unit-*`); the classes are grouped by place in `sty
 drawn to the pack's style to fill its gaps: `lore-on` (the lore shown, the owner's `lore` is it
 hidden), `offline-ready`, `sync` (in progress), `install` and `check`; later `own`/`own-on` (the
 collection star), `copy` and `image` (a datasheet's ⋯ menu, owner 2026-10-08). `tab-units` is redrawn
-symmetric (a squad of three; the pack's two figures read lopsided, owner 2026-10-08). **`wi-army` is wherever the app
+symmetric (a squad of three; the pack's two figures read lopsided, owner 2026-10-08). **The rest** (59
+files, 2026-10-13: chevrons, arrows, the info / help / warning / error / ok marks, dice faces, the
+tick box, files, people…) were drawn in the pack's manner — filled faceted shapes on the 24 grid,
+circles in 15° steps, diamonds for dots, cut-outs by even-odd, an SVG `<mask>` where a slash or a badge
+needs a gap. **`wi-army` is wherever the app
 means an army or its rules**; swords, hourglass and skull mean a unit's status and nothing else.
 Paired states swap the class (`theme-light`/`-dark`, `sound-on`/`-off`, `pin-on`/`-off`,
-`lore`/`lore-on`, `add`/`check`, `own`/`own-on`). Still Bootstrap: anything the pack has no drawing for, including
-the roster cloud-status icons (a family of cloud states only partly drawn). A scoped rule that sized
-`.bi` must follow the swap to `.wi`; in a fixed-width icon column give `.wi` `margin-inline: 0`, or
-it sits 0.2em narrower than its `bi` neighbours. Every file's `viewBox` is a square cropped round its ink, the ink 21 of its 24 (22.5 for the
-diagonal pencil and pins) and centred — the pack's own margins varied from 1 to 4.5, and a drawing
+`lore`/`lore-on`, `add`/`check`, `own`/`own-on`, `box`/`box-on`, `filter`/`filter-on`,
+`eye`/`eye-off`). In a fixed-width icon column give `.wi` `margin-inline: 0`. Every file's `viewBox` is a square cropped round its ink, the ink 21 of its 24 (22.5 for the
+diagonal pencil, the pins and the collection star — sparse shapes that read a size small beside a
+full one, owner 2026-10-13) and centred — the pack's own margins varied from 1 to 4.5, and a drawing
 with a wide one read a size small. A new drawing: the file, its viewBox measured the same way
 (`getBBox()` in a browser), one `.wi-name` line.
 
@@ -424,6 +428,12 @@ colour / which face / how big" question.
   at 700, a dozen small labels at 500 all lightened). Emphasis that small comes from colour or
   case, not weight. `npm run a11y` checks it on rendered pages (computed styles, so an inherited
   `--fw-heading` counts too).
+  **Only the faces the app draws are loaded** (`src/fonts.js`, 2026-10-13): Inter 400–700, Sofia
+  400/500/700, EB Garamond 400 *italic*. There is no weight 800 (the logo, labels and dark-theme
+  `strong` are 700, owner's call) and no upright Garamond. The installed app's warm-up fetches
+  every subset of every loaded face, so each one costs ~40–140 KB offline; a style asking for a
+  face that is not loaded is substituted by the browser without a word, which is what `npm run
+  a11y`'s `face` check is for.
 - **Layout constants** — `--navbar-height`, `--subnav-height`, `--header-total`,
   `--sidebar-width`, the `--safe-*` insets. Anything that must line up with the chrome
   references these rather than repeating `56px`.

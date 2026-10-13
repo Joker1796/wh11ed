@@ -64,7 +64,7 @@
             @click="toggle"
           >
             <span :class="{ placeholder: !factionSlug }">{{ factionName || labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-down" />
+            <i class="wi wi-chevron-down" />
           </button>
         </template>
         <FactionPickerList
@@ -111,7 +111,7 @@
             @click="toggle"
           >
             <span :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-down" />
+            <i class="wi wi-chevron-down" />
           </button>
         </template>
       </DetachmentPicker>
@@ -159,7 +159,7 @@
                 v-else
                 class="placeholder"
               >{{ labels.rosterChoose }}</span>
-              <i class="bi bi-chevron-down" />
+              <i class="wi wi-chevron-down" />
             </button>
           </template>
           <div class="modal-list rw-fd-list">
@@ -372,7 +372,7 @@ const moreOpen = ref(false)
    owes — --text-dim measured 2.63:1 on the form surface. Muted, mixed toward the primary ink
    until it clears AA in both themes, and still a step quieter than a real answer. */
 .rw-choose .placeholder { color: color-mix(in srgb, var(--text-muted) 55%, var(--text-primary)); }
-.rw-choose .bi { flex-shrink: 0; color: var(--text-muted); }
+.rw-choose .wi { flex-shrink: 0; color: var(--text-muted); }
 /* The declared Force Disposition: the chip in its colour, on the field and in the list — the colour
    is how a disposition is told apart everywhere else (dispositionColors.js). */
 .rw-fd .rw-choose { min-width: 11rem; }
