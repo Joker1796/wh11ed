@@ -43,6 +43,9 @@ export const changelog = [
       'Why can’t a Necrons Overlord take an Overlord’s blade and a Resurrection Orb together? By the datasheet, the orb is only for a model without a tachyon arrow. The tachyon arrow is replaced only together with the blade.',
       'Why can’t a Deathwatch Terminator take a plasma cannon and a chainfist together? The plasma cannon replaces the storm bolter. The chainfist comes only in exchange for the power fist and the storm bolter together. A model with a plasma cannon has no storm bolter left to give.',
       'Why can’t Dark Angels take Wrath of the Rock together with Terminator Storm Force? Both detachments have the TERMINATOR tag. A list cannot take two detachments with the same tag. The Munitorum Field Manual and the GW app both give them this tag. In the roster builder the tag is shown on the detachment’s card.',
+      { h: 'Thank you' },
+      'Thank you to everyone who supports the project financially and to everyone who sends bug reports.',
+      'The last few days were stressful. With your support we got through all of it. We made the site as resilient to failures as it is in our power to make it.',
     ],
     ru: [
       { h: 'Сверка с приложением GW' },
@@ -63,6 +66,9 @@ export const changelog = [
       'Почему Overlord у Necrons не может взять Overlord’s blade и Resurrection Orb вместе? По датащиту сферу берёт только модель без tachyon arrow. А tachyon arrow меняется только вместе с blade.',
       'Почему Deathwatch Terminator не может взять plasma cannon и chainfist вместе? Plasma cannon заменяет storm bolter. А chainfist выдаётся только взамен power fist и storm bolter вместе. У модели с plasma cannon storm bolter уже нет.',
       'Почему Dark Angels не могут взять Wrath of the Rock вместе с Terminator Storm Force? У обоих детачментов тег TERMINATOR. Два детачмента с одним тегом в один список брать нельзя. Этот тег им дают и Munitorum Field Manual, и приложение GW. В конструкторе тег подписан на карточке детачмента.',
+      { h: 'Спасибо' },
+      'Спасибо всем, кто поддерживает проект деньгами, и всем, кто присылает баг-репорты.',
+      'Последние дни были непростыми. Благодаря вашей поддержке мы со всем справились. Мы сделали сайт настолько устойчивым к сбоям, насколько это вообще в наших силах.',
     ],
   },
   {
