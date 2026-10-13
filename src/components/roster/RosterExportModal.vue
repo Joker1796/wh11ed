@@ -5,7 +5,7 @@
     @close="$emit('close')"
   >
     <div class="modal-body rex">
-      <!-- One list, five dialects: which one you need depends on where it is going (a TO's inbox,
+      <!-- One list, six dialects: which one you need depends on where it is going (a TO's inbox,
            a tournament header, a Discord channel), so the choice is asked every time and not kept
            as a setting. A native select rather than a row of tabs (owner, 2026-10-05): five of
            them took two lines on a phone, and a select opens the phone's own list instead of a
@@ -23,6 +23,31 @@
       <p class="rex-hint">
         {{ labels[FMT_HINT[format]] }}
       </p>
+      <!-- The Russian tournament header names a team and a player: filled in here, once, rather than
+           typed into the text after every export. Remembered on this device, like a sign-in form. -->
+      <div
+        v-if="format === 'rus'"
+        class="rex-who"
+      >
+        <label class="rex-fmt">
+          <span>{{ labels.rosterExportTeam }}</span>
+          <input
+            v-model.trim="team"
+            type="text"
+            maxlength="60"
+            autocomplete="organization"
+          >
+        </label>
+        <label class="rex-fmt">
+          <span>{{ labels.rosterExportPlayer }}</span>
+          <input
+            v-model.trim="player"
+            type="text"
+            maxlength="60"
+            autocomplete="name"
+          >
+        </label>
+      </div>
       <textarea
         class="rex-text"
         readonly
@@ -57,7 +82,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -78,16 +103,27 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const FORMATS = EXPORT_FORMATS
-const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', 'wtc-compact': 'rosterFmtWtcCompact', compact: 'rosterFmtCompact', simple: 'rosterFmtSimple' }
-const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', 'wtc-compact': 'rosterFmtWtcCompactHint', compact: 'rosterFmtCompactHint', simple: 'rosterFmtSimpleHint' }
+const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', 'wtc-compact': 'rosterFmtWtcCompact', compact: 'rosterFmtCompact', simple: 'rosterFmtSimple', rus: 'rosterFmtRus' }
+const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', 'wtc-compact': 'rosterFmtWtcCompactHint', compact: 'rosterFmtCompactHint', simple: 'rosterFmtSimpleHint', rus: 'rosterFmtRusHint' }
 const format = ref('gw')
 
 // The footer names the tool and the points data that wrote the list — never the GW app's own
 // version, which we would be claiming falsely (see rosterExport.js).
 const version = { app: APP_VERSION, data: APP_DATA_VERSION }
+
+// Team and player for the Russian tournament header, per device. Storage can be missing or throw
+// (a private window): the fields then simply start empty.
+const STORE = { team: 'wh11ed-export-team', player: 'wh11ed-export-player' }
+const stored = (k) => { try { return localStorage.getItem(k) || '' } catch { return '' } }
+const team = ref(stored(STORE.team))
+const player = ref(stored(STORE.player))
+watch([team, player], ([t, p]) => {
+  try { localStorage.setItem(STORE.team, t); localStorage.setItem(STORE.player, p) } catch { /* not kept */ }
+})
+
 const text = computed(() => buildRosterText(
   props.roster,
-  { faction: props.faction, core: props.core, items: props.items, version },
+  { faction: props.faction, core: props.core, items: props.items, version, who: { team: team.value, player: player.value } },
   format.value,
 ))
 
@@ -135,6 +171,17 @@ async function copy(value, which) {
   cursor: pointer;
 }
 .rex-hint { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
+.rex-who { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.rex-who input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.45rem 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+}
+.rex-who input:focus { outline: none; border-color: var(--accent); }
 .rex-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .rex-btn {
   display: inline-flex;

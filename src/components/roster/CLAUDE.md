@@ -931,6 +931,14 @@ directory; still part of this feature:
   - **`wtc-compact`** — the same list with the per-profile bullets folded into the unit's own line.
     It is not a different grammar (the readers in circulation parse both with one parser), just a
     shorter body: a squad is one line instead of three.
+  - **`rus`** — the Russian tournament layout of 40001format.xyz (added 2026-10-13, a contributor's
+    request): the site Russian organisers are sent to reads only BattleScribe `.ros/.rosz`, which
+    we do not write — a real one needs BSData catalogue ids our app-sourced data does not carry.
+    The layout is plain text, so we print it: `+ Team / Player / Army name / HIN / Factions used /
+    Total cost` between rows of fifty `+`, `++ detachments (dispositions) N pts ++`, then units by
+    that site's category codes (EH, CH, BL, IN, SW, MO, BE, MS, VE, DR, DT, FT, allies AU, the
+    rest OT). Team and player are fields of the export dialog, kept per device. Not verified
+    against a tournament yet: a real accepted list is the fixture to ask for.
   - **`compact`** — ours, one line per unit for a chat message; identical entries collapse to `2x`
     with their points **summed**, so the copy surcharge stays visible. The shortest thing here, at
     the price of being the one format nobody else parses.
