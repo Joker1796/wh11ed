@@ -266,6 +266,8 @@ const isLong = (body) => (Array.isArray(body) ? body.join('\n') : String(body ||
 @media (min-width: 1024px) {
   .rb-cols :deep(.rule-body) { column-count: 2; column-gap: 1.5rem; }
   .rb-cols :deep(.rule-body > *) { break-inside: avoid; }
+  /* A plate never closes a column with its text in the next one. */
+  .rb-cols :deep(.rule-subheading) { break-after: avoid; }
 }
 
 .strat-grid {

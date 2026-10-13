@@ -318,11 +318,18 @@ p {
   color: var(--text-primary);
   margin: 0.75rem 0 0.25rem;
   scroll-margin-top: 100px;
+  /* The RU name rides on the right of the English one where the line has room, and drops under it
+     where it has not (owner, 2026-10-13): a wrapped item alone on its line starts it, so the drop
+     lands left-aligned as before. */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  column-gap: 1rem;
 }
 
-/* RU translation of an English subheading — small muted line tucked under it */
+/* RU translation of an English subheading — small and muted, beside it or under it */
 .rule-subheading-ru {
-  display: block;
   font-family: var(--font-sans);
   font-size: 1rem;
   font-weight: 500;
