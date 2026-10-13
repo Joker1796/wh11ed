@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { enhEligible, enhOptionsFor, allyGroupsFor, allySourceOf, allyBars, leadTypeFor, hostSlotTaken, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
+import { enhEligible, enhOptionsFor, allyGroupsFor, allySourceOf, allyBars, mustBeWarlord, settleSupremeWarlord, leadTypeFor, hostSlotTaken, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
 import { duplicateLimit, validateRoster } from '../../composables/rosterValidation.js'
 import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
@@ -104,6 +104,21 @@ describe('allied units', () => {
       }
     }
     expect(lifted).toBeGreaterThan(0)
+  })
+
+  // Be'lakor is a SUPREME COMMANDER and a Daemonic Pact ally: the allied rule wins (owner,
+  // 2026-10-13) — the builder does not seat him, and the list owes him nothing.
+  it('let a SUPREME COMMANDER ally stay out of the Warlord seat', async () => {
+    const csm = await loadRosterFaction('chaos-space-marines', { allies: true })
+    const defOf = (id) => csm.units.find((u) => u.id === id)
+    expect(mustBeWarlord(defOf('chaos-daemons:belakor'), 'chaos-daemons:belakor')).toBe(false)
+    const units = [{ uid: 'b', id: 'chaos-daemons:belakor', size: 0 }, { uid: 'l', id: 'chaos-lord', size: 0 }]
+    expect(settleSupremeWarlord(units, defOf, 'b')).toBe(null)
+    units[1].warlord = true
+    const det = csm.detachments.find((d) => d.name === 'Pactbound Zealots') || csm.detachments[0]
+    const codes = validateRoster({ faction: 'chaos-space-marines', detachments: [det.name], battleSize: 'strike-force', units }, { faction: csm, core: rosterCore, items: rosterItems.items }).issues.map((i) => i.code)
+    expect(codes).not.toContain('supremeCommanderNotWarlord')
+    expect(codes).not.toContain('supremeCommanderPick')
   })
 
   it('never name a bare target from another bundle, in any army', async () => {

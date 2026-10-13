@@ -27,10 +27,12 @@ export const changelog = [
     en: [
       { h: 'Roster builder' },
       '**Allies can no longer take an enhancement or be the Warlord.** The allied rule forbids both, and before the builder offered them and then marked the list as invalid. For example, a [Changecaster](/factions/chaos-daemons/datasheets/changecaster) in a Chaos Space Marines list. Where an ally group allows enhancements, they stay.',
+      '**[Be’lakor](/factions/chaos-daemons/datasheets/belakor) as an ally no longer has to be the Warlord.** Chaos Space Marines and Chaos Knights take him as an ally. His rule says he must be the Warlord, and the allied rule forbids it. The allied rule wins. Before, a list with him was invalid whichever way you set it.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
       '**Союзникам больше нельзя дать улучшение или сделать их Warlord.** Правило союзников запрещает и то, и другое, а раньше конструктор это предлагал и потом помечал список как неверный. Например, [Changecaster](/factions/chaos-daemons/datasheets/changecaster) в списке Chaos Space Marines. Там, где группа союзников разрешает улучшения, они остаются.',
+      '**[Be’lakor](/factions/chaos-daemons/datasheets/belakor) союзником больше не обязан быть Warlord.** У Chaos Space Marines и Chaos Knights он приходит союзником. Его правило требует быть Warlord, а правило союзников это запрещает. Правило союзников сильнее. Раньше список с ним был неверным при любом выборе.',
     ],
   },
   {

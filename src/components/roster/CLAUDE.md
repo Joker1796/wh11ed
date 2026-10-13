@@ -903,6 +903,11 @@ directory; still part of this feature:
   passes the seat to a SUPREME unit still on the list, and undoing that removal takes it back.
   The lesson is the general one: when appdata's per-datasheet text looks contradictory, the core
   rules this app already ships usually settle it.
+  **Except an ally** (`mustBeWarlord`, owner 2026-10-13): the cross-faction allied rule's "None of
+  these models can be your WARLORD" wins over SUPREME COMMANDER — Be'lakor in a Chaos Space
+  Marines or Chaos Knights list is neither seated nor owed the title. `allyBars` is the editor's and
+  the validator's one answer for what an ally may not have (the Warlord, an enhancement unless its
+  group allows one).
   `unknownUnit` is the one issue about the DATA rather than the list: a roster outlives the
   generated files it was built against, and an id that no longer resolves is filtered out by every
   other reader (the grouped lists, the export, the points), so the unit used to vanish and the army
