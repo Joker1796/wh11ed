@@ -22,7 +22,7 @@
         </p>
         <RuleBlock
           :id="faction.armyRule.id"
-          :class="{ 'rb-cols': isLong(faction.armyRule.body, faction.armyRule.example) }"
+          :class="{ 'rb-cols': isLong(faction.armyRule.body) }"
           :title="faction.armyRule.name"
           :subtitle="faction.armyRule.nameRu"
           :body="faction.armyRule.body"
@@ -202,9 +202,8 @@ const detachments = computed(() => {
 const { activeDetachment } = useFactionChoice()
 const det = computed(() => activeDetachment(slug.value, detachments.value))
 // A rule text long enough to read as a page on the desktop flows in two columns there (`.rb-cols`);
-// a short one would only be split into two stubs. Its example counts: a short rule with a long one
-// reads as the rule on the left and the example on the right (Necrons, owner 2026-10-13).
-const isLong = (...parts) => parts.map((p) => (Array.isArray(p) ? p.join('\n') : String(p || ''))).join('').length > 700
+// a short one would only be split into two stubs.
+const isLong = (body) => (Array.isArray(body) ? body.join('\n') : String(body || '')).length > 700
 </script>
 
 <style scoped>
