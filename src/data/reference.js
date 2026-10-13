@@ -1150,6 +1150,74 @@ export const faqs = {
       q: 'Does vertical movement in a unit that has **taken to the skies** count towards the distance a model has used for the purposes of [HEAVY]?',
       a: 'No.',
     },
+    {
+      q: 'My unit has access to a rule that changes the Damage characteristic of an incoming attack to 0. When such an attack is allocated to a model in that unit, is the Damage changed before or after save rolls?',
+      a: 'After.',
+    },
+    {
+      q: 'Fight On Death (05.04.05) requires models awaiting such an ability to stay on the battlefield until their unit has attacked (or until the end of the phase). How do these models function while this is the case?',
+      a: 'Models awaiting a Fight On Death ability are still present on the battlefield for all rules purposes. This includes (but is not limited to) the following regarding such models:\n▪ They can be measured to by friendly/enemy abilities.\n▪ They can be considered **visible** to friendly/enemy models where relevant.\n▪ They can use their datasheet abilities.\n▪ They can be targeted by **stratagems**.\n▪ Enemy units can still be **engaged** with them (which may restrict the opposing player\'s **consolidation/pile-in moves** made as part of an **overrun fight**).',
+    },
+    {
+      q: 'When does a model\'s or unit\'s ability in an **attached** unit apply to all models in that unit?',
+      a: 'A rule that applies to \'this/that unit\' or \'models in this/that unit\' applies to all models in an **attached** unit. Rules that just apply to one model in an **attached** unit (for example, a rule that grants a model **Feel No Pain** or **Lone Operative**) only apply to that model, not to all models in the **attached** unit.',
+    },
+    {
+      q: 'Can I use the **Insane Bravery stratagem** on a **battle-shocked** unit?',
+      a: 'No, as a unit\'s controlling player cannot target that unit with **stratagems** (01.07).',
+    },
+    {
+      q: 'Units have all the keywords of all their models, and attached units have all the keywords of all of their component units. How are destroyed models taken into account for these purposes?',
+      a: 'These statements are only true so long as the models possessing those keywords remain part of the unit; **destroyed** models do not contribute their keywords to their prior unit.\n\n**Example:** The Aspiring Sorcerer model in a unit of Rubric Marines is **destroyed**; as none of the remaining models in the unit possess the PSYKER keyword, that unit is no longer a PSYKER unit.',
+    },
+    {
+      q: 'Do a unit\'s abilities continue to function while they are embarked within a TRANSPORT?',
+      a: 'Yes, within the restrictions specified by the ability itself. Embarked units are Not On The Battlefield (01.02.04), so any ability requiring **visibility** or measurement to another unit will fail.\n\n**Example:** Azrael is attached to an Intercessor Squad unit and embarked within a TRANSPORT, and that TRANSPORT is making a shooting attack using the Firing Deck ability. While Azrael\'s Supreme Grand Master ability is still technically active, it will have no effect, as the requirements of the ability are not met (the ability affects \'weapons equipped by models\' in Azrael\'s unit, and for the purposes of Firing Deck, the TRANSPORT itself is equipped with those weapons instead).',
+    },
+    {
+      q: 'When checking **line of sight** from one model to another, is this drawn between the bases of those models, or between any part of them?',
+      a: '**Line of sight** is drawn from any part of the observing model to any part of the model being observed.',
+    },
+    {
+      q: 'If both players have units with the Scouts ability, do they alternate resolving scout moves?',
+      a: 'Yes, players alternate resolving any pre-battle rules units from their army may have, starting with the player who will take the first turn.',
+    },
+    {
+      q: 'When a model overhangs the edge of the battlefield, how does that affect its visibility?',
+      a: 'That model\'s controlling player can draw **line of sight** from any part of that model that is not overhanging the edge of the battlefield. Their opponent can draw **line of sight** to any part of that model.',
+    },
+    {
+      q: 'When do the effects of a FLYING unit taking to the skies apply?',
+      a: 'When that unit is selected to make a **normal/advance/fall-back/charge move**. Note that for an **advance/charge move**, this means you must declare that a unit will **take to the skies** __before__ rolling for that **advance/charge move**.',
+    },
+    {
+      q: 'Can a unit be controlling more than one **objective** at once?',
+      a: 'Yes.',
+    },
+    {
+      q: 'When determining control over an **objective**, can the same model\'s **OC** count towards more than one **objective** that model is within range of?',
+      a: 'Yes.',
+    },
+    {
+      q: 'If a rule refers to an \'objective marker\', does this mean an \'objective\'?',
+      a: 'Yes (excluding rules in the Core Rules).',
+    },
+    {
+      q: 'If a rule\'s effect lasts until the end of a specific part of the battle (e.g. until the end of the phase, until the end of the turn), is that rule still in effect at the end of that part of the battle?',
+      a: 'Yes. For example, if an ability gave a unit +1 **OC** until the end of the turn, at the end of the turn, that unit would still have +1 **OC**. That unit would not have +1 **OC** at the start of the next turn.',
+    },
+    {
+      q: 'How do modifiers to the charge roll (or to the maximum distance of the charge move, such as Take to the Skies) affect the selection of charge targets?',
+      a: 'A charging unit may only select **charge targets** that are within the **maximum distance** of their **charge roll**, including any modifiers. If such a modifier occurs after selecting a **charge target** and causes that **charge target** to no longer be within the **maximum distance**, the charging unit would then select new targets (Target No Longer Eligible Or Viable, 04.03.03).\n\n**Example:** A unit\'s **charge roll** is 7", and that unit has a datasheet ability which adds 1 to **charge rolls**: that charge\'s **maximum distance** is 8", so you can select **charge targets** within 8".\n\n**Example:** A FLYING unit chooses to **take to the skies** and rolls a **charge roll** of 9"; that charge\'s **maximum distance** is 7" (9" minus the 2" from **taking to the skies**), so you can select **charge targets** within 7".',
+    },
+    {
+      q: 'My attack has a rule that means it results in a **critical hit** on a **hit roll** of 4+. Does this work when **snap shooting**?',
+      a: 'Unless otherwise stated, no: when **snap shooting**, each attack only hits on a roll of 6.',
+    },
+    {
+      q: 'My attack has a rule that means it results in a **critical hit** on a **hit roll** of 4+, and I would otherwise need a 5+ to hit. Does a 4+ hit?',
+      a: 'Yes, except when **snap shooting**: when **snap shooting**, each attack only hits on a roll of 6.',
+    },
   ],
   ru: [
     {
@@ -1359,6 +1427,74 @@ export const faqs = {
     {
       q: 'Учитывается ли вертикальное перемещение юнита, который **взлетел** (taken to the skies), в дистанции, пройденной моделью для целей [HEAVY]?',
       a: 'Нет.',
+    },
+    {
+      q: 'У моего юнита есть правило, которое меняет характеристику Damage входящей атаки на 0. Когда такая атака распределена на модель этого юнита, Damage меняется до или после бросков спасения?',
+      a: 'После.',
+    },
+    {
+      q: 'Fight On Death (05.04.05) требует, чтобы модели, ожидающие такой способности, оставались на поле боя, пока их юнит не атакует (или до конца фазы). Как ведут себя такие модели в это время?',
+      a: 'Модели, ожидающие способности Fight On Death, по-прежнему находятся на поле боя для всех целей правил. В том числе (но не только) для таких моделей:\n▪ До них можно измерять расстояние для дружественных и вражеских способностей.\n▪ Они могут считаться **видимыми** для дружественных и вражеских моделей, где это важно.\n▪ Они могут использовать способности своего датащита.\n▪ Их можно выбирать целью **стратагем**.\n▪ Вражеские юниты по-прежнему могут быть **связаны боем** с ними (что может ограничить **консолидацию/сближение** оппонента в рамках **оверрана**).',
+    },
+    {
+      q: 'Когда способность модели или юнита в **составном** юните действует на все модели этого юнита?',
+      a: 'Правило, которое действует на «этот/тот юнит» или «модели этого/того юнита», действует на все модели **составного** юнита. Правила, которые действуют только на одну модель **составного** юнита (например, правило, дающее модели **Feel No Pain** или **Lone Operative**), действуют только на эту модель, а не на все модели **составного** юнита.',
+    },
+    {
+      q: 'Могу ли я использовать **стратагему Insane Bravery** на юните **в боевом шоке**?',
+      a: 'Нет: контролирующий игрок не может выбирать такой юнит целью **стратагем** (01.07).',
+    },
+    {
+      q: 'Юнит имеет все ключевые слова всех своих моделей, а составной юнит — все ключевые слова всех своих юнитов-составляющих. Как при этом учитываются уничтоженные модели?',
+      a: 'Это верно, только пока модели с этими ключевыми словами остаются в юните; **уничтоженные** модели не передают свои ключевые слова бывшему юниту.\n\n**Пример:** модель Aspiring Sorcerer в юните Rubric Marines **уничтожена**; ни у одной из оставшихся моделей юнита нет ключевого слова PSYKER, поэтому юнит больше не является юнитом PSYKER.',
+    },
+    {
+      q: 'Продолжают ли способности юнита действовать, пока он находится внутри TRANSPORT?',
+      a: 'Да, в пределах ограничений, указанных в самой способности. Юниты внутри транспорта находятся вне поля боя (Not On The Battlefield, 01.02.04), поэтому любая способность, которой нужна **видимость** или измерение расстояния до другого юнита, не сработает.\n\n**Пример:** Azrael присоединён к юниту Intercessor Squad и находится внутри TRANSPORT, а этот TRANSPORT стреляет по способности Firing Deck. Способность Azrael Supreme Grand Master формально по-прежнему действует, но эффекта не даёт, потому что её условия не выполнены (она действует на «оружие моделей» юнита Azrael, а для Firing Deck этим оружием вместо них снаряжён сам TRANSPORT).',
+    },
+    {
+      q: 'При проверке **линии обзора** от одной модели до другой она проводится между подставками этих моделей или между любыми их частями?',
+      a: '**Линия обзора** проводится от любой части наблюдающей модели до любой части модели, за которой наблюдают.',
+    },
+    {
+      q: 'Если у обоих игроков есть юниты со способностью Scouts, отыгрывают ли они разведывательные манёвры по очереди?',
+      a: 'Да, игроки по очереди отыгрывают все предбоевые правила юнитов своих армий, начиная с игрока, который будет ходить первым.',
+    },
+    {
+      q: 'Как влияет на видимость модели то, что она выступает за край поля боя?',
+      a: 'Контролирующий игрок может проводить **линию обзора** от любой части модели, которая не выступает за край поля боя. Его оппонент может проводить **линию обзора** до любой части этой модели.',
+    },
+    {
+      q: 'Когда начинают действовать эффекты того, что юнит FLYING поднимается в небо?',
+      a: 'Когда этот юнит выбран для **обычного манёвра/продвижения/отступления/манёвра нападения**. Обратите внимание: для **продвижения и манёвра нападения** это значит, что вы должны объявить, что юнит **поднимается в небо**, __до__ броска на **продвижение или нападение**.',
+    },
+    {
+      q: 'Может ли юнит контролировать больше одной **цели** одновременно?',
+      a: 'Да.',
+    },
+    {
+      q: 'При определении контроля над **целью** может ли **OC** одной и той же модели учитываться для нескольких **целей**, в пределах дальности которых она находится?',
+      a: 'Да.',
+    },
+    {
+      q: 'Если правило говорит о «маркере цели» (objective marker), означает ли это «цель» (objective)?',
+      a: 'Да (кроме правил из базовых правил).',
+    },
+    {
+      q: 'Если эффект правила длится до конца определённой части битвы (например, до конца фазы или до конца хода), действует ли это правило ещё в конце этой части битвы?',
+      a: 'Да. Например, если способность дала юниту +1 **OC** до конца хода, то в конце хода у этого юнита по-прежнему +1 **OC**. В начале следующего хода +1 **OC** у него уже не будет.',
+    },
+    {
+      q: 'Как модификаторы броска нападения (или максимального расстояния манёвра нападения, например Take to the Skies) влияют на выбор целей нападения?',
+      a: 'Нападающий юнит может выбирать **целями нападения** только юниты в пределах **максимального расстояния** своего **броска нападения** с учётом всех модификаторов. Если такой модификатор появляется уже после выбора **цели нападения** и эта **цель нападения** перестаёт быть в пределах **максимального расстояния**, нападающий юнит выбирает новые цели (Target No Longer Eligible Or Viable, 04.03.03).\n\n**Пример:** **бросок нападения** юнита — 7", и у юнита есть способность датащита, добавляющая 1 к **броскам нападения**: **максимальное расстояние** этого нападения — 8", так что вы можете выбирать **цели нападения** в пределах 8".\n\n**Пример:** юнит FLYING решает **подняться в небо** и выбрасывает 9" на **броске нападения**; **максимальное расстояние** этого нападения — 7" (9" минус 2" за то, что он **поднялся в небо**), так что вы можете выбирать **цели нападения** в пределах 7".',
+    },
+    {
+      q: 'У моей атаки есть правило, по которому она даёт **критическое попадание** на **броске на попадание** 4+. Работает ли это при **стрельбе навскидку**?',
+      a: 'Если не указано иное, нет: при **стрельбе навскидку** каждая атака попадает только на 6.',
+    },
+    {
+      q: 'У моей атаки есть правило, по которому она даёт **критическое попадание** на **броске на попадание** 4+, а иначе мне нужно 5+ для попадания. Попадает ли 4+?',
+      a: 'Да, кроме **стрельбы навскидку**: при **стрельбе навскидку** каждая атака попадает только на 6.',
     },
   ],
 }

@@ -42,6 +42,8 @@
 //     stored per id and synced to their account. Non-zero exit
 //   - check-emphasis — GATE: emphasis the canon carries that our prose dropped — a core ability
 //     named in a sentence, a keyword that lost its capitals. Non-zero exit
+//   - check-core-faq — GATE: every Core Rules FAQ / errata entry in appdata's faq.json is on the
+//     Reference page (reference.js faqs / errata), EN and RU. Non-zero exit
 //   - sync-core        — core rulebook prose (sections 01-25)
 //   - sync-event-companion — Event Companion + Teams supplement prose (Doubles/Dominatus are out
 //     of scope by product decision, inventoried only) and the 6 Twists (mission_twist.json)
@@ -164,6 +166,7 @@ const coreGrantsFailed = await run('check-core-grants (GATE)', './check-core-gra
 const dsIdsFailed = await run('check-datasheet-ids (GATE)', './check-datasheet-ids.mjs')
 const exceptionsFailed = await run('check-appdata-exceptions (GATE)', './check-appdata-exceptions.mjs')
 const errataTablesFailed = await run('check-errata-tables (GATE)', './check-errata-tables.mjs')
+const coreFaqFailed = await run('check-core-faq (GATE)', './check-core-faq.mjs')
 const emphasisFailed = await run('check-emphasis (GATE)', './check-emphasis.mjs')
 const layoutArtFailed = await run('check-layout-art (GATE)', './check-layout-art.mjs')
 const companionsFailed = await run('check-companion-pdfs (GATE)', './check-companion-pdfs.mjs')
@@ -193,6 +196,7 @@ if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale — run 
 if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
 if (rosterStale) console.log('⚠ src/data/roster/*.js is stale — run `npm run roster:data`.')
 if (glossStale) console.log('⚠ bold terms the glossary knows are not popovers yet (Space Marines family) — run `npm run gloss`.')
+if (coreFaqFailed) console.log('✗ a Core Rules FAQ or errata entry appdata carries is missing from the Reference page (`npm run corefaq`).')
 if (omissionsFailed) console.log('✗ core rules are MISSING appdata text — see the check-rule-omissions section (`npm run omissions`).')
 if (detMetaFailed) console.log('✗ a faction rules page disagrees with the MFM on dp / Force Disposition (`npm run detmeta`).')
 if (wTagsFailed) console.log('✗ a weapon tag on a datasheet has no text anywhere (`npm run wtags`).')
