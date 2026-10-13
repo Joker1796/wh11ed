@@ -79,7 +79,7 @@ defineProps({
   left: -0.156rem;
   font-family: var(--font-display);
   font-size: 5.4rem;
-  font-weight: 800;
+  font-weight: 700;
   color: currentColor;
   opacity: 0.45;
   line-height: 1;

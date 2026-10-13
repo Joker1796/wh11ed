@@ -193,9 +193,27 @@ function appShell() {
   }
 }
 
+// Every @fontsource (and bootstrap-icons) @font-face names a `.woff` after its `.woff2`, for
+// browsers that predate woff2. This app's floor is Safari 16 (src/components/CLAUDE.md), so no
+// browser that can run it ever takes the second url — but the bundler still handled the files, and
+// five small Sofia ones fell under the inline limit and were base64'd into the CSS every visitor
+// downloads (17 KB gzipped, 2026-10-13). Cut the fallback out of the CSS before Vite resolves it,
+// and the `.woff` files are never emitted at all.
+function woff2Only() {
+  return {
+    name: 'woff2-only',
+    enforce: 'pre',
+    transform(code, id) {
+      if (!/[\\/]node_modules[\\/](@fontsource|bootstrap-icons)[\\/].*\.css$/.test(id)) return null
+      return { code: code.replace(/,\s*url\(\s*["']?[^)"']+\.woff(\?[^)"']*)?["']?\s*\)\s*format\(\s*["']woff["']\s*\)/g, ''), map: null }
+    },
+  }
+}
+
 export default defineConfig({
   base: '/',
   plugins: [
+    woff2Only(),
     vue(),
     buildInfoMeta(),
     appShell(),
@@ -330,6 +348,11 @@ export default defineConfig({
     }),
   ],
   build: {
+    // A font is never inlined into the CSS. A subset file is fetched only when the page draws a
+    // character in its range, and the warm-up fetches it for offline; base64'd into the stylesheet
+    // every visitor would pay for it (three 2 KB Sofia cyrillic-ext ones did, 2026-10-13). Anything
+    // else keeps Vite's default limit.
+    assetsInlineLimit: (file) => (/\.woff2?$/.test(file) ? false : undefined),
     rolldownOptions: {
       output: {
         // Two long-lived chunks beside the entry: `vendor` (Vue and the router library) changes

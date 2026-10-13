@@ -815,7 +815,7 @@ function footLine(g) {
 .gc-center { display: flex; flex-direction: column; align-items: center; gap: 0.05rem; padding: 0 0.15rem; }
 .gc-score {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   /* Large, the one thing a history row is read for (owner, 2026-09-29) — but by the width: at
      320px a 2.6rem "100 – 95" squeezed both names into mid-word breaks. */
   font-size: clamp(1.9rem, 9.5vw, 2.6rem);
@@ -825,7 +825,7 @@ function footLine(g) {
   letter-spacing: -0.01em;
 }
 .gc-dash { margin: 0 0.24em; color: var(--text-dim); font-weight: 500; }
-.gc-result { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.11em; }
+.gc-result { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.11em; }
 .res-win .gc-result { color: #e3b341; }
 .res-loss .gc-result { color: var(--danger); }
 .res-draw .gc-result { color: var(--text-dim); }

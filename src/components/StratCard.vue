@@ -268,7 +268,7 @@ const renderField = text => (text ? renderRichText(text) : '')
   min-width: 64px;
   width: auto;
   font-size: 0.62rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.7px;
   color: var(--turn-text);

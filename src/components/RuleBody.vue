@@ -474,7 +474,7 @@ p {
 
 .info-label {
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--text-primary);

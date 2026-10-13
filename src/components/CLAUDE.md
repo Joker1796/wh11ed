@@ -424,6 +424,12 @@ colour / which face / how big" question.
   at 700, a dozen small labels at 500 all lightened). Emphasis that small comes from colour or
   case, not weight. `npm run a11y` checks it on rendered pages (computed styles, so an inherited
   `--fw-heading` counts too).
+  **Only the faces the app draws are loaded** (`src/fonts.js`, 2026-10-13): Inter 400–700, Sofia
+  400/500/700, EB Garamond 400 *italic*. There is no weight 800 (the logo, labels and dark-theme
+  `strong` are 700, owner's call) and no upright Garamond. The installed app's warm-up fetches
+  every subset of every loaded face, so each one costs ~40–140 KB offline; a style asking for a
+  face that is not loaded is substituted by the browser without a word, which is what `npm run
+  a11y`'s `face` check is for.
 - **Layout constants** — `--navbar-height`, `--subnav-height`, `--header-total`,
   `--sidebar-width`, the `--safe-*` insets. Anything that must line up with the chrome
   references these rather than repeating `56px`.

@@ -551,7 +551,7 @@ function closeRulesMenu() {
 .logo-wh {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-on-dark);
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -581,7 +581,7 @@ function closeRulesMenu() {
   padding: 1px 6px 0;
   font-family: var(--font-display);
   font-size: 0.66rem;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: 1px;
   text-transform: uppercase;
