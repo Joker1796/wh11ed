@@ -29,7 +29,7 @@
         v-if="format === 'rus'"
         class="rex-who"
       >
-        <label class="field">
+        <label class="rex-fmt">
           <span>{{ labels.rosterExportTeam }}</span>
           <input
             v-model.trim="team"
@@ -38,7 +38,7 @@
             autocomplete="organization"
           >
         </label>
-        <label class="field">
+        <label class="rex-fmt">
           <span>{{ labels.rosterExportPlayer }}</span>
           <input
             v-model.trim="player"
@@ -172,7 +172,16 @@ async function copy(value, which) {
 }
 .rex-hint { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
 .rex-who { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
-.rex-who input { width: 100%; }
+.rex-who input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.45rem 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+}
+.rex-who input:focus { outline: none; border-color: var(--accent); }
 .rex-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .rex-btn {
   display: inline-flex;
