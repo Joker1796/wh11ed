@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { buildRosterText, EXPORT_FORMATS } from './rosterExport.js'
+import { optionLabel } from './rosterEngine.js'
 
 const core = { battleSizes: [{ id: 'strike-force', name: 'Strike Force', points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }] }
 const items = { 1: 'Bolt pistol', 2: 'Chainsword', 3: 'Bolt rifle', 5: 'Power fist', 9: 'Astartes chainsword' }
@@ -352,11 +353,16 @@ describe('rus — the Russian tournament format', () => {
     const sm = await loadRosterFaction('space-marines')
     const det = sm.detachments.find((d) => d.enhancements?.length && !d.lend)
     const enh = det.enhancements[0].name
+    // One Eradicator takes a multi-melta: [group, option, count].
+    const erad = sm.units.find((u) => u.id === 'eradicator-squad-with-melta-rifles')
+    const egi = erad.gear.findIndex((g) => g.o.some((o) => optionLabel(o, itemsData.items) === 'Multi-melta'))
+    const eradMelta = [egi, erad.gear[egi].o.findIndex((o) => optionLabel(o, itemsData.items) === 'Multi-melta'), 1]
     const roster = { name: 'Dragon', faction: 'space-marines', detachments: [det.name], battleSize: 'strike-force', units: [
       { uid: 'c', id: 'captain-in-terminator-armour', size: 0, warlord: true, enh, leaderOf: 't' },
       { uid: 't', id: 'terminator-assault-squad', size: 1 },
       { uid: 'r', id: 'redemptor-dreadnought', size: 0 },
       { uid: 'i', id: 'impulsor', size: 0 },
+      { uid: 'e', id: 'eradicator-squad-with-melta-rifles', size: 0, wg: [eradMelta] },
     ] }
     const ctxRus = { faction: sm, core: coreData, items: itemsData.items, who: { player: 'Ivan', hin: '933' } }
     const text = buildRosterText(roster, ctxRus, 'rus')
@@ -369,11 +375,14 @@ describe('rus — the Russian tournament format', () => {
     ])
     expect(text).toContain('\nAttached Unit 1:\nCH1: Captain in Terminator Armour: ')
     expect(text).toMatch(new RegExp(`^CH1: Captain in Terminator Armour: .*${enh}, Warlord \\(\\d+ pts\\)$`, 'm'))
-    expect(text).toMatch(/^IN1: \(\d+\) Terminator Assault Squad: .* \(\d+ pts\)$/m)
-    expect(text).toMatch(/^VE1: Redemptor Dreadnought: /m)
-    expect(text).toMatch(/^DT1: Impulsor: /m)
-    // Fixed wargear is not written: the Redemptor's fists, the Impulsor's tracks.
-    expect(text).not.toMatch(/Redemptor Fist|Armoured Hull/i)
+    expect(text).toMatch(/^IN1: \(\d+\) Terminator Assault Squad \(\d+ pts\)$/m)
+    expect(text).toMatch(/^DT1: Impulsor \(\d+ pts\)$/m)
+    // Only the swaps are written: the multi-melta, not the melta rifles kept beside it; a unit
+    // with no swap ends at its name.
+    expect(text).toMatch(/^IN\d: \(3\) Eradicator Squad with melta rifles: 1x Multi-melta \(\d+ pts\)$/m)
+    expect(text).not.toMatch(/\dx Melta Rifle|Redemptor Fist|Armoured Hull|Twin Lightning Claws|Storm Bolters/i)
+    expect(text).toMatch(/^VE1: Redemptor Dreadnought \(\d+ pts\)$/m)
+    expect(text).toMatch(/^CH1: Captain in Terminator Armour: [^:]*$/m)
     // The unit lines add up to the header's total.
     const total = Number(/TOTAL ARMY POINTS: (\d+)/.exec(text)[1])
     const sum = [...text.matchAll(/^[A-Z]{2}\d+: .*\((\d+) pts\)$/gm)].reduce((n, x) => n + Number(x[1]), 0)

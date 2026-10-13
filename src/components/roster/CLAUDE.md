@@ -938,8 +938,9 @@ directory; still part of this feature:
     ENHANCEMENT` (HIN — the player's rating number, "-" until they have one; ONE disposition;
     enhancements as `CH1: name`), then `Attached Unit N:` blocks, then the rest under keyword
     prefixes EH CH BL IN MO BE VE MN DT FO AU numbered across the list; `(N)` before a name only
-    where the size can vary; of the wargear only what a choice reaches (an option's items or what
-    it gives up), taken or kept — never the fixed loadout; enhancement, then Warlord, then
+    where the size can vary; of the wargear only the swaps the player made, with how many
+    models took each ("1x Multi-melta") — never the printed loadout, kept or fixed (owner,
+    2026-10-13); enhancement, then Warlord, then
     `(N pts)` at the end. Player and HIN are fields of the export dialog, kept per device. A first
     draft followed 40001format.xyz (the formatter many organisers point at, which reads only
     BattleScribe `.ros/.rosz` — we do not write those: a real one needs BSData catalogue ids our
