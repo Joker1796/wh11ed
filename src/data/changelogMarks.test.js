@@ -20,13 +20,18 @@ describe('changelog marks', () => {
     }
   })
 
+  it('keeps no mark that no note uses', () => {
+    const used = new Set(changelog.flatMap((e) => [...e.en, ...e.ru].flatMap((n) => btns(text(n)))))
+    expect(Object.keys(BTN_ICONS).filter((k) => !used.has(k))).toEqual([])
+  })
+
   it('draws an icon button and a text button', () => {
     const html = renderMarks('Switch with {btn:gear}, undo with {key:Put back}.', 'ru')
     expect(html).toContain('<span class="cl-btn" role="img" aria-label="Настройки" title="Настройки"><i class="wi wi-settings"></i></span>')
     expect(html).toContain('<span class="cl-key">Put back</span>')
     expect(renderMarks('{btn:nope}')).toContain('{btn:nope}')
     // A pair of marks and the stop after them never break apart.
-    expect(renderMarks('switch {btn:gear} {btn:panes}. Next')).toMatch(/<span class="cl-nw"><span class="cl-btn"[^]*wi-panes[^]*<\/span>\.<\/span> Next$/)
+    expect(renderMarks('switch {btn:gear} {btn:gear}. Next')).toMatch(/<span class="cl-nw"><span class="cl-btn"[^]*wi-settings[^]*<\/span>\.<\/span> Next$/)
   })
 
   // A contributor's credit: the name in amber, escaped like any text.
