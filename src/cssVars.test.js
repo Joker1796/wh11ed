@@ -17,7 +17,6 @@ const ROOT = path.resolve(__dirname, '..')
 // Known, each with its reason. `--text-secondary` and `--muted` (21 hints and captions) were
 // removed 2026-10-13 rather than defined: the owner kept the colour they had always been drawn in.
 const KNOWN = {
-  '--side': '.side-frame (style.css) expects the block to set it; nothing on main renders that block',
 }
 
 function files(dir, out = []) {

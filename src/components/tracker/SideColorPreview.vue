@@ -110,7 +110,7 @@ function pick(side, key) {
 .scp-card .stamp { right: 2.6rem; height: calc(var(--stamp-k) * 3.6rem); color: var(--side); }
 .scp-name {
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; line-height: 1.1; color: var(--side);
+  font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; line-height: 1.1; color: var(--side);
 }
 .scp-fac { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.74rem; color: var(--text-muted); }
 .scp-foot { margin-top: 0.3rem; }

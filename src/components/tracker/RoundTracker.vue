@@ -1247,7 +1247,7 @@ function onEndBattle(reason) {
 @media (hover: hover) { .mission-card:hover { border-color: var(--side); } }
 .mc-name {
   flex: 1 1 auto; min-width: 0;
-  font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; line-height: 1.1; color: var(--side);
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; line-height: 1.1; color: var(--side);
 }
 .mc-tag {
   flex-shrink: 0; padding: 0.1rem 0.45rem; border: 1px solid var(--border);

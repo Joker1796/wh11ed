@@ -415,7 +415,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 }
 .card-name {
   flex: 1 1 auto; min-width: 0;
-  font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; line-height: 1.1;
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; line-height: 1.1;
   color: var(--side, var(--side-you));
 }
 /* Hover as on the primary's card (RoundTracker .mission-card): the card's frame takes its side's

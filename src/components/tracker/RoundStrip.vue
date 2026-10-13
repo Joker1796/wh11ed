@@ -183,7 +183,7 @@ function pick(n) {
 }
 .rs-end { flex: 0 0 auto; width: 2px; height: 10px; background: var(--border); }
 
-.rs-text { margin: 0 0 0.8rem; font-size: 0.9rem; line-height: 1.45; color: var(--text-secondary); }
+.rs-text { margin: 0 0 0.8rem; font-size: 0.9rem; line-height: 1.45; }
 .rs-list { display: grid; gap: 0.3rem; }
 .rs-item {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;

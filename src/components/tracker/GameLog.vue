@@ -234,7 +234,7 @@ async function copy() {
 .gl-round:first-child { margin-top: 0.6rem; }
 .gl-rh {
   margin: 0 0 0.35rem;
-  font-family: var(--font-display); font-size: 1.25rem; font-weight: 600;
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
   text-transform: uppercase; color: var(--text-primary);
 }
 .gl-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); background: var(--bg-card); }

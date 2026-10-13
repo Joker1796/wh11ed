@@ -224,7 +224,7 @@ defineExpose({ reveal })
 .ap-fac {
   flex: 1 1 auto; min-width: 0; margin: 0;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.1; color: var(--side);
+  font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; line-height: 1.1; color: var(--side);
 }
 .ap-note { flex: 1 1 auto; margin: 0; font-size: 0.82rem; color: var(--text-dim); }
 .ap-link { flex-shrink: 0; }
