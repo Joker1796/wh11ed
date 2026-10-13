@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { enhEligible, enhOptionsFor, allyGroupsFor, allySourceOf, leadTypeFor, hostSlotTaken, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
+import { enhEligible, enhOptionsFor, allyGroupsFor, allySourceOf, allyBars, mustBeWarlord, settleSupremeWarlord, leadTypeFor, hostSlotTaken, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../composables/rosterEngine.js'
 import { duplicateLimit, validateRoster } from '../../composables/rosterValidation.js'
 import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
@@ -83,6 +83,42 @@ describe('allied units', () => {
     expect(retinue(squads)).toHaveLength(1)
     expect(retinue([u('a', 'inquisitor'), ...squads])).toEqual([])
     expect(retinue([u('a', 'navigator'), u('v', 'voidsmen-at-arms'), u('d', 'exaction-squad'), u('e', 'vigilant-squad')])).toEqual([])
+  })
+
+  // The allied rule's last sentence, as the editor and validateRoster both read it: no Warlord, no
+  // enhancement — unless the group carries appdata's canTakeEnhancements. A unit of the army itself
+  // is barred from nothing.
+  it('bar a cross-faction ally from the Warlord and, unless its group allows one, an enhancement', async () => {
+    const csm = await loadRosterFaction('chaos-space-marines', { allies: true })
+    expect(allyBars(csm, 'chaos-daemons:changecaster')).toEqual({ warlord: true, enh: true })
+    expect(allyBars(csm, 'chaos-lord')).toBe(null)
+    let lifted = 0
+    for (const { slug } of factions) {
+      const data = await loadRosterFaction(slug, { allies: true })
+      for (const g of data?.allies || []) {
+        const id = (g.ids || []).find((x) => allySourceOf(x))
+        if (!id) continue
+        const bars = allyBars({ allies: [g] }, id)
+        expect(bars, `${slug} ${g.name}`).toEqual({ warlord: true, enh: !g.enh })
+        if (g.enh) lifted++
+      }
+    }
+    expect(lifted).toBeGreaterThan(0)
+  })
+
+  // Be'lakor is a SUPREME COMMANDER and a Daemonic Pact ally: the allied rule wins (owner,
+  // 2026-10-13) — the builder does not seat him, and the list owes him nothing.
+  it('let a SUPREME COMMANDER ally stay out of the Warlord seat', async () => {
+    const csm = await loadRosterFaction('chaos-space-marines', { allies: true })
+    const defOf = (id) => csm.units.find((u) => u.id === id)
+    expect(mustBeWarlord(defOf('chaos-daemons:belakor'), 'chaos-daemons:belakor')).toBe(false)
+    const units = [{ uid: 'b', id: 'chaos-daemons:belakor', size: 0 }, { uid: 'l', id: 'chaos-lord', size: 0 }]
+    expect(settleSupremeWarlord(units, defOf, 'b')).toBe(null)
+    units[1].warlord = true
+    const det = csm.detachments.find((d) => d.name === 'Pactbound Zealots') || csm.detachments[0]
+    const codes = validateRoster({ faction: 'chaos-space-marines', detachments: [det.name], battleSize: 'strike-force', units }, { faction: csm, core: rosterCore, items: rosterItems.items }).issues.map((i) => i.code)
+    expect(codes).not.toContain('supremeCommanderNotWarlord')
+    expect(codes).not.toContain('supremeCommanderPick')
   })
 
   it('never name a bare target from another bundle, in any army', async () => {

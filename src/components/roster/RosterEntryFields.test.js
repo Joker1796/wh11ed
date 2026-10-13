@@ -167,3 +167,29 @@ describe('RosterEntryFields — "Can lead"', () => {
     expect(w.emitted('add-host')).toEqual([['immortals', 'ov']])
   })
 })
+
+// "None of these models can be your WARLORD, and they cannot be given Enhancements" — the sentence
+// every cross-faction allied rule ends with. The editor offered a Changecaster in a Chaos Space
+// Marines list both (a player's report, 2026-10-13) and validateRoster then called the list illegal.
+describe('RosterEntryFields — an ally', () => {
+  it('is offered neither the Warlord nor an enhancement, as validateRoster asks it', async () => {
+    const { allyBars } = await import('../../composables/rosterEngine.js')
+    const csm = await loadRosterFaction('chaos-space-marines', { allies: true })
+    const det = csm.detachments.find((d) => d.enhancements?.length && !d.lend)
+    const units = [{ uid: 'cc', id: 'chaos-daemons:changecaster', size: 0 }]
+    const mountAlly = (more) => mount(RosterEntryFields, {
+      props: {
+        entry: units[0], units, defOf: (id) => csm.units.find((u) => u.id === id), catalogue: csm.units,
+        items: rosterItems.items, texts: rosterItems.texts, armySlug: 'chaos-space-marines', detachments: [det], ...more,
+      },
+      global: { stubs: { Teleport: true } },
+    })
+    const open = mountAlly().findComponent(UnitEditorFields)
+    expect(open.props('canWarlord')).toBe(true)
+    expect(open.props('enhOptions').some((o) => o.eligible)).toBe(true)
+    const barred = mountAlly({ allyBarsOf: (id) => allyBars(csm, id, [det]) }).findComponent(UnitEditorFields)
+    expect(barred.props('canWarlord')).toBe(false)
+    expect(barred.props('enhOptions').length).toBeGreaterThan(0)
+    expect(barred.props('enhOptions').some((o) => o.eligible)).toBe(false)
+  })
+})

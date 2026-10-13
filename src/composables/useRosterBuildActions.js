@@ -17,7 +17,7 @@
 //                     of the wizard's
 import { computed, ref } from 'vue'
 import { uid } from './useRosters.js'
-import { addUnitEntry, dispositionCandidates, dpLimitFor, duplicateUnitEntry, settleSupremeWarlord } from './rosterEngine.js'
+import { addUnitEntry, dispositionCandidates, dpLimitFor, duplicateUnitEntry, mustBeWarlord, settleSupremeWarlord } from './rosterEngine.js'
 import { useRosterUndo } from './useRosterUndo.js'
 
 export function useRosterBuildActions({ roster, factionData, curDetachments, effBattle, defOf, commit, setFaction }) {
@@ -100,7 +100,7 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
     const r = list()
     const entry = r && addUnitEntry(r.units, defOf(unitId), unitId, uid())
     if (!entry) return
-    if (defOf(unitId)?.flags?.supreme) settleSupremeWarlord(r.units, defOf, entry.uid)
+    if (mustBeWarlord(defOf(unitId), unitId)) settleSupremeWarlord(r.units, defOf, entry.uid)
     commit()
   }
   // "Can be led by": a Leader the list does not hold yet, added and attached to `hostUid` in one
@@ -111,7 +111,7 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
     const entry = addUnitEntry(r.units, defOf(unitId), unitId, uid())
     if (!entry) return
     entry.leaderOf = hostUid
-    if (defOf(unitId)?.flags?.supreme) settleSupremeWarlord(r.units, defOf, entry.uid)
+    if (mustBeWarlord(defOf(unitId), unitId)) settleSupremeWarlord(r.units, defOf, entry.uid)
     commit()
   }
   // …and its mirror, "Can lead": a unit the list does not hold yet, added with the Character

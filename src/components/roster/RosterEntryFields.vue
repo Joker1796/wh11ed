@@ -49,6 +49,8 @@ const props = defineProps({
   // another faction's bundle, which is what `slugOf` answers — the two are not the same question.
   armySlug: { type: String, default: '' },
   slugOf: { type: Function, default: () => '' },
+  // What an allied entry may not have — rosterEngine's allyBars (null for one of the army's own).
+  allyBarsOf: { type: Function, default: () => null },
   // What the catalogue offers right now, and its duplicate cap — for "Can be led by" and "Can lead".
   catalogue: { type: Array, default: () => [] },
   dupBlocked: { type: Function, default: () => false },
@@ -58,12 +60,18 @@ const props = defineProps({
 defineEmits(['toggle-warlord', 'add-leader', 'add-host'])
 
 const def = computed(() => props.defOf(props.entry.id))
-const canWarlord = computed(() => !!def.value && canBeWarlord(
+// An ally is never the Warlord and takes no enhancement unless its group says otherwise — asked of
+// allyBars, as validateRoster asks it, so the editor never offers what the list then calls an error.
+// A barred enhancement stays listed as ineligible: one already on the entry remains to be cleared.
+const bars = computed(() => props.allyBarsOf(props.entry.id))
+const canWarlord = computed(() => !!def.value && !bars.value?.warlord && canBeWarlord(
   def.value, props.detachments, [allegKeyword(def.value, props.entry, props.detachments)],
 ))
-const enhOptions = computed(() => (def.value
-  ? enhOptionsFor(def.value, props.detachments, props.units, props.entry.uid, props.armySlug)
-  : []))
+const enhOptions = computed(() => {
+  if (!def.value) return []
+  const opts = enhOptionsFor(def.value, props.detachments, props.units, props.entry.uid, props.armySlug)
+  return bars.value?.enh ? opts.map((o) => ({ ...o, eligible: false })) : opts
+})
 const leaderTargets = computed(() => (def.value
   ? leaderTargetsFor(def.value, props.units, props.entry.uid, props.defOf, props.detachments, props.items)
   : []))

@@ -22,7 +22,7 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import {
   rosterDetachments,
-  allySourceOf, capKeyOf, effectiveBattle, grantedKeywordsFor, leadTo, leadsFor, legalityOn, rosterPoints,
+  allyBars, allySourceOf, capKeyOf, effectiveBattle, grantedKeywordsFor, leadTo, leadsFor, legalityOn, rosterPoints,
   sectionsOf, sectionsOfUnits, unitPoints,
 } from './rosterEngine.js'
 import { duplicateCounts, duplicateLimit, validateRoster } from './rosterValidation.js'
@@ -154,6 +154,9 @@ export function useRosterDerived(roster, factionData) {
     defOf,
     armySlug: roster.value?.faction || '',
     slugOf: slugFor,
+    // What an allied entry may not have (the Warlord's flag, an enhancement) — rosterEngine's
+    // allyBars, the one answer the editor and validateRoster share.
+    allyBarsOf: (id) => allyBars(factionData.value, id, curDetachments.value),
     catalogue: catalogue.value,
     dupBlocked,
     // Points still unspent, for the catalogue filters the "Can be led by" lists follow.
