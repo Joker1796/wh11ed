@@ -337,6 +337,12 @@ September even though `sync-core` printed it on every run — one finding among 
   report), and appdata compared with itself can never show it. A line the parser cannot read
   fails; a name it cannot place fails unless `UNIT_ALIASES` / `NOT_CARRIED` in the script say why;
   a mismatch is fixed by a `unit-stat` / `weapon-stat` exception, never by editing the sheet.
+- **`npm run corefaq`** (`scripts/check-core-faq.mjs`) — every Core Rules FAQ and errata entry in
+  appdata's `faq.json` is in `reference.js` (`faqs`, `errata`), EN and RU in equal number.
+  `sync-core` strips FAQ blocks on purpose and `companions` reads only the Event Companion PDFs, so
+  nothing compared these: the 26/08/2026 update's 17 answers were found missing by a player on
+  2026-10-13. Matched by wording, one to one (our transcriptions tidy GW's punctuation); a question
+  we print that appdata does not is a note — five of ours come from the printed rulebook.
 
 - **`npm run roster:data:check`** (`scripts/gen-roster-data.mjs`) — besides reporting that the
   generated faction files are stale, it fails on a wargear instruction whose SHAPE the replacement
