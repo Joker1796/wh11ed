@@ -18,19 +18,11 @@
 // Usage: npm run corefaq            # check
 //        npm run corefaq -- --verbose   # print every match with its score
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, loadModule, table } from './lib/sync-common.mjs'
 
 const CORE_RULES = 'Core Rules'
 const MIN = 0.6
-const verbose = process.argv.includes('--verbose')
-
-const pub = table('publication.json').find((p) => (p.localisations?.en?.name || p.name) === CORE_RULES)
-if (!pub) {
-  console.error(`✗ no "${CORE_RULES}" publication in ${APPDATA}/tables/publication.json`)
-  process.exit(1)
-}
-const rows = table('faq.json').filter((r) => r.publicationId === pub.id).map((r) => r.localisations?.en || {})
-const { faqs, errata } = await loadModule(path.join(ROOT, 'src/data/reference.js'))
 
 /** @param {string} s */
 const words = (s) => new Set(String(s || '').replace(/<[^>]+>|\*\*|__/g, '').toLowerCase().replace(/[’']/g, '')
@@ -40,7 +32,7 @@ const overlap = (a, b) => { let n = 0; for (const w of a) if (b.has(w)) n++; ret
 const plain = (s) => String(s || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 
 // Pair every appdata entry with one of ours, best scores first, each side used once.
-function pair(app, ours, label) {
+function pair(app, ours, label, verbose) {
   const scores = []
   app.forEach((a, i) => ours.forEach((o, j) => scores.push([overlap(a.w, o.w), i, j])))
   scores.sort((x, y) => y[0] - x[0])
@@ -58,17 +50,32 @@ function pair(app, ours, label) {
   return missing.length
 }
 
-const appQ = rows.filter((r) => r.question).map((r) => ({ label: plain(r.question), w: words(`${r.question} ${r.answer}`) }))
-const ourQ = faqs.en.map((f) => ({ label: plain(f.q), w: words(`${f.q} ${f.a}`) }))
-const appE = rows.filter((r) => !r.question).map((r) => ({ label: plain(r.errataHeader), w: words(`${r.errataHeader} ${r.errataText}`) }))
-const ourE = errata.en.map((e) => ({ label: plain(e.header), w: words(`${e.header} ${e.body}`) }))
+export async function run(args = process.argv.slice(2)) {
+  const verbose = args.includes('--verbose')
+  const pub = table('publication.json').find((p) => (p.localisations?.en?.name || p.name) === CORE_RULES)
+  if (!pub) {
+    console.error(`✗ no "${CORE_RULES}" publication in ${APPDATA}/tables/publication.json`)
+    return 1
+  }
+  const rows = table('faq.json').filter((r) => r.publicationId === pub.id).map((r) => r.localisations?.en || {})
+  const { faqs, errata } = await loadModule(path.join(ROOT, 'src/data/reference.js'))
 
-const failed = pair(appQ, ourQ, 'Core Rules FAQ') + pair(appE, ourE, 'Core Rules errata')
-if (faqs.en.length !== faqs.ru.length || errata.en.length !== errata.ru.length) {
-  console.log(`✗ EN/RU counts differ: faqs ${faqs.en.length}/${faqs.ru.length}, errata ${errata.en.length}/${errata.ru.length}`)
-  process.exit(1)
+  const appQ = rows.filter((r) => r.question).map((r) => ({ label: plain(r.question), w: words(`${r.question} ${r.answer}`) }))
+  const ourQ = faqs.en.map((f) => ({ label: plain(f.q), w: words(`${f.q} ${f.a}`) }))
+  const appE = rows.filter((r) => !r.question).map((r) => ({ label: plain(r.errataHeader), w: words(`${r.errataHeader} ${r.errataText}`) }))
+  const ourE = errata.en.map((e) => ({ label: plain(e.header), w: words(`${e.header} ${e.body}`) }))
+
+  const failed = pair(appQ, ourQ, 'Core Rules FAQ', verbose) + pair(appE, ourE, 'Core Rules errata', verbose)
+  if (faqs.en.length !== faqs.ru.length || errata.en.length !== errata.ru.length) {
+    console.log(`✗ EN/RU counts differ: faqs ${faqs.en.length}/${faqs.ru.length}, errata ${errata.en.length}/${errata.ru.length}`)
+    return 1
+  }
+  if (failed) {
+    console.log('\nAdd each missing entry to src/data/reference.js, EN and RU (hub skill ru-translate).')
+    return 1
+  }
+  return 0
 }
-if (failed) {
-  console.log('\nAdd each missing entry to src/data/reference.js, EN and RU (hub skill ru-translate).')
-  process.exit(1)
-}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())
