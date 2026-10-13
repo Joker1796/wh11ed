@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { changelog } from './changelog.js'
-import { BTN_ICONS, MARK_RE, renderMarks } from './changelogMarks.js'
+import { BTN_ICONS, MARK_RE, renderMarks, SECTION_KINDS, sectionKind, noteSections, boldQuestion, INT_LINK_RE } from './changelogMarks.js'
+import datasheetIds from './datasheetIds.json'
+import { basicRules } from './basicRules.js'
 
 const text = (n) => (typeof n === 'string' ? n : n.h)
 const btns = (s) => [...s.matchAll(MARK_RE)].filter((m) => m[1]).map((m) => m[1])
@@ -44,5 +46,52 @@ describe('changelog marks', () => {
   it('links the same sites in both locales', () => {
     const links = (s) => [...s.matchAll(/\{link:([^}]+)\}/g)].map((m) => m[1])
     for (const e of changelog) e.en.forEach((n, i) => expect(links(text(e.ru[i])), `${e.version} ru[${i}]`).toEqual(links(text(n))))
+  })
+})
+
+describe('changelog blocks', () => {
+  // A heading the kinds table does not know would draw a grey block nobody chose a colour for.
+  it('gives every heading a kind', () => {
+    for (const e of changelog) for (const loc of ['en', 'ru']) for (const n of e[loc]) {
+      if (typeof n === 'object') expect(sectionKind(n), `${e.version} ${loc} "${n.h}"`).toBeTruthy()
+    }
+    expect(Object.values(SECTION_KINDS).every((k) => /^wi wi-[a-z-]+$/.test(k.icon))).toBe(true)
+  })
+
+  it('groups notes under their heading, the notes before the first one headless', () => {
+    expect(noteSections(['a', { h: 'Tracker' }, 'b', 'c', { h: 'Спасибо' }, 'd'])).toEqual([
+      { h: null, kind: null, items: ['a'] },
+      { h: 'Tracker', kind: 'tracker', items: ['b', 'c'] },
+      { h: 'Спасибо', kind: 'thanks', items: ['d'] },
+    ])
+    expect(noteSections(['a', 'b'])).toEqual([{ h: null, kind: null, items: ['a', 'b'] }])
+  })
+
+  it('sets an answer\'s question in bold, markup and all', () => {
+    expect(boldQuestion('Why <strong>X</strong>? Because.')).toBe('<strong class="cl-q">Why <strong>X</strong>?</strong> Because.')
+    expect(boldQuestion('<a href="/x?y=1">Q</a> no question')).toBe('<a href="/x?y=1">Q</a> no question')
+    expect(boldQuestion('No question here.')).toBe('No question here.')
+  })
+
+  // An in-app link must land somewhere: a datasheet the build ships, a Core Rules anchor that
+  // exists, or a page the router knows — and both locales link the same pages.
+  it('links only to pages that exist, the same ones in both locales', () => {
+    const anchors = new Set(['section-faq'])
+    const walk = (o) => { if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === 'object') { if (o.id) anchors.add(o.id); Object.values(o).forEach(walk) } }
+    walk(basicRules)
+    const pages = new Set(['/core-rules', '/patches', '/changelog', '/roster', '/tracker', '/stratagems', '/help', '/event-companion'])
+    const links = (n) => [...text(n).matchAll(INT_LINK_RE)].map((m) => m[2])
+    for (const e of changelog) {
+      e.en.forEach((n, i) => {
+        expect(links(e.ru[i]), `${e.version} ru[${i}]`).toEqual(links(n))
+        for (const href of links(n)) {
+          const [path, hash] = href.split('#')
+          const ds = /^\/factions\/([a-z-]+)\/datasheets\/([a-z0-9-]+)$/.exec(path)
+          if (ds) expect(datasheetIds[ds[1]] || [], `${e.version}: ${href}`).toContain(ds[2])
+          else expect(pages.has(path) || /^\/factions\/[a-z-]+$/.test(path), `${e.version}: ${href}`).toBe(true)
+          if (path === '/core-rules' && hash) expect(anchors.has(hash), `${e.version}: ${href}`).toBe(true)
+        }
+      })
+    }
   })
 })
