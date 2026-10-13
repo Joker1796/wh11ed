@@ -55,7 +55,21 @@ const t = computed(() => rulesLanding[locale.value])
    link shares the title's row. */
 .hero-help { margin-top: 0.3rem; }
 
+/* On a phone the heading is a row, as on the tracker and the roster list: the title left, the "?"
+   on its right, and no accent rule — a centred title over a line spent a band of the first screen
+   on a name (owner, 2026-10-13). */
 @media (max-width: 640px) {
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    text-align: left;
+    padding: 0.4rem 0 0;
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
   .hero-title { font-size: 2.3rem; }
+  .hero-help { margin-top: 0; }
 }
 </style>
