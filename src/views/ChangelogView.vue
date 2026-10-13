@@ -234,16 +234,11 @@ useUpdateNotice().markSeen()
 }
 
 /* A block of one release (note `{ h }` and what follows it, changelogMarks.js → noteSections):
-   the kind's colour as an edge down its left and on the heading's icon — what the block is about,
-   readable before a word of it (owner, 2026-10-13). A palette token each, so both themes and AA
-   come with it; no fill, no frame: the edge is the whole cost, sideways, not a row. */
-.cl-sec {
-  --cl-tone: var(--text-dim);
-  border-left: 3px solid var(--cl-tone);
-  padding-left: 0.7rem;
-}
+   the kind's colour on the heading's icon — what the block is about, readable before a word of it.
+   A palette token each, so both themes and AA come with it. No edge down the block's left: it
+   was there for a day and the owner took it off (2026-10-13). */
+.cl-sec { --cl-tone: var(--text-dim); }
 .cl-sec + .cl-sec { margin-top: 0.7rem; }
-.cl-sec:not(:has(.cl-h)) { border-left: none; padding-left: 0; }
 .cl-sec--rules { --cl-tone: var(--ability-unit); }
 .cl-sec--roster { --cl-tone: var(--accent); }
 .cl-sec--tracker { --cl-tone: var(--sub-rule-border); }
