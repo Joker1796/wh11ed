@@ -41,6 +41,7 @@
     "dsids": "node scripts/check-datasheet-ids.mjs",
     "exceptions": "node scripts/check-appdata-exceptions.mjs",
     "errata-tables": "node scripts/check-errata-tables.mjs",
+    "corefaq": "node scripts/check-core-faq.mjs",
     "dsids:write": "node scripts/check-datasheet-ids.mjs --write",
     "emphasis": "node scripts/check-emphasis.mjs",
     "layouts": "node scripts/check-layout-art.mjs",

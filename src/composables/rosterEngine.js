@@ -307,12 +307,16 @@ function stockBlocker(def, entry, gi) {
   const byItem = swapRoomByItem(def, entry, gi)
   if (!g || !byItem) return null
   const rep = g.rep || []
+  // In whole picks of THIS group: half a Decimator (one butcher cannon of two) is no room for
+  // "both of this model's butcher cannons".
+  /** @param {ItemId} id */
+  const roomOf = (id) => { const left = byItem.get(id); return left == null ? undefined : picksIn(left, rep.includes(id) ? pickShare(def, g, id) : 1) }
   const ids = new Set()
   for (const [oi] of (g.o || []).entries()) {
     // An item byItem does not track is never "run out".
-    let out = needs(g, oi).filter((id) => (byItem.get(id) ?? Infinity) <= 0)
+    let out = needs(g, oi).filter((id) => (roomOf(id) ?? Infinity) <= 0)
     // An "X or Y" group runs out only when no model carries either.
-    if (g.alt && rep.some((id) => (byItem.get(id) || 0) > 0)) out = out.filter((id) => !rep.includes(id))
+    if (g.alt && rep.some((id) => (roomOf(id) || 0) > 0)) out = out.filter((id) => !rep.includes(id))
     if (!out.length) return null
     out.forEach((id) => ids.add(id))
   }
@@ -1151,7 +1155,7 @@ export function hostSlotTaken(def, entry, host, hostDef, attached, detachments =
  */
 export function sharedKeywordClash(def, entry, targetDef, targetEntry, detachments = []) {
   if (!def || !targetDef) return null
-  const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
+  const direct = leadTo(leadsFor(def, entry, detachments), targetDef.id)
   const lead = direct || gatedLeads((def.leadKw || []).map((g) => ({ ...g, to: (g.kw || []).join('+') })), detachments)
     .find((g) => (g.kw || []).every((k) => hasKeyword(targetDef, k)))
   const need = lead?.allKw
@@ -1193,7 +1197,7 @@ export function isSupportUnit(def) {
  */
 export function leadTypeFor(def, entry, targetDef, detachments = []) {
   if (!def || !targetDef) return null
-  const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
+  const direct = leadTo(leadsFor(def, entry, detachments), targetDef.id)
   if (direct) return direct.type
   const kwGroups = gatedLeads((def.leadKw || []).map((g) => ({ ...g, to: (g.kw || []).join('+') })), detachments)
   const hit = kwGroups.find((g) => (g.kw || []).every((k) => hasKeyword(targetDef, k)))
@@ -1350,7 +1354,7 @@ export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachme
   const out = []
   for (const def of catalogue || []) {
     if (!def || def.id === targetDef.id || freeInList.has(def.id)) continue
-    const type = leadsFor(def, null, detachments).find((l) => l.to === targetDef.id)?.type
+    const type = leadTo(leadsFor(def, null, detachments), targetDef.id)?.type
     if (!type) continue
     out.push({
       id: def.id,
@@ -1386,14 +1390,14 @@ export function leaderHostsFor(leaderUid, units, catalogue, defOf, detachments =
   if (!leads.length) return []
   const joinable = new Set(leaderTargetsFor(def, units, leaderUid, defOf, detachments)
     .filter((t) => !t.used).map((t) => (units || []).find((u) => u.uid === t.uid)?.id))
-  const typeOf = new Map(leads.map((l) => [l.to, l.type]))
   const out = []
   for (const host of catalogue || []) {
-    if (!host || !typeOf.has(host.id) || joinable.has(host.id)) continue
+    const type = host && leadTo(leads, host.id)?.type
+    if (!type || joinable.has(host.id)) continue
     out.push({
       id: host.id,
       name: host.name,
-      type: typeOf.get(host.id),
+      type,
       pts: unitBasePoints(host, defaultSizeIndex(host)),
       legends: !!host.flags?.legends,
     })
@@ -1465,6 +1469,28 @@ export function leadsFor(def, entry, detachments) {
   if (!extra.length) return own
   const seen = new Set(own.map((l) => l.to))
   return [...own, ...extra.filter((l) => !seen.has(l.to))]
+}
+
+// The lead in `leads` that names the unit `id`. A lead names a datasheet by its id in its own
+// bundle, bare; an ALLIED unit in the list carries its source's prefix
+// (`deathwatch:deathwatch-terminator-squad`), so the exact match missed every attachment a
+// datasheet names to an ally — an Ancient in Terminator Armour to Deathwatch Terminators in a
+// Space Marines list with Deathwatch Support, 161 such pairs in six factions (a player's report,
+// 2026-10-13). An allied LEADER's leads are namespaced the same way (data/roster/index.js), so the
+// other direction missed too: an Imperial Agents Inquisitor and the Sororitas' own Sanctifiers. The
+// same datasheet under the same id is the same unit, whichever bundle it came from; an exact match
+// still wins. Every reader of a lead's target goes through here.
+/** @param {string} id */
+const bareUnitId = (id) => allySourceOf(id)?.[1] ?? id
+/**
+ * @param {LeadLink[]} leads
+ * @param {string | null | undefined} id
+ * @returns {LeadLink | undefined}
+ */
+export function leadTo(leads, id) {
+  if (!id) return undefined
+  const bare = bareUnitId(id)
+  return leads.find((l) => l.to === id) || leads.find((l) => bareUnitId(l.to) === bare)
 }
 
 // Points added by a unit's enhancement: its chosen one (entry.enh), or — absent a choice — a
@@ -1996,9 +2022,18 @@ function needs(g, oi = null) {
   return [...new Set([...givenUp(g, oi), ...(g.keep || [])])]
 }
 
-// THE STOCK RULE: a model cannot give the same item up twice. How many models still carry every
-// item a pick in group `gi` would take — the group's own picks not counted, so the number is the
-// room the group has left, whether it is untouched or already holds a pick. With `oi`, the room
+// The room left in an item, `models` (a share of a model where another group took one copy of
+// several, see pickShare), in whole picks of a group whose pick takes `share` of a model. Every
+// reader of swapRoom counts picks — the stepper's ceiling, the greyed group, the importer — and
+// read as models a Talos that gave up one macro-scalpel of two had "1.5" left, which the stepper
+// stored as 1.5 ichor injectors (a player's report, 2026-10-13). Rounded down, past the float dust
+// of summed shares.
+/** @param {number} models @param {number} share */
+function picksIn(models, share) { return Math.floor(models / share + 1e-9) }
+
+// THE STOCK RULE: a model cannot give the same item up twice. How many picks of group `gi` the
+// models still carrying every item it would take allow — the group's own picks not counted, so the
+// number is the room the group has left, whether it is untouched or already holds a pick. With `oi`, the room
 // for that option (an option that hands an item back does not need it, unless the group keeps
 // it). null where the data cannot say, and a null never closes anything: a group that neither
 // replaces nor keeps anything, a per-copy group (`cp` — the Wraithlord swaps each of two flamers,
@@ -2021,7 +2056,7 @@ export function swapRoom(def, entry, gi, oi = null) {
   const rooms = []
   for (const id of needs(g, oi)) {
     const left = byItem.get(id)
-    if (left != null) rooms.push([id, left])
+    if (left != null) rooms.push([id, picksIn(left, g.rep?.includes(id) ? pickShare(def, g, id) : 1)])
   }
   if (!rooms.length) return null
   // An "X or Y" group needs a model carrying EITHER, so its alternatives are one pool.
