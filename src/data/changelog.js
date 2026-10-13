@@ -45,7 +45,7 @@ export const changelog = [
       'Why can’t Dark Angels take Wrath of the Rock together with Terminator Storm Force? Both detachments have the TERMINATOR tag. A list cannot take two detachments with the same tag. The Munitorum Field Manual and the GW app both give them this tag. In the roster builder the tag is shown on the detachment’s card.',
       { h: 'Thank you' },
       'Thank you to everyone who supports the project financially and to everyone who sends bug reports.',
-      'The last few days were stressful. With your support we got through all of it. We made the site as resilient to failures as it is in our power to make it.',
+      'The last few days were stressful. With your support we got through all of it. We made the site as resilient to failures as is possible in the current situation.',
     ],
     ru: [
       { h: 'Сверка с приложением GW' },
@@ -68,7 +68,7 @@ export const changelog = [
       'Почему Dark Angels не могут взять Wrath of the Rock вместе с Terminator Storm Force? У обоих детачментов тег TERMINATOR. Два детачмента с одним тегом в один список брать нельзя. Этот тег им дают и Munitorum Field Manual, и приложение GW. В конструкторе тег подписан на карточке детачмента.',
       { h: 'Спасибо' },
       'Спасибо всем, кто поддерживает проект деньгами, и всем, кто присылает баг-репорты.',
-      'Последние дни были непростыми. Благодаря вашей поддержке мы со всем справились. Мы сделали сайт настолько устойчивым к сбоям, насколько это вообще в наших силах.',
+      'Последние дни были непростыми. Благодаря вашей поддержке мы со всем справились. Мы сделали сайт настолько устойчивым к сбоям, насколько это вообще возможно в текущей обстановке.',
     ],
   },
   {
