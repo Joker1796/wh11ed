@@ -19,6 +19,8 @@ const NOT_IN_SHELL = [
   'data/eventCompanion.js',
   'data/rosterModifiers/conditions.js',
   'data/changelog.js',
+  'data/datasheets/ru/localize.js',
+  'data/datasheetRenames.json',
 ]
 
 function resolve(from, spec) {
@@ -38,11 +40,12 @@ function shellGraph() {
   const walk = (file, from) => {
     if (via.has(file)) return
     via.set(file, from)
+    if (file.endsWith('.json')) return
     const text = fs.readFileSync(file, 'utf8')
     const code = file.endsWith('.vue') ? (text.match(/<script[^>]*>[\s\S]*?<\/script>/g) || []).join('\n') : text
     for (const m of code.matchAll(STATIC)) {
       const next = resolve(file, m[1])
-      if (next && /\.(js|vue)$/.test(next)) walk(next, file)
+      if (next && /\.(js|vue|json)$/.test(next)) walk(next, file)
     }
   }
   walk(path.join(SRC, 'main.js'), null)

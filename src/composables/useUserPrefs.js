@@ -4,7 +4,6 @@ import { favoritesStore, GLOBAL_SCOPE } from './useFavorites.js'
 import { collectionStore } from './useCollection.js'
 import { reconcileCells } from './markReconcile.js'
 import { APP_DATA_VERSION } from '../data/appDataVersion.js'
-import datasheetRenames from '../data/datasheetRenames.json'
 
 // Cloud sync of a player's own marks — pinned factions, favourite datasheets, the model
 // collection. The counterpart of useRosterSync.js for the small things, and its rules are almost
@@ -233,11 +232,13 @@ export function startPrefsSync() {
  * mark, a retirement takes it off, an id nothing accounts for goes when this build is new enough
  * to say so (markReconcile.js). Called by the screens that have just loaded that faction's sheets,
  * because they are the only place the live ids are known without fetching anything extra; it costs
- * nothing when there is nothing to move, which is almost always.
+ * nothing when there is nothing to move, which is almost always. The renames table is fetched
+ * here rather than imported: this module is in the app shell every visitor downloads, and the
+ * table is only ever read on a faction's unit list (src/shellImports.test.js).
  */
-export function reconcileFactionMarks(slug, liveIds) {
+export async function reconcileFactionMarks(slug, liveIds) {
   if (!slug || !liveIds?.size) return
-  const renames = datasheetRenames[slug] || {}
+  const renames = (await import('../data/datasheetRenames.json')).default[slug] || {}
   const clean = mayClean()
   for (const { store } of PARTS) {
     const res = reconcileCells(store.cellsOf(slug), { liveIds, renames, mayClean: clean })

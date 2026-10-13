@@ -169,7 +169,7 @@ describe('reconciling with the rules data', () => {
     collection.toggleOwned('orks', 'retired-unit', 'Retired')
     h.fetchImpl = async () => json({ scopes: [{ scope: '@factions', version: 1, data: { dv: 99_999 } }] })
     await prefs.pullPrefs()
-    prefs.reconcileFactionMarks('orks', new Set(['boyz']))
+    await prefs.reconcileFactionMarks('orks', new Set(['boyz']))
     expect(collection.isOwned('orks', 'retired-unit')).toBe(true)
   })
 
@@ -177,7 +177,7 @@ describe('reconciling with the rules data', () => {
     collection.toggleOwned('orks', 'retired-unit', 'Retired')
     h.fetchImpl = async () => json({ scopes: [] })
     await prefs.pullPrefs()
-    prefs.reconcileFactionMarks('orks', new Set(['boyz']))
+    await prefs.reconcileFactionMarks('orks', new Set(['boyz']))
     expect(collection.isOwned('orks', 'retired-unit')).toBe(false)
   })
 })
