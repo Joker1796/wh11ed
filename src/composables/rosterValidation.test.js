@@ -175,6 +175,24 @@ describe('validateRoster — wargear pick limits', () => {
     expect(iss.params).toMatchObject({ item: 'Bolt pistol', count: 2, limit: 1 })
   })
 
+  // The editor once stored a ceiling counted in models (1.5 ichor injectors on a Talos, a player's
+  // report 2026-10-13). Such a list is reported, never rounded behind the player's back.
+  it('warns about a wargear count that is not a whole number', () => {
+    const lord = {
+      id: 'lord', name: 'Lord', kws: ['Character', 'Infantry'], flags: { char: 1 },
+      sizes: [{ pts: 80, per: [1, 1], default: 1 }],
+      defaults: [[0, [[22, 1]]]],
+      gear: [{ m: 0, t: 1, in: 'stepper', o: [[25]], rep: [22] }],
+    }
+    const ff = { ...faction, units: [...faction.units, lord] }
+    const run = (wg) => validateRoster(roster({ units: [{ ...U('lord', { size: 0, wg }), warlord: true }] }), { faction: ff, core, items: { 25: 'Plasma pistol' } })
+      .issues.filter((i) => i.code === 'wargearCountFraction')
+    expect(run([[0, 0, 1]])).toHaveLength(0)
+    const [iss] = run([[0, 0, 0.5]])
+    expect(iss.level).toBe('warn')
+    expect(iss.params).toMatchObject({ item: 'Plasma pistol', count: 0.5, unit: 'Lord' })
+  })
+
   it('caps an uncapped group by the profile it belongs to', () => {
     // No wargear_limit for this one, so the ceiling is the number of models that can take it —
     // the rank-and-file profile, not the squad (a 10-model unit with one leader allows 9).

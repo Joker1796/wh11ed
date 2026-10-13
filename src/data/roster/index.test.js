@@ -95,6 +95,29 @@ describe('allied units', () => {
       }
     }
   })
+
+  // A lead names its datasheet bare in its own bundle; across bundles the ally's prefix stood in
+  // the way, and every SM leader was refused the Deathwatch squads Deathwatch Support brings — an
+  // Ancient in Terminator Armour and the Deathwatch Terminator Squad its datasheet names (a
+  // player's report, 2026-10-13: 161 pairs in six factions, three more the other way round).
+  it('attach a Leader to every unit its datasheet names, ally or not', async () => {
+    const bare = (id) => allySourceOf(id)?.[1] ?? id
+    const missed = []
+    for (const { slug } of factions) {
+      const data = await loadRosterFaction(slug, { allies: true })
+      const units = data?.units || []
+      if (!units.some((u) => allySourceOf(u.id))) continue
+      for (const leader of units) for (const target of units) {
+        if (leader === target || !(allySourceOf(leader.id) || allySourceOf(target.id))) continue
+        if (!(leader.leads || []).some((l) => bare(l.to) === bare(target.id))) continue
+        if (!leadTypeFor(leader, { id: leader.id }, target, data.detachments)) missed.push(`${slug}: ${leader.id} → ${target.id}`)
+      }
+    }
+    expect(missed).toEqual([])
+    const sm = await loadRosterFaction('space-marines', { allies: true })
+    const defOf = (id) => sm.units.find((u) => u.id === id)
+    expect(leadTypeFor(defOf('ancient-in-terminator-armour'), null, defOf('deathwatch:deathwatch-terminator-squad'))).toBe('support')
+  })
 })
 
 // appdata requires a "DNU" (do not use) placeholder keyword on the four Extremis enhancements of
@@ -2000,4 +2023,44 @@ describe('a group that can take duplicates', () => {
     }
     expect(bad).toEqual([])
   }, 60000)
+})
+
+// A pick that takes ONE copy of several (`rc`, `cp` — pickShare) spends a share of a model, and
+// swapRoom used to answer in models: a Talos that gave one macro-scalpel of two up had "1.5" left,
+// and the stepper stored 1.5 ichor injectors (a player's report, 2026-10-13); a Decimator with one
+// butcher cannon swapped kept "both cannons" open on half a model. The room is whole picks of the
+// asking group, everywhere.
+describe('room left for a swap', () => {
+  it('is a whole number of picks, for every group after every pick', async () => {
+    const odd = []
+    for (const { slug } of factions) {
+      for (const def of (await loadRosterFaction(slug)).units) {
+        for (const [s, size] of (def.sizes || []).entries()) {
+          const base = { id: def.id, size: s, count: size.per?.[1] }
+          if (!modelsPerMini(def, base)) continue
+          for (const [gi, g] of (def.gear || []).entries()) for (const oi of (g.o || []).keys()) for (let n = 1; n <= 4; n++) {
+            const entry = { ...base, wg: [[gi, oi, n]] }
+            for (const gj of def.gear.keys()) {
+              const room = swapRoom(def, entry, gj)
+              if (room != null && !Number.isInteger(room)) odd.push(`${slug}/${def.id} g${gi}×${n} → g${gj}: ${room}`)
+            }
+          }
+        }
+      }
+    }
+    expect(odd).toEqual([])
+  })
+
+  it('counts the copies each pick takes', async () => {
+    const def = async (slug, id) => (await loadRosterFaction(slug)).units.find((u) => u.id === id)
+    const talos = await def('drukhari', 'talos')
+    // Two Talos, four macro-scalpels: one swapped by the ichor injector leaves three.
+    expect(swapRoom(talos, { id: 'talos', size: 1, wg: [[1, 0, 1]] }, 2)).toBe(3)
+    const kratos = await def('space-marines', 'kratos')
+    // Four heavy bolters, two per pick: the second pair is still there.
+    expect(swapRoom(kratos, { id: 'kratos', size: 0, wg: [[0, 0, 1]] }, 2)).toBe(1)
+    const decimator = await def('chaos-space-marines', 'decimator')
+    // One butcher cannon left is no room for "both of this model's butcher cannons".
+    expect(swapRoom(decimator, { id: 'decimator', size: 0, wg: [[0, 0, 1]] }, 1)).toBe(0)
+  })
 })
