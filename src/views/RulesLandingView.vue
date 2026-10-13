@@ -37,6 +37,11 @@ const t = computed(() => rulesLanding[locale.value])
 }
 
 .hero {
+  /* The title centred, the "?" on its line at the right edge (owner, 2026-10-13: on a line of its
+     own under the title it spent a whole row on one icon). */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   text-align: center;
   padding: 1rem 0 0.6rem;
   border-bottom: 2px solid var(--accent);
@@ -44,6 +49,7 @@ const t = computed(() => rulesLanding[locale.value])
 }
 
 .hero-title {
+  grid-column: 2;
   font-family: var(--font-display);
   font-size: 3.1rem;
   font-weight: 400;
@@ -51,9 +57,7 @@ const t = computed(() => rulesLanding[locale.value])
 }
 
 
-/* Under the title in a centred hero, unlike the tracker and roster headings where the same
-   link shares the title's row. */
-.hero-help { margin-top: 0.3rem; }
+.hero-help { grid-column: 3; justify-self: end; }
 
 /* On a phone the heading is a row, as on the tracker and the roster list: the title left, the "?"
    on its right, and no accent rule — a centred title over a line spent a band of the first screen
@@ -70,6 +74,5 @@ const t = computed(() => rulesLanding[locale.value])
     margin-bottom: 1rem;
   }
   .hero-title { font-size: 2.3rem; }
-  .hero-help { margin-top: 0; }
 }
 </style>
