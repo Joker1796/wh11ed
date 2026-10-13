@@ -157,7 +157,17 @@ const ICONS = {
     const across = [11.6, 14, 16.4, 18.8].map((x, i) => rect(x - 0.55, 15.9, x + 0.55, i % 2 ? 17.6 : 19.2))
     return [[L, ...up, ...across]]
   })(),
-  'ui-pdf': [docShape(), [rect(11.1, 10.4, 12.9, 15)], [[[8.6, 14.2], [15.4, 14.2], [12, 18]]]],
+  // A label across the sheet, the letters cut out of it (not Acrobat's swirl: that is Adobe's mark).
+  'ui-pdf': (() => {
+    const u = 0.95, ox = 3.5, oy = 12.1
+    const at = (pts, i) => pts.map(([x, y]) => [ox + (x + i * 4) * u, oy + y * u])
+    const label = rect(1.6, 10.6, 16.4, 18.3, 0.5)
+    return { paths: [docShape(), [label,
+      at([[0, 0], [3, 0], [3, 3], [1, 3], [1, 5], [0, 5]], 0), at(rect(1, 1, 2, 2), 0),
+      at([[0, 0], [2, 0], [3, 1], [3, 4], [2, 5], [0, 5]], 1), at(rect(1, 1, 2, 4), 1),
+      at([[0, 0], [3, 0], [3, 1], [1, 1], [1, 2], [2.6, 2], [2.6, 3], [1, 3], [1, 5], [0, 5]], 2)]],
+    cut: [[rect(0.8, 9.8, 17.2, 19.1)]], keep: 1 }
+  })(),
   'ui-doc': [docShape(), [rect(8.4, 11, 15.6, 12.6)], [rect(8.4, 14, 15.6, 15.6)], [rect(8.4, 17, 13.6, 18.6)]],
   'ui-sliders': [[rect(2.6, 4.7, 21.4, 6.5)], [rect(2.6, 11.1, 21.4, 12.9)], [rect(2.6, 17.5, 21.4, 19.3)],
     [rect(6.6, 2.6, 9.4, 8.6)], [rect(14.6, 9, 17.4, 15)], [rect(9.6, 15.4, 12.4, 21.4)]],
