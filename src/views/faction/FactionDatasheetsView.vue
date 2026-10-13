@@ -471,9 +471,10 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 
-/* Both marks — pin (favourite) and star (owned) — sit in the chip's top-right corner. They are
+/* Both marks sit on the chip's right edge, the pin (favourite) at its top and the star (owned) at its
+   bottom (owner, 2026-10-13): stacked together they read as one control on a tall chip. They are
    inside the RouterLink, so their handlers stop propagation / prevent navigation. */
-.ds-marks { position: absolute; top: 0.15rem; right: 0.2rem; display: flex; flex-direction: column; }
+.ds-marks { position: absolute; top: 0.15rem; bottom: 0.15rem; right: 0.2rem; display: flex; flex-direction: column; justify-content: space-between; }
 
 .ds-fav {
   display: flex;

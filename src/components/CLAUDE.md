@@ -303,7 +303,8 @@ means an army or its rules**; swords, hourglass and skull mean a unit's status a
 Paired states swap the class (`theme-light`/`-dark`, `sound-on`/`-off`, `pin-on`/`-off`,
 `lore`/`lore-on`, `add`/`check`, `own`/`own-on`, `box`/`box-on`, `filter`/`filter-on`,
 `eye`/`eye-off`). In a fixed-width icon column give `.wi` `margin-inline: 0`. Every file's `viewBox` is a square cropped round its ink, the ink 21 of its 24 (22.5 for the
-diagonal pencil and pins) and centred — the pack's own margins varied from 1 to 4.5, and a drawing
+diagonal pencil, the pins and the collection star — sparse shapes that read a size small beside a
+full one, owner 2026-10-13) and centred — the pack's own margins varied from 1 to 4.5, and a drawing
 with a wide one read a size small. A new drawing: the file, its viewBox measured the same way
 (`getBBox()` in a browser), one `.wi-name` line.
 
