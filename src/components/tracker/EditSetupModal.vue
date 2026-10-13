@@ -84,7 +84,7 @@
                 class="rp-open"
                 @click="rosterPickerKey = ak(i, mi)"
               >
-                <i class="bi bi-card-list" />
+                <i class="wi wi-roster-list" />
                 <span>{{ labels.trackerRosterAttach }}</span>
               </button>
               <!-- The one thing attaching can't fix, so it has to be said rather than silently
@@ -147,7 +147,7 @@
               class="help-btn"
               :aria-label="labels.trackerScoreHelp"
               @click="scoreHelpOpen = true"
-            ><i class="bi bi-question-circle" /></button>
+            ><i class="wi wi-help" /></button>
           </span>
           <div class="seg">
             <button

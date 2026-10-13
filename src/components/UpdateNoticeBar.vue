@@ -2,7 +2,7 @@
   <!-- Top-of-screen notice that a new version shipped; links to the /changelog page. -->
   <TopBanner
     :show="visible"
-    icon="bi-stars"
+    icon="wi-stars"
     :close-label="labels.updateDismiss"
     @close="markSeen"
   >

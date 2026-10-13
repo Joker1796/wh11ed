@@ -106,7 +106,7 @@
                 @pointerdown.prevent
                 @click="naming = null"
               >
-                <i class="bi bi-x-lg" />
+                <i class="wi wi-close" />
               </button>
             </template>
             <button
@@ -241,7 +241,7 @@
             :data-flip="e.uid + ':' + c.id"
             @click="crewCard = { id: c.id, slug: slugOf(e.id) }"
           >
-            <i class="bi bi-arrow-return-right rul-crew-mark" />
+            <i class="wi wi-return rul-crew-mark" />
             <span class="rul-crew-name">{{ c.name }}</span>
             <span class="rul-crew-pts">0</span>
           </button>

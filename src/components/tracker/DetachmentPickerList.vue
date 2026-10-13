@@ -54,7 +54,7 @@
           :aria-label="`${labels.detachmentRules}: ${d.name}`"
           @click="infoFor = d.name"
         >
-          <i class="bi bi-info-circle" />
+          <i class="wi wi-info" />
         </button>
       </div>
     </template>

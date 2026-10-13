@@ -8,7 +8,7 @@
       to="/tracker"
       class="back"
     >
-      <i class="bi bi-chevron-left" /> {{ labels.subNavTrackerHome }}
+      <i class="wi wi-chevron-left" /> {{ labels.subNavTrackerHome }}
     </RouterLink>
 
     <div class="hero">

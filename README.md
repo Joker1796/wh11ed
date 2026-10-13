@@ -87,7 +87,8 @@ Anything that inflates the tab download works against this.
   (HTML5 history — clean, indexable paths; Russian lives under `/ru/…`)
 - [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) — manifest + Workbox service worker
 - **Self-hosted fonts** via [@fontsource](https://fontsource.org/) (Inter, EB Garamond, Sofia Sans
-  Extra Condensed) and `bootstrap-icons` — **no external CDN**, so typography and icons work offline
+  Extra Condensed) — **no external CDN**, so typography works offline; icons are the app's own
+  drawings (`src/assets/icons`), inlined into the stylesheet
 - [Vitest](https://vitest.dev/) + [@vue/test-utils](https://test-utils.vuejs.org/) (jsdom),
   ESLint + `eslint-plugin-vue`
 - Dev only: [sharp](https://sharp.pixelplumbing.com/) and [opentype.js](https://opentype.js.org/)

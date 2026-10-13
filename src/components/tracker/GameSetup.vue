@@ -296,7 +296,7 @@
                             class="ct-name"
                             :class="{ placeholder: !m.factionSlug }"
                           >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
-                          <i class="bi bi-chevron-down ct-chev" />
+                          <i class="wi wi-chevron-down ct-chev" />
                         </button>
                       </template>
                       <template #default="{ compact, bodyClass }">
@@ -322,7 +322,7 @@
                         :title="labels.trackerRosterAttach"
                         @click="rosterPickerKey = ak(i, mi)"
                       >
-                        <i class="bi bi-card-list" />
+                        <i class="wi wi-roster-list" />
                       </button>
                     </ExpandTransition>
                   </div>
@@ -345,7 +345,7 @@
                     v-if="rosterOverSize(m)"
                     class="rl-over"
                   >
-                    <i class="bi bi-exclamation-triangle-fill" /> {{ rosterOverSize(m) }}
+                    <i class="wi wi-warning" /> {{ rosterOverSize(m) }}
                   </p>
                 </ExpandTransition>
                 <RosterPickerModal
@@ -393,7 +393,7 @@
                             class="ct-name"
                             :class="{ placeholder: !m.detachments.length }"
                           >{{ detSummary(m) }}</span>
-                          <i class="bi bi-chevron-down ct-chev" />
+                          <i class="wi wi-chevron-down ct-chev" />
                         </button>
                       </template>
                     </DetachmentPicker>
@@ -451,7 +451,7 @@
                     :aria-label="labels.trackerForceTypeHelpAria"
                     @click="forceTypeHelpOpen = true"
                   >
-                    <i class="bi bi-question-circle" />
+                    <i class="wi wi-help" />
                   </button>
                 </span>
                 <div class="seg seg-fill">
@@ -507,7 +507,7 @@
             :title="labels.lobbyInvite"
             @click="partyOpen = true"
           >
-            <i class="bi bi-qr-code" />
+            <i class="wi wi-qr" />
             <span v-if="inviteCode">{{ labels.partyCode }} {{ inviteCode }}</span>
             <span v-else>{{ labels.lobbyInvite }}</span>
           </button>
@@ -573,7 +573,7 @@
             class="ct-name"
             :class="{ placeholder: !chosenTwist }"
           >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
-          <i class="bi bi-chevron-right ct-chev" />
+          <i class="wi wi-chevron-right ct-chev" />
         </button>
         <ExpandTransition>
           <details
@@ -600,7 +600,7 @@
                 class="ct-name"
                 :class="{ placeholder: !settings.twistMission }"
               >{{ mirrorSummary }}</span>
-              <i class="bi bi-chevron-right ct-chev" />
+              <i class="wi wi-chevron-right ct-chev" />
             </button>
           </div>
         </ExpandTransition>
@@ -787,7 +787,7 @@
                     class="ct-name"
                     :class="{ placeholder: !p.fixedSecondaries.length }"
                   >{{ fixedSummary(p) }}</span>
-                  <i class="bi bi-chevron-right ct-chev" />
+                  <i class="wi wi-chevron-right ct-chev" />
                 </button>
               </div>
             </ExpandTransition>
@@ -866,7 +866,7 @@
                 :aria-label="labels.trackerRoleHelpAria"
                 @click="roleHelpOpen = true"
               >
-                <i class="bi bi-question-circle" />
+                <i class="wi wi-help" />
               </button>
             </span>
             <div class="seg">
@@ -987,7 +987,7 @@
                 class="help-btn"
                 :aria-label="labels.trackerScoreHelp"
                 @click="scoreHelpOpen = true"
-              ><i class="bi bi-question-circle" /></button>
+              ><i class="wi wi-help" /></button>
             </span>
             <div class="seg">
               <button

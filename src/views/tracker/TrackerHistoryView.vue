@@ -7,7 +7,7 @@
       class="back"
       @click="back"
     >
-      <i class="bi bi-chevron-left" /> {{ labels.trackerBackToTracker }}
+      <i class="wi wi-chevron-left" /> {{ labels.trackerBackToTracker }}
     </button>
 
     <div class="hv-head">

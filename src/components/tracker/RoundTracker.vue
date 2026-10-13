@@ -218,7 +218,7 @@
               :to="l.to"
               :title="l.label"
             >
-              <i :class="`bi ${l.icon}`" />
+              <i :class="`wi ${l.icon}`" />
               <span class="proster-label">{{ l.label }}</span>
             </RouterLink>
             <!-- A list held to its own limits says so on both phones (the snapshot carries the
@@ -269,8 +269,8 @@
           :title="labels.trackerEditSetup"
           @click="editSetupOpen = true"
         >
-          <i class="bi bi-chevron-left" />
-          <i class="bi bi-gear" />
+          <i class="wi wi-chevron-left" />
+          <i class="wi wi-settings" />
         </button>
         <!-- The shared game (several phones on this one game): a state like the broadcast,
              lit while shared. Always offered — it is how the other side gets to score. -->
@@ -281,7 +281,7 @@
           :title="labels.partyTitle"
           @click="partyOpen = true"
         >
-          <i class="bi bi-people-fill" />
+          <i class="wi wi-people" />
         </button>
         <!-- Live broadcast (the OBS overlay): a state, not a page — lit while streaming. The
              button is offered only when the game asked for it (settings.trackBroadcast, a row
@@ -296,7 +296,7 @@
           :title="labels.trackerBroadcastTitle"
           @click="broadcastOpen = true"
         >
-          <i class="bi bi-broadcast" />
+          <i class="wi wi-broadcast" />
         </button>
         <button
           class="btn-ghost"
@@ -314,7 +314,7 @@
       >
         <span class="next-full">{{ labels.trackerNext }}</span>
         <i
-          class="bi bi-chevron-right next-icon"
+          class="wi wi-chevron-right next-icon"
           aria-hidden="true"
         />
       </button>
@@ -448,14 +448,14 @@ function armyLinks(pl, i) {
     if (m.roster) {
       out.push({
         to: isDoubles.value ? `/tracker/game/roster/${i}/${mi}` : `/tracker/game/roster/${i}`,
-        icon: 'bi-card-list',
+        icon: 'wi-roster-list',
         label: isDoubles.value ? memberName(m, mi) : labels.value.trackerRosterOpen,
         roster: m.roster,
       })
     } else if (m.factionSlug) {
       out.push({
         to: `/factions/${m.factionSlug}/datasheets`,
-        icon: 'bi-people-fill',
+        icon: 'wi-people',
         label: isDoubles.value ? memberName(m, mi) : labels.value.factionDatasheets,
       })
     }

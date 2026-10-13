@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0.00 0.00 24.00 24.00" fill="currentColor">
+  <path fill-rule="evenodd" d="M3.70 9.20 L3.70 3.70 L9.20 3.70 L9.20 1.50 L1.50 1.50 L1.50 9.20 Z"/>
+  <path fill-rule="evenodd" d="M14.80 3.70 L20.30 3.70 L20.30 9.20 L22.50 9.20 L22.50 1.50 L14.80 1.50 Z"/>
+  <path fill-rule="evenodd" d="M20.30 14.80 L20.30 20.30 L14.80 20.30 L14.80 22.50 L22.50 22.50 L22.50 14.80 Z"/>
+  <path fill-rule="evenodd" d="M9.20 20.30 L3.70 20.30 L3.70 14.80 L1.50 14.80 L1.50 22.50 L9.20 22.50 Z"/>
+</svg>

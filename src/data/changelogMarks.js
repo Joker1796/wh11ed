@@ -14,12 +14,12 @@
 // changelog.test.js rather than printing "{btn:…}" to a reader.
 export const BTN_ICONS = {
   gear: { icon: 'wi wi-settings', en: 'Settings', ru: 'Настройки' },           // the roster builder's Settings mode
-  panes: { icon: 'bi bi-layout-split', en: 'Units', ru: 'Юниты' },         // …its Units mode
-  book: { icon: 'bi bi-book', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search
+  panes: { icon: 'wi wi-panes', en: 'Units', ru: 'Юниты' },         // …its Units mode
+  book: { icon: 'wi wi-book', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search
   shield: { icon: 'wi wi-army', en: 'Faction rules', ru: 'Правила фракции' }, // beside the unit search since 2.7.17 (was the book)
-  revert: { icon: 'bi bi-arrow-counterclockwise', en: 'Cancel', ru: 'Отмена' }, // Cancel on a narrow phone
+  revert: { icon: 'wi wi-undo', en: 'Cancel', ru: 'Отмена' }, // Cancel on a narrow phone
   star: { icon: 'wi wi-own', en: 'In my collection', ru: 'Есть в коллекции' }, // the roster unit card's header
-  info: { icon: 'bi bi-info-circle', en: 'View details', ru: 'Подробнее' }, // a wargear row's profiles in the unit editor
+  info: { icon: 'wi wi-info', en: 'View details', ru: 'Подробнее' }, // a wargear row's profiles in the unit editor
 }
 
 export const MARK_RE = /\{btn:([a-z-]+)\}|\{key:([^}]+)\}/g

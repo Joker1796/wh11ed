@@ -42,7 +42,7 @@
         :aria-expanded="showKey"
         @click="toggleKey"
       >
-        <i :class="showKey ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" />
+        <i :class="showKey ? 'wi wi-chevron-up' : 'wi wi-chevron-down'" />
         <span>{{ showKey ? labels.legendHide : labels.legendShow }}</span>
       </button>
     </div>
@@ -205,7 +205,7 @@
         :aria-pressed="showMeasurements"
         @click="toggleMeasurements"
       >
-        <i class="bi bi-rulers" />
+        <i class="wi wi-ruler" />
         <span>{{ showMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
       </button>
     </div>

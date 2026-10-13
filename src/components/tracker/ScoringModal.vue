@@ -15,7 +15,7 @@
         v-if="readonly"
         class="view-only"
       >
-        <i class="bi bi-eye" /> {{ labels.trackerViewOnly }}
+        <i class="wi wi-eye" /> {{ labels.trackerViewOnly }}
       </p>
 
       <template v-if="briefing && briefing.length">
@@ -26,8 +26,8 @@
         >
           <span>{{ labels.trackerBriefing }}</span>
           <i
-            class="bi"
-            :class="briefingOpen ? 'bi-chevron-up' : 'bi-chevron-down'"
+            class="wi"
+            :class="briefingOpen ? 'wi-chevron-up' : 'wi-chevron-down'"
           />
         </button>
         <CollapseTransition :show="briefingOpen">
@@ -154,7 +154,7 @@ function toggleBriefing() {
   text-transform: uppercase; letter-spacing: 0.03em; cursor: pointer;
 }
 .brief-toggle:hover { border-color: var(--accent); }
-.brief-toggle .bi { font-size: 0.9rem; color: var(--text-muted); }
+.brief-toggle .wi { font-size: 0.9rem; color: var(--text-muted); }
 .redraw-btn {
   display: block;
   width: 100%;

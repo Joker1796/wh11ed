@@ -66,7 +66,7 @@
           :aria-label="labels.backToTop"
           @click="scrollToTop"
         >
-          <i class="bi bi-arrow-up" />
+          <i class="wi wi-arrow-up" />
         </button>
       </Transition>
     </div>

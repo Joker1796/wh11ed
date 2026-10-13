@@ -19,7 +19,7 @@
       role="img"
       :title="labels.rosterChecksOffNote"
       :aria-label="labels.rosterChecksOffNote"
-    ><i class="bi bi-slash-circle" /><span class="co-txt">{{ labels.rosterChecksOff }}</span></span>
+    ><i class="wi wi-none" /><span class="co-txt">{{ labels.rosterChecksOff }}</span></span>
     <button
       v-else-if="badge"
       type="button"
@@ -29,15 +29,15 @@
       @click="$emit('open-issues')"
     >
       <template v-if="errorCount">
-        <i class="bi bi-exclamation-triangle-fill" /> {{ errorCount }}
+        <i class="wi wi-warning" /> {{ errorCount }}
       </template>
       <i
         v-else-if="issueCount"
-        class="bi bi-exclamation-triangle-fill"
+        class="wi wi-warning"
       />
       <i
         v-else
-        class="bi bi-check-circle-fill"
+        class="wi wi-ok"
       />
     </button>
   </div>

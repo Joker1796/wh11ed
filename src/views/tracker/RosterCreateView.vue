@@ -21,7 +21,7 @@
         to="/roster"
         class="back"
       >
-        <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
+        <i class="wi wi-chevron-left" /> {{ labels.rosterBackToList }}
       </RouterLink>
 
       <!-- The step markers are navigation, not just a progress read-out: any step already
@@ -218,7 +218,7 @@
             v-if="!desk && step === 1 && setupErrors.length"
             class="rc-block-note"
           >
-            <i class="bi bi-exclamation-triangle-fill" /> {{ issueText(setupErrors[0], labels) }}
+            <i class="wi wi-warning" /> {{ issueText(setupErrors[0], labels) }}
           </p>
         </ExpandTransition>
         <RosterPointsTally

@@ -1,7 +1,7 @@
 <template>
   <TopBanner
     :show="visible"
-    icon="bi-signpost-2"
+    icon="wi-signpost"
     :close-label="labels.updateDismiss"
     @close="dismiss"
   >

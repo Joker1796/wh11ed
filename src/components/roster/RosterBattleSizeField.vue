@@ -40,7 +40,7 @@
               >{{ current.name }}</span>
             </ExpandTransition>
           </span>
-          <i class="bi bi-chevron-down" />
+          <i class="wi wi-chevron-down" />
         </button>
       </template>
       <template #default="{ bodyClass, close, compact }">
@@ -155,7 +155,7 @@
           class="btn-ghost bsf-reset"
           @click="resetOwn"
         >
-          <i class="bi bi-arrow-counterclockwise" /> {{ labels.rosterLimitResetTo.replace('{size}', baseName) }}
+          <i class="wi wi-undo" /> {{ labels.rosterLimitResetTo.replace('{size}', baseName) }}
         </button>
         <button
           type="button"
@@ -261,7 +261,7 @@ function pick(id, close) {
   text-align: left;
   cursor: pointer;
 }
-.bsf-trigger .bi { flex-shrink: 0; margin-left: auto; color: var(--text-dim); font-size: 0.7rem; }
+.bsf-trigger .wi { flex-shrink: 0; margin-left: auto; color: var(--text-dim); font-size: 0.7rem; }
 .bsf-value { display: flex; align-items: baseline; gap: 0.45rem; min-width: 0; }
 .bsf-head { font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; color: var(--text-primary); }
 /* "Custom" and "No limit" are words, not figures: the text face, at the figures' weight. */
@@ -280,7 +280,7 @@ function pick(id, close) {
   color: var(--text-dim);
   margin-bottom: 0.15rem;
 }
-.row .bsf-trigger .bi { position: absolute; right: 0.6rem; top: 0.6rem; }
+.row .bsf-trigger .wi { position: absolute; right: 0.6rem; top: 0.6rem; }
 /* With a custom limit only the HEAD is the target (owner, 2026-10-03): the stretched area stops at
    the panel under it — the row's padding above and beside the head still counts, the panel does
    not. The trigger is the positioned box then, so the chevron is placed from it. */
@@ -288,7 +288,7 @@ function pick(id, close) {
 .bsf.row { align-items: stretch; }
 .row.custom .bsf-trigger { position: relative; }
 .row.custom .bsf-trigger::after { inset: -0.5rem -0.75rem -0.3rem; }
-.row.custom .bsf-trigger .bi { right: -0.15rem; top: 0.1rem; }
+.row.custom .bsf-trigger .wi { right: -0.15rem; top: 0.1rem; }
 
 /* The phone's custom panel: a darker ground and a frame under the head — the number, with the
    sliders at the right of its line. Above the row's stretched target: the head alone opens the
@@ -322,7 +322,7 @@ function pick(id, close) {
   border: 1px solid var(--border);
   font-size: 0.9rem;
 }
-.bar .bsf-trigger .bi { color: var(--text-muted); font-size: inherit; }
+.bar .bsf-trigger .wi { color: var(--text-muted); font-size: inherit; }
 /* The line's own type size, or the box comes out a hair taller than its neighbours. */
 .bar .bsf-trigger .bsf-head { font-size: 0.9rem; line-height: inherit; }
 

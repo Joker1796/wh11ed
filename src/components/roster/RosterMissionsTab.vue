@@ -33,7 +33,7 @@
             {{ d }}
             <i
               v-if="d === declared"
-              class="bi bi-check2"
+              class="wi wi-check"
               :aria-label="labels.rosterMissionsInList"
             />
           </button>
@@ -50,7 +50,7 @@
               {{ labels.rosterMissionsUndeclared }}
             </template>
             <template v-else-if="shown === declared">
-              <i class="bi bi-check2" /> {{ labels.rosterMissionsDeclared }}
+              <i class="wi wi-check" /> {{ labels.rosterMissionsDeclared }}
             </template>
             <template v-else>
               {{ fill(labels.rosterMissionsPreviewing, { name: declared }) }}
@@ -264,7 +264,7 @@ function openMission(m, side) {
   background: color-mix(in srgb, var(--tone) 14%, transparent);
 }
 .rmt-cand:disabled { cursor: default; }
-.rmt-cand .bi-check2 { color: var(--tone); }
+.rmt-cand .wi-check { color: var(--tone); }
 .rmt-icon { width: 20px; height: 20px; object-fit: contain; flex: none; }
 .rmt-status {
   display: flex;
@@ -275,7 +275,7 @@ function openMission(m, side) {
   color: var(--text-muted);
 }
 .rmt-status-text { margin: 0; flex: 1; min-width: 0; }
-.rmt-status .bi-check2 { color: var(--accent-ink); }
+.rmt-status .wi-check { color: var(--accent-ink); }
 .rmt-status.alt,
 .rmt-status.open { color: var(--warning); }
 

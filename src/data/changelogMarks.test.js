@@ -26,7 +26,7 @@ describe('changelog marks', () => {
     expect(html).toContain('<span class="cl-key">Put back</span>')
     expect(renderMarks('{btn:nope}')).toContain('{btn:nope}')
     // A pair of marks and the stop after them never break apart.
-    expect(renderMarks('switch {btn:gear} {btn:panes}. Next')).toMatch(/<span class="cl-nw"><span class="cl-btn"[^]*bi-layout-split[^]*<\/span>\.<\/span> Next$/)
+    expect(renderMarks('switch {btn:gear} {btn:panes}. Next')).toMatch(/<span class="cl-nw"><span class="cl-btn"[^]*wi-panes[^]*<\/span>\.<\/span> Next$/)
   })
 
   // A contributor's credit: the name in amber, escaped like any text.

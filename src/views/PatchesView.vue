@@ -26,7 +26,7 @@
           >
             <span class="pv-trigger-label">{{ labels.patchesFaction }}</span>
             <span class="pv-trigger-name">{{ filterName }}</span>
-            <i class="bi bi-chevron-down" />
+            <i class="wi wi-chevron-down" />
           </button>
         </template>
         <template #default="{ compact, bodyClass }">
@@ -78,7 +78,7 @@
                  (owner, 2026-10-02). -->
             <span class="pv-trigger-label">{{ labels.patchesUpdate }} · {{ formatDate(current.date) }}</span>
             <span class="pv-trigger-name">{{ titleOf(current) }}</span>
-            <i class="bi bi-chevron-down" />
+            <i class="wi wi-chevron-down" />
           </button>
         </template>
         <template #default="{ bodyClass }">
@@ -299,7 +299,7 @@ const titleOf = (p) => [
   color: var(--text-muted);
 }
 .pv-trigger-name { font-weight: 600; font-size: 0.9rem; }
-.pv-trigger .bi { grid-column: 2; grid-row: 1 / span 2; font-size: 0.75rem; color: var(--text-muted); }
+.pv-trigger .wi { grid-column: 2; grid-row: 1 / span 2; font-size: 0.75rem; color: var(--text-muted); }
 
 .pv-scopes {
   display: flex;

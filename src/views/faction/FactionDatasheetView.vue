@@ -600,7 +600,7 @@ async function copyName() {
 }
 /* The sheet's rows carry the same icon the toolbar button did, so the two read as one thing. */
 .ds-act { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
-.ds-act :is(.bi, .wi) { width: 1.1rem; text-align: center; color: var(--text-muted); }
+.ds-act .wi { width: 1.1rem; text-align: center; color: var(--text-muted); }
 .ds-act .wi { height: 1.1rem; margin-inline: 0; }
 /* Cancel FactionLayout's .faction-view top padding (0.5rem) so the full-bleed card sits flush
    under the subnav, with no gap above the name plate. .fsection is the container's parent and

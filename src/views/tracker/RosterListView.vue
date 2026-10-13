@@ -97,7 +97,7 @@
                 :aria-label="labels.trackerDelete"
                 @click.stop="pendingDelete = r.id"
               >
-                <i class="bi bi-trash" />
+                <i class="wi wi-trash" />
               </button>
               <!-- Saved lists only — a draft deletes from its own card and never opens this. -->
               <ActionMenu
@@ -206,7 +206,7 @@
                   class="rrec"
                   :title="labels.statsTitle"
                 >
-                  <i class="bi bi-trophy" /> {{ recordOf(r) }}
+                  <i class="wi wi-trophy" /> {{ recordOf(r) }}
                 </span>
                 <span
                   v-if="r.draft"
@@ -219,14 +219,14 @@
                   class="checks-off"
                   :title="labels.rosterChecksOffNote"
                 >
-                  <i class="bi bi-slash-circle" /> {{ labels.rosterChecksOff }}
+                  <i class="wi wi-none" /> {{ labels.rosterChecksOff }}
                 </span>
                 <span
                   v-else-if="r.summary?.issues && legalityOn(r)"
                   class="issues"
                   :title="String(r.summary.issues)"
                 >
-                  <i class="bi bi-exclamation-triangle-fill" /> {{ r.summary.issues }}
+                  <i class="wi wi-warning" /> {{ r.summary.issues }}
                 </span>
               </span>
               <span class="date">{{ formatDate(r.updatedAt) }}</span>

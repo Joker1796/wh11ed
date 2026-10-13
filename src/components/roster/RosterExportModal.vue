@@ -73,8 +73,8 @@
           @click="copy(url, 'link')"
         >
           <i
-            class="bi"
-            :class="copied === 'link' ? 'bi-check-lg' : 'bi-link-45deg'"
+            class="wi"
+            :class="copied === 'link' ? 'wi-check' : 'wi-link'"
           />
           {{ copied === 'link' ? labels.rosterCopied : labels.rosterCopyLink }}
         </button>

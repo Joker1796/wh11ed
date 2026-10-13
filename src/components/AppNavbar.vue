@@ -252,7 +252,7 @@
                   :disabled="resendState === 'sending'"
                   @click="onResend"
                 >
-                  <i class="bi bi-envelope-exclamation" />
+                  <i class="wi wi-mail-alert" />
                   <span>{{ resendState === 'sent' ? labels.accountResent : `${labels.accountConfirmEmail} · ${labels.accountResend}` }}</span>
                 </button>
                 <!-- A Yandex account can add an email + password as a second way in; an account with
@@ -262,7 +262,7 @@
                   aria-haspopup="dialog"
                   @click="onAccountLogin"
                 >
-                  <i :class="authUser?.login ? 'bi bi-key' : 'bi bi-envelope-plus'" />
+                  <i :class="authUser?.login ? 'wi wi-key' : 'wi wi-mail-add'" />
                   <span>{{ authUser?.login ? labels.accountChangePassword : labels.accountAddLogin }}</span>
                 </button>
                 <button
@@ -280,7 +280,7 @@
                 class="settings-who settings-down"
                 :title="labels.cloudServerDownHint"
               >
-                <i class="bi bi-cloud-slash" />
+                <i class="wi wi-cloud-error" />
                 <span>{{ labels.cloudServerDown }}</span>
               </p>
               <button
@@ -289,7 +289,7 @@
                 :disabled="accountStatus === 'idle'"
                 @click="onSignIn"
               >
-                <i class="bi bi-person" />
+                <i class="wi wi-person" />
                 <span>{{ labels.cloudSignIn }}</span>
               </button>
             </div>
@@ -916,7 +916,7 @@ a.nd-link:hover {
   padding-bottom: 0.6rem;
   color: var(--danger);
 }
-.settings-down .bi {
+.settings-down .wi {
   font-size: 1rem;
   width: 1.2rem;
   text-align: center;

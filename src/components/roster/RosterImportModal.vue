@@ -134,7 +134,7 @@
             v-if="clean"
             class="rim-ok"
           >
-            <i class="bi bi-check-circle" /> {{ labels.rosterImportClean }}
+            <i class="wi wi-ok-line" /> {{ labels.rosterImportClean }}
           </p>
         </div>
       </ExpandTransition>

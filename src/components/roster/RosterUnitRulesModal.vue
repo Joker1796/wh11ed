@@ -14,7 +14,7 @@
         v-if="gameCtx && ctx?.entry?.warlord"
         class="rum-wl"
       >
-        <i class="bi bi-flag-fill" /> {{ labels.rosterWarlord }}
+        <i class="wi wi-flag" /> {{ labels.rosterWarlord }}
       </span>
       <RosterOwnedStar
         v-else-if="card?.name && !gameCtx"

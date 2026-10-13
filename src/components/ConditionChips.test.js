@@ -16,9 +16,9 @@ describe('ConditionChips', () => {
   // either/or behaviour of a radio button that they do not have.
   it('draws its on/off box square', () => {
     const w = mount(ConditionChips, { props: { switches: [sw('a', { on: true }), sw('b')] } })
-    const boxes = w.findAll('.cond-chip .bi')
-    expect(boxes[0].classes()).toContain('bi-check-square-fill')
-    expect(boxes[1].classes()).toContain('bi-square')
+    const boxes = w.findAll('.cond-chip .wi')
+    expect(boxes[0].classes()).toContain('wi-box-on')
+    expect(boxes[1].classes()).toContain('wi-box')
   })
 
   // A pick-exactly-one group already reads as radio buttons, so it gets no counter either — only a

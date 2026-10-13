@@ -193,7 +193,7 @@ function appShell() {
   }
 }
 
-// Every @fontsource (and bootstrap-icons) @font-face names a `.woff` after its `.woff2`, for
+// Every @fontsource @font-face names a `.woff` after its `.woff2`, for
 // browsers that predate woff2. This app's floor is Safari 16 (src/components/CLAUDE.md), so no
 // browser that can run it ever takes the second url — but the bundler still handled the files, and
 // five small Sofia ones fell under the inline limit and were base64'd into the CSS every visitor
@@ -204,7 +204,7 @@ function woff2Only() {
     name: 'woff2-only',
     enforce: 'pre',
     transform(code, id) {
-      if (!/[\\/]node_modules[\\/](@fontsource|bootstrap-icons)[\\/].*\.css$/.test(id)) return null
+      if (!/[\\/]node_modules[\\/]@fontsource[\\/].*\.css$/.test(id)) return null
       return { code: code.replace(/,\s*url\(\s*["']?[^)"']+\.woff(\?[^)"']*)?["']?\s*\)\s*format\(\s*["']woff["']\s*\)/g, ''), map: null }
     },
   }

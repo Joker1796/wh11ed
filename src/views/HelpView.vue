@@ -31,7 +31,7 @@
           >
             <span class="help-nav-n">{{ i + 1 }}.</span>
             <span class="help-nav-t">{{ s.title }}</span>
-            <i class="bi bi-chevron-right help-nav-go" />
+            <i class="wi wi-chevron-right help-nav-go" />
           </RouterLink>
         </li>
       </ol>

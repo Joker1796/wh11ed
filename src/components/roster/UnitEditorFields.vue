@@ -12,7 +12,7 @@
         class="btn-ghost ues-sheet-link"
         @click="rulesOpen = true"
       >
-        <i class="bi bi-file-earmark-text" /> {{ labels.rosterShowDatasheet }}
+        <i class="wi wi-doc" /> {{ labels.rosterShowDatasheet }}
       </button>
       <label class="ues-note">
         <span class="ues-note-lab">{{ labels.rosterNote }}</span>
@@ -252,7 +252,7 @@
             :aria-label="labels.rosterViewInfo"
             @click="openWeaponInfo(defaultNames, labels.rosterFixedWargear)"
           >
-            <i class="bi bi-info-circle" />
+            <i class="wi wi-info" />
           </button>
         </div>
       </section>
@@ -274,7 +274,7 @@
               :checked="isWarlord"
               @change="$emit('toggle-warlord')"
             >
-            <span class="opt-name"><i class="bi bi-flag-fill wl-flag" /> {{ labels.rosterWarlord }}</span>
+            <span class="opt-name"><i class="wi wi-flag wl-flag" /> {{ labels.rosterWarlord }}</span>
           </label>
         </div>
       </section>
@@ -342,7 +342,7 @@
               :aria-label="labels.rosterViewInfo"
               @click="openEnhInfo(e.name)"
             >
-              <i class="bi bi-info-circle" />
+              <i class="wi wi-info" />
             </button>
           </div>
         </div>

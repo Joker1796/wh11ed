@@ -185,7 +185,7 @@
                   :key="i"
                 >
                   <span class="ds-proxy-legacy">{{ p.legacy.join(', ') }}</span>
-                  <i class="bi bi-arrow-right ds-proxy-arrow" />
+                  <i class="wi wi-arrow-right ds-proxy-arrow" />
                   <!-- Both are flex items, so the line breaks around the text cost no space. -->
                   <RouterLink
                     v-if="p.id"

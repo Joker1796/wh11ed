@@ -30,7 +30,7 @@
               <span class="picker-trigger-label">{{ labels.dsChapterFilter }}</span>
               <span class="picker-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
             </span>
-            <i class="bi bi-chevron-down picker-trigger-chev" />
+            <i class="wi wi-chevron-down picker-trigger-chev" />
           </button>
         </template>
         <template #default="{ compact, bodyClass, close }">
@@ -64,7 +64,7 @@
               <span class="picker-trigger-label">{{ labels.factionDetachments }}</span>
               <span class="picker-trigger-name">{{ activeDet?.name }}</span>
             </span>
-            <i class="bi bi-chevron-down picker-trigger-chev" />
+            <i class="wi wi-chevron-down picker-trigger-chev" />
           </button>
         </template>
         <template #default="{ compact, bodyClass, close }">

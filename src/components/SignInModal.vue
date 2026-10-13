@@ -149,7 +149,7 @@
               :aria-pressed="showPassword"
               @click="showPassword = !showPassword"
             >
-              <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'" />
+              <i :class="showPassword ? 'wi wi-eye-off' : 'wi wi-eye'" />
             </button>
           </div>
           <small

@@ -62,7 +62,7 @@
               <span>
                 <template v-if="factionOf(r)">{{ factionOf(r).name }} · </template>
                 <span class="rp-pts">{{ r.summary?.points || 0 }} {{ labels.rosterPointsLabel }}</span> ·
-                <i class="bi bi-people-fill" /> {{ r.units?.length || 0 }}
+                <i class="wi wi-people" /> {{ r.units?.length || 0 }}
               </span>
               <RosterOwnLimitsMark
                 inert

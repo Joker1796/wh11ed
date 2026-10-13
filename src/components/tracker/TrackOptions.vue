@@ -43,7 +43,7 @@
         :aria-label="`${labels[o.label]} — ${labels.trackerOptionHelp}`"
         @click="helpFor = o"
       >
-        <i class="bi bi-question-circle" />
+        <i class="wi wi-help" />
       </button>
     </div>
 

@@ -75,7 +75,7 @@
             :aria-label="labels.rosterExport"
             @click="exportOpen = true"
           >
-            <i class="bi bi-box-arrow-up" />
+            <i class="wi wi-share" />
           </button>
         </header>
 
@@ -273,7 +273,7 @@
             :title="labels.rosterCancel"
             @click="leaveEditor"
           >
-            <i class="bi bi-arrow-counterclockwise red-cancel-icon" />
+            <i class="wi wi-undo red-cancel-icon" />
             <span class="red-cancel-text">{{ labels.rosterCancel }}</span>
           </button>
           <button
@@ -479,7 +479,7 @@ const editorModes = computed(() => [
     // rather than the badge's because it also answers WHERE to go.
     warn: setupIssueCount(validation.value.issues) ? labels.value.rosterTabNeedsSetup : '',
   },
-  { key: 'units', label: labels.value.rosterViewTabUnits, icon: 'bi bi-layout-split', warn: '' },
+  { key: 'units', label: labels.value.rosterViewTabUnits, icon: 'wi wi-panes', warn: '' },
 ])
 
 // ── What building a list does (useRosterBuildActions.js — the wizard runs the same code) ──

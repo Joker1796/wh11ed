@@ -4,7 +4,7 @@
       to="/roster"
       class="back"
     >
-      <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
+      <i class="wi wi-chevron-left" /> {{ labels.rosterBackToList }}
     </RouterLink>
     <h1 class="rs-title">
       {{ labels.rosterSharedTitle }}
@@ -14,7 +14,7 @@
       v-if="error"
       class="rs-error"
     >
-      <i class="bi bi-exclamation-triangle" /> {{ labels.rosterSharedInvalid }}
+      <i class="wi wi-warning-line" /> {{ labels.rosterSharedInvalid }}
     </p>
     <template v-else-if="payload">
       <pre class="rs-preview">{{ preview }}</pre>
@@ -29,7 +29,7 @@
       v-else
       class="rs-loading"
     >
-      <i class="bi bi-arrow-repeat spin" />
+      <i class="wi wi-sync spin" />
     </p>
   </div>
 </template>

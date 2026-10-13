@@ -33,7 +33,7 @@
         :title="labels.rosterFilters"
         @click="filtersOpen = !filtersOpen"
       >
-        <i :class="activeFilters ? 'bi bi-funnel-fill' : 'bi bi-funnel'" />
+        <i :class="activeFilters ? 'wi wi-filter-on' : 'wi wi-filter'" />
         <ExpandTransition>
           <span
             v-if="activeFilters"

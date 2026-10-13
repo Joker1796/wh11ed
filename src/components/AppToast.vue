@@ -17,7 +17,7 @@
         :aria-label="labels.updateDismiss"
         @click="$emit('close')"
       >
-        <i class="bi bi-x" />
+        <i class="wi wi-close" />
       </button>
     </div>
   </Transition>

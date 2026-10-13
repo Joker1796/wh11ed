@@ -41,7 +41,7 @@
       >{{ texts.map((t) => t.label).join(' · ') }}</span>
       <i
         v-if="texts.length"
-        class="bi bi-chevron-down pe-chev"
+        class="wi wi-chevron-down pe-chev"
       />
     </component>
 

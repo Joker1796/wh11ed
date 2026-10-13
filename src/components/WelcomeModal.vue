@@ -9,8 +9,8 @@
         {{ labels.welcomeLead }}
       </p>
       <ul class="welcome-list">
-        <li><i class="bi bi-grid-3x3-gap" /><span>{{ labels.welcomeWhat }}</span></li>
-        <li><i class="bi bi-phone" /><span>{{ labels.welcomeLocal }}</span></li>
+        <li><i class="wi wi-grid" /><span>{{ labels.welcomeWhat }}</span></li>
+        <li><i class="wi wi-phone" /><span>{{ labels.welcomeLocal }}</span></li>
       </ul>
       <div class="welcome-actions">
         <RouterLink

@@ -1,4 +1,4 @@
-// Self-hosted fonts + icon font, bundled so the app renders with its real typography fully
+// Self-hosted fonts, bundled so the app renders with its real typography fully
 // offline: @fontsource per-weight CSS ships every subset (Cyrillic for RU, and the rest for the
 // names players type) as hashed woff2 under /assets, and the installed app's warm-up fetches them
 // all (vite.config.js, offline-manifest). That is why only faces the app actually DRAWS are here
@@ -23,5 +23,3 @@ import '@fontsource/eb-garamond/400-italic.css'
 import '@fontsource/sofia-sans-extra-condensed/400.css'
 import '@fontsource/sofia-sans-extra-condensed/500.css'
 import '@fontsource/sofia-sans-extra-condensed/700.css'
-
-import 'bootstrap-icons/font/bootstrap-icons.css'

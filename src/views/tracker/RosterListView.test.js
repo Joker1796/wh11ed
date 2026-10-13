@@ -203,7 +203,7 @@ describe('RosterListView', () => {
     await w.findAll('.rl-tabs button')[1].trigger('click')
     const btn = w.find('.kebab')
     expect(btn.classes()).toContain('danger')
-    expect(btn.find('.bi-trash').exists()).toBe(true)
+    expect(btn.find('.wi-trash').exists()).toBe(true)
 
     await btn.trigger('click')
     expect(w.findAll('.act-btn')).toHaveLength(0)   // no actions sheet on the way

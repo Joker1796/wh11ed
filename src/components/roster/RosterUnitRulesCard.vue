@@ -27,7 +27,7 @@
         v-if="view.context.warlord && !warlordInTitle"
         class="rum-chip rum-chip-wl"
       >
-        <i class="bi bi-flag-fill" /> {{ labels.rosterWarlord }}
+        <i class="wi wi-flag" /> {{ labels.rosterWarlord }}
       </span>
       <span
         v-if="view.context.enhancement"

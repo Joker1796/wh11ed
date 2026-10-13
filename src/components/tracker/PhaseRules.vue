@@ -14,8 +14,8 @@
       @click="toggle"
     >
       <i
-        class="bi pr-chev"
-        :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+        class="wi pr-chev"
+        :class="open ? 'wi-chevron-down' : 'wi-chevron-right'"
       />
       <span class="pr-title">{{ labels.trackerPhaseRules }}</span>
       <span class="pr-count">{{ total }}</span>
@@ -52,7 +52,7 @@
                     class="pr-sub"
                   >{{ r.sub }}</small>
                 </span>
-                <i class="bi bi-chevron-right pr-go" />
+                <i class="wi wi-chevron-right pr-go" />
               </button>
             </li>
           </ul>
@@ -67,9 +67,9 @@
           class="pr-strats"
           :to="{ path: '/stratagems', query: { phase } }"
         >
-          <i class="bi bi-lightning-charge" />
+          <i class="wi wi-lightning" />
           {{ labels.trackerPhaseStrats }}
-          <i class="bi bi-chevron-right pr-go" />
+          <i class="wi wi-chevron-right pr-go" />
         </RouterLink>
       </div>
     </CollapseTransition>

@@ -14,7 +14,7 @@
         :aria-label="labels.installOfferLater"
         @click="later"
       >
-        <i class="bi bi-x-lg" />
+        <i class="wi wi-close" />
       </button>
       <p
         id="install-offer-title"
