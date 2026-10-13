@@ -323,7 +323,7 @@ p {
 /* RU translation of an English subheading — small muted line tucked under it */
 .rule-subheading-ru {
   display: block;
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   font-size: 1rem;
   font-weight: 500;
   color: var(--text-muted);

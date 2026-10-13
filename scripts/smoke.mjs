@@ -8,6 +8,7 @@
 //   - a JavaScript error (an uncaught exception, or console.error), the class of bug that blanks a
 //     page and that no unit test sees because no unit test mounts the whole app on a real route;
 //   - a page that scrolls sideways (a long name, a chip row);
+//   - text drawn in a font face src/fonts.js does not load (scripts/lib/font-faces.mjs);
 //   - a CHECK that page carries: the specific thing a release has broken before, read from the
 //     rendered page (the own-limits mark on a custom list, the archived list absent from the main
 //     tab, the limit chosen before the faction…). A check that cannot find its element FAILS — it
@@ -23,6 +24,7 @@ import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright-core'
 import { preview } from 'vite'
+import { missingFaces } from './lib/font-faces.mjs'
 import { TEST_ROSTERS, buildTestRoster } from './lib/test-rosters.mjs'
 import { loadRosterFaction, rosterItems } from '../src/data/roster/index.js'
 import { SCHEMA_VERSION } from '../src/composables/useRosters.js'
@@ -212,6 +214,10 @@ for (const width of widths) {
       const raw = await page.evaluate(() => (document.body.innerText.match(/\[(?:gloss|core|def):[^\]]*\]|\*\*[^*\n]{1,60}\*\*/) || [])[0])
       if (raw) failures.push(`${where}: unrendered markup on the page — ${raw}`)
       for (const f of (await p.check?.(page)) || []) failures.push(`${where}: ${f}`)
+      // A face the page draws that src/fonts.js does not load — the browser substitutes without a
+      // word. a11y checks its public pages; these are the screens that need a list or a game.
+      // Run after the page's check, which may open a card or a dialog.
+      for (const m of await page.evaluate(missingFaces)) failures.push(`${where}: ${m.face} is drawn but not loaded (src/fonts.js) — ${m.sig} «${m.text}»`)
       // A column that scrolls on its own hides the same fault from the check above: the desk's unit
       // card at 1200px was wider than its pane and slid half out of sight (2026-10-03). Run after the
       // page's check, which may open that card. Strips made to scroll sideways are not columns.

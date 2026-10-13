@@ -29,7 +29,7 @@
 //              Sofia 600 with no 600 loaded it quietly draws 700, and nothing looks broken. The
 //              faces are trimmed to what is drawn (2026-10-13: no weight 800 anywhere, EB Garamond
 //              italic only — the installed app's warm-up fetches every face), so a style asking
-//              for a dropped one fails here. The loaded set is read from document.fonts itself.
+//              for a dropped one fails here. scripts/lib/font-faces.mjs, shared with `npm run smoke`.
 //
 // Findings are keyed by an element signature (tag.classes) plus the colour pair — the same list
 // style failing on forty rows, or on ten pages, is one finding, not forty. A finding that is a
@@ -49,6 +49,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright-core'
 import { preview } from 'vite'
+import { missingFaces } from './lib/font-faces.mjs'
 
 const ROOT = join(import.meta.dirname, '..')
 const BASELINE_PATH = join(ROOT, 'scripts/lib/a11y-baseline.json')
@@ -316,29 +317,6 @@ function measure({ checks }) {
     }
   }
 
-  if (checks.includes('face')) {
-    const OURS = /^(Inter|EB Garamond|Sofia Sans Extra Condensed)$/
-    const loaded = new Set()
-    for (const f of document.fonts) {
-      const fam = f.family.replace(/["']/g, '')
-      if (OURS.test(fam)) loaded.add(`${fam} ${f.weight}${fam === 'EB Garamond' ? ` ${f.style}` : ''}`)
-    }
-    const seen = new Set()
-    for (const el of all) {
-      const text = [...el.childNodes].filter((n) => n.nodeType === 3).map((n) => n.textContent).join('').trim()
-      if (!text || !visible(el)) continue
-      const cs = getComputedStyle(el)
-      const fam = cs.fontFamily.split(',')[0].replace(/["']/g, '').trim()
-      if (!OURS.test(fam)) continue
-      const face = `${fam} ${cs.fontWeight}${fam === 'EB Garamond' ? ` ${cs.fontStyle}` : ''}`
-      if (loaded.has(face)) continue
-      const s = sig(el)
-      if (seen.has(s + face)) continue
-      seen.add(s + face)
-      out.face.push({ sig: s, face, text: text.slice(0, 40) })
-    }
-  }
-
   if (checks.includes('overflow')) {
     const doc = document.documentElement
     if (doc.scrollWidth > doc.clientWidth + 1) {
@@ -410,6 +388,7 @@ for (const width of widths) {
         await page.evaluate(() => document.fonts.ready)
         pages++
         const res = await page.evaluate(measure, { checks: only })
+        if (only.includes('face')) res.face = await page.evaluate(missingFaces)
         for (const check of only) {
           for (const item of res[check]) {
             findings.push({ route: path, theme, width, check, sig: item.sig ?? '', item })

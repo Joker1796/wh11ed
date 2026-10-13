@@ -1117,7 +1117,7 @@ strong {
    left guessing why "Agents of the Imperium" is a heading inside a Custodes list. */
 .roster-group-tag {
   margin-left: 0.5em;
-  font-family: var(--font-body, inherit);
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   font-style: normal;
   font-weight: 600;

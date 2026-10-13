@@ -130,7 +130,7 @@ npm run a11y         # GATE: render a sample of pages in Chrome (needs dist/) �
 npm run legends-tag  # GATE (needs dist/): every Legends sheet's stat row + badge, EN/RU, measured against the container width at which DatasheetCard steps the badge down a row — read from the CSS
 npm run weapon-table # GATE (needs dist/): every datasheet's weapons table, EN/RU, 1px above the width where it turns into cards — read from the CSS: fits the card, no number wraps, no word breaks, no name over 3 lines
 npm run detachment-row # GATE (needs dist/): every faction's detachment picker — a card's tag + dispositions line stays one line 1px above the width (read from the CSS) where the tag moves up under the name; at 320px the chips stay one line and nothing runs past the card
-npm run smoke        # GATE before a release (needs dist/): the test rosters seeded into Chrome, phone + desk widths — JS errors, sideways scroll, unrendered markup, and the checks RELEASE-CHECKLIST.md marks [авто]; `-- --wide` adds every faction
+npm run smoke        # GATE before a release (needs dist/): the test rosters seeded into Chrome, phone + desk widths — JS errors, sideways scroll, unrendered markup, font faces drawn but not loaded, and the checks RELEASE-CHECKLIST.md marks [авто]; `-- --wide` adds every faction
 npm run test-rosters # share links to the test rosters (scripts/lib/test-rosters.mjs) for checking by hand
 npm run imghash      # GATE (also in CI): fail when an image under public/images/ was edited in place instead of renamed (see PWA)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
