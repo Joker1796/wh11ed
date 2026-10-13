@@ -20,6 +20,26 @@ describe('changelog marks', () => {
     }
   })
 
+  // Every change opens with its gist in bold, so a reader skimming a release reads the bold and
+  // stops where it concerns them (owner, 2026-10-13: half of 2.8.2 had it, half did not). Answers
+  // are exempt — the page bolds the question itself (boldQuestion) — and so are thanks. From 2.8.2
+  // on; older releases were written before the rule.
+  it('opens every change with its gist in bold', () => {
+    const newer = (v) => v.split('.').map(Number).reduce((a, n, i) => a || (n !== [2, 8, 2][i] ? (n > [2, 8, 2][i] ? 1 : -1) : 0), 0) >= 0
+    const bad = []
+    for (const e of changelog.filter((x) => newer(x.version))) {
+      for (const loc of ['en', 'ru']) {
+        let kind = null
+        for (const n of e[loc]) {
+          if (typeof n === 'object') { kind = sectionKind(n); continue }
+          if (kind === 'answers' || kind === 'thanks') continue
+          if (!/^\*\*[^*]+\*\*/.test(n)) bad.push(`${e.version} ${loc}: ${n.slice(0, 60)}…`)
+        }
+      }
+    }
+    expect(bad, 'start the note with **its gist.** (skill changelog-entry §3б)').toEqual([])
+  })
+
   it('draws an icon button and a text button', () => {
     const html = renderMarks('Switch with {btn:gear}, undo with {key:Put back}.', 'ru')
     expect(html).toContain('<span class="cl-btn" role="img" aria-label="Настройки" title="Настройки"><i class="wi wi-settings"></i></span>')
