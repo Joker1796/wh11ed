@@ -292,14 +292,6 @@
                 <i class="bi bi-person" />
                 <span>{{ labels.cloudSignIn }}</span>
               </button>
-              <button
-                v-if="accountDev"
-                class="settings-item"
-                @click="onMockToggle"
-              >
-                <i class="bi bi-wrench" />
-                <span>{{ accountStatus === 'authed' ? 'тест-выход' : 'тест-вход' }}</span>
-              </button>
             </div>
           </Transition>
         </div>
@@ -370,8 +362,6 @@ const {
   accountName,
   signIn,
   signOut,
-  dev: accountDev,
-  toggleMock,
 } = useAccountActions()
 // Split at the "@" so the template can put a <wbr> there; null when the name isn't an e-mail.
 const accountEmailParts = computed(() => {
@@ -404,10 +394,6 @@ async function onSignIn() {
 async function onSignOut() {
   settingsOpen.value = false
   await signOut()
-}
-function onMockToggle() {
-  settingsOpen.value = false
-  toggleMock()
 }
 
 const labels = computed(() => ui[locale.value])

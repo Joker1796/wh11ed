@@ -1343,7 +1343,6 @@ export const ui = {
     partyHomeJoinShort: 'Join by code',
     partyHomeJoinHint: 'Someone else\u2019s game, on this device: enter their code or open their link.',
     partyRejoinBlocked: 'The seat you chose is taken. Ask the host to free it.',
-    partyDevJwtHint: 'Dev stand: the mock account cannot share a game by itself. Run `npm run dev:jwt` in wh11ed-api and put the token into localStorage["wh11ed-dev-jwt"], then try again.',
     // ── The lobby: setting the game up together, before it starts (useLobby.js) ──
     lobbyNewGame: 'New shared game',
     lobbyNewGameShort: 'Shared game',
@@ -2775,7 +2774,6 @@ export const ui = {
     partyHomeJoinShort: 'Подключиться',
     partyHomeJoinHint: 'Чужая партия на этом устройстве: введите код или откройте ссылку.',
     partyRejoinBlocked: 'Выбранное место занято. Попросите хоста освободить его.',
-    partyDevJwtHint: 'Стенд: мок-аккаунт сам поделиться партией не может. Выполните `npm run dev:jwt` в wh11ed-api и положите токен в localStorage["wh11ed-dev-jwt"], затем повторите.',
     // ── Лобби: настраиваем партию вместе, до её начала (useLobby.js) ──
     lobbyNewGame: 'Новая совместная игра',
     lobbyNewGameShort: 'Совместная игра',
