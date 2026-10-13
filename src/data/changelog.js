@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.8.3',
+    date: '2026-10-14',
+    en: [
+      { h: 'Answers to your questions' },
+      'Why do [Hellflayers](/factions/chaos-daemons/datasheets/hellflayers) have a 5+ invulnerable save and not 4+? The GW app gives them 5+, and the errata does not change it. The GW app is my canon, and the site follows it.',
+    ],
+    ru: [
+      { h: 'Ответы на вопросы' },
+      'Почему у [Hellflayers](/factions/chaos-daemons/datasheets/hellflayers) инвуль 5+, а не 4+? В приложении GW у них 5+, и эррата это не меняет. Приложение GW для меня канон, и сайт следует ему.',
+    ],
+  },
+  {
     version: '2.8.2',
     date: '2026-10-14',
     en: [
