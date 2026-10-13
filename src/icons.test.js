@@ -23,7 +23,7 @@ const sources = files(SRC).map((p) => ({ p: path.relative(SRC, p), text: fs.read
 const css = fs.readFileSync(path.join(SRC, 'style.css'), 'utf8')
 const rules = new Map([...css.matchAll(/\.wi-([a-z0-9-]+) \{ mask-image: url\('\.\/assets\/icons\/([a-z0-9-]+\.svg)'\)/g)].map((m) => [m[1], m[2]]))
 // Names built in a template: `wi-dice-${n}`, `wi-chevron-${from}` — every value they can take.
-const BUILT = { 'dice-': ['1', '2', '3', '4', '5', '6'], 'chevron-': ['down', 'up', 'left', 'right'] }
+const BUILT = { 'dice-': ['1', '2', '3', '4', '5', '6'], 'chevron-': ['down', 'up', 'left', 'right'], 'unit-': ['table', 'reserve', 'destroyed'] }
 
 describe('icons', () => {
   it('reads the rules', () => {
@@ -42,7 +42,7 @@ describe('icons', () => {
     for (const { text } of sources) {
       for (const m of text.matchAll(/(?<![\w-])wi-([a-z0-9]+(?:-[a-z0-9]+)*)(-?)(\$\{)?/g)) {
         if (m[3]) for (const v of BUILT[`${m[1]}-`] || [`?{${m[1]}}`]) used.add(`${m[1]}-${v}`)
-        else used.add(m[1])
+        else if (!m[2]) used.add(m[1]) // a name ending in "-" is a family named in prose (`.wi-unit-*`)
       }
     }
     const missing = [...used].filter((n) => !rules.has(n))
