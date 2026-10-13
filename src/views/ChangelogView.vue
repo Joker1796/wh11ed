@@ -28,19 +28,37 @@
               :datetime="e.date"
             >{{ formatDate(e.date) }}</time>
           </header>
-          <ul class="cl-list">
-            <!-- Rendered, not printed: entries have always been written in the app's own body markup
-                 (`**bold**`, a `[KEYWORD]`, a `(NN.NN)` cross-ref) and this list used to show it
-                 raw — "**riled up**" with the asterisks in it. renderInline is the same transform
-                 every rule text goes through, and App.vue's document-level handler makes the
-                 keywords and cross-refs it produces behave here as they do inside a rule. -->
-            <li
-              v-for="(note, i) in (e[locale] || e.en)"
-              :key="i"
-              v-safe-html="renderMarks(renderInline(note.h || note), locale)"
-              :class="{ 'cl-h': note.h }"
-            />
-          </ul>
+          <!-- Rendered, not printed: entries have always been written in the app's own body markup
+               (`**bold**`, a `[KEYWORD]`, a `(NN.NN)` cross-ref, an in-app `[text](/path)`) and this
+               list used to show it raw. renderInline is the same transform every rule text goes
+               through, and App.vue's document-level handler makes the keywords, cross-refs and
+               in-app links it produces behave here as they do inside a rule. Each `{ h }` heading
+               opens a block of its own kind (changelogMarks.js → noteSections). -->
+          <div
+            v-for="(sec, si) in noteSections(e[locale] || e.en)"
+            :key="si"
+            class="cl-sec"
+            :class="sec.kind && `cl-sec--${sec.kind}`"
+          >
+            <h3
+              v-if="sec.h"
+              class="cl-h"
+            >
+              <i
+                v-if="sec.kind"
+                :class="SECTION_KINDS[sec.kind].icon"
+                aria-hidden="true"
+              />
+              <span v-safe-html="renderInline(sec.h)" />
+            </h3>
+            <ul class="cl-list">
+              <li
+                v-for="(note, i) in sec.items"
+                :key="i"
+                v-safe-html="noteHtml(note, sec.kind)"
+              />
+            </ul>
+          </div>
         </section>
       </TransitionGroup>
       <button
@@ -79,7 +97,7 @@
 // Opening it clears the banner.
 import { ref, computed } from 'vue'
 import { changelog } from '../data/changelog.js'
-import { renderMarks } from '../data/changelogMarks.js'
+import { renderMarks, SECTION_KINDS, noteSections, boldQuestion } from '../data/changelogMarks.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { useFormatDate } from '../composables/useFormatDate.js'
@@ -92,6 +110,12 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
 const { renderInline } = useRenderInline()
+// One note as the page draws it: the body markup, then the changelog's own marks; in the answers
+// block the question leads in bold.
+const noteHtml = (note, kind) => {
+  const html = renderMarks(renderInline(note), locale.value)
+  return kind === 'answers' ? boldQuestion(html) : html
+}
 
 // Pagination — show 5 versions at a time via "show more" (same recipe as tracker game history).
 const PAGE = 5
@@ -209,17 +233,51 @@ useUpdateNotice().markSeen()
   line-height: 1.5;
 }
 
-/* A section heading within an entry (note is `{ h }`): no bullet, pulled back to the left edge. */
-.cl-list li.cl-h {
-  list-style: none;
-  margin-left: -1.2rem;
+/* A block of one release (note `{ h }` and what follows it, changelogMarks.js → noteSections):
+   the kind's colour as an edge down its left and on the heading's icon — what the block is about,
+   readable before a word of it (owner, 2026-10-13). A palette token each, so both themes and AA
+   come with it; no fill, no frame: the edge is the whole cost, sideways, not a row. */
+.cl-sec {
+  --cl-tone: var(--text-dim);
+  border-left: 3px solid var(--cl-tone);
+  padding-left: 0.7rem;
+}
+.cl-sec + .cl-sec { margin-top: 0.7rem; }
+.cl-sec:not(:has(.cl-h)) { border-left: none; padding-left: 0; }
+.cl-sec--rules { --cl-tone: var(--ability-unit); }
+.cl-sec--roster { --cl-tone: var(--accent); }
+.cl-sec--tracker { --cl-tone: var(--sub-rule-border); }
+.cl-sec--answers { --cl-tone: var(--text-dim); }
+.cl-sec--thanks { --cl-tone: var(--warning); }
+.cl-sec--site,
+.cl-sec--account { --cl-tone: var(--text-dim); }
+
+.cl-h {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.3rem;
   font-family: var(--font-display);
   font-size: 1.15rem;
-  font-weight: 500;
+  font-weight: 400;
+  line-height: 1.1;
   color: var(--text-primary);
 }
-.cl-list li.cl-h:not(:first-child) {
-  margin-top: 0.55rem;
+.cl-h i { color: var(--cl-tone); font-size: 1.05em; }
+/* The roster's red edge is a fill colour; as the icon's ink the dark theme wants its ink twin. */
+.cl-sec--roster .cl-h i { color: var(--accent-ink); }
+
+/* An answer's question (the answers block, boldQuestion) and an in-app link to a unit, a rule or
+   a page (`[text](/path)` → a.int-link, routed by App.vue): a link reads as one, in ink, dotted
+   so a line of unit names does not turn into a solid underline. */
+.cl-list :deep(.cl-q) { font-weight: 600; }
+.cl-list :deep(a.int-link) {
+  color: var(--accent-ink);
+  text-decoration: underline dotted;
+  text-underline-offset: 0.18em;
+}
+@media (hover: hover) {
+  .cl-list :deep(a.int-link:hover) { color: var(--accent-ink-hover); text-decoration-style: solid; }
 }
 
 .show-more {

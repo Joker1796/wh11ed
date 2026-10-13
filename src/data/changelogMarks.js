@@ -51,3 +51,54 @@ function drawMarks(html, locale) {
     return `<span class="cl-key">${esc(key)}</span>`
   })
 }
+
+// ── Sections (owner, 2026-10-13: "plain text, hard to read") ─────────────────────────────────────
+// A release's notes are drawn as blocks, one per `{ h }` heading: an icon and a coloured edge
+// that say what the block is about, so a reader finds "the roster builder" without reading every
+// line. The kind is read off the heading's own words, EN or RU, so every release that ever used a
+// heading gets its block — the archive's included — and `{ h, kind }` names one outright. A
+// heading the table does not know fails changelogMarks.test.js: a new block is a decision about
+// its colour, not a grey default nobody chose.
+export const SECTION_KINDS = {
+  rules: { icon: 'wi wi-army', words: ['Checking against the GW app', 'Сверка с приложением GW', 'Datasheets', 'Датащиты', 'Core Rules', 'Базовые правила', 'Deathwatch Support'] },
+  roster: { icon: 'wi wi-rosters', words: ['Roster builder', 'Конструктор ростеров', 'Roster in a game', 'Ростер в партии'] },
+  tracker: { icon: 'wi wi-tracker', words: ['Tracker', 'Трекер', 'Beta of the new game tracker', 'Бета нового трекера партии'] },
+  answers: { icon: 'wi wi-faq', words: ['Answers to your questions', 'Ответы на вопросы'] },
+  thanks: { icon: 'wi wi-support', words: ['Thank you', 'Спасибо'] },
+  site: { icon: 'wi wi-rules', words: ['Whole site', 'Весь сайт', 'Help', 'Справка', 'The app on your phone', 'Приложение на телефоне'] },
+  account: { icon: 'wi wi-cloud', words: ['Account', 'Аккаунт', 'Cloud', 'Облако', 'Signing in', 'Вход'] },
+}
+
+/** @param {{ h: string, kind?: string }} note */
+export function sectionKind(note) {
+  if (note.kind && SECTION_KINDS[note.kind]) return note.kind
+  return Object.keys(SECTION_KINDS).find((k) => SECTION_KINDS[k].words.includes(note.h)) || null
+}
+
+// The notes of one release as blocks: `{ h, kind, items }`, the notes before the first heading a
+// block with no head (most releases in the archive have no headings at all and stay a plain list).
+/** @param {Array<string | { h: string, kind?: string }>} notes */
+export function noteSections(notes) {
+  const out = []
+  for (const n of notes || []) {
+    if (typeof n === 'object' && n?.h) out.push({ h: n.h, kind: sectionKind(n), items: [] })
+    else {
+      if (!out.length) out.push({ h: null, kind: null, items: [] })
+      out[out.length - 1].items.push(n)
+    }
+  }
+  return out
+}
+
+// An answer is "Question? Answer." in one note; in the answers block the question is set bold so
+// the eye finds the questions first — the FAQ's own Q/A weight, without a second line each.
+// Rendered HTML in, the first "?" that closes a sentence decides; a note with none is unchanged.
+/** @param {string} html */
+export function boldQuestion(html) {
+  const m = /^([^<>]*(?:<[^>]*>[^<>]*)*?\?)(\s|$)/.exec(html)
+  return m ? `<strong class="cl-q">${m[1]}</strong>${html.slice(m[1].length)}` : html
+}
+
+// In-app links a note carries, `[text](/path)` (useRenderInline makes them `a.int-link`, App.vue
+// routes the click). Read here so the test can hold every one to a page that exists.
+export const INT_LINK_RE = /\[([^\]]+)\]\((\/[^\s)]*)\)/g
