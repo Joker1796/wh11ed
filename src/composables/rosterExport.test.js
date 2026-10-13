@@ -192,8 +192,8 @@ describe('buildRosterText — simple', () => {
 })
 
 describe('buildRosterText — the shapes themselves', () => {
-  it('offers exactly the five formats, and defaults to the app’s', () => {
-    expect(EXPORT_FORMATS).toEqual(['gw', 'wtc', 'wtc-compact', 'compact', 'simple'])
+  it('offers exactly the six formats, and defaults to the app’s', () => {
+    expect(EXPORT_FORMATS).toEqual(['gw', 'wtc', 'wtc-compact', 'compact', 'simple', 'rus'])
     expect(buildRosterText(roster, ctx)).toBe(build('gw'))
   })
 
@@ -338,5 +338,39 @@ describe('buildRosterText — a printed item given up twice on one model', () =>
     const txt = buildRosterText(r, { ...ctx, faction: { ...faction, units: [dw] }, items: dwItems })
     const bolters = [...txt.matchAll(/(\d+)x Storm Bolter/g)].reduce((s, m) => s + Number(m[1]), 0)
     expect(bolters).toBe(1)
+  })
+})
+
+// The Russian tournament layout of 40001format.xyz (a contributor's request, 2026-10-13): the
+// `+ Team / Player / …` header with the exporter's own fields, a `++ detachments ++` line, and one
+// line per unit under its category code, allies last under AU.
+describe('rus — the Russian tournament format', () => {
+  it('writes the header, the detachment line and the units by category', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const coreData = (await import('../data/roster/core.js')).default
+    const itemsData = (await import('../data/roster/items.js')).default
+    const f = await loadRosterFaction('chaos-space-marines', { allies: true })
+    const roster = { name: 'Champions', faction: 'chaos-space-marines', detachments: ['Pactbound Zealots'], battleSize: 'strike-force', units: [
+      { uid: 'l', id: 'chaos-lord', size: 0, warlord: true, leaderOf: 'g' },
+      { uid: 'g', id: 'legionaries', size: 0 },
+      { uid: 'r', id: 'chaos-rhino', size: 0 },
+      { uid: 'c', id: 'chaos-daemons:changecaster', size: 0 },
+    ] }
+    const text = buildRosterText(roster, { faction: f, core: coreData, items: itemsData.items, who: { team: 'Warp', player: 'Ivan' } }, 'rus')
+    const lines = text.split('\n')
+    expect(lines[0]).toBe('+'.repeat(50))
+    expect(lines.slice(1, 7)).toEqual(['+ Team: Warp', '+ Player: Ivan', '+ Army name: Champions', '+ HIN:', `+ Factions used: ${f.name}, Chaos Daemons`, expect.stringMatching(/^\+ Total cost: \d+ pts$/)])
+    expect(text).toMatch(/^\+\+ Pactbound Zealots \(.+\) \d+ pts \+\+$/m)
+    expect(text).toMatch(/^CH1: Chaos Lord: Warlord, .*attached to Legionaries \[\d+ pts\]$/m)
+    expect(text).toMatch(/^BL1: \d+x Legionaries: /m)
+    expect(text).toMatch(/^DT1: Chaos Rhino: .* \[\d+ pts\]$/m)
+    expect(text).toMatch(/^AU1: Changecaster/m)
+    expect(lines.at(-1)).toBe('+'.repeat(50))
+    // The unit lines add up to the header's total.
+    const total = Number(/\+ Total cost: (\d+)/.exec(text)[1])
+    const sum = [...text.matchAll(/^[A-Z]{2}\d+: .*\[(\d+) pts\]$/gm)].reduce((n, m) => n + Number(m[1]), 0)
+    expect(sum).toBe(total)
+    // No team or player: the fields stay, empty.
+    expect(buildRosterText(roster, { faction: f, core: coreData, items: itemsData.items }, 'rus')).toContain('+ Team:\n+ Player:\n')
   })
 })

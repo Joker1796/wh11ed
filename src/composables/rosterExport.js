@@ -2,7 +2,7 @@
 // Plain-text roster export, in the shapes the 40k community actually passes around. English names
 // throughout (unit / detachment / wargear names are EN by project convention). Pure functions.
 //
-// FIVE FORMATS, one resolved model:
+// SIX FORMATS, one resolved model:
 //   gw       the Warhammer 40,000 app's own 11th-edition export — what a TO asks for and what every
 //            list reader (BCP, New Recruit, 40kCompactor) parses first. Attached units come first
 //            as their own blocks, then CHARACTERS / DEDICATED TRANSPORTS / OTHER DATASHEETS.
@@ -17,6 +17,12 @@
 //            the disposition, then "Unit (N points)" per unit and nothing else — no wargear, no
 //            collapsing. Asked for by a player (2026-10-05): the Discord lines, carrying their
 //            wargear, wrapped two and three deep in a phone's chat.
+//   rus      the Russian tournament layout of 40001format.xyz (the formatter Russian TOs are sent,
+//            which reads only BattleScribe files): a `+ Team / Player / Army name / HIN / Factions
+//            used / Total cost` header, a `++ detachments ++` line, then one line per unit grouped
+//            by its category code (CH1:, BL1:, IN1: …). Asked for by a contributor (2026-10-13) so a
+//            list goes from here to a Russian tournament without that site; team and player are
+//            the exporter's own fields, filled in rather than typed into the text afterwards.
 //
 // The 11th-edition app export differs from the 10th's in ways this file has to honour: several
 // detachments at once with a Detachment Points budget, a Force Dispositions line, and attached
@@ -30,7 +36,7 @@
 import {
   allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
-  miniName, modelCount, rosterDetachments,
+  miniName, modelCount, rosterDetachments, allySourceOf, hasKeyword,
 } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').Roster} Roster */
@@ -61,7 +67,7 @@ import {
 /** What the export needs besides the roster. @typedef {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> | null }} ExportContext */
 import { factionGroups } from '../data/factionsIndex.js'
 
-export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple']
+export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple', 'rus']
 
 // WTC writes the faction's alliance ahead of its name ("Xenos - T'au Empire"). Our index splits the
 // Imperium in two (Space Marine chapters have their own group), which WTC does not.
@@ -508,13 +514,89 @@ function simpleText(m) {
   return lines.join('\n').trimEnd()
 }
 
+// ── Russian tournament (40001format.xyz) ─────────────────────────────────────────────────────
+
+// The category codes 40001format files a unit under, in its order: BattleScribe's primary
+// category there, the unit's bucket and keywords here. What none of them names is "OT".
+/** @type {Array<[string, (r: ExportRow) => boolean]>} */
+const RUS_CATEGORIES = [
+  ['EH', (r) => !r.ally && r.bucket === 'epic'],
+  ['CH', (r) => !r.ally && r.bucket === 'characters'],
+  ['BL', (r) => !r.ally && r.bucket === 'battleline'],
+  ['IN', (r) => hasKeyword(r.def, 'Infantry')],
+  ['SW', (r) => hasKeyword(r.def, 'Swarm')],
+  ['MO', (r) => hasKeyword(r.def, 'Mounted')],
+  ['BE', (r) => hasKeyword(r.def, 'Beast')],
+  ['MS', (r) => hasKeyword(r.def, 'Monster')],
+  ['VE', (r) => hasKeyword(r.def, 'Vehicle') && r.bucket !== 'transports'],
+  ['DR', (r) => hasKeyword(r.def, 'Drone')],
+  ['DT', (r) => r.bucket === 'transports'],
+  ['FT', (r) => r.bucket === 'fortifications'],
+]
+
+/** @param {Resolved} m @param {{ team?: string, player?: string }} [who] */
+function rusText(m, who = {}) {
+  const bar = '+'.repeat(50)
+  const allies = [...new Set(m.rows.filter((r) => r.ally).map((r) => allySourceOf(r.entry.id)?.[0]).filter(Boolean))]
+  /** @param {string} slug */
+  const nameOf = (slug) => factionGroups.flatMap((g) => g.factions).find((f) => f.slug === slug)?.name || slug
+  const out = [
+    bar,
+    `+ Team: ${who.team || ''}`.trimEnd(),
+    `+ Player: ${who.player || ''}`.trimEnd(),
+    `+ Army name: ${m.roster?.name || ''}`.trimEnd(),
+    '+ HIN:',
+    `+ Factions used: ${[m.faction?.name, ...allies.map(nameOf)].filter(Boolean).join(', ')}`,
+    `+ Total cost: ${m.total} pts`,
+    bar,
+    '',
+  ]
+  const fds = m.disposition ? [m.disposition] : dispositionCandidates(m.detachments)
+  const dets = m.detachments.map((d) => d.name).join(', ')
+  out.push(`++ ${dets}${fds.length ? ` (${fds.join(', ')})` : ''} ${m.total} pts ++`.replace(/^\+\+ +/, '++ '), '')
+
+  // Each unit once, in the first category that takes it; allies last, under AU.
+  const left = new Set(m.rows)
+  /** @type {Array<[string, ExportRow[]]>} */
+  const groups = []
+  for (const [code, takes] of RUS_CATEGORIES) {
+    const rows = [...left].filter((r) => !r.ally && takes(r))
+    rows.forEach((r) => left.delete(r))
+    if (rows.length) groups.push([code, rows])
+  }
+  const allied = [...left].filter((r) => r.ally)
+  allied.forEach((r) => left.delete(r))
+  if (left.size) groups.push(['OT', [...left]])
+  if (allied.length) groups.push(['AU', allied])
+
+  for (const [code, rows] of groups) {
+    orderedByName(rows, (r) => r.name).forEach((r, i) => {
+      const led = r.leaderOf ? m.rows.find((x) => x.uid === r.leaderOf) : null
+      const parts = [
+        ...(r.warlord ? ['Warlord'] : []),
+        ...(r.alleg ? [`${r.alleg.label}: ${r.alleg.value}`] : []),
+        ...(r.enh ? [`Enhancement: ${r.enh.name}`] : []),
+        ...(r.gear.length > 1 && r.gear.every((g) => g.name)
+          ? r.gear.map((g) => `${g.models}x ${g.name} (${g.items.map((it) => (it.n > 1 ? `${it.n}x ${it.name}` : it.name)).join(', ')})`)
+          : inlineGear(r, false)),
+        ...(led ? [`attached to ${led.name}`] : []),
+      ]
+      const size = r.models > 1 ? `${r.models}x ` : ''
+      out.push(`${code}${i + 1}: ${size}${r.name}${parts.length ? `: ${parts.join(', ')}` : ''} [${r.pts} pts]`)
+    })
+    out.push('')
+  }
+  out.push(bar)
+  return out.join('\n').trimEnd()
+}
+
 // ── entry point ──────────────────────────────────────────────────────────────────────────────
 
 // `version` (optional) is `{ app, data }` for the GW-format footer — the caller has them, this
 // module does not import either.
 /**
  * @param {Partial<Roster> | null | undefined} roster
- * @param {ExportContext & { version?: { app: string, data: string | number } }} [ctx]
+ * @param {ExportContext & { version?: { app: string, data: string | number }, who?: { team?: string, player?: string } }} [ctx]
  * @param {string} [format] one of EXPORT_FORMATS
  * @returns {string}
  */
@@ -524,5 +606,6 @@ export function buildRosterText(roster, ctx = {}, format = 'gw') {
   if (format === 'wtc-compact') return wtcText(m, true)
   if (format === 'compact') return compactText(m)
   if (format === 'simple') return simpleText(m)
+  if (format === 'rus') return rusText(m, ctx.who)
   return gwText(m, ctx.version)
 }
