@@ -12,17 +12,30 @@ import { ref } from 'vue'
 // since the stored last route now carries the wizard's own `?draft=` (see useViewRestore.js).
 //
 // The id is a hint, not a promise: the draft can be saved or deleted while the chip is up, so
-// whoever reads this must re-check the roster is still a draft (App.vue does).
+// the chip asks `draftToResume()`, which re-checks it is still a draft. The check is handed over by
+// the wizard (`isDraft`, over the roster store) rather than imported here: App.vue reads this on
+// every page, and a static import of the roster store would put it in the app shell every visitor
+// downloads (src/shellImports.test.js). When there is an id, the wizard has run and the store is
+// loaded.
 const pendingDraftId = ref(null)
+let stillDraft = null
 
-export function rememberDraft(id) {
+export function rememberDraft(id, isDraft) {
+  stillDraft = isDraft || null
   pendingDraftId.value = id || null
 }
 
 export function forgetDraft() {
+  stillDraft = null
   pendingDraftId.value = null
 }
 
+/** The draft to offer a way back to, or null. Reactive through the store `isDraft` reads. */
+export function draftToResume() {
+  const id = pendingDraftId.value
+  return id && stillDraft?.(id) ? id : null
+}
+
 export function useRosterDraftResume() {
-  return { pendingDraftId, rememberDraft, forgetDraft }
+  return { pendingDraftId, rememberDraft, forgetDraft, draftToResume }
 }

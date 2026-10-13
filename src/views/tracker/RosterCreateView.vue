@@ -478,7 +478,7 @@ if (resumed) {
 // The draft survives that on its own, but the way BACK didn't: /roster opens on Saved lists, so
 // a reader returning through the nav saw a list without their roster in it. Note the draft on
 // the way out and App.vue floats a "to roster" chip over whatever they went to read.
-onBeforeUnmount(() => rememberDraft(rosterId.value))
+onBeforeUnmount(() => rememberDraft(rosterId.value, (id) => !!rosterById(id)?.draft))
 // ...and drop it on the way in, whichever door was used — the chip's whole job is being here.
 forgetDraft()
 function step1Patch() {
