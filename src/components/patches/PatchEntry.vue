@@ -45,7 +45,8 @@
       />
     </component>
 
-    <!-- The numbers: one chip each, "T 4 → 5". -->
+    <!-- The numbers: one chip each, "T 4 → 5". A price that moved is coloured by which way: dearer
+         red, cheaper green (owner, 2026-10-13) — the reader scans a long update for those. -->
     <div
       v-if="chips.length"
       class="pe-chips"
@@ -54,7 +55,8 @@
         v-for="(c, i) in chips"
         :key="i"
         class="pe-chip"
-      >{{ c }}</span>
+        :class="priceTone(c)"
+      >{{ c.text ?? c }}</span>
     </div>
 
     <!-- Lists that gained or lost entries: keywords, the units a Leader can join, core abilities. -->
@@ -185,6 +187,9 @@ const kindLabel = computed(() => {
 
 // Today's page of a unit named here (null for one that is gone).
 const arrow = (from, to) => `${from || '–'} → ${to || '–'}`
+// A points chip carries which way the price went; every other chip is plain text.
+const price = (text, from, to) => ({ text, up: Number(to) > Number(from), down: Number(to) < Number(from) })
+const priceTone = (c) => (c.up ? 'color-red' : c.down ? 'color-green' : null)
 const chips = computed(() => {
   const l = labels.value
   const x = props.item
@@ -192,11 +197,11 @@ const chips = computed(() => {
   if (x.kind === 'points') {
     // "6 моделей · 3-я+ копия" — the MFM's make-up label stands for the size when it names one.
     const size = (o) => [o.label || modelsLabel(o.models, locale.value), o.tier ? copyTierLabel(o.tier, locale.value) : ''].filter(Boolean).join(' · ')
-    for (const o of x.fields || []) out.push(`${size(o)}: ${arrow(o.from, o.to)}`)
+    for (const o of x.fields || []) out.push(price(`${size(o)}: ${arrow(o.from, o.to)}`, o.from, o.to))
     for (const o of x.options || []) out.push(`${size(o)}: ${o.to} ${l.patchesPts}`)
     return out
   }
-  if (x.kind === 'enhancementPoints') return [`${arrow(x.from, x.to)} ${l.patchesPts}`]
+  if (x.kind === 'enhancementPoints') return [price(`${arrow(x.from, x.to)} ${l.patchesPts}`, x.from, x.to)]
   // A stat that moved the same way on every model line is one chip; otherwise each names its model.
   const stats = fields.value.filter((f) => f.field === 'stat')
   const models = new Set(stats.map((f) => f.model))
