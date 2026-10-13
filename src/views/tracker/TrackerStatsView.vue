@@ -3,14 +3,6 @@
     class="stats-view"
     :class="{ 'sv-in-desk': inDesk }"
   >
-    <RouterLink
-      v-if="!inDesk"
-      to="/tracker"
-      class="back"
-    >
-      <i class="wi wi-chevron-left" /> {{ labels.subNavTrackerHome }}
-    </RouterLink>
-
     <div class="hero">
       <h1>{{ labels.statsTitle }}</h1>
       <p class="hero-desc">
@@ -213,7 +205,8 @@ import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
 defineProps({
   // The rosters desk (RosterDeskView) shows this beside the list of rosters, as a column that
-  // scrolls on its own and without the way back to the tracker.
+  // scrolls on its own. No "back to the tracker" link on its own page either (owner, 2026-10-13):
+  // the bottom nav is that way back.
   inDesk: { type: Boolean, default: false },
 })
 
