@@ -348,9 +348,10 @@ onUnmounted(() => clearInterval(timer))
 .pt-seat-pick {
   flex: 1 1 8rem;
   min-width: 0;
-  padding: 0.3rem 0.4rem;
+  padding-block: 0.3rem;
+  padding-left: 0.4rem;
   border: 1px solid var(--border);
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
   color: var(--text-primary);
   font: inherit;
   font-size: 0.8rem;

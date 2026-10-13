@@ -2188,15 +2188,17 @@ function cancel() {
 }
 .field input[type="text"],
 .field select {
-  padding: 0.5rem 0.6rem;
+  padding-block: 0.5rem;
+  padding-left: 0.6rem;
   border: 1px solid var(--border);
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 0.9rem;
   font-family: var(--font-sans);
 }
 /* iOS auto-zooms when a focused input's font is < 16px — bump to 16px on
    touch devices only, leaving the desktop sizing untouched. */
+.field input[type="text"] { padding-right: 0.6rem; }
 .dp-count {
   font-style: normal;
   font-family: var(--font-mono);

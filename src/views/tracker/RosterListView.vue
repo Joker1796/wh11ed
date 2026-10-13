@@ -547,7 +547,7 @@ function confirmDelete() {
    Loosened a step on 2026-10-09 (owner): the card's own lines had come to touch. */
 .rl-in-desk .rl-tabs { margin-bottom: 0.6rem; }
 .rl-in-desk .rl-factions { margin-bottom: 0.5rem; }
-.rl-in-desk .rl-factions select { padding: 0.25rem 0.4rem; }
+.rl-in-desk .rl-factions select { padding-block: 0.25rem; padding-left: 0.4rem; }
 .rl-in-desk .rosters { gap: 0.4rem; }
 .rl-in-desk .roster { padding: 0.6rem 0.8rem 0.65rem; }
 .rl-in-desk .rname { font-size: 0.9rem; line-height: 1.25; }

@@ -269,10 +269,11 @@ function create() {
 .rim-error { margin: 0; font-size: 0.8rem; color: var(--danger); }
 .rim-faction { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--text-secondary); }
 .rim-faction select {
-  padding: 0.4rem 0.5rem;
+  padding-block: 0.4rem;
+  padding-left: 0.5rem;
   font-size: 0.85rem;
   color: var(--text-primary);
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
   border: 1px solid var(--border);
 }
 .rim-warn-note { color: var(--text-muted); font-weight: 400; }

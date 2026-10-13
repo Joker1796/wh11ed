@@ -1392,15 +1392,33 @@ strong {
    from the tab strip's line down (owner, 2026-10-06). The block sets --side itself. */
 .side-frame { border: 1px solid var(--side); border-top: 0; background: var(--bg-card); padding: 0.4rem 0.7rem 0.7rem; }
 
+/* ── Native select ─────────────────────────────────────────────────────────
+   A native <select> stays native — on a phone it opens the system's own list (owner, 2026-10-05) —
+   but its arrow is ours: the browser's sat against the right edge, out of line with every other
+   chevron on the site (owner, 2026-10-13). The bootstrap chevron-down the picker trigger wears, in
+   --text-muted; a data URI cannot read a variable, so the dark theme has its own copy. A
+   component styling a select sets `background-color` and `padding-block`/`padding-left`, never
+   the shorthands, or the arrow and its room are gone. */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%235e5f4e' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 0.75rem;
+}
+:root[data-theme='dark'] select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23a8a89a' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E"); }
+
 /* ── Filter select ─────────────────────────────────────────────────────────
    A label and a native dropdown narrowing a list: the roster list's faction filter, the game
    log's (owner, 2026-10-06 — a row of tabs over a list read as more navigation). */
 .filter-select { display: flex; align-items: center; gap: 0.6rem; font-size: 0.8rem; color: var(--text-muted); }
 .filter-select > span { flex-shrink: 0; }
 .filter-select select {
-  flex: 1; min-width: 0; max-width: 18rem; padding: 0.4rem 0.5rem;
+  flex: 1; min-width: 0; max-width: 18rem; padding-block: 0.4rem; padding-left: 0.5rem;
   font: inherit; font-size: 0.85rem; color: var(--text-primary);
-  background: var(--bg-secondary); border: 1px solid var(--border); cursor: pointer;
+  background-color: var(--bg-secondary); border: 1px solid var(--border); cursor: pointer;
 }
 
 /* ── Picker trigger ────────────────────────────────────────────────────────
