@@ -931,14 +931,19 @@ directory; still part of this feature:
   - **`wtc-compact`** — the same list with the per-profile bullets folded into the unit's own line.
     It is not a different grammar (the readers in circulation parse both with one parser), just a
     shorter body: a squad is one line instead of three.
-  - **`rus`** — the Russian tournament layout of 40001format.xyz (added 2026-10-13, a contributor's
-    request): the site Russian organisers are sent to reads only BattleScribe `.ros/.rosz`, which
-    we do not write — a real one needs BSData catalogue ids our app-sourced data does not carry.
-    The layout is plain text, so we print it: `+ Team / Player / Army name / HIN / Factions used /
-    Total cost` between rows of fifty `+`, `++ detachments (dispositions) N pts ++`, then units by
-    that site's category codes (EH, CH, BL, IN, SW, MO, BE, MS, VE, DR, DT, FT, allies AU, the
-    rest OT). Team and player are fields of the export dialog, kept per device. Not verified
-    against a tournament yet: a real accepted list is the fixture to ask for.
+  - **`rus`** — a Russian tournament's list (added 2026-10-13), to the rules an organiser
+    publishes: the owner's club Ordo Eventus ("Правила составления ростера") is the reference, the
+    Hyper / HEAT regulation says the same in fewer words. Header `+ PLAYER NAME / ARMY NAME / HIN
+    / FACTION KEYWORD / DETACHMENT / FORCE DISPOSITION / TOTAL ARMY POINTS / WARLORD /
+    ENHANCEMENT` (HIN — the player's rating number, "-" until they have one; ONE disposition;
+    enhancements as `CH1: name`), then `Attached Unit N:` blocks, then the rest under keyword
+    prefixes EH CH BL IN MO BE VE MN DT FO AU numbered across the list; `(N)` before a name only
+    where the size can vary; of the wargear only what a choice reaches (an option's items or what
+    it gives up), taken or kept — never the fixed loadout; enhancement, then Warlord, then
+    `(N pts)` at the end. Player and HIN are fields of the export dialog, kept per device. A first
+    draft followed 40001format.xyz (the formatter many organisers point at, which reads only
+    BattleScribe `.ros/.rosz` — we do not write those: a real one needs BSData catalogue ids our
+    app-sourced data does not carry) and printed the whole loadout; the organisers' rules said no.
   - **`compact`** — ours, one line per unit for a chat message; identical entries collapse to `2x`
     with their points **summed**, so the copy surcharge stays visible. The shortest thing here, at
     the price of being the one format nobody else parses.

@@ -23,21 +23,13 @@
       <p class="rex-hint">
         {{ labels[FMT_HINT[format]] }}
       </p>
-      <!-- The Russian tournament header names a team and a player: filled in here, once, rather than
-           typed into the text after every export. Remembered on this device, like a sign-in form. -->
+      <!-- The Russian tournament header names the player and their HIN (rating number; "-" until
+           they have one): typed here, once, rather than into the text after every export.
+           Remembered on this device. -->
       <div
         v-if="format === 'rus'"
         class="rex-who"
       >
-        <label class="rex-fmt">
-          <span>{{ labels.rosterExportTeam }}</span>
-          <input
-            v-model.trim="team"
-            type="text"
-            maxlength="60"
-            autocomplete="organization"
-          >
-        </label>
         <label class="rex-fmt">
           <span>{{ labels.rosterExportPlayer }}</span>
           <input
@@ -45,6 +37,16 @@
             type="text"
             maxlength="60"
             autocomplete="name"
+          >
+        </label>
+        <label class="rex-fmt">
+          <span>{{ labels.rosterExportHin }}</span>
+          <input
+            v-model.trim="hin"
+            type="text"
+            maxlength="20"
+            inputmode="numeric"
+            autocomplete="off"
           >
         </label>
       </div>
@@ -111,19 +113,19 @@ const format = ref('gw')
 // version, which we would be claiming falsely (see rosterExport.js).
 const version = { app: APP_VERSION, data: APP_DATA_VERSION }
 
-// Team and player for the Russian tournament header, per device. Storage can be missing or throw
-// (a private window): the fields then simply start empty.
-const STORE = { team: 'wh11ed-export-team', player: 'wh11ed-export-player' }
+// The player's name and HIN for the Russian tournament header, per device. Storage can be missing
+// or throw (a private window): the fields then simply start empty.
+const STORE = { player: 'wh11ed-export-player', hin: 'wh11ed-export-hin' }
 const stored = (k) => { try { return localStorage.getItem(k) || '' } catch { return '' } }
-const team = ref(stored(STORE.team))
 const player = ref(stored(STORE.player))
-watch([team, player], ([t, p]) => {
-  try { localStorage.setItem(STORE.team, t); localStorage.setItem(STORE.player, p) } catch { /* not kept */ }
+const hin = ref(stored(STORE.hin))
+watch([player, hin], ([p, h]) => {
+  try { localStorage.setItem(STORE.player, p); localStorage.setItem(STORE.hin, h) } catch { /* not kept */ }
 })
 
 const text = computed(() => buildRosterText(
   props.roster,
-  { faction: props.faction, core: props.core, items: props.items, version, who: { team: team.value, player: player.value } },
+  { faction: props.faction, core: props.core, items: props.items, version, who: { player: player.value, hin: hin.value } },
   format.value,
 ))
 
@@ -171,7 +173,7 @@ async function copy(value, which) {
   cursor: pointer;
 }
 .rex-hint { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
-.rex-who { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.rex-who { display: grid; grid-template-columns: 2fr 1fr; gap: 0.6rem; }
 .rex-who input {
   width: 100%;
   min-width: 0;
