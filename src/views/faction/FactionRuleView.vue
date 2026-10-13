@@ -22,6 +22,7 @@
         </p>
         <RuleBlock
           :id="faction.armyRule.id"
+          :class="{ 'rb-cols': isLong(faction.armyRule.body) }"
           :title="faction.armyRule.name"
           :subtitle="faction.armyRule.nameRu"
           :body="faction.armyRule.body"
@@ -81,6 +82,7 @@
         </p>
         <RuleBlock
           :id="`${det.id}-rule`"
+          :class="{ 'rb-cols': isLong(det.rule.body) }"
           :title="det.rule.name"
           :subtitle="det.rule.nameRu"
           :body="det.rule.body"
@@ -199,6 +201,9 @@ const detachments = computed(() => {
 
 const { activeDetachment } = useFactionChoice()
 const det = computed(() => activeDetachment(slug.value, detachments.value))
+// A rule text long enough to read as a page on the desktop flows in two columns there (`.rb-cols`);
+// a short one would only be split into two stubs.
+const isLong = (body) => (Array.isArray(body) ? body.join('\n') : String(body || '')).length > 700
 </script>
 
 <style scoped>
@@ -254,6 +259,13 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   font-size: 0.9rem;
   line-height: 1.5;
   margin-bottom: 0.75rem;
+}
+
+/* Two columns on the desktop, like the Core Rules' chapters: the page is widened for it (App.vue,
+   isFactionPageRoute), and a block of the text never splits across the two. */
+@media (min-width: 1024px) {
+  .rb-cols :deep(.rule-body) { column-count: 2; column-gap: 1.5rem; }
+  .rb-cols :deep(.rule-body > *) { break-inside: avoid; }
 }
 
 .strat-grid {

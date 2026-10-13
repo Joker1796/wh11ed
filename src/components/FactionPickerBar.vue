@@ -168,6 +168,9 @@ function pickChapter(id) {
   display: flex;
   gap: 0.5rem;
 }
+/* On a page widened past the reading measure (a faction's own page, App.vue) the controls line up
+   with its wider column. */
+:global(.main-content--wide .fpb-inner) { max-width: 1120px; }
 
 @media (max-width: 900px) {
   .fpb-inner {

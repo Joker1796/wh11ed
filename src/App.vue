@@ -35,7 +35,7 @@
 
     <main
       class="main-content"
-      :class="{ 'main-content--wide': isCoreRoute || isEventRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk, 'main-content--browse': isRosterBrowseDesk }"
+      :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isFactionPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk, 'main-content--browse': isRosterBrowseDesk }"
     >
       <RouterView v-slot="{ Component }">
         <Transition
@@ -234,6 +234,10 @@ const isRosterEditRoute = computed(() =>
 const isRosterDeskRoute = computed(() => isRosterEditRoute.value && !appPath.value.endsWith('/print'))
 // The factions index lays its four groups out as four columns, which the 860px measure cannot fit.
 const isFactionsIndexRoute = computed(() => appPath.value === '/factions')
+// A faction's own page — its rules, units and FAQ tabs, one width for all three so a tab switch
+// does not move the page: the rules lay their long texts out in two columns, like the Core Rules
+// (owner, 2026-10-13). A unit's datasheet stays at the reading measure.
+const isFactionPageRoute = computed(() => /^\/factions\/[^/]+(\/(datasheets|faq))?$/.test(appPath.value))
 // The list of rosters and a saved roster's page, which a window wider than the bottom nav's
 // 900px shows as one screen of columns (RosterDeskView): as wide as the builder's desk, filling the
 // window with no footer under it, and one page for the swap (pageKey).
