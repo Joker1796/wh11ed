@@ -82,11 +82,13 @@ export function sectionKind(note) {
 
 // The notes of one release as blocks: `{ h, kind, items }`, the notes before the first heading a
 // block with no head (most releases in the archive have no headings at all and stay a plain list).
-/** @param {Array<string | { h: string, kind?: string }>} notes */
+// A heading can name the GW update its block is about (`patch: '981'`): the page then shows a plate
+// leading to that update on the GW updates page (owner, 2026-10-14: a link inside a note was lost).
+/** @param {Array<string | { h: string, kind?: string, patch?: string }>} notes */
 export function noteSections(notes) {
   const out = []
   for (const n of notes || []) {
-    if (typeof n === 'object' && n?.h) out.push({ h: n.h, kind: sectionKind(n), items: [] })
+    if (typeof n === 'object' && n?.h) out.push({ h: n.h, kind: sectionKind(n), items: [], ...(n.patch ? { patch: n.patch } : {}) })
     else {
       if (!out.length) out.push({ h: null, kind: null, items: [] })
       out[out.length - 1].items.push(n)

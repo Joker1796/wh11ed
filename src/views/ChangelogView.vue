@@ -61,6 +61,21 @@
                 v-safe-html="noteHtml(note, sec.kind)"
               />
             </ul>
+            <RouterLink
+              v-if="sec.patch"
+              class="cl-patch"
+              :to="{ path: '/patches', query: { p: sec.patch } }"
+            >
+              <i
+                class="wi wi-army"
+                aria-hidden="true"
+              />
+              <span>{{ labels.changelogPatchPlate }}</span>
+              <i
+                class="wi wi-chevron-right"
+                aria-hidden="true"
+              />
+            </RouterLink>
           </div>
         </section>
       </TransitionGroup>
@@ -265,6 +280,25 @@ useUpdateNotice().markSeen()
    A palette token each, so both themes and AA come with it. No edge down the block's left: it
    was there for a day and the owner took it off (2026-10-13). */
 .cl-sec { --cl-tone: var(--text-dim); }
+
+/* The way to the whole GW update this block summarises: a plate, not one more link in a note. */
+.cl-patch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+  padding: 0.6rem 0.8rem;
+  min-height: 44px;
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.cl-patch span { flex: 1; }
+@media (hover: hover) {
+  .cl-patch:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+}
 .cl-sec + .cl-sec { margin-top: 0.7rem; }
 .cl-sec--rules { --cl-tone: var(--ability-unit); }
 .cl-sec--roster { --cl-tone: var(--accent); }
