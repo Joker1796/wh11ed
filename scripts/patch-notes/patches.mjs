@@ -35,14 +35,14 @@ export const PATCHES = [
     // (owner, 2026-10-14) and says so here and in the 2.8.3 changelog.
     doubts: [
       { faction: 'blood-angels', kind: 'datasheet', name: 'Death Company Captain',
-        note: { en: 'Probably a GW mistake: the power fist went from a Captain’s A6 WS2+ to a rank-and-file A3 WS3+ (the Relic Weapon on the same sheet is A7 WS2+). We follow the app for now.',
-          ru: 'Вероятно, ошибка GW: power fist стал как у рядового, A3 WS3+ вместо капитанских A6 WS2+ (у Relic Weapon на том же листе A7 WS2+). Пока следуем приложению.' } },
+        note: { en: 'Probably a GW mistake: the power fist went from a Captain’s A6 WS2+ to a rank-and-file A3 WS3+ (the Relic Weapon on the same sheet is A7 WS2+). I follow the app for now.',
+          ru: 'Вероятно, ошибка GW: power fist стал как у рядового, A3 WS3+ вместо капитанских A6 WS2+ (у Relic Weapon на том же листе A7 WS2+). Пока я следую приложению.' } },
       { faction: 'space-wolves', kind: 'faq', name: 'Bjorn the Fell-handed',
-        note: { en: 'Probably a GW mistake: the errata names no weapon, and the datasheet in the app still has the Assault Cannon at BS 3+. We follow the datasheet for now.',
-          ru: 'Вероятно, ошибка GW: эррата не называет оружие, а в датащите приложения у Assault Cannon по-прежнему BS 3+. Пока следуем датащиту.' } },
+        note: { en: 'Probably a GW mistake: the errata names no weapon, and the datasheet in the app still has the Assault Cannon at BS 3+. I read the errata as all his weapons, so here the Assault Cannon is BS 2+ (the rest were 2+ already).',
+          ru: 'Вероятно, ошибка GW: эррата не называет оружие, а в датащите приложения у Assault Cannon по-прежнему BS 3+. Я читаю эррату как всё его оружие, поэтому у меня Assault Cannon BS 2+ (у остального 2+ и так).' } },
       { faction: 'adeptus-custodes', kind: 'points', name: 'Shield-Captain',
-        note: { en: 'The app also charges 25 points for the Pyrithite Spear and Praesidium Shield he starts with (205 in all) — possibly a GW mistake. Our points follow the MFM: 180.',
-          ru: 'Приложение берёт ещё 25 очков за стартовые Pyrithite Spear и Praesidium Shield (всего 205) — возможно, ошибка GW. У нас очки идут по MFM: 180.' } },
+        note: { en: 'The app also charges 25 points for the Pyrithite Spear and Praesidium Shield he starts with (205 in all) — possibly a GW mistake. I take points from the MFM: 180.',
+          ru: 'Приложение берёт ещё 25 очков за стартовые Pyrithite Spear и Praesidium Shield (всего 205) — возможно, ошибка GW. Очки я беру по MFM: 180.' } },
     ],
     // GW's update document says its changes are in the app; this one is not (the app merged it
     // with the Librarian in Terminator Armour's line). Applied from the PDF — appdata-exceptions.mjs.
@@ -50,8 +50,8 @@ export const PATCHES = [
       { title: { en: 'Space Marines — Printed Product Updates v1.1', ru: 'Space Marines — Printed Product Updates v1.1' },
         url: 'https://assets.warhammer-community.com/eng_14-10_wh40k_printed_product_updates_space_marines_updates-91hillwcff-wzs8qnozam.pdf',
         items: [{ faction: 'space-marines', kind: 'datasheet', name: 'Kayvaan Shrike', change: 'changed', fields: [{ field: 'keywords', added: ['Epic Hero'], removed: [] }],
-          doubt: { en: 'The document adds CHARACTER and EPIC HERO; the app took in only CHARACTER. We follow the document.',
-            ru: 'Документ добавляет CHARACTER и EPIC HERO, в приложение попал только CHARACTER. Мы следуем документу.' } }] },
+          doubt: { en: 'The document adds CHARACTER and EPIC HERO; the app took in only CHARACTER. I follow the document.',
+            ru: 'Документ добавляет CHARACTER и EPIC HERO, в приложение попал только CHARACTER. Я следую документу.' } }] },
       // The Faction Packs carry the Legends datasheets the app does not; v1.4 added FRAME to two.
       { title: { en: 'Faction Pack: Adepta Sororitas v1.4', ru: 'Faction Pack: Adepta Sororitas v1.4' },
         url: 'https://assets.warhammer-community.com/eng_14-10_wh40k_-faction_pack_adepta_sororitas-kby0nywexj-dg7kvr3iiy.pdf',
