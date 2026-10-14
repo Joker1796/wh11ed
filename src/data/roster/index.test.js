@@ -1295,62 +1295,27 @@ describe('attachment slots', () => {
 })
 
 
-// Wargear that costs points and is already on the model: appdata prices it (`points` on an option
-// it also marks `defaultValue`) and the Munitorum bracket does not include it, so it has to be
-// charged on top — see defaultWargearPoints in rosterEngine.js.
+// Wargear a model STARTS with that the app prices on top of the bracket (appdata: `points` on an
+// option it also marks `defaultValue`). Charged until 2026-10-14; since then the Munitorum Field
+// Manual is the last word on points (owner — the app wanted 205 for a Shield-Captain the MFM prices
+// at 180), so the generator reads it and does not charge it (CHARGE_PAID_DEFAULTS).
 describe('a default loadout that costs points', () => {
-  // Was the Terminator Assault Squad's thunder hammer (+5 a model, 360 for ten against a 310
-  // bracket, as GW's own export priced it) until Codex: Space Marines (app data 963) made twin
-  // lightning claws its default and the hammer a paid pick. The Repulsor Executioner is the same
-  // shape: appdata marks its heavy laser destroyer both `defaultValue` and `points: 10`.
-  it('prices a Repulsor Executioner the way appdata does', async () => {
-    const sm = await loadRosterFaction('space-marines')
-    const unit = sm.units.find((u) => u.id === 'repulsor-executioner')
-    expect(unit.dw).toEqual([[0, 10]])              // heavy laser destroyer, +10
-    expect(unit.sizes[0].pts).toBe(260)             // the bracket stays the Munitorum's (275 until 2 October)
-    expect(unitPoints(unit, { size: 0, count: 1 })).toBe(270)
-    // …and the group that trades the cannon away knows what it hands back.
-    expect(unit.gear.find((g) => g.dr)?.dr).toBe(10)
-    expect(unitPoints(unit, { size: 0, count: 1, wg: [[unit.gear.findIndex((g) => g.dr), 0, 1]] })).toBe(260)
-  })
-
-  it('is confined to the datasheets appdata prices that way', async () => {
+  it('is not charged: a unit costs its MFM bracket', async () => {
     const seen = []
-    for (const { slug, data } of factions) for (const u of data.units || []) if (u.dw) seen.push(`${slug}/${u.id}`)
-    expect(seen.sort()).toEqual([
-      // Codex: Adeptus Custodes (data 981): the Shield-Captain's pyrithite spear and praesidium
-      // shield cost 25 on top of the bracket, refunded by the axe or guardian spear swap.
-      'adeptus-custodes/shield-captain',
-      // v1.3 dropped the Leman Russ bracket ~25pts and started charging 5 for the hull weapon
-      // the tank starts with — eight variants, same shape as the Terminator hammer above.
-      'astra-militarum/leman-russ-battle-tank',
-      'astra-militarum/leman-russ-commander',
-      'astra-militarum/leman-russ-demolisher',
-      'astra-militarum/leman-russ-eradicator',
-      'astra-militarum/leman-russ-executioner',
-      'astra-militarum/leman-russ-exterminator',
-      'astra-militarum/leman-russ-punisher',
-      'astra-militarum/leman-russ-vanquisher',
-      'drukhari/ravager',
-      'genestealer-cults/achilles-ridgerunners',
-      // app data 963: the Terminator Assault Squad's hammer became a pick, and the Repulsor
-      // Executioner's heavy laser destroyer started costing 10.
-      'space-marines/repulsor-executioner',
-      'space-marines/victrix-honour-guard',
-      'tau-empire/crisis-fireknife-battlesuits',
-      'tau-empire/crisis-starscythe-battlesuits',
-    ])
+    for (const { slug, data } of factions) for (const u of data.units || []) if (u.dw || (u.gear || []).some((g) => g.dr)) seen.push(`${slug}/${u.id}`)
+    expect(seen).toEqual([])
+    const sm = await loadRosterFaction('space-marines')
+    const rex = sm.units.find((u) => u.id === 'repulsor-executioner')
+    expect(unitPoints(rex, { size: 0, count: 1 })).toBe(rex.sizes[0].pts)
+    const cu = await loadRosterFaction('adeptus-custodes')
+    expect(unitPoints(cu.units.find((u) => u.id === 'shield-captain'), { size: 0 })).toBe(180)
   })
 
   // A "Default Wargear" group counts the copies the whole profile fields where a loadout row
   // counts one model's; the Starscythe's two Shas'ui carry one T'au flamer each, not two.
-  it('divides a profile-total count among its models', async () => {
+  it('reads the loadout per model', async () => {
     const tau = await loadRosterFaction('tau-empire')
     const unit = tau.units.find((u) => u.id === 'crisis-starscythe-battlesuits')
-    expect(unit.dw).toEqual([[0, 5], [1, 5]])
-    expect(unitPoints(unit, { size: 0 })).toBe(115) // 100 + three flamers
-    // …and the loadout reads per model everywhere, which is what the datasheet says: "Every model
-    // is equipped with: burst cannon; T'au flamer; battlesuit fists."
     const lines = defaultLoadoutLines(unit, rosterItems.items, { size: 0 })
     expect(lines.find((l) => /Shas’ui/.test(l.mini)).items).toBe('Burst cannon, T’au flamer, Battlesuit fists')
   })

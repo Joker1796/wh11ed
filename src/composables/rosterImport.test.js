@@ -448,7 +448,7 @@ Strike Force (2000 points)
 Attached Units
 Attached Unit 1
 
-Shield-Captain (205 points)
+Shield-Captain (180 points)
 • Attached as: Leader (Character)
 • Warlord
 • 1x Praesidium Shield
@@ -2506,10 +2506,18 @@ describe('matchRoster — a swap that only shows as a count', () => {
     ctx = { faction, core: rosterCore, items: items.items }
   })
 
-  it('prices every Crisis suit exactly as the site did', () => {
+  // The site priced a Fireknife's and a Starscythe's starting weapons on top of the bracket, as the
+  // GW app does; since 2026-10-14 we charge the MFM alone (CHARGE_PAID_DEFAULTS), so those two come
+  // in at or under the stated figure (under unless the squad traded the paid weapon away) and
+  // everything else to the point.
+  it('prices every Crisis suit as the site did, less what the app charges for starting wargear', () => {
     const { report } = matchRoster(parseList(TAU), ctx)
     expect(report.missing).toEqual([])
-    for (const u of report.units) expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
+    const appExtra = /^Crisis (Fireknife|Starscythe) Battlesuits$/
+    for (const u of report.units) {
+      if (appExtra.test(u.name)) expect(u.points.computed).toBeLessThanOrEqual(u.points.stated)
+      else expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
+    }
     for (const u of report.units) expect([u.name, u.gear.missing]).toEqual([u.name, []])
   })
 
@@ -2520,7 +2528,7 @@ describe('matchRoster — a swap that only shows as a count', () => {
     const { payload } = matchRoster(parseList(TAU), ctx)
     const def = ctx.faction.units.find((u) => u.id === 'crisis-fireknife-battlesuits')
     const pods = def.gear.findIndex((g) => g.o.some((o) => o[1] === 5))   // the paid missile pod
-    const rifles = def.gear.findIndex((g, i) => i !== pods && g.dr)       // …and the way back
+    const rifles = def.gear.findIndex((g, i) => i !== pods && g.o.some((o) => ctx.items[o[0]] === 'Plasma rifle')) // …and the way back
     const [all, none] = payload.units.filter((u) => u.id === 'crisis-fireknife-battlesuits')
     // Each swap is offered to the Shas'vre and to the Shas'ui, one copy each (`pools`); a list that
     // does not say which suit took it gives the Shas'vre his first (the owner's rule, 2026-10-14).

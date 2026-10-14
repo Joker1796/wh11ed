@@ -510,7 +510,14 @@ say blood fists. One entry today, applied only where the printed loadout and the
 against the table, and every application is printed by the run — a test pins the result so the table
 gets dropped the moment upstream fixes the row.
 
-### A default loadout that costs points (added 2026-08-24)
+### A default loadout that costs points (added 2026-08-24, NOT charged since 2026-10-14)
+
+**Off since 2026-10-14 — the MFM is the last word on points** (owner: the app wanted 205 for a
+Codex: Adeptus Custodes Shield-Captain the MFM prices at 180). The generator still reads the price
+appdata puts on default wargear and lists the units in its run report, but writes no `dw`/`dr`
+(`CHARGE_PAID_DEFAULTS` in gen-roster-data.mjs): a unit costs its bracket, and only wargear the
+player picks costs points. The engine still reads both fields; the text below is how it worked.
+
 
 Since 11th edition the wargear a model **already has** can carry a price. appdata says so plainly —
 a `wargear_option` with both `points: 5` and `defaultValue` — and the Munitorum bracket does not

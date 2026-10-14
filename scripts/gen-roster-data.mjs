@@ -360,7 +360,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -2305,9 +2305,13 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     if (row.size) paidPerMini.set(m, row)
   }
+  // …but the Munitorum Field Manual is the last word on points (owner, 2026-10-14: the app charging
+  // a Shield-Captain 25 for the spear and shield he starts with, 205 against the MFM's 180). So the
+  // price is read and reported, and not charged: a unit costs its bracket, and a swap away from the
+  // default refunds nothing. Paid PICKS are unaffected — that is wargear the MFM lists.
   if (paidPerMini.size) {
-    unit.dw = [...paidPerMini].map(([m, row]) => [m, [...row.values()].reduce((a, b) => a + b, 0)])
     report.paidDefault.units++
+    report.paidDefault.names.push(`${bd.name} (${[...paidPerMini.values()].map((row) => [...row.values()].reduce((a, b) => a + b, 0)).join('/')} a model)`)
   }
 
   // Wargear option groups: the atomic "replace/add one of {…}" choices. Drop the redundant
@@ -2664,7 +2668,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     if (d.keep?.length) grp.keep = d.keep.map((uuid) => fx.item(uuid))
     // A model that trades a paid default away stops paying for it: `dr` is what one pick in this
     // group gives back — per COPY where the group is per-copy, since that is how `n` is counted.
-    if (paidPerMini.size && d.rep?.length) {
+    if (CHARGE_PAID_DEFAULTS && paidPerMini.size && d.rep?.length) {
       const back = d.rep.reduce((sum, uuid) => {
         const id = fx.item(uuid)
         // A unit-wide group belongs to no profile. Every profile that carries the item prices it
@@ -2750,6 +2754,10 @@ const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").repla
 // the entry to be dropped. An uncapped-below-three Upgrade NOT on this list fails `--check` too.
 const UPGRADE_LIMIT_FIXES = new Set(['4e119d31-30c8-4e94-be84-7f868ea1eb8b'])
 const UPGRADE_LIMIT = 3
+// Whether the price appdata puts on a model's DEFAULT wargear is charged on top of the MFM bracket
+// (`dw`/`dr`). Off since 2026-10-14: the MFM is the last word on points (owner). The engine still
+// reads both fields, so turning it back on is this one switch.
+const CHARGE_PAID_DEFAULTS = false
 
 // Does a datasheet's composition text say that EVERY model carries this item ("Every model is
 // equipped with: sonic blaster; close combat weapon.")? Matched by name, case and plural aside.
@@ -3611,7 +3619,7 @@ console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links r
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep
 console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
-console.log(`  paid defaults: ${report.paidDefault.units} units start with wargear that costs points on top of the bracket`)
+console.log(`  paid defaults: ${report.paidDefault.units} units start with wargear the app prices on top of the bracket — not charged, the MFM is the last word (CHARGE_PAID_DEFAULTS): ${report.paidDefault.names.join('; ')}`)
 if (report.paidDefault.odd.length) console.log(`    not charged (count does not divide): ${report.paidDefault.odd.join('; ')}`)
 console.log(`  Chapter detachments: ${report.sharedDets} Codex entitlements folded in at load time`)
 if (report.notEntitled.length) console.log(`  printed in the faction's book but not its to field (kept as \`lend\`, offered only to the armies that fold it in): ${report.notEntitled.join('; ')}`)
