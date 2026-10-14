@@ -31,8 +31,8 @@ import { combatPatrolRu } from './combatPatrolRu.js'
 
 // The two Aquilan boxes (data 981) print no army rule of their own: their datasheets carry the
 // Codex's Martial Ka’tah and Aegis of the Emperor (appdata's faction abilities on every sheet), so
-// the box page shows those two, transcribed as src/data/factions/adeptus-custodes.js has them —
-// minus Favoured Ka’tah, which only a Shield Host detachment uses.
+// the box page shows those two word for word as src/data/factions/adeptus-custodes.js has them,
+// Favoured Ka’tah included (owner, 2026-10-14), though no Shield Host detachment is in a box.
 const custodesCodexArmyRule = {
   name: 'Martial Ka’tah & Aegis of the Emperor',
   flavor: 'The Adeptus Custodes have developed many thousands of martial ka’tahs. Custodians are proficient in many of these arts, shifting stances according to the battlefield situation.',
@@ -76,6 +76,14 @@ We recommend placing a token next to each **readied** unit, removing it when tha
 ◈ WHEN | Fight phase, when a friendly **readied** unit is **[gloss:selected-to-fight:selected to fight]**.
 ◈ TARGET | One friendly **readied** unit.
 ◈ EFFECT | Your unit’s melee attacks have [LETHAL HITS: MONSTER/VEHICLE].
+
+**[gloss:ac-favoured-katah:Favoured Ka'tah]**
+
+Many of the most prominent shield hosts favour a specific martial ka’tah above all others.
+
+All **[gloss:detachments:detachments]** tagged ‘Unique: Shield Host’ state a Favoured Ka’tah. If you selected one of these **detachments**, the **ka’tah ability** that is the Favoured Ka’tah of that **detachment** grants the additional effect listed in that **detachment**.
+
+Example: If you selected the Solar Watch **detachment**, when you select the Calistus **ka’tah ability** for a **readied** unit, that unit has +2" **[gloss:move-characteristic:M]** in addition to the normal effect of Calistus.
 
 ### Aegis of the Emperor
 Friendly ADEPTUS CUSTODES units with this ability have [core:Feel No Pain 5+] against **[gloss:mortal-wound:mortal wounds]**.`,
