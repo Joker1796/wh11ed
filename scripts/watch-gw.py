@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # Watches Games Workshop's primary sources and mails when one of them changes, so a new data drop
 # is noticed by us and not first by a player (2 October 2026: a quiet MFM re-price was reported
-# by a player before we had seen it). Run by .github/workflows/gw-watch.yml every few hours.
+# by a player before we had seen it). Run on our server every 20 minutes (wh11ed-api
+# deploy/gw-watch.sh); .github/workflows/gw-watch.yml ran it hourly and GitHub started it hours
+# late — the 2.8.0 app of 14 October was mailed four and a half hours after it shipped.
 #
 #   python3 scripts/watch-gw.py --state <path/state.json>            # check, mail, update state
 #   python3 scripts/watch-gw.py --state <path/state.json> --dry-run  # print the mail, touch nothing
@@ -23,10 +25,13 @@
 #
 # The first run (no state file) records a baseline and sends nothing.
 #
-# Mail goes through Yandex Cloud Postbox over SMTP, like the API's bug-report notices: the key id
-# is the username, the secret the password. Env: POSTBOX_KEY_ID, POSTBOX_SECRET, WATCH_MAIL_FROM,
+# Mail: on the server (wh11ed-api deploy/gw-watch.sh, cron every 20 minutes since 2026-10-14) the
+# script hands each mail to WATCH_MAIL_CMD — the subject as its last argument, the text on stdin —
+# which is the API's own notice relay (scripts/notify.ts), the SMTP the bug reports use. Without it
+# (the GitHub Actions workflow) it goes through Yandex Cloud Postbox over SMTP: the key id is the
+# username, the secret the password. Env: POSTBOX_KEY_ID, POSTBOX_SECRET, WATCH_MAIL_FROM,
 # WATCH_MAIL_TO.
-import argparse, hashlib, json, os, re, smtplib, subprocess, sys, urllib.request
+import argparse, hashlib, json, os, re, shlex, smtplib, subprocess, sys, urllib.request
 from email.message import EmailMessage
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -161,6 +166,12 @@ def compare(old, new):
 # ── Mail ─────────────────────────────────────────────────────────────────────────────────────────
 
 def send(subject, text):
+    cmd = os.environ.get('WATCH_MAIL_CMD')
+    if cmd:
+        r = subprocess.run(shlex.split(cmd) + [subject], input=text, text=True, capture_output=True)
+        if r.returncode != 0:
+            raise SystemExit(f'mail not sent ({cmd}): {(r.stdout + r.stderr).strip()[-500:]}')
+        return
     env = {k: os.environ.get(k, '') for k in ('POSTBOX_KEY_ID', 'POSTBOX_SECRET', 'WATCH_MAIL_FROM', 'WATCH_MAIL_TO')}
     missing = [k for k, v in env.items() if not v]
     if missing:
