@@ -374,7 +374,7 @@ export default [
         "name": "Neural shredder",
         "tags": [
           "ANTI-INFANTRY 2+",
-          "PRECISION",
+          "BLAST 2",
           "TORRENT"
         ],
         "range": "12\"",
@@ -7134,7 +7134,7 @@ export default [
         "text": "In your Command phase, you can use this ability. If you do, select one **[gloss:sm-combat-doctrine:combat doctrine]** to be active for this unit until the start of your next Command phase."
       },
       {
-        "name": "Watch That (new)",
+        "name": "Purgatus Quarry",
         "text": "At the start of the first battle round, select up to one enemy unit to be this unit’s **hunted**:\n▪ This unit’s attacks that target this unit’s **hunted** unit can re-roll **[gloss:wound-roll:wound rolls]** of 1.\n▪ Each time this unit’s **hunted** is **[gloss:destroyed:destroyed]**, select up to one enemy unit to be this unit’s **hunted**."
       }
     ],

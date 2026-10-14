@@ -317,6 +317,16 @@ describe('resolveModifierEntries', () => {
     expect(resolveModifierEntries([rec({ name: 'Martial Ka’tah', ref: { kind: 'armyRule' } })], katah, [], null)).toHaveLength(1)
   })
 
+  // gen-faction-rules folds a codex's other army rules into ours as `### ` sections (Custodes, data
+  // 981: Aegis of the Emperor under Martial Ka'tah). A record named for one reads that section
+  // alone, so its targets come from its own prose.
+  it('reads a record for a rule folded into ours as a section', () => {
+    const folded = { ...facEn, armyRule: { name: 'Martial Ka’tah', body: 'Stances.\n\n### Aegis of the Emperor\nFriendly ADEPTUS CUSTODES units have FNP.\n\n### Aquila Commander\nGain 1CP.' } }
+    const [r] = resolveModifierEntries([rec({ name: 'Aegis of the Emperor', ref: { kind: 'armyRule' } })], folded, [], null)
+    expect(r.body).toBe('Friendly ADEPTUS CUSTODES units have FNP.')
+    expect(resolveModifierEntries([rec({ name: 'Drones', ref: { kind: 'armyRule' } })], folded, [], null)).toEqual([])
+  })
+
   it('drops a detachment the roster does not field', () => {
     const r = [rec({ ref: { kind: 'detachmentRule', det: 'bully-boyz' } })]
     expect(resolveModifierEntries(r, facEn, ['War Horde'], null)).toEqual([])

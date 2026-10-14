@@ -748,6 +748,29 @@ export default {
       ]
     },
     {
+      "sid": "881abba9-9fb0-4210-b4a5-bc9d130bdec2",
+      "kind": "enhancement",
+      "name": "Soul-spoor Auspicator (Upgrade)",
+      "det": "Hunting Warpack",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hunting-warpack"
+      },
+      "hash": "80523ca4",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
       "sid": "1fd8ab9e-795a-440f-a6e0-c312215e75a1",
       "kind": "enhancement",
       "name": "Cruel Lashmaster (Aura)",

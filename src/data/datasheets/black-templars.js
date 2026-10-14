@@ -135,12 +135,12 @@ export default [
       {
         "name": "Heavy bolt pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "18\"",
         "a": "1",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
@@ -182,7 +182,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Astartes chainsword",
+        "name": "Chainsword",
         "tags": [
           "SUSTAINED HITS 1"
         ],
@@ -377,6 +377,7 @@ export default [
       }
     ],
     "keywords": [
+      "Chaplain",
       "Character",
       "Epic Hero",
       "Imperium",
@@ -1541,7 +1542,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Combi-weapon",
+        "name": "Combi-weapon – damnatus",
         "tags": [
           "MELTA 2"
         ],
@@ -1551,6 +1552,29 @@ export default [
         "s": "9",
         "ap": "-3",
         "d": "D3+2"
+      },
+      {
+        "name": "Combi-weapon – infernus",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon – purgatus",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
       }
     ],
     "melee": [

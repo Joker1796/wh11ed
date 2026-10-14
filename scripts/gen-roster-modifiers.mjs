@@ -109,6 +109,9 @@ const CANDIDATE = new RegExp([
   'has a \\d\\+ (?:invulnerable )?save',
   '[+-]\\d+ (?:to )?(?:the )?(?:[SATWMD]|OC|AP|BS|WS|LD)\\b',  // the shorthand faction bodies use: "+1 T"
   '[+-]\\d+"? (?:M|Move)\\b',
+  // Range in the 11th-edition shorthand: "Your unit's ranged attacks have +6\" R" (Codex: Adeptus
+  // Custodes, data 981 — Aquilan Shield's Favoured Ka'tah had no record for this one letter).
+  '[+-]\\d+" (?:R|Range)\\b',
   // Grants: a keyword changes which OTHER rules bear on the unit (Necrons' Destroyer Ankh gives
   // its bearer DESTROYER CULT, and Cold Fervour then gives every DESTROYER CULT model +2
   // Strength), and a weapon ability is printed on the weapon row like any other tag.

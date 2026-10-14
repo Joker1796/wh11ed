@@ -1992,12 +1992,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 175,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 220,
+        "points": 215,
         "note": "3rd+"
       }
     ],
@@ -4686,7 +4686,7 @@ export default [
       },
       {
         "name": "Solemn Procession",
-        "text": "Each time you gain 1 Miracle dice at the start of the battle round, if this model is on the battlefield, do not roll one D6 to determine the value of that Miracle dice; it has a value of 6."
+        "text": "Each time you gain 1 Miracle dice at the start of your turn, if this model is on the battlefield, do not roll one D6 to determine the value of that Miracle dice; it has a value of 6."
       }
     ],
     "damaged": {

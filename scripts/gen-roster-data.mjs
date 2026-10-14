@@ -2196,6 +2196,13 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
             continue
           }
           if (row[2] || models < 2 || c >= row[1] * models) continue
+          // …unless the datasheet says every model carries it. "Every model is equipped with: sonic
+          // blaster" over five Noise Marines, and data 981's group counts 4 — the group is the one
+          // that is wrong (the Havocs and Voidsmen never say "every model").
+          if (everyModelCarries(enOf(bd).unitComposition || bd.unitComposition, wgItemName.get(fixItem(uuid)))) {
+            report.defaultsMerged.push(`${bd.name} / ${enOf((minisByDs.get(bd.id) || []).find((x) => (miniIdx.get(x.id) ?? 0) === m)).name || m}: ${wgItemName.get(uuid)} (the group says ${c}; the datasheet says every model — kept one per model)`)
+            continue
+          }
           row.splice(1, 2, ...(c % models === 0 ? [c / models] : [c, 1]))
           report.defaultsMerged.push(`${bd.name} / ${enOf((minisByDs.get(bd.id) || []).find((x) => (miniIdx.get(x.id) ?? 0) === m)).name || m}: ${wgItemName.get(uuid)} (${c} for the profile, not one per model)`)
           continue
@@ -2728,7 +2735,9 @@ const ENH_REQ_FIXES = {
 // misspelt one cannot sit here doing nothing again.
 const ENH_LOCK_FIXES = {}
 const usedLockFixes = new Set()
-const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'")
+// Apostrophes and the hyphen variants appdata types by hand (U+2010/U+2011 — Codex: Adeptus
+// Custodes writes "Shield‑Captain", the MFM "Shield-Captain") are folded alike.
+const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/[\u2010\u2011]/g, '-')
 
 // An Upgrade appdata caps below the muster rules' "up to three of the same Upgrade in your army".
 // Every other non-Combat-Patrol Upgrade carries `limit: 3`; these are read as appdata's mistake,
@@ -2742,6 +2751,20 @@ const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'")
 const UPGRADE_LIMIT_FIXES = new Set(['4e119d31-30c8-4e94-be84-7f868ea1eb8b'])
 const UPGRADE_LIMIT = 3
 
+// Does a datasheet's composition text say that EVERY model carries this item ("Every model is
+// equipped with: sonic blaster; close combat weapon.")? Matched by name, case and plural aside.
+/** @param {string | undefined} text @param {string | undefined} item */
+function everyModelCarries(text, item) {
+  const m = /every model is equipped with:?\**:?\s*([^\n]*)/i.exec(String(text || '').replace(/\*\*/g, ''))
+  if (!m || !item) return false
+  const key = (x) => x.toLowerCase().replace(/[\u2010\u2011]/g, '-').replace(/^\d+\s+/, '').replace(/s\b/g, '').trim()
+  return m[1].split(/[;,.]/).map((x) => key(x)).includes(key(item))
+}
+// An Upgrade whose own name says "(one per army)" states its limit in print (Codex: Adeptus
+// Custodes, data 981: Memento Moritoi, Augury Uplink): that is the datasheet overruling the muster
+// default, not appdata's mistake.
+const ONE_PER_ARMY = /\(one per army\)/i
+
 function buildEnhancement(e, nameToDsId, idMap) {
   const name = enOf(e).name
   const enh = { name, pts: e.basePointsCost, type: e.enhancementType }
@@ -2754,7 +2777,7 @@ function buildEnhancement(e, nameToDsId, idMap) {
     if (UPGRADE_LIMIT_FIXES.has(e.id)) {
       if (limit === UPGRADE_LIMIT) report.upgradeLimit.retire.add(`${name}: appdata now says ${UPGRADE_LIMIT} — drop this entry`)
       else { limit = UPGRADE_LIMIT; report.upgradeLimit.fixed.add(name) }
-    } else if (limit !== UPGRADE_LIMIT) report.upgradeLimit.unexplained.add(`${name} (limit ${limit}, id ${e.id})`)
+    } else if (limit !== UPGRADE_LIMIT && !(limit === 1 && ONE_PER_ARMY.test(name))) report.upgradeLimit.unexplained.add(`${name} (limit ${limit}, id ${e.id})`)
   }
   if (limit && limit !== 1) enh.limit = limit
   // eligibility: OR of groups, each an AND of faction-keywords + keywords (+ the one datasheet).

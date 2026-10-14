@@ -12,7 +12,7 @@ const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
-export const SCHEMA_VERSION = 11
+export const SCHEMA_VERSION = 12
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -87,6 +87,25 @@ const V7_ORKS_RENAMED = {
 // The Orks datasheets whose size brackets changed shape in the new codex — measured against the
 // pre-bump bundle, not guessed: everything else keeps the model count the player chose.
 const V7_ORKS_RESIZED = new Set(['beast-snagga-boyz', 'boyz', 'flash-gitz', 'ghazghkull-thraka', 'gretchin'])
+
+// Codex: Adeptus Custodes (app data 981) re-issued nine datasheets under new names — the same
+// models, so the entry follows (src/data/datasheetRenames.json says the same for marks). Where one
+// old sheet became two (Aquilon, Venatari, the Adrasite/Pyrithite Guard), the entry goes to the
+// one carrying the old default loadout.
+const V12_CUSTODES_RENAMED = {
+  'agamatus-custodians': 'gyrfalcon-jetbike-sodality',
+  'aquilon-custodians': 'aquilon-terminators-with-solarite-power-gauntlets',
+  'custodian-guard': 'custodian-guard-sodality',
+  'custodian-guard-with-adrasite-and-pyrithite-spears': 'custodian-guard-sodality-with-adrasite-spears',
+  prosecutors: 'prosecutor-squad',
+  'sagittarum-custodians': 'sagittarum-custodians-sodality',
+  'venatari-custodians': 'venatari-with-verutum-lances',
+  vigilators: 'vigilator-squad',
+  witchseekers: 'witchseeker-squad',
+}
+// The Custodes datasheets whose size brackets changed — measured against the 972 bundle: every
+// renamed sheet, plus the Allarus Custodians and Custodian Wardens (now squads of 2-3).
+const V12_CUSTODES_RESIZED = new Set([...Object.values(V12_CUSTODES_RENAMED), 'allarus-custodians', 'custodian-wardens'])
 
 // Bring ONE roster up to the current shape. Shared by the stored envelope below and by an imported
 // share payload, which is the same shape carried in a URL and can be just as old — importing used
@@ -222,6 +241,26 @@ export function migrateRoster(r, v) {
       if (!Array.isArray(u.wg)) continue
       const pools = poolMoves[String(u.id || '').includes(':') ? u.id : `${r.faction}:${u.id}`]
       if (pools) u.wg = spillPools(u.wg, pools)
+    }
+  }
+
+  // → v12: Codex: Adeptus Custodes (app data 981) replaced the faction outright, as Codex: Orks did
+  // in v7: its picks are indices into data that no longer exists, so they are dropped; nine sheets
+  // are renamed (V12_CUSTODES_RENAMED), and a size is dropped only where the brackets moved. An
+  // allied Custodes unit ("adeptus-custodes:…" in another army) is read the same way. One sheet
+  // outside the codex changed its options in the same release — the Orks Kill Tank (a dual big
+  // shoota and a skorcha in place of two big shootas), so its picks go too.
+  if (!(v >= 12)) {
+    for (const u of r.units || []) {
+      const id = String(u.id || '')
+      const ally = id.startsWith('adeptus-custodes:')
+      if (r.faction === 'adeptus-custodes' || ally) {
+        const bare = ally ? id.slice('adeptus-custodes:'.length) : id
+        const next = V12_CUSTODES_RENAMED[bare] || bare
+        u.id = ally ? `adeptus-custodes:${next}` : next
+        delete u.wg
+        if (V12_CUSTODES_RESIZED.has(next)) { delete u.size; delete u.count }
+      } else if (/(^|[:/])kill-tank$/.test(id)) delete u.wg
     }
   }
   return r

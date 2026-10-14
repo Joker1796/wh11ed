@@ -36,35 +36,35 @@ export default {
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Khorne",
-            "Tzeentch",
-            "Chaos Undivided",
-            "Nurgle"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chaos-terminator-squad",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chaos-terminator-squad",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
-            "Khorne",
             "Chaos Undivided",
-            "Slaanesh",
             "Nurgle",
-            "Tzeentch"
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
           ]
         }
       ],
@@ -73,11 +73,11 @@ export default {
           0,
           [
             [
-              989,
+              1021,
               1
             ],
             [
-              990,
+              1022,
               1
             ]
           ]
@@ -194,7 +194,7 @@ export default {
           0,
           [
             [
-              991,
+              1023,
               1
             ]
           ]
@@ -203,7 +203,7 @@ export default {
           1,
           [
             [
-              992,
+              1024,
               1
             ]
           ]
@@ -241,11 +241,11 @@ export default {
           0,
           [
             [
-              3290,
+              3324,
               1
             ],
             [
-              3291,
+              3325,
               1
             ]
           ]
@@ -254,16 +254,16 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1087,
+          "t": 1084,
           "in": "checkbox",
           "o": [
             [
-              3292
+              3326
             ]
           ],
           "rep": [
-            3290,
-            3291
+            3324,
+            3325
           ]
         }
       ]
@@ -354,15 +354,15 @@ export default {
           0,
           [
             [
-              993,
+              1025,
               1
             ],
             [
-              994,
+              1026,
               1
             ],
             [
-              995,
+              1027,
               1
             ]
           ]
@@ -371,15 +371,15 @@ export default {
           1,
           [
             [
-              993,
+              1025,
               1
             ],
             [
-              994,
+              1026,
               1
             ],
             [
-              995,
+              1027,
               1
             ]
           ]
@@ -388,62 +388,62 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 368,
+          "t": 365,
           "in": "checkbox",
           "o": [
             [
               11
             ],
             [
-              996
+              1028
             ],
             [
-              997
+              1029
             ],
             [
-              998
+              1030
             ]
           ],
           "rep": [
-            994
+            1025
           ]
         },
         {
           "m": 0,
-          "t": 369,
+          "t": 366,
           "in": "checkbox",
           "o": [
             [
-              999
+              1031
             ]
           ]
         },
         {
           "m": 1,
-          "t": 370,
+          "t": 367,
           "in": "stepper",
           "o": [
             [
-              997
+              1029
             ]
           ],
           "rep": [
-            994
+            1025
           ]
         },
         {
           "m": 1,
-          "t": 371,
+          "t": 368,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  541,
+                  574,
                   1
                 ],
                 [
-                  995,
+                  1026,
                   1
                 ]
               ]
@@ -455,7 +455,7 @@ export default {
                   1
                 ],
                 [
-                  995,
+                  1026,
                   1
                 ]
               ]
@@ -463,11 +463,11 @@ export default {
             [
               [
                 [
-                  610,
+                  643,
                   1
                 ],
                 [
-                  995,
+                  1026,
                   1
                 ]
               ]
@@ -483,16 +483,16 @@ export default {
             ]
           ],
           "rep": [
-            995
+            1026
           ]
         },
         {
           "m": 1,
-          "t": 369,
+          "t": 366,
           "in": "checkbox",
           "o": [
             [
-              999
+              1031
             ]
           ]
         }
@@ -541,11 +541,11 @@ export default {
           0,
           [
             [
-              3293,
+              3327,
               1
             ],
             [
-              2520,
+              656,
               1
             ]
           ]
@@ -554,26 +554,26 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1088,
+          "t": 1085,
           "in": "checkbox",
           "o": [
             [
-              988
+              1020
             ],
             [
-              3294
+              3328
             ],
             [
-              3295
+              3329
             ]
           ],
           "rep": [
-            3293
+            3327
           ]
         },
         {
           "m": 0,
-          "t": 1089,
+          "t": 1086,
           "in": "checkbox",
           "o": [
             [
@@ -587,7 +587,7 @@ export default {
             [
               [
                 [
-                  2958,
+                  2992,
                   2
                 ]
               ]
@@ -595,7 +595,7 @@ export default {
             [
               [
                 [
-                  2568,
+                  580,
                   2
                 ]
               ]
@@ -604,11 +604,11 @@ export default {
         },
         {
           "m": 0,
-          "t": 1090,
+          "t": 1087,
           "in": "checkbox",
           "o": [
             [
-              1220
+              3143
             ]
           ]
         },
@@ -618,7 +618,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              502
+              533
             ]
           ]
         }
@@ -703,15 +703,15 @@ export default {
           0,
           [
             [
-              1000,
+              1032,
               2
             ],
             [
-              939,
+              971,
               1
             ],
             [
-              177,
+              553,
               1
             ]
           ]
@@ -720,24 +720,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 187,
+          "t": 186,
           "in": "checkbox",
           "o": [
             [
-              995
+              1026
             ],
             [
-              1001
+              1033
             ]
           ]
         },
         {
           "m": 0,
-          "t": 372,
+          "t": 369,
           "in": "checkbox",
           "o": [
             [
-              1002
+              1034
             ]
           ]
         }
@@ -793,16 +793,24 @@ export default {
       },
       "leads": [
         {
+          "to": "red-corsairs-raiders",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Slaanesh",
-            "Tzeentch",
-            "Nurgle",
-            "Chaos Undivided"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
@@ -810,55 +818,47 @@ export default {
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
             "Chaos Undivided",
-            "Khorne",
             "Nurgle",
+            "Khorne",
             "Tzeentch",
             "Slaanesh"
           ]
         },
         {
-          "to": "red-corsairs-raiders",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Tzeentch",
-            "Nurgle",
-            "Chaos Undivided",
-            "Khorne"
-          ]
-        },
-        {
           "to": "chosen",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "legionaries",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
-            "Slaanesh",
             "Chaos Undivided",
+            "Nurgle",
             "Khorne",
             "Tzeentch",
-            "Nurgle"
+            "Slaanesh"
           ]
-        },
-        {
-          "to": "legionaries",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -866,11 +866,11 @@ export default {
           0,
           [
             [
-              1003,
+              1035,
               1
             ],
             [
-              1004,
+              1036,
               1
             ]
           ]
@@ -879,31 +879,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 373,
+          "t": 370,
           "in": "checkbox",
           "o": [
             [
-              1005
+              1037
             ],
             [
-              1006
+              1038
             ]
           ],
           "rep": [
-            1003
+            1035
           ]
         },
         {
           "m": 0,
-          "t": 374,
+          "t": 371,
           "in": "checkbox",
           "o": [
             [
-              1007
+              1039
             ]
           ],
           "rep": [
-            1004
+            1036
           ]
         }
       ]
@@ -961,19 +961,19 @@ export default {
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Chaos Undivided",
-            "Tzeentch",
-            "Nurgle",
-            "Khorne"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -981,11 +981,11 @@ export default {
           0,
           [
             [
-              1008,
+              1040,
               1
             ],
             [
-              1009,
+              1041,
               1
             ]
           ]
@@ -994,45 +994,45 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 375,
+          "t": 372,
           "in": "checkbox",
           "o": [
             [
-              1010
+              1042
             ]
           ],
           "rep": [
-            1008
+            1040
           ]
         },
         {
           "m": 0,
-          "t": 376,
+          "t": 373,
           "in": "checkbox",
           "o": [
             [
-              1011
+              1043
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            1009
+            1041
           ]
         },
         {
           "m": 0,
-          "t": 377,
+          "t": 374,
           "in": "checkbox",
           "o": [
             [
-              1013
+              1045
             ]
           ],
           "rep": [
-            1008,
-            1009
+            1040,
+            1041
           ]
         }
       ]
@@ -1067,19 +1067,19 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1220,
+              3143,
               1
             ],
             [
-              1006,
+              1038,
               1
             ],
             [
-              359,
+              390,
               1
             ]
           ]
@@ -1088,60 +1088,60 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1091,
+          "t": 1088,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         },
         {
           "m": 0,
-          "t": 1092,
+          "t": 1089,
           "in": "checkbox",
           "o": [
             [
-              2468
+              1
             ],
             [
-              2180
+              571
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            1006
+            1038
           ]
         },
         {
           "m": 0,
-          "t": 1093,
+          "t": 1090,
           "in": "checkbox",
           "o": [
             [
-              1109
+              1141
             ]
           ],
           "rep": [
-            2468,
-            1006
+            1,
+            1038
           ]
         }
       ],
@@ -1208,15 +1208,15 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1006,
+              1038,
               1
             ],
             [
-              359,
+              390,
               1
             ]
           ]
@@ -1225,63 +1225,63 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1094,
+          "t": 1091,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              1220
+              3143
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         },
         {
           "m": 0,
-          "t": 1092,
+          "t": 1089,
           "in": "checkbox",
           "o": [
             [
-              2468
+              1
             ],
             [
-              2180
+              571
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            1006
+            1038
           ]
         },
         {
           "m": 0,
-          "t": 1093,
+          "t": 1090,
           "in": "checkbox",
           "o": [
             [
-              1109
+              1141
             ]
           ],
           "rep": [
-            2468,
-            1006
+            1,
+            1038
           ]
         }
       ],
@@ -1336,19 +1336,19 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1006,
+              1038,
               1
             ],
             [
-              3163,
+              3197,
               1
             ],
             [
-              359,
+              390,
               1
             ]
           ]
@@ -1357,63 +1357,63 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1094,
+          "t": 1091,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              1220
+              3143
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         },
         {
           "m": 0,
-          "t": 1092,
+          "t": 1089,
           "in": "checkbox",
           "o": [
             [
-              2468
+              1
             ],
             [
-              2180
+              571
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            1006
+            1038
           ]
         },
         {
           "m": 0,
-          "t": 1093,
+          "t": 1090,
           "in": "checkbox",
           "o": [
             [
-              1109
+              1141
             ]
           ],
           "rep": [
-            2468,
-            1006
+            1,
+            1038
           ]
         }
       ],
@@ -1456,19 +1456,19 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1006,
+              1038,
               1
             ],
             [
-              359,
+              390,
               1
             ],
             [
-              3296,
+              3330,
               1
             ]
           ]
@@ -1477,63 +1477,63 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1094,
+          "t": 1091,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              1220
+              3143
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         },
         {
           "m": 0,
-          "t": 1092,
+          "t": 1089,
           "in": "checkbox",
           "o": [
             [
-              2468
+              1
             ],
             [
-              2180
+              571
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            1006
+            1038
           ]
         },
         {
           "m": 0,
-          "t": 1093,
+          "t": 1090,
           "in": "checkbox",
           "o": [
             [
-              1109
+              1141
             ]
           ],
           "rep": [
-            2468,
-            1006
+            1,
+            1038
           ]
         }
       ],
@@ -1588,19 +1588,19 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1006,
+              1038,
               1
             ],
             [
-              359,
+              390,
               1
             ],
             [
-              893,
+              925,
               1
             ]
           ]
@@ -1609,63 +1609,63 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1094,
+          "t": 1091,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              1220
+              3143
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         },
         {
           "m": 0,
-          "t": 1092,
+          "t": 1089,
           "in": "checkbox",
           "o": [
             [
-              2468
+              1
             ],
             [
-              2180
+              571
             ],
             [
-              1005
+              1037
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            1006
+            1038
           ]
         },
         {
           "m": 0,
-          "t": 1093,
+          "t": 1090,
           "in": "checkbox",
           "o": [
             [
-              1109
+              1141
             ]
           ],
           "rep": [
-            2468,
-            1006
+            1,
+            1038
           ]
         }
       ],
@@ -1730,19 +1730,19 @@ export default {
         {
           "to": "raptors",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Khorne",
-            "Chaos Undivided",
-            "Nurgle",
-            "Tzeentch"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "raptors",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -1750,11 +1750,11 @@ export default {
           0,
           [
             [
-              1005,
+              1046,
               1
             ],
             [
-              1014,
+              1037,
               1
             ]
           ]
@@ -1771,34 +1771,34 @@ export default {
             ]
           ],
           "rep": [
-            1014
+            1046
           ]
         },
         {
           "m": 0,
-          "t": 378,
+          "t": 375,
           "in": "checkbox",
           "o": [
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            1005
+            1037
           ]
         },
         {
           "m": 0,
-          "t": 379,
+          "t": 376,
           "in": "checkbox",
           "o": [
             [
-              1015
+              1047
             ]
           ],
           "rep": [
-            1014,
-            1005
+            1046,
+            1037
           ]
         }
       ]
@@ -1858,7 +1858,7 @@ export default {
           0,
           [
             [
-              1016,
+              1048,
               1
             ],
             [
@@ -1871,7 +1871,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 380,
+          "t": 377,
           "in": "stepper",
           "o": [
             [
@@ -1885,7 +1885,7 @@ export default {
             [
               [
                 [
-                  933,
+                  965,
                   2
                 ]
               ]
@@ -1894,24 +1894,24 @@ export default {
         },
         {
           "m": 0,
-          "t": 187,
+          "t": 186,
           "in": "checkbox",
           "o": [
             [
-              995
+              1026
             ],
             [
-              1001
+              1033
             ]
           ]
         },
         {
           "m": 0,
-          "t": 381,
+          "t": 378,
           "in": "checkbox",
           "o": [
             [
-              1002
+              1034
             ]
           ]
         }
@@ -1976,7 +1976,7 @@ export default {
               1
             ],
             [
-              1017,
+              1049,
               1
             ]
           ]
@@ -1985,7 +1985,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 380,
+          "t": 377,
           "in": "stepper",
           "o": [
             [
@@ -1999,7 +1999,7 @@ export default {
             [
               [
                 [
-                  933,
+                  965,
                   2
                 ]
               ]
@@ -2008,24 +2008,24 @@ export default {
         },
         {
           "m": 0,
-          "t": 187,
+          "t": 186,
           "in": "checkbox",
           "o": [
             [
-              995
+              1026
             ],
             [
-              1001
+              1033
             ]
           ]
         },
         {
           "m": 0,
-          "t": 381,
+          "t": 378,
           "in": "checkbox",
           "o": [
             [
-              1002
+              1034
             ]
           ]
         }
@@ -2088,11 +2088,11 @@ export default {
           0,
           [
             [
-              34,
+              1026,
               1
             ],
             [
-              995,
+              34,
               1
             ]
           ]
@@ -2101,24 +2101,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 187,
+          "t": 186,
           "in": "checkbox",
           "o": [
             [
-              995
+              1026
             ],
             [
-              1001
+              1033
             ]
           ]
         },
         {
           "m": 0,
-          "t": 382,
+          "t": 379,
           "in": "checkbox",
           "o": [
             [
-              1002
+              1034
             ]
           ]
         }
@@ -2173,7 +2173,7 @@ export default {
           0,
           [
             [
-              992,
+              1024,
               1
             ]
           ]
@@ -2270,11 +2270,11 @@ export default {
           1,
           [
             [
-              996,
+              1026,
               1
             ],
             [
-              995,
+              1028,
               1
             ]
           ]
@@ -2283,11 +2283,11 @@ export default {
           0,
           [
             [
-              996,
+              1026,
               1
             ],
             [
-              995,
+              1028,
               1
             ]
           ]
@@ -2296,14 +2296,14 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 383,
+          "t": 380,
           "in": "stepper",
           "o": [
             [
-              497
+              528
             ],
             [
-              1018
+              1050
             ]
           ],
           "lim": [
@@ -2317,61 +2317,101 @@ export default {
             ]
           ],
           "rep": [
-            995
+            1026
           ]
         },
         {
           "m": 0,
-          "t": 384,
+          "t": 381,
           "in": "checkbox",
           "o": [
             [
-              1001
+              1033
             ]
           ],
           "rep": [
-            995
+            1026
           ],
           "repall": 1
         },
         {
           "m": 0,
-          "t": 385,
+          "t": 382,
           "in": "checkbox",
           "o": [
             [
-              1019
+              1051
             ]
           ],
           "rep": [
-            995,
-            996
+            1026,
+            1028
           ]
         },
         {
           "m": 0,
-          "t": 386,
+          "t": 383,
           "in": "checkbox",
           "o": [
             [
-              998
+              1030
             ]
           ],
           "rep": [
-            996
+            1028
           ]
         },
         {
           "m": 0,
-          "t": 387,
+          "t": 384,
           "in": "checkbox",
           "o": [
             [
-              1020
+              1052
             ]
           ],
           "rep": [
-            996
+            1028
+          ]
+        },
+        {
+          "m": 1,
+          "t": 381,
+          "in": "stepper",
+          "o": [
+            [
+              1033
+            ]
+          ],
+          "rep": [
+            1026
+          ]
+        },
+        {
+          "m": 1,
+          "t": 382,
+          "in": "stepper",
+          "o": [
+            [
+              1051
+            ]
+          ],
+          "rep": [
+            1026,
+            1028
+          ]
+        },
+        {
+          "m": 1,
+          "t": 383,
+          "in": "stepper",
+          "o": [
+            [
+              1030
+            ]
+          ],
+          "rep": [
+            1028
           ]
         },
         {
@@ -2380,51 +2420,11 @@ export default {
           "in": "stepper",
           "o": [
             [
-              1001
+              1052
             ]
           ],
           "rep": [
-            995
-          ]
-        },
-        {
-          "m": 1,
-          "t": 385,
-          "in": "stepper",
-          "o": [
-            [
-              1019
-            ]
-          ],
-          "rep": [
-            995,
-            996
-          ]
-        },
-        {
-          "m": 1,
-          "t": 386,
-          "in": "stepper",
-          "o": [
-            [
-              998
-            ]
-          ],
-          "rep": [
-            996
-          ]
-        },
-        {
-          "m": 1,
-          "t": 387,
-          "in": "stepper",
-          "o": [
-            [
-              1020
-            ]
-          ],
-          "rep": [
-            996
+            1028
           ]
         }
       ],
@@ -2516,23 +2516,23 @@ export default {
           0,
           [
             [
-              2568,
+              580,
               2
             ],
             [
-              2708,
+              1596,
               1
             ],
             [
-              742,
+              60,
               4
             ],
             [
-              565,
+              598,
               1
             ],
             [
-              1564,
+              1597,
               1
             ]
           ]
@@ -2541,28 +2541,28 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 598,
+          "t": 595,
           "in": "checkbox",
           "o": [
             [
-              1565
+              1598
             ]
           ],
           "rep": [
-            2708
+            1596
           ]
         },
         {
           "m": 0,
-          "t": 599,
+          "t": 596,
           "in": "checkbox",
           "o": [
             [
-              2709
+              1599
             ]
           ],
           "rep": [
-            1564
+            1597
           ]
         }
       ],
@@ -2645,7 +2645,7 @@ export default {
           0,
           [
             [
-              1021,
+              1053,
               1
             ],
             [
@@ -2658,24 +2658,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 187,
+          "t": 186,
           "in": "checkbox",
           "o": [
             [
-              995
+              1026
             ],
             [
-              1001
+              1033
             ]
           ]
         },
         {
           "m": 0,
-          "t": 381,
+          "t": 378,
           "in": "checkbox",
           "o": [
             [
-              1002
+              1034
             ]
           ]
         }
@@ -2771,15 +2771,15 @@ export default {
           1,
           [
             [
-              1022,
+              1054,
               1
             ],
             [
-              996,
+              1025,
               1
             ],
             [
-              994,
+              1028,
               1
             ]
           ]
@@ -2788,15 +2788,15 @@ export default {
           0,
           [
             [
-              996,
+              1054,
               1
             ],
             [
-              1022,
+              1025,
               1
             ],
             [
-              994,
+              1028,
               1
             ]
           ]
@@ -2805,12 +2805,52 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 369,
+          "t": 366,
           "in": "checkbox",
           "o": [
             [
-              999
+              1031
             ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 385,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ],
+          "rep": [
+            1025
+          ]
+        },
+        {
+          "m": 0,
+          "t": 386,
+          "in": "checkbox",
+          "o": [
+            [
+              1033
+            ]
+          ],
+          "rep": [
+            1054
+          ]
+        },
+        {
+          "m": 0,
+          "t": 387,
+          "in": "checkbox",
+          "o": [
+            [
+              1051
+            ]
+          ],
+          "rep": [
+            1054,
+            1028
           ]
         },
         {
@@ -2819,54 +2859,14 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              11
+              1055
             ]
           ],
           "rep": [
-            994
-          ]
-        },
-        {
-          "m": 0,
-          "t": 389,
-          "in": "checkbox",
-          "o": [
-            [
-              1001
-            ]
-          ],
-          "rep": [
-            1022
-          ]
-        },
-        {
-          "m": 0,
-          "t": 390,
-          "in": "checkbox",
-          "o": [
-            [
-              1019
-            ]
-          ],
-          "rep": [
-            1022,
-            996
-          ]
-        },
-        {
-          "m": 0,
-          "t": 391,
-          "in": "checkbox",
-          "o": [
-            [
-              1023
-            ]
-          ],
-          "rep": [
-            996
+            1028
           ],
           "keep": [
-            1022
+            1054
           ],
           "cond": [
             2,
@@ -2875,12 +2875,52 @@ export default {
         },
         {
           "m": 1,
-          "t": 369,
+          "t": 366,
           "in": "checkbox",
           "o": [
             [
-              999
+              1031
             ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 385,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ],
+          "rep": [
+            1025
+          ]
+        },
+        {
+          "m": 1,
+          "t": 386,
+          "in": "stepper",
+          "o": [
+            [
+              1033
+            ]
+          ],
+          "rep": [
+            1054
+          ]
+        },
+        {
+          "m": 1,
+          "t": 387,
+          "in": "stepper",
+          "o": [
+            [
+              1051
+            ]
+          ],
+          "rep": [
+            1054,
+            1028
           ]
         },
         {
@@ -2889,54 +2929,14 @@ export default {
           "in": "stepper",
           "o": [
             [
-              11
+              1055
             ]
           ],
           "rep": [
-            994
-          ]
-        },
-        {
-          "m": 1,
-          "t": 389,
-          "in": "stepper",
-          "o": [
-            [
-              1001
-            ]
-          ],
-          "rep": [
-            1022
-          ]
-        },
-        {
-          "m": 1,
-          "t": 390,
-          "in": "stepper",
-          "o": [
-            [
-              1019
-            ]
-          ],
-          "rep": [
-            1022,
-            996
-          ]
-        },
-        {
-          "m": 1,
-          "t": 391,
-          "in": "stepper",
-          "o": [
-            [
-              1023
-            ]
-          ],
-          "rep": [
-            996
+            1028
           ],
           "keep": [
-            1022
+            1054
           ],
           "cond": [
             7,
@@ -3082,11 +3082,11 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
-            "Khorne",
             "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
             "Tzeentch",
-            "Slaanesh",
-            "Nurgle"
+            "Slaanesh"
           ]
         },
         {
@@ -3094,11 +3094,11 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
-            "Khorne",
-            "Slaanesh",
             "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
             "Tzeentch",
-            "Nurgle"
+            "Slaanesh"
           ]
         },
         {
@@ -3117,11 +3117,11 @@ export default {
           0,
           [
             [
-              1024,
+              1056,
               1
             ],
             [
-              1025,
+              1057,
               1
             ]
           ]
@@ -3216,11 +3216,11 @@ export default {
           0,
           [
             [
-              1026,
+              1058,
               1
             ],
             [
-              613,
+              646,
               1
             ]
           ]
@@ -3229,11 +3229,11 @@ export default {
           1,
           [
             [
-              1026,
+              1058,
               1
             ],
             [
-              613,
+              646,
               1
             ]
           ]
@@ -3242,15 +3242,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 392,
+          "t": 389,
           "in": "checkbox",
           "o": [
             [
-              537
+              570
             ]
           ],
           "rep": [
-            613
+            646
           ]
         }
       ]
@@ -3321,11 +3321,11 @@ export default {
           0,
           [
             [
-              613,
+              646,
               1
             ],
             [
-              1026,
+              1058,
               1
             ]
           ]
@@ -3338,7 +3338,7 @@ export default {
               1
             ],
             [
-              359,
+              390,
               1
             ]
           ]
@@ -3347,15 +3347,84 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 392,
+          "t": 389,
           "in": "checkbox",
           "o": [
             [
-              2468
+              1
             ]
           ],
           "rep": [
-            613
+            646
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1092,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  646,
+                  1
+                ],
+                [
+                  1058,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            105,
+            390
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1093,
+          "in": "stepper",
+          "o": [
+            [
+              334
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ],
+          "rep": [
+            105
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1094,
+          "in": "stepper",
+          "o": [
+            [
+              1521
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ],
+          "rep": [
+            105
           ]
         },
         {
@@ -3364,76 +3433,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              [
-                [
-                  613,
-                  1
-                ],
-                [
-                  1026,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "rep": [
-            105,
-            359
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1096,
-          "in": "stepper",
-          "o": [
-            [
-              303
-            ]
-          ],
-          "lim": [
-            [
-              10,
-              1
-            ],
-            [
-              20,
-              2
-            ]
-          ],
-          "rep": [
-            105
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1097,
-          "in": "stepper",
-          "o": [
-            [
-              1489
-            ]
-          ],
-          "lim": [
-            [
-              10,
-              1
-            ],
-            [
-              20,
-              2
-            ]
-          ],
-          "rep": [
-            105
-          ]
-        },
-        {
-          "m": 1,
-          "t": 1098,
-          "in": "stepper",
-          "o": [
-            [
-              1200
+              641
             ]
           ],
           "lim": [
@@ -3507,11 +3507,11 @@ export default {
           0,
           [
             [
-              1027,
+              1059,
               1
             ],
             [
-              1028,
+              1060,
               1
             ]
           ]
@@ -3578,54 +3578,6 @@ export default {
       },
       "leads": [
         {
-          "to": "red-corsairs-raiders",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Chaos Undivided",
-            "Tzeentch",
-            "Nurgle",
-            "Khorne"
-          ]
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Slaanesh",
-            "Khorne",
-            "Chaos Undivided",
-            "Tzeentch"
-          ]
-        },
-        {
-          "to": "cultist-mob",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Slaanesh",
-            "Chaos Undivided",
-            "Khorne",
-            "Tzeentch"
-          ]
-        },
-        {
-          "to": "chosen",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Nurgle",
-            "Tzeentch",
-            "Chaos Undivided",
-            "Khorne"
-          ]
-        },
-        {
           "to": "cultist-mob",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -3641,30 +3593,6 @@ export default {
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
-          "to": "accursed-cultists",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Tzeentch",
-            "Khorne",
-            "Slaanesh",
-            "Chaos Undivided"
-          ]
-        },
-        {
-          "to": "legionaries",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Chaos Undivided",
-            "Slaanesh",
-            "Tzeentch",
-            "Nurgle"
-          ]
-        },
-        {
           "to": "red-corsairs-raiders",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -3678,6 +3606,78 @@ export default {
           "to": "chosen",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "cultist-mob",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "accursed-cultists",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "legionaries",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "chosen",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "minis": [
@@ -3702,11 +3702,11 @@ export default {
           0,
           [
             [
-              1029,
+              1025,
               1
             ],
             [
-              994,
+              1061,
               1
             ]
           ]
@@ -3787,36 +3787,36 @@ export default {
         {
           "to": "accursed-cultists",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Tzeentch",
-            "Slaanesh",
-            "Chaos Undivided",
-            "Khorne"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "cultist-mob",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Slaanesh",
-            "Chaos Undivided",
-            "Khorne",
-            "Tzeentch"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "accursed-cultists",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "cultist-mob",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "minis": [
@@ -3838,11 +3838,11 @@ export default {
           0,
           [
             [
-              1030,
+              1062,
               1
             ],
             [
-              613,
+              646,
               1
             ]
           ]
@@ -3851,7 +3851,7 @@ export default {
           3,
           [
             [
-              1031,
+              1063,
               1
             ]
           ]
@@ -3864,7 +3864,7 @@ export default {
               1
             ],
             [
-              1032,
+              1064,
               1
             ]
           ]
@@ -3873,11 +3873,11 @@ export default {
           2,
           [
             [
-              999,
+              1031,
               1
             ],
             [
-              613,
+              646,
               1
             ],
             [
@@ -3917,11 +3917,11 @@ export default {
           0,
           [
             [
-              3297,
+              3331,
               2
             ],
             [
-              2352,
+              1005,
               1
             ]
           ]
@@ -3930,56 +3930,56 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1099,
+          "t": 1096,
           "in": "stepper",
           "o": [
             [
-              3298
+              3332
             ],
             [
-              3299
+              3333
             ],
             [
-              3300
+              3334
             ],
             [
               [
                 [
-                  3301,
+                  3335,
                   1
                 ],
                 [
-                  3302,
+                  3336,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            3297
+            3331
           ],
           "cp": 2
         },
         {
           "m": 0,
-          "t": 1100,
+          "t": 1097,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  3303,
+                  3337,
                   1
                 ],
                 [
-                  3301,
+                  3335,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            3297
+            3331
           ]
         }
       ],
@@ -4062,23 +4062,23 @@ export default {
           0,
           [
             [
-              1033,
+              1065,
               2
             ],
             [
-              1034,
+              1066,
               1
             ],
             [
-              1035,
+              1067,
               1
             ],
             [
-              1036,
+              1068,
               1
             ],
             [
-              1037,
+              1069,
               1
             ]
           ]
@@ -4087,75 +4087,75 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 393,
+          "t": 390,
           "in": "checkbox",
           "o": [
             [
-              1038
+              1070
             ]
           ],
           "rep": [
-            1036
+            1068
           ]
         },
         {
           "m": 0,
-          "t": 394,
+          "t": 391,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1039,
+                  1071,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            1033
+            1065
           ]
         },
         {
           "m": 0,
-          "t": 395,
+          "t": 392,
           "in": "checkbox",
           "o": [
             [
-              1040,
+              1072,
               15
             ],
             [
-              1041,
+              1073,
               15
             ],
             [
-              1042
+              1074
             ]
           ],
           "rep": [
-            1034
+            1066
           ]
         },
         {
           "m": 0,
-          "t": 396,
+          "t": 393,
           "in": "checkbox",
           "o": [
             [
-              1040,
+              1072,
               15
             ],
             [
-              1041,
+              1073,
               15
             ],
             [
-              1042
+              1074
             ]
           ],
           "rep": [
-            1035
+            1067
           ]
         }
       ]
@@ -4190,7 +4190,7 @@ export default {
           0,
           [
             [
-              3304,
+              3338,
               1
             ]
           ]
@@ -4250,15 +4250,15 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              2260,
+              1042,
               1
             ],
             [
-              1009,
+              1041,
               1
             ]
           ]
@@ -4345,69 +4345,9 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "accursed-cultists",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Tzeentch",
-            "Khorne",
-            "Slaanesh",
-            "Chaos Undivided"
-          ]
-        },
-        {
-          "to": "chosen",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Tzeentch",
-            "Nurgle",
-            "Chaos Undivided",
-            "Slaanesh"
-          ]
-        },
-        {
-          "to": "cultist-mob",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Tzeentch",
-            "Nurgle",
-            "Slaanesh",
-            "Khorne",
-            "Chaos Undivided"
-          ]
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Chaos Undivided",
-            "Slaanesh",
-            "Tzeentch",
-            "Nurgle",
-            "Khorne"
-          ]
-        },
-        {
           "to": "red-corsairs-raiders",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Tzeentch",
-            "Nurgle",
-            "Chaos Undivided",
-            "Slaanesh"
-          ]
         },
         {
           "to": "cultist-mob",
@@ -4428,6 +4368,66 @@ export default {
           "to": "legionaries",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "cultist-mob",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "accursed-cultists",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "chosen",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "legionaries",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "minis": [
@@ -4443,15 +4443,15 @@ export default {
           0,
           [
             [
-              1043,
+              1075,
               1
             ],
             [
-              1044,
+              1076,
               1
             ],
             [
-              1045,
+              1077,
               1
             ]
           ]
@@ -4460,7 +4460,7 @@ export default {
           1,
           [
             [
-              1046,
+              1078,
               1
             ]
           ]
@@ -4536,11 +4536,11 @@ export default {
           1,
           [
             [
-              1047,
+              1079,
               1
             ],
             [
-              613,
+              646,
               1
             ]
           ]
@@ -4549,11 +4549,11 @@ export default {
           0,
           [
             [
-              537,
+              570,
               1
             ],
             [
-              1048,
+              1080,
               1
             ]
           ]
@@ -4562,24 +4562,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 397,
+          "t": 394,
           "in": "checkbox",
           "o": [
             [
-              538
+              571
             ]
           ],
           "rep": [
-            537
+            570
           ]
         },
         {
           "m": 1,
-          "t": 398,
+          "t": 395,
           "in": "checkbox",
           "o": [
             [
-              1049
+              1081
             ]
           ],
           "lim": [
@@ -4589,16 +4589,16 @@ export default {
             ]
           ],
           "rep": [
-            1047
+            1079
           ]
         },
         {
           "m": 1,
-          "t": 399,
+          "t": 396,
           "in": "checkbox",
           "o": [
             [
-              1050
+              1082
             ]
           ],
           "lim": [
@@ -4608,7 +4608,7 @@ export default {
             ]
           ],
           "rep": [
-            1047
+            1079
           ]
         }
       ]
@@ -4668,11 +4668,11 @@ export default {
           0,
           [
             [
-              1051,
+              1083,
               2
             ],
             [
-              1052,
+              1084,
               1
             ]
           ]
@@ -4681,13 +4681,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 400,
+          "t": 397,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1053,
+                  1085,
                   2
                 ]
               ],
@@ -4695,22 +4695,22 @@ export default {
             ]
           ],
           "rep": [
-            1051
+            1083
           ]
         },
         {
           "m": 0,
-          "t": 401,
+          "t": 398,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  1053,
+                  1085,
                   1
                 ],
                 [
-                  1054,
+                  1086,
                   1
                 ]
               ],
@@ -4718,7 +4718,7 @@ export default {
             ]
           ],
           "rep": [
-            1052
+            1084
           ]
         }
       ]
@@ -4770,11 +4770,11 @@ export default {
           0,
           [
             [
-              3115,
+              3149,
               1
             ],
             [
-              3305,
+              3339,
               1,
               1
             ]
@@ -4784,7 +4784,7 @@ export default {
           1,
           [
             [
-              3306,
+              3340,
               1
             ]
           ]
@@ -4821,15 +4821,15 @@ export default {
           0,
           [
             [
-              3307,
+              3341,
               1
             ],
             [
-              3308,
+              3342,
               1
             ],
             [
-              3309,
+              3343,
               1
             ]
           ]
@@ -4868,19 +4868,19 @@ export default {
           0,
           [
             [
-              2689,
+              1053,
               1
             ],
             [
-              3310,
+              3344,
               1
             ],
             [
-              3311,
+              3345,
               1
             ],
             [
-              3312,
+              3346,
               1
             ]
           ]
@@ -4920,19 +4920,19 @@ export default {
         {
           "to": "raptors",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Tzeentch",
-            "Nurgle",
-            "Slaanesh",
-            "Khorne",
-            "Chaos Undivided"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "raptors",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -4940,11 +4940,11 @@ export default {
           0,
           [
             [
-              1055,
+              1087,
               1
             ],
             [
-              1056,
+              1088,
               1
             ]
           ]
@@ -5022,16 +5022,16 @@ export default {
           1,
           [
             [
-              1057,
+              1089,
               2,
               1
             ],
             [
-              993,
+              1027,
               1
             ],
             [
-              1059,
+              1091,
               2,
               1
             ]
@@ -5041,11 +5041,11 @@ export default {
           0,
           [
             [
-              541,
+              574,
               1
             ],
             [
-              1058,
+              1090,
               1
             ]
           ]
@@ -5054,72 +5054,72 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 402,
+          "t": 399,
           "in": "checkbox",
           "o": [
             [
-              996
+              1028
             ],
             [
-              998
+              1030
             ]
           ],
           "rep": [
-            1058
+            1090
           ]
         },
         {
           "m": 0,
-          "t": 403,
+          "t": 400,
           "in": "checkbox",
           "o": [
             [
-              1022
+              1054
             ],
             [
               15
             ],
             [
-              610
+              643
             ],
             [
               11
             ],
             [
-              996
+              1028
             ],
             [
-              998
+              1030
             ]
           ],
           "rep": [
-            541
+            574
           ]
         },
         {
           "m": 1,
-          "t": 404,
+          "t": 401,
           "in": "stepper",
           "o": [
             [
-              1057
+              1089
             ],
             [
-              1060
+              1092
             ],
             [
-              1059
+              1091
             ],
             [
-              1061
+              1093
             ],
             [
-              1062
+              1094
             ]
           ],
           "rep": [
-            1057,
-            1059
+            1089,
+            1091
           ],
           "alt": 1
         }
@@ -5179,11 +5179,11 @@ export default {
               1
             ],
             [
-              1063,
+              1095,
               1
             ],
             [
-              1064,
+              1096,
               1
             ]
           ]
@@ -5192,23 +5192,23 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 405,
+          "t": 402,
           "in": "checkbox",
           "o": [
             [
-              1065
+              1097
             ],
             [
-              668
+              701
             ],
             [
-              939
+              971
             ],
             [
-              1066
+              1098
             ],
             [
-              1067
+              1099
             ]
           ],
           "rep": [
@@ -5217,33 +5217,33 @@ export default {
         },
         {
           "m": 0,
-          "t": 406,
+          "t": 403,
           "in": "checkbox",
           "o": [
             [
-              1067
+              1099
             ],
             [
-              1068
+              1100
             ],
             [
-              1069
+              1101
             ]
           ],
           "rep": [
-            1063
+            1095
           ]
         },
         {
           "m": 0,
-          "t": 407,
+          "t": 404,
           "in": "stepper",
           "o": [
             [
-              995
+              1026
             ],
             [
-              497
+              528
             ]
           ]
         }
@@ -5300,11 +5300,11 @@ export default {
           0,
           [
             [
-              1051,
+              1083,
               1
             ],
             [
-              1070,
+              1102,
               1
             ]
           ]
@@ -5313,15 +5313,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 408,
+          "t": 405,
           "in": "checkbox",
           "o": [
             [
-              1071
+              1103
             ]
           ],
           "rep": [
-            1051
+            1083
           ]
         }
       ]
@@ -5355,11 +5355,11 @@ export default {
           0,
           [
             [
-              2957,
+              2991,
               2
             ],
             [
-              565,
+              598,
               1
             ]
           ]
@@ -5368,20 +5368,20 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1101,
+          "t": 1098,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2436,
+                  1098,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2957
+            2991
           ]
         }
       ],
@@ -5438,15 +5438,15 @@ export default {
           0,
           [
             [
-              546,
+              579,
               1
             ],
             [
-              2436,
+              1098,
               1
             ],
             [
-              565,
+              598,
               1
             ]
           ]
@@ -5455,15 +5455,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1102,
+          "t": 1099,
           "in": "checkbox",
           "o": [
             [
-              1002
+              1034
             ]
           ],
           "rep": [
-            546
+            579
           ]
         }
       ],
@@ -5540,11 +5540,11 @@ export default {
           0,
           [
             [
-              846,
+              878,
               1
             ],
             [
-              845,
+              877,
               1
             ]
           ]
@@ -5601,11 +5601,11 @@ export default {
           0,
           [
             [
-              845,
+              877,
               1
             ],
             [
-              846,
+              878,
               1
             ]
           ]
@@ -5651,44 +5651,37 @@ export default {
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
+          "to": "legionaries",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Chaos Undivided",
-            "Nurgle",
-            "Khorne",
-            "Tzeentch"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
-            "Slaanesh",
-            "Khorne",
             "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
             "Tzeentch",
-            "Nurgle"
+            "Slaanesh"
           ]
-        },
-        {
-          "to": "legionaries",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
-            "Slaanesh",
-            "Nurgle",
             "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
             "Tzeentch",
-            "Khorne"
+            "Slaanesh"
           ]
         },
         {
@@ -5697,16 +5690,23 @@ export default {
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
             "Chaos Undivided",
-            "Slaanesh",
             "Nurgle",
+            "Khorne",
             "Tzeentch",
-            "Khorne"
+            "Slaanesh"
           ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "masters-of-the-maelstrom",
@@ -5718,11 +5718,11 @@ export default {
           0,
           [
             [
-              1072,
+              1104,
               1
             ],
             [
-              1073,
+              1105,
               1
             ]
           ]
@@ -5760,15 +5760,15 @@ export default {
           0,
           [
             [
-              3313,
+              3347,
               5
             ],
             [
-              3304,
+              3338,
               1
             ],
             [
-              3314,
+              3348,
               1
             ]
           ]
@@ -5833,15 +5833,15 @@ export default {
           0,
           [
             [
-              1074,
+              1106,
               1
             ],
             [
-              1075,
+              1107,
               1
             ],
             [
-              1076,
+              1108,
               1
             ]
           ]
@@ -5850,31 +5850,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 409,
+          "t": 406,
           "in": "checkbox",
           "o": [
             [
-              1077
+              1109
             ],
             [
-              1078
+              1110
             ]
           ],
           "rep": [
-            1074
+            1106
           ]
         },
         {
           "m": 0,
-          "t": 410,
+          "t": 407,
           "in": "checkbox",
           "o": [
             [
-              1079
+              1111
             ]
           ],
           "rep": [
-            1075
+            1107
           ]
         }
       ]
@@ -5914,50 +5914,50 @@ export default {
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
+          "to": "obliterators",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chaos-terminator-squad",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
           "to": "mutilators",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
             "Chaos Undivided",
             "Nurgle",
-            "Slaanesh",
-            "Tzeentch",
-            "Khorne"
-          ]
-        },
-        {
-          "to": "chaos-terminator-squad",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
             "Khorne",
-            "Slaanesh",
-            "Chaos Undivided",
             "Tzeentch",
-            "Nurgle"
+            "Slaanesh"
           ]
-        },
-        {
-          "to": "obliterators",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "obliterators",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
+            "Chaos Undivided",
             "Nurgle",
             "Khorne",
-            "Slaanesh",
-            "Chaos Undivided",
-            "Tzeentch"
+            "Tzeentch",
+            "Slaanesh"
           ]
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -5965,19 +5965,19 @@ export default {
           0,
           [
             [
-              1008,
+              1103,
               1
             ],
             [
-              1080,
+              1040,
               1
             ],
             [
-              1071,
+              1112,
               1
             ],
             [
-              1081,
+              1113,
               1
             ]
           ]
@@ -6015,11 +6015,11 @@ export default {
           0,
           [
             [
-              3315,
+              3349,
               1
             ],
             [
-              3316,
+              3350,
               1
             ]
           ]
@@ -6113,15 +6113,15 @@ export default {
           0,
           [
             [
-              1022,
+              1025,
               1
             ],
             [
-              993,
+              1054,
               1
             ],
             [
-              994,
+              1027,
               1
             ]
           ]
@@ -6130,15 +6130,15 @@ export default {
           1,
           [
             [
-              1022,
+              1025,
               1
             ],
             [
-              994,
+              1054,
               1
             ],
             [
-              993,
+              1027,
               1
             ]
           ]
@@ -6147,112 +6147,112 @@ export default {
       "gear": [
         {
           "m": 0,
+          "t": 408,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              1028
+            ],
+            [
+              1029
+            ],
+            [
+              1114
+            ]
+          ],
+          "rep": [
+            1054
+          ]
+        },
+        {
+          "m": 0,
+          "t": 409,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              1028
+            ],
+            [
+              1029
+            ],
+            [
+              1114
+            ]
+          ],
+          "rep": [
+            1025
+          ]
+        },
+        {
+          "m": 0,
+          "t": 366,
+          "in": "checkbox",
+          "o": [
+            [
+              1031
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 410,
+          "in": "stepper",
+          "o": [
+            [
+              1029
+            ]
+          ],
+          "rep": [
+            1054
+          ]
+        },
+        {
+          "m": 1,
           "t": 411,
           "in": "checkbox",
           "o": [
             [
-              11
-            ],
+              1114
+            ]
+          ],
+          "lim": [
             [
-              996
-            ],
-            [
-              997
-            ],
-            [
-              1082
+              0,
+              1
             ]
           ],
           "rep": [
-            1022
+            1054
           ]
         },
         {
-          "m": 0,
+          "m": 1,
           "t": 412,
           "in": "checkbox",
           "o": [
             [
-              11
-            ],
+              1115
+            ]
+          ],
+          "lim": [
             [
-              996
-            ],
-            [
-              997
-            ],
-            [
-              1082
+              0,
+              1
             ]
           ],
           "rep": [
-            994
-          ]
-        },
-        {
-          "m": 0,
-          "t": 369,
-          "in": "checkbox",
-          "o": [
-            [
-              999
-            ]
+            1054
           ]
         },
         {
           "m": 1,
           "t": 413,
-          "in": "stepper",
-          "o": [
-            [
-              997
-            ]
-          ],
-          "rep": [
-            1022
-          ]
-        },
-        {
-          "m": 1,
-          "t": 414,
-          "in": "checkbox",
-          "o": [
-            [
-              1082
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ],
-          "rep": [
-            1022
-          ]
-        },
-        {
-          "m": 1,
-          "t": 415,
-          "in": "checkbox",
-          "o": [
-            [
-              1083
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ],
-          "rep": [
-            1022
-          ]
-        },
-        {
-          "m": 1,
-          "t": 416,
           "in": "checkbox",
           "o": [
             [
@@ -6262,7 +6262,7 @@ export default {
                   1
                 ],
                 [
-                  997,
+                  1029,
                   1
                 ]
               ]
@@ -6270,7 +6270,7 @@ export default {
             [
               [
                 [
-                  541,
+                  574,
                   1
                 ]
               ]
@@ -6278,7 +6278,7 @@ export default {
             [
               [
                 [
-                  1084,
+                  1116,
                   1
                 ]
               ]
@@ -6294,7 +6294,7 @@ export default {
             [
               [
                 [
-                  1085,
+                  1117,
                   1
                 ]
               ]
@@ -6310,7 +6310,7 @@ export default {
             [
               [
                 [
-                  499,
+                  530,
                   1
                 ]
               ]
@@ -6318,7 +6318,7 @@ export default {
             [
               [
                 [
-                  610,
+                  643,
                   1
                 ]
               ]
@@ -6326,7 +6326,7 @@ export default {
             [
               [
                 [
-                  1086,
+                  1118,
                   1
                 ]
               ]
@@ -6345,16 +6345,16 @@ export default {
             ]
           ],
           "rep": [
-            1022
+            1054
           ]
         },
         {
           "m": 1,
-          "t": 369,
+          "t": 366,
           "in": "checkbox",
           "o": [
             [
-              999
+              1031
             ]
           ]
         }
@@ -6442,23 +6442,23 @@ export default {
           0,
           [
             [
-              1087,
+              1046,
               1
             ],
             [
-              1088,
+              1119,
               1
             ],
             [
-              1089,
+              1120,
               1
             ],
             [
-              1014,
+              1121,
               1
             ],
             [
-              1090,
+              1122,
               1
             ]
           ]
@@ -6467,28 +6467,28 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 417,
+          "t": 414,
           "in": "checkbox",
           "o": [
             [
-              1071
+              1103
             ]
           ],
           "rep": [
-            1088
+            1119
           ]
         },
         {
           "m": 0,
-          "t": 418,
+          "t": 415,
           "in": "checkbox",
           "o": [
             [
-              1091
+              1123
             ]
           ],
           "rep": [
-            1087
+            1120
           ]
         }
       ]
@@ -6545,70 +6545,70 @@ export default {
         {
           "to": "chosen",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Tzeentch",
-            "Khorne",
-            "Slaanesh",
-            "Chaos Undivided"
-          ]
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Chaos Undivided",
-            "Nurgle",
-            "Slaanesh",
-            "Tzeentch",
-            "Khorne"
-          ]
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Slaanesh",
-            "Chaos Undivided",
-            "Tzeentch",
-            "Khorne"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Slaanesh",
-            "Tzeentch",
-            "Chaos Undivided",
-            "Khorne"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "support",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "support",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "support",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "legionaries",
           "type": "support",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "nemesis-claw",
           "type": "support",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -6616,11 +6616,11 @@ export default {
           0,
           [
             [
-              994,
+              1025,
               1
             ],
             [
-              1092,
+              1124,
               1
             ]
           ]
@@ -6674,69 +6674,9 @@ export default {
       },
       "leads": [
         {
-          "to": "possessed",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Chaos Undivided",
-            "Slaanesh",
-            "Khorne",
-            "Nurgle",
-            "Tzeentch"
-          ]
-        },
-        {
-          "to": "chosen",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Khorne",
-            "Nurgle",
-            "Chaos Undivided",
-            "Tzeentch"
-          ]
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Tzeentch",
-            "Nurgle",
-            "Slaanesh",
-            "Chaos Undivided"
-          ]
-        },
-        {
           "to": "nemesis-claw",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Slaanesh",
-            "Nurgle",
-            "Chaos Undivided",
-            "Tzeentch"
-          ]
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Chaos Undivided",
-            "Nurgle",
-            "Tzeentch",
-            "Khorne"
-          ]
         },
         {
           "to": "legionaries",
@@ -6757,6 +6697,66 @@ export default {
           "to": "possessed",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "legionaries",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "chosen",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "possessed",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -6764,15 +6764,15 @@ export default {
           0,
           [
             [
-              994,
+              1025,
               1
             ],
             [
-              1093,
+              1125,
               1
             ],
             [
-              1094,
+              1126,
               1
             ]
           ]
@@ -6830,16 +6830,14 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "chosen",
+          "type": "support",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
           "to": "legionaries",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Chaos Undivided",
-            "Tzeentch",
-            "Slaanesh",
-            "Nurgle"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
@@ -6851,11 +6849,11 @@ export default {
           "type": "support",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
-            "Tzeentch",
+            "Chaos Undivided",
             "Nurgle",
             "Khorne",
-            "Slaanesh",
-            "Chaos Undivided"
+            "Tzeentch",
+            "Slaanesh"
           ]
         },
         {
@@ -6864,21 +6862,23 @@ export default {
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
             "Chaos Undivided",
-            "Tzeentch",
-            "Slaanesh",
             "Nurgle",
-            "Khorne"
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
           ]
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "support",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "minis": [
@@ -6903,11 +6903,11 @@ export default {
           4,
           [
             [
-              1095,
+              1127,
               1
             ],
             [
-              1096,
+              1128,
               1
             ]
           ]
@@ -6916,11 +6916,11 @@ export default {
           0,
           [
             [
-              1097,
+              1129,
               1
             ],
             [
-              1098,
+              1130,
               1
             ]
           ]
@@ -6929,11 +6929,11 @@ export default {
           2,
           [
             [
-              994,
+              1025,
               1
             ],
             [
-              1099,
+              1131,
               1
             ]
           ]
@@ -6942,11 +6942,11 @@ export default {
           1,
           [
             [
-              1100,
+              1132,
               1
             ],
             [
-              1101,
+              1133,
               1
             ]
           ]
@@ -6955,11 +6955,11 @@ export default {
           3,
           [
             [
-              1102,
+              1134,
               1
             ],
             [
-              514,
+              546,
               1
             ]
           ]
@@ -7017,11 +7017,11 @@ export default {
           0,
           [
             [
-              1103,
+              1135,
               1
             ],
             [
-              1104,
+              1136,
               1
             ]
           ]
@@ -7030,20 +7030,20 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 419,
+          "t": 416,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1105,
+                  1137,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            1104
+            1136
           ]
         }
       ]
@@ -7102,7 +7102,7 @@ export default {
           0,
           [
             [
-              1106,
+              1138,
               1
             ]
           ]
@@ -7138,7 +7138,7 @@ export default {
           0,
           [
             [
-              3317,
+              3351,
               1
             ]
           ]
@@ -7173,7 +7173,7 @@ export default {
           0,
           [
             [
-              3318,
+              3352,
               1
             ]
           ]
@@ -7287,15 +7287,15 @@ export default {
           1,
           [
             [
-              1022,
+              1025,
               1
             ],
             [
-              695,
+              1054,
               1
             ],
             [
-              994,
+              728,
               1
             ]
           ]
@@ -7304,11 +7304,11 @@ export default {
           0,
           [
             [
-              1107,
+              1025,
               1
             ],
             [
-              994,
+              1139,
               1
             ]
           ]
@@ -7317,7 +7317,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 420,
+          "t": 417,
           "in": "checkbox",
           "o": [
             [
@@ -7325,48 +7325,48 @@ export default {
             ]
           ],
           "rep": [
-            994
+            1025
           ]
         },
         {
           "m": 0,
-          "t": 421,
+          "t": 418,
           "in": "checkbox",
           "o": [
             [
-              996
+              1028
             ],
             [
-              998
+              1030
             ]
           ],
           "rep": [
-            1107
+            1139
           ]
         },
         {
           "m": 1,
-          "t": 413,
+          "t": 410,
           "in": "stepper",
           "o": [
             [
-              997
+              1029
             ]
           ],
           "rep": [
-            1022
+            1054
           ]
         },
         {
           "m": 1,
-          "t": 422,
+          "t": 419,
           "in": "checkbox",
           "o": [
             [
               17
             ],
             [
-              499
+              530
             ]
           ],
           "lim": [
@@ -7376,22 +7376,22 @@ export default {
             ]
           ],
           "rep": [
-            1022
+            1054
           ]
         },
         {
           "m": 1,
-          "t": 423,
+          "t": 420,
           "in": "checkbox",
           "o": [
             [
-              541
+              574
             ],
             [
               15
             ],
             [
-              610
+              643
             ]
           ],
           "lim": [
@@ -7401,18 +7401,18 @@ export default {
             ]
           ],
           "rep": [
-            1022
+            1054
           ]
         },
         {
           "m": 1,
-          "t": 424,
+          "t": 421,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  996,
+                  1028,
                   1
                 ]
               ]
@@ -7420,7 +7420,7 @@ export default {
             [
               [
                 [
-                  1108,
+                  1140,
                   1
                 ]
               ]
@@ -7428,7 +7428,7 @@ export default {
             [
               [
                 [
-                  1109,
+                  1141,
                   1
                 ]
               ]
@@ -7436,11 +7436,11 @@ export default {
             [
               [
                 [
-                  1110,
+                  1142,
                   1
                 ],
                 [
-                  997,
+                  1029,
                   1
                 ]
               ]
@@ -7454,7 +7454,7 @@ export default {
             ]
           ],
           "rep": [
-            1022
+            1054
           ]
         }
       ]
@@ -7509,7 +7509,7 @@ export default {
           0,
           [
             [
-              1111,
+              1143,
               1
             ]
           ]
@@ -7570,11 +7570,11 @@ export default {
           0,
           [
             [
-              1112,
+              1144,
               1
             ],
             [
-              1113,
+              1145,
               1
             ]
           ]
@@ -7671,7 +7671,7 @@ export default {
           1,
           [
             [
-              1114,
+              1146,
               1
             ]
           ]
@@ -7680,7 +7680,7 @@ export default {
           0,
           [
             [
-              1114,
+              1146,
               1
             ]
           ]
@@ -7689,21 +7689,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 369,
+          "t": 366,
           "in": "checkbox",
           "o": [
             [
-              999
+              1031
             ]
           ]
         },
         {
           "m": 1,
-          "t": 369,
+          "t": 366,
           "in": "checkbox",
           "o": [
             [
-              999
+              1031
             ]
           ]
         }
@@ -7815,11 +7815,11 @@ export default {
           0,
           [
             [
-              994,
+              1025,
               1
             ],
             [
-              997,
+              1029,
               1
             ]
           ]
@@ -7828,11 +7828,11 @@ export default {
           1,
           [
             [
-              997,
+              1025,
               1
             ],
             [
-              994,
+              1029,
               1
             ]
           ]
@@ -7841,7 +7841,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 425,
+          "t": 422,
           "in": "checkbox",
           "o": [
             [
@@ -7849,28 +7849,28 @@ export default {
             ]
           ],
           "rep": [
-            994
+            1025
           ]
         },
         {
           "m": 0,
-          "t": 426,
+          "t": 423,
           "in": "checkbox",
           "o": [
             [
-              996
+              1028
             ],
             [
-              1082
+              1114
             ]
           ],
           "rep": [
-            997
+            1029
           ]
         },
         {
           "m": 1,
-          "t": 427,
+          "t": 424,
           "in": "stepper",
           "o": [
             [
@@ -7888,19 +7888,19 @@ export default {
             ]
           ],
           "rep": [
-            994
+            1025
           ],
           "keep": [
-            997
+            1029
           ]
         },
         {
           "m": 1,
-          "t": 428,
+          "t": 425,
           "in": "stepper",
           "o": [
             [
-              1082
+              1114
             ]
           ],
           "lim": [
@@ -7914,16 +7914,16 @@ export default {
             ]
           ],
           "rep": [
-            997
+            1029
           ]
         },
         {
           "m": 1,
-          "t": 429,
+          "t": 426,
           "in": "stepper",
           "o": [
             [
-              1115
+              1147
             ]
           ],
           "lim": [
@@ -7937,22 +7937,22 @@ export default {
             ]
           ],
           "rep": [
-            997
+            1029
           ]
         },
         {
           "m": 1,
-          "t": 430,
+          "t": 427,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  541,
+                  574,
                   1
                 ],
                 [
-                  993,
+                  1027,
                   1
                 ]
               ]
@@ -7964,7 +7964,7 @@ export default {
                   1
                 ],
                 [
-                  993,
+                  1027,
                   1
                 ]
               ]
@@ -7972,11 +7972,11 @@ export default {
             [
               [
                 [
-                  610,
+                  643,
                   1
                 ],
                 [
-                  993,
+                  1027,
                   1
                 ]
               ]
@@ -7990,22 +7990,22 @@ export default {
             ]
           ],
           "rep": [
-            997
+            1029
           ]
         },
         {
           "m": 1,
-          "t": 431,
+          "t": 428,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  541,
+                  574,
                   1
                 ],
                 [
-                  993,
+                  1027,
                   1
                 ]
               ]
@@ -8017,7 +8017,7 @@ export default {
                   1
                 ],
                 [
-                  993,
+                  1027,
                   1
                 ]
               ]
@@ -8025,11 +8025,11 @@ export default {
             [
               [
                 [
-                  610,
+                  643,
                   1
                 ],
                 [
-                  993,
+                  1027,
                   1
                 ]
               ]
@@ -8043,7 +8043,7 @@ export default {
             ]
           ],
           "rep": [
-            997
+            1029
           ]
         }
       ]
@@ -8138,15 +8138,15 @@ export default {
           1,
           [
             [
-              1022,
+              1054,
               1
             ],
             [
-              994,
+              1025,
               1
             ],
             [
-              1116,
+              1148,
               1
             ]
           ]
@@ -8155,15 +8155,15 @@ export default {
           0,
           [
             [
-              1116,
+              1054,
               1
             ],
             [
-              1022,
+              1025,
               1
             ],
             [
-              994,
+              1148,
               1
             ]
           ]
@@ -8172,20 +8172,20 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 432,
+          "t": 429,
           "in": "checkbox",
           "o": [
             [
-              617
+              650
             ]
           ],
           "rep": [
-            994
+            1025
           ]
         },
         {
           "m": 1,
-          "t": 433,
+          "t": 430,
           "in": "stepper",
           "o": [
             [
@@ -8203,16 +8203,16 @@ export default {
             ]
           ],
           "rep": [
-            1022
+            1054
           ]
         },
         {
           "m": 1,
-          "t": 434,
+          "t": 431,
           "in": "stepper",
           "o": [
             [
-              998
+              1030
             ]
           ],
           "lim": [
@@ -8226,7 +8226,7 @@ export default {
             ]
           ],
           "rep": [
-            1116
+            1148
           ]
         }
       ]
@@ -8282,70 +8282,70 @@ export default {
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Chaos Undivided",
-            "Slaanesh",
-            "Nurgle",
-            "Tzeentch",
-            "Khorne"
-          ]
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Tzeentch",
-            "Chaos Undivided",
-            "Khorne",
-            "Nurgle"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Tzeentch",
-            "Chaos Undivided",
-            "Slaanesh",
-            "Khorne"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Khorne",
-            "Chaos Undivided",
-            "Slaanesh",
-            "Tzeentch"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "chosen",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -8353,11 +8353,11 @@ export default {
           0,
           [
             [
-              1117,
+              1046,
               1
             ],
             [
-              1014,
+              1149,
               1
             ]
           ]
@@ -8366,20 +8366,20 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 435,
+          "t": 432,
           "in": "checkbox",
           "o": [
             [
-              1118
+              1150
             ]
           ],
           "rep": [
-            1117
+            1149
           ]
         },
         {
           "m": 0,
-          "t": 436,
+          "t": 433,
           "in": "checkbox",
           "o": [
             [
@@ -8420,11 +8420,11 @@ export default {
           0,
           [
             [
-              3319,
+              3353,
               1
             ],
             [
-              3320,
+              3354,
               1
             ]
           ]
@@ -8433,37 +8433,37 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1103,
+          "t": 1100,
           "in": "checkbox",
           "o": [
             [
               105
             ],
             [
-              505
+              536
             ],
             [
-              2264
+              2647
             ]
           ],
           "rep": [
-            3319
+            3353
           ]
         },
         {
           "m": 0,
-          "t": 1104,
+          "t": 1101,
           "in": "checkbox",
           "o": [
             [
-              1012
+              1044
             ],
             [
               13
             ]
           ],
           "rep": [
-            3320
+            3354
           ]
         }
       ],
@@ -8530,15 +8530,15 @@ export default {
           0,
           [
             [
-              3321,
+              3355,
               1
             ],
             [
-              1489,
+              1521,
               1
             ],
             [
-              2844,
+              2878,
               1
             ]
           ]
@@ -8547,27 +8547,27 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1105,
+          "t": 1102,
           "in": "stepper",
           "o": [
             [
-              546
+              579
             ],
             [
               65
             ],
             [
-              2568
+              580
             ],
             [
-              1063
+              1095
             ],
             [
-              549
+              582
             ]
           ],
           "rep": [
-            1489
+            1521
           ]
         }
       ],
@@ -8641,7 +8641,7 @@ export default {
           0,
           [
             [
-              3322,
+              3356,
               1
             ]
           ]
@@ -8650,7 +8650,7 @@ export default {
           1,
           [
             [
-              3323,
+              3357,
               1
             ]
           ]
@@ -8708,7 +8708,7 @@ export default {
           0,
           [
             [
-              3324,
+              3358,
               1
             ]
           ]
@@ -8717,15 +8717,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1106,
+          "t": 1103,
           "in": "checkbox",
           "o": [
             [
-              3325
+              3359
             ]
           ],
           "rep": [
-            3324
+            3358
           ]
         }
       ],
@@ -8782,7 +8782,7 @@ export default {
           0,
           [
             [
-              3326,
+              3360,
               1
             ]
           ]
@@ -8820,15 +8820,15 @@ export default {
           0,
           [
             [
-              568,
+              601,
               1
             ],
             [
-              3327,
+              3361,
               1
             ],
             [
-              3328,
+              3362,
               1
             ]
           ]
@@ -8920,42 +8920,6 @@ export default {
       },
       "leads": [
         {
-          "to": "red-corsairs-raiders",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Chaos Undivided",
-            "Khorne",
-            "Tzeentch",
-            "Slaanesh"
-          ]
-        },
-        {
-          "to": "legionaries",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Slaanesh",
-            "Chaos Undivided",
-            "Khorne",
-            "Tzeentch"
-          ]
-        },
-        {
-          "to": "chosen",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Khorne",
-            "Nurgle",
-            "Chaos Undivided",
-            "Tzeentch"
-          ]
-        },
-        {
           "to": "nemesis-claw",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -8966,7 +8930,7 @@ export default {
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
-          "to": "red-corsairs-raiders",
+          "to": "chosen",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
@@ -8975,17 +8939,53 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
           "allKw": [
-            "Tzeentch",
             "Chaos Undivided",
-            "Khorne",
             "Nurgle",
+            "Khorne",
+            "Tzeentch",
             "Slaanesh"
           ]
         },
         {
-          "to": "chosen",
+          "to": "legionaries",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "red-corsairs-raiders",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -8993,15 +8993,15 @@ export default {
           0,
           [
             [
-              994,
+              1025,
               1
             ],
             [
-              1119,
+              1151,
               1
             ],
             [
-              1120,
+              1152,
               1
             ]
           ]
@@ -9058,19 +9058,19 @@ export default {
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Chaos Undivided",
-            "Slaanesh",
-            "Tzeentch",
-            "Nurgle"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -9078,15 +9078,15 @@ export default {
           0,
           [
             [
-              1120,
+              1026,
               1
             ],
             [
-              995,
+              1151,
               1
             ],
             [
-              1119,
+              1152,
               1
             ]
           ]
@@ -9095,24 +9095,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 375,
+          "t": 372,
           "in": "checkbox",
           "o": [
             [
-              1001
+              1033
             ]
           ],
           "rep": [
-            995
+            1026
           ]
         },
         {
           "m": 0,
-          "t": 437,
+          "t": 434,
           "in": "checkbox",
           "o": [
             [
-              1121
+              1153
             ]
           ]
         }
@@ -9149,19 +9149,19 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1220,
+              3143,
               1
             ],
             [
-              1119,
+              1151,
               1
             ],
             [
-              646,
+              679,
               1
             ]
           ]
@@ -9170,30 +9170,30 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1107,
+          "t": 1104,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              1220
+              3143
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1006
+              1038
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         }
       ],
@@ -9261,15 +9261,15 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1119,
+              1151,
               1
             ],
             [
-              646,
+              679,
               1
             ]
           ]
@@ -9278,30 +9278,30 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1107,
+          "t": 1104,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              1220
+              3143
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1006
+              1038
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         }
       ],
@@ -9357,19 +9357,19 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1119,
+              1151,
               1
             ],
             [
-              646,
+              679,
               1
             ],
             [
-              3296,
+              3330,
               1
             ]
           ]
@@ -9378,30 +9378,30 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1107,
+          "t": 1104,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              1220
+              3143
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1006
+              1038
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         }
       ],
@@ -9456,19 +9456,19 @@ export default {
           0,
           [
             [
-              2468,
+              1,
               1
             ],
             [
-              1119,
+              1151,
               1
             ],
             [
-              646,
+              679,
               1
             ],
             [
-              893,
+              925,
               1
             ]
           ]
@@ -9477,30 +9477,30 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1107,
+          "t": 1104,
           "in": "checkbox",
           "o": [
             [
-              2180
+              571
             ],
             [
-              1220
+              3143
             ],
             [
-              2260
+              1042
             ],
             [
-              1005
+              1037
             ],
             [
-              1006
+              1038
             ],
             [
-              1012
+              1044
             ]
           ],
           "rep": [
-            2468
+            1
           ]
         }
       ],
@@ -9574,19 +9574,19 @@ export default {
         {
           "to": "traitor-guardsmen-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Chaos Undivided",
-            "Nurgle",
-            "Slaanesh",
-            "Tzeentch",
-            "Khorne"
-          ]
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "traitor-guardsmen-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "minis": [
@@ -9602,7 +9602,7 @@ export default {
           1,
           [
             [
-              1122,
+              1154,
               1
             ]
           ]
@@ -9611,7 +9611,7 @@ export default {
           0,
           [
             [
-              532,
+              565,
               1
             ],
             [
@@ -9696,7 +9696,7 @@ export default {
               1
             ],
             [
-              1123,
+              1155,
               1
             ]
           ]
@@ -9705,7 +9705,7 @@ export default {
           1,
           [
             [
-              505,
+              536,
               1
             ],
             [
@@ -9718,7 +9718,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 438,
+          "t": 435,
           "in": "checkbox",
           "o": [
             [
@@ -9734,27 +9734,27 @@ export default {
         },
         {
           "m": 0,
-          "t": 439,
+          "t": 436,
           "in": "checkbox",
           "o": [
             [
-              557
+              590
             ]
           ],
           "rep": [
-            1123
+            1155
           ]
         },
         {
           "m": 1,
-          "t": 440,
+          "t": 437,
           "in": "stepper",
           "o": [
             [
-              1124
+              1156
             ],
             [
-              541
+              574
             ],
             [
               102
@@ -9763,7 +9763,7 @@ export default {
               100
             ],
             [
-              1125
+              1157
             ]
           ],
           "lim": [
@@ -9774,7 +9774,7 @@ export default {
             ]
           ],
           "rep": [
-            505
+            536
           ]
         }
       ]
@@ -9812,11 +9812,11 @@ export default {
           0,
           [
             [
-              1126,
+              1158,
               1
             ],
             [
-              1127,
+              1159,
               1
             ]
           ]
@@ -9878,11 +9878,11 @@ export default {
           0,
           [
             [
-              1128,
+              1160,
               1
             ],
             [
-              1033,
+              1065,
               2
             ]
           ]
@@ -9982,7 +9982,7 @@ export default {
           0,
           [
             [
-              1132,
+              1164,
               1
             ]
           ]
@@ -9991,7 +9991,7 @@ export default {
           1,
           [
             [
-              1132,
+              1164,
               1
             ]
           ]
@@ -10048,54 +10048,6 @@ export default {
       },
       "leads": [
         {
-          "to": "chosen",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Tzeentch",
-            "Nurgle",
-            "Slaanesh",
-            "Khorne",
-            "Chaos Undivided"
-          ]
-        },
-        {
-          "to": "legionaries",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Nurgle",
-            "Chaos Undivided",
-            "Slaanesh",
-            "Tzeentch"
-          ]
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Slaanesh",
-            "Tzeentch",
-            "Khorne",
-            "Nurgle",
-            "Chaos Undivided"
-          ]
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Khorne",
-            "Chaos Undivided",
-            "Slaanesh",
-            "Nurgle",
-            "Tzeentch"
-          ]
-        },
-        {
           "to": "havocs",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -10104,18 +10056,6 @@ export default {
           "to": "chosen",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "havocs",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-          "allKw": [
-            "Nurgle",
-            "Tzeentch",
-            "Chaos Undivided",
-            "Slaanesh",
-            "Khorne"
-          ]
         },
         {
           "to": "red-corsairs-raiders",
@@ -10131,6 +10071,66 @@ export default {
           "to": "nemesis-claw",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "havocs",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "chosen",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "legionaries",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -10138,19 +10138,19 @@ export default {
           0,
           [
             [
-              1004,
+              1036,
               1
             ],
             [
-              1129,
+              1161,
               1
             ],
             [
-              1130,
+              1162,
               1
             ],
             [
-              1131,
+              1163,
               1
             ]
           ]

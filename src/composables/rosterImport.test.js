@@ -315,22 +315,22 @@ describe('matchRoster — a character written as "-> Name" under its unit', () =
   const LIST = `Arrows (2000 points)
 
 Adeptus Custodes
-Lions of The Emperor (3 Detachment Points)
+Lions of The Emperor (1 Detachment Point)
 Strike Force (2000 Point)
 
-Custodian Guard (170 points)
-• 4x Custodian Guard
+Custodian Guard Sodality (240 points)
+• 3x Custodian Guard
 -> Inquisitor (65 points)
 • 1x Combi-weapon
 
-Custodian Wardens (210 points)
-• 4x Custodian Wardens
--> Blade Champion (120 points)
+Custodian Wardens (200 points)
+• 2x Custodian Wardens
+-> Blade Champion (175 points)
 
 OTHER DATASHEETS
 
-Prosecutors (40 points)
-• 4x Prosecutors
+Prosecutor Squad (50 points)
+• 5x Prosecutors
 `
   it('attaches each to the unit above it, an allied one included', async () => {
     const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
@@ -338,9 +338,9 @@ Prosecutors (40 points)
     const { payload, report } = matchRoster(parseList(LIST), ctx)
     expect(report.missing).toEqual([])
     const byId = (id) => payload.units.find((u) => u.id === id)
-    expect(byId('imperial-agents:inquisitor').leaderOf).toBe(byId('custodian-guard').uid)
+    expect(byId('imperial-agents:inquisitor').leaderOf).toBe(byId('custodian-guard-sodality').uid)
     expect(byId('blade-champion').leaderOf).toBe(byId('custodian-wardens').uid)
-    expect(byId('prosecutors').leaderOf).toBeUndefined()
+    expect(byId('prosecutor-squad').leaderOf).toBeUndefined()
   })
 })
 
@@ -438,74 +438,54 @@ describe('parseList — listhammer.info, short mode', () => {
 // carry. MFM v1.5 (app data 963) then repriced two of its datasheets, Custodian Guard 170 → 180
 // and Vertus Praetors 215 → 230 for three; the rest of the list still costs what it states, so
 // the claim now rides on those units only. Swap it for a current export once listhammer has one.
-const LH_REPRICED = new Set(['Custodian Guard', 'Vertus Praetors'])
 const LH_CURRENT = `custodes (2000 points)
 
 Adeptus Custodes
-Might of the Moritoi and Shield Host (3 Detachment Points)
-Purge the Foe
+Might of the Moritoi and Dread Host (2 Detachment Points)
+Take and Hold
 Strike Force (2000 points)
 
 Attached Units
 Attached Unit 1
 
-Shield-Captain (110 points)
+Shield-Captain (205 points)
 • Attached as: Leader (Character)
 • Warlord
 • 1x Praesidium Shield
-1x Pyrithite spear
+1x Pyrithite Spear
 
-Custodian Guard (170 points)
+Custodian Guard Sodality (240 points)
 • Attached as: Bodyguard (Battleline)
-• 4x Custodian Guard
-• 3x Guardian spear
-1x Misericordia
-1x Praesidium Shield
+• 3x Custodian Guard
+• 3x Guardian Spear
 1x Vexilla
 
 
 OTHER DATASHEETS
 
-Caladius Grav-tank (225 points)
-• 1x Armoured hull
-1x Twin arachnus heavy blaze cannon
-1x Twin lastrum bolt cannon
+Caladius Grav-Tank (230 points)
+• 1x Armoured Hull
+1x Iliastus Accelerator Cannon
+1x Twin Lastrum Bolt Cannon
 
-Caladius Grav-tank (225 points)
-• 1x Armoured hull
-1x Twin arachnus heavy blaze cannon
-1x Twin lastrum bolt cannon
+Caladius Grav-Tank (230 points)
+• 1x Armoured Hull
+1x Iliastus Accelerator Cannon
+1x Twin Lastrum Bolt Cannon
 
-Contemptor-Achillus Dreadnought (180 points)
-• 1x Achillus dreadspear
-2x Infernus incinerator
-• Enhancement: Interred Expertise (Upgrade)
+Contemptor-Achillus Dreadnought (260 points)
+• 1x Dreadspear
+2x Lastrum Storm Bolter
+• Enhancement: Augury Uplink (one per army) (Upgrade)
 
-Contemptor-Galatus Dreadnought (165 points)
-• 1x Galatus warblade
+Contemptor-Galatus Dreadnought (220 points)
+• 1x Warblade
 
-Contemptor-Galatus Dreadnought (165 points)
-• 1x Galatus warblade
+Venatari with Verutum Lances (270 points)
+• 3x Venatari
+• 3x Verutum Lance
 
-Venatari Custodians (165 points)
-• 3x Venatari Custodian
-• 3x Venatari lance
-
-Venatari Custodians (165 points)
-• 3x Venatari Custodian
-• 3x Venatari lance
-
-Vertus Praetors (215 points)
-• 3x Vertus Praetor
-• 3x Interceptor lance
-3x Salvo launcher
-
-Vertus Praetors (215 points)
-• 3x Vertus Praetor
-• 3x Interceptor lance
-3x Salvo launcher
-
-Exported with App Version: v2.5.0 (140), Data Version: v931`
+Exported with App Version: v2.8.0 (148), Data Version: v981`
 
 describe('matchRoster — listhammer against our own data', () => {
   let ctx
@@ -522,10 +502,8 @@ describe('matchRoster — listhammer against our own data', () => {
     const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
     const { report } = matchRoster(parseList(LH_CURRENT), cur)
     expect(report.missing).toEqual([])
-    const priced = report.units.filter((u) => !LH_REPRICED.has(u.name))
-    expect(priced).toHaveLength(8)
-    for (const u of priced) expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
-    // (The list's own total no longer adds up: the two repriced datasheets cost 40 more now.)
+    expect(report.units).toHaveLength(7)
+    for (const u of report.units) expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
   })
 
   // The Orks export below is a data-version-925 paste and its points are last codex's; what it is
@@ -535,29 +513,29 @@ describe('matchRoster — listhammer against our own data', () => {
     expect(report.missing).toEqual([])
   })
 
-  // A unit's wargear is printed exactly like a model line ("1x Misericordia" under "4x Custodian
-  // Guard"), and only the datasheet knows which is which: counting the three gear lines here
-  // would make a four-model unit seven and price it out of its bracket. (This used to read Orks'
+  // A unit's wargear is printed exactly like a model line ("1x Vexilla" under "3x Custodian
+  // Guard"), and only the datasheet knows which is which: counting the gear lines here would make
+  // a three-model unit seven and price it out of its bracket. (This used to read Orks'
   // "1x Ammo Runt" — Codex: Orks turned Ammo Runts into a token ability, so no Orks datasheet
   // carries an attached extra as wargear any more.)
   it('does not count a unit’s wargear line as a model', async () => {
     const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
     const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
     const { report } = matchRoster(parseList(LH_CURRENT), cur)
-    const guard = report.units.find((u) => u.name === 'Custodian Guard')
-    expect(guard.models).toBe(4)
-    // The 4-model bracket: 170 as exported, 180 since MFM v1.5 — five models would be 225.
-    expect(guard.points.computed).toBe(180)
+    const guard = report.units.find((u) => u.name === 'Custodian Guard Sodality')
+    expect(guard.models).toBe(3)
+    expect(guard.points.computed).toBe(240)
   })
 
-  // Our data keeps the kind inside the enhancement's name ("Interred Expertise (Upgrade)"); the
+  // Our data keeps the kind inside the enhancement's name ("Augury Uplink (one per army)
+  // (Upgrade)"); the
   // app leaves it off and listhammer prints it. All three have to land on the same enhancement.
   it('matches an enhancement through the kind tag, whichever side carries it', async () => {
     const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
     const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
     const { report, payload } = matchRoster(parseList(LH_CURRENT), cur)
-    expect(report.units.find((u) => u.name === 'Contemptor-Achillus Dreadnought').enh).toEqual({ name: 'Interred Expertise', ok: true })
-    expect(payload.units.find((u) => u.id === 'contemptor-achillus-dreadnought').enh).toBe('Interred Expertise (Upgrade)')
+    expect(report.units.find((u) => u.name === 'Contemptor‑Achillus Dreadnought').enh).toEqual({ name: 'Augury Uplink (one per army)', ok: true })
+    expect(payload.units.find((u) => u.id === 'contemptor-achillus-dreadnought').enh).toBe('Augury Uplink (one per army) (Upgrade)')
   })
 
   it('reads the short export into the same army, given the faction the text does not name', () => {
@@ -1356,7 +1334,7 @@ describe('round trip — export then import', () => {
 const ALLIED = `“CuStOdEs DoN’t ShOoT WeLl” (2,000 Points)
 
 Adeptus Custodes
-Lions of the Emperor and Might of the Moritoi (3 Detachment Points)
+Lions of the Emperor and Might of the Moritoi (2 Detachment Points)
 Strike Force (2,000 Points)
 
 ATTACHED UNITS
@@ -1369,12 +1347,10 @@ Inquisitor Draxus (110 Points)
 • 1x Power fist
 • 1x Psychic Tempest
 
-Custodian Guard (215 Points)
+Custodian Guard Sodality (240 Points)
 • Attached as: Bodyguard (Battleline)
-• 5x Custodian Guard
-◦ 4x Guardian spear
-◦ 1x Misericordia
-◦ 1x Praesidium Shield
+• 3x Custodian Guard
+◦ 3x Guardian Spear
 ◦ 1x Vexilla
 
 Exported from listhammer.info: https://listhammer.info/list/58d9d3ca5cfa23840d`
@@ -1395,9 +1371,7 @@ describe('matchRoster — an allied unit', () => {
     const draxus = report.units.find((u) => u.name === 'Inquisitor Draxus')
     expect([draxus.points.computed, draxus.points.stated]).toEqual([110, 110])
     expect(payload.units.map((u) => u.id)).toContain('imperial-agents:inquisitor-draxus')
-    // A historical export now: MFM v1.5 (app data 963) moved the 5-model Custodian Guard 215 →
-    // 225, and nothing else here, so the list lands on what its units state plus that.
-    expect(report.points.computed).toBe(report.points.statedUnits + 10)
+    expect(report.points.computed).toBe(report.points.statedUnits)
   })
 
   // Two datasheets share the name across that line, and an Astra Militarum list saying
@@ -2410,21 +2384,21 @@ describe('matchRoster — a WTC list that states an attachment by its rule', () 
 
 
 // listhammer writes a three-item option as a series — "Vexilla, Misericordia and Praesidium Shield"
-// is the one Custodian Guard bundle — and only " and " used to split, so it was reported as wargear
-// we could not place (a player's list, 2026-09-27).
-const CUSTODES = `Erode Path (2000 points)
+// was the Custodian Guard bundle — and only " and " used to split, so it was reported as wargear
+// we could not place (a player's list, 2026-09-27). That bundle left with Codex: Adeptus Custodes
+// (data 981); a Telemon's weapon set is the same shape.
+const CUSTODES = `Telemons (2000 points)
 
 Adeptus Custodes
-Lions of The Emperor (3 Detachment Points)
-Take and Hold
+Might of the Moritoi (1 Detachment Point)
 Strike Force (2000 Point)
 
-BATTLELINE
+OTHER DATASHEETS
 
-Custodian Guard (170 points)
-• 4x Custodian Guard
-• 3x Guardian Spear
-• 1x Vexilla, Misericordia and Praesidium Shield
+Telemon Heavy Dreadnought (280 points)
+• 1x Telemon Heavy Dreadnought
+◦ 1x Arachnus Storm Cannon, Caestus Fist and Twin Neutronium Cascade Projectors
+◦ 1x Spiculus Bolt Launcher
 
 Exported from listhammer.info: https://listhammer.info/list/6963ea8beb47907297`
 
@@ -2436,7 +2410,7 @@ describe('matchRoster — a bundle of three written as a series', () => {
     ])
     const ctx = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: items.items }
     const { report, payload } = matchRoster(parseList(CUSTODES), ctx)
-    expect(payload.units.find((u) => u.id === 'custodian-guard').wg).toEqual([[1, 0, 1]])
+    expect(payload.units.find((u) => u.id === 'telemon-heavy-dreadnought').wg).toEqual([[0, 1, 1]])
     expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
   })
 })

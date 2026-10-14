@@ -1,4 +1,15 @@
 {
+  "adeptus-custodes": {
+    "agamatus-custodians": "gyrfalcon-jetbike-sodality",
+    "aquilon-custodians": "aquilon-terminators-with-solarite-power-gauntlets",
+    "custodian-guard": "custodian-guard-sodality",
+    "custodian-guard-with-adrasite-and-pyrithite-spears": "custodian-guard-sodality-with-adrasite-spears",
+    "prosecutors": "prosecutor-squad",
+    "sagittarum-custodians": "sagittarum-custodians-sodality",
+    "venatari-custodians": "venatari-with-verutum-lances",
+    "vigilators": "vigilator-squad",
+    "witchseekers": "witchseeker-squad"
+  },
   "black-templars": {
     "ancient-on-bike": null,
     "apothecary-on-bike": null,

@@ -34,6 +34,9 @@ describe('isCandidate', () => {
     // only "that selected ability", so neither bracket pattern above sees it. Ten rules sat behind
     // this one, Chaos Space Marines' army rule among them.
     ['an inline choice of weapon abilities', 'If you do, select one of the following abilities: [SUSTAINED HITS 1]; [LETHAL HITS]. Until the end of the phase, weapons equipped by models in that unit have that selected ability.'],
+    // Added 2026-10-14 (data 981): range in the shorthand, "+6\" R" — Aquilan Shield's Favoured
+    // Ka'tah reached no record.
+    ['a range in the shorthand', 'Your unit’s ranged attacks have +6" **R**.'],
   ])('proposes %s', (_label, prose) => {
     expect(isCandidate(prose)).toBe(true)
   })

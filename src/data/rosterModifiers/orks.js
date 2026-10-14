@@ -1295,6 +1295,41 @@ export default {
       "effects": []
     },
     {
+      "sid": "f0baa3e3-6ccc-4878-a5b0-6fcbbc61c725",
+      "kind": "detachmentRule",
+      "name": "Dakka! Dakka! Dakka!",
+      "det": "Shoota Boyz",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "shoota-boyz"
+      },
+      "hash": "5b043d1a",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "395efe94-4c40-4418-a5c5-c6819280d822",
       "kind": "detachmentRule",
       "name": "Get Stuck In",
@@ -1691,6 +1726,32 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "4801d50d-f3c8-4526-b771-98c6326101ab",
+      "kind": "enhancement",
+      "name": "Targetin' Squigs",
+      "det": "Shoota Boyz",
+      "ref": {
+        "kind": "enhancement",
+        "det": "shoota-boyz"
+      },
+      "hash": "f45f6931",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 3,
+          "when": null,
+          "only": {
+            "notTag": "TORRENT"
+          },
+          "target": "led"
         }
       ]
     },

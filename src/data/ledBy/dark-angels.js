@@ -575,6 +575,10 @@ export default {
   ],
   "terminator-assault-squad": [
     [
+      "Belial",
+      "leader"
+    ],
+    [
       "Captain in Terminator Armour",
       "leader"
     ],

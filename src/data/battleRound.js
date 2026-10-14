@@ -303,10 +303,13 @@ Many **move types** state conditions you must meet while/after moving. Those tha
 
 Abilities that subtract from a unit's Desperate Escape test instead subtract from those **hazard rolls**.
 
-If a **[gloss:stratagem:stratagem]** or ability forces a unit to make a Desperate Escape test, that unit:
+If a **[gloss:stratagem:stratagem]** or ability instructs a unit to make a Desperate Escape test, that unit:
+▪ Must use the **desperate escape** mode when it is selected to make a **fall-back move**.
 ▪ Must make one **hazard roll** for each model in that unit.
 ▪ Must make a **[gloss:battle-shock-test:battle-shock roll]**.`,
-            example: `A **battle-shocked** unit makes a **fall-back move** away from a unit of Bloodletters that have the Bane of Cowards ability. As a result of Bane of Cowards, because the unit making the **fall-back move** is **battle-shocked**, the **hazard rolls** they make as part of their **desperate escape** will be at -1.`,
+            example: `A **battle-shocked** unit makes a **fall-back move** away from a unit of Bloodletters that have the Bane of Cowards ability. As a result of Bane of Cowards, because the unit making the **fall-back move** is **battle-shocked**, the **hazard rolls** they make as part of their **desperate escape** will be at -1.
+
+If an ability allows a unit to re-roll Desperate Escape tests, that unit can re-roll **hazard rolls** made for the **desperate escape** mode of a **fall-back move**.`,
           },
         ],
       },
@@ -925,10 +928,13 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 
 Способности, вычитающие значение из проверки отчаянного побега юнита, вместо этого вычитаются из этих **проверок опасности**.
 
-Если **[gloss:stratagem:стратагема]** или способность заставляет юнит сделать проверку отчаянного побега, этот юнит:
+Если **[gloss:stratagem:стратагема]** или способность обязывает юнит сделать проверку отчаянного побега, этот юнит:
+▪ Должен использовать режим **отчаянного побега**, когда он выбран для совершения **отступления**.
 ▪ Должен сделать одну **[gloss:hazard-roll:проверку опасности]** за каждую модель в этом юните.
 ▪ Должен сделать **[gloss:battle-shock-test:проверку боевого шока]**.`,
-            example: `Юнит, подверженный **боевому шоку**, совершает **отступление**, отходя от юнита Bloodletters, обладающего способностью Bane of Cowards. Из-за Bane of Cowards, поскольку юнит, совершающий отступление, подвержен **боевому шоку**, **проверки опасности**, которые он делает в рамках отчаянного побега, будут иметь штраф -1.`,
+            example: `Юнит, подверженный **боевому шоку**, совершает **отступление**, отходя от юнита Bloodletters, обладающего способностью Bane of Cowards. Из-за Bane of Cowards, поскольку юнит, совершающий отступление, подвержен **боевому шоку**, **проверки опасности**, которые он делает в рамках отчаянного побега, будут иметь штраф -1.
+
+Если способность позволяет юниту перебрасывать проверки отчаянного побега, этот юнит может перебрасывать **проверки опасности**, совершаемые для режима **отчаянного побега** при **отступлении**.`,
           },
         ],
       },

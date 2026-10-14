@@ -255,6 +255,47 @@ describe('schema → v6', () => {
   })
 })
 
+describe('schema → v12', () => {
+  // Codex: Adeptus Custodes (data 981): renamed sheets follow, every pick is dropped, a size only
+  // where the brackets moved. The Orks Kill Tank's options changed in the same release.
+  it('renames the re-issued Custodes sheets and drops what no longer points anywhere', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 11,
+      rosters: [
+        {
+          id: 'r1', name: 'Old', faction: 'adeptus-custodes', updatedAt: 1,
+          units: [
+            { uid: 'u1', id: 'prosecutors', size: 1, count: 5, wg: [[0, 1, 1]] },
+            { uid: 'u2', id: 'shield-captain', size: 0, wg: [[0, 1]], enh: 'Auric Mantle' },
+            { uid: 'u3', id: 'custodian-wardens', size: 1, count: 5 },
+          ],
+        },
+        {
+          id: 'r2', name: 'Orks', faction: 'orks', updatedAt: 1,
+          units: [{ uid: 'u1', id: 'kill-tank', wg: [[0, 0, 1]] }, { uid: 'u2', id: 'boyz', wg: [[0, 0, 1]] }],
+        },
+        {
+          id: 'r3', name: 'Agents', faction: 'imperial-agents', updatedAt: 1,
+          units: [{ uid: 'u1', id: 'adeptus-custodes:vigilators', size: 1, wg: [[0, 0, 1]] }],
+        },
+      ],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [cu, orks, agents] = useRosters().rosters.value
+    expect(cu.units.map((u) => u.id)).toEqual(['prosecutor-squad', 'shield-captain', 'custodian-wardens'])
+    expect(cu.units.map((u) => u.wg)).toEqual([undefined, undefined, undefined])
+    expect(cu.units[0].size).toBeUndefined() // resized
+    expect(cu.units[1].size).toBe(0) // brackets did not move
+    expect(cu.units[1].enh).toBe('Auric Mantle')
+    expect(cu.units[2].count).toBeUndefined()
+    expect(orks.units[0].wg).toBeUndefined()
+    expect(orks.units[1].wg).toEqual([[0, 0, 1]])
+    expect(agents.units[0].id).toBe('adeptus-custodes:vigilator-squad')
+    expect(agents.units[0].wg).toBeUndefined()
+  })
+})
+
 describe('schema → v11', () => {
   // A unit-wide group ships as one copy per profile (2026-10-14). The Sergeant's copy kept the old
   // index; what his one model cannot hold spills to the squad's copy, appended after every group.

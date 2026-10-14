@@ -2082,12 +2082,14 @@ export default [
       {
         "name": "Instigator bolt carbine",
         "tags": [
-          "PRECISION"
+          "ASSAULT",
+          "PRECISION",
+          "RAPID FIRE 1"
         ],
         "range": "24\"",
-        "a": "1",
+        "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "2"
       }
@@ -2737,7 +2739,7 @@ export default [
         "tags": [
           "DEVASTATING WOUNDS"
         ],
-        "a": "4",
+        "a": "5",
         "ws": "2+",
         "s": "6",
         "ap": "-3",
@@ -2746,7 +2748,7 @@ export default [
       {
         "name": "Talassarian tempest blade – sweep",
         "tags": [
-          "SUSTAINED HITS 1"
+          "SUSTAINED HITS 1: INFANTRY"
         ],
         "a": "9",
         "ws": "2+",
@@ -2759,9 +2761,9 @@ export default [
         "tags": [
           "PRECISION"
         ],
-        "a": "6",
+        "a": "7",
         "ws": "2+",
-        "s": "5",
+        "s": "6",
         "ap": "-2",
         "d": "2"
       }

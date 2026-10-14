@@ -1048,7 +1048,9 @@ describe('allegiance choices', () => {
     // keyword upgrade 25 vehicles carried (17 Space Marines, 7 Black Templars, 1 Blood Angels).
     // Plus the 11 Legends TITANIC tanks Steel Hammer's rule makes eligible for its CHARACTER
     // choice (CHARACTER_GRANTS, 2026-10-07).
-    expect(withAlleg()).toHaveLength(67 + 17 + 11)
+    // Codex: Adeptus Custodes (data 981) retired Solar Spearhead, whose CHARACTER upgrade four
+    // Custodes vehicles carried: 63 from appdata.
+    expect(withAlleg()).toHaveLength(63 + 17 + 11)
   })
 
   it('always offers something to choose, and says whether it must be chosen', () => {
@@ -1316,7 +1318,9 @@ describe('a default loadout that costs points', () => {
     const seen = []
     for (const { slug, data } of factions) for (const u of data.units || []) if (u.dw) seen.push(`${slug}/${u.id}`)
     expect(seen.sort()).toEqual([
-      'adeptus-custodes/venatari-custodians',
+      // Codex: Adeptus Custodes (data 981): the Shield-Captain's pyrithite spear and praesidium
+      // shield cost 25 on top of the bracket, refunded by the axe or guardian spear swap.
+      'adeptus-custodes/shield-captain',
       // v1.3 dropped the Leman Russ bracket ~25pts and started charging 5 for the hull weapon
       // the tank starts with — eight variants, same shape as the Terminator hammer above.
       'astra-militarum/leman-russ-battle-tank',
@@ -1540,15 +1544,8 @@ describe('a swap several models can each make', () => {
 describe('a pair whose instruction misspells one of its items', () => {
   const unitOf = (slug, id) => factions.find((f) => f.slug === slug).data.units.find((u) => u.id === id)
 
-  // "…replaced with 1 kinetic destroyer and 1 tarsus buckler" — the item is the Tarsis buckler.
-  it('pairs the Venatari lance swap and prices it once', () => {
-    const unit = unitOf('adeptus-custodes', 'venatari-custodians')
-    expect(unit.gear).toHaveLength(1)
-    expect(unit.gear[0].o).toHaveLength(1)
-    expect(optionLabel(unit.gear[0].o[0], rosterItems.items)).toBe('Kinetic destroyer + Tarsis buckler')
-    // 300 for the 4-6 bracket, six lances at 5 apiece, minus the one lance handed back.
-    expect(unitPoints(unit, { size: 1, count: 6, wg: [[0, 0, 1]] })).toBe(325)
-  })
+  // The Venatari Custodians' "1 kinetic destroyer and 1 tarsus buckler" was the first case; Codex:
+  // Adeptus Custodes (data 981) split the unit into two datasheets with no swap between them.
 
   // "…replaced with 1 oppressor cannon and 1 co-axial autocannon" — the item is the Coaxial
   // autocannon. Nothing is priced here; what was wrong is that the cannon could be taken alone.
@@ -1983,7 +1980,7 @@ describe('a swap of one copy of several (rc)', () => {
 describe('enhancement bearer named in its prose', () => {
   it('offers "<X> model only" to X and nobody else', async () => {
     const FDIR = path.join(DIR, '../factions')
-    const lc = (s) => String(s).replace(/[’']/g, "'").toLowerCase().trim()
+    const lc = (s) => String(s).replace(/[’']/g, "'").replace(/[\u2010\u2011]/g, '-').toLowerCase().trim()
     const prose = new Map() // "detachment|enhancement" -> body
     for (const f of fs.readdirSync(FDIR).filter((x) => x.endsWith('.js') && x !== 'index.js')) {
       const walk = (o, det) => {

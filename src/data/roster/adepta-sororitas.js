@@ -894,7 +894,7 @@ export default {
               1
             ],
             [
-              3168,
+              3202,
               1
             ]
           ]
@@ -1207,7 +1207,7 @@ export default {
           0,
           [
             [
-              3169,
+              3203,
               1
             ]
           ]
@@ -1244,15 +1244,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "battle-sisters-squad",
-          "type": "support"
-        },
-        {
           "to": "celestian-sacresants",
           "type": "support"
         },
         {
-          "to": "sisters-novitiate-squad",
+          "to": "battle-sisters-squad",
+          "type": "support"
+        },
+        {
+          "to": "retributor-squad",
           "type": "support"
         },
         {
@@ -1260,7 +1260,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "retributor-squad",
+          "to": "sisters-novitiate-squad",
           "type": "support"
         }
       ],
@@ -1307,7 +1307,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "retributor-squad",
+          "to": "celestian-insidiants",
           "type": "support"
         },
         {
@@ -1315,15 +1315,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "dominion-squad",
-          "type": "support"
-        },
-        {
-          "to": "celestian-insidiants",
-          "type": "support"
-        },
-        {
           "to": "battle-sisters-squad",
+          "type": "support"
+        },
+        {
+          "to": "retributor-squad",
+          "type": "support"
+        },
+        {
+          "to": "dominion-squad",
           "type": "support"
         }
       ],
@@ -1530,7 +1530,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 175,
           "per": [
             1,
             1
@@ -1618,14 +1618,6 @@ export default {
       },
       "leads": [
         {
-          "to": "sisters-novitiate-squad",
-          "type": "support"
-        },
-        {
-          "to": "battle-sisters-squad",
-          "type": "support"
-        },
-        {
           "to": "celestian-insidiants",
           "type": "support"
         },
@@ -1634,11 +1626,19 @@ export default {
           "type": "support"
         },
         {
-          "to": "dominion-squad",
+          "to": "battle-sisters-squad",
           "type": "support"
         },
         {
           "to": "retributor-squad",
+          "type": "support"
+        },
+        {
+          "to": "dominion-squad",
+          "type": "support"
+        },
+        {
+          "to": "sisters-novitiate-squad",
           "type": "support"
         }
       ],
@@ -1685,10 +1685,6 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "retributor-squad",
-          "type": "support"
-        },
-        {
           "to": "celestian-sacresants",
           "type": "support"
         },
@@ -1697,11 +1693,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "celestian-insidiants",
+          "to": "retributor-squad",
           "type": "support"
         },
         {
           "to": "dominion-squad",
+          "type": "support"
+        },
+        {
+          "to": "celestian-insidiants",
           "type": "support"
         }
       ],
@@ -2668,15 +2668,15 @@ export default {
           0,
           [
             [
-              3170,
+              3204,
               1
             ],
             [
-              2789,
+              38,
               1
             ],
             [
-              3171,
+              3205,
               1
             ]
           ]
@@ -2689,20 +2689,20 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              502
+              533
             ]
           ]
         },
         {
           "m": 0,
-          "t": 1020,
+          "t": 1017,
           "in": "checkbox",
           "o": [
             [
-              2958
+              2992
             ],
             [
-              2789
+              38
             ]
           ]
         }
