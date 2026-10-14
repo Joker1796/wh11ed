@@ -106,8 +106,27 @@ npm run build
 #    moment the reader first goes there. Deleting them here made every such click a 404 and
 #    the navigation silently did nothing — "the top menu doesn't respond" on a desktop, fixed
 #    only by clearing the site's data (a player, 2026-09-27). Step 1b prunes the old ones later.
+# 0b) Source maps (the build writes them hidden — no chunk references one) go to the API server and
+#     NEVER to the bucket: the error reports' stacks are read back to the source there
+#     (wh11ed-api src/lib/sourcemaps.ts), one folder per version, kept 60 days. The server is the
+#     changelog archive's (CHANGELOG_SSH) unless SOURCEMAP_SSH says otherwise. Missing: the stacks
+#     of this version stay minified, nothing else changes.
+MAP_SSH="${SOURCEMAP_SSH:-${CHANGELOG_SSH-}}"
+MAP_KEY="${SOURCEMAP_SSH_KEY:-${CHANGELOG_SSH_KEY-}}"
+if [ -n "$MAP_SSH" ] && ls dist/assets/*.map >/dev/null 2>&1; then
+  MAP_VERSION="$(node -p "require('./package.json').version")"
+  echo "▶ source maps  →  ${MAP_SSH}:/opt/wh-rules/sourcemaps/${MAP_VERSION}"
+  if ! (cd dist/assets && tar czf - ./*.map) | ssh ${MAP_KEY:+-i "$MAP_KEY"} "$MAP_SSH" \
+    "mkdir -p /opt/wh-rules/sourcemaps/${MAP_VERSION} && tar xzf - -C /opt/wh-rules/sourcemaps/${MAP_VERSION} && find /opt/wh-rules/sourcemaps -mindepth 1 -maxdepth 1 -type d -mtime +60 -exec rm -rf {} +"; then
+    echo "⚠ source maps not copied — the error stacks of v${MAP_VERSION} will stay minified"
+  fi
+else
+  echo "⚠ source maps not copied (no SOURCEMAP_SSH / CHANGELOG_SSH, or no maps built)"
+fi
+
 echo "▶ assets/  →  immutable, 1 year"
 aws s3 sync dist/assets "$BUCKET/assets" \
+  --exclude "*.map" \
   --cache-control "public, max-age=31536000, immutable"
 
 # 1b) Prune chunks no build has shipped for ASSET_KEEP_DAYS: older than that by upload time AND

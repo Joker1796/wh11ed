@@ -162,6 +162,8 @@ try {
 }
 
 const failures = []
+const flaky = []
+const CHUNK_ERROR = /JS error — (Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module)/
 let visited = 0
 for (const width of widths) {
   const mobile = width < 700
@@ -186,55 +188,73 @@ for (const width of widths) {
 
   for (const p of PAGES) {
     const url = base + lang + (p.path === '/' ? '' : p.path)
-    errors = []
     const where = `${width}px ${lang}${p.path}`
-    try {
-      await page.goto(url, { waitUntil: 'networkidle' })
-      await page.waitForSelector('#app *', { timeout: 15000 })
-      await page.evaluate(() => document.fonts.ready)
-      visited++
-      const sideways = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
-      // Any pixel counts: scrollWidth rounds up, so a bar 0.58px too wide reads as 1 — and the
-      // wordmark's did, on every page at 320px, under a `> 1` that let it through (2026-10-09).
-      if (sideways > 0) {
-        // Name what sticks out, the way the column check below does: a bare "by 1px" sends the
-        // reader hunting. The outermost offender is the culprit; its children only follow it.
-        const culprit = await page.evaluate(() => {
-          const cw = document.documentElement.clientWidth
-          // Inside a fixed box (the closed side menu waits off screen) nothing widens the page.
-          const inFixed = (el) => { for (let e = el; e; e = e.parentElement) if (getComputedStyle(e).position === 'fixed') return true; return false }
-          const out = [...document.querySelectorAll('body *')].find((el) => el.getClientRects().length
-            && el.getBoundingClientRect().right > cw + 0.01 && !inFixed(el))
-          return out ? `${out.tagName.toLowerCase()}.${[...out.classList].join('.')} to ${out.getBoundingClientRect().right.toFixed(2)}px` : '?'
-        })
-        failures.push(`${where}: scrolls sideways by ${sideways}px (${culprit})`)
+    // One visit of one page: what it finds, not yet a failure.
+    const once = async () => {
+      const out = []
+      errors = []
+      try {
+        await page.goto(url, { waitUntil: 'networkidle' })
+        await page.waitForSelector('#app *', { timeout: 15000 })
+        await page.evaluate(() => document.fonts.ready)
+        visited++
+        const sideways = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+        // Any pixel counts: scrollWidth rounds up, so a bar 0.58px too wide reads as 1 — and the
+        // wordmark's did, on every page at 320px, under a `> 1` that let it through (2026-10-09).
+        if (sideways > 0) {
+          // Name what sticks out, the way the column check below does: a bare "by 1px" sends the
+          // reader hunting. The outermost offender is the culprit; its children only follow it.
+          const culprit = await page.evaluate(() => {
+            const cw = document.documentElement.clientWidth
+            // Inside a fixed box (the closed side menu waits off screen) nothing widens the page.
+            const inFixed = (el) => { for (let e = el; e; e = e.parentElement) if (getComputedStyle(e).position === 'fixed') return true; return false }
+            const out = [...document.querySelectorAll('body *')].find((el) => el.getClientRects().length
+              && el.getBoundingClientRect().right > cw + 0.01 && !inFixed(el))
+            return out ? `${out.tagName.toLowerCase()}.${[...out.classList].join('.')} to ${out.getBoundingClientRect().right.toFixed(2)}px` : '?'
+          })
+          out.push(`${where}: scrolls sideways by ${sideways}px (${culprit})`)
+        }
+        // Rule markup that reached the reader unrendered — the print sheet printed `**[gloss:…]**`
+        // in its stratagem lines for a release before anyone looked (2026-10-03).
+        const raw = await page.evaluate(() => (document.body.innerText.match(/\[(?:gloss|core|def):[^\]]*\]|\*\*[^*\n]{1,60}\*\*/) || [])[0])
+        if (raw) out.push(`${where}: unrendered markup on the page — ${raw}`)
+        for (const f of (await p.check?.(page)) || []) out.push(`${where}: ${f}`)
+        // A face the page draws that src/fonts.js does not load — the browser substitutes without a
+        // word. a11y checks its public pages; these are the screens that need a list or a game.
+        // Run after the page's check, which may open a card or a dialog.
+        for (const m of await page.evaluate(missingFaces)) out.push(`${where}: ${m.face} is drawn but not loaded (src/fonts.js) — ${m.sig} «${m.text}»`)
+        // A column that scrolls on its own hides the same fault from the check above: the desk's unit
+        // card at 1200px was wider than its pane and slid half out of sight (2026-10-03). Run after the
+        // page's check, which may open that card. Strips made to scroll sideways are not columns.
+        for (const c of await page.evaluate((sideways) => [...document.querySelectorAll('#app *')]
+          .filter((el) => /auto|scroll/.test(getComputedStyle(el).overflowX) && el.scrollWidth - el.clientWidth > 1 && !el.matches(sideways))
+          .map((el) => {
+            const box = el.getBoundingClientRect()
+            const wide = [...el.querySelectorAll('*')].filter((k) => k.getBoundingClientRect().right > box.right + 1)
+            const culprit = wide.find((k) => !wide.includes(k.parentElement)) || wide[0]
+            return `.${[...el.classList].join('.')} by ${el.scrollWidth - el.clientWidth}px (${culprit ? `${culprit.tagName.toLowerCase()}.${[...culprit.classList].join('.')}` : '?'})`
+          }), SIDEWAYS_BY_DESIGN)) out.push(`${where}: a column scrolls sideways — ${c}`)
+        // Network noise a static preview cannot avoid (no API behind it) is not the page's error.
+        for (const e of errors.filter((x) => !/Failed to load resource|ERR_CONNECTION_REFUSED|net::|blocked by CORS policy/.test(x))) out.push(`${where}: JS error — ${e}`)
+        if (shots) await page.screenshot({ path: join(shots, `${width}${p.path.replace(/[/:]+/g, '_') || '_home'}.png`), fullPage: !mobile })
+      } catch (e) {
+        out.push(`${where}: did not render — ${e.message.split('\n')[0]}`)
       }
-      // Rule markup that reached the reader unrendered — the print sheet printed `**[gloss:…]**`
-      // in its stratagem lines for a release before anyone looked (2026-10-03).
-      const raw = await page.evaluate(() => (document.body.innerText.match(/\[(?:gloss|core|def):[^\]]*\]|\*\*[^*\n]{1,60}\*\*/) || [])[0])
-      if (raw) failures.push(`${where}: unrendered markup on the page — ${raw}`)
-      for (const f of (await p.check?.(page)) || []) failures.push(`${where}: ${f}`)
-      // A face the page draws that src/fonts.js does not load — the browser substitutes without a
-      // word. a11y checks its public pages; these are the screens that need a list or a game.
-      // Run after the page's check, which may open a card or a dialog.
-      for (const m of await page.evaluate(missingFaces)) failures.push(`${where}: ${m.face} is drawn but not loaded (src/fonts.js) — ${m.sig} «${m.text}»`)
-      // A column that scrolls on its own hides the same fault from the check above: the desk's unit
-      // card at 1200px was wider than its pane and slid half out of sight (2026-10-03). Run after the
-      // page's check, which may open that card. Strips made to scroll sideways are not columns.
-      for (const c of await page.evaluate((sideways) => [...document.querySelectorAll('#app *')]
-        .filter((el) => /auto|scroll/.test(getComputedStyle(el).overflowX) && el.scrollWidth - el.clientWidth > 1 && !el.matches(sideways))
-        .map((el) => {
-          const box = el.getBoundingClientRect()
-          const wide = [...el.querySelectorAll('*')].filter((k) => k.getBoundingClientRect().right > box.right + 1)
-          const culprit = wide.find((k) => !wide.includes(k.parentElement)) || wide[0]
-          return `.${[...el.classList].join('.')} by ${el.scrollWidth - el.clientWidth}px (${culprit ? `${culprit.tagName.toLowerCase()}.${[...culprit.classList].join('.')}` : '?'})`
-        }), SIDEWAYS_BY_DESIGN)) failures.push(`${where}: a column scrolls sideways — ${c}`)
-      // Network noise a static preview cannot avoid (no API behind it) is not the page's error.
-      for (const e of errors.filter((x) => !/Failed to load resource|ERR_CONNECTION_REFUSED|net::|blocked by CORS policy/.test(x))) failures.push(`${where}: JS error — ${e}`)
-      if (shots) await page.screenshot({ path: join(shots, `${width}${p.path.replace(/[/:]+/g, '_') || '_home'}.png`), fullPage: !mobile })
-    } catch (e) {
-      failures.push(`${where}: did not render — ${e.message.split('\n')[0]}`)
+
+      return out
     }
+    let found = await once()
+    // A dynamic import that failed to fetch once is what the app itself recovers from — one
+    // reload (staleChunks.js) — and on this static preview it happens now and then on a page
+    // that is fine: twice in 24 runs on 2026-10-14, on a different chunk each time, never under a
+    // traced run. Visit such a page again: clean the second time is a note, the same error again
+    // is a finding.
+    if (found.length && found.every((f) => CHUNK_ERROR.test(f))) {
+      const again = await once()
+      if (!again.length) { flaky.push(`${where}: ${found[0].replace(`${where}: `, '')} — clean on a second visit`); found = [] }
+      else found = again
+    }
+    failures.push(...found)
   }
   await context.close()
 }
@@ -244,6 +264,8 @@ await server.close()
 if (failures.length) {
   console.log(`✗ smoke: ${failures.length} finding(s) on ${visited} page loads`)
   for (const f of failures) console.log(`  - ${f}`)
+  for (const f of flaky) console.log(`  · flaky: ${f}`)
   process.exit(1)
 }
 console.log(`✓ smoke: ${visited} page loads, ${rosters.length} test rosters, widths ${widths.join('/')} — clean`)
+for (const f of flaky) console.log(`  · flaky: ${f}`)

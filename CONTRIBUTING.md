@@ -4,6 +4,33 @@ Thanks for helping. This page is how a change travels from your branch to wh-rul
 code expects of you (bilingual data, gates, UI conventions) is in [`CLAUDE.md`](./CLAUDE.md) and
 the scoped `CLAUDE.md` files it lists. Read the one for the directory you touch.
 
+## Running it locally
+
+You need **Node 22+** and, for anything that talks to the server, **Docker** (Compose v2). Clone
+both repositories side by side; the full walkthrough — test players, several "phones", Swagger,
+what to do when a port is taken — is [`wh11ed-api/DEVELOPMENT.md`](https://github.com/Joker1796/wh11ed-api/blob/main/DEVELOPMENT.md).
+
+```bash
+git clone https://github.com/Joker1796/wh11ed.git
+git clone https://github.com/Joker1796/wh11ed-api.git
+
+cd wh11ed-api
+npm run stand          # PostgreSQL, the API, a stand-in for Yandex sign-in, Mailpit — in Docker
+npm run stand:seed     # test players Алиса / Боб / Вера
+
+cd ../wh11ed
+npm ci
+npm run dev            # http://localhost:5173 (/ru for Russian), already pointed at the local API
+```
+
+- **Without the backend** the site still runs: rules, the roster builder and a local game work;
+  sign-in, cloud sync and shared games need the stand.
+- **Checks:** `npm run lint`, `npm test` and `npm run build` work straight after `npm ci`.
+  `npm run smoke` and `npm run a11y` drive the **Google Chrome installed on your machine**
+  (playwright-core, no bundled browser) against a fresh `npm run build`.
+- **The game tracker's beta** lives on the `feat/tracker-side-cards` branch, not on `main`. A
+  tracker change is based on that branch — ask first which one.
+
 ## Branches
 
 | Branch | What it is | Who writes to it |

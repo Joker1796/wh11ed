@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { installErrorLog } from './composables/useErrorLog.js'
+import { installErrorLog, logError } from './composables/useErrorLog.js'
 import { installStaleChunkRecovery } from './composables/staleChunks.js'
 import { installPressFeedback } from './composables/pressFeedback.js'
 import { installUiSound } from './composables/uiSound.js'
@@ -17,9 +17,12 @@ const app = createApp(App)
 
 // App-wide error boundary: a thrown error in one component's render/watcher is
 // caught here instead of tearing down the whole app, so a bug in one section
-// (e.g. a malformed rule entry) doesn't blank the entire page. Logged for triage.
+// (e.g. a malformed rule entry) doesn't blank the entire page. Logged for triage — and kept in the
+// error log too: an error caught here never reaches window.onerror, so until 2026-10-14 the most
+// common kind of crash was missing from bug reports.
 app.config.errorHandler = (err, _instance, info) => {
   console.error(`[vue] ${info}:`, err)
+  logError(err, info)
 }
 
 app.use(router)

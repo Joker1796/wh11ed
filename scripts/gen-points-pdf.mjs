@@ -34,7 +34,8 @@ const T = {
     sub: `Изменения в обновлении от ${DATE} · Munitorum Field Manual ${MFM} · данные приложения ${PATCH_ID}`,
     whatH: 'Что это',
     what1: 'Все цены 11-й редакции Warhammer 40,000 одним файлом — по фракциям, как в Munitorum Field Manual. Изменения последнего обновления выделены цветом, остальное как было.',
-    what2: 'Цена указана за юнит выбранного размера. Если цена зависит от того, какой это по счёту такой юнит в армии, цены разбиты на группы: «1-й и 2-й юнит», «с 3-го юнита».',
+    what2: 'Цена указана за юнит выбранного размера. Если цена зависит от того, какой это по счёту такой юнит в армии, цены разбиты на группы: «1-й и 2-й юнит», «с 3-го юнита». Под некоторыми юнитами — «Снаряжение»: сколько стоит каждая штука сверх цены юнита, в том числе та, что у модели с самого начала.',
+    wargearH: 'Снаряжение, за штуку',
     howH: 'Как читать', up: 'Подорожал', down: 'Подешевел', same: 'Без изменений',
     howNote: 'В скобках — на сколько изменилась цена. Стрелки ▲ ▼ стоят у каждой изменённой цены и у названия юнита, чтобы изменения было видно и при чёрно-белой печати.',
     tocH: 'Содержание', tocNote: 'Маленькое число рядом с фракцией — сколько её цен поменялось в этом обновлении.',
@@ -49,7 +50,8 @@ const T = {
     sub: `Changes in the ${DATE} update · Munitorum Field Manual ${MFM} · app data ${PATCH_ID}`,
     whatH: 'What this is',
     what1: 'Every Warhammer 40,000 11th edition points value in one file, faction by faction, as in the Munitorum Field Manual. Changes in the latest update are highlighted; everything else is as it was.',
-    what2: 'Points are per unit of the chosen size. Where the cost depends on which unit of that kind it is in your army, the prices are grouped: “1st and 2nd unit”, “from the 3rd unit”.',
+    what2: 'Points are per unit of the chosen size. Where the cost depends on which unit of that kind it is in your army, the prices are grouped: “1st and 2nd unit”, “from the 3rd unit”. Under some units, “Wargear”: what each piece costs on top of the unit, the ones a model starts with included.',
+    wargearH: 'Wargear, each',
     howH: 'How to read it', up: 'Went up', down: 'Went down', same: 'Unchanged',
     howNote: 'The number in brackets is how much the cost changed. ▲ ▼ mark every changed price and the unit’s name, so changes show even in black-and-white print.',
     tocH: 'Contents', tocNote: 'The small number next to a faction is how many of its prices changed in this update.',
@@ -65,6 +67,8 @@ const SLUGS = fs.readdirSync(path.join(REPO, 'src/data/mfm')).filter((f) => f.en
 let PAGES = {}
 // Section headings found alone at the bottom of a page, as 'slug:kind' — they start a page instead.
 const BREAK = new Set()
+// Sub-list headings by their printed text, for the orphaned-heading check below.
+const SUB_HEADS = new Map()
 const h3 = (slug, kind, text) => `<h3${BREAK.has(`${slug}:${kind}`) ? ' class="newpage"' : ''}>${text}</h3>`
 
 const patch = JSON.parse(fs.readFileSync(path.join(REPO, 'src/data/patches', `${PATCH_ID}.json`), 'utf8'))
@@ -172,7 +176,9 @@ function unitBlock(u, ch) {
   const dir = ups && downs ? 'mixed' : ups ? 'up' : downs ? 'down' : c ? 'mixed' : ''
   const mark = isNew ? `<span class="new">${T.newUnit}</span>` : dir === 'up' ? '<span class="arr up">▲</span>' : dir === 'down' ? '<span class="arr down">▼</span>' : dir === 'mixed' ? '<span class="arr mixed">▲▼</span>' : ''
   const body = tierGroups(u.options).map((g) => `${g.tier ? `<div class="tierbar">${esc(copyTierLabel(g.tier, LANG))}</div>` : ''}${g.items.map(({ o, label }) => optionRow(o, c, label, g.tier)).join('')}`).join('')
-  return `<div class="unit${c ? ' changed' : ''}"><div class="uhead"><span>${esc(u.name)}</span>${mark}</div>${body}${goneRows(c)}</div>`
+  // The MFM's WARGEAR OPTIONS: one piece's price on top of the unit (scrape-mfm.py, `wargear`).
+  const wargear = u.wargear?.length ? `<div class="tierbar">${esc(T.wargearH)}</div>${u.wargear.map((w) => `<div class="row"><span class="what">${esc(w.name)}</span><span class="dots"></span><span class="pts">+${w.points}</span></div>`).join('')}` : ''
+  return `<div class="unit${c ? ' changed' : ''}"><div class="uhead"><span>${esc(u.name)}</span>${mark}</div>${body}${goneRows(c)}${wargear}</div>`
 }
 
 function enhBlock(det, ch) {
@@ -199,6 +205,13 @@ async function factionSection(slug) {
     <p class="fsum">${T.fsum(nUnits, nEnh, ch.removed.length)}</p>
     ${h3(slug, 'ds', T.datasheets)}
     <div class="cols">${units.map((u) => unitBlock(u, ch)).join('')}</div>
+    ${(m.subfactions || []).filter((sf) => sf.units?.length).map((sf, i) => {
+      // The MFM's own sub-lists: a Chapter's prices for the Codex units it takes, Ultramarines' own
+      // units in Codex: Space Marines (Victrix Honour Guard…), allied Agents, Blood Legions… Left out
+      // until 2026-10-14, so a whole Ultramarines roster had no prices here.
+      SUB_HEADS.set(sf.name.toUpperCase(), `sub${i}`)
+      return `${h3(slug, `sub${i}`, esc(sf.name))}<div class="cols">${[...sf.units].sort((a, b) => a.name.localeCompare(b.name)).map((u) => unitBlock(u, ch)).join('')}</div>`
+    }).join('')}
     ${m.legends?.length ? `${h3(slug, 'legends', 'Warhammer Legends')}<div class="cols">${m.legends.map((u) => unitBlock(u, ch)).join('')}</div>` : ''}
     ${m.detachments.some((d) => d.enhancements?.length) ? `${h3(slug, 'enh', T.enhancements)}
     <div class="cols">${m.detachments.filter((d) => d.enhancements?.length).map((d) => enhBlock(d, ch)).join('')}</div>` : ''}
@@ -345,7 +358,7 @@ function pagesOf(file) {
 // A heading left as the last text on a page: which faction's (the last faction marker so far) and which one.
 function orphansOf(file) {
   const pages = execFileSync('pdftotext', ['-layout', file, '-'], { encoding: 'utf8' }).split('\f')
-  const kinds = { [T.datasheets.toUpperCase()]: 'ds', 'WARHAMMER LEGENDS': 'legends', [T.enhancements.toUpperCase()]: 'enh', [T.removedH.toUpperCase()]: 'removed' }
+  const kinds = { [T.datasheets.toUpperCase()]: 'ds', 'WARHAMMER LEGENDS': 'legends', [T.enhancements.toUpperCase()]: 'enh', [T.removedH.toUpperCase()]: 'removed', ...Object.fromEntries(SUB_HEADS) }
   const out = []
   let slug = null
   pages.forEach((pg) => {
