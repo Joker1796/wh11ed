@@ -167,7 +167,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import RuleExtras from '../../components/RuleExtras.vue'
 import StratCard from '../../components/StratCard.vue'
@@ -181,6 +182,7 @@ import { slugify } from '../../data/slugify.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
+import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 
 const { slug, faction } = useFactionPage()
 // The faction's own colour (the faction badges' pair, light and dark theme) for the rule plates below.
@@ -199,8 +201,25 @@ const detachments = computed(() => {
   return f.detachment ? [f.detachment] : []
 })
 
-const { activeDetachment } = useFactionChoice()
+const { activeDetachment, setDetachment, setChapter } = useFactionChoice()
 const det = computed(() => activeDetachment(slug.value, detachments.value))
+
+// A link can point INTO a detachment — `#<det>-rule`, `#strat-<det>-…`, `#enh-<det>-…` (the
+// changelog, the GW updates page). Only the active detachment is rendered, so the one the anchor
+// names is selected first, then the page scrolls to it — what search does before it navigates.
+const route = useRoute()
+watch([() => route.hash, detachments], ([hash, list]) => {
+  const id = hash?.slice(1)
+  if (!id || !list.length) return
+  const target = list.find((d) => id === d.id || id === `${d.id}-rule`
+    || id.startsWith(`strat-${d.id}-`) || id.startsWith(`enh-${d.id}-`))
+  if (!target) return
+  if (target.id !== det.value?.id) {
+    setDetachment(slug.value, target.id)
+    if (target.chapter) setChapter(slug.value, target.chapter)
+  }
+  scrollToAnchor(id)
+}, { immediate: true })
 // A rule text long enough to read as a page on the desktop flows in two columns there (`.rb-cols`);
 // a short one would only be split into two stubs.
 const isLong = (body) => (Array.isArray(body) ? body.join('\n') : String(body || '')).length > 700
