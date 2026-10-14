@@ -40,9 +40,6 @@ export const PATCHES = [
       { faction: 'space-wolves', kind: 'faq', name: 'Bjorn the Fell-handed',
         note: { en: 'Probably a GW mistake: the errata names no weapon, and the datasheet in the app still has the Assault Cannon at BS 3+. I read the errata as all his weapons, so here the Assault Cannon is BS 2+ (the rest were 2+ already).',
           ru: 'Вероятно, ошибка GW: эррата не называет оружие, а в датащите приложения у Assault Cannon по-прежнему BS 3+. Я читаю эррату как всё его оружие, поэтому у меня Assault Cannon BS 2+ (у остального 2+ и так).' } },
-      { faction: 'adeptus-custodes', kind: 'points', name: 'Shield-Captain',
-        note: { en: 'The app also charges 25 points for the Pyrithite Spear and Praesidium Shield he starts with (205 in all) — possibly a GW mistake. I take points from the MFM: 180.',
-          ru: 'Приложение берёт ещё 25 очков за стартовые Pyrithite Spear и Praesidium Shield (всего 205) — возможно, ошибка GW. Очки я беру по MFM: 180.' } },
     ],
     // GW's update document says its changes are in the app; this one is not (the app merged it
     // with the Librarian in Terminator Armour's line). Applied from the PDF — appdata-exceptions.mjs.

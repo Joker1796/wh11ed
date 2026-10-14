@@ -78,7 +78,7 @@ export default {
     { name: 'Windriders', options: [{ models: 3, points: 80 }, { models: 6, points: 170 }] },
     { name: 'Wraithblades', options: [{ models: 5, points: 140 }] },
     { name: 'Wraithguard', options: [{ models: 5, points: 145 }] },
-    { name: 'Wraithknight', options: [{ models: 1, points: 385, note: '1st' }, { models: 1, points: 405, note: '2nd+' }] },
+    { name: 'Wraithknight', options: [{ models: 1, points: 385, note: '1st' }, { models: 1, points: 405, note: '2nd+' }], wargear: [{ name: 'Heavy Wraithcannon', points: 10 }] },
     { name: 'Wraithknight with Ghostglaive', options: [{ models: 1, points: 380, note: '1st' }, { models: 1, points: 400, note: '2nd+' }] },
     { name: 'Wraithlord', options: [{ models: 1, points: 125 }] },
   ],

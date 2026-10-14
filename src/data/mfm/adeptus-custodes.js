@@ -38,7 +38,7 @@ export default {
     { name: 'Orion Assault Dropship', options: [{ models: 1, points: 690, note: '1st' }, { models: 1, points: 740, note: '2nd+' }] },
     { name: 'Pallas Grav-Attack', options: [{ models: 1, points: 135 }] },
     { name: 'Sentinel Guard Sodality', options: [{ models: 3, points: 240, note: '1st-3rd' }, { models: 3, points: 270, note: '4th+' }] },
-    { name: 'Shield-Captain', options: [{ models: 1, points: 180, note: '1st' }, { models: 1, points: 200, note: '2nd+' }] },
+    { name: 'Shield-Captain', options: [{ models: 1, points: 180, note: '1st' }, { models: 1, points: 200, note: '2nd+' }], wargear: [{ name: 'Praesidium Shield', points: 25 }] },
     { name: 'Shield-Captain in Allarus Terminator Armour', options: [{ models: 1, points: 185, note: '1st' }, { models: 1, points: 205, note: '2nd+' }] },
     { name: 'Shield-Captain on Dawneagle Jetbike', options: [{ models: 1, points: 205, note: '1st' }, { models: 1, points: 225, note: '2nd+' }] },
     { name: 'Telemon Heavy Dreadnought', options: [{ models: 1, points: 280, note: '1st' }, { models: 1, points: 310, note: '2nd+' }] },

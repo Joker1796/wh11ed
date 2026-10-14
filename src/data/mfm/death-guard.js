@@ -28,7 +28,7 @@ export default {
     { name: 'Daemon Prince of Nurgle', options: [{ models: 1, points: 185 }] },
     { name: 'Daemon Prince of Nurgle with Wings', options: [{ models: 1, points: 160 }] },
     { name: 'Deathshroud Terminators', options: [{ models: 3, points: 150, note: '1st-2nd' }, { models: 6, points: 305, note: '1st-2nd' }, { models: 3, points: 160, note: '3rd+' }, { models: 6, points: 315, note: '3rd+' }] },
-    { name: 'Defiler', options: [{ models: 1, points: 300, note: '1st' }, { models: 1, points: 350, note: '2nd+' }] },
+    { name: 'Defiler', options: [{ models: 1, points: 300, note: '1st' }, { models: 1, points: 350, note: '2nd+' }], wargear: [{ name: 'Heavy Reaper Autocannon', points: 15 }, { name: 'Hades Lascannon', points: 15 }] },
     { name: 'Foetid Bloat-Drone', options: [{ models: 1, points: 100, note: '1st-2nd' }, { models: 1, points: 110, note: '3rd+' }] },
     { name: 'Foetid Bloat-Drone with Heavy Blight Launcher', options: [{ models: 1, points: 125, note: '1st-2nd' }, { models: 1, points: 135, note: '3rd+' }] },
     { name: 'Foul Blightspawn', options: [{ models: 1, points: 60 }] },

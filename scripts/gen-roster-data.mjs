@@ -360,7 +360,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1596,6 +1596,18 @@ function mfmPrices(mfmUnits) {
   return byName
 }
 
+// What the MFM charges for one piece of wargear, by unit and item ("WARGEAR OPTIONS · per Banner of
+// Macragge 15 pts" — scrape-mfm.py, `wargear` on a unit). The MFM is the source of points, wargear
+// included; appdata's `wargear_option.points` is read only to report where the two disagree.
+function mfmWargear(mfmUnits) {
+  const byName = new Map()
+  for (const u of mfmUnits || []) {
+    if (!u.wargear?.length) continue
+    byName.set(normApost(u.name), new Map(u.wargear.map((w) => [normApost(w.name), w.points])))
+  }
+  return byName
+}
+
 // One bracket per unit SIZE, priced by the MFM.
 //
 // appdata lists a datasheet's price rows as several parallel lists — one per Chapter, or per allied
@@ -2284,12 +2296,30 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // where a loadout row counts one model's, and either can be the source.
   // The engine multiplies by the models actually fielded, which the bracket cannot do — it is flat
   // across 6-10 models where the hammers are not.
+  // One price for a wargear option, the MFM's: what this unit's WARGEAR OPTIONS row says for the
+  // item, nothing where it lists none. Every disagreement with appdata's own price is reported.
+  const wgMfm = WARGEAR_MFM.get(normApost(bd.name)) || null
+  const seenMfm = new Set()
+  const priceOf = (o) => {
+    const item = wgItemName.get(o.wargearItemId) || ''
+    const mfm = wgMfm?.get(normApost(item))
+    if (mfm != null) seenMfm.add(normApost(item))
+    const pts = mfm ?? 0
+    if (pts !== (o.points || 0)) report.wargearMfm.differs.add(`${bd.name}: ${item} — app ${o.points || 0}, MFM ${mfm ?? 'none'}`)
+    return pts
+  }
   const paidDefaults = new Map()
   for (const g of wogByDs.get(bd.id) || []) {
     for (const o of woByGroup.get(g.id) || []) {
-      if (!(o.points > 0) || !(o.defaultValue > 0)) continue
-      paidDefaults.set(fx.item(LOADOUT_ITEM_FIXES[bd.id]?.[o.wargearItemId] || o.wargearItemId), o.points)
+      const pts = priceOf(o)
+      if (!(pts > 0) || !(o.defaultValue > 0)) continue
+      paidDefaults.set(fx.item(LOADOUT_ITEM_FIXES[bd.id]?.[o.wargearItemId] || o.wargearItemId), pts)
     }
+  }
+  // A row the MFM prints for this unit that no option of it offers is a misread (the gate).
+  if (wgMfm) {
+    report.wargearMfm.priced++
+    for (const [item] of wgMfm) if (!seenMfm.has(item)) report.wargearMfm.unmatched.push(`${bd.name}: ${item}`)
   }
   // Per-model price of each paid default, by profile — the swap refunds below read it too.
   const paidPerMini = new Map()
@@ -2307,11 +2337,10 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     if (row.size) paidPerMini.set(m, row)
   }
-  // …but the Munitorum Field Manual is the last word on points (owner, 2026-10-14: the app charging
-  // a Shield-Captain 25 for the spear and shield he starts with, 205 against the MFM's 180). So the
-  // price is read and reported, and not charged: a unit costs its bracket, and a swap away from the
-  // default refunds nothing. Paid PICKS are unaffected — that is wargear the MFM lists.
+  // Charged (CHARGE_PAID_DEFAULTS): the MFM prices this wargear too — a Shield-Captain's Praesidium
+  // Shield is 25 on top of his 180, as the app says.
   if (paidPerMini.size) {
+    if (CHARGE_PAID_DEFAULTS) unit.dw = [...paidPerMini].map(([m, row]) => [m, [...row.values()].reduce((a, b) => a + b, 0)])
     report.paidDefault.units++
     report.paidDefault.names.push(`${bd.name} (${[...paidPerMini.values()].map((row) => [...row.values()].reduce((a, b) => a + b, 0)).join('/')} a model)`)
   }
@@ -2342,7 +2371,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       // Shield Drone its datasheet allows — the Cadre Fireblade's identical group is a stepper
       // (2026-10-11). The datasheet's words over the table (the house rule for wargear).
       in: /can take duplicates/i.test(text) ? 'stepper' : (rawOpts[0]?.inputType || 'checkbox'),
-      opts: rawOpts.map((o) => ({ uuid: o.wargearItemId, pts: o.points || 0, def: o.defaultValue || 0 })),
+      opts: rawOpts.map((o) => ({ uuid: o.wargearItemId, pts: priceOf(o), def: o.defaultValue || 0 })),
     })
   }
   linkWargearConditions(bd.id, drafts)
@@ -2756,10 +2785,14 @@ const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").repla
 // the entry to be dropped. An uncapped-below-three Upgrade NOT on this list fails `--check` too.
 const UPGRADE_LIMIT_FIXES = new Set(['4e119d31-30c8-4e94-be84-7f868ea1eb8b'])
 const UPGRADE_LIMIT = 3
-// Whether the price appdata puts on a model's DEFAULT wargear is charged on top of the MFM bracket
-// (`dw`/`dr`). Off since 2026-10-14: the MFM is the last word on points (owner). The engine still
-// reads both fields, so turning it back on is this one switch.
-const CHARGE_PAID_DEFAULTS = false
+// Whether a model's DEFAULT wargear is charged on top of the MFM bracket (`dw`/`dr`), at the MFM's
+// own price for it (priceOf in buildUnit).
+// Charged again since 2026-10-14 (hotfix 2.9.1): the MFM DOES price wargear, starting wargear
+// included (Victrix Honour Guard's Banner of Macragge, 15), in a WARGEAR OPTIONS block the scrape
+// had never read. 2.9.0 stopped charging on the belief that it did not.
+const CHARGE_PAID_DEFAULTS = true
+// The MFM wargear prices of the faction being built (mfmWargear), set by genFaction.
+let WARGEAR_MFM = new Map()
 
 // Does a datasheet's composition text say that EVERY model carries this item ("Every model is
 // equipped with: sonic blaster; close combat weapon.")? Matched by name, case and plural aside.
@@ -2994,6 +3027,7 @@ async function genFaction(slug) {
   // at all (they're folded in at load time from space-marines.js) — their Chapter price is emitted
   // as `unitPoints` below instead.
   const prices = mfmPrices(ownMfmUnits(mfmFaction))
+  WARGEAR_MFM = mfmWargear(ownMfmUnits(mfmFaction))
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex, prices)).sort((a, b) => a.name.localeCompare(b.name))
   // …and the unit such a sheet comes WITH: one that shares a named rule with it ("Using Sir Hekhtur"
   // on Canis Rex and on the pilot alike). `crew` lets the lists draw the pilot as a row of the unit
@@ -3553,6 +3587,11 @@ genCore()
 for (const slug of slugs) await genFaction(slug)
 for (const { slug, data } of built) {
   const pack = await packUnitsFor(slug, data.units)
+  // pack-roster reads the sheet's own text and prices no wargear: a Legends sheet the MFM prices
+  // wargear for would be quietly undercharged, so it fails the run until pack-roster learns to.
+  const mfmFaction = (await loadModule(path.join(ROOT, 'src/data/mfm', `${slug}.js`)))?.default
+  const packWg = mfmWargear(ownMfmUnits(mfmFaction))
+  for (const u of pack) if (packWg.has(normApost(u.name))) report.wargearMfm.unmatched.push(`${u.name} (Faction Pack Legends: wargear prices not read)`)
   if (pack.length) { data.units.push(...pack); data.units.sort((a, b) => a.name.localeCompare(b.name)); report.units += pack.length; report.linked += pack.length }
   mirrorPackLeads(slug, pack)
   oneEachPerModel(slug, data.units)
@@ -3621,7 +3660,9 @@ console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links r
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep
 console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
-console.log(`  paid defaults: ${report.paidDefault.units} units start with wargear the app prices on top of the bracket — not charged, the MFM is the last word (CHARGE_PAID_DEFAULTS): ${report.paidDefault.names.join('; ')}`)
+console.log(`  paid defaults: ${report.paidDefault.units} units start with wargear the MFM prices on top of the bracket (charged per model): ${report.paidDefault.names.join('; ')}`)
+console.log(`  wargear points: ${report.wargearMfm.priced} units carry MFM wargear prices; ${report.wargearMfm.differs.size} option(s) where the app's own price differs (the MFM's is used):`)
+for (const l of [...report.wargearMfm.differs].sort()) console.log(`      - ${l}`)
 if (report.paidDefault.odd.length) console.log(`    not charged (count does not divide): ${report.paidDefault.odd.join('; ')}`)
 console.log(`  Chapter detachments: ${report.sharedDets} Codex entitlements folded in at load time`)
 if (report.notEntitled.length) console.log(`  printed in the faction's book but not its to field (kept as \`lend\`, offered only to the armies that fold it in): ${report.notEntitled.join('; ')}`)
@@ -3715,6 +3756,10 @@ if (pk.alongside.length) {
 const unusedLockFixes = Object.keys(ENH_LOCK_FIXES).filter((k) => !usedLockFixes.has(k))
 if (unusedLockFixes.length) {
   console.log(`\n  ✗ ENH_LOCK_FIXES names ${unusedLockFixes.length} enhancement(s) no detachment has — misspelt, or retired by GW: ${unusedLockFixes.join(', ')}`)
+  return 1
+}
+if (report.wargearMfm.unmatched.length) {
+  console.log(`\n  ✗ ${report.wargearMfm.unmatched.length} MFM wargear price(s) match no option of their unit — the MFM names the item otherwise, or the unit lost it: ${report.wargearMfm.unmatched.join('; ')}`)
   return 1
 }
 if (report.dnu.length) {

@@ -20,7 +20,7 @@ export default {
   units: [
     { name: 'Aberrants', options: [{ models: 5, points: 140, note: '1st-2nd' }, { models: 10, points: 280, note: '1st-2nd' }, { models: 5, points: 150, note: '3rd+' }, { models: 10, points: 290, note: '3rd+' }] },
     { name: 'Abominant', options: [{ models: 1, points: 85, note: '1st-2nd' }, { models: 1, points: 95, note: '3rd+' }] },
-    { name: 'Achilles Ridgerunners', options: [{ models: 1, points: 95, note: '1st-2nd' }, { models: 2, points: 160, note: '1st-2nd' }, { models: 1, points: 105, note: '3rd+' }, { models: 2, points: 170, note: '3rd+' }] },
+    { name: 'Achilles Ridgerunners', options: [{ models: 1, points: 95, note: '1st-2nd' }, { models: 2, points: 160, note: '1st-2nd' }, { models: 1, points: 105, note: '3rd+' }, { models: 2, points: 170, note: '3rd+' }], wargear: [{ name: 'Heavy mining laser', points: 10 }] },
     { name: 'Acolyte Hybrids with Autopistols', options: [{ models: 5, points: 65 }, { models: 10, points: 120 }] },
     { name: 'Acolyte Hybrids with Hand Flamers', options: [{ models: 5, points: 75 }, { models: 10, points: 140 }] },
     { name: 'Acolyte Iconward', options: [{ models: 1, points: 50 }] },

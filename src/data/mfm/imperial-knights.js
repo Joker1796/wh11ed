@@ -28,7 +28,7 @@ export default {
     { name: 'Cerastus Knight Castigator', options: [{ models: 1, points: 380, note: '1st' }, { models: 1, points: 395, note: '2nd+' }] },
     { name: 'Cerastus Knight Lancer', options: [{ models: 1, points: 415, note: '1st' }, { models: 1, points: 435, note: '2nd+' }] },
     { name: 'Knight Castellan', options: [{ models: 1, points: 425, note: '1st' }, { models: 1, points: 450, note: '2nd+' }] },
-    { name: 'Knight Crusader', options: [{ models: 1, points: 395, note: '1st' }, { models: 1, points: 415, note: '2nd+' }] },
+    { name: 'Knight Crusader', options: [{ models: 1, points: 395, note: '1st' }, { models: 1, points: 415, note: '2nd+' }], wargear: [{ name: 'Rapid-fire battle cannon', points: 15 }] },
     { name: 'Knight Defender', options: [{ models: 1, points: 385, note: '1st' }, { models: 1, points: 405, note: '2nd+' }] },
     { name: 'Knight Destrier', options: [{ models: 1, points: 265, note: '1st-2nd' }, { models: 1, points: 280, note: '3rd+' }] },
     { name: 'Knight Errant', options: [{ models: 1, points: 355, note: '1st-2nd' }, { models: 1, points: 370, note: '3rd+' }] },
