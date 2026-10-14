@@ -203,18 +203,6 @@ export const changelog = [
       'Забыли пароль — нажмите «Забыли пароль?» в окне входа. На почту придёт ссылка, чтобы задать новый.',
     ],
   },
-  {
-    version: '2.7.22',
-    date: '2026-10-11',
-    en: [
-      { h: 'Cloud' },
-      'I am getting the cloud ready to move to a new server. Nothing changes for you in this update.',
-    ],
-    ru: [
-      { h: 'Облако' },
-      'Готовлю облако к переезду на новый сервер. Для вас в этом обновлении ничего не меняется.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
