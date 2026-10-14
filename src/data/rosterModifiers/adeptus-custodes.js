@@ -597,7 +597,7 @@ export default {
         "kind": "detachmentRule",
         "det": "emissaries-imperatus"
       },
-      "hash": "d2244707",
+      "hash": "d4116716",
       "ver": 981,
       "reviewed": true,
       "effects": [
