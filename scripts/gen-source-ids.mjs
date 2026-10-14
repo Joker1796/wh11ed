@@ -32,7 +32,11 @@ import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName, matchWeapon, combatPatrolNames } from './lib/sync-common.mjs'
 import { combatPatrol } from '../src/data/combatPatrol.js'
 
-const cpFactionBySlug = new Map(combatPatrol.en.factions.map((f) => [f.slug, f]))
+// A faction can have several boxes (Adeptus Custodes since data 981): every one of them is mapped,
+// each matched to its own appdata detachment by name. Keyed by the slug alone, the last box won and
+// the others fell out of the file.
+const cpBoxesBySlug = new Map()
+for (const f of combatPatrol.en.factions) cpBoxesBySlug.set(f.slug, [...(cpBoxesBySlug.get(f.slug) || []), f])
 
 // Fold a Chapter's shared space-marines.js datasheets back in, mirroring
 // src/data/datasheets/index.js's loadDatasheets.
@@ -100,9 +104,18 @@ async function mapFaction(slug, cp, stats) {
   // Combat Patrol bridge (src/data/combatPatrol.js) — same faction-slug bucket, `cp`-prefixed
   // kinds. Matches against the appdata rows THIS TIME INCLUDED (isCombatPatrol true), the inverse
   // of the `cp.detachments`/`cp.datasheets` exclusion used above.
-  const cpFaction = cpFactionBySlug.get(slug)
-  if (cpFaction) {
-    const cpDet = (bundle.detachments || []).find((d) => d.isCombatPatrol)
+  const cpDsByName = byNormName((bundle.datasheets || []).filter((d) => d.isCombatPatrol), (d) => d.name)
+  const cpBoxes = cpBoxesBySlug.get(slug) || []
+  const cpDets = (bundle.detachments || []).filter((d) => d.isCombatPatrol)
+  const cpArmyRules = (bundle.armyRules || []).filter((a) => cp.armyRuleIds.has(a.id))
+  // One box: appdata's one Combat Patrol detachment and army rule are its, whatever their names
+  // (a box's rule is often named apart from its detachment). Several: matched by the box's name
+  // (appdata names the detachment after the box) or its rule's, and a box
+  // whose names match nothing gets no entry rather than another box's.
+  const only = cpBoxes.length === 1
+  for (const cpFaction of cpBoxes) {
+    const cpDet = only ? cpDets[0] : cpDets.find((d) => norm(d.name) === norm(cpFaction.boxName)
+      || (d.rules || []).some((r) => norm(r.name) === norm(cpFaction.rule.name)))
     if (cpDet) {
       record(`cpdet:${norm(cpFaction.rule.name)}`, cpDet.id)
       const cpStratById = byNormName(cpDet.stratagems || [], (s) => s.name)
@@ -110,9 +123,10 @@ async function mapFaction(slug, cp, stats) {
       const cpEnhById = byNormName(cpDet.enhancements || [], (e) => e.name)
       for (const e of cpFaction.enhancements || []) record(`cpenh:${norm(e.name)}`, cpEnhById.get(norm(e.name))?.id)
     }
-    const cpArmyRule = (bundle.armyRules || []).find((a) => cp.armyRuleIds.has(a.id))
+    // The Aquilan boxes show the Codex army rules under one combined heading, which names no single
+    // appdata rule.
+    const cpArmyRule = only ? cpArmyRules[0] : cpArmyRules.find((a) => norm(a.name) === norm(cpFaction.armyRule.name))
     if (cpArmyRule) record(`cparmyrule:${norm(cpFaction.armyRule.name)}`, cpArmyRule.id)
-    const cpDsByName = byNormName((bundle.datasheets || []).filter((d) => d.isCombatPatrol), (d) => d.name)
     for (const d of cpFaction.datasheets || []) record(`cpds:${d.id}`, cpDsByName.get(norm(d.name))?.id)
   }
 

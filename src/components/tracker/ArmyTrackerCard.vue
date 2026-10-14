@@ -554,6 +554,7 @@ import { useTracker, memberAt, membersOf } from '../../composables/useTracker.js
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { selectionBudget } from '../../data/armyTrackers/selectionBudget.js'
+import { combatPatrolBoxIn } from '../../composables/combatPatrolBox.js'
 import { ui } from '../../i18n/ui.js'
 
 const props = defineProps({
@@ -789,7 +790,8 @@ watch(
 async function loadReferenceView(slug, loc) {
   if (current.value?.settings?.combatPatrol) {
     const { combatPatrol } = await import('../../data/combatPatrol.js')
-    const f = combatPatrol[loc]?.factions?.find((x) => x.slug === slug)
+    // The box this army plays — its detachment names it (a faction can have several boxes).
+    const f = combatPatrolBoxIn(combatPatrol, loc, { factionSlug: slug, detachments: specDetachments.value })
     if (!f) return null
     return {
       kind: 'reference',

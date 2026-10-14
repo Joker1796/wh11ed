@@ -118,6 +118,40 @@ describe('GameSetup — doubles', () => {
   })
 })
 
+describe('GameSetup — Combat Patrol', () => {
+  const modeButtons = (w) => w.findAll('.game-type .seg button')
+
+  // Adeptus Custodes have three boxes (data 981). The army starts on the first and the box field
+  // offers the others; the box's detachment is what the game keeps.
+  it('a faction with several boxes picks one, and the box sets the detachment', async () => {
+    const w = mount(GameSetup)
+    await modeButtons(w)[2].trigger('click')
+    await w.findAll('.faction-btn')[0].trigger('click')
+    w.findComponent({ name: 'FactionPickerList' }).vm.$emit('pick', 'adeptus-custodes')
+    await vi.dynamicImportSettled(); await flushPromises()
+    const card = w.findAll('.player-card')[0]
+    expect(card.find('.cp-box-pick').exists()).toBe(true)
+    expect(card.text()).toContain('Tristraen')
+    await card.find('.cp-box-pick button').trigger('click')
+    const opts = new DOMWrapper(document.body).findAll('.cp-box-opt')
+    expect(opts.length).toBe(3)
+    await opts.find((o) => o.text().includes('Aquilan Wing')).trigger('click')
+    await flushPromises()
+    expect(w.findAll('.player-card')[0].text()).toContain('Aquilan Wing')
+  })
+
+  it('a faction with one box shows it, with nothing to pick', async () => {
+    const w = mount(GameSetup)
+    await modeButtons(w)[2].trigger('click')
+    await w.findAll('.faction-btn')[0].trigger('click')
+    w.findComponent({ name: 'FactionPickerList' }).vm.$emit('pick', 'orks')
+    await vi.dynamicImportSettled(); await flushPromises()
+    const card = w.findAll('.player-card')[0]
+    expect(card.find('.cp-box-pick').exists()).toBe(false)
+    expect(card.find('.cp-box-line').exists()).toBe(true)
+  })
+})
+
 // ── The lobby: the same component, cut down to one side ────────────────────────────────────
 // A guest's screen is this wizard in `guest` mode: its own side's card, no mission/battlefield/
 // option steps, and "Done" instead of "Next". The party is mocked to the two facts the screen

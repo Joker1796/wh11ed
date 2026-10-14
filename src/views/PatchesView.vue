@@ -163,21 +163,17 @@ const { pinnedFactionsFrom } = useFavorites()
 
 const pinned = computed(() => pinnedFactionsFrom(factionGroups).map((f) => f.slug))
 
-// `?f=` — a faction slug, `mine` (the pinned ones) or nothing (all). With no choice made, a reader
-// who pinned factions sees theirs — decided when the faction list is first opened and kept after:
-// the list has the pin stars, and a pin there swapped "All" for "Mine" (and the update with it)
-// under the reader's finger (owner, 2026-10-02).
+// `?f=` — a faction slug, `mine` (the pinned ones) or nothing (all). With no choice made, the page
+// shows every faction (owner, 2026-10-14; until then a reader who had pinned factions started on
+// "Mine", and the update's other armies looked absent).
 // The last pick is kept on this device and comes back with a bare /patches (owner, 2026-10-13): a
 // reader follows one army, and picking it again on every visit was the chore. A link's `?f=` wins.
 const SAVED_KEY = 'wh11ed-patches-faction'
 const pickerOpen = ref(false)
-const startScope = ref(null)
-watch(pickerOpen, (open) => { if (open && !startScope.value) startScope.value = pinned.value.length ? 'mine' : 'all' })
 const filter = computed(() => {
   const f = route.query.f || getItem(SAVED_KEY, '') || undefined
   if (f === 'all' || (f && factionIndexBySlug(f))) return f
-  const scope = f === 'mine' ? 'mine' : f ? 'all' : startScope.value || (pinned.value.length ? 'mine' : 'all')
-  return scope === 'mine' && pinned.value.length ? 'mine' : 'all'
+  return f === 'mine' && pinned.value.length ? 'mine' : 'all'
 })
 const filterSlugs = computed(() => (filter.value === 'all' ? null : filter.value === 'mine' ? pinned.value : [filter.value]))
 const filterName = computed(() => (filter.value === 'all' ? labels.value.patchesAll

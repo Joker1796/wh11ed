@@ -87,14 +87,17 @@ export function findLatestXapk(arg) {
   if (arg) return arg
   if (!existsSync(APK_DIR)) return null
   const files = readdirSync(APK_DIR)
-    .filter((f) => f.endsWith('.xapk'))
+    // The emulator pulls a bare Play .apk (apk-emu.mjs, since 2.8.0); APKPure ships an .xapk.
+    // Reading only the .xapk checked 981 against 2.7.1's artwork and said "matches".
+    .filter((f) => f.endsWith('.xapk') || f.endsWith('.apk'))
     .map((f) => join(APK_DIR, f))
     .sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs)
   return files[0] || null
 }
 
-/** Unpack the inner APK once; the caller cleans up. */
+/** Unpack the inner APK once (a bare .apk is read in place); the caller cleans up. */
 export function openApk(xapkPath) {
+  if (xapkPath.endsWith('.apk')) return { apkPath: xapkPath, dir: null, cleanup: () => {} }
   const work = mkdtempSync(join(tmpdir(), 'wh11ed-layout-art-'))
   execFileSync('unzip', ['-o', '-q', xapkPath, 'com.gamesworkshop.w40k.apk', '-d', work])
   return {
