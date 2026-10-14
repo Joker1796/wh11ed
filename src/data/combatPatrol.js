@@ -1704,7 +1704,11 @@ Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.`,
           ],
           composition: ['1 Shield-Captain model'],
           loadout: '**This model is equipped with:** 1 Eternity-pattern Paragon Blade; Unstoppable Will.',
-          leader: { text: 'This model can be attached to the following units:', units: ['Aquilan Wing Sentinel Guard Sodality'] },
+          leader: { text: 'This model can be attached to the following units:', units: ['Aquilan Talon Sentinel Guard Sodality'] },
+          doubt: {
+            en: 'Probably a GW mistake: the app’s Leader line names the AQUILAN WING Sentinel Guard Sodality, a unit of the other box. Shown here as this box’s own, the Aquilan Talon Sentinel Guard Sodality.',
+            ru: 'Вероятно, ошибка GW: в приложении Leader указывает AQUILAN WING Sentinel Guard Sodality — отряд другого бокса. Здесь — отряд этого бокса, Aquilan Talon Sentinel Guard Sodality.',
+          },
           keywords: ['Aquilan Talon', 'Character', 'Imperium', 'Infantry', 'Shield-Captain'],
           factionKeywords: ['Adeptus Custodes'],
           baseSize: '40mm',
@@ -1815,6 +1819,13 @@ Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.`,
           profiles: [
             { name: 'Shield-Captain', m: '8"', t: '7', sv: '2+', w: '8', ld: '5+', oc: '2', inv: '4+' },
           ],
+          melee: [
+            { name: 'Eternity-pattern Paragon Blade', tags: ['PRECISION'], a: '6', ws: '2+', s: '10', ap: '-3', d: '3' },
+          ],
+          doubt: {
+            en: 'Probably a GW mistake: the app gives this model no weapon, though its loadout is the Eternity-pattern Paragon Blade. Its profile is taken from the Aquilan Talon Shield-Captain (the same as the Codex Shield-Captain’s).',
+            ru: 'Вероятно, ошибка GW: в приложении у этой модели нет оружия, хотя её снаряжение — Eternity-pattern Paragon Blade. Профиль взят у Aquilan Talon Shield-Captain (он же у Shield-Captain из кодекса).',
+          },
           core: 'Deep Strike, Leader',
           faction: 'Aegis of the Emperor, Martial Ka’tah',
           abilities: [
