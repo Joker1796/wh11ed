@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { detectFormat, matchFaction, matchRoster, parseList, resolveDetachmentLine } from './rosterImport.js'
 import rosterCore from '../data/roster/core.js'
-import { optionItems } from './rosterEngine.js'
+import { optionItems, optionLabel } from './rosterEngine.js'
 
 // A real export from the Warhammer 40,000 app, abridged: the shapes that matter are all here — an
 // attached block, a single-model character, a multi-profile squad, a uniform multi-model unit, an
@@ -1812,13 +1812,16 @@ describe('matchRoster — a squad that swaps in pairs', () => {
     const def = ctx.faction.units.find((u) => u.id === 'deathwatch-terminator-squad')
     const wg = payload.units.find((u) => u.id === 'deathwatch-terminator-squad').wg
     const names = ([gi, oi]) => optionItems(def.gear[gi].o[oi]).map(([id]) => ctx.items[id]).sort()
-    // Since 2026-10-07 the Sergeant's and the Terminators' copies of the swap are one unit-wide
-    // group (the lone "Power Fist" option that kept them apart was dropped), so the two swapped
-    // models are one pick of the pair, counted twice.
+    // The swap is offered to the Sergeant and to the Terminators, a copy each sharing one
+    // allowance (2026-10-14), and the export says which profile each pair is on — so each lands in
+    // its own profile's copy, one pick of the pair apiece.
     const pairs = wg.filter((w) => names(w).includes('Thunder Hammer'))
-    expect(pairs).toHaveLength(1)
-    expect(def.gear[pairs[0][0]].all).toBe(1)
-    expect([names(pairs[0]), pairs[0][2]]).toEqual([['Storm Shield', 'Thunder Hammer'], 2])
+    const mini = (gi) => def.minis[def.gear[gi].m].n
+    expect(pairs.map((w) => [mini(w[0]), names(w), w[2]]).sort((a, b) => a[0].localeCompare(b[0]))).toEqual([
+      ['Deathwatch Terminator', ['Storm Shield', 'Thunder Hammer'], 1],
+      ['Deathwatch Terminator Sergeant', ['Storm Shield', 'Thunder Hammer'], 1],
+    ])
+    expect(new Set(pairs.map((w) => def.pools.find((p) => p.g.includes(w[0]))))).toHaveProperty('size', 1)
   })
 
   // Three bundled options differ only in their last weapon ("1 boltstorm gauntlet and 1 relic
@@ -2545,8 +2548,12 @@ describe('matchRoster — a swap that only shows as a count', () => {
     const pods = def.gear.findIndex((g) => g.o.some((o) => o[1] === 5))   // the paid missile pod
     const rifles = def.gear.findIndex((g, i) => i !== pods && g.dr)       // …and the way back
     const [all, none] = payload.units.filter((u) => u.id === 'crisis-fireknife-battlesuits')
-    expect(all.wg.find((w) => w[0] === pods)).toEqual([pods, 0, 3])
-    expect(none.wg.find((w) => w[0] === rifles)).toEqual([rifles, 0, 3])
+    // Each swap is offered to the Shas'vre and to the Shas'ui, one copy each (`pools`); a list that
+    // does not say which suit took it gives the Shas'vre his first (the owner's rule, 2026-10-14).
+    const copiesOf = (gi) => def.pools.find((p) => p.g.includes(gi)).g
+    const taken = (u, gi) => copiesOf(gi).map((g) => (u.wg || []).filter((w) => w[0] === g).reduce((n, w) => n + (w[2] || 1), 0))
+    expect(taken(all, pods)).toEqual([1, 2])
+    expect(taken(none, rifles)).toEqual([1, 2])
     // The squad that changed nothing records nothing either.
     const stock = payload.units.filter((u) => u.id === 'crisis-starscythe-battlesuits')[2]
     const starscythe = ctx.faction.units.find((u) => u.id === 'crisis-starscythe-battlesuits')
@@ -3025,5 +3032,89 @@ Vertus Praetors215 Points
     const p = parseList(text)
     expect(p.units.map((u) => [u.name, u.pts])).toEqual([['Shield-Captain on Dawneagle Jetbike', 170], ['Vertus Praetors', 215]])
     expect(parseList('Total 2000 Points\n\nNecrons\nStrike Force (2000 points)\n\nOTHER DATASHEETS\n\nImmortals (70 points)').units.map((u) => u.name)).toEqual(['Immortals'])
+  })
+})
+
+// A shared option is one copy per profile since 2026-10-14, so WHICH profile a line is under now
+// decides where it lands. Three things the listhammer corpus showed losing that, each pinned here.
+describe('matchRoster — an option offered to several profiles', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('tau-empire'), core: rosterCore, items: items.items }
+  })
+  const list = (body) => `Test (2000 Points)\n\nT’au Empire\nStrike Force (2000 Points)\n${ctx.faction.detachments[0].name} (1 Detachment Points)\n\nOTHER DATASHEETS\n\n${body}`
+  // Per profile, what the unit's picks hand out: { 'Shas’vre': ['Marker Drone ×1', …], … }.
+  const byProfile = (payload, id) => {
+    const def = ctx.faction.units.find((u) => u.id === id)
+    const u = payload.units.find((x) => x.id === id)
+    const out = {}
+    for (const [gi, oi, n] of u.wg || []) {
+      const m = def.minis[def.gear[gi].m].n.replace(/^.* /, '')
+      ;(out[m] ||= []).push(`${optionLabel(def.gear[gi].o[oi], ctx.items)} ×${n ?? 1}`)
+    }
+    for (const k of Object.keys(out)) out[k].sort()
+    return out
+  }
+
+  // listhammer drops the "◦" and the indent: the model lines keep a "•", the weapons under them
+  // come bare or with one. What follows a model line is that profile's.
+  it('reads a flat body by its model lines', () => {
+    const { payload } = matchRoster(parseList(list(`Crisis Sunforge Battlesuits (125 points)
+• 1x Crisis Sunforge Shas’vre
+• 1x Battlesuit fists
+2x Fusion blaster
+1x Marker Drone
+1x Shield Drone
+• 2x Crisis Sunforge Shas’ui
+• 2x Battlesuit fists
+4x Fusion blaster
+2x Gun Drone
+2x Shield Drone`)), ctx)
+    expect(byProfile(payload, 'crisis-sunforge-battlesuits')).toEqual({
+      'Shas’vre': ['Marker Drone ×1', 'Shield Drone ×1'],
+      'Shas’ui': ['Gun Drone ×2', 'Shield Drone ×2'],
+    })
+  })
+
+  // A rule of dashes between units sat at the body's own depth and was taken for its model line —
+  // the real profiles under it became wargear nobody could place.
+  it('passes over a line of dashes', () => {
+    const { payload, report } = matchRoster(parseList(list(`Crisis Starscythe Battlesuits (120 points)
+  • 1x Crisis Starscythe Shas’vre
+    • 1x Battlesuit fists
+      1x Gun Drone
+      1x Shield Drone
+      2x T’au flamer
+  • 2x Crisis Starscythe Shas’ui
+    • 2x Battlesuit fists
+      1x Gun Drone
+      1x Marker Drone
+      2x Shield Drone
+      4x T’au flamer
+--------------------------------------------`)), ctx)
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
+    expect(byProfile(payload, 'crisis-starscythe-battlesuits')).toEqual({
+      // …and two T'au flamers a suit: each traded its burst cannon for the second.
+      'Shas’vre': ['Gun Drone ×1', 'Shield Drone ×1', 'T’au flamer ×1'],
+      'Shas’ui': ['Gun Drone ×1', 'Marker Drone ×1', 'Shield Drone ×2', 'T’au flamer ×2'],
+    })
+  })
+
+  // A line under no profile goes to the Sergeant's copy first, and what one model cannot hold — in
+  // all or of one kind — moves on (the owner's rule).
+  it('gives the Sergeant his share of what no profile was named for, and the squad the rest', () => {
+    const { payload } = matchRoster(parseList(list(`Crisis Sunforge Battlesuits (125 points)
+• 3x Shield Drone
+• 2x Gun Drone
+• 1x Marker Drone`)), ctx)
+    const got = byProfile(payload, 'crisis-sunforge-battlesuits')
+    expect(got['Shas’vre']).toHaveLength(2) // two drones, never two alike
+    expect(new Set(got['Shas’vre'].map((x) => x.split(' ×')[0])).size).toBe(2)
+    const all = Object.values(got).flat().reduce((m, x) => { const [n, c] = x.split(' ×'); m[n] = (m[n] || 0) + Number(c); return m }, {})
+    expect(all).toEqual({ 'Shield Drone': 3, 'Gun Drone': 2, 'Marker Drone': 1 })
   })
 })

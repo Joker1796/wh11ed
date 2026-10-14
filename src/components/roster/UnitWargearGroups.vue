@@ -4,20 +4,34 @@
        first. It is GREYED OUT rather than removed while that isn't the case: an option that
        disappears when you touch an unrelated one reads as a bug, and the reader is left
        guessing what to undo. `blockers[gi]` says what to undo, in words. -->
+  <!-- By PROFILE (owner, 2026-10-14): a unit of several kinds of model shows one block per profile
+       — its own options and its copy of every option the squad shares — so the player says WHICH
+       model takes a shared one, as in the GW app. The block's heading stands in its first group's
+       section (the sections stay siblings of the editor's own); "This unit can be equipped with…"
+       is the unit's, and heads the list as its own block. -->
   <template
-    v-for="(g, gi) in def.gear || []"
+    v-for="{ g, gi, head } in order"
     :key="gi"
   >
     <section
       class="ues-sec"
-      :class="{ 'ues-inert': shut[gi] }"
+      :class="{ 'ues-inert': shut[gi], 'ues-profile-first': head }"
     >
+      <h3
+        v-if="head"
+        class="ues-h ues-profile"
+      >
+        {{ head.name }}<span
+          v-if="head.n > 1"
+          class="ues-profile-n"
+        > ×{{ head.n }}</span>
+      </h3>
       <!-- `ues-instr`, unlike every other .ues-h on this screen: what stands here is a SENTENCE
          out of the datasheet, not a label. See the style rule for why that needs a different
          face. -->
       <h4 class="ues-h ues-instr">
         <span
-          v-if="miniName(g.m)"
+          v-if="!byProfile && miniName(g.m)"
           class="ues-mini"
         >{{ miniName(g.m) }}</span>
         {{ groupLines[gi].head }}
@@ -77,7 +91,7 @@
           {{ blockerText(gi) }}
         </p>
         <p
-          v-else-if="caps[gi] && !caps[gi].limit"
+          v-else-if="unavailable[gi]"
           key="none"
           class="ues-bnote"
         >
@@ -97,16 +111,19 @@
           v-for="opt in radioRows(g)"
           :key="opt.oi ?? 'default'"
           class="opt-tile"
-          :class="{ on: radioSel(gi) === opt.oi, disabled: shut[gi] || (radioSel(gi) !== opt.oi && xpmFull(gi, opt.oi)) }"
+          :class="{ on: radioSel(gi) === opt.oi, disabled: shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi))) }"
         >
           <label class="opt-select">
             <input
               type="checkbox"
               :checked="radioSel(gi) === opt.oi"
-              :disabled="shut[gi] || (radioSel(gi) !== opt.oi && xpmFull(gi, opt.oi))"
+              :disabled="shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi)))"
               @change="setRadio(gi, opt.oi)"
             >
-            <span class="opt-name">{{ opt.name }}</span>
+            <span class="opt-name">{{ opt.name }}<span
+              v-if="radioSel(gi) !== opt.oi && takenBy(gi, opt.oi)"
+              class="opt-taken"
+            > · {{ takenBy(gi, opt.oi) }}</span></span>
             <span
               v-if="opt.pts"
               class="opt-pts"
@@ -131,16 +148,19 @@
       >
         <div
           class="opt-tile"
-          :class="{ on: toggleOn(gi), disabled: shut[gi] || (!toggleOn(gi) && xpmFull(gi, 0)) }"
+          :class="{ on: toggleOn(gi), disabled: shut[gi] || (!toggleOn(gi) && (xpmFull(gi, 0) || poolFull(gi, 0))) }"
         >
           <label class="opt-select">
             <input
               type="checkbox"
               :checked="toggleOn(gi)"
-              :disabled="shut[gi] || (!toggleOn(gi) && xpmFull(gi, 0))"
+              :disabled="shut[gi] || (!toggleOn(gi) && (xpmFull(gi, 0) || poolFull(gi, 0)))"
               @change="toggle(gi)"
             >
-            <span class="opt-name">{{ optLabel(g.o[0]) }}</span>
+            <span class="opt-name">{{ optLabel(g.o[0]) }}<span
+              v-if="!toggleOn(gi) && takenBy(gi, 0)"
+              class="opt-taken"
+            > · {{ takenBy(gi, 0) }}</span></span>
             <span
               v-if="g.o[0][1]"
               class="opt-pts"
@@ -201,7 +221,10 @@
             <span class="opt-name">{{ optLabel(o) }}<span
               v-if="o[1]"
               class="opt-pts"
-            > +{{ o[1] }}</span></span>
+            > +{{ o[1] }}</span><span
+              v-if="!stepCount(gi, oi) && takenBy(gi, oi)"
+              class="opt-taken"
+            > · {{ takenBy(gi, oi) }}</span></span>
             <NumberStepper
               v-if="holds[gi]"
               compact
@@ -250,7 +273,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { modelCount, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom } from '../../composables/rosterEngine.js'
+import { modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy } from '../../composables/rosterEngine.js'
 import { holdCounts, holdGroup, holdWg, stockLeft } from '../../composables/rosterHold.js'
 import { TYPE_FROM } from './typeableCount.js'
 
@@ -296,7 +319,12 @@ const blockers = computed(() => (props.def.gear || []).map((g, gi) => wargearGro
 // (a cap of 0 — "If this unit contains 10 models…" at 5). The rows were only greyed for the first
 // until 2026-09-19; the second said "not available" and let you tick anyway, and validateRoster
 // then reported the pick. Same rule for both now: drawn, greyed, current pick visible.
-const shut = computed(() => (props.def.gear || []).map((g, gi) => !!blockers.value[gi] || !!(caps.value[gi] && !caps.value[gi].limit)))
+// Nothing to take at this size: the group's cap is a real 0 ("If this unit contains 10 models…"
+// at 5), the allowance its copies share is, or its profile fields no model at all (five Corsair
+// Reavers have no Felarch).
+const unavailable = computed(() => (props.def.gear || []).map((g, gi) => (caps.value[gi] ? !caps.value[gi].limit
+  : wargearPoolCap(props.def, props.entry, gi)?.limit === 0 || wargearGroupFallbackCap(props.def, props.entry, gi) === 0)))
+const shut = computed(() => (props.def.gear || []).map((g, gi) => !!blockers.value[gi] || unavailable.value[gi]))
 function blockerText(gi) {
   const b = blockers.value[gi]
   if (!b) return ''
@@ -316,9 +344,52 @@ function capChip(gi) {
     const owed = exactPicksOwed(props.def, props.entry, gi)
     return owed ? labels.value.rosterPickExactLeft.replace('{n}', owed) : labels.value.rosterPickExact.replace('{n}', ex)
   }
+  // A profile's copy of a shared option says the squad's allowance, the same on every copy.
+  const pool = !cap && wargearPoolCap(props.def, props.entry, gi)
+  if (pool?.limit) {
+    const upTo = labels.value.rosterPickPool.replace('{n}', pool.limit)
+    return pool.dup ? `${upTo}, ${labels.value.rosterPickDup.replace('{n}', pool.dup)}` : upTo
+  }
   if (!cap || cap.limit < 2) return ''
   const upTo = labels.value.rosterPickUpTo.replace('{n}', cap.limit)
   return cap.dup ? `${upTo}, ${labels.value.rosterPickDup.replace('{n}', cap.dup)}` : upTo
+}
+
+// The order the groups are drawn in, and where a profile's block begins. Blocks: the unit's own
+// options first, then the profiles — the one fielding fewest models first (the Sergeant), each with
+// its groups in the data's order. One profile (or none) needs no headings: there is nobody to choose
+// between, and the per-group miniature name says the rest as it always did.
+const byProfile = computed(() => (props.def.minis?.length || 0) > 1)
+const order = computed(() => {
+  const gear = props.def.gear || []
+  const rows = gear.map((g, gi) => ({ g, gi }))
+  if (!byProfile.value) return rows.map((r) => ({ ...r, head: null }))
+  const maxOf = (m) => {
+    const known = (props.def.sizes || []).filter((s) => s.comp?.length)
+    if (!known.length) return Infinity
+    return Math.max(...known.map((s) => { const c = s.comp.find(([mi]) => mi === m); return c ? (c[2] ?? c[1]) : 0 }))
+  }
+  const perMini = modelsPerMini(props.def, props.entry)
+  const profiles = [...new Set(rows.filter((r) => !r.g.all).map((r) => r.g.m ?? 0))]
+    .sort((a, b) => maxOf(a) - maxOf(b) || a - b)
+  const out = []
+  const unitRows = rows.filter((r) => r.g.all)
+  unitRows.forEach((r, k) => out.push({ ...r, head: k ? null : { name: labels.value.rosterUnitOptions, n: 0 } }))
+  for (const m of profiles) {
+    rows.filter((r) => !r.g.all && (r.g.m ?? 0) === m)
+      .forEach((r, k) => out.push({ ...r, head: k ? null : { name: miniName(m), n: perMini?.get(m) ?? 0 } }))
+  }
+  return out
+})
+
+// Another profile's copy holds what the squad may take of this option: its row is greyed (`poolFull`)
+// and says who has it, so the player knows where to take it back from.
+function takenBy(gi, oi) {
+  const m = wargearPoolTakenBy(props.def, props.entry, gi, oi)
+  return m == null ? '' : labels.value.rosterPickTakenBy.replace('{name}', miniName(m))
+}
+function poolFull(gi, oi) {
+  return oi != null && wargearPoolRoom(props.def, props.entry, gi, oi, { wholeGroup: true }) === 0
 }
 
 const optLabel = (o) => optionLabel(o, props.items)
@@ -449,7 +520,7 @@ function setHeld(gi, oi, n) {
 // branch below answered.
 function stepMax(gi, oi) {
   return Math.min(groupStepMax(gi, oi), perModelRoom(props.def, props.entry, gi, oi) ?? Infinity,
-    wargearXpmRoom(props.def, props.entry, gi, oi) ?? Infinity)
+    wargearXpmRoom(props.def, props.entry, gi, oi) ?? Infinity, wargearPoolRoom(props.def, props.entry, gi, oi) ?? Infinity)
 }
 // A one-of row or a toggle a model's cross-group limit (`xpm`) has no room for: a Knight Destrier
 // whose other arm already holds the chainsword. Greyed, not hidden — and never the row that is on.
@@ -477,7 +548,9 @@ function groupStepMax(gi, oi) {
   // what is left here is the umbrella whose bullets are separate allowances — a Red Corsairs Raider
   // squad swaps 1 boltgun AND 1 reaver's blade per 5 models. Per option is the right reading for
   // those, and the two groups in that shape are the only ones that still reach this line.
-  const m = (props.texts[props.def.gear[gi].t] || '').match(/for every (\d+) model/i)
+  // A profile's copy of a shared option has its allowance in the pool (stepMax) and its own models
+  // below — never this reading of the sentence, which is the squad's.
+  const m = !wargearPoolOf(props.def, gi) && (props.texts[props.def.gear[gi].t] || '').match(/for every (\d+) model/i)
   if (m) return Math.min(Math.floor(models.value / Number(m[1])), room ?? Infinity)
   // No cap of any kind: the group can be taken by every model it belongs to — which on a
   // multi-profile datasheet is that PROFILE's model count, not the squad's. "Any number of
@@ -524,7 +597,8 @@ function groupStepMax(gi, oi) {
 /* A group waiting on a sibling. The heading and the instruction stay at full strength — the
    reader still has to be able to READ what the option is — while the tiles below carry the same
    .opt-tile.disabled fade every other unavailable pick in this editor uses. */
-.ues-inert .ues-h,
+/* …the profile's heading is the whole block's, not this group's, and stays at full strength. */
+.ues-inert .ues-h:not(.ues-profile),
 .ues-inert .ues-blist { opacity: 0.6; }
 .ues-blocked {
   margin: -0.25rem 0 0.5rem;
@@ -533,6 +607,11 @@ function groupStepMax(gi, oi) {
   color: var(--text-muted);
   font-style: italic;
 }
+/* A profile's block heading — the editor's own section-label face, in the block's first section. */
+.ues-profile { margin: 0 0 0.45rem; }
+.ues-profile-n { color: var(--text-muted); }
+/* Who holds what this row cannot take — after the name, muted, never a line of its own. */
+.opt-taken { color: var(--text-muted); font-size: 0.85em; }
 /* The stock row's number without its buttons: hidden, not removed, so it keeps the stepper's
    width and stands over the numbers below it. */
 .stock-n :deep(.step-btn) { visibility: hidden; }

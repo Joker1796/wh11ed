@@ -390,7 +390,8 @@ describe('UnitEditorFields — shrinking the unit', () => {
   const terms = chaosSpaceMarines.units.find((u) => u.id === 'chaos-terminator-squad')
   // By name, not by item id: ids are interned across every faction and renumber whenever a bump
   // adds weapons anywhere (app data 963 moved these from 7 and 958).
-  const groupNamed = (name) => terms.gear.findIndex((g) => g.o.some((o) => rosterItems.items[o[0]] === name))
+  // The Terminators' own copy of each swap (the Champion has his).
+  const groupNamed = (name) => terms.gear.findIndex((g) => g.m === 1 && g.o.some((o) => rosterItems.items[o[0]] === name))
   const combi = groupNamed('Combi-weapon')
   const paired = groupNamed('Paired accursed weapons')
   const pill = (w, i) => w.findAll('.pill').filter((p) => /pts/.test(p.text()))[i]
@@ -399,9 +400,10 @@ describe('UnitEditorFields — shrinking the unit', () => {
     const w = mountFor(terms, { size: 1, count: 10, wg: [[combi, 0, 8], [paired, 0, 2]] })
     const entry = w.props('entry')
     await pill(w, 0).trigger('click')
-    // Each group down to its own ceiling first (five combi-weapons, one pair), then stock: five
-    // combi-bolters are all spent, so the latest pick — the paired weapons — goes.
-    expect(entry.wg).toEqual([[combi, 0, 5]])
+    // Each group down to its own ceiling first (four Terminators beside the Champion: four
+    // combi-weapons, one pair), then stock: their four combi-bolters are all spent, so the latest
+    // pick — the paired weapons — goes.
+    expect(entry.wg).toEqual([[combi, 0, 4]])
     expect(w.find('.ues-trimmed').exists()).toBe(true)
     await w.find('.ues-trimmed button').trigger('click')
     expect(entry).toMatchObject({ size: 1, count: 10, wg: [[combi, 0, 8], [paired, 0, 2]] })
@@ -415,16 +417,17 @@ describe('UnitEditorFields — shrinking the unit', () => {
     const entry = w.props('entry')
     await pill(w, 0).trigger('click')
     expect(w.find('.ues-trimmed').exists()).toBe(true)
-    // The combi-weapon stepper, at the five the trim left: one fewer is a pick like any other.
-    const step = w.findAllComponents(NumberStepper).find((n) => n.props('label') === 'Combi-weapon')
-    await step.vm.$emit('update:modelValue', 4)
-    expect(entry.wg).toEqual([[combi, 0, 4]])
+    // The Terminators' combi-weapon stepper, at the four the trim left: one fewer is a pick like
+    // any other.
+    const step = w.findAllComponents(NumberStepper).find((n) => n.props('label') === 'Combi-weapon' && n.props('modelValue') === 4)
+    await step.vm.$emit('update:modelValue', 3)
+    expect(entry.wg).toEqual([[combi, 0, 3]])
     expect(w.find('.ues-trimmed').exists()).toBe(false)
   })
 
   it('leaves a list that arrived over alone, and marks the rows instead', () => {
-    const w = mountFor(terms, { wg: [[combi, 0, 5], [paired, 0, 1]] })
-    expect(w.props('entry').wg).toEqual([[combi, 0, 5], [paired, 0, 1]])
+    const w = mountFor(terms, { wg: [[combi, 0, 4], [paired, 0, 1]] })
+    expect(w.props('entry').wg).toEqual([[combi, 0, 4], [paired, 0, 1]])
     expect(w.findAll('.ues-over')).toHaveLength(2)
   })
 })

@@ -26,8 +26,12 @@ describe('test rosters', () => {
 // RELEASE-CHECKLIST 2.6 [A]: what the export writes, the import reads back as the same list — the
 // same datasheets, the same detachments, every weapon placed and the same points. The formats an
 // importer cannot read back (compact is for a chat, not for a machine) are left out.
+// A list's unit lines in the chat export, order aside: each line with what its brackets list sorted.
+const unitLines = (text) => text.split('\n').filter((l) => l.startsWith('•'))
+  .map((l) => l.replace(/\[(.*)\]/, (_, inner) => `[${inner.split(', ').sort().join(', ')}]`)).sort()
+
 describe('test rosters survive export → import', () => {
-  for (const format of ['gw', 'wtc']) {
+  for (const format of ['gw', 'wtc', 'wtc-compact']) {
     for (const spec of TEST_ROSTERS.filter((x) => !x.expect.errors)) {
       it(`${spec.key} (${format})`, async () => {
         const faction = await loadRosterFaction(spec.faction, { allies: true })
@@ -42,6 +46,16 @@ describe('test rosters survive export → import', () => {
         const defOf = (id) => faction.units.find((u) => u.id === id)
         const dets = faction.detachments.filter((d) => roster.detachments.includes(d.name))
         expect(rosterPoints(payload.units, defOf, dets)).toBe(rosterPoints(roster.units, defOf, dets))
+        // …and the same LIST, not only the same total: every weapon on the profile that carries it,
+        // the same attachments, Warlord and enhancements. The chat export prints exactly those, a line
+        // per unit — so two lists whose unit lines read alike are alike (2026-10-14, after unit-wide
+        // options became one copy per profile: a Sergeant's pick must come back as the Sergeant's).
+        // Order is not compared: the import lists units and picks in the order the text gives them.
+        expect(unitLines(buildRosterText(payload, ctx, 'compact'))).toEqual(unitLines(buildRosterText(roster, ctx, 'compact')))
+        // The points limit, where the format has a field for it: the GW app's states the battle size
+        // (not "No limit", which it leaves out, nor a custom number's own limits); a WTC header has
+        // only the army's total, so a list comes back at the importer's default.
+        if (format === 'gw' && !spec.customLimits && spec.battleSize !== 'none') expect(payload.battleSize).toBe(roster.battleSize)
       })
     }
   }

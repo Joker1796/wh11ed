@@ -642,6 +642,7 @@ export function packRosterUnit(printedSheet, ctx) {
   }
 
   const pm = perModelRules(gear, raws, sheet, seenItems, report, who)
+  const pools = single ? [] : splitUnitWide(gear, raws, { minis, sz, defaultNames, pm })
 
   const kws = sheet.keywords || []
   const flags = { legends: 1 }
@@ -656,6 +657,7 @@ export function packRosterUnit(printedSheet, ctx) {
   if (!single) unit.minis = minis.map((m) => ({ n: m.n }))
   if (defaults.length) unit.defaults = defaults
   if (gear.length) unit.gear = gear
+  if (pools.length) unit.pools = pools
   if (pm) unit.pm = pm
   const alleg = allegFor?.(sheet)
   if (alleg) unit.alleg = alleg
@@ -700,6 +702,71 @@ function alongsideOf(footer, report, who) {
   const m = footer.match(/even if (?:one )?([A-Z][A-Z’' ]+(?:, [A-Z][A-Z’' ]+)*(?: or [A-Z][A-Z’' ]+)?) (?:(?:model|unit) )?has already been attached/)
   if (!m) { report.alongside.push(`${who}: ${footer.slice(0, 120)}`); return null }
   return m[1].split(/, | or /).map((k) => k.trim().toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()))
+}
+
+// A unit-wide group ships as one copy per profile that may take it, sharing one allowance
+// (`unit.pools`) — the appdata reader's emitCopies, for the pack's own unit-wide groups: the player
+// chooses WHICH model takes the option (owner, 2026-10-14). The profiles are the ones that carry
+// what the swap gives up (an addition, giving nothing up, is open to every profile); one carrier
+// already made the group that profile's own above. The smallest profile's copy — the sergeant's —
+// keeps the group's index, the others go after every group. "This unit can be equipped with…"
+// belongs to the unit and is left whole. A budget PER MODEL (rows k models → k × N) is the copy's
+// own (`pb`), not the pool's. Conditions and `pm` that named the group follow its copies.
+const UNIT_OWNED = /^\s*this unit (?:can|may)\b/i
+function splitUnitWide(gear, raws, { minis, sz, defaultNames, pm }) {
+  const maxOf = (m) => {
+    const known = (sz || []).filter((s) => s.comp?.length)
+    if (!known.length) return minis[m]?.max ?? Infinity
+    return Math.max(...known.map((s) => { const c = s.comp.find(([mi]) => mi === m); return c ? (c[2] ?? c[1]) : 0 }))
+  }
+  const budget = (lim) => {
+    if (!lim?.length || !lim.every(([k]) => k > 0)) return null
+    const per = lim[0][1] / lim[0][0]
+    if (!Number.isInteger(per) || per < 2 || !lim.every(([k, n]) => n === k * per)) return null
+    const noDup = lim.every((r) => r[2] === r[0])
+    return lim.every((r) => r.length === 2) || noDup ? (noDup ? [per, 1] : [per]) : null
+  }
+  const copiesOf = new Map() // original index -> Map(miniature -> index of its copy)
+  const pools = []
+  const count = gear.length
+  for (let gi = 0; gi < count; gi++) {
+    const g = gear[gi]
+    if (!g.all || UNIT_OWNED.test(raws[gi] || '')) continue
+    const carriers = g.rep?.length
+      ? [...defaultNames].filter(([, dict]) => g.rep.every((id) => [...dict.values()].includes(id))).map(([mi]) => mi)
+      : minis.map((_, mi) => mi)
+    if (carriers.length < 2) continue
+    const order = carriers.sort((a, b) => maxOf(a) - maxOf(b) || a - b)
+    const pb = budget(g.lim)
+    const pool = { g: [] }
+    if (g.lim && !pb) pool.lim = g.lim
+    const { all: _all, lim: _lim, ...base } = g
+    const at = new Map()
+    order.forEach((m, k) => {
+      const copy = { m, ...base }
+      if (pb) copy.pb = pb
+      if (maxOf(m) <= 1 && !(g.cp > 1) && !(pb?.[0] > 1)) copy.in = 'checkbox'
+      if (copy.rep?.length && copy.in !== 'stepper' && /^\s*(?:all models|any number of)\b/i.test(raws[gi] || '')) copy.repall = 1
+      else delete copy.repall
+      // Key order as the appdata reader writes it (`m` first, then the instruction).
+      const idx = k === 0 ? gi : gear.length
+      if (k === 0) { for (const key of Object.keys(g)) delete g[key]; Object.assign(g, copy) } else gear.push(copy)
+      at.set(m, idx)
+      pool.g.push(idx)
+    })
+    copiesOf.set(gi, at)
+    pools.push(pool)
+  }
+  if (!copiesOf.size) return pools
+  for (const g of gear) {
+    if (!g.cond || !copiesOf.has(g.cond[0])) continue
+    g.cond = [copiesOf.get(g.cond[0]).get(g.m) ?? g.cond[0], g.cond[1]]
+  }
+  if (pm) for (const key of ['base', 'add']) {
+    if (pm[key] == null || !copiesOf.has(pm[key])) continue
+    pm[key] = [...copiesOf.get(pm[key]).values()]
+  }
+  return pools
 }
 
 export function emptyPackReport() {

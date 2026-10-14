@@ -29,8 +29,10 @@
  * @property {number} [t] instruction text id (items.js `texts`)
  * @property {'checkbox' | 'stepper'} [in] the control: one pick per option, or a count
  * @property {GearOption[]} o the options
- * @property {1} [all] unit-wide: scoped to the whole squad rather than one profile
+ * @property {1} [all] the unit's, not a model's ("This unit can be equipped with…")
+ * @property {[number, 1?]} [pb] a budget per model of the profile: `[picks, noDuplicates?]`
  * @property {1} [alt] "X or Y": each pick gives up ONE of `rep`, whichever the model holds
+ * @property {ItemId[][]} [alts] the alternatives of an `alt` group when one is several items ("X and Y, or Z")
  * @property {[number, number]} [cond] `[siblingGroupIndex, wantActive]` — live only on that sibling's state
  * @property {number} [cp] copies of the weapon each model carries, when picks count per copy
  * @property {number} [rc] copies one pick replaces ("2 of this model's heavy bolters")
@@ -42,6 +44,12 @@
  * @property {Array<[number, number, number?]>} [lim] `[modelCount, choiceLimit, duplicateLimit?]` steps
  * @property {ItemId[]} [rep] items a pick replaces
  * @property {1} [repall] a tick swaps the whole profile, not one model
+ */
+
+/**
+ * One instruction offered to several profiles, each its own group (`gear` indices, sergeant first),
+ * with the allowance they share — `[modelCount, choiceLimit, duplicateLimit?]` steps, as `lim`.
+ * @typedef {{ g: number[], lim?: Array<[number, number, number?]> }} GearPool
  */
 
 /**
@@ -120,7 +128,8 @@
  * @property {AllegianceChoice} [alleg]
  * @property {1} [condBattleline] can be Battleline under some detachment
  * @property {Array<{ id: string, name: string }>} [crew]
- * @property {{ add: number, base?: number, slots: number, one?: ItemId[], ranged?: [number, ItemId[]] }} [pm] per-model rules across groups
+ * @property {{ add: number | number[], base?: number | number[], slots: number, one?: ItemId[], ranged?: [number, ItemId[]] }} [pm] per-model rules across groups (a slot names a group or all its copies)
+ * @property {GearPool[]} [pools] one instruction's copies, a profile each, and the allowance they share
  * @property {Array<{ s: Array<[number] | [number, number]>, k?: number, item?: ItemId }>} [xpm] a model's limit across groups
  * @property {string} [charId] shares a duplicate cap with another datasheet (none today)
  * @property {1} [shared] folded in from the Space Marines pool (index.js, at load)

@@ -122,6 +122,23 @@ export const TEST_ROSTERS = [
     ],
   },
   {
+    // A unit-wide option is one copy per profile since 2026-10-14, and the player says which model
+    // takes it: the Acothyst carries a hexrifle and, through it, may trade the torturer's tool it came
+    // with for a power weapon; a Wrack carries the liquifier gun. The second squad's specials are all
+    // on Wracks. Each pick has to come back on the profile it was made on.
+    key: 'per-model',
+    name: 'Проверка: опция отряда — кому именно (Wracks)',
+    faction: 'drukhari',
+    detachments: ['Covenite Coterie'],
+    battleSize: 'strike-force',
+    expect: { legal: true },
+    units: [
+      { k: 'h', id: 'haemonculus', warlord: true, lead: 'w1' },
+      { k: 'w1', id: 'wracks', gear: [['Hexrifle + Torturer’s tool', 1, 0], ['Power weapon', 1, 0], ['Liquifier gun + Torturer’s tool', 1, 1]] },
+      { k: 'w2', id: 'wracks', gear: [['Ossefactor + Torturer’s tool', 1, 1], ['Stinger pistol + Torturer’s tool', 1, 1]] },
+    ],
+  },
+  {
     key: 'archived',
     name: 'Проверка: ростер в архиве',
     faction: 'space-marines',

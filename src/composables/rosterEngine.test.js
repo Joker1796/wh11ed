@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, sectionsOfUnits, entrySummary } from './rosterEngine.js'
+import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, wargearPoolCap, wargearPoolOver, wargearPoolRoom, wargearPoolTakenBy, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, sectionsOfUnits, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1022,22 +1022,64 @@ describe('option items', () => {
 })
 
 describe('the real Wracks bundle', () => {
-  // The reported case: appdata lists the five items flat, and only the instruction prose says
-  // each swap grants a hexrifle AND a torturer's tool. If the generator ever stops reading it,
-  // this group falls back to five one-item options and the pairing is silently lost again.
-  it('offers four paired swaps, not five loose items', async () => {
+  const load = async () => {
     const rf = await import('../data/roster/drukhari.js')
     const items = (await import('../data/roster/items.js')).default.items
     const wracks = rf.default.units.find((u) => u.id === 'wracks')
-    // The unit-wide group — appdata records this same instruction on both miniatures, and the
-    // generator folds those two copies into one (mergeMiniatureDuplicates).
-    const group = wracks.gear.find((g) => g.all && g.o.length === 4)
-    expect(group.o.map((o) => optionLabel(o, items))).toEqual([
-      'Hexrifle + Torturer\u2019s tool',
-      'Liquifier gun + Torturer\u2019s tool',
-      'Ossefactor + Torturer\u2019s tool',
-      'Stinger pistol + Torturer\u2019s tool',
-    ])
+    const copies = wracks.gear.map((g, gi) => [g, gi]).filter(([g]) => g.o.length === 4)
+    return { wracks, items, copies }
+  }
+  // The reported case: appdata lists the five items flat, and only the instruction prose says
+  // each swap grants a hexrifle AND a torturer's tool. If the generator ever stops reading it,
+  // this group falls back to five one-item options and the pairing is silently lost again.
+  it('offers four paired swaps, not five loose items — to the Acothyst and to the Wracks', async () => {
+    const { items, copies } = await load()
+    // appdata records the instruction on both miniatures; it ships as a copy each (the player says
+    // who takes it), the Acothyst's a one-pick checkbox.
+    expect(copies.map(([g]) => [g.m, g.in])).toEqual([[0, 'checkbox'], [1, 'stepper']])
+    for (const [g] of copies) {
+      expect(g.o.map((o) => optionLabel(o, items))).toEqual([
+        'Hexrifle + Torturer\u2019s tool',
+        'Liquifier gun + Torturer\u2019s tool',
+        'Ossefactor + Torturer\u2019s tool',
+        'Stinger pistol + Torturer\u2019s tool',
+      ])
+    }
+  })
+
+  // A player's report, 2026-10-14, checked in the GW app's Battle Forge: the allowance is the
+  // SQUAD's — one of each weapon per five models whoever carries it, the Acothyst included.
+  it('shares one of each weapon per five models between the two copies', async () => {
+    const { wracks, copies } = await load()
+    const [[, aco], [, wrack]] = copies
+    const five = { size: 0 }
+    expect(wargearPoolCap(wracks, five, aco)).toEqual({ limit: 4, dup: 1 })
+    expect(wargearPoolCap(wracks, { size: 2, count: 10 }, wrack)).toEqual({ limit: 8, dup: 2 })
+    // Hexrifle on the Acothyst and a liquifier gun on a Wrack: legal. Two hexrifles: not.
+    expect(wargearPoolOver(wracks, { ...five, wg: [[aco, 0, 1], [wrack, 1, 1]] })).toEqual([])
+    expect(wargearPoolOver(wracks, { ...five, wg: [[aco, 0, 1], [wrack, 0, 1]] }).map((x) => [x.oi, x.spent, x.limit])).toEqual([[0, 2, 1]])
+    // The editor stops the Wracks' "+" on the hexrifle and says who has it.
+    const acoHex = { ...five, wg: [[aco, 0, 1]] }
+    expect(wargearPoolRoom(wracks, acoHex, wrack, 0)).toBe(0)
+    expect(wargearPoolRoom(wracks, acoHex, wrack, 1)).toBe(1)
+    expect(wargearPoolTakenBy(wracks, acoHex, wrack, 0)).toBe(0)
+  })
+
+  // "If the Acothyst is not equipped with a power weapon, its torturer's tool can be replaced with
+  // 1 power weapon" — the report itself: it was open with no torturer's tool to give, and read as
+  // two melee weapons on him that could not be undone.
+  it('opens the Acothyst\u2019s power-weapon swap only on the torturer\u2019s tool a special weapon gave him', async () => {
+    const { wracks, copies } = await load()
+    const [[, aco], [, wrack]] = copies
+    const second = wracks.gear.findIndex((g) => g.m === 0 && g.cond)
+    const own = wracks.gear.findIndex((g) => g.m === 0 && g.o.length === 1 && g.rep?.length === 1 && g !== wracks.gear[second] && g.o[0][0].length === 2)
+    const at = (wg) => wargearGroupBlocker(wracks, { size: 0, wg }, second)
+    expect(at([])?.need).toBe('stock') // nothing gave him a torturer's tool
+    expect(at([[wrack, 0, 1]])?.need).toBe('stock') // a Wrack's hexrifle is not his
+    expect(at([[aco, 0, 1]])).toBeNull() // his own hexrifle came with one
+    expect(at([[own, 0, 1]])?.need).toBe('present') // his power-weapon swap: not "not equipped"
+    // A list that took it alone (saved before the fix) says so.
+    expect(swapOverdraft(wracks, { size: 0, wg: [[second, 0, 1]] }).length).toBe(1)
   })
 })
 
@@ -1124,7 +1166,8 @@ describe('the real conditional caps', () => {
     const texts = (await import('../data/roster/items.js')).default.texts
     const unit = rf.default.units.find((u) => u.name === name)
     const gi = unit.gear.findIndex((g) => pick.test(texts[g.t]))
-    return wargearGroupCap(unit, entry, gi)
+    // A profile's copy of a unit-wide instruction keeps the allowance on the pool it shares.
+    return wargearGroupCap(unit, entry, gi) ?? wargearPoolCap(unit, entry, gi)
   }
 
   it('Raptors: two special weapons at 5, one of each — and two more only once the squad is 10', async () => {
@@ -1353,21 +1396,31 @@ describe('the stock rule — a model cannot give the same item up twice', () => 
   })
 
   it('never closes what it cannot count', () => {
-    // A per-copy group (the Wraithlord's two flamers), and an item the printed loadout does not
-    // carry (a chained swap): both stay open, as they always were.
+    // A per-copy group (the Wraithlord's two flamers) stays open, as it always was.
     const wraithlord = {
       sizes: [{ pts: 140, per: [1, 1], default: 1 }],
       defaults: [[0, [[40, 2]]]],
       gear: [{ m: 0, t: 1, in: 'stepper', cp: 2, o: [[41]], rep: [40] }, { m: 0, t: 2, in: 'checkbox', o: [[42]], rep: [40] }],
     }
     expect(swapRoom(wraithlord, { wg: [[1, 0, 1]] }, 0)).toBeNull()
+  })
+
+  // A CHAINED swap is counted since 2026-10-14: the item the second link gives up is one the first
+  // link handed out, so it is stock once that pick is made and nothing before. Until then it stayed
+  // open "for want of a count", and the Acothyst could trade a torturer's tool he never had for a
+  // power weapon (a player's report on Wracks).
+  it('counts a chained swap: open once the first link is taken, closed before', () => {
     const chained = {
       sizes: [{ pts: 50, per: [1, 1], default: 1 }],
       defaults: [[0, [[1, 1]]]],
       gear: [{ m: 0, t: 1, in: 'checkbox', o: [[2]], rep: [1] }, { m: 0, t: 2, in: 'checkbox', o: [[3]], rep: [2] }],
     }
-    expect(swapRoom(chained, { wg: [[0, 0, 1]] }, 1)).toBeNull()
+    expect(swapRoom(chained, { wg: [[0, 0, 1]] }, 1)).toBe(1)
     expect(wargearGroupBlocker(chained, { wg: [[0, 0, 1]] }, 1)).toBeNull()
+    expect(swapRoom(chained, { wg: [] }, 1)).toBe(0)
+    expect(wargearGroupBlocker(chained, { wg: [] }, 1)).toEqual({ need: 'stock', ids: [2] })
+    // …and a list that took the second link alone says so.
+    expect(swapOverdraft(chained, { wg: [[1, 0, 1]] })).toEqual([{ id: 2, used: 1, cap: 0 }])
   })
 })
 
@@ -1391,18 +1444,20 @@ describe('the real CSM Terminators, shrunk under their picks', () => {
     const rf = await import('../data/roster/chaos-space-marines.js')
     const items = (await import('../data/roster/items.js')).default.items
     const terms = rf.default.units.find((u) => u.id === 'chaos-terminator-squad')
-    const gi = (t) => terms.gear.findIndex((g) => g.o.some((o) => o[0] === t))
+    // The Terminators' own copy of each unit-wide swap (the Champion has his, `m` 0).
+    const gi = (t) => terms.gear.findIndex((g) => g.m === 1 && g.o.some((o) => o[0] === t))
     const heavy = terms.gear.findIndex((g) => g.m === 1 && g.o.length === 2)
     const combi = gi(unitItemId(terms, items, 'Combi-weapon'))
     const paired = gi(unitItemId(terms, items, 'Paired accursed weapons'))
-    // As the player left it: ten models, then the 5-model bracket.
-    const e = { id: terms.id, size: 0, wg: [[heavy, 1, 1], [combi, 0, 5], [paired, 0, 1]] }
-    expect(swapOverdraft(terms, e)).toEqual([{ id: unitItemId(terms, items, 'Combi-bolter'), used: 7, cap: 5 }])
+    // As the player left it: ten models, then the 5-model bracket — four Terminators beside the
+    // Champion, so four combi-bolters among them.
+    const e = { id: terms.id, size: 0, wg: [[heavy, 1, 1], [combi, 0, 4], [paired, 0, 1]] }
+    expect(swapOverdraft(terms, e)).toEqual([{ id: unitItemId(terms, items, 'Combi-bolter'), used: 6, cap: 4 }])
     // All three spend the same combi-bolters, so all three are marked: any of them is a way down.
     expect([...overdrawnGroups(terms, e)].sort()).toEqual([heavy, combi, paired].sort())
-    // Latest first: the paired weapons go, then one combi-weapon — five combi-bolters, five swaps.
+    // Latest first: the paired weapons go, then one combi-weapon — four combi-bolters, four swaps.
     const wg = fitWargear(terms, e)
-    expect(wg).toEqual([[heavy, 1, 1], [combi, 0, 4]])
+    expect(wg).toEqual([[heavy, 1, 1], [combi, 0, 3]])
     expect(swapOverdraft(terms, { ...e, wg })).toEqual([])
     expect(overdrawnGroups(terms, { ...e, wg }).size).toBe(0)
     expect(fitWargear(terms, { ...e, wg })).toBeNull()

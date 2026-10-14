@@ -417,6 +417,12 @@ export const ui = {
     rosterKeepDefault: 'Keep default',
     rosterPickUpTo: 'up to {n}',
     rosterPickDup: 'max {n} of a kind',
+    // A profile's copy of a unit-wide option: the allowance is the squad's, shared by every copy.
+    rosterPickPool: 'up to {n} in the unit',
+    // Why a copy's row is greyed: another profile's copy holds what the unit is allowed.
+    rosterPickTakenBy: 'taken by {name}',
+    // The block of options the unit carries, not one of its models ("This unit can be equipped with…").
+    rosterUnitOptions: 'Unit',
     // A "two different weapons" group (UnitEditorFields' cap chip): the count is exact.
     rosterPickExact: 'pick {n} different',
     rosterPickExactLeft: '{n} more to pick',
@@ -1871,6 +1877,9 @@ export const ui = {
     rosterKeepDefault: 'Оставить по умолчанию',
     rosterPickUpTo: 'до {n}',
     rosterPickDup: 'не больше {n} одинаковых',
+    rosterPickPool: 'до {n} на отряд',
+    rosterPickTakenBy: 'взял {name}',
+    rosterUnitOptions: 'Отряд',
     rosterPickExact: 'выберите {n} разных',
     rosterPickExactLeft: 'выберите ещё {n}',
     rosterPickUnavailable: 'Недоступно при таком размере отряда.',

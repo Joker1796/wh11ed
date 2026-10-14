@@ -79,10 +79,16 @@ describe('the stock row of a swap group', () => {
   })
 
   it('shows the same pistols in both groups that replace them', () => {
+    // Each profile has its own copy of both swaps: the four Veterans' pistols are shared by their
+    // two groups, the Sergeant's one by his.
     const def = unit('space-marines', 'Vanguard Veteran Squad')
-    const entry = { unitId: def.id, size: 0, wg: [[0, 0, 1], [1, 2, 2]] }
-    expect(stockLeft(def, entry, 0)).toBe(2)
-    expect(stockLeft(def, entry, 1)).toBe(2)
+    const at = (m, opts) => def.gear.findIndex((g) => g.m === m && g.o.length === opts)
+    const [shield, pistols, sgtShield, sgtPistols] = [at(0, 1), at(0, 4), at(1, 1), at(1, 4)]
+    const entry = { unitId: def.id, size: 0, wg: [[shield, 0, 1], [pistols, 2, 2]] }
+    expect(stockLeft(def, entry, shield)).toBe(1)
+    expect(stockLeft(def, entry, pistols)).toBe(1)
+    expect(stockLeft(def, entry, sgtShield)).toBe(1)
+    expect(stockLeft(def, entry, sgtPistols)).toBe(1)
   })
 
   it('never reads below zero, in any group, with nothing picked', () => {

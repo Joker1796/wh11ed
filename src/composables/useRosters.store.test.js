@@ -255,6 +255,45 @@ describe('schema → v6', () => {
   })
 })
 
+describe('schema → v11', () => {
+  // A unit-wide group ships as one copy per profile (2026-10-14). The Sergeant's copy kept the old
+  // index; what his one model cannot hold spills to the squad's copy, appended after every group.
+  // Wracks: g2 is the Acothyst's copy, g3 the Wracks'; g0 is his own power-weapon swap.
+  it('gives the Sergeant his one pick and the squad the rest, in the order they were stored', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 10,
+      rosters: [{
+        id: 'r1',
+        name: 'Old',
+        faction: 'drukhari',
+        updatedAt: 1,
+        units: [
+          { uid: 'u1', id: 'wracks', size: 0, wg: [[2, 0, 1], [2, 1, 2]] },
+          // He already traded his twin torturer's tools: the special weapon cannot be his.
+          { uid: 'u2', id: 'wracks', size: 0, wg: [[0, 0, 1], [2, 0, 1]] },
+          { uid: 'u3', id: 'kabalite-warriors', wg: [[0, 0, 1]] },
+        ],
+      }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units[0].wg).toEqual([[2, 0, 1], [3, 1, 2]])
+    expect(r.units[1].wg).toEqual([[0, 0, 1], [3, 0, 1]])
+    expect(r.units[2].wg).toEqual([[0, 0, 1]])
+  })
+
+  it('finds an allied unit by its namespaced id', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 10,
+      rosters: [{ id: 'r1', name: 'Old', faction: 'chaos-daemons', updatedAt: 1, units: [{ uid: 'u1', id: 'drukhari:wracks', wg: [[2, 0, 3]] }] }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    expect(useRosters().rosters.value[0].units[0].wg).toEqual([[2, 0, 1], [3, 0, 2]])
+  })
+})
+
 describe('schema → v10', () => {
   // Deathwatch Terminator Squad: the lone "Power Fist" option is gone and the Sergeant's and the
   // Terminators' copies of the swap are one unit-wide group. Heavy weapons move g1 → g0, both
@@ -277,7 +316,8 @@ describe('schema → v10', () => {
     vi.resetModules()
     const { useRosters } = await import('./useRosters.js')
     const [r] = useRosters().rosters.value
-    expect(r.units[0].wg).toEqual([[0, 0, 2], [1, 3, 3], [1, 0, 1]])
+    // …and v11 then gives the Sergeant's copy (g1) his one pick, the Terminators' (g2) the rest.
+    expect(r.units[0].wg).toEqual([[0, 0, 2], [1, 3, 1], [2, 3, 2], [2, 0, 1]])
     expect(r.units[1].wg).toBeUndefined()
     expect(r.units[2].wg).toEqual([[1, 1, 1]])
   })
