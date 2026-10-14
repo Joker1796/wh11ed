@@ -314,6 +314,7 @@
       ref="tabsEl"
       class="game-tabs"
       data-tour="game-tabs"
+      :style="{ '--gt-n': tabs.length }"
       :class="framedTab ? ['turn-colored', { 'turn-opp': !isYouSide(current.players[viewSide], viewSide) }] : null"
       role="tablist"
       :aria-label="labels.trackerTabsAria"
@@ -1428,7 +1429,15 @@ function onEndBattle(reason) {
 /* The working area's tabs: one strip, joined, on a line in the accent — the active tab is filled
    with it and so reads as part of the line it stands on, attached to the panel under it. */
 .game-tabs {
-  --gt-closed: 48px; /* a closed (icon) tab's width; the open one takes the rest */
+  /* A closed (icon) tab shares out what the open one does not need (owner, 2026-10-15: with three
+     tabs the open one was half empty): never narrower than --gt-closed, which is what the full set
+     needs, nor wider than --gt-cap. --gt-open is the room kept for the open tab's icon and word —
+     the longest, «Статистика», is ~120px; measured at 320–900px with 2–6 tabs, EN and RU. */
+  --gt-closed: 48px;
+  --gt-cap: 64px;
+  --gt-open: 9rem;
+  --gt-w: clamp(var(--gt-closed), calc((100cqw - var(--gt-open)) / max(var(--gt-n, 2) - 1, 1)), var(--gt-cap));
+  container-type: inline-size;
   --gt-ease: cubic-bezier(0.65, 0, 0.35, 1);
   display: flex;
   /* Above: the same step as between the two score cards (ScoreBoard's .board gap), so the cards
@@ -1456,7 +1465,7 @@ function onEndBattle(reason) {
   position: relative;
   overflow: hidden;
   display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
-  flex: 0 0 var(--gt-closed);
+  flex: 0 0 var(--gt-w);
   min-width: 0;
   min-height: 40px;
   padding: 0.2rem 0.4rem;
