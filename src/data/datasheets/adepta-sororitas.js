@@ -218,6 +218,7 @@ export default [
       "Imperium",
       "Fortification",
       "Towering",
+      "Frame",
       "Battle Sanctum"
     ],
     "factionKeywords": [
@@ -225,7 +226,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "battle-sisters-squad",
@@ -1168,7 +1169,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "celestian-sacresants",
@@ -1399,7 +1400,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "daemonifuge",
@@ -1563,7 +1564,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "dialogus",
@@ -3616,6 +3617,7 @@ export default [
       "Transport",
       "Dedicated Transport",
       "Imperium",
+      "Frame",
       "Repressor"
     ],
     "factionKeywords": [
@@ -3623,7 +3625,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "retributor-squad",

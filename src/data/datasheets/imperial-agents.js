@@ -758,7 +758,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "damned-legionnaires",
@@ -972,7 +972,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "deathwatch-kill-team",
@@ -1431,7 +1431,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "eversor-assassin",
@@ -1961,7 +1961,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "grey-knights-terminator-squad",
@@ -2672,7 +2672,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitor",
@@ -3175,7 +3175,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitor-greyfax",
@@ -3452,7 +3452,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitor-karamazov",
@@ -3532,7 +3532,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitor-kroyle",
@@ -3759,7 +3759,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitorial-agents",
@@ -4208,7 +4208,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "jokaero-weaponsmith",
@@ -4307,7 +4307,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "kill-team-cassius",
@@ -4584,7 +4584,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "ministorum-priest",
@@ -4870,7 +4870,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "proteus-kill-team",
@@ -5235,7 +5235,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "rogue-trader-entourage",
@@ -6277,7 +6277,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "subductor-squad",
@@ -6449,7 +6449,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "veteran-bike-squad",
@@ -6583,7 +6583,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "vigilant-squad",

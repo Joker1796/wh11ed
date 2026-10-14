@@ -152,6 +152,7 @@ export default {
         "Imperium",
         "Fortification",
         "Towering",
+        "Frame",
         "Battle Sanctum"
       ],
       "flags": {
@@ -2647,6 +2648,7 @@ export default {
         "Transport",
         "Dedicated Transport",
         "Imperium",
+        "Frame",
         "Repressor"
       ],
       "flags": {

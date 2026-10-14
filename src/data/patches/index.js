@@ -9,10 +9,10 @@ export const patches = [
       "app": 981,
       "mfm": "1.6"
     },
-    "total": 264,
+    "total": 266,
     "byFaction": {
       "core": 3,
-      "adepta-sororitas": 6,
+      "adepta-sororitas": 8,
       "space-marines": 3,
       "adeptus-custodes": 182,
       "adeptus-mechanicus": 4,
