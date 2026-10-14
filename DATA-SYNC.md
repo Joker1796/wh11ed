@@ -18,14 +18,21 @@
 cd ../wh40k-appdata && node scripts/ingest.mjs   # берёт свежий пакет из sources/apk сам
 ```
 
-**Откуда узнаём, что вышло обновление.** `.github/workflows/gw-watch.yml` раз в три часа
-запускает `scripts/watch-gw.py` и шлёт письмо через Postbox, если сменилась версия
-приложения в App Store / Google Play, цены на сайте MFM (сравниваются сами цены — тихая
-переоценка 2 октября вышла под тем же «1.5») или документ в Downloads на
-warhammer-community.com. Что видели в прошлый раз — `state.json` в ветке `watch-state`.
-Сломанная проверка роняет запуск и тоже присылает письмо. Сухой прогон без почты:
-`python3 scripts/watch-gw.py --state <файл> --dry-run` (первый запуск только запоминает
-исходное состояние).
+**Откуда узнаём, что вышло обновление.** `scripts/watch-gw.py` смотрит четыре первоисточника и
+шлёт письмо, если сменилась версия приложения в App Store / Google Play, цены на сайте MFM
+(сравниваются сами цены — тихая переоценка 2 октября вышла под тем же «1.5») или документ в
+Downloads на warhammer-community.com. Источники поделены (с 2026-10-14):
+
+- **App Store, MFM, warhammer-community.com** — с нашего сервера каждые 20 минут
+  (`wh11ed-api/deploy/gw-watch.sh`, cron, письмо через почту API, состояние в
+  `/opt/wh-rules/watch/state.json`, лог `journalctl -t wh-gw-watch`). GitHub запускал часовое
+  расписание с опозданием в часы: приложение 2.8.0 пришло письмом через 4,5 часа после выхода.
+- **Google Play** — `.github/workflows/gw-watch.yml` (`--sources play`): с сервера в России
+  `play.google.com` недоступен. Состояние — `state.json` в ветке `watch-state`.
+
+Сломанная проверка тоже присылает письмо (на сервере — один раз, пока не починят). Сухой прогон
+без почты: `python3 scripts/watch-gw.py --state <файл> [--sources appstore,mfm,warcom,play]
+--dry-run` (первый запуск только запоминает исходное состояние).
 
 Письмо «Google Play x.y.z» → APK без ожидания APKPure: `node scripts/apk-emu.mjs` в
 `../wh40k-appdata` (эмулятор с Google Play, кнопку Update в Play нажимает человек; в аккаунт GW

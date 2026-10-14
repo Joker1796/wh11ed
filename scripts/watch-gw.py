@@ -126,34 +126,38 @@ def mfm_diff():
     return stat, '\n'.join(shown) + more
 
 
+SOURCES = {'appstore': appstore, 'play': play, 'warcom': warcom, 'mfm': mfm}
+
+
 # ── Comparing ────────────────────────────────────────────────────────────────────────────────────
 
 def compare(old, new):
     """Returns (subject parts, body sections) for everything that changed."""
     subj, body = [], []
+    has = lambda k: k in old and k in new   # a source this run did not read (--sources) says nothing
 
-    a, b = old['appstore'], new['appstore']
-    if a['version'] != b['version']:
+    a, b = old.get('appstore'), new.get('appstore')
+    if has('appstore') and a['version'] != b['version']:
         subj.append(f'App Store {b["version"]}')
         body.append(f'Приложение в App Store: {a["version"]} → {b["version"]} ({b["date"][:10]})'
                     + (f'\n\n{b["notes"]}' if b['notes'] else ''))
-    a, b = old['play'], new['play']
-    if a['version'] != b['version']:
+    a, b = old.get('play'), new.get('play')
+    if has('play') and a['version'] != b['version']:
         subj.append(f'Google Play {b["version"]}')
         body.append(f'Приложение в Google Play: {a["version"]} → {b["version"]}\n'
                     'APK: sources/apk/ → скил appdata-update')
 
-    if old['mfm']['hash'] != new['mfm']['hash']:
+    if has('mfm') and old['mfm']['hash'] != new['mfm']['hash']:
         stat, diff = mfm_diff()
         subj.append('MFM')
         body.append(f'MFM {new["mfm"]["version"]}: цены на сайте изменились.\n'
                     f'Против репозитория:\n{stat or "(совпадает с репозиторием)"}\n\n{diff}')
 
-    a, b = old['warcom'], new['warcom']
+    a, b = old.get('warcom', {}), new.get('warcom', {})
     titles = {v['title'] for v in a.values()}
     added = [(f, v) for f, v in b.items() if f not in a]
     gone = [v for f, v in a.items() if f not in b and v['title'] not in {x['title'] for x in b.values()}]
-    if added or gone:
+    if has('warcom') and (added or gone):
         subj.append('Warhammer Community')
         rows = [f'{"обновлён" if v["title"] in titles else "новый"}: {v["title"]} ({v["updated"]})\n'
                 f'  {WARCOM_FILE}{f}' for f, v in sorted(added, key=lambda x: x[1]['title'])]
@@ -190,6 +194,9 @@ def main():
     ap.add_argument('--state')
     ap.add_argument('--dry-run', action='store_true')
     ap.add_argument('--mail-failure', metavar='RUN_URL')
+    # The server cannot reach Google Play (blocked from Russia, 2026-10-14): it reads the other
+    # three, and the GitHub workflow keeps Google Play alone — each source mails from one place.
+    ap.add_argument('--sources', default=','.join(SOURCES), help='comma list of ' + ', '.join(SOURCES))
     args = ap.parse_args()
 
     if args.mail_failure:
@@ -199,7 +206,11 @@ def main():
     if not args.state:
         ap.error('--state is required')
 
-    new = {'appstore': appstore(), 'play': play(), 'warcom': warcom(), 'mfm': mfm()}
+    picked = [x.strip() for x in args.sources.split(',') if x.strip()]
+    unknown = [x for x in picked if x not in SOURCES]
+    if unknown or not picked:
+        ap.error(f'--sources: unknown {", ".join(unknown) or "(none)"}; known: {", ".join(SOURCES)}')
+    new = {k: SOURCES[k]() for k in picked}
     old = json.load(open(args.state, encoding='utf-8')) if os.path.exists(args.state) else None
     if old is None:
         print('no state yet — recording the baseline, nothing to mail')
