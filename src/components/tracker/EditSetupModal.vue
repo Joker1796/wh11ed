@@ -190,10 +190,24 @@
            dialog should make the phase row available before Save, and this is the only way a game
            that started without a list can ever get the clock. -->
       <div class="settings">
+        <TrackPresets
+          v-if="!guest"
+          :settings="settings"
+          :ctx="trackCtx"
+          :labels="labels"
+        />
         <TrackOptions
           :settings="settings"
           :ctx="trackCtx"
-          group="game"
+          group="turn"
+          heading="trackerGroupTurn"
+          :lock-shared="guest"
+        />
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="armies"
+          heading="trackerGroupArmies"
           :lock-shared="guest"
         />
         <TrackOptions
@@ -281,6 +295,7 @@ import LayoutPickerModal from './LayoutPickerModal.vue'
 import LayoutTabs from './LayoutTabs.vue'
 import RosterPickerModal from './RosterPickerModal.vue'
 import TrackOptions from './TrackOptions.vue'
+import TrackPresets from './TrackPresets.vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import { useColorClashGate } from '../../composables/useColorClashGate.js'
 import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '../../data/trackerOptions.js'

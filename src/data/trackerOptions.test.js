@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { TRACK_OPTIONS, tracks, defaultTrackSettings, trackSettingsOf, normalizeTrackSettings, optionsIn, optionEnabled } from './trackerOptions.js'
+import { TRACK_OPTIONS, TRACK_PRESETS, applyTrackPreset, presetOf, tracks, defaultTrackSettings, trackSettingsOf, normalizeTrackSettings, optionsIn, optionEnabled } from './trackerOptions.js'
 import { ui } from '../i18n/ui.js'
 
 const CTX_FULL = {
@@ -73,9 +73,11 @@ describe('availability', () => {
   // Availability is a STATE of a row, never a filter on the list: the whole table is drawn in
   // every game, and a row that cannot be flipped says why instead of vanishing.
   it('lists every row whatever the game looks like', () => {
-    expect(optionsIn('game').length + optionsIn('roster').length + optionsIn('look').length).toBe(TRACK_OPTIONS.length)
-    // The clock is a GAME row: PhaseRules reads it with no list in sight.
-    expect(optionsIn('game').map((o) => o.id)).toContain('phases')
+    // Four groups (owner, 2026-10-14) and every row in one of them.
+    const groups = ['turn', 'armies', 'roster', 'look']
+    expect(groups.reduce((n, g) => n + optionsIn(g).length, 0)).toBe(TRACK_OPTIONS.length)
+    // The clock is a TURN row: PhaseRules reads it with no list in sight.
+    expect(optionsIn('turn').map((o) => o.id)).toContain('phases')
   })
 
   it('disables an army row for a side with no faction, and says so', () => {
@@ -96,8 +98,8 @@ describe('availability', () => {
   it('leaves the tracker\'s own rows alone', () => {
     // The two army rows want a faction; the clock, its reminder and the colours are always offered
     // (a side with no faction still has a colour to customise).
-    expect(enabled(CTX_BARE)).toEqual(['cp', 'phases', 'phase-rules', 'broadcast', 'custom-colors'])
-    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'phases', 'phase-rules', 'broadcast', 'custom-colors'])
+    expect(enabled(CTX_BARE)).toEqual(['cp', 'strat-ask', 'phases', 'phase-rules', 'turn-checks', 'broadcast', 'log-stats', 'custom-colors'])
+    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'strat-ask', 'phases', 'phase-rules', 'turn-checks', 'broadcast', 'log-stats', 'custom-colors'])
   })
 })
 
@@ -152,5 +154,39 @@ describe('the Battle-shock row', () => {
 
   it('needs the modifiers master, like the unit states', () => {
     expect(tracks({ trackCP: true, trackModifiers: false }, 'trackBattleShock')).toBe(false)
+  })
+})
+
+describe('presets (owner, 2026-10-14)', () => {
+  it('a new game starts as "Normal"', () => {
+    expect(presetOf(defaultTrackSettings(), CTX_FULL)).toBe('normal')
+  })
+  it('applies each preset and recognises it, and a touched box is your own set', () => {
+    for (const p of TRACK_PRESETS) {
+      const s = defaultTrackSettings()
+      applyTrackPreset(s, p.id)
+      expect(presetOf(s, CTX_FULL)).toBe(p.id)
+    }
+    const s = defaultTrackSettings()
+    applyTrackPreset(s, 'quick')
+    s.showLogStats = true
+    expect(presetOf(s, CTX_FULL)).toBeNull()
+  })
+  it('names only rows the table has, and leaves the colours and the broadcast alone', () => {
+    const known = new Set(TRACK_OPTIONS.map((o) => o.setting))
+    for (const p of TRACK_PRESETS) {
+      for (const k of Object.keys(p.values)) expect(known.has(k), `${p.id}: ${k}`).toBe(true)
+      expect(p.values).not.toHaveProperty('customColors')
+      expect(p.values).not.toHaveProperty('trackBroadcast')
+    }
+  })
+  it('a game without a list is still "Normal" — the list rows it cannot offer are not compared', () => {
+    const s = normalizeTrackSettings(defaultTrackSettings(), CTX_BARE)
+    expect(presetOf(s, CTX_BARE)).toBe('normal')
+  })
+  it('the quick game asks nothing and hides the log and the stats', () => {
+    const s = defaultTrackSettings()
+    applyTrackPreset(s, 'quick')
+    for (const k of ['askStratagems', 'trackTurnChecks', 'showLogStats', 'trackModifiers', 'trackPhases']) expect(tracks(s, k), k).toBe(false)
   })
 })

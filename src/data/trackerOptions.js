@@ -8,8 +8,10 @@
 // A row is:
 //   id           stable key (tests, help modal)
 //   setting      the field it writes on game.settings
-//   group        which block it belongs to: 'game' (the tracker itself) | 'roster' (only means
-//                anything with an army list attached)
+//   group        which block it belongs to (owner, 2026-10-14): 'turn' (the turn and the score),
+//                'armies' (the armies' rules and stratagems), 'roster' (only means anything with
+//                an army list attached), 'look' (how the screen looks)
+//   fold         drawn under "Details" beneath its parent row (the modifier families)
 //   label        ui.js key — the checkbox's caption, and the help modal's title
 //   help         ui.js key — one paragraph saying what turning it off costs
 //   default      what a game gets when nobody chose, INCLUDING every game saved before the flag
@@ -56,7 +58,7 @@ export const TRACK_OPTIONS = [
   {
     id: 'cp',
     setting: 'trackCP',
-    group: 'game',
+    group: 'turn',
     label: 'trackerTrackCp',
     help: 'trackerHelpCp',
     default: true,
@@ -65,7 +67,7 @@ export const TRACK_OPTIONS = [
   {
     id: 'army-you',
     setting: 'trackArmyYou',
-    group: 'game',
+    group: 'armies',
     label: 'trackerTrackArmyYou',
     help: 'trackerHelpArmyRule',
     default: true,
@@ -78,7 +80,7 @@ export const TRACK_OPTIONS = [
   {
     id: 'army-opp',
     setting: 'trackArmyOpp',
-    group: 'game',
+    group: 'armies',
     label: 'trackerTrackArmyOpp',
     help: 'trackerHelpArmyRule',
     default: true,
@@ -87,6 +89,19 @@ export const TRACK_OPTIONS = [
     legacy: 'trackArmyRule',
     unavailable: (ctx) => (ctx.opp.faction ? null : 'trackerOptNeedsFaction'),
     note: (ctx) => (ctx.opp.trackable ? null : 'trackerArmyReferenceOnly'),
+  },
+  {
+    // Playing a stratagem asks which unit and whether a rule changed its cost (StratPlayModal).
+    // Off: the printed cost is spent at one tap, on no unit from the CP tab, on the unit from its
+    // card (owner, 2026-10-14). Only where CP are counted — there is no play without them.
+    id: 'strat-ask',
+    setting: 'askStratagems',
+    group: 'armies',
+    label: 'trackerAskStratagems',
+    help: 'trackerHelpAskStratagems',
+    default: true,
+    remember: true,
+    requires: 'trackCP',
   },
 
   {
@@ -97,7 +112,7 @@ export const TRACK_OPTIONS = [
     // the clock drives the stratagem page's timing too, which is not a modifier question.
     id: 'phases',
     setting: 'trackPhases',
-    group: 'game',
+    group: 'turn',
     label: 'trackerTrackPhases',
     help: 'trackerHelpPhases',
     // Off by default: an optional ornament, never a precondition.
@@ -107,12 +122,25 @@ export const TRACK_OPTIONS = [
   {
     id: 'phase-rules',
     setting: 'trackPhaseRules',
-    group: 'game',
+    group: 'turn',
     label: 'trackerTrackPhaseRules',
     help: 'trackerHelpPhaseRules',
     default: true,
     remember: true,
     // No `requires` since 2026-10-08: without the clock the tab lists the whole turn instead.
+  },
+  {
+    // Before the turn passes, the conditions on cards nobody is looking at — the other side's "end
+    // of your opponent's turn" secondaries, every End of Battle condition on the last turn
+    // (TurnEndCheckModal). On by default; a player who keeps score by hand can turn it off
+    // (owner, 2026-10-14).
+    id: 'turn-checks',
+    setting: 'trackTurnChecks',
+    group: 'turn',
+    label: 'trackerTrackTurnChecks',
+    help: 'trackerHelpTurnChecks',
+    default: true,
+    remember: true,
   },
   {
     // The OBS-broadcast button. A niche feature, so the ROW is what puts the button on the
@@ -123,11 +151,23 @@ export const TRACK_OPTIONS = [
     // always offered, and the broadcast dialog explains the account part itself.
     id: 'broadcast',
     setting: 'trackBroadcast',
-    group: 'game',
+    group: 'look',
     label: 'trackerTrackBroadcast',
     help: 'trackerHelpBroadcast',
     default: false,
     remember: true,
+  },
+  {
+    // The Log and Stats tabs (owner, 2026-10-14): two of the seven icons on a phone's tab strip,
+    // read after a turn rather than during one. This phone's own choice, like the colours.
+    id: 'log-stats',
+    setting: 'showLogStats',
+    group: 'look',
+    label: 'trackerShowLogStats',
+    help: 'trackerHelpLogStats',
+    default: true,
+    remember: true,
+    local: true,
   },
   {
     // The sides' colours on the game screen: each side's faction accent by default; on, this
@@ -164,6 +204,18 @@ export const TRACK_OPTIONS = [
     unavailable: NEEDS_ROSTER,
   },
   {
+    // Where each unit of the list is — on the battlefield, in Strategic Reserves, destroyed
+    // (UnitStatusButton on the list's rows). Its own row, not a modifier family (owner, 2026-10-14).
+    id: 'unit-status',
+    setting: 'trackUnitStatus',
+    group: 'roster',
+    label: 'trackerTrackUnitStatus',
+    help: 'trackerHelpUnitStatus',
+    default: true,
+    remember: true,
+    unavailable: NEEDS_ROSTER,
+  },
+  {
     id: 'unit-states',
     setting: 'trackUnitStates',
     group: 'roster',
@@ -172,6 +224,7 @@ export const TRACK_OPTIONS = [
     default: true,
     remember: true,
     requires: 'trackModifiers',
+    fold: true,
     unavailable: NEEDS_ROSTER,
   },
   {
@@ -190,6 +243,7 @@ export const TRACK_OPTIONS = [
     defaultWhen: (settings) => tracks(settings, 'trackCP'),
     remember: true,
     requires: 'trackModifiers',
+    fold: true,
     unavailable: NEEDS_ROSTER,
   },
   {
@@ -201,6 +255,7 @@ export const TRACK_OPTIONS = [
     default: true,
     remember: true,
     requires: 'trackModifiers',
+    fold: true,
     unavailable: NEEDS_ROSTER,
   },
   {
@@ -212,6 +267,7 @@ export const TRACK_OPTIONS = [
     default: true,
     remember: true,
     requires: 'trackModifiers',
+    fold: true,
     unavailable: NEEDS_ROSTER,
   },
   {
@@ -223,6 +279,7 @@ export const TRACK_OPTIONS = [
     default: true,
     remember: true,
     requires: 'trackModifiers',
+    fold: true,
     unavailable: NEEDS_ROSTER,
   },
   {
@@ -234,6 +291,7 @@ export const TRACK_OPTIONS = [
     default: true,
     remember: true,
     requires: 'trackModifiers',
+    fold: true,
     unavailable: NEEDS_ROSTER,
   },
 ]
@@ -312,4 +370,42 @@ export function normalizeTrackSettings(settings, ctx) {
 // not a filter on the list.
 export function optionsIn(group) {
   return TRACK_OPTIONS.filter((o) => o.group === group)
+}
+
+// Three ready sets over the rows (owner, 2026-10-14), like the print sheet's presets: a preset
+// sets every row it names, touching any box keeps everything else and stops calling itself a
+// preset (`presetOf` → null, "your own set"). The colours and the broadcast button are left out:
+// neither is about how much the tracker does.
+const FAMILIES = TRACK_OPTIONS.filter((o) => o.fold).map((o) => o.setting)
+const all = (on) => Object.fromEntries(FAMILIES.map((k) => [k, on]))
+export const TRACK_PRESETS = [
+  {
+    id: 'quick',
+    label: 'trackerPresetQuick',
+    values: { trackCP: true, trackPhases: false, trackPhaseRules: false, trackTurnChecks: false, trackArmyYou: true, trackArmyOpp: false, askStratagems: false, trackModifiers: false, trackUnitStatus: false, showLogStats: false },
+  },
+  {
+    id: 'normal',
+    label: 'trackerPresetNormal',
+    values: { trackCP: true, trackPhases: false, trackPhaseRules: true, trackTurnChecks: true, trackArmyYou: true, trackArmyOpp: true, askStratagems: true, trackModifiers: true, ...all(true), trackUnitStatus: true, showLogStats: true },
+  },
+  {
+    id: 'full',
+    label: 'trackerPresetFull',
+    values: { trackCP: true, trackPhases: true, trackPhaseRules: true, trackTurnChecks: true, trackArmyYou: true, trackArmyOpp: true, askStratagems: true, trackModifiers: true, ...all(true), trackUnitStatus: true, showLogStats: true },
+  },
+]
+
+/** Write a preset onto a settings draft, in place (the callers hold the draft by identity). */
+export function applyTrackPreset(settings, id) {
+  const p = TRACK_PRESETS.find((x) => x.id === id)
+  if (p) Object.assign(settings, p.values)
+}
+
+// Which preset the draft is, or null. Only the rows the game can offer are compared — a row a game
+// without a list must keep off (normalizeTrackSettings) does not make "Normal" read as a custom set.
+export function presetOf(settings, ctx) {
+  const now = trackSettingsOf(settings)
+  const offered = (k) => { const o = BY_SETTING.get(k); return !o || !ctx || optionEnabled(o, ctx) }
+  return TRACK_PRESETS.find((p) => Object.entries(p.values).every(([k, v]) => !offered(k) || now[k] === v))?.id ?? null
 }

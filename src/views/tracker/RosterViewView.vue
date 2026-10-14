@@ -455,7 +455,7 @@
                       </button>
                       <!-- Where the unit is: the row's other end (owner, 2026-10-08). -->
                       <UnitStatusButton
-                        v-if="inGame"
+                        v-if="inGame && keeps('trackUnitStatus')"
                         :status="unitStatusOf(gamePlayer, e.uid)"
                         :name="defOf(e.id)?.name || e.id"
                         :disabled="!canSwitch"
@@ -1487,7 +1487,10 @@ async function toggleUnitStrat(st) {
     t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), true, gameMi.value)
     return
   }
-  playingOnCard.value = { strat, target: { uid: entry.uid, mi: gameMi.value, name: defOf(entry.id)?.name || entry.id, sid: st.id } }
+  const target = { uid: entry.uid, mi: gameMi.value, name: defOf(entry.id)?.name || entry.id, sid: st.id }
+  // Not asking (`askStratagems` off): the printed cost on this unit at one tap; refused → the dialog.
+  if (!keeps('askStratagems') && t.playStratagem(gamePi.value, strat, strat._cost, target)) return
+  playingOnCard.value = { strat, target }
 }
 
 function toggleViewingAura(sw) {

@@ -67,7 +67,8 @@ export const help = {
         body: `The tracker keeps score for both players: the primary and secondary missions, command points, and the totals by round with a running Battle Points result.
 ▪ The game in progress is remembered. Closing the tab or losing signal mid-game changes nothing.
 **What to track**
-▪ The last step of the setup lists what the app keeps beside the missions: command points, each side's army rule, the turn-and-phase clock and what applies in the current phase. With an army list attached, it also asks how closely to follow the list's own rules: stratagems spent, auras, unit states.
+▪ The last step of the setup lists what the app keeps beside the missions, in four groups: the turn and the score (command points, the turn-and-phase clock, what applies now, a check before the turn passes), the armies (each side's army rule, whether playing a stratagem asks the unit and the cost), the army list (modifiers, where each unit is; the finer switches are under "Details") and the screen (the Log and Stats tabs, the broadcast button, the colours).
+▪ Three ready sets sit on top: a quick game with only the missions and CP, the normal one, and a full one with the phases and every modifier. Change any box and the set becomes your own.
 ▪ During the game the same list is under the "Setup" button.
 ▪ Turning a row off only hides it. What it recorded stays and comes back with it.
 ▪ Every row has an "i" that says what it does.
@@ -169,7 +170,8 @@ export const help = {
         body: `Трекер считает за обоих игроков: первичную и вторичные миссии, командные очки и суммы по раундам с текущим результатом в Battle Points.
 ▪ Начатая партия запоминается. Закрыть вкладку или потерять сеть посреди игры ничего не меняет.
 **Что отслеживать**
-▪ На последнем шаге настройки перечислено, что приложение ведёт рядом с миссиями: командные очки, правило армии каждой стороны, часы «ход и фаза» и что действует в текущей фазе. С прикреплённым листом добавляется, насколько подробно следовать его правилам: потраченные стратагемы, ауры, состояния юнитов.
+▪ На последнем шаге настройки перечислено, что приложение ведёт рядом с миссиями, в четырёх группах: ход и счёт (командные очки, часы «ход и фаза», что действует сейчас, проверка перед передачей хода), армии (правило армии каждой стороны, спрашивать ли при розыгрыше стратагемы отряд и цену), список армии (модификаторы, где каждый отряд; подробные переключатели — под «Подробнее») и экран (вкладки «Лог» и «Статистика», кнопка трансляции, цвета).
+▪ Сверху три готовых набора: быстрая игра — только миссии и CP, обычная и полная — с фазами и всеми модификаторами. Поменяйте любую галочку — набор станет вашим.
 ▪ Во время партии тот же список открывается кнопкой «Настройки».
 ▪ Выключенная строка только прячется. Записанное остаётся и вернётся вместе с ней.
 ▪ У каждой строки есть «i» с объяснением, что она делает.

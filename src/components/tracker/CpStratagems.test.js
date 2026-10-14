@@ -54,6 +54,24 @@ describe('CpStratagems', () => {
     expect(tracker.current.value.players[1].cp).toBe(1)
   })
 
+  // Not asking (owner, 2026-10-14): one tap spends the printed cost, no dialog — and a play the
+  // tracker refuses (short of CP) opens the dialog after all, since it says why.
+  it('with "ask the unit and the cost" off, spends the printed cost at one tap', async () => {
+    tracker.current.value.settings.askStratagems = false
+    const w = await mountTab(0)
+    await w.findAll('.cps-tabs .page-tab')[1].trigger('click')
+    // Counteroffensive at its printed 2CP with 1 in the bank: refused, so the dialog opens to say why.
+    await row(w, 'Counteroffensive').find('.sr-use').trigger('click')
+    await vi.waitFor(() => expect(document.body.querySelectorAll('.spm-cost').length).toBe(3))
+    expect(tracker.current.value.players[1].cp).toBe(1)
+    document.body.innerHTML = ''
+    // Fire Overwatch, 1CP: spent at once, no dialog.
+    await row(w, 'Fire Overwatch').find('.sr-use').trigger('click')
+    await flushPromises()
+    expect(document.body.querySelector('.spm-cost')).toBeNull()
+    expect(tracker.current.value.players[1].cp).toBe(0)
+  })
+
   it('asks each time whether a rule changed the cost, and says why a limited one is off', async () => {
     const w = await mountTab(0)
     // Whose turn first (owner, 2026-09-29): Rapid Ingress is the other side's move…

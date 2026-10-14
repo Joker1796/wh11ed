@@ -168,7 +168,7 @@ const props = defineProps({
 })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, stratUses, stratBlock, lastStratUse, undoStratagem } = useTracker()
+const { current, stratUses, stratBlock, lastStratUse, undoStratagem, playStratagem } = useTracker()
 const { canEdit } = useParty()
 
 const controlled = computed(() => props.side === 0 || props.side === 1)
@@ -291,6 +291,12 @@ const playing = ref(null)
 async function use(s, fromCard = false) {
   if (!canEdit(side.value)) return
   const pi = side.value
+  // Not asking (`askStratagems` off, owner 2026-10-14): the printed cost at one tap, on no unit. A
+  // play the tracker refuses (short of CP, a limit) opens the dialog after all — it says why.
+  if (!tracks(current.value?.settings, 'askStratagems') && playStratagem(pi, s, s._cost, null)) {
+    if (fromCard) openStrat.value = null
+    return
+  }
   const targets = await loadStratTargets(current.value, pi, s)
   if (fromCard) openStrat.value = null
   playing.value = { strat: s, pi, targets }

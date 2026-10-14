@@ -85,6 +85,12 @@ describe('RoundTracker — the tabs', () => {
     expect(tabLabels(mountTracker())).toContain('Phase')
   })
 
+  // The log and the stats are this phone's choice (owner, 2026-10-14).
+  it('leaves the Log and Stats tabs out of a game that switched them off', () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { showLogStats: false })
+    expect(tabLabels(mountTracker())).toEqual(['Missions', 'Turn', 'CP', 'Army'])
+  })
+
   // A turn starts with drawing and scoring, so a new turn brings the player back to them.
   it('goes back to the missions when the turn changes', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
@@ -239,6 +245,19 @@ describe('RoundTracker — ending a turn', () => {
     document.body.querySelector('.ck-go').click()
     await w.vm.$nextTick()
     expect(tracker.current.value.currentTurn).toBe(1)
+  })
+
+  // The same game with the check switched off (owner, 2026-10-14): the turn passes at once.
+  it('passes the turn at once when the game switched the check off', async () => {
+    startGame({ factionSlug: 'orks', secondaryMode: 'tactical' }, { factionSlug: 'necrons', secondaryMode: 'tactical' }, { trackTurnChecks: false })
+    const s = tracker.current.value.players[1].secondary
+    const slug = s.deck.find((x) => x.startsWith('display-of-might'))
+    s.deck = s.deck.filter((x) => x !== slug)
+    s.hand.push(slug)
+    const w = mountTracker()
+    await w.find('.tr-end').trigger('click')
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(document.body.querySelector('.ck-go')).toBeNull()
   })
 })
 

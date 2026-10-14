@@ -1077,10 +1077,15 @@
       :ref="el => (panelEls[3] = el)"
       class="step-panel"
     >
-      <!-- Two cards, side by side on desktop: what is about the GAME (the `game` option group;
-           the score mode moved to step 3 on 2026-10-02) and what is about the attached LIST (the `roster` group) — the
-           split trackerOptions.js already makes. Thirteen rows in one column ran past a screen;
-           two columns of six or seven fit one, like the steps before. -->
+      <!-- Three ready sets on top (owner, 2026-10-14), then the rows in four groups: the turn and
+           the score, the armies, the attached list, the screen. Two columns on a desktop — the turn
+           and the armies on the left, the list on the right — and the screen full width under them
+           (its colour preview is both sides' cards wide). -->
+      <TrackPresets
+        :settings="settings"
+        :ctx="trackCtx"
+        :labels="labels"
+      />
       <div class="two-col">
         <div
           class="settings deploy-opts"
@@ -1089,7 +1094,15 @@
           <TrackOptions
             :settings="settings"
             :ctx="trackCtx"
-            group="game"
+            group="turn"
+            heading="trackerGroupTurn"
+          />
+          <TrackOptions
+            class="opts-next"
+            :settings="settings"
+            :ctx="trackCtx"
+            group="armies"
+            heading="trackerGroupArmies"
           />
         </div>
         <div
@@ -1105,8 +1118,6 @@
           />
         </div>
       </div>
-      <!-- The side colours: a card of their own, full width under the two columns — the preview
-           is both sides' cards, too wide for a column (2026-10-02). -->
       <div
         class="settings deploy-opts look-opts"
         data-tour="setup-look"
@@ -1116,7 +1127,6 @@
           :ctx="trackCtx"
           group="look"
           heading="trackerLookHeading"
-          inline
         />
       </div>
 
@@ -1283,6 +1293,7 @@ import { useRosters } from '../../composables/useRosters.js'
 import { ownLimitsOf, ownLimitsSummary } from '../../composables/ownLimits.js'
 import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import TrackOptions from './TrackOptions.vue'
+import TrackPresets from './TrackPresets.vue'
 import { useTour } from '../../composables/useTour.js'
 import { defaultTrackSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
 
@@ -2099,6 +2110,8 @@ function cancel() {
 </script>
 
 <style scoped>
+/* A second option group in the same card: ruled off from the first. */
+.opts-next { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border); }
 /* Entrance replayed on each step change (class re-added from the step watcher). */
 .wizard-in {
   animation: wizard-in var(--motion-med) ease-out;

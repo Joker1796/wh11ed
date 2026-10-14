@@ -150,23 +150,28 @@ export const TOUR_CHAPTERS = {
   'setup-4': {
     steps: [
       {
+        target: 'setup-presets',
+        ru: { title: 'Готовые наборы', text: 'Выберите набор: «Быстрая игра» — только миссии и CP, «Полная» — фазы и все модификаторы. Любую галочку ниже можно поменять, тогда набор станет вашим.' },
+        en: { title: 'Ready sets', text: 'Pick a set: “Quick game” is missions and CP only, “Full” adds the phases and every modifier. Any box below can be changed, and the set becomes your own.' },
+      },
+      {
         target: 'setup-opts-game',
-        ru: { title: 'Что отслеживать', text: 'Выберите, что трекер будет вести за вас: фазы, CP, правила армий. Выключенное не появится на экране партии. Включить его можно и посреди игры, в настройке партии.' },
+        ru: { title: 'Ход и армии', text: 'Выберите, что трекер будет вести за вас: CP, фазы, проверку перед передачей хода, правила армий. Выключенное не появится на экране партии. Включить его можно и посреди игры, в настройке партии.' },
 
-        en: { title: 'What to track', text: 'Choose what the tracker keeps for you: phases, CP, army rules. Whatever is off does not appear on the game screen. You can switch it on mid-game, in the game’s setup.' },
+        en: { title: 'Turn and armies', text: 'Choose what the tracker keeps for you: CP, phases, the check before the turn passes, army rules. Whatever is off does not appear on the game screen. You can switch it on mid-game, in the game’s setup.' },
 
       },
       {
         target: 'setup-opts-roster',
-        ru: { title: 'Ростер и модификаторы', text: 'Включите эти пункты, если к армии приложен ростер. Например, живые модификаторы покажут в карточке юнита, что изменили правила.' },
+        ru: { title: 'Список армии', text: 'Эти пункты работают, если к армии приложен ростер. Живые модификаторы покажут в карточке юнита, что изменили правила; подробные переключатели свёрнуты под «Подробнее».' },
 
-        en: { title: 'Roster and modifiers', text: 'Switch these on when a roster is attached to the army. For example, live modifiers show on a unit’s card what the rules changed.' },
+        en: { title: 'Army list', text: 'These work when a roster is attached to the army. Live modifiers show on a unit’s card what the rules changed; the finer switches are folded under “Details”.' },
 
       },
       {
         target: 'setup-look',
-        ru: { title: 'Цвета сторон', text: 'Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому. Без этого каждая сторона окрашена в цвет своей фракции — здесь видно, как это будет выглядеть. Выбор действует только на вашем устройстве.' },
-        en: { title: 'Side colours', text: 'Tick “Customise colours” to choose each side’s colour yourself. Otherwise each side wears its faction’s colour — this shows how it will look. The choice applies to your device only.' },
+        ru: { title: 'Экран', text: 'Здесь вкладки «Лог» и «Статистика», кнопка трансляции и цвета сторон. Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому; без этого каждая сторона окрашена в цвет своей фракции. Пункты с пометкой «на этом телефоне» действуют только на вашем устройстве.' },
+        en: { title: 'Screen', text: 'The Log and Stats tabs, the broadcast button and the side colours are here. Tick “Customise colours” to choose each side’s colour yourself; otherwise each side wears its faction’s colour. Rows marked “on this phone” apply to your device only.' },
       },
       {
         target: 'setup-start',
@@ -322,12 +327,14 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-panel-log',
         show: { tab: 'log', member: 'mine' },
+        when: (ctx) => ctx.tabs.includes('log'),
         ru: { title: 'Лог', text: 'Здесь всё, что случилось в партии, по раундам: очки, CP, стратагемы. Лог показывает обе стороны сразу. Его можно скопировать текстом.' },
         en: { title: 'Log', text: 'Everything that happened in the game is here, by round: points, CP, stratagems. The log shows both sides at once. It can be copied as text.' },
       },
       {
         target: 'game-panel-stats',
         show: { tab: 'stats' },
+        when: (ctx) => ctx.tabs.includes('stats'),
         ru: { title: 'Статистика', text: 'Здесь очки стороны по раундам: первичка, вторичка и CP. Так видно, в каком раунде что набрано.' },
         en: { title: 'Stats', text: 'The side’s points by round are here: primary, secondary and CP. It shows what was scored in which round.' },
       },
