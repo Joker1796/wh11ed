@@ -113,6 +113,10 @@
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolFactionRoute" />
     <UpdateToast />
     <OfflineWarmupToast v-if="!isBare" />
+    <ErrorReportsOffer
+      v-if="errorOfferOpen"
+      @close="errorOfferOpen = false"
+    />
   </div>
 </template>
 
@@ -131,6 +135,7 @@ import { useBackToCloseWhile } from './composables/useBackToClose.js'
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 const InstallOffer = defineAsyncComponent(() => import('./components/InstallOffer.vue'))
+const ErrorReportsOffer = defineAsyncComponent(() => import('./components/ErrorReportsOffer.vue'))
 const AppFirstRun = defineAsyncComponent(() => import('./components/AppFirstRun.vue'))
 // Async like the search palette: the dialog pulls the tracker store for its attach offer.
 const FeedbackModal = defineAsyncComponent(() => import('./components/FeedbackModal.vue'))
@@ -154,6 +159,8 @@ import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
 import AppFooter from './components/AppFooter.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useAuth } from './composables/useAuth.js'
+import { ERROR_OFFER_KEY, onUnsentError, reportsOn } from './composables/useErrorLog.js'
+import { getItem, setItem } from './composables/safeStorage.js'
 import { startPrefsSync } from './composables/useUserPrefs.js'
 import { useKeywordPopover, opensPopover } from './composables/useKeywordPopover.js'
 import { gameInPlay } from './composables/gameInPlay.js'
@@ -170,7 +177,7 @@ const router = useRouter()
 const { open: feedbackOpen } = useFeedbackModal()
 const { open: signInOpen } = useSignInModal()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
-const { ensureSession } = useAuth()
+const { ensureSession, status: authStatus } = useAuth()
 const mobileNavOpen = ref(false)
 // The drawer is a page to a phone: Back closes it before it leaves the route (useBackToClose.js).
 useBackToCloseWhile(mobileNavOpen, () => { mobileNavOpen.value = false })
@@ -362,6 +369,22 @@ watch(() => appPath.value, (path) => {
     installOfferOpen.value = true
   }, 2500)
 }, { immediate: true })
+
+// The one question about sending errors (useErrorLog.js, owner 2026-10-14): off by default, asked
+// once per browser — only of a signed-in player, only after a real error, and at a calm moment:
+// never over a dialog or the tour, a game or a list being edited. Not calm now: the next page.
+const errorOfferOpen = ref(false)
+let errorPending = false
+function tryErrorOffer() {
+  if (!errorPending || errorOfferOpen.value || authStatus.value !== 'authed') return
+  if (reportsOn() || getItem(ERROR_OFFER_KEY, '')) return
+  if (document.querySelector('.modal-overlay:not([inert]), .tour')) return
+  if (/\/tracker\/game|\/roster\/(new|[^/]+$)/.test(appPath.value)) return
+  setItem(ERROR_OFFER_KEY, '1')
+  errorOfferOpen.value = true
+}
+onUnsentError(() => { errorPending = true; setTimeout(tryErrorOffer, 1500) })
+watch([() => appPath.value, authStatus], () => setTimeout(tryErrorOffer, 2500))
 
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)

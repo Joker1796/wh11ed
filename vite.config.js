@@ -135,9 +135,10 @@ function offlineShell() {
       // `.woff` is left out on purpose: @fontsource ships it beside every `.woff2` for browsers
       // that predate woff2, and this app's floor is Safari 16. Nobody who can run it will ever
       // request those 84 files, and downloading ~2 MB of them is not what "make it work offline"
-      // was asked for.
+      // was asked for. Source maps are not shipped at all (`sourcemap: 'hidden'`, deploy.sh sends
+      // them to the server for reading error stacks), so they are never the warm-up's to fetch.
       const assets = Object.keys(bundle)
-        .filter((f) => f.startsWith('assets/') && !shellFiles.has(f) && !f.endsWith('.woff'))
+        .filter((f) => f.startsWith('assets/') && !shellFiles.has(f) && !f.endsWith('.woff') && !f.endsWith('.map'))
         .sort()
         .map((f) => [`/${f}`, byteLength(bundle[f])])
 
@@ -348,6 +349,10 @@ export default defineConfig({
     }),
   ],
   build: {
+    // Hidden source maps: written next to each chunk with NO reference in it, so a visitor never
+    // downloads one. deploy.sh copies them to the API server, where the error reports' stacks are
+    // read back to the source (wh11ed-api src/lib/sourcemaps.ts); they never reach the bucket.
+    sourcemap: 'hidden',
     // A font is never inlined into the CSS. A subset file is fetched only when the page draws a
     // character in its range, and the warm-up fetches it for offline; base64'd into the stylesheet
     // every visitor would pay for it (three 2 KB Sofia cyrillic-ext ones did, 2026-10-13). Anything

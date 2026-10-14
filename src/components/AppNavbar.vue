@@ -197,6 +197,16 @@
                 <i :class="soundOn ? 'wi wi-sound-on' : 'wi wi-sound-off'" />
                 <span>{{ soundOn ? labels.soundOff : labels.soundOn }}</span>
               </button>
+              <!-- Sending error reports (useErrorLog.js) — off by default, the player's choice. -->
+              <button
+                class="settings-item"
+                :class="{ active: errorReports }"
+                :title="labels.errorReportsHint"
+                @click="toggleErrorReports"
+              >
+                <i class="wi wi-warning" />
+                <span>{{ errorReports ? labels.errorReportsOff : labels.errorReportsOn }}</span>
+              </button>
               <button
                 v-if="(canInstall || iosInstall) && !isStandalone"
                 class="settings-item"
@@ -318,6 +328,7 @@ import { localePath, stripLocale } from '../router/locale.js'
 import { useTheme } from '../composables/useTheme.js'
 import { useLoreVisibility } from '../composables/useLoreVisibility.js'
 import { useUiSound } from '../composables/uiSound.js'
+import { reportsOn, setErrorReports } from '../composables/useErrorLog.js'
 import { useOutsideTap } from '../composables/useOutsideTap.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
 import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../composables/useOfflineWarmup.js'
@@ -354,6 +365,11 @@ function toggleLocale() {
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
 const { soundOn, toggleSound } = useUiSound()
+const errorReports = ref(reportsOn())
+function toggleErrorReports() {
+  errorReports.value = !errorReports.value
+  setErrorReports(errorReports.value)
+}
 const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
 const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
 const isPatchesRoute = computed(() => stripLocale(route.path) === '/patches')
