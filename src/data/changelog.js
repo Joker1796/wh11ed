@@ -28,11 +28,15 @@ export const changelog = [
       { h: 'Whole site' },
       '**You can let the site send me its errors.** It is off until you turn it on: ⚙ → “Send error reports”. Only the error text and the page go, with no account and nothing personal. If you are signed in, the site asks once.',
       '**The points PDF now has wargear prices and the Chapters’ own units.** Under a unit, what each piece of its wargear costs. Ultramarines, Imperial Fists and the other Chapters’ units are in it too. The files on the [GW changes page](/patches) are already the new ones.',
+      { h: 'Roster builder' },
+      '**A detachment’s rules in the detachment picker no longer close when you open its enhancements or stratagems.** Thanks for the report.',
     ],
     ru: [
       { h: 'Весь сайт' },
       '**Сайт может отправлять мне свои ошибки, если вы разрешите.** Пока вы не включите, отправка выключена: ⚙ → «Отправлять отчёты об ошибках». Уходят только текст ошибки и страница, без аккаунта и личных данных. Если вы вошли в аккаунт, сайт спросит один раз.',
       '**В PDF с ценами появились цены снаряжения и юниты орденов.** Под юнитом — сколько стоит каждая штука его снаряжения. Юниты Ultramarines, Imperial Fists и других орденов теперь тоже там. Файлы на [странице изменений GW](/patches) уже новые.',
+      { h: 'Конструктор ростеров' },
+      '**Правила детачмента в окне выбора детачментов больше не закрываются, когда разворачиваете улучшения или стратагемы.** Спасибо за баг-репорт.',
     ],
   },
   {

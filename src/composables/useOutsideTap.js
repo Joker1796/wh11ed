@@ -6,8 +6,8 @@ import { onBeforeUnmount, watch } from 'vue'
 // without pressing the gear — no sink, no sound (owner, 2026-10-08). Listeners on the window do
 // what the backdrop did, and leave the trigger reachable:
 //
-// - a tap inside (`inside()` — the trigger and the panel) passes untouched: the trigger presses,
-//   sounds and toggles like any button;
+// - a tap inside (`inside()` — the trigger and the panel — or a dialog/popover opened over them)
+//   passes untouched: the trigger presses, sounds and toggles like any button;
 // - a tap outside closes, and is swallowed as the backdrop swallowed it — the thing under the
 //   finger neither presses (pointerdown stopped before pressFeedback) nor acts (its click stopped).
 //
@@ -16,7 +16,12 @@ import { onBeforeUnmount, watch } from 'vue'
 // scroll is cancelled, not released, so scrolling past an open menu leaves it open.
 export function useOutsideTap(open, inside, close) {
   let downOutside = false
-  const isOutside = (t) => !(t instanceof Node) || !inside().some((el) => el?.contains(t))
+  // A dialog or a popover open over the dropdown was opened FROM it (nothing else can be, while it
+  // is open) and lives at the end of <body>, outside the panel: a tap in there is the panel's own.
+  // Without this, folding a section in the detachment's ⓘ dialog closed the picker under it — and
+  // the dialog with it (a player's report, 2026-10-14).
+  const inLayer = (t) => t instanceof Element && !!t.closest('.modal-overlay, .kw-popover')
+  const isOutside = (t) => !(t instanceof Node) || (!inside().some((el) => el?.contains(t)) && !inLayer(t instanceof Element ? t : t.parentElement))
 
   function onDown(e) {
     downOutside = e.button === 0 && isOutside(e.target)
