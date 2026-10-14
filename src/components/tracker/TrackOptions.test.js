@@ -88,7 +88,7 @@ describe('TrackOptions', () => {
     expect(row('Customise colours').find('input').element.disabled).toBe(false)
     expect(row('Log and Stats tabs').find('input').element.disabled).toBe(false)
     // The broadcast button is the host's: it streams the game, not this phone's view of it.
-    expect(row('Broadcast button').find('input').element.disabled).toBe(true)
+    expect(row('Broadcast (OBS)').find('input').element.disabled).toBe(true)
   })
 
   // The five families hang off the master; nothing else does.

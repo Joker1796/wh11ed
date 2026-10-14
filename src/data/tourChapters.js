@@ -170,8 +170,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'setup-look',
-        ru: { title: 'Экран', text: 'Здесь вкладки «Лог» и «Статистика», кнопка трансляции и цвета сторон. Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому; без этого каждая сторона окрашена в цвет своей фракции. Пункты с пометкой «на этом телефоне» действуют только на вашем устройстве.' },
-        en: { title: 'Screen', text: 'The Log and Stats tabs, the broadcast button and the side colours are here. Tick “Customise colours” to choose each side’s colour yourself; otherwise each side wears its faction’s colour. Rows marked “on this phone” apply to your device only.' },
+        ru: { title: 'Экран', text: 'Здесь вкладки «Лог» и «Статистика», трансляция и цвета сторон. Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому; без этого каждая сторона окрашена в цвет своей фракции. Пункты с пометкой «на этом телефоне» действуют только на вашем устройстве.' },
+        en: { title: 'Screen', text: 'The Log and Stats tabs, the broadcast and the side colours are here. Tick “Customise colours” to choose each side’s colour yourself; otherwise each side wears its faction’s colour. Rows marked “on this phone” apply to your device only.' },
       },
       {
         target: 'setup-start',

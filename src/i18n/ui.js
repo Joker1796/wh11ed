@@ -995,9 +995,9 @@ export const ui = {
     trackerPhaseJumpMessage: '{name} \u00b7 {phase}. This is not the next phase. Go there?',
     trackerPhaseJumpGo: 'Go',
     trackerHelpPhaseRules: "A tab listing what has something to say in the phase the game is standing on — or, when the game does not keep phases, in each phase of the current turn: the army rule, the detachment rule, and — with an army list attached — the abilities of the units in it. What fires at the start of a phase comes first, what fires at its end last. Each side gets its own list, because a rule that fires in your OPPONENT'S phase is the one most easily forgotten.\nIt shows names, not rule text: tap through to the rule or the unit's card. Stratagems are a line into the CP tab.",
-    trackerTrackBroadcast: 'Broadcast button (OBS)',
+    trackerTrackBroadcast: 'Broadcast (OBS)',
     trackerHelpBroadcast:
-      'Adds a broadcast button to the game screen: a read-only live scoreboard of this game for OBS or any browser. You keep scoring on your phone; an overlay on another device catches up within a few seconds.\n' +
+      'Adds “Broadcast” to the game screen’s “⋯” menu: a read-only live scoreboard of this game for OBS or any browser. You keep scoring on your phone; an overlay on another device catches up within a few seconds.\n' +
       '\n' +
       'The link is served through your account\u2019s cloud, so starting a broadcast needs you signed in. Anyone with the link can watch \u2014 and only watch; a new link cuts the old one off.',
     trackerOptNeedsRoster: 'Available once an army list is attached',
@@ -2474,9 +2474,9 @@ export const ui = {
     trackerPhaseJumpMessage: '{name} \u00b7 {phase}. Это не следующая фаза. Перейти?',
     trackerPhaseJumpGo: 'Перейти',
     trackerHelpPhaseRules: 'Вкладка с тем, у чего есть что сказать в текущей фазе — а если фазы не ведутся, в каждой фазе текущего хода: армейское правило, правило детачмента и — с прикреплённым листом — способности юнитов из него. Срабатывающее в начале фазы стоит первым, в конце — последним. У каждой стороны свой список: правило, срабатывающее в фазу ОППОНЕНТА, забывается легче всего.\nПоказаны названия, а не текст правил: за текстом — переход к правилу или карточке юнита. Стратагемы — строкой во вкладку CP.',
-    trackerTrackBroadcast: 'Кнопка трансляции (OBS)',
+    trackerTrackBroadcast: 'Трансляция (OBS)',
     trackerHelpBroadcast:
-      'Добавляет на экран игры кнопку трансляции: живое табло этой партии (только чтение) для OBS или любого браузера. Счёт ведётся с телефона, а оверлей на другом устройстве подхватывает изменения за несколько секунд.\n' +
+      'Добавляет в меню «⋯» на экране игры пункт «Трансляция»: живое табло этой партии (только чтение) для OBS или любого браузера. Счёт ведётся с телефона, а оверлей на другом устройстве подхватывает изменения за несколько секунд.\n' +
       '\n' +
       'Ссылка работает через облако аккаунта, поэтому для запуска нужен вход. Смотреть может любой, у кого есть ссылка \u2014 и только смотреть; новая ссылка обрывает старую.',
     trackerOptNeedsRoster: 'Доступно с прикреплённым листом',
