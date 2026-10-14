@@ -151,8 +151,8 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'setup-presets',
-        ru: { title: 'Готовые наборы', text: 'Выберите набор: «Быстрая игра» — только миссии и CP, «Полная» — фазы и все модификаторы. Любую галочку ниже можно поменять, тогда набор станет вашим.' },
-        en: { title: 'Ready sets', text: 'Pick a set: “Quick game” is missions and CP only, “Full” adds the phases and every modifier. Any box below can be changed, and the set becomes your own.' },
+        ru: { title: 'Готовые наборы', text: 'Выберите набор: «Быстрая игра» — только миссии и CP, «Обычная» — правила армий и модификаторы, «Полная» — ещё и фазы. Галочки ниже можно менять и после выбора, набор тогда называется «свой набор».' },
+        en: { title: 'Ready sets', text: 'Pick a set: “Quick game” is missions and CP only, “Normal” adds army rules and modifiers, “Full” the phases too. You can still change the boxes below; the set is then called “your own set”.' },
       },
       {
         target: 'setup-opts-game',
