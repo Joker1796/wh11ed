@@ -240,7 +240,7 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-reserves',
         show: { side: null },
-        when: (ctx) => !ctx.begun && ctx.lists,
+        when: (ctx) => !ctx.begun && ctx.reserves,
         ru: { title: 'Резервы', text: 'Нажмите «Отметить резервы», если какие-то юниты не выходят на стол при расстановке, а остаются в стратегическом резерве. Их нужно отметить до начала боя. Откроется ваш ростер, и туториал покажет, где это сделать.' },
         en: { title: 'Reserves', text: 'Press “Mark reserves” if some units stay in Strategic Reserves instead of deploying. They are marked before the battle. Your roster opens, and the tutorial shows where to do it.' },
       },

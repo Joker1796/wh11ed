@@ -770,7 +770,8 @@ const tourCtx = () => ({
   get cp() { return tracks(current.value?.settings, 'trackCP') },
   get turnChecks() { return tracks(current.value?.settings, 'trackTurnChecks') },
   get broadcast() { return broadcastOn.value || tracks(current.value?.settings, 'trackBroadcast') },
-  get lists() { return !!reservesSide.value },
+  get lists() { return !!listSide.value },
+  get reserves() { return !!reservesSide.value },
   get tabs() { return tabs.value.map((t) => t.id) },
   get shared() { return !!partyActive.value },
   get host() { return !!isHost.value },
@@ -826,7 +827,7 @@ async function openArmyRule(at) {
 }
 // The reserves before the battle: the first army with a list this phone may mark, on the Roster
 // tab, where each unit's row has its status (UnitStatusButton).
-const reservesSide = computed(() => {
+const listSide = computed(() => {
   for (const [pi, pl] of (current.value?.players || []).entries()) {
     if (!canEdit(pi)) continue
     const mi = membersOf(pl).findIndex((m) => m.roster)
@@ -834,6 +835,9 @@ const reservesSide = computed(() => {
   }
   return null
 })
+// Reserves are marked with the units' status, so a game not keeping it ("Where each unit is" off —
+// the Quick preset) offers no button for them.
+const reservesSide = computed(() => (tracks(current.value?.settings, 'trackUnitStatus') ? listSide.value : null))
 // …and, the first time, the tour of marking them: where, with what, and what then.
 function openReserves() {
   if (!reservesSide.value) return

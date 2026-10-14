@@ -555,3 +555,29 @@ describe('RoundTracker — Undo turn asks first', () => {
     expect(tracker.current.value.currentTurn).toBe(0)
   })
 })
+
+// "Mark reserves" marks each unit's status, so it follows "Where each unit is" (the Quick preset
+// turns that off and the button stayed — owner, 2026-10-15).
+describe('the reserves button', () => {
+  function setUp(unitStatus) {
+    tracker.newGame({
+      settings: {
+        trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce',
+        scoreMode: 'vp', twist: null, twistMission: null, trackUnitStatus: unitStatus,
+      },
+      players: [
+        player({ name: 'Me', disposition: DISPOSITIONS[0].id, role: 'attacker', roster: { faction: 'orks', units: [] } }),
+        player({ name: 'Opp', disposition: DISPOSITIONS[1].id, role: 'defender' }),
+      ],
+    })
+    return mountTracker()
+  }
+  it('is there before the battle when units keep their status', async () => {
+    const w = setUp(true); await flushPromises()
+    expect(w.find('.tr-reserves').exists()).toBe(true)
+  })
+  it('is not there when the game does not keep it', async () => {
+    const w = setUp(false); await flushPromises()
+    expect(w.find('.tr-reserves').exists()).toBe(false)
+  })
+})
