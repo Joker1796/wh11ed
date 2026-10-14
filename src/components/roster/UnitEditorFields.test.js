@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import ConfirmModal from '../ConfirmModal.vue'
-import { wargearGroupCap } from '../../composables/rosterEngine.js'
+import { wargearGroupCap, sameStockSets } from '../../composables/rosterEngine.js'
 import rosterItems from '../../data/roster/items.js'
 import drukhari from '../../data/roster/drukhari.js'
 import astraMilitarum from '../../data/roster/astra-militarum.js'
@@ -26,8 +26,11 @@ const mountFor = (def, entry = {}) => mount(UnitEditorFields, {
 })
 
 describe('UnitEditorFields — wargear instructions', () => {
-  it('renders the option list as separate lines, not one run-on heading', () => {
+  it('renders the option list as separate lines, not one run-on heading', async () => {
     const w = mountFor(wracks)
+    // Folded where it only repeats the rows under it (owner, 2026-10-14) — one tap opens it.
+    expect(w.findAll('.ues-blist')).toHaveLength(0)
+    await w.find('.ues-text-btn').trigger('click')
     const list = w.findAll('.ues-blist')[0]
     expect(list.findAll('li')).toHaveLength(4)
     expect(list.findAll('li')[0].text()).toContain('hexrifle')
@@ -746,5 +749,38 @@ describe('UnitEditorFields — a limit across groups', () => {
     const chainswordRow = rowsOf(1).find((t) => t.text().includes('Bellatus reaper chainsword'))
     expect(chainswordRow.classes()).toContain('disabled')
     expect(rowsOf(0).find((t) => t.text().includes('Bellatus reaper chainsword')).classes()).not.toContain('disabled')
+  })
+})
+
+// Several groups trading the same weapon on one profile are one choice, drawn as one block with ONE
+// stock row (owner, 2026-10-14: the Acothyst's twin torturer's tools appeared twice). Over every
+// faction: of a set's groups that are drawn on their own (not a chained swap, not a held pick), one
+// leads and the rest are sub-headings under it. Three units trade one copy of a pair and keep their
+// groups apart — the merge would hide the second copy.
+describe('UnitEditorFields — one choice drawn once', () => {
+  const bundles = import.meta.glob(['../../data/roster/*.js', '!../../data/roster/*.test.js', '!../../data/roster/index.js'], { eager: true })
+  const units = Object.values(bundles).flatMap((m) => m.default?.units || [])
+  it('draws every set of groups giving up the same weapon with one stock row', () => {
+    let sets = 0
+    for (const def of units) {
+      const found = sameStockSets(def)
+      if (!found.length) continue
+      const w = mountFor(def)
+      for (const set of found) {
+        const secs = set.map((gi) => w.find(`.ues-sec[data-gi="${gi}"]`)).filter((s) => s.exists())
+        const alone = secs.filter((s) => !s.classes('ues-merged') && !s.classes('ues-nested') && !s.find('.ues-hold').exists())
+        expect(alone.length, `${def.name}: groups ${set}`).toBeLessThanOrEqual(1)
+        sets++
+      }
+      w.unmount()
+    }
+    expect(sets).toBeGreaterThan(80)
+  })
+  it('keeps apart the units that give up one copy of a pair', () => {
+    for (const name of ['Kratos', 'Decimator', 'Talos']) {
+      const def = units.find((u) => u.name === name)
+      expect(def, name).toBeTruthy()
+      expect(sameStockSets(def), name).toEqual([])
+    }
   })
 })

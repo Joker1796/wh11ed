@@ -423,6 +423,9 @@ export const ui = {
     rosterPickTakenBy: 'taken by {name}',
     // The block of options the unit carries, not one of its models ("This unit can be equipped with…").
     rosterUnitOptions: 'Unit',
+    // A wargear instruction's list of options is folded where it only repeats the rows under it.
+    rosterInstrShow: 'full text',
+    rosterInstrHide: 'hide text',
     // A "two different weapons" group (UnitEditorFields' cap chip): the count is exact.
     rosterPickExact: 'pick {n} different',
     rosterPickExactLeft: '{n} more to pick',
@@ -1880,6 +1883,8 @@ export const ui = {
     rosterPickPool: 'до {n} на отряд',
     rosterPickTakenBy: 'взял {name}',
     rosterUnitOptions: 'Отряд',
+    rosterInstrShow: 'полный текст',
+    rosterInstrHide: 'скрыть текст',
     rosterPickExact: 'выберите {n} разных',
     rosterPickExactLeft: 'выберите ещё {n}',
     rosterPickUnavailable: 'Недоступно при таком размере отряда.',

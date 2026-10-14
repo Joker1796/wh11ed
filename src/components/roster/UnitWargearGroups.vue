@@ -10,12 +10,13 @@
        section (the sections stay siblings of the editor's own); "This unit can be equipped with…"
        is the unit's, and heads the list as its own block. -->
   <template
-    v-for="{ g, gi, head, card, nested } in order"
+    v-for="{ g, gi, head, card, nested, merged } in order"
     :key="gi"
   >
     <section
       class="ues-sec"
-      :class="{ 'ues-inert': shut[gi], 'ues-card': card, 'ues-card-first': card === 'first' || card === 'only', 'ues-card-last': card === 'last' || card === 'only', 'ues-nested': nested }"
+      :data-gi="gi"
+      :class="{ 'ues-inert': shut[gi], 'ues-card': card, 'ues-card-first': card === 'first' || card === 'only', 'ues-card-last': card === 'last' || card === 'only', 'ues-nested': nested, 'ues-merged': merged === 'member' }"
     >
       <h3
         v-if="head"
@@ -29,7 +30,10 @@
       <!-- `ues-instr`, unlike every other .ues-h on this screen: what stands here is a SENTENCE
          out of the datasheet, not a label. See the style rule for why that needs a different
          face. -->
-      <h4 class="ues-h ues-instr">
+      <h4
+        class="ues-h ues-instr"
+        :class="{ 'ues-subhead': merged === 'member' }"
+      >
         <span
           v-if="!byProfile && miniName(g.m)"
           class="ues-mini"
@@ -41,9 +45,20 @@
             class="ues-cap"
           >{{ capChip(gi) }}</span>
         </ExpandTransition>
+        <button
+          v-if="foldable(gi)"
+          type="button"
+          class="ues-text-btn"
+          :aria-expanded="!!textOpen[gi]"
+          @click="textOpen = { ...textOpen, [gi]: !textOpen[gi] }"
+        >
+          {{ textOpen[gi] ? labels.rosterInstrHide : labels.rosterInstrShow }}
+        </button>
       </h4>
+      <!-- The options a sentence lists are the rows under it, so the list is folded where it says
+           nothing else (owner, 2026-10-14); its words are one tap away. -->
       <ul
-        v-if="groupLines[gi].bullets.length"
+        v-if="groupLines[gi].bullets.length && (!foldable(gi) || textOpen[gi])"
         class="ues-blist"
       >
         <li
@@ -107,19 +122,43 @@
         v-if="mode(g, gi) === 'radio'"
         class="opt-col"
       >
+        <!-- A set of groups trading the same weapon on a squad: its stock, once, over all of them. -->
+        <div
+          v-if="showStock(gi)"
+          class="opt-tile opt-stock"
+        >
+          <div class="opt-step-body">
+            <span class="opt-name opt-stock-name"><span>{{ g.rep.map((id) => items[id]).join(' + ') }}</span><span class="opt-tag">{{ labels.rosterStockTag }}</span></span>
+            <NumberStepper
+              compact
+              class="stock-n"
+              :model-value="stockLefts[gi]"
+              disabled
+            />
+          </div>
+          <button
+            type="button"
+            class="opt-info"
+            data-press
+            :aria-label="labels.rosterViewInfo"
+            @click="openWeaponInfo(g.rep.map((id) => items[id]))"
+          >
+            <i class="wi wi-info" />
+          </button>
+        </div>
         <template
-          v-for="opt in radioRows(g)"
+          v-for="opt in radioRows(g, gi)"
           :key="opt.oi ?? 'default'"
         >
           <div
             class="opt-tile"
-            :class="{ on: radioSel(gi) === opt.oi, disabled: shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi))) }"
+            :class="{ on: rowOn(gi, opt.oi), disabled: shut[gi] || (!rowOn(gi, opt.oi) && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi))) }"
           >
             <label class="opt-select">
               <input
                 type="checkbox"
-                :checked="radioSel(gi) === opt.oi"
-                :disabled="shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi)))"
+                :checked="rowOn(gi, opt.oi)"
+                :disabled="shut[gi] || (!rowOn(gi, opt.oi) && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi)))"
                 @change="setRadio(gi, opt.oi, $event)"
               >
               <span class="opt-name">{{ opt.name }}<span
@@ -240,7 +279,7 @@
              so "+" on an option takes from it in one click. The stepper is drawn with its
              buttons hidden so the number stands in the column of the numbers under it. -->
         <div
-          v-if="!holds[gi] && stockLefts[gi] != null"
+          v-if="showStock(gi)"
           class="opt-tile opt-stock"
         >
           <div class="opt-step-body">
@@ -324,7 +363,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy } from '../../composables/rosterEngine.js'
+import { sameStockSets, modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy } from '../../composables/rosterEngine.js'
 import { holdCounts, holdGroup, holdWg, stockLeft } from '../../composables/rosterHold.js'
 import { TYPE_FROM } from './typeableCount.js'
 
@@ -411,6 +450,35 @@ function capChip(gi) {
 // its groups in the data's order. One profile (or none) needs no headings: there is nobody to choose
 // between, and the per-group miniature name says the rest as it always did.
 const byProfile = computed(() => (props.def.minis?.length || 0) > 1)
+// The most models a profile fields, read from the brackets that say how they split.
+function maxOf(m) {
+  const known = (props.def.sizes || []).filter((s) => s.comp?.length)
+  if (!known.length) return (props.def.minis?.length || 0) > 1 ? Infinity : Math.max(...(props.def.sizes || []).map((s) => s.per?.[1] ?? s.per?.[0] ?? 1))
+  return Math.max(...known.map((s) => { const c = s.comp.find(([mi]) => mi === m); return c ? (c[2] ?? c[1]) : 0 }))
+}
+const single = (gi) => maxOf(props.def.gear[gi]?.m ?? 0) <= 1
+
+// One choice drawn as several groups (rosterEngine's sameStockSets): one block, ONE stock row — the
+// first group's, its "no swap" row for a single model, the models still carrying it for a squad —
+// and the other groups under it as sub-headings with their own allowance (owner, 2026-10-14: the
+// Acothyst's twin torturer's tools appeared twice). For a single model the groups exclude each
+// other: a pick in one clears the others. A chained group or one drawn as what the models hold
+// keeps its own block.
+const merges = computed(() => {
+  const out = new Map() // gi -> { set, role }
+  for (const set of sameStockSets(props.def)) {
+    const kept = set.filter((gi) => !chains.value.has(gi) && !holds.value[gi])
+    if (kept.length < 2) continue
+    kept.forEach((gi, k) => out.set(gi, { set: kept, role: k ? 'member' : 'lead' }))
+  }
+  return out
+})
+const textOpen = ref({})
+// A sentence whose bullets are exactly the rows under it says nothing the rows do not.
+function foldable(gi) {
+  const g = props.def.gear[gi]
+  return groupLines.value[gi].bullets.length === g.o.length && !groupLines.value[gi].note
+}
 
 // A CHAINED swap: a group that gives up an item its profile is not printed with, which another group
 // of the same profile hands out — the Acothyst trades the torturer's tool his special weapon came
@@ -470,14 +538,16 @@ const order = computed(() => {
     else if (at) { skip.add(c); after.set(at.gi, [...(after.get(at.gi) || []), c]) }
     else if (!wg().some(([g]) => g === c)) skip.add(c)
   }
-  const expand = (list) => list.flatMap((r) => (skip.has(r.gi) ? [] : [r, ...(after.get(r.gi) || []).map((c) => ({ g: gear[c], gi: c, nested: true }))]))
+  const member = (gi) => merges.value.get(gi)?.role === 'member'
+  const withChildren = (r) => [r, ...(after.get(r.gi) || []).map((c) => ({ g: gear[c], gi: c, nested: true }))]
+  const expand = (list) => list.flatMap((r) => {
+    if (skip.has(r.gi) || member(r.gi)) return []
+    const m = merges.value.get(r.gi)
+    if (!m) return withChildren(r)
+    return m.set.flatMap((gi) => withChildren({ g: gear[gi], gi, merged: gi === r.gi ? 'lead' : 'member' }))
+  })
   const rows = gear.map((g, gi) => ({ g, gi }))
   if (!byProfile.value) return expand(rows).map((r) => ({ ...r, head: null }))
-  const maxOf = (m) => {
-    const known = (props.def.sizes || []).filter((s) => s.comp?.length)
-    if (!known.length) return Infinity
-    return Math.max(...known.map((s) => { const c = s.comp.find(([mi]) => mi === m); return c ? (c[2] ?? c[1]) : 0 }))
-  }
   const perMini = modelsPerMini(props.def, props.entry)
   const profiles = [...new Set(rows.filter((r) => !r.g.all).map((r) => r.g.m ?? 0))]
     .sort((a, b) => maxOf(a) - maxOf(b) || a - b)
@@ -553,20 +623,34 @@ function radioSel(gi) {
 // unticking is what a player tries. The stock row cannot be unticked (there is nothing to go back
 // to), and its box is put back: the browser had already cleared it, and with the choice unchanged
 // nothing would redraw it (an owner's screenshot, 2026-10-14: rows lit, boxes empty).
+// For a single model, a set of groups trading one weapon (`merges`) is one choice: its stock row
+// clears them all, a pick in one clears the others.
+function oneChoice(gi) {
+  const m = merges.value.get(gi)
+  return m && single(gi) ? m.set : [gi]
+}
+function rowOn(gi, oi) {
+  return oi == null ? oneChoice(gi).every((x) => radioSel(x) == null) : radioSel(gi) === oi
+}
 function setRadio(gi, oi, ev) {
-  const cur = radioSel(gi)
-  const to = cur === oi && oi != null ? null : oi
-  if (to === cur) { if (ev?.target) ev.target.checked = true; return }
-  const next = wg().filter((x) => x[0] !== gi)
-  if (to != null) next.push([gi, to, 1])
-  setWg(next)
+  const set = oneChoice(gi)
+  if (oi == null) {
+    if (set.every((x) => radioSel(x) == null)) { if (ev?.target) ev.target.checked = true; return }
+    setWg(wg().filter((x) => !set.includes(x[0])))
+    return
+  }
+  if (radioSel(gi) === oi) { setWg(wg().filter((x) => x[0] !== gi)); return }
+  setWg([...wg().filter((x) => !set.includes(x[0])), [gi, oi, 1]])
 }
 // One row per selectable state of a radio group: index 0 is always the default (oi: null),
 // falling back to rosterKeepDefault's generic wording only on the rare group whose instruction
 // text didn't parse a `rep` (see gen-roster-data.mjs's linkWargearConditions) — everywhere else
 // it shows the actual default item name(s), so there's never an unnamed "keep default" pseudo-option.
-function radioRows(g) {
-  const rows = [{
+function radioRows(g, gi = null) {
+  // A set's stock row is its first group's alone, and on a squad it is the count over the rows.
+  const m = gi == null ? null : merges.value.get(gi)
+  const noStock = m && (m.role === 'member' || !single(gi))
+  const rows = noStock ? [] : [{
     oi: null,
     name: g.rep?.length ? g.rep.map((id) => props.items[id]).join(', ') : labels.value.rosterKeepDefault,
     names: (g.rep || []).map((id) => props.items[id]),
@@ -598,6 +682,13 @@ function setStep(gi, oi, n) {
 // entry changes when the model gets its new weapon, so leaving a weapon off and walking away
 // changes nothing — the hint over the rows says so.
 const stockLefts = computed(() => (props.def.gear || []).map((g, gi) => (g.rep?.length ? stockLeft(props.def, props.entry, gi) : null)))
+// The row of models still carrying what a group trades: a stepper's own, and a squad's set's once.
+function showStock(gi) {
+  if (holds.value[gi] || stockLefts.value[gi] == null) return false
+  const m = merges.value.get(gi)
+  if (m?.role === 'member') return false
+  return mode(props.def.gear[gi], gi) === 'stepper' || (m?.role === 'lead' && !single(gi))
+}
 const holds = computed(() => (props.def.gear || []).map((g, gi) => (holdGroup(props.def, gi) ? holdCounts(props.def, props.entry, gi) : null)))
 const takenOff = ref({})
 let ownWrite = false
@@ -742,6 +833,19 @@ function groupStepMax(gi, oi) {
   background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
   border-bottom: 1px solid var(--border);
   border-left: 2px solid var(--accent);
+}
+/* The other groups of a set trading one weapon: under the first, no rule between, a sub-heading. */
+.ues-sec.ues-merged { border-top: none; padding-top: 0.15rem; }
+.ues-h.ues-instr.ues-subhead { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+.ues-text-btn {
+  margin-left: 0.35rem;
+  padding: 0 0.3rem;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--accent-ink);
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 /* A chained group after the source whose models feed it, indented under it. */
 .ues-sec.ues-nested { padding-left: 1.25rem; }

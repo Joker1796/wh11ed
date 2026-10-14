@@ -2310,6 +2310,14 @@ option, and appdata's one-set-per-weapon limits (see lesson 87 in `APPDATA-SYNC-
   is on where the source is a one-of (the Acothyst's power-weapon swap under his special weapon), as
   its own indented group after the source where models count (Death Company). No source pick, no
   group — unless it still holds a pick, shown where it was, marked over.
+- **One weapon, several groups — one block** (`sameStockSets`, owner 2026-10-14: "дублирование").
+  appdata often writes one choice as several groups giving up the same item on one profile (the
+  Acothyst's special weapons, a Skitarii Ranger's three rifle swaps, Battle Sisters' special and
+  heavy lists). The editor draws them as ONE block with ONE stock row — the first group's — and the
+  others under it as sub-headings with their own allowance; for a single model a pick in one clears
+  the others. A chained group or a held pick keeps its own block; a group trading one copy of a
+  pair (Kratos, Decimator, Talos) is not in a set. A sentence whose bullets are exactly the rows
+  under it is folded behind "full text". Gate: `UnitEditorFields.test.js` → "one choice drawn once".
 - **The importer** places a line under the profile the export names; a line naming none goes to
   the first copy with room — the Sergeant's — and spills on (the owner's rule, the same as v11). It
   prefers an option whose swap still has stock with the picks made so far (`stocked`).

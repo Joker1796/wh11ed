@@ -2161,6 +2161,32 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
   return { removed, back, held, granted, over }
 }
 
+// Groups of ONE profile that give up the same items, each held once per model of it — so they are
+// one choice drawn as several groups: the Acothyst's own "twin torturer's tools → power weapon and
+// torturer's tool" beside his copy of the squad's special weapons, a Battle Sister's boltgun offered
+// for a special and for a heavy weapon. The editor shows each set as one block with one stock row
+// (owner, 2026-10-14: the same "Twin torturer's tools" twice read as two different weapons). Picks
+// stay in their own groups, and every rule counts them there. Not a set: a model carrying the item
+// several times (a Kratos' heavy bolters, a Decimator's butcher cannons, a Talos' macro-scalpels —
+// each group trades its own copy), an "X or Y" group, the unit's own group. Sets in data order.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @returns {number[][]}
+ */
+export function sameStockSets(def) {
+  const gear = def?.gear || []
+  /** @type {Map<string, number[]>} */
+  const byKey = new Map()
+  gear.forEach((g, gi) => {
+    if (g.all || g.alt || g.cp || g.rc || !g.rep?.length) return
+    const row = def?.defaults?.find(([m]) => m === (g.m ?? 0))?.[1] || []
+    if (g.rep.some((id) => { const r = row.find(([i]) => i === id); return r && !r[2] && r[1] > 1 })) return
+    const key = `${g.m ?? 0}|${[...g.rep].sort((a, b) => a - b).join('+')}`
+    byKey.set(key, [...(byKey.get(key) || []), gi])
+  })
+  return [...byKey.values()].filter((set) => set.length > 1)
+}
+
 // The alternatives of an "X or Y" group (`alt`), each a SET a pick gives up whole: one item each
 // (a Havoc's autocannon or lascannon), or several (`alts` — a Yaegir's "bolt revolver and plasma
 // knife, or bolt shotgun"). null for an ordinary swap.

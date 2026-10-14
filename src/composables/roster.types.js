@@ -373,7 +373,7 @@
 
 /** A weapon line in a unit's body: `n` copies, printed under the profile `mini` if the export said. @typedef {{ n: number, name: string, mini?: string | null }} GearLine */
 
-/** A model line: `n` models of the profile it names (empty when the export named none). @typedef {{ n: number, name: string }} ModelLine */
+/** A model line: `n` models of the profile it names (empty when the export named none). In a flat body the same object can turn out to be a weapon line, and then carries its profile (`mini`). @typedef {{ n: number, name: string, mini?: string | null }} ModelLine */
 
 /**
  * A unit as a parser read it, before any datasheet is known. `group` ties the members of one
