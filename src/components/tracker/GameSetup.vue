@@ -413,12 +413,55 @@
                   <ExpandTransition>
                     <p
                       v-if="!m.factionSlug"
+                      key="cp-none"
                       class="det-empty"
                     >
                       {{ labels.trackerSelectFaction }}
                     </p>
+                    <!-- A faction with several boxes (Adeptus Custodes) picks one here; the box
+                         fixes the detachment, and the detachment is how the game remembers it. -->
+                    <AdaptivePicker
+                      v-else-if="cpBoxesFor(m).length > 1"
+                      key="cp-pick"
+                      class="cp-box-pick"
+                      panel-width="26rem"
+                      :title="labels.trackerCpBox"
+                      :open="cpBoxPickerKey === ak(i, mi)"
+                      @update:open="v => (cpBoxPickerKey = v ? ak(i, mi) : '')"
+                    >
+                      <template #trigger="{ toggle, open }">
+                        <button
+                          class="btn-choose-twist"
+                          :aria-expanded="open"
+                          aria-haspopup="dialog"
+                          @click="toggle"
+                        >
+                          <span class="ct-name">{{ cpFactionFor(m).boxName }} · {{ cpFactionFor(m).dp }} DP</span>
+                          <i class="wi wi-chevron-down ct-chev" />
+                        </button>
+                      </template>
+                      <template #default="{ bodyClass, close, compact }">
+                        <div
+                          class="modal-list cp-box-list"
+                          :class="[bodyClass, { compact }]"
+                        >
+                          <button
+                            v-for="b in cpBoxesFor(m)"
+                            :key="b.id"
+                            type="button"
+                            class="cp-box-opt"
+                            :class="{ on: b.id === cpFactionFor(m)?.id }"
+                            @click="pickCpBox(m, b); close()"
+                          >
+                            <span class="cp-box-name">{{ b.boxName }}</span>
+                            <span class="cp-box-sub">{{ b.rule.name }} · {{ b.dp }} DP · {{ b.forceDisposition }}</span>
+                          </button>
+                        </div>
+                      </template>
+                    </AdaptivePicker>
                     <p
                       v-else-if="cpFactionFor(m)"
+                      key="cp-one"
                       class="ro cp-box-line"
                     >
                       {{ cpFactionFor(m).boxName }} · {{ cpFactionFor(m).dp }} DP
@@ -1141,6 +1184,7 @@ import RuleBody from '../RuleBody.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
 import DetachmentPicker from './DetachmentPicker.vue'
 import AdaptivePicker from '../AdaptivePicker.vue'
+import { combatPatrolBoxOf, combatPatrolBoxesOf } from '../../composables/combatPatrolBox.js'
 import { dpLimitFor } from '../../composables/rosterEngine.js'
 import FactionPickerList from './FactionPickerList.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
@@ -1603,9 +1647,20 @@ async function loadCombatPatrolData() {
 }
 if (settings.combatPatrol) loadCombatPatrolData()   // restored draft already in CP mode
 
+// The box this army plays: the one its detachment names, the faction's first otherwise
+// (combatPatrolBox.js — the same reading the game screen uses).
 function cpFactionFor(p) {
-  return combatPatrolData.value?.find(f => f.slug === p.factionSlug) || null
+  return combatPatrolBoxOf(combatPatrolData.value, p)
 }
+function cpBoxesFor(p) {
+  return combatPatrolBoxesOf(combatPatrolData.value, p.factionSlug)
+}
+const cpBoxPickerKey = ref('')
+function applyCpBox(p, cp) {
+  p.detachments = [cp.rule.name]
+  p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+}
+function pickCpBox(p, cp) { applyCpBox(p, cp) }
 
 // Single source of truth for a player's detachment/disposition, re-derived whenever their
 // faction OR the game type changes: taken from an attached roster, cleared for a normal game
@@ -1626,10 +1681,10 @@ async function resolveArmyChoice(p) {
     p.roster = null
     p.rosterId = null
     const list = await loadCombatPatrolData()
-    const cp = list.find(f => f.slug === p.factionSlug)
+    // The faction's first box; a faction with several offers the others in the box field.
+    const cp = combatPatrolBoxOf(list, { factionSlug: p.factionSlug })
     if (!cp) return
-    p.detachments = [cp.rule.name]
-    p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+    applyCpBox(p, cp)
     return
   }
   // A roster is built against its detachments (its enhancements and legality depend on them), so
@@ -2275,6 +2330,28 @@ function cancel() {
 .btn-choose-twist:hover { border-color: var(--accent); }
 .ct-name.placeholder { color: var(--text-muted); font-weight: 500; }
 .ct-chev { color: var(--text-dim); }
+.cp-box-list { display: flex; flex-direction: column; }
+.cp-box-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  min-height: 44px;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+.cp-box-opt + .cp-box-opt { margin-top: -1px; }
+.cp-box-opt.on { position: relative; z-index: 1; border-color: var(--accent); }
+@media (hover: hover) {
+  .cp-box-opt:hover { position: relative; z-index: 2; border-color: var(--accent); }
+}
+.cp-box-name { font-weight: 600; font-size: 0.9rem; }
+.cp-box-sub { color: var(--text-muted); font-size: 0.8rem; }
 .twist-chosen {
   margin-top: 0.6rem;
   border: 1px solid var(--border);

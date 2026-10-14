@@ -83,7 +83,7 @@ export async function run() {
   // ── 1. artwork vs the APK ──────────────────────────────────────────────────────────
   const xapk = findLatestXapk()
   if (!xapk) {
-    notes.push('no *.xapk in ../sources/apk — the artwork itself was NOT checked (bookkeeping and edges were)')
+    notes.push('no .apk/.xapk in ../sources/apk — the artwork itself was NOT checked (bookkeeping and edges were)')
   } else {
     const apk = openApk(xapk)
     const current = hashApk(apk.apkPath)
@@ -147,7 +147,7 @@ export async function run() {
   console.log(`\nlayout art — ${layouts.length} layouts, ${Object.keys(manifest.layouts).length} recorded (source: ${manifest.source || 'none'})`)
   for (const n of notes) console.log(`    · ${n}`)
   if (!errors.length) {
-    console.log('    ✓ artwork matches the recorded APK, every file is referenced, edges agree with the pictures')
+    console.log(`    ✓ artwork ${xapk ? `in ${xapk.split('/').pop()} ` : ''}matches the recorded APK, every file is referenced, edges agree with the pictures`)
     return 0
   }
   for (const e of errors) console.log(`    ✗ ${e}`)
