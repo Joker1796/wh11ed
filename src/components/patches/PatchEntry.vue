@@ -45,6 +45,16 @@
       />
     </component>
 
+    <!-- A change that looks like GW's own mistake, which the site follows for now (owner,
+         2026-10-14) — said where the change is, not only in the changelog. -->
+    <p
+      v-if="item.doubt"
+      class="pe-doubt"
+    >
+      <i class="wi wi-warning" />
+      <span>{{ item.doubt[locale] || item.doubt.en }}</span>
+    </p>
+
     <!-- The numbers: one chip each, "T 4 → 5". A price that moved is coloured by which way: dearer
          red, cheaper green (owner, 2026-10-13) — the reader scans a long update for those. -->
     <div
@@ -253,6 +263,15 @@ const texts = computed(() => {
 </script>
 
 <style scoped>
+.pe-doubt {
+  display: flex;
+  gap: 0.4rem;
+  align-items: baseline;
+  margin: 0.3rem 0.6rem 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--warning);
+}
 .pe {
   list-style: none;
   margin-bottom: 0.35rem;

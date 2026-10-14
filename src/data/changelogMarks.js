@@ -68,6 +68,7 @@ export const SECTION_KINDS = {
   roster: { icon: 'wi wi-rosters', words: ['Roster builder', 'Конструктор ростеров', 'Roster in a game', 'Ростер в партии'] },
   tracker: { icon: 'wi wi-tracker', words: ['Tracker', 'Трекер', 'Beta of the new game tracker', 'Бета нового трекера партии'] },
   answers: { icon: 'wi wi-faq', words: ['Answers to your questions', 'Ответы на вопросы'] },
+  errors: { icon: 'wi wi-warning', words: ['Probable GW mistakes', 'Вероятные ошибки GW'] },
   thanks: { icon: 'wi wi-support', words: ['Thank you', 'Спасибо'] },
   site: { icon: 'wi wi-rules', words: ['Whole site', 'Весь сайт', 'Help', 'Справка', 'The app on your phone', 'Приложение на телефоне'] },
   account: { icon: 'wi wi-cloud', words: ['Account', 'Аккаунт', 'Cloud', 'Облако', 'Signing in', 'Вход'] },

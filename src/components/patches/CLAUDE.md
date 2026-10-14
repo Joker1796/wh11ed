@@ -40,3 +40,9 @@ Field Manual's points, the FAQ & errata. Nothing on the page is written by hand.
   against). From the next data bump on, the owner wants both sides translated — not built yet.
 - No subnav over the page (`AppSubnav`), a navbar link on the desktop, a direct entry in the
   drawer on the phone; the bottom nav is untouched.
+
+**A change that looks like GW's own mistake** (owner, 2026-10-14): the site follows the app word for
+word, and says so where the change is. `doubts` on a PATCHES line (`scripts/patch-notes/patches.mjs`,
+`{ faction, kind, name, note: { en, ru } }`) puts the note on the item (`doubt`), drawn by
+`PatchEntry` as an amber line under its name; a doubt that names no change stops `npm run patches`.
+The same items go into that release's changelog under "Probable GW mistakes" (`kind: 'errors'`).
