@@ -156,9 +156,9 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'setup-opts-game',
-        ru: { title: 'Ход и армии', text: 'Выберите, что трекер будет вести за вас: CP, фазы, проверку перед передачей хода, правила армий. Выключенное не появится на экране партии. Включить его можно и посреди игры, в настройке партии.' },
+        ru: { title: 'Ход и армии', text: 'Выберите, что трекер будет вести за вас: CP, фазы, проверку миссий перед передачей хода, правила армий. Выключенное не появится на экране партии. Включить его можно и посреди игры, в настройке партии.' },
 
-        en: { title: 'Turn and armies', text: 'Choose what the tracker keeps for you: CP, phases, the check before the turn passes, army rules. Whatever is off does not appear on the game screen. You can switch it on mid-game, in the game’s setup.' },
+        en: { title: 'Turn and armies', text: 'Choose what the tracker keeps for you: CP, phases, the mission check before the turn passes, army rules. Whatever is off does not appear on the game screen. You can switch it on mid-game, in the game’s setup.' },
 
       },
       {
