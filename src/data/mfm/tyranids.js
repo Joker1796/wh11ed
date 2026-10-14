@@ -64,7 +64,7 @@ export default {
     { name: 'Tyranid Warriors with Melee Bio-Weapons', options: [{ models: 3, points: 75 }, { models: 6, points: 150 }] },
     { name: 'Tyranid Warriors with Ranged Bio-Weapons', options: [{ models: 3, points: 60 }, { models: 6, points: 120 }] },
     { name: 'Tyrannocyte', options: [{ models: 1, points: 80, note: '1st-3rd' }, { models: 1, points: 90, note: '4th+' }] },
-    { name: 'Tyrannofex', options: [{ models: 1, points: 170, note: '1st-2nd' }, { models: 1, points: 180, note: '3rd+' }] },
+    { name: 'Tyrannofex', options: [{ models: 1, points: 170, note: '1st-2nd' }, { models: 1, points: 180, note: '3rd+' }], wargear: [{ name: 'Acid spray', points: 10 }, { name: 'Rupture Cannon', points: 20 }] },
     { name: 'Tyrant Guard', options: [{ models: 3, points: 80 }, { models: 6, points: 170 }] },
     { name: 'Venomthropes', options: [{ models: 3, points: 55 }, { models: 6, points: 110 }] },
     { name: 'Von Ryan’s Leapers', options: [{ models: 3, points: 55 }, { models: 6, points: 105 }] },

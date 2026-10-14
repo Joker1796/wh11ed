@@ -25,7 +25,7 @@ export default {
     { name: 'Chaos Terminators', options: [{ models: 5, points: 155 }] },
     { name: 'Daemon Prince of Slaanesh', options: [{ models: 1, points: 165, note: '1st' }, { models: 1, points: 180, note: '2nd+' }] },
     { name: 'Daemon Prince of Slaanesh with Wings', options: [{ models: 1, points: 205, note: '1st' }, { models: 1, points: 225, note: '2nd+' }] },
-    { name: 'Defiler', options: [{ models: 1, points: 300, note: '1st' }, { models: 1, points: 350, note: '2nd+' }] },
+    { name: 'Defiler', options: [{ models: 1, points: 300, note: '1st' }, { models: 1, points: 350, note: '2nd+' }], wargear: [{ name: 'Heavy Reaper Autocannon', points: 15 }, { name: 'Hades Lascannon', points: 15 }] },
     { name: 'Flawless Blades', options: [{ models: 3, points: 95 }, { models: 6, points: 190 }] },
     { name: 'Fulgrim', options: [{ models: 1, points: 340 }] },
     { name: 'Heldrake', options: [{ models: 1, points: 175 }] },

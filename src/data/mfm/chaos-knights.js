@@ -27,7 +27,7 @@ export default {
     { name: 'Chaos Questoris Knight Styrix', options: [{ models: 1, points: 365, note: '1st' }, { models: 1, points: 380, note: '2nd+' }] },
     { name: 'Knight Abominant', options: [{ models: 1, points: 350, note: '1st-2nd' }, { models: 1, points: 370, note: '3rd+' }] },
     { name: 'Knight Desecrator', options: [{ models: 1, points: 350, note: '1st-2nd' }, { models: 1, points: 370, note: '3rd+' }] },
-    { name: 'Knight Despoiler', options: [{ models: 1, points: 360, note: '1st' }, { models: 1, points: 390, note: '2nd+' }] },
+    { name: 'Knight Despoiler', options: [{ models: 1, points: 360, note: '1st' }, { models: 1, points: 390, note: '2nd+' }], wargear: [{ name: 'Despoiler gatling cannon', points: 25 }, { name: 'Despoiler battle cannon', points: 10 }] },
     { name: 'Knight Rampager', options: [{ models: 1, points: 350, note: '1st-2nd' }, { models: 1, points: 370, note: '3rd+' }] },
     { name: 'Knight Ruinator', options: [{ models: 1, points: 325, note: '1st-2nd' }, { models: 1, points: 345, note: '3rd+' }] },
     { name: 'Knight Tyrant', options: [{ models: 1, points: 390, note: '1st' }, { models: 1, points: 410, note: '2nd+' }] },

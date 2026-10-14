@@ -510,14 +510,17 @@ say blood fists. One entry today, applied only where the printed loadout and the
 against the table, and every application is printed by the run — a test pins the result so the table
 gets dropped the moment upstream fixes the row.
 
-### A default loadout that costs points (added 2026-08-24, NOT charged since 2026-10-14)
+### A default loadout that costs points (added 2026-08-24)
 
-**Off since 2026-10-14 — the MFM is the last word on points** (owner: the app wanted 205 for a
-Codex: Adeptus Custodes Shield-Captain the MFM prices at 180). The generator still reads the price
-appdata puts on default wargear and lists the units in its run report, but writes no `dw`/`dr`
-(`CHARGE_PAID_DEFAULTS` in gen-roster-data.mjs): a unit costs its bracket, and only wargear the
-player picks costs points. The engine still reads both fields; the text below is how it worked.
-
+**The prices are the MFM's** (since 2026-10-14, hotfix 2.9.1). The Munitorum Field Manual prints a
+WARGEAR OPTIONS block under a unit ("per Banner of Macragge 15 pts"; 101 units), which
+`scrape-mfm.py` reads into `wargear` on the unit; `gen-roster-data.mjs` prices every option and
+every paid default from it (`priceOf` — the MFM's number, 0 where it lists the item not) and
+reports where appdata's own `wargear_option.points` disagrees (one option on 2026-10-14: the
+Gladiator Valiant's multi-melta, 0 in the app, 10 in the MFM). A row the MFM prints that no
+option of its unit offers fails the run, and so does one on a Faction Pack Legends sheet (pack-roster
+prices no wargear). 2.9.0 stopped charging starting wargear for a day on the belief that the MFM
+printed no wargear prices — it does, and the scrape had simply never read them.
 
 Since 11th edition the wargear a model **already has** can carry a price. appdata says so plainly —
 a `wargear_option` with both `points: 5` and `defaultValue` — and the Munitorum bracket does not
