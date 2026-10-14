@@ -46,7 +46,7 @@ export const changelog = [
       '**Several swaps of the same weapon are one block.** The weapon the models start with is one line in it. A long instruction that repeats the options below is folded under “full text”.',
       '**Import gives an option to the model the list names.** If the list names none, the Sergeant gets it first, then the other models. Your saved lists were moved the same way. You can hand an option to another model with two taps.',
       { h: 'Answers to your questions' },
-      'Why do [Hellflayers](/factions/chaos-daemons/datasheets/hellflayers) have a 5+ invulnerable save and not 4+? The GW app gives them 5+, and the errata does not change it. The GW app is my canon, and the site follows it.',
+      'Why do [Hellflayers](/factions/chaos-daemons/datasheets/hellflayers) have a 5+ invulnerable save and not 4+? The GW app gives them 5+, and the errata does not change it. The GW app is my canon, and we follow it.',
     ],
     ru: [
       { h: 'Изменения правил GW', kind: 'rules', patch: '981' },
@@ -70,7 +70,7 @@ export const changelog = [
       '**Несколько замен одного оружия собраны в один блок.** Стандартное оружие в нём стоит одной строкой. Длинный текст инструкции, который повторяет строки ниже, свёрнут под «полный текст».',
       '**Импорт отдаёт опцию той модели, которую называет список.** Если модель не названа, опцию получает сержант, потом остальные модели. Ваши сохранённые списки перенесены так же. Отдать опцию другой модели можно двумя нажатиями.',
       { h: 'Ответы на вопросы' },
-      'Почему у [Hellflayers](/factions/chaos-daemons/datasheets/hellflayers) инвуль 5+, а не 4+? В приложении GW у них 5+, и эррата это не меняет. Приложение GW для меня канон, и сайт следует ему.',
+      'Почему у [Hellflayers](/factions/chaos-daemons/datasheets/hellflayers) инвуль 5+, а не 4+? В приложении GW у них 5+, и эррата это не меняет. Приложение GW для меня канон, и мы следуем ему.',
     ],
   },
   {
