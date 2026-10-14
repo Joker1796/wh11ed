@@ -374,7 +374,7 @@ export default [
         "name": "Neural shredder",
         "tags": [
           "ANTI-INFANTRY 2+",
-          "PRECISION",
+          "BLAST 2",
           "TORRENT"
         ],
         "range": "12\"",
@@ -758,7 +758,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "damned-legionnaires",
@@ -972,7 +972,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "deathwatch-kill-team",
@@ -1431,7 +1431,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "eversor-assassin",
@@ -1961,7 +1961,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "grey-knights-terminator-squad",
@@ -2672,7 +2672,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitor",
@@ -3175,7 +3175,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitor-greyfax",
@@ -3452,7 +3452,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitor-karamazov",
@@ -3532,7 +3532,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitor-kroyle",
@@ -3759,7 +3759,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "inquisitorial-agents",
@@ -4208,7 +4208,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "jokaero-weaponsmith",
@@ -4307,7 +4307,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "kill-team-cassius",
@@ -4584,7 +4584,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "ministorum-priest",
@@ -4870,7 +4870,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "proteus-kill-team",
@@ -5235,7 +5235,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "rogue-trader-entourage",
@@ -6277,7 +6277,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "subductor-squad",
@@ -6449,7 +6449,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "veteran-bike-squad",
@@ -6583,7 +6583,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.1"
+    "sourceVersion": "1.3"
   },
   {
     "id": "vigilant-squad",
@@ -7134,7 +7134,7 @@ export default [
         "text": "In your Command phase, you can use this ability. If you do, select one **[gloss:sm-combat-doctrine:combat doctrine]** to be active for this unit until the start of your next Command phase."
       },
       {
-        "name": "Watch That (new)",
+        "name": "Purgatus Quarry",
         "text": "At the start of the first battle round, select up to one enemy unit to be this unit’s **hunted**:\n▪ This unit’s attacks that target this unit’s **hunted** unit can re-roll **[gloss:wound-roll:wound rolls]** of 1.\n▪ Each time this unit’s **hunted** is **[gloss:destroyed:destroyed]**, select up to one enemy unit to be this unit’s **hunted**."
       }
     ],

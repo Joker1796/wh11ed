@@ -162,6 +162,17 @@ This does not give that rule to every model in the unit, unless that rule specif
               fromApp: true,
               body: `When a rule mentions 'all types of model', this is inclusive of friendly and enemy models and all **keywords**, e.g. MONSTER/VEHICLE models.`,
             },
+            {
+              id: 'section-01-02-12',
+              sectionNum: '01.02.12',
+              title: 'Replacing One Model with Another',
+              fromApp: true,
+              body: `When a rule tells you to place one model where another model was, or to replace one model with another:
+▪ Mark the point on the battlefield beneath the centre of the base of the model to be replaced (or its central axis, for a unit with FRAME).
+▪ Place the other model so that the centre of its base (or its central axis, for a unit with FRAME) is directly over that point.
+
+If you cannot do the above because you would need to place one model on top of another model, or because you would need to place a model overhanging the battlefield edge, instead place the new model as close as possible to that point.`,
+            },
           ],
         },
         {
@@ -270,6 +281,15 @@ When moving a model from your army into base contact with an enemy model during 
               title: 'Table Quarters',
               fromApp: true,
               body: `When a rule refers to a **table quarter**, or table quarters, divide the battlefield with imaginary lines 1mm thick drawn lengthwise and widthwise through the centre of the battlefield to create four equal rectangles. These rectangles are the **table quarters**.`,
+            },
+            {
+              id: 'section-01-04-06',
+              sectionNum: '01.04.06',
+              title: 'Drawing a Line',
+              fromApp: true,
+              body: `When a rule tells you to draw a line, unless otherwise stated:
+▪ That line has no thickness.
+▪ That line must be straight.`,
             },
           ],
         },
@@ -1609,6 +1629,14 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Все типы моделей',
               body: `Когда правило упоминает «все типы моделей», это включает союзные и вражеские модели и все **[gloss:keywords:ключевые слова]**, например, модели MONSTER/VEHICLE.`,
             },
+            {
+              title: 'Замена одной модели другой (Replacing One Model with Another)',
+              body: `Когда правило велит поставить одну модель туда, где стояла другая, или заменить одну модель другой:
+▪ Отметьте точку на поле боя под центром базы заменяемой модели (или под её центральной осью, для юнита с FRAME).
+▪ Поставьте другую модель так, чтобы центр её базы (или её центральная ось, для юнита с FRAME) оказался точно над этой точкой.
+
+Если это невозможно, потому что пришлось бы поставить одну модель на другую или поставить модель так, что она свисает за край поля боя, вместо этого поставьте новую модель как можно ближе к этой точке.`,
+            },
           ],
         },
         {
@@ -1692,6 +1720,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             {
               title: 'Четверти стола (Table Quarters)',
               body: `Когда правило ссылается на **четверть стола** или четверти стола, разделите поле боя воображаемыми линиями толщиной 1 мм, проведёнными вдоль и поперёк через центр поля боя, чтобы получить четыре равных прямоугольника. Эти прямоугольники и есть **четверти стола**.`,
+            },
+            {
+              title: 'Проведение линии (Drawing a Line)',
+              body: `Когда правило велит провести линию, если не указано иное:
+▪ У этой линии нет толщины.
+▪ Эта линия должна быть прямой.`,
             },
           ],
         },

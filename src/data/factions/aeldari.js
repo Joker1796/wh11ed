@@ -55,8 +55,8 @@ Each time one of the triggers shown in the Agile Manoeuvres section below occurs
 **EFFECT:** Until the end of the turn, ranged weapons equipped by this unit have the [ASSAULT] ability.
 
 ### Sudden Strike
-**TRIGGER:** When an eligible unit from your army is selected to fight.
-**EFFECT:** Until the end of the phase, each time a model in that unit makes a Pile-in or Consolidation move, it can move up to 6" instead of up to 3".
+**TRIGGER:** When an eligible unit from your army ends a charge move.
+**EFFECT:** Until the end of the turn, each time a model in that unit makes a Pile-in or Consolidation move, it can move up to 6" instead of up to 3".
 
 ### Opportunity Seized
 **TRIGGER:** When an enemy unit ends a Fall Back move.
@@ -810,7 +810,7 @@ Each time you use one of the Stratagems opposite, if your Fate dice pool contain
           target: 'One ASURYANI INFANTRY unit from your army (excluding WRAITH CONSTRUCT units) that has not been selected to move this phase, was not set up on the battlefield this phase, and is within 9" of one or more friendly ASURYANI PSYKER models.',
           effect: `▪ Place your unit in **[gloss:strategic-reserves:strategic reserves]**.
 ▪ Your unit has [core:Deep Strike].
-▪ Your unit must make an **[gloss:ingress-move:ingress move]** this phase.`,
+▪ Your unit must make an **[gloss:ingress-move:ingress move]** this phase (including in your first turn).`,
           restrictions: 'Until the end of the phase, your unit is not eligible to be selected to move.',
         },
         {

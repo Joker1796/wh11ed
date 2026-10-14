@@ -90,6 +90,18 @@
         </div>
       </div>
 
+      <!-- What looks like GW's own mistake on this sheet, said where it is (owner, 2026-10-14):
+           `doubt: { en, ru }` on the sheet — a Combat Patrol box's, today. -->
+      <p
+        v-if="sheet.doubt"
+        class="ds-doubt"
+      >
+        <i
+          class="wi wi-warning"
+          aria-hidden="true"
+        />
+        <span>{{ sheet.doubt[locale] || sheet.doubt.en }}</span>
+      </p>
       <!-- Weapons -->
       <DatasheetWeaponTable
         v-if="sheet.ranged?.length"
@@ -1221,6 +1233,17 @@ function abilityStateLabel(st) {
 <style scoped src="./datasheetMarks.css"></style>
 
 <style scoped>
+.ds-doubt {
+  display: flex;
+  gap: 0.4rem;
+  align-items: flex-start;
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--warning);
+}
+.ds-doubt .wi { flex: none; margin: 0.05em 0 0; }
+
 /* A Detachment an attachment needs or is barred from, after the character's name. */
 .ds-ledby-note { font-size: 0.85em; color: var(--text-muted); }
 .ds-shell { container: dscard / inline-size; }

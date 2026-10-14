@@ -60,7 +60,15 @@ export async function run(args = process.argv.slice(2)) {
   const rows = table('faq.json').filter((r) => r.publicationId === pub.id).map((r) => r.localisations?.en || {})
   const { faqs, errata } = await loadModule(path.join(ROOT, 'src/data/reference.js'))
 
-  const appQ = rows.filter((r) => r.question).map((r) => ({ label: plain(r.question), w: words(`${r.question} ${r.answer}`) }))
+  // GW can print one question several times with a growing example (data 981: the Firing Deck
+  // question three times — a Targetin' Squigs example, a Supa-snazz Dakka one, then both). They
+  // are one question: the longest answer stands for them, and one entry of ours answers it.
+  const byQ = new Map()
+  for (const r of rows.filter((x) => x.question)) {
+    const k = plain(r.question).toLowerCase()
+    if (!byQ.has(k) || String(r.answer || '').length > String(byQ.get(k).answer || '').length) byQ.set(k, r)
+  }
+  const appQ = [...byQ.values()].map((r) => ({ label: plain(r.question), w: words(`${r.question} ${r.answer}`) }))
   const ourQ = faqs.en.map((f) => ({ label: plain(f.q), w: words(`${f.q} ${f.a}`) }))
   const appE = rows.filter((r) => !r.question).map((r) => ({ label: plain(r.errataHeader), w: words(`${r.errataHeader} ${r.errataText}`) }))
   const ourE = errata.en.map((e) => ({ label: plain(e.header), w: words(`${e.header} ${e.body}`) }))

@@ -152,6 +152,7 @@ export default {
         "Imperium",
         "Fortification",
         "Towering",
+        "Frame",
         "Battle Sanctum"
       ],
       "flags": {
@@ -894,7 +895,7 @@ export default {
               1
             ],
             [
-              3168,
+              3202,
               1
             ]
           ]
@@ -1026,7 +1027,21 @@ export default {
           ]
         },
         {
-          "all": 1,
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              46
+            ]
+          ],
+          "rep": [
+            44
+          ],
+          "repall": 1
+        },
+        {
+          "m": 1,
           "t": 21,
           "in": "stepper",
           "o": [
@@ -1036,6 +1051,14 @@ export default {
           ],
           "rep": [
             44
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            2,
+            3
           ]
         }
       ]
@@ -1185,7 +1208,7 @@ export default {
           0,
           [
             [
-              3169,
+              3203,
               1
             ]
           ]
@@ -1222,15 +1245,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "battle-sisters-squad",
-          "type": "support"
-        },
-        {
           "to": "celestian-sacresants",
           "type": "support"
         },
         {
-          "to": "sisters-novitiate-squad",
+          "to": "battle-sisters-squad",
+          "type": "support"
+        },
+        {
+          "to": "retributor-squad",
           "type": "support"
         },
         {
@@ -1238,7 +1261,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "retributor-squad",
+          "to": "sisters-novitiate-squad",
           "type": "support"
         }
       ],
@@ -1285,7 +1308,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "retributor-squad",
+          "to": "celestian-insidiants",
           "type": "support"
         },
         {
@@ -1293,15 +1316,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "dominion-squad",
-          "type": "support"
-        },
-        {
-          "to": "celestian-insidiants",
-          "type": "support"
-        },
-        {
           "to": "battle-sisters-squad",
+          "type": "support"
+        },
+        {
+          "to": "retributor-squad",
+          "type": "support"
+        },
+        {
+          "to": "dominion-squad",
           "type": "support"
         }
       ],
@@ -1508,7 +1531,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 175,
           "per": [
             1,
             1
@@ -1596,14 +1619,6 @@ export default {
       },
       "leads": [
         {
-          "to": "sisters-novitiate-squad",
-          "type": "support"
-        },
-        {
-          "to": "battle-sisters-squad",
-          "type": "support"
-        },
-        {
           "to": "celestian-insidiants",
           "type": "support"
         },
@@ -1612,11 +1627,19 @@ export default {
           "type": "support"
         },
         {
-          "to": "dominion-squad",
+          "to": "battle-sisters-squad",
           "type": "support"
         },
         {
           "to": "retributor-squad",
+          "type": "support"
+        },
+        {
+          "to": "dominion-squad",
+          "type": "support"
+        },
+        {
+          "to": "sisters-novitiate-squad",
           "type": "support"
         }
       ],
@@ -1663,10 +1686,6 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "retributor-squad",
-          "type": "support"
-        },
-        {
           "to": "celestian-sacresants",
           "type": "support"
         },
@@ -1675,11 +1694,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "celestian-insidiants",
+          "to": "retributor-squad",
           "type": "support"
         },
         {
           "to": "dominion-squad",
+          "type": "support"
+        },
+        {
+          "to": "celestian-insidiants",
           "type": "support"
         }
       ],
@@ -2344,7 +2367,53 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
+          "m": 0,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              83
+            ]
+          ],
+          "rep": [
+            81
+          ],
+          "repall": 1
+        },
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              18
+            ],
+            [
+              84,
+              10
+            ]
+          ],
+          "rep": [
+            35
+          ],
+          "repall": 1
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              85
+            ]
+          ],
+          "rep": [
+            82
+          ],
+          "repall": 1
+        },
+        {
+          "m": 1,
           "t": 33,
           "in": "stepper",
           "o": [
@@ -2357,7 +2426,7 @@ export default {
           ]
         },
         {
-          "all": 1,
+          "m": 1,
           "t": 34,
           "in": "stepper",
           "o": [
@@ -2374,7 +2443,7 @@ export default {
           ]
         },
         {
-          "all": 1,
+          "m": 1,
           "t": 35,
           "in": "stepper",
           "o": [
@@ -2384,6 +2453,26 @@ export default {
           ],
           "rep": [
             82
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            3
+          ]
+        },
+        {
+          "g": [
+            1,
+            4
+          ]
+        },
+        {
+          "g": [
+            2,
+            5
           ]
         }
       ]
@@ -2559,6 +2648,7 @@ export default {
         "Transport",
         "Dedicated Transport",
         "Imperium",
+        "Frame",
         "Repressor"
       ],
       "flags": {
@@ -2580,15 +2670,15 @@ export default {
           0,
           [
             [
-              3170,
+              3204,
               1
             ],
             [
-              2789,
+              38,
               1
             ],
             [
-              3171,
+              3205,
               1
             ]
           ]
@@ -2601,20 +2691,20 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              502
+              533
             ]
           ]
         },
         {
           "m": 0,
-          "t": 1020,
+          "t": 1017,
           "in": "checkbox",
           "o": [
             [
-              2958
+              2992
             ],
             [
-              2789
+              38
             ]
           ]
         }

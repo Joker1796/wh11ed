@@ -464,8 +464,9 @@ describe('a rule that rewards a set of weapons', () => {
         }
       }
     }
-    // Talos, Telemon, four Helbrutes, Wulfen Dreadnought, Knight Destrier.
-    expect(found.length).toBeGreaterThanOrEqual(8)
+    // Talos, four Helbrutes, Wulfen Dreadnought, Knight Destrier. (The Telemon's two-caestus rule
+    // left with Codex: Adeptus Custodes, data 981.)
+    expect(found.length).toBeGreaterThanOrEqual(7)
   })
 })
 

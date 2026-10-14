@@ -8,57 +8,7 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "f74e3a85-2691-4849-9e8e-ee9d2675999f:agamatus-custodians",
-      "kind": "ability",
-      "name": "Agamatus Custodians: Turbo-boost",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "agamatus-custodians"
-      },
-      "hash": "445d1419",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "m",
-          "op": "add",
-          "value": 6,
-          "when": {
-            "en": "in a phase it Advanced (no Advance roll is made)",
-            "ru": "в фазе, когда совершил Advance (бросок не делается)"
-          },
-          "cond": [
-            "unit-advanced"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "ff1734b8-b92b-4d1f-942c-aeed6828534f:aleya",
-      "kind": "ability",
-      "name": "Aleya: Daughter of the Abyss",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "aleya"
-      },
-      "hash": "4b399b90",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "ac0e9c52-fc93-4534-b850-4b7d8fa194c0:aleya",
+      "sid": "fadf5578-076b-404e-b8ad-6e0894695066:aleya",
       "kind": "ability",
       "name": "Aleya: Tactical Perception",
       "det": null,
@@ -66,8 +16,8 @@ export default {
         "kind": "ability",
         "unit": "aleya"
       },
-      "hash": "f54f8f52",
-      "ver": 925,
+      "hash": "5d3f322a",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -75,97 +25,63 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Fights First",
-          "target": "unit",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "7a67bb01-737e-4644-b55b-2a6ea1a52c87:aleya",
-      "kind": "ability",
-      "name": "Aleya: Tenacious Spirit",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "aleya"
-      },
-      "hash": "f34e2507",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while that unit is below its Starting Strength",
-            "ru": "пока отряд ниже Starting Strength"
-          },
-          "cond": [
-            "never"
-          ],
-          "target": "unit"
-        },
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while that unit is Below Half-strength",
-            "ru": "пока отряд Below Half-strength"
-          },
-          "cond": [
-            "never"
-          ],
+          "when": null,
           "target": "unit"
         }
       ]
     },
     {
-      "sid": "366838d7-9714-40ac-a557-1c766d1401b1:anathema-psykana-rhino",
+      "sid": "8735690b-1b1a-4cbe-ba33-6c2519712c6b:aquilan-talon-contemptor-achillus-dreadnought",
       "kind": "ability",
-      "name": "Anathema Psykana Rhino: Daughters of the Abyss",
+      "name": "Aquilan Talon Contemptor-Achillus Dreadnought: Intimidating Presence",
       "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "anathema-psykana-rhino"
-      },
-      "hash": "e48360cd",
-      "ver": 925,
+      "ref": null,
+      "hash": "00c9497c",
+      "ver": 981,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3bebaab8-9044-4b2e-9c54-0d985e00d296:aquilan-wing-shield-captain",
+      "kind": "ability",
+      "name": "Aquilan Wing Shield-Captain: Unstoppable Will",
+      "det": null,
+      "ref": null,
+      "hash": "91ce265d",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
-          "when": null
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null,
+          "target": "unit"
         }
       ]
     },
     {
-      "sid": "71d428ee-e9d9-43b1-9e87-0cc582dd7441:caladius-grav-tank",
+      "sid": "165a6de3-6d18-4695-bbfd-8cb6a2de4efe:aquilon-terminators-with-solarite-power-gauntlets",
       "kind": "ability",
-      "name": "Caladius Grav-tank: Advanced Firepower",
+      "name": "Aquilon Terminators with Solarite Power Gauntlets: Dread Foe",
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "caladius-grav-tank"
+        "unit": "aquilon-terminators-with-solarite-power-gauntlets"
       },
-      "hash": "4f6a5231",
-      "ver": 925,
+      "hash": "eaa073e4",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
-          "on": "weapon",
-          "stat": "ability",
-          "op": "grant",
-          "value": "LETHAL HITS",
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
           "when": {
-            "en": "against targets other than MONSTERS and VEHICLES",
-            "ru": "по целям, кроме MONSTER и VEHICLE"
+            "en": "against a target that is not a MONSTER or VEHICLE",
+            "ru": "против цели, не являющейся MONSTER или VEHICLE"
           },
           "cond": [
             "never"
@@ -174,16 +90,58 @@ export default {
       ]
     },
     {
-      "sid": "d4d5010a-2aec-4900-81d2-f094312a06c3:custodian-guard-with-adrasite-and-pyrithite-spears",
+      "sid": "2a808e3f-71a4-43e7-9984-8be3fddab25e:ares-gunship",
       "kind": "ability",
-      "name": "Custodian Guard with Adrasite and Pyrithite Spears: No Foe Shall Stand",
+      "name": "Ares Gunship: Infernus Firebombs",
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "custodian-guard-with-adrasite-and-pyrithite-spears"
+        "unit": "ares-gunship"
       },
-      "hash": "cd91381e",
-      "ver": 925,
+      "hash": "623cb6f1",
+      "ver": 981,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d45e0565-51cb-4118-9b02-092cea2f35ee:caladius-grav-tank",
+      "kind": "ability",
+      "name": "Caladius Grav‑Tank: Destructor Optics",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "caladius-grav-tank"
+      },
+      "hash": "b78ddc8d",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against a target that is not a MONSTER or VEHICLE",
+            "ru": "против цели, не являющейся MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "36f695ef-1638-4dfc-bcf6-fa8674cd5fca:custodian-guard-sodality-with-pyrithite-spears",
+      "kind": "ability",
+      "name": "Custodian Guard Sodality with Pyrithite Spears: No Foe Shall Stand (Once per battle, per unit)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "custodian-guard-sodality-with-pyrithite-spears"
+      },
+      "hash": "8fee6516",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -192,8 +150,8 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "once per battle, while this ability is used",
-            "ru": "раз за битву, пока способность использована"
+            "en": "when this unit uses No Foe Shall Stand (once per battle)",
+            "ru": "когда отряд применяет No Foe Shall Stand (раз за битву)"
           },
           "cond": [
             "never"
@@ -205,8 +163,8 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": {
-            "en": "once per battle, while this ability is used",
-            "ru": "раз за битву, пока способность использована"
+            "en": "when this unit uses No Foe Shall Stand (once per battle)",
+            "ru": "когда отряд применяет No Foe Shall Stand (раз за битву)"
           },
           "cond": [
             "never"
@@ -215,7 +173,35 @@ export default {
       ]
     },
     {
-      "sid": "07ca7cf7-d8b7-4048-b6a6-07cbf36f56c6:custodian-wardens",
+      "sid": "8bcb5da3-7aa3-497b-8871-426aa79dd7b7:custodian-guard-sodality",
+      "kind": "ability",
+      "name": "Custodian Guard Sodality: Impenetrable Defence",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "custodian-guard-sodality"
+      },
+      "hash": "e142e98c",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
+          "when": {
+            "en": "while this unit or its target is within range of an objective",
+            "ru": "пока этот отряд или его цель в пределах досягаемости цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "4aa1a9b3-9b6d-4463-98ad-0edbefd1aa03:custodian-wardens",
       "kind": "ability",
       "name": "Custodian Wardens: Living Fortress",
       "det": null,
@@ -223,24 +209,10 @@ export default {
         "kind": "ability",
         "unit": "custodian-wardens"
       },
-      "hash": "6a098c7c",
-      "ver": 925,
+      "hash": "e441fc1c",
+      "ver": 981,
       "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 4+",
-          "when": {
-            "en": "until the end of a phase this unit used this ability in (once per battle)",
-            "ru": "до конца фазы, в которой отряд применил эту способность (раз за битву)"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
+      "effects": []
     },
     {
       "sid": "f2aa7bec-a913-4d2e-8383-0fccc1998820:gilded-blades-custodian-guard",
@@ -287,38 +259,44 @@ export default {
       ]
     },
     {
-      "sid": "ff1734b8-b92b-4d1f-942c-aeed6828534f:knight-centura",
+      "sid": "ba4c027a-0761-4e7e-91ad-762d0e791941:gyrfalcon-jetbike-sodality",
       "kind": "ability",
-      "name": "Knight-Centura: Daughter of the Abyss",
+      "name": "Gyrfalcon Jetbike Sodality: Death Blow",
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "knight-centura"
+        "unit": "gyrfalcon-jetbike-sodality"
       },
-      "hash": "4b399b90",
-      "ver": 925,
+      "hash": "111950b2",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
-          "when": null
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если отряд совершил манёвр нападения в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
         }
       ]
     },
     {
-      "sid": "68f78314-9458-4dd0-b445-14119ab4f945:knight-centura",
+      "sid": "25cb5aef-09b5-4d25-9fc3-d34f588336de:knight-centura",
       "kind": "ability",
-      "name": "Knight-Centura: Seeker’s Instincts",
+      "name": "Knight‑Centura: Seeker’s Instincts",
       "det": null,
       "ref": {
         "kind": "ability",
         "unit": "knight-centura"
       },
-      "hash": "e2be7f4f",
-      "ver": 925,
+      "hash": "730e269a",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -332,89 +310,54 @@ export default {
       ]
     },
     {
-      "sid": "a2bb638b-5d8e-4915-853e-0e50df6dd5b5:pallas-grav-attack",
+      "sid": "4ee57f39-b0f9-4ab2-af5f-a3c38a6ae5bb:sagittarum-custodians-sodality",
       "kind": "ability",
-      "name": "Pallas Grav-attack: Merciless Hunter",
+      "name": "Sagittarum Custodians Sodality: Disintegration Beams (Once per battle, per unit)",
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "pallas-grav-attack"
+        "unit": "sagittarum-custodians-sodality"
       },
-      "hash": "b3fbfa0b",
-      "ver": 925,
+      "hash": "2c9d7da7",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "the Shooting phase this unit uses Disintegration Beams (once per battle)",
+            "ru": "фаза стрельбы, в которой отряд применяет Disintegration Beams (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "dfdb4fda-d06b-4f00-866e-f6df2056bc84:sentinel-guard-sodality",
+      "kind": "ability",
+      "name": "Sentinel Guard Sodality: Stand Vigil",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sentinel-guard-sodality"
+      },
+      "hash": "f7353808",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "in your Shooting phase, against a unit that is Below Half-strength",
-            "ru": "в вашей Shooting phase, по отряду Below Half-strength"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "42b81257-a32d-49c3-b38e-65aa9c78980d:prosecutors",
-      "kind": "ability",
-      "name": "Prosecutors: Daughters of the Abyss",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "prosecutors"
-      },
-      "hash": "4c4ca89b",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "5caa9ab7-eeaa-4b92-b8fc-2b83352663d2:prosecutors",
-      "kind": "ability",
-      "name": "Prosecutors: Purity of Execution",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "prosecutors"
-      },
-      "hash": "ca520d71",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
           "stat": "ability",
           "op": "grant",
-          "value": "PRECISION",
+          "value": "LETHAL HITS: non-MONSTER/VEHICLE",
           "when": {
-            "en": "against PSYKER targets",
-            "ru": "по целям PSYKER"
-          },
-          "cond": [
-            "never"
-          ]
-        },
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "DEVASTATING WOUNDS",
-          "when": {
-            "en": "against PSYKER targets",
-            "ru": "по целям PSYKER"
+            "en": "while this unit or its target is within range of an objective",
+            "ru": "пока этот отряд или его цель в пределах досягаемости цели"
           },
           "cond": [
             "never"
@@ -423,80 +366,7 @@ export default {
       ]
     },
     {
-      "sid": "87205f80-9898-4628-97d6-ee6de5a3a15e:sagittarum-custodians",
-      "kind": "ability",
-      "name": "Sagittarum Custodians: Disintegration Beams",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "sagittarum-custodians"
-      },
-      "hash": "211c448c",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "DEVASTATING WOUNDS",
-          "when": {
-            "en": "once per battle, while this ability is used",
-            "ru": "раз за битву, пока способность использована"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "21d10416-3f99-4ee7-87f5-9906ff2f50d9:shield-captain-in-allarus-terminator-armour",
-      "kind": "ability",
-      "name": "Shield-Captain in Allarus Terminator Armour: Auramite and Adamantine",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "shield-captain-in-allarus-terminator-armour"
-      },
-      "hash": "07b4315e",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "f6af813d-e886-4f2a-8f34-3e8b3e6e8dc9:telemon-heavy-dreadnought",
-      "kind": "ability",
-      "name": "Telemon Heavy Dreadnought: Devoted to Destruction",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "telemon-heavy-dreadnought"
-      },
-      "hash": "a99e7fb9",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 2,
-          "only": {
-            "name": "Telemon caestus"
-          },
-          "when": {
-            "en": "if two Telemon caestus were taken alongside the armoured feet",
-            "ru": "если взяты два Telemon caestus вдобавок к armoured feet"
-          },
-          "cond": [
-            "wargear-two-telemon-caestus"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "a20a1308-d19f-4ab4-a0fe-e9c3ca984855:telemon-heavy-dreadnought",
+      "sid": "f0813b43-8116-4957-ae96-3d79861470dd:telemon-heavy-dreadnought",
       "kind": "ability",
       "name": "Telemon Heavy Dreadnought: Guardian Eternal",
       "det": null,
@@ -504,35 +374,35 @@ export default {
         "kind": "ability",
         "unit": "telemon-heavy-dreadnought"
       },
-      "hash": "e577ede9",
-      "ver": 925,
+      "hash": "3f3f072b",
+      "ver": 981,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "ce39c177-aa83-4e6b-8543-85cef75a77d2:trajann-valoris",
+      "sid": "d7fdc4ea-b7ef-4a40-8372-ae02277b7106:trajann-valoris",
       "kind": "ability",
-      "name": "Trajann Valoris: Moment Shackle",
+      "name": "Trajann Valoris: Moment Shackle (Once per battle, per army)",
       "det": null,
       "ref": {
         "kind": "ability",
         "unit": "trajann-valoris"
       },
-      "hash": "776b668a",
-      "ver": 925,
+      "hash": "2578991a",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "melee",
           "stat": "a",
-          "op": "set",
-          "value": "12",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "the phase Moment Shackle is used for the axe (once per battle)",
+            "ru": "фаза, в которую Moment Shackle применён к топору (раз за битву)"
+          },
           "only": {
             "name": "Watcher’s Axe"
-          },
-          "when": {
-            "en": "once per battle, if this option is chosen",
-            "ru": "раз за битву, если выбран этот вариант"
           },
           "cond": [
             "never"
@@ -542,10 +412,10 @@ export default {
           "on": "profile",
           "stat": "inv",
           "op": "set",
-          "value": "2+",
+          "value": "3+",
           "when": {
-            "en": "once per battle, if this option is chosen instead",
-            "ru": "раз за битву, если выбран другой вариант"
+            "en": "the phase Moment Shackle is used for the save (once per battle)",
+            "ru": "фаза, в которую Moment Shackle применён к защите (раз за битву)"
           },
           "cond": [
             "never"
@@ -554,7 +424,7 @@ export default {
       ]
     },
     {
-      "sid": "f1cf8105-4d99-409e-8a02-6dc8b322aee7:valerian",
+      "sid": "2c8047b6-0011-4399-87cc-cb528d391f12:valerian",
       "kind": "ability",
       "name": "Valerian: Golden Laurels",
       "det": null,
@@ -562,109 +432,22 @@ export default {
         "kind": "ability",
         "unit": "valerian"
       },
-      "hash": "d0787118",
-      "ver": 925,
+      "hash": "e441fc1c",
+      "ver": 981,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "f74e3a85-2691-4849-9e8e-ee9d2675999f:vertus-praetors",
+      "sid": "fce8fed1-4e0d-4409-8e23-8903ba150887:vertus-praetors",
       "kind": "ability",
-      "name": "Vertus Praetors: Turbo-boost",
+      "name": "Vertus Praetors: Quicksilver Execution",
       "det": null,
       "ref": {
         "kind": "ability",
         "unit": "vertus-praetors"
       },
-      "hash": "445d1419",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "m",
-          "op": "add",
-          "value": 6,
-          "when": {
-            "en": "in a phase it Advanced (no Advance roll is made)",
-            "ru": "в фазе, когда совершил Advance (бросок не делается)"
-          },
-          "cond": [
-            "unit-advanced"
-          ]
-        }
-      ]
-    },
-    {
-      "sid": "42b81257-a32d-49c3-b38e-65aa9c78980d:vigilators",
-      "kind": "ability",
-      "name": "Vigilators: Daughters of the Abyss",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "vigilators"
-      },
-      "hash": "4c4ca89b",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "42b81257-a32d-49c3-b38e-65aa9c78980d:witchseekers",
-      "kind": "ability",
-      "name": "Witchseekers: Daughters of the Abyss",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "witchseekers"
-      },
-      "hash": "4c4ca89b",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "fb5e29e5-8c77-4309-8b60-7e9fbc96d198",
-      "kind": "allegiance",
-      "name": "Solar Spearhead Keywords: Character",
-      "det": null,
-      "ref": {
-        "kind": "allegiance",
-        "g": "solar-spearhead-keywords",
-        "opt": "Character"
-      },
-      "hash": "f41f5c95",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
-    },
-    {
-      "sid": "6b8c2838-343c-4cd7-b270-d2a184e6746f",
-      "kind": "armyRule",
-      "name": "Martial Ka’tah",
-      "det": null,
-      "ref": {
-        "kind": "armyRule"
-      },
-      "hash": "175e9f73",
-      "ver": 925,
+      "hash": "c4289f8f",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -673,21 +456,78 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "while the Dacatari Stance is the one selected for this fight",
-            "ru": "пока для этого боя выбрана стойка Dacatari"
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если отряд совершил манёвр нападения в этом ходу"
           },
           "cond": [
-            "stance-dacatari"
+            "unit-charged"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "sid": "5bdd85ce-39ff-4db1-bcf1-447dde768cf6",
+      "kind": "armyRule",
+      "name": "Aegis of the Emperor",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "22b2feaf",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "aa8773ce-6d54-40cb-a3a1-6880fa689b54",
+      "kind": "armyRule",
+      "name": "Daughters of the Abyss",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "2d5f7cc0",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs psychic attacks)",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
+      "sid": "cde884b9-4635-4974-a931-f33162d53c3c",
+      "kind": "armyRule",
+      "name": "Martial Ka’tah",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "175e9f73",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
         {
           "on": "melee",
           "stat": "ability",
           "op": "grant",
-          "value": "LETHAL HITS",
+          "value": "LETHAL HITS: MONSTER/VEHICLE",
           "when": {
-            "en": "while the Rendax Stance is the one selected for this fight",
-            "ru": "пока для этого боя выбрана стойка Rendax"
+            "en": "while this unit uses the Rendax ka’tah ability",
+            "ru": "пока отряд использует ka’tah Rendax"
           },
           "cond": [
             "stance-rendax"
@@ -696,131 +536,91 @@ export default {
       ]
     },
     {
-      "sid": "02ead9e4-7cbf-4b21-9454-9071c7f4035b",
+      "sid": "261bb75d-485c-454c-abe5-d412d1d21093",
       "kind": "detachmentRule",
-      "name": "Assemblage of Might",
-      "det": "Auric Champions",
-      "hash": "62ac7a27",
-      "ver": 925,
+      "name": "Gilded Guardians",
+      "det": "Aquilan Shield",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "aquilan-shield"
+      },
+      "hash": "d748a69f",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
-          "on": "weapon",
-          "stat": "wound",
+          "on": "ranged",
+          "stat": "range",
           "op": "add",
-          "value": 1,
+          "value": 6,
           "when": {
-            "en": "against the enemy unit selected in your Command phase",
-            "ru": "по вражескому отряду, выбранному в вашу Command phase"
+            "en": "while this unit uses Salvus (Favoured Ka’tah)",
+            "ru": "пока отряд использует Salvus (Favoured Ka’tah)"
           },
           "cond": [
-            "never"
+            "stance-salvus"
           ]
         }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "auric-champions"
-      }
+      ]
     },
     {
-      "sid": "067f8571-ab3a-4adb-9775-b7b4ed2ec21e",
+      "sid": "f8a06ddb-f51c-4810-91e6-27c38b63919d",
       "kind": "detachmentRule",
-      "name": "Against All Odds",
-      "det": "Lions of the Emperor",
-      "hash": "dc516e59",
-      "ver": 925,
+      "name": "Indomitable Avatars",
+      "det": "Aquilan Wing",
+      "ref": null,
+      "hash": "9e470f45",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
-          "on": "weapon",
-          "stat": "hit",
+          "on": "profile",
+          "stat": "oc",
           "op": "add",
           "value": 1,
           "when": {
-            "en": "if no other friendly units are within 6\" of this unit",
-            "ru": "если в 6\" от отряда нет других дружественных отрядов"
+            "en": "the unit selected in your Command phase",
+            "ru": "отряд, выбранный в вашей фазе командования"
           },
           "cond": [
-            "never"
-          ]
-        },
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "if no other friendly units are within 6\" of this unit",
-            "ru": "если в 6\" от отряда нет других дружественных отрядов"
-          },
-          "cond": [
-            "never"
+            "unit-selected-command-phase"
           ]
         }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "lions-of-the-emperor"
-      }
+      ]
     },
     {
-      "sid": "35018eb5-1ace-43a1-aa0e-e6553eaee45f",
+      "sid": "5ec5c950-61d7-4085-b3ba-77c2625887a6",
       "kind": "detachmentRule",
-      "name": "March of the Honoured Dead",
+      "name": "Heralds of the Throne",
+      "det": "Emissaries Imperatus",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "emissaries-imperatus"
+      },
+      "hash": "d4116716",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "81eba024-15c3-48e9-b17f-ad5b5bafbca4",
+      "kind": "detachmentRule",
+      "name": "Moritoi Ancients",
       "det": "Might of the Moritoi",
       "ref": {
         "kind": "detachmentRule",
         "det": "might-of-the-moritoi"
       },
-      "hash": "1707aef3",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "m",
-          "op": "add",
-          "value": 2,
-          "when": null
-        }
-      ]
-    },
-    {
-      "sid": "7daf099f-82c8-4871-97e2-8e1863c59ec7",
-      "kind": "detachmentRule",
-      "name": "Martial Mastery",
-      "det": "Shield Host",
-      "hash": "ee9038b0",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "when": {
-            "en": "Martial Ka'tah models, while that bullet of Martial Mastery is the one selected this battle round",
-            "ru": "модели с Martial Ka'tah, пока в этом раунде выбран соответствующий пункт Martial Mastery"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "shield-host"
-      }
-    },
-    {
-      "sid": "c60b2c8e-5321-442c-9790-75876a429558",
-      "kind": "detachmentRule",
-      "name": "Auric Armour",
-      "det": "Solar Spearhead",
-      "hash": "11cd1b24",
-      "ver": 925,
+      "hash": "0e9c0397",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -829,26 +629,26 @@ export default {
           "op": "add",
           "value": 2,
           "when": {
-            "en": "Vehicle units at Starting Strength, excluding Aircraft and Battle-shocked units",
-            "ru": "отряды Vehicle в полной численности, кроме Aircraft и Battle-shocked"
+            "en": "while this unit is at its Starting Strength",
+            "ru": "пока отряд в начальной численности"
           },
           "cond": [
-            "blocked-subset"
+            "unit-at-starting-strength"
           ]
         }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "solar-spearhead"
-      }
+      ]
     },
     {
-      "sid": "c267c203-2ad3-408b-a12b-7d1ead94fa0b",
+      "sid": "7223f817-3bb5-4fc2-810e-f77ac79c5326",
       "kind": "detachmentRule",
-      "name": "Moritoi Ancients",
-      "det": "Solar Spearhead",
-      "hash": "34b9acca",
-      "ver": 925,
+      "name": "Talon Sortie",
+      "det": "Solar Watch",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "solar-watch"
+      },
+      "hash": "d0ef5cff",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -856,420 +656,213 @@ export default {
           "stat": "m",
           "op": "add",
           "value": 2,
-          "when": null
-        }
-      ],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "solar-spearhead"
-      }
-    },
-    {
-      "sid": "fd72a239-683b-44f9-a38f-3e66c616faef",
-      "kind": "detachmentRule",
-      "name": "Revered Companions",
-      "det": "Talons of the Emperor",
-      "hash": "fcec0a80",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "ref": {
-        "kind": "detachmentRule",
-        "det": "talons-of-the-emperor"
-      }
-    },
-    {
-      "sid": "84f59743-864c-4f63-89c2-33de243b7adf",
-      "kind": "enhancement",
-      "name": "Inspirational Exemplar",
-      "det": "Auric Champions",
-      "ref": {
-        "kind": "enhancement",
-        "det": "auric-champions",
-        "scopes": [
-          {
-            "targets": [
-              "ADEPTUS CUSTODES"
-            ],
-            "excludes": []
-          }
-        ]
-      },
-      "hash": "74e74f07",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "ld",
-          "op": "set",
-          "value": "5+",
-          "when": null
+          "when": {
+            "en": "while this unit uses Calistus (Favoured Ka’tah)",
+            "ru": "пока отряд использует Calistus (Favoured Ka’tah)"
+          },
+          "cond": [
+            "stance-calistus"
+          ]
         }
       ]
     },
     {
-      "sid": "d178eeae-2a4d-4597-af84-02bef5cb5d36",
+      "sid": "ece1600e-3c55-4899-a2c4-6ab52c44ce82",
       "kind": "enhancement",
-      "name": "Veiled Blade",
-      "det": "Auric Champions",
-      "hash": "ca41608e",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 2,
-          "when": null
-        },
-        {
-          "on": "profile",
-          "stat": "oc",
-          "op": "set",
-          "value": "×3",
-          "when": {
-            "en": "once per battle, until the end of the turn, the bearer's Objective Control is tripled",
-            "ru": "один раз за битву, до конца хода, Objective Control носителя утраивается"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
+      "name": "Not a Shell Wasted",
+      "det": "Aquilan Shield",
       "ref": {
         "kind": "enhancement",
-        "det": "auric-champions"
-      }
-    },
-    {
-      "sid": "6bf0be50-a491-4d36-9491-929b860c64bf",
-      "kind": "enhancement",
-      "name": "Admonimortis",
-      "det": "Lions of the Emperor",
-      "hash": "d9e0853a",
-      "ver": 925,
+        "det": "aquilan-shield"
+      },
+      "hash": "af767b0b",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 3,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "d",
+          "on": "ranged",
+          "stat": "a",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "lions-of-the-emperor"
-      }
+      ]
     },
     {
-      "sid": "09443c78-9599-4b1c-baa0-836142b59bb1",
+      "sid": "083b154e-84ea-46c8-afb1-b9dea87bdf95",
       "kind": "enhancement",
-      "name": "Fierce Conqueror",
-      "det": "Lions of the Emperor",
-      "hash": "9e06f74f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 2,
-          "when": {
-            "en": "for the Fight phase, per 5 enemy models within 6\" of the bearer (rounding down)",
-            "ru": "на фазу боя, за каждые 5 вражеских моделей в 6\" от носителя (с округлением вниз)"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "lions-of-the-emperor"
-      }
-    },
-    {
-      "sid": "8be61c26-7307-4e5d-98a0-f8958a199c00",
-      "kind": "enhancement",
-      "name": "Praesidius",
-      "det": "Lions of the Emperor",
-      "ref": {
-        "kind": "enhancement",
-        "det": "lions-of-the-emperor"
-      },
-      "hash": "69186f70",
-      "ver": 925,
+      "name": "Coronal Plate",
+      "det": "Aquilan Talon",
+      "ref": null,
+      "hash": "ed21e90d",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "unit",
           "stat": "core",
           "op": "grant",
-          "value": "Lone Operative",
-          "when": null
-        },
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Stealth",
+          "value": "Lone Operative 15\"",
           "when": null
         }
       ]
     },
     {
-      "sid": "69c9f474-ba9e-402d-bb49-0c8f9ecf52d4",
+      "sid": "f2af1bc2-5c5e-45d8-9534-599e2c9a1ce4",
       "kind": "enhancement",
-      "name": "Enhanced Voidsheen Cloak",
-      "det": "Null Maiden Vigil",
-      "ref": {
-        "kind": "enhancement",
-        "det": "null-maiden-vigil"
-      },
-      "hash": "e43ce3b4",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "ad4c7b31-c0d1-4fdc-940e-9b82ca3d3057",
-      "kind": "enhancement",
-      "name": "Oblivion Knight",
-      "det": "Null Maiden Vigil",
-      "hash": "75d6c16a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "hit",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while the bearer is leading a unit",
-            "ru": "пока носитель ведёт отряд"
-          },
-          "cond": [
-            "unit-leading"
-          ],
-          "target": "led"
-        },
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while the bearer is leading a unit, against an enemy PSYKER unit",
-            "ru": "пока носитель ведёт отряд, по вражескому отряду PSYKER"
-          },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "null-maiden-vigil"
-      }
-    },
-    {
-      "sid": "2bf0ae91-04b4-4ce5-8019-8e699d1d6093",
-      "kind": "enhancement",
-      "name": "Raptor Blade",
-      "det": "Null Maiden Vigil",
-      "hash": "adb05aaf",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "d",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 2,
-          "when": {
-            "en": "Attacks, Strength and Damage +2 instead, while within Engagement Range of a Battle-shocked enemy Psyker unit",
-            "ru": "атаки, сила и урон +2 вместо +1, пока носитель в радиусе боя с Battle-shocked вражеским отрядом Psyker"
-          },
-          "cond": [
-            "never"
-          ],
-          "alt": 0
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "null-maiden-vigil"
-      }
-    },
-    {
-      "sid": "613d5ac2-7229-4e15-8b37-959bb7f3dd64",
-      "kind": "enhancement",
-      "name": "Auric Mantle",
-      "det": "Shield Host",
-      "hash": "d0736a52",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "w",
-          "op": "add",
-          "value": 2,
-          "when": null
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "shield-host"
-      }
-    },
-    {
-      "sid": "a48ca031-033e-43c8-b79c-8199175c448e",
-      "kind": "enhancement",
-      "name": "From the Hall of Armouries",
-      "det": "Shield Host",
-      "hash": "75cc38ed",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "d",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "shield-host"
-      }
-    },
-    {
-      "sid": "2571079f-cdf9-49df-8cba-42ef31db936c",
-      "kind": "enhancement",
-      "name": "Panoptispex",
-      "det": "Shield Host",
-      "ref": {
-        "kind": "enhancement",
-        "det": "shield-host"
-      },
-      "hash": "1260bb42",
-      "ver": 925,
+      "name": "Goldenwrath (Upgrade)",
+      "det": "Aquilan Talon",
+      "ref": null,
+      "hash": "886c66e5",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "ranged",
           "stat": "ability",
           "op": "grant",
-          "value": "IGNORES COVER",
-          "when": {
-            "en": "while the bearer is leading a unit",
-            "ru": "пока носитель ведёт отряд"
+          "value": "CLOSE-QUARTERS",
+          "when": null,
+          "only": {
+            "name": "Lastrum Storm Bolter"
           },
-          "cond": [
-            "unit-leading"
-          ],
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
     {
-      "sid": "d25d6f4b-3dcf-4b17-8e8e-b39a487012c9",
+      "sid": "319e3c29-25ab-4e8e-b1e5-27c88f92c0c8",
       "kind": "enhancement",
-      "name": "Adamantine Talisman",
-      "det": "Solar Spearhead",
-      "hash": "cab5d46b",
-      "ver": 925,
+      "name": "Eagle’s Pinions (Upgrade)",
+      "det": "Aquilan Wing",
+      "ref": null,
+      "hash": "8af48891",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Hover",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "c2715bef-2809-4c52-9d9a-404c220d1f06",
+      "kind": "enhancement",
+      "name": "Auric Exemplar",
+      "det": "Dread Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "dread-host"
+      },
+      "hash": "22bdeb8f",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "when": null
-        },
-        {
-          "on": "melee",
-          "stat": "d",
-          "op": "add",
-          "value": 1,
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLEAVE 1",
           "when": null
         }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "solar-spearhead"
-      }
+      ]
     },
     {
-      "sid": "3f8a63b3-0196-4a79-951b-c87d463e68e3",
+      "sid": "f5c8e89b-96ed-4afb-a921-a2767c23f562",
       "kind": "enhancement",
-      "name": "Augury Uplink",
-      "det": "Solar Spearhead",
+      "name": "Flawless Bladework",
+      "det": "Dread Host",
       "ref": {
         "kind": "enhancement",
-        "det": "solar-spearhead"
+        "det": "dread-host"
       },
-      "hash": "de590332",
-      "ver": 925,
+      "hash": "491d509f",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "fc70e8a4-8790-4c03-b202-6d599439b0b1",
+      "kind": "enhancement",
+      "name": "From the Hall of Armouries",
+      "det": "Emperor’s Chosen",
+      "ref": {
+        "kind": "enhancement",
+        "det": "emperors-chosen"
+      },
+      "hash": "79e265ad",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "cf08ff55-fbe1-41a0-a0c6-6d948037ed6a",
+      "kind": "enhancement",
+      "name": "Eagle’s Eye",
+      "det": "Guardians of the Throne",
+      "ref": {
+        "kind": "enhancement",
+        "det": "guardians-of-the-throne"
+      },
+      "hash": "d9cea4a5",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "3+",
+          "when": {
+            "en": "when attacks are allocated to this model and it uses this ability (once per battle)",
+            "ru": "когда атаки распределены на эту модель и она применяет эту способность (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "cd2d3308-23d6-4cd4-b9f5-0fba566566c0",
+      "kind": "enhancement",
+      "name": "Augury Uplink (one per army) (Upgrade)",
+      "det": "Might of the Moritoi",
+      "ref": {
+        "kind": "enhancement",
+        "det": "might-of-the-moritoi"
+      },
+      "hash": "27411cad",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -1282,558 +875,75 @@ export default {
       ]
     },
     {
-      "sid": "3a2d0fec-d3ae-4ba8-b9fc-5a5a1cbe108f",
+      "sid": "9fa885d0-2aab-4f90-b518-059a8b8e2793",
       "kind": "enhancement",
-      "name": "Aegis Projector",
-      "det": "Talons of the Emperor",
-      "ref": {
-        "kind": "enhancement",
-        "det": "talons-of-the-emperor"
-      },
-      "hash": "e2dcb903",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "60461b2c-c1ca-4046-82a2-436078ebfb10",
-      "kind": "enhancement",
-      "name": "Gift of Terran Artifice",
-      "det": "Talons of the Emperor",
-      "hash": "3ecc3cbb",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": null
-        }
-      ],
-      "ref": {
-        "kind": "enhancement",
-        "det": "talons-of-the-emperor"
-      }
-    },
-    {
-      "sid": "c42f1a6c-7209-44c3-8a08-1983a33aa429",
-      "kind": "stratagem",
-      "name": "Slayer of Champions",
-      "det": "Auric Champions",
-      "ref": {
-        "kind": "stratagem",
-        "det": "auric-champions",
-        "name": "Slayer of Champions"
-      },
-      "hash": "28b225c9",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "61aafa75-fdc3-4c3b-99e0-08a8f2255a85",
-      "kind": "stratagem",
-      "name": "The Emperor’s Auspice",
-      "det": "Auric Champions",
-      "ref": {
-        "kind": "stratagem",
-        "det": "auric-champions",
-        "name": "The Emperor’s Auspice"
-      },
-      "hash": "e85bb0b8",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 4+",
-          "when": {
-            "en": "CHARACTER models only, while this stratagem is in force",
-            "ru": "только модели CHARACTER, пока действует стратагема"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "3d93b0b2-7640-4265-985b-0c1a9e206643",
-      "kind": "stratagem",
-      "name": "Defiant To The Last",
-      "det": "Lions of the Emperor",
-      "ref": {
-        "kind": "stratagem",
-        "det": "lions-of-the-emperor",
-        "name": "Defiant To The Last"
-      },
-      "hash": "c36844c5",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "b16af145-a7ba-473f-8386-ed8fb276e828",
-      "kind": "stratagem",
-      "name": "Peerless Warrior",
-      "det": "Lions of the Emperor",
-      "ref": {
-        "kind": "stratagem",
-        "det": "lions-of-the-emperor",
-        "name": "Peerless Warrior"
-      },
-      "hash": "10391964",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "PRECISION",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "dfa96045-020a-40da-a05a-110841d6114f",
-      "kind": "stratagem",
-      "name": "Prioritised Eradication",
+      "name": "Memento Moritoi (one per army) (Upgrade)",
       "det": "Might of the Moritoi",
       "ref": {
-        "kind": "stratagem",
-        "det": "might-of-the-moritoi",
-        "name": "Prioritised Eradication"
+        "kind": "enhancement",
+        "det": "might-of-the-moritoi"
       },
-      "hash": "2e0429c6",
-      "ver": 925,
+      "hash": "01aac280",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "RAPID FIRE 6",
-          "only": {
-            "name": "Arachnus storm cannon"
-          },
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
         },
         {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "RAPID FIRE 2",
-          "only": {
-            "name": "Iliastus accelerator culverin"
-          },
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
         }
-      ],
-      "dur": "phase"
+      ]
     },
     {
-      "sid": "29d8fbb6-9a19-47a9-9c0c-348c18f2031b",
-      "kind": "stratagem",
-      "name": "Psy-chaff Volley",
-      "det": "Null Maiden Vigil",
+      "sid": "b9ed1806-197f-42d9-bff9-f6ca83c0b473",
+      "kind": "enhancement",
+      "name": "Genalchemic Warding",
+      "det": "Shadowkeepers",
       "ref": {
-        "kind": "stratagem",
-        "det": "null-maiden-vigil",
-        "name": "Psy-chaff Volley"
+        "kind": "enhancement",
+        "det": "shadowkeepers"
       },
-      "hash": "32319f16",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "dec320fe-e3fd-475d-9e59-d4ca35479940",
-      "kind": "stratagem",
-      "name": "Psychic Abominations",
-      "det": "Null Maiden Vigil",
-      "ref": {
-        "kind": "stratagem",
-        "det": "null-maiden-vigil",
-        "name": "Psychic Abominations"
-      },
-      "hash": "53ba30ad",
-      "ver": 925,
+      "hash": "8d7d56a1",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "unit",
           "stat": "core",
           "op": "grant",
-          "value": "Stealth",
+          "value": "Feel No Pain 5+",
           "when": null
         }
-      ],
-      "dur": "phase"
+      ]
     },
     {
-      "sid": "e71fa2b3-af09-442a-b69d-5160a2c30289",
+      "sid": "d5c2b647-f97c-46d0-9770-3688e5c169de",
       "kind": "stratagem",
-      "name": "Purgation Sweep",
-      "det": "Null Maiden Vigil",
+      "name": "Tip of the Talon",
+      "det": "Aquilan Shield",
       "ref": {
         "kind": "stratagem",
-        "det": "null-maiden-vigil",
-        "name": "Purgation Sweep"
+        "det": "aquilan-shield",
+        "name": "Tip of the Talon"
       },
-      "hash": "8f475604",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "only": {
-            "tag": "TORRENT"
-          },
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        },
-        {
-          "on": "ranged",
-          "stat": "a",
-          "op": "add",
-          "value": 2,
-          "only": {
-            "tag": "TORRENT"
-          },
-          "when": {
-            "en": "against a PSYKER or Battle-shocked target, instead",
-            "ru": "против PSYKER или Battle-shocked цели, вместо этого"
-          },
-          "cond": [
-            "never"
-          ],
-          "alt": 0
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "c86305d1-9ed8-4611-853b-2e9582c62091",
-      "kind": "stratagem",
-      "name": "Arcane Genetic Alchemy",
-      "det": "Shield Host",
-      "ref": {
-        "kind": "stratagem",
-        "det": "shield-host",
-        "name": "Arcane Genetic Alchemy"
-      },
-      "hash": "f75e2a98",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 4+ (vs mortal wounds)",
-          "when": null
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "da903080-91ba-4138-a20c-d7719a69754d",
-      "kind": "stratagem",
-      "name": "Avenge the Fallen",
-      "det": "Shield Host",
-      "ref": {
-        "kind": "stratagem",
-        "det": "shield-host",
-        "name": "Avenge the Fallen"
-      },
-      "hash": "f9f55d63",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        },
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 2,
-          "when": {
-            "en": "while Below Half-strength, instead",
-            "ru": "пока Below Half-strength, вместо этого"
-          },
-          "cond": [
-            "never"
-          ],
-          "alt": 0
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "df90dc29-28d9-4484-b6aa-266ce4b3699d",
-      "kind": "stratagem",
-      "name": "Deathsong Scythes",
-      "det": "Silent Hunters",
-      "ref": {
-        "kind": "stratagem",
-        "det": "silent-hunters",
-        "name": "Deathsong Scythes"
-      },
-      "hash": "9ef4ad65",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "LANCE",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        },
-        {
-          "on": "melee",
-          "stat": "a",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "against PSYKER targets",
-            "ru": "против целей PSYKER"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "9786c88d-4694-4c3d-b3c3-c63c25e15a85",
-      "kind": "stratagem",
-      "name": "Synchronised Inferno",
-      "det": "Silent Hunters",
-      "ref": {
-        "kind": "stratagem",
-        "det": "silent-hunters",
-        "name": "Synchronised Inferno"
-      },
-      "hash": "5ba6b1ed",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "BLAST 1",
-          "only": {
-            "tag": "TORRENT"
-          },
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "9494bd29-d121-496c-bb4d-f6d1e2897445",
-      "kind": "stratagem",
-      "name": "Umbral Prosecution",
-      "det": "Silent Hunters",
-      "ref": {
-        "kind": "stratagem",
-        "det": "silent-hunters",
-        "name": "Umbral Prosecution"
-      },
-      "hash": "44605a08",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "RAPID FIRE 2",
-          "only": {
-            "name": "Boltgun"
-          },
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        },
-        {
-          "on": "ranged",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "only": {
-            "name": "Boltgun"
-          },
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "9876dec8-0561-44cf-b491-429cd673c76b",
-      "kind": "stratagem",
-      "name": "Emperor’s Vengeance",
-      "det": "Solar Spearhead",
-      "ref": {
-        "kind": "stratagem",
-        "det": "solar-spearhead",
-        "name": "Emperor’s Vengeance"
-      },
-      "hash": "e112e80f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "bcb0956b-1bcd-4210-9135-c9a2494bc31a",
-      "kind": "stratagem",
-      "name": "Punishment Inescapable",
-      "det": "Solar Spearhead",
-      "ref": {
-        "kind": "stratagem",
-        "det": "solar-spearhead",
-        "name": "Punishment Inescapable"
-      },
-      "hash": "6f179bef",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "IGNORES COVER",
-          "when": {
-            "en": "while this stratagem is in force",
-            "ru": "пока действует стратагема"
-          }
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "b25a7834-58da-4565-9f0a-68df133f1b1f",
-      "kind": "stratagem",
-      "name": "Relentless Persecution",
-      "det": "Solar Spearhead",
-      "ref": {
-        "kind": "stratagem",
-        "det": "solar-spearhead",
-        "name": "Relentless Persecution"
-      },
-      "hash": "49e6d0e2",
-      "ver": 925,
-      "reviewed": true,
-      "effects": []
-    },
-    {
-      "sid": "f5c50ce4-bc47-4982-a25c-e9e09f28737d",
-      "kind": "stratagem",
-      "name": "Emperor’s Executioners",
-      "det": "Talons of the Emperor",
-      "ref": {
-        "kind": "stratagem",
-        "det": "talons-of-the-emperor",
-        "name": "Emperor’s Executioners"
-      },
-      "hash": "465f0820",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "against a target below its Starting Strength",
-            "ru": "по цели ниже Starting Strength"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "17071980-b9bf-4a01-afe9-c31c1eefc773",
-      "kind": "stratagem",
-      "name": "Empyric Severance",
-      "det": "Talons of the Emperor",
-      "ref": {
-        "kind": "stratagem",
-        "det": "talons-of-the-emperor",
-        "name": "Empyric Severance"
-      },
-      "hash": "86fd9f70",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "unit",
-          "stat": "core",
-          "op": "grant",
-          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
-          "when": null
-        }
-      ],
-      "dur": "phase"
-    },
-    {
-      "sid": "35dbd75b-fa44-489d-b243-38467b8777e1",
-      "kind": "stratagem",
-      "name": "Talons Interlocked",
-      "det": "Talons of the Emperor",
-      "ref": {
-        "kind": "stratagem",
-        "det": "talons-of-the-emperor",
-        "name": "Talons Interlocked"
-      },
-      "hash": "8b66761f",
-      "ver": 925,
+      "hash": "6181b685",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -1842,21 +952,8 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "against the one enemy unit this stratagem named",
-            "ru": "против юнита, названного стратагемой"
-          },
-          "cond": [
-            "never"
-          ]
-        },
-        {
-          "on": "ranged",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "when": {
-            "en": "against the one enemy unit this stratagem named",
-            "ru": "против юнита, названного стратагемой"
+            "en": "against a target within 9\"",
+            "ru": "против цели в пределах 9\""
           },
           "cond": [
             "never"
@@ -1866,27 +963,40 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "586938da-eb36-4a8c-9ebc-eacd8ac75f90",
+      "sid": "409957e9-4bc7-48a5-96f6-8943e545ac7c",
       "kind": "stratagem",
-      "name": "Electroexorcist Saturation",
-      "det": "Tharanatoi Hammerblow",
+      "name": "In Auramite clad",
+      "det": "Emperor’s Chosen",
       "ref": {
         "kind": "stratagem",
-        "det": "tharanatoi-hammerblow",
-        "name": "Electroexorcist Saturation"
+        "det": "emperors-chosen",
+        "name": "In Auramite clad"
       },
-      "hash": "6fcf05f0",
-      "ver": 925,
+      "hash": "9e50d86d",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [],
+      "dur": "phase"
+    },
+    {
+      "sid": "955e9d60-fd3b-410f-a0bd-d3d7ee97cb1b",
+      "kind": "stratagem",
+      "name": "Advanced Stabilisers",
+      "det": "Grav‑Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "grav-assault-force",
+        "name": "Advanced Stabilisers"
+      },
+      "hash": "76382f0c",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "ranged",
-          "stat": "a",
-          "op": "set",
-          "value": "D3+3",
-          "only": {
-            "name": "Balistus grenade launcher"
-          },
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
@@ -1896,24 +1006,227 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "342d243e-237b-425e-af03-f0cb82e857b8",
+      "sid": "86b60c6f-8343-4696-8636-2d0f57734366",
       "kind": "stratagem",
-      "name": "Hardened Resolve",
-      "det": "Tharanatoi Hammerblow",
+      "name": "In Auramite clad",
+      "det": "Guardians of the Throne",
       "ref": {
         "kind": "stratagem",
-        "det": "tharanatoi-hammerblow",
-        "name": "Hardened Resolve"
+        "det": "guardians-of-the-throne",
+        "name": "In Auramite clad"
       },
-      "hash": "10a35e26",
-      "ver": 925,
+      "hash": "9e50d86d",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [],
+      "dur": "phase"
+    },
+    {
+      "sid": "89346c89-ccf5-4462-ba1b-00b7ec639229",
+      "kind": "stratagem",
+      "name": "Unlimited Endurance",
+      "det": "Guardians of the Throne",
+      "ref": {
+        "kind": "stratagem",
+        "det": "guardians-of-the-throne",
+        "name": "Unlimited Endurance"
+      },
+      "hash": "f0663ccc",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
-          "on": "profile",
-          "stat": "t",
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "9331e696-bcd6-47ba-bfa9-492210e7971c",
+      "kind": "stratagem",
+      "name": "Avenge the Fallen",
+      "det": "Honoured Companions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "honoured-companions",
+        "name": "Avenge the Fallen"
+      },
+      "hash": "04b75a2b",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force (not CHARACTER models)",
+            "ru": "пока действует стратагема (кроме моделей CHARACTER)"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "75e82547-fa7d-4842-b04e-42f546961095",
+      "kind": "stratagem",
+      "name": "Vigil Unending",
+      "det": "Lions of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lions-of-the-emperor",
+        "name": "Vigil Unending"
+      },
+      "hash": "9c6e19d7",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [],
+      "dur": "phase"
+    },
+    {
+      "sid": "7ed4a00b-04a6-446f-85e4-8bc70cef5eb0",
+      "kind": "stratagem",
+      "name": "Unceasing Onslaught",
+      "det": "Might of the Moritoi",
+      "ref": {
+        "kind": "stratagem",
+        "det": "might-of-the-moritoi",
+        "name": "Unceasing Onslaught"
+      },
+      "hash": "d3c295f4",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "766c8e58-761c-4712-923d-ca5dba526af0",
+      "kind": "stratagem",
+      "name": "Psy‑chaff Volley",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "stratagem",
+        "det": "null-maiden-vigil",
+        "name": "Psy‑chaff Volley"
+      },
+      "hash": "9a90d567",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [],
+      "dur": "turn"
+    },
+    {
+      "sid": "8d32b886-8cd7-4854-a771-92f80925a238",
+      "kind": "stratagem",
+      "name": "Purgation Sweep",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "stratagem",
+        "det": "null-maiden-vigil",
+        "name": "Purgation Sweep"
+      },
+      "hash": "cdea513c",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
           "op": "add",
           "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          },
+          "only": {
+            "tag": "TORRENT"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against a PSYKER or Battle-shocked target, instead",
+            "ru": "против цели PSYKER или Battle-shocked, вместо этого"
+          },
+          "only": {
+            "tag": "TORRENT"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "76293e5f-efe0-4ed0-954d-fcedb22124eb",
+      "kind": "stratagem",
+      "name": "Grim Responsibility",
+      "det": "Shadowkeepers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadowkeepers",
+        "name": "Grim Responsibility"
+      },
+      "hash": "20cafdc2",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS: CHARACTER/MONSTER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "fa0bd347-ef98-451a-ba79-aa7e8b139837",
+      "kind": "stratagem",
+      "name": "Indomitable Guardians",
+      "det": "Shadowkeepers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadowkeepers",
+        "name": "Indomitable Guardians"
+      },
+      "hash": "ae48cff3",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
@@ -1946,7 +1259,7 @@ export default {
       "dur": "phase"
     },
     {
-      "sid": "a953553a-11dd-4105-a141-50667ddb666b:allarus-custodians",
+      "sid": "cfcf1648-58f3-4e72-b091-8f7f5656f95a:allarus-custodians",
       "kind": "wargear",
       "name": "Allarus Custodians: Vexilla",
       "det": null,
@@ -1955,8 +1268,8 @@ export default {
         "unit": "allarus-custodians",
         "item": "vexilla"
       },
-      "hash": "ec06b6a4",
-      "ver": 925,
+      "hash": "93741a91",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -1969,46 +1282,36 @@ export default {
       ]
     },
     {
-      "sid": "1aa2c464-883e-489a-81ea-9ea8895ccb75:custodian-guard",
+      "sid": "cfcf1648-58f3-4e72-b091-8f7f5656f95a:aquilan-wing-sentinel-guard-sodality",
       "kind": "wargear",
-      "name": "Custodian Guard: Praesidium Shield",
+      "name": "Aquilan Wing Sentinel Guard Sodality: Vexilla",
       "det": null,
-      "ref": {
-        "kind": "wargear",
-        "unit": "custodian-guard",
-        "item": "praesidium shield"
-      },
-      "hash": "219c8b44",
-      "ver": 925,
+      "ref": null,
+      "hash": "93741a91",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "profile",
-          "stat": "w",
+          "stat": "oc",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "the bearer only",
-            "ru": "только носитель"
-          },
-          "cond": [
-            "wargear-bearer"
-          ]
+          "when": null
         }
       ]
     },
     {
-      "sid": "a953553a-11dd-4105-a141-50667ddb666b:custodian-guard",
+      "sid": "cfcf1648-58f3-4e72-b091-8f7f5656f95a:custodian-guard-sodality",
       "kind": "wargear",
-      "name": "Custodian Guard: Vexilla",
+      "name": "Custodian Guard Sodality: Vexilla",
       "det": null,
       "ref": {
         "kind": "wargear",
-        "unit": "custodian-guard",
+        "unit": "custodian-guard-sodality",
         "item": "vexilla"
       },
-      "hash": "ec06b6a4",
-      "ver": 925,
+      "hash": "93741a91",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -2021,7 +1324,7 @@ export default {
       ]
     },
     {
-      "sid": "a953553a-11dd-4105-a141-50667ddb666b:custodian-wardens",
+      "sid": "cfcf1648-58f3-4e72-b091-8f7f5656f95a:custodian-wardens",
       "kind": "wargear",
       "name": "Custodian Wardens: Vexilla",
       "det": null,
@@ -2030,8 +1333,8 @@ export default {
         "unit": "custodian-wardens",
         "item": "vexilla"
       },
-      "hash": "ec06b6a4",
-      "ver": 925,
+      "hash": "93741a91",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
@@ -2069,22 +1372,22 @@ export default {
       ]
     },
     {
-      "sid": "1aa2c464-883e-489a-81ea-9ea8895ccb75:shield-captain",
+      "sid": "cfcf1648-58f3-4e72-b091-8f7f5656f95a:sentinel-guard-sodality",
       "kind": "wargear",
-      "name": "Shield-Captain: Praesidium Shield",
+      "name": "Sentinel Guard Sodality: Vexilla",
       "det": null,
       "ref": {
         "kind": "wargear",
-        "unit": "shield-captain",
-        "item": "praesidium shield"
+        "unit": "sentinel-guard-sodality",
+        "item": "vexilla"
       },
-      "hash": "219c8b44",
-      "ver": 925,
+      "hash": "93741a91",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {
           "on": "profile",
-          "stat": "w",
+          "stat": "oc",
           "op": "add",
           "value": 1,
           "when": null
@@ -2092,33 +1395,19 @@ export default {
       ]
     },
     {
-      "sid": "ae8d3318-35f9-417c-ace7-01eaf3bb87d7:venatari-custodians",
+      "sid": "ec7bef95-8487-440a-8142-0e96be0308d1:shield-captain",
       "kind": "wargear",
-      "name": "Venatari Custodians: Tarsis buckler",
+      "name": "Shield‑Captain: Praesidium Shield",
       "det": null,
       "ref": {
         "kind": "wargear",
-        "unit": "venatari-custodians",
-        "item": "tarsis buckler"
+        "unit": "shield-captain",
+        "item": "praesidium shield"
       },
-      "hash": "6855a467",
-      "ver": 925,
+      "hash": "6a70b7cf",
+      "ver": 981,
       "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "w",
-          "op": "set",
-          "value": "4",
-          "when": {
-            "en": "the bearer only",
-            "ru": "только носитель"
-          },
-          "cond": [
-            "wargear-bearer"
-          ]
-        }
-      ]
+      "effects": []
     }
   ]
 }

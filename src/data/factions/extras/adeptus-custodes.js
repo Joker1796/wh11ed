@@ -3,10 +3,16 @@
 // out of the rule body, so the body can match the app word for word (sync-faction-text), and shown
 // under the rule in its own plate (RuleExtras.vue). Keys: det:<detachment id> | enh:<detachment id>:<enhancement name>.
 export default {
-  "det:solar-spearhead": [
+  "enh:emissaries-imperatus:Auriferous Orb": [
     {
-      "en": "Keywords\nIn the Muster Armies step, you can select up to 2 ADEPTUS CUSTODES WALKER models from your army. The selected units gain the CHARACTER keyword.\n\n**Designer's Note:** This means the selected models can be given Enhancements and one of them can be selected as your WARLORD.",
-      "ru": "Ключевые слова\nВ шаге «Сбор армий» вы можете выбрать до 2 моделей ADEPTUS CUSTODES WALKER вашей армии. Выбранные юниты получают ключевое слово CHARACTER.\n\n**Примечание разработчика:** это значит, что выбранным моделям можно дать улучшения, а одна из них может быть выбрана вашим Warlord."
+      "en": "▪ **Auriferous Orb** [ANTI-non-MONSTER/VEHICLE 2+, BLINDING LIGHT, DEVASTATING WOUNDS] — Range 12\", A 3, BS 2+, S 1, AP 0, D 1.",
+      "ru": "▪ **Auriferous Orb** [ANTI-non-MONSTER/VEHICLE 2+, BLINDING LIGHT, DEVASTATING WOUNDS] — Range 12\", A 3, BS 2+, S 1, AP 0, D 1."
+    }
+  ],
+  "enh:guardians-of-the-throne:Emperor’s Light": [
+    {
+      "en": "▪ **Emperor’s Light** [EXTRA ATTACKS] — Melee, A 3, WS 2+, S 5, AP -2, D 2.",
+      "ru": "▪ **Emperor’s Light** [EXTRA ATTACKS] — Melee, A 3, WS 2+, S 5, AP -2, D 2."
     }
   ]
 }

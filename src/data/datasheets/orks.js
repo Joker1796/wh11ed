@@ -3143,12 +3143,12 @@ export default [
     "name": "Gretchin",
     "points": [
       {
-        "points": 45,
-        "note": "10 Gretchin"
+        "models": 10,
+        "points": 45
       },
       {
-        "points": 80,
-        "note": "20 Gretchin"
+        "models": 20,
+        "points": 80
       }
     ],
     "flavor": "What Gretchin – also called grots – lack in stature, courage, resilience, discipline, motivation, loyalty, aggression and personal hygiene, they allegedly make up for in numbers. They are at least reasonable shots with their underpowered firearms, and if all else fails, the Orks find that grots make excellent bullet-stops.",
@@ -4072,13 +4072,48 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Big Shoota",
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Skorcha",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dual Big Shoota",
         "tags": [
           "LETHAL HITS: NON-MONSTER/VEHICLE",
-          "RAPID FIRE 2"
+          "RAPID FIRE 4"
         ],
         "range": "36\"",
-        "a": "3",
+        "a": "6",
         "bs": "5+",
         "s": "5",
         "ap": "0",
@@ -4109,12 +4144,12 @@ export default [
         "d": "D6+6"
       },
       {
-        "name": "Lobba",
+        "name": "Big Shoota",
         "tags": [
-          "BLAST 3",
-          "INDIRECT FIRE"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
         ],
-        "range": "48\"",
+        "range": "36\"",
         "a": "3",
         "bs": "5+",
         "s": "5",
@@ -4146,36 +4181,14 @@ export default [
         "d": "D3+3"
       },
       {
-        "name": "Rokkit Launcha – blasta",
+        "name": "Lobba",
         "tags": [
-          "BLAST 2"
+          "BLAST 3",
+          "INDIRECT FIRE"
         ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "5+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Rokkit Launcha – busta",
-        "tags": [],
-        "range": "24\"",
-        "a": "2",
-        "bs": "5+",
-        "s": "10",
-        "ap": "-2",
-        "d": "3"
-      },
-      {
-        "name": "Skorcha",
-        "tags": [
-          "BLAST 1",
-          "TORRENT"
-        ],
-        "range": "12\"",
+        "range": "48\"",
         "a": "3",
-        "bs": "-",
+        "bs": "5+",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -4233,12 +4246,12 @@ export default [
     "composition": [
       "1 Kill Tank model"
     ],
-    "loadout": "**This model is equipped with:** 2 Big Shoota; 1 Crushin' Bulk; 1 Tank Kannon.",
+    "loadout": "**This model is equipped with:** 1 Crushin' Bulk; 1 Dual Big Shoota; 1 Skorcha; 1 Tank Kannon.",
     "options": [
-      "This model can be equipped with up to 4 Big Shootas.",
-      "This model's 2 Big Shootas can be replaced with one of the following: 2 Rokkit Launcha, 2 Skorchas",
-      "This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and 3 Zzap Guns.",
-      "This model's Zzap Gun can be replaced with one of the following: 1 Kannon, 1 Lobba"
+      "This model's Dual Big Shoota can be replaced with one of the following: 1 Rokkit Launcha, 1 Skorcha.",
+      "This model's Skorcha can be replaced with one of the following: 1 Dual Big Shoota, 1 Rokkit Launcha.",
+      "This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and three of the following:\n\n- 1 Kannon.\n\n- 1 Lobba.\n\n- 1 Zzap Gun.",
+      "If this model is equipped with 1 Deff Rolla, it can be equipped with up to 5 Big Shootas."
     ],
     "transport": "This model has a transport capacity of 12 Orks Infantry models. Each Mega Armour, Jump Pack model takes up the space of 2 models. Each Ghazghkull Thraka model takes up the space of 4 models.",
     "keywords": [
@@ -7682,7 +7695,7 @@ export default [
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "120x92mm"
+    "baseSize": "120x92mm oval base"
   },
   {
     "id": "wazdakka-gutsmek",

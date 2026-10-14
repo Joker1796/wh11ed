@@ -12,7 +12,8 @@
       </div>
     </div>
 
-    <!-- A pinned faction leaves its group for this one, and slides there (useFlipMove). -->
+    <!-- A pinned faction leaves its group for this one, every box of it, and slides there
+         (useFlipMove). -->
     <section
       v-if="pinned.length"
       class="cp-group"
@@ -25,26 +26,26 @@
       </h2>
       <div class="cp-grid">
         <div
-          v-for="f in pinned"
-          :key="'pin-' + f.slug"
-          :data-flip="f.slug"
+          v-for="b in boxesOf(pinned)"
+          :key="'pin-' + b.id"
+          :data-flip="b.id"
           class="cp-card-row"
         >
           <RouterLink
-            :to="`/combat-patrol/${f.slug}`"
+            :to="`/combat-patrol/${b.id}`"
             class="cp-card tone"
-            :style="toneVars(factionIndexBySlug(f.slug)?.color)"
+            :style="toneVars(factionIndexBySlug(b.slug)?.color)"
           >
             <FactionEmblem
-              :faction="factionIndexBySlug(f.slug)"
+              :faction="factionIndexBySlug(b.slug)"
               stamp
             />
-            <span class="cp-card-name">{{ f.name }}</span>
-            <span class="cp-card-box">{{ f.boxName }}</span>
+            <span class="cp-card-name">{{ b.name }}</span>
+            <span class="cp-card-box">{{ b.boxName }}</span>
           </RouterLink>
           <FavoriteStar
             :pinned="true"
-            @toggle="toggleFaction(f.slug)"
+            @toggle="toggleFaction(b.slug)"
           />
         </div>
       </div>
@@ -63,26 +64,26 @@
       </h2>
       <div class="cp-grid">
         <div
-          v-for="f in group.factions"
-          :key="f.slug"
-          :data-flip="f.slug"
+          v-for="b in boxesOf(group.factions)"
+          :key="b.id"
+          :data-flip="b.id"
           class="cp-card-row"
         >
           <RouterLink
-            :to="`/combat-patrol/${f.slug}`"
+            :to="`/combat-patrol/${b.id}`"
             class="cp-card tone"
-            :style="toneVars(factionIndexBySlug(f.slug)?.color)"
+            :style="toneVars(factionIndexBySlug(b.slug)?.color)"
           >
             <FactionEmblem
-              :faction="factionIndexBySlug(f.slug)"
+              :faction="factionIndexBySlug(b.slug)"
               stamp
             />
-            <span class="cp-card-name">{{ f.name }}</span>
-            <span class="cp-card-box">{{ f.boxName }}</span>
+            <span class="cp-card-name">{{ b.name }}</span>
+            <span class="cp-card-box">{{ b.boxName }}</span>
           </RouterLink>
           <FavoriteStar
             :pinned="false"
-            @toggle="toggleFaction(f.slug)"
+            @toggle="toggleFaction(b.slug)"
           />
         </div>
       </div>
@@ -106,27 +107,26 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 // Same grouping as the /factions page (factionsIndex.js's factionGroups — Astartes/Imperium/
-// Chaos/Xenos), filtered to the factions that actually have a Combat Patrol box, with each
-// entry's boxName merged in from combatPatrolIndex.js.
-const groups = computed(() => {
-  const cpBySlug = new Map(combatPatrolIndex.map((f) => [f.slug, f]))
-  return factionGroups
-    .map((g) => ({
-      id: g.id,
-      factions: g.factions
-        .filter((f) => cpBySlug.has(f.slug))
-        .map((f) => ({ ...f, boxName: cpBySlug.get(f.slug).boxName })),
-    }))
-    .filter((g) => g.factions.length)
-})
+// Chaos/Xenos), filtered to the factions that actually have a Combat Patrol box. One tile per
+// BOX (owner, 2026-10-14): a faction with three boxes is three tiles, in combatPatrolIndex.js's
+// order, each its own page. The groups stay lists of factions because pinning is per faction.
+const boxesBySlug = new Map()
+for (const b of combatPatrolIndex) boxesBySlug.set(b.slug, [...(boxesBySlug.get(b.slug) || []), b])
+const boxesOf = (factions) => factions.flatMap((f) => boxesBySlug.get(f.slug) || [])
+const groups = computed(() =>
+  factionGroups
+    .map((g) => ({ id: g.id, factions: g.factions.filter((f) => boxesBySlug.has(f.slug)) }))
+    .filter((g) => g.factions.length),
+)
 
-// Pin a faction to the top — it leaves its own group — same mechanism as /factions and the tracker's faction picker
-// (shared localStorage-backed favorites — pinning here also pins it everywhere else).
+// Pin a faction to the top — it leaves its own group, all its boxes with it — same mechanism as
+// /factions and the tracker's faction picker (shared localStorage-backed favorites — pinning here
+// also pins it everywhere else).
 const { toggleFaction, pinnedFactionsFrom, unpinnedGroupsFrom } = useFavorites()
 const pinned = computed(() => pinnedFactionsFrom(groups.value))
 const unpinned = computed(() => unpinnedGroupsFrom(groups.value))
 const rootEl = ref(null)
-useFlipMove(() => pinned.value.map((f) => f.slug), rootEl)
+useFlipMove(() => boxesOf(pinned.value).map((b) => b.id), rootEl)
 
 </script>
 

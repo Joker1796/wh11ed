@@ -43,11 +43,6 @@ const ALLOW = [
   { sid: '2d6fa7ff-94b7-4b14-ba9a-2e07817823cd:exorcist',
     name: 'adepta-sororitas · Exorcist: Devastating Refrain',
     why: 'the rule changes how an ENEMY model\'s own Deadly Demise resolves; it grants nobody the ability.' },
-  { sid: 'fd72a239-683b-44f9-a38f-3e66c616faef',
-    name: 'adeptus-custodes · Revered Companions',
-    why: 'the Feel No Pain sits inside an aura ABILITY the rule hands out, and the rule carries two '
-      + 'different reach clauses (Null Aegis one way, Deadly Unity the other), so detachmentAuraScopes '
-      + 'reads no single gate — and index.test.js refuses a detachment aura without one.' },
   { sid: 'b9241196-72d9-4b64-94f2-7e485bf0a84b',
     name: 'aeldari · Ethereal Pathway',
     why: 'the rule grants the ability to units selected in a deployment step, from anywhere in the army; a '

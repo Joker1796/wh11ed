@@ -967,8 +967,8 @@ export default [
       {
         "name": "Power Fist",
         "tags": [],
-        "a": "6",
-        "ws": "2+",
+        "a": "3",
+        "ws": "3+",
         "s": "8",
         "ap": "-2",
         "d": "2"

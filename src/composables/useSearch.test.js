@@ -307,6 +307,14 @@ describe('combat patrol search', () => {
     expect(hit).toBeTruthy()
     expect(hit.id).toBe('cp-necrons-army-rule')
   })
+
+  it('routes a hit in a faction’s second box to that box’s own page, not the faction’s first', async () => {
+    await preloadCombatPatrolIndex()
+    const res = search('On Gilded Wings', 'en')
+    const hit = res.find((r) => r.id === 'cp-strat-adeptus-custodes-aquilan-wing-on-gilded-wings')
+    expect(hit).toBeTruthy()
+    expect(hit.route).toBe('/combat-patrol/adeptus-custodes-aquilan-wing')
+  })
 })
 
 describe('highlightMatch', () => {

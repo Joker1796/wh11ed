@@ -27,8 +27,10 @@ describe('a second copy of a melee weapon', () => {
     expect(names).toEqual(['Decimator claw'])
   })
 
-  it('is marked but not warned about when the unit\'s rule rewards the pair — a Telemon\'s caestus', async () => {
-    const { def, sheet, entry, names } = await idle('adeptus-custodes', 'telemon-heavy-dreadnought', [[0, 1, 1]])
+  // A Talos's two macro-scalpels (its printed loadout); the Telemon's caestus pair was the example
+  // until Codex: Adeptus Custodes (data 981) took that rule away.
+  it('is marked but not warned about when the unit\'s rule rewards the pair — a Talos\'s macro-scalpels', async () => {
+    const { def, sheet, entry, names } = await idle('drukhari', 'talos', [])
     expect(overlaySheet(sheet, { def, entry, items }).sheet.melee.some((w) => w.copy)).toBe(true)
     expect(names).toEqual([])
   })

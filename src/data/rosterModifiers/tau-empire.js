@@ -1043,6 +1043,28 @@ export default {
       }
     },
     {
+      "sid": "f386b3da-2477-4ce5-8efa-01257e4f6f37",
+      "kind": "detachmentRule",
+      "name": "Superior Craftsmanship",
+      "det": "Experimental Prototype Cadre",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "experimental-prototype-cadre"
+      },
+      "hash": "2346797a",
+      "ver": 981,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "8d4abd30-90f3-4747-8497-0fe92c9377c9",
       "kind": "detachmentRule",
       "name": "Patient Hunter",

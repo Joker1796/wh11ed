@@ -1348,6 +1348,38 @@ export const glossary = {
     ru: 'Правило детачмента Librarius Conclave. В начале каждого раунда боя вы выбираете одну из пяти дисциплин — Biomancy, Divination, Pyromancy, Telekinesis или Telepathy, — и каждый дружественный юнит Adeptus Astartes Psyker получает эту способность до конца раунда. Некоторые улучшения детачмента усиливаются, когда активна определённая дисциплина.',
   },
 
+  // Codex: Adeptus Custodes (app data 981) — the Martial Ka’tah terms and the states its rules name.
+  'ac-readied': {
+    term: 'Readied',
+    en: 'Martial Ka’tah: at the start of your Command phase, friendly ADEPTUS CUSTODES units with the ability are readied. While a unit is readied, you can have it use one ka’tah ability; once it does, it is no longer readied — one ka’tah ability per unit per battle round.',
+    ru: 'Martial Ka’tah: в начале вашей фазы командования дружественные юниты ADEPTUS CUSTODES с этой способностью становятся наготове. Пока юнит наготове, он может использовать одну способность ка’тах; после этого он больше не наготове — одна способность ка’тах на юнит за раунд боя.',
+  },
+  'ac-katah-ability': {
+    term: 'Ka’tah ability',
+    en: 'One of the six abilities of Martial Ka’tah — Conversai, Calistus, Salvus, Dacatarai, Kaptaris, Rendax. Each says when it can be used, on which readied unit, and what it does; using one ends that unit being readied.',
+    ru: 'Одна из шести способностей Martial Ka’tah — Conversai, Calistus, Salvus, Dacatarai, Kaptaris, Rendax. Каждая говорит, когда её можно использовать, для какого юнита наготове и что она делает; использовав её, юнит перестаёт быть наготове.',
+  },
+  'ac-favoured-katah': {
+    term: 'Favoured Ka’tah',
+    en: 'A detachment tagged Unique: Shield Host names one ka’tah ability as its Favoured Ka’tah. When a unit uses that ability, it also gets the additional effect the detachment lists.',
+    ru: 'Детачмент с тегом Unique: Shield Host называет одну способность ка’тах своим излюбленным ка’тахом. Когда юнит использует эту способность, он получает и дополнительный эффект, указанный в детачменте.',
+  },
+  'ac-dreadful-foe': {
+    term: 'Dreadful foe',
+    en: 'Auric Champions: in your Command phase you can select one enemy unit to be a dreadful foe until the start of your next Command phase. Friendly ADEPTUS CUSTODES CHARACTER models’ attacks that target it have +1 to wound rolls.',
+    ru: 'Auric Champions: в вашей фазе командования можно выбрать один вражеский юнит грозным врагом до начала вашей следующей фазы командования. Атаки моделей ADEPTUS CUSTODES CHARACTER по нему имеют +1 к броскам на ранение.',
+  },
+  'ac-prosecuted': {
+    term: 'Prosecuted',
+    en: 'Null Maiden Vigil (Psy-chaff Volley): an enemy unit hit by the stratagem’s attacks is prosecuted until the end of the turn; attacks that target a prosecuted unit have +1 AP.',
+    ru: 'Null Maiden Vigil (Psy-chaff Volley): вражеский юнит, по которому попали атаки этой стратагемы, преследуем до конца хода; атаки по преследуемому юниту имеют +1 к AP.',
+  },
+  'ac-mark': {
+    term: 'Mark (Blade Champion)',
+    en: 'At the start of the first battle round, the Blade Champion selects one enemy unit to be his mark. His attacks that target it have +1 to wound rolls; when it is destroyed, he selects a new one.',
+    ru: 'В начале первого раунда боя Blade Champion выбирает один вражеский юнит своей меткой. Его атаки по ней имеют +1 к броскам на ранение; когда она уничтожена, он выбирает новую.',
+  },
+
   // — Faction rules: Astra Militarum (Voice of Command) —
   'am-order': {
     term: 'Order',

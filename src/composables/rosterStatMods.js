@@ -665,6 +665,21 @@ function armyRuleMatches(recName, ourName) {
   return a === b || a.includes(b) || b.includes(a)
 }
 
+// The `### <name>` section of an army rule's body (up to the next `### ` heading), or null. A
+// heading may carry its Russian after a pipe in RU bodies; the EN body this reads has none.
+/** @param {string | null | undefined} body @param {string | null | undefined} name @returns {string | null} */
+export function armyRuleSection(body, name) {
+  if (!body || !name) return null
+  const want = normRule(name)
+  const parts = body.split(/^### /m).slice(1)
+  for (const p of parts) {
+    const nl = p.indexOf('\n')
+    const head = nl < 0 ? p : p.slice(0, nl)
+    if (normRule(head.split('|')[0]) === want) return nl < 0 ? '' : p.slice(nl + 1).trim()
+  }
+  return null
+}
+
 // The enhancements worn by the OTHER members of the Attached unit an entry belongs to — its
 // bodyguard and every Character attached to that bodyguard, or, for the bodyguard itself, the
 // Characters attached to it — as `enhKey`s. An Upgrade reads "This unit…", and 19.04 makes a rule
@@ -958,6 +973,12 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       // `Synapse`), but two unrelated names drop the record rather than mis-resolve it.
       if (facEn.armyRule?.body && armyRuleMatches(rec.name, facEn.armyRule.name)) {
         out.push({ ...rec, body: facEn.armyRule.body })
+      } else {
+        // …or a rule folded into ours as a `### ` section (gen-faction-rules folds a codex's
+        // several army rules into one block: Custodes' Aegis of the Emperor under Martial Ka'tah).
+        // Its own section is its prose, so its scopes are read from it alone.
+        const section = armyRuleSection(facEn.armyRule?.body, rec.name)
+        if (section) out.push({ ...rec, body: section })
       }
       continue
     }

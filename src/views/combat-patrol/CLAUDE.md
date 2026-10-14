@@ -20,6 +20,18 @@ top" FAB treatment as the Core Rules pages — `isCombatPatrolFactionRoute` in
 grid, grouped the same way `FactionsListView` groups factions, with the same pin/favorite
 mechanism (`FavoriteStar.vue`, `isFactionPinned`/`toggleFaction`).
 
+## One box, one page (2026-10-14)
+
+A faction can have several Combat Patrol boxes (Adeptus Custodes: Tristraen's Gilded Blades,
+Aquilan Talon, Aquilan Wing since app data 981), so the unit of this feature is the **box**, not
+the faction. Every entry in `combatPatrol.js`/`combatPatrolIndex.js` has an `id` — the box's URL
+key (`/combat-patrol/:slug`, the param IS the box id) and the stem of its anchors and search
+entries — and a `slug`, which stays the FACTION's (accent, emblem, faction name). A faction's
+first box keeps `id` = slug, so every URL and anchor from before the split still resolves; a
+further box is `<slug>-<slug(boxName)>`. The index page shows one tile per box, while pinning
+stays per faction (a pinned faction takes all its boxes to the top). The RU overlay matches a box
+by `id` — never by faction name, which three boxes now share.
+
 ## Data
 
 `src/data/combatPatrol.js` — one file for all ~24 CP factions (each box's content is small: 1
@@ -53,17 +65,19 @@ combat-patrol:index`, `scripts/gen-combat-patrol-search-index.mjs`), same names+
 shape as `factionRulesIndex.js`. No detachment to select before navigating (a CP box has
 exactly one fixed rule/army-rule/roster, unlike a normal faction page's multi-detachment
 picker) — see root `CLAUDE.md`'s Architecture → Search for the full mechanism and the
-`cp-<slug>-rule` / `cp-<slug>-army-rule` / `cp-strat-<slug>-<slug(name)>` /
-`cp-enh-<slug>-<slug(name)>` anchor-id scheme `CombatPatrolFactionView.vue` and the generator
+`cp-<box id>-rule` / `cp-<box id>-army-rule` / `cp-strat-<box id>-<slug(name)>` /
+`cp-enh-<box id>-<slug(name)>` anchor-id scheme `CombatPatrolFactionView.vue` and the generator
 must keep in sync.
 
 ## Verifying against appdata
 
-`node scripts/sync-combat-patrol.mjs` — report-only, checks the CP detachment's box
-name/DP/Force Disposition, the detachment rule's name, which army-rule row links to the box's
-own "Combat Patrol: `<name>`" publication, and the stratagem/enhancement/datasheet name sets
+`node scripts/sync-combat-patrol.mjs` — report-only, matches each authored box to its own
+appdata detachment and "Combat Patrol: `<box name>`" publication by box name, and checks DP/Force
+Disposition, the detachment rule's name, which army-rule row links to the box's
+own publication (or, for a box that prints none — the Aquilan boxes — the faction abilities its
+datasheets carry), and the stratagem/enhancement/datasheet name sets
 + each enhancement's `isCombatPatrolDefault` flag against `wh40k-appdata`. Also scans every
-appdata faction bundle for an `isCombatPatrol` detachment not yet authored in
+appdata faction bundle for an `isCombatPatrol` detachment (box) not yet authored in
 `combatPatrol.js` — run it after an appdata version bump to catch newly-added CP boxes.
 
 ## See also

@@ -78,7 +78,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "asurmen",
@@ -485,7 +485,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "autarch-wayleaper",
@@ -916,7 +916,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "clanblade",
@@ -1153,7 +1153,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "corsair-cloud-dancer-band",
@@ -1333,7 +1333,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "corsair-reaver-band",
@@ -1582,7 +1582,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "corsair-skyreavers",
@@ -3796,7 +3796,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "fuegan",
@@ -4259,7 +4259,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "howling-banshees",
@@ -4506,7 +4506,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "irillyth",
@@ -4590,7 +4590,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "jain-zar",
@@ -4779,7 +4779,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "kharseth",
@@ -5204,7 +5204,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "maugan-ra",
@@ -5487,7 +5487,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "phantom-titan",
@@ -5735,7 +5735,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "prince-yriel",
@@ -6191,7 +6191,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "shadow-spectres",
@@ -6293,7 +6293,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "shadow-weaver-platform",
@@ -6909,7 +6909,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "skyweavers",
@@ -8501,7 +8501,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "vampire-raider",
@@ -8590,7 +8590,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "vibro-cannon-platform",
@@ -9565,7 +9565,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "warp-spiders",
@@ -9868,7 +9868,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "wave-serpent",
@@ -10103,7 +10103,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "windriders",
@@ -10987,7 +10987,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.3"
+    "sourceVersion": "1.4"
   },
   {
     "id": "ynnari-archon",

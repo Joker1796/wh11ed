@@ -77,7 +77,10 @@ export function appdataToMarkup(text) {
   // in a handful of other factions' rules. RuleBody.vue nests it under the preceding `▪`,
   // so it has to keep its own marker rather than being folded into `▪`; what it must not
   // do is stay glued to the head line, which is what flattening produced before.
-  const BULLET_LEAD = /^(\*{1,2}|__|['’‘"«])?([▪■▫])[ \t]*/
+  // …and data 981 (Codex: Adeptus Custodes, the Core Rules, World Eaters) marks bullets with a raw
+  // BEL (U+0007), which the codex generators copied into the text invisibly.
+  // The BEL is a real control character, so the pattern is built from a string (no-control-regex).
+  const BULLET_LEAD = new RegExp(`^(\\*{1,2}|__|['’‘"«])?([▪■▫${String.fromCharCode(7)}])[ \\t]*`)
   const normalizeBullet = (l) => {
     const m = l.match(BULLET_LEAD)
     if (!m) return l

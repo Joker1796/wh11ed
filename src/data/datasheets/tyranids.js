@@ -75,7 +75,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.3"
   },
   {
     "id": "barbgaunts",
@@ -595,7 +595,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.3"
   },
   {
     "id": "exocrine",
@@ -1840,7 +1840,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.3"
   },
   {
     "id": "maleceptor",
@@ -3129,7 +3129,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.3"
   },
   {
     "id": "sky-slasher-swarms",
@@ -3204,7 +3204,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.3"
   },
   {
     "id": "spore-mines",

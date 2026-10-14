@@ -29,7 +29,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
-import { APPDATA_EXCEPTIONS } from './lib/appdata-exceptions.mjs'
+import { APPDATA_EXCEPTIONS, extraKeywords } from './lib/appdata-exceptions.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
@@ -360,7 +360,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -777,13 +777,34 @@ function linkWargearConditions(datasheetId, drafts) {
   // until 2026-10-03, the group gave up nothing and four heavy bolters sat beside the four heavy
   // weapons they replaced (a player's report). The whole phrase must be the alternatives — nothing
   // joined to them by "and" or a comma — and every one of them printed on the profile.
+  // An alternative may be a SET — "its bolt revolver and plasma knife or its bolt shotgun" (Hernkyn
+  // Yaegirs) — and its items need not be printed: an item the profile's own options hand out is one
+  // it may hold — "The Hesyr's concussion gauntlet or plasma blade gauntlet", where the plasma
+  // blade comes with the squad's swap (2026-10-14; read as the concussion gauntlet alone, a Hesyr
+  // who took the plasma blade could not trade it). At least one alternative is printed, so the
+  // reading never rests on options alone. Returns the sets, or null.
   const resolveHeldAlternatives = (phrase, miniId) => {
-    if (/,|\sand\s/i.test(phrase)) return null
-    const alts = phrase.split(/\s+or\s+/i).map((s) => s.trim()).filter(Boolean)
+    if (/,/.test(phrase)) return null
+    const alts = phrase.split(/\s+or\s+(?:its\s+|their\s+)?/i).map((s) => s.trim()).filter(Boolean)
     if (alts.length < 2) return null
-    const uuids = [...new Set(alts.map((a) => resolveItem(a, miniId)))]
-    if (uuids.length !== alts.length || !uuids.every((u) => u && defaultsByMini.get(miniId)?.has(u))) return null
-    return uuids
+    const held = defaultsByMini.get(miniId) || new Set()
+    const offered = new Set(drafts.filter((x) => x.miniId === miniId).flatMap((x) => x.opts.map((o) => o.uuid)))
+    const sets = []
+    for (const a of alts) {
+      const ids = /\sand\s/i.test(a) ? resolveConjunction(a, miniId) : [resolveItem(a, miniId)]
+      if (!ids?.length || !ids.every((u) => u && (held.has(u) || offered.has(u)))) return null
+      sets.push([...new Set(ids)])
+    }
+    if (!sets.some((set) => set.every((u) => held.has(u)))) return null
+    return sets
+  }
+  /** @param {object} d @param {string[][]} sets */
+  const setAlternatives = (d, sets) => {
+    d.rep = [...new Set(sets.flat())]
+    d.alt = true
+    if (sets.some((set) => set.length > 1)) d.alts = sets
+    repStats.resolved++
+    repStats.alternatives = (repStats.alternatives || 0) + 1
   }
 
   // A phrase into the set of items it names. Commas always separate; "and" may or may not, since
@@ -872,6 +893,9 @@ function linkWargearConditions(datasheetId, drafts) {
     let from = 0, m, last = null
     while ((m = d.text.slice(from).match(REP_RE))) {
       last = m
+      // "X or Y" is read whole before the walk moves on: walking past "or its" would keep Y alone.
+      const sets = / or /i.test(m[1]) ? resolveHeldAlternatives(m[1], d.miniId) : null
+      if (sets) { setAlternatives(d, sets); break }
       const uuids = resolvePhrase(m[1], d.miniId)
       if (uuids) { d.rep = uuids; repStats.resolved++; break }
       from += d.text.slice(from).indexOf(m[0]) + 2
@@ -883,8 +907,8 @@ function linkWargearConditions(datasheetId, drafts) {
       if (uuids) { d.rep = uuids; repStats.resolved++ }
     }
     if (!d.rep && last) {
-      const uuids = resolveHeldAlternatives(last[1], d.miniId)
-      if (uuids) { d.rep = uuids; d.alt = true; repStats.resolved++ }
+      const sets = resolveHeldAlternatives(last[1], d.miniId)
+      if (sets) setAlternatives(d, sets)
     }
     if (d.rep) continue
     if (last) repStats.unresolved.push(`${enOf(dsById.get(datasheetId)).name}: ${last[1].trim()}`)
@@ -934,9 +958,15 @@ function linkWargearConditions(datasheetId, drafts) {
     // out — "If the Helliarch is equipped with 1 splinter pistol, it can be equipped with 1
     // hellglaive", where only the swap for "1 splinter pistol and 1 power weapon" brings a pistol.
     // Unread until 2026-09-30, the hellglaive could be taken with no swap at all.
-    if (negated || defaultsByMini.get(d.miniId)?.has(uuid)) continue
+    if (defaultsByMini.get(d.miniId)?.has(uuid)) continue
     const givers = drafts.filter((s) => s !== d && s.m === d.m && s.opts.some((o) => o.uuid === uuid))
-    if (givers.length === 1) d.cond = { sibling: givers[0], active: true }
+    if (givers.length !== 1) continue
+    // Case (d), the same with "NOT": "If the Acothyst is not equipped with a power weapon, its
+    // torturer's tool can be replaced with 1 power weapon" — the one power weapon he can carry comes
+    // with his own "power weapon and torturer's tool" swap, so this group is live only while that
+    // swap is not taken (a player's report on Wracks, 2026-10-14; unread, it gave him two).
+    d.cond = { sibling: givers[0], active: !negated }
+    if (negated) (report.cond.notGiven ||= []).push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
   }
 }
 
@@ -1202,10 +1232,25 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
 // Rendered straight, that is the same instruction twice (reported on Drukhari Wracks), and worse
 // than cosmetic: each copy carries its own allowance, so the choice can be taken twice.
 //
-// The two are folded into one unit-wide group. Matching on the exact instruction TEXT plus the
-// exact option sets is what makes this safe: a leader with a genuinely separate allowance is
-// always worded differently ("The Sister Superior's boltgun…"), so it never collides. 99 pairs
-// across 50 units, and in every one of them the two copies agree on what they replace.
+// The two are folded into one draft while the allowance is read — a limited-choice set matches
+// one group, and two identical groups are exactly what makes it ambiguous. Matching on the exact
+// instruction TEXT plus the exact option sets is what makes this safe: a leader with a genuinely
+// separate allowance is always worded differently ("The Sister Superior's boltgun…"), so it never
+// collides. 99 pairs across 50 units, and in every one of them the two copies agree on what they
+// replace.
+//
+// The fold is NOT what ships. A unit-wide group could not say WHICH model took the option, and
+// everything that depends on that hung loose (2026-10-14, a player's report on Wracks: the
+// Acothyst's "if not equipped with a power weapon, its torturer's tool…" was open with no
+// torturer's tool to give; Einhyr Hearthguard's Hesyr could not trade the plasma blade gauntlet
+// the squad took). The survivor keeps its `copies` — one per miniature appdata wrote it on, which
+// is exactly the profiles that may take it — and `emitCopies` writes a group per profile sharing
+// one allowance (`u.pools`), as the GW app lays them out. The owner's call: the player chooses
+// who gets it.
+//
+// "This unit can be equipped with 1 Watcher in the Dark" is the one exception: the unit carries
+// it, no model does, so it stays one unit-wide group.
+const UNIT_OWNED = /^\s*this unit (?:can|may)\b/i
 function mergeMiniatureDuplicates(drafts, stats) {
   const byKey = new Map()
   for (const d of drafts) {
@@ -1223,7 +1268,8 @@ function mergeMiniatureDuplicates(drafts, stats) {
     // twice — leave those alone.
     if (new Set(list.map((d) => d.m)).size !== list.length) continue
     const keep = list.find((d) => d.in === 'stepper') || list[0]
-    keep.all = 1 // unit-wide: no miniature owns it, and the count runs over the whole squad
+    keep.all = 1 // the allowance runs over the whole squad, whichever profiles take it
+    if (!UNIT_OWNED.test(keep.text)) keep.copies = list.map((d) => ({ m: d.m, in: d.in }))
     for (const d of list) if (d !== keep) dropped.set(d, keep)
     stats.merged += list.length - 1
   }
@@ -1389,6 +1435,8 @@ function proseConditionalAllowance(text, optCount = 0) {
 function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
   const sets = limitedSetsByDs.get(datasheetId) || []
   if (!sets.length) return
+  // draft -> option index -> the step table of a set limiting that ONE option (see below).
+  const perOption = new Map()
   for (const set of sets) {
     const choices = (lwcBySet.get(set.id) || []).map((c) => lwcItems.get(c.id) || [])
     if (!choices.length) continue
@@ -1409,6 +1457,26 @@ function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
       const wantItems = choices.map((its) => its.map((i) => i.wargearItemId))
       hits = drafts.filter((d) => onMini(d) && coversOneToOne(wantItems, d.opts))
       if (hits.length === 1) stats.bundled++
+    }
+    // A set over ONE option of a longer group: "For every 5 models in the unit: ◦ 1 model's twin
+    // torturer's tools can be replaced with 1 hexrifle… ◦ …with 1 liquifier gun…" is four
+    // allowances, and appdata records four sets, one per weapon (Drukhari Wracks — the only such
+    // group). The set names the weapon, the option is the bundle it comes in ("1 hexrifle and 1
+    // torturer's tool"), so it is matched to the one option that CONTAINS it; folded into the
+    // group's own table once every option has one (after the loop).
+    if (!hits.length && choices.length === 1) {
+      const want = choices[0].map((i) => i.wargearItemId)
+      const owners = drafts.flatMap((d) => (onMini(d) && d.opts.length > 1 ? d.opts.map((o, oi) => [d, oi, o]) : []))
+        .filter(([, , o]) => want.every((u) => optUuids(o).has(u)))
+      if (owners.length === 1) {
+        const [d, oi] = owners[0]
+        const rows = (wgLimitsBySet.get(set.id) || []).map((l) => [l.modelCount || 0, l.choiceLimit]).filter(([, n]) => n > 0).sort((a, b) => a[0] - b[0])
+        if (rows.length) {
+          if (!perOption.has(d)) perOption.set(d, new Map())
+          perOption.get(d).set(oi, rows)
+          continue
+        }
+      }
     }
     // Several identical groups (the same choice repeated per miniature) — no way to tell which
     // one the set means, so neither gets a cap it might not have.
@@ -1452,6 +1520,23 @@ function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
       o.items = its.map((i) => [i.wargearItemId, i.count || 1])
       stats.counted++
     }
+    stats.limited++
+  }
+  // One set per option, every option covered, the same step table each: N of every option is
+  // N × options in all, at most N of any one — the group table with a duplicate cap, the shape
+  // Vespid Stingwings' three bullets already have. Anything less than every option, or tables
+  // that differ, is left uncapped as before and reported.
+  // Only the shape that says so in words — "For every N models in the unit:" over one bullet per
+  // option. A one-weapon set also sits under "Any number of Tempestus Scions can each have their
+  // hot-shot lasgun replaced with one of the following" (no duplicates, one per Scion), which the
+  // per-model reading below caps properly and this one would have got wrong.
+  for (const [d, byOpt] of perOption) {
+    if (!/^for every \d+ models? in (?:this|the) unit:\s*$/i.test(d.text.split('\n')[0].trim())) { stats.unmatched += byOpt.size; continue }
+    const tables = d.opts.map((_, oi) => byOpt.get(oi))
+    const same = tables.every((t) => t && JSON.stringify(t) === JSON.stringify(tables[0]))
+    if (d.lim || !same) { stats.unmatched += byOpt.size; stats.perOptionLeft = [...(stats.perOptionLeft || []), `${unitName}: ${byOpt.size}/${d.opts.length} options limited one by one — not folded`]; continue }
+    d.lim = tables[0].map(([at, n]) => [at, n * d.opts.length, n])
+    stats.perOption = [...(stats.perOption || []), `${unitName}: ${JSON.stringify(d.lim)} — ${d.text.split('\n')[0].slice(0, 60)}`]
     stats.limited++
   }
 }
@@ -1826,7 +1911,9 @@ function chapterUnitPoints(mfmFaction, smMfm, sharedIds, smIdMap, nameToDsId) {
 function buildUnit(bd, idMap, fx, kwIndex, prices) {
   const minis = (minisByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)
   const miniIdx = new Map(minis.map((m, i) => [m.id, i]))
-  const kws = bd.keywords || []
+  // A keyword GW's update document adds and the app has not taken in (appdata-exceptions.mjs).
+  const kwExtra = extraKeywords(enOf(bd).name || bd.name)
+  const kws = kwExtra.length ? [...(bd.keywords || []), ...kwExtra] : bd.keywords || []
   const linkedId = idMap.get(bd.id)
   const flags = {}
   if (keyword(kws, 'Character')) flags.char = 1
@@ -2111,6 +2198,13 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
             continue
           }
           if (row[2] || models < 2 || c >= row[1] * models) continue
+          // …unless the datasheet says every model carries it. "Every model is equipped with: sonic
+          // blaster" over five Noise Marines, and data 981's group counts 4 — the group is the one
+          // that is wrong (the Havocs and Voidsmen never say "every model").
+          if (everyModelCarries(enOf(bd).unitComposition || bd.unitComposition, wgItemName.get(fixItem(uuid)))) {
+            report.defaultsMerged.push(`${bd.name} / ${enOf((minisByDs.get(bd.id) || []).find((x) => (miniIdx.get(x.id) ?? 0) === m)).name || m}: ${wgItemName.get(uuid)} (the group says ${c}; the datasheet says every model — kept one per model)`)
+            continue
+          }
           row.splice(1, 2, ...(c % models === 0 ? [c / models] : [c, 1]))
           report.defaultsMerged.push(`${bd.name} / ${enOf((minisByDs.get(bd.id) || []).find((x) => (miniIdx.get(x.id) ?? 0) === m)).name || m}: ${wgItemName.get(uuid)} (${c} for the profile, not one per model)`)
           continue
@@ -2213,9 +2307,13 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     if (row.size) paidPerMini.set(m, row)
   }
+  // …but the Munitorum Field Manual is the last word on points (owner, 2026-10-14: the app charging
+  // a Shield-Captain 25 for the spear and shield he starts with, 205 against the MFM's 180). So the
+  // price is read and reported, and not charged: a unit costs its bracket, and a swap away from the
+  // default refunds nothing. Paid PICKS are unaffected — that is wargear the MFM lists.
   if (paidPerMini.size) {
-    unit.dw = [...paidPerMini].map(([m, row]) => [m, [...row.values()].reduce((a, b) => a + b, 0)])
     report.paidDefault.units++
+    report.paidDefault.names.push(`${bd.name} (${[...paidPerMini.values()].map((row) => [...row.values()].reduce((a, b) => a + b, 0)).join('/')} a model)`)
   }
 
   // Wargear option groups: the atomic "replace/add one of {…}" choices. Drop the redundant
@@ -2345,6 +2443,9 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     const rows = []
     for (let k = lo; k <= hi; k++) rows.push(noDup ? [k, k * per, k] : [k, k * per])
     d.lim = rows
+    // The same budget written per MODEL, for a group that ships as one copy per profile (see
+    // emitCopies): a copy's models are its own, so the table keyed by the unit's size is wrong there.
+    d.pmb = noDup ? [per, 1] : [per]
     d.in = 'stepper'
     report.limit.perModelBudget.push(`${bd.name}: ${JSON.stringify(d.lim)} — ${d.text.split('\n')[0].slice(0, 70)}`)
   }
@@ -2477,16 +2578,77 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     d.in = 'stepper'
     report.limit.perModelEach.push(`${bd.name}: ${JSON.stringify(d.lim)} — ${first.slice(0, 70)}`)
   }
+  // A folded instruction ships as one group per profile that may take it (mergeMiniatureDuplicates).
+  // Indices stay where they were: the smallest profile's copy — the sergeant's — takes the folded
+  // group's place, and the others go after every group, so a pick stored against the old unit-wide
+  // group still names the same instruction (useRosters' v11 spills what one model cannot hold).
+  // The most models a profile fields, read from the brackets that say how they split — one that
+  // does not (Corsair bands) says nothing about a profile, and no bracket saying anything is unknown.
+  const maxOf = (m) => {
+    const known = (unit.sizes || []).filter((s) => s.comp?.length)
+    if (!known.length) return Infinity
+    return Math.max(...known.map((s) => { const c = s.comp.find(([mi]) => mi === m); return c ? (c[2] ?? c[1]) : 0 }))
+  }
+  const sergeantFirst = (copies) => copies.slice().sort((a, b) => maxOf(a.m) - maxOf(b.m) || a.m - b.m)
   const gear = []
-  const gearIndex = new Map() // draft -> its final index in `gear`
-  drafts.forEach((d, i) => gearIndex.set(d, i))
+  const gearIndex = new Map() // draft -> its final index in `gear` (the sergeant's copy, for a fold)
+  const copyIndex = new Map() // draft with copies -> Map(miniature -> index of its copy)
+  let tail = drafts.length
+  drafts.forEach((d, i) => {
+    gearIndex.set(d, i)
+    if (!d.copies) return
+    const [first, ...rest] = sergeantFirst(d.copies)
+    copyIndex.set(d, new Map([[first.m, i], ...rest.map((c) => [c.m, tail++])]))
+  })
+  // A table that is a budget per MODEL — k models, k × N picks, at most k of one (Crisis Fireknife's
+  // appdata set [[3, 9, 3]]: up to three each, no duplicates) — is the copy's own, not the pool's:
+  // its models are its own. The same reading as d.pmb from the prose.
+  const budgetOf = (lim) => {
+    if (!lim?.length || !lim.every(([k]) => k > 0)) return null
+    const per = lim[0][1] / lim[0][0]
+    if (!Number.isInteger(per) || per < 2 || !lim.every(([k, n]) => n === k * per)) return null
+    const noDup = lim.every((r) => r[2] === r[0])
+    return noDup ? [per, 1] : lim.every((r) => r.length === 2) ? [per] : null
+  }
+  for (const d of drafts) if (d.copies && !d.pmb) d.pmb = budgetOf(d.lim)
+  const extra = []
+  const pools = []
   for (const d of drafts) {
+    const copies = d.copies ? sergeantFirst(d.copies) : [null]
+    for (const copy of copies) {
+      const grp = emitGroup(d, copy)
+      if (!copy || copyIndex.get(d).get(copy.m) === gearIndex.get(d)) gear.push(grp)
+      else extra.push([copyIndex.get(d).get(copy.m), grp])
+    }
+    if (d.copies) {
+      const pool = { g: copies.map((c) => copyIndex.get(d).get(c.m)) }
+      if (d.lim && !d.pmb) pool.lim = d.lim
+      pools.push(pool)
+    }
+  }
+  for (const [at, grp] of extra.sort((a, b) => a[0] - b[0])) {
+    if (at !== gear.length) throw new Error(`${bd.name}: copy lands at ${at}, gear has ${gear.length}`)
+    gear.push(grp)
+  }
+  if (gear.length) unit.gear = gear
+  if (pools.length) unit.pools = pools
+  return unit
+
+  // One group as it ships: the draft itself, or its copy on one profile.
+  function emitGroup(d, copy) {
+    // A copy is drawn as what one model of its profile can hold: a single model gets one pick
+    // (a checkbox, or a radio over several options), unless the instruction gives a model more
+    // than one (per copy of a weapon, or "up to two of the following").
+    // appdata's own input for that miniature says which; a stepper it wrote stays one.
+    const one = copy && copy.in !== 'stepper' && maxOf(copy.m) <= 1 && !(d.cp > 1) && !(d.pmb?.[0] > 1)
+    const input = !copy ? d.in : one ? 'checkbox' : (d.in === 'stepper' ? 'stepper' : copy.in)
+    const m = copy ? copy.m : d.m
     const grp = {
-      // No `m` on a unit-wide group (see mergeMiniatureDuplicates) — it belongs to no single
-      // miniature, and the editor labels a group with its miniature's name when it has one.
-      ...(d.all ? { all: 1 } : { m: d.m }),
+      // No `m` on a unit-wide group — only "This unit can be equipped with…" is one now; the
+      // editor shows it under the unit, not under a model.
+      ...(d.all && !copy ? { all: 1 } : { m }),
       t: fx.text(d.text),
-      in: d.in,
+      in: input,
       o: d.opts.map((o) => {
         // Slot 0 is the item id, or — when the option is a bundle or carries a quantity — the
         // full `[[id, count], …]` set (see linkWargearBundles). rosterEngine's optionItems()
@@ -2497,21 +2659,24 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
         return e
       }),
     }
-    if (d.lim) grp.lim = d.lim
+    // A copy's allowance is its pool's (`unit.pools`), or — for a budget per model — its own.
+    if (d.lim && !copy) grp.lim = d.lim
+    if (copy && d.pmb) grp.pb = d.pmb
     if (d.cp) grp.cp = d.cp
     if (d.rc) grp.rc = d.rc
     if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
     if (d.alt) grp.alt = 1
+    if (d.alts) grp.alts = d.alts.map((set) => set.map((uuid) => fx.item(uuid)))
     if (d.keep?.length) grp.keep = d.keep.map((uuid) => fx.item(uuid))
     // A model that trades a paid default away stops paying for it: `dr` is what one pick in this
     // group gives back — per COPY where the group is per-copy, since that is how `n` is counted.
-    if (paidPerMini.size && d.rep?.length) {
+    if (CHARGE_PAID_DEFAULTS && paidPerMini.size && d.rep?.length) {
       const back = d.rep.reduce((sum, uuid) => {
         const id = fx.item(uuid)
         // A unit-wide group belongs to no profile. Every profile that carries the item prices it
         // the same on all seven datasheets, so the cheapest is both the answer and the reading that
         // can only ever undercharge.
-        const seen = (d.all ? [...paidPerMini.values()] : [paidPerMini.get(d.m)])
+        const seen = (d.all && !copy ? [...paidPerMini.values()] : [paidPerMini.get(m)])
           .map((row) => row?.get(id)).filter(Boolean)
         return sum + (seen.length ? Math.min(...seen) : 0)
       }, 0)
@@ -2524,12 +2689,16 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     // with one of the following" arms a single Battle Sister, not all nine. Only the "all models /
     // any number of" wording means the whole profile, so that reading is the one flagged (4 groups
     // corpus-wide) and the other 575 take the per-model default.
-    if (d.rep?.length && d.in !== 'stepper' && /^\s*(?:all models|any number of)\b/i.test(d.text)) grp.repall = 1
-    if (d.cond) grp.cond = [gearIndex.get(d.cond.sibling), d.cond.active ? 1 : 0]
-    gear.push(grp)
+    if (d.rep?.length && input !== 'stepper' && /^\s*(?:all models|any number of)\b/i.test(d.text)) grp.repall = 1
+    // A condition is about one model, so a sibling that ships as copies is read on THIS model's
+    // profile — its own copy where it has one, the sergeant's otherwise.
+    if (d.cond) {
+      const sib = d.cond.sibling
+      const at = copyIndex.get(sib)?.get(m) ?? gearIndex.get(sib)
+      grp.cond = [at, d.cond.active ? 1 : 0]
+    }
+    return grp
   }
-  if (gear.length) unit.gear = gear
-  return unit
 }
 
 // A handful of "enhancements" are, per their own rules text, not a player pick at all: Necrons'
@@ -2572,7 +2741,9 @@ const ENH_REQ_FIXES = {
 // misspelt one cannot sit here doing nothing again.
 const ENH_LOCK_FIXES = {}
 const usedLockFixes = new Set()
-const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'")
+// Apostrophes and the hyphen variants appdata types by hand (U+2010/U+2011 — Codex: Adeptus
+// Custodes writes "Shield‑Captain", the MFM "Shield-Captain") are folded alike.
+const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/[\u2010\u2011]/g, '-')
 
 // An Upgrade appdata caps below the muster rules' "up to three of the same Upgrade in your army".
 // Every other non-Combat-Patrol Upgrade carries `limit: 3`; these are read as appdata's mistake,
@@ -2585,6 +2756,24 @@ const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'")
 // the entry to be dropped. An uncapped-below-three Upgrade NOT on this list fails `--check` too.
 const UPGRADE_LIMIT_FIXES = new Set(['4e119d31-30c8-4e94-be84-7f868ea1eb8b'])
 const UPGRADE_LIMIT = 3
+// Whether the price appdata puts on a model's DEFAULT wargear is charged on top of the MFM bracket
+// (`dw`/`dr`). Off since 2026-10-14: the MFM is the last word on points (owner). The engine still
+// reads both fields, so turning it back on is this one switch.
+const CHARGE_PAID_DEFAULTS = false
+
+// Does a datasheet's composition text say that EVERY model carries this item ("Every model is
+// equipped with: sonic blaster; close combat weapon.")? Matched by name, case and plural aside.
+/** @param {string | undefined} text @param {string | undefined} item */
+function everyModelCarries(text, item) {
+  const m = /every model is equipped with:?\**:?\s*([^\n]*)/i.exec(String(text || '').replace(/\*\*/g, ''))
+  if (!m || !item) return false
+  const key = (x) => x.toLowerCase().replace(/[\u2010\u2011]/g, '-').replace(/^\d+\s+/, '').replace(/s\b/g, '').trim()
+  return m[1].split(/[;,.]/).map((x) => key(x)).includes(key(item))
+}
+// An Upgrade whose own name says "(one per army)" states its limit in print (Codex: Adeptus
+// Custodes, data 981: Memento Moritoi, Augury Uplink): that is the datasheet overruling the muster
+// default, not appdata's mistake.
+const ONE_PER_ARMY = /\(one per army\)/i
 
 function buildEnhancement(e, nameToDsId, idMap) {
   const name = enOf(e).name
@@ -2598,7 +2787,7 @@ function buildEnhancement(e, nameToDsId, idMap) {
     if (UPGRADE_LIMIT_FIXES.has(e.id)) {
       if (limit === UPGRADE_LIMIT) report.upgradeLimit.retire.add(`${name}: appdata now says ${UPGRADE_LIMIT} — drop this entry`)
       else { limit = UPGRADE_LIMIT; report.upgradeLimit.fixed.add(name) }
-    } else if (limit !== UPGRADE_LIMIT) report.upgradeLimit.unexplained.add(`${name} (limit ${limit}, id ${e.id})`)
+    } else if (limit !== UPGRADE_LIMIT && !(limit === 1 && ONE_PER_ARMY.test(name))) report.upgradeLimit.unexplained.add(`${name} (limit ${limit}, id ${e.id})`)
   }
   if (limit && limit !== 1) enh.limit = limit
   // eligibility: OR of groups, each an AND of faction-keywords + keywords (+ the one datasheet).
@@ -3243,6 +3432,36 @@ function mirrorPackLeads(slug, pack) {
 // with the page. A lead gated on a Detachment carries it — `in` (only there) or `out` (not there);
 // the CSM pairs that state one attachment twice, required-inside and excluded-outside, cancel out.
 // A keyword attachment (an Inquisitor's "Imperium Battleline Infantry") is not listed by name.
+// Where a stored pick goes now that a unit-wide group ships as one copy per profile (emitCopies,
+// splitUnitWide). The sergeant's copy kept the old group's index, so an old pick already names it;
+// what one model cannot hold spills to the next copy (useRosters' v11). `migrateRoster` runs
+// before any faction bundle is loaded, so it gets this table instead: `<slug>:<unit id>` → per pool,
+// its copies sergeant first as `[gi, room, conflicts?]` — `room` the picks that copy's models can
+// hold at most (-1: the rest), `conflicts` the profile's other groups that give up the same item
+// (a sergeant who already traded it has no room). A Chapter's folded Space Marines units are
+// listed under the Chapter too, so the lookup never has to guess a source.
+function genPoolMoves() {
+  const out = {}
+  const bySlug = new Map(built.map(({ slug, data }) => [slug, data]))
+  const entryOf = (u) => u.pools.map((pool) => pool.g.map((gi, k) => {
+    const g = u.gear[gi]
+    const known = (u.sizes || []).filter((s) => s.comp?.length)
+    const max = Math.max(0, ...(known.length ? known : u.sizes || []).map((s) => { const c = (s.comp || []).find(([mi]) => mi === g.m); return c ? (c[2] ?? c[1]) : (s.comp?.length ? 0 : (s.per?.[1] ?? 1)) }))
+    const room = k === pool.g.length - 1 ? -1 : max * (g.cp || 1) * (g.pb?.[0] || 1)
+    const conflicts = u.gear.map((h, hi) => [h, hi]).filter(([h, hi]) => !pool.g.includes(hi) && h.m === g.m && h.rep?.some((id) => g.rep?.includes(id))).map(([, hi]) => hi)
+    return conflicts.length ? [gi, room, conflicts] : [gi, room]
+  }))
+  for (const [slug, data] of bySlug) for (const u of data.units) if (u.pools) out[`${slug}:${u.id}`] = entryOf(u)
+  const sm = bySlug.get('space-marines')
+  for (const [slug, data] of bySlug) {
+    for (const id of data.sharedUnitIds || []) {
+      const u = sm?.units.find((x) => x.id === id)
+      if (u?.pools) out[`${slug}:${id}`] = entryOf(u)
+    }
+  }
+  writeOut('../rosterPoolMoves.js', `${HEAD}// <slug>:<unit id> -> per pool, its copies sergeant first: [gi, room (-1: the rest), conflicts?]. See genPoolMoves.\nexport default ${JSON.stringify(Object.fromEntries(Object.entries(out).sort(([a], [b]) => a.localeCompare(b))))}\n`)
+}
+
 function genLedBy() {
   const bySlug = new Map(built.map(({ slug, data }) => [slug, data]))
   const sm = bySlug.get('space-marines')
@@ -3344,6 +3563,7 @@ genItems() // after all factions — the intern dicts are complete
 genIndex()
 genChapterDetachments()
 genLedBy()
+genPoolMoves()
 
 console.log(`\nroster data: ${report.factions} factions, ${report.units} units (${report.linked} linked, ${report.unlinked.length} unlinked)`)
 const pr = report.price
@@ -3401,7 +3621,7 @@ console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links r
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep
 console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
-console.log(`  paid defaults: ${report.paidDefault.units} units start with wargear that costs points on top of the bracket`)
+console.log(`  paid defaults: ${report.paidDefault.units} units start with wargear the app prices on top of the bracket — not charged, the MFM is the last word (CHARGE_PAID_DEFAULTS): ${report.paidDefault.names.join('; ')}`)
 if (report.paidDefault.odd.length) console.log(`    not charged (count does not divide): ${report.paidDefault.odd.join('; ')}`)
 console.log(`  Chapter detachments: ${report.sharedDets} Codex entitlements folded in at load time`)
 if (report.notEntitled.length) console.log(`  printed in the faction's book but not its to field (kept as \`lend\`, offered only to the armies that fold it in): ${report.notEntitled.join('; ')}`)
@@ -3422,6 +3642,9 @@ if (rp.split.length) {
 console.log(`  kept-item locks: ${report.keep.resolved} groups keep an item locked ("cannot be replaced"); ${report.keep.unresolved.length} unreadable`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
 console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity, ${lm.bundled} matched through a bundled option), ${lm.fromProse} more from their own instruction where appdata records no set (+${lm.fromProseScaled} from its "for every N models, up to M" step form), ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
+for (const l of report.limit.perOption || []) console.log(`    one set per option, folded into the group — ${l}`)
+for (const l of report.limit.perOptionLeft || []) console.log(`    one set per option, NOT folded — ${l}`)
+for (const l of report.cond.notGiven || []) console.log(`  condition "not equipped with" an item only a sibling grants — ${l}`)
 if (lm.conflict.length) {
   console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)
   for (const c of lm.conflict) console.log(`    - ${c}`)

@@ -4,7 +4,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -73,10 +73,6 @@ export function duplicateCounts(units, defOf) {
   }
   return m
 }
-
-// Named characters whose datasheet lacks EPIC HERO — see the duplicate check in validateRoster.
-// Listed by hand, one by one: a name alone cannot tell a character from a rank.
-const NAMED_NOT_EPIC = new Set(['kayvaan-shrike'])
 
 // `items` (the shared wargear-name dictionary, data/roster/items.js) is optional: only the stock
 // rule's message names an item, and a caller that merely counts errors need not carry it.
@@ -237,12 +233,6 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
       if (list.length > limit) {
         add('overDuplicate', 'error', { uid: list[limit].uid, params: { count: list.length, limit } })
       }
-      // A named character GW printed without EPIC HERO is legal more than once, and the cap above
-      // follows GW. The owner kept it so after a community poll (2026-10-01), but the second copy
-      // gets a warning: almost certainly an oversight, and an opponent may well object.
-      else if (list.length > 1 && NAMED_NOT_EPIC.has(def.id)) {
-        add('namedNotEpic', 'warn', { uid: list[1].uid })
-      }
     }
   }
 
@@ -304,6 +294,12 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     for (const x of wargearXpmOver(def, u)) {
       const names = [...new Set(x.set.s.flatMap(([g, o]) => (o == null ? gear[g].o : [gear[g].o[o]]).map((op) => optionItems(op).map(([id]) => items?.[id]).filter(Boolean).join(' + '))))].filter(Boolean).join(', ')
       add('overWargearOnePerModel', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit, names } })
+    }
+    // An allowance several profiles share (`pools`): two hexrifles in five Wracks, one on the
+    // Acothyst and one on a Wrack — each copy is within its own models, the squad is over.
+    for (const x of wargearPoolOver(def, u)) {
+      if (x.oi == null) add('overWargearLimit', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit } })
+      else add('overWargearDup', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit } })
     }
     // Rules about one model across groups (`pm`, Legends Crisis Battlesuits): the picks cannot be
     // dealt onto the models — rosterEngine's perModelFits.

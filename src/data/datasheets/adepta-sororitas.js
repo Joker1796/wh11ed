@@ -218,6 +218,7 @@ export default [
       "Imperium",
       "Fortification",
       "Towering",
+      "Frame",
       "Battle Sanctum"
     ],
     "factionKeywords": [
@@ -225,7 +226,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "battle-sisters-squad",
@@ -1168,7 +1169,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "celestian-sacresants",
@@ -1399,7 +1400,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "daemonifuge",
@@ -1563,7 +1564,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "dialogus",
@@ -1992,12 +1993,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 175,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 220,
+        "points": 215,
         "note": "3rd+"
       }
     ],
@@ -3616,6 +3617,7 @@ export default [
       "Transport",
       "Dedicated Transport",
       "Imperium",
+      "Frame",
       "Repressor"
     ],
     "factionKeywords": [
@@ -3623,7 +3625,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "retributor-squad",
@@ -4686,7 +4688,7 @@ export default [
       },
       {
         "name": "Solemn Procession",
-        "text": "Each time you gain 1 Miracle dice at the start of the battle round, if this model is on the battlefield, do not roll one D6 to determine the value of that Miracle dice; it has a value of 6."
+        "text": "Each time you gain 1 Miracle dice at the start of your turn, if this model is on the battlefield, do not roll one D6 to determine the value of that Miracle dice; it has a value of 6."
       }
     ],
     "damaged": {

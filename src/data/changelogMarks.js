@@ -68,7 +68,9 @@ export const SECTION_KINDS = {
   roster: { icon: 'wi wi-rosters', words: ['Roster builder', 'Конструктор ростеров', 'Roster in a game', 'Ростер в партии'] },
   tracker: { icon: 'wi wi-tracker', words: ['Tracker', 'Трекер', 'Beta of the new game tracker', 'Бета нового трекера партии'] },
   answers: { icon: 'wi wi-faq', words: ['Answers to your questions', 'Ответы на вопросы'] },
+  errors: { icon: 'wi wi-warning', words: ['Probable GW mistakes', 'Вероятные ошибки GW'] },
   thanks: { icon: 'wi wi-support', words: ['Thank you', 'Спасибо'] },
+  report: { icon: 'wi wi-bug', words: ['Bug reports', 'Баг-репорты'] },
   site: { icon: 'wi wi-rules', words: ['Whole site', 'Весь сайт', 'Help', 'Справка', 'The app on your phone', 'Приложение на телефоне'] },
   account: { icon: 'wi wi-cloud', words: ['Account', 'Аккаунт', 'Cloud', 'Облако', 'Signing in', 'Вход'] },
 }
@@ -81,11 +83,13 @@ export function sectionKind(note) {
 
 // The notes of one release as blocks: `{ h, kind, items }`, the notes before the first heading a
 // block with no head (most releases in the archive have no headings at all and stay a plain list).
-/** @param {Array<string | { h: string, kind?: string }>} notes */
+// A heading can name the GW update its block is about (`patch: '981'`): the page then shows a plate
+// leading to that update on the GW updates page (owner, 2026-10-14: a link inside a note was lost).
+/** @param {Array<string | { h: string, kind?: string, patch?: string }>} notes */
 export function noteSections(notes) {
   const out = []
   for (const n of notes || []) {
-    if (typeof n === 'object' && n?.h) out.push({ h: n.h, kind: sectionKind(n), items: [] })
+    if (typeof n === 'object' && n?.h) out.push({ h: n.h, kind: sectionKind(n), items: [], ...(n.patch ? { patch: n.patch } : {}) })
     else {
       if (!out.length) out.push({ h: null, kind: null, items: [] })
       out[out.length - 1].items.push(n)

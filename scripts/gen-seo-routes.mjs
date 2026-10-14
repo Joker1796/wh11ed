@@ -113,13 +113,13 @@ async function factionRoutes() {
 }
 
 // Combat Patrol routes are auto-detected from src/data/combatPatrol.js the same way faction
-// routes are above — this list grows on its own as Phase 3 authors more boxes, no changes
-// needed here (see the Combat Patrol coverage audit).
+// routes are above — one page per BOX, keyed by the box's id (a faction can have several boxes),
+// so the list grows on its own as boxes are authored.
 async function combatPatrolRoutes() {
   const file = join(ROOT, 'src/data/combatPatrol.js')
   if (!existsSync(file)) return []
   const { combatPatrol } = await import(pathToFileURL(file))
-  return ['/combat-patrol', ...combatPatrol.en.factions.map((f) => `/combat-patrol/${f.slug}`)]
+  return ['/combat-patrol', ...combatPatrol.en.factions.map((f) => `/combat-patrol/${f.id}`)]
 }
 
 // Depth-based priority hint (crawlers mostly ignore it, but it costs nothing).

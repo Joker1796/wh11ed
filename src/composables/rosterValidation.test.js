@@ -944,17 +944,15 @@ describe('validateRoster — every issue says which unit it is about', () => {
     expect(r.issues.some((i) => i.level === 'error' && i.code === 'legendsUnit')).toBe(false)
   })
 
-  // Shrike: GW printed him without EPIC HERO, so a second copy is legal — kept, but flagged.
-  it('warns, without an error, on a second copy of a named character GW left without EPIC HERO', () => {
-    const shrike = { id: 'kayvaan-shrike', name: 'Kayvaan Shrike', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 95, per: [1, 1], default: 1 }] }
-    const fac = { ...faction, units: [...faction.units, shrike] }
-    const one = validateRoster({ ...roster(), units: [...roster().units, U('kayvaan-shrike')] }, { faction: fac, core })
-    expect(one.issues.some((i) => i.code === 'namedNotEpic')).toBe(false)
-    const two = validateRoster({ ...roster(), units: [...roster().units, U('kayvaan-shrike'), U('kayvaan-shrike')] }, { faction: fac, core })
-    const issue = two.issues.find((i) => i.code === 'namedNotEpic')
-    expect(issue.level).toBe('warn')
-    expect(issue.params.unit).toBe('Kayvaan Shrike (2)')
-    expect(two.issues.some((i) => i.level === 'error')).toBe(one.issues.some((i) => i.level === 'error'))
+  // Shrike: GW printed him without EPIC HERO in data 963, and a second copy was a warning
+  // (namedNotEpic) until the 14 October update document gave it back (appdata-exceptions.mjs) —
+  // now the Epic Hero cap of one, like any other.
+  it('caps Kayvaan Shrike at one copy, as an Epic Hero', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const sm = await loadRosterFaction('space-marines')
+    const shrike = sm.units.find((u) => u.id === 'kayvaan-shrike')
+    expect(shrike.flags.epic).toBe(1)
+    expect(duplicateLimit(shrike, core.battleSizes.find((b) => b.id === 'strike-force'))).toBe(1)
   })
 
   // Every placeholder a message asks for has to be one the validator actually sends, in both
@@ -1000,15 +998,19 @@ describe('an enhancement whose keyword a detachment grants', () => {
 // rifle and twin smart missile system." Per model; the group stores counts, so at three models it
 // is six picks, three of a kind, and twin plasma + twin smart missile together at most three.
 describe('a budget per model (Broadside Battlesuits)', () => {
-  let tau, def, gi, oi
+  // One copy per profile since 2026-10-14: the Shas'vre's (one suit) and the Shas'ui's (the rest),
+  // each with two support systems per suit and at most one twin plasma rifle or twin smart missile
+  // system per suit — counted on that profile's own suits.
+  let tau, def, vre, ui, oi
   beforeAll(async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
     const { default: rosterItems } = await import('../data/roster/items.js')
     tau = await loadRosterFaction('tau-empire')
     def = tau.units.find((u) => u.id === 'broadside-battlesuits')
-    gi = def.gear.findIndex((g) => g.excl)
+    vre = def.gear.findIndex((g) => g.excl && g.m === 0)
+    ui = def.gear.findIndex((g) => g.excl && g.m === 1)
     const name = (o) => rosterItems.items[Array.isArray(o[0]) ? o[0][0][0] : o[0]]
-    oi = (n) => def.gear[gi].o.findIndex((o) => name(o) === n)
+    oi = (n) => def.gear[ui].o.findIndex((o) => name(o) === n)
     tau.items = rosterItems.items
   })
   const broadside = (wg) => ({ uid: 'b1', id: 'broadside-battlesuits', size: 2, wg })
@@ -1016,24 +1018,28 @@ describe('a budget per model (Broadside Battlesuits)', () => {
     .issues.map((i) => i.code)
 
   it('takes a full legal build at three models', () => {
-    const e = broadside([[gi, oi('Twin plasma rifle'), 1], [gi, oi('Twin smart missile system'), 2], [gi, oi('Seeker missile'), 3]])
+    const e = broadside([
+      [vre, oi('Twin plasma rifle'), 1], [vre, oi('Seeker missile'), 1],
+      [ui, oi('Twin smart missile system'), 2], [ui, oi('Seeker missile'), 2],
+    ])
     expect(codes(e)).not.toContain('overWargearOnePerModel')
     expect(codes(e)).not.toContain('overWargearLimit')
     expect(codes(e)).not.toContain('overWargearDup')
   })
 
-  it('reports twin plasma and twin smart missiles on more models than the unit has', () => {
-    const e = broadside([[gi, oi('Twin plasma rifle'), 2], [gi, oi('Twin smart missile system'), 2]])
+  it('reports twin plasma and twin smart missiles on more suits than the profile has', () => {
+    const e = broadside([[ui, oi('Twin plasma rifle'), 1], [ui, oi('Twin smart missile system'), 2]])
     expect(codes(e)).toContain('overWargearOnePerModel')
-    // …and the editor's room for one of them is what the other left of the three models.
-    expect(wargearExclRoom(def, e, gi, oi('Twin plasma rifle'))).toBe(1)
-    expect(wargearExclRoom(def, e, gi, oi('Seeker missile'))).toBeNull()
+    // …and the editor's room for one of them is what the other left of the Shas'ui's two suits.
+    expect(wargearExclRoom(def, e, ui, oi('Twin plasma rifle'))).toBe(0)
+    expect(wargearExclRoom(def, broadside([[ui, oi('Twin smart missile system'), 1]]), ui, oi('Twin plasma rifle'))).toBe(1)
+    expect(wargearExclRoom(def, e, ui, oi('Seeker missile'))).toBeNull()
   })
 
   it('shrinking the unit gives back the pick that broke the slot', () => {
-    const e = { ...broadside([[gi, oi('Twin plasma rifle'), 1], [gi, oi('Twin smart missile system'), 2]]), size: 1 }
+    const e = { ...broadside([[ui, oi('Twin plasma rifle'), 1], [ui, oi('Twin smart missile system'), 1]]), size: 1 }
     const wg = fitWargear(def, e)
-    expect(wargearExclOver(def, { ...e, wg }, gi)).toEqual([])
+    expect(wargearExclOver(def, { ...e, wg }, ui)).toEqual([])
   })
 })
 

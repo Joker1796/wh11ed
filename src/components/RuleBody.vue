@@ -78,6 +78,19 @@
       v-else-if="block.type === 'info-card'"
       class="info-card"
     >
+      <!-- A card can carry its own name (`◈# Name | Russian`): a filled band at its top, so the
+           name reads as part of the card rather than a heading floating above it (owner, 2026-10-14,
+           the Custodes ka’tah abilities). -->
+      <div
+        v-if="block.title"
+        class="info-title"
+      >
+        <span v-safe-html="renderInline(block.title.text)" />
+        <span
+          v-if="block.title.ru"
+          class="info-title-ru"
+        >{{ block.title.ru }}</span>
+      </div>
       <div
         v-for="(row, k) in block.rows"
         :key="k"
@@ -165,12 +178,14 @@ const blocks = computed(() => {
   let buf = []
   let mode = null
   let cardRows = []
+  let cardTitle = null
   let h4n = 0
 
   const flush = () => {
     if (mode === 'info-card') {
-      if (cardRows.length) result.push({ type: 'info-card', rows: [...cardRows] })
+      if (cardRows.length || cardTitle) result.push({ type: 'info-card', rows: [...cardRows], ...(cardTitle ? { title: cardTitle } : {}) })
       cardRows = []
+      cardTitle = null
       buf = []
       return
     }
@@ -232,6 +247,7 @@ const blocks = computed(() => {
     const isOrdered = /^\d+\.\s/.test(line)
     const isFlow = line.startsWith('→ ')
     const isResultRow = line.startsWith('◆ ')
+    const isCardTitle = line.startsWith('◈# ')
     const isInfoRow = line.startsWith('◈ ')
     const isSubheading = line.startsWith('### ')
     const isImg = /^\[img:[^\]]+\]$/.test(line)
@@ -245,6 +261,12 @@ const blocks = computed(() => {
         src: pipeIdx >= 0 ? imgContent.slice(0, pipeIdx).trim() : imgContent,
         alt: pipeIdx >= 0 ? imgContent.slice(pipeIdx + 1).trim() : '',
       })
+    } else if (isCardTitle) {
+      flush()
+      mode = 'info-card'
+      const raw = line.slice(3)
+      const pipe = raw.indexOf(' | ')
+      cardTitle = { text: pipe >= 0 ? raw.slice(0, pipe).trim() : raw.trim(), ru: pipe >= 0 ? raw.slice(pipe + 3).trim() : undefined }
     } else if (isInfoRow) {
       if (mode !== 'info-card') { flush(); mode = 'info-card' }
       const sep = line.indexOf(' | ')
@@ -306,6 +328,9 @@ p {
 }
 /* Lore inside a rule's text, as the faction page prints a rule's own lore. */
 .rule-flavor { font-family: var(--font-serif); font-style: italic; color: var(--text-muted); }
+/* Lore is set in EB Garamond italic at 400 only (src/fonts.js) — a keyword the prose bolds
+   ("Некоторые TYRANIDS…") would ask for a 700 italic that is not loaded. */
+.rule-flavor :deep(strong) { font-weight: inherit; }
 
 .rule-subheading {
   font-family: var(--font-display);
@@ -468,6 +493,26 @@ p {
 }
 
 .info-row:last-child { border-bottom: none; }
+
+.info-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.6rem;
+  padding: 0.45rem 0.75rem;
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.info-title-ru { font-weight: 400; font-size: 0.85rem; opacity: 0.85; }
+/* A faction's own accent is often light in the dark theme (Custodes gold) — white text on it
+   faded; the band takes it a step darker there. */
+:root[data-theme='dark'] .info-title {
+  background: color-mix(in srgb, var(--accent) 62%, #000);
+}
+/* Under a named band, the first row is an ordinary row — the band is the card's head. */
+.info-title ~ .info-row:first-of-type { background: transparent; }
 
 /* The opening condition (MAXIMUM DISTANCE / ELIGIBLE IF / SET-UP DISTANCE, …) is the
    card's key line — a wash makes it the first thing the eye lands on, echoing the source

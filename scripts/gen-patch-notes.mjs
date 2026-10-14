@@ -75,6 +75,25 @@ async function build(p) {
   return items
 }
 
+// A change that looks like GW's own mistake, which the site follows word for word for now (owner,
+// 2026-10-14): `doubts` on a PATCHES line names it, and the item carries the note the page shows.
+// A doubt that names no item stops the run — a quiet one would vanish from the page unseen.
+function attachDoubts(p, items) {
+  const fold = (x) => String(x || '').replace(/[\u2010\u2011]/g, '-').toLowerCase()
+  for (const d of p.doubts || []) {
+    const hit = items.filter((x) => x.faction === d.faction && x.kind === d.kind && fold(x.name) === fold(d.name))
+    if (!hit.length) throw new Error(`${p.id}: doubt ${d.faction} · ${d.kind} "${d.name}" matches no change`)
+    for (const x of hit) x.doubt = d.note
+  }
+}
+
+// Changes GW published in a document (a "Printed Product Updates" PDF) that the app has not taken
+// in, and the site applied anyway (owner, 2026-10-14): written by hand on the PATCHES line as
+// `docs: [{ title: { en, ru }, url, items: [...] }]`, shown in a block of their own.
+function docItems(p) {
+  return (p.docs || []).flatMap((d) => d.items.map((x) => ({ ...x, source: 'doc', doc: { title: d.title, url: d.url } })))
+}
+
 const only = process.argv.slice(2)
 fs.mkdirSync(OUT, { recursive: true })
 const index = []
@@ -83,6 +102,8 @@ for (const p of PATCHES) {
   let items
   if (!only.length || only.includes(p.id)) {
     items = await build(p)
+    attachDoubts(p, items)
+    items.push(...docItems(p))
     fs.writeFileSync(file, `${JSON.stringify({ id: p.id, date: p.date, labels: p.labels, items })}\n`)
     console.log(`${p.id}: ${items.length} changes`)
   } else {

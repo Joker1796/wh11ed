@@ -46,7 +46,14 @@ const STOP = new Set(
 // appearing among the missing words of that finding. Keep the reason concrete — a future reader
 // must be able to re-derive whether it still holds.
 const ALLOW = [
-  // empty since 2026-10-03: 20.04 and 10.06 were rewritten to the app's wording
+  // 20.04 and 10.06 were rewritten to the app's wording on 2026-10-03.
+  {
+    num: '09.07.01',
+    words: ['forces'],
+    why: 'data 981 files two containers under 09.07.01: "Desperate Escape Test" (errata\'d — "instructs", '
+      + 'with the new "must use the desperate escape mode" bullet) and the older "Desperate Escape", which '
+      + 'repeats its last paragraph in the pre-errata words ("forces"). We print the errata\'d one.',
+  },
 ]
 
 const norm = (s) => plainText(s)

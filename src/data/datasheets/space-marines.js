@@ -2082,12 +2082,14 @@ export default [
       {
         "name": "Instigator bolt carbine",
         "tags": [
-          "PRECISION"
+          "ASSAULT",
+          "PRECISION",
+          "RAPID FIRE 1"
         ],
         "range": "24\"",
-        "a": "1",
+        "a": "2",
         "bs": "2+",
-        "s": "4",
+        "s": "5",
         "ap": "-2",
         "d": "2"
       }
@@ -2737,7 +2739,7 @@ export default [
         "tags": [
           "DEVASTATING WOUNDS"
         ],
-        "a": "4",
+        "a": "5",
         "ws": "2+",
         "s": "6",
         "ap": "-3",
@@ -2746,7 +2748,7 @@ export default [
       {
         "name": "Talassarian tempest blade – sweep",
         "tags": [
-          "SUSTAINED HITS 1"
+          "SUSTAINED HITS 1: INFANTRY"
         ],
         "a": "9",
         "ws": "2+",
@@ -2759,9 +2761,9 @@ export default [
         "tags": [
           "PRECISION"
         ],
-        "a": "6",
+        "a": "7",
         "ws": "2+",
-        "s": "5",
+        "s": "6",
         "ap": "-2",
         "d": "2"
       }
@@ -6652,7 +6654,7 @@ export default [
     "abilities": [
       {
         "name": "Forward Assault Warsuit",
-        "text": "At the start of the first battle round, you can select one enemy unit to be this unit’s **mark**:\n▪ This unit’s attacks that target this unit’s **mark** can re-roll **[gloss:wound-roll:wound rolls]** of 1.\n▪ Each time this unit’s **mark** is **[gloss:destroyed:destroyed]**, select one enemy unit to be this unit’s **mark**."
+        "text": "At the start of the first battle round, you can select one enemy unit to be this unit’s **[gloss:ac-mark:mark]**:\n▪ This unit’s attacks that target this unit’s **mark** can re-roll **[gloss:wound-roll:wound rolls]** of 1.\n▪ Each time this unit’s **mark** is **[gloss:destroyed:destroyed]**, select one enemy unit to be this unit’s **mark**."
       }
     ],
     "composition": [
@@ -7050,6 +7052,7 @@ export default [
     "keywords": [
       "Captain",
       "Character",
+      "Epic Hero",
       "Explosives",
       "Fly",
       "Imperium",

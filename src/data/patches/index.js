@@ -3,6 +3,37 @@
 // loaded when it is opened.
 export const patches = [
   {
+    "id": "981",
+    "date": "2026-10-14",
+    "labels": {
+      "app": 981,
+      "mfm": "1.6"
+    },
+    "total": 266,
+    "byFaction": {
+      "core": 3,
+      "adepta-sororitas": 8,
+      "space-marines": 3,
+      "adeptus-custodes": 182,
+      "adeptus-mechanicus": 4,
+      "imperial-agents": 3,
+      "aeldari": 6,
+      "black-templars": 5,
+      "blood-angels": 1,
+      "dark-angels": 1,
+      "death-guard": 7,
+      "deathwatch": 1,
+      "emperors-children": 5,
+      "grey-knights": 9,
+      "chaos-space-marines": 8,
+      "leagues-of-votann": 2,
+      "orks": 3,
+      "space-wolves": 3,
+      "tyranids": 2,
+      "world-eaters": 10
+    }
+  },
+  {
     "id": "972",
     "date": "2026-10-02",
     "labels": {

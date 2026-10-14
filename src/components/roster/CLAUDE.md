@@ -259,7 +259,8 @@ rule needs: k models × N picks is the budget, "no duplicates" is k of any one o
 inside both bounds can be dealt out round-robin — so `lim` with one row per model count
 (`[[1,2,1],[2,4,2],[3,6,3]]`) is exact, not an approximation. `PER_MODEL_BUDGET` in the generator,
 the "any number" branch of `parseOption` in `pack-roster.mjs` for the Legends; the guard is
-`index.test.js`'s "a budget per model".
+`index.test.js`'s "a budget per model". Since 2026-10-14 these groups ship as a copy per profile,
+each carrying the budget of its own models (`pb`), not the unit-size table.
 
 **`excl` — one per model across a set of options.** Broadside's *"No model can be equipped with both
 a twin plasma rifle and twin smart missile system"* makes the pair one set; for counts the rule is
@@ -313,9 +314,10 @@ the Watch Sergeant who did so still holds a power weapon to trade for a xenophas
 builds him that way, and 13 corpus lists did. Room is therefore asked per OPTION where the options
 differ in what they return.
 
-Fail-open, as every other reader here: a per-copy group (`cp`), a unit whose models cannot be split
-between profiles (`modelsPerMini` null), an item the profile's printed loadout does not carry (a
-chained swap, an unreadable phrase) are not stock and never close anything.
+Fail-open, as every other reader here: a per-copy group (`cp`) and a unit whose models cannot be
+split between profiles (`modelsPerMini` null) are not stock and never close anything. An item the
+profile is not printed with is stock only as far as its own picks hand it out (see "A swap the
+profile is not printed for" — until 2026-10-14 it was never counted at all).
 Known residue: the importer breaks a tie between two same-named options (the two shield bundles)
 by order, so one corpus list in 658 arrives with a Sergeant who swapped his power weapon twice and
 is told so — the fix is one tap in the editor; a stock-aware tie-break is the importer's to grow.
@@ -508,7 +510,14 @@ say blood fists. One entry today, applied only where the printed loadout and the
 against the table, and every application is printed by the run — a test pins the result so the table
 gets dropped the moment upstream fixes the row.
 
-### A default loadout that costs points (added 2026-08-24)
+### A default loadout that costs points (added 2026-08-24, NOT charged since 2026-10-14)
+
+**Off since 2026-10-14 — the MFM is the last word on points** (owner: the app wanted 205 for a
+Codex: Adeptus Custodes Shield-Captain the MFM prices at 180). The generator still reads the price
+appdata puts on default wargear and lists the units in its run report, but writes no `dw`/`dr`
+(`CHARGE_PAID_DEFAULTS` in gen-roster-data.mjs): a unit costs its bracket, and only wargear the
+player picks costs points. The engine still reads both fields; the text below is how it worked.
+
 
 Since 11th edition the wargear a model **already has** can carry a price. appdata says so plainly —
 a `wargear_option` with both `points: 5` and `defaultValue` — and the Munitorum bracket does not
@@ -2262,53 +2271,83 @@ repairs. A rule of this shape is worth expecting again: when one lands, measure 
 and diffing the data (option COUNT changing is what renumbers; a count written onto an existing
 option does not), and name the datasheets in the migration.
 
-## One bullet, recorded once per miniature
+## One bullet, recorded once per miniature — a copy per profile (since 2026-10-14)
 
 A datasheet bullet that talks about the UNIT ("Any number of models can each have their hallowed
 mace replaced…", "For every 5 models in this unit, 1 model's…") is stored by appdata **once per
 miniature profile** — a checkbox on the single leader model, a stepper on the rank-and-file one —
-because option groups hang off miniatures, not off the datasheet. Rendered straight that is the
-same instruction printed twice, and each copy carries its own allowance, so the swap could be
-taken twice.
+because option groups hang off miniatures, not off the datasheet. **Those copies are exactly the
+profiles that may take it** (Fortis Kill Team: the Sergeant and one Intercessor profile of six;
+Wolf Scouts: not the Hunting Wolf).
 
-`mergeMiniatureDuplicates` folds them into one group with `all: 1` and **no `m`** (no miniature
-owns it, so the editor prints no miniature name). Safety comes from matching the exact
-instruction text AND the exact option sets: a leader with a genuinely separate allowance is
-always worded differently ("The Sister Superior's boltgun…"), so it never collides; two copies on
-the same miniature are left alone. 101 pairs across 50 units.
+**The player says which model takes it** (owner, 2026-10-14, a player's report on Wracks). Until
+then `mergeMiniatureDuplicates` folded the copies into one group with `all: 1` and no `m`, and the
+count was right — but WHICH model took the option was gone, and three things hung on it: a
+Sergeant's option on an item only that option hands him, "X or Y" where Y comes from the squad's
+option, and appdata's one-set-per-weapon limits (see lesson 87 in `APPDATA-SYNC-LESSONS.md`). Now:
 
-The text comparison is **whitespace-normalised** — the two copies are typed into appdata twice and
-one pair (Deathwatch Terminator Squad) differs by a trailing space — but **not** order-normalised:
-a reordered option list is a different statement. What deliberately stays unmerged is a repeated
-lead-in with DIFFERENT options: "1 Battle Sister's boltgun can be replaced with one of the
-following" appears twice on that datasheet, once for a special weapon and once for a heavy one,
-and GW prints it that way too.
+- **The fold stays inside the generator**, still before `linkWargearLimits` (two identical groups
+  are exactly what makes a limited set ambiguous) and still matching exact text AND option sets.
+  The survivor keeps its `copies`; `emitCopies` (the emit loop) writes **one group per copy**, each
+  an ordinary group of its profile (`m`), and the unit gets `pools: [{ g: [gi…], lim? }]` — the
+  copies Sergeant first and the allowance they share. `pack-roster.mjs`'s `splitUnitWide` does the
+  same for the Legends' own unit-wide groups (the profiles carrying what the swap gives up, every
+  profile for an addition).
+- **Indices are stable**: the smallest profile's copy (the Sergeant's) takes the folded group's
+  place, the others go after every group. `useRosters.js` v11 spills old picks Sergeant first
+  through `src/data/rosterPoolMoves.js` (generated: per pool, each copy's room and the Sergeant's
+  own groups that give up the same item — `migrateRoster` runs before any faction bundle loads).
+- **The allowance is the squad's** (`wargearPoolOver` → validator, `fitWargear`;
+  `wargearPoolRoom` → the editor's "+" and radio rows, `wargearPoolTakenBy` → "taken by Acothyst"
+  on a greyed row; `wargearPoolCap` → "up to 4 in the unit, max 1 of a kind" on every copy). Each
+  copy's own ceiling is its profile's models (`wargearGroupFallbackCap`). A budget PER MODEL
+  ("up to two of the following") is the copy's own instead (`pb: [per, noDup?]`,
+  `wargearGroupCap`), read from the prose (`d.pmb`) or from an appdata table of that shape.
+- **A condition is about one model**, so a `cond` naming a copied sibling points at the copy on its
+  own profile. `pm` (Legends Crisis) names a group or all its copies (`pmGroups`).
+- **"This unit can be equipped with…"** (Watcher in the Dark, the one case) belongs to the unit and
+  stays a single `all` group, drawn in a block "Unit" above the profiles.
+- **The editor is laid out by profile** (`UnitWargearGroups`' `order`): one CARD per profile, the
+  Sergeant first, its own options and its copy of every shared one together — not "the Sergeant's,
+  the shared, the squad's". The frame is drawn on the groups' own sections (`ues-card-first/last`),
+  which stay siblings of the editor's other sections; the heading is a tinted bar across the top.
+  Moving an option between profiles is a tap on each; a tap on the row that is on unticks it.
+- **A chained swap is drawn under what feeds it** (`chains`/`nesting`): a group that gives up an item
+  its profile is not printed with, handed out by another group of that profile — under the row that
+  is on where the source is a one-of (the Acothyst's power-weapon swap under his special weapon), as
+  its own indented group after the source where models count (Death Company). No source pick, no
+  group — unless it still holds a pick, shown where it was, marked over.
+- **One weapon, several groups — one block** (`sameStockSets`, owner 2026-10-14: "дублирование").
+  appdata often writes one choice as several groups giving up the same item on one profile (the
+  Acothyst's special weapons, a Skitarii Ranger's three rifle swaps, Battle Sisters' special and
+  heavy lists). The editor draws them as ONE block with ONE stock row — the first group's — and the
+  others under it as sub-headings with their own allowance; for a single model a pick in one clears
+  the others. A chained group or a held pick keeps its own block; a group trading one copy of a
+  pair (Kratos, Decimator, Talos) is not in a set. A sentence whose bullets are exactly the rows
+  under it is folded behind "full text". Gate: `UnitEditorFields.test.js` → "one choice drawn once".
+- **The importer** places a line under the profile the export names; a line naming none goes to
+  the first copy with room — the Sergeant's — and spills on (the owner's rule, the same as v11). It
+  prefers an option whose swap still has stock with the picks made so far (`stocked`).
 
-It runs **before** the limits below, deliberately — two identical groups are exactly what made a
-limited set ambiguous, and folding them first took the ambiguous count from 43 to 1 and the
-capped groups from 219 to 261.
+Gates — `src/data/roster/index.test.js` → "an option offered to several profiles": no unit-wide
+group but the unit's own; every "for every N models:" bullet list capped; a chained swap closed
+until its first link is taken; "X or Y" read whole. All four were red on the data before.
 
-**A folded group is spent against the SQUAD** (`swapsByMini`, fixed 2026-08-28). Having no `m`, it
-had no profile to charge and so charged nobody: on the 44 datasheets whose swaps are all of this
-kind — Chosen, every Terminator squad, Nobz, Scout Squad, Aggressors, Bullgryns, Wracks, Troupe,
-Deathwatch Veterans — a swap ADDED the new weapon and never took the old one away. Five accursed
-weapons and a power fist on a five-model Chosen squad, identically wrong in the editor's loadout
-block, on the card's weapon table, in the print card and in the exported list. (`wargearGroupLive`
-and `defaultWargearPoints` had always scoped `all` to the unit, which is why the POINTS were right
-all along — only the item accounting was out.)
+## A swap the profile is not printed for (2026-10-14)
 
-WHICH profile gave the item up is the one thing the data cannot say: all 105 replaced items in
-those groups are carried by BOTH profiles, which is exactly why appdata wrote the bullet twice and
-the generator folded it. So the split is a **display convention** — biggest profile first, spilling
-into the next once one is spent, never past what a profile fields, and per-profile groups charged
-first so they claim their own models. The UNIT total is exact either way, and the total is what the
-weapon table counts. `pickMiniFor` puts the pick under the same profile, so the two halves of one
-swap read together instead of the champion collecting a fist the squad paid for.
+The stock rule counted only PRINTED items, and an item a profile gets from one of its own picks
+(a chained swap: "boltgun → chainsword and bolt pistol", then "bolt pistol → hand flamer"; the
+Acothyst's torturer's tool from his hexrifle) was "uncounted" — the group stayed open for good.
+`swapLedger` now counts `granted`: what the profile's own live picks hand out, an item the group
+itself replaces and hands straight back excepted (that is `back`). Stock = printed + granted, so
+such a group is closed until the first link is taken and the overdraft reports one taken alone.
+13 groups game-wide have this shape, every one with a sibling that grants the item.
 
-The corpus guardrail is in `src/data/roster/index.test.js`: every unit-wide group with a `rep`, on
-every datasheet, must move the unit's total for each replaced item — checked NET, since an option
-may hand part of what it replaces straight back (a Deathwatch Veteran keeps his boltgun and gains
-an Astartes shield).
+**"X or Y" whose Y is handed out by the profile's own options** is read whole now
+(`resolveHeldAlternatives`): an alternative may be a set (`alts`, a Yaegir's "bolt revolver and
+plasma knife, or bolt shotgun"), each item printed or offered on that profile, at least one
+alternative printed. `altSets(g)` is the one reader (`altSplit`, `swapRoom`, `stockBlocker`).
+9 groups: Hesyr, Yaegirs ×2, Voidreavers, Cthonian Beserks, Hearthkyn Warriors ×2, Macrocytes ×2.
 
 ## How many models may take it
 
@@ -3059,7 +3098,9 @@ model only" (10th edition, when the drone was a model) and stayed parked, so no 
 Wound until a player wrote in. `src/data/rosterModifiers/index.test.js` now fails on any wargear
 profile effect parked on `blocked-subset` that is not named there with its reason.
 
-**Copies from a unit-wide group are dealt by `splitBearers` itself** (2026-10-12, a player's report:
+**Copies from a unit-wide group are dealt by `splitBearers` itself** (since 2026-10-14 every such
+group is a copy per profile and knows its profile; the dealing below is what an `all` group still
+gets) (2026-10-12, a player's report:
 "at the maximum number of Shield Drones the added Wounds disappear"). A Crisis team's or a
 Broadside's drones, a Bullgryn's shields belong to no profile; first copies go out in the sheet's
 order, then second copies. The dealing used to count a mini against its whole PROFILE (a Crisis

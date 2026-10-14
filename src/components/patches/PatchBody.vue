@@ -71,44 +71,63 @@
           v-if="isOpen(b.key) || wasOpened.has(b.key)"
           class="pb-fac-body"
         >
+          <!-- Each kind of change folds on its own (owner, 2026-10-14: Custodes' 182 changes in one
+               list). A faction with one kind shows it open; the core rules have no kinds. -->
           <div
             v-for="g in b.groups"
             :key="g.key"
             class="pb-group"
           >
-            <h4
+            <button
               v-if="b.key !== 'core'"
-              class="pb-group-title"
+              type="button"
+              class="pb-group-head"
+              :aria-expanded="groupOpen(b, g)"
+              @click="toggle(`${b.key}:${g.key}`)"
             >
-              {{ g.title }}
-            </h4>
-            <!-- A detachment's changes under its name: DP, disposition, rule, stratagems,
-                 enhancements and their points, one heading for them all. -->
-            <template v-if="g.key === 'det'">
-              <div
-                v-for="d in g.dets"
-                :key="d.name"
-                class="pb-det"
+              <ChevronIcon :turned="groupOpen(b, g)" />
+              <span class="pb-group-title">{{ g.title }}</span>
+              <span class="pb-group-count">{{ g.count }}</span>
+            </button>
+            <CollapseTransition :show="b.key === 'core' || groupOpen(b, g)">
+              <a
+                v-if="g.url"
+                :href="g.url"
+                class="pb-doc-link"
+                target="_blank"
+                rel="noopener"
               >
-                <ul class="pb-list">
-                  <PatchEntry
-                    v-for="(x, i) in d.items"
-                    :key="i"
-                    :item="x"
-                  />
-                </ul>
-              </div>
-            </template>
-            <ul
-              v-else
-              class="pb-list"
-            >
-              <PatchEntry
-                v-for="(x, i) in g.items"
-                :key="i"
-                :item="x"
-              />
-            </ul>
+                <i class="wi wi-pdf" />
+                {{ labels.patchesDocOpen }}
+              </a>
+              <!-- A detachment's changes under its name: DP, disposition, rule, stratagems,
+                   enhancements and their points, one heading for them all. -->
+              <template v-if="g.key === 'det'">
+                <div
+                  v-for="d in g.dets"
+                  :key="d.name"
+                  class="pb-det"
+                >
+                  <ul class="pb-list">
+                    <PatchEntry
+                      v-for="(x, i) in d.items"
+                      :key="i"
+                      :item="x"
+                    />
+                  </ul>
+                </div>
+              </template>
+              <ul
+                v-else
+                class="pb-list"
+              >
+                <PatchEntry
+                  v-for="(x, i) in g.items"
+                  :key="i"
+                  :item="x"
+                />
+              </ul>
+            </CollapseTransition>
           </div>
         </div>
       </CollapseTransition>
@@ -122,6 +141,7 @@
 // own with a dark header, folded until tapped — the Space Marines codex alone is 600 entries.
 import { computed, reactive, watch } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
+import ChevronIcon from '../ChevronIcon.vue'
 import FactionBadge from '../FactionBadge.vue'
 import PatchEntry from './PatchEntry.vue'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
@@ -150,15 +170,25 @@ const blocks = computed(() => {
   const l = labels.value
   const byFaction = new Map()
   for (const x of props.items) {
-    const k = x.faction || 'core'
+    const k = x.source === 'doc' ? 'docs' : x.faction || 'core'
     if (!byFaction.has(k)) byFaction.set(k, [])
     byFaction.get(k).push(x)
   }
   const out = []
   for (const [key, items] of byFaction) {
-    const entry = key === 'core' ? null : factionIndexBySlug(key)
+    const entry = key === 'core' || key === 'docs' ? null : factionIndexBySlug(key)
     const groups = []
-    for (const [gk, title, test] of GROUPS) {
+    // What GW's documents changed and the app has not: one group per document, its title linking
+    // to the PDF; each change names its faction.
+    if (key === 'docs') {
+      const byDoc = new Map()
+      for (const x of items) {
+        if (!byDoc.has(x.doc.url)) byDoc.set(x.doc.url, { key: `doc:${x.doc.url}`, title: x.doc.title[locale.value] || x.doc.title.en, url: x.doc.url, items: [] })
+        byDoc.get(x.doc.url).items.push({ ...x, name: `${factionIndexBySlug(x.faction)?.name || x.faction} · ${x.name}` })
+      }
+      groups.push(...[...byDoc.values()].map((g) => ({ ...g, count: g.items.length })))
+    }
+    for (const [gk, title, test] of key === 'docs' ? [] : GROUPS) {
       const gi = items.filter(test)
       if (!gi.length) continue
       if (gk === 'det') {
@@ -169,22 +199,23 @@ const blocks = computed(() => {
           if (!dets.has(name)) dets.set(name, [])
           dets.get(name)[x.parent ? 'push' : 'unshift'](x)
         }
-        groups.push({ key: gk, title: l[title], dets: [...dets].map(([name, its]) => ({ name, items: withHeader(name, its) })) })
+        groups.push({ key: gk, title: l[title], count: gi.length, dets: [...dets].map(([name, its]) => ({ name, items: withHeader(name, its) })) })
       } else {
-        groups.push({ key: gk, title: l[title], items: gi })
+        groups.push({ key: gk, title: l[title], count: gi.length, items: gi })
       }
     }
     out.push({
       key,
       entry,
-      name: key === 'core' ? l.patchesCore : (entry?.name || key),
+      name: key === 'core' ? l.patchesCore : key === 'docs' ? l.patchesDocs : (entry?.name || key),
       count: items.length,
       groups,
       // The faction's own colour as the header's edge (dark theme reads the light pair).
       tone: entry?.color ? { '--pb-edge': entry.color.dark } : null,
     })
   }
-  return out.sort((a, b) => (a.key === 'core' ? -1 : b.key === 'core' ? 1 : a.name.localeCompare(b.name)))
+  const rank = (k) => (k === 'core' ? 0 : k === 'docs' ? 1 : 2)
+  return out.sort((a, b) => rank(a.key) - rank(b.key) || a.name.localeCompare(b.name))
 })
 
 // A detachment that only changed inside (a stratagem, an enhancement's points) still gets its own
@@ -198,6 +229,7 @@ function withHeader(name, items) {
 const open = reactive(new Set())
 const wasOpened = reactive(new Set())
 const isOpen = (k) => open.has(k)
+const groupOpen = (b, g) => b.groups.length === 1 || open.has(`${b.key}:${g.key}`)
 function toggle(k) {
   if (open.has(k)) open.delete(k)
   else { open.add(k); wasOpened.add(k) }
@@ -250,15 +282,34 @@ watch(() => props.items, () => { open.clear(); wasOpened.clear() })
 .pb-pdf-btn { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 40px; text-decoration: none; }
 .pb-pdf-btn:hover { text-decoration: none; }
 .pb-group { margin-top: 0.35rem; }
+.pb-group-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 36px;
+  padding: 0.25rem 0;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .pb-group-head:hover { color: var(--text-primary); }
+}
+.pb-group-count { margin-left: auto; font-size: 0.75rem; font-weight: 700; }
 .pb-group-title {
-  margin: 0.3rem 0 0.35rem;
+  margin: 0;
   font-family: var(--font-sans);
   font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--text-muted);
+  color: inherit;
 }
 .pb-list { margin: 0; padding: 0; }
+.pb-doc-link { display: inline-flex; align-items: center; gap: 0.35rem; margin: 0.1rem 0 0.4rem; font-size: 0.85rem; }
 .pb-det + .pb-det { margin-top: 0.5rem; }
 </style>

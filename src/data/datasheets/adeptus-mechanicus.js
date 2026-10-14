@@ -1881,7 +1881,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "secutarii-peltasts",
@@ -2012,7 +2012,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "serberys-raiders",
@@ -4129,7 +4129,7 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   },
   {
     "id": "thulia-ghuld",
@@ -4338,6 +4338,6 @@ export default [
     ],
     "legends": true,
     "source": "faction-pack",
-    "sourceVersion": "1.2"
+    "sourceVersion": "1.4"
   }
 ]

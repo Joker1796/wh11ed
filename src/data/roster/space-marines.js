@@ -45,10 +45,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "company-heroes",
           "type": "leader"
         },
@@ -59,6 +55,10 @@ export default {
         {
           "to": "bladeguard-veteran-squad",
           "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -66,11 +66,11 @@ export default {
           0,
           [
             [
-              2294,
+              2328,
               1
             ],
             [
-              2295,
+              2329,
               1
             ]
           ]
@@ -113,11 +113,11 @@ export default {
           0,
           [
             [
-              2296,
+              2330,
               1
             ],
             [
-              2297,
+              2331,
               1
             ]
           ]
@@ -185,11 +185,11 @@ export default {
           0,
           [
             [
-              2298,
+              2332,
               1
             ],
             [
-              2299,
+              2333,
               1
             ]
           ]
@@ -198,11 +198,11 @@ export default {
           1,
           [
             [
-              2299,
+              2332,
               1
             ],
             [
-              2298,
+              2333,
               1
             ]
           ]
@@ -210,25 +210,56 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 790,
-          "in": "stepper",
+          "m": 0,
+          "t": 787,
+          "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2300,
+                  2334,
                   1
                 ],
                 [
-                  2301,
+                  2335,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            2298
+            2332
+          ],
+          "repall": 1
+        },
+        {
+          "m": 1,
+          "t": 787,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  2334,
+                  1
+                ],
+                [
+                  2335,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2332
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            1
           ]
         }
       ]
@@ -260,15 +291,11 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "crusader-squad",
+          "type": "support"
+        },
+        {
           "to": "deathwatch-veterans",
-          "type": "support"
-        },
-        {
-          "to": "assault-intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "sword-brethren-squad",
           "type": "support"
         },
         {
@@ -280,11 +307,27 @@ export default {
           "type": "support"
         },
         {
+          "to": "inner-circle-companions",
+          "type": "support"
+        },
+        {
           "to": "vanguard-veteran-squad",
           "type": "support"
         },
         {
-          "to": "crusader-squad",
+          "to": "sword-brethren-squad",
+          "type": "support"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "support"
+        },
+        {
+          "to": "assault-intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "desolation-squad",
           "type": "support"
         },
         {
@@ -298,18 +341,6 @@ export default {
         {
           "to": "sternguard-veteran-squad",
           "type": "support"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "support"
-        },
-        {
-          "to": "desolation-squad",
-          "type": "support"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "support"
         }
       ],
       "defaults": [
@@ -317,15 +348,15 @@ export default {
           0,
           [
             [
-              2302,
+              2336,
               1
             ],
             [
-              2303,
+              2337,
               1
             ],
             [
-              2304,
+              2338,
               1
             ]
           ]
@@ -334,15 +365,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 791,
+          "t": 788,
           "in": "checkbox",
           "o": [
             [
-              2305
+              2339
             ]
           ],
           "rep": [
-            2302
+            2337
           ]
         }
       ]
@@ -374,19 +405,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "terminator-assault-squad",
-          "type": "support"
-        },
-        {
-          "to": "terminator-squad",
-          "type": "support"
-        },
-        {
           "to": "deathwatch-terminator-squad",
-          "type": "support"
-        },
-        {
-          "to": "deathwing-terminator-squad",
           "type": "support"
         },
         {
@@ -394,7 +413,19 @@ export default {
           "type": "support"
         },
         {
+          "to": "deathwing-terminator-squad",
+          "type": "support"
+        },
+        {
           "to": "wolf-guard-terminators",
+          "type": "support"
+        },
+        {
+          "to": "terminator-assault-squad",
+          "type": "support"
+        },
+        {
+          "to": "terminator-squad",
           "type": "support"
         }
       ],
@@ -403,11 +434,11 @@ export default {
           0,
           [
             [
-              2306,
+              2340,
               1
             ],
             [
-              2307,
+              2341,
               1
             ]
           ]
@@ -440,15 +471,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "hellblaster-squad",
-          "type": "support"
-        },
-        {
-          "to": "assault-intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "bladeguard-veteran-squad",
+          "to": "crusader-squad",
           "type": "support"
         },
         {
@@ -456,27 +479,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "company-heroes",
-          "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "infernus-squad",
-          "type": "support"
-        },
-        {
           "to": "decimus-kill-team",
-          "type": "support"
-        },
-        {
-          "to": "desolation-squad",
           "type": "support"
         },
         {
@@ -488,11 +491,39 @@ export default {
           "type": "support"
         },
         {
-          "to": "crusader-squad",
+          "to": "sword-brethren-squad",
           "type": "support"
         },
         {
-          "to": "sword-brethren-squad",
+          "to": "infernus-squad",
+          "type": "support"
+        },
+        {
+          "to": "assault-intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "company-heroes",
+          "type": "support"
+        },
+        {
+          "to": "desolation-squad",
+          "type": "support"
+        },
+        {
+          "to": "hellblaster-squad",
+          "type": "support"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "support"
         }
       ],
@@ -501,15 +532,15 @@ export default {
           0,
           [
             [
-              2308,
+              2342,
               1
             ],
             [
-              2309,
+              2343,
               1
             ],
             [
-              2310,
+              2344,
               1
             ]
           ]
@@ -543,15 +574,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "eradicator-squad-with-melta-rifles",
-          "type": "support"
-        },
-        {
-          "to": "heavy-intercessor-squad",
-          "type": "support"
-        },
-        {
           "to": "indomitor-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "aggressor-squad",
           "type": "support"
         },
         {
@@ -559,7 +586,11 @@ export default {
           "type": "support"
         },
         {
-          "to": "aggressor-squad",
+          "to": "eradicator-squad-with-melta-rifles",
+          "type": "support"
+        },
+        {
+          "to": "heavy-intercessor-squad",
           "type": "support"
         }
       ],
@@ -568,11 +599,11 @@ export default {
           0,
           [
             [
-              2311,
+              2345,
               1
             ],
             [
-              2312,
+              2346,
               1
             ]
           ]
@@ -639,27 +670,27 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              2313,
+              2347,
               1
             ],
             [
-              2314,
+              2348,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              2314,
+              2347,
               1
             ],
             [
-              2313,
+              2348,
               1
             ]
           ]
@@ -668,37 +699,37 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 792,
+          "t": 789,
           "in": "checkbox",
           "o": [
             [
-              2315
+              2349
             ],
             [
-              2316
+              2350
             ]
           ],
           "rep": [
-            2314
+            2348
           ]
         },
         {
           "m": 1,
-          "t": 793,
+          "t": 790,
           "in": "checkbox",
           "o": [
             [
-              2317
+              2351
             ],
             [
-              2318
+              2352
             ],
             [
-              2319
+              2353
             ]
           ],
           "rep": [
-            2313
+            2347
           ]
         }
       ]
@@ -771,11 +802,11 @@ export default {
           0,
           [
             [
-              2320,
+              2354,
               1
             ],
             [
-              2321,
+              2355,
               1
             ]
           ]
@@ -784,11 +815,11 @@ export default {
           1,
           [
             [
-              2321,
+              2354,
               1
             ],
             [
-              2320,
+              2355,
               1
             ]
           ]
@@ -797,43 +828,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 794,
+          "t": 791,
           "in": "checkbox",
           "o": [
             [
-              2322
+              2356
             ],
             [
-              2323
+              2357
             ]
           ],
           "rep": [
-            2321
+            2355
           ]
         },
         {
           "m": 0,
-          "t": 795,
+          "t": 792,
           "in": "checkbox",
           "o": [
             [
-              2324
+              2358
             ],
             [
-              2325
+              2359
             ]
           ],
           "rep": [
-            2320
+            2354
           ]
         },
         {
           "m": 1,
-          "t": 796,
+          "t": 793,
           "in": "stepper",
           "o": [
             [
-              2323
+              2357
             ]
           ],
           "lim": [
@@ -847,7 +878,7 @@ export default {
             ]
           ],
           "rep": [
-            2321
+            2355
           ]
         }
       ]
@@ -883,27 +914,27 @@ export default {
           0,
           [
             [
-              2326,
+              2360,
               1
             ],
             [
-              2327,
-              1
-            ],
-            [
-              2328,
-              1
-            ],
-            [
-              2329,
-              1
-            ],
-            [
-              2330,
+              2361,
               2
             ],
             [
-              2331,
+              2362,
+              1
+            ],
+            [
+              2363,
+              1
+            ],
+            [
+              2364,
+              1
+            ],
+            [
+              2365,
               1
             ]
           ]
@@ -912,43 +943,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 797,
+          "t": 794,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2332,
+                  2366,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2330
+            2361
           ]
         },
         {
           "m": 0,
-          "t": 798,
+          "t": 795,
           "in": "checkbox",
           "o": [
             [
-              2326
+              2362
             ]
           ]
         },
         {
           "m": 0,
-          "t": 799,
+          "t": 796,
           "in": "checkbox",
           "o": [
             [
-              2333
+              2367
             ]
           ],
           "rep": [
-            2331
+            2364
           ]
         }
       ]
@@ -984,19 +1015,19 @@ export default {
           0,
           [
             [
-              2334,
+              2368,
               1
             ],
             [
-              2335,
+              2369,
               1
             ],
             [
-              2336,
+              2370,
               1
             ],
             [
-              2337,
+              2371,
               1
             ]
           ]
@@ -1040,11 +1071,11 @@ export default {
           0,
           [
             [
-              2338,
+              2372,
               1
             ],
             [
-              2339,
+              2373,
               1
             ]
           ]
@@ -1117,11 +1148,11 @@ export default {
           0,
           [
             [
-              2340,
+              2374,
               1
             ],
             [
-              2341,
+              2375,
               1
             ]
           ]
@@ -1130,11 +1161,11 @@ export default {
           1,
           [
             [
-              2341,
+              2374,
               1
             ],
             [
-              2340,
+              2375,
               1
             ]
           ]
@@ -1143,18 +1174,18 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 800,
+          "t": 797,
           "in": "checkbox",
           "o": [
             [
-              2342
+              2376
             ],
             [
-              2343
+              2377
             ]
           ],
           "rep": [
-            2340
+            2374
           ]
         }
       ]
@@ -1190,19 +1221,19 @@ export default {
           0,
           [
             [
-              2344,
+              2391,
               1
             ],
             [
-              2345,
+              2392,
               1
             ],
             [
-              2346,
+              2393,
               1
             ],
             [
-              2347,
+              2394,
               1
             ]
           ]
@@ -1211,29 +1242,29 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 801,
+          "t": 800,
           "in": "checkbox",
           "o": [
             [
-              2348
+              2395
             ]
           ],
           "rep": [
-            2345,
-            2346
+            2391,
+            2392
           ]
         },
         {
           "m": 0,
-          "t": 802,
+          "t": 801,
           "in": "checkbox",
           "o": [
             [
-              2349
+              2396
             ]
           ],
           "rep": [
-            2344
+            2393
           ]
         }
       ]
@@ -1280,11 +1311,11 @@ export default {
           0,
           [
             [
-              2363,
+              2397,
               1
             ],
             [
-              2364,
+              2398,
               1
             ]
           ]
@@ -1318,7 +1349,19 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "assault-intercessor-squad",
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "crusader-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-veterans",
+          "type": "leader"
+        },
+        {
+          "to": "decimus-kill-team",
           "type": "leader"
         },
         {
@@ -1326,7 +1369,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "infernus-squad",
+          "to": "inner-circle-companions",
           "type": "leader"
         },
         {
@@ -1334,15 +1377,15 @@ export default {
           "type": "leader"
         },
         {
+          "to": "assault-intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "leader"
+        },
+        {
           "to": "company-heroes",
-          "type": "leader"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "leader"
-        },
-        {
-          "to": "crusader-squad",
           "type": "leader"
         },
         {
@@ -1354,15 +1397,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "deathwatch-veterans",
           "type": "leader"
         },
         {
@@ -1370,15 +1405,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "decimus-kill-team",
-          "type": "leader"
-        },
-        {
           "to": "desolation-squad",
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
+          "to": "vanguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -1387,15 +1418,15 @@ export default {
           0,
           [
             [
-              2365,
+              2399,
               1
             ],
             [
-              2366,
+              2400,
               1
             ],
             [
-              2367,
+              2401,
               1
             ]
           ]
@@ -1404,48 +1435,48 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 805,
+          "t": 802,
           "in": "checkbox",
           "o": [
             [
-              2368
+              2402
             ],
             [
-              2369
+              2403
             ]
           ],
           "rep": [
-            2366,
-            2365
+            2400,
+            2399
           ]
         },
         {
           "m": 0,
-          "t": 806,
+          "t": 803,
           "in": "checkbox",
           "o": [
             [
-              781
+              814
             ]
           ],
           "rep": [
-            2366
+            2400
           ],
           "keep": [
-            2367
+            2401
           ]
         },
         {
           "m": 0,
-          "t": 807,
+          "t": 804,
           "in": "checkbox",
           "o": [
             [
-              2370
+              2404
             ]
           ],
           "rep": [
-            2367
+            2401
           ]
         }
       ]
@@ -1478,11 +1509,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "aggressor-squad",
+          "to": "indomitor-kill-team",
           "type": "leader"
         },
         {
-          "to": "indomitor-kill-team",
+          "to": "aggressor-squad",
           "type": "leader"
         },
         {
@@ -1503,11 +1534,11 @@ export default {
           0,
           [
             [
-              2371,
+              2405,
               1
             ],
             [
-              2372,
+              2406,
               1
             ]
           ]
@@ -1516,17 +1547,17 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 808,
+          "t": 805,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2373,
+                  2407,
                   1
                 ],
                 [
-                  2374,
+                  2408,
                   1
                 ]
               ]
@@ -1534,11 +1565,11 @@ export default {
             [
               [
                 [
-                  2373,
+                  2407,
                   1
                 ],
                 [
-                  2375,
+                  2409,
                   1
                 ]
               ]
@@ -1546,19 +1577,19 @@ export default {
             [
               [
                 [
-                  2373,
+                  2407,
                   1
                 ],
                 [
-                  2376,
+                  2410,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            2372,
-            2371
+            2405,
+            2406
           ]
         }
       ]
@@ -1591,19 +1622,19 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "incursor-squad",
-          "type": "leader"
-        },
-        {
           "to": "spectrus-kill-team",
           "type": "leader"
         },
         {
-          "to": "eliminator-squad",
+          "to": "wolf-scouts",
           "type": "leader"
         },
         {
-          "to": "wolf-scouts",
+          "to": "incursor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "eliminator-squad",
           "type": "leader"
         },
         {
@@ -1624,15 +1655,15 @@ export default {
           0,
           [
             [
-              2377,
+              2411,
               1
             ],
             [
-              2378,
+              2412,
               1
             ],
             [
-              2379,
+              2413,
               1
             ]
           ]
@@ -1666,19 +1697,11 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "terminator-squad",
+          "type": "leader"
+        },
+        {
           "to": "deathwatch-terminator-squad",
-          "type": "leader"
-        },
-        {
-          "to": "terminator-assault-squad",
-          "type": "leader"
-        },
-        {
-          "to": "wolf-guard-terminators",
-          "type": "leader"
-        },
-        {
-          "to": "deathwing-terminator-squad",
           "type": "leader"
         },
         {
@@ -1686,7 +1709,15 @@ export default {
           "type": "leader"
         },
         {
-          "to": "terminator-squad",
+          "to": "deathwing-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "wolf-guard-terminators",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-assault-squad",
           "type": "leader"
         }
       ],
@@ -1695,11 +1726,11 @@ export default {
           0,
           [
             [
-              2380,
+              2414,
               1
             ],
             [
-              2381,
+              2415,
               1
             ]
           ]
@@ -1708,28 +1739,28 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 809,
+          "t": 806,
           "in": "checkbox",
           "o": [
             [
-              2382
+              2416
             ]
           ],
           "rep": [
-            2380
+            2414
           ]
         },
         {
           "m": 0,
-          "t": 810,
+          "t": 807,
           "in": "checkbox",
           "o": [
             [
-              2383
+              2417
             ]
           ],
           "rep": [
-            2381
+            2415
           ]
         }
       ]
@@ -1774,15 +1805,15 @@ export default {
           0,
           [
             [
-              2177,
+              2323,
               1
             ],
             [
-              2178,
+              2324,
               1
             ],
             [
-              2179,
+              2325,
               1
             ]
           ]
@@ -1791,28 +1822,28 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 768,
+          "t": 785,
           "in": "checkbox",
           "o": [
             [
-              2180
+              2326
             ]
           ],
           "rep": [
-            2177
+            2323
           ]
         },
         {
           "m": 0,
-          "t": 769,
+          "t": 786,
           "in": "checkbox",
           "o": [
             [
-              2181
+              2327
             ]
           ],
           "rep": [
-            2178
+            2324
           ]
         }
       ]
@@ -1863,15 +1894,15 @@ export default {
           "type": "leader"
         },
         {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "bladeguard-veteran-squad",
           "type": "leader"
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -1880,15 +1911,15 @@ export default {
           0,
           [
             [
-              2384,
+              2418,
               1
             ],
             [
-              2385,
+              2419,
               1
             ],
             [
-              2386,
+              2420,
               1
             ]
           ]
@@ -1925,19 +1956,19 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "vanguard-veteran-squad-with-jump-packs",
-          "type": "leader"
-        },
-        {
           "to": "sanguinary-guard",
           "type": "leader"
         },
         {
-          "to": "assault-intercessors-with-jump-packs",
+          "to": "talonstrike-kill-team",
           "type": "leader"
         },
         {
-          "to": "talonstrike-kill-team",
+          "to": "vanguard-veteran-squad-with-jump-packs",
+          "type": "leader"
+        },
+        {
+          "to": "assault-intercessors-with-jump-packs",
           "type": "leader"
         }
       ],
@@ -1946,11 +1977,11 @@ export default {
           0,
           [
             [
-              2387,
+              2421,
               1
             ],
             [
-              2388,
+              2422,
               1
             ]
           ]
@@ -1959,49 +1990,49 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 811,
+          "t": 808,
           "in": "checkbox",
           "o": [
             [
-              2389
+              2423
             ],
             [
-              2390
+              2424
             ]
           ],
           "rep": [
-            2387
+            2422
           ]
         },
         {
           "m": 0,
-          "t": 812,
+          "t": 809,
           "in": "checkbox",
           "o": [
             [
-              2391
+              2425
             ],
             [
-              2392
+              2426
             ]
           ],
           "rep": [
-            2388
+            2421
           ]
         },
         {
           "m": 0,
-          "t": 813,
+          "t": 810,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2393,
+                  2427,
                   1
                 ],
                 [
-                  781,
+                  814,
                   1
                 ]
               ]
@@ -2009,19 +2040,19 @@ export default {
             [
               [
                 [
-                  2388,
+                  2421,
                   1
                 ],
                 [
-                  781,
+                  814,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            2387,
-            2388
+            2422,
+            2421
           ]
         }
       ]
@@ -2056,11 +2087,11 @@ export default {
       "leads": [
         {
           "to": "victrix-honour-guard",
-          "type": "leader"
+          "type": "support"
         },
         {
           "to": "victrix-honour-guard",
-          "type": "support"
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -2068,11 +2099,11 @@ export default {
           0,
           [
             [
-              2394,
+              2428,
               1
             ],
             [
-              2395,
+              2429,
               1
             ]
           ]
@@ -2139,35 +2170,35 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              2396,
+              2430,
               1
             ],
             [
-              2397,
+              2431,
               1
             ],
             [
-              2398,
+              2432,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              2398,
+              2430,
               1
             ],
             [
-              2396,
+              2432,
               1
             ],
             [
-              2397,
+              2431,
               1
             ]
           ]
@@ -2175,29 +2206,71 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 814,
-          "in": "stepper",
+          "m": 0,
+          "t": 811,
+          "in": "checkbox",
           "o": [
             [
-              2399
+              2433
             ]
           ],
           "rep": [
-            2398
+            2430
+          ],
+          "repall": 1
+        },
+        {
+          "m": 0,
+          "t": 812,
+          "in": "checkbox",
+          "o": [
+            [
+              2434
+            ]
+          ],
+          "rep": [
+            2432
+          ],
+          "repall": 1
+        },
+        {
+          "m": 1,
+          "t": 811,
+          "in": "stepper",
+          "o": [
+            [
+              2433
+            ]
+          ],
+          "rep": [
+            2430
           ]
         },
         {
-          "all": 1,
-          "t": 815,
+          "m": 1,
+          "t": 812,
           "in": "stepper",
           "o": [
             [
-              2400
+              2434
             ]
           ],
           "rep": [
-            2397
+            2432
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            2
+          ]
+        },
+        {
+          "g": [
+            1,
+            3
           ]
         }
       ]
@@ -2262,35 +2335,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2401,
+              2435,
               1
             ],
             [
-              2402,
+              2436,
               1
             ],
             [
-              2403,
+              2437,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2402,
+              2435,
               1
             ],
             [
-              2403,
+              2436,
               1
             ],
             [
-              2401,
+              2437,
               1
             ]
           ]
@@ -2298,32 +2371,77 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 816,
-          "in": "stepper",
+          "m": 0,
+          "t": 813,
+          "in": "checkbox",
           "o": [
             [
-              2404
+              2438
             ]
           ],
           "rep": [
-            2401
+            2435
+          ],
+          "repall": 1
+        },
+        {
+          "m": 0,
+          "t": 814,
+          "in": "checkbox",
+          "o": [
+            [
+              2439
+            ],
+            [
+              2440
+            ]
+          ],
+          "rep": [
+            2437
+          ],
+          "repall": 1
+        },
+        {
+          "m": 1,
+          "t": 813,
+          "in": "stepper",
+          "o": [
+            [
+              2438
+            ]
+          ],
+          "rep": [
+            2435
           ]
         },
         {
-          "all": 1,
-          "t": 817,
+          "m": 1,
+          "t": 814,
           "in": "stepper",
           "o": [
             [
-              2405
+              2439
             ],
             [
-              2406
+              2440
             ]
           ],
           "rep": [
-            2402
+            2437
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            2
+          ]
+        },
+        {
+          "g": [
+            1,
+            3
           ]
         }
       ]
@@ -2357,11 +2475,11 @@ export default {
           0,
           [
             [
-              2226,
+              2218,
               1
             ],
             [
-              2227,
+              2219,
               1
             ]
           ]
@@ -2370,32 +2488,32 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 775,
+          "t": 767,
           "in": "checkbox",
           "o": [
             [
-              2228
+              2220
             ],
             [
-              2229
+              2221
             ],
             [
-              2230
+              2222
             ],
             [
-              2231
+              2223
             ]
           ]
         },
         {
           "m": 0,
-          "t": 779,
+          "t": 768,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2228,
+                  2220,
                   2
                 ]
               ]
@@ -2403,7 +2521,7 @@ export default {
             [
               [
                 [
-                  2232,
+                  2224,
                   2
                 ]
               ]
@@ -2443,19 +2561,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "bladeguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "leader"
-        },
-        {
-          "to": "deathwatch-veterans",
+          "to": "crusader-squad",
           "type": "leader"
         },
         {
@@ -2463,11 +2569,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "infernus-squad",
-          "type": "leader"
-        },
-        {
-          "to": "crusader-squad",
+          "to": "deathwatch-veterans",
           "type": "leader"
         },
         {
@@ -2475,15 +2577,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
           "to": "fortis-kill-team",
           "type": "leader"
         },
         {
-          "to": "assault-intercessor-squad",
+          "to": "inner-circle-companions",
           "type": "leader"
         },
         {
@@ -2491,7 +2589,27 @@ export default {
           "type": "leader"
         },
         {
+          "to": "bladeguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "assault-intercessor-squad",
+          "type": "leader"
+        },
+        {
           "to": "hellblaster-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -2500,11 +2618,11 @@ export default {
           0,
           [
             [
-              2407,
+              2441,
               1
             ],
             [
-              2408,
+              2442,
               1
             ]
           ]
@@ -2538,7 +2656,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "wolf-guard-terminators",
+          "to": "terminator-squad",
           "type": "leader"
         },
         {
@@ -2546,19 +2664,19 @@ export default {
           "type": "leader"
         },
         {
-          "to": "deathwing-terminator-squad",
-          "type": "leader"
-        },
-        {
           "to": "deathwing-knights",
           "type": "leader"
         },
         {
-          "to": "terminator-assault-squad",
+          "to": "deathwing-terminator-squad",
           "type": "leader"
         },
         {
-          "to": "terminator-squad",
+          "to": "wolf-guard-terminators",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-assault-squad",
           "type": "leader"
         }
       ],
@@ -2567,11 +2685,11 @@ export default {
           0,
           [
             [
-              2409,
+              2443,
               1
             ],
             [
-              2410,
+              2444,
               1
             ]
           ]
@@ -2580,15 +2698,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 818,
+          "t": 815,
           "in": "stepper",
           "o": [
             [
-              781
+              814
             ]
           ],
           "rep": [
-            2409
+            2444
           ]
         }
       ]
@@ -2633,15 +2751,15 @@ export default {
           0,
           [
             [
-              2411,
+              2445,
               1
             ],
             [
-              2412,
+              2446,
               1
             ],
             [
-              2413,
+              2447,
               1
             ]
           ]
@@ -2678,7 +2796,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "vanguard-veteran-squad-with-jump-packs",
+          "to": "talonstrike-kill-team",
           "type": "leader"
         },
         {
@@ -2686,7 +2804,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "talonstrike-kill-team",
+          "to": "vanguard-veteran-squad-with-jump-packs",
           "type": "leader"
         },
         {
@@ -2699,11 +2817,11 @@ export default {
           0,
           [
             [
-              2414,
+              2448,
               1
             ],
             [
-              2415,
+              2449,
               1
             ]
           ]
@@ -2747,10 +2865,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "infernus-squad",
           "type": "leader"
         },
@@ -2765,6 +2879,10 @@ export default {
         {
           "to": "sternguard-veteran-squad",
           "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -2772,15 +2890,15 @@ export default {
           0,
           [
             [
-              2416,
+              2450,
               1
             ],
             [
-              2417,
+              2451,
               1
             ],
             [
-              2418,
+              2452,
               1
             ]
           ]
@@ -2847,18 +2965,14 @@ export default {
       ],
       "defaults": [
         [
-          2,
+          0,
           [
             [
-              2419,
+              2453,
               1
             ],
             [
-              2420,
-              1
-            ],
-            [
-              2421,
+              2454,
               1
             ]
           ]
@@ -2867,28 +2981,32 @@ export default {
           1,
           [
             [
-              2421,
+              2455,
               1
             ],
             [
-              2420,
+              2453,
               1
             ],
             [
-              2419,
+              2456,
               1
             ]
           ]
         ],
         [
-          0,
+          2,
           [
             [
-              2420,
+              2455,
               1
             ],
             [
-              2422,
+              2453,
+              1
+            ],
+            [
+              2456,
               1
             ]
           ]
@@ -2897,15 +3015,15 @@ export default {
           3,
           [
             [
-              2419,
+              2455,
               1
             ],
             [
-              2423,
+              2453,
               1
             ],
             [
-              2420,
+              2457,
               1
             ]
           ]
@@ -2954,7 +3072,7 @@ export default {
           0,
           [
             [
-              2424,
+              2458,
               1
             ]
           ]
@@ -3010,19 +3128,19 @@ export default {
           1,
           [
             [
-              2425,
+              2459,
               1
             ],
             [
-              2426,
+              2460,
               1
             ],
             [
-              2427,
+              2461,
               1
             ],
             [
-              2428,
+              2462,
               1
             ]
           ]
@@ -3031,19 +3149,19 @@ export default {
           0,
           [
             [
-              2426,
+              2459,
               1
             ],
             [
-              2427,
+              2460,
               1
             ],
             [
-              2425,
+              2461,
               1
             ],
             [
-              2428,
+              2462,
               1
             ]
           ]
@@ -3052,43 +3170,65 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 819,
+          "t": 816,
           "in": "checkbox",
           "o": [
             [
-              2429,
+              2463,
               5
             ]
           ],
           "rep": [
-            2428
+            2462
           ]
         },
         {
           "m": 0,
-          "t": 820,
+          "t": 817,
           "in": "checkbox",
           "o": [
             [
-              2429,
+              2463,
               5
             ]
           ],
           "rep": [
-            2430
+            2464
           ]
         },
         {
-          "all": 1,
-          "t": 821,
-          "in": "stepper",
+          "m": 0,
+          "t": 818,
+          "in": "checkbox",
           "o": [
             [
-              2430
+              2464
             ]
           ],
           "rep": [
-            2428
+            2462
+          ],
+          "repall": 1
+        },
+        {
+          "m": 1,
+          "t": 818,
+          "in": "stepper",
+          "o": [
+            [
+              2464
+            ]
+          ],
+          "rep": [
+            2462
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            2,
+            3
           ]
         }
       ]
@@ -3122,15 +3262,15 @@ export default {
           0,
           [
             [
-              2431,
+              2465,
               1
             ],
             [
-              2432,
+              2466,
               1
             ],
             [
-              2433,
+              2467,
               1
             ]
           ]
@@ -3139,57 +3279,57 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 822,
+          "t": 819,
           "in": "checkbox",
           "o": [
             [
-              2434
+              2468
             ],
             [
-              2435
+              2469
             ],
             [
-              2436
+              2470
             ]
           ],
           "rep": [
-            2432
+            2465
           ]
         },
         {
           "m": 0,
-          "t": 823,
+          "t": 820,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2437,
+                  2471,
                   1
                 ],
                 [
-                  2438,
+                  2472,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            2431,
-            2433
+            2466,
+            2467
           ]
         },
         {
           "m": 0,
-          "t": 824,
+          "t": 821,
           "in": "checkbox",
           "o": [
             [
-              2439
+              2473
             ]
           ],
           "rep": [
-            2433
+            2467
           ]
         }
       ]
@@ -3265,35 +3405,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2440,
+              2474,
               1
             ],
             [
-              2441,
+              2475,
               1
             ],
             [
-              2442,
+              2476,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2440,
+              2474,
               1
             ],
             [
-              2441,
+              2475,
               1
             ],
             [
-              2442,
+              2476,
               1
             ]
           ]
@@ -3302,31 +3442,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 825,
+          "t": 822,
           "in": "checkbox",
           "o": [
             [
-              2443
+              2477
             ],
             [
-              2444
+              2478
             ]
           ],
           "rep": [
-            2440
+            2475
           ]
         },
         {
           "m": 1,
-          "t": 826,
+          "t": 823,
           "in": "stepper",
           "o": [
             [
-              2444
+              2478
             ]
           ],
           "rep": [
-            2440
+            2475
           ]
         }
       ]
@@ -3397,15 +3537,15 @@ export default {
           0,
           [
             [
-              2449,
+              2483,
               1
             ],
             [
-              2450,
+              2484,
               1
             ],
             [
-              2451,
+              2485,
               1
             ]
           ]
@@ -3414,15 +3554,15 @@ export default {
           1,
           [
             [
-              2450,
+              2483,
               1
             ],
             [
-              2449,
+              2484,
               1
             ],
             [
-              2451,
+              2485,
               1
             ]
           ]
@@ -3495,15 +3635,15 @@ export default {
           1,
           [
             [
-              2445,
+              2479,
               1
             ],
             [
-              2446,
+              2480,
               1
             ],
             [
-              2447,
+              2481,
               1
             ]
           ]
@@ -3512,15 +3652,15 @@ export default {
           0,
           [
             [
-              2446,
+              2479,
               1
             ],
             [
-              2447,
+              2480,
               1
             ],
             [
-              2445,
+              2481,
               1
             ]
           ]
@@ -3529,11 +3669,11 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 827,
+          "t": 824,
           "in": "stepper",
           "o": [
             [
-              2448
+              2482
             ]
           ],
           "lim": [
@@ -3547,7 +3687,7 @@ export default {
             ]
           ],
           "rep": [
-            2446
+            2481
           ]
         }
       ]
@@ -3582,19 +3722,19 @@ export default {
           0,
           [
             [
-              2207,
+              2267,
               1
             ],
             [
-              2208,
+              2268,
               2
             ],
             [
-              2209,
+              2269,
               1
             ],
             [
-              2210,
+              2270,
               1
             ]
           ]
@@ -3603,52 +3743,52 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 775,
+          "t": 767,
           "in": "checkbox",
           "o": [
             [
-              2211
+              2271
             ],
             [
-              2212
+              2272
             ],
             [
-              2213
+              2273
             ],
             [
-              2214
+              2274
             ]
           ]
         },
         {
           "m": 0,
-          "t": 776,
+          "t": 774,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2215,
+                  2275,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2208
+            2268
           ]
         },
         {
           "m": 0,
-          "t": 777,
+          "t": 775,
           "in": "checkbox",
           "o": [
             [
-              2216
+              2276
             ]
           ],
           "rep": [
-            2210
+            2270
           ]
         }
       ]
@@ -3686,11 +3826,11 @@ export default {
           0,
           [
             [
-              2452,
+              2486,
               1
             ],
             [
-              2453,
+              2487,
               1
             ]
           ]
@@ -3699,15 +3839,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 828,
+          "t": 825,
           "in": "stepper",
           "o": [
             [
-              2454
+              2488
             ]
           ],
           "rep": [
-            2453
+            2487
           ]
         }
       ]
@@ -3743,15 +3883,15 @@ export default {
           0,
           [
             [
-              709,
+              741,
               1
             ],
             [
-              710,
+              742,
               1
             ],
             [
-              708,
+              743,
               1
             ]
           ]
@@ -3789,15 +3929,15 @@ export default {
           0,
           [
             [
-              713,
+              2489,
               1
             ],
             [
-              2455,
+              746,
               1
             ],
             [
-              712,
+              747,
               1
             ]
           ]
@@ -3835,20 +3975,20 @@ export default {
           0,
           [
             [
-              2456,
+              749,
               1
             ],
             [
-              716,
+              2490,
               1
             ],
             [
-              2457,
-              1
-            ],
-            [
-              2458,
+              2491,
               2
+            ],
+            [
+              2492,
+              1
             ]
           ]
         ]
@@ -3883,11 +4023,11 @@ export default {
           0,
           [
             [
-              2459,
+              2493,
               1
             ],
             [
-              2460,
+              2494,
               1
             ]
           ]
@@ -3896,15 +4036,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 829,
+          "t": 826,
           "in": "checkbox",
           "o": [
             [
-              2461
+              2495
             ]
           ],
           "rep": [
-            2460
+            2493
           ]
         }
       ]
@@ -3969,35 +4109,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2462,
+              2496,
               1
             ],
             [
-              2463,
+              2497,
               1
             ],
             [
-              2464,
+              2498,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2464,
+              2496,
               1
             ],
             [
-              2463,
+              2497,
               1
             ],
             [
-              2462,
+              2498,
               1
             ]
           ]
@@ -4006,11 +4146,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 830,
+          "t": 827,
           "in": "stepper",
           "o": [
             [
-              2465
+              2499
             ]
           ],
           "lim": [
@@ -4024,7 +4164,7 @@ export default {
             ]
           ],
           "rep": [
-            2462
+            2498
           ]
         }
       ]
@@ -4092,35 +4232,35 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              2466,
+              2500,
               1
             ],
             [
-              2467,
+              2501,
               1
             ],
             [
-              2468,
+              2502,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              2466,
+              2500,
               1
             ],
             [
-              2467,
+              2501,
               1
             ],
             [
-              2468,
+              2502,
               1
             ]
           ]
@@ -4129,15 +4269,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 831,
+          "t": 828,
           "in": "checkbox",
           "o": [
             [
-              2469
+              2503
             ]
           ],
           "rep": [
-            2468
+            2500
           ]
         }
       ]
@@ -4174,11 +4314,11 @@ export default {
           0,
           [
             [
-              2470,
+              755,
               1
             ],
             [
-              722,
+              2504,
               1
             ]
           ]
@@ -4187,44 +4327,44 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 832,
+          "t": 829,
           "in": "checkbox",
           "o": [
             [
-              2471
+              2505
             ],
             [
-              2472
+              2506
             ],
             [
-              728,
+              761,
               10
             ],
             [
-              729
+              762
             ]
           ]
         },
         {
           "m": 0,
-          "t": 833,
+          "t": 830,
           "in": "checkbox",
           "o": [
             [
-              2473
+              2507
             ]
           ],
           "rep": [
-            2470
+            2504
           ]
         },
         {
           "m": 0,
-          "t": 834,
+          "t": 831,
           "in": "checkbox",
           "o": [
             [
-              2474
+              2508
             ]
           ]
         }
@@ -4297,11 +4437,11 @@ export default {
           0,
           [
             [
-              2475,
+              2509,
               1
             ],
             [
-              2476,
+              2510,
               1
             ]
           ]
@@ -4310,11 +4450,11 @@ export default {
           1,
           [
             [
-              2475,
+              2509,
               1
             ],
             [
-              2476,
+              2510,
               1
             ]
           ]
@@ -4322,16 +4462,37 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 835,
+          "m": 1,
+          "t": 832,
           "in": "stepper",
           "o": [
             [
-              2477
+              2511
             ]
           ],
           "rep": [
-            2475
+            2509
+          ]
+        },
+        {
+          "m": 0,
+          "t": 832,
+          "in": "stepper",
+          "o": [
+            [
+              2511
+            ]
+          ],
+          "rep": [
+            2509
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            1
           ]
         }
       ]
@@ -4403,15 +4564,15 @@ export default {
           0,
           [
             [
-              2478,
+              2512,
               1
             ],
             [
-              2479,
+              2513,
               1
             ],
             [
-              2480,
+              2514,
               1
             ]
           ]
@@ -4420,15 +4581,15 @@ export default {
           1,
           [
             [
-              2480,
+              2512,
               1
             ],
             [
-              2478,
+              2513,
               1
             ],
             [
-              2479,
+              2514,
               1
             ]
           ]
@@ -4498,35 +4659,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2481,
+              2515,
               1
             ],
             [
-              2482,
+              2516,
               1
             ],
             [
-              2483,
+              2517,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2483,
+              2515,
               1
             ],
             [
-              2482,
+              2516,
               1
             ],
             [
-              2481,
+              2517,
               1
             ]
           ]
@@ -4593,35 +4754,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2484,
+              2518,
               1
             ],
             [
-              2485,
+              2519,
               1
             ],
             [
-              2486,
+              2520,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2486,
+              2518,
               1
             ],
             [
-              2484,
+              2519,
               1
             ],
             [
-              2485,
+              2520,
               1
             ]
           ]
@@ -4629,13 +4790,31 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 836,
+          "m": 1,
+          "t": 833,
           "in": "checkbox",
           "o": [
             [
-              1360
+              1392
             ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 833,
+          "in": "checkbox",
+          "o": [
+            [
+              1392
+            ]
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            1
           ],
           "lim": [
             [
@@ -4706,35 +4885,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2487,
+              2521,
               1
             ],
             [
-              2488,
+              2522,
               1
             ],
             [
-              2489,
+              2523,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2487,
+              2521,
               1
             ],
             [
-              2489,
+              2522,
               1
             ],
             [
-              2488,
+              2523,
               1
             ]
           ]
@@ -4743,55 +4922,55 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 837,
+          "t": 834,
           "in": "checkbox",
           "o": [
             [
-              2490
+              2524
             ],
             [
-              2491
+              2525
             ],
             [
-              2492
+              2526
             ],
             [
-              2493
+              2527
             ]
           ],
           "rep": [
-            2489
+            2523
           ]
         },
         {
           "m": 1,
-          "t": 838,
+          "t": 835,
           "in": "checkbox",
           "o": [
             [
-              2490
+              2524
             ],
             [
-              2494
+              2528
             ],
             [
-              2495
+              2529
             ],
             [
-              2492
+              2526
             ]
           ],
           "rep": [
-            2487
+            2522
           ]
         },
         {
           "m": 0,
-          "t": 839,
+          "t": 836,
           "in": "stepper",
           "o": [
             [
-              2496
+              2530
             ]
           ],
           "lim": [
@@ -4845,19 +5024,19 @@ export default {
           0,
           [
             [
-              2497,
+              2531,
               1
             ],
             [
-              2498,
+              2532,
               1
             ],
             [
-              2499,
+              2533,
               1
             ],
             [
-              2500,
+              2534,
               1
             ]
           ]
@@ -4866,16 +5045,16 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 840,
+          "t": 837,
           "in": "stepper",
           "o": [
             [
-              2501,
+              2535,
               5
             ]
           ],
           "rep": [
-            2499
+            2533
           ]
         }
       ]
@@ -4911,23 +5090,23 @@ export default {
           0,
           [
             [
-              2502,
+              2536,
               1
             ],
             [
-              2503,
+              2537,
               1
             ],
             [
-              2504,
+              2538,
               1
             ],
             [
-              2505,
+              2539,
               1
             ],
             [
-              2506,
+              2540,
               1
             ]
           ]
@@ -4936,15 +5115,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 841,
+          "t": 838,
           "in": "checkbox",
           "o": [
             [
-              2507
+              2541
             ]
           ],
           "rep": [
-            2505
+            2538
           ]
         }
       ]
@@ -4998,19 +5177,19 @@ export default {
           0,
           [
             [
-              2508,
+              2542,
               1
             ],
             [
-              2509,
+              2543,
               1
             ],
             [
-              2510,
+              2544,
               1
             ],
             [
-              2511,
+              2545,
               1
             ]
           ]
@@ -5043,11 +5222,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "assault-intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "sword-brethren-squad",
+          "to": "crusader-squad",
           "type": "support"
         },
         {
@@ -5055,15 +5230,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "inner-circle-companions",
-          "type": "support"
-        },
-        {
           "to": "decimus-kill-team",
           "type": "support"
         },
         {
-          "to": "bladeguard-veteran-squad",
+          "to": "fortis-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "inner-circle-companions",
           "type": "support"
         },
         {
@@ -5071,7 +5246,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "crusader-squad",
+          "to": "sword-brethren-squad",
           "type": "support"
         },
         {
@@ -5079,7 +5254,11 @@ export default {
           "type": "support"
         },
         {
-          "to": "fortis-kill-team",
+          "to": "assault-intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
           "type": "support"
         },
         {
@@ -5096,11 +5275,11 @@ export default {
           0,
           [
             [
-              2512,
+              2546,
               1
             ],
             [
-              2513,
+              2547,
               1
             ]
           ]
@@ -5135,7 +5314,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "victrix-honour-guard",
+          "to": "bladeguard-veteran-squad",
           "type": "support"
         },
         {
@@ -5143,7 +5322,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "bladeguard-veteran-squad",
+          "to": "victrix-honour-guard",
           "type": "support"
         },
         {
@@ -5156,11 +5335,11 @@ export default {
           0,
           [
             [
-              2182,
+              2321,
               1
             ],
             [
-              2183,
+              2322,
               1
             ]
           ]
@@ -5180,10 +5359,12 @@ export default {
         "Infantry",
         "Jump Pack",
         "Phobos",
-        "Smoke"
+        "Smoke",
+        "Epic Hero"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "epic": 1
       },
       "sizes": [
         {
@@ -5211,11 +5392,11 @@ export default {
           0,
           [
             [
-              2514,
+              2548,
               1
             ],
             [
-              2515,
+              2549,
               1
             ]
           ]
@@ -5252,10 +5433,6 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "company-heroes",
           "type": "leader"
         },
@@ -5274,6 +5451,10 @@ export default {
         {
           "to": "intercessor-squad",
           "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -5281,15 +5462,15 @@ export default {
           0,
           [
             [
-              2516,
+              2550,
               1
             ],
             [
-              2517,
+              2551,
               1
             ],
             [
-              2518,
+              2552,
               1
             ]
           ]
@@ -5325,20 +5506,20 @@ export default {
           0,
           [
             [
-              2184,
+              2257,
               1
             ],
             [
-              2185,
+              2300,
               1
             ],
             [
-              2186,
-              1
-            ],
-            [
-              2187,
+              2301,
               4
+            ],
+            [
+              2302,
+              1
             ]
           ]
         ]
@@ -5346,13 +5527,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 770,
+          "t": 780,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2184,
+                  2300,
                   2
                 ]
               ]
@@ -5360,7 +5541,7 @@ export default {
             [
               [
                 [
-                  2188,
+                  2303,
                   2
                 ]
               ]
@@ -5368,7 +5549,7 @@ export default {
             [
               [
                 [
-                  2189,
+                  2304,
                   2
                 ]
               ]
@@ -5376,34 +5557,34 @@ export default {
           ],
           "rc": 2,
           "rep": [
-            2187
+            2301
           ]
         },
         {
           "m": 0,
-          "t": 771,
+          "t": 781,
           "in": "checkbox",
           "o": [
             [
-              2190
+              2305
             ],
             [
-              2191
+              2306
             ]
           ],
           "rep": [
-            2186
+            2302
           ]
         },
         {
           "m": 0,
-          "t": 772,
+          "t": 782,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2192,
+                  2307,
                   2
                 ]
               ]
@@ -5411,7 +5592,7 @@ export default {
             [
               [
                 [
-                  2188,
+                  2303,
                   2
                 ]
               ]
@@ -5419,7 +5600,7 @@ export default {
             [
               [
                 [
-                  2193,
+                  2308,
                   2
                 ]
               ]
@@ -5427,41 +5608,41 @@ export default {
           ],
           "rc": 2,
           "rep": [
-            2187
+            2301
           ]
         },
         {
           "m": 0,
-          "t": 773,
+          "t": 783,
           "in": "checkbox",
           "o": [
             [
-              2194
+              2309
             ],
             [
-              2195
+              2310
             ],
             [
-              2187
+              2301
             ],
             [
-              2192
+              2307
             ],
             [
-              2196
+              2311
             ],
             [
-              2197
+              2312
             ]
           ]
         },
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2198
+              2313
             ]
           ]
         }
@@ -5499,16 +5680,16 @@ export default {
           0,
           [
             [
-              2519,
+              2553,
               1
             ],
             [
-              2520,
-              1
-            ],
-            [
-              2521,
+              2554,
               2
+            ],
+            [
+              2555,
+              1
             ]
           ]
         ]
@@ -5516,31 +5697,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 842,
+          "t": 839,
           "in": "checkbox",
           "o": [
             [
-              2522
+              2556
             ]
           ]
         },
         {
           "m": 0,
-          "t": 843,
+          "t": 840,
           "in": "checkbox",
           "o": [
             [
-              2523
+              2557
             ]
           ]
         },
         {
           "m": 0,
-          "t": 844,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              2524
+              2558
             ]
           ]
         }
@@ -5579,15 +5760,15 @@ export default {
           0,
           [
             [
-              2525,
-              2
-            ],
-            [
-              2526,
+              2559,
               1
             ],
             [
-              2527,
+              2560,
+              2
+            ],
+            [
+              2561,
               1
             ]
           ]
@@ -5596,31 +5777,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 842,
+          "t": 839,
           "in": "checkbox",
           "o": [
             [
-              2528
+              2562
             ]
           ]
         },
         {
           "m": 0,
-          "t": 843,
+          "t": 840,
           "in": "checkbox",
           "o": [
             [
-              2529
+              2563
             ]
           ]
         },
         {
           "m": 0,
-          "t": 844,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              2530
+              2564
             ]
           ]
         }
@@ -5656,16 +5837,16 @@ export default {
           0,
           [
             [
-              2254,
+              2314,
               1
             ],
             [
-              2255,
-              1
-            ],
-            [
-              2256,
+              2315,
               2
+            ],
+            [
+              2316,
+              1
             ]
           ]
         ]
@@ -5673,41 +5854,41 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 298,
+          "t": 297,
           "in": "checkbox",
           "o": [
             [
-              2257
+              2317
             ]
           ]
         },
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2258
+              2318
             ]
           ]
         },
         {
           "m": 0,
-          "t": 313,
+          "t": 60,
           "in": "checkbox",
           "o": [
             [
-              2259
+              2319
             ]
           ]
         },
         {
           "m": 0,
-          "t": 783,
+          "t": 784,
           "in": "checkbox",
           "o": [
             [
-              2260
+              2320
             ]
           ]
         }
@@ -5746,15 +5927,15 @@ export default {
           0,
           [
             [
-              2531,
-              2
-            ],
-            [
-              2532,
+              2565,
               1
             ],
             [
-              2533,
+              2566,
+              2
+            ],
+            [
+              2567,
               1
             ]
           ]
@@ -5763,31 +5944,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 842,
+          "t": 839,
           "in": "checkbox",
           "o": [
             [
-              2534
+              2568
             ]
           ]
         },
         {
           "m": 0,
-          "t": 843,
+          "t": 840,
           "in": "checkbox",
           "o": [
             [
-              2535
+              2569
             ]
           ]
         },
         {
           "m": 0,
-          "t": 844,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              2536
+              2570
             ]
           ]
         }
@@ -5821,19 +6002,19 @@ export default {
           0,
           [
             [
-              2537,
+              2571,
               1
             ],
             [
-              2538,
+              2572,
               1
             ],
             [
-              2539,
+              2573,
               1
             ],
             [
-              2540,
+              2574,
               1
             ]
           ]
@@ -5842,15 +6023,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 845,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
-              2541
+              2575
             ]
           ],
           "rep": [
-            2540
+            2573
           ]
         }
       ]
@@ -5883,31 +6064,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "decimus-kill-team",
-          "type": "leader"
-        },
-        {
-          "to": "desolation-squad",
-          "type": "leader"
-        },
-        {
-          "to": "fortis-kill-team",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
           "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "leader"
-        },
-        {
-          "to": "infernus-squad",
           "type": "leader"
         },
         {
@@ -5915,7 +6072,27 @@ export default {
           "type": "leader"
         },
         {
-          "to": "vanguard-veteran-squad",
+          "to": "decimus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "inner-circle-companions",
+          "type": "leader"
+        },
+        {
+          "to": "desolation-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "infernus-squad",
           "type": "leader"
         },
         {
@@ -5925,6 +6102,10 @@ export default {
         {
           "to": "hellblaster-squad",
           "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -5932,15 +6113,15 @@ export default {
           0,
           [
             [
-              2542,
+              2576,
               1
             ],
             [
-              2543,
+              2577,
               1
             ],
             [
-              2544,
+              2578,
               1
             ]
           ]
@@ -5975,6 +6156,10 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "spectrus-kill-team",
+          "type": "leader"
+        },
+        {
           "to": "wolf-scouts",
           "type": "leader"
         },
@@ -5991,10 +6176,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "spectrus-kill-team",
-          "type": "leader"
-        },
-        {
           "to": "scout-squad",
           "type": "leader"
         },
@@ -6008,15 +6189,15 @@ export default {
           0,
           [
             [
-              2545,
+              2579,
               1
             ],
             [
-              2542,
+              2580,
               1
             ],
             [
-              2546,
+              2578,
               1
             ]
           ]
@@ -6050,15 +6231,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "wolf-guard-terminators",
-          "type": "leader"
-        },
-        {
           "to": "terminator-squad",
-          "type": "leader"
-        },
-        {
-          "to": "terminator-assault-squad",
           "type": "leader"
         },
         {
@@ -6066,11 +6239,19 @@ export default {
           "type": "leader"
         },
         {
+          "to": "deathwing-knights",
+          "type": "leader"
+        },
+        {
           "to": "deathwing-terminator-squad",
           "type": "leader"
         },
         {
-          "to": "deathwing-knights",
+          "to": "wolf-guard-terminators",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-assault-squad",
           "type": "leader"
         }
       ],
@@ -6079,15 +6260,15 @@ export default {
           0,
           [
             [
-              2547,
+              2581,
               1
             ],
             [
-              2548,
+              2578,
               1
             ],
             [
-              2542,
+              2582,
               1
             ]
           ]
@@ -6125,19 +6306,11 @@ export default {
           "type": "support"
         },
         {
-          "to": "inner-circle-companions",
+          "to": "deathwatch-veterans",
           "type": "support"
         },
         {
-          "to": "infernus-squad",
-          "type": "support"
-        },
-        {
-          "to": "hellblaster-squad",
-          "type": "support"
-        },
-        {
-          "to": "assault-intercessor-squad",
+          "to": "decimus-kill-team",
           "type": "support"
         },
         {
@@ -6145,11 +6318,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "desolation-squad",
-          "type": "support"
-        },
-        {
-          "to": "intercessor-squad",
+          "to": "inner-circle-companions",
           "type": "support"
         },
         {
@@ -6161,11 +6330,11 @@ export default {
           "type": "support"
         },
         {
-          "to": "decimus-kill-team",
+          "to": "infernus-squad",
           "type": "support"
         },
         {
-          "to": "deathwatch-veterans",
+          "to": "assault-intercessor-squad",
           "type": "support"
         },
         {
@@ -6174,6 +6343,18 @@ export default {
         },
         {
           "to": "company-heroes",
+          "type": "support"
+        },
+        {
+          "to": "desolation-squad",
+          "type": "support"
+        },
+        {
+          "to": "hellblaster-squad",
+          "type": "support"
+        },
+        {
+          "to": "intercessor-squad",
           "type": "support"
         },
         {
@@ -6186,15 +6367,15 @@ export default {
           0,
           [
             [
-              2549,
+              2583,
               1
             ],
             [
-              2550,
+              2584,
               1
             ],
             [
-              2551,
+              2585,
               1
             ]
           ]
@@ -6203,38 +6384,38 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 846,
+          "t": 843,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2552,
+                  2586,
                   1
                 ],
                 [
-                  2553,
+                  2587,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            2549,
-            2551
+            2585,
+            2583
           ]
         },
         {
           "m": 0,
-          "t": 847,
+          "t": 844,
           "in": "checkbox",
           "o": [
             [
-              1301
+              1333
             ]
           ],
           "keep": [
-            2552
+            2586
           ],
           "cond": [
             0,
@@ -6243,50 +6424,50 @@ export default {
         },
         {
           "m": 0,
-          "t": 848,
+          "t": 845,
           "in": "checkbox",
           "o": [
             [
-              2554
+              2588
             ]
           ],
           "rep": [
-            2551
+            2583
           ]
         },
         {
           "m": 0,
-          "t": 849,
+          "t": 846,
           "in": "checkbox",
           "o": [
             [
-              2553
+              2587
             ],
             [
-              2555
+              2589
             ],
             [
-              2556
+              2590
             ]
           ],
           "rep": [
-            2549
+            2585
           ]
         },
         {
           "m": 0,
-          "t": 850,
+          "t": 847,
           "in": "checkbox",
           "o": [
             [
-              2553
+              2587
             ],
             [
-              2556
+              2590
             ]
           ],
           "rep": [
-            2550
+            2584
           ]
         }
       ]
@@ -6319,11 +6500,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "wolf-scouts",
-          "type": "support"
-        },
-        {
-          "to": "reiver-squad",
+          "to": "eliminator-squad",
           "type": "support"
         },
         {
@@ -6331,15 +6508,19 @@ export default {
           "type": "support"
         },
         {
+          "to": "wolf-scouts",
+          "type": "support"
+        },
+        {
           "to": "incursor-squad",
           "type": "support"
         },
         {
-          "to": "eliminator-squad",
+          "to": "infiltrator-squad",
           "type": "support"
         },
         {
-          "to": "infiltrator-squad",
+          "to": "reiver-squad",
           "type": "support"
         }
       ],
@@ -6348,11 +6529,11 @@ export default {
           0,
           [
             [
-              2557,
+              2591,
               1
             ],
             [
-              2558,
+              2592,
               1
             ]
           ]
@@ -6361,15 +6542,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 851,
+          "t": 848,
           "in": "checkbox",
           "o": [
             [
-              2559
+              2593
             ]
           ],
           "rep": [
-            2557
+            2592
           ]
         }
       ]
@@ -6406,11 +6587,11 @@ export default {
           0,
           [
             [
-              2560,
+              2594,
               1
             ],
             [
-              2561,
+              2595,
               1
             ]
           ]
@@ -6482,10 +6663,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "sternguard-veteran-squad",
           "type": "leader"
         },
@@ -6500,6 +6677,10 @@ export default {
         {
           "to": "heavy-intercessor-squad",
           "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -6507,7 +6688,7 @@ export default {
           0,
           [
             [
-              2562,
+              2596,
               1
             ]
           ]
@@ -6545,24 +6726,24 @@ export default {
           0,
           [
             [
-              2247,
+              2211,
               1
             ],
             [
-              2248,
-              1
-            ],
-            [
-              2249,
-              1
-            ],
-            [
-              2250,
+              2212,
               2
             ],
             [
-              2251,
+              2213,
               2
+            ],
+            [
+              2214,
+              1
+            ],
+            [
+              2215,
+              1
             ]
           ]
         ]
@@ -6570,13 +6751,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 781,
+          "t": 765,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2252,
+                  2216,
                   2
                 ]
               ]
@@ -6584,7 +6765,7 @@ export default {
             [
               [
                 [
-                  2251,
+                  2213,
                   2
                 ]
               ]
@@ -6592,25 +6773,25 @@ export default {
             [
               [
                 [
-                  2253,
+                  2217,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2250
+            2212
           ]
         },
         {
           "m": 0,
-          "t": 782,
+          "t": 766,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2252,
+                  2216,
                   2
                 ]
               ]
@@ -6618,7 +6799,7 @@ export default {
             [
               [
                 [
-                  2250,
+                  2212,
                   2
                 ]
               ]
@@ -6626,14 +6807,14 @@ export default {
             [
               [
                 [
-                  2253,
+                  2217,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2251
+            2213
           ]
         }
       ]
@@ -6700,15 +6881,15 @@ export default {
           0,
           [
             [
-              2563,
+              2597,
               1
             ],
             [
-              2497,
+              2598,
               1
             ],
             [
-              2564,
+              2534,
               1
             ]
           ]
@@ -6717,15 +6898,15 @@ export default {
           1,
           [
             [
-              2497,
+              2597,
               1
             ],
             [
-              2564,
+              2598,
               1
             ],
             [
-              2563,
+              2534,
               1
             ]
           ]
@@ -6734,28 +6915,52 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 852,
+          "t": 849,
           "in": "checkbox",
           "o": [
             [
-              2565
+              2599
             ],
             [
-              2566
+              2600
             ]
           ],
           "rep": [
-            2564
+            2597
           ]
         },
         {
-          "all": 1,
-          "t": 853,
+          "m": 1,
+          "t": 850,
+          "in": "checkbox",
+          "o": [
+            [
+              2601
+            ]
+          ],
+          "rep": [
+            2598
+          ]
+        },
+        {
+          "m": 0,
+          "t": 850,
           "in": "stepper",
           "o": [
             [
-              2567
+              2601
             ]
+          ],
+          "rep": [
+            2598
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            1,
+            2
           ],
           "lim": [
             [
@@ -6766,9 +6971,6 @@ export default {
               6,
               2
             ]
-          ],
-          "rep": [
-            2563
           ]
         }
       ]
@@ -6806,15 +7008,15 @@ export default {
           0,
           [
             [
-              2568,
-              2
-            ],
-            [
-              2569,
+              2602,
               1
             ],
             [
-              2570,
+              2603,
+              2
+            ],
+            [
+              2604,
               1
             ]
           ]
@@ -6823,39 +7025,39 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 854,
+          "t": 851,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2571,
+                  2605,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2568
+            2603
           ]
         },
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2572
+              2606
             ]
           ]
         },
         {
           "m": 0,
-          "t": 313,
+          "t": 60,
           "in": "checkbox",
           "o": [
             [
-              2573
+              2607
             ]
           ]
         }
@@ -6894,15 +7096,15 @@ export default {
           0,
           [
             [
-              2574,
-              2
-            ],
-            [
-              2575,
+              2608,
               1
             ],
             [
-              2576,
+              2609,
+              2
+            ],
+            [
+              2610,
               1
             ]
           ]
@@ -6911,40 +7113,40 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 313,
+          "t": 60,
           "in": "checkbox",
           "o": [
             [
-              2577
+              2611
             ]
           ]
         },
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2578
+              2612
             ]
           ]
         },
         {
           "m": 0,
-          "t": 854,
+          "t": 851,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2579,
+                  2613,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2574
+            2609
           ]
         }
       ]
@@ -6978,15 +7180,15 @@ export default {
           0,
           [
             [
-              2201,
+              2225,
               1
             ],
             [
-              2202,
+              2226,
               1
             ],
             [
-              2203,
+              2227,
               1
             ]
           ]
@@ -6995,21 +7197,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 774,
+          "t": 769,
           "in": "checkbox",
           "o": [
             [
-              2204
+              2228
             ],
             [
-              2205
+              2229
             ],
             [
-              2206
+              2230
             ]
           ],
           "rep": [
-            2201
+            2227
           ]
         }
       ]
@@ -7045,11 +7247,11 @@ export default {
           0,
           [
             [
-              2580,
+              2614,
               1
             ],
             [
-              2581,
+              2615,
               1
             ]
           ]
@@ -7058,34 +7260,34 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 799,
+          "t": 796,
           "in": "checkbox",
           "o": [
             [
-              2582
+              2616
             ]
           ],
           "rep": [
-            2581
+            2615
           ]
         },
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2583
+              2617
             ]
           ]
         },
         {
           "m": 0,
-          "t": 313,
+          "t": 60,
           "in": "checkbox",
           "o": [
             [
-              2584
+              2618
             ]
           ]
         }
@@ -7122,19 +7324,19 @@ export default {
           0,
           [
             [
-              2585,
+              2619,
               1
             ],
             [
-              2586,
+              2620,
               1
             ],
             [
-              2587,
+              2621,
               1
             ],
             [
-              2588,
+              2622,
               1
             ]
           ]
@@ -7143,52 +7345,52 @@ export default {
       "gear": [
         {
           "m": 0,
+          "t": 852,
+          "in": "checkbox",
+          "o": [
+            [
+              2623
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 853,
+          "in": "checkbox",
+          "o": [
+            [
+              2624
+            ]
+          ],
+          "rep": [
+            2619
+          ]
+        },
+        {
+          "m": 0,
+          "t": 854,
+          "in": "checkbox",
+          "o": [
+            [
+              2625
+            ]
+          ],
+          "rep": [
+            2620
+          ]
+        },
+        {
+          "m": 0,
           "t": 855,
           "in": "checkbox",
           "o": [
             [
-              2589
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 856,
-          "in": "checkbox",
-          "o": [
-            [
-              2590
-            ]
-          ],
-          "rep": [
-            2588
-          ]
-        },
-        {
-          "m": 0,
-          "t": 857,
-          "in": "checkbox",
-          "o": [
-            [
-              2591
-            ]
-          ],
-          "rep": [
-            2587
-          ]
-        },
-        {
-          "m": 0,
-          "t": 858,
-          "in": "checkbox",
-          "o": [
-            [
-              2592,
+              2626,
               10
             ]
           ],
           "rep": [
-            2585
+            2621
           ]
         }
       ]
@@ -7256,15 +7458,15 @@ export default {
           0,
           [
             [
-              2593,
+              2627,
               1
             ],
             [
-              2594,
+              2628,
               1
             ],
             [
-              2595,
+              2629,
               1
             ]
           ]
@@ -7273,15 +7475,15 @@ export default {
           1,
           [
             [
-              2595,
+              2627,
               1
             ],
             [
-              2594,
+              2628,
               1
             ],
             [
-              2593,
+              2629,
               1
             ]
           ]
@@ -7290,21 +7492,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 859,
+          "t": 856,
           "in": "checkbox",
           "o": [
             [
-              2596
+              2630
             ]
           ]
         },
         {
           "m": 0,
-          "t": 860,
+          "t": 857,
           "in": "checkbox",
           "o": [
             [
-              2597
+              2631
             ]
           ]
         }
@@ -7341,11 +7543,11 @@ export default {
           0,
           [
             [
-              2233,
+              2231,
               1
             ],
             [
-              2234,
+              2232,
               1
             ]
           ]
@@ -7354,40 +7556,40 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 780,
+          "t": 770,
           "in": "checkbox",
           "o": [
             [
+              2233
+            ],
+            [
+              2234
+            ],
+            [
               2235
-            ],
-            [
-              2236
-            ],
-            [
-              2237
             ]
           ],
           "rep": [
-            2234
+            2232
           ]
         },
         {
           "m": 0,
-          "t": 313,
+          "t": 60,
           "in": "checkbox",
           "o": [
             [
-              2238
+              2236
             ]
           ]
         },
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2239
+              2237
             ]
           ]
         }
@@ -7425,23 +7627,23 @@ export default {
           0,
           [
             [
-              735,
+              766,
               1
             ],
             [
-              2598,
+              2632,
               1
             ],
             [
-              737,
+              768,
               1
             ],
             [
-              733,
+              769,
               1
             ],
             [
-              736,
+              770,
               1
             ]
           ]
@@ -7450,28 +7652,28 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 861,
+          "t": 858,
           "in": "checkbox",
           "o": [
             [
-              2599
+              2633
             ]
           ],
           "rep": [
-            736
+            768
           ]
         },
         {
           "m": 0,
-          "t": 862,
+          "t": 859,
           "in": "checkbox",
           "o": [
             [
-              2600
+              2634
             ]
           ],
           "rep": [
-            737
+            770
           ]
         }
       ]
@@ -7508,48 +7710,41 @@ export default {
           0,
           [
             [
-              744,
+              2635,
               1
             ],
             [
-              743,
+              2636,
               1
             ],
             [
-              2601,
+              776,
               1
             ],
             [
-              2602,
+              777,
               1
             ],
             [
-              2603,
+              2637,
               1
             ]
           ]
         ]
       ],
-      "dw": [
-        [
-          0,
-          10
-        ]
-      ],
       "gear": [
         {
           "m": 0,
-          "t": 863,
+          "t": 860,
           "in": "checkbox",
           "o": [
             [
-              2604
+              2638
             ]
           ],
           "rep": [
-            744
-          ],
-          "dr": 10
+            776
+          ]
         }
       ]
     },
@@ -7586,11 +7781,11 @@ export default {
           0,
           [
             [
-              2605,
+              2639,
               1
             ],
             [
-              2606,
+              2640,
               1
             ]
           ]
@@ -7599,11 +7794,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 842,
+          "t": 839,
           "in": "checkbox",
           "o": [
             [
-              2607
+              2641
             ]
           ]
         }
@@ -7639,11 +7834,11 @@ export default {
           0,
           [
             [
-              2277,
+              2238,
               1
             ],
             [
-              2278,
+              2239,
               1
             ]
           ]
@@ -7652,11 +7847,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2279
+              2240
             ]
           ]
         }
@@ -7695,11 +7890,11 @@ export default {
           0,
           [
             [
-              2608,
+              2642,
               1
             ],
             [
-              2609,
+              2643,
               1
             ]
           ]
@@ -7767,43 +7962,43 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2261,
+              2241,
               1
             ],
             [
-              2262,
+              2242,
               1
             ],
             [
-              2263,
+              2243,
               1
             ],
             [
-              2264,
+              2244,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2262,
+              2241,
               1
             ],
             [
-              2264,
+              2242,
               1
             ],
             [
-              2263,
+              2243,
               1
             ],
             [
-              2261,
+              2244,
               1
             ]
           ]
@@ -7811,62 +8006,84 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 784,
-          "in": "stepper",
+          "m": 1,
+          "t": 771,
+          "in": "checkbox",
           "o": [
             [
-              2265
+              2245
             ]
           ],
           "rep": [
-            2262
-          ]
+            2244
+          ],
+          "repall": 1
         },
         {
           "m": 1,
-          "t": 785,
+          "t": 772,
           "in": "stepper",
           "o": [
             [
-              2263
+              2241
             ],
             [
-              2266
+              2246
             ],
             [
-              2267
+              2247
             ],
             [
-              2268
+              2248
             ],
             [
-              2269
+              2249
             ],
             [
-              2270
+              2250
             ],
             [
-              2271
+              2251
             ],
             [
-              2272
+              2252
             ],
             [
-              2273
+              2253
             ],
             [
-              2274
+              2254
             ],
             [
-              2275
+              2255
             ],
             [
-              2276
+              2256
             ]
           ],
           "rep": [
-            2263
+            2241
+          ]
+        },
+        {
+          "m": 0,
+          "t": 771,
+          "in": "stepper",
+          "o": [
+            [
+              2245
+            ]
+          ],
+          "rep": [
+            2244
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            2
           ]
         }
       ]
@@ -7930,35 +8147,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2610,
+              2644,
               1
             ],
             [
-              2611,
+              2645,
               1
             ],
             [
-              2612,
+              2646,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2612,
+              2644,
               1
             ],
             [
-              2610,
+              2645,
               1
             ],
             [
-              2611,
+              2646,
               1
             ]
           ]
@@ -7967,50 +8184,50 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 864,
+          "t": 861,
           "in": "checkbox",
           "o": [
             [
-              2613
+              2647
             ]
           ],
           "rep": [
-            2612
+            2644
           ]
         },
         {
           "m": 0,
-          "t": 865,
+          "t": 862,
           "in": "checkbox",
           "o": [
             [
-              2614
+              2648
             ]
           ],
           "rep": [
-            2611
+            2646
           ]
         },
         {
           "m": 1,
-          "t": 866,
+          "t": 863,
           "in": "stepper",
           "o": [
             [
-              2613
+              2647
             ]
           ],
           "rep": [
-            2612
+            2644
           ]
         },
         {
           "m": 1,
-          "t": 867,
+          "t": 864,
           "in": "stepper",
           "o": [
             [
-              2615
+              2649
             ]
           ],
           "lim": [
@@ -8024,19 +8241,19 @@ export default {
             ]
           ],
           "rep": [
-            2612
+            2644
           ]
         },
         {
           "m": 1,
-          "t": 868,
+          "t": 865,
           "in": "stepper",
           "o": [
             [
-              2616
+              2650
             ],
             [
-              2617
+              2651
             ]
           ],
           "lim": [
@@ -8050,7 +8267,7 @@ export default {
             ]
           ],
           "rep": [
-            2612
+            2644
           ]
         }
       ]
@@ -8084,15 +8301,15 @@ export default {
           0,
           [
             [
-              2217,
+              2257,
               1
             ],
             [
-              2218,
+              2258,
               1
             ],
             [
-              2185,
+              2259,
               1
             ]
           ]
@@ -8101,45 +8318,45 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2219
+              2260
             ]
           ]
         },
         {
           "m": 0,
-          "t": 778,
+          "t": 773,
           "in": "checkbox",
           "o": [
             [
-              2220
+              2261
             ],
             [
-              2221
+              2262
             ],
             [
-              2222
+              2263
             ],
             [
-              2223
+              2264
             ]
           ],
           "rep": [
-            2218
+            2259
           ]
         },
         {
           "m": 0,
-          "t": 779,
+          "t": 768,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2217,
+                  2258,
                   2
                 ]
               ]
@@ -8147,7 +8364,7 @@ export default {
             [
               [
                 [
-                  2224,
+                  2265,
                   2
                 ]
               ]
@@ -8156,11 +8373,11 @@ export default {
         },
         {
           "m": 0,
-          "t": 313,
+          "t": 60,
           "in": "checkbox",
           "o": [
             [
-              2225
+              2266
             ]
           ]
         }
@@ -8229,35 +8446,35 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              2618,
+              2652,
               1
             ],
             [
-              2619,
+              2653,
               1
             ],
             [
-              2620,
+              2654,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              2619,
+              2652,
               1
             ],
             [
-              2621,
+              2653,
               1
             ],
             [
-              2620,
+              2655,
               1
             ]
           ]
@@ -8266,30 +8483,30 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 869,
+          "t": 866,
           "in": "checkbox",
           "o": [
             [
-              2622
+              2656
             ],
             [
-              2623
+              2657
             ]
           ],
           "rep": [
-            2618
+            2655
           ]
         },
         {
           "m": 0,
-          "t": 870,
+          "t": 867,
           "in": "stepper",
           "o": [
             [
-              2624
+              2658
             ],
             [
-              2625
+              2659
             ]
           ],
           "lim": [
@@ -8303,7 +8520,7 @@ export default {
             ]
           ],
           "rep": [
-            2619
+            2652
           ]
         }
       ]
@@ -8340,19 +8557,19 @@ export default {
           0,
           [
             [
-              2642,
+              2676,
               1
             ],
             [
-              2643,
+              2677,
               1
             ],
             [
-              2644,
+              2678,
               1
             ],
             [
-              2645,
+              2679,
               1
             ]
           ]
@@ -8391,19 +8608,19 @@ export default {
           0,
           [
             [
-              2650,
+              2684,
               1
             ],
             [
-              2651,
+              2685,
               1
             ],
             [
-              2652,
+              2686,
               1
             ],
             [
-              2653,
+              2687,
               1
             ]
           ]
@@ -8442,19 +8659,19 @@ export default {
           0,
           [
             [
-              2646,
+              2680,
               1
             ],
             [
-              2647,
+              2681,
               1
             ],
             [
-              2648,
+              2682,
               1
             ],
             [
-              2649,
+              2683,
               1
             ]
           ]
@@ -8491,19 +8708,19 @@ export default {
           0,
           [
             [
-              2626,
+              2660,
               1
             ],
             [
-              2627,
+              2661,
               1
             ],
             [
-              2628,
+              2662,
               1
             ],
             [
-              2629,
+              2663,
               1
             ]
           ]
@@ -8512,31 +8729,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 871,
+          "t": 868,
           "in": "checkbox",
           "o": [
             [
-              2630
+              2664
             ]
           ],
           "rep": [
-            2628
+            2661
           ]
         },
         {
           "m": 0,
-          "t": 872,
+          "t": 869,
           "in": "checkbox",
           "o": [
             [
-              2631
+              2665
             ],
             [
-              2632
+              2666
             ]
           ],
           "rep": [
-            2629
+            2662
           ]
         }
       ]
@@ -8574,19 +8791,19 @@ export default {
           0,
           [
             [
-              2633,
+              2667,
               1
             ],
             [
-              2634,
+              2668,
               2
             ],
             [
-              2635,
+              2669,
               1
             ],
             [
-              2636,
+              2670,
               1
             ]
           ]
@@ -8595,11 +8812,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 873,
+          "t": 870,
           "in": "stepper",
           "o": [
             [
-              2637
+              2671
             ]
           ],
           "lim": [
@@ -8611,34 +8828,34 @@ export default {
         },
         {
           "m": 0,
-          "t": 874,
+          "t": 871,
           "in": "checkbox",
           "o": [
             [
-              2638
+              2672
             ],
             [
-              2639
+              2673
             ]
           ],
           "rep": [
-            2636
+            2670
           ]
         },
         {
           "m": 0,
-          "t": 875,
+          "t": 872,
           "in": "checkbox",
           "o": [
             [
-              2640
+              2674
             ],
             [
-              2641
+              2675
             ]
           ],
           "rep": [
-            2635
+            2669
           ]
         }
       ]
@@ -8672,15 +8889,15 @@ export default {
           0,
           [
             [
-              2654,
+              2688,
               1
             ],
             [
-              2655,
+              2689,
               1
             ],
             [
-              2656,
+              2690,
               1
             ]
           ]
@@ -8689,21 +8906,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 876,
+          "t": 873,
           "in": "checkbox",
           "o": [
             [
-              2657
+              2691
             ],
             [
-              2658
+              2692
             ],
             [
-              2636
+              2670
             ]
           ],
           "rep": [
-            2655
+            2689
           ]
         }
       ]
@@ -8746,19 +8963,19 @@ export default {
           0,
           [
             [
-              2659,
+              2693,
               1
             ],
             [
-              2660,
+              2694,
               1
             ],
             [
-              2661,
+              2695,
               1
             ],
             [
-              2662,
+              2696,
               1
             ]
           ]
@@ -8793,11 +9010,11 @@ export default {
           0,
           [
             [
-              2199,
+              2277,
               1
             ],
             [
-              2200,
+              2278,
               1
             ]
           ]
@@ -8847,11 +9064,11 @@ export default {
           0,
           [
             [
-              2286,
+              2279,
               1
             ],
             [
-              2287,
+              2280,
               1
             ]
           ]
@@ -8860,15 +9077,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 788,
+          "t": 776,
           "in": "stepper",
           "o": [
             [
-              2288
+              2281
             ]
           ],
           "rep": [
-            2286
+            2280
           ]
         }
       ]
@@ -8900,23 +9117,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "crusader-squad",
-          "type": "leader"
-        },
-        {
-          "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sword-brethren-squad",
-          "type": "leader"
-        },
-        {
           "to": "assault-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "decimus-kill-team",
           "type": "leader"
         },
         {
@@ -8924,7 +9125,23 @@ export default {
           "type": "leader"
         },
         {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "crusader-squad",
+          "type": "leader"
+        },
+        {
+          "to": "decimus-kill-team",
+          "type": "leader"
+        },
+        {
           "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "sword-brethren-squad",
           "type": "leader"
         }
       ],
@@ -8933,15 +9150,15 @@ export default {
           0,
           [
             [
-              2663,
+              2697,
               1
             ],
             [
-              2664,
+              2698,
               1
             ],
             [
-              2665,
+              2699,
               1
             ]
           ]
@@ -9010,19 +9227,19 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              2666,
+              2700,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              2666,
+              2700,
               1
             ]
           ]
@@ -9030,18 +9247,18 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 877,
-          "in": "stepper",
+          "m": 0,
+          "t": 874,
+          "in": "checkbox",
           "o": [
             [
               [
                 [
-                  1312,
+                  1344,
                   1
                 ],
                 [
-                  2667,
+                  2701,
                   1
                 ]
               ],
@@ -9049,7 +9266,39 @@ export default {
             ]
           ],
           "rep": [
-            2666
+            2700
+          ],
+          "repall": 1
+        },
+        {
+          "m": 1,
+          "t": 874,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1344,
+                  1
+                ],
+                [
+                  2701,
+                  1
+                ]
+              ],
+              5
+            ]
+          ],
+          "rep": [
+            2700
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            1
           ]
         }
       ]
@@ -9119,11 +9368,11 @@ export default {
           0,
           [
             [
-              2668,
+              2702,
               1
             ],
             [
-              2669,
+              2703,
               1
             ]
           ]
@@ -9132,11 +9381,11 @@ export default {
           1,
           [
             [
-              2669,
+              2702,
               1
             ],
             [
-              2668,
+              2703,
               1
             ]
           ]
@@ -9145,42 +9394,42 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 878,
+          "t": 875,
           "in": "checkbox",
           "o": [
             [
-              2670
+              2704
             ],
             [
-              2671
+              2705
             ]
           ],
           "rep": [
-            2668
+            2702
           ]
         },
         {
           "m": 0,
-          "t": 879,
+          "t": 876,
           "in": "stepper",
           "o": [
             [
-              2670
+              2704
             ]
           ],
           "rep": [
-            2668
+            2702
           ]
         },
         {
           "m": 0,
-          "t": 880,
+          "t": 877,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2672,
+                  2706,
                   1
                 ]
               ]
@@ -9188,7 +9437,7 @@ export default {
             [
               [
                 [
-                  2673,
+                  2707,
                   1
                 ]
               ]
@@ -9196,11 +9445,11 @@ export default {
             [
               [
                 [
-                  2674,
+                  2708,
                   1
                 ],
                 [
-                  2669,
+                  2703,
                   1
                 ]
               ],
@@ -9218,10 +9467,10 @@ export default {
             ]
           ],
           "rep": [
-            2669
+            2703
           ],
           "keep": [
-            2669
+            2703
           ]
         }
       ]
@@ -9256,15 +9505,15 @@ export default {
           0,
           [
             [
-              2289,
+              2282,
               2
             ],
             [
-              2290,
+              2283,
               1
             ],
             [
-              2291,
+              2284,
               1
             ]
           ]
@@ -9273,13 +9522,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 789,
+          "t": 777,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2292,
+                  2285,
                   2
                 ]
               ]
@@ -9287,14 +9536,14 @@ export default {
             [
               [
                 [
-                  2293,
+                  2286,
                   2
                 ]
               ]
             ]
           ],
           "rep": [
-            2289
+            2282
           ]
         }
       ]
@@ -9331,24 +9580,24 @@ export default {
           0,
           [
             [
-              2708,
+              2742,
               1
             ],
             [
-              2709,
+              2743,
               1
             ],
             [
-              2710,
-              1
-            ],
-            [
-              2711,
-              4
-            ],
-            [
-              2712,
+              2744,
               2
+            ],
+            [
+              2745,
+              1
+            ],
+            [
+              2746,
+              4
             ]
           ]
         ]
@@ -9356,15 +9605,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 885,
+          "t": 882,
           "in": "checkbox",
           "o": [
             [
-              2713
+              2747
             ]
           ],
           "rep": [
-            2708
+            2745
           ]
         }
       ]
@@ -9419,11 +9668,11 @@ export default {
           0,
           [
             [
-              2675,
+              2709,
               1
             ],
             [
-              2676,
+              2710,
               1
             ]
           ]
@@ -9459,11 +9708,11 @@ export default {
           0,
           [
             [
-              2240,
+              2287,
               1
             ],
             [
-              2241,
+              2288,
               1
             ]
           ]
@@ -9472,13 +9721,13 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 779,
+          "t": 768,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  2242,
+                  2289,
                   2
                 ]
               ]
@@ -9486,7 +9735,7 @@ export default {
             [
               [
                 [
-                  2243,
+                  2290,
                   2
                 ]
               ]
@@ -9495,20 +9744,20 @@ export default {
         },
         {
           "m": 0,
-          "t": 775,
+          "t": 767,
           "in": "checkbox",
           "o": [
             [
-              2242
+              2289
             ],
             [
-              2244
+              2291
             ],
             [
-              2245
+              2292
             ],
             [
-              2246
+              2293
             ]
           ]
         }
@@ -9577,11 +9826,11 @@ export default {
           0,
           [
             [
-              2280,
+              2294,
               1
             ],
             [
-              2281,
+              2295,
               1
             ]
           ]
@@ -9590,11 +9839,11 @@ export default {
           1,
           [
             [
-              2281,
+              2294,
               1
             ],
             [
-              2280,
+              2295,
               1
             ]
           ]
@@ -9602,38 +9851,89 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
-          "t": 786,
-          "in": "stepper",
+          "m": 1,
+          "t": 778,
+          "in": "checkbox",
           "o": [
             [
-              1301
+              1333
             ]
           ],
           "rep": [
-            2280
+            2294
+          ],
+          "repall": 1
+        },
+        {
+          "m": 1,
+          "t": 779,
+          "in": "checkbox",
+          "o": [
+            [
+              2296
+            ],
+            [
+              2297
+            ],
+            [
+              2298
+            ],
+            [
+              2299
+            ]
+          ],
+          "rep": [
+            2294
+          ],
+          "repall": 1
+        },
+        {
+          "m": 0,
+          "t": 778,
+          "in": "stepper",
+          "o": [
+            [
+              1333
+            ]
+          ],
+          "rep": [
+            2294
           ]
         },
         {
-          "all": 1,
-          "t": 787,
+          "m": 0,
+          "t": 779,
           "in": "stepper",
           "o": [
             [
-              2282
+              2296
             ],
             [
-              2283
+              2297
             ],
             [
-              2284
+              2298
             ],
             [
-              2285
+              2299
             ]
           ],
           "rep": [
-            2280
+            2294
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            2
+          ]
+        },
+        {
+          "g": [
+            1,
+            3
           ]
         }
       ]
@@ -9706,11 +10006,11 @@ export default {
           0,
           [
             [
-              2677,
+              2711,
               1
             ],
             [
-              2678,
+              2712,
               1
             ]
           ]
@@ -9719,11 +10019,11 @@ export default {
           1,
           [
             [
-              2678,
+              2711,
               1
             ],
             [
-              2679,
+              2713,
               1
             ]
           ]
@@ -9732,53 +10032,54 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 881,
+          "t": 878,
           "in": "checkbox",
           "o": [
             [
-              2680
+              2714
             ],
             [
-              2681
+              2715
             ]
           ],
           "rep": [
-            2677
+            2712
           ]
         },
         {
           "m": 0,
-          "t": 882,
+          "t": 879,
           "in": "checkbox",
           "o": [
             [
-              2682
+              2716
             ]
           ],
           "rep": [
-            2678
+            2711
           ]
         },
         {
-          "all": 1,
-          "t": 883,
-          "in": "stepper",
+          "m": 0,
+          "t": 880,
+          "in": "checkbox",
           "o": [
             [
-              2683
+              2717
             ]
           ],
           "rep": [
-            2678
-          ]
+            2711
+          ],
+          "repall": 1
         },
         {
           "m": 1,
-          "t": 884,
+          "t": 881,
           "in": "stepper",
           "o": [
             [
-              2682
+              2716
             ]
           ],
           "lim": [
@@ -9792,7 +10093,28 @@ export default {
             ]
           ],
           "rep": [
-            2678
+            2711
+          ]
+        },
+        {
+          "m": 1,
+          "t": 880,
+          "in": "stepper",
+          "o": [
+            [
+              2717
+            ]
+          ],
+          "rep": [
+            2711
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            2,
+            4
           ]
         }
       ]
@@ -9827,19 +10149,19 @@ export default {
           0,
           [
             [
-              2350,
+              2378,
               1
             ],
             [
-              2351,
+              2379,
               1
             ],
             [
-              2352,
+              2380,
               1
             ],
             [
-              2353,
+              2381,
               1
             ]
           ]
@@ -9848,17 +10170,17 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 803,
+          "t": 798,
           "in": "checkbox",
           "o": [
             [
               [
                 [
-                  2354,
+                  2382,
                   1
                 ],
                 [
-                  2353,
+                  2380,
                   1
                 ]
               ]
@@ -9866,7 +10188,7 @@ export default {
             [
               [
                 [
-                  2355,
+                  2383,
                   1
                 ]
               ]
@@ -9874,52 +10196,52 @@ export default {
             [
               [
                 [
-                  2356,
+                  2384,
                   1
                 ]
               ]
             ]
           ],
           "rep": [
-            2353,
-            2351
+            2380,
+            2381
           ]
         },
         {
           "m": 0,
-          "t": 804,
+          "t": 799,
           "in": "checkbox",
           "o": [
             [
-              2350
+              2379
             ],
             [
-              2357
+              2385
             ],
             [
-              2354
+              2382
             ],
             [
-              2358
+              2386
             ],
             [
-              2359
+              2387
             ],
             [
-              2356
+              2384
             ],
             [
-              2360
+              2388
             ],
             [
-              2361
+              2389
             ],
             [
-              2362
+              2390
             ]
           ],
           "rep": [
-            2350
+            2379
           ]
         }
       ]
@@ -10123,18 +10445,27 @@ export default {
       ],
       "defaults": [
         [
+          0,
+          [
+            [
+              2718,
+              1
+            ]
+          ]
+        ],
+        [
           1,
           [
             [
-              2684,
+              2719,
               1
             ],
             [
-              2685,
+              2720,
               1
             ],
             [
-              2686,
+              2721,
               1
             ]
           ]
@@ -10143,29 +10474,14 @@ export default {
           2,
           [
             [
-              2684,
+              2720,
               1
             ],
             [
-              2685,
+              2721,
               1
             ]
           ]
-        ],
-        [
-          0,
-          [
-            [
-              2687,
-              1
-            ]
-          ]
-        ]
-      ],
-      "dw": [
-        [
-          1,
-          15
         ]
       ]
     },
@@ -10202,11 +10518,11 @@ export default {
           0,
           [
             [
-              2688,
+              2722,
               1
             ],
             [
-              2689,
+              2723,
               1
             ]
           ]
@@ -10215,21 +10531,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 314,
+          "t": 61,
           "in": "checkbox",
           "o": [
             [
-              2690
+              2724
             ]
           ]
         },
         {
           "m": 0,
-          "t": 313,
+          "t": 60,
           "in": "checkbox",
           "o": [
             [
-              2691
+              2725
             ]
           ]
         }
@@ -10276,15 +10592,15 @@ export default {
           "type": "leader"
         },
         {
-          "to": "vanguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "company-heroes",
           "type": "leader"
         },
         {
           "to": "infernus-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -10293,15 +10609,15 @@ export default {
           0,
           [
             [
-              2692,
+              2726,
               1
             ],
             [
-              2693,
+              2727,
               1
             ],
             [
-              2694,
+              2728,
               1
             ]
           ]
@@ -10361,15 +10677,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "vanguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
-          "to": "intercessor-squad",
+          "to": "assault-intercessor-squad",
           "type": "support"
         },
         {
@@ -10377,7 +10685,15 @@ export default {
           "type": "support"
         },
         {
-          "to": "assault-intercessor-squad",
+          "to": "intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "sternguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "vanguard-veteran-squad",
           "type": "support"
         }
       ],
@@ -10403,40 +10719,14 @@ export default {
       ],
       "defaults": [
         [
-          2,
-          [
-            [
-              2695,
-              1
-            ],
-            [
-              2696,
-              1
-            ]
-          ]
-        ],
-        [
-          4,
-          [
-            [
-              2696,
-              1
-            ],
-            [
-              2695,
-              1
-            ]
-          ]
-        ],
-        [
           0,
           [
             [
-              2697,
+              2729,
               1
             ],
             [
-              2698,
+              2730,
               1
             ]
           ]
@@ -10445,11 +10735,24 @@ export default {
           3,
           [
             [
-              2699,
+              2731,
               1
             ],
             [
-              2700,
+              2732,
+              1
+            ]
+          ]
+        ],
+        [
+          4,
+          [
+            [
+              2733,
+              1
+            ],
+            [
+              2734,
               1
             ]
           ]
@@ -10458,11 +10761,11 @@ export default {
           1,
           [
             [
-              2701,
+              2735,
               1
             ],
             [
-              2702,
+              2736,
               1
             ]
           ]
@@ -10471,11 +10774,24 @@ export default {
           5,
           [
             [
-              2695,
+              2733,
               1
             ],
             [
-              2703,
+              2737,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              2733,
+              1
+            ],
+            [
+              2734,
               1
             ]
           ]
@@ -10515,11 +10831,11 @@ export default {
           0,
           [
             [
-              2704,
+              2738,
               1
             ],
             [
-              2705,
+              2739,
               1
             ]
           ]
@@ -10528,21 +10844,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 313,
+          "t": 60,
           "in": "checkbox",
           "o": [
             [
-              2706
+              2740
             ]
           ]
         },
         {
           "m": 0,
-          "t": 842,
+          "t": 839,
           "in": "checkbox",
           "o": [
             [
-              2707
+              2741
             ]
           ]
         }
@@ -10600,6 +10916,18 @@ export default {
       ],
       "enhancements": [
         {
+          "name": "Armour of Antoninus",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
+            }
+          ]
+        },
+        {
           "name": "Student of the Codex",
           "pts": 20,
           "type": "miniature",
@@ -10610,18 +10938,6 @@ export default {
             {
               "kw": [
                 "Captain"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Armour of Antoninus",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
               ]
             }
           ]
@@ -10662,18 +10978,6 @@ export default {
       ],
       "enhancements": [
         {
-          "name": "Honour Indefatigable",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Gravis"
-              ]
-            }
-          ]
-        },
-        {
           "name": "Castellum Omnivox",
           "pts": 10,
           "type": "miniature",
@@ -10686,7 +10990,7 @@ export default {
           ]
         },
         {
-          "name": "Defensive Mastery",
+          "name": "Spy-skull Data Link",
           "pts": 10,
           "type": "miniature",
           "req": [
@@ -10698,7 +11002,19 @@ export default {
           ]
         },
         {
-          "name": "Spy-skull Data Link",
+          "name": "Honour Indefatigable",
+          "pts": 10,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Gravis"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Defensive Mastery",
           "pts": 10,
           "type": "miniature",
           "req": [
@@ -10767,7 +11083,7 @@ export default {
       ],
       "enhancements": [
         {
-          "name": "Forged in Battle",
+          "name": "War Tempered Artifice",
           "pts": 25,
           "type": "miniature",
           "req": [
@@ -10791,7 +11107,7 @@ export default {
           ]
         },
         {
-          "name": "War Tempered Artifice",
+          "name": "Forged in Battle",
           "pts": 25,
           "type": "miniature",
           "req": [
@@ -10846,12 +11162,12 @@ export default {
           "type": "miniature",
           "req": [
             {
+              "ds": "Captain"
+            },
+            {
               "kw": [
                 "Captain"
               ]
-            },
-            {
-              "ds": "Captain"
             }
           ]
         }
@@ -10866,21 +11182,6 @@ export default {
         "Priority Assets"
       ],
       "enhancements": [
-        {
-          "name": "Standard of the Emperor Ascendant",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Ancient"
-              ]
-            },
-            {
-              "ds": "Ancient"
-            }
-          ]
-        },
         {
           "name": "Laurels of Triumph",
           "pts": 20,
@@ -10919,6 +11220,21 @@ export default {
               ]
             }
           ]
+        },
+        {
+          "name": "Standard of the Emperor Ascendant",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Ancient"
+              ]
+            },
+            {
+              "ds": "Ancient"
+            }
+          ]
         }
       ]
     },
@@ -10932,7 +11248,7 @@ export default {
       "unique": "GRAVIS",
       "enhancements": [
         {
-          "name": "Indefatigable Fortitude",
+          "name": "Relentless Advance",
           "pts": 20,
           "type": "miniature",
           "req": [
@@ -10944,7 +11260,7 @@ export default {
           ]
         },
         {
-          "name": "Relentless Advance",
+          "name": "Indefatigable Fortitude",
           "pts": 20,
           "type": "miniature",
           "req": [
@@ -11001,8 +11317,8 @@ export default {
       ],
       "enhancements": [
         {
-          "name": "Artificer Sarcophagus (Upgrade)",
-          "pts": 40,
+          "name": "Venerable Champion (Aura) (Upgrade)",
+          "pts": 30,
           "type": "upgrade",
           "nonCharOk": 1,
           "limit": 3,
@@ -11015,8 +11331,8 @@ export default {
           ]
         },
         {
-          "name": "Venerable Champion (Aura) (Upgrade)",
-          "pts": 30,
+          "name": "Artificer Sarcophagus (Upgrade)",
+          "pts": 40,
           "type": "upgrade",
           "nonCharOk": 1,
           "limit": 3,
@@ -11056,9 +11372,9 @@ export default {
             }
           ],
           "exclKw": [
+            "Dedicated Transport",
             "Fly",
-            "Walker",
-            "Dedicated Transport"
+            "Walker"
           ]
         },
         {
@@ -11078,9 +11394,9 @@ export default {
             }
           ],
           "exclKw": [
+            "Dedicated Transport",
             "Fly",
-            "Walker",
-            "Dedicated Transport"
+            "Walker"
           ]
         }
       ]
@@ -11095,32 +11411,29 @@ export default {
       "unique": "IRONSTORM",
       "enhancements": [
         {
+          "name": "The Flesh is Weak",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
+            }
+          ]
+        },
+        {
           "name": "Target Augury Web",
           "pts": 30,
           "type": "miniature",
           "req": [
             {
-              "kw": [
-                "Techmarine"
-              ]
-            },
-            {
               "ds": "Techmarine"
-            }
-          ]
-        },
-        {
-          "name": "Adept of the Omnissiah",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
+            },
             {
               "kw": [
                 "Techmarine"
               ]
-            },
-            {
-              "ds": "Techmarine"
             }
           ]
         },
@@ -11137,14 +11450,17 @@ export default {
           ]
         },
         {
-          "name": "The Flesh is Weak",
-          "pts": 15,
+          "name": "Adept of the Omnissiah",
+          "pts": 25,
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Adeptus Astartes"
+              "kw": [
+                "Techmarine"
               ]
+            },
+            {
+              "ds": "Techmarine"
             }
           ]
         }
@@ -11231,6 +11547,18 @@ export default {
       "unique": "PHOBOS",
       "enhancements": [
         {
+          "name": "Coronal Susurrant",
+          "pts": 30,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Phobos"
+              ]
+            }
+          ]
+        },
+        {
           "name": "Blackwing Shroud",
           "pts": 25,
           "type": "miniature",
@@ -11271,18 +11599,6 @@ export default {
               ]
             }
           ]
-        },
-        {
-          "name": "Coronal Susurrant",
-          "pts": 30,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Phobos"
-              ]
-            }
-          ]
         }
       ],
       "chapter": "Raven Guard"
@@ -11295,6 +11611,18 @@ export default {
         "Reconnaissance"
       ],
       "enhancements": [
+        {
+          "name": "Spearpoint Paragon",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
+            }
+          ]
+        },
         {
           "name": "Stormseer's Wisdom",
           "pts": 15,
@@ -11319,7 +11647,7 @@ export default {
                 "Adeptus Astartes"
               ],
               "kw": [
-                "Speeder"
+                "Mounted"
               ]
             },
             {
@@ -11327,25 +11655,13 @@ export default {
                 "Adeptus Astartes"
               ],
               "kw": [
-                "Mounted"
+                "Speeder"
               ]
             }
           ]
         },
         {
           "name": "Hunter's Eye",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Spearpoint Paragon",
           "pts": 25,
           "type": "miniature",
           "req": [
@@ -11368,23 +11684,6 @@ export default {
       ],
       "enhancements": [
         {
-          "name": "Supercharged Engines (Upgrade)",
-          "pts": 10,
-          "type": "upgrade",
-          "nonCharOk": 1,
-          "limit": 3,
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Mounted"
-              ]
-            }
-          ]
-        },
-        {
           "name": "Auspex Triangulation Shrines (Upgrade)",
           "pts": 10,
           "type": "upgrade",
@@ -11397,6 +11696,23 @@ export default {
               ],
               "kw": [
                 "Speeder"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Supercharged Engines (Upgrade)",
+          "pts": 10,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Mounted"
               ]
             }
           ]
@@ -11413,18 +11729,6 @@ export default {
       "unique": "DOCTRINES",
       "enhancements": [
         {
-          "name": "Laurels of Vigilance",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ]
-            }
-          ]
-        },
-        {
           "name": "Tactical Insight",
           "pts": 15,
           "type": "miniature",
@@ -11436,6 +11740,18 @@ export default {
             },
             {
               "ds": "Captain"
+            }
+          ]
+        },
+        {
+          "name": "Laurels of Vigilance",
+          "pts": 10,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ]
             }
           ]
         }
@@ -11521,8 +11837,8 @@ export default {
       "unique": "TERMINATOR",
       "enhancements": [
         {
-          "name": "Champion of the First Company",
-          "pts": 20,
+          "name": "Corporeum Reliquary",
+          "pts": 25,
           "type": "miniature",
           "req": [
             {
@@ -11536,8 +11852,8 @@ export default {
           ]
         },
         {
-          "name": "Corporeum Reliquary",
-          "pts": 25,
+          "name": "Champion of the First Company",
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -11723,8 +12039,8 @@ export default {
       ],
       "pts": {
         "incursion": 500,
-        "strike-force": 500,
-        "onslaught": 500
+        "onslaught": 500,
+        "strike-force": 500
       },
       "enh": 1
     },

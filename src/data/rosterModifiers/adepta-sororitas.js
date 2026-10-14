@@ -1135,8 +1135,8 @@ export default {
       "kind": "detachmentRule",
       "name": "Desperate For Redemption",
       "det": "Penitent Host",
-      "hash": "4c323b64",
-      "ver": 925,
+      "hash": "53f9029c",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {

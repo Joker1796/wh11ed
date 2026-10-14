@@ -42,6 +42,9 @@
 //                    appdata's statlines did not take in: `datasheets` names the sheets, `field`
 //                    the characteristic in appdata's spelling (T, W, Sv…), `from` what every
 //                    statline on those sheets has now, `to` ours.
+//   unit-keyword   — keywords GW's own errata/update document adds to a datasheet and the app has
+//                    not taken in: `datasheet` names the sheet, `add` the keywords (appdata's Title
+//                    Case), `pdf` the document. The roster generator reads them too (extraKeywords).
 //   core-rule-text — a Core Rules errata appdata's own rule text has not taken in: `num` names the
 //                    rule in factions/_core-rules.json (slug '_core-rules'), `from` must occur in its
 //                    text (appdata's markup), `ours` must occur in src/data/<file>. Core Rules are
@@ -52,6 +55,29 @@ import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, loadJson, norm } from './sync-common.mjs'
 
 export const APPDATA_EXCEPTIONS = [
+  {
+    id: 'sm-shrike-epic-hero',
+    kind: 'unit-keyword',
+    slug: 'space-marines',
+    datasheet: 'Kayvaan Shrike',
+    add: ['Epic Hero'],
+    pdf: { title: 'Space Marines — Printed Product Updates v1.1 (14 October 2026)', url: 'https://assets.warhammer-community.com/eng_14-10_wh40k_printed_product_updates_space_marines_updates-91hillwcff-wzs8qnozam.pdf' },
+    why: 'GW\'s update document reads "Kayvaan Shrike, Keywords Section: Add \'CHARACTER\' and \'EPIC HERO\'" and says its updates are also applied in the app; the app merged the line with the Librarian in Terminator Armour\'s ("Add CHARACTER") and lost EPIC HERO. Owner, 2026-10-14: apply the PDF.',
+    source: 'warhammer-community.com → Downloads → Warhammer 40,000 → Space Marines (14/10/2026); sources/updates 14-10-2026/sm-printed-product-updates.pdf',
+  },
+  {
+    id: 'sw-bjorn-assault-cannon-bs',
+    kind: 'weapon-stat',
+    slug: 'space-wolves',
+    item: 'Assault Cannon',
+    field: 'BS',
+    from: '3+',
+    to: '2+',
+    datasheets: ['Bjorn the Fell-handed'],
+    errata: { publication: 'Codex Supplement: Space Wolves', header: 'Bjorn the Fell-handed', line: "Change <b>BS</b> to '2+'." },
+    why: 'The errata names no weapon, so it is read as every weapon of his with a BS: the assault cannon is the only one not already 2+ (the rest are 2+ or N/A). appdata 981 prints the errata and keeps the sheet at 3+. Owner, 2026-10-14: read it this way and say so.',
+    source: 'Codex Supplement: Space Wolves errata of 14 October 2026, Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
+  },
   {
     id: 'sm-vanguard-jump-plasma-standard',
     kind: 'weapon-profile',
@@ -132,102 +158,6 @@ export const APPDATA_EXCEPTIONS = [
     source: 'Warhammer 40,000: The App 2.7.1 → Codex: Imperial Agents → Updates & Errata, "Veiled Blade Elimination Force Detachment, Intraneural Biotech enhancement" (checked 2026-10-03)',
   },
   {
-    id: 'csm-combi-weapon-ap',
-    kind: 'weapon-stat',
-    slug: 'chaos-space-marines',
-    item: 'Combi-weapon',
-    field: 'AP',
-    from: '1',
-    to: '-1',
-    datasheets: ['Chaos Land Raider', 'Chaos Predator Annihilator', 'Chaos Predator Destructor', 'Chaos Rhino', 'Chaos Terminator Squad', 'Chaos Vindicator', 'Chosen', 'Sorcerer in Terminator Armour'],
-    why: 'appdata prints AP "1" (a positive AP does not exist); the errata that changed this weapon prints AP-1.',
-    source: 'Codex errata of 30 September 2026 (the "Change the following weapon characteristics" tables), Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
-  },
-  {
-    id: 'dg-combi-weapon-ap',
-    kind: 'weapon-stat',
-    slug: 'death-guard',
-    item: 'Combi-weapon',
-    field: 'AP',
-    from: '1',
-    to: '-1',
-    datasheets: ['Blightlord Terminators', 'Chaos Land Raider', 'Chaos Predator Annihilator', 'Chaos Predator Destructor', 'Chaos Rhino'],
-    why: 'appdata prints AP "1" (a positive AP does not exist); the errata that changed this weapon prints AP-1.',
-    source: 'Codex errata of 30 September 2026 (the "Change the following weapon characteristics" tables), Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
-  },
-  {
-    id: 'ec-combi-weapon-ap',
-    kind: 'weapon-stat',
-    slug: 'emperors-children',
-    item: 'Combi-weapon',
-    field: 'AP',
-    from: '1',
-    to: '-1',
-    datasheets: ['Chaos Land Raider', 'Chaos Rhino', 'Chaos Terminators'],
-    why: 'appdata prints AP "1" (a positive AP does not exist); the errata that changed this weapon prints AP-1.',
-    source: 'Codex errata of 30 September 2026 (the "Change the following weapon characteristics" tables), Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
-  },
-  {
-    id: 'gk-storm-bolter-ap',
-    kind: 'weapon-stat',
-    slug: 'grey-knights',
-    item: 'Storm Bolter',
-    field: 'AP',
-    from: '1',
-    to: '-1',
-    datasheets: ['Brother-Captain', 'Brotherhood Chaplain', 'Brotherhood Librarian', 'Castellan Crowe', 'Grand Master', 'Grand Master Voldus', 'Paladin Squad', 'Purgation Squad'],
-    why: 'appdata prints AP "1" (a positive AP does not exist); the errata that changed this weapon prints AP-1.',
-    source: 'Codex errata of 30 September 2026 (the "Change the following weapon characteristics" tables), Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
-  },
-  {
-    id: 'gk-combi-weapon-ap',
-    kind: 'weapon-stat',
-    slug: 'grey-knights',
-    item: 'Combi-weapon',
-    field: 'AP',
-    from: '1',
-    to: '-1',
-    datasheets: ['Brotherhood Librarian'],
-    why: 'appdata prints AP "1" (a positive AP does not exist); the errata that changed this weapon prints AP-1.',
-    source: 'Codex errata of 30 September 2026 (the "Change the following weapon characteristics" tables), Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
-  },
-  {
-    id: 'we-combi-bolter-ap',
-    kind: 'weapon-stat',
-    slug: 'world-eaters',
-    item: 'Combi-bolter',
-    field: 'AP',
-    from: '1',
-    to: '-1',
-    datasheets: ['Chaos Land Raider', 'Chaos Predator Annihilator', 'Chaos Predator Destructor', 'Chaos Rhino', 'Chaos Terminators', 'Helbrute'],
-    why: 'appdata prints AP "1" (a positive AP does not exist); the errata that changed this weapon prints AP-1.',
-    source: 'Codex errata of 30 September 2026 (the "Change the following weapon characteristics" tables), Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
-  },
-  {
-    id: 'we-combi-weapon-ap',
-    kind: 'weapon-stat',
-    slug: 'world-eaters',
-    item: 'Combi-weapon',
-    field: 'AP',
-    from: '1',
-    to: '-1',
-    datasheets: ['Chaos Land Raider', 'Chaos Predator Annihilator', 'Chaos Predator Destructor', 'Chaos Rhino', 'Chaos Terminators'],
-    why: 'appdata prints AP "1" (a positive AP does not exist); the errata that changed this weapon prints AP-1.',
-    source: 'Codex errata of 30 September 2026 (the "Change the following weapon characteristics" tables), Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
-  },
-  {
-    id: 'we-bolt-pistol-ap',
-    kind: 'weapon-stat',
-    slug: 'world-eaters',
-    item: 'Bolt pistol',
-    field: 'AP',
-    from: '1',
-    to: '-1',
-    datasheets: ['Khorne Berzerkers', 'Lord Invocatus', 'Master of Executions'],
-    why: 'appdata prints AP "1" (a positive AP does not exist); the errata that changed this weapon prints AP-1.',
-    source: 'Codex errata of 30 September 2026 (the "Change the following weapon characteristics" tables), Warhammer 40,000: The App → Codex → Updates & Errata; in appdata tables/faq.json',
-  },
-  {
     id: 'core-consolidation-ongoing-errata',
     kind: 'core-rule-text',
     slug: '_core-rules',
@@ -237,31 +167,6 @@ export const APPDATA_EXCEPTIONS = [
     ours: 'that enemy unit. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase',
     why: 'The Core Rules errata of 26 August 2026 gives Ongoing Consolidation\'s After Moving the same "your opponent must select each of those units" sentence Engaging Consolidation has; appdata 931–972 keeps the old one-sentence line.',
     source: 'Warhammer 40,000: The App → Core Rules → Updates & Errata, "12.08 - Consolidation Move, After Moving Section, Ongoing Consolidation" (in appdata tables/faq.json since 931; checked 2026-10-03)',
-  },
-  {
-    id: 'gk-purifier-close-combat-weapon-s',
-    kind: 'weapon-stat',
-    slug: 'grey-knights',
-    item: 'Close combat weapon',
-    field: 'S',
-    from: '4',
-    to: '5',
-    datasheets: ['Purifier Squad'],
-    errata: { publication: 'Codex: Grey Knights', header: 'Datasheets', line: 'Close Combat Weapon - **S**5 - Interceptor Squad, Purgation Squad, Purifier' },
-    why: 'The errata of 30 September 2026 gives the close combat weapon S5 on all three squads ("Purifier" is the Purifier Squad); appdata 963–972 raised Interceptors and Purgators and left the Purifiers at S4. Found by npm run errata-tables 2026-10-12.',
-    source: 'Warhammer 40,000: The App → Codex: Grey Knights → Updates & Errata, "Datasheets" (in appdata tables/faq.json since 963; checked 2026-10-12)',
-  },
-  {
-    id: 'ec-character-toughness',
-    kind: 'unit-stat',
-    slug: 'emperors-children',
-    datasheets: ['Lord Exultant', 'Sorcerer'],
-    field: 'T',
-    from: '4',
-    to: '5',
-    errata: { publication: 'Codex: Emperor’s Children', header: 'Datasheets', line: '**T**5 - Infractors, Lord Exultant, Sorcerer, Tormentors' },
-    why: 'The errata of 30 September 2026 raises all four to T5; appdata 963–972 raised Infractors and Tormentors and left the two characters at T4. A player reported the Sorcerer 2026-10-12.',
-    source: 'Warhammer 40,000: The App → Codex: Emperor’s Children → Updates & Errata, "Datasheets" (in appdata tables/faq.json since 963; checked 2026-10-12)',
   },
 ]
 
@@ -282,6 +187,11 @@ const targetOf = (bundle, e) => (e.kind === 'enhancement-text' ? enhOf(bundle, e
 // What appdata says now, for the one place an entry patches — compared with what the entry
 // expects to find. Returns null when appdata still has the error, or the reason it does not.
 function appdataDrift(e, ds) {
+  if (e.kind === 'unit-keyword') {
+    if (!ds) return `datasheet "${e.datasheet}" is gone from appdata`
+    const has = new Set((ds.keywords || []).map(norm))
+    return e.add.every((k) => has.has(norm(k))) ? `appdata now carries ${e.add.join(', ')}` : null
+  }
   if (e.kind === 'unit-stat') {
     for (const name of e.datasheets) {
       const sheet = sheetOf(ds, name)
@@ -325,6 +235,11 @@ function appdataDrift(e, ds) {
 }
 
 function patchSheet(e, ds) {
+  if (e.kind === 'unit-keyword') {
+    const has = new Set((ds.keywords || []).map(norm))
+    ds.keywords = [...(ds.keywords || []), ...e.add.filter((k) => !has.has(norm(k)))]
+    return
+  }
   if (e.kind === 'weapon-profile') itemOf(ds, e.item).profiles.unshift({ ...e.add, tags: [...e.add.tags] })
   else if (e.kind === 'wargear-rule') for (const r of ds.wargearRules) r.rules = r.rules.replace(e.from, e.to)
   else if (e.kind === 'enhancement-text') ds.rules = e.to
@@ -385,7 +300,21 @@ function addFamily(bundle, appSlug) {
 
 // Our side: does the sheet we ship still carry the correction? Needs no appdata, so it also runs
 // as a test (appdata-exceptions.test.js) — a regeneration that lost an entry fails `npm test`.
+// Keywords a datasheet carries beyond appdata's (unit-keyword entries), by datasheet name — for the
+// roster generator, which reads appdata's bundles raw.
+export function extraKeywords(name) {
+  return APPDATA_EXCEPTIONS.filter((e) => e.kind === 'unit-keyword' && norm(e.datasheet) === norm(name)).flatMap((e) => e.add)
+}
+
 export async function oursCarries(e) {
+  if (e.kind === 'unit-keyword') {
+    const sheets = (await import(pathToFileURL(path.join(ROOT, 'src/data/datasheets', `${e.slug}.js`)).href)).default
+    const d = sheets.find((x) => norm(x.name) === norm(e.datasheet))
+    if (!d) return `our sheet "${e.datasheet}" is missing`
+    const has = new Set((d.keywords || []).map(norm))
+    const miss = e.add.filter((k) => !has.has(norm(k)))
+    return miss.length ? `our "${e.datasheet}" lacks ${miss.join(', ')}` : null
+  }
   if (e.kind === 'core-rule-text') {
     const file = path.join(ROOT, 'src/data', e.file)
     if (!fs.existsSync(file)) return `src/data/${e.file} is missing`

@@ -24,6 +24,8 @@ const CLASSES = [
   ['tracker', /^~ "[^"]*"\.(effect|target|when):/],
   ['event-companion', /appdata container|no matching appdata container|^~ "[^"]*" \(appdata: "[^"]*"\): text differs/],
   ['twist', /^~ twist |^~ "Mirrored World"/],
+  // sync-combat-patrol: a box's datasheet our Combat Patrol data does not carry.
+  ['combat-patrol', /^\+ missing in wh11ed: datasheet "/],
 ]
 
 export function baselineClass(key) {

@@ -3152,8 +3152,8 @@ export default {
         "det": "seer-council",
         "name": "Unshrouded Truth"
       },
-      "hash": "9f4867a1",
-      "ver": 925,
+      "hash": "5b5a949f",
+      "ver": 981,
       "reviewed": true,
       "effects": [
         {

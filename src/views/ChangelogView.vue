@@ -9,7 +9,10 @@
       </p>
     </div>
 
-    <div class="changelog-body">
+    <div
+      class="changelog-body"
+      @click="openSheet"
+    >
       <!-- "Show more" and the archive fade their releases in rather than dropping them in. -->
       <TransitionGroup
         name="sift"
@@ -58,6 +61,21 @@
                 v-safe-html="noteHtml(note, sec.kind)"
               />
             </ul>
+            <RouterLink
+              v-if="sec.patch"
+              class="cl-patch"
+              :to="{ path: '/patches', query: { p: sec.patch } }"
+            >
+              <i
+                class="wi wi-army"
+                aria-hidden="true"
+              />
+              <span>{{ labels.changelogPatchPlate }}</span>
+              <i
+                class="wi wi-chevron-right"
+                aria-hidden="true"
+              />
+            </RouterLink>
           </div>
         </section>
       </TransitionGroup>
@@ -87,6 +105,13 @@
         </button>
       </template>
     </div>
+    <!-- A datasheet named in a note opens over the page instead of leaving it (owner, 2026-10-14). -->
+    <RosterUnitRulesModal
+      v-if="sheet"
+      :unit-id="sheet.unitId"
+      :faction-slug="sheet.factionSlug"
+      @close="sheet = null"
+    />
   </div>
 </template>
 
@@ -95,7 +120,7 @@
 // then — on request — the older releases from the API's archive (the file keeps only the last few;
 // deploy.sh moves the rest). Reachable from the footer version and the update-notice banner.
 // Opening it clears the banner.
-import { ref, computed } from 'vue'
+import { ref, computed, defineAsyncComponent } from 'vue'
 import { changelog } from '../data/changelog.js'
 import { renderMarks, SECTION_KINDS, noteSections, boldQuestion } from '../data/changelogMarks.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -103,6 +128,23 @@ import { useRenderInline } from '../composables/useRenderInline.js'
 import { useFormatDate } from '../composables/useFormatDate.js'
 import { useUpdateNotice } from '../composables/useUpdateNotice.js'
 import { useChangelogArchive } from '../composables/useChangelogArchive.js'
+
+// Loaded on the first tap: the card and its rules data must not ride in this page's chunk.
+const RosterUnitRulesModal = defineAsyncComponent(() => import('../components/roster/RosterUnitRulesModal.vue'))
+const sheet = ref(null)
+// A note's link to a datasheet ([X](/factions/<slug>/datasheets/<id>)) opens the card in a dialog;
+// every other in-app link is App.vue's (a route change). Stopped here, before App.vue's document
+// listener sees it.
+const SHEET_LINK = /^(?:\/ru)?\/factions\/([a-z-]+)\/datasheets\/([^/?#]+)$/
+function openSheet(e) {
+  const a = e.target.closest?.('a.int-link')
+  if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+  const m = SHEET_LINK.exec(a.getAttribute('href') || '')
+  if (!m) return
+  e.preventDefault()
+  e.stopPropagation()
+  sheet.value = { factionSlug: m[1], unitId: m[2] }
+}
 import { ui } from '../i18n/ui.js'
 import { vSafeHtml } from '../directives/safeHtml.js'
 
@@ -238,11 +280,31 @@ useUpdateNotice().markSeen()
    A palette token each, so both themes and AA come with it. No edge down the block's left: it
    was there for a day and the owner took it off (2026-10-13). */
 .cl-sec { --cl-tone: var(--text-dim); }
+
+/* The way to the whole GW update this block summarises: a plate, not one more link in a note. */
+.cl-patch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+  padding: 0.6rem 0.8rem;
+  min-height: 44px;
+  border: 1px solid var(--warning);
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  color: var(--warning);
+  font-weight: 600;
+  text-decoration: none;
+}
+.cl-patch span { flex: 1; }
+@media (hover: hover) {
+  .cl-patch:hover { background: color-mix(in srgb, var(--warning) 18%, transparent); }
+}
 .cl-sec + .cl-sec { margin-top: 0.7rem; }
 .cl-sec--rules { --cl-tone: var(--ability-unit); }
 .cl-sec--roster { --cl-tone: var(--accent); }
 .cl-sec--tracker { --cl-tone: var(--sub-rule-border); }
-.cl-sec--answers { --cl-tone: var(--text-dim); }
+.cl-sec--answers,
+.cl-sec--report { --cl-tone: var(--text-dim); }
 .cl-sec--thanks { --cl-tone: var(--warning); }
 .cl-sec--site,
 .cl-sec--account { --cl-tone: var(--text-dim); }

@@ -262,11 +262,13 @@ export const conditions = {
     },
   },
   'unit-righteous': { scope: 'unit', duration: 'round', label: { en: 'Righteous', ru: 'Righteous' } },
-  // Martial Ka'tah: the unit picks a stance each time it is selected to fight, so this is a
-  // per-unit choice that lasts the phase — nothing can derive it, which is exactly what a switch
-  // is for.
-  'stance-dacatari': { scope: 'unit', duration: 'phase', group: 'ka-tah', label: { en: 'Dacatari Stance', ru: 'Стойка Dacatari' } },
-  'stance-rendax': { scope: 'unit', duration: 'phase', group: 'ka-tah', label: { en: 'Rendax Stance', ru: 'Стойка Rendax' } },
+  // Martial Ka'tah (Codex: Adeptus Custodes, data 981): a readied unit spends one ka'tah ability
+  // per round, each in its own phase, so this is a per-unit choice that lasts the phase. Only the
+  // abilities that change a number on the card are here — Rendax itself, and the Favoured Ka'tah
+  // additions of Solar Watch (Calistus, +2" M) and Aquilan Shield (Salvus, +6" range).
+  'stance-rendax': { scope: 'unit', duration: 'phase', group: 'ka-tah', label: { en: 'Rendax', ru: 'Rendax' } },
+  'stance-calistus': { scope: 'unit', duration: 'phase', group: 'ka-tah', label: { en: 'Calistus', ru: 'Calistus' } },
+  'stance-salvus': { scope: 'unit', duration: 'phase', group: 'ka-tah', label: { en: 'Salvus', ru: 'Salvus' } },
   // Grey Knights' Channelled Force: pass a Leadership test when selected to fight, then pick one of
   // two rules for the phase. Both halves are the player's to know, so both live in one switch.
   'channelled-sustained': { scope: 'unit', duration: 'phase', group: 'channelled-force', label: { en: 'Channelled: Sustained Hits', ru: 'Channelled: Sustained Hits' } },
@@ -330,7 +332,6 @@ export const conditions = {
   // src/data/rosterModifiers/index.test.js holds every datasheet ability that makes a bonus
   // depend on a set of weapons to one of these.
   'wargear-two-macro-scalpels': { scope: 'roster', duration: 'battle', gear: { copies: 2, name: 'Macro-scalpel' }, label: { en: 'Two macro-scalpels', ru: 'Два macro-scalpel' } },
-  'wargear-two-telemon-caestus': { scope: 'roster', duration: 'battle', gear: { copies: 2, name: 'Telemon caestus' }, label: { en: 'Two Telemon caestus', ru: 'Два Telemon caestus' } },
   'wargear-two-melee-besides-ccw': { scope: 'roster', duration: 'battle', gear: { melee: 2, besides: ['Close combat weapon'] }, label: { en: 'Two melee weapons besides the close combat weapon', ru: 'Два оружия ближнего боя кроме close combat weapon' } },
   'wargear-two-melee': { scope: 'roster', duration: 'battle', gear: { melee: 2 }, label: { en: 'Two melee weapons', ru: 'Два оружия ближнего боя' } },
   'wargear-spear-and-chainsword': { scope: 'roster', duration: 'battle', gear: { all: ['Thundershock spear', 'Bellatus reaper chainsword'] }, label: { en: 'Thundershock spear and bellatus reaper chainsword', ru: 'Thundershock spear и bellatus reaper chainsword' } },

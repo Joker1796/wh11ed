@@ -1045,9 +1045,11 @@ export default [
     "keywords": [
       "Battleline",
       "Explosives",
+      "Gravis",
       "Imperium",
       "Infantry",
-      "Kill Team"
+      "Kill Team",
+      "Tacticus"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
