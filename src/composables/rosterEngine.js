@@ -26,6 +26,7 @@ const KEYWORD_GRANTS = conditionalKeywords
 /** An entry as the engine reads it — a saved one, or a partial one a caller builds to ask a question. @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {NonNullable<RosterUnit['xpm']>[number]} XpmSet */
 /** @typedef {import('./roster.types.js').GearGroup} GearGroup */
+/** @typedef {import('./roster.types.js').GearPool} GearPool */
 /** @typedef {import('./roster.types.js').SizeBracket} SizeBracket */
 /** What sectionsOf files: anything with a datasheet id, and for an attached block its uid and host. @typedef {{ id: string, uid?: string, leaderOf?: string | null }} SectionItem */
 /** @typedef {{ faction?: { slug?: string, allies?: AllyGroup[] } | null, detachments?: Detachment[], keepLocked?: boolean, pairAttached?: boolean }} SectionOpts */
@@ -315,8 +316,8 @@ function stockBlocker(def, entry, gi) {
   for (const [oi] of (g.o || []).entries()) {
     // An item byItem does not track is never "run out".
     let out = needs(g, oi).filter((id) => (roomOf(id) ?? Infinity) <= 0)
-    // An "X or Y" group runs out only when no model carries either.
-    if (g.alt && rep.some((id) => (roomOf(id) || 0) > 0)) out = out.filter((id) => !rep.includes(id))
+    // An "X or Y" group runs out only when no model carries either — a whole set of them.
+    if (altSets(g)?.some((set) => set.every((id) => (roomOf(id) || 0) > 0))) out = out.filter((id) => !rep.includes(id))
     if (!out.length) return null
     out.forEach((id) => ids.add(id))
   }
@@ -447,7 +448,15 @@ export function defaultSizeIndex(def) {
  * @returns {{ limit: number, dup: number } | null}
  */
 export function wargearGroupCap(def, entry, gi) {
-  const rows = def?.gear?.[gi]?.lim
+  const g = def?.gear?.[gi]
+  // A budget per MODEL on a profile's copy of a unit-wide instruction (`pb`: "any number of models
+  // can each be equipped with up to two of the following", [per, noDup]) — the copy's own models.
+  if (g?.pb && !g.lim) {
+    const own = modelsPerMini(def, entry)?.get(g.m ?? 0)
+    if (own == null) return null
+    return { limit: own * g.pb[0], dup: g.pb[1] ? own : 0 }
+  }
+  const rows = g?.lim
   if (!rows?.length) return null
   const models = modelCount(def, entry)
   let row = null
@@ -468,6 +477,14 @@ export function wargearGroupCap(def, entry, gi) {
 function optionCount(entry, gi, oi) {
   return (entry?.wg || []).filter(([g, o]) => g === gi && o === oi).reduce((n, [, , c]) => n + (c || 1), 0)
 }
+// The models a group's per-model sets count against: its profile's — a profile's copy of a
+// unit-wide instruction holds only its own models (the Shas'vre one suit, the Shas'ui the rest) —
+// or the unit's, for a group no profile owns.
+/** @param {RosterUnit | null | undefined} def @param {EntryLike | null | undefined} entry @param {number} gi */
+function exclModels(def, entry, gi) {
+  const g = def?.gear?.[gi]
+  return (g && !g.all && g.m != null ? modelsPerMini(def, entry)?.get(g.m) : null) ?? modelCount(def, entry)
+}
 /**
  * @param {RosterUnit | null | undefined} def
  * @param {EntryLike | null | undefined} entry
@@ -477,7 +494,7 @@ function optionCount(entry, gi, oi) {
 export function wargearExclOver(def, entry, gi) {
   const sets = def?.gear?.[gi]?.excl
   if (!sets?.length) return []
-  const limit = modelCount(def, entry)
+  const limit = exclModels(def, entry, gi)
   return sets
     .map((set) => ({ set, spent: set.reduce((n, oi) => n + optionCount(entry, gi, oi), 0), limit }))
     .filter((x) => x.spent > limit)
@@ -492,7 +509,7 @@ export function wargearExclOver(def, entry, gi) {
 export function wargearExclRoom(def, entry, gi, oi) {
   const sets = (def?.gear?.[gi]?.excl || []).filter((set) => set.includes(oi))
   if (!sets.length) return null
-  const limit = modelCount(def, entry)
+  const limit = exclModels(def, entry, gi)
   return Math.min(...sets.map((set) =>
     Math.max(0, limit - set.filter((o) => o !== oi).reduce((n, o) => n + optionCount(entry, gi, o), 0))))
 }
@@ -563,6 +580,111 @@ export function wargearXpmRoom(def, entry, gi, oi, { wholeGroup = false } = {}) 
   return Math.min(...sets.map((set) => Math.max(0, xpmLimit(def, entry, set) - xpmSpent(def, entry, set, skip))))
 }
 
+// `pools` — one instruction shipped as a copy per profile (gen-roster-data.mjs's emitCopies,
+// pack-roster.mjs's splitUnitWide, 2026-10-14): "For every 5 models in the unit: 1 model's twin
+// torturer's tools can be replaced with…" is offered to the Acothyst and to the Wracks, the player
+// says which takes it, and the allowance is the SQUAD's — one hexrifle per five models whoever
+// carries it (checked in the GW app). Each entry is `{ g: [gi…], lim? }`, the copies sergeant first
+// and the step table keyed by the unit's size as a group's `lim` is. Every copy is an ordinary group
+// of its profile — its own models are its ceiling — and only the shared allowance lives here.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {number} gi
+ * @returns {GearPool | null}
+ */
+export function wargearPoolOf(def, gi) {
+  return (def?.pools || []).find((p) => p.g.includes(gi)) || null
+}
+/** @param {RosterUnit} def @param {EntryLike | null | undefined} entry @param {GearPool} pool */
+function poolRow(def, entry, pool) {
+  if (!pool.lim?.length) return null
+  const models = modelCount(def, entry)
+  let row = null
+  for (const r of pool.lim) if (models >= r[0] && (!row || r[0] > row[0])) row = r
+  return row ? { limit: row[1], dup: row[2] || 0 } : { limit: 0, dup: 0 }
+}
+// The shared allowance of the pool a group is in, at this unit size — what the editor's "up to N"
+// chip says for every copy. null when the group is in no pool or the pool has no allowance.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {{ limit: number, dup: number } | null}
+ */
+export function wargearPoolCap(def, entry, gi) {
+  const pool = wargearPoolOf(def, gi)
+  return pool && def ? poolRow(def, entry, pool) : null
+}
+/** @param {EntryLike | null | undefined} entry @param {GearPool} pool @param {(g: number, o: number) => boolean} [skip] @param {number | null} [oi] */
+function poolSpent(entry, pool, skip = () => false, oi = null) {
+  return (entry?.wg || []).filter(([g, o]) => pool.g.includes(g) && (oi == null || o === oi) && !skip(g, o))
+    .reduce((n, [, , c]) => n + (c || 1), 0)
+}
+/**
+ * The pools an entry overdraws: in all (`oi` null) or of one option across the copies.
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @returns {Array<{ pool: GearPool, oi: number | null, spent: number, limit: number }>}
+ */
+export function wargearPoolOver(def, entry) {
+  if (!def) return []
+  const out = []
+  for (const pool of def.pools || []) {
+    const row = poolRow(def, entry, pool)
+    if (!row) continue
+    const spent = poolSpent(entry, pool)
+    if (spent > row.limit) out.push({ pool, oi: null, spent, limit: row.limit })
+    if (!row.dup) continue
+    const opts = def.gear?.[pool.g[0]]?.o || []
+    for (let oi = 0; oi < opts.length; oi++) {
+      const n = poolSpent(entry, pool, undefined, oi)
+      if (n > row.dup) out.push({ pool, oi, spent: n, limit: row.dup })
+    }
+  }
+  return out
+}
+/**
+ * How many of (gi, oi) this copy may hold with every other pick as it is, under its pool's
+ * allowance — null when the group is in no pool or the pool has no allowance. `wholeGroup`: the
+ * pick REPLACES the group's own (a one-of radio), so the group's picks do not count.
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @param {number} oi
+ * @param {{ wholeGroup?: boolean }} [opts]
+ * @returns {number | null}
+ */
+export function wargearPoolRoom(def, entry, gi, oi, { wholeGroup = false } = {}) {
+  if (!def) return null
+  const pool = wargearPoolOf(def, gi)
+  const row = pool && poolRow(def, entry, pool)
+  if (!row) return null
+  /** @type {(g: number, o: number) => boolean} */
+  const skip = wholeGroup ? (g) => g === gi : (g, o) => g === gi && o === oi
+  let room = row.limit - poolSpent(entry, pool, skip)
+  if (row.dup) room = Math.min(room, row.dup - poolSpent(entry, pool, skip, oi))
+  return Math.max(0, room)
+}
+// Which other copy holds what this one cannot take — the editor names it ("taken by the Acothyst")
+// rather than only greying the row. null while this copy has room.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @param {number} oi
+ * @returns {number | null} the miniature index of a copy holding picks of the pool
+ */
+export function wargearPoolTakenBy(def, entry, gi, oi) {
+  if (!def) return null
+  const pool = wargearPoolOf(def, gi)
+  if (!pool || wargearPoolRoom(def, entry, gi, oi, { wholeGroup: def.gear?.[gi]?.in !== 'stepper' }) !== 0) return null
+  const row = poolRow(def, entry, pool)
+  // The option's own cap ran out → whoever holds that option; the total → whoever holds any.
+  const byOption = !!row?.dup && poolSpent(entry, pool, (g) => g === gi, oi) >= row.dup
+  const other = (entry?.wg || []).find(([g, o]) => g !== gi && pool.g.includes(g) && (!byOption || o === oi))
+  return other ? (def.gear?.[other[0]]?.m ?? 0) : null
+}
+
 // `pm` — rules about ONE model that reach across groups (pack-roster.mjs's perModelRules; Legends
 // Crisis Battlesuits: each suit takes up to three from one group, at most one of each starred item
 // counting the burst-cannon swap too, and at most three ranged weapons counting the swap's pick or
@@ -574,13 +696,17 @@ export function wargearXpmRoom(def, entry, gi, oi, { wholeGroup = false } = {}) 
 // carries every pick exactly when a legal assignment exists.
 /** @param {GearOption} o */
 const pmItemOf = (o) => (Array.isArray(o[0]) ? o[0][0][0] : o[0])
-/** @param {RosterUnit} def @param {EntryLike | null | undefined} entry @param {number} gi */
-function pmCounts(def, entry, gi) {
+// A `pm` slot names a group, or — where the group ships as one copy per profile — all its copies.
+/** @param {number | number[] | null | undefined} x @returns {number[]} */
+export const pmGroups = (x) => (x == null ? [] : Array.isArray(x) ? x : [x])
+/** @param {RosterUnit} def @param {EntryLike | null | undefined} entry @param {number | number[]} gis */
+function pmCounts(def, entry, gis) {
+  const set = new Set(pmGroups(gis))
   /** @type {Map<ItemId, number>} */
   const m = new Map()
   for (const [g, oi, c] of entry?.wg || []) {
-    if (g !== gi) continue
-    const id = pmItemOf((def.gear || [])[gi].o[oi])
+    if (!set.has(g)) continue
+    const id = pmItemOf((def.gear || [])[g].o[oi])
     m.set(id, (m.get(id) || 0) + (c || 1))
   }
   return m
@@ -616,7 +742,7 @@ export function perModelFits(def, entry) {
   const one = new Set(pm.one || [])
   const [rangedMax, rangedIds] = pm.ranged || [Infinity, []]
   const ranged = new Set(rangedIds)
-  const given = pm.base != null ? def.gear?.[pm.base]?.rep?.[0] ?? null : null
+  const given = pm.base != null ? def.gear?.[pmGroups(pm.base)[0]]?.rep?.[0] ?? null : null
   /** @type {Array<ItemId | null>} */
   const bases = []
   if (pm.base != null) for (const [id, n] of pmCounts(def, entry, pm.base)) for (let k = 0; k < n; k++) bases.push(id)
@@ -667,12 +793,13 @@ export function perModelFits(def, entry) {
  */
 export function perModelRoom(def, entry, gi, oi) {
   const pm = def?.pm
-  if (!pm || (gi !== pm.add && gi !== pm.base)) return null
+  const isAdd = pmGroups(pm?.add).includes(gi)
+  if (!pm || (!isAdd && !pmGroups(pm.base).includes(gi))) return null
   const models = modelCount(def, entry)
   const others = (entry?.wg || []).filter(([g, o]) => !(g === gi && o === oi))
   const current = optionCount(entry, gi, oi)
   let best = null
-  const top = gi === pm.add ? models * pm.slots : models
+  const top = isAdd ? models * pm.slots : models
   for (let n = 0; n <= top; n++) {
     if (perModelFits(def, { ...entry, wg: n ? [...others, [gi, oi, n]] : others })) best = n
   }
@@ -1880,9 +2007,11 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
   const back = new Map()
   /** @type {Map<string, number>} */
   const held = new Map()
+  /** @type {Map<string, number>} `${profile}:${item}` → copies the profile's own picks handed out */
+  const granted = new Map()
   /** @type {Array<{ id: ItemId, used: number, cap: number }>} */
   const over = []
-  if (!perMini) return { removed, back, held, over }
+  if (!perMini) return { removed, back, held, granted, over }
   /** @param {Map<string, number>} map @param {string} key @param {number} n */
   const bump = (map, key, n) => map.set(key, (map.get(key) || 0) + n)
   /** @param {string} key */
@@ -1906,17 +2035,36 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
    */
   const altSplit = (g, grants, models) => {
     const m = g.m ?? 0
-    const ids = [...(g.rep || [])].sort((a, b) => Number(grants.has(a)) - Number(grants.has(b)))
+    // A set the option hands straight back goes last: a Havoc picking an autocannon is a lascannon
+    // Havoc changing weapons. A set's room is its scarcest item — printed or handed out by the
+    // profile's own picks (`granted`), less what earlier picks already took.
+    const sets = [...(altSets(g) || [])].sort((a, b) => Number(a.every((id) => grants.has(id))) - Number(b.every((id) => grants.has(id))))
     let left = Number.isFinite(models) ? models : perMini.get(m) || 0
     /** @type {Array<[ItemId, number]>} */
     const out = []
-    ids.forEach((id, i) => {
-      const cap = swapCarriers(def, perMini, id).find(([cm]) => cm === m)?.[1] || 0
-      const take = i === ids.length - 1 ? left : Math.min(left, Math.max(0, cap - (spent.get(`${m}:${id}`) || 0)))
-      if (take > 0) out.push([id, take])
+    sets.forEach((set, i) => {
+      const room = Math.min(...set.map((id) => {
+        const printed = swapCarriers(def, perMini, id).find(([cm]) => cm === m)?.[1] || 0
+        return Math.max(0, printed + (granted.get(`${m}:${id}`) || 0) - (spent.get(`${m}:${id}`) || 0))
+      }))
+      const take = i === sets.length - 1 ? left : Math.min(left, room)
+      if (take > 0) for (const id of set) out.push([id, take])
       left -= take
     })
     return out
+  }
+  // What the profile's own picks HAND OUT is stock too: an item it was not printed with can still
+  // be given up once a pick gave it one — the Acothyst's torturer's tool comes with his hexrifle, a
+  // Desolation Sergeant's superkrak launcher with his squad's swap. Counted per profile, models
+  // that took the pick (a stepper's count, a checkbox one model, `repall` the profile).
+  for (const [gi, oi, n] of entry?.wg || []) {
+    if (gi === exceptGi) continue
+    const g = def?.gear?.[gi]
+    if (!g || g.all || !wargearGroupLive(def, entry, gi)) continue
+    const m = g.m ?? 0
+    const models = g.in === 'stepper' ? n || 1 : g.repall ? perMini.get(m) ?? 1 : 1
+    // An item the group itself replaces and the option hands straight back is `back` below, not this.
+    for (const [id, c] of optionItems(g.o?.[oi])) if (!g.rep?.includes(id)) bump(granted, `${m}:${id}`, models * (c || 1))
   }
   for (const [gi, oi, n] of entry?.wg || []) {
     if (gi === exceptGi) continue
@@ -1959,15 +2107,18 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
       bump(back, `${m}:${id}`, Math.min(b, consumed))
     }
   }
-  // Per-profile overdraft: more models of a profile gave an item up than the profile fields. Only
-  // an item the profile is PRINTED with can be overdrawn — an item no default names (a chained
-  // swap, an "X or Y" the generator could not settle) has no stock to count against.
+  // Per-profile overdraft: more models of a profile gave an item up than carry it — the ones
+  // printed with it, plus what the profile's own picks handed out. An item neither names (a chained
+  // swap with its first link not taken: the Acothyst's "its torturer's tool can be replaced…" with
+  // no special weapon on him) has a stock of nothing, and giving it up is the overdraft. Until
+  // 2026-10-14 only PRINTED items were counted, and such a pick passed (the Wracks report).
   for (const key of new Set([...removed.keys(), ...held.keys()])) {
     const [m, id] = key.split(':').map(Number)
-    const carrier = swapCarriers(def, perMini, id).find(([cm]) => cm === m)
-    if (carrier && net(key) > carrier[1] + 1e-9) over.push({ id, used: net(key), cap: carrier[1] })
+    const printed = swapCarriers(def, perMini, id).find(([cm]) => cm === m)?.[1] || 0
+    const cap = printed + (granted.get(key) || 0)
+    if (net(key) > cap + 1e-9) over.push({ id, used: net(key), cap })
   }
-  if (!unitWide.length) return { removed, back, held, over }
+  if (!unitWide.length) return { removed, back, held, granted, over }
   const unitModels = modelCount(def, entry)
   // Unit-wide overdraft is summed per ITEM across groups: two groups that each overdraw the same
   // combi-bolter are one problem with one count, not two lines that each undercount it.
@@ -2007,7 +2158,42 @@ function swapLedger(def, entry, perMini, exceptGi = null) {
     }
   }
   for (const [id, [extra, cap]] of overWide) over.push({ id, used: cap + extra, cap })
-  return { removed, back, held, over }
+  return { removed, back, held, granted, over }
+}
+
+// Groups of ONE profile that give up the same items, each held once per model of it — so they are
+// one choice drawn as several groups: the Acothyst's own "twin torturer's tools → power weapon and
+// torturer's tool" beside his copy of the squad's special weapons, a Battle Sister's boltgun offered
+// for a special and for a heavy weapon. The editor shows each set as one block with one stock row
+// (owner, 2026-10-14: the same "Twin torturer's tools" twice read as two different weapons). Picks
+// stay in their own groups, and every rule counts them there. Not a set: a model carrying the item
+// several times (a Kratos' heavy bolters, a Decimator's butcher cannons, a Talos' macro-scalpels —
+// each group trades its own copy), an "X or Y" group, the unit's own group. Sets in data order.
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @returns {number[][]}
+ */
+export function sameStockSets(def) {
+  const gear = def?.gear || []
+  /** @type {Map<string, number[]>} */
+  const byKey = new Map()
+  gear.forEach((g, gi) => {
+    if (g.all || g.alt || g.cp || g.rc || !g.rep?.length) return
+    const row = def?.defaults?.find(([m]) => m === (g.m ?? 0))?.[1] || []
+    if (g.rep.some((id) => { const r = row.find(([i]) => i === id); return r && !r[2] && r[1] > 1 })) return
+    const key = `${g.m ?? 0}|${[...g.rep].sort((a, b) => a - b).join('+')}`
+    byKey.set(key, [...(byKey.get(key) || []), gi])
+  })
+  return [...byKey.values()].filter((set) => set.length > 1)
+}
+
+// The alternatives of an "X or Y" group (`alt`), each a SET a pick gives up whole: one item each
+// (a Havoc's autocannon or lascannon), or several (`alts` — a Yaegir's "bolt revolver and plasma
+// knife, or bolt shotgun"). null for an ordinary swap.
+/** @param {GearGroup | null | undefined} g @returns {ItemId[][] | null} */
+export function altSets(g) {
+  if (!g?.alt) return null
+  return g.alts || (g.rep || []).map((id) => [id])
 }
 
 // The items one pick in group `g` actually takes off a model: what the group replaces, less what
@@ -2073,10 +2259,13 @@ export function swapRoom(def, entry, gi, oi = null) {
     if (left != null) rooms.push([id, picksIn(left, g.rep?.includes(id) ? pickShare(def, g, id) : 1)])
   }
   if (!rooms.length) return null
-  // An "X or Y" group needs a model carrying EITHER, so its alternatives are one pool.
+  // An "X or Y" group needs a model carrying EITHER, so its alternatives are one pool — a set as
+  // many times as its scarcest item.
   const rep = g.rep || []
-  const alt = g.alt ? rooms.filter(([id]) => rep.includes(id)) : []
-  const pool = alt.length ? [alt.reduce((sum, [, left]) => sum + left, 0)] : []
+  const sets = altSets(g)
+  const roomOf = new Map(rooms)
+  const alt = sets ? rooms.filter(([id]) => rep.includes(id)) : []
+  const pool = sets && alt.length ? [sets.reduce((sum, set) => sum + Math.min(...set.map((id) => roomOf.get(id) ?? 0)), 0)] : []
   return Math.min(...pool, ...rooms.filter((r) => !alt.includes(r)).map(([, left]) => left))
 }
 
@@ -2094,17 +2283,19 @@ export function swapRoomByItem(def, entry, gi) {
   if (!(g?.rep?.length || g?.keep?.length) || g.cp) return null
   const perMini = modelsPerMini(def, entry)
   if (!perMini) return null
-  const { removed, back, held } = swapLedger(def, entry, perMini, gi)
+  const { removed, back, held, granted } = swapLedger(def, entry, perMini, gi)
   const out = new Map()
   for (const id of needs(g)) {
     const carriers = swapCarriers(def, perMini, id).filter(([m]) => g.all || m === (g.m ?? 0))
-    if (!carriers.length) {
-      if (g.rep?.includes(id)) return null
-      continue
-    }
+    // A profile's stock is what it was printed with plus what its own picks handed out (swapLedger).
+    // An item it has from neither is room 0 — the group closes until a pick hands one over — for a
+    // swap; a footnote's kept item the profile cannot hold has nothing to lock and is left out.
+    if (!g.all && !carriers.some(([m]) => m === (g.m ?? 0))) carriers.push([g.m ?? 0, 0])
     /** @param {number} m @param {number} models */
-    const left = (m, models) => models - (removed.get(`${m}:${id}`) || 0) + (back.get(`${m}:${id}`) || 0) - (held.get(`${m}:${id}`) || 0)
-    out.set(id, carriers.reduce((s, [m, models]) => s + Math.max(0, left(m, models)), 0))
+    const left = (m, models) => models + (granted.get(`${m}:${id}`) || 0) - (removed.get(`${m}:${id}`) || 0) + (back.get(`${m}:${id}`) || 0) - (held.get(`${m}:${id}`) || 0)
+    const room = carriers.reduce((s, [m, models]) => s + Math.max(0, left(m, models)), 0)
+    if (!room && !g.rep?.includes(id) && !carriers.some(([, models]) => models)) continue
+    out.set(id, room)
   }
   return out.size ? out : null
 }
@@ -2184,10 +2375,12 @@ export function fitWargear(def, entry) {
       else if (cap?.dup && (wg[k][2] || 1) > cap.dup) i = k
       else if (wargearExclOver(def, e, gi).some((x) => x.set.includes(wg[k][1]))) i = k
       else if (wargearXpmOver(def, e).some((x) => x.set.s.some((p) => xpmHit(p, gi, wg[k][1])))) i = k
+      // A shared allowance (`pools`): the latest pick in any of its copies.
+      else if (wargearPoolOver(def, e).some((x) => x.pool.g.includes(gi) && (x.oi == null || x.oi === wg[k][1]))) i = k
     }
     // Then the rules about one model across groups (`pm`): the latest pick in either group they cover.
     if (i < 0 && pm && !perModelFits(def, e)) {
-      for (let k = wg.length - 1; k >= 0 && i < 0; k--) if (wg[k][0] === pm.add || wg[k][0] === pm.base) i = k
+      for (let k = wg.length - 1; k >= 0 && i < 0; k--) if (pmGroups(pm.add).includes(wg[k][0]) || pmGroups(pm.base).includes(wg[k][0])) i = k
     }
     // Then stock: the latest pick that spends an overdrawn item.
     if (i < 0) {

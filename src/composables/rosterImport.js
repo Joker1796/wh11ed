@@ -30,7 +30,7 @@
 // points is not a bug in the import.
 import { factionGroups } from '../data/factionsIndex.js'
 import { DISPOSITION_NAMES } from '../data/dispositionColors.js'
-import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
+import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, pmGroups, swapRoom, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -186,6 +186,11 @@ function isCompactList(text) {
  * @returns {{ models: number | null, weapons: GearLine[], modelLines: ModelLine[], flatBody?: boolean }}
  */
 function gwBody(entries) {
+  // A rule of dashes a player drew between units ("--------------------") is neither a model nor a
+  // weapon; at the body's own depth it was taken for the model line, and the real profiles under
+  // it lost their names (Crisis Starscythe Shas'vre and Shas'ui, 2026-10-14).
+  entries = entries.filter((e) => !/^[-=_~*·.\s]{3,}$/.test(e.name || ''))
+  if (!entries.length) return { models: null, weapons: [], modelLines: [] }
   // Nesting is read from indentation, or — where a paste has lost it — from the bullets: the GW
   // app's "◦" lines are the weapons under the "•" model line above them. listhammer strips every
   // leading space, so all 1,800 of its GW-format lists arrived flat, every profile's weapons were
@@ -1053,6 +1058,58 @@ function stepperCount(pick) {
   return total || 1
 }
 
+// One option offered to several profiles (`pools`): a pick a list placed under no profile goes to the
+// first copy with room — the Sergeant's — and what that copy's models cannot hold, in all or of one
+// kind, moves on to the next copy that can take it and still has the item to give up (the owner's
+// rule, 2026-10-14; the same order useRosters' v11 spills a stored list in). `movable(gi, oi)` says
+// which picks may move. Nothing that has nowhere to go is dropped — the validator says what is over.
+/**
+ * @param {RosterUnit} def
+ * @param {RosterEntry} entry
+ * @param {import('./roster.types.js').WargearPick[]} wg
+ * @param {(gi: number, oi: number) => boolean} movable
+ * @returns {import('./roster.types.js').WargearPick[]}
+ */
+function spillPools(def, entry, wg, movable) {
+  if (!def.pools?.length) return wg
+  /** @type {import('./roster.types.js').WargearPick[]} */
+  let out = wg.map((p) => [p[0], p[1], p[2] ?? 1])
+  const at = () => ({ ...entry, wg: out })
+  /** @param {number} gi */
+  const ceiling = (gi) => { const cap = wargearGroupCap(def, at(), gi); return { limit: cap ? cap.limit : wargearGroupFallbackCap(def, at(), gi) ?? Infinity, dup: cap?.dup || 0 } }
+  /** @param {number} gi @param {number | null} [oi] */
+  const held = (gi, oi = null) => out.filter(([g, o]) => g === gi && (oi == null || o === oi)).reduce((n, [, , c]) => n + (c ?? 1), 0)
+  /** @param {number} gi @param {number} oi @param {number} n */
+  const add = (gi, oi, n) => {
+    const hit = out.find(([g, o]) => g === gi && o === oi)
+    if (hit) hit[2] = (hit[2] ?? 1) + n
+    else out.push([gi, oi, n])
+    out = out.filter(([, , c]) => (c ?? 1) > 0)
+  }
+  for (const pool of def.pools) {
+    for (const [k, gi] of pool.g.entries()) {
+      for (let guard = 0; guard < 64; guard++) {
+        const { limit, dup } = ceiling(gi)
+        // What is over of ONE kind moves first; only then what is over in all.
+        const mine = out.filter(([g, o]) => g === gi && movable(g, o))
+        const over = mine.find(([, o]) => dup && held(gi, o) > dup) || (held(gi) > limit ? mine.at(-1) : null)
+        if (!over) break
+        const oi = over[1]
+        const to = pool.g.slice(k + 1).concat(pool.g.slice(0, k)).find((h) => {
+          const c = ceiling(h)
+          if (held(h) >= c.limit || (c.dup && held(h, oi) >= c.dup)) return false
+          const room = swapRoom(def, at(), h, oi)
+          return room == null || room > 0
+        })
+        if (to == null) break
+        add(gi, oi, -1)
+        add(to, oi, 1)
+      }
+    }
+  }
+  return out
+}
+
 /**
  * @param {ParsedList | null | undefined} parsed
  * @param {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> }} [data]
@@ -1188,6 +1245,22 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       if (pu.flatBody && real.length && real.length !== lines.length) {
         models = real.reduce((n, l) => n + l.n, 0) || null
         weapons = weapons.filter((w) => !real.includes(w))
+        // …and what follows a model line is that profile's: an export prints a model and its
+        // weapons under it whatever became of the bullets ("• 1x Crisis Sunforge Shas’vre / 1x Marker
+        // Drone / • 2x … Shas’ui / 2x Gun Drone"). Read as nobody's, a Shas'ui's drones landed on the
+        // Shas'vre once a shared option became a copy per profile (2026-10-14). A line that is
+        // neither a profile nor a weapon this datasheet knows ("3x Power fist and combi-weapon", the
+        // GW app naming a group of models by what they carry) ends it: past it, nobody's again.
+        // Only where an option is offered to several profiles (`pools`) — the one place the answer
+        // changes where a pick lands; elsewhere it would only change how bundles are scored.
+        if (def.pools?.length) {
+          let cur = null
+          for (const l of lines) {
+            if (real.includes(l)) cur = l.name
+            else if (!held.has(norm(l.name))) cur = null
+            else if (cur && l.mini == null) l.mini = cur
+          }
+        }
       }
       // A body with structure already SAID which lines are models, and the parser counted them. So
       // the only ones that leave are those the datasheet knows as WARGEAR: an attached extra is
@@ -1337,7 +1410,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         room = Math.min(room, Math.max(0, (entry.count ?? bracket?.per?.[0] ?? 1) - taken))
       }
       // The rules about one model across groups (`pm`): one more of this option must still deal out.
-      if (oi != null && def.pm && (gi === def.pm.add || gi === def.pm.base) && room > 0) {
+      if (oi != null && def.pm && (pmGroups(def.pm.add).includes(gi) || pmGroups(def.pm.base).includes(gi)) && room > 0) {
         /** @type {import('./roster.types.js').WargearPick[]} */
         const wg = [...picks.values()].map((p) => [p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
         const at = wg.find(([g, o]) => g === gi && o === oi)
@@ -1475,7 +1548,19 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const own = want != null ? refs.filter((r) => r.m === want) : []
       const all = own.length ? own : refs
       const touched = all.filter((r) => !untouched(r.gi))
-      const fitted = touched.length ? touched : all
+      // …and a swap needs something left to give up, with the picks made so far: an Acothyst whose
+      // twin torturer's tools went for his hexrifle has none for "power weapon and torturer's tool",
+      // and his power weapon is the trade of the torturer's tool the hexrifle came with (a WTC-compact
+      // line names neither profile; 2026-10-14). Only a preference — a list the stock rule refuses
+      // either way still lands somewhere and the validator says so.
+      /** @type {import('./roster.types.js').WargearPick[]} */
+      const made = []
+      for (const p of picks.values()) made.push([p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
+      const sofar = { ...entry, wg: made }
+      /** @param {OptionRef} r */
+      const stocked = (r) => { const room = swapRoom(def, sofar, r.gi, r.oi); return room == null || room > 0 || picks.has(key2(r)) }
+      const viable = touched.filter(stocked)
+      const fitted = viable.length ? viable : touched.length ? touched : all
       /** @param {OptionRef} r */
       const fit = (r) => fitOf(r, want)
       const best = Math.max(...fitted.map(fit))
@@ -1597,7 +1682,16 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       }
       line.gear.picked.push(w.name)
     }
-    if (picks.size) entry.wg = [...picks.values()].map((p) => [p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
+    if (picks.size) {
+      /** @type {import('./roster.types.js').WargearPick[]} */
+      const wg = []
+      for (const p of picks.values()) wg.push([p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
+      // A pick the list placed under no profile went to the Sergeant's copy first; what his one
+      // model cannot hold moves on to the next copy (`spillPools`). A pick the list placed under a
+      // profile stays where it was said to be.
+      const said = new Set([...picks.values()].filter((p) => [...p.byMini.keys()].some((m) => m !== '')).map((p) => key2(p)))
+      entry.wg = spillPools(def, entry, wg, (gi, oi) => !said.has(`${gi}:${oi}`))
+    }
 
     if (pu.enh) {
       const found = (faction.detachments || [])

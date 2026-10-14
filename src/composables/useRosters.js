@@ -1,5 +1,6 @@
 import { computed, ref, watch } from 'vue'
 import { debouncedSave } from '../utils/debouncedSave.js'
+import poolMoves from '../data/rosterPoolMoves.js'
 
 // Roster builder store — a module singleton persisted to localStorage, mirroring the
 // pattern in useTracker.js / useLocale.js. Holds the user's saved army lists; the roster
@@ -11,7 +12,7 @@ const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
-export const SCHEMA_VERSION = 10
+export const SCHEMA_VERSION = 11
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -210,7 +211,52 @@ export function migrateRoster(r, v) {
       else delete u.wg
     }
   }
+
+  // → v11: a unit-wide group is one group PER PROFILE now, sharing its allowance (a player's report
+  // on Wracks, 2026-10-14: the player says which model takes it). The Sergeant's copy kept the old
+  // group's index, so an old pick already names it; what one model cannot hold spills to the next
+  // copy, Sergeant first — the same rule the importer follows (owner, 2026-10-14). The faction data
+  // is not loaded here, so the generator hands over the copies and their room (rosterPoolMoves.js).
+  if (!(v >= 11)) {
+    for (const u of r.units || []) {
+      if (!Array.isArray(u.wg)) continue
+      const pools = poolMoves[String(u.id || '').includes(':') ? u.id : `${r.faction}:${u.id}`]
+      if (pools) u.wg = spillPools(u.wg, pools)
+    }
+  }
   return r
+}
+
+// One old unit-wide pick → the copies, in order, each up to its room (-1: the rest). A copy whose
+// profile already gave the item up in another group (`conflicts` — the Acothyst's own power-weapon
+// swap) has that much less room.
+/**
+ * @param {Array<[number, number, number?]>} wg
+ * @param {Array<Array<[number, number, number[]?]>>} pools
+ */
+function spillPools(wg, pools) {
+  let out = wg.map((p) => [...p])
+  for (const copies of pools) {
+    const from = copies[0][0]
+    const moving = out.filter(([g]) => g === from)
+    if (!moving.length) continue
+    out = out.filter(([g]) => g !== from)
+    const room = copies.map(([, n, conflicts]) => (n < 0 ? Infinity
+      : Math.max(0, n - out.filter(([g]) => conflicts?.includes(g)).reduce((s, [, , c]) => s + (c ?? 1), 0))))
+    for (const [, oi, count] of moving) {
+      let left = count ?? 1
+      copies.forEach(([gi], k) => {
+        const take = k === copies.length - 1 ? left : Math.min(left, room[k])
+        if (take <= 0) return
+        room[k] -= take
+        left -= take
+        const at = out.find(([g, o]) => g === gi && o === oi)
+        if (at) at[2] = (at[2] ?? 1) + take
+        else out.push([gi, oi, take])
+      })
+    }
+  }
+  return out
 }
 
 function migrate(env) {

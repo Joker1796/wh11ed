@@ -15,9 +15,11 @@ import { applyStatMods, datasheetEntriesFor, splitBearers } from './rosterStatMo
 const items = rosterItems.items
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 
-// [group, option] of the first option on `def` that hands out `item`.
-function pick(def, item) {
+// [group, option] of the first option on `def` that hands out `item` — on profile `m` when given:
+// a unit-wide instruction ships as a copy per profile, and the player says which takes it.
+function pick(def, item, m = null) {
   for (const [gi, g] of (def.gear || []).entries()) {
+    if (m != null && (g.m ?? 0) !== m) continue
     for (const [oi, o] of (g.o || []).entries()) {
       if (JSON.stringify(o).match(/\d+/g)?.some((id) => itemKey(items[id]) === itemKey(item))) return [gi, oi]
     }
@@ -29,7 +31,7 @@ async function card(slug, unitId, size, picks) {
   const def = (await loadRosterFaction(slug)).units.find((u) => u.id === unitId)
   const printed = (await loadDatasheets(slug)).find((d) => d.id === unitId)
   const records = (await loadRosterModifiersFor(slug)).entries.filter((e) => e.reviewed && e.effects?.length)
-  const entry = { uid: 'u', id: unitId, size, wg: picks.map(([item, n]) => [...pick(def, item), n]) }
+  const entry = { uid: 'u', id: unitId, size, wg: picks.map(([item, n, m]) => [...pick(def, item, m), n]) }
   const sheet = overlaySheet(printed, { def, entry, items }).sheet
   const entries = datasheetEntriesFor(records, { unitId, itemNames: loadoutItemNames(def, entry, items) })
   const placed = splitBearers(sheet, entries, def, entry, items)
@@ -41,7 +43,8 @@ const row = (r) => `${r.name}${r.qty ? ` ×${r.qty}` : ''}`
 
 describe('splitBearers', () => {
   it('gives three Storm Shields in ten Terminators a row of their own, the first to the Sergeant', async () => {
-    const res = await card('space-marines', 'terminator-assault-squad', 1, [['Storm Shield', 3]])
+    // Three shields: the Sergeant's own, and two Terminators'.
+    const res = await card('space-marines', 'terminator-assault-squad', 1, [['Storm Shield', 1, 0], ['Storm Shield', 2, 1]])
     expect(res.sheet.profiles.map((p) => [row(p), p.w])).toEqual([
       ['Terminator Sergeant', '4'],
       ['Terminator ×7', '3'],
@@ -53,7 +56,7 @@ describe('splitBearers', () => {
 
   // A Chapter fields the Codex unit, and reads its records from the Space Marines file (2026-10-01).
   it('does the same for a Chapter fielding the Codex squad', async () => {
-    const res = await card('blood-angels', 'terminator-assault-squad', 1, [['Storm Shield', 3]])
+    const res = await card('blood-angels', 'terminator-assault-squad', 1, [['Storm Shield', 1, 0], ['Storm Shield', 2, 1]])
     expect(res.sheet.profiles.map((p) => [row(p), p.w])).toEqual([
       ['Terminator Sergeant', '4'],
       ['Terminator ×7', '3'],
@@ -62,7 +65,7 @@ describe('splitBearers', () => {
   })
 
   it('splits nothing when every model carries the shield — the number moves', async () => {
-    const res = await card('space-marines', 'terminator-assault-squad', 0, [['Storm Shield', 5]])
+    const res = await card('space-marines', 'terminator-assault-squad', 0, [['Storm Shield', 1, 0], ['Storm Shield', 4, 1]])
     expect(res.sheet.profiles.map((p) => [row(p), p.w])).toEqual([
       ['Terminator Sergeant', '4'],
       ['Terminator', '4'],
@@ -132,17 +135,19 @@ describe('splitBearers — Legends T\'au Shield Drones', () => {
 // or two on one — placed nothing and the Wounds went back to the printed number (a player's report:
 // "at the maximum number of Shield Drones the added wounds disappear").
 describe('splitBearers — copies from a unit-wide group', () => {
-  const wounds = async (slug, unitId, size, n) => (await card(slug, unitId, size, n ? [['Shield Drone', n]] : [])).sheet.profiles.map((p) => [row(p), Number(p.w)])
+  // `per` — drones on each profile's copy: [the Shas'vre's, the Shas'ui's].
+  const wounds = async (slug, unitId, size, per) => (await card(slug, unitId, size, per.flatMap((n, m) => (n ? [['Shield Drone', n, m]] : [])))).sheet.profiles.map((p) => [row(p), Number(p.w)])
 
   it('gives every Crisis suit its drone, and then a second', async () => {
-    const base = (await wounds('tau-empire', 'crisis-battlesuits', 0, 0))[0][1]
-    expect(await wounds('tau-empire', 'crisis-battlesuits', 0, 3)).toEqual([['Crisis Battlesuits', base + 1]])
-    expect(await wounds('tau-empire', 'crisis-battlesuits', 0, 6)).toEqual([['Crisis Battlesuits', base + 2]])
+    const base = (await wounds('tau-empire', 'crisis-battlesuits', 0, [0, 0]))[0][1]
+    // Three suits: the Shas'vre and two Shas'ui.
+    expect(await wounds('tau-empire', 'crisis-battlesuits', 0, [1, 2])).toEqual([['Crisis Battlesuits', base + 1]])
+    expect(await wounds('tau-empire', 'crisis-battlesuits', 0, [2, 4])).toEqual([['Crisis Battlesuits', base + 2]])
   })
 
   it('adds 2 Wounds to a lone Broadside with two drones', async () => {
-    const base = (await wounds('tau-empire', 'broadside-battlesuits', 0, 0))[0][1]
-    expect(await wounds('tau-empire', 'broadside-battlesuits', 0, 2)).toEqual([['Broadside Battlesuits', base + 2]])
+    const base = (await wounds('tau-empire', 'broadside-battlesuits', 0, [0]))[0][1]
+    expect(await wounds('tau-empire', 'broadside-battlesuits', 0, [2])).toEqual([['Broadside Battlesuits', base + 2]])
   })
 
   // The whole class: every bearer rule on a profile, every unit that can take its item, every count

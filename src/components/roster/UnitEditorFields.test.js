@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import ConfirmModal from '../ConfirmModal.vue'
-import { wargearGroupCap } from '../../composables/rosterEngine.js'
+import { wargearGroupCap, sameStockSets } from '../../composables/rosterEngine.js'
 import rosterItems from '../../data/roster/items.js'
 import drukhari from '../../data/roster/drukhari.js'
 import astraMilitarum from '../../data/roster/astra-militarum.js'
@@ -26,8 +26,11 @@ const mountFor = (def, entry = {}) => mount(UnitEditorFields, {
 })
 
 describe('UnitEditorFields — wargear instructions', () => {
-  it('renders the option list as separate lines, not one run-on heading', () => {
+  it('renders the option list as separate lines, not one run-on heading', async () => {
     const w = mountFor(wracks)
+    // Folded where it only repeats the rows under it (owner, 2026-10-14) — one tap opens it.
+    expect(w.findAll('.ues-blist')).toHaveLength(0)
+    await w.find('.ues-text-btn').trigger('click')
     const list = w.findAll('.ues-blist')[0]
     expect(list.findAll('li')).toHaveLength(4)
     expect(list.findAll('li')[0].text()).toContain('hexrifle')
@@ -40,7 +43,9 @@ describe('UnitEditorFields — wargear instructions', () => {
   it('marks a group instruction as prose, not as a label', () => {
     const w = mountFor(wracks)
     const heads = w.findAll('.ues-h')
-    expect(heads.filter((h) => h.classes().includes('ues-instr')).length).toBe(wracks.gear.length)
+    // Every group but the Acothyst's chained swap, which waits under the special weapon that hands
+    // him the torturer's tool (none is picked here).
+    expect(heads.filter((h) => h.classes().includes('ues-instr')).length).toBe(wracks.gear.length - 1)
     // The unit-size / model-count / default-loadout headings keep the display face.
     expect(heads.some((h) => !h.classes().includes('ues-instr'))).toBe(true)
   })
@@ -385,12 +390,67 @@ describe('UnitEditorFields — which of the two squads', () => {
   })
 })
 
+// An owner's screenshot, 2026-10-14: a tap on the one-of row that is on left it lit with an empty
+// box — the browser cleared the box, the choice did not change, nothing redrew it. It unticks now.
+describe('UnitEditorFields — a one-of row that is on', () => {
+  const hexOf = (w) => w.findAll('.opt-tile').find((t) => t.text().startsWith('Hexrifle'))
+  it('goes back to the stock row when tapped again', async () => {
+    const aco = wracks.gear.findIndex((g) => g.m === 0 && g.o.length === 4)
+    const w = mountFor(wracks, { wg: [[aco, 0, 1]] })
+    const entry = w.props('entry')
+    const box = hexOf(w).find('input')
+    box.element.checked = false
+    await box.trigger('change')
+    expect(entry.wg || []).toEqual([])
+  })
+  it('keeps the stock row ticked when it is tapped while on', async () => {
+    const w = mountFor(wracks)
+    // The Acothyst's copy of the special weapons — its stock row is a tick box; the Wracks' is a count.
+    const stock = w.findAll('.opt-tile').filter((t) => t.text().startsWith('Twin torturer’s tools') && t.find('input').exists()).at(-1).find('input')
+    stock.element.checked = false
+    await stock.trigger('change')
+    expect(stock.element.checked).toBe(true)
+    expect(w.props('entry').wg || []).toEqual([])
+  })
+})
+
+// The Acothyst's "its torturer's tool can be replaced with 1 power weapon" is drawn under the
+// special weapon that handed him the tool, only while it is on (owner, 2026-10-14).
+describe('UnitEditorFields — a chained swap', () => {
+  const aco = wracks.gear.findIndex((g) => g.m === 0 && g.o.length === 4)
+  const chained = wracks.gear.findIndex((g) => g.m === 0 && g.cond)
+  it('waits under the pick that hands the item over', async () => {
+    expect(mountFor(wracks).find('.opt-nested').exists()).toBe(false)
+    const w = mountFor(wracks, { wg: [[aco, 2, 1]] })
+    const nested = w.find('.opt-nested')
+    expect(nested.exists()).toBe(true)
+    expect(nested.text()).toContain('Power weapon')
+    // …and a tick there is a pick in the chained group, an untick its stock.
+    const box = nested.find('input')
+    box.element.checked = true
+    await box.trigger('change')
+    expect(w.props('entry').wg).toEqual(expect.arrayContaining([[chained, 0, 1]]))
+  })
+  it('shows a pick left with no source where it was, to be undone', () => {
+    const w = mountFor(wracks, { wg: [[chained, 0, 1]] })
+    expect(w.find('.opt-nested').exists()).toBe(false)
+    expect(w.findAll('.ues-instr').some((h) => /not equipped with a power weapon/.test(h.text()))).toBe(true)
+  })
+  it('frames each profile as a card with its heading', () => {
+    const w = mountFor(wracks)
+    expect(w.findAll('.ues-profile').map((h) => h.text())).toEqual(['Acothyst', 'Wrack ×4'])
+    expect(w.findAll('.ues-card-first')).toHaveLength(2)
+    expect(w.findAll('.ues-card-last')).toHaveLength(2)
+  })
+})
+
 // A player's report, 2026-09-24: CSM Terminators dropped from ten to five kept picks for ten.
 describe('UnitEditorFields — shrinking the unit', () => {
   const terms = chaosSpaceMarines.units.find((u) => u.id === 'chaos-terminator-squad')
   // By name, not by item id: ids are interned across every faction and renumber whenever a bump
   // adds weapons anywhere (app data 963 moved these from 7 and 958).
-  const groupNamed = (name) => terms.gear.findIndex((g) => g.o.some((o) => rosterItems.items[o[0]] === name))
+  // The Terminators' own copy of each swap (the Champion has his).
+  const groupNamed = (name) => terms.gear.findIndex((g) => g.m === 1 && g.o.some((o) => rosterItems.items[o[0]] === name))
   const combi = groupNamed('Combi-weapon')
   const paired = groupNamed('Paired accursed weapons')
   const pill = (w, i) => w.findAll('.pill').filter((p) => /pts/.test(p.text()))[i]
@@ -399,9 +459,10 @@ describe('UnitEditorFields — shrinking the unit', () => {
     const w = mountFor(terms, { size: 1, count: 10, wg: [[combi, 0, 8], [paired, 0, 2]] })
     const entry = w.props('entry')
     await pill(w, 0).trigger('click')
-    // Each group down to its own ceiling first (five combi-weapons, one pair), then stock: five
-    // combi-bolters are all spent, so the latest pick — the paired weapons — goes.
-    expect(entry.wg).toEqual([[combi, 0, 5]])
+    // Each group down to its own ceiling first (four Terminators beside the Champion: four
+    // combi-weapons, one pair), then stock: their four combi-bolters are all spent, so the latest
+    // pick — the paired weapons — goes.
+    expect(entry.wg).toEqual([[combi, 0, 4]])
     expect(w.find('.ues-trimmed').exists()).toBe(true)
     await w.find('.ues-trimmed button').trigger('click')
     expect(entry).toMatchObject({ size: 1, count: 10, wg: [[combi, 0, 8], [paired, 0, 2]] })
@@ -415,16 +476,17 @@ describe('UnitEditorFields — shrinking the unit', () => {
     const entry = w.props('entry')
     await pill(w, 0).trigger('click')
     expect(w.find('.ues-trimmed').exists()).toBe(true)
-    // The combi-weapon stepper, at the five the trim left: one fewer is a pick like any other.
-    const step = w.findAllComponents(NumberStepper).find((n) => n.props('label') === 'Combi-weapon')
-    await step.vm.$emit('update:modelValue', 4)
-    expect(entry.wg).toEqual([[combi, 0, 4]])
+    // The Terminators' combi-weapon stepper, at the four the trim left: one fewer is a pick like
+    // any other.
+    const step = w.findAllComponents(NumberStepper).find((n) => n.props('label') === 'Combi-weapon' && n.props('modelValue') === 4)
+    await step.vm.$emit('update:modelValue', 3)
+    expect(entry.wg).toEqual([[combi, 0, 3]])
     expect(w.find('.ues-trimmed').exists()).toBe(false)
   })
 
   it('leaves a list that arrived over alone, and marks the rows instead', () => {
-    const w = mountFor(terms, { wg: [[combi, 0, 5], [paired, 0, 1]] })
-    expect(w.props('entry').wg).toEqual([[combi, 0, 5], [paired, 0, 1]])
+    const w = mountFor(terms, { wg: [[combi, 0, 4], [paired, 0, 1]] })
+    expect(w.props('entry').wg).toEqual([[combi, 0, 4], [paired, 0, 1]])
     expect(w.findAll('.ues-over')).toHaveLength(2)
   })
 })
@@ -687,5 +749,38 @@ describe('UnitEditorFields — a limit across groups', () => {
     const chainswordRow = rowsOf(1).find((t) => t.text().includes('Bellatus reaper chainsword'))
     expect(chainswordRow.classes()).toContain('disabled')
     expect(rowsOf(0).find((t) => t.text().includes('Bellatus reaper chainsword')).classes()).not.toContain('disabled')
+  })
+})
+
+// Several groups trading the same weapon on one profile are one choice, drawn as one block with ONE
+// stock row (owner, 2026-10-14: the Acothyst's twin torturer's tools appeared twice). Over every
+// faction: of a set's groups that are drawn on their own (not a chained swap, not a held pick), one
+// leads and the rest are sub-headings under it. Three units trade one copy of a pair and keep their
+// groups apart — the merge would hide the second copy.
+describe('UnitEditorFields — one choice drawn once', () => {
+  const bundles = import.meta.glob(['../../data/roster/*.js', '!../../data/roster/*.test.js', '!../../data/roster/index.js'], { eager: true })
+  const units = Object.values(bundles).flatMap((m) => m.default?.units || [])
+  it('draws every set of groups giving up the same weapon with one stock row', () => {
+    let sets = 0
+    for (const def of units) {
+      const found = sameStockSets(def)
+      if (!found.length) continue
+      const w = mountFor(def)
+      for (const set of found) {
+        const secs = set.map((gi) => w.find(`.ues-sec[data-gi="${gi}"]`)).filter((s) => s.exists())
+        const alone = secs.filter((s) => !s.classes('ues-merged') && !s.classes('ues-nested') && !s.find('.ues-hold').exists())
+        expect(alone.length, `${def.name}: groups ${set}`).toBeLessThanOrEqual(1)
+        sets++
+      }
+      w.unmount()
+    }
+    expect(sets).toBeGreaterThan(80)
+  })
+  it('keeps apart the units that give up one copy of a pair', () => {
+    for (const name of ['Kratos', 'Decimator', 'Talos']) {
+      const def = units.find((u) => u.name === name)
+      expect(def, name).toBeTruthy()
+      expect(sameStockSets(def), name).toEqual([])
+    }
   })
 })

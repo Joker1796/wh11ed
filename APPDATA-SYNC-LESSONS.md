@@ -1229,3 +1229,19 @@ and appdata state fresh; a data model can change between now and when this is ne
     passed. `src/data/factions/ru/subheadings.test.js` (inside `npm test`) pairs the plates of every
     army and detachment rule by position: a plate added or dropped by a sync, a renamed one, or
     one with no Russian fails it — after a bump, write the RU line where it points.
+
+87. **A fold that makes a count right can make a question unanswerable.** appdata records an
+    instruction about the squad once per miniature, and the generator folded the copies into one
+    unit-wide group so the allowance was not taken twice. The count was right; WHICH model took the
+    option was gone, and three things hung on it: a Sergeant's option on an item only that option
+    hands him (the Acothyst's "its torturer's tool can be replaced…", open with nothing to give —
+    a player's report, 2026-10-14), "X or Y" where Y comes from the squad's option (Hesyr: a false
+    overdraft on a legal list), and appdata's one-set-per-weapon limits, which matched no folded
+    group at all (two hexrifles in five Wracks passed). Three readers had also learnt to say
+    "uncounted" where they could not tell: the stock rule skipped an item the profile was not
+    printed with, `resolveHeldAlternatives` dropped a Y that was not printed, the walk past "or its"
+    kept the last half. The fold now stays inside the generator (it still finds the copies and
+    pins the limit) and ships as a copy per profile sharing a pool; the readers count what the
+    profile's own picks hand out. When a generator merges two things, list what can no longer be
+    asked of the result before shipping it — `index.test.js` → "an option offered to several
+    profiles" holds the four, all red on the old data.

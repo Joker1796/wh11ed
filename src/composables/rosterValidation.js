@@ -4,7 +4,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -304,6 +304,12 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     for (const x of wargearXpmOver(def, u)) {
       const names = [...new Set(x.set.s.flatMap(([g, o]) => (o == null ? gear[g].o : [gear[g].o[o]]).map((op) => optionItems(op).map(([id]) => items?.[id]).filter(Boolean).join(' + '))))].filter(Boolean).join(', ')
       add('overWargearOnePerModel', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit, names } })
+    }
+    // An allowance several profiles share (`pools`): two hexrifles in five Wracks, one on the
+    // Acothyst and one on a Wrack — each copy is within its own models, the squad is over.
+    for (const x of wargearPoolOver(def, u)) {
+      if (x.oi == null) add('overWargearLimit', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit } })
+      else add('overWargearDup', 'error', { uid: u.uid, params: { count: x.spent, limit: x.limit } })
     }
     // Rules about one model across groups (`pm`, Legends Crisis Battlesuits): the picks cannot be
     // dealt onto the models — rosterEngine's perModelFits.

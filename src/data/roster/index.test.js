@@ -297,23 +297,31 @@ describe('bundled wargear options', () => {
     expect(bundles).toBeGreaterThan(120)
   })
 
-  it('never offer the same instruction twice on one unit', () => {
-    // appdata records a unit-wide bullet once per miniature; folded into one by the generator
-    // (mergeMiniatureDuplicates). Two copies would read as a repeated instruction AND hand out
-    // the allowance twice, which is how this was noticed on Drukhari Wracks.
+  it('never offer the same instruction twice to one profile, and across profiles only as one pool', () => {
+    // appdata records a unit-wide bullet once per miniature. Two copies on ONE profile would read as
+    // a repeated instruction and hand out the allowance twice — how this was noticed on Drukhari
+    // Wracks. Across profiles the copies ship on purpose since 2026-10-14 (the player chooses who
+    // takes it), and then they must share one allowance: one `pools` entry holding both.
     // Keyed on the TEXT, whitespace-normalised — the two copies are typed twice into appdata and
     // can differ by a stray space, which is how one pair escaped the first version of the fold.
     const key = (g) => `${(rosterItems.texts[g.t] || '').replace(/\s+/g, ' ').trim()}|${g.o.map((o) => optionItems(o).map(([id]) => id).sort().join('+')).sort().join('/')}`
+    let pooled = 0
     for (const [slug, data] of loaded) {
       for (const u of data.units || []) {
-        const seen = new Set()
-        for (const g of u.gear || []) {
+        const seen = new Map() // key -> gear indices
+        for (const [gi, g] of (u.gear || []).entries()) {
           const k = key(g)
-          expect(seen.has(k), `${slug} ${u.name}: ${k}`).toBe(false)
-          seen.add(k)
+          const at = seen.get(k) || []
+          for (const hi of at) {
+            expect(u.gear[hi].m, `${slug} ${u.name}: twice on one profile — ${k}`).not.toBe(g.m)
+            expect((u.pools || []).some((p) => p.g.includes(hi) && p.g.includes(gi)), `${slug} ${u.name}: copies in no shared pool — ${k}`).toBe(true)
+            pooled++
+          }
+          seen.set(k, [...at, gi])
         }
       }
     }
+    expect(pooled).toBeGreaterThan(80)
   })
 })
 
@@ -347,12 +355,23 @@ describe('replaced-item links', () => {
     expect(repNames(g)).toEqual(['Cult claws and knife'])
   })
 
-  it('picks the alternative the profile actually holds out of "X or Y"', () => {
-    // "their Autoch-pattern bolter or ion blaster" doesn't say which the model gives up — but the
-    // profile does: its default loadout holds the bolter and not the ion blaster.
+  it('reads "X or Y" whole when Y is one the profile may take from another option', () => {
+    // "their Autoch-pattern bolter or ion blaster": the profile is printed with the bolter, and its
+    // own options hand out the ion blaster — a Warrior who took one can trade it too. Until
+    // 2026-10-14 only the printed half was read (and the Hesyr's "concussion gauntlet or plasma
+    // blade gauntlet" with it, so a Hesyr with the squad's plasma blade could not take his hammer).
     const u = groupsOf('leagues-of-votann', 'hearthkyn-warriors')
     const g = u.gear.find((x) => /bolter or ion blaster/i.test(textOf(x)))
-    expect(repNames(g)).toEqual(['Autoch-pattern bolter'])
+    expect(repNames(g)).toEqual(['Autoch-pattern bolter', 'Ion blaster'])
+    expect(g.alt).toBe(1)
+  })
+
+  it('reads an alternative that is a pair of items', () => {
+    // "its bolt revolver and plasma knife or its bolt shotgun" (Hernkyn Yaegirs): a pick gives up the
+    // pair or the shotgun, whichever the Yaegir carries.
+    const u = groupsOf('leagues-of-votann', 'hernkyn-yaegirs')
+    const g = u.gear.find((x) => /plasma knife or its bolt shotgun/i.test(textOf(x)))
+    expect(g.alts.map((set) => set.map((i) => rosterItems.items[i]))).toEqual([['Bolt revolver', 'Plasma knife'], ['Bolt shotgun']])
   })
 
   it('records both as alternatives when the profile holds both of "X or Y"', () => {
@@ -467,22 +486,25 @@ describe('replaced-item links', () => {
   })
 
   it('spends a unit-wide swap on the unit, on every datasheet that has one', () => {
-    // A bullet appdata records once per miniature profile is folded into ONE unit-wide group
-    // (`all`) — 81 of them, on the most-fielded squads in the game (Chosen, every Terminator
-    // squad, Nobz, Scouts, Bullgryns). Until 2026-08-28 nothing spent them: the swap added the new
-    // weapon and left every copy of the old one on the card, the loadout block and the export.
-    // Which profile gives the item up is a display convention (see swapsByMini); that the UNIT
-    // holds one fewer is not, and this is what pins it.
+    // A bullet appdata records once per miniature profile ships as one copy per profile sharing an
+    // allowance (`pools`) — on the most-fielded squads in the game (Chosen, every Terminator squad,
+    // Nobz, Scouts, Bullgryns). Until 2026-08-28 nothing spent the unit-wide group it used to be:
+    // the swap added the new weapon and left every copy of the old one on the card, the loadout
+    // block and the export. Each copy now belongs to its profile; that the UNIT holds one fewer is
+    // what this pins, on every copy.
     const silent = []
     let checked = 0
     let unknown = 0
     for (const { slug, data } of factions) {
       for (const u of data.units || []) {
         for (const [gi, g] of (u.gear || []).entries()) {
-          if (!g.all || !g.rep?.length) continue
+          if (!(u.pools || []).some((p) => p.g.includes(gi)) || !g.rep?.length) continue
           const si = Math.max(0, u.sizes.findIndex((x) => x.default))
           const entry = { unitId: u.id, size: si, count: u.sizes[si].per[0] }
           if (!wargearGroupLive(u, { ...entry, wg: [[gi, 0, 1]] }, gi)) continue
+          // A copy on a profile this size fields none of (five Corsair Reavers have no Felarch) has
+          // nobody to take it — the editor closes it, and there is nothing to spend.
+          if (modelsPerMini(u, entry)?.get(g.m ?? 0) === 0) continue
           const before = loadoutItemCounts(u, entry)
           const after = loadoutItemCounts(u, { ...entry, wg: [[gi, 0, 1]] })
           // An option may hand part of what it replaces straight back — a Deathwatch Veteran keeps
@@ -1376,16 +1398,22 @@ describe('an allowance the instruction states without naming a number', () => {
 // A bare "For every 5 models in this unit:" over a bullet list is deliberately NOT one of these
 // (hence the comma in the pattern, which is the generator's own): its bullets are separate
 // allowances, one per weapon named, and a single shared table would cap the pair at what one of
-// them is worth. Two groups are in that shape — Red Corsairs Raiders and Wracks.
+// them is worth. Red Corsairs Raiders' bullets give up different weapons and are split into a group
+// each; Wracks' four all give up the twin torturer's tools and stay one group, capped from appdata's
+// four one-weapon sets (`[[5, 4, 1], [10, 8, 2]]` — a hexrifle per five models, and so on).
+// A group's allowance is its own `lim`, its profile's budget per model (`pb`), or — for a profile's
+// copy of a unit-wide instruction — the pool the copies share.
+const cappedAt = (u, gi) => !!(u.gear[gi].lim?.length || u.gear[gi].pb || (u.pools || []).some((p) => p.g.includes(gi) && p.lim?.length))
+
 describe('every scaled allowance the corpus states is in the data', () => {
   it('leaves no "for every N models, up to M" group uncapped', () => {
     const uncapped = []
     for (const { slug, data } of factions) {
       for (const u of data.units || []) {
-        for (const g of u.gear || []) {
+        for (const [gi, g] of (u.gear || []).entries()) {
           const head = (rosterItems.texts[g.t] || '').split('\n')[0]
           if (!/for every (\d+) models? in (?:this|the) unit,\s*(?:up to )?(\d+|one|two|three|four|five)\b/i.test(head)) continue
-          if (!g.lim?.length) uncapped.push(`${slug}/${u.id}: ${head.slice(0, 80)}`)
+          if (!cappedAt(u, gi)) uncapped.push(`${slug}/${u.id}: ${head.slice(0, 80)}`)
         }
       }
     }
@@ -1405,33 +1433,41 @@ describe('a budget per model', () => {
     const uncapped = []
     for (const { slug, data } of factions) {
       for (const u of data.units || []) {
-        for (const g of u.gear || []) {
+        for (const [gi, g] of (u.gear || []).entries()) {
           if (!/^\s*any number of models can (?:each )?be equipped with up to/i.test(headOf(g))) continue
-          if (!g.lim?.length) uncapped.push(`${slug}/${u.id}: ${headOf(g).slice(0, 80)}`)
+          if (!cappedAt(u, gi)) uncapped.push(`${slug}/${u.id}: ${headOf(g).slice(0, 80)}`)
         }
       }
     }
     expect(uncapped).toEqual([])
   })
 
+  // One copy per profile since 2026-10-14 (the Shas'vre's and the Shas'ui's), each with the budget
+  // of its own models — two per suit, at most one of each where duplicates are barred.
   it('gives Broadsides two support systems each, never two alike, and one plasma-or-missile slot', () => {
     const unit = unitOf('broadside-battlesuits')
-    const sys = unit.gear.find((g) => /cannot take duplicates/.test(headOf(g)))
-    expect(sys.lim).toEqual([[1, 2, 1], [2, 4, 2], [3, 6, 3]])
+    const sys = unit.gear.filter((g) => /cannot take duplicates/.test(headOf(g)))
+    expect(sys.map((g) => [g.m, g.pb])).toEqual([[0, [2, 1]], [1, [2, 1]]])
     const name = (o) => rosterItems.items[Array.isArray(o[0]) ? o[0][0][0] : o[0]]
-    expect(sys.excl.map((set) => set.map((oi) => name(sys.o[oi])).sort()))
-      .toEqual([['Twin plasma rifle', 'Twin smart missile system']])
-    const drones = unit.gear.find((g) => /and can take duplicates/.test(headOf(g)))
-    expect(drones.lim).toEqual([[1, 2], [2, 4], [3, 6]])
+    for (const g of sys) {
+      expect(g.excl.map((set) => set.map((oi) => name(g.o[oi])).sort()))
+        .toEqual([['Twin plasma rifle', 'Twin smart missile system']])
+    }
+    const drones = unit.gear.filter((g) => /and can take duplicates/.test(headOf(g)))
+    expect(drones.map((g) => [g.m, g.pb])).toEqual([[0, [2]], [1, [2]]])
+    // Three suits: the Shas'vre's own two, the two Shas'ui's four.
+    const at = (g) => unit.gear.indexOf(g)
+    expect(sys.map((g) => wargearGroupCap(unit, { size: 2, count: 3 }, at(g)))).toEqual([{ limit: 2, dup: 1 }, { limit: 4, dup: 2 }])
   })
 
   it('reads the Legends Crisis suits and the single-item Piranha form too', () => {
     const crisis = unitOf('crisis-battlesuits')
-    const three = crisis.gear.find((g) => /up to three/.test(headOf(g)))
-    expect(three.lim.at(-1)).toEqual([6, 18])
-    // Its footnotes reach across the burst-cannon swap too, so they are the unit's `pm`, not `excl`.
-    expect(three.excl).toBeUndefined()
-    expect(crisis.pm).toMatchObject({ add: crisis.gear.indexOf(three), slots: 3, base: 0 })
+    const three = crisis.gear.filter((g) => /up to three/.test(headOf(g)))
+    expect(three.map((g) => g.pb)).toEqual([[3], [3]])
+    // Its footnotes reach across the burst-cannon swap too, so they are the unit's `pm`, not `excl`
+    // — over both profiles' copies of each group.
+    expect(three.every((g) => g.excl === undefined)).toBe(true)
+    expect(crisis.pm).toMatchObject({ add: three.map((g) => crisis.gear.indexOf(g)), slots: 3, base: [0, 3] })
     expect(crisis.pm.one).toHaveLength(4) // the four starred items, one each per model
     expect(crisis.pm.ranged[0]).toBe(3)
     expect(unitOf('piranhas').gear.find((g) => /seeker missiles/.test(headOf(g))).lim).toEqual([[1, 2], [2, 4], [3, 6]])
@@ -1480,9 +1516,12 @@ describe('a swap several models can each make', () => {
           const head = (rosterItems.texts[g.t] || '').split('\n')[0]
           if (!/^\s*(?:any number of|all models)\b/i.test(head) || !/\beach\b/i.test(head)) return
           if (g.all || g.m == null || g.o.length < 2 || !g.rep?.length) return
-          const models = Math.max(...(u.sizes || []).map((s) => {
+          // A bracket that does not say how its models split (Corsair bands) says nothing about one
+          // profile — the Felarch is one model in every bracket that does.
+          const known = (u.sizes || []).filter((s) => s.comp?.length)
+          const models = Math.max(...(known.length ? known : u.sizes || []).map((s) => {
             const comp = (s.comp || []).find(([mi]) => mi === g.m)
-            return comp ? (comp[2] ?? comp[1]) : (s.per?.[1] ?? s.per?.[0] ?? 1)
+            return comp ? (comp[2] ?? comp[1]) : (s.comp?.length ? 0 : (s.per?.[1] ?? s.per?.[0] ?? 1))
           }))
           const oneOf = g.in !== 'stepper' && !(g.lim?.length && Math.max(...g.lim.map((r) => r[1])) > 1)
           if (models > 1 && oneOf) uncapped.push(`${slug}/${u.id} gi=${gi}: ${head.slice(0, 80)}`)
@@ -1849,7 +1888,10 @@ describe('wargear swaps', () => {
               for (const id of g.rep || []) {
                 if ((before.get(id) ?? 0) > 0) continue
                 const grants = (h, i) => i !== gi && h.o.some((x) => optionItems(x).some(([y]) => y === id))
-                let src = def.gear.findIndex((h, i) => grants(h, i) && (h.all || (h.m ?? 0) === (g.m ?? 0)))
+                // One that leaves this group live: the Acothyst's own power-weapon swap hands out a
+                // torturer's tool too, and closes "if not equipped with a power weapon" behind it.
+                const live = (h, i) => wargearGroupLive(def, { ...base, wg: [[i, h.o.findIndex((x) => optionItems(x).some(([y]) => y === id)), 1]] }, gi)
+                let src = def.gear.findIndex((h, i) => grants(h, i) && (h.all || (h.m ?? 0) === (g.m ?? 0)) && live(h, i))
                 if (src < 0) src = def.gear.findIndex(grants)
                 if (src >= 0) pre.push([src, def.gear[src].o.findIndex((x) => optionItems(x).some(([y]) => y === id)), 1])
               }
@@ -2098,5 +2140,87 @@ describe('room left for a swap', () => {
     const decimator = await def('chaos-space-marines', 'decimator')
     // One butcher cannon left is no room for "both of this model's butcher cannons".
     expect(swapRoom(decimator, { id: 'decimator', size: 0, wg: [[0, 0, 1]] }, 1)).toBe(0)
+  })
+})
+
+// THE GUARDRAILS for "the player chooses which model takes it" (2026-10-14, a player's report on
+// Wracks). Every one of these was red on the data and engine before that day.
+describe('an option offered to several profiles', () => {
+  const headOf = (g) => (rosterItems.texts[g.t] || '').split('\n')[0].trim()
+
+  // A bullet appdata records once per miniature ships as a copy per profile; a unit-wide group
+  // could not say which model took it, and everything that depends on that hung loose. Only an
+  // option the UNIT carries ("This unit can be equipped with 1 Watcher in the Dark") stays one.
+  it('leaves no unit-wide group but one the unit itself carries', () => {
+    const wide = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        for (const g of u.gear || []) if (g.all && !/^this unit (?:can|may)\b/i.test(headOf(g))) wide.push(`${slug}/${u.id}: ${headOf(g).slice(0, 70)}`)
+      }
+    }
+    expect(wide).toEqual([])
+  })
+
+  // "For every 5 models in the unit:" over one bullet per weapon is that many allowances; appdata
+  // records one set per weapon, and they are folded into the group's own table (Wracks: a hexrifle
+  // per five models, and so on — checked in the GW app). Groups whose bullets give up DIFFERENT
+  // weapons are split into a group each and capped there.
+  it('caps every "for every N models:" bullet list', () => {
+    const uncapped = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        for (const [gi, g] of (u.gear || []).entries()) {
+          const lines = (rosterItems.texts[g.t] || '').split('\n').map((l) => l.trim()).filter(Boolean)
+          if (!/^for every \d+ models? in (?:this|the) unit:$/i.test(lines[0] || '') || lines.length < 3) continue
+          if (!cappedAt(u, gi)) uncapped.push(`${slug}/${u.id} g${gi}: ${lines[0]}`)
+        }
+      }
+    }
+    expect(uncapped).toEqual([])
+  })
+
+  // A swap of an item the profile is not printed with — the Acothyst's "its torturer's tool can be
+  // replaced…", a Desolation Sergeant's superkrak — is room 0 until one of its own picks hands the
+  // item over, and room once it does. It used to be "uncounted" and open for good.
+  it('opens a chained swap only once its first link is taken', () => {
+    const open = []
+    let checked = 0
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        const printed = new Map((u.defaults || []).map(([m, l]) => [m, new Set(l.map(([id]) => id))]))
+        const si = Math.max(0, u.sizes.findIndex((x) => x.default))
+        const base = { id: u.id, size: si, count: u.sizes[si].per?.[1] ?? u.sizes[si].per?.[0] }
+        for (const [gi, g] of (u.gear || []).entries()) {
+          if (g.all || g.alt || !g.rep?.length || g.cp) continue
+          const m = g.m ?? 0
+          if (!modelsPerMini(u, base)?.get(m)) continue
+          const missing = g.rep.filter((id) => !printed.get(m)?.has(id))
+          if (!missing.length) continue
+          checked++
+          if (swapRoom(u, { ...base, wg: [] }, gi) !== 0) open.push(`${slug}/${u.id} g${gi}: ${headOf(g).slice(0, 70)}`)
+        }
+      }
+    }
+    expect(open).toEqual([])
+    expect(checked).toBeGreaterThan(10)
+  })
+
+  // "concussion gauntlet or plasma blade gauntlet", "bolt revolver and plasma knife or its bolt
+  // shotgun": the second half is one the profile may take from another option. Read as the printed
+  // half alone, a Hesyr with the squad's plasma blade could not take his hammer.
+  it('reads "X or Y" whole where Y is the profile\'s from another option', () => {
+    const half = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        for (const [gi, g] of (u.gear || []).entries()) {
+          const swap = headOf(g).match(/(?:'s|’s|\btheir\b|\bits\b)\s+(.+?)\s+(?:can\s+(?:each\s+)?be\s+)?replaced with/i)
+          if (!swap || !/ or /i.test(swap[1]) || g.alt) continue
+          const offered = new Set((u.gear || []).filter((h, hi) => hi !== gi && (h.m ?? 0) === (g.m ?? 0)).flatMap((h) => h.o.flatMap((o) => optionItems(o).map(([id]) => rosterItems.items[id]?.toLowerCase()))))
+          const named = swap[1].split(/\s+or\s+(?:its\s+|their\s+)?/i).flatMap((a) => a.split(/\s+and\s+/i)).map((x) => x.trim().toLowerCase())
+          if (named.some((n) => offered.has(n))) half.push(`${slug}/${u.id} g${gi}: ${headOf(g).slice(0, 80)}`)
+        }
+      }
+    }
+    expect(half).toEqual([])
   })
 })

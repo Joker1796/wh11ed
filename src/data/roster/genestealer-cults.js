@@ -1156,9 +1156,9 @@ export default {
       ],
       "gear": [
         {
-          "all": 1,
+          "m": 0,
           "t": 577,
-          "in": "stepper",
+          "in": "checkbox",
           "o": [
             [
               617
@@ -1166,7 +1166,8 @@ export default {
           ],
           "rep": [
             613
-          ]
+          ],
+          "repall": 1
         },
         {
           "m": 1,
@@ -1185,6 +1186,27 @@ export default {
           ],
           "rep": [
             613
+          ]
+        },
+        {
+          "m": 1,
+          "t": 577,
+          "in": "stepper",
+          "o": [
+            [
+              617
+            ]
+          ],
+          "rep": [
+            613
+          ]
+        }
+      ],
+      "pools": [
+        {
+          "g": [
+            0,
+            2
           ]
         }
       ]
