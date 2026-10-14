@@ -614,8 +614,16 @@ function groupStepMax(gi, oi) {
   color: var(--text-muted);
   font-style: italic;
 }
-/* A profile's block heading — the editor's own section-label face, in the block's first section. */
-.ues-profile { margin: 0 0 0.45rem; }
+/* A profile's block heading, in the block's first section: a tinted bar, as the catalogue's role
+   headers and an attached block's head are — a tinted bar means "a heading" across the builder —
+   with the accent edge on its left (owner, 2026-10-14: the bare label did not stand out). */
+.ues-profile {
+  margin: 0 0 0.55rem;
+  padding: 0.3rem 0.5rem;
+  background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+}
 .ues-profile-n { color: var(--text-muted); }
 /* Who holds what this row cannot take — after the name, muted, never a line of its own. */
 .opt-taken { color: var(--text-muted); font-size: 0.85em; }
