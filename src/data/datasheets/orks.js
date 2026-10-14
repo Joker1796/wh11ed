@@ -7695,7 +7695,7 @@ export default [
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "120x92mm"
+    "baseSize": "120x92mm oval base"
   },
   {
     "id": "wazdakka-gutsmek",
