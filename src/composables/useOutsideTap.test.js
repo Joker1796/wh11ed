@@ -69,3 +69,22 @@ describe('useOutsideTap', () => {
     expect(s.open.value).toBe(true)
   })
 })
+
+describe('useOutsideTap — a dialog opened over the dropdown', () => {
+  // A player's report (2026-10-14): in the detachment picker's ⓘ dialog, folding a section closed
+  // the picker under it, and the dialog with it — the dialog lives at the end of <body>.
+  it('a tap inside a dialog or a popover leaves the dropdown open', async () => {
+    const s = setup(); w = s.w
+    for (const cls of ['modal-overlay', 'kw-popover']) {
+      const layer = document.createElement('div')
+      layer.className = cls
+      layer.innerHTML = '<button class="fold">Enhancements</button>'
+      document.body.appendChild(layer)
+      tap(layer.querySelector('.fold'))
+      expect(s.open.value, cls).toBe(true)
+      layer.remove()
+    }
+    tap(s.el('under'))
+    expect(s.open.value).toBe(false)
+  })
+})

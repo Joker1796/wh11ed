@@ -25,15 +25,17 @@
           :class="{ phone, waiting: !resolved }"
           :style="cardStyle"
         >
-          <p class="tour-count">
-            {{ active.i + 1 }} / {{ chapter.steps.length }}
-          </p>
-          <h2
-            id="tour-title"
-            class="tour-title"
-          >
-            {{ text.title }}
-          </h2>
+          <!-- The step count rides on the title's line, to its right (owner, 2026-10-14): a line of
+               its own cost the card a row on a phone. -->
+          <div class="tour-head">
+            <h2
+              id="tour-title"
+              class="tour-title"
+            >
+              {{ text.title }}
+            </h2>
+            <span class="tour-count">{{ active.i + 1 }} / {{ chapter.steps.length }}</span>
+          </div>
           <p class="tour-text">
             {{ text.text }}
           </p>
@@ -277,7 +279,7 @@ const cardStyle = computed(() => {
 }
 .tour-card {
   position: absolute;
-  padding: 0.9rem 1rem 0.8rem;
+  padding: 0.65rem 0.9rem 0.6rem;
   border: 1px solid var(--accent);
   background: var(--bg-card);
   color: var(--text-primary);
@@ -286,9 +288,10 @@ const cardStyle = computed(() => {
 }
 .tour-card.waiting { visibility: hidden; }
 .tour-card.phone { left: calc(var(--safe-left, 0px) + 12px); right: calc(var(--safe-right, 0px) + 12px); }
-.tour-count { margin: 0 0 0.2rem; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
-.tour-title { margin: 0 0 0.35rem; font-family: var(--font-display); font-size: 1.3rem; font-weight: var(--fw-heading); }
-.tour-text { margin: 0 0 0.8rem; font-size: 0.92rem; line-height: 1.45; }
+.tour-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin: 0 0 0.25rem; }
+.tour-count { flex: none; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
+.tour-title { margin: 0; font-family: var(--font-display); font-size: 1.3rem; font-weight: var(--fw-heading); line-height: 1.15; }
+.tour-text { margin: 0 0 0.6rem; font-size: 0.92rem; line-height: 1.4; }
 .tour-actions { display: flex; gap: 0.5rem; align-items: center; }
 .tour-skip { margin-right: auto; }
 /* The three buttons share the card's width: at their own 1.3rem sides "Пропустить / Назад /
