@@ -30,6 +30,8 @@ export const changelog = [
       { h: 'Whole site' },
       '**The GW changes page shows every faction at first.** Your own pick is still remembered on this device.',
       '**The points PDF for the 14 October update is on the [GW changes page](/patches).** In Russian and in English.',
+      { h: 'Answers to your questions' },
+      'Why does the Chapter Ancient no longer add 15 points to [Victrix Honour Guard](/factions/space-marines/datasheets/victrix-honour-guard)? Since 2.9.0 a unit costs what the MFM says, and the MFM prices Victrix Honour Guard by size alone: 120 for 3 models, 250 for 6. The GW app adds 15 for the Ancient; I follow the MFM.',
     ],
     ru: [
       { h: 'Трекер' },
@@ -37,6 +39,8 @@ export const changelog = [
       { h: 'Весь сайт' },
       '**Страница изменений GW сначала показывает все фракции.** Ваш выбор на этом устройстве по-прежнему запоминается.',
       '**PDF с ценами обновления от 14 октября — на [странице изменений GW](/patches).** На русском и на английском.',
+      { h: 'Ответы на вопросы' },
+      'Почему Chapter Ancient больше не добавляет 15 очков [Victrix Honour Guard](/factions/space-marines/datasheets/victrix-honour-guard)? С версии 2.9.0 отряд стоит столько, сколько в MFM, а MFM оценивает Victrix Honour Guard только по размеру: 120 за 3 модели, 250 за 6. Приложение GW добавляет 15 за знаменосца, я следую MFM.',
     ],
   },
   {
