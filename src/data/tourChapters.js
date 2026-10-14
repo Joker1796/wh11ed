@@ -6,6 +6,15 @@
 // (useTourShow, answered by the screen that owns the state). `when(ctx)` keeps a step to a state of
 // the screen (the ctx its screen passes: the game screen says whether the battle has `begun`).
 
+// The game screen's tabs that show ONE side, named for a sentence (the log shows both).
+const SIDE_TABS = {
+  ru: { missions: 'миссии', phase: (c) => (c.phases ? 'фазу' : 'ход'), cp: 'CP', armies: 'армию', stats: 'статистику' },
+  en: { missions: 'missions', phase: (c) => (c.phases ? 'phase' : 'turn'), cp: 'CP', armies: 'army', stats: 'stats' },
+}
+const sideTabs = (ctx, lang) => (ctx.tabs || ['missions', 'armies'])
+  .map((id) => SIDE_TABS[lang][id]).filter(Boolean)
+  .map((n) => (typeof n === 'function' ? n(ctx) : n)).join(', ')
+
 export const TOUR_CHAPTERS = {
   home: {
     steps: [
@@ -211,22 +220,22 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-score',
         show: { side: 'you' },
-        ru: { title: 'Счёт', text: 'Здесь счёт обеих сторон: победные очки или BP, первичка, вторичка и CP. У каждой стороны свой цвет. Карточка выбранной стороны обведена её цветом.' },
-        en: { title: 'Score', text: 'Both sides’ score is here: Victory Points or BP, primary, secondary and CP. Each side has its own colour. The chosen side’s card is outlined in it.' },
+        ru: (c) => ({ title: 'Счёт', text: `Здесь счёт обеих сторон: победные очки или BP, первичка, вторичка${c.cp ? ' и CP' : ''}. У каждой стороны свой цвет. Карточка выбранной стороны обведена её цветом.` }),
+        en: (c) => ({ title: 'Score', text: `Both sides’ score is here: Victory Points or BP, primary, secondary${c.cp ? ' and CP' : ''}. Each side has its own colour. The chosen side’s card is outlined in it.` }),
       },
       {
         target: 'game-score',
         show: { side: 'opp', tab: 'missions' },
         when: (ctx) => !ctx.doubles,
-        ru: { title: 'Сторона соперника', text: 'Нажмите на карточку соперника, и вкладки ниже покажут его: миссии, CP, армию. Сейчас выбран соперник. С новым ходом вкладки снова покажут сторону, которая ходит.' },
-        en: { title: 'The opponent’s side', text: 'Tap the opponent’s card, and the tabs below show their side: missions, CP, army. The opponent is chosen now. With each new turn the tabs go back to the side on turn.' },
+        ru: (c) => ({ title: 'Сторона соперника', text: `Нажмите на карточку соперника, и вкладки ниже покажут его: ${sideTabs(c, 'ru')}. Сейчас выбран соперник. С новым ходом вкладки снова покажут сторону, которая ходит.` }),
+        en: (c) => ({ title: 'The opponent’s side', text: `Tap the opponent’s card, and the tabs below show their side: ${sideTabs(c, 'en')}. The opponent is chosen now. With each new turn the tabs go back to the side on turn.` }),
       },
       {
         target: 'game-score',
         show: { side: 'opp', tab: 'missions' },
         when: (ctx) => ctx.doubles,
-        ru: { title: 'Команда соперника', text: 'Нажмите на карточку команды соперника, и вкладки ниже покажут её: миссии, CP, армии. Сейчас выбрана команда соперника. С новым ходом вкладки снова покажут команду, которая ходит.' },
-        en: { title: 'The opposing team', text: 'Tap the opposing team’s card, and the tabs below show that team: missions, CP, armies. The opposing team is chosen now. With each new turn the tabs go back to the team on turn.' },
+        ru: (c) => ({ title: 'Команда соперника', text: `Нажмите на карточку команды соперника, и вкладки ниже покажут её: ${sideTabs(c, 'ru').replace('армию', 'армии')}. Сейчас выбрана команда соперника. С новым ходом вкладки снова покажут команду, которая ходит.` }),
+        en: (c) => ({ title: 'The opposing team', text: `Tap the opposing team’s card, and the tabs below show that team: ${sideTabs(c, 'en').replace('army', 'armies')}. The opposing team is chosen now. With each new turn the tabs go back to the team on turn.` }),
       },
       {
         target: 'game-reserves',
@@ -239,8 +248,8 @@ export const TOUR_CHAPTERS = {
         target: 'game-start',
         show: { side: null },
         when: (ctx) => !ctx.begun && ctx.canTurn !== false,
-        ru: { title: 'Начать игру', text: 'Расставьте армии на столе и нажмите «Начать игру». Пока бой не начат: с этой кнопки начнётся первый ход, и придут первые CP.' },
-        en: { title: 'Start game', text: 'Deploy your armies on the table and press “Start game”. The battle has not begun yet: the first turn starts with this button, and the first CP arrive.' },
+        ru: (c) => ({ title: 'Начать игру', text: `Расставьте армии на столе и нажмите «Начать игру». Пока бой не начат: с этой кнопки начнётся первый ход${c.cp ? ', и придут первые CP' : ''}.` }),
+        en: (c) => ({ title: 'Start game', text: `Deploy your armies on the table and press “Start game”. The battle has not begun yet: the first turn starts with this button${c.cp ? ', and the first CP arrive' : ''}.` }),
       },
       {
         target: 'game-start',
@@ -253,15 +262,22 @@ export const TOUR_CHAPTERS = {
         target: 'game-turnbar',
         show: { side: null },
         when: (ctx) => ctx.begun && ctx.canTurn === false,
-        ru: { title: 'Ход соперника', text: 'Сейчас ходит соперник: фазы переключает и ход завершает он, на своём устройстве. У вас эти кнопки серые, а всё, что он делает, сразу видно здесь.' },
-        en: { title: 'The opponent’s turn', text: 'The opponent is on turn: they step the phases and end the turn, on their device. Here the buttons are grey, and everything they do shows here at once.' },
+        ru: (c) => ({ title: 'Ход соперника', text: `Сейчас ходит соперник: ${c.phases ? 'фазы переключает и ход завершает он' : 'ход завершает он'}, на своём устройстве. У вас эти кнопки серые, а всё, что он делает, сразу видно здесь.` }),
+        en: (c) => ({ title: 'The opponent’s turn', text: `The opponent is on turn: ${c.phases ? 'they step the phases and end the turn' : 'they end the turn'}, on their device. Here the buttons are grey, and everything they do shows here at once.` }),
       },
       {
         target: 'game-turnbar',
         show: { side: null },
-        when: (ctx) => ctx.begun && ctx.canTurn !== false,
+        when: (ctx) => ctx.begun && ctx.canTurn !== false && ctx.phases,
         ru: { title: 'Ход и фазы', text: 'Переключайте фазы хода стрелками. Нажмите на название фазы, чтобы выбрать её из списка. Кнопка «Завершить ход» передаёт ход сопернику.' },
         en: { title: 'Turn and phases', text: 'Switch the turn’s phases with the arrows. Tap the phase’s name to pick it from a list. “End turn” passes the turn to the opponent.' },
+      },
+      {
+        target: 'game-turnbar',
+        show: { side: null },
+        when: (ctx) => ctx.begun && ctx.canTurn !== false && !ctx.phases,
+        ru: { title: 'Ход', text: 'Нажмите «Завершить ход», чтобы передать ход сопернику. «Отменить ход» возвращает последний ход.' },
+        en: { title: 'Turn', text: 'Press “End turn” to pass the turn to the opponent. “Undo turn” takes the last turn back.' },
       },
       {
         target: 'game-tabs',
@@ -328,21 +344,21 @@ export const TOUR_CHAPTERS = {
         target: 'game-panel-log',
         show: { tab: 'log', member: 'mine' },
         when: (ctx) => ctx.tabs.includes('log'),
-        ru: { title: 'Лог', text: 'Здесь всё, что случилось в партии, по раундам: очки, CP, стратагемы. Лог показывает обе стороны сразу. Его можно скопировать текстом.' },
-        en: { title: 'Log', text: 'Everything that happened in the game is here, by round: points, CP, stratagems. The log shows both sides at once. It can be copied as text.' },
+        ru: (c) => ({ title: 'Лог', text: `Здесь всё, что случилось в партии, по раундам: ${c.cp ? 'очки, CP, стратагемы' : 'очки'}. Лог показывает обе стороны сразу. Его можно скопировать текстом.` }),
+        en: (c) => ({ title: 'Log', text: `Everything that happened in the game is here, by round: ${c.cp ? 'points, CP, stratagems' : 'points'}. The log shows both sides at once. It can be copied as text.` }),
       },
       {
         target: 'game-panel-stats',
         show: { tab: 'stats' },
         when: (ctx) => ctx.tabs.includes('stats'),
-        ru: { title: 'Статистика', text: 'Здесь очки стороны по раундам: первичка, вторичка и CP. Так видно, в каком раунде что набрано.' },
-        en: { title: 'Stats', text: 'The side’s points by round are here: primary, secondary and CP. It shows what was scored in which round.' },
+        ru: (c) => ({ title: 'Статистика', text: `Здесь очки стороны по раундам: первичка, вторичка${c.cp ? ' и CP' : ''}. Так видно, в каком раунде что набрано.` }),
+        en: (c) => ({ title: 'Stats', text: `The side’s points by round are here: primary, secondary${c.cp ? ' and CP' : ''}. It shows what was scored in which round.` }),
       },
       {
         target: 'game-menu',
         show: { tab: 'missions', side: null, member: 'mine' },
-        ru: { title: 'Меню партии', text: 'Нажмите «…», чтобы открыть меню партии: настройка, совместная игра, трансляция и завершение игры. Отсюда же можно снова открыть туториал.' },
-        en: { title: 'The game’s menu', text: 'Press “…” to open the game’s menu: setup, the shared game, the broadcast and finishing the game. The tutorial opens from here again too.' },
+        ru: (c) => ({ title: 'Меню партии', text: `Нажмите «…», чтобы открыть меню партии: настройки, совместная игра, ${c.broadcast ? 'трансляция и ' : ''}завершение игры. Отсюда же можно снова открыть туториал.` }),
+        en: (c) => ({ title: 'The game’s menu', text: `Press “…” to open the game’s menu: setup, the shared game, ${c.broadcast ? 'the broadcast and ' : ''}finishing the game. The tutorial opens from here again too.` }),
       },
     ],
   },
@@ -389,20 +405,20 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-turnbar',
         when: (ctx) => ctx.canTurn === false,
-        ru: { title: 'Бой начался', text: 'Фазы переключает и ход завершает тот, кто ходит, на своём устройстве. Когда ход перейдёт к вам, кнопки внизу оживут.' },
-        en: { title: 'The battle has begun', text: 'Whoever is on turn steps the phases and ends the turn, on their device. When the turn passes to you, the buttons below come alive.' },
+        ru: (c) => ({ title: 'Бой начался', text: `${c.phases ? 'Фазы переключает и ход завершает' : 'Ход завершает'} тот, кто ходит, на своём устройстве. Когда ход перейдёт к вам, кнопки внизу оживут.` }),
+        en: (c) => ({ title: 'The battle has begun', text: `Whoever is on turn ${c.phases ? 'steps the phases and ends the turn' : 'ends the turn'}, on their device. When the turn passes to you, the buttons below come alive.` }),
       },
       {
         target: 'game-turnbar',
-        when: (ctx) => ctx.canTurn !== false,
+        when: (ctx) => ctx.canTurn !== false && ctx.phases,
         ru: { title: 'Ход и фазы', text: 'Переключайте фазы хода стрелками. Нажмите на название фазы, чтобы выбрать её из списка. Кнопка с круглой стрелкой отменяет последний ход.' },
         en: { title: 'Turn and phases', text: 'Switch the turn’s phases with the arrows. Tap the phase’s name to pick it from a list. The round-arrow button undoes the last turn.' },
       },
       {
         target: 'game-turnbar',
         when: (ctx) => ctx.canTurn !== false,
-        ru: { title: 'Завершить ход', text: 'Нажмите «Завершить ход», когда закончите ход. Сначала трекер покажет, что ещё не начислено и какие карты уйдут. Потом ход перейдёт сопернику.' },
-        en: { title: 'End turn', text: 'Press “End turn” when your turn is done. The tracker first shows what is not scored yet and which cards leave. Then the turn passes to the opponent.' },
+        ru: (c) => ({ title: 'Завершить ход', text: `Нажмите «Завершить ход», когда закончите ход. ${c.turnChecks ? 'Сначала трекер покажет, что ещё не начислено и какие карты уйдут. Потом ход перейдёт сопернику.' : 'Ход сразу перейдёт сопернику.'}${c.phases ? '' : ' «Отменить ход» возвращает последний ход.'}` }),
+        en: (c) => ({ title: 'End turn', text: `Press “End turn” when your turn is done. ${c.turnChecks ? 'The tracker first shows what is not scored yet and which cards leave. Then the turn passes to the opponent.' : 'The turn passes to the opponent at once.'}${c.phases ? '' : ' “Undo turn” takes the last turn back.'}` }),
       },
     ],
   },

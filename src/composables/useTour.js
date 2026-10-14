@@ -36,7 +36,12 @@ const pending = new Map() // id → { ctx, at }: chapters asked for and not yet 
 const PENDING_MS = 60000 // a chapter not shown within a minute of its screen asking is dropped
 const dialogOpen = () => typeof document !== 'undefined' && !!document.querySelector('.modal-overlay:not([inert])')
 // The chapter's steps that hold for this state of its screen.
-const stepsOf = (id, ctx) => TOUR_CHAPTERS[id].steps.filter((s) => !s.when || s.when(ctx))
+// A step's words may depend on the game's own settings (`ru`/`en` as `(ctx) => ({ title, text })`,
+// owner 2026-10-14: a tour naming CP or phases a game does not keep reads as a different app).
+const worded = (s, ctx) => (typeof s.ru === 'function' || typeof s.en === 'function'
+  ? { ...s, ru: typeof s.ru === 'function' ? s.ru(ctx) : s.ru, en: typeof s.en === 'function' ? s.en(ctx) : s.en }
+  : s)
+const stepsOf = (id, ctx) => TOUR_CHAPTERS[id].steps.filter((s) => !s.when || s.when(ctx)).map((s) => worded(s, ctx))
 // Whether a step's element is on screen now.
 function present(st) {
   if (typeof document === 'undefined') return true

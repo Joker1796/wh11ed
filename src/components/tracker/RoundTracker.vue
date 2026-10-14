@@ -767,6 +767,9 @@ const { maybeStart: maybeStartTour, start: startTour } = useTour()
 const tourCtx = () => ({
   get begun() { return begun.value },
   get phases() { return tracks(current.value?.settings, 'trackPhases') },
+  get cp() { return tracks(current.value?.settings, 'trackCP') },
+  get turnChecks() { return tracks(current.value?.settings, 'trackTurnChecks') },
+  get broadcast() { return broadcastOn.value || tracks(current.value?.settings, 'trackBroadcast') },
   get lists() { return !!reservesSide.value },
   get tabs() { return tabs.value.map((t) => t.id) },
   get shared() { return !!partyActive.value },
