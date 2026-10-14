@@ -1,5 +1,9 @@
-import { beforeEach, describe, it, expect, vi } from 'vitest'
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
+
+// A component loads the army tracker spec lazily; wait for it, or a load still in flight when the
+// file ends lands after the environment is torn down (an unhandled rejection under load).
+afterEach(() => vi.dynamicImportSettled())
 
 // The Armies tab: one entry per army (per member in doubles), the way to its units — the attached
 // list, else the faction's datasheets — and its rules, loaded from the faction data on demand.
