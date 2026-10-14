@@ -1245,3 +1245,36 @@ and appdata state fresh; a data model can change between now and when this is ne
     profile's own picks hand out. When a generator merges two things, list what can no longer be
     asked of the result before shipping it — `index.test.js` → "an option offered to several
     profiles" holds the four, all red on the old data.
+
+88. **A hyphen is a hyphen in EVERY name lookup, not only the importer's.** Codex: Adeptus Custodes
+    (data 981) types "Shield‑Captain", "Caladius Grav‑Tank", "Knight‑Centura" with U+2011; the MFM
+    types a plain "-". The roster generator looked prices up through `normApost`, which folded
+    apostrophes and nothing else, so nine Custodes units — and two Orks bommers since long before —
+    were priced from appdata instead of the MFM, silently. The run printed them under "no MFM entry
+    at all", a line read as noise because Crusader Squad and Headtakers always sit there. When that
+    list grows by a faction, read it.
+
+89. **A shorthand the candidate gate does not know is a rule nobody reviews.** 11th-edition prose
+    writes range as `+6" **R**`; `isCandidate` knew `M` and `Move` but not `R`, so Aquilan Shield's
+    Favoured Ka'tah had no modifier record — and neither did four older rules in three other
+    factions (Hunting Warpack's Soul-spoor Auspicator, Orks' Dakka! Dakka! Dakka! and Targetin'
+    Squigs, T'au's Superior Craftsmanship). Each new codex is worth one look at its abbreviations
+    against the pattern list.
+
+90. **A codex's other army rules arrive folded into ours, and a record must find them there.**
+    gen-faction-rules folds a faction's several army rules into one block, the others as `### `
+    sections. A modifier record named for one of those (Custodes' Aegis of the Emperor, Daughters of
+    the Abyss) was dropped by the name check meant to stop T'au's Drones reading the wrong rule.
+    `resolveModifierEntries` now reads the matching section instead (`armyRuleSection`), so its scopes
+    come from its own prose.
+
+91. **appdata can contradict its own composition text with a count.** Data 981's Default Wargear
+    group gives five Noise Marines four sonic blasters while the sheet says "Every model is equipped
+    with: sonic blaster". The Havoc rule ("a group counting FEWER than row × models is the profile's
+    total") took the 4 as a total; it now yields to an explicit "every model" naming the item.
+
+92. **GW can file two containers under one core-rule number and update only one.** 09.07.01 in data
+    981 is the errata'd "Desperate Escape Test" ("instructs", a new first bullet) beside the older
+    "Desperate Escape" that still says "forces". The omissions gate merges both by design, so the
+    stale word is an ALLOW with that reason. Likewise GW printed one Core Rules FAQ question three
+    times with growing examples; `corefaq` now counts identical questions once, longest answer.

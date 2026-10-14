@@ -29,4 +29,6 @@ export const PATCHES = [
   // version, alongside app v2.7.1. The MFM pair starts at `619ce29`, our own disposition fix of
   // 1 October, so that fix is not reported as GW's.
   { id: '972', date: '2026-10-02', app: ['7f90e96', '53eabea'], mfm: ['619ce29', '791a175'], labels: { app: 972, mfm: '1.5' } },
+  // App 2.8.0 (Codex: Adeptus Custodes) and MFM v1.6.
+  { id: '981', date: '2026-10-14', app: ['53eabea', '5cf9504'], mfm: ['c9929eb', '2aabe2d'], faq: ['8ae2a2b', '2aabe2d'], labels: { app: 981, mfm: '1.6' } },
 ]

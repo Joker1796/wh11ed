@@ -278,7 +278,7 @@ const en = {
           "name": "Auriferous Orb",
           "points": 20,
           "flavor": "When this sphere of solid gold detonates, it unleashes beams of radiating light that blind those they do not kill.",
-          "body": "ADEPTUS CUSTODES model only. This model has the following weapon:\n▪ **Auriferous Orb** [ANTI-NON-MONSTER/VEHICLE 2+, BLINDING LIGHT, DEVASTATING WOUNDS] — Range 12\", A 3, BS 2+, S 1, AP 0, D 1."
+          "body": "ADEPTUS CUSTODES model only. This model has the following weapon:"
         }
       ]
     },
@@ -755,7 +755,7 @@ const en = {
           "name": "Emperor’s Light",
           "points": 15,
           "flavor": "This masterwork misericordia is believed to flood the hearts of its victims with searing holy radiance.",
-          "body": "ADEPTUS CUSTODES model only. This model has the following weapon:\n▪ **Emperor’s Light** [EXTRA ATTACKS] — Melee, A 3, WS 2+, S 5, AP -2, D 2."
+          "body": "ADEPTUS CUSTODES model only. This model has the following weapon:"
         },
         {
           "name": "Castellan’s Mark",

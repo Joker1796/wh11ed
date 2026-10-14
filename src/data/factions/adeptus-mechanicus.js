@@ -991,7 +991,7 @@ Until the start of your next Command phase, those units gain the Halo Override k
           flavor: "From their distant strategium pulpit, the Tech-Priest commander's guiding hand descends, seizing control of allied minds, steering their troops carefully away from harm whilst maintaining a hail of killing fire.",
           when: 'Your Movement phase, just after an ADEPTUS MECHANICUS unit from your army is selected to make a **[gloss:fall-back-move:Fall Back move]**.',
           target: 'That ADEPTUS MECHANICUS unit.',
-          effect: "▪ If your unit is a HALO OVERRIDE unit, your unit can re-roll **[gloss:hazard-roll:hazard rolls]**.\n▪ That **[gloss:fall-back-move:fall-back move]** does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]** or **[gloss:eligible-to-charge:eligible to declare a charge]**.",
+          effect: "▪ If your unit is a HALO OVERRIDE unit, your unit can re-roll **[gloss:hazard-roll:hazard rolls]**.\n▪ That **[gloss:fall-back-move:fall-back move]** does not prevent your unit from:\n▪ Being **[gloss:eligible-to-shoot:eligible to shoot]**.\n▪ Being **[gloss:eligible-to-charge:eligible to declare a charge]**.",
           restrictions: '',
         },
         {

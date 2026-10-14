@@ -110,12 +110,6 @@ const RULE_TEXTS_BY_ID = {
   // Adepta Sororitas
   'dominion-squad': { 'Holy Vanguard': 'Если во время шага Declare Battle Formations к этому юниту присоединён юнит Leader и этот юнит начинает битву погружённым в TRANSPORT, этот юнит Leader получает способность Scouts 6".' },
   'ministorum-priest': { 'Holy Mission': 'Если во время шага Declare Battle Formations эта модель присоединена к DOMINION SQUAD, она получает способность Scouts 6". Если во время шага Declare Battle Formations эта модель присоединена к SISTERS NOVITIATE SQUAD, она получает способность Infiltrators.' },
-  // Adeptus Custodes
-  'agamatus-custodians': { 'JETBIKE OUTRIDERS': 'Если модель из вашей армии со способностью Leader может быть присоединена к юниту Vertus Praetors, она может быть присоединена к этому юниту вместо этого.' },
-  'aquilon-custodians': { 'LIONS OF THE EMPEROR': 'Если модель из вашей армии со способностью Leader может быть присоединена к юниту Allarus Custodians, она может быть присоединена к этому юниту вместо этого.' },
-  'custodian-guard-with-adrasite-and-pyrithite-spears': { 'CUSTODIAN GUARD': 'Если модель ADEPTUS CUSTODES из вашей армии со способностью Leader может быть присоединена к юниту Custodian Guard, она может быть присоединена к этому юниту вместо этого.' },
-  'sagittarum-custodians': { 'CUSTODIAN GUARD': 'Если модель ADEPTUS CUSTODES из вашей армии со способностью Leader может быть присоединена к юниту Custodian Guard, она может быть присоединена к этому юниту вместо этого.' },
-  'venatari-custodians': { 'JUMP PACKS': 'Этот юнит не может погрузиться в Venerable Land Raider.' },
   // Adeptus Mechanicus
   'sydonian-skatros': { 'SYDONIAN SENTINEL': 'Эта модель не может быть вашим WARLORD.' },
   // Astra Militarum
