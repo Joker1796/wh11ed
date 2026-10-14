@@ -40,7 +40,9 @@ describe('UnitEditorFields — wargear instructions', () => {
   it('marks a group instruction as prose, not as a label', () => {
     const w = mountFor(wracks)
     const heads = w.findAll('.ues-h')
-    expect(heads.filter((h) => h.classes().includes('ues-instr')).length).toBe(wracks.gear.length)
+    // Every group but the Acothyst's chained swap, which waits under the special weapon that hands
+    // him the torturer's tool (none is picked here).
+    expect(heads.filter((h) => h.classes().includes('ues-instr')).length).toBe(wracks.gear.length - 1)
     // The unit-size / model-count / default-loadout headings keep the display face.
     expect(heads.some((h) => !h.classes().includes('ues-instr'))).toBe(true)
   })
@@ -406,6 +408,36 @@ describe('UnitEditorFields — a one-of row that is on', () => {
     await stock.trigger('change')
     expect(stock.element.checked).toBe(true)
     expect(w.props('entry').wg || []).toEqual([])
+  })
+})
+
+// The Acothyst's "its torturer's tool can be replaced with 1 power weapon" is drawn under the
+// special weapon that handed him the tool, only while it is on (owner, 2026-10-14).
+describe('UnitEditorFields — a chained swap', () => {
+  const aco = wracks.gear.findIndex((g) => g.m === 0 && g.o.length === 4)
+  const chained = wracks.gear.findIndex((g) => g.m === 0 && g.cond)
+  it('waits under the pick that hands the item over', async () => {
+    expect(mountFor(wracks).find('.opt-nested').exists()).toBe(false)
+    const w = mountFor(wracks, { wg: [[aco, 2, 1]] })
+    const nested = w.find('.opt-nested')
+    expect(nested.exists()).toBe(true)
+    expect(nested.text()).toContain('Power weapon')
+    // …and a tick there is a pick in the chained group, an untick its stock.
+    const box = nested.find('input')
+    box.element.checked = true
+    await box.trigger('change')
+    expect(w.props('entry').wg).toEqual(expect.arrayContaining([[chained, 0, 1]]))
+  })
+  it('shows a pick left with no source where it was, to be undone', () => {
+    const w = mountFor(wracks, { wg: [[chained, 0, 1]] })
+    expect(w.find('.opt-nested').exists()).toBe(false)
+    expect(w.findAll('.ues-instr').some((h) => /not equipped with a power weapon/.test(h.text()))).toBe(true)
+  })
+  it('frames each profile as a card with its heading', () => {
+    const w = mountFor(wracks)
+    expect(w.findAll('.ues-profile').map((h) => h.text())).toEqual(['Acothyst', 'Wrack ×4'])
+    expect(w.findAll('.ues-card-first')).toHaveLength(2)
+    expect(w.findAll('.ues-card-last')).toHaveLength(2)
   })
 })
 

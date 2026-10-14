@@ -2300,10 +2300,16 @@ option, and appdata's one-set-per-weapon limits (see lesson 87 in `APPDATA-SYNC-
   own profile. `pm` (Legends Crisis) names a group or all its copies (`pmGroups`).
 - **"This unit can be equipped with…"** (Watcher in the Dark, the one case) belongs to the unit and
   stays a single `all` group, drawn in a block "Unit" above the profiles.
-- **The editor is laid out by profile** (`UnitWargearGroups`' `order`): one block per profile, the
+- **The editor is laid out by profile** (`UnitWargearGroups`' `order`): one CARD per profile, the
   Sergeant first, its own options and its copy of every shared one together — not "the Sergeant's,
-  the shared, the squad's". The heading stands in the block's first section (the sections stay
-  siblings). Moving an option between profiles is a tap on each.
+  the shared, the squad's". The frame is drawn on the groups' own sections (`ues-card-first/last`),
+  which stay siblings of the editor's other sections; the heading is a tinted bar across the top.
+  Moving an option between profiles is a tap on each; a tap on the row that is on unticks it.
+- **A chained swap is drawn under what feeds it** (`chains`/`nesting`): a group that gives up an item
+  its profile is not printed with, handed out by another group of that profile — under the row that
+  is on where the source is a one-of (the Acothyst's power-weapon swap under his special weapon), as
+  its own indented group after the source where models count (Death Company). No source pick, no
+  group — unless it still holds a pick, shown where it was, marked over.
 - **The importer** places a line under the profile the export names; a line naming none goes to
   the first copy with room — the Sergeant's — and spills on (the owner's rule, the same as v11). It
   prefers an option whose swap still has stock with the picks made so far (`stocked`).

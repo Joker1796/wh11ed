@@ -10,12 +10,12 @@
        section (the sections stay siblings of the editor's own); "This unit can be equipped with…"
        is the unit's, and heads the list as its own block. -->
   <template
-    v-for="{ g, gi, head } in order"
+    v-for="{ g, gi, head, card, nested } in order"
     :key="gi"
   >
     <section
       class="ues-sec"
-      :class="{ 'ues-inert': shut[gi], 'ues-profile-first': head }"
+      :class="{ 'ues-inert': shut[gi], 'ues-card': card, 'ues-card-first': card === 'first' || card === 'only', 'ues-card-last': card === 'last' || card === 'only', 'ues-nested': nested }"
     >
       <h3
         v-if="head"
@@ -107,38 +107,89 @@
         v-if="mode(g, gi) === 'radio'"
         class="opt-col"
       >
-        <div
+        <template
           v-for="opt in radioRows(g)"
           :key="opt.oi ?? 'default'"
-          class="opt-tile"
-          :class="{ on: radioSel(gi) === opt.oi, disabled: shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi))) }"
         >
-          <label class="opt-select">
-            <input
-              type="checkbox"
-              :checked="radioSel(gi) === opt.oi"
-              :disabled="shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi)))"
-              @change="setRadio(gi, opt.oi, $event)"
-            >
-            <span class="opt-name">{{ opt.name }}<span
-              v-if="radioSel(gi) !== opt.oi && takenBy(gi, opt.oi)"
-              class="opt-taken"
-            > · {{ takenBy(gi, opt.oi) }}</span></span>
-            <span
-              v-if="opt.pts"
-              class="opt-pts"
-            >+{{ opt.pts }}</span>
-          </label>
-          <button
-            type="button"
-            class="opt-info"
-            data-press
-            :aria-label="labels.rosterViewInfo"
-            @click="openWeaponInfo(opt.names)"
+          <div
+            class="opt-tile"
+            :class="{ on: radioSel(gi) === opt.oi, disabled: shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi))) }"
           >
-            <i class="wi wi-info" />
-          </button>
-        </div>
+            <label class="opt-select">
+              <input
+                type="checkbox"
+                :checked="radioSel(gi) === opt.oi"
+                :disabled="shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi)))"
+                @change="setRadio(gi, opt.oi, $event)"
+              >
+              <span class="opt-name">{{ opt.name }}<span
+                v-if="radioSel(gi) !== opt.oi && takenBy(gi, opt.oi)"
+                class="opt-taken"
+              > · {{ takenBy(gi, opt.oi) }}</span></span>
+              <span
+                v-if="opt.pts"
+                class="opt-pts"
+              >+{{ opt.pts }}</span>
+            </label>
+            <button
+              type="button"
+              class="opt-info"
+              data-press
+              :aria-label="labels.rosterViewInfo"
+              @click="openWeaponInfo(opt.names)"
+            >
+              <i class="wi wi-info" />
+            </button>
+          </div>
+          <!-- A chained swap of what THIS pick handed the model (the Acothyst's "its torturer's tool can
+             be replaced with 1 power weapon", under the special weapon that gave him the tool):
+             drawn under the row that makes it possible, and only while that row is on. -->
+          <ExpandTransition>
+            <div
+              v-if="opt.oi != null && rowChildren(gi, opt.oi).length"
+              class="opt-nested"
+            >
+              <div
+                v-for="c in rowChildren(gi, opt.oi)"
+                :key="c"
+                class="opt-nested-group"
+              >
+                <p class="opt-nested-h">
+                  ↳ {{ groupLines[c].head }}
+                </p>
+                <div
+                  v-for="o in nestedRows(def.gear[c])"
+                  :key="o.oi"
+                  class="opt-tile"
+                  :class="{ on: radioSel(c) === o.oi, disabled: shut[c] && radioSel(c) !== o.oi }"
+                >
+                  <label class="opt-select">
+                    <input
+                      type="checkbox"
+                      :checked="radioSel(c) === o.oi"
+                      :disabled="shut[c] && radioSel(c) !== o.oi"
+                      @change="setRadio(c, o.oi, $event)"
+                    >
+                    <span class="opt-name">{{ o.name }}</span>
+                    <span
+                      v-if="o.pts"
+                      class="opt-pts"
+                    >+{{ o.pts }}</span>
+                  </label>
+                  <button
+                    type="button"
+                    class="opt-info"
+                    data-press
+                    :aria-label="labels.rosterViewInfo"
+                    @click="openWeaponInfo(o.names)"
+                  >
+                    <i class="wi wi-info" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ExpandTransition>
+        </template>
       </div>
 
       <!-- toggle: single optional item -->
@@ -360,10 +411,68 @@ function capChip(gi) {
 // its groups in the data's order. One profile (or none) needs no headings: there is nobody to choose
 // between, and the per-group miniature name says the rest as it always did.
 const byProfile = computed(() => (props.def.minis?.length || 0) > 1)
+
+// A CHAINED swap: a group that gives up an item its profile is not printed with, which another group
+// of the same profile hands out — the Acothyst trades the torturer's tool his special weapon came
+// with, a Desolation Sergeant the superkrak launcher the squad's swap gave him (13 groups). Read on
+// its own, above the pick that makes it possible, it offered to replace a weapon the model did not
+// have (owner, 2026-10-14). So it is drawn under that pick: under the row that is on where the
+// source is a one-of (one model), as its own indented group under the source where models count.
+// A source whose pick closes this group (its `cond`: "if not equipped with a power weapon") is no
+// source. With no source pick the group is not drawn — unless it still holds a pick, which is then
+// shown where it was, marked over, so it can be undone.
+const chains = computed(() => {
+  const gear = props.def.gear || []
+  const printed = new Map((props.def.defaults || []).map(([m, list]) => [m, new Set(list.map(([id]) => id))]))
+  const out = new Map() // child gi -> { ids, sources }
+  gear.forEach((g, gi) => {
+    if (g.all || g.m == null || g.cp || g.alt || !g.rep?.length) return
+    const ids = g.rep.filter((id) => !printed.get(g.m)?.has(id))
+    if (!ids.length) return
+    const sources = []
+    gear.forEach((h, hi) => {
+      if (hi === gi || h.all || h.m !== g.m) return
+      if (g.cond && g.cond[0] === hi && !g.cond[1]) return
+      if (h.o.some((o) => optionItems(o).some(([id]) => ids.includes(id)))) sources.push(hi)
+    })
+    if (sources.length) out.set(gi, { ids, sources })
+  })
+  return out
+})
+// Where each chained group stands right now: under the source pick that hands its item, or nowhere.
+const nesting = computed(() => {
+  const gear = props.def.gear || []
+  const out = new Map() // child gi -> { gi, oi, row } | null
+  for (const [c, { ids, sources }] of chains.value) {
+    let at = null
+    for (const s of sources) {
+      const pick = wg().find(([g, o, n]) => g === s && (n ?? 1) > 0 && optionItems(gear[s].o[o]).some(([id]) => ids.includes(id)))
+      if (pick) { at = { gi: s, oi: pick[1], row: mode(gear[s], s) !== 'stepper' && mode(gear[c], c) !== 'stepper' }; break }
+    }
+    out.set(c, at)
+  }
+  return out
+})
+function rowChildren(gi, oi) {
+  return [...nesting.value].filter(([, at]) => at?.row && at.gi === gi && at.oi === oi).map(([c]) => c)
+}
+// A nested group's rows: its options, each a tick — unticked is the stock it keeps.
+const nestedRows = (g) => radioRows(g).filter((r) => r.oi != null)
+
 const order = computed(() => {
   const gear = props.def.gear || []
+  // A chained group placed inside its source's row is not a group of its own here; one placed after
+  // its source follows it; one with no source is skipped, unless it holds a pick.
+  const after = new Map()
+  const skip = new Set()
+  for (const [c, at] of nesting.value) {
+    if (at?.row) skip.add(c)
+    else if (at) { skip.add(c); after.set(at.gi, [...(after.get(at.gi) || []), c]) }
+    else if (!wg().some(([g]) => g === c)) skip.add(c)
+  }
+  const expand = (list) => list.flatMap((r) => (skip.has(r.gi) ? [] : [r, ...(after.get(r.gi) || []).map((c) => ({ g: gear[c], gi: c, nested: true }))]))
   const rows = gear.map((g, gi) => ({ g, gi }))
-  if (!byProfile.value) return rows.map((r) => ({ ...r, head: null }))
+  if (!byProfile.value) return expand(rows).map((r) => ({ ...r, head: null }))
   const maxOf = (m) => {
     const known = (props.def.sizes || []).filter((s) => s.comp?.length)
     if (!known.length) return Infinity
@@ -372,13 +481,14 @@ const order = computed(() => {
   const perMini = modelsPerMini(props.def, props.entry)
   const profiles = [...new Set(rows.filter((r) => !r.g.all).map((r) => r.g.m ?? 0))]
     .sort((a, b) => maxOf(a) - maxOf(b) || a - b)
+  // Each block is a card: the heading opens it, every group of the profile sits inside its frame.
   const out = []
-  const unitRows = rows.filter((r) => r.g.all)
-  unitRows.forEach((r, k) => out.push({ ...r, head: k ? null : { name: labels.value.rosterUnitOptions, n: 0 } }))
-  for (const m of profiles) {
-    rows.filter((r) => !r.g.all && (r.g.m ?? 0) === m)
-      .forEach((r, k) => out.push({ ...r, head: k ? null : { name: miniName(m), n: perMini?.get(m) ?? 0 } }))
+  const block = (list, head) => {
+    const shown = expand(list)
+    shown.forEach((r, k) => out.push({ ...r, head: k ? null : head, card: shown.length === 1 ? 'only' : k === 0 ? 'first' : k === shown.length - 1 ? 'last' : 'mid' }))
   }
+  block(rows.filter((r) => r.g.all), { name: labels.value.rosterUnitOptions, n: 0 })
+  for (const m of profiles) block(rows.filter((r) => !r.g.all && (r.g.m ?? 0) === m), { name: miniName(m), n: perMini?.get(m) ?? 0 })
   return out
 })
 
@@ -614,16 +724,31 @@ function groupStepMax(gi, oi) {
   color: var(--text-muted);
   font-style: italic;
 }
-/* A profile's block heading, in the block's first section: a tinted bar, as the catalogue's role
-   headers and an attached block's head are — a tinted bar means "a heading" across the builder —
-   with the accent edge on its left (owner, 2026-10-14: the bare label did not stand out). */
+/* A profile's options are a CARD (owner, 2026-10-14): the frame is drawn on its groups' own
+   sections — they stay siblings of the editor's other sections — and its heading is a tinted bar
+   across the top, as the catalogue's role headers and an attached block's head are (a tinted bar
+   means "a heading" across the builder), with the accent edge on its left. */
+.ues-sec.ues-card {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+.ues-sec.ues-card-first { margin-top: 0.75rem; padding-top: 0; border-top: 1px solid var(--border); }
+.ues-sec.ues-card-last { border-bottom: 1px solid var(--border); }
 .ues-profile {
-  margin: 0 0 0.55rem;
+  margin: 0 -0.5rem 0.55rem;
   padding: 0.3rem 0.5rem;
   background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
-  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   border-left: 2px solid var(--accent);
 }
+/* A chained group after the source whose models feed it, indented under it. */
+.ues-sec.ues-nested { padding-left: 1.25rem; }
+/* …or inside the row that is on, as ticks under it. */
+.opt-nested { margin: 0.1rem 0 0.35rem 1.4rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.opt-nested-h { margin: 0; font-size: 0.8rem; color: var(--text-muted); line-height: 1.35; }
+.opt-nested-group { display: flex; flex-direction: column; gap: 0.3rem; }
 .ues-profile-n { color: var(--text-muted); }
 /* Who holds what this row cannot take — after the name, muted, never a line of its own. */
 .opt-taken { color: var(--text-muted); font-size: 0.85em; }
