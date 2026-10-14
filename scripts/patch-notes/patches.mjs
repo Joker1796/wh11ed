@@ -32,7 +32,7 @@ export const PATCHES = [
   // App 2.8.0 (Codex: Adeptus Custodes) and MFM v1.6.
   { id: '981', date: '2026-10-14', app: ['53eabea', '5cf9504'], mfm: ['c9929eb', '2aabe2d'], faq: ['8ae2a2b', '2aabe2d'], labels: { app: 981, mfm: '1.6' },
     // What looks like GW's mistake in this update; the site follows the app word for word for now
-    // (owner, 2026-10-14) and says so here and in the 2.8.3 changelog.
+    // (owner, 2026-10-14) and says so here and in the 2.9.0 changelog.
     doubts: [
       { faction: 'blood-angels', kind: 'datasheet', name: 'Death Company Captain',
         note: { en: 'Probably a GW mistake: the power fist went from a Captain’s A6 WS2+ to a rank-and-file A3 WS3+ (the Relic Weapon on the same sheet is A7 WS2+). I follow the app for now.',
