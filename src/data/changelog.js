@@ -49,6 +49,8 @@ export const changelog = [
       '**Import gives an option to the model the list names.** If the list names none, the Sergeant gets it first, then the other models. Your saved lists were moved the same way. You can hand an option to another model with two taps.',
       { h: 'Answers to your questions' },
       'Why do [Hellflayers](/factions/chaos-daemons/datasheets/hellflayers) have a 5+ invulnerable save and not 4+? The GW app gives them 5+, and the errata does not change it. The GW app is my canon, and I follow it.',
+      { h: 'Found a mistake?' },
+      'This is a big update. If something looks wrong, send me a bug report: “Report a bug” is in the ⚙ menu and at the bottom of the page. I read each one.',
     ],
     ru: [
       { h: 'Изменения правил GW', kind: 'rules', patch: '981' },
@@ -75,6 +77,8 @@ export const changelog = [
       '**Импорт отдаёт опцию той модели, которую называет список.** Если модель не названа, опцию получает сержант, потом остальные модели. Ваши сохранённые списки перенесены так же. Отдать опцию другой модели можно двумя нажатиями.',
       { h: 'Ответы на вопросы' },
       'Почему у [Hellflayers](/factions/chaos-daemons/datasheets/hellflayers) инвуль 5+, а не 4+? В приложении GW у них 5+, и эррата это не меняет. Приложение GW для меня канон, и я следую ему.',
+      { h: 'Нашли ошибку?' },
+      'Обновление большое. Если что-то выглядит не так, пришлите мне баг-репорт: «Сообщить об ошибке» есть в меню ⚙ и внизу страницы. Я читаю каждый.',
     ],
   },
   {
