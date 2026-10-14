@@ -23,7 +23,7 @@
 export const changelog = [
   {
     version: '2.9.2',
-    date: '2026-10-14',
+    date: '2026-10-15',
     en: [
       { h: 'Whole site' },
       '**You can let the site send me its errors.** It is off until you turn it on: ⚙ → “Send error reports”. Only the error text and the page go, with no account and nothing personal. If you are signed in, the site asks once.',
