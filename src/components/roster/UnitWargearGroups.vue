@@ -118,7 +118,7 @@
               type="checkbox"
               :checked="radioSel(gi) === opt.oi"
               :disabled="shut[gi] || (radioSel(gi) !== opt.oi && (xpmFull(gi, opt.oi) || poolFull(gi, opt.oi)))"
-              @change="setRadio(gi, opt.oi)"
+              @change="setRadio(gi, opt.oi, $event)"
             >
             <span class="opt-name">{{ opt.name }}<span
               v-if="radioSel(gi) !== opt.oi && takenBy(gi, opt.oi)"
@@ -439,9 +439,16 @@ function radioSel(gi) {
   const s = wg().find((x) => x[0] === gi)
   return s ? s[1] : null
 }
-function setRadio(gi, oi) {
+// A tap on the row that is on takes the choice back to the stock row — it is a checkbox, and
+// unticking is what a player tries. The stock row cannot be unticked (there is nothing to go back
+// to), and its box is put back: the browser had already cleared it, and with the choice unchanged
+// nothing would redraw it (an owner's screenshot, 2026-10-14: rows lit, boxes empty).
+function setRadio(gi, oi, ev) {
+  const cur = radioSel(gi)
+  const to = cur === oi && oi != null ? null : oi
+  if (to === cur) { if (ev?.target) ev.target.checked = true; return }
   const next = wg().filter((x) => x[0] !== gi)
-  if (oi != null) next.push([gi, oi, 1])
+  if (to != null) next.push([gi, to, 1])
   setWg(next)
 }
 // One row per selectable state of a radio group: index 0 is always the default (oi: null),

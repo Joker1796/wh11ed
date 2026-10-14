@@ -385,6 +385,30 @@ describe('UnitEditorFields — which of the two squads', () => {
   })
 })
 
+// An owner's screenshot, 2026-10-14: a tap on the one-of row that is on left it lit with an empty
+// box — the browser cleared the box, the choice did not change, nothing redrew it. It unticks now.
+describe('UnitEditorFields — a one-of row that is on', () => {
+  const hexOf = (w) => w.findAll('.opt-tile').find((t) => t.text().startsWith('Hexrifle'))
+  it('goes back to the stock row when tapped again', async () => {
+    const aco = wracks.gear.findIndex((g) => g.m === 0 && g.o.length === 4)
+    const w = mountFor(wracks, { wg: [[aco, 0, 1]] })
+    const entry = w.props('entry')
+    const box = hexOf(w).find('input')
+    box.element.checked = false
+    await box.trigger('change')
+    expect(entry.wg || []).toEqual([])
+  })
+  it('keeps the stock row ticked when it is tapped while on', async () => {
+    const w = mountFor(wracks)
+    // The Acothyst's copy of the special weapons — its stock row is a tick box; the Wracks' is a count.
+    const stock = w.findAll('.opt-tile').filter((t) => t.text().startsWith('Twin torturer’s tools') && t.find('input').exists()).at(-1).find('input')
+    stock.element.checked = false
+    await stock.trigger('change')
+    expect(stock.element.checked).toBe(true)
+    expect(w.props('entry').wg || []).toEqual([])
+  })
+})
+
 // A player's report, 2026-09-24: CSM Terminators dropped from ten to five kept picks for ten.
 describe('UnitEditorFields — shrinking the unit', () => {
   const terms = chaosSpaceMarines.units.find((u) => u.id === 'chaos-terminator-squad')
