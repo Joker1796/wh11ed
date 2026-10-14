@@ -205,7 +205,23 @@ def parse_units(region):
                 n = lblnote if not note else (f"{lblnote} ({note})" if lblnote else note)
                 if n: opt["note"] = n
                 opts.append(opt)
-        if opts: units.append({"name": titlecase(nm.group(1)), "options": opts})
+        # WARGEAR OPTIONS: what one item costs on top of the unit ("per Banner of Macragge 15 pts").
+        # Unread until 2026-10-14, and the builder's points were changed on the belief that the MFM
+        # has no wargear prices at all (2.9.0) — it has, 202 of them.
+        wargear = []
+        wm = re.search(r'WARGEAR OPTIONS</span>.*?<ul[^>]*>(.*?)</ul>', chunk, re.S)
+        if wm:
+            for li in re.finditer(r'<li>(.*?)</li>', wm.group(1), re.S):
+                spans = [H.unescape(re.sub(r'<[^>]+>', '', x)).strip() for x in re.findall(r'<span[^>]*>(.*?)</span>', li.group(1), re.S)]
+                pm = re.search(PTS_RE, li.group(1))
+                item = next((x for x in spans if x.lower().startswith('per ')), None)
+                if not (pm and item):
+                    raise SystemExit(f'unreadable WARGEAR OPTIONS row on {nm.group(1)!r}: {li.group(1)[:200]!r}')
+                wargear.append({"name": item[4:].strip(), "points": int(pm.group(1).replace(',', ''))})
+        if opts:
+            u = {"name": titlecase(nm.group(1)), "options": opts}
+            if wargear: u["wargear"] = wargear
+            units.append(u)
     return units
 
 def parse_faction(slug, raw):
@@ -239,7 +255,8 @@ def emit_opt(o):
     return "{ " + ", ".join(parts) + " }"
 
 def emit_unit(u, ind):
-    return f"{' '*ind}{{ name: {q(u['name'])}, options: [{', '.join(emit_opt(o) for o in u['options'])}] }}"
+    wg = (", wargear: [" + ", ".join(f"{{ name: {q(w['name'])}, points: {w['points']} }}" for w in u['wargear']) + "]") if u.get('wargear') else ''
+    return f"{' '*ind}{{ name: {q(u['name'])}, options: [{', '.join(emit_opt(o) for o in u['options'])}]{wg} }}"
 
 def camel(slug):
     parts = slug.split('-')
