@@ -3,6 +3,9 @@ import { changelog } from './changelog.js'
 import { BTN_ICONS, MARK_RE, renderMarks, SECTION_KINDS, sectionKind, noteSections, boldQuestion, INT_LINK_RE } from './changelogMarks.js'
 import datasheetIds from './datasheetIds.json'
 import { basicRules } from './basicRules.js'
+import { battleRound } from './battleRound.js'
+import { battlefields } from './battlefields.js'
+import { advancedRules } from './advancedRules.js'
 
 const text = (n) => (typeof n === 'string' ? n : n.h)
 const btns = (s) => [...s.matchAll(MARK_RE)].filter((m) => m[1]).map((m) => m[1])
@@ -98,7 +101,8 @@ describe('changelog blocks', () => {
   it('links only to pages that exist, the same ones in both locales', () => {
     const anchors = new Set(['section-faq'])
     const walk = (o) => { if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === 'object') { if (o.id) anchors.add(o.id); Object.values(o).forEach(walk) } }
-    walk(basicRules)
+    // Every chapter /core-rules renders (src/components/core/CLAUDE.md).
+    for (const ch of [basicRules, battleRound, battlefields, advancedRules]) walk(ch)
     const pages = new Set(['/core-rules', '/patches', '/changelog', '/roster', '/tracker', '/stratagems', '/help', '/event-companion'])
     const links = (n) => [...text(n).matchAll(INT_LINK_RE)].map((m) => m[2])
     for (const e of changelog) {
