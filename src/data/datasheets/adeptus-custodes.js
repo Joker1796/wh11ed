@@ -620,7 +620,7 @@ export default [
       },
       {
         "name": "Sword of the Throne",
-        "text": "At the start of the first battle round, select one enemy unit to be this model’s **mark**:\n▪ This model’s attacks that target this model’s **mark** have +1 to **[gloss:wound-roll:wound rolls]**.\n▪ Each time this model’s **mark** is **[gloss:destroyed:destroyed]**, select one enemy unit to be this model’s **mark**."
+        "text": "At the start of the first battle round, select one enemy unit to be this model’s **[gloss:ac-mark:mark]**:\n▪ This model’s attacks that target this model’s **mark** have +1 to **[gloss:wound-roll:wound rolls]**.\n▪ Each time this model’s **mark** is **[gloss:destroyed:destroyed]**, select one enemy unit to be this model’s **mark**."
       }
     ],
     "composition": [
@@ -2259,7 +2259,7 @@ export default [
       },
       {
         "name": "Master of Ka’tahs (Once per battle round, per unit)",
-        "text": "If this unit is not **readied**, you can use this ability. If you do, this unit is **readied**."
+        "text": "If this unit is not **[gloss:ac-readied:readied]**, you can use this ability. If you do, this unit is **readied**."
       }
     ],
     "wargearAbilities": [
@@ -2392,7 +2392,7 @@ export default [
       },
       {
         "name": "Master of Ka’tahs (Once per battle round, per unit)",
-        "text": "If this unit is not **readied**, you can use this ability. If you do, this unit is **readied**."
+        "text": "If this unit is not **[gloss:ac-readied:readied]**, you can use this ability. If you do, this unit is **readied**."
       }
     ],
     "composition": [
@@ -2487,7 +2487,7 @@ export default [
     "abilities": [
       {
         "name": "Master of Ka’tahs (Once per battle round, per unit)",
-        "text": "If this unit is not **readied**, you can use this ability. If you do, this unit is **readied**."
+        "text": "If this unit is not **[gloss:ac-readied:readied]**, you can use this ability. If you do, this unit is **readied**."
       },
       {
         "name": "Sweeping Advance (Once per battle, per unit)",

@@ -29,7 +29,7 @@ const en = {
     "id": "martial-katah",
     "name": "Martial Ka’tah",
     "flavor": "The Adeptus Custodes have developed many thousands of martial ka’tahs. Custodians are proficient in many of these arts, shifting stances according to the battlefield situation.",
-    "body": "At the start of your Command phase, friendly ADEPTUS CUSTODES units with this ability are **readied**. While a friendly unit is **readied**, you can select one of the **ka’tah abilities** presented below for that unit to use. If you do, that unit is no longer **readied**.\n\nEach **ka’tah ability** will tell you when that **ka’tah ability** can be used, and the effects that **ka’tah ability** has on the unit using it.\n\nWe recommend placing a token next to each **readied** unit, removing it when that unit is no longer **readied**.\n\n**Conversai**\n\nWHEN: Your Command phase.\n\nTARGET: One friendly **readied** unit.\n\nEFFECT: Until the end of the turn:\n\nBeing **[gloss:engaged:engaged]/[gloss:battle-shocked:battle‑shocked]** does not prevent your unit from being **[gloss:eligible-to-act:eligible to start an action]**.\n\nStarting an **[gloss:action:action]** does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]**.\n\n**Calistus**\n\nWHEN: Your Movement phase, when a friendly **readied** unit is **[gloss:selected-to-move:selected to move]**.\n\nTARGET: That **readied** unit.\n\nEFFECT: When your unit makes a **[gloss:normal-move:normal]/[gloss:advance:advance]/[gloss:fall-back-move:fall‑back move]**, your unit can move through all types of model.\n\n**Salvus**\n\nWHEN: Your Shooting phase, when a friendly **readied** unit is **[gloss:selected-to-shoot:selected to shoot]**.\n\nTARGET: That **readied** unit.\n\nEFFECT: Your unit can ignore modifiers to your unit’s:\n\n**[gloss:ballistic-skill:BS].**\n\n**[gloss:hit-roll:Hit rolls]** and **[gloss:wound-roll:wound rolls]**.\n\n**Dacatarai**\n\nWHEN: Start of the Fight phase.\n\nTARGET: One friendly **readied** unit.\n\nEFFECT: Your unit’s melee attacks that target an enemy unit (excluding MONSTER/VEHICLE units) can **[gloss:re-roll:re‑roll]** hit rolls of 1.\n\n**Kaptaris**\n\nWHEN: Start of the Fight phase.\n\nTARGET: One friendly **readied** unit.\n\nEFFECT: Melee attacks that target your unit have -1 to **hit rolls**.\n\n**Rendax**\n\nWHEN: Fight phase, when a friendly **readied** unit is** [gloss:selected-to-fight:selected to fight]**.\n\nTARGET: One friendly **readied** unit.\n\nEFFECT: Your unit’s melee attacks have [LETHAL HITS: MONSTER/VEHICLE].\n\n**Favoured Ka'tah**\n\nMany of the most prominent shield hosts favour a specific martial ka’tah above all others.\n\nAll **[gloss:detachments:detachments]** tagged ‘Unique: Shield Host’ state a Favoured Ka’tah. If you selected one of these **detachments**, the **ka’tah ability** that is the Favoured Ka’tah of that **detachment** grants the additional effect listed in that **detachment**.\n\nExample: If you selected the Solar Watch **detachment**, when you select the Calistus **ka’tah ability** for a **readied** unit, that unit has +2\" **[gloss:move-characteristic:M]** in addition to the normal effect of Calistus.\n\n### Aegis of the Emperor\nFriendly ADEPTUS CUSTODES units with this ability have [core:Feel No Pain 5+] against **[gloss:mortal-wound:mortal wounds]**.\n\n### Aquila Commander\nAt the start of the battle round, if a model with this ability is your WARLORD, gain 1CP.\n\n### Daughters of the Abyss\n▪ Friendly ANATHEMA PSYKANA units with this ability have [core:Feel No Pain 3+] against **[gloss:psychic-attack:psychic attacks]**.\n▪ Friendly ANATHEMA PSYKANA units with this ability have the following ability:\n\nPsychic Null (Aura): Friendly ADEPTUS CUSTODES units within 6\" of this unit have [core:Feel No Pain 5+] against **psychic attacks**.\n\n**ANATHEMA PSYKANA**\n\nThough the Adeptus Custodes often fight alongside the Silent Sisterhood, they take orders only from their own commanders, or from the Emperor Himself.\n\nYou can include ANATHEMA PSYKANA units in your army, even though they do not have the ADEPTUS CUSTODES faction keyword.\n\nWhen mustering your army, unless otherwise stated:\n▪ You cannot select ANATHEMA PSYKANA as your **[gloss:army-faction:army faction]**.\n▪ You cannot select an ANATHEMA PSYKANA model to be your WARLORD.\n\n### Special Move Types\nThe following are special **[gloss:move-type:move types]** that certain or all of your units are eligible to make."
+    "body": "At the start of your Command phase, friendly ADEPTUS CUSTODES units with this ability are **[gloss:ac-readied:readied]**. While a friendly unit is **readied**, you can select one of the **[gloss:ac-katah-ability:ka’tah abilities]** presented below for that unit to use. If you do, that unit is no longer **readied**.\n\nEach **ka’tah ability** will tell you when that **ka’tah ability** can be used, and the effects that **ka’tah ability** has on the unit using it.\n\nWe recommend placing a token next to each **readied** unit, removing it when that unit is no longer **readied**.\n\n◈# Conversai\n◈ WHEN | Your Command phase.\n◈ TARGET | One friendly **readied** unit.\n◈ EFFECT | Until the end of the turn:\n▪ Being **[gloss:engaged:engaged]/[gloss:battle-shocked:battle‑shocked]** does not prevent your unit from being **[gloss:eligible-to-act:eligible to start an action]**.\n▪ Starting an **[gloss:action:action]** does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]**.\n\n◈# Calistus\n◈ WHEN | Your Movement phase, when a friendly **readied** unit is **[gloss:selected-to-move:selected to move]**.\n◈ TARGET | That **readied** unit.\n◈ EFFECT | When your unit makes a **[gloss:normal-move:normal]/[gloss:advance:advance]/[gloss:fall-back-move:fall‑back move]**, your unit can move through all types of model.\n\n◈# Salvus\n◈ WHEN | Your Shooting phase, when a friendly **readied** unit is **[gloss:selected-to-shoot:selected to shoot]**.\n◈ TARGET | That **readied** unit.\n◈ EFFECT | Your unit can ignore modifiers to your unit’s:\n▪ **[gloss:ballistic-skill:BS].**\n▪ **[gloss:hit-roll:Hit rolls]** and **[gloss:wound-roll:wound rolls]**.\n\n◈# Dacatarai\n◈ WHEN | Start of the Fight phase.\n◈ TARGET | One friendly **readied** unit.\n◈ EFFECT | Your unit’s melee attacks that target an enemy unit (excluding MONSTER/VEHICLE units) can **[gloss:re-roll:re‑roll]** hit rolls of 1.\n\n◈# Kaptaris\n◈ WHEN | Start of the Fight phase.\n◈ TARGET | One friendly **readied** unit.\n◈ EFFECT | Melee attacks that target your unit have -1 to **hit rolls**.\n\n◈# Rendax\n◈ WHEN | Fight phase, when a friendly **readied** unit is** [gloss:selected-to-fight:selected to fight]**.\n◈ TARGET | One friendly **readied** unit.\n◈ EFFECT | Your unit’s melee attacks have [LETHAL HITS: MONSTER/VEHICLE].\n\n**[gloss:ac-favoured-katah:Favoured Ka'tah]**\n\nMany of the most prominent shield hosts favour a specific martial ka’tah above all others.\n\nAll **[gloss:detachments:detachments]** tagged ‘Unique: Shield Host’ state a Favoured Ka’tah. If you selected one of these **detachments**, the **ka’tah ability** that is the Favoured Ka’tah of that **detachment** grants the additional effect listed in that **detachment**.\n\nExample: If you selected the Solar Watch **detachment**, when you select the Calistus **ka’tah ability** for a **readied** unit, that unit has +2\" **[gloss:move-characteristic:M]** in addition to the normal effect of Calistus.\n\n### Aegis of the Emperor\nFriendly ADEPTUS CUSTODES units with this ability have [core:Feel No Pain 5+] against **[gloss:mortal-wound:mortal wounds]**.\n\n### Aquila Commander\nAt the start of the battle round, if a model with this ability is your WARLORD, gain 1CP.\n\n### Daughters of the Abyss\n▪ Friendly ANATHEMA PSYKANA units with this ability have [core:Feel No Pain 3+] against **[gloss:psychic-attack:psychic attacks]**.\n▪ Friendly ANATHEMA PSYKANA units with this ability have the following ability:\n\nPsychic Null (Aura): Friendly ADEPTUS CUSTODES units within 6\" of this unit have [core:Feel No Pain 5+] against **psychic attacks**.\n\n**ANATHEMA PSYKANA**\n\nThough the Adeptus Custodes often fight alongside the Silent Sisterhood, they take orders only from their own commanders, or from the Emperor Himself.\n\nYou can include ANATHEMA PSYKANA units in your army, even though they do not have the ADEPTUS CUSTODES faction keyword.\n\nWhen mustering your army, unless otherwise stated:\n▪ You cannot select ANATHEMA PSYKANA as your **[gloss:army-faction:army faction]**.\n▪ You cannot select an ANATHEMA PSYKANA model to be your WARLORD.\n\n### Special Move Types\nThe following are special **[gloss:move-type:move types]** that certain or all of your units are eligible to make."
   },
   detachments: [
     {
@@ -44,7 +44,7 @@ const en = {
       "rule": {
         "name": "Instruments of the Emperor’s Wrath",
         "flavor": "Favouring the aggressive Dacatarai fighting style, the Custodians of the Dread Host seek to outmatch their enemies in bloody melee combat.",
-        "body": "Friendly ADEPTUS CUSTODES units can re‑roll **[gloss:charge-roll:charge rolls]**.\n\n**Favoured ka’tah**\n\n**Dacatarai**\n\n**Additional Effect:** When an enemy unit **[gloss:engaged:engaged]** with your unit makes a **[gloss:pile-in:pile‑in]/[gloss:consolidation:consolidation move]**, -2\" from that **pile‑in/consolidation move**."
+        "body": "Friendly ADEPTUS CUSTODES units can re‑roll **[gloss:charge-roll:charge rolls]**.\n\n**[gloss:ac-favoured-katah:Favoured ka’tah]**\n◈# Dacatarai\n◈ ADDITIONAL EFFECT | When an enemy unit **[gloss:engaged:engaged]** with your unit makes a **[gloss:pile-in:pile‑in]/[gloss:consolidation:consolidation move]**, -2\" from that **pile‑in/consolidation move**."
       },
       "stratagems": [
         {
@@ -107,7 +107,7 @@ const en = {
       "rule": {
         "name": "Assemblage of Might",
         "flavor": "The Emperor’s Custodians will gladly test their mettle against the worst the galaxy has to offer.",
-        "body": "In your Command phase, you can select one enemy unit to be a **dreadful foe** unit until the start of your next Command phase. Friendly ADEPTUS CUSTODES CHARACTER models’ attacks that target a **dreadful foe** unit have +1 to **[gloss:wound-roll:wound rolls]**."
+        "body": "In your Command phase, you can select one enemy unit to be a **[gloss:ac-dreadful-foe:dreadful foe]** unit until the start of your next Command phase. Friendly ADEPTUS CUSTODES CHARACTER models’ attacks that target a **dreadful foe** unit have +1 to **[gloss:wound-roll:wound rolls]**."
       },
       "stratagems": [
         {
@@ -166,7 +166,7 @@ const en = {
       "rule": {
         "name": "Gilded Guardians",
         "flavor": "Resilient experts of ranged warfare, the Aquilan Shield give no ground and punish advancing enemies with their mastery of the Salvus Ka’tah.",
-        "body": "While a friendly ADEPTUS CUSTODES unit (excluding MONSTER/VEHICLE units) is within range of an **[gloss:objective:objective]**, ranged attacks that target that unit with a **[gloss:strength:S]** greater than that unit’s **[gloss:toughness:T]** have -1 to **[gloss:wound-roll:wound rolls]**.\n\n**Favoured ka’tah**\n\n**Salvus**\n\n**Additional Effect:** Your unit’s ranged attacks have +6\" **[gloss:range:R]**."
+        "body": "While a friendly ADEPTUS CUSTODES unit (excluding MONSTER/VEHICLE units) is within range of an **[gloss:objective:objective]**, ranged attacks that target that unit with a **[gloss:strength:S]** greater than that unit’s **[gloss:toughness:T]** have -1 to **[gloss:wound-roll:wound rolls]**.\n\n**[gloss:ac-favoured-katah:Favoured ka’tah]**\n◈# Salvus\n◈ ADDITIONAL EFFECT | Your unit’s ranged attacks have +6\" **[gloss:range:R]**."
       },
       "stratagems": [
         {
@@ -230,7 +230,7 @@ const en = {
       "rule": {
         "name": "Heralds of the Throne",
         "flavor": "The Emissaries Imperatus prioritise the mission over individual actions. Their favoured ka’tah, Conservai, similarly emphasises strategy.",
-        "body": "Friendly ADEPTUS CUSTODES units have [core:Fights First].\n\n**Favoured Ka’tah**\n\n**Conservai**\n\n**Additional Effect:** Until the end of the turn, being selected to make an **[gloss:advance:advance]/[gloss:fall-back-move:fall‑back move]** does not prevent your unit from being **[gloss:eligible-to-act:eligible to start an action]**."
+        "body": "Friendly ADEPTUS CUSTODES units have [core:Fights First].\n\n**[gloss:ac-favoured-katah:Favoured Ka’tah]**\n◈# Conservai\n◈ ADDITIONAL EFFECT | Until the end of the turn, being selected to make an **[gloss:advance:advance]/[gloss:fall-back-move:fall‑back move]** does not prevent your unit from being **[gloss:eligible-to-act:eligible to start an action]**."
       },
       "stratagems": [
         {
@@ -294,7 +294,7 @@ const en = {
       "rule": {
         "name": "Magna Imperator",
         "flavor": "The Adeptus Custodes are blessed with gifts the Emperor has given them – physical might, mental robustness and the most powerful arms and armour available.",
-        "body": "When a friendly ADEPTUS CUSTODES unit is selected to attack, that unit’s attacks can:\n▪ Re‑roll __one__ **[gloss:hit-roll:hit roll]**.\n▪ Re‑roll __one__ **[gloss:wound-roll:wound roll]**.\n\n**Favoured ka’tah**\n\n**Rendax**\n\n**Additional Effect:** You can select one enemy MONSTER/VEHICLE unit **[gloss:engaged:engaged]** with your unit and roll one D6:\n▪ On a 1‑2, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]**.\n▪ On a 3‑5, that enemy unit suffers D3 **mortal wounds**.\n▪ On a 6, that enemy unit suffers 3 **mortal wounds**."
+        "body": "When a friendly ADEPTUS CUSTODES unit is selected to attack, that unit’s attacks can:\n▪ Re‑roll __one__ **[gloss:hit-roll:hit roll]**.\n▪ Re‑roll __one__ **[gloss:wound-roll:wound roll]**.\n\n**[gloss:ac-favoured-katah:Favoured ka’tah]**\n◈# Rendax\n◈ ADDITIONAL EFFECT | You can select one enemy MONSTER/VEHICLE unit **[gloss:engaged:engaged]** with your unit and roll one D6:\n▪ On a 1‑2, that enemy unit suffers 1 **[gloss:mortal-wound:mortal wound]**.\n▪ On a 3‑5, that enemy unit suffers D3 **mortal wounds**.\n▪ On a 6, that enemy unit suffers 3 **mortal wounds**."
       },
       "stratagems": [
         {
@@ -326,8 +326,8 @@ const en = {
           "turn": "either",
           "flavor": "Ever watchful and alert, these warriors switch seamlessly between martial ka’tah.",
           "when": "End of any phase.",
-          "target": "One friendly ADEPTUS CUSTODES unit that is not **readied**.",
-          "effect": "Your unit is **readied**.",
+          "target": "One friendly ADEPTUS CUSTODES unit that is not **[gloss:ac-readied:readied]**.",
+          "effect": "Your unit is **[gloss:ac-readied:readied]**.",
           "restrictions": "You cannot select the same unit as the target of this **[gloss:stratagem:stratagem]** more than once per battle round."
         }
       ],
@@ -358,7 +358,7 @@ const en = {
       "rule": {
         "name": "Talon Sortie",
         "flavor": "The Solar Watch utilise speed, mobility and the adaptable Calistus Ka’tah to confound and eviscerate opposing armies.",
-        "body": "When a friendly ADEPTUS CUSTODES unit makes a **[gloss:fall-back-move:fall‑back move]**, that **fall‑back move** does not prevent that unit from being **eligible to charge**.\n\n**Favoured ka’tah**\n\n**Calistus**\n\n**Additional Effect:** Your unit has +2\" **[gloss:move-characteristic:M]**."
+        "body": "When a friendly ADEPTUS CUSTODES unit makes a **[gloss:fall-back-move:fall‑back move]**, that **fall‑back move** does not prevent that unit from being **eligible to charge**.\n\n**[gloss:ac-favoured-katah:Favoured ka’tah]**\n◈# Calistus\n◈ ADDITIONAL EFFECT | Your unit has +2\" **[gloss:move-characteristic:M]**."
       },
       "stratagems": [
         {
@@ -706,8 +706,8 @@ const en = {
           "turn": "either",
           "flavor": "Ever watchful and alert, these warriors switch seamlessly between martial ka’tah.",
           "when": "End of any phase.",
-          "target": "One friendly ADEPTUS CUSTODES unit that is not **readied**.",
-          "effect": "Your unit is **readied**.",
+          "target": "One friendly ADEPTUS CUSTODES unit that is not **[gloss:ac-readied:readied]**.",
+          "effect": "Your unit is **[gloss:ac-readied:readied]**.",
           "restrictions": "You cannot select the same unit as the target of this Stratagem more than once per battle round."
         },
         {
@@ -783,7 +783,7 @@ const en = {
       "rule": {
         "name": "Wardens of the Dark Cells",
         "flavor": "Inured to the most nightmarish and esoteric threats, the Shadowkeepers will not be swayed from their duty.",
-        "body": "While a friendly ADEPTUS CUSTODES unit (excluding MONSTER/VEHICLE units) is within range of an **[gloss:objective:objective]**, melee attacks that target that unit with a **[gloss:strength:S]** greater than that unit’s **[gloss:toughness:T]** have -1 to **[gloss:wound-roll:wound rolls]**.\n\n**Favoured ka’tah**\n\n**Kaptaris**\n\n**Additional Effect:** You can select one enemy unit **[gloss:engaged:engaged]** with your unit. That enemy unit must make a **[gloss:battle-shock-test:battle‑shock roll]**, with -1 to that **battle‑shock roll**. You cannot select the same enemy unit for this effect more than once per phase."
+        "body": "While a friendly ADEPTUS CUSTODES unit (excluding MONSTER/VEHICLE units) is within range of an **[gloss:objective:objective]**, melee attacks that target that unit with a **[gloss:strength:S]** greater than that unit’s **[gloss:toughness:T]** have -1 to **[gloss:wound-roll:wound rolls]**.\n\n**[gloss:ac-favoured-katah:Favoured ka’tah]**\n◈# Kaptaris\n◈ ADDITIONAL EFFECT | You can select one enemy unit **[gloss:engaged:engaged]** with your unit. That enemy unit must make a **[gloss:battle-shock-test:battle‑shock roll]**, with -1 to that **battle‑shock roll**. You cannot select the same enemy unit for this effect more than once per phase."
       },
       "stratagems": [
         {
@@ -868,7 +868,7 @@ const en = {
           "flavor": "Prosecutors can fire psy‑chaff bolts whose esoteric emissions weaken those targets not slain outright.",
           "when": "Your Shooting phase, when a friendly PROSECUTOR SQUAD unit has shot.",
           "target": "That PROSECUTOR SQUAD unit.",
-          "effect": "Select one enemy unit hit by those attacks. That unit is **prosecuted** until the end of the turn:\n▪ Attacks that target a **prosecuted** unit have +1 **[gloss:armour-penetration:AP]**.",
+          "effect": "Select one enemy unit hit by those attacks. That unit is **[gloss:ac-prosecuted:prosecuted]** until the end of the turn:\n▪ Attacks that target a **prosecuted** unit have +1 **[gloss:armour-penetration:AP]**.",
           "restrictions": ""
         },
         {

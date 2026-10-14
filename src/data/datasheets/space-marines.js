@@ -6654,7 +6654,7 @@ export default [
     "abilities": [
       {
         "name": "Forward Assault Warsuit",
-        "text": "At the start of the first battle round, you can select one enemy unit to be this unit’s **mark**:\n▪ This unit’s attacks that target this unit’s **mark** can re-roll **[gloss:wound-roll:wound rolls]** of 1.\n▪ Each time this unit’s **mark** is **[gloss:destroyed:destroyed]**, select one enemy unit to be this unit’s **mark**."
+        "text": "At the start of the first battle round, you can select one enemy unit to be this unit’s **[gloss:ac-mark:mark]**:\n▪ This unit’s attacks that target this unit’s **mark** can re-roll **[gloss:wound-roll:wound rolls]** of 1.\n▪ Each time this unit’s **mark** is **[gloss:destroyed:destroyed]**, select one enemy unit to be this unit’s **mark**."
       }
     ],
     "composition": [

@@ -266,12 +266,14 @@ const texts = computed(() => {
 .pe-doubt {
   display: flex;
   gap: 0.4rem;
-  align-items: baseline;
+  align-items: flex-start;
   margin: 0.3rem 0.6rem 0;
   font-size: 0.8rem;
   line-height: 1.35;
   color: var(--warning);
 }
+/* Beside a long note a flex item shrinks: the mark kept its height and lost its width. */
+.pe-doubt .wi { flex: none; margin: 0.05em 0 0; }
 .pe {
   list-style: none;
   margin-bottom: 0.35rem;
