@@ -303,7 +303,8 @@ useUpdateNotice().markSeen()
 .cl-sec--rules { --cl-tone: var(--ability-unit); }
 .cl-sec--roster { --cl-tone: var(--accent); }
 .cl-sec--tracker { --cl-tone: var(--sub-rule-border); }
-.cl-sec--answers { --cl-tone: var(--text-dim); }
+.cl-sec--answers,
+.cl-sec--report { --cl-tone: var(--text-dim); }
 .cl-sec--thanks { --cl-tone: var(--warning); }
 .cl-sec--site,
 .cl-sec--account { --cl-tone: var(--text-dim); }

@@ -70,6 +70,7 @@ export const SECTION_KINDS = {
   answers: { icon: 'wi wi-faq', words: ['Answers to your questions', 'Ответы на вопросы'] },
   errors: { icon: 'wi wi-warning', words: ['Probable GW mistakes', 'Вероятные ошибки GW'] },
   thanks: { icon: 'wi wi-support', words: ['Thank you', 'Спасибо'] },
+  report: { icon: 'wi wi-bug', words: ['Bug reports', 'Баг-репорты'] },
   site: { icon: 'wi wi-rules', words: ['Whole site', 'Весь сайт', 'Help', 'Справка', 'The app on your phone', 'Приложение на телефоне'] },
   account: { icon: 'wi wi-cloud', words: ['Account', 'Аккаунт', 'Cloud', 'Облако', 'Signing in', 'Вход'] },
 }
