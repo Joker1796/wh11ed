@@ -7052,6 +7052,7 @@ export default [
     "keywords": [
       "Captain",
       "Character",
+      "Epic Hero",
       "Explosives",
       "Fly",
       "Imperium",

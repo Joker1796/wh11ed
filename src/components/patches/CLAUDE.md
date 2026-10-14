@@ -46,3 +46,10 @@ word, and says so where the change is. `doubts` on a PATCHES line (`scripts/patc
 `{ faction, kind, name, note: { en, ru } }`) puts the note on the item (`doubt`), drawn by
 `PatchEntry` as an amber line under its name; a doubt that names no change stops `npm run patches`.
 The same items go into that release's changelog under "Probable GW mistakes" (`kind: 'errors'`).
+
+**Changes GW's documents make and the app has not taken in** (owner, 2026-10-14: Kayvaan Shrike's EPIC
+HERO in the Space Marines "Printed Product Updates" of 14 October). The site applies them
+(`unit-keyword` and the other kinds in `scripts/lib/appdata-exceptions.mjs`), and the PATCHES line
+lists them as `docs: [{ title, url, items }]`; they show in a block of their own, "Applied from GW’s
+documents", one group per document with a link to its PDF.
+

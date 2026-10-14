@@ -5359,10 +5359,12 @@ export default {
         "Infantry",
         "Jump Pack",
         "Phobos",
-        "Smoke"
+        "Smoke",
+        "Epic Hero"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "epic": 1
       },
       "sizes": [
         {

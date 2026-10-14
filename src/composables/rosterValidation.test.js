@@ -944,17 +944,15 @@ describe('validateRoster — every issue says which unit it is about', () => {
     expect(r.issues.some((i) => i.level === 'error' && i.code === 'legendsUnit')).toBe(false)
   })
 
-  // Shrike: GW printed him without EPIC HERO, so a second copy is legal — kept, but flagged.
-  it('warns, without an error, on a second copy of a named character GW left without EPIC HERO', () => {
-    const shrike = { id: 'kayvaan-shrike', name: 'Kayvaan Shrike', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 95, per: [1, 1], default: 1 }] }
-    const fac = { ...faction, units: [...faction.units, shrike] }
-    const one = validateRoster({ ...roster(), units: [...roster().units, U('kayvaan-shrike')] }, { faction: fac, core })
-    expect(one.issues.some((i) => i.code === 'namedNotEpic')).toBe(false)
-    const two = validateRoster({ ...roster(), units: [...roster().units, U('kayvaan-shrike'), U('kayvaan-shrike')] }, { faction: fac, core })
-    const issue = two.issues.find((i) => i.code === 'namedNotEpic')
-    expect(issue.level).toBe('warn')
-    expect(issue.params.unit).toBe('Kayvaan Shrike (2)')
-    expect(two.issues.some((i) => i.level === 'error')).toBe(one.issues.some((i) => i.level === 'error'))
+  // Shrike: GW printed him without EPIC HERO in data 963, and a second copy was a warning
+  // (namedNotEpic) until the 14 October update document gave it back (appdata-exceptions.mjs) —
+  // now the Epic Hero cap of one, like any other.
+  it('caps Kayvaan Shrike at one copy, as an Epic Hero', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const sm = await loadRosterFaction('space-marines')
+    const shrike = sm.units.find((u) => u.id === 'kayvaan-shrike')
+    expect(shrike.flags.epic).toBe(1)
+    expect(duplicateLimit(shrike, core.battleSizes.find((b) => b.id === 'strike-force'))).toBe(1)
   })
 
   // Every placeholder a message asks for has to be one the validator actually sends, in both

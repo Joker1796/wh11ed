@@ -29,7 +29,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
-import { APPDATA_EXCEPTIONS } from './lib/appdata-exceptions.mjs'
+import { APPDATA_EXCEPTIONS, extraKeywords } from './lib/appdata-exceptions.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
@@ -1911,7 +1911,9 @@ function chapterUnitPoints(mfmFaction, smMfm, sharedIds, smIdMap, nameToDsId) {
 function buildUnit(bd, idMap, fx, kwIndex, prices) {
   const minis = (minisByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)
   const miniIdx = new Map(minis.map((m, i) => [m.id, i]))
-  const kws = bd.keywords || []
+  // A keyword GW's update document adds and the app has not taken in (appdata-exceptions.mjs).
+  const kwExtra = extraKeywords(enOf(bd).name || bd.name)
+  const kws = kwExtra.length ? [...(bd.keywords || []), ...kwExtra] : bd.keywords || []
   const linkedId = idMap.get(bd.id)
   const flags = {}
   if (keyword(kws, 'Character')) flags.char = 1

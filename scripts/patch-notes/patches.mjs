@@ -43,5 +43,14 @@ export const PATCHES = [
       { faction: 'adeptus-custodes', kind: 'points', name: 'Shield-Captain',
         note: { en: 'The app also charges 25 points for the Pyrithite Spear and Praesidium Shield he starts with (205 in all) — possibly a GW mistake. Points here follow the MFM: 180.',
           ru: 'Приложение берёт ещё 25 очков за стартовые Pyrithite Spear и Praesidium Shield (всего 205) — возможно, ошибка GW. Очки на сайте идут по MFM: 180.' } },
+    ],
+    // GW's update document says its changes are in the app; this one is not (the app merged it
+    // with the Librarian in Terminator Armour's line). Applied from the PDF — appdata-exceptions.mjs.
+    docs: [
+      { title: { en: 'Space Marines — Printed Product Updates v1.1', ru: 'Space Marines — Printed Product Updates v1.1' },
+        url: 'https://assets.warhammer-community.com/eng_14-10_wh40k_printed_product_updates_space_marines_updates-91hillwcff-wzs8qnozam.pdf',
+        items: [{ faction: 'space-marines', kind: 'datasheet', name: 'Kayvaan Shrike', change: 'changed', fields: [{ field: 'keywords', added: ['Epic Hero'], removed: [] }],
+          doubt: { en: 'The document adds CHARACTER and EPIC HERO; the app took in only CHARACTER. The site follows the document.',
+            ru: 'Документ добавляет CHARACTER и EPIC HERO, в приложение попал только CHARACTER. Сайт следует документу.' } }] },
     ] },
 ]

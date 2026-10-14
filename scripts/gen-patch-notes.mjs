@@ -87,6 +87,13 @@ function attachDoubts(p, items) {
   }
 }
 
+// Changes GW published in a document (a "Printed Product Updates" PDF) that the app has not taken
+// in, and the site applied anyway (owner, 2026-10-14): written by hand on the PATCHES line as
+// `docs: [{ title: { en, ru }, url, items: [...] }]`, shown in a block of their own.
+function docItems(p) {
+  return (p.docs || []).flatMap((d) => d.items.map((x) => ({ ...x, source: 'doc', doc: { title: d.title, url: d.url } })))
+}
+
 const only = process.argv.slice(2)
 fs.mkdirSync(OUT, { recursive: true })
 const index = []
@@ -96,6 +103,7 @@ for (const p of PATCHES) {
   if (!only.length || only.includes(p.id)) {
     items = await build(p)
     attachDoubts(p, items)
+    items.push(...docItems(p))
     fs.writeFileSync(file, `${JSON.stringify({ id: p.id, date: p.date, labels: p.labels, items })}\n`)
     console.log(`${p.id}: ${items.length} changes`)
   } else {

@@ -42,6 +42,9 @@
 //                    appdata's statlines did not take in: `datasheets` names the sheets, `field`
 //                    the characteristic in appdata's spelling (T, W, Sv…), `from` what every
 //                    statline on those sheets has now, `to` ours.
+//   unit-keyword   — keywords GW's own errata/update document adds to a datasheet and the app has
+//                    not taken in: `datasheet` names the sheet, `add` the keywords (appdata's Title
+//                    Case), `pdf` the document. The roster generator reads them too (extraKeywords).
 //   core-rule-text — a Core Rules errata appdata's own rule text has not taken in: `num` names the
 //                    rule in factions/_core-rules.json (slug '_core-rules'), `from` must occur in its
 //                    text (appdata's markup), `ours` must occur in src/data/<file>. Core Rules are
@@ -52,6 +55,16 @@ import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, loadJson, norm } from './sync-common.mjs'
 
 export const APPDATA_EXCEPTIONS = [
+  {
+    id: 'sm-shrike-epic-hero',
+    kind: 'unit-keyword',
+    slug: 'space-marines',
+    datasheet: 'Kayvaan Shrike',
+    add: ['Epic Hero'],
+    pdf: { title: 'Space Marines — Printed Product Updates v1.1 (14 October 2026)', url: 'https://assets.warhammer-community.com/eng_14-10_wh40k_printed_product_updates_space_marines_updates-91hillwcff-wzs8qnozam.pdf' },
+    why: 'GW\'s update document reads "Kayvaan Shrike, Keywords Section: Add \'CHARACTER\' and \'EPIC HERO\'" and says its updates are also applied in the app; the app merged the line with the Librarian in Terminator Armour\'s ("Add CHARACTER") and lost EPIC HERO. Owner, 2026-10-14: apply the PDF.',
+    source: 'warhammer-community.com → Downloads → Warhammer 40,000 → Space Marines (14/10/2026); sources/updates 14-10-2026/sm-printed-product-updates.pdf',
+  },
   {
     id: 'sm-vanguard-jump-plasma-standard',
     kind: 'weapon-profile',
@@ -161,6 +174,11 @@ const targetOf = (bundle, e) => (e.kind === 'enhancement-text' ? enhOf(bundle, e
 // What appdata says now, for the one place an entry patches — compared with what the entry
 // expects to find. Returns null when appdata still has the error, or the reason it does not.
 function appdataDrift(e, ds) {
+  if (e.kind === 'unit-keyword') {
+    if (!ds) return `datasheet "${e.datasheet}" is gone from appdata`
+    const has = new Set((ds.keywords || []).map(norm))
+    return e.add.every((k) => has.has(norm(k))) ? `appdata now carries ${e.add.join(', ')}` : null
+  }
   if (e.kind === 'unit-stat') {
     for (const name of e.datasheets) {
       const sheet = sheetOf(ds, name)
@@ -204,6 +222,11 @@ function appdataDrift(e, ds) {
 }
 
 function patchSheet(e, ds) {
+  if (e.kind === 'unit-keyword') {
+    const has = new Set((ds.keywords || []).map(norm))
+    ds.keywords = [...(ds.keywords || []), ...e.add.filter((k) => !has.has(norm(k)))]
+    return
+  }
   if (e.kind === 'weapon-profile') itemOf(ds, e.item).profiles.unshift({ ...e.add, tags: [...e.add.tags] })
   else if (e.kind === 'wargear-rule') for (const r of ds.wargearRules) r.rules = r.rules.replace(e.from, e.to)
   else if (e.kind === 'enhancement-text') ds.rules = e.to
@@ -264,7 +287,21 @@ function addFamily(bundle, appSlug) {
 
 // Our side: does the sheet we ship still carry the correction? Needs no appdata, so it also runs
 // as a test (appdata-exceptions.test.js) — a regeneration that lost an entry fails `npm test`.
+// Keywords a datasheet carries beyond appdata's (unit-keyword entries), by datasheet name — for the
+// roster generator, which reads appdata's bundles raw.
+export function extraKeywords(name) {
+  return APPDATA_EXCEPTIONS.filter((e) => e.kind === 'unit-keyword' && norm(e.datasheet) === norm(name)).flatMap((e) => e.add)
+}
+
 export async function oursCarries(e) {
+  if (e.kind === 'unit-keyword') {
+    const sheets = (await import(pathToFileURL(path.join(ROOT, 'src/data/datasheets', `${e.slug}.js`)).href)).default
+    const d = sheets.find((x) => norm(x.name) === norm(e.datasheet))
+    if (!d) return `our sheet "${e.datasheet}" is missing`
+    const has = new Set((d.keywords || []).map(norm))
+    const miss = e.add.filter((k) => !has.has(norm(k)))
+    return miss.length ? `our "${e.datasheet}" lacks ${miss.join(', ')}` : null
+  }
   if (e.kind === 'core-rule-text') {
     const file = path.join(ROOT, 'src/data', e.file)
     if (!fs.existsSync(file)) return `src/data/${e.file} is missing`
