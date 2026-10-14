@@ -22,6 +22,24 @@
 
 export const changelog = [
   {
+    version: '2.9.1',
+    date: '2026-10-14',
+    en: [
+      { h: 'Tracker' },
+      '**In Combat Patrol you choose the box.** Adeptus Custodes have three. Before, the tracker always took Tristraen’s Gilded Blades, with its detachment and stratagems.',
+      { h: 'Whole site' },
+      '**The GW changes page shows every faction at first.** Your own pick is still remembered on this device.',
+      '**The points PDF for the 14 October update is on the [GW changes page](/patches).** In Russian and in English.',
+    ],
+    ru: [
+      { h: 'Трекер' },
+      '**В Combat Patrol вы выбираете бокс.** У Adeptus Custodes их три. Раньше трекер всегда брал Tristraen’s Gilded Blades, с его детачментом и стратагемами.',
+      { h: 'Весь сайт' },
+      '**Страница изменений GW сначала показывает все фракции.** Ваш выбор на этом устройстве по-прежнему запоминается.',
+      '**PDF с ценами обновления от 14 октября — на [странице изменений GW](/patches).** На русском и на английском.',
+    ],
+  },
+  {
     version: '2.9.0',
     date: '2026-10-14',
     en: [

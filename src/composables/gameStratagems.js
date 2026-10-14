@@ -18,6 +18,7 @@ import { mergeSections } from './useBilingualMerge.js'
 import { membersOf } from './rosterGameLink.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { detachmentSources } from '../data/detachmentSources.js'
+import { combatPatrolBoxIn } from './combatPatrolBox.js'
 
 // A stratagem's own usage limits, from its ENGLISH restrictions. Only limits on USING the
 // stratagem — "you cannot select the same model more than once per battle" is about a target
@@ -79,9 +80,10 @@ export const normName = (s) => s.replace(/[’'`]/g, "'").trim().toLowerCase()
 // Combat Patrol: the active detachment/stratagems live in src/data/combatPatrol.js, not in
 // src/data/factions/*.js — dynamically imported here (heavy, datasheet-bearing file), only
 // while a Combat Patrol game is in progress.
-async function loadCombatPatrolFaction(slug, loc) {
+// The box is the one the army's detachment names (combatPatrolBox.js): a faction can have several.
+async function loadCombatPatrolFaction(m, loc) {
   const { combatPatrol } = await import('../data/combatPatrol.js')
-  return combatPatrol[loc]?.factions?.find((f) => f.slug === slug) || null
+  return combatPatrolBoxIn(combatPatrol, loc, m)
 }
 
 // One faction's localized detachments with every stratagem derived from its English twin
@@ -113,10 +115,10 @@ async function loadFactionSource(slug, loc) {
 export async function loadArmyStrats(m, loc, combatPatrol = false) {
   if (!m?.factionSlug || !m.detachments?.length) return []
   if (combatPatrol) {
-    const f = await loadCombatPatrolFaction(m.factionSlug, loc)
+    const f = await loadCombatPatrolFaction(m, loc)
     if (!f) return []
     // Derived fields always key off the English entry, even when rendering the RU faction.
-    const enF = loc === 'en' ? f : await loadCombatPatrolFaction(m.factionSlug, 'en')
+    const enF = loc === 'en' ? f : await loadCombatPatrolFaction(m, 'en')
     return (f.stratagems || []).map((s, i) => derive(s, enF?.stratagems?.[i], `cp:${m.factionSlug}|${enF?.stratagems?.[i]?.name || s.name}`))
   }
   const sources = detachmentSources(m.factionSlug)
@@ -174,7 +176,7 @@ export const sideSignature = (pl) =>
 export async function loadArmyRules(m, loc, combatPatrol = false) {
   if (!m?.factionSlug) return null
   if (combatPatrol) {
-    const f = await loadCombatPatrolFaction(m.factionSlug, loc)
+    const f = await loadCombatPatrolFaction(m, loc)
     if (!f) return null
     return { armyRule: f.armyRule || null, detachments: f.rule ? [{ name: f.rule.name, rule: f.rule }] : [] }
   }
