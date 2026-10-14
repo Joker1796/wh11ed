@@ -289,15 +289,15 @@ useUpdateNotice().markSeen()
   margin: 0.5rem 0 0;
   padding: 0.6rem 0.8rem;
   min-height: 44px;
-  border: 1px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  color: var(--accent-ink);
+  border: 1px solid var(--warning);
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  color: var(--warning);
   font-weight: 600;
   text-decoration: none;
 }
 .cl-patch span { flex: 1; }
 @media (hover: hover) {
-  .cl-patch:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+  .cl-patch:hover { background: color-mix(in srgb, var(--warning) 18%, transparent); }
 }
 .cl-sec + .cl-sec { margin-top: 0.7rem; }
 .cl-sec--rules { --cl-tone: var(--ability-unit); }
