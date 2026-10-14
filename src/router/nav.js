@@ -310,16 +310,17 @@ export const factionGroupsRu = [
   { label: 'Фракции', path: '/factions', sections: [] },
 ]
 
-// Combat Patrol — one group per authored faction, sourced from the lightweight
-// combatPatrolIndex.js (not the full src/data/combatPatrol.js, which also carries every box's
-// rule text and datasheets — too heavy to statically import into the router, which sits in the
-// module graph of virtually every page). RU is `ru: en` today, so both exports read the same list.
-export const combatPatrolGroups = combatPatrolIndex.map((f) => ({
-  label: f.name, path: `/combat-patrol/${f.slug}`, sections: [],
+// Combat Patrol — one group per box, sourced from the lightweight combatPatrolIndex.js (not the
+// full src/data/combatPatrol.js, which also carries every box's rule text and datasheets — too
+// heavy to statically import into the router, which sits in the module graph of virtually every
+// page). A faction with one box is named by the faction; one with several (Adeptus Custodes) by
+// faction and box, or the drawer would list the same name three times. Names stay English, so
+// both exports read the same list.
+const cpBoxCount = (slug) => combatPatrolIndex.filter((b) => b.slug === slug).length
+export const combatPatrolGroups = combatPatrolIndex.map((b) => ({
+  label: cpBoxCount(b.slug) > 1 ? `${b.name} · ${b.boxName}` : b.name, path: `/combat-patrol/${b.id}`, sections: [],
 }))
-export const combatPatrolGroupsRu = combatPatrolIndex.map((f) => ({
-  label: f.name, path: `/combat-patrol/${f.slug}`, sections: [],
-}))
+export const combatPatrolGroupsRu = combatPatrolGroups
 
 // Remember the last open page+section and reopen it on the next launch (PWA only) —
 // the key and the routes never restored. The restore itself is in router/index.js.

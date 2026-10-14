@@ -6,7 +6,13 @@
 // isCombatPatrol: true (detachment/datasheets/enhancements/stratagems) and the armyRule whose
 // publicationId matches the "Combat Patrol: <box name>" publication.
 //
-// Shape: one file for all ~24 CP factions (each box's content is small — 1 detachment rule, 1
+// One entry per BOX, not per faction (owner, 2026-10-14): a faction can have several boxes
+// (Adeptus Custodes has three). `id` is the box's URL key (/combat-patrol/<id>) and the stem of
+// its anchors; `slug` is the FACTION's (accent colour, emblem, faction name). A faction's first
+// box keeps id = slug, so the URLs from before the split still work; a later one is
+// `<slug>-<slug(boxName)>`.
+//
+// Shape: one file for all CP boxes (each box's content is small — 1 detachment rule, 1
 // army rule copy, 2-3 stratagems, 1-2 enhancements, 4-5 datasheets — so no per-faction file
 // split like src/data/factions/*.js). Datasheets reuse the exact field shape DatasheetCard.vue
 // already renders (see src/data/datasheets/*.js): profiles/ranged/melee use lowercase stat keys
@@ -23,9 +29,62 @@
 import { deepOverlay } from './deepOverlay.js'
 import { combatPatrolRu } from './combatPatrolRu.js'
 
+// The two Aquilan boxes (data 981) print no army rule of their own: their datasheets carry the
+// Codex's Martial Ka’tah and Aegis of the Emperor (appdata's faction abilities on every sheet), so
+// the box page shows those two, transcribed as src/data/factions/adeptus-custodes.js has them —
+// minus Favoured Ka’tah, which only a Shield Host detachment uses.
+const custodesCodexArmyRule = {
+  name: 'Martial Ka’tah & Aegis of the Emperor',
+  flavor: 'The Adeptus Custodes have developed many thousands of martial ka’tahs. Custodians are proficient in many of these arts, shifting stances according to the battlefield situation.',
+  body: `### Martial Ka’tah
+At the start of your Command phase, friendly ADEPTUS CUSTODES units with this ability are **[gloss:ac-readied:readied]**. While a friendly unit is **readied**, you can select one of the **[gloss:ac-katah-ability:ka’tah abilities]** presented below for that unit to use. If you do, that unit is no longer **readied**.
+
+Each **ka’tah ability** will tell you when that **ka’tah ability** can be used, and the effects that **ka’tah ability** has on the unit using it.
+
+We recommend placing a token next to each **readied** unit, removing it when that unit is no longer **readied**.
+
+◈# Conversai
+◈ WHEN | Your Command phase.
+◈ TARGET | One friendly **readied** unit.
+◈ EFFECT | Until the end of the turn:
+▪ Being **[gloss:engaged:engaged]/[gloss:battle-shocked:battle‑shocked]** does not prevent your unit from being **[gloss:eligible-to-act:eligible to start an action]**.
+▪ Starting an **[gloss:action:action]** does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]**.
+
+◈# Calistus
+◈ WHEN | Your Movement phase, when a friendly **readied** unit is **[gloss:selected-to-move:selected to move]**.
+◈ TARGET | That **readied** unit.
+◈ EFFECT | When your unit makes a **[gloss:normal-move:normal]/[gloss:advance:advance]/[gloss:fall-back-move:fall‑back move]**, your unit can move through all types of model.
+
+◈# Salvus
+◈ WHEN | Your Shooting phase, when a friendly **readied** unit is **[gloss:selected-to-shoot:selected to shoot]**.
+◈ TARGET | That **readied** unit.
+◈ EFFECT | Your unit can ignore modifiers to your unit’s:
+▪ **[gloss:ballistic-skill:BS].**
+▪ **[gloss:hit-roll:Hit rolls]** and **[gloss:wound-roll:wound rolls]**.
+
+◈# Dacatarai
+◈ WHEN | Start of the Fight phase.
+◈ TARGET | One friendly **readied** unit.
+◈ EFFECT | Your unit’s melee attacks that target an enemy unit (excluding MONSTER/VEHICLE units) can **[gloss:re-roll:re‑roll]** hit rolls of 1.
+
+◈# Kaptaris
+◈ WHEN | Start of the Fight phase.
+◈ TARGET | One friendly **readied** unit.
+◈ EFFECT | Melee attacks that target your unit have -1 to **hit rolls**.
+
+◈# Rendax
+◈ WHEN | Fight phase, when a friendly **readied** unit is **[gloss:selected-to-fight:selected to fight]**.
+◈ TARGET | One friendly **readied** unit.
+◈ EFFECT | Your unit’s melee attacks have [LETHAL HITS: MONSTER/VEHICLE].
+
+### Aegis of the Emperor
+Friendly ADEPTUS CUSTODES units with this ability have [core:Feel No Pain 5+] against **[gloss:mortal-wound:mortal wounds]**.`,
+}
+
 const en = {
   factions: [
     {
+      id: 'necrons',
       slug: 'necrons',
       name: 'Necrons',
       boxName: "Amonhotekh's Guard",
@@ -247,6 +306,7 @@ Once such a unit is at its Starting Strength and all of its models have their st
     },
 
     {
+      id: 'space-marines',
       slug: 'space-marines',
       name: 'Space Marines',
       boxName: 'Assault Force',
@@ -477,6 +537,7 @@ Each Combat Doctrine cannot be selected more than once per battle.`,
     },
 
     {
+      id: 'orks',
       slug: 'orks',
       name: 'Orks',
       boxName: "'Ardmob",
@@ -698,6 +759,7 @@ Once per battle, at the start of the Command phase, you can call a Waaagh!. If y
     },
 
     {
+      id: 'tau-empire',
       slug: 'tau-empire',
       name: "T'au Empire",
       boxName: 'Sudden Dawn Cadre',
@@ -892,6 +954,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
     },
 
     {
+      id: 'astra-militarum',
       slug: 'astra-militarum',
       name: 'Astra Militarum',
       boxName: "Drayden's Lance",
@@ -1121,6 +1184,7 @@ Until the start of your next Command phase, the unit you selected is affected by
     },
 
     {
+      id: 'adepta-sororitas',
       slug: 'adepta-sororitas',
       name: 'Adepta Sororitas',
       boxName: 'Sanctuary Guardians',
@@ -1330,6 +1394,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
     },
 
     {
+      id: 'adeptus-custodes',
       slug: 'adeptus-custodes',
       name: 'Adeptus Custodes',
       boxName: "Tristraen's Gilded Blades",
@@ -1507,6 +1572,289 @@ Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.`,
     },
 
     {
+      id: 'adeptus-custodes-aquilan-talon',
+      slug: 'adeptus-custodes',
+      name: 'Adeptus Custodes',
+      boxName: 'Aquilan Talon',
+      dp: 1,
+      forceDisposition: 'Take and Hold',
+      rule: {
+        name: 'Resolute Stride',
+        flavor: 'Marching unstoppably across the battlefield, the warriors of the Adeptus Custodes cannot be denied.',
+        body: `When a friendly ADEPTUS CUSTODES AQUILAN TALON unit is selected to make a **[gloss:consolidation:consolidation move]**:
+▪ That unit can move up to 4".
+▪ You can select any **[gloss:consolidation-mode:consolidation mode]** for that **consolidation move**, regardless of that **consolidation move’s** Before Moving restrictions.`,
+      },
+      armyRule: custodesCodexArmyRule,
+      stratagems: [
+        {
+          name: 'Terrible Might',
+          sublabel: 'Aquilan Talon – Stratagem',
+          cp: '1CP',
+          turn: 'either',
+          flavor: 'So ancient and terrible a war machine, piloted with such skill by one whose will clearly cannot be broken, is enough to strike fear into the hearts of the staunchest enemies.',
+          when: 'Start of the Fight phase.',
+          target: 'One friendly **[gloss:engaged:engaged]** AQUILAN TALON CONTEMPTOR-ACHILLUS DREADNOUGHT unit.',
+          effect: 'Select one enemy unit **[gloss:engaged:engaged]** with your unit. That enemy unit makes a **[gloss:battle-shock-test:battle-shock roll]**.',
+          restrictions: '',
+        },
+        {
+          name: 'Relentless Destroyers',
+          sublabel: 'Aquilan Talon – Stratagem',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'Brushing aside their enemies with contemptuous ease, the Custodians maintain a devastating hail of fire even while beset upon all sides.',
+          when: 'Your Movement phase when a friendly ADEPTUS CUSTODES AQUILAN TALON unit is selected to make a **[gloss:fall-back-move:fall-back move]**.',
+          target: 'That ADEPTUS CUSTODES AQUILAN TALON unit.',
+          effect: 'That move does not prevent your unit from being **[gloss:eligible-to-shoot:eligible to shoot]**.',
+          restrictions: '',
+        },
+        {
+          name: 'Unstoppable Champion',
+          sublabel: 'Aquilan Talon – Stratagem',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'No obstacle may stand before this ancient defender of the Golden Throne while their duty remains yet undone.',
+          when: 'Your Movement phase, when a friendly AQUILAN TALON CONTEMPTOR-ACHILLUS DREADNOUGHT unit is **[gloss:selected-to-move:selected to move]**.',
+          target: 'That AQUILAN TALON CONTEMPTOR-ACHILLUS DREADNOUGHT unit.',
+          effect: 'Your unit has MOBILE.',
+          restrictions: '',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Goldenwrath',
+          isDefault: false,
+          upgrade: true,
+          flavor: 'A weapon crafted during the halcyon days of the Great Crusade, this ancient firearm is calibrated for maximum lethality even at point-blank range.',
+          body: "AQUILAN TALON CONTEMPTOR-ACHILLUS DREADNOUGHT unit only. This unit's Lastrum Storm Bolter weapon has [CLOSE-QUARTERS].",
+        },
+        {
+          name: 'Coronal Plate',
+          isDefault: true,
+          flavor: 'This champion’s artificer armour features built-in photoamplifiers that capture ambient light and magnify it into a blazing aura into which the foe struggle to see.',
+          body: 'AQUILAN TALON SHIELD-CAPTAIN model only. This model has [core:Lone Operative 15"].',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'aquilan-talon-contemptor-achillus-dreadnought',
+          name: 'Aquilan Talon Contemptor-Achillus Dreadnought',
+          profiles: [
+            { name: 'Contemptor-Achillus Dreadnought', m: '9"', t: '10', sv: '2+', w: '12', ld: '5+', oc: '3', inv: '5+' },
+          ],
+          ranged: [
+            { name: 'Dreadspear', tags: [], range: '18"', a: '2', bs: '2+', s: '10', ap: '-3', d: 'D3+2' },
+            { name: 'Lastrum Storm Bolter', tags: ['RAPID FIRE 3'], range: '24"', a: '3', bs: '2+', s: '5', ap: '-1', d: '1' },
+          ],
+          melee: [
+            { name: 'Dreadspear', tags: ['LANCE'], a: '5', ws: '2+', s: '12', ap: '-3', d: 'D3+3' },
+          ],
+          core: 'Deadly Demise D3, Damaged 4',
+          faction: 'Aegis of the Emperor, Martial Ka’tah',
+          abilities: [
+            { name: 'Intimidating Presence', text: 'Enemy units **[gloss:engaged:engaged]** with this model have -1 **[gloss:leadership:Ld]**.' },
+          ],
+          composition: ['1 Contemptor-Achillus Dreadnought model'],
+          loadout: '**This model is equipped with:** 1 Dreadspear; 1 Lastrum Storm Bolter.',
+          keywords: ['Aquilan Talon', 'Contemptor-Achillus Dreadnought', 'Dreadnought', 'Imperium', 'Vehicle', 'Walker'],
+          factionKeywords: ['Adeptus Custodes'],
+          baseSize: '60mm',
+        },
+        {
+          id: 'aquilan-talon-sentinel-guard-sodality',
+          name: 'Aquilan Talon Sentinel Guard Sodality',
+          profiles: [
+            { name: 'Sentinel Guard', m: '8"', t: '7', sv: '2+', w: '5', ld: '5+', oc: '3', inv: '4+' },
+          ],
+          ranged: [
+            { name: 'Sentinel Blade', tags: ['ASSAULT', 'CLOSE-QUARTERS'], range: '12"', a: '4', bs: '2+', s: '5', ap: '-1', d: '2' },
+          ],
+          melee: [
+            { name: 'Sentinel Blade', tags: [], a: '5', ws: '2+', s: '6', ap: '-2', d: '2' },
+          ],
+          core: 'Deep Strike',
+          faction: 'Martial Ka’tah, Aegis of the Emperor',
+          abilities: [
+            { name: 'Resolute Will', text: 'When you target this unit with the **Insane Bravery stratagem**, you can use this ability. If you do, that use is -1 CP.' },
+          ],
+          composition: ['3 Sentinel Guard models'],
+          loadout: '**Every model is equipped with:** Resolute Will; 1 Sentinel Blade.',
+          keywords: ['Aquilan Talon', 'Battleline', 'Imperium', 'Infantry', 'Sentinel Guard Sodality', 'Trusted Sentinel'],
+          factionKeywords: ['Adeptus Custodes'],
+          baseSize: '40mm',
+        },
+        {
+          id: 'aquilan-talon-shield-captain',
+          name: 'Aquilan Talon Shield-Captain',
+          profiles: [
+            { name: 'Shield-Captain', m: '8"', t: '7', sv: '2+', w: '8', ld: '5+', oc: '2', inv: '4+' },
+          ],
+          melee: [
+            { name: 'Eternity-pattern Paragon Blade', tags: ['PRECISION'], a: '6', ws: '2+', s: '10', ap: '-3', d: '3' },
+          ],
+          core: 'Deep Strike, Leader',
+          faction: 'Aegis of the Emperor, Martial Ka’tah',
+          abilities: [
+            {
+              name: 'Fight To The Death',
+              text: `In the Fight phase, when this model is **[gloss:destroyed:destroyed]**, if this unit has not been **[gloss:selected-to-fight:selected to fight]** this phase, roll one D6:
+▪ On a 4+, do not remove this model from the battlefield. When this unit has fought, or at the end of the phase (whichever comes first), this model is removed from the battlefield.`,
+            },
+          ],
+          composition: ['1 Shield-Captain model'],
+          loadout: '**This model is equipped with:** 1 Eternity-pattern Paragon Blade; Unstoppable Will.',
+          leader: { text: 'This model can be attached to the following units:', units: ['Aquilan Wing Sentinel Guard Sodality'] },
+          keywords: ['Aquilan Talon', 'Character', 'Imperium', 'Infantry', 'Shield-Captain'],
+          factionKeywords: ['Adeptus Custodes'],
+          baseSize: '40mm',
+        },
+      ],
+    },
+
+    {
+      id: 'adeptus-custodes-aquilan-wing',
+      slug: 'adeptus-custodes',
+      name: 'Adeptus Custodes',
+      boxName: 'Aquilan Wing',
+      dp: 1,
+      forceDisposition: 'Take and Hold',
+      rule: {
+        name: 'Indomitable Avatars',
+        flavor: 'Standing firm in the face of impossible odds, the Emperor’s Custodians form an inviolable Auramite bastion against the foe.',
+        body: 'In your Command phase, you can select one friendly ADEPTUS CUSTODES AQUILAN WING unit. That unit has +1 **[gloss:objective-control:OC]** until the start of your next Command phase.',
+      },
+      armyRule: custodesCodexArmyRule,
+      stratagems: [
+        {
+          name: 'Driven by Duty',
+          sublabel: 'Aquilan Wing – Stratagem',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'Knowing the vital nature of their task on this battlefield, the Custodians make all speed to see it done.',
+          when: 'Your Movement phase, when a friendly ADEPTUS CUSTODES AQUILAN WING unit is selected to make an **[gloss:advance-move:advance move]**.',
+          target: 'That ADEPTUS CUSTODES AQUILAN WING unit.',
+          effect: 'Your unit has +2 to **[gloss:advance-roll:advance rolls]**.',
+          restrictions: '',
+        },
+        {
+          name: 'Vengeance Inescapable',
+          sublabel: 'Aquilan Wing – Stratagem',
+          cp: '1CP',
+          turn: 'either',
+          flavor: 'Terror spreads through the enemy ranks as the Custodians sweep through and around them, encircling one band of foes after another and destroying each in turn.',
+          when: 'Fight phase, when a friendly ADEPTUS CUSTODES AQUILAN WING unit is selected to make a **[gloss:pile-in:pile-in move]**.',
+          target: 'That ADEPTUS CUSTODES AQUILAN WING unit.',
+          effect: 'When making that **[gloss:pile-in:pile-in move]**, your unit can move up to D3+3".',
+          restrictions: '',
+        },
+        {
+          name: 'On Gilded Wings',
+          sublabel: 'Aquilan Wing – Stratagem',
+          cp: '2CP',
+          turn: 'opponent',
+          flavor: 'Pouring power into the thrusters of their jump packs, the Venatari propel themselves in a soaring arc, ready to plunge down on the foe like the Emperor’s own blade.',
+          when: 'End of your opponent’s Fight phase.',
+          target: 'One friendly **[gloss:unengaged:unengaged]** AQUILAN WING VENATARI WITH KINETIC DESTROYERS unit.',
+          effect: 'Place your unit in **[gloss:strategic-reserves:strategic reserves]**.',
+          restrictions: '',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Will of Auramite',
+          isDefault: true,
+          flavor: 'Such is this Imperial champion’s dedication to duty that they will fight on through wounds so grievous that they should see even a Custodian laid low.',
+          body: `AQUILAN WING SHIELD-CAPTAIN model only. In the Fight phase, when this model is **[gloss:destroyed:destroyed]**, if this unit has not been **[gloss:selected-to-fight:selected to fight]** this phase, roll one D6:
+▪ On a 4+, do not remove this model from the battlefield. When this unit has fought, or at the end of the phase (whichever comes first), this model is removed from the battlefield.`,
+        },
+        {
+          name: 'Eagle’s Pinions',
+          isDefault: false,
+          upgrade: true,
+          flavor: 'These rare archeotech grav-suspensors are affixed to the armour of Venatari with all due ceremony, allowing them to hang like hunting avians over their prey before they strike.',
+          body: 'AQUILAN WING VENATARI WITH KINETIC DESTROYERS unit only. This unit has [core:Hover].',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'aquilan-wing-sentinel-guard-sodality',
+          name: 'Aquilan Wing Sentinel Guard Sodality',
+          profiles: [
+            { name: 'Sentinel Guard', m: '8"', t: '7', sv: '2+', w: '5', ld: '5+', oc: '3', inv: '4+' },
+            { name: 'Sentinel Guard with Vexilla', m: '8"', t: '7', sv: '2+', w: '5', ld: '5+', oc: '3', inv: '4+' },
+          ],
+          ranged: [
+            { name: 'Sentinel Blade', tags: ['ASSAULT', 'CLOSE-QUARTERS'], range: '12"', a: '4', bs: '2+', s: '5', ap: '-1', d: '2' },
+          ],
+          melee: [
+            { name: 'Sentinel Blade', tags: [], a: '5', ws: '2+', s: '6', ap: '-2', d: '2' },
+          ],
+          core: 'Deep Strike',
+          faction: 'Martial Ka’tah, Aegis of the Emperor',
+          abilities: [
+            { name: 'Resolute Will', text: 'When you target this unit with the **Insane Bravery stratagem**, you can use this ability. If you do, that use is -1 CP.' },
+          ],
+          wargearAbilities: [
+            {
+              name: 'Vexilla',
+              text: `▪ This unit has +1 **[gloss:objective-control:OC]**.
+▪ This unit can ignore modifiers to this unit’s **[gloss:leadership:Ld]**.`,
+            },
+          ],
+          composition: ['1 Sentinel Guard with Vexilla model', '2 Sentinel Guard models'],
+          loadout: `**The Sentinel Guard with Vexilla is equipped with:** Resolute Will; 1 Sentinel Blade; Vexilla.
+**Every Sentinel Guard is equipped with:** Resolute Will; 1 Sentinel Blade.`,
+          keywords: ['Aquilan Wing', 'Battleline', 'Imperium', 'Infantry', 'Sentinel Guard Sodality', 'Trusted Sentinel'],
+          factionKeywords: ['Adeptus Custodes'],
+          baseSize: '40mm',
+        },
+        {
+          id: 'aquilan-wing-shield-captain',
+          name: 'Aquilan Wing Shield-Captain',
+          profiles: [
+            { name: 'Shield-Captain', m: '8"', t: '7', sv: '2+', w: '8', ld: '5+', oc: '2', inv: '4+' },
+          ],
+          core: 'Deep Strike, Leader',
+          faction: 'Aegis of the Emperor, Martial Ka’tah',
+          abilities: [
+            { name: 'Unstoppable Will', text: 'This unit has +1 **[gloss:leadership:Ld]**.' },
+          ],
+          composition: ['1 Shield-Captain model'],
+          loadout: '**This model is equipped with:** 1 Eternity-pattern Paragon Blade; Unstoppable Will.',
+          leader: { text: 'This model can be attached to the following units:', units: ['Aquilan Wing Sentinel Guard Sodality'] },
+          keywords: ['Aquilan Wing', 'Character', 'Imperium', 'Infantry', 'Shield-Captain'],
+          factionKeywords: ['Adeptus Custodes'],
+          baseSize: '40mm',
+        },
+        {
+          id: 'aquilan-wing-venatari-with-kinetic-destroyers',
+          name: 'Aquilan Wing Venatari with Kinetic Destroyers',
+          profiles: [
+            { name: 'Venatari', m: '12"', t: '7', sv: '2+', w: '5', ld: '5+', oc: '2', inv: '4+' },
+          ],
+          ranged: [
+            { name: 'Kinetic Destroyer', tags: ['ASSAULT', 'CLOSE-QUARTERS', 'SUSTAINED HITS 1'], range: '18"', a: '4', bs: '2+', s: '6', ap: '-2', d: '1' },
+          ],
+          melee: [
+            { name: 'Tarsus Buckler', tags: ['SUSTAINED HITS 1'], a: '5', ws: '2+', s: '6', ap: '-2', d: '1' },
+          ],
+          core: 'Deep Strike',
+          faction: 'Aegis of the Emperor, Martial Ka’tah',
+          abilities: [
+            { name: 'Strike from the Skies', text: 'In your Shooting phase, if this unit made an **[gloss:ingress-move:ingress move]** this turn, this unit’s ranged attacks can re‑roll **[gloss:hit-roll:hit rolls]**.' },
+          ],
+          composition: ['3 Venatari models'],
+          loadout: '**Every model is equipped with:** 1 Kinetic Destroyer; 1 Tarsus Buckler.',
+          keywords: ['Aquilan Wing', 'Explosives', 'Fly', 'Imperium', 'Infantry', 'Jump Pack', 'Venatari with Kinetic Destroyers'],
+          factionKeywords: ['Adeptus Custodes'],
+          baseSize: '40mm',
+        },
+      ],
+    },
+
+    {
+      id: 'adeptus-mechanicus',
       slug: 'adeptus-mechanicus',
       name: 'Adeptus Mechanicus',
       boxName: 'Purge Corps Deltic-9',
@@ -1723,6 +2071,7 @@ Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.`,
     },
 
     {
+      id: 'imperial-agents',
       slug: 'imperial-agents',
       name: 'Imperial Agents',
       boxName: "Inquisitor's Hand",
@@ -1936,6 +2285,7 @@ Note that you can include Agents of the Imperium Dedicated Transport units in su
     },
 
     {
+      id: 'aeldari',
       slug: 'aeldari',
       name: 'Aeldari',
       boxName: "Kygharil's Protectors",
@@ -2143,6 +2493,7 @@ Each time one of the triggers shown in the Agile Manoeuvres section below occurs
     },
 
     {
+      id: 'black-templars',
       slug: 'black-templars',
       name: 'Black Templars',
       boxName: 'Vow-Sworn of Vedrenn',
@@ -2382,6 +2733,7 @@ If this unit has the Infantry keyword:
     },
 
     {
+      id: 'blood-angels',
       slug: 'blood-angels',
       name: 'Blood Angels',
       boxName: 'Sanguinary Spearhead',
@@ -2544,6 +2896,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
     },
 
     {
+      id: 'dark-angels',
       slug: 'dark-angels',
       name: 'Dark Angels',
       boxName: 'The Vengeful Brethren',
@@ -2737,6 +3090,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
     },
 
     {
+      id: 'death-guard',
       slug: 'death-guard',
       name: 'Death Guard',
       boxName: 'Maggot Lords',
@@ -2966,6 +3320,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
     },
 
     {
+      id: 'drukhari',
       slug: 'drukhari',
       name: 'Drukhari',
       boxName: 'Coven of Agonies',
@@ -3166,6 +3521,7 @@ If your Army Faction is Drukhari, you can include Harlequins and Anhrathe units 
     },
 
     {
+      id: 'emperors-children',
       slug: 'emperors-children',
       name: 'Emperor’s Children',
       boxName: 'Callous Blades',
@@ -3321,6 +3677,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
     },
 
     {
+      id: 'genestealer-cults',
       slug: 'genestealer-cults',
       name: 'Genestealer Cults',
       boxName: 'Claw of Ascension',
@@ -3527,6 +3884,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
     },
 
     {
+      id: 'grey-knights',
       slug: 'grey-knights',
       name: 'Grey Knights',
       boxName: 'Crowe’s Sanctifiers',
@@ -3722,6 +4080,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
     },
 
     {
+      id: 'chaos-space-marines',
       slug: 'chaos-space-marines',
       name: 'Chaos Space Marines',
       boxName: 'Zarkan’s Daemonkin',
@@ -3929,6 +4288,7 @@ The combined points value of such units you can include in your army depends on 
     },
 
     {
+      id: 'leagues-of-votann',
       slug: 'leagues-of-votann',
       name: 'Leagues of Votann',
       boxName: 'Bane-slayer’s Bulwark',
@@ -4149,6 +4509,7 @@ In your turn, YP gained in this way are always gained before checking which abil
     },
 
     {
+      id: 'space-wolves',
       slug: 'space-wolves',
       name: 'Space Wolves',
       boxName: 'Askar’s Wolfpack',
@@ -4353,6 +4714,7 @@ Each Detachment rule in Codex Supplement: Space Wolves includes a Saga you can c
     },
 
     {
+      id: 'thousand-sons',
       slug: 'thousand-sons',
       name: 'Thousand Sons',
       boxName: 'Prism of Zadophon',
@@ -4558,6 +4920,7 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
     },
 
     {
+      id: 'tyranids',
       slug: 'tyranids',
       name: 'Tyranids',
       boxName: 'The Vardenghast Swarm',
@@ -4753,6 +5116,7 @@ If your Army Faction is Tyranids, once per battle, in either player's Command ph
     },
 
     {
+      id: 'world-eaters',
       slug: 'world-eaters',
       name: 'World Eaters',
       boxName: 'Frenzied Reavers',

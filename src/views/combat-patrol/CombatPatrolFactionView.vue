@@ -7,7 +7,7 @@
   >
     <div
       class="hero"
-      :class="{ 'with-emblem': factionIcons[route.params.slug] }"
+      :class="{ 'with-emblem': factionIcons[faction.slug] }"
     >
       <FactionEmblem
         class="hero-emblem"
@@ -64,7 +64,7 @@
             {{ faction.rule.flavor }}
           </p>
           <RuleBlock
-            :id="`cp-${route.params.slug}-rule`"
+            :id="`cp-${faction.id}-rule`"
             :title="faction.rule.name"
             :subtitle="faction.rule.nameRu"
             :body="faction.rule.body"
@@ -86,7 +86,7 @@
             {{ faction.armyRule.flavor }}
           </p>
           <RuleBlock
-            :id="`cp-${route.params.slug}-army-rule`"
+            :id="`cp-${faction.id}-army-rule`"
             :title="faction.armyRule.name"
             :subtitle="faction.armyRule.nameRu"
             :body="faction.armyRule.body"
@@ -110,7 +110,7 @@
           <div class="strat-grid">
             <StratCard
               v-for="s in faction.stratagems"
-              :id="`cp-strat-${route.params.slug}-${slugify(s.name)}`"
+              :id="`cp-strat-${faction.id}-${slugify(s.name)}`"
               :key="s.name"
               :strat="s"
               :sublabel="s.sublabel"
@@ -134,7 +134,7 @@
           <div class="enh-grid">
             <article
               v-for="e in faction.enhancements"
-              :id="`cp-enh-${route.params.slug}-${slugify(e.name)}`"
+              :id="`cp-enh-${faction.id}-${slugify(e.name)}`"
               :key="e.name"
               class="enh-card"
             >
@@ -233,6 +233,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { combatPatrolIndex } from '../../data/combatPatrolIndex.js'
 import { slugify } from '../../data/slugify.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 
@@ -242,16 +243,21 @@ const { renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
+// The route names a BOX (`/combat-patrol/:slug`, the param being the box's `id` — a faction can
+// have several boxes); the faction it belongs to comes from the light index, so the accent and
+// the emblem are there before the box's own data has loaded.
+const box = computed(() => combatPatrolIndex.find((b) => b.id === route.params.slug) || null)
+
 // Same Wahapedia-style per-faction accent as the normal faction pages (FactionLayout.vue) —
 // factionsIndex.js's palette exposed as two private custom props, folded into --accent per
 // theme by the .cp-faction-view.themed rules below.
-const indexEntry = computed(() => factionIndexBySlug(route.params.slug))
+const indexEntry = computed(() => factionIndexBySlug(box.value?.slug))
 const color = computed(() => indexEntry.value?.color || null)
 const colorVars = computed(() =>
   color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark } : undefined,
 )
 
-// combatPatrol.js carries every box's rule text + fixed-roster datasheets for all 24 factions —
+// combatPatrol.js carries every box's rule text + fixed-roster datasheets —
 // dynamically imported here (not statically) so it stays out of the app's root bundle; only a
 // visit to a Combat Patrol page pulls it in, matching the project's other heavy-data-file loads.
 const combatPatrol = ref(null)
@@ -260,7 +266,7 @@ watchEffect(async () => {
 })
 
 const faction = computed(() =>
-  combatPatrol.value?.[locale.value].factions.find((f) => f.slug === route.params.slug) || null,
+  combatPatrol.value?.[locale.value].factions.find((f) => f.id === route.params.slug) || null,
 )
 
 // The four parts of a box, as tabs — only the ones this box has. Rules (the detachment's and the
@@ -279,7 +285,7 @@ const tabs = computed(() => {
 })
 
 // A link into the page names what it wants by anchor (the search index's `cp-strat-…`,
-// `cp-enh-…`, `cp-<slug>-rule…` ids, and the old section ids): open the tab that holds it before
+// `cp-enh-…`, `cp-<box id>-rule…` ids, and the old section ids): open the tab that holds it before
 // scrollToAnchor goes looking — a hidden tab has nothing in the page to scroll to.
 function tabForAnchor(id) {
   if (!id) return null

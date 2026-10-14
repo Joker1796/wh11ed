@@ -627,7 +627,8 @@ function searchFactionRules(q, locale) {
 }
 
 // Combat Patrol — each box's detachment rule, army rule, stratagems, enhancements (+ h4
-// subheadings) — found by NAME, routing to /combat-patrol/<slug>. The compact generated index
+// subheadings) — found by NAME, routing to /combat-patrol/<box id> (a faction can have several
+// boxes, so the key is the box, not the faction). The compact generated index
 // (src/data/combatPatrolSearchIndex.js) is dynamic-imported on first search open, same pattern as
 // the two indexes above. No detachment to select first — a CP box has exactly one fixed
 // rule/army-rule/roster, so the page renders it unconditionally once its own (also
@@ -648,42 +649,42 @@ function searchCombatPatrol(q, locale) {
   if (!cpIndex) return []
   const isRu = locale === 'ru'
   const results = []
-  const push = (title, titleRu, key, id, sectionTitle, slug) => {
+  const push = (title, titleRu, key, id, sectionTitle, boxId) => {
     results.push({
       id, key, sectionNum: '', title, titleRu: isRu ? (titleRu || '') : '', body: '', snippet: '',
-      route: `/combat-patrol/${slug}`, sectionTitle, score: 2,
+      route: `/combat-patrol/${boxId}`, sectionTitle, score: 2,
     })
   }
-  for (const [slug, faction, boxName, data] of cpIndex) {
+  for (const [boxId, faction, boxName, data] of cpIndex) {
     // Prefixed with "Combat Patrol" (kept English in both locales — same "names stay English"
     // convention as everything else in this index) — a CP box's rule/army-rule often shares its
     // name (sometimes pre-errata wording) with the faction's normal Codex rule, so without this a
     // CP result and a normal faction-rules result for "Reanimation Protocols" look identical.
     const sectionTitle = `Combat Patrol · ${faction} · ${boxName}`
     if (data.rule && anyNameMatches(q, data.rule.name, data.rule.nameRu)) {
-      push(data.rule.name, data.rule.nameRu, `cp-${slug}-rule`, data.rule.id, sectionTitle, slug)
+      push(data.rule.name, data.rule.nameRu, `cp-${boxId}-rule`, data.rule.id, sectionTitle, boxId)
     }
     for (const h of data.rule?.subheadings || []) {
       if (anyNameMatches(q, h.name, h.nameRu)) {
-        push(h.name, h.nameRu, `cp-${slug}-rule-${h.id}`, h.id, sectionTitle, slug)
+        push(h.name, h.nameRu, `cp-${boxId}-rule-${h.id}`, h.id, sectionTitle, boxId)
       }
     }
     if (data.armyRule && anyNameMatches(q, data.armyRule.name, data.armyRule.nameRu)) {
-      push(data.armyRule.name, data.armyRule.nameRu, `cp-${slug}-army`, data.armyRule.id, sectionTitle, slug)
+      push(data.armyRule.name, data.armyRule.nameRu, `cp-${boxId}-army`, data.armyRule.id, sectionTitle, boxId)
     }
     for (const h of data.armyRule?.subheadings || []) {
       if (anyNameMatches(q, h.name, h.nameRu)) {
-        push(h.name, h.nameRu, `cp-${slug}-army-${h.id}`, h.id, sectionTitle, slug)
+        push(h.name, h.nameRu, `cp-${boxId}-army-${h.id}`, h.id, sectionTitle, boxId)
       }
     }
     for (const s of data.stratagems) {
       if (anyNameMatches(q, s.name, s.nameRu)) {
-        push(s.name, s.nameRu, `cp-${slug}-s-${s.name}`, s.id, sectionTitle, slug)
+        push(s.name, s.nameRu, `cp-${boxId}-s-${s.name}`, s.id, sectionTitle, boxId)
       }
     }
     for (const e of data.enhancements) {
       if (anyNameMatches(q, e.name, e.nameRu)) {
-        push(e.name, e.nameRu, `cp-${slug}-e-${e.name}`, e.id, sectionTitle, slug)
+        push(e.name, e.nameRu, `cp-${boxId}-e-${e.name}`, e.id, sectionTitle, boxId)
       }
     }
   }

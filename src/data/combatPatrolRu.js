@@ -7,18 +7,73 @@
 // faction/detachment/army-rule/stratagem/enhancement/unit/weapon/ability names) stays absent
 // here and inherits from EN, matching the project's "names stay English" convention.
 //
-// Array entries are matched to their EN counterpart by `name` (factions, stratagems,
-// enhancements, abilities) or `id` (datasheets) — see deepOverlay() — so factions can be
-// translated one at a time without touching the others, and an entry's key fields (`name: '…'`
-// / `id: '…'`) must be copied VERBATIM from combatPatrol.js for the match to work.
+// Array entries are matched to their EN counterpart by `id` (boxes — one faction can have
+// several, so a box is keyed by its own id, never by the faction name — and datasheets) or `name`
+// (stratagems, enhancements, abilities) — see deepOverlay() — so boxes can be translated one at
+// a time without touching the others, and an entry's key fields (`id: '…'` / `name: '…'`) must
+// be copied VERBATIM from combatPatrol.js for the match to work.
 //
 // See COMBAT-PATROL-RU-TRANSLATION-TASK.md (repo root, one level up) for the full brief:
 // exact field-by-field translate/keep-English rules, bilingual conventions (bold, glosses,
 // apostrophes, ALL-CAPS keywords), and verification steps.
+// The Aquilan boxes show the Codex army rules their datasheets carry (see combatPatrol.js's
+// custodesCodexArmyRule) — the Russian of src/data/factions/ru/adeptus-custodes.js.
+const custodesCodexArmyRuleRu = {
+  nameRu: 'Боевой ка’тах и Эгида Императора',
+  flavor: 'Adeptus Custodes разработали многие тысячи боевых ка’тахов. Кустодии владеют многими из этих искусств и меняют стойки в зависимости от обстановки на поле боя.',
+  body: `### Martial Ka’tah | Боевой ка’тах
+В начале вашей фазы командования дружественные юниты ADEPTUS CUSTODES с этой способностью переходят в состояние **[gloss:ac-readied:наготове]**. Пока дружественный юнит **наготове**, вы можете выбрать для этого юнита одну из приведённых ниже **[gloss:ac-katah-ability:способностей ка’тах]**. Если вы это делаете, этот юнит больше не **наготове**.
+
+Каждая **способность ка’тах** указывает, когда эту **способность ка’тах** можно использовать и какой эффект эта **способность ка’тах** оказывает на использующий её юнит.
+
+Рекомендуем класть жетон рядом с каждым юнитом **наготове** и убирать его, когда юнит перестаёт быть **наготове**.
+
+◈# Conversai | Конверсай
+◈ КОГДА | ваша фаза командования.
+◈ ЦЕЛЬ | один дружественный юнит **наготове**.
+◈ ЭФФЕКТ | до конца хода:
+▪ То, что ваш юнит **[gloss:engaged:в ближнем бою]/[gloss:battle-shocked:в боевом шоке]**, не мешает ему быть **[gloss:eligible-to-act:способным начать действие]**.
+▪ Начало **[gloss:action:действия]** не мешает вашему юниту быть **[gloss:eligible-to-shoot:способным стрелять]**.
+
+◈# Calistus | Калистус
+◈ КОГДА | ваша фаза движения, когда дружественный юнит **наготове** **[gloss:selected-to-move:выбран для движения]**.
+◈ ЦЕЛЬ | этот юнит **наготове**.
+◈ ЭФФЕКТ | когда ваш юнит совершает **[gloss:normal-move:обычный манёвр]/[gloss:advance:продвижение]/[gloss:fall-back-move:отступление]**, он может проходить сквозь модели всех типов.
+
+◈# Salvus | Сальвус
+◈ КОГДА | ваша фаза стрельбы, когда дружественный юнит **наготове** **[gloss:selected-to-shoot:выбран для стрельбы]**.
+◈ ЦЕЛЬ | этот юнит **наготове**.
+◈ ЭФФЕКТ | ваш юнит может игнорировать модификаторы к своим:
+▪ **[gloss:ballistic-skill:BS].**
+▪ **[gloss:hit-roll:Броскам на попадание]** и **[gloss:wound-roll:броскам на ранение]**.
+
+◈# Dacatarai | Дакатарай
+◈ КОГДА | начало фазы ближнего боя.
+◈ ЦЕЛЬ | один дружественный юнит **наготове**.
+◈ ЭФФЕКТ | атаки ближнего боя вашего юнита по вражескому юниту (исключая юниты MONSTER/VEHICLE) могут **[gloss:re-roll:перебрасывать]** броски на попадание, равные 1.
+
+◈# Kaptaris | Каптарис
+◈ КОГДА | начало фазы ближнего боя.
+◈ ЦЕЛЬ | один дружественный юнит **наготове**.
+◈ ЭФФЕКТ | атаки ближнего боя по вашему юниту имеют -1 к **броскам на попадание**.
+
+◈# Rendax | Рендакс
+◈ КОГДА | фаза ближнего боя, когда дружественный юнит **наготове** **[gloss:selected-to-fight:выбран для боя]**.
+◈ ЦЕЛЬ | один дружественный юнит **наготове**.
+◈ ЭФФЕКТ | атаки ближнего боя вашего юнита имеют [LETHAL HITS: MONSTER/VEHICLE].
+
+### Aegis of the Emperor | Эгида Императора
+Дружественные юниты ADEPTUS CUSTODES с этой способностью имеют [core:Feel No Pain 5+] против **[gloss:mortal-wound:смертельных ран]**.`,
+}
+const CP_FIGHT_TO_THE_DEATH_RU = `В фазе ближнего боя, когда эта модель **[gloss:destroyed:уничтожена]**, если этот юнит ещё не был **[gloss:selected-to-fight:выбран для боя]** в этой фазе, бросьте один D6:
+▪ На 4+ не убирайте эту модель с поля боя. Когда этот юнит отсражается или в конце фазы (что наступит раньше), эта модель убирается с поля боя.`
+const CP_RESOLUTE_WILL_RU =
+  'Когда вы выбираете этот юнит целью **стратагемы Insane Bravery**, вы можете использовать эту способность. Если вы это делаете, это применение стоит -1 CP.'
+
 export const combatPatrolRu = {
   factions: [
     {
-      name: 'Necrons',
+      id: 'necrons',
       rule: {
         nameRu: 'Территориальные императивы',
         flavor: 'Стража Амонхотека ставит завоевание выше всего прочего. Когда перед ним встают его неумирающие легионы, большинство врагов либо отступает, либо обращается в бегство. Те, кто достаточно дерзок, чтобы стоять и сражаться, оказываются под ужасной мощью самого страшного оружия его стражи — Canoptek Doomstalker.',
@@ -146,7 +201,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Space Marines',
+      id: 'space-marines',
       rule: {
         nameRu: 'Несокрушимая решимость',
         flavor: 'Космические марсы безжалостно настойчивы в преследовании и защите своих целей, демонстрируя стойкость, которой не хватает простым смертным.',
@@ -278,7 +333,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Orks',
+      id: 'orks',
       rule: {
         nameRu: 'Крепкие как гвозди',
         flavor: 'Орки — это крепкие, покрытые шрамами твари, которые с радостью отмахиваются от ран, способных убить большинство существ. Когда их пропитывает мощь Waaagh!, их выносливость возрастает до немыслимых высот.',
@@ -404,7 +459,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: "T'au Empire",
+      id: 'tau-empire',
       rule: {
         nameRu: 'Скоординированное уничтожение',
         flavor: 'Объединяя огонь, Sudden Dawn Cadre делают ставку на уничтожение одной цели прежде, чем перейти к следующей.',
@@ -518,7 +573,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Astra Militarum',
+      id: 'astra-militarum',
       rule: {
         nameRu: 'Опытные ветераны',
         flavor: 'Жёсткие и дисциплинированные перед даже самым многочисленным врагом, части Дрейдена делают каждую свою очередь огня по-настоящему весомой.',
@@ -653,7 +708,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Adepta Sororitas',
+      id: 'adepta-sororitas',
       rule: {
         nameRu: 'Благословенные верующие',
         flavor: 'Вера Adepta Sororitas горит особенно ярко в бою. По их убеждению, God-Emperor защищает ревностных и направляет руки праведных.',
@@ -777,7 +832,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Adeptus Custodes',
+      id: 'adeptus-custodes',
       rule: {
         nameRu: 'Бесстрашны и неумолимы',
         flavor: 'Блейд Чемпион Тристраен и его товарищи снискали славу за бесстрашную агрессию. Всегда именно он ведёт их в атаку, а его соратники идут за ним волнами, чтобы уничтожить врага.',
@@ -877,7 +932,165 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Adeptus Mechanicus',
+      id: 'adeptus-custodes-aquilan-talon',
+      rule: {
+        nameRu: 'Решительная поступь',
+        flavor: 'Воинов Adeptus Custodes, неудержимо шагающих по полю боя, невозможно остановить.',
+        body: `Когда дружественный юнит ADEPTUS CUSTODES AQUILAN TALON выбран для совершения **[gloss:consolidation:манёвра консолидации]**:
+▪ Этот юнит может переместиться до 4".
+▪ Вы можете выбрать любой **[gloss:consolidation-mode:режим консолидации]** для этого **манёвра консолидации**, независимо от ограничений «Перед движением» этого **манёвра консолидации**.`,
+      },
+      armyRule: custodesCodexArmyRuleRu,
+      stratagems: [
+        {
+          name: 'Terrible Might',
+          nameRu: 'Ужасающая мощь',
+          flavor: 'Столь древняя и грозная боевая машина, ведомая с таким мастерством тем, чью волю явно невозможно сломить, способна вселить страх в сердца самых стойких врагов.',
+          when: 'Начало фазы ближнего боя.',
+          target: 'Один дружественный юнит AQUILAN TALON CONTEMPTOR-ACHILLUS DREADNOUGHT **[gloss:engaged:в ближнем бою]**.',
+          effect: 'Выберите один вражеский юнит **[gloss:engaged:в ближнем бою]** с вашим юнитом. Этот вражеский юнит совершает **[gloss:battle-shock-test:бросок на боевой шок]**.',
+        },
+        {
+          name: 'Relentless Destroyers',
+          nameRu: 'Неумолимые разрушители',
+          flavor: 'С презрительной лёгкостью отбрасывая врагов, Кустодии продолжают вести опустошительный огонь, даже когда их теснят со всех сторон.',
+          when: 'Ваша фаза движения, когда дружественный юнит ADEPTUS CUSTODES AQUILAN TALON выбран для совершения **[gloss:fall-back-move:отступления]**.',
+          target: 'Этот юнит ADEPTUS CUSTODES AQUILAN TALON.',
+          effect: 'Этот манёвр не мешает вашему юниту быть **[gloss:eligible-to-shoot:способным стрелять]**.',
+        },
+        {
+          name: 'Unstoppable Champion',
+          nameRu: 'Неудержимый чемпион',
+          flavor: 'Никакая преграда не устоит перед этим древним защитником Золотого Трона, пока его долг ещё не исполнен.',
+          when: 'Ваша фаза движения, когда дружественный юнит AQUILAN TALON CONTEMPTOR-ACHILLUS DREADNOUGHT **[gloss:selected-to-move:выбран для движения]**.',
+          target: 'Этот юнит AQUILAN TALON CONTEMPTOR-ACHILLUS DREADNOUGHT.',
+          effect: 'Ваш юнит имеет MOBILE.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Goldenwrath',
+          nameRu: 'Золотой гнев',
+          flavor: 'Это древнее оружие, созданное в славные дни Великого крестового похода, откалибровано на предельную смертоносность даже в упор.',
+          body: 'Только юнит AQUILAN TALON CONTEMPTOR-ACHILLUS DREADNOUGHT. Оружие Lastrum Storm Bolter этого юнита имеет [CLOSE-QUARTERS].',
+        },
+        {
+          name: 'Coronal Plate',
+          nameRu: 'Сияющий доспех',
+          flavor: 'Артефактная броня этого чемпиона оснащена встроенными фотоусилителями: они улавливают окружающий свет и усиливают его до слепящего ореола, сквозь который врагу трудно что-либо разглядеть.',
+          body: 'Только модель AQUILAN TALON SHIELD-CAPTAIN. Эта модель имеет [core:Lone Operative 15"].',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'aquilan-talon-contemptor-achillus-dreadnought',
+          abilities: [
+            { name: 'Intimidating Presence', text: 'Вражеские юниты **[gloss:engaged:в ближнем бою]** с этой моделью имеют -1 **[gloss:leadership:Ld]**.' },
+          ],
+          composition: ['1 модель Contemptor-Achillus Dreadnought'],
+          loadout: '**Эта модель вооружена:** 1 Dreadspear; 1 Lastrum Storm Bolter.',
+        },
+        {
+          id: 'aquilan-talon-sentinel-guard-sodality',
+          abilities: [
+            { name: 'Resolute Will', text: CP_RESOLUTE_WILL_RU },
+          ],
+          composition: ['3 модели Sentinel Guard'],
+          loadout: '**Каждая модель вооружена:** Resolute Will; 1 Sentinel Blade.',
+        },
+        {
+          id: 'aquilan-talon-shield-captain',
+          abilities: [
+            { name: 'Fight To The Death', text: CP_FIGHT_TO_THE_DEATH_RU },
+          ],
+          composition: ['1 модель Shield-Captain'],
+          loadout: '**Эта модель вооружена:** 1 Eternity-pattern Paragon Blade; Unstoppable Will.',
+          leader: { text: 'Эту модель можно присоединить к следующим юнитам:' },
+        },
+      ],
+    },
+    {
+      id: 'adeptus-custodes-aquilan-wing',
+      rule: {
+        nameRu: 'Несокрушимые аватары',
+        flavor: 'Непоколебимо встречая немыслимый перевес врага, Кустодии Императора встают перед ним нерушимым бастионом из аурамита.',
+        body: 'В вашей фазе командования вы можете выбрать один дружественный юнит ADEPTUS CUSTODES AQUILAN WING. До начала вашей следующей фазы командования этот юнит имеет +1 **[gloss:objective-control:OC]**.',
+      },
+      armyRule: custodesCodexArmyRuleRu,
+      stratagems: [
+        {
+          name: 'Driven by Duty',
+          nameRu: 'Ведомые долгом',
+          flavor: 'Зная, сколь важна их задача на этом поле боя, Кустодии спешат исполнить её со всей возможной быстротой.',
+          when: 'Ваша фаза движения, когда дружественный юнит ADEPTUS CUSTODES AQUILAN WING выбран для совершения **[gloss:advance-move:продвижения]**.',
+          target: 'Этот юнит ADEPTUS CUSTODES AQUILAN WING.',
+          effect: 'Ваш юнит имеет +2 к **[gloss:advance-roll:броскам продвижения]**.',
+        },
+        {
+          name: 'Vengeance Inescapable',
+          nameRu: 'Неотвратимое возмездие',
+          flavor: 'Ужас расползается по вражеским рядам, когда Кустодии проносятся сквозь них и вокруг них, окружая один отряд врагов за другим и уничтожая каждый по очереди.',
+          when: 'Фаза ближнего боя, когда дружественный юнит ADEPTUS CUSTODES AQUILAN WING выбран для совершения **[gloss:pile-in:манёвра сближения]**.',
+          target: 'Этот юнит ADEPTUS CUSTODES AQUILAN WING.',
+          effect: 'Совершая этот **[gloss:pile-in:манёвр сближения]**, ваш юнит может переместиться до D3+3".',
+        },
+        {
+          name: 'On Gilded Wings',
+          nameRu: 'На золочёных крыльях',
+          flavor: 'Направив всю мощь в двигатели прыжковых ранцев, Venatari взмывают по высокой дуге, готовые обрушиться на врага, словно клинок самого Императора.',
+          when: 'Конец фазы ближнего боя вашего оппонента.',
+          target: 'Один дружественный юнит AQUILAN WING VENATARI WITH KINETIC DESTROYERS **[gloss:unengaged:не в ближнем бою]**.',
+          effect: 'Поместите ваш юнит в **[gloss:strategic-reserves:стратегические резервы]**.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Will of Auramite',
+          nameRu: 'Аурамитовая воля',
+          flavor: 'Преданность долгу этого имперского чемпиона такова, что он продолжает сражаться, получив раны столь тяжкие, что они сразили бы даже Кустодия.',
+          body: `Только модель AQUILAN WING SHIELD-CAPTAIN. ${CP_FIGHT_TO_THE_DEATH_RU}`,
+        },
+        {
+          name: 'Eagle’s Pinions',
+          nameRu: 'Орлиные крылья',
+          flavor: 'Эти редкие археотехнологические грав-подвесы со всей подобающей торжественностью крепят к броне Venatari, и те могут парить над добычей, словно ловчие птицы, прежде чем нанести удар.',
+          body: 'Только юнит AQUILAN WING VENATARI WITH KINETIC DESTROYERS. Этот юнит имеет [core:Hover].',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'aquilan-wing-sentinel-guard-sodality',
+          abilities: [
+            { name: 'Resolute Will', text: CP_RESOLUTE_WILL_RU },
+          ],
+          wargearAbilities: [
+            { name: 'Vexilla', text: '▪ Этот юнит имеет +1 **[gloss:objective-control:OC]**.\n▪ Этот юнит может игнорировать модификаторы своего **[gloss:leadership:Ld]**.' },
+          ],
+          composition: ['1 модель Sentinel Guard с Vexilla', '2 модели Sentinel Guard'],
+          loadout: `**Sentinel Guard с Vexilla вооружён:** Resolute Will; 1 Sentinel Blade; Vexilla.
+**Каждый Sentinel Guard вооружён:** Resolute Will; 1 Sentinel Blade.`,
+        },
+        {
+          id: 'aquilan-wing-shield-captain',
+          abilities: [
+            { name: 'Unstoppable Will', text: 'Этот юнит имеет +1 **[gloss:leadership:Ld]**.' },
+          ],
+          composition: ['1 модель Shield-Captain'],
+          loadout: '**Эта модель вооружена:** 1 Eternity-pattern Paragon Blade; Unstoppable Will.',
+          leader: { text: 'Эту модель можно присоединить к следующим юнитам:' },
+        },
+        {
+          id: 'aquilan-wing-venatari-with-kinetic-destroyers',
+          abilities: [
+            { name: 'Strike from the Skies', text: 'В вашей фазе стрельбы, если этот юнит совершил **[gloss:ingress-move:манёвр прибытия]** в этот ход, дальнобойные атаки этого юнита могут перебрасывать **[gloss:hit-roll:броски на попадание]**.' },
+          ],
+          composition: ['3 модели Venatari'],
+          loadout: '**Каждая модель вооружена:** 1 Kinetic Destroyer; 1 Tarsus Buckler.',
+        },
+      ],
+    },
+    {
+      id: 'adeptus-mechanicus',
       rule: {
         nameRu: 'Перегрузка императивов',
         flavor: 'Ноосфера гудит от активности, пока Сканд наполняет мозги своих кибернетических слуг дополнительными императивами, придавая его аугментированным воинам ещё большую живучесть и смертоносность.',
@@ -1000,7 +1213,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Imperial Agents',
+      id: 'imperial-agents',
       rule: {
         nameRu: 'Обречены на смерть',
         flavor: 'Главные цели представляют собой явную и непосредственную угрозу для дальнейшего существования человечества. Их нужно выследить и уничтожить, какой бы ценой это ни обошлось.',
@@ -1116,7 +1329,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Aeldari',
+      id: 'aeldari',
       rule: {
         nameRu: 'Изящные воины',
         flavor: 'Даже будучи чудовищами, воины Кигарила движутся мягко и скрываются за психическими искусами их спиритсиры.',
@@ -1249,7 +1462,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Black Templars',
+      id: 'black-templars',
       rule: {
         nameRu: 'Уничтожение в упор',
         flavor: 'Чёрные Храмовники наслаждаются ближним боем. Они бросаются на врага волнами атак, каждая из которых яростнее и кровожаднее предыдущей.',
@@ -1386,7 +1599,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Blood Angels',
+      id: 'blood-angels',
       rule: {
         nameRu: 'Плавные манёвры',
         flavor: 'Пренебрегая дальним боем ради почётной битвы на ближней дистанции, Sanguinary Spearhead стремится сойтись с врагом как можно быстрее.',
@@ -1481,7 +1694,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Dark Angels',
+      id: 'dark-angels',
       rule: {
         nameRu: 'Почтенные рыцари',
         flavor: 'Dark Angels славятся непоколебимой верностью своим командирам и преданностью долгу и чести. Дикость своих врагов они встречают дисциплинированной обороной, непоколебимой стойкостью и виртуозным владением клинком.',
@@ -1589,7 +1802,7 @@ export const combatPatrolRu = {
       ],
     },
     {
-      name: 'Death Guard',
+      id: 'death-guard',
       rule: {
         nameRu: 'Ползучая гниль',
         flavor: 'Волна заразы предшествует Maggot Lords. Из этого зловонного миазма нечистот они выступают, надвигаясь всё ближе, пока враг силится подавить свой ужас и собрать оборону.',
@@ -1713,7 +1926,7 @@ Contagion Range меняется по ходу битвы:
       ],
     },
     {
-      name: 'Drukhari',
+      id: 'drukhari',
       rule: {
         nameRu: 'Боль оживляет',
         flavor: 'Любая боль питает души находящихся рядом Drukhari — даже страдания их собственных сородичей.',
@@ -1833,7 +2046,7 @@ Contagion Range меняется по ходу битвы:
       ],
     },
     {
-      name: 'Emperor’s Children',
+      id: 'emperors-children',
       rule: {
         nameRu: 'Проворные удары',
         flavor: 'Callous Blades сражаются с непревзойдённым мастерством и изяществом, кружа между союзниками и врагами, чтобы нанести смертельный удар избранной жертве.',
@@ -1928,7 +2141,7 @@ Contagion Range меняется по ходу битвы:
       ],
     },
     {
-      name: 'Chaos Space Marines',
+      id: 'chaos-space-marines',
       rule: {
         nameRu: 'Гнетущий страх',
         flavor: 'Взглянуть на Zarkan и его daemonkin — значит познать истинный ужас.',
@@ -2048,7 +2261,7 @@ Contagion Range меняется по ходу битвы:
       ],
     },
     {
-      name: 'Leagues of Votann',
+      id: 'leagues-of-votann',
       rule: {
         nameRu: 'Захват ресурсов',
         flavor: 'Заявляя права на богатую ресурсами землю, Кин продвигаются вперёд, чтобы закрепить за собой новую территорию.',
@@ -2173,7 +2386,7 @@ Contagion Range меняется по ходу битвы:
       ],
     },
     {
-      name: 'Space Wolves',
+      id: 'space-wolves',
       rule: {
         nameRu: 'Скрытые охотники',
         flavor: 'Хитрый, как волчьи хищники его родного мира, Fyrri Askar предпочитает тактику засад. Его воины рыщут по периметру поля боя, нанося удар лишь в самый благоприятный момент.',
@@ -2289,7 +2502,7 @@ Contagion Range меняется по ходу битвы:
       ],
     },
     {
-      name: 'Thousand Sons',
+      id: 'thousand-sons',
       rule: {
         nameRu: 'Преданные ритуалу',
         flavor: 'Эмпирические ритуалы Zadophon искривляют нити судьбы, чтобы лучше служить замыслам его Тёмного Бога. Его рабы всецело преданы их завершению и не отступятся от своей роли в этих магиях, какая бы мощь ни была брошена против них.',
@@ -2414,7 +2627,7 @@ Contagion Range меняется по ходу битвы:
       ],
     },
     {
-      name: 'Tyranids',
+      id: 'tyranids',
       rule: {
         nameRu: 'Снующие орды',
         flavor: 'Кишащие организмы Vardenghast Swarm столь многочисленны и ужасны, что смертный разум с трудом способен выбрать цель среди мельтешащих масс.',
@@ -2533,7 +2746,7 @@ Tyranids наводняют поле боя психической сигнат�
       ],
     },
     {
-      name: 'World Eaters',
+      id: 'world-eaters',
       rule: {
         nameRu: 'Рывок берсерка',
         flavor: 'World Eaters атакуют беспощадными волнами ярости, каждая из которых столь же неистова и кровожадна, как предыдущая.',
@@ -2659,7 +2872,7 @@ Tyranids наводняют поле боя психической сигнат�
       ],
     },
     {
-      name: 'Genestealer Cults',
+      id: 'genestealer-cults',
       rule: {
         nameRu: 'Ксеносская живучесть',
         flavor: 'Какими бы человечными они ни выглядели, все Genestealer Cultists — генетические химеры. Слияние человеческой и ксеносской генетики часто приводит к более прочной коже, росту хитиновых пластин и другим мутациям, обеспечивающим значительную защиту от вражеского огня.',
@@ -2778,7 +2991,7 @@ Cult Ambush — разновидность стратегического рез
       ],
     },
     {
-      name: 'Grey Knights',
+      id: 'grey-knights',
       rule: {
         nameRu: 'Удар из варпа',
         flavor: 'Мастера технологии телепортации и прочего варп-ремесла, Grey Knights часто держат воинов в резерве, готовых вступить в бой в любой момент. Когда их призывают к битве, эти воины наносят удар будто из ниоткуда, атакуя ошеломлённых врагов прежде, чем те успеют поднять оружие в ответ.',

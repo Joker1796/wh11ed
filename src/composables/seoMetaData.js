@@ -225,7 +225,8 @@ const FACTION_FAQ_RE = /^\/factions\/([^/]+)\/faq$/
 export const isFactionPath = (path) =>
   FACTION_RE.test(path) || DATASHEETS_RE.test(path) || DATASHEET_RE.test(path) || FACTION_FAQ_RE.test(path)
 
-// /combat-patrol/:slug — one page per faction's Combat Patrol box (src/data/combatPatrol.js).
+// /combat-patrol/:id — one page per Combat Patrol BOX (src/data/combatPatrol.js); a faction can
+// have several, so the key is the box's id, and the title names the box.
 const COMBAT_PATROL_RE = /^\/combat-patrol\/([^/]+)$/
 export const isCombatPatrolPath = (path) => COMBAT_PATROL_RE.test(path)
 
@@ -235,7 +236,7 @@ const factionName = (slug) => factionIndexBySlug(slug)?.name || prettifySlug(slu
 function dynamicMetaFor(path, loc, unitName) {
   let m = path.match(COMBAT_PATROL_RE)
   if (m) {
-    const f = combatPatrolIndex.find((x) => x.slug === m[1])
+    const f = combatPatrolIndex.find((x) => x.id === m[1])
     const name = f?.name || factionName(m[1])
     const box = f?.boxName || ''
     return loc === 'ru'
