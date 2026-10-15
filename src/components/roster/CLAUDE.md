@@ -2992,6 +2992,19 @@ Battle Focus, which names VEHICLE in one of five triggers and would otherwise va
 infantry unit); and an extraction matching no unit in the whole faction is distrusted and ignored
 (7 rules, prose abbreviating a faction keyword — "Votann units" against LEAGUES OF VOTANN).
 
+**A unit's keywords are `unitKeywordsOf(sheet)`** — its own, its faction's, its per-model ones and
+its NAME ("each datasheet name acts as an additional keyword", Core Rules). Never assemble them by
+hand: until 2026-10-15 every gate read `[...keywords, ...factionKeywords]`, so "friendly GRETCHIN
+units" reached no Orks sheet (Gretchin prints GROTS, INFANTRY), fell into the third escape and
+showed Runt Swarm's rule on a Battlewagon (a player's report). **The third escape is
+`scopesMisread`**, one definition for the rule blocks and the modifier gates: with the keyword
+vocabulary loaded (`src/data/unitKeywordVocabulary.js`, generated with the datasheet index), a
+target made of real keywords nobody in the faction carries — Chaos Knights' DAMNED, Brood
+Brothers' ASTRA MILITARUM INFANTRY — reaches nobody instead of everybody; only a target that is
+not made of keywords at all is distrusted. That day 34 rules were shown to every card; 6 are
+left, keywords a detachment's text hands out that appdata records no grant for (Recon Augury,
+Armoured Skirmisher, Soul Forge), pinned by name in `ruleTargets.class.test.js`.
+
 A rule is read as one `{ targets, excludes }` **per statement** — paragraph, `###` section or
 `▪ ` bullet — and applies when ANY statement does. Splitting by bullet is load-bearing: Necrons'
 Cold Fervour is two bullets, the first naming DESTROYER CULT and the second every other NECRONS

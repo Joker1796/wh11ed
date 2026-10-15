@@ -613,7 +613,7 @@ export default {
   "653": "Autoch-pattern bolter модели Theyn можно заменить на одно из:",
   "654": "Модель Theyn может получить 1 Theyn’s melee weapon.",
   "655": "Любое количество моделей Hearthkyn Warriors может заменить Autoch‑pattern bolter на 1 ion blaster.",
-  "657": "До 2 моделей Hearthkyn Warriors могут заменить Autoch‑pattern bolter or ion blaster на 1 plasma knife.",
+  "657": "До 2 моделей Hearthkyn Warriors могут заменить Autoch‑pattern bolter или ion blaster на 1 plasma knife.",
   "658": "2 twin bolt cannons этой модели можно заменить на одно из:\n◦ 1 twin bolt cannon и 1 twin ion beamer\n◦ 2 twin ion beamers",
   "659": "cyclic ion cannon этой модели можно заменить на одно из:",
   "660": "panspectral scanner этой модели можно заменить на 1 Hekaton warhead.",

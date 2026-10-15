@@ -5,6 +5,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { foldChars, foldName } from '../../src/utils/foldName.js'
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 export const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', 'wh40k-appdata')
@@ -40,7 +41,7 @@ export function appdataDataVersion() {
 
 // Normalize a name for matching: fold quote/dash variants, strip a trailing "(...)"
 // classification suffix ("Fear Made Manifest (Aura)"), case/whitespace-insensitive.
-export const norm = (s) => (s || '').toLowerCase().replace(/(?:\s*\([^)]*\))+\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-‐‑–—]/g, '-').replace(/\s+/g, ' ').trim()
+export const norm = (s) => foldName(String(s || '').replace(/(?:\s*\([^)]*\))+\s*$/, ''))
 
 // `norm` plus the two differences that are never a difference in a WEAPON name: a hyphen where the
 // other side wrote a space, and a plural where the other side wrote a singular. Both sides do both
@@ -366,7 +367,7 @@ export function diffByName(label, wh11edList, appdataList, nameOf11, nameOfApp, 
 // On a sheet that mixes the two, a "■" line is dropped when an unmarked line says nearly the same
 // thing (word overlap ≥ 0.5); one without such a twin is a real instruction and stays.
 const WG_STOP = new Set(['the', 'can', 'with', 'this', 'and', 'model', 'models', 'replaced', 'following', 'one', 'each', 'their'])
-const wgWords = (s) => new Set(s.toLowerCase().replace(/^■\s*/, '').replace(/’/g, "'").replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter((w) => w.length > 2 && !WG_STOP.has(w)))
+const wgWords = (s) => new Set(foldChars(s).toLowerCase().replace(/^■\s*/, '').replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter((w) => w.length > 2 && !WG_STOP.has(w)))
 const wgOverlap = (a, b) => [...a].filter((x) => b.has(x)).length / new Set([...a, ...b]).size
 export function currentWargearRules(rules) {
   const marked = (r) => /^■/.test(r.rules.trim())

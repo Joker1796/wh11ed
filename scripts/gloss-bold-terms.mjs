@@ -23,6 +23,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL, fileURLToPath } from 'node:url'
+import { foldName } from '../src/utils/foldName.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DATA = path.join(ROOT, 'src/data')
@@ -115,7 +116,7 @@ export async function prime() {
     .filter((n) => !['Leader', 'Support', 'Damaged'].includes(n)).sort((a, b) => b.length - a.length)
 }
 
-const fold = (s) => s.toLowerCase().replace(/[’‘]/g, "'").replace(/‑|‐/g, '-').replace(/\s+/g, ' ').trim()
+const fold = foldName
 function enId(term) {
   const t = fold(term)
   if (!t) return null

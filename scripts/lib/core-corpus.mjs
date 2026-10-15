@@ -13,6 +13,7 @@
 import path from 'node:path'
 import { ROOT, APPDATA, loadJson, loadModule } from './sync-common.mjs'
 import { splitBodyEntries } from '../../src/composables/columnChunks.js'
+import { foldChars } from '../../src/utils/foldName.js'
 
 // Section-array files (each `{ en: Section[] }` with subsections/children carrying sectionNum):
 // basicRules 01-06, battleRound 07-12, battlefields 13-16, advancedRules 17-23, muster 25.
@@ -68,7 +69,7 @@ export function plainText(s) {
   t = t.replace(/\s*\((?:see\s+)?(?:core rules,?\s*)?(?:\d+\.)*\d+(?:\.\d+)*(?:\s*(?:&|and|,)\s*(?:\d+\.)*\d+(?:\.\d+)*)*\)/gi, '')
   t = t.replace(/[[\]]/g, '') // [KEYWORD] / [ABILITY] bracket markers — both sides have them
   t = t.replace(/[▪•◦▫→◆◈#]/g, ' ')
-  t = t.replace(/[’‘`]/g, "'").replace(/[“”«»]/g, '"').replace(/[‐‑–—]/g, '-')
+  t = foldChars(t).replace(/[“”«»]/g, '"')
   t = t.replace(/'/g, '')
   t = t.toLowerCase().replace(/[^a-z0-9"/+%-]+/g, ' ').replace(/\s+/g, ' ').trim()
   return t

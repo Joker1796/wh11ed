@@ -15,6 +15,7 @@ import { factionAliasesRu } from '../data/factionAliasesRu.js'
 import { h4AnchorId } from './anchors.js'
 import { splitBodyEntries } from './columnChunks.js'
 import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from './datasheetTags.js'
+import { foldChars } from '../utils/foldName.js'
 
 // Every core-rules chapter lives on one page now, so a hit's `route` is the same for all of
 // them; the anchor (`id`) is what actually distinguishes them.
@@ -771,14 +772,14 @@ function getIndexById(locale) {
 // foldYo must stay a 1:1 char replace: the body-snippet slicing in search() reuses
 // the folded string's indices against the original text.
 function foldYo(s) {
-  return s.replace(/ё/g, 'е').replace(/Ё/g, 'Е')
+  return foldChars(s).replace(/ё/g, 'е').replace(/Ё/g, 'Е')
 }
 
 // NAME matching is additionally apostrophe-blind: the data spells C’tan / Mont’ka / T’au with
 // the typographic ’ nobody types, so «ктан», «к'тан» and "ctan" must all reach them. Only for
 // names — body/title matching keeps the 1:1 foldYo, or the snippet indices above would shift.
 function stripApos(s) {
-  return s.replace(/[’'`]/g, '')
+  return foldChars(s).replace(/'/g, '')
 }
 
 // A query that is purely a section number (1–3 groups of 1–2 digits, optional

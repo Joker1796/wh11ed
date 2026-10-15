@@ -139,3 +139,35 @@ describe('weapon ability tags', () => {
     expect(renderInline('[Twin pulse carbine]')).toBe('[Twin pulse carbine]')
   })
 })
+
+describe('renderRichText lists', () => {
+  const { renderRichText } = useRenderInline()
+  it('turns `▪` lines into a list and keeps the item open for its `▫` sub-items', () => {
+    expect(renderRichText('Head:\n▪ One\n▫ a\n▫ b\n▪ Two')).toBe('Head:<ul><li>One<ul><li>a</li><li>b</li></ul></li><li>Two</li></ul>')
+  })
+  it('reads `▫` lines with nothing above them as a list of their own', () => {
+    // Lion El’Jonson's ability lists its steps with `▫` alone (Dark Angels, 2026-10-15).
+    expect(renderRichText('If you do:\n▫ Place this unit\n▫ Set it up')).toBe('If you do:<ul><li>Place this unit</li><li>Set it up</li></ul>')
+  })
+})
+
+// A list marker the renderers do not know prints as a literal character at the start of a line —
+// how Lion El’Jonson's `▫` steps sat on his card. Rule, datasheet and glossary text may start a
+// line with ▪ • ▫ (renderRichText, RuleBody) — and ◆, a core result row — and nothing else that
+// looks like a bullet. The Kill Tank's option list was the one written with "- " (2026-10-15).
+describe('list markers in rule text', () => {
+  it('uses only the markers the renderers know', async () => {
+    const fs = await import('node:fs')
+    const path = await import('node:path')
+    const root = path.resolve(import.meta.dirname, '../data')
+    const files = ['datasheets', 'datasheets/ru', 'factions', 'factions/ru', 'factions/extras']
+      .flatMap((d) => fs.readdirSync(path.join(root, d)).filter((f) => f.endsWith('.js') && !f.includes('.test.')).map((f) => path.join(d, f)))
+      .concat(['glossary.js', 'basicRules.js', 'battleRound.js', 'battlefields.js', 'advancedRules.js', 'reference.js', 'muster.js', 'eventCompanion.js', 'combatPatrol.js', 'combatPatrolRu.js'])
+    const odd = []
+    for (const f of files) {
+      const text = fs.readFileSync(path.join(root, f), 'utf8')
+      for (const m of text.matchAll(/(?:^|\\n|\n|[`"'])[ \t]*([◦■□‣∙●○◇►▶➤-])[ \t]+\S/g)) odd.push(`${f}: ${m[1]}`)
+    }
+    expect([...new Set(odd)]).toEqual([])
+  })
+})

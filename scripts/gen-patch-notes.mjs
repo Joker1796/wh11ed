@@ -16,6 +16,7 @@ import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, SM_SUPPLEMENT_BUNDLES } from './lib/sync-common.mjs'
 import { PATCHES } from './patch-notes/patches.mjs'
+import { foldName } from '../src/utils/foldName.js'
 import { diffBundles, diffCore } from './patch-notes/diff-bundles.mjs'
 import { diffMfm } from './patch-notes/diff-mfm.mjs'
 import { diffFaq } from './patch-notes/diff-faq.mjs'
@@ -61,7 +62,7 @@ async function build(p) {
       const slug = supplement ? 'space-marines' : (toWh11ed[app] || app)
       // The MFM as it stood when the update landed: which dispositions each detachment offers.
       const mfm = p.mfm ? await mfmAt(p.mfm[1], slug).catch(() => null) : null
-      const norm = (s) => String(s).replace(/[’']/g, "'").toLowerCase()
+      const norm = foldName
       const offered = mfm ? (name) => mfm.detachments?.find((d) => norm(d.name) === norm(name))?.forceDispositions || null : null
       items.push(...diffBundles(json(APPDATA, from, f), json(APPDATA, to, f), slug, { announce: !supplement, cpArmyRules, offered }))
     }
@@ -79,7 +80,7 @@ async function build(p) {
 // 2026-10-14): `doubts` on a PATCHES line names it, and the item carries the note the page shows.
 // A doubt that names no item stops the run — a quiet one would vanish from the page unseen.
 function attachDoubts(p, items) {
-  const fold = (x) => String(x || '').replace(/[\u2010\u2011]/g, '-').toLowerCase()
+  const fold = foldName
   for (const d of p.doubts || []) {
     const hit = items.filter((x) => x.faction === d.faction && x.kind === d.kind && fold(x.name) === fold(d.name))
     if (!hit.length) throw new Error(`${p.id}: doubt ${d.faction} · ${d.kind} "${d.name}" matches no change`)

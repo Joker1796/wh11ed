@@ -42,3 +42,11 @@ describe('queryWords / wordsIn', () => {
     expect(wordsIn('Tempestus Scions', queryWords('tempestus aquilons'))).toBe(false)
   })
 })
+
+describe('foldName (search)', () => {
+  // appdata spells "Caladius Grav‑Tank" with a non-breaking hyphen nobody types (2026-10-15).
+  it('finds a name with a typographic hyphen or apostrophe from the plain one', () => {
+    expect(foldName('Caladius Grav‑Tank')).toContain(foldName('grav-tank'))
+    expect(foldName('Hell’s Last')).toBe(foldName("Hell's Last"))
+  })
+})

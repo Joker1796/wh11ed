@@ -100,6 +100,7 @@ import { detachmentSources } from '../../data/detachmentSources.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
 import { useRefNavigation } from '../../composables/useRefNavigation.js'
+import { foldName } from '../../utils/foldName.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -128,7 +129,7 @@ const turn = computed(() => (current.value?.currentTurn === 1 ? 1 : 0))
 
 // Detachment names are matched the way the rest of the app matches them — apostrophes and case
 // are the two things that differ between GW's own spellings of one name.
-const norm = (s) => String(s || '').toLowerCase().replace(/[’']/g, "'").trim()
+const norm = foldName
 
 function rulesFor(pi) {
   const pl = current.value?.players?.[pi]

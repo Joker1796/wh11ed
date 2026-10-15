@@ -1,22 +1,26 @@
 // @ts-check
 // Who may carry an enhancement — read by the roster builder (through rosterEngine.js, which
 // re-exports these) and by gen-roster-data.mjs for a datasheet's "Led by" rows. A module of its
-// own, without imports, so the Node generator can load it: rosterEngine.js pulls a JSON file in,
-// and plain Node will not import that.
+// own, importing only plain modules, so the Node generator can load it: rosterEngine.js pulls a
+// JSON file in, and plain Node will not import that.
 
+import { foldName } from '../utils/foldName.js'
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').Enhancement} Enhancement */
 
 /**
- * @param {{ kws?: string[] } | null | undefined} unit
+ * @param {{ kws?: string[], name?: string } | null | undefined} unit
  * @param {string} name
  * @returns {boolean}
  */
 export function hasKeyword(unit, name) {
-  const n = name.toLowerCase()
+  const n = foldName(name)
   // A unit the data no longer has (an entry left by a retired datasheet) has no keywords — the
   // validator's ally checks ask this of every unit in the army, and threw on one (2026-10-12).
-  return (unit?.kws || []).some((k) => k.toLowerCase() === n)
+  // Its name is one of them: "each datasheet name acts as an additional keyword" (Core Rules) —
+  // appdata does not list it, so "BIG MEK model only" was offered to the Big Mek only because a
+  // datasheet group happened to say so too (2026-10-15).
+  return (unit?.kws || []).some((k) => foldName(k) === n) || (!!unit?.name && foldName(unit.name) === n)
 }
 
 // A tiny handful of enhancements (Necrons' Pantheon of Woe, Imperial Agents' Veiled Blade Elim.
@@ -26,7 +30,7 @@ export function hasKeyword(unit, name) {
 // epic-without-epicOk gates below — those exist to keep *generic* enhancements off units that
 // can't normally take them, not to block a unit from its own dedicated option.
 /** @param {unknown} a @param {unknown} b */
-const sameName = (a, b) => String(a).replace(/[\u2019']/g, "'").toLowerCase() === String(b).replace(/[\u2019']/g, "'").toLowerCase()
+const sameName = (a, b) => foldName(a) === foldName(b)
 
 /**
  * @param {Enhancement} enh

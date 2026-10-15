@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { foldChars } from '../utils/foldName.js'
 
 // Finding a unit by what it HAS rather than what it is called: its ability names (its own,
 // wargear, core, the faction rule — EN, and RU where the overlay renames the header) and its
@@ -16,7 +17,7 @@ export const TAG_MIN = 3
 // Case-, ё- and apostrophe-blind, like the palette's name matching: the data spells T’au and
 // Keep Huntin’! with the typographic ’ nobody types.
 export function foldName(s) {
-  return s.toLowerCase().replace(/ё/g, 'е').replace(/[’'`]/g, '')
+  return foldChars(s).toLowerCase().replace(/ё/g, 'е').replace(/'/g, '')
 }
 
 // A query matches a text when every one of its words is in it, in any order: the RU names put

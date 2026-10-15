@@ -32,6 +32,7 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { foldName } from '../src/utils/foldName.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DS = path.join(ROOT, 'src/data/datasheets')
@@ -40,7 +41,7 @@ const WRITE = process.argv.includes('--write')
 
 // Hyphens folded too: appdata spells "Shield‑Captain" with U+2011, and until 2026-10-15 that one
 // character kept its whole MFM line — both price tiers and its wargear — from reaching the page.
-const norm = (s) => s.toLowerCase().replace(/[’']/g, "'").replace(/[‐‑‒–]/g, '-').replace(/\s+/g, ' ').trim()
+const norm = foldName
 const rowKey = (o) => JSON.stringify([o.models ?? null, o.points, o.note ?? null])
 const sameRows = (a, b) =>
   a.length === b.length &&

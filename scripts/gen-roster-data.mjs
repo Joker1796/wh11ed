@@ -33,6 +33,8 @@ import { APPDATA_EXCEPTIONS, extraKeywords } from './lib/appdata-exceptions.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
+import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
+import { foldChars, foldName } from '../src/utils/foldName.js'
 
 const T = path.join(APPDATA, 'tables')
 const OUT = path.join(ROOT, 'src/data/roster')
@@ -1051,7 +1053,7 @@ function nearName(words, name) {
 // …and one row breaks a hyphenated name across a space ("1 neo- volkite pistol" on the Space
 // Marine Lieutenant, found by a player 2026-09-18): a hyphen glued to the letter before it and
 // followed by whitespace is that typo, never a spaced dash (" - "), so the space goes.
-const flatText = (s) => (s || '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[‐‑–—]/g, '-').replace(/(?<=[a-z])-\s+(?=[a-z])/g, '-')
+const flatText = (s) => foldChars(s).toLowerCase().replace(/(?<=[a-z])-\s+(?=[a-z])/g, '-')
 
 // The group's own items named in one statement, in order, with the count written in front of
 // them ("2 Mortifier flamers"). Longest name first so a name containing another ("master-crafted
@@ -2246,7 +2248,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   if (defaults.length === 1 && !(minis.length > 1)) {
     const lines = [...(enOf(datasheetById.get(bd.id)).unitComposition || '').matchAll(/\*\*(?:This|Every) model is equipped with:\*\*\s*([^\n]+)/g)]
     if (lines.length === 1) {
-      const key = (n) => String(n || '').toLowerCase().replace(/[\u2010\u2011]/g, '-').replace(/\s+/g, ' ').trim().replace(/s$/, '')
+      const key = (n) => foldName(n).replace(/s$/, '')
       const said = new Map()
       for (const part of lines[0][1].replace(/\.\s*$/, '').split(/[;,]/)) {
         const m = part.trim().match(/^(\d+)\s+(.+)$/)
@@ -2268,7 +2270,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // this unit already fields somewhere (so the name resolves to an id without guessing), only
   // added, never removed or recounted: a line can describe one model of a profile the tables split.
   if (defaults.length && minis.length > 1) {
-    const key = (n) => String(n || '').toLowerCase().replace(/[\u2010\u2011]/g, '-').replace(/[’']/g, "'").replace(/\s+/g, ' ').trim().replace(/s$/, '')
+    const key = (n) => foldName(n).replace(/s$/, '')
     const profileByName = new Map(minis.map((m, i) => [key(enOf(m).name), i]))
     const nameOfId = (id) => { for (const [uuid, i] of itemIds) if (i === id) return wgItemName.get(uuid) }
     const idByName = new Map()
@@ -2782,7 +2784,7 @@ const ENH_LOCK_FIXES = {}
 const usedLockFixes = new Set()
 // Apostrophes and the hyphen variants appdata types by hand (U+2010/U+2011 — Codex: Adeptus
 // Custodes writes "Shield‑Captain", the MFM "Shield-Captain") are folded alike.
-const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/[\u2010\u2011]/g, '-')
+const normApost = foldName
 
 // An Upgrade appdata caps below the muster rules' "up to three of the same Upgrade in your army".
 // Every other non-Combat-Patrol Upgrade carries `limit: 3`; these are read as appdata's mistake,
@@ -2810,7 +2812,7 @@ let WARGEAR_MFM = new Map()
 function everyModelCarries(text, item) {
   const m = /every model is equipped with:?\**:?\s*([^\n]*)/i.exec(String(text || '').replace(/\*\*/g, ''))
   if (!m || !item) return false
-  const key = (x) => x.toLowerCase().replace(/[\u2010\u2011]/g, '-').replace(/^\d+\s+/, '').replace(/s\b/g, '').trim()
+  const key = (x) => foldName(x).replace(/^\d+\s+/, '').replace(/s\b/g, '').trim()
   return m[1].split(/[;,.]/).map((x) => key(x)).includes(key(item))
 }
 // An Upgrade whose own name says "(one per army)" states its limit in print (Codex: Adeptus
@@ -3171,8 +3173,9 @@ async function packUnitsFor(slug, units) {
   }
   // Keyword-named Leader targets ("Imperium Battleline Infantry"), against every unit this file
   // will hold — appdata's and the pack's; a keyword that names nothing here resolves to nothing.
-  const kwOf = new Map(units.map((u) => [u.id, (u.kws || []).map(norm)]))
-  for (const d of sheets) kwOf.set(d.id, [...(d.keywords || []), ...(d.factionKeywords || [])].map(norm))
+  // A datasheet's name is one of its keywords (Core Rules) — ruleTargets.js's unitKeywordsOf.
+  const kwOf = new Map(units.map((u) => [u.id, [...(u.kws || []), u.name].map(norm)]))
+  for (const d of sheets) kwOf.set(d.id, unitKeywordsOf(d).map(norm))
   const unitsByKw = (kws) => [...kwOf].filter(([, have]) => kws.every((k) => have.includes(norm(k)))).map(([id]) => id)
   const ctx = { report: report.pack, item: fx.itemByName, text: fx.text, unitIdByName, allegFor, unitsByKw }
   const out = []

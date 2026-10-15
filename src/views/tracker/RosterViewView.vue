@@ -574,6 +574,7 @@ import { buildRosterText } from '../../composables/rosterExport.js'
 import { playRoster } from '../../composables/playRoster.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
+import { loadKeywordVocabulary, unitKeywordsOf } from '../../composables/ruleTargets.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
@@ -768,7 +769,8 @@ const fullSheets = ref(new Map())
 const allySlugs = computed(() => [...new Set((roster.value?.units || []).map((u) => allySourceOf(u.id)?.[0]).filter(Boolean))])
 watch([() => roster.value?.faction, allySlugs], async ([slug, srcs]) => {
   if (!slug) { fullSheets.value = new Map(); return }
-  const lists = await Promise.all([loadDatasheets(slug), ...srcs.map((s) => loadDatasheets(s))])
+  // The keyword vocabulary rides along: the rule gates read it as soon as the sheets land.
+  const [, ...lists] = await Promise.all([loadKeywordVocabulary(), loadDatasheets(slug), ...srcs.map((s) => loadDatasheets(s))])
   if (roster.value?.faction !== slug) return
   const m = new Map()
   for (const d of lists[0] || []) m.set(d.id, d)
@@ -986,7 +988,7 @@ watch(() => roster.value?.faction, async (slug) => {
 }, { immediate: true })
 
 const factionKeywordSets = computed(() =>
-  [...fullSheets.value.values()].map((d) => [...(d.keywords || []), ...(d.factionKeywords || [])]))
+  [...fullSheets.value.values()].map(unitKeywordsOf))
 
 // The modifier records that bear on one entry — shared by the plates and by the switch rows, so
 // a switch can never appear for a rule the card itself doesn't consider.
@@ -1061,7 +1063,7 @@ function modContextFor(entry) {
   if (!resolved.length) return null
   const sheet = fullSheets.value.get(entry?.id)
   const active = activeFor(entry)
-  const printed = [...(sheet?.keywords || []), ...(sheet?.factionKeywords || [])]
+  const printed = unitKeywordsOf(sheet)
   // A granted keyword decides which rules bear on the unit at all, so it has to be resolved BEFORE
   // the apply pass gates on the keyword set — the same order RosterUnitRulesModal uses. Skipping it
   // here would let a plate on this row and the card behind it disagree, which is the one thing this
@@ -1076,8 +1078,7 @@ function modContextFor(entry) {
   // Judged against the whole ATTACHED unit's keywords (Core Rules 19.03), which is why the
   // attachment the roster records is read here rather than the card's own keywords alone.
   const attached = attachedUnitKeywords(entry, roster.value?.units, (id) => {
-    const d = fullSheets.value.get(id)
-    return d ? [...(d.keywords || []), ...(d.factionKeywords || [])] : []
+    return unitKeywordsOf(fullSheets.value.get(id))
   })
   return { resolved: gateStratagems(resolved, [...kws, ...attached], factionKeywordSets.value), kws, active, chosen }
 }
@@ -1196,7 +1197,7 @@ const auraSwitchCache = computed(() => {
       ...attachmentCtxOf(e),
       entryUid: e.uid,
       rosterUnits: units,
-      keywords: [...(sheet?.keywords || []), ...(sheet?.factionKeywords || [])],
+      keywords: unitKeywordsOf(sheet),
       factionKeywordSets: factionKeywordSets.value,
       // …and only the auras whose own rule is running: an unselected relic changes nothing.
       active: activeFor(e),

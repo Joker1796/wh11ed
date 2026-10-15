@@ -24,13 +24,14 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
+import { foldChars } from '../src/utils/foldName.js'
 
 const DS_DIR = path.join(ROOT, 'src/data/datasheets')
 
 // A tag as printed → the ability it is an instance of. Numbers, dice, `X+` and a `: KEYWORD`
 // scope are all parameters of one ability, not abilities of their own.
 export function baseTag(tag) {
-  let t = tag.toUpperCase().replace(/[’‘]/g, "'").trim()
+  let t = foldChars(tag).toUpperCase().trim()
   t = t.split(':')[0].trim() // [LETHAL HITS: VEHICLE]
   if (t.startsWith('ANTI')) return 'ANTI' // [ANTI-VEHICLE 4+], [ANTI-PSYKER 2+]
   t = t.replace(/\s+(\d+|D\d+|\d*D\d+\+\d+|\d+\+|X)$/i, '') // [SUSTAINED HITS 2], [MELTA D3], [RAPID FIRE X]
@@ -39,7 +40,7 @@ export function baseTag(tag) {
 
 // Fold to letters only, so "C'TAN POWER" matches "C’tan Powers" in a datasheet's own prose and
 // "Plasma Warhead" matches the tag [PLASMA WARHEAD].
-const fold = (s) => (s || '').toUpperCase().replace(/[’‘]/g, "'").replace(/[^A-Z']+/g, ' ').trim()
+const fold = (s) => foldChars(s).toUpperCase().replace(/[^A-Z']+/g, ' ').trim()
 
 // The sheet explains a tag if one of its own ability plates names it, or its prose talks about it
 // (the Tesseract Vault's "Powers of the C'tan" is the shape that matters: the tag marks which

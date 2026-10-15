@@ -30,6 +30,7 @@
 // points is not a bug in the import.
 import { factionGroups } from '../data/factionsIndex.js'
 import { DISPOSITION_NAMES } from '../data/dispositionColors.js'
+import { foldChars } from '../utils/foldName.js'
 import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, pmGroups, swapRoom, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
@@ -98,9 +99,7 @@ const num = (s) => +String(s).replace(/\D/g, '')
 // pistols). The count and the price ride on this — a plural read as wargear drops a six-model unit
 // into the three-model bracket.
 /** @param {string | null | undefined} s @returns {string} */
-export const norm = (s) => (s || '')
-  .replace(/[‘’ʼ`´]/g, "'")
-  .replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, '-')
+export const norm = (s) => foldChars(s)
   .replace(/&/g, ' and ')
   .replace(/\s+/g, ' ')
   .trim()
@@ -987,7 +986,7 @@ function sizeIndexFor(def, models, perMini = null) {
 // Case and apostrophe folding only — both leave the string's length alone, so an index into the
 // folded copy is an index into the original and the leftovers can be reported as written.
 /** @param {string | null | undefined} s */
-const fold = (s) => String(s || '').replace(/[‘’ʼ`´]/g, "'").toLowerCase()
+const fold = (s) => foldChars(s).toLowerCase()
 /**
  * @param {string} line
  * @param {Array<{ name: string }>} known

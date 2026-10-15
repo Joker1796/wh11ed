@@ -982,6 +982,7 @@
 </template>
 
 <script setup>
+import { foldName } from '../utils/foldName.js'
 import ChevronIcon from './ChevronIcon.vue'
 import { copyTierLabel } from '../utils/copyTier.js'
 import { computed, ref, watch } from 'vue'
@@ -1098,7 +1099,7 @@ const {
 
 // Only the faction-line part the caller can actually open should look clickable.
 const factionParts = computed(() => factionPartsOf(props.sheet))
-const fkey = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+const fkey = foldName
 function linkedFactionRule(part) {
   return props.linkedFactionRules.find((n) => fkey(n) === fkey(part)) || null
 }

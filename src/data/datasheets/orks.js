@@ -4253,7 +4253,7 @@ export default [
     "options": [
       "This model's Dual Big Shoota can be replaced with one of the following: 1 Rokkit Launcha, 1 Skorcha.",
       "This model's Skorcha can be replaced with one of the following: 1 Dual Big Shoota, 1 Rokkit Launcha.",
-      "This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and three of the following:\n\n- 1 Kannon.\n\n- 1 Lobba.\n\n- 1 Zzap Gun.",
+      "This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and three of the following:\n▪ 1 Kannon.\n▪ 1 Lobba.\n▪ 1 Zzap Gun.",
       "If this model is equipped with 1 Deff Rolla, it can be equipped with up to 5 Big Shootas."
     ],
     "transport": "This model has a transport capacity of 12 Orks Infantry models. Each Mega Armour, Jump Pack model takes up the space of 2 models. Each Ghazghkull Thraka model takes up the space of 4 models.",

@@ -507,7 +507,7 @@ export default {
     options: [
       'Dual Big Shoota этой модели можно заменить на одно из следующего: 1 Rokkit Launcha, 1 Skorcha.',
       'Skorcha этой модели можно заменить на одно из следующего: 1 Dual Big Shoota, 1 Rokkit Launcha.',
-      'Tank Kannon и Crushin\' Bulk этой модели можно заменить на 1 Deff Rolla и три из следующего:\n\n- 1 Kannon.\n\n- 1 Lobba.\n\n- 1 Zzap Gun.',
+      'Tank Kannon и Crushin\' Bulk этой модели можно заменить на 1 Deff Rolla и три из следующего:\n▪ 1 Kannon.\n▪ 1 Lobba.\n▪ 1 Zzap Gun.',
       'Если эта модель вооружена 1 Deff Rolla, её можно снабдить до 5 Big Shootas.',
     ],
   },

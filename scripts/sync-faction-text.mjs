@@ -33,6 +33,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, norm, appdataToMarkup, bodyText, currentWargearRules, loadModule, byNormName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
+import { foldChars } from '../src/utils/foldName.js'
 
 // Strip wh11ed's enrichment layer (and appdata's residual markup) down to bare comparable words.
 // Applied to BOTH sides — appdata text is run through appdataToMarkup first, so both arrive in
@@ -51,7 +52,7 @@ export function plainText(s) {
   t = t.replace(/\s*\((?:\d+\.)*\d+\)/g, '') // (NN) / (NN.NN) numeric cross-refs
   t = t.replace(/[[\]]/g, '') // [KEYWORD] / [ABILITY] bracket markers (both sides have them)
   t = t.replace(/[▪•◦▫→◆◈]/g, ' ') // list/flow markers — layout, not content
-  t = t.replace(/[’‘`]/g, "'").replace(/[“”«»]/g, '"').replace(/[‐‑–—]/g, '-') // quote/dash variants
+  t = foldChars(t).replace(/[“”«»]/g, '"') // quote/dash variants
   t = t.replace(/([a-zA-Z])-([a-zA-Z])/g, '$1 $2') // "fall-back"⇄"fall back" hyphenation (letters only, not ±N stats)
   t = t.replace(/'/g, '') // fold apostrophes out ("unit's"→"units"); kills appdata stray-quote noise
   t = t.replace(/\s*\/\s*/g, '/') // "custodians / aquilon"⇄"custodians/aquilon" keyword-union spacing

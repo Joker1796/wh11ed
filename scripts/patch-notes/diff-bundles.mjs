@@ -10,16 +10,15 @@
 // Points are not read here: the Munitorum Field Manual is the points canon (src/data/mfm), and
 // its history is diffed on its own. Combat Patrol content is a separate game mode and is skipped.
 import { appdataToMarkup, appdataToParagraphs, bodyText, norm, looseName } from '../lib/sync-common.mjs'
+import { foldChars } from '../../src/utils/foldName.js'
 
 // Text as a player reads it: no markup, one kind of quote, dash and space.
 export function plain(s) {
   return appdataToMarkup(s || '')
     .replace(/\*\*|__/g, '')
     .replace(/[▪▫■•]\s*/g, '• ')
-    .replace(/[‘’‚‛`]/g, "'")
     .replace(/[“”„]/g, '"')
-    .replace(/[‐‑‒–—―]/g, '-')
-    .replace(/\u00a0/g, ' ')
+    .replace(/.+/s, foldChars)
     // A pointer at the printed card's layout ("…listed in the Psychic Abilities section (see
     // left)"), dropped when the app stopped drawing that layout — not a rule.
     .replace(/\s*\(see (?:left|right|above|below)\)/gi, '')
