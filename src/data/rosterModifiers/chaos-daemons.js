@@ -1355,6 +1355,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "daemonic-allegiance",
+        "gid": "dbd9b3b1",
         "opt": "Khorne"
       },
       "hash": "ae040202",
@@ -1379,6 +1380,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "daemonic-allegiance",
+        "gid": "dbd9b3b1",
         "opt": "Nurgle"
       },
       "hash": "18bd6cac",
@@ -1402,6 +1404,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "daemonic-allegiance",
+        "gid": "dbd9b3b1",
         "opt": "Slaanesh"
       },
       "hash": "40f35f84",
@@ -1425,6 +1428,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "daemonic-allegiance",
+        "gid": "dbd9b3b1",
         "opt": "Tzeentch"
       },
       "hash": "213a227a",

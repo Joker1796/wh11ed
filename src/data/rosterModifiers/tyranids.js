@@ -832,6 +832,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "subterranean-assault-keywords",
+        "gid": "15b5271c",
         "opt": "Character"
       },
       "hash": "4f633c25",

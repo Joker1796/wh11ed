@@ -479,6 +479,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "houndpack-lance-keyword",
+        "gid": "491e56b3",
         "opt": "Character"
       },
       "hash": "6ae178f7",

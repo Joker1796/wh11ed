@@ -2233,3 +2233,34 @@ describe('an option offered to several profiles', () => {
     expect(half).toEqual([])
   })
 })
+
+// appdata files several allegiance groups under one name with different rules: Chaos Daemons'
+// Daemon Prince of Chaos ("Khorne: +2 Strength to its hellforged weapons") and Soul Grinder ("Khorne:
+// additionally equipped with a torrent of burning blood") are both "Daemonic Allegiance", and Chaos
+// Space Marines have two "Mark of Chaos". Keyed by name, a Soul Grinder that took Khorne got the
+// Prince's +2 S on every melee weapon (report 77ab9e8d, 2026-10-15). A record names its group.
+describe('an allegiance record reaches only its own group', () => {
+  it("does not give a Soul Grinder the Daemon Prince's Khorne", async () => {
+    const { loadRosterModifiers } = await import('../rosterModifiers/index.js')
+    const { resolveModifierEntries, allegianceChoiceOf } = await import('../../composables/rosterStatMods.js')
+    const mods = await loadRosterModifiers('chaos-daemons')
+    const daemons = factions.find((f) => f.slug === 'chaos-daemons').data
+    const facEn = { armyRule: null, detachments: [] }
+    const strength = (id) => resolveModifierEntries(mods.entries, facEn, [], null, allegianceChoiceOf(daemons.units.find((u) => u.id === id), { alleg: 'Khorne' }))
+      .flatMap((r) => r.effects || []).filter((e) => e.stat === 's').map((e) => e.value)
+    expect(strength('soul-grinder')).toEqual([])
+    expect(strength('daemon-prince-of-chaos')).toEqual([2])
+  })
+
+  it('names, in every record, a group a unit of that faction carries', async () => {
+    const { loadRosterModifiers } = await import('../rosterModifiers/index.js')
+    for (const { slug, data } of factions) {
+      const mods = await loadRosterModifiers(slug)
+      const gids = new Set((data.units || []).map((u) => u.alleg?.gid).filter(Boolean))
+      for (const r of mods?.entries || []) {
+        if (r.ref?.kind !== 'allegiance') continue
+        expect(gids.has(r.ref.gid), `${slug}: ${r.name} (group ${r.ref.gid})`).toBe(true)
+      }
+    }
+  })
+})

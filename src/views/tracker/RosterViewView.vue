@@ -576,7 +576,7 @@ import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
-import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
+import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
 import { itemKey, loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
@@ -994,7 +994,7 @@ function resolvedFor(entry) {
   if (!entry || !modifierRecords.value.length || !factionEn.value) return []
   const def = defOf(entry.id)
   const enh = entry.enh || mandatoryEnhancementFor(def, curDetachments.value)?.name || null
-  const alleg = entry.alleg && def?.alleg ? { g: def.alleg.g, opt: entry.alleg } : null
+  const alleg = allegianceChoiceOf(def, entry)
   return [
     // The rulebook's own modifiers apply to every unit of every faction — a Battle-shocked unit's
     // OC is '-' whoever it belongs to — so they are added here rather than resolved per faction.

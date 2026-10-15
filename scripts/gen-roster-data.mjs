@@ -2015,7 +2015,12 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     if (opts.length) {
       // `det` is the detachment NAME because that is what a roster stores (see useRosters); absent
       // means the choice always applies. `req` = must be chosen, `max` = cap across the army.
-      const alleg = { g: slugify(enOf(allegGroup).name || 'allegiance'), t: enOf(allegGroup).name || '', o: opts }
+      // `g` names the KIND of choice ("mark-of-chaos": other code reads it so), `gid` WHICH group:
+      // appdata files several groups under one name with different rules — Chaos Daemons' Daemon
+      // Prince (+2 S to hellforged weapons for Khorne) and Soul Grinder (an extra weapon) are both
+      // "Daemonic Allegiance", and the Prince's records landed on the Grinder (report 77ab9e8d,
+      // 2026-10-15). A modifier record carries the same `gid` (gen-roster-modifiers.mjs).
+      const alleg = { g: slugify(enOf(allegGroup).name || 'allegiance'), gid: allegGroup.id.slice(0, 8), t: enOf(allegGroup).name || '', o: opts }
       const detOwner = allegGroup.detachmentId && detById.get(allegGroup.detachmentId)
       if (detOwner) alleg.det = enOf(detOwner).name
       if (allegGroup.isMandatory) alleg.req = 1
@@ -3148,7 +3153,12 @@ async function packUnitsFor(slug, units) {
   // The Mark of Chaos: Pactbound Zealots' rule is written for "a HERETIC ASTARTES unit [that] is
   // not an EPIC HERO and does not already have one of the following keywords" — a rule, not a
   // list, so a pack Legends Chaos Lord on Bike gets the same choice appdata's 43 units carry.
-  const mark = units.find((u) => u.alleg?.g === 'mark-of-chaos')?.alleg
+  // Two appdata groups are called Mark of Chaos (43 units, and five sorcerers whose marks are their
+  // own); the rule is the many units' one, so a pack unit takes the group most units carry.
+  const markGids = new Map()
+  for (const u of units) if (u.alleg?.g === 'mark-of-chaos') markGids.set(u.alleg.gid, (markGids.get(u.alleg.gid) || 0) + 1)
+  const markGid = [...markGids].sort((a, b) => b[1] - a[1])[0]?.[0]
+  const mark = units.find((u) => u.alleg?.g === 'mark-of-chaos' && u.alleg.gid === markGid)?.alleg
   const MARKS = ['khorne', 'tzeentch', 'nurgle', 'slaanesh', 'chaos undivided']
   // The same for a Detachment that hands CHARACTER to units it names by keyword (CHARACTER_GRANTS):
   // Steel Hammer's "one or more ASTRA MILITARUM TITANIC units" takes a Legends Macharius too.

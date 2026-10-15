@@ -86,6 +86,7 @@
  * @typedef {object} AllegianceChoice
  * @property {string} t the rule's name ("Mark of Chaos")
  * @property {string} [g] the group an optional, army-capped choice counts against
+ * @property {string} [gid] which appdata group: several share a name and differ in their rules
  * @property {string} [det] the detachment that opens it, by name
  * @property {number} [min]
  * @property {number} [max] how many entries of the army may take it
@@ -325,7 +326,7 @@
  *   | { kind: 'detachmentRule', det: string, scopes?: RuleScope[] }
  *   | { kind: 'enhancement', det: string, scopes?: RuleScope[] }
  *   | { kind: 'stratagem', det: string, name: string }
- *   | { kind: 'allegiance', g: string, opt: string }
+ *   | { kind: 'allegiance', g: string, gid?: string, opt: string }
  *   | { kind: 'armyRule' }} ModifierRef
  */
 

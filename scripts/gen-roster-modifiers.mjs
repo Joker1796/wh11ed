@@ -181,14 +181,16 @@ function allegianceSources(tables, bundleDatasheetIds) {
       const name = a.localisations?.en?.name
       const prose = appdataToMarkup(a.localisations?.en?.rules)
       if (!name || !prose) continue
-      // `g` here is the same slug gen-roster-data.mjs writes into `unit.alleg.g`, and `opt` the
-      // option name it stores — together they say "this record applies to a unit that chose X".
+      // `g` here is the same slug gen-roster-data.mjs writes into `unit.alleg.g`, `gid` the group
+      // it writes into `unit.alleg.gid`, and `opt` the option name it stores — together they say
+      // "this record applies to a unit of THIS group that chose X". Without `gid` two groups of one
+      // name were one: a Soul Grinder that chose Khorne took the Daemon Prince's +2 S.
       out.push({
         sid: a.id,
         kind: 'allegiance',
         name: `${gName}: ${name}`,
         det: null,
-        ref: { kind: 'allegiance', g: slugifyName(gName), opt: name },
+        ref: { kind: 'allegiance', g: slugifyName(gName), gid: gid.slice(0, 8), opt: name },
         prose,
       })
     }
