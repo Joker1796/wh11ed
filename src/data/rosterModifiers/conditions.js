@@ -113,7 +113,10 @@ export const conditions = {
   'riled-up': { scope: 'unit', duration: 'round', label: { en: 'Riled up', ru: 'Riled up' } },
   'imperative-protector': { scope: 'army', duration: 'round', label: { en: 'Protector Imperative', ru: 'Protector Imperative' } },
   'imperative-conqueror': { scope: 'army', duration: 'round', label: { en: 'Conqueror Imperative', ru: 'Conqueror Imperative' } },
-  'benediction-citation-in-savagery': { scope: 'army', duration: 'round', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
+  'benediction-panegyric-procession': { scope: 'army', duration: 'battle', group: 'benediction', label: { en: 'Panegyric Procession', ru: 'Panegyric Procession' } },
+  // Selected at the start of the first battle round, active until the end of the battle (until
+  // 2026-10-15 this one read 'round' and went out after the first).
+  'benediction-citation-in-savagery': { scope: 'army', duration: 'battle', group: 'benediction', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
   // Both Blessings that carry a modifier have an auto reader (rosterGameContext's AUTO): the World
   // Eaters army-rule tracker already records which up-to-two are active this round.
   'blessing-martial-excellence': { scope: 'army', duration: 'round', label: { en: 'Martial Excellence', ru: 'Martial Excellence' } },
@@ -388,6 +391,18 @@ export const conditions = {
   'costs-eliminate': { scope: 'army', duration: 'round', group: 'at-all-costs', label: { en: 'Eliminate At All Costs', ru: 'Eliminate At All Costs' } },
   'costs-acquire': { scope: 'army', duration: 'round', group: 'at-all-costs', label: { en: 'Acquire At All Costs', ru: 'Acquire At All Costs' } },
   'tactic-purgatus': { scope: 'army', duration: 'round', group: 'mission-tactic', label: { en: 'Purgatus Tactics', ru: 'Purgatus Tactics' } },
+
+  'hagio-rite': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Rite of Revelation', ru: 'Rite of Revelation' } },
+  'hagio-sermon': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Sermon of Intolerance', ru: 'Sermon of Intolerance' } },
+  'hagio-chorus': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Chorus of Repudiation', ru: 'Chorus of Repudiation' } },
+  'idol-infinite-rage': { scope: 'army', duration: 'round', group: 'idol-of-khorne', label: { en: 'Idol of Infinite Rage', ru: 'Idol of Infinite Rage' } },
+  'idol-burning-wrath': { scope: 'army', duration: 'round', group: 'idol-of-khorne', label: { en: 'Idol of Burning Wrath', ru: 'Idol of Burning Wrath' } },
+  'idol-blessed-blood': { scope: 'army', duration: 'round', group: 'idol-of-khorne', label: { en: 'Idol of Blessed Blood', ru: 'Idol of Blessed Blood' } },
+  'techno-anti-infantry': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[ANTI-INFANTRY 3+]', ru: '[ANTI-INFANTRY 3+]' } },
+  'techno-anti-mounted': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[ANTI-MOUNTED 4+]', ru: '[ANTI-MOUNTED 4+]' } },
+  'techno-assault': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[ASSAULT]', ru: '[ASSAULT]' } },
+  'techno-heavy': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[HEAVY]', ru: '[HEAVY]' } },
+  'techno-ignores-cover': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[IGNORES COVER]', ru: '[IGNORES COVER]' } },
 
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase

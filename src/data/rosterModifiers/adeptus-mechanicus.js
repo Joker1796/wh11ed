@@ -930,6 +930,7 @@ export default {
             "ru": "при благословении Panegyric Procession, за стрелковую атаку в пределах половины дальности"
           },
           "cond": [
+            "benediction-panegyric-procession",
             "never"
           ]
         },
@@ -960,6 +961,26 @@ export default {
             "benediction-citation-in-savagery",
             "unit-charged"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "benediction-panegyric-procession"
+          ],
+          "when": {
+            "en": "the Benediction selected at the start of the battle",
+            "ru": "Benediction, выбранная в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "benediction-citation-in-savagery"
+          ],
+          "when": {
+            "en": "the Benediction selected at the start of the battle",
+            "ru": "Benediction, выбранная в начале битвы"
+          }
         }
       ],
       "ref": {

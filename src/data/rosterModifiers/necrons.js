@@ -968,18 +968,66 @@ export default {
           "when": null
         },
         {
-          "scope": 1,
           "on": "ranged",
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-INFANTRY 3+",
           "when": {
             "en": "in your Shooting phase, if that ability is the one selected for the unit",
-            "ru": "в вашей фазе стрельбы, если для отряда выбрана именно эта способность"
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
           },
           "cond": [
-            "phase-shooting"
+            "techno-anti-infantry"
           ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MOUNTED 4+",
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
+          },
+          "cond": [
+            "techno-anti-mounted"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HEAVY",
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
+          },
+          "cond": [
+            "techno-heavy"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
+          },
+          "cond": [
+            "techno-ignores-cover"
+          ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "techno-assault"
+          ],
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
+          }
         }
       ]
     },

@@ -1680,6 +1680,36 @@ export default {
           "cond": [
             "hagio-psalm"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hagio-rite"
+          ],
+          "when": {
+            "en": "once per turn, the ability selected at the start of this phase",
+            "ru": "раз за ход, способность, выбранная в начале фазы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hagio-sermon"
+          ],
+          "when": {
+            "en": "once per turn, the ability selected at the start of this phase",
+            "ru": "раз за ход, способность, выбранная в начале фазы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hagio-chorus"
+          ],
+          "when": {
+            "en": "once per turn, the ability selected at the start of this phase",
+            "ru": "раз за ход, способность, выбранная в начале фазы"
+          }
         }
       ]
     },

@@ -618,7 +618,38 @@ export default {
       "hash": "60e57bd1",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "op": "state",
+          "cond": [
+            "idol-infinite-rage"
+          ],
+          "when": {
+            "en": "the Idol selected this Command phase",
+            "ru": "Idol, выбранный в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "idol-burning-wrath"
+          ],
+          "when": {
+            "en": "the Idol selected this Command phase",
+            "ru": "Idol, выбранный в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "idol-blessed-blood"
+          ],
+          "when": {
+            "en": "the Idol selected this Command phase",
+            "ru": "Idol, выбранный в эту фазу командования"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "cult-of-blood",
