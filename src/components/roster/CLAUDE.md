@@ -3759,6 +3759,10 @@ at all. Three files, one idea:
     +3. An alternate must be conditional (an unconditional one would suppress its base forever)
     and, where its prose names several characteristics, the record carries one alternate per
     characteristic. Pinned by `index.test.js`.
+  - **`best`** — the rule's own limit on a roll ("3+": Take Cover! "cannot improve a model's Save
+    to better than 3+"). The roll stops there instead of at 2+, and a model already better keeps
+    what it has. Until 2026-10-15 that one cap was a `never`, so the Order was missing from the
+    game's list of Orders altogether (a player's report).
   - A subset naming part of the unit ("Penitent models, while…") still belongs in `scope`, the
     index of the rule statement that says it — 10 were moved there; 26 remain where the rule's own
     prose has no statement matching the subset.

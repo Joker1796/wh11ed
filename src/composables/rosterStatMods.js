@@ -118,9 +118,11 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
  * @param {string} op
  * @param {unknown} value
  * @param {string | null} [stat]
+ * @param {string | null} [best] the rule's own limit on a roll ("3+" — Take Cover! "cannot improve
+ *   a model's Save to better than 3+"); a model already better than it keeps what it has
  * @returns {string | null}
  */
-export function applyValue(current, op, value, stat = null) {
+export function applyValue(current, op, value, stat = null, best = null) {
   const raw = String(current ?? '').trim()
   // A model has one invulnerable save and uses the best it has been given: an aura's "6+
   // invulnerable save" does not take a Neurotyrant's printed 4+ away (a player's report,
@@ -137,10 +139,12 @@ export function applyValue(current, op, value, stat = null) {
 
   const roll = raw.match(/^(\d+)\+$/)
   if (roll) {
-    // A roll improves by going DOWN, and 2+ is the floor no modifier can beat.
+    // A roll improves by going DOWN, and 2+ is the floor no modifier can beat — or the rule's own.
     const n = Number(roll[1])
+    const floor = Math.max(2, Number(String(best ?? '').match(/^(\d)\+$/)?.[1]) || 2)
+    if (op === 'improve' && n <= floor) return raw
     const next = op === 'improve' ? n - Number(value) : n + Number(value)
-    return `${Math.max(2, Math.min(6, next))}+`
+    return `${Math.max(floor, Math.min(6, next))}+`
   }
 
   const dist = raw.match(/^(\d+)"$/)
@@ -483,7 +487,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           if (table !== 'profiles' && !rowMatchesOnly(asFound[table][i], effect.only)) continue
           if (!inRows(effect, table, i)) continue
           const before = current()[table][i][effect.stat]
-          const next = applyValue(before, effect.op, effect.value, effect.stat)
+          const next = applyValue(before, effect.op, effect.value, effect.stat, effect.best)
           if (next == null || next === String(before)) continue
           target()[table][i][effect.stat] = next
           marks.add(`${markPrefix(table)}:${effect.stat}:${i}`)
