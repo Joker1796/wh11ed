@@ -313,6 +313,7 @@
  * @property {number} [alt]
  * @property {number} [scope]
  * @property {Record<string, number[]>} [rows]
+ * @property {string} [best] the rule's own limit on a roll ("3+": Take Cover!)
  */
 
 /** A keyword gate read off a rule's prose. @typedef {{ targets: string[], excludes: string[] }} RuleScope */
