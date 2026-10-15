@@ -103,7 +103,9 @@ const Chips = lazy(() => import('./help/ChipsDemo.vue'))
 const Score = lazy(() => import('./help/ScoreDemo.vue'))
 const chips = (kind) => ({ is: Chips, props: { kind } })
 const HELP_DEMOS = {
-  cp: { is: lazy(() => import('./help/StratagemDemo.vue')) },
+  cp: { is: lazy(() => import('./help/CpDemo.vue')) },
+  phases: { is: lazy(() => import('./help/PhasesDemo.vue')) },
+  'phase-rules': { is: lazy(() => import('./help/PhaseRulesDemo.vue')) },
   modifiers: { is: lazy(() => import('./help/ModifiersDemo.vue')) },
   'unit-status': { is: lazy(() => import('./help/UnitStatusDemo.vue')) },
   'unit-states': chips('unit-states'),

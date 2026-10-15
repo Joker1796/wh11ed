@@ -17,8 +17,8 @@ describe('help demos', () => {
   })
 })
 
-describe('help demos — the chips, the stratagem, the units', async () => {
-  const { CHIP_DEMOS, STRATAGEM_DEMO } = await import('./demos.js')
+describe('help demos — the chips, the stratagems, the phases', async () => {
+  const { CHIP_DEMOS, CP_DEMO, PHASE_RULES_DEMO } = await import('./demos.js')
   it('labels every chip as the game does', async () => {
     const { conditions } = await import('../../../data/rosterModifiers/conditions.js')
     for (const sw of [...CHIP_DEMOS['unit-states'].switches, ...CHIP_DEMOS['battle-shock'].switches, ...CHIP_DEMOS['army-states'].switches]) {
@@ -35,7 +35,27 @@ describe('help demos — the chips, the stratagem, the units', async () => {
     expect(recs.some((r) => r.name === 'Bloodthirster: Daemon Lord of Khorne' && r.effects?.some((e) => e.target === 'aura'))).toBe(true)
     const { loadCoreStratagems } = await import('../../../composables/gameStratagems.js')
     const core = await loadCoreStratagems('en')
-    expect(core.map((s) => s.name)).toContain(STRATAGEM_DEMO)
     expect(core.map((s) => s.name)).toContain(CHIP_DEMOS.stratagems.switches[0].label.en)
+  })
+  it('plays real core stratagems in the CP demo, each in the state it claims', async () => {
+    const { loadCoreStratagems } = await import('../../../composables/gameStratagems.js')
+    const core = await loadCoreStratagems('en')
+    for (const r of CP_DEMO.rows) {
+      const s = core.find((c) => c.name === r.name)
+      expect(s, r.name).toBeTruthy()
+      // "Not enough CP" only where the cost is over the bank; a once-per-battle lock only on one that is.
+      if (r.block === 'cp') expect(s._cost).toBeGreaterThan(CP_DEMO.cp)
+      else expect(s._cost).toBeLessThanOrEqual(CP_DEMO.cp)
+      if (r.block === 'perBattle') expect(s._limits.perBattle).toBe(true)
+    }
+  })
+  it('shows phase rules that fire in the phase they are shown in, in the mover\'s own turn', async () => {
+    const { phaseIndex } = await import('../../../data/phaseIndex.js')
+    const units = phaseIndex[PHASE_RULES_DEMO.faction].units
+    for (const [ph, u, k] of PHASE_RULES_DEMO.rows) {
+      const a = units[u]?.a?.[k]
+      expect(a?.p, `${u}/${k}`).toContain(ph)
+      expect(['own', 'both']).toContain(a.s[ph])
+    }
   })
 })

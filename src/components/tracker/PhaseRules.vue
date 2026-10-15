@@ -107,19 +107,24 @@ const props = defineProps({
   // The side picked on the score cards (the game screen's tab, owner 2026-10-06): that army's
   // turn alone, inside the panel's frame — the card above already names it.
   side: { type: Number, default: null },
+  // An example turn instead of the game's (the "Phase rules" help, help/PhaseRulesDemo.vue): drawn
+  // the same, and a tap leads nowhere.
+  example: { type: Array, default: null },
 })
 const emit = defineEmits(['army', 'roster', 'missions'])
 const { sides, go, labels } = usePhaseRules()
 const controlled = computed(() => props.side === 0 || props.side === 1)
-const shown = computed(() => (controlled.value ? sides.value.filter((s) => s.pi === props.side) : sides.value))
+const all = computed(() => props.example || sides.value)
+const shown = computed(() => (controlled.value ? all.value.filter((s) => s.pi === props.side) : all.value))
 
 // The open folds, remembered on this device; none by default (owner, 2026-10-10).
 const OPEN_KEY = 'wh11ed-turn-steps-open'
 function readOpen() {
   try { return new Set(JSON.parse(getItem(OPEN_KEY) || '[]')) } catch { return new Set() }
 }
-const openSecs = ref(readOpen())
-watch(openSecs, (set) => setItem(OPEN_KEY, JSON.stringify([...set])))
+// An example opens its first phase and keeps the game's choice untouched.
+const openSecs = ref(props.example ? new Set([props.example[0]?.turn?.[0]?.key]) : readOpen())
+watch(openSecs, (set) => { if (!props.example) setItem(OPEN_KEY, JSON.stringify([...set])) })
 
 // A section of the turn as a fold: its count, and its steps cut into chunks — a step with rows,
 // or a run of steps with none joined into one quiet line ("Start of phase · Gain Core CP · …").
@@ -148,6 +153,7 @@ function foldsOf(turn) {
 // In the game screen a row stays on it where it can: a rule to the Army tab, a unit of the
 // attached list to its card there, a mission card to the Missions tab — via RoundTracker.
 function lead(r) {
+  if (props.example) return
   if (r.kind === 'card') emit('missions', r)
   else if (props.embedded && r.army) emit('army', r.army)
   else if (props.embedded && r.roster) emit('roster', r.roster)

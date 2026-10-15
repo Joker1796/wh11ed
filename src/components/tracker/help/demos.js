@@ -71,9 +71,6 @@ export const UNIT_STATUS_DEMO = [
   { unit: 'Captain', status: 'destroyed' },
 ]
 
-// ── CP and stratagems: a core stratagem card ─────────────────────────────────────────────────
-export const STRATAGEM_DEMO = 'Command Re-roll'
-
 // ── Score (ScoreBoard): one game, its numbers; VP vs BP, and side colours ────────────────────
 const round = (primary) => ({ primary, picks: {} })
 // `secondaries` is one number per card scored, in round order — a tactical card scores at most
@@ -91,4 +88,28 @@ export function demoGame({ scoreMode = 'vp', sideColors = null } = {}) {
     settings: { scoreMode, trackCP: true, ...(sideColors && { customColors: true, sideColors }) },
     players: [side(true, 'orks', [10, 15, 15], [3, 5], true), side(false, 'necrons', [10, 10, 12], [5, 5, 2], false)],
   }
+}
+
+// ── CP and stratagems: the CP tab's bank line and three of its rows ──────────────────────────
+// A side with 1 CP and this round's bonus taken; one stratagem to play, one used this round (once
+// per battle, so now closed), one it cannot afford. `block` is the reason key CpStratagems would
+// give (trackerStratBlock_*).
+export const CP_DEMO = {
+  cp: 1,
+  bonus: true,
+  rows: [
+    { name: 'Command Re-roll' },
+    { name: 'Insane Bravery', used: 1, undoable: true, block: 'perBattle' },
+    { name: 'Counteroffensive', block: 'cp' },
+  ],
+}
+
+// ── Track phases: the turn bar at the foot of the screen, without and with the phase ─────────
+export const PHASES_DEMO = { phase: 'shooting' }
+
+// ── Phase rules: the Phase tab for one army — a datasheet ability per phase it fires in,
+// read from the same index the tab reads (phaseIndex.js): [phase, unit id, ability index].
+export const PHASE_RULES_DEMO = {
+  faction: 'orks',
+  rows: [['command', 'big-mek-in-mega-armour', 0], ['movement', 'beastboss', 0], ['shooting', 'boyz', 0]],
 }

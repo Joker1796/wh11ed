@@ -157,133 +157,26 @@
         class="tf-sticky-inner"
         data-tour="game-turnbar"
       >
-        <!-- With the phase clock on, the phase joins this row (owner's call, 2026-09-27): undo turn as
-             an icon, the phase arrows, the phase itself (tap → any phase of either turn), and End turn.
-             The arrows stay INSIDE the turn — they stop at Command and at Fight — so a turn changes only
-             through End / Undo turn, never past the end-of-turn check by a stray tap. -->
-        <!-- Before the first turn the bar is one button that starts it (2026-10-02, owner): the
-             setup lands here while the armies are still being deployed. -->
-        <div
-          v-if="!begun"
-          class="turn-row begin"
-          :class="{ 'with-reserves': reservesSide }"
-        >
-          <!-- Before the battle, the reserves are chosen (20.01): straight to the attached lists,
-               whose rows carry each unit's status (owner, 2026-10-09). Only when a list is there
-               to mark — without one there is no unit to put in reserve. -->
-          <button
-            v-if="reservesSide"
-            class="tr-btn tr-reserves"
-            data-press
-            data-tour="game-reserves"
-            @click="openReserves"
-          >
-            <i class="wi wi-unit-reserve" />
-            <span class="tr-label">{{ labels.trackerMarkReserves }}</span>
-          </button>
-          <button
-            class="tr-btn tr-end"
-            data-press
-            data-tour="game-start"
-            :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
-            :disabled="!canEdit(turnIndex)"
-            @click="beginGame()"
-          >
-            <span class="tr-label">{{ labels.trackerStart }}</span>
-          </button>
-        </div>
-        <div
-          v-else-if="phasesOn"
-          class="turn-row phased"
-        >
-          <button
-            class="tr-btn tr-prev tr-icon"
-            data-press
-            :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
-            :title="undoTitle"
-            :aria-label="labels.trackerUndoTurn"
-            @click="undoConfirm = true"
-          >
-            <i
-              class="wi wi-undo"
-              aria-hidden="true"
-            />
-          </button>
-          <button
-            class="tr-step"
-            data-press
-            :disabled="!canStepInTurn(-1)"
-            :aria-label="labels.ariaPrevPhase"
-            @click="stepPhase(-1)"
-          >
-            ‹
-          </button>
-          <button
-            class="tr-phase"
-            data-press
-            :title="labels.trackerPhasePick"
-            @click="phasePickerOpen = true"
-          >
-            <span class="tp-who">{{ playerSide(turnIndex) }}</span>
-            <span class="tp-name">{{ phaseLabel(current.currentPhase || 'command', labels) }}</span>
-          </button>
-          <button
-            class="tr-step"
-            data-press
-            :disabled="!canStepInTurn(1)"
-            :aria-label="labels.ariaNextPhase"
-            @click="stepPhase(1)"
-          >
-            ›
-          </button>
-          <button
-            class="tr-btn tr-end"
-            data-press
-            :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
-            :disabled="canEndTurn() && !canEdit(turnIndex)"
-            :title="canEndTurn() ? endTitle : labels.trackerFinish"
-            @click="requestEndTurn()"
-          >
-            <span class="tr-label">{{ canEndTurn() ? labels.trackerEndTurnShort : labels.trackerFinish }}</span>
-          </button>
-        </div>
-        <div
-          v-else
-          class="turn-row"
-        >
-          <button
-            class="tr-btn tr-prev"
-            data-press
-            :disabled="!canUndoTurn() || !canEdit(1 - turnIndex)"
-            :title="undoTitle"
-            @click="undoConfirm = true"
-          >
-            <i
-              class="wi wi-arrow-left"
-              aria-hidden="true"
-            />
-            <span class="tr-label">{{ labels.trackerUndoTurn }}</span>
-          </button>
-          <button
-            v-if="canEndTurn()"
-            class="tr-btn tr-end"
-            data-press
-            :class="{ opp: !isYouSide(current.players[turnIndex], turnIndex) }"
-            :disabled="!canEdit(turnIndex)"
-            :title="endTitle"
-            @click="requestEndTurn()"
-          >
-            <span class="tr-label">{{ labels.trackerEndTurnPlain }}</span>
-          </button>
-          <button
-            v-else
-            class="tr-btn tr-end"
-            data-press
-            @click="requestEndTurn()"
-          >
-            <span class="tr-label">{{ labels.trackerFinish }}</span>
-          </button>
-        </div>
+        <TurnBar
+          :mode="!begun ? 'begin' : phasesOn ? 'phased' : 'plain'"
+          :who="playerSide(turnIndex)"
+          :phase="current.currentPhase || 'command'"
+          :opp="!isYouSide(current.players[turnIndex], turnIndex)"
+          :reserves="!!reservesSide"
+          :can-undo="canUndoTurn() && canEdit(1 - turnIndex)"
+          :can-prev="canStepInTurn(-1)"
+          :can-next="canStepInTurn(1)"
+          :can-end="!begun || canEndTurn()"
+          :end-locked="!canEdit(turnIndex)"
+          :undo-title="undoTitle"
+          :end-title="endTitle"
+          @start="beginGame()"
+          @reserves="openReserves"
+          @undo="undoConfirm = true"
+          @step="stepPhase"
+          @pick-phase="phasePickerOpen = true"
+          @end="requestEndTurn()"
+        />
       </div>
     </div>
 
@@ -484,49 +377,18 @@
         :side="viewSide"
       >
         <template #bank="{ side }">
-          <div
-            class="cp-bank"
-            :class="{ 'player-locked': !canEdit(side) }"
+          <CpBank
+            :cp="current.players[side].cp"
+            :name="playerName(side)"
+            :bonus="!!bonusOf(side)"
+            :bonus-disabled="bonusOf(side) ? !canUndoBonus(side) : !canGainBonus(side)"
+            :bonus-title="bonusOf(side) ? (canUndoBonus(side) ? labels.trackerBonusUndo : bonusSource(side)) : bonusSource(side)"
+            :locked="!canEdit(side)"
             :inert="lock(side)"
-          >
-            <!-- The round's bonus CP as one toggle (owner, 2026-10-06 — a "0/1" label, a counter and
-                 a button were three things saying one): outlined while it can be taken, filled
-                 with a tick once taken. A tap takes it or gives it back; one a secondary discard
-                 gave is undone with the discard, so it shows taken and says where it came from. -->
-            <button
-              class="cr-btn"
-              :class="{ on: !!bonusOf(side) }"
-              data-press="pop"
-              :aria-pressed="!!bonusOf(side)"
-              :disabled="bonusOf(side) ? !canUndoBonus(side) : !canGainBonus(side)"
-              :title="bonusOf(side) ? (canUndoBonus(side) ? labels.trackerBonusUndo : bonusSource(side)) : bonusSource(side)"
-              @click="bonusOf(side) ? undoBonusCp(side) : gainBonusCp(side)"
-            >
-              <i
-                class="wi"
-                :class="bonusOf(side) ? 'wi-check' : 'wi-add'"
-                aria-hidden="true"
-              />
-              {{ labels.trackerBonusToggle }}
-            </button>
-            <NumberStepper
-              class="cr-adjust"
-              :model-value="current.players[side].cp"
-              :min="0"
-              :aria-label="`${playerName(side)} — CP`"
-              @update:model-value="v => setCp(side, v)"
-            />
-            <button
-              type="button"
-              class="cr-help"
-              data-press
-              :aria-label="labels.trackerCpHelpTitle"
-              :title="labels.trackerCpHelpTitle"
-              @click="cpHelpOpen = true"
-            >
-              <i class="wi wi-help" />
-            </button>
-          </div>
+            @bonus="bonusOf(side) ? undoBonusCp(side) : gainBonusCp(side)"
+            @update:cp="v => setCp(side, v)"
+            @help="cpHelpOpen = true"
+          />
         </template>
       </CpStratagems>
       <OptionHelpModal
@@ -693,6 +555,8 @@
 import { ref, computed, watch, provide, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import NumberStepper from './NumberStepper.vue'
+import CpBank from './CpBank.vue'
+import TurnBar from './TurnBar.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
@@ -1351,8 +1215,6 @@ function onEndBattle(reason) {
    button is a tap target wider than the dot. */
 .turn-head > .si-wrap { margin-inline: 0.05rem -0.35rem; }
 .tn-strong { font-weight: 700; color: var(--text-primary); }
-/* Back and forward by a turn: two equal halves. Forward wears the colour of the side on turn. */
-.turn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
 /* The pinned bar: full-bleed (it is the window's bottom edge), what stands on it at the page's
    860px measure — the roster builder's .rc-sticky idiom. */
 .tf-sticky {
@@ -1371,62 +1233,9 @@ function onEndBattle(reason) {
 @media (max-width: 480px) {
   .tf-sticky-inner { padding: 0.25rem calc(0.5rem + var(--safe-right)) 0.25rem calc(0.5rem + var(--safe-left)); }
 }
-/* In the bar the row is the bar's only line: the padding above and below is all the air it has. */
-.tf-sticky .turn-row { margin: 0; }
-/* With phases: undo · ‹ · the phase · › · end. */
-.turn-row.begin { grid-template-columns: 1fr; }
-.turn-row.begin.with-reserves { grid-template-columns: 1fr 1fr; }
-.tr-reserves { font-size: 0.95rem; }
-/* The round line is not the turn bar: the grid above halved it and cut a name short beside an
-   empty half. The headline takes what the "⋯" leaves. */
-.turn-row.turn-line { display: flex; }
+/* The round line is not the turn bar: the headline takes what the "⋯" leaves. */
+.turn-row.turn-line { gap: 0.4rem; }
 .turn-line .turn-head { flex: 1 1 auto; }
-.turn-row.phased { grid-template-columns: 42px 34px minmax(0, 1fr) 34px auto; gap: 0.3rem; }
-.tr-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
-  min-width: 0;
-  min-height: 36px;
-  padding: 0.35rem 0.6rem;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-}
-.tr-icon { padding: 0; font-size: 1.1rem; }
-.tr-step {
-  min-height: 36px; padding: 0;
-  border: 1px solid var(--border); background: var(--bg-card);
-  font-size: 1.2rem; color: var(--text-primary); cursor: pointer;
-}
-.tr-step:disabled { opacity: 0.35; cursor: default; }
-.tr-phase {
-  display: grid; align-content: center; min-width: 0; min-height: 36px; padding: 0.15rem 0.4rem;
-  border: 1px solid var(--border); background: var(--bg-card); font: inherit; cursor: pointer; text-align: center;
-}
-.tp-who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.7rem; color: var(--text-dim); line-height: 1.2; }
-.tp-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; line-height: 1.1; color: var(--text-primary); }
-@media (hover: hover) { .tr-phase:hover, .tr-step:not(:disabled):hover { border-color: var(--accent); } }
-.tr-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* «Завершить ход» beside the longest phase («Фаза ближнего боя») on a 360px phone (owner, 2026-10-08):
-   both a step under the bar's other words, measured — at 1.05/1.1rem they needed 205px of 179. */
-.tr-end { --side: var(--side-you); background: var(--side); border-color: var(--side); color: #fff; font-size: 0.95rem; }
-.tr-end.opp { --side: var(--side-opponent); }
-.tr-btn:disabled { opacity: 0.45; cursor: default; }
-@media (hover: hover) {
-  .tr-prev:not(:disabled):hover { border-color: var(--accent); }
-  .tr-end:not(:disabled):hover { background: color-mix(in srgb, var(--side) 85%, #000); }
-}
-/* A 320px phone: the fixed buttons narrower too, the words another step down (measured to fit). */
-@media (max-width: 340px) {
-  .turn-row.phased { grid-template-columns: 36px 28px minmax(0, 1fr) 28px auto; gap: 0.2rem; }
-  .tp-name { font-size: 0.82rem; }
-  .tr-end { font-size: 0.86rem; padding-inline: 0.45rem; }
-}
 
 /* The working area's tabs: one strip, joined, on a line in the accent — the active tab is filled
    with it and so reads as part of the line it stands on, attached to the panel under it. */
@@ -1564,24 +1373,6 @@ function onEndBattle(reason) {
 @keyframes panel-fade { from { opacity: 0; } }
 @keyframes panel-slide { from { transform: translateX(var(--panel-from)); } }
 
-/* Command points: the chosen side's bank, one line under the side tabs (CpStratagems' #bank). */
-.cp-bank {
-  display: flex; align-items: center; gap: 0.5rem;
-  margin-bottom: 0.6rem; padding: 0.4rem 0 0.1rem;
-}
-.cr-adjust { margin-left: auto; }
-.cr-btn {
-  display: inline-flex; align-items: center; gap: 0.25rem;
-  min-height: 36px; padding: 0.25rem 0.55rem;
-  border: 1px solid var(--side); background: color-mix(in srgb, var(--side) 8%, var(--bg-card));
-  font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--side); cursor: pointer; white-space: nowrap;
-}
-.cr-btn.on { background: var(--side); color: #fff; }
-.cr-btn:disabled:not(.on) { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
-/* Taken by a discard: still reads taken, just not a button here. */
-.cr-btn.on:disabled { cursor: default; opacity: 0.75; }
-.cr-help { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; padding: 0; border: 0; background: none; font-size: 1.35rem; color: var(--text-dim); cursor: pointer; }
-@media (hover: hover) { .cr-help:hover { color: var(--accent-ink); } }
 
 
 </style>
