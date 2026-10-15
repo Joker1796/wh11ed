@@ -171,7 +171,19 @@
             stamp
           />
           <div class="gc-top">
-            <span class="gc-date">
+            <!-- In progress: a tag where the date stands, its dot blinking like the live round's
+                 point on the game screen (owner, 2026-10-15). -->
+            <span
+              v-if="g.live"
+              class="gc-live"
+            ><span
+              class="gc-live-dot"
+              aria-hidden="true"
+            />{{ labels.trackerLiveTag }}</span>
+            <span
+              v-else
+              class="gc-date"
+            >
               <i
                 v-if="status === 'authed' && isBackedUp(g)"
                 class="wi wi-cloud-synced cloud-flag"
@@ -804,14 +816,27 @@ function footLine(g) {
 .res-draw .gc-result { color: var(--text-dim); }
 /* The game in progress: its frame in the accent, breathing, the card a shade warmer — a fade, never
    a move (the house rule), and still under reduced motion (the token is 0 there). */
-.game.live { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--bg-card)); }
+/* The card keeps its own grey edge; the accent frame over it rises and goes out WHOLLY (owner,
+   2026-10-15: dimming back to a red edge read as flicker, not as breath). */
+.game.live { background: color-mix(in srgb, var(--accent) 6%, var(--bg-card)); }
 .game.live::after {
   content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
   border: 2px solid var(--accent);
   animation: live-frame calc(var(--motion-slow) * 6) ease-in-out infinite;
 }
-@keyframes live-frame { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
+@keyframes live-frame { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 .live .gc-result { color: var(--accent-ink); }
+.gc-live {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.05rem 0.45rem;
+  background: var(--accent); color: var(--text-on-accent, #fff);
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.gc-live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  animation: live-dot calc(var(--motion-slow) * 3) ease-in-out infinite;
+}
+@keyframes live-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
 .gc-foot { text-align: center; margin-top: 0.4rem; font-size: 0.74rem; color: var(--text-dim); }
 
