@@ -6,6 +6,8 @@
     @close="$emit('close')"
   >
     <div class="modal-body">
+      <!-- One example game's board both ways, above the table that says how BP is reckoned. -->
+      <ScoreDemo />
       <p class="sh-text">
         {{ labels.trackerScoreHelpText }}
       </p>
@@ -33,11 +35,13 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { BP_TABLE } from '../../composables/gameScoring.js'
+
+const ScoreDemo = defineAsyncComponent(() => import('./help/ScoreDemo.vue'))
 
 defineEmits(['close'])
 const { locale } = useLocale()

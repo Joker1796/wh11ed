@@ -73,7 +73,10 @@
         v-if="HELP_DEMOS[helpFor.id]"
         #demo
       >
-        <component :is="HELP_DEMOS[helpFor.id]" />
+        <component
+          :is="HELP_DEMOS[helpFor.id].is"
+          v-bind="HELP_DEMOS[helpFor.id].props"
+        />
       </template>
     </OptionHelpModal>
   </div>
@@ -95,8 +98,21 @@ import OptionHelpModal from './OptionHelpModal.vue'
 
 // A row's help can show what the row draws (owner, 2026-10-15): the real component, with example
 // data held to the rules by help/demos.test.js. Keyed by the option's id; loaded when opened.
+const lazy = (load) => defineAsyncComponent(load)
+const Chips = lazy(() => import('./help/ChipsDemo.vue'))
+const Score = lazy(() => import('./help/ScoreDemo.vue'))
+const chips = (kind) => ({ is: Chips, props: { kind } })
 const HELP_DEMOS = {
-  modifiers: defineAsyncComponent(() => import('./help/ModifiersDemo.vue')),
+  cp: { is: lazy(() => import('./help/StratagemDemo.vue')) },
+  modifiers: { is: lazy(() => import('./help/ModifiersDemo.vue')) },
+  'unit-status': { is: lazy(() => import('./help/UnitStatusDemo.vue')) },
+  'unit-states': chips('unit-states'),
+  'battle-shock': chips('battle-shock'),
+  stratagems: chips('stratagems'),
+  auras: chips('auras'),
+  'ability-sets': chips('ability-sets'),
+  'army-states': chips('army-states'),
+  'custom-colors': { is: Score, props: { kind: 'colors' } },
 }
 import TrackOptionRow from './TrackOptionRow.vue'
 import CollapseTransition from '../CollapseTransition.vue'
