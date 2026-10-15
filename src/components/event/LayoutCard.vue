@@ -31,7 +31,12 @@
     :z-index="410"
     @close="showFull = false"
   >
-    <template #aside>
+    <!-- Only a layout drawn twice has anything to switch: a Combat Patrol map is one picture, its
+         inches printed on it (owner, 2026-10-15: the button did nothing there). -->
+    <template
+      v-if="layout.imageClean"
+      #aside
+    >
       <button
         class="measurements-toggle"
         data-press="pop"
