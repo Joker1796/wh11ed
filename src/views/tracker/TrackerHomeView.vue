@@ -68,7 +68,7 @@
         <button
           v-if="primary.to"
           type="button"
-          class="cta-q"
+          class="btn-ghost"
           @click="startNew"
         >
           {{ labels.trackerNewGame }}
@@ -79,11 +79,23 @@
              under the primary button. The dialog asks which; it never needs an account itself. -->
         <button
           type="button"
-          class="cta-q"
+          class="btn-ghost"
           @click="sharedOpen = true"
         >
           <i class="wi wi-people" /> {{ labels.lobbyNewGameShort }}
         </button>
+        <!-- The way to the statistics (owner, 2026-09-29), the roster list heading's button,
+             kept in the quiet row (owner, 2026-09-30) — taken over from the tracker beta on
+             2026-10-15. It replaced a record bar over the history, which showed only once a game
+             counted and was a second door beside this one. Above 900px the subnav's tab is that way. -->
+        <RouterLink
+          to="/tracker/stats"
+          class="btn-ghost cta-stats"
+          :title="labels.statsLink"
+          :aria-label="labels.statsLink"
+        >
+          <i class="wi wi-stats" /> <span class="cta-stats-text">{{ labels.statsLink }}</span>
+        </RouterLink>
       </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
@@ -97,24 +109,6 @@
       @create="onSharedCreate"
       @close="sharedOpen = false"
     />
-
-    <!-- The one number people came back for. It sits above the list because a record is a
-         summary of that list, and it is a link because everything behind it is on /tracker/stats. -->
-    <ExpandTransition>
-      <RouterLink
-        v-if="stats.games"
-        to="/tracker/stats"
-        class="record-bar"
-      >
-        <span class="rb-rec">{{ recordText }}</span>
-        <span class="rb-lab">{{ labels.statsLink }}</span>
-        <span
-          v-if="stats.enough"
-          class="rb-rate"
-        >{{ winrateText }}</span>
-        <i class="wi wi-chevron-right" />
-      </RouterLink>
-    </ExpandTransition>
 
     <section class="history">
       <div class="history-head">
@@ -267,7 +261,6 @@ import { useParty } from '../../composables/useParty.js'
 import SharedGameModal from '../../components/tracker/SharedGameModal.vue'
 import FactionEmblem from '../../components/FactionEmblem.vue'
 import { useFormatDate } from '../../composables/useFormatDate.js'
-import { buildStats } from '../../composables/gameStats.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -294,12 +287,6 @@ const {
 // onMounted covers it; this catches an in-place sign-in, e.g. the DEV mock.)
 watch(status, (s) => { if (s === 'authed') syncNow() })
 
-// Battle record, from this device's history (gameStats.js does the reading — this is one line of
-// it plus a way in). Recomputed when a game is archived or deleted; the history is short enough
-// that a full pass costs nothing.
-const stats = computed(() => buildStats(history.value))
-const recordText = computed(() => `${stats.value.record.w}–${stats.value.record.l}–${stats.value.record.d}`)
-const winrateText = computed(() => `${Math.round(stats.value.winrate * 100)}%`)
 
 // Deleting a game removes it locally AND from the cloud backup (so it doesn't resurface on
 // another device or get re-downloaded by a later sync) — destructive, so confirm first.
@@ -552,34 +539,6 @@ function footLine(g) {
 <style scoped>
 .tracker-home { padding-top: 0.5rem; }
 
-.record-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 0.4rem;
-  padding: 0.5rem 0.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  color: inherit;
-  text-decoration: none;
-  font-size: 0.85rem;
-}
-.record-bar:hover { border-color: var(--accent); color: var(--text-primary); }
-/* Above the subnav's breakpoint the Statistics tab is on screen already, so this bar would be a
-   second door to the same page a centimetre below the first. Below it there is no subnav, and
-   this is the only way through. */
-@media (min-width: 901px) {
-  .record-bar { display: none; }
-}
-.rb-rec {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  line-height: 1;
-  color: var(--text-primary);
-  font-variant-numeric: tabular-nums;
-}
-.rb-lab { flex: 1; }
-.rb-rate { color: var(--accent-ink); font-weight: 600; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero {
   display: flex;
@@ -627,11 +586,8 @@ function footLine(g) {
   flex-direction: column;
   align-items: center;
   gap: 0.6rem;
+  margin-bottom: 1rem;
 }
-/* The record bar hangs right under the quiet row: that row's own 0.6rem tap padding is the air
-   between them (owner, 2026-09-29 — the 1.6rem gap here read as a hole). With no games yet the
-   history heading follows instead and wants a real gap. */
-.cta + .history { margin-top: 1rem; }
 /* Sized by its own label and nothing else. A minimum width was tried first (18rem) and it was
    wrong twice over: at desktop width the button read as a banner, and `.btn-primary` is an
    inline-flex with no `justify-content`, so the label sat against the left edge of all that
@@ -639,51 +595,39 @@ function footLine(g) {
    and it stops the button and the row under it from being two bars of the same length. */
 .cta-main { max-width: 100%; }
 
+/* The alternatives: grey framed buttons (owner, 2026-09-30), a step under the primary — they
+   were bare text before, and read as captions rather than things to press. */
 .cta-quiet {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0 1.25rem;
+  gap: 0.5rem;
 }
-/* Text, not buttons with a frame — the frame is what made four equals out of one action and
-   three alternatives. The vertical padding is the tap target: 0.6rem either side of a 0.9rem
-   line clears the 44px a finger needs, which a bare text link would not. */
-.cta-q {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  min-height: 44px;
-  padding: 0.6rem 0.2rem;
-  background: none;
-  border: none;
-  font: inherit;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  text-decoration: none;
-  cursor: pointer;
+/* Above the subnav's breakpoint its Statistics tab is on screen — no second door beside it. */
+@media (min-width: 901px) {
+  .cta-stats { display: none; }
 }
-@media (hover: hover) {
-  .cta-q:hover { color: var(--accent-ink); }
-}
-.cta-q:disabled { opacity: 0.5; cursor: default; }
-/* No separator glyph between them, and that is the second attempt: a '·' on every item after
-   the first lands at the START of the next line the moment the row wraps — which it does at
-   390px as soon as there are three of them — and reads as debris. Space is the separator. */
 
+/* The quiet row on one line down to the narrowest phone: below 400px Statistics keeps its icon
+   only, as on the roster list (its name stays in the title and the accessible name). */
+@media (max-width: 400px) {
+  .cta-stats-text { display: none; }
+}
 @media (max-width: 480px) {
   /* Same trim as the roster list's heading: display type eats a phone's first screen, and the
      heading is the least useful thing on it. */
   .hero h1 { font-size: 1.75rem; }
   .hero-side { font-size: 0.75rem; }
-  .cta { gap: 0.4rem; }
-  /* The same button the roster list draws at this width — it is the same kind of call to
-     action, and two screens of one app should not disagree about how big that is. */
-  .cta-main { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
-  /* Three of them (a game in progress + both shared-game entries) against ~390px: a notch
-     smaller and a tighter gap keeps the row on ONE line instead of wrapping one item alone. */
-  .cta-quiet { gap: 0 0.9rem; }
-  .cta-q { font-size: 0.82rem; padding-inline: 0; }
+  .cta { gap: 0.5rem; margin-bottom: 0.8rem; }
+  /* The same buttons the roster list draws at this width — the same kind of call to action,
+     and two screens of one app should not disagree about how big that is. */
+  .cta-main,
+  .cta-quiet .btn-ghost {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
 }
 .history-head {
   display: flex;
