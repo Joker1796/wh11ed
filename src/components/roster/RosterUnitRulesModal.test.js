@@ -31,6 +31,16 @@ describe('RosterUnitRulesModal', () => {
     expect(body().text()).toContain('Intercessor Squad')
   })
 
+  // A player's ask (2026-10-15): a one-profile unit's base size was printed nowhere in the card.
+  it('names the base size in the header, beside the unit', async () => {
+    mount(RosterUnitRulesModal, {
+      props: { unitId: 'defiler', factionSlug: 'chaos-space-marines' },
+    })
+    await waitFor('Defiler')
+    await waitFor('160mm')
+    expect(body().find('.mh-title .mh-note').text()).toBe('(⌀160mm)')
+  })
+
   it('emits close from the modal header', async () => {
     const w = mount(RosterUnitRulesModal, {
       props: { unitId: 'intercessor-squad', factionSlug: 'space-marines' },

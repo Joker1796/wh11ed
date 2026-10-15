@@ -540,6 +540,7 @@ const stratsBlockedNote = computed(() => {
 defineExpose({
   name: computed(() => view.value.sheet?.name || ''),
   attachedTo: computed(() => view.value.context?.attachedTo || ''),
+  baseSize: computed(() => view.value.sheet?.baseSize || ''),
 })
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <BaseModal
     :title="card?.name"
+    :title-note="card?.baseSize ? `(${formatBaseSize(card.baseSize, labels)})` : ''"
     :subtitle="gameCtx && card?.attachedTo ? `${labels.rosterAttachedTo} ${card.attachedTo}` : ''"
     max-width="720px"
     max-height="90dvh"
@@ -52,6 +53,7 @@ import RosterUnitRulesCard from './RosterUnitRulesCard.vue'
 import RosterOwnedStar from './RosterOwnedStar.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { formatBaseSize } from '../../utils/baseSize.js'
 
 defineProps({
   unitId: { type: String, required: true },
