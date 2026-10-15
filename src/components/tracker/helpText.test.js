@@ -23,5 +23,8 @@ describe('tracker help texts', () => {
     expect(shape(ui.ru[k]), k).toBe(shape(ui.en[k]))
     expect(ui.ru[k].length, k).toBeLessThanOrEqual(k === 'trackerForceTypeHelp' ? 460 : 300)
     expect((ui.ru[k].match(/\*\*/g) || []).length % 2, k).toBe(0)
+    // The lead is one plain sentence (owner, 2026-10-15: "hard to read"): what qualifies it goes
+    // into a point, not into brackets inside it.
+    for (const loc of ['en', 'ru']) expect(ui[loc][k].split('\n')[0], `${loc} ${k}`).not.toMatch(/[()]/)
   })
 })
