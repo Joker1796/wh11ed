@@ -360,7 +360,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -2308,11 +2308,16 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     if (pts !== (o.points || 0)) report.wargearMfm.differs.add(`${bd.name}: ${item} — app ${o.points || 0}, MFM ${mfm ?? 'none'}`)
     return pts
   }
+  // A default is paid only where the app's own default row is priced too. The MFM row names an
+  // item, not a row: Black Templars' Gladiator Valiant starts with two multi-meltas the app prices
+  // at 0 and may take a third at 10, and the MFM's "per Multi-melta 10 pts" is that third one
+  // (2.9.1 charged all three and sold the tank at 165 against the MFM's 145 — report 2026-10-15).
   const paidDefaults = new Map()
   for (const g of wogByDs.get(bd.id) || []) {
     for (const o of woByGroup.get(g.id) || []) {
       const pts = priceOf(o)
       if (!(pts > 0) || !(o.defaultValue > 0)) continue
+      if (!(o.points > 0)) { report.paidDefault.optionOnly.push(`${bd.name}: ${wgItemName.get(o.wargearItemId)}`); continue }
       paidDefaults.set(fx.item(LOADOUT_ITEM_FIXES[bd.id]?.[o.wargearItemId] || o.wargearItemId), pts)
     }
   }
@@ -3664,6 +3669,7 @@ console.log(`  paid defaults: ${report.paidDefault.units} units start with warge
 console.log(`  wargear points: ${report.wargearMfm.priced} units carry MFM wargear prices; ${report.wargearMfm.differs.size} option(s) where the app's own price differs (the MFM's is used):`)
 for (const l of [...report.wargearMfm.differs].sort()) console.log(`      - ${l}`)
 if (report.paidDefault.odd.length) console.log(`    not charged (count does not divide): ${report.paidDefault.odd.join('; ')}`)
+if (report.paidDefault.optionOnly.length) console.log(`    not charged (the MFM prices the option, the app's default is free): ${report.paidDefault.optionOnly.join('; ')}`)
 console.log(`  Chapter detachments: ${report.sharedDets} Codex entitlements folded in at load time`)
 if (report.notEntitled.length) console.log(`  printed in the faction's book but not its to field (kept as \`lend\`, offered only to the armies that fold it in): ${report.notEntitled.join('; ')}`)
 if (report.textCount.length) {

@@ -31,7 +31,7 @@
 # (the GitHub Actions workflow) it goes through Yandex Cloud Postbox over SMTP: the key id is the
 # username, the secret the password. Env: POSTBOX_KEY_ID, POSTBOX_SECRET, WATCH_MAIL_FROM,
 # WATCH_MAIL_TO.
-import argparse, hashlib, json, os, re, shlex, smtplib, subprocess, sys, urllib.request
+import argparse, hashlib, json, os, re, shlex, smtplib, subprocess, sys, time, urllib.error, urllib.request
 from email.message import EmailMessage
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -51,12 +51,27 @@ class SourceError(Exception):
     pass
 
 
+# A dropped connection is retried twice, waiting longer each time, before the run fails and mails:
+# on 2026-10-15 one TLS handshake to warhammer-community.com ended in EOF and sent a "broken"
+# letter for a watch that was fine on the next run. An HTTP error status is an answer, not a drop.
+RETRY_DELAYS = (10, 30)
+
+
 def http(url, body=None):
-    req = urllib.request.Request(url, data=body, headers={'User-Agent': UA})
-    if body is not None:
-        req.add_header('Content-Type', 'application/json')
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return r.read().decode('utf-8')
+    for delay in (*RETRY_DELAYS, None):
+        req = urllib.request.Request(url, data=body, headers={'User-Agent': UA})
+        if body is not None:
+            req.add_header('Content-Type', 'application/json')
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return r.read().decode('utf-8')
+        except urllib.error.HTTPError:
+            raise
+        except (urllib.error.URLError, OSError) as e:
+            if delay is None:
+                raise
+            print(f'{url}: {e} — retrying in {delay}s', file=sys.stderr)
+            time.sleep(delay)
 
 
 # ── Sources ──────────────────────────────────────────────────────────────────────────────────────
