@@ -964,6 +964,13 @@
           </tbody>
         </table>
         <p
+          v-if="sheet.wargearPoints?.length"
+          class="ds-points-wg"
+        >
+          <span class="ds-points-wg-label">{{ labels.dsWargearPoints }}</span>
+          {{ wargearPointsLine }}
+        </p>
+        <p
           v-if="pointsTable.tiers.some((t) => t)"
           class="ds-points-note"
         >
@@ -975,6 +982,7 @@
 </template>
 
 <script setup>
+import { foldName } from '../utils/foldName.js'
 import ChevronIcon from './ChevronIcon.vue'
 import { copyTierLabel } from '../utils/copyTier.js'
 import { computed, ref, watch } from 'vue'
@@ -1091,7 +1099,7 @@ const {
 
 // Only the faction-line part the caller can actually open should look clickable.
 const factionParts = computed(() => factionPartsOf(props.sheet))
-const fkey = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+const fkey = foldName
 function linkedFactionRule(part) {
   return props.linkedFactionRules.find((n) => fkey(n) === fkey(part)) || null
 }
@@ -1190,6 +1198,12 @@ const pointsTable = computed(() => {
   }
   return { rows, tiers, hasLabels: rows.some((r) => r.label) }
 })
+
+// The MFM's WARGEAR OPTIONS: what one piece costs on top of the unit's price ("per Heavy
+// psycannon 15 pts"). Under the table, so the page says what the roster builder charges — a
+// player asked where to look up the price of a weapon swap (2026-10-15). One line, in script:
+// adjacent template fragments would pick up stray spaces (root CLAUDE.md, the linter).
+const wargearPointsLine = computed(() => (props.sheet.wargearPoints || []).map((w) => `${w.name} +${w.points} pts`).join(' · '))
 
 // '1st-2nd' / '3rd+' → "1st and 2nd unit" / «1-й и 2-й юнит»: which unit of this datasheet
 // in the army the price applies to (explained by the note under the table).
@@ -1499,6 +1513,19 @@ function abilityStateLabel(st) {
 }
 .ds-points .pname { text-align: left; padding-left: 0; }
 .ds-points td.pname { font-family: var(--font-sans); color: var(--text-muted); white-space: normal; }
+.ds-points-wg {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+.ds-points-wg-label {
+  margin-right: 0.35rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
 .ds-points-note {
   margin-top: 0.35rem;
   font-size: 0.72rem;

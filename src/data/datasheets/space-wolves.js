@@ -2757,6 +2757,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Storm Shield", "points": 5 }
+    ],
     "flavor": "Thunderwolves are monstrous and solitary alpha predators, and only the most dauntless elite within the Wolf Guard have the dominance to ride them to war. When they charge, crushing jaws tear through armoured plates, flesh and bone with feral butchery, while the Thunderwolves’ riders hack down the foe with heroic ferocity.",
     "profiles": [
       {
@@ -4545,6 +4548,9 @@ export default [
         "points": 405,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Storm Shield", "points": 5 }
     ],
     "flavor": "Wolf Guard bedeck their Terminator armour with totems, trophies and marks of honour gained over their years of battle. They fight at the spearhead of assaults, eagerly seeking glory as enemy fire deflects harmlessly from their relic armour, the earth shaking beneath their heavy tread as they slay with stunning skill.",
     "profiles": [

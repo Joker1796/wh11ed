@@ -53,6 +53,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, loadJson, norm } from './sync-common.mjs'
+import { foldChars } from '../../src/utils/foldName.js'
 
 export const APPDATA_EXCEPTIONS = [
   {
@@ -356,7 +357,7 @@ export async function oursCarries(e) {
   if (e.kind === 'weapon-profile') {
     return (d.ranged || []).concat(d.melee || []).some((w) => norm(w.name) === norm(e.ours)) ? null : `no "${e.ours}" row on our sheet`
   }
-  return (d.options || []).some((o) => o.replace(/‐/g, '-').includes(e.ours)) ? null : `no option reading "${e.ours}" on our sheet`
+  return (d.options || []).some((o) => foldChars(o).includes(foldChars(e.ours))) ? null : `no option reading "${e.ours}" on our sheet`
 }
 
 // The errata an entry rests on, as appdata prints it now: null when the line is still there.

@@ -413,3 +413,19 @@ describe('DatasheetCard — who may join this unit', () => {
     expect(w.text()).not.toContain('Led by')
   })
 })
+
+describe('DatasheetCard wargear prices', () => {
+  // The MFM's WARGEAR OPTIONS under the points table — what the roster builder charges for a
+  // swap (a player asked where to look it up, 2026-10-15).
+  it('prints each priced piece under the points table', () => {
+    const w = mount(DatasheetCard, {
+      props: { sheet: sheet({ points: [{ models: 1, points: 205 }], wargearPoints: [{ name: 'Heavy psycannon', points: 15 }, { name: 'Sublimator', points: 15 }] }) },
+    })
+    expect(w.find('.ds-points-wg').text()).toContain('Heavy psycannon +15 pts · Sublimator +15 pts')
+  })
+
+  it('prints nothing for a unit whose wargear is free', () => {
+    const w = mount(DatasheetCard, { props: { sheet: sheet({ points: [{ models: 3, points: 90 }] }) } })
+    expect(w.find('.ds-points-wg').exists()).toBe(false)
+  })
+})

@@ -24,6 +24,7 @@ import { detachmentSources } from '../data/detachmentSources.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionChoice } from './useFactionChoice.js'
 import { useRefNavigation } from './useRefNavigation.js'
+import { foldName } from '../utils/foldName.js'
 
 // The steps of each phase in play order (Core Rules 08–12), and the step a rule that fires
 // "during" the phase is shown at — its main step. Start and End are the phase's own first and
@@ -68,7 +69,7 @@ export function usePhaseRules() {
 
   // Detachment names are matched the way the rest of the app matches them — apostrophes and case
   // are the two things that differ between GW's own spellings of one name.
-  const norm = (s) => String(s || '').toLowerCase().replace(/[’']/g, "'").trim()
+  const norm = foldName
 
   function rulesFor(pi, ph) {
     const pl = current.value?.players?.[pi]

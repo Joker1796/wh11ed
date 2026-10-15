@@ -159,6 +159,7 @@ import { localizeSheet } from '../../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from '../../composables/useDatasheetsRu.js'
 import { weaponBase, withGroupPos } from '../../utils/weaponGroups.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
+import { foldChars } from '../../utils/foldName.js'
 
 const props = defineProps({
   unitId: { type: String, required: true },
@@ -201,10 +202,7 @@ watch(
 // identical, byte-different, so a plain case-insensitive match silently misses them. Normalize
 // both sides to a plain ' and - before comparing.
 function norm(s) {
-  return (s || '')
-    .toLowerCase()
-    .replace(/[‘’‚‛]/g, "'")
-    .replace(/[‐‑‒–—―]/g, '-')
+  return foldChars(s).toLowerCase()
 }
 const wanted = computed(() => new Set(props.names.map(norm)))
 function matching(list) {

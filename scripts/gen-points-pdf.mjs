@@ -17,6 +17,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { chromium } from 'playwright-core'
 import { patches } from '../src/data/patches/index.js'
+import { foldName } from '../src/utils/foldName.js'
 
 const OUT = path.resolve(process.argv[2] || 'points-pdf')
 const REPO = process.cwd()
@@ -76,7 +77,7 @@ const imp = (p) => import(pathToFileURL(path.join(REPO, p)).href).then((m) => m.
 const { factionIndexBySlug } = await import(pathToFileURL(path.join(REPO, 'src/data/factionsIndex.js')).href)
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-const norm = (s) => String(s).toLowerCase().replace(/[’']/g, "'").trim()
+const norm = foldName
 const delta = (from, to) => (to > from ? `+${to - from}` : `−${from - to}`)
 // One wording for a copy tier everywhere — the site's own (src/utils/copyTier.js).
 const { copyTierLabel, modelsLabel } = await import(pathToFileURL(path.join(REPO, 'src/utils/copyTier.js')).href)

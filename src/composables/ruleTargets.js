@@ -49,6 +49,7 @@
 //
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
+import { foldName } from '../utils/foldName.js'
 
 // A keyword phrase: one or more capitalised words. Matches both the ALL-CAPS spelling and the
 // Title Case one — the faction files use whichever the source PDF used.
@@ -110,7 +111,11 @@ const STOP = new Set(['The', 'This', 'That', 'These', 'Those', 'Each', 'While', 
   'Detachment',
   // A game state written with a capital, sitting where a keyword would: "friendly Battle-shocked
   // ADEPTUS ASTARTES unit" (4 stratagems, 2026-09-19).
-  'Battle-shocked'])
+  'Battle-shocked',
+  // A count before the keyword ("Two T’AU EMPIRE units", "Two Skitarii units"), the state an
+  // attached unit is in ("DEATH GUARD Attached units") and the Drukhari verb ("you can Empower
+  // units") — each read as part of a target nobody carries until 2026-10-15.
+  'Two', 'Three', 'Four', 'Five', 'Six', 'Attached', 'Empower'])
 
 const isStop = (w) => STOP.has(w) || STOP.has(w[0] + w.slice(1).toLowerCase())
 
@@ -130,6 +135,10 @@ function passages(body) {
     // gate (2026-09-19).
     .replace(/\[gloss:[^:\]]*:([^\]]*)\]/g, '$1')
     .split(/\n\s*\n|\n(?=###\s)|\n?(?=▪\s)/)
+    // A passage opened by a `### ` plate: the plate is a name, not prose — left on, its Title Case
+    // words ran into the keyword on the next line ("Beguiling Aura LEGIONES DAEMONICA SLAANESH",
+    // 2026-10-15), a target nobody carries.
+    .map((p) => p.replace(/^\s*###[^\n]*\n?/, ''))
     .filter((p) => p.trim())
 }
 
@@ -216,7 +225,10 @@ export function ruleTargets(body) {
   return scopes && [...new Set(scopes.flatMap((s) => s.targets))]
 }
 
-const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+const norm = foldName
+// A keyword as a target is read without "the": the extraction drops it as a stop word, so "AGENTS OF
+// THE IMPERIUM units" arrives as AGENTS OF IMPERIUM and matched no Agent at all (2026-10-15).
+const bare = (s) => norm(s).replace(/\bthe\b/g, ' ').replace(/\s+/g, ' ').trim()
 
 // A target phrase is a CONJUNCTION of keywords written as one run — "Adeptus Custodes Terminator"
 // means the ADEPTUS CUSTODES faction keyword AND the TERMINATOR keyword — so cover the phrase with
@@ -229,11 +241,16 @@ export function keywordsMatchTarget(keywords, target) {
   // Phoenix Lords carry ASPECT WARRIOR (appdata has both keywords, 2026-09-28). Comparing singular
   // to singular can only ever match MORE units, which is the safe direction for a target — and for
   // an exclusion it just mirrors the same wording gap.
-  const raw = [...new Set((keywords || []).map(norm))].filter(Boolean)
+  const raw = [...new Set((keywords || []).map(bare))].filter(Boolean)
   const kws = [...new Set([...raw, ...raw.map(depluralise)])].sort((a, b) => b.length - a.length)
-  let rest = depluralise(norm(target))
+  let rest = depluralise(bare(target))
   if (!rest) return false
   while (rest) {
+    // GW names the two Tyranid Warriors sheets "… with Melee/Ranged Bio-weapons" and that full name
+    // is their keyword, while the rules say "TYRANID WARRIORS units": what is left of the target
+    // being the head of an "X with Y" name is that unit. Checked first, or TYRANIDS takes the
+    // first word and WARRIORS is left with nothing to match.
+    if (kws.some((k) => k.startsWith(`${rest} with `) || k.startsWith(`${rest}s with `))) return true
     const hit = kws.find((k) => rest === k || rest.startsWith(`${k} `))
     if (!hit) return false
     rest = rest.slice(hit.length).trim()
@@ -241,17 +258,58 @@ export function keywordsMatchTarget(keywords, target) {
   return true
 }
 
-// Does this rule bear on this unit? `unitKeywords` is the unit's own keywords + faction keywords;
-// `factionKeywordSets` is the same for every unit in the faction, used only for escape 3 — pass it
-// whenever you have it, and omit it to skip that guard (the gate is then one escape weaker).
-export function ruleAppliesTo(body, unitKeywords, factionKeywordSets) {
-  const scopes = ruleScopes(body)
-  if (!scopes) return true
+// The keywords a rule can name a unit by: the sheet's own, its faction's, those only some of its
+// models carry, and its NAME — "each datasheet name acts as an additional keyword for that unit"
+// (Core Rules). Gretchin's sheet prints GROTS and INFANTRY only, so "friendly GRETCHIN units"
+// reached nobody, the extraction was distrusted, and Runt Swarm's rule sat on a Battlewagon's
+// card (a player's report, 2026-10-15). Every caller that gates a rule by keywords reads a unit
+// through this — never `[...keywords, ...factionKeywords]` by hand.
+/** @param {{ name?: string, keywords?: string[], factionKeywords?: string[], keywordsByModel?: Array<{ list?: string[] }> } | null | undefined} sheet */
+export function unitKeywordsOf(sheet) {
+  if (!sheet) return []
+  return [
+    ...(sheet.keywords || []),
+    ...(sheet.factionKeywords || []),
+    ...(sheet.keywordsByModel || []).flatMap((g) => g.list || []),
+    ...(sheet.name ? [sheet.name] : []),
+  ]
+}
+
+// Every keyword any unit in the game can carry (src/data/unitKeywordVocabulary.js, generated with
+// the datasheet index): loaded with the roster screens, which is what makes a rule naming another
+// faction's units — Chaos Knights' DAMNED, Brood Brothers' ASTRA MILITARUM INFANTRY — a rule that
+// reaches nobody here rather than an extraction to distrust.
+/** @type {string[] | null} */
+let known = null
+export async function loadKeywordVocabulary() {
+  if (!known) known = (await import('../data/unitKeywordVocabulary.js')).unitKeywordVocabulary
+  return known
+}
+/** Tests only. @param {string[] | null} list */
+export function _setKeywordVocabulary(list) { known = list }
+
+// Escape 3, the one definition (rule blocks AND modifier gates read it): the extraction found
+// targets, but no unit of the faction carries any of them. That is a misread only when a target
+// is not made of real keywords at all; one that names real keywords nobody here carries (another
+// faction's units) reaches nobody, honestly. Without the vocabulary loaded, distrust as before.
+/** @param {import('./roster.types.js').RuleScope[]} scopes @param {string[][]} keywordSets */
+export function scopesMisread(scopes, keywordSets) {
   const hits = (kws) => scopes.some((sc) =>
     sc.targets.some((t) => keywordsMatchTarget(kws, t)) &&
     !sc.excludes.some((x) => keywordsMatchTarget(kws, x)))
-  if (factionKeywordSets?.length && !factionKeywordSets.some(hits)) {
-    return true // escape 3: the extraction matched nobody, so distrust it
-  }
-  return hits(unitKeywords)
+  if (keywordSets.some(hits)) return false
+  if (!known) return true
+  return scopes.some((sc) => sc.targets.some((t) => !keywordsMatchTarget(known, t)))
+}
+
+// Does this rule bear on this unit? `unitKeywords` is unitKeywordsOf() plus whatever the roster
+// grants it; `factionKeywordSets` is unitKeywordsOf() of every unit in the faction, used only for
+// escape 3 — pass it whenever you have it, and omit it to skip that guard.
+export function ruleAppliesTo(body, unitKeywords, factionKeywordSets) {
+  const scopes = ruleScopes(body)
+  if (!scopes) return true
+  if (factionKeywordSets?.length && scopesMisread(scopes, factionKeywordSets)) return true
+  return scopes.some((sc) =>
+    sc.targets.some((t) => keywordsMatchTarget(unitKeywords, t)) &&
+    !sc.excludes.some((x) => keywordsMatchTarget(unitKeywords, x)))
 }

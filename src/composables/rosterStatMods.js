@@ -18,11 +18,12 @@
 //
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
-import { ruleScopes, keywordsMatchTarget } from './ruleTargets.js'
+import { ruleScopes, keywordsMatchTarget, scopesMisread } from './ruleTargets.js'
 import { enhKey, detKey, itemKey, loadoutItemCopies } from './rosterModifiers.js'
 import { modelsPerMini } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
+import { foldName } from '../utils/foldName.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -53,7 +54,7 @@ const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged',
 // could never be applied at all — a unit-wide +1 Strength would have hit weapons the rule doesn't
 // touch. See conditions.js's `blocked-weapon`.
 /** @param {unknown} s */
-const norm = (s) => String(s ?? '').toLowerCase().trim()
+const norm = foldName
 /**
  * @param {{ name?: string, tags?: string[] } | null | undefined} row
  * @param {ModifierEffect['only']} only
@@ -103,8 +104,9 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
   // card and the wrong one for a rule that addresses the whole army: Questor Forgepact's aura names
   // ADEPTUS MECHANICUS, a faction whose datasheets this list cannot field at all, and failing open
   // there would hand every Knight a buff meant for allies that are not in the game. Reaching nobody
-  // is the honest answer.
-  if (!strict && factionKeywordSets?.length && !factionKeywordSets.some((kws) => scopes.some(hits(kws)))) return true
+  // is the honest answer. (With the keyword vocabulary loaded, scopesMisread says so itself: a
+  // target made of real keywords that nobody here carries is not a misread.)
+  if (!strict && factionKeywordSets?.length && scopesMisread(scopes, factionKeywordSets)) return true
   if (effect.scope == null) return scopes.some(hits(keywords))
   const sc = scopes[effect.scope]
   return sc ? hits(keywords)(sc) : false
@@ -118,9 +120,11 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
  * @param {string} op
  * @param {unknown} value
  * @param {string | null} [stat]
+ * @param {string | null} [best] the rule's own limit on a roll ("3+" — Take Cover! "cannot improve
+ *   a model's Save to better than 3+"); a model already better than it keeps what it has
  * @returns {string | null}
  */
-export function applyValue(current, op, value, stat = null) {
+export function applyValue(current, op, value, stat = null, best = null) {
   const raw = String(current ?? '').trim()
   // A model has one invulnerable save and uses the best it has been given: an aura's "6+
   // invulnerable save" does not take a Neurotyrant's printed 4+ away (a player's report,
@@ -137,10 +141,12 @@ export function applyValue(current, op, value, stat = null) {
 
   const roll = raw.match(/^(\d+)\+$/)
   if (roll) {
-    // A roll improves by going DOWN, and 2+ is the floor no modifier can beat.
+    // A roll improves by going DOWN, and 2+ is the floor no modifier can beat — or the rule's own.
     const n = Number(roll[1])
+    const floor = Math.max(2, Number(String(best ?? '').match(/^(\d)\+$/)?.[1]) || 2)
+    if (op === 'improve' && n <= floor) return raw
     const next = op === 'improve' ? n - Number(value) : n + Number(value)
-    return `${Math.max(2, Math.min(6, next))}+`
+    return `${Math.max(floor, Math.min(6, next))}+`
   }
 
   const dist = raw.match(/^(\d+)"$/)
@@ -483,7 +489,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           if (table !== 'profiles' && !rowMatchesOnly(asFound[table][i], effect.only)) continue
           if (!inRows(effect, table, i)) continue
           const before = current()[table][i][effect.stat]
-          const next = applyValue(before, effect.op, effect.value, effect.stat)
+          const next = applyValue(before, effect.op, effect.value, effect.stat, effect.best)
           if (next == null || next === String(before)) continue
           target()[table][i][effect.stat] = next
           marks.add(`${markPrefix(table)}:${effect.stat}:${i}`)
@@ -656,7 +662,7 @@ export function attachedUnitKeywords(entry, units, keywordsOf) {
 // a merged name covers the record it was merged from, and a record named for the whole rule still
 // matches when our name is the longer one.
 /** @param {string | null | undefined} s */
-const normRule = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+const normRule = foldName
 /** @param {string | null | undefined} recName @param {string | null | undefined} ourName */
 function armyRuleMatches(recName, ourName) {
   const a = normRule(recName)

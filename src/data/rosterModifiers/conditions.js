@@ -308,6 +308,7 @@ export const conditions = {
   'order-move-move-move': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Move! Move! Move!»', ru: '«Move! Move! Move!»' } },
   'order-fix-bayonets': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Fix Bayonets!»', ru: '«Fix Bayonets!»' } },
   'order-take-aim': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Take Aim!»', ru: '«Take Aim!»' } },
+  'order-take-cover': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Take Cover!»', ru: '«Take Cover!»' } },
   'order-duty-and-honour': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Duty and Honour!»', ru: '«Duty and Honour!»' } },
   'order-first-rank-fire': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«First Rank, Fire! Second Rank, Fire!»', ru: '«First Rank, Fire! Second Rank, Fire!»' } },
 

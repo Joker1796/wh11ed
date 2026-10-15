@@ -41,6 +41,7 @@
 // Usage:
 //   node scripts/sync-event-companion.mjs
 import path from 'node:path'
+import { foldChars } from '../src/utils/foldName.js'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, loadJson, loadModule } from './lib/sync-common.mjs'
 
@@ -107,7 +108,7 @@ function containerEntries(ruleSectionId) {
 
 // ── title matching ──────────────────────────────────────────────────────────────────
 const normTitle = (s) =>
-  (s || '')
+  foldChars(s)
     .toLowerCase()
     .replace(/^\d+[\s.·]+/, '') // leading "14. " / "14 · " step number
     .replace(/[’‘“”"'.,]/g, '')
@@ -137,7 +138,7 @@ function plainText(s) {
   t = t.replace(/\s*\((?:\d+\.)*\d+\)/g, '') // (NN.NN) cross-refs
   t = t.replace(/[[\]]/g, '') // [FORCE DISPOSITION] / [BRACKET] markers — both sides have them
   t = t.replace(/[▪•◦▫→◆◈#]/g, ' ')
-  t = t.replace(/[’‘`]/g, "'").replace(/[“”«»]/g, '"').replace(/[‐‑–—]/g, '-')
+  t = foldChars(t).replace(/[“”«»]/g, '"')
   t = t.replace(/([a-zA-Z])-([a-zA-Z])/g, '$1 $2') // hyphenation fold, not ± stats
   t = t.replace(/'/g, '')
   t = t.replace(/\s*\/\s*/g, '/')

@@ -6279,6 +6279,9 @@ export default [
         "points": 90
       }
     ],
+    "wargearPoints": [
+      { "name": "Bombast field gun", "points": 10 }
+    ],
     "flavor": "Amongst the largest man-portable weapons fielded by the Astra Militarum are those crewed by Ordnance Teams. From bombast field guns that fire heavy shells indirectly, to the multiple warheads of the malleus rocket launcher or the searing energy lances unleashed by heavy lascannons, such batteries are powerful assets.",
     "profiles": [
       {
@@ -8816,6 +8819,9 @@ export default [
         "points": 70
       }
     ],
+    "wargearPoints": [
+      { "name": "Krieg heavy flamer", "points": 5 }
+    ],
     "flavor": "Death Korps Heavy Weapons Squads are deployed to support infantry assaults, forming overlapping fields of fire to pin down the enemy and enable waves of infantry to advance. Fire Coordinators direct the gunners under their command and ensure that they keep up a punishing rate of fire.",
     "profiles": [
       {
@@ -8948,6 +8954,11 @@ export default [
         "points": 175,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 },
+      { "name": "Lascannon", "points": 5 },
+      { "name": "Plasma cannon", "points": 5 }
     ],
     "flavor": "The Leman Russ is the core battle tank of the Imperial Guard, forming the spearhead of countless armoured attacks. Those enemies that do not fall to the bombardment of their cannons and numerous hull-mounted guns are crushed mercilessly beneath their heavy treads.",
     "profiles": [
@@ -9142,6 +9153,12 @@ export default [
         "points": 210,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Demolisher battle cannon", "points": 15 },
+      { "name": "Multi-melta", "points": 5 },
+      { "name": "Lascannon", "points": 5 },
+      { "name": "Plasma cannon", "points": 5 }
     ],
     "flavor": "The venerable Leman Russ makes an excellent command tank. Many officers choose these reliable vehicles, broadcasting orders to other war engines and, when necessary, emerging from their cupola to bellow orders and provide a visible symbol of Imperial power.",
     "profiles": [
@@ -9436,6 +9453,11 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 },
+      { "name": "Lascannon", "points": 5 },
+      { "name": "Plasma cannon", "points": 5 }
+    ],
     "flavor": "The Leman Russ Demolisher excels in line-breaking. Its short-ranged but highly destructive demolisher cannon makes the battle tank utterly lethal in close-range firefights, where its thick armour enables it to bludgeon its way through enemy fire to close the gap on their lines before explosively forcing a breach.",
     "profiles": [
       {
@@ -9629,6 +9651,11 @@ export default [
         "points": 160,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 },
+      { "name": "Lascannon", "points": 5 },
+      { "name": "Plasma cannon", "points": 5 }
     ],
     "flavor": "The nova cannon carried by Leman Russ Eradicators fires shells containing a sub-atomic core. Their detonations produce powerful shock waves that pulverise enemy barricades and the infantry sheltering behind them. This battle tank is therefore a mainstay in the dense confines of urban firefights.",
     "profiles": [
@@ -9824,6 +9851,11 @@ export default [
         "points": 160,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 },
+      { "name": "Lascannon", "points": 5 },
+      { "name": "Plasma cannon", "points": 5 }
     ],
     "flavor": "The Executioner’s plasma cannon fires with the fury of a miniature sun, incinerating tightly packed infantry and burning through vehicle armour with ease. Though extended engagements threaten containment breach of the main weapon, its gung-ho crews are known to risk death to kill ever more of the foe.",
     "profiles": [
@@ -10032,6 +10064,11 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 },
+      { "name": "Lascannon", "points": 5 },
+      { "name": "Plasma cannon", "points": 5 }
+    ],
     "flavor": "The Leman Russ Exterminator fills an adaptive role well-liked by commanders. Capable of laying down a withering hail of heavy fire, this tank’s shells can tear through lightly armoured chassis as easily as they rip through flesh and bone. Ranks of elite infantry are devastated with equal ease.",
     "profiles": [
       {
@@ -10227,6 +10264,11 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 },
+      { "name": "Lascannon", "points": 5 },
+      { "name": "Plasma cannon", "points": 5 }
+    ],
     "flavor": "The Punisher variant of the Leman Russ holds a dreaded reputation for mowing down enemy infantry in vast quantities. Its turret-mounted multi-barrelled cannon is an unsubtle sprayer of solid ammunition that applies the maxim of overwhelming firepower to overcome hordes of foes.",
     "profiles": [
       {
@@ -10418,6 +10460,11 @@ export default [
         "points": 145,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 },
+      { "name": "Lascannon", "points": 5 },
+      { "name": "Plasma cannon", "points": 5 }
     ],
     "flavor": "No other battle tank of the Imperial Guard possesses more raw stopping power than the Leman Russ Vanquisher. Often deployed against heavily armoured enemies, the long range and high first-hit kill ratio of its main armament make it the anti-tank weapon of choice for many commanders.",
     "profiles": [

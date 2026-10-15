@@ -4,6 +4,7 @@
 import { detKey } from '../data/slugify.js'
 import conditionalKeywords from '../data/conditionalKeywords.json'
 import { hasKeyword, enhEligible, lockedToExactUnit } from './rosterEnhEligible.js'
+import { foldName } from '../utils/foldName.js'
 
 export { hasKeyword, enhEligible }
 
@@ -1101,7 +1102,7 @@ export function findEnhancement(detachments, name) {
 // another is no candidate. A mandatory one is worn by every unit it fits. Null when no selected
 // detachment offers it.
 /** @param {string | null | undefined} s */
-const looseName = (s) => String(s || '').replace(/[\u2019'`]/g, "'").trim().toLowerCase()
+const looseName = foldName
 /**
  * @param {string} name
  * @param {{ units?: RosterEntry[], defOf?: DefOf, detachments?: Detachment[], factionSlug?: string }} [opts]

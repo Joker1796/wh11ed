@@ -641,6 +641,9 @@ export default [
         "points": 380
       }
     ],
+    "wargearPoints": [
+      { "name": "Psycannon", "points": 5 }
+    ],
     "flavor": "Massively armoured, heavily armed and ruthlessly devoted to their sacred duties, Grey Knights Terminators form the indomitable heart of many strike forces. Some squads are accompanied by Apothecaries, whose nartheciums dispense healing salves to staunch grievous wounds, or Ancients who hold aloft finely wrought banners to inspire their battle-brothers in war.",
     "profiles": [
       {
@@ -1004,6 +1007,10 @@ export default [
         "points": 225,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Sublimator", "points": 15 },
+      { "name": "Heavy psycannon", "points": 15 }
     ],
     "flavor": "Piloting a Nemesis Dreadknight allows a Grand Master to wield the kind of ordnance usually restricted to battle tanks. Augmented with his psychic puissance and the servo-driven strength to wield huge and terrifying melee weapons, the sheer killing power of such a warrior is terrifying indeed.",
     "profiles": [
@@ -2478,6 +2485,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Heavy psycannon", "points": 15 }
+    ],
     "flavor": "Nemesis Dreadknights wield enormous Nemesis force weapons and provide devastating heavy firepower. The lowering psychic presences of their pilots coupled with servo-assisted speed and might enables these exo-suits to stride through ranks of foes like giants, heedless of those who seek to bar their advance.",
     "profiles": [
       {
@@ -2653,6 +2663,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Psycannon", "points": 5 }
+    ],
     "flavor": "Amongst the greatest warriors in the Imperium, Paladins throw themselves into combat against monstrous daemonic adversaries. They are the staunchest warriors of the Grey Knights and exemplars of martial might; each Paladin has banished one of the most powerful daemons ever to manifest.",
     "profiles": [
       {
@@ -2797,6 +2810,9 @@ export default [
         "points": 240,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Psycannon", "points": 5 }
     ],
     "flavor": "Providing vital heavy-fire support for the highly mobile assaults favoured by the Grey Knights, Purgation Squads comprise master sharpshooters armed with powerful firearms. Focusing their psychic potential to detect foes concealed in the heaviest cover and even bend their shots through the air to seek their prey, their volleys leave the enemy cowering in abject terror.",
     "profiles": [
@@ -3571,6 +3587,9 @@ export default [
         "points": 300,
         "note": "2nd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Hurricane Bolter", "points": 10 }
     ],
     "flavor": "Powerful close-support aircraft, Stormraven Gunships can deploy Grey Knights and even a revered Dreadnought where empyric disturbances prevent teleportation. Resilient and bristling with heavy weapons, Stormravens excel in armoured assaults and the fiery purgations of landing zones.",
     "profiles": [

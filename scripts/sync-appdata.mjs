@@ -51,6 +51,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, norm, looseName, isWeaponType, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
+import { foldChars } from '../src/utils/foldName.js'
 
 // Scalar field maps for statline/weapon-profile comparisons: [wh11ed key, appdata key].
 const STAT_FIELDS = [['m', 'M'], ['t', 'T'], ['sv', 'Sv'], ['w', 'W'], ['ld', 'Ld'], ['oc', 'OC']]
@@ -303,7 +304,7 @@ async function syncFaction(slug) {
     // change AND a re-translation.
     if (d.flavor && appDs.lore && !d.legends) {
       const words = (t) => norm(String(t).replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-        .replace(/<[^>]+>/g, ' ').replace(/[*_]/g, '').replace(/[’‘]/g, "'"))
+        .replace(/<[^>]+>/g, ' ').replace(/[*_]/g, '').replace(/.+/s, foldChars))
       if (words(d.flavor) !== words(appDs.lore)) lines.push(`  ~ datasheet "${d.name}" flavor differs from appdata`)
     }
 

@@ -721,6 +721,10 @@ export default [
         "note": "2nd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Heavy Reaper Autocannon", "points": 15 },
+      { "name": "Hades Lascannon", "points": 15 }
+    ],
     "flavor": "Monstrous bio-mechanical Daemon Engines, Defilers are possessed of an insuppressible thirst for souls and lust for lurid slaughter. They are relentless in their pursuit of gratification, obliterating targets in tempests of gunfire and wading into enemy formations to rip warriors to shreds with their clanking claws.",
     "profiles": [
       {

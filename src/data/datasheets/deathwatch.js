@@ -261,6 +261,10 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Storm Shield", "points": 5 },
+      { "name": "Cyclone Missile Launcher", "points": 10 }
+    ],
     "flavor": "The indomitable warriors honoured to wear hulking suits of Terminator armour are an inspiring sight to their brethren. Deathwatch Terminators carry the most powerful close combat weapons, and the strength and durability of their armour allows them to take the heaviest firepower directly into hidden xenos lairs.",
     "profiles": [
       {

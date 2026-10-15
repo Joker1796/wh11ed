@@ -34,6 +34,7 @@ import { join } from 'node:path'
 import { phasesOf, phaseSidesOf, phaseMomentsOf } from '../src/composables/stratagemPhases.js'
 import { lockedToExactUnit } from '../src/composables/rosterEnhEligible.js'
 import { slugify } from '../src/data/slugify.js'
+import { foldName } from '../src/utils/foldName.js'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href)
@@ -88,7 +89,7 @@ async function rosterDefs(slug) {
     return def ? { def, dets } : null
   }
 }
-const normName = (x) => String(x || '').toLowerCase().replace(/[’']/g, "'").trim()
+const normName = foldName
 // rosterEngine.optionItems, restated — the engine imports a JSON sidecar node cannot load bare.
 const optionIds = (o) => (Array.isArray(o?.[0]) ? o[0].map(([id]) => id) : o?.[0] == null ? [] : [o[0]])
 function gearOf(found, name) {

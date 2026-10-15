@@ -23,6 +23,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
+import { foldName } from '../src/utils/foldName.js'
 
 const OUT = path.join(ROOT, 'src/data/roster/ru/texts.js')
 
@@ -54,7 +55,7 @@ const plainValue = (raw) => !!(raw || '').trim() && !VALUE_NOISE.test(raw)
 // translated exactly when the whole slot is not itself a known item and both halves are. The
 // set is primed from src/data/roster/items.js by run() (and by tests).
 let ITEM_NAMES = new Set()
-const normName = (s) => s.toLowerCase().replace(/['’]/g, '’').replace(/\s+/g, ' ').trim()
+const normName = foldName
 const isItem = (s) => {
   const n = normName(s).replace(/^\d+\s+/, '')
   return ITEM_NAMES.has(n) || ITEM_NAMES.has(n.replace(/s$/, ''))

@@ -2992,6 +2992,19 @@ Battle Focus, which names VEHICLE in one of five triggers and would otherwise va
 infantry unit); and an extraction matching no unit in the whole faction is distrusted and ignored
 (7 rules, prose abbreviating a faction keyword — "Votann units" against LEAGUES OF VOTANN).
 
+**A unit's keywords are `unitKeywordsOf(sheet)`** — its own, its faction's, its per-model ones and
+its NAME ("each datasheet name acts as an additional keyword", Core Rules). Never assemble them by
+hand: until 2026-10-15 every gate read `[...keywords, ...factionKeywords]`, so "friendly GRETCHIN
+units" reached no Orks sheet (Gretchin prints GROTS, INFANTRY), fell into the third escape and
+showed Runt Swarm's rule on a Battlewagon (a player's report). **The third escape is
+`scopesMisread`**, one definition for the rule blocks and the modifier gates: with the keyword
+vocabulary loaded (`src/data/unitKeywordVocabulary.js`, generated with the datasheet index), a
+target made of real keywords nobody in the faction carries — Chaos Knights' DAMNED, Brood
+Brothers' ASTRA MILITARUM INFANTRY — reaches nobody instead of everybody; only a target that is
+not made of keywords at all is distrusted. That day 34 rules were shown to every card; 6 are
+left, keywords a detachment's text hands out that appdata records no grant for (Recon Augury,
+Armoured Skirmisher, Soul Forge), pinned by name in `ruleTargets.class.test.js`.
+
 A rule is read as one `{ targets, excludes }` **per statement** — paragraph, `###` section or
 `▪ ` bullet — and applies when ANY statement does. Splitting by bullet is load-bearing: Necrons'
 Cold Fervour is two bullets, the first naming DESTROYER CULT and the second every other NECRONS
@@ -3759,6 +3772,10 @@ at all. Three files, one idea:
     +3. An alternate must be conditional (an unconditional one would suppress its base forever)
     and, where its prose names several characteristics, the record carries one alternate per
     characteristic. Pinned by `index.test.js`.
+  - **`best`** — the rule's own limit on a roll ("3+": Take Cover! "cannot improve a model's Save
+    to better than 3+"). The roll stops there instead of at 2+, and a model already better keeps
+    what it has. Until 2026-10-15 that one cap was a `never`, so the Order was missing from the
+    game's list of Orders altogether (a player's report).
   - A subset naming part of the unit ("Penitent models, while…") still belongs in `scope`, the
     index of the rule statement that says it — 10 were moved there; 26 remain where the rule's own
     prose has no statement matching the subset.

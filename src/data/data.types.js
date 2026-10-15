@@ -30,6 +30,7 @@
  * @property {string} id
  * @property {string} name
  * @property {DatasheetPoints[]} [points]
+ * @property {Array<{ name: string, points: number }>} [wargearPoints]  the MFM's WARGEAR OPTIONS — each piece's price on top of the unit
  * @property {string} [flavor]
  * @property {DatasheetProfile[]} [profiles]
  * @property {import('../composables/roster.types.js').WeaponRow[]} [ranged]

@@ -23,6 +23,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { APPDATA, ROOT, norm, appdataToMarkup, bodyText, loadModule, SLUG_MAP as ALIAS } from './lib/sync-common.mjs'
+import { foldChars } from '../src/utils/foldName.js'
 
 // ALIAS = wh11ed slug → appdata bundle slug (the 7 that diverge). Was a local 2-entry copy that
 // silently skipped aeldari/chaos-daemons/imperial-agents/titan-legions/chaos-titan-legions.
@@ -55,9 +56,8 @@ function sem(s) {
     .replace(/\{(?:red|blue|green):([^}]*)\}/g, '$1')
     .replace(/\*\*|__|###/g, '')
     .replace(/[▪◆◈→•]/g, ' ')
-    .replace(/[’‘`]/g, "'")
     .replace(/[“”]/g, '"')
-    .replace(/[-‐‑–—]/g, '-')
+    .replace(/.+/s, foldChars)
     .toLowerCase()
     .replace(/[^\p{L}\p{N}"'+%/.-]+/gu, ' ')
     .replace(/(?<![\p{L}\p{N}])'|'(?![\p{L}\p{N}])/gu, '') // quote marks (keeps in-word apostrophes)

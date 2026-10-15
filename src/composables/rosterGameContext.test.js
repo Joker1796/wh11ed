@@ -407,6 +407,7 @@ describe('mutually exclusive switches', () => {
     const { conditions } = await import('../data/rosterModifiers/conditions.js')
     expect(conditions['order-take-aim'].group).toBe('order')
     expect(conditions['order-fix-bayonets'].group).toBe('order')
+    expect(conditions['order-take-cover'].group).toBe('order')
     expect(conditions['stance-rendax'].group).toBe('ka-tah')
     // Blessings of Khorne activates up to TWO, so they are deliberately not a group.
     expect(conditions['blessing-warp-blades'].group).toBeUndefined()

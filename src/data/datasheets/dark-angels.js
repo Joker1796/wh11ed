@@ -948,6 +948,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Cyclone Missile Launcher", "points": 10 }
+    ],
     "flavor": "Deploying rapidly onto the battlefield via blazing teleport strike or within the armoured hull of a large transport, Deathwing Terminator Squads pour heavy fire into their enemies or engage them in brutal melee, smashing them apart with thunder hammers or cutting them to ribbons with lightning claws.",
     "profiles": [
       {

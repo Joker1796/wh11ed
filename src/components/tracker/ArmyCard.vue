@@ -113,6 +113,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { loadArmyRules } from '../../composables/gameStratagems.js'
+import { foldName } from '../../utils/foldName.js'
 
 // One army's card in the Armies tab (ArmiesPanel keeps one per army, built once): its faction and
 // the way to its units, then what it plays by — the army rule's tracker and the detachment rules.
@@ -183,7 +184,7 @@ const ruleTexts = computed(() => {
 // Unfold one of its rules (the Phase tab's line to it, via ArmiesPanel): 'army' or a detachment's
 // name — once the rules are here.
 const cardEls = ref([])
-const normName = (s) => String(s || '').toLowerCase().replace(/[’']/g, "'").trim()
+const normName = foldName
 async function reveal(rule) {
   const open = () => {
     const key = rule === 'army' ? 'army' : ruleTexts.value.find((t) => t.det && normName(t.det) === normName(rule))?.key

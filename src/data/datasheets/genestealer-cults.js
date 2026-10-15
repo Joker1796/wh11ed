@@ -168,6 +168,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Heavy mining laser", "points": 10 }
+    ],
     "flavor": "The operators of these lightweight but rugged scout vehicles help to coordinate lethal armoured ambushes that eliminate isolated foes or sever communication and supply lines. They can mount a versatile range of heavy weapons, and their speed and manoeuvrability enable them to skirt enemy ranks before unleashing their payloads at a more vulnerable quarter.",
     "profiles": [
       {

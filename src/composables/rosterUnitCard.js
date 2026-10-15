@@ -24,7 +24,7 @@ import { computed, ref, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import { overlaySheet, enhKey, detKey, findEnhancementProse, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
-import { ruleAppliesTo } from './ruleTargets.js'
+import { loadKeywordVocabulary, ruleAppliesTo, unitKeywordsOf } from './ruleTargets.js'
 import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
@@ -64,7 +64,8 @@ export function useRosterUnitCard(props) {
       datasheets.value = []
       loaded.value = false
       if (!slug) return
-      const list = await loadDatasheets(slug, { cp })
+      // The vocabulary first: the rule gates read it as soon as the sheets land (ruleTargets.js).
+      const [list] = await Promise.all([loadDatasheets(slug, { cp }), loadKeywordVocabulary()])
       if (props.factionSlug !== slug || cpBox.value !== cp) return
       if (list) datasheets.value = list
       loaded.value = true
@@ -172,7 +173,7 @@ export function useRosterUnitCard(props) {
   // Every unit's keyword set in this faction, for ruleTargets.js's "the extraction matched nobody,
   // so distrust it" guard. Cheap: the datasheets are already loaded for the card above.
   const factionKeywordSets = computed(() =>
-    datasheets.value.map((d) => [...(d.keywords || []), ...(d.factionKeywords || [])]))
+    datasheets.value.map(unitKeywordsOf))
 
   // The keywords printed on the sheet plus every one the roster grants it. Two sources, and the
   // order matters: a granted keyword decides which RULES bear on the unit, so it has to be resolved
@@ -180,7 +181,7 @@ export function useRosterUnitCard(props) {
   // Cold Fervour's first bullet (+2 Strength to every DESTROYER CULT model) reach that Overlord.
   const modifierGrantedKeywords = computed(() => {
     const printed = datasheets.value.find((d) => d.id === props.unitId)
-    const base = [...(printed?.keywords || []), ...(printed?.factionKeywords || []), ...view.value.grantedKeywords.map((g) => g.kw)]
+    const base = [...unitKeywordsOf(printed), ...view.value.grantedKeywords.map((g) => g.kw)]
     return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value, activeConds.value, activeStratIds.value)
   })
 
@@ -189,8 +190,7 @@ export function useRosterUnitCard(props) {
     // Keywords a detachment GRANTS count too — a unit made Battleline by the roster's detachment is
     // targeted by a rule that says "BATTLELINE units from your army".
     return [
-      ...(en?.keywords || []),
-      ...(en?.factionKeywords || []),
+      ...unitKeywordsOf(en),
       ...view.value.grantedKeywords.map((g) => g.kw),
       ...modifierGrantedKeywords.value.map((g) => g.kw),
     ]
@@ -336,7 +336,7 @@ export function useRosterUnitCard(props) {
     props.ctx?.units,
     (id) => {
       const d = datasheets.value.find((x) => x.id === id)
-      return d ? [...(d.keywords || []), ...(d.factionKeywords || [])] : []
+      return unitKeywordsOf(d)
     },
   ))
 

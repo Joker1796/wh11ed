@@ -935,6 +935,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 10 }
+    ],
     "flavor": "With pinpoint accuracy, Gladiator Lancer crews use this battle tank’s laser destroyer to spear through the heaviest enemy armour and punch smouldering holes in the flesh of xenos monstrosities. Such is the range of its heavy cannon that it can eliminate threats to the Black Templars before their battle-brothers encounter them, storming past their wrecks to seek the next affront to the Emperor.",
     "profiles": [
       {
@@ -1037,6 +1040,9 @@ export default [
         "points": 185,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 10 }
     ],
     "flavor": "When the cannons of the Gladiator Reaper spin to full pitch, the whining drone is likened to the sharpening of the Emperor’s just blade and a sensation which only truly discomforts the blasphemous. Within seconds, thousands of spent casings pour over the battle tank’s armoured hide as enemies are erased from existence by the storm of fire.",
     "profiles": [
@@ -1142,6 +1148,9 @@ export default [
         "points": 165,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 10 }
     ],
     "flavor": "The Valiant lays down blistering volleys of holy fire as it escorts transports or supports infantry in ferocious fighting, executing singular threats and vaporising squads of heavily armoured heretics with equal ease. Its twin las-talons spit vindicated death at the foe, making short work of enemy armour, while its hissing multi-meltas turn fortified positions into bubbling slag.",
     "profiles": [
@@ -1344,6 +1353,10 @@ export default [
         "points": 80,
         "note": "4th+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 10 },
+      { "name": "Orbital Comms Array", "points": 10 }
     ],
     "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
     "profiles": [
@@ -1650,6 +1663,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 10 }
+    ],
     "flavor": "Clad in advanced armour plating and armed for any battlefield situation, the Repulsor not only transports its passengers safely, it also provides superb fire support. Dangerous terrain is little impediment to it, its ventral plates channelling gravitic energies that crush obstacles beneath the vehicle’s mass.",
     "profiles": [
       {
@@ -1804,6 +1820,9 @@ export default [
         "points": 285,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 10 }
     ],
     "flavor": "Based on the Repulsor chassis, the Repulsor Executioner sacrifices some transport capacity to accommodate powerful turret weaponry. Even the largest battle tanks can be crippled by the beam of a heavy laser destroyer, while the incinerating blasts of a macro plasma incinerator can obliterate infantry formations.",
     "profiles": [

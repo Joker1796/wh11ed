@@ -10380,6 +10380,9 @@ export default [
         "note": "2nd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Heavy Wraithcannon", "points": 10 }
+    ],
     "flavor": "Wraithknights are as elegantly sinister as they are lethal. Their graceful build and slender limbs belie their tremendous resilience. They move with agility utterly at odds with their colossal size, bounding into position before unleashing firepower of a magnitude capable of eradicating squadrons of enemy armour, devastating infantry phalanxes and turning the tide of battle.",
     "profiles": [
       {

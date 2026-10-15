@@ -7,6 +7,7 @@
 // unit the enhancement names ("'Ardmob Warboss model only", an Upgrade on a vehicle), read from the
 // enhancement's own eligibility.
 import { enhEligible } from './rosterEnhEligible.js'
+import { foldName } from '../utils/foldName.js'
 
 /**
  * @param {{ id: string, slug: string, boxName: string }} box the box (combatPatrol.js)
@@ -27,7 +28,7 @@ export function combatPatrolRoster(box, faction, enhName, newUid) {
   }
   // The box page names an Upgrade plainly ("Goldenwrath"), the list data as appdata does
   // ("Goldenwrath (Upgrade)"): matched without the tag, stored as the list data names it.
-  const key = (n) => String(n || '').replace(/\s*\(upgrade\)\s*$/i, '').replace(/[’']/g, "'").trim().toLowerCase()
+  const key = (n) => foldName(String(n || '').replace(/\s*\(upgrade\)\s*$/i, ''))
   const enh = (det.enhancements || []).find((e) => key(e.name) === key(enhName))
   const bearer = enh && units.find((u) => enhEligible(enh, defOf(u.id)))
   if (bearer) bearer.enh = enh.name

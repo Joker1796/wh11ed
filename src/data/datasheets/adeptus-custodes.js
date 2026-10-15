@@ -758,7 +758,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 230
+        "points": 230,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 260,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Caladius Grav-tank fuses some of the heaviest firepower in the Custodian Guard arsenal with a highly mobile, resilient chassis. Taking as its principal armament either a twin iliastus accelerator cannon or a twin arachnus heavy blaze cannon, the Caladius excels in a range of battlefield roles, far outmatching more primitive vehicles of its class.",
@@ -861,7 +867,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 230
+        "points": 230,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 260,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Contemptor-Achillus adds still greater refinement to an already celebrated blueprint – the revered Contemptor Dreadnought – arming its occupant with a mighty dreadspear equally capable of searing through foes at range or vanquishing them with a single thrust of its glowing blade.",
@@ -970,7 +982,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 220
+        "points": 220,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 250,
+        "note": "3rd+"
       }
     ],
     "flavor": "Like the Sentinel Guard of the ancient Legio Custodes, the Contemptor-Galatus is armed with a power blade and battle shield, albeit of a type greatly superior in size and potency. Coupled with the already resilient Contemptor chassis, this wargear enables the Galatus to stride through the inferno of battle with impunity, slaying elite infantry and crippling vehicles.",
@@ -1045,7 +1063,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 225
+        "points": 225,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 245,
+        "note": "3rd+"
       }
     ],
     "flavor": "Coronus Grav-carriers are the primary tactical transports of the Adeptus Custodes. Their repulsor suspensor technology and flare shielding grants them the speed and survivability to engage or evade myriad threats at will, punishing targets with their potent turret weapons as they speed their elite passengers to the forefront of battle.",
@@ -2149,8 +2173,17 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180
+        "points": 180,
+        "note": "1st"
+      },
+      {
+        "models": 1,
+        "points": 200,
+        "note": "2nd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Praesidium Shield", "points": 25 }
     ],
     "flavor": "Shield‑Captains are among the greatest warriors in the Imperium. No matter which weapons they wield, they display absolute mastery of them. Their tactical and strategic abilities are superlative, and they read the ebb and flow of a war at a glance before directing their forces accordingly.",
     "profiles": [
@@ -2304,7 +2337,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 185
+        "points": 185,
+        "note": "1st"
+      },
+      {
+        "models": 1,
+        "points": 205,
+        "note": "2nd+"
       }
     ],
     "flavor": "A Shield-Captain is already one of the most formidable combatants and superlative strategists in the Imperium. When clad in a nigh-on impenetrable suit of auramite Terminator armour, they become more powerful still – a walking fortress of Imperial might able to shrug off even the most dolorous blows.",
@@ -2428,7 +2467,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 205
+        "points": 205,
+        "note": "1st"
+      },
+      {
+        "models": 1,
+        "points": 225,
+        "note": "2nd+"
       }
     ],
     "flavor": "All Shield‑Captains are decisive warriors who suffer no impediment to their mission, but those swiftest in thought and action soar into battle on Dawneagle jetbikes. They plunge into the heart of the enemy lines to reap a tally with their interceptor lances before arcing away on screaming grav‑engines to strike again elsewhere.",
