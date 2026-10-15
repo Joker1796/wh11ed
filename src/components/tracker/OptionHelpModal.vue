@@ -8,13 +8,7 @@
     <div class="modal-body">
       <!-- What the setting draws, drawn (help/*Demo.vue) — above the words that explain it. -->
       <slot name="demo" />
-      <p
-        v-for="(p, i) in paragraphs"
-        :key="i"
-        class="oh-text"
-      >
-        {{ p }}
-      </p>
+      <HelpText :text="text" />
       <RouterLink
         v-if="linkTo && linkLabel"
         class="oh-link"
@@ -32,11 +26,11 @@
 // (src/data/trackerOptions.js), so their explanations get one component rather than one component
 // each. Prose only; a setting whose answer is a table (Battle Points) keeps its own modal.
 // z-index 410 because it also opens from EditSetupModal, which is itself a modal.
-import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import BaseModal from '../BaseModal.vue'
+import HelpText from './HelpText.vue'
 
-const props = defineProps({
+defineProps({
   title: { type: String, required: true },
   text: { type: String, default: '' },
   // Optional "read the actual rule" link. The setup draft is persisted (useTracker), so
@@ -45,16 +39,9 @@ const props = defineProps({
   linkLabel: { type: String, default: '' },
 })
 defineEmits(['close'])
-
-// A blank line in the string starts a new paragraph — the only markup these texts need.
-const paragraphs = computed(() =>
-  String(props.text).split('\n').map((s) => s.trim()).filter(Boolean),
-)
 </script>
 
 <style scoped>
-.oh-text { margin: 0 0 0.7rem; font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); }
-.oh-text:last-child { margin-bottom: 0; }
 .oh-link {
   display: inline-block;
   margin-top: 0.2rem;

@@ -62,15 +62,10 @@
     @close="open = false"
   >
     <div class="modal-body">
-      <p class="rs-text">
-        {{ labels.trackerRoundsHelp }}
-      </p>
-      <p
-        v-if="phase"
+      <HelpText
         class="rs-text"
-      >
-        {{ labels.trackerRoundsPhasesHelp }}
-      </p>
+        :text="phase ? `${labels.trackerRoundsHelp}\n${labels.trackerRoundsPhasesHelp}` : labels.trackerRoundsHelp"
+      />
       <div class="rs-list">
         <button
           v-for="n in count"
@@ -92,6 +87,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import HelpText from './HelpText.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -183,7 +179,7 @@ function pick(n) {
 }
 .rs-end { flex: 0 0 auto; width: 2px; height: 10px; background: var(--border); }
 
-.rs-text { margin: 0 0 0.8rem; font-size: 0.9rem; line-height: 1.45; }
+.rs-text { margin-bottom: 0.8rem; }
 .rs-list { display: grid; gap: 0.3rem; }
 .rs-item {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
