@@ -1,12 +1,12 @@
 <template>
-  <HelpDemoFrame>
-    <div class="side-colored">
+  <HelpDemoFrame bare>
+    <DemoTabs active="phase">
       <PhaseRules
         v-if="sides"
         :example="sides"
         :side="0"
       />
-    </div>
+    </DemoTabs>
   </HelpDemoFrame>
 </template>
 
@@ -16,6 +16,7 @@
 // the index it reads in a game (phaseIndex.js), so the names are the game's own.
 import { computed, ref } from 'vue'
 import HelpDemoFrame from './HelpDemoFrame.vue'
+import DemoTabs from './DemoTabs.vue'
 import PhaseRules from '../PhaseRules.vue'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
@@ -32,7 +33,10 @@ const stepLabel = (st) => labels.value[`trackerStep${st.replace(/(^|-)(\w)/g, (_
 const sides = computed(() => {
   if (!index.value) return null
   const L = labels.value
-  const turn = BATTLE_PHASES.map((ph) => ({
+  // Only the phases the example has a rule in: a help is short (owner), and the empty folds say
+  // nothing the full tab would not.
+  const shown = BATTLE_PHASES.filter((ph) => PHASE_RULES_DEMO.rows.some(([p]) => p === ph))
+  const turn = shown.map((ph) => ({
     key: ph,
     title: phaseLabel(ph, L),
     steps: PHASE_STEPS[ph].map((st) => ({

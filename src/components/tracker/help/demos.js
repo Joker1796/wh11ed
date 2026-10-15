@@ -92,15 +92,14 @@ export function demoGame({ scoreMode = 'vp', sideColors = null } = {}) {
 
 // ── CP and stratagems: the CP tab's bank line and three of its rows ──────────────────────────
 // A side with 1 CP and this round's bonus taken; one stratagem to play, one used this round (once
-// per battle, so now closed), one it cannot afford. `block` is the reason key CpStratagems would
-// give (trackerStratBlock_*).
+// per battle, so now closed) — two rows, the help is short (owner). `block` is the reason key
+// CpStratagems would give (trackerStratBlock_*).
 export const CP_DEMO = {
   cp: 1,
   bonus: true,
   rows: [
     { name: 'Command Re-roll' },
     { name: 'Insane Bravery', used: 1, undoable: true, block: 'perBattle' },
-    { name: 'Counteroffensive', block: 'cp' },
   ],
 }
 
