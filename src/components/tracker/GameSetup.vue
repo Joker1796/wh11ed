@@ -956,13 +956,15 @@
               :layouts="layouts"
               :selected="settings.layout"
               :custom="!settings.combatPatrol"
+              :letters="settings.combatPatrol"
               @select="selectLayout"
               @custom="layoutPickerOpen = true"
-            />
-            <CpLayoutRoll
-              v-if="settings.combatPatrol"
-              @roll="selectLayout"
-            />
+            >
+              <CpLayoutRoll
+                v-if="settings.combatPatrol"
+                @roll="selectLayout"
+              />
+            </LayoutTabs>
             <p class="layout-note">
               {{ settings.combatPatrol ? labels.trackerCpLayoutNote : labels.trackerLayoutNote }}
             </p>
@@ -984,13 +986,15 @@
               :layouts="layouts"
               :selected="settings.layout"
               :custom="!settings.combatPatrol"
+              :letters="settings.combatPatrol"
               @select="selectLayout"
               @custom="layoutPickerOpen = true"
-            />
-            <CpLayoutRoll
-              v-if="!desk && settings.combatPatrol"
-              @roll="selectLayout"
-            />
+            >
+              <CpLayoutRoll
+                v-if="settings.combatPatrol"
+                @roll="selectLayout"
+              />
+            </LayoutTabs>
             <LayoutCard
               v-if="currentLayout"
               :layout="currentLayout"

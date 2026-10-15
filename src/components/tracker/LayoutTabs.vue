@@ -1,5 +1,8 @@
 <template>
-  <div class="tabs layout-tabs">
+  <div
+    class="tabs layout-tabs"
+    :class="{ letters }"
+  >
     <button
       v-for="l in layouts"
       :key="l.id"
@@ -17,6 +20,8 @@
     >
       {{ labels.trackerLayoutCustom }}
     </button>
+    <!-- Whatever else picks a layout rides at the end of the row (Combat Patrol's D6 roll). -->
+    <slot />
   </div>
 </template>
 
@@ -34,6 +39,9 @@ defineProps({
   selected: { type: String, default: null },
   // Combat Patrol plays only its own three maps: no "custom" tab.
   custom: { type: Boolean, default: true },
+  // The letter alone at every width, on a square — so a row with something after it (Combat
+  // Patrol's D6 roll) stays one row in the desk's narrow side column too.
+  letters: { type: Boolean, default: false },
 })
 defineEmits(['select', 'custom'])
 
@@ -49,5 +57,11 @@ const labels = computed(() => ui[locale.value])
 @media (max-width: 700px) {
   .tab-word { display: none; }
   .tab { min-width: 44px; min-height: 44px; }
+}
+.letters .tab-word { display: none; }
+.letters .tab { min-width: 44px; min-height: 44px; }
+/* The narrowest side column (see CpLayoutRoll): 40px squares, so the roll still fits beside them. */
+@media (min-width: 701px) and (max-width: 789px) {
+  .letters .tab { min-width: 40px; padding-inline: 0; }
 }
 </style>
