@@ -1331,9 +1331,6 @@ describe('a default loadout that costs points', () => {
       'astra-militarum/leman-russ-exterminator',
       'astra-militarum/leman-russ-punisher',
       'astra-militarum/leman-russ-vanquisher',
-      // Black Templars' own Gladiator Valiant: the MFM's 145 plus 10 for each of its two
-      // multi-meltas — 165, the Space Marines Valiant's flat price. The app prices the meltas at 0.
-      'black-templars/gladiator-valiant',
       'drukhari/ravager',
       'genestealer-cults/achilles-ridgerunners',
       // app data 963: the Terminator Assault Squad's hammer became a pick, and the Repulsor
@@ -1343,6 +1340,18 @@ describe('a default loadout that costs points', () => {
       'tau-empire/crisis-fireknife-battlesuits',
       'tau-empire/crisis-starscythe-battlesuits',
     ])
+  })
+
+  // The MFM's wargear row names an item, not whether the starting copies are paid: Black Templars'
+  // Valiant starts with two multi-meltas the app prices at 0, and "per Multi-melta 10 pts" is the
+  // optional third. 2.9.1 charged the two and sold the tank at 165 (player report, 2026-10-15).
+  it('charges a default only where the app prices it too', async () => {
+    const bt = await loadRosterFaction('black-templars')
+    const unit = bt.units.find((u) => u.id === 'gladiator-valiant')
+    expect(unit.dw).toBeUndefined()
+    expect(unitPoints(unit, { size: 0, count: 1 })).toBe(145)
+    const extra = unit.gear.findIndex((g) => g.o?.some(([, pts]) => pts === 10))
+    expect(unitPoints(unit, { size: 0, count: 1, wg: [[extra, 0, 1]] })).toBe(155)
   })
 
   // A "Default Wargear" group counts the copies the whole profile fields where a loadout row

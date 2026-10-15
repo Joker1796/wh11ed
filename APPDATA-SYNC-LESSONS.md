@@ -1278,3 +1278,9 @@ and appdata state fresh; a data model can change between now and when this is ne
     "Desperate Escape" that still says "forces". The omissions gate merges both by design, so the
     stale word is an ALLOW with that reason. Likewise GW printed one Core Rules FAQ question three
     times with growing examples; `corefaq` now counts identical questions once, longest answer.
+
+93. **An MFM wargear row names an item, not which copies it prices.** "WARGEAR OPTIONS per
+    Multi-melta 10 pts" under Black Templars' Gladiator Valiant is the optional third melta; the
+    two it starts with are 0 in the app. 2.9.1 charged every copy by name and sold the tank at 165
+    against the MFM's 145 until a player reported it (2026-10-15). A default is charged only where
+    the app's own default row is priced too; the run lists the rest as "not charged".
