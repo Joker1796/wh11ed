@@ -416,7 +416,10 @@
                       </span>
                       <!-- No chevron (owner, 2026-09-30): the row opens a dialog, not a fold, and a
                            chevron beside it read as one. -->
-                      <span class="rvunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
+                      <span
+                        v-if="!roster.cp"
+                        class="rvunit-pts"
+                      >{{ entryMeta.get(e.uid)?.points }}</span>
                     </button>
                     <!-- What THIS unit has done, right where its numbers are. Army-wide states stay above
                    the list — those are facts about the battle, not about a unit — and these are the
@@ -491,7 +494,10 @@
                     <span class="rvunit-text">
                       <span class="rvunit-name">{{ c.name }}</span>
                     </span>
-                    <span class="rvunit-pts">0</span>
+                    <span
+                      v-if="!roster.cp"
+                      class="rvunit-pts"
+                    >0</span>
                     <i class="wi wi-chevron-right rvunit-chev" />
                   </button>
                 </template>
@@ -640,6 +646,7 @@ import { buildRosterText } from '../../composables/rosterExport.js'
 import { playRoster } from '../../composables/playRoster.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
+import { provideCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
@@ -838,7 +845,10 @@ if (props.inTracker) {
 }
 
 // ── Compact roster data (unit names/sizes/points), same lazy source the editor uses ──
-const { factionData } = useRosterFactionData(() => roster.value?.faction, { allies: () => usesAllies(roster.value) })
+// A Combat Patrol box fielded as a list (`roster.cp`): its units, detachment and sheets join the
+// faction's, here and in every card under this screen (useCombatPatrolBox).
+provideCombatPatrolBox(() => roster.value?.cp)
+const { factionData } = useRosterFactionData(() => roster.value?.faction, { allies: () => usesAllies(roster.value), cp: () => roster.value?.cp })
 
 // Everything this screen reads off the pair — the unit lookup, the detachments in play, the battle
 // size, the pricing, the sectioning and the legality verdict — is useRosterDerived.js, so the list
@@ -852,7 +862,8 @@ const {
 // its limit (owner, 2026-10-03). A phone has no card beside it and always shows it.
 const overLimit = computed(() => legalityOn(roster.value) && points.value > limit.value)
 const ownLimits = computed(() => ownLimitsLines(effectiveBattle(roster.value || {}, rosterCore), labels.value).length > 0)
-const showPoints = computed(() => !!roster.value?.faction && (!props.inDesk || ownLimits.value || overLimit.value))
+// A Combat Patrol box has no points: neither the total nor a unit's 0 says anything there.
+const showPoints = computed(() => !!roster.value?.faction && !roster.value?.cp && (!props.inDesk || ownLimits.value || overLimit.value))
 // A faction keyword tapped in a rule on this screen lists this list's own units first.
 useKeywordContext(() => ({ faction: roster.value?.faction, unitIds: roster.value?.units?.map((u) => u.id) }))
 
@@ -866,9 +877,9 @@ const fullSheets = ref(new Map())
 // its own faction's file (Draxus is an Imperial Agents sheet), and without this every ally row
 // would quietly lose its statline plates and its live rules.
 const allySlugs = computed(() => [...new Set((roster.value?.units || []).map((u) => allySourceOf(u.id)?.[0]).filter(Boolean))])
-watch([() => roster.value?.faction, allySlugs], async ([slug, srcs]) => {
+watch([() => roster.value?.faction, allySlugs, () => roster.value?.cp], async ([slug, srcs, cp]) => {
   if (!slug) { fullSheets.value = new Map(); return }
-  const lists = await Promise.all([loadDatasheets(slug), ...srcs.map((s) => loadDatasheets(s))])
+  const lists = await Promise.all([loadDatasheets(slug, { cp }), ...srcs.map((s) => loadDatasheets(s))])
   if (roster.value?.faction !== slug) return
   const m = new Map()
   for (const d of lists[0] || []) m.set(d.id, d)
@@ -893,7 +904,7 @@ watch([() => roster.value?.faction, fullSheets, locale], async ([slug, sheets, l
     ;({ localizeSheet } = await import('../../data/datasheets/ru/index.js'))
     const { loadDatasheetsRu } = await import('../../data/datasheets/ru/index.js')
     const slugs = [slug, ...allySlugs.value]
-    const loaded = await Promise.all(slugs.map((s) => loadDatasheetsRu(s)))
+    const loaded = await Promise.all(slugs.map((s, i) => loadDatasheetsRu(s, { cp: i === 0 ? roster.value?.cp : null })))
     if (roster.value?.faction !== slug) return
     slugs.forEach((s, i) => ruBySlug.set(s, loaded[i]))
   }

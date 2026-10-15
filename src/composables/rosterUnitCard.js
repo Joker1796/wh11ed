@@ -30,6 +30,7 @@ import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
+import { useCombatPatrolBox } from './useCombatPatrolBox.js'
 import { localizeSheet } from '../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from './useDatasheetsRu.js'
 
@@ -55,21 +56,23 @@ export function useRosterUnitCard(props) {
   /** @type {import('vue').Ref<Datasheet[]>} */
   const datasheets = ref([])
   const loaded = ref(false)
+  // A Combat Patrol box's units have their sheets in combatPatrol.js (useCombatPatrolBox).
+  const cpBox = useCombatPatrolBox()
   watch(
-    () => props.factionSlug,
-    async (slug) => {
+    [() => props.factionSlug, cpBox],
+    async ([slug, cp]) => {
       datasheets.value = []
       loaded.value = false
       if (!slug) return
-      const list = await loadDatasheets(slug)
-      if (props.factionSlug !== slug) return
+      const list = await loadDatasheets(slug, { cp })
+      if (props.factionSlug !== slug || cpBox.value !== cp) return
       if (list) datasheets.value = list
       loaded.value = true
     },
     { immediate: true },
   )
 
-  const ruModule = useDatasheetsRu(() => props.factionSlug)
+  const ruModule = useDatasheetsRu(() => props.factionSlug, () => cpBox.value)
 
   // Any datasheet from this faction, in the current locale. Shared by the viewed sheet and by an
   // attached Leader's abilities below — those must be translated too, not left English in RU.

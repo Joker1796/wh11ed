@@ -483,6 +483,28 @@
                       {{ labels.trackerNoDetachments }}
                     </p>
                   </ExpandTransition>
+                  <!-- The one choice a box leaves: which of its two enhancements to take (the
+                       mission sequence's Declare Battle Formations). GW's default is lit until the
+                       other is picked; the game's list puts it on the unit it names. -->
+                  <ExpandTransition>
+                    <div
+                      v-if="cpFactionFor(m)?.enhancements?.length > 1"
+                      class="field cp-enh"
+                    >
+                      <span>{{ labels.trackerCpEnhancement }}</span>
+                      <div class="seg seg-fill">
+                        <button
+                          v-for="e in cpFactionFor(m).enhancements"
+                          :key="e.name"
+                          type="button"
+                          :class="{ on: (m.cpEnh || defaultCombatPatrolEnhancement(cpFactionFor(m))) === e.name }"
+                          @click="m.cpEnh = e.name"
+                        >
+                          {{ e.name }}
+                        </button>
+                      </div>
+                    </div>
+                  </ExpandTransition>
                 </div>
               </ExpandTransition>
             </div>
@@ -1156,7 +1178,7 @@
         </button>
         <button
           class="btn-primary"
-          :disabled="!canStart"
+          :disabled="!canStart || starting"
           data-tour="setup-start"
           @click="guardColors(start)"
         >
@@ -1306,8 +1328,10 @@ import { useParty } from '../../composables/useParty.js'
 import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
+import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../composables/combatPatrolRoster.js'
+import { loadRosterFaction } from '../../data/roster/index.js'
 import RosterPickerModal from './RosterPickerModal.vue'
-import { useRosters } from '../../composables/useRosters.js'
+import { useRosters, uid as newRosterUid } from '../../composables/useRosters.js'
 import { ownLimitsOf, ownLimitsSummary } from '../../composables/ownLimits.js'
 import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import TrackOptions from './TrackOptions.vue'
@@ -1775,6 +1799,7 @@ const cpBoxPickerKey = ref('')
 function applyCpBox(p, cp) {
   p.detachments = [cp.rule.name]
   p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+  p.cpEnh = defaultCombatPatrolEnhancement(cp)
 }
 function pickCpBox(p, cp) { applyCpBox(p, cp) }
 
@@ -2119,14 +2144,38 @@ watch([step, () => players, () => settings], () => {
 
 function clearDraft() { setupDraft.value = null }
 
-function start() {
-  clearDraft()
-  emit('start', {
-    // Rows this game cannot offer are written OFF rather than at whatever the last game left in
-    // them — the checkbox was disabled, so the value behind it was never the player's answer.
-    settings: normalizeTrackSettings(settings, trackCtx.value),
-    players: players.map(p => ({ ...p })),
-  })
+// A Combat Patrol army goes into the game as its box's list (combatPatrolRoster.js), so the game
+// screen's Armies tab shows its units like any list's. Built here, at the start, from the box and
+// the enhancement picked — the list cannot be chosen, so it is never attached before.
+async function combatPatrolRosterFor(p) {
+  const box = cpFactionFor(p)
+  if (!box) return null
+  const faction = await loadRosterFaction(box.slug, { cp: box.id })
+  return rosterSnapshot(combatPatrolRoster(box, faction, p.cpEnh || defaultCombatPatrolEnhancement(box), newRosterUid))
+}
+
+const starting = ref(false)
+async function start() {
+  if (starting.value) return
+  starting.value = true
+  try {
+    const out = players.map(p => ({ ...p }))
+    if (settings.combatPatrol) {
+      for (const p of out) {
+        p.roster = await combatPatrolRosterFor(p)
+        p.rosterId = null
+      }
+    }
+    clearDraft()
+    emit('start', {
+      // Rows this game cannot offer are written OFF rather than at whatever the last game left in
+      // them — the checkbox was disabled, so the value behind it was never the player's answer.
+      settings: normalizeTrackSettings(settings, trackCtx.value),
+      players: out,
+    })
+  } finally {
+    starting.value = false
+  }
 }
 function cancel() {
   clearDraft()

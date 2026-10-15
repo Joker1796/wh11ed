@@ -697,6 +697,18 @@ hides the custom tab) with a D6 roll (`CpLayoutRoll.vue`). The stratagems page d
 Battle Ready's +10 is the ordinary checkbox — GW suggests leaving it off for a newcomer. The caps
 are the ordinary ones too: the Combat Patrol pack in appdata says 15 a round, 45 a game.
 
+**A Combat Patrol army is its box's list** (beta, 2026-10-15). At Start, `GameSetup` builds each
+player's box as a roster (`combatPatrolRoster.js`: the box detachment's `linkedUnits` — a unit
+twice for two of it — its flagged Warlord, and the enhancement picked on step 1, GW's default lit,
+on the unit it names) and attaches the snapshot, so the Armies tab shows the box like any list:
+cards, states, reserves. The list carries `cp: <box id>`; the roster screen provides it
+(`useCombatPatrolBox`) and the loaders take it — `loadRosterFaction(slug, { cp })` adds the box's
+units and detachment (`src/data/roster/combat-patrol/<box>.js`, generated, a folder the faction
+glob never reaches so no catalogue offers them), `loadDatasheets/loadDatasheetsRu(slug, { cp })`
+its sheets from combatPatrol.js (`combatPatrolSheets.js`). No points are shown for such a list.
+Not yet: modifiers from the box's own rules (detachment rule, army rule as printed in the box,
+stratagems, enhancements) — the cards print their characteristics as written.
+
 ## Scoring
 
 **Scoring** is by *condition*, not free entry: each mission block row is scored via `ScoringModal.vue` (a count stepper for "For each…" rows, a checkbox otherwise); `picks` store per-row counts keyed `blockIdx:rowIdx`, and VP = Σ count·rowVP. Caps: primary **15/round**, **45/game**; fixed secondary **20** each; secondary **45** total; Battle Ready **+10**. `scorableBlocks(slug, role, round, locale)` round-gates blocks by their English heading (`BLOCK_ROUNDS`) — e.g. "Second Battle Round Onwards"/"End of Battle" aren't scorable in round 1 — and derives the per-each flag from the **English** text (display text is localized). Lookup/logic always read `missions.en` (slug/VP/structure are language-agnostic); `missionBySlug(slug, role, locale)` overlays `missionsRu.js` text for display only. **`or` brackets are mutually exclusive:** setting one bracket row clears the competing rows in its group (`orSiblingKeys` in `setPrimaryRow`/`scoreSecondaryRow`); per-tally "For each…/Each time…" `or` rows stay independent (and don't show the "Or" label).

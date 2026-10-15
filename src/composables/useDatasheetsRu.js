@@ -10,18 +10,19 @@ import { loadDatasheetsRu } from '../data/datasheets/ru/index.js'
 
 /**
  * @param {() => string | null | undefined} slugOf the faction slug, read reactively
+ * @param {() => string | null | undefined} [cpOf] a Combat Patrol box whose sheets join the faction's
  */
-export function useDatasheetsRu(slugOf) {
+export function useDatasheetsRu(slugOf, cpOf = () => null) {
   const { locale } = useLocale()
   /** @type {import('vue').Ref<import('../data/data.types.js').DatasheetsRuModule | null>} */
   const ruModule = ref(null)
   watch(
-    [slugOf, locale],
-    async ([slug, loc]) => {
+    [slugOf, locale, cpOf],
+    async ([slug, loc, cp]) => {
       ruModule.value = null
       if (!slug || loc !== 'ru') return
-      const mod = await loadDatasheetsRu(slug)
-      if (slugOf() === slug && locale.value === 'ru') ruModule.value = mod
+      const mod = await loadDatasheetsRu(slug, { cp })
+      if (slugOf() === slug && locale.value === 'ru' && (cpOf() || null) === (cp || null)) ruModule.value = mod
     },
     { immediate: true },
   )

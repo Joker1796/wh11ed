@@ -80,7 +80,7 @@ export async function loadStratTargets(game, pi, strat) {
   for (const [mi, m] of membersOf(side).entries()) {
     const roster = rosterFromPlayer(m)
     if (!roster?.units?.length) continue
-    const data = await loadRosterFaction(roster.faction || m.factionSlug, { allies: usesAllies(roster) })
+    const data = await loadRosterFaction(roster.faction || m.factionSlug, { allies: usesAllies(roster), cp: roster.cp || null })
     const defs = new Map((data?.units || []).map((u) => [u.id, u]))
     const rec = kind === 'own' ? recordFor(strat, usableEntries(await loadRosterModifiers(m.factionSlug))) : null
     const member = m === side ? side : m

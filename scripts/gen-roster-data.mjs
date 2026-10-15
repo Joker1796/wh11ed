@@ -360,7 +360,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {} }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -2871,7 +2871,7 @@ function buildEnhancement(e, nameToDsId, idMap) {
   return enh
 }
 
-function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug) { // idMap also reaches buildEnhancement
+function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug, { combatPatrol = false } = {}) { // idMap also reaches buildEnhancement
   // The Detachment-Points cost + Force Disposition come from mfm (what the tracker shows), not
   // appdata's detachmentPointsCost — those disagree (appdata is 0 for standard detachments).
   const mfm = mfmDet.get(norm(bdet.name))
@@ -2923,7 +2923,8 @@ function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug) { // idM
   const grantedUnits = resolveMinis(detGrantedWarlord.get(bdet.id) || [])
   if (grantedUnits.length) det.grantedWarlord = grantedUnits
   const enhancements = (enhByDet.get(bdet.id) || [])
-    .filter((e) => !e.isCombatPatrol)
+    // A Combat Patrol box's own two are its detachment's (genCombatPatrol); elsewhere they are not.
+    .filter((e) => combatPatrol || !e.isCombatPatrol)
     .sort((a, b) => a.displayOrder - b.displayOrder)
     .map((e) => buildEnhancement(e, nameToDsId, idMap))
   det.enhancements = enhancements
@@ -3281,12 +3282,7 @@ async function allyUnits(data) {
   return out
 }
 
-/**
- * @param {string} slug
- * @param {{ allies?: boolean }} [opts]
- * @returns {Promise<import('../../composables/roster.types.js').RosterFaction | null>}
- */
-export async function loadRosterFaction(slug, { allies = false } = {}) {
+async function loadFactionData(slug, { allies = false } = {}) {
   const raw = await load(slug)
   if (!raw) return null
   // A detachment printed in this faction's book for OTHER armies (\`lend\`) is not one of its own:
@@ -3330,6 +3326,26 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
   }
   const detachments = [...[...data.detachments].sort(byName), ...dets]
   return { ...data, units, detachments }
+}
+
+// A Combat Patrol box fielded as a list (the tracker's Combat Patrol game): its fixed units and its
+// one detachment, a chunk per box in ./combat-patrol/ — a folder the faction glob above never
+// reaches, so no catalogue offers these units. Only a list that names its box (\`cp\`) asks.
+const boxLoaders = import.meta.glob('./combat-patrol/*.js', { import: 'default' })
+
+/**
+ * @param {string} slug
+ * @param {{ allies?: boolean, cp?: string | null }} [opts] \`cp\` — the Combat Patrol box id
+ * @returns {Promise<import('../../composables/roster.types.js').RosterFaction | null>}
+ */
+export async function loadRosterFaction(slug, { allies = false, cp = null } = {}) {
+  const data = await loadFactionData(slug, { allies })
+  if (!data || !cp) return data
+  const loader = boxLoaders['./combat-patrol/' + cp + '.js']
+  const box = loader ? await loader() : null
+  if (!box) return data
+  const units = [...data.units, ...box.units].sort((a, b) => a.name.localeCompare(b.name))
+  return { ...data, units, detachments: [box.detachment, ...data.detachments], cp: box.box }
 }
 
 export { default as rosterCore } from './core.js'
@@ -3591,6 +3607,78 @@ function genChapterDetachments() {
 export async function run(argv = process.argv.slice(2)) {
 CHECK = argv.includes('--check')
 
+// ── Combat Patrol boxes as rosters ──────────────────────────────────────────────────────────────
+// A box IS an army — fixed units, one detachment, two enhancements to pick one of — so the tracker
+// fields it as a list (its Armies tab shows a list without leaving the game; owner, 2026-10-15).
+// One file per box, `combat-patrol/<box id>.js` — a folder of its own so the faction loader's glob
+// never sees these units and the roster builder's catalogue never offers them:
+//   { box, slug, units, detachment } — the box's composition and Warlord are detachment.linkedUnits
+// Unit ids are combatPatrol.js's (the datasheets the box page and the roster card draw). appdata
+// files two units of one name as two datasheets: identical twins map to one id with count 2; the
+// Orks' two Boyz differ in the Boss Nob's guns, and match their entry by the weapons it lists.
+async function genCombatPatrol() {
+  const { combatPatrol } = await import(pathToFileURL(path.join(ROOT, 'src/data/combatPatrol.js')).href)
+  const pubByBox = new Map(publications.filter((p) => p.isCombatPatrol).map((p) => [norm(enOf(p).name.replace(/^Combat Patrol:\s*/i, '')), p.id]))
+  const pubOf = new Map(datasheets.map((d) => [d.id, d.publicationId]))
+  const weapons = (d) => new Set([...(d.ranged || []), ...(d.melee || [])].map((w) => norm(w.name)))
+  for (const box of combatPatrol.en.factions) {
+    const bundle = loadJson(path.join(APPDATA, 'factions', `${SLUG_MAP[box.slug] || box.slug}.json`))
+    const det = (bundle?.detachments || []).find((d) => d.isCombatPatrol && norm(d.name) === norm(box.boxName))
+    const pub = det && pubByBox.get(norm(det.name))
+    if (!pub) { report.cp.missing.push(box.id); continue }
+    const sheets = bundle.datasheets.filter((d) => d.isCombatPatrol && pubOf.get(d.id) === pub)
+    const ourId = (bd) => {
+      const named = box.datasheets.filter((x) => norm(x.name) === norm(bd.name))
+      if (named.length < 2) return named[0]?.id
+      const has = new Set((bd.wargear || []).map((w) => norm(w.name)))
+      return named.find((x) => [...weapons(x)].every((w) => has.has(w)))?.id
+    }
+    const idMap = new Map(sheets.map((bd) => [bd.id, ourId(bd)]))
+    for (const bd of sheets) if (!idMap.get(bd.id)) report.cp.unmatched.push(`${box.id}: ${bd.name}`)
+    const kwIndex = new Map()
+    for (const d of sheets) for (const k of d.keywords || []) {
+      const n = norm(k)
+      if (!kwIndex.has(n)) kwIndex.set(n, [])
+      kwIndex.get(n).push(d.id)
+    }
+    WARGEAR_MFM = new Map()
+    // A box has no points: its units carry none, and the MFM's silence about them is not news.
+    const quiet = report.price.noUnit.length
+    const units = []
+    for (const bd of sheets) {
+      const id = idMap.get(bd.id)
+      if (!id || units.some((u) => u.id === id)) continue
+      const u = buildUnit(bd, idMap, fx, kwIndex, new Map())
+      for (const sz of u.sizes || []) sz.pts = 0
+      units.push(u)
+    }
+    report.price.noUnit.length = quiet
+    // GW names a leader's bodyguards by NAME, and a box with two units of that name (the Orks'
+    // two Boyz) resolves the name to one of them: the leader joins either.
+    for (const u of units) {
+      if (!u.leads) continue
+      const more = []
+      for (const l of u.leads) {
+        const name = units.find((x) => x.id === l.to)?.name
+        for (const twin of units) if (twin.id !== l.to && twin.name === name && !u.leads.some((x) => x.to === twin.id)) more.push({ ...l, to: twin.id })
+      }
+      u.leads.push(...more)
+    }
+    units.sort((a, b) => a.name.localeCompare(b.name))
+    const nameToDsId = new Map(sheets.map((d) => [normApost(d.name), d.id]))
+    // The box's composition is the detachment's `linkedUnits` (a unit twice for two of it) and its
+    // Warlord the one flagged there.
+    // A box's Upgrade is one copy in a box of one army, not one of the muster rules' three: the
+    // Upgrade-limit audit is about armies built from a codex, and stays out of a box's two.
+    const auditBefore = new Set(report.upgradeLimit.unexplained)
+    const detachment = buildDetachment(det, idMap, new Map(), nameToDsId, new Map(), box.slug, { combatPatrol: true })
+    for (const l of [...report.upgradeLimit.unexplained]) if (!auditBefore.has(l)) report.upgradeLimit.unexplained.delete(l)
+    report.cp.boxes++
+    report.cp.units += units.length
+    writeOut(`combat-patrol/${box.id}.js`, `${HEAD}export default ${stableJson({ box: box.id, slug: box.slug, units, detachment })}\n`)
+  }
+}
+
 // Always regenerate every faction: the intern dictionaries (items.js) are global and their
 // ids are assigned in iteration order, so a partial run would desync them from the faction
 // files. This is fast (~1s) and keeps ids stable.
@@ -3598,6 +3686,7 @@ const slugs = fs.readdirSync(path.join(ROOT, 'src/data/factions'))
   .filter((f) => f.endsWith('.js') && f !== 'index.js')
   .map((f) => f.replace(/\.js$/, ''))
 fs.mkdirSync(OUT, { recursive: true })
+fs.mkdirSync(path.join(OUT, 'combat-patrol'), { recursive: true })
 genCore()
 for (const slug of slugs) await genFaction(slug)
 for (const { slug, data } of built) {
@@ -3613,6 +3702,7 @@ for (const { slug, data } of built) {
   crossGroupPerModel(slug, data.units)
   writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
 }
+await genCombatPatrol()
 genItems() // after all factions — the intern dicts are complete
 genIndex()
 genChapterDetachments()
@@ -3620,6 +3710,7 @@ genLedBy()
 genPoolMoves()
 
 console.log(`\nroster data: ${report.factions} factions, ${report.units} units (${report.linked} linked, ${report.unlinked.length} unlinked)`)
+console.log(`  combat patrol: ${report.cp.boxes} boxes as rosters, ${report.cp.units} units`)
 const pr = report.price
 console.log(`  points: ${pr.repriced} brackets take the MFM's price over appdata's; ${pr.collapsed} duplicate price rows collapsed (a Chapter/allied price is not a unit size); ${pr.chapterOverrides} shared units carry a Chapter price`)
 if (pr.noUnit.length) console.log(`    no MFM entry at all (kept appdata's price), ${pr.noUnit.length}: ${[...new Set(pr.noUnit)].join('; ')}`)
@@ -3776,6 +3867,11 @@ if (unusedLockFixes.length) {
 }
 if (report.wargearMfm.unmatched.length) {
   console.log(`\n  ✗ ${report.wargearMfm.unmatched.length} MFM wargear price(s) match no option of their unit — the MFM names the item otherwise, or the unit lost it: ${report.wargearMfm.unmatched.join('; ')}`)
+  return 1
+}
+// A box this cannot field is a box the tracker would start with a hole in it.
+if (report.cp.missing.length || report.cp.unmatched.length) {
+  console.log(`\n  ✗ Combat Patrol boxes as rosters: ${[...report.cp.missing.map((b) => `${b}: no box detachment/publication in appdata`), ...report.cp.unmatched.map((u) => `${u}: no entry of combatPatrol.js`)].join('; ')}`)
   return 1
 }
 if (report.dnu.length) {
