@@ -802,19 +802,16 @@ function footLine(g) {
 .res-win .gc-result { color: #e3b341; }
 .res-loss .gc-result { color: var(--danger); }
 .res-draw .gc-result { color: var(--text-dim); }
-/* The game in progress: its frame in amber (owner, 2026-10-15 — the house red is everywhere on this
-   screen, a red frame did not stand out), breathing, the card a shade warmer — a fade, never a move
-   (the house rule), and still under reduced motion (the token is 0 there). The palette's amber,
-   `--warning`, for its two theme shades, not for what it means elsewhere. */
-.game.live { --live: var(--warning); border-color: var(--live); background: color-mix(in srgb, var(--live) 8%, var(--bg-card)); }
+/* The game in progress: its frame in the accent, breathing, the card a shade warmer — a fade, never
+   a move (the house rule), and still under reduced motion (the token is 0 there). */
+.game.live { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--bg-card)); }
 .game.live::after {
   content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  border: 2px solid var(--live);
+  border: 2px solid var(--accent);
   animation: live-frame calc(var(--motion-slow) * 6) ease-in-out infinite;
 }
 @keyframes live-frame { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
-.live .gc-result { color: var(--live); }
-.game.live:hover { border-color: var(--live); }
+.live .gc-result { color: var(--accent-ink); }
 
 .gc-foot { text-align: center; margin-top: 0.4rem; font-size: 0.74rem; color: var(--text-dim); }
 
