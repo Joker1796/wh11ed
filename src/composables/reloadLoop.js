@@ -15,6 +15,10 @@ import { getItem, setItem } from './safeStorage.js'
 
 const BOOTS_KEY = 'wh11ed-boots'
 const HOLD_KEY = 'wh11ed-reload-hold'
+const TRAIL_KEY = 'wh11ed-reload-trail'
+const SW_RELOAD_KEY = 'wh11ed-sw-reload-at'
+/** A new service worker reloads the page at most once in this long (swReload). */
+export const SW_RELOAD_FLOOR_MS = 30 * 1000
 export const LOOP_WINDOW_MS = 20 * 1000
 export const LOOP_BOOTS = 3
 export const HOLD_MS = 10 * 60 * 1000
@@ -37,6 +41,43 @@ export function reloadsHeld(now = Date.now()) {
   return readNum(HOLD_KEY) > now
 }
 
+// The trail: the last few reloads the app asked for itself, with what the worker looked like —
+// the loop report carries it, so the next one says WHO kept reloading (the first two, 2026-10-15,
+// could only say how the worker stood at the third start).
+const swState = () => {
+  const sw = typeof navigator !== 'undefined' ? navigator.serviceWorker : null
+  return sw ? (sw.controller ? 'ctl' : 'no-ctl') : 'no-sw'
+}
+export function noteReload(reason, now = Date.now()) {
+  let trail = []
+  try { trail = JSON.parse(getItem(TRAIL_KEY) || '[]') } catch { /* starts over */ }
+  trail.push({ t: now, r: reason, sw: swState() })
+  setItem(TRAIL_KEY, JSON.stringify(trail.slice(-5)))
+}
+export function reloadTrail(now = Date.now()) {
+  try {
+    return JSON.parse(getItem(TRAIL_KEY) || '[]').map((e) => `${e.r}@-${((now - e.t) / 1000).toFixed(1)}s/${e.sw}`).join(', ')
+  } catch { return '' }
+}
+
+/**
+ * The reload vite-plugin-pwa asks for once a new worker controls the page (its `onNeedReload` —
+ * given one, the plugin never reloads by itself; both of its reloads go through it, checked in the
+ * built bundle). At most once per SW_RELOAD_FLOOR_MS, and never while a loop is held: a page
+ * asked twice in a row stays on what it has — the new build reaches it on the next load anyway.
+ * Returns whether it reloaded.
+ */
+export function swReload({ now = Date.now(), reload = () => window.location.reload() } = {}) {
+  if (reloadsHeld(now) || now - (Number(getItem(SW_RELOAD_KEY)) || 0) < SW_RELOAD_FLOOR_MS) {
+    noteReload('sw-skipped', now)
+    return false
+  }
+  setItem(SW_RELOAD_KEY, String(now))
+  noteReload('sw', now)
+  reload()
+  return true
+}
+
 /** What the error log is told when a loop is caught: enough to tell the two reloaders apart. */
 export async function loopReport(version) {
   const sw = navigator.serviceWorker
@@ -46,5 +87,5 @@ export async function loopReport(version) {
   return `reload loop caught (${LOOP_BOOTS} starts in ${LOOP_WINDOW_MS / 1000}s) — v${version}, `
     + `${standalone ? 'installed' : 'tab'}, controller ${sw?.controller ? 'yes' : 'no'}, `
     + `sw active ${state(reg?.active)} / waiting ${state(reg?.waiting)} / installing ${state(reg?.installing)}, `
-    + `path ${location.pathname}`
+    + `path ${location.pathname}, trail [${reloadTrail()}]`
 }

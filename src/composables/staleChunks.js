@@ -1,4 +1,4 @@
-import { reloadsHeld } from './reloadLoop.js'
+import { noteReload, reloadsHeld } from './reloadLoop.js'
 
 // A page from an older deploy asking for a chunk the server no longer has.
 //
@@ -52,10 +52,11 @@ export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u
     await reg.update().catch(() => {})
     if (reg.installing || reg.waiting) {
       try { history.replaceState(history.state, '', url) } catch { /* another origin: stay put */ }
-      setTimeout(() => reload(url), SW_GRACE_MS)
+      setTimeout(() => { noteReload('chunk'); reload(url) }, SW_GRACE_MS)
       return true
     }
   }
+  noteReload('chunk')
   reload(url)
   return true
 }
