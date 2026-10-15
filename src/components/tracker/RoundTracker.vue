@@ -327,11 +327,6 @@
           </div>
         </template>
       </div>
-      <!-- The battlefield, for every phone (GameLayout.vue). -->
-      <GameLayout
-        :game="current"
-        :begun="begun"
-      />
     </section>
 
     <!-- Command points (owner, 2026-09-29: two tall banks spent a phone's screen on three copies of
@@ -533,7 +528,6 @@ import NumberStepper from './NumberStepper.vue'
 import CpBank from './CpBank.vue'
 import TurnBar from './TurnBar.vue'
 import GameTabs from './GameTabs.vue'
-import GameLayout from './GameLayout.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'

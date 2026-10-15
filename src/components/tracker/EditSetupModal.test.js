@@ -216,5 +216,17 @@ describe('EditSetupModal — a guest in a shared game', () => {
     await save()
     expect(tracker.current.value.players[0].name).toBe('Me')
   })
+  // Mikhail's report (2026-10-15): the opponent who joined could not see the map. The guest sees
+  // it here, while filling in — read only, the layout is the host's to pick.
+  it('shows the guest the battlefield, without the tabs that change it', () => {
+    startGame()
+    tracker.current.value.begun = false
+    tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
+    tracker.current.value.players.forEach((p, i) => { p.isYou = i === 1 })
+    mount(EditSetupModal)
+    const block = body().find('.layout-block')
+    expect(block.exists()).toBe(true)
+    expect(block.find('.layout-card').exists()).toBe(true)
+    expect(block.find('[role="tab"], .layout-tabs').exists()).toBe(false)
+  })
 })
-

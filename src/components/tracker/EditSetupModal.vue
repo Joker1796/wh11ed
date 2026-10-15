@@ -234,14 +234,18 @@
         />
       </div>
 
+      <!-- The guest sees the map too — read only, the layout is the host's to pick (Mikhail's
+           report, 2026-10-15: "the opponent who joined can't see the map"). Here and not on the
+           game screen: a guest joins in the lobby and reads the battlefield while filling in. -->
       <div
-        v-if="!guest && layouts.length"
+        v-if="guest ? currentLayout : layouts.length"
         class="settings layout-block"
       >
         <h3 class="block-head">
           {{ labels.trackerLayoutHeading }}
         </h3>
         <LayoutTabs
+          v-if="!guest"
           :layouts="layouts"
           :selected="settings.layout"
           :custom="!settings.combatPatrol"
