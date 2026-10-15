@@ -33,6 +33,7 @@ import { APPDATA_EXCEPTIONS, extraKeywords } from './lib/appdata-exceptions.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
+import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
 import { foldChars, foldName } from '../src/utils/foldName.js'
 
 const T = path.join(APPDATA, 'tables')
@@ -3172,8 +3173,9 @@ async function packUnitsFor(slug, units) {
   }
   // Keyword-named Leader targets ("Imperium Battleline Infantry"), against every unit this file
   // will hold — appdata's and the pack's; a keyword that names nothing here resolves to nothing.
-  const kwOf = new Map(units.map((u) => [u.id, (u.kws || []).map(norm)]))
-  for (const d of sheets) kwOf.set(d.id, [...(d.keywords || []), ...(d.factionKeywords || [])].map(norm))
+  // A datasheet's name is one of its keywords (Core Rules) — ruleTargets.js's unitKeywordsOf.
+  const kwOf = new Map(units.map((u) => [u.id, [...(u.kws || []), u.name].map(norm)]))
+  for (const d of sheets) kwOf.set(d.id, unitKeywordsOf(d).map(norm))
   const unitsByKw = (kws) => [...kwOf].filter(([, have]) => kws.every((k) => have.includes(norm(k)))).map(([id]) => id)
   const ctx = { report: report.pack, item: fx.itemByName, text: fx.text, unitIdByName, allegFor, unitsByKw }
   const out = []

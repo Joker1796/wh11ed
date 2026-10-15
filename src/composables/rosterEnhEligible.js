@@ -9,15 +9,18 @@ import { foldName } from '../utils/foldName.js'
 /** @typedef {import('./roster.types.js').Enhancement} Enhancement */
 
 /**
- * @param {{ kws?: string[] } | null | undefined} unit
+ * @param {{ kws?: string[], name?: string } | null | undefined} unit
  * @param {string} name
  * @returns {boolean}
  */
 export function hasKeyword(unit, name) {
-  const n = name.toLowerCase()
+  const n = foldName(name)
   // A unit the data no longer has (an entry left by a retired datasheet) has no keywords — the
   // validator's ally checks ask this of every unit in the army, and threw on one (2026-10-12).
-  return (unit?.kws || []).some((k) => k.toLowerCase() === n)
+  // Its name is one of them: "each datasheet name acts as an additional keyword" (Core Rules) —
+  // appdata does not list it, so "BIG MEK model only" was offered to the Big Mek only because a
+  // datasheet group happened to say so too (2026-10-15).
+  return (unit?.kws || []).some((k) => foldName(k) === n) || (!!unit?.name && foldName(unit.name) === n)
 }
 
 // A tiny handful of enhancements (Necrons' Pantheon of Woe, Imperial Agents' Veiled Blade Elim.
