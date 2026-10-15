@@ -57,7 +57,9 @@ const blocks = computed(() => helpBlocks(props.text))
 .ht-lead { font-weight: 600; color: var(--text-primary); }
 .ht-list { padding-left: 1.1rem; }
 .ht-list li + li { margin-top: 0.2rem; }
-.ht-off { display: flex; gap: 0.4rem; align-items: baseline; font-size: 0.8rem; color: var(--text-dim); }
-.ht-off .wi { flex-shrink: 0; margin: 0; }
+/* The off line lines up with the points above: its text where theirs starts, the mark in the
+   column their bullets stand in, centred on its first line. */
+.ht-off { position: relative; padding-left: 1.1rem; font-size: 0.8rem; color: var(--text-dim); }
+.ht-off .wi { position: absolute; left: 0.1rem; top: calc((1.45em - 0.95em) / 2); width: 0.95em; height: 0.95em; margin: 0; }
 .ht :deep(strong) { font-weight: 700; color: var(--accent-ink); }
 </style>
