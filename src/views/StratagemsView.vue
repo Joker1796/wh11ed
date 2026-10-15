@@ -93,9 +93,11 @@ const opp = computed(() => current.value?.players?.find((p) => !p.isYou) || null
 // Core stratagems and each side's detachment deck (gameStratagems.js — shared with the game
 // screen's CP tab). The faction data is imported dynamically, per side, only while a game is on.
 const coreStrats = ref([])
-watch(locale, async (loc) => {
-  const core = await loadCoreStratagems(loc)
-  if (loc === locale.value) coreStrats.value = core
+// A Combat Patrol game in progress drops the three core stratagems its mission sequence forbids.
+const cpGame = computed(() => hasGame.value && !!current.value?.settings?.combatPatrol)
+watch([locale, cpGame], async ([loc, combatPatrol]) => {
+  const core = await loadCoreStratagems(loc, { combatPatrol })
+  if (loc === locale.value && combatPatrol === cpGame.value) coreStrats.value = core
 }, { immediate: true })
 const youStrats = ref([])
 const oppStrats = ref([])

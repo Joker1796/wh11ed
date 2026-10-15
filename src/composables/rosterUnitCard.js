@@ -25,7 +25,7 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import { overlaySheet, enhKey, detKey, findEnhancementProse, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
 import { ruleAppliesTo } from './ruleTargets.js'
-import { applyStatMods, splitBearers, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from './rosterStatMods.js'
+import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
@@ -263,9 +263,7 @@ export function useRosterUnitCard(props) {
     props.ctx?.detachments,
     view.value.context?.enhancement?.name,
     // The mark this entry chose — a Daemonic Allegiance record modifies only the model that took it.
-    props.ctx?.entry?.alleg && props.ctx?.def?.alleg
-      ? { g: props.ctx.def.alleg.g, opt: props.ctx.entry.alleg }
-      : null,
+    allegianceChoiceOf(props.ctx?.def, props.ctx?.entry),
   )])
 
   // A datasheet ability can modify the unit it is ATTACHED to, so this card's records include the

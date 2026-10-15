@@ -1,6 +1,6 @@
 {
   "name": "wh-rules",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "description": "Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition — core rules, the Event Companion, faction rules and unit datasheets, plus an offline game tracker. A fast, searchable Vue 3 SPA hosted at wh-rules.ru.",
   "scripts": {
     "dev": "vite",
@@ -19,6 +19,7 @@
     "faction-rules:index": "node scripts/gen-faction-rules-index.mjs",
     "phases:index": "node scripts/gen-phase-index.mjs",
     "combat-patrol:index": "node scripts/gen-combat-patrol-search-index.mjs",
+    "combat-patrol:missions": "node scripts/gen-combat-patrol-missions.mjs",
     "sourceids": "node scripts/gen-source-ids.mjs",
     "condkeywords": "node scripts/gen-conditional-keywords.mjs",
     "faq": "node scripts/gen-faction-faq.mjs",

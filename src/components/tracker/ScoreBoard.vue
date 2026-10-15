@@ -69,7 +69,8 @@
             {{ shownPrimary[i] }}
           </dd>
         </div>
-        <div>
+        <!-- No secondaries in Combat Patrol: a player scores their box's mission alone. -->
+        <div v-if="!game?.settings?.combatPatrol">
           <dt>{{ labels.trackerSecondary }}</dt><dd :ref="flashRef(`secondary${i}`)">
             {{ shownSecondary[i] }}
           </dd>

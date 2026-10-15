@@ -516,8 +516,12 @@ gets dropped the moment upstream fixes the row.
 WARGEAR OPTIONS block under a unit ("per Banner of Macragge 15 pts"; 101 units), which
 `scrape-mfm.py` reads into `wargear` on the unit; `gen-roster-data.mjs` prices every option and
 every paid default from it (`priceOf` — the MFM's number, 0 where it lists the item not) and
-reports where appdata's own `wargear_option.points` disagrees (one option on 2026-10-14: the
-Gladiator Valiant's multi-melta, 0 in the app, 10 in the MFM). A row the MFM prints that no
+reports where appdata's own `wargear_option.points` disagrees. **A default is charged only where
+the app's own default row is priced too**: the MFM row names an item, not a row. Black Templars'
+Gladiator Valiant starts with two multi-meltas the app prices at 0 and may take a third at 10 —
+"per Multi-melta 10 pts" is that third. 2.9.1 charged all three and sold the tank at 165 against
+the MFM's 145 until a player reported it (2026-10-15); the run prints such an item as "not
+charged (the MFM prices the option…)". A row the MFM prints that no
 option of its unit offers fails the run, and so does one on a Faction Pack Legends sheet (pack-roster
 prices no wargear). 2.9.0 stopped charging starting wargear for a day on the belief that the MFM
 printed no wargear prices — it does, and the scrape had simply never read them.

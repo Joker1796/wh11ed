@@ -2,6 +2,8 @@ import { ref, watch } from 'vue'
 import { debouncedSave } from '../utils/debouncedSave.js'
 import { CUR_KEY, gameInPlay, isValidGame } from './gameInPlay.js'
 import { missions, primaryFor } from '../data/missions.js'
+import { overlayMission } from '../data/missionOverlay.js'
+import { isCpMissionSlug, cpMissionBySlug, cpMissionSlugFor } from '../data/combatPatrolMissions.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 import {
@@ -106,28 +108,12 @@ export function dispositionName(id) {
 // (an optional nameRu adds a translated display subline, same convention as stratagems).
 function localize(m, role) {
   if (!m) return null
-  const tr = role ? missionsRu.secondary[`${m.slug}|${role}`] : missionsRu.primary[m.slug]
-  if (!tr) return m
-  return {
-    ...m,
-    ...(tr.nameRu ? { nameRu: tr.nameRu } : {}),
-    // briefing is replaced wholesale (RU mirrors the EN structure, maintained in lockstep).
-    ...(tr.briefing ? { briefing: tr.briefing } : {}),
-    ...(tr.lore ? { lore: tr.lore } : {}),
-    blocks: m.blocks.map((b, bi) => {
-      const tb = tr.blocks[bi]
-      if (!tb) return b
-      return {
-        ...b,
-        heading: tb.heading ?? b.heading,
-        when: b.when != null ? (tb.when ?? b.when) : b.when,
-        rows: b.rows.map((r, ri) => ({ ...r, text: (tb.rows && tb.rows[ri]) || r.text })),
-      }
-    }),
-  }
+  return overlayMission(m, role ? missionsRu.secondary[`${m.slug}|${role}`] : missionsRu.primary[m.slug])
 }
 
 export function missionBySlug(slug, role, locale = 'en') {
+  // A Combat Patrol box's own mission (`cp-<box id>`) — a primary, with its own RU overlay.
+  if (!role && isCpMissionSlug(slug)) return cpMissionBySlug(slug, locale)
   const m = role
     ? missions.en.secondary.find(x => x.slug === slug && x.role === role) || null
     : missions.en.primary.find(x => x.slug === slug) || null
@@ -158,7 +144,9 @@ export function scorableBlocks(slug, role, round, locale = 'en') {
   const locM = missionBySlug(slug, role, locale)
   const out = []
   enM.blocks.forEach((b, bi) => {
-    if (!blockRounds(b.heading).includes(round)) return
+    // A Combat Patrol mission names its rounds (appdata's periods); a Chapter Approved card's
+    // are read off its heading.
+    if (!(b.rounds || blockRounds(b.heading)).includes(round)) return
     const lb = (locM && locM.blocks[bi]) || b
     out.push({
       bi, kind: b.kind, heading: lb.heading, when: lb.when,
@@ -205,6 +193,17 @@ export function derivePrimary(myDisposition, opponentDisposition, settings = {})
   if (settings.twist === 'mirrored-world' && settings.twistMission)
     return missions.en.primary.find(m => m.slug === settings.twistMission) || primaryFor(myDisposition, opponentDisposition)
   return primaryFor(myDisposition, opponentDisposition)
+}
+
+// The primary a player scores: in a Combat Patrol game, their box's own mission (each player
+// plays their own — the box decides it, not the two dispositions); otherwise the card of the two
+// dispositions, twist-aware (derivePrimary). `p` and `opponent` are players or setup drafts.
+export function primaryOf(p, opponent, settings = {}) {
+  if (settings.combatPatrol) {
+    const slug = cpMissionSlugFor(p)
+    return slug ? cpMissionBySlug(slug) : null
+  }
+  return derivePrimary(p.disposition, opponent.disposition, settings)
 }
 
 // "or"-linked rows in a block are mutually-exclusive BRACKETS (e.g. control 1 / 2 / 3+
@@ -337,7 +336,7 @@ function makeMember(m = {}) {
 }
 
 function makePlayer(p, opponent, settings, isYou = false) {
-  const primary = derivePrimary(p.disposition, opponent.disposition, settings)
+  const primary = primaryOf(p, opponent, settings)
   const poolSlugs = secondaryPool(p.role).map(m => m.slug)
   const secondaryMode = p.secondaryMode || 'tactical'
   const doubles = settings.gameType === 'doubles'

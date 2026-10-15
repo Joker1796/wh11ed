@@ -923,6 +923,15 @@ export function aurasReaching(records, {
  * @param {{ g?: string, opt?: string } | null | undefined} alleg the entry's allegiance group and pick
  * @returns {ModEntry[]}
  */
+/**
+ * The allegiance an entry chose, as resolveModifierEntries matches records against it — or null.
+ * @param {{ alleg?: { g?: string, gid?: string } } | null | undefined} def the unit's definition
+ * @param {{ alleg?: string } | null | undefined} entry the roster entry
+ */
+export function allegianceChoiceOf(def, entry) {
+  return entry?.alleg && def?.alleg ? { g: def.alleg.g, gid: def.alleg.gid, opt: entry.alleg } : null
+}
+
 export function resolveModifierEntries(records, facEn, detachmentNames, enhancementName, alleg) {
   if (!facEn || !records?.length) return []
   const fielded = new Set((detachmentNames || [])
@@ -936,10 +945,11 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
     // off a rule this function can look up in the faction bundle.
     if (ref.kind === 'ability' || ref.kind === 'wargear') continue
     if (ref.kind === 'allegiance') {
-      // Applies only to the unit that made this exact choice. `alleg` is `{ g, opt }` — the
-      // datasheet's allegiance group and what this entry picked (rosterEngine's allegFor/entry).
+      // Applies only to the unit that made this exact choice in this exact group. `alleg` is
+      // `{ g, gid, opt }` (allegianceChoiceOf). Group by id, not name: several appdata groups share
+      // one ("Daemonic Allegiance" ×3), each with its own rules (report 77ab9e8d, 2026-10-15).
       // No body: the ability's prose addresses its own model, so there are no scopes to read.
-      if (alleg?.g === ref.g && alleg?.opt === ref.opt) out.push({ ...rec, body: '' })
+      if (alleg?.g === ref.g && alleg?.gid === ref.gid && alleg?.opt === ref.opt) out.push({ ...rec, body: '' })
       continue
     }
     // A stratagem belongs to a detachment the same way its rules do, so it is fielded or it is not.

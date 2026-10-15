@@ -236,6 +236,7 @@
         <LayoutTabs
           :layouts="layouts"
           :selected="settings.layout"
+          :custom="!settings.combatPatrol"
           @select="selectLayout"
           @custom="layoutPickerOpen = true"
         />
@@ -369,6 +370,8 @@ const settings = reactive({
   scoreMode: game.settings.scoreMode,
   layout: game.settings.layout,
   customLayout: game.settings.customLayout,
+  // Read, not edited here: it decides which maps the layout tabs offer (useSetupLayout).
+  combatPatrol: !!game.settings.combatPatrol,
 })
 
 const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m.roster)))

@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue'
 import { eventCompanion } from '../data/eventCompanion.js'
+import { cpLayouts } from '../data/combatPatrolMissions.js'
 
 // The 15 Force-Disposition matchups, each carrying 3 recommended layouts (A/B/C). Image
 // paths are language-agnostic, so the EN data is fine for both locales.
@@ -13,7 +14,10 @@ export function matchupFor(a, b) {
 // Resolve the battlefield layout diagram for a game's settings: a custom layout (any of
 // the 45) overrides; otherwise it's the chosen letter within the dispositions' matchup.
 // Backward compatible — old games store a plain 'A'|'B'|'C' letter and no customLayout.
+// A Combat Patrol game plays one of its own three maps (A/B/C, rolled on a D6), whatever the
+// dispositions — and offers no custom layout.
 export function resolveLayout(settings, a, b) {
+  if (settings?.combatPatrol) return cpLayouts.find(l => l.id === settings.layout) || cpLayouts[0]
   if (settings?.layout === 'custom' && settings.customLayout) return settings.customLayout
   const m = matchupFor(a, b)
   return m?.layouts.find(l => l.id === settings?.layout) || m?.layouts[0] || null
@@ -23,8 +27,8 @@ export function resolveLayout(settings, a, b) {
 // game under way (EditSetupModal) wrote this the same way twice. `dispositions` is a getter of the
 // two sides' Force Dispositions; `settings` is the setup's reactive settings.
 export function useSetupLayout(settings, dispositions) {
-  const matchup = computed(() => matchupFor(...dispositions()))
-  const layouts = computed(() => matchup.value?.layouts ?? [])
+  const matchup = computed(() => (settings.combatPatrol ? null : matchupFor(...dispositions())))
+  const layouts = computed(() => (settings.combatPatrol ? cpLayouts : matchup.value?.layouts ?? []))
   // The recommended A/B/C, or a chosen custom layout (any of the 45).
   const currentLayout = computed(() => resolveLayout(settings, ...dispositions()))
   const layoutPickerOpen = ref(false)

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="faction-rules-page tone"
+    class="faction-rules-page tone rule-plates"
     :style="tone"
   >
     <!-- `faction` resolves asynchronously (its EN chunk is lazy-loaded per slug), so
@@ -388,23 +388,4 @@ const isLong = (body) => (Array.isArray(body) ? body.join('\n') : String(body ||
 }
 
 
-/* A rule's "### " subheading on a plate in the faction's colour (owner, 2026-10-10, from Misha's
-   note with Wahapedia beside it: "Corsairs and Travelling Players" was hard to find in the army
-   rule's text). The RU line rides on the same plate, pressed right under the English. */
-.faction-rules-page :deep(.rule-subheading) {
-  margin: 1rem 0 0.45rem;
-  padding: 0.22rem 0.6rem 0.26rem;
-  /* The darker of the faction's pair in both themes: white has to read on it. */
-  background: color-mix(in srgb, var(--tone-light, var(--accent)) 88%, #000);
-  color: #fff;
-  font-size: calc(var(--fs-subheading) * 1.05);
-  line-height: 1.05;
-}
-.faction-rules-page :deep(.rule-subheading-ru) {
-  color: #fff;
-  opacity: 0.85;
-  font-size: 0.82rem;
-  line-height: 1.05;
-  margin-top: 0;
-}
 </style>

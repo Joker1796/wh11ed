@@ -1040,6 +1040,7 @@ export default {
       "condBattleline": 1,
       "alleg": {
         "g": "houndpack-lance-keyword",
+        "gid": "491e56b3",
         "t": "Houndpack Lance Keyword",
         "o": [
           {
@@ -1115,6 +1116,7 @@ export default {
       "condBattleline": 1,
       "alleg": {
         "g": "houndpack-lance-keyword",
+        "gid": "491e56b3",
         "t": "Houndpack Lance Keyword",
         "o": [
           {
@@ -1186,6 +1188,7 @@ export default {
       "condBattleline": 1,
       "alleg": {
         "g": "houndpack-lance-keyword",
+        "gid": "491e56b3",
         "t": "Houndpack Lance Keyword",
         "o": [
           {
@@ -1257,6 +1260,7 @@ export default {
       "condBattleline": 1,
       "alleg": {
         "g": "houndpack-lance-keyword",
+        "gid": "491e56b3",
         "t": "Houndpack Lance Keyword",
         "o": [
           {
@@ -1332,6 +1336,7 @@ export default {
       "condBattleline": 1,
       "alleg": {
         "g": "houndpack-lance-keyword",
+        "gid": "491e56b3",
         "t": "Houndpack Lance Keyword",
         "o": [
           {
@@ -1482,6 +1487,7 @@ export default {
       "condBattleline": 1,
       "alleg": {
         "g": "houndpack-lance-keyword",
+        "gid": "491e56b3",
         "t": "Houndpack Lance Keyword",
         "o": [
           {

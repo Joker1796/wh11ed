@@ -160,6 +160,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -320,6 +321,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -625,6 +627,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -677,6 +680,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -770,6 +774,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -936,6 +941,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -1147,6 +1153,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -1705,6 +1712,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -1832,6 +1840,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -1946,6 +1955,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -2062,6 +2072,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -2147,6 +2158,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -2236,6 +2248,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -2568,6 +2581,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -2619,6 +2633,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -2737,6 +2752,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -3055,6 +3071,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -3182,6 +3199,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -3453,6 +3471,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -3555,6 +3574,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -3765,6 +3785,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -3985,6 +4006,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -4036,6 +4058,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -4198,6 +4221,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -4266,6 +4290,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -4502,6 +4527,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -4642,6 +4668,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -4988,6 +5015,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -5149,6 +5177,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -5274,6 +5303,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -5387,6 +5417,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -5469,6 +5500,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -5518,6 +5550,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "daemonic-allegiance",
+        "gid": "4957a102",
         "t": "Daemonic Allegiance",
         "o": [
           {
@@ -5579,6 +5612,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "daemonic-allegiance",
+        "gid": "4957a102",
         "t": "Daemonic Allegiance",
         "o": [
           {
@@ -5776,6 +5810,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -6079,6 +6114,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -6416,6 +6452,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -6520,6 +6557,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -6654,6 +6692,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -6991,6 +7030,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -7076,6 +7116,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -7181,6 +7222,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -7256,6 +7298,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -7483,6 +7526,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -7544,6 +7588,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -7637,6 +7682,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -7781,6 +7827,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -8104,6 +8151,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -8257,6 +8305,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -8469,6 +8518,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -8573,6 +8623,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -8658,6 +8709,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -8731,6 +8783,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -8836,6 +8889,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -8900,6 +8954,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -9036,6 +9091,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -9199,6 +9255,7 @@ export default {
       ],
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -9549,6 +9606,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -9658,6 +9716,7 @@ export default {
       "condBattleline": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -9852,6 +9911,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -9948,6 +10008,7 @@ export default {
       },
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {
@@ -10025,6 +10086,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "t": "Mark of Chaos",
         "o": [
           {

@@ -2393,6 +2393,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "subterranean-assault-keywords",
+        "gid": "15b5271c",
         "t": "Subterranean Assault Keywords",
         "o": [
           {

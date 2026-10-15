@@ -724,7 +724,9 @@
             </ul>
           </div>
 
-          <template v-else>
+          <!-- Combat Patrol: the box decides the mission, so its Force Disposition chooses nothing
+               here and is not asked about. -->
+          <template v-else-if="!settings.combatPatrol">
             <label
               class="field"
               :inert="editable(i) ? undefined : true"
@@ -819,7 +821,8 @@
                under "waiting for your opponent", which is the one thing on the card the host had
                no business touching (owner, 2026-09-24). No `inert` inside here: within
                `!mirrored` the side is always this phone's to edit. -->
-          <template v-if="!mirrored(i)">
+          <!-- No secondaries in Combat Patrol: a player scores their box's mission alone. -->
+          <template v-if="!mirrored(i) && !settings.combatPatrol">
             <label
               class="field"
               data-tour="setup-secondary"
@@ -1009,11 +1012,18 @@
             <LayoutTabs
               :layouts="layouts"
               :selected="settings.layout"
+              :custom="!settings.combatPatrol"
+              :letters="settings.combatPatrol"
               @select="selectLayout"
               @custom="layoutPickerOpen = true"
-            />
+            >
+              <CpLayoutRoll
+                v-if="settings.combatPatrol"
+                @roll="selectLayout"
+              />
+            </LayoutTabs>
             <p class="layout-note">
-              {{ labels.trackerLayoutNote }}
+              {{ settings.combatPatrol ? labels.trackerCpLayoutNote : labels.trackerLayoutNote }}
             </p>
           </div>
         </div>
@@ -1024,7 +1034,7 @@
               {{ labels.trackerLayoutHeading }}
             </h3>
             <p class="layout-note">
-              {{ labels.trackerLayoutNote }}
+              {{ settings.combatPatrol ? labels.trackerCpLayoutNote : labels.trackerLayoutNote }}
             </p>
           </template>
           <template v-if="layouts.length">
@@ -1032,9 +1042,16 @@
               v-if="!desk"
               :layouts="layouts"
               :selected="settings.layout"
+              :custom="!settings.combatPatrol"
+              :letters="settings.combatPatrol"
               @select="selectLayout"
               @custom="layoutPickerOpen = true"
-            />
+            >
+              <CpLayoutRoll
+                v-if="settings.combatPatrol"
+                @roll="selectLayout"
+              />
+            </LayoutTabs>
             <!-- The tour's anchor on a wrapper: LayoutCard has two roots (the card and its
                  full-size modal), so an attribute on it lands nowhere and the step was skipped. -->
             <div
@@ -1278,6 +1295,7 @@ import PartyModal from './PartyModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
+import CpLayoutRoll from './CpLayoutRoll.vue'
 import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -1285,7 +1303,7 @@ import { getEventContent } from '../../data/eventCompanion.js'
 import { useRoute, useRouter } from 'vue-router'
 import { useLobby } from '../../composables/useLobby.js'
 import { useParty } from '../../composables/useParty.js'
-import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
+import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import RosterPickerModal from './RosterPickerModal.vue'
@@ -1546,6 +1564,7 @@ function sideSummary(i) {
   if (p.battleReady) out.push(labels.value.trackerBattleReady)
   // The step-2 card shows this report too, so the secondaries belong in it: which deck this side
   // plays is a fact about the game, not a control the host may touch.
+  if (settings.combatPatrol) return out // no secondaries in Combat Patrol
   out.push(`${labels.value.trackerSecondaryMode}: ${p.secondaryMode === 'fixed' ? labels.value.trackerFixed : labels.value.trackerTactical}`)
   if (p.secondaryMode === 'fixed' && p.fixedSecondaries?.length) out.push(fixedSummary(p))
   return out
@@ -1803,6 +1822,9 @@ function setGameMode(mode) {
   settings.gameType = mode === 'doubles' ? 'doubles' : 'singles'
   if (settings.combatPatrol !== toCp) {
     settings.combatPatrol = toCp
+    // The two modes play different maps (Combat Patrol: its own A/B/C, no custom layout).
+    settings.layout = 'A'
+    settings.customLayout = null
     if (toCp) { settings.twist = null; settings.twistMission = null }
     players.forEach(p => resolveArmyChoice(p))
   }
@@ -1968,20 +1990,21 @@ function armySummary(p, i) {
     .join(' · ')
 }
 
-function primaryName(i) {
+// The primary each player will score, as the game will derive it (primaryOf): the twist-aware
+// card of the two dispositions — so the preview reflects Scrambled Communications / Mirrored
+// World — or, in Combat Patrol, the player's own box's mission, which needs no opponent.
+function primaryMission(i) {
   const me = players[i], opp = players[i === 0 ? 1 : 0]
-  if (!me.disposition || !opp.disposition) return ''
-  // Mirror the twist-aware derivation used when the game is created, so the preview
-  // reflects Scrambled Communications / Mirrored World.
-  const m = derivePrimary(me.disposition, opp.disposition, settings)
-  return m ? m.name : ''
+  if (!settings.combatPatrol && (!me.disposition || !opp.disposition)) return null
+  return primaryOf(me, opp, settings)
+}
+function primaryName(i) {
+  return primaryMission(i)?.name || ''
 }
 
 // Full localized primary-mission cards for the step-2 preview (one per player).
 const primaryCards = computed(() => players.map((p, i) => {
-  const opp = players[i === 0 ? 1 : 0]
-  if (!p.disposition || !opp.disposition) return null
-  const m = derivePrimary(p.disposition, opp.disposition, settings)
+  const m = primaryMission(i)
   return m ? missionBySlug(m.slug, null, locale.value) : null
 }))
 
@@ -2021,6 +2044,8 @@ const canArmies = computed(() =>
 // Step 2 (Mission): dispositions resolved (→ a primary for each) + fixed picks chosen
 // where in fixed mode.
 function missionOkFor(p) {
+  // Combat Patrol: the box is the mission — no disposition to choose, no secondaries.
+  if (settings.combatPatrol) return !!p.factionSlug
   return !!p.disposition && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)
 }
 // Both sides, deliberately: the primary mission IS the pair of dispositions, and the layouts on
@@ -2690,6 +2715,10 @@ function cancel() {
   border-bottom: 1px solid var(--border);
   padding: 0 0 0.7rem;
 }
+/* The mission closing the card (Combat Patrol: no secondaries under it) needs no rule and no gap
+   to divide it from what is not there. */
+.primary-block:last-child { margin-bottom: 0; }
+.primary-block:last-child .primary-card :deep(.mcard) { border-bottom: none; padding-bottom: 0; }
 /* Small inset for the expanded content so the scoring rows don't collide with the card border. */
 .primary-card :deep(.mcard-body) {
   padding: 0 0.35rem;

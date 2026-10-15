@@ -195,7 +195,8 @@ async function load() {
   const g = current.value
   const combatPatrol = !!g?.settings?.combatPatrol
   const [c, ...out] = await Promise.all([
-    loadCoreStratagems(locale.value),
+    // A Combat Patrol game drops the three core stratagems its mission sequence forbids.
+    loadCoreStratagems(locale.value, { combatPatrol }),
     ...g.players.map((pl) => loadSideStratagems(pl, locale.value, { combatPatrol })),
   ])
   if (t !== token) return

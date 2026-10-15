@@ -789,6 +789,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "daemonic-allegiance",
+        "gid": "dbd9b3b1",
         "t": "Daemonic Allegiance",
         "o": [
           {
@@ -850,6 +851,7 @@ export default {
       "linked": 1,
       "alleg": {
         "g": "daemonic-allegiance",
+        "gid": "dbd9b3b1",
         "t": "Daemonic Allegiance",
         "o": [
           {
@@ -3295,6 +3297,7 @@ export default {
       },
       "alleg": {
         "g": "daemonic-allegiance",
+        "gid": "95825ac6",
         "t": "Daemonic Allegiance",
         "o": [
           {

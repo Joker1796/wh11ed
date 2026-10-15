@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="faction"
-    class="cp-faction-view"
+    class="cp-faction-view rule-plates"
     :class="{ themed: !!color }"
     :style="colorVars"
   >
@@ -22,9 +22,10 @@
       </div>
     </div>
 
-    <!-- A box is read a part at a time — the rules, then its stratagems, its upgrades, its units —
-         so the page is four tabs rather than one long scroll (owner, 2026-09-28). A search hit
-         deep inside one picks that tab from the link's anchor first (tabForAnchor). -->
+    <!-- A box is read a part at a time — its rules (stratagems and enhancements among them), the
+         mission it plays, its units — so the page is tabs rather than one long scroll (owner,
+         2026-09-28; three tabs since 2026-10-15, when the mission came). A search hit deep inside
+         one picks that tab from the link's anchor first (tabForAnchor). -->
     <PageTabs
       class="cp-tabs"
       :tabs="tabs"
@@ -39,65 +40,68 @@
         v-if="tab === 'rules'"
         key="rules"
       >
-        <!-- Detachment rule -->
-        <section
-          id="rule"
-          class="fsection"
-        >
-          <div
-            v-if="faction.dp || faction.forceDisposition"
-            class="det-meta"
+        <!-- The detachment rule beside the army rule from 1024px, as a faction page lays its rules
+             out (.rule-columns); the stratagems and enhancements under them, in their own grids. -->
+        <div class="rule-columns cp-rules">
+          <!-- Detachment rule -->
+          <section
+            id="rule"
+            class="fsection"
           >
-            <span
-              v-if="faction.dp"
-              class="det-meta-item"
-            >{{ faction.dp }} DP</span>
-            <span
-              v-if="faction.forceDisposition"
-              class="det-meta-item"
-            >{{ faction.forceDisposition }}</span>
-          </div>
-          <p
-            v-if="faction.rule.flavor"
-            class="faction-flavor"
-          >
-            {{ faction.rule.flavor }}
-          </p>
-          <RuleBlock
-            :id="`cp-${faction.id}-rule`"
-            :title="faction.rule.name"
-            :subtitle="faction.rule.nameRu"
-            :body="faction.rule.body"
-          />
-        </section>
+            <h2 class="fsection-title">
+              {{ labels.factionDetachment }}
+            </h2>
+            <div
+              v-if="faction.dp || faction.forceDisposition"
+              class="det-meta"
+            >
+              <span
+                v-if="faction.dp"
+                class="det-meta-item"
+              >{{ faction.dp }} DP</span>
+              <span
+                v-if="faction.forceDisposition"
+                class="det-meta-item"
+              >{{ faction.forceDisposition }}</span>
+            </div>
+            <p
+              v-if="faction.rule.flavor"
+              class="faction-flavor"
+            >
+              {{ faction.rule.flavor }}
+            </p>
+            <RuleBlock
+              :id="`cp-${faction.id}-rule`"
+              :title="faction.rule.name"
+              :subtitle="faction.rule.nameRu"
+              :body="faction.rule.body"
+            />
+          </section>
 
-        <!-- Army rule -->
-        <section
-          id="army-rule"
-          class="fsection"
-        >
-          <h2 class="fsection-title">
-            {{ labels.factionArmyRule }}
-          </h2>
-          <p
-            v-if="faction.armyRule.flavor"
-            class="faction-flavor"
+          <!-- Army rule -->
+          <section
+            id="army-rule"
+            class="fsection"
           >
-            {{ faction.armyRule.flavor }}
-          </p>
-          <RuleBlock
-            :id="`cp-${faction.id}-army-rule`"
-            :title="faction.armyRule.name"
-            :subtitle="faction.armyRule.nameRu"
-            :body="faction.armyRule.body"
-            :example="faction.armyRule.example"
-          />
-        </section>
-      </div>
-      <div
-        v-else-if="tab === 'stratagems'"
-        key="stratagems"
-      >
+            <h2 class="fsection-title">
+              {{ labels.factionArmyRule }}
+            </h2>
+            <p
+              v-if="faction.armyRule.flavor"
+              class="faction-flavor"
+            >
+              {{ faction.armyRule.flavor }}
+            </p>
+            <RuleBlock
+              :id="`cp-${faction.id}-army-rule`"
+              :title="faction.armyRule.name"
+              :subtitle="faction.armyRule.nameRu"
+              :body="faction.armyRule.body"
+              :example="faction.armyRule.example"
+            />
+          </section>
+        </div>
+
         <!-- Stratagems -->
         <section
           v-if="faction.stratagems?.length"
@@ -117,11 +121,7 @@
             />
           </div>
         </section>
-      </div>
-      <div
-        v-else-if="tab === 'enhancements'"
-        key="enhancements"
-      >
+
         <!-- Enhancements -->
         <section
           v-if="faction.enhancements?.length"
@@ -169,6 +169,42 @@
               />
             </article>
           </div>
+        </section>
+      </div>
+      <div
+        v-else-if="tab === 'mission'"
+        key="mission"
+      >
+        <!-- The box's own primary mission — each player plays their box's (the mission sequence) -->
+        <section
+          id="mission"
+          class="fsection cp-mission"
+        >
+          <MissionCard
+            :id="`cp-${faction.id}-mission`"
+            :mission="mission"
+          />
+          <!-- Beside the mission, what else decides the game — the mission sequence in five
+               lines, and the way to all of it. -->
+          <aside class="cp-memo">
+            <h2 class="fsection-title">
+              {{ labels.cpMemoTitle }}
+            </h2>
+            <ul>
+              <li
+                v-for="(line, n) in labels.cpMemo"
+                :key="n"
+              >
+                {{ line }}
+              </li>
+            </ul>
+            <RouterLink
+              class="cp-howto"
+              to="/combat-patrol/how-to-play"
+            >
+              {{ labels.cpHowToPlayLink }} →
+            </RouterLink>
+          </aside>
         </section>
       </div>
       <div
@@ -222,6 +258,7 @@ import { ref, computed, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
+import MissionCard from '../../components/event/MissionCard.vue'
 import DatasheetCard from '../../components/DatasheetCard.vue'
 import FactionEmblem from '../../components/FactionEmblem.vue'
 import { factionIcons } from '../../data/factionIcons.js'
@@ -254,31 +291,36 @@ const box = computed(() => combatPatrolIndex.find((b) => b.id === route.params.s
 const indexEntry = computed(() => factionIndexBySlug(box.value?.slug))
 const color = computed(() => indexEntry.value?.color || null)
 const colorVars = computed(() =>
-  color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark } : undefined,
+  // `--tone-light` too: the rule plates (style.css) wear the faction's colour, as on its own page.
+  color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark, '--tone-light': color.value.light } : undefined,
 )
 
 // combatPatrol.js carries every box's rule text + fixed-roster datasheets —
 // dynamically imported here (not statically) so it stays out of the app's root bundle; only a
 // visit to a Combat Patrol page pulls it in, matching the project's other heavy-data-file loads.
 const combatPatrol = ref(null)
+const missions = ref(null)
 watchEffect(async () => {
-  combatPatrol.value = (await import('../../data/combatPatrol.js')).combatPatrol
+  const [cp, cpm] = await Promise.all([import('../../data/combatPatrol.js'), import('../../data/combatPatrolMissions.js')])
+  missions.value = cpm
+  combatPatrol.value = cp.combatPatrol
 })
 
 const faction = computed(() =>
   combatPatrol.value?.[locale.value].factions.find((f) => f.id === route.params.slug) || null,
 )
 
-// The four parts of a box, as tabs — only the ones this box has. Rules (the detachment's and the
-// army's) are always there.
+const mission = computed(() => missions.value?.cpMissionOfBox(route.params.slug, locale.value) || null)
+
+// The parts of a box, as tabs — only the ones this box has. Rules (the detachment's and the
+// army's, then the stratagems and enhancements) are always there.
 const tab = ref('rules')
 const tabs = computed(() => {
   const f = faction.value
   const l = labels.value
   const all = [
     { key: 'rules', label: l.rosterViewTabRules, has: true },
-    { key: 'stratagems', label: l.factionStratagems, has: !!f?.stratagems?.length },
-    { key: 'enhancements', label: l.factionEnhancements, has: !!f?.enhancements?.length },
+    { key: 'mission', label: l.cpMissionTab, has: !!mission.value },
     { key: 'units', label: l.rosterViewTabUnits, has: !!f?.datasheets?.length },
   ]
   return all.filter((t) => t.has).map((t) => ({ key: t.key, label: t.label, active: tab.value === t.key }))
@@ -289,8 +331,9 @@ const tabs = computed(() => {
 // scrollToAnchor goes looking — a hidden tab has nothing in the page to scroll to.
 function tabForAnchor(id) {
   if (!id) return null
-  if (id.startsWith('cp-strat-') || id === 'stratagems') return 'stratagems'
-  if (id.startsWith('cp-enh-') || id === 'enhancements') return 'enhancements'
+  if (id.startsWith('cp-strat-') || id === 'stratagems') return 'rules'
+  if (id.startsWith('cp-enh-') || id === 'enhancements') return 'rules'
+  if (id === 'mission' || id.endsWith('-mission')) return 'mission'
   if (id === 'datasheets' || id.startsWith('ds-')) return 'units'
   if (id.startsWith('cp-') || id === 'rule' || id === 'army-rule') return 'rules'
   return null
@@ -309,6 +352,35 @@ watch(() => route.hash, (hash) => {
 <style scoped>
 .cp-faction-view {
   padding-top: 0.25rem; /* the faction page's (FactionLayout) */
+}
+
+/* A rules section is a heading and the rule under it, tight as the vertical-density canon has it
+   (root CLAUDE.md → src/components/CLAUDE.md): RuleBlock's own padding and rule line are for a
+   run of rules, and here each section holds one — they doubled the gaps (owner, 2026-10-15). */
+.cp-rules .fsection > .rule-block {
+  padding: 0.35rem 0 0;
+  border-bottom: none;
+}
+.cp-rules .det-meta {
+  margin-bottom: 0.4rem;
+}
+
+.cp-memo ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.cp-memo li { margin-bottom: 0.3rem; }
+/* The mission and the memo side by side from 1024px, the threshold .rule-columns uses. */
+@media (min-width: 1024px) {
+  .cp-mission {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+}
+@media (max-width: 1023px) {
+  .cp-memo { margin-top: 1.25rem; }
 }
 
 .hero {

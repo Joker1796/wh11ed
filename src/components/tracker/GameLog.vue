@@ -196,7 +196,11 @@ const plainText = computed(() => {
   const l = labels.value
   const out = [`${l.trackerLogTitle} · ${l.trackerRoundShort} ${g.currentRound}`, '']
   g.players.forEach((pl, pi) => {
-    out.push(`${props.names[pi]}: ${grandTotal(g, pi)} VP (${l.trackerPrimary} ${primaryTotal(g, pi)}, ${l.trackerSecondary} ${secondaryTotal(g, pi)}) · CP ${pl.cp}`)
+    // No secondaries in Combat Patrol, so no "Secondary 0" in its summary.
+    const parts = g.settings?.combatPatrol
+      ? `${l.trackerPrimary} ${primaryTotal(g, pi)}`
+      : `${l.trackerPrimary} ${primaryTotal(g, pi)}, ${l.trackerSecondary} ${secondaryTotal(g, pi)}`
+    out.push(`${props.names[pi]}: ${grandTotal(g, pi)} VP (${parts}) · CP ${pl.cp}`)
   })
   out.push('')
   // The card's source is an icon on screen; in text it is a word.

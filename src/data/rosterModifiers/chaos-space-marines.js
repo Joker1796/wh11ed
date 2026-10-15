@@ -1488,6 +1488,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "daemonic-allegiance",
+        "gid": "4957a102",
         "opt": "Khorne"
       },
       "hash": "dd8b43ed",
@@ -1512,6 +1513,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "daemonic-allegiance",
+        "gid": "4957a102",
         "opt": "Nurgle"
       },
       "hash": "2aca0f8e",
@@ -1535,6 +1537,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "daemonic-allegiance",
+        "gid": "4957a102",
         "opt": "Slaanesh"
       },
       "hash": "4b7e0e58",
@@ -1558,6 +1561,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "daemonic-allegiance",
+        "gid": "4957a102",
         "opt": "Tzeentch"
       },
       "hash": "a6cb4ed4",
@@ -1582,6 +1586,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "opt": "Chaos Undivided"
       },
       "hash": "11844148",
@@ -1597,6 +1602,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "opt": "Chaos Undivided"
       },
       "hash": "11844148",
@@ -1612,6 +1618,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "opt": "Khorne"
       },
       "hash": "e2d05110",
@@ -1627,6 +1634,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "opt": "Nurgle"
       },
       "hash": "1da9ffed",
@@ -1642,6 +1650,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "opt": "Nurgle"
       },
       "hash": "1da9ffed",
@@ -1657,6 +1666,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "opt": "Slaanesh"
       },
       "hash": "0439badd",
@@ -1672,6 +1682,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "opt": "Slaanesh"
       },
       "hash": "b3fb173f",
@@ -1687,6 +1698,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "c890819b",
         "opt": "Tzeentch"
       },
       "hash": "748f330d",
@@ -1702,6 +1714,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "mark-of-chaos",
+        "gid": "7aa26722",
         "opt": "Tzeentch"
       },
       "hash": "748f330d",

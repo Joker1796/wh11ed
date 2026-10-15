@@ -1403,6 +1403,7 @@ export default {
       "ref": {
         "kind": "allegiance",
         "g": "steel-hammer-keywords",
+        "gid": "ccb4bec6",
         "opt": "Character"
       },
       "hash": "6d141cb4",

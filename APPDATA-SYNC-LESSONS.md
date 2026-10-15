@@ -1278,3 +1278,17 @@ and appdata state fresh; a data model can change between now and when this is ne
     "Desperate Escape" that still says "forces". The omissions gate merges both by design, so the
     stale word is an ALLOW with that reason. Likewise GW printed one Core Rules FAQ question three
     times with growing examples; `corefaq` now counts identical questions once, longest answer.
+
+93. **An MFM wargear row names an item, not which copies it prices.** "WARGEAR OPTIONS per
+    Multi-melta 10 pts" under Black Templars' Gladiator Valiant is the optional third melta; the
+    two it starts with are 0 in the app. 2.9.1 charged every copy by name and sold the tank at 165
+    against the MFM's 145 until a player reported it (2026-10-15). A default is charged only where
+    the app's own default row is priced too; the run lists the rest as "not charged".
+
+94. **appdata can file two groups under one name with different rules.** Three allegiance groups
+    are "Daemonic Allegiance" (Chaos Daemons' Daemon Prince: +2 S to hellforged weapons for Khorne;
+    Soul Grinder: an extra weapon; the Heretic Astartes Daemon Prince), two are "Mark of Chaos".
+    Keyed by the slug of the name, a Soul Grinder that took Khorne got the Prince's +2 S on every
+    melee weapon (report 77ab9e8d, 2026-10-15). A choice and its records now carry the group's id
+    (`gid`) and match on it; `g` stays the kind of choice other code reads. Key on the id wherever
+    appdata has one — a name is a label, not an identity.

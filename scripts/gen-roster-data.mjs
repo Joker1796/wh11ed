@@ -360,7 +360,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -2015,7 +2015,12 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     if (opts.length) {
       // `det` is the detachment NAME because that is what a roster stores (see useRosters); absent
       // means the choice always applies. `req` = must be chosen, `max` = cap across the army.
-      const alleg = { g: slugify(enOf(allegGroup).name || 'allegiance'), t: enOf(allegGroup).name || '', o: opts }
+      // `g` names the KIND of choice ("mark-of-chaos": other code reads it so), `gid` WHICH group:
+      // appdata files several groups under one name with different rules — Chaos Daemons' Daemon
+      // Prince (+2 S to hellforged weapons for Khorne) and Soul Grinder (an extra weapon) are both
+      // "Daemonic Allegiance", and the Prince's records landed on the Grinder (report 77ab9e8d,
+      // 2026-10-15). A modifier record carries the same `gid` (gen-roster-modifiers.mjs).
+      const alleg = { g: slugify(enOf(allegGroup).name || 'allegiance'), gid: allegGroup.id.slice(0, 8), t: enOf(allegGroup).name || '', o: opts }
       const detOwner = allegGroup.detachmentId && detById.get(allegGroup.detachmentId)
       if (detOwner) alleg.det = enOf(detOwner).name
       if (allegGroup.isMandatory) alleg.req = 1
@@ -2308,11 +2313,16 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     if (pts !== (o.points || 0)) report.wargearMfm.differs.add(`${bd.name}: ${item} — app ${o.points || 0}, MFM ${mfm ?? 'none'}`)
     return pts
   }
+  // A default is paid only where the app's own default row is priced too. The MFM row names an
+  // item, not a row: Black Templars' Gladiator Valiant starts with two multi-meltas the app prices
+  // at 0 and may take a third at 10, and the MFM's "per Multi-melta 10 pts" is that third one
+  // (2.9.1 charged all three and sold the tank at 165 against the MFM's 145 — report 2026-10-15).
   const paidDefaults = new Map()
   for (const g of wogByDs.get(bd.id) || []) {
     for (const o of woByGroup.get(g.id) || []) {
       const pts = priceOf(o)
       if (!(pts > 0) || !(o.defaultValue > 0)) continue
+      if (!(o.points > 0)) { report.paidDefault.optionOnly.push(`${bd.name}: ${wgItemName.get(o.wargearItemId)}`); continue }
       paidDefaults.set(fx.item(LOADOUT_ITEM_FIXES[bd.id]?.[o.wargearItemId] || o.wargearItemId), pts)
     }
   }
@@ -3143,7 +3153,12 @@ async function packUnitsFor(slug, units) {
   // The Mark of Chaos: Pactbound Zealots' rule is written for "a HERETIC ASTARTES unit [that] is
   // not an EPIC HERO and does not already have one of the following keywords" — a rule, not a
   // list, so a pack Legends Chaos Lord on Bike gets the same choice appdata's 43 units carry.
-  const mark = units.find((u) => u.alleg?.g === 'mark-of-chaos')?.alleg
+  // Two appdata groups are called Mark of Chaos (43 units, and five sorcerers whose marks are their
+  // own); the rule is the many units' one, so a pack unit takes the group most units carry.
+  const markGids = new Map()
+  for (const u of units) if (u.alleg?.g === 'mark-of-chaos') markGids.set(u.alleg.gid, (markGids.get(u.alleg.gid) || 0) + 1)
+  const markGid = [...markGids].sort((a, b) => b[1] - a[1])[0]?.[0]
+  const mark = units.find((u) => u.alleg?.g === 'mark-of-chaos' && u.alleg.gid === markGid)?.alleg
   const MARKS = ['khorne', 'tzeentch', 'nurgle', 'slaanesh', 'chaos undivided']
   // The same for a Detachment that hands CHARACTER to units it names by keyword (CHARACTER_GRANTS):
   // Steel Hammer's "one or more ASTRA MILITARUM TITANIC units" takes a Legends Macharius too.
@@ -3664,6 +3679,7 @@ console.log(`  paid defaults: ${report.paidDefault.units} units start with warge
 console.log(`  wargear points: ${report.wargearMfm.priced} units carry MFM wargear prices; ${report.wargearMfm.differs.size} option(s) where the app's own price differs (the MFM's is used):`)
 for (const l of [...report.wargearMfm.differs].sort()) console.log(`      - ${l}`)
 if (report.paidDefault.odd.length) console.log(`    not charged (count does not divide): ${report.paidDefault.odd.join('; ')}`)
+if (report.paidDefault.optionOnly.length) console.log(`    not charged (the MFM prices the option, the app's default is free): ${report.paidDefault.optionOnly.join('; ')}`)
 console.log(`  Chapter detachments: ${report.sharedDets} Codex entitlements folded in at load time`)
 if (report.notEntitled.length) console.log(`  printed in the faction's book but not its to field (kept as \`lend\`, offered only to the armies that fold it in): ${report.notEntitled.join('; ')}`)
 if (report.textCount.length) {
