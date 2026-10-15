@@ -402,6 +402,22 @@ The **twist** is chosen on step 4 via a "Choose twist" button that opens `TwistP
 
 **Setup is persisted as a draft** (`setupDraft` in `useTracker.js`, localStorage `wh11ed-tracker-setup-draft`, same auto-save machinery as `current`/`history`): the in-progress wizard (step + players + settings) survives reloads and navigating away. The Tracker home shows a **"Continue setup"** button when a draft exists; "New game" clears the draft and starts fresh; `start()`/cancel clear it. **Starting a new game (or resuming a past one) while a game is in progress does NOT discard the live game** — `TrackerHomeView` first archives it to history via the normal end flow (`finishGame('early')` + `archiveGame()`), so it's saved at its current score and stays resumable. GameSetup hydrates from the draft at init (before its reset watchers register) and deep-watches its state back into the draft. This same hydrate-from-draft mechanism is what `rosterHandoff.js` (Roster Builder) writes into to pre-fill setup from a saved roster.
 
+## Combat Patrol (since 2026-10-15)
+
+`settings.combatPatrol` plays the box's own game, as its mission sequence says (data and pages:
+`src/views/combat-patrol/CLAUDE.md`). **Each player scores their own box's mission** —
+`primaryOf(p, opp, settings)` in `useTracker.js` is the one derivation point now (`makePlayer` and
+the step-2 preview), returning `cp-<box id>` for Combat Patrol and `derivePrimary` (the
+dispositions' card, twist-aware) otherwise; `missionBySlug` serves a `cp-` slug from the Combat
+Patrol data and `scorableBlocks` reads a block's own `rounds` before its heading. Step 2 asks no
+Force Disposition and no secondaries (`missionOkFor` needs only the faction); the game screen has
+no deck and the score board no Secondary line. Step 3 and the edit dialog offer the three Combat
+Patrol maps (`resolveLayout`/`useSetupLayout` read `settings.combatPatrol`; `LayoutTabs :custom`
+hides the custom tab) with a D6 roll (`CpLayoutRoll.vue`). The stratagems page drops
+`CP_BANNED_CORE_STRATAGEMS` (Crushing Impact, Explosives, Rapid Ingress) while such a game is on.
+Battle Ready's +10 is the ordinary checkbox — GW suggests leaving it off for a newcomer. The caps
+are the ordinary ones too: the Combat Patrol pack in appdata says 15 a round, 45 a game.
+
 ## Scoring
 
 **Scoring** is by *condition*, not free entry: each mission block row is scored via `ScoringModal.vue` (a count stepper for "For each…" rows, a checkbox otherwise); `picks` store per-row counts keyed `blockIdx:rowIdx`, and VP = Σ count·rowVP. Caps: primary **15/round**, **45/game**; fixed secondary **20** each; secondary **45** total; Battle Ready **+10**. `scorableBlocks(slug, role, round, locale)` round-gates blocks by their English heading (`BLOCK_ROUNDS`) — e.g. "Second Battle Round Onwards"/"End of Battle" aren't scorable in round 1 — and derives the per-each flag from the **English** text (display text is localized). Lookup/logic always read `missions.en` (slug/VP/structure are language-agnostic); `missionBySlug(slug, role, locale)` overlays `missionsRu.js` text for display only. **`or` brackets are mutually exclusive:** setting one bracket row clears the competing rows in its group (`orSiblingKeys` in `setPrimaryRow`/`scoreSecondaryRow`); per-tally "For each…/Each time…" `or` rows stay independent (and don't show the "Or" label).

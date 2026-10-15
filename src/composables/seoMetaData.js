@@ -93,6 +93,13 @@ const ROUTES = {
       ru: 'Основные правила, Event Companion и Combat Patrol — весь контент правил Warhammer 40,000 11-й редакции в одном месте.',
     },
   },
+  '/combat-patrol/how-to-play': {
+    title: { en: 'How to play Combat Patrol', ru: 'Как играть в Combat Patrol' },
+    description: {
+      en: 'How a Combat Patrol game of Warhammer 40,000 11th edition is played: the mission sequence, the three deployment maps, the banned stratagems and how the winner is decided.',
+      ru: 'Как играть партию Combat Patrol в Warhammer 40,000 11-й редакции: порядок миссии, три карты расстановки, запрещённые стратагемы и определение победителя.',
+    },
+  },
   '/combat-patrol': {
     title: { en: 'Combat Patrol', ru: 'Combat Patrol' },
     description: {
@@ -228,14 +235,14 @@ export const isFactionPath = (path) =>
 // /combat-patrol/:id — one page per Combat Patrol BOX (src/data/combatPatrol.js); a faction can
 // have several, so the key is the box's id, and the title names the box.
 const COMBAT_PATROL_RE = /^\/combat-patrol\/([^/]+)$/
-export const isCombatPatrolPath = (path) => COMBAT_PATROL_RE.test(path)
+export const isCombatPatrolPath = (path) => COMBAT_PATROL_RE.test(path) && path !== '/combat-patrol/how-to-play'
 
 const prettifySlug = (s) => s.split('-').map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w)).join(' ')
 const factionName = (slug) => factionIndexBySlug(slug)?.name || prettifySlug(slug)
 
 function dynamicMetaFor(path, loc, unitName) {
   let m = path.match(COMBAT_PATROL_RE)
-  if (m) {
+  if (m && m[1] !== 'how-to-play') {
     const f = combatPatrolIndex.find((x) => x.id === m[1])
     const name = f?.name || factionName(m[1])
     const box = f?.boxName || ''

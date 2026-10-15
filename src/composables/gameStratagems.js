@@ -57,7 +57,11 @@ function derive(localized, en, key) {
 // Core stratagems — same EN/RU merge as BattlefieldsView, section 15 cards only, matched to the
 // English card by index. Imported dynamically too: the Core Rules battlefield section is ~22 KB
 // gzipped, and the game screen must not pay for it until its CP tab is opened.
-export async function loadCoreStratagems(loc) {
+// Core stratagems a Combat Patrol game cannot use (its mission sequence, "Begin the Battle":
+// small forces lack that logistical support). Matched on the English name, which every locale keeps.
+export const CP_BANNED_CORE_STRATAGEMS = ['Crushing Impact', 'Explosives', 'Rapid Ingress']
+
+export async function loadCoreStratagems(loc, { combatPatrol = false } = {}) {
   const { battlefields } = await import('../data/battlefields.js')
   const coreEn = battlefields.en.find((s) => s.id === '15')?.stratagems || []
   const sections = loc === 'en'
@@ -66,7 +70,9 @@ export async function loadCoreStratagems(loc) {
       section.stratagems && ruSection.stratagems
         ? { stratagems: section.stratagems.map((strat, k) => ({ ...strat, ...ruSection.stratagems[k] })) }
         : {})
-  return (sections.find((s) => s.id === '15')?.stratagems || []).map((s, i) => derive(s, coreEn[i], `core:${coreEn[i]?.num || i}`))
+  return (sections.find((s) => s.id === '15')?.stratagems || [])
+    .map((s, i) => derive(s, coreEn[i], `core:${coreEn[i]?.num || i}`))
+    .filter((_, i) => !(combatPatrol && CP_BANNED_CORE_STRATAGEMS.includes(coreEn[i]?.name)))
 }
 
 // The Chapters share the Codex Space Marines detachments (Gladius Task Force, etc.), which live only

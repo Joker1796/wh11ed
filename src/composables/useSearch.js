@@ -682,6 +682,9 @@ function searchCombatPatrol(q, locale) {
         push(s.name, s.nameRu, `cp-${boxId}-s-${s.name}`, s.id, sectionTitle, boxId)
       }
     }
+    if (data.mission && anyNameMatches(q, data.mission.name, data.mission.nameRu)) {
+      push(data.mission.name, data.mission.nameRu, `cp-${boxId}-mission`, data.mission.id, sectionTitle, boxId)
+    }
     for (const e of data.enhancements) {
       if (anyNameMatches(q, e.name, e.nameRu)) {
         push(e.name, e.nameRu, `cp-${boxId}-e-${e.name}`, e.id, sectionTitle, boxId)

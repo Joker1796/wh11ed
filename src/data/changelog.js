@@ -31,6 +31,10 @@ export const changelog = [
       { h: 'Roster builder' },
       '**A detachment’s rules in the detachment picker no longer close when you open its enhancements or stratagems.** Thanks for the report.',
       '**Black Templars’ Gladiator Valiant costs 145 points again.** Since 2.9.1 the builder also charged 20 points for its two starting multi-meltas. Only a third multi-melta costs extra, 10 points.',
+      { h: 'Combat Patrol', kind: 'rules' },
+      '**Every Combat Patrol box now has its mission.** It is on the box page, on the new Mission tab. The box’s stratagems and enhancements moved to the Rules tab.',
+      '**There is a page on [how to play Combat Patrol](/combat-patrol/how-to-play).** It has the order of the game, the three deployment maps and how the winner is decided.',
+      '**A Combat Patrol game in the tracker follows its own rules.** Each player scores their box’s mission. There are no secondaries. The battlefield is one of the three Combat Patrol maps, and you can roll a D6 for it. Crushing Impact, Explosives and Rapid Ingress are not on the stratagems page during the game.',
     ],
     ru: [
       { h: 'Весь сайт' },
@@ -39,6 +43,10 @@ export const changelog = [
       { h: 'Конструктор ростеров' },
       '**Правила детачмента в окне выбора детачментов больше не закрываются, когда разворачиваете улучшения или стратагемы.** Спасибо за баг-репорт.',
       '**Gladiator Valiant у Black Templars снова стоит 145 очков.** С версии 2.9.1 конструктор брал ещё 20 очков за две стартовые мульти-мельты. Доплата нужна только за третью мульти-мельту, 10 очков.',
+      { h: 'Combat Patrol', kind: 'rules' },
+      '**У каждого набора Combat Patrol появилась его миссия.** Она на странице набора, на новой вкладке «Миссия». Стратагемы и улучшения набора переехали на вкладку «Правила».',
+      '**Появилась страница [«Как играть в Combat Patrol»](/combat-patrol/how-to-play).** На ней порядок партии, три карты расстановки и как определяется победитель.',
+      '**Партия Combat Patrol в трекере идёт по своим правилам.** Каждый игрок считает миссию своего набора. Вторичных миссий нет. Поле — одна из трёх карт Combat Patrol, её можно выбрать броском D6. Crushing Impact, Explosives и Rapid Ingress во время партии не показываются на странице стратагем.',
     ],
   },
   {

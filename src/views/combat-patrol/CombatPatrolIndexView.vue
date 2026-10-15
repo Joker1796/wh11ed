@@ -10,6 +10,12 @@
       <div class="hero-subtitle">
         {{ labels.cpSubtitle }}
       </div>
+      <RouterLink
+        class="cp-howto"
+        to="/combat-patrol/how-to-play"
+      >
+        {{ labels.cpHowToPlayLink }} →
+      </RouterLink>
     </div>
 
     <!-- A pinned faction leaves its group for this one, every box of it, and slides there
@@ -156,6 +162,7 @@ useFlipMove(() => boxesOf(pinned.value).map((b) => b.id), rootEl)
   max-width: 40rem;
   margin: 0 auto;
 }
+
 
 .cp-group {
   margin-bottom: 1.2rem;

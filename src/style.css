@@ -595,6 +595,40 @@ h4 { font-size: var(--fs-subheading); }
   margin: 0 0 1.25rem;
 }
 
+/* ── Combat Patrol: the way to "How to play" ──
+   The link from the box list's hero and from a box's Mission tab to /combat-patrol/how-to-play. */
+.cp-howto {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+
+/* ── Rule plates ──
+   A rule's "### " subheading on a plate in the faction's colour (owner, 2026-10-10, from Misha's
+   note with Wahapedia beside it: "Corsairs and Travelling Players" was hard to find in the army
+   rule's text). The RU line rides on the same plate, pressed right under the English. Global since
+   2026-10-15: a Combat Patrol box's rules wear them too, and one look for a faction's rules is the
+   point. The page sets `--tone-light` (the faction's light colour); without one, the accent.
+   One step above RuleBody's scoped rules (`.rule-subheading[data-v]`, 0,2,0, loaded after this
+   file): at equal weight theirs win, and the plate came out with RuleBody's colour and margins. */
+.rule-plates h4.rule-subheading {
+  margin: 1rem 0 0.45rem;
+  padding: 0.22rem 0.6rem 0.26rem;
+  /* The darker of the faction's pair in both themes: white has to read on it. */
+  background: color-mix(in srgb, var(--tone-light, var(--accent)) 88%, #000);
+  color: #fff;
+  font-size: calc(var(--fs-subheading) * 1.05);
+  line-height: 1.05;
+}
+.rule-plates .rule-subheading > .rule-subheading-ru {
+  color: #fff;
+  opacity: 0.85;
+  font-size: 0.82rem;
+  line-height: 1.05;
+  margin-top: 0;
+}
+
 /* Two-column rule flow on the merged Core Rules and Event Companion pages (`/core-rules`,
    `/event-companion` — the only pages widened past the usual 860px, see
    `.main-content--wide`). Same CSS-multicol masonry as the stratagem grid: blocks tile by
