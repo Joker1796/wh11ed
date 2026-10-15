@@ -33,13 +33,17 @@
       <!-- A guest in a shared game gets only the option blocks — the players, the turn order, the
            score mode and the layout ARE the game and belong to the host (the note above says so
            in place of the controls). Of the options, the rows marked `local` in the table are
-           this phone's; the others are drawn disabled with "host only" (TrackOptions). -->
+           this phone's; the others are drawn disabled with "host only" (TrackOptions).
+           The one exception is its own army list, until the battle begins (a player's report,
+           2026-10-15: "how does the opponent who joined attach his list?" — he could not): the
+           same card, its own side only, the list field alone. -->
       <div
-        v-if="!guest"
+        v-if="cardSides.length"
         class="players"
+        :class="{ 'players-one': guest }"
       >
         <div
-          v-for="(p, i) in players"
+          v-for="i in cardSides"
           :key="i"
           class="player-card"
         >
@@ -47,12 +51,12 @@
             {{ playerLabel(i) }}
           </h3>
           <label
-            v-if="isDoubles"
+            v-if="isDoubles && !guest"
             class="field"
           >
             <span>{{ labels.trackerTeamName }}</span>
             <input
-              v-model="p.teamName"
+              v-model="players[i].teamName"
               type="text"
               :placeholder="labels.trackerTeamName"
             >
@@ -61,7 +65,7 @@
           <!-- The name + list block, once per army: the side itself in singles, each member in
                doubles (same armiesOf recipe as the wizard's step 1). -->
           <div
-            v-for="(m, mi) in armiesOf(p)"
+            v-for="(m, mi) in armiesOf(players[i])"
             :key="mi"
             :class="{ 'member-block': isDoubles }"
           >
@@ -71,7 +75,10 @@
             >
               {{ mi === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2 }}
             </h4>
-            <label class="field">
+            <label
+              v-if="!guest"
+              class="field"
+            >
               <input
                 v-model="m.name"
                 type="text"
@@ -131,11 +138,12 @@
           </div>
 
           <label
+            v-if="!guest"
             class="check"
-            :class="{ on: p.battleReady }"
+            :class="{ on: players[i].battleReady }"
           >
             <input
-              v-model="p.battleReady"
+              v-model="players[i].battleReady"
               type="checkbox"
             >
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
@@ -303,7 +311,7 @@ import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '.
 import { detKey } from '../../data/slugify.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, isYouSide, sideLabel, BATTLE_SIZES } from '../../composables/useTracker.js'
+import { useTracker, membersOf, isYouSide, sideLabel, gameBegun, BATTLE_SIZES } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
@@ -315,7 +323,7 @@ const { current, updateSetup } = useTracker()
 const game = current.value
 // A guest in a shared game (useParty.js): the setup is the host's, and only the phone-local
 // options are offered here. Resolved once — a hand-over mid-dialog is not worth a live gate.
-const { active: partyActive, isHost, reseat } = useParty()
+const { active: partyActive, isHost, reseat, canEdit } = useParty()
 const guest = partyActive.value && !isHost.value
 // A guest starts with the note open: for them it is not a footnote but the reason the dialog holds
 // only this phone's switches — the names, lists and turn order are the host's.
@@ -375,6 +383,11 @@ const settings = reactive({
 })
 
 const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m.roster)))
+// The army cards on screen: both for the host; for a guest its own side, and only until the battle
+// begins — a list attached mid-battle would change what the game has been scoring against.
+const cardSides = computed(() => (guest
+  ? (gameBegun(game) ? [] : players.map((_, i) => i).filter((i) => canEdit(i)))
+  : players.map((_, i) => i)))
 
 function isYou(i) { return isYouSide(game.players[i], i) }
 function playerLabel(i) { return sideLabel(game.players[i], i, labels.value) }
@@ -454,9 +467,15 @@ function save() {
   // a disabled checkbox happened to be carrying.
   const normalized = normalizeTrackSettings(settings, trackCtx.value)
   if (guest) {
-    // Only what is this phone's: the shared settings would be snapped back by the sync anyway,
-    // and the players were never on screen.
-    updateSetup({ settings: Object.fromEntries(LOCAL_TRACK_SETTINGS.filter((k) => k in normalized).map((k) => [k, normalized[k]])) })
+    // Only what is this phone's: the shared settings would be snapped back by the sync anyway.
+    updateSetup({
+      settings: Object.fromEntries(LOCAL_TRACK_SETTINGS.filter((k) => k in normalized).map((k) => [k, normalized[k]])),
+      // Its own side's list, when the card was on screen (cardSides) — nothing of the other side.
+      players: players.map((p, i) => (cardSides.value.includes(i) ? {
+        rosterId: p.rosterId, roster: p.roster, factionSlug: p.factionSlug, detachments: p.detachments,
+        ...(isDoubles ? { members: p.members.map(m => ({ rosterId: m.rosterId, roster: m.roster, factionSlug: m.factionSlug, detachments: m.detachments })) } : {}),
+      } : null)),
+    })
     emit('close')
     return
   }
@@ -496,6 +515,8 @@ function save() {
   gap: 0.6rem;
   margin-bottom: 0.6rem;
 }
+/* A guest's own side alone: one card across the dialog. */
+.players.players-one { grid-template-columns: minmax(0, 1fr); }
 /* Compact (owner, 2026-10-07): the dialog is read on a phone, and the cards' air was most of it. */
 .player-card, .settings {
   background: var(--bg-card);

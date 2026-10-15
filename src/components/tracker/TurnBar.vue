@@ -4,8 +4,26 @@
   <div
     v-if="mode === 'begin'"
     class="tb begin"
-    :class="{ 'with-reserves': reserves }"
+    :class="{ 'with-reserves': reserves, 'with-invite': invite }"
   >
+    <!-- Calling the opponent's phone in at deployment (a player's report, 2026-10-15: "share the
+         game at deployment") — the same invitation as the game's "⋯" → shared game. A word beside
+         Start alone; an icon when the reserves take the row too. -->
+    <button
+      v-if="invite"
+      class="tr-btn tr-invite"
+      :class="{ 'tr-icon': reserves }"
+      data-press
+      :aria-label="labels.partyInviteOpponent"
+      :title="labels.partyInviteOpponent"
+      @click="$emit('invite')"
+    >
+      <i class="wi wi-coop" />
+      <span
+        v-if="!reserves"
+        class="tr-label"
+      >{{ labels.partyInviteShort }}</span>
+    </button>
     <!-- Before the battle, the reserves are chosen (20.01): straight to the attached lists,
          whose rows carry each unit's status (owner, 2026-10-09). Only when a list is there
          to mark — without one there is no unit to put in reserve. -->
@@ -144,6 +162,7 @@ defineProps({
   phase: { type: String, default: 'command' },
   opp: { type: Boolean, default: false },       // the side on turn is the opponent: its colour
   reserves: { type: Boolean, default: false },  // before the battle: offer the reserves
+  invite: { type: Boolean, default: false },    // before the battle, not yet shared: call the opponent in
   canUndo: { type: Boolean, default: false },
   canPrev: { type: Boolean, default: false },
   canNext: { type: Boolean, default: false },
@@ -152,7 +171,7 @@ defineProps({
   undoTitle: { type: String, default: '' },
   endTitle: { type: String, default: '' },
 })
-defineEmits(['start', 'reserves', 'undo', 'step', 'pick-phase', 'end'])
+defineEmits(['start', 'reserves', 'invite', 'undo', 'step', 'pick-phase', 'end'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 </script>
@@ -162,6 +181,9 @@ const labels = computed(() => ui[locale.value])
 .tb { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; align-items: center; }
 .tb.begin { grid-template-columns: 1fr; }
 .tb.begin.with-reserves { grid-template-columns: 1fr 1fr; }
+.tb.begin.with-invite { grid-template-columns: auto 1fr; }
+.tb.begin.with-invite.with-reserves { grid-template-columns: 42px 1fr 1fr; }
+.tr-invite { font-size: 0.95rem; }
 .tr-reserves { font-size: 0.95rem; }
 /* With phases: undo · ‹ · the phase · › · end. */
 .tb.phased { grid-template-columns: 42px 34px minmax(0, 1fr) 34px auto; gap: 0.3rem; }

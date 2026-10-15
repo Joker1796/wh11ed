@@ -614,7 +614,7 @@
         <button
           class="btn-primary"
           :disabled="!canArmies"
-          @click="leaveArmiesStep"
+          @click="askLeaveArmiesStep"
         >
           {{ labels.trackerNextStep }} →
         </button>
@@ -1247,6 +1247,15 @@
       @confirm="doTakeOver"
       @close="takeOverConfirmOpen = null"
     />
+    <ConfirmModal
+      v-if="leaveConfirmOpen"
+      :title="labels.lobbyLeaveArmiesTitle"
+      :message="leaveMessage"
+      :confirm-label="labels.lobbyLeaveArmiesGo"
+      :cancel-label="labels.trackerBack"
+      @confirm="leaveArmiesStep"
+      @close="leaveConfirmOpen = false"
+    />
     <!-- A guest asking to reopen its side after the host has moved on. The host answers here,
          and the answer is what the guest's waiting screen shows. -->
     <ConfirmModal
@@ -1428,7 +1437,7 @@ const {
   shared: sharedSetup, mySide, isReady, editorName, canFill, claim,
   openForm, confirmSide, takeOver,
   pendingRequest, grantReopen, denyReopen,
-  setStage, othersReady,
+  setStage, othersReady, guestSides,
 } = useLobby()
 const { canShare, share, setHold, lastError, invite, refreshInvite } = useParty()
 
@@ -1487,8 +1496,19 @@ function cancelLobby() {
 }
 
 // Leaving the armies step confirms the host's own side and tells the other phones that
-// reopening is now a request rather than a free edit.
+// reopening is now a request rather than a free edit. With a side another phone fills in, the host
+// is asked first — that step is what locks the guest (owner, 2026-10-15), and a host clicking on
+// through it while the guest typed is how the two went round in requests.
+const leaveConfirmOpen = ref(false)
+const leaveMessage = computed(() => (guestSides.value.some((g) => !g.ready)
+  ? labels.value.lobbyLeaveArmiesBusy
+  : labels.value.lobbyLeaveArmiesDone))
+function askLeaveArmiesStep() {
+  if (sharedSetup.value && guestSides.value.length) leaveConfirmOpen.value = true
+  else leaveArmiesStep()
+}
 function leaveArmiesStep() {
+  leaveConfirmOpen.value = false
   if (sharedSetup.value) {
     confirmSide(youIdx.value)
     setStage('host')

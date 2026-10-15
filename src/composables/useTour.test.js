@@ -16,6 +16,8 @@ describe('useTour', () => {
     vi.useFakeTimers()
     vi.resetModules()
     localStorage.clear()
+    // Chapters starting by themselves — the answer to the once-per-device question (tested below).
+    localStorage.setItem('wh11ed-tour-auto', 'on')
     Element.prototype.getClientRects = function () { return this.dataset?.tour ? [{}] : [] }
     ;({ useTour, useTourShow } = await import('./useTour.js'))
     for (const n of ['home-cta', 'game-turnbar', 'roster-new', 'rv-head']) anchor(n)
@@ -154,5 +156,39 @@ describe('useTour', () => {
     expect(replayableNow()).toBe(true)
     field.remove()
     expect(replayableNow()).toBe(false)
+  })
+
+  // A player's report (2026-10-15): "the tutorial always pops up". The first chapter that would
+  // start by itself asks first, once per device; no means no chapter starts by itself again, and
+  // the menu's replay still shows one.
+  async function fresh(answer) {
+    vi.resetModules()
+    localStorage.clear()
+    if (answer) localStorage.setItem('wh11ed-tour-auto', answer)
+    return (await import('./useTour.js')).useTour()
+  }
+  it('asks once instead of starting, and yes starts the chapter that asked', async () => {
+    const t = await fresh('')
+    t.maybeStart('home')
+    vi.advanceTimersByTime(900)
+    expect(t.active.value).toBe(null)
+    expect(t.asking.value?.id).toBe('home')
+    t.answerAuto(true)
+    expect(t.active.value?.id).toBe('home')
+    expect(localStorage.getItem('wh11ed-tour-auto')).toBe('on')
+  })
+  it('no: nothing starts by itself, now or on the next visit — the replay still does', async () => {
+    const t = await fresh('')
+    t.maybeStart('home')
+    vi.advanceTimersByTime(900)
+    t.answerAuto(false)
+    expect(t.active.value).toBe(null)
+    const again = await fresh('off')
+    again.maybeStart('home')
+    vi.advanceTimersByTime(900)
+    expect(again.active.value).toBe(null)
+    again.replay()
+    vi.advanceTimersByTime(900)
+    expect(again.active.value?.id).toBe('home')
   })
 })

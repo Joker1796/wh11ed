@@ -185,6 +185,7 @@ describe('EditSetupModal — a guest in a shared game', () => {
     startGame()
     tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
     tracker.current.value.players.forEach((p, i) => { p.isYou = i === 1 })
+    tracker.current.value.begun = true
     mount(EditSetupModal)
     expect(body().find('.players').exists()).toBe(false)
     expect(body().find('.deploy-opts').exists()).toBe(false)
@@ -197,6 +198,22 @@ describe('EditSetupModal — a guest in a shared game', () => {
     await save()
     expect(tracker.current.value.settings.trackArmyOpp).toBe(false)
     expect(tracker.current.value.settings.trackCP).toBe(true)
+    expect(tracker.current.value.players[0].name).toBe('Me')
+  })
+
+  // A player's report (2026-10-15): the opponent who joined could not attach his own list.
+  it('before the battle begins: its own side\'s list, and nothing else of either side', async () => {
+    startGame()
+    tracker.current.value.begun = false
+    tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
+    tracker.current.value.players.forEach((p, i) => { p.isYou = i === 1 })
+    mount(EditSetupModal)
+    const cards = body().findAll('.player-card')
+    expect(cards.length).toBe(1)
+    expect(cards[0].find('.es-roster').exists()).toBe(true)
+    expect(cards[0].find('input[type="text"]').exists()).toBe(false) // no name field
+    expect(cards[0].find('input[type="checkbox"]').exists()).toBe(false) // no Battle Ready
+    await save()
     expect(tracker.current.value.players[0].name).toBe('Me')
   })
 })

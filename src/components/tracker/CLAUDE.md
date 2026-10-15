@@ -503,9 +503,13 @@ typed into.
 **Reopening is free, then it is a request.** While the host is still on the armies step
 (`lobby.stage === 'armies'`) a guest reopens its side at will. Once the host has moved on
 (`'host'`), "Change" becomes a request the host answers in a dialog — the mission and the layout
-ahead of it were built on what this side said it was fielding. Granting it reopens that side and
-takes everyone back to the armies step; a denial says so on the waiting screen, where "Leave" is
-always available. **The host's own screen follows** (2026-09-24): a `watch` on `othersReady` pulls
+ahead of it were built on what this side said it was fielding. Granting it reopens that side ALONE
+— the host stays where it is (2026-10-15: sending everyone back to the armies step made the host's
+next "Next" lock the guest again, and a player and his opponent went round in requests until they
+gave up); a denial says so on the waiting screen, where "Leave" is always available. **The host is
+asked before the step that locks a guest** (`guestSides`, `askLeaveArmiesStep`): leaving the armies
+step with a side another phone fills in opens a confirm saying the opponent can change it only with
+the host's permission from there — and that it is still being filled in, when it is. **The host's own screen follows** (2026-09-24): a `watch` on `othersReady` pulls
 it back to the mission step from anything later, `canMission` requires `othersReady` as well as the
 two dispositions — a reopened side KEEPS the disposition it had, so the gate read as passed while
 the guest was re-choosing the very thing the primary is made of — and both primary previews are

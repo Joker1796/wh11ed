@@ -31,6 +31,12 @@ if (TOUR_ON && typeof location !== 'undefined' && new URLSearchParams(location.s
   setItem(SEEN_KEY, '[]')
 }
 const seen = ref(readSeen())
+// Whether chapters start by themselves, asked once per device (a player's report, 2026-10-15: "the
+// tutorial always pops up" — every screen of a shared game had a chapter of its own). '' until
+// answered, then 'on' / 'off'. Off, a chapter shows only when asked for from the menu (replay).
+const AUTO_KEY = 'wh11ed-tour-auto'
+const auto = ref(getItem(AUTO_KEY) || '')
+const asking = ref(null) // { id, ctx }: the chapter that would have started, waiting on the answer
 let waiting = null // the timer looking for a free screen (maybeStart)
 const pending = new Map() // id → { ctx, at }: chapters asked for and not yet shown, in order
 const PENDING_MS = 60000 // a chapter not shown within a minute of its screen asking is dropped
@@ -99,22 +105,25 @@ export function useTour() {
   // side by side, each with its chapter, and the second used to cancel the first. A waiting
   // chapter starts only while something it lights is on screen, and one not shown within a minute
   // is dropped — its screen has gone.
-  function maybeStart(id, ctx = {}) {
+  function maybeStart(id, ctx = {}, { manual = false } = {}) {
     if (!TOUR_ON || !TOUR_CHAPTERS[id]) return
     const targets = [...new Set(stepsOf(id, ctx).flatMap((st) => (st.target && typeof st.target === 'object' ? [st.target.phone, st.target.desk] : [st.target])).filter(Boolean))]
     asked.value = [...asked.value.filter((a) => a.id !== id), { id, ctx, targets }]
     if (seen.value.has(id)) return
-    pending.set(id, { ctx, at: Date.now() })
+    if (!manual && auto.value === 'off') return
+    pending.set(id, { ctx, at: Date.now(), manual })
     if (waiting) return
     let free = 0 // the screen has to stay free for two looks: a dialog may open a moment late
     waiting = setInterval(() => {
-      free = active.value || dialogOpen() ? 0 : free + 1
+      free = active.value || asking.value || dialogOpen() ? 0 : free + 1
       if (free < 2) return
       for (const [pid, p] of pending) {
         if (seen.value.has(pid) || Date.now() - p.at > PENDING_MS) { pending.delete(pid); continue }
         if (!onScreen(pid, p.ctx)) continue // not drawn yet, or its screen is not the one up
         pending.delete(pid)
-        start(pid, p.ctx)
+        // The first chapter that would start by itself asks first; the rest wait for the answer.
+        if (!p.manual && !auto.value) asking.value = { id: pid, ctx: p.ctx }
+        else start(pid, p.ctx)
         break
       }
       if (!pending.size) { clearInterval(waiting); waiting = null }
@@ -159,7 +168,17 @@ export function useTour() {
     if (active.value) active.value = null
     seen.value = new Set([...seen.value].filter((id) => !again.some((a) => a.id === id)))
     setItem(SEEN_KEY, JSON.stringify([...seen.value]))
-    for (const a of again) maybeStart(a.id, a.ctx)
+    for (const a of again) maybeStart(a.id, a.ctx, { manual: true })
+  }
+
+  // The once-per-device question (`asking`): yes starts the chapter that asked, no leaves it unread
+  // (shown again should the reader turn chapters on, or ask for it from the menu).
+  function answerAuto(on) {
+    auto.value = on ? 'on' : 'off'
+    setItem(AUTO_KEY, auto.value)
+    const a = asking.value
+    asking.value = null
+    if (on && a) start(a.id, a.ctx)
   }
 
   // Every chapter shown again, each on its own screen.
@@ -177,5 +196,5 @@ export function useTour() {
     else next()
   }
 
-  return { active, chapter, step, maybeStart, start, next, back, pass, finish, resetAll, replayable, replay }
+  return { active, chapter, step, maybeStart, start, next, back, pass, finish, resetAll, replayable, replay, asking, answerAuto }
 }

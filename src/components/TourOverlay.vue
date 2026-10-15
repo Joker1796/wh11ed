@@ -70,6 +70,16 @@
       </div>
     </Transition>
   </Teleport>
+  <!-- Asked once per device before the first chapter starts by itself (useTour's `asking`). -->
+  <ConfirmModal
+    v-if="asking"
+    :title="labels.tourAskTitle"
+    :message="labels.tourAskText"
+    :confirm-label="labels.tourAskYes"
+    :cancel-label="labels.tourAskNo"
+    @confirm="answerAuto(true)"
+    @close="answerAuto(false)"
+  />
 </template>
 
 <script setup>
@@ -77,6 +87,7 @@ import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { forgetScreen, leavePage, useTour } from '../composables/useTour.js'
+import ConfirmModal from './ConfirmModal.vue'
 
 // The page on screen (App.vue's pageKey): a new one, and the ⚙ menu's "this screen's tutorial"
 // forgets the chapters the last page asked for, and the tour drops the ones waiting or on screen.
@@ -84,7 +95,7 @@ const props = defineProps({ page: { type: String, default: '' } })
 watch(() => props.page, () => { forgetScreen(); leavePage() })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { active, chapter, step, next, back, pass, finish } = useTour()
+const { active, chapter, step, next, back, pass, finish, asking, answerAuto } = useTour()
 
 const last = computed(() => !!chapter.value && active.value.i === chapter.value.steps.length - 1)
 const text = computed(() => step.value?.[locale.value] || step.value?.en || {})

@@ -119,11 +119,22 @@ describe('done, and asking to change it', () => {
     expect(as(GUEST).myRequestDenied.value).toBe(true)
     expect(as(GUEST).myRequestPending.value).toBe(false)
 
-    // Allowing it reopens the side and takes both phones back to the armies step.
+    // Allowing it reopens the side alone: the host stays where it is (2026-10-15 — sending both
+    // back to the armies step had the host's next "Next" lock the guest again, round and round),
+    // and the side being open is what holds the mission and Start (othersReady).
     as(GUEST).requestReopen(1)
     as(HOST).grantReopen(1)
     expect(as(GUEST).isReady(1)).toBe(false)
-    expect(as(HOST).stage.value).toBe('armies')
+    expect(as(HOST).stage.value).toBe('host')
+  })
+
+  // What the host's leaving the armies step locks, and so what it asks about (GameSetup).
+  it('the host knows which sides another phone fills in, and whether they are done', async () => {
+    expect(as(HOST).guestSides.value).toEqual([]) // nobody holds the side: the host's to fill
+    await as(GUEST).openForm(1, 'Guest')
+    expect(as(HOST).guestSides.value).toEqual([{ pi: 1, ready: false }])
+    as(GUEST).confirmSide(1)
+    expect(as(HOST).guestSides.value).toEqual([{ pi: 1, ready: true }])
   })
 })
 
