@@ -163,13 +163,6 @@ useFlipMove(() => boxesOf(pinned.value).map((b) => b.id), rootEl)
   margin: 0 auto;
 }
 
-/* The way to the game itself — the mission sequence and the maps (CombatPatrolHowToView). */
-.cp-howto {
-  display: inline-block;
-  margin-top: 0.5rem;
-  font-weight: 600;
-  color: var(--accent-ink);
-}
 
 .cp-group {
   margin-bottom: 1.2rem;

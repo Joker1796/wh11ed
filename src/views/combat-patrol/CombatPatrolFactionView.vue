@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="faction"
-    class="cp-faction-view"
+    class="cp-faction-view rule-plates"
     :class="{ themed: !!color }"
     :style="colorVars"
   >
@@ -291,7 +291,8 @@ const box = computed(() => combatPatrolIndex.find((b) => b.id === route.params.s
 const indexEntry = computed(() => factionIndexBySlug(box.value?.slug))
 const color = computed(() => indexEntry.value?.color || null)
 const colorVars = computed(() =>
-  color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark } : undefined,
+  // `--tone-light` too: the rule plates (style.css) wear the faction's colour, as on its own page.
+  color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark, '--tone-light': color.value.light } : undefined,
 )
 
 // combatPatrol.js carries every box's rule text + fixed-roster datasheets —
@@ -353,13 +354,17 @@ watch(() => route.hash, (hash) => {
   padding-top: 0.25rem; /* the faction page's (FactionLayout) */
 }
 
-/* The way to the rest of how a game goes (the mission sequence and the maps). */
-.cp-howto {
-  display: inline-block;
-  margin-top: 0.5rem;
-  font-weight: 600;
-  color: var(--accent-ink);
+/* A rules section is a heading and the rule under it, tight as the vertical-density canon has it
+   (root CLAUDE.md → src/components/CLAUDE.md): RuleBlock's own padding and rule line are for a
+   run of rules, and here each section holds one — they doubled the gaps (owner, 2026-10-15). */
+.cp-rules .fsection > .rule-block {
+  padding: 0.35rem 0 0;
+  border-bottom: none;
 }
+.cp-rules .det-meta {
+  margin-bottom: 0.4rem;
+}
+
 .cp-memo ul {
   margin: 0;
   padding-left: 1.2rem;
