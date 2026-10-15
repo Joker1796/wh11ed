@@ -217,22 +217,6 @@ export const changelog = [
       'Последние дни были непростыми. Благодаря вашей поддержке мы со всем справились. Мы сделали сайт настолько устойчивым к сбоям, насколько это вообще возможно в текущей обстановке.',
     ],
   },
-  {
-    version: '2.8.0',
-    date: '2026-10-11',
-    en: [
-      { h: 'Account' },
-      'You can now sign in with an email and a password. Open the ⚙ menu, tap “Sign in” and choose “Create an account”. Signing in with Yandex stays.',
-      'If you sign in with Yandex, you can add an email sign-in from the ⚙ menu. It is the same account: your lists and games stay where they are.',
-      'If you forget your password, tap “Forgot your password?” in the sign-in window. A link to set a new one comes to your email.',
-    ],
-    ru: [
-      { h: 'Аккаунт' },
-      'Теперь можно войти по почте и паролю. В меню ⚙ нажмите «Войти» и выберите «Регистрация». Вход через Яндекс остаётся.',
-      'Если вы входите через Яндекс, в меню ⚙ можно добавить вход по почте. Это тот же аккаунт: ваши ростеры и партии остаются на месте.',
-      'Забыли пароль — нажмите «Забыли пароль?» в окне входа. На почту придёт ссылка, чтобы задать новый.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
