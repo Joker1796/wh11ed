@@ -386,13 +386,14 @@ invite on that site. A beta game that reached this history through the cloud is 
 saw — and takes back every slice someone else changed, in ONE `POST /party/{id}/sync` (the gateway
 charges per request). A `409` means a write was based on a stale version: the server's copies
 land through `applyRemote`, this phone's change is gone, and the player taps again — the honest
-outcome when two partners edit one side inside three seconds. `423` is a finished game a guest
+outcome when two partners edit one side inside two seconds. `423` is a finished game a guest
 cannot reopen; `401` the host removed this phone (`party.revoked`); `404` the host ended it
 (`party.ended`) — both leave the game on the phone as its own. A slice this phone may not write
 (`canEdit(side)`: the host any, a guest its own side) snaps back to the base rather than going
 out. Nothing is queued offline: the base stays put and the first tick back sends the difference.
 
-**The gate is on receiving.** A phone polls (3 s, the server's micro-cache window; 15 s once the
+**The gate is on receiving.** A phone polls (2 s, the server's state-cache window — 3 s until
+2026-10-16, when the API had left the per-request gateway; 4 s in the lobby; 15 s once the
 game is finished, because only the host can reopen it and a guest who stopped listening would
 never learn; 10 s from any screen for a host feeding a broadcast) while a LIVE screen is mounted —
 `TrackerGameView` and the game's own roster (`RosterViewView` in-game, which writes rule switches)
