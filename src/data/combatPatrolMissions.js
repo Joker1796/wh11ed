@@ -37,6 +37,5 @@ export function cpSequence(locale = 'en') {
 /** The deployment maps: [{ id: 'A'|'B'|'C', image }]. */
 export const cpLayouts = data.layouts
 
-/** The deployment map a D3 result picks: 1 → A, 2 → B, 3 → C — GW's D6 table (1–2 A, 3–4 B,
- *  5–6 C) is a D3, and the tracker rolls it as one (owner, 2026-10-15). */
-export const cpLayoutForRoll = (d3) => ['A', 'B', 'C'][d3 - 1]
+/** The deployment map a D6 result picks: 1–2 → A, 3–4 → B, 5–6 → C. */
+export const cpLayoutForRoll = (d6) => (d6 <= 2 ? 'A' : d6 <= 4 ? 'B' : 'C')
