@@ -35,7 +35,9 @@
         class="breakdown"
       >
         <div><dt>{{ labels.trackerPrimary }}</dt><dd>{{ primaryTotal(i) }}</dd></div>
-        <div><dt>{{ labels.trackerSecondary }}</dt><dd>{{ secondaryTotal(i) }}</dd></div>
+        <div v-if="!game?.settings?.combatPatrol">
+          <dt>{{ labels.trackerSecondary }}</dt><dd>{{ secondaryTotal(i) }}</dd>
+        </div>
         <div v-if="showCp">
           <dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd>
         </div>

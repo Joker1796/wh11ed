@@ -5,6 +5,7 @@
 // mode played the Chapter Approved missions — a player asked where the missions were.
 //
 // Shape:
+//   boxes: [{ id, slug, rule }]           — every box, its faction and its detachment rule's name
 //   missions: { "<box id>": mission }   — the box id of src/data/combatPatrol.js
 //     mission = { type: 'primary', slug: 'cp-<box id>', name, lore?, briefing?, blocks }, the shape
 //     of a src/data/missions.js primary, so MissionCard and the tracker's scoring read it as one;
@@ -115,7 +116,9 @@ export function build() {
     actions: group(table('primary_mission_action.json'), 'primaryMissionId'),
   }
   const problems = []
-  const out = { missions: {}, sequence: [], layouts: [] }
+  // `boxes`: which box an army in a game is playing, without loading combatPatrol.js — the
+  // tracker's store matches the army's detachment against `rule` (combatPatrolBox.js).
+  const out = { boxes: combatPatrol.en.factions.map((b) => ({ id: b.id, slug: b.slug, rule: b.rule?.name || '' })), missions: {}, sequence: [], layouts: [] }
   const used = new Set()
   for (const box of combatPatrol.en.factions) {
     const bundle = loadJson(path.join(APPDATA, 'factions', `${SLUG_MAP[box.slug] || box.slug}.json`))

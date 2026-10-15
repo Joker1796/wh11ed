@@ -6,6 +6,7 @@
 import { combatPatrolMissionsData as data } from './combatPatrolMissionsData.js'
 import { combatPatrolMissionsRu as ru } from './combatPatrolMissionsRu.js'
 import { overlayMission } from './missionOverlay.js'
+import { combatPatrolBoxOf } from '../composables/combatPatrolBox.js'
 
 export const CP_MISSION_PREFIX = 'cp-'
 export const isCpMissionSlug = (slug) => typeof slug === 'string' && slug.startsWith(CP_MISSION_PREFIX)
@@ -14,6 +15,13 @@ export const isCpMissionSlug = (slug) => typeof slug === 'string' && slug.starts
 export function cpMissionOfBox(boxId, locale = 'en') {
   const m = data.missions[boxId] || null
   return locale === 'ru' ? overlayMission(m, ru.missions[boxId]) : m
+}
+
+/** The mission slug of the box an army in a game is playing ({ factionSlug, detachments }), or null. */
+const BOXES = data.boxes.map((b) => ({ id: b.id, slug: b.slug, rule: { name: b.rule } }))
+export function cpMissionSlugFor(army) {
+  const box = combatPatrolBoxOf(BOXES, army)
+  return box && data.missions[box.id] ? CP_MISSION_PREFIX + box.id : null
 }
 
 /** A mission by its tracker slug (`cp-<box id>`). */

@@ -183,7 +183,9 @@
           <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
         </div>
 
+        <!-- Combat Patrol has no secondaries: a player scores their box's mission alone. -->
         <SecondaryDeck
+          v-if="!current.settings?.combatPatrol"
           :pi="i"
           :inert="lock(i)"
         />

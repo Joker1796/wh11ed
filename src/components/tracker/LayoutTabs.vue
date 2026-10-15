@@ -10,6 +10,7 @@
       <span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}
     </button>
     <button
+      v-if="custom"
       class="tab"
       :class="{ active: selected === 'custom' }"
       @click="$emit('custom')"
@@ -31,6 +32,8 @@ import { useLocale } from '../../composables/useLocale.js'
 defineProps({
   layouts: { type: Array, required: true },
   selected: { type: String, default: null },
+  // Combat Patrol plays only its own three maps: no "custom" tab.
+  custom: { type: Boolean, default: true },
 })
 defineEmits(['select', 'custom'])
 
