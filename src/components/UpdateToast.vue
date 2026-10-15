@@ -7,6 +7,7 @@
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
+import { swReload } from '../composables/reloadLoop.js'
 
 const route = useRoute()
 
@@ -41,6 +42,9 @@ let lastCheck = 0
 let checkSW = () => {}
 
 const { needRefresh, updateServiceWorker } = useRegisterSW({
+  // The reload after a new worker takes over is ours, not the plugin's: at most once in 30 s and
+  // never while a loop is held (reloadLoop.js — iPhones reloaded in a loop here, 2026-10-15).
+  onNeedReload: () => swReload(),
   onRegisteredSW(_swUrl, registration) {
     if (!registration) return
     checkSW = () => {

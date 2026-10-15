@@ -27,6 +27,13 @@ describe('recoverFromStaleChunk', () => {
     vi.unstubAllGlobals()
   })
 
+  it('does not reload a page caught reloading itself in a loop (reloadLoop.js)', async () => {
+    localStorage.setItem('wh11ed-reload-hold', String(Date.now() + 60_000))
+    expect(await recoverFromStaleChunk('/a', { reload })).toBe(false)
+    expect(reload).not.toHaveBeenCalled()
+    localStorage.removeItem('wh11ed-reload-hold')
+  })
+
   it('reloads into the page the reader asked for', async () => {
     expect(await recoverFromStaleChunk('/ru/roster', { reload })).toBe(true)
     expect(reload).toHaveBeenCalledWith('/ru/roster')

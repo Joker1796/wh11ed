@@ -111,7 +111,7 @@
       :resume-draft-id="resumeDraftId"
     />
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolPageRoute" />
-    <UpdateToast />
+    <UpdateToast v-if="!holdReloads" />
     <OfflineWarmupToast v-if="!isBare" />
     <ErrorReportsOffer
       v-if="errorOfferOpen"
@@ -132,6 +132,9 @@ import { useSignInModal } from './composables/useSignInModal.js'
 import { useBackToCloseWhile } from './composables/useBackToClose.js'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
+// A page caught reloading itself in a loop gets no update applied for a while (reloadLoop.js):
+// without the toast's service worker nothing reloads it.
+const holdReloads = reloadsHeld()
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 const InstallOffer = defineAsyncComponent(() => import('./components/InstallOffer.vue'))
@@ -151,6 +154,7 @@ import AppSubnav from './components/AppSubnav.vue'
 import AppBottomNav from './components/AppBottomNav.vue'
 import WelcomeModal from './components/WelcomeModal.vue'
 import UpdateToast from './components/UpdateToast.vue'
+import { reloadsHeld } from './composables/reloadLoop.js'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
 import MobileUtilityBar from './components/MobileUtilityBar.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
