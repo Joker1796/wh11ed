@@ -38,7 +38,7 @@ describe('TrackOptions', () => {
     const { w, settings } = build()
     await w.find('.opt-info').trigger('click')
     expect(settings.trackCP).toBe(true)
-    expect(body().text()).toContain('Track CP')
+    expect(body().text()).toContain('CP and stratagems')
   })
 
   // The caveat lives in the help, not under the caption: no row is taller than the rest.
