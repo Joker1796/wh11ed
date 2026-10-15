@@ -4258,6 +4258,10 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Acid spray", "points": 10 },
+      { "name": "Rupture Cannon", "points": 20 }
+    ],
     "flavor": "The Tyrannofex is a walking battle tank and heavy weapons platform of huge size and resilience. These warrior organisms are extremely well armoured, more than capable of going toe-to-toe with the heaviest battle tanks of their prey species in a shooting match. Few foes can stand against even one of these beasts.",
     "profiles": [
       {

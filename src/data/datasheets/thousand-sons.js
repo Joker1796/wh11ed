@@ -1156,6 +1156,10 @@ export default [
         "note": "2nd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Hades Lascannon", "points": 15 },
+      { "name": "Heavy Reaper Autocannon", "points": 15 }
+    ],
     "flavor": "These hulking masses of sorcery-wreathed mechanisms and daemon-bound flesh advance upon mechanical limbs that crush and rend even as the monstrosity’s heavy guns rain death on the foe, while shrugging off enemy fire by transmuting incoming projectiles or reknitting their flesh to repair damage.",
     "profiles": [
       {
@@ -1665,6 +1669,9 @@ export default [
         "points": 145,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Ectoplasma cannon", "points": 5 }
     ],
     "flavor": "The ectoplasma cannons and Hades autocannons of the Forgefiends draw their furious energies direct from the blazing daemon forges at the heart of each murderous artillery engine. So do they unleash salvoes of blazing weaponised hatred that eradicate the Thousand Sons’ enemies in droves.",
     "profiles": [

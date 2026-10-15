@@ -1276,6 +1276,10 @@ export default [
         "note": "2nd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Despoiler gatling cannon", "points": 25 },
+      { "name": "Despoiler battle cannon", "points": 10 }
+    ],
     "flavor": "Knights Despoiler epitomise all it means to be a Chaos Knight. Their Fallen Nobles repudiate honour and seethe with hatred. Capable of bearing a variety of powerful weapons suited to their pilot’s temperament, they unleash their hatred at range or in thunderous melee.",
     "profiles": [
       {

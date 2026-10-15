@@ -1907,6 +1907,9 @@ export default [
         "points": 110
       }
     ],
+    "wargearPoints": [
+      { "name": "Dark Lance", "points": 5 }
+    ],
     "flavor": "Ravager gunships fulfil the role of armoured fire support during Drukhari raids, leveraging their speed and agility to outmanoeuvre the more heavily armoured war engines with which they typically duel. They are mobile assassins, mounting enough firepower to gut enemy tanks and eradicate the foe’s elite warriors before swiftly relocating to new hunting grounds.",
     "profiles": [
       {
@@ -2493,6 +2496,10 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Haywire blaster", "points": 5 },
+      { "name": "Dark Lance", "points": 5 }
+    ],
     "flavor": "Airborne messengers and mercenaries who ride the thermals between Commorragh’s highest spires, Scourges have been bodily modified for winged flight. They wear their grotesque new forms with the same pride that they wield their massive dark lances and splinter cannons, for their combination of speed and firepower renders them invaluable.",
     "profiles": [
       {
@@ -2934,6 +2941,9 @@ export default [
         "points": 150,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Twin haywire blaster", "points": 5 }
     ],
     "flavor": "The Talos Pain Engine is a ghoulish melding of stitch-puckered flesh and armoured artifice, boasting tremendous resilience and a nightmarish array of weaponry. Each is the proud creation of the Drukhari Haemonculi, who employ their Talos as torture devices, surgical assistants and armoured murder machines.",
     "profiles": [

@@ -1977,6 +1977,9 @@ export default [
         "note": "Agents of the Imperium (allied)"
       }
     ],
+    "wargearPoints": [
+      { "name": "Psycannon", "points": 5 }
+    ],
     "flavor": "The Grey Knights are the foremost daemon-hunting elites in the Imperium. Amongst their ranks, few warriors are more fearsome or skilled than their Terminators. So it is that, when powerful Imperial agents call for aid against infernal threats, these battle-brothers often answer.",
     "profiles": [
       {
@@ -5648,6 +5651,9 @@ export default [
         "points": 115,
         "note": "4th+, Agents of the Imperium (allied)"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Twin Multi-melta", "points": 15 }
     ],
     "flavor": "The Immolator is an armoured transport commonly employed by the Adepta Sororitas. As befits their zealous style of war, its armaments tend towards aggressive short-ranged firepower best employed amidst dense terrain or on the attack. Countless heretics and xenos have been reduced to ash by the fiery blasts of these tools of purgation.",
     "profiles": [

@@ -1381,6 +1381,10 @@ export default [
         "note": "2nd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Hades Lascannon", "points": 15 },
+      { "name": "Heavy Reaper Autocannon", "points": 15 }
+    ],
     "flavor": "Infernal many-legged Daemon Engines of enormous size, Defilers combine an arsenal of heavy weapons with brutal close-quarters butchery. Those hurled into battle by the World Eaters are rune-daubed prisons for ferocious warp entities that vent their hate and fury upon the foe with cataclysmically gory results.",
     "profiles": [
       {
@@ -1836,6 +1840,9 @@ export default [
         "points": 155,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Ectoplasma cannon", "points": 5 }
     ],
     "flavor": "Forgefiends are fused with enormous rotary cannons that fire fist‐sized phosphor shells or shoot with ancient artefact ordnance perverted to vomit ectoplasma from the beasts’ innards. With such weaponry, they mow down masses of enemy troops and blast glowing craters into the toughest opposition.",
     "profiles": [

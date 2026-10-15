@@ -20,6 +20,11 @@
 //         extra rows with `note: "<subfaction name>"`, only where the price differs;
 //       - anything else (SM named-character sections, TS/WE daemon allies) is its own
 //         datasheet entry.
+//   * a unit's `wargear` (the MFM's WARGEAR OPTIONS, "per Heavy psycannon 15 pts") → the
+//     datasheet's `wargearPoints`, printed under its points table so the unit's page says what
+//     the roster builder charges (a player asked where the price of a weapon swap is, 2026-10-15).
+//     A Chapter's shared Codex units are priced by space-marines.js; a Chapter price that
+//     differed would be reported, there is no override for it (none differs today).
 //   * mfm `legends` → same-named datasheet entries carrying `legends: true` (appdata's for
 //     Orks, the faction-pack ones elsewhere — see the hub's `legends-from-pack` skill). A
 //     Legends unit MFM prices that we have no datasheet for is listed at the end as
@@ -33,12 +38,15 @@ const DS = path.join(ROOT, 'src/data/datasheets')
 const MFM = path.join(ROOT, 'src/data/mfm')
 const WRITE = process.argv.includes('--write')
 
-const norm = (s) => s.toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, ' ').trim()
+// Hyphens folded too: appdata spells "Shield‑Captain" with U+2011, and until 2026-10-15 that one
+// character kept its whole MFM line — both price tiers and its wargear — from reaching the page.
+const norm = (s) => s.toLowerCase().replace(/[’']/g, "'").replace(/[‐‑‒–]/g, '-').replace(/\s+/g, ' ').trim()
 const rowKey = (o) => JSON.stringify([o.models ?? null, o.points, o.note ?? null])
 const sameRows = (a, b) =>
   a.length === b.length &&
   [...a].map(rowKey).sort().join('|') === [...b].map(rowKey).sort().join('|')
 // same price line regardless of note (to detect redundant allied duplicates)
+const wgKey = (rows) => (rows ?? []).map((w) => `${norm(w.name)}=${w.points}`).sort().join('|')
 const samePrice = (a, b) => (a.models ?? null) === (b.models ?? null) && a.points === b.points
 
 // A bare absolute path is not a module specifier on Windows — `c:\…` reads as a URL scheme and
@@ -53,9 +61,14 @@ const smById = new Map(smMod.default.map((u) => [u.id, u]))
 
 // SM base expected points by unit name (main units + named-character sections)
 const smExpected = new Map()
-for (const u of smMfm.units) smExpected.set(norm(u.name), u.options)
+const smWargear = new Map()
+for (const u of smMfm.units) { smExpected.set(norm(u.name), u.options); smWargear.set(norm(u.name), u.wargear ?? []) }
 for (const sub of smMfm.subfactions) {
-  for (const u of sub.units) if (!smExpected.has(norm(u.name))) smExpected.set(norm(u.name), u.options)
+  for (const u of sub.units) {
+    if (smExpected.has(norm(u.name))) continue
+    smExpected.set(norm(u.name), u.options)
+    smWargear.set(norm(u.name), u.wargear ?? [])
+  }
 }
 
 let drift = 0
@@ -73,19 +86,24 @@ for (const file of readdirSync(DS).sort()) {
 
   // ---- expected points per own-unit name -------------------------------
   const expected = new Map()
-  for (const u of mfm.units ?? []) expected.set(norm(u.name), [...u.options])
+  const wargear = new Map() // name -> the MFM's priced wargear rows
+  for (const u of mfm.units ?? []) { expected.set(norm(u.name), [...u.options]); wargear.set(norm(u.name), u.wargear ?? []) }
   const legendsNames = new Set()
   for (const u of mfm.legends ?? []) {
     // The MFM prints a few Legends names differently from the Faction Pack datasheet they price
     // ("Sentry Pylons" for the pack's SENTRY PYLON); the datasheet keeps the pack's name.
     const name = LEGENDS_MFM_NAMES[norm(u.name)] || norm(u.name)
     legendsNames.add(name)
-    if (!expected.has(name)) expected.set(name, [...u.options])
+    if (!expected.has(name)) { expected.set(name, [...u.options]); wargear.set(name, u.wargear ?? []) }
   }
   const chapterShared = new Map() // name -> options (Chapter price of shared SM units)
   for (const sub of mfm.subfactions ?? []) {
     if (isChapter && sub.name === 'Space Marines') {
-      for (const u of sub.units) chapterShared.set(norm(u.name), u.options)
+      for (const u of sub.units) {
+        chapterShared.set(norm(u.name), u.options)
+        const sm = smWargear.get(norm(u.name))
+        if (sm && wgKey(sm) !== wgKey(u.wargear)) report(`${slug}: ${u.name}: Chapter wargear price ${JSON.stringify(u.wargear ?? [])} differs from Space Marines ${JSON.stringify(sm)} — no override exists for it`)
+      }
       continue
     }
     for (const u of sub.units) {
@@ -100,6 +118,7 @@ for (const file of readdirSync(DS).sort()) {
         }
       } else {
         expected.set(k, [...u.options])
+        wargear.set(k, u.wargear ?? [])
       }
     }
   }
@@ -115,6 +134,14 @@ for (const file of readdirSync(DS).sort()) {
   for (const u of mod.default) {
     const want = expected.get(norm(u.name))
     if (!want) continue // appdata-only entries absent from MFM
+    const wantWg = wargear.get(norm(u.name)) ?? []
+    if (wgKey(u.wargearPoints) !== wgKey(wantWg)) {
+      report(`${slug}: ${u.name}: wargear ${JSON.stringify(u.wargearPoints ?? [])} -> ${JSON.stringify(wantWg)}`)
+      if (WRITE) {
+        src = replaceWargear(src, u.id, wantWg)
+        touched = true
+      }
+    }
     if (sameRows(u.points ?? [], want)) continue
     report(`${slug}: ${u.name}: ${JSON.stringify(u.points)} -> ${JSON.stringify(want)}`)
     if (WRITE) {
@@ -172,6 +199,30 @@ function replacePoints(src, id, rows) {
     return `${indent}{\n${kv.map((l) => `${indent}  ${l}`).join(',\n')}\n${indent}}`
   }).join(',\n')
   return `${src.slice(0, start)}[\n${body}\n    ]${src.slice(end + 1)}`
+}
+
+// Write the unit's "wargearPoints" array right after its "points" one (or drop it when the MFM
+// prices nothing on the unit any more).
+function replaceWargear(src, id, rows) {
+  const anchor = `"id": "${id}"`
+  const at = src.indexOf(anchor)
+  if (at === -1) throw new Error(`id not found: ${id}`)
+  const nextId = src.indexOf('"id": "', at + anchor.length)
+  const inUnit = (i) => i !== -1 && (nextId === -1 || i < nextId)
+  const body = rows.map((w) => `      { "name": ${JSON.stringify(w.name)}, "points": ${w.points} }`).join(',\n')
+  const block = rows.length ? `"wargearPoints": [\n${body}\n    ]` : ''
+  const wKey = src.indexOf('"wargearPoints": [', at)
+  if (inUnit(wKey)) {
+    const end = matchBracket(src, wKey + '"wargearPoints": '.length)
+    if (block) return `${src.slice(0, wKey)}${block}${src.slice(end + 1)}`
+    // drop the key with its trailing comma and line
+    return `${src.slice(0, wKey).replace(/\s+$/, '\n    ')}${src.slice(end + 1).replace(/^,\s*/, '')}`
+  }
+  if (!block) return src
+  const pKey = src.indexOf('"points": [', at)
+  if (!inUnit(pKey)) throw new Error(`no points block for ${id}`)
+  const end = matchBracket(src, pKey + '"points": '.length)
+  return `${src.slice(0, end + 1)},\n    ${block}${src.slice(end + 1)}`
 }
 
 // Replace the whole pointsOverrides object (Chapter-file style, unquoted keys). A Chapter file
