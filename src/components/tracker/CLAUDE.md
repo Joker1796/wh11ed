@@ -413,7 +413,7 @@ Patrol data and `scorableBlocks` reads a block's own `rounds` before its heading
 Force Disposition and no secondaries (`missionOkFor` needs only the faction); the game screen has
 no deck and the score board no Secondary line. Step 3 and the edit dialog offer the three Combat
 Patrol maps (`resolveLayout`/`useSetupLayout` read `settings.combatPatrol`; `LayoutTabs :custom`
-hides the custom tab) with a D6 roll (`CpLayoutRoll.vue`). The stratagems page drops
+hides the custom tab) with a D3 roll — GW's D6 table is one (`CpLayoutRoll.vue`). The stratagems page drops
 `CP_BANNED_CORE_STRATAGEMS` (Crushing Impact, Explosives, Rapid Ingress) while such a game is on.
 Battle Ready's +10 is the ordinary checkbox — GW suggests leaving it off for a newcomer. The caps
 are the ordinary ones too: the Combat Patrol pack in appdata says 15 a round, 45 a game.

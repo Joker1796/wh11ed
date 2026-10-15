@@ -15,13 +15,15 @@
       :class="`wi-dice-${face}`"
       aria-hidden="true"
     />
-    <span class="cp-roll-text">D6</span>
+    <span class="cp-roll-text">D3</span>
   </button>
 </template>
 
 <script setup>
-// Combat Patrol's mission sequence picks the deployment map with a D6 (1–2 A, 3–4 B, 5–6 C).
-// The roll picks a tab; the player can still pick another by hand.
+// Combat Patrol's mission sequence picks the deployment map with a D6 (1–2 A, 3–4 B, 5–6 C) —
+// a D3, which is what this rolls and shows (1 A, 2 B, 3 C): a die reading 5 under a "D3" label
+// would ask the player to do the table in their head. The roll picks a tab; the player can still
+// pick another by hand.
 import { ref, computed } from 'vue'
 import { cpLayoutForRoll } from '../../data/combatPatrolMissions.js'
 import { ui } from '../../i18n/ui.js'
@@ -32,14 +34,14 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const rolled = ref(0)
-const face = computed(() => rolled.value || 6)
+const face = computed(() => rolled.value || 3)
 const name = computed(() =>
   rolled.value
     ? `${labels.value.trackerCpRoll} · ${labels.value.trackerCpRolled.replace('{n}', rolled.value)}`
     : labels.value.trackerCpRoll,
 )
 function roll() {
-  rolled.value = 1 + Math.floor(Math.random() * 6)
+  rolled.value = 1 + Math.floor(Math.random() * 3)
   emit('roll', cpLayoutForRoll(rolled.value))
 }
 </script>

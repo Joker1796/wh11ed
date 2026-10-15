@@ -71,6 +71,11 @@ describe('Combat Patrol game', () => {
     expect(resolveLayout({ combatPatrol: true, layout: 'custom', customLayout: { id: 'X' } }).id).toBe('A')
   })
 
+  it("rolls a D3 for the map — GW's D6 table, 1–2 A, 3–4 B, 5–6 C", async () => {
+    const { cpLayoutForRoll } = await import('../data/combatPatrolMissions.js')
+    expect([1, 2, 3].map(cpLayoutForRoll)).toEqual(['A', 'B', 'C'])
+  })
+
   it('takes Crushing Impact, Explosives and Rapid Ingress off the core stratagems', async () => {
     const { loadCoreStratagems, CP_BANNED_CORE_STRATAGEMS } = await import('./gameStratagems.js')
     for (const loc of ['en', 'ru']) {
