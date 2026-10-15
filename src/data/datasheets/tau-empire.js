@@ -652,6 +652,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "High-yield Missile Pods", "points": 5 }
+    ],
     "flavor": "Broadside Battlesuit teams annihilate everything that falls beneath their sights. Each battlesuit is an indomitable slab of high-tech armour, while their iconic heavy rail rifles and other long-range weaponry can make short work of even the toughest enemy targets.",
     "profiles": [
       {
@@ -1955,6 +1958,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Missile pod", "points": 5 }
+    ],
     "flavor": "The Fireknife configuration equips Crisis Battlesuit pilots with a suite of mid-ranged, hard-hitting firepower. Whether dropping from Manta Missile Destroyers to spearhead a Mont’ka strike or staging a mobile fighting retreat as part of a Kauyon strategy, Crisis Fireknife Battlesuits can be relied upon to eliminate key enemy targets and respond swiftly to changing battlefield conditions.",
     "profiles": [
       {
@@ -2072,6 +2078,9 @@ export default [
         "points": 110,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "T'au flamer", "points": 5 }
     ],
     "flavor": "When the foe puts their faith in sheer weight of numbers or seeks to bog the T’au cadres down with infantry waves, Crisis Starscythe Battlesuits provide a swift and devastating response. Leaping in close, their courageous pilots unleash the fury of blitzing burst cannons and roaring T’au flamers, reaping a macabre tally amongst their swarming foes before jetting back out of harm’s way.",
     "profiles": [
@@ -2784,6 +2793,9 @@ export default [
         "points": 165,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Cyclic Ion Raker", "points": 15 }
     ],
     "flavor": "Nothing so huge should be able to slip unnoticed across the battlefield, yet between its stealth field and its electronic warfare suite the Ghostkeel Battlesuit does just that. Once in position its pilot unleashes ferocious volleys of firepower, ambushing, overwhelming and scattering the terrified foe in a matter of moments.",
     "profiles": [
@@ -4707,6 +4719,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Ion Rifle", "points": 5 }
+    ],
     "flavor": "Pathfinder Teams wreak havoc behind enemy lines. Their firepower is formidable, especially when sniping with potent rail rifles, and their drones can optimise the team’s pulse fire or drive the enemy back with gravitic waves. Yet their deadliest ability is painting priority targets with massed markerlights for heavier T’au units to annihilate.",
     "profiles": [
       {
@@ -5292,6 +5307,9 @@ export default [
         "points": 220,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Ion Accelerator", "points": 25 }
     ],
     "flavor": "The Riptide combines the armoured resilience and overwhelming firepower of a heavy battle tank with the agility of a swift and skilful warrior. Powered by a thrumming nova reactor, the battlesuit can overcharge its systems at need, while its massed firepower can eradicate entire formations of enemy warriors or armoured vehicles.",
     "profiles": [

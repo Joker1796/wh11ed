@@ -3934,6 +3934,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Vengor Launcher", "points": 5 }
+    ],
     "flavor": "Desolation Marines specialise in unleashing widespread devastation throughout the enemy ranks. Whether direct-firing warheads into massed infantry or enemy armour, or raining salvoes down upon the enemy with their castellan launchers, these warriors reap a grievous toll amongst the foe.",
     "profiles": [
       {
@@ -5600,6 +5603,9 @@ export default [
         "note": "4th+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Orbital Comms Array", "points": 10 }
+    ],
     "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
     "profiles": [
       {
@@ -6447,6 +6453,9 @@ export default [
         "points": 140,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 }
     ],
     "profiles": [
       {
@@ -9812,6 +9821,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Macro plasma incinerator", "points": 10 }
+    ],
     "flavor": "Redemptor Dreadnoughts are some of the largest of their kind ever fielded by the Adeptus Astartes. Armed to the teeth, they can be equipped to utterly destroy virtually any kind of battlefield target with hails of solid shot or super-heated plasma.",
     "profiles": [
       {
@@ -10374,6 +10386,9 @@ export default [
         "points": 280,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Heavy Laser Destroyer", "points": 10 }
     ],
     "flavor": "Based on the Repulsor chassis, the Repulsor Executioner sacrifices some transport capacity to accommodate powerful turret weaponry. Even the largest battle tanks can be crippled by the beam of a heavy laser destroyer, while the incinerating blasts of a macro plasma incinerator can obliterate infantry formations.",
     "profiles": [
@@ -12819,6 +12834,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Storm Shield", "points": 5 }
+    ],
     "flavor": "Terminator Assault Squads are armed with devastating close-combat weaponry perfect for ferocious assaults and savage boarding actions. They rush to engage the enemy’s greatest warriors, shredding the foe with lightning claws or shattering their skulls with thunder hammers.",
     "profiles": [
       {
@@ -12926,6 +12944,9 @@ export default [
         "points": 420,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Cyclone Missile Launcher", "points": 10 }
     ],
     "flavor": "Terminator armour is a marvel of technology that enables its wearer to survive anything, from the stresses of teleportation to earth-shaking artillery bombardments. So equipped, Terminator Squads can appear in the midst of the foe or stride unstoppably across the field towards them, firing their weapons all the while.",
     "profiles": [
@@ -14153,6 +14174,9 @@ export default [
         "points": 280,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Banner of Macragge", "points": 15 }
     ],
     "flavor": "Composed of First Company veterans who demonstrate measured statecraft and peerless skill at arms, the Victrix Honour Guard serve as bodyguards for the Chapter’s senior officers. Chosen for their selflessness in battle, the warriors of the Victrix Honour Guard will gladly lay down their lives to protect their charges.",
     "profiles": [

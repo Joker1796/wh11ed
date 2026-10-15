@@ -3515,6 +3515,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Zzap Gun", "points": 10 }
+    ],
     "profiles": [
       {
         "name": "Gunwagon",
@@ -4972,6 +4975,10 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Twin Killsaws", "points": 5 },
+      { "name": "Killsaw", "points": 5 }
+    ],
     "flavor": "Mega armour comprises massive slabs of metal bashed roughly into shape, and is powered by pistons and sheer brute strength. It is highly resilient and can mount an array of potent weaponry. It is also usually worn to battle by toof-rich Nobz who would be scary enough even were they not each wearing their own Ork-portable bunker.",
     "profiles": [
       {
@@ -5760,6 +5767,9 @@ export default [
         "points": 260,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Paired Krumpas", "points": 5 }
     ],
     "flavor": "Nobz swagger into battle wielding a jaw-dropping assortment of kombi-weapons, favourite sluggas, very large choppas, piston-driven klaws and any other instrument of gratuitous violence they can get their claws on. Coupled with their exceptional resilience and sheer belligerence, this renders them terrifying combatants indeed.",
     "profiles": [

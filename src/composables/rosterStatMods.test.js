@@ -42,6 +42,14 @@ describe('applyValue', () => {
     expect(applyValue('6+', 'add', 2)).toBe('6+') // …and never past 6+
   })
 
+  it('stops at the rule\'s own limit and never worsens what is already better', () => {
+    // Take Cover!: "this cannot improve a model's Save to better than 3+" (a player's report, 2026-10-15).
+    expect(applyValue('5+', 'improve', 1, 'sv', '3+')).toBe('4+')
+    expect(applyValue('4+', 'improve', 1, 'sv', '3+')).toBe('3+')
+    expect(applyValue('3+', 'improve', 1, 'sv', '3+')).toBe('3+')
+    expect(applyValue('2+', 'improve', 1, 'sv', '3+')).toBe('2+')
+  })
+
   it('sets a value verbatim', () => {
     expect(applyValue('—', 'set', '5+')).toBe('5+')
   })

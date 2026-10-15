@@ -1751,6 +1751,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Meltagun", "points": 5 }
+    ],
     "flavor": "Dominion Squads strike as swift and furious as lightning, clearing bunkers, capturing strategic locations and blunting counterattacks with vicious salvoes from their flamers and meltaguns. They are aggressive but not impetuous, matching their desire to kill with an awareness of tactical values and bringing righteousness where needed most.",
     "profiles": [
       {
@@ -2312,6 +2315,9 @@ export default [
         "points": 115,
         "note": "4th+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Twin Multi-melta", "points": 15 }
     ],
     "flavor": "This Rhino variant has an aggressive machine spirit and an elaborate turret with a powerful weapons system; this makes it ideal for rapid advances to clear enemy strongpoints, providing fire support for the troops it transports to battle and acting as an outrider escort for armoured columns.",
     "profiles": [
@@ -3149,6 +3155,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 10 }
+    ],
     "flavor": "A pilot must have immense faith for a Paragon Warsuit’s spirit to trust them. They must also have incredible skill to handle its control system, which allows for highly complex and fluid movements. Mastering a Paragon Warsuit makes a Sister capable of engaging the most fearsome enemies and emerging victorious.",
     "profiles": [
       {
@@ -3641,6 +3650,9 @@ export default [
         "points": 115,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Multi-melta", "points": 5 }
     ],
     "flavor": "Retributors are highly experienced warriors and amongst the finest sharpshooters in their Order. Only the most level-headed Battle Sisters join their ranks. Providing long-range fire support is a task that requires excellent target prioritisation skills, as well as the ability to optimise firing solutions and identify enemy weak points.",
     "profiles": [

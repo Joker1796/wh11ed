@@ -899,6 +899,9 @@ export default [
         "note": "3rd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Twin Cognis Lascannon", "points": 10 }
+    ],
     "flavor": "Ironstrider Ballistarii are swift combat walkers piloted by veteran marksmen. They smoothly pick their way across the battlefield before invoking the fully awakened machine spirits of their weapons to acquire rapidly cogitated firing solutions. Their destructive firepower unleashed, they redeploy to hunt for fresh targets.",
     "profiles": [
       {
@@ -3062,6 +3065,9 @@ export default [
         "models": 1,
         "points": 160
       }
+    ],
+    "wargearPoints": [
+      { "name": "Ferrumite cannon", "points": 10 }
     ],
     "flavor": "Hovering over the ruins of war on a bed of atomised gases, Skorpius Disintegrators are archaic, front line battle tanks. They surge forward in unstoppable armoured waves and support infantry advances, maintaining blistering salvoes of fire to cripple enemy war engines and sweep aside hordes of lesser foes.",
     "profiles": [

@@ -1486,8 +1486,9 @@ export default {
             "ru": "пока на отряд действует приказ «Take Cover!» — не лучше 3+"
           },
           "cond": [
-            "never"
-          ]
+            "order-take-cover"
+          ],
+          "best": "3+"
         },
         {
           "on": "profile",

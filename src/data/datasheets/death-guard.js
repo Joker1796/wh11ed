@@ -1951,6 +1951,10 @@ export default [
         "note": "2nd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Heavy Reaper Autocannon", "points": 15 },
+      { "name": "Hades Lascannon", "points": 15 }
+    ],
     "flavor": "Huge Daemon Engines dripping with corruption, the Defilers used by the Death Guard are horrifically powerful whether bombarding the foe from range with grotesquely diseased projectiles or tearing them apart at close quarters with piston-driven claws of rusted metal etched with cursed runes of corrosion.",
     "profiles": [
       {

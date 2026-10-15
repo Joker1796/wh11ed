@@ -1453,6 +1453,9 @@ export default [
         "note": "2nd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Rapid-fire battle cannon", "points": 15 }
+    ],
     "flavor": "Armed with a bristling array of heavy and long-ranged weapons, the Knight Crusader secures key firing positions and unleashes salvo after salvo at the enemy. The pilots of Knights Crusader will gladly steer their suits even into open ground to find the best place to shoot from and are regarded as especially dutiful and selfless by their peers.",
     "profiles": [
       {

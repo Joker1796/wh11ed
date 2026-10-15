@@ -4151,6 +4151,10 @@ export default [
         "note": "2nd+"
       }
     ],
+    "wargearPoints": [
+      { "name": "Heavy Reaper Autocannon", "points": 15 },
+      { "name": "Hades Lascannon", "points": 15 }
+    ],
     "flavor": "Towering creations that stomp across the battlefield on piston-driven legs, Defilers are Daemon Engines possessed by abominable entities. Foes are not safe at a distance either, as Defilers’ monstrous cannons and other heavy weapons can inflict a toll of carnage.",
     "profiles": [
       {
@@ -4796,6 +4800,9 @@ export default [
         "points": 165,
         "note": "3rd+"
       }
+    ],
+    "wargearPoints": [
+      { "name": "Ectoplasma cannon", "points": 5 }
     ],
     "flavor": "Forgefiends are fused with enormous rotary cannons that fire fist-sized phosphor shells, or else with ancient artefact-ordnance perverted to vomit ectoplasma from the beasts’ own innards. With such weaponry they scythe down masses of enemy troops and blast glowing craters into the toughest opposition.",
     "profiles": [
