@@ -609,9 +609,11 @@ function footLine(g) {
   .cta-stats { display: none; }
 }
 
-/* The quiet row on one line down to the narrowest phone: below 400px Statistics keeps its icon
-   only, as on the roster list (its name stays in the title and the accessible name). */
-@media (max-width: 400px) {
+/* The quiet row on one line down to the narrowest phone: where the three do not fit, Statistics
+   keeps its icon only, as on the roster list (its name stays in the title and the accessible
+   name). Measured, not guessed (2026-10-15): in Russian the full row wraps up to 505px — the
+   beta's 400px left it on two lines from 401 to 505 (owner's screenshot). */
+@media (max-width: 520px) {
   .cta-stats-text { display: none; }
 }
 @media (max-width: 480px) {
@@ -628,6 +630,12 @@ function footLine(g) {
     font-size: 0.8rem;
     white-space: nowrap;
   }
+}
+/* …and on a 320px phone, where even then "Shared game" in Russian pushes the row to two lines,
+   the buttons give up a little side padding (measured 2026-10-15: two rows at 320–325px). */
+@media (max-width: 340px) {
+  .cta-quiet { gap: 0.4rem; }
+  .cta-quiet .btn-ghost { padding-inline: 0.6rem; }
 }
 .history-head {
   display: flex;
