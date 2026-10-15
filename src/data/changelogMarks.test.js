@@ -103,7 +103,7 @@ describe('changelog blocks', () => {
     const walk = (o) => { if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === 'object') { if (o.id) anchors.add(o.id); Object.values(o).forEach(walk) } }
     // Every chapter /core-rules renders (src/components/core/CLAUDE.md).
     for (const ch of [basicRules, battleRound, battlefields, advancedRules]) walk(ch)
-    const pages = new Set(['/core-rules', '/patches', '/changelog', '/roster', '/tracker', '/stratagems', '/help', '/event-companion'])
+    const pages = new Set(['/core-rules', '/patches', '/changelog', '/roster', '/tracker', '/stratagems', '/help', '/event-companion', '/combat-patrol', '/combat-patrol/how-to-play'])
     const links = (n) => [...text(n).matchAll(INT_LINK_RE)].map((m) => m[2])
     for (const e of changelog) {
       e.en.forEach((n, i) => {
