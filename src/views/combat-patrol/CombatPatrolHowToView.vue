@@ -15,12 +15,18 @@
     <h2 class="chapter-heading">
       {{ intro.title }}
     </h2>
-    <!-- GW's welcome to Combat Patrol is lore, not a step: drawn as flavour, so "hide lore"
-         takes it away (owner, 2026-10-15). -->
-    <RuleBody
-      class="cp-intro"
-      :body="introAsLore"
-    />
+    <!-- GW's welcome to Combat Patrol, as the Event Companion opens its own sequence: plain lead
+         text, two columns from 1024px so a line stays readable. It was lore (serif italic, muted,
+         the page's full width — ~150 characters a line) and did not read (owner, 2026-10-15). -->
+    <div class="rule-columns cp-intro">
+      <p
+        v-for="(para, n) in introParagraphs"
+        :key="n"
+        class="lead"
+      >
+        {{ para }}
+      </p>
+    </div>
 
     <template
       v-for="grp in stepChunks"
@@ -90,7 +96,6 @@
 <script setup>
 import { ref, computed } from 'vue'
 import RuleBlock from '../../components/RuleBlock.vue'
-import RuleBody from '../../components/RuleBody.vue'
 import AppImage from '../../components/AppImage.vue'
 import { cpSequence, cpLayouts } from '../../data/combatPatrolMissions.js'
 import { chunkBlocks } from '../../composables/blockColumnChunks.js'
@@ -104,7 +109,7 @@ const labels = computed(() => ui[locale.value])
 // eleven steps of a game, numbered as the Event Companion numbers its own ("3 · Determine …").
 const sequence = computed(() => cpSequence(locale.value))
 const intro = computed(() => sequence.value[0])
-const introAsLore = computed(() => intro.value.body.split('\n\n').map((p) => `> ${p}`).join('\n\n'))
+const introParagraphs = computed(() => intro.value.body.split('\n\n'))
 const steps = computed(() => sequence.value.slice(1).map((s, i) => ({ ...s, title: `${i + 1} · ${s.title}` })))
 const stepChunks = computed(() => chunkBlocks(steps.value))
 
@@ -139,7 +144,13 @@ const layoutImage = computed(() => layouts.find((l) => l.id === layout.value)?.i
 }
 
 .cp-intro {
-  margin: 0.6rem 0 0.4rem;
+  /* The space under it keeps the welcome apart from step 1, which otherwise read as its sixth
+     paragraph. */
+  margin: 0.6rem 0 1.25rem;
+}
+/* Paragraph rhythm, not a lead's closing gap: the steps' own heading follows the last one. */
+.cp-intro .lead {
+  margin-bottom: 0.8rem;
 }
 
 /* The maps are a chapter of their own, after the steps — the space above sets it apart. */
