@@ -1846,6 +1846,16 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 /* The two things a header carries besides the title: a subtitle under it, and a group of
    controls sharing the right-hand side with the close button. Identical in every dialog that
    has them (three and seven copies respectively before this moved here). */
+/* A note on the title's line (BaseModal's titleNote): the body face, small and muted. */
+.mh-note {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
 .mh-sub {
   font-size: 0.76rem;
   color: var(--text-muted);

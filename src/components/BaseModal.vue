@@ -55,7 +55,10 @@
                 :id="titleId"
                 class="mh-title"
               >
-                {{ title }}
+                {{ title }}<span
+                  v-if="titleNote"
+                  class="mh-note"
+                > {{ titleNote }}</span>
               </h3>
               <!-- `#subtitle` for a subtitle that needs markup (coloured names); plain text otherwise. -->
               <p class="mh-sub">
@@ -69,7 +72,10 @@
               :id="titleId"
               class="mh-title"
             >
-              {{ title }}
+              {{ title }}<span
+                v-if="titleNote"
+                class="mh-note"
+              > {{ titleNote }}</span>
             </h3>
             <div
               v-if="$slots.aside"
@@ -116,6 +122,9 @@ const props = defineProps({
   title: { type: String, default: '' },
   // A second line under the title — a date, what the dialog is about. Two lines align to the top.
   subtitle: { type: String, default: '' },
+  // A short muted note on the title's own line — a unit's base size beside its name (a player's
+  // ask, 2026-10-15: the card showed it nowhere for a one-profile unit).
+  titleNote: { type: String, default: '' },
   // The denser header: a 32px close button, aligned to the top so a title that wraps (a player's
   // own roster name) keeps the button beside its first line.
   dense: { type: Boolean, default: false },
