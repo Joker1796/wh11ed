@@ -105,6 +105,13 @@ describe('search', () => {
 })
 
 describe('datasheet unit search', () => {
+  it('finds a name written with a non-breaking hyphen from the plain one', async () => {
+    // appdata spells "Caladius Grav‑Tank" with U+2011, which nobody types (2026-10-15).
+    await preloadDatasheetIndex()
+    expect(search('grav-tank', 'en').map((r) => r.title)).toContain('Caladius Grav‑Tank')
+    expect(search('shield-captain', 'ru').map((r) => r.title)).toContain('Shield‑Captain')
+  })
+
   it('finds a unit by name once the datasheet index is loaded', async () => {
     await preloadDatasheetIndex()
     const res = search('ghazghkull', 'en')
