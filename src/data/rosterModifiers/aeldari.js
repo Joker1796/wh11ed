@@ -1137,8 +1137,28 @@ export default {
             "ru": "при выбранной Villain’s Doom, до конца Fight phase"
           },
           "cond": [
-            "never"
+            "troupe-villains-doom"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "troupe-heros-prowess"
+          ],
+          "when": {
+            "en": "the option selected for this phase",
+            "ru": "вариант, выбранный на эту фазу"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "troupe-tricksters-grace"
+          ],
+          "when": {
+            "en": "the option selected for this phase",
+            "ru": "вариант, выбранный на эту фазу"
+          }
         }
       ]
     },

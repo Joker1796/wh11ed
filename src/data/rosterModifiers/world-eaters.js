@@ -823,7 +823,7 @@ export default {
             "ru": "атаки ближнего боя моделей Character, если при выборе для боя взят этот вариант"
           },
           "cond": [
-            "never"
+            "wrath-cleave"
           ]
         },
         {
@@ -837,7 +837,7 @@ export default {
             "ru": "вместо этого +1 AP для атак ближнего боя моделей Character"
           },
           "cond": [
-            "never"
+            "wrath-ap"
           ]
         }
       ]

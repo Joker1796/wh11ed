@@ -404,6 +404,25 @@ export const conditions = {
   'techno-heavy': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[HEAVY]', ru: '[HEAVY]' } },
   'techno-ignores-cover': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[IGNORES COVER]', ru: '[IGNORES COVER]' } },
 
+  'prey-sustained': { scope: 'unit', duration: 'phase', group: 'prey-adaptation', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'prey-lance': { scope: 'unit', duration: 'phase', group: 'prey-adaptation', label: { en: '[LANCE]', ru: '[LANCE]' } },
+  'prey-lethal': { scope: 'unit', duration: 'phase', group: 'prey-adaptation', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'adaptive-strength': { scope: 'unit', duration: 'phase', group: 'adaptive-instincts', label: { en: 'Melee attacks +1 S', ru: 'Melee attacks +1 S' } },
+  'adaptive-toughness': { scope: 'unit', duration: 'phase', group: 'adaptive-instincts', label: { en: '+1 T', ru: '+1 T' } },
+  'tycho-assault': { scope: 'unit', duration: 'phase', group: 'gifted-commander', label: { en: '[ASSAULT]', ru: '[ASSAULT]' } },
+  'tycho-heavy': { scope: 'unit', duration: 'phase', group: 'gifted-commander', label: { en: '[HEAVY]', ru: '[HEAVY]' } },
+  'tycho-rapid-fire': { scope: 'unit', duration: 'phase', group: 'gifted-commander', label: { en: '[RAPID FIRE 1]', ru: '[RAPID FIRE 1]' } },
+  'aunshi-direct-grace': { scope: 'unit', duration: 'phase', group: 'martial-warrior', label: { en: 'Direct Grace', ru: 'Direct Grace' } },
+  'aunshi-forceful-strike': { scope: 'unit', duration: 'phase', group: 'martial-warrior', label: { en: 'Forceful Strike', ru: 'Forceful Strike' } },
+  'aunshi-whirling-stance': { scope: 'unit', duration: 'phase', group: 'martial-warrior', label: { en: 'Whirling Stance', ru: 'Whirling Stance' } },
+  'optics-ignores-cover': { scope: 'unit', duration: 'phase', group: 'special-issue-optics', label: { en: '[IGNORES COVER]', ru: '[IGNORES COVER]' } },
+  'optics-detection': { scope: 'unit', duration: 'phase', group: 'special-issue-optics', label: { en: '+6" detection range on one enemy unit', ru: '+6" detection range on one enemy unit' } },
+  'troupe-heros-prowess': { scope: 'unit', duration: 'phase', group: 'dance-of-death', label: { en: 'Hero’s Prowess', ru: 'Hero’s Prowess' } },
+  'troupe-villains-doom': { scope: 'unit', duration: 'phase', group: 'dance-of-death', label: { en: 'Villain’s Doom', ru: 'Villain’s Doom' } },
+  'troupe-tricksters-grace': { scope: 'unit', duration: 'phase', group: 'dance-of-death', label: { en: 'Trickster’s Grace', ru: 'Trickster’s Grace' } },
+  'wrath-cleave': { scope: 'unit', duration: 'phase', group: 'wrath-of-khorne', label: { en: '[CLEAVE 1]', ru: '[CLEAVE 1]' } },
+  'wrath-ap': { scope: 'unit', duration: 'phase', group: 'wrath-of-khorne', label: { en: '+1 AP', ru: '+1 AP' } },
+
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase
   // id carries `phase` and `side`, because GW says whose phase it is when that matters and the

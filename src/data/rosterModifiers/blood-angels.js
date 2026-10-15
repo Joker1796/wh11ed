@@ -191,7 +191,7 @@ export default {
             "ru": "если выбрано при стрельбе (одно из трёх)"
           },
           "cond": [
-            "never"
+            "tycho-assault"
           ],
           "target": "unit"
         },
@@ -205,7 +205,7 @@ export default {
             "ru": "если выбрано при стрельбе (одно из трёх)"
           },
           "cond": [
-            "never"
+            "tycho-heavy"
           ],
           "target": "unit"
         },
@@ -219,7 +219,7 @@ export default {
             "ru": "если выбрано при стрельбе (одно из трёх)"
           },
           "cond": [
-            "never"
+            "tycho-rapid-fire"
           ],
           "target": "unit"
         }

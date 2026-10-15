@@ -57,7 +57,7 @@ export default {
             "ru": "пока для этого боя выбран Direct Grace"
           },
           "cond": [
-            "never"
+            "aunshi-direct-grace"
           ]
         },
         {
@@ -73,7 +73,7 @@ export default {
             "ru": "пока для этого боя выбран Forceful Strike"
           },
           "cond": [
-            "never"
+            "aunshi-forceful-strike"
           ]
         },
         {
@@ -89,7 +89,7 @@ export default {
             "ru": "пока для этого боя выбран Whirling Stance (вместо SUSTAINED HITS 1)"
           },
           "cond": [
-            "never"
+            "aunshi-whirling-stance"
           ]
         }
       ]

@@ -761,8 +761,18 @@ export default {
             "ru": "в вашей фазе стрельбы, если этот вариант выбран, когда отряд выбран для стрельбы"
           },
           "cond": [
-            "never"
+            "optics-ignores-cover"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "optics-detection"
+          ],
+          "when": {
+            "en": "the option selected for this phase",
+            "ru": "вариант, выбранный на эту фазу"
+          }
         }
       ]
     },

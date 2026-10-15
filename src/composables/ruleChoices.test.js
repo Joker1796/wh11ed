@@ -3,7 +3,7 @@
 // number of their own, or whose number hangs on the target, were never offered).
 import { describe, it, expect } from 'vitest'
 import { loadRosterModifiersFor, usableEntries } from '../data/rosterModifiers/index.js'
-import { resolveModifierEntries } from './rosterStatMods.js'
+import { resolveModifierEntries, datasheetEntriesFor } from './rosterStatMods.js'
 import { switchesFor } from './rosterGameContext.js'
 import { loadFactionWithCodex } from './rosterFactionRules.js'
 
@@ -49,5 +49,26 @@ describe('a unit-level choice is a unit switch', () => {
   }, 30000)
   it('Renegade Warband — Default to Doctrine', async () => {
     expect(await switches('chaos-space-marines', 'Renegade Warband', 'unit')).toEqual(expect.arrayContaining(['twisted-doctrine-fell-back', 'twisted-doctrine-advanced']))
+  }, 30000)
+})
+
+// A datasheet ability's choice: on that unit's own card (and, for a Leader's, the unit it leads).
+async function unitSwitches(slug, unitId, opts = {}) {
+  const recs = usableEntries(await loadRosterModifiersFor(slug))
+  const entries = datasheetEntriesFor(recs, { unitId, ...opts })
+  const player = { factionSlug: slug, armyRule: {}, conditions: {}, unitConditions: {} }
+  return switchesFor(entries, 'unit', player, { round: 1 }, { uid: 'u1', id: unitId }).map((s) => s.id)
+}
+
+describe('a datasheet ability offers its choices on the unit', () => {
+  it.each([
+    ['tyranids', 'malanthrope', {}, ['prey-sustained', 'prey-lance', 'prey-lethal']],
+    ['tyranids', 'tyranid-warriors-with-melee-bio-weapons', {}, ['adaptive-strength', 'adaptive-toughness']],
+    ['blood-angels', 'death-company-marines', { leaderUnitIds: ['captain-tycho'] }, ['tycho-assault', 'tycho-heavy', 'tycho-rapid-fire']],
+    ['tau-empire', 'aunshi', {}, ['aunshi-direct-grace', 'aunshi-forceful-strike', 'aunshi-whirling-stance']],
+    ['space-marines', 'eliminator-squad', {}, ['optics-ignores-cover', 'optics-detection']],
+    ['aeldari', 'troupe', {}, ['troupe-heros-prowess', 'troupe-villains-doom', 'troupe-tricksters-grace']],
+  ])('%s · %s', async (slug, unitId, opts, ids) => {
+    expect(await unitSwitches(slug, unitId, opts)).toEqual(expect.arrayContaining(ids))
   }, 30000)
 })

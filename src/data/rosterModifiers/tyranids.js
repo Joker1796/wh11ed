@@ -234,7 +234,7 @@ export default {
             "ru": "пока для этого боя выбрано SUSTAINED HITS 1"
           },
           "cond": [
-            "never"
+            "prey-sustained"
           ]
         },
         {
@@ -247,7 +247,7 @@ export default {
             "ru": "пока для этого боя выбрано LANCE"
           },
           "cond": [
-            "never"
+            "prey-lance"
           ]
         },
         {
@@ -260,7 +260,7 @@ export default {
             "ru": "пока для этого боя выбрано LETHAL HITS"
           },
           "cond": [
-            "never"
+            "prey-lethal"
           ]
         },
         {
@@ -273,7 +273,7 @@ export default {
             "ru": "пока для этого боя выбрано SUSTAINED HITS 1"
           },
           "cond": [
-            "never"
+            "prey-sustained"
           ],
           "target": "led"
         },
@@ -287,7 +287,7 @@ export default {
             "ru": "пока для этого боя выбрано LANCE"
           },
           "cond": [
-            "never"
+            "prey-lance"
           ],
           "target": "led"
         },
@@ -301,7 +301,7 @@ export default {
             "ru": "пока для этого боя выбрано LETHAL HITS"
           },
           "cond": [
-            "never"
+            "prey-lethal"
           ],
           "target": "led"
         }
@@ -639,7 +639,7 @@ export default {
             "ru": "раз за ход, если выбран этот вариант"
           },
           "cond": [
-            "never"
+            "adaptive-strength"
           ]
         },
         {
@@ -652,7 +652,7 @@ export default {
             "ru": "раз за ход, если выбран другой вариант"
           },
           "cond": [
-            "never"
+            "adaptive-toughness"
           ]
         }
       ]
