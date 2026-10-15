@@ -40,60 +40,67 @@
         v-if="tab === 'rules'"
         key="rules"
       >
-        <!-- Detachment rule -->
-        <section
-          id="rule"
-          class="fsection"
-        >
-          <div
-            v-if="faction.dp || faction.forceDisposition"
-            class="det-meta"
+        <!-- The detachment rule beside the army rule from 1024px, as a faction page lays its rules
+             out (.rule-columns); the stratagems and enhancements under them, in their own grids. -->
+        <div class="rule-columns cp-rules">
+          <!-- Detachment rule -->
+          <section
+            id="rule"
+            class="fsection"
           >
-            <span
-              v-if="faction.dp"
-              class="det-meta-item"
-            >{{ faction.dp }} DP</span>
-            <span
-              v-if="faction.forceDisposition"
-              class="det-meta-item"
-            >{{ faction.forceDisposition }}</span>
-          </div>
-          <p
-            v-if="faction.rule.flavor"
-            class="faction-flavor"
-          >
-            {{ faction.rule.flavor }}
-          </p>
-          <RuleBlock
-            :id="`cp-${faction.id}-rule`"
-            :title="faction.rule.name"
-            :subtitle="faction.rule.nameRu"
-            :body="faction.rule.body"
-          />
-        </section>
+            <h2 class="fsection-title">
+              {{ labels.factionDetachment }}
+            </h2>
+            <div
+              v-if="faction.dp || faction.forceDisposition"
+              class="det-meta"
+            >
+              <span
+                v-if="faction.dp"
+                class="det-meta-item"
+              >{{ faction.dp }} DP</span>
+              <span
+                v-if="faction.forceDisposition"
+                class="det-meta-item"
+              >{{ faction.forceDisposition }}</span>
+            </div>
+            <p
+              v-if="faction.rule.flavor"
+              class="faction-flavor"
+            >
+              {{ faction.rule.flavor }}
+            </p>
+            <RuleBlock
+              :id="`cp-${faction.id}-rule`"
+              :title="faction.rule.name"
+              :subtitle="faction.rule.nameRu"
+              :body="faction.rule.body"
+            />
+          </section>
 
-        <!-- Army rule -->
-        <section
-          id="army-rule"
-          class="fsection"
-        >
-          <h2 class="fsection-title">
-            {{ labels.factionArmyRule }}
-          </h2>
-          <p
-            v-if="faction.armyRule.flavor"
-            class="faction-flavor"
+          <!-- Army rule -->
+          <section
+            id="army-rule"
+            class="fsection"
           >
-            {{ faction.armyRule.flavor }}
-          </p>
-          <RuleBlock
-            :id="`cp-${faction.id}-army-rule`"
-            :title="faction.armyRule.name"
-            :subtitle="faction.armyRule.nameRu"
-            :body="faction.armyRule.body"
-            :example="faction.armyRule.example"
-          />
-        </section>
+            <h2 class="fsection-title">
+              {{ labels.factionArmyRule }}
+            </h2>
+            <p
+              v-if="faction.armyRule.flavor"
+              class="faction-flavor"
+            >
+              {{ faction.armyRule.flavor }}
+            </p>
+            <RuleBlock
+              :id="`cp-${faction.id}-army-rule`"
+              :title="faction.armyRule.name"
+              :subtitle="faction.armyRule.nameRu"
+              :body="faction.armyRule.body"
+              :example="faction.armyRule.example"
+            />
+          </section>
+        </div>
 
         <!-- Stratagems -->
         <section
@@ -171,18 +178,33 @@
         <!-- The box's own primary mission — each player plays their box's (the mission sequence) -->
         <section
           id="mission"
-          class="fsection"
+          class="fsection cp-mission"
         >
           <MissionCard
             :id="`cp-${faction.id}-mission`"
             :mission="mission"
           />
-          <RouterLink
-            class="cp-howto"
-            to="/combat-patrol/how-to-play"
-          >
-            {{ labels.cpHowToPlayLink }} →
-          </RouterLink>
+          <!-- Beside the mission, what else decides the game — the mission sequence in five
+               lines, and the way to all of it. -->
+          <aside class="cp-memo">
+            <h2 class="fsection-title">
+              {{ labels.cpMemoTitle }}
+            </h2>
+            <ul>
+              <li
+                v-for="(line, n) in labels.cpMemo"
+                :key="n"
+              >
+                {{ line }}
+              </li>
+            </ul>
+            <RouterLink
+              class="cp-howto"
+              to="/combat-patrol/how-to-play"
+            >
+              {{ labels.cpHowToPlayLink }} →
+            </RouterLink>
+          </aside>
         </section>
       </div>
       <div
@@ -331,12 +353,29 @@ watch(() => route.hash, (hash) => {
   padding-top: 0.25rem; /* the faction page's (FactionLayout) */
 }
 
-/* Under the mission: the rest of how a game goes (the mission sequence and the maps). */
+/* The way to the rest of how a game goes (the mission sequence and the maps). */
 .cp-howto {
   display: inline-block;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   font-weight: 600;
   color: var(--accent-ink);
+}
+.cp-memo ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.cp-memo li { margin-bottom: 0.3rem; }
+/* The mission and the memo side by side from 1024px, the threshold .rule-columns uses. */
+@media (min-width: 1024px) {
+  .cp-mission {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+}
+@media (max-width: 1023px) {
+  .cp-memo { margin-top: 1.25rem; }
 }
 
 .hero {

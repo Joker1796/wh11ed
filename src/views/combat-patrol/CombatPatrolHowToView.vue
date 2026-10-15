@@ -9,71 +9,105 @@
       </div>
     </div>
 
-    <!-- The twelve steps of the mission sequence, as GW's app prints them (appdata); the three
-         deployment maps hang off the step that rolls for one. -->
-    <section
-      v-for="s in sequence"
-      :key="s.id"
-      class="fsection"
+    <!-- Laid out as the Event Companion's mission sequence, the same kind of page for the full
+         game: a chapter heading, numbered steps two to a row from 1024px (.rule-columns,
+         blockColumnChunks.js), the maps under a heading of their own across the full width. -->
+    <h2 class="chapter-heading">
+      {{ intro.title }}
+    </h2>
+    <!-- GW's welcome to Combat Patrol is lore, not a step: drawn as flavour, so "hide lore"
+         takes it away (owner, 2026-10-15). -->
+    <RuleBody
+      class="cp-intro"
+      :body="introAsLore"
+    />
+
+    <template
+      v-for="grp in stepChunks"
+      :key="grp.key"
     >
-      <RuleBlock
-        :id="`cp-step-${s.id}`"
-        :title="s.title"
-        :body="s.body"
-      />
       <div
-        v-if="s.id === 'determine-deployment'"
-        id="cp-layouts"
-        class="cp-layouts"
+        v-if="grp.type === 'columns'"
+        class="rule-columns"
       >
-        <div
-          class="tabs"
-          role="tablist"
-          :aria-label="labels.cpLayoutsTitle"
-        >
-          <button
-            v-for="l in layouts"
-            :key="l.id"
-            type="button"
-            role="tab"
-            class="tab"
-            :class="{ active: layout === l.id }"
-            :aria-selected="layout === l.id"
-            @click="layout = l.id"
-          >
-            Layout {{ l.id }}
-          </button>
-        </div>
-        <Transition
-          name="fade"
-          mode="out-in"
-        >
-          <div
-            :key="layout"
-            class="cp-layout-img"
-          >
-            <AppImage
-              :src="layoutImage"
-              :alt="`Combat Patrol — Layout ${layout}`"
-            />
-          </div>
-        </Transition>
+        <RuleBlock
+          v-for="s in grp.items"
+          :id="`cp-step-${s.id}`"
+          :key="s.id"
+          :title="s.title"
+          :body="s.body"
+        />
       </div>
-    </section>
+      <RuleBlock
+        v-else
+        :id="`cp-step-${grp.item.id}`"
+        :title="grp.item.title"
+        :body="grp.item.body"
+      />
+    </template>
+
+    <h2
+      id="cp-layouts"
+      class="chapter-heading cp-maps-heading"
+    >
+      {{ labels.cpLayoutsTitle }}
+    </h2>
+    <div
+      class="tabs"
+      role="tablist"
+      :aria-label="labels.cpLayoutsTitle"
+    >
+      <button
+        v-for="l in layouts"
+        :key="l.id"
+        type="button"
+        role="tab"
+        class="tab"
+        :class="{ active: layout === l.id }"
+        :aria-selected="layout === l.id"
+        @click="layout = l.id"
+      >
+        Layout {{ l.id }}
+      </button>
+    </div>
+    <Transition
+      name="fade"
+      mode="out-in"
+    >
+      <div
+        :key="layout"
+        class="cp-layout-img"
+      >
+        <AppImage
+          :src="layoutImage"
+          :alt="`Combat Patrol — Layout ${layout}`"
+        />
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import RuleBlock from '../../components/RuleBlock.vue'
+import RuleBody from '../../components/RuleBody.vue'
 import AppImage from '../../components/AppImage.vue'
 import { cpSequence, cpLayouts } from '../../data/combatPatrolMissions.js'
+import { chunkBlocks } from '../../composables/blockColumnChunks.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// appdata's first "step" is the section itself — its title and GW's welcome; the rest are the
+// eleven steps of a game, numbered as the Event Companion numbers its own ("3 · Determine …").
 const sequence = computed(() => cpSequence(locale.value))
+const intro = computed(() => sequence.value[0])
+const introAsLore = computed(() => intro.value.body.split('\n\n').map((p) => `> ${p}`).join('\n\n'))
+const steps = computed(() => sequence.value.slice(1).map((s, i) => ({ ...s, title: `${i + 1} · ${s.title}` })))
+const stepChunks = computed(() => chunkBlocks(steps.value))
+
 const layouts = cpLayouts
 const layout = ref('A')
 const layoutImage = computed(() => layouts.find((l) => l.id === layout.value)?.image)
@@ -88,7 +122,6 @@ const layoutImage = computed(() => layouts.find((l) => l.id === layout.value)?.i
 .hero {
   text-align: center;
   padding: 1rem 0 0.6rem;
-  border-bottom: 2px solid var(--accent);
   margin-bottom: 1.4rem;
 }
 .hero-title {
@@ -105,17 +138,17 @@ const layoutImage = computed(() => layouts.find((l) => l.id === layout.value)?.i
   margin: 0 auto;
 }
 
-/* The steps follow one another like the rules of a Core Rules chapter: RuleBlock's own padding is
-   the gap between them, and the section's margin on top of it doubled it (owner, 2026-10-15). */
-.cp-howto-view > .fsection {
-  margin-bottom: 0;
+.cp-intro {
+  margin: 0.6rem 0 0.4rem;
 }
 
-.cp-layouts {
-  margin-top: 0.6rem;
+/* The maps are a chapter of their own, after the steps — the space above sets it apart. */
+.cp-maps-heading {
+  margin-top: 2rem;
+  scroll-margin-top: var(--header-total);
 }
-.cp-layouts .tabs {
-  margin-bottom: 0.6rem;
+.tabs {
+  margin: 0.75rem 0 0.6rem;
 }
 .cp-layout-img {
   max-width: 34rem;
