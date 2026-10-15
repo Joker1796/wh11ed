@@ -390,6 +390,10 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 
     for (const [index, effect] of effects.entries()) {
       if (replaced.has(index)) continue
+      // A state the rule puts the unit or army in, with no number of its own (an Order that only
+      // grants a move, a Vow, a Hyper-adaptation): it exists to be a switch (switchesFor), and the
+      // card has nothing to change or footnote for it.
+      if (effect.op === 'state') continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, strict)) continue
 
       // Conditional and unproven: never touch the number, just say what would change and when.

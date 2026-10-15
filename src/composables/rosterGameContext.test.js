@@ -215,6 +215,14 @@ describe('switchesFor', () => {
     ],
   }]
 
+  // A choice with no number of its own is a `state` effect: nothing to apply, everything to switch
+  // (2026-10-15 — the game offered no switch for a rule option that changed no characteristic).
+  it('offers a switch for a state with no number', () => {
+    const p = player({}, {}, 'astra-militarum')
+    const recs = [{ effects: [{ op: 'state', cond: ['order-take-cover'], when: {} }] }]
+    expect(switchesFor(recs, 'unit', p, 1, { uid: 'u1', id: 'infantry-squad' }).map((s) => s.id)).toEqual(['order-take-cover'])
+  })
+
   it('offers one switch per answerable condition at the asked-for scope', () => {
     const p = player({}, { selectionByRound: { 1: 'conqueror' } }, 'adeptus-mechanicus')
     const army = switchesFor(records, 'army', p, 1, null)

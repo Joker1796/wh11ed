@@ -302,9 +302,10 @@
  * `stat`, `op`, `value`) and when (`cond` — condition ids from conditions.js; `when` its wording).
  * The overlay adds `rows` when it places a bearer's effect on particular rows (splitBearers).
  * @typedef {object} ModifierEffect
- * @property {string} on
- * @property {string} stat
- * @property {string} op
+ * @property {string} [on] absent on a `state` effect
+ * @property {string} [stat] absent on a `state` effect
+ * @property {string} op `add` / `improve` / `set` / `grant`, or `state`: no number, only the
+ *   condition(s) in `cond` — a choice the rule offers, made a switch (rosterGameContext's switchesFor)
  * @property {string | number} [value]
  * @property {string[] | null} [cond]
  * @property {{ en: string, ru?: string } | null} [when]

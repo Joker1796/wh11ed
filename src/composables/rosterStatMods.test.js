@@ -1273,3 +1273,12 @@ describe('a spent stratagem', () => {
     ])
   })
 })
+
+describe('a state effect', () => {
+  it('changes nothing on the card and leaves no footnote', () => {
+    const sheet = { profiles: [{ name: 'X', m: '6"', sv: '4+' }], ranged: [], melee: [] }
+    const out = applyStatMods(sheet, [{ name: 'Order', kind: 'armyRule', effects: [{ op: 'state', cond: ['order-take-cover'], when: { en: 'x' } }] }], [])
+    expect(out.sheet.profiles[0].sv).toBe('4+')
+    expect(out.notes).toEqual([])
+  })
+})
