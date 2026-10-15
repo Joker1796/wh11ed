@@ -1,3 +1,5 @@
+import { reloadsHeld } from './reloadLoop.js'
+
 // A page from an older deploy asking for a chunk the server no longer has.
 //
 // Every route and most data are chunks, loaded the first time a reader goes there, by the name
@@ -35,7 +37,8 @@ function writeGuard(now) {
 
 // Returns true when a reload is on its way. `url` is where the reader was going.
 export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u) => window.location.assign(u) } = {}) {
-  if (inFlight || !navigator.onLine) return false
+  // A page caught reloading itself in a loop does not reload again (reloadLoop.js).
+  if (inFlight || !navigator.onLine || reloadsHeld(now)) return false
   if (now - readGuard() < GUARD_MS) return false
   inFlight = true
   writeGuard(now)

@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import { installErrorLog, logError } from './composables/useErrorLog.js'
 import { installStaleChunkRecovery } from './composables/staleChunks.js'
+import { noteBoot, loopReport } from './composables/reloadLoop.js'
+import { APP_VERSION } from './buildInfo.js'
 import { installPressFeedback } from './composables/pressFeedback.js'
 import { installUiSound } from './composables/uiSound.js'
 import { installStateSounds } from './composables/stateSounds.js'
@@ -12,6 +14,8 @@ import './style.css'
 
 // First, before anything can throw: the error ring buffer bug reports attach.
 installErrorLog()
+// A page reloading itself in a loop stops here, and says so in the error log (reloadLoop.js).
+if (noteBoot()) loopReport(APP_VERSION).then((msg) => logError(new Error(msg))).catch(() => {})
 
 const app = createApp(App)
 
