@@ -16,10 +16,10 @@ import { TRACKER_GEN } from './trackerGen.js'
 // A tick sends the slices this phone changed since it last synced — found by comparing the game's
 // current cut against `base`, the cut as the server last saw it — together with `since`, the last
 // party seq it saw, and gets back every slice someone ELSE changed. One request, both directions,
-// because the gateway charges per request. A stale version anywhere in the batch is a 409 with the
+// because every request is a round trip a phone on bad reception pays for. A stale version anywhere in the batch is a 409 with the
 // server's state, and the server wins: this phone replaces its copies and its own change is gone —
 // a tap the player will notice and repeat, which is the honest outcome when two partners edit one
-// side in the same three seconds. Nothing is queued: offline, the game keeps changing locally as it
+// side in the same two seconds. Nothing is queued: offline, the game keeps changing locally as it
 // always did, `base` stays where it was, and the first tick back sends the accumulated difference.
 //
 // THE GATE is on receiving only. A phone polls while it shows the LIVE game (the game screen or
@@ -33,8 +33,11 @@ import { TRACKER_GEN } from './trackerGen.js'
 // survives reloads through the tracker's own persistence; the base cut lives beside it in its own
 // key, because it is bookkeeping about the game and not the game.
 
-const TICK_MS = 3000 // the cadence, and the server's micro-cache window — the two are one number
-const LOBBY_TICK_MS = 5000 // a game still being set up: the same handshake, far less to say
+// The cadence, and the server's state-cache window (wh11ed-api's STATE_TTL_MS) — the two are one
+// number. Two seconds since 2026-10-16: on our own server nothing is charged per request, and one
+// core measured ~1500 phones at once with headroom (hub journal of that day).
+const TICK_MS = 2000
+const LOBBY_TICK_MS = 4000 // a game still being set up: the same handshake, far less to say
 const FINISHED_TICK_MS = 15000
 const BACKGROUND_TICK_MS = 10000 // the host feeding a broadcast from another screen
 const SEND_DELAY_MS = 800 // a burst of taps goes out as one write
@@ -214,7 +217,7 @@ export function useParty() {
       const json = stableJson(cut[name])
       if (json === base[name]) continue
       // A slice this phone may not write snaps back to what the server holds: a disabled control
-      // that was somehow used must not turn into a 403 every three seconds.
+      // that was somehow used must not turn into a 403 every two seconds.
       if (!canWriteSlice(name)) {
         if (base[name]) applyRemote(name, JSON.parse(base[name]))
         continue
