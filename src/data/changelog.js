@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.9.3',
+    date: '2026-10-15',
+    en: [
+      { h: 'Combat Patrol', kind: 'rules' },
+      '**A box page shows how many of each unit the box holds.** The Tyranids box has two Termagant units, for example. The Orks box has two ’Ardmob Boyz units, one with a kombi-rokkit, one with a kustom shoota. Before, it showed one Boyz unit with an option the box does not have.',
+    ],
+    ru: [
+      { h: 'Combat Patrol', kind: 'rules' },
+      '**На странице набора видно, сколько каких отрядов в нём.** Например, в наборе тиранидов два отряда Termagants. В наборе орков два отряда ’Ardmob Boyz: у одного kombi-rokkit, у другого kustom shoota. Раньше там был один отряд Boyz с опцией, которой в наборе нет.',
+    ],
+  },
+  {
     version: '2.9.2',
     date: '2026-10-15',
     en: [
