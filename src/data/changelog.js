@@ -30,6 +30,7 @@ export const changelog = [
       '**The points PDF now has wargear prices and the Chapters’ own units.** Under a unit, what each piece of its wargear costs. Ultramarines, Imperial Fists and the other Chapters’ units are in it too. The files on the [GW changes page](/patches) are already the new ones.',
       { h: 'Roster builder' },
       '**A detachment’s rules in the detachment picker no longer close when you open its enhancements or stratagems.** Thanks for the report.',
+      '**Black Templars’ Gladiator Valiant costs 145 points again.** Since 2.9.1 the builder also charged 20 points for its two starting multi-meltas. Only a third multi-melta costs extra, 10 points.',
     ],
     ru: [
       { h: 'Весь сайт' },
@@ -37,6 +38,7 @@ export const changelog = [
       '**В PDF с ценами появились цены снаряжения и юниты орденов.** Под юнитом — сколько стоит каждая штука его снаряжения. Юниты Ultramarines, Imperial Fists и других орденов теперь тоже там. Файлы на [странице изменений GW](/patches) уже новые.',
       { h: 'Конструктор ростеров' },
       '**Правила детачмента в окне выбора детачментов больше не закрываются, когда разворачиваете улучшения или стратагемы.** Спасибо за баг-репорт.',
+      '**Gladiator Valiant у Black Templars снова стоит 145 очков.** С версии 2.9.1 конструктор брал ещё 20 очков за две стартовые мульти-мельты. Доплата нужна только за третью мульти-мельту, 10 очков.',
     ],
   },
   {
