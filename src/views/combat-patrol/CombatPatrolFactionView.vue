@@ -229,6 +229,10 @@
               <div class="ds-head">
                 <h3 class="ds-title">
                   <span class="ds-title-name">{{ ds.name }}</span><span
+                    v-if="ds.count > 1"
+                    class="ds-title-count"
+                    :title="labels.cpUnitCount.replace('{n}', ds.count)"
+                  >×{{ ds.count }}</span><span
                     v-if="ds.baseSize"
                     class="ds-title-base"
                   >({{ fmtBase(ds.baseSize) }})</span>
@@ -574,6 +578,13 @@ watch(() => route.hash, (hash) => {
 /* Tight lines on both: the name's own rows sit close (display caps have no descenders to make
    room for), and a wrapped base size hugs the row above it. */
 .ds-title, .ds-title-name { line-height: 1.05; }
+/* How many such units the box holds — two Termagant units, two Vigilant Squads (appdata files
+   each as its own datasheet; this page draws the card once). */
+.ds-title-count {
+  margin-left: 0.45rem;
+  color: var(--accent-ink);
+  font-variant-numeric: tabular-nums;
+}
 .ds-title-base {
   margin-left: 0.45rem;
   font-family: var(--font-sans);

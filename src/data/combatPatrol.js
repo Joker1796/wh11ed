@@ -707,6 +707,9 @@ Once per battle, at the start of the Command phase, you can call a Waaagh!. If y
           factionKeywords: ['Orks'],
           baseSize: '105x70mm Oval Base',
         },
+        // The box holds TWO 'Ardmob Boyz units, the same but for the Boss Nob's guns (appdata files
+        // them as two datasheets of one name): kombi-rokkit and kombi-shoota here, a kustom shoota in
+        // the next. Until 2026-10-15 they were one entry with an "option" the box does not have.
         {
           id: 'ardmob-boyz',
           name: "'Ardmob Boyz",
@@ -717,7 +720,6 @@ Once per battle, at the start of the Command phase, you can call a Waaagh!. If y
           ranged: [
             { name: 'Kombi-rokkit', tags: [], range: '24"', a: '1', bs: '5+', s: '10', ap: '-2', d: '3' },
             { name: 'Kombi-shoota', tags: [], range: '24"', a: '2', bs: '5+', s: '4', ap: '0', d: '1' },
-            { name: 'Kustom Shoota', tags: ['RAPID FIRE 2'], range: '18"', a: '4', bs: '5+', s: '4', ap: '0', d: '1' },
             { name: 'Shoota', tags: ['RAPID FIRE 1'], range: '18"', a: '2', bs: '5+', s: '4', ap: '0', d: '1' },
             { name: 'Slugga', tags: ['CLOSE-QUARTERS'], range: '12"', a: '1', bs: '5+', s: '4', ap: '0', d: '1' },
           ],
@@ -732,7 +734,33 @@ Once per battle, at the start of the Command phase, you can call a Waaagh!. If y
           composition: ['1 Boss Nob model', '9 Boyz models'],
           loadout: `**The Boss Nob is equipped with:** Big Choppa; Kombi-rokkit; Kombi-shoota; Slugga.
 **Every Boyz is equipped with:** Choppa; Shoota; Slugga.`,
-          options: ["The Boss Nob's kombi-rokkit and kombi-shoota can be replaced with 1 kustom shoota."],
+          keywords: ["'Ardmob", 'Explosives', 'Infantry', 'Mob'],
+          factionKeywords: ['Orks'],
+          baseSize: '32mm, 40mm',
+        },
+        {
+          id: 'ardmob-boyz-kustom-shoota',
+          name: "'Ardmob Boyz",
+          profiles: [
+            { name: 'Boss Nob', m: '6"', t: '5', sv: '5+', w: '2', ld: '7+', oc: '2' },
+            { name: 'Boyz', m: '6"', t: '5', sv: '5+', w: '1', ld: '7+', oc: '2' },
+          ],
+          ranged: [
+            { name: 'Kustom Shoota', tags: ['RAPID FIRE 2'], range: '18"', a: '4', bs: '5+', s: '4', ap: '0', d: '1' },
+            { name: 'Shoota', tags: ['RAPID FIRE 1'], range: '18"', a: '2', bs: '5+', s: '4', ap: '0', d: '1' },
+            { name: 'Slugga', tags: ['CLOSE-QUARTERS'], range: '12"', a: '1', bs: '5+', s: '4', ap: '0', d: '1' },
+          ],
+          melee: [
+            { name: 'Big Choppa', tags: [], a: '3', ws: '3+', s: '5', ap: '-1', d: '2' },
+            { name: 'Choppa', tags: [], a: '1', ws: '3+', s: '4', ap: '-1', d: '1' },
+          ],
+          faction: 'Waaagh!',
+          abilities: [
+            { name: 'Grab Dat Scrap', text: 'While this unit is engaged, this unit has +1 OC.' },
+          ],
+          composition: ['1 Boss Nob model', '9 Boyz models'],
+          loadout: `**The Boss Nob is equipped with:** Big Choppa; Kustom Shoota; Slugga.
+**Every Boyz is equipped with:** Choppa; Shoota; Slugga.`,
           keywords: ["'Ardmob", 'Explosives', 'Infantry', 'Mob'],
           factionKeywords: ['Orks'],
           baseSize: '32mm, 40mm',
@@ -1050,6 +1078,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       datasheets: [
         {
           id: 'draydens-lance-attilan-rough-riders',
+          count: 2,
           name: "Drayden's Lance Attilan Rough Riders",
           profiles: [
             { name: 'Rough Rider Sergeant', m: '12"', t: '4', sv: '4+', w: '2', ld: '7+', oc: '1' },
@@ -2200,6 +2229,7 @@ Note that you can include Agents of the Imperium Dedicated Transport units in su
         },
         {
           id: 'inquisitors-hand-vigilant-squad',
+          count: 2,
           name: "Inquisitor's Hand Vigilant Squad",
           profiles: [
             { name: 'Cyber-Mastiff', m: '6"', t: '3', sv: '4+', w: '1', ld: '7+', oc: '2' },
@@ -2412,6 +2442,7 @@ Each time one of the triggers shown in the Agile Manoeuvres section below occurs
       datasheets: [
         {
           id: 'kygharils-protectors-dire-avengers',
+          count: 2,
           name: "Kygharil's Protectors Dire Avengers",
           profiles: [
             { name: 'Dire Avengers Exarch', m: '7"', t: '3', sv: '4+', w: '1', ld: '6+', oc: '1', inv: '5+' },
@@ -2862,6 +2893,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
         },
         {
           id: 'sanguinary-spearhead-sanguinary-guard',
+          count: 2,
           name: 'Sanguinary Spearhead Sanguinary Guard',
           profiles: [
             { name: 'Sanguinary Guard with Encarmine Blade', m: '12"', t: '4', sv: '2+', w: '3', ld: '6+', oc: '1' },
@@ -3433,6 +3465,7 @@ If your Army Faction is Drukhari, you can include Harlequins and Anhrathe units 
       datasheets: [
         {
           id: 'coven-of-agonies-wracks',
+          count: 2,
           name: 'Coven of Agonies Wracks',
           profiles: [
             { name: 'Wrack', m: '7"', t: '4', sv: '5+', w: '2', ld: '7+', oc: '2' },
@@ -3622,6 +3655,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       datasheets: [
         {
           id: 'callous-blades-flawless-blades',
+          count: 2,
           name: 'Callous Blades Flawless Blades',
           profiles: [
             { name: 'Flawless Blades', m: '8"', t: '5', sv: '3+', w: '3', ld: '6+', oc: '1', inv: '5+' },
@@ -3792,6 +3826,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       datasheets: [
         {
           id: 'claw-of-ascension-hybrid-metamorphs',
+          count: 2,
           name: 'Claw of Ascension Hybrid Metamorphs',
           profiles: [
             { name: 'Metamorph', m: '6"', t: '4', sv: '5+', w: '1', ld: '7+', oc: '1' },
@@ -5092,6 +5127,7 @@ If your Army Faction is Tyranids, once per battle, in either player's Command ph
         },
         {
           id: 'vardenghast-swarm-termagants',
+          count: 2,
           name: 'Vardenghast Swarm Termagants',
           profiles: [
             { name: 'Termagant', m: '6"', t: '3', sv: '5+', w: '1', ld: '8+', oc: '2' },
