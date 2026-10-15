@@ -997,6 +997,36 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hyper-swarming-instincts"
+          ],
+          "when": {
+            "en": "the Hyper-adaptation selected at the start of the battle",
+            "ru": "гиперадаптация, выбранная в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hyper-aggression"
+          ],
+          "when": {
+            "en": "the Hyper-adaptation selected at the start of the battle",
+            "ru": "гиперадаптация, выбранная в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hyper-hive-predators"
+          ],
+          "when": {
+            "en": "the Hyper-adaptation selected at the start of the battle",
+            "ru": "гиперадаптация, выбранная в начале битвы"
+          }
         }
       ]
     },
@@ -1019,6 +1049,7 @@ export default {
             "ru": "пока активен императив Synaptic Augmentation и отряд в радиусе синапса"
           },
           "cond": [
+            "synaptic-augmentation",
             "never"
           ]
         },
@@ -1032,8 +1063,39 @@ export default {
             "ru": "пока активен императив Goaded to Slaughter и отряд в радиусе синапса"
           },
           "cond": [
+            "synaptic-goaded-to-slaughter",
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "synaptic-augmentation"
+          ],
+          "when": {
+            "en": "the Imperative selected this battle round",
+            "ru": "императив, выбранный в этом раунде"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "synaptic-surging-vitality"
+          ],
+          "when": {
+            "en": "the Imperative selected this battle round",
+            "ru": "императив, выбранный в этом раунде"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "synaptic-goaded-to-slaughter"
+          ],
+          "when": {
+            "en": "the Imperative selected this battle round",
+            "ru": "императив, выбранный в этом раунде"
+          }
         }
       ],
       "ref": {

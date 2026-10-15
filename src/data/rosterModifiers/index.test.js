@@ -73,6 +73,13 @@ describe('rosterModifiers data', () => {
     for (const { file, e } of allEntries) {
       for (const [i, eff] of (e.effects || []).entries()) {
         const where = `${file} ${e.name}`
+        // A state: a rule's choice made a switch, with no number — its `cond` and `when` only.
+        if (eff.op === 'state') {
+          expect(eff.cond?.length, `${where}: state cond`).toBeGreaterThan(0)
+          expect(eff.cond.every((c) => conditions[c]?.scope), `${where}: state cond ${eff.cond}`).toBe(true)
+          expect(Object.keys(eff).sort(), `${where}: state keys`).toEqual(['cond', 'op', 'when'])
+          continue
+        }
         expect(ON.has(eff.on), `${where}: on=${eff.on}`).toBe(true)
         expect(OP.has(eff.op), `${where}: op=${eff.op}`).toBe(true)
         expect(STAT.has(eff.stat), `${where}: stat=${eff.stat}`).toBe(true)

@@ -691,6 +691,7 @@ export default {
             "ru": "только отряды Blood Legions, после активации способности Boon of Blood за 4 очка Blood Tithe"
           },
           "cond": [
+            "tithe-boon-of-blood",
             "blocked-subset"
           ]
         },
@@ -704,6 +705,7 @@ export default {
             "ru": "отряды BLOOD LEGIONS, пока за 3BTP активирована Daemonic Rage"
           },
           "cond": [
+            "tithe-daemonic-rage",
             "never"
           ]
         },
@@ -717,8 +719,49 @@ export default {
             "ru": "отряды BLOOD LEGIONS и WORLD EATERS, пока за 2BTP активирована Enraged Abjuration"
           },
           "cond": [
+            "tithe-enraged-abjuration",
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tithe-enraged-abjuration"
+          ],
+          "when": {
+            "en": "activated with 2 Blood Tithe points, until the end of the battle",
+            "ru": "активирована за 2 очка Blood Tithe, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tithe-daemonic-rage"
+          ],
+          "when": {
+            "en": "activated with 3 Blood Tithe points, until the end of the battle",
+            "ru": "активирована за 3 очка Blood Tithe, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tithe-boon-of-blood"
+          ],
+          "when": {
+            "en": "activated with 4 Blood Tithe points, until the end of the battle",
+            "ru": "активирована за 4 очка Blood Tithe, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tithe-might-of-khorne"
+          ],
+          "when": {
+            "en": "activated with 5 Blood Tithe points, until the end of the battle",
+            "ru": "активирована за 5 очков Blood Tithe, до конца битвы"
+          }
         }
       ],
       "ref": {

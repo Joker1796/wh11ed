@@ -342,6 +342,32 @@ export const conditions = {
   // it is `blocked-subset`'s note, and where the list cannot say who carries what it stays one.
   'wargear-bearer': { scope: 'roster', duration: 'battle', label: { en: 'The bearer only', ru: 'Только носитель' } },
 
+  // ── A rule's own choices (2026-10-15) ───────────────────────────────────────────────────
+  // Options a detachment rule offers and the player picks — a Vow, a Hyper-adaptation, a Contract.
+  // Until then an option was a switch only where a number hung on it, so these were never offered
+  // (src/components/roster/CLAUDE.md → "A state with no number"). Named as GW names them.
+  'vow-abhor-the-witch': { scope: 'army', duration: 'battle', group: 'bt-vow', label: { en: 'Abhor the Witch, Destroy the Witch', ru: 'Abhor the Witch, Destroy the Witch' } },
+  'vow-accept-any-challenge': { scope: 'army', duration: 'battle', group: 'bt-vow', label: { en: 'Accept Any Challenge, No Matter the Odds', ru: 'Accept Any Challenge, No Matter the Odds' } },
+  'vow-uphold-the-honour': { scope: 'army', duration: 'battle', group: 'bt-vow', label: { en: 'Uphold the Honour of the Emperor', ru: 'Uphold the Honour of the Emperor' } },
+  'hyper-swarming-instincts': { scope: 'army', duration: 'battle', group: 'hyper-adaptation', label: { en: 'Swarming Instincts', ru: 'Swarming Instincts' } },
+  'hyper-aggression': { scope: 'army', duration: 'battle', group: 'hyper-adaptation', label: { en: 'Hyper-aggression', ru: 'Hyper-aggression' } },
+  'hyper-hive-predators': { scope: 'army', duration: 'battle', group: 'hyper-adaptation', label: { en: 'Hive Predators', ru: 'Hive Predators' } },
+  'synaptic-augmentation': { scope: 'army', duration: 'round', group: 'synaptic-imperative', label: { en: 'Synaptic Augmentation', ru: 'Synaptic Augmentation' } },
+  'synaptic-surging-vitality': { scope: 'army', duration: 'round', group: 'synaptic-imperative', label: { en: 'Surging Vitality', ru: 'Surging Vitality' } },
+  'synaptic-goaded-to-slaughter': { scope: 'army', duration: 'round', group: 'synaptic-imperative', label: { en: 'Goaded to Slaughter', ru: 'Goaded to Slaughter' } },
+  'contract-trophy-hunters': { scope: 'army', duration: 'battle', group: 'contract', label: { en: 'Trophy Hunters', ru: 'Trophy Hunters' } },
+  'contract-sow-fear-and-terror': { scope: 'army', duration: 'battle', group: 'contract', label: { en: 'Sow Fear and Terror', ru: 'Sow Fear and Terror' } },
+  'contract-show-of-strength': { scope: 'army', duration: 'battle', group: 'contract', label: { en: 'Show of Strength', ru: 'Show of Strength' } },
+  'unit-halo-override': { scope: 'unit', duration: 'round', label: { en: 'Halo Override', ru: 'Halo Override' } },
+  'override-electromotive-energisation': { scope: 'army', duration: 'round', group: 'halo-override', label: { en: 'Electromotive Energisation', ru: 'Electromotive Energisation' } },
+  'override-microactuator-bracing': { scope: 'army', duration: 'round', group: 'halo-override', label: { en: 'Microactuator Bracing', ru: 'Microactuator Bracing' } },
+  'override-predation-protocols': { scope: 'army', duration: 'round', group: 'halo-override', label: { en: 'Predation Protocols', ru: 'Predation Protocols' } },
+  'override-muted-servomotors': { scope: 'army', duration: 'round', group: 'halo-override', label: { en: 'Muted Servomotors', ru: 'Muted Servomotors' } },
+  'tithe-enraged-abjuration': { scope: 'army', duration: 'battle', label: { en: 'Enraged Abjuration', ru: 'Enraged Abjuration' } },
+  'tithe-daemonic-rage': { scope: 'army', duration: 'battle', label: { en: 'Daemonic Rage', ru: 'Daemonic Rage' } },
+  'tithe-boon-of-blood': { scope: 'army', duration: 'battle', label: { en: 'Boon of Blood', ru: 'Boon of Blood' } },
+  'tithe-might-of-khorne': { scope: 'army', duration: 'battle', label: { en: 'Might of Khorne', ru: 'Might of Khorne' } },
+
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase
   // id carries `phase` and `side`, because GW says whose phase it is when that matters and the

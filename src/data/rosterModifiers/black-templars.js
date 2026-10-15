@@ -400,6 +400,36 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "vow-abhor-the-witch"
+          ],
+          "when": {
+            "en": "the Vow selected at the start of the battle",
+            "ru": "обет, выбранный в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "vow-accept-any-challenge"
+          ],
+          "when": {
+            "en": "the Vow selected at the start of the battle",
+            "ru": "обет, выбранный в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "vow-uphold-the-honour"
+          ],
+          "when": {
+            "en": "the Vow selected at the start of the battle",
+            "ru": "обет, выбранный в начале битвы"
+          }
         }
       ]
     },

@@ -1126,6 +1126,36 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "contract-trophy-hunters"
+          ],
+          "when": {
+            "en": "the Contract selected at the start of the battle",
+            "ru": "контракт, выбранный в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "contract-sow-fear-and-terror"
+          ],
+          "when": {
+            "en": "the Contract selected at the start of the battle",
+            "ru": "контракт, выбранный в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "contract-show-of-strength"
+          ],
+          "when": {
+            "en": "the Contract selected at the start of the battle",
+            "ru": "контракт, выбранный в начале битвы"
+          }
         }
       ]
     },

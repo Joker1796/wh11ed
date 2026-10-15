@@ -986,7 +986,8 @@ export default {
             "ru": "для отряда, получившего Halo Override со способностью Electromotive Energisation"
           },
           "cond": [
-            "never"
+            "unit-halo-override",
+            "override-electromotive-energisation"
           ]
         },
         {
@@ -999,7 +1000,8 @@ export default {
             "ru": "для отряда, получившего Halo Override со способностью Microactuator Bracing"
           },
           "cond": [
-            "never"
+            "unit-halo-override",
+            "override-microactuator-bracing"
           ]
         },
         {
@@ -1012,8 +1014,59 @@ export default {
             "ru": "для отряда, получившего Halo Override со способностью Muted Servomotors"
           },
           "cond": [
-            "never"
+            "unit-halo-override",
+            "override-muted-servomotors"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "unit-halo-override"
+          ],
+          "when": {
+            "en": "a unit given the Halo Override keyword this Command phase",
+            "ru": "отряд с ключевым словом Halo Override с этой фазы командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "override-electromotive-energisation"
+          ],
+          "when": {
+            "en": "the Override ability selected this Command phase",
+            "ru": "способность Override, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "override-microactuator-bracing"
+          ],
+          "when": {
+            "en": "the Override ability selected this Command phase",
+            "ru": "способность Override, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "override-predation-protocols"
+          ],
+          "when": {
+            "en": "the Override ability selected this Command phase",
+            "ru": "способность Override, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "override-muted-servomotors"
+          ],
+          "when": {
+            "en": "the Override ability selected this Command phase",
+            "ru": "способность Override, выбранная в эту фазу командования"
+          }
         }
       ],
       "ref": {
