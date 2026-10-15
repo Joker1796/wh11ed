@@ -637,11 +637,11 @@ export default {
           "op": "add",
           "value": 2,
           "when": {
-            "en": "if that Quality was chosen for the army's Oath",
-            "ru": "если для клятвы армии выбрано соответствующее Качество"
+            "en": "while …and we are eager for the challenge. is the Oath’s Quality",
+            "ru": "пока качество Oath — …and we are eager for the challenge."
           },
           "cond": [
-            "never"
+            "oath-quality-eager"
           ]
         },
         {
@@ -650,11 +650,11 @@ export default {
           "op": "add",
           "value": 2,
           "when": {
-            "en": "if that Quality was chosen for the army's Oath",
-            "ru": "если для клятвы армии выбрано соответствующее Качество"
+            "en": "while …yet shall our legacy be unsullied. is the Oath’s Quality",
+            "ru": "пока качество Oath — …yet shall our legacy be unsullied."
           },
           "cond": [
-            "never"
+            "oath-quality-legacy"
           ]
         },
         {
@@ -663,12 +663,82 @@ export default {
           "op": "improve",
           "value": 1,
           "when": {
-            "en": "if that Quality was chosen for the army's Oath",
-            "ru": "если для клятвы армии выбрано соответствующее Качество"
+            "en": "while …yet shall our legacy be unsullied. is the Oath’s Quality",
+            "ru": "пока качество Oath — …yet shall our legacy be unsullied."
           },
           "cond": [
-            "never"
+            "oath-quality-legacy"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-deed-tyrant"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-deed-realm"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-deed-tally"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-quality-valour"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-quality-eager"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-quality-legacy"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "army-honoured"
+          ],
+          "when": {
+            "en": "once the Oath’s Deed is completed, until the end of the battle",
+            "ru": "после выполнения Deed, до конца битвы"
+          }
         }
       ],
       "ref": {

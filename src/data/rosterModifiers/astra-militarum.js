@@ -1701,7 +1701,38 @@ export default {
       "hash": "f8f73c83",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "op": "state",
+          "cond": [
+            "artillery-creeping-barrage"
+          ],
+          "when": {
+            "en": "the artillery support selected this battle round",
+            "ru": "артиллерийская поддержка, выбранная в этом раунде"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "artillery-incendiary-bombardment"
+          ],
+          "when": {
+            "en": "the artillery support selected this battle round",
+            "ru": "артиллерийская поддержка, выбранная в этом раунде"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "artillery-smoke-shells"
+          ],
+          "when": {
+            "en": "the artillery support selected this battle round",
+            "ru": "артиллерийская поддержка, выбранная в этом раунде"
+          }
+        }
+      ]
     },
     {
       "sid": "c1ce9799-014d-4556-b261-ab8fd004daf1",

@@ -1196,6 +1196,7 @@ export default {
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
           },
           "cond": [
+            "costs-acquire",
             "never"
           ]
         },
@@ -1209,6 +1210,7 @@ export default {
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
           },
           "cond": [
+            "costs-acquire",
             "never"
           ]
         },
@@ -1222,6 +1224,7 @@ export default {
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
           },
           "cond": [
+            "costs-acquire",
             "never"
           ]
         },
@@ -1235,8 +1238,29 @@ export default {
             "ru": "при Eliminate At All Costs, по выбранному вражескому отряду"
           },
           "cond": [
+            "costs-eliminate",
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "costs-eliminate"
+          ],
+          "when": {
+            "en": "the option selected this Command phase",
+            "ru": "вариант, выбранный в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "costs-acquire"
+          ],
+          "when": {
+            "en": "the option selected this Command phase",
+            "ru": "вариант, выбранный в эту фазу командования"
+          }
         }
       ],
       "ref": {
@@ -1317,6 +1341,36 @@ export default {
           "cond": [
             "tactic-malleus"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tactic-furor"
+          ],
+          "when": {
+            "en": "the Mission Tactic selected this Command phase",
+            "ru": "Mission Tactic, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tactic-malleus"
+          ],
+          "when": {
+            "en": "the Mission Tactic selected this Command phase",
+            "ru": "Mission Tactic, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tactic-purgatus"
+          ],
+          "when": {
+            "en": "the Mission Tactic selected this Command phase",
+            "ru": "Mission Tactic, выбранная в эту фазу командования"
+          }
         }
       ]
     },

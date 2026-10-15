@@ -2137,6 +2137,26 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": null
+        },
+        {
+          "op": "state",
+          "cond": [
+            "twisted-doctrine-fell-back"
+          ],
+          "when": {
+            "en": "Defaulted to Doctrine this Movement phase, until the end of the turn",
+            "ru": "Default to Doctrine в эту фазу движения, до конца хода"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "twisted-doctrine-advanced"
+          ],
+          "when": {
+            "en": "Defaulted to Doctrine this Movement phase, until the end of the turn",
+            "ru": "Default to Doctrine в эту фазу движения, до конца хода"
+          }
         }
       ]
     },

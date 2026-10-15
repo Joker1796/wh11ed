@@ -521,7 +521,7 @@ export default {
             "ru": "пока для армии активна Dread-способность Darkness"
           },
           "cond": [
-            "never"
+            "dread-darkness"
           ]
         },
         {
@@ -534,8 +534,59 @@ export default {
             "ru": "при этой способности Dread, если цель Battle-shocked"
           },
           "cond": [
+            "dread-doom",
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-despair"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-doom"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-darkness"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-dismay"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-delirium"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
         }
       ],
       "ref": {

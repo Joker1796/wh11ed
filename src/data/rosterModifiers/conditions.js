@@ -368,6 +368,27 @@ export const conditions = {
   'tithe-boon-of-blood': { scope: 'army', duration: 'battle', label: { en: 'Boon of Blood', ru: 'Boon of Blood' } },
   'tithe-might-of-khorne': { scope: 'army', duration: 'battle', label: { en: 'Might of Khorne', ru: 'Might of Khorne' } },
 
+  'oath-deed-tyrant': { scope: 'army', duration: 'battle', group: 'oath-deed', label: { en: 'We vow to lay low the tyrant…', ru: 'We vow to lay low the tyrant…' } },
+  'oath-deed-realm': { scope: 'army', duration: 'battle', group: 'oath-deed', label: { en: 'We swear to reclaim the realm…', ru: 'We swear to reclaim the realm…' } },
+  'oath-deed-tally': { scope: 'army', duration: 'battle', group: 'oath-deed', label: { en: 'We pledge to reap a great tally…', ru: 'We pledge to reap a great tally…' } },
+  'oath-quality-valour': { scope: 'army', duration: 'battle', group: 'oath-quality', label: { en: '…with all our martial valour risen over all.', ru: '…with all our martial valour risen over all.' } },
+  'oath-quality-eager': { scope: 'army', duration: 'battle', group: 'oath-quality', label: { en: '…and we are eager for the challenge.', ru: '…and we are eager for the challenge.' } },
+  'oath-quality-legacy': { scope: 'army', duration: 'battle', group: 'oath-quality', label: { en: '…yet shall our legacy be unsullied.', ru: '…yet shall our legacy be unsullied.' } },
+  'army-honoured': { scope: 'army', duration: 'battle', label: { en: 'Honoured', ru: 'Honoured' } },
+  'dread-despair': { scope: 'army', duration: 'battle', label: { en: 'Despair', ru: 'Despair' } },
+  'dread-doom': { scope: 'army', duration: 'battle', label: { en: 'Doom', ru: 'Doom' } },
+  'dread-darkness': { scope: 'army', duration: 'battle', label: { en: 'Darkness', ru: 'Darkness' } },
+  'dread-dismay': { scope: 'army', duration: 'battle', label: { en: 'Dismay', ru: 'Dismay' } },
+  'dread-delirium': { scope: 'army', duration: 'battle', label: { en: 'Delirium', ru: 'Delirium' } },
+  'artillery-creeping-barrage': { scope: 'army', duration: 'round', group: 'artillery-support', label: { en: 'Creeping Barrage', ru: 'Creeping Barrage' } },
+  'artillery-incendiary-bombardment': { scope: 'army', duration: 'round', group: 'artillery-support', label: { en: 'Incendiary Bombardment', ru: 'Incendiary Bombardment' } },
+  'artillery-smoke-shells': { scope: 'army', duration: 'round', group: 'artillery-support', label: { en: 'Smoke Shells', ru: 'Smoke Shells' } },
+  'twisted-doctrine-fell-back': { scope: 'unit', duration: 'turn', group: 'twisted-doctrine', label: { en: 'Default to Doctrine: shoot and charge after Falling Back', ru: 'Default to Doctrine: shoot and charge after Falling Back' } },
+  'twisted-doctrine-advanced': { scope: 'unit', duration: 'turn', group: 'twisted-doctrine', label: { en: 'Default to Doctrine: charge after Advancing', ru: 'Default to Doctrine: charge after Advancing' } },
+  'costs-eliminate': { scope: 'army', duration: 'round', group: 'at-all-costs', label: { en: 'Eliminate At All Costs', ru: 'Eliminate At All Costs' } },
+  'costs-acquire': { scope: 'army', duration: 'round', group: 'at-all-costs', label: { en: 'Acquire At All Costs', ru: 'Acquire At All Costs' } },
+  'tactic-purgatus': { scope: 'army', duration: 'round', group: 'mission-tactic', label: { en: 'Purgatus Tactics', ru: 'Purgatus Tactics' } },
+
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase
   // id carries `phase` and `side`, because GW says whose phase it is when that matters and the
