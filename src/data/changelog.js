@@ -36,7 +36,6 @@ export const changelog = [
       '**The Take Cover! Order is now in the list of Orders during a game.** With it the unit’s Save improves by 1, but no better than 3+.',
       { h: 'Whole site' },
       '**Search finds a name with a hyphen however you type it.** “grav-tank” finds the Caladius Grav-Tank.',
-      '**A page that keeps reloading by itself now stops.** On some iPhones the site flashed white every couple of seconds. After the third reload in a row it stays on the page for ten minutes.',
     ],
     ru: [
       { h: 'Combat Patrol', kind: 'rules' },
@@ -50,7 +49,6 @@ export const changelog = [
       '**Приказ Take Cover! теперь есть в списке приказов во время партии.** С ним сейв отряда улучшается на 1, но не лучше 3+.',
       { h: 'Весь сайт' },
       '**Поиск находит название с дефисом, как его ни напиши.** По «grav-tank» находится Caladius Grav-Tank.',
-      '**Страница, которая сама перезагружается по кругу, теперь останавливается.** На некоторых айфонах сайт мигал белым каждые пару секунд. После третьей перезагрузки подряд он десять минут остаётся на странице.',
     ],
   },
   {
