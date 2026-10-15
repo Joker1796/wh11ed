@@ -818,11 +818,12 @@ function footLine(g) {
    a move (the house rule), and still under reduced motion (the token is 0 there). */
 /* The card keeps its own grey edge; the accent frame over it rises and goes out WHOLLY (owner,
    2026-10-15: dimming back to a red edge read as flicker, not as breath). */
-.game.live { background: color-mix(in srgb, var(--accent) 6%, var(--bg-card)); }
+/* One beat for the frame and the tag's dot, in step: both brightest together (owner, 2026-10-15). */
+.game.live { --live-beat: calc(var(--motion-slow) * 6); background: color-mix(in srgb, var(--accent) 6%, var(--bg-card)); }
 .game.live::after {
   content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
   border: 2px solid var(--accent);
-  animation: live-frame calc(var(--motion-slow) * 6) ease-in-out infinite;
+  animation: live-frame var(--live-beat) ease-in-out infinite;
 }
 @keyframes live-frame { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 .live .gc-result { color: var(--accent-ink); }
@@ -834,9 +835,9 @@ function footLine(g) {
 }
 .gc-live-dot {
   width: 6px; height: 6px; border-radius: 50%; background: currentColor;
-  animation: live-dot calc(var(--motion-slow) * 3) ease-in-out infinite;
+  animation: live-dot var(--live-beat) ease-in-out infinite;
 }
-@keyframes live-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+@keyframes live-dot { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
 .gc-foot { text-align: center; margin-top: 0.4rem; font-size: 0.74rem; color: var(--text-dim); }
 
