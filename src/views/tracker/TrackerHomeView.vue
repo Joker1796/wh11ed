@@ -135,7 +135,7 @@
         </span>
       </div>
       <p
-        v-if="!history.length"
+        v-if="!history.length && !liveGame"
         class="empty"
       >
         {{ labels.trackerNoGames }}
@@ -146,16 +146,20 @@
         name="list"
         class="games"
       >
+        <!-- The game in progress leads the list as a card of its own (a player's report,
+             2026-10-15: "I always take the last game for the current one and tap it"): the same
+             card, its score as it stands, "in progress" where the result would be, its frame
+             lit — and a tap goes to the game. The Resume button above stays. -->
         <li
-          v-for="(g, k) in visibleGames"
-          :key="g.id"
+          v-for="g in rows"
+          :key="g.live ? 'live' : g.id"
           class="game"
-          :data-tour="k === 0 ? 'home-history' : undefined"
-          :class="resultClass(g)"
+          :data-tour="g === visibleGames[0] ? 'home-history' : undefined"
+          :class="g.live ? 'live' : resultClass(g)"
           role="button"
           tabindex="0"
-          @click="openGame(g.id)"
-          @keydown.enter="openGame(g.id)"
+          @click="openRow(g)"
+          @keydown.enter="openRow(g)"
         >
           <FactionEmblem
             v-for="st in stampsOf(g)"
@@ -176,6 +180,7 @@
               {{ formatDate(g.finishedAt || g.createdAt) }}
             </span>
             <button
+              v-if="!g.live"
               class="del"
               :title="labels.trackerDelete"
               @click.stop="onDeleteGame(g.id)"
@@ -198,7 +203,7 @@
                 {{ score(g)[0] }}<span class="gc-dash">–</span>{{ score(g)[1] }}
               </div>
               <div class="gc-result">
-                {{ resultLabel(g) }}
+                {{ g.live ? labels.trackerLiveRound.replace('{n}', g.currentRound || 1) : resultLabel(g) }}
               </div>
             </div>
             <div class="gc-side gc-side--right">
@@ -253,7 +258,7 @@ import { useTour } from '../../composables/useTour.js'
 import { useRoute, useRouter } from 'vue-router'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
-import { battlePointsFromVp, concededSide, youIndex as youIdx } from '../../composables/gameScoring.js'
+import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, membersOf, BATTLE_SIZES } from '../../composables/useTracker.js'
@@ -311,6 +316,18 @@ function showMore() {
   visibleCount.value += PAGE
 }
 const summaryGame = ref(null)
+// The game in progress as a history card: the card reads `result.totals`, which a game only gets
+// when it ends, so its totals as they stand are lent to it here.
+const liveGame = computed(() => {
+  const g = current.value
+  if (!g || g.phase !== 'playing') return null
+  return { ...g, live: true, result: { totals: [grandTotal(g, 0), grandTotal(g, 1)] } }
+})
+const rows = computed(() => (liveGame.value ? [liveGame.value, ...visibleGames.value] : visibleGames.value))
+function openRow(g) {
+  if (g.live) router.push('/tracker/game')
+  else openGame(g.id)
+}
 function openGame(id) {
   summaryGame.value = history.value.find(g => g.id === id) || null
 }
@@ -785,6 +802,16 @@ function footLine(g) {
 .res-win .gc-result { color: #e3b341; }
 .res-loss .gc-result { color: var(--danger); }
 .res-draw .gc-result { color: var(--text-dim); }
+/* The game in progress: its frame in the accent, breathing, the card a shade warmer — a fade, never
+   a move (the house rule), and still under reduced motion (the token is 0 there). */
+.game.live { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--bg-card)); }
+.game.live::after {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  border: 2px solid var(--accent);
+  animation: live-frame calc(var(--motion-slow) * 6) ease-in-out infinite;
+}
+@keyframes live-frame { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
+.live .gc-result { color: var(--accent-ink); }
 
 .gc-foot { text-align: center; margin-top: 0.4rem; font-size: 0.74rem; color: var(--text-dim); }
 
