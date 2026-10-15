@@ -22,6 +22,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, SLUG_MAP, norm, loadJson, loadModule, byNormName, table, combatPatrolNames, APPDATA, NUMBER_WORDS } from './lib/sync-common.mjs'
+import { foldChars } from '../src/utils/foldName.js'
 
 // Pictures wh11ed deliberately does not transcribe as numbers. Keep the reason concrete.
 const ALLOW = []
@@ -33,9 +34,8 @@ const ORDINALS = ['zeroth', 'first', 'second', 'third', 'fourth', 'fifth', 'sixt
 const WORD_RE = new RegExp(`\\b(${NUMBER_WORDS.join('|')})\\b`, 'g')
 const ORD_RE = new RegExp(`\\b(${ORDINALS.join('|')})\\b`, 'g')
 function flat(s) {
-  return (s || '')
+  return foldChars(s)
     .toLowerCase()
-    .replace(/[’‘]/g, "'")
     .replace(/\*\*|__/g, '')
     .replace(WORD_RE, (w) => String(NUMBER_WORDS.indexOf(w)))
     .replace(ORD_RE, (w) => String(ORDINALS.indexOf(w)))

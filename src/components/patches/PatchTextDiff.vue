@@ -8,6 +8,7 @@
 </template>
 
 <script setup>
+import { foldChars } from '../../utils/foldName.js'
 // How: the two texts are diffed word by word with their markup set aside (`**`, `__` — a word
 // that only turned bold is not a change); each struck or added word is fenced with private-use
 // characters, the new text so built goes through renderRichText like any rule, and the fences
@@ -27,7 +28,7 @@ const { renderRichText } = useRenderInline()
 
 const DEL = ['', '']
 const INS = ['', '']
-const bare = (w) => w.replace(/\*\*|__/g, '').replace(/[‘’`]/g, "'").replace(/[‐‑–—]/g, '-')
+const bare = (w) => foldChars(w.replace(/\*\*|__/g, ''))
 // "**Eligible" → "**" + fence("Eligible"); a list marker or a line break is never fenced.
 function fence(w, [open, close]) {
   if (w === '\n' || /^[▪•▫]$/.test(w)) return w

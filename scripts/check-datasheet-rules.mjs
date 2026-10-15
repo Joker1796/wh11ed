@@ -28,6 +28,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName } from './lib/sync-common.mjs'
+import { foldName } from '../src/utils/foldName.js'
 
 // Rules wh11ed deliberately does not print. Keep the reason concrete — a future reader has to be
 // able to re-derive whether it still holds.
@@ -38,7 +39,7 @@ const ALLOW = []
 const DS_DIR = path.join(ROOT, 'src/data/datasheets')
 
 const plain = (s) =>
-  (s || '').replace(/<[^>]+>/g, ' ').replace(/[*_■▪▫]/g, ' ').replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim().toLowerCase()
+  foldName(String(s || '').replace(/<[^>]+>/g, ' ').replace(/[*_■▪▫]/g, ' '))
 
 export async function run(argv = process.argv.slice(2)) {
   const verbose = argv.includes('--verbose')

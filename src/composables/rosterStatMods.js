@@ -23,6 +23,7 @@ import { enhKey, detKey, itemKey, loadoutItemCopies } from './rosterModifiers.js
 import { modelsPerMini } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
+import { foldName } from '../utils/foldName.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -53,7 +54,7 @@ const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged',
 // could never be applied at all — a unit-wide +1 Strength would have hit weapons the rule doesn't
 // touch. See conditions.js's `blocked-weapon`.
 /** @param {unknown} s */
-const norm = (s) => String(s ?? '').toLowerCase().trim()
+const norm = foldName
 /**
  * @param {{ name?: string, tags?: string[] } | null | undefined} row
  * @param {ModifierEffect['only']} only
@@ -660,7 +661,7 @@ export function attachedUnitKeywords(entry, units, keywordsOf) {
 // a merged name covers the record it was merged from, and a record named for the whole rule still
 // matches when our name is the longer one.
 /** @param {string | null | undefined} s */
-const normRule = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+const normRule = foldName
 /** @param {string | null | undefined} recName @param {string | null | undefined} ourName */
 function armyRuleMatches(recName, ourName) {
   const a = normRule(recName)

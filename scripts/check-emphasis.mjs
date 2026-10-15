@@ -53,6 +53,7 @@ import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule, allFactionBundles, appdataToMarkup, bodyText, escapeRegex } from './lib/sync-common.mjs'
 import { eachFactionTextPair } from './sync-faction-text.mjs'
 import { CORE_KEYWORDS, FACTION_KEYWORDS, AUTO_BOLD_RE } from '../src/composables/useRenderInline.js'
+import { foldChars } from '../src/utils/foldName.js'
 
 // The abilities `[core:…]` is worth spending: exactly the ones KeywordPopover can open, read from
 // the same file it reads. An ability it cannot resolve would render as a link to nothing.
@@ -107,9 +108,7 @@ const stripTags = (s) => String(s || '').replace(/<[^>]+>/g, '').replace(/&#x?[0
 // folded away — and stems a trailing plural, because appdata writes "Monsters" where a datasheet
 // (and our prose) writes MONSTER.
 function normSpan(s) {
-  return String(s || '')
-    .replace(/[’‘`]/g, "'")
-    .replace(/[‐‑–—]/g, '-')
+  return foldChars(s)
     .toLowerCase()
     .replace(/[^a-z0-9"+/-]+/g, ' ')
     .replace(/\s+/g, ' ')

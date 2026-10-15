@@ -11,10 +11,11 @@
 // this is the reason every caller here is dynamic — see wh11ed/CLAUDE.md.
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { detachmentSources } from '../data/detachmentSources.js'
+import { foldName } from '../utils/foldName.js'
 
 // Apostrophes travel badly between datasets: the roster stores the detachment name the MFM prints,
 // the faction file spells it its own way. Compare through this, never raw.
-export const normName = (s) => s.replace(/[\u2019'`]/g, "'").trim().toLowerCase()
+export const normName = foldName
 
 async function loadFactionSource(slug, loc) {
   const { loadFaction } = await import('../data/factions/index.js')

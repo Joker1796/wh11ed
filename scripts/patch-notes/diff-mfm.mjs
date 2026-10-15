@@ -2,7 +2,8 @@
 // commits): units by name, each size option by its model count and its note ("1st-2nd", "3rd+"),
 // and enhancements by detachment and name. Only points — the detachments' DP and dispositions are
 // the app's to report (diff-bundles.mjs), and the MFM scrape changed their shape on its own.
-const key = (s) => (s || '').toLowerCase().replace(/[‘’`]/g, "'").replace(/\s+/g, ' ').trim()
+import { foldName } from '../../src/utils/foldName.js'
+const key = foldName
 // A new unit's option, its note split like a changed one's: { models, label?, tier? }.
 function optLabel(o) {
   if (!o.note) return { models: o.models }

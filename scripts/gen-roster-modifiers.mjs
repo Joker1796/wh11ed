@@ -50,6 +50,7 @@ import crypto from 'node:crypto'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds, table } from './lib/sync-common.mjs'
 import { ruleScopes } from '../src/composables/ruleTargets.js'
+import { foldName } from '../src/utils/foldName.js'
 
 const OUT_DIR = path.join(ROOT, 'src/data/rosterModifiers')
 const QUEUE = path.join(ROOT, 'MODIFIER-QUEUE.local.json')
@@ -328,7 +329,7 @@ function wargearSources(bundle, dsBySid) {
 
 // Same key as `norm` in src/composables/rosterModifiers.js — `datasheetEntriesFor` asks
 // `loadoutItemNames(...).has(ref.item)`, so a fold added on one side must be added on the other.
-const normItemName = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\p{Pd}/gu, '-').replace(/\s+/g, ' ').trim()
+const normItemName = foldName
 
 const slugifyName = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -479,7 +480,7 @@ async function namedWeaponMismatches(slug, entries) {
   const file = path.join(ROOT, 'src/data/datasheets', `${slug}.js`)
   if (!fs.existsSync(file)) return []
   const sheets = (await loadModule(file))?.default || []
-  const norm = (x) => String(x || '').toLowerCase().replace(/[’']/g, "'")
+  const norm = foldName
   const fam = (k) => new Set(sheets.flatMap((d) => (d[k] || []).map((w) => norm(w.name))))
   const families = { melee: fam('melee'), ranged: fam('ranged') }
   const out = []

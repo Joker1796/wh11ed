@@ -28,6 +28,7 @@ import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from '
 import { join } from 'node:path'
 import { ROOT, HUB } from './lib/layout-art.mjs'
 import { loadModule } from './lib/sync-common.mjs'
+import { foldChars } from '../src/utils/foldName.js'
 
 const SOURCES = join(HUB, 'sources')
 const BASELINE = join(ROOT, 'scripts', 'lib', 'companion-pdfs.json')
@@ -90,7 +91,7 @@ function faqQuestions(t) {
 }
 
 const norm = (s) =>
-  s.toLowerCase().replace(/[’‘]/g, "'").replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim()
+  foldChars(s).toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim()
 const words = (s) => new Set(norm(s).split(' ').filter((w) => w.length > 3))
 function overlap(a, b) {
   const wa = words(a)

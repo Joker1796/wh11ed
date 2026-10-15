@@ -49,6 +49,7 @@
 //
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
+import { foldName } from '../utils/foldName.js'
 
 // A keyword phrase: one or more capitalised words. Matches both the ALL-CAPS spelling and the
 // Title Case one — the faction files use whichever the source PDF used.
@@ -216,7 +217,7 @@ export function ruleTargets(body) {
   return scopes && [...new Set(scopes.flatMap((s) => s.targets))]
 }
 
-const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+const norm = foldName
 
 // A target phrase is a CONJUNCTION of keywords written as one run — "Adeptus Custodes Terminator"
 // means the ADEPTUS CUSTODES faction keyword AND the TERMINATOR keyword — so cover the phrase with

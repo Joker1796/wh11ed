@@ -1,9 +1,10 @@
 // @ts-check
 // Who may carry an enhancement — read by the roster builder (through rosterEngine.js, which
 // re-exports these) and by gen-roster-data.mjs for a datasheet's "Led by" rows. A module of its
-// own, without imports, so the Node generator can load it: rosterEngine.js pulls a JSON file in,
-// and plain Node will not import that.
+// own, importing only plain modules, so the Node generator can load it: rosterEngine.js pulls a
+// JSON file in, and plain Node will not import that.
 
+import { foldName } from '../utils/foldName.js'
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').Enhancement} Enhancement */
 
@@ -26,7 +27,7 @@ export function hasKeyword(unit, name) {
 // epic-without-epicOk gates below — those exist to keep *generic* enhancements off units that
 // can't normally take them, not to block a unit from its own dedicated option.
 /** @param {unknown} a @param {unknown} b */
-const sameName = (a, b) => String(a).replace(/[\u2019']/g, "'").toLowerCase() === String(b).replace(/[\u2019']/g, "'").toLowerCase()
+const sameName = (a, b) => foldName(a) === foldName(b)
 
 /**
  * @param {Enhancement} enh

@@ -23,6 +23,7 @@ import worldEaters from './world-eaters.js'
 import thousandSons from './thousand-sons.js'
 import spaceMarines from './space-marines.js'
 import { SM_CHAPTERS } from '../smChapters.js'
+import { foldName } from '../../utils/foldName.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
@@ -46,7 +47,7 @@ const REGISTRY = {
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
 // override keys (which mirror the faction-data names); the two occasionally disagree on apostrophe
 // glyph / letter case, so match loosely — same normalization StratagemsView uses for stratagems.
-const normName = (s) => String(s).replace(/[’'`]/g, "'").trim().toLowerCase()
+const normName = foldName
 
 // Resolve the raw spec for a faction + its active detachment(s), applying any per-detachment
 // overrides. Returns null for factions without a spec (most, for now).

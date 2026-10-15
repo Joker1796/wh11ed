@@ -19,6 +19,7 @@ import { membersOf } from './rosterGameLink.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { detachmentSources } from '../data/detachmentSources.js'
 import { combatPatrolBoxIn } from './combatPatrolBox.js'
+import { foldName } from '../utils/foldName.js'
 
 // A stratagem's own usage limits, from its ENGLISH restrictions. Only limits on USING the
 // stratagem — "you cannot select the same model more than once per battle" is about a target
@@ -81,7 +82,7 @@ export async function loadCoreStratagems(loc, { combatPatrol = false } = {}) {
 
 // Detachment names come from the MFM dataset (tracker) but stratagems from the faction rules
 // data; the two occasionally disagree on apostrophe glyph / letter case, so match loosely.
-export const normName = (s) => s.replace(/[’'`]/g, "'").trim().toLowerCase()
+export const normName = foldName
 
 // Combat Patrol: the active detachment/stratagems live in src/data/combatPatrol.js, not in
 // src/data/factions/*.js — dynamically imported here (heavy, datasheet-bearing file), only

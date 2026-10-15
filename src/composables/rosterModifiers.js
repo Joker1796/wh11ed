@@ -19,6 +19,7 @@ import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandato
 import { conditions } from '../data/rosterModifiers/conditions.js'
 import rosterItemsData from '../data/roster/items.js'
 import ENH_WEAPONS from '../data/enhancementWeapons.js'
+import { foldName } from '../utils/foldName.js'
 // Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
 // carry an enhancement; re-exported here because this is where every caller already imports them.
 export { grantedKeywordsFor, detKey } from './rosterEngine.js'
@@ -49,7 +50,7 @@ export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 // Mirrored by `normItemName` in scripts/gen-roster-modifiers.mjs — a wargear record's `ref.item`
 // is compared against `loadoutItemNames` with this key, so the two must agree.
 /** @param {string | null | undefined} s @returns {string} */
-const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\p{Pd}/gu, '-').replace(/\s+/g, ' ').trim()
+const norm = foldName
 export { norm as itemKey }
 
 // A weapon row belongs to a wargear item when it IS that item, or when it's one of that item's
@@ -586,13 +587,7 @@ function filterWeapons(sheet, def, entry, items) {
  * @returns {string}
  */
 export function enhKey(s) {
-  return (s || '')
-    .replace(/\s*\((?:Upgrade|Aura)\)\s*/gi, ' ')
-    .toLowerCase()
-    .replace(/[‘’‚‛]/g, "'")
-    .replace(/[‐‑‒–—―]/g, '-')
-    .replace(/\s+/g, ' ')
-    .trim()
+  return foldName((s || '').replace(/\s*\((?:Upgrade|Aura)\)\s*/gi, ' '))
 }
 
 // An enhancement's prose, by name, from a faction's detachments — the list's OWN detachments first.

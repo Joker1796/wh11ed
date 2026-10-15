@@ -21,6 +21,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { SLUG_MAP as ALIAS } from './lib/sync-common.mjs'
+import { foldName } from '../src/utils/foldName.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', 'wh40k-appdata')
@@ -37,7 +38,7 @@ const only = (() => {
   return i >= 0 && args[i + 1] ? new Set(args[i + 1].split(',')) : null
 })()
 
-const norm = (s) => String(s).replace(/[’']/g, "'").trim().toLowerCase()
+const norm = foldName
 const setEq = (a, b) => a.length === b.length && norm2(a) === norm2(b)
 const norm2 = (a) => [...a].map(norm).sort().join('|')
 

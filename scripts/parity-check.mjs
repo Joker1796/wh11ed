@@ -47,6 +47,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
 import { localizeSheet } from '../src/data/datasheets/ru/localize.js'
+import { foldChars } from '../src/utils/foldName.js'
 
 const args = process.argv.slice(2)
 const only = (() => {
@@ -105,7 +106,7 @@ const measures = (s) =>
   (S(s)
     .replace(/\[(?:gloss|def|img):[^\]]*\]/g, ' ')
     .replace(/\s*\((?:\d{2}\.)*\d{2}(?:\.\d{2})*\)/g, ' ')
-    .replace(/[\u2010\u2011\u2012\u2013\u2014]/g, '-')
+    .replace(/.+/s, foldChars)
     // No trailing \b on the signed modifier: the rulebook writes "+1CP" as one word in EN and
     // "+1 CP" in RU, and that spacing is not a defect.
     .match(/\d+(?:\.\d+)?"|\d*D[36](?:\+\d+)?|\b\d+-\d+\b|\b\d\+|(?<![\w-])[+-]\d+/g) || []).sort()
