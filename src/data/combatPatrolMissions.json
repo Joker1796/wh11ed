@@ -1,0 +1,1237 @@
+{
+ "missions": {
+  "necrons": {
+   "type": "primary",
+   "slug": "cp-necrons",
+   "name": "Dynastic Reclamation",
+   "lore": "Lesser beings trespass upon your dynasty's territory. Send your legions against them and show them the error of their ways.",
+   "briefing": [
+    {
+     "label": "Start of the Battle",
+     "text": "Select one objective and your opponent selects one other objective."
+    }
+   ],
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "An enemy unit was destroyed in this or the previous turn that started the phase within range of an objective.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control one or more of the selected objectives.",
+       "vp": 5
+      },
+      {
+       "text": "You control both of the selected objectives.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "space-marines": {
+   "type": "primary",
+   "slug": "cp-space-marines",
+   "name": "Honour the Chapter",
+   "lore": "Seize your objectives and let no opponent drive you from them. Win a glorious victory this day and, by doing so, uphold the Chapter's honour.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control one or more objectives and control at least as many objectives as your opponent does.",
+       "vp": 5
+      },
+      {
+       "text": "You control two or more objectives (excluding your home objective).",
+       "vp": 10
+      }
+     ]
+    }
+   ]
+  },
+  "orks": {
+   "type": "primary",
+   "slug": "cp-orks",
+   "name": "Duff 'em Up!",
+   "lore": "Deez gitz fink dey'z better'n us Orks. Give 'em a krumpin' dey won't forget!",
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "An enemy unit was destroyed in this or the previous turn.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control one or more objectives (excluding your home objective).",
+       "vp": 5
+      },
+      {
+       "text": "You control your opponent's home objective.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "tau-empire": {
+   "type": "primary",
+   "slug": "cp-tau-empire",
+   "name": "Expansionary Campaign",
+   "lore": "The T'au Empire demands territory. Your priority must be to seize and hold ground. Gouge a foothold for the Fire caste to exploit.",
+   "blocks": [
+    {
+     "heading": "First to Second Battle Round",
+     "rounds": [
+      1,
+      2
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You control two or more expansion objectives.",
+       "vp": 15
+      },
+      {
+       "text": "You control one or more expansion objectives.",
+       "vp": 10
+      }
+     ]
+    },
+    {
+     "heading": "Third Battle Round Onwards",
+     "rounds": [
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You control one or more expansion objectives.",
+       "vp": 5
+      },
+      {
+       "text": "You control two or more expansion objectives.",
+       "vp": 10
+      }
+     ]
+    }
+   ]
+  },
+  "astra-militarum": {
+   "type": "primary",
+   "slug": "cp-astra-militarum",
+   "name": "For Cadia!",
+   "lore": "The Emperor demands, soldiers! Advance, wrest your objectives from the foe and remind these curs that Cadia fights on!",
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "There are no enemy units (excluding battle-shocked units) within your territory.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You control two or more objectives.",
+       "vp": 5
+      },
+      {
+       "text": "You control one or more objectives.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "adepta-sororitas": {
+   "type": "primary",
+   "slug": "cp-adepta-sororitas",
+   "name": "On Holy Ground",
+   "lore": "The unbelievers dare to walk on this sacred ground? Stride forth and meet them. Seize and hold ground. Demonstrate unto them the folly of opposing the God-Emperor.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You have a friendly unit (excluding battle-shocked units) within range of your home objective.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You control three or more objectives.",
+       "vp": 5
+      },
+      {
+       "text": "You control one or more objectives.",
+       "vp": 5
+      },
+      {
+       "text": "You control two or more objectives.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "adeptus-custodes": {
+   "type": "primary",
+   "slug": "cp-adeptus-custodes",
+   "name": "Defenders of the Golden Throne",
+   "lore": "Those who seek to despoil the Emperor's realm must be brought to justice and their plots shattered. Seize ground, dominate the battlefield and leave the foe in no doubt as to your superiority.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "A friendly unit (excluding battle-shocked units) is within 3\" of the centre of the battlefield.",
+       "vp": 10
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control at least as many objectives as your opponent.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "adeptus-custodes-aquilan-talon": {
+   "type": "primary",
+   "slug": "cp-adeptus-custodes-aquilan-talon",
+   "name": "Open the Way",
+   "lore": "The foe here must be crushed utterly, and the battlefield secured ready for the arrival of the main Shield Host.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "One friendly unit (excluding battle-shocked units) is wholly within your territory and not within 6\" of your opponent's territory.",
+       "vp": 2
+      },
+      {
+       "text": "One friendly unit (excluding battle-shocked units) is wholly within your opponent's territory and not within 6\" of your territory.",
+       "vp": 4
+      }
+     ]
+    }
+   ]
+  },
+  "adeptus-custodes-aquilan-wing": {
+   "type": "primary",
+   "slug": "cp-adeptus-custodes-aquilan-wing",
+   "name": "Defenders of the Golden Throne",
+   "lore": "Those who seek to despoil the Emperor's realm must be brought to justice and their plots shattered. Seize ground, dominate the battlefield and leave the foe in no doubt as to your superiority.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "A friendly unit (excluding battle-shocked units) is within 3\" of the centre of the battlefield.",
+       "vp": 10
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control at least as many objectives as your opponent.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "adeptus-mechanicus": {
+   "type": "primary",
+   "slug": "cp-adeptus-mechanicus",
+   "name": "Complete Annihilation",
+   "lore": "These foes delay us from our holy duties. Destroy them. Let nothing remain of their corpses but glowing ash. Then we shall take what is ours.",
+   "briefing": [
+    {
+     "label": "Start of the Battle",
+     "text": "Select one enemy unit and your opponent selects one other enemy unit."
+    }
+   ],
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You control one or more objectives.",
+       "vp": 5
+      },
+      {
+       "text": "You control two or more objectives.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "For each of the selected enemy units that is destroyed.",
+       "vp": 15
+      }
+     ]
+    }
+   ]
+  },
+  "imperial-agents": {
+   "type": "primary",
+   "slug": "cp-imperial-agents",
+   "name": "Inquisitorial Sanction",
+   "lore": "The enemy force poses a threat to the Imperium's integrity. Press forward, drive them from their holdfasts and kill their leaders, lest their heretical plots come to fruition.",
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "For each enemy CHARACTER model destroyed in this or the previous turn.",
+       "vp": 10
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You control two or more objectives.",
+       "vp": 5
+      },
+      {
+       "text": "You control one or more objectives.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "All enemy CHARACTER models are destroyed.",
+       "vp": 10
+      }
+     ]
+    }
+   ]
+  },
+  "aeldari": {
+   "type": "primary",
+   "slug": "cp-aeldari",
+   "name": "Outflank and Encircle",
+   "lore": "Agility and speed: these are the hallmarks of the Asuryani warhost. Use them to your advantage, outflank the foe and seize what is rightfully yours.",
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "A friendly unit (excluding battle-shocked units) is within your opponent's territory.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "For each expansion objective you control.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "black-templars": {
+   "type": "primary",
+   "slug": "cp-black-templars",
+   "name": "Uphold Your Vows",
+   "lore": "A vow once sworn must be fulfilled. Confront the foe, drive them back and take the heads of their leaders. Only then will the God-Emperor offer you his blessings.",
+   "briefing": [
+    {
+     "action": "Hallowed Ground",
+     "rows": [
+      {
+       "label": "Starts",
+       "text": "Start of your Shooting phase."
+      },
+      {
+       "label": "Units",
+       "text": "One friendly VOW-SWORN OF VEDRENN unit (excluding CHARACTER units) within range of an objective that is not blessed."
+      },
+      {
+       "label": "Use Limit",
+       "text": "Once per turn."
+      },
+      {
+       "label": "Completes",
+       "text": "End of the turn."
+      },
+      {
+       "label": "Effect",
+       "text": "That objective is blessed by your army."
+      }
+     ]
+    }
+   ],
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "For each enemy CHARACTER model destroyed in this or the previous turn.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "For each objective that was blessed by your army.",
+       "vp": 10
+      }
+     ]
+    },
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "All enemy CHARACTER models are destroyed.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "blood-angels": {
+   "type": "primary",
+   "slug": "cp-blood-angels",
+   "name": "Strike from on High",
+   "lore": "There will be no holding ground. Engage the enemy with speed and violence. Take what they hold and leave their corpses as carrion for vermin.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "For each expansion objective you control.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Third Battle Round Onwards",
+     "rounds": [
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "A friendly unit (excluding battle-shocked units) is within 3\" of the centre of the battlefield.",
+       "vp": 10
+      }
+     ]
+    }
+   ]
+  },
+  "dark-angels": {
+   "type": "primary",
+   "slug": "cp-dark-angels",
+   "name": "Seize their Strongholds",
+   "lore": "Praise the enemies of the Emperor from their bolt holes and bastions, seize their vacated positions and subject them to the pitiless judgement of the Unforgiven.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control more objectives than your opponent.",
+       "vp": 5
+      },
+      {
+       "text": "You control your home objective.",
+       "vp": 5
+      },
+      {
+       "text": "You control one or more objectives (excluding your home objective).",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "death-guard": {
+   "type": "primary",
+   "slug": "cp-death-guard",
+   "name": "Inexorable Conquest",
+   "lore": "None shall halt the march of the Death Guard. March upon the enemy, bestow upon them Grandfather Nurgle's festering gifts and drive them from this place.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control your opponent's home objective.",
+       "vp": 10
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "A friendly unit (excluding battle-shocked and TRANSPORT units) is within 3\" of the centre of the battlefield.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "drukhari": {
+   "type": "primary",
+   "slug": "cp-drukhari",
+   "name": "Architects of Agony",
+   "lore": "Inflict unspeakable agonies upon the enemy and let their pain empower you to victory.",
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "An enemy unit was destroyed in this or the previous turn.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You control your opponent's home objective.",
+       "vp": 5
+      },
+      {
+       "text": "You control one or more expansion objectives.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "emperors-children": {
+   "type": "primary",
+   "slug": "cp-emperors-children",
+   "name": "Grandiose Slaughter",
+   "lore": "What more rewarding place for the sensorium than the field of war? Test yourself against the foe: spill their blood, bathe in their gore, and drink in their anguished screams.",
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "The enemy WARLORD model was destroyed in this or the previous turn.",
+       "vp": 10
+      },
+      {
+       "text": "It is before the end of the third battle round.",
+       "vp": "+10",
+       "modifier": "cumulative"
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "You control an objective you did not control at the start of the turn.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "For each objective you control.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "genestealer-cults": {
+   "type": "primary",
+   "slug": "cp-genestealer-cults",
+   "name": "Slay the Oppressors",
+   "lore": "The Day of Ascension is almost upon us. You must prepare the way for its arrival. Ride forth, drive the oppressors back and slay their commander.",
+   "blocks": [
+    {
+     "heading": "Third Battle Round Onwards",
+     "rounds": [
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "For each objective you control (excluding your home objective).",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "The opponent's WARLORD model is destroyed.",
+       "vp": 15
+      }
+     ]
+    }
+   ]
+  },
+  "grey-knights": {
+   "type": "primary",
+   "slug": "cp-grey-knights",
+   "name": "Purification",
+   "lore": "The ground here is corrupted It must be cleansed and sanctified of its daemonic taint. Kill all exposed to its malignance and perform the rituals of purification.",
+   "briefing": [
+    {
+     "action": "Sanctification",
+     "rows": [
+      {
+       "label": "Starts",
+       "text": "Start of your Shooting phase."
+      },
+      {
+       "label": "Units",
+       "text": "One friendly CROWE'S SANCTIFIERS unit within range of an objective that is not sanctified."
+      },
+      {
+       "label": "Use Limit",
+       "text": "Once per turn."
+      },
+      {
+       "label": "Completes",
+       "text": "End of your next Command phase or the end of the battle (whichever occurs first)."
+      },
+      {
+       "label": "Effect",
+       "text": "If that unit is not battle-shocked, that objective is sanctified by your army."
+      }
+     ]
+    }
+   ],
+   "blocks": [
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "For each objective you control.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "For each objective that was sanctified by your army.",
+       "vp": 10
+      }
+     ]
+    }
+   ]
+  },
+  "chaos-space-marines": {
+   "type": "primary",
+   "slug": "cp-chaos-space-marines",
+   "name": "Shatter the Veil",
+   "lore": "Conquer the battlefield. Slaughter your foes and spill oceans of blood, and, in doing so, earn the patronage of the Dark Gods.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control your home objective",
+       "vp": 5
+      },
+      {
+       "text": "You control two or more objectives.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "There are no enemy units (excluding battle-shocked units) within 6\" of the centre of the battlefield and there is a friendly unit (excluding battle-shocked units) within 12\" of the centre of the battlefield.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "leagues-of-votann": {
+   "type": "primary",
+   "slug": "cp-leagues-of-votann",
+   "name": "For the Kindred",
+   "lore": "The enemy trespasses upon claimed ground. Strike forth and defend your claim. Let none be ignorant of the fact that this ground belongs to the kindred.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "If a friendly unit (excluding battle-shocked units) is within your opponent's territory.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "For each expansion objective you control.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "space-wolves": {
+   "type": "primary",
+   "slug": "cp-space-wolves",
+   "name": "Encircle and Destroy",
+   "lore": "Warriors of Fenris! The foe taunts us with their presence. We shall give them the battle they desire, but on our terms. Surround them, cut off their routes of retreat and then, when their fate is sealed, rip their beating hearts from their chests.",
+   "blocks": [
+    {
+     "heading": "Second to Third Battle Round",
+     "rounds": [
+      2,
+      3
+     ],
+     "when": "End of your Command Phase",
+     "rows": [
+      {
+       "text": "For each expansion objective you control.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Fourth to Fifth Battle Round",
+     "rounds": [
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "For each home objective you control.",
+       "vp": 10
+      }
+     ]
+    }
+   ]
+  },
+  "thousand-sons": {
+   "type": "primary",
+   "slug": "cp-thousand-sons",
+   "name": "Cult Ritual",
+   "lore": "Beneath this battlefield lies a nexus of warp energy. Sweep the enemy aside, drive them from places of power and conduct your rituals. Then shall reality be torn asunder and the blessings of Tzeentch fall upon you.",
+   "blocks": [
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "(Once per turn, per army) A friendly model within range of an objective that you have not bound manifests a Ritual with a Warp Charge value of 7 or more",
+     "rows": [
+      {
+       "text": "You do not resolve that Ritual's effects and that objective is bound by you.",
+       "vp": 10
+      }
+     ]
+    },
+    {
+     "heading": "End of the Battle",
+     "rounds": [
+      5
+     ],
+     "rows": [
+      {
+       "text": "For each objective you control.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "tyranids": {
+   "type": "primary",
+   "slug": "cp-tyranids",
+   "name": "Prepare the Way",
+   "lore": "The Hive Mind’s imperatives are clear: overcome the enemy. Drive them from their holdfasts and bury them with weight of numbers. Prepare this world for consumption.",
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "A friendly unit (excluding battle-shocked units) is within your opponent's deployment zone.",
+       "vp": 10
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control two or more objectives (excluding your home objective).",
+       "vp": 5
+      },
+      {
+       "text": "You control one or more objectives (excluding your home objective).",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  },
+  "world-eaters": {
+   "type": "primary",
+   "slug": "cp-world-eaters",
+   "name": "Indescriminate Butchery",
+   "lore": "Blood for the Blood God! Skulls for the Skull Throne! Butcher them all and raise totems in Khorne’s honour.",
+   "blocks": [
+    {
+     "heading": "Any Battle Round",
+     "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your turn",
+     "rows": [
+      {
+       "text": "An enemy unit was destroyed in this or the previous turn and a friendly CHARACTER unit's attacks caused that enemy unit to lose one or more wounds in that turn.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "You control two expansion objectives.",
+       "vp": 5
+      }
+     ]
+    },
+    {
+     "heading": "Second Battle Round Onwards",
+     "rounds": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "when": "End of your Command phase (or the end of your turn in the fifth battle round)",
+     "rows": [
+      {
+       "text": "A friendly CHARACTER unit controls an objective.",
+       "vp": 5
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "sequence": [
+  {
+   "id": "combat-patrol-mission-sequence",
+   "title": "Combat Patrol Mission Sequence",
+   "body": "Welcome to Combat Patrol! Whether you are a new recruit to Warhammer 40,000 or a seasoned veteran, Combat Patrol is all about getting your forces into action as quickly as possible.\n\nCombat Patrol is the quickest and simplest way to start collecting and playing Warhammer 40,000. In Combat Patrol battles, each player will command a compact army of Warhammer miniatures in tactical clashes that should last up to one hour.\n\nTypically comprising the contents of a Combat Patrol box, every Combat Patrol force is a great starting point for any aspiring Warhammer 40,000 general. As well as being amazing tools for collecting, the models from each one can face off against each other in quick and exciting pickup games. There is no need to create an army list and add up points values; simply choose your favourite faction, assemble your miniatures and prepare for war.\n\nCombat Patrol games are fast-paced and action-packed; victory is determined primarily through expert tactical play, but a healthy dose of good luck never hurts! Each Combat Patrol will have a set mission that it is trying to complete, rewarding its player with crucial Victory points. At the battle’s end, when the smoke has cleared, victory will go to the player who has scored the most of these.\n\nAs well as being the best way to play quick games of Warhammer 40,000, Combat Patrol is a great opportunity to try out different factions and familiarise yourself with the unique tactics and play styles of each one. Whichever you choose, you will soon learn your army’s strengths and weaknesses and gain the skills needed to claim victories on larger battlefields."
+  },
+  {
+   "id": "select-combat-patrols",
+   "title": "Select Combat Patrols",
+   "body": "Each player selects one Combat Patrol to use."
+  },
+  {
+   "id": "determine-deployment",
+   "title": "Determine Deployment",
+   "body": "Roll one D6 and consult the table below to determine one of the deployment maps. This describes where to place **terrain features**, **objectives** and where you can deploy your armies.\n\n◈ D6 | Deployment Map\n◈ 1–2 | Layout A\n◈ 3–4 | Layout B\n◈ 5–6 | Layout C"
+  },
+  {
+   "id": "create-the-battlefield",
+   "title": "Create the Battlefield",
+   "body": "Missions are played on rectangular battlefields 44” by 30” in size.\n\nPlayers should set up the **terrain features** as shown in the deployment map."
+  },
+  {
+   "id": "determine-attacker-and-defender",
+   "title": "Determine Attacker and Defender",
+   "body": "Players look at the deployment map and agree which edges of your battlefield correspond with the Attacker’s and Defender’s battlefield edges labelled on the map.\n\nRoll off: the winner decides who will be the Attacker and who will be the Defender."
+  },
+  {
+   "id": "declare-battle-formations",
+   "title": "Declare Battle Formations",
+   "body": "Players secretly note down:\n▪ Which of their units will start the battle embarked within which **Transports**.\n▪ Which of their units will start the battle in **strategic reserves**. The combined number of such units cannot exceed more than half the number of units in that player’s Combat Patrol.\n▪ Which of their **leader** units will start the battle attached to which **bodyguard** units (this is optional).\n▪ Which one of their two available **enhancements** they will use.\n\nPlayers then reveal these decisions. Each player's **Warlord** model is specified in their Combat Patrol. These models have the WARLORD keyword.\n\nSome Combat Patrols require certain units to be set up in **strategic reserves**, these still count towards the limit of how many units from a player’s army can be in **strategic reserves**."
+  },
+  {
+   "id": "deploy-armies",
+   "title": "Deploy Armies",
+   "body": "Players take it in turns to set up their units (excluding those in **strategic reserves**) one at a time, wholly within their deployment zone, starting with the Defender. Once you have finished setting up your units, if your opponent has any units that have not been set up, they set up those units."
+  },
+  {
+   "id": "determine-first-turn",
+   "title": "Determine First Turn",
+   "body": "Roll off: the winner takes the first turn."
+  },
+  {
+   "id": "resolve-pre-battle-rules",
+   "title": "Resolve Pre-Battle Rules",
+   "body": "Players alternate resolving any pre-battle rules units from their army may have, starting with the player who will take the first turn."
+  },
+  {
+   "id": "begin-the-battle",
+   "title": "Begin The Battle",
+   "body": "The first battle round begins. Each player should look at their Combat Patrol’s mission to see what they need to do in order to score Victory Points.\n\n**Stratagems**\n\nCombat Patrol games reflect a battle between two small forces of troops. As such they lack access to some of the logistical support found in larger armies. When playing a Combat Patrol game, the following **core stratagems** cannot be used:\n▪ **Crushing Impact**\n▪ **Explosives**\n▪ **Rapid Ingress**"
+  },
+  {
+   "id": "end-the-battle",
+   "title": "End the Battle",
+   "body": "The battle ends after five battle rounds have been completed. Even if you have no models remaining in your army at the start of your turn, players continue to play out their turns until the battle ends."
+  },
+  {
+   "id": "determine-victor",
+   "title": "Determine Victor",
+   "body": "At the end of the battle, the player with the most VP is the victor. If the players are tied, the battle is a draw. Players will score VP from the following:\n▪ Each player’s own Combat Patrol mission.\n▪ Each player scores an additional 10VP if their army is painted to a Battle Ready standard.\n\nIf a player is new to the game and this is one of their first opportunities to get their Combat Patrol to the table, we recommend ignoring the 10VP awarded for painting to a Battle Ready standard. Though this should be applied at any Combat Patrol events."
+  }
+ ],
+ "layouts": [
+  {
+   "id": "A",
+   "image": "/images/combat-patrol/layout-a.webp"
+  },
+  {
+   "id": "B",
+   "image": "/images/combat-patrol/layout-b.webp"
+  },
+  {
+   "id": "C",
+   "image": "/images/combat-patrol/layout-c.webp"
+  }
+ ]
+}
