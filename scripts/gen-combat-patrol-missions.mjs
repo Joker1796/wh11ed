@@ -116,6 +116,8 @@ export function build() {
     actions: group(table('primary_mission_action.json'), 'primaryMissionId'),
   }
   const problems = []
+  const cpPubByBox = new Map(table('publication.json').filter((p) => p.isCombatPatrol).map((p) => [norm(nameOfEn(p).replace(/^Combat Patrol:\s*/i, '')), p.id]))
+  const pubOfDatasheet = new Map(table('datasheet.json').map((d) => [d.id, d.publicationId]))
   // `boxes`: which box an army in a game is playing, without loading combatPatrol.js — the
   // tracker's store matches the army's detachment against `rule` (combatPatrolBox.js).
   const out = { boxes: combatPatrol.en.factions.map((b) => ({ id: b.id, slug: b.slug, rule: b.rule?.name || '' })), missions: {}, sequence: [], layouts: [] }
@@ -123,6 +125,20 @@ export function build() {
   for (const box of combatPatrol.en.factions) {
     const bundle = loadJson(path.join(APPDATA, 'factions', `${SLUG_MAP[box.slug] || box.slug}.json`))
     const det = (bundle?.detachments || []).find((d) => d.isCombatPatrol && norm(d.name) === norm(box.boxName))
+    // What the box holds, unit by unit: appdata files a box's datasheets under its own publication,
+    // and a box with two units of one name files that name twice (orks' 'Ardmob: two Boyz, their
+    // Boss Nobs armed differently). combatPatrol.js writes one entry per datasheet with `count` for
+    // identical twins — until 2026-10-15 it held one of each, and the sync compared name SETS.
+    if (det) {
+      const pub = cpPubByBox.get(norm(det.name))
+      const app = new Map()
+      for (const d of (bundle.datasheets || []).filter((d) => d.isCombatPatrol && pub && pubOfDatasheet.get(d.id) === pub)) app.set(norm(d.name), (app.get(norm(d.name)) || 0) + 1)
+      const ours = new Map()
+      for (const d of box.datasheets || []) ours.set(norm(d.name), (ours.get(norm(d.name)) || 0) + (d.count || 1))
+      for (const n of new Set([...app.keys(), ...ours.keys()])) {
+        if ((app.get(n) || 0) !== (ours.get(n) || 0)) problems.push(`${box.id}: "${n}" — appdata has ${app.get(n) || 0} unit(s), combatPatrol.js ${ours.get(n) || 0}`)
+      }
+    }
     const m = det && missions.find((x) => x.detachmentId === det.id)
     if (!m) { problems.push(`${box.id} (${box.boxName}): no Combat Patrol mission in appdata`); continue }
     used.add(m.id)

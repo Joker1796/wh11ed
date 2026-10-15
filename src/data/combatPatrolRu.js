@@ -449,7 +449,18 @@ export const combatPatrolRu = {
           composition: ['1 модель Boss Nob', '9 моделей Boyz'],
           loadout: `**Boss Nob вооружён:** Big Choppa; Kombi-rokkit; Kombi-shoota; Slugga.
 **Каждый Boyz вооружён:** Choppa; Shoota; Slugga.`,
-          options: ['У Boss Nob можно заменить kombi-rokkit и kombi-shoota на 1 kustom shoota.'],
+        },
+        {
+          id: 'ardmob-boyz-kustom-shoota',
+          abilities: [
+            {
+              name: 'Grab Dat Scrap',
+              text: 'Пока этот юнит находится в рукопашной, у него +1 OC.',
+            },
+          ],
+          composition: ['1 модель Boss Nob', '9 моделей Boyz'],
+          loadout: `**Boss Nob вооружён:** Big Choppa; Kustom Shoota; Slugga.
+**Каждый Boyz вооружён:** Choppa; Shoota; Slugga.`,
         },
         {
           id: 'ardmob-gretchin',
