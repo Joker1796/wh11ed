@@ -394,20 +394,12 @@
                         <!-- A destroyed unit folds to its name and the way to change that (owner,
                              2026-10-08): its numbers and switches say nothing any more. -->
                         <ExpandTransition>
-                          <span
+                          <RosterStatPlates
                             v-if="rowMeta.get(e.uid)?.stats.length && !fallen(e)"
                             class="rvunit-stats"
-                          >
-                            <span
-                              v-for="s in rowMeta.get(e.uid).stats"
-                              :key="s.label"
-                              class="rvst"
-                              :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }"
-                            >
-                              <span class="rvst-label">{{ s.label }}</span>
-                              <span class="stat-plate rvst-box">{{ s.value }}</span>
-                            </span>
-                          </span>
+                            :stats="rowMeta.get(e.uid).stats"
+                            :large="inTracker"
+                          />
                         </ExpandTransition>
                         <span
                           v-if="!inTracker"
@@ -647,6 +639,7 @@ import { playRoster } from '../../composables/playRoster.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { provideCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
+import RosterStatPlates from '../../components/roster/RosterStatPlates.vue'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
@@ -1935,26 +1928,7 @@ const nowSlot = computed(() => {
 }
 .rvblock-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
 .rvblock-total { flex: none; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
-/* Mini stat plates — the global `.stat-plate` (style.css, DatasheetCard's plate), scaled down to
-   fit a compact list row. */
-.rvunit-stats { display: inline-flex; gap: 0.3rem; margin: 0.15rem 0; }
-.rvst { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
-/* A plate the modifier layer rewrote — the same accent treatment DatasheetCard gives a modified
-   value, so the list and the card agree at a glance as well as in the number. */
-.rvst-mod .rvst-box { color: var(--accent-ink); }
-.rvst-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-muted); }
-.rvst-box {
-  --cut: 4px;
-  min-width: 1.85rem;
-  padding: 0.16rem 0.22rem;
-  font-size: 0.84rem;
-}
-/* Invulnerable save — its own plate right after SV, colour-called-out the way DatasheetCard's
-   accent-coloured "Invulnerable Save" label calls it out (a distinct accent fill, not just
-   another neutral box, so it reads as "special" among the plain stats). */
-.rvst-inv .rvst-label { color: var(--accent-ink); }
-.rvst-inv .rvst-box { background: var(--accent); color: var(--text-on-accent, #fff); }
-.rvst-inv .rvst-box::before { background: var(--accent); }
+/* The mini stat plates are RosterStatPlates.vue (shared with the tracker's help). */
 .rvunit-sub { font-size: 0.74rem; color: var(--text-dim); }
 .rvunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 
@@ -1987,12 +1961,6 @@ const nowSlot = computed(() => {
 .rv-in-game .rvunit-head { grid-column: 1 / -1; }
 .rv-in-game .rvunit-stats { grid-area: 2 / 1; }
 .rv-in-game .rvunit-pts { grid-area: 2 / 2; align-self: center; justify-self: end; }
-/* The plates larger in the game (owner, 2026-09-30): they share the row left of the points, each
-   up to 2.7rem wide, so a wide phone gets big ones and a 320px one still fits all seven. */
-.rv-in-game .rvunit-stats { display: flex; gap: 0.3rem; }
-.rv-in-game .rvst { flex: 0 1 2.7rem; min-width: 0; }
-.rv-in-game .rvst-box { width: 100%; min-width: 0; padding: 0.22rem 0.1rem; font-size: 1.02rem; --cut: 5px; }
-.rv-in-game .rvst-label { font-size: 0.64rem; }
 @media (max-width: 360px) { .rv-in-game .rvunit-main { column-gap: 0.4rem; } }
 .rv-in-desk { height: 100%; padding: 0; }
 .rv-in-desk .rv-top { display: none; }

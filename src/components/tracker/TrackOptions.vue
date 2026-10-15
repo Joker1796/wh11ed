@@ -68,7 +68,14 @@
       :title="labels[helpFor.label]"
       :text="helpText(helpFor)"
       @close="helpFor = null"
-    />
+    >
+      <template
+        v-if="HELP_DEMOS[helpFor.id]"
+        #demo
+      >
+        <component :is="HELP_DEMOS[helpFor.id]" />
+      </template>
+    </OptionHelpModal>
   </div>
 </template>
 
@@ -83,8 +90,14 @@
 // `settings` is the caller's own reactive draft and is written in place (v-model straight onto
 // its fields) — the wizard commits it on Start, the dialog on Save, and neither wants an
 // intermediate copy that could fall out of step.
-import { computed, ref } from 'vue'
+import { computed, defineAsyncComponent, ref } from 'vue'
 import OptionHelpModal from './OptionHelpModal.vue'
+
+// A row's help can show what the row draws (owner, 2026-10-15): the real component, with example
+// data held to the rules by help/demos.test.js. Keyed by the option's id; loaded when opened.
+const HELP_DEMOS = {
+  modifiers: defineAsyncComponent(() => import('./help/ModifiersDemo.vue')),
+}
 import TrackOptionRow from './TrackOptionRow.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import ChevronIcon from '../ChevronIcon.vue'

@@ -6,6 +6,8 @@
     @close="$emit('close')"
   >
     <div class="modal-body">
+      <!-- What the setting draws, drawn (help/*Demo.vue) — above the words that explain it. -->
+      <slot name="demo" />
       <p
         v-for="(p, i) in paragraphs"
         :key="i"
