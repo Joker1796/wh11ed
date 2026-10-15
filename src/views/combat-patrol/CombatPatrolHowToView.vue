@@ -105,6 +105,12 @@ const layoutImage = computed(() => layouts.find((l) => l.id === layout.value)?.i
   margin: 0 auto;
 }
 
+/* The steps follow one another like the rules of a Core Rules chapter: RuleBlock's own padding is
+   the gap between them, and the section's margin on top of it doubled it (owner, 2026-10-15). */
+.cp-howto-view > .fsection {
+  margin-bottom: 0;
+}
+
 .cp-layouts {
   margin-top: 0.6rem;
 }
