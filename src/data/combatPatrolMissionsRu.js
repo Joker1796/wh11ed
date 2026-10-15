@@ -1,4 +1,4 @@
-// Russian overlay for src/data/combatPatrolMissions.json (generated from appdata, EN only).
+// Russian overlay for src/data/combatPatrolMissionsData.js (generated from appdata, EN only).
 // Same conventions as missionsRu.js: mission NAMES stay English (nameRu is the translated
 // subline), terms carry the English original in parentheses, and every block/row/briefing part
 // mirrors the EN file position for position — combatPatrolMissions.test.js holds the two together.

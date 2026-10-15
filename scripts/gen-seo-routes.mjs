@@ -119,7 +119,7 @@ async function combatPatrolRoutes() {
   const file = join(ROOT, 'src/data/combatPatrol.js')
   if (!existsSync(file)) return []
   const { combatPatrol } = await import(pathToFileURL(file))
-  return ['/combat-patrol', ...combatPatrol.en.factions.map((f) => `/combat-patrol/${f.id}`)]
+  return ['/combat-patrol', '/combat-patrol/how-to-play', ...combatPatrol.en.factions.map((f) => `/combat-patrol/${f.id}`)]
 }
 
 // Depth-based priority hint (crawlers mostly ignore it, but it costs nothing).

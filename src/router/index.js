@@ -51,6 +51,7 @@ const FactionFaqView         = () => import('../views/faction/FactionFaqView.vue
 const RulesLandingView  = () => import('../views/RulesLandingView.vue')
 const CombatPatrolIndexView  = () => import('../views/combat-patrol/CombatPatrolIndexView.vue')
 const CombatPatrolFactionView = () => import('../views/combat-patrol/CombatPatrolFactionView.vue')
+const CombatPatrolHowToView = () => import('../views/combat-patrol/CombatPatrolHowToView.vue')
 const NotFoundView      = () => import('../views/NotFoundView.vue')
 
 // The Links page (/links, external source PDFs) is deliberately NOT in the navbar or
@@ -183,6 +184,8 @@ const localeRoutes = [
     { path: '/rules', component: RulesLandingView, meta: { section: 'rules-landing' } },
     // Combat Patrol.
     { path: '/combat-patrol',       component: CombatPatrolIndexView, meta: { section: 'combat-patrol' } },
+    // Before :slug — "how-to-play" is no box id.
+    { path: '/combat-patrol/how-to-play', component: CombatPatrolHowToView, meta: { section: 'combat-patrol' } },
     { path: '/combat-patrol/:slug', component: CombatPatrolFactionView, meta: { section: 'combat-patrol' } },
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
     // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.

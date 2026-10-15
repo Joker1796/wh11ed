@@ -193,7 +193,7 @@ if (condKwStale) console.log('⚠ src/data/conditionalKeywords.json is stale —
 if (faqStale) console.log('⚠ src/data/factionFaq.json is stale — run `node scripts/gen-faction-faq.mjs`.')
 if (faqIndexStale) console.log('⚠ src/data/factionFaqSearchIndex.js is stale — run `npm run faq:index`.')
 if (legendsStale) console.log('⚠ src/data/factionLegends.json is stale or a proxy points nowhere — run `npm run legends`.')
-if (cpMissionsStale) console.log('⚠ src/data/combatPatrolMissions.json is stale, or a box, mission or deployment map changed — run `npm run combat-patrol:missions`.')
+if (cpMissionsStale) console.log('⚠ src/data/combatPatrolMissionsData.js is stale, or a box, mission or deployment map changed — run `npm run combat-patrol:missions`.')
 if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale — run `npm run roster:texts-ru`.')
 if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
 if (rosterStale) console.log('⚠ src/data/roster/*.js is stale — run `npm run roster:data`.')

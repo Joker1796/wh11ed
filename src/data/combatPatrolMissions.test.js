@@ -3,7 +3,7 @@
 // numbers. The overlay is merged by position, so a block or row it lacks silently shows English
 // and one too many is silently dropped — this is what keeps that from happening quietly.
 import { describe, it, expect } from 'vitest'
-import cp from './combatPatrolMissions.json'
+import { combatPatrolMissionsData as cp } from './combatPatrolMissionsData.js'
 import { combatPatrolMissionsRu as ru } from './combatPatrolMissionsRu.js'
 import { combatPatrol } from './combatPatrol.js'
 

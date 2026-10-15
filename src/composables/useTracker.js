@@ -2,6 +2,7 @@ import { ref, watch } from 'vue'
 import { debouncedSave } from '../utils/debouncedSave.js'
 import { CUR_KEY, gameInPlay, isValidGame } from './gameInPlay.js'
 import { missions, primaryFor } from '../data/missions.js'
+import { overlayMission } from '../data/missionOverlay.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 import {
@@ -100,25 +101,7 @@ export function dispositionName(id) {
 // (an optional nameRu adds a translated display subline, same convention as stratagems).
 function localize(m, role) {
   if (!m) return null
-  const tr = role ? missionsRu.secondary[`${m.slug}|${role}`] : missionsRu.primary[m.slug]
-  if (!tr) return m
-  return {
-    ...m,
-    ...(tr.nameRu ? { nameRu: tr.nameRu } : {}),
-    // briefing is replaced wholesale (RU mirrors the EN structure, maintained in lockstep).
-    ...(tr.briefing ? { briefing: tr.briefing } : {}),
-    ...(tr.lore ? { lore: tr.lore } : {}),
-    blocks: m.blocks.map((b, bi) => {
-      const tb = tr.blocks[bi]
-      if (!tb) return b
-      return {
-        ...b,
-        heading: tb.heading ?? b.heading,
-        when: b.when != null ? (tb.when ?? b.when) : b.when,
-        rows: b.rows.map((r, ri) => ({ ...r, text: (tb.rows && tb.rows[ri]) || r.text })),
-      }
-    }),
-  }
+  return overlayMission(m, role ? missionsRu.secondary[`${m.slug}|${role}`] : missionsRu.primary[m.slug])
 }
 
 export function missionBySlug(slug, role, locale = 'en') {

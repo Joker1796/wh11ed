@@ -22,9 +22,10 @@
       </div>
     </div>
 
-    <!-- A box is read a part at a time — the rules, then its stratagems, its upgrades, its units —
-         so the page is four tabs rather than one long scroll (owner, 2026-09-28). A search hit
-         deep inside one picks that tab from the link's anchor first (tabForAnchor). -->
+    <!-- A box is read a part at a time — its rules (stratagems and enhancements among them), the
+         mission it plays, its units — so the page is tabs rather than one long scroll (owner,
+         2026-09-28; three tabs since 2026-10-15, when the mission came). A search hit deep inside
+         one picks that tab from the link's anchor first (tabForAnchor). -->
     <PageTabs
       class="cp-tabs"
       :tabs="tabs"
@@ -93,11 +94,7 @@
             :example="faction.armyRule.example"
           />
         </section>
-      </div>
-      <div
-        v-else-if="tab === 'stratagems'"
-        key="stratagems"
-      >
+
         <!-- Stratagems -->
         <section
           v-if="faction.stratagems?.length"
@@ -117,11 +114,7 @@
             />
           </div>
         </section>
-      </div>
-      <div
-        v-else-if="tab === 'enhancements'"
-        key="enhancements"
-      >
+
         <!-- Enhancements -->
         <section
           v-if="faction.enhancements?.length"
@@ -169,6 +162,27 @@
               />
             </article>
           </div>
+        </section>
+      </div>
+      <div
+        v-else-if="tab === 'mission'"
+        key="mission"
+      >
+        <!-- The box's own primary mission — each player plays their box's (the mission sequence) -->
+        <section
+          id="mission"
+          class="fsection"
+        >
+          <MissionCard
+            :id="`cp-${faction.id}-mission`"
+            :mission="mission"
+          />
+          <RouterLink
+            class="cp-howto"
+            to="/combat-patrol/how-to-play"
+          >
+            {{ labels.cpHowToPlayLink }} →
+          </RouterLink>
         </section>
       </div>
       <div
@@ -222,6 +236,7 @@ import { ref, computed, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
+import MissionCard from '../../components/event/MissionCard.vue'
 import DatasheetCard from '../../components/DatasheetCard.vue'
 import FactionEmblem from '../../components/FactionEmblem.vue'
 import { factionIcons } from '../../data/factionIcons.js'
@@ -261,24 +276,28 @@ const colorVars = computed(() =>
 // dynamically imported here (not statically) so it stays out of the app's root bundle; only a
 // visit to a Combat Patrol page pulls it in, matching the project's other heavy-data-file loads.
 const combatPatrol = ref(null)
+const missions = ref(null)
 watchEffect(async () => {
-  combatPatrol.value = (await import('../../data/combatPatrol.js')).combatPatrol
+  const [cp, cpm] = await Promise.all([import('../../data/combatPatrol.js'), import('../../data/combatPatrolMissions.js')])
+  missions.value = cpm
+  combatPatrol.value = cp.combatPatrol
 })
 
 const faction = computed(() =>
   combatPatrol.value?.[locale.value].factions.find((f) => f.id === route.params.slug) || null,
 )
 
-// The four parts of a box, as tabs — only the ones this box has. Rules (the detachment's and the
-// army's) are always there.
+const mission = computed(() => missions.value?.cpMissionOfBox(route.params.slug, locale.value) || null)
+
+// The parts of a box, as tabs — only the ones this box has. Rules (the detachment's and the
+// army's, then the stratagems and enhancements) are always there.
 const tab = ref('rules')
 const tabs = computed(() => {
   const f = faction.value
   const l = labels.value
   const all = [
     { key: 'rules', label: l.rosterViewTabRules, has: true },
-    { key: 'stratagems', label: l.factionStratagems, has: !!f?.stratagems?.length },
-    { key: 'enhancements', label: l.factionEnhancements, has: !!f?.enhancements?.length },
+    { key: 'mission', label: l.cpMissionTab, has: !!mission.value },
     { key: 'units', label: l.rosterViewTabUnits, has: !!f?.datasheets?.length },
   ]
   return all.filter((t) => t.has).map((t) => ({ key: t.key, label: t.label, active: tab.value === t.key }))
@@ -289,8 +308,9 @@ const tabs = computed(() => {
 // scrollToAnchor goes looking — a hidden tab has nothing in the page to scroll to.
 function tabForAnchor(id) {
   if (!id) return null
-  if (id.startsWith('cp-strat-') || id === 'stratagems') return 'stratagems'
-  if (id.startsWith('cp-enh-') || id === 'enhancements') return 'enhancements'
+  if (id.startsWith('cp-strat-') || id === 'stratagems') return 'rules'
+  if (id.startsWith('cp-enh-') || id === 'enhancements') return 'rules'
+  if (id === 'mission' || id.endsWith('-mission')) return 'mission'
   if (id === 'datasheets' || id.startsWith('ds-')) return 'units'
   if (id.startsWith('cp-') || id === 'rule' || id === 'army-rule') return 'rules'
   return null
@@ -309,6 +329,14 @@ watch(() => route.hash, (hash) => {
 <style scoped>
 .cp-faction-view {
   padding-top: 0.25rem; /* the faction page's (FactionLayout) */
+}
+
+/* Under the mission: the rest of how a game goes (the mission sequence and the maps). */
+.cp-howto {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-ink);
 }
 
 .hero {

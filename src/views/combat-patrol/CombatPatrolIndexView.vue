@@ -10,6 +10,12 @@
       <div class="hero-subtitle">
         {{ labels.cpSubtitle }}
       </div>
+      <RouterLink
+        class="cp-howto"
+        to="/combat-patrol/how-to-play"
+      >
+        {{ labels.cpHowToPlayLink }} →
+      </RouterLink>
     </div>
 
     <!-- A pinned faction leaves its group for this one, every box of it, and slides there
@@ -155,6 +161,14 @@ useFlipMove(() => boxesOf(pinned.value).map((b) => b.id), rootEl)
   color: var(--text-muted);
   max-width: 40rem;
   margin: 0 auto;
+}
+
+/* The way to the game itself — the mission sequence and the maps (CombatPatrolHowToView). */
+.cp-howto {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  color: var(--accent-ink);
 }
 
 .cp-group {
