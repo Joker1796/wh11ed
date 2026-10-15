@@ -1657,7 +1657,10 @@ const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
 
 // Either player having a list is enough: the clock belongs to the game, not to one side.
-const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m.roster)))
+// A Combat Patrol game always has lists: each army goes in as its box's (combatPatrolRoster.js),
+// built only at Start — so the roster options are offered now rather than written off as
+// unavailable, which would have started the game with them switched off (owner, 2026-10-15).
+const anyRoster = computed(() => !!settings.combatPatrol || players.some((p) => armiesOf(p).some((m) => !!m.roster)))
 
 // A side's faction for the option table: in doubles, the first member with one (the row's
 // availability question is "does this side field an army at all", not "which").
