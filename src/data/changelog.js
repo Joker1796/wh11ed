@@ -30,7 +30,7 @@ export const changelog = [
       '**Opening the app after an update takes you straight to the new version.** While it loads you see “Updating to 2.9.4…”. Before, the old version opened first and reloaded a few seconds later.',
 
       { h: 'Faction rules', kind: 'rules' },
-      '**A weapon ability printed on the unit’s own page now opens its own text.** Tapping **Psychic Assassin** on the Culexus Assassin opened [PSYCHIC] instead. Eight more opened nothing at all, among them **Conversion** on Chaos Knights and **Plasma Warhead** on the Deathstrike.',
+      '**A weapon ability printed on the unit’s own page now opens its own text.** Tapping [PSYCHIC ASSASSIN] on the Culexus Assassin opened [PSYCHIC] instead. Nine more opened nothing at all, among them [CONVERSION] on Chaos Knights and [PLASMA WARHEAD] on the Deathstrike. Now such a tag opens its text wherever it appears, here too.',
       { h: 'Roster builder' },
       '**A Deathwatch list no longer limits Deathwatch units to 500 points.** That limit is for other Space Marine Chapters that take Deathwatch units along. A Blood Angels list, for example, still has it.',
       '**Sanctifiers can take either a meltagun or holy fire, not both.** Only one Missionary has a plasma gun, and both options are for that gun.',
@@ -41,7 +41,7 @@ export const changelog = [
       '**Если открыть приложение после обновления, сразу откроется новая версия.** Пока она загружается, видно «Обновляю до 2.9.4…». Раньше сначала открывалась старая версия и через несколько секунд перезагружалась.',
 
       { h: 'Правила фракций', kind: 'rules' },
-      '**Способность оружия, напечатанная на странице юнита, теперь открывает свой текст.** Раньше **Psychic Assassin** у Culexus Assassin открывал [PSYCHIC]. Ещё восемь не открывались вовсе, среди них **Conversion** у Chaos Knights и **Plasma Warhead** у Deathstrike.',
+      '**Способность оружия, напечатанная на странице юнита, теперь открывает свой текст.** Раньше [PSYCHIC ASSASSIN] у Culexus Assassin открывал [PSYCHIC]. Ещё девять не открывались вовсе, среди них [CONVERSION] у Chaos Knights и [PLASMA WARHEAD] у Deathstrike. Теперь такая способность открывает свой текст везде, где она упомянута, и здесь тоже.',
       { h: 'Конструктор ростеров' },
       '**В списке Deathwatch юниты Deathwatch больше не ограничены 500 очками.** Это ограничение для других орденов Space Marines, которые берут юниты Deathwatch с собой. В списке Blood Angels, например, оно осталось.',
       '**Sanctifiers могут взять либо мельту, либо Holy fire, но не оба.** Плазма есть только у одного Missionary, и обе опции — для неё.',
