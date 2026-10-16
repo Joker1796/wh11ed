@@ -362,7 +362,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1811,6 +1811,14 @@ async function alliesFor(factionKeywordId, ownUnitIds, slug) {
   for (const af of alliedRows) {
     const takers = (alliedTakers.get(af.id) || []).filter((t) => mine.has(t.factionKeywordId))
     if (!takers.length) continue
+    // An army is never its own ally. The chain lets a rule written for a parent reach the child —
+    // and "ADEPTUS ASTARTES may take up to 500 pts of DEATHWATCH" reached Deathwatch itself, whose
+    // own units then read as allies capped at 500 (a player's report, 2026-10-16; appdata names the
+    // ten Chapters and ADEPTUS ASTARTES as takers, never Deathwatch).
+    if ((alliedParents.get(af.id) || []).some((p) => p.factionKeywordId === factionKeywordId)) {
+      report.allies.self.push(`${slug}: ${(alliedParents.get(af.id) || []).map((p) => fkwName.get(p.factionKeywordId)).join(' / ')}`)
+      continue
+    }
     // How specifically this army is named: 0 when the rule names the faction itself, higher when it
     // names a parent. Deathwatch is offered the Agents of the Imperium list twice — the general one
     // (written for ADEPTUS ASTARTES) and its own, which is that list minus the five Deathwatch
@@ -3637,6 +3645,7 @@ const ally = report.allies
 console.log(`  allies: ${ally.groups} allied contexts across the factions, ${ally.units} unit slots`)
 if (ally.empty.length) console.log(`    no unit resolved (skipped): ${ally.empty.join('; ')}`)
 for (const l of ally.narrowed) console.log(`    two rules for one group, kept the one written for this army — ${l}`)
+for (const l of ally.self) console.log(`    a rule allying the army to itself, through a parent keyword (skipped) — ${l}`)
 for (const l of ally.ratio) console.log(`    BATTLELINE ratio (non-BATTLELINE ≤ BATTLELINE per keyword) — ${l}`)
 for (const l of ally.missing.slice(0, 10)) console.log(`    unresolved allied datasheet — ${l}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)

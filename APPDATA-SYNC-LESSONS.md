@@ -1292,3 +1292,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     melee weapon (report 77ab9e8d, 2026-10-15). A choice and its records now carry the group's id
     (`gid`) and match on it; `g` stays the kind of choice other code reads. Key on the id wherever
     appdata has one — a name is a label, not an identity.
+
+95. **A rule written for a parent keyword can reach the faction it is about.** appdata's allied
+    rule "up to 500 pts of DEATHWATCH" is taken by the ten Chapters and ADEPTUS ASTARTES; the
+    generator matches takers along the army's faction-keyword chain, and Deathwatch's parent is
+    ADEPTUS ASTARTES — so Deathwatch got itself as an ally, its own units capped at 500 (report
+    6b1f1bb4, 2026-10-16). An allied rule whose allied faction is the army's own is skipped and
+    printed ("allying the army to itself"); `roster/index.test.js` fails on any army named among
+    its own allies. Inheriting down the chain is right for who MAY take a rule — check that the
+    rule is not about the taker itself.
