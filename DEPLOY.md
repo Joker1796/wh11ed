@@ -85,7 +85,10 @@ npm run deploy
 
 - `BUMP=minor` / `BUMP=major` — поднять соответствующий сегмент;
 - `BUMP=none npm run deploy` — выложить **текущую** версию как есть (когда номер уже
-  выставлен в коммите/`package.json` и автобамп не нужен).
+  выставлен в коммите/`package.json` или деплой с бампом упал до выкладки). **Тихие выкаты
+  запрещены** (владелец, 2026-10-16): если этот номер уже в проде (`wh-notes-version` на
+  `VITE_SITE_ORIGIN`), скрипт откажется. Новая сборка — новый номер, даже ради одной даты:
+  по номеру читатель узнаёт о новой версии (плашка «Что нового», проверка обновления во вкладке).
 
 Катить надо **с релизной ветки `release/X.Y.Z`** и с чистым рабочим деревом (ветки и порядок
 сборки релиза — `CONTRIBUTING.md`). Деплой откажется, если бамп даст не ту версию, что в имени
@@ -139,7 +142,7 @@ curl -s https://wh-rules.ru/robots.txt | grep -i sitemap
 
 ## Что делает `deploy.sh` кроме загрузки
 
-`deploy.sh` **auto-bumps `package.json` (`BUMP=patch` by default)** before building — use `BUMP=none npm run deploy` to ship the current version as-is, or `BUMP=minor`/`major`. When it bumps (`BUMP` ≠ `none`), it also **commits + pushes** the bump (`chore: release vX.Y.Z`) to the release branch once the deploy succeeds, then fast-forwards `main` to it and pushes `main` — so deploy from `release/X.Y.Z` with a clean tree (uncommitted changes outside `package.json`/`package-lock.json`, another branch, or a bump that would not land on the version in the branch name aborts the deploy before it builds anything). See `CONTRIBUTING.md` for the branch flow.
+`deploy.sh` **auto-bumps `package.json` (`BUMP=patch` by default)** before building — use `BUMP=none npm run deploy` to ship the current version as-is (refused when that version is already live — no silent deploys), or `BUMP=minor`/`major`. When it bumps (`BUMP` ≠ `none`), it also **commits + pushes** the bump (`chore: release vX.Y.Z`) to the release branch once the deploy succeeds, then fast-forwards `main` to it and pushes `main` — so deploy from `release/X.Y.Z` with a clean tree (uncommitted changes outside `package.json`/`package-lock.json`, another branch, or a bump that would not land on the version in the branch name aborts the deploy before it builds anything). See `CONTRIBUTING.md` for the branch flow.
 
 **One target only.** The retired `wh11ed.ru` is frozen on its last build (v2.2.6, with the move banner) and is never redeployed — `deploy-both.sh` is gone, `.env.deploy` (bucket + CDN + `VITE_SITE_ORIGIN` + `VITE_API_BASE_URL`) is the single working config, and `.env.deploy.wh11ed` survives only as a rollback escape hatch (`ENVFILE=.env.deploy.wh11ed BUMP=none npm run deploy`). Don't reintroduce a two-domain release.
 
