@@ -1008,7 +1008,7 @@ a.nd-link:hover {
 }
 
 /* ── Mobile ── */
-/* Just above the phone layout the RU links ("Изменения правил GW") need the room the bar's own
+/* Just above the phone layout the RU links ("Изменения приложения GW") need the room the bar's own
    padding and gaps take at full width. */
 @media (min-width: 901px) and (max-width: 1023px) {
   .navbar-inner { padding: 0 1rem; gap: 1rem; }
