@@ -30,9 +30,10 @@ on bad reception. That shapes most of the decisions below.
   the bilingual rule data in `src/data/`. The characteristic bug here isn't a logic error — it's an
   **EN↔RU desync**: block-marker counts that no longer match, unbalanced `**`, a gloss added on one
   side only. Check that first on any text change (see *Bilingual content conventions*).
-- **Light in a tab, fully offline once installed.** A casual visitor gets a light, fast site; the
-  *installed* PWA reaches full offline through a one-time warm-up. Anything that inflates what a
-  browser tab downloads fights the central product decision (see *PWA*).
+- **Light in a tab, fully offline once installed.** A casual visitor gets a light, fast site — and
+  since 2.9.5 one with no service worker, always the server's latest; the *installed* PWA has the
+  worker and reaches full offline through a one-time warm-up (`workerPolicy.js`). Anything that
+  inflates what a browser tab downloads fights the central product decision (see *PWA*).
 - **Documented "don't fix this" invariants exist** — no body scroll-lock in modals, `-ru` images
   that look unused but aren't, images deliberately kept out of `globPatterns`, dynamic imports of
   heavy data files, `index.html` uploaded with `cp` and not `sync`. Before "fixing" something that

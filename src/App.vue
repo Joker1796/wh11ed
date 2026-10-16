@@ -68,7 +68,7 @@
       @close="appFirstOpen = false"
     />
     <InstallOffer
-      v-if="installOfferOpen && appUpdate.phase === 'idle'"
+      v-if="installOfferOpen && appUpdate.phase === 'idle' && cacheMigration.phase !== 'shown'"
       @close="installOfferOpen = false"
       @ios-help="installHintOpen = true"
     />
@@ -111,11 +111,11 @@
       :resume-draft-id="resumeDraftId"
     />
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolPageRoute" />
-    <UpdateToast v-if="!holdReloads" />
+    <UpdateToast v-if="!holdReloads && workerOn" />
     <OfflineWarmupToast v-if="!isBare && appUpdate.phase === 'idle'" />
     <UpdatePlate v-if="!isBare" />
     <ErrorReportsOffer
-      v-if="errorOfferOpen"
+      v-if="errorOfferOpen && cacheMigration.phase !== 'shown'"
       @close="errorOfferOpen = false"
     />
   </div>
@@ -136,6 +136,10 @@ import { useBackToCloseWhile } from './composables/useBackToClose.js'
 // A page caught reloading itself in a loop gets no update applied for a while (reloadLoop.js):
 // without the toast's service worker nothing reloads it.
 const holdReloads = reloadsHeld()
+// Whether this page runs under a service worker (workerPolicy.js): the installed app and a tab beside
+// it always; any other tab only while it still has one from before 2.9.5 — until its plate moves it
+// off (cacheMigration.js). A tab without one watches the server's version itself (tabFreshness.js).
+const workerOn = ref(workerWanted())
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 const InstallOffer = defineAsyncComponent(() => import('./components/InstallOffer.vue'))
@@ -159,6 +163,9 @@ import { reloadsHeld } from './composables/reloadLoop.js'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
 import UpdatePlate from './components/UpdatePlate.vue'
 import { appUpdate } from './composables/useAppUpdate.js'
+import { cacheMigration, watchForCalm } from './composables/cacheMigration.js'
+import { watchTabFreshness } from './composables/tabFreshness.js'
+import { currentRegistration, tabMayLeaveWorker, tidyAfterWorker, workerWanted } from './composables/workerPolicy.js'
 import MobileUtilityBar from './components/MobileUtilityBar.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
 import DomainMoveBanner from './components/DomainMoveBanner.vue'
@@ -396,7 +403,23 @@ function tryErrorOffer() {
 onUnsentError(() => { errorPending = true; setTimeout(tryErrorOffer, 1500) })
 watch([() => appPath.value, authStatus], () => setTimeout(tryErrorOffer, 2500))
 
+async function settleWorker() {
+  if (workerOn.value) return
+  if (!await currentRegistration()) {
+    tidyAfterWorker()
+    watchTabFreshness(router)
+    return
+  }
+  workerOn.value = true
+  if (!tabMayLeaveWorker()) return
+  watchForCalm(router, {
+    dialogBusy: () => welcomeOpen.value || appFirstOpen.value || installOfferOpen.value || errorOfferOpen.value,
+    applied: () => { workerOn.value = false; watchTabFreshness(router) },
+  })
+}
+
 onMounted(() => {
+  settleWorker()
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('click', onGlobalClick)
   countVisit()

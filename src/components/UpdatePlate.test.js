@@ -12,15 +12,18 @@ vi.mock('../composables/useOfflineWarmup.js', async () => {
   }
 })
 vi.mock('../composables/standalone.js', () => ({ isStandaloneDisplay: vi.fn(() => false) }))
+vi.mock('../composables/workerPolicy.js', () => ({ currentRegistration: vi.fn(async () => null), dropCaches: vi.fn(async () => 0) }))
 
 const { appUpdate, updateFound, _resetAppUpdate } = await import('../composables/useAppUpdate.js')
 const { isStandaloneDisplay } = await import('../composables/standalone.js')
 const { topUpOffline } = await import('../composables/useOfflineWarmup.js')
+const { cacheMigration, _resetCacheMigration } = await import('../composables/cacheMigration.js')
 const UpdatePlate = (await import('./UpdatePlate.vue')).default
 
 describe('the update plate', () => {
   beforeEach(() => {
     _resetAppUpdate()
+    _resetCacheMigration()
     vi.stubGlobal('fetch', vi.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ app: '2.9.4' }) })))
   })
   afterEach(() => vi.unstubAllGlobals())
@@ -69,5 +72,38 @@ describe('the update plate', () => {
     await updateFound(vi.fn())
     expect(appUpdate.phase).toBe('ready')
     isStandaloneDisplay.mockReturnValue(false)
+  })
+
+  it('a tab with no worker: the version it found, and that the page reopens where it is', async () => {
+    await updateFound(vi.fn(), { version: '2.9.6', tab: true })
+    const w = mount(UpdatePlate)
+    await nextTick()
+    expect(w.text()).toContain('Update 2.9.6 is out')
+    expect(w.text()).toContain('The page reopens where you are.')
+    expect(fetch).not.toHaveBeenCalled() // the number came with it
+  })
+
+  it('a tab moved off its worker: its own plate, no way to close it, and what it changes', async () => {
+    cacheMigration.phase = 'shown'
+    cacheMigration.warmed = true
+    const w = mount(UpdatePlate)
+    await nextTick()
+    expect(w.text()).toContain('I changed how the site is cached')
+    expect(w.text()).toContain('Offline is now in the installed app.')
+    expect(w.find('.wi-close').exists()).toBe(false)
+    await w.find('button').trigger('click')
+    await new Promise((r) => setTimeout(r))
+    expect(cacheMigration.phase).toBe('done')
+    await nextTick()
+    expect(w.find('.update-plate').exists()).toBe(false)
+  })
+
+  it('an update comes before the move', async () => {
+    cacheMigration.phase = 'shown'
+    await updateFound(vi.fn(), { version: '2.9.6', tab: true })
+    const w = mount(UpdatePlate)
+    await nextTick()
+    expect(w.text()).toContain('Update 2.9.6 is out')
+    expect(w.text()).not.toContain('cached')
   })
 })

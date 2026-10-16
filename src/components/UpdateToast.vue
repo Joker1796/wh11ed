@@ -1,6 +1,7 @@
 <template>
-  <!-- Headless: this component renders nothing. It exists to register the service worker
-       (useRegisterSW) and silently apply updates — no UI, no button. -->
+  <!-- Headless: this component renders nothing. It registers the service worker (useRegisterSW)
+       and reports a new one to the plate (useAppUpdate.js). Mounted only where a worker belongs —
+       the installed app, a tab beside it, a tab not yet moved off one (App.vue, workerPolicy.js). -->
 </template>
 
 <script setup>
