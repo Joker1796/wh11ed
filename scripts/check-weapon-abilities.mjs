@@ -25,18 +25,13 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
 import { foldChars } from '../src/utils/foldName.js'
+import { baseTag } from '../src/utils/weaponTag.js'
 
 const DS_DIR = path.join(ROOT, 'src/data/datasheets')
 
-// A tag as printed → the ability it is an instance of. Numbers, dice, `X+` and a `: KEYWORD`
-// scope are all parameters of one ability, not abilities of their own.
-export function baseTag(tag) {
-  let t = foldChars(tag).toUpperCase().trim()
-  t = t.split(':')[0].trim() // [LETHAL HITS: VEHICLE]
-  if (t.startsWith('ANTI')) return 'ANTI' // [ANTI-VEHICLE 4+], [ANTI-PSYKER 2+]
-  t = t.replace(/\s+(\d+|D\d+|\d*D\d+\+\d+|\d+\+|X)$/i, '') // [SUSTAINED HITS 2], [MELTA D3], [RAPID FIRE X]
-  return t.trim()
-}
+// A tag as printed → the ability it is an instance of: one definition, shared with the tap that
+// opens it (src/utils/weaponTag.js), so this gate and the popover agree on what a tag IS.
+export { baseTag }
 
 // Fold to letters only, so "C'TAN POWER" matches "C’tan Powers" in a datasheet's own prose and
 // "Plasma Warhead" matches the tag [PLASMA WARHEAD].

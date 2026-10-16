@@ -108,12 +108,14 @@
         kind="ranged"
         :rows="rangedRows"
         :is-marked="isMarked"
+        :rules="ownRules"
       />
       <DatasheetWeaponTable
         v-if="sheet.melee?.length"
         kind="melee"
         :rows="meleeRows"
         :is-marked="isMarked"
+        :rules="ownRules"
       />
 
       <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
@@ -1203,6 +1205,8 @@ const pointsTable = computed(() => {
 // psycannon 15 pts"). Under the table, so the page says what the roster builder charges — a
 // player asked where to look up the price of a weapon swap (2026-10-15). One line, in script:
 // adjacent template fragments would pick up stray spaces (root CLAUDE.md, the linter).
+// What a weapon tag that is no core ability stands for (DatasheetWeaponTable's `rules`).
+const ownRules = computed(() => ['wargearAbilities', 'abilities', 'specialAbilities'].flatMap((k) => props.sheet[k] || []))
 const wargearPointsLine = computed(() => (props.sheet.wargearPoints || []).map((w) => `${w.name} +${w.points} pts`).join(' · '))
 
 // '1st-2nd' / '3rd+' → "1st and 2nd unit" / «1-й и 2-й юнит»: which unit of this datasheet
