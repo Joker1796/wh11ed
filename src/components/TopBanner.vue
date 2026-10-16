@@ -55,19 +55,26 @@ defineEmits(['close'])
   color: var(--text-on-dark);
   font-size: 0.82rem;
   line-height: 1.4;
+  /* One line of the text: the icon and the cross are centred on the FIRST line, whatever wraps. */
+  --tb-line: calc(0.82rem * 1.4);
   overflow: hidden; /* clearfix: enclose the floats */
 }
 
 .top-banner-icon {
   float: left;
-  margin: 0.15rem 0.6rem 0.2rem 0;
+  /* The box is exactly one line tall and the glyph is centred in it (the mask is `contain`); the
+     shared .wi's baseline nudge would put it back under the line (owner, 2026-10-16). */
+  width: 1.2rem;
+  height: var(--tb-line);
+  margin: 0 0.6rem 0 0;
+  vertical-align: top;
   color: var(--accent-ink);
-  font-size: 1rem;
 }
 
 .top-banner-close {
   float: right;
-  margin: 0 0 0.2rem 0.6rem;
+  /* 24px is taller than the line: the overhang is split above and below it. */
+  margin: calc((var(--tb-line) - 24px) / 2) 0 0 0.6rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
