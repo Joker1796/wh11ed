@@ -37,13 +37,30 @@ aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
 
 # 0) Bump the patch version (package.json) before building, so each deploy ships a
 #    new version number. Override the segment with BUMP=minor|major ./deploy.sh.
-#    Use BUMP=none to deploy the current version as-is (e.g. when it was set in the commit).
+#    Use BUMP=none to deploy the current version as-is (e.g. when it was set in the commit, or a
+#    deploy that bumped it died before it went live) — but never a version the site already
+#    serves: a build under a live number is a silent deploy, and silent deploys are banned
+#    (owner, 2026-10-16). A reader is told a new version exists by its number — the "What's new"
+#    banner, and the tab's update check — so a changed build under the same number changes
+#    under them unannounced, and an installed app gets it with no notice at all.
 #    Otherwise the bump is committed (`chore: release vX.Y.Z`) and pushed once the deploy
 #    succeeds (see step 5) — so run this from a release/X.Y.Z branch with a clean tree. `main`
 #    is what is live and moves only here: step 5 fast-forwards it to the release (CONTRIBUTING.md).
 BUMP="${BUMP:-patch}"
 if [ "$BUMP" = "none" ]; then
-  echo "▶ Skipping version bump (BUMP=none); shipping v$(node -p "require('./package.json').version")"
+  SHIP_VERSION="$(node -p "require('./package.json').version")"
+  if [ -n "${VITE_SITE_ORIGIN:-}" ]; then
+    LIVE_VERSION="$(curl -fsS --max-time 15 "$VITE_SITE_ORIGIN/" | sed -n 's/.*name="wh-notes-version" content="\([^"]*\)".*/\1/p' | head -1)" || LIVE_VERSION=""
+    if [ -z "$LIVE_VERSION" ]; then
+      echo "✗ BUMP=none: could not read the live version from $VITE_SITE_ORIGIN — refusing rather than risk a silent deploy." >&2
+      exit 1
+    fi
+    if [ "$LIVE_VERSION" = "$SHIP_VERSION" ]; then
+      echo "✗ BUMP=none: v$SHIP_VERSION is already live on $VITE_SITE_ORIGIN — a silent deploy. Ship it as the next patch." >&2
+      exit 1
+    fi
+  fi
+  echo "▶ Skipping version bump (BUMP=none); shipping v$SHIP_VERSION"
 else
   BRANCH="$(git rev-parse --abbrev-ref HEAD)"
   case "$BRANCH" in
