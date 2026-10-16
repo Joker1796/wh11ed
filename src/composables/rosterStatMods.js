@@ -18,7 +18,7 @@
 //
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
-import { ruleScopes, keywordsMatchTarget, scopesMisread } from './ruleTargets.js'
+import { ruleScopes, scopesMisread, scopeHits } from './ruleTargets.js'
 import { enhKey, detKey, itemKey, loadoutItemCopies } from './rosterModifiers.js'
 import { modelsPerMini } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
@@ -32,6 +32,7 @@ import { foldName } from '../utils/foldName.js'
 /** @typedef {import('./roster.types.js').ModifierEffect} ModifierEffect */
 /** @typedef {Set<string> | null | undefined} IdSet */
 /** @typedef {import('./roster.types.js').RuleScope} RuleScope */
+/** @typedef {import('./ruleTargets.js').UnitKeywords} UnitKeywords */
 /** @typedef {import('../data/data.types.js').DatasheetProfile} DatasheetProfile */
 /** Every datasheet's keywords in the faction — for the "extraction matched nobody" escape. @typedef {string[][] | null | undefined} KeywordSets */
 
@@ -78,7 +79,7 @@ function rowMatchesOnly(row, only) {
 /**
  * @param {{ scope?: number }} effect
  * @param {RuleScope[] | null | undefined} scopes
- * @param {string[]} keywords
+ * @param {UnitKeywords} keywords the card's own and its attached unit's (ruleTargets' scopeHits), or one list for a unit standing alone
  * @param {string} kind
  * @param {KeywordSets} factionKeywordSets
  * @param {boolean} [strict] a detachment rule's aura: an unreadable gate reaches nobody
@@ -92,9 +93,6 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
   // reads scopes for those. An AURA is the exception among abilities: it addresses "a friendly
   // ADEPTA SORORITAS unit", and its scopes travel on the entry, so it lands here gated.
   if (!scopes?.length) return true
-  /** @param {string[]} kws @returns {(sc: RuleScope) => boolean} */
-  const hits = (kws) => (sc) => sc.targets.some((t) => keywordsMatchTarget(kws, t))
-    && !sc.excludes.some((x) => keywordsMatchTarget(kws, x))
   // The same "the extraction matched nobody, so distrust it" escape ruleTargets.js applies when
   // DISPLAYING the rule. Without it the two layers disagree: the prose block shows the rule to
   // everyone (fail-open) while its reviewed modifier silently applies to no one — a hand-read
@@ -107,9 +105,9 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
   // is the honest answer. (With the keyword vocabulary loaded, scopesMisread says so itself: a
   // target made of real keywords that nobody here carries is not a misread.)
   if (!strict && factionKeywordSets?.length && scopesMisread(scopes, factionKeywordSets)) return true
-  if (effect.scope == null) return scopes.some(hits(keywords))
+  if (effect.scope == null) return scopes.some((sc) => scopeHits(sc, keywords))
   const sc = scopes[effect.scope]
-  return sc ? hits(keywords)(sc) : false
+  return sc ? scopeHits(sc, keywords) : false
 }
 
 // Arithmetic on a printed characteristic, or null when it can't be done honestly.
@@ -322,7 +320,7 @@ function effectLive(entry, effect, active, chosen) {
 /**
  * @param {PrintedSheet | null | undefined} sheet
  * @param {ModEntry[] | null | undefined} entries
- * @param {string[]} keywords
+ * @param {UnitKeywords} keywords the card's own and its attached unit's (ruleTargets' scopeHits), or one list for a unit standing alone
  * @param {KeywordSets} factionKeywordSets
  * @param {IdSet} [active] conditions proven true
  * @param {IdSet} [chosen] stratagems and set rules the player switched on
@@ -512,7 +510,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 // the number layer can never disagree about whether a rule is on.
 /**
  * @param {ModEntry[] | null | undefined} entries
- * @param {string[]} keywords
+ * @param {UnitKeywords} keywords the card's own and its attached unit's (ruleTargets' scopeHits), or one list for a unit standing alone
  * @param {KeywordSets} factionKeywordSets
  * @param {IdSet} [active]
  * @param {IdSet} [chosen]
@@ -581,7 +579,7 @@ export function stratagemTargetScopes(st) {
 
 /**
  * @param {ModEntry[] | null | undefined} entries
- * @param {string[]} keywords
+ * @param {UnitKeywords} keywords the card's own and its attached unit's (ruleTargets' scopeHits), or one list for a unit standing alone
  * @param {KeywordSets} factionKeywordSets
  * @returns {ModEntry[]}
  */
@@ -856,7 +854,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: string[], factionKeywordSets?: KeywordSets, active?: IdSet, chosen?: IdSet, leaderEnhNames?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: UnitKeywords, factionKeywordSets?: KeywordSets, active?: IdSet, chosen?: IdSet, leaderEnhNames?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  */
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,

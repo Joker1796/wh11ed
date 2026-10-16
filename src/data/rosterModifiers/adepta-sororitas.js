@@ -782,7 +782,9 @@ export default {
             "targets": [
               "ADEPTA SORORITAS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Relics of the Matriarchs",
@@ -806,7 +808,9 @@ export default {
             "targets": [
               "ADEPTA SORORITAS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Relics of the Matriarchs",
@@ -839,7 +843,9 @@ export default {
             "targets": [
               "ADEPTA SORORITAS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Relics of the Matriarchs",
@@ -875,7 +881,9 @@ export default {
             "targets": [
               "ADEPTA SORORITAS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Relics of the Matriarchs",
@@ -899,7 +907,9 @@ export default {
             "targets": [
               "ADEPTA SORORITAS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Relics of the Matriarchs",
@@ -923,7 +933,9 @@ export default {
             "targets": [
               "ADEPTA SORORITAS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Relics of the Matriarchs",

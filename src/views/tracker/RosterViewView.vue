@@ -1073,14 +1073,16 @@ function modContextFor(entry) {
   // since a stratagem can hand out a keyword (Daemonic Possession's DAEMON) that decides which
   // other rules bear on the unit at all.
   const chosen = chosenFor(entry, resolved)
-  const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active, chosen).map((g) => g.kw)]
-  // …and then the stratagems this unit could never be picked as the target of come off the list.
-  // Judged against the whole ATTACHED unit's keywords (Core Rules 19.03), which is why the
-  // attachment the roster records is read here rather than the card's own keywords alone.
+  // Every gate below judges a rule naming UNITS against the whole ATTACHED unit's keywords and one
+  // naming MODELS against this card's own (Core Rules 19.03, ruleTargets' scopeHits) — which is
+  // why the attachment the roster records is read here rather than the card's keywords alone.
   const attached = attachedUnitKeywords(entry, roster.value?.units, (id) => {
     return unitKeywordsOf(fullSheets.value.get(id))
   })
-  return { resolved: gateStratagems(resolved, [...kws, ...attached], factionKeywordSets.value), kws, active, chosen }
+  const own = [...printed, ...grantedKeywordsFrom(resolved, { own: printed, unit: [...printed, ...attached] }, factionKeywordSets.value, active, chosen).map((g) => g.kw)]
+  const kws = { own, unit: [...own, ...attached] }
+  // …and then the stratagems this unit could never be picked as the target of come off the list.
+  return { resolved: gateStratagems(resolved, kws, factionKeywordSets.value), kws, active, chosen }
 }
 
 // ONE context per entry for the whole screen. Four readers want it — the stat plates, the
@@ -1197,7 +1199,8 @@ const auraSwitchCache = computed(() => {
       ...attachmentCtxOf(e),
       entryUid: e.uid,
       rosterUnits: units,
-      keywords: unitKeywordsOf(sheet),
+      // An aura naming units reaches an attached unit by the keywords of any of its halves (19.03).
+      keywords: { own: unitKeywordsOf(sheet), unit: [...unitKeywordsOf(sheet), ...attachedUnitKeywords(e, roster.value?.units, (id) => unitKeywordsOf(fullSheets.value.get(id)))] },
       factionKeywordSets: factionKeywordSets.value,
       // …and only the auras whose own rule is running: an unselected relic changes nothing.
       active: activeFor(e),

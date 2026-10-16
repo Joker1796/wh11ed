@@ -126,7 +126,9 @@ export default {
             "targets": [
               "AELDARI"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -967,7 +969,9 @@ export default {
             ],
             "excludes": [
               "TITANIC"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1017,7 +1021,9 @@ export default {
             "targets": [
               "AELDARI INFANTRY"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1260,7 +1266,11 @@ export default {
             "targets": [
               "AELDARI PSYKER"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "AELDARI PSYKER"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -1315,7 +1325,11 @@ export default {
             "targets": [
               "AELDARI PSYKER"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "AELDARI PSYKER"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -1400,7 +1414,11 @@ export default {
             "targets": [
               "AELDARI PSYKER"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "AELDARI PSYKER"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -1894,7 +1912,9 @@ export default {
               "WRAITHGUARD",
               "WRAITHLORD"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }
@@ -1962,13 +1982,19 @@ export default {
             "targets": [
               "AELDARI VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           },
           {
             "targets": [
               "AELDARI VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "AELDARI VEHICLE"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -2530,7 +2556,9 @@ export default {
             "targets": [
               "WRAITH CONSTRUCT"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }
@@ -2550,7 +2578,9 @@ export default {
             ],
             "excludes": [
               "TITANIC"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

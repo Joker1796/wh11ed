@@ -91,7 +91,9 @@ export default {
               "LEGIONES DAEMONICA",
               "SHADOW LEGION"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Shadow Form Abilities",
@@ -115,7 +117,9 @@ export default {
             "targets": [
               "LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Shadow Form Abilities",
@@ -162,7 +166,9 @@ export default {
             "targets": [
               "KHORNE LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -375,7 +381,9 @@ export default {
             "targets": [
               "LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -503,7 +511,9 @@ export default {
             "targets": [
               "NURGLE LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -704,7 +714,9 @@ export default {
             "targets": [
               "NURGLE LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -827,7 +839,9 @@ export default {
             "targets": [
               "SLAANESH LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -858,7 +872,9 @@ export default {
             "targets": [
               "TZEENTCH LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1040,7 +1056,9 @@ export default {
             "targets": [
               "KHORNE LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1307,7 +1325,11 @@ export default {
             "targets": [
               "SLAANESH LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "SLAANESH LEGIONES DAEMONICA"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -1329,7 +1351,9 @@ export default {
             "targets": [
               "SLAANESH LEGIONES DAEMONICA"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1603,7 +1627,9 @@ export default {
             "excludes": [
               "MONSTERS",
               "MONSTER"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1786,7 +1812,9 @@ export default {
             "excludes": [
               "MONSTERS",
               "MONSTER"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }
@@ -1820,7 +1848,9 @@ export default {
             "excludes": [
               "MONSTERS",
               "MONSTER"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }
@@ -1873,7 +1903,9 @@ export default {
             "targets": [
               "LEGIONES DAEMONICA NURGLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }
@@ -1891,7 +1923,9 @@ export default {
             "targets": [
               "LEGIONES DAEMONICA TZEENTCH"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

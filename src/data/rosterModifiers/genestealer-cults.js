@@ -535,7 +535,9 @@ export default {
               "ASTRA MILITARUM INFANTRY",
               "ASTRA MILITARUM MOUNTED"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }

@@ -131,7 +131,9 @@ export default {
             "targets": [
               "THOUSAND SONS INFANTRY"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -283,7 +285,9 @@ export default {
             "targets": [
               "SCINTILLATING LEGIONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -407,7 +411,9 @@ export default {
             "targets": [
               "THOUSAND SONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Unearthly Power",
@@ -459,7 +465,11 @@ export default {
             "targets": [
               "THOUSAND SONS PSYKER"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "THOUSAND SONS PSYKER"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -858,7 +868,9 @@ export default {
             "targets": [
               "SEKHETAR ROBOTS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1240,7 +1252,9 @@ export default {
             "targets": [
               "SEKHETAR ROBOTS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1271,13 +1285,17 @@ export default {
             "targets": [
               "SEKHETAR ROBOTS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           },
           {
             "targets": [
               "SEKHETAR ROBOTS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

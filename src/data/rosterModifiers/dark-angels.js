@@ -370,7 +370,9 @@ export default {
             "targets": [
               "DARK ANGELS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Primarch of the First Legion",
@@ -410,7 +412,9 @@ export default {
             "targets": [
               "DARK ANGELS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Primarch of the First Legion",
@@ -549,7 +553,9 @@ export default {
             "targets": [
               "DARK ANGELS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -581,7 +587,9 @@ export default {
               "ADEPTUS ASTARTES MOUNTED",
               "ADEPTUS ASTARTES FLY VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

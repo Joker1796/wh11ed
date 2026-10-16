@@ -97,7 +97,11 @@ export default {
             "targets": [
               "GREY KNIGHTS VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "GREY KNIGHTS VEHICLE"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -405,7 +409,9 @@ export default {
             "targets": [
               "GREY KNIGHTS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

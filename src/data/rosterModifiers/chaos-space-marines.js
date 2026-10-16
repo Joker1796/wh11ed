@@ -22,7 +22,9 @@ export default {
             ],
             "excludes": [
               "DAMNED"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Warmaster",
@@ -49,7 +51,9 @@ export default {
             ],
             "excludes": [
               "DAMNED"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Warmaster",
@@ -87,7 +91,9 @@ export default {
             ],
             "excludes": [
               "DAMNED"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Warmaster",
@@ -702,7 +708,9 @@ export default {
             ],
             "excludes": [
               "DAMNED"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -905,7 +913,9 @@ export default {
             "targets": [
               "HERETIC ASTARTES"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1336,7 +1346,9 @@ export default {
             "targets": [
               "DAEMON VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1403,7 +1415,11 @@ export default {
             "targets": [
               "HERETIC ASTARTES VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "HERETIC ASTARTES VEHICLE"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -2845,7 +2861,9 @@ export default {
             "targets": [
               "HERETIC ASTARTES VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -2908,7 +2926,9 @@ export default {
             "targets": [
               "HERETIC ASTARTES DAEMON VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }
