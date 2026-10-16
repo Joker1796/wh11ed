@@ -2094,10 +2094,12 @@ export default [
     "keywords": [
       "Explosives",
       "Fly",
+      "Gravis",
       "Imperium",
       "Infantry",
       "Jump Pack",
-      "Kill Team"
+      "Kill Team",
+      "Tacticus"
     ],
     "factionKeywords": [
       "Adeptus Astartes",

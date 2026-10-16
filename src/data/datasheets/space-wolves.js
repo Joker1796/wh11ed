@@ -3920,7 +3920,7 @@ export default [
       "Any number of Wolf Guard Headtaker models can each have their Paired Master-crafted Power Weapons replaced with 1 Master-crafted Power Weapon and 1 Storm Shield."
     ],
     "keywords": [
-      "Beast",
+      "Beasts",
       "Imperium",
       "Infantry",
       "Tacticus"
