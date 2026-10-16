@@ -584,6 +584,10 @@ watchEffect(() => {
 .rc-step:not(:disabled):hover { color: var(--text-primary); }
 .rc-step.on:not(:disabled):hover { color: var(--accent-ink); }
 .rc-step.on { color: var(--accent-ink); }
+/* Dark theme: the selection is an accent underline, the text stays light — the dark red is below AA
+   as text (npm run a11y, owner 2026-10-16). */
+:root[data-theme='dark'] .rc-step.on { color: var(--text-primary); text-decoration: underline 2px var(--accent); text-underline-offset: 4px; }
+:root[data-theme='dark'] .rc-step.on:not(:disabled):hover { color: var(--text-primary); }
 .rc-step.done { color: var(--text-muted); }
 .rc-step-sep { color: var(--text-dim); font-size: 0.75rem; }
 /* Small phones: three steps + arrows is a lot to fit on one line. Shrink first; on the

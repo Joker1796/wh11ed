@@ -137,6 +137,9 @@ const importOpen = ref(false)
   margin-bottom: 0.75rem;
 }
 .rlh-stats.on { border-color: var(--accent); color: var(--accent-ink); }
+/* Dark theme: the selection is the accent edge, the text stays light — the dark red is below AA
+   as text (npm run a11y, owner 2026-10-16). */
+:root[data-theme='dark'] .rlh-stats.on { color: var(--text-primary); }
 
 /* The desk: one row across the columns — the buttons beside the title, one size down. */
 .rlh-desk {

@@ -126,5 +126,8 @@ const {
        theme's deep-red --accent is near-invisible against it. */
     color: var(--accent-on-dark);
   }
+  /* …on the icon only: the label goes light. That red is below AA as small text (npm run a11y,
+     owner 2026-10-16); the red icon still says which item is open. */
+  .bn-item.active span { color: var(--text-on-dark); }
 }
 </style>
