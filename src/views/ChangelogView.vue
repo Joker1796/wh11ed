@@ -4,9 +4,16 @@
       <h1 class="hero-title">
         {{ labels.changelogTitle }}
       </h1>
-      <p class="hero-sub">
-        {{ labels.changelogSubtitle }}
-      </p>
+      <RouterLink
+        class="btn-ghost cl-app-changes"
+        to="/patches"
+      >
+        <i
+          class="wi wi-army"
+          aria-hidden="true"
+        />
+        {{ labels.navPatches }}
+      </RouterLink>
     </div>
 
     <div
@@ -187,9 +194,17 @@ useUpdateNotice().markSeen()
   margin: 0 auto;
 }
 
+/* A page heading is a row (src/components/CLAUDE.md, vertical density): the title, and on its
+   baseline the way to what GW changed in its app — the page the rule blocks below link into. */
 .hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
   margin-bottom: 1.5rem;
 }
+.cl-app-changes { display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; }
 
 .hero-title {
   font-family: var(--font-display);
@@ -197,12 +212,6 @@ useUpdateNotice().markSeen()
   font-weight: 500;
   color: var(--text-primary);
   margin: 0;
-}
-
-.hero-sub {
-  margin: 0.3rem 0 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
 }
 
 .cl-entry {
