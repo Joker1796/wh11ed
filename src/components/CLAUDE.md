@@ -210,7 +210,9 @@ screens that had copied each other and drifted. The pairs that existed then are 
   `.seg` (a joined either/or inside a form), `.tabs`/`.tab` (a row of separate boxes, one lit),
   `.back`, `.check` + `.check-note`, `.field > span`, `.help-btn`, `.fsection` /
   `.fsection-title`, `.rc-sticky*` (the roster builder's footer bar — its points and issue badge are `roster/RosterPointsTally.vue`), `.lead`,
-  `.split-block`, `.strat-grid`, `.act-list` + `.act-btn` + `.act-danger` (the "…" actions sheet
+  `.split-block`, `.strat-grid`, `.dock-card` (a notice that waits at the bottom for an answer —
+  the offer to install and the update plate: a strip over a phone's bottom nav, a 360px card at
+  the bottom right from 720×500; the layer is the component's), `.act-list` + `.act-btn` + `.act-danger` (the "…" actions sheet
   a card or a header opens — one full-width button per thing you can do; global since 2026-08-28,
   when the third copy was about to be written and `npm run dupes` would have failed),
   `.copy-row` + `.copy-field` + `.copy-btn` (a link handed over to be copied), `.empty-note` (what a

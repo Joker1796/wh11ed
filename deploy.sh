@@ -182,7 +182,7 @@ aws s3 sync dist "$BUCKET" \
   --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
   --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
   --exclude "robots.txt" --exclude "sitemap.xml" --exclude ".seo-routes.txt" \
-  --exclude "offline-manifest.json" --exclude "image-manifest.json" \
+  --exclude "offline-manifest.json" --exclude "image-manifest.json" --exclude "version.json" \
   ${ROUTE_EXCLUDES[@]+"${ROUTE_EXCLUDES[@]}"} \
   --cache-control "public, max-age=2592000" \
   --delete
@@ -209,6 +209,9 @@ set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
 # `cache: 'no-store'` anyway, which only works because nothing in between decided to keep one.
 set_nocache offline-manifest.json "application/json; charset=utf-8"
 set_nocache image-manifest.json "application/json; charset=utf-8"
+# What is live, asked by a page already open (launchGate.js): a cached copy would tell it that
+# nothing new had shipped.
+set_nocache version.json "application/json; charset=utf-8"
 
 # 2c) SEO files — short TTL so crawlers pick up changes quickly. Excluded from the
 #     1-year tier (step 2): a stale robots/sitemap can otherwise be served for a year.

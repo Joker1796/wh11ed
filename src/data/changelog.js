@@ -22,6 +22,20 @@
 
 export const changelog = [
   {
+    version: '2.9.4',
+    date: '2026-10-16',
+    en: [
+      { h: 'Whole site' },
+      '**The site no longer reloads itself while you are using it.** When an update comes out, a notice with an Update button appears at the bottom. If you do not press it, the new version opens the next time you start the app.',
+      '**Opening the app after an update takes you straight to the new version.** While it loads you see “Updating to 2.9.4…”. Before, the old version opened first and reloaded a few seconds later.',
+    ],
+    ru: [
+      { h: 'Весь сайт' },
+      '**Сайт больше не перезагружается сам, пока вы им пользуетесь.** Когда выходит обновление, внизу появляется плашка с кнопкой «Обновить». Если её не нажать, новая версия откроется при следующем запуске приложения.',
+      '**Если открыть приложение после обновления, сразу откроется новая версия.** Пока она загружается, видно «Обновляю до 2.9.4…». Раньше сначала открывалась старая версия и через несколько секунд перезагружалась.',
+    ],
+  },
+  {
     version: '2.9.3',
     date: '2026-10-16',
     en: [

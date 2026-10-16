@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { noteBoot, reloadsHeld, LOOP_WINDOW_MS, HOLD_MS } from './reloadLoop.js'
+import { noteBoot, noteReload, reloadsHeld, LOOP_WINDOW_MS, HOLD_MS } from './reloadLoop.js'
 
 describe('reload loop guard', () => {
   beforeEach(() => localStorage.clear())
@@ -10,8 +10,22 @@ describe('reload loop guard', () => {
     expect(reloadsHeld(t)).toBe(false)
   })
 
-  it('three starts within the window hold every reload for the hold time, then let go', () => {
+  // 2026-10-16: six reports from 2.9.2 were readers — an iPhone app reopened from memory, a tab
+  // refreshed by hand — with none (or one, long before) of the app's own reloads among the starts.
+  it('three starts with none of the app\'s own reloads among them are a reader, not a loop', () => {
+    const t = 3_000_000
+    expect(noteBoot(t)).toBe(false)
+    expect(noteBoot(t + 2000)).toBe(false)
+    expect(noteBoot(t + 4000)).toBe(false)
+    noteReload('sw', t + 4000 - LOOP_WINDOW_MS - 1) // one of ours, but before the window
+    noteReload('user', t + 4500) // the reader's own press of Update: not the app reloading itself
+    expect(noteBoot(t + 5000)).toBe(false)
+    expect(reloadsHeld(t + 5000)).toBe(false)
+  })
+
+  it('three starts within the window, one of them our reload, hold every reload, then let go', () => {
     const t = 5_000_000
+    noteReload('sw', t + 3000)
     expect(noteBoot(t)).toBe(false)
     expect(noteBoot(t + 2000)).toBe(false)
     expect(noteBoot(t + 4000)).toBe(true) // caught — reported once
@@ -41,6 +55,7 @@ describe('the service worker reload', () => {
     const { swReload, noteBoot } = await import('./reloadLoop.js')
     const reload = vi.fn()
     const t = 7_000_000
+    noteReload('chunk', t + 500)
     noteBoot(t); noteBoot(t + 1000); noteBoot(t + 2000)
     expect(swReload({ now: t + 3000, reload })).toBe(false)
     expect(reload).not.toHaveBeenCalled()
