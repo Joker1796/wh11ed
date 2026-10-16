@@ -5,7 +5,7 @@
         {{ labels.changelogTitle }}
       </h1>
       <RouterLink
-        class="cl-app-changes"
+        class="btn-ghost cl-app-changes"
         to="/patches"
       >
         {{ labels.changelogAppHistory }}
@@ -194,16 +194,13 @@ useUpdateNotice().markSeen()
   margin-bottom: 1.5rem;
 }
 /* Under the title, the way to the OTHER history — what GW changed in its own app, update by update
-   (/patches) — as a link with an arrow, not a button: it leaves this page (owner, 2026-10-16). */
+   (/patches). A framed button (owner, 2026-10-16): as gold link text it was the loudest line under
+   the title. The shared .btn-ghost, a size smaller to sit under a hero. */
 .cl-app-changes {
-  display: inline-block;
-  margin-top: 0.35rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--link-accent);
-  text-decoration: none;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
 }
-@media (hover: hover) { .cl-app-changes:hover { text-decoration: underline; } }
 
 .hero-title {
   font-family: var(--font-display);

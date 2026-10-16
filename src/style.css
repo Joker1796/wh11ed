@@ -600,7 +600,7 @@ h4 { font-size: var(--fs-subheading); }
 .cp-howto {
   display: inline-block;
   margin-top: 0.5rem;
-  font-weight: 600;
+  font-size: 0.85rem;
   color: var(--link-accent);
 }
 
