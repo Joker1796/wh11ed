@@ -72,6 +72,19 @@ export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple', 
 /** @type {Record<string, string>} */
 const ALLIANCE = { astartes: 'Imperium', imperium: 'Imperium', chaos: 'Chaos', xenos: 'Xenos' }
 
+// A Chapter with a book of its own sits under the Adeptus Astartes keyword in WTC's line: "Imperium -
+// Adeptus Astartes - Blood Angels" (2026-10-16, a player's note — ours printed "Imperium - Blood
+// Angels"). Space Marines themselves are named by that keyword already.
+/** @param {Resolved} m */
+function factionKeywordLine(m) {
+  const slug = m.roster?.faction
+  const group = factionGroups.find((g) => g.factions.some((f) => f.slug === slug))
+  const name = m.faction?.name || ''
+  const parts = [group ? ALLIANCE[group.id] : undefined]
+  if (group?.id === 'astartes' && slug !== 'space-marines') parts.push('Adeptus Astartes')
+  return `+ FACTION KEYWORD: ${[...parts, name].filter(Boolean).join(' - ')}`
+}
+
 // GW's own section headings, and which of our five buckets land under each. Battleline has no
 // heading of its own in the 11th-edition export — a battleline unit prints under OTHER DATASHEETS,
 // or, when it is attached, as `Bodyguard (Battleline)`.
@@ -409,12 +422,8 @@ function wtcText(m, compact = false) {
   /** @param {ExportRow} r */
   const label = (r) => (refOf.has(r.uid) ? `${refOf.get(r.uid)}: ${r.name}` : r.name)
 
-  const slug = m.roster?.faction
-  const group = factionGroups.find((g) => g.factions.some((f) => f.slug === slug))
-  const alliance = group ? ALLIANCE[group.id] : undefined
-
   const out = [bar]
-  out.push(`+ FACTION KEYWORD: ${alliance ? `${alliance} - ` : ''}${m.faction?.name || ''}`)
+  out.push(factionKeywordLine(m))
   if (m.detachments.length) {
     const fds = m.disposition ? [m.disposition] : dispositionCandidates(m.detachments)
     out.push(`+ DETACHMENT: ${m.detachments.map((d) => d.name).join(', ')}${fds.length ? ` (${fds.join(', ')})` : ''}`)
@@ -563,9 +572,6 @@ function swappedGear(r, items) {
 /** @param {Resolved} m @param {{ player?: string, hin?: string }} [who] */
 function rusText(m, who = {}) {
   const bar = '+'.repeat(47)
-  const slug = m.roster?.faction
-  const group = factionGroups.find((g) => g.factions.some((f) => f.slug === slug))
-  const alliance = group ? ALLIANCE[group.id] : undefined
   const fds = m.disposition ? [m.disposition] : dispositionCandidates(m.detachments)
 
   // The order the units are written in: the attached blocks first, then every other unit by its
@@ -593,7 +599,7 @@ function rusText(m, who = {}) {
     `+ PLAYER NAME: ${who.player || ''}`.trimEnd(),
     `+ ARMY NAME: ${m.roster?.name || ''}`.trimEnd(),
     `+ HIN: ${who.hin || '-'}`,
-    `+ FACTION KEYWORD: ${alliance ? `${alliance} - ` : ''}${m.faction?.name || ''}`,
+    factionKeywordLine(m),
     `+ DETACHMENT: ${m.detachments.map((d) => d.name).join(', ')}`.trimEnd(),
     `+ FORCE DISPOSITION: ${fds[0] || ''}`.trimEnd(),
     `+ TOTAL ARMY POINTS: ${m.total}pts`,

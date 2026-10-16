@@ -391,3 +391,30 @@ describe('rus — the Russian tournament format', () => {
     expect(buildRosterText(roster, { ...ctxRus, who: {} }, 'rus')).toContain('+ PLAYER NAME:\n+ ARMY NAME: Dragon\n+ HIN: -\n')
   })
 })
+
+// WTC names a Chapter with its own book under the Adeptus Astartes keyword, and our import reads the
+// line back to the same faction (2026-10-16: a Blood Angels list came out as "Imperium - Blood
+// Angels").
+describe('the WTC faction line', () => {
+  it.each([
+    ['space-marines', 'Imperium - Adeptus Astartes'],
+    ['blood-angels', 'Imperium - Adeptus Astartes - Blood Angels'],
+    ['dark-angels', 'Imperium - Adeptus Astartes - Dark Angels'],
+    ['space-wolves', 'Imperium - Adeptus Astartes - Space Wolves'],
+    ['black-templars', 'Imperium - Adeptus Astartes - Black Templars'],
+    ['deathwatch', 'Imperium - Adeptus Astartes - Deathwatch'],
+    ['orks', 'Xenos - Orks'],
+  ])('%s → %s', async (slug, line) => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { parseList, matchFaction } = await import('./rosterImport.js')
+    const core = (await import('../data/roster/core.js')).default
+    const items = (await import('../data/roster/items.js')).default.items
+    const faction = await loadRosterFaction(slug)
+    const roster = { name: 'L', faction: slug, detachments: [], battleSize: 'strike-force', units: [] }
+    for (const fmt of ['wtc', 'rus']) {
+      const text = buildRosterText(roster, { faction, core, items }, fmt)
+      expect(text).toContain(`+ FACTION KEYWORD: ${line}\n`)
+      expect(matchFaction(parseList(text).faction)).toBe(slug)
+    }
+  })
+})
