@@ -74,10 +74,14 @@ defineEmits(['close'])
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.6);
-  font-size: 1.1rem;
+  /* The cross at the size of the text beside it (owner, 2026-10-16: at 1.1rem it was the loudest
+     thing on the bar); the box keeps a 24px tap target around it. */
+  font-size: 0.8rem;
+  min-width: 24px;
+  min-height: 24px;
   line-height: 1;
   cursor: pointer;
-  padding: 0.1rem;
+  padding: 0;
 }
 
 .top-banner-close:hover {
