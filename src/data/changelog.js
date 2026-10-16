@@ -28,11 +28,23 @@ export const changelog = [
       { h: 'Whole site' },
       '**The site no longer reloads itself while you are using it.** When an update comes out, a notice with an Update button appears at the bottom. If you do not press it, the new version opens the next time you start the app.',
       '**Opening the app after an update takes you straight to the new version.** While it loads you see “Updating to 2.9.4…”. Before, the old version opened first and reloaded a few seconds later.',
+
+      { h: 'Faction rules', kind: 'rules' },
+      '**A weapon ability printed on the unit’s own page now opens its own text.** Tapping [PSYCHIC ASSASSIN] on the Culexus Assassin opened [PSYCHIC] instead. Eight more opened nothing at all, among them [CONVERSION] on Chaos Knights and [PLASMA WARHEAD] on the Deathstrike.',
+      { h: 'Roster builder' },
+      '**A Deathwatch list no longer limits Deathwatch units to 500 points.** That limit is for other Space Marine Chapters that take Deathwatch units along. A Blood Angels list, for example, still has it.',
+      '**Sanctifiers can take either a meltagun or holy fire, not both.** Only one Missionary has a plasma gun, and both options are for that gun.',
     ],
     ru: [
       { h: 'Весь сайт' },
       '**Сайт больше не перезагружается сам, пока вы им пользуетесь.** Когда выходит обновление, внизу появляется плашка с кнопкой «Обновить». Если её не нажать, новая версия откроется при следующем запуске приложения.',
       '**Если открыть приложение после обновления, сразу откроется новая версия.** Пока она загружается, видно «Обновляю до 2.9.4…». Раньше сначала открывалась старая версия и через несколько секунд перезагружалась.',
+
+      { h: 'Правила фракций', kind: 'rules' },
+      '**Способность оружия, напечатанная на странице юнита, теперь открывает свой текст.** Раньше [PSYCHIC ASSASSIN] у Culexus Assassin открывал [PSYCHIC]. Ещё восемь не открывались вовсе, среди них [CONVERSION] у Chaos Knights и [PLASMA WARHEAD] у Deathstrike.',
+      { h: 'Конструктор ростеров' },
+      '**В списке Deathwatch юниты Deathwatch больше не ограничены 500 очками.** Это ограничение для других орденов Space Marines, которые берут юниты Deathwatch с собой. В списке Blood Angels, например, оно осталось.',
+      '**Sanctifiers могут взять либо мельту, либо Holy fire, но не оба.** Плазма есть только у одного Missionary, и обе опции — для неё.',
     ],
   },
   {
