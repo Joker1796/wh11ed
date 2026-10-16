@@ -199,7 +199,7 @@ aws s3 sync dist "$BUCKET" \
   --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
   --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
   --exclude "robots.txt" --exclude "sitemap.xml" --exclude ".seo-routes.txt" \
-  --exclude "offline-manifest.json" --exclude "image-manifest.json" --exclude "version.json" \
+  --exclude "offline-manifest.json" --exclude "version.json" \
   ${ROUTE_EXCLUDES[@]+"${ROUTE_EXCLUDES[@]}"} \
   --cache-control "public, max-age=2592000" \
   --delete
@@ -221,11 +221,10 @@ set_nocache() { # <file> <content-type>
 set_nocache sw.js "application/javascript; charset=utf-8"
 set_nocache registerSW.js "application/javascript; charset=utf-8"
 set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
-# The offline warm-up's shopping lists. Every deploy renames the hashed chunks they name, so a
+# The offline warm-up's shopping list. Every deploy renames the hashed chunks they name, so a
 # cached copy sends the warm-up after files that no longer exist — and the app reads them with
 # `cache: 'no-store'` anyway, which only works because nothing in between decided to keep one.
 set_nocache offline-manifest.json "application/json; charset=utf-8"
-set_nocache image-manifest.json "application/json; charset=utf-8"
 # What is live, asked by a page already open (launchGate.js): a cached copy would tell it that
 # nothing new had shipped.
 set_nocache version.json "application/json; charset=utf-8"

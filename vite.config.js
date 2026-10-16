@@ -74,23 +74,6 @@ function imageFiles(dir = 'public/images', base = '/images') {
   return out
 }
 
-// `image-manifest.json` — the flat URL list, unchanged in shape since 2026-08.
-//
-// Superseded by `offline-manifest.json` below and kept for ONE release: an installed app is
-// running the JS it last precached, and that code fetches this file and iterates it as an array.
-// Changing its shape under a client that has not updated yet would throw inside its warm-up.
-// Delete after a deploy has been out long enough that nobody is on the old shell.
-function imageManifest() {
-  return {
-    name: 'image-manifest',
-    apply: 'build',
-    generateBundle() {
-      const files = imageFiles().map(([url]) => url).sort()
-      this.emitFile({ type: 'asset', fileName: 'image-manifest.json', source: JSON.stringify(files) })
-    },
-  }
-}
-
 // What the app needs to BOOT, as opposed to what it eventually uses. Filled during the build and
 // read by the service worker config below, which precaches this and nothing else.
 //
@@ -225,7 +208,6 @@ export default defineConfig({
     buildInfoMeta(),
     appShell(),
     injectSiteOrigin(),
-    imageManifest(),
     offlineShell(),
     VitePWA({
       // 'prompt' (not 'autoUpdate'): a new version is downloaded in the background
