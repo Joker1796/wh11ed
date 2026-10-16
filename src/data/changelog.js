@@ -23,7 +23,7 @@
 export const changelog = [
   {
     version: '2.9.3',
-    date: '2026-10-15',
+    date: '2026-10-16',
     en: [
       { h: 'Combat Patrol', kind: 'rules' },
       '**A box page shows how many of each unit the box holds.** The Tyranids box has two Termagant units, for example. The Orks box has two ’Ardmob Boyz units, one with a kombi-rokkit, one with a kustom shoota. Before, it showed one Boyz unit with an option the box does not have.',
