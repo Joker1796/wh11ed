@@ -58,9 +58,19 @@
               ><span
                 v-for="t in w.tags"
                 :key="t"
-                v-safe-html="renderInline('[' + t + ']')"
                 class="wtag"
-              /></span>
+              ><span
+                v-if="ownRule(t)"
+                class="keyword"
+                role="button"
+                tabindex="0"
+                data-kw-open
+                @click="openOwn(t, $event)"
+                @keydown.enter="openOwn(t, $event)"
+              >[{{ t }}]</span><span
+                v-else
+                v-safe-html="renderInline('[' + t + ']')"
+              /></span></span>
             </td>
             <td data-label="Range">
               {{ melee ? 'Melee' : w.range }}
@@ -131,6 +141,8 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { vSafeHtml } from '../directives/safeHtml.js'
+import { useKeywordPopover } from '../composables/useKeywordPopover.js'
+import { sheetRuleForTag } from '../utils/weaponTag.js'
 
 // `rows` — useDatasheetParts' rangedRows / meleeRows, the profile groups already placed; `isMarked`
 // — its question of which cells the roster's modifier layer rewrote, by table, stat and row.
@@ -138,11 +150,21 @@ const props = defineProps({
   kind: { type: String, required: true, validator: (k) => k === 'ranged' || k === 'melee' },
   rows: { type: Array, required: true },
   isMarked: { type: Function, required: true },
+  // The sheet's own abilities (wargear, unit, special), localized — what a tag that is no core
+  // ability stands for: [PSYCHIC ASSASSIN], [CONVERSION], [PLASMA WARHEAD]. Until 2026-10-16 such a
+  // tap opened a core ability whose name it began with, or nothing.
+  rules: { type: Array, default: () => [] },
 })
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 const melee = computed(() => props.kind === 'melee')
+const { openRule } = useKeywordPopover()
+const ownRule = (tag) => sheetRuleForTag(tag, props.rules)
+function openOwn(tag, e) {
+  const r = ownRule(tag)
+  if (r) openRule(`[${tag}]`, r.text, e.currentTarget.getBoundingClientRect())
+}
 // The skill column: Ballistic Skill for a ranged weapon, Weapon Skill for a melee one.
 const skill = computed(() => (melee.value ? 'ws' : 'bs'))
 </script>

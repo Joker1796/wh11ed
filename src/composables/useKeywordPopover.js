@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { useLocale } from './useLocale.js'
 import { parseWeaponTag, weaponTagNote } from './weaponTagQualifier.js'
+import { baseTag } from '../utils/weaponTag.js'
 
 const visible = ref(false)
 const activeKeyword = ref(null)
@@ -28,13 +29,18 @@ function loadData() {
   return dataPromise
 }
 
-function lookup(rawText, { coreAbilities, eventCompanion }) {
+// By name, then by the ability the name is an instance of — `baseTag` strips the parameters
+// ([SUSTAINED HITS 2], Scouts 6"). Never by how the text STARTS: that read [PSYCHIC ASSASSIN] as
+// [PSYCHIC] (2026-10-16). A tag that is no core ability is the datasheet's own, which the weapon
+// table opens itself (DatasheetWeaponTable.vue).
+export function lookup(rawText, { coreAbilities, eventCompanion }, loc = locale.value) {
   const text = rawText.toUpperCase().trim()
+  const of = baseTag(rawText)
   const base = coreAbilities.en
   let idx = base.findIndex(a => bare(a.name) === text)
-  if (idx === -1) idx = base.findIndex(a => text.startsWith(bare(a.name)))
+  if (idx === -1) idx = base.findIndex(a => bare(a.name) === of)
   if (idx !== -1) {
-    return locale.value === 'ru'
+    return loc === 'ru'
       ? { ...base[idx], ...coreAbilities.ru[idx] }
       : base[idx]
   }
@@ -42,9 +48,9 @@ function lookup(rawText, { coreAbilities, eventCompanion }) {
   // Event Companion glossary (name stays EN; RU overrides fullText, like coreAbilities).
   const glossary = eventCompanion.en.glossary || []
   const gi = glossary.findIndex(g => bare(g.name) === text)
-  const gj = gi !== -1 ? gi : glossary.findIndex(g => text.startsWith(bare(g.name)))
+  const gj = gi !== -1 ? gi : glossary.findIndex(g => bare(g.name) === of)
   if (gj === -1) return null
-  return locale.value === 'ru'
+  return loc === 'ru'
     ? { ...glossary[gj], ...(eventCompanion.ru.glossary?.[gj] || {}) }
     : glossary[gj]
 }
