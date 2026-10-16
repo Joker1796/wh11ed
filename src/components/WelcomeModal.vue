@@ -65,7 +65,7 @@ function dismiss() {
 .welcome-list li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.5; }
 .welcome-list i { color: var(--accent-ink); font-size: 1rem; line-height: 1.4; }
 .welcome-actions { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
-.welcome-more { color: var(--accent-ink); text-decoration: none; font-size: 0.85rem; }
+.welcome-more { color: var(--link-accent); text-decoration: none; font-size: 0.85rem; }
 .welcome-more:hover { text-decoration: underline; }
 .welcome-ok {
   padding: 0.5rem 1.1rem;

@@ -327,7 +327,7 @@ const currentLayout = computed(() =>
   font-weight: 600;
 }
 .footprint-source :deep(.ext-link) {
-  color: var(--accent-ink);
+  color: var(--link-accent);
   text-decoration: underline;
 }
 

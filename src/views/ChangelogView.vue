@@ -200,7 +200,7 @@ useUpdateNotice().markSeen()
   margin-top: 0.35rem;
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--accent-ink);
+  color: var(--link-accent);
   text-decoration: none;
 }
 @media (hover: hover) { .cl-app-changes:hover { text-decoration: underline; } }
@@ -339,12 +339,12 @@ useUpdateNotice().markSeen()
    so a line of unit names does not turn into a solid underline. */
 .cl-list :deep(.cl-q) { font-weight: 600; }
 .cl-list :deep(a.int-link) {
-  color: var(--accent-ink);
+  color: var(--link-accent);
   text-decoration: underline dotted;
   text-underline-offset: 0.18em;
 }
 @media (hover: hover) {
-  .cl-list :deep(a.int-link:hover) { color: var(--accent-ink-hover); text-decoration-style: solid; }
+  .cl-list :deep(a.int-link:hover) { color: var(--link-accent-hover); text-decoration-style: solid; }
 }
 
 .show-more {

@@ -76,7 +76,7 @@ const t = computed(() => landing[locale.value])
   margin: -0.6rem 0 1.4rem;
   font-size: 0.88rem;
 }
-.landing-help a { color: var(--accent-ink); text-decoration: none; }
+.landing-help a { color: var(--link-accent); text-decoration: none; }
 .landing-help a:hover { text-decoration: underline; }
 
 @media (max-width: 600px) {

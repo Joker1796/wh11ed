@@ -601,7 +601,7 @@ h4 { font-size: var(--fs-subheading); }
   display: inline-block;
   margin-top: 0.5rem;
   font-weight: 600;
-  color: var(--accent-ink);
+  color: var(--link-accent);
 }
 
 /* ── Rule plates ──
