@@ -920,14 +920,6 @@ export function aurasReaching(records, {
 }
 
 /**
- * @param {ModEntry[] | null | undefined} records
- * @param {import('../data/data.types.js').FactionRules | null | undefined} facEn the faction's English rules bundle
- * @param {Array<string | { name?: string } | null | undefined> | null | undefined} detachmentNames
- * @param {string | null | undefined} enhancementName
- * @param {{ g?: string, opt?: string } | null | undefined} alleg the entry's allegiance group and pick
- * @returns {ModEntry[]}
- */
-/**
  * The allegiance an entry chose, as resolveModifierEntries matches records against it — or null.
  * @param {{ alleg?: { g?: string, gid?: string } } | null | undefined} def the unit's definition
  * @param {{ alleg?: string } | null | undefined} entry the roster entry
@@ -936,6 +928,14 @@ export function allegianceChoiceOf(def, entry) {
   return entry?.alleg && def?.alleg ? { g: def.alleg.g, gid: def.alleg.gid, opt: entry.alleg } : null
 }
 
+/**
+ * @param {ModEntry[] | null | undefined} records
+ * @param {import('../data/data.types.js').FactionRules | null | undefined} facEn the faction's English rules bundle
+ * @param {Array<string | { name?: string } | null | undefined> | null | undefined} detachmentNames
+ * @param {string | null | undefined} enhancementName
+ * @param {{ g?: string, gid?: string, opt?: string } | null | undefined} alleg the entry's allegiance group and pick (allegianceChoiceOf)
+ * @returns {ModEntry[]}
+ */
 export function resolveModifierEntries(records, facEn, detachmentNames, enhancementName, alleg) {
   if (!facEn || !records?.length) return []
   const fielded = new Set((detachmentNames || [])
