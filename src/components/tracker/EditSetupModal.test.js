@@ -14,7 +14,9 @@ beforeEach(async () => {
   ;({ default: EditSetupModal } = await import('./EditSetupModal.vue'))
 })
 // BaseModal teleports to <body>.
-afterEach(() => { document.body.innerHTML = '' })
+// A component loads the army tracker spec lazily; wait for it, or a load still in flight when the
+// file ends lands after the environment is torn down (an unhandled rejection under load).
+afterEach(async () => { await vi.dynamicImportSettled(); document.body.innerHTML = '' })
 
 const body = () => new DOMWrapper(document.body)
 

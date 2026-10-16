@@ -8,7 +8,9 @@ beforeEach(() => {
   vi.resetModules()
 })
 // BaseModal teleports to <body>; clear it between tests since nothing else unmounts it.
-afterEach(() => { document.body.innerHTML = '' })
+// A component loads the army tracker spec lazily; wait for it, or a load still in flight when the
+// file ends lands after the environment is torn down (an unhandled rejection under load).
+afterEach(async () => { await vi.dynamicImportSettled(); document.body.innerHTML = '' })
 
 describe('GameSetup', () => {
   it('mounts on step 1 with You / Opponent player cards', () => {
