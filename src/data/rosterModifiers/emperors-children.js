@@ -34,7 +34,9 @@ export default {
             "targets": [
               "SLAANESH"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -183,7 +185,9 @@ export default {
             "targets": [
               "LEGIONS OF EXCESS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -968,7 +972,11 @@ export default {
             "targets": [
               "EMPEROR’S CHILDREN VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "EMPEROR’S CHILDREN VEHICLE"
+            ],
+            "modelExcludes": []
           }
         ]
       },

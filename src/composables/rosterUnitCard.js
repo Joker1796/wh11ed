@@ -179,7 +179,7 @@ export function useRosterUnitCard(props) {
   const modifierGrantedKeywords = computed(() => {
     const printed = datasheets.value.find((d) => d.id === props.unitId)
     const base = [...unitKeywordsOf(printed), ...view.value.grantedKeywords.map((g) => g.kw)]
-    return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value, activeConds.value, activeStratIds.value)
+    return grantedKeywordsFrom(resolvedModifiers.value, { own: base, unit: [...base, ...attachedKeywords.value] }, factionKeywordSets.value, activeConds.value, activeStratIds.value)
   })
 
   const unitKeywords = computed(() => {
@@ -250,7 +250,7 @@ export function useRosterUnitCard(props) {
   // renders still shows the localised text.
   /** @param {string | null | undefined} enBody */
   function applies(enBody) {
-    return ruleAppliesTo(enBody, unitKeywords.value, factionKeywordSets.value)
+    return ruleAppliesTo(enBody, keywordView.value, factionKeywordSets.value)
   }
 
   // Resolve each usable record to the ENGLISH rule prose it was read from, dropping anything this
@@ -325,9 +325,11 @@ export function useRosterUnitCard(props) {
     return gearConds.value.size ? new Set([...base, ...gearConds.value]) : base
   })
 
-  // Core Rules 19.03: an attached unit has every keyword of every unit in it, so a stratagem that
-  // names one of them can be spent on the whole attached unit — this card included. Only the printed
-  // keywords of the other halves; what the modifier layer grants THEM is a fact about their own card.
+  // Core Rules 19.03: an attached unit has every keyword of every unit in it, so a rule or stratagem
+  // that names one of them as UNITS bears on the whole attached unit — this card included (a
+  // Commander's BATTLESUIT CHARACTER brings Experimental Prototype Cadre's +6" to the Crisis
+  // Battlesuits he leads). Only the printed keywords of the other halves; what the modifier layer
+  // grants THEM is a fact about their own card.
   const attachedKeywords = computed(() => attachedUnitKeywords(
     props.ctx?.entry,
     props.ctx?.units,
@@ -336,6 +338,9 @@ export function useRosterUnitCard(props) {
       return unitKeywordsOf(d)
     },
   ))
+  // The two sets a rule's target is judged against (ruleTargets' scopeHits): the card's own for a
+  // target written as models, the whole attached unit's for one written as units.
+  const keywordView = computed(() => ({ own: unitKeywords.value, unit: [...unitKeywords.value, ...attachedKeywords.value] }))
 
   // …and the stratagems this unit cannot be the target of are dropped before anything reads them, so
   // the card's notes and the chips it is handed can never disagree about which ones are on offer.
@@ -343,7 +348,7 @@ export function useRosterUnitCard(props) {
   // Overlord whose Destroyer Ankh granted him that keyword.
   const gatedModifiers = computed(() => gateStratagems(
     resolvedModifiers.value,
-    [...unitKeywords.value, ...attachedKeywords.value],
+    keywordView.value,
     factionKeywordSets.value,
   ))
 
@@ -354,7 +359,7 @@ export function useRosterUnitCard(props) {
     return applyStatMods(
       placed.sheet,
       placed.entries,
-      unitKeywords.value,
+      keywordView.value,
       factionKeywordSets.value,
       activeConds.value,
       activeStratIds.value,

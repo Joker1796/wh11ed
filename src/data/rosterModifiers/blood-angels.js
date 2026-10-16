@@ -629,7 +629,9 @@ export default {
             "targets": [
               "ADEPTUS ASTARTES"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

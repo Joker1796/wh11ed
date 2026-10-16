@@ -303,7 +303,9 @@ export default {
             "targets": [
               "REGIMENT"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Hero of Hades Hive",
@@ -343,7 +345,9 @@ export default {
             "targets": [
               "ASTRA MILITARUM"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Hero of Hades Hive",
@@ -1338,7 +1342,11 @@ export default {
             "targets": [
               "ASTRA MILITARUM VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "ASTRA MILITARUM VEHICLE"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -1369,7 +1377,11 @@ export default {
             "targets": [
               "ASTRA MILITARUM VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "ASTRA MILITARUM VEHICLE"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -1738,7 +1750,9 @@ export default {
             "targets": [
               "ARMOURED SKIRMISHER"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

@@ -59,7 +59,7 @@ describe('detachmentAuraScopes', () => {
   // merges them into one, which would hand the buff to the carrier too.
   it('reads the reach clause and not the carrier', () => {
     const prose = 'Friendly IMPERIAL KNIGHTS models have the following ability: **Assisted Targeting (Aura):** While a friendly ADEPTUS MECHANICUS unit is within 6" of this model, that unit’s ranged attacks have +1 BS.'
-    expect(detachmentAuraScopes(prose)).toEqual([{ targets: ['ADEPTUS MECHANICUS'], excludes: [] }])
+    expect(detachmentAuraScopes(prose)).toEqual([{ targets: ['ADEPTUS MECHANICUS'], excludes: [], models: [], modelExcludes: [] }])
   })
 
   it('says nothing when the rule carries two auras pointing different ways', () => {
