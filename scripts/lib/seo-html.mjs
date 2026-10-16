@@ -19,6 +19,8 @@
 // linked in the head, so it inherits the site's typography, and there is no second copy of the
 // component styling to keep in sync.
 
+import { compositionLineRu } from '../../src/data/datasheets/ru/localize.js'
+
 const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }
 // Rule text carries the app's own inline markup (useRenderInline.js), and this page has no
 // renderer — so the markers have to come off before escaping, or the crawler reads
@@ -170,8 +172,10 @@ export function datasheetBody(unit, factionName, locale, ru) {
     out.push('</dl>')
   }
 
-  if (unit.composition?.length) {
-    out.push(`<h2>${esc(t.composition)}</h2><ul>${unit.composition.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>`)
+  // The same Russian the page draws (localizeSheet): the overlay's own lines, else the frame.
+  const composition = locale === 'ru' ? (ru?.composition || unit.composition?.map(compositionLineRu)) : unit.composition
+  if (composition?.length) {
+    out.push(`<h2>${esc(t.composition)}</h2><ul>${composition.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>`)
   }
 
   const kw = [...(unit.keywords || []), ...(unit.factionKeywords || [])]

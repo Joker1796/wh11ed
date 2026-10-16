@@ -183,6 +183,35 @@ const RULE_TEXTS_BY_ID = {
   'deathleaper': { 'HUNTER ORGANISM': 'Эта модель не может быть вашим WARLORD.' },
 }
 
+// A unit composition line in Russian. The model names stay English by convention, so only what
+// is around them is translated: "1 Intercessor Sergeant model" → "1 модель Intercessor Sergeant",
+// "4‑9 Intercessor models" → "4‑9 моделей Intercessor", the "and" between counted entries, and the
+// handful of whole-line wordings. A line of a count and a name alone ("1 Captain") needs nothing.
+// Every composition line of every sheet is checked by localize.test.js: none may keep English.
+const COMPOSITION_LINES_RU = {
+  'or': 'или',
+  'or:': 'или:',
+  'one of the following:': 'Одно из:',
+}
+// Russian agrees the noun with the last number of a range: 1 модель, 2‑3 модели, 4‑9 моделей.
+const modelsRu = (n) => {
+  const k = n % 100
+  if (k >= 11 && k <= 14) return 'моделей'
+  return n % 10 === 1 ? 'модель' : n % 10 >= 2 && n % 10 <= 4 ? 'модели' : 'моделей'
+}
+export function compositionLineRu(line) {
+  const t = String(line ?? '')
+  const whole = COMPOSITION_LINES_RU[t.trim().toLowerCase()]
+  if (whole) return t.trim() === t.trim().toUpperCase() ? whole.toUpperCase() : whole
+  const max = t.match(/^This unit can contain a maximum of (\d+) models\.?$/i)
+  if (max) return `Отряд может включать не больше ${max[1]} ${modelsRu(+max[1])}.`
+  return t
+    // "1 Intercessor Sergeant model", "4‑9 Intercessor models" — the noun moves before the name.
+    .replace(/^(\d+(?:[-‑–]\d+)?) (.+?) models?$/, (_, n, name) => `${n} ${modelsRu(+n.split(/[-‑–]/).pop())} ${name}`)
+    // "1 Grenadier Sergeant, 7 Grenadiers and 1 Heavy Weapons Team" — glue between counted entries.
+    .replace(/ and (?=\d)/g, ' и ')
+}
+
 export function localizeSheet(en, overlay, abilityNamesRu) {
   if (!en) return en
   const o = overlay || {}
@@ -193,6 +222,7 @@ export function localizeSheet(en, overlay, abilityNamesRu) {
   if (o.transport) s.transport = o.transport
   if (o.loadout) s.loadout = o.loadout
   if (o.composition) s.composition = o.composition
+  else if (en.composition) s.composition = en.composition.map(compositionLineRu)
   if (o.options) s.options = o.options
   if (o.damaged) s.damaged = { ...en.damaged, ...o.damaged }
   if (o.leader) s.leader = { ...en.leader, ...o.leader }
