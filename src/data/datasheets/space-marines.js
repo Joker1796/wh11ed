@@ -3836,6 +3836,7 @@ export default [
     ],
     "loadout": "**The Ancient is equipped with:** 1 Combat Knife; 1 Master-crafted Bolt Pistol; 1 Master-crafted Bolt Rifle.\n**The Company Champion is equipped with:** 1 Master-crafted Bolt Pistol; 1 Master-crafted Power Weapon.\n**The Company Veteran with Bolt Rifle is equipped with:** 1 Combat Knife; 1 Master-crafted Bolt Pistol; 1 Master-crafted Bolt Rifle.\n**The Company Veteran with Heavy Bolter is equipped with:** 1 Combat Knife; 1 Master-crafted Bolt Pistol; 1 Master-crafted Heavy Bolter.",
     "keywords": [
+      "Character",
       "Explosives",
       "Imperium",
       "Infantry",
@@ -5735,6 +5736,11 @@ export default [
       "1 Impulsor model"
     ],
     "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Storm Bolters.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 1 Bellicatus Missile Array\n▪ 1 Orbital Comms Array\n▪ 1 Ironhail Skytalon Array\n▪ 1 Shield Dome",
+      "This model’s Storm Bolters can be replaced with 1 Fragstorm Grenade Launchers.",
+      "This model can be equipped with 1 Ironhail Heavy Stubber."
+    ],
     "transport": "This model has a **[gloss:transport-capacity:transport capacity]** of 7 ADEPTUS ASTARTES INFANTRY models. It cannot transport TERMINATOR/JUMP PACK models. Each GRAVIS model takes up the space of 2 models.",
     "keywords": [
       "Dedicated Transport",
@@ -14270,6 +14276,7 @@ export default [
     ],
     "loadout": "**The Chapter Ancient is equipped with:** Banner of Macragge; 1 Master-crafted Bolt Carbine; 1 Master-crafted Power Weapon.\n**The Chapter Champion is equipped with:** 1 Blades of Honour.\n**Every Victrix Honour Guard is equipped with:** 1 Master-crafted Bolt Carbine; 1 Master-crafted Power Weapon.",
     "keywords": [
+      "Epic Hero",
       "Imperium",
       "Infantry",
       "Tacticus"
@@ -14710,6 +14717,7 @@ export default [
       "Explosives",
       "Imperium",
       "Infantry",
+      "Psyker",
       "Tacticus"
     ],
     "factionKeywords": [

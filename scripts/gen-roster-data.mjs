@@ -2789,13 +2789,13 @@ const normApost = foldName
 // An Upgrade appdata caps below the muster rules' "up to three of the same Upgrade in your army".
 // Every other non-Combat-Patrol Upgrade carries `limit: 3`; these are read as appdata's mistake,
 // expected to be fixed by a coming data version — a list, not a rule (owner's call, 2026-10-05).
-// Keyed by appdata's enhancement id, not the name: the one entry today is also misspelt, and a fix
-// may well correct both.
-//   - Dark Angels, Darkflight Pursuit: "Nightforged Battery (Upgarde)" — `limit: 1` at data
-//     version 972; a player could not give it to a second Land Speeder Vengeance (report 2026-10-05).
+// Keyed by appdata's enhancement id, not the name (the first entry was also misspelt).
+// Empty since data version 995 (2026-10-16): the one entry, Dark Angels' "Nightforged Battery
+// (Upgarde)" (`limit: 1` from 972, a second Land Speeder Vengeance refused — report 2026-10-05),
+// now reads `limit: 3` in appdata, and the entry retired itself as designed.
 // Each entry retires itself: once appdata says 3 (or the row is gone) `--check` fails and asks for
 // the entry to be dropped. An uncapped-below-three Upgrade NOT on this list fails `--check` too.
-const UPGRADE_LIMIT_FIXES = new Set(['4e119d31-30c8-4e94-be84-7f868ea1eb8b'])
+const UPGRADE_LIMIT_FIXES = new Set()
 const UPGRADE_LIMIT = 3
 // Whether a model's DEFAULT wargear is charged on top of the MFM bracket (`dw`/`dr`), at the MFM's
 // own price for it (priceOf in buildUnit).

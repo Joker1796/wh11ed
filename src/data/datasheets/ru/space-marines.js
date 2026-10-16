@@ -571,6 +571,11 @@ export default {
       "Orbital Comms Array": "Этот юнит имеет [core:Scouts 6\"]."
     },
     "loadout": "**Эта модель вооружена:** 1 Armoured Hull; 1 Storm Bolters.",
+    "options": [
+      "Эту модель можно снабдить одним из следующего:\n▪ 1 Bellicatus Missile Array\n▪ 1 Orbital Comms Array\n▪ 1 Ironhail Skytalon Array\n▪ 1 Shield Dome",
+      "Storm Bolters этой модели можно заменить на 1 Fragstorm Grenade Launchers.",
+      "Эту модель можно снабдить 1 Ironhail Heavy Stubber."
+    ],
     "transport": "Эта модель имеет **[gloss:transport-capacity:вместимость транспорта]** 7 моделей ADEPTUS ASTARTES INFANTRY. Она не может перевозить модели TERMINATOR/JUMP PACK. Каждая модель GRAVIS занимает место 2 моделей."
   },
   "inceptor-squad": {

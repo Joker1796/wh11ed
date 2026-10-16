@@ -57,16 +57,6 @@ import { foldChars } from '../../src/utils/foldName.js'
 
 export const APPDATA_EXCEPTIONS = [
   {
-    id: 'sm-shrike-epic-hero',
-    kind: 'unit-keyword',
-    slug: 'space-marines',
-    datasheet: 'Kayvaan Shrike',
-    add: ['Epic Hero'],
-    pdf: { title: 'Space Marines — Printed Product Updates v1.1 (14 October 2026)', url: 'https://assets.warhammer-community.com/eng_14-10_wh40k_printed_product_updates_space_marines_updates-91hillwcff-wzs8qnozam.pdf' },
-    why: 'GW\'s update document reads "Kayvaan Shrike, Keywords Section: Add \'CHARACTER\' and \'EPIC HERO\'" and says its updates are also applied in the app; the app merged the line with the Librarian in Terminator Armour\'s ("Add CHARACTER") and lost EPIC HERO. Owner, 2026-10-14: apply the PDF.',
-    source: 'warhammer-community.com → Downloads → Warhammer 40,000 → Space Marines (14/10/2026); sources/updates 14-10-2026/sm-printed-product-updates.pdf',
-  },
-  {
     id: 'sw-bjorn-assault-cannon-bs',
     kind: 'weapon-stat',
     slug: 'space-wolves',

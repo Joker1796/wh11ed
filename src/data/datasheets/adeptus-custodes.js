@@ -369,7 +369,7 @@ export default [
     "factionKeywords": [
       "Adeptus Custodes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "50mm"
   },
   {
     "id": "aquilon-terminators-with-solarite-power-talons",
@@ -461,7 +461,7 @@ export default [
     "factionKeywords": [
       "Adeptus Custodes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "50mm"
   },
   {
     "id": "ares-gunship",
