@@ -1,7 +1,7 @@
 <template>
   <Transition name="fade">
     <aside
-      v-if="appUpdate.phase !== 'idle'"
+      v-if="mode"
       ref="plate"
       class="dock-card update-plate"
       :class="{ ready }"
@@ -14,14 +14,14 @@
       </p>
       <template v-if="ready">
         <p class="up-text">
-          {{ labels.updateReadyText }}
+          {{ text }}
         </p>
         <button
           type="button"
           class="btn-primary up-apply"
-          @click="applyUpdate"
+          @click="apply"
         >
-          {{ labels.updateApply }}
+          {{ mode === 'migration' ? labels.cacheMoveApply : labels.updateApply }}
         </button>
       </template>
       <div
@@ -44,22 +44,37 @@
 // opening the new version anyway. Under the dialogs (390 < 400), so whatever is open over it is
 // finished first and the button pressed when it suits. While it shows, its height is published as
 // --dock-h, and the corner buttons a wide screen keeps at the bottom right stand on top of it.
+// The same plate, in the same place, tells a tab that had a worker it is being moved off it
+// (cacheMigration.js) — never both at once: the update comes first, and the move waits for a moment
+// with no update showing.
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
 import { appUpdate, applyUpdate } from '../composables/useAppUpdate.js'
+import { cacheMigration, applyMigration } from '../composables/cacheMigration.js'
 import { useOfflineWarmup } from '../composables/useOfflineWarmup.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { done, total, progress } = useOfflineWarmup()
 
-const ready = computed(() => appUpdate.phase === 'ready')
+const mode = computed(() => {
+  if (appUpdate.phase !== 'idle') return 'update'
+  return cacheMigration.phase === 'shown' ? 'migration' : null
+})
+const ready = computed(() => mode.value === 'migration' || appUpdate.phase === 'ready')
 const title = computed(() => {
   const l = labels.value
+  if (mode.value === 'migration') return l.cacheMoveTitle
   if (!ready.value) return total.value ? `${l.downloadingUpdate} ${done.value}/${total.value}` : l.downloadingUpdate
   return appUpdate.version ? l.updateReady.replace('{v}', appUpdate.version) : l.updateReadyBare
 })
+const text = computed(() => {
+  const l = labels.value
+  if (mode.value === 'migration') return cacheMigration.warmed ? `${l.cacheMoveText} ${l.cacheMoveWarmed}` : l.cacheMoveText
+  return appUpdate.tab ? l.updateReadyTextTab : l.updateReadyText
+})
+const apply = () => (mode.value === 'migration' ? applyMigration() : applyUpdate())
 
 const plate = ref(null)
 let observer = null
