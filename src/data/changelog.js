@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.9.5',
+    date: '2026-10-16',
+    en: [
+      { h: 'Roster builder' },
+      '**A rule for units with a keyword now reaches the whole attached unit.** In Experimental Prototype Cadre, Crisis Battlesuits led by a Commander now have +6" Range too. By the Core Rules (19.03), an attached unit has the keywords of every unit in it. A rule for models with a keyword still applies to those models only. This is on a unit’s card in a roster and in a game.',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      '**Правило для юнитов с ключевым словом теперь действует на весь отряд с лидером.** В Experimental Prototype Cadre у Crisis Battlesuits под Commander теперь тоже +6" к дальности. По Core Rules (19.03) у отряда с лидером есть ключевые слова всех юнитов в нём. Правило для моделей с ключевым словом по-прежнему действует только на эти модели. Это видно на карточке юнита в ростере и в партии.',
+    ],
+  },
+  {
     version: '2.9.4',
     date: '2026-10-16',
     en: [
