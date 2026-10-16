@@ -2203,28 +2203,6 @@ export default {
       }
     },
     {
-      "key": "deathwatch",
-      "name": "Deathwatch",
-      "ids": [
-        "corvus-blackstar",
-        "deathwatch-terminator-squad",
-        "deathwatch-veterans",
-        "decimus-kill-team",
-        "fortis-kill-team",
-        "indomitor-kill-team",
-        "spectrus-kill-team",
-        "talonstrike-kill-team",
-        "watch-captain-artemis",
-        "watch-master"
-      ],
-      "pts": {
-        "incursion": 500,
-        "onslaught": 500,
-        "strike-force": 500
-      },
-      "enh": 1
-    },
-    {
       "key": "imperial-knights",
       "name": "Imperial Knights",
       "ids": [
