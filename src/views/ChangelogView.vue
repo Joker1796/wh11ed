@@ -5,14 +5,10 @@
         {{ labels.changelogTitle }}
       </h1>
       <RouterLink
-        class="btn-ghost cl-app-changes"
+        class="cl-app-changes"
         to="/patches"
       >
-        <i
-          class="wi wi-army"
-          aria-hidden="true"
-        />
-        {{ labels.navPatches }}
+        {{ labels.changelogAppHistory }}
       </RouterLink>
     </div>
 
@@ -194,17 +190,20 @@ useUpdateNotice().markSeen()
   margin: 0 auto;
 }
 
-/* A page heading is a row (src/components/CLAUDE.md, vertical density): the title, and on its
-   baseline the way to what GW changed in its app — the page the rule blocks below link into. */
 .hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
   margin-bottom: 1.5rem;
 }
-.cl-app-changes { display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+/* Under the title, the way to the OTHER history — what GW changed in its own app, update by update
+   (/patches) — as a link with an arrow, not a button: it leaves this page (owner, 2026-10-16). */
+.cl-app-changes {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+@media (hover: hover) { .cl-app-changes:hover { text-decoration: underline; } }
 
 .hero-title {
   font-family: var(--font-display);
