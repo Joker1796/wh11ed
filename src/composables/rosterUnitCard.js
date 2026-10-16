@@ -25,7 +25,7 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import { overlaySheet, enhKey, detKey, findEnhancementProse, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
 import { loadKeywordVocabulary, ruleAppliesTo, unitKeywordsOf } from './ruleTargets.js'
-import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from './rosterStatMods.js'
+import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys, armyRuleMatches, armyRuleSection } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
@@ -225,7 +225,13 @@ export function useRosterUnitCard(props) {
     const fac = rulesFaction.value
     if (!fac || !n) return null
     if (n.kind === 'armyRule') {
-      return fac.armyRule?.body ? { name: fac.armyRule.name, body: fac.armyRule.body } : null
+      if (!fac.armyRule?.body) return null
+      if (armyRuleMatches(n.source, fac.armyRule.name)) return { name: fac.armyRule.name, body: fac.armyRule.body }
+      // A rule folded into ours as a `### ` section opens that section alone, as resolveModifierEntries
+      // reads it — Custodes' Daughters of the Abyss, not the Martial Ka'tah it sits under (a player's
+      // report, 2026-10-16).
+      const section = armyRuleSection(fac.armyRule.body, n.source)
+      return section ? { name: n.source, body: section } : null
     }
     const det = n.det ? (fac.detachments || []).find((d) => detKey(d.name) === detKey(n.det)) : null
     if (n.kind === 'detachmentRule') {

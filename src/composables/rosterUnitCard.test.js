@@ -57,3 +57,22 @@ describe('useRosterUnitCard — a detachment rule reaches the units it names', (
     expect(await blocksOf('tankbustas')).toEqual(['det:Wreckas'])
   })
 })
+
+// Custodes fold several army rules into Martial Ka'tah as `### ` sections. The "i" by a
+// Daughters of the Abyss modifier opened Martial Ka'tah whole (a player's report, 2026-10-16):
+// it opens the section it names.
+describe('useRosterUnitCard — a modifier from a folded army rule', () => {
+  it('opens its own section, not the rule it is folded into', async () => {
+    const card = cardFor({
+      unitId: 'prosecutor-squad',
+      factionSlug: 'adeptus-custodes',
+      ctx: { detachments: [], entry: { uid: 'u1', id: 'prosecutor-squad', size: 0 }, units: [] },
+    })
+    await vi.waitFor(() => expect(card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    const src = card.modSource({ kind: 'armyRule', source: 'Daughters of the Abyss' })
+    expect(src.name).toBe('Daughters of the Abyss')
+    expect(src.body).toMatch(/Feel No Pain 3\+/)
+    expect(src.body).not.toMatch(/readied/)
+    expect(card.modSource({ kind: 'armyRule', source: 'Martial Ka’tah' }).name).toBe(card.rulesFaction.value.armyRule.name)
+  })
+})

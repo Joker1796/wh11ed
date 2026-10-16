@@ -662,7 +662,7 @@ export function attachedUnitKeywords(entry, units, keywordsOf) {
 /** @param {string | null | undefined} s */
 const normRule = foldName
 /** @param {string | null | undefined} recName @param {string | null | undefined} ourName */
-function armyRuleMatches(recName, ourName) {
+export function armyRuleMatches(recName, ourName) {
   const a = normRule(recName)
   const b = normRule(ourName)
   if (!a || !b) return false
