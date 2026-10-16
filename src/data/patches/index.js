@@ -3,6 +3,23 @@
 // loaded when it is opened.
 export const patches = [
   {
+    "id": "995",
+    "date": "2026-10-16",
+    "labels": {
+      "app": 995,
+      "mfm": "1.6"
+    },
+    "total": 13,
+    "byFaction": {
+      "space-marines": 8,
+      "imperial-agents": 1,
+      "blood-angels": 1,
+      "dark-angels": 1,
+      "deathwatch": 1,
+      "space-wolves": 1
+    }
+  },
+  {
     "id": "981",
     "date": "2026-10-14",
     "labels": {
