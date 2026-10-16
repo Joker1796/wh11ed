@@ -384,7 +384,7 @@ export const combatPatrolRu = {
           name: 'Rallying War Cry',
           nameRu: 'Сплачивающий клич',
           flavor: 'Притянутые к битве оглушительными рёвами своего вожака, свежие волны ребят вступают в бой.',
-          body: '\'Ardmob Warboss model only. (Once per battle, per unit) In your Command phase, you can use this ability. If you do, return up to D3+2 destroyed bodyguard models to this unit.',
+          body: 'Только модель \'Ardmob Warboss. (Один раз за битву, на юнит) В вашей фазе командования вы можете использовать эту способность. Если делаете это, верните в этот юнит до D3+2 уничтоженных моделей-телохранителей.',
         },
         {
           name: 'Extra Platin’',
