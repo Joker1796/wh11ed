@@ -1810,9 +1810,12 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 .btn-primary:disabled,
 .btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
 
-/* The one size modifier: a page's own call to action, standing on its own rather than in a row of
-   ordinary controls. Two screens use it — the tracker home and the roster list. */
+/* Two size modifiers. `.btn-lg`: a page's own call to action, standing on its own rather than in a
+   row of ordinary controls — the tracker home and the roster list. `.btn-sm`: a way elsewhere that
+   sits under a hero's text and must not outshout it — the changelog's "History of GW app changes"
+   and the landing page's "How to use this" (owner, 2026-10-16). */
 .btn-lg { padding: 0.7rem 1.6rem; font-size: 0.95rem; }
+.btn-sm { padding: 0.45rem 0.9rem; font-size: 0.85rem; }
 
 /* ── Modal chrome ──────────────────────────────────────────────────────────
    The header every BaseModal dialog wears: a title on the left, a close button on the right,

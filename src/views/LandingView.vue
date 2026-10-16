@@ -13,7 +13,10 @@
       {{ t.description }}
     </p>
     <p class="landing-help">
-      <RouterLink to="/help">
+      <RouterLink
+        to="/help"
+        class="btn-ghost btn-sm"
+      >
         {{ t.footer.helpLink + ' →' }}
       </RouterLink>
     </p>
@@ -76,8 +79,8 @@ const t = computed(() => landing[locale.value])
   margin: -0.6rem 0 1.4rem;
   font-size: 0.85rem;
 }
-.landing-help a { color: var(--link-accent); text-decoration: none; }
-.landing-help a:hover { text-decoration: underline; }
+/* A framed grey button, as the changelog's way to the GW history (owner, 2026-10-16): as gold
+   link text it was the loudest line under the description. */
 
 @media (max-width: 600px) {
   .hero-title { font-size: 2.2rem; }
