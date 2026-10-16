@@ -1721,13 +1721,14 @@ function abilityStateLabel(st) {
   font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
 }
 .ds-mod-src-h:first-of-type { margin-top: 0; }
+/* In inline flow, not a flex row: the icon centres on the text by its own vertical-align, which
+   a flex item ignores — it sat on the baseline, above the letters' middle. */
 .ds-mod-srcbtn {
-  display: inline-flex; align-items: baseline; gap: 0.25rem;
   padding: 0; border: 0; background: none; font: inherit; color: var(--text-primary);
   cursor: pointer; text-align: left;
 }
 .ds-mod-srcbtn:hover { color: var(--accent-ink); }
-.ds-mod-srcbtn .wi { font-size: 0.85em; color: var(--text-muted); }
+.ds-mod-srcbtn .wi { margin-inline-start: 0.2em; color: var(--text-muted); }
 .ds-mod-srcbtn:hover .wi { color: var(--accent-ink); }
 .ds-mod-det { color: var(--text-muted); }
 /* A conditional modifier didn't change anything on the card — the dimmed delta says so at a
