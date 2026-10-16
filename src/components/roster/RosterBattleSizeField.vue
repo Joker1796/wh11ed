@@ -360,6 +360,8 @@ function pick(id, close) {
   white-space: nowrap;
 }
 .bsf-chip.mono { font-family: var(--font-mono); font-weight: 700; color: var(--accent-ink); }
+/* Dark theme: light text in the chip's frame — the dark red is below AA as text (owner 2026-10-16). */
+:root[data-theme='dark'] .bsf-chip.mono { color: var(--text-primary); }
 /* The desk's dropdown is denser than the phone's sheet by its spacing alone, the type unchanged
    (owner, 2026-10-03): tighter rows and chips, and a panel wide enough (26rem) for a size's four
    chips to share one line. */

@@ -327,7 +327,7 @@ const currentLayout = computed(() =>
   font-weight: 600;
 }
 .footprint-source :deep(.ext-link) {
-  color: var(--accent-ink);
+  color: var(--link-accent);
   text-decoration: underline;
 }
 
@@ -570,6 +570,12 @@ const currentLayout = computed(() =>
 .measurements-toggle[aria-pressed="true"] {
   color: var(--accent-ink);
   border-color: var(--accent);
+}
+/* Dark theme: the selection is the accent frame and a tint, the text stays light — the dark red is below AA
+   as text (npm run a11y, owner 2026-10-16). */
+:root[data-theme='dark'] .measurements-toggle[aria-pressed="true"] {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 .tab-main {
   font-family: var(--font-display);

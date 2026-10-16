@@ -150,7 +150,7 @@ const bodyIsInfoCard = computed(() => (props.body || '').trimStart().startsWith(
   color: var(--text-muted);
 }
 .rule-errata .wi { margin-right: 0.25rem; }
-.rule-errata a { margin-left: 0.25rem; }
+.rule-errata a { margin-left: 0.25rem; color: var(--link-accent); }
 .rule-block {
   border-bottom: 1px solid var(--border-light);
   padding: 0.85rem 0;

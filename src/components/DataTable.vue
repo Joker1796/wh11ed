@@ -104,6 +104,12 @@ th:last-child {
   background: color-mix(in srgb, var(--accent-ink) 8%, transparent); /* a tinted note, not a hover */
   padding: 0.55rem 1rem;
 }
+/* Dark theme: muted text, the note told by its tint and a red edge — the dark red is below AA as
+   text (npm run a11y, owner 2026-10-16). */
+:root[data-theme='dark'] .table-footnote {
+  color: var(--text-muted);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
 
 @media (max-width: 700px) {
   .table-wrap.stacked table,

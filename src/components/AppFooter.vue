@@ -30,10 +30,7 @@
           <RouterLink to="/support">
             {{ t.footer.supportLink }}
           </RouterLink>
-          <RouterLink
-            to="/disclaimer"
-            class="footer-quiet"
-          >
+          <RouterLink to="/disclaimer">
             {{ t.footer.disclaimerLink }}
           </RouterLink>
         </p>
@@ -163,17 +160,18 @@ const showDetails = ref(false)
 }
 
 .footer-contact a {
-  color: var(--accent-ink);
+  color: var(--text-muted);
   text-decoration: underline;
   text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
 }
 
-.footer-contact a:hover {
-  color: var(--accent-ink-hover);
+@media (hover: hover) {
+  .footer-contact a:hover { color: var(--link-accent-hover); text-decoration-color: currentColor; }
 }
 
-/* The row of ways in: accent text, no underline (the email above keeps its underline — it is
-   the one address to copy), wrapping onto a second line on a phone. */
+/* The row of ways in, wrapping onto a second line on a phone. Muted and underlined like the
+   contacts above it (see .footer-links a). */
 .footer-links {
   display: flex;
   flex-wrap: wrap;
@@ -187,15 +185,18 @@ const showDetails = ref(false)
   /* 24px tap target (WCAG 2.5.8, `npm run a11y`): the row of ways in is what a phone reader
      taps, and at text height it was 22px. Two pixels a row, nothing moves. */
   min-height: 24px;
-  color: var(--accent-ink);
-  text-decoration: none;
+  /* Muted, not accent (owner, 2026-10-16): in red the row was louder than the page above it, and the
+     dark theme's red is below AA as text (npm run a11y). Underlined so it still reads as links;
+     the link colour comes on hover. */
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
 }
 @media (hover: hover) {
   .footer-links a:hover,
-  .footer-links .footer-feedback:hover { color: var(--accent-ink-hover); text-decoration: underline; text-underline-offset: 2px; }
+  .footer-links .footer-feedback:hover { color: var(--link-accent-hover); text-decoration-color: currentColor; }
 }
-/* The legal page is the one nobody comes here for: muted, not accent. */
-.footer-links .footer-quiet { color: var(--text-muted); }
 /* The mark rides at text size beside its label. */
 .footer-vk {
   display: inline-flex;
@@ -236,7 +237,7 @@ const showDetails = ref(false)
 }
 
 .footer-version a:hover {
-  color: var(--accent-ink);
+  color: var(--link-accent-hover);
 }
 
 /* One line with the app version — two stacked mono lines was the tallest thing in the column. */

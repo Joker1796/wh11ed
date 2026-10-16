@@ -185,6 +185,12 @@ const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.ima
   color: var(--accent-ink);
   border-color: var(--accent);
 }
+/* Dark theme: the selection is the accent frame and a tint, the text stays light — the dark red is below AA
+   as text (npm run a11y, owner 2026-10-16). */
+:root[data-theme='dark'] .measurements-toggle[aria-pressed="true"] {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
 @media (max-width: 420px) {
   .measurements-toggle { padding: 0.35rem 0.55rem; }
   .measurements-toggle span { display: none; }

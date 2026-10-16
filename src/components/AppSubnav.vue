@@ -187,6 +187,9 @@ const subNavItems = computed(() => {
   border-bottom-color: var(--accent);
   font-weight: 600;
 }
+/* Dark theme: the selection is the accent edge, the text stays light — the dark red is below AA
+   as text (npm run a11y, owner 2026-10-16). */
+:root[data-theme='dark'] .subnav-link.active { color: var(--text-primary); }
 
 /* ── Mobile ── */
 @media (max-width: 900px) {
