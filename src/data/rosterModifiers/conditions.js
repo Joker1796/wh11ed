@@ -113,7 +113,9 @@ export const conditions = {
   'riled-up': { scope: 'unit', duration: 'round', label: { en: 'Riled up', ru: 'Riled up' } },
   'imperative-protector': { scope: 'army', duration: 'round', label: { en: 'Protector Imperative', ru: 'Protector Imperative' } },
   'imperative-conqueror': { scope: 'army', duration: 'round', label: { en: 'Conqueror Imperative', ru: 'Conqueror Imperative' } },
-  'benediction-citation-in-savagery': { scope: 'army', duration: 'round', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
+  // Selected at the start of the first battle round, active until the end of the battle (until
+  // 2026-10-16 this read 'round' and went out after the first).
+  'benediction-citation-in-savagery': { scope: 'army', duration: 'battle', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
   // Both Blessings that carry a modifier have an auto reader (rosterGameContext's AUTO): the World
   // Eaters army-rule tracker already records which up-to-two are active this round.
   'blessing-martial-excellence': { scope: 'army', duration: 'round', label: { en: 'Martial Excellence', ru: 'Martial Excellence' } },
