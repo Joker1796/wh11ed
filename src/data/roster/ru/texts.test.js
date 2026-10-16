@@ -2,16 +2,18 @@ import { describe, it, expect } from 'vitest'
 import textsRu from './texts.js'
 import items from '../items.js'
 
-// The Russian here is GENERATED from the English by scripts/gen-roster-texts-ru.mjs, so what's
-// worth pinning isn't a wording but the two invariants the generator promises: it never emits a
-// half-translated line, and it never claims an id the English side doesn't have.
+// The Russian here is GENERATED from the English by scripts/gen-roster-texts-ru.mjs (frames, plus
+// scripts/lib/roster-texts-ru-manual.mjs for one-off wordings), so what's worth pinning isn't a
+// wording but the invariants the generator promises: every instruction has its Russian, none is
+// half-translated, and no id is claimed that the English side doesn't have.
 describe('roster wargear instructions in Russian', () => {
   const values = Object.values(textsRu)
 
-  it('covers a useful share of the corpus without claiming all of it', () => {
-    const total = Object.keys(items.texts).length
-    expect(values.length).toBeGreaterThan(total * 0.7)
-    expect(values.length).toBeLessThanOrEqual(total)
+  // All of it. This asked for 70% until 2026-10-16, and the 62 sentences under the bar were what a
+  // Russian reader saw in English — the Hearthkyn Warriors' among them, reported by a player.
+  it('translates every instruction', () => {
+    const missing = Object.entries(items.texts).filter(([id]) => !textsRu[id]).map(([, en]) => en)
+    expect(missing).toEqual([])
   })
 
   it('only carries ids that exist in the English source', () => {

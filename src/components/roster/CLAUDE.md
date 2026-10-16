@@ -2159,9 +2159,15 @@ stay English by project convention, so only the frame needs translating.
 matches end to end AND its captured slots pass two guards: the owner/subject must be a bare noun
 phrase (a lazy capture otherwise swallows a leading condition and emits confident nonsense), and
 the value must not contain a second frame ("…replaced with 1 shuriken pistol and one of the
-following:"). Anything else is left out of the file and the UI shows the English original —
-a fully English line reads fine, half-translated Russian does not. Coverage sits around 90%; the
-run prints it, and a drop after a bump means GW introduced a new wording, not noise.
+following:"). A frame that misses never emits a guess — a fully English line reads fine,
+half-translated Russian does not.
+
+**…and every instruction is still translated: a miss is a failure, not a percentage** (2026-10-16).
+What no frame reads is translated by hand in `scripts/lib/roster-texts-ru-manual.mjs`, keyed by the
+exact English. The generator, its `--check` and `texts.test.js` fail while any sentence is left
+untranslated, or any manual entry's English is gone (GW reworded it). Until then the run printed
+"62 left in English", the test asked for 70%, and a player found the Hearthkyn Warriors' option in
+English; a reported number nobody has to act on is not a gate.
 
 **The "and" between two weapons needs the item dictionary.** "tachyon arrow and Overlord's blade"
 is two weapons glued with a connective; "transonic razor and chordclaw" is ONE weapon's printed
