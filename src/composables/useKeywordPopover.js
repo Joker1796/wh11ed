@@ -21,9 +21,11 @@ function loadData() {
     dataPromise = Promise.all([
       import('../data/reference.js'),
       import('../data/eventCompanion.js'),
-    ]).then(([ref, ec]) => ({
+      import('../data/ownWeaponAbilities.js'),
+    ]).then(([ref, ec, own]) => ({
       coreAbilities: ref.coreAbilities,
       eventCompanion: ec.eventCompanion,
+      ownAbilities: own.default,
     }))
   }
   return dataPromise
@@ -33,7 +35,7 @@ function loadData() {
 // ([SUSTAINED HITS 2], Scouts 6"). Never by how the text STARTS: that read [PSYCHIC ASSASSIN] as
 // [PSYCHIC] (2026-10-16). A tag that is no core ability is the datasheet's own, which the weapon
 // table opens itself (DatasheetWeaponTable.vue).
-export function lookup(rawText, { coreAbilities, eventCompanion }, loc = locale.value) {
+export function lookup(rawText, { coreAbilities, eventCompanion, ownAbilities = {} }, loc = locale.value) {
   const text = rawText.toUpperCase().trim()
   const of = baseTag(rawText)
   const base = coreAbilities.en
@@ -49,10 +51,24 @@ export function lookup(rawText, { coreAbilities, eventCompanion }, loc = locale.
   const glossary = eventCompanion.en.glossary || []
   const gi = glossary.findIndex(g => bare(g.name) === text)
   const gj = gi !== -1 ? gi : glossary.findIndex(g => bare(g.name) === of)
-  if (gj === -1) return null
+  if (gj === -1) return ownAbility(of, ownAbilities, loc)
   return loc === 'ru'
     ? { ...glossary[gj], ...(eventCompanion.ru.glossary?.[gj] || {}) }
     : glossary[gj]
+}
+
+// A weapon ability that is not in the Core Rules — a datasheet's own ([PSYCHIC ASSASSIN]) or one a
+// faction rule defines ([SUPA-HAZARDOUS]) — named as a tag somewhere other than its own sheet: the
+// changelog, a faction FAQ, a rule's prose (ownWeaponAbilities.js, generated). One name printed with
+// different texts on different sheets ([CONVERSION]: six ranges) shows each, under its units.
+function ownAbility(base, ownAbilities, loc) {
+  const variants = ownAbilities[base]
+  if (!variants?.length) return null
+  const text = (v) => (loc === 'ru' && v.ru) || v.en
+  const fullText = variants.length === 1
+    ? text(variants[0])
+    : variants.map((v) => `**${(v.units || []).join(', ')}:** ${text(v)}`).join('\n\n')
+  return { name: `[${base}]`, num: '', fullText, type: 'weapon' }
 }
 
 // Gloss data (glossary.js) is lazy-loaded on first gloss click, same rationale as the

@@ -140,3 +140,8 @@ export default {
     ]
   }
 }
+
+// What a tag on those weapons means when it is no Core Rules ability (EN; RU: enhancementWeaponsRu.js).
+export const abilities = {
+  "BLINDING LIGHT": "In your Shooting phase, when this unit has shot, select one enemy unit hit by this unit’s Auriferous Orb weapon. That enemy unit’s attacks have -1 to **hit rolls** until the start of your next turn."
+}
