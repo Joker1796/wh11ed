@@ -304,7 +304,8 @@ function backToUnits() {
   display: none;
   position: fixed;
   right: 1.5rem;
-  bottom: 1.5rem;
+  /* Stands on the update plate while it waits in the same corner (--dock-h, UpdatePlate.vue). */
+  bottom: calc(1.5rem + var(--dock-h, 0px));
   z-index: 195; /* below drawer-overlay (299) and modals (400–500), same tier as MobileUtilityBar */
   flex-direction: column;
   gap: 0.75rem;

@@ -14,6 +14,12 @@ const notesVersion = (await import('./src/data/changelog.js')).latestEntry?.vers
 function buildInfoMeta() {
   return {
     name: 'build-info-meta',
+    // The same two numbers as a file of their own, for a page already open to ask the server what
+    // is live now (launchGate.js, at a start under a service worker) without pulling a whole
+    // index.html. Served no-cache by deploy.sh, like index.html.
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ app: pkgVersion, notes: notesVersion }) })
+    },
     transformIndexHtml() {
       return [
         { tag: 'meta', attrs: { name: 'wh-app-version', content: pkgVersion }, injectTo: 'head' },

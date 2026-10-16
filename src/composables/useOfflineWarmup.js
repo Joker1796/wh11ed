@@ -65,7 +65,7 @@ const warmed = ref(localStorage.getItem(DONE_KEY) !== null)
 const isUpdate = ref(false)
 
 let autoStarted = false
-let running = false
+let inflight = null
 
 async function manifest() {
   const res = await fetch('/offline-manifest.json', { cache: 'no-store' })
@@ -80,70 +80,81 @@ async function manifest() {
 // `force` is the button: it warms again even when the marker says this exact set is already done,
 // because the reader asking for it has a reason we cannot see (a cache evicted under storage
 // pressure, a device they are about to take somewhere with no signal).
-async function run({ force = false } = {}) {
-  if (running) return
-  running = true
+// One run at a time; a second caller waits for the one in flight (the update plate does, when the
+// launch warm-up is already topping up).
+function run(opts) {
+  if (!inflight) inflight = runOnce(opts).finally(() => { inflight = null })
+  return inflight
+}
+
+async function runOnce({ force = false } = {}) {
+  let files
   try {
-    let files
-    try {
-      files = await manifest()
-    } catch {
-      status.value = 'error'
-      return
-    }
+    files = await manifest()
+  } catch {
+    status.value = 'error'
+    return
+  }
 
-    const sig = checksum(files)
-    if (!force && localStorage.getItem(DONE_KEY) === sig) {
-      warmed.value = true
-      return
-    }
+  const sig = checksum(files)
+  if (!force && localStorage.getItem(DONE_KEY) === sig) {
+    warmed.value = true
+    return
+  }
 
-    const todo = await missing(files)
-    if (!todo.length) {
-      localStorage.setItem(DONE_KEY, sig)
-      warmed.value = true
-      if (force) status.value = 'ready' // the button asked: answer it, even with nothing to fetch
-      return
-    }
+  const todo = await missing(files)
+  if (!todo.length) {
+    localStorage.setItem(DONE_KEY, sig)
+    warmed.value = true
+    if (force) status.value = 'ready' // the button asked: answer it, even with nothing to fetch
+    return
+  }
 
-    isUpdate.value = !force && localStorage.getItem(DONE_KEY) !== null
-    total.value = todo.length
-    done.value = 0
-    status.value = 'warming'
+  isUpdate.value = !force && localStorage.getItem(DONE_KEY) !== null
+  total.value = todo.length
+  done.value = 0
+  status.value = 'warming'
 
-    // Bounded concurrency: a shared cursor pulls from the queue so we never have more than
-    // CONCURRENCY requests in flight. Failed fetches are skipped (best-effort) but counted, so the
-    // bar always reaches total and the marker is only written on a clean pass.
-    let cursor = 0
-    let failed = false
-    const worker = async () => {
-      while (cursor < todo.length) {
-        const url = todo[cursor++]
-        try {
-          await fetch(url, { cache: 'no-store' })
-        } catch {
-          failed = true
-        }
-        done.value++
+  // Bounded concurrency: a shared cursor pulls from the queue so we never have more than
+  // CONCURRENCY requests in flight. Failed fetches are skipped (best-effort) but counted, so the
+  // bar always reaches total and the marker is only written on a clean pass.
+  let cursor = 0
+  let failed = false
+  const worker = async () => {
+    while (cursor < todo.length) {
+      const url = todo[cursor++]
+      try {
+        await fetch(url, { cache: 'no-store' })
+      } catch {
+        failed = true
       }
+      done.value++
     }
-    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, todo.length) }, worker))
+  }
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, todo.length) }, worker))
 
-    if (failed) {
-      status.value = 'error' // leave the marker as it was so a later attempt retries
-    } else {
-      localStorage.setItem(DONE_KEY, sig)
-      warmed.value = true
-      status.value = 'ready'
-    }
-  } finally {
-    running = false
+  if (failed) {
+    status.value = 'error' // leave the marker as it was so a later attempt retries
+  } else {
+    localStorage.setItem(DONE_KEY, sig)
+    warmed.value = true
+    status.value = 'ready'
   }
 }
 
 // The button's own entry point. Nothing is gated here — asking for it IS the gate.
 export function startOfflineWarmup() {
   return run({ force: true })
+}
+
+// The files of a build that is not running yet, fetched by the one that is (useAppUpdate.js): a
+// new service worker is waiting, and the list on the server is already the new build's. Read by the
+// old code, cached by the old worker's routes into the same caches the new one reads.
+// A warm-up already running reads the list it fetched when it started — the old build's; this one
+// waits it out and then goes through the new list.
+export async function topUpOffline() {
+  await inflight?.catch(() => {})
+  return run()
 }
 
 // Read the size without downloading anything, so the menu item can say what it will cost. Cheap:

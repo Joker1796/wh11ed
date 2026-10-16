@@ -68,7 +68,7 @@
       @close="appFirstOpen = false"
     />
     <InstallOffer
-      v-if="installOfferOpen"
+      v-if="installOfferOpen && appUpdate.phase === 'idle'"
       @close="installOfferOpen = false"
       @ios-help="installHintOpen = true"
     />
@@ -112,7 +112,8 @@
     />
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolPageRoute" />
     <UpdateToast v-if="!holdReloads" />
-    <OfflineWarmupToast v-if="!isBare" />
+    <OfflineWarmupToast v-if="!isBare && appUpdate.phase === 'idle'" />
+    <UpdatePlate v-if="!isBare" />
     <ErrorReportsOffer
       v-if="errorOfferOpen"
       @close="errorOfferOpen = false"
@@ -156,6 +157,8 @@ import WelcomeModal from './components/WelcomeModal.vue'
 import UpdateToast from './components/UpdateToast.vue'
 import { reloadsHeld } from './composables/reloadLoop.js'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
+import UpdatePlate from './components/UpdatePlate.vue'
+import { appUpdate } from './composables/useAppUpdate.js'
 import MobileUtilityBar from './components/MobileUtilityBar.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
 import DomainMoveBanner from './components/DomainMoveBanner.vue'
@@ -432,8 +435,10 @@ onUnmounted(() => {
 .main-content {
   max-width: 860px;
   margin: 0 auto;
-  /* + a pinned bar's height, where a screen carries one (--roster-sticky-h, set below). */
-  padding: 0 2rem calc(4rem + var(--roster-sticky-h, 0px));
+  /* + a pinned bar's height, where a screen carries one (--roster-sticky-h, set below), and the
+     update plate's while it waits for its button (--dock-h, UpdatePlate.vue) — the last line of
+     a page can always be scrolled clear of it. */
+  padding: 0 2rem calc(4rem + var(--roster-sticky-h, 0px) + var(--dock-h, 0px));
 }
 
 /* Only the merged Core Rules and Event Companion pages: their prose chapters lay out in
@@ -476,14 +481,14 @@ onUnmounted(() => {
    exactly the fixed Cancel/Save bar — plus the bottom nav below 900px. No gap: the columns end
    flush on the bar; a 1rem one read as a stray empty strip, on the phone and the desk alike
    (owner's call, 2026-09-27). The general 4rem reserve is for the phone's bars. */
-.main-content--desk { padding-bottom: var(--roster-sticky-h, 0px); }
+.main-content--desk { padding-bottom: calc(var(--roster-sticky-h, 0px) + var(--dock-h, 0px)); }
 
 /* ── Mobile ── */
 @media (max-width: 900px) {
   .main-content {
-    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px) + var(--roster-sticky-h, 0px)) calc(1rem + var(--safe-left));
+    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px) + var(--roster-sticky-h, 0px) + var(--dock-h, 0px)) calc(1rem + var(--safe-left));
   }
-  .main-content--desk { padding-bottom: calc(var(--roster-sticky-h, 0px) + 52px + var(--safe-bottom)); }
+  .main-content--desk { padding-bottom: calc(var(--roster-sticky-h, 0px) + 52px + var(--safe-bottom) + var(--dock-h, 0px)); }
 }
 
 /* Very narrow phones (≤480px): the 900px tier's 1rem gutter still wastes a large share
