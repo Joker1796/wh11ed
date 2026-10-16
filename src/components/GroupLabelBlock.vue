@@ -42,6 +42,13 @@ const renderedBody = computed(() => props.body ? renderInline(props.body) : '')
   color: var(--accent-ink);
   margin-bottom: 0.35rem;
 }
+/* Dark theme: light text behind a red bar — the dark red is below AA as text (npm run a11y,
+   owner 2026-10-16). */
+:root[data-theme='dark'] .group-label-title {
+  color: var(--text-primary);
+  padding-left: 0.5rem;
+  border-left: 3px solid var(--accent);
+}
 
 .group-label-body {
   font-size: 0.9rem;
