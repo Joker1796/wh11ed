@@ -226,12 +226,12 @@ export function useRosterUnitCard(props) {
     if (!fac || !n) return null
     if (n.kind === 'armyRule') {
       if (!fac.armyRule?.body) return null
-      if (armyRuleMatches(n.source, fac.armyRule.name)) return { name: fac.armyRule.name, body: fac.armyRule.body }
-      // A rule folded into ours as a `### ` section opens that section alone, as resolveModifierEntries
-      // reads it — Custodes' Daughters of the Abyss, not the Martial Ka'tah it sits under (a player's
-      // report, 2026-10-16).
+      // A rule folded into ours as a `### ` section opens that section alone — Custodes' Daughters
+      // of the Abyss, not the Martial Ka'tah it sits under (a player's report, 2026-10-16), and
+      // Tyranids' Synapse without the Shadow in the Warp merged beside it.
       const section = armyRuleSection(fac.armyRule.body, n.source)
-      return section ? { name: n.source, body: section } : null
+      if (section) return { name: n.source, body: section }
+      return armyRuleMatches(n.source, fac.armyRule.name) ? { name: fac.armyRule.name, body: fac.armyRule.body } : null
     }
     const det = n.det ? (fac.detachments || []).find((d) => detKey(d.name) === detKey(n.det)) : null
     if (n.kind === 'detachmentRule') {

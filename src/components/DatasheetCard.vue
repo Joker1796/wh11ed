@@ -1771,11 +1771,12 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
    is a confirmation — and the whole row dims when it does not, because a printed ability that
    cannot be doing anything is exactly what a reader keeps re-reading. */
 .ds-ab-state {
-  display: inline-flex; align-items: baseline; gap: 0.2rem; margin-right: 0.3rem;
+  margin-right: 0.3rem;
   color: var(--text-muted); font-size: 0.78em; font-style: italic;
 }
 .ds-ab-state.on { color: var(--accent-ink); font-style: normal; }
-.ds-ab-state .wi { font-size: 0.9em; font-style: normal; }
+/* Inline, not a flex row, for the reason .ds-mod-srcbtn gives. */
+.ds-ab-state .wi { margin-inline-end: 0.2em; font-style: normal; }
 .ds-ability-idle { opacity: 0.62; }
 .ds-ab-conds { margin-top: 0.35rem; }
 

@@ -76,3 +76,18 @@ describe('useRosterUnitCard — a modifier from a folded army rule', () => {
     expect(card.modSource({ kind: 'armyRule', source: 'Martial Ka’tah' }).name).toBe(card.rulesFaction.value.armyRule.name)
   })
 })
+
+// A record named for one part of a merged rule opens that part: Synapse, not Shadow in the Warp too.
+describe('useRosterUnitCard — a modifier named for part of a merged army rule', () => {
+  it('opens that part alone', async () => {
+    const card = cardFor({
+      unitId: 'termagants',
+      factionSlug: 'tyranids',
+      ctx: { detachments: [], entry: { uid: 'u1', id: 'termagants', size: 0 }, units: [] },
+    })
+    await vi.waitFor(() => expect(card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    const src = card.modSource({ kind: 'armyRule', source: 'Synapse' })
+    expect(src.name).toBe('Synapse')
+    expect(src.body).not.toMatch(/Shadow in the Warp/)
+  })
+})
