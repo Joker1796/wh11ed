@@ -2496,6 +2496,16 @@ link for this (five independent `wargear_option_group` rows on a Chosen, nothing
 `gen-roster-data.mjs` parses the prose into `cond: [siblingGi, activeFlag]` and
 `wargearGroupLive()` is the one place that reads it.
 
+**A sentence can name several items, and one option of a swap** (2026-10-17, a player's report on
+the Canoness): "if this model is equipped with a plasma pistol and a power weapon" is two
+conditions, each on ONE option of its sibling — the inferno pistol the same swap offers does not
+count. So `cond` is one `[siblingGi, activeFlag, options?]` or a list of them that must all hold
+(`condsOf`), and `options` narrows "the sibling has a pick" to a pick of those. A positive
+condition on options closes with "Requires: <that option>". The reader (`equippedCondition`)
+returns every item the sentence names; an item that holds whatever the model does (a starting item
+no sibling of its profile takes away; negated, one only this group gives) is dropped, and one that
+resolves to nothing fails the generator by name — until then such a group stayed open in silence.
+
 **The condition is about ONE MODEL. The gate is about the unit.** That gap was a real bug until
 2026-08-27: any pick in the sibling group closed the dependent one outright. So Chosen lost their
 power fist to a single combi-weapon, and the vox-caster, simulacrum, omnispex, banner and medi-pack

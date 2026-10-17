@@ -939,36 +939,63 @@ function linkWargearConditions(datasheetId, drafts) {
   }
 
   // What each draft is CONDITIONED on, from "[if …] not equipped with X" / "equipped with X"
-  // (scripts/lib/equippedCondition.mjs).
+  // (scripts/lib/equippedCondition.mjs). A sentence can name several items ("a plasma pistol and a
+  // power weapon"): each is resolved to a sibling on its own, and the group is live only while all
+  // of them hold. One that resolves to nothing leaves the WHOLE group unconditioned — half a
+  // condition would close it for the wrong reason — and is reported by name (`cond.unread`), so a
+  // new shape is seen instead of quietly opening a group (the Canoness's rod of office, 2026-10-17).
+  const ALWAYS = {}
   for (const d of drafts) {
-    const cond = equippedCondition(d.text)
-    if (!cond) continue
-    const negated = cond.negated
-    const uuid = nameToUuid.get(norm(cond.item))
-    if (!uuid) continue
+    const read = equippedCondition(d.text)
+    if (!read) continue
+    const negated = read.negated
+    const conds = []
+    for (const item of read.items) {
+      const uuid = nameToUuid.get(norm(item))
+      const c = uuid && condFor(d, uuid, negated)
+      // an item that holds whatever the model does says nothing: drop it, keep the others
+      if (c === ALWAYS) continue
+      if (!c) { conds.length = 0; (report.cond.unread ||= []).push(`${enOf(dsById.get(datasheetId)).name}: «${item}» ← ${d.text.split('\n')[0].slice(0, 90)}`); break }
+      // two items one sibling gives ("either a HYLas rotary cannon or an ion beamer") are one condition on it
+      const same = conds.find((x) => x.sibling === c.sibling && x.active === c.active)
+      if (same) { if (same.items && c.items) same.items.push(...c.items); else same.items = null } else conds.push(c)
+    }
+    if (!conds.length) continue
+    d.cond = conds
+    if (negated && conds.some((c) => c.given)) (report.cond.notGiven ||= []).push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
+  }
 
+  // One item of a condition → `{ sibling, active, items? }`, or null. `items` narrows a positive
+  // condition to the sibling's options that carry it: "equipped with a plasma pistol" is met by
+  // the plasma pistol, not by the condemnor boltgun the same swap offers.
+  //
+  // ALWAYS when the item settles nothing: a starting item no sibling of this model's profile can
+  // take away ("1 model equipped with a pulse carbine…" on a Shas'ui whose carbine stays), or —
+  // negated — one nobody but this group itself hands out ("not equipped with … a mole grenade
+  // launcher can be equipped with 1 mole grenade launcher").
+  function condFor(d, uuid, negated) {
     // Case (a): the item is exactly another group's sole toggle option — mutual exclusion.
     const toggleSibling = drafts.find((s) => s !== d && s.m === d.m && s.opts.length === 1 && s.opts[0].uuid === uuid)
-    if (toggleSibling) { d.cond = { sibling: toggleSibling, active: !negated }; continue }
+    if (toggleSibling) return { sibling: toggleSibling, active: !negated }
 
     // Case (b): a sibling group's own `rep` shows it replaces this exact item — this group is
     // only live once that sibling has actually been picked away from its default.
     const repSibling = drafts.find((s) => s !== d && s.m === d.m && s.rep?.includes(uuid))
-    if (repSibling) { d.cond = { sibling: repSibling, active: negated }; continue }
+    if (repSibling) return { sibling: repSibling, active: negated }
 
     // Case (c): the item is not the model's to start with, and exactly one sibling group hands it
     // out — "If the Helliarch is equipped with 1 splinter pistol, it can be equipped with 1
     // hellglaive", where only the swap for "1 splinter pistol and 1 power weapon" brings a pistol.
     // Unread until 2026-09-30, the hellglaive could be taken with no swap at all.
-    if (defaultsByMini.get(d.miniId)?.has(uuid)) continue
+    if (defaultsByMini.get(d.miniId)?.has(uuid)) return negated ? null : ALWAYS
     const givers = drafts.filter((s) => s !== d && s.m === d.m && s.opts.some((o) => o.uuid === uuid))
-    if (givers.length !== 1) continue
+    if (!givers.length && negated) return ALWAYS
+    if (givers.length !== 1) return null
     // Case (d), the same with "NOT": "If the Acothyst is not equipped with a power weapon, its
     // torturer's tool can be replaced with 1 power weapon" — the one power weapon he can carry comes
     // with his own "power weapon and torturer's tool" swap, so this group is live only while that
     // swap is not taken (a player's report on Wracks, 2026-10-14; unread, it gave him two).
-    d.cond = { sibling: givers[0], active: !negated }
-    if (negated) (report.cond.notGiven ||= []).push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
+    return { sibling: givers[0], active: !negated, items: [uuid], given: true }
   }
 }
 
@@ -1278,7 +1305,7 @@ function mergeMiniatureDuplicates(drafts, stats) {
   if (!dropped.size) return drafts
   // A sibling condition points at a draft object; if that object is one of the dropped copies,
   // it has to follow the survivor or the dependent group would never go live.
-  for (const d of drafts) if (d.cond && dropped.has(d.cond.sibling)) d.cond.sibling = dropped.get(d.cond.sibling)
+  for (const d of drafts) for (const c of d.cond || []) if (dropped.has(c.sibling)) c.sibling = dropped.get(c.sibling)
   return drafts.filter((d) => !dropped.has(d))
 }
 
@@ -2742,9 +2769,14 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     // A condition is about one model, so a sibling that ships as copies is read on THIS model's
     // profile — its own copy where it has one, the sergeant's otherwise.
     if (d.cond) {
-      const sib = d.cond.sibling
-      const at = copyIndex.get(sib)?.get(m) ?? gearIndex.get(sib)
-      grp.cond = [at, d.cond.active ? 1 : 0]
+      const conds = d.cond.map((c) => {
+        const at = copyIndex.get(c.sibling)?.get(m) ?? gearIndex.get(c.sibling)
+        // the sibling's options carrying the named items, unless that is all of them
+        const opts = c.items && c.sibling.opts.map((o, i) => [o, i])
+          .filter(([o]) => c.items.some((u) => o.uuid === u || o.items?.some(([x]) => x === u))).map(([, i]) => i)
+        return opts?.length && opts.length < c.sibling.opts.length ? [at, c.active ? 1 : 0, opts] : [at, c.active ? 1 : 0]
+      })
+      grp.cond = conds.length === 1 ? conds[0] : conds
     }
     return grp
   }
@@ -3736,6 +3768,7 @@ console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction
 console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity, ${lm.bundled} matched through a bundled option), ${lm.fromProse} more from their own instruction where appdata records no set (+${lm.fromProseScaled} from its "for every N models, up to M" step form), ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 for (const l of report.limit.perOption || []) console.log(`    one set per option, folded into the group — ${l}`)
 for (const l of report.limit.perOptionLeft || []) console.log(`    one set per option, NOT folded — ${l}`)
+for (const l of report.cond.unread || []) console.log(`  ✗ condition names an item no sibling group settles — the group stays open: ${l}`)
 for (const l of report.cond.notGiven || []) console.log(`  condition "not equipped with" an item only a sibling grants — ${l}`)
 if (lm.conflict.length) {
   console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)
@@ -3811,6 +3844,10 @@ if (unusedLockFixes.length) {
 }
 if (report.wargearMfm.unmatched.length) {
   console.log(`\n  ✗ ${report.wargearMfm.unmatched.length} MFM wargear price(s) match no option of their unit — the MFM names the item otherwise, or the unit lost it: ${report.wargearMfm.unmatched.join('; ')}`)
+  return 1
+}
+if (report.cond.unread?.length) {
+  console.log(`\n  ✗ ${report.cond.unread.length} wargear condition(s) name an item no sibling group settles — the group would stay open: read it, extend equippedCondition or condFor`)
   return 1
 }
 if (report.spawnUnread.length) {

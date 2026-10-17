@@ -442,6 +442,10 @@ export default {
               10,
               2
             ]
+          ],
+          "cond": [
+            1,
+            0
           ]
         }
       ]
@@ -1245,6 +1249,10 @@ export default {
             [
               1796
             ]
+          ],
+          "cond": [
+            0,
+            0
           ],
           "lim": [
             [

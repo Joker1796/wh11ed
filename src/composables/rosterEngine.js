@@ -16,6 +16,7 @@ const KEYWORD_GRANTS = conditionalKeywords
 /** @typedef {import('./roster.types.js').Detachment} Detachment */
 /** @typedef {import('./roster.types.js').Enhancement} Enhancement */
 /** @typedef {import('./roster.types.js').GearOption} GearOption */
+/** @typedef {import('./roster.types.js').GearCond} GearCond */
 /** @typedef {import('./roster.types.js').WargearPick} WargearPick */
 /** @typedef {import('./roster.types.js').AllyGroup} AllyGroup */
 /** @typedef {import('./roster.types.js').AllegianceChoice} AllegianceChoice */
@@ -231,6 +232,27 @@ export function defaultWargearPoints(def, entry) {
 // one model swapped its rifle (61 of the 63 gated groups are on multi-model units). On a
 // single-model datasheet, where scope is 1, the two readings coincide — Overlord and Canoness,
 // the only two, behave exactly as before.
+//
+// A sentence can also name SEVERAL items, and particular ones: the Canoness's rod of office needs
+// "a plasma pistol and a power weapon" — two siblings, each on one of its options, not on any swap
+// it offers (a player's report, 2026-10-17: unread, it could be taken with anything). So `cond` is
+// one condition `[siblingGi, wantActive, options?]` or a list of them, all of which must hold;
+// `options` (indexes into the sibling's `o`) narrows "has a pick" to a pick of those.
+/** @param {GearCond | GearCond[]} c @returns {c is GearCond[]} */
+const isCondList = (c) => Array.isArray(c[0])
+/** @param {GearGroup | undefined} g @returns {GearCond[]} */
+export function condsOf(g) {
+  const c = g?.cond
+  if (!c) return []
+  return isCondList(c) ? c : [c]
+}
+
+/** The sibling's picks a condition reads: all of them, or those on the options it names.
+ * @param {EntryLike | null | undefined} entry @param {GearCond} cond */
+function condPicks(entry, [sibGi, , opts]) {
+  return (entry?.wg || []).filter(([g, o]) => g === sibGi && (!opts || opts.includes(o)))
+}
+
 /**
  * @param {RosterUnit | null | undefined} def
  * @param {EntryLike | null | undefined} entry
@@ -238,11 +260,15 @@ export function defaultWargearPoints(def, entry) {
  * @returns {boolean}
  */
 export function wargearGroupLive(def, entry, gi) {
+  return condsOf(def?.gear?.[gi]).every((c) => condLive(def, entry, c))
+}
+
+/** One condition of a group: see wargearGroupLive.
+ * @param {RosterUnit | null | undefined} def @param {EntryLike | null | undefined} entry @param {GearCond} cond */
+function condLive(def, entry, cond) {
   const gear = def?.gear || []
-  const cond = gear[gi]?.cond
-  if (!cond) return true
   const [sibGi, wantActive] = cond
-  const pick = (entry?.wg || []).find(([g]) => g === sibGi)
+  const pick = condPicks(entry, cond)[0]
   // `wantActive` asks the opposite question — this group needs the sibling's item GONE from a
   // model ("if this model is not equipped with a tachyon arrow…"), and one pick is one model that
   // gave it up, which is all the condition asks for.
@@ -278,15 +304,23 @@ export function wargearGroupLive(def, entry, gi) {
  */
 export function wargearGroupBlocker(def, entry, gi) {
   const gear = def?.gear || []
-  const cond = gear[gi]?.cond
-  if (!cond || wargearGroupLive(def, entry, gi)) return stockBlocker(def, entry, gi)
+  // the first condition that does not hold is the one the reader has to act on
+  const cond = condsOf(gear[gi]).find((c) => !condLive(def, entry, c))
+  if (!cond) return stockBlocker(def, entry, gi)
   const sib = gear[cond[0]]
   const rep = sib?.rep?.length ? sib.rep : null
   // Name what the sibling actually took, when it took something — listing every option it offers
-  // would tell the reader to remove three things when they picked one.
-  const pick = (entry?.wg || []).find(([g]) => g === cond[0])
+  // would tell the reader to remove three things when they picked one; a condition on particular
+  // options names those.
+  const pick = condPicks(entry, cond)[0]
   const opt = pick ? sib?.o?.[pick[1]] : null
-  const ids = rep || [...new Set((opt ? [opt] : sib?.o || []).flatMap((o) => optionItems(o).map(([id]) => id)))]
+  const named = cond[2] ? cond[2].map((i) => sib?.o?.[i]).filter((o) => o != null) : sib?.o || []
+  /** @param {GearOption[]} opts */
+  const itemsOf = (opts) => [...new Set(opts.flatMap((o) => optionItems(o).map(([id]) => id)))]
+  // "equipped with a power weapon": what the reader has to take is that option, not "give up the
+  // hallowed chainsword" — which a blessed blade would do too.
+  if (cond[2] && cond[1]) return { need: 'present', ids: itemsOf(named) }
+  const ids = rep || itemsOf(opt ? [opt] : named)
   return { need: !!rep === !!cond[1] ? 'gone' : 'present', ids }
 }
 

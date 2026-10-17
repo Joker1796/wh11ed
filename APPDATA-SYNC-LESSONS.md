@@ -1332,3 +1332,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     abilityDominance.js, shared by the weapon tags and the Core line. Not ours: three Aeldari
     pack sheets print the twin shuriken catapult's AP as "3" (the 14-10 Faction Pack PDF itself),
     and appdata gives some TORRENT weapons BS "7+" where others have "-".
+
+98. **A reader that fails open must still say so.** The wargear-condition reader took "equipped with
+    a plasma pistol and a power weapon" as ONE item called "plasma pistol and a power weapon",
+    found no such item, and `continue`d — the Canoness's rod of office could be taken with any
+    loadout (report 20b1f18b, 2026-10-17). Fail-open was the design ("an unresolved phrase leaves
+    the group unconstrained"), but nothing counted the unresolved, so the class was invisible:
+    four sentences naming several items, a condition on one option of a multi-option swap read as
+    "any pick" (Kill Tank), footnote limits and the group's own offers ("can be equipped with 1
+    storm bolter") read as conditions. Now every item resolves or the generator fails, naming it.

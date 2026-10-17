@@ -23,6 +23,12 @@
  */
 
 /**
+ * A wargear group's condition: `[siblingGroupIndex, wantActive, options?]` — `options` (indexes
+ * into the sibling's `o`) narrows "the sibling has a pick" to a pick of those.
+ * @typedef {[number, number, number[]?]} GearCond
+ */
+
+/**
  * One wargear group of a datasheet — one instruction ("This model's bolt pistol can be replaced…").
  * @typedef {object} GearGroup
  * @property {number} [m] the miniature profile (index into `minis`) the group belongs to
@@ -33,7 +39,7 @@
  * @property {[number, 1?]} [pb] a budget per model of the profile: `[picks, noDuplicates?]`
  * @property {1} [alt] "X or Y": each pick gives up ONE of `rep`, whichever the model holds
  * @property {ItemId[][]} [alts] the alternatives of an `alt` group when one is several items ("X and Y, or Z")
- * @property {[number, number]} [cond] `[siblingGroupIndex, wantActive]` — live only on that sibling's state
+ * @property {GearCond | GearCond[]} [cond] one condition, or several that must all hold — live only on those siblings' state (rosterEngine.js condsOf)
  * @property {number} [cp] copies of the weapon each model carries, when picks count per copy
  * @property {number} [rc] copies one pick replaces ("2 of this model's heavy bolters")
  * @property {number} [dr] points one pick gives back from a priced default loadout
