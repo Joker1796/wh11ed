@@ -508,9 +508,11 @@ a {
    units that carry it (useFactionKeywordUnits.js). The gloss's dotted line, since it too is a word
    that explains itself on a tap, in the link colour, since what it opens is a list of links.
    `.fkw-btn` is the same word as a real button, for a list a component opens itself (a datasheet's
-   "a Character with the … enhancement" — who may take it). */
+   "a Character with the … enhancement" — who may take it). `.unit-link` is a unit an ability brings
+   into the game ("new Ripper Swarms unit") — a tap opens its card (src/utils/unitLinkMarkup.js). */
 .fkw,
-.fkw-btn {
+.fkw-btn,
+.unit-link {
   text-decoration: underline dotted;
   text-decoration-color: var(--link-accent);
   text-underline-offset: 2px;
@@ -527,7 +529,8 @@ a {
 
 @media (hover: hover) {
   .fkw:hover,
-  .fkw-btn:hover { color: var(--link-accent-hover); }
+  .fkw-btn:hover,
+  .unit-link:hover { color: var(--link-accent-hover); }
 }
 
 .cross-ref {

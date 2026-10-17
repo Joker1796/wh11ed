@@ -66,6 +66,25 @@ describe('RosterUnitList', () => {
     expect(w.vm.crewCard).toEqual({ id: 'sir-hekhtur', slug: 'imperial-knights' })
   })
 
+  // A unit an ability brings into the game (Ripper Swarms from a Parasite of Mortrex, the data's
+  // `spawns`) hangs under it the same way, saying what brings it in instead of a zero (a player's
+  // report, 2026-10-17).
+  it('draws the unit an ability brings in as a row under it', async () => {
+    const parasite = { id: 'parasite-of-mortrex', name: 'Parasite of Mortrex', sizes: [{ pts: 80, per: [1, 1], default: 1 }], gear: [], spawns: [{ id: 'ripper-swarms', name: 'Ripper Swarms', rule: 'Parasitic Infection' }] }
+    const w = mountList({
+      groups: [{ id: 'char', entries: [{ uid: 'p1', id: 'parasite-of-mortrex', size: 0 }] }],
+      defOf: () => parasite,
+      slugOf: () => 'tyranids',
+    })
+    const row = w.find('.rul-crew')
+    expect(row.text()).toContain('Ripper Swarms')
+    expect(row.find('.rul-crew-note').text()).toContain('Parasitic Infection')
+    expect(row.find('.rul-crew-pts').exists()).toBe(false)
+    expect(row.find('.wi-add-circle').exists()).toBe(true)
+    await row.trigger('click')
+    expect(w.vm.crewCard).toEqual({ id: 'ripper-swarms', slug: 'tyranids' })
+  })
+
   // Everything starts open, and folding is a gesture rather than a setting: nothing is stored.
   it('starts unfolded, under a numbered default name', () => {
     const w = mountList()

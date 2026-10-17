@@ -11,6 +11,9 @@ import { factionKeywordPatterns, factionKeywordsAt } from './factionKeywordMarku
 import { factionUnitKeywords, factionKeywordNames } from '../data/factionUnitKeywords.js'
 import { equippedCondition } from '../../scripts/lib/equippedCondition.mjs'
 import { tagDefinitions } from '../../scripts/lib/own-abilities.mjs'
+import { spawnPhrases } from '../../scripts/lib/spawnPhrases.mjs'
+import { unitLinkPatterns, unitLinksAt } from './unitLinkMarkup.js'
+import { spawnUnits } from '../data/factionUnitKeywords.js'
 
 // foldName.test.js holds every NAME matcher to one fold. This holds every READER of rule prose to
 // it: a regex over raw text whose word class knows only "-" reads nothing where appdata typed
@@ -90,6 +93,12 @@ describe('every prose reader reads a unicode hyphen as a hyphen', () => {
 
   it('tag definitions in faction rules', () => {
     expect(disagreements(touched, (s) => [...tagDefinitions(s)])).toEqual([])
+  })
+
+  it('units an ability brings into the game', () => {
+    expect(disagreements(touched, spawnPhrases)).toEqual([])
+    const p = unitLinkPatterns(spawnUnits)
+    expect(disagreements(touched, (s) => unitLinksAt(s, p))).toEqual([])
   })
 
   it('wargear conditions ("equipped with X")', () => {

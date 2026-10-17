@@ -103,6 +103,14 @@ export function useRosterUnitCard(props) {
       .map(localize)
   })
 
+  // The units this unit's abilities bring into the game — the roster's `spawns` (gen-roster-data):
+  // Ripper Swarms on a Parasite of Mortrex, Spore Mines on Biovores. Not in the list and not paid
+  // for, but theirs is the card the player reads when one appears (a player's report, 2026-10-17).
+  const spawned = computed(() => (props.ctx?.def?.spawns || []).flatMap((s) => {
+    const d = datasheets.value.find((x) => x.id === s.id)
+    return d ? [{ sheet: localize(d), rule: s.rule }] : []
+  }))
+
   // …and what it looks like for THIS roster entry. Overlaying after localisation (not before) keeps
   // the two concerns apart: the overlay matches on structural ids and English wargear names, so it
   // behaves identically in both locales.
@@ -458,7 +466,7 @@ export function useRosterUnitCard(props) {
 
   return {
     // The sheet, printed and overlaid
-    datasheets, loaded, sheet, view, localize, companions,
+    datasheets, loaded, sheet, view, localize, companions, spawned,
     // The faction's own prose (the modal reads it for popovers, the print sheet prints it)
     rulesFaction, rulesFactionEn, stratNamesRu,
     // What the roster does to the numbers

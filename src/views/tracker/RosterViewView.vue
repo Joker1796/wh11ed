@@ -335,7 +335,7 @@
                     class="rvunit"
                     :class="{
                       'rvunit-attached': e.leaderOf,
-                      'rvunit-host': hasAttached(g.entries, e) || !!defOf(e.id)?.crew,
+                      'rvunit-host': hasAttached(g.entries, e) || companionRows(defOf(e.id)).length > 0,
                       'rvunit-on': unitPane && viewingUid === e.uid,
                     }"
                   >
@@ -428,21 +428,32 @@
                     </CollapseTransition>
                   </div>
                   <!-- Who comes WITH the unit and cannot be bought on his own — Sir Hekhtur, who climbs
-                   out of Canis Rex (the data's `crew`). A row of his own under the Knight, so his card
-                   is one tap away at the table (owner, 2026-10-04); no points, no switches. -->
+                   out of Canis Rex (`crew`) — and who its abilities bring into the game — Ripper
+                   Swarms from a Parasite of Mortrex (`spawns`). A row each under the unit, so the card
+                   is one tap away at the table (rosterCompanionRows.js); no points, no switches. -->
                   <button
-                    v-for="c in defOf(e.id)?.crew || []"
-                    :key="c.id"
+                    v-for="c in companionRows(defOf(e.id))"
+                    :key="c.kind + c.id"
                     type="button"
                     class="rvunit rvunit-main rvunit-crew"
                     :class="{ 'rvunit-on': unitPane && viewingCrew === c.id }"
                     @click="openCrew(c)"
                   >
-                    <i class="wi wi-return rvunit-crew-mark" />
+                    <i
+                      class="wi rvunit-crew-mark"
+                      :class="c.kind === 'spawn' ? 'wi-add-circle' : 'wi-return'"
+                    />
                     <span class="rvunit-text">
                       <span class="rvunit-name">{{ c.name }}</span>
+                      <span
+                        v-if="c.kind === 'spawn'"
+                        class="rvunit-crew-note"
+                      >{{ labels.rosterSpawnNote }} · {{ c.rule }}</span>
                     </span>
-                    <span class="rvunit-pts">0</span>
+                    <span
+                      v-if="c.kind !== 'spawn'"
+                      class="rvunit-pts"
+                    >0</span>
                     <i class="wi wi-chevron-right rvunit-chev" />
                   </button>
                 </template>
@@ -589,6 +600,7 @@ import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
+import { companionRows } from '../../composables/rosterCompanionRows.js'
 
 const props = defineProps({
   // The rosters desk (RosterDeskView) shows a saved roster beside the list, by id; the routes
@@ -1752,6 +1764,7 @@ const nowSlot = computed(() => {
   .rvunit:has(+ .rvunit-crew):hover { position: relative; z-index: 1; }
 }
 .rvunit-crew-mark { flex: none; color: var(--text-dim); font-size: 0.8rem; }
+.rvunit-crew-note { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rvunit.rvunit-attached,
 .rvunit.rvunit-host { border-left: 2px solid var(--accent); }
 /* The block's head: the editor list's `.rul-bhead`, in this view's own card chrome — tinted with

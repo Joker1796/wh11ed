@@ -95,6 +95,24 @@ describe('RosterViewView', () => {
     expect(card.props('unitId')).toBe('sir-hekhtur')
   })
 
+  // Ripper Swarms come into the game from a Parasite of Mortrex's ability: a row under it, saying
+  // which ability, opening their card (a player's report, 2026-10-17).
+  it('draws the unit an ability brings in under the unit, and opens its card', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Swarm')
+    r.faction = 'tyranids'
+    r.units.push({ uid: 'p1', id: 'parasite-of-mortrex', size: 0 })
+    ROSTER_ID = r.id
+    const w = mount(RosterViewView, { global: { stubs } })
+    await waitForSelector(w, '.rvunit-crew')
+    const row = w.find('.rvunit-crew')
+    expect(row.text()).toContain('Ripper Swarms')
+    expect(row.find('.rvunit-crew-note').text()).toContain('Parasitic Infection')
+    expect(row.find('.rvunit-pts').exists()).toBe(false)
+    await row.trigger('click')
+    expect(w.findComponent({ name: 'RosterUnitRulesModal' }).props('unitId')).toBe('ripper-swarms')
+  })
+
   it('shows a setup hint for a roster with no faction yet', async () => {
     const store = useRosters()
     const r = store.createRoster('Blank')

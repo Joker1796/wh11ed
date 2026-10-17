@@ -550,6 +550,10 @@ export const ui = {
     rosterAttachedTo: 'Attached to',
     rosterInEffect: 'In effect for this unit',
     rosterAlsoInUnit: 'Also in this unit',
+    // A unit an ability of this one brings into the game (Ripper Swarms from a Parasite of Mortrex):
+    // the heading over its card, and the note on its row in a list.
+    rosterSpawnHeading: 'Can appear in the game',
+    rosterSpawnNote: 'can appear',
     rosterCondPicked: 'chosen: {n} of {max}',
     srcArmy: 'Army rule',
     srcAllegiance: 'Mark',
@@ -2038,6 +2042,8 @@ export const ui = {
     rosterAttachedTo: 'Прикреплён к',
     rosterInEffect: 'Действует на этот юнит',
     rosterAlsoInUnit: 'Тоже в этом юните',
+    rosterSpawnHeading: 'Может появиться в партии',
+    rosterSpawnNote: 'может появиться',
     rosterCondPicked: 'выбрано: {n} из {max}',
     srcArmy: 'Правило армии',
     srcAllegiance: 'Метка',

@@ -264,17 +264,20 @@
             </DsAccordion>
           </div>
         </section>
-        <!-- A sheet that is part of this unit without being a unit of its own (Sir Hekhtur in
-             Canis Rex): his whole card, folded, where the reader looks when the Knight falls. -->
+        <!-- Sheets that come with this unit without being an entry of the list, each card folded:
+             who is part of it (Sir Hekhtur in Canis Rex, read when the Knight falls), and who its
+             abilities bring into the game (Ripper Swarms from a Parasite of Mortrex, under the
+             ability that does it). -->
         <section
-          v-if="companions.length"
+          v-for="g in sheetGroups"
+          :key="g.key"
           class="rum-rules"
         >
           <h4 class="rum-rules-h">
-            {{ labels.rosterAlsoInUnit }}
+            {{ g.label }}
           </h4>
           <div
-            v-for="c in companions"
+            v-for="{ sheet: c, src } in g.items"
             :key="c.id"
             class="rum-rule"
           >
@@ -290,6 +293,10 @@
                   @click="toggle"
                 >
                   <span class="rum-rule-text">
+                    <span
+                      v-if="src"
+                      class="rum-rule-src"
+                    >{{ src }}</span>
                     <span class="rum-rule-name">{{ c.name }}</span>
                   </span>
                   <ChevronIcon
@@ -386,12 +393,17 @@ const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
 
 const {
-  loaded, view, companions,
+  loaded, view, companions, spawned,
   rulesFaction, stratNamesRu,
   statMods, statNotes, allGrantedKeywords, linkedFactionRules, abilityStates,
   abilityModifiers,
   ruleBlocks, modSource,
 } = useRosterUnitCard(props)
+// The sheets under the rules: the unit's crew, then the units its abilities bring in.
+const sheetGroups = computed(() => [
+  { key: 'crew', label: labels.value.rosterAlsoInUnit, items: companions.value.map((sheet) => ({ sheet, src: '' })) },
+  { key: 'spawn', label: labels.value.rosterSpawnHeading, items: spawned.value.map(({ sheet, rule }) => ({ sheet, src: rule })) },
+].filter((g) => g.items.length))
 // The roster facts row: only when there is a chip left to show in it.
 const ctxChips = computed(() => {
   const c = view.value.context

@@ -31,6 +31,7 @@ import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadMod
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
 import { APPDATA_EXCEPTIONS, extraKeywords } from './lib/appdata-exceptions.mjs'
 import { equippedCondition } from './lib/equippedCondition.mjs'
+import { spawnPhrases } from './lib/spawnPhrases.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
@@ -363,7 +364,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {} }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cond: {}, spawns: [], spawnUnread: [] }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -3061,6 +3062,28 @@ async function genFaction(slug) {
       if (u) (u.crew ||= []).push({ id: idMap.get(nb.id), name: nb.name })
     }
   }
+  // …and the units a unit's ability BRINGS into the game: "add one new SPORE MINES unit to your
+  // army" (Biovores), "new RIPPER SWARMS unit" (Parasite of Mortrex). Not in the list and not paid
+  // for, but the player has to know what will appear — a player's report, 2026-10-17. `spawns`
+  // draws them as rows under the unit, as `crew` does. Read off the ability's own text (spawnPhrases),
+  // the phrase found as a sheet's name or, failing that, the one sheet carrying that keyword; a
+  // phrase that names neither fails the run — the next codex with such an ability is not to pass
+  // quietly.
+  const sheetByName = new Map((bundle.datasheets || []).filter((d) => idMap.get(d.id)).map((d) => [norm(d.name), d]))
+  for (const bd of bundleUnits) {
+    const u = units.find((x) => x.sid === bd.id)
+    if (!u) continue
+    for (const ab of bd.abilities || []) {
+      for (const phrase of spawnPhrases(enOf(ab).rules || ab.rules || '')) {
+        const byKw = (kwIndex.get(norm(phrase)) || []).filter((id) => idMap.get(id))
+        const child = sheetByName.get(norm(phrase)) || (byKw.length === 1 ? (bundle.datasheets || []).find((d) => d.id === byKw[0]) : null)
+        if (!child) { report.spawnUnread.push(`${slug}: ${bd.name} — "${phrase}" (${enOf(ab).name || ab.name})`); continue }
+        if (child.id === bd.id || (u.spawns || []).some((s) => s.id === idMap.get(child.id))) continue
+        ;(u.spawns ||= []).push({ id: idMap.get(child.id), name: child.name, rule: enOf(ab).name || ab.name })
+        report.spawns.push(`${slug}: ${bd.name} → ${child.name}`)
+      }
+    }
+  }
   // Codex: Space Marines also plays the six Codex Supplement detachments (Blade of Ultramar …), which
   // appdata ships as one-detachment "factions" of their own. Each is its Chapter's only: `chapter`
   // says whose, the same field the faction page's chapter picker reads.
@@ -3647,6 +3670,7 @@ for (const l of ally.narrowed) console.log(`    two rules for one group, kept th
 for (const l of ally.self) console.log(`    a rule allying the army to itself, through a parent keyword (skipped) — ${l}`)
 for (const l of ally.ratio) console.log(`    BATTLELINE ratio (non-BATTLELINE ≤ BATTLELINE per keyword) — ${l}`)
 for (const l of ally.missing.slice(0, 10)) console.log(`    unresolved allied datasheet — ${l}`)
+console.log(`  spawns: ${report.spawns.length} unit(s) an ability brings into the game — ${report.spawns.join('; ')}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)
 const b = report.bundle
@@ -3787,6 +3811,10 @@ if (unusedLockFixes.length) {
 }
 if (report.wargearMfm.unmatched.length) {
   console.log(`\n  ✗ ${report.wargearMfm.unmatched.length} MFM wargear price(s) match no option of their unit — the MFM names the item otherwise, or the unit lost it: ${report.wargearMfm.unmatched.join('; ')}`)
+  return 1
+}
+if (report.spawnUnread.length) {
+  console.log(`\n  ✗ an ability brings in a unit no datasheet of the faction is named or keyworded as — read it, fix spawnPhrases or the match: ${report.spawnUnread.join('; ')}`)
   return 1
 }
 if (report.dnu.length) {

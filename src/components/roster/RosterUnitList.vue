@@ -125,7 +125,7 @@
             :data-flip="e.uid"
             :class="{
               'rul-attached': e.leaderOf,
-              'rul-host': blockOf(g.entries, e).length || defOf(e.id)?.crew?.length,
+              'rul-host': blockOf(g.entries, e).length || companionRows(defOf(e.id)).length,
               'rul-picked': inPane && openUid === e.uid,
             }"
           >
@@ -230,20 +230,32 @@
               </div>
             </CollapseTransition>
           </div>
-          <!-- Who comes WITH the unit and cannot be bought on his own (the data's `crew` — Sir
-               Hekhtur under Canis Rex): a row of his own, no points, nothing to configure; a tap
-               opens his card (owner, 2026-10-04). It goes when the unit goes. -->
+          <!-- Who comes WITH the unit and cannot be bought on his own (`crew` — Sir Hekhtur under
+               Canis Rex), and who its abilities bring into the game (`spawns` — Ripper Swarms under
+               a Parasite of Mortrex): a row each, no points, nothing to configure; a tap opens the
+               card (rosterCompanionRows.js). They go when the unit goes. -->
           <button
-            v-for="c in defOf(e.id)?.crew || []"
-            :key="c.id"
+            v-for="c in companionRows(defOf(e.id))"
+            :key="c.kind + c.id"
             type="button"
             class="rul-unit rul-crew"
             :data-flip="e.uid + ':' + c.id"
+            :title="c.rule ? `${labels.rosterSpawnNote}: ${c.rule}` : undefined"
             @click="crewCard = { id: c.id, slug: slugOf(e.id) }"
           >
-            <i class="wi wi-return rul-crew-mark" />
+            <i
+              class="wi rul-crew-mark"
+              :class="c.kind === 'spawn' ? 'wi-add-circle' : 'wi-return'"
+            />
             <span class="rul-crew-name">{{ c.name }}</span>
-            <span class="rul-crew-pts">0</span>
+            <span
+              v-if="c.kind === 'spawn'"
+              class="rul-crew-note"
+            >{{ labels.rosterSpawnNote }} · {{ c.rule }}</span>
+            <span
+              v-else
+              class="rul-crew-pts"
+            >0</span>
           </button>
         </template>
       </template>
@@ -293,6 +305,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import { useFlipMove } from '../../composables/useFlipMove.js'
 import { motionMs } from '../../composables/motionToken.js'
+import { companionRows } from '../../composables/rosterCompanionRows.js'
 import { BLOCK_NAME_MAX, blockNumbers, groupLabel, blockRootUid, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
@@ -547,6 +560,8 @@ function saveName(entry) {
 }
 .rul-crew-mark { flex: none; color: var(--text-dim); font-size: 0.75rem; }
 .rul-crew-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.85rem; }
+/* A spawn's note takes the zero's place: what brings it in, cut short before it wraps. */
+.rul-crew-note { flex: 0 1 auto; min-width: 0; padding-right: var(--rul-acts-w, 2rem); font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rul-crew-pts { flex: none; padding-right: var(--rul-acts-w, 2rem); font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; }
 
 /* The action button is OUT of the row's flow, over the tile's top-right corner, and the row itself

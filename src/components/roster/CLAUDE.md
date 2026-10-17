@@ -1223,6 +1223,16 @@ directory; still part of this feature:
     `crew: [{ id, name }]` on the unit a free sheet shares a named rule with (the same test as
     `companions`, on appdata's rule names), so the lists know without loading datasheets. The row
     has no points and nothing to configure; a tap opens his printed card.
+    **A unit an ABILITY brings into the game hangs there too** (`spawns: [{ id, name, rule }]`, a
+    player's report 2026-10-17): "add one new SPORE MINES unit" on Biovores, Ripper Swarms from a
+    Parasite of Mortrex. Those are ordinary bought sheets with points, so the shared-rule test does
+    not find them: the generator reads the ability's text (`scripts/lib/spawnPhrases.mjs`), places
+    the name as a sheet's name or its one keyword, and fails on a name it cannot place.
+    `rosterCompanionRows.js` gives both lists one set of rows — the spawn's row says which ability
+    instead of a zero — and the unit card shows the sheets under "Can appear in the game"
+    (`spawned`). The name in the ability's own text is a tap that opens the same card
+    (`src/utils/unitLinkMarkup.js`, vocabulary `spawnUnits` from `npm run datasheets:index`).
+    In a game it is only read: putting such a unit INTO the game is the beta tracker's next step.
   - **The detachment line cannot be split as text.** The app writes every selected detachment on
     one line joined with commas and a final "and" — and detachment names contain "and" themselves:
     "Legends of Saga and Song and Saga of the Great Wolf" is TWO of them, and splitting on " and "
