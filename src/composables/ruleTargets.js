@@ -55,7 +55,7 @@
 //
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
-import { foldName } from '../utils/foldName.js'
+import { foldChars, foldName } from '../utils/foldName.js'
 
 // A keyword phrase: one or more capitalised words. Matches both the ALL-CAPS spelling and the
 // Title Case one — the faction files use whichever the source PDF used.
@@ -196,7 +196,10 @@ function depluralise(phrase) {
  * @returns {Array<import('./roster.types.js').RuleScope> | null}
  */
 export function ruleScopes(body) {
-  const own = passages(body).filter((p) => OWN_SIDE.test(p))
+  // Read folded: appdata types "GRAV‑ASSAULT" with U+2011, which KW_WORD's "-" does not take, so
+  // Flare Shields read as nobody's and stood on every unit of the army (a player's report,
+  // 2026-10-17). One character for one, so nothing positional moves; proseReaders.test.js.
+  const own = passages(foldChars(body)).filter((p) => OWN_SIDE.test(p))
   if (!own.length) return null // escape 1
   const scopes = []
   for (const passage of own) {

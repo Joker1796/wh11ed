@@ -15,6 +15,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { baseTag, sheetRuleForTag } from '../../src/utils/weaponTag.js'
+import { foldChars } from '../../src/utils/foldName.js'
 
 const imp = (p) => import(pathToFileURL(p).href)
 
@@ -61,7 +62,6 @@ export async function buildOwnAbilities(root) {
   }
 
   // 2. "[TAG]**:** text" inside a faction's rules, EN with the RU file's definition of the same tag.
-  const DEF = /\[([A-Z][A-Z0-9 '’-]*)\]\*\*:\*\*\s*([^\n]+)/g
   const strings = (v, acc = []) => {
     if (typeof v === 'string') acc.push(v)
     else if (Array.isArray(v)) v.forEach((x) => strings(x, acc))
@@ -71,7 +71,7 @@ export async function buildOwnAbilities(root) {
   const defsIn = async (file) => {
     const found = new Map()
     if (!fs.existsSync(file)) return found
-    for (const s of strings(await imp(file))) for (const m of s.matchAll(DEF)) if (!found.has(m[1])) found.set(m[1], m[2].trim())
+    for (const s of strings(await imp(file))) for (const [tag, text] of tagDefinitions(s)) if (!found.has(tag)) found.set(tag, text)
     return found
   }
   const facDir = path.join(data, 'factions')
@@ -108,4 +108,14 @@ export function renderOwnAbilities(map) {
 // (src/data/ownWeaponAbilities.test.js fails when this file is stale).
 export default ${JSON.stringify(map, null, 2)}
 `
+}
+
+// "[TAG]**:** text" inside a faction's rules → [[tag, text], …]. The tag is read folded, so one
+// typed with U+2011 is still a tag (proseReaders.test.js); the text is the original's.
+const DEF = /\[([A-Z][A-Z0-9 '-]*)\]\*\*:\*\*\s*([^\n]+)/g
+export function tagDefinitions(s) {
+  return [...foldChars(s).matchAll(DEF)].map((m) => {
+    const end = m.index + m[0].length
+    return [m[1], s.slice(end - m[2].length, end).trim()]
+  })
 }

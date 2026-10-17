@@ -30,6 +30,7 @@ import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
 import { APPDATA_EXCEPTIONS, extraKeywords } from './lib/appdata-exceptions.mjs'
+import { equippedCondition } from './lib/equippedCondition.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
@@ -936,15 +937,13 @@ function linkWargearConditions(datasheetId, drafts) {
     if (keep.length) { d.keep = [...new Set(keep)]; report.keep.resolved++ }
   }
 
-  // What each draft is CONDITIONED on, from "[if …] not equipped with X" / "equipped with X".
-  const NOT_EQ_RE = /\bnot equipped with (?:a |an |1 |one )?([a-z][a-z' ’-]*?)(?:[,.]|\s+(?:it|its|can)\b)/i
-  const EQ_RE = /\bequipped with (?:a |an |1 |one )?([a-z][a-z' ’-]*?)(?:[,.]|\s+(?:it|its|can)\b)/i
+  // What each draft is CONDITIONED on, from "[if …] not equipped with X" / "equipped with X"
+  // (scripts/lib/equippedCondition.mjs).
   for (const d of drafts) {
-    let negated = true
-    let m = d.text.match(NOT_EQ_RE)
-    if (!m) { negated = false; m = d.text.match(EQ_RE) }
-    if (!m) continue
-    const uuid = nameToUuid.get(m[1].trim().toLowerCase())
+    const cond = equippedCondition(d.text)
+    if (!cond) continue
+    const negated = cond.negated
+    const uuid = nameToUuid.get(norm(cond.item))
     if (!uuid) continue
 
     // Case (a): the item is exactly another group's sole toggle option — mutual exclusion.

@@ -16,17 +16,25 @@
 // Shared by the renderer (useRenderInline.js) and the generator that decides which keywords are
 // worth listing (scripts/gen-datasheet-index.mjs), so the two can never disagree.
 
+import { foldChars } from './foldName.js'
+
+// Read folded (foldName.js): appdata types "Shield‑Captain" and "Grav‑tank" with U+2011, the
+// keyword list carries the plain hyphen. One character for one, so positions found in the folded
+// text are positions in the original (proseReaders.test.js).
+
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 // `names`: { keyword: [a unit or model name containing it, …] } — optional.
 export function factionKeywordPatterns(keywords, names = {}) {
   if (!keywords.length) return null
   // Longest first: "Aspect Warriors" before a shorter keyword it might contain.
-  const k = `(?:${[...keywords].sort((a, b) => b.length - a.length).map(escape).join('|')})`
+  const k = `(?:${[...keywords].map(foldChars).sort((a, b) => b.length - a.length).map(escape).join('|')})`
   const endEn = '(?![\\p{L}\\p{N}’\'-])'
   const endRu = '(?![\\p{L}\\p{N}’\'-]|\\s+[A-Z])'
   return {
     names,
+    // The keyword as the list spells it, from the folded spelling the patterns match.
+    spelled: new Map(keywords.map((kw) => [foldChars(kw), kw])),
     one: new RegExp(`(?<![\\p{L}\\p{N}’'-])${k}${endEn}`, 'gu'),
     en: new RegExp(`(?<![\\p{L}\\p{N}’'-])(${k}(?:(?:,\\s+|,?\\s+(?:or|and)\\s+)${k})*)(?=\\s+(?:units?|models?|keywords?)(?![\\p{L}]))`, 'gu'),
     ru: new RegExp(`(?<![\\p{L}])((?:юнит|модел|слов)[а-яё]*\\s+)(${k}(?:(?:,\\s+|,?\\s+(?:или|и)\\s+)${k})*)${endRu}`, 'gu'),
@@ -35,18 +43,25 @@ export function factionKeywordPatterns(keywords, names = {}) {
 
 // The name (from `names`) the keyword at `at` in `text` is part of, written out in full, if any.
 export function nameAround(text, at, kw, names) {
+  const t = foldChars(text)
+  const k = foldChars(kw)
   for (const name of names[kw] || []) {
-    for (let j = name.indexOf(kw); j !== -1; j = name.indexOf(kw, j + 1)) {
-      if (at - j >= 0 && text.startsWith(name, at - j)) return name
+    const n = foldChars(name)
+    for (let j = n.indexOf(k); j !== -1; j = n.indexOf(k, j + 1)) {
+      if (at - j >= 0 && t.startsWith(n, at - j)) return name
     }
   }
   return null
 }
 
 // Calls `take(keyword, position)` for every keyword standing as one in `text`.
-function eachKeyword(text, p, take) {
+function eachKeyword(raw, p, take) {
+  const text = foldChars(raw)
   const chain = (str, at) => {
-    for (const m of str.matchAll(p.one)) if (!nameAround(text, at + m.index, m[0], p.names)) take(m[0], at + m.index)
+    for (const m of str.matchAll(p.one)) {
+      const kw = p.spelled.get(m[0]) ?? m[0]
+      if (!nameAround(text, at + m.index, kw, p.names)) take(kw, at + m.index)
+    }
   }
   for (const m of text.matchAll(p.en)) chain(m[1], m.index)
   for (const m of text.matchAll(p.ru)) chain(m[2], m.index + m[1].length)
@@ -68,7 +83,7 @@ export function markFactionKeywords(text, p) {
   let from = 0
   for (const [kw, i] of at.sort((a, b) => a[1] - b[1])) {
     if (i < from) continue
-    out += text.slice(from, i) + `<span class="fkw" data-fkw="${kw}">${kw}</span>`
+    out += text.slice(from, i) + `<span class="fkw" data-fkw="${kw}">${text.slice(i, i + kw.length)}</span>`
     from = i + kw.length
   }
   return out + text.slice(from)

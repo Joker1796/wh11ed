@@ -8,6 +8,8 @@
 // of these — 2026-10-15 a match that folded apostrophes but not hyphens kept seven Custodes
 // sheets off their MFM price tiers, and the unit search could not find "grav-tank".
 // `src/utils/foldName.test.js` fails on a name matcher written anywhere else.
+// A READER of rule prose (a regex over raw text) folds its input with `foldChars` too, and
+// `src/utils/proseReaders.test.js` holds each one to reading a string and its folded copy alike.
 
 const APOSTROPHES = /[’‘ʼ`´′‛]/g
 // Every dash and hyphen (Unicode's Pd class: U+2010 hyphen, U+2011 non-breaking, en/em dash…),

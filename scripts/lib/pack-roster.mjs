@@ -11,6 +11,7 @@
 // `fx` the appdata units use (an item the pack shares with appdata — "Bolt pistol" — gets appdata's
 // id, so the importer, the stock rule and the export cannot tell the two sources apart).
 import { norm } from './sync-common.mjs'
+import { foldChars } from '../../src/utils/foldName.js'
 import { KEEP_RE } from './keepClause.mjs'
 
 const WORD_NUM = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6 }
@@ -227,7 +228,8 @@ function parseSet(s) {
   for (const p of parts) {
     const m = p.match(/^(\d+)\s+(.+)$/)
     if (m) out.push([m[2], Number(m[1])])
-    else if (/^[A-Za-z][A-Za-z0-9’' -]*$/.test(p)) out.push([p, 1])
+    // Folded: a bare "Kombi‑weapon" (U+2011) is a name too (proseReaders.test.js).
+    else if (/^[A-Za-z][A-Za-z0-9' -]*$/.test(foldChars(p))) out.push([p, 1])
     else return null
   }
   return out

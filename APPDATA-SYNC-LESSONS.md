@@ -1301,3 +1301,16 @@ and appdata state fresh; a data model can change between now and when this is ne
     printed ("allying the army to itself"); `roster/index.test.js` fails on any army named among
     its own allies. Inheriting down the chain is right for who MAY take a rule — check that the
     rule is not about the taker itself.
+
+96. **A unicode hyphen breaks READERS of prose, not only name matchers.** foldName.js had made every
+    name comparison fold U+2010/U+2011, and its test fails on a matcher written elsewhere — but a
+    regex that READS raw prose was outside both. Codex: Adeptus Custodes types "GRAV‑ASSAULT" with
+    U+2011; ruleTargets' keyword class knew only "-", so Flare Shields read as nobody's and stood on
+    every unit of the army, its three stratagems offered to all (report 5e415815, 2026-10-17). The
+    same day's sweep found the wargear generator's "equipped with X" dropping the Tempestus Scion's
+    condition ("hot‐shot lasgun", U+2010), the keyword-vocabulary generator taking "Shield-Captain"
+    for a keyword because the unit list it checks against was unfolded, and four latent readers
+    (weapon tags, tag definitions, Faction Pack sets). Every reader now folds its input with
+    `foldChars` (one character for one, so positions hold), and `src/utils/proseReaders.test.js`
+    runs each reader over every data string folded and unfolded: they must agree. A new reader of
+    rule text goes into that test.
