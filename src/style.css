@@ -1029,6 +1029,7 @@ strong {
 .wi-panes { mask-image: url('./assets/icons/ui-panes.svg'); }
 .wi-book { mask-image: url('./assets/icons/ui-book.svg'); }
 .wi-doc { mask-image: url('./assets/icons/ui-doc.svg'); }
+.wi-datasheet { mask-image: url('./assets/icons/ui-datasheet.svg'); }
 .wi-pdf { mask-image: url('./assets/icons/ui-pdf.svg'); }
 .wi-ruler { mask-image: url('./assets/icons/ui-ruler.svg'); }
 .wi-signpost { mask-image: url('./assets/icons/ui-signpost.svg'); }
