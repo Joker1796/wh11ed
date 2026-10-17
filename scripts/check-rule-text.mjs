@@ -21,7 +21,7 @@
 // needs it, question 2 still runs.
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, loadModule } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, loadModule } from './lib/sync-common.mjs'
 import { applyBaseline, loadBaseline } from './lib/sync-baseline.mjs'
 import { deepOverlay } from '../src/data/deepOverlay.js'
 
@@ -51,6 +51,40 @@ if (fs.existsSync(APPDATA)) {
   }
 } else {
   console.log('ruletext: wh40k-appdata not found next to this repo — the app comparison is skipped.')
+}
+
+// ── 1b. Move-type cards the app hangs under an army rule ─────────────────────────────────────
+// "Special Move Types" is one sentence of text and a CARD per move type, joined to the rule by
+// army_rule_behaviour_type → behaviour_type — tables no text diff reads. Custodes printed the
+// sentence and nothing under it (a player's report 6766e318, 2026-10-17); Space Marines and Orks
+// had been listed by hand. Every card the app joins to an army rule is named in our text of it.
+if (fs.existsSync(APPDATA)) {
+  const table = (name) => {
+    const t = JSON.parse(fs.readFileSync(path.join(APPDATA, 'tables', `${name}.json`), 'utf8'))
+    return Array.isArray(t) ? t : Object.values(t)[0]
+  }
+  const cards = new Map(table('behaviour_type').map((b) => [b.id, b.localisations.en.name]))
+  const ourSlug = Object.fromEntries(Object.entries(SLUG_MAP).map(([ours, app]) => [app, ours]))
+  const appFactions = fs.readdirSync(path.join(APPDATA, 'factions')).filter((f) => f.endsWith('.json'))
+  const factionOf = (ruleId) => appFactions.find((f) => fs.readFileSync(path.join(APPDATA, 'factions', f), 'utf8').includes(ruleId))
+  const missing = []
+  for (const link of table('army_rule_behaviour_type')) {
+    const file = factionOf(link.armyRuleId)
+    if (!file) { missing.push(`${link.armyRuleId}: in no faction file of appdata`); continue }
+    const app = file.replace(/\.json$/, '')
+    const slug = ourSlug[app] || app
+    const mod = fs.existsSync(path.join(ROOT, 'src/data/factions', `${slug}.js`)) ? await loadModule(path.join(ROOT, 'src/data/factions', `${slug}.js`)) : null
+    const en = mod && Object.values(mod).map((v) => v?.en || v).find((v) => v?.armyRule)
+    const body = String(en?.armyRule?.body || '').toLowerCase()
+    const name = String(cards.get(link.behaviourTypeId) || '').toLowerCase()
+    if (!name || !body.includes(name)) missing.push(`${slug}: "${cards.get(link.behaviourTypeId)}" is not named in the army rule`)
+  }
+  if (missing.length) {
+    failed += missing.length
+    console.log(`✗ ${missing.length} move-type card(s) the app shows under an army rule are not in our text:\n  ${missing.join('\n  ')}`)
+  } else {
+    console.log(`✓ every move-type card the app joins to an army rule is named in it (${table('army_rule_behaviour_type').length})`)
+  }
 }
 
 // ── 2. English ↔ Russian, by shape ───────────────────────────────────────────────────────────

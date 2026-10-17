@@ -1368,3 +1368,14 @@ and appdata state fresh; a data model can change between now and when this is ne
     plain text outside `.lines`. Side note: `grep` called `useRenderInline.js` a binary file (it
     holds U+E000 fences) and printed nothing for it — sweep with `grep -a`.
 
+101. **An army rule can be a sentence and a set of cards.** Custodes' "Special Move Types" read
+    "The following are special move types…" and stopped (a player's report 6766e318, 2026-10-17):
+    the app hangs the move-type CARD under it from `army_rule_behaviour_type` → `behaviour_type`,
+    two tables no text diff reads, so every comparison saw one sentence on both sides and agreed.
+    `gen-faction-rules.mjs` did list them — but only for an EMPTY body (`text || moveTypes`), and
+    once GW gave the section its one sentence the list went quiet; it now goes under the text.
+    Space Marines and Orks had been listed by hand, Custodes was missed. `npm run ruletext` now
+    holds every card the app joins to an army rule to a mention in our text of it. Before calling
+    a section "transcribed", look for the join tables that point at it (`grep -l <rule id>
+    tables/*.json`), not only at its text components.
+
