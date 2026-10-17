@@ -110,6 +110,13 @@
       :anchor="fkwShown.anchor"
       @close="closeFactionKeyword"
     />
+    <UnitCardModal
+      v-if="unitLink"
+      :key="unitLink.slug + '/' + unitLink.id"
+      :unit-id="unitLink.id"
+      :faction-slug="unitLink.slug"
+      @close="unitLink = null"
+    />
     <MobileUtilityBar
       v-if="!isBare"
       ref="mobileBarRef"
@@ -154,6 +161,10 @@ const TOUR_ON = IS_BETA || import.meta.env.DEV
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 const InstallOffer = defineAsyncComponent(() => import('./components/InstallOffer.vue'))
 const ErrorReportsOffer = defineAsyncComponent(() => import('./components/ErrorReportsOffer.vue'))
+// A unit an ability brings into the game, tapped in rule prose (`.unit-link`): its card over the
+// page, so a reader in a roster or a game stays where they are (src/utils/unitLinkMarkup.js).
+const UnitCardModal = defineAsyncComponent(() => import('./components/roster/RosterUnitRulesModal.vue'))
+const unitLink = ref(null)
 const AppFirstRun = defineAsyncComponent(() => import('./components/AppFirstRun.vue'))
 // Async like the search palette: the dialog pulls the tracker store for its attach offer.
 const FeedbackModal = defineAsyncComponent(() => import('./components/FeedbackModal.vue'))
@@ -357,6 +368,12 @@ function onGlobalClick(e) {
   const glossEl = e.target.closest('.gloss')
   if (glossEl) {
     openGloss(glossEl.dataset.gloss, glossEl.getBoundingClientRect())
+    return
+  }
+  const unitEl = e.target.closest('.unit-link')
+  if (unitEl) {
+    closeKeyword()
+    unitLink.value = { id: unitEl.dataset.unit, slug: unitEl.dataset.slug }
     return
   }
   const fkwEl = e.target.closest('.fkw')

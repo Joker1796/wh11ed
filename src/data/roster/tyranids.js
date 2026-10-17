@@ -135,6 +135,13 @@ export default {
             ]
           ]
         ]
+      ],
+      "spawns": [
+        {
+          "id": "spore-mines",
+          "name": "Spore Mines",
+          "rule": "Seed Spore Mines"
+        }
       ]
     },
     {
@@ -601,6 +608,13 @@ export default {
           "rep": [
             3052
           ]
+        }
+      ],
+      "spawns": [
+        {
+          "id": "spore-mines",
+          "name": "Spore Mines",
+          "rule": "Spore Mine Cysts"
         }
       ]
     },
@@ -1649,6 +1663,13 @@ export default {
             ]
           ]
         ]
+      ],
+      "spawns": [
+        {
+          "id": "ripper-swarms",
+          "name": "Ripper Swarms",
+          "rule": "Parasitic Infection"
+        }
       ]
     },
     {
@@ -2037,6 +2058,13 @@ export default {
             ]
           ]
         ]
+      ],
+      "spawns": [
+        {
+          "id": "mucolid-spores",
+          "name": "Mucolid Spores",
+          "rule": "Seed Mucolids"
+        }
       ]
     },
     {

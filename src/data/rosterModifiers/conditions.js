@@ -323,6 +323,31 @@ export const conditions = {
   // bodyguard it joined AND the Leader himself, since "this unit" is then the attached unit
   // (Core Rules 19.04). Answered from the roster's `leaderOf` links, so the caller passes the units.
   'unit-led': { scope: 'roster', duration: 'battle', label: { en: 'Led by a Character', ru: 'Отряд ведёт персонаж' } },
+  // The rest of what the list records about an attachment and the Warlord (2026-10-17). These were
+  // parked as `never` — "while the bearer is leading an Aspect Warriors unit", "if a Militarum
+  // Tempestus Officer model is your Warlord" — although the list answers each as surely as
+  // `unit-leading`. A shape names what to read, and the keywords come from the printed sheets the
+  // caller hands rosterAnswers (rosterGameContext.js):
+  //   bodyguard: [kws]        — this entry is in an attached unit whose Bodyguard carries ANY of them
+  //                             (true on both halves: the Leader's card and the unit it leads)
+  //   bodyguardCore: name     — …whose Bodyguard prints that core ability
+  //   attachedCharacter: true — …that holds another CHARACTER besides this entry
+  //   warlord: [kws]          — the army's Warlord is a unit carrying ALL of them
+  // "…that is not an Attached unit" (Hidden Amongst the Dead) — the opposite state, answered from
+  // `unit-led` the way every negation is (rosterGameContext).
+  'unit-not-led': { scope: 'roster', duration: 'battle', negates: 'unit-led', label: { en: 'Not an Attached unit', ru: 'Не в отряде с лидером' } },
+  'unit-warlord': { scope: 'roster', duration: 'battle', label: { en: 'Is your Warlord', ru: 'Ваш WARLORD' } },
+  'warlord-tempestus-officer': { scope: 'roster', duration: 'battle', warlord: ['MILITARUM TEMPESTUS', 'OFFICER'], label: { en: 'A Militarum Tempestus Officer is your Warlord', ru: 'WARLORD — Militarum Tempestus Officer' } },
+  'unit-leading-aspect-warriors': { scope: 'roster', duration: 'battle', bodyguard: ['ASPECT WARRIORS'], label: { en: 'Leading an Aspect Warriors unit', ru: 'Ведёт отряд Aspect Warriors' } },
+  'unit-leading-dire-avengers-or-guardians': { scope: 'roster', duration: 'battle', bodyguard: ['DIRE AVENGERS', 'GUARDIANS'], label: { en: 'Leading a Dire Avengers or Guardians unit', ru: 'Ведёт отряд Dire Avengers или Guardians' } },
+  'unit-leading-storm-guardians': { scope: 'roster', duration: 'battle', bodyguard: ['STORM GUARDIANS'], label: { en: 'Leading a Storm Guardians unit', ru: 'Ведёт отряд Storm Guardians' } },
+  'unit-leading-regiment': { scope: 'roster', duration: 'battle', bodyguard: ['REGIMENT'], label: { en: 'Leading a Regiment unit', ru: 'Ведёт отряд Regiment' } },
+  'unit-leading-poxwalkers': { scope: 'roster', duration: 'battle', bodyguard: ['POXWALKERS'], label: { en: 'Leading a Poxwalkers unit', ru: 'Ведёт отряд Poxwalkers' } },
+  'unit-leading-kastelan-robots': { scope: 'roster', duration: 'battle', bodyguard: ['KASTELAN ROBOTS'], label: { en: 'Attached to a Kastelan Robots unit', ru: 'Присоединён к отряду Kastelan Robots' } },
+  'unit-leading-blood-claws': { scope: 'roster', duration: 'battle', bodyguard: ['BLOOD CLAWS'], label: { en: 'Attached to a Blood Claws unit', ru: 'Присоединён к отряду Blood Claws' } },
+  'unit-leading-mounted': { scope: 'roster', duration: 'battle', bodyguard: ['MOUNTED'], label: { en: 'Attached to a Mounted unit', ru: 'Присоединён к отряду MOUNTED' } },
+  'unit-leading-scouts': { scope: 'roster', duration: 'battle', bodyguardCore: 'Scouts', label: { en: 'Leading a unit with Scouts', ru: 'Ведёт отряд со Scouts' } },
+  'unit-attached-character': { scope: 'roster', duration: 'battle', attachedCharacter: true, label: { en: 'Attached to a unit with another Character', ru: 'В отряде есть другой персонаж' } },
   // The wargear the entry took (2026-09-28). A handful of datasheets reward a PAIR of weapons —
   // two macro-scalpels make them [TWIN-LINKED], a Helbrute's two melee weapons besides its close
   // combat weapon get +2 Attacks — and the list knows exactly what was taken. These were `never`
@@ -338,7 +363,10 @@ export const conditions = {
   'wargear-two-macro-scalpels': { scope: 'roster', duration: 'battle', gear: { copies: 2, name: 'Macro-scalpel' }, label: { en: 'Two macro-scalpels', ru: 'Два macro-scalpel' } },
   'wargear-two-melee-besides-ccw': { scope: 'roster', duration: 'battle', gear: { melee: 2, besides: ['Close combat weapon'] }, label: { en: 'Two melee weapons besides the close combat weapon', ru: 'Два оружия ближнего боя кроме close combat weapon' } },
   'wargear-two-melee': { scope: 'roster', duration: 'battle', gear: { melee: 2 }, label: { en: 'Two melee weapons', ru: 'Два оружия ближнего боя' } },
-  'wargear-spear-and-chainsword': { scope: 'roster', duration: 'battle', gear: { all: ['Thundershock spear', 'Bellatus reaper chainsword'] }, label: { en: 'Thundershock spear and bellatus reaper chainsword', ru: 'Thundershock spear и bellatus reaper chainsword' } },
+  // A model the unit's SIZE brings (the Tidewall Shieldline's defence platform is its 105-point
+  // option, a second model in the list) — read off the size the entry took, not off its weapons.
+  'wargear-tidewall-platform': { scope: 'roster', duration: 'battle', gear: { mini: 'Tidewall Defence Platform' }, label: { en: 'With a Tidewall defence platform', ru: 'С Tidewall defence platform' } },
+  'wargear-spear-and-chainsword':{ scope: 'roster', duration: 'battle', gear: { all: ['Thundershock spear', 'Bellatus reaper chainsword'] }, label: { en: 'Thundershock spear and bellatus reaper chainsword', ru: 'Thundershock spear и bellatus reaper chainsword' } },
   // "The bearer has +1 Wounds", "the bearer's melee weapons have [LANCE]" (2026-10-01). Never put
   // in the active set: it is answered by PLACING the effect — rosterStatMods' splitBearers gives the
   // models that carry the item a row of their own and applies the effect to that row alone. Until

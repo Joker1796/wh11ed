@@ -440,6 +440,9 @@ export default {
       "hash": "2174a241",
       "ver": 925,
       "reviewed": true,
+      "appliesWhile": [
+        "unit-led"
+      ],
       "effects": []
     },
     {

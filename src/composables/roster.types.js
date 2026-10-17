@@ -23,6 +23,12 @@
  */
 
 /**
+ * A wargear group's condition: `[siblingGroupIndex, wantActive, options?]` — `options` (indexes
+ * into the sibling's `o`) narrows "the sibling has a pick" to a pick of those.
+ * @typedef {[number, number, number[]?]} GearCond
+ */
+
+/**
  * One wargear group of a datasheet — one instruction ("This model's bolt pistol can be replaced…").
  * @typedef {object} GearGroup
  * @property {number} [m] the miniature profile (index into `minis`) the group belongs to
@@ -33,7 +39,7 @@
  * @property {[number, 1?]} [pb] a budget per model of the profile: `[picks, noDuplicates?]`
  * @property {1} [alt] "X or Y": each pick gives up ONE of `rep`, whichever the model holds
  * @property {ItemId[][]} [alts] the alternatives of an `alt` group when one is several items ("X and Y, or Z")
- * @property {[number, number]} [cond] `[siblingGroupIndex, wantActive]` — live only on that sibling's state
+ * @property {GearCond | GearCond[]} [cond] one condition, or several that must all hold — live only on those siblings' state (rosterEngine.js condsOf)
  * @property {number} [cp] copies of the weapon each model carries, when picks count per copy
  * @property {number} [rc] copies one pick replaces ("2 of this model's heavy bolters")
  * @property {number} [dr] points one pick gives back from a priced default loadout
@@ -129,6 +135,7 @@
  * @property {AllegianceChoice} [alleg]
  * @property {1} [condBattleline] can be Battleline under some detachment
  * @property {Array<{ id: string, name: string }>} [crew]
+ * @property {Array<{ id: string, name: string, rule: string }>} [spawns] units an ability of this one brings into the game (rosterCompanionRows.js)
  * @property {{ add: number | number[], base?: number | number[], slots: number, one?: ItemId[], ranged?: [number, ItemId[]] }} [pm] per-model rules across groups (a slot names a group or all its copies)
  * @property {GearPool[]} [pools] one instruction's copies, a profile each, and the allowance they share
  * @property {Array<{ s: Array<[number] | [number, number]>, k?: number, item?: ItemId }>} [xpm] a model's limit across groups
@@ -348,6 +355,8 @@
  * @property {number} [ver]
  * @property {ModifierRef | null} [ref]
  * @property {string} [num]  a core-rule record's section (coreRules.js), which has no ref
+ * @property {string[]} [appliesWhile]  a detachment rule in force only while these list-answered
+ *   conditions hold — the whole rule, not one effect (Command Protocols: `unit-led`)
  */
 
 /**
@@ -469,7 +478,17 @@
  * @property {number[]} [rounds]
  * @property {string} [phase]
  * @property {'own' | 'any'} [side]
- * @property {{ copies?: number, name?: string, melee?: number, besides?: string[], all?: string[] }} [gear]
+ * @property {{ copies?: number, name?: string, melee?: number, besides?: string[], all?: string[], mini?: string }} [gear]
+ * @property {string[]} [bodyguard]  in an attached unit whose Bodyguard carries any of these keywords
+ * @property {string} [bodyguardCore]  in an attached unit whose Bodyguard prints this core ability
+ * @property {boolean} [attachedCharacter]  in an attached unit that holds another CHARACTER
+ * @property {string[]} [warlord]  the army's Warlord carries all of these keywords
+ */
+
+/**
+ * A printed sheet, looked up by datasheet id — what a list-answered condition reads the OTHER
+ * entries' keywords and core abilities from.
+ * @typedef {(unitId: string) => ({ keywords?: string[], factionKeywords?: string[], keywordsByModel?: { list?: string[] }[], name?: string, core?: string } | null | undefined)} SheetOf
  */
 
 /**

@@ -34,4 +34,12 @@ describe('EnhancementRuleModal', () => {
     w.unmount()
     expect((await open('astra-militarum', 'Grand Strategist', [{ name: 'Armoured Infantry' }]))?.body).toBe(own('Armoured Infantry').body)
   })
+
+  // Veil of Darkness lists three steps; the window ran them into one line (a player's report,
+  // 2026-10-17). The body is a list, as it is on the faction page.
+  it('draws a body’s ▪ steps as a list', async () => {
+    await open('necrons', 'Veil of Darkness')
+    await vi.waitFor(() => expect(document.querySelectorAll('.erm-body li').length).toBe(3), { timeout: 15000 })
+    expect(document.querySelector('.erm-body').textContent).not.toContain('▪')
+  })
 })

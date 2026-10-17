@@ -66,7 +66,7 @@
             </div>
             <p
               v-if="faction.rule.flavor"
-              class="faction-flavor"
+              class="faction-flavor lines"
             >
               {{ faction.rule.flavor }}
             </p>
@@ -88,7 +88,7 @@
             </h2>
             <p
               v-if="faction.armyRule.flavor"
-              class="faction-flavor"
+              class="faction-flavor lines"
             >
               {{ faction.armyRule.flavor }}
             </p>
@@ -159,7 +159,7 @@
               </div>
               <p
                 v-if="e.flavor"
-                class="faction-flavor"
+                class="faction-flavor lines"
               >
                 {{ e.flavor }}
               </p>

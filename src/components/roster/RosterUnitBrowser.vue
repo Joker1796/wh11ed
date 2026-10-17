@@ -217,6 +217,7 @@
       :unit-id="previewUnitId"
       :faction-slug="previewSlug"
       :ctx="{ detachments }"
+      building
       @close="previewId = null"
     />
   </div>

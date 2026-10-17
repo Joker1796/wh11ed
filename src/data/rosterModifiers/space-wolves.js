@@ -437,7 +437,7 @@ export default {
             "ru": "пока модель присоединена к отряду BLOOD CLAWS"
           },
           "cond": [
-            "never"
+            "unit-leading-blood-claws"
           ],
           "target": "unit"
         },
@@ -451,7 +451,7 @@ export default {
             "ru": "пока модель присоединена к отряду BLOOD CLAWS"
           },
           "cond": [
-            "never"
+            "unit-leading-blood-claws"
           ],
           "target": "unit"
         }
@@ -563,7 +563,7 @@ export default {
             "ru": "пока присоединён к отряду, где есть другая модель CHARACTER"
           },
           "cond": [
-            "never"
+            "unit-attached-character"
           ]
         }
       ]

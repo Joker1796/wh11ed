@@ -29,6 +29,8 @@ import { conditions, groupLimitOf, WHOLE_GROUPS } from '../data/rosterModifiers/
 import { SM_FAMILY } from '../data/smChapters.js'
 import { tracks } from '../data/trackerOptions.js'
 import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
+import { unitKeywordsOf } from './ruleTargets.js'
+import { foldName } from '../utils/foldName.js'
 
 /** @typedef {import('./roster.types.js').GameClock} GameClock */
 /** @typedef {import('./roster.types.js').Condition} Condition */
@@ -42,6 +44,7 @@ import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 /** The entry a card is drawn for — read for its uid, id and leaderOf only. @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
 /** @typedef {import('./roster.types.js').ModEntry} ModEntry */
+/** @typedef {import('./roster.types.js').SheetOf} SheetOf */
 /** A group's size for one unit, where a rule raises it above the group's own: `{ order: 2 }`. @typedef {Record<string, number>} GroupLimits */
 /** A clock, or the bare round number a game saved before the clock existed stores. @typedef {GameClock | number | null | undefined} ClockLike */
 
@@ -188,11 +191,37 @@ function stampHolds(at, duration, clock) {
 // Answered by the list itself: a Leader entry records the unit it is attached to, so asking the
 // player would be asking them to repeat themselves. `units` is the roster's entries — `unit-led`
 // has to look the other way along the link, for a Leader pointing at THIS entry.
-/** @param {string} id @param {EntryLike | null | undefined} entry @param {RosterEntry[] | null | undefined} units */
-function rosterAnswers(id, entry, units) {
+/** @param {string} id @param {EntryLike | null | undefined} entry @param {RosterEntry[] | null | undefined} units @param {SheetOf | null} [sheetOf] */
+function rosterAnswers(id, entry, units, sheetOf = null) {
   if (id === 'unit-leading') return !!entry?.leaderOf
   if (id === 'unit-led') return !!entry?.leaderOf || (!!entry?.uid && (units || []).some((u) => u.leaderOf === entry.uid))
-  return false
+  if (id === 'unit-warlord') return !!entry?.warlord
+  // The rest read the printed sheets of the OTHER entries — the Bodyguard's keywords, the
+  // Warlord's — so without a lookup they stay unanswered rather than guessed.
+  const c = conditions[id]
+  if (!sheetOf || !entry) return false
+  const list = units || []
+  /** @param {string | undefined} unitId */
+  const kwsOf = (unitId) => new Set((unitId ? unitKeywordsOf(sheetOf(unitId)) : []).map((k) => foldName(k)))
+  if (c.warlord) {
+    const w = list.find((u) => u.warlord)
+    const kws = kwsOf(w?.id)
+    return !!w && c.warlord.every((k) => kws.has(foldName(k)))
+  }
+  if (!c.bodyguard && !c.bodyguardCore && !c.attachedCharacter) return false
+  // The attached unit this entry is in: the Bodyguard it leads (or itself), and every Leader on it.
+  const host = entry.leaderOf ? list.find((u) => u.uid === entry.leaderOf) : entry
+  const leaders = host?.uid ? list.filter((u) => u.leaderOf === host.uid) : []
+  if (!host || !leaders.length) return false
+  if (c.bodyguard) {
+    const kws = kwsOf(host.id)
+    return c.bodyguard.some((k) => kws.has(foldName(k)))
+  }
+  if (c.bodyguardCore) {
+    const want = foldName(c.bodyguardCore)
+    return String(sheetOf(host.id || '')?.core || '').split(',').some((a) => foldName(a.trim()).startsWith(want))
+  }
+  return [host, ...leaders].some((u) => u.uid !== entry.uid && kwsOf(u.id).has('character'))
 }
 
 // Does the tracker's own clock say this condition holds? Two kinds. A `rounds` window needs no
@@ -222,7 +251,7 @@ function clockHolds(c, clock) {
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
  * @param {EntryLike | null | undefined} entry
- * @param {{ units?: RosterEntry[] | null, army?: boolean, unit?: boolean, shock?: boolean, groupLimits?: GroupLimits }} [opts]
+ * @param {{ units?: RosterEntry[] | null, sheetOf?: SheetOf | null, army?: boolean, unit?: boolean, shock?: boolean, groupLimits?: GroupLimits }} [opts]
  * @returns {Set<string>}
  */
 export function activeConditions(player, clock, entry, opts = {}) {
@@ -236,7 +265,7 @@ export function activeConditions(player, clock, entry, opts = {}) {
     let on = false
     if (c.scope === 'clock') on = clockHolds(c, clock)
     else if (isAuto(id)) on = AUTO[id](player, round)
-    else if (c.scope === 'roster') on = rosterAnswers(id, entry, opts.units)
+    else if (c.scope === 'roster') on = rosterAnswers(id, entry, opts.units, opts.sheetOf)
     else if (c.scope === 'army') on = army && switchOn(player?.ctx?.army, id, clock)
     else if (entry?.uid) on = (SHOCK_IDS.has(id) ? shock : unit) && switchOn(player?.ctx?.units?.[entry.uid], id, clock)
     // …and a soft-auto condition is also on while the tracker — or the entry's own datasheet —
@@ -267,13 +296,18 @@ export function activeConditions(player, clock, entry, opts = {}) {
 /**
  * @param {EntryLike | null | undefined} entry
  * @param {RosterEntry[] | null} [units]
+ * @param {SheetOf | null} [sheetOf] the printed sheets, for the conditions that read another entry's keywords
  * @returns {Set<string>}
  */
-export function rosterConditions(entry, units = null) {
+export function rosterConditions(entry, units = null, sheetOf = null) {
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
-    if (c.scope === 'roster' && rosterAnswers(id, entry, units)) out.add(id)
-    else if (c.negates) out.add(id)
+    if (c.scope === 'roster' && rosterAnswers(id, entry, units, sheetOf)) out.add(id)
+  }
+  // An ordinary state holds unless its opposite does — off the table nothing has happened, so only
+  // a state the list itself answers can be its opposite.
+  for (const [id, c] of Object.entries(conditions)) {
+    if (c.negates && !out.has(c.negates)) out.add(id)
   }
   return out
 }

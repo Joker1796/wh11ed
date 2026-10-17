@@ -56,8 +56,8 @@
 
           <div
             v-if="example"
-            v-safe-html="renderInline(example)"
-            class="example-block"
+            v-safe-html="renderParagraphs(example)"
+            class="example-block paras"
           />
         </div>
       </div>
@@ -104,7 +104,7 @@ watch(() => route.hash, (hash) => {
   }
 }, { immediate: true })
 
-const { renderInline, renderParagraphs } = useRenderInline()
+const { renderParagraphs } = useRenderInline()
 
 </script>
 

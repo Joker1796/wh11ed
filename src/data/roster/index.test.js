@@ -616,6 +616,43 @@ describe('an option that needs an item only another option brings', () => {
   })
 })
 
+// A condition that names several items, or one item a swap offers among others — read as one
+// unreadable name until a player's report on the Canoness (2026-10-17), and the group stayed open.
+describe('a condition on several items, or on one option of a swap', () => {
+  const unit = (slug, id) => factions.find((f) => f.slug === slug).data.units.find((u) => u.id === id)
+  const groupNamed = (u, name) => u.gear.findIndex((g) => g.o.some((o) => optionItems(o).some(([id]) => rosterItems.items[id] === name)) && g.o.length === 1)
+  const optionOf = (u, gi, name) => u.gear[gi].o.findIndex((o) => optionItems(o).some(([id]) => rosterItems.items[id] === name))
+  const pick = (u, name) => {
+    const gi = u.gear.findIndex((g) => !g.cond && optionOf(u, u.gear.indexOf(g), name) >= 0)
+    return [gi, optionOf(u, gi, name), 1]
+  }
+
+  it('Canoness: the rod of office needs the plasma pistol AND the power weapon', () => {
+    const u = unit('adepta-sororitas', 'canoness')
+    const rod = groupNamed(u, 'Rod of Office')
+    expect(wargearGroupLive(u, { size: 0, wg: [] }, rod)).toBe(false)
+    expect(wargearGroupLive(u, { size: 0, wg: [pick(u, 'Plasma pistol')] }, rod)).toBe(false)
+    expect(wargearGroupLive(u, { size: 0, wg: [pick(u, 'Inferno pistol'), pick(u, 'Power weapon')] }, rod)).toBe(false)
+    expect(wargearGroupLive(u, { size: 0, wg: [pick(u, 'Plasma pistol'), pick(u, 'Power weapon')] }, rod)).toBe(true)
+  })
+
+  it('Ork Kill Tank: the Big Shootas need the Deff Rolla, not any pick of its swap', () => {
+    const u = unit('orks', 'kill-tank')
+    const shootas = u.gear.findIndex((g) => g.cond)
+    expect(u.gear[shootas].cond[2]).toEqual([optionOf(u, u.gear[shootas].cond[0], 'Deff Rolla')])
+  })
+
+  it.each([
+    ['aeldari', 'corsair-voidscarred', 'Faolchú'],
+    ['leagues-of-votann', 'hernkyn-pioneers', 'Multiwave Comms Array'],
+    ['leagues-of-votann', 'cthonian-beserks', 'Mole grenade launcher'],
+  ])('%s %s: %s is conditioned', (slug, id, name) => {
+    const u = unit(slug, id)
+    const gi = u.gear.findIndex((g) => g.o.some((o) => optionItems(o).some(([i]) => rosterItems.items[i] === name)))
+    expect(u.gear[gi].cond).toBeTruthy()
+  })
+})
+
 describe('default loadouts', () => {
   // 144 datasheets carry no base_miniature_loadout row; for 136 the starting gear is a
   // "Default Wargear" option group instead. Reading only the loadout table left those units with
@@ -2283,5 +2320,29 @@ describe('an allegiance record reaches only its own group', () => {
         expect(gids.has(r.ref.gid), `${slug}: ${r.name} (group ${r.ref.gid})`).toBe(true)
       }
     }
+  })
+})
+
+// A unit an ability brings into the game hangs under its maker in every list (`spawns`, a player's
+// report 2026-10-17): read off the ability's text by the generator, which fails on a name it cannot
+// place. These are the four abilities that do it today; each points at a unit of the faction.
+describe('units an ability brings into the game', () => {
+  it('the four, and every one a unit of its faction', async () => {
+    const found = []
+    for (const { slug, data } of factions) {
+      const ids = new Set(data.units.map((u) => u.id))
+      for (const u of data.units) {
+        for (const s of u.spawns || []) {
+          expect(ids.has(s.id), `${slug}: ${u.name} → ${s.id}`).toBe(true)
+          found.push(`${u.name} → ${s.name} (${s.rule})`)
+        }
+      }
+    }
+    expect(found.sort()).toEqual([
+      'Biovores → Spore Mines (Seed Spore Mines)',
+      'Harpy → Spore Mines (Spore Mine Cysts)',
+      'Parasite of Mortrex → Ripper Swarms (Parasitic Infection)',
+      'Sporocyst → Mucolid Spores (Seed Mucolids)',
+    ])
   })
 })

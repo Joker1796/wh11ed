@@ -178,6 +178,12 @@ const ICONS = {
     cut: [[rect(0.8, 9.8, 17.2, 19.1)]], keep: 1 }
   })(),
   'ui-doc': [docShape(), [rect(8.4, 11, 15.6, 12.6)], [rect(8.4, 14, 15.6, 15.6)], [rect(8.4, 17, 13.6, 18.6)]],
+  // A unit's datasheet as the app draws it (owner, 2026-10-17: "it should read as a unit card, not
+  // a document"): a frame with a solid name band on top, the row of chamfered stat boxes under it,
+  // two lines of rules below.
+  'ui-datasheet': [[rect(1.6, 3, 22.4, 21), rect(3.2, 8.2, 20.8, 19.4)],
+    ...[0, 1, 2, 3].map((i) => [rect(4.4 + i * 4.05, 9.6, 7.6 + i * 4.05, 12.8, 0.8)]),
+    [rect(4.4, 14.4, 19.6, 15.6)], [rect(4.4, 16.6, 14.2, 17.8)]],
   'ui-sliders': [[rect(2.6, 4.7, 21.4, 6.5)], [rect(2.6, 11.1, 21.4, 12.9)], [rect(2.6, 17.5, 21.4, 19.3)],
     [rect(6.6, 2.6, 9.4, 8.6)], [rect(14.6, 9, 17.4, 15)], [rect(9.6, 15.4, 12.4, 21.4)]],
   'ui-people': [[circle(8.6, 6.6, 3.5)], [[[2.2, 20.6], [2.8, 16.4], [5.2, 13.6], [12, 13.6], [14.4, 16.4], [15, 20.6]]],

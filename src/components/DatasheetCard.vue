@@ -816,7 +816,7 @@
             </ul>
             <div
               v-if="sheet.loadout"
-              v-safe-html="dsText(sheet.loadout)"
+              v-safe-html="dsRichText(sheet.loadout)"
               class="ds-loadout"
             />
           </div>
@@ -1067,7 +1067,8 @@ const props = defineProps({
   // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
   // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
   // are settled questions, and the loadout sentence disagrees with the weapon tables once those
-  // are trimmed to what the entry actually fields. Off everywhere except the roster's unit modal.
+  // are trimmed to what the entry actually fields. On only in the roster view and a game — not while
+  // the list is being built (RosterUnitRulesCard's `building`).
   hideChoices: { type: Boolean, default: false },
   // Army-rule names this card's caller can open (see the faction line above). Matched against the
   // comma-separated parts of `sheet.faction` apostrophe- and case-insensitively, because the

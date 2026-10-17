@@ -26,9 +26,9 @@
     class="footprint-source"
   />
 
-  <p
-    v-safe-html="renderInline(ec.terrain.keyNote)"
-    class="key-note"
+  <div
+    v-safe-html="renderParagraphs(ec.terrain.keyNote)"
+    class="key-note paras"
   />
 
   <!-- LAYOUTS KEY — collapsible legend (preference persisted) -->
@@ -232,7 +232,7 @@ import { getItem, setItem } from '../../composables/safeStorage.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderInline, renderParagraphs } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 const ec = computed(() => getEventContent(locale.value))

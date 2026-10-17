@@ -83,6 +83,30 @@ describe('applyValue', () => {
   })
 })
 
+// The limits every characteristic keeps after all modifiers (02.02.01).
+describe('applyValue — the limits of 02.02.01', () => {
+  it('Leadership stays between 5+ and 8+', () => {
+    expect(applyValue('5+', 'improve', 1, 'ld')).toBe('5+')
+    expect(applyValue('6+', 'improve', 2, 'ld')).toBe('5+')
+    expect(applyValue('7+', 'add', 3, 'ld')).toBe('8+')
+  })
+  it('a "-", "*" or "N/A" is never modified, an invulnerable save is still given', () => {
+    expect(applyValue('-', 'set', '3+', 'bs')).toBe(null)
+    expect(applyValue('N/A', 'set', '3+', 'bs')).toBe(null)
+    expect(applyValue('-', 'set', '4+', 'inv')).toBe('4+')
+  })
+  it('a dice amount is annotated, never NaN', () => {
+    expect(applyValue('6"', 'add', '2D6', 'm')).toBe(null)
+    expect(applyValue('4', 'add', 'D3', 'a')).toBe(null)
+  })
+  it('the least a number can be', () => {
+    expect(applyValue('1', 'add', -1, 'd')).toBe('1')
+    expect(applyValue('0', 'add', -1, 'oc')).toBe('0')
+    expect(applyValue('0', 'add', 1, 'ap')).toBe('0')
+    expect(applyValue('1"', 'add', -2, 'm')).toBe('1"')
+  })
+})
+
 describe('applyStatMods', () => {
   it('does nothing at all without records', () => {
     const s = sheet()
@@ -547,6 +571,65 @@ describe('applyStatMods with a weapon filter', () => {
 
 // "…add 2 to the Attacks characteristic INSTEAD." Two effects, one number: while the alternate is
 // in force the base must not also land, or +1 and +2 quietly become +3.
+// [TORRENT] makes no hit roll, so an ability that fires on a critical hit can never fire on it — a
+// player's report on Alpha Invader's [SUSTAINED HITS 1] printed on the Raveners' venom bolt.
+describe('applyStatMods — a critical-hit ability on a [TORRENT] weapon', () => {
+  const ravenersSheet = () => ({
+    name: 'Hyperadapted Raveners',
+    profiles: [{ m: '10"', t: '5', sv: '4+', w: '3', ld: '8+', oc: '1' }],
+    ranged: [{ name: 'Venom bolt', tags: ['ASSAULT', 'IGNORES COVER', 'TORRENT'], a: 'D6+3', s: '6', ap: '-1', d: '1' }],
+    melee: [{ name: 'Ravener heavy claws and talons', tags: [], a: '5', s: '6', ap: '-2', d: '2' }],
+  })
+  const grant = (value) => ({
+    name: 'Alpha Invader', kind: 'ability', det: null, body: '',
+    effects: [{ on: 'weapon', stat: 'ability', op: 'grant', value, when: null }],
+  })
+
+  it.each(['SUSTAINED HITS 1', 'LETHAL HITS', 'LETHAL HITS: non-VEHICLE'])('%s is not printed on it, only on the other weapons', (value) => {
+    const out = applyStatMods(ravenersSheet(), [grant(value)], destroyer, [])
+    expect(out.sheet.ranged[0].tags).not.toContain(value)
+    expect(out.sheet.melee[0].tags).toContain(value)
+    expect(out.marks).not.toContain('ranged:tags:0')
+  })
+
+  it('HEAVY is not printed on it either — no hit roll to add 1 to (24.16)', () => {
+    const out = applyStatMods(ravenersSheet(), [{ ...grant('HEAVY'), effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'HEAVY', when: null }] }], destroyer, [])
+    expect(out.sheet.ranged[0].tags).not.toContain('HEAVY')
+  })
+
+  it('IGNORES COVER reaches neither it nor a melee weapon — cover is -1 BS on a ranged attack (13.08)', () => {
+    const s = ravenersSheet()
+    s.ranged[0].tags = ['TORRENT']
+    s.ranged.push({ name: 'Deathspitter', tags: [], a: '3', bs: '4+', s: '5', ap: '-1', d: '1' })
+    const out = applyStatMods(s, [grant('IGNORES COVER')], destroyer, [])
+    expect(out.sheet.ranged.map((w) => w.tags.includes('IGNORES COVER'))).toEqual([false, true])
+    expect(out.sheet.melee[0].tags).not.toContain('IGNORES COVER')
+  })
+
+  it('any other ability still is', () => {
+    const out = applyStatMods(ravenersSheet(), [grant('DEVASTATING WOUNDS')], destroyer, [])
+    expect(out.sheet.ranged[0].tags).toContain('DEVASTATING WOUNDS')
+  })
+})
+
+// One instance of an ability at a time (24.02): the card shows the better one only.
+describe('applyStatMods — a grant the weapon has, better or worse', () => {
+  const s = (tags) => ({ name: 'X', profiles: [], ranged: [{ name: 'Gun', tags, a: '2', bs: '3+', s: '4', ap: '0', d: '1' }], melee: [] })
+  const grant = (value) => ({ name: 'Rule', kind: 'ability', det: null, body: '', effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value, when: null }] })
+  it('a worse grant is not added', () => {
+    expect(applyStatMods(s(['SUSTAINED HITS 2']), [grant('SUSTAINED HITS 1')], destroyer, []).sheet.ranged[0].tags).toEqual(['SUSTAINED HITS 2'])
+    expect(applyStatMods(s(['LETHAL HITS']), [grant('LETHAL HITS: non-VEHICLE')], destroyer, []).sheet.ranged[0].tags).toEqual(['LETHAL HITS'])
+  })
+  it('a better grant takes the printed one\'s place', () => {
+    const out = applyStatMods(s(['ANTI-VEHICLE 4+', 'BLAST']), [grant('ANTI-VEHICLE 2+')], destroyer, [])
+    expect(out.sheet.ranged[0].tags).toEqual(['BLAST', 'ANTI-VEHICLE 2+'])
+    expect(out.marks).toContain('ranged:tags:0')
+  })
+  it('another keyword is a choice, both stay', () => {
+    expect(applyStatMods(s(['ANTI-INFANTRY 2+']), [grant('ANTI-MONSTER 5+')], destroyer, []).sheet.ranged[0].tags).toEqual(['ANTI-INFANTRY 2+', 'ANTI-MONSTER 5+'])
+  })
+})
+
 describe('applyStatMods with an "instead" variant', () => {
   const rec = {
     name: 'Weapons of the First Legion', kind: 'enhancement', det: 'Unforgiven Task Force', body: '',
@@ -970,6 +1053,15 @@ describe('resolveModifierEntries — a stratagem\'s target', () => {
   it('leaves everything that is not a stratagem alone', () => {
     const rule = { kind: 'detachmentRule', name: 'Dark Pacts', effects: [] }
     expect(gateStratagems([rule], raiders, facKw)).toEqual([rule])
+  })
+
+  // "One DEATH GUARD Attached unit": the keywords say who, the list says whether it is attached
+  // (Grotesque Fortitude was offered to a unit with no Leader — 2026-10-17).
+  it('offers a stratagem whose target the list decides only where the list says so', () => {
+    const fortitude = { kind: 'stratagem', name: 'Grotesque Fortitude', targetScopes: null, appliesWhile: ['unit-led'], effects: [] }
+    expect(gateStratagems([fortitude], raiders, facKw, new Set(['unit-led']))).toEqual([fortitude])
+    expect(gateStratagems([fortitude], raiders, facKw, new Set())).toEqual([])
+    expect(gateStratagems([fortitude], raiders, facKw)).toEqual([])
   })
 })
 

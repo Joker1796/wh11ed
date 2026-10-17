@@ -508,9 +508,11 @@ a {
    units that carry it (useFactionKeywordUnits.js). The gloss's dotted line, since it too is a word
    that explains itself on a tap, in the link colour, since what it opens is a list of links.
    `.fkw-btn` is the same word as a real button, for a list a component opens itself (a datasheet's
-   "a Character with the … enhancement" — who may take it). */
+   "a Character with the … enhancement" — who may take it). `.unit-link` is a unit an ability brings
+   into the game ("new Ripper Swarms unit") — a tap opens its card (src/utils/unitLinkMarkup.js). */
 .fkw,
-.fkw-btn {
+.fkw-btn,
+.unit-link {
   text-decoration: underline dotted;
   text-decoration-color: var(--link-accent);
   text-underline-offset: 2px;
@@ -527,7 +529,8 @@ a {
 
 @media (hover: hover) {
   .fkw:hover,
-  .fkw-btn:hover { color: var(--link-accent-hover); }
+  .fkw-btn:hover,
+  .unit-link:hover { color: var(--link-accent-hover); }
 }
 
 .cross-ref {
@@ -821,6 +824,14 @@ strong {
 }
 
 /* Example blocks — like Wahapedia */
+/* Prose split into paragraphs by renderParagraphs (an example, a note, a lore line): the
+   paragraphs keep their break without the browser's 1em margins round the box. */
+.paras > p { margin: 0; }
+.paras > p + p { margin-top: 0.6em; }
+
+/* Plain text whose line breaks are part of it — a lore passage of several paragraphs. */
+.lines { white-space: pre-line; }
+
 .example-block {
   background: var(--bg-secondary);
   border-left: 3px solid var(--text-muted);
@@ -1026,6 +1037,7 @@ strong {
 .wi-panes { mask-image: url('./assets/icons/ui-panes.svg'); }
 .wi-book { mask-image: url('./assets/icons/ui-book.svg'); }
 .wi-doc { mask-image: url('./assets/icons/ui-doc.svg'); }
+.wi-datasheet { mask-image: url('./assets/icons/ui-datasheet.svg'); }
 .wi-pdf { mask-image: url('./assets/icons/ui-pdf.svg'); }
 .wi-ruler { mask-image: url('./assets/icons/ui-ruler.svg'); }
 .wi-signpost { mask-image: url('./assets/icons/ui-signpost.svg'); }

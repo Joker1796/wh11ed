@@ -171,6 +171,28 @@ describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
     expect(wargearGroupLive(overlord, {}, 1)).toBe(true) // ungated group always live
   })
 
+  // The Canoness's rod of office: "if this model is equipped with a plasma pistol and a power
+  // weapon" — two siblings, each on one option (a player's report, 2026-10-17).
+  it('several conditions, each on particular options, must all hold', () => {
+    const canoness = {
+      sizes: [{ pts: 60, per: [1, 1], default: 1 }],
+      defaults: [[0, [[21, 1], [22, 1]]]], // bolt pistol, hallowed chainsword
+      gear: [
+        { m: 0, in: 'checkbox', o: [[23], [24], [25]], rep: [21] }, // condemnor, inferno, plasma pistol
+        { m: 0, in: 'checkbox', o: [[26], [27]], rep: [22] }, // blessed blade, power weapon
+        { m: 0, in: 'checkbox', o: [[30]], cond: [[0, 1, [2]], [1, 1, [1]]] }, // rod of office
+      ],
+    }
+    expect(wargearGroupLive(canoness, {}, 2)).toBe(false)
+    expect(wargearGroupLive(canoness, { wg: [[0, 2, 1]] }, 2)).toBe(false) // plasma pistol alone
+    expect(wargearGroupLive(canoness, { wg: [[0, 1, 1], [1, 1, 1]] }, 2)).toBe(false) // inferno pistol, power weapon
+    expect(wargearGroupLive(canoness, { wg: [[0, 2, 1], [1, 0, 1]] }, 2)).toBe(false) // plasma pistol, blessed blade
+    expect(wargearGroupLive(canoness, { wg: [[0, 2, 1], [1, 1, 1]] }, 2)).toBe(true)
+    // the blocker names the condition still missing, and the option it needs
+    expect(wargearGroupBlocker(canoness, { wg: [[0, 2, 1]] }, 2)).toEqual({ need: 'present', ids: [27] })
+    expect(wargearGroupBlocker(canoness, {}, 2)).toEqual({ need: 'present', ids: [25] })
+  })
+
   it('drops a fully-replaced default from the loadout summary', () => {
     expect(defaultLoadoutLines(overlord, items, { wg: [] })).toEqual([{ mini: '', items: 'Tachyon arrow, Overlord’s blade', names: ['Tachyon arrow', 'Overlord’s blade'] }])
     expect(defaultLoadoutLines(overlord, items, { wg: [[1, 0, 1]] })).toEqual([]) // both defaults swapped away
@@ -973,6 +995,12 @@ describe('splitInstruction', () => {
   it('keeps a plain sentence whole with no bullets', () => {
     expect(splitInstruction('This model can be equipped with 1 Voidraven missiles.'))
       .toEqual({ head: 'This model can be equipped with 1 Voidraven missiles.', bullets: [], note: '' })
+  })
+
+  it('takes a hyphen and a space for a marker — the Kill Tank\'s list', () => {
+    expect(splitInstruction("This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and three of the following:\n\n- 1 Kannon.\n\n- 1 Lobba.\n\n- 1 Zzap Gun."))
+      .toEqual({ head: "This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and three of the following:", bullets: ['1 Kannon.', '1 Lobba.', '1 Zzap Gun.'], note: '' })
+    expect(splitInstruction('-1 to the Hit roll:\nfoo').bullets).toEqual(['foo']) // a minus is not a marker
   })
 
   it('splits the option list off the sentence and drops the markers', () => {

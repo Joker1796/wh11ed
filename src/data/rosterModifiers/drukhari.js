@@ -1557,7 +1557,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "kabalite-cartel"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "8b210e33-0efe-4538-89e1-edd6a1e3eef4",

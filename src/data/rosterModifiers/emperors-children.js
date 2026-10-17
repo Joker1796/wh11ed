@@ -707,7 +707,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "coterie-of-the-conceited"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "533b3db0-dd34-4863-84a7-bcd2eff86ea4",
@@ -970,11 +973,11 @@ export default {
         "scopes": [
           {
             "targets": [
-              "EMPEROR’S CHILDREN VEHICLE"
+              "EMPEROR'S CHILDREN VEHICLE"
             ],
             "excludes": [],
             "models": [
-              "EMPEROR’S CHILDREN VEHICLE"
+              "EMPEROR'S CHILDREN VEHICLE"
             ],
             "modelExcludes": []
           }

@@ -282,6 +282,16 @@ screens that had copied each other and drifted. The pairs that existed then are 
   because Vue times enter/leave by the root's own animation and would cut a child's short.
 
 
+## Rule prose has lines
+
+`renderInline` is for ONE line: a label, a name, a line RuleBody has already split off. A field
+that can hold `▪` steps, numbered steps or paragraphs goes through `renderRichText` (lists, lines
+joined by `<br>`), `renderParagraphs` (a `<p>` per paragraph — give the box `.paras`, global, for
+the spacing) or `RuleBody`; lore shown as plain text sits in an element with `.lines`
+(`white-space: pre-line`). `src/components/proseSinks.test.js` holds it: every field a line break
+may sit in is listed with its renderer, and none of them may reach an inline renderer (2026-10-17,
+Veil of Darkness in the builder's enhancement window, and seven more places like it).
+
 ## App icons
 
 **Every icon is the app's own drawing** — `.wi .wi-<name>` in `style.css`, one-colour SVGs in

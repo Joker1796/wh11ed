@@ -31,6 +31,7 @@ import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadMod
 import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
 import { APPDATA_EXCEPTIONS, extraKeywords } from './lib/appdata-exceptions.mjs'
 import { equippedCondition } from './lib/equippedCondition.mjs'
+import { spawnPhrases } from './lib/spawnPhrases.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
@@ -363,7 +364,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {} }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {}, spawns: [], spawnUnread: [] }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -938,36 +939,63 @@ function linkWargearConditions(datasheetId, drafts) {
   }
 
   // What each draft is CONDITIONED on, from "[if …] not equipped with X" / "equipped with X"
-  // (scripts/lib/equippedCondition.mjs).
+  // (scripts/lib/equippedCondition.mjs). A sentence can name several items ("a plasma pistol and a
+  // power weapon"): each is resolved to a sibling on its own, and the group is live only while all
+  // of them hold. One that resolves to nothing leaves the WHOLE group unconditioned — half a
+  // condition would close it for the wrong reason — and is reported by name (`cond.unread`), so a
+  // new shape is seen instead of quietly opening a group (the Canoness's rod of office, 2026-10-17).
+  const ALWAYS = {}
   for (const d of drafts) {
-    const cond = equippedCondition(d.text)
-    if (!cond) continue
-    const negated = cond.negated
-    const uuid = nameToUuid.get(norm(cond.item))
-    if (!uuid) continue
+    const read = equippedCondition(d.text)
+    if (!read) continue
+    const negated = read.negated
+    const conds = []
+    for (const item of read.items) {
+      const uuid = nameToUuid.get(norm(item))
+      const c = uuid && condFor(d, uuid, negated)
+      // an item that holds whatever the model does says nothing: drop it, keep the others
+      if (c === ALWAYS) continue
+      if (!c) { conds.length = 0; (report.cond.unread ||= []).push(`${enOf(dsById.get(datasheetId)).name}: «${item}» ← ${d.text.split('\n')[0].slice(0, 90)}`); break }
+      // two items one sibling gives ("either a HYLas rotary cannon or an ion beamer") are one condition on it
+      const same = conds.find((x) => x.sibling === c.sibling && x.active === c.active)
+      if (same) { if (same.items && c.items) same.items.push(...c.items); else same.items = null } else conds.push(c)
+    }
+    if (!conds.length) continue
+    d.cond = conds
+    if (negated && conds.some((c) => c.given)) (report.cond.notGiven ||= []).push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
+  }
 
+  // One item of a condition → `{ sibling, active, items? }`, or null. `items` narrows a positive
+  // condition to the sibling's options that carry it: "equipped with a plasma pistol" is met by
+  // the plasma pistol, not by the condemnor boltgun the same swap offers.
+  //
+  // ALWAYS when the item settles nothing: a starting item no sibling of this model's profile can
+  // take away ("1 model equipped with a pulse carbine…" on a Shas'ui whose carbine stays), or —
+  // negated — one nobody but this group itself hands out ("not equipped with … a mole grenade
+  // launcher can be equipped with 1 mole grenade launcher").
+  function condFor(d, uuid, negated) {
     // Case (a): the item is exactly another group's sole toggle option — mutual exclusion.
     const toggleSibling = drafts.find((s) => s !== d && s.m === d.m && s.opts.length === 1 && s.opts[0].uuid === uuid)
-    if (toggleSibling) { d.cond = { sibling: toggleSibling, active: !negated }; continue }
+    if (toggleSibling) return { sibling: toggleSibling, active: !negated }
 
     // Case (b): a sibling group's own `rep` shows it replaces this exact item — this group is
     // only live once that sibling has actually been picked away from its default.
     const repSibling = drafts.find((s) => s !== d && s.m === d.m && s.rep?.includes(uuid))
-    if (repSibling) { d.cond = { sibling: repSibling, active: negated }; continue }
+    if (repSibling) return { sibling: repSibling, active: negated }
 
     // Case (c): the item is not the model's to start with, and exactly one sibling group hands it
     // out — "If the Helliarch is equipped with 1 splinter pistol, it can be equipped with 1
     // hellglaive", where only the swap for "1 splinter pistol and 1 power weapon" brings a pistol.
     // Unread until 2026-09-30, the hellglaive could be taken with no swap at all.
-    if (defaultsByMini.get(d.miniId)?.has(uuid)) continue
+    if (defaultsByMini.get(d.miniId)?.has(uuid)) return negated ? null : ALWAYS
     const givers = drafts.filter((s) => s !== d && s.m === d.m && s.opts.some((o) => o.uuid === uuid))
-    if (givers.length !== 1) continue
+    if (!givers.length && negated) return ALWAYS
+    if (givers.length !== 1) return null
     // Case (d), the same with "NOT": "If the Acothyst is not equipped with a power weapon, its
     // torturer's tool can be replaced with 1 power weapon" — the one power weapon he can carry comes
     // with his own "power weapon and torturer's tool" swap, so this group is live only while that
     // swap is not taken (a player's report on Wracks, 2026-10-14; unread, it gave him two).
-    d.cond = { sibling: givers[0], active: !negated }
-    if (negated) (report.cond.notGiven ||= []).push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
+    return { sibling: givers[0], active: !negated, items: [uuid], given: true }
   }
 }
 
@@ -1277,7 +1305,7 @@ function mergeMiniatureDuplicates(drafts, stats) {
   if (!dropped.size) return drafts
   // A sibling condition points at a draft object; if that object is one of the dropped copies,
   // it has to follow the survivor or the dependent group would never go live.
-  for (const d of drafts) if (d.cond && dropped.has(d.cond.sibling)) d.cond.sibling = dropped.get(d.cond.sibling)
+  for (const d of drafts) for (const c of d.cond || []) if (dropped.has(c.sibling)) c.sibling = dropped.get(c.sibling)
   return drafts.filter((d) => !dropped.has(d))
 }
 
@@ -2741,9 +2769,14 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     // A condition is about one model, so a sibling that ships as copies is read on THIS model's
     // profile — its own copy where it has one, the sergeant's otherwise.
     if (d.cond) {
-      const sib = d.cond.sibling
-      const at = copyIndex.get(sib)?.get(m) ?? gearIndex.get(sib)
-      grp.cond = [at, d.cond.active ? 1 : 0]
+      const conds = d.cond.map((c) => {
+        const at = copyIndex.get(c.sibling)?.get(m) ?? gearIndex.get(c.sibling)
+        // the sibling's options carrying the named items, unless that is all of them
+        const opts = c.items && c.sibling.opts.map((o, i) => [o, i])
+          .filter(([o]) => c.items.some((u) => o.uuid === u || o.items?.some(([x]) => x === u))).map(([, i]) => i)
+        return opts?.length && opts.length < c.sibling.opts.length ? [at, c.active ? 1 : 0, opts] : [at, c.active ? 1 : 0]
+      })
+      grp.cond = conds.length === 1 ? conds[0] : conds
     }
     return grp
   }
@@ -3060,6 +3093,28 @@ async function genFaction(slug) {
       if (![...ruleNames(bd)].some((n) => theirs.has(n))) continue
       const u = units.find((x) => x.sid === bd.id)
       if (u) (u.crew ||= []).push({ id: idMap.get(nb.id), name: nb.name })
+    }
+  }
+  // …and the units a unit's ability BRINGS into the game: "add one new SPORE MINES unit to your
+  // army" (Biovores), "new RIPPER SWARMS unit" (Parasite of Mortrex). Not in the list and not paid
+  // for, but the player has to know what will appear — a player's report, 2026-10-17. `spawns`
+  // draws them as rows under the unit, as `crew` does. Read off the ability's own text (spawnPhrases),
+  // the phrase found as a sheet's name or, failing that, the one sheet carrying that keyword; a
+  // phrase that names neither fails the run — the next codex with such an ability is not to pass
+  // quietly.
+  const sheetByName = new Map((bundle.datasheets || []).filter((d) => idMap.get(d.id)).map((d) => [norm(d.name), d]))
+  for (const bd of bundleUnits) {
+    const u = units.find((x) => x.sid === bd.id)
+    if (!u) continue
+    for (const ab of bd.abilities || []) {
+      for (const phrase of spawnPhrases(enOf(ab).rules || ab.rules || '')) {
+        const byKw = (kwIndex.get(norm(phrase)) || []).filter((id) => idMap.get(id))
+        const child = sheetByName.get(norm(phrase)) || (byKw.length === 1 ? (bundle.datasheets || []).find((d) => d.id === byKw[0]) : null)
+        if (!child) { report.spawnUnread.push(`${slug}: ${bd.name} — "${phrase}" (${enOf(ab).name || ab.name})`); continue }
+        if (child.id === bd.id || (u.spawns || []).some((s) => s.id === idMap.get(child.id))) continue
+        ;(u.spawns ||= []).push({ id: idMap.get(child.id), name: child.name, rule: enOf(ab).name || ab.name })
+        report.spawns.push(`${slug}: ${bd.name} → ${child.name}`)
+      }
     }
   }
   // Codex: Space Marines also plays the six Codex Supplement detachments (Blade of Ultramar …), which
@@ -3738,6 +3793,7 @@ for (const l of ally.narrowed) console.log(`    two rules for one group, kept th
 for (const l of ally.self) console.log(`    a rule allying the army to itself, through a parent keyword (skipped) — ${l}`)
 for (const l of ally.ratio) console.log(`    BATTLELINE ratio (non-BATTLELINE ≤ BATTLELINE per keyword) — ${l}`)
 for (const l of ally.missing.slice(0, 10)) console.log(`    unresolved allied datasheet — ${l}`)
+console.log(`  spawns: ${report.spawns.length} unit(s) an ability brings into the game — ${report.spawns.join('; ')}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)
 const b = report.bundle
@@ -3803,6 +3859,7 @@ console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction
 console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity, ${lm.bundled} matched through a bundled option), ${lm.fromProse} more from their own instruction where appdata records no set (+${lm.fromProseScaled} from its "for every N models, up to M" step form), ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 for (const l of report.limit.perOption || []) console.log(`    one set per option, folded into the group — ${l}`)
 for (const l of report.limit.perOptionLeft || []) console.log(`    one set per option, NOT folded — ${l}`)
+for (const l of report.cond.unread || []) console.log(`  ✗ condition names an item no sibling group settles — the group stays open: ${l}`)
 for (const l of report.cond.notGiven || []) console.log(`  condition "not equipped with" an item only a sibling grants — ${l}`)
 if (lm.conflict.length) {
   console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)
@@ -3883,6 +3940,14 @@ if (report.wargearMfm.unmatched.length) {
 // A box this cannot field is a box the tracker would start with a hole in it.
 if (report.cp.missing.length || report.cp.unmatched.length) {
   console.log(`\n  ✗ Combat Patrol boxes as rosters: ${[...report.cp.missing.map((b) => `${b}: no box detachment/publication in appdata`), ...report.cp.unmatched.map((u) => `${u}: no entry of combatPatrol.js`)].join('; ')}`)
+  return 1
+}
+if (report.cond.unread?.length) {
+  console.log(`\n  ✗ ${report.cond.unread.length} wargear condition(s) name an item no sibling group settles — the group would stay open: read it, extend equippedCondition or condFor`)
+  return 1
+}
+if (report.spawnUnread.length) {
+  console.log(`\n  ✗ an ability brings in a unit no datasheet of the faction is named or keyworded as — read it, fix spawnPhrases or the match: ${report.spawnUnread.join('; ')}`)
   return 1
 }
 if (report.dnu.length) {

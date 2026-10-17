@@ -12,7 +12,7 @@
         class="btn-ghost ues-sheet-link"
         @click="rulesOpen = true"
       >
-        <i class="wi wi-doc" /> {{ labels.rosterShowDatasheet }}
+        <i class="wi wi-datasheet" /> {{ labels.rosterShowDatasheet }}
       </button>
       <label class="ues-note">
         <span class="ues-note-lab">{{ labels.rosterNote }}</span>
@@ -37,6 +37,7 @@
           :unit-id="sheetId"
           :faction-slug="factionSlug"
           :ctx="{ def, entry, items, detachments, leaderTargets, units }"
+          building
           @close="rulesOpen = false"
         />
       </FactionAccentScope>
@@ -72,6 +73,7 @@
           :unit-id="sheetPreview.sheetId"
           :faction-slug="sheetPreview.slug"
           :ctx="{ detachments }"
+          building
           @close="sheetPreview = null"
         />
       </FactionAccentScope>

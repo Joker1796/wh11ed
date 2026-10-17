@@ -51,6 +51,7 @@ import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds, table } from './lib/sync-common.mjs'
 import { ruleScopes } from '../src/composables/ruleTargets.js'
 import { foldName } from '../src/utils/foldName.js'
+import { appliesWhileOf } from '../src/data/rosterModifiers/appliesWhile.js'
 
 const OUT_DIR = path.join(ROOT, 'src/data/rosterModifiers')
 const QUEUE = path.join(ROOT, 'MODIFIER-QUEUE.local.json')
@@ -542,13 +543,17 @@ function classify(existing, sources, ver) {
   }
   for (const s of sources) {
     if (known.has(s.sid)) continue
-    if (s.always || isCandidate(s.prose)) fresh.push(s)
+    // A rule in force only inside an attached unit gets a record even when it changes no number
+    // (re-rolls, a Stratagem for 0CP): its `appliesWhile` is what keeps the card from listing it
+    // where it does not reach (src/data/rosterModifiers/appliesWhile.js). Not a stratagem: one is
+    // offered on a card only for an effect it carries, so a record without one changes nothing.
+    if (s.always || isCandidate(s.prose) || (s.kind !== 'stratagem' && appliesWhileOf(s.kind, s.prose))) fresh.push(s)
   }
   return { stale, fresh, orphan, ok, ver }
 }
 
 // The file keeps every record, in a stable order, with the bookkeeping refreshed and the
-// hand-authored parts (`effects`, `when`, `cond`, `reviewed`, plus any `note`) carried through
+// hand-authored parts (`effects`, `when`, `cond`, `reviewed`, plus any `note` or `appliesWhile`) carried through
 // untouched.
 function serialise(slug, existing, sources, result) {
   const bySid = new Map(sources.map((s) => [s.sid, s]))

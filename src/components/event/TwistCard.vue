@@ -17,20 +17,20 @@
 
     <!-- Lore/flavour right after the heading, project convention (cf. .strat-flavor);
          the `tcard-flavor` class is hidden in "Hide lore" mode. -->
-    <p
+    <div
       v-if="twist.example"
-      v-safe-html="renderInline(twist.example)"
-      class="tcard-flavor"
+      v-safe-html="renderParagraphs(twist.example)"
+      class="tcard-flavor paras"
     />
 
     <div class="tcard-body">
       <RuleBody :body="twist.body" />
     </div>
 
-    <p
+    <div
       v-if="twist.note"
-      v-safe-html="renderInline(twist.note)"
-      class="tcard-note"
+      v-safe-html="renderParagraphs(twist.note)"
+      class="tcard-note paras"
     />
   </article>
 </template>
@@ -44,7 +44,7 @@ defineProps({
   twist: { type: Object, required: true }, // { id, title, titleRu?, body, note?, example? }
 })
 
-const { renderInline } = useRenderInline()
+const { renderParagraphs } = useRenderInline()
 </script>
 
 <style scoped>

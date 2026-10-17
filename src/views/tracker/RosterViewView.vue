@@ -349,7 +349,7 @@
                     data-tour="rv-unit"
                     :class="{
                       'rvunit-attached': e.leaderOf,
-                      'rvunit-host': hasAttached(g.entries, e) || !!defOf(e.id)?.crew,
+                      'rvunit-host': hasAttached(g.entries, e) || companionRows(defOf(e.id)).length > 0,
                       'rvunit-on': unitPane && viewingUid === e.uid,
                       'rvunit-fallen': fallen(e),
                     }"
@@ -470,11 +470,12 @@
                     </CollapseTransition>
                   </div>
                   <!-- Who comes WITH the unit and cannot be bought on his own — Sir Hekhtur, who climbs
-                   out of Canis Rex (the data's `crew`). A row of his own under the Knight, so his card
-                   is one tap away at the table (owner, 2026-10-04); no points, no switches. -->
+                   out of Canis Rex (`crew`) — and who its abilities bring into the game — Ripper
+                   Swarms from a Parasite of Mortrex (`spawns`). A row each under the unit, so the card
+                   is one tap away at the table (rosterCompanionRows.js); no points, no switches. -->
                   <button
-                    v-for="c in defOf(e.id)?.crew || []"
-                    :key="c.id"
+                    v-for="c in companionRows(defOf(e.id))"
+                    :key="c.kind + c.id"
                     type="button"
                     class="rvunit rvunit-main rvunit-crew"
                     :class="{ 'rvunit-on': unitPane && viewingCrew === c.id }"
@@ -482,12 +483,19 @@
                     data-press-sound="card"
                     @click="openCrew(c)"
                   >
-                    <i class="wi wi-return rvunit-crew-mark" />
+                    <i
+                      class="wi rvunit-crew-mark"
+                      :class="c.kind === 'spawn' ? 'wi-add-circle' : 'wi-return'"
+                    />
                     <span class="rvunit-text">
                       <span class="rvunit-name">{{ c.name }}</span>
+                      <span
+                        v-if="c.kind === 'spawn'"
+                        class="rvunit-crew-note"
+                      >{{ labels.rosterSpawnNote }} · {{ c.rule }}</span>
                     </span>
                     <span
-                      v-if="!roster.cp"
+                      v-if="!roster.cp && c.kind !== 'spawn'"
                       class="rvunit-pts"
                     >0</span>
                     <i class="wi wi-chevron-right rvunit-chev" />
@@ -656,6 +664,7 @@ import { useRosterFactionData, useRosterFactionRules } from '../../composables/u
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
 import { useTour, useTourShow } from '../../composables/useTour.js'
+import { companionRows } from '../../composables/rosterCompanionRows.js'
 
 const props = defineProps({
   // The rosters desk (RosterDeskView) shows a saved roster beside the list, by id; the routes
@@ -771,6 +780,10 @@ watch([gamePi, gameMi, historyId], async ([pi, , gid]) => {
 }, { immediate: true })
 onUnmounted(() => { if (liveParty) liveParty.detach() })
 
+// The printed sheet behind an id — what a condition about ANOTHER entry (the Bodyguard's keywords,
+// the Warlord's) reads.
+const sheetOfId = (id) => fullSheets.value.get(id)
+
 // What is true for one entry: the game answers when there is one, and off the table the LIST still
 // answers for itself (an enhancement gated on "while the bearer is leading a unit" is proven by the
 // roster) — the same call RosterUnitRulesModal makes, so a row and the card behind it agree.
@@ -780,9 +793,10 @@ const activeFor = (entry) => (inGame.value
       unit: keeps('trackUnitStates'),
       shock: keeps('trackBattleShock'),
       units: roster.value?.units,
+      sheetOf: sheetOfId,
       groupLimits: groupLimitsOf(entry),
     })
-  : rosterConditions(entry, roster.value?.units))
+  : rosterConditions(entry, roster.value?.units, sheetOfId))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
@@ -1186,7 +1200,7 @@ function modContextFor(entry) {
   const own = [...printed, ...grantedKeywordsFrom(resolved, { own: printed, unit: [...printed, ...attached] }, factionKeywordSets.value, active, chosen).map((g) => g.kw)]
   const kws = { own, unit: [...own, ...attached] }
   // …and then the stratagems this unit could never be picked as the target of come off the list.
-  return { resolved: gateStratagems(resolved, kws, factionKeywordSets.value), kws, active, chosen }
+  return { resolved: gateStratagems(resolved, kws, factionKeywordSets.value, active), kws, active, chosen }
 }
 
 // ONE context per entry for the whole screen. Four readers want it — the stat plates, the
@@ -1916,6 +1930,7 @@ const nowSlot = computed(() => {
   .rvunit:has(+ .rvunit-crew):hover { position: relative; z-index: 1; }
 }
 .rvunit-crew-mark { flex: none; color: var(--text-dim); font-size: 0.8rem; }
+.rvunit-crew-note { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rvunit.rvunit-attached,
 .rvunit.rvunit-host { border-left: 2px solid var(--accent); }
 /* The block's head: the editor list's `.rul-bhead`, in this view's own card chrome — tinted with

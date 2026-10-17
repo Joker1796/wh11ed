@@ -16,7 +16,7 @@
         </h2>
         <p
           v-if="faction.armyRule.flavor"
-          class="faction-flavor"
+          class="faction-flavor lines"
         >
           {{ faction.armyRule.flavor }}
         </p>
@@ -76,7 +76,7 @@
 
         <p
           v-if="det.rule.flavor"
-          class="faction-flavor"
+          class="faction-flavor lines"
         >
           {{ det.rule.flavor }}
         </p>
@@ -145,7 +145,7 @@
             </div>
             <p
               v-if="e.flavor"
-              class="faction-flavor"
+              class="faction-flavor lines"
             >
               {{ e.flavor }}
             </p>
@@ -155,8 +155,8 @@
             />
             <div
               v-if="e.note"
-              v-safe-html="renderInline(e.note)"
-              class="enh-note"
+              v-safe-html="renderParagraphs(e.note)"
+              class="enh-note paras"
             />
             <RuleExtras :extras="e.extras" />
           </article>
@@ -188,7 +188,7 @@ const { slug, faction } = useFactionPage()
 // The faction's own colour (the faction badges' pair, light and dark theme) for the rule plates below.
 const tone = computed(() => toneVars(factionIndexBySlug(slug.value)?.color))
 const { locale } = useLocale()
-const { renderInline, renderRichText } = useRenderInline()
+const { renderRichText, renderParagraphs } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 // Detachments: support the multi-detachment `detachments[]` shape, falling back to the

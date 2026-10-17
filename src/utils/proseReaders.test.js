@@ -11,6 +11,10 @@ import { factionKeywordPatterns, factionKeywordsAt } from './factionKeywordMarku
 import { factionUnitKeywords, factionKeywordNames } from '../data/factionUnitKeywords.js'
 import { equippedCondition } from '../../scripts/lib/equippedCondition.mjs'
 import { tagDefinitions } from '../../scripts/lib/own-abilities.mjs'
+import { spawnPhrases } from '../../scripts/lib/spawnPhrases.mjs'
+import { unitLinkPatterns, unitLinksAt } from './unitLinkMarkup.js'
+import { spawnUnits } from '../data/factionUnitKeywords.js'
+import { appliesWhileOf } from '../data/rosterModifiers/appliesWhile.js'
 
 // foldName.test.js holds every NAME matcher to one fold. This holds every READER of rule prose to
 // it: a regex over raw text whose word class knows only "-" reads nothing where appdata typed
@@ -92,16 +96,36 @@ describe('every prose reader reads a unicode hyphen as a hyphen', () => {
     expect(disagreements(touched, (s) => [...tagDefinitions(s)])).toEqual([])
   })
 
+  it('units an ability brings into the game', () => {
+    expect(disagreements(touched, spawnPhrases)).toEqual([])
+    const p = unitLinkPatterns(spawnUnits)
+    expect(disagreements(touched, (s) => unitLinksAt(s, p))).toEqual([])
+  })
+
   it('wargear conditions ("equipped with X")', () => {
     const texts = strings(items).filter((s) => foldChars(s) !== s)
     expect(texts.length).toBeGreaterThan(0)
     expect(disagreements(texts, equippedCondition)).toEqual([])
   })
 
+  it('where a whole rule is in force (appliesWhile)', () => {
+    for (const kind of ['enhancement', 'detachmentRule', 'stratagem']) {
+      expect(disagreements(touched, (t) => appliesWhileOf(kind, t))).toEqual([])
+    }
+  })
+
   it('reads the cases that broke', () => {
     expect(ruleScopes('Friendly GRAV‑ASSAULT units have 4+ invulnerable save.')?.[0].targets).toEqual(['GRAV-ASSAULT'])
     expect(equippedCondition('1 Tempestus Scion equipped with a hot‐shot lasgun can be equipped with 1 regimental standard.'))
-      .toEqual({ item: 'hot-shot lasgun', negated: false })
+      .toEqual({ items: ['hot-shot lasgun'], negated: false })
+    // several items, and the offers and limits that only look like a condition (2026-10-17)
+    expect(equippedCondition('If this model is equipped with a plasma pistol and a power weapon, it can be equipped with:'))
+      .toEqual({ items: ['plasma pistol', 'power weapon'], negated: false })
+    expect(equippedCondition('1 model that is not equipped with either a HYLas rotary cannon or an ion beamer can be equipped with 1 multiwave comms array.'))
+      .toEqual({ items: ['HYLas rotary cannon', 'ion beamer'], negated: true })
+    expect(equippedCondition('This model can be equipped with 1 hunter‑killer missile.')).toBe(null)
+    expect(equippedCondition('Any number of models can each be equipped with 1 smoke launcher.')).toBe(null)
+    expect(equippedCondition('* A model cannot be equipped with more than one bellatus reaper chainsword.')).toBe(null)
     expect(parseWeaponTag('[ANTI‑VEHICLE 3+]')).toEqual({ base: 'ANTI', keywords: ['VEHICLE'], negated: false, anti: '3+' })
     expect(isWeaponTagText('SUPA‑HAZARDOUS')).toBe(true)
   })

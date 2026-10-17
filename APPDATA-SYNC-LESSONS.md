@@ -1314,3 +1314,57 @@ and appdata state fresh; a data model can change between now and when this is ne
     `foldChars` (one character for one, so positions hold), and `src/utils/proseReaders.test.js`
     runs each reader over every data string folded and unfolded: they must agree. A new reader of
     rule text goes into that test.
+
+97. **A grant can be true to the text and still impossible in play.** Alpha Invader gives
+    [SUSTAINED HITS 1] to "weapons equipped by models in this unit", and the card printed it on the
+    Raveners' venom bolt — a [TORRENT] weapon, which hits without a hit roll and so never scores the
+    critical hit the ability needs (report 51023119, 2026-10-17). GW does not carve TORRENT out in
+    the rule; the game's own rules do. Such a combination is a rule of the game, not of one record,
+    so `idleOnRow` in rosterStatMods.js refuses it for every grant (about 90 could reach a TORRENT
+    weapon, 21 factions) instead of an `only.notTag` per record — the one record that already
+    carried it (Adepta Sororitas) is now redundant, not wrong.
+    The sweep that followed ran every reachable record through `applyStatMods` on every sheet and
+    found the rest of the class: HEAVY on TORRENT (no roll to add 1 to), IGNORES COVER on melee and
+    TORRENT (cover is -1 BS on a ranged attack, 13.08), Ld shown at 4+ (02.02.01 keeps it 5+–8+),
+    a BS of "-" set to 3+ (02.02.01: "-" is never modified), and — legal but misleading — a
+    grant shown beside a printed instance it cannot beat (24.02: instances never add up). The
+    limits live in `applyValue`, the "is one instance at least as good" question in
+    abilityDominance.js, shared by the weapon tags and the Core line. Not ours: three Aeldari
+    pack sheets print the twin shuriken catapult's AP as "3" (the 14-10 Faction Pack PDF itself),
+    and appdata gives some TORRENT weapons BS "7+" where others have "-".
+
+98. **A reader that fails open must still say so.** The wargear-condition reader took "equipped with
+    a plasma pistol and a power weapon" as ONE item called "plasma pistol and a power weapon",
+    found no such item, and `continue`d — the Canoness's rod of office could be taken with any
+    loadout (report 20b1f18b, 2026-10-17). Fail-open was the design ("an unresolved phrase leaves
+    the group unconstrained"), but nothing counted the unresolved, so the class was invisible:
+    four sentences naming several items, a condition on one option of a multi-option swap read as
+    "any pick" (Kill Tank), footnote limits and the group's own offers ("can be equipped with 1
+    storm bolter") read as conditions. Now every item resolves or the generator fails, naming it.
+
+99. **A condition on an effect is not a condition on the rule — and `never` is not "the list
+    cannot say".** Command Protocols' +1 to Hit was gated on `unit-led` from the start, so the
+    numbers were right — but the card's "In effect" block lists a detachment rule by whom it names,
+    and NECRONS names every unit: the rule stood on a Nekrosor Ammentar fielded alone and on a
+    Monolith (a player's report, 2026-10-17). The same shape stood in three more places: 34
+    enhancements "while the bearer is leading a unit" listed as in effect on a bearer leading
+    nobody, Grotesque Fortitude ("One DEATH GUARD Attached unit") offered to a unit with no Leader,
+    and ten effects parked as `never` although the list knew the answer (War Howl's BLOOD CLAWS,
+    Fire Zone Purge's Warlord, the Tidewall's platform). Where a whole rule lives inside an attached
+    unit its record says so (`appliesWhile`), read off the wording by ONE reader the generator and
+    the gate share; Unquestioning Fanaticism has no effects at all (re-rolls are not a stat), which
+    is why the field sits on the record and is not derived from its effects. A `never` whose `when`
+    is about the list is a finding unless the gate names why.
+
+100. **A fix in one renderer is not a fix of the text.** Rule prose has lines — `▪` steps,
+    numbered steps, paragraphs — and `renderInline` reads none of them: the builder's enhancement
+    window ran Veil of Darkness's three steps into one line (a player's report, 2026-10-17).
+    DatasheetCard had met the same thing and switched itself to `renderRichText`, with a comment
+    saying why — and nobody looked for the other places. There were seven: a Leader's abilities on
+    a unit's card, wargear abilities by a weapon, a printed stratagem's effect, a multi-model
+    loadout, a Core Rules example, the layouts' key, multi-paragraph lore. Now
+    `src/components/proseSinks.test.js` holds both ends: a line break in the data only in a field
+    listed with its renderer, and such a field never handed to an inline renderer nor shown as
+    plain text outside `.lines`. Side note: `grep` called `useRenderInline.js` a binary file (it
+    holds U+E000 fences) and printed nothing for it — sweep with `grep -a`.
+

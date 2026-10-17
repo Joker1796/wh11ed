@@ -5,6 +5,8 @@
 // keywords need a footnote, how the faction keywords get bolded inside rule text — decided once,
 // here, whatever the card is drawn on.
 
+import { dominates } from './abilityDominance.js'
+
 // The Core line is a comma-separated list ("Deep Strike, Leader") — split for rendering each
 // ability as its own keyword.
 export function corePartsOf(sheet) {
@@ -12,16 +14,24 @@ export function corePartsOf(sheet) {
 }
 
 // Core abilities a rule granted (a Hospitaller's Feel No Pain, the Triumph's aura), minus any the
-// sheet already prints — a unit with its own Feel No Pain 5+ does not gain a second one.
+// sheet already prints as well or better — a unit with its own Feel No Pain 5+ does not gain a
+// second one, nor a 6+ beside it, and a Scouts 6" says nothing beside a printed Scouts 7" (24.02,
+// abilityDominance.js). Of two grants of one ability only the better is kept.
 export function extraCoreOf(sheet, grantedCore) {
-  const printed = new Set(corePartsOf(sheet).map((c) => c.toLowerCase()))
-  const seen = new Set()
-  return (grantedCore || []).filter((g) => {
-    const key = String(g.ability).toLowerCase()
-    if (printed.has(key) || seen.has(key)) return false
-    seen.add(key)
-    return true
+  const printed = corePartsOf(sheet)
+  const granted = grantedCore || []
+  return granted.filter((g, i) => {
+    if (printed.some((p) => dominates(p, g.ability))) return false
+    // an earlier grant as good, or a later one strictly better
+    return !granted.some((o, j) => j !== i && dominates(o.ability, g.ability) && (j < i || !dominates(g.ability, o.ability)))
   })
+}
+
+// The printed Core line, minus what a grant beats outright: a Feel No Pain 5+ from a rule hides
+// the printed 6+ — one instance applies at a time (24.02), and the reader would always pick it.
+export function printedCoreOf(sheet, grantedCore) {
+  const extra = extraCoreOf(sheet, grantedCore)
+  return corePartsOf(sheet).filter((p) => !extra.some((g) => dominates(g.ability, p)))
 }
 
 // The faction line is a comma-separated list too ("Oath of Moment, Curse of the Wulfen").

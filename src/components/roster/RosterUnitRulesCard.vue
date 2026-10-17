@@ -178,7 +178,7 @@
       :faction-slug="factionSlug"
       :granted-keywords="allGrantedKeywords"
       :granted-core="statMods.core || []"
-      :hide-choices="!!ctx"
+      :hide-choices="!!ctx && !building"
       :linked-faction-rules="linkedFactionRules"
       :stat-marks="statMods.marks"
       :stat-notes="statNotes"
@@ -211,6 +211,7 @@
             v-for="b in ruleBlocks"
             :key="b.key"
             class="rum-rule"
+            :class="{ 'rum-rule--off': b.off }"
           >
             <DsAccordion
               collapsible
@@ -226,6 +227,10 @@
                   <span class="rum-rule-text">
                     <span class="rum-rule-src">{{ b.src }}</span>
                     <span class="rum-rule-name">{{ b.name }}</span>
+                    <span
+                      v-if="b.off"
+                      class="rum-rule-off"
+                    >{{ b.off }}</span>
                   </span>
                   <ChevronIcon
                     class="rum-chev"
@@ -258,23 +263,26 @@
                   <strong>{{ a.name }}<span
                     v-if="a.nameEn"
                     class="rum-name-en"
-                  > ({{ a.nameEn }})</span>:</strong> <span v-safe-html="renderInline(a.text)" />
+                  > ({{ a.nameEn }})</span>:</strong> <span v-safe-html="renderRichText(a.text)" />
                 </div>
               </div>
             </DsAccordion>
           </div>
         </section>
-        <!-- A sheet that is part of this unit without being a unit of its own (Sir Hekhtur in
-             Canis Rex): his whole card, folded, where the reader looks when the Knight falls. -->
+        <!-- Sheets that come with this unit without being an entry of the list, each card folded:
+             who is part of it (Sir Hekhtur in Canis Rex, read when the Knight falls), and who its
+             abilities bring into the game (Ripper Swarms from a Parasite of Mortrex, under the
+             ability that does it). -->
         <section
-          v-if="companions.length"
+          v-for="g in sheetGroups"
+          :key="g.key"
           class="rum-rules"
         >
           <h4 class="rum-rules-h">
-            {{ labels.rosterAlsoInUnit }}
+            {{ g.label }}
           </h4>
           <div
-            v-for="c in companions"
+            v-for="{ sheet: c, src } in g.items"
             :key="c.id"
             class="rum-rule"
           >
@@ -290,6 +298,10 @@
                   @click="toggle"
                 >
                   <span class="rum-rule-text">
+                    <span
+                      v-if="src"
+                      class="rum-rule-src"
+                    >{{ src }}</span>
                     <span class="rum-rule-name">{{ c.name }}</span>
                   </span>
                   <ChevronIcon
@@ -370,6 +382,11 @@ const props = defineProps({
   // lets a conditional modifier actually rewrite a number — and `switches` are the per-unit ones
   // this player may flip from here. Null everywhere else, which is the read-only behaviour.
   gameCtx: { type: Object, default: null },
+  // Opened while the list is being BUILT (the catalogue, the unit editor): the sheet's Unit
+  // Composition, default loadout and Wargear Options stay on it — they are the questions being
+  // answered there (owner, 2026-10-17: "building a list, I don't see the default wargear"). In the
+  // roster view and a game they are settled and stay hidden (hideChoices below).
+  building: { type: Boolean, default: false },
   // Standing in a page, not a dialog: the card draws its own title row (with the owned star).
   inline: { type: Boolean, default: false },
   // The dialog shows the Warlord badge in its header (a game's dialog), so not again here.
@@ -381,17 +398,22 @@ const props = defineProps({
 defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
 
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderRichText } = useRenderInline()
 const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
 
 const {
-  loaded, view, companions,
+  loaded, view, companions, spawned,
   rulesFaction, stratNamesRu,
   statMods, statNotes, allGrantedKeywords, linkedFactionRules, abilityStates,
   abilityModifiers,
   ruleBlocks, modSource,
 } = useRosterUnitCard(props)
+// The sheets under the rules: the unit's crew, then the units its abilities bring in.
+const sheetGroups = computed(() => [
+  { key: 'crew', label: labels.value.rosterAlsoInUnit, items: companions.value.map((sheet) => ({ sheet, src: '' })) },
+  { key: 'spawn', label: labels.value.rosterSpawnHeading, items: spawned.value.map(({ sheet, rule }) => ({ sheet, src: rule })) },
+].filter((g) => g.items.length))
 // The roster facts row: only when there is a chip left to show in it.
 const ctxChips = computed(() => {
   const c = view.value.context
@@ -627,6 +649,11 @@ defineExpose({
 .rum-rule-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .rum-rule-src { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 .rum-rule-name { font-weight: 700; }
+/* An enhancement whose condition the list does not meet ("while the bearer is leading a unit" on
+   a bearer standing alone): still readable, plainly not in force. */
+.rum-rule--off .rum-rule-name,
+.rum-rule--off .rum-rule-body { color: var(--text-muted); }
+.rum-rule-off { font-size: 0.75rem; color: var(--text-muted); }
 .rum-chev { font-size: 0.7rem; color: var(--text-muted); flex-shrink: 0; }
 .rum-rule-body { padding-bottom: 0.5rem; }
 .rum-ability { margin-bottom: 0.35rem; }

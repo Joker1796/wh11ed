@@ -1556,7 +1556,7 @@ export default {
             "ru": "если ваш WARLORD — модель Militarum Tempestus Officer"
           },
           "cond": [
-            "never"
+            "warlord-tempestus-officer"
           ]
         },
         {
@@ -1570,7 +1570,7 @@ export default {
             "ru": "если ваш WARLORD — модель Militarum Tempestus Officer"
           },
           "cond": [
-            "never"
+            "warlord-tempestus-officer"
           ]
         }
       ]
@@ -1816,6 +1816,23 @@ export default {
       "effects": []
     },
     {
+      "sid": "42d66b66-bba8-4fcc-a54c-c71804512bad",
+      "kind": "enhancement",
+      "name": "Drill Commander",
+      "det": "Combined Arms",
+      "ref": {
+        "kind": "enhancement",
+        "det": "combined-arms"
+      },
+      "hash": "bf3096cc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading"
+      ]
+    },
+    {
       "sid": "4272bd39-3d22-455a-be75-91c7e5bbafce",
       "kind": "enhancement",
       "name": "Long-range Scout (Upgrade)",
@@ -1969,10 +1986,13 @@ export default {
             "ru": "пока носитель ведёт отряд REGIMENT"
           },
           "cond": [
-            "unit-leading"
+            "unit-leading-regiment"
           ],
           "target": "led"
         }
+      ],
+      "appliesWhile": [
+        "unit-leading-regiment"
       ]
     },
     {
@@ -1999,6 +2019,23 @@ export default {
         "kind": "enhancement",
         "det": "siege-regiment"
       }
+    },
+    {
+      "sid": "9d9bac51-6e67-4fe1-a422-6f83d9611f18",
+      "kind": "enhancement",
+      "name": "Stalwart’s Honours",
+      "det": "Siege Regiment",
+      "ref": {
+        "kind": "enhancement",
+        "det": "siege-regiment"
+      },
+      "hash": "3113a642",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "6419d3ce-ef9b-4cb2-9da6-6b06b0ca1952",

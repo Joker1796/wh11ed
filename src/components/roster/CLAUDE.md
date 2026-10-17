@@ -1223,6 +1223,16 @@ directory; still part of this feature:
     `crew: [{ id, name }]` on the unit a free sheet shares a named rule with (the same test as
     `companions`, on appdata's rule names), so the lists know without loading datasheets. The row
     has no points and nothing to configure; a tap opens his printed card.
+    **A unit an ABILITY brings into the game hangs there too** (`spawns: [{ id, name, rule }]`, a
+    player's report 2026-10-17): "add one new SPORE MINES unit" on Biovores, Ripper Swarms from a
+    Parasite of Mortrex. Those are ordinary bought sheets with points, so the shared-rule test does
+    not find them: the generator reads the ability's text (`scripts/lib/spawnPhrases.mjs`), places
+    the name as a sheet's name or its one keyword, and fails on a name it cannot place.
+    `rosterCompanionRows.js` gives both lists one set of rows — the spawn's row says which ability
+    instead of a zero — and the unit card shows the sheets under "Can appear in the game"
+    (`spawned`). The name in the ability's own text is a tap that opens the same card
+    (`src/utils/unitLinkMarkup.js`, vocabulary `spawnUnits` from `npm run datasheets:index`).
+    In a game it is only read: putting such a unit INTO the game is the beta tracker's next step.
   - **The detachment line cannot be split as text.** The app writes every selected detachment on
     one line joined with commas and a final "and" — and detachment names contain "and" themselves:
     "Legends of Saga and Song and Saga of the Great Wolf" is TWO of them, and splitting on " and "
@@ -2486,6 +2496,16 @@ link for this (five independent `wargear_option_group` rows on a Chosen, nothing
 `gen-roster-data.mjs` parses the prose into `cond: [siblingGi, activeFlag]` and
 `wargearGroupLive()` is the one place that reads it.
 
+**A sentence can name several items, and one option of a swap** (2026-10-17, a player's report on
+the Canoness): "if this model is equipped with a plasma pistol and a power weapon" is two
+conditions, each on ONE option of its sibling — the inferno pistol the same swap offers does not
+count. So `cond` is one `[siblingGi, activeFlag, options?]` or a list of them that must all hold
+(`condsOf`), and `options` narrows "the sibling has a pick" to a pick of those. A positive
+condition on options closes with "Requires: <that option>". The reader (`equippedCondition`)
+returns every item the sentence names; an item that holds whatever the model does (a starting item
+no sibling of its profile takes away; negated, one only this group gives) is dropped, and one that
+resolves to nothing fails the generator by name — until then such a group stayed open in silence.
+
 **The condition is about ONE MODEL. The gate is about the unit.** That gap was a real bug until
 2026-08-27: any pick in the sibling group closed the dependent one outright. So Chosen lost their
 power fist to a single combi-weapon, and the vox-caster, simulacrum, omnispex, banner and medi-pack
@@ -2950,8 +2970,11 @@ Tier A does four things:
    choice's title, and `keywordNotesOf` says "from this unit's own Daemonic Allegiance choice"
    rather than crediting the faction for what the reader picked.
 3. **Hides the build-choice blocks** — Unit Composition, the default-loadout sentence and Wargear
-   Options (`DatasheetCard`'s `hideChoices` prop). Each describes a decision the roster has already
-   made, and the printed loadout sentence contradicts the weapon tables once those are trimmed.
+   Options (`DatasheetCard`'s `hideChoices` prop) — in the roster view and a game, where each
+   describes a decision the roster has already made. **Not while the list is being built**
+   (`building`: the catalogue's preview, the editor's "Datasheet" and its leader previews — owner,
+   2026-10-17): there they are the questions being answered, and a reader choosing a swap wants the
+   stock loadout and every option as printed, even beside weapon tables trimmed to the picks.
    The Leader "can be attached to" list is deliberately KEPT: it is rules text about how the
    attachment works, and it stays useful for an entry that hasn't been attached yet.
 4. **Reports roster facts absent from the datasheet** (`entryContext`) as chips above the card:
@@ -2964,6 +2987,34 @@ rather than as an appendix after it (the slot exists for exactly this; the card 
 unaware of the roster). `ruleSourcesFor` says WHICH rules bear on the entry and the modal resolves
 each to its text from the lazily-imported faction bundle: the enhancement carried, each of the
 roster's detachment rules, and the abilities of any Leader attached to this unit.
+
+**A rule in force only where the list puts the unit says so in its record (`appliesWhile`).**
+"While a NECRONS CHARACTER model is leading this unit" (Command Protocols), "While the bearer is
+leading an Aspect Warriors unit" (Strategic Savant), a stratagem for "One DEATH GUARD Attached
+unit" — each is read off its wording by `src/data/rosterModifiers/appliesWhile.js`, the one reader
+the generator (which gives such a rule a record even when it changes no number) and the gate in
+`rosterModifiers/index.test.js` share. What the card does with it depends on the kind:
+- a **detachment rule** is not listed where the list does not meet it — it is the army's, not this
+  unit's (a lone Nekrosor Ammentar, a Monolith nobody can lead: a player's report, 2026-10-17);
+- an **enhancement** stays — its block is the one place its text is — but reads "Not in effect ·
+  <the condition>" and dims (owner, 2026-10-17);
+- a **stratagem** is not offered (`gateStratagems`' fourth argument), the way a keyword it cannot
+  target already kept it off.
+
+Every effect of such a record carries the same condition in its own `cond` (the gate checks), so
+the numbers and the block cannot disagree. Only list-answered conditions belong there; the block
+waits for the modifier load (`modifiersSettled`) and a preview with no entry shows the rule.
+
+**What the list answers** (`rosterAnswers` in `rosterGameContext.js`, conditions.js "Answered by
+the list itself"): the attachment both ways (`unit-leading`, `unit-led`, `unit-not-led`), the
+Warlord (`unit-warlord`, and `warlord: [kws]` — Fire Zone Purge's Tempestus Officer), the
+Bodyguard of the attached unit by keyword (`bodyguard`, true on both halves) or by a printed core
+ability (`bodyguardCore`), another CHARACTER in it (`attachedCharacter`), and a model the unit's
+size brings (`gear.mini` — the Tidewall's defence platform). The keyword shapes read the OTHER
+entries' printed sheets, so `rosterConditions(entry, units, sheetOf)` and `activeConditions(…,
+{ units, sheetOf })` take a lookup; without one they answer no. An effect parked as `never` whose
+`when` is about the list must be named, with the half the list cannot answer, in the gate's
+`PARKED` table.
 
 **The block is not itself an accordion** — what applies is always visible and only the individual
 rule bodies collapse, so there is one level of chevrons and opening it can't dump four long rule

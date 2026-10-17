@@ -29,6 +29,7 @@ import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
+import { conditions } from '../data/rosterModifiers/conditions.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
 import { useCombatPatrolBox } from './useCombatPatrolBox.js'
 import { localizeSheet } from '../data/datasheets/ru/index.js'
@@ -106,6 +107,14 @@ export function useRosterUnitCard(props) {
       .map(localize)
   })
 
+  // The units this unit's abilities bring into the game — the roster's `spawns` (gen-roster-data):
+  // Ripper Swarms on a Parasite of Mortrex, Spore Mines on Biovores. Not in the list and not paid
+  // for, but theirs is the card the player reads when one appears (a player's report, 2026-10-17).
+  const spawned = computed(() => (props.ctx?.def?.spawns || []).flatMap((s) => {
+    const d = datasheets.value.find((x) => x.id === s.id)
+    return d ? [{ sheet: localize(d), rule: s.rule }] : []
+  }))
+
   // …and what it looks like for THIS roster entry. Overlaying after localisation (not before) keeps
   // the two concerns apart: the overlay matches on structural ids and English wargear names, so it
   // behaves identically in both locales.
@@ -149,14 +158,20 @@ export function useRosterUnitCard(props) {
   // numbers — Tiers A+B, unchanged.
   /** @type {import('vue').Ref<{ entries?: ModifierRecord[] } | null>} */
   const modifierData = ref(null)
+  // Settled once the load has answered, null or not — what may hang on a record (a rule's
+  // `appliesWhile`) waits for this rather than reading "no record" off a load still in flight.
+  const modifiersSettled = ref(false)
   watch(
     [() => props.factionSlug, () => !!props.ctx],
     async ([slug, hasCtx]) => {
       modifierData.value = null
+      modifiersSettled.value = false
       if (!slug || !hasCtx) return
       const { loadRosterModifiersFor } = await import('../data/rosterModifiers/index.js')
       const data = await loadRosterModifiersFor(slug)
-      if (props.factionSlug === slug) modifierData.value = data
+      if (props.factionSlug !== slug) return
+      modifierData.value = data
+      modifiersSettled.value = true
     },
     { immediate: true },
   )
@@ -330,7 +345,7 @@ export function useRosterUnitCard(props) {
     return wargearConditions(props.ctx?.def, props.ctx?.entry, props.ctx?.items, printed)
   })
   const activeConds = computed(() => {
-    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry, props.ctx?.units)
+    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry, props.ctx?.units, (id) => datasheets.value.find((d) => d.id === id))
     return gearConds.value.size ? new Set([...base, ...gearConds.value]) : base
   })
 
@@ -359,6 +374,7 @@ export function useRosterUnitCard(props) {
     resolvedModifiers.value,
     keywordView.value,
     factionKeywordSets.value,
+    activeConds.value,
   ))
 
   const statMods = computed(() => {
@@ -424,6 +440,28 @@ export function useRosterUnitCard(props) {
   // `self` records: an ability printed on a Leader's card is not in this sheet's ability list, and
   // its condition belongs to the unit it addresses, which has its own row and its own card.
 
+  // A rule in force only inside an attached unit — "While a NECRONS CHARACTER model is leading
+  // this unit" (Command Protocols), "While the bearer is leading an Aspect Warriors unit" — says so
+  // in its record's `appliesWhile`, and the list answers it the way it answers the effects' own
+  // `cond`. Returns the conditions the list does NOT answer (empty: the rule holds), or null while
+  // the records are still loading. A preview with no entry has no attachment to ask about.
+  /** @param {string} kind @param {(r: ModifierRecord) => boolean} match @returns {string[] | null} */
+  function unmetFor(kind, match) {
+    if (!props.ctx?.entry) return []
+    if (!modifiersSettled.value) return null
+    const rec = (modifierData.value?.entries || []).find((r) => r.kind === kind && r.reviewed && match(r))
+    return (rec?.appliesWhile || []).filter((id) => !activeConds.value.has(id))
+  }
+  // An enhancement whose condition the list does not meet stays on the card — it is the one place
+  // its text is — but says it is not in effect, and why (owner, 2026-10-17). A detachment rule
+  // simply is not listed: it is not this unit's, it is the army's.
+  /** @param {string[] | null} unmet */
+  const offLabel = (unmet) => (unmet?.length
+    ? `${labels.value.rosterNotInEffect} · ${unmet.map((id) => conditionLabel(id)).join(', ')}`
+    : null)
+  /** @param {string} id */
+  const conditionLabel = (id) => conditions[id]?.label?.[locale.value === 'ru' ? 'ru' : 'en'] || id
+
   const ruleBlocks = computed(() => {
     const fac = rulesFaction.value
     const facEn = rulesFactionEn.value
@@ -432,13 +470,17 @@ export function useRosterUnitCard(props) {
       if (src.kind === 'enhancement') {
         if (!fac) continue
         const found = findEnhancementProse(fac.detachments, src.name, props.ctx?.detachments)
-        if (found?.body) out.push({ key: `enh:${src.name}`, src: labels.value.rosterEnhancement, name: found.name, body: found.body, extras: found.extras, switches: switchesOfRule('enhancement', found.name, null) })
+        if (!found?.body) continue
+        const mine = new Set((props.ctx?.detachments || []).map((d) => detKey(typeof d === 'string' ? d : d?.name)))
+        const unmet = unmetFor('enhancement', (r) => enhKey(r.name) === enhKey(found.name) && mine.has(detKey(r.det)))
+        out.push({ key: `enh:${src.name}`, src: labels.value.rosterEnhancement, name: found.name, body: found.body, extras: found.extras, switches: switchesOfRule('enhancement', found.name, null), off: offLabel(unmet) })
       } else if (src.kind === 'detachment') {
         if (!fac) continue
         const target = detKey(src.name)
         const det = (fac.detachments || []).find((d) => detKey(d.name) === target)
         const detEn = (facEn?.detachments || []).find((d) => detKey(d.name) === target)
-        if (det?.rule?.body && applies(detEn?.rule?.body)) {
+        const unmet = unmetFor('detachmentRule', (r) => detKey(r.det) === target)
+        if (det?.rule?.body && applies(detEn?.rule?.body) && unmet && !unmet.length) {
           out.push({
             key: `det:${src.name}`,
             src: `${labels.value.factionDetachment} · ${det.name}`,
@@ -461,9 +503,9 @@ export function useRosterUnitCard(props) {
 
   return {
     // The sheet, printed and overlaid
-    datasheets, loaded, sheet, view, localize, companions,
+    datasheets, loaded, sheet, view, localize, companions, spawned,
     // The faction's own prose (the modal reads it for popovers, the print sheet prints it)
-    rulesFaction, rulesFactionEn, stratNamesRu,
+    rulesFaction, rulesFactionEn, stratNamesRu, modifiersSettled,
     // What the roster does to the numbers
     statMods, statNotes, allGrantedKeywords, linkedFactionRules, abilityStates,
     // The records behind all of it, for a caller that has its own question to ask of them

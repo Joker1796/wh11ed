@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { defineComponent, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { useRosterUnitCard } from './rosterUnitCard.js'
+import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
 
 /** The card's composable, mounted. @param {object} props */
 function cardFor(props) {
@@ -46,7 +47,7 @@ describe('useRosterUnitCard — a detachment rule reaches the units it names', (
       factionSlug: 'orks',
       ctx: { detachments: ['Runt Swarm', 'Wreckas'], entry: { uid: 'u1', id: unitId, size: 0 }, units: [] },
     })
-    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value && card.modifiersSettled.value).toBeTruthy(), { timeout: 15000 })
     return card.ruleBlocks.value.map((b) => b.key)
   }
   it('not on a Battlewagon', async () => {
@@ -55,6 +56,20 @@ describe('useRosterUnitCard — a detachment rule reaches the units it names', (
   it('on the Gretchin and the Tankbustas it names', async () => {
     expect(await blocksOf('gretchin')).toEqual(['det:Runt Swarm'])
     expect(await blocksOf('tankbustas')).toEqual(['det:Wreckas'])
+  })
+})
+
+// The unit an ability brings into the game is on its maker's card, under the ability that does it
+// (the roster's `spawns`; a player's report, 2026-10-17).
+describe('useRosterUnitCard — a unit an ability brings in', () => {
+  it('carries the Ripper Swarms card on a Parasite of Mortrex', async () => {
+    const card = cardFor({
+      unitId: 'parasite-of-mortrex',
+      factionSlug: 'tyranids',
+      ctx: { detachments: [], def: { spawns: [{ id: 'ripper-swarms', name: 'Ripper Swarms', rule: 'Parasitic Infection' }] }, entry: { uid: 'u1', id: 'parasite-of-mortrex', size: 0 }, units: [] },
+    })
+    await vi.waitFor(() => expect(card.loaded.value).toBe(true), { timeout: 15000 })
+    expect(card.spawned.value.map((s) => [s.sheet.name, s.rule])).toEqual([['Ripper Swarms', 'Parasitic Infection']])
   })
 })
 
@@ -110,4 +125,103 @@ describe('useRosterUnitCard — a modifier named for part of a merged army rule'
     expect(src.name).toBe('Synapse')
     expect(src.body).not.toMatch(/Shadow in the Warp/)
   })
+})
+
+// Alpha Invader gives [SUSTAINED HITS 1] to every weapon of the unit; the venom bolt is [TORRENT],
+// makes no hit roll and so never scores a critical hit (a player's report, 2026-10-17).
+describe('useRosterUnitCard — a critical-hit ability and a [TORRENT] weapon', () => {
+  it('Hyperadapted Raveners: on the claws, not on the venom bolt', async () => {
+    const card = cardFor({
+      unitId: 'hyperadapted-raveners',
+      factionSlug: 'tyranids',
+      ctx: { detachments: [], entry: { uid: 'u1', id: 'hyperadapted-raveners', size: 0 }, units: [] },
+    })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    await vi.waitFor(() => expect(card.statMods.value.sheet.melee[0].tags).toContain('SUSTAINED HITS 1'), { timeout: 15000 })
+    expect(card.statMods.value.sheet.ranged.find((w) => w.name === 'Venom bolt').tags).not.toContain('SUSTAINED HITS 1')
+  })
+})
+
+// "While a NECRONS CHARACTER model is leading this unit" — the whole rule lives inside an attached
+// unit, so it is not "in effect" on a Nekrosor Ammentar fielded alone (a player's report,
+// 2026-10-17), nor on a Monolith nobody can lead; inside one it is, the Leader included (19.04).
+describe('useRosterUnitCard — a detachment rule in force only inside an attached unit', () => {
+  async function blocksOf(factionSlug, detachment, unitId, units) {
+    const entry = units.find((u) => u.id === unitId)
+    const card = cardFor({ unitId, factionSlug, ctx: { detachments: [detachment], entry, units } })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    await vi.waitFor(() => expect(card.modifiersSettled.value).toBe(true), { timeout: 15000 })
+    return card.ruleBlocks.value.map((b) => b.key).filter((k) => k.startsWith('det:'))
+  }
+  const alone = [{ uid: 'a', id: 'nekrosor-ammentar', size: 0 }, { uid: 'b', id: 'immortals', size: 0 }, { uid: 'c', id: 'monolith', size: 0 }]
+  const led = [{ uid: 'a', id: 'nekrosor-ammentar', size: 0, leaderOf: 'b' }, { uid: 'b', id: 'immortals', size: 0 }]
+
+  it('not on a Leader standing alone, a unit nobody leads, or one nobody can', async () => {
+    for (const id of ['nekrosor-ammentar', 'immortals', 'monolith']) {
+      expect(await blocksOf('necrons', 'Awakened Dynasty', id, alone)).toEqual([])
+    }
+  })
+  it('on both halves of the attached unit', async () => {
+    expect(await blocksOf('necrons', 'Awakened Dynasty', 'nekrosor-ammentar', led)).toEqual(['det:Awakened Dynasty'])
+    expect(await blocksOf('necrons', 'Awakened Dynasty', 'immortals', led)).toEqual(['det:Awakened Dynasty'])
+  })
+  it('Unquestioning Fanaticism: on the led Neophytes and on the Magus leading them, not on them apart', async () => {
+    const apart = [{ uid: 'a', id: 'magus', size: 0 }, { uid: 'b', id: 'neophyte-hybrids', size: 0 }]
+    const joined = [{ uid: 'a', id: 'magus', size: 0, leaderOf: 'b' }, { uid: 'b', id: 'neophyte-hybrids', size: 0 }]
+    expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'neophyte-hybrids', apart)).toEqual([])
+    expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'magus', apart)).toEqual([])
+    expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'neophyte-hybrids', joined)).toEqual(['det:Xenocreed Congregation'])
+    expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'magus', joined)).toEqual(['det:Xenocreed Congregation'])
+  })
+})
+
+// What the list records about an attachment, the Warlord and the size — read by the card the way
+// it reads "leading a unit" (2026-10-17). Each was parked as `never` or left ungated.
+describe('useRosterUnitCard — a condition the list answers', () => {
+  async function cardOf(factionSlug, detachment, unitId, units) {
+    const entry = units.find((u) => u.id === unitId)
+    const card = cardFor({ unitId, factionSlug, ctx: { detachments: [detachment], entry, units } })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value && card.modifiersSettled.value).toBeTruthy(), { timeout: 15000 })
+    return card
+  }
+  const offOf = (card, key) => card.ruleBlocks.value.find((b) => b.key === key)?.off
+
+  it('an enhancement worn by a bearer leading nobody stays on the card, marked not in effect', async () => {
+    const alone = [{ uid: 'a', id: 'overlord', size: 0, enh: 'Nether-realm Casket' }]
+    const led = [{ uid: 'a', id: 'overlord', size: 0, enh: 'Nether-realm Casket', leaderOf: 'b' }, { uid: 'b', id: 'immortals', size: 0 }]
+    expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', alone), 'enh:Nether-realm Casket')).toMatch(/^Not in effect · Leading a unit/)
+    expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', led), 'enh:Nether-realm Casket')).toBeNull()
+  }, 30000)
+  it('Strategic Savant: +1 OC on the Aspect Warriors the Autarch leads, not on Guardians', async () => {
+    const aspect = [{ uid: 'a', id: 'autarch', size: 0, enh: 'Strategic Savant', leaderOf: 'b' }, { uid: 'b', id: 'dire-avengers', size: 0 }]
+    const card = await cardOf('aeldari', 'Aspect Host', 'dire-avengers', aspect)
+    // Dire Avengers print OC 1
+    await vi.waitFor(() => expect(card.statMods.value.sheet.profiles[0].oc).toBe('2'), { timeout: 15000 })
+    const guardians = [{ uid: 'a', id: 'autarch', size: 0, enh: 'Strategic Savant', leaderOf: 'b' }, { uid: 'b', id: 'guardian-defenders', size: 0 }]
+    expect(offOf(await cardOf('aeldari', 'Aspect Host', 'autarch', guardians), 'enh:Strategic Savant')).toMatch(/Aspect Warriors/)
+  }, 30000)
+  it('Fire Zone Purge: Tempestus Scions have BATTLELINE and +1 OC while a Tempestus Officer is the Warlord', async () => {
+    const units = (warlord) => [{ uid: 'w', id: 'militarum-tempestus-command-squad', size: 0, warlord }, { uid: 's', id: 'tempestus-scions', size: 0 }]
+    const on = await cardOf('astra-militarum', 'Bridgehead Strike', 'tempestus-scions', units(true))
+    // Tempestus Scions print OC 1
+    await vi.waitFor(() => expect(on.statMods.value.sheet.profiles[0].oc).toBe('2'), { timeout: 15000 })
+    expect(on.allGrantedKeywords.value.map((g) => g.kw.toUpperCase())).toContain('BATTLELINE')
+    const off = await cardOf('astra-militarum', 'Bridgehead Strike', 'tempestus-scions', units(false))
+    expect(off.statMods.value.sheet.profiles[0].oc).toBe('1')
+  }, 30000)
+  it('Tidewall Shieldline: W 15 with its defence platform, the size that brings it', async () => {
+    // The size is read off the unit's roster definition, which the card is handed as `def`.
+    const fac = await loadRosterFaction('tau-empire')
+    const def = fac.units.find((u) => u.id === 'tidewall-shieldline')
+    const detachments = fac.detachments.filter((d) => d.name === 'Kauyon')
+    const shieldline = async (size) => {
+      const entry = { uid: 't', id: 'tidewall-shieldline', size }
+      const card = cardFor({ unitId: entry.id, factionSlug: 'tau-empire', ctx: { def, items: rosterItems.items, detachments, entry, units: [entry] } })
+      await vi.waitFor(() => expect(card.loaded.value && card.modifiersSettled.value).toBeTruthy(), { timeout: 15000 })
+      return card
+    }
+    const card = await shieldline(1)
+    await vi.waitFor(() => expect(card.statMods.value.sheet.profiles.some((p) => p.w === '15')).toBe(true), { timeout: 15000 })
+    expect((await shieldline(0)).statMods.value.sheet.profiles.some((p) => p.w === '15')).toBe(false)
+  }, 30000)
 })

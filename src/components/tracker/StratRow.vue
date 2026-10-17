@@ -13,7 +13,7 @@
       >{{ tag }}</small></span>
       <span
         v-if="strat.when"
-        v-safe-html="renderInline(strat.when)"
+        v-safe-html="renderRichText(strat.when)"
         class="sr-when"
       />
     </button>
@@ -81,7 +81,7 @@ defineProps({
 defineEmits(['open', 'use', 'undo'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { renderInline } = useRenderInline()
+const { renderRichText } = useRenderInline()
 </script>
 
 <style scoped>

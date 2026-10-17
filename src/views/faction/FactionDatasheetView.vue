@@ -189,7 +189,7 @@
           >
             ✕
           </button>
-          <p class="ds-lore-text">
+          <p class="ds-lore-text lines">
             {{ sheet.flavor }}
           </p>
         </div>
