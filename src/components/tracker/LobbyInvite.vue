@@ -2,10 +2,10 @@
   <div class="li">
     <div class="li-card">
       <h2 class="li-title">
-        {{ current?.settings?.gameType === 'doubles' ? labels.lobbyInviteTitleDoubles : labels.lobbyInviteTitle }}
+        {{ doubles ? labels.lobbyInviteTitleDoubles : labels.lobbyInviteTitle }}
       </h2>
       <p class="li-hint">
-        {{ labels.lobbyInviteHint }}
+        {{ doubles ? labels.lobbyInviteHintDoubles : labels.lobbyInviteHint }}
       </p>
 
       <PartyInvite
@@ -101,6 +101,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { invite, members, refreshMembers, refreshInvite } = useParty()
 const { current } = useTracker()
+const doubles = computed(() => current.value?.settings?.gameType === 'doubles')
 
 const cancelOpen = ref(false)
 const guests = computed(() => members.value.filter((m) => !m.you))
