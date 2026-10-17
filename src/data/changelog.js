@@ -57,8 +57,6 @@ export const changelog = [
       '**A Combat Patrol army comes with its box’s list.**',
       '**In a shared game a guest sees the map and their own list.** The invite comes at deployment.',
       '**The help of each option shows what it draws on the screen.**',
-      { h: 'Probable GW mistakes' },
-      '**[Corsair Cloud Dancer Band](/factions/aeldari/datasheets/corsair-cloud-dancer-band), [Firestorm](/factions/aeldari/datasheets/firestorm) and [Warp Hunter](/factions/aeldari/datasheets/warp-hunter): the twin shuriken catapult has AP 3.** This is how the Aeldari Faction Pack prints it. The same weapon has AP -1 on other datasheets. I show it as the PDF prints it for now.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
@@ -93,8 +91,6 @@ export const changelog = [
       '**Армия Combat Patrol приходит со списком своей коробки.**',
       '**В совместной партии гость видит карту и свой список.** Приглашение приходит на расстановке.',
       '**Справка каждой настройки показывает, что она рисует на экране.**',
-      { h: 'Вероятные ошибки GW' },
-      '**[Corsair Cloud Dancer Band](/factions/aeldari/datasheets/corsair-cloud-dancer-band), [Firestorm](/factions/aeldari/datasheets/firestorm) и [Warp Hunter](/factions/aeldari/datasheets/warp-hunter): у twin shuriken catapult AP 3.** Так напечатано в Faction Pack Aeldari. У того же оружия на других датащитах AP -1. Пока показываю как в PDF.',
     ],
   },
   {
