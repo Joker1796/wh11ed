@@ -143,16 +143,19 @@ const lead = armyRules.find((r) => norm(r.name) === norm(oldEn.armyRule?.name ||
   || [...armyRules].sort((a, b) => printedBy(b) - printedBy(a))[0]
 const blocks = [lead, ...armyRules.filter((r) => r !== lead)]
 const leadBody = ruleBody(lead?.body)
-// "Special Move Types" ships with an empty body: the move types hang off it structurally
-// (army_rule_behaviour_type), and the core ones have a Core Rules number on another row of the
-// same name. Name them, with the number where there is one.
+// "Special Move Types": the move types hang off it structurally (army_rule_behaviour_type), and
+// the core ones have a Core Rules number on another row of the same name. Name them, with the
+// number where there is one — UNDER whatever text the rule has. It used to ship with an empty body
+// and the list stood in for it; then GW gave it one sentence ("The following are special move
+// types…"), the `||` below took the sentence alone, and Custodes printed it over nothing (a
+// player's report 6766e318, 2026-10-17). `npm run ruletext` holds every card to our text.
 const behaviours = table('behaviour_type.json')
 const refOf = (name) => behaviours.find((b) => norm(nameOfEn(b)) === norm(name) && b.localisations?.en?.ruleReference)?.localisations.en.ruleReference
-function moveTypes(ruleId) {
+function moveTypes(ruleId, intro) {
   const names = table('army_rule_behaviour_type.json').filter((r) => r.armyRuleId === ruleId)
     .map((r) => nameOfEn(behaviours.find((b) => b.id === r.behaviourTypeId) || {})).filter(Boolean)
   if (!names.length) return ''
-  return `Some rules allow a unit to make one of the following **move types**:\n${names.map((n) => {
+  return `${intro ? 'Some rules allow a unit to make one of the following **move types**:\n' : ''}${names.map((n) => {
     const ref = refOf(n)
     return `▪ **${n.toLowerCase()}**${ref ? ` (${ref})` : ''}`
   }).join('\n')}`
@@ -162,7 +165,8 @@ const armyRule = {
   name: lead?.name || '',
   flavor: leadBody.flavor,
   body: [leadBody.body, ...blocks.slice(1).map((r) => {
-    const body = ruleBody(r.body).body || moveTypes(r.id)
+    const text = ruleBody(r.body).body
+    const body = [text, moveTypes(r.id, !text)].filter(Boolean).join('\n')
     if (!body) console.log(`  ! army rule "${r.name}" has no text in appdata — write it by hand`)
     return `### ${r.name}\n${body}`
   })].join('\n\n'),
