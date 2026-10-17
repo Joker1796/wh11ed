@@ -26,28 +26,43 @@
       <!-- A row whose moment cannot have come yet (an "end of your opponent's turn" condition
            during the owner's own turn, see missionTiming.js) is greyed and not tickable, with the
            reason on hover — shown, never hidden: it is still the card's condition. -->
+      <!-- A "per each" row reads its text FIRST and keeps its stepper and VP together after it:
+           beside the text while the row has room for both, on a line of their own below it when
+           it does not. With the stepper first, a phone left the condition ~60px and set it one
+           word to a line (2026-10-17, owner: «ужасное распределение пространства»). -->
       <label
         v-for="r in b.rows"
         :key="r.ri"
         class="m-cond"
-        :class="{ on: count(b.bi, r.ri) > 0, readonly: readonly || isLocked(b), locked: isLocked(b) }"
+        :class="{ on: count(b.bi, r.ri) > 0, readonly: readonly || isLocked(b), locked: isLocked(b), 'm-cond--count': r.perEach }"
         :title="isLocked(b) ? lockedNote : undefined"
       >
+        <template v-if="r.perEach">
+          <span class="m-text">{{ r.text }}</span>
+          <span class="m-act">
+            <span
+              v-if="readonly || isLocked(b)"
+              class="m-static"
+              :class="{ hit: count(b.bi, r.ri) > 0 }"
+            >{{ count(b.bi, r.ri) }}</span>
+            <NumberStepper
+              v-else
+              :model-value="count(b.bi, r.ri)"
+              :min="0"
+              :max="20"
+              @update:model-value="v => $emit('set', b.bi, r.ri, v)"
+            />
+            <strong class="m-vp">{{ r.vp }} VP {{ labels.trackerEach }}</strong>
+          </span>
+        </template>
         <!-- Read-only (set-aside card, a locked row): the recorded value, no editable control. -->
         <span
-          v-if="readonly || isLocked(b)"
+          v-else-if="readonly || isLocked(b)"
           class="m-static"
           :class="{ hit: count(b.bi, r.ri) > 0 }"
         >
-          {{ r.perEach ? count(b.bi, r.ri) : (count(b.bi, r.ri) > 0 ? '✓' : '—') }}
+          {{ count(b.bi, r.ri) > 0 ? '✓' : '—' }}
         </span>
-        <NumberStepper
-          v-else-if="r.perEach"
-          :model-value="count(b.bi, r.ri)"
-          :min="0"
-          :max="20"
-          @update:model-value="v => $emit('set', b.bi, r.ri, v)"
-        />
         <input
           v-else
           type="checkbox"
@@ -55,14 +70,16 @@
           :checked="count(b.bi, r.ri) > 0"
           @change="e => $emit('set', b.bi, r.ri, e.target.checked ? 1 : 0)"
         >
-        <span class="m-text">
-          <em
-            v-if="r.modifier === 'or' && !r.perEach"
-            class="or"
-          >{{ labels.trackerOr }}</em>
-          {{ r.text }}
-        </span>
-        <strong class="m-vp">{{ r.vp }} VP{{ r.perEach ? ' ' + labels.trackerEach : '' }}</strong>
+        <template v-if="!r.perEach">
+          <span class="m-text">
+            <em
+              v-if="r.modifier === 'or'"
+              class="or"
+            >{{ labels.trackerOr }}</em>
+            {{ r.text }}
+          </span>
+          <strong class="m-vp">{{ r.vp }} VP</strong>
+        </template>
       </label>
     </div>
   </div>
@@ -134,5 +151,12 @@ const isLocked = (b) => !props.readonly && !!props.locked?.(b)
 .m-static.hit { color: var(--side, var(--accent)); }
 .m-text { flex: 1 1 auto; min-width: 0; font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; }
 .m-vp { flex-shrink: 0; font-size: 0.86rem; color: var(--text-primary); white-space: nowrap; }
+/* A "per each" row: the text, then the stepper and its VP as one group. The text asks for 14em
+   before the group may sit beside it; short of that the group wraps to a line of its own, where it
+   spans the row — stepper left, VP right. No breakpoint: the wrap is decided by the row's own
+   width, so every mission, language and dialog width gets it right. */
+.m-cond--count { flex-wrap: wrap; align-items: center; row-gap: 0.45rem; }
+.m-cond--count .m-text { flex: 1000 1 14em; }
+.m-act { flex: 1 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 0.55rem; }
 .or { font-style: normal; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-right: 0.2rem; }
 </style>
