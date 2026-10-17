@@ -1,3 +1,5 @@
+import { foldChars } from '../utils/foldName.js'
+
 // A weapon ability written with what it applies to — "[LETHAL HITS: NON-MONSTER/VEHICLE]",
 // "[ANTI-MONSTER/VEHICLE 3+]" — read into its parts, so the popover can say what THIS tag does
 // rather than only what the bare ability does (owner, 2026-09-30).
@@ -9,9 +11,10 @@
 //   • FAQ: "ANTI-non-(any keyword) triggers on any unit that does not have the specified keyword" —
 //     the same NON- reading is taken for a qualifier ("LETHAL HITS: NON-MONSTER/VEHICLE").
 
-// → { base, keywords, negated, anti? } or null for a tag that carries no target keywords.
+// → { base, keywords, negated, anti? } or null for a tag that carries no target keywords. Read
+// folded, so "ANTI‑VEHICLE" typed with U+2011 is ANTI- too (proseReaders.test.js).
 export function parseWeaponTag(tag) {
-  const t = String(tag || '').replace(/^\[|\]$/g, '').trim().toUpperCase()
+  const t = foldChars(tag).replace(/^\[|\]$/g, '').trim().toUpperCase()
   const anti = t.match(/^ANTI-(NON-)?(.+?)\s+(\d\+)$/)
   if (anti) return { base: 'ANTI', keywords: anti[2].split('/'), negated: !!anti[1], anti: anti[3] }
   const q = t.match(/^(.+?):\s*(NON-)?([A-Z][A-Z’' /-]*)$/)

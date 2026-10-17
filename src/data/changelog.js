@@ -22,6 +22,20 @@
 
 export const changelog = [
   {
+    version: '2.9.6',
+    date: '2026-10-17',
+    en: [
+      { h: 'Roster builder' },
+      '**Grav-Assault Force rules are only on GRAV-ASSAULT units now.** Flare Shields stood on every unit’s card, Dreadnoughts included. Its three stratagems were offered to every unit too. This is on a unit’s card in a roster and in a game.',
+      '**A Tempestus Scion can take the regimental standard only while he keeps his hot-shot lasgun.** The builder let a Scion with a special weapon take it as well.',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      '**Правила Grav-Assault Force теперь только у юнитов GRAV-ASSAULT.** Flare Shields стоял на карточке каждого юнита, в том числе у дредноутов. Три его стратагемы тоже предлагались любому юниту. Это видно на карточке юнита в ростере и в партии.',
+      '**Tempestus Scion может взять regimental standard, только если у него остаётся hot-shot lasgun.** Конструктор давал взять знамя и Scion со спецоружием.',
+    ],
+  },
+  {
     version: '2.9.5',
     date: '2026-10-16',
     en: [

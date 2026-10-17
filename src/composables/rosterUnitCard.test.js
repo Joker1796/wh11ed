@@ -58,6 +58,26 @@ describe('useRosterUnitCard — a detachment rule reaches the units it names', (
   })
 })
 
+// appdata types "GRAV‑ASSAULT" with U+2011: unfolded, Flare Shields read as nobody's and stood on
+// every Custodes card, a Dreadnought's included (a player's report, 2026-10-17; lesson 96).
+describe('useRosterUnitCard — a keyword typed with a unicode hyphen', () => {
+  async function blocksOf(unitId) {
+    const card = cardFor({
+      unitId,
+      factionSlug: 'adeptus-custodes',
+      ctx: { detachments: ['Grav‑Assault Force', 'Might of the Moritoi'], entry: { uid: 'u1', id: unitId, size: 0 }, units: [] },
+    })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    return card.ruleBlocks.value.map((b) => b.key)
+  }
+  it('not on a Dreadnought', async () => {
+    expect(await blocksOf('contemptor-achillus-dreadnought')).toEqual(['det:Might of the Moritoi'])
+  })
+  it('on the GRAV-ASSAULT unit it names', async () => {
+    expect(await blocksOf('pallas-grav-attack')).toContain('det:Grav‑Assault Force')
+  })
+})
+
 // Custodes fold several army rules into Martial Ka'tah as `### ` sections. The "i" by a
 // Daughters of the Abyss modifier opened Martial Ka'tah whole (a player's report, 2026-10-16):
 // it opens the section it names.

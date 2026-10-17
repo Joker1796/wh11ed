@@ -320,7 +320,7 @@ button.pe-head:hover { background: color-mix(in srgb, var(--accent) 7%, transpar
   padding: 0 0.3rem;
   border: 1px solid currentColor;
 }
-.pe-badge-new { color: var(--accent-ink); }
+.pe-badge-new { color: var(--gain); }
 .pe-badge-gone { color: var(--text-muted); }
 .pe-note { font-size: 0.78rem; color: var(--text-muted); }
 .pe-summary {
@@ -359,7 +359,7 @@ button.pe-head:hover { background: color-mix(in srgb, var(--accent) 7%, transpar
   overflow-wrap: anywhere;
 }
 .pe-label { color: var(--text-muted); }
-.pe-plus { color: var(--accent-ink); }
+.pe-plus { color: var(--gain); }
 .pe-minus { color: var(--text-muted); text-decoration: line-through; }
 
 .pe-texts { padding: 0 0.6rem 0.5rem; border-top: 1px solid var(--border-light); }

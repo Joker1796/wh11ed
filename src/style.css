@@ -60,6 +60,10 @@
   --diff-del-ink: #7d2219;
   --diff-ins-bg: #c9e6c9;
   --diff-ins-ink: #14421a;
+  /* What a patch ADDED to a sheet — a keyword, a weapon, a tag, the "New" mark (the patch notes'
+     "+ Gravis"). Green, as the cheaper price beside it already was: in the accent's red an
+     addition read as a loss (owner, 2026-10-17). */
+  --gain: #1e8449;
   /* The amber one step short of it: "legal, but you still owe an answer" — the roster's worth-
      checking bar, the mark on an editor tab that hides an unmade choice. It had no token until
      2026-09-24 and lived as `var(--warning, #b8860b)` in one file; that literal was 2.5:1 on the
@@ -350,6 +354,7 @@
   --diff-del-ink: #f4b9b1;
   --diff-ins-bg: #1f4727;
   --diff-ins-ink: #c4ecc6;
+  --gain: #5cbf83;
   --warning: #e3b341;
   --bg-definition: #2a2d2c;
   --bg-definition-border: #3a3d3c;
