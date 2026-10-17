@@ -23,7 +23,7 @@
 export const changelog = [
   {
     version: '2.9.6',
-    date: '2026-10-17',
+    date: '2026-10-18',
     en: [
       { h: 'Roster in a game' },
       '**Command Protocols is in effect only in a unit led by a CHARACTER.** It stood on every Necrons card, a lone [Nekrosor Ammentar](/factions/necrons/datasheets/nekrosor-ammentar) and a Monolith included. In a unit with a leader it is on the leader’s card too. Unquestioning Fanaticism in Xenocreed Congregation works the same way.',
