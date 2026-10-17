@@ -125,3 +125,18 @@ describe('useRosterUnitCard — a modifier named for part of a merged army rule'
     expect(src.body).not.toMatch(/Shadow in the Warp/)
   })
 })
+
+// Alpha Invader gives [SUSTAINED HITS 1] to every weapon of the unit; the venom bolt is [TORRENT],
+// makes no hit roll and so never scores a critical hit (a player's report, 2026-10-17).
+describe('useRosterUnitCard — a critical-hit ability and a [TORRENT] weapon', () => {
+  it('Hyperadapted Raveners: on the claws, not on the venom bolt', async () => {
+    const card = cardFor({
+      unitId: 'hyperadapted-raveners',
+      factionSlug: 'tyranids',
+      ctx: { detachments: [], entry: { uid: 'u1', id: 'hyperadapted-raveners', size: 0 }, units: [] },
+    })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    await vi.waitFor(() => expect(card.statMods.value.sheet.melee[0].tags).toContain('SUSTAINED HITS 1'), { timeout: 15000 })
+    expect(card.statMods.value.sheet.ranged.find((w) => w.name === 'Venom bolt').tags).not.toContain('SUSTAINED HITS 1')
+  })
+})

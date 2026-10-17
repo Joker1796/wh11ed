@@ -72,6 +72,19 @@ function rowMatchesOnly(row, only) {
   return true
 }
 
+// An ability that fires on a critical hit means nothing on a [TORRENT] weapon: that attack hits
+// without a hit roll (24.37), so it never makes one (24.36 [SUSTAINED HITS], 24.23 [LETHAL HITS]).
+// The rules that grant these say "weapons equipped by models in this unit" and GW does not carve
+// TORRENT out, so the card did: Alpha Invader printed [SUSTAINED HITS 1] on the Raveners' venom
+// bolt, and a player pointed out it can never trigger (report, 2026-10-17). Here rather than an
+// `only.notTag` on each record because it is a rule of the game, not of any one modifier — 92
+// grants in 21 factions could reach such a weapon.
+const CRIT_HIT_ONLY = ['SUSTAINED HITS', 'LETHAL HITS']
+/** @param {unknown} ability @param {unknown[]} tags */
+export const idleOnRow = (ability, tags) =>
+  CRIT_HIT_ONLY.some((a) => rowMatchesOnly({ tags: [String(ability)] }, { tag: a }))
+  && rowMatchesOnly({ tags: tags.map(String) }, { tag: 'TORRENT' })
+
 // Does the statement this effect was read from bear on this unit? `scope` is an index into
 // ruleScopes(); a null scope means the effect belongs to the rule as a whole, so any statement
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
@@ -428,6 +441,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
             if (!rowMatchesOnly(asFound[table]?.[i], effect.only) || !inRows(effect, table, i)) continue
             const tags = rows[i].tags || []
             if (tags.some((t) => String(t).toUpperCase() === String(effect.value).toUpperCase())) continue
+            if (idleOnRow(effect.value, tags)) continue
             // the clone has every row the sheet has, so this is the same row, writable
             const dest = target()[table]?.[i]
             if (dest) dest.tags = [...tags, String(effect.value)]

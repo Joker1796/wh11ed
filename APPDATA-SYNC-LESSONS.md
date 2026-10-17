@@ -1314,3 +1314,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     `foldChars` (one character for one, so positions hold), and `src/utils/proseReaders.test.js`
     runs each reader over every data string folded and unfolded: they must agree. A new reader of
     rule text goes into that test.
+
+97. **A grant can be true to the text and still impossible in play.** Alpha Invader gives
+    [SUSTAINED HITS 1] to "weapons equipped by models in this unit", and the card printed it on the
+    Raveners' venom bolt — a [TORRENT] weapon, which hits without a hit roll and so never scores the
+    critical hit the ability needs (report 51023119, 2026-10-17). GW does not carve TORRENT out in
+    the rule; the game's own rules do. Such a combination is a rule of the game, not of one record,
+    so `idleOnRow` in rosterStatMods.js refuses it for every grant (about 90 could reach a TORRENT
+    weapon, 21 factions) instead of an `only.notTag` per record — the one record that already
+    carried it (Adepta Sororitas) is now redundant, not wrong.

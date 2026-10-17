@@ -547,6 +547,33 @@ describe('applyStatMods with a weapon filter', () => {
 
 // "…add 2 to the Attacks characteristic INSTEAD." Two effects, one number: while the alternate is
 // in force the base must not also land, or +1 and +2 quietly become +3.
+// [TORRENT] makes no hit roll, so an ability that fires on a critical hit can never fire on it — a
+// player's report on Alpha Invader's [SUSTAINED HITS 1] printed on the Raveners' venom bolt.
+describe('applyStatMods — a critical-hit ability on a [TORRENT] weapon', () => {
+  const ravenersSheet = () => ({
+    name: 'Hyperadapted Raveners',
+    profiles: [{ m: '10"', t: '5', sv: '4+', w: '3', ld: '8+', oc: '1' }],
+    ranged: [{ name: 'Venom bolt', tags: ['ASSAULT', 'IGNORES COVER', 'TORRENT'], a: 'D6+3', s: '6', ap: '-1', d: '1' }],
+    melee: [{ name: 'Ravener heavy claws and talons', tags: [], a: '5', s: '6', ap: '-2', d: '2' }],
+  })
+  const grant = (value) => ({
+    name: 'Alpha Invader', kind: 'ability', det: null, body: '',
+    effects: [{ on: 'weapon', stat: 'ability', op: 'grant', value, when: null }],
+  })
+
+  it.each(['SUSTAINED HITS 1', 'LETHAL HITS'])('%s is not printed on it, only on the other weapons', (value) => {
+    const out = applyStatMods(ravenersSheet(), [grant(value)], destroyer, [])
+    expect(out.sheet.ranged[0].tags).not.toContain(value)
+    expect(out.sheet.melee[0].tags).toContain(value)
+    expect(out.marks).not.toContain('ranged:tags:0')
+  })
+
+  it('any other ability still is', () => {
+    const out = applyStatMods(ravenersSheet(), [grant('DEVASTATING WOUNDS')], destroyer, [])
+    expect(out.sheet.ranged[0].tags).toContain('DEVASTATING WOUNDS')
+  })
+})
+
 describe('applyStatMods with an "instead" variant', () => {
   const rec = {
     name: 'Weapons of the First Legion', kind: 'enhancement', det: 'Unforgiven Task Force', body: '',

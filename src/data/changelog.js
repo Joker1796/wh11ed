@@ -30,6 +30,7 @@ export const changelog = [
       '**A Tempestus Scion can take the regimental standard only while he keeps his hot-shot lasgun.** The builder let a Scion with a special weapon take it as well.',
       '**Units that another unit’s ability adds to the game stand under that unit.** [Ripper Swarms](/factions/tyranids/datasheets/ripper-swarms) are under a [Parasite of Mortrex](/factions/tyranids/datasheets/parasite-of-mortrex), [Spore Mines](/factions/tyranids/datasheets/spore-mines) under [Biovores](/factions/tyranids/datasheets/biovores) and the [Harpy](/factions/tyranids/datasheets/harpy), [Mucolid Spores](/factions/tyranids/datasheets/mucolid-spores) under a [Sporocyst](/factions/tyranids/datasheets/sporocyst). A tap opens their card. It is also on the card of the unit that adds them. This is in a roster and in a game.',
       '**The name of such a unit in the ability’s text opens its card.** This works everywhere the ability is shown.',
+      '**[SUSTAINED HITS] and [LETHAL HITS] are no longer added to [TORRENT] weapons.** A [TORRENT] weapon hits without a hit roll, so it never scores a critical hit. [Hyperadapted Raveners](/factions/tyranids/datasheets/hyperadapted-raveners) had [SUSTAINED HITS 1] from Alpha Invader on the venom bolt. The same went for every rule that gives these to all weapons of a unit.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
@@ -37,6 +38,7 @@ export const changelog = [
       '**Tempestus Scion может взять regimental standard, только если у него остаётся hot-shot lasgun.** Конструктор давал взять знамя и Scion со спецоружием.',
       '**Юниты, которых добавляет в партию способность другого юнита, стоят под ним.** [Ripper Swarms](/factions/tyranids/datasheets/ripper-swarms) стоят под [Parasite of Mortrex](/factions/tyranids/datasheets/parasite-of-mortrex), [Spore Mines](/factions/tyranids/datasheets/spore-mines) под [Biovores](/factions/tyranids/datasheets/biovores) и [Harpy](/factions/tyranids/datasheets/harpy), [Mucolid Spores](/factions/tyranids/datasheets/mucolid-spores) под [Sporocyst](/factions/tyranids/datasheets/sporocyst). По тапу открывается их карточка. Она есть и в карточке юнита, который их добавляет. Это видно в ростере и в партии.',
       '**Имя такого юнита в тексте способности открывает его карточку.** Это работает везде, где видна способность.',
+      '**[SUSTAINED HITS] и [LETHAL HITS] больше не добавляются оружию с [TORRENT].** Оружие с [TORRENT] попадает без броска, поэтому критического попадания у него не бывает. У [Hyperadapted Raveners](/factions/tyranids/datasheets/hyperadapted-raveners) Alpha Invader давал [SUSTAINED HITS 1] и venom bolt. Так было у всех правил, которые дают их всему оружию юнита.',
     ],
   },
   {
