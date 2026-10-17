@@ -154,14 +154,20 @@ export function useRosterUnitCard(props) {
   // numbers — Tiers A+B, unchanged.
   /** @type {import('vue').Ref<{ entries?: ModifierRecord[] } | null>} */
   const modifierData = ref(null)
+  // Settled once the load has answered, null or not — what may hang on a record (a rule's
+  // `appliesWhile`) waits for this rather than reading "no record" off a load still in flight.
+  const modifiersSettled = ref(false)
   watch(
     [() => props.factionSlug, () => !!props.ctx],
     async ([slug, hasCtx]) => {
       modifierData.value = null
+      modifiersSettled.value = false
       if (!slug || !hasCtx) return
       const { loadRosterModifiersFor } = await import('../data/rosterModifiers/index.js')
       const data = await loadRosterModifiersFor(slug)
-      if (props.factionSlug === slug) modifierData.value = data
+      if (props.factionSlug !== slug) return
+      modifierData.value = data
+      modifiersSettled.value = true
     },
     { immediate: true },
   )
@@ -429,6 +435,18 @@ export function useRosterUnitCard(props) {
   // `self` records: an ability printed on a Leader's card is not in this sheet's ability list, and
   // its condition belongs to the unit it addresses, which has its own row and its own card.
 
+  // A detachment rule in force only inside an attached unit ("While a NECRONS CHARACTER model is
+  // leading this unit" — Command Protocols) is not in effect on a unit standing alone, nor on one
+  // nobody can lead: its record says so as `appliesWhile`, and the list answers it the way it
+  // answers the effects' own `cond`. A preview with no entry has no attachment to ask about.
+  /** @param {string} det */
+  function ruleHolds(det) {
+    if (!props.ctx?.entry) return true
+    if (!modifiersSettled.value) return false
+    const rec = (modifierData.value?.entries || []).find((r) => r.kind === 'detachmentRule' && r.reviewed && detKey(r.det) === detKey(det))
+    return (rec?.appliesWhile || []).every((id) => activeConds.value.has(id))
+  }
+
   const ruleBlocks = computed(() => {
     const fac = rulesFaction.value
     const facEn = rulesFactionEn.value
@@ -443,7 +461,7 @@ export function useRosterUnitCard(props) {
         const target = detKey(src.name)
         const det = (fac.detachments || []).find((d) => detKey(d.name) === target)
         const detEn = (facEn?.detachments || []).find((d) => detKey(d.name) === target)
-        if (det?.rule?.body && applies(detEn?.rule?.body)) {
+        if (det?.rule?.body && applies(detEn?.rule?.body) && ruleHolds(src.name)) {
           out.push({
             key: `det:${src.name}`,
             src: `${labels.value.factionDetachment} · ${det.name}`,
@@ -468,7 +486,7 @@ export function useRosterUnitCard(props) {
     // The sheet, printed and overlaid
     datasheets, loaded, sheet, view, localize, companions, spawned,
     // The faction's own prose (the modal reads it for popovers, the print sheet prints it)
-    rulesFaction, rulesFactionEn, stratNamesRu,
+    rulesFaction, rulesFactionEn, stratNamesRu, modifiersSettled,
     // What the roster does to the numbers
     statMods, statNotes, allGrantedKeywords, linkedFactionRules, abilityStates,
     // The records behind all of it, for a caller that has its own question to ask of them

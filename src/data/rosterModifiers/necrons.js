@@ -944,6 +944,9 @@ export default {
       "hash": "da8aa7b0",
       "ver": 925,
       "reviewed": true,
+      "appliesWhile": [
+        "unit-led"
+      ],
       "effects": [
         {
           "on": "weapon",

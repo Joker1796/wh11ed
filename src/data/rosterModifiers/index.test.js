@@ -486,3 +486,34 @@ describe('loadRosterModifiersFor — a Chapter', () => {
     expect(await loadRosterModifiersFor('necrons')).toEqual(await loadRosterModifiers('necrons'))
   })
 })
+
+// "While a NECRONS CHARACTER model is leading this unit, …" puts the WHOLE rule inside an attached
+// unit. The card's "In effect" block lists a detachment rule by whom it names, so without
+// `appliesWhile` Command Protocols stood on a Nekrosor Ammentar fielded alone (a player's report,
+// 2026-10-17). Every detachment rule worded that way carries it, and it names only what the list
+// itself answers — a switch the player flips is not something to hide a whole rule behind.
+describe('a detachment rule in force only inside an attached unit', () => {
+  const factions = import.meta.glob(['../factions/*.js'], { eager: true })
+  const LED = /\bwhile (?:a|an|one or more) [^.]*?\b(?:is|are) leading (?:this|that) unit\b/i
+  const rules = Object.entries(factions).flatMap(([file, mod]) => {
+    const fac = Object.values(mod).map((v) => v?.en || v).find((v) => v?.detachments)
+    const slug = file.replace(/^.*\/(.*)\.js$/, '$1')
+    return (fac?.detachments || []).map((d) => ({ slug, det: d.name, body: d.rule?.body || '' }))
+  })
+  const recOf = (slug, det) => (files[`./${slug}.js`]?.entries || [])
+    .find((e) => e.kind === 'detachmentRule' && e.det?.toLowerCase() === det.toLowerCase())
+
+  it('reads the two rules worded that way', () => {
+    expect(rules.filter((r) => LED.test(r.body)).map((r) => r.det).sort()).toEqual(['Awakened Dynasty', 'Xenocreed Congregation'])
+  })
+  it('says so in its record', () => {
+    const missing = rules.filter((r) => LED.test(r.body) && !recOf(r.slug, r.det)?.appliesWhile?.includes('unit-led'))
+    expect(missing.map((r) => `${r.slug} · ${r.det}`)).toEqual([])
+  })
+  it('gates only on what the list answers', () => {
+    const bad = allEntries.flatMap(({ file, e }) => (e.appliesWhile || [])
+      .filter((id) => conditions[id]?.scope !== 'roster' || e.kind !== 'detachmentRule')
+      .map((id) => `${file} · ${e.name} · ${id}`))
+    expect(bad).toEqual([])
+  })
+})

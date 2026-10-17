@@ -1341,3 +1341,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     four sentences naming several items, a condition on one option of a multi-option swap read as
     "any pick" (Kill Tank), footnote limits and the group's own offers ("can be equipped with 1
     storm bolter") read as conditions. Now every item resolves or the generator fails, naming it.
+
+99. **A condition on an effect is not a condition on the rule.** Command Protocols' +1 to Hit was
+    gated on `unit-led` from the start, so the numbers were right — but the card's "In effect" block
+    lists a detachment rule by whom it names, and NECRONS names every unit: the rule stood on a
+    Nekrosor Ammentar fielded alone and on a Monolith (a player's report, 2026-10-17). Where the
+    WHOLE rule lives inside an attached unit, the record says so (`appliesWhile`), and the gate
+    reads the prose ("while … is/are leading this/that unit") so a new rule worded that way cannot
+    arrive without it. Unquestioning Fanaticism has no effects at all (re-rolls are not a stat), which
+    is why the field sits on the record and is not derived from its effects.

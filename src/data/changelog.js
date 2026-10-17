@@ -27,6 +27,7 @@ export const changelog = [
     en: [
       { h: 'Roster builder' },
       '**Grav-Assault Force rules are only on GRAV-ASSAULT units now.** Flare Shields stood on every unit’s card, Dreadnoughts included. Its three stratagems were offered to every unit too. This is on a unit’s card in a roster and in a game.',
+      '**Command Protocols is in effect only in a unit led by a CHARACTER.** It stood on every Necrons card, a lone [Nekrosor Ammentar](/factions/necrons/datasheets/nekrosor-ammentar) and a Monolith included. In a unit with a leader it is on the leader’s card too. Unquestioning Fanaticism in Xenocreed Congregation works the same way.',
       '**A Tempestus Scion can take the regimental standard only while he keeps his hot-shot lasgun.** The builder let a Scion with a special weapon take it as well.',
       '**[Canoness](/factions/adepta-sororitas/datasheets/canoness) can take the rod of office only with a plasma pistol and a power weapon.** The builder let her take it with anything. I checked every option of this kind. Four more units had the same problem, among them Corsair Voidscarred with the Faolchú and Hernkyn Pioneers.',
       '**While you build a list, a datasheet shows the unit composition, the default wargear and the wargear options.** It hid them before. In the roster view and in a game it still does.',
@@ -42,6 +43,7 @@ export const changelog = [
     ru: [
       { h: 'Конструктор ростеров' },
       '**Правила Grav-Assault Force теперь только у юнитов GRAV-ASSAULT.** Flare Shields стоял на карточке каждого юнита, в том числе у дредноутов. Три его стратагемы тоже предлагались любому юниту. Это видно на карточке юнита в ростере и в партии.',
+      '**Command Protocols действует только в отряде, который ведёт CHARACTER.** Правило стояло на каждой карточке некронов, в том числе у одиночного [Nekrosor Ammentar](/factions/necrons/datasheets/nekrosor-ammentar) и у Monolith. В отряде с лидером оно есть и на карточке лидера. Так же теперь работает Unquestioning Fanaticism в Xenocreed Congregation.',
       '**Tempestus Scion может взять regimental standard, только если у него остаётся hot-shot lasgun.** Конструктор давал взять знамя и Scion со спецоружием.',
       '**[Canoness](/factions/adepta-sororitas/datasheets/canoness) может взять rod of office только с plasma pistol и power weapon.** Конструктор давал взять его с чем угодно. Я проверил все такие опции. Ещё у четырёх юнитов было то же самое, среди них Corsair Voidscarred с Faolchú и Hernkyn Pioneers.',
       '**При составлении ростера лист данных показывает состав юнита, стандартное снаряжение и опции замены.** Раньше они были скрыты. В просмотре ростера и в партии их по-прежнему нет.',

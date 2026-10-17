@@ -2988,6 +2988,17 @@ unaware of the roster). `ruleSourcesFor` says WHICH rules bear on the entry and 
 each to its text from the lazily-imported faction bundle: the enhancement carried, each of the
 roster's detachment rules, and the abilities of any Leader attached to this unit.
 
+**A detachment rule is listed by whom it names — and, where its record says so, by whether the
+list puts the unit in an attached unit.** "While a NECRONS CHARACTER model is leading this unit"
+(Command Protocols) and Unquestioning Fanaticism hold the WHOLE rule inside an attached unit, so
+their records carry `appliesWhile: ['unit-led']` and `ruleBlocks` lists them only where the roster
+answers it — both halves of the attached unit (19.04), never a Leader standing alone or a Monolith
+nobody can lead (a player's report, 2026-10-17). Only list-answered conditions belong there: a
+switch the player flips gates an effect, never the reading of the rule. The block waits for the
+modifier load (`modifiersSettled`) rather than reading "no record" off a load in flight; a preview
+with no entry shows the rule. `rosterModifiers/index.test.js` holds every rule worded that way to
+the field.
+
 **The block is not itself an accordion** — what applies is always visible and only the individual
 rule bodies collapse, so there is one level of chevrons and opening it can't dump four long rule
 bodies at once. It is marked as not-printed-on-the-card by borrowing the card's own vocabulary for

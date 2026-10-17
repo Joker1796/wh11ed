@@ -46,7 +46,7 @@ describe('useRosterUnitCard — a detachment rule reaches the units it names', (
       factionSlug: 'orks',
       ctx: { detachments: ['Runt Swarm', 'Wreckas'], entry: { uid: 'u1', id: unitId, size: 0 }, units: [] },
     })
-    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value && card.modifiersSettled.value).toBeTruthy(), { timeout: 15000 })
     return card.ruleBlocks.value.map((b) => b.key)
   }
   it('not on a Battlewagon', async () => {
@@ -138,5 +138,38 @@ describe('useRosterUnitCard — a critical-hit ability and a [TORRENT] weapon', 
     await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
     await vi.waitFor(() => expect(card.statMods.value.sheet.melee[0].tags).toContain('SUSTAINED HITS 1'), { timeout: 15000 })
     expect(card.statMods.value.sheet.ranged.find((w) => w.name === 'Venom bolt').tags).not.toContain('SUSTAINED HITS 1')
+  })
+})
+
+// "While a NECRONS CHARACTER model is leading this unit" — the whole rule lives inside an attached
+// unit, so it is not "in effect" on a Nekrosor Ammentar fielded alone (a player's report,
+// 2026-10-17), nor on a Monolith nobody can lead; inside one it is, the Leader included (19.04).
+describe('useRosterUnitCard — a detachment rule in force only inside an attached unit', () => {
+  async function blocksOf(factionSlug, detachment, unitId, units) {
+    const entry = units.find((u) => u.id === unitId)
+    const card = cardFor({ unitId, factionSlug, ctx: { detachments: [detachment], entry, units } })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value).toBeTruthy(), { timeout: 15000 })
+    await vi.waitFor(() => expect(card.modifiersSettled.value).toBe(true), { timeout: 15000 })
+    return card.ruleBlocks.value.map((b) => b.key).filter((k) => k.startsWith('det:'))
+  }
+  const alone = [{ uid: 'a', id: 'nekrosor-ammentar', size: 0 }, { uid: 'b', id: 'immortals', size: 0 }, { uid: 'c', id: 'monolith', size: 0 }]
+  const led = [{ uid: 'a', id: 'nekrosor-ammentar', size: 0, leaderOf: 'b' }, { uid: 'b', id: 'immortals', size: 0 }]
+
+  it('not on a Leader standing alone, a unit nobody leads, or one nobody can', async () => {
+    for (const id of ['nekrosor-ammentar', 'immortals', 'monolith']) {
+      expect(await blocksOf('necrons', 'Awakened Dynasty', id, alone)).toEqual([])
+    }
+  })
+  it('on both halves of the attached unit', async () => {
+    expect(await blocksOf('necrons', 'Awakened Dynasty', 'nekrosor-ammentar', led)).toEqual(['det:Awakened Dynasty'])
+    expect(await blocksOf('necrons', 'Awakened Dynasty', 'immortals', led)).toEqual(['det:Awakened Dynasty'])
+  })
+  it('Unquestioning Fanaticism: on the led Neophytes and on the Magus leading them, not on them apart', async () => {
+    const apart = [{ uid: 'a', id: 'magus', size: 0 }, { uid: 'b', id: 'neophyte-hybrids', size: 0 }]
+    const joined = [{ uid: 'a', id: 'magus', size: 0, leaderOf: 'b' }, { uid: 'b', id: 'neophyte-hybrids', size: 0 }]
+    expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'neophyte-hybrids', apart)).toEqual([])
+    expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'magus', apart)).toEqual([])
+    expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'neophyte-hybrids', joined)).toEqual(['det:Xenocreed Congregation'])
+    expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'magus', joined)).toEqual(['det:Xenocreed Congregation'])
   })
 })

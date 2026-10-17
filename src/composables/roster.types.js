@@ -354,6 +354,8 @@
  * @property {number} [ver]
  * @property {ModifierRef | null} [ref]
  * @property {string} [num]  a core-rule record's section (coreRules.js), which has no ref
+ * @property {string[]} [appliesWhile]  a detachment rule in force only while these list-answered
+ *   conditions hold — the whole rule, not one effect (Command Protocols: `unit-led`)
  */
 
 /**
