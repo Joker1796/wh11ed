@@ -2285,3 +2285,27 @@ describe('an allegiance record reaches only its own group', () => {
     }
   })
 })
+
+// A unit an ability brings into the game hangs under its maker in every list (`spawns`, a player's
+// report 2026-10-17): read off the ability's text by the generator, which fails on a name it cannot
+// place. These are the four abilities that do it today; each points at a unit of the faction.
+describe('units an ability brings into the game', () => {
+  it('the four, and every one a unit of its faction', async () => {
+    const found = []
+    for (const { slug, data } of factions) {
+      const ids = new Set(data.units.map((u) => u.id))
+      for (const u of data.units) {
+        for (const s of u.spawns || []) {
+          expect(ids.has(s.id), `${slug}: ${u.name} → ${s.id}`).toBe(true)
+          found.push(`${u.name} → ${s.name} (${s.rule})`)
+        }
+      }
+    }
+    expect(found.sort()).toEqual([
+      'Biovores → Spore Mines (Seed Spore Mines)',
+      'Harpy → Spore Mines (Spore Mine Cysts)',
+      'Parasite of Mortrex → Ripper Swarms (Parasitic Infection)',
+      'Sporocyst → Mucolid Spores (Seed Mucolids)',
+    ])
+  })
+})

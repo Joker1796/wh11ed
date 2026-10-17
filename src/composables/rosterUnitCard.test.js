@@ -58,6 +58,20 @@ describe('useRosterUnitCard — a detachment rule reaches the units it names', (
   })
 })
 
+// The unit an ability brings into the game is on its maker's card, under the ability that does it
+// (the roster's `spawns`; a player's report, 2026-10-17).
+describe('useRosterUnitCard — a unit an ability brings in', () => {
+  it('carries the Ripper Swarms card on a Parasite of Mortrex', async () => {
+    const card = cardFor({
+      unitId: 'parasite-of-mortrex',
+      factionSlug: 'tyranids',
+      ctx: { detachments: [], def: { spawns: [{ id: 'ripper-swarms', name: 'Ripper Swarms', rule: 'Parasitic Infection' }] }, entry: { uid: 'u1', id: 'parasite-of-mortrex', size: 0 }, units: [] },
+    })
+    await vi.waitFor(() => expect(card.loaded.value).toBe(true), { timeout: 15000 })
+    expect(card.spawned.value.map((s) => [s.sheet.name, s.rule])).toEqual([['Ripper Swarms', 'Parasitic Infection']])
+  })
+})
+
 // appdata types "GRAV‑ASSAULT" with U+2011: unfolded, Flare Shields read as nobody's and stood on
 // every Custodes card, a Dreadnought's included (a player's report, 2026-10-17; lesson 96).
 describe('useRosterUnitCard — a keyword typed with a unicode hyphen', () => {

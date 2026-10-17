@@ -129,6 +129,7 @@
  * @property {AllegianceChoice} [alleg]
  * @property {1} [condBattleline] can be Battleline under some detachment
  * @property {Array<{ id: string, name: string }>} [crew]
+ * @property {Array<{ id: string, name: string, rule: string }>} [spawns] units an ability of this one brings into the game (rosterCompanionRows.js)
  * @property {{ add: number | number[], base?: number | number[], slots: number, one?: ItemId[], ranged?: [number, ItemId[]] }} [pm] per-model rules across groups (a slot names a group or all its copies)
  * @property {GearPool[]} [pools] one instruction's copies, a profile each, and the allowance they share
  * @property {Array<{ s: Array<[number] | [number, number]>, k?: number, item?: ItemId }>} [xpm] a model's limit across groups
