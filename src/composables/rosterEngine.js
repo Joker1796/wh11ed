@@ -367,8 +367,11 @@ function stockBlocker(def, entry, gi) {
 // ':' and an option per line — so the marker is not what identifies a list. A line opening with
 // '*' is a footnote about the options rather than one of them, and comes back separately.
 // `▪` is the Faction Pack transcriptions' marker (114 Legends instructions); without it their
-// lists ran together into one paragraph of the heading (2026-10-07).
-const BULLET = /^[◦•■▪▫]\s*/
+// lists ran together into one paragraph of the heading (2026-10-07). A hyphen and a space is the
+// Kill Tank's ("- 1 Kannon."): read as a plain line of the ':' list, the hyphen stayed in front of
+// the bullet (owner, 2026-10-17). Here and not in the data — the text stays appdata's word for
+// word, which is what the sync and the RU dictionary key on.
+const BULLET = /^(?:[◦•■▪▫]|-(?=\s))\s*/
 const FOOTNOTE = /^\*\s*/
 /**
  * @param {string | null | undefined} text

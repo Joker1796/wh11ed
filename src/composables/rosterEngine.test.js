@@ -997,6 +997,12 @@ describe('splitInstruction', () => {
       .toEqual({ head: 'This model can be equipped with 1 Voidraven missiles.', bullets: [], note: '' })
   })
 
+  it('takes a hyphen and a space for a marker — the Kill Tank\'s list', () => {
+    expect(splitInstruction("This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and three of the following:\n\n- 1 Kannon.\n\n- 1 Lobba.\n\n- 1 Zzap Gun."))
+      .toEqual({ head: "This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and three of the following:", bullets: ['1 Kannon.', '1 Lobba.', '1 Zzap Gun.'], note: '' })
+    expect(splitInstruction('-1 to the Hit roll:\nfoo').bullets).toEqual(['foo']) // a minus is not a marker
+  })
+
   it('splits the option list off the sentence and drops the markers', () => {
     const t = 'For every 5 models in the unit:\n◦ 1 hexrifle and 1 torturer\u2019s tool\n◦ 1 ossefactor'
     expect(splitInstruction(t)).toEqual({
