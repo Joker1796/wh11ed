@@ -37,26 +37,37 @@ Start/Save**: a row the game cannot offer is stored OFF, because a disabled chec
 the player's answer. Without it "Track phases", remembered from a game that had a list, raised the
 phase row in a game that had none.
 
-**Four groups, three presets (owner, 2026-10-14).** `turn` — CP, the clock (`trackPhases`), the
-phase reminder (`trackPhaseRules` — the Phase tab with the clock, the Turn tab without it) and the
-check before the turn passes (`trackTurnChecks`, TurnEndCheckModal). `armies` — the army rule per
-side (`trackArmyYou`/`trackArmyOpp`, legacy `trackArmyRule`) and `askStratagems` (`requires:
-'trackCP'`): off, a stratagem is spent at its printed cost at one tap — on no unit from the CP tab,
-on the unit from its card — and a play the tracker refuses opens StratPlayModal after all, which
-says why. `roster` only means anything with an army list attached: the modifier master
-(`trackModifiers`), `trackUnitStatus` (UnitStatusButton on the list's rows) and the six families of
-switch under the master (`trackUnitStates`, `trackBattleShock`, `trackArmyStates`,
-`trackStratagems`, `trackAuras`, `trackAbilitySets`, each `requires: 'trackModifiers'` and `fold:
-true` — TrackOptions draws them under a "Details" fold beneath the master, counting how many are
-on). `look` — the broadcast button, `showLogStats` (the Log and Stats tabs; `local`) and the side
-colours. A `local` row says "on this phone" under its caption. What each family governs on the
-roster screen is in `src/components/roster/CLAUDE.md`.
+**Four groups, three presets (owner, 2026-10-14; reshaped 2026-10-17).** `turn` — CP (`trackCP`, the
+counter), under it playing stratagems (`trackStratPlay`: the CP tab's list and a unit card's play;
+off, the CP tab is the counter alone and a card's stratagem box is a plain mark), under that
+`askStratagems` (off, a stratagem is spent at its printed cost at one tap — on no unit from the CP
+tab, on the unit from its card — and a play the tracker refuses opens StratPlayModal after all,
+which says why); the clock (`trackPhases`), the phase reminder (`trackPhaseRules` — the Phase tab
+with the clock, the Turn tab without it) and the mission help (`trackMissionAids`, legacy
+`trackTurnChecks`: the check before the turn passes — TurnEndCheckModal — and the take dialog
+opening by itself — SecondaryDeck; the missions themselves are never a row). `armies` — the army
+rule per side (`trackArmyYou`/`trackArmyOpp`, legacy `trackArmyRule`). `roster` only means anything
+with an army list attached: the modifier master (`trackModifiers`) and the six families of switch
+under it (`trackUnitStates` — which also carries UnitStatusButton on the list's rows, "where each
+unit is" being the same thing, owner 2026-10-17 — `trackBattleShock`, `trackArmyStates`,
+`trackStratagems`, `trackAuras`, `trackAbilitySets`; `fold: true` — TrackOptions draws them under a
+"Details" fold beneath the master, counting how many are on). `trackStratagems` requires the master
+AND `trackStratPlay`: without stratagems played there is nothing spent to change a card. `requires`
+takes a list for that; a row is drawn one step in per parent in its own group (`depthOf`). `look` —
+the broadcast button, `showLogStats` (the Log and Stats tabs; `local`) and the side colours. A
+`local` row says "on this phone" under its caption. What each family governs on the roster screen is
+in `src/components/roster/CLAUDE.md`.
 
-`TRACK_PRESETS` (Quick / Normal / Full) are starting points over the rows, the print sheet's shape:
-`TrackPresets.vue` over the groups in the wizard and the edit dialog (not for a guest), `presetOf`
-names the draft's set or null ("your own set") comparing only rows the game can offer. The colours
-and the broadcast are in no preset. The one row is drawn by `TrackOptionRow.vue` in the list and in
-the fold alike.
+`TRACK_PRESETS` — Minimal (nothing), Base (CP without stratagems, the mission help, both army-rule
+counters, the modifiers without a family) and Maximal (everything) — are starting points over the
+rows. `TrackPresets.vue` is a label above one button naming the preset in force (or "Your own"); the
+button opens a dialog showing the game screen with each, from pictures in
+`public/images/tracker/preset-<id>-<locale>` shot off the seed's three `preset-*` games
+(scripts/lib/test-games.mjs) — **reshoot them when the game screen changes**, under a new name
+(images are never edited in place). A first game starts as Base (`defaultTrackSettings` with no
+game behind it); a later one from the last game's choices. `presetOf` names the draft's set or null
+comparing only rows the game can offer. The colours and the broadcast are in no preset. The one row
+is drawn by `TrackOptionRow.vue` in the list and in the fold alike.
 
 **Battle-shock is its own row** (2026-10-10, owner, after Misha called the marking bureaucracy): the
 one unit state the app ACTS on (a shocked unit is refused its own side's stratagems, its ongoing ones

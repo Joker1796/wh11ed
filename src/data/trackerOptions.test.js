@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { TRACK_OPTIONS, TRACK_PRESETS, applyTrackPreset, presetOf, tracks, defaultTrackSettings, trackSettingsOf, normalizeTrackSettings, optionsIn, optionEnabled } from './trackerOptions.js'
+import { TRACK_OPTIONS, TRACK_PRESETS, applyTrackPreset, presetOf, tracks, depthOf, defaultTrackSettings, trackSettingsOf, normalizeTrackSettings, optionsIn, optionEnabled } from './trackerOptions.js'
 import { ui } from '../i18n/ui.js'
 
 const CTX_FULL = {
@@ -98,8 +98,8 @@ describe('availability', () => {
   it('leaves the tracker\'s own rows alone', () => {
     // The two army rows want a faction; the clock, its reminder and the colours are always offered
     // (a side with no faction still has a colour to customise).
-    expect(enabled(CTX_BARE)).toEqual(['cp', 'strat-ask', 'phases', 'phase-rules', 'turn-checks', 'broadcast', 'log-stats', 'custom-colors'])
-    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'strat-ask', 'phases', 'phase-rules', 'turn-checks', 'broadcast', 'log-stats', 'custom-colors'])
+    expect(enabled(CTX_BARE)).toEqual(['cp', 'strat-play', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log-stats', 'custom-colors'])
+    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'strat-play', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log-stats', 'custom-colors'])
   })
 })
 
@@ -147,9 +147,9 @@ describe('the Battle-shock row', () => {
     expect(tracks({ trackCP: false, trackBattleShock: true }, 'trackBattleShock')).toBe(true)
   })
 
-  it('starts the setup the same way', () => {
+  it('starts the setup the same way, after a game', () => {
     expect(defaultTrackSettings({ trackCP: false }).trackBattleShock).toBe(false)
-    expect(defaultTrackSettings({}).trackBattleShock).toBe(true)
+    expect(defaultTrackSettings({ trackCP: true }).trackBattleShock).toBe(true)
   })
 
   it('needs the modifiers master, like the unit states', () => {
@@ -157,18 +157,20 @@ describe('the Battle-shock row', () => {
   })
 })
 
-describe('presets (owner, 2026-10-14)', () => {
-  it('a new game starts as "Normal"', () => {
-    expect(presetOf(defaultTrackSettings(), CTX_FULL)).toBe('normal')
+describe('presets (owner, 2026-10-17)', () => {
+  it('a first game starts as "Base"; a later one from the last game\'s choices', () => {
+    expect(presetOf(defaultTrackSettings(), CTX_FULL)).toBe('base')
+    const after = defaultTrackSettings({ ...TRACK_PRESETS.find((p) => p.id === 'maximal').values })
+    expect(presetOf(after, CTX_FULL)).toBe('maximal')
   })
-  it('applies each preset and recognises it, and a touched box is your own set', () => {
+  it('applies each preset and recognises it, and a touched box is your own', () => {
     for (const p of TRACK_PRESETS) {
       const s = defaultTrackSettings()
       applyTrackPreset(s, p.id)
       expect(presetOf(s, CTX_FULL)).toBe(p.id)
     }
     const s = defaultTrackSettings()
-    applyTrackPreset(s, 'quick')
+    applyTrackPreset(s, 'base')
     s.showLogStats = true
     expect(presetOf(s, CTX_FULL)).toBeNull()
   })
@@ -180,13 +182,44 @@ describe('presets (owner, 2026-10-14)', () => {
       expect(p.values).not.toHaveProperty('trackBroadcast')
     }
   })
-  it('a game without a list is still "Normal" — the list rows it cannot offer are not compared', () => {
+  it('a game without a list is still "Base" — the list rows it cannot offer are not compared', () => {
     const s = normalizeTrackSettings(defaultTrackSettings(), CTX_BARE)
-    expect(presetOf(s, CTX_BARE)).toBe('normal')
+    expect(presetOf(s, CTX_BARE)).toBe('base')
   })
-  it('the quick game asks nothing and hides the log and the stats', () => {
+  const on = (id) => {
     const s = defaultTrackSettings()
-    applyTrackPreset(s, 'quick')
-    for (const k of ['askStratagems', 'trackTurnChecks', 'showLogStats', 'trackModifiers', 'trackPhases']) expect(tracks(s, k), k).toBe(false)
+    applyTrackPreset(s, id)
+    return TRACK_OPTIONS.filter((o) => !['customColors', 'trackBroadcast'].includes(o.setting) && tracks(s, o.setting)).map((o) => o.id)
+  }
+  it('minimal: nothing', () => {
+    expect(on('minimal')).toEqual([])
+  })
+  it('base: CP without stratagems, the missions, the army counters, the modifiers without a family', () => {
+    expect(on('base')).toEqual(['cp', 'army-you', 'army-opp', 'missions', 'modifiers'])
+  })
+  it('maximal: everything', () => {
+    expect(on('maximal')).toHaveLength(TRACK_OPTIONS.length - 2)
+  })
+})
+
+describe('the rows of 2026-10-17', () => {
+  it('stratagems hang off CP, and the ask off the stratagems', () => {
+    expect(tracks({ trackCP: false, trackStratPlay: true }, 'trackStratPlay')).toBe(false)
+    expect(tracks({ trackCP: true, trackStratPlay: false, askStratagems: true }, 'askStratagems')).toBe(false)
+    expect(depthOf(TRACK_OPTIONS.find((o) => o.id === 'strat-play'))).toBe(1)
+    expect(depthOf(TRACK_OPTIONS.find((o) => o.id === 'strat-ask'))).toBe(2)
+  })
+  it('a spent stratagem changes the card only where stratagems are played AND the modifiers are on', () => {
+    const s = { trackCP: true, trackStratPlay: true, trackModifiers: true, trackStratagems: true }
+    expect(tracks(s, 'trackStratagems')).toBe(true)
+    expect(tracks({ ...s, trackStratPlay: false }, 'trackStratagems')).toBe(false)
+    expect(tracks({ ...s, trackModifiers: false }, 'trackStratagems')).toBe(false)
+  })
+  it('the mission help reads a game saved with the old turn-check switch', () => {
+    expect(tracks({ trackTurnChecks: false }, 'trackMissionAids')).toBe(false)
+    expect(tracks({}, 'trackMissionAids')).toBe(true)
+  })
+  it('where each unit is, is one row with its states', () => {
+    expect(TRACK_OPTIONS.some((o) => o.id === 'unit-status')).toBe(false)
   })
 })

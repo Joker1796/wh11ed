@@ -230,6 +230,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, missionBySlug, scorableBlocks, isYouSide } from '../../composables/useTracker.js'
 import { blockLocked } from '../../composables/missionTiming.js'
 import { whenDrawnAction } from '../../composables/whenDrawn.js'
+import { tracks } from '../../data/trackerOptions.js'
 
 // `round` — the round on screen: the live one, or a past one being corrected (the game
 // screen's round steps). `editable` — this phone may score this side (a shared game locks the
@@ -302,7 +303,8 @@ function whenDrawnFor(m) {
 }
 
 // The turn's two cards: offered on the live round to the side on turn, and opened by itself
-// once per turn on the phone that plays that side.
+// once per turn on the phone that plays that side — where the game keeps the mission help on
+// (`trackMissionAids`); off, the take button is still there, it just does not open itself.
 const takeOpen = ref(false)
 const canTake = computed(() => live.value && canTakeSecondaries(props.pi))
 // Taken this turn by the side on turn: the dialog reopens on what came in.
@@ -311,7 +313,7 @@ const takenNow = computed(() => live.value && mode.value === 'tactical'
 watch(
   () => [canTake.value, props.editable, current.value.currentRound, current.value.currentTurn],
   () => {
-    if (!canTake.value || !props.editable) return
+    if (!canTake.value || !props.editable || !tracks(current.value?.settings, 'trackMissionAids')) return
     const key = `${current.value.id}:${current.value.currentRound}:${props.pi}`
     if (prompted.has(key)) return
     prompted.add(key)

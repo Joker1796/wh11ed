@@ -23,11 +23,14 @@ import { TEST_ROSTERS, buildTestRoster } from './test-rosters.mjs'
 import { loadRosterFaction, rosterItems } from '../../src/data/roster/index.js'
 import { rosterSnapshot } from '../../src/composables/rosterGameLink.js'
 import { detachmentsFor, detachmentInfo } from '../../src/composables/trackerFactions.js'
-import { defaultTrackSettings } from '../../src/data/trackerOptions.js'
+import { defaultTrackSettings, TRACK_PRESETS } from '../../src/data/trackerOptions.js'
 
 const ALL_ON = Object.fromEntries(Object.keys(defaultTrackSettings()).map((k) => [k, true]))
 const ALL_OFF = Object.fromEntries(Object.keys(defaultTrackSettings()).map((k) => [k, false]))
 const NO_PHASES = { ...ALL_ON, trackPhases: false, trackPhaseRules: false }
+// The three presets on one game — same armies, same moment — so the setup's preset dialog can show
+// what each does to the game screen (its pictures are shot from these: public/images/tracker/).
+const PRESET = (id) => TRACK_PRESETS.find((p) => p.id === id).values
 
 export const TEST_GAMES = [
   { key: 'minimal', title: 'Минимум: без ростеров, без фаз, только счёт и CP',
@@ -55,6 +58,12 @@ export const TEST_GAMES = [
     sides: [[null], [null]], twist: 'scrambled-communications', scoreMode: 'bp', upTo: [2, 0, 'command'], oppFirst: true },
   { key: 'errors', title: 'Ростер с ошибками против большого ростера, фазы',
     track: ALL_ON, sides: [[null, 'errors'], [null, 'unlimited']], upTo: [1, 1, 'shooting'], scoreMode: 'bp' },
+  { key: 'preset-minimal', title: 'Пресет «Минимальный»',
+    track: PRESET('minimal'), sides: [[null, 'leaders'], [null, 'havocs']], upTo: [2, 0, 'movement'] },
+  { key: 'preset-base', title: 'Пресет «Базовый»',
+    track: PRESET('base'), sides: [[null, 'leaders'], [null, 'havocs']], upTo: [2, 0, 'movement'] },
+  { key: 'preset-maximal', title: 'Пресет «Максимальный»',
+    track: PRESET('maximal'), sides: [[null, 'leaders'], [null, 'havocs']], upTo: [2, 0, 'movement'] },
 ]
 
 const rosterCache = new Map()

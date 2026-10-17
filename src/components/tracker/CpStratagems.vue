@@ -22,66 +22,70 @@
       name="bank"
       :side="side"
     />
-    <!-- Not this side's turn: what is on offer is what it can play in the other's (the rest is
+    <!-- Stratagems are played here only where the game plays them (`trackStratPlay`, a child of
+         CP since 2026-10-17): without, this tab is the CP counter alone. -->
+    <template v-if="stratsPlayed">
+      <!-- Not this side's turn: what is on offer is what it can play in the other's (the rest is
          greyed with why — stratBlock). -->
-    <p
-      v-if="!sideOnTurn"
-      class="cps-oppturn"
-    >
-      <i
-        class="wi wi-clock"
-        aria-hidden="true"
-      /> {{ labels.trackerStratOppTurn.replace('{name}', names[turnIdx]) }}
-    </p>
-    <p
-      v-if="!canEdit(side)"
-      class="cps-note"
-    >
-      {{ labels.trackerStratOtherPhone }}
-    </p>
+      <p
+        v-if="!sideOnTurn"
+        class="cps-oppturn"
+      >
+        <i
+          class="wi wi-clock"
+          aria-hidden="true"
+        /> {{ labels.trackerStratOppTurn.replace('{name}', names[turnIdx]) }}
+      </p>
+      <p
+        v-if="!canEdit(side)"
+        class="cps-note"
+      >
+        {{ labels.trackerStratOtherPhone }}
+      </p>
 
-    <!-- The same toolbar as the Stratagems page, without its list/phases toggle: here the list is
+      <!-- The same toolbar as the Stratagems page, without its list/phases toggle: here the list is
          always grouped by phase (owner, 2026-10-06) — a stratagem is looked for by WHEN. With
          the clock, the phase it stands on comes first, open and marked "now". -->
-    <div class="cps-head">
-      <h4 class="panel-label">
-        {{ labels.stratagemsHeading }}
-      </h4>
-      <StratFilterBar
-        v-model:filter="deck"
-        :filters="deckFilters"
-        :phase-toggle="false"
-      />
-    </div>
+      <div class="cps-head">
+        <h4 class="panel-label">
+          {{ labels.stratagemsHeading }}
+        </h4>
+        <StratFilterBar
+          v-model:filter="deck"
+          :filters="deckFilters"
+          :phase-toggle="false"
+        />
+      </div>
 
-    <p
-      v-if="loading && deck !== 'core'"
-      class="cps-empty"
-    >
-      {{ labels.trackerStratLoading }}
-    </p>
+      <p
+        v-if="loading && deck !== 'core'"
+        class="cps-empty"
+      >
+        {{ labels.trackerStratLoading }}
+      </p>
 
-    <StratPhaseGroups
-      v-model:open="openPhases"
-      :groups="groups"
-      :now="phasesOn ? 'now' : null"
-      card
-    >
-      <template #default="{ group }">
-        <ul class="cps-list in-card">
-          <StratRow
-            v-for="s in group.strats"
-            :key="s._key"
-            :strat="s"
-            :tag="deck === 'all' && isCore(s) ? labels.trackerStratCoreTag : ''"
-            v-bind="rowProps(s)"
-            @open="openStrat = s"
-            @use="use(s)"
-            @undo="undoStratagem(side, s._key)"
-          />
-        </ul>
-      </template>
-    </StratPhaseGroups>
+      <StratPhaseGroups
+        v-model:open="openPhases"
+        :groups="groups"
+        :now="phasesOn ? 'now' : null"
+        card
+      >
+        <template #default="{ group }">
+          <ul class="cps-list in-card">
+            <StratRow
+              v-for="s in group.strats"
+              :key="s._key"
+              :strat="s"
+              :tag="deck === 'all' && isCore(s) ? labels.trackerStratCoreTag : ''"
+              v-bind="rowProps(s)"
+              @open="openStrat = s"
+              @use="use(s)"
+              @undo="undoStratagem(side, s._key)"
+            />
+          </ul>
+        </template>
+      </StratPhaseGroups>
+    </template>
 
     <!-- The full card. -->
     <BaseModal
@@ -212,6 +216,7 @@ watch(
 
 // ── The filter: the Stratagems page's toolbar (StratFilterBar) ──
 const phasesOn = computed(() => tracks(current.value?.settings, 'trackPhases'))
+const stratsPlayed = computed(() => tracks(current.value?.settings, 'trackStratPlay'))
 const livePhase = computed(() => current.value?.currentPhase || 'command')
 const deck = ref('all')
 const deckFilters = computed(() => [

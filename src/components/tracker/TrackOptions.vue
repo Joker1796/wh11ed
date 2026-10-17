@@ -23,7 +23,7 @@
         :o="o"
         :settings="settings"
         :ctx="ctx"
-        :nested="!!o.requires && rows.some((r) => r.setting === o.requires)"
+        :depth="depthOf(o)"
         :enabled="enabledOf(o)"
         :reason="reasonOf(o)"
         :labels="labels"
@@ -107,7 +107,6 @@ const HELP_DEMOS = {
   phases: { is: lazy(() => import('./help/PhasesDemo.vue')) },
   'phase-rules': { is: lazy(() => import('./help/PhaseRulesDemo.vue')) },
   modifiers: { is: lazy(() => import('./help/ModifiersDemo.vue')) },
-  'unit-status': { is: lazy(() => import('./help/UnitStatusDemo.vue')) },
   'unit-states': chips('unit-states'),
   'battle-shock': chips('battle-shock'),
   stratagems: chips('stratagems'),
@@ -119,7 +118,7 @@ const HELP_DEMOS = {
 import TrackOptionRow from './TrackOptionRow.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import ChevronIcon from '../ChevronIcon.vue'
-import { optionsIn, optionEnabled } from '../../data/trackerOptions.js'
+import { optionsIn, optionEnabled, requiresOf, depthOf, tracks } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -141,7 +140,7 @@ const labels = computed(() => ui[locale.value])
 const rows = computed(() => optionsIn(props.group))
 const mainRows = computed(() => rows.value.filter((o) => !o.fold))
 const foldRows = computed(() => rows.value.filter((o) => o.fold))
-const foldParent = computed(() => foldRows.value[0]?.requires || null)
+const foldParent = computed(() => requiresOf(foldRows.value[0])[0] || null)
 const foldOpen = ref(false)
 const foldOn = computed(() => foldRows.value.filter((o) => enabledOf(o) && props.settings[o.setting]).length)
 const helpFor = ref(null)
@@ -152,7 +151,8 @@ function hostsRow(o) {
 }
 function enabledOf(o) {
   if (hostsRow(o) || !optionEnabled(o, props.ctx)) return false
-  return !o.requires || props.settings[o.requires] !== false
+  // `tracks` follows the whole chain — Stratagems under CP, the family under both
+  return requiresOf(o).every((r) => tracks(props.settings, r))
 }
 function reasonOf(o) {
   if (hostsRow(o)) return 'partyHostOnly'

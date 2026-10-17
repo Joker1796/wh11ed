@@ -606,7 +606,7 @@ const tourCtx = () => ({
   get begun() { return begun.value },
   get phases() { return tracks(current.value?.settings, 'trackPhases') },
   get cp() { return tracks(current.value?.settings, 'trackCP') },
-  get turnChecks() { return tracks(current.value?.settings, 'trackTurnChecks') },
+  get turnChecks() { return tracks(current.value?.settings, 'trackMissionAids') },
   get broadcast() { return broadcastOn.value || tracks(current.value?.settings, 'trackBroadcast') },
   get lists() { return !!listSide.value },
   get reserves() { return !!reservesSide.value },
@@ -675,7 +675,7 @@ const listSide = computed(() => {
 })
 // Reserves are marked with the units' status, so a game not keeping it ("Where each unit is" off —
 // the Quick preset) offers no button for them.
-const reservesSide = computed(() => (tracks(current.value?.settings, 'trackUnitStatus') ? listSide.value : null))
+const reservesSide = computed(() => (tracks(current.value?.settings, 'trackUnitStates') ? listSide.value : null))
 // …and, the first time, the tour of marking them: where, with what, and what then.
 function openReserves() {
   if (!reservesSide.value) return
@@ -971,8 +971,8 @@ const turnChecks = computed(() => turnEndChecks(
 const pendingEnd = ref(null) // { final, discard?: { pi, slug } }
 function requestEndTurn(opts = {}) {
   const end = { final: !canEndTurn(), ...opts }
-  // The check before the turn passes, unless the game switched it off (`trackTurnChecks`).
-  if (turnChecks.value.length && tracks(current.value.settings, 'trackTurnChecks')) pendingEnd.value = end
+  // The check before the turn passes, unless the game switched the mission help off (`trackMissionAids`).
+  if (turnChecks.value.length && tracks(current.value.settings, 'trackMissionAids')) pendingEnd.value = end
   else finishTurn(end)
 }
 function confirmEnd() {

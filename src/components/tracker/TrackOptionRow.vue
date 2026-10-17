@@ -4,7 +4,8 @@
        the setting it explains. The two sit side by side instead, sharing one dividing line. -->
   <div
     class="opt-row"
-    :class="{ off: !enabled, child: nested }"
+    :class="{ off: !enabled, child: depth > 0 }"
+    :style="depth > 1 ? { marginLeft: `${depth * 1.1}rem` } : null"
   >
     <label
       class="check"
@@ -69,7 +70,8 @@ defineProps({
   enabled: { type: Boolean, default: true },
   // Indented under its parent — only when the parent is in the same group (askStratagems hangs off
   // CP, which is in another block: indented there it read as a child of the row above it).
-  nested: { type: Boolean, default: false },
+  // How far in it is drawn: 1 under its parent, 2 under a child (trackerOptions' depthOf).
+  depth: { type: Number, default: 0 },
   reason: { type: String, default: null },
   labels: { type: Object, required: true },
 })

@@ -38,7 +38,7 @@ describe('TrackOptions', () => {
     const { w, settings } = build()
     await w.find('.opt-info').trigger('click')
     expect(settings.trackCP).toBe(true)
-    expect(body().text()).toContain('CP and stratagems')
+    expect(body().text()).toContain('Command points (CP)')
   })
 
   // The caveat lives in the help, not under the caption: no row is taller than the rest.
@@ -76,7 +76,12 @@ describe('TrackOptions', () => {
     expect(live).toHaveLength(2)
     expect(live[0]).toContain("Your army rule's counter")
     expect(live[1]).toContain("Opponent's army rule counter")
-    const ask = rows.find((r) => r.text().includes('Ask the unit and the cost'))
+    // The ask sits under the stratagems, under CP, since 2026-10-17 — the host's like them.
+    const turn = mount(TrackOptions, {
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'turn', lockShared: true },
+      global: { stubs: { RouterLink } },
+    })
+    const ask = turn.findAll('.opt-row').find((r) => r.text().includes('Ask the unit and the cost'))
     expect(ask.find('input').element.disabled).toBe(true)
     expect(ask.text()).toContain('Host only')
     // The colours have a card of their own, and are a way of looking at the game: this phone's.

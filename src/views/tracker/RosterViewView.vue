@@ -450,7 +450,7 @@
                       </button>
                       <!-- Where the unit is: the row's other end (owner, 2026-10-08). -->
                       <UnitStatusButton
-                        v-if="inGame && keeps('trackUnitStatus')"
+                        v-if="inGame && keeps('trackUnitStates')"
                         :status="unitStatusOf(gamePlayer, e.uid)"
                         :name="defOf(e.id)?.name || e.id"
                         :disabled="!canSwitch"
@@ -1487,14 +1487,15 @@ const viewingGameCtx = computed(() => {
 })
 // A stratagem box on the card. In a game counting CP it is PLAYING the stratagem on this unit — the
 // CP spent, the cost asked (StratPlayModal) — and unticking it takes the play back with its CP
-// (useTracker's playStratagem / unplayOnUnit). Without CP, or for a record with no stratagem in the
-// deck to spend on, it is the plain mark it always was.
+// (useTracker's playStratagem / unplayOnUnit). Where stratagems are not played (`trackStratPlay`,
+// which needs CP), or for a record with no stratagem in the deck to spend on, it is the plain mark
+// it always was.
 const playingOnCard = ref(null)
 async function toggleUnitStrat(st) {
   const entry = viewingEntry.value
   const t = tracker.value
   if (!entry || !t) return
-  if (!keeps('trackCP')) {
+  if (!keeps('trackStratPlay')) {
     t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value)
     return
   }

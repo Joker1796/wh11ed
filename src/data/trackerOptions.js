@@ -18,8 +18,9 @@
 //                existed. Never change one without meaning to change old saved games too.
 //   remember     carry the last finished game's choice into the next setup
 //   legacy       an older field name still sitting in saved games (read-only fallback)
-//   requires     another row's `setting` this one hangs off; off there is off here, whatever this
-//                row's own value says. Drawn as a child of that row.
+//   requires     another row's `setting` this one hangs off (or a list of them, all needed); off
+//                there is off here, whatever this row's own value says. Drawn as a child of the
+//                first one — and a child of a child is drawn one step further in.
 //   local        this PHONE's choice, not the game's: kept out of the shared-game sync
 //                (gameSlices.js) and the one kind of row a guest may flip in a game another phone
 //                hosts. Everything else on the setup dialog is the host's, because it is the game.
@@ -55,6 +56,8 @@ const NEEDS_ROSTER = (ctx) => (ctx.anyRoster ? null : 'trackerOptNeedsRoster')
 
 export const TRACK_OPTIONS = [
   // ── The tracker's own screen ───────────────────────────────────────────────────────────────
+  // CP, and under it playing stratagems, and under that asking for the unit and the cost (owner,
+  // 2026-10-17: "CP отдельный чекбокс, дочерний для него стратагемы", the ask moved under them).
   {
     id: 'cp',
     setting: 'trackCP',
@@ -91,17 +94,29 @@ export const TRACK_OPTIONS = [
     note: (ctx) => (ctx.opp.trackable ? null : 'trackerArmyReferenceOnly'),
   },
   {
+    // Playing stratagems from the CP tab (and from a unit's card): the list, the spend, the log.
+    // Off: the CP tab is the counter alone. Old games had both under one row, so on by default.
+    id: 'strat-play',
+    setting: 'trackStratPlay',
+    group: 'turn',
+    label: 'trackerTrackStratPlay',
+    help: 'trackerHelpStratPlay',
+    default: true,
+    remember: true,
+    requires: 'trackCP',
+  },
+  {
     // Playing a stratagem asks which unit and whether a rule changed its cost (StratPlayModal).
     // Off: the printed cost is spent at one tap, on no unit from the CP tab, on the unit from its
-    // card (owner, 2026-10-14). Only where CP are counted — there is no play without them.
+    // card (owner, 2026-10-14). Only where stratagems are played — there is nothing to ask without.
     id: 'strat-ask',
     setting: 'askStratagems',
-    group: 'armies',
+    group: 'turn',
     label: 'trackerAskStratagems',
     help: 'trackerHelpAskStratagems',
     default: true,
     remember: true,
-    requires: 'trackCP',
+    requires: 'trackStratPlay',
   },
 
   {
@@ -130,17 +145,20 @@ export const TRACK_OPTIONS = [
     // No `requires` since 2026-10-08: without the clock the tab lists the whole turn instead.
   },
   {
-    // Before the turn passes, the conditions on cards nobody is looking at — the other side's "end
-    // of your opponent's turn" secondaries, every End of Battle condition on the last turn
-    // (TurnEndCheckModal). On by default; a player who keeps score by hand can turn it off
-    // (owner, 2026-10-14).
-    id: 'turn-checks',
-    setting: 'trackTurnChecks',
+    // The help around the missions (owner, 2026-10-17: one row for the primary and the secondaries):
+    // the check before the turn passes — the conditions on cards nobody is looking at, the other
+    // side's "end of your opponent's turn" secondaries, every End of Battle condition on the last
+    // turn (TurnEndCheckModal) — and the take dialog opening by itself when a turn starts with
+    // tactical secondaries to draw (SecondaryDeck). Off: neither; the take button is still there.
+    // The missions themselves are never a row (see the header).
+    id: 'missions',
+    setting: 'trackMissionAids',
     group: 'turn',
-    label: 'trackerTrackTurnChecks',
-    help: 'trackerHelpTurnChecks',
+    label: 'trackerTrackMissionAids',
+    help: 'trackerHelpMissionAids',
     default: true,
     remember: true,
+    legacy: 'trackTurnChecks',
   },
   {
     // The OBS-broadcast button. A niche feature, so the ROW is what puts the button on the
@@ -204,18 +222,9 @@ export const TRACK_OPTIONS = [
     unavailable: NEEDS_ROSTER,
   },
   {
-    // Where each unit of the list is — on the battlefield, in Strategic Reserves, destroyed
-    // (UnitStatusButton on the list's rows). Its own row, not a modifier family (owner, 2026-10-14).
-    id: 'unit-status',
-    setting: 'trackUnitStatus',
-    group: 'roster',
-    label: 'trackerTrackUnitStatus',
-    help: 'trackerHelpUnitStatus',
-    default: true,
-    remember: true,
-    unavailable: NEEDS_ROSTER,
-  },
-  {
+    // The unit's states AND where it is — on the battlefield, in Strategic Reserves, destroyed
+    // (UnitStatusButton on the list's rows): one row since 2026-10-17 (owner: "это в сущности одно
+    // и то же"); "Where each unit is" was a row of its own from 2026-10-14.
     id: 'unit-states',
     setting: 'trackUnitStates',
     group: 'roster',
@@ -259,6 +268,8 @@ export const TRACK_OPTIONS = [
     unavailable: NEEDS_ROSTER,
   },
   {
+    // A spent stratagem changing the numbers on a card: needs the modifiers AND stratagems being
+    // played — without the play there is nothing spent to change them (owner, 2026-10-17).
     id: 'stratagems',
     setting: 'trackStratagems',
     group: 'roster',
@@ -266,7 +277,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpStratagems',
     default: true,
     remember: true,
-    requires: 'trackModifiers',
+    requires: ['trackModifiers', 'trackStratPlay'],
     fold: true,
     unavailable: NEEDS_ROSTER,
   },
@@ -298,6 +309,16 @@ export const TRACK_OPTIONS = [
 
 const BY_SETTING = new Map(TRACK_OPTIONS.map((o) => [o.setting, o]))
 
+/** The rows a row hangs off, as a list (`requires` is one setting or several). */
+export function requiresOf(o) {
+  return o?.requires ? [].concat(o.requires) : []
+}
+/** How far in a row is drawn: a child of a child of the rows in its own group. */
+export function depthOf(o) {
+  const parent = BY_SETTING.get(requiresOf(o)[0])
+  return parent && parent.group === o.group ? 1 + depthOf(parent) : 0
+}
+
 // The settings that stay on the phone in a shared game — the `local` rows and their retired names
 // (a saved game may still carry the old field, and it must not travel either).
 // Plus two fields that are not rows: the colour picks under "Customise colours", and the retired
@@ -319,7 +340,7 @@ export function optionEnabled(o, ctx) {
 export function tracks(settings, setting) {
   const o = BY_SETTING.get(setting)
   if (!o) return false
-  if (o.requires && !tracks(settings, o.requires)) return false
+  if (requiresOf(o).some((r) => !tracks(settings, r))) return false
   const own = settings?.[setting]
   const old = o.legacy ? settings?.[o.legacy] : undefined
   return (own ?? old ?? defaultOf(o, settings)) !== false
@@ -335,6 +356,13 @@ function defaultOf(o, settings) {
 // Read through `tracks` per row, so a parent switched off in the last game doesn't drag its
 // children's remembered values down with it.
 export function defaultTrackSettings(last = {}) {
+  // No game behind this one: the default preset, not each row's own default (owner, 2026-10-17 —
+  // a row's `default` speaks for games saved before it existed and must not move).
+  if (!last || !Object.keys(last).length) {
+    const out = {}
+    for (const o of TRACK_OPTIONS) out[o.setting] = defaultOf(o, {}) !== false
+    return { ...out, ...TRACK_PRESETS.find((p) => p.id === DEFAULT_PRESET).values }
+  }
   const out = {}
   for (const o of TRACK_OPTIONS) {
     const own = o.remember ? last?.[o.setting] : undefined
@@ -372,29 +400,37 @@ export function optionsIn(group) {
   return TRACK_OPTIONS.filter((o) => o.group === group)
 }
 
-// Three ready sets over the rows (owner, 2026-10-14), like the print sheet's presets: a preset
-// sets every row it names, touching any box keeps everything else and stops calling itself a
-// preset (`presetOf` → null, "your own set"). The colours and the broadcast button are left out:
-// neither is about how much the tracker does.
-const FAMILIES = TRACK_OPTIONS.filter((o) => o.fold).map((o) => o.setting)
-const all = (on) => Object.fromEntries(FAMILIES.map((k) => [k, on]))
+// Three presets over the rows (owner, 2026-10-17; ready sets since 2026-10-14). A preset sets every
+// row it names; touching any box keeps everything else and stops calling itself a preset
+// (`presetOf` → null, "your own set"). Not named, by decision: the colours and the broadcast
+// button — how the screen looks, not how much the tracker does.
+//   minimal  nothing: the score and the missions, which are the game
+//   base     the default: CP without stratagems, the mission help, the army-rule counters, the
+//            modifiers without a single family under them
+//   maximal  everything
+const PRESET_ROWS = TRACK_OPTIONS.filter((o) => o.group !== 'look' || o.id === 'log-stats').map((o) => o.setting)
+const every = (on) => Object.fromEntries(PRESET_ROWS.map((k) => [k, on]))
 export const TRACK_PRESETS = [
   {
-    id: 'quick',
-    label: 'trackerPresetQuick',
-    values: { trackCP: true, trackPhases: false, trackPhaseRules: false, trackTurnChecks: false, trackArmyYou: true, trackArmyOpp: false, askStratagems: false, trackModifiers: false, trackUnitStatus: false, showLogStats: false },
+    id: 'minimal',
+    label: 'trackerPresetMinimal',
+    blurb: 'trackerPresetMinimalBlurb',
+    values: every(false),
   },
   {
-    id: 'normal',
-    label: 'trackerPresetNormal',
-    values: { trackCP: true, trackPhases: false, trackPhaseRules: true, trackTurnChecks: true, trackArmyYou: true, trackArmyOpp: true, askStratagems: true, trackModifiers: true, ...all(true), trackUnitStatus: true, showLogStats: true },
+    id: 'base',
+    label: 'trackerPresetBase',
+    blurb: 'trackerPresetBaseBlurb',
+    values: { ...every(false), trackCP: true, trackMissionAids: true, trackArmyYou: true, trackArmyOpp: true, trackModifiers: true },
   },
   {
-    id: 'full',
-    label: 'trackerPresetFull',
-    values: { trackCP: true, trackPhases: true, trackPhaseRules: true, trackTurnChecks: true, trackArmyYou: true, trackArmyOpp: true, askStratagems: true, trackModifiers: true, ...all(true), trackUnitStatus: true, showLogStats: true },
+    id: 'maximal',
+    label: 'trackerPresetMaximal',
+    blurb: 'trackerPresetMaximalBlurb',
+    values: every(true),
   },
 ]
+export const DEFAULT_PRESET = 'base'
 
 /** Write a preset onto a settings draft, in place (the callers hold the draft by identity). */
 export function applyTrackPreset(settings, id) {

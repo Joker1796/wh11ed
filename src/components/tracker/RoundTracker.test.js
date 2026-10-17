@@ -563,7 +563,7 @@ describe('the reserves button', () => {
     tracker.newGame({
       settings: {
         trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce',
-        scoreMode: 'vp', twist: null, twistMission: null, trackUnitStatus: unitStatus,
+        scoreMode: 'vp', twist: null, twistMission: null, trackUnitStates: unitStatus,
       },
       players: [
         player({ name: 'Me', disposition: DISPOSITIONS[0].id, role: 'attacker', roster: { faction: 'orks', units: [] } }),
