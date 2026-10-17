@@ -23,7 +23,7 @@
 export const changelog = [
   {
     version: '2.9.6',
-    date: '2026-10-17',
+    date: '2026-10-18',
     en: [
       { h: 'Roster in a game' },
       '**Command Protocols is in effect only in a unit led by a CHARACTER.** It stood on every Necrons card, a lone [Nekrosor Ammentar](/factions/necrons/datasheets/nekrosor-ammentar) and a Monolith included. In a unit with a leader it is on the leader’s card too. Unquestioning Fanaticism in Xenocreed Congregation works the same way.',
@@ -233,30 +233,6 @@ export const changelog = [
       '**У каждого набора Combat Patrol появилась его миссия.** Она на странице набора, на новой вкладке «Миссия». Стратагемы и улучшения набора переехали на вкладку «Правила».',
       '**Появилась страница [«Как играть в Combat Patrol»](/combat-patrol/how-to-play).** На ней порядок партии, три карты расстановки и как определяется победитель.',
       '**Партия Combat Patrol в трекере идёт по своим правилам.** Каждый игрок считает миссию своего набора. Вторичных миссий нет. Поле — одна из трёх карт Combat Patrol, её можно выбрать броском D6. Crushing Impact, Explosives и Rapid Ingress во время партии не показываются на странице стратагем.',
-    ],
-  },
-  {
-    version: '2.9.1',
-    date: '2026-10-14',
-    en: [
-      { h: 'Roster builder' },
-      '**Wargear the MFM prices costs points again, starting wargear included.** I was wrong in 2.9.0: the MFM does list wargear prices, under each unit. For example, the [Shield-Captain](/factions/adeptus-custodes/datasheets/shield-captain)’s Praesidium Shield is 25, the [Victrix Honour Guard](/factions/space-marines/datasheets/victrix-honour-guard) banner is 15, and a Leman Russ hull weapon is 5.',
-      '**The Black Templars [Gladiator Valiant](/factions/black-templars/datasheets/gladiator-valiant) is 165.** The MFM charges 10 for each of its two multi-meltas on top of 145. The GW app does not charge for them.',
-      { h: 'Tracker' },
-      '**In Combat Patrol you choose the box.** Adeptus Custodes have three. Before, the tracker always took Tristraen’s Gilded Blades, with its detachment and stratagems.',
-      { h: 'Whole site' },
-      '**The GW changes page shows every faction at first.** Your own pick is still remembered on this device.',
-      '**The points PDF for the 14 October update is on the [GW changes page](/patches).** In Russian and in English.',
-    ],
-    ru: [
-      { h: 'Конструктор ростеров' },
-      '**Снаряжение, у которого в MFM есть цена, снова стоит очки, и стартовое тоже.** В 2.9.0 я ошибся: цены снаряжения в MFM есть, они указаны под каждым отрядом. Например, Praesidium Shield у [Shield-Captain](/factions/adeptus-custodes/datasheets/shield-captain) стоит 25, знамя [Victrix Honour Guard](/factions/space-marines/datasheets/victrix-honour-guard) 15, а орудие корпуса Leman Russ 5.',
-      '**[Gladiator Valiant](/factions/black-templars/datasheets/gladiator-valiant) у Black Templars стоит 165.** MFM берёт по 10 за каждую из двух его мульти-мелт сверх 145. Приложение GW их не считает.',
-      { h: 'Трекер' },
-      '**В Combat Patrol вы выбираете бокс.** У Adeptus Custodes их три. Раньше трекер всегда брал Tristraen’s Gilded Blades, с его детачментом и стратагемами.',
-      { h: 'Весь сайт' },
-      '**Страница изменений GW сначала показывает все фракции.** Ваш выбор на этом устройстве по-прежнему запоминается.',
-      '**PDF с ценами обновления от 14 октября — на [странице изменений GW](/patches).** На русском и на английском.',
     ],
   },
 ]
