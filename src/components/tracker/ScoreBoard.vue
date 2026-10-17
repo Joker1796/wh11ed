@@ -329,10 +329,12 @@ for (const [name, of] of Object.entries(scores)) {
 .breakdown dd { margin: 0; font-family: var(--font-display); font-size: 1.75rem; line-height: 1; font-weight: 500; color: var(--text-primary); }
 /* The badge straddles the board's top edge (the result screen only). The board makes room for it
    rather than the badge moving onto the score columns. */
-.board:has(.tie) { margin-top: 0.6rem; }
+/* The plate stands wholly above the cards: half over them, it covered the top of the right-hand
+   name (acceptance, 2026-10-18). */
+.board:has(.tie) { margin-top: 1.35rem; }
 .tie {
   position: absolute;
-  top: -0.5rem;
+  bottom: calc(100% + 0.25rem);
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.66rem;

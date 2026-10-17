@@ -77,8 +77,9 @@
                   class="pt-badge"
                 >{{ labels.partyHostBadge }}</span>
               </span>
+              <!-- The host's seat picker below already reads "no seat": said once. -->
               <span
-                v-if="m.side == null"
+                v-if="m.side == null && !(isHost && !m.you)"
                 class="pt-mseat"
               >{{ labels.partySeatNone }}</span>
               <span class="pt-mseen">{{ seenLabel(m) }}</span>
@@ -182,6 +183,7 @@
       :message="confirming.kind === 'end' ? labels.partyEndHint : labels.partyKickConfirmText"
       :confirm-label="confirming.kind === 'end' ? labels.partyEnd : labels.partyKick"
       :cancel-label="labels.trackerCancel"
+      danger
       @confirm="onConfirm"
       @close="confirming = null"
     />

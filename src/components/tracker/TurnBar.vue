@@ -32,16 +32,19 @@
       class="tr-btn tr-reserves"
       data-press
       data-tour="game-reserves"
+      :title="labels.trackerMarkReserves"
+      :aria-label="labels.trackerMarkReserves"
       @click="$emit('reserves')"
     >
       <i class="wi wi-unit-reserve" />
-      <span class="tr-label">{{ labels.trackerMarkReserves }}</span>
+      <!-- The short word beside its icon: «Отметить резервы» was cut beside «Начать» at 390px. -->
+      <span class="tr-label">{{ labels.trackerReservesShort }}</span>
     </button>
     <button
       class="tr-btn tr-end"
       data-press
       data-tour="game-start"
-      :class="{ opp }"
+      :class="{ opp, says: endLocked && lockedText }"
       :disabled="endLocked"
       @click="$emit('start')"
     >
@@ -99,7 +102,7 @@
     <button
       class="tr-btn tr-end"
       data-press
-      :class="{ opp }"
+      :class="{ opp, says: canEnd && endLocked && lockedText }"
       :disabled="canEnd && endLocked"
       :title="canEnd ? endTitle : labels.trackerFinish"
       @click="$emit('end')"
@@ -128,7 +131,7 @@
       v-if="canEnd"
       class="tr-btn tr-end"
       data-press
-      :class="{ opp }"
+      :class="{ opp, says: endLocked && lockedText }"
       :disabled="endLocked"
       :title="endTitle"
       @click="$emit('end')"
@@ -225,6 +228,9 @@ const labels = computed(() => ui[locale.value])
 .tr-end { --side: var(--side-you); background: var(--side); border-color: var(--side); color: #fff; font-size: 0.95rem; }
 .tr-end.opp { --side: var(--side-opponent); }
 .tr-btn:disabled { opacity: 0.45; cursor: default; }
+/* Held by another phone, the button says whose turn it is — a line to read, not a faded button:
+   white on the washed-out side colour was hard to read (acceptance, 2026-10-18). */
+.tr-end.says:disabled { opacity: 1; background: color-mix(in srgb, var(--side) 14%, var(--bg-card)); color: var(--text-primary); }
 @media (hover: hover) {
   .tr-prev:not(:disabled):hover { border-color: var(--accent); }
   .tr-end:not(:disabled):hover { background: color-mix(in srgb, var(--side) 85%, #000); }

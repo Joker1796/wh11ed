@@ -321,6 +321,12 @@ watch(
   },
   { immediate: true },
 )
+// The turn moved away under an open dialog — another phone undid or ended it: the cards are no
+// longer this side's to take, so the dialog goes (acceptance, 2026-10-18 — it hung over the screen).
+watch(
+  () => [current.value.currentRound, current.value.currentTurn],
+  () => { if (takeOpen.value && !canTake.value && !takenNow.value) takeOpen.value = false },
+)
 
 function missionName(slug) { return missionBySlug(slug, player.value.role, locale.value)?.name || slug }
 

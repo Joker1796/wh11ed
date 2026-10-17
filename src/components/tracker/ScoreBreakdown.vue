@@ -22,6 +22,7 @@
           v-for="{ pl, i } in shown"
           :key="i"
           class="bd-player"
+          :class="{ opp: !isYouSide(pl, i) }"
         >
           <div
             v-if="!controlled"
@@ -299,7 +300,10 @@ function secondaries(pi) {
   background: var(--bg-card); border: 1px solid var(--border); padding: 0.8rem;
 }
 .bd-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.6rem; }
-.bd-name.win { color: var(--accent-ink); }
+.bd-player { --side: var(--side-you); }
+.bd-player.opp { --side: var(--side-opponent); }
+/* The side's own colour, as on its score card — the accent red read as a third side. */
+.bd-name.win { color: var(--side); }
 
 .grid {
   display: grid;
@@ -317,7 +321,8 @@ function secondaries(pi) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.sec-label { font-size: 0.78rem; }
+/* A card's name wraps rather than cut to «A Tempting Ta…» on a 320px phone (acceptance, 2026-10-18). */
+.sec-label { font-size: 0.78rem; white-space: normal; line-height: 1.2; align-self: center; }
 .g-cell {
   height: 28px;
   display: flex;
@@ -341,7 +346,7 @@ function secondaries(pi) {
   display: flex;
   align-items: center;
 }
-.tick { color: var(--accent-ink); font-weight: 700; }
+.tick { color: var(--side); font-weight: 700; }
 
 @media (max-width: 420px) {
   .grid { grid-template-columns: minmax(0, 1fr) repeat(5, 24px) auto; gap: 2px; }

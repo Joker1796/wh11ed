@@ -303,7 +303,7 @@
                           <span
                             class="ct-name"
                             :class="{ placeholder: !m.factionSlug }"
-                          >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
+                          >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerChooseFaction }}</span>
                           <i class="wi wi-chevron-down ct-chev" />
                         </button>
                       </template>
@@ -1021,7 +1021,7 @@
               <button
                 :class="{ on: settings.firstTurn === 2 }"
                 @click="settings.firstTurn = 2"
-              >{{ labels.trackerOpponent }}</button>
+              >{{ playerLabel(1 - youIdx) }}</button>
             </div>
           </label>
           <!-- Desktop: the layout tabs join the questions in the side column, so the picture on
@@ -1383,8 +1383,11 @@ const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'v
 const lastS = history.value[0]?.settings ?? {}
 // "You" is the side THIS phone plays — 0 in a setup of one and for the host, the seat for a
 // guest. Keyed by side, never by index (the same rule the option table follows).
+// In a shared game the other side has a player of its own, and once they have typed their name the
+// wizard says it rather than "Opponent" (the host read "Opponent" over Boris's own card, 2026-10-18).
 function playerLabel(i) {
-  return i === youIdx.value ? labels.value.trackerYou : labels.value.trackerOpponent
+  if (i === youIdx.value) return labels.value.trackerYou
+  return (lobbyGame && players[i]?.name) || labels.value.trackerOpponent
 }
 function namePlaceholder(i) {
   return i === youIdx.value ? labels.value.trackerYourName : labels.value.trackerOpponentName
