@@ -165,7 +165,9 @@
           @click="openPrimary = i"
         >
           <span class="card-name">{{ primaryName(i) }}</span>
-          <span class="card-vp">{{ pl.rounds[current.currentRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
+          <!-- Over the round's 15 only with an End of Battle row, which the cap does not reach: no
+               "/ 15" then, a figure past it would read as an error. -->
+          <span class="card-vp">{{ pl.rounds[current.currentRound - 1].primary }}{{ pl.rounds[current.currentRound - 1].primary > PRIMARY_ROUND_CAP ? '' : ` / ${PRIMARY_ROUND_CAP}` }} VP</span>
         </button>
         <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no card
              to tick. The missions themselves are not optional — see trackerOptions.js. -->
