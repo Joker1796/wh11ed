@@ -1054,6 +1054,15 @@ describe('resolveModifierEntries — a stratagem\'s target', () => {
     const rule = { kind: 'detachmentRule', name: 'Dark Pacts', effects: [] }
     expect(gateStratagems([rule], raiders, facKw)).toEqual([rule])
   })
+
+  // "One DEATH GUARD Attached unit": the keywords say who, the list says whether it is attached
+  // (Grotesque Fortitude was offered to a unit with no Leader — 2026-10-17).
+  it('offers a stratagem whose target the list decides only where the list says so', () => {
+    const fortitude = { kind: 'stratagem', name: 'Grotesque Fortitude', targetScopes: null, appliesWhile: ['unit-led'], effects: [] }
+    expect(gateStratagems([fortitude], raiders, facKw, new Set(['unit-led']))).toEqual([fortitude])
+    expect(gateStratagems([fortitude], raiders, facKw, new Set())).toEqual([])
+    expect(gateStratagems([fortitude], raiders, facKw)).toEqual([])
+  })
 })
 
 describe('attachedUnitKeywords', () => {

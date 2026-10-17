@@ -1342,6 +1342,23 @@ export default {
       }
     },
     {
+      "sid": "2209e188-e543-49d4-ad5c-e599bd1b94fb",
+      "kind": "enhancement",
+      "name": "Artisan",
+      "det": "Explorator Maniple",
+      "ref": {
+        "kind": "enhancement",
+        "det": "explorator-maniple"
+      },
+      "hash": "e7bdd94f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading"
+      ]
+    },
+    {
       "sid": "f129d8e9-3079-4b45-bf8c-74e62b1d5eb8",
       "kind": "enhancement",
       "name": "Genetor",
@@ -1368,7 +1385,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "explorator-maniple"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "0cb351b2-a2c6-4fdf-964f-83281828a311",
@@ -1397,7 +1417,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "explorator-maniple"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "246ea89e-51d1-4660-92bd-64baaac14039",
@@ -1474,10 +1497,13 @@ export default {
             "ru": "пока носитель присоединён к отряду Kastelan Robots"
           },
           "cond": [
-            "never"
+            "unit-leading-kastelan-robots"
           ],
           "target": "led"
         }
+      ],
+      "appliesWhile": [
+        "unit-leading-kastelan-robots"
       ]
     },
     {
@@ -1577,6 +1603,9 @@ export default {
           ],
           "target": "led"
         }
+      ],
+      "appliesWhile": [
+        "unit-leading"
       ]
     },
     {
@@ -1606,6 +1635,9 @@ export default {
           ],
           "target": "led"
         }
+      ],
+      "appliesWhile": [
+        "unit-leading"
       ]
     },
     {

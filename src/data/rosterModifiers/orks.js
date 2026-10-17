@@ -595,7 +595,7 @@ export default {
             "ru": "пока модель присоединена к отряду MOUNTED"
           },
           "cond": [
-            "never"
+            "unit-leading-mounted"
           ]
         },
         {
@@ -608,7 +608,7 @@ export default {
             "ru": "пока модель присоединена к отряду MOUNTED"
           },
           "cond": [
-            "never"
+            "unit-leading-mounted"
           ]
         },
         {
@@ -621,7 +621,7 @@ export default {
             "ru": "пока модель присоединена к отряду MOUNTED"
           },
           "cond": [
-            "never"
+            "unit-leading-mounted"
           ]
         }
       ]

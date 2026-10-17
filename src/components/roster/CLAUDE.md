@@ -2988,16 +2988,33 @@ unaware of the roster). `ruleSourcesFor` says WHICH rules bear on the entry and 
 each to its text from the lazily-imported faction bundle: the enhancement carried, each of the
 roster's detachment rules, and the abilities of any Leader attached to this unit.
 
-**A detachment rule is listed by whom it names — and, where its record says so, by whether the
-list puts the unit in an attached unit.** "While a NECRONS CHARACTER model is leading this unit"
-(Command Protocols) and Unquestioning Fanaticism hold the WHOLE rule inside an attached unit, so
-their records carry `appliesWhile: ['unit-led']` and `ruleBlocks` lists them only where the roster
-answers it — both halves of the attached unit (19.04), never a Leader standing alone or a Monolith
-nobody can lead (a player's report, 2026-10-17). Only list-answered conditions belong there: a
-switch the player flips gates an effect, never the reading of the rule. The block waits for the
-modifier load (`modifiersSettled`) rather than reading "no record" off a load in flight; a preview
-with no entry shows the rule. `rosterModifiers/index.test.js` holds every rule worded that way to
-the field.
+**A rule in force only where the list puts the unit says so in its record (`appliesWhile`).**
+"While a NECRONS CHARACTER model is leading this unit" (Command Protocols), "While the bearer is
+leading an Aspect Warriors unit" (Strategic Savant), a stratagem for "One DEATH GUARD Attached
+unit" — each is read off its wording by `src/data/rosterModifiers/appliesWhile.js`, the one reader
+the generator (which gives such a rule a record even when it changes no number) and the gate in
+`rosterModifiers/index.test.js` share. What the card does with it depends on the kind:
+- a **detachment rule** is not listed where the list does not meet it — it is the army's, not this
+  unit's (a lone Nekrosor Ammentar, a Monolith nobody can lead: a player's report, 2026-10-17);
+- an **enhancement** stays — its block is the one place its text is — but reads "Not in effect ·
+  <the condition>" and dims (owner, 2026-10-17);
+- a **stratagem** is not offered (`gateStratagems`' fourth argument), the way a keyword it cannot
+  target already kept it off.
+
+Every effect of such a record carries the same condition in its own `cond` (the gate checks), so
+the numbers and the block cannot disagree. Only list-answered conditions belong there; the block
+waits for the modifier load (`modifiersSettled`) and a preview with no entry shows the rule.
+
+**What the list answers** (`rosterAnswers` in `rosterGameContext.js`, conditions.js "Answered by
+the list itself"): the attachment both ways (`unit-leading`, `unit-led`, `unit-not-led`), the
+Warlord (`unit-warlord`, and `warlord: [kws]` — Fire Zone Purge's Tempestus Officer), the
+Bodyguard of the attached unit by keyword (`bodyguard`, true on both halves) or by a printed core
+ability (`bodyguardCore`), another CHARACTER in it (`attachedCharacter`), and a model the unit's
+size brings (`gear.mini` — the Tidewall's defence platform). The keyword shapes read the OTHER
+entries' printed sheets, so `rosterConditions(entry, units, sheetOf)` and `activeConditions(…,
+{ units, sheetOf })` take a lookup; without one they answer no. An effect parked as `never` whose
+`when` is about the list must be named, with the half the list cannot answer, in the gate's
+`PARKED` table.
 
 **The block is not itself an accordion** — what applies is always visible and only the individual
 rule bodies collapse, so there is one level of chevrons and opening it can't dump four long rule

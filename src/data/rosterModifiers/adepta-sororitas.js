@@ -1330,7 +1330,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "bringers-of-flame"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "9304d111-c730-4ba5-bfd6-2224695f9026",
@@ -1607,7 +1610,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "penitent-host"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "b025a522-241b-4585-a9d3-06d44400fb69",

@@ -1399,6 +1399,23 @@ export default {
       ]
     },
     {
+      "sid": "d56dad26-d23e-48cd-bc7a-53736bb6f6f7",
+      "kind": "enhancement",
+      "name": "Witch Hunter",
+      "det": "Ordo Hereticus, Purgation Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-hereticus-purgation-force"
+      },
+      "hash": "8099c25c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading"
+      ]
+    },
+    {
       "sid": "20cc49fb-5221-4dcf-b631-b116a84b02c3",
       "kind": "enhancement",
       "name": "Daemon Slayer",
@@ -1662,7 +1679,10 @@ export default {
       "hash": "e2841d92",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [],
+      "appliesWhile": [
+        "unit-led"
+      ]
     },
     {
       "sid": "d8ce9636-0f38-40be-8918-76c5597c91d3",

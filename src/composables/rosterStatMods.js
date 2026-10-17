@@ -630,12 +630,16 @@ export function stratagemTargetScopes(st) {
  * @param {ModEntry[] | null | undefined} entries
  * @param {UnitKeywords} keywords the card's own and its attached unit's (ruleTargets' scopeHits), or one list for a unit standing alone
  * @param {KeywordSets} factionKeywordSets
+ * @param {Set<string> | null} [active] what is true for this entry — a target the list decides
+ *   ("One DEATH GUARD Attached unit", "Your NECRONS WARLORD") is the record's `appliesWhile`
  * @returns {ModEntry[]}
  */
-export function gateStratagems(entries, keywords, factionKeywordSets) {
+export function gateStratagems(entries, keywords, factionKeywordSets, active = null) {
   return (entries || []).filter((e) => (
-    e.kind !== 'stratagem' ||
-    effectApplies({}, e.targetScopes, keywords, e.kind, factionKeywordSets)
+    e.kind !== 'stratagem' || (
+      effectApplies({}, e.targetScopes, keywords, e.kind, factionKeywordSets) &&
+      (e.appliesWhile || []).every((id) => !!active?.has(id))
+    )
   ))
 }
 

@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { defineComponent, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { useRosterUnitCard } from './rosterUnitCard.js'
+import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
 
 /** The card's composable, mounted. @param {object} props */
 function cardFor(props) {
@@ -172,4 +173,55 @@ describe('useRosterUnitCard — a detachment rule in force only inside an attach
     expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'neophyte-hybrids', joined)).toEqual(['det:Xenocreed Congregation'])
     expect(await blocksOf('genestealer-cults', 'Xenocreed Congregation', 'magus', joined)).toEqual(['det:Xenocreed Congregation'])
   })
+})
+
+// What the list records about an attachment, the Warlord and the size — read by the card the way
+// it reads "leading a unit" (2026-10-17). Each was parked as `never` or left ungated.
+describe('useRosterUnitCard — a condition the list answers', () => {
+  async function cardOf(factionSlug, detachment, unitId, units) {
+    const entry = units.find((u) => u.id === unitId)
+    const card = cardFor({ unitId, factionSlug, ctx: { detachments: [detachment], entry, units } })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value && card.modifiersSettled.value).toBeTruthy(), { timeout: 15000 })
+    return card
+  }
+  const offOf = (card, key) => card.ruleBlocks.value.find((b) => b.key === key)?.off
+
+  it('an enhancement worn by a bearer leading nobody stays on the card, marked not in effect', async () => {
+    const alone = [{ uid: 'a', id: 'overlord', size: 0, enh: 'Nether-realm Casket' }]
+    const led = [{ uid: 'a', id: 'overlord', size: 0, enh: 'Nether-realm Casket', leaderOf: 'b' }, { uid: 'b', id: 'immortals', size: 0 }]
+    expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', alone), 'enh:Nether-realm Casket')).toMatch(/^Not in effect · Leading a unit/)
+    expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', led), 'enh:Nether-realm Casket')).toBeNull()
+  }, 30000)
+  it('Strategic Savant: +1 OC on the Aspect Warriors the Autarch leads, not on Guardians', async () => {
+    const aspect = [{ uid: 'a', id: 'autarch', size: 0, enh: 'Strategic Savant', leaderOf: 'b' }, { uid: 'b', id: 'dire-avengers', size: 0 }]
+    const card = await cardOf('aeldari', 'Aspect Host', 'dire-avengers', aspect)
+    // Dire Avengers print OC 1
+    await vi.waitFor(() => expect(card.statMods.value.sheet.profiles[0].oc).toBe('2'), { timeout: 15000 })
+    const guardians = [{ uid: 'a', id: 'autarch', size: 0, enh: 'Strategic Savant', leaderOf: 'b' }, { uid: 'b', id: 'guardian-defenders', size: 0 }]
+    expect(offOf(await cardOf('aeldari', 'Aspect Host', 'autarch', guardians), 'enh:Strategic Savant')).toMatch(/Aspect Warriors/)
+  }, 30000)
+  it('Fire Zone Purge: Tempestus Scions have BATTLELINE and +1 OC while a Tempestus Officer is the Warlord', async () => {
+    const units = (warlord) => [{ uid: 'w', id: 'militarum-tempestus-command-squad', size: 0, warlord }, { uid: 's', id: 'tempestus-scions', size: 0 }]
+    const on = await cardOf('astra-militarum', 'Bridgehead Strike', 'tempestus-scions', units(true))
+    // Tempestus Scions print OC 1
+    await vi.waitFor(() => expect(on.statMods.value.sheet.profiles[0].oc).toBe('2'), { timeout: 15000 })
+    expect(on.allGrantedKeywords.value.map((g) => g.kw.toUpperCase())).toContain('BATTLELINE')
+    const off = await cardOf('astra-militarum', 'Bridgehead Strike', 'tempestus-scions', units(false))
+    expect(off.statMods.value.sheet.profiles[0].oc).toBe('1')
+  }, 30000)
+  it('Tidewall Shieldline: W 15 with its defence platform, the size that brings it', async () => {
+    // The size is read off the unit's roster definition, which the card is handed as `def`.
+    const fac = await loadRosterFaction('tau-empire')
+    const def = fac.units.find((u) => u.id === 'tidewall-shieldline')
+    const detachments = fac.detachments.filter((d) => d.name === 'Kauyon')
+    const shieldline = async (size) => {
+      const entry = { uid: 't', id: 'tidewall-shieldline', size }
+      const card = cardFor({ unitId: entry.id, factionSlug: 'tau-empire', ctx: { def, items: rosterItems.items, detachments, entry, units: [entry] } })
+      await vi.waitFor(() => expect(card.loaded.value && card.modifiersSettled.value).toBeTruthy(), { timeout: 15000 })
+      return card
+    }
+    const card = await shieldline(1)
+    await vi.waitFor(() => expect(card.statMods.value.sheet.profiles.some((p) => p.w === '15')).toBe(true), { timeout: 15000 })
+    expect((await shieldline(0)).statMods.value.sheet.profiles.some((p) => p.w === '15')).toBe(false)
+  }, 30000)
 })

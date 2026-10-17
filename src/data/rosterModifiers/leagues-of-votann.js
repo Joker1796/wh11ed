@@ -520,7 +520,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "hearthfyre-arsenal"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "f032aa6f-36db-4f80-b411-c04b7ff0754b",

@@ -514,6 +514,51 @@ describe('rosterConditions', () => {
     expect(rosterConditions(units[2], units).has('unit-led')).toBe(false)
     expect(rosterConditions(units[0]).has('unit-led')).toBe(false)
   })
+  it('answers the opposite state from the attachment: "not an Attached unit"', async () => {
+    const { rosterConditions } = await import('./rosterGameContext.js')
+    expect(rosterConditions(units[0], units).has('unit-not-led')).toBe(false)
+    expect(rosterConditions(units[2], units).has('unit-not-led')).toBe(true)
+  })
+
+  // What the list records beyond the attachment itself, read from the printed sheets of the OTHER
+  // entries (2026-10-17): War Howl's BLOOD CLAWS, Fire Zone Purge's Tempestus Officer Warlord.
+  const sheets = {
+    ragnar: { name: 'Ragnar Blackmane', keywords: ['INFANTRY', 'CHARACTER'] },
+    claws: { name: 'Blood Claws', keywords: ['INFANTRY', 'BATTLELINE'] },
+    hunters: { name: 'Wolf Guard Headtakers', keywords: ['INFANTRY'], core: 'Scouts 6"' },
+    leader: { name: 'Wolf Guard Battle Leader', keywords: ['INFANTRY', 'CHARACTER'] },
+    command: { name: 'Militarum Tempestus Command Squad', keywords: ['INFANTRY', 'MILITARUM TEMPESTUS'], keywordsByModel: [{ list: ['OFFICER'] }] },
+  }
+  const sheetOf = (id) => sheets[id]
+  it('answers a Bodyguard named by keyword on both halves, and only with the sheets to read', async () => {
+    const { rosterConditions } = await import('./rosterGameContext.js')
+    const list = [{ uid: 'r', id: 'ragnar', leaderOf: 'c' }, { uid: 'c', id: 'claws' }, { uid: 'h', id: 'hunters' }]
+    expect(rosterConditions(list[0], list, sheetOf).has('unit-leading-blood-claws')).toBe(true)
+    expect(rosterConditions(list[1], list, sheetOf).has('unit-leading-blood-claws')).toBe(true)
+    expect(rosterConditions(list[1], list).has('unit-leading-blood-claws')).toBe(false)
+    const elsewhere = [{ uid: 'r', id: 'ragnar', leaderOf: 'h' }, { uid: 'c', id: 'claws' }, { uid: 'h', id: 'hunters' }]
+    expect(rosterConditions(elsewhere[0], elsewhere, sheetOf).has('unit-leading-blood-claws')).toBe(false)
+    expect(rosterConditions(elsewhere[1], elsewhere, sheetOf).has('unit-leading-blood-claws')).toBe(false)
+    // "a unit with the Scouts 6" ability" — the Bodyguard's printed core line
+    expect(rosterConditions(elsewhere[0], elsewhere, sheetOf).has('unit-leading-scouts')).toBe(true)
+    expect(rosterConditions(list[0], list, sheetOf).has('unit-leading-scouts')).toBe(false)
+  })
+  it('answers "a unit that contains another CHARACTER" from every other member', async () => {
+    const { rosterConditions } = await import('./rosterGameContext.js')
+    const two = [{ uid: 'l', id: 'leader', leaderOf: 'h' }, { uid: 'r', id: 'ragnar', leaderOf: 'h' }, { uid: 'h', id: 'hunters' }]
+    expect(rosterConditions(two[0], two, sheetOf).has('unit-attached-character')).toBe(true)
+    const one = [{ uid: 'l', id: 'leader', leaderOf: 'h' }, { uid: 'h', id: 'hunters' }]
+    expect(rosterConditions(one[0], one, sheetOf).has('unit-attached-character')).toBe(false)
+  })
+  it('answers the Warlord: this entry, or whoever it is', async () => {
+    const { rosterConditions } = await import('./rosterGameContext.js')
+    const list = [{ uid: 'w', id: 'command', warlord: true }, { uid: 's', id: 'claws' }]
+    expect(rosterConditions(list[0], list, sheetOf).has('unit-warlord')).toBe(true)
+    expect(rosterConditions(list[1], list, sheetOf).has('unit-warlord')).toBe(false)
+    expect(rosterConditions(list[1], list, sheetOf).has('warlord-tempestus-officer')).toBe(true)
+    const other = [{ uid: 'w', id: 'ragnar', warlord: true }, { uid: 's', id: 'claws' }]
+    expect(rosterConditions(other[1], other, sheetOf).has('warlord-tempestus-officer')).toBe(false)
+  })
 })
 
 describe('stratagems', () => {

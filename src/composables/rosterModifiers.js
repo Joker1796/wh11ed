@@ -462,6 +462,14 @@ export function wargearConditions(def, entry, items, sheet) {
   const out = new Set()
   const copies = loadoutItemCopies(def, entry)
   const perMini = modelsPerMini(def, entry)
+  // A model the size brings ("if equipped with a Tidewall defence platform" — the Shieldline's
+  // second size): answered by the size alone, before anything about weapons.
+  for (const [cid, c] of Object.entries(conditions)) {
+    const mini = c.gear?.mini
+    if (!mini || !perMini) continue
+    const at = (def?.minis || []).findIndex((m) => norm(m.n) === norm(mini))
+    if (at >= 0 && (perMini.get(at) || 0) > 0) out.add(cid)
+  }
   const claim = weaponRowClaimer(def, items)
   if (!copies || !perMini || !claim || !sheet?.melee?.length) return out
 
@@ -489,7 +497,7 @@ export function wargearConditions(def, entry, items, sheet) {
   const starts = (name, n) => name.startsWith(norm(n))
   for (const [cid, c] of Object.entries(conditions)) {
     const g = c.gear
-    if (!g) continue
+    if (!g || g.mini) continue
     const holds = [...held.values()].some((byName) => {
       const list = [...byName.values()]
       const { copies, name } = g

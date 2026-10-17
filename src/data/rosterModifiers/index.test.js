@@ -2,10 +2,12 @@ import { describe, it, expect } from 'vitest'
 import { usableEntries } from './index.js'
 import { conditions, SENTINELS, isSentinel, isAnswerable } from './conditions.js'
 import { coreModifiers } from './coreRules.js'
+import { appliesWhileOf } from './appliesWhile.js'
+import { foldName } from '../../utils/foldName.js'
 
 // Every faction file in this directory, read eagerly — this is a test, not the app (the app
 // loads one faction at a time; see index.js).
-const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./*.test.js'], { eager: true, import: 'default' })
+const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./appliesWhile.js', '!./*.test.js'], { eager: true, import: 'default' })
 
 const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit'])
 const OP = new Set(['add', 'set', 'improve', 'grant'])
@@ -230,6 +232,8 @@ describe('rosterModifiers data', () => {
     // The Core Rules records count too: Battle-shock's OC '-' is the one user `unit-battle-shocked`
     // has had since Codex: Space Marines (963) retired the faction records that also named it.
     for (const e of [...allEntries.map((x) => x.e), ...coreModifiers]) for (const eff of e.effects || []) for (const id of eff.cond || []) used.add(id)
+    // …and a whole rule's own condition (`appliesWhile`) is a use like any other.
+    for (const { e } of allEntries) for (const id of e.appliesWhile || []) used.add(id)
     for (const id of Object.keys(conditions)) {
       expect(used.has(id), `condition "${id}" is defined but no effect uses it`).toBe(true)
     }
@@ -487,33 +491,80 @@ describe('loadRosterModifiersFor — a Chapter', () => {
   })
 })
 
-// "While a NECRONS CHARACTER model is leading this unit, …" puts the WHOLE rule inside an attached
-// unit. The card's "In effect" block lists a detachment rule by whom it names, so without
-// `appliesWhile` Command Protocols stood on a Nekrosor Ammentar fielded alone (a player's report,
-// 2026-10-17). Every detachment rule worded that way carries it, and it names only what the list
-// itself answers — a switch the player flips is not something to hide a whole rule behind.
-describe('a detachment rule in force only inside an attached unit', () => {
+// A rule in force only where the LIST puts the unit — "While a NECRONS CHARACTER model is leading
+// this unit", "While the bearer is leading an Aspect Warriors unit", a stratagem for "One DEATH
+// GUARD Attached unit" — says so in its record (`appliesWhile`), read off its wording by the one
+// reader the generator shares (appliesWhile.js). Without it the card listed Command Protocols on a
+// Nekrosor Ammentar fielded alone, and offered Grotesque Fortitude to a unit with no Leader (a
+// player's report, 2026-10-17).
+describe('a rule in force only where the list puts the unit', () => {
   const factions = import.meta.glob(['../factions/*.js'], { eager: true })
-  const LED = /\bwhile (?:a|an|one or more) [^.]*?\b(?:is|are) leading (?:this|that) unit\b/i
   const rules = Object.entries(factions).flatMap(([file, mod]) => {
     const fac = Object.values(mod).map((v) => v?.en || v).find((v) => v?.detachments)
     const slug = file.replace(/^.*\/(.*)\.js$/, '$1')
-    return (fac?.detachments || []).map((d) => ({ slug, det: d.name, body: d.rule?.body || '' }))
+    return (fac?.detachments || []).flatMap((d) => [
+      { slug, kind: 'detachmentRule', det: d.name, name: d.rule?.name, text: d.rule?.body },
+      ...(d.enhancements || []).map((e) => ({ slug, kind: 'enhancement', det: d.name, name: e.name, text: e.body })),
+      ...(d.stratagems || []).map((st) => ({ slug, kind: 'stratagem', det: d.name, name: st.name, text: st.target })),
+    ])
   })
-  const recOf = (slug, det) => (files[`./${slug}.js`]?.entries || [])
-    .find((e) => e.kind === 'detachmentRule' && e.det?.toLowerCase() === det.toLowerCase())
+  const recOf = (r) => (files[`./${r.slug}.js`]?.entries || []).find((e) => e.kind === r.kind
+    && foldName(e.det) === foldName(r.det) && (r.kind === 'detachmentRule' || foldName(e.name) === foldName(r.name)))
+  const worded = rules.map((r) => ({ ...r, want: appliesWhileOf(r.kind, r.text), rec: recOf(r) })).filter((r) => r.want)
 
-  it('reads the two rules worded that way', () => {
-    expect(rules.filter((r) => LED.test(r.body)).map((r) => r.det).sort()).toEqual(['Awakened Dynasty', 'Xenocreed Congregation'])
+  it('reads every rule worded that way — pinned, so a reading that slips shows here', () => {
+    const count = (kind) => worded.filter((r) => r.kind === kind).length
+    expect([count('detachmentRule'), count('enhancement'), count('stratagem')]).toEqual([2, 34, 9])
   })
+  // A detachment rule and an enhancement are listed on the card whether or not they carry an
+  // effect, so each needs a record; a stratagem is offered only for an effect, so only one whose
+  // record carries one is held to it.
   it('says so in its record', () => {
-    const missing = rules.filter((r) => LED.test(r.body) && !recOf(r.slug, r.det)?.appliesWhile?.includes('unit-led'))
-    expect(missing.map((r) => `${r.slug} · ${r.det}`)).toEqual([])
+    const wrong = worded.filter((r) => (r.kind !== 'stratagem' || r.rec?.effects?.length)
+      && JSON.stringify(r.rec?.appliesWhile) !== JSON.stringify(r.want))
+    expect(wrong.map((r) => `${r.slug} · ${r.name}: ${r.want} ≠ ${r.rec ? r.rec.appliesWhile : 'no record'}`)).toEqual([])
+  })
+  it('and every effect of it carries the same condition', () => {
+    const loose = allEntries.flatMap(({ file, e }) => (e.effects || [])
+      .filter((eff) => !(eff.cond || []).some(isSentinel) && (e.appliesWhile || []).some((id) => !(eff.cond || []).includes(id)))
+      .map((eff) => `${file} · ${e.name} · ${eff.stat}`))
+    expect(loose).toEqual([])
   })
   it('gates only on what the list answers', () => {
     const bad = allEntries.flatMap(({ file, e }) => (e.appliesWhile || [])
-      .filter((id) => conditions[id]?.scope !== 'roster' || e.kind !== 'detachmentRule')
+      .filter((id) => conditions[id]?.scope !== 'roster' || !['detachmentRule', 'enhancement', 'stratagem'].includes(e.kind))
       .map((id) => `${file} · ${e.name} · ${id}`))
     expect(bad).toEqual([])
+  })
+})
+
+// An effect parked as `never` whose condition is about the LIST — an attachment, the Warlord,
+// what was taken — is a number the card could have shown: War Howl, Fire Zone Purge, Strategic
+// Savant and seven more were, until 2026-10-17. What stays parked is named here with the half of
+// its condition the list cannot answer.
+describe('an effect the list could answer is not parked', () => {
+  const LIST = /\b(?:leading|led by|attached|warlord|equipped with)\b/i
+  const PARKED = {
+    'Logis': 'against a unit within range of the Acquisition objective marker',
+    'Tech-Priest Enginseer: Enginseer': 'within 3" of a friendly VEHICLE — a distance',
+    'Bonesinger: Bonesinger': 'within 3" of a friendly WRAITH CONSTRUCT or ASURYANI VEHICLE — a distance',
+    'Brôkhyr Iron-master: Brôkhyr Guild Support': 'within 3" of a friendly VEHICLE — a distance',
+    'Lucius the Eternal: Duellist’s Hubris': 'at the start of the Fight phase — the clock and the attachment together',
+    'Janus Draik: Backroom Deals': 'the unit selected in Declare Battle Formations — a choice the list does not record',
+    'Neyam Shai Murad: Backroom Deals': 'the unit selected in Declare Battle Formations',
+    'Rogue Trader Entourage: Backroom Deals': 'the unit selected in Declare Battle Formations',
+    'Blightlord Terminators: Blistering Fusillade': 'against Afflicted targets — the game',
+    'Coordinated Exploitation': 'while the unit is Guided and targeting its Spotted unit — the game',
+    'Through Unity, Devastation': 'while the unit is Guided and targeting its Spotted unit — the game',
+  }
+  it('names every one that stays parked', () => {
+    const parked = new Set()
+    for (const { e } of allEntries) {
+      for (const eff of e.effects || []) {
+        if ((eff.cond || []).includes('never') && LIST.test(eff.when?.en || '')) parked.add(e.name)
+      }
+    }
+    expect([...parked].filter((n) => !PARKED[n]).sort()).toEqual([])
+    expect(Object.keys(PARKED).filter((n) => !parked.has(n)).sort()).toEqual([])
   })
 })

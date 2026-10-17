@@ -211,6 +211,7 @@
             v-for="b in ruleBlocks"
             :key="b.key"
             class="rum-rule"
+            :class="{ 'rum-rule--off': b.off }"
           >
             <DsAccordion
               collapsible
@@ -226,6 +227,10 @@
                   <span class="rum-rule-text">
                     <span class="rum-rule-src">{{ b.src }}</span>
                     <span class="rum-rule-name">{{ b.name }}</span>
+                    <span
+                      v-if="b.off"
+                      class="rum-rule-off"
+                    >{{ b.off }}</span>
                   </span>
                   <ChevronIcon
                     class="rum-chev"
@@ -643,6 +648,11 @@ defineExpose({
 .rum-rule-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .rum-rule-src { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 .rum-rule-name { font-weight: 700; }
+/* An enhancement whose condition the list does not meet ("while the bearer is leading a unit" on
+   a bearer standing alone): still readable, plainly not in force. */
+.rum-rule--off .rum-rule-name,
+.rum-rule--off .rum-rule-body { color: var(--text-muted); }
+.rum-rule-off { font-size: 0.75rem; color: var(--text-muted); }
 .rum-chev { font-size: 0.7rem; color: var(--text-muted); flex-shrink: 0; }
 .rum-rule-body { padding-bottom: 0.5rem; }
 .rum-ability { margin-bottom: 0.35rem; }

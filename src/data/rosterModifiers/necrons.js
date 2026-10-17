@@ -1299,6 +1299,9 @@ export default {
           ],
           "target": "led"
         }
+      ],
+      "appliesWhile": [
+        "unit-leading"
       ]
     },
     {
@@ -1385,6 +1388,23 @@ export default {
           "when": null,
           "target": "led"
         }
+      ]
+    },
+    {
+      "sid": "59555bf5-512b-46c7-af47-3fa1ef0a3735",
+      "kind": "enhancement",
+      "name": "Hyperphasic Fulcrum",
+      "det": "Canoptek Court",
+      "ref": {
+        "kind": "enhancement",
+        "det": "canoptek-court"
+      },
+      "hash": "4c7d3a3f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading"
       ]
     },
     {
@@ -1790,7 +1810,7 @@ export default {
             "ru": "и ещё, пока отрядом руководит NECRONS CHARACTER"
           },
           "cond": [
-            "never"
+            "unit-led"
           ]
         }
       ],

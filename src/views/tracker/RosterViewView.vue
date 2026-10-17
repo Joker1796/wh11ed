@@ -694,6 +694,10 @@ watch([gamePi, gameMi, historyId], async ([pi, , gid]) => {
 }, { immediate: true })
 onUnmounted(() => { if (liveParty) liveParty.detach() })
 
+// The printed sheet behind an id — what a condition about ANOTHER entry (the Bodyguard's keywords,
+// the Warlord's) reads.
+const sheetOfId = (id) => fullSheets.value.get(id)
+
 // What is true for one entry: the game answers when there is one, and off the table the LIST still
 // answers for itself (an enhancement gated on "while the bearer is leading a unit" is proven by the
 // roster) — the same call RosterUnitRulesModal makes, so a row and the card behind it agree.
@@ -702,9 +706,10 @@ const activeFor = (entry) => (inGame.value
       army: keeps('trackArmyStates'),
       unit: keeps('trackUnitStates'),
       units: roster.value?.units,
+      sheetOf: sheetOfId,
       groupLimits: groupLimitsOf(entry),
     })
-  : rosterConditions(entry, roster.value?.units))
+  : rosterConditions(entry, roster.value?.units, sheetOfId))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
@@ -1094,7 +1099,7 @@ function modContextFor(entry) {
   const own = [...printed, ...grantedKeywordsFrom(resolved, { own: printed, unit: [...printed, ...attached] }, factionKeywordSets.value, active, chosen).map((g) => g.kw)]
   const kws = { own, unit: [...own, ...attached] }
   // …and then the stratagems this unit could never be picked as the target of come off the list.
-  return { resolved: gateStratagems(resolved, kws, factionKeywordSets.value), kws, active, chosen }
+  return { resolved: gateStratagems(resolved, kws, factionKeywordSets.value, active), kws, active, chosen }
 }
 
 // ONE context per entry for the whole screen. Four readers want it — the stat plates, the

@@ -81,7 +81,7 @@ describe('roster types', () => {
     const refKinds = new Map([...refBlock.matchAll(/\{ kind: '(\w+)'([^}]*)\}/g)].map((m) => [m[1], new Set(['kind', ...[...m[2].matchAll(/(\w+)\??\s*:/g)].map((x) => x[1])])]))
     expect(refKinds.size).toBeGreaterThanOrEqual(7)
     const missing = new Set()
-    const modFiles = fs.readdirSync(MODS).filter((f) => f.endsWith('.js') && !['index.js', 'conditions.js', 'coreRules.js'].includes(f) && !f.endsWith('.test.js'))
+    const modFiles = fs.readdirSync(MODS).filter((f) => f.endsWith('.js') && !['index.js', 'conditions.js', 'coreRules.js', 'appliesWhile.js'].includes(f) && !f.endsWith('.test.js'))
     let n = 0
     for (const f of modFiles) {
       const { entries } = (await import(path.join(MODS, f))).default

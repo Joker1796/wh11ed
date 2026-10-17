@@ -2047,6 +2047,40 @@ export default {
       }
     },
     {
+      "sid": "1ae1869b-921c-48fa-9c64-69dd2b1da1b0",
+      "kind": "enhancement",
+      "name": "Mantle of Wisdom",
+      "det": "Aspect Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "aspect-host"
+      },
+      "hash": "37758e03",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading-aspect-warriors"
+      ]
+    },
+    {
+      "sid": "94c1a89a-9440-4408-86ab-de0674cc8068",
+      "kind": "enhancement",
+      "name": "Shimmerstone",
+      "det": "Aspect Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "aspect-host"
+      },
+      "hash": "40ee044b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading-aspect-warriors"
+      ]
+    },
+    {
       "sid": "8d9c8be4-f9d6-4cf2-bdf9-1b50f5e73c04",
       "kind": "enhancement",
       "name": "Strategic Savant",
@@ -2065,7 +2099,7 @@ export default {
             "ru": "пока носитель ведёт отряд Aspect Warriors"
           },
           "cond": [
-            "never"
+            "unit-leading-aspect-warriors"
           ],
           "target": "led"
         }
@@ -2073,7 +2107,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "aspect-host"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading-aspect-warriors"
+      ]
     },
     {
       "sid": "558885b8-e1fc-4c9e-8100-f7402cbda111",
@@ -2285,6 +2322,26 @@ export default {
           ],
           "target": "led"
         }
+      ],
+      "appliesWhile": [
+        "unit-leading"
+      ]
+    },
+    {
+      "sid": "a6dc92ee-14cc-409a-adb4-12aeb3178bce",
+      "kind": "enhancement",
+      "name": "Breath of Vaul",
+      "det": "Guardian Battlehost",
+      "ref": {
+        "kind": "enhancement",
+        "det": "guardian-battlehost"
+      },
+      "hash": "83cb465b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading-storm-guardians"
       ]
     },
     {
@@ -2322,6 +2379,23 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "f0cce164-4c78-40a7-8b37-448cd4dc2d0c",
+      "kind": "enhancement",
+      "name": "Protector of the Paths",
+      "det": "Guardian Battlehost",
+      "ref": {
+        "kind": "enhancement",
+        "det": "guardian-battlehost"
+      },
+      "hash": "e1b8ef97",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading-dire-avengers-or-guardians"
+      ]
     },
     {
       "sid": "9f284647-768c-470b-a84e-42450935b075",

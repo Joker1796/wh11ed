@@ -1342,11 +1342,16 @@ and appdata state fresh; a data model can change between now and when this is ne
     "any pick" (Kill Tank), footnote limits and the group's own offers ("can be equipped with 1
     storm bolter") read as conditions. Now every item resolves or the generator fails, naming it.
 
-99. **A condition on an effect is not a condition on the rule.** Command Protocols' +1 to Hit was
-    gated on `unit-led` from the start, so the numbers were right — but the card's "In effect" block
-    lists a detachment rule by whom it names, and NECRONS names every unit: the rule stood on a
-    Nekrosor Ammentar fielded alone and on a Monolith (a player's report, 2026-10-17). Where the
-    WHOLE rule lives inside an attached unit, the record says so (`appliesWhile`), and the gate
-    reads the prose ("while … is/are leading this/that unit") so a new rule worded that way cannot
-    arrive without it. Unquestioning Fanaticism has no effects at all (re-rolls are not a stat), which
-    is why the field sits on the record and is not derived from its effects.
+99. **A condition on an effect is not a condition on the rule — and `never` is not "the list
+    cannot say".** Command Protocols' +1 to Hit was gated on `unit-led` from the start, so the
+    numbers were right — but the card's "In effect" block lists a detachment rule by whom it names,
+    and NECRONS names every unit: the rule stood on a Nekrosor Ammentar fielded alone and on a
+    Monolith (a player's report, 2026-10-17). The same shape stood in three more places: 34
+    enhancements "while the bearer is leading a unit" listed as in effect on a bearer leading
+    nobody, Grotesque Fortitude ("One DEATH GUARD Attached unit") offered to a unit with no Leader,
+    and ten effects parked as `never` although the list knew the answer (War Howl's BLOOD CLAWS,
+    Fire Zone Purge's Warlord, the Tidewall's platform). Where a whole rule lives inside an attached
+    unit its record says so (`appliesWhile`), read off the wording by ONE reader the generator and
+    the gate share; Unquestioning Fanaticism has no effects at all (re-rolls are not a stat), which
+    is why the field sits on the record and is not derived from its effects. A `never` whose `when`
+    is about the list is a finding unless the gate names why.

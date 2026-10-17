@@ -8,12 +8,13 @@
 // hand-authored faction files. Delete the directory and `loadRosterModifiers` resolves to null
 // for every faction, which the overlay treats as "no numeric modifiers" — the card falls back to
 // Tiers A+B, attributed prose with printed numbers, and stays correct.
-// conditions.js is the shared `cond` vocabulary and coreRules.js the rulebook's own modifiers —
-// neither is a faction, so both are excluded and the glob keeps meaning "one entry per faction".
+// conditions.js is the shared `cond` vocabulary, coreRules.js the rulebook's own modifiers and
+// appliesWhile.js the reader of a whole rule's condition —
+// none is a faction, so all three are excluded and the glob keeps meaning "one entry per faction".
 import { SM_CHAPTERS } from '../smChapters.js'
 import { borrowedFrom, detachmentSources } from '../detachmentSources.js'
 
-const loaders = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./*.test.js'], { import: 'default' })
+const loaders = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./appliesWhile.js', '!./*.test.js'], { import: 'default' })
 
 // One faction's records, or null when the faction has no file (or the layer was removed).
 /**

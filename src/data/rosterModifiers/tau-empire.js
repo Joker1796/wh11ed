@@ -133,7 +133,7 @@ export default {
         "scopes": [
           {
             "targets": [
-              "T’AU EMPIRE"
+              "T'AU EMPIRE"
             ],
             "excludes": [],
             "models": [],
@@ -944,7 +944,7 @@ export default {
             "ru": "если взята Tidewall defence platform"
           },
           "cond": [
-            "never"
+            "wargear-tidewall-platform"
           ]
         }
       ]
@@ -1567,6 +1567,23 @@ export default {
       ]
     },
     {
+      "sid": "9082456d-f1cc-460d-84b1-3dd8318b052c",
+      "kind": "enhancement",
+      "name": "Borthrod Gland",
+      "det": "Kroot Hunting Pack",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kroot-hunting-pack"
+      },
+      "hash": "fce1ae40",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading"
+      ]
+    },
+    {
       "sid": "b0b02250-29bc-4b8f-b501-a007e6fb45e6",
       "kind": "enhancement",
       "name": "Kroothawk Flock",
@@ -1629,6 +1646,9 @@ export default {
           ],
           "target": "led"
         }
+      ],
+      "appliesWhile": [
+        "unit-leading"
       ]
     },
     {

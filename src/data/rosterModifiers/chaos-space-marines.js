@@ -2329,10 +2329,12 @@ export default {
             "ru": "пока носитель ведёт отряд, у которого уже есть Scouts 6\""
           },
           "cond": [
-            "never"
-          ],
-          "target": "led"
+            "unit-leading-scouts"
+          ]
         }
+      ],
+      "appliesWhile": [
+        "unit-leading-scouts"
       ]
     },
     {

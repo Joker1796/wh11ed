@@ -767,6 +767,23 @@ export default {
       "note": "grants an ability and extends Contagion Range — neither is a printed characteristic"
     },
     {
+      "sid": "e9aee006-05f7-44cd-9622-5a7a43b13bcc",
+      "kind": "enhancement",
+      "name": "Helm of The Fly King",
+      "det": "Death Lord’s Chosen",
+      "ref": {
+        "kind": "enhancement",
+        "det": "death-lords-chosen"
+      },
+      "hash": "7a8d4f75",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading"
+      ]
+    },
+    {
       "sid": "8259676b-b493-4d15-b60e-b1922dac0d44",
       "kind": "enhancement",
       "name": "Vile Vigour",
@@ -793,6 +810,9 @@ export default {
           ],
           "target": "led"
         }
+      ],
+      "appliesWhile": [
+        "unit-leading"
       ]
     },
     {
@@ -909,6 +929,23 @@ export default {
       ]
     },
     {
+      "sid": "0b8d22c7-a46c-4865-9a51-dc622a894fec",
+      "kind": "enhancement",
+      "name": "Lord of the Walking Pox",
+      "det": "Shamblerot Vectorium",
+      "ref": {
+        "kind": "enhancement",
+        "det": "shamblerot-vectorium"
+      },
+      "hash": "5063428c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading-poxwalkers"
+      ]
+    },
+    {
       "sid": "646ffc25-fbc8-4702-82ad-ea7c853e5736",
       "kind": "enhancement",
       "name": "Sorrowsyphon",
@@ -927,7 +964,7 @@ export default {
             "ru": "только оружие носителя Plague Wind, пока он ведёт отряд Poxwalkers"
           },
           "cond": [
-            "never"
+            "unit-leading-poxwalkers"
           ],
           "only": {
             "name": "Plague Wind"
@@ -937,7 +974,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "shamblerot-vectorium"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading-poxwalkers"
+      ]
     },
     {
       "sid": "89e9fb12-929f-4931-8002-58f48241447d",
@@ -966,7 +1006,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "shamblerot-vectorium"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "5d974c69-74c8-4495-8370-f4c9e20d3c4f",
@@ -995,7 +1038,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "shamblerot-vectorium"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading-poxwalkers"
+      ]
     },
     {
       "sid": "c61119f2-8aea-4203-ab1b-565c4deacebe",
@@ -1113,10 +1159,16 @@ export default {
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
-          }
+          },
+          "cond": [
+            "unit-led"
+          ]
         }
       ],
-      "dur": "phase"
+      "dur": "phase",
+      "appliesWhile": [
+        "unit-led"
+      ]
     },
     {
       "sid": "2c92e4d2-9e0c-4edd-8f3d-ffef6913d9c0",
@@ -1367,10 +1419,19 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Deep Strike",
-          "when": null
+          "when": {
+            "en": "Not an Attached unit",
+            "ru": "Не в отряде с лидером"
+          },
+          "cond": [
+            "unit-not-led"
+          ]
         }
       ],
-      "dur": "phase"
+      "dur": "phase",
+      "appliesWhile": [
+        "unit-not-led"
+      ]
     },
     {
       "sid": "ea30e94c-cf87-4f02-8210-0fb635615b18",
@@ -1400,7 +1461,10 @@ export default {
       "hash": "ac9574f8",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [],
+      "appliesWhile": [
+        "unit-warlord"
+      ]
     },
     {
       "sid": "pack:death-guard-possessed:diseased-icon",

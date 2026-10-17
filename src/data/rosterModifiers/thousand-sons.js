@@ -1194,7 +1194,10 @@ export default {
       "ref": {
         "kind": "enhancement",
         "det": "rubricae-phalanx"
-      }
+      },
+      "appliesWhile": [
+        "unit-leading"
+      ]
     },
     {
       "sid": "5217a83b-742c-4e2a-966d-8ce26ec5adf8",
@@ -1412,6 +1415,23 @@ export default {
           "value": "Scouts 6\"",
           "when": null
         }
+      ]
+    },
+    {
+      "sid": "6178ef4b-4657-4b5b-8292-735d191e1b46",
+      "kind": "enhancement",
+      "name": "Diamond of Distortion",
+      "det": "Warpmeld Pact",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpmeld-pact"
+      },
+      "hash": "9781020c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [],
+      "appliesWhile": [
+        "unit-leading"
       ]
     },
     {
