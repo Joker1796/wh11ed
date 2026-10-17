@@ -7,15 +7,15 @@ const blocks = [
   { bi: 1, heading: 'Vital Link', rows: [{ ri: 0, vp: 2, text: 'You control one or more central objectives.' }] },
 ]
 
-// A "per each" row reads its text first and keeps the stepper and its VP together after it, so
-// that on a phone the group wraps below the text instead of squeezing it to one word a line
-// (owner, 2026-10-17). The wrap itself is CSS (flex-wrap on the row) and is measured by eye on
-// the stand; what this holds is the structure it depends on.
+// A "per each" row leads with the stepper and its VP as one group, the text after it, so that on
+// a phone the text wraps below the group instead of being squeezed to one word a line (owner,
+// 2026-10-17: the control on top, as the tick leads its row). The wrap itself is CSS (flex-wrap
+// on the row) and is measured by eye on the stand; what this holds is the structure it depends on.
 describe('ScoreRows', () => {
-  it('puts a per-each row’s text first and its stepper and VP in one group after it', () => {
+  it('puts a per-each row’s stepper and VP first, in one group, and its text after them', () => {
     const w = mount(ScoreRows, { props: { blocks, count: () => 0 } })
     const row = w.find('.m-cond--count')
-    expect(row.element.firstElementChild.classList.contains('m-text')).toBe(true)
+    expect([...row.element.children].map((e) => e.className)).toEqual(['m-act', 'm-text'])
     const act = row.find('.m-act')
     expect(act.findComponent({ name: 'NumberStepper' }).exists()).toBe(true)
     expect(act.find('.m-vp').text()).toMatch(/^3 VP /)

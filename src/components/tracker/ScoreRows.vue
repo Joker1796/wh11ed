@@ -26,10 +26,11 @@
       <!-- A row whose moment cannot have come yet (an "end of your opponent's turn" condition
            during the owner's own turn, see missionTiming.js) is greyed and not tickable, with the
            reason on hover — shown, never hidden: it is still the card's condition. -->
-      <!-- A "per each" row reads its text FIRST and keeps its stepper and VP together after it:
-           beside the text while the row has room for both, on a line of their own below it when
-           it does not. With the stepper first, a phone left the condition ~60px and set it one
-           word to a line (2026-10-17, owner: «ужасное распределение пространства»). -->
+      <!-- A "per each" row keeps its stepper and VP together as one group, first — the control
+           leads, as the tick does on the rows below it: beside the text while the row has room for
+           both, on a line of their own above it when it does not. Before, the stepper, the text
+           and a nowrap VP shared one line, and a phone left the condition ~60px, one word to a
+           line (2026-10-17, owner: «ужасное распределение пространства»; control on top — owner). -->
       <label
         v-for="r in b.rows"
         :key="r.ri"
@@ -38,7 +39,6 @@
         :title="isLocked(b) ? lockedNote : undefined"
       >
         <template v-if="r.perEach">
-          <span class="m-text">{{ r.text }}</span>
           <span class="m-act">
             <span
               v-if="readonly || isLocked(b)"
@@ -54,6 +54,7 @@
             />
             <strong class="m-vp">{{ r.vp }} VP {{ labels.trackerEach }}</strong>
           </span>
+          <span class="m-text">{{ r.text }}</span>
         </template>
         <!-- Read-only (set-aside card, a locked row): the recorded value, no editable control. -->
         <span
@@ -151,9 +152,9 @@ const isLocked = (b) => !props.readonly && !!props.locked?.(b)
 .m-static.hit { color: var(--side, var(--accent)); }
 .m-text { flex: 1 1 auto; min-width: 0; font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; }
 .m-vp { flex-shrink: 0; font-size: 0.86rem; color: var(--text-primary); white-space: nowrap; }
-/* A "per each" row: the text, then the stepper and its VP as one group. The text asks for 14em
-   before the group may sit beside it; short of that the group wraps to a line of its own, where it
-   spans the row — stepper left, VP right. No breakpoint: the wrap is decided by the row's own
+/* A "per each" row: the stepper and its VP as one group, then the text. The text asks for 14em
+   beside the group; short of that it wraps to a line of its own below, and the group spans the
+   row above it — stepper left, VP right. No breakpoint: the wrap is decided by the row's own
    width, so every mission, language and dialog width gets it right. */
 .m-cond--count { flex-wrap: wrap; align-items: center; row-gap: 0.45rem; }
 .m-cond--count .m-text { flex: 1000 1 14em; }
