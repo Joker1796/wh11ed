@@ -561,7 +561,7 @@ describe('applyStatMods — a critical-hit ability on a [TORRENT] weapon', () =>
     effects: [{ on: 'weapon', stat: 'ability', op: 'grant', value, when: null }],
   })
 
-  it.each(['SUSTAINED HITS 1', 'LETHAL HITS'])('%s is not printed on it, only on the other weapons', (value) => {
+  it.each(['SUSTAINED HITS 1', 'LETHAL HITS', 'LETHAL HITS: non-VEHICLE'])('%s is not printed on it, only on the other weapons', (value) => {
     const out = applyStatMods(ravenersSheet(), [grant(value)], destroyer, [])
     expect(out.sheet.ranged[0].tags).not.toContain(value)
     expect(out.sheet.melee[0].tags).toContain(value)

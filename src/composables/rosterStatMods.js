@@ -82,7 +82,9 @@ function rowMatchesOnly(row, only) {
 const CRIT_HIT_ONLY = ['SUSTAINED HITS', 'LETHAL HITS']
 /** @param {unknown} ability @param {unknown[]} tags */
 export const idleOnRow = (ability, tags) =>
-  CRIT_HIT_ONLY.some((a) => rowMatchesOnly({ tags: [String(ability)] }, { tag: a }))
+  // "LETHAL HITS: non-VEHICLE" is LETHAL HITS with a target qualifier (Space Marines' Tactical
+  // Precision and others) — the name is what stands before the colon.
+  CRIT_HIT_ONLY.some((a) => rowMatchesOnly({ tags: [String(ability).split(':')[0].trim()] }, { tag: a }))
   && rowMatchesOnly({ tags: tags.map(String) }, { tag: 'TORRENT' })
 
 // Does the statement this effect was read from bear on this unit? `scope` is an index into
