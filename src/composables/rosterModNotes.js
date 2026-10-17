@@ -9,6 +9,7 @@
 // WHERE a modifier came from, as a label. Text only, no colour of its own: the card already
 // carries the faction accent, and five source colours would compete with it. A detachment and a
 // Leader name themselves ("detachment · Creations of Bile"), the rest are the kind alone.
+import { coreAbilityText } from './datasheetParts.js'
 export function modSourceLabel(n, l) {
   if (n.kind === 'ability') {
     // Reusing the rule block's own words for the three sources it already names, so the same rule
@@ -69,7 +70,7 @@ export function modDelta(n, l = null) {
   const stat = STAT_LABEL[n.stat] || String(n.stat).toUpperCase()
   // A granted name is the whole thing — "+RAPID FIRE 1", "+FEEL NO PAIN 5+", "+FLY". There is no
   // characteristic to name after it, and appending the word ABILITY told the reader nothing.
-  if (n.op === 'grant') return `+${n.value}`
+  if (n.op === 'grant') return `+${n.stat === 'core' ? coreAbilityText(String(n.value), l) : n.value}`
   // Its counterpart: an ability the weapon already has, with a bigger number. The value carries the
   // name and the amount ("RAPID FIRE 1" = +1 to RAPID FIRE), so it has to read as the delta it is —
   // the two halves of such a rule land on adjacent lines and must not look identical.

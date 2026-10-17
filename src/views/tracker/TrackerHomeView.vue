@@ -507,7 +507,7 @@ function score(g) {
   return [src[youIdx(g)], src[idxOf(g, 1)]]
 }
 // Result from "You"'s perspective. Winner is decided by BP in BP mode (≤5 VP gap → 10–10 draw),
-// by VP otherwise; concede overrides. VICTORY/DEFEAT/DRAW kept English, like the tracker's terms.
+// by VP otherwise; concede overrides. The word is the reader's language (owner, 2026-10-18).
 function winnerSide(g) {
   if (g.endReason === 'friendly-concede') return 'loss'
   if (g.endReason === 'opponent-concede') return 'win'
@@ -516,7 +516,7 @@ function winnerSide(g) {
   return you > opp ? 'win' : 'loss'
 }
 function resultClass(g) { const r = winnerSide(g); return r === 'win' ? 'res-win' : r === 'loss' ? 'res-loss' : 'res-draw' }
-function resultLabel(g) { const r = winnerSide(g); return r === 'win' ? 'VICTORY' : r === 'loss' ? 'DEFEAT' : 'DRAW' }
+function resultLabel(g) { const r = winnerSide(g); const l = labels.value; return r === 'win' ? l.trackerResultWin : r === 'loss' ? l.trackerResultLoss : l.trackerResultDraw }
 
 function battleSizeName(g) {
   if (g.settings?.combatPatrol) return labels.value.trackerGameTypeCombatPatrol

@@ -34,6 +34,17 @@ export function printedCoreOf(sheet, grantedCore) {
   return corePartsOf(sheet).filter((p) => !extra.some((g) => dominates(g.ability, p)))
 }
 
+// A granted core ability as the reader's language writes it: the name stays English (a core
+// ability is a rules term), the narrowing in brackets is translated — "Feel No Pain 5+ (vs mortal
+// wounds)" stood in English on a Russian card (acceptance, 2026-10-18). `l.coreQualifiers` is the
+// locale's dictionary; EN has none and keeps the text as it is.
+/** @param {string} ability @param {{ coreQualifiers?: Record<string, string> } | null} [l] */
+export function coreAbilityText(ability, l = null) {
+  const dict = l?.coreQualifiers
+  if (!dict) return ability
+  return String(ability).replace(/\(([^)]*)\)$/, (m, q) => (dict[q] ? `(${dict[q]})` : m))
+}
+
 // The faction line is a comma-separated list too ("Oath of Moment, Curse of the Wulfen").
 export function factionPartsOf(sheet) {
   return sheet?.faction ? sheet.faction.split(/,\s*/) : []

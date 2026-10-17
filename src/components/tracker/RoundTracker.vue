@@ -257,7 +257,7 @@
       :blocks="primaryBlocks(openPrimary)"
       :briefing="primaryMission(openPrimary).briefing"
       :count="(bi, ri) => primaryRowCount(openPrimary, current.currentRound - 1, bi, ri)"
-      :note="`${labels.trackerPrimary}: ${labels.trackerThisRound} ≤ ${PRIMARY_ROUND_CAP} · ${PRIMARY_GAME_CAP}/${labels.trackerTotal}`"
+      :note="labels.trackerPrimaryCaps.replace('{round}', PRIMARY_ROUND_CAP).replace('{game}', PRIMARY_GAME_CAP)"
       @set="(bi, ri, c) => setPrimaryRow(openPrimary, current.currentRound - 1, bi, ri, c)"
       @close="openPrimary = -1"
     />

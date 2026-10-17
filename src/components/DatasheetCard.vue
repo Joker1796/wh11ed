@@ -248,7 +248,7 @@
             {{ (coreParts.length || i) ? ', ' : ' ' }}<span
               class="keyword ds-core-granted"
               :title="c.det ? `${c.source} · ${c.det}` : c.source"
-            >{{ c.ability }}<sup
+            >{{ coreAbilityText(c.ability, labels) }}<sup
               class="ds-mod-star"
               aria-hidden="true"
             >*</sup></span>
@@ -993,7 +993,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
 import { modDelta } from '../composables/rosterModNotes.js'
-import { factionPartsOf, factionKwMarker, invNoteText, statCells } from '../composables/datasheetParts.js'
+import { coreAbilityText, factionPartsOf, factionKwMarker, invNoteText, statCells } from '../composables/datasheetParts.js'
 import { useDatasheetParts } from '../composables/useDatasheetParts.js'
 import DsAccordion from './DsAccordion.vue'
 import DatasheetWeaponTable from './DatasheetWeaponTable.vue'

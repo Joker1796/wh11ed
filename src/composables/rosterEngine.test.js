@@ -188,9 +188,10 @@ describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
     expect(wargearGroupLive(canoness, { wg: [[0, 1, 1], [1, 1, 1]] }, 2)).toBe(false) // inferno pistol, power weapon
     expect(wargearGroupLive(canoness, { wg: [[0, 2, 1], [1, 0, 1]] }, 2)).toBe(false) // plasma pistol, blessed blade
     expect(wargearGroupLive(canoness, { wg: [[0, 2, 1], [1, 1, 1]] }, 2)).toBe(true)
-    // the blocker names the condition still missing, and the option it needs
+    // the blocker names every condition still missing — both items with nothing taken (it named
+    // only the plasma pistol, and the group stayed shut once it was taken; acceptance, 2026-10-18)
     expect(wargearGroupBlocker(canoness, { wg: [[0, 2, 1]] }, 2)).toEqual({ need: 'present', ids: [27] })
-    expect(wargearGroupBlocker(canoness, {}, 2)).toEqual({ need: 'present', ids: [25] })
+    expect(wargearGroupBlocker(canoness, {}, 2)).toEqual({ need: 'present', ids: [25, 27] })
   })
 
   it('drops a fully-replaced default from the loadout summary', () => {

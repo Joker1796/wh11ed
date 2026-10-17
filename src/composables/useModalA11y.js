@@ -14,6 +14,11 @@ const FOCUSABLE =
   'a[href],area[href],button:not([disabled]),input:not([disabled]),' +
   'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
 
+// The open dialogs, newest last. Only the top one answers a key: every dialog listened on the
+// window, so Escape over a datasheet opened from the roster editor closed both (acceptance,
+// 2026-10-18), and each one's Tab trap fought the other's.
+const stack = []
+
 // opts.initialFocus: a CSS selector for the element to focus on open (e.g. a search input).
 // Defaults to the dialog root, which is the right target for most dialogs.
 export function useModalA11y(rootRef, onClose, opts = {}) {
@@ -29,6 +34,7 @@ export function useModalA11y(rootRef, onClose, opts = {}) {
   }
 
   function onKey(e) {
+    if (stack[stack.length - 1] !== onKey) return
     if (e.key === 'Escape') {
       onClose()
       return
@@ -57,6 +63,7 @@ export function useModalA11y(rootRef, onClose, opts = {}) {
 
   onMounted(() => {
     prevActive = document.activeElement
+    stack.push(onKey)
     window.addEventListener('keydown', onKey)
     // Move focus into the dialog so keyboard/screen-reader users land inside it — onto the
     // requested initial element if given (e.g. a search input), else the dialog root.
@@ -68,6 +75,8 @@ export function useModalA11y(rootRef, onClose, opts = {}) {
 
   onBeforeUnmount(() => {
     window.removeEventListener('keydown', onKey)
+    const at = stack.indexOf(onKey)
+    if (at !== -1) stack.splice(at, 1)
     if (prevActive && typeof prevActive.focus === 'function') prevActive.focus()
   })
 }
