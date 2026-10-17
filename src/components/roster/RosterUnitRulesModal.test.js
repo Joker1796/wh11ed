@@ -79,6 +79,24 @@ describe('RosterUnitRulesModal', () => {
     expect(text).not.toContain('Plasma Pistol')
   })
 
+  // Building a list the sheet's composition, default loadout and options stay (owner, 2026-10-17);
+  // in the roster view and a game they are settled and hidden.
+  it('keeps the composition and loadout while the list is being built, hides them after', async () => {
+    const [rf, it] = await Promise.all([
+      import('../../data/roster/space-marines.js'),
+      import('../../data/roster/items.js'),
+    ])
+    const def = rf.default.units.find((u) => u.id === 'intercessor-squad')
+    const ctx = { def, entry: { uid: 'a', id: 'intercessor-squad', size: 0 }, items: it.default.items }
+    mount(RosterUnitRulesModal, { props: { unitId: 'intercessor-squad', factionSlug: 'space-marines', ctx, building: true } })
+    await waitFor('Intercessor Squad')
+    expect(body().text()).toContain('Unit Composition')
+    document.body.innerHTML = ''
+    mount(RosterUnitRulesModal, { props: { unitId: 'intercessor-squad', factionSlug: 'space-marines', ctx } })
+    await waitFor('Intercessor Squad')
+    expect(body().text()).not.toContain('Unit Composition')
+  })
+
   it('shows a weapon the entry actually picked', async () => {
     const [rf, it] = await Promise.all([
       import('../../data/roster/space-marines.js'),

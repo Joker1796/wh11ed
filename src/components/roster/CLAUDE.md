@@ -2970,8 +2970,11 @@ Tier A does four things:
    choice's title, and `keywordNotesOf` says "from this unit's own Daemonic Allegiance choice"
    rather than crediting the faction for what the reader picked.
 3. **Hides the build-choice blocks** — Unit Composition, the default-loadout sentence and Wargear
-   Options (`DatasheetCard`'s `hideChoices` prop). Each describes a decision the roster has already
-   made, and the printed loadout sentence contradicts the weapon tables once those are trimmed.
+   Options (`DatasheetCard`'s `hideChoices` prop) — in the roster view and a game, where each
+   describes a decision the roster has already made. **Not while the list is being built**
+   (`building`: the catalogue's preview, the editor's "Datasheet" and its leader previews — owner,
+   2026-10-17): there they are the questions being answered, and a reader choosing a swap wants the
+   stock loadout and every option as printed, even beside weapon tables trimmed to the picks.
    The Leader "can be attached to" list is deliberately KEPT: it is rules text about how the
    attachment works, and it stays useful for an entry that hasn't been attached yet.
 4. **Reports roster facts absent from the datasheet** (`entryContext`) as chips above the card:

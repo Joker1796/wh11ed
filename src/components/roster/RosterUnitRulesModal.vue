@@ -30,6 +30,7 @@
         :faction-slug="factionSlug"
         :ctx="ctx"
         :game-ctx="gameCtx"
+        :building="building"
         :warlord-in-title="!!gameCtx"
         :attached-in-title="!!gameCtx"
         @toggle-cond="(...a) => $emit('toggle-cond', ...a)"
@@ -57,6 +58,7 @@ defineProps({
   factionSlug: { type: String, required: true },
   ctx: { type: Object, default: null },
   gameCtx: { type: Object, default: null },
+  building: { type: Boolean, default: false },
 })
 defineEmits(['close', 'toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
 

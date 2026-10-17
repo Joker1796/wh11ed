@@ -37,6 +37,7 @@
           :unit-id="sheetId"
           :faction-slug="factionSlug"
           :ctx="{ def, entry, items, detachments, leaderTargets, units }"
+          building
           @close="rulesOpen = false"
         />
       </FactionAccentScope>
@@ -72,6 +73,7 @@
           :unit-id="sheetPreview.sheetId"
           :faction-slug="sheetPreview.slug"
           :ctx="{ detachments }"
+          building
           @close="sheetPreview = null"
         />
       </FactionAccentScope>
@@ -210,11 +212,8 @@
       </div>
     </section>
 
-    <!-- The unit's whole stock loadout, as its datasheet prints it, whatever has been swapped since
-         (owner, 2026-10-17: building a list, "I don't see the default wargear" — this section held
-         only what no group replaces, and a Kill Tank, all of whose guns can be swapped, showed
-         nothing). The groups below repeat the swappable part as their checked first row; this
-         line is the answer to "what does it come with", read before any of them. The stock loadout's own points,
+    <!-- Wargear no group replaces (read-only, and no pick changes it — what a pick can touch is in
+         its group below, the stock weapon as a row of its own). The stock loadout's own points,
          where it has any, are marked on the heading: the size pill shows the Munitorum bracket,
          and without this the difference between that and the unit's total (a Terminator Assault
          Squad's ten thunder hammers, +50) is invisible. -->
@@ -224,7 +223,7 @@
         class="ues-sec"
       >
         <h4 class="ues-h">
-          {{ labels.rosterDefaultWargear }}
+          {{ defaultLines.length ? labels.rosterFixedWargear : labels.rosterDefaultWargear }}
           <ExpandTransition>
             <em
               v-if="defaultPts"
@@ -253,7 +252,7 @@
             type="button"
             class="opt-info"
             :aria-label="labels.rosterViewInfo"
-            @click="openWeaponInfo(defaultNames, labels.rosterDefaultWargear)"
+            @click="openWeaponInfo(defaultNames, labels.rosterFixedWargear)"
           >
             <i class="wi wi-info" />
           </button>
@@ -554,7 +553,7 @@ import ConfirmModal from '../ConfirmModal.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { ENTRY_NOTE_MAX, sizeOf, modelCount, allySourceOf, allegFor, allegSpent, defaultWargearPoints, defaultLoadoutLines, fitWargear, modelsPerMini, setNote } from '../../composables/rosterEngine.js'
+import { ENTRY_NOTE_MAX, sizeOf, modelCount, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, setNote } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -807,8 +806,7 @@ const sizeTells = computed(() => {
 })
 
 // ── Default loadout summary ──
-// As printed: the entry's size decides which profiles field models, its picks change nothing here.
-const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items, { ...props.entry, wg: [] }))
+const defaultLines = computed(() => fixedLoadoutLines(props.def, props.items, props.entry))
 // Every item the lines name, once — a Sergeant and his squad both carrying a bolt pistol is one
 // profile to read. The info button beside them opens all of it, the way an option's button opens
 // the option: the default loadout was the one wargear on this screen with no way to read it.

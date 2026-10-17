@@ -178,7 +178,7 @@
       :faction-slug="factionSlug"
       :granted-keywords="allGrantedKeywords"
       :granted-core="statMods.core || []"
-      :hide-choices="!!ctx"
+      :hide-choices="!!ctx && !building"
       :linked-faction-rules="linkedFactionRules"
       :stat-marks="statMods.marks"
       :stat-notes="statNotes"
@@ -377,6 +377,11 @@ const props = defineProps({
   // lets a conditional modifier actually rewrite a number — and `switches` are the per-unit ones
   // this player may flip from here. Null everywhere else, which is the read-only behaviour.
   gameCtx: { type: Object, default: null },
+  // Opened while the list is being BUILT (the catalogue, the unit editor): the sheet's Unit
+  // Composition, default loadout and Wargear Options stay on it — they are the questions being
+  // answered there (owner, 2026-10-17: "building a list, I don't see the default wargear"). In the
+  // roster view and a game they are settled and stay hidden (hideChoices below).
+  building: { type: Boolean, default: false },
   // Standing in a page, not a dialog: the card draws its own title row (with the owned star).
   inline: { type: Boolean, default: false },
   // The dialog shows the Warlord badge in its header (a game's dialog), so not again here.
