@@ -36,6 +36,8 @@ export const changelog = [
       '**[IGNORES COVER] is no longer added to melee weapons and [TORRENT] weapons.** Cover only worsens the BS of a ranged attack.',
       '**Rules no longer take a characteristic past its limits in the Core Rules.** Ld stays between 5+ and 8+ on the card. A BS of “-” stays “-”.',
       '**When a unit or a weapon already has an ability, the card shows only the better one.** Two instances of an ability never add up. [SUSTAINED HITS 1] from a rule no longer stands next to a printed [SUSTAINED HITS 2], nor Scouts 6" next to Scouts 7". Feel No Pain 5+ from a rule replaces a printed 6+.',
+      { h: 'Probable GW mistakes' },
+      '**[Corsair Cloud Dancer Band](/factions/aeldari/datasheets/corsair-cloud-dancer-band), [Firestorm](/factions/aeldari/datasheets/firestorm) and [Warp Hunter](/factions/aeldari/datasheets/warp-hunter): the twin shuriken catapult has AP 3.** This is how the Aeldari Faction Pack prints it. The same weapon has AP -1 on other datasheets. I show it as the PDF prints it for now.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
@@ -49,6 +51,8 @@ export const changelog = [
       '**[IGNORES COVER] больше не добавляется оружию ближнего боя и оружию с [TORRENT].** Укрытие ухудшает BS только у стрелковой атаки.',
       '**Правила больше не выводят характеристику за пределы из базовых правил.** Ld на карточке остаётся между 5+ и 8+. BS «-» остаётся «-».',
       '**Если у юнита или оружия способность уже есть, карточка показывает только лучшую.** Одинаковые способности не складываются. [SUSTAINED HITS 1] от правила больше не стоит рядом с напечатанным [SUSTAINED HITS 2], а Scouts 6" рядом со Scouts 7". Feel No Pain 5+ от правила заменяет напечатанный 6+.',
+      { h: 'Вероятные ошибки GW' },
+      '**[Corsair Cloud Dancer Band](/factions/aeldari/datasheets/corsair-cloud-dancer-band), [Firestorm](/factions/aeldari/datasheets/firestorm) и [Warp Hunter](/factions/aeldari/datasheets/warp-hunter): у twin shuriken catapult AP 3.** Так напечатано в Faction Pack Aeldari. У того же оружия на других датащитах AP -1. Пока показываю как в PDF.',
     ],
   },
   {
