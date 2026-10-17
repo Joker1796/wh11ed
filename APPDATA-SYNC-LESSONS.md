@@ -1323,3 +1323,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     so `idleOnRow` in rosterStatMods.js refuses it for every grant (about 90 could reach a TORRENT
     weapon, 21 factions) instead of an `only.notTag` per record — the one record that already
     carried it (Adepta Sororitas) is now redundant, not wrong.
+    The sweep that followed ran every reachable record through `applyStatMods` on every sheet and
+    found the rest of the class: HEAVY on TORRENT (no roll to add 1 to), IGNORES COVER on melee and
+    TORRENT (cover is -1 BS on a ranged attack, 13.08), Ld shown at 4+ (02.02.01 keeps it 5+–8+),
+    a BS of "-" set to 3+ (02.02.01: "-" is never modified), and — legal but misleading — a
+    grant shown beside a printed instance it cannot beat (24.02: instances never add up). The
+    limits live in `applyValue`, the "is one instance at least as good" question in
+    abilityDominance.js, shared by the weapon tags and the Core line. Not ours: three Aeldari
+    pack sheets print the twin shuriken catapult's AP as "3" (the 14-10 Faction Pack PDF itself),
+    and appdata gives some TORRENT weapons BS "7+" where others have "-".

@@ -30,7 +30,10 @@ export const changelog = [
       '**A Tempestus Scion can take the regimental standard only while he keeps his hot-shot lasgun.** The builder let a Scion with a special weapon take it as well.',
       '**Units that another unit’s ability adds to the game stand under that unit.** [Ripper Swarms](/factions/tyranids/datasheets/ripper-swarms) are under a [Parasite of Mortrex](/factions/tyranids/datasheets/parasite-of-mortrex), [Spore Mines](/factions/tyranids/datasheets/spore-mines) under [Biovores](/factions/tyranids/datasheets/biovores) and the [Harpy](/factions/tyranids/datasheets/harpy), [Mucolid Spores](/factions/tyranids/datasheets/mucolid-spores) under a [Sporocyst](/factions/tyranids/datasheets/sporocyst). A tap opens their card. It is also on the card of the unit that adds them. This is in a roster and in a game.',
       '**The name of such a unit in the ability’s text opens its card.** This works everywhere the ability is shown.',
-      '**[SUSTAINED HITS] and [LETHAL HITS] are no longer added to [TORRENT] weapons.** A [TORRENT] weapon hits without a hit roll, so it never scores a critical hit. [Hyperadapted Raveners](/factions/tyranids/datasheets/hyperadapted-raveners) had [SUSTAINED HITS 1] from Alpha Invader on the venom bolt. The same went for every rule that gives these to all weapons of a unit.',
+      '**[SUSTAINED HITS], [LETHAL HITS] and [HEAVY] are no longer added to [TORRENT] weapons.** Such a weapon hits without a hit roll, so these abilities never work on it. Alpha Invader gave [SUSTAINED HITS 1] to the venom bolt of [Hyperadapted Raveners](/factions/tyranids/datasheets/hyperadapted-raveners).',
+      '**[IGNORES COVER] is no longer added to melee weapons and [TORRENT] weapons.** Cover only worsens the BS of a ranged attack.',
+      '**Rules no longer take a characteristic past its limits in the Core Rules.** Ld stays between 5+ and 8+ on the card. A BS of “-” stays “-”.',
+      '**When a unit or a weapon already has an ability, the card shows only the better one.** Two instances of an ability never add up. [SUSTAINED HITS 1] from a rule no longer stands next to a printed [SUSTAINED HITS 2], nor Scouts 6" next to Scouts 7". Feel No Pain 5+ from a rule replaces a printed 6+.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
@@ -38,7 +41,10 @@ export const changelog = [
       '**Tempestus Scion может взять regimental standard, только если у него остаётся hot-shot lasgun.** Конструктор давал взять знамя и Scion со спецоружием.',
       '**Юниты, которых добавляет в партию способность другого юнита, стоят под ним.** [Ripper Swarms](/factions/tyranids/datasheets/ripper-swarms) стоят под [Parasite of Mortrex](/factions/tyranids/datasheets/parasite-of-mortrex), [Spore Mines](/factions/tyranids/datasheets/spore-mines) под [Biovores](/factions/tyranids/datasheets/biovores) и [Harpy](/factions/tyranids/datasheets/harpy), [Mucolid Spores](/factions/tyranids/datasheets/mucolid-spores) под [Sporocyst](/factions/tyranids/datasheets/sporocyst). По тапу открывается их карточка. Она есть и в карточке юнита, который их добавляет. Это видно в ростере и в партии.',
       '**Имя такого юнита в тексте способности открывает его карточку.** Это работает везде, где видна способность.',
-      '**[SUSTAINED HITS] и [LETHAL HITS] больше не добавляются оружию с [TORRENT].** Оружие с [TORRENT] попадает без броска, поэтому критического попадания у него не бывает. У [Hyperadapted Raveners](/factions/tyranids/datasheets/hyperadapted-raveners) Alpha Invader давал [SUSTAINED HITS 1] и venom bolt. Так было у всех правил, которые дают их всему оружию юнита.',
+      '**[SUSTAINED HITS], [LETHAL HITS] и [HEAVY] больше не добавляются оружию с [TORRENT].** Такое оружие попадает без броска, и эти способности у него не работают. У [Hyperadapted Raveners](/factions/tyranids/datasheets/hyperadapted-raveners) Alpha Invader давал [SUSTAINED HITS 1] и venom bolt.',
+      '**[IGNORES COVER] больше не добавляется оружию ближнего боя и оружию с [TORRENT].** Укрытие ухудшает BS только у стрелковой атаки.',
+      '**Правила больше не выводят характеристику за пределы из базовых правил.** Ld на карточке остаётся между 5+ и 8+. BS «-» остаётся «-».',
+      '**Если у юнита или оружия способность уже есть, карточка показывает только лучшую.** Одинаковые способности не складываются. [SUSTAINED HITS 1] от правила больше не стоит рядом с напечатанным [SUSTAINED HITS 2], а Scouts 6" рядом со Scouts 7". Feel No Pain 5+ от правила заменяет напечатанный 6+.',
     ],
   },
   {

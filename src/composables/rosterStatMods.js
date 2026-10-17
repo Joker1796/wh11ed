@@ -23,6 +23,7 @@ import { enhKey, detKey, itemKey, loadoutItemCopies } from './rosterModifiers.js
 import { modelsPerMini } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
+import { dominates } from './abilityDominance.js'
 import { foldName } from '../utils/foldName.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
@@ -72,20 +73,29 @@ function rowMatchesOnly(row, only) {
   return true
 }
 
-// An ability that fires on a critical hit means nothing on a [TORRENT] weapon: that attack hits
-// without a hit roll (24.37), so it never makes one (24.36 [SUSTAINED HITS], 24.23 [LETHAL HITS]).
+// An ability that acts on the hit roll means nothing on a [TORRENT] weapon: that attack hits
+// without one (24.37), so it never scores the critical hit [SUSTAINED HITS] and [LETHAL HITS] need
+// (24.36, 24.23) and has no roll for [HEAVY] to add 1 to (24.16). [IGNORES COVER] answers cover,
+// whose one effect is -1 BS on a RANGED attack (13.08): nothing on a melee weapon, nothing on a
+// TORRENT one either, which has no BS to worsen.
 // The rules that grant these say "weapons equipped by models in this unit" and GW does not carve
 // TORRENT out, so the card did: Alpha Invader printed [SUSTAINED HITS 1] on the Raveners' venom
 // bolt, and a player pointed out it can never trigger (report, 2026-10-17). Here rather than an
 // `only.notTag` on each record because it is a rule of the game, not of any one modifier — 92
-// grants in 21 factions could reach such a weapon.
-const CRIT_HIT_ONLY = ['SUSTAINED HITS', 'LETHAL HITS']
-/** @param {unknown} ability @param {unknown[]} tags */
-export const idleOnRow = (ability, tags) =>
+// grants in 21 factions could reach such a weapon. The sweep that followed (2026-10-17) found the
+// same shape for HEAVY on TORRENT and IGNORES COVER on melee/TORRENT.
+const NEEDS_HIT_ROLL = ['SUSTAINED HITS', 'LETHAL HITS', 'HEAVY', 'IGNORES COVER']
+const RANGED_ONLY = ['IGNORES COVER']
+/** @param {unknown} ability @param {unknown[]} tags @param {string} table 'ranged' | 'melee' */
+export function idleOnRow(ability, tags, table) {
   // "LETHAL HITS: non-VEHICLE" is LETHAL HITS with a target qualifier (Space Marines' Tactical
   // Precision and others) — the name is what stands before the colon.
-  CRIT_HIT_ONLY.some((a) => rowMatchesOnly({ tags: [String(ability).split(':')[0].trim()] }, { tag: a }))
-  && rowMatchesOnly({ tags: tags.map(String) }, { tag: 'TORRENT' })
+  const own = { tags: [String(ability).split(':')[0].trim()] }
+  /** @param {string[]} list */
+  const is = (list) => list.some((a) => rowMatchesOnly(own, { tag: a }))
+  if (table === 'melee' && is(RANGED_ONLY)) return true
+  return is(NEEDS_HIT_ROLL) && rowMatchesOnly({ tags: tags.map(String) }, { tag: 'TORRENT' })
+}
 
 // Does the statement this effect was read from bear on this unit? `scope` is an index into
 // ruleScopes(); a null scope means the effect belongs to the rule as a whole, so any statement
@@ -125,6 +135,18 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
   return sc ? scopeHits(sc, keywords) : false
 }
 
+// The limits a characteristic keeps after every modifier (02.02.01): [best, worst] for a roll —
+// a Leadership of 5+ improved by 1 stays 5+, it never shows 4+ (Malevolent Locus on Abaddon did,
+// 2026-10-17) — and the lowest a number or a distance can fall to. AP is printed negative, so its
+// limit is a ceiling: "cannot be worse than 0".
+/** @type {Record<string, [number, number]>} */
+const ROLL_LIMITS = { ld: [5, 8], ws: [2, 6], bs: [2, 6] }
+/** @type {Record<string, number>} */
+const LEAST = { t: 1, a: 1, s: 1, d: 1, oc: 0, m: 1, range: 1 }
+// "Characteristics of '-', '*' and 'N/A' can never be modified" (02.02.01) — a TORRENT weapon's BS
+// stays '-' whatever sets it (Auto-divinatory Targeting on the Kastelan Robots' incendine combustor).
+const UNMODIFIABLE = /^(?:-|\*|N\/A)$/i
+
 // Arithmetic on a printed characteristic, or null when it can't be done honestly.
 // Characteristics come in four printed shapes: a plain number ("5"), a distance ('6"'), a
 // skill/save roll ("3+") and a dice expression ("D6+2"). Only the first three are computable.
@@ -147,25 +169,32 @@ export function applyValue(current, op, value, stat = null, best = null) {
     const given = String(value).match(/^(\d+)\+$/)
     if (had && given && Number(had[1]) <= Number(given[1])) return raw
   }
+  // An invulnerable save is the exception: "-" there is no save, and a rule that gives one is the
+  // commonest set there is.
+  if (stat !== 'inv' && UNMODIFIABLE.test(raw)) return null
   // `set` before the empty check: "the bearer has a 5+ invulnerable save" GRANTS a characteristic
-  // the datasheet doesn't print at all, which is the commonest set there is.
+  // the datasheet doesn't print at all.
   if (op === 'set') return String(value)
   if (!raw) return null
+  // A dice amount ("add 2D6 to the Move", "+D3 Attacks") is not arithmetic on a number: annotated,
+  // never "NaN" on the card.
+  if (!Number.isFinite(Number(value))) return null
 
   const roll = raw.match(/^(\d+)\+$/)
   if (roll) {
     // A roll improves by going DOWN, and 2+ is the floor no modifier can beat — or the rule's own.
     const n = Number(roll[1])
-    const floor = Math.max(2, Number(String(best ?? '').match(/^(\d)\+$/)?.[1]) || 2)
+    const [least, most] = ROLL_LIMITS[stat ?? ''] || [2, 6]
+    const floor = Math.max(least, Number(String(best ?? '').match(/^(\d)\+$/)?.[1]) || least)
     if (op === 'improve' && n <= floor) return raw
     const next = op === 'improve' ? n - Number(value) : n + Number(value)
-    return `${Math.max(floor, Math.min(6, next))}+`
+    return `${Math.max(floor, Math.min(most, next))}+`
   }
 
   const dist = raw.match(/^(\d+)"$/)
   if (dist) {
     if (op !== 'add') return null
-    return `${Math.max(0, Number(dist[1]) + Number(value))}"`
+    return `${Math.max(LEAST[stat ?? ''] ?? 0, Number(dist[1]) + Number(value))}"`
   }
 
   // Signed, and deliberately NOT clamped at zero: Armour Penetration is printed negative, and
@@ -176,7 +205,9 @@ export function applyValue(current, op, value, stat = null, best = null) {
   const plain = raw.match(/^-?\d+$/)
   if (plain) {
     if (op !== 'add') return null
-    return String(Number(raw) + Number(value))
+    const next = Number(raw) + Number(value)
+    if (stat === 'ap') return String(Math.min(0, next))
+    return String(Math.max(LEAST[stat ?? ''] ?? -Infinity, next))
   }
 
   return null // "D6+2", "N/A", a range like "18-36" — annotate instead of guessing
@@ -442,11 +473,13 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           for (let i = 0; i < rows.length; i++) {
             if (!rowMatchesOnly(asFound[table]?.[i], effect.only) || !inRows(effect, table, i)) continue
             const tags = rows[i].tags || []
-            if (tags.some((t) => String(t).toUpperCase() === String(effect.value).toUpperCase())) continue
-            if (idleOnRow(effect.value, tags)) continue
+            if (idleOnRow(effect.value, tags, table)) continue
+            // One instance of an ability at a time (24.02): a grant the row already has as well or
+            // better is not added, and one that is better takes the worse one's place.
+            if (tags.some((t) => dominates(t, effect.value))) continue
             // the clone has every row the sheet has, so this is the same row, writable
             const dest = target()[table]?.[i]
-            if (dest) dest.tags = [...tags, String(effect.value)]
+            if (dest) dest.tags = [...tags.filter((t) => !dominates(effect.value, t)), String(effect.value)]
             marks.add(`${table}:tags:${i}`)
             added = true
           }

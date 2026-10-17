@@ -4,14 +4,14 @@
 // modifiers" switch was `hidePossible` on one and `showPossible` on the other, with the opposite
 // default). The typography stays each card's own; what the sheet SAYS is decided here.
 import { computed } from 'vue'
-import { corePartsOf, extraCoreOf, keywordGroupsOf, extraKeywordsOf, keywordNotesOf } from './datasheetParts.js'
+import { printedCoreOf, extraCoreOf, keywordGroupsOf, extraKeywordsOf, keywordNotesOf } from './datasheetParts.js'
 import { groupModNotes, possibleModNotes } from './rosterModNotes.js'
 import { withGroupPos } from '../utils/weaponGroups.js'
 
 // `props`: the card's own — sheet, grantedCore, grantedKeywords, statMarks, statNotes.
 // `showPossible`: a getter; whether the modifiers that might apply are listed under the live ones.
 export function useDatasheetParts(props, labels, { showPossible = () => true } = {}) {
-  const coreParts = computed(() => corePartsOf(props.sheet))
+  const coreParts = computed(() => printedCoreOf(props.sheet, props.grantedCore))
   const extraCore = computed(() => extraCoreOf(props.sheet, props.grantedCore))
   // Per-model keyword split (The Silent King: keywords every model shares vs a named model's own)
   // — a single unlabelled group for the common flat list.
