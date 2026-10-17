@@ -60,8 +60,9 @@ in `src/components/roster/CLAUDE.md`.
 
 `TRACK_PRESETS` — Minimal (nothing), Base (CP without stratagems, the mission help, both army-rule
 counters, the modifiers without a family) and Maximal (everything) — are starting points over the
-rows. `TrackPresets.vue` is a label above one button naming the preset in force (or "Your own"); the
-button opens a dialog showing the game screen with each, from pictures in
+rows. `TrackPresets.vue` is a "Preset" button with the preset in force named beside it (or "Your
+own"); the button opens a dialog showing the game screen with each — three columns on a wide screen,
+one picture under a three-way switch on a phone — from pictures in
 `public/images/tracker/preset-<id>-<locale>` shot off the seed's three `preset-*` games
 (scripts/lib/test-games.mjs) — **reshoot them when the game screen changes**, under a new name
 (images are never edited in place). A first game starts as Base (`defaultTrackSettings` with no
