@@ -83,10 +83,10 @@
         class="ability-body"
         @click="scrollToDefinition"
       >
-        <p
+        <div
           v-if="ability.flavor"
-          v-safe-html="renderInline(ability.flavor)"
-          class="ability-flavor"
+          v-safe-html="renderParagraphs(ability.flavor)"
+          class="ability-flavor paras"
         />
 
         <template
@@ -140,8 +140,8 @@
 
       <div
         v-if="ability.example"
-        v-safe-html="renderInline(ability.example)"
-        class="example-block"
+        v-safe-html="renderParagraphs(ability.example)"
+        class="example-block paras"
       />
 
       <div
@@ -238,8 +238,8 @@
 
       <div
         v-if="entry.example"
-        v-safe-html="renderInline(entry.example)"
-        class="example-block"
+        v-safe-html="renderParagraphs(entry.example)"
+        class="example-block paras"
       />
       <div
         v-if="entry.note"

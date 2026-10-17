@@ -816,7 +816,7 @@
             </ul>
             <div
               v-if="sheet.loadout"
-              v-safe-html="dsText(sheet.loadout)"
+              v-safe-html="dsRichText(sheet.loadout)"
               class="ds-loadout"
             />
           </div>

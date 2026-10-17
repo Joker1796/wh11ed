@@ -824,6 +824,14 @@ strong {
 }
 
 /* Example blocks — like Wahapedia */
+/* Prose split into paragraphs by renderParagraphs (an example, a note, a lore line): the
+   paragraphs keep their break without the browser's 1em margins round the box. */
+.paras > p { margin: 0; }
+.paras > p + p { margin-top: 0.6em; }
+
+/* Plain text whose line breaks are part of it — a lore passage of several paragraphs. */
+.lines { white-space: pre-line; }
+
 .example-block {
   background: var(--bg-secondary);
   border-left: 3px solid var(--text-muted);

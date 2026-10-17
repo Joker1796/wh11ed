@@ -353,7 +353,7 @@ const abilityItems = computed(() => {
   if (props.showChoices && (s.composition || s.loadout)) {
     const parts = []
     if (s.composition) parts.push(`<ul class="rpc-ul">${s.composition.map((c) => `<li>${inlineText(c)}</li>`).join('')}</ul>`)
-    if (s.loadout) parts.push(`<div>${inlineText(s.loadout)}</div>`)
+    if (s.loadout) parts.push(`<div>${richText(s.loadout)}</div>`)
     out.push({ title: null, html: `<strong>${l.dsComposition}:</strong> ${parts.join('')}` })
   }
   if (props.showChoices && s.options) {

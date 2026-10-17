@@ -172,7 +172,7 @@
           <!-- Through the inline renderer, like every other rule text on the sheet: the fields carry
                markup (`**…**`, `[gloss:…]` since 2.7.9), and as plain text it printed raw. -->
           <p
-            v-safe-html="renderInline(st.when)"
+            v-safe-html="renderRichText(st.when)"
             class="rps-strat-when"
           />
           <!-- The gap between the parts is CSS, not a trailing space in the template — the
@@ -182,7 +182,7 @@
             class="rps-strat-text"
           >
             <span v-if="st.target"><strong>{{ labels.stratTarget }}:</strong> <span v-safe-html="renderInline(st.target)" /></span>
-            <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> <span v-safe-html="renderInline(st.effect)" /></span>
+            <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> <span v-safe-html="renderRichText(st.effect)" /></span>
             <span v-if="st.restrictions"><strong>{{ labels.stratRestrictions }}:</strong> <span v-safe-html="renderInline(st.restrictions)" /></span>
           </p>
         </article>
@@ -226,7 +226,7 @@ const props = defineProps({
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 
 const slice = computed(() => props.block.units.slice(props.from, props.to))
 const uid = (i) => `${props.block.id}:${props.from + i}`

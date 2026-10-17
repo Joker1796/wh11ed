@@ -263,7 +263,7 @@
                   <strong>{{ a.name }}<span
                     v-if="a.nameEn"
                     class="rum-name-en"
-                  > ({{ a.nameEn }})</span>:</strong> <span v-safe-html="renderInline(a.text)" />
+                  > ({{ a.nameEn }})</span>:</strong> <span v-safe-html="renderRichText(a.text)" />
                 </div>
               </div>
             </DsAccordion>
@@ -398,7 +398,7 @@ const props = defineProps({
 defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
 
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderRichText } = useRenderInline()
 const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
 

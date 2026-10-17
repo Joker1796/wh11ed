@@ -30,16 +30,16 @@
         @pick="$emit('pick', t.id)"
       >
         <div class="tw-body">
-          <p
+          <div
             v-if="t.example"
-            v-safe-html="renderInline(t.example)"
-            class="tcard-flavor"
+            v-safe-html="renderParagraphs(t.example)"
+            class="tcard-flavor paras"
           />
           <RuleBody :body="t.body" />
-          <p
+          <div
             v-if="t.note"
-            v-safe-html="renderInline(t.note)"
-            class="tp-note"
+            v-safe-html="renderParagraphs(t.note)"
+            class="tp-note paras"
           />
         </div>
       </PickerRow>
@@ -64,7 +64,7 @@ const props = defineProps({
 defineEmits(['pick', 'random', 'none', 'close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { renderInline } = useRenderInline()
+const { renderParagraphs } = useRenderInline()
 
 // Accordion: keep at most one twist expanded; start on the currently-selected one.
 const openId = ref(props.selected || null)

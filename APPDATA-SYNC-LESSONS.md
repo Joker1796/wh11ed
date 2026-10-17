@@ -1355,3 +1355,16 @@ and appdata state fresh; a data model can change between now and when this is ne
     the gate share; Unquestioning Fanaticism has no effects at all (re-rolls are not a stat), which
     is why the field sits on the record and is not derived from its effects. A `never` whose `when`
     is about the list is a finding unless the gate names why.
+
+100. **A fix in one renderer is not a fix of the text.** Rule prose has lines — `▪` steps,
+    numbered steps, paragraphs — and `renderInline` reads none of them: the builder's enhancement
+    window ran Veil of Darkness's three steps into one line (a player's report, 2026-10-17).
+    DatasheetCard had met the same thing and switched itself to `renderRichText`, with a comment
+    saying why — and nobody looked for the other places. There were seven: a Leader's abilities on
+    a unit's card, wargear abilities by a weapon, a printed stratagem's effect, a multi-model
+    loadout, a Core Rules example, the layouts' key, multi-paragraph lore. Now
+    `src/components/proseSinks.test.js` holds both ends: a line break in the data only in a field
+    listed with its renderer, and such a field never handed to an inline renderer nor shown as
+    plain text outside `.lines`. Side note: `grep` called `useRenderInline.js` a binary file (it
+    holds U+E000 fences) and printed nothing for it — sweep with `grep -a`.
+

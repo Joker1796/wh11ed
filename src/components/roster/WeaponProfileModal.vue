@@ -121,7 +121,7 @@
           :key="a.name"
           class="wpm-ability"
         >
-          <strong>{{ a.name }}:</strong> <span v-safe-html="renderInline(a.text)" />
+          <strong>{{ a.name }}:</strong> <span v-safe-html="renderRichText(a.text)" />
         </div>
       </div>
       <p
@@ -172,7 +172,7 @@ const { accentStyle } = useFactionAccent(toRef(props, 'factionSlug'))
 defineEmits(['close'])
 
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 const title = computed(() => props.heading || props.names.join(' / '))

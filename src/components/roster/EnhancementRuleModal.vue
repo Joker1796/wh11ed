@@ -34,19 +34,19 @@
         </div>
         <p
           v-if="enh.flavor"
-          class="erm-flavor"
+          class="erm-flavor lines"
         >
           {{ enh.flavor }}
         </p>
         <div
-          v-safe-html="renderInline(enh.body)"
+          v-safe-html="renderRichText(enh.body)"
           class="erm-body"
         />
         <RuleExtras :extras="enh.extras" />
         <div
           v-if="enh.note"
-          v-safe-html="renderInline(enh.note)"
-          class="erm-note"
+          v-safe-html="renderParagraphs(enh.note)"
+          class="erm-note paras"
         />
       </template>
       <p
@@ -87,7 +87,7 @@ const { accentStyle } = useFactionAccent(toRef(props, 'factionSlug'))
 defineEmits(['close'])
 
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderRichText, renderParagraphs } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 // Enhancement names disagree between the roster layer and this hand-authored faction file

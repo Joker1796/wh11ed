@@ -24,7 +24,7 @@
     <div class="strat-body">
       <p
         v-if="strat.flavor"
-        class="strat-flavor"
+        class="strat-flavor lines"
       >
         {{ strat.flavor }}
       </p>

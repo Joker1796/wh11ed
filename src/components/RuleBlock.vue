@@ -76,8 +76,8 @@
 
         <div
           v-if="example"
-          v-safe-html="renderInline(example)"
-          class="example-block"
+          v-safe-html="renderParagraphs(example)"
+          class="example-block paras"
         />
 
         <slot />
@@ -127,7 +127,7 @@ const props = defineProps({
   errataRef: { type: Object, default: null },
 })
 
-const { renderInline, renderParagraphs } = useRenderInline()
+const { renderParagraphs } = useRenderInline()
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
