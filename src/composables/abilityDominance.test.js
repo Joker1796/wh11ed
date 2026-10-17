@@ -19,6 +19,25 @@ describe('dominates — one instance at least as good as another (24.02)', () =>
     ['Deep Strike', 'Deep Strike', true],
     ['TWIN-LINKED', 'TWIN‑LINKED', true], // U+2011
     ['Stealth', 'Deep Strike', false],
+    // a reach is a set of targets
+    ['LETHAL HITS: CHARACTER/MONSTER/VEHICLE', 'LETHAL HITS: MONSTER/VEHICLE', true],
+    ['LETHAL HITS: MONSTER/VEHICLE', 'LETHAL HITS: VEHICLE/MONSTER', true],
+    ['LETHAL HITS: non-VEHICLE', 'LETHAL HITS: non-MONSTER/VEHICLE', true],
+    ['LETHAL HITS: non-MONSTER/VEHICLE', 'LETHAL HITS: non-VEHICLE', false],
+    ['LETHAL HITS: non-VEHICLE', 'LETHAL HITS: INFANTRY', false], // a list and a non- list never compare
+    ['SUSTAINED HITS 2: NON-MONSTER/VEHICLE', 'SUSTAINED HITS 1: non-MONSTER/VEHICLE', true],
+    ['SUSTAINED HITS 1', 'SUSTAINED HITS 2: MONSTER/VEHICLE', false],
+    ['ANTI-MONSTER/VEHICLE 4+', 'ANTI-VEHICLE 4+', true],
+    ['ANTI-VEHICLE 2+', 'ANTI-MONSTER/VEHICLE 4+', false],
+    ['ANTI-NON-MONSTER/VEHICLE 2+', 'ANTI-INFANTRY 2+', false],
+    ['DEVASTATING WOUNDS', 'DEVASTATING WOUNDS: PSYKER', true],
+    // a condition in brackets
+    ['Feel No Pain 4+', 'Feel No Pain 5+ (vs mortal wounds)', true],
+    ['Feel No Pain 4+ (vs mortal wounds)', 'Feel No Pain 5+', false],
+    ['Feel No Pain 4+ (vs mortal wounds)', 'Feel No Pain 5+ (vs mortal wounds)', true],
+    ['Feel No Pain 4+ (vs mortal wounds)', 'Feel No Pain 4+ (vs Psychic Attacks)', false],
+    ['Deadly Demise 2D6', 'Deadly Demise D6', false],
+    ['Deadly Demise 2D6', 'Deadly Demise 2D6', true],
   ])('%s over %s → %s', (a, b, want) => expect(dominates(a, b)).toBe(want))
 })
 
