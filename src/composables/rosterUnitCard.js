@@ -372,6 +372,7 @@ export function useRosterUnitCard(props) {
     keywordView.value,
     factionKeywordSets.value,
     activeConds.value,
+    !!props.ctx?.entry,
   ))
 
   const statMods = computed(() => {

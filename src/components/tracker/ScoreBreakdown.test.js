@@ -26,7 +26,15 @@ describe('ScoreBreakdown — the Battle Points row', () => {
     expect(row.slice(2)).toEqual(['', '', ''])
   })
 
-  it('fills every round of a finished game', () => {
+  // Acceptance, 2026-10-18: a game ended in round 2 showed BP in rounds 3–5 on the result screen —
+  // the only place the breakdown is ever seen.
+  it('a game finished early shows only the rounds it reached', () => {
+    const row = bpRow(mount(ScoreBreakdown, { props: { game: game({ finishedAt: '2026-10-10T00:00:00Z', currentRound: 2 }), expanded: true, side: 0 } }))
+    expect(row.slice(0, 2).every((c) => c !== '')).toBe(true)
+    expect(row.slice(2)).toEqual(['', '', ''])
+  })
+
+  it('fills every round of a game played out', () => {
     const row = bpRow(mount(ScoreBreakdown, { props: { game: game({ finishedAt: '2026-10-10T00:00:00Z', currentRound: 5 }), expanded: true, side: 0 } }))
     expect(row.every((c) => c !== '')).toBe(true)
   })

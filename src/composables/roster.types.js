@@ -321,6 +321,7 @@
  * @property {number} [scope]
  * @property {Record<string, number[]>} [rows]
  * @property {string} [best] the rule's own limit on a roll ("3+": Take Cover!)
+ * @property {boolean} [ruledOut] set by gateStratagems: the list answered its condition, and answered no
  */
 
 /** A keyword gate read off a rule's prose; `models`/`modelExcludes` are the phrases it names as MODELS (ruleTargets' scopeHits). @typedef {{ targets: string[], excludes: string[], models?: string[], modelExcludes?: string[] }} RuleScope */

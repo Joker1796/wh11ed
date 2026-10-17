@@ -426,14 +426,15 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     const gated = (eff) => !!eff.when || byChoice(entry)
     const replaced = new Set()
     for (const eff of effects) {
-      if (eff.alt == null) continue
+      if (eff.alt == null || eff.ruledOut) continue
       if (!effectApplies(eff, scopes, keywords, entry.kind, factionKeywordSets, strict)) continue
       if (gated(eff) && !effectLive(entry, eff, active, chosen)) continue
       replaced.add(eff.alt)
     }
 
     for (const [index, effect] of effects.entries()) {
-      if (replaced.has(index)) continue
+      // The list answered this effect's condition, and answered no (gateStratagems): not a note either.
+      if (replaced.has(index) || effect.ruledOut) continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, strict)) continue
 
       // Conditional and unproven: never touch the number, just say what would change and when.
@@ -632,15 +633,33 @@ export function stratagemTargetScopes(st) {
  * @param {KeywordSets} factionKeywordSets
  * @param {Set<string> | null} [active] what is true for this entry — a target the list decides
  *   ("One DEATH GUARD Attached unit", "Your NECRONS WARLORD") is the record's `appliesWhile`
+ * @param {boolean} [listKnows] false for a preview with no roster entry: a rule's own `appliesWhile`
+ *   is then unanswered rather than unmet
  * @returns {ModEntry[]}
  */
-export function gateStratagems(entries, keywords, factionKeywordSets, active = null) {
-  return (entries || []).filter((e) => (
-    e.kind !== 'stratagem' || (
-      effectApplies({}, e.targetScopes, keywords, e.kind, factionKeywordSets) &&
-      (e.appliesWhile || []).every((id) => !!active?.has(id))
-    )
-  ))
+export function gateStratagems(entries, keywords, factionKeywordSets, active = null, listKnows = true) {
+  const kept = (entries || []).filter((e) => {
+    const held = (e.appliesWhile || []).every((id) => !!active?.has(id))
+    if (e.kind === 'stratagem') return effectApplies({}, e.targetScopes, keywords, e.kind, factionKeywordSets) && held
+    // Any other rule in force only inside an attached unit (Command Protocols, a Leader-only
+    // enhancement) leaves the card's effects as well as its "in effect" list — it stood under
+    // "possible modifiers" on a Monolith and a lone Nekrosor (acceptance, 2026-10-18). A preview
+    // with no entry has no attachment to ask about, and keeps it, as the rule list does.
+    return !listKnows || held
+  })
+  if (!listKnows) return kept
+  // The same answer one level down: an EFFECT whose condition the list decides and has decided
+  // against ("…and −1 AP while a NECRONS CHARACTER is leading the unit" on a unit nobody leads —
+  // Protocol of the Hungry Void) is not a possibility the game can still bring about, so it is not
+  // offered as one. Only conditions of `scope: 'roster'`; anything the game answers stays a note.
+  /** @param {ModEntry} e @param {ModifierEffect} eff */
+  const decidedAgainst = (e, eff) => (eff.cond || []).some((id) => conditions[id]?.scope === 'roster' && !proven(id, active, e))
+  return kept.map((e) => {
+    const effects = e.effects || []
+    if (!effects.some((eff) => decidedAgainst(e, eff))) return e
+    // Marked, not spliced out: an `alt` names an effect by its index (applyStatMods skips `ruledOut`).
+    return { ...e, effects: effects.map((eff) => (decidedAgainst(e, eff) ? { ...eff, ruledOut: true } : eff)) }
+  })
 }
 
 // The keywords of the OTHER halves of this entry's attached unit — the bodyguard it joined, plus
